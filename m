@@ -1,307 +1,360 @@
-Return-Path: <linux-media+bounces-11723-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11724-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9942E8CC119
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 14:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92C78CC11C
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 14:23:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5B36B22E5B
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 12:21:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0262BB2358B
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 12:23:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A5C113D8A4;
-	Wed, 22 May 2024 12:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E2D513D622;
+	Wed, 22 May 2024 12:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RyeKqYOA"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="D2ofusLh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1A013D62D;
-	Wed, 22 May 2024 12:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B2D8287C;
+	Wed, 22 May 2024 12:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716380490; cv=none; b=PZfl56PpCzQ7k01ZBwAaSYzJuUN/GIavtK3TXIoLaTfZs395QLQfUoTPvGyVaLBy7sm5uefIW8BJNXYiGfxTfJrwoclqJZSXZCnc7cD2zrcQYx+JzSm/0ih9snbtY4LETcku4JPpocFycpThzSMN2jX+mb8cYhR022XDLJk+7+o=
+	t=1716380573; cv=none; b=IAAVxkdqAhN+8HkBLH/1k1FVyJYH6k+2TLACSVGs+JvrCAbc24GlGpoUQMfESxlV/EU+hRRuvVQlbYLw5KHUBC3EMHH9niQ+RHGtH+YXynV/vA4AhxDGUw8ktE1hahg/0BxcmE6IWGDa0wPz8RPNbvbHU4aUD2EXzZrQIQ9+afc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716380490; c=relaxed/simple;
-	bh=hzDqcEVZczl67qDnlsWcKq7XBZk+9h4IydSU9s+R7sA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nCbCs28fEs5Wy2ebrqK3Qedvj8o+bYFMokkYHHEGf+XmxXzAnSuAt/+9ecjykcsMD3BHbo/gSOs4vkDvA3Hcv/9NXmf6y8FhTBRdEJG1qqCseWESNiVT/HGRuuFFYdwYKLDqiqbOVk0JtAQxnN5NrmZH7hZyM1mJ4h7bY7e6dYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RyeKqYOA; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716380488; x=1747916488;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hzDqcEVZczl67qDnlsWcKq7XBZk+9h4IydSU9s+R7sA=;
-  b=RyeKqYOAHhIOHJkG8DWopysFJ+fGWdgUeB10atmw879HfmwY5qaPl7yP
-   gJDoLbjfVZjuDnyVC1yB+xsrmnHAiNUR1CuY26K2MBxd/4oTvDw5NEXVv
-   JE4ciE1HsE7ZgCtiyP7hLjCNKC1aPbjr/rBVH+jUF/+FU09jMQdqKQ3LT
-   rZIEQUsEkVSfQDMu0yTrVXxBbQZEp+fsWQfEJCmzUjMq0F7vVeYh+m5Ze
-   B7tF304a0JtZd+L28JudW0g0yCD+c+054zMkadfdQRX5EjhA0XGMe6/Mv
-   NRVuQv5Pf0bBcvdquZNr1cuYyqQjQwpOue9LOtRMeV1LLY9jVYnfSEytN
-   A==;
-X-CSE-ConnectionGUID: kzOa2pOOR5S+z++Wb9/w+A==
-X-CSE-MsgGUID: VMAQUb/2R2yOUnkgWvqffw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="12479968"
-X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="12479968"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 05:21:27 -0700
-X-CSE-ConnectionGUID: h0jhHJLvT8uMCyeb+KKllQ==
-X-CSE-MsgGUID: zY3mlADhSbetoiQu5W0hoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="33181950"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 05:21:24 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E0FE211F82A;
-	Wed, 22 May 2024 15:21:21 +0300 (EEST)
-Date: Wed, 22 May 2024 12:21:21 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andrey Skvortsov <andrej.skvortzov@gmail.com>
-Cc: Alain Volmat <alain.volmat@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	=?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>,
-	Pavel Machek <pavel@ucw.cz>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: Re: [PATCH v3 2/2] media: gc2145: implement basic dvp bus support
-Message-ID: <Zk3jQQDrgVqOnoQk@kekkonen.localdomain>
-References: <20240504164115.64603-1-andrej.skvortzov@gmail.com>
- <20240504164115.64603-3-andrej.skvortzov@gmail.com>
+	s=arc-20240116; t=1716380573; c=relaxed/simple;
+	bh=vKUjD5xrRJdZFC5xAW6BnnX0ntsGfgm6htxmrXd0/7s=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=GTk/nwB+wiHZyYGv8TDqT5sInu+HwuakvwVd5257TgPXN4ai/EilFMS8hMUGJqOEI3l7r74dmzB9vPg6nYSSGOPIYGd7FVw7wY9ekB6KJvylRXsHdOuconY/1gGHXk4Z0UMgK7s5qu2PGpEVuaSYTJ+dW1Lf5oPzC8Kr2514LmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=D2ofusLh; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716380570;
+	bh=vKUjD5xrRJdZFC5xAW6BnnX0ntsGfgm6htxmrXd0/7s=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=D2ofusLhxYBOEir31iQ2umipbVEPo6fh0sgDg6bZmcVx3pOMaktNnIdzFqPwu3jTa
+	 xeoe/tfYL05M9OotJCqA4My1h1o1cyAukpzL5OuQaFOKvETmcy1SgSqW50xmFJq5Iz
+	 ObpM/Epzm1tHgTkVVScYy7eJkuGNDH0Rql4N39nQ9ue0vvj11PZxai8z4d6NP4qnRB
+	 rnMOIKsyvULmW1H5Ok52lEY8rNhCU+K14HyfBYyhbCiQIQEQwq01bMFqhRInSXowIo
+	 3k8U0XAVyOPmLJH9SBUNWpQLvESrM+VVsSR9CG4piNcwtCjHE3PtLtGlr1U20O1f6+
+	 +O3yrO+6h1zbw==
+Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id A8DD937821A0;
+	Wed, 22 May 2024 12:22:48 +0000 (UTC)
+Message-ID: <00128c79-9a27-4410-88d5-d1cd9a6460c0@collabora.com>
+Date: Wed, 22 May 2024 14:22:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240504164115.64603-3-andrej.skvortzov@gmail.com>
+User-Agent: Mozilla Thunderbird
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCH v6,10/24] media: mediatek: vcodec: send share memory data
+ to optee
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+ <20240516122102.16379-11-yunfei.dong@mediatek.com>
+Content-Language: en-US
+In-Reply-To: <20240516122102.16379-11-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Andrey,
+Hi Yunfei & Jeffrey,
 
-Thanks for the update.
-
-On Sat, May 04, 2024 at 07:41:15PM +0300, Andrey Skvortsov wrote:
-> That was tested on PinePhone with libcamera-based GNOME
-> screenshot (45.2).
+W dniu 16.05.2024 o 14:20, Yunfei Dong pisze:
+> Setting msg and vsi information to shared buffer, then call tee invoke
+> function to send it to optee-os.
 > 
-> Signed-off-by: Andrey Skvortsov <andrej.skvortzov@gmail.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  drivers/media/i2c/gc2145.c | 112 ++++++++++++++++++++++++++++---------
->  1 file changed, 86 insertions(+), 26 deletions(-)
+>   .../vcodec/decoder/mtk_vcodec_dec_optee.c     | 140 ++++++++++++++++++
+>   .../vcodec/decoder/mtk_vcodec_dec_optee.h     |  51 +++++++
+>   2 files changed, 191 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/gc2145.c b/drivers/media/i2c/gc2145.c
-> index bef7b0e056a8..9808bd0ab6ae 100644
-> --- a/drivers/media/i2c/gc2145.c
-> +++ b/drivers/media/i2c/gc2145.c
-> @@ -39,6 +39,10 @@
->  #define GC2145_REG_ANALOG_MODE1	CCI_REG8(0x17)
->  #define GC2145_REG_OUTPUT_FMT	CCI_REG8(0x84)
->  #define GC2145_REG_SYNC_MODE	CCI_REG8(0x86)
-> +#define GC2145_SYNC_MODE_VSYNC_POL	BIT(0)
-> +#define GC2145_SYNC_MODE_HSYNC_POL	BIT(1)
-> +#define GC2145_SYNC_MODE_OPCLK_POL	BIT(2)
-> +#define GC2145_SYNC_MODE_OPCLK_GATE	BIT(3)
->  #define GC2145_SYNC_MODE_COL_SWITCH	BIT(4)
->  #define GC2145_SYNC_MODE_ROW_SWITCH	BIT(5)
->  #define GC2145_REG_BYPASS_MODE	CCI_REG8(0x89)
-> @@ -598,6 +602,7 @@ struct gc2145 {
->  	struct v4l2_subdev sd;
->  	struct media_pad pad;
->  
-> +	struct v4l2_fwnode_endpoint ep; /* the parsed DT endpoint info */
->  	struct regmap *regmap;
->  	struct clk *xclk;
->  
-> @@ -773,6 +778,36 @@ static int gc2145_set_pad_format(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int gc2145_config_dvp_mode(struct gc2145 *gc2145,
-> +				  const struct gc2145_format *gc2145_format)
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+> index 611fb0e56480..f29a8d143fee 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+> @@ -241,3 +241,143 @@ void mtk_vcodec_dec_optee_release(struct mtk_vdec_optee_private *optee_private)
+>   	mutex_unlock(&optee_private->tee_mutex);
+>   }
+>   EXPORT_SYMBOL_GPL(mtk_vcodec_dec_optee_release);
+> +
+> +static int mtk_vcodec_dec_optee_fill_shm(struct tee_param *command_params,
+> +					 struct mtk_vdec_optee_shm_memref *shm_memref,
+> +					 struct mtk_vdec_optee_data_to_shm *data,
+> +					 int index, struct device *dev)
 > +{
-> +	int ret = 0;
-> +	u64 sync_mode;
-> +	int flags = gc2145->ep.bus.parallel.flags;
+> +	if (!data->msg_buf_size[index] || !data->msg_buf[index]) {
+> +		pr_err(MTK_DBG_VCODEC_STR "tee invalid buf param: %d.\n", index);
+> +		return -EINVAL;
+> +	}
 > +
-> +	ret = cci_read(gc2145->regmap, GC2145_REG_SYNC_MODE, &sync_mode, NULL);
-> +	if (ret)
-> +		return ret;
+> +	*command_params = (struct tee_param) {
+> +		.attr = shm_memref->param_type,
+> +		.u.memref = {
+> +			.shm = shm_memref->msg_shm,
+> +			.size = data->msg_buf_size[index],
+> +			.shm_offs = 0,
+> +		},
+> +	};
 > +
-> +	sync_mode &= ~(GC2145_SYNC_MODE_VSYNC_POL |
-> +		       GC2145_SYNC_MODE_HSYNC_POL |
-> +		       GC2145_SYNC_MODE_OPCLK_POL);
+> +	if (!shm_memref->copy_to_ta) {
+> +		dev_dbg(dev, MTK_DBG_VCODEC_STR "share memref data: 0x%x param_type:%llu.\n",
+> +			*((unsigned int *)shm_memref->msg_shm_ca_buf), shm_memref->param_type);
+> +		return 0;
+> +	}
 > +
-> +	if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> +		sync_mode |= GC2145_SYNC_MODE_VSYNC_POL;
+> +	memset(shm_memref->msg_shm_ca_buf, 0, shm_memref->msg_shm_size);
+> +	memcpy(shm_memref->msg_shm_ca_buf, data->msg_buf[index], data->msg_buf_size[index]);
 > +
-> +	if (flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
-> +		sync_mode |= GC2145_SYNC_MODE_HSYNC_POL;
+> +	dev_dbg(dev, MTK_DBG_VCODEC_STR "share memref data => msg id:0x%x 0x%x param_type:%llu.\n",
+> +		*((unsigned int *)data->msg_buf[index]),
+> +		*((unsigned int *)shm_memref->msg_shm_ca_buf),
+> +		shm_memref->param_type);
 > +
-> +	if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
-> +		sync_mode |= GC2145_SYNC_MODE_OPCLK_POL;
-> +
-> +	cci_write(gc2145->regmap, GC2145_REG_SYNC_MODE, sync_mode, &ret);
-> +	cci_write(gc2145->regmap, GC2145_REG_PAD_IO, 0x0f, &ret);
-> +
-> +	return ret;
+> +	return 0;
 > +}
 > +
->  static const struct cci_reg_sequence gc2145_common_mipi_regs[] = {
->  	{GC2145_REG_PAGE_SELECT, 0x03},
->  	{GC2145_REG_DPHY_ANALOG_MODE1, GC2145_DPHY_MODE_PHY_CLK_EN |
-> @@ -895,10 +930,13 @@ static int gc2145_start_streaming(struct gc2145 *gc2145,
->  		goto err_rpm_put;
->  	}
->  
-> -	/* Perform MIPI specific configuration */
-> -	ret = gc2145_config_mipi_mode(gc2145, gc2145_format);
-> +	/* Perform interface specific configuration */
-> +	if (gc2145->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> +		ret = gc2145_config_mipi_mode(gc2145, gc2145_format);
+> +void mtk_vcodec_dec_optee_set_data(struct mtk_vdec_optee_data_to_shm *data,
+> +				   void *buf, int buf_size,
+> +				   enum mtk_vdec_optee_data_index index)
+> +{
+> +	data->msg_buf[index] = buf;
+> +	data->msg_buf_size[index] = buf_size;
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_optee_set_data);
+> +
+> +int mtk_vcodec_dec_optee_invokd_cmd(struct mtk_vdec_optee_private *optee_private,
+> +				    enum mtk_vdec_hw_id hw_id,
+> +				    struct mtk_vdec_optee_data_to_shm *data)
+> +{
+> +	struct device *dev = &optee_private->vcodec_dev->plat_dev->dev;
+> +	struct tee_ioctl_invoke_arg trans_args;
+> +	struct tee_param command_params[MTK_OPTEE_MAX_TEE_PARAMS];
+> +	struct mtk_vdec_optee_ca_info *ca_info;
+> +	struct mtk_vdec_optee_shm_memref *shm_memref;
+> +	int ret, index;
+> +
+> +	if (hw_id == MTK_VDEC_LAT0)
+> +		ca_info = &optee_private->lat_ca;
 > +	else
-> +		ret = gc2145_config_dvp_mode(gc2145, gc2145_format);
->  	if (ret) {
-> -		dev_err(&client->dev, "%s failed to write mipi conf\n",
-> +		dev_err(&client->dev, "%s failed to write interface conf\n",
->  			__func__);
->  		goto err_rpm_put;
->  	}
-> @@ -924,6 +962,9 @@ static void gc2145_stop_streaming(struct gc2145 *gc2145)
->  			GC2145_CSI2_MODE_EN | GC2145_CSI2_MODE_MIPI_EN, 0,
->  			&ret);
->  	cci_write(gc2145->regmap, GC2145_REG_PAGE_SELECT, 0x00, &ret);
+> +		ca_info = &optee_private->core_ca;
+
+You seem to be using this in several places. Maybe create a helper?
+
+static inline struct mtk_vdec_optee_ca_info *get_ca_info(
+	struct mtk_vdec_optee_private *optee_private,
+	enum mtk_vdec_hw_id hw_id)
+{
+	return hw_id == MTK_VDEC_LAT0 ?
+		&optee_private->lat_ca : &optee_private->core_ca;
+}
+
+(you want to clean up the line breaks in this suggested function)
+
+and then
+
+	ca_info = get_ca_info(optee_private, hw_id);
+
 > +
-> +	/* Disable dvp streaming */
-> +	cci_write(gc2145->regmap, GC2145_REG_PAD_IO, 0x00, &ret);
->  	if (ret)
->  		dev_err(&client->dev, "%s failed to write regs\n", __func__);
->  
-> @@ -1233,9 +1274,8 @@ static int gc2145_init_controls(struct gc2145 *gc2145)
->  static int gc2145_check_hwcfg(struct device *dev)
->  {
->  	struct fwnode_handle *endpoint;
-> -	struct v4l2_fwnode_endpoint ep_cfg = {
-> -		.bus_type = V4L2_MBUS_CSI2_DPHY
-> -	};
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct gc2145 *gc2145 = to_gc2145(sd);
+> +	memset(&trans_args, 0, sizeof(trans_args));
+> +	memset(command_params, 0, sizeof(command_params));
+> +
+> +	trans_args = (struct tee_ioctl_invoke_arg) {
+> +		.func = ca_info->vdec_session_func,
+> +		.session = ca_info->vdec_session_id,
+> +		.num_params = MTK_OPTEE_MAX_TEE_PARAMS,
+> +	};
+> +
+> +	/* Fill msg command parameters */
+> +	for (index = 0; index < MTK_OPTEE_MAX_TEE_PARAMS; index++) {
+> +		shm_memref = &ca_info->shm_memref[index];
+> +
+> +		if (shm_memref->param_type == TEE_IOCTL_PARAM_ATTR_TYPE_NONE ||
+> +		    data->msg_buf_size[index] == 0)
+> +			continue;
+> +
+> +		dev_dbg(dev, MTK_DBG_VCODEC_STR "tee share memory data size: %d -> %d.\n",
+> +			data->msg_buf_size[index], shm_memref->msg_shm_size);
+> +
+> +		if (data->msg_buf_size[index] > shm_memref->msg_shm_size) {
+> +			dev_err(dev, MTK_DBG_VCODEC_STR "tee buf size big than shm (%d -> %d).\n",
 
-As the bindings default to bus-type 4, you should reflect that here. I.e.
-try parsing the endpoint with bus_type set to 4 first before setting it to
-V4L2_MBUS_UNKNOWN.
+s/big/bigger ? Or s/big/greater ?
 
-You'll also need to set the parallel defaults here before parsing the
-endpoint.
+> +				data->msg_buf_size[index], shm_memref->msg_shm_size);
+> +			return -EINVAL;
+> +		}
+> +
+> +		ret = mtk_vcodec_dec_optee_fill_shm(&command_params[index], shm_memref,
+> +						    data, index, dev);
+> +		if (ret)
+> +			return ret;
 
->  	int ret;
->  
->  	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-> @@ -1244,36 +1284,55 @@ static int gc2145_check_hwcfg(struct device *dev)
->  		return -EINVAL;
->  	}
->  
-> -	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg);
-> +	gc2145->ep.bus_type = V4L2_MBUS_CSI2_DPHY;
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &gc2145->ep);
-> +	if (ret) {
-> +		gc2145->ep.bus_type = V4L2_MBUS_PARALLEL;
-> +		ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &gc2145->ep);
+So if any of the iterations of this loop fails, then the data has been
+potentially copied to several shm_memref->msg_shm_ca_buf and remains there until
+next call to mtk_vcodec_dec_optee_fill_shm() for a corresponding ca_buf.
+In other words, mtk_vcodec_dec_optee_fill_shm() has maybe filled several
+ca_bufs, but if we return with error from this loop the tee function is not
+invoked but the data prepared for its invocation remains in the buffers.
+Don't know if this is a problem or not, but given we're dealing with restricted
+aka secure memory you might want to think about it.
+
 > +	}
->  	fwnode_handle_put(endpoint);
-> -	if (ret)
-> +	if (ret) {
-> +		dev_err(dev, "could not parse endpoint\n");
->  		return ret;
-> -
-> -	/* Check the number of MIPI CSI2 data lanes */
-> -	if (ep_cfg.bus.mipi_csi2.num_data_lanes != 2) {
-> -		dev_err(dev, "only 2 data lanes are currently supported\n");
-> -		ret = -EINVAL;
-> -		goto out;
->  	}
->  
-> -	/* Check the link frequency set in device tree */
-> -	if (!ep_cfg.nr_of_link_frequencies) {
-> -		dev_err(dev, "link-frequency property not found in DT\n");
-> +	switch (gc2145->ep.bus_type) {
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		/* Check the number of MIPI CSI2 data lanes */
-> +		if (gc2145->ep.bus.mipi_csi2.num_data_lanes != 2) {
-> +			dev_err(dev, "only 2 data lanes are currently supported\n");
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
 > +
-> +		/* Check the link frequency set in device tree */
-> +		if (!gc2145->ep.nr_of_link_frequencies) {
-> +			dev_err(dev, "link-frequencies property not found in DT\n");
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
+> +	ret = tee_client_invoke_func(optee_private->tee_vdec_ctx, &trans_args, command_params);
+> +	if (ret < 0 || trans_args.ret != 0) {
+> +		dev_err(dev, MTK_DBG_VCODEC_STR "tee submit command fail: 0x%x 0x%x.\n",
+> +			trans_args.ret, ret);
+> +		return (ret < 0) ? ret : trans_args.ret;
+> +	}
 > +
-> +		if (gc2145->ep.nr_of_link_frequencies != 3 ||
-> +		    gc2145->ep.link_frequencies[0] != GC2145_640_480_LINKFREQ ||
-> +		    gc2145->ep.link_frequencies[1] != GC2145_1280_720_LINKFREQ ||
-> +		    gc2145->ep.link_frequencies[2] != GC2145_1600_1200_LINKFREQ) {
-
-I guess this works as long as all the ghree frequencies are what the driver
-expects but the driver implementation could be improved. Nearly all other
-drivers use the available frequencies only.
-
-> +			dev_err(dev, "Invalid link-frequencies provided\n");
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +		break;
-> +	case V4L2_MBUS_PARALLEL:
-> +		break;
-> +	default:
-> +		dev_err(dev, "unsupported bus type %u\n", gc2145->ep.bus_type);
->  		ret = -EINVAL;
->  		goto out;
->  	}
->  
-> -	if (ep_cfg.nr_of_link_frequencies != 3 ||
-> -	    ep_cfg.link_frequencies[0] != GC2145_640_480_LINKFREQ ||
-> -	    ep_cfg.link_frequencies[1] != GC2145_1280_720_LINKFREQ ||
-> -	    ep_cfg.link_frequencies[2] != GC2145_1600_1200_LINKFREQ) {
-> -		dev_err(dev, "Invalid link-frequencies provided\n");
-> -		ret = -EINVAL;
-> -	}
+> +	/* clear all attrs, set all command param to unused */
+> +	for (index = 0; index < MTK_OPTEE_MAX_TEE_PARAMS; index++) {
+> +		data->msg_buf[index] = NULL;
+> +		data->msg_buf_size[index] = 0;
+> +	}
+> +
 > +	return 0;
->  
->  out:
-> -	v4l2_fwnode_endpoint_free(&ep_cfg);
-> -
-> +	v4l2_fwnode_endpoint_free(&gc2145->ep);
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_optee_invokd_cmd);
+> +
+> +void *mtk_vcodec_dec_get_shm_buffer_va(struct mtk_vdec_optee_private *optee_private,
+> +				       enum mtk_vdec_hw_id hw_id,
+> +				       enum mtk_vdec_optee_data_index data_index)
+> +{
+> +	struct mtk_vdec_optee_ca_info *ca_info;
+> +
+> +	if (hw_id == MTK_VDEC_LAT0)
+> +		ca_info = &optee_private->lat_ca;
+> +	else
+> +		ca_info = &optee_private->core_ca;
+> +
+> +	return ca_info->shm_memref[data_index].msg_shm_ca_buf;
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_get_shm_buffer_va);
+> +
+> +int mtk_vcodec_dec_get_shm_buffer_size(struct mtk_vdec_optee_private *optee_private,
+> +				       enum mtk_vdec_hw_id hw_id,
+> +				       enum mtk_vdec_optee_data_index data_index)
+> +{
+> +	struct mtk_vdec_optee_ca_info *ca_info;
+> +
+> +	if (hw_id == MTK_VDEC_LAT0)
+> +		ca_info = &optee_private->lat_ca;
+> +	else
+> +		ca_info = &optee_private->core_ca;
+> +
+> +	return ca_info->shm_memref[data_index].msg_shm_size;
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_vcodec_dec_get_shm_buffer_size);
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
+> index 24aa63af9887..c24a567ec877 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
+> @@ -62,6 +62,16 @@ enum mtk_vdec_optee_data_index {
+>   	OPTEE_MAX_INDEX,
+>   };
+>   
+> +/**
+> + * struct mtk_vdec_optee_data_to_shm - shm data used for TA
+> + * @msg_buf:     msg information to TA.
+> + * @msg_buf_len: length of msg information.
+> + */
+> +struct mtk_vdec_optee_data_to_shm {
+> +	void *msg_buf[MTK_OPTEE_MAX_TEE_PARAMS];
+> +	int msg_buf_size[MTK_OPTEE_MAX_TEE_PARAMS];
+> +};
+> +
+>   /**
+>    * struct mtk_vdec_optee_private - optee private data
+>    * @vcodec_dev:     pointer to the mtk_vcodec_dev of the device
+> @@ -102,4 +112,45 @@ int mtk_vcodec_dec_optee_private_init(struct mtk_vcodec_dec_dev *vcodec_dev);
+>    */
+>   void mtk_vcodec_dec_optee_release(struct mtk_vdec_optee_private *optee_private);
+>   
+> +/**
+> + * mtk_vcodec_dec_optee_set_data - set buffer to share memref.
+> + * @vcodec_dev: normal world data used to init optee share memory
+> + * @buf: normal world buffer address
+> + * @buf_size: buf size
+> + * @data_index: indentify each share memory informaiton
+> + */
+> +void mtk_vcodec_dec_optee_set_data(struct mtk_vdec_optee_data_to_shm *data,
+> +				   void *buf, int buf_size,
+> +				   enum mtk_vdec_optee_data_index data_index);
+> +
+> +/**
+> + * mtk_vcodec_dec_optee_invokd_cmd - send share memory data to optee .
+> + * @optee_private: optee private context
+> + * @hw_id: hardware index
+> + * @data: normal world data used to init optee share memory
+> + */
+> +int mtk_vcodec_dec_optee_invokd_cmd(struct mtk_vdec_optee_private *optee_private,
+> +				    enum mtk_vdec_hw_id hw_id,
+> +				    struct mtk_vdec_optee_data_to_shm *data);
+> +
+> +/**
+> + * mtk_vcodec_dec_get_shm_buffer_va - close the communication channels with TA.
 
-A newline would be nice here.
+This comment is most likely incorrect.
 
->  	return ret;
->  }
->  
-> @@ -1421,6 +1480,7 @@ static void gc2145_remove(struct i2c_client *client)
->  	if (!pm_runtime_status_suspended(&client->dev))
->  		gc2145_power_off(&client->dev);
->  	pm_runtime_set_suspended(&client->dev);
-> +	v4l2_fwnode_endpoint_free(&gc2145->ep);
->  }
->  
->  static const struct of_device_id gc2145_dt_ids[] = {
+> + * @optee_private: optee private context
+> + * @hw_id:         hardware index
+> + * @@data_index: indentify each share memory informaiton
+> + */
+> +void *mtk_vcodec_dec_get_shm_buffer_va(struct mtk_vdec_optee_private *optee_private,
+> +				       enum mtk_vdec_hw_id hw_id,
+> +				       enum mtk_vdec_optee_data_index data_index);
+> +
+> +/**
+> + * mtk_vcodec_dec_get_shm_buffer_size - close the communication channels with TA.
 
--- 
-Kind regards,
+And so is this one.
 
-Sakari Ailus
+Regards,
+
+Andrzej
+
+> + * @optee_private: optee private context
+> + * @hw_id:         hardware index
+> + * @@data_index: indentify each share memory informaiton
+> + */
+> +int mtk_vcodec_dec_get_shm_buffer_size(struct mtk_vdec_optee_private *optee_private,
+> +				       enum mtk_vdec_hw_id hw_id,
+> +				       enum mtk_vdec_optee_data_index data_index);
+> +
+>   #endif /* _MTK_VCODEC_FW_OPTEE_H_ */
+
 
