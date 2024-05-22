@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-11742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11743-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553728CC470
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 17:48:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C21E88CC473
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 17:49:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E5D0B229F1
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:48:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7775D281580
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:49:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04D2D13D893;
-	Wed, 22 May 2024 15:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46A3B145B2B;
+	Wed, 22 May 2024 15:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jmoKxmvY"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KiNTjvws"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7475D1422A3;
-	Wed, 22 May 2024 15:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5141422D7;
+	Wed, 22 May 2024 15:47:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716392876; cv=none; b=P2KfJ5onZcCzaq2ZNq5GvyfgbrHOdnR4Lh5P1D3uv9S22LcDN4gQiY5KvSqlyzNvS1Eus62RosxN3ZOGcOUitkHPP8VJXmkPmFFWNia61oztXBg3Mg5FHJ0TVQlnyx9WHjtCPLQ2M4oAfOdE8KqLOIEjBbMXF5/vvuMcRHN0bvQ=
+	t=1716392878; cv=none; b=UI0/w88t1poLu8Z3zMKv54bUHi2fnBHbWgn1aFs2AQ818oFx10/1KRShAXBY2hHyV1RO2MEoAom5OeRodROMtjTP7s6fXJldD53R7lswiaMs5gao6UvSIRYhi8WnXBXj+6SvLOSz+CPHth/Ao0BwvAByXLDxELpjGaRXWet8KLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716392876; c=relaxed/simple;
-	bh=iVwGTkQWxWcI80tu9hvA2cccEZBD5dYeoIGWBpubkI0=;
+	s=arc-20240116; t=1716392878; c=relaxed/simple;
+	bh=lnT6ancv6Z5yFtfC/lVH6fEp8A6ZngUN6gmXgsA0lNA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Au5Ll++59AKnxpnqIB2h4Sm+umZTREH7wK0x5AAiR4Odn7od28xMKojFhsaXco1nDwpN32zgLJaCcuAX7JZ7h+OnHOp3c7t+6PHfH+xAQ0Q9a29kSne28D/8rEH8Lujj+aLBTtoUcJ5RH1GUhiGmuPBpXGY/edNEWbTfotYmdw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jmoKxmvY; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=bZXdWGSA1G/Fmh5B4gZuvICxIBsoJa3vxIURbeG9CT1/+kFytwzcSun8clt+Yj8FIzLLtxY3bk1vRA6hH6nHZxNmc6mxlC41fKxtQxeT6dx0LlD7tw0+4RGH/dwLjJk+GJ89FWlaOEWmbUcKY06CW2V9nosxwjO/tvVcMieuss8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KiNTjvws; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44MAhkwC025789;
-	Wed, 22 May 2024 15:47:48 GMT
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44MC54ri016423;
+	Wed, 22 May 2024 15:47:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	qcppdkim1; bh=gsvffkTPVXOXICWUX5BrUDc5/r53jyK/EqGR9pH7S4g=; b=jm
-	oKxmvY5zoVjXb3rr3NBGw7nJqF8FxErVe4Uk9dzCMZxTgRKa5Yg7qmSxURoqoT/C
-	hgPnyIh4TlAt7GtZUR8eMoX2p5Uv9Cp0rz5s9MsSTor8aGknc5PhTKu5xxlq/Bjm
-	3K3Bkxvj147GzUr5ihTyusllrT8aoVlefx51+txSRhv/HdIbWZvX3bQjU0kRjwzG
-	LYF6W3WQATkmsOw7RHFmfiWYSlwzBy1ejSHvZhoYNdTIjmhIsWuVOtOqa5hp6FjS
-	GVWqL4TmUTgJyZQiUgAu1ICsuiBrEmgP3HlCDAS10i2EyMUK8Dnn7kApP7+TIfUa
-	ekAOYKYNbSvg7BREWyfA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y6pqc9jn0-1
+	qcppdkim1; bh=qXmEXDNN0mdlmLl4c9nvIl2Z5bqBqliSbDpwlEJUo/o=; b=Ki
+	NTjvwsWwDPUtnuU/wQui4ce1GWCQyTPU+HeJdbHxH7lfvFF/1jHYFXbr6izWAC9+
+	QQpNTrUGIPd2w5gj25mCz+I1lNvEA45KAaz7vj9AembSsgB+FlCO2mSTUBmGEyAo
+	hqPgIBII0g6Z5IhubDZ8SZhJDiEpwaIqVr6NQtchVDjzk0YbjuVngYKEr/5FCyUi
+	BVH4u8S6ELL8AD7+jjZI1JUkVXnszDRQ/a4AGHuYVkhQyKna/CbMcGopYCOCouR8
+	J/pE0BIsv6MKGP1114STnrSdHD0mo3F4agokdEsJEHYX5jPAA/4ScZkI4BRLsaBH
+	a/oJzRyXlJJEmrwzqprw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y6n4ghbm5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 15:47:47 +0000 (GMT)
+	Wed, 22 May 2024 15:47:50 +0000 (GMT)
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44MFlkmA011015
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44MFlnGg016010
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 15:47:46 GMT
+	Wed, 22 May 2024 15:47:49 GMT
 Received: from grosikop.eu.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 22 May 2024 08:47:43 -0700
+ 15.2.1544.9; Wed, 22 May 2024 08:47:46 -0700
 From: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
 To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
@@ -63,9 +63,9 @@ To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
 CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
         <hverkuil-cisco@xs4all.nl>, <quic_hariramp@quicinc.com>
-Subject: [PATCH v4 5/8] media: qcom: camss: Move format related functions
-Date: Wed, 22 May 2024 18:46:56 +0300
-Message-ID: <20240522154659.510-6-quic_grosikop@quicinc.com>
+Subject: [PATCH v4 6/8] media: qcom: camss: Split testgen, RDI and RX for CSID 170
+Date: Wed, 22 May 2024 18:46:57 +0300
+Message-ID: <20240522154659.510-7-quic_grosikop@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240522154659.510-1-quic_grosikop@quicinc.com>
 References: <20240522154659.510-1-quic_grosikop@quicinc.com>
@@ -81,366 +81,325 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: _KK5ymMTfcqzxl75PL-13Mk21dy5W519
-X-Proofpoint-GUID: _KK5ymMTfcqzxl75PL-13Mk21dy5W519
+X-Proofpoint-GUID: EA3WUaNpG_vOuL5dOAsLv8cGeOhaa9jw
+X-Proofpoint-ORIG-GUID: EA3WUaNpG_vOuL5dOAsLv8cGeOhaa9jw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
  definitions=2024-05-22_08,2024-05-22_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405220107
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
+ mlxscore=0 malwarescore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405220106
 
-From: Radoslav Tsvetkov <quic_rtsvetko@quicinc.com>
+From: Milen Mitkov <quic_mmitkov@quicinc.com>
 
-Move out the format related helper functions from vfe and video in a
-separate file. The goal here is to create a format API.
+Split the RAW interface (RDI), the CSID receiver (RX)
+and test pattern generator (testgen), configurations
+for CSID on Titan 170
 
-Signed-off-by: Radoslav Tsvetkov <quic_rtsvetko@quicinc.com>
+Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
 Signed-off-by: Gjorgji Rosikopulos <quic_grosikop@quicinc.com>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> # sc8280xp/sm8250/sdm845/apq8016
 ---
- drivers/media/platform/qcom/camss/Makefile    |  1 +
- .../media/platform/qcom/camss/camss-format.c  | 91 +++++++++++++++++++
- .../media/platform/qcom/camss/camss-format.h  |  5 +
- drivers/media/platform/qcom/camss/camss-vfe.c | 86 +++++-------------
- .../media/platform/qcom/camss/camss-video.c   | 26 +-----
- 5 files changed, 121 insertions(+), 88 deletions(-)
- create mode 100644 drivers/media/platform/qcom/camss/camss-format.c
+ .../platform/qcom/camss/camss-csid-gen2.c     | 252 ++++++++++--------
+ 1 file changed, 139 insertions(+), 113 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-index 0d4389ab312d..e636968a1126 100644
---- a/drivers/media/platform/qcom/camss/Makefile
-+++ b/drivers/media/platform/qcom/camss/Makefile
-@@ -19,5 +19,6 @@ qcom-camss-objs += \
- 		camss-vfe-gen1.o \
- 		camss-vfe.o \
- 		camss-video.o \
-+		camss-format.o \
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+index eb5dabe2639a..2d8398a91fc2 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
+@@ -176,150 +176,176 @@
+ #define		TPG_COLOR_BOX_CFG_MODE		0
+ #define		TPG_COLOR_BOX_PATTERN_SEL	2
  
- obj-$(CONFIG_VIDEO_QCOM_CAMSS) += qcom-camss.o
-diff --git a/drivers/media/platform/qcom/camss/camss-format.c b/drivers/media/platform/qcom/camss/camss-format.c
-new file mode 100644
-index 000000000000..4a3d5549615c
---- /dev/null
-+++ b/drivers/media/platform/qcom/camss/camss-format.c
-@@ -0,0 +1,91 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * camss-format.c
-+ *
-+ * Qualcomm MSM Camera Subsystem - Format helpers
-+ *
-+ * Copyright (c) 2023, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2023 Qualcomm Technologies, Inc.
-+ */
-+#include <linux/bug.h>
-+#include <linux/errno.h>
-+
-+#include "camss-format.h"
-+
-+/*
-+ * camss_format_get_bpp - Map media bus format to bits per pixel
-+ * @formats: supported media bus formats array
-+ * @nformats: size of @formats array
-+ * @code: media bus format code
-+ *
-+ * Return number of bits per pixel
-+ */
-+u8 camss_format_get_bpp(const struct camss_format_info *formats, unsigned int nformats, u32 code)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < nformats; i++)
-+		if (code == formats[i].code)
-+			return formats[i].mbus_bpp;
-+
-+	WARN(1, "Unknown format\n");
-+
-+	return formats[0].mbus_bpp;
-+}
-+
-+/*
-+ * camss_format_find_code - Find a format code in an array
-+ * @code: a pointer to media bus format codes array
-+ * @n_code: size of @code array
-+ * @index: index of code in the array
-+ * @req_code: required code
-+ *
-+ * Return media bus format code
-+ */
-+u32 camss_format_find_code(u32 *code, unsigned int n_code, unsigned int index, u32 req_code)
-+{
-+	unsigned int i;
-+
-+	if (!req_code && index >= n_code)
-+		return 0;
-+
-+	for (i = 0; i < n_code; i++) {
-+		if (req_code) {
-+			if (req_code == code[i])
-+				return req_code;
-+		} else {
-+			if (i == index)
-+				return code[i];
-+		}
-+	}
-+
-+	return code[0];
-+}
-+
-+/*
-+ * camss_format_find_format - Find a format in an array
-+ * @code: media bus format code
-+ * @pixelformat: V4L2 pixel format FCC identifier
-+ * @formats: a pointer to formats array
-+ * @nformats: size of @formats array
-+ *
-+ * Return index of a format or a negative error code otherwise
-+ */
-+int camss_format_find_format(u32 code, u32 pixelformat, const struct camss_format_info *formats,
-+			     unsigned int nformats)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < nformats; i++) {
-+		if (formats[i].code == code &&
-+		    formats[i].pixelformat == pixelformat)
-+			return i;
-+	}
-+
-+	for (i = 0; i < nformats; i++) {
-+		if (formats[i].code == code)
-+			return i;
-+	}
-+
-+	return -EINVAL;
-+}
-diff --git a/drivers/media/platform/qcom/camss/camss-format.h b/drivers/media/platform/qcom/camss/camss-format.h
-index e0231ca6a5ca..923a48c9c3fb 100644
---- a/drivers/media/platform/qcom/camss/camss-format.h
-+++ b/drivers/media/platform/qcom/camss/camss-format.h
-@@ -54,4 +54,9 @@ struct camss_formats {
- 	const struct camss_format_info *formats;
- };
- 
-+u8 camss_format_get_bpp(const struct camss_format_info *formats, unsigned int nformats, u32 code);
-+u32 camss_format_find_code(u32 *code, unsigned int n_code, unsigned int index, u32 req_code);
-+int camss_format_find_format(u32 code, u32 pixelformat, const struct camss_format_info *formats,
-+			     unsigned int nformats);
-+
- #endif /* __CAMSS_FORMAT_H__ */
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 2d5a64c055f1..83c5a36d071f 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -278,48 +278,6 @@ const struct camss_formats vfe_formats_pix_845 = {
- 	.formats = formats_rdi_845
- };
- 
--/*
-- * vfe_get_bpp - map media bus format to bits per pixel
-- * @formats: supported media bus formats array
-- * @nformats: size of @formats array
-- * @code: media bus format code
-- *
-- * Return number of bits per pixel
-- */
--static u8 vfe_get_bpp(const struct camss_format_info *formats,
--		      unsigned int nformats, u32 code)
--{
--	unsigned int i;
--
--	for (i = 0; i < nformats; i++)
--		if (code == formats[i].code)
--			return formats[i].mbus_bpp;
--
--	WARN(1, "Unknown format\n");
--
--	return formats[0].mbus_bpp;
--}
--
--static u32 vfe_find_code(u32 *code, unsigned int n_code,
--			 unsigned int index, u32 req_code)
--{
--	int i;
--
--	if (!req_code && (index >= n_code))
--		return 0;
--
--	for (i = 0; i < n_code; i++)
--		if (req_code) {
--			if (req_code == code[i])
--				return req_code;
--		} else {
--			if (i == index)
--				return code[i];
--		}
--
--	return code[0];
--}
--
- static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 			    unsigned int index, u32 src_req_code)
+-static void __csid_configure_stream(struct csid_device *csid, u8 enable, u8 vc)
++static void __csid_configure_rx(struct csid_device *csid,
++				struct csid_phy_config *phy, int vc)
  {
-@@ -335,8 +293,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_YUYV8_1_5X8,
- 			};
+-	struct csid_testgen_config *tg = &csid->testgen;
+-	u32 val;
+-	u32 phy_sel = 0;
+ 	u8 lane_cnt = csid->phy.lane_cnt;
+-	/* Source pads matching RDI channels on hardware. Pad 1 -> RDI0, Pad 2 -> RDI1, etc. */
+-	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
+-	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
+-								   csid->res->formats->nformats,
+-								   input_format->code);
++	int val;
  
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		case MEDIA_BUS_FMT_YVYU8_1X16:
- 		{
-@@ -345,8 +303,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_YVYU8_1_5X8,
- 			};
+ 	if (!lane_cnt)
+ 		lane_cnt = 4;
  
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		case MEDIA_BUS_FMT_UYVY8_1X16:
- 		{
-@@ -355,8 +313,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_UYVY8_1_5X8,
- 			};
+-	if (!tg->enabled)
+-		phy_sel = csid->phy.csiphy_id;
++	val = (lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
++	val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
++	val |= phy->csiphy_id << CSI2_RX_CFG0_PHY_NUM_SEL;
++	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
  
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		case MEDIA_BUS_FMT_VYUY8_1X16:
- 		{
-@@ -365,8 +323,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_VYUY8_1_5X8,
- 			};
- 
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		default:
- 			if (index > 0)
-@@ -391,8 +349,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_YUYV8_1_5X8,
- 			};
- 
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		case MEDIA_BUS_FMT_YVYU8_1X16:
- 		{
-@@ -404,8 +362,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_YVYU8_1_5X8,
- 			};
- 
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		case MEDIA_BUS_FMT_UYVY8_1X16:
- 		{
-@@ -417,8 +375,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_UYVY8_1_5X8,
- 			};
- 
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		case MEDIA_BUS_FMT_VYUY8_1X16:
- 		{
-@@ -430,8 +388,8 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 				MEDIA_BUS_FMT_VYUY8_1_5X8,
- 			};
- 
--			return vfe_find_code(src_code, ARRAY_SIZE(src_code),
--					     index, src_req_code);
-+			return camss_format_find_code(src_code, ARRAY_SIZE(src_code),
-+						      index, src_req_code);
- 		}
- 		default:
- 			if (index > 0)
-@@ -714,9 +672,9 @@ static int vfe_set_clock_rates(struct vfe_device *vfe)
- 				} else {
- 					struct vfe_line *l = &vfe->line[j];
- 
--					bpp = vfe_get_bpp(l->formats,
--						l->nformats,
--						l->fmt[MSM_VFE_PAD_SINK].code);
-+					bpp = camss_format_get_bpp(l->formats,
-+								   l->nformats,
-+								   l->fmt[MSM_VFE_PAD_SINK].code);
- 					tmp = pixel_clock[j] * bpp / 64;
- 				}
- 
-@@ -795,9 +753,9 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
- 				} else {
- 					struct vfe_line *l = &vfe->line[j];
- 
--					bpp = vfe_get_bpp(l->formats,
--						l->nformats,
--						l->fmt[MSM_VFE_PAD_SINK].code);
-+					bpp = camss_format_get_bpp(l->formats,
-+								   l->nformats,
-+								   l->fmt[MSM_VFE_PAD_SINK].code);
- 					tmp = pixel_clock[j] * bpp / 64;
- 				}
- 
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index 2fe706838469..cd72feca618c 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -28,27 +28,6 @@
-  * Helper functions
-  */
- 
--static int video_find_format(u32 code, u32 pixelformat,
--			     const struct camss_format_info *formats,
--			     unsigned int nformats)
--{
--	int i;
+-	if (enable) {
+-		/*
+-		 * DT_ID is a two bit bitfield that is concatenated with
+-		 * the four least significant bits of the five bit VC
+-		 * bitfield to generate an internal CID value.
+-		 *
+-		 * CSID_RDI_CFG0(vc)
+-		 * DT_ID : 28:27
+-		 * VC    : 26:22
+-		 * DT    : 21:16
+-		 *
+-		 * CID   : VC 3:0 << 2 | DT_ID 1:0
+-		 */
+-		u8 dt_id = vc & 0x03;
 -
--	for (i = 0; i < nformats; i++) {
--		if (formats[i].code == code &&
--		    formats[i].pixelformat == pixelformat)
--			return i;
+-		if (tg->enabled) {
+-			/* configure one DT, infinite frames */
+-			val = vc << TPG_VC_CFG0_VC_NUM;
+-			val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
+-			val |= 0 << TPG_VC_CFG0_NUM_FRAMES;
+-			writel_relaxed(val, csid->base + CSID_TPG_VC_CFG0);
+-
+-			val = 0x740 << TPG_VC_CFG1_H_BLANKING_COUNT;
+-			val |= 0x3ff << TPG_VC_CFG1_V_BLANKING_COUNT;
+-			writel_relaxed(val, csid->base + CSID_TPG_VC_CFG1);
+-
+-			writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
+-
+-			val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
+-			val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
+-			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
+-
+-			val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
+-			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
+-
+-			val = (tg->mode - 1) << TPG_DT_n_CFG_2_PAYLOAD_MODE;
+-			val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
+-			val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
+-			writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
+-
+-			writel_relaxed(0, csid->base + CSID_TPG_COLOR_BARS_CFG);
+-
+-			writel_relaxed(0, csid->base + CSID_TPG_COLOR_BOX_CFG);
+-		}
++	val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
++	if (vc > 3)
++		val |= 1 << CSI2_RX_CFG1_VC_MODE;
++	val |= 1 << CSI2_RX_CFG1_MISR_EN;
++	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
++}
+ 
+-		val = 1 << RDI_CFG0_BYTE_CNTR_EN;
+-		val |= 1 << RDI_CFG0_FORMAT_MEASURE_EN;
+-		val |= 1 << RDI_CFG0_TIMESTAMP_EN;
+-		/* note: for non-RDI path, this should be format->decode_format */
+-		val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
+-		val |= format->data_type << RDI_CFG0_DATA_TYPE;
+-		val |= vc << RDI_CFG0_VIRTUAL_CHANNEL;
+-		val |= dt_id << RDI_CFG0_DT_ID;
+-		writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
++static void __csid_ctrl_rdi(struct csid_device *csid, int enable, u8 rdi)
++{
++	int val;
+ 
+-		/* CSID_TIMESTAMP_STB_POST_IRQ */
+-		val = 2 << RDI_CFG1_TIMESTAMP_STB_SEL;
+-		writel_relaxed(val, csid->base + CSID_RDI_CFG1(vc));
++	if (enable)
++		val = HALT_CMD_RESUME_AT_FRAME_BOUNDARY << RDI_CTRL_HALT_CMD;
++	else
++		val = HALT_CMD_HALT_AT_FRAME_BOUNDARY << RDI_CTRL_HALT_CMD;
++	writel_relaxed(val, csid->base + CSID_RDI_CTRL(rdi));
++}
+ 
+-		val = 1;
+-		writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PERIOD(vc));
++static void __csid_configure_testgen(struct csid_device *csid, u8 enable, u8 vc)
++{
++	struct csid_testgen_config *tg = &csid->testgen;
++	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
++	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
++								   csid->res->formats->nformats,
++								   input_format->code);
++	u8 lane_cnt = csid->phy.lane_cnt;
++	u32 val;
+ 
+-		val = 0;
+-		writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PATTERN(vc));
++	if (!lane_cnt)
++		lane_cnt = 4;
+ 
+-		val = 1;
+-		writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
++	/* configure one DT, infinite frames */
++	val = vc << TPG_VC_CFG0_VC_NUM;
++	val |= INTELEAVING_MODE_ONE_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
++	val |= 0 << TPG_VC_CFG0_NUM_FRAMES;
++	writel_relaxed(val, csid->base + CSID_TPG_VC_CFG0);
+ 
+-		val = 0;
+-		writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
++	val = 0x740 << TPG_VC_CFG1_H_BLANKING_COUNT;
++	val |= 0x3ff << TPG_VC_CFG1_V_BLANKING_COUNT;
++	writel_relaxed(val, csid->base + CSID_TPG_VC_CFG1);
+ 
+-		val = 1;
+-		writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PERIOD(vc));
++	writel_relaxed(0x12345678, csid->base + CSID_TPG_LFSR_SEED);
+ 
+-		val = 0;
+-		writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PATTERN(vc));
++	val = (input_format->height & 0x1fff) << TPG_DT_n_CFG_0_FRAME_HEIGHT;
++	val |= (input_format->width & 0x1fff) << TPG_DT_n_CFG_0_FRAME_WIDTH;
++	writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_0(0));
+ 
+-		val = 1;
+-		writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PERIOD(vc));
++	val = format->data_type << TPG_DT_n_CFG_1_DATA_TYPE;
++	writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_1(0));
+ 
+-		val = 0;
+-		writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PATTERN(vc));
++	val = (tg->mode - 1) << TPG_DT_n_CFG_2_PAYLOAD_MODE;
++	val |= 0xBE << TPG_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
++	val |= format->decode_format << TPG_DT_n_CFG_2_ENCODE_FORMAT;
++	writel_relaxed(val, csid->base + CSID_TPG_DT_n_CFG_2(0));
+ 
+-		val = 0;
+-		writel_relaxed(val, csid->base + CSID_RDI_CTRL(vc));
++	writel_relaxed(0, csid->base + CSID_TPG_COLOR_BARS_CFG);
+ 
+-		val = readl_relaxed(csid->base + CSID_RDI_CFG0(vc));
+-		val |=  1 << RDI_CFG0_ENABLE;
+-		writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
 -	}
--
--	for (i = 0; i < nformats; i++)
--		if (formats[i].code == code)
--			return i;
--
--	WARN_ON(1);
--
--	return -EINVAL;
--}
--
- /*
-  * video_mbus_to_pix_mp - Convert v4l2_mbus_framefmt to v4l2_pix_format_mplane
-  * @mbus: v4l2_mbus_framefmt format (input)
-@@ -121,9 +100,8 @@ static int video_get_subdev_format(struct camss_video *video,
- 	if (ret)
- 		return ret;
++	writel_relaxed(0, csid->base + CSID_TPG_COLOR_BOX_CFG);
  
--	ret = video_find_format(fmt.format.code,
--				format->fmt.pix_mp.pixelformat,
--				video->formats, video->nformats);
-+	ret = camss_format_find_format(fmt.format.code, format->fmt.pix_mp.pixelformat,
-+				       video->formats, video->nformats);
- 	if (ret < 0)
- 		return ret;
+-	if (tg->enabled) {
+-		val = enable << TPG_CTRL_TEST_EN;
+-		val |= 1 << TPG_CTRL_FS_PKT_EN;
+-		val |= 1 << TPG_CTRL_FE_PKT_EN;
+-		val |= (lane_cnt - 1) << TPG_CTRL_NUM_ACTIVE_LANES;
+-		val |= 0x64 << TPG_CTRL_CYCLES_BETWEEN_PKTS;
+-		val |= 0xA << TPG_CTRL_NUM_TRAIL_BYTES;
+-		writel_relaxed(val, csid->base + CSID_TPG_CTRL);
+-	}
++	val = enable << TPG_CTRL_TEST_EN;
++	val |= 1 << TPG_CTRL_FS_PKT_EN;
++	val |= 1 << TPG_CTRL_FE_PKT_EN;
++	val |= (lane_cnt - 1) << TPG_CTRL_NUM_ACTIVE_LANES;
++	val |= 0x64 << TPG_CTRL_CYCLES_BETWEEN_PKTS;
++	val |= 0xA << TPG_CTRL_NUM_TRAIL_BYTES;
++	writel_relaxed(val, csid->base + CSID_TPG_CTRL);
++}
  
+-	val = (lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
+-	val |= csid->phy.lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
+-	val |= phy_sel << CSI2_RX_CFG0_PHY_NUM_SEL;
+-	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
++static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 vc)
++{
++	struct csid_testgen_config *tg = &csid->testgen;
++	u32 val;
++	u32 phy_sel = 0;
++	/* Source pads matching RDI channels on hardware. Pad 1 -> RDI0, Pad 2 -> RDI1, etc. */
++	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
++	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
++								   csid->res->formats->nformats,
++								   input_format->code);
+ 
+-	val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
+-	if (vc > 3)
+-		val |= 1 << CSI2_RX_CFG1_VC_MODE;
+-	val |= 1 << CSI2_RX_CFG1_MISR_EN;
+-	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
++	if (!tg->enabled)
++		phy_sel = csid->phy.csiphy_id;
+ 
+-	if (enable)
+-		val = HALT_CMD_RESUME_AT_FRAME_BOUNDARY << RDI_CTRL_HALT_CMD;
+-	else
+-		val = HALT_CMD_HALT_AT_FRAME_BOUNDARY << RDI_CTRL_HALT_CMD;
++	/*
++	 * DT_ID is a two bit bitfield that is concatenated with
++	 * the four least significant bits of the five bit VC
++	 * bitfield to generate an internal CID value.
++	 *
++	 * CSID_RDI_CFG0(vc)
++	 * DT_ID : 28:27
++	 * VC    : 26:22
++	 * DT    : 21:16
++	 *
++	 * CID   : VC 3:0 << 2 | DT_ID 1:0
++	 */
++	u8 dt_id = vc & 0x03;
++
++	val = 1 << RDI_CFG0_BYTE_CNTR_EN;
++	val |= 1 << RDI_CFG0_FORMAT_MEASURE_EN;
++	val |= 1 << RDI_CFG0_TIMESTAMP_EN;
++	/* note: for non-RDI path, this should be format->decode_format */
++	val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
++	val |= format->data_type << RDI_CFG0_DATA_TYPE;
++	val |= vc << RDI_CFG0_VIRTUAL_CHANNEL;
++	val |= dt_id << RDI_CFG0_DT_ID;
++	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
++
++	/* CSID_TIMESTAMP_STB_POST_IRQ */
++	val = 2 << RDI_CFG1_TIMESTAMP_STB_SEL;
++	writel_relaxed(val, csid->base + CSID_RDI_CFG1(vc));
++
++	val = 1;
++	writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PERIOD(vc));
++
++	val = 0;
++	writel_relaxed(val, csid->base + CSID_RDI_FRM_DROP_PATTERN(vc));
++
++	val = 1;
++	writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
++
++	val = 0;
++	writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
++
++	val = 1;
++	writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PERIOD(vc));
++
++	val = 0;
++	writel_relaxed(val, csid->base + CSID_RDI_RPP_PIX_DROP_PATTERN(vc));
++
++	val = 1;
++	writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PERIOD(vc));
++
++	val = 0;
++	writel_relaxed(val, csid->base + CSID_RDI_RPP_LINE_DROP_PATTERN(vc));
++
++	val = 0;
+ 	writel_relaxed(val, csid->base + CSID_RDI_CTRL(vc));
++
++	val = readl_relaxed(csid->base + CSID_RDI_CFG0(vc));
++	val |=  enable << RDI_CFG0_ENABLE;
++	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
+ }
+ 
+ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+ {
++	struct csid_testgen_config *tg = &csid->testgen;
+ 	u8 i;
+ 	/* Loop through all enabled VCs and configure stream for each */
+ 	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+-		if (csid->phy.en_vc & BIT(i))
+-			__csid_configure_stream(csid, enable, i);
++		if (csid->phy.en_vc & BIT(i)) {
++			if (tg->enabled)
++				__csid_configure_testgen(csid, enable, i);
++
++			__csid_configure_rdi_stream(csid, enable, i);
++			__csid_configure_rx(csid, &csid->phy, i);
++			__csid_ctrl_rdi(csid, enable, i);
++		}
+ }
+ 
+ static int csid_configure_testgen_pattern(struct csid_device *csid, s32 val)
 -- 
 2.17.1
 
