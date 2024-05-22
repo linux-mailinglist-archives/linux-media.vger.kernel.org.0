@@ -1,135 +1,166 @@
-Return-Path: <linux-media+bounces-11732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11733-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E91A8CC1B2
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0F78CC1B6
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 15:04:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 603C41C21DF7
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:02:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF87F1C20C80
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 13:04:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ADF813DBA0;
-	Wed, 22 May 2024 13:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E981913D635;
+	Wed, 22 May 2024 13:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UCBffbdq"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H809CJsa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25F1757FD;
-	Wed, 22 May 2024 13:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72E9757FD
+	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 13:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716382953; cv=none; b=lE/tVFbJOWfKwx0f7Bxsl8PS633rMFVePONr6CAE6nSnTh19VSWIIyk5dEx0XTumtFXWwJZiru0Pw7XZmYnOOs+1HU3VohzHQhcefZxAu6yDyLZOfkxOOb0Skhu4mfp6Z1no0LIEPpDflc4OQomSawuE0A+6sG5eRlZPjcKlJHw=
+	t=1716383051; cv=none; b=lDzIYpgZJG0686zVNz07uyCH2GO6idt2KYt3xpLW58IG3iy4s30bgd66yAma6ryIXeGm1aB9witd1MOL7FiRFEPOUZMQhN+yf+DxpALhKyW5XkeS3EbCAGt79aQw0A7cgKAvfo9DC/TeSMjaf1lD8GwSUTPAsFb4SH/sW6yKkV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716382953; c=relaxed/simple;
-	bh=ItsWZl5G0QS+oyguQ25DhfIuHBh030DblZ9aQCQY95k=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bsgYAbOUkEUpILVXaJp0iYwmD4j1HZYZo8vMprB2x/zv7TUtTpZhpic3XFwc/XiKtShDIgK079zLhaygvS39R0BEglBR0Po2O6JUWzDQ8tyzqI8ASaRb1YebsiV+yH0Rf4UARHlx/pVn/6ZTTEVmvDnlxKBIcpiH+Bueck/HPlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UCBffbdq; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1716382950;
-	bh=ItsWZl5G0QS+oyguQ25DhfIuHBh030DblZ9aQCQY95k=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=UCBffbdq7PTT1pW6SE6MgvG+WM4DODVOJFjRzCDlbmQ1RJFvw62WNDMfgNRnxsfHH
-	 SWAWH8h1YU5krcMnQ3DhsE9bJ/gidkKGU1VvKgfFLQhwiXYY71y+quk5UqltVe3ZCq
-	 XYevBLhGL32zpU0s6iZYpRd0HX2Enw9yjUr2NPyt6S1uTSKpBiNFgCdkfe0ae2AEk5
-	 VeR8gsX4v6OEtpt291agBR5ADepRGvMZ/XAfvVrN2MrSB6V3di7ECXZtgtlobTDRca
-	 XgAoJjf8wt7PnhH2MG2gJXN4B7jPZcO42l4EPiDUQOC6fSuav+Yqu/n3o6d+bHFv1d
-	 rF0g+053IwU4w==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 63DBA37821AE;
-	Wed, 22 May 2024 13:02:27 +0000 (UTC)
-Message-ID: <656423737618913a19633b4b4c39e2e8de54546d.camel@collabora.com>
-Subject: Re: Safety of opening up /dev/dma_heap/* to physically present
- users (udev uaccess tag) ?
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Simon Ser
-	 <contact@emersion.fr>
-Cc: Maxime Ripard <mripard@redhat.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>,  Hans de Goede <hdegoede@redhat.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lennart
- Poettering <mzxreary@0pointer.de>,  Robert Mader
- <robert.mader@collabora.com>, Sebastien Bacher
- <sebastien.bacher@canonical.com>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>,  linaro-mm-sig@lists.linaro.org, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Milan Zamazal
- <mzamazal@redhat.com>, Andrey Konovalov <andrey.konovalov.ynk@gmail.com>
-Date: Wed, 22 May 2024 09:02:21 -0400
-In-Reply-To: <20240516112055.GB5253@pendragon.ideasonboard.com>
-References: <3c0c7e7e-1530-411b-b7a4-9f13e0ff1f9e@redhat.com>
-	 <Zjpmu_Xj6BPdkDPa@phenom.ffwll.local>
-	 <20240507183613.GB20390@pendragon.ideasonboard.com>
-	 <4f59a9d78662831123cc7e560218fa422e1c5eca.camel@collabora.com>
-	 <Zjs5eM-rRoh6WYYu@phenom.ffwll.local>
-	 <20240513-heretic-didactic-newt-1d6daf@penduick>
-	 <20240513083417.GA18630@pendragon.ideasonboard.com>
-	 <c4db22ad94696ed22282bf8dad15088d94ade5d6.camel@collabora.com>
-	 <20240514204223.GN32013@pendragon.ideasonboard.com>
-	 <ttHZ6_mxyApQbVuEg7V20i3gCZ0nCr26aymroG2zxHv3CMRAA6RqZsUxNY3eBiYjycfb1r1WQdyMTwJO_I38FsJQMHA_Zdiqbbjs_YJWKr8=@emersion.fr>
-	 <20240516112055.GB5253@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+	s=arc-20240116; t=1716383051; c=relaxed/simple;
+	bh=uSAJP0Zr0QUNLHGB1PX4Nd6PdLnxLg1fQGgacyXnlco=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Iilum41wATno0dATEQ5FMDmw1g+oaKPEkHzQE/xAXGoG+uIWbhZQ4QZO10LcQPF0WWikS38xz7ibjnn43WehT3bMnqOQzHNaOp93Cj7v5SnoqJYzM4z4NEGw4n4enYft+T31978nXoDdXZGpi7elMrfuHHVgFnMeNonqKx8U/ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H809CJsa; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-792ce7a2025so51331385a.0
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 06:04:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1716383048; x=1716987848; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=06w4BMb4CS2JUIDxHHVDnPSYgc7Icb3wXH09Rj3AUZo=;
+        b=H809CJsaCKL3IzreE6w2f5HjOUfREagewjLzWvnhmmIG7ZoqVEwab1nhEt4JfKsntd
+         Xuaa/Svq9PDftV9Zvi8gROmw0OCAzUsPZ4uSOkRud+ZC6kqbDzBpzQcKwvZlpExFD65k
+         xI4Z9ys3VnPkYSdsfRVmRq3v3DS9LhxMLyHg4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716383048; x=1716987848;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=06w4BMb4CS2JUIDxHHVDnPSYgc7Icb3wXH09Rj3AUZo=;
+        b=fdJCYdBJ10ch+A9JFA1d0AbAL9m+jXQL95em/D/V3Wf8LhzO/nJGWrlbW/gdlSXByE
+         xRhFa3H0Ev59y3INpGCa9g6KXnYfAGJZXGtRMmNL0huBvJH+rW/zZING/Y742bIZEPub
+         AHdtFLNxNABjqiOwxcdOWO0GY4wZAUtBGQA3gXlHxplNLPleTXB6f7jKALbdr92GfxHj
+         NartJdaXmKhoH4nt5KA//LE2P/uc4opBKjAq80aDSFOYGGNEbMQ7DIp0+kTxpb3yMiH5
+         ldPYsU1rwgt0QWgCCtFOIucV+2Zz1Q8eXMb4wC3HZb3hAFP8g+9qmkFnzbRyIWGs7HLn
+         3LRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXq5ZhJ0rFtxrYYYaSeo5lAjGT/tOIxFcARVsOTGQllGQubz3vOPUHmeIZ32GFmGCqwjin5CafwjpkkS7DEnRLF2cU4hfRUASikoME=
+X-Gm-Message-State: AOJu0YzXECZZK6OXnKYEay54Xd5YbxiIjG/mut5ZimktL//5mWqEuv+Z
+	l1O4gSnZGBjftu4BC8oCTRkgnA9R/LxxgeKmCdcGatvTk3ZfoBDQMVkbEGEZ9FXIDQpQQCAqb13
+	FHA==
+X-Google-Smtp-Source: AGHT+IEKe8Qq/wtYPZ/WDyM51QSAuN8kQpUvT1tGABzpLXVoqB0sG5O1CL5uXvPpWYhsO95ztuWUcQ==
+X-Received: by 2002:a05:620a:468b:b0:790:f843:db57 with SMTP id af79cd13be357-794994ac09amr207545485a.58.1716383048185;
+        Wed, 22 May 2024 06:04:08 -0700 (PDT)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com. [209.85.222.178])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-792e564e4dbsm982761985a.82.2024.05.22.06.04.07
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 May 2024 06:04:07 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-792ce7a2025so51330385a.0
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 06:04:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU2h3uIQroLWEooD8Wp12s7T/dDaFWagPQVFX2HSS+s7avXNIKXbob0VuDZgCZhmLtI7ikUdJ5NW2RMYYsaPOf86cnzuA1swhebDQQ=
+X-Received: by 2002:a05:6214:3186:b0:6ab:701a:931f with SMTP id
+ 6a1803df08f44-6ab7f353255mr18891526d6.20.1716383046801; Wed, 22 May 2024
+ 06:04:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org>
+ <20240507-cocci-flexarray-v2-18-7aea262cf065@chromium.org> <79b2ab52-392f-40f6-8208-6e10330c0f04@linaro.org>
+In-Reply-To: <79b2ab52-392f-40f6-8208-6e10330c0f04@linaro.org>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 22 May 2024 15:03:53 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsq8AB-=y_DgPz6HF3qREv45jhqL==E3yQpWeppjuwKoQ@mail.gmail.com>
+Message-ID: <CANiDSCsq8AB-=y_DgPz6HF3qREv45jhqL==E3yQpWeppjuwKoQ@mail.gmail.com>
+Subject: Re: [PATCH v2 18/18] media: venus: Refactor hfi_buffer_alloc_mode_supported
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc: Michael Tretter <m.tretter@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
+	Andy Walls <awalls@md.metrocast.net>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 
-Le jeudi 16 mai 2024 =C3=A0 14:20 +0300, Laurent Pinchart a =C3=A9crit=C2=
-=A0:
-> On Thu, May 16, 2024 at 07:00:31AM +0000, Simon Ser wrote:
-> > On Tuesday, May 14th, 2024 at 22:42, Laurent Pinchart wrote:
-> >=20
-> > > My experience on Arm platforms is that the KMS drivers offer allocati=
-on
-> > > for scanout buffers, not render buffers, and mostly using the dumb
-> > > allocator API. If the KMS device can scan out YUV natively, YUV buffe=
-r
-> > > allocation should be supported. Am I missing something here ?
-> >=20
-> > Note that dumb buffers are only intended for simple software-rendering
-> > use-cases. Anything more complicated (e.g. involving GPU rendering)
-> > should use another mechanism.
->=20
-> Sure. Even if dumb buffers may work for GPU rendering in some cases,
-> there's no guarantee they will, so they shouldn't be used.
->=20
-> My comment was related to scanout buffers, as I was puzzled by Nicolas
-> mentioning how "KMS drivers only offer allocation for render buffers".
-> On Arm platforms the render buffers are allocated on the GPU's DRM
-> device as far as I understand, while the KMS drivers allocate scanout
-> buffers using the dumb buffers API.
->=20
+Hi Bryan
 
-The message is getting distorted. I'm saying that not all supported formats=
- have
-an allocation API in DRM/KMS drivers. Most YUV formats needed for media han=
-dling
-(GPU or scannout) are not supported.
+On Fri, 10 May 2024 at 02:09, Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> On 07/05/2024 17:27, Ricardo Ribalda wrote:
+> > Replace the old style single element array at the end of the struct with
+> > a flex array.
+> >
+> > The code does not allocate this structure, so the size change should not
+> > be a problem.
+> >
+> > This fixes the following cocci warning:
+> > drivers/media/platform/qcom/venus/hfi_helper.h:1233:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >   drivers/media/platform/qcom/venus/hfi_helper.h | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> > index dee439ea4d2e..9545c964a428 100644
+> > --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> > +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> > @@ -1230,7 +1230,7 @@ struct hfi_interlace_format_supported {
+> >   struct hfi_buffer_alloc_mode_supported {
+> >       u32 buffer_type;
+> >       u32 num_entries;
+> > -     u32 data[1];
+> > +     u32 data[];
+> >   };
+> >
+> >   struct hfi_metadata_pass_through {
+> >
+>
+> You have some fairly inconsistent fixes for this class.
+>
+> Please don't change the sizeof() any structures in your series, because
+> the structure is unallocated changing the size is potentially insidious IMO.
 
-Nicolas
+If the array is a flex array we should convert it to a real flex
+array. Abusing one element arrays is deprecated.
 
-p.s. I feel like commenters thinks its evident for userspace application to=
- know
-if they are doing scanout or GPU ... while in reality, they offload their
-allocated buffer to a compositor which will have to dynamically juggle betw=
-een
-these two with its own heuristic.
+If the driver only accesses the first element of the array, I have
+modified the code from data[1] to data, because, as you say, modifying
+the struct size can have dangerous side effects.
 
+But if the driver accesses more fields, then I have reviewed that
+there are no allocations, or any calculations based on the structure
+side, and convert them to a proper flex array.
+
+
+Regards!
+>
+> data[1] -> data is perfectly fine in this case.
+
+If you take a look at parse_alloc_mode() you will see that mode->data
+is indeed an array, and it is used by the pointer type.
+
+>
+> ---
+> bod
+
+
+
+-- 
+Ricardo Ribalda
 
