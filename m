@@ -1,134 +1,132 @@
-Return-Path: <linux-media+bounces-11749-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11750-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1368CC661
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 20:34:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1F28CC8DF
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 00:12:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B9491C2142D
-	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 18:34:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5DB71F221C7
+	for <lists+linux-media@lfdr.de>; Wed, 22 May 2024 22:12:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335BB14600F;
-	Wed, 22 May 2024 18:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CAE0146D52;
+	Wed, 22 May 2024 22:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iAQURosu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DFI4haYA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B851422A1
-	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 18:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420A31465A8
+	for <linux-media@vger.kernel.org>; Wed, 22 May 2024 22:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716402834; cv=none; b=POibo6vAcVXJrr0Us+uKcX+2hDf/0IxmAASoKJnTOmEBE5Z/gAeIaVq7WEDsrRbaA5li9UhH7i0wfpb/DTOuEiGVgz1PKaq0N8hk9i5wYHmp331PXp/OTffk9b55mI0M08GxpBeVhhozf4/yh7O/9SxPcguHttcqG4yD36gY0UA=
+	t=1716415957; cv=none; b=lnAHPwBH4YiP9qrSLoY2vlAjg3NsW8cEIZJG7h35aToRj8jz3lgRiXWAN3E5tU+Qozb+mcS4HQb/xUUX3OnliYwcQRVDe+Pi/uxpuEcwYtK451x68vrf/btsV+daW7mG3rWQ6d7fnNWR/HwRBSlfI8Dt/3XIWCBOh38GJ5Q0UXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716402834; c=relaxed/simple;
-	bh=jnEBtkTj6abvY8mxMmaxe+8NYxHaAdanWXFKxYwaKy0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ix9oFQ6MPwYfKKiV7/Vb1SfqkwGE+0qwo4uAs5xOc4qjwBOFXUpETMvif9abJGiB9DiqbVsJQipn/27Vz4DyV6UVMSKqW7MGxVzsMOYUlBjQbV1tWWvi4te7/9bSq1AKmSEIMF9XZBN/4z9mGqiep7T6sYW580sXjgAXQvmaKiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iAQURosu; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-df457d734abso1275796276.0
-        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 11:33:51 -0700 (PDT)
+	s=arc-20240116; t=1716415957; c=relaxed/simple;
+	bh=fDOnQ8n/6U8eCK1Py4zZQ5yun47iYE10SbmdRNCSXao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GP2SA1F77MxDl36hZ/Zi/AVx+DL60kPv1ovkBfXcfdJU/GkQueXILO7rerXnluKBQDp6eaicXI6bHfTGbFOoXk4frcH3rNpIhiobXK0Rxjl7YbDAJD1zNCKek07lbf0PIY2OUlg5T1V1QhZIyokEKhKr45GN9clU4JdPtBDoq4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DFI4haYA; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51f45104ef0so6959484e87.3
+        for <linux-media@vger.kernel.org>; Wed, 22 May 2024 15:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1716402831; x=1717007631; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7EbhQWdOoh78Q/g/fDhY/dpoBbFrko5oWqLo7rk8/U0=;
-        b=iAQURosuJKIEGwWLqugJ/0GW5yZsg9VxKsQhWA7Qqc6+rFSFLDbtWEo8q7xiItLTJM
-         XUHgmeYz5TJu4SvfIMhmil5K8APXmbv6Rps1zGMTLMOsG/rf9VYotCuZPF3k8+Pop2o3
-         DTQDy6bJRzBV/QGKkGpkGmnRjO4Aki0E+bVL/JyRPPzDtmfXWphXnw0Fvxe/mWXPps+S
-         GT9mYrB/cg9cGeEpXs4GZEmttMMczSg4edIYQz8ES6x44RG7+tRLgJRfl1yxr/O7DwkJ
-         vu3pRO5r8vyT7rEzFqfcS7iIQG0KyaAsCc13F4T8rbsgiihS0qzuGHxerq7/BYNUSD5E
-         yp4Q==
+        d=linaro.org; s=google; t=1716415954; x=1717020754; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BQOeeyMaEqMnu39Y+NwRU81Ky5s55spLGysaOpoEjNs=;
+        b=DFI4haYAvbaWEo+J2L5ybV4lscNHKa8u0XUy8n/vJd2bpnZn8V5/PXSuTaVHbLuVUK
+         d5JxMYkXdRDRn+Eux9YtOwm8s3YL3wt0ycaS7QbGhjJjyiq8+hujvWZekB7DuFFtKZhE
+         SFdslKM+PSMhOogaZIqh35+Q75liGBDNoEQYgJEcm1YYS7bvNznrVfyXvAnij6YpUhLE
+         XlGevv2/NY9huJunIO2bltECtbqeCZzYai3xkrGIDyTk4Cyj06vSDPXnA3FP1+cJeer8
+         LhHQUUK5Bkp3idaV3HbTgGWAakjliAaVeoRfev1+mp/ADaIE5XrCcWnkyicCBDPpTQgb
+         mMIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716402831; x=1717007631;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7EbhQWdOoh78Q/g/fDhY/dpoBbFrko5oWqLo7rk8/U0=;
-        b=Y1hhFdu7mZGh953QHG/DQqF1iwhIHPyQwoe+YBwNJsU4axPilXMVD6mUgQ/zebrRQs
-         Jv/YU8KwVFyesXMJYeSzH1HVb1srPjwneQu5kJ5ZBu7lxaiunxyKHyZLwzGXdSO4MnAX
-         PlM1Xb1cvJQJ/afgz8E10DlRq6jgLQ72hbNzZlUUd6Exz9RK7JHJQByEJq8SK37depc0
-         nwcC/OtEQnDTbTcUCjI2LVkYzPHvH5+ca4syWqT8YhJh7hKhoDTfTvOFzFIurFSvr56L
-         WDxY/SOxvhF/1abzEp9TraWIxDAP3FfOzfSy2sgpPhuN4d64zYdElNtoT8UsQ3oK4Nyz
-         /jMg==
-X-Forwarded-Encrypted: i=1; AJvYcCU5JkGEKpn7MU5ICgncivrb8VwKC1Uc2ICMP4jmixB9ehm3TZXRw+QbtTgLvRVAKLO5nizUcqffRlprT8FW+/Y2El9gIyu8jR5GCxE=
-X-Gm-Message-State: AOJu0Yz/fuWr3KdBNSi9phdhrjNKPSgcOFyCIHFJZDGurqpnGvjqtS+X
-	KoSDdiIhrPZpmzUMY0phpCo4KibO8L1cb5tu/luIYidzT3nG789HJtpcuS1C97zYemloolDRmKK
-	E8qUP/n2OdnWbflyXWlPWanh1mJAJ4p6BSA4m
-X-Google-Smtp-Source: AGHT+IGN47Nmo4f4RGiZUu/PPp/jTEE3uqbIMeUgnJAorz3ApRFTFuY2uRHKB4JKQhH3PzXLlW1bM1uS2dJXihd38dY=
-X-Received: by 2002:a25:a2c4:0:b0:de5:51a1:d47a with SMTP id
- 3f1490d57ef6-df4e0c1d0dbmr2686142276.28.1716402830630; Wed, 22 May 2024
- 11:33:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716415954; x=1717020754;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BQOeeyMaEqMnu39Y+NwRU81Ky5s55spLGysaOpoEjNs=;
+        b=wRDc940TRuZEa4hoQpGfeN6fPKJugHg233ohWtYuzWuCinkv2rG6w5BpzHvCwmwDHL
+         BMxN2NH9akXS/qZ2iUlk9iazfG1tIhQ6615Q/jvNNhM2etjxouXHscqZPkUc0K9D+xH0
+         maXZSieyFwmp2SnukeHf2sEsE18zrhor3GmmBKoM6dMXwN9ieXcTovuoWw2OkkJFapAa
+         LtGw3xSqAVi1Ow5Aa10Fo3Q+CNLn583UgkiG18EJyxZdHG81gk1J+lEY0B0r4Kt9w2Pl
+         xV3zewWSAoYfeyEttW2PsqMpHbVsT1XL/3Syj2EWYC3SP1V3GR+yLO0g/8ezJeGm75Vc
+         Rt5g==
+X-Forwarded-Encrypted: i=1; AJvYcCWI2yt+a+yOOmn2k5sCI8jWaixdqsgRW2tFsQLLqD6i/+P9X2Wa6si1dgcxaZeCsI1Yg4OTAPDGJhD9F3x3pgjkVPF5PWXnWkK/rhw=
+X-Gm-Message-State: AOJu0Yw8rQt1LggfSfOpIcAXrHU5IIVbGumMcnIgw8v5nthqlb3JH2Jd
+	GXvB6p8Hp2tkm2uwF73shTDbJ5Voj9Zi1KNmH5x6Tfcu+vMbSocV68JG8hCOlb0=
+X-Google-Smtp-Source: AGHT+IFmy9iqYhx6F/MxVLTLyGH1Ov9kV4rl1NcWdUJFcx0idK0FYhwE3IrOr5DzJF6JcDSGkx+xHA==
+X-Received: by 2002:a19:431a:0:b0:523:9493:4e63 with SMTP id 2adb3069b0e04-526c0d49771mr1801806e87.60.1716415954442;
+        Wed, 22 May 2024 15:12:34 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f35ba50csm5062862e87.69.2024.05.22.15.12.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 May 2024 15:12:33 -0700 (PDT)
+Date: Thu, 23 May 2024 01:12:32 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH v14 01/28] drm/connector: Introduce an HDMI connector
+ initialization function
+Message-ID: <g4eqwhtbdtqyhjhigtvsplu3hxdyrggkowssgh4b6lj57t6kqh@mptafawe26m7>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-1-51950db4fedb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240522181308.841686-1-pchelkin@ispras.ru>
-In-Reply-To: <20240522181308.841686-1-pchelkin@ispras.ru>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 22 May 2024 11:33:38 -0700
-Message-ID: <CABdmKX2qdT0HvkX0B6kcxALwxZsLFOtgPsOP_rY0AXM1eAtAtA@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: handle testing kthreads creation failure
-To: Fedor Pchelkin <pchelkin@ispras.ru>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Chris Wilson <chris@chris-wilson.co.uk>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, Alexey Khoroshilov <khoroshilov@ispras.ru>, 
-	lvc-project@linuxtesting.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-1-51950db4fedb@kernel.org>
 
-On Wed, May 22, 2024 at 11:14=E2=80=AFAM Fedor Pchelkin <pchelkin@ispras.ru=
-> wrote:
->
-> kthread creation may possibly fail inside race_signal_callback(). In
-> such a case stop the already started threads, put the already taken
-> references to them and return with error code.
->
-> Found by Linux Verification Center (linuxtesting.org).
->
-> Fixes: 2989f6451084 ("dma-buf: Add selftests for dma-fence")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+On Tue, May 21, 2024 at 12:13:34PM +0200, Maxime Ripard wrote:
+> A lot of the various HDMI drivers duplicate some logic that depends on
+> the HDMI spec itself and not really a particular hardware
+> implementation.
+> 
+> Output BPC or format selection, infoframe generation are good examples
+> of such areas.
+> 
+> This creates a lot of boilerplate, with a lot of variations, which makes
+> it hard for userspace to rely on, and makes it difficult to get it right
+> for drivers.
+> 
+> In the next patches, we'll add a lot of infrastructure around the
+> drm_connector and drm_connector_state structures, which will allow to
+> abstract away the duplicated logic. This infrastructure comes with a few
+> requirements though, and thus we need a new initialization function.
+> 
+> Hopefully, this will make drivers simpler to handle, and their behaviour
+> more consistent.
+> 
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
-> v2: use kthread_stop_put() to actually put the last reference as
->     T.J. Mercier noticed;
->     link to v1: https://lore.kernel.org/lkml/20240522122326.696928-1-pche=
-lkin@ispras.ru/
->
->  drivers/dma-buf/st-dma-fence.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fenc=
-e.c
-> index b7c6f7ea9e0c..6a1bfcd0cc21 100644
-> --- a/drivers/dma-buf/st-dma-fence.c
-> +++ b/drivers/dma-buf/st-dma-fence.c
-> @@ -540,6 +540,12 @@ static int race_signal_callback(void *arg)
->                         t[i].before =3D pass;
->                         t[i].task =3D kthread_run(thread_signal_callback,=
- &t[i],
->                                                 "dma-fence:%d", i);
-> +                       if (IS_ERR(t[i].task)) {
-> +                               ret =3D PTR_ERR(t[i].task);
-> +                               while (--i >=3D 0)
-> +                                       kthread_stop_put(t[i].task);
-> +                               return ret;
-> +                       }
->                         get_task_struct(t[i].task);
->                 }
->
-> --
-> 2.39.2
->
+>  drivers/gpu/drm/drm_connector.c | 39 +++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_connector.h     |  5 +++++
+>  2 files changed, 44 insertions(+)
+
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
 
