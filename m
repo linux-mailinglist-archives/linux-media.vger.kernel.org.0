@@ -1,160 +1,331 @@
-Return-Path: <linux-media+bounces-11828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11829-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7F78CD86B
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 18:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0972C8CD8D2
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 19:01:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09E561C210BD
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 16:31:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C9C71C21516
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 17:01:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7FEF20DFF;
-	Thu, 23 May 2024 16:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 545E66EB60;
+	Thu, 23 May 2024 17:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="gVf38LB9"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TIapE6M4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AACBAD31
-	for <linux-media@vger.kernel.org>; Thu, 23 May 2024 16:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716481859; cv=pass; b=ECKveH2NSapK28N/SQx9DnASr/05h01kI8RBQf/4jRpO5VM9L5zCbQ1HioDHr6FeRbtd/HiXI86MPKg8pW0yUuNYd3Qmmli0ycNcOKf5JiIQWr8eT/D9QImlItTU1lVn/Yur5o64UHFs9BnnledyQqCR8SZcCPQvAmsi0O4DcwY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716481859; c=relaxed/simple;
-	bh=vfLmOSkool9m+OGZr9iMGtbMjcueZ+iOio1ps1t/nPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tAYs7aDaObmpsda7NhTfTZgfmNHJjJve6JBrigvCQSPRTdf+1euwJiFdEgS64XUvGTysukvLbNlgBvsE0YuFsGPE5NzhvvYBUXvpaKefKOYkdzeKHURWibBvdRuEvRMlm31AKtTrJ7hV1XOAEQwI6oWU5qBHvf/jtxtJR5kGMps=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=gVf38LB9; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4VlYZP4yPtzyQq;
-	Thu, 23 May 2024 19:30:53 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1716481854;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F842C6BD;
+	Thu, 23 May 2024 17:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716483662; cv=none; b=gejqI+rBpLAz5Hzua8/8QV3or7vKdfYecSOxxROprfI+Of7YehEU8W0DuExJfKzSlH29QQ3STzLylTr9RBnM0MS2HMozTq/aVQyTd9S/l8RmdCjc3a/gzcyjNS1Htsz1EIi8IuguVwaKZHMgMcZMyfKKeQ+NU8LBQENkdB3bZx0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716483662; c=relaxed/simple;
+	bh=Fq3QsjNx5B621ZaYULO/+HwsocSsy12Sn1t+W1nGbfk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B4A+OP4LVJNWLKGQSp0B6RuqLuxDxXrtyg4djVxjveBP8N9zIQQ8npUKda5Pvbre5ydsEkAZRd5048M1HR47rUu5NnkspT9YeO17aezG9+EABk+mUmCUAqD/cBp+9Zbm3NlBPqtovKr64aN2i2BsdQmVUNHz78zSb2DIW0sJ8DQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TIapE6M4; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Envelope-To: mripard@kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1716483657;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U7Q5nwDnSyQxp+N6Ev6qYSC6RJDppjssYFKBI0fWYxc=;
-	b=gVf38LB9+d5n5X/bQ6xZRMG1AMwk4TB4vM0Ftk9kSYVrnVoIMeozOCBkMshlW4LNwVl796
-	9B0JQRLPu82nGhlhw31q2D0NtDzBzJBj+106Tn2fjXSPGx4/SCx2IGfYzoeMBnvuf2Qehm
-	4nZ4MgBS2UaWHtm84QAudZfVoSDAm2U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1716481854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U7Q5nwDnSyQxp+N6Ev6qYSC6RJDppjssYFKBI0fWYxc=;
-	b=U2E2U2vfPTnWZUVHdnkFCGV/Lrcurl6V7wSJO039Z5+gZ8aMMg0GphEudDxtBrU1wML5n/
-	KlC6iy2s4MY1smAZPV7py0yG0vbhYS3OiB0k6FYr7u7hlW7Jkrt5F7V43ixMiguoUlfeko
-	muSesJYO5Cczrn135Twdq4tZVexgd7c=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1716481854; a=rsa-sha256; cv=none;
-	b=NZgQY0sjPwTmOAqn0EdgfsbF/eWcUs6EA3EgLwPBDkvEpKVzawopOjyblUJj8TZ1YOASk7
-	fTcnw+ouHHzwlq8lC4TQrlUjX/NkAlMZX3jD8d+AWKUk58LO6TfjJi4NpcyhtAezMihFk3
-	gzGGLJrLeisiYKYWz53baACMyo7g8MA=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5C4FE634C94;
-	Thu, 23 May 2024 19:28:13 +0300 (EEST)
-Date: Thu, 23 May 2024 16:28:12 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v6 1/7] media: uapi: pixfmt-luma: Document MIPI CSI-2
- packing
-Message-ID: <Zk9unKvWO6RpQ73X@valkosipuli.retiisi.eu>
-References: <20240502110503.38412-1-jacopo.mondi@ideasonboard.com>
- <20240502110503.38412-2-jacopo.mondi@ideasonboard.com>
- <Zk8eo4OZs8gu_k2Q@valkosipuli.retiisi.eu>
- <20240523105722.GG6640@pendragon.ideasonboard.com>
- <Zk8hBTLghjVAOaG-@valkosipuli.retiisi.eu>
- <35fwbp2fr5kaxqg3qey2cz7nwwlhzf4s5euo3zm4dkimrztzru@peabkvwqsblq>
+	bh=Ykz7CSuGmpReMbjY7aKYP//JpEBEa/0nSh28NBFDVBU=;
+	b=TIapE6M4VUR7Mt+IBvSqJF4eYiwgBL6E2freRulFfb573/OkGC3cBsleiVjezpU5O/LrP1
+	lRF020YJrwQKFpNZM4J2r08fzzaqgUokU/PkR35D1Lbg9EMnRwmevbPlHxGv4TRzSSQohy
+	zFuraMMuvLnJMAiiys++zLk/KyyzzFk=
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: hjc@rock-chips.com
+X-Envelope-To: heiko@sntech.de
+X-Envelope-To: wens@csie.org
+X-Envelope-To: jernej.skrabec@gmail.com
+X-Envelope-To: samuel@sholland.org
+X-Envelope-To: andy.yan@rock-chips.com
+X-Envelope-To: hverkuil@xs4all.nl
+X-Envelope-To: sebastian.wick@redhat.com
+X-Envelope-To: ville.syrjala@linux.intel.com
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: linux-media@vger.kernel.org
+X-Envelope-To: linux-rockchip@lists.infradead.org
+X-Envelope-To: linux-sunxi@lists.linux.dev
+X-Envelope-To: dave.stevenson@raspberrypi.com
+Message-ID: <1e47e26f-948b-43d1-8d9f-a15e06e816f6@linux.dev>
+Date: Fri, 24 May 2024 01:00:47 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35fwbp2fr5kaxqg3qey2cz7nwwlhzf4s5euo3zm4dkimrztzru@peabkvwqsblq>
+Subject: Re: [v14,06/28] drm/tests: Add output bpc tests
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
+Content-Language: en-US, en-AU
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-6-51950db4fedb@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Jacopo,
+Hi, Maxime
 
-On Thu, May 23, 2024 at 03:22:56PM +0200, Jacopo Mondi wrote:
-> Hi Sakari, Laurent
-> 
-> On Thu, May 23, 2024 at 10:57:09AM GMT, Sakari Ailus wrote:
-> > On Thu, May 23, 2024 at 01:57:22PM +0300, Laurent Pinchart wrote:
-> > > On Thu, May 23, 2024 at 10:46:59AM +0000, Sakari Ailus wrote:
-> > > > Hi Jacopo,
-> > > >
-> > > > On Thu, May 02, 2024 at 01:04:56PM +0200, Jacopo Mondi wrote:
-> > > > > The Y10P, Y12P and Y14P format variants are packed according to
-> > > > > the RAW10, RAW12 and RAW14 formats as defined by the MIPI CSI-2
-> > > > > specification. Document it.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > > ---
-> > > > >  Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst | 4 ++++
-> > > > >  1 file changed, 4 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > > > index b3c5779521d8..f02e6cf3516a 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > > > @@ -209,3 +209,7 @@ are often referred to as greyscale formats.
-> > > > >      For Y012 and Y12 formats, Y012 places its data in the 12 high bits, with
-> > > > >      padding zeros in the 4 low bits, in contrast to the Y12 format, which has
-> > > > >      its padding located in the most significant bits of the 16 bit word.
-> > > > > +
-> > > > > +    The 'P' variations of the Y10, Y12 and Y14 formats are packed according to
-> > > > > +    the RAW10, RAW12 and RAW14 packing scheme as defined by the MIPI CSI-2
-> > > > > +    specification.
-> > > >
-> > > > The CSI-2 specification isn't publicly available. I think you'll need to
-> > > > add similar examples of the packing the packed raw formats have.
-> 
-> Don't we have the packaging examples in the tables already ? In
-> mainline already for 10P and introduced by:
-> 
-> adb1d4655e53 ("media: v4l: Add V4L2-PIX-FMT-Y14P format")
-> 181047763040 ("media: v4l: Add V4L2-PIX-FMT-Y12P format")
-> 
-> in the media staging tree.
 
-I missed we had these already defined and thought this was all the
-documentation there was. Ok, this is fine then.
+I love you patch, yet it generates warnning calltrace. Despite it's
+just a warning but it can overwhelm when we run kunit tests. Hence,
+I suggest switch to the drm_atomic_connector_get_property() function.
 
-It'd be nice to merge the packing documentations but it doesn't have to be
-in this set IMO.
+Logs are pasted as below for easier to ready.
+
+
+  ------------[ cut here ]------------
+  WARNING: CPU: 3 PID: 1264 at drivers/gpu/drm/drm_mode_object.c:354 
+drm_object_property_get_value+0x2c/0x34
+  Modules linked in: drm_connector_test drm_display_helper 
+drm_kunit_helpers kunit rfkill ip_set nf_tables nfnetlink vfat fat uas 
+usb_storage kvm efi_pstore pstore spi_loongson_pci spi_loongson_core 
+fuse efivarfs [last unloaded: drm_connector_test]
+  CPU: 3 PID: 1264 Comm: kunit_try_catch Tainted: G                 N 
+6.9.0+ #443
+  Hardware name: Loongson 
+Loongson-3A6000-HV-7A2000-XA61200/Loongson-3A6000-HV-7A2000-XA61200, 
+BIOS Loongson-UDK2018-V4.0.05636-stable202311 12/
+  pc 9000000003469fec ra ffff80000225afdc tp 900000011fc54000 sp 
+900000011fc57d80
+  a0 900000010aa84658 a1 9000000104432a00 a2 900000011fc57d98 a3 
+900000011fc57d98
+  a4 9000000104432a4c a5 9000000003f14e98 a6 0000000000000008 a7 
+fffffffffffffffe
+  t0 0000000000000010 t1 900000010aa84000 t2 ffffffffffffffff t3 
+ffffffffc0c0c0c0
+  t4 ffffffffc0c0c0c0 t5 0000000000000220 t6 0000000000000001 t7 
+0000000000107203
+  t8 0000000000107303 u0 0000000000000008 s9 90000001000ebe60 s0 
+900000010aa84000
+  s1 90000001470679c8 s2 9000000104432a00 s3 ffff800002284000 s4 
+900000010aa84658
+  s5 900000010aa84618 s6 0000000000001000 s7 0000000000000001 s8 
+0000000000000000
+     ra: ffff80000225afdc drm_test_connector_hdmi_init_bpc_8+0xcc/0x2d0 
+[drm_connector_test]
+    ERA: 9000000003469fec drm_object_property_get_value+0x2c/0x34
+   CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+   PRMD: 00000004 (PPLV0 +PIE -PWE)
+   EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+   ECFG: 00071c1c (LIE=2-4,10-12 VS=7)
+  ESTAT: 000c0000 [BRK] (IS= ECode=12 EsubCode=0)
+   PRID: 0014d000 (Loongson-64bit, Loongson-3A6000-HV)
+  CPU: 3 PID: 1264 Comm: kunit_try_catch Tainted: G                 N 
+6.9.0+ #443
+  Hardware name: Loongson 
+Loongson-3A6000-HV-7A2000-XA61200/Loongson-3A6000-HV-7A2000-XA61200, 
+BIOS Loongson-UDK2018-V4.0.05636-stable202311 12/
+  Stack : 9000000004065000 0000000000000000 9000000002ac339c 
+900000011fc54000
+          900000011fc579f0 900000011fc579f8 0000000000000000 
+900000011fc57b38
+          900000011fc57b30 900000011fc57b30 900000011fc57940 
+0000000000000001
+          0000000000000001 900000011fc579f8 18e7bf3ffb6e59df 
+9000000100328a00
+          0000000000000001 0000000000000003 0000000000000434 
+4c206e6f73676e6f
+          6f4c203a656d616e 00000000000d0ad3 000000000704c000 
+90000001000ebe60
+          0000000000000000 0000000000000000 9000000003ee6ab0 
+9000000004065000
+          0000000000000000 900000010aa84618 0000000000001000 
+0000000000000001
+          0000000000000000 0000000000000000 9000000002ac33b4 
+000055557dd80078
+          00000000000000b0 0000000000000004 0000000000000000 
+0000000000071c1c
+          ...
+  Call Trace:
+  [<9000000002ac33b4>] show_stack+0x5c/0x180
+  [<9000000003b1ed2c>] dump_stack_lvl+0x70/0xa0
+  [<9000000003b01fd8>] __warn+0x84/0xc8
+  [<9000000003ad282c>] report_bug+0x19c/0x204
+  [<9000000003b1fe00>] do_bp+0x264/0x2b4
+  [<0000000000000000>] 0x0
+  [<9000000003469fec>] drm_object_property_get_value+0x2c/0x34
+  [<ffff80000225afdc>] drm_test_connector_hdmi_init_bpc_8+0xcc/0x2d0 
+[drm_connector_test]
+  [<ffff800002214f3c>] kunit_try_run_case+0x7c/0x18c [kunit]
+  [<ffff800002216de8>] kunit_generic_run_threadfn_adapter+0x1c/0x28 [kunit]
+  [<9000000002b06238>] kthread+0x124/0x130
+  [<9000000002ac1248>] ret_from_kernel_thread+0xc/0xa4
+
+  ---[ end trace 0000000000000000 ]---
+  ------------[ cut here ]------------
+
+
+On 5/21/24 18:13, Maxime Ripard wrote:
+> Now that we're tracking the output bpc count in the connector state,
+> let's add a few tests to make sure it works as expected.
+> 
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/Kconfig                            |   1 +
+>   drivers/gpu/drm/tests/Makefile                     |   1 +
+>   drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
+>   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 438 +++++++++++++++++++++
+>   drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
+>   5 files changed, 686 insertions(+)
+> 
+
+[...]
+
+> +
+> +/*
+> + * Test that the registration of a connector with a maximum bpc count of
+> + * 8 succeeds, registers the max bpc property, but doesn't register the
+> + * HDR output metadata one.
+> + */
+> +static void drm_test_connector_hdmi_init_bpc_8(struct kunit *test)
+> +{
+> +	struct drm_connector_init_priv *priv = test->priv;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_property *prop;
+> +	uint64_t val;
+> +	int ret;
+> +
+> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
+> +				       &dummy_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc,
+> +				       8);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	prop = connector->max_bpc_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +
+> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
+
+
+Maybe we should switch to drm_atomic_connector_get_property() instead,
+as the comments of the drm_object_property_get_value() told us that
+atomic drivers should never call this function directly, otherwise it
+will print warnings and call trace.
+
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, val, 8);
+> +
+> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +}
+> +
+> +/*
+> + * Test that the registration of a connector with a maximum bpc count of
+> + * 10 succeeds and registers the max bpc and HDR output metadata
+> + * properties.
+> + */
+> +static void drm_test_connector_hdmi_init_bpc_10(struct kunit *test)
+> +{
+> +	struct drm_connector_init_priv *priv = test->priv;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_property *prop;
+> +	uint64_t val;
+> +	int ret;
+> +
+> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
+> +				       &dummy_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc,
+> +				       10);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	prop = connector->max_bpc_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +
+> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
+
+Ditto
+
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, val, 10);
+> +
+> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +}
+> +
+> +/*
+> + * Test that the registration of a connector with a maximum bpc count of
+> + * 12 succeeds and registers the max bpc and HDR output metadata
+> + * properties.
+> + */
+> +static void drm_test_connector_hdmi_init_bpc_12(struct kunit *test)
+> +{
+> +	struct drm_connector_init_priv *priv = test->priv;
+> +	struct drm_connector *connector = &priv->connector;
+> +	struct drm_property *prop;
+> +	uint64_t val;
+> +	int ret;
+> +
+> +	ret = drmm_connector_hdmi_init(&priv->drm, connector,
+> +				       &dummy_funcs,
+> +				       DRM_MODE_CONNECTOR_HDMIA,
+> +				       &priv->ddc,
+> +				       12);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	prop = connector->max_bpc_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +
+> +	ret = drm_object_property_get_value(&connector->base, prop, &val);
+
+ret = drm_atomic_connector_get_property(connector,
+  connector->state, prop, &val);
+
+Note that this function is not exported, but I think you could export it
+just like what you did in the patch 02. Thank you for the amazing works.
+
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, val, 12);
+> +
+> +	prop = priv->drm.mode_config.hdr_output_metadata_property;
+> +	KUNIT_ASSERT_NOT_NULL(test, prop);
+> +	KUNIT_EXPECT_NOT_NULL(test, drm_mode_obj_find_prop_id(&connector->base, prop->base.id));
+> +}
+> +
 
 -- 
-Regards,
-
-Sakari Ailus
+Best regards
+Sui
 
