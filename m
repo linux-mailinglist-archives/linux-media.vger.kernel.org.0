@@ -1,127 +1,363 @@
-Return-Path: <linux-media+bounces-11823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11824-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606238CD444
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 15:23:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F248CD4C7
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 15:32:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 920B91C20D63
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 13:23:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FA03283B48
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 13:32:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 835EC13B7AE;
-	Thu, 23 May 2024 13:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F6A614A4D9;
+	Thu, 23 May 2024 13:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NRYRdr0/"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TvMt8tQ0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AD72AE94
-	for <linux-media@vger.kernel.org>; Thu, 23 May 2024 13:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1071E497;
+	Thu, 23 May 2024 13:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716470584; cv=none; b=klGZ7BwO5NDxPwDsb2twbVoA31yiKZSrCT/NVq0yDzj02Yq/58VfW3kRVf15ebpIui1HIBrDZGRRFh36z29i8M350bGtRJxZX8zdPc6b/eYK5/UkDzf269AbSzu2QD73hsonnObIW3oFODNSe3FgZfN3Tactq/VOTGsBykmHCdo=
+	t=1716471161; cv=none; b=IQ+7Dq+U4lRcOI6bI8e6zkWwHEzv/sHcdfAzD2ILgwVIkCTRz+6mbqo1LL6e2olbvWL0gevYJVRXPnvinMLCr5StDMGK1SNEWnUfuaF2CTQDAEemjWhFZu0fOi/V2zNqI/skH9EMbCCkJR4tAZIUjWoR8mUfb0qRVbO/6mdYq3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716470584; c=relaxed/simple;
-	bh=8/Ew30nv2sNyfEEffsLLCGALDBbX2mndyfu2Lod64jE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eHwPrSjkdC7czOzXgIssL+ZPHHrbXAM3TSrJY8bTSrryBEx1E4eOAaAMUbnl6YBtBW4+DHetYHQ+VHEub5Ub2udSo7ISxx5m9DVdE8NKbeuhGFi+biqH/oshHpz4M/SLHDUSs72vtsYOgVu+LkhuKQQItZQSSHCOO1nLJ7LCNUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NRYRdr0/; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7AFFA7E1;
-	Thu, 23 May 2024 15:22:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716470566;
-	bh=8/Ew30nv2sNyfEEffsLLCGALDBbX2mndyfu2Lod64jE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NRYRdr0/ehGZsewZ9EavS/3h4Z4H8+NemeXjj04q4G/s5p/7eTPs7813SaaFa0cbk
-	 dg0TchUuopE4jHkb/Bt5/dRFWdsK2yDLC2DBmigh6/0GHSYgWxyVSzGUl6n2E6xaGJ
-	 NJQ8ReI4xX8eU9sYIvSxXNE1j/xH6zi9UcQXsPZA=
-Date: Thu, 23 May 2024 15:22:56 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v6 1/7] media: uapi: pixfmt-luma: Document MIPI CSI-2
- packing
-Message-ID: <35fwbp2fr5kaxqg3qey2cz7nwwlhzf4s5euo3zm4dkimrztzru@peabkvwqsblq>
-References: <20240502110503.38412-1-jacopo.mondi@ideasonboard.com>
- <20240502110503.38412-2-jacopo.mondi@ideasonboard.com>
- <Zk8eo4OZs8gu_k2Q@valkosipuli.retiisi.eu>
- <20240523105722.GG6640@pendragon.ideasonboard.com>
- <Zk8hBTLghjVAOaG-@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1716471161; c=relaxed/simple;
+	bh=XeQz3w/hUWaPU3J2hnJbXUfOfb/MW7L/8XI55oK1Q1E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qVLJhRiAf7Ffu6DJI7Rb/ucVCDkhUHCn+1NkpVB0eXA9pWLwdbCUL+tKR2fyQ48+FF8/nK2jyToMQwF2pQDcM76/j+WmXnNeMl8Pq7MhtfkQqydH0OnardE2NOhhBDicSHx20vUH+gHSilv62lwl8K9adEeh3Lxonmn6JiYqGYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TvMt8tQ0; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716471157;
+	bh=XeQz3w/hUWaPU3J2hnJbXUfOfb/MW7L/8XI55oK1Q1E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TvMt8tQ0na57JMSeUdhSEOtE6oFveOwVj7FLg6CwXMNVdAfTTwhvV+Eb3gvBybV76
+	 dGVQlH9w6nmCg6iD5BE6EG2hpE5IaiviT1BksksYMvdlAejEp6KEGNFlZgNDiIAjlt
+	 T0yFs7GqSboOLYKzVYPcrf5e2vFcmGuxMFeFAzurgsAyyLD77Ynyrurl9xueegZ4t5
+	 t9UQvSEh/2clybcLyje7HgASsmzPy36Lk5Iy/g20jKMPEx5dyYPb6J6uS0SSg4aHU1
+	 ue73Kn1VWRiqxh6GQ4ssEGB949Na/nswde1S5YmCTfbPaOfSteaYAgwqhJ+lvHtSD3
+	 g+ib9hYEVDyTQ==
+Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1918E37820E5;
+	Thu, 23 May 2024 13:32:36 +0000 (UTC)
+Message-ID: <1c219718-47fd-4671-a57c-8f057b7db431@collabora.com>
+Date: Thu, 23 May 2024 15:32:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Zk8hBTLghjVAOaG-@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6,23/24] media: mediatek: vcodec: support av1 svp decoder
+ for mt8188
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Nathan Hebert <nhebert@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+ <20240516122102.16379-24-yunfei.dong@mediatek.com>
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20240516122102.16379-24-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari, Laurent
+Hi Yunfei and Xiaoyong,
 
-On Thu, May 23, 2024 at 10:57:09AM GMT, Sakari Ailus wrote:
-> On Thu, May 23, 2024 at 01:57:22PM +0300, Laurent Pinchart wrote:
-> > On Thu, May 23, 2024 at 10:46:59AM +0000, Sakari Ailus wrote:
-> > > Hi Jacopo,
-> > >
-> > > On Thu, May 02, 2024 at 01:04:56PM +0200, Jacopo Mondi wrote:
-> > > > The Y10P, Y12P and Y14P format variants are packed according to
-> > > > the RAW10, RAW12 and RAW14 formats as defined by the MIPI CSI-2
-> > > > specification. Document it.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > ---
-> > > >  Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst | 4 ++++
-> > > >  1 file changed, 4 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > > index b3c5779521d8..f02e6cf3516a 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > > > @@ -209,3 +209,7 @@ are often referred to as greyscale formats.
-> > > >      For Y012 and Y12 formats, Y012 places its data in the 12 high bits, with
-> > > >      padding zeros in the 4 low bits, in contrast to the Y12 format, which has
-> > > >      its padding located in the most significant bits of the 16 bit word.
-> > > > +
-> > > > +    The 'P' variations of the Y10, Y12 and Y14 formats are packed according to
-> > > > +    the RAW10, RAW12 and RAW14 packing scheme as defined by the MIPI CSI-2
-> > > > +    specification.
-> > >
-> > > The CSI-2 specification isn't publicly available. I think you'll need to
-> > > add similar examples of the packing the packed raw formats have.
+W dniu 16.05.2024 o 14:21, Yunfei Dong pisze:
+> From: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
+> 
+> Change av1 driver to support secure video playback(svp) for
+> mt8188. Need to map shared memory with optee interface and
+> wait interrupt in optee-os.
+> 
+> Signed-off-by: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 97 ++++++++++++-------
+>   1 file changed, 63 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+> index bf21f2467a0f..a3ad35df7f73 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+> @@ -58,6 +58,9 @@
+>   #define SEG_LVL_ALT_Q 0
+>   #define SECONDARY_FILTER_STRENGTH_NUM_BITS 2
+>   
+> +#define AV1_IQ_TABLE_SIZE	0x12200
+> +#define AV1_CDF_TABLE_SIZE	0xFE80
+> +
+>   static const short div_lut[DIV_LUT_NUM + 1] = {
+>   	16384, 16320, 16257, 16194, 16132, 16070, 16009, 15948, 15888, 15828, 15768,
+>   	15709, 15650, 15592, 15534, 15477, 15420, 15364, 15308, 15252, 15197, 15142,
+> @@ -641,6 +644,8 @@ struct vdec_av1_slice_fb {
+>    * @frame:		current frame info
+>    * @state:		status after decode done
+>    * @cur_lst_tile_id:	tile id for large scale
+> + * @tile_group:		tile group info
+> + * @reservd:		reserved
+>    */
+>   struct vdec_av1_slice_vsi {
+>   	/* lat */
+> @@ -665,6 +670,8 @@ struct vdec_av1_slice_vsi {
+>   	struct vdec_av1_slice_frame frame;
+>   	struct vdec_av1_slice_state state;
+>   	u32 cur_lst_tile_id;
+> +	struct vdec_av1_slice_tile_group tile_group;
+> +	unsigned int reservd[4];
+>   };
+>   
+>   /**
+> @@ -692,7 +699,6 @@ struct vdec_av1_slice_pfc {
+>    * @cdf_temp:           cdf temp buffer
+>    * @tile:               tile buffer
+>    * @slots:              slots info
+> - * @tile_group:         tile_group entry
+>    * @level:              level of current resolution
+>    * @width:              width of last picture
+>    * @height:             height of last picture
+> @@ -717,7 +723,6 @@ struct vdec_av1_slice_instance {
+>   	struct mtk_vcodec_mem cdf_temp;
+>   	struct mtk_vcodec_mem tile;
+>   	struct vdec_av1_slice_slot slots;
+> -	struct vdec_av1_slice_tile_group tile_group;
+>   
+>   	/* for resolution change and get_pic_info */
+>   	enum vdec_av1_slice_resolution_level level;
+> @@ -774,24 +779,28 @@ static int vdec_av1_slice_init_cdf_table(struct vdec_av1_slice_instance *instanc
+>   
+>   	ctx = instance->ctx;
+>   	vsi = instance->vpu.vsi;
+> -	remote_cdf_table = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
+> -						     (u32)vsi->cdf_table_addr);
+> -	if (IS_ERR(remote_cdf_table)) {
+> -		mtk_vdec_err(ctx, "failed to map cdf table\n");
+> -		return PTR_ERR(remote_cdf_table);
+> -	}
+> -
+> -	mtk_vdec_debug(ctx, "map cdf table to 0x%p\n", remote_cdf_table);
+>   
+>   	if (instance->cdf_table.va)
+>   		mtk_vcodec_mem_free(ctx, &instance->cdf_table);
+> +	vsi->cdf_table_size = AV1_CDF_TABLE_SIZE;
+> +	mtk_vdec_debug(ctx, "svp %d. cdf table size 0x%x\n",
+> +		       instance->ctx->is_secure_playback, vsi->cdf_table_size);
+>   	instance->cdf_table.size = vsi->cdf_table_size;
+>   
+>   	ret = mtk_vcodec_mem_alloc(ctx, &instance->cdf_table);
+>   	if (ret)
+>   		return ret;
+>   
+> -	memcpy(instance->cdf_table.va, remote_cdf_table, vsi->cdf_table_size);
+> +	if (!instance->ctx->is_secure_playback) {
+> +		remote_cdf_table = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
+> +							     (u32)vsi->cdf_table_addr);
+> +		if (IS_ERR(remote_cdf_table)) {
+> +			mtk_vdec_err(ctx, "failed to map cdf table\n");
+> +			return PTR_ERR(remote_cdf_table);
+> +		}
+> +
+> +		memcpy(instance->cdf_table.va, remote_cdf_table, vsi->cdf_table_size);
+> +	}
+>   
 
-Don't we have the packaging examples in the tables already ? In
-mainline already for 10P and introduced by:
+In the original version mtk_vcodec_fw_map_dm_addr() is called before
+mtk_vcodec_mem_alloc(), so if the former fails, the function terminates
+early. After this patch is applied mtk_vcodec_mem_alloc() is called first and
+when it is successful mtk_vcodec_fw_map_dm_addr() is called which may fail.
+In case it fails maybe mtk_vcodec_mem_free() should be called before returning?
 
-adb1d4655e53 ("media: v4l: Add V4L2-PIX-FMT-Y14P format")
-181047763040 ("media: v4l: Add V4L2-PIX-FMT-Y12P format")
+>   	return 0;
+>   }
+> @@ -805,25 +814,26 @@ static int vdec_av1_slice_init_iq_table(struct vdec_av1_slice_instance *instance
+>   
+>   	ctx = instance->ctx;
+>   	vsi = instance->vpu.vsi;
+> -	remote_iq_table = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
+> -						    (u32)vsi->iq_table_addr);
+> -	if (IS_ERR(remote_iq_table)) {
+> -		mtk_vdec_err(ctx, "failed to map iq table\n");
+> -		return PTR_ERR(remote_iq_table);
+> -	}
+> -
+> -	mtk_vdec_debug(ctx, "map iq table to 0x%p\n", remote_iq_table);
+>   
+>   	if (instance->iq_table.va)
+>   		mtk_vcodec_mem_free(ctx, &instance->iq_table);
+> +	vsi->iq_table_size = AV1_IQ_TABLE_SIZE;
+>   	instance->iq_table.size = vsi->iq_table_size;
+>   
+>   	ret = mtk_vcodec_mem_alloc(ctx, &instance->iq_table);
+>   	if (ret)
+>   		return ret;
+>   
+> -	memcpy(instance->iq_table.va, remote_iq_table, vsi->iq_table_size);
+> +	if (!instance->ctx->is_secure_playback) {
+> +		remote_iq_table = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
+> +							    (u32)vsi->iq_table_addr);
+> +		if (IS_ERR(remote_iq_table)) {
+> +			mtk_vdec_err(ctx, "failed to map iq table\n");
+> +			return PTR_ERR(remote_iq_table);
+> +		}
+>   
+> +		memcpy(instance->iq_table.va, remote_iq_table, vsi->iq_table_size);
+> +	}
 
-in the media staging tree.
+The same comment as above applies.
 
-> >
-> > Would referencing the CSI-2-packed bayer formats be acceptable ?
-> > Otherwise we'll essentially duplicate documentation.
->
-> I'm fine with that but the packing should be then documented independently
-> of formats. I'd prefer referring to component numbers (1 to 4) so this
-> could be re-used with Bayer formats.
->
-> The documentation from the Bayer formats should be usable for this almost
-> as-is.
->
-> --
-> Sakari Ailus
+Regards,
+
+Andrzej
+
+>   	return 0;
+>   }
+>   
+> @@ -1388,7 +1398,7 @@ static int vdec_av1_slice_setup_tile_group(struct vdec_av1_slice_instance *insta
+>   					   struct vdec_av1_slice_vsi *vsi)
+>   {
+>   	struct v4l2_ctrl_av1_tile_group_entry *ctrl_tge;
+> -	struct vdec_av1_slice_tile_group *tile_group = &instance->tile_group;
+> +	struct vdec_av1_slice_tile_group *tile_group = &vsi->tile_group;
+>   	struct vdec_av1_slice_uncompressed_header *uh = &vsi->frame.uh;
+>   	struct vdec_av1_slice_tile *tile = &uh->tile;
+>   	struct v4l2_ctrl *ctrl;
+> @@ -1629,7 +1639,9 @@ static void vdec_av1_slice_setup_lat_buffer(struct vdec_av1_slice_instance *inst
+>   
+>   	vsi->tile.buf = instance->tile.dma_addr;
+>   	vsi->tile.size = instance->tile.size;
+> -	memcpy(lat_buf->tile_addr.va, instance->tile.va, 64 * instance->tile_group.num_tiles);
+> +	if (!instance->ctx->is_secure_playback)
+> +		memcpy(lat_buf->tile_addr.va, instance->tile.va,
+> +		       64 * vsi->tile_group.num_tiles);
+>   
+>   	vsi->cdf_table.buf = instance->cdf_table.dma_addr;
+>   	vsi->cdf_table.size = instance->cdf_table.size;
+> @@ -1646,7 +1658,7 @@ static void vdec_av1_slice_setup_seg_buffer(struct vdec_av1_slice_instance *inst
+>   	/* reset segment buffer */
+>   	if (uh->primary_ref_frame == AV1_PRIMARY_REF_NONE || !uh->seg.segmentation_enabled) {
+>   		mtk_vdec_debug(instance->ctx, "reset seg %d\n", vsi->slot_id);
+> -		if (vsi->slot_id != AV1_INVALID_IDX) {
+> +		if (!instance->ctx->is_secure_playback && vsi->slot_id != AV1_INVALID_IDX) {
+>   			buf = &instance->seg[vsi->slot_id];
+>   			memset(buf->va, 0, buf->size);
+>   		}
+> @@ -1657,7 +1669,7 @@ static void vdec_av1_slice_setup_tile_buffer(struct vdec_av1_slice_instance *ins
+>   					     struct vdec_av1_slice_vsi *vsi,
+>   					     struct mtk_vcodec_mem *bs)
+>   {
+> -	struct vdec_av1_slice_tile_group *tile_group = &instance->tile_group;
+> +	struct vdec_av1_slice_tile_group *tile_group = &vsi->tile_group;
+>   	struct vdec_av1_slice_uncompressed_header *uh = &vsi->frame.uh;
+>   	struct vdec_av1_slice_tile *tile = &uh->tile;
+>   	u32 tile_num, tile_row, tile_col;
+> @@ -1740,7 +1752,9 @@ static int vdec_av1_slice_setup_lat(struct vdec_av1_slice_instance *instance,
+>   		return ret;
+>   
+>   	vdec_av1_slice_setup_seg_buffer(instance, vsi);
+> -	vdec_av1_slice_setup_tile_buffer(instance, vsi, bs);
+> +	if (!instance->ctx->is_secure_playback)
+> +		vdec_av1_slice_setup_tile_buffer(instance, vsi, bs);
+> +
+>   	vdec_av1_slice_setup_lat_buffer(instance, vsi, bs, lat_buf);
+>   
+>   	return 0;
+> @@ -1803,10 +1817,15 @@ static int vdec_av1_slice_setup_core_buffer(struct vdec_av1_slice_instance *inst
+>   
+>   	/* frame buffer */
+>   	vsi->fb.y.dma_addr = fb->base_y.dma_addr;
+> -	if (plane == 1)
+> -		vsi->fb.c.dma_addr = fb->base_y.dma_addr + size;
+> -	else
+> -		vsi->fb.c.dma_addr = fb->base_c.dma_addr;
+> +
+> +	if (!instance->ctx->is_secure_playback) {
+> +		if (plane == 1)
+> +			vsi->fb.c.dma_addr = fb->base_y.dma_addr + size;
+> +		else
+> +			vsi->fb.c.dma_addr = fb->base_c.dma_addr;
+> +	}
+> +	vsi->fb.y.size = instance->ctx->picinfo.fb_sz[0];
+> +	vsi->fb.c.size = instance->ctx->picinfo.fb_sz[1];
+>   
+>   	/* reference buffers */
+>   	vq = v4l2_m2m_get_vq(instance->ctx->m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> @@ -1829,6 +1848,7 @@ static int vdec_av1_slice_setup_core_buffer(struct vdec_av1_slice_instance *inst
+>   		}
+>   
+>   		vref->y.dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
+> +		vref->y.size = size;
+>   		if (plane == 1)
+>   			vref->c.dma_addr = vref->y.dma_addr + size;
+>   		else
+> @@ -1905,7 +1925,13 @@ static int vdec_av1_slice_init(struct mtk_vcodec_dec_ctx *ctx)
+>   		goto error_vsi;
+>   	}
+>   	instance->init_vsi = vsi;
+> -	instance->core_vsi = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler, (u32)vsi->core_vsi);
+> +	if (ctx->is_secure_playback)
+> +		instance->core_vsi =
+> +			mtk_vcodec_dec_get_shm_buffer_va(ctx->dev->optee_private, MTK_VDEC_CORE,
+> +							 OPTEE_DATA_INDEX);
+> +	else
+> +		instance->core_vsi = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
+> +							       (u32)vsi->core_vsi);
+>   
+>   	if (!instance->core_vsi) {
+>   		mtk_vdec_err(ctx, "failed to get AV1 core vsi\n");
+> @@ -1917,11 +1943,12 @@ static int vdec_av1_slice_init(struct mtk_vcodec_dec_ctx *ctx)
+>   		mtk_vdec_err(ctx, "remote vsi size 0x%x mismatch! expected: 0x%zx\n",
+>   			     vsi->vsi_size, sizeof(struct vdec_av1_slice_vsi));
+>   
+> -	instance->irq_enabled = 1;
+> +	instance->irq_enabled = !ctx->is_secure_playback;
+>   	instance->inneracing_mode = IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability);
+>   
+> -	mtk_vdec_debug(ctx, "vsi 0x%p core_vsi 0x%llx 0x%p, inneracing_mode %d\n",
+> -		       vsi, vsi->core_vsi, instance->core_vsi, instance->inneracing_mode);
+> +	mtk_vdec_debug(ctx, "secure %d:vsi 0x%p core_vsi 0x%llx 0x%p, inneracing_mode %d\n",
+> +		       ctx->is_secure_playback, vsi, vsi->core_vsi, instance->core_vsi,
+> +		       instance->inneracing_mode);
+>   
+>   	ret = vdec_av1_slice_init_cdf_table(instance);
+>   	if (ret)
+> @@ -2114,7 +2141,9 @@ static int vdec_av1_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+>   			vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
+>   		return -EBUSY;
+>   	}
+> -	vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
+> +	if (!instance->ctx->is_secure_playback)
+> +		vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
+> +
+>   	mtk_vdec_debug(ctx, "lat dma 1 0x%pad 0x%pad\n",
+>   		       &pfc->vsi.trans.dma_addr, &pfc->vsi.trans.dma_addr_end);
+>   
+
 
