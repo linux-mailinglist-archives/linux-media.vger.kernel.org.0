@@ -1,51 +1,52 @@
-Return-Path: <linux-media+bounces-11807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286B58CD141
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 13:32:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 326DA8CD144
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 13:33:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7B6628339B
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 11:32:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60F741C2118A
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 11:33:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15BAB1487C3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E4031487E2;
 	Thu, 23 May 2024 11:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="taQOIum8"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="x4Y8JkMF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8DCBA2F;
-	Thu, 23 May 2024 11:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD4C13D2B8;
+	Thu, 23 May 2024 11:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716463971; cv=none; b=aa0c2N2Lv401BVUUn1BQlDipTu8cR+udo43y2kst6LDZzkFkpSrdQzfREe/slCisamF7mravx+2K8deZ0Bl8Q2kG26Z0HMFDQfdpoiFxLGOJtxLyNPjSYkJpqaromzOxw7Hu9lUjjErfDQD1jQYp+2ggKHU1ejh5D1m+Q1DoM+g=
+	t=1716463972; cv=none; b=KsKubckLPJVZRAT9LaQdvvyfjzldDIfx79pPVLklLCP6/Dl7pGEqqGidrgcaGsA5HXLHiqxb1wC1K07ymji1Z+6LuZSmHUF3QvrbJLfOGtE6ZBkyWUyxkMQUJTDeNr514ys7ewnYMFDioJEZjVxhHqyhLEJO3Hywie04VNXYOFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716463971; c=relaxed/simple;
-	bh=P8iZRYjzf5V/CwUg/tRStLzmlTzFHauJjmXv3MkDoCs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BeoXKKE8JcvqlYHHhZF/u81cIH6Q3uEY6PWyJtq6GEARHIYu4t7XdawaLgFcvVZBTMsPefIFbOUGqwiF3mKDvZxlejRXWUeIJ8UNkK+ozgpW3MxyeF6QpPB0I9BW/aYUqZdX0DCccXXZ8Mjsnkl1SOKqYvGr7qEH8Ob1Zv6qDKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=taQOIum8; arc=none smtp.client-ip=46.235.227.194
+	s=arc-20240116; t=1716463972; c=relaxed/simple;
+	bh=B7CVT8mlKuRo1bPhSO+NfICxEbWVkkWyIjUuF91f8aw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GPy6820WSSVVeyusGxzosVrczCRCYkjMiWX2MhIZ7B+iA1Zdi7YLcdCzoZz4Zxp99KhVVWTIMSgmfXjFziOqQ1r9VgDnhtki/H9f7EDcQ7AsTmjhlLC8PhmZOikubpfwMnSG5bHfF25PhGXvhoLwU4nuoPzOqbPryEEaDPoWnvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=x4Y8JkMF; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1716463967;
-	bh=P8iZRYjzf5V/CwUg/tRStLzmlTzFHauJjmXv3MkDoCs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=taQOIum8Twjkoi5IyV7Vq6dIRtnTd0nMeQutsIHIpCrhgEovTWViWuRgANmci3jCB
-	 PEwcy/7mdF08aneb6cv2asq1wSUWj1sPFbpVzyBv2dz1II6dk+BOkoTQoKHE5E9qlN
-	 CVVY0K/22QLDrWIDOgd7cusZ82eq3ibKrWtkErq1XH6+EhfieMIZpy8KL1qCErajy2
-	 R+gGSM160e6U3pqG+rqWTc7uxM5+kz4iBozc9Qp0KAZjj0uHihJdOSmO80farKXArM
-	 nlQc1cjSdZfaXS4ZCqWFz19SkM7WWuc4Ek1RKJZ5PZExYe/A3+NwWt3bu9xvcqjR0n
-	 wG2ToueKf7JpA==
+	s=mail; t=1716463968;
+	bh=B7CVT8mlKuRo1bPhSO+NfICxEbWVkkWyIjUuF91f8aw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=x4Y8JkMFb8i8j7iYu+YrCshcbgAKeN6kjXyvCslJLxr7n9wvamyT17habbScqtHsa
+	 ogWa6mvRtaoeWZ0u/A/Ng0oqoYlXgW0Z58o2Gc6aJ9WKaI1uhIE8cBCKVHgo1U0sEI
+	 D2uYK//XHzPp/q4i9ZjN6sxcvOdNyHMgQhgIuEzWK9FqRn5Z6x3/9ZLx4Sym0HQAsU
+	 0xc+BH5H9CBGrYiu7vYuhG7AFaG6MkOq0uxtHd8nZ5/MTJeQb7wUBUAGO/2Pyyxbn+
+	 TuLnCgG+P8/2CnB0SdOYr9ERwzImkfOH5uor1E8bNnv2Pmx6PJGm1nefOJy+9zc2bx
+	 IlbCi+GjQ5mFQ==
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: alarumbe)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1925537821B8;
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 00BB837821B9;
 	Thu, 23 May 2024 11:32:47 +0000 (UTC)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -66,10 +67,12 @@ Cc: kernel@collabora.com,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v4 0/3] drm: Fix dma_resv deadlock at drm object pin time
-Date: Thu, 23 May 2024 12:32:16 +0100
-Message-ID: <20240523113236.432585-1-adrian.larumbe@collabora.com>
+Subject: [PATCH v4 1/3] drm/panfrost: Fix dma_resv deadlock at drm object pin time
+Date: Thu, 23 May 2024 12:32:17 +0100
+Message-ID: <20240523113236.432585-2-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240523113236.432585-1-adrian.larumbe@collabora.com>
+References: <20240523113236.432585-1-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,37 +82,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This is v4 of https://lore.kernel.org/lkml/20240521181817.097af5e1@collabora.com/T/
+When Panfrost must pin an object that is being prepared a dma-buf
+attachment for on behalf of another driver, the core drm gem object pinning
+code already takes a lock on the object's dma reservation.
 
-The goal of this patch series is fixing a deadlock upon locking the dma reservation
-of a DRM gem object when pinning it, at a prime import operation.
+However, Panfrost GEM object's pinning callback would eventually try taking
+the lock on the same dma reservation when delegating pinning of the object
+onto the shmem subsystem, which led to a deadlock.
 
-Changelog:
-v3:
- - Split driver fixes into separate commits for Panfrost and Lima
- - Make drivers call drm_gem_shmem_pin_locked instead of drm_gem_shmem_object_pin
- - Improved commit message for first patch to explain why dma resv locking in the 
- pin callback is no longer necessary.
-v2:
- - Removed comment explaining reason why an already-locked
-pin function replaced the locked variant inside Panfrost's
-object pin callback.
- - Moved already-assigned attachment warning into generic
-already-locked gem object pin function
+This can be shown by enabling CONFIG_DEBUG_WW_MUTEX_SLOWPATH, which throws
+the following recursive locking situation:
 
+weston/3440 is trying to acquire lock:
+ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_pin+0x34/0xb8 [drm_shmem_helper]
+but task is already holding lock:
+ffff000000e235a0 (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_pin+0x2c/0x80 [drm]
 
-Adrián Larumbe (3):
-  drm/panfrost: Fix dma_resv deadlock at drm object pin time
-  drm/lima: Fix dma_resv deadlock at drm object pin time
-  drm/gem-shmem: Add import attachment warning to locked pin function
+Fix it by replacing drm_gem_shmem_pin with its locked version, as the lock
+had already been taken by drm_gem_pin().
 
- drivers/gpu/drm/drm_gem_shmem_helper.c  | 2 ++
- drivers/gpu/drm/lima/lima_gem.c         | 2 +-
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Fixes: a78027847226 ("drm/gem: Acquire reservation lock in drm_gem_{pin/unpin}()")
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+---
  drivers/gpu/drm/panfrost/panfrost_gem.c | 2 +-
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-base-commit: 7acacca1b157fcb258cfd781603425f73bc7370b
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index d47b40b82b0b..8e0ff3efede7 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -192,7 +192,7 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
+ 	if (bo->is_heap)
+ 		return -EINVAL;
+ 
+-	return drm_gem_shmem_pin(&bo->base);
++	return drm_gem_shmem_pin_locked(&bo->base);
+ }
+ 
+ static enum drm_gem_object_status panfrost_gem_status(struct drm_gem_object *obj)
 -- 
 2.45.1
 
