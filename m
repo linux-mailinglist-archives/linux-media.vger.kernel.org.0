@@ -1,70 +1,72 @@
-Return-Path: <linux-media+bounces-11831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11832-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49408CDA41
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 20:56:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B939D8CDA44
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 20:56:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E54081C21DE4
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 18:56:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B87131C21DB3
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 18:56:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B7682892;
-	Thu, 23 May 2024 18:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B4DB839FE;
+	Thu, 23 May 2024 18:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqyk9WqN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YSAyecPW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932492C694;
-	Thu, 23 May 2024 18:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6703B762FF;
+	Thu, 23 May 2024 18:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716490599; cv=none; b=T3U9Xog8OhUGjUE7DS4iF5u1AK3Hm9TWTMIhZF7YFsnaBc7aJEujC6k8rz+2EE/ecrHSe15Tn4Xe+bpCKLH9wljAov5oslhRUa4gYJMXDX8T8PDD2nRnW3ZhIPpAh2fF41pNkW3ippj/EuZPEwBtG+whFz3xxyqHWIeCRFd/2c8=
+	t=1716490600; cv=none; b=baR1QFxnmvUtO1VDPWMQqPNacZ8gGrHx4vfm+d2gEeJW6fy1rjKye6w48wd3hgZKXtunwAKi47PE8EXwJDpEc54oGQ/PuqivRsWAWibeLpjXgW+4ITZ07a/h6fzfrval0EQ2s6W7QkXIOiHtClGaci3OUaUBh6nxlbIbWrlIaPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716490599; c=relaxed/simple;
-	bh=sEYh8/OSr1G/nZSPJQFB5WsX5qPrCE0Z5j+fdmyie6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I8D/iIv2r+LnXaoBXgifI9a+zXBj116oqdOUWHSkeBr2xN2WJkQcOVLI6i1fh2V3RACmPPM83wJwYX5e8mfMlXC/32bxOP46ZFVx6ngOn2m8Vq+8x+IJM1RXifW28eJAE/grvRN+TnwTmnSIZkCC/2ucCEgS9Kez9xo42k1S5QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqyk9WqN; arc=none smtp.client-ip=209.85.221.49
+	s=arc-20240116; t=1716490600; c=relaxed/simple;
+	bh=DfEI81tt5hSW4T9IoVccMdBO99Tm+Ll4CSg/FcOzFv0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LJLGtVsWGLt+w50y8ga5yXzRsQcbNSUb48u4U+oAcCOWE3ErsTOH8sQEYZjFaLGRfs+Rgn6d1SEdn5JavoQD9+0Hs5vHphKJIu2iAaosfp2X1sMCL+ATWb/vnLwW5M9djDTnQ/lBUT/5j/fxKqOYWKirjiA10TF20GMkrWZzFJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YSAyecPW; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-351d309bbecso5434955f8f.2;
-        Thu, 23 May 2024 11:56:37 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-420180b58c3so60014755e9.2;
+        Thu, 23 May 2024 11:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716490596; x=1717095396; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AvoPPMhrO2hD7dyAxOKf0bPuZdn/lIXtjZ6yK7Xph24=;
-        b=jqyk9WqNJxxPmRrEDmF2IAM6KynHoL9CRRElBLVykB9wOTjn+5jtKq6HM0LTGkxjuD
-         MEeLTbTi5rPWFhNNhGZQEaUXSukhahqAjqDAGuEGoZJHcAA0lZlAwHnKvmWfYiix8KCH
-         IKv4t7SSr0FfPyRJaI8SJ/gsrBrvdRMiLCUGpo/ueAMUSVdFVLtJEMFL/b6m5oN7YFwY
-         Yhb1sxxUIfseKJxLrPJegEHehsY2vsw6Up989oDk2NgwCfbltBKEDYIPnDM7/0i/1SsQ
-         qr0PafqPBmXJ0TXiwrXCQJ6ob99VJX6OQLLEzpUmzzVAx4K4E6W1ki+4AJgQmNCzBiOM
-         4L+w==
+        d=gmail.com; s=20230601; t=1716490597; x=1717095397; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=47Z2/NbJ7rExO2YdLFnnIPMzP2wtlL23AUNZI3iAB8U=;
+        b=YSAyecPWXAYthGYVq/q7myANwAkOu78YR3psAlgRhvLZS++gH7ypM8o7dFOReW8LQE
+         bN1UsNFcsPma28Y/3AkPhbrKaGDfr3QtY1C1YsOSSI6dMqlpFnckO6KC2EXee0OEh632
+         gUX9plH9Q9t8d/Itiw+Tvcu+yyuJVqZMC9raaguQc3r08Cb9soVP4NCr86DjbhSuTpK4
+         n7WfyE7JnRzUDHSKqu1BRujWVClx39fsjgBMMnM+CQ0eMQwYTPPwCTK7M00gLtzfp78o
+         V/NUv1FkM5JE/sXT3uq6Y/cGWmrQ1qjSoF6+SszfWcrLiinEWRHUD9eJhtHDezxOw+GS
+         mljQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716490596; x=1717095396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AvoPPMhrO2hD7dyAxOKf0bPuZdn/lIXtjZ6yK7Xph24=;
-        b=HU0FaeG/ZOCnq+p+lfCFJTl8+pjMkfeoQH7Iejz2Y1i6az3thW4yvZd57AYn79V5w5
-         9cuTr4bZNGgRq/jyNUuIr/ynduADEFIDFEAAWnwyuJ7XLkKZ96FY0XDrbNvfG2ngZs9M
-         it29wEZ/Y/8yhHPN6FGT791nmqIEKCgwTBu2+Q+GQgl9LZXL/sN9PpmVkXLCCmM2dpwf
-         /D6qGgRcC4sDTLit9Tx9ts3L1kvUFyvDE+PI4QVh7R+RYgfsFAdMWxlAIJ5Mk0a8VMlw
-         rx0Ao25eTW3wlB5IzfXNpf1ytf4nZPj+dMAOzh+5ANctB4csJLyrdVvgnpGm1Gchq+iv
-         9i8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXn0MKfDRu2tSUqHsJ7/DnM2ybhmrBmTrKREV4Vp+id5xKHvh00mT9AnBXietRTzmBYBJLFSt0vFZ2U4t82u0jlOQu53zaNkz9A/NMJ1VXoWzsQ8ha7/9aIXQHbmVcpuD2yloBEDAIX5A==
-X-Gm-Message-State: AOJu0YwVQMm3IUXOBGtxNTssq2V5mnuQVU3nmBHujXQuNKzgegqKZrqs
-	6oxHs344SAIGO9/6ZAnLAfEXrFnoBOgsIVCytEEB2NPrfX7gHPI=
-X-Google-Smtp-Source: AGHT+IFDAmICUJMGqa0dJt54nPZguG3L4s2OBkFBuWtKgRLfaPC9zbKPd41N2wEkKSET7fJJHIYs2A==
-X-Received: by 2002:a05:6000:4021:b0:354:df31:6dfc with SMTP id ffacd0b85a97d-354df31706fmr7116512f8f.58.1716490595941;
-        Thu, 23 May 2024 11:56:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716490597; x=1717095397;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=47Z2/NbJ7rExO2YdLFnnIPMzP2wtlL23AUNZI3iAB8U=;
+        b=q3J473NUza8tXUX/eKh9JQm1B/wPSAFXqiKTemyfqx6HZnd06TYgsd9pTjGsYUn0w2
+         IFyDkrUXEvCeuVrdeMzZNlS5jx0AqfXt/QZiSV/PmjWN0R/qgCwfjQ83TXjieHlw527D
+         T7m54oTA8fzjFuJNMRm5q0UdrBVjDF5+ililkkHV4dZSdS3u/uamurX7jpn4H7PMmLNo
+         UxKoJb011ALZDIc8ZeZUvIoE/nr93E0HAuvhZSxUSX8E4L6a/U2oxcRuVsW2iLekDOJD
+         uLZGkUrgOZuAE1eV5uz3mQKkpPxsqbUcKX2TN3AQsyoqU3q1WVkhrzaskVIw42z2BsC4
+         fMEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXq3cYRp0n/IGBI24Gy2y1ScFXCcFtDbF4T482Ia2676VOfzWWls2PbrBZipyq3SYG6vgc0lHI1EWY2YXkbAy96dNLXCSPBwTDaYh8eCvmA9ZBM03W5c4r0qae8iOu+hPgfCHKTwtYCiA==
+X-Gm-Message-State: AOJu0YwOzOciwwmpCNj4jPJtekTn/MRcG1kdDRcrtt+BFeRbrG6s6JMf
+	OXSI2tr2MEFuKB95gYopOR2K5RlB+7qQZOOyFchC1truRpek3p8=
+X-Google-Smtp-Source: AGHT+IEHApteTuvE/pwSSH5Z69X7TO3ZnltVOc2+EkCRMecSx0+bwpvYeTm9DC4U98ulugpFeQ4adw==
+X-Received: by 2002:a05:600c:218e:b0:41c:3e1:9db9 with SMTP id 5b1f17b1804b1-420fd354f77mr45371805e9.27.1716490596738;
+        Thu, 23 May 2024 11:56:36 -0700 (PDT)
 Received: from U4.lan ([2a02:810b:f40:4600:a453:b45b:e52a:2302])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3550c675581sm3965f8f.13.2024.05.23.11.56.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3550c675581sm3965f8f.13.2024.05.23.11.56.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 11:56:35 -0700 (PDT)
+        Thu, 23 May 2024 11:56:36 -0700 (PDT)
 From: Alex Bee <knaerzche@gmail.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -79,10 +81,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Alex Bee <knaerzche@gmail.com>
-Subject: [PATCH 0/3] Add VPU support for RK3128
-Date: Thu, 23 May 2024 20:56:30 +0200
-Message-ID: <20240523185633.71355-1-knaerzche@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: media: rockchip,vpu: Document RK3128 compatible
+Date: Thu, 23 May 2024 20:56:31 +0200
+Message-ID: <20240523185633.71355-2-knaerzche@gmail.com>
 X-Mailer: git-send-email 2.45.0
+In-Reply-To: <20240523185633.71355-1-knaerzche@gmail.com>
+References: <20240523185633.71355-1-knaerzche@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,29 +95,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Similar to most Rockchip SoCs RK312x have hantro G1 based decoder and a
-hantro H1 based encoder with attached iommu.
+The integration for this SoC is similar to RK3066/RK3188.
 
-The existing drivers can be used as-is.
+Document it's compatible.
 
-Fluster scores:
-  - FFmpeg:
-    - H.264: 127/135
-    - VP8:    59/61
-  - GStreamer:
-    - H.264: 129/135
-    - VP8:    59/61
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+---
+ Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Alex Bee (3):
-  dt-bindings: media: rockchip,vpu: Document RK3128 compatible
-  soc: rockchip: grf: Set RK3128's vpu main clock
-  ARM: dts: rockchip: Add vpu nodes for RK3128
-
- .../bindings/media/rockchip-vpu.yaml          |  4 +++-
- arch/arm/boot/dts/rockchip/rk3128.dtsi        | 24 +++++++++++++++++++
- drivers/soc/rockchip/grf.c                    |  2 ++
- 3 files changed, 29 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+index c57e1f488895..d1b47b14ca57 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+@@ -26,7 +26,9 @@ properties:
+           - rockchip,rk3568-vpu
+           - rockchip,rk3588-av1-vpu
+       - items:
+-          - const: rockchip,rk3188-vpu
++          - enum:
++              - rockchip,rk3128-vpu
++              - rockchip,rk3188-vpu
+           - const: rockchip,rk3066-vpu
+       - items:
+           - const: rockchip,rk3228-vpu
 -- 
 2.45.0
 
