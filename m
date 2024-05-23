@@ -1,138 +1,139 @@
-Return-Path: <linux-media+bounces-11778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2855B8CCEE1
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 11:18:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B434D8CCF44
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 11:27:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3A3B1F21F9D
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 09:18:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5196BB23ABA
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 09:27:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3884813D292;
-	Thu, 23 May 2024 09:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBCCF13D28A;
+	Thu, 23 May 2024 09:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="duIunlHh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNcHYegf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992ED13C914
-	for <linux-media@vger.kernel.org>; Thu, 23 May 2024 09:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C00F7E574;
+	Thu, 23 May 2024 09:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716455905; cv=none; b=pu+7bjf4Q0XSDRa1zUKHF29wKeO4M+/qpvYwi3euu2X+kKxgtxEEkalw1IpRsKwsFKIirVb21UAHmlQkbQVTZTsHhQCPpgH6XXBjuq0Nk5GPE25AQAkOiplOtDVHERkXi63Dzj8X45ovgWDjBNdRKsCB+Hlgc3oRqD+vJbymFn4=
+	t=1716456444; cv=none; b=jCptHzaBLB8GrvU+RjsITmcNcFiTohXI9+4q92zVqouh/joNPuJm7RXtbuxoTgDhX20aAdP8KWFBuuB9T7v8NBijw8gX/IYvfDBpRrqNV5A/isPC5U05Vbmh/wVzDCmHUkiHgPLMQIjINQuHYk85QeBjI1+vHBXmgtKac7LnzLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716455905; c=relaxed/simple;
-	bh=RGxM2jOVFTwquoP32KsAE1HBbRxX9MhiaEXuZQ252p4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nbpQllgsuZUQtjZMS0ZemnzOqS5PPRdxa9pnlf6q7UDHlZHPrOhg+pN1e+U7hK8gmLdPavF+rFdLSmi8XwylqzMbAhbOsRyV8Mgu0pgmJbg/eS89zpkjjHE44UnpVybMTA+I88VZQ2wkgxNjClo7lLJLyx2jEwoJj8mpG1NQ1F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=duIunlHh; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e724bc466fso57112211fa.3
-        for <linux-media@vger.kernel.org>; Thu, 23 May 2024 02:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716455901; x=1717060701; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hq01rfxiJkhZS3QzRfqemO50XhU1PhV9rUGPBC31chs=;
-        b=duIunlHhbEkvY9GRSWx0dzNEMcEoEb4mv5KxsGMvI/ybm8E2dXOgTTEKyFdvM48nnM
-         pIKTbk9SCPTESHlRvV1SVCRF3kwfqs2FakFwIwrKWZ5wnHK8wYYKxlFxGmBGxLQ1opye
-         Wt/W6Cx6AllnosgtjEiWfkWEELISXjB1uJY5SJmYSdFSbUpYbMJdloAywFgVkK6T+Zfb
-         womBoap+dfgKvrUDqqWgHYvU1sdw+s4GcDEBIf7NGKyjIDDppTgh4tNhTzaFWvTX40e6
-         hqyhjY2IyV/PsmHzi2GCKHYPeW2z8yOjat3JB6deo9ea/buc98AHPh5DIsdhpr9w33v4
-         ruYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716455901; x=1717060701;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hq01rfxiJkhZS3QzRfqemO50XhU1PhV9rUGPBC31chs=;
-        b=coHATdeZ8lFi0SFqwp4+LeL3oQmsp6Llj9BdE7AN7nf8BXSrg8j2xM4835m7BgH9S2
-         rw31y5p49JJj0rZG7zsntFeY7rvqN1+NKgtOggEnMRk6B20eITS0M9WGkCLTY8/HPi69
-         6Cuvn7KUvbjGdmIpg5Llg8kF/fObweRuhbISAkdjQT6lScA4tpLjRrIc163a+rohYO/p
-         u+Y9+fXk25uvUB0K7HiASSbHaghZGWMlsOktEhcj7390q+kim5rGom3Uf+NqoxmlwIJ2
-         YGExVK2YIWA0YjgyOQidow/9zOUZBNnyJW91LtBYFbzuiCAo+EDFzYZtOE+eEc2V0z1s
-         6Mfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFkmWyeCnTn+oWbtbsXsmiGUQlgajaMdzhxUhaaiLDV8wVeoWxr4KMrp2GP1yz9f44l46sV8CVo3xHKtCpgES3cThLXznvskPyfJI=
-X-Gm-Message-State: AOJu0YwkqZ/qGOa5QdJf59HlC7pmMWZiGvyNDk/7rFY2y7yd7VINhYi9
-	ikVQOKlJ7ZUx19TtfAdDZNNpZYEZQJC/F0IesWlRYaH/MIUvVmgKclDESclnHWk=
-X-Google-Smtp-Source: AGHT+IHtkzdUfQObjmEVprHkzFN8zKAN9fTh1YCm+Kcmac6VM9gqN/CwHy0s14ABNvz7H4Poi3qpvg==
-X-Received: by 2002:a2e:a792:0:b0:2e9:564a:db29 with SMTP id 38308e7fff4ca-2e9564ade37mr5621401fa.29.1716455900802;
-        Thu, 23 May 2024 02:18:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e5686b802asm36602901fa.95.2024.05.23.02.18.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 02:18:20 -0700 (PDT)
-Date: Thu, 23 May 2024 12:18:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v14 08/28] drm/tests: Add output formats tests
-Message-ID: <h4t3rsxz6yez5fosi6lyvob5mbngkjb7ad5e4euddhokcjimn6@dif2qzr2xjhc>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-8-51950db4fedb@kernel.org>
+	s=arc-20240116; t=1716456444; c=relaxed/simple;
+	bh=N/ArbF7qlHnI7bmUf29dhHWxFOpypeBXDi2ar0kz45E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rK4V6wsJzN2PTg4Mn7DRWmz/mMdSx4dTlbiB09ZJ2TMM8dXGVyaF1qudcLljsUVF5z4lsz67gIThZHAds+04OPuspETVm2pLQz5mjR7xSrua9WpEZC1hhW2vr6p0gbi636g2bs5FMvMb6in63BdIMi8kdPXGG8cgJFw9RGcrY0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNcHYegf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41665C2BD10;
+	Thu, 23 May 2024 09:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716456443;
+	bh=N/ArbF7qlHnI7bmUf29dhHWxFOpypeBXDi2ar0kz45E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HNcHYegfzcNl7+BpuSfIQJjboFZW4OGts7YDUkKQrKkgk8d/nQGeT413YvcYDEnfT
+	 8fFdZKuPu4RyejykXQZFHMhnmET+ZL0+1J4kPzCY9PTNawY2pVdRcexdVZRaLLja10
+	 hns5yDYUsXLYWiGMKp1UxVuAisbwIceNXT9AwCnXI/SPALH3V3op8hm7/FfzmjGbF+
+	 KWxepip8zQu1Q9VRcVZWzAMkasZ8X2ZWJ3mLZbLd962q8h2zijGY3fxUSdAwRzG6Bp
+	 uMpBWrrvs+SZfkIxCGQ3qXscCO2LnO8lUpZkhVNAzrnDzAFOJ2K8XBp9ToCwjI5Ryv
+	 j0eB5uZQmOLKQ==
+Message-ID: <21501af5-7558-4a15-bf0c-76b530792a36@kernel.org>
+Date: Thu, 23 May 2024 11:27:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-8-51950db4fedb@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] [media] s5p-fimc: fix sleep in atomic in
+ flite_hw_reset
+To: Anastasia Belova <abelova@astralinux.ru>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240521073607.19426-1-abelova@astralinux.ru>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240521073607.19426-1-abelova@astralinux.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 21, 2024 at 12:13:41PM +0200, Maxime Ripard wrote:
-> Now that we track the HDMI output format as part of the connector state,
-> let's add a few tests to make sure it works as expected.
+On 21/05/2024 09:36, Anastasia Belova wrote:
+> flite_hw_reset is called in fimc_lite_resume with spinlock
+> acquired that is forbidden. Replace usleep_range with udelay.
 > 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Fixes: 2b511edb986f ("[media] s5p-fimc: Add FIMC-LITE register definitions")
+> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
 > ---
->  drivers/gpu/drm/tests/drm_connector_test.c         | 99 +++++++++++++++++++++-
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 32 +++++++
->  2 files changed, 130 insertions(+), 1 deletion(-)
+>  drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> +
-> +KUNIT_ARRAY_PARAM(drm_hdmi_connector_get_output_format_name_valid,
-> +		  drm_hdmi_connector_get_output_format_name_valid_tests,
-> +		  drm_hdmi_connector_get_output_format_name_valid_desc);
-> +
-> +static void drm_test_drm_hdmi_connector_get_output_format_name_invalid(struct kunit *test)
-> +{
-> +	KUNIT_EXPECT_NULL(test, drm_hdmi_connector_get_output_format_name(4));
+> diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.c b/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.c
+> index 2483277a6cb0..f1e7375c9a5f 100644
+> --- a/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.c
+> +++ b/drivers/media/platform/samsung/exynos4-is/fimc-lite-reg.c
+> @@ -30,7 +30,7 @@ void flite_hw_reset(struct fimc_lite *dev)
+>  		cfg = readl(dev->regs + FLITE_REG_CIGCTRL);
+>  		if (cfg & FLITE_REG_CIGCTRL_SWRST_RDY)
+>  			break;
+> -		usleep_range(1000, 5000);
+> +		udelay(1000);
 
-Nit: it might be better to use a bigger value here. It's easier to miss
-this if other formats get added for whatever reason.
+I think the code is rather wrong in fimc_lite_resume() - this should be
+called outside of spinlock, thus usleep is ok.
 
-Nevertheless:
+Best regards,
+Krzysztof
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-> +};
-> +
-> +static struct kunit_case drm_hdmi_connector_get_output_format_name_tests[] = {
-> +	KUNIT_CASE_PARAM(drm_test_drm_hdmi_connector_get_output_format_name,
-> +			 drm_hdmi_connector_get_output_format_name_valid_gen_params),
-> +	KUNIT_CASE(drm_test_drm_hdmi_connector_get_output_format_name_invalid),
-> +	{ }
-> +};
-> +
-
--- 
-With best wishes
-Dmitry
 
