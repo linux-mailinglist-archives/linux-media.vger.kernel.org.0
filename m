@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-11777-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11778-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6058CCECD
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 11:12:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2855B8CCEE1
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 11:18:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A511D1F21A4E
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 09:12:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3A3B1F21F9D
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 09:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60B9613D27A;
-	Thu, 23 May 2024 09:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3884813D292;
+	Thu, 23 May 2024 09:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CBIkKc/u"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="duIunlHh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2474113CF93
-	for <linux-media@vger.kernel.org>; Thu, 23 May 2024 09:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992ED13C914
+	for <linux-media@vger.kernel.org>; Thu, 23 May 2024 09:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716455557; cv=none; b=VpufV3NuGQ1S2+EU1LeeEVCk55rCp3Q0vlx2fJejENkTYUCwQ96K9bXdi+/A5XBLj6G8RZZGOK69dvjPsG5x+YrtmwIS/ZTCEzPcvmPNd9u9HOLRyWXTHU7tyX2GWgBJOmU3CRZEuRkQfk0PHHekgGu7KvLjXI+OvMAPPIGnuHI=
+	t=1716455905; cv=none; b=pu+7bjf4Q0XSDRa1zUKHF29wKeO4M+/qpvYwi3euu2X+kKxgtxEEkalw1IpRsKwsFKIirVb21UAHmlQkbQVTZTsHhQCPpgH6XXBjuq0Nk5GPE25AQAkOiplOtDVHERkXi63Dzj8X45ovgWDjBNdRKsCB+Hlgc3oRqD+vJbymFn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716455557; c=relaxed/simple;
-	bh=ua1ab30hbc2oLjmJi5p/l09P2vR0shXcHuLe8ZoBnaY=;
+	s=arc-20240116; t=1716455905; c=relaxed/simple;
+	bh=RGxM2jOVFTwquoP32KsAE1HBbRxX9MhiaEXuZQ252p4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i1xB2L9//H2NR15rKZsp7JEJdiMmqevV/rRXW+mGvBQLkMan5qiNPJOMXEk8d11nV8RoTpk0H2ULYWnI9GC6q8nHRDuw73XTv/spIdIoi7NkXDfwI6OTl3sk8zbTu2UUnbOTPAFIRE352vm6+kooM6ufZCvdcURqJajplEgZUNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CBIkKc/u; arc=none smtp.client-ip=209.85.208.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=nbpQllgsuZUQtjZMS0ZemnzOqS5PPRdxa9pnlf6q7UDHlZHPrOhg+pN1e+U7hK8gmLdPavF+rFdLSmi8XwylqzMbAhbOsRyV8Mgu0pgmJbg/eS89zpkjjHE44UnpVybMTA+I88VZQ2wkgxNjClo7lLJLyx2jEwoJj8mpG1NQ1F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=duIunlHh; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2e724bc46c4so48835491fa.2
-        for <linux-media@vger.kernel.org>; Thu, 23 May 2024 02:12:35 -0700 (PDT)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e724bc466fso57112211fa.3
+        for <linux-media@vger.kernel.org>; Thu, 23 May 2024 02:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716455554; x=1717060354; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1716455901; x=1717060701; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YeQACHVYvjXLcJmL0mtvqm0YtmyCm9cGr2iJkKX/fdc=;
-        b=CBIkKc/ueLGFzqk8JzZPjPm9nqrQpj/XZd8m5V2ab+7MdlauhtamJYKM45AI81/yeP
-         nugIPoG7gYqisjezrxg5dQwTW8BuwLLWy5cXnPICUB3w/SMYAxsLJ7iB08US8kWFobWI
-         2EODEUTkOhikG8312W+dxZsqgOh05/7hZwhdxz0fc9i/qg/FLu3DxMiEdD2z57JZ/p2o
-         ZgPM0KsTzYaICHKCuVHj538clESqcavf0GXPjcR/fmP2J18k5xD+Jz4HItSr2zCSHCgg
-         y+c3Jqk6Pu3qOZs57sKDzMqobW9pbA4VK6sEnle3wbaPAURJ6lI6gm0BrD9DvlESR0ve
-         H2Tg==
+        bh=hq01rfxiJkhZS3QzRfqemO50XhU1PhV9rUGPBC31chs=;
+        b=duIunlHhbEkvY9GRSWx0dzNEMcEoEb4mv5KxsGMvI/ybm8E2dXOgTTEKyFdvM48nnM
+         pIKTbk9SCPTESHlRvV1SVCRF3kwfqs2FakFwIwrKWZ5wnHK8wYYKxlFxGmBGxLQ1opye
+         Wt/W6Cx6AllnosgtjEiWfkWEELISXjB1uJY5SJmYSdFSbUpYbMJdloAywFgVkK6T+Zfb
+         womBoap+dfgKvrUDqqWgHYvU1sdw+s4GcDEBIf7NGKyjIDDppTgh4tNhTzaFWvTX40e6
+         hqyhjY2IyV/PsmHzi2GCKHYPeW2z8yOjat3JB6deo9ea/buc98AHPh5DIsdhpr9w33v4
+         ruYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716455554; x=1717060354;
+        d=1e100.net; s=20230601; t=1716455901; x=1717060701;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YeQACHVYvjXLcJmL0mtvqm0YtmyCm9cGr2iJkKX/fdc=;
-        b=keepvGUb6CEvG64SVNm3vGiueGR8AkM2NrozMQJ87SzwkkxCIW2v5pc2YFcPD9BoBx
-         U6uc0dJoFIwdwBGs49bG8ORh2OG6Sk35AqPFTmsgO/AgVraMoXnU8TqgDVmC9r0Za9pQ
-         1uf99pyu5rj2OBruQg9l+sIqcEg2dt09oRd3rfAroHWH4w/Oej4b5kXUTemuVpEiyVXR
-         66QPcBa9nv3sJMmena67RHHdfG7E7EmdfW7vU/sxyXr/79+rSrgUZaOPnONN5t8oIqy9
-         /dK+67YVfJdf6BqkV/NucJKalkrvRXj6SLT7XLVUI4hfVVSQLAIQtr3luSwuoMO6YYdr
-         izKA==
-X-Forwarded-Encrypted: i=1; AJvYcCURznkTwB0VEdCaQvJgTwkqhJy63Btemg+jUVrUGO++479wGgtwUeCr23NBviXKMXw8yxQMHVwaXL4Ovai2YqcN44yjPzioKqdBlFE=
-X-Gm-Message-State: AOJu0YyrYXxRWpFy3IjCcnynyDPqYDckjVJhI9ozY8IPYnum0aCnOthX
-	e22QCAjRrRCqB9EA5kzfDv5CIchPRneMQDn+hWj7bqs5NjjIFJHU9DZEClZdyuA=
-X-Google-Smtp-Source: AGHT+IFRp9kSkZyOBZ37uKA0zC3RicLR9A71BI+sImuk8bVozEkI6NVn6ruWTcgBILxGVWLUmvKCJg==
-X-Received: by 2002:a2e:8797:0:b0:2da:9ed:9b43 with SMTP id 38308e7fff4ca-2e9494bdbcbmr26440181fa.31.1716455554344;
-        Thu, 23 May 2024 02:12:34 -0700 (PDT)
+        bh=hq01rfxiJkhZS3QzRfqemO50XhU1PhV9rUGPBC31chs=;
+        b=coHATdeZ8lFi0SFqwp4+LeL3oQmsp6Llj9BdE7AN7nf8BXSrg8j2xM4835m7BgH9S2
+         rw31y5p49JJj0rZG7zsntFeY7rvqN1+NKgtOggEnMRk6B20eITS0M9WGkCLTY8/HPi69
+         6Cuvn7KUvbjGdmIpg5Llg8kF/fObweRuhbISAkdjQT6lScA4tpLjRrIc163a+rohYO/p
+         u+Y9+fXk25uvUB0K7HiASSbHaghZGWMlsOktEhcj7390q+kim5rGom3Uf+NqoxmlwIJ2
+         YGExVK2YIWA0YjgyOQidow/9zOUZBNnyJW91LtBYFbzuiCAo+EDFzYZtOE+eEc2V0z1s
+         6Mfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUFkmWyeCnTn+oWbtbsXsmiGUQlgajaMdzhxUhaaiLDV8wVeoWxr4KMrp2GP1yz9f44l46sV8CVo3xHKtCpgES3cThLXznvskPyfJI=
+X-Gm-Message-State: AOJu0YwkqZ/qGOa5QdJf59HlC7pmMWZiGvyNDk/7rFY2y7yd7VINhYi9
+	ikVQOKlJ7ZUx19TtfAdDZNNpZYEZQJC/F0IesWlRYaH/MIUvVmgKclDESclnHWk=
+X-Google-Smtp-Source: AGHT+IHtkzdUfQObjmEVprHkzFN8zKAN9fTh1YCm+Kcmac6VM9gqN/CwHy0s14ABNvz7H4Poi3qpvg==
+X-Received: by 2002:a2e:a792:0:b0:2e9:564a:db29 with SMTP id 38308e7fff4ca-2e9564ade37mr5621401fa.29.1716455900802;
+        Thu, 23 May 2024 02:18:20 -0700 (PDT)
 Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e4d15158c4sm41368191fa.73.2024.05.23.02.12.33
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e5686b802asm36602901fa.95.2024.05.23.02.18.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 02:12:33 -0700 (PDT)
-Date: Thu, 23 May 2024 12:12:32 +0300
+        Thu, 23 May 2024 02:18:20 -0700 (PDT)
+Date: Thu, 23 May 2024 12:18:18 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -80,11 +80,10 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
 	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v14 07/28] drm/connector: hdmi: Add support for output
- format
-Message-ID: <dxqf6n2gaksc66rksmdcaky22nz226veex5q6mw4c6npsuobut@m3vuxyai3evm>
+Subject: Re: [PATCH v14 08/28] drm/tests: Add output formats tests
+Message-ID: <h4t3rsxz6yez5fosi6lyvob5mbngkjb7ad5e4euddhokcjimn6@dif2qzr2xjhc>
 References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-7-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-8-51950db4fedb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,27 +92,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-7-51950db4fedb@kernel.org>
+In-Reply-To: <20240521-kms-hdmi-connector-state-v14-8-51950db4fedb@kernel.org>
 
-On Tue, May 21, 2024 at 12:13:40PM +0200, Maxime Ripard wrote:
-> Just like BPC, we'll add support for automatic selection of the output
-> format for HDMI connectors.
-> 
-> Let's add the needed defaults and fields for now.
+On Tue, May 21, 2024 at 12:13:41PM +0200, Maxime Ripard wrote:
+> Now that we track the HDMI output format as part of the connector state,
+> let's add a few tests to make sure it works as expected.
 > 
 > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  3 ++-
->  drivers/gpu/drm/drm_atomic.c                       |  2 ++
->  drivers/gpu/drm/drm_connector.c                    | 31 ++++++++++++++++++++++
->  drivers/gpu/drm/tests/drm_connector_test.c         |  9 +++++++
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 22 +++++++++++----
->  include/drm/drm_connector.h                        | 20 ++++++++++++++
->  6 files changed, 81 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/tests/drm_connector_test.c         | 99 +++++++++++++++++++++-
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 32 +++++++
+>  2 files changed, 130 insertions(+), 1 deletion(-)
 > 
+> +
+> +KUNIT_ARRAY_PARAM(drm_hdmi_connector_get_output_format_name_valid,
+> +		  drm_hdmi_connector_get_output_format_name_valid_tests,
+> +		  drm_hdmi_connector_get_output_format_name_valid_desc);
+> +
+> +static void drm_test_drm_hdmi_connector_get_output_format_name_invalid(struct kunit *test)
+> +{
+> +	KUNIT_EXPECT_NULL(test, drm_hdmi_connector_get_output_format_name(4));
+
+Nit: it might be better to use a bigger value here. It's easier to miss
+this if other formats get added for whatever reason.
+
+Nevertheless:
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+> +};
+> +
+> +static struct kunit_case drm_hdmi_connector_get_output_format_name_tests[] = {
+> +	KUNIT_CASE_PARAM(drm_test_drm_hdmi_connector_get_output_format_name,
+> +			 drm_hdmi_connector_get_output_format_name_valid_gen_params),
+> +	KUNIT_CASE(drm_test_drm_hdmi_connector_get_output_format_name_invalid),
+> +	{ }
+> +};
+> +
 
 -- 
 With best wishes
