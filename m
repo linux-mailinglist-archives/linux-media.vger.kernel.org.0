@@ -1,161 +1,120 @@
-Return-Path: <linux-media+bounces-11830-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11831-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1C08CD988
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 19:56:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B49408CDA41
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 20:56:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E53BB21BA1
-	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 17:56:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E54081C21DE4
+	for <lists+linux-media@lfdr.de>; Thu, 23 May 2024 18:56:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACBE87F496;
-	Thu, 23 May 2024 17:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B7682892;
+	Thu, 23 May 2024 18:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="tHHXyUBW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqyk9WqN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F072628D;
-	Thu, 23 May 2024 17:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716486961; cv=pass; b=aM+UWSdIS5WHtMhYpHMRIPkKpzr+8zqpMuNXJr3N0eR2mtXziWWorj1ekcNC7X+MoORN91IaUeRSupwfvl57d2XrcB9kqrCw/Hbyj3Ldbrt+iIA4Qx8YPtHoE2xEC9aK+/mfGuZWAH8X9TiUJc5TFFPRXR3r3Q3kleBEVQuLg5E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716486961; c=relaxed/simple;
-	bh=YplcTJCGw4DR3KGZcjn8t+aHGYhGtP1JeLsDIaFdpcc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yta6Gm7UxAGNqZn9W4kFo+P+ENzD0t+bix8s/exf6s42s0iLJMGMrbEfWLb23J0J+NvZmk7mwnYf7eAt1dT1soHVnIiktLqEubF6L8YKiNkMDZE4RgYoGoH0CB2ddiPS+wfA1SaPHVxnD+8OZUV0H5TKiwnwesutUivJUmP7RbM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=tHHXyUBW; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4VlbST6t1QzyQq;
-	Thu, 23 May 2024 20:55:53 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1716486954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+c+GW5pHAqfA3tI7UbjkwKBlWYbEbBo4+2ZrQFNWYpA=;
-	b=tHHXyUBWWZYsbxON0Lshg0XE/aAmbKuxTYIGl0+Q77h98OidReu+KOEPtodqeIORrsfPVs
-	6r01HJoZhxiFuWv/Z+GxgGyMQ+A4mRqg7zf/xswKaudLgZLxbCC8Ae1b7+J58HWL2ruMKh
-	gY3jAVBqCGt2vo+YpNf/Rtq/tLwyiL0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1716486954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+c+GW5pHAqfA3tI7UbjkwKBlWYbEbBo4+2ZrQFNWYpA=;
-	b=aJYJ8RJ7vYnJrN+dJrZLn3Ycdk2ImUmwGlkFpMGCoKon8rHkvsbpopXp6sBTxw5UbievJb
-	2bxMVuU2/1KCK3r030Syfoj/jXKHChJ58bESMtL9k618fygB3Cr0xU2dCF/l++lvFTrgrF
-	Rloi9zzqrzR/xAtlLHHEgxFvU2LdBfo=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1716486954; a=rsa-sha256; cv=none;
-	b=Sa/lC5WRNWk7E70LBg7VjhjUG5d/QM46yDFymKlyoB7XWse5P8Ewru30GxEHCTpZifw+Yc
-	eZIS6ui/nSYdjCeTN/A7aZnYFscdr0CSKFTA2rBGFe087QXkSve1slEBxbR9u+9Mx3gcY4
-	k2+/Q/3GS6a/4hmmSo76YnVTfYLeToc=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5C182634C94;
-	Thu, 23 May 2024 20:53:14 +0300 (EEST)
-Date: Thu, 23 May 2024 17:53:13 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Dan Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v4 3/5] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <Zk-CiRmQ5QRIyTgR@valkosipuli.retiisi.eu>
-References: <20240418090825.624747-1-dan.scally@ideasonboard.com>
- <20240418090825.624747-4-dan.scally@ideasonboard.com>
- <Zk74ZZqn568-Wa3M@valkosipuli.retiisi.eu>
- <20996978-aace-4d59-92b8-39041da2ebd3@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932492C694;
+	Thu, 23 May 2024 18:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716490599; cv=none; b=T3U9Xog8OhUGjUE7DS4iF5u1AK3Hm9TWTMIhZF7YFsnaBc7aJEujC6k8rz+2EE/ecrHSe15Tn4Xe+bpCKLH9wljAov5oslhRUa4gYJMXDX8T8PDD2nRnW3ZhIPpAh2fF41pNkW3ippj/EuZPEwBtG+whFz3xxyqHWIeCRFd/2c8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716490599; c=relaxed/simple;
+	bh=sEYh8/OSr1G/nZSPJQFB5WsX5qPrCE0Z5j+fdmyie6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I8D/iIv2r+LnXaoBXgifI9a+zXBj116oqdOUWHSkeBr2xN2WJkQcOVLI6i1fh2V3RACmPPM83wJwYX5e8mfMlXC/32bxOP46ZFVx6ngOn2m8Vq+8x+IJM1RXifW28eJAE/grvRN+TnwTmnSIZkCC/2ucCEgS9Kez9xo42k1S5QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqyk9WqN; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-351d309bbecso5434955f8f.2;
+        Thu, 23 May 2024 11:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716490596; x=1717095396; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AvoPPMhrO2hD7dyAxOKf0bPuZdn/lIXtjZ6yK7Xph24=;
+        b=jqyk9WqNJxxPmRrEDmF2IAM6KynHoL9CRRElBLVykB9wOTjn+5jtKq6HM0LTGkxjuD
+         MEeLTbTi5rPWFhNNhGZQEaUXSukhahqAjqDAGuEGoZJHcAA0lZlAwHnKvmWfYiix8KCH
+         IKv4t7SSr0FfPyRJaI8SJ/gsrBrvdRMiLCUGpo/ueAMUSVdFVLtJEMFL/b6m5oN7YFwY
+         Yhb1sxxUIfseKJxLrPJegEHehsY2vsw6Up989oDk2NgwCfbltBKEDYIPnDM7/0i/1SsQ
+         qr0PafqPBmXJ0TXiwrXCQJ6ob99VJX6OQLLEzpUmzzVAx4K4E6W1ki+4AJgQmNCzBiOM
+         4L+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716490596; x=1717095396;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AvoPPMhrO2hD7dyAxOKf0bPuZdn/lIXtjZ6yK7Xph24=;
+        b=HU0FaeG/ZOCnq+p+lfCFJTl8+pjMkfeoQH7Iejz2Y1i6az3thW4yvZd57AYn79V5w5
+         9cuTr4bZNGgRq/jyNUuIr/ynduADEFIDFEAAWnwyuJ7XLkKZ96FY0XDrbNvfG2ngZs9M
+         it29wEZ/Y/8yhHPN6FGT791nmqIEKCgwTBu2+Q+GQgl9LZXL/sN9PpmVkXLCCmM2dpwf
+         /D6qGgRcC4sDTLit9Tx9ts3L1kvUFyvDE+PI4QVh7R+RYgfsFAdMWxlAIJ5Mk0a8VMlw
+         rx0Ao25eTW3wlB5IzfXNpf1ytf4nZPj+dMAOzh+5ANctB4csJLyrdVvgnpGm1Gchq+iv
+         9i8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXn0MKfDRu2tSUqHsJ7/DnM2ybhmrBmTrKREV4Vp+id5xKHvh00mT9AnBXietRTzmBYBJLFSt0vFZ2U4t82u0jlOQu53zaNkz9A/NMJ1VXoWzsQ8ha7/9aIXQHbmVcpuD2yloBEDAIX5A==
+X-Gm-Message-State: AOJu0YwVQMm3IUXOBGtxNTssq2V5mnuQVU3nmBHujXQuNKzgegqKZrqs
+	6oxHs344SAIGO9/6ZAnLAfEXrFnoBOgsIVCytEEB2NPrfX7gHPI=
+X-Google-Smtp-Source: AGHT+IFDAmICUJMGqa0dJt54nPZguG3L4s2OBkFBuWtKgRLfaPC9zbKPd41N2wEkKSET7fJJHIYs2A==
+X-Received: by 2002:a05:6000:4021:b0:354:df31:6dfc with SMTP id ffacd0b85a97d-354df31706fmr7116512f8f.58.1716490595941;
+        Thu, 23 May 2024 11:56:35 -0700 (PDT)
+Received: from U4.lan ([2a02:810b:f40:4600:a453:b45b:e52a:2302])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3550c675581sm3965f8f.13.2024.05.23.11.56.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 11:56:35 -0700 (PDT)
+From: Alex Bee <knaerzche@gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Alex Bee <knaerzche@gmail.com>
+Subject: [PATCH 0/3] Add VPU support for RK3128
+Date: Thu, 23 May 2024 20:56:30 +0200
+Message-ID: <20240523185633.71355-1-knaerzche@gmail.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20996978-aace-4d59-92b8-39041da2ebd3@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dan,
+Similar to most Rockchip SoCs RK312x have hantro G1 based decoder and a
+hantro H1 based encoder with attached iommu.
 
-On Thu, May 23, 2024 at 02:44:06PM +0100, Dan Scally wrote:
-> Hi Sakari - thanks for the review. Snipping some bits for which I have no comment...
-> 
-> On 23/05/2024 09:03, Sakari Ailus wrote:
-> 
-> <snip>
-> > > +
-> > > +static unsigned int mali_c55_calculate_bank_num(struct mali_c55 *mali_c55,
-> > > +						unsigned int crop,
-> > > +						unsigned int scale)
-> > > +{
-> > > +	unsigned int tmp;
-> > > +	unsigned int i;
-> > > +
-> > > +	tmp = (scale * 1000) / crop;
-> > This looks like something that can overflow. Can it?
-> 
-> 
-> Shouldn't be able to; maximum scale width is 8192.
+The existing drivers can be used as-is.
 
-Ok.
+Fluster scores:
+  - FFmpeg:
+    - H.264: 127/135
+    - VP8:    59/61
+  - GStreamer:
+    - H.264: 129/135
+    - VP8:    59/61
 
-1000U in that case?
+Alex Bee (3):
+  dt-bindings: media: rockchip,vpu: Document RK3128 compatible
+  soc: rockchip: grf: Set RK3128's vpu main clock
+  ARM: dts: rockchip: Add vpu nodes for RK3128
 
-> > > +	for (i = 0; i < MALI_C55_RESIZER_COEFS_NUM_BANKS; i++) {
-> > > +		for (j = 0; j < MALI_C55_RESIZER_COEFS_NUM_ENTRIES; j++) {
-> > > +			mali_c55_write(mali_c55, haddr,
-> > > +				mali_c55_scaler_h_filter_coefficients[i][j]);
-> > > +			mali_c55_write(mali_c55, vaddr,
-> > > +				mali_c55_scaler_v_filter_coefficients[i][j]);
-> > > +
-> > > +			haddr += 4;
-> > > +			vaddr += 4;
-> > sizeof(u32) ?
-> > 
-> > Up to you.
-> 
-> 
-> I think I'll keep it if it's all the same to you
-
-Well, not the same but I'll let you decide. :-)
-
-...
-
-> > > +static int mali_c55_tpg_init_state(struct v4l2_subdev *sd,
-> > > +				   struct v4l2_subdev_state *sd_state)
-> > > +{
-> > > +	struct v4l2_mbus_framefmt *fmt;
-> > > +
-> > > +	fmt = v4l2_subdev_state_get_format(sd_state, MALI_C55_TPG_SRC_PAD);
-> > Can be assigned in the declaration.
-> 
-> 
-> How would you make it fit that way?
-
-	struct v4l2_mbus_framefmt *fmt =
-		v4l2_subdev_state_get_format(sd_state, MALI_C55_TPG_SRC_PAD);
+ .../bindings/media/rockchip-vpu.yaml          |  4 +++-
+ arch/arm/boot/dts/rockchip/rk3128.dtsi        | 24 +++++++++++++++++++
+ drivers/soc/rockchip/grf.c                    |  2 ++
+ 3 files changed, 29 insertions(+), 1 deletion(-)
 
 -- 
-Regards,
+2.45.0
 
-Sakari Ailus
 
