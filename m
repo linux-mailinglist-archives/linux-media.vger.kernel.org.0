@@ -1,184 +1,110 @@
-Return-Path: <linux-media+bounces-11843-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11844-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BA58CE2F5
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 11:06:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B50B78CE30E
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 11:10:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74D971C21B0B
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 09:06:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C22D1F2230D
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 09:10:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED22E12C47A;
-	Fri, 24 May 2024 09:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E36112A17B;
+	Fri, 24 May 2024 09:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JAu3bLlA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhlYZXjb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED54D12BF39;
-	Fri, 24 May 2024 09:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65145127E2A;
+	Fri, 24 May 2024 09:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716541499; cv=none; b=qJUUgzTvVBPhStVDi6lc78AWsD8PrDHA46dgSBfE+eDlfTB4TVrJKa+yNibgA+DxsM/V7ht2+M56DERfeodHuyykaJ8AmwvuH4thkDRLkBKqgZVY/kFKLLlm20kf0/l0qFehGVP/pTJ4IpAks5SXbShe3DhdKbD+2jZjrQWL9hI=
+	t=1716541798; cv=none; b=QYDTeo0Hi9gvDbvTPlgMZGwzS/+vno9DPOOJJsBd7rPjGI5QzNAA0Unup0dJLNc4XA8ufCASkYlUEad5DsCc/EqyaWoKSbzVbi79AVXcOq+szweBjZgLoauaeeeierNwi1pETaCbaxTD+sF13+23qgQVw/6fNQrPVdeh8a8GbK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716541499; c=relaxed/simple;
-	bh=Z77VheR66Z7lEhZ6SC9Ykid78mt0MPVMzdy6qVPoPRQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nw7DqIoWleUYxIHg9hA2RreQiN4k1cRj92iEOqxY6W43CWDsTTOHQ4BlrzPJnBAo7jRTtl3ULJnbm6ma4MRtvykdSZDx41h7eSTKn96JpJDJKHBjkFO6E4P9ZiEcHFG5Zt8fBuzclSnyVqVHEDqJak2kGT4Fy1me598TjbU5+X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JAu3bLlA; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78735471;
-	Fri, 24 May 2024 11:04:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716541482;
-	bh=Z77VheR66Z7lEhZ6SC9Ykid78mt0MPVMzdy6qVPoPRQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JAu3bLlAAfK3iG38IUZ2dL+NxKpt5suOYQ3rSUiUfJLPRi+uIzdPj0MQ4rjzJw3+/
-	 a8WQZnf5gqSnqcLCxMVpNkLYZ7lU7TH2WpIZQVI/g2nypbndfujUZ0rtQmXNEEkUzY
-	 nLWEev7YMMqlYLh2Abo8uEkdGGeAjT12PR5Pjsm4=
-Message-ID: <d12bbfcb-68d4-4c67-b8c8-34dd7f96b5fc@ideasonboard.com>
-Date: Fri, 24 May 2024 10:04:52 +0100
+	s=arc-20240116; t=1716541798; c=relaxed/simple;
+	bh=lstC1JoXk86c4nUHzL+unxjK1j4sQb/y8G2ueEGHWcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QFL24QBV+mvq8fTHf6gWYDgyw3O116zUUIYNDHYl3HrjScSAE1+1qKOS5xqbrt/Eiz078ebtmMEXYnX4iBoL4eQPrSDCYqODbrwGFMEjc5bWOHmEgmKQSr/j2mDXQ3QYGq+X3Mx7Sl54a91W39hc2JTfGwPsl7b8KdFsMjcqA8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AhlYZXjb; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5296935252dso572397e87.3;
+        Fri, 24 May 2024 02:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716541794; x=1717146594; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iGJpJecwhnnThbUhyaw0vAGodYew/vpNpLv3LOUBtPs=;
+        b=AhlYZXjbVafUwiqymT5t6WVyrSQkzMilgQnGpfrjDsntOcwXAowct/qvUhP2CpCkBD
+         B04plfRqR1D1B4ON2x/32uX/BulMX6ZpXNw5N3JqcE7wjAuu8GD0iIU+P3wuwYcQlQND
+         k9WWhLrBo1MnsbhNcQoIpvzXiX9ldtcB39lzXNWmrKqQvZGb83ACjv74N1SiT+342D+A
+         Qojanlrc7ayB/Xmhp3Obljbxi4SQIFa7GcTKuHFF6fwSWC60dsmypPNdXjrZ1sdYWUgi
+         F9LSq0ulEmGRE9hNp/UThryxr6XflJEXreK6DEo93Ol8a2iGQJjWnGB714ehvUm41kXv
+         IheA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716541794; x=1717146594;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iGJpJecwhnnThbUhyaw0vAGodYew/vpNpLv3LOUBtPs=;
+        b=TDk/fr9SB1D/vvSYVAtroVFP9+/jP8XJhjfsxfkcQS5MwjMamVdLfFuImol1TR0Q6y
+         wekj/zpZek9FbXYhSFyKNMAwVkwIN7Tha9+PPseft4D2/qJvPCLz0lXIp+fcb6nC8j8e
+         8ok36dn0Gqpajzloc4/YqOfb91TL8ZzIc5HNhB4Bqh30acZlCiyMrjFP3uYTd4ojAOr2
+         o09cdR68Yg9LewI5YKWO2IVeuHUUaeM0f8jaL6U2yOl4+3DdFDdy/Tix8ppYwGGBVLt1
+         izThqHzZLP5k3h0u4RRLcz52Mdg4J5gdKF7F8iP4BljgOSMJl3nnmAcpyUmX8PSXx4GZ
+         sfqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVGA6ROQ72IMxkWBso1jNZlHhtSYENS9SMw9etymlZZNrbH3vGDbcgbgXvT+QxRBQk2h7czWsuaNV6DSXBnpzsz7MpbxFwheSqbn5Qi1ZgZt3hq7ozpOjYdcNGM1BoxwrgiUNSsVNWQow=
+X-Gm-Message-State: AOJu0YxhzJ2U61Z5MHb3TwE5LI8u/NIyOI2WBVXv4aHeMG3fGfhb9jS6
+	IWL1S+uGUSRFWe7W5EVJWi+OCQYLEWmBnmoG+zD8ndvWEnW53RfR
+X-Google-Smtp-Source: AGHT+IEAjfgWIXUPdAjF4Xqxez+RSQN1xPVEA/NLEHeWg6ykXvZ34GEuRCMq1cjaFdYMkUDwsklYhA==
+X-Received: by 2002:ac2:4acb:0:b0:51c:43de:b18c with SMTP id 2adb3069b0e04-52964eaf6e7mr886594e87.27.1716541794363;
+        Fri, 24 May 2024 02:09:54 -0700 (PDT)
+Received: from localhost.localdomain ([178.70.43.28])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5296e885d9csm133178e87.21.2024.05.24.02.09.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 02:09:53 -0700 (PDT)
+Date: Fri, 24 May 2024 12:09:52 +0300
+From: Ivan Bornyakov <brnkv.i1@gmail.com>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Nas Chung <nas.chung@chipsnmedia.com>, 
+	Jackson Lee <jackson.lee@chipsnmedia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] Wave515 decoder IP support
+Message-ID: <bliiovkmzwkd5ikvvhvuokiacdclinb5rx4fxbtufwqnvqypgw@uygv56l7a45c>
+References: <20240415100726.19911-1-brnkv.i1@gmail.com>
+ <mwgydgjstvedkatdvopt3wh4imhnzflr7ut3vejgl6fz3vbgzg@x4spldwklrm3>
+ <20240503150721.qd6d7csev5452rss@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/5] media: mali-c55: Add Mali-C55 ISP driver
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
- laurent.pinchart@ideasonboard.com
-References: <20240418090825.624747-1-dan.scally@ideasonboard.com>
- <20240418090825.624747-4-dan.scally@ideasonboard.com>
- <Zk74ZZqn568-Wa3M@valkosipuli.retiisi.eu>
- <20996978-aace-4d59-92b8-39041da2ebd3@ideasonboard.com>
- <Zk-CiRmQ5QRIyTgR@valkosipuli.retiisi.eu>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <Zk-CiRmQ5QRIyTgR@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240503150721.qd6d7csev5452rss@basti-XPS-13-9310>
 
-Hi Sakari
+Greetings,
 
-On 23/05/2024 18:53, Sakari Ailus wrote:
-> Hi Dan,
->
-> On Thu, May 23, 2024 at 02:44:06PM +0100, Dan Scally wrote:
->> Hi Sakari - thanks for the review. Snipping some bits for which I have no comment...
->>
->> On 23/05/2024 09:03, Sakari Ailus wrote:
->>
->> <snip>
->>>> +
->>>> +static unsigned int mali_c55_calculate_bank_num(struct mali_c55 *mali_c55,
->>>> +						unsigned int crop,
->>>> +						unsigned int scale)
->>>> +{
->>>> +	unsigned int tmp;
->>>> +	unsigned int i;
->>>> +
->>>> +	tmp = (scale * 1000) / crop;
->>> This looks like something that can overflow. Can it?
->>
->> Shouldn't be able to; maximum scale width is 8192.
-> Ok.
->
-> 1000U in that case?
+On Fri, May 03, 2024 at 05:07:21PM GMT, Sebastian Fricke wrote:
+> Hey Ivan,
+> 
+> On 02.05.2024 09:40, Ivan Bornyakov wrote:
+> > 
+> > Friendly ping.
+> 
+> Sorry again for the delay, I was nearly finished with the patch set last
+> week but the time wasn't sufficient. And I sadly have to delay it again
+> a bit as I am on vacation until 13.05. I expect finishing it probably
+> until 17.05.
+> 
+> Regards,
+> Sebastian
 
+Do you still intend to review the patch series?
 
-Done
-
->
->>>> +	for (i = 0; i < MALI_C55_RESIZER_COEFS_NUM_BANKS; i++) {
->>>> +		for (j = 0; j < MALI_C55_RESIZER_COEFS_NUM_ENTRIES; j++) {
->>>> +			mali_c55_write(mali_c55, haddr,
->>>> +				mali_c55_scaler_h_filter_coefficients[i][j]);
->>>> +			mali_c55_write(mali_c55, vaddr,
->>>> +				mali_c55_scaler_v_filter_coefficients[i][j]);
->>>> +
->>>> +			haddr += 4;
->>>> +			vaddr += 4;
->>> sizeof(u32) ?
->>>
->>> Up to you.
->>
->> I think I'll keep it if it's all the same to you
-> Well, not the same but I'll let you decide. :-)
-
-
-OK you're right, the sizeof() is better
-
->
-> ...
->
->>>> +static int mali_c55_tpg_init_state(struct v4l2_subdev *sd,
->>>> +				   struct v4l2_subdev_state *sd_state)
->>>> +{
->>>> +	struct v4l2_mbus_framefmt *fmt;
->>>> +
->>>> +	fmt = v4l2_subdev_state_get_format(sd_state, MALI_C55_TPG_SRC_PAD);
->>> Can be assigned in the declaration.
->>
->> How would you make it fit that way?
-> 	struct v4l2_mbus_framefmt *fmt =
-> 		v4l2_subdev_state_get_format(sd_state, MALI_C55_TPG_SRC_PAD);
-
-
-Done - thank you!
-
->
+Also should I resend? Is there anything I can do to budge the process?
 
