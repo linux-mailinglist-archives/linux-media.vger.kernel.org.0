@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-11842-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11843-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B32A8CE26F
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 10:37:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BA58CE2F5
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 11:06:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2578B22013
-	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 08:37:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74D971C21B0B
+	for <lists+linux-media@lfdr.de>; Fri, 24 May 2024 09:06:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CFBF129A8D;
-	Fri, 24 May 2024 08:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED22E12C47A;
+	Fri, 24 May 2024 09:04:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rf9Szd8L"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JAu3bLlA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308E71292E9;
-	Fri, 24 May 2024 08:37:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED54D12BF39;
+	Fri, 24 May 2024 09:04:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716539832; cv=none; b=EReX6SvfSrWYmmnzmLj0DeEAX90VKeuVTU3sh2VQv/pjRbIkmQlElqj4GThg4XzU4pl55cq96XgIxZ8qzFLgGnoSfuyflUPrXSISQRXtCJCfqEpzEbjq7SyEz/eN8+fWt0jOM04whiVThF9u2jo8MkUuuRUw2GRegrZBhv2C8xQ=
+	t=1716541499; cv=none; b=qJUUgzTvVBPhStVDi6lc78AWsD8PrDHA46dgSBfE+eDlfTB4TVrJKa+yNibgA+DxsM/V7ht2+M56DERfeodHuyykaJ8AmwvuH4thkDRLkBKqgZVY/kFKLLlm20kf0/l0qFehGVP/pTJ4IpAks5SXbShe3DhdKbD+2jZjrQWL9hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716539832; c=relaxed/simple;
-	bh=4L3zRy2G25p+yu5kS7kMFfTnQ2bZrZ5d2I0JdRnMmrc=;
+	s=arc-20240116; t=1716541499; c=relaxed/simple;
+	bh=Z77VheR66Z7lEhZ6SC9Ykid78mt0MPVMzdy6qVPoPRQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=We+gvCiTK+4Tteda9XfgdSC8VOrwdXZY2TFAJZ9TKziUytkAhHo8yZfPAK50v0rUCPcqz2gQHZ3CMntwc3Z8jxhieGX/tVG29uCxpo4741PxZ+EDsArN0RoOgxRtOh/8GEkXAnU+vzLf2xaL+pjRtsp7MH37Rc4hE8SCJHz8r8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rf9Szd8L; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=nw7DqIoWleUYxIHg9hA2RreQiN4k1cRj92iEOqxY6W43CWDsTTOHQ4BlrzPJnBAo7jRTtl3ULJnbm6ma4MRtvykdSZDx41h7eSTKn96JpJDJKHBjkFO6E4P9ZiEcHFG5Zt8fBuzclSnyVqVHEDqJak2kGT4Fy1me598TjbU5+X8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JAu3bLlA; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D0E19C1;
-	Fri, 24 May 2024 10:36:53 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78735471;
+	Fri, 24 May 2024 11:04:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716539813;
-	bh=4L3zRy2G25p+yu5kS7kMFfTnQ2bZrZ5d2I0JdRnMmrc=;
+	s=mail; t=1716541482;
+	bh=Z77VheR66Z7lEhZ6SC9Ykid78mt0MPVMzdy6qVPoPRQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rf9Szd8L5C1fMGIxE4U7Kdw8dSDhBiZmDwufrRMgfCnmu3nqJmrHtuP6erkETQaqe
-	 l+y+9Ivzbl3OPDUJ8sq/h8tRPtGlmaaGSoj9T3JtoSYMHO/e8dE1TA7d31NZnJfvI+
-	 MFULPvwtcqEF5Q3pg4Hqr72xaLbNdxx/ES/vUB84=
-Message-ID: <3d8679ca-28a4-4b7b-99da-7f1ccedb415c@ideasonboard.com>
-Date: Fri, 24 May 2024 09:37:04 +0100
+	b=JAu3bLlAAfK3iG38IUZ2dL+NxKpt5suOYQ3rSUiUfJLPRi+uIzdPj0MQ4rjzJw3+/
+	 a8WQZnf5gqSnqcLCxMVpNkLYZ7lU7TH2WpIZQVI/g2nypbndfujUZ0rtQmXNEEkUzY
+	 nLWEev7YMMqlYLh2Abo8uEkdGGeAjT12PR5Pjsm4=
+Message-ID: <d12bbfcb-68d4-4c67-b8c8-34dd7f96b5fc@ideasonboard.com>
+Date: Fri, 24 May 2024 10:04:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,19 +52,17 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 3/5] media: mali-c55: Add Mali-C55 ISP driver
 To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
  nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com
 References: <20240418090825.624747-1-dan.scally@ideasonboard.com>
  <20240418090825.624747-4-dan.scally@ideasonboard.com>
  <Zk74ZZqn568-Wa3M@valkosipuli.retiisi.eu>
- <npqgtwqhpixoixikgrhzq3soqywfla3gmrx44t76idfiryycs7@qkfd4yphgv4q>
- <20240523094926.GA10295@pendragon.ideasonboard.com>
- <417b2d78-6233-4fd7-9b32-aa176938f682@ideasonboard.com>
- <Zk-ukx7rh3kNMIRx@valkosipuli.retiisi.eu>
+ <20996978-aace-4d59-92b8-39041da2ebd3@ideasonboard.com>
+ <Zk-CiRmQ5QRIyTgR@valkosipuli.retiisi.eu>
 Content-Language: en-US
 From: Dan Scally <dan.scally@ideasonboard.com>
 Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
@@ -110,82 +108,77 @@ Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
  yMcoUWrTK0Uz6UzUGKoJVbxmSW/EJLEGoI5p3NWxWtScEVv8mO49gqQdrRIOheZycDmHnItt
  9Qjv00uFhEwv2YfiyGk6iGF2W40s2pH2t6oeuGgmiZ7g6d0MEK8Ql/4zPItvr1c1rpwpXUC1
  u1kQWgtnNjFHX3KiYdqjcZeRBiry1X0zY+4Y24wUU0KsEewJwjhmCKAsju1RpdlPg2kC
-In-Reply-To: <Zk-ukx7rh3kNMIRx@valkosipuli.retiisi.eu>
+In-Reply-To: <Zk-CiRmQ5QRIyTgR@valkosipuli.retiisi.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Good morning Sakari
+Hi Sakari
 
-On 23/05/2024 22:01, Sakari Ailus wrote:
+On 23/05/2024 18:53, Sakari Ailus wrote:
 > Hi Dan,
 >
-> On Thu, May 23, 2024 at 12:22:45PM +0100, Dan Scally wrote:
->> Hello
+> On Thu, May 23, 2024 at 02:44:06PM +0100, Dan Scally wrote:
+>> Hi Sakari - thanks for the review. Snipping some bits for which I have no comment...
 >>
->> On 23/05/2024 10:49, Laurent Pinchart wrote:
->>> On Thu, May 23, 2024 at 11:48:02AM +0200, Jacopo Mondi wrote:
->>>> On Thu, May 23, 2024 at 08:03:49AM GMT, Sakari Ailus wrote:
->>>>> Hi Daniel,
->>>> [snip]
->>>>
->>>>>> +
->>>>>> +static int mali_c55_vb2_start_streaming(struct vb2_queue *q, unsigned int count)
->>>>>> +{
->>>>>> +	struct mali_c55_cap_dev *cap_dev = q->drv_priv;
->>>>>> +	struct mali_c55 *mali_c55 = cap_dev->mali_c55;
->>>>>> +	struct mali_c55_resizer *rzr = cap_dev->rzr;
->>>>>> +	struct mali_c55_isp *isp = &mali_c55->isp;
->>>>>> +	int ret;
->>>>>> +
->>>>>> +	guard(mutex)(&isp->lock);
->>>>>> +
->>>>>> +	ret = pm_runtime_resume_and_get(mali_c55->dev);
->>>>>> +	if (ret)
->>>>>> +		return ret;
->>>>>> +
->>>>>> +	ret = video_device_pipeline_start(&cap_dev->vdev,
->>>>>> +					  &cap_dev->mali_c55->pipe);
->>>>>> +	if (ret) {
->>>>>> +		dev_err(mali_c55->dev, "%s failed to start media pipeline\n",
->>>>>> +			mali_c55_cap_dev_to_name(cap_dev));
->>>>>> +		goto err_pm_put;
->>>>>> +	}
->>>>>> +
->>>>>> +	mali_c55_cap_dev_stream_enable(cap_dev);
->>>>>> +	mali_c55_rzr_start_stream(rzr);
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * We only start the ISP if we're the only capture device that's
->>>>>> +	 * streaming. Otherwise, it'll already be active.
->>>>>> +	 */
->>>>>> +	if (mali_c55->pipe.start_count == 1) {
->>>>> Do you start streaming on the sensor when the first video node does?
->>>>>
->>>>> This means that frames may be lost. E.g. the IPU6 ISYS driver only starts
->>>>> streaming on the sensor once all video nodes of the pipeline have been
->>>>> started.
->>>> How would you ever know which nodes will be started ?
->>> That can be done with link setup. Any video device that has an active
->>> link to the ISP would need to be started.
+>> On 23/05/2024 09:03, Sakari Ailus wrote:
 >>
->> So if you don't want to stream data from one of the two capture nodes, you'd
->> need to disable the link between it and the resizer? That seems quite
->> clunky. Does it matter if one of them starts a frame or two later? As
->> opposed to both of them starting in sync a frame or two later?
-> Video frames on a given queue are lost due to the driver implementation.
-> I might consider that to be a driver bug.
+>> <snip>
+>>>> +
+>>>> +static unsigned int mali_c55_calculate_bank_num(struct mali_c55 *mali_c55,
+>>>> +						unsigned int crop,
+>>>> +						unsigned int scale)
+>>>> +{
+>>>> +	unsigned int tmp;
+>>>> +	unsigned int i;
+>>>> +
+>>>> +	tmp = (scale * 1000) / crop;
+>>> This looks like something that can overflow. Can it?
+>>
+>> Shouldn't be able to; maximum scale width is 8192.
+> Ok.
+>
+> 1000U in that case?
 
 
-This seems a bit odd to me; I think that the implication is when you **queue** a buffer to the 
-driver you're targeting a specific frame from the sensor...is that right? What about if you want to 
-start streaming on the second capture node at some later point, after the first had already been 
-started? I think we'd be in the same situation there, with the already started capture node getting 
-buffers filled after the second had had buffers queued, but before you could start it.
-
+Done
 
 >
-> It's also true that some use cases could also benefit from the behaviour
-> but on regular CSI-2 receivers that's probably quite rare. We'd need
-> additional APIs to be able to convey the desired behaviour to the drivers.
+>>>> +	for (i = 0; i < MALI_C55_RESIZER_COEFS_NUM_BANKS; i++) {
+>>>> +		for (j = 0; j < MALI_C55_RESIZER_COEFS_NUM_ENTRIES; j++) {
+>>>> +			mali_c55_write(mali_c55, haddr,
+>>>> +				mali_c55_scaler_h_filter_coefficients[i][j]);
+>>>> +			mali_c55_write(mali_c55, vaddr,
+>>>> +				mali_c55_scaler_v_filter_coefficients[i][j]);
+>>>> +
+>>>> +			haddr += 4;
+>>>> +			vaddr += 4;
+>>> sizeof(u32) ?
+>>>
+>>> Up to you.
+>>
+>> I think I'll keep it if it's all the same to you
+> Well, not the same but I'll let you decide. :-)
+
+
+OK you're right, the sizeof() is better
+
+>
+> ...
+>
+>>>> +static int mali_c55_tpg_init_state(struct v4l2_subdev *sd,
+>>>> +				   struct v4l2_subdev_state *sd_state)
+>>>> +{
+>>>> +	struct v4l2_mbus_framefmt *fmt;
+>>>> +
+>>>> +	fmt = v4l2_subdev_state_get_format(sd_state, MALI_C55_TPG_SRC_PAD);
+>>> Can be assigned in the declaration.
+>>
+>> How would you make it fit that way?
+> 	struct v4l2_mbus_framefmt *fmt =
+> 		v4l2_subdev_state_get_format(sd_state, MALI_C55_TPG_SRC_PAD);
+
+
+Done - thank you!
+
 >
 
