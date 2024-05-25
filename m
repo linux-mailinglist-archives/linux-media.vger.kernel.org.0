@@ -1,204 +1,199 @@
-Return-Path: <linux-media+bounces-11875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11878-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B028CF1DB
-	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 00:08:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1E88CF230
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 01:30:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67308B20E45
-	for <lists+linux-media@lfdr.de>; Sat, 25 May 2024 22:08:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E128C1C20917
+	for <lists+linux-media@lfdr.de>; Sat, 25 May 2024 23:30:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7B791292CE;
-	Sat, 25 May 2024 22:07:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF51E12AAE6;
+	Sat, 25 May 2024 23:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="K8T19hoD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZGnGFUur"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="gt1O0MSg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wfout5-smtp.messagingengine.com (wfout5-smtp.messagingengine.com [64.147.123.148])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A288F138E;
-	Sat, 25 May 2024 22:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71CE126F07;
+	Sat, 25 May 2024 23:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716674877; cv=none; b=FtLOpJ33RY2vanESV9DvpRnn+Nuq6kV74dpV47pBIkKRdS2I6hUAe4T6Ts5PEzqSNEguFeQBx0r2C2Ug0WvlkARIu3WKTGZZa8zwrRonhd3pj/txx3Q1cke+Ny/aqQXz9FEazO7TLE+VQaUsTbdGpgXJa+BjoU430e3JkziLErs=
+	t=1716679781; cv=none; b=sD+IeV8f6VLFW4yc9gMh4L6pyelE7sIncwNCLq2hFc1uzr6//jLd71Y6K4noFhLUJ+be+cawkF+/6c5FwI5SnE4gpfA5Y1sbfZ40fbVySk/dplV4lUvL2JushCZUM8f0V/xoUZvZ1Kc+l9jUG68vIksH8gtoZ1Zx7RkmQIqKGLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716674877; c=relaxed/simple;
-	bh=D++cyd23myqJmAvGTVFI5XlB7Y32eLoQevngNsZ/Qu0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nVzzJdMQtOrKWToBVkXPbDV0eTFVZeq3QfWT5wdW5j9NSNx1md1NsBjj4TgrynsPsmgjHyO6Ruix3sPJBKtZbDo0L6m88bZR04Gm5QKXSI3O5ahW0MqE9PyHdtwlevbzUHRNsqPSmvEeX/PM81Sm65+XUr2fh7W776O+Oqo9Afk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=K8T19hoD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZGnGFUur; arc=none smtp.client-ip=64.147.123.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfout.west.internal (Postfix) with ESMTP id 259A61C000AE;
-	Sat, 25 May 2024 18:07:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sat, 25 May 2024 18:07:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1716674871; x=1716761271; bh=gh
-	vJEjFN1pc4+Ka4C90JficqAuhjmM6V8ECjsNb52P4=; b=K8T19hoDmCNRbsOdpF
-	lBJOgaErXxjYVUqNKMnOD7pggWVSDl+FWCsnrIdWVJbygKp3Fb6lTOdeBYj++Z64
-	qkEmC+h3/MK1oumUm8TjvIVsLL1uCdOODgFfgLLp18kzDGb0cJTryyAiMXumLi7h
-	5CsO3J+X5W+EBvwuoA3nRuphepvK59ihzcrYcQBH9TC7p2A9iQVTfNFx6iyY5SeQ
-	evBX4I5ync0bfaqGUn8/VpQKGNg8GTKWYQD+3bk2I9BtraTNHfc89LFzDJhOvEFr
-	+bO2Gs1U4ISHcAhkit1tb7630FcVqhKdb6aoJLv6WzZCnnAjdoDDzWIdW94DcUZ5
-	VE+w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1716674871; x=1716761271; bh=ghvJEjFN1pc4+
-	Ka4C90JficqAuhjmM6V8ECjsNb52P4=; b=ZGnGFUurDu8QpmqRe68BI9VrGbytC
-	VQxH/Tx61NTinFc4jfqo1i3jk6lt8/vTmhFr71zCdphBvruw+bvgamMZZPjQnjM3
-	9wk+iC3TiwCPm6bDkMFpkSoQ6i4QQU0oPGDJZVQpGzFF9xusDCRpcG+SCEWD68/3
-	5gkiBKPpxzj5pQmvprgG2atqnwuVyAkb2uIoJgzzi5i85BN6Cqa73ch/4trG/cg4
-	XD0ZlEpbgku/PVgurZcMEvzSHMu2XxM1MvOvrAbBdKnkD+x5MIq2ygSgkN4Wyc4H
-	mfA+eXCltQvllTLAshFpggKXGjBqnUPY3wMbhWcTwYwFYlhfu8P1oxgwA==
-X-ME-Sender: <xms:N2FSZkAay4maTb88EMH-_aiC0vfsWZd3bvT0TXZeWdr69A6b4E7Clg>
-    <xme:N2FSZmjJBSCH5JHp4xjJLfuOV8l9qfbvrdQg4P-GYS9rTYQQTmaw7kjIGtDlxWFnB
-    GC111zCOA4lZsa5Bcs>
-X-ME-Received: <xmr:N2FSZnmJqqgD2lBKnr00ZlhiWeax86lfVILp0c3HjT65wkFkzHJmjQ53-YKostWObOoB5PWT-sv6YfyLKVt8Aab6eF29JYE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejuddgtdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkgggtugfgsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeegfeegieefueeggfetteekudejfeej
-    fedtvefgkeegheeggefgueffueejieekheenucffohhmrghinhephhhusghsphhothhush
-    gvrhgtohhnthgvnhhtqdhnrgdurdhnvghtnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnh
-    grthgvtghhrdhsvg
-X-ME-Proxy: <xmx:N2FSZqyqjvbdAjjK4uGDxcTh0-ingrmfNleMOvtKs7NBLKkm7hNYvQ>
-    <xmx:N2FSZpT36OIaHqGUFj28Yl-aVM3CUDja-73fefSODnk2Kg1cPUQyvA>
-    <xmx:N2FSZlb-9gCwt8RhGNIeoqPzEXfZRYzq3VZVWKSBWaPKAZOtG-2D_g>
-    <xmx:N2FSZiQgkc_oGL2V23Zt_01LxjE4CBlNacxU141vVA0ptO8ocz6ArA>
-    <xmx:N2FSZm_Ok6r0hZ-Pfj2ioZLImoW7k1APr0gnMCU06nloZlb81TQjB2Oq>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 May 2024 18:07:50 -0400 (EDT)
-Date: Sun, 26 May 2024 00:07:47 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [RFC] dt-bindings: media: video-interfaces: How to describe physical
- lanes for CSI-2 C-PHY
-Message-ID: <20240525220747.GD1900917@ragnatech.se>
+	s=arc-20240116; t=1716679781; c=relaxed/simple;
+	bh=0AA733yjK/ZH3kjWG9G8p+pvjyhf7alajGU2/9FA2eA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=chOkDr4P6CEoTc0Hb3Mp7L8y7hFEEhILYsRdb5b6KerOjM7DL53r5IwOjZkBetp6ABdoUH/B/iBK1/ZimD1DjhjLv5Tzi9ZPn05+26jyl3Ow22ExsSk4wYc5vxTJtW61P9aMiQBrXwbtwCid4gty+238R/vgJawi2mfnMNVNdrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=gt1O0MSg; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: a31c2cec1aee11efbfff99f2466cf0b4-20240526
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=uQHu44BESfP+PIJxk0X0ddbrSVmMGCqnkLddfWrwYn0=;
+	b=gt1O0MSgKbNrMrlWOlxAzHrZk2uUL6D3iuHFgtdeJfM0F1FdTZjVjKKWatpc0uV+n8vGUjbM0c9rcK/TMBaYuFA0Nvo2u7ojv7zZ4XBWUPyEWF0aPNHEQXeddZlDtUgbU2UOoxWFWXvejjSLS2swxeSsI5NULZTckXzWdP317r4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38,REQID:74592a60-a564-485b-aae2-ff038d544819,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:82c5f88,CLOUDID:d660cd43-4544-4d06-b2b2-d7e12813c598,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: a31c2cec1aee11efbfff99f2466cf0b4-20240526
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1906963863; Sun, 26 May 2024 07:29:31 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sun, 26 May 2024 07:29:29 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sun, 26 May 2024 07:29:29 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Maxime Ripard <mripard@kernel.org>
+CC: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Matthias Brugger <matthias.bgg@gmail.com>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>, Jason-ch
+ Chen <jason-ch.chen@mediatek.com>, "Jason-JH . Lin"
+	<jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
+ Lin <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jeffrey Kardatzke
+	<jkardatzke@google.com>, Jason-jh Lin
+	<jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH v6 0/7] Add mediate-drm secure flow for SVP
+Date: Sun, 26 May 2024 07:29:21 +0800
+Message-ID: <20240525232928.5524-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Hello,
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-I'm trying to figure out how to best describe the ordering of the three 
-physical copper (?) lanes that make up a logical lane in MIPI CSI-2 
-C-PHY. As far as I can tell there is no generic binding for this yet.
+Memory Definitions:
+secure memory - Memory allocated in the TEE (Trusted Execution
+Environment) which is inaccessible in the REE (Rich Execution
+Environment, i.e. linux kernel/userspace).
+secure handle - Integer value which acts as reference to 'secure
+memory'. Used in communication between TEE and REE to reference
+'secure memory'.
+secure buffer - 'secure memory' that is used to store decrypted,
+compressed video or for other general purposes in the TEE.
+secure surface - 'secure memory' that is used to store graphic buffers.
 
-Background:
+Memory Usage in SVP:
+The overall flow of SVP starts with encrypted video coming in from an
+outside source into the REE. The REE will then allocate a 'secure
+buffer' and send the corresponding 'secure handle' along with the
+encrypted, compressed video data to the TEE. The TEE will then decrypt
+the video and store the result in the 'secure buffer'. The REE will
+then allocate a 'secure surface'. The REE will pass the 'secure
+handles' for both the 'secure buffer' and 'secure surface' into the
+TEE for video decoding. The video decoder HW will then decode the
+contents of the 'secure buffer' and place the result in the 'secure
+surface'. The REE will then attach the 'secure surface' to the overlay
+plane for rendering of the video.
 
-A logical lane in the MIPI CSI-2 C-PHY specification is created from 
-three physical lanes on the SoC. The three physical lanes are commonly 
-referred to as lane A, B and C.
+Everything relating to ensuring security of the actual contents of the
+'secure buffer' and 'secure surface' is out of scope for the REE and
+is the responsibility of the TEE.
 
-One or more logical lanes can be used to create a CSI-2 C-PHY bus. These 
-logical lanes are commonly referred to in numerical incremental order.
+DRM driver handles allocation of gem objects that are backed by a 'secure
+surface' and for displaying a 'secure surface' on the overlay plane.
+This introduces a new flag for object creation called
+DRM_MTK_GEM_CREATE_RESTRICTED which indicates it should be a 'secure
+surface'. All changes here are in MediaTek specific code.
+---
+TODO:
+1) Drop MTK_DRM_IOCTL_GEM_CREATE and use DMA_HEAP_IOCTL_ALLOC in userspace
+2) DRM driver use secure mailbox channel to handle normal and secure flow
+3) Implement setting mmsys routing table in the secure world series
+---
+Based on 3 series:
+[1] v3 dma-buf: heaps: Add MediaTek secure heap
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=809023
+[2] v6 media: mediatek: add driver to support secure video decoder
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=853689
+[3] v6 Add CMDQ secure driver for SVP
+- https://patchwork.kernel.org/project/linux-mediatek/list/?series=855884
+---
+Change in v6:
+1. Rebase to linux-next then rebased on 3 series [1][2][3]
+2. Remove some parameter and security settings in normal world
+3. Drop secure port related patches
+4. Fix some build error and warning
 
-I don't have access to the MIPI CSI-2 C-PHY specification as that is 
-available to MIPI members only. But I found these slides which I think 
-can help illustrate the setup.
+Changes in v5:
+1. Sync the local changes
 
-https://2384176.fs1.hubspotusercontent-na1.net/hubfs/2384176/MIPI-C-PHY-Introduction-From-Basic-to-Implementation.pdf
+Changes in v4:
+1. Rebase on mediatek-drm-next(278640d4d74cd) and fix the conflicts
+2. This series is based on 20240129063025.29251-1-yunfei.dong@mediatek.com
+3. This series is based on 20240322052829.9893-1-shawn.sung@mediatek.com
+4. This series is based on 20240403065603.21920-1-shawn.sung@mediatek.com
 
-Problem:
+Changes in v3:
+1. fix kerneldoc problems
+2. fix typo in title and commit message
+3. adjust naming for secure variable
+4. add the missing part for is_suecure plane implementation
+5. use BIT_ULL macro to replace bit shifting
+6. move modification of ovl_adaptor part to the correct patch
+7. add TODO list in commit message
+8. add commit message for using share memory to store execute count
 
-There is generic DT properties in video-interfaces.yaml to describe the 
-logical lanes, 'data-lanes'. This property is used to describe how many 
-logical lanes exists, and the order which they are connected. The order 
-is important as logical lanes might be swapped between sender and 
-receiver, and the sender and/or receiver can correct for this using 
-software configuration.
+Changes in v2:
 
-There are however no generic DT property in video-interfaces.yaml to 
-describe the order of the A, B and C physical lanes that make up a 
-logical lane. But just as the logical lanes these can be swapped between 
-sender and receiver, and the device on either end of the link needs to
-correct for this with software configuration.
+1. remove the DRIVER_RDNDER flag for mtk_drm_ioctl
+2. move cmdq_insert_backup_cookie into client driver
+3. move secure gce node define from mt8195-cherry.dtsi to mt8195.dtsi
+---
 
-For MIPI CSI-2 D-PHY lanes the same problem exists but is made simpler 
-as each logical lane in D-PHY mode is made up of a differential pair of 
-only two physical lanes. And the generic property 'lane-polarities' is
-used to describe if the P and N physical lanes have been swapped.
+CK Hu (1):
+  drm/mediatek: Add interface to allocate MediaTek GEM buffer
 
-  lane-polarities:
-    $ref: /schemas/types.yaml#/definitions/uint32-array
-    minItems: 1
-    maxItems: 9
-    items:
-      enum: [ 0, 1 ]
-    description:
-      An array of polarities of the lanes starting from the clock lane and
-      followed by the data lanes in the same order as in data-lanes. Valid
-      values are 0 (normal) and 1 (inverted). The length of the array should be
-      the combined length of data-lanes and clock-lanes properties. If the
-      lane-polarities property is omitted, the value must be interpreted as 0
-      (normal). This property is valid for serial busses only.
+Jason-JH.Lin (6):
+  drm/mediatek/uapi: Add DRM_MTK_GEM_CREATE_RESTRICTED flag
+  drm/mediatek: Add secure buffer control flow to mtk_drm_gem
+  drm/mediatek: Add secure identify flag and funcution to mtk_drm_plane
+  drm/mediatek: Add mtk_ddp_sec_write() to config secure buffer info
+  drm/mediatek: Add secure flow support to mediatek-drm
+  drm/mediatek: Add cmdq_insert_backup_cookie before secure pkt finalize
 
-How to best do something similar for the three physical lanes used for 
-C-PHY which can be configured as either ABC, CBA, ACB, CAB, BAC or BCA?
-
-Any solutions I can think of feels wrong, but for different reasons.
-
-1. We could add a new generic property to fulfill the 'lane-polarities' 
-   function for C-PHY, 'lane-polarities-mipi-cphy'. That would only be 
-   valid for C-PHY buses.
-
-   The structure would be the same as for lane-polarities but the items 
-   enum would allow a value from 0-5 for each entry in the array. And we 
-   could define mappings in dt-bindings/media/video-interfaces.h to 
-   allow names in DTS, MEDIA_BUS_CSI2_CPHY_{ABC,CBA,ACB,CAB,BAC,BCA}?
-
-   This feels wrong as we already have 'lane-polarities' and it is used 
-   for CSI-2 D-PHY configurations already.
-
-2. We could extend the 'lane-polarities' property to accept values 0-5 
-   and in video-interfaces.yaml describe that values other than 0 and 1 
-   are only valid for CSI-2 C-PHY buses. We could still define the 
-   descriptive names in video-interfaces.h.
-
-   This feels wrong as we would lose the ability to validate DTS files 
-   for D-PHY configurations only contain values 0 or 1.
-
-3. We could use vendor specific properties to deal with C-PHY lane 
-   polarities.
-
-   This just feels wrong as this is not a vendor specific issue.
-
-Maybe I'm overlooking a better solution? Any feedback on this problem 
-would be appreciated.
-
-My current feeling for the least bad option is number 2 as it aligns how 
-CSI-2 C-PHY and D-PHY are described. Unless a better idea comes along, 
-or I'm educated on why this is a bad idea I will create a patch for this 
-and see how it works out.
+ drivers/gpu/drm/mediatek/mtk_crtc.c           | 263 +++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_crtc.h           |   1 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  14 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h       |   5 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   9 +-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  13 +-
+ drivers/gpu/drm/mediatek/mtk_gem.c            | 114 ++++++++
+ drivers/gpu/drm/mediatek/mtk_gem.h            |  12 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |   8 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |   1 +
+ drivers/gpu/drm/mediatek/mtk_plane.c          |  25 ++
+ drivers/gpu/drm/mediatek/mtk_plane.h          |   2 +
+ include/uapi/drm/mediatek_drm.h               |  47 ++++
+ 14 files changed, 500 insertions(+), 15 deletions(-)
+ create mode 100644 include/uapi/drm/mediatek_drm.h
 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.18.0
+
 
