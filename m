@@ -1,165 +1,115 @@
-Return-Path: <linux-media+bounces-11885-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11886-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4558CF2CA
-	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 10:10:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 180988CF2D8
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 10:28:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EC381F21246
-	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 08:10:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E7891C2099E
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 08:28:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DE858F54;
-	Sun, 26 May 2024 08:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4E7F8F55;
+	Sun, 26 May 2024 08:27:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dD1rjx9l"
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="hI0HwYKw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from msa.smtpout.orange.fr (smtp-70.smtpout.orange.fr [80.12.242.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FEEB640;
-	Sun, 26 May 2024 08:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F228BF7
+	for <linux-media@vger.kernel.org>; Sun, 26 May 2024 08:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716710989; cv=none; b=g0oJvFsP+WV24rPORFJ9Z43l1ymmP0e+pq8wNjKPmCJI27R10mQ8dT2nBvH0h5YH/el12U0EMJ47BM1J1BIMG/QQ9HsLeqOr08otPS/dnQlQT89w+Rd+vD6YcRgGupGL+FSlJBpSGWCqoncssoNeee6SxhMo7DpuGG17d9KRwkY=
+	t=1716712078; cv=none; b=n5ZRkoE6pbKQjMFwMdHOjsCVqtPFCZoL5Ju4EBFSaIcfg3dMbxvoqPVaWfj9l7yv+CwPSthgtpplbLy8E1dtMRKjZYbWluj7zbY2AB6+bqup5UBY7ZfjdGnqVhB2SZMhPPr/m6w73Aqj/YaSmLJlgL1jasnFXmqg5qIf0pRrRmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716710989; c=relaxed/simple;
-	bh=9mL+pOz+vQ8U+AQZywT6y8vUmRELxvG7EkDXJCpb10o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VfFgSbWQ+0haeD3PmV6hDEzh90pBNClJ6iZEoKydWL1qIe7y1ORiLvc9uZ//vDSzmbKPAfLF/NhMJv+vaSex4QmYsJ5rf7XkyILKmbstwaMMWdd2hMH6mcBmPOASAMp/2JXhR5mvS3oHSNXR+g6Ed/Ddk5CDimcClMSR9N7A35I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=dD1rjx9l; arc=none smtp.client-ip=80.12.242.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id B8nVshp7epUD1B8nhsPLd9; Sun, 26 May 2024 10:00:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1716710440;
-	bh=IgEDtJfaNI1iWwOQr1DJGweCIYES2brPtEIEBcUvbBo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=dD1rjx9ljJHof3mvVsNUW2GUHVNARNQhhWGp1hXRBDkHehpCp1jhIZu0E4bjSmKRB
-	 no1GajJcY9WORHZrhH3FxT00XWc/BiSnN+2qqPJDG6ZHNAgzO2dwgGcQX/SjyRzZ0O
-	 bvDDh/33CFFYaoCuHgD/NxUGB+yKq+8LnrDaHCwEDX/AkFIyypYzBc0qLUFNFPR//M
-	 cyJuYerH9/S76t6nCeTDTKNDalA8GLpvPZWQuhDl2mcLIQhYlm7BSJs07Pg3I06q4g
-	 khoWa2KHH/oQDupulLNCIg/uOdbop9ERh8koekQy6MOi3AFw8dHgFs7GWal5JQUW26
-	 Fdb+A4EkRYUOw==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 26 May 2024 10:00:40 +0200
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com,
-	tian.shu.qiu@intel.com,
-	mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	hdegoede@redhat.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH v2 2/2] media: intel/ipu6: Fix an error handling path in isys_probe()
-Date: Sun, 26 May 2024 09:59:57 +0200
-Message-ID: <69c6a062959077414af05c44116e2351b0600977.1716710255.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <15a056198775689cb533a7b0ea7e100559a2465d.1716710255.git.christophe.jaillet@wanadoo.fr>
-References: <15a056198775689cb533a7b0ea7e100559a2465d.1716710255.git.christophe.jaillet@wanadoo.fr>
+	s=arc-20240116; t=1716712078; c=relaxed/simple;
+	bh=1ftbCLkqW7AMyjcnNHoKh6QwQpSGftI1ij6SRmtVCgk=;
+	h=Date:From:Subject:To:Cc:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ouAQ9Isu/Ue1wJPuizTInMWgd9cggJSiYdhlicq9qYxdw25r/+8YOZt8yBgqxf7k37Mp62QCgzW/Ak7rTdwSBscJkso3M83FZWa416uFBUEEx1JxRWL0S9k89ImN8r6Y6rj/FFAWwRgqT4pnie0L/LhlCQnKYt+diNTpFlr1Bo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=hI0HwYKw; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+X-Envelope-To: adrian.larumbe@collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1716712074;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1ftbCLkqW7AMyjcnNHoKh6QwQpSGftI1ij6SRmtVCgk=;
+	b=hI0HwYKwTJUFfDagcVlZ87VmI020G1BxLoXinI44qXQVk5x0mgOgYtc9/pRw/xjuRzO3zP
+	qrPKOenSZTCON/ChEHf2CsgJPwxoUKjs47Ch80iABLmJdARtF5ZVbK/2+1O9gaa3Hw+4hW
+	WP8Emfgy1TiBTKLBVc00jS0oFlXDUNeZvqdUWdsqCb/Ws0gjbNLLOp5uELnZXk4Onzvs5d
+	M+HFyCFw/TAasYAuxmn2jYVr64A7frO/2Gro1xxEm4YjAWuBrWTnS+DdEYoYF/k3Bq36+U
+	QvOh8ZonbYkAHQTo8vTPKqObz1uU27R+HqvF1dl1iDOwB/dLuIsE0SimvPHUAg==
+X-Envelope-To: boris.brezillon@collabora.com
+X-Envelope-To: robh@kernel.org
+X-Envelope-To: steven.price@arm.com
+X-Envelope-To: maarten.lankhorst@linux.intel.com
+X-Envelope-To: mripard@kernel.org
+X-Envelope-To: tzimmermann@suse.de
+X-Envelope-To: airlied@gmail.com
+X-Envelope-To: daniel@ffwll.ch
+X-Envelope-To: sumit.semwal@linaro.org
+X-Envelope-To: christian.koenig@amd.com
+X-Envelope-To: dmitry.osipenko@collabora.com
+X-Envelope-To: zack.rusin@broadcom.com
+X-Envelope-To: kernel@collabora.com
+X-Envelope-To: dri-devel@lists.freedesktop.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: linux-media@vger.kernel.org
+X-Envelope-To: linaro-mm-sig@lists.linaro.org
+Date: Sun, 26 May 2024 05:27:29 -0300
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+Subject: Re: [PATCH v4 2/3] drm/lima: Fix dma_resv deadlock at drm object pin
+ time
+To: =?iso-8859-1?q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+	<robh@kernel.org>, Steven Price <steven.price@arm.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?b?S/ZuaWc=?= <christian.koenig@amd.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Zack Rusin
+	<zack.rusin@broadcom.com>, kernel@collabora.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Message-Id: <TH33ES.VQFJ1AUXO5N81@packett.cool>
+In-Reply-To: <20240523113236.432585-3-adrian.larumbe@collabora.com>
+References: <20240523113236.432585-1-adrian.larumbe@collabora.com>
+	<20240523113236.432585-3-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-If an error occurs after a successful alloc_fw_msg_bufs() call, some
-resources should be released as already done in the remove function.
 
-Add a new free_fw_msg_bufs() function that releases what has been allocated
-by alloc_fw_msg_bufs().
 
-Also use this new function in isys_remove() to avoid some code duplication.
+On Thu, May 23 2024 at 12:32:18 +01:00:00, Adri=E1n Larumbe=20
+<adrian.larumbe@collabora.com> wrote:
+> Commit a78027847226 ("drm/gem: Acquire reservation lock in
+> drm_gem_{pin/unpin}()") moved locking the DRM object's dma=20
+> reservation to
+> drm_gem_pin(), but Lima's pin callback kept calling drm_gem_shmem_pin,
+> which also tries to lock the same dma_resv, leading to a double lock
+> situation.
+>=20
+> As was already done for Panfrost in the previous commit, fix it by
+> replacing drm_gem_shmem_pin() with its locked variant.
 
-Fixes: f50c4ca0a820 ("media: intel/ipu6: add the main input system driver")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested only.
+Hi, just found this while dealing with compositor lockups upon=20
+launching a GL client on an old Rockchip RK3066 tablet, and it did fix=20
+the problem :) Thank you.
 
-I'm slightly puzzled by the use of the _safe version of
-list_for_each_entry(). Is it really needed here.
+Tested-by: Val Packett <val@packett.cool>
 
-Also, should isys->listlock be used?
-The code looks racy to me.
-
-Changes in v2:
-  - Introduce and use free_fw_msg_bufs()   [Sakari Ailus]
-
-v1: https://lore.kernel.org/all/545315bcaac0a897c25cfa20a603be2af2a40aa9.1716201136.git.christophe.jaillet@wanadoo.fr/
----
- drivers/media/pci/intel/ipu6/ipu6-isys.c | 27 ++++++++++++++++--------
- 1 file changed, 18 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-index 7ce2047a09b5..1998b72ac07d 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-@@ -925,6 +925,20 @@ static const struct dev_pm_ops isys_pm_ops = {
- 	.resume = isys_resume,
- };
- 
-+static void free_fw_msg_bufs(struct ipu6_isys *isys)
-+{
-+	struct device *dev = &isys->adev->auxdev.dev;
-+	struct isys_fw_msgs *fwmsg, *safe;
-+
-+	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist, head)
-+		dma_free_attrs(dev, sizeof(struct isys_fw_msgs), fwmsg,
-+			       fwmsg->dma_addr, 0);
-+
-+	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist_fw, head)
-+		dma_free_attrs(dev, sizeof(struct isys_fw_msgs), fwmsg,
-+			       fwmsg->dma_addr, 0);
-+}
-+
- static int alloc_fw_msg_bufs(struct ipu6_isys *isys, int amount)
- {
- 	struct device *dev = &isys->adev->auxdev.dev;
-@@ -1105,12 +1119,14 @@ static int isys_probe(struct auxiliary_device *auxdev,
- 
- 	ret = isys_register_devices(isys);
- 	if (ret)
--		goto out_remove_pkg_dir_shared_buffer;
-+		goto free_fw_msg_bufs;
- 
- 	ipu6_mmu_hw_cleanup(adev->mmu);
- 
- 	return 0;
- 
-+free_fw_msg_bufs:
-+	free_fw_msg_bufs(isys);
- out_remove_pkg_dir_shared_buffer:
- 	if (!isp->secure_mode)
- 		ipu6_cpd_free_pkg_dir(adev);
-@@ -1137,16 +1153,9 @@ static void isys_remove(struct auxiliary_device *auxdev)
- 	struct ipu6_bus_device *adev = auxdev_to_adev(auxdev);
- 	struct ipu6_isys *isys = dev_get_drvdata(&auxdev->dev);
- 	struct ipu6_device *isp = adev->isp;
--	struct isys_fw_msgs *fwmsg, *safe;
- 	unsigned int i;
- 
--	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist, head)
--		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
--			       fwmsg, fwmsg->dma_addr, 0);
--
--	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist_fw, head)
--		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
--			       fwmsg, fwmsg->dma_addr, 0);
-+	free_fw_msg_bufs(isys);
- 
- 	isys_unregister_devices(isys);
- 	isys_notifier_cleanup(isys);
--- 
-2.45.1
 
 
