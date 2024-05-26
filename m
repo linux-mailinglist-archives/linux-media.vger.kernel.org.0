@@ -1,142 +1,180 @@
-Return-Path: <linux-media+bounces-11879-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11884-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49AE18CF231
-	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 01:30:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F568CF2C4
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 10:01:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8283E281150
-	for <lists+linux-media@lfdr.de>; Sat, 25 May 2024 23:30:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3718028144B
+	for <lists+linux-media@lfdr.de>; Sun, 26 May 2024 08:01:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C12912B16E;
-	Sat, 25 May 2024 23:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B85188F45;
+	Sun, 26 May 2024 08:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="M99oINRF"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="HU6QDevo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from msa.smtpout.orange.fr (msa-208.smtpout.orange.fr [193.252.23.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2783127E34;
-	Sat, 25 May 2024 23:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD767462;
+	Sun, 26 May 2024 08:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716679781; cv=none; b=RxrH6gF+ThdWSB6I0EUOEuS5ELVpgjAX+jc3hrE9PnUQAf5Sg6iySY7LYbIFRD4l191aZUT7umn24IiqRVUNsoehKZSqukbQUmHWx+gKKi06o5UYEC80FkIfTa9JX7TOQuLqkzbRGE3OlxT16h8MSOJnKIOufC41FR79IQvME3E=
+	t=1716710490; cv=none; b=UE4LRd0kFiy1XXOFVC5MeEIz7bLW9yUgHGR2aTMbSEQRCKZrG/zIcfbgd1ge/E7Y800FvP7JXg38QZdMa5u1zytVmKbDtjCSnYf/B/u/asZo1TSANTyVGNfACJrM10SHZPtQyVcTk/jSM7DqczoOvvBlT4+54lUO7qlTEqYGU/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716679781; c=relaxed/simple;
-	bh=PBNn0jdNfUp4z8i6OCekSOpLNXWwmbOY9aEsHfW/x5E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xd0fq7UR+eDDP+nboAoE8+dgJVWtmEZxPd4olw6dRxUdzpXGReLEKJth4N7An8f1x+u5chqin1lfP92L6cm4mCDrtnNIaueqhOlglLhSKq3ejisIiYIOCTEZKjo8HKzeEPhu+iekEzWI1VQdLsSlv8bxZeUCx+Pbh2F2H615HY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=M99oINRF; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: a452f6a41aee11ef8c37dd7afa272265-20240526
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=Tl2QN13jl/RXNBMTp3Wzf+yLZtDlERtwTZOrjciV6eA=;
-	b=M99oINRFyM9yICI92W0c3g6n6V1A4krihoJGlUgqEXeDep49dmgcE9n1oZdSF7slV+67OTq1Hzo5SoG2w3Y8tFGb+61GrInuRwDdVXQOg9FuaBddUB9hAd57M9EmgnceCRUxyVaPA20y/cAiL3zBCES2kUbGvg8pyLPIdOl9oNg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:7915aedf-e663-40c8-a289-c5881c836dad,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:82c5f88,CLOUDID:e060cd43-4544-4d06-b2b2-d7e12813c598,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: a452f6a41aee11ef8c37dd7afa272265-20240526
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
-	(envelope-from <jason-jh.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1552233013; Sun, 26 May 2024 07:29:33 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sun, 26 May 2024 07:29:31 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sun, 26 May 2024 07:29:31 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Maxime Ripard <mripard@kernel.org>
-CC: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Matthias Brugger <matthias.bgg@gmail.com>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Jason-ch
- Chen" <jason-ch.chen@mediatek.com>, "Jason-JH . Lin"
-	<jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Nancy
- Lin" <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jeffrey Kardatzke
-	<jkardatzke@google.com>
-Subject: [PATCH v6 7/7] drm/mediatek: Add cmdq_insert_backup_cookie before secure pkt finalize
-Date: Sun, 26 May 2024 07:29:28 +0800
-Message-ID: <20240525232928.5524-8-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20240525232928.5524-1-jason-jh.lin@mediatek.com>
-References: <20240525232928.5524-1-jason-jh.lin@mediatek.com>
+	s=arc-20240116; t=1716710490; c=relaxed/simple;
+	bh=YceaYbK69STYG1+34LgP3lcfEJ/qdP71K3CN/adN8Uc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DoiZPQuizG/2xI6UahJ3H34H/usQwMA19ItBGz8jv3uL2Uf8RogQTGtdyVFHiAmfX8LpSopRgcStIC+3gSy3IpNorp7/ZjH+o3ISwsA53dP5UXgMcjo0/t3pk0lGQUagp6hkjmoP/G6iVYtjMFN1rmIcaRuXC0tJ9GZJc+Oceuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=HU6QDevo; arc=none smtp.client-ip=193.252.23.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([86.243.17.157])
+	by smtp.orange.fr with ESMTPA
+	id B8nVshp7epUD1B8nVsPLZD; Sun, 26 May 2024 10:00:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1716710408;
+	bh=hCZf5B7Epe9+DdIH1wmQifOFMMbDVPfjY6bD0iQQskA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=HU6QDevomlXJ4SNuMksWg9zoDyFOIVAe1o5eMzgLYS8SIbuKQ06Hysame496qhyxD
+	 ts1E1A29UuIAbP06wMyoiAdVylOFEZJWTkD3QuWsWjlHGK/9PuxDn3QoWvyG7VTzf1
+	 n1K68OInv4vpPcy+lNWaq011Je5+eFNQT4zMAOz8MlzUASHS1wYOuQAI6BuMl6MeOB
+	 t6QlYgUiT7m/ezXBs1cq8CjXbopiiezH4LMTaAiCiqQeTKmiXAP1M71gU3JXav2K2q
+	 Vx4+2Dt+m+cKxgudkYrinv9NhSH7LtWbdYaDqqrzaxPg0bRZGbuwBs9hR8xxIH3lWV
+	 sBLRh7uWF62hA==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 26 May 2024 10:00:08 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: sakari.ailus@linux.intel.com,
+	bingbu.cao@intel.com,
+	tian.shu.qiu@intel.com,
+	mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	hdegoede@redhat.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH v2 1/2] media: intel/ipu6: Move isys_remove() close to isys_probe()
+Date: Sun, 26 May 2024 09:59:56 +0200
+Message-ID: <15a056198775689cb533a7b0ea7e100559a2465d.1716710255.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--11.595200-8.000000
-X-TMASE-MatchedRID: XAa2d/45j8Tob/hVdrvnXjPDkSOzeDWW+eBf9ovw8I27eXIF2U7rKy+8
-	OxujShyxE/UmhJjBrzZC3mgca9yt8kttpN+KVVd9syNb+yeIRArvJY9pBzgg1P+RKQghHjkeBgH
-	mCxujQvyjmrD+IUq29hI7tf+6KnxtiBoFctaOhN8jRwcsjqWGAgrefVId6fzVCqIJhrrDy2/jZY
-	67L74Lw7o3/co+ykK6UFTYnego7LJccQ8eam5EfRRFJJyf5BJe3QfwsVk0UbtuRXh7bFKB7gRuY
-	qpRzYwt5tYzjYMxVNFdPwsV1FdNCbaRD1c+EJMdvuvB6gAgryg=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--11.595200-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	9AEA3DB8CB88483491FE005922C30F1CE0AE72AEC367029CE1464088C652F4422000:8
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 
-Add cmdq_insert_backup_cookie to append some commands before EOC:
-1. Get GCE HW thread execute count from the GCE HW register.
-2. Add 1 to the execute count and then store into a shared memory.
-3. Set a software event siganl as secure irq to GCE HW.
+In preparation to fixing a leak in isys_probe(), move isys_remove().
+The fix will introduce a new function that will also be called from
+isys_remove(). The code needs to be rearranged to avoid a forward
+declaration.
 
-Since the value of execute count + 1 is stored in a shared memory,
-CMDQ driver in the normal world can use it to handle task done in irq
-handler and CMDQ driver in the secure world will use it to schedule
-the task slot for each secure thread.
+Having the .remove function close to the .probe function is also more
+standard.
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/gpu/drm/mediatek/mtk_crtc.c | 3 +++
- 1 file changed, 3 insertions(+)
+Changes in v2:
+  - new patch
+---
+ drivers/media/pci/intel/ipu6/ipu6-isys.c | 70 ++++++++++++------------
+ 1 file changed, 35 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 59f6263ae806..0df9bf695f65 100644
---- a/drivers/gpu/drm/mediatek/mtk_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -178,6 +178,7 @@ void mtk_crtc_disable_secure_state(struct drm_crtc *crtc)
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+index 5992138c7290..7ce2047a09b5 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+@@ -925,41 +925,6 @@ static const struct dev_pm_ops isys_pm_ops = {
+ 	.resume = isys_resume,
+ };
  
- 	cmdq_sec_pkt_set_data(&mtk_crtc->sec_cmdq_handle, sec_scn);
+-static void isys_remove(struct auxiliary_device *auxdev)
+-{
+-	struct ipu6_bus_device *adev = auxdev_to_adev(auxdev);
+-	struct ipu6_isys *isys = dev_get_drvdata(&auxdev->dev);
+-	struct ipu6_device *isp = adev->isp;
+-	struct isys_fw_msgs *fwmsg, *safe;
+-	unsigned int i;
+-
+-	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist, head)
+-		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
+-			       fwmsg, fwmsg->dma_addr, 0);
+-
+-	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist_fw, head)
+-		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
+-			       fwmsg, fwmsg->dma_addr, 0);
+-
+-	isys_unregister_devices(isys);
+-	isys_notifier_cleanup(isys);
+-
+-	cpu_latency_qos_remove_request(&isys->pm_qos);
+-
+-	if (!isp->secure_mode) {
+-		ipu6_cpd_free_pkg_dir(adev);
+-		ipu6_buttress_unmap_fw_image(adev, &adev->fw_sgt);
+-		release_firmware(adev->fw);
+-	}
+-
+-	for (i = 0; i < IPU6_ISYS_MAX_STREAMS; i++)
+-		mutex_destroy(&isys->streams[i].mutex);
+-
+-	isys_iwake_watermark_cleanup(isys);
+-	mutex_destroy(&isys->stream_mutex);
+-	mutex_destroy(&isys->mutex);
+-}
+-
+ static int alloc_fw_msg_bufs(struct ipu6_isys *isys, int amount)
+ {
+ 	struct device *dev = &isys->adev->auxdev.dev;
+@@ -1167,6 +1132,41 @@ static int isys_probe(struct auxiliary_device *auxdev,
+ 	return ret;
+ }
  
-+	cmdq_sec_insert_backup_cookie(&mtk_crtc->sec_cmdq_handle);
- 	cmdq_pkt_finalize(&mtk_crtc->sec_cmdq_handle);
- 	dma_sync_single_for_device(mtk_crtc->sec_cmdq_client.chan->mbox->dev,
- 				   mtk_crtc->sec_cmdq_handle.pa_base,
-@@ -795,6 +796,8 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
-+		if (cmdq_handle->sec_data)
-+			cmdq_sec_insert_backup_cookie(cmdq_handle);
- 		cmdq_pkt_finalize(cmdq_handle);
- 		dma_sync_single_for_device(cmdq_client.chan->mbox->dev,
- 					   cmdq_handle->pa_base,
++static void isys_remove(struct auxiliary_device *auxdev)
++{
++	struct ipu6_bus_device *adev = auxdev_to_adev(auxdev);
++	struct ipu6_isys *isys = dev_get_drvdata(&auxdev->dev);
++	struct ipu6_device *isp = adev->isp;
++	struct isys_fw_msgs *fwmsg, *safe;
++	unsigned int i;
++
++	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist, head)
++		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
++			       fwmsg, fwmsg->dma_addr, 0);
++
++	list_for_each_entry_safe(fwmsg, safe, &isys->framebuflist_fw, head)
++		dma_free_attrs(&auxdev->dev, sizeof(struct isys_fw_msgs),
++			       fwmsg, fwmsg->dma_addr, 0);
++
++	isys_unregister_devices(isys);
++	isys_notifier_cleanup(isys);
++
++	cpu_latency_qos_remove_request(&isys->pm_qos);
++
++	if (!isp->secure_mode) {
++		ipu6_cpd_free_pkg_dir(adev);
++		ipu6_buttress_unmap_fw_image(adev, &adev->fw_sgt);
++		release_firmware(adev->fw);
++	}
++
++	for (i = 0; i < IPU6_ISYS_MAX_STREAMS; i++)
++		mutex_destroy(&isys->streams[i].mutex);
++
++	isys_iwake_watermark_cleanup(isys);
++	mutex_destroy(&isys->stream_mutex);
++	mutex_destroy(&isys->mutex);
++}
++
+ struct fwmsg {
+ 	int type;
+ 	char *msg;
 -- 
-2.18.0
+2.45.1
 
 
