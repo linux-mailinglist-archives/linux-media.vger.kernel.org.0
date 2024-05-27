@@ -1,343 +1,157 @@
-Return-Path: <linux-media+bounces-11913-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11915-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C198CFA9A
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:54:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CB78CFAC1
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:59:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BACFB281A16
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 07:54:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5569E1F23229
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 07:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A701E381A4;
-	Mon, 27 May 2024 07:54:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80CC947F69;
+	Mon, 27 May 2024 07:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cyVRqE2X"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="mobTZUzZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303D4481C4
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 07:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716796457; cv=none; b=VNMaVXPsjkrNdhtC94XPIkvCBcjA2kzZbdSE0J5DCgW09aGPdugU+mGFZC6BAW9GLPHcGvs+x6zYEwkFLKDPn4tNRQcgGwBoPyLcyYjaMmFcDGQiC71VzB0bnoblLUrp3wA1uDbe5sTVyTDlfN7yHoBYEsf/ckqM07S+y7oM5NM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716796457; c=relaxed/simple;
-	bh=DxNxoHKKKKV/YA60keklUJxbnrSoPWjFw855DmcjX2M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WIShCcjf/iFPqmiaIIurxC2t/xrh8t8CUNJkFbCZWCGdMFbWt3Lb/E5vF0fjwYN40DJ6Ez643SkGG5EfIgtIYYgi//L7HV8OCDasD05f49uzVEAvHYoVwjLatxowL/6M14Q+bv5g4kxMNROJ4GlbQ2dxPzQvSLEP/z6Ru32DO0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cyVRqE2X; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5295eb47b48so3017864e87.1
-        for <linux-media@vger.kernel.org>; Mon, 27 May 2024 00:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1716796453; x=1717401253; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/ZV/h6vQsdHCKRsoJtSYQORaM3AAsx3HRHL7zmr/VbI=;
-        b=cyVRqE2XIEEZwz/i4KXgo+9UdCdVoxfTStjcTs+V669O3iEWWgQ4uNOXuL8Y6Sut3Y
-         ewDY1k4si78czBF5hNNPt3WqO+TJe/wRtx0gO900jy4k29ijdupJnMi7WrF2sbSN47sb
-         eZ3vs6S3gxziZu2d5nBOzrQokQtfAovMneQs0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716796453; x=1717401253;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/ZV/h6vQsdHCKRsoJtSYQORaM3AAsx3HRHL7zmr/VbI=;
-        b=n3n++E5PL1SFbg8xMbBSI8kBB51SHOo3WIogjbtanFUpEH8SqK9+hHCnVMIyK5E/uE
-         Jd8DjzNjdhOI4Z6GJaPZUz4Yme+vTPz7Qj0/Ta9rzwlUags4o3mJHLAcHD3AvJZc55cl
-         sDoa+2GdqnvVgM9gzcaEt5dotPvnoW7HNe09QO+FARpKg/V5PDN8XTP2XnxyNlNOeaPU
-         0iMuh544AIp841qP1eEdNOEfNDzw+T4tbOOj7pkotwl7VoBZdv/Huvk2AjdPT2Vf8sxc
-         +2nwWhX2YerJqoO5AY+GyMi/6PYrKueJtEdwUMzgwX+JEGmvAFK02bBWN7OcDTirzoIn
-         H1pA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcNcWGS8dmOjRYITXxYz8qgee5Ui3WriLPkMjxiJjBkRi3sOOMjjccTuQI96fcOUmFHqQx87KCYF5TEGm6b0yaletYoh/91gd7hLs=
-X-Gm-Message-State: AOJu0Yzts7ZNpur3zPXQkL6DMYboIxkXssj2PIf8O8ccKJdL1M8kbvXj
-	LFcKpp8iYJ0HouoYRSLux5WM5Zx5bc0YUDBZO+34+1u69mtxno3KSVTG3CrParAEklNVkLds9SF
-	cw/XxVx8v6S5U2foz/Rhq6DWAWPA+d5s6jCaC
-X-Google-Smtp-Source: AGHT+IEr6BRhzwQNd70coArCp9R36H5Sfgvu1jqLEpaNgVYG5JEtSZ3QSk58bvLscssV5LNqg4qreFKps/AUod4hV0I=
-X-Received: by 2002:ac2:4548:0:b0:51c:348:3ba9 with SMTP id
- 2adb3069b0e04-52964baf3ebmr4816022e87.22.1716796453243; Mon, 27 May 2024
- 00:54:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E207646B9A;
+	Mon, 27 May 2024 07:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716796710; cv=pass; b=msfhg1Us3lRrYakYEUxpF4SwuBPN4EmkAInO4nUypEXmnzF4Apq4iit+k6ZzxUCc6KxpkqBH4PiRq767bX1fREHJvKV+GY1IN1XRCzm+JcpEbJ0ydnpuYe6/1pDKaMlZV19gQ+0PRBtW6i628KwwwIsn4gDbbt22UQm+kTh2l18=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716796710; c=relaxed/simple;
+	bh=vwS+AuD8UVfLnVXDMH1Bl8rSrqLGxrRX5xZXy2fk1aU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P8OXIbL5fPKgYtCT90/ibJVPIXjaOVSdVI8xS4fxz48txABl+INz/lBON5lh1mE5TZgPEWoP43z+1bjdECXPQPoT8+ZPmDVgabCXR3QME+62hbrZcFVWDSG+VHPrZeVyYD+5+MYUzXaNvRm1v+nF2Uoaz6CFigEujNFMdefODwU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=mobTZUzZ; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4Vnp1G1H51zyTl;
+	Mon, 27 May 2024 10:58:26 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1716796706;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x23DknOkOB4RXlSRdLWdfv1URkvosOteVrdvSet2Ipw=;
+	b=mobTZUzZ15XSt7HuoAWzNUb+i1fJXmNR/gs6OxF5LqV/9E650i/uNpQ9SvdRxOB8fLdzan
+	afVRpBl0UkoV0weNa2RiXrmLbCM6xItNiYFANbYLcf7TAqRL4kz8iHJr8qiQ0IjFYi3uQS
+	g923Np2HbJOqXksQO5HzoZ2LS/EOmqw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1716796706;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x23DknOkOB4RXlSRdLWdfv1URkvosOteVrdvSet2Ipw=;
+	b=KpJqFlmwOwyrXx034SsC8NCjE6uROGzTfBJuJAlRDO2q8izyDAimKKXNQlhGsPgfXM0vNN
+	NgAFPh/YhF6AegU34aD8cyCNiOYoS8UX75WKnJuP2Nl5EnZKsD54+beq9ENnrCurAY+YoA
+	i45+1L46mbEjAWtuo/fi+Fbg1oPhhEY=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1716796706; a=rsa-sha256; cv=none;
+	b=dFgTAqntdpL85p0FWoXQDa20advQZAU0/1ZGuqeh+mrYm5BuxIq2ab4npfD2D7tZsYCzYI
+	YR+aAUvPuFfbkp0CktcigGldCjimwq509l8yWlG12BD+h87eI2Me2WQt/VQJ96ArAgYOS+
+	Yvl+g1HYSSwx8IkBGN4LUspAww2ZUsE=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 66993634C93;
+	Mon, 27 May 2024 10:55:28 +0300 (EEST)
+Date: Mon, 27 May 2024 07:55:28 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Dan Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v4 3/5] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <ZlQ8cOK718ha5ABw@valkosipuli.retiisi.eu>
+References: <20240418090825.624747-1-dan.scally@ideasonboard.com>
+ <20240418090825.624747-4-dan.scally@ideasonboard.com>
+ <Zk74ZZqn568-Wa3M@valkosipuli.retiisi.eu>
+ <4ea66114-37a4-413f-b672-43ec3d4631c6@ideasonboard.com>
+ <Zk-tyxjm-6R-66JO@valkosipuli.retiisi.eu>
+ <8fe3bfb9-73d6-445f-bc90-d33b5c192507@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240516122102.16379-1-yunfei.dong@mediatek.com> <20240516122102.16379-25-yunfei.dong@mediatek.com>
-In-Reply-To: <20240516122102.16379-25-yunfei.dong@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 27 May 2024 15:54:02 +0800
-Message-ID: <CAGXv+5EdwQMCPu7ksshCQ_FQZ460TFrxQN4TE2t=LEOK-rNU5g@mail.gmail.com>
-Subject: Re: [PATCH v6, 24/24] media: mediatek: vcodec: support vp9 svp
- decoder for mt8188
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: Jeffrey Kardatzke <jkardatzke@google.com>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Nathan Hebert <nhebert@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Tomasz Figa <tfiga@chromium.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
-	Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
-	Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T . J . Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8fe3bfb9-73d6-445f-bc90-d33b5c192507@ideasonboard.com>
 
-On Thu, May 16, 2024 at 8:21=E2=80=AFPM Yunfei Dong <yunfei.dong@mediatek.c=
-om> wrote:
->
-> From: Yilong Zhou <yilong.zhou@mediatek.com>
->
-> Change vp9 driver to support secure video playback(svp) for
-> mt8188. Need to map shared memory with optee interface and
-> wait interrupt in optee-os.
->
-> Signed-off-by: Yilong Zhou <yilong.zhou@mediatek.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 91 ++++++++++++-------
->  1 file changed, 59 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9=
-_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp=
-9_req_lat_if.c
-> index cf48d09b78d7..9f64661800af 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_la=
-t_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_la=
-t_if.c
-> @@ -141,6 +141,7 @@ struct vdec_vp9_slice_frame_counts {
->   * @skip:      skip counts.
->   * @y_mode:    Y prediction mode counts.
->   * @filter:    interpolation filter counts.
-> + * @mv_joint:  motion vector joint counts.
->   * @sign:      motion vector sign counts.
->   * @classes:   motion vector class counts.
->   * @class0:    motion vector class0 bit counts.
-> @@ -804,6 +805,9 @@ static void vdec_vp9_slice_setup_frame_ctx(struct vde=
-c_vp9_slice_instance *insta
->         error_resilient_mode =3D HDR_FLAG(ERROR_RESILIENT);
->         reset_frame_context =3D uh->reset_frame_context;
->
-> +       if (instance->ctx->is_secure_playback)
-> +               return;
-> +
->         /*
->          * according to "6.2 Uncompressed header syntax" in
->          * "VP9 Bitstream & Decoding Process Specification",
-> @@ -818,8 +822,7 @@ static void vdec_vp9_slice_setup_frame_ctx(struct vde=
-c_vp9_slice_instance *insta
->                  * 2 resets just the context specified in the frame heade=
-r
->                  * 3 resets all contexts
->                  */
-> -               if (key_frame || error_resilient_mode ||
-> -                   reset_frame_context =3D=3D 3) {
-> +               if (key_frame || error_resilient_mode || reset_frame_cont=
-ext =3D=3D 3) {
->                         /* use default table */
->                         for (i =3D 0; i < 4; i++)
->                                 instance->dirty[i] =3D 0;
-> @@ -1042,6 +1045,9 @@ static void vdec_vp9_slice_setup_seg_buffer(struct =
-vdec_vp9_slice_instance *inst
->  {
->         struct vdec_vp9_slice_uncompressed_header *uh;
->
-> +       if (instance->ctx->is_secure_playback)
-> +               return;
-> +
->         /* reset segment buffer */
->         uh =3D &vsi->frame.uh;
->         if (uh->frame_type =3D=3D 0 ||
-> @@ -1172,15 +1178,16 @@ static int vdec_vp9_slice_setup_lat(struct vdec_v=
-p9_slice_instance *instance,
->
->         vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[0])=
-;
->
-> -       /* setup prob/tile buffers for LAT */
-> -
-> -       ret =3D vdec_vp9_slice_setup_prob_buffer(instance, vsi);
-> -       if (ret)
-> -               goto err;
-> +       if (!instance->ctx->is_secure_playback) {
-> +               /* setup prob/tile buffers for LAT */
-> +               ret =3D vdec_vp9_slice_setup_prob_buffer(instance, vsi);
-> +               if (ret)
-> +                       goto err;
->
-> -       ret =3D vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
-> -       if (ret)
-> -               goto err;
-> +               ret =3D vdec_vp9_slice_setup_tile_buffer(instance, vsi, b=
-s);
-> +               if (ret)
-> +                       goto err;
-> +       }
->
->         return 0;
->
-> @@ -1599,7 +1606,8 @@ static int vdec_vp9_slice_update_single(struct vdec=
-_vp9_slice_instance *instance
->                        pfc->seq, vsi->state.crc[4], vsi->state.crc[5],
->                        vsi->state.crc[6], vsi->state.crc[7]);
->
-> -       vdec_vp9_slice_update_prob(instance, vsi);
-> +       if (!instance->ctx->is_secure_playback)
-> +               vdec_vp9_slice_update_prob(instance, vsi);
->
->         instance->width =3D vsi->frame.uh.frame_width;
->         instance->height =3D vsi->frame.uh.frame_height;
-> @@ -1632,7 +1640,8 @@ static int vdec_vp9_slice_update_lat(struct vdec_vp=
-9_slice_instance *instance,
->                 return -EAGAIN;
->         }
->
-> -       vdec_vp9_slice_update_prob(instance, vsi);
-> +       if (!instance->ctx->is_secure_playback)
-> +               vdec_vp9_slice_update_prob(instance, vsi);
->
->         instance->width =3D vsi->frame.uh.frame_width;
->         instance->height =3D vsi->frame.uh.frame_height;
-> @@ -1694,8 +1703,13 @@ static int vdec_vp9_slice_setup_core_buffer(struct=
- vdec_vp9_slice_instance *inst
->                 return -EINVAL;
->
->         /* update internal buffer's width/height */
-> -       instance->dpb[vb->index].width =3D w;
-> -       instance->dpb[vb->index].height =3D h;
-> +       for (i =3D 0; i < vq->num_buffers; i++) {
+Hi Dan,
 
-Starting in v6.10-rc1 with the introduction of REMOVE_BUFS, vq->num_buffers
-was removed. There is now vq->max_num_buffers.
+On Fri, May 24, 2024 at 11:31:28AM +0100, Dan Scally wrote:
+> Hi Sakari
+> 
+> On 23/05/2024 21:57, Sakari Ailus wrote:
+> > Hi Dan,
+> > 
+> > On Thu, May 23, 2024 at 03:27:36PM +0100, Dan Scally wrote:
+> > > Hi Sakari - sorry, one part I missed...
+> > > 
+> > > On 23/05/2024 09:03, Sakari Ailus wrote:
+> > > > > +
+> > > > > +int mali_c55_isp_s_stream(struct mali_c55_isp *isp, int enable)
+> > > > Have you considered {enable,disable}_streams? All new drivers should use
+> > > > these instead of s_stream() now.
+> > > 
+> > > Although named s_stream this is actually a purely internal function - it's
+> > > not exposed as part of the subdev video ops. The resizer subdevices
+> > > similarly don't expose an .s_stream() operation, they're simply started in
+> > > the callpath of mali_c55_vb2_start_streaming(). I'll split the stop
+> > > functionality into mali_c55_isp_stop_stream() and rename this
+> > > mali_c55_isp_start_stream() to make that less confusing.
+> > Ack. But this might require some rework, depending on based on what
+> > streaming is actually started. I'm referring to the discussion elsewhere
+> > in the same thread.
+> > 
+> > > 
+> > > The TPG subdevice on the other hand does expose an .s_stream() operation,
+> > > since the intention was to model it exactly like a connected external
+> > > subdevice. I can switch to the .enable_streams() operation there.
+> > Sounds good.
+> 
+> 
+> Actually, not sure about this...the TPG just has a single source pad, so
+> there's no _routing_ to set and as far as I can tell that means there's also
+> no _streams_ to set since they depend on the routing -
+> v4l2_subdev_enable_streams() checks the state's stream_configs to make sure
+> the stream you're asking to enable exists, and those stream_configs get
+> created when routing is created - so I  think for now that the TPG has to
+> stay as .s_stream().
 
-> +               if (vb =3D=3D vq->bufs[i]) {
+With Tomi's patches
+<URL:https://lore.kernel.org/linux-media/20240424-enable-streams-impro-v6-0-5fb14c20147d@ideasonboard.com/>
+you no longer need routes to use {enable,disable}_streams.
 
-This should probably use the helper "vb2_get_buffer(vq, i)".
+> 
+> 
+> In the isp subdevice I can switch to v4l2_subdev_[enable|disable]_streams()
+> and let it fallback to .s_stream() for the tpg - that part's fine.
 
-ChenYu
+-- 
+Regards,
 
-> +                       instance->dpb[i].width =3D w;
-> +                       instance->dpb[i].height =3D h;
-> +                       break;
-> +               }
-> +       }
->
->         /*
->          * get buffer's width/height from instance
-> @@ -1779,7 +1793,8 @@ static int vdec_vp9_slice_setup_core(struct vdec_vp=
-9_slice_instance *instance,
->         if (ret)
->                 goto err;
->
-> -       vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[1])=
-;
-> +       if (!instance->ctx->is_secure_playback)
-> +               vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance-=
->seg[1]);
->
->         return 0;
->
-> @@ -1874,19 +1889,31 @@ static int vdec_vp9_slice_init(struct mtk_vcodec_=
-dec_ctx *ctx)
->                 goto error_vsi;
->         }
->         instance->init_vsi =3D vsi;
-> -       instance->core_vsi =3D mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_han=
-dler,
-> -                                                      (u32)vsi->core_vsi=
-);
-> -       if (!instance->core_vsi) {
-> -               mtk_vdec_err(ctx, "failed to get VP9 core vsi\n");
-> -               ret =3D -EINVAL;
-> -               goto error_vsi;
-> -       }
->
-> -       instance->irq =3D 1;
-> +       if (ctx->is_secure_playback) {
-> +               instance->core_vsi =3D
-> +                       mtk_vcodec_dec_get_shm_buffer_va(ctx->dev->optee_=
-private, MTK_VDEC_CORE,
-> +                                                        OPTEE_DATA_INDEX=
-);
-> +               if (!instance->core_vsi) {
-> +                       mtk_vdec_err(ctx, "failed to get VP9 svp core vsi=
-\n");
-> +                       ret =3D -EINVAL;
-> +                       goto error_vsi;
-> +               }
-> +               instance->irq =3D 0;
-> +       } else {
-> +               instance->core_vsi =3D mtk_vcodec_fw_map_dm_addr(ctx->dev=
-->fw_handler,
-> +                                                              (u32)vsi->=
-core_vsi);
-> +               if (!instance->core_vsi) {
-> +                       mtk_vdec_err(ctx, "failed to get VP9 normal core =
-vsi\n");
-> +                       ret =3D -EINVAL;
-> +                       goto error_vsi;
-> +               }
-> +               instance->irq =3D 1;
->
-> -       ret =3D vdec_vp9_slice_init_default_frame_ctx(instance);
-> -       if (ret)
-> -               goto error_default_frame_ctx;
-> +               ret =3D vdec_vp9_slice_init_default_frame_ctx(instance);
-> +               if (ret)
-> +                       goto error_default_frame_ctx;
-> +       }
->
->         ctx->drv_handle =3D instance;
->
-> @@ -2101,9 +2128,12 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec,=
- struct mtk_vcodec_mem *bs,
->                        (unsigned long)pfc->vsi.trans.dma_addr,
->                        (unsigned long)pfc->vsi.trans.dma_addr_end);
->
-> -       vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
-> -                                      vsi->trans.dma_addr_end +
-> -                                      ctx->msg_queue.wdma_addr.dma_addr)=
-;
-> +       if (!instance->ctx->is_secure_playback) {
-> +               vsi->trans.dma_addr_end +=3D ctx->msg_queue.wdma_addr.dma=
-_addr;
-> +               mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
-> +                              (unsigned long)pfc->vsi.trans.dma_addr_end=
-);
-> +       }
-> +       vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_ad=
-dr_end);
->         vdec_msg_queue_qbuf(&ctx->msg_queue.core_ctx, lat_buf);
->
->         return 0;
-> @@ -2183,9 +2213,6 @@ static int vdec_vp9_slice_core_decode(struct vdec_l=
-at_buf *lat_buf)
->                 goto err;
->         }
->
-> -       pfc->vsi.trans.dma_addr_end +=3D ctx->msg_queue.wdma_addr.dma_add=
-r;
-> -       mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
-> -                      (unsigned long)pfc->vsi.trans.dma_addr_end);
->         vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dm=
-a_addr_end);
->         ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
->
-> --
-> 2.25.1
->
+Sakari Ailus
 
