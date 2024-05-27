@@ -1,61 +1,66 @@
-Return-Path: <linux-media+bounces-11994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11996-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AE38D0762
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:03:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAAB8D076C
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:04:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E85BE2949C4
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:03:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADD011C2089A
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:04:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE3816C6B6;
-	Mon, 27 May 2024 15:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E325916D4C1;
+	Mon, 27 May 2024 15:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwY2Osjz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QdQtXAk7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B755816C6AC;
-	Mon, 27 May 2024 15:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7621667F4;
+	Mon, 27 May 2024 15:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716825379; cv=none; b=W0IoY5tFFcjP42Lt1zh0p9/sDpxfnZdh3nHXqt8e4Rtt6uMyH57l2l+q8Err3F8j8odj01Kzvq/zpwdnrlgcDmt/GPSCNiAht5UtsSkNd5K7NOGjRDCKZO2hbs1EhzzAjtVGas5EUzv6i8eGw5uLJcGwgw4gb27UvAN23GErlak=
+	t=1716825403; cv=none; b=eEnxQb/c5ElFG21AYjRiYudZle8VPxf3cVRkwiCT+KCdviqZmXi1YkTAoXfcup+CaO4yJ9EGz8FVe5guKwVQ49oy0UNQ+Ep38UquUSy/FY4fCPY2qWx0KhNdS4cxMpUeG1yFXRjwuSXQhSaJtZAmgEmBG3Emoilat0JAmQTrRo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716825379; c=relaxed/simple;
-	bh=Tw3zDUMJPnwZjnIYo1ORXpO1GQ+JnxUHJ0CmsdPjWLw=;
+	s=arc-20240116; t=1716825403; c=relaxed/simple;
+	bh=xEyPTSI0oKT2ayAwMUNoeOnhWhpd3XcNCE5o6c/wOUQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OFiWMH+3bT9eBHRwpwazEKidsMrufps8WpbW1FgtCAoAL+gg1MqxTha5gzH3HRSoudqNZgCp8DWxMDSayT2DqcDEJcS5j0xgXjuBuOvJ//JurWbcu9+wVaDjsQy0NGl9lFdMrx4HEFJrG01rz7xxs0cGQ/KHZeYcopCfJYtl1Bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwY2Osjz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 677AEC2BBFC;
-	Mon, 27 May 2024 15:56:18 +0000 (UTC)
+	 MIME-Version; b=uWz1P2qsksnrcq582FOr5Ajg18+M4vt1GeFwAGmMHdf9+jwDs6dU7M7/XsHh3gS7Pya7Q6s+iMn2i3rhsWjFo6FIwJ6G5sVvA1wjrmCmlBnGEDQjg0tT/Y8l9zwIbIEGATiE/yXoD3dmkZ+MDW7rN5mhGq9RgiC4L1aS9TtQrB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QdQtXAk7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F7FC32781;
+	Mon, 27 May 2024 15:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716825379;
-	bh=Tw3zDUMJPnwZjnIYo1ORXpO1GQ+JnxUHJ0CmsdPjWLw=;
+	s=k20201202; t=1716825403;
+	bh=xEyPTSI0oKT2ayAwMUNoeOnhWhpd3XcNCE5o6c/wOUQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mwY2OsjzXiCoHd1jYaaH37z6hehKZg4dRraVv0xI0+eAxWwI4Z9bverKbT1+DYx6s
-	 tbyuGo+ccc08AMK1xhSOcWjoLNGmzWDQTJBMm7sNbefrM71qXr6GKqct1Y6XanEmmJ
-	 G+VdyFYFvbc3jCV8iumbGqlJCKu4hQpSjAVbTc3HF7GYO+9vGF2Ek0cbeKx+FKBHFj
-	 cmgO0ZIW36U20yw/y4JbuoY3cinU4nmAuQnP/GL7U4x3K74FP8wJzf06FqNyliiQAO
-	 FnLoON3iijhnv6hGAr/2HqTAylNSEFKip6RegLnDPTG4BZjXHyNYzB7dYK7AablIxS
-	 MrswHR1tMocjA==
+	b=QdQtXAk7d8iwA3CwVsQrSJ+zmaLAGI+TfDKCazrZuLCf2jQ/O2NuQGUvTJ/HOR+0J
+	 BwtdGCD9ujO39u0vFRhVrBiACT8ZuZJvqfnHNNTNbTQlYSKqQfIvN4qOmJ5/er6emL
+	 U2bJkiBvLGvmXH9EhBQ7AgYqQcCJMblKOEseRhpbvLtIp9kcDpeOFiF5bcaz0wfGvL
+	 XCVgz8VCo6H+Av1p6gNcia7/8hMMD6U7HS+TDJnQUJqJ5mB1/hMoKDG4LTA6W2zsUN
+	 CqRwkCBz/YXYAPwXV35QAb/SsMMgdzW6IgTlO3uHIn3zqn/IX272Z/GSIx61bU6Ekg
+	 XKputXYsncmjg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>,
+Cc: Fullway Wang <fullwaywang@outlook.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	mcgrof@kernel.org,
-	andriy.shevchenko@linux.intel.com,
-	tzimmermann@suse.de,
-	hkallweit1@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 10/16] media: lgdt3306a: Add a check against null-pointer-def
-Date: Mon, 27 May 2024 11:55:01 -0400
-Message-ID: <20240527155541.3865428-10-sashal@kernel.org>
+	tiffany.lin@mediatek.com,
+	andrew-ct.chen@mediatek.com,
+	yunfei.dong@mediatek.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com,
+	colin.i.king@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.6 14/16] media: mtk-vcodec: potential null pointer deference in SCP
+Date: Mon, 27 May 2024 11:55:05 -0400
+Message-ID: <20240527155541.3865428-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240527155541.3865428-1-sashal@kernel.org>
 References: <20240527155541.3865428-1-sashal@kernel.org>
@@ -70,54 +75,34 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.32
 Content-Transfer-Encoding: 8bit
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: Fullway Wang <fullwaywang@outlook.com>
 
-[ Upstream commit c1115ddbda9c930fba0fdd062e7a8873ebaf898d ]
+[ Upstream commit 53dbe08504442dc7ba4865c09b3bbf5fe849681b ]
 
-The driver should check whether the client provides the platform_data.
+The return value of devm_kzalloc() needs to be checked to avoid
+NULL pointer deference. This is similar to CVE-2022-3113.
 
-The following log reveals it:
-
-[   29.610324] BUG: KASAN: null-ptr-deref in kmemdup+0x30/0x40
-[   29.610730] Read of size 40 at addr 0000000000000000 by task bash/414
-[   29.612820] Call Trace:
-[   29.613030]  <TASK>
-[   29.613201]  dump_stack_lvl+0x56/0x6f
-[   29.613496]  ? kmemdup+0x30/0x40
-[   29.613754]  print_report.cold+0x494/0x6b7
-[   29.614082]  ? kmemdup+0x30/0x40
-[   29.614340]  kasan_report+0x8a/0x190
-[   29.614628]  ? kmemdup+0x30/0x40
-[   29.614888]  kasan_check_range+0x14d/0x1d0
-[   29.615213]  memcpy+0x20/0x60
-[   29.615454]  kmemdup+0x30/0x40
-[   29.615700]  lgdt3306a_probe+0x52/0x310
-[   29.616339]  i2c_device_probe+0x951/0xa90
-
-Link: https://lore.kernel.org/linux-media/20220405095018.3993578-1-zheyuma97@gmail.com
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Link: https://lore.kernel.org/linux-media/PH7PR20MB5925094DAE3FD750C7E39E01BF712@PH7PR20MB5925.namprd20.prod.outlook.com
+Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/dvb-frontends/lgdt3306a.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c   | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
-index 2638875924153..231b45632ad5a 100644
---- a/drivers/media/dvb-frontends/lgdt3306a.c
-+++ b/drivers/media/dvb-frontends/lgdt3306a.c
-@@ -2176,6 +2176,11 @@ static int lgdt3306a_probe(struct i2c_client *client)
- 	struct dvb_frontend *fe;
- 	int ret;
+diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
+index 9e744d07a1e8e..774487fb72a31 100644
+--- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
++++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
+@@ -79,6 +79,8 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(void *priv, enum mtk_vcodec_fw_use
+ 	}
  
-+	if (!client->dev.platform_data) {
-+		dev_err(&client->dev, "platform data is mandatory\n");
-+		return -EINVAL;
-+	}
-+
- 	config = kmemdup(client->dev.platform_data,
- 			 sizeof(struct lgdt3306a_config), GFP_KERNEL);
- 	if (config == NULL) {
+ 	fw = devm_kzalloc(&plat_dev->dev, sizeof(*fw), GFP_KERNEL);
++	if (!fw)
++		return ERR_PTR(-ENOMEM);
+ 	fw->type = SCP;
+ 	fw->ops = &mtk_vcodec_rproc_msg;
+ 	fw->scp = scp;
 -- 
 2.43.0
 
