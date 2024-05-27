@@ -1,92 +1,62 @@
-Return-Path: <linux-media+bounces-11924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11925-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AA48CFD52
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 11:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A912C8CFD67
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 11:47:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8EDA1B24731
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:43:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12AEEB22F8C
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:47:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 971A113A87E;
-	Mon, 27 May 2024 09:43:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 904A813A877;
+	Mon, 27 May 2024 09:46:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xb9MluAW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Nc9KUrbF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E78C13A40D
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 09:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B54613A40C
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 09:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716803004; cv=none; b=Q2PlozeCmSoA6Oz/gfZJeiBn+X2GA9bnOEuPuTnFW2dBNtjVoDlnN+g9mNRbNsABPCuaZeRJCfJXi+HmO6MBjvqLO9KIQPsqc2gKKixDepHMkmoal6BTnd55ry6qAR/gl7gDkwgmfsFgE/oH4p6MRv0TM+Qiu4iXOssr7Lyyx0M=
+	t=1716803219; cv=none; b=jhFIFsSJ1xomcvgkwzR5UDTJnOykTSRhRQZcYGGmX3c6LUgvPlLq+aiI4gK4bZ4Q7tL3x0QSwqPFCMS+dkxIZy/xlPujjJeqTWG8Q9Jm51aLUe6brSWhH0q03ATyzgVslqAh/qINfdZpk7htQ0M18/CO0yEiqo7dp2cGwHBgT6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716803004; c=relaxed/simple;
-	bh=r9nbaoFqgRjLYGHhUWKMyFC5NnKZ/LrtLxXc77Y9tNk=;
+	s=arc-20240116; t=1716803219; c=relaxed/simple;
+	bh=BoB6MuLmVr7I31tW3dMeGbL5Cti0aMbsYRZaaTfXf1g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RMz27YZRZ4Vfyv1WRrlatufZN2l1CEdDFT8mJJCOZP//kpqx35zI5txr6MtgAobBIQjQ8yWSBOQyh5GoEtlc1ViXrwRAdlVFXRxJKYmDEScIZhtXh9QfiNCTLpg9VkwuZ62E5HMjCH+plsYIZEAVwuZoXZRBpUUE34PZDpBMSp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xb9MluAW; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51fcb7dc722so4864632e87.1
-        for <linux-media@vger.kernel.org>; Mon, 27 May 2024 02:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716803000; x=1717407800; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0N7iqS/jW6psWnJVJQjJRax8oZv8fa2R262LhPDLB+4=;
-        b=Xb9MluAWPxk7IKJ7vlRvfD865+OfthMQE9suVJCGWyPtyxrUGQwKJurFL5SOsz2i3+
-         HLbTdjQRrA08VxQNKPtmuEYijmOhOAQrsxbezA1WVgLQX/wtF83u91Y93kGaXthKv/Y1
-         XdyXbhpA8sL7cY+LPRGcUwzrcpgWDBWVoDOOehuEklUGhoPXe8QaKclgstJQMsaTAcfJ
-         Lv3qwQ5ankjw/fPx5jT8uBgJiSyPtrWTdqT1dWEbcTr9ueQQmLxPvPtDy2nthQRpk5eK
-         WJt9S2AN+eTG/z1e9UEdqEm0Imsow83fbx5tUVMGC7VulZB2eTGc3QxEBsQQ3vcP0vNx
-         nnJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716803000; x=1717407800;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0N7iqS/jW6psWnJVJQjJRax8oZv8fa2R262LhPDLB+4=;
-        b=kI8qWBESBbmCJEY4mXGqA83fdbdaLJ+4jQ7F5yc4o3kkKvjSap+s1UJM5hQVLvDLU4
-         Kj3Er9G78kXtPYkz6VEv8lvHFKWpjdnFSGIjqFdIRzyvjkUZGj3Ie9rnu0Lr2ZWhaosT
-         qqBfWUgzwrXteZhldZjumRoAZZcB++yg7QhYW4bvZsqEwtg0APJ6IIscEsLHmtpR9ESF
-         DKhtra9XDTKdIL6P/d/RI04Hs2z1Csv4klSG6rsdrLarHUcHp+D48SxAfItaHLMEeZCW
-         F9uyQYyve90ZFCy/UGdUbcmc//yvSbQ/pI1oVMv9jD0V1PM9WJ8A8BAihgYqo3M/99YE
-         b5YA==
-X-Forwarded-Encrypted: i=1; AJvYcCX36gIspLlTq4+3tyo4j34cIDPp4zgKLEGqXjqWR4j2Bxv/DsMqXJiW41GzE5lHzNhrJY7amL+L3gj+IYMEnjAkm57i5IiI+VNOZ7s=
-X-Gm-Message-State: AOJu0YzCioFOAHYHpZ45UEZGKi6CVkYiuR9HIoaoVuzhuxgSUVEIWLzc
-	6rEX7+ZfVsFx7Ibb8UgTGRR82GIzvd3wo11gUo4m/llcTxy/Fr+l7hVAnbYkiAo=
-X-Google-Smtp-Source: AGHT+IEiQ8C9Lceia0g8JujCBp7raFBHsn1Pi+Zhb5Y4D5nikSTHmLnkevBZXNf8N4rIWwJyGf6zsw==
-X-Received: by 2002:a05:6512:3145:b0:520:ed4e:2206 with SMTP id 2adb3069b0e04-527ef9d9483mr3265363e87.17.1716803000505;
-        Mon, 27 May 2024 02:43:20 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-529a7fb982esm230632e87.265.2024.05.27.02.43.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 02:43:20 -0700 (PDT)
-Date: Mon, 27 May 2024 12:43:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
- <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
- <20240527-adamant-just-spaniel-ebed4e@houat>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tb3opMDKzxuFocUwEBOlYhLccwvZdTfGWh4xHv3m6RP71WHqtJcJD7spa69pBJoCImVmfUnNzFUmZNQtr6zmPVlJVuYHgKbh9diKwieqmgF8ML0mTSaI7nS/04q51zcTRC8k80glnUW0LvfTiBnwJM5JWXXoGFOEYH6tkCxVphA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Nc9KUrbF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9EE9471;
+	Mon, 27 May 2024 11:46:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1716803213;
+	bh=BoB6MuLmVr7I31tW3dMeGbL5Cti0aMbsYRZaaTfXf1g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nc9KUrbFDP/fki8oc6k24NzzUFctUFbI/b4P2Y46BBXh+Leb6otgoZ8fJxJkYok2S
+	 LhT0aGSJG443/JHygzSl43rhbvYUDLz2/J1SpMFLb1I/GQlHT6Rm/OP4jw8kEyjdyd
+	 X10JIT2Q+R5nUit0nTxzc5OC/kG0ljJZLfbIeY1o=
+Date: Mon, 27 May 2024 11:46:51 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, David Plowman <david.plowman@raspberrypi.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v7 7/8] media: raspberrypi: Add support for PiSP BE
+Message-ID: <o6sujfqnvizvz7kptlpa3ndwcfd3jxbn36tggppcoytx22acus@rrsy2cvrd3zy>
+References: <20240524140024.161313-1-jacopo.mondi@ideasonboard.com>
+ <20240524140024.161313-8-jacopo.mondi@ideasonboard.com>
+ <ZlOimSRFNNt1fdN3@valkosipuli.retiisi.eu>
+ <lqo77pdefh6f5ynxu32s24paj2qa22rc6pih623mhywifgr4pw@kt4iic67ljfz>
+ <ZlRAyMCduqsxYaQu@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,65 +65,206 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240527-adamant-just-spaniel-ebed4e@houat>
+In-Reply-To: <ZlRAyMCduqsxYaQu@valkosipuli.retiisi.eu>
 
-On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
-> Hi,
-> 
-> Thanks again for that thorough review :)
-> 
-> On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > > The i915 driver has a property to force the RGB range of an HDMI output.
-> > > The vc4 driver then implemented the same property with the same
-> > > semantics. KWin has support for it, and a PR for mutter is also there to
-> > > support it.
-> > > 
-> > > Both drivers implementing the same property with the same semantics,
-> > > plus the userspace having support for it, is proof enough that it's
-> > > pretty much a de-facto standard now and we can provide helpers for it.
-> > > 
-> > > Let's plumb it into the newly created HDMI connector.
-> > > 
-> > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  Documentation/gpu/kms-properties.csv            |  1 -
-> > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++++++++++
-> > >  include/drm/drm_connector.h                     | 36 ++++++++++
-> > >  6 files changed, 133 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
-> > > index 0f9590834829..caef14c532d4 100644
-> > > --- a/Documentation/gpu/kms-properties.csv
-> > > +++ b/Documentation/gpu/kms-properties.csv
-> > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
-> > >  ,,“saturation”,RANGE,"Min=0, Max=100",Connector,TBD
-> > >  ,,“hue”,RANGE,"Min=0, Max=100",Connector,TBD
-> > >  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
-> > >  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
-> > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
-> > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > 
-> > Should it still be defined as a generic property?
-> 
-> I'm not sure what you mean here, sorry. It's being documented as a
-> connector property now, so it's very much still listed as a generic
-> property?
+On Mon, May 27, 2024 at 08:14:00AM GMT, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Mon, May 27, 2024 at 09:56:00AM +0200, Jacopo Mondi wrote:
+> > > > +#include <linux/media/raspberrypi/pisp_be_config.h>
+> > >
+> > > Where is the header included from? If it's just this driver, then I'd put
+> > > it in the driver's directory.
+> > >
+> >
+> > It's the uAPI header file. Or did I miss your question ?
+>
+> If it's uapi, then you should have uapi in its header path. I.e.
+>
+> #include <uapi/linux...>
+>
 
-I didn't perform my duty well enough and I didn't check the file for
-other instances of the property. Now I indeed see a generic "Broadcast
-RGB" property, but to me it looks like having a different set of values:
+ok
 
-,,"""Broadcast RGB""",ENUM,"{ “off”, “auto”, “on” }",Connector,TBD
+> > > > +	/* Everything else is as supplied by the user. */
+> > > > +	begin =	offsetof(struct pisp_be_config, global.bayer_order)
+> > > > +	      / sizeof(u32);
+> > >
+> > > The slash should be on the previous line. Same elsewhere.
+> > >
+> >
+> > Please, this is highly subjective and other people (like Laurent) often
+> > ask for the contrary. Without any polemic intent, I encourage reviewers
+> > (myself included) in considering how much time we spend (and
+> > demand) on such subjective issues. Even more when other reviewers might have
+> > different opinions, with the end result of pulling contributors in
+> > different directions.
+>
+> Having binary operators at the beginning of a statement split on multiple
+> lines is simply uncommon, perhaps around 10 % of the cases in the media
+> tree based on a quick look. Keeping the coding style consistent is
+> beneficial for us all.
+>
+> ...
+>
+> > > > +static void pispbe_xlate_addrs(dma_addr_t addrs[N_HW_ADDRESSES],
+> > > > +			       u32 hw_enables[N_HW_ENABLES],
+> > > > +			       struct pisp_be_tiles_config *config,
+> > > > +			       struct pispbe_buffer *buf[PISPBE_NUM_NODES],
+> > > > +			       struct pispbe_node_group *node_group)
+> > > > +{
+> > > > +	int ret;
+> > > > +
+> > > > +	/* Take a copy of the "enable" bitmaps so we can modify them. */
+> > > > +	hw_enables[0] = config->config.global.bayer_enables;
+> > > > +	hw_enables[1] = config->config.global.rgb_enables;
+> > >
+> > > I wonder if hw_enables would be better declared as a struct.
+> >
+> > struct hw_enable {
+> >         u32 bayer_enable;
+> >         u32 rgb_enable;
+> > };
+> >
+> > ?
+>
+> You currently  have an array of struct hw_enable here.
+>
 
--- 
-With best wishes
-Dmitry
+not really, I have an array of u32
+
+ struct pispbe_job_descriptor {
+        dma_addr_t hw_dma_addrs[N_HW_ADDRESSES];
+        struct pisp_be_tiles_config *config;
+        u32 hw_enables[N_HW_ENABLES];
+
+which is actually one for the bayer input enable flags and one for the
+rgb output enable flags. So one structure as proposed above will do
+
+> >
+> > >
+> > > > +
+> > > > +	/*
+> > > > +	 * Main input first. There are 3 address pointers, corresponding to up
+> > > > +	 * to 3 planes.
+> > > > +	 */
+> > > > +	ret = pispbe_get_planes_addr(addrs, buf[MAIN_INPUT_NODE],
+> > > > +				     &node_group->node[MAIN_INPUT_NODE]);
+> > > > +	if (ret <= 0) {
+> > > > +		/*
+> > > > +		 * This shouldn't happen; pispbe_schedule_internal should insist
+> > > > +		 * on an input.
+> > > > +		 */
+> > > > +		dev_warn(node_group->pispbe->dev, "ISP-BE missing input\n");
+> > > > +		hw_enables[0] = 0;
+> > > > +		hw_enables[1] = 0;
+> > > > +		return;
+> > > > +	}
+> > > > +
+> > > > +	/*
+> > > > +	 * Now TDN/Stitch inputs and outputs. These are single-plane and only
+> > > > +	 * used with Bayer input. Input enables must match the requirements
+> > > > +	 * of the processing stages, otherwise the hardware can lock up!
+> > > > +	 */
+> > > > +	if (hw_enables[0] & PISP_BE_BAYER_ENABLE_INPUT) {
+> > > > +		addrs[3] = pispbe_get_addr(buf[TDN_INPUT_NODE]);
+> > > > +		if (addrs[3] == 0 ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_TDN_INPUT) ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_TDN) ||
+> > > > +		    (config->config.tdn.reset & 1)) {
+> > > > +			hw_enables[0] &= ~(PISP_BE_BAYER_ENABLE_TDN_INPUT |
+> > > > +					   PISP_BE_BAYER_ENABLE_TDN_DECOMPRESS);
+> > > > +			if (!(config->config.tdn.reset & 1))
+> > > > +				hw_enables[0] &= ~PISP_BE_BAYER_ENABLE_TDN;
+> > > > +		}
+> > > > +
+> > > > +		addrs[4] = pispbe_get_addr(buf[STITCH_INPUT_NODE]);
+> > > > +		if (addrs[4] == 0 ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_STITCH_INPUT) ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_STITCH)) {
+> > > > +			hw_enables[0] &=
+> > > > +				~(PISP_BE_BAYER_ENABLE_STITCH_INPUT |
+> > > > +				  PISP_BE_BAYER_ENABLE_STITCH_DECOMPRESS |
+> > > > +				  PISP_BE_BAYER_ENABLE_STITCH);
+> > > > +		}
+> > > > +
+> > > > +		addrs[5] = pispbe_get_addr(buf[TDN_OUTPUT_NODE]);
+> > > > +		if (addrs[5] == 0)
+> > > > +			hw_enables[0] &= ~(PISP_BE_BAYER_ENABLE_TDN_COMPRESS |
+> > > > +					   PISP_BE_BAYER_ENABLE_TDN_OUTPUT);
+> > > > +
+> > > > +		addrs[6] = pispbe_get_addr(buf[STITCH_OUTPUT_NODE]);
+> > > > +		if (addrs[6] == 0)
+> > > > +			hw_enables[0] &=
+> > > > +				~(PISP_BE_BAYER_ENABLE_STITCH_COMPRESS |
+> > > > +				  PISP_BE_BAYER_ENABLE_STITCH_OUTPUT);
+> > > > +	} else {
+> > > > +		/* No Bayer input? Disable entire Bayer pipe (else lockup) */
+> > > > +		hw_enables[0] = 0;
+> > > > +	}
+> > > > +
+> > > > +	/* Main image output channels. */
+> > > > +	for (unsigned int i = 0; i < PISP_BACK_END_NUM_OUTPUTS; i++) {
+> > > > +		ret = pispbe_get_planes_addr(addrs + 7 + 3 * i,
+> > > > +					     buf[OUTPUT0_NODE + i],
+> > > > +					     &node_group->node[OUTPUT0_NODE + i]);
+> > > > +		if (ret <= 0)
+> > > > +			hw_enables[1] &= ~(PISP_BE_RGB_ENABLE_OUTPUT0 << i);
+> > > > +	}
+> > > > +}
+>
+> ...
+>
+> > > > +static void pispbe_node_def_fmt(struct pispbe_node *node)
+> > > > +{
+> > > > +	if (NODE_IS_META(node) && NODE_IS_OUTPUT(node)) {
+> > > > +		/* Config node */
+> > > > +		struct v4l2_format *f = &node->format;
+> > > > +
+> > > > +		f->fmt.meta.dataformat = V4L2_META_FMT_RPI_BE_CFG;
+> > > > +		f->fmt.meta.buffersize = sizeof(struct pisp_be_tiles_config);
+> > > > +		f->type = node->buf_type;
+> > > > +	} else {
+> > > > +		struct v4l2_format f = {0};
+> > > > +
+> > > > +		f.fmt.pix_mp.pixelformat = V4L2_PIX_FMT_YUV420;
+> > > > +		f.fmt.pix_mp.width = 1920;
+> > > > +		f.fmt.pix_mp.height = 1080;
+> > > > +		f.type = node->buf_type;
+> > >
+> > > You can assign these in the declaration. The same above.
+> >
+> > Here indeed I can. Above I don't think I can (if you mean in the if()
+> > branch)
+>
+> Ack.
+>
+> ...
+>
+> > > > +	/* Hardware initialisation */
+> > > > +	pm_runtime_set_autosuspend_delay(pispbe->dev, 200);
+> > > > +	pm_runtime_use_autosuspend(pispbe->dev);
+> > > > +	pm_runtime_enable(pispbe->dev);
+> > > > +
+> > > > +	ret = pm_runtime_resume_and_get(pispbe->dev);
+> > >
+> > > You'll need to call the driver's resume function manually instead. The
+> > > above depends on CONFIG_PM.
+> > >
+> >
+> > The driver selects CONFIG_PM, doesn't it ?
+>
+> It depends on PM.
+>
+> It'd be trivial to remove that dependency.
+>
+
+I don't think we'll ever have a raspberry pi kernel without
+CONFIG_PM. But I've now read your reply to Laurent and I'll change
+this.
+
+> --
+> Regards,
+>
+> Sakari Ailus
 
