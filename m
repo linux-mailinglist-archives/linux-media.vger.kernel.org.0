@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-11998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9148D07A2
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:09:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE3D8D07AD
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:11:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08BA6296642
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:08:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 283351F220F6
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:11:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B4F016F822;
-	Mon, 27 May 2024 15:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B67316FF49;
+	Mon, 27 May 2024 15:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSUUdrOP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNWdbh/y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6793C167289;
-	Mon, 27 May 2024 15:58:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01C0168C2B;
+	Mon, 27 May 2024 15:59:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716825504; cv=none; b=Es96Bl9k4N0kPVGYPR1l6sNDjEPFQVwknKscFuwfIOQ/Le+MoLCbnRKsSRYUccq6JQJ22Xcw6NF61LboMIwKI9D6yhpW51r+W92upbO2ApgkBjw7F3NtOZFZiFfIt5ETyi1ipFzst+B9TTwBdadHmYvBLNOEfoPb/KCeoe3XKXI=
+	t=1716825552; cv=none; b=OsORGIgBLMzujA4XbSybgYqCNXgL/YuirM+UaWOofbUkx9OUf9gbgAhSZpM/4dAA6IrKgKLHm1Q1R//L+qVd4NzQWTUfBfbHaBMN+AwiutlLHmprTQZFA9oTrtohr+af786mwQMAWHo2PXDUMmozrCcrUlGwYJvNy2rsC1hnTV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716825504; c=relaxed/simple;
-	bh=+675MIHNbN9OSUKuccdTXAcdMyna4REx8+9EpCYYC+E=;
+	s=arc-20240116; t=1716825552; c=relaxed/simple;
+	bh=UZqxU91t6Z3kXOICFJC4gY4Xj+npvx3bzyO2kNdzm1k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FxsGXGn2dnlRPSaF5Be7FuU07WkwYNnY8AY9o7PEOcjuEeX9hhp3ynrVKhJKAaRpYSrIEWsGIjmCI61cGLNnY/YU9pIednmovOmJa3y4DA0ah3uMVs5dSZSYWHyB4BH3jY2Jo9Fezv0VwH/Jet1sbQJ2UyVQDiuZEre41/z2x5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSUUdrOP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8133C4AF07;
-	Mon, 27 May 2024 15:58:22 +0000 (UTC)
+	 MIME-Version; b=JHFrYcUixC1KQBZYg+8VQClhDLxGTlbgr+8qeXHoR3Sle03bkzhrUAxZFYP9tsCI4xYBNWJ3QapzSetlOndWZSnN2U7bsNiiKIVWXdXRwoH3yua/1fEb1fqibq5nuzIaQm/bX/djyPjcg8bIcvmM1geLDifVLl4aU1KxW800S/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNWdbh/y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23832C32789;
+	Mon, 27 May 2024 15:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716825504;
-	bh=+675MIHNbN9OSUKuccdTXAcdMyna4REx8+9EpCYYC+E=;
+	s=k20201202; t=1716825551;
+	bh=UZqxU91t6Z3kXOICFJC4gY4Xj+npvx3bzyO2kNdzm1k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dSUUdrOPlQfRZ6ESKc5FZKRF7H1NohbvG19pIBJQnu4ZhhCyF9KL7rwZsS/H3Nioa
-	 Str34Uo0P/WN/Pmj1Acgt8bRWV0DMV6cbjfHbqy9kF1/Vz4XZ8B8c5bq2sGBLNO7UU
-	 wSptMV7NbhQWFTox4StZHKoRzTtdSYZzIdjDbyjabiZV9f69UyzymS0UiPuWHA/bYQ
-	 DK5aSNqSXja4NL9GOqu4sIhUFJaMSoX9CujBVwqegqDTgbhIXLA72H72g1OkwW+iMt
-	 1CcP46rWqvxBSGJnObBpDYhBNfQ0mCLxxKPxgeNPgYUf1eEltYhqw7MLDnhX0+Xqho
-	 uKk5q6nTZzORQ==
+	b=ZNWdbh/yvo6TXyH2NFkZCe315jIkXnu5z+rJ1bXrexqFk1aiKo8SrVCRnwehMdjhZ
+	 2dnv/RiAfOnEri5IzJejeYDQwPUc401aVDyXIvyMNqTDm3IFRa433H/oydDwk9qMM4
+	 bihB8VBPmzbXT8H20ZmjqK6E1NfkPWt7Eg+K1HCDPfOIds36iNCI9/3OW3cVeBDfYa
+	 /FWaVb96ujMMs0RpbIUC0l1mkdzDz0yXfZza4QSkmll27m6VrM+x2RzftmewHltL1h
+	 CTeNz7lsAUadBuxPuSrx62zJGLknYZWqX7Yt3Z79lnjeskKgr05SJw1QeItTC+C4HL
+	 Ez8JzFe1PZKWg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -48,17 +48,18 @@ Cc: Zheyu Ma <zheyuma97@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	broonie@kernel.org,
-	hkallweit1@gmail.com,
-	gregkh@linuxfoundation.org,
-	mcgrof@kernel.org,
 	andriy.shevchenko@linux.intel.com,
+	peda@axentia.se,
+	laurent.pinchart+renesas@ideasonboard.com,
+	gregkh@linuxfoundation.org,
+	hkallweit1@gmail.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 4/6] media: lgdt3306a: Add a check against null-pointer-def
-Date: Mon, 27 May 2024 11:57:54 -0400
-Message-ID: <20240527155808.3866107-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 5/7] media: lgdt3306a: Add a check against null-pointer-def
+Date: Mon, 27 May 2024 11:58:29 -0400
+Message-ID: <20240527155845.3866271-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240527155808.3866107-1-sashal@kernel.org>
-References: <20240527155808.3866107-1-sashal@kernel.org>
+In-Reply-To: <20240527155845.3866271-1-sashal@kernel.org>
+References: <20240527155845.3866271-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.160
+X-stable-base: Linux 5.10.218
 Content-Transfer-Encoding: 8bit
 
 From: Zheyu Ma <zheyuma97@gmail.com>
@@ -103,10 +104,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
-index f6e83a38738dd..79174336faec2 100644
+index 47fb22180d5b4..d638cc88aa770 100644
 --- a/drivers/media/dvb-frontends/lgdt3306a.c
 +++ b/drivers/media/dvb-frontends/lgdt3306a.c
-@@ -2177,6 +2177,11 @@ static int lgdt3306a_probe(struct i2c_client *client,
+@@ -2213,6 +2213,11 @@ static int lgdt3306a_probe(struct i2c_client *client,
  	struct dvb_frontend *fe;
  	int ret;
  
