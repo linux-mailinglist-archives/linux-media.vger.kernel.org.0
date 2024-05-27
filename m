@@ -1,181 +1,153 @@
-Return-Path: <linux-media+bounces-11921-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11922-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AE58CFC22
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 10:49:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1E88CFC61
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 11:02:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A12CB2840CB
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 08:49:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89E39280DE8
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:02:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB16713174B;
-	Mon, 27 May 2024 08:48:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E40AC6BFBA;
+	Mon, 27 May 2024 09:02:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="RJMxe4Ej"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRMPiNiI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BD85916B
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 08:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716799704; cv=pass; b=P/HNIBQQ7cIDXJasHNHq/CioiItck/giIhJGIMRkli9zncTgNnR98sowdIwOeoMP5wtkcXeh/6zgWlbIZTnfqO2zwYCe7OBNqrJBiBYZ2i8phZHYjqQIi4+2FMhcMBZVwX0e0M2Luhr+4Q7F1YM0I17MtMxcSvCt+NdpWsyLrQ0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716799704; c=relaxed/simple;
-	bh=g0Rz7cxLg0UC66auKGnd3eySNn0tU0v1zai4T/0RrHk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B121A2C35;
+	Mon, 27 May 2024 09:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716800537; cv=none; b=AFnNrIlAWRYd6C2XWAEU86VTnnBmgUlk6pwyJjyqWAoyxVjBwVuVt5X01lszfQ42OKSfaeP/j4jI6Mdi+fVAqeuNiGxLUNtMmxrPN4hIAjAg95WA+RdxyPw8bMMlBXsVGsSr11JJaez7w4q7jM1EiyxaxJUkoAIW9BipUxuy/CI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716800537; c=relaxed/simple;
+	bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D1ZCCEOJYwz2XpqW03Wt5wMSSBdSHCyIXF5J+BZIpWelef6bFemOnXIT/AoirnM5xY2wj1VURrPX7Q+VF6Cvpgm9DzZycgbaBjdYZA7v/yrxwGKDxsvmrC5owfLqCYdAw4G+SWqrLpA4uj0hzJTbxGS5fYZUmSJzPLu8X6+VHiQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=RJMxe4Ej; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4Vnq6p3KkxzyQm;
-	Mon, 27 May 2024 11:48:18 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1716799699;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HFKD0Cu1iWtA5ZGI5SYqn4+/xpTCMkvvHQWeNXdgowA=;
-	b=RJMxe4EjvPfZ71G0df8JEZOwbD2tdCSxbzeljtWqivRcxFcyfcYnHac6fuvA3lMyeSN8jm
-	jTJa2ytsrRp4/vuNnLSaADj66DuDD4KseNlEvI3V/n+des5+EUrjaNofNL7H0SAgU5Xv3y
-	7Q03t4weG0KAgsg/FYO+pk93CbuIr9g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1716799699;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HFKD0Cu1iWtA5ZGI5SYqn4+/xpTCMkvvHQWeNXdgowA=;
-	b=dURe9J1Ckbz+8KhIx7mvIuaIkA75R1iplpNd3vvxLFZO6tU9Arn5sS4cFAiLp4to5JGVcp
-	b7m77TFFO0PJe0FmxHZidL/uOVNGX/OwKXKJh3Yvt/Cj/mmgrivoQFUMjsPB9iRr9ocpa7
-	yIGEUg0Ob9RIOW68W4VhOODdCe2yrFU=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1716799699; a=rsa-sha256; cv=none;
-	b=r/n+LYO4fB/X9U/bXqdqjJHXtuflLs5HkDXQTwp8MB2gRQ/VlZURUU7oo4HEpsRxDCF2oh
-	N0T9AleZEswqgvJpOevGsHt9pd5L4pRj56LMN7+UR0t19RYGpKgHC78kH8SD1E6pcqPd+Y
-	J8RbRRszblo6V2NoOg+L75ch7iQssHY=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id EB54D634C93;
-	Mon, 27 May 2024 11:45:22 +0300 (EEST)
-Date: Mon, 27 May 2024 08:45:22 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v7 7/8] media: raspberrypi: Add support for PiSP BE
-Message-ID: <ZlRIIv3PHJQyysEm@valkosipuli.retiisi.eu>
-References: <20240524140024.161313-1-jacopo.mondi@ideasonboard.com>
- <20240524140024.161313-8-jacopo.mondi@ideasonboard.com>
- <ZlOimSRFNNt1fdN3@valkosipuli.retiisi.eu>
- <lqo77pdefh6f5ynxu32s24paj2qa22rc6pih623mhywifgr4pw@kt4iic67ljfz>
- <ZlRAyMCduqsxYaQu@valkosipuli.retiisi.eu>
- <20240527083133.GB2986@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IZdjyuWLoq6ME7fBeVZyjbZ2iamWHglfoZ91kYg8aftspZaf3qB2ZrFM2LvuKihQ/xANSsLSHgQUBbMIAD2id36ig8jjtdhrDAVeARwK4OiDvXGatlHL091CPcN4TfFwmiLJrka8PEfIl7XY6mHgYB8+b7bGE9MIyEywyU6Q0NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRMPiNiI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A944C2BBFC;
+	Mon, 27 May 2024 09:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716800536;
+	bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TRMPiNiIHap5cUpLkC3niSfLnS5r5ay/7/AKD7dAXmxw4VtzFUte71pZ8s4wYxN6C
+	 5N7gB4+obnBGFvTNNxSuXzK/U5TbAzL9ZplGMilaZr1KdblJ6LczlqxIQ8GuuBy7nc
+	 9i1Xee/2KLe/dEp3NpfRWXYMXpQGjWGZRqeXwpsjJf83/GO2GxAql5Y4nbHCV2YGjz
+	 rYh02qQutduLCSqGeaeXpUEYU9uSWnlHpo/iwn2FqW2k+BzSyYmty//oZ6FRorGIBN
+	 +xcOBIRc0ZuQyvFii3U1AO5zNKn47fmXCnneBR7Hq+ycIaKg4tSKiWLgwSvWA5gvkB
+	 +hbDCAwtJxCnQ==
+Date: Mon, 27 May 2024 11:02:13 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <20240527-adamant-just-spaniel-ebed4e@houat>
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
+ <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wqcwbvnihqwt2l7e"
 Content-Disposition: inline
-In-Reply-To: <20240527083133.GB2986@pendragon.ideasonboard.com>
+In-Reply-To: <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
 
-Hi Laurent,
 
-On Mon, May 27, 2024 at 11:31:33AM +0300, Laurent Pinchart wrote:
-> On Mon, May 27, 2024 at 08:14:00AM +0000, Sakari Ailus wrote:
-> > Hi Jacopo,
-> > 
-> > On Mon, May 27, 2024 at 09:56:00AM +0200, Jacopo Mondi wrote:
-> > > > > +#include <linux/media/raspberrypi/pisp_be_config.h>
-> > > >
-> > > > Where is the header included from? If it's just this driver, then I'd put
-> > > > it in the driver's directory.
-> > > 
-> > > It's the uAPI header file. Or did I miss your question ?
-> > 
-> > If it's uapi, then you should have uapi in its header path. I.e.
-> > 
-> > #include <uapi/linux...>
-> > 
-> > > > > +	/* Everything else is as supplied by the user. */
-> > > > > +	begin =	offsetof(struct pisp_be_config, global.bayer_order)
-> > > > > +	      / sizeof(u32);
-> > > >
-> > > > The slash should be on the previous line. Same elsewhere.
-> > > >
-> > > 
-> > > Please, this is highly subjective and other people (like Laurent) often
-> > > ask for the contrary. Without any polemic intent, I encourage reviewers
-> > > (myself included) in considering how much time we spend (and
-> > > demand) on such subjective issues. Even more when other reviewers might have
-> > > different opinions, with the end result of pulling contributors in
-> > > different directions.
-> > 
-> > Having binary operators at the beginning of a statement split on multiple
-> > lines is simply uncommon, perhaps around 10 % of the cases in the media
-> > tree based on a quick look. Keeping the coding style consistent is
-> > beneficial for us all.
-> 
-> I've been slowly but steadily working on increasing that number :-) I
-> think the style above is the most readable, and I would leave it to
-> driver authors (as long as they're consistent within a driver).
+--wqcwbvnihqwt2l7e
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This has been one of the differences between what's commonly (albeit not
-explicitly I guess) used in Linux compared to the GNU coding standards
-which is explicit about it.
+Hi,
 
-I prefer to keep it at the end of the line which apparently is the
-preference of a largish majority.
+Thanks again for that thorough review :)
 
-...
+On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
+> On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
+> > The i915 driver has a property to force the RGB range of an HDMI output.
+> > The vc4 driver then implemented the same property with the same
+> > semantics. KWin has support for it, and a PR for mutter is also there to
+> > support it.
+> >=20
+> > Both drivers implementing the same property with the same semantics,
+> > plus the userspace having support for it, is proof enough that it's
+> > pretty much a de-facto standard now and we can provide helpers for it.
+> >=20
+> > Let's plumb it into the newly created HDMI connector.
+> >=20
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  Documentation/gpu/kms-properties.csv            |  1 -
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
+> >  drivers/gpu/drm/drm_atomic.c                    |  2 +
+> >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
+> >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++=
+++++++++
+> >  include/drm/drm_connector.h                     | 36 ++++++++++
+> >  6 files changed, 133 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/k=
+ms-properties.csv
+> > index 0f9590834829..caef14c532d4 100644
+> > --- a/Documentation/gpu/kms-properties.csv
+> > +++ b/Documentation/gpu/kms-properties.csv
+> > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
+rty Values,Object attached,De
+> >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
+> >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
+> >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xfff=
+fffff",Connector,property to suggest an X offset for a connector
+> >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Conn=
+ector,property to suggest an Y offset for a connector
+> >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Co=
+nnector,TDB
+> > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Li=
+mited 16:235"" }",Connector,"When this property is set to Limited 16:235 an=
+d CTM is set, the hardware will be programmed with the result of the multip=
+lication of CTM by the limited range matrix to ensure the pixels normally i=
+n the range 0..1.0 are remapped to the range 16/255..235/255."
+>=20
+> Should it still be defined as a generic property?
 
-> > > > > +	/* Hardware initialisation */
-> > > > > +	pm_runtime_set_autosuspend_delay(pispbe->dev, 200);
-> > > > > +	pm_runtime_use_autosuspend(pispbe->dev);
-> > > > > +	pm_runtime_enable(pispbe->dev);
-> > > > > +
-> > > > > +	ret = pm_runtime_resume_and_get(pispbe->dev);
-> > > >
-> > > > You'll need to call the driver's resume function manually instead. The
-> > > > above depends on CONFIG_PM.
-> > > 
-> > > The driver selects CONFIG_PM, doesn't it ?
-> > 
-> > It depends on PM.
-> > 
-> > It'd be trivial to remove that dependency.
-> 
-> For drivers such as sensor drivers that need to work on a wide variety
-> of platforms, with varying configurations, I agree that not depending on
-> CONFIG_PM is a good thing (I reserve the right to change my mind though
-> :-)). For this driver, I don't think the dependency is an issue.
+I'm not sure what you mean here, sorry. It's being documented as a
+connector property now, so it's very much still listed as a generic
+property?
 
-People tend to copy these from one driver to another so there is value in
-doing it properly even if the benefits for this driver might be minor.
+Maxime
 
--- 
-Regards,
+--wqcwbvnihqwt2l7e
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Sakari Ailus
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlRMEAAKCRAnX84Zoj2+
+dhGAAYDS1llqP+ICZyWXx+g6L1EiXrG7OIB0z7t7KF3yJW5Y1zN4+dIvVNhFS6LU
+gAXKTp4BgKUepq65FIlFjrRN3gyXTVxmbiIMJd5mPgjySS4scgX65VNBO5cc0Qvt
+qThCHUrQ2A==
+=K55A
+-----END PGP SIGNATURE-----
+
+--wqcwbvnihqwt2l7e--
 
