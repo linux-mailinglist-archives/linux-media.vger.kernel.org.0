@@ -1,167 +1,153 @@
-Return-Path: <linux-media+bounces-11909-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11910-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A8A8CFA0A
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3E98CFA33
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:34:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A555B1C20E8D
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 07:25:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC5EE1C20E72
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 07:34:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED3A11CD25;
-	Mon, 27 May 2024 07:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2AB6249FF;
+	Mon, 27 May 2024 07:34:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="L9jYX/i1"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="XZLZT5u4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64FD1BDDF;
-	Mon, 27 May 2024 07:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716794721; cv=none; b=RHcDAH/lxstwNGpqNk+oSoiTvJUW/CyVlA+5HsYlbo8pSPbgvzk7m9Oh6yXibFhEoESCYm60lWFYr9WYQLVCGQ1miemi8JxLlPMt0MfKBoeEvBly4Io+ia6JOo0aFiSMgNk1rfkvfxYtj2NCT4ajifB2usU631U5y+UwvfomAF4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716794721; c=relaxed/simple;
-	bh=Kl2GnBuyQuBgvhfCMlLOdm7ASQcO6ePk3EB+ts82o4g=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=QNqLylN0rWrcFylkgiZsGgQfZp7taBy08x+EhNkxlO6rzYLLDWsEFtFiBhCMvCP9XfX1YoZG4qmo8it5VMIYSLWJOXinheDKiwsfR7jPiW9mh2RNZVBZZwCaMaUMb3QR7SFbW77rbyQ5L88d2f7DAc3n+NE1dp3RdAJBogPkgfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=L9jYX/i1; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 639E14B93;
-	Mon, 27 May 2024 09:25:15 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 639E14B93
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1716794715; bh=JP1jmp3oHy2EazcUWfK2EK+MJMI+3j8kMee4KTey8kU=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=L9jYX/i1vKqNU0V2fSvMtCeBc5OsK+QViPcpfe9AtsOA2yNcpOBiT6Ac4g9xiGlOm
-	 bLtkPsM+E1ybCyGA5NhMO5Jtd4/XXOWResALkVKXdOlztGBuA1IZ62tS2qu08OGWfo
-	 pT76o4mmmHuBcYFnLKvPlOZrHDZNRJnLxt+oGMG0=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07B817BCA;
+	Mon, 27 May 2024 07:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716795268; cv=pass; b=r7CdySXFBVtEElfAc+dgqMrqumDtZAlc43ZmjBNh8gAD50aJyV7gQYnWss+RQfpj8jNhMVx9r1gtMrSis7d0hMGCzFghQ+3CpP1PhlsdAD5eeTw7PkDN3W6Q9RMQ3p9kaxqKeNZWybbJ7FIRKJ9s+xSuQiabWJdMjtuA9MEc1P8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716795268; c=relaxed/simple;
+	bh=2aUHCuEHYPSY1aqgTbH07WewgGXDHVS+cl/5npazbSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HDtpnImklA6gQ8zH4gVWT8ZzJJymeu4RbnbbsXLvSMZwl1SrTyX4sS8saX/FlcCPoQNPcC6TUnKLTRmlh8+hzsDGd/Xw0G+0xpC855VJePgw1UUAbtH6X7lIrzpoy8gWNI/ZThi5b9WzCxzHsIlBitf8eA9O06C1H/N6tE4wAyc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=XZLZT5u4; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Mon, 27 May 2024 09:24:54 +0200 (CEST)
-Message-ID: <c9d359f3-f1e8-49e6-8118-14894348284c@perex.cz>
-Date: Mon, 27 May 2024 09:24:53 +0200
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VnnTW2kzQz49Pyk;
+	Mon, 27 May 2024 10:34:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1716795263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=20RQnVNvBDYr+FH4kFsSKaG6M/MyCTgpME0lCI4FhFw=;
+	b=XZLZT5u4WxvUYJAuY12Mkc2QAwE223rUqwwSRo29WTZt/ntX1zEddEQANMsAWXHflDk+/+
+	I9LwirdI/w5aM2mwdxEGCYMgzpjmd2TLC2HNNpLsxsNyDWm8QuzCw4klXUy0bF/0ZOzHrx
+	jz8KVu8vTgE005ffyxNqSEgfzFCMV2TkH+d367KX8V2ZnFvAHKbyCcjhxnO7Z1rtYWTp5l
+	Z+Djo9BOI0YCuBXAE5gEfnIda4ly2YfGctSKM9s9ojzv6BcCQBKusZoYKFz0XljFwfxQxg
+	WzG7bciJv/jp9Te7ez9kjphaZQkhzBqW4E8NmI+95qd9asON7C9Tv7J+JAOrfw==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1716795263; a=rsa-sha256;
+	cv=none;
+	b=OrTm0sGPkg/Fj/sLTOBHDpgC+0oUY1LYA+z9GJzm7r2MF2Fsg/D3LKUPRUlsyMiN9bbY8m
+	BKgk+sELKUsH7yHjzeYPbZvaWLITWhFiQ24drtITXDsFYvKGpaCGP3fG8qMXndBDkKn9He
+	26Sl1vaqpXlLHk/KcOm/bYuzAut7vktyNNqOIdGueWB+aJHsXgXe5GYq2a2AsMkQeCBiiV
+	APmpnDL354SLShJs10FuqMh0cXEke0ANDyKLQiolFqocot1NW1IQxnTcpZSmUgH/VkwI4t
+	Gi/OFpAr/SUUeTrT0cS7uB+Z8RtiEMEQOM3lNvTTnr2RGMI/peoOrMPhiiufmQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1716795263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=20RQnVNvBDYr+FH4kFsSKaG6M/MyCTgpME0lCI4FhFw=;
+	b=eHyxaXzusUS5nE1k+w8Tx2OKSomDhZUF3v5f8Q68A3OAvnzHK+JynoJIMG90skV629Ms44
+	J5Hr6BD7iGMSkCnjPNn0RkwcffcCZ31PVmmFhCbREq4aE8KhNwwLOis2kDezVgmmifmvNT
+	2wDZ+1HCVRjmhor2LuZG7TcIQPlM55UufwRf4G6GzCRZdSi3lNnQ2RhTi6Km1eoTAYE1mE
+	p/AECKIuzg66C3CQdPC9jcJuDSfqNcNqnewWp5RWLC5NjQ8V6b9w0IaIuOfDEvgCnkmckM
+	UXdgh+4L+wwUJSeDJEEI1K2whY2jtP4GkaZosFrUmpNTi50jD8h2Fkb82NR0Sw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 38798634C93;
+	Mon, 27 May 2024 10:31:28 +0300 (EEST)
+Date: Mon, 27 May 2024 07:31:27 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc: Sylvain Petinot <sylvain.petinot@foss.st.com>, mchehab@kernel.org,
+	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for ST VD56G3 camera sensor
+Message-ID: <ZlQ2zymJguCipLMl@valkosipuli.retiisi.eu>
+References: <20240417133453.17406-1-sylvain.petinot@foss.st.com>
+ <20240417133453.17406-3-sylvain.petinot@foss.st.com>
+ <Zil1wiCcCdwZs5Df@valkosipuli.retiisi.eu>
+ <d45a2ea1-bc2d-441a-b036-1da40290c6b3@foss.st.com>
+ <c9b35dc4-6f52-48e2-8952-5a43c500f819@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 00/16] Add audio support in v4l2 framework
-From: Jaroslav Kysela <perex@perex.cz>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Takashi Iwai <tiwai@suse.de>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Shengjiu Wang
- <shengjiu.wang@gmail.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
- tfiga@chromium.org, m.szyprowski@samsung.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, tiwai@suse.com,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-References: <1710834674-3285-1-git-send-email-shengjiu.wang@nxp.com>
- <20240503094225.47fe4836@sal.lan>
- <CAA+D8APfM3ayXHAPadHLty52PYE9soQM6o780=mZs+R4px-AOQ@mail.gmail.com>
- <22d94c69-7e9f-4aba-ae71-50cc2e5dd8ab@xs4all.nl>
- <51408e79-646d-4d23-bc5b-cd173d363327@linux.intel.com>
- <CAA+D8AM7+SvXBi=LKRqvJkLsrYW=nkHTfFe957z2Qzm89bc48g@mail.gmail.com>
- <cd71e8e8-b4dc-40ed-935e-a84c222997e6@linux.intel.com>
- <CAA+D8AMpLB0N++_iLWLN_qettNz-gKGQz2c2yLsY8qSycibkYg@mail.gmail.com>
- <2f771fe9-7c09-4e74-9b04-de52581133fd@linux.intel.com>
- <CAA+D8AMJKPVR99jzYCR5EsbMa8P95jQrDL=4ayYMuz+Cu1d2mQ@mail.gmail.com>
- <28d423b1-49d8-4180-8394-622b1afd9cd9@perex.cz>
- <850a80b2-d952-4c14-bd0b-98cb5a5c0233@perex.cz>
- <c5dbb765-8c93-4050-84e1-c0f63b43d6c2@xs4all.nl>
- <8a6f84ac-5813-4954-b852-84f5118e607c@perex.cz> <87o7975qcw.wl-tiwai@suse.de>
- <e63ec6c8-7da7-4b87-b7ff-a71ff12dcfc1@perex.cz>
- <a60ee3505e551f3def6cdd7c76942d0fd74bc656.camel@ndufresne.ca>
- <3b9c9649-c657-4636-b4ef-31df82c58bba@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <3b9c9649-c657-4636-b4ef-31df82c58bba@perex.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c9b35dc4-6f52-48e2-8952-5a43c500f819@foss.st.com>
 
-On 16. 05. 24 16:50, Jaroslav Kysela wrote:
-> On 15. 05. 24 22:33, Nicolas Dufresne wrote:
+Hi Benjamin,
 
->> In GFX, they solve this issue with fences. That allow setting up the next
->> operation in the chain before the data has been produced.
+On Mon, May 13, 2024 at 03:37:25PM +0200, Benjamin Mugnier wrote:
+> >>> +static int vd56g3_read_expo_cluster(struct vd56g3 *sensor, bool force_cur_val)
+> >>> +{
+> >>> +	u64 exposure = 0;
+> >>> +	u64 again = 0;
+> >>> +	u64 dgain = 0;
+> >>
+> >> Do you need the assignments? The values are assigned by cci_read() below,
+> >> right?
+> > 
+> > Well initially, I didn't have those assignments and some checker
+> > complains (Honestly I didn't investigate the warning).
+> > I will double check and see if they are necessary.
+> > 
 > 
-> The fences look really nicely and seem more modern. It should be possible with
-> dma-buf/sync_file.c interface to handle multiple jobs simultaneously and share
-> the state between user space and kernel driver.
+> Since I have smatch ready, I ran it without these initialization against
+> the latest media tree. I got these :
 > 
-> In this case, I think that two non-blocking ioctls should be enough - add a
-> new job with source/target dma buffers guarded by one fence and abort (flush)
-> all active jobs.
+> drivers/media/i2c/st-vd56g3.c:403 vd56g3_read_expo_cluster() error:
+> uninitialized symbol 'exposure'.
+> drivers/media/i2c/st-vd56g3.c:404 vd56g3_read_expo_cluster() error:
+> uninitialized symbol 'again'.
+> drivers/media/i2c/st-vd56g3.c:405 vd56g3_read_expo_cluster() error:
+> uninitialized symbol 'dgain'.
+> drivers/media/i2c/st-vd56g3.c:407 vd56g3_read_expo_cluster() error:
+> uninitialized symbol 'exposure'.
+> drivers/media/i2c/st-vd56g3.c:408 vd56g3_read_expo_cluster() error:
+> uninitialized symbol 'again'.
+> drivers/media/i2c/st-vd56g3.c:409 vd56g3_read_expo_cluster() error:
+> uninitialized symbol 'dgain'.
 > 
-> I'll try to propose an API extension for the ALSA's compress API in the
-> linux-sound mailing list soon.
+> cci_read() is indeed not modifying its 'var' argument in the default
+> case of the switch [1]. Spawning these errors.
+> Adding a '*val = 0' in the default case would also fix it, but will
+> change the function behavior.
 
-I found using sync_file during the implementation to be overkill for resource 
-management, so I proposed a simple queue with the standard poll mechanism.
+I think I'd add the assignment to cci_read(). This isn't the only driver
+that's affected. In the best case smatch would be fixed to figure this out.
 
-https://lore.kernel.org/linux-sound/20240527071133.223066-1-perex@perex.cz/
+Any thoughts?
 
-					Jaroslav
+Cc also Hans and Laurent.
 
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+Regards,
 
+Sakari Ailus
 
