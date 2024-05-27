@@ -1,95 +1,99 @@
-Return-Path: <linux-media+bounces-11941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11942-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5055F8D01AF
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 15:36:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C248D01A1
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 15:35:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6B7DB248BB
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 13:35:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06F5F1F228B7
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 13:35:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 403DE13A3E4;
-	Mon, 27 May 2024 13:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE3015F417;
+	Mon, 27 May 2024 13:32:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="o6CuyxbU";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CHIykO6X"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uRZz+9Bu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l6cS8RhV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
+Received: from wfhigh1-smtp.messagingengine.com (wfhigh1-smtp.messagingengine.com [64.147.123.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885FD15ECF0;
-	Mon, 27 May 2024 13:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5293D15ECFD;
+	Mon, 27 May 2024 13:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716816759; cv=none; b=Q0RA2yWvluh6iNCMEqHHYFFcNe7AiFeN6swrExSZI6AwfdQHz5bmOcFbhp1kaLBzuNikQN/C8bsxbUgr3D2ekvfHXnl0w+q7GbVqT2qSe2QnoWM938dB6/rPE3Pxep1HT9mCqUquNKvX/4vVz0FimH4pQaO8kKKKn/CG33EfQjw=
+	t=1716816760; cv=none; b=nQ7Q0shOE8dJGsUZTnab1n5m5sW7n+twNR5ZZqj61f6ORTq+181dT7KyhWT0wJJh9OB99E4phJ4TxuH0BMBz7M69RSewgMofrO21sOGNfbNHWsV564pU5QG48uGinWi6s9GyX85b9ImA/XZYMyLYC+c6eY4FSZ7ipCbD3vQ4GCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716816759; c=relaxed/simple;
-	bh=kmwyMZl2XKx8oQwCw8QiS5DrtkXvk3gH8kGUI1+iW/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a+G8rGzHG8X07AAO0W6ZiUKqm7SKqAwJc7xTmfvgp7BAENFtgHmFRCQZ9nrGzS2tupykJm76dVycjwRZ5OsDDvPNASgupJQmyExzpo2xSGCWoHGthJu0ch72RgBc5tnUoHJC/k6m3c+u0HljQ+G3hb4EmlWLHWfavRsc8PXrg0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=o6CuyxbU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CHIykO6X; arc=none smtp.client-ip=64.147.123.149
+	s=arc-20240116; t=1716816760; c=relaxed/simple;
+	bh=AB0FsQLv4tk8yvlOr8TpLu5GJzxJBOa/+7eevSPD3Uo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CtYNiqHGCZ5y5uzhzek6yeNCRFB0h8vPG5EN3C/4XlK+8RPxKPjSU4R5ALHwlLg0QTEtmYm4aHQVJ+x1yavveFPG5i0j/XBjC8x2UTgdTZ3WzVzPdVi1ndWRleMlyOsfeqF8V/C7K0xNTh/VUwvBxo4UM5EoJSduuaKy3pJBjLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uRZz+9Bu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l6cS8RhV; arc=none smtp.client-ip=64.147.123.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id 53BBE1C000B1;
-	Mon, 27 May 2024 09:32:36 -0400 (EDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 62D6B1800093;
+	Mon, 27 May 2024 09:32:38 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 27 May 2024 09:32:36 -0400
+  by compute6.internal (MEProxy); Mon, 27 May 2024 09:32:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm3; t=1716816755; x=1716903155; bh=9T
-	oe7Zno50n7bGWdE58anHTSk+Ncf9sfnVGYAhL+yTs=; b=o6CuyxbUijy/p97dCO
-	DwmN+bLjQ65W4C5l++/okp/54n79ro3YJ7lXgZmA5zY4NC0QB6Bn6dMyOQ5HW1EL
-	cADvFsrw28LM6jcOKGDihC6/+eqLqrRPgktpYArVhkEUP3mcRIl6TZqal3LuNTi9
-	m1YERpdykeKrDF+1cR3tQ+pHrtoVH7TsX6/ceus2e/SjE1MDGYHVLeMomkSeL377
-	iQOigFOrrU9dTWHe+ZS+6BDvhdeD9lo7K+k8dTjXkrvNIa63+aUOYHs490TJmSJC
-	H3u5FNaOMA/glP/l4VFXCM5qSkhNUASVRUmwvNheR7zYy+r0SR95r/UUi5dN6rL/
-	rLRA==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1716816758;
+	 x=1716903158; bh=NZHaukzJunEg/R8iAVsFjesSAYmTSHfUE9hswrg+sSw=; b=
+	uRZz+9BuKnVxsSYVB2PJAgYu+mRjxzpLYZLSKjncbrRWYbZvoWK78VUyGlKoaKFJ
+	FQk3XVTt3YgjeEwfnNHqc8xCe0Pg4HAOkcM4Fo5O3+yyGP2XEHSDzxOIuSjAiUOb
+	fpuvpr4x76aQD0yVKkRcRsU0c/htNMHdRPbkSu73CyUcOQgSYouibjqdRN0LZ6mP
+	Q/TRcFWhx+653XEM9wnh2DCKymGO+BGscP+EmNhQ2Jk0UNijukXf59kVzoc3A/MB
+	3fCUFf1M1/plkyr5x/HtKTG+xGfDWket28yN7m11oF1VQ62QqX3X+jRmen1KwqqI
+	SpvcSbum4nTb12oDF6/qZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1716816755; x=1716903155; bh=9Toe7Zno50n7b
-	GWdE58anHTSk+Ncf9sfnVGYAhL+yTs=; b=CHIykO6XILTzb6VV8QDIJGjTHO4KO
-	I3sA9pdeglZp6Hd1TzSieB/Mr8a3GF4yYzjbf/eMtG645daedqaHoD43KN0EQtI+
-	U8zdnJv5YtnRB1WxBVYiUzQmgJ8T+eN5mc3n15bHk6C3YrYl91KTg52ljamQBWcC
-	+qtU+IW3G56DWyUSMtk03529Jy8hG7Jn2SyV0BzHOwmu8hI0/Ue9P5hgNlxXPHo1
-	duuDx7NSlduycTAa5Jo37LUEJegwEMKO1agmjCibumNASY35sLbQzYZsSWfebYqL
-	c1zAvkks/ya5rz5XoJdI5ZExtINPIYnL2grgutEt/p5GB2eZxMRkyDn0g==
-X-ME-Sender: <xms:c4tUZvzI8tR0QpzDbNZ2NLzkYKhaj40AFchmyplaU804vdItrckQgQ>
-    <xme:c4tUZnQXOOTf9J0GU1RQwFbCAhtHCk4ZSHQTX45qaYeScCWSXFWBNZNO8DhdyRXOa
-    1t4S389FDxgQGhaqwQ>
-X-ME-Received: <xmr:c4tUZpWMRL8Y6aC8BEEbZCpppsw08v5gCDIhh21P3u75K0hnRcFQSbSy5IGJk3_gmM6fFuP7CA2ABc-Kgr9kpoo_OStmTv8U-NS4>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716816758; x=
+	1716903158; bh=NZHaukzJunEg/R8iAVsFjesSAYmTSHfUE9hswrg+sSw=; b=l
+	6cS8RhVJ8EqVO2cET49cU6kZPQSgrgCV1vE1nVCXnNXrL9c+UxKfIujw1BSr1FAm
+	jjN5VvLWF2xfaN9ofLuHoMTaCu6FmFGOlgk8rIMjjDcYRgLdLAZ5BlEVikQ9xenu
+	0AkeY+JEamaF5H7HoOWHp9ci1QUbatBSWIjzokr/MgwE8Y1KPa7iAwTrzHBxsyyS
+	aIQAIPAoRqaJcWvcZ0LXqFn4VK7e+XKF6YLn1uSZrydZ3OYB3lQdxO0ZaQCJ1eDp
+	r2G4VjfYmn9h2R2y2QqfBkhS16C62nwHDnvypbucH1/q/DmviBUAqQOHxm6xsxiH
+	4irCk4E5cR9Ht9DTtrZNQ==
+X-ME-Sender: <xms:dYtUZtgzGkBiRowJzMZMGNEF2_ke_grvdP01JuTgYOwxbHLPRjRDnQ>
+    <xme:dYtUZiA_0jjLgxlckfis40xqlR7pKP1H-Dl5oUidsB5LkzeixnGFJbkd5YtvsQtv3
+    0uSC9npUt89dDD7nB8>
+X-ME-Received: <xmr:dYtUZtH4G_-Lgqidyvn1b2J-u_ayKQUg2-kxlYDKwZ85b4dEivNsZSrKktVEk5RCpcFaYWV-Xfn-xqb7tQa24YOrNrkeTZzJ9f-Y>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
-    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:c4tUZpglvRoBr7FeMqzxp0JyL6n5VOK3XCDoENyGyNI2tt6ciJuPEw>
-    <xmx:c4tUZhBWswbNqPR2CE4l18bNmrE_GRSDiYLvoMCtSn9L1tmjH3kPUg>
-    <xmx:c4tUZiKhVLFfl7G_r24gXQD-T5VZ3Ll_i20jDgPbJ1O5yHPR4yyZhg>
-    <xmx:c4tUZgC5wgNkGHUUZawPbcvh9EVEpVU48o4UUUqEHP1oaoBYOiQxIg>
-    <xmx:c4tUZk4jlz8z8cdX0sfEbKtOZOIpfxwLJv1o7L2Upr4IJN5VLyEqTDTz>
+    cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueev
+    uedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:dYtUZiQjBKTAgBiYnEQkcvr23ygjVtlDODwj3wSLnFJkSYtXlTeXmg>
+    <xmx:dYtUZqwSyWZoT93BxgQngl3bDF-4PhOVQM8wzWDE2FYJDoTUTL8kGw>
+    <xmx:dYtUZo4X2kndxjH26539r9uqqME-kAVCQKjMEvaUV9mD5LijRe_6Fw>
+    <xmx:dYtUZvwsi7DP_bz8Dn8yA2x6yXC5iDVI325d-N0_t6mWgcuAcS6D4w>
+    <xmx:dotUZhprz0osGKMil-0PeIxV7sIB_2L4XW1xUoCppEUsL9Qg_mVmClxD>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 May 2024 09:32:34 -0400 (EDT)
+ 27 May 2024 09:32:36 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 0/7] media: rcar-csi2: Add support for V4M
-Date: Mon, 27 May 2024 15:32:14 +0200
-Message-ID: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 1/7] media: rcar-csi2: Correct field size for PHTW writes
+Date: Mon, 27 May 2024 15:32:15 +0200
+Message-ID: <20240527133221.1688830-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.45.1
+In-Reply-To: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,38 +103,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello,
+The data and code written thru the Test Interface Write Register (PHTW)
+register are 8-bit wide, change the datatype used to reflect this.
 
-This series enables support for R-Car V4M to the CSI-2 receiver.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/renesas/rcar-csi2.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Patch 1-2 clean up some simplifications in the driver which where 
-possible before V4M support but that now needs to be addressed.
-
-Patch 3-5 prepares for V4M support by extending some of the abstractions 
-used in the driver to cover how they are implemented in the V4M version 
-of the CSI-2 IP.
-
-Patch 6 improves the documentation around two registers used on Gen4 as 
-later datasheets now document them and they will be used when enabling 
-V4M support.
-
-And finally patch 7 adds V4M support. The V4M is similar in design to 
-V4H with the big difference it only supports CSI-2 D-PHY. All of the 
-media graph setup and V4L2 callbacks can be reused, only the start 
-procedure is different.
-
-Niklas Söderlund (7):
-  media: rcar-csi2: Correct field size for PHTW writes
-  media: rcar-csi2: Allow writing any code and data value to PHTW
-  media: rcar-csi2: Abstract PHTW and PHYPLL register offsets
-  media: rcar-csi2: Add helper to lookup mbps settings
-  media: rcar-csi2: Move PHTW write helpers
-  media: rcar-csi2: Add documentation for PHY_EN and PHY_MODE registers
-  media: rcar-csi2: Add support for R-Car V4M
-
- drivers/media/platform/renesas/rcar-csi2.c | 515 +++++++++++++++++----
- 1 file changed, 415 insertions(+), 100 deletions(-)
-
+diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+index 582d5e35db0e..6cc128990140 100644
+--- a/drivers/media/platform/renesas/rcar-csi2.c
++++ b/drivers/media/platform/renesas/rcar-csi2.c
+@@ -238,13 +238,13 @@ static const struct rcsi2_cphy_setting cphy_setting_table_r8a779g0[] = {
+ };
+ 
+ struct phtw_value {
+-	u16 data;
+-	u16 code;
++	u8 data;
++	u8 code;
+ };
+ 
+ struct rcsi2_mbps_reg {
+ 	u16 mbps;
+-	u16 reg;
++	u8 reg;
+ };
+ 
+ static const struct rcsi2_mbps_reg phtw_mbps_v3u[] = {
+@@ -1425,7 +1425,7 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+  * NOTE: Magic values are from the datasheet and lack documentation.
+  */
+ 
+-static int rcsi2_phtw_write(struct rcar_csi2 *priv, u16 data, u16 code)
++static int rcsi2_phtw_write(struct rcar_csi2 *priv, u8 data, u8 code)
+ {
+ 	unsigned int timeout;
+ 
+@@ -1462,7 +1462,7 @@ static int rcsi2_phtw_write_array(struct rcar_csi2 *priv,
+ }
+ 
+ static int rcsi2_phtw_write_mbps(struct rcar_csi2 *priv, unsigned int mbps,
+-				 const struct rcsi2_mbps_reg *values, u16 code)
++				 const struct rcsi2_mbps_reg *values, u8 code)
+ {
+ 	const struct rcsi2_mbps_reg *value;
+ 	const struct rcsi2_mbps_reg *prev_value = NULL;
 -- 
 2.45.1
 
