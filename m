@@ -1,220 +1,261 @@
-Return-Path: <linux-media+bounces-11919-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11920-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633118CFB60
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 10:27:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DA98CFB7C
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 10:31:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E598A1F21ABF
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 08:27:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47B11281D15
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 08:31:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BE2A53389;
-	Mon, 27 May 2024 08:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B7D85427E;
+	Mon, 27 May 2024 08:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vzemOWoa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8B44D59F;
-	Mon, 27 May 2024 08:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF54DD268
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 08:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716798435; cv=none; b=EOVo0GcTzxlcE9C1Ugx0lGmhYTeZpqfvQKPAoWaWzO12cuJDaZxTtd6keovOpBdL8t9HthrVLNvO2Fs6ecV7A6Wg3Nv+b1o8+HytTwMhYYKqP5GfMB9D0U843AjslLl1FzbNZ7Z+KCP0Nbuh/zqXOte5Tul5POqRMRRMqU74sDY=
+	t=1716798708; cv=none; b=jPpXvpi+gIdG5Anl4D0mFnHEQyr1LiN+/4wRPHVcCObOTtkv/oj5ifG3Kcvg+Ty48SjPCjDNQrEo5HjcOT+mhJIz1v8MQA2aHsfK7fXALx+1iCeVIZMEN8/KuHfhcDIbDEIk3CKjJXqB8vjmLDj+fQhuxvIMZlIak4nP9cZGY0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716798435; c=relaxed/simple;
-	bh=zUE6pPT76PHtvUaIgPgs0DAmlWvRn84at9iQJw0SZZY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rMALbBpfBuMwSkY5QNVboPNisKYgNHBwhTgc1z5kUPwQ7nag+wSzN/OoBzxv2Kc/JIonSMa/dJnY4Sqf/A0EZps5NIUf/EnStYZz9+Uds/A6o8vme8u4KHPwuK87vnVavFiEwr0SptjeC8eDH+Er3Vya8q8xsABnciQY6uHDGkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4VnpZJ1C6yz1S5m8;
-	Mon, 27 May 2024 16:23:36 +0800 (CST)
-Received: from dggpeml500012.china.huawei.com (unknown [7.185.36.15])
-	by mail.maildlp.com (Postfix) with ESMTPS id CC0DC1A016C;
-	Mon, 27 May 2024 16:27:09 +0800 (CST)
-Received: from [10.67.111.172] (10.67.111.172) by
- dggpeml500012.china.huawei.com (7.185.36.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 27 May 2024 16:27:09 +0800
-Message-ID: <e3af2eda-8239-a3ca-9d8b-9f31dcbb83f0@huawei.com>
-Date: Mon, 27 May 2024 16:27:09 +0800
+	s=arc-20240116; t=1716798708; c=relaxed/simple;
+	bh=6nDxI9qjQXyyzphbep8BKmO5K3lVXjdIiNiJMwUz6+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bNT1A38ShKqtHx1n2PRjrC7DF6FKnXw+P3mXZoZEr+TPzIB2mJui4YER+7WabSn9Ld0WcabhAhm3ZryziLFsD3pxcVD1jAyx/+k2HYWfDbnLg3wYNnQRJKkFEJBboVhZw+Pujwfv0UrWbIocDhJKRNYHUXqrgvCgkB6Lzpcnw6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vzemOWoa; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7CDF2908;
+	Mon, 27 May 2024 10:31:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1716798702;
+	bh=6nDxI9qjQXyyzphbep8BKmO5K3lVXjdIiNiJMwUz6+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vzemOWoaaA6a7ebf34hsgDSRzI8XYYEl1xLVot/iyrcTNl8KCQFiMBsyghAtaKLlm
+	 1oK8MK8Md3zglf/xYXSBknNXcdjP/3UBMlHXj/BZF//daJIPlCMkIJR2TR0x232+VZ
+	 l9Dzpj9C5ubJVaFy9/BA+eyMuoKVpd/JQAo+YudI=
+Date: Mon, 27 May 2024 11:31:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v7 7/8] media: raspberrypi: Add support for PiSP BE
+Message-ID: <20240527083133.GB2986@pendragon.ideasonboard.com>
+References: <20240524140024.161313-1-jacopo.mondi@ideasonboard.com>
+ <20240524140024.161313-8-jacopo.mondi@ideasonboard.com>
+ <ZlOimSRFNNt1fdN3@valkosipuli.retiisi.eu>
+ <lqo77pdefh6f5ynxu32s24paj2qa22rc6pih623mhywifgr4pw@kt4iic67ljfz>
+ <ZlRAyMCduqsxYaQu@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] media: dvb-usb: Fix unexpected infinite loop in
- dvb_usb_read_remote_control()
-To: Sean Young <sean@mess.org>
-CC: <mchehab@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>
-References: <20240412135256.1546051-1-zhengyejian1@huawei.com>
- <20240430104137.1014471-1-zhengyejian1@huawei.com>
- <ZjTPqR3_EhbNU-fm@gofer.mess.org>
-Content-Language: en-US
-From: Zheng Yejian <zhengyejian1@huawei.com>
-In-Reply-To: <ZjTPqR3_EhbNU-fm@gofer.mess.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500012.china.huawei.com (7.185.36.15)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZlRAyMCduqsxYaQu@valkosipuli.retiisi.eu>
 
-On 2024/5/3 19:51, Sean Young wrote:
-> On Tue, Apr 30, 2024 at 06:41:37PM +0800, Zheng Yejian wrote:
->> Infinite log printing occurs during fuzz test:
->>
->>    rc rc1: DViCO FusionHDTV DVB-T USB (LGZ201) as ...
->>    ...
->>    dvb-usb: schedule remote query interval to 100 msecs.
->>    dvb-usb: DViCO FusionHDTV DVB-T USB (LGZ201) successfully initialized ...
->>    dvb-usb: bulk message failed: -22 (1/0)
->>    dvb-usb: bulk message failed: -22 (1/0)
->>    dvb-usb: bulk message failed: -22 (1/0)
->>    ...
->>    dvb-usb: bulk message failed: -22 (1/0)
->>
->> Looking into the codes, there is a loop in dvb_usb_read_remote_control(),
->> that is in rc_core_dvb_usb_remote_init() create a work that will call
->> dvb_usb_read_remote_control(), and this work will reschedule itself at
->> 'rc_interval' intervals to recursively call dvb_usb_read_remote_control(),
->> see following code snippet:
->>
->>    rc_core_dvb_usb_remote_init() {
->>      ...
->>      INIT_DELAYED_WORK(&d->rc_query_work, dvb_usb_read_remote_control);
->>      schedule_delayed_work(&d->rc_query_work,
->>                            msecs_to_jiffies(rc_interval));
->>      ...
->>    }
->>
->>    dvb_usb_read_remote_control() {
->>      ...
->>      err = d->props.rc.core.rc_query(d);
->>      if (err)
->>        err(...)  // Did not return even if query failed
->>      schedule_delayed_work(&d->rc_query_work,
->>                            msecs_to_jiffies(rc_interval));
->>    }
->>
->> When the infinite log printing occurs, the query callback
->> 'd->props.rc.core.rc_query' is cxusb_rc_query(). And the log is due to
->> the failure of finding a valid 'generic_bulk_ctrl_endpoint'
->> in usb_bulk_msg(), see following code snippet:
->>
->>    cxusb_rc_query() {
->>      cxusb_ctrl_msg() {
->>        dvb_usb_generic_rw() {
->>          ret = usb_bulk_msg(d->udev, usb_sndbulkpipe(d->udev,
->>                             d->props.generic_bulk_ctrl_endpoint),...);
->>          if (ret)
->>            err("bulk message failed: %d (%d/%d)",ret,wlen,actlen);
->>            ...
->>        }
->>    ...
->>    }
->>
->> By analyzing the corresponding USB descriptor, it shows that the
->> bNumEndpoints is 0 in its interface descriptor, but
->> the 'generic_bulk_ctrl_endpoint' is 1, that means user don't configure
->> a valid endpoint for 'generic_bulk_ctrl_endpoint', therefore this
->> 'invalid' USB device should be rejected before it calls into
->> dvb_usb_read_remote_control().
->>
->> To fix it, we need to add endpoint check for 'generic_bulk_ctrl_endpoint'.
->> And as Sean suggested, the same check and clear halts should be done for
->> 'generic_bulk_ctrl_endpoint_response'. So introduce
->> dvb_usb_check_bulk_endpoint() to do it for both of them.
->>
->> Fixes: 4d43e13f723e ("V4L/DVB (4643): Multi-input patch for DVB-USB device")
->> Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
->> ---
->>   drivers/media/usb/dvb-usb/dvb-usb-init.c | 27 ++++++++++++++++++++----
->>   1 file changed, 23 insertions(+), 4 deletions(-)
->>
->> v2:
->>   - As Sean suggested, check endpoint and clear halt for both
->>     'generic_bulk_ctrl_endpoint' and 'generic_bulk_ctrl_endpoint_response'
->>     with the new introduced dvb_usb_check_bulk_endpoint();
->>     Link: https://lore.kernel.org/all/ZjCl97Ww6NrzJQCB@gofer.mess.org/
->>     Link: https://lore.kernel.org/all/ZjC7rXU7ViaH60_S@gofer.mess.org/
->>
->>   - Add Fixes tag.
->>
->> v1:
->>   - Link: https://lore.kernel.org/all/20240412135256.1546051-1-zhengyejian1@huawei.com/
->>
->> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
->> index fbf58012becd..7eb321bab84f 100644
->> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
->> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
->> @@ -23,6 +23,23 @@ static int dvb_usb_force_pid_filter_usage;
->>   module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage, int, 0444);
->>   MODULE_PARM_DESC(force_pid_filter_usage, "force all dvb-usb-devices to use a PID filter, if any (default: 0).");
->>   
->> +static int dvb_usb_check_bulk_endpoint(struct dvb_usb_device *d, u8 endpoint)
->> +{
->> +	if (endpoint) {
->> +		int ret;
->> +
->> +		ret = usb_pipe_type_check(d->udev, usb_sndbulkpipe(d->udev, endpoint));
->> +		if (ret)
->> +			return ret;
->> +		ret = usb_pipe_type_check(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
->> +		if (ret)
->> +			return ret;
->> +		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, endpoint));
->> +		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
->> +	}
->> +	return 0;
->> +}
->> +
->>   static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
->>   {
->>   	struct dvb_usb_adapter *adap;
->> @@ -103,10 +120,12 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
->>   	 * when reloading the driver w/o replugging the device
->>   	 * sometimes a timeout occurs, this helps
->>   	 */
->> -	if (d->props.generic_bulk_ctrl_endpoint != 0) {
->> -		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
->> -		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
->> -	}
->> +	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint);
->> +	if (ret)
->> +		goto frontend_init_err;
->> +	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint_response);
->> +	if (ret)
->> +		goto frontend_init_err;
->>   
->>   	return 0;
+On Mon, May 27, 2024 at 08:14:00AM +0000, Sakari Ailus wrote:
+> Hi Jacopo,
 > 
-> This results in the following warning:
+> On Mon, May 27, 2024 at 09:56:00AM +0200, Jacopo Mondi wrote:
+> > > > +#include <linux/media/raspberrypi/pisp_be_config.h>
+> > >
+> > > Where is the header included from? If it's just this driver, then I'd put
+> > > it in the driver's directory.
+> > 
+> > It's the uAPI header file. Or did I miss your question ?
 > 
-> drivers/media/usb/dvb-usb/dvb-usb-init.c:133:9: warning: 'adap' may be used uninitialized [-Wmaybe-uninitialized]
+> If it's uapi, then you should have uapi in its header path. I.e.
 > 
-> I think these tests should be moved to the top of the function, so no cleanup
-> is required.
+> #include <uapi/linux...>
 > 
+> > > > +	/* Everything else is as supplied by the user. */
+> > > > +	begin =	offsetof(struct pisp_be_config, global.bayer_order)
+> > > > +	      / sizeof(u32);
+> > >
+> > > The slash should be on the previous line. Same elsewhere.
+> > >
+> > 
+> > Please, this is highly subjective and other people (like Laurent) often
+> > ask for the contrary. Without any polemic intent, I encourage reviewers
+> > (myself included) in considering how much time we spend (and
+> > demand) on such subjective issues. Even more when other reviewers might have
+> > different opinions, with the end result of pulling contributors in
+> > different directions.
+> 
+> Having binary operators at the beginning of a statement split on multiple
+> lines is simply uncommon, perhaps around 10 % of the cases in the media
+> tree based on a quick look. Keeping the coding style consistent is
+> beneficial for us all.
 
-Hi, Sean,
-
-I have fixed the warning in v3: https://lore.kernel.org/all/20240509124414.1392304-1-zhengyejian1@huawei.com/,
-would you mind taking a look at it ?
-I introduce a new funciton dvb_usb_clear_halt() to clear sndbulkpipe and rcvbulkpipe,
-dvb_usb_check_bulk_endpoint() only do pipe type check and is moved to the top of
-the function.
-
---
-Thanks,
-Zheng Yejian
+I've been slowly but steadily working on increasing that number :-) I
+think the style above is the most readable, and I would leave it to
+driver authors (as long as they're consistent within a driver).
 
 > 
-> Sean
+> ...
+> 
+> > > > +static void pispbe_xlate_addrs(dma_addr_t addrs[N_HW_ADDRESSES],
+> > > > +			       u32 hw_enables[N_HW_ENABLES],
+> > > > +			       struct pisp_be_tiles_config *config,
+> > > > +			       struct pispbe_buffer *buf[PISPBE_NUM_NODES],
+> > > > +			       struct pispbe_node_group *node_group)
+> > > > +{
+> > > > +	int ret;
+> > > > +
+> > > > +	/* Take a copy of the "enable" bitmaps so we can modify them. */
+> > > > +	hw_enables[0] = config->config.global.bayer_enables;
+> > > > +	hw_enables[1] = config->config.global.rgb_enables;
+> > >
+> > > I wonder if hw_enables would be better declared as a struct.
+> > 
+> > struct hw_enable {
+> >         u32 bayer_enable;
+> >         u32 rgb_enable;
+> > };
+> > 
+> > ?
+> 
+> You currently  have an array of struct hw_enable here.
+> 
+> > > > +
+> > > > +	/*
+> > > > +	 * Main input first. There are 3 address pointers, corresponding to up
+> > > > +	 * to 3 planes.
+> > > > +	 */
+> > > > +	ret = pispbe_get_planes_addr(addrs, buf[MAIN_INPUT_NODE],
+> > > > +				     &node_group->node[MAIN_INPUT_NODE]);
+> > > > +	if (ret <= 0) {
+> > > > +		/*
+> > > > +		 * This shouldn't happen; pispbe_schedule_internal should insist
+> > > > +		 * on an input.
+> > > > +		 */
+> > > > +		dev_warn(node_group->pispbe->dev, "ISP-BE missing input\n");
+> > > > +		hw_enables[0] = 0;
+> > > > +		hw_enables[1] = 0;
+> > > > +		return;
+> > > > +	}
+> > > > +
+> > > > +	/*
+> > > > +	 * Now TDN/Stitch inputs and outputs. These are single-plane and only
+> > > > +	 * used with Bayer input. Input enables must match the requirements
+> > > > +	 * of the processing stages, otherwise the hardware can lock up!
+> > > > +	 */
+> > > > +	if (hw_enables[0] & PISP_BE_BAYER_ENABLE_INPUT) {
+> > > > +		addrs[3] = pispbe_get_addr(buf[TDN_INPUT_NODE]);
+> > > > +		if (addrs[3] == 0 ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_TDN_INPUT) ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_TDN) ||
+> > > > +		    (config->config.tdn.reset & 1)) {
+> > > > +			hw_enables[0] &= ~(PISP_BE_BAYER_ENABLE_TDN_INPUT |
+> > > > +					   PISP_BE_BAYER_ENABLE_TDN_DECOMPRESS);
+> > > > +			if (!(config->config.tdn.reset & 1))
+> > > > +				hw_enables[0] &= ~PISP_BE_BAYER_ENABLE_TDN;
+> > > > +		}
+> > > > +
+> > > > +		addrs[4] = pispbe_get_addr(buf[STITCH_INPUT_NODE]);
+> > > > +		if (addrs[4] == 0 ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_STITCH_INPUT) ||
+> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_STITCH)) {
+> > > > +			hw_enables[0] &=
+> > > > +				~(PISP_BE_BAYER_ENABLE_STITCH_INPUT |
+> > > > +				  PISP_BE_BAYER_ENABLE_STITCH_DECOMPRESS |
+> > > > +				  PISP_BE_BAYER_ENABLE_STITCH);
+> > > > +		}
+> > > > +
+> > > > +		addrs[5] = pispbe_get_addr(buf[TDN_OUTPUT_NODE]);
+> > > > +		if (addrs[5] == 0)
+> > > > +			hw_enables[0] &= ~(PISP_BE_BAYER_ENABLE_TDN_COMPRESS |
+> > > > +					   PISP_BE_BAYER_ENABLE_TDN_OUTPUT);
+> > > > +
+> > > > +		addrs[6] = pispbe_get_addr(buf[STITCH_OUTPUT_NODE]);
+> > > > +		if (addrs[6] == 0)
+> > > > +			hw_enables[0] &=
+> > > > +				~(PISP_BE_BAYER_ENABLE_STITCH_COMPRESS |
+> > > > +				  PISP_BE_BAYER_ENABLE_STITCH_OUTPUT);
+> > > > +	} else {
+> > > > +		/* No Bayer input? Disable entire Bayer pipe (else lockup) */
+> > > > +		hw_enables[0] = 0;
+> > > > +	}
+> > > > +
+> > > > +	/* Main image output channels. */
+> > > > +	for (unsigned int i = 0; i < PISP_BACK_END_NUM_OUTPUTS; i++) {
+> > > > +		ret = pispbe_get_planes_addr(addrs + 7 + 3 * i,
+> > > > +					     buf[OUTPUT0_NODE + i],
+> > > > +					     &node_group->node[OUTPUT0_NODE + i]);
+> > > > +		if (ret <= 0)
+> > > > +			hw_enables[1] &= ~(PISP_BE_RGB_ENABLE_OUTPUT0 << i);
+> > > > +	}
+> > > > +}
+> 
+> ...
+> 
+> > > > +static void pispbe_node_def_fmt(struct pispbe_node *node)
+> > > > +{
+> > > > +	if (NODE_IS_META(node) && NODE_IS_OUTPUT(node)) {
+> > > > +		/* Config node */
+> > > > +		struct v4l2_format *f = &node->format;
+> > > > +
+> > > > +		f->fmt.meta.dataformat = V4L2_META_FMT_RPI_BE_CFG;
+> > > > +		f->fmt.meta.buffersize = sizeof(struct pisp_be_tiles_config);
+> > > > +		f->type = node->buf_type;
+> > > > +	} else {
+> > > > +		struct v4l2_format f = {0};
+> > > > +
+> > > > +		f.fmt.pix_mp.pixelformat = V4L2_PIX_FMT_YUV420;
+> > > > +		f.fmt.pix_mp.width = 1920;
+> > > > +		f.fmt.pix_mp.height = 1080;
+> > > > +		f.type = node->buf_type;
+> > >
+> > > You can assign these in the declaration. The same above.
+> > 
+> > Here indeed I can. Above I don't think I can (if you mean in the if()
+> > branch)
+> 
+> Ack.
+> 
+> ...
+> 
+> > > > +	/* Hardware initialisation */
+> > > > +	pm_runtime_set_autosuspend_delay(pispbe->dev, 200);
+> > > > +	pm_runtime_use_autosuspend(pispbe->dev);
+> > > > +	pm_runtime_enable(pispbe->dev);
+> > > > +
+> > > > +	ret = pm_runtime_resume_and_get(pispbe->dev);
+> > >
+> > > You'll need to call the driver's resume function manually instead. The
+> > > above depends on CONFIG_PM.
+> > 
+> > The driver selects CONFIG_PM, doesn't it ?
+> 
+> It depends on PM.
+> 
+> It'd be trivial to remove that dependency.
 
+For drivers such as sensor drivers that need to work on a wide variety
+of platforms, with varying configurations, I agree that not depending on
+CONFIG_PM is a good thing (I reserve the right to change my mind though
+:-)). For this driver, I don't think the dependency is an issue.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
