@@ -1,153 +1,151 @@
-Return-Path: <linux-media+bounces-11922-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11923-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1E88CFC61
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 11:02:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EE58CFCA8
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 11:20:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89E39280DE8
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:02:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F371B2031E
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:19:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E40AC6BFBA;
-	Mon, 27 May 2024 09:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40FB113A3E7;
+	Mon, 27 May 2024 09:19:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRMPiNiI"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="c6A9Vi+m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RjUdz2qn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B121A2C35;
-	Mon, 27 May 2024 09:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD5B8BF0;
+	Mon, 27 May 2024 09:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716800537; cv=none; b=AFnNrIlAWRYd6C2XWAEU86VTnnBmgUlk6pwyJjyqWAoyxVjBwVuVt5X01lszfQ42OKSfaeP/j4jI6Mdi+fVAqeuNiGxLUNtMmxrPN4hIAjAg95WA+RdxyPw8bMMlBXsVGsSr11JJaez7w4q7jM1EiyxaxJUkoAIW9BipUxuy/CI=
+	t=1716801584; cv=none; b=bz5it7Uf1mdq8/o3erNAebdcx6uQKlPcc/qGR2zQLx/b7LNaHNm4mA3g7R+yZxIzYYgJiDjofnM5FODl74kuBnR2gFo7ITguxhEIUECaoMYsiR91ac8c6C0JiWRWf2VnQIxIWQFpzDyb3mIce9FbNmUScM+AUpbB4ID2aMj+Ms0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716800537; c=relaxed/simple;
-	bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
+	s=arc-20240116; t=1716801584; c=relaxed/simple;
+	bh=f/ZO/5SheuJ39tBbAq0V9Icin85f9j7EK3xhw6RHGOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IZdjyuWLoq6ME7fBeVZyjbZ2iamWHglfoZ91kYg8aftspZaf3qB2ZrFM2LvuKihQ/xANSsLSHgQUBbMIAD2id36ig8jjtdhrDAVeARwK4OiDvXGatlHL091CPcN4TfFwmiLJrka8PEfIl7XY6mHgYB8+b7bGE9MIyEywyU6Q0NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRMPiNiI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A944C2BBFC;
-	Mon, 27 May 2024 09:02:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716800536;
-	bh=uYAFBgtM5vXI9g7/LeVQ+pczQ1yooR+keQpxvhcuA8k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TRMPiNiIHap5cUpLkC3niSfLnS5r5ay/7/AKD7dAXmxw4VtzFUte71pZ8s4wYxN6C
-	 5N7gB4+obnBGFvTNNxSuXzK/U5TbAzL9ZplGMilaZr1KdblJ6LczlqxIQ8GuuBy7nc
-	 9i1Xee/2KLe/dEp3NpfRWXYMXpQGjWGZRqeXwpsjJf83/GO2GxAql5Y4nbHCV2YGjz
-	 rYh02qQutduLCSqGeaeXpUEYU9uSWnlHpo/iwn2FqW2k+BzSyYmty//oZ6FRorGIBN
-	 +xcOBIRc0ZuQyvFii3U1AO5zNKn47fmXCnneBR7Hq+ycIaKg4tSKiWLgwSvWA5gvkB
-	 +hbDCAwtJxCnQ==
-Date: Mon, 27 May 2024 11:02:13 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240527-adamant-just-spaniel-ebed4e@houat>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
- <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
+	 Content-Type:Content-Disposition:In-Reply-To; b=P9WRJB4Ex0c+HZMB/eo4ZB5hIqp9Hk81WP2cN8c5iBbN6DyAN3ufa/TLNE9tFDNbqilS2vI/mLrzbQztugGv5ZRP5/IMJo0s3xzhH5zoHuIdT+uTjWydP8yuM9yBA9Jqh8aChWMzKS2hk7Zwwbopb49AvIUq5loIeOkIUN97SfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=c6A9Vi+m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RjUdz2qn; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 1E5B611400AC;
+	Mon, 27 May 2024 05:19:40 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 27 May 2024 05:19:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1716801580;
+	 x=1716887980; bh=RsvTN0MTkk+SPrmFN4sVD6AmnEFU2PQA8SihEAjv5yw=; b=
+	c6A9Vi+mt7Ogtl+5BO0uGjahRsK/DZj/gL9pbmlDgXo5OD6IN07tW1poD83++Kcf
+	vaEn8yVKj3RYBX7yGOmie7+YaTbSbYLFOxXE88OhJjqhKgD/e6ieHNDU8ELPay2X
+	spCAyRxuCBqWdyYmlSJEuHUgu4gj5xG+qA3GP5IlmL+Yn0MfJJnXD6My2frlF5NT
+	dLPX3oojh7VZQc/oOe/XL4dUs6Uga4fMFuORFnzdowA3vBk8qyZohBLDp07s+pve
+	p/RGXzGw5pKrrCTiZVOOx/aeQDH1TUWZkAVsCsPanzVJkj+PDlVAww78u8CyTog8
+	enbJER7S51Rqf+jIdruh2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716801580; x=
+	1716887980; bh=RsvTN0MTkk+SPrmFN4sVD6AmnEFU2PQA8SihEAjv5yw=; b=R
+	jUdz2qn8Abxh83QmoFliGkUzfqE+ACdOF+dmhFfUzuSpvyDbgG7jNwBIow2JrMGs
+	DJXDiuhCXMBd0M082+ku4JOOWkL35eTDBwdB9ua+tehLgU6XqwUoH/2SGDWMOY9I
+	LIuzdNgtB0b2qGNgKBf+WsqP+HjOb0QvmDrhoRmaQHES6RPfedcL0RqXiZ5mAmos
+	vYcqizsAFp3VVEbLNEGwnXacFnjUjnnalEx//ZpZ2TUwmTK+awQGrAMGSzKl1rR0
+	FVyAW+1ZyelPmmYsNyha0i61emaxcR/quN5jVLCaeyOW1YVdUryoz2dKfZDrvyEJ
+	aqxurort2PweneDJ9u9Lw==
+X-ME-Sender: <xms:K1BUZkun3sKFiSEgcecTF9Wv6b7BwJ1iwgass-PBqpMjLqK1XVOFXw>
+    <xme:K1BUZhe5NI5D7JH7eCHUQjAtG95U0g74qxz-DFxJI--GBVkFoMIc61m8vQIlxakO6
+    1XDnEgHFrQbo5_UC6I>
+X-ME-Received: <xmr:K1BUZvzQUXXwNt_Mmw-HwYvRjZSwJekMuuJ5meBsW9Pj5nYeyeDSGlOhdJhQJuwrcrQhagG84RGVHjj8_IrVanb17qaIGjs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrgh
+    hnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeeuveeiieehkeehheekfeehheel
+    hedvveethfejteefkedvhfeluefhgfdvfedujeenucffohhmrghinhepmhhiphhirdhorh
+    hgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:K1BUZnPPy-rjfDNqAS-jzWw6J6SkU3JEosX8GYwwZ-I5wTBi37osmw>
+    <xmx:K1BUZk9qcEnTtnUz5tqgqZPVhDqlU1as6yJCClmP1ZIizboSkeei_w>
+    <xmx:K1BUZvXZGkiwCJlwh-3KTSupfjl2fvQTULGRfXvKHKR8qx59K03MlA>
+    <xmx:K1BUZtd8uqkNuH8CFObh1rjw1eDx_X4rQG04ZqI8PnfCdCEQ-u-Ilg>
+    <xmx:LFBUZvayj3IQN80RHL12xCQkKVun9kOYZrBn-17436BTKkDEjjXfgrEd>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 May 2024 05:19:39 -0400 (EDT)
+Date: Mon, 27 May 2024 11:19:38 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [RFC] dt-bindings: media: video-interfaces: How to describe
+ physical lanes for CSI-2 C-PHY
+Message-ID: <20240527091938.GH1900917@fsdn.se>
+References: <20240525220747.GD1900917@ragnatech.se>
+ <ZlQoJtxXBqrwI8_U@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="wqcwbvnihqwt2l7e"
-Content-Disposition: inline
-In-Reply-To: <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
-
-
---wqcwbvnihqwt2l7e
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZlQoJtxXBqrwI8_U@kekkonen.localdomain>
 
-Hi,
+Hej Sakari,
 
-Thanks again for that thorough review :)
+On 2024-05-27 06:28:54 +0000, Sakari Ailus wrote:
+> Hejssan Niklas,
+> 
+> On Sun, May 26, 2024 at 12:07:47AM +0200, Niklas Söderlund wrote:
+> > 1. We could add a new generic property to fulfill the 'lane-polarities' 
+> >    function for C-PHY, 'lane-polarities-mipi-cphy'. That would only be 
+> >    valid for C-PHY buses.
+> > 
+> >    The structure would be the same as for lane-polarities but the items 
+> >    enum would allow a value from 0-5 for each entry in the array. And we 
+> >    could define mappings in dt-bindings/media/video-interfaces.h to 
+> >    allow names in DTS, MEDIA_BUS_CSI2_CPHY_{ABC,CBA,ACB,CAB,BAC,BCA}?
+> > 
+> >    This feels wrong as we already have 'lane-polarities' and it is used 
+> >    for CSI-2 D-PHY configurations already.
+> 
+> Could you add a property for this called "line-orders" with matching data
+> line order in MIPI DisCo for Imaging specification
+> <URL:https://www.mipi.org/specifications/mipi-disco-imaging>?
 
-On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
-> >=20
-> > Both drivers implementing the same property with the same semantics,
-> > plus the userspace having support for it, is proof enough that it's
-> > pretty much a de-facto standard now and we can provide helpers for it.
-> >=20
-> > Let's plumb it into the newly created HDMI connector.
-> >=20
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  Documentation/gpu/kms-properties.csv            |  1 -
-> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++=
-++++++++
-> >  include/drm/drm_connector.h                     | 36 ++++++++++
-> >  6 files changed, 133 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/k=
-ms-properties.csv
-> > index 0f9590834829..caef14c532d4 100644
-> > --- a/Documentation/gpu/kms-properties.csv
-> > +++ b/Documentation/gpu/kms-properties.csv
-> > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Prope=
-rty Values,Object attached,De
-> >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0xfff=
-fffff",Connector,property to suggest an X offset for a connector
-> >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",Conn=
-ector,property to suggest an Y offset for a connector
-> >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Co=
-nnector,TDB
-> > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Li=
-mited 16:235"" }",Connector,"When this property is set to Limited 16:235 an=
-d CTM is set, the hardware will be programmed with the result of the multip=
-lication of CTM by the limited range matrix to ensure the pixels normally i=
-n the range 0..1.0 are remapped to the range 16/255..235/255."
->=20
-> Should it still be defined as a generic property?
+Thanks for this document! I looked for the C-PHY specification when 
+trying to figure this out. But as that is not public I gave up on trying 
+to use MIPI as a resource to work on MIPI stuff ;-)
 
-I'm not sure what you mean here, sorry. It's being documented as a
-connector property now, so it's very much still listed as a generic
-property?
+Your suggestion for a line-orders property with the values described in 
+the port properties section of is a good way forward, thanks!
 
-Maxime
+> 
+> The polarity isn't a right term here as it's not a differential pair as on
+> D-PHY.
+> 
+> -- 
+> Hälsningar,
+> 
+> Sakari Ailus
 
---wqcwbvnihqwt2l7e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlRMEAAKCRAnX84Zoj2+
-dhGAAYDS1llqP+ICZyWXx+g6L1EiXrG7OIB0z7t7KF3yJW5Y1zN4+dIvVNhFS6LU
-gAXKTp4BgKUepq65FIlFjrRN3gyXTVxmbiIMJd5mPgjySS4scgX65VNBO5cc0Qvt
-qThCHUrQ2A==
-=K55A
------END PGP SIGNATURE-----
-
---wqcwbvnihqwt2l7e--
+-- 
+Kind Regards,
+Niklas Söderlund
 
