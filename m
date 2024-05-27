@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-11942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C248D01A1
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 15:35:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B3E8D01A2
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 15:35:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06F5F1F228B7
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 13:35:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49799290985
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 13:35:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE3015F417;
-	Mon, 27 May 2024 13:32:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3BA515ECFD;
+	Mon, 27 May 2024 13:32:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uRZz+9Bu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l6cS8RhV"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="rjc1bziL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gBV2zdjk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wfhigh1-smtp.messagingengine.com (wfhigh1-smtp.messagingengine.com [64.147.123.152])
+Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5293D15ECFD;
-	Mon, 27 May 2024 13:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6417E15F416;
+	Mon, 27 May 2024 13:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716816760; cv=none; b=nQ7Q0shOE8dJGsUZTnab1n5m5sW7n+twNR5ZZqj61f6ORTq+181dT7KyhWT0wJJh9OB99E4phJ4TxuH0BMBz7M69RSewgMofrO21sOGNfbNHWsV564pU5QG48uGinWi6s9GyX85b9ImA/XZYMyLYC+c6eY4FSZ7ipCbD3vQ4GCI=
+	t=1716816763; cv=none; b=BjNkguTWqoSxun3pl2D435oFKjwzxY/YxSq7ncrbs5HINEtxy67YKGB4Xw7E2MYKaaKqBSIXlk0VK3zpGwC0VIvKe30LiWVQOn+SDcrpBCav0XFLElFXV/P/8XOJelM1HurpD+qP+donWwpfyJ1ZyA21rP84X4igyglUL6TwHi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716816760; c=relaxed/simple;
-	bh=AB0FsQLv4tk8yvlOr8TpLu5GJzxJBOa/+7eevSPD3Uo=;
+	s=arc-20240116; t=1716816763; c=relaxed/simple;
+	bh=qVkTmP7bQnYIRaR5/MHlXhoTsZNoIzAsKDT6o8PbYho=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CtYNiqHGCZ5y5uzhzek6yeNCRFB0h8vPG5EN3C/4XlK+8RPxKPjSU4R5ALHwlLg0QTEtmYm4aHQVJ+x1yavveFPG5i0j/XBjC8x2UTgdTZ3WzVzPdVi1ndWRleMlyOsfeqF8V/C7K0xNTh/VUwvBxo4UM5EoJSduuaKy3pJBjLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uRZz+9Bu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l6cS8RhV; arc=none smtp.client-ip=64.147.123.152
+	 MIME-Version:Content-Type; b=beg4/pn9WUORFVT47PMhkz6M4dF9RweL5n3PLqW5SczjE2RN2WFvQ5jiiQPtMp9FHzwAJwwHZgWc5M/0NsC9OafH8STjAU89+0mxpwApcPUeIDKTk9Cwy9mtOdj78j8nr8VdY845aAQomciuVQxT7rGgq8Uza26tDiV4lslR8LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=rjc1bziL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gBV2zdjk; arc=none smtp.client-ip=64.147.123.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 62D6B1800093;
-	Mon, 27 May 2024 09:32:38 -0400 (EDT)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.west.internal (Postfix) with ESMTP id 6EC111C000CD;
+	Mon, 27 May 2024 09:32:40 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 27 May 2024 09:32:38 -0400
+  by compute7.internal (MEProxy); Mon, 27 May 2024 09:32:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1716816758;
-	 x=1716903158; bh=NZHaukzJunEg/R8iAVsFjesSAYmTSHfUE9hswrg+sSw=; b=
-	uRZz+9BuKnVxsSYVB2PJAgYu+mRjxzpLYZLSKjncbrRWYbZvoWK78VUyGlKoaKFJ
-	FQk3XVTt3YgjeEwfnNHqc8xCe0Pg4HAOkcM4Fo5O3+yyGP2XEHSDzxOIuSjAiUOb
-	fpuvpr4x76aQD0yVKkRcRsU0c/htNMHdRPbkSu73CyUcOQgSYouibjqdRN0LZ6mP
-	Q/TRcFWhx+653XEM9wnh2DCKymGO+BGscP+EmNhQ2Jk0UNijukXf59kVzoc3A/MB
-	3fCUFf1M1/plkyr5x/HtKTG+xGfDWket28yN7m11oF1VQ62QqX3X+jRmen1KwqqI
-	SpvcSbum4nTb12oDF6/qZQ==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1716816760;
+	 x=1716903160; bh=8N1+W8d7rjdLSoykSwGNaIORjBn/+Ek/uP16hP0M3cA=; b=
+	rjc1bziLKZvNYWXsYtHzUplmmJBryMndCMv625Z1SwV7iMbLbvhYn9KDE1/q3myS
+	v9abbTf8uhzzGl0EGB2obkmOUqznSJyyJgwdsaJvrG3U/MhoyFn40N/9CHOiPumj
+	tshJRGSTurpMHGC5pzk4AvBPsYhMlagzGcozv5lp81moxwAnhh8+65JHN7Iy+2xA
+	zx2GIPCcxy8HN0KLxYGWxr4goUsg0NLs1edNcgwHl6+B4TotW1phw9VMS7alwwBX
+	FdEsJ/OZ+ZwfPNb0W5G3zNImccorwXCHPIfiRq/XF0BgbGO21dc4CbyudDJoQXEY
+	Nzcn/a4qlUd2h3F2Orh9ew==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716816758; x=
-	1716903158; bh=NZHaukzJunEg/R8iAVsFjesSAYmTSHfUE9hswrg+sSw=; b=l
-	6cS8RhVJ8EqVO2cET49cU6kZPQSgrgCV1vE1nVCXnNXrL9c+UxKfIujw1BSr1FAm
-	jjN5VvLWF2xfaN9ofLuHoMTaCu6FmFGOlgk8rIMjjDcYRgLdLAZ5BlEVikQ9xenu
-	0AkeY+JEamaF5H7HoOWHp9ci1QUbatBSWIjzokr/MgwE8Y1KPa7iAwTrzHBxsyyS
-	aIQAIPAoRqaJcWvcZ0LXqFn4VK7e+XKF6YLn1uSZrydZ3OYB3lQdxO0ZaQCJ1eDp
-	r2G4VjfYmn9h2R2y2QqfBkhS16C62nwHDnvypbucH1/q/DmviBUAqQOHxm6xsxiH
-	4irCk4E5cR9Ht9DTtrZNQ==
-X-ME-Sender: <xms:dYtUZtgzGkBiRowJzMZMGNEF2_ke_grvdP01JuTgYOwxbHLPRjRDnQ>
-    <xme:dYtUZiA_0jjLgxlckfis40xqlR7pKP1H-Dl5oUidsB5LkzeixnGFJbkd5YtvsQtv3
-    0uSC9npUt89dDD7nB8>
-X-ME-Received: <xmr:dYtUZtH4G_-Lgqidyvn1b2J-u_ayKQUg2-kxlYDKwZ85b4dEivNsZSrKktVEk5RCpcFaYWV-Xfn-xqb7tQa24YOrNrkeTZzJ9f-Y>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716816760; x=
+	1716903160; bh=8N1+W8d7rjdLSoykSwGNaIORjBn/+Ek/uP16hP0M3cA=; b=g
+	BV2zdjk8Ue8yq46dHqIg+AM4V+sX4iMg2GTa38eNX134VY3h9XqqVEApVaQv76s1
+	gNmGgGeKPPmuiOJfEb0HbHDCWOV3g3aPN9lknk6fLOmJBcohMd8jUV1cDkDP6wYV
+	DXrmuuDSBIyUlNefOIeYR0ApDgyNVkmeBLQoQeiDvphiS8In89fireMXwVrNUv5m
+	tc99WVNrbpT1fpsQN006FOanux8touU+QqybMBshsDFYuGOanEy6o7pclmmFK+2Q
+	IR7OAtxM2Fg7h76U9sJFM2PbptB/hJafiXxoV9CTuBGDmgb7U0q/n9fD8rc1TDFg
+	zva4kkc2PpIC5lI/vmBbw==
+X-ME-Sender: <xms:d4tUZi3LrxHE7wvRneFLDfVvY835dbfDnjSVJ1HCUxRG20VRapUocw>
+    <xme:d4tUZlEM1hOtAgfBq9G8hO5kqldKU8FL-i4DcebnKOSma1Z9DwkNHEjfCExZ-dNVI
+    kyAWw1aAPJlZf6_Rio>
+X-ME-Received: <xmr:d4tUZq5cQFFiUDc4V1bceaG7r6qgsam0EDIoJNX3oQpNeWoHP4IwWCTIueD1VVkmp3PlZI0oLeNJwWQukNXJxszp91etZOTKuGrR>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -74,23 +74,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieegucetufdoteggod
     uedtfefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvg
     hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
     rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:dYtUZiQjBKTAgBiYnEQkcvr23ygjVtlDODwj3wSLnFJkSYtXlTeXmg>
-    <xmx:dYtUZqwSyWZoT93BxgQngl3bDF-4PhOVQM8wzWDE2FYJDoTUTL8kGw>
-    <xmx:dYtUZo4X2kndxjH26539r9uqqME-kAVCQKjMEvaUV9mD5LijRe_6Fw>
-    <xmx:dYtUZvwsi7DP_bz8Dn8yA2x6yXC5iDVI325d-N0_t6mWgcuAcS6D4w>
-    <xmx:dotUZhprz0osGKMil-0PeIxV7sIB_2L4XW1xUoCppEUsL9Qg_mVmClxD>
+X-ME-Proxy: <xmx:d4tUZj029wRQE2sXonvNEKPmS5V3Ws3Ie7Og1oTcMW_Dgbt1LH__JA>
+    <xmx:d4tUZlGqfFosL5nwoLMjgjBfP1qdh1zb6ItMSNJjtcUI7ID1YNnh_A>
+    <xmx:d4tUZs_mq0kyHY5Rb_L-a9138Xo7sV7C29IJclaFSroNcYTh_mGgaQ>
+    <xmx:d4tUZqnRAItCxsahKAhIkhnsTyGjsECP_rYteXOh7e2y6qGaEq-sMA>
+    <xmx:eItUZuNiUv4QnQ4zIbvtQRWqI7wrnqB1liKS2_JOup-DKpP6kaDAAw_M>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 May 2024 09:32:36 -0400 (EDT)
+ 27 May 2024 09:32:38 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/7] media: rcar-csi2: Correct field size for PHTW writes
-Date: Mon, 27 May 2024 15:32:15 +0200
-Message-ID: <20240527133221.1688830-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 2/7] media: rcar-csi2: Allow writing any code and data value to PHTW
+Date: Mon, 27 May 2024 15:32:16 +0200
+Message-ID: <20240527133221.1688830-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
@@ -103,53 +103,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The data and code written thru the Test Interface Write Register (PHTW)
-register are 8-bit wide, change the datatype used to reflect this.
+The helper to write an array of code and data values to the PHY Test
+Interface Write Register (PHTW) register uses the case where both code
+and data are zero as an exit condition. This prevents writing data = 0
+and code = 0 to the register.
+
+Up until now this has been OK as no such combination where needed, and
+it was a convenient exit condition. In future writing data = 0 and code
+= 0 to the PHTW register will be needed.
+
+Avoid using an exit condition when writing an array of PHTW values and
+instead pass the length of the array to the helper. This allows any
+combination of code and data to be written.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/platform/renesas/rcar-csi2.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/platform/renesas/rcar-csi2.c | 29 ++++++++--------------
+ 1 file changed, 11 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 582d5e35db0e..6cc128990140 100644
+index 6cc128990140..c02e1ec6600d 100644
 --- a/drivers/media/platform/renesas/rcar-csi2.c
 +++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -238,13 +238,13 @@ static const struct rcsi2_cphy_setting cphy_setting_table_r8a779g0[] = {
- };
- 
- struct phtw_value {
--	u16 data;
--	u16 code;
-+	u8 data;
-+	u8 code;
- };
- 
- struct rcsi2_mbps_reg {
- 	u16 mbps;
--	u16 reg;
-+	u8 reg;
- };
- 
- static const struct rcsi2_mbps_reg phtw_mbps_v3u[] = {
-@@ -1425,7 +1425,7 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
-  * NOTE: Magic values are from the datasheet and lack documentation.
-  */
- 
--static int rcsi2_phtw_write(struct rcar_csi2 *priv, u16 data, u16 code)
-+static int rcsi2_phtw_write(struct rcar_csi2 *priv, u8 data, u8 code)
- {
- 	unsigned int timeout;
- 
-@@ -1462,7 +1462,7 @@ static int rcsi2_phtw_write_array(struct rcar_csi2 *priv,
+@@ -1447,13 +1447,13 @@ static int rcsi2_phtw_write(struct rcar_csi2 *priv, u8 data, u8 code)
  }
  
- static int rcsi2_phtw_write_mbps(struct rcar_csi2 *priv, unsigned int mbps,
--				 const struct rcsi2_mbps_reg *values, u16 code)
-+				 const struct rcsi2_mbps_reg *values, u8 code)
+ static int rcsi2_phtw_write_array(struct rcar_csi2 *priv,
+-				  const struct phtw_value *values)
++				  const struct phtw_value *values,
++				  unsigned int size)
  {
- 	const struct rcsi2_mbps_reg *value;
- 	const struct rcsi2_mbps_reg *prev_value = NULL;
+-	const struct phtw_value *value;
+ 	int ret;
+ 
+-	for (value = values; value->data || value->code; value++) {
+-		ret = rcsi2_phtw_write(priv, value->data, value->code);
++	for (unsigned int i = 0; i < size; i++) {
++		ret = rcsi2_phtw_write(priv, values[i].data, values[i].code);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1494,7 +1494,6 @@ static int __rcsi2_init_phtw_h3_v3h_m3n(struct rcar_csi2 *priv,
+ 		{ .data = 0x11, .code = 0xe4 },
+ 		{ .data = 0x01, .code = 0xe5 },
+ 		{ .data = 0x10, .code = 0x04 },
+-		{ /* sentinel */ },
+ 	};
+ 
+ 	static const struct phtw_value step2[] = {
+@@ -1503,12 +1502,11 @@ static int __rcsi2_init_phtw_h3_v3h_m3n(struct rcar_csi2 *priv,
+ 		{ .data = 0x4b, .code = 0xac },
+ 		{ .data = 0x03, .code = 0x00 },
+ 		{ .data = 0x80, .code = 0x07 },
+-		{ /* sentinel */ },
+ 	};
+ 
+ 	int ret;
+ 
+-	ret = rcsi2_phtw_write_array(priv, step1);
++	ret = rcsi2_phtw_write_array(priv, step1, ARRAY_SIZE(step1));
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1523,7 +1521,7 @@ static int __rcsi2_init_phtw_h3_v3h_m3n(struct rcar_csi2 *priv,
+ 			return ret;
+ 	}
+ 
+-	return rcsi2_phtw_write_array(priv, step2);
++	return rcsi2_phtw_write_array(priv, step2, ARRAY_SIZE(step2));
+ }
+ 
+ static int rcsi2_init_phtw_h3_v3h_m3n(struct rcar_csi2 *priv, unsigned int mbps)
+@@ -1549,10 +1547,9 @@ static int rcsi2_phy_post_init_v3m_e3(struct rcar_csi2 *priv)
+ 		{ .data = 0xee, .code = 0x54 },
+ 		{ .data = 0xee, .code = 0x84 },
+ 		{ .data = 0xee, .code = 0x94 },
+-		{ /* sentinel */ },
+ 	};
+ 
+-	return rcsi2_phtw_write_array(priv, step1);
++	return rcsi2_phtw_write_array(priv, step1, ARRAY_SIZE(step1));
+ }
+ 
+ static int rcsi2_init_phtw_v3u(struct rcar_csi2 *priv,
+@@ -1561,20 +1558,17 @@ static int rcsi2_init_phtw_v3u(struct rcar_csi2 *priv,
+ 	/* In case of 1500Mbps or less */
+ 	static const struct phtw_value step1[] = {
+ 		{ .data = 0xcc, .code = 0xe2 },
+-		{ /* sentinel */ },
+ 	};
+ 
+ 	static const struct phtw_value step2[] = {
+ 		{ .data = 0x01, .code = 0xe3 },
+ 		{ .data = 0x11, .code = 0xe4 },
+ 		{ .data = 0x01, .code = 0xe5 },
+-		{ /* sentinel */ },
+ 	};
+ 
+ 	/* In case of 1500Mbps or less */
+ 	static const struct phtw_value step3[] = {
+ 		{ .data = 0x38, .code = 0x08 },
+-		{ /* sentinel */ },
+ 	};
+ 
+ 	static const struct phtw_value step4[] = {
+@@ -1582,29 +1576,28 @@ static int rcsi2_init_phtw_v3u(struct rcar_csi2 *priv,
+ 		{ .data = 0x4b, .code = 0xac },
+ 		{ .data = 0x03, .code = 0x00 },
+ 		{ .data = 0x80, .code = 0x07 },
+-		{ /* sentinel */ },
+ 	};
+ 
+ 	int ret;
+ 
+ 	if (mbps != 0 && mbps <= 1500)
+-		ret = rcsi2_phtw_write_array(priv, step1);
++		ret = rcsi2_phtw_write_array(priv, step1, ARRAY_SIZE(step1));
+ 	else
+ 		ret = rcsi2_phtw_write_mbps(priv, mbps, phtw_mbps_v3u, 0xe2);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = rcsi2_phtw_write_array(priv, step2);
++	ret = rcsi2_phtw_write_array(priv, step2, ARRAY_SIZE(step2));
+ 	if (ret)
+ 		return ret;
+ 
+ 	if (mbps != 0 && mbps <= 1500) {
+-		ret = rcsi2_phtw_write_array(priv, step3);
++		ret = rcsi2_phtw_write_array(priv, step3, ARRAY_SIZE(step3));
+ 		if (ret)
+ 			return ret;
+ 	}
+ 
+-	ret = rcsi2_phtw_write_array(priv, step4);
++	ret = rcsi2_phtw_write_array(priv, step4, ARRAY_SIZE(step4));
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.45.1
 
