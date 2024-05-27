@@ -1,73 +1,95 @@
-Return-Path: <linux-media+bounces-11930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13C68CFF9E
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 14:11:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BE28D005B
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 14:46:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4DDE3B22CD4
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 12:11:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A332282D94
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 12:46:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BB6115DBC8;
-	Mon, 27 May 2024 12:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEAAF15E5BE;
+	Mon, 27 May 2024 12:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AtNgbdQa"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="tC3iHN8V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211251581E2
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 12:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716811875; cv=none; b=J0Fvdc5Ye+ADWb5GwHGQ0i20qR1EcxMQurBpLLFL8jHJPzvQIdtbBUGjEQnL16ADQNkusjTvmO2Y3EEs9fW/Kwg/lYO8TMYXBCMqGl48eCxcuzKL9DmCtwvyDCvMtnpbqWlZOJ2jWJM3rcPoR9EunTiKDkLDx7oyuYzKNxjLodI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716811875; c=relaxed/simple;
-	bh=8XCTaoMsgkJdoy/FTPxx9koN/WDCr/EoEqjjcs6V/RQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187314D5A2
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 12:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716814001; cv=pass; b=HM7NYmhLf+pK0a0IJYTfYEN9Wzg3qLb+Jb1t6ORTAcByhX04KlqD5g9z+p/Wmjj8+X7GwHkX+UMYVxM78YgzIbzHGiVi4BPMa8Kkld4+eDcZ31pnD2ncznQdRBt0Y3O9SmVbH6m8wh2/q9S1Fy5JwokkD3fS7CtLL/5nrJnl3l0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716814001; c=relaxed/simple;
+	bh=J58yCsmWA0KCvmUey9yVf78/muyUQq977Ll3PQgixPM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3cYKBnxeDK70I7QpMZbBx6xSJMFnyR0H7DFRCQQCWecfn56D9pazF5JyB/NJ+GsqmfFXhtnqTxeDawfB3nVviQQvWjzFV6yO1hqGCGIirHL4YHYyiVU8PUgs8WTigYGBIW+UKxIREC8su0PDI0R6zDx2aAYxI4KCaVwh1XGJc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AtNgbdQa; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716811873; x=1748347873;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8XCTaoMsgkJdoy/FTPxx9koN/WDCr/EoEqjjcs6V/RQ=;
-  b=AtNgbdQaz9cV8GZkxhHuE1uhBb+5Mi0cuyrY2B1qbfaiU/O0FsbSrLyl
-   F/RyjNFdfzKKsr8s5iw8HF6RNDLjtrQc+9Xq+WkOx7djcdwSJPV9zUSHh
-   FcpyE69sv9b2heELUw0YoTOOOxLiqpagvW/1CNQCPWCGR2TH4mlu5stq2
-   eXexvh+yEg7jckLqxqP5bF6YF9aFSgztuGMik38cbtvYfQsv+psNIPvD3
-   g4MQvS7DOzUZV9daCqfE7jXoSW4cMcsM/qQzAatYpVMBoy0jD6PZ1zU6i
-   +7PD6Qmr2x6qMHXv4dAChVM2k7xUz2TH6ixBKBK/W28GPdUpAyGrhUOc+
-   Q==;
-X-CSE-ConnectionGUID: 2FhHcQa3RduZiLT0MVKTEQ==
-X-CSE-MsgGUID: i+y7eQc7T+itcien6c91+g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="16915123"
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="16915123"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 05:11:12 -0700
-X-CSE-ConnectionGUID: nUko1dE5RjuC37w6KlPS8Q==
-X-CSE-MsgGUID: OES2OZbpRPWWnYMJiTKJBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="65526798"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 05:11:12 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E186B11FB89;
-	Mon, 27 May 2024 15:11:08 +0300 (EEST)
-Date: Mon, 27 May 2024 12:11:08 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Samuel Wein <sam@samwein.com>
-Cc: linux-media@vger.kernel.org, bingbu.cao@linux.intel.com
-Subject: Re: [PATCH v2] media: Fix examples in ipu6-isys admin-guide
-Message-ID: <ZlR4XMhAqeChUdD3@kekkonen.localdomain>
-References: <20240522114656.30472-1-sam@samwein.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IsvUH/cRFAIRPZaPZ6u01x0XKys89c0p3p8DoMa4Jr1SETp86jLIf2cKJRqp1LgcE9Z9eokr5coc/0EAbfmg4+uE7QCw71jNBRcWJy618IpqZZYqwwQB2rChMVpeLj+QN/ARw+Bk6ZA96nrp9uS9xhFt2szY4qqr0QeD3rUsSO8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=tC3iHN8V; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4VnwPk5LKszyQm;
+	Mon, 27 May 2024 15:46:34 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1716813995;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hmSUXYDbnQFcVUqVihEOWzOSg+TScz9cUz45kiLxNuY=;
+	b=tC3iHN8VwMKtgVhTt/AyesdGq2IdVY4vLoR6MQuV3rhMFiFrET9MFCDspnWHtbxSQ4TLtV
+	YYuCA+sQgEfMMIM3UuGHxASc9T03Rl0e9CB3waBkasukZIOiluByC4ZhtHFUPrggJBp2Ss
+	xagmIR75Qz5w5Y1SgTwDId7MRy5q7wA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1716813995;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hmSUXYDbnQFcVUqVihEOWzOSg+TScz9cUz45kiLxNuY=;
+	b=cBLINw4xom9sitqEsm5ej02rzn3R8s7BR3aoQoBRaFwkdJS7dXbWVDo6IY4ZrdEhAG/SG9
+	GI6CsokhEbn0ncTa06flWnxRG1jT9MAJ4c9aDgC+Og9NxjVBB7h5VxB/MoKVceij5bKVz4
+	8PoIGQS4K5C4g7AUYyl5LjXimCrMsh8=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1716813995; a=rsa-sha256; cv=none;
+	b=TQrVxLfHI3JZ+1Wfn1M/ZGMe4JNrc3IYoEcNup9IBcPEK4uOv/f44BJ9/PteRubDpeQi5J
+	RdLrSVO83omgBNJbpy6+MzhYjovR7+OEd7lMBveua7HI/SVwnlwl1J4RTmLrLbkxjBKAnP
+	rAHzxEgx51wZuq/jOQ3CwS3ddOHAgVE=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 583CE634C93;
+	Mon, 27 May 2024 15:43:38 +0300 (EEST)
+Date: Mon, 27 May 2024 12:43:37 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v7 7/8] media: raspberrypi: Add support for PiSP BE
+Message-ID: <ZlR_-VL7hy5_Hhe4@valkosipuli.retiisi.eu>
+References: <20240524140024.161313-1-jacopo.mondi@ideasonboard.com>
+ <20240524140024.161313-8-jacopo.mondi@ideasonboard.com>
+ <ZlOimSRFNNt1fdN3@valkosipuli.retiisi.eu>
+ <20240527011911.GD24374@pendragon.ideasonboard.com>
+ <ZlQryf4bA4CsubPR@valkosipuli.retiisi.eu>
+ <6oiill244e4bb4zsdd5x7kzrw62x4pq6vfmps6offh5qvfniyr@4u4xi4fparbk>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,58 +98,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240522114656.30472-1-sam@samwein.com>
+In-Reply-To: <6oiill244e4bb4zsdd5x7kzrw62x4pq6vfmps6offh5qvfniyr@4u4xi4fparbk>
 
-Hi Samuel,
+Hi Jacopo,
 
-Thanks for the update.
-
-On Wed, May 22, 2024 at 11:47:26AM +0000, Samuel Wein wrote:
-> Fix flags in X1 Yoga example. MEDIA_LNK_FL_DYNAMIC (0x4 in the link flag)
-> was removed in V4 Intel IPU6 and IPU6 input system drivers.
-> Added -V flag to media-ctl commands for X1 Yoga, lower-case v only makes it verbose
-> upper-case V sets the format.
+On Mon, May 27, 2024 at 12:18:54PM +0200, Jacopo Mondi wrote:
+> Hi Sakari, Laurent
 > 
-> Signed-off-by: Samuel Wein <sam@samwein.com>
-> ---
->  Documentation/admin-guide/media/ipu6-isys.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> On Mon, May 27, 2024 at 06:44:25AM GMT, Sakari Ailus wrote:
+> > Hi Laurent,
+> >
+> > On Mon, May 27, 2024 at 04:19:11AM +0300, Laurent Pinchart wrote:
+> > > > One API-based solution could be moving the IOCTL interface to MC device
+> > > > node only. This wouldn't be a small change so I'm not proposing doing that
+> > > > now.
+> > >
+> > > I think we could also use the request API. It is a bit more cumbersome
+> > > to use from a userspace point of view, but this driver is meant to be
+> > > used from libcamera, so we can isolate applications from the extra
+> > > burden.
+> > >
+> > > We will need to add support for formats in the request API (or rather
+> > > for requests in the format ioctls).
+> > >
+> > > From a kernel point of view, the helpers used by the codec drivers may
+> > > not be suitable for ISP drivers, but I don't think it would be very
+> > > difficult to implement other helpers is needed, isolating the ISP driver
+> > > from the complexity of the request API.
+> > >
+> > > This doesn't preclude developing a better userspace API with ioctls on
+> > > the MC device node only at a later point. If the above-mentioned kernel
+> > > helpers are done right, transitioning to a new userspace API will have
+> > > minimal impact on drivers.
+> >
+> > This is indeed the third feasible option. I agree. The work on the
+> > framework side might not be that much either.
+> >
 > 
-> diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/admin-guide/media/ipu6-isys.rst
-> index 0721e920b5e6..ac7595a876f1 100644
-> --- a/Documentation/admin-guide/media/ipu6-isys.rst
-> +++ b/Documentation/admin-guide/media/ipu6-isys.rst
-> @@ -135,16 +135,16 @@ sensor ov2740 on Lenovo X1 Yoga laptop.
->  .. code-block:: none
->  
->      media-ctl -l "\"ov2740 14-0036\":0 -> \"Intel IPU6 CSI2 1\":0[1]"
-> -    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\":0[5]"
-> -    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\":0[5]"
-> +    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\":0[1]"
-> +    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\":0[1]"
->  
->      # set routing
->      media-ctl -v -R "\"Intel IPU6 CSI2 1\" [0/0->1/0[1],0/1->2/1[1]]"
+> For the time being, I would like to move forward and merge the version
+> of the driver with a single enabled context.
+> 
+> As you can see the driver multiples the contexts by creating two
+> groups
+> 
+> The number of groups is defined by
+> 
+> /*
+>  * We want to support 2 independent instances allowing 2 simultaneous users
+>  * of the ISP-BE (of course they share hardware, platform resources and mutex).
+>  * Each such instance comprises a group of device nodes representing input
+>  * and output queues, and a media controller device node to describe them.
+>  */
+> #define PISPBE_NUM_NODE_GROUPS 2
+> 
+> Can I simply set this to 1 or should the driver be reworked to remove
+> the group concept completely (it will be quite some rework).
+> 
+> You can guess what my preference is, and considering we want to
+> experiment with a different API the group part will possibily need to
+> be reintroduced.
 
-This -v should be dropped, too. I missed that earlier.
+I believe you can also guess what my preference is. :-)
 
-V3 might be the easiest way to do that.
+I don't expect we'll need the number of groups in the upstream driver.
 
->  
-> -    media-ctl -v "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
-> -    media-ctl -v "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
-> -    media-ctl -v "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
-> -    media-ctl -v "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
-> +    media-ctl -V "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
-> +    media-ctl -V "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
-> +    media-ctl -V "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
-> +    media-ctl -V "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
->  
->      CAPTURE_DEV=$(media-ctl -e "Intel IPU6 ISYS Capture 0")
->      ./yavta --data-prefix -c100 -n5 -I -s1932x1092 --file=/tmp/frame-#.bin \
+Before deciding what to do here I'd like to arrive to a conclusion on how
+this gets addressed so the desired functionality is available in the
+upstream driver.
+
+Maybe the Request API is indeed something to consider here.
+
+I wonder what Laurent thinks.
+
+> 
+> Also if we simply set PISPBE_NUM_NODE_GROUPS=1, the downstream RPi
+> kernel will solely need to have 1 patch that restores the value to 2
+> to be able to use the mainline kernel driver instead of keeping their
+> multi-context downstream version in use until multi-context is
+> finalized in mainline.
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
 
