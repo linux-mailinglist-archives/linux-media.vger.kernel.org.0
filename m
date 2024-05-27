@@ -1,121 +1,132 @@
-Return-Path: <linux-media+bounces-12000-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12001-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A248D07C5
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F688D08C1
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:35:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 98AC0B3052A
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:11:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 731DAB2A2A2
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:34:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 634B4169361;
-	Mon, 27 May 2024 15:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D6473449;
+	Mon, 27 May 2024 16:34:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kAPMZZcv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S+Vhv2YS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B928C15FA96;
-	Mon, 27 May 2024 15:59:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE1B61FF3;
+	Mon, 27 May 2024 16:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716825578; cv=none; b=Slxm2opoCi1SNkvcdqCdizWeG671lH3/UYjvYpJxl9X/7dmpm2nNvyR8WaIHJnCeWceK+zm+a/gUwpLSSS3Mp2781pYrQdq0WuEXba7325ZJkye6hIViujghWRyu7TS1UB53uBN5xYqynZ+HOivOzRKHoNAuXMhBdfgTADSiDlw=
+	t=1716827656; cv=none; b=cy4cMs5aXyuSAsMd9QdB5b51xltbYE0fpYomDVrbSAkglEMGQxTHp2nPLz0zQHZlhqLjHdeVq0NEL7Baul7QBH1jvS/7ogUNculu27YRJCcMnJ2L+44d81JDNvguZIxC+BdNlWP8MQkByS6gzOwrbgAq2XtuLxlUxF5DBV1pmS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716825578; c=relaxed/simple;
-	bh=lq530YYLl1oKtKpevFbJTL2Suxm0G8tV8LMK8XJcrbc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MLitUU3W5XMT/aWZhn71Qt9B2AN6Ps0lP5ed5ZlsjkF71yHsbmcV9LCcUxaVDk8I3d8KqTMOQRDF4dRwBczIhTlNaD4F+ksZRLFnBWDKlBAtSrYVOD6SXaEZMbJfF0hKxR30W79WGfpc4anx8ALKVVgC3Klzf3sPSlnZnEsNz1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kAPMZZcv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 605F8C2BBFC;
-	Mon, 27 May 2024 15:59:37 +0000 (UTC)
+	s=arc-20240116; t=1716827656; c=relaxed/simple;
+	bh=BYig6Wo4uSGSXHAyC7Rmbk3eHN1uEho75S+B5LtPWI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jXS5k8BI9r6zsjqy9oHjcsNB0OK5390zAhLWbfel+aI/4xZawZTQqMGh+W0Tb3TjopFZiVoifyVGoW7ZGWm+Y4ypqEkeSWRXNSl3fRHVZe0rZYc0W/ZKbIu1qAV6yBBxXt2ZxfE11sKts9ydp0Nnwzi5aKrNj5/xOpTS/BoG25o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S+Vhv2YS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 972BCC2BBFC;
+	Mon, 27 May 2024 16:34:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716825578;
-	bh=lq530YYLl1oKtKpevFbJTL2Suxm0G8tV8LMK8XJcrbc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=kAPMZZcvOb5zdrGfUjigu/rF6MabCGELBWJzYMTDmyiT4CGrobQtMdC+vysoMSSpi
-	 evTFvYQcYtT06+HqEILl9DZQkC4LAoRUcEBMRSAMZGD85PERPQZ0Sf/0/g/y6GpC6j
-	 uA0TKhaZEfQJ3saOv/oiZn1/GpoPuP1C9bCae0Jw+CLY6LuhYZNjironJqaliFIbJ3
-	 pXRWDShXoZDD30O4ZoA4IZPLgeVlzCRjK0X6+XHx1Su8r/Tv+RpvD/p65uwd3MH/kD
-	 92K8+pDac7uPIbtyYPpWYSjr/WDldP2T3PNfkU8e1XNQz+tPMjULK+BHZ2ahmscK3p
-	 F/gQj/Zk0/J1A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	mcgrof@kernel.org,
-	gregkh@linuxfoundation.org,
-	peda@axentia.se,
-	hkallweit1@gmail.com,
-	andriy.shevchenko@linux.intel.com,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 1/3] media: lgdt3306a: Add a check against null-pointer-def
-Date: Mon, 27 May 2024 11:59:16 -0400
-Message-ID: <20240527155925.3866466-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1716827655;
+	bh=BYig6Wo4uSGSXHAyC7Rmbk3eHN1uEho75S+B5LtPWI4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S+Vhv2YSApJanPOMM7Akkr5XXEsmtGa9ZUBvKms8mBF9FStmGRFmH5qqKbyi5TM4g
+	 JAwEgwidX36HVIeJmoyEiq8hm6eV619mov7TOoutM0Hl5za7HjdAVOX1RNPjY0LPdY
+	 g6oESqtTds8OONboxYyHNJ04st85p+KPvIboPMccxxKdJ9/Tf/jJinrNAc1MhpnIpV
+	 GswL65wHtBqQ8TGetbx1zVyBJ0BGg67y4emxdVtx8APbtek4akLB/Ngz3OBxA2mP6C
+	 7AfBsVA7Virls5yWefIQXlvmjxw+LMw06PvWmDKz/MtlA2+87Y4BFZ75BvrH6FADjp
+	 hLaJhlGmF0KcQ==
+Date: Mon, 27 May 2024 17:34:11 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: i2c: maxim,max96712: Add compatible for
+ MAX96724
+Message-ID: <20240527-varsity-grieving-14d341b3dc96@spud>
+References: <20240527132216.1681903-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.277
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RVxVbXa2+4jKIkRZ"
+Content-Disposition: inline
+In-Reply-To: <20240527132216.1681903-1-niklas.soderlund+renesas@ragnatech.se>
 
-From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit c1115ddbda9c930fba0fdd062e7a8873ebaf898d ]
+--RVxVbXa2+4jKIkRZ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The driver should check whether the client provides the platform_data.
+On Mon, May 27, 2024 at 03:22:16PM +0200, Niklas S=F6derlund wrote:
+> The MAX96712 and MAX96724 are almost identical and can be supported by
+> the same driver, add a compatible for MAX96724.
 
-The following log reveals it:
+What does "almost identical" mean? I don't see another patch here adding
+the driver support, which makes me wonder if this was intended to be a
+fallback to the existing device... Ohh wait, the other patch is here:
+https://lore.kernel.org/all/20240527133410.1690169-1-niklas.soderlund+renes=
+as@ragnatech.se/
 
-[   29.610324] BUG: KASAN: null-ptr-deref in kmemdup+0x30/0x40
-[   29.610730] Read of size 40 at addr 0000000000000000 by task bash/414
-[   29.612820] Call Trace:
-[   29.613030]  <TASK>
-[   29.613201]  dump_stack_lvl+0x56/0x6f
-[   29.613496]  ? kmemdup+0x30/0x40
-[   29.613754]  print_report.cold+0x494/0x6b7
-[   29.614082]  ? kmemdup+0x30/0x40
-[   29.614340]  kasan_report+0x8a/0x190
-[   29.614628]  ? kmemdup+0x30/0x40
-[   29.614888]  kasan_check_range+0x14d/0x1d0
-[   29.615213]  memcpy+0x20/0x60
-[   29.615454]  kmemdup+0x30/0x40
-[   29.615700]  lgdt3306a_probe+0x52/0x310
-[   29.616339]  i2c_device_probe+0x951/0xa90
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Link: https://lore.kernel.org/linux-media/20220405095018.3993578-1-zheyuma97@gmail.com
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/dvb-frontends/lgdt3306a.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Put it in a series next time (and mention what actually is different in
+your commit message).
 
-diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
-index 0e7d97e7b0f50..a4d881c721b82 100644
---- a/drivers/media/dvb-frontends/lgdt3306a.c
-+++ b/drivers/media/dvb-frontends/lgdt3306a.c
-@@ -2199,6 +2199,11 @@ static int lgdt3306a_probe(struct i2c_client *client,
- 	struct dvb_frontend *fe;
- 	int ret;
- 
-+	if (!client->dev.platform_data) {
-+		dev_err(&client->dev, "platform data is mandatory\n");
-+		return -EINVAL;
-+	}
-+
- 	config = kmemdup(client->dev.platform_data,
- 			 sizeof(struct lgdt3306a_config), GFP_KERNEL);
- 	if (config == NULL) {
--- 
-2.43.0
+Thanks,
+Conor.
 
+>=20
+> Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../devicetree/bindings/media/i2c/maxim,max96712.yaml        | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.y=
+aml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> index 6c72e77b927c..26f85151afbd 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> @@ -25,7 +25,10 @@ description: |
+> =20
+>  properties:
+>    compatible:
+> -    const: maxim,max96712
+> +    items:
+> +      - enum:
+> +          - maxim,max96712
+> +          - maxim,max96724
+> =20
+>    reg:
+>      description: I2C device address
+> --=20
+> 2.45.1
+>=20
+
+--RVxVbXa2+4jKIkRZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlS2AwAKCRB4tDGHoIJi
+0t7BAQCaAvprCbdOXYqXTsbyKhiaJyIU3XmydjvEVq/54EC8uAD+Kgw+pMfc6w8d
+VNOgaac48HredsHZT8PxuSru/643GQU=
+=jmpR
+-----END PGP SIGNATURE-----
+
+--RVxVbXa2+4jKIkRZ--
 
