@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-11925-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11926-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A912C8CFD67
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 11:47:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B7B8CFDFB
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 12:19:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12AEEB22F8C
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:47:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DFF01C218CD
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 10:19:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 904A813A877;
-	Mon, 27 May 2024 09:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A11E013AD2A;
+	Mon, 27 May 2024 10:19:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Nc9KUrbF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LOxnJSBL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B54613A40C
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 09:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDCBE572
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 10:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716803219; cv=none; b=jhFIFsSJ1xomcvgkwzR5UDTJnOykTSRhRQZcYGGmX3c6LUgvPlLq+aiI4gK4bZ4Q7tL3x0QSwqPFCMS+dkxIZy/xlPujjJeqTWG8Q9Jm51aLUe6brSWhH0q03ATyzgVslqAh/qINfdZpk7htQ0M18/CO0yEiqo7dp2cGwHBgT6M=
+	t=1716805142; cv=none; b=F+1uqWH2Xu2QMVoGNs/aIzapDPbDxLhbFy4rR/7a/ikDPFvHQJSiwdgrmLWlpIRM/ol3HYUVoCO2A13WpZdyR6WbsPGdnrYL+Lgompp5z/li7Dw0tfEl136gahEOrBCrZ1vtLvvHYP6Ut4l4FJjOYewrxYsprZLwnLY2AoJ58Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716803219; c=relaxed/simple;
-	bh=BoB6MuLmVr7I31tW3dMeGbL5Cti0aMbsYRZaaTfXf1g=;
+	s=arc-20240116; t=1716805142; c=relaxed/simple;
+	bh=zPAAp/+JOP5IlT58xvR7UPQR2ISldoeho8EybY8FWhE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tb3opMDKzxuFocUwEBOlYhLccwvZdTfGWh4xHv3m6RP71WHqtJcJD7spa69pBJoCImVmfUnNzFUmZNQtr6zmPVlJVuYHgKbh9diKwieqmgF8ML0mTSaI7nS/04q51zcTRC8k80glnUW0LvfTiBnwJM5JWXXoGFOEYH6tkCxVphA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Nc9KUrbF; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z3LeJL0nz/emD9k3eHI5PeaQEp0HiEB1hjSiDdcfqyS3J0FZx7oPmpNkXJ2IGKCyOGnU9UDaCZ4sHVVBf2yvo4eMTCyjKFSipBtexT6n6LHE/w90f7rEhdPgN7/C7Mq+Y0GXD49D9CcjJyAyi2u4wpvsVMJZxCHL67cUfV6aEi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LOxnJSBL; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9EE9471;
-	Mon, 27 May 2024 11:46:52 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 201C1471;
+	Mon, 27 May 2024 12:18:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716803213;
-	bh=BoB6MuLmVr7I31tW3dMeGbL5Cti0aMbsYRZaaTfXf1g=;
+	s=mail; t=1716805136;
+	bh=zPAAp/+JOP5IlT58xvR7UPQR2ISldoeho8EybY8FWhE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nc9KUrbFDP/fki8oc6k24NzzUFctUFbI/b4P2Y46BBXh+Leb6otgoZ8fJxJkYok2S
-	 LhT0aGSJG443/JHygzSl43rhbvYUDLz2/J1SpMFLb1I/GQlHT6Rm/OP4jw8kEyjdyd
-	 X10JIT2Q+R5nUit0nTxzc5OC/kG0ljJZLfbIeY1o=
-Date: Mon, 27 May 2024 11:46:51 +0200
+	b=LOxnJSBL+jtkbIedoUrJqC4ptkzdSfSSGJO+2yavX9DQ7BhzxhqV9J8e6oWueYH5U
+	 VrTEgZn/tSi3q1t/6EM+ztxcmlL8PoLtZQ3tRm0hettDBJ6fLUQMn4NgJ8Sohavqy3
+	 X4WGAbMvWYZFohPTAJIdHaQDAWoU8k8TYXvGm7XA=
+Date: Mon, 27 May 2024 12:18:54 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, David Plowman <david.plowman@raspberrypi.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
 Subject: Re: [PATCH v7 7/8] media: raspberrypi: Add support for PiSP BE
-Message-ID: <o6sujfqnvizvz7kptlpa3ndwcfd3jxbn36tggppcoytx22acus@rrsy2cvrd3zy>
+Message-ID: <6oiill244e4bb4zsdd5x7kzrw62x4pq6vfmps6offh5qvfniyr@4u4xi4fparbk>
 References: <20240524140024.161313-1-jacopo.mondi@ideasonboard.com>
  <20240524140024.161313-8-jacopo.mondi@ideasonboard.com>
  <ZlOimSRFNNt1fdN3@valkosipuli.retiisi.eu>
- <lqo77pdefh6f5ynxu32s24paj2qa22rc6pih623mhywifgr4pw@kt4iic67ljfz>
- <ZlRAyMCduqsxYaQu@valkosipuli.retiisi.eu>
+ <20240527011911.GD24374@pendragon.ideasonboard.com>
+ <ZlQryf4bA4CsubPR@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,203 +65,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZlRAyMCduqsxYaQu@valkosipuli.retiisi.eu>
+In-Reply-To: <ZlQryf4bA4CsubPR@valkosipuli.retiisi.eu>
 
-On Mon, May 27, 2024 at 08:14:00AM GMT, Sakari Ailus wrote:
-> Hi Jacopo,
+Hi Sakari, Laurent
+
+On Mon, May 27, 2024 at 06:44:25AM GMT, Sakari Ailus wrote:
+> Hi Laurent,
 >
-> On Mon, May 27, 2024 at 09:56:00AM +0200, Jacopo Mondi wrote:
-> > > > +#include <linux/media/raspberrypi/pisp_be_config.h>
-> > >
-> > > Where is the header included from? If it's just this driver, then I'd put
-> > > it in the driver's directory.
-> > >
+> On Mon, May 27, 2024 at 04:19:11AM +0300, Laurent Pinchart wrote:
+> > > One API-based solution could be moving the IOCTL interface to MC device
+> > > node only. This wouldn't be a small change so I'm not proposing doing that
+> > > now.
 > >
-> > It's the uAPI header file. Or did I miss your question ?
->
-> If it's uapi, then you should have uapi in its header path. I.e.
->
-> #include <uapi/linux...>
->
-
-ok
-
-> > > > +	/* Everything else is as supplied by the user. */
-> > > > +	begin =	offsetof(struct pisp_be_config, global.bayer_order)
-> > > > +	      / sizeof(u32);
-> > >
-> > > The slash should be on the previous line. Same elsewhere.
-> > >
+> > I think we could also use the request API. It is a bit more cumbersome
+> > to use from a userspace point of view, but this driver is meant to be
+> > used from libcamera, so we can isolate applications from the extra
+> > burden.
 > >
-> > Please, this is highly subjective and other people (like Laurent) often
-> > ask for the contrary. Without any polemic intent, I encourage reviewers
-> > (myself included) in considering how much time we spend (and
-> > demand) on such subjective issues. Even more when other reviewers might have
-> > different opinions, with the end result of pulling contributors in
-> > different directions.
->
-> Having binary operators at the beginning of a statement split on multiple
-> lines is simply uncommon, perhaps around 10 % of the cases in the media
-> tree based on a quick look. Keeping the coding style consistent is
-> beneficial for us all.
->
-> ...
->
-> > > > +static void pispbe_xlate_addrs(dma_addr_t addrs[N_HW_ADDRESSES],
-> > > > +			       u32 hw_enables[N_HW_ENABLES],
-> > > > +			       struct pisp_be_tiles_config *config,
-> > > > +			       struct pispbe_buffer *buf[PISPBE_NUM_NODES],
-> > > > +			       struct pispbe_node_group *node_group)
-> > > > +{
-> > > > +	int ret;
-> > > > +
-> > > > +	/* Take a copy of the "enable" bitmaps so we can modify them. */
-> > > > +	hw_enables[0] = config->config.global.bayer_enables;
-> > > > +	hw_enables[1] = config->config.global.rgb_enables;
-> > >
-> > > I wonder if hw_enables would be better declared as a struct.
+> > We will need to add support for formats in the request API (or rather
+> > for requests in the format ioctls).
 > >
-> > struct hw_enable {
-> >         u32 bayer_enable;
-> >         u32 rgb_enable;
-> > };
+> > From a kernel point of view, the helpers used by the codec drivers may
+> > not be suitable for ISP drivers, but I don't think it would be very
+> > difficult to implement other helpers is needed, isolating the ISP driver
+> > from the complexity of the request API.
 > >
-> > ?
+> > This doesn't preclude developing a better userspace API with ioctls on
+> > the MC device node only at a later point. If the above-mentioned kernel
+> > helpers are done right, transitioning to a new userspace API will have
+> > minimal impact on drivers.
 >
-> You currently  have an array of struct hw_enable here.
+> This is indeed the third feasible option. I agree. The work on the
+> framework side might not be that much either.
 >
 
-not really, I have an array of u32
+For the time being, I would like to move forward and merge the version
+of the driver with a single enabled context.
 
- struct pispbe_job_descriptor {
-        dma_addr_t hw_dma_addrs[N_HW_ADDRESSES];
-        struct pisp_be_tiles_config *config;
-        u32 hw_enables[N_HW_ENABLES];
+As you can see the driver multiples the contexts by creating two
+groups
 
-which is actually one for the bayer input enable flags and one for the
-rgb output enable flags. So one structure as proposed above will do
+The number of groups is defined by
 
-> >
-> > >
-> > > > +
-> > > > +	/*
-> > > > +	 * Main input first. There are 3 address pointers, corresponding to up
-> > > > +	 * to 3 planes.
-> > > > +	 */
-> > > > +	ret = pispbe_get_planes_addr(addrs, buf[MAIN_INPUT_NODE],
-> > > > +				     &node_group->node[MAIN_INPUT_NODE]);
-> > > > +	if (ret <= 0) {
-> > > > +		/*
-> > > > +		 * This shouldn't happen; pispbe_schedule_internal should insist
-> > > > +		 * on an input.
-> > > > +		 */
-> > > > +		dev_warn(node_group->pispbe->dev, "ISP-BE missing input\n");
-> > > > +		hw_enables[0] = 0;
-> > > > +		hw_enables[1] = 0;
-> > > > +		return;
-> > > > +	}
-> > > > +
-> > > > +	/*
-> > > > +	 * Now TDN/Stitch inputs and outputs. These are single-plane and only
-> > > > +	 * used with Bayer input. Input enables must match the requirements
-> > > > +	 * of the processing stages, otherwise the hardware can lock up!
-> > > > +	 */
-> > > > +	if (hw_enables[0] & PISP_BE_BAYER_ENABLE_INPUT) {
-> > > > +		addrs[3] = pispbe_get_addr(buf[TDN_INPUT_NODE]);
-> > > > +		if (addrs[3] == 0 ||
-> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_TDN_INPUT) ||
-> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_TDN) ||
-> > > > +		    (config->config.tdn.reset & 1)) {
-> > > > +			hw_enables[0] &= ~(PISP_BE_BAYER_ENABLE_TDN_INPUT |
-> > > > +					   PISP_BE_BAYER_ENABLE_TDN_DECOMPRESS);
-> > > > +			if (!(config->config.tdn.reset & 1))
-> > > > +				hw_enables[0] &= ~PISP_BE_BAYER_ENABLE_TDN;
-> > > > +		}
-> > > > +
-> > > > +		addrs[4] = pispbe_get_addr(buf[STITCH_INPUT_NODE]);
-> > > > +		if (addrs[4] == 0 ||
-> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_STITCH_INPUT) ||
-> > > > +		    !(hw_enables[0] & PISP_BE_BAYER_ENABLE_STITCH)) {
-> > > > +			hw_enables[0] &=
-> > > > +				~(PISP_BE_BAYER_ENABLE_STITCH_INPUT |
-> > > > +				  PISP_BE_BAYER_ENABLE_STITCH_DECOMPRESS |
-> > > > +				  PISP_BE_BAYER_ENABLE_STITCH);
-> > > > +		}
-> > > > +
-> > > > +		addrs[5] = pispbe_get_addr(buf[TDN_OUTPUT_NODE]);
-> > > > +		if (addrs[5] == 0)
-> > > > +			hw_enables[0] &= ~(PISP_BE_BAYER_ENABLE_TDN_COMPRESS |
-> > > > +					   PISP_BE_BAYER_ENABLE_TDN_OUTPUT);
-> > > > +
-> > > > +		addrs[6] = pispbe_get_addr(buf[STITCH_OUTPUT_NODE]);
-> > > > +		if (addrs[6] == 0)
-> > > > +			hw_enables[0] &=
-> > > > +				~(PISP_BE_BAYER_ENABLE_STITCH_COMPRESS |
-> > > > +				  PISP_BE_BAYER_ENABLE_STITCH_OUTPUT);
-> > > > +	} else {
-> > > > +		/* No Bayer input? Disable entire Bayer pipe (else lockup) */
-> > > > +		hw_enables[0] = 0;
-> > > > +	}
-> > > > +
-> > > > +	/* Main image output channels. */
-> > > > +	for (unsigned int i = 0; i < PISP_BACK_END_NUM_OUTPUTS; i++) {
-> > > > +		ret = pispbe_get_planes_addr(addrs + 7 + 3 * i,
-> > > > +					     buf[OUTPUT0_NODE + i],
-> > > > +					     &node_group->node[OUTPUT0_NODE + i]);
-> > > > +		if (ret <= 0)
-> > > > +			hw_enables[1] &= ~(PISP_BE_RGB_ENABLE_OUTPUT0 << i);
-> > > > +	}
-> > > > +}
->
-> ...
->
-> > > > +static void pispbe_node_def_fmt(struct pispbe_node *node)
-> > > > +{
-> > > > +	if (NODE_IS_META(node) && NODE_IS_OUTPUT(node)) {
-> > > > +		/* Config node */
-> > > > +		struct v4l2_format *f = &node->format;
-> > > > +
-> > > > +		f->fmt.meta.dataformat = V4L2_META_FMT_RPI_BE_CFG;
-> > > > +		f->fmt.meta.buffersize = sizeof(struct pisp_be_tiles_config);
-> > > > +		f->type = node->buf_type;
-> > > > +	} else {
-> > > > +		struct v4l2_format f = {0};
-> > > > +
-> > > > +		f.fmt.pix_mp.pixelformat = V4L2_PIX_FMT_YUV420;
-> > > > +		f.fmt.pix_mp.width = 1920;
-> > > > +		f.fmt.pix_mp.height = 1080;
-> > > > +		f.type = node->buf_type;
-> > >
-> > > You can assign these in the declaration. The same above.
-> >
-> > Here indeed I can. Above I don't think I can (if you mean in the if()
-> > branch)
->
-> Ack.
->
-> ...
->
-> > > > +	/* Hardware initialisation */
-> > > > +	pm_runtime_set_autosuspend_delay(pispbe->dev, 200);
-> > > > +	pm_runtime_use_autosuspend(pispbe->dev);
-> > > > +	pm_runtime_enable(pispbe->dev);
-> > > > +
-> > > > +	ret = pm_runtime_resume_and_get(pispbe->dev);
-> > >
-> > > You'll need to call the driver's resume function manually instead. The
-> > > above depends on CONFIG_PM.
-> > >
-> >
-> > The driver selects CONFIG_PM, doesn't it ?
->
-> It depends on PM.
->
-> It'd be trivial to remove that dependency.
->
+/*
+ * We want to support 2 independent instances allowing 2 simultaneous users
+ * of the ISP-BE (of course they share hardware, platform resources and mutex).
+ * Each such instance comprises a group of device nodes representing input
+ * and output queues, and a media controller device node to describe them.
+ */
+#define PISPBE_NUM_NODE_GROUPS 2
 
-I don't think we'll ever have a raspberry pi kernel without
-CONFIG_PM. But I've now read your reply to Laurent and I'll change
-this.
+Can I simply set this to 1 or should the driver be reworked to remove
+the group concept completely (it will be quite some rework).
+
+You can guess what my preference is, and considering we want to
+experiment with a different API the group part will possibily need to
+be reintroduced.
+
+Also if we simply set PISPBE_NUM_NODE_GROUPS=1, the downstream RPi
+kernel will solely need to have 1 patch that restores the value to 2
+to be able to use the mainline kernel driver instead of keeping their
+multi-context downstream version in use until multi-context is
+finalized in mainline.
+
 
 > --
 > Regards,
