@@ -1,96 +1,85 @@
-Return-Path: <linux-media+bounces-12018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5D58D0E86
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 22:11:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 009FF8D0EA2
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 22:33:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BE1B1F21FB6
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 20:11:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EF6F1C21600
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 20:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13852161308;
-	Mon, 27 May 2024 20:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D26D161301;
+	Mon, 27 May 2024 20:33:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QsbTQAwA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KK/AUkPD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F4E15EFDF;
-	Mon, 27 May 2024 20:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716840678; cv=pass; b=o2v6wNCoNrcU5scSAjkz0alAAqEAx8QC+GSKnwPb/B3CljEq/mcEhBO03Gh/m0W+BiIRwP5QSZRheuKzZo3mB6E/r5IISI277B8zX8W9idYBgSAgnDeO2KWq/Jw+P2ISB1WGMoTqcqIAqcmTnCeYyrnVPpilblhu2XYXkl9RlYU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716840678; c=relaxed/simple;
-	bh=GAna6CmtZWwigrmOfREHXsKA0rw/oX+CUaud9yi1C00=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83745338D;
+	Mon, 27 May 2024 20:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716841990; cv=none; b=QJm42wvQOsvp8Rr8Ptt5PDpAtnPbafxGp/zXfENVYExmi8v6oApOxozl9fq+kdWIdjoRjOcPqc0lT4He8XM6cgcscI6zhZ5i2FCdnRHuZpJjf36AWJS4tMnnfj5WprOpk54vDhuyanqJ5BWqTZyAeNPblhpCNf1OniYMZKBkOAM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716841990; c=relaxed/simple;
+	bh=eGuvLmAFDMBNic0R9NNNrwmtI2kmtPfEq4B6DQH8URA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nOoVgupO+/guMhHqQhiX2lbS77wyKoOdmL7YsP5O/EKqi9Yh2pOem+HXAggZmFCpQx6nsD6082jaQxhk3XTF6xZi73LMPjjkTwixSU65W5PR1MawsgAb5cgzAzXsT6EgFn0KyZWhvHFlozc7k+tSInseQfbaz6PUiBqcCmH6naU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QsbTQAwA; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Vp6Gm2HZ0z49Pym;
-	Mon, 27 May 2024 23:11:12 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1716840673;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1dOUbisstpfi5giuXiz9vGluX9yAy7I4sBmLBvo2Ydc=;
-	b=QsbTQAwAma3JX5ZGrUCLdSWQnWGRM/VwuK7OTY5B+WDfopMDOnR5/vwkLA/2rNk3O+Ov/4
-	yk3jd65h8potPC9lJZqtpdpgCfB1d8tW+mW4huz1Fm3RjtaVSkYyjaWul8fTtewRhbnJHe
-	NDkwNnx+IgGyr8o5EEv1G1qzxdYTdpLW3sACLfm4BddEAOiYTwO7+ppVaGPIBxssneAE5n
-	v/T0FtV4Ob65ZAvFvtT9loniss5l1Vx2WCkLJzR8DerIRHsgpzJio5P0QQknWi2apiDNNB
-	l7qdWzreVLRFIpQyfHxfQh002WUhHkh4bFOJG4EPidq7GqYoB0S4BwyEs1Qykw==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1716840673; a=rsa-sha256;
-	cv=none;
-	b=SC4sjRWTrFvXnVp8v21dLlzWxxQ+IyI84hwLvdadAcjsT6VBEzHDg60p4l4WHYeeuGorHq
-	9++UsgQXuQPi3PFRzChZzdu3cknxdjh+KDJDFjheLPhQZIUixFoTy+F7wbv/ZRMghpbIdq
-	dLsVP16GL4q2+69L5Qc1+cKl717nuPZSkf0N2gbAZBvSdZLe67XSFfUYQLx9MtK0HojEJV
-	dK3J0IrKi3gpY/c52th8JBc0XgQEO9jEr5sENXEBMcBQZXPocieY6YnNk9Hj/bmZUWElRU
-	WAtwNppfC5T2ZhXihD1hRL1VpfGp27vUahssQ5jbqL/59qytC8BQJ7pbJsNgvQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1716840673;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1dOUbisstpfi5giuXiz9vGluX9yAy7I4sBmLBvo2Ydc=;
-	b=AaC3JrXcUqWFTzZohNx4Ja74VBdcE8NXcyHSI9828U13xvpehMUerBjzCZFwqrwpAVaujz
-	5nvLxPHaFhwBZgLEwI2fBB5G6n5WFjuYrZnYDXbDV9Eyt/3Luflc/H0mIn/NVdt0cWS5wl
-	yfF6XeJ3jSEyXPjHanEqSq3fHL1YhyiGbR3bN4CchKL30lzqVKRsjlvnsmqychu7nF91Tr
-	RJceAlFvuwxDp+b4Cm0bJmbJEn/J2Ay2vuX3F693l8UdesloViQUhZ8A19VfCl5uWdp2da
-	SGuQmpsfLLckG+6YPDJ7Q8d+oja2ZRgjdOPQsuddLpvQDzNgIxWuCUWMHRPD9A==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9F48C634C93;
-	Mon, 27 May 2024 23:08:14 +0300 (EEST)
-Date: Mon, 27 May 2024 20:08:14 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Sylvain Petinot <sylvain.petinot@foss.st.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	benjamin.mugnier@foss.st.com, mchehab@kernel.org, robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD56G3 camera sensor
- binding
-Message-ID: <ZlToLtUkVqzrZf4p@valkosipuli.retiisi.eu>
-References: <20240521162950.6987-1-sylvain.petinot@foss.st.com>
- <20240521162950.6987-2-sylvain.petinot@foss.st.com>
- <2110ba34-658e-4d60-b524-2f5ead6c8d3e@linaro.org>
- <77fa3ed3-2341-4106-adf2-ec8bd9de91ff@foss.st.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bWQ8KnpNHceEwdo5Jy/eIkBWbOuT6uu064Sne997NrAJSxTxrAzTqTPSDbMjSzvYlXt0rfZFFWz7EiYR40SzcNbo3eMEbFnYEsIFsvyU4/Bd8PAv3cKKfJq7V16tM5XkqcUHM95ENzeaSQAB44RbXgTNNp5id7TQSSod+QIYif8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KK/AUkPD; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716841989; x=1748377989;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eGuvLmAFDMBNic0R9NNNrwmtI2kmtPfEq4B6DQH8URA=;
+  b=KK/AUkPDsAXAQayCQhTk10oHYqc0Hy2yzWQqBDvcmRVDp0G5H8vDJb3n
+   fECOVof+jrLnrNfssALrn3AbbAF4bOzrhDcQHdh8oyBWheRRAzb3pjcW/
+   q63Sai5LVL/MMTAdEogwqexecIJLqSCLaAx+OoBwpj6o14RolExr/Rjuh
+   i6Vx0y+wAtom53RGluMnJ651YvMegpwNUxc3tnIbfswIF2SkUZA3fawWy
+   eLdBTSQKuEcrSUeSc0pkn+b5rY5UO0PqtSZtEaZ/4obN7mw6tSNs8pVuN
+   o8bCzJ4w0tFc938LnHfDBhu7Pj6NW7ciWEVHBq57Pg/ZYHDTzeyaSX0fa
+   w==;
+X-CSE-ConnectionGUID: dvGiUuMsT1SV+31cN7zh+Q==
+X-CSE-MsgGUID: MGu4OIqKS0asT8IG2ae8Vg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="12944995"
+X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
+   d="scan'208";a="12944995"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 13:33:08 -0700
+X-CSE-ConnectionGUID: VyQofwBuS9WLYkfeol/4jQ==
+X-CSE-MsgGUID: WoN3zhSWQHOW6JVz220nkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
+   d="scan'208";a="58037903"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 13:33:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sBh1d-0000000BMh0-3tYh;
+	Mon, 27 May 2024 23:32:57 +0300
+Date: Mon, 27 May 2024 23:32:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+	adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+	airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+	laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+	vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+	detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+	andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
+	dlatypov@google.com
+Subject: Re: [PATCH v9 06/10] math.h: Add macros for rounding to closest value
+Message-ID: <ZlTt-YWzyRyhmT9n@smile.fi.intel.com>
+References: <20240526175655.1093707-1-devarsht@ti.com>
+ <20240526180856.1124470-1-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,47 +88,73 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <77fa3ed3-2341-4106-adf2-ec8bd9de91ff@foss.st.com>
+In-Reply-To: <20240526180856.1124470-1-devarsht@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Sylvain,
+On Sun, May 26, 2024 at 11:38:56PM +0530, Devarsh Thakkar wrote:
+> Add below rounding related macros:
+> 
+> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+> power of 2, with a preference to round up in case two nearest values are
+> possible.
+> 
+> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+> power of 2, with a preference to round down in case two nearest values are
+> possible.
+> 
+> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+> generally be used only when y is not multiple of 2 as otherwise
+> round_closest* macros should be used which are much faster.
+> 
+> Examples:
+>  * round_closest_up(17, 4) = 16
+>  * round_closest_up(15, 4) = 16
+>  * round_closest_up(14, 4) = 16
+>  * round_closest_down(17, 4) = 16
+>  * round_closest_down(15, 4) = 16
+>  * round_closest_down(14, 4) = 12
+>  * roundclosest(21, 5) = 20
+>  * roundclosest(19, 5) = 20
+>  * roundclosest(17, 5) = 15
 
-On Mon, May 27, 2024 at 03:14:35PM +0200, Sylvain Petinot wrote:
-> >> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
-> >> new file mode 100644
-> >> index 000000000000..22cb2557e311
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
-> > 
-> > Why duplicated 'st'?
-> 
-> Legacy : our first st-mipid02 driver was upstream this way few years back.
-> 
-> We have 3 options :
-> 
-> 1- keep this unpleasant naming to keep consistency with st-mipid02 [1]
-> and st-vgxy61 [2]
-> 2- rename this driver properly ('vd56g3') and keep the two others the
-> old way (I personally don't like this option)
-> 3- rename this driver properly ('vd56g3') and in a second patch rename
-> the two others drivers.
-> 
-> I would be interested to get Sakari's opinion on this subject.
-> 
-> [1]:
-> https://elixir.bootlin.com/linux/v6.9.1/source/drivers/media/i2c/st-mipid02.c
-> 
-> [2]:
-> https://elixir.bootlin.com/linux/v6.9.1/source/drivers/media/i2c/st-vgxy61.c
+...
 
-The driver could be renamed to align with a large majority that use the
-same name as the bindings without the vendor prefix. You could add
-MODULE_ALIAS() to help user space to cope with the change.
+> +/**
+> + * round_closest_up - round closest to be multiple of specified value (which is
+> + *                    power of 2) with preference to rounding up
+> +
 
-The DT compatible string indeed should reflect the name of the device, the
-driver is indeed another matter.
+Not that big deal, but missing '*' here. Personally I would not even put
+a blank line between Summary and Field Descriptions.
+
+> + * @x: the value to round
+> + * @y: multiple to round closest to (must be a power of 2)
+> + *
+> + * Rounds @x to closest multiple of @y (which must be a power of 2).
+> + * The value can be either rounded up or rounded down depending upon rounded
+> + * value's closeness to the specified value. If there are two closest possible
+> + * values, i.e. the difference between the specified value and it's rounded up
+> + * and rounded down values is same then preference is given to rounded up
+> + * value.
+> + *
+> + * To perform arbitrary rounding to closest value (not multiple of 2), use
+> + * roundclosest().
+> + *
+> + * Examples :
+
+What is this suppose to be rendered to?
+
+> + * round_closest_up(17, 4) = 16
+> + * round_closest_up(15, 4) = 16
+> + * round_closest_up(14, 4) = 16
+
+Btw, is kernel-doc validator happy about all kernel docs you added?
+
+> + */
 
 -- 
-Kind regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
 
