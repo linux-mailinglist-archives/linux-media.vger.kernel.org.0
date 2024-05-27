@@ -1,179 +1,137 @@
-Return-Path: <linux-media+bounces-11940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11941-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDB88D0183
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 15:30:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5055F8D01AF
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 15:36:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A604B283694
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 13:30:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6B7DB248BB
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 13:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D5915F309;
-	Mon, 27 May 2024 13:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 403DE13A3E4;
+	Mon, 27 May 2024 13:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2glDx+3"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="o6CuyxbU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CHIykO6X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wfout6-smtp.messagingengine.com (wfout6-smtp.messagingengine.com [64.147.123.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E05415ECFE;
-	Mon, 27 May 2024 13:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885FD15ECF0;
+	Mon, 27 May 2024 13:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716816623; cv=none; b=bLM3jKfs9+IzvMcj41KzNa3KVq+oG/WqMki8EWUUMXOJ3EOz/kyORnedJZcc2RQwIdZDCcPxRbmFbmf9jHvaMuYpl0BbjcIBDd3BgZn4iNTz8+81hwE409oiEQf1rmP90U4ZDgNEzu3Q4ROW2sISWUUMJpzQhCtlFMYlhv3cEpw=
+	t=1716816759; cv=none; b=Q0RA2yWvluh6iNCMEqHHYFFcNe7AiFeN6swrExSZI6AwfdQHz5bmOcFbhp1kaLBzuNikQN/C8bsxbUgr3D2ekvfHXnl0w+q7GbVqT2qSe2QnoWM938dB6/rPE3Pxep1HT9mCqUquNKvX/4vVz0FimH4pQaO8kKKKn/CG33EfQjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716816623; c=relaxed/simple;
-	bh=TF/G2ffwfrBRISpD7K1d5EZ9ItCYMb2x92oWHu7T4AM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lQJxiEOy+vK8GxzS+YiFkGkebOzg+lS3X3/BnddotmX8ZTenYUgxfc7ACJdC+Mhl70WF1xbkhmzwMele4fzZTaOi6sEktbhjXJsxUgFybPaUclkVUbjQXFJ5ky0kzcs0lQBpdJ8OAyQlcWU17LVIwdlL3CdDHbjVegF14BuTX2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2glDx+3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48CB1C4AF07;
-	Mon, 27 May 2024 13:30:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716816622;
-	bh=TF/G2ffwfrBRISpD7K1d5EZ9ItCYMb2x92oWHu7T4AM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F2glDx+39JvZ8wnXQ32eLjUP4/ijfHmYOPAR3IWCS52WYonp3adypyoHL43pOKEIw
-	 pua5H9IocB1EWiS+PP8277F61bmkw/7YM6Zq/yAJnDph5evoOKVrSMVPEEC8kfF0Lc
-	 eCinKxXlFityRJ45ODnWMC4rgTnkq1De/XcY6nde07CDm+9iFxYSe1hibktpnIBBA8
-	 u5g/nqZzec8VeOsqqIqlj+ggMKD4mFYlVtfUDdcqlReD4FRfkGlNeMTtcWH0MUdHrL
-	 DzfbRjC7mgqW3t9+cKg/mO/eRsTT+seji5fjvNsd1TkEPIKzMzkKVXvTv2v83M68us
-	 +LBBBDXRC+udA==
-Date: Mon, 27 May 2024 15:30:19 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240527-colorful-orange-bug-bbeefe@houat>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
- <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
- <20240527-adamant-just-spaniel-ebed4e@houat>
- <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
+	s=arc-20240116; t=1716816759; c=relaxed/simple;
+	bh=kmwyMZl2XKx8oQwCw8QiS5DrtkXvk3gH8kGUI1+iW/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a+G8rGzHG8X07AAO0W6ZiUKqm7SKqAwJc7xTmfvgp7BAENFtgHmFRCQZ9nrGzS2tupykJm76dVycjwRZ5OsDDvPNASgupJQmyExzpo2xSGCWoHGthJu0ch72RgBc5tnUoHJC/k6m3c+u0HljQ+G3hb4EmlWLHWfavRsc8PXrg0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=o6CuyxbU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CHIykO6X; arc=none smtp.client-ip=64.147.123.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 53BBE1C000B1;
+	Mon, 27 May 2024 09:32:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 27 May 2024 09:32:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1716816755; x=1716903155; bh=9T
+	oe7Zno50n7bGWdE58anHTSk+Ncf9sfnVGYAhL+yTs=; b=o6CuyxbUijy/p97dCO
+	DwmN+bLjQ65W4C5l++/okp/54n79ro3YJ7lXgZmA5zY4NC0QB6Bn6dMyOQ5HW1EL
+	cADvFsrw28LM6jcOKGDihC6/+eqLqrRPgktpYArVhkEUP3mcRIl6TZqal3LuNTi9
+	m1YERpdykeKrDF+1cR3tQ+pHrtoVH7TsX6/ceus2e/SjE1MDGYHVLeMomkSeL377
+	iQOigFOrrU9dTWHe+ZS+6BDvhdeD9lo7K+k8dTjXkrvNIa63+aUOYHs490TJmSJC
+	H3u5FNaOMA/glP/l4VFXCM5qSkhNUASVRUmwvNheR7zYy+r0SR95r/UUi5dN6rL/
+	rLRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1716816755; x=1716903155; bh=9Toe7Zno50n7b
+	GWdE58anHTSk+Ncf9sfnVGYAhL+yTs=; b=CHIykO6XILTzb6VV8QDIJGjTHO4KO
+	I3sA9pdeglZp6Hd1TzSieB/Mr8a3GF4yYzjbf/eMtG645daedqaHoD43KN0EQtI+
+	U8zdnJv5YtnRB1WxBVYiUzQmgJ8T+eN5mc3n15bHk6C3YrYl91KTg52ljamQBWcC
+	+qtU+IW3G56DWyUSMtk03529Jy8hG7Jn2SyV0BzHOwmu8hI0/Ue9P5hgNlxXPHo1
+	duuDx7NSlduycTAa5Jo37LUEJegwEMKO1agmjCibumNASY35sLbQzYZsSWfebYqL
+	c1zAvkks/ya5rz5XoJdI5ZExtINPIYnL2grgutEt/p5GB2eZxMRkyDn0g==
+X-ME-Sender: <xms:c4tUZvzI8tR0QpzDbNZ2NLzkYKhaj40AFchmyplaU804vdItrckQgQ>
+    <xme:c4tUZnQXOOTf9J0GU1RQwFbCAhtHCk4ZSHQTX45qaYeScCWSXFWBNZNO8DhdyRXOa
+    1t4S389FDxgQGhaqwQ>
+X-ME-Received: <xmr:c4tUZpWMRL8Y6aC8BEEbZCpppsw08v5gCDIhh21P3u75K0hnRcFQSbSy5IGJk3_gmM6fFuP7CA2ABc-Kgr9kpoo_OStmTv8U-NS4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:c4tUZpglvRoBr7FeMqzxp0JyL6n5VOK3XCDoENyGyNI2tt6ciJuPEw>
+    <xmx:c4tUZhBWswbNqPR2CE4l18bNmrE_GRSDiYLvoMCtSn9L1tmjH3kPUg>
+    <xmx:c4tUZiKhVLFfl7G_r24gXQD-T5VZ3Ll_i20jDgPbJ1O5yHPR4yyZhg>
+    <xmx:c4tUZgC5wgNkGHUUZawPbcvh9EVEpVU48o4UUUqEHP1oaoBYOiQxIg>
+    <xmx:c4tUZk4jlz8z8cdX0sfEbKtOZOIpfxwLJv1o7L2Upr4IJN5VLyEqTDTz>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 May 2024 09:32:34 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/7] media: rcar-csi2: Add support for V4M
+Date: Mon, 27 May 2024 15:32:14 +0200
+Message-ID: <20240527133221.1688830-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="rh4txa2gphc5y7co"
-Content-Disposition: inline
-In-Reply-To: <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hello,
 
---rh4txa2gphc5y7co
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series enables support for R-Car V4M to the CSI-2 receiver.
 
-Hi,
+Patch 1-2 clean up some simplifications in the driver which where 
+possible before V4M support but that now needs to be addressed.
 
-On Mon, May 27, 2024 at 12:43:18PM GMT, Dmitry Baryshkov wrote:
-> On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > Thanks again for that thorough review :)
-> >=20
-> > On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
-> > > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
-> > > > The i915 driver has a property to force the RGB range of an HDMI ou=
-tput.
-> > > > The vc4 driver then implemented the same property with the same
-> > > > semantics. KWin has support for it, and a PR for mutter is also the=
-re to
-> > > > support it.
-> > > >=20
-> > > > Both drivers implementing the same property with the same semantics,
-> > > > plus the userspace having support for it, is proof enough that it's
-> > > > pretty much a de-facto standard now and we can provide helpers for =
-it.
-> > > >=20
-> > > > Let's plumb it into the newly created HDMI connector.
-> > > >=20
-> > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  Documentation/gpu/kms-properties.csv            |  1 -
-> > > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
-> > > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
-> > > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
-> > > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++=
-++++++++++++
-> > > >  include/drm/drm_connector.h                     | 36 ++++++++++
-> > > >  6 files changed, 133 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/g=
-pu/kms-properties.csv
-> > > > index 0f9590834829..caef14c532d4 100644
-> > > > --- a/Documentation/gpu/kms-properties.csv
-> > > > +++ b/Documentation/gpu/kms-properties.csv
-> > > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,P=
-roperty Values,Object attached,De
-> > > >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connecto=
-r,TBD
-> > > >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
-> > > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=3D0=
-xffffffff",Connector,property to suggest an X offset for a connector
-> > > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff",=
-Connector,property to suggest an Y offset for a connector
-> > > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }=
-",Connector,TDB
-> > > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", =
-""Limited 16:235"" }",Connector,"When this property is set to Limited 16:23=
-5 and CTM is set, the hardware will be programmed with the result of the mu=
-ltiplication of CTM by the limited range matrix to ensure the pixels normal=
-ly in the range 0..1.0 are remapped to the range 16/255..235/255."
-> > >=20
-> > > Should it still be defined as a generic property?
-> >=20
-> > I'm not sure what you mean here, sorry. It's being documented as a
-> > connector property now, so it's very much still listed as a generic
-> > property?
->=20
-> I didn't perform my duty well enough and I didn't check the file for
-> other instances of the property. Now I indeed see a generic "Broadcast
-> RGB" property, but to me it looks like having a different set of values:
->=20
-> ,,"""Broadcast RGB""",ENUM,"{ =E2=80=9Coff=E2=80=9D, =E2=80=9Cauto=E2=80=
-=9D, =E2=80=9Con=E2=80=9D }",Connector,TBD
+Patch 3-5 prepares for V4M support by extending some of the abstractions 
+used in the driver to cover how they are implemented in the V4M version 
+of the CSI-2 IP.
 
-That's not really what I meant: that file is deprecated now and it's not
-where we document the properties anymore. This patch has improved that
-documentation and moved it to the new place, and removed the deprecated
-part.
+Patch 6 improves the documentation around two registers used on Gen4 as 
+later datasheets now document them and they will be used when enabling 
+V4M support.
 
-However, this line shouldn't be there at all. I'll add a patch to remove
-it.
+And finally patch 7 adds V4M support. The V4M is similar in design to 
+V4H with the big difference it only supports CSI-2 D-PHY. All of the 
+media graph setup and V4L2 callbacks can be reused, only the start 
+procedure is different.
 
-Thanks!
-Maxime
+Niklas Söderlund (7):
+  media: rcar-csi2: Correct field size for PHTW writes
+  media: rcar-csi2: Allow writing any code and data value to PHTW
+  media: rcar-csi2: Abstract PHTW and PHYPLL register offsets
+  media: rcar-csi2: Add helper to lookup mbps settings
+  media: rcar-csi2: Move PHTW write helpers
+  media: rcar-csi2: Add documentation for PHY_EN and PHY_MODE registers
+  media: rcar-csi2: Add support for R-Car V4M
 
---rh4txa2gphc5y7co
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/media/platform/renesas/rcar-csi2.c | 515 +++++++++++++++++----
+ 1 file changed, 415 insertions(+), 100 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.45.1
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZlSK6wAKCRAnX84Zoj2+
-duG9AYDdUpGu5aVO7zw3zFdz1kudBfe8bhW4zbk7Rqh2F38nbF9k6OHwGoXKxcQe
-BoqzGpYBf2GmKLiAj1MKfeIjRVsuVzqIgaw1sWlPvBOTPP+4TYXBl/H+8CBtp9KB
-EgfYt9ctqg==
-=NOy6
------END PGP SIGNATURE-----
-
---rh4txa2gphc5y7co--
 
