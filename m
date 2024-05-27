@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-11975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11976-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3148D0348
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:22:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFA58D02AC
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 16:06:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FB52B2DA58
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 14:05:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D95B4297243
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 14:05:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 241DC16E86E;
-	Mon, 27 May 2024 13:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 122B916E876;
+	Mon, 27 May 2024 13:59:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rf+5pj3i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlzDCJ+p"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E5E16E860;
-	Mon, 27 May 2024 13:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6650516E881;
+	Mon, 27 May 2024 13:59:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716818352; cv=none; b=NPVWsx0mDhmBxrHPeGVZw2xE7S20sfpvsWbaOvW0mvubqy+ZC6LLvL/8sSzSj77gbpfwMEQqIU1/xNL73Z6mHXrBH6a2bx5SP1dKKBTh9BqVZd7jpRwsGDEMrcIEvaTgKyJG5mc1aJwHZ/IG4ysaaXSuU71ZXCIBm0z85spnY70=
+	t=1716818355; cv=none; b=AnjPC6xtv2QrliyXy7MRFuFFmgI9fmFdXd4t3neIfc48T9qobYEoGRvAHN49DBRo6cAZSgAheLaCJoY0M3rXYxsthmXVJ3vIaEBAuul8wFRG+zinWU1c0NAP4UanYo/pK7CXnM+bT9BgEoJhhIQ25XZvqC94XNGu3slRf10vviw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716818352; c=relaxed/simple;
-	bh=Vx5HUnoXZq6JK/uMohxH4IEc3qmlJb9yt3dVytf4e0Y=;
+	s=arc-20240116; t=1716818355; c=relaxed/simple;
+	bh=O9JW27njJm+aYBAQyeNRFptyT1x+G6F+sYjE79pnkks=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mTiOO5S2Dw7zCAfFD/hxQFRjBGpbG8bJ4mZA2ZiDqVX5AwT5c6aZlgY2Re+vj8HDvUtpnOn6PG3ixy8Xy+vMaGyYqvSmfkDvH5z2+bClUYB57euZeLOj8y3o6k28S72eAu/CSNk4L2wcXxbUPvhnBdAuGUAk32flWtfxxkrLwjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rf+5pj3i; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB91C2BBFC;
-	Mon, 27 May 2024 13:59:11 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=Lcr3Pld7d2gV22WU29P76x7kpF1SwcF5k2F5mx+aNSqSqxT5KftVwWAEoTWrRZB1qdLgFZTSOxsxhcGx8ghRP5JkfUq3N3BhpL1a1cZvGdQr1whrhEjxoJZEB33lDcLL6BXBaujTMEleYJH4PSAQYHvrRcvSAmacuNi46KkD/Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlzDCJ+p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70BAC32781;
+	Mon, 27 May 2024 13:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716818352;
-	bh=Vx5HUnoXZq6JK/uMohxH4IEc3qmlJb9yt3dVytf4e0Y=;
+	s=k20201202; t=1716818355;
+	bh=O9JW27njJm+aYBAQyeNRFptyT1x+G6F+sYjE79pnkks=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=rf+5pj3io4dSDMivgwFzGBzbGvg8x0YGgCpZiRWsa12dAO/080/8Zo4G6t285pRPW
-	 ExVZeo235lPxsCueVNNXlzyEHTYaZVC8r4egCzREF9rQejM8em0iqp3DwelcfA6K+G
-	 +jc4nNeWFiHzUCoohNTYYO0U8kWCXSYSgRKwq+V2qrHQuzxoCcZNdljSE6naAfeAjA
-	 A1eoMA/cIxTxbs2JIB1NlyZ5xWm8FU8UnDmG6wFwDLmtnIDtEeop0UUFv+RPgY+jmE
-	 hUfZGsiQehlUjWU0KnGgH+N0qYbTpugqSi6r2ppIyAGnsB87fHFjfR9q8Wdk2GPTZL
-	 3qKhcVnIXf+Fg==
+	b=RlzDCJ+p+VnePxdwl5lqKgDaTwaZRQFM536yldfx3MpX7622uLqY4cg2Sx/4vYhio
+	 KaREQRosWDKywooNpIWe3YCs/82XoD74n6jQJz+tLtNbIgioskksGopS4KPlnD4eVp
+	 jC9r4dQtcJdqEKSniudpfKzXUkMGsTiQ4kLpNelKbjxZhTDg/xdb5Cg8SmnT0cx/Uu
+	 +2JqH3yiQ3c1hqhEc401DsuOiIV9PrTSvcWR69cPD810lcQ0feFwPgTpptUtqljPUR
+	 N6plVHPUEWhJuaudVc/bYXV44IF0UFPB7NkBqSpfoljDZUg2hcoIX+bKTaQQSTlXc1
+	 nwshQQkqFr8SA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 27 May 2024 15:58:12 +0200
-Subject: [PATCH v15 23/29] drm/tests: Add infoframes test
+Date: Mon, 27 May 2024 15:58:13 +0200
+Subject: [PATCH v15 24/29] drm/connector: hdmi: Create Infoframe DebugFS
+ entries
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240527-kms-hdmi-connector-state-v15-23-c5af16c3aae2@kernel.org>
+Message-Id: <20240527-kms-hdmi-connector-state-v15-24-c5af16c3aae2@kernel.org>
 References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
 In-Reply-To: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -71,270 +72,209 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8791; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Vx5HUnoXZq6JK/uMohxH4IEc3qmlJb9yt3dVytf4e0Y=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGkhE7OsZqn0/zV7trzE5svswseS/Xu5fmz/cmrmtAz21
- 619h3q0O6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEolcyVjElJx3b9ONB7vSN
- nx/fff6Ws+y8n/9K/sAL3X+Xr1l0XIuHX+S6vLR5YPY+5yCl0ACZO4z12aG53ztfTZ8V8TW07px
- SSee/k+wRb59b+T/XKhWJObHmi+uVKSs4qwQva0tO9Th2/1wiAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5480; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=O9JW27njJm+aYBAQyeNRFptyT1x+G6F+sYjE79pnkks=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGkhE7M01dJ59dYsrF35ekG68UaX7E3bWeVt7hQkPFhqv
+ GZVcdekjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARc0XGhj164gs/sjVMOdKo
+ bzC7zWfxpYyJV1Pf+kfYLT1Y7c8evVzgoWLYg57/m77uMJ+muPRRLWND/703v5k901/mvy2dwas
+ aGpO7hH9lRPrJcO5L2w0DE3/KSoXefTD9l6j57HkzmPPvvfIHAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The previous patch added the generation of the infoframes matching an
-HDMI connector state. Let's add a few tests to make sure it works as
-expected.
+There has been some discussions recently about the infoframes sent by
+drivers and if they were properly generated.
+
+In parallel, there's been some interest in creating an infoframe-decode
+tool similar to edid-decode.
+
+Both would be much easier if we were to expose the infoframes programmed
+in the hardware. It won't be perfect since we have no guarantee that
+it's actually what goes through the wire, but it's the best we can do.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tests/drm_connector_test.c | 219 +++++++++++++++++++++++++++++
- 1 file changed, 219 insertions(+)
+ drivers/gpu/drm/drm_debugfs.c | 152 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 152 insertions(+)
 
-diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
-index 2e631617c391..eda2e5d08cd9 100644
---- a/drivers/gpu/drm/tests/drm_connector_test.c
-+++ b/drivers/gpu/drm/tests/drm_connector_test.c
-@@ -219,10 +219,221 @@ static void drm_test_connector_hdmi_init_null_ddc(struct kunit *test)
- 				       BIT(HDMI_COLORSPACE_RGB),
- 				       8);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 08fcefd804bc..dd39a5b7a711 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -518,10 +518,160 @@ static const struct file_operations drm_connector_fops = {
+ 	.llseek = seq_lseek,
+ 	.release = single_release,
+ 	.write = connector_write
+ };
+ 
++#define HDMI_MAX_INFOFRAME_SIZE		29
++
++static ssize_t
++audio_infoframe_read(struct file *filp, char __user *ubuf, size_t count, loff_t *ppos)
++{
++	struct drm_connector_hdmi_infoframe *infoframe;
++	struct drm_connector *connector;
++	union hdmi_infoframe *frame;
++	u8 buf[HDMI_INFOFRAME_SIZE(AUDIO)];
++	ssize_t len = 0;
++
++	connector = filp->private_data;
++	mutex_lock(&connector->hdmi.infoframes.lock);
++
++	infoframe = &connector->hdmi.infoframes.audio;
++	if (!infoframe->set)
++		goto out;
++
++	frame = &infoframe->data;
++	len = hdmi_infoframe_pack(frame, buf, sizeof(buf));
++	if (len < 0)
++		goto out;
++
++	len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
++
++out:
++	mutex_unlock(&connector->hdmi.infoframes.lock);
++	return len;
++}
++
++static const struct file_operations audio_infoframe_fops = {
++	.owner   = THIS_MODULE,
++	.open    = simple_open,
++	.read    = audio_infoframe_read,
++};
++
++static int create_hdmi_audio_infoframe_file(struct drm_connector *connector,
++					    struct dentry *parent)
++{
++	struct dentry *file;
++
++	file = debugfs_create_file("audio", 0400, parent, connector, &audio_infoframe_fops);
++	if (IS_ERR(file))
++		return PTR_ERR(file);
++
++	return 0;
++}
++
++#define DEFINE_INFOFRAME_FILE(_f) \
++static ssize_t _f##_read_infoframe(struct file *filp, \
++				   char __user *ubuf, \
++				   size_t count,      \
++				   loff_t *ppos)      \
++{ \
++	struct drm_connector_hdmi_infoframe *infoframe; \
++	struct drm_connector_state *conn_state; \
++	struct drm_connector *connector; \
++	union hdmi_infoframe *frame; \
++	struct drm_device *dev; \
++	u8 buf[HDMI_MAX_INFOFRAME_SIZE]; \
++	ssize_t len = 0; \
++	\
++	connector = filp->private_data; \
++	dev = connector->dev; \
++	\
++	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL); \
++	\
++	conn_state = connector->state; \
++	infoframe = &conn_state->hdmi.infoframes._f; \
++	if (!infoframe->set) \
++		goto out; \
++	\
++	frame = &infoframe->data; \
++	len = hdmi_infoframe_pack(frame, buf, sizeof(buf)); \
++	if (len < 0) \
++		goto out; \
++	\
++	len = simple_read_from_buffer(ubuf, count, ppos, buf, len); \
++	\
++out: \
++	drm_modeset_unlock(&dev->mode_config.connection_mutex); \
++	return len; \
++} \
++\
++static const struct file_operations _f##_infoframe_fops = { \
++	.owner = THIS_MODULE, \
++	.open = simple_open, \
++	.read = _f##_read_infoframe, \
++}; \
++\
++static int create_hdmi_## _f ## _infoframe_file (struct drm_connector *connector, \
++						 struct dentry *parent) \
++{ \
++	struct dentry *file; \
++	\
++	file = debugfs_create_file(#_f, 0400, parent, connector, & _f ## _infoframe_fops); \
++	if (IS_ERR(file)) \
++		return PTR_ERR(file); \
++	\
++	return 0; \
++}
++
++DEFINE_INFOFRAME_FILE(avi);
++DEFINE_INFOFRAME_FILE(hdmi);
++DEFINE_INFOFRAME_FILE(hdr_drm);
++DEFINE_INFOFRAME_FILE(spd);
++
++static int create_hdmi_infoframe_files(struct drm_connector *connector,
++				       struct dentry *parent)
++{
++	int ret;
++
++	ret = create_hdmi_audio_infoframe_file(connector, parent);
++	if (ret)
++		return ret;
++
++	ret = create_hdmi_avi_infoframe_file(connector, parent);
++	if (ret)
++		return ret;
++
++	ret = create_hdmi_hdmi_infoframe_file(connector, parent);
++	if (ret)
++		return ret;
++
++	ret = create_hdmi_hdr_drm_infoframe_file(connector, parent);
++	if (ret)
++		return ret;
++
++	ret = create_hdmi_spd_infoframe_file(connector, parent);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static void hdmi_debugfs_add(struct drm_connector *connector)
++{
++	struct dentry *dir;
++
++	if (!(connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
++	      connector->connector_type == DRM_MODE_CONNECTOR_HDMIB))
++		return;
++
++	dir = debugfs_create_dir("infoframes", connector->debugfs_entry);
++	if (IS_ERR(dir))
++		return;
++
++	create_hdmi_infoframe_files(connector, dir);
++}
++
+ void drm_debugfs_connector_add(struct drm_connector *connector)
+ {
+ 	struct drm_device *dev = connector->dev;
+ 	struct dentry *root;
+ 
+@@ -545,10 +695,12 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+ 
+ 	/* max bpc */
+ 	debugfs_create_file("output_bpc", 0444, root, connector,
+ 			    &output_bpc_fops);
+ 
++	hdmi_debugfs_add(connector);
++
+ 	if (connector->funcs->debugfs_init)
+ 		connector->funcs->debugfs_init(connector, root);
  }
  
-+/*
-+ * Test that the registration of an HDMI connector with a NULL vendor
-+ * fails.
-+ */
-+static void drm_test_connector_hdmi_init_null_vendor(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	int ret;
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       NULL, "Product",
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_LT(test, ret, 0);
-+}
-+
-+/*
-+ * Test that the registration of an HDMI connector with a NULL product
-+ * fails.
-+ */
-+static void drm_test_connector_hdmi_init_null_product(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	int ret;
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       "Vendor", NULL,
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_LT(test, ret, 0);
-+}
-+
-+/*
-+ * Test that the registration of a connector with a valid, shorter than
-+ * the max length, product name succeeds, and is stored padded with 0.
-+ */
-+static void drm_test_connector_hdmi_init_product_valid(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	const unsigned char expected_product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] = {
-+		'P', 'r', 'o', 'd',
-+	};
-+	const char *product_name = "Prod";
-+	int ret;
-+
-+	KUNIT_ASSERT_LT(test, strlen(product_name), DRM_CONNECTOR_HDMI_PRODUCT_LEN);
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       "Vendor", product_name,
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_MEMEQ(test,
-+			   priv->connector.hdmi.product,
-+			   expected_product,
-+			   sizeof(priv->connector.hdmi.product));
-+}
-+
-+/*
-+ * Test that the registration of a connector with a valid, at max
-+ * length, product name succeeds, and is stored padded without any
-+ * trailing \0.
-+ */
-+static void drm_test_connector_hdmi_init_product_length_exact(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	const unsigned char expected_product[DRM_CONNECTOR_HDMI_PRODUCT_LEN] = {
-+		'P', 'r', 'o', 'd', 'u', 'c', 't',
-+		'P', 'r', 'o', 'd', 'u', 'c', 't',
-+		'P', 'r',
-+	};
-+	const char *product_name = "ProductProductPr";
-+	int ret;
-+
-+	KUNIT_ASSERT_EQ(test, strlen(product_name), DRM_CONNECTOR_HDMI_PRODUCT_LEN);
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       "Vendor", product_name,
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_MEMEQ(test,
-+			   priv->connector.hdmi.product,
-+			   expected_product,
-+			   sizeof(priv->connector.hdmi.product));
-+}
-+
-+/*
-+ * Test that the registration of a connector with a product name larger
-+ * than the maximum length fails.
-+ */
-+static void drm_test_connector_hdmi_init_product_length_too_long(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	const char *product_name = "ProductProductProduct";
-+	int ret;
-+
-+	KUNIT_ASSERT_GT(test, strlen(product_name), DRM_CONNECTOR_HDMI_PRODUCT_LEN);
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       "Vendor", product_name,
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_LT(test, ret, 0);
-+}
-+
-+/*
-+ * Test that the registration of a connector with a vendor name smaller
-+ * than the maximum length succeeds, and is stored padded with zeros.
-+ */
-+static void drm_test_connector_hdmi_init_vendor_valid(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	const char expected_vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] = {
-+		'V', 'e', 'n', 'd',
-+	};
-+	const char *vendor_name = "Vend";
-+	int ret;
-+
-+	KUNIT_ASSERT_LT(test, strlen(vendor_name), DRM_CONNECTOR_HDMI_VENDOR_LEN);
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       vendor_name, "Product",
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_MEMEQ(test,
-+			   priv->connector.hdmi.vendor,
-+			   expected_vendor,
-+			   sizeof(priv->connector.hdmi.vendor));
-+}
-+
-+/*
-+ * Test that the registration of a connector with a vendor name at the
-+ * maximum length succeeds, and is stored padded without the trailing
-+ * zero.
-+ */
-+static void drm_test_connector_hdmi_init_vendor_length_exact(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	const char expected_vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] = {
-+		'V', 'e', 'n', 'd', 'o', 'r',
-+		'V', 'e',
-+	};
-+	const char *vendor_name = "VendorVe";
-+	int ret;
-+
-+	KUNIT_ASSERT_EQ(test, strlen(vendor_name), DRM_CONNECTOR_HDMI_VENDOR_LEN);
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       vendor_name, "Product",
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_MEMEQ(test,
-+			   priv->connector.hdmi.vendor,
-+			   expected_vendor,
-+			   sizeof(priv->connector.hdmi.vendor));
-+}
-+
-+/*
-+ * Test that the registration of a connector with a vendor name larger
-+ * than the maximum length fails.
-+ */
-+static void drm_test_connector_hdmi_init_vendor_length_too_long(struct kunit *test)
-+{
-+	struct drm_connector_init_priv *priv = test->priv;
-+	const char *vendor_name = "VendorVendor";
-+	int ret;
-+
-+	KUNIT_ASSERT_GT(test, strlen(vendor_name), DRM_CONNECTOR_HDMI_VENDOR_LEN);
-+
-+	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
-+				       vendor_name, "Product",
-+				       &dummy_funcs,
-+				       &dummy_hdmi_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       &priv->ddc,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
-+	KUNIT_EXPECT_LT(test, ret, 0);
-+}
-+
- /*
-  * Test that the registration of a connector with an invalid maximum bpc
-  * count fails.
-  */
- static void drm_test_connector_hdmi_init_bpc_invalid(struct kunit *test)
-@@ -514,10 +725,18 @@ static struct kunit_case drmm_connector_hdmi_init_tests[] = {
- 	KUNIT_CASE(drm_test_connector_hdmi_init_bpc_invalid),
- 	KUNIT_CASE(drm_test_connector_hdmi_init_bpc_null),
- 	KUNIT_CASE(drm_test_connector_hdmi_init_formats_empty),
- 	KUNIT_CASE(drm_test_connector_hdmi_init_formats_no_rgb),
- 	KUNIT_CASE(drm_test_connector_hdmi_init_null_ddc),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_null_product),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_null_vendor),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_product_length_exact),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_product_length_too_long),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_product_valid),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_vendor_length_exact),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_vendor_length_too_long),
-+	KUNIT_CASE(drm_test_connector_hdmi_init_vendor_valid),
- 	KUNIT_CASE_PARAM(drm_test_connector_hdmi_init_type_valid,
- 			 drm_connector_hdmi_init_type_valid_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_connector_hdmi_init_type_invalid,
- 			 drm_connector_hdmi_init_type_invalid_gen_params),
- 	{ }
+ void drm_debugfs_connector_remove(struct drm_connector *connector)
 
 -- 
 2.45.0
