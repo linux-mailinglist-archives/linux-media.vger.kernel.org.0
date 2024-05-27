@@ -1,75 +1,74 @@
-Return-Path: <linux-media+bounces-12014-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12015-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7960F8D0A9A
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 21:02:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0178D0AF7
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 21:05:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EC8628160D
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 19:02:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0C161C21570
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 19:05:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF26A1667D5;
-	Mon, 27 May 2024 19:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F761607A2;
+	Mon, 27 May 2024 19:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zr627DWc"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XMnGX34z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784771649D1
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 19:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA4115ECFF
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 19:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716836463; cv=none; b=kHv/Wa3uQQmkrLXj5ZIb9F1HT1F9d1Jr9149Qj/fzvif+jzbyWQxhbGHqOKuN12893dfkwT5j1yCsFfg8KTCsaw29CVMwtoLCgtTOeabSEABrecJYne5kwQkYFfVHcxY7FXHUxXMfnPOAVFqgqorqAA9Hwfe0Gp7V58ZNGP2E2o=
+	t=1716836684; cv=none; b=E9k3mD/liyP5InMzBzMQJQivnmuGQnbt8S+RmyLoEK+1GFQ8MrFuKMTmswRmz1t03AvsL0PYqrete3JcM8noQ+770cc8xpDzy5GJxYpm6W20JPD4JrCU4QzF28YzFA9fxEGI8kF/1UaoTSzN7aS2fvwXIBck5EHYwQUaeC5QqXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716836463; c=relaxed/simple;
-	bh=ZJykFrLkMw27Ap6h6e1bwUeJqwTUQU6oAVNdAHpj1/Y=;
+	s=arc-20240116; t=1716836684; c=relaxed/simple;
+	bh=40YGK2iI/uurnxQuVz+rLsE2LOFYR+LnFD9GWtz/FZs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bRNoFBiirU33Go5jGh96GUABgn0zvXitHldzOEQT5xsLgidstpNQINTBRxxrdVfcohLh9QQCDOaKcT7bVFO7aWaPET3lA82J9rmhMnkYapXdVT0QMA3PnGjxAfnmNegsFsRZyK23BBAS0ADYiqmZseVkSwn9NZZLTVBnYX1z9xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Zr627DWc; arc=none smtp.client-ip=209.85.208.53
+	 In-Reply-To:Content-Type; b=bIX/jElZvgRcWFbzeOh9RnEgohmnqpEx+lRE8nxQrdnaZM6qJAKc83gTg/o/8B43LbAbotgmkbc9yBEKwr7JnOxXtZVvYw2V1ILLSsE6ipwg/xvxtYzv8hDoeUfk+JrYccEzGFBrWXieXGss9aioeEOExukjCcAAPkVKV6LFSvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XMnGX34z; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5751bcb3139so33120a12.1
-        for <linux-media@vger.kernel.org>; Mon, 27 May 2024 12:01:01 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-529b4011070so74876e87.1
+        for <linux-media@vger.kernel.org>; Mon, 27 May 2024 12:04:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716836460; x=1717441260; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1716836680; x=1717441480; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=VTJ3szqoHmc1+yUf2WmkBbMeHBDSss7x5+bTQB5BW00=;
-        b=Zr627DWc6Nb6ESeXj2t4BtxB2RK7aGgqVyCjB9arygWsAd4DI9g/wE21/HNewV3YG6
-         xjgfVO2wuV8E6kwUA8qydPlnjGeBQYa6VnZlpDP8WvxU/N0ld2cZDzezPCIUzse2dUIv
-         /OnD26u/LDWNS8GeSxK48rloPlVJPYurZFZ5KsDsiY2+opQLmArVWrqmZEI3LjEm1Gqe
-         Z45pm64STqeuQPdaGeqd/1yx77++/S4UsqzXsRzxLUFlJhBosR2eja/7uR90tbPDkQtI
-         AgM4o4rE1a/MEjLN8RxpCDhVWn6uzWUJicnZS4bDTBMyvLexEsgfabrjAcLAHS7AeCkQ
-         0uqw==
+        bh=LInQISId5MrDy4ph5vfn9w1VaeWSkpi0NqBmEc8DMR8=;
+        b=XMnGX34zv9VjcxsZYYNb40df3CndxP99c+ApuWgBtebBXlTzixn0G5MhCxVzJup+Yr
+         MQOdGKw49+/0X07YF3om/OzBqyokwdWsQ8ZAT4tyvms8sdaMK0c4jvulmmnZzwZOAqwH
+         Ieb37mY9KioOIVv9yjUPDJKgcS+Xvx+j7Au0AURo6wdQPXGX+yBavPNmGxJZP43qn2ru
+         LcWlaBpBjhPNLbDHNJbivNDhY6GeXg1oNFjX9kRLo+VKB2o+ajQQX97vDMKxhHkZQn+e
+         +y31i2JNF7SzqDDFvEwpEcebytIpJK8AXfFCXrv49Z1twX2HiYaV0weiwkjDG6nxSx7J
+         b7QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716836460; x=1717441260;
+        d=1e100.net; s=20230601; t=1716836680; x=1717441480;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VTJ3szqoHmc1+yUf2WmkBbMeHBDSss7x5+bTQB5BW00=;
-        b=HY9FH6KyfIYoibXaRN1KihnSv6kMY2X1EHhmjdqEgOu5cGKrPnnfA0w/LCTwCw5nDX
-         ZqroLLMXu94QVVGT/R8qaTalGnAw3cABtJo3SQEubauygHE+YQ1XK2BUm8L+BfgwwlJ6
-         moFLf05cbb5faepXv1IuTrdVwQyc6nEec4hOXA1S1am13LFZGhp8cmJMhPAE5OyjVPCV
-         R4/IpiaN7NnGL5eLESZio2m6VQrjancjl7af+jlQGqQj/agA+Syuhey0WZ+bzbr+1ZvU
-         Uc4vVbG0iwduf6SL/5mLmRSaKL3b1AefvDvUkJqV3aNvx/L5+8QvhqlonwqIgMpQEnMi
-         eMwQ==
-X-Gm-Message-State: AOJu0YyNwn6glLXeZ5ZNQZdevZIAcuL8li5yZO/oSxXXc7HeVatlMuZ7
-	GgWon3z+/iVN8kjI5cM0V8oQfMCR2JkCfn+E3QO6l87RNVYws4vxO7oLUxqs02A+5HkmffhwZYI
-	O
-X-Google-Smtp-Source: AGHT+IG3MBNURabuDGXyBaUuxzKnC4IYrZQLyRMJSIaOzglHPMnCFJCoH6toE5x/eK7T1RxZcj5Skg==
-X-Received: by 2002:a50:a402:0:b0:573:5c4f:27a8 with SMTP id 4fb4d7f45d1cf-57851a1ed5emr7722421a12.35.1716836459874;
-        Mon, 27 May 2024 12:00:59 -0700 (PDT)
+        bh=LInQISId5MrDy4ph5vfn9w1VaeWSkpi0NqBmEc8DMR8=;
+        b=YDqwCTdwNumcLsU4brRdwGoZut3Xpc/oMbi6gX4b5nB2Jdw5xBrYiN6qPUXFYFWubo
+         Kq3xXfv8aNDvIK+YUUGQnkCd1f0le1nCEqPX9jC+6u1vK803QMF5vSQLhCvmotXJZhxf
+         NlSLlKbmaUMvCevq+YhO2BLmHLI/KjUGUBnl2/FZnFdqT8gJNwBO2IaMpHYqruUl5MEE
+         OALVN7jycqwuQLtFReqRRVSiyEBIcqp81IjhP7kdfD5eapU5zJA1BSaMlTAoh2I2Bs0+
+         4fxI5pg6jiN6XJp2YYg6pgauLjhnH0KPh/rBhxKcar+PeTk8LAsrLpGD7KsTebvJ6Cji
+         TfWw==
+X-Gm-Message-State: AOJu0YzGCqHbsOkBCKRKQqVjFRk28hks5iRLhN24UHaAw00ti4TwplCa
+	t++kvzJevFz58w3CP6GW7NvEwt8lAa2xpbahRPhUgunVIWGM2qixfNA757rqth8=
+X-Google-Smtp-Source: AGHT+IF+nSew+iU1GJ6uF8ZN9AS9QJbJvGdfa3QiNWzHflY18U7Fuh+Ytk/YEnBHeJTGhLRw2pCvcg==
+X-Received: by 2002:ac2:5a09:0:b0:523:88e9:9cd2 with SMTP id 2adb3069b0e04-529667cf983mr5189826e87.67.1716836680441;
+        Mon, 27 May 2024 12:04:40 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57868fbbd8dsm3996346a12.8.2024.05.27.12.00.58
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-579ce507649sm2424076a12.14.2024.05.27.12.04.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 12:00:59 -0700 (PDT)
-Message-ID: <ceab83fe-b741-4f9e-8b0c-9de3ca79fc55@linaro.org>
-Date: Mon, 27 May 2024 21:00:57 +0200
+        Mon, 27 May 2024 12:04:39 -0700 (PDT)
+Message-ID: <8afe1888-5886-45fc-b576-98db3d392d37@linaro.org>
+Date: Mon, 27 May 2024 21:04:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,14 +80,11 @@ Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD56G3 camera sensor
  binding
 To: Sylvain Petinot <sylvain.petinot@foss.st.com>,
  benjamin.mugnier@foss.st.com, mchehab@kernel.org, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- Sakari Ailus <sakari.ailus@iki.fi>
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240521162950.6987-1-sylvain.petinot@foss.st.com>
  <20240521162950.6987-2-sylvain.petinot@foss.st.com>
- <2110ba34-658e-4d60-b524-2f5ead6c8d3e@linaro.org>
- <77fa3ed3-2341-4106-adf2-ec8bd9de91ff@foss.st.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -135,96 +131,40 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <77fa3ed3-2341-4106-adf2-ec8bd9de91ff@foss.st.com>
+In-Reply-To: <20240521162950.6987-2-sylvain.petinot@foss.st.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/05/2024 15:14, Sylvain Petinot wrote:
->>
->>> Signed-off-by: Sylvain Petinot <sylvain.petinot@foss.st.com>
->>> ---
->>>  .../bindings/media/i2c/st,st-vd56g3.yaml      | 132 ++++++++++++++++++
->>>  MAINTAINERS                                   |   9 ++
->>>  2 files changed, 141 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
->>> new file mode 100644
->>> index 000000000000..22cb2557e311
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
->>
->> Why duplicated 'st'?
+On 21/05/2024 18:29, Sylvain Petinot wrote:
+> Add devicetree bindings Documentation for ST VD56G3 & ST VD66GY camera
+> sensors. Update MAINTAINERS file.
 > 
-> Legacy : our first st-mipid02 driver was upstream this way few years back.
-> 
-> We have 3 options :
-> 
-> 1- keep this unpleasant naming to keep consistency with st-mipid02 [1]
-> and st-vgxy61 [2]
-
-? Unpleasant?
-Please follow generic rules. Filename must match compatible and
-compatible must follow vendor,device format.
-
-> 2- rename this driver properly ('vd56g3') and keep the two others the
-> old way (I personally don't like this option)
-
-We do not talk about driver here. Does not matter.
-
-> 3- rename this driver properly ('vd56g3') and in a second patch rename
-> the two others drivers.
-> 
-> I would be interested to get Sakari's opinion on this subject.
-
-About what? Renaming drivers?
-
-> 
-> [1]:
-> https://elixir.bootlin.com/linux/v6.9.1/source/drivers/media/i2c/st-mipid02.c
-> 
-> [2]:
-> https://elixir.bootlin.com/linux/v6.9.1/source/drivers/media/i2c/st-vgxy61.c
-
-Howe are these drivers anyhow related to the *binding*?
+> Signed-off-by: Sylvain Petinot <sylvain.petinot@foss.st.com>
 
 
-...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ef6be9d95143..554e6861425b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20885,6 +20885,15 @@ S:	Maintained
+>  F:	Documentation/hwmon/stpddc60.rst
+>  F:	drivers/hwmon/pmbus/stpddc60.c
+>  
+> +ST VD56G3 DRIVER
+> +M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> +M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
 
->>> +
->>> +  st,leds:
->>> +    description:
->>> +      Sensor's GPIOs used for external LED control. Signal being the enveloppe
->>> +      of the integration time.
->>
->> More information is needed. GPIOs coming from LED or SoC? What's the
->> meaning of values?
-> 
-> The vd56g3 image sensor provides 8 GPIOS that can be used for different
-> use cases (external led controls, synchronization between master/slave
-> sensors, external sensor trigger, etc.). This submission supports only
-> the first use case: the control of one(or multiple) external LED.
+This is a friendly reminder during the review process.
 
-What your driver supports is not really relevant. Describe hardware.
+It seems my or other reviewer's previous comments were not fully
+addressed. Maybe the feedback got lost between the quotes, maybe you
+just forgot to apply it. Please go back to the previous discussion and
+either implement all requested changes or keep discussing them.
 
-> 
-> The vd56g3 sensor family are optimized for visible and near infrared
-> scenes. In NIR, external IR leds are generally used for illumination.
-> 
-> With such use case, a led (or a led driver) can be connected directly to
-> one of the 8 GPIOs of the sensor. On the driver side, when a led is
-> configured in the dt, the driver will configure the sensor accordingly.
-> It will also offer an optional "V4L2_FLASH_LED_MODE_FLASH" control to
-> start/stop the external control.
-> 
-> Different signal modes are supported by the HW, but the default
-> (implemented) one is a "strobe" mode where signal is the envelope of the
-> integration time (IR led is on while image sensor is integrating).
-
-You did not explain the meaning of the property. Please describe the
-hardware and the meaning of values used in this property.
-
-
+Thank you.
 
 Best regards,
 Krzysztof
