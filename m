@@ -1,145 +1,213 @@
-Return-Path: <linux-media+bounces-11907-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11908-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE7B8CF9AE
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:03:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 619C28CF9BB
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 09:07:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79E7C28157A
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 07:03:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 192CA2816DC
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 07:07:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83BDC17BB6;
-	Mon, 27 May 2024 07:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24EFB17BD5;
+	Mon, 27 May 2024 07:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiIoeJ90"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YlTMDtJe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D12717BA7;
-	Mon, 27 May 2024 07:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702A22032A
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 07:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716793380; cv=none; b=E1F+A4+Uwspux26KdPgZ2a0+DgD1LpksKgZa8eVWlfA4q4Sf/byzomP7k+JqEmbjJ0fugX0gEvPr9AkvdGULRUrw70i48gTLbklUWbt96NY8o1PH3fQDhhFyk5XG6oXVoBHY3yGB8AvRUjgAPVu0TIHSWtBsBUYFp/BgvKNhf/w=
+	t=1716793648; cv=none; b=d5ponV8Hngl63loUkwe2G+Ue6ZIwuRae59Gg8YRRH2hk96NhOI55U+ewBij7tsCYPxEawZiR06TYG3rLVI2iERzRWSS/xoIkITn/TLhCevC0GIqfAmIAoKqWQwgzrXnejGyL4ppRsX9vuMeFTHOtkyHW16cA1SYxQE8IJoMknSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716793380; c=relaxed/simple;
-	bh=BCgQibrhwKD5TsoLszllSZGNYp6Y69BDG+Y5zL9rukc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ii2ZhhKSNVvJ8gJT0rS0ShqHM2KY6dox50aMxtRWWDuadCOBjuewYJcRCh4Bms+ICb24oSNs2Vc/V2lbZcT1lIx1MlaMv+DL0ZPr3CXkkLd6bO+xYuhHMhUIeOy+fXugDpLRU9BCSB23H2snARGz8KYUt3gUylgEUIAqauhWsx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DiIoeJ90; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-354de3c5d00so2405255f8f.1;
-        Mon, 27 May 2024 00:02:59 -0700 (PDT)
+	s=arc-20240116; t=1716793648; c=relaxed/simple;
+	bh=ImEUO9DtV4lgYdPlOis8gMBc3j3CTxVAQdmwTK5bO+A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GtlEgnHfGWdjxOUxAM3KQXVEYadAiQQaKERN84AYlAeOyFcz9u8z1XBiEYNU6Wvf2MZ1lRyKAT6mAoJWC3gBtnnh8dJKV0Mm/kn3RShK6kBmB9DzHG5oJ+/oCaSgA+iNC6zlP7kna6jV69QTDbstgBjL8w+991CJ9OhO+b3AU/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YlTMDtJe; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-529661f2552so2682024e87.2
+        for <linux-media@vger.kernel.org>; Mon, 27 May 2024 00:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716793378; x=1717398178; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RhTDv/X2MzeaoxY9UlTupOqZ4dzoGfDZJ1jJv+dJqEs=;
-        b=DiIoeJ90qi4SMzLoiTSHvjRiryjrcB9WQ4qL2MW/E4yTZ+uPhDpgMtd1DEpxQThtqj
-         F/Of/c9/ji6GBDZHQJ19BzKbozaBPZQuhQpbfUkBfwnmS6M1AE095/ykOH48EkzgER57
-         PnyXDawNEHT+omyhi0H/wmj2CoJwBf3iEGs9XRAQjR8wN4SlJozPqU+FU6UYchSbMHsL
-         BMGHXk2vIi4cDFKgbp3t0bAhFGz92l3bctLW3nB0pme0+JGir5NFk1dCxu39cE6+OuXh
-         AJ81DvewKBHDdv/oheoEFdNU8EmLGtvivIvxGu5lZxG+HKKaIkY7HfIdI3+WgjQEC6De
-         XYDw==
+        d=chromium.org; s=google; t=1716793643; x=1717398443; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RcSwrAOBgk0SabpBSOsxuNeS90Z/JnZDn0cwEFk4oc8=;
+        b=YlTMDtJeLgLa1RWUdLcDYCTtYZOdK47S9CvfopEx7k9+SXG5Hbo0c7jYI91lI7JL6J
+         aqQeeKKiJOWRKeSDHi+Er/CMfdDqlgbQRahNwbH5xairF3wcHlErsQMQq8b6+6I1VrQi
+         kzC+4Jmxwe/LNAwNSY38auGVoHlsRTkAwbB5M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716793378; x=1717398178;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RhTDv/X2MzeaoxY9UlTupOqZ4dzoGfDZJ1jJv+dJqEs=;
-        b=w/+3ABXYHJRoq31eUzoJnliN6sMexPbCeXw9hzngqMypz6opaSxegYlW0rXou/BJQo
-         3V7zgoDJk6NQ2V2mBTfgKCuQ7ZWNzASmgHjf0Mbo5M9bnUiaEJQm2Qth/nvNKWsMwPZF
-         SJSkp7BmoQAFnnX9LcO5D3QjDYVOXtUFMvkJTXJRRIObexfy5iE+OiZ5Oz+84gg64Gmg
-         /nek1IWTbmGknAW3iecIyXuLIRP4BMCztgoDw979Fz/aui14HPPTb0M98J5DJHOwNPsD
-         fw1rat54kVxQTKtL9XffATOz6O+bXo6aBzkm/eGHbfGSbxButYrr4+F4Ye0YTJfvJTlz
-         n4kg==
-X-Forwarded-Encrypted: i=1; AJvYcCWtORGAoszL2Bs7An8aMwkMgV3/zQxJh4vDfBEndafLjkJQah73PNBVgbij7Zxt3DHgFbAyS/iyJWC6+icfZb0NqcC50IURaco4ZlE=
-X-Gm-Message-State: AOJu0Yw7YaAc70yfy/EDnJtRi+mmZbT4J5ypbX2tjD7BAFAxCDOhDVbb
-	fLdBnjselN21/8eN0bt7OeGNrAQHxcf9RFVRobFzN2moLMCWu9mR
-X-Google-Smtp-Source: AGHT+IFMEQcPgs6+ChlvQyh9qDP2U9NYMEM8C1RNoY8/vGGrII0iOFxxNC1K3BaB2DJMg89FFSCHqA==
-X-Received: by 2002:a5d:4d85:0:b0:354:ed11:a20a with SMTP id ffacd0b85a97d-354f75a0adbmr10598776f8f.29.1716793377308;
-        Mon, 27 May 2024 00:02:57 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3557a08aba8sm8089705f8f.42.2024.05.27.00.02.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 00:02:56 -0700 (PDT)
-Message-ID: <0b04b587-77a4-4ac4-8b15-6cde0f0c5f5a@gmail.com>
-Date: Mon, 27 May 2024 09:02:54 +0200
+        d=1e100.net; s=20230601; t=1716793643; x=1717398443;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RcSwrAOBgk0SabpBSOsxuNeS90Z/JnZDn0cwEFk4oc8=;
+        b=T4FyZmQ8mlYY123OgS5Y/CoixSTzKqDktEWdCSlI+bFuphhC9/4QyrP8GUrJC1Jdol
+         Vnlgrz1xMjBrsL8DTwvrTDZym6dUhD8oM3wxgD4k2aniHxwF12eAgESldHOPR1MoL10q
+         ZtIdCOJ1hL3FatDxIahn1hK2O7RdP5J6SbZtTq6YKV2zSABWd4rv5LrfG/JB9JmzjvzA
+         +OBkEkBv8VMTn+zeHRAP2sFBtZ9jQYkN7WVwiaoZ7Pv5G6IsYTCFshVsvfKIyo31tHar
+         veIfm9lL7Yv9ZfQrD2yblLHpm9P/v/0re8Vy8EqRAKaw8hQd+XlMLUYZVDdi/fcwwP0Q
+         vEaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVJsXZ+B++EbcFusBWmsUvKy/Hy3i3KOOMWwIrHLxSyCQY5r+aaot+68+DP/cij79kfePqLOsTOvBTFTKGkxWpEUfYoS1mPylTQvHk=
+X-Gm-Message-State: AOJu0YySx02Nvuujcntppp+IktFm6lWq5bToMzx9MequD+IBnVspKKq5
+	8Kw/bn5ybMggSKpPJ4pTcZkQVmcvcJ3UnEL3nU9++pSCDwn3ogHSzD7spqYmXRw+TsLrRxbDwlm
+	HQBD1liKly7q37BTBX6Nis+qrccTy/PEggmpt
+X-Google-Smtp-Source: AGHT+IH6hkPVE7ofiPKTM1LpKdq3IVMXIknOENA5KSdXkvMNG/QOho/QQ2nuWyvBQu7FsSYAuoYRgFJca6ReR+79/8Q=
+X-Received: by 2002:a19:5f07:0:b0:51f:3cb3:48a4 with SMTP id
+ 2adb3069b0e04-529646e3b70mr4742266e87.1.1716793643444; Mon, 27 May 2024
+ 00:07:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/sw-sync: don't enable IRQ from
- sync_print_obj()
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- syzbot <syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com>,
- syzkaller-bugs@googlegroups.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Christian Konig <christian.koenig@amd.com>, Sean Paul
- <seanpaul@chromium.org>, Chris Wilson <chris@chris-wilson.co.uk>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
-References: <0000000000000946190610bf7bd5@google.com>
- <c2e46020-aaa6-4e06-bf73-f05823f913f0@I-love.SAKURA.ne.jp>
- <8980975d-87db-4d57-9e23-4fb7fbb62e7d@gmail.com>
- <0204a827-ca88-4cb6-839b-f4a637bcbf71@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <0204a827-ca88-4cb6-839b-f4a637bcbf71@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com> <20240516122102.16379-15-yunfei.dong@mediatek.com>
+In-Reply-To: <20240516122102.16379-15-yunfei.dong@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 27 May 2024 15:07:12 +0800
+Message-ID: <CAGXv+5Fo2x1R1=rJgC6ymLPMJYOypQdu9wQNdgSrjREyiQWHPw@mail.gmail.com>
+Subject: Re: [PATCH v6,14/24] media: mediatek: vcodec: Add capture format to
+ support one plane memory
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Jeffrey Kardatzke <jkardatzke@google.com>, 
+	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Nathan Hebert <nhebert@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Tomasz Figa <tfiga@chromium.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
+	Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Am 24.05.24 um 15:26 schrieb Tetsuo Handa:
-> On 2024/05/07 22:09, Christian König wrote:
->> Am 05.05.24 um 16:08 schrieb Tetsuo Handa:
->>> Since commit a6aa8fca4d79 ("dma-buf/sw-sync: Reduce irqsave/irqrestore from
->>> known context") by error replaced spin_unlock_irqrestore() with
->>> spin_unlock_irq() for both sync_debugfs_show() and sync_print_obj() despite
->>> sync_print_obj() is called from sync_debugfs_show(), lockdep complains
->>> inconsistent lock state warning.
->>>
->>> Use plain spin_{lock,unlock}() for sync_print_obj(), for
->>> sync_debugfs_show() is already using spin_{lock,unlock}_irq().
->>>
->>> Reported-by: syzbot <syzbot+a225ee3df7e7f9372dbe@syzkaller.appspotmail.com>
->>> Closes: https://syzkaller.appspot.com/bug?extid=a225ee3df7e7f9372dbe
->>> Fixes: a6aa8fca4d79 ("dma-buf/sw-sync: Reduce irqsave/irqrestore from known context")
->>> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Thank you. Who can take this patch?
+Hi,
 
-I pushed it to drm-misc-fixes.
-
-Thanks,
-Christian.
-
+On Thu, May 16, 2024 at 8:21=E2=80=AFPM Yunfei Dong <yunfei.dong@mediatek.c=
+om> wrote:
 >
->>> ---
->>>    drivers/dma-buf/sync_debug.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
->>> index 101394f16930..237bce21d1e7 100644
->>> --- a/drivers/dma-buf/sync_debug.c
->>> +++ b/drivers/dma-buf/sync_debug.c
->>> @@ -110,12 +110,12 @@ static void sync_print_obj(struct seq_file *s, struct sync_timeline *obj)
->>>          seq_printf(s, "%s: %d\n", obj->name, obj->value);
->>>    -    spin_lock_irq(&obj->lock);
->>> +    spin_lock(&obj->lock); /* Caller already disabled IRQ. */
->>>        list_for_each(pos, &obj->pt_list) {
->>>            struct sync_pt *pt = container_of(pos, struct sync_pt, link);
->>>            sync_print_fence(s, &pt->base, false);
->>>        }
->>> -    spin_unlock_irq(&obj->lock);
->>> +    spin_unlock(&obj->lock);
->>>    }
->>>      static void sync_print_sync_file(struct seq_file *s,
+> Define one uncompressed capture format V4L2_PIX_FMT_MS21 in order to
+> support one plane memory. The buffer size is luma + chroma, luma is
+> stored at the start and chrome is stored at the end.
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  Documentation/userspace-api/media/v4l/pixfmt-reserved.rst | 8 ++++++++
+>  drivers/media/v4l2-core/v4l2-common.c                     | 2 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
+>  include/uapi/linux/videodev2.h                            | 1 +
+>  4 files changed, 12 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/=
+Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> index 886ba7b08d6b..6ec899649d50 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> @@ -295,6 +295,14 @@ please make a proposal on the linux-media mailing li=
+st.
+>        - Compressed format used by Nuvoton NPCM video driver. This format=
+ is
+>          defined in Remote Framebuffer Protocol (RFC 6143, chapter 7.7.4 =
+Hextile
+>          Encoding).
+> +    * .. _V4L2-PIX-FMT-MS21:
+> +
+> +      - ``V4L2_PIX_FMT_MS21``
+> +      - 'MS21'
+> +      - This format has one plane, luma and chroma are stored in a conti=
+guous
+> +        memory. Luma pixel in 16x32 tiles at the start, chroma pixel in =
+16x16
+> +        tiles at the end. The image height must be aligned with 32 and t=
+he image
+> +        width must be aligned with 16.
+>  .. raw:: latex
+>
+>      \normalsize
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 4165c815faef..5ae54cf48dc7 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -271,6 +271,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>                   .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0,=
+ 0 }},
+>                 { .format =3D V4L2_PIX_FMT_MT2110R, .pixel_enc =3D V4L2_P=
+IXEL_ENC_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0=
+ }, .bpp_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+>                   .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0,=
+ 0 }},
+> +               { .format =3D V4L2_PIX_FMT_MS21, pixel_enc =3D V4L2_PIXEL=
+_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .=
+bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
 
+                                                 ^
+This is missing a '.' before 'pixel_enc', which breaks the build.
+
+ChenYu
+
+> +                 .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0,=
+ 0 }},
+>
+>                 /* YUV planar formats */
+>                 { .format =3D V4L2_PIX_FMT_NV12,    .pixel_enc =3D V4L2_P=
+IXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 =
+}, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index 4c76d17b4629..3a68f2b9e7a4 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1529,6 +1529,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>                 case V4L2_PIX_FMT_MT2110T:      descr =3D "Mediatek 10bit=
+ Tile Mode"; break;
+>                 case V4L2_PIX_FMT_MT2110R:      descr =3D "Mediatek 10bit=
+ Raster Mode"; break;
+>                 case V4L2_PIX_FMT_HEXTILE:      descr =3D "Hextile Compre=
+ssed Format"; break;
+> +               case V4L2_PIX_FMT_MS21:         descr =3D "MediaTek One P=
+lane Format"; break;
+>                 default:
+>                         if (fmt->description[0])
+>                                 return;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 89eb1a3c6555..7aff2f2c8f9c 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -800,6 +800,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediate=
+k 8-bit block mode, two non-contiguous planes */
+>  #define V4L2_PIX_FMT_MT2110T  v4l2_fourcc('M', 'T', '2', 'T') /* Mediate=
+k 10-bit block tile mode */
+>  #define V4L2_PIX_FMT_MT2110R  v4l2_fourcc('M', 'T', '2', 'R') /* Mediate=
+k 10-bit block raster mode */
+> +#define V4L2_PIX_FMT_MS21     v4l2_fourcc('M', 'S', '2', '1') /* MediaTe=
+k 8-bit block mode with one plane */
+>  #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel P=
+lanar Greyscale 10-bit and Depth 16-bit */
+>  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4=
+-bit packed depth confidence information */
+>  #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-=
+bit dithered RGB */
+> --
+> 2.25.1
+>
 
