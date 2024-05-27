@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-12010-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12011-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2608D0A29
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 20:49:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF978D0A2D
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 20:55:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FF532828FA
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:49:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6588F1C2149B
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 18:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C442F2B;
-	Mon, 27 May 2024 18:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D6215FA85;
+	Mon, 27 May 2024 18:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S4Qu7Un0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o4V5v3v0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA3E13C823
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 18:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EF42F2B
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 18:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716835758; cv=none; b=H0RPBOHYWKwjNP0R6T0kn47bYT87MIFK6Qgkv9BOQNuj/5Ym4dMzkMdj26oiHZOCpA4Z/rxqAL3BC6PMJDClxZdHJouN22i1Mde3JW71ynWfVKh88F9qtT1eSe3iSNGjVlmNW03chRzvuoyzfv2a13xAgIaWJ5F4GDdhqqFUjVI=
+	t=1716836150; cv=none; b=Oi3VZoN4oGoiAwUqHIXeQ8anz3rSKy0L6zmMcBwvvRSSagLP4AtK1TfHbaT+BFNUGz/z7uOt5ckfWqDu8Iew8ya7xLdNMc10EcyorFUCgv0ciZw/eNYvkB+RnbyX7PWRfZOfiYDvDW7ciro7scmxsG9O3vl0zebs8sTeGlt4OVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716835758; c=relaxed/simple;
-	bh=gwVP2M//MG4bms+JvzyCg+FfQnJxMd1Ltz9Smse1a6M=;
+	s=arc-20240116; t=1716836150; c=relaxed/simple;
+	bh=VLHsvwOg3TDx/WeKQnVMYH059GaVmHPIqcpyY8TScYM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aLrXxTi2R8laSvNuXyHCV5+eRuf+U5KqYu2TXlqipqD1A8DcFdAdAleUtSMKKIt4W5jTUhgHNvO4Wntv+0PiBCtK3SHCo7eVfEtELYn7X3qD2lGJPu3LOqlrYub8zt4bNfTvCfWFZKCg+hfFo6tfliLRVRXHWhqVIRlt1MMR/60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S4Qu7Un0; arc=none smtp.client-ip=209.85.208.52
+	 In-Reply-To:Content-Type; b=JTkPrDt49QgJZrrRs7eMuq/xCf3QUO0rC+QZsytA2q0DWGImsBEDLR7ghtbZfh+coLQ49f2xwPHD6QxIOBGTVkX7DAjJEJnycbsHutQ/cXexsdsfl0FIgbCj3qCl78AlILkJ6qk/f6Q4+JPGEj49VTMZ6e2lvCybP4js9Vz9c0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o4V5v3v0; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-578972defb3so22123a12.2
-        for <linux-media@vger.kernel.org>; Mon, 27 May 2024 11:49:16 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a5a7d28555bso10900266b.1
+        for <linux-media@vger.kernel.org>; Mon, 27 May 2024 11:55:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716835755; x=1717440555; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1716836147; x=1717440947; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=CcizzYKeeso2p0kSglxAbM4cy54HHw7GeUK6cIuDglA=;
-        b=S4Qu7Un08kmN8nZ9dUABxly12OFPrU03QyCK61FVUArqnpSvK0mdpynHIRVBi0tuW8
-         rSaYIg4XYERw4V7YTawlZRtTjbER7c9JAQafjlhdWMpy9QIGRcoZkfQzq3RISZaDk+MI
-         JAyboL1TaZU9XLNtElbGxe4wmMwZNC3xIoJzOj//TQ0+3dnydcjKIzaOr44pudQLU6LM
-         lfZDeJrQ51374R0XZDYBpq7ELtCUez1WHiRipwdk+ULeBCwaWiW/f/MQhlja9AN8//yF
-         YzS7WwzG28aVjR1w13N0gPT91938A60GQtPi3rj0VWKzeVW6QCLqHsatd2fOlIIaraVN
-         wyJg==
+        bh=ef9PEVFIZsixq3ZpG3jm6CuEgR8uaMP/CKdoII9sZmo=;
+        b=o4V5v3v0uzKEPPBGxKUy4M8+laG5xR8eC3UxDMpwf0GprpIPVo+bQNTKrIgRZsSCh4
+         YJa1coXXKx1PVesVawDnfCFfdYogNkCatendVPn1DJQtK1M+ytDUPTm2sQP4WPCA2t4g
+         AgBx1f7uqF32yMlADgM2i2wzBMkbJzLfAML1FFXM0kReqsIg2IzyruH0UNWMqm6WqxTs
+         1Wjm8p1DR/XmORKxa/+VfGrF9rlZBiZ8LXBd5bK8quUI1wT53GHoCKt8J+4BV+cx2GKh
+         4Y/shWAFDbHnFWhQwminyT2CF0qUQai/2SwKmYurQQXpDWogh06tm3n/DS3o7oHDkpvB
+         oh+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716835755; x=1717440555;
+        d=1e100.net; s=20230601; t=1716836147; x=1717440947;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CcizzYKeeso2p0kSglxAbM4cy54HHw7GeUK6cIuDglA=;
-        b=UDBQKpQEmbxXM9/Ypz65J+/O1c3vdbb5FeNfWlXODditTAbdruP54Lq0AC+xPjFtlU
-         +4a9pYXMebrtnldu6f4b0unv8Hq3sz6uG9q9AFZh5VyEHwHAvreE29cA4xl76XK1Kgz6
-         f5XMUEawdLvLuKBsq8J/yowQopTKVOLYlwSCyGGD6zln1P6Q2IVfk0Cjw4jr1EWiJwVY
-         Ts1bvcS4YNFQrS8AxmByYsnMO5X0B9xgDhT4W82K2xyDDOUNr+A2pV7ihGzFDlDN9prB
-         4wev941NhuG81YSZrXM44DPoxOHdE87/xl7dS3XtbbzCxjWBZlfwmRzD4giyQxFO7MnV
-         kdNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXaJ/fTCSlcmLAmpGCAwA9BG6Pv1JHx+0jTRE9jc0+lGDOSIMuwq7G0atZkUggTKNbHKhBg6yEGUvruUc7AQyuqOUQUZzLXh0+Dz2U=
-X-Gm-Message-State: AOJu0YyYZnw3x4Ei4R5szfRz7ujPARFpXr92if4ONueKPUxvC5wi392O
-	hG0RY6SUa7r7wDGIRBnNTKoue8ZuiiCpKFrAkcDj/LUYbxpo2PK07oy6gXtqUJc=
-X-Google-Smtp-Source: AGHT+IExgbBcHZIiZqZrJ8vf/QrYobR7iw0HIQIvUwT+DaB3FEZOMjzwV3i6e9HhZnyGM6W+SzbXxA==
-X-Received: by 2002:a17:906:7f84:b0:a59:cd46:fe89 with SMTP id a640c23a62f3a-a6264f15e40mr673618066b.59.1716835754378;
-        Mon, 27 May 2024 11:49:14 -0700 (PDT)
+        bh=ef9PEVFIZsixq3ZpG3jm6CuEgR8uaMP/CKdoII9sZmo=;
+        b=LEQe3SxEGA8GEiFUxRXJlrb9GwOGKLStFC9HsWzjF1TBaz618SfPecAQi7+yv1PEKr
+         RGDGPwmxpLDdRf3106mcZ2FTDheUSjWRZxFWB+PtrG/VD7F1LZpXG0yQukZCZu+Ye+a0
+         QwDEZw47aM5APFwgiTGV4K6MIPyO8qwRv1PbqGF6y0zWG6avHSeUo/LwS+gdFG/n4bhO
+         6+m1ZHt53uEt1wxnoo4RvHu3K2g4LaMUweWAUfx2SSDUCv8jj+CLc42ZP0kd5cc7MDYt
+         6APTvhjKo/GixGUbMadD9gkiC5vD6iPgMS13N5XWcqQihb4JjjU1BNeNsSXnAut2n/4l
+         7qNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbSe/iRNcuqx/UU8NTBKK1ddIErkP/mSa7YrZda2QyosoKN6gzJBoYkoBwMrTkWRqi/fui18VujG51lm6l4GVQtjXShyJsCO0oCyg=
+X-Gm-Message-State: AOJu0YxqrqWePFDD7ttiqdvEUMhDZNpw51xDR+QEUzEm6qvR8wKouvP5
+	FHjlQhQ4QOcN6dX6siEZ9JmXeE09aOTVTyDWIffTMO0+qRoZK78XdT/SD9ly8Ns=
+X-Google-Smtp-Source: AGHT+IF0X8Mx/+XatizVhklLRpGpOrq4VEojtbh2UtW1543Ne+ChMninQI/tTOIuHDV7M99PqC2oiw==
+X-Received: by 2002:a17:906:c214:b0:a5a:8b8c:6203 with SMTP id a640c23a62f3a-a62646d7f32mr659233166b.45.1716836146860;
+        Mon, 27 May 2024 11:55:46 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.206.169])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda48e6sm515104466b.203.2024.05.27.11.49.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8a742sm515168766b.153.2024.05.27.11.55.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 11:49:13 -0700 (PDT)
-Message-ID: <f587b37f-dc10-4a9a-8987-0a26c4417d94@linaro.org>
-Date: Mon, 27 May 2024 20:49:12 +0200
+        Mon, 27 May 2024 11:55:46 -0700 (PDT)
+Message-ID: <686a4786-90d9-41c3-b17b-cf24168e3fae@linaro.org>
+Date: Mon, 27 May 2024 20:55:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,17 +77,16 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: media: renesas,vin: Add binding for V4M
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH] dt-bindings: media: renesas,csi2: Add binding for V4M
+To: Conor Dooley <conor@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240527131849.1678877-1-niklas.soderlund+renesas@ragnatech.se>
- <20240527-replica-mace-2306a85ad5d7@spud>
- <20240527180312.GA226593@ragnatech.se>
+References: <20240527132046.1680595-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240527-sip-retention-43e2a16a7a41@spud>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -134,40 +133,40 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240527180312.GA226593@ragnatech.se>
+In-Reply-To: <20240527-sip-retention-43e2a16a7a41@spud>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 27/05/2024 20:03, Niklas Söderlund wrote:
-> Hi Conor,
-> 
-> Thanks for your feedback.
-> 
-> On 2024-05-27 17:37:21 +0100, Conor Dooley wrote:
->> On Mon, May 27, 2024 at 03:18:49PM +0200, Niklas Söderlund wrote:
->>> Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+On 27/05/2024 18:35, Conor Dooley wrote:
+> On Mon, May 27, 2024 at 03:20:46PM +0200, Niklas Söderlund wrote:
+>> Document support for the CSI-2 module in the Renesas V4M (r8a779h0) SoC.
 >>
->> Which is different from the other devices how?
+>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
-> Compared to the other Gen4 SoC supported it only supports D-PHY. I will 
-> add this to next version, thanks for spotting it.
-> 
->> Should be with the driver:
->> https://lore.kernel.org/all/20240527132429.1683547-1-niklas.soderlund+renesas@ragnatech.se/
-> 
-> As I mentioned in the other thread about the ISPCS bindings, I 
-> intentionally posted the bindings separately to allow parallel 
-> upstreaming of driver and DT users.
-> 
-> Is it really a bad idea to do it this way? For other work I have done 
-> that involves more complex DT changes then adding a compatible, such as 
-> adding a new device or adding more properties to cover more features 
-> only available in a later version of a device. I always post the DT 
-> parts first as this can spur discussions about the design and only after 
-> they are agreed upon do I post the driver parts that make use of them.
+> Another one not in a series, this should be with:
+> https://lore.kernel.org/all/20240527133221.1688830-8-niklas.soderlund+renesas@ragnatech.se/
 
-Binding goes via driver subsystem, so how exactly do you achieve
-parallelism here comparing to expected way of submitting (driver+binding)?
+Niklas,
+
+So you send three or four separate one-patch-sets for single compatible,
+without any links or hints about driver submission which apparently goes
+in parallel with impression of undocumented compatibles.
+
+That's not the way.
+
+First, if you insist on sending this separate for whatever reason, this
+should have been ONE PATCHSET with cover letter (explanation + links to
+users). There are no links: neither here, nor in driver submission.
+
+Second, bindings GO WITH DRIVERS, so sending drivers without bindings is
+posting undocumented compatibles. I would reject such patches to my
+subsystem, because checkpatch would complain that you have undocumented
+bindings.
+
+Please resend entire series together - drivers or bindings. For every
+separate submission, e.g. DTS separate from the binding which is quite
+expected for media, network and USB, please always link to the binding.
+
 
 Best regards,
 Krzysztof
