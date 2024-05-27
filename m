@@ -1,136 +1,109 @@
-Return-Path: <linux-media+bounces-11926-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11927-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B7B8CFDFB
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 12:19:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1C08CFE57
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 12:49:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DFF01C218CD
-	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 10:19:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91E34280E3C
+	for <lists+linux-media@lfdr.de>; Mon, 27 May 2024 10:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A11E013AD2A;
-	Mon, 27 May 2024 10:19:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F63F13B597;
+	Mon, 27 May 2024 10:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LOxnJSBL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lK9EzY9q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDCBE572
-	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 10:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E818026AFA
+	for <linux-media@vger.kernel.org>; Mon, 27 May 2024 10:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716805142; cv=none; b=F+1uqWH2Xu2QMVoGNs/aIzapDPbDxLhbFy4rR/7a/ikDPFvHQJSiwdgrmLWlpIRM/ol3HYUVoCO2A13WpZdyR6WbsPGdnrYL+Lgompp5z/li7Dw0tfEl136gahEOrBCrZ1vtLvvHYP6Ut4l4FJjOYewrxYsprZLwnLY2AoJ58Dw=
+	t=1716806943; cv=none; b=nXEg9xcyaxG5PLQJ9AdbGrf1J5nXKqrWQOndF6eEvBH1q4+2hLx9a/Az58Myr9z/P7VUm4/vQOYX9ObecZRF1CUBQbKDEM1d8vWMypMvvpS56/RjOBWiNqKj28vcHASJ1eHxmsRXrrJBNrNOK55e9g6VKqMqfoz6Kmt/90eEUSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716805142; c=relaxed/simple;
-	bh=zPAAp/+JOP5IlT58xvR7UPQR2ISldoeho8EybY8FWhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3LeJL0nz/emD9k3eHI5PeaQEp0HiEB1hjSiDdcfqyS3J0FZx7oPmpNkXJ2IGKCyOGnU9UDaCZ4sHVVBf2yvo4eMTCyjKFSipBtexT6n6LHE/w90f7rEhdPgN7/C7Mq+Y0GXD49D9CcjJyAyi2u4wpvsVMJZxCHL67cUfV6aEi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LOxnJSBL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 201C1471;
-	Mon, 27 May 2024 12:18:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716805136;
-	bh=zPAAp/+JOP5IlT58xvR7UPQR2ISldoeho8EybY8FWhE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LOxnJSBL+jtkbIedoUrJqC4ptkzdSfSSGJO+2yavX9DQ7BhzxhqV9J8e6oWueYH5U
-	 VrTEgZn/tSi3q1t/6EM+ztxcmlL8PoLtZQ3tRm0hettDBJ6fLUQMn4NgJ8Sohavqy3
-	 X4WGAbMvWYZFohPTAJIdHaQDAWoU8k8TYXvGm7XA=
-Date: Mon, 27 May 2024 12:18:54 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v7 7/8] media: raspberrypi: Add support for PiSP BE
-Message-ID: <6oiill244e4bb4zsdd5x7kzrw62x4pq6vfmps6offh5qvfniyr@4u4xi4fparbk>
-References: <20240524140024.161313-1-jacopo.mondi@ideasonboard.com>
- <20240524140024.161313-8-jacopo.mondi@ideasonboard.com>
- <ZlOimSRFNNt1fdN3@valkosipuli.retiisi.eu>
- <20240527011911.GD24374@pendragon.ideasonboard.com>
- <ZlQryf4bA4CsubPR@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1716806943; c=relaxed/simple;
+	bh=5s3gYpv2eKyW/HRWJfc6zDf1QfBvLiym5hB7s0s0/Wk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pXmuKcFy099UtE0Ot5iJpgSEFc1T7ZYXPTGVzQ1IZZ2cSN//lDGEHKFJBY01Q0veOVewM42fVjGm6GFdkCmyl9iZGBooaHeD7RWdP5OaoSQYOlNItUwU/pJANqMqVqpMXfsFfLOdIuYwxShy3i861N9NHTB4xzAg0Mkd3sBP/SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lK9EzY9q; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716806941; x=1748342941;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5s3gYpv2eKyW/HRWJfc6zDf1QfBvLiym5hB7s0s0/Wk=;
+  b=lK9EzY9qKy2+cuP6gymwABtV0ZEDUUX3KWP2l2SOIUR1XJyV3re4Sqfy
+   NfYupVpaxM2XL7pFBQcNxx9SGvE15M/oHVbWHjwtEfJPke4qK/ykmSpzX
+   b2OcpqSKVQt5gyfPPhIWFuhJNCxJS8zEDtW21hilRparbU4VUhf96GMYH
+   TrgEpZ7WI4twVkEiA2sePVpVinZeKkEpUqkoiDD1O5PQ3VwaSI2IvFap3
+   dObYwJIfG6Exb6psAKysLiAbRk1GumrN2qa1m9vWy3nHr6EfDoAxLDvJz
+   OwhQR9IE5bjeK85Ter45hr8Bb1DMdWj3KCYkJwNeb6N29a5bR7ue44Z+4
+   w==;
+X-CSE-ConnectionGUID: 4pbeBFRLQNSq9UYGEadIgQ==
+X-CSE-MsgGUID: tRr6/8wZTWy69rA1SlaH+w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="35638338"
+X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
+   d="scan'208";a="35638338"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 03:49:00 -0700
+X-CSE-ConnectionGUID: IzHsLghwR+Oz82/TLA+Trg==
+X-CSE-MsgGUID: k3QJfx1rR7+q30HfMPS/fQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
+   d="scan'208";a="34701104"
+Received: from icg-hal3.bj.intel.com ([172.16.127.200])
+  by fmviesa008.fm.intel.com with ESMTP; 27 May 2024 03:48:59 -0700
+From: bingbu.cao@intel.com
+To: linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com
+Cc: tian.shu.qiu@intel.com
+Subject: [PATCH] media: intel/ipu6: fix the buffer flags caused by wrong parentheses
+Date: Mon, 27 May 2024 18:48:57 +0800
+Message-Id: <20240527104857.3853688-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZlQryf4bA4CsubPR@valkosipuli.retiisi.eu>
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari, Laurent
+From: Bingbu Cao <bingbu.cao@intel.com>
 
-On Mon, May 27, 2024 at 06:44:25AM GMT, Sakari Ailus wrote:
-> Hi Laurent,
->
-> On Mon, May 27, 2024 at 04:19:11AM +0300, Laurent Pinchart wrote:
-> > > One API-based solution could be moving the IOCTL interface to MC device
-> > > node only. This wouldn't be a small change so I'm not proposing doing that
-> > > now.
-> >
-> > I think we could also use the request API. It is a bit more cumbersome
-> > to use from a userspace point of view, but this driver is meant to be
-> > used from libcamera, so we can isolate applications from the extra
-> > burden.
-> >
-> > We will need to add support for formats in the request API (or rather
-> > for requests in the format ioctls).
-> >
-> > From a kernel point of view, the helpers used by the codec drivers may
-> > not be suitable for ISP drivers, but I don't think it would be very
-> > difficult to implement other helpers is needed, isolating the ISP driver
-> > from the complexity of the request API.
-> >
-> > This doesn't preclude developing a better userspace API with ioctls on
-> > the MC device node only at a later point. If the above-mentioned kernel
-> > helpers are done right, transitioning to a new userspace API will have
-> > minimal impact on drivers.
->
-> This is indeed the third feasible option. I agree. The work on the
-> framework side might not be that much either.
->
+The buffer flags is set by wrong due to wrong parentheses, the
+FL_INCOMING flag is never taken an account.
+Fix it by wrapping the ternary conditional operation with parentheses.
 
-For the time being, I would like to move forward and merge the version
-of the driver with a single enabled context.
+Fixes: 3c1dfb5a69cf ("media: intel/ipu6: input system video nodes and buffer queues")
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-As you can see the driver multiples the contexts by creating two
-groups
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+index 40a8ebfcfce2..4bd4e324abc9 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+@@ -301,10 +301,10 @@ static int ipu6_isys_stream_start(struct ipu6_isys_video *av,
+ out_requeue:
+ 	if (bl && bl->nbufs)
+ 		ipu6_isys_buffer_list_queue(bl,
+-					    (IPU6_ISYS_BUFFER_LIST_FL_INCOMING |
+-					     error) ?
++					    IPU6_ISYS_BUFFER_LIST_FL_INCOMING |
++					    (error ?
+ 					    IPU6_ISYS_BUFFER_LIST_FL_SET_STATE :
+-					    0, error ? VB2_BUF_STATE_ERROR :
++					     0), error ? VB2_BUF_STATE_ERROR :
+ 					    VB2_BUF_STATE_QUEUED);
+ 	flush_firmware_streamon_fail(stream);
+ 
+-- 
+2.34.1
 
-The number of groups is defined by
-
-/*
- * We want to support 2 independent instances allowing 2 simultaneous users
- * of the ISP-BE (of course they share hardware, platform resources and mutex).
- * Each such instance comprises a group of device nodes representing input
- * and output queues, and a media controller device node to describe them.
- */
-#define PISPBE_NUM_NODE_GROUPS 2
-
-Can I simply set this to 1 or should the driver be reworked to remove
-the group concept completely (it will be quite some rework).
-
-You can guess what my preference is, and considering we want to
-experiment with a different API the group part will possibily need to
-be reintroduced.
-
-Also if we simply set PISPBE_NUM_NODE_GROUPS=1, the downstream RPi
-kernel will solely need to have 1 patch that restores the value to 2
-to be able to use the mainline kernel driver instead of keeping their
-multi-context downstream version in use until multi-context is
-finalized in mainline.
-
-
-> --
-> Regards,
->
-> Sakari Ailus
 
