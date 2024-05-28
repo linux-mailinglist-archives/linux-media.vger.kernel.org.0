@@ -1,104 +1,129 @@
-Return-Path: <linux-media+bounces-12068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12069-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BBF8D1657
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:35:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D24BC8D1663
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:38:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A9931F22888
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:35:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 868B6283BE6
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6763713C83E;
-	Tue, 28 May 2024 08:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A993213C831;
+	Tue, 28 May 2024 08:37:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dxEuWFtV"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SglXt0ew"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B749871B4C;
-	Tue, 28 May 2024 08:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B98428373;
+	Tue, 28 May 2024 08:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716885301; cv=none; b=A/NC3phcN4D6Zye9KjPVbvTWaIzMSSzH4W0WkcUfDdy5416dfbIcukd3O8e4J067HOniOgouIuCWznTZaNTAkypapQYhi1cbsSMdLpqfhy/Z4WFzvfFNRyOVjV7Zly49N29vWnm7YSO0efrLpqtMDuf4tvTCLdykDXCrfrYiGsU=
+	t=1716885472; cv=none; b=VAYUPCqvi7IeNfQP3GN9QfYGqDGBVeYon71yC0B8LcEhE6OP3SXyjZKKP3u+/9GnmpQ4KyXgcymHexoHfkzoFpj2ZIL3/lj3MN1GUPTdCvVnjUYTb6DZ+/lJ4pTctPbEv2xXGcumyoTkiR4VnhdY/T6PtittstW7fw9kW4IyNZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716885301; c=relaxed/simple;
-	bh=mjrj8Y6U0achW4zr5kCGXAf0WM06rRFoOQ1fH5Q2jWg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g4eQT9GARpCjQX4LibUUR/7h//+NnHgiHU0dtti+SQMvKM0yteYzkyBh4j57grrdBJfSA3wDyDvdQP6O48MnvPkZn7dR1WjmBhT6EwJ3xwOTdfK7/eqgeSPbxDtX6E5mv+wVSYk6JSIhauV7gRmjzFbrzTrnhkKejTMhIvO9s/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dxEuWFtV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF87C3277B;
-	Tue, 28 May 2024 08:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716885301;
-	bh=mjrj8Y6U0achW4zr5kCGXAf0WM06rRFoOQ1fH5Q2jWg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dxEuWFtVj51/nmDcan82+Q/GlF29zGoAkcdnUKo6RKHYMkoiPRuZemCy52R+Dplz+
-	 jnJxH28JcQmW+EcyZHFlMIKBcAUM9kmC+RBSNtin/dzPRP283vFQZGgV2akVs6/xOJ
-	 /jtj4FIPOKrRXse/dnEKIq5DfrPO9sSF8kUBgOAfAt2PtrVuV2+g2Dy9lTIXFn5DK4
-	 hzSH4bDeMYEKlRUjVemI8Y+q3/ZgV7teBVWe0WMW6FhatR2cQkHW/5S5RZkM/fwtvj
-	 T6rx4zqTa+uo9gCxeAgkDz686lmdMHM/sNxRFS9zOBcGOdK/yXIq9DR/4uneXrj/be
-	 IkI9FPpC0i+yQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sandy Huang <hjc@rock-chips.com>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	=?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sui Jingfeng <sui.jingfeng@linux.dev>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Andy Yan <andyshrk@163.com>
-Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector infrastructure
-Date: Tue, 28 May 2024 10:34:55 +0200
-Message-ID: <171688520803.1994316.11229514011452981600.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
-References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+	s=arc-20240116; t=1716885472; c=relaxed/simple;
+	bh=TW1jNG1PIoyG2+so13309xJlYyhVgbq9D68UAfsajzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F+CXEdOnQV94TibemSC8ACROXppZBVxnslsC8Itk4Chk/40lPX/JUQsMdK8k59bMgQpuq5Nr4Y7aH4EwpHVTb075jUMF+wXWVeX+qmDduIOnDjtcWWDdOc2Yo0MxO034mQjG4mnuO9/zMHtU7ziehNQCgJvM9+hrJ508hDGH9cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SglXt0ew; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716885468;
+	bh=TW1jNG1PIoyG2+so13309xJlYyhVgbq9D68UAfsajzA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SglXt0ewsfNVjfgOblte5DXxYe8Odk5aHidxhfv8ZQblVTG7GI9Yc/cFxq62NVZ7X
+	 5DZcv5LCwqa1F6GRv/DV1AwNsaoEZ5rDEWEEepby4GPPxZ3wcUEyNQzKr1Z3cuCU6L
+	 S4+/xEECPAvyyx+UAARquesFnxxjqRtKt1FpNoAPJ5Gr4vj44frFNffkL+EyOYaqGK
+	 NgCuhF8j+H9Xb4RH+6q8YUiXKwO0ZyBs0N3B9ja+Xm8j+6CS4YhqluGnOsyuNBW8Mj
+	 xjbHL5U6lUueOIcVNsA1BXMacHvIMgYXFRVKf3Q/gLlDL1PahnVG5/cwRlnPMfumCI
+	 Bv+WWc54qsaVg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5C2603782157;
+	Tue, 28 May 2024 08:37:48 +0000 (UTC)
+Date: Tue, 28 May 2024 10:37:47 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Alex Bee <knaerzche@gmail.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: rockchip,vpu: Document RK3128
+ compatible
+Message-ID: <20240528083747.z55laxnmioorzaru@basti-XPS-13-9310>
+References: <20240523185633.71355-1-knaerzche@gmail.com>
+ <20240523185633.71355-2-knaerzche@gmail.com>
+ <3639993.hdfAi7Kttb@diego>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <3639993.hdfAi7Kttb@diego>
 
-On Mon, 27 May 2024 15:57:49 +0200, Maxime Ripard wrote:
-> Here's a series that creates some extra infrastructure specifically
-> targeted at HDMI controllers.
-> 
-> The idea behind this series came from a recent discussion on IRC during
-> which we discussed infoframes generation of i915 vs everything else.
-> 
-> Infoframes generation code still requires some decent boilerplate, with
-> each driver doing some variation of it.
-> 
-> [...]
+Hey Heiko,
 
-Applied to misc/kernel.git (drm-misc-next).
+On 28.05.2024 10:19, Heiko Stübner wrote:
+>Am Donnerstag, 23. Mai 2024, 20:56:31 CEST schrieb Alex Bee:
+>> The integration for this SoC is similar to RK3066/RK3188.
+>>
+>> Document it's compatible.
+>>
+>> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+>
+>Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+>
+>Media people, can you apply this patch alone from the series?
 
-Thanks!
-Maxime
+Yes, will do got this on my list already :).
+
+>
+>Thanks
+>Heiko
+
+Regards,
+Sebastian
+
+>
+>> ---
+>>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>> index c57e1f488895..d1b47b14ca57 100644
+>> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>> @@ -26,7 +26,9 @@ properties:
+>>            - rockchip,rk3568-vpu
+>>            - rockchip,rk3588-av1-vpu
+>>        - items:
+>> -          - const: rockchip,rk3188-vpu
+>> +          - enum:
+>> +              - rockchip,rk3128-vpu
+>> +              - rockchip,rk3188-vpu
+>>            - const: rockchip,rk3066-vpu
+>>        - items:
+>>            - const: rockchip,rk3228-vpu
+>>
+>
+>
+>
+>
+>
 
