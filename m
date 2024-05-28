@@ -1,183 +1,126 @@
-Return-Path: <linux-media+bounces-12080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3661F8D18E5
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 12:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CD38D1950
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 13:22:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59F171C21D88
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:50:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 854D61C21978
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 11:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 451AE16C693;
-	Tue, 28 May 2024 10:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03ECF16C84A;
+	Tue, 28 May 2024 11:22:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="BQYtiEk1"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="wuGTpzYn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583FD16B74B
-	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 10:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7D116C69F;
+	Tue, 28 May 2024 11:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716893400; cv=none; b=eF1bnaJcR36sxaF+VkoWAegPT62s9NM5WmnzfH/8JLpGSzgln6Wrepc9Sxmt4rf5vXeus4EnPDXXQU1K7u3DIqlQdQamibPsvrLk//rCrQ31+CF8NCksbv2u01U5Cj3sk0vFdabIMd8ypKxmb28ViGDhdx8WMw21VfCiHP1IQoA=
+	t=1716895336; cv=none; b=cuWZVyJ2Bj20FovpDlCho/otdiMjp9/TOSaBRR05FNfohUqUg9YQAs6QbVgpPf9IMV3iqGVKYGq1W2QAjzuCt0bJW/LJmPuK0h0JkIgTlH7EG+21+gmlH/gzz93rByBZBnj6lJ8qPXzyFao7k4hC7LYY7kquFJH8A3p+nXGQHNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716893400; c=relaxed/simple;
-	bh=xkwtv/ar7L7z1hGbFo/aekoVFoud4lD93MVDzRtiDUo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=b9YklOQTDYMcIuW3H4XJ8NTIu/vFx+4FfJ5O7/mlkYobXqkOdOtiN29O6OK3KhoR2kCkCpUqhSWIE9IWFYzj0eAM9mv1zyNPpSF0ydMJFKFMCULNf2K1egXI3/GGVzJa5fJpCFIub9u+QRpGnqVrzvjVNTEO6jCBUDdwKEIgr34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=BQYtiEk1; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-42108856c33so22052615e9.1
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2024 03:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1716893396; x=1717498196; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SoaTaKESqCNq2RRTZbp/puYp7dOBR/SpLMVVBMPUbKE=;
-        b=BQYtiEk1dUXiYPFN7gSahgzdU28uSoCjrRiU4OUqdoBtDUEtwLxU9bmyMvBR5hu+OM
-         prtRdM9hgVNwm8p7CRybS20YxLqL0abaUqWpNo7qhlFJTSQz7rv8r1uArH/cBngiev8w
-         YOlJBdKsrDs2WmGwQh/u2VM6J6az11oluqyl9Sj/vr1O0H2n0+9XlBprtFswcEo2J4V8
-         3NOx2G/vPnOj34MD3+iMVYPzSb8x7bC2VbrqZ2vVn5t7KWRXuXEAKcEjmpXijWN1wzpL
-         NGuVf9IPBg7UlvZz8KOXB2KtwPjJtzM64RaT/Tga2XPef7AFgXv4Bao3AnXibBxkVf0/
-         EE0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716893396; x=1717498196;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SoaTaKESqCNq2RRTZbp/puYp7dOBR/SpLMVVBMPUbKE=;
-        b=OEOod5/sPzirAZV4MWsIEWeddYWnxL0tae6J5jL665e064D19EHSf/2ZqYSey4V+U/
-         GdNA0MhjFjS9rKY99R0DfrOTuJXbvKyWnxAbIWUfi8I/P5IGAqO9bNh5EVNet/8GUVOl
-         pYQ78hSvnYEkJELSKlBhALzUTOvc4bF4S9JeszSHkbYzHKOQzbi4Hf4J1mthzPrhg2tq
-         iO+LPfa/oGEguFnfWy3doATyv3WyImqA2xdtt3OMsY7KrNyePjFLecIAxKllCtfukOZ6
-         efJZCumlAgnEMYSyODEeRg/CSuAFwXhZaQcGj39Z05HO9ZuHx+JNL1ce2jxME/nDKAdf
-         M+0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWvYfk+/6OkQmLlwDFrrXUIwScGmCR0j9+JKN6xq9PGLNWxCnDhMwGZJcmA/cbzKlHYb3Ju4+wcgqPAssSuuUO69oHWL483qcInPbk=
-X-Gm-Message-State: AOJu0YxB2dKsaURGU9ajOAyKRAGf/+mEbhVoPOwTKUaj3b85Qta8yGAC
-	+Xrn9Y/khsvcQ/c6rqtzbLa6EmJISuUuaPzgcV8e4n7Tpqo7DFYMwenfq1ht5fM=
-X-Google-Smtp-Source: AGHT+IGewrMUbSSURVDW5W/6sj6A3tBXyhPbUTHqmyvZmpelqP045wp02w6f3gR0CZiMG43AH7dtNQ==
-X-Received: by 2002:a05:6000:1753:b0:354:fce5:4cc3 with SMTP id ffacd0b85a97d-354fce54d2dmr10916648f8f.19.1716893395715;
-        Tue, 28 May 2024 03:49:55 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3557a0902fcsm11321509f8f.53.2024.05.28.03.49.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 May 2024 03:49:55 -0700 (PDT)
-Message-ID: <b4a71be9-b888-4396-9eef-28c4a4f2b149@freebox.fr>
-Date: Tue, 28 May 2024 12:49:54 +0200
+	s=arc-20240116; t=1716895336; c=relaxed/simple;
+	bh=GjmT2bEqMBnoTSgHTxCU0dHsFJxOjGlZl+fZ27D94Ag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=lQHtjZ/iNPzykisr4S0tMD8jV2ln/evt74hWlGg2lec4aQwcsuuPRQ8mhD2x/aq6g/4nupHmwz3/6gQg1Qr8ElPbeCL1QbwxbRiMDI6A2vKfrHRDzk5Yhxkae57CU0kUNVJO6Nv7PBvPEaiZ5a23Pf57nb2d4kdcEnBWHumCt64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=wuGTpzYn; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44SBLueP049633;
+	Tue, 28 May 2024 06:21:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1716895316;
+	bh=LsFWexuqmOIvPySLRES2Xzrrtm5Z8axMJcdqDhRHPIU=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=wuGTpzYnhl01qto8/tnlANOM/r0jXRM08h9L6jT3vpx+HKPSyZFE91q9bj9aJFi8g
+	 1HXCdhmat6FK/RzElvVGnhxo1Bsjcn/fPgXO/2Zlt0Ibpi0wtow5wW0i5HIQ+l5UhN
+	 U9vh0FjduxBxcEhRqpI77VJv4YdAG4wDmtowNoyA=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44SBLuU9046143
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 28 May 2024 06:21:56 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 28
+ May 2024 06:21:56 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 28 May 2024 06:21:56 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44SBLkbg062841;
+	Tue, 28 May 2024 06:21:47 -0500
+Message-ID: <4a8cea8c-4575-bdd8-e8a8-634a2b267ff5@ti.com>
+Date: Tue, 28 May 2024 16:51:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] arm64: dts: qcom: msm8998: add venus node
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-To: Bjorn Andersson <andersson@kernel.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O Donoghue <bryan.odonoghue@linaro.org>
-Cc: MSM <linux-arm-msm@vger.kernel.org>,
- linux-media <linux-media@vger.kernel.org>,
- Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>
-References: <1cf08b56-a247-431b-a24b-69f563f49240@freebox.fr>
- <c2fca6c7-2421-42b4-a43d-68b251daf9b4@freebox.fr>
- <e187c5ab-0241-4a45-8d74-a33ec12deec6@freebox.fr>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v9 07/10] lib: add basic KUnit test for lib/math
 Content-Language: en-US
-In-Reply-To: <e187c5ab-0241-4a45-8d74-a33ec12deec6@freebox.fr>
-Content-Type: text/plain; charset=UTF-8
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+        <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
+        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
+        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+References: <20240526175655.1093707-1-devarsht@ti.com>
+ <20240526180933.1126116-1-devarsht@ti.com>
+ <ZlTu_9orsuosNiGk@smile.fi.intel.com>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <ZlTu_9orsuosNiGk@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 13/05/2024 10:51, Marc Gonzalez wrote:
+Hi Andy,
 
-> On 07/05/2024 11:29, Marc Gonzalez wrote:
+Thanks for the review.
+
+On 28/05/24 02:07, Andy Shevchenko wrote:
+
+[..]
+>> +#include <kunit/test.h>
+>> +#include <linux/gcd.h>
+>> +#include <linux/lcm.h>
 > 
->> From: Pierre-Hugues Husson <phhusson@freebox.fr>
->>
->> Now that the venus clocks are fixed, we can add the DT node.
->>
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Signed-off-by: Pierre-Hugues Husson <phhusson@freebox.fr>
->> Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
->> ---
->>  arch/arm64/boot/dts/qcom/msm8998.dtsi | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 48 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> index 5f5b90a6e2bf1..3d3b1f61c0690 100644
->> --- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
->> @@ -3010,6 +3010,54 @@ mdss_dsi1_phy: phy@c996400 {
->>  			};
->>  		};
->>  
->> +		venus: video-codec@cc00000 {
->> +			compatible = "qcom,msm8998-venus";
->> +			reg = <0x0cc00000 0xff000>;
->> +			interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
->> +			power-domains = <&mmcc VIDEO_TOP_GDSC>;
->> +			clocks = <&mmcc VIDEO_CORE_CLK>,
->> +				 <&mmcc VIDEO_AHB_CLK>,
->> +				 <&mmcc VIDEO_AXI_CLK>,
->> +				 <&mmcc VIDEO_MAXI_CLK>;
->> +			clock-names = "core", "iface", "bus", "mbus";
->> +			iommus = <&mmss_smmu 0x400>,
->> +				 <&mmss_smmu 0x401>,
->> +				 <&mmss_smmu 0x40a>,
->> +				 <&mmss_smmu 0x407>,
->> +				 <&mmss_smmu 0x40e>,
->> +				 <&mmss_smmu 0x40f>,
->> +				 <&mmss_smmu 0x408>,
->> +				 <&mmss_smmu 0x409>,
->> +				 <&mmss_smmu 0x40b>,
->> +				 <&mmss_smmu 0x40c>,
->> +				 <&mmss_smmu 0x40d>,
->> +				 <&mmss_smmu 0x410>,
->> +				 <&mmss_smmu 0x421>,
->> +				 <&mmss_smmu 0x428>,
->> +				 <&mmss_smmu 0x429>,
->> +				 <&mmss_smmu 0x42b>,
->> +				 <&mmss_smmu 0x42c>,
->> +				 <&mmss_smmu 0x42d>,
->> +				 <&mmss_smmu 0x411>,
->> +				 <&mmss_smmu 0x431>;
->> +			memory-region = <&venus_mem>;
->> +			status = "disabled";
->> +
->> +			video-decoder {
->> +				compatible = "venus-decoder";
->> +				clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
->> +				clock-names = "core";
->> +				power-domains = <&mmcc VIDEO_SUBCORE0_GDSC>;
->> +			};
->> +
->> +			video-encoder {
->> +				compatible = "venus-encoder";
->> +				clocks = <&mmcc VIDEO_SUBCORE1_CLK>;
->> +				clock-names = "core";
->> +				power-domains = <&mmcc VIDEO_SUBCORE1_GDSC>;
->> +			};
->> +		};
->> +
->>  		mmss_smmu: iommu@cd00000 {
->>  			compatible = "qcom,msm8998-smmu-v2", "qcom,smmu-v2";
->>  			reg = <0x0cd00000 0x40000>;
+> + math.h (where abs()/DIV_ROUND_*()/etc come from?)
+> I believe I mentioned that.
 > 
-> Hello Bjorn,
+
+I did compile and test this, so math.h was indirectly getting included via
+some other header file already included but I would not rely on that and
+include math.h separately as you suggested.
+
+>> +#include <linux/reciprocal_div.h>
 > 
-> This patch is supposed to be merged through one of your trees, right?
+> ...
+> 
+>> +MODULE_LICENSE("GPL");
+> 
+> modpost validator won't be happy about this, i.e. missing MODULE_DESCRIPTION().
+> 
 
-Bjorn, would you take patches 1 and 2 in your tree?
+Indeed, it gives below logs, let me add that too.
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/math_kunit.o
 
-Who would take patch 3?
 
 Regards
-
+Devarsh
 
