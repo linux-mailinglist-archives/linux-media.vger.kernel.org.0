@@ -1,237 +1,219 @@
-Return-Path: <linux-media+bounces-12064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05DB8D15C7
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:04:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A9F8D1600
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:13:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C133B229E3
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:04:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C23FE1F227F3
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:13:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A490F13A3F3;
-	Tue, 28 May 2024 08:04:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5136213BC04;
+	Tue, 28 May 2024 08:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tDnjsbrU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdtluKWA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6D078676;
-	Tue, 28 May 2024 08:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239B671738
+	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 08:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716883488; cv=none; b=nZaXn03aaeIdxmlpRgMowPKI2jN5TMrA74k4amI1Ddp2c1oWOI4S+lh0jnjJJxX/G0ygk4A40k3d6P5mmUk16zRiSGii6gwEZC2SNlrO/nYOnAvxxoA0Fqz/1Fc+PUqWCvIqk8OC7zg1pIdVTsjzTGPhWGlmPhPMEsVUpPQJSak=
+	t=1716883937; cv=none; b=SirRijVAsePOrpPv5deJ1mGOO551GJzoTt/3taQRBnSAsfq8syGUHhSpLc1mCTfCtbDyFbqIv/p/5BV/YwJ9cp1bk0AD+ZrBvoiumcK6yYF/c+5/mBxR9fbdRYG0SWGSRvqyRFjbLIYZN9f6COQ6UU+vkpaaoWEMeClWTQ5rOaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716883488; c=relaxed/simple;
-	bh=jGnnV0FLE1BrjAgUOW5YIKAOxWaHCUeGAngP7Y+0Q54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YZ8beEexvk40s36Sbamd3zoLnw2TcWki8HyLW4eXFqxe4J2JM4hg/XH42l9Dsf1a2Mn83y+7ytzNfnVJIY0ZzmIozNZVmtvrTmvQkmhDcuKfgvj14JzvxDfDX2BU+bpkn0HLYUIHbhAoia7ky8hgNEaTVV77rWQ/Xe8bSmdMlDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=tDnjsbrU; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1716883479;
-	bh=jGnnV0FLE1BrjAgUOW5YIKAOxWaHCUeGAngP7Y+0Q54=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tDnjsbrU5Y8ZDuPJ42S9f+ovjR//4qEGGgvP8OYGnvGuyc9qg4bZ11qKnJEvg9vHl
-	 lN37Kmnarw46UfH+owPamclo0BnAz5lIJeeVoshfFHUdAWsO4wppp/35wdqA9/fWCJ
-	 a9d4td4Eq4ugeXsazURqhu3c6l0B5bZq169nuK98Sm6Oi+Ks7UPta8an1eXCA/05ND
-	 rCzZNmyMuJTbkufTufgHKyk2o7MP42/G0gGhPLckogDhl8ltq6DJ9t3mW/jc6dwceb
-	 bYtlqBcE1prtb2GM3QAvgx7zRyQEpyCmTjfaTVpTUnRlForxoREqFbdUQnpe6thDNI
-	 Cs+xlNsFtST0g==
-Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id EB5BC378020A;
-	Tue, 28 May 2024 08:04:38 +0000 (UTC)
-Message-ID: <4f3ea360-f17f-4a91-bbdc-08caebb977a7@collabora.com>
-Date: Tue, 28 May 2024 10:04:37 +0200
+	s=arc-20240116; t=1716883937; c=relaxed/simple;
+	bh=9UH13LXD4kgrY8LR/JJv4cvwu5B2KIk7HUfrktmUKIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pw/8orpV4RxRjc2px8NeiS/DwWPWUEul60J3KsaW6GvmJ+rtpKPewYY7Y/YledbA06WcYC/CJVI/H0SgrddhcSfEN+3hIHSk4ef7ybIhQ6zo8uzjtAgWYCfO7OgO9WiNTfESnLh3uwGchCIks58uLzg9PdqcEDkoyzslkzemumk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdtluKWA; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716883936; x=1748419936;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9UH13LXD4kgrY8LR/JJv4cvwu5B2KIk7HUfrktmUKIo=;
+  b=ZdtluKWAJakRGR5sJFr1VNDtSHvD3K5FdhJbTZmNJC07ujoYsYsCC7oH
+   v8Rq0kIFims7ADpaUGxMm/JTR6y9DIYto10H7JMI1lUsUkxtrX0tq6CLG
+   HXUyrpCxppkUYEyx71W2rhD3JAF/gabn2mVnWPa/O+wqg7/jJFaeQjGFg
+   QTTZllqg3lH7BaoPTL3OFNUCjBoh35rZmUzBd+Vkis4BXJRXeanOkBORB
+   6y+13yWXgbEyxsOFIikR83OoVD26VtMItomV/DxFWLkoBuDDuTvBQEQmF
+   g8F3RSxlj0EqzCGOldZ3tANTpiF5dtLJkioSraneyzQJnH1Kk+P2cifxm
+   g==;
+X-CSE-ConnectionGUID: NkHvFPv5TzWAThfCAW1w3g==
+X-CSE-MsgGUID: ZqKOB/RGTQigoakQFSZTbw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="17046653"
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="17046653"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 01:12:15 -0700
+X-CSE-ConnectionGUID: J9y/TUHTRi2H/THjAuSpiQ==
+X-CSE-MsgGUID: 09dUwHdFQIuxvWMWHCOV3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="58170072"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 01:12:14 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B0EED11FA4A;
+	Tue, 28 May 2024 11:12:11 +0300 (EEST)
+Date: Tue, 28 May 2024 08:12:11 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Wentong Wu <wentong.wu@intel.com>
+Subject: Re: [PATCH v6 2/4] media: v4l: Support obtaining link frequency via
+ get_mbus_config
+Message-ID: <ZlWR24e5UHLvdrAi@kekkonen.localdomain>
+References: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
+ <20240516122539.30787-3-sakari.ailus@linux.intel.com>
+ <auogsnxxlad6e43phqhtu4njj5vzps5njmvuk7fcmiitnj4imn@dms3jrdfyi3s>
+ <ZlV1CAEpU8eqSeTM@kekkonen.localdomain>
+ <zxforr3b6ahagkkqghqhxzn555wjq6edubcvybtopj5n636vj6@f5jms6q2rwzn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: staging: max96712: Add support for MAX96724
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: linux-renesas-soc@vger.kernel.org
-References: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <zxforr3b6ahagkkqghqhxzn555wjq6edubcvybtopj5n636vj6@f5jms6q2rwzn>
 
-Hi Niklas,
+Hi Jacopo,
 
-On 5/27/24 3:34 PM, Niklas Söderlund wrote:
-> The MAX96724 is almost identical to the MAX96712 and can be supported by
-> the same driver, add support for it.
+On Tue, May 28, 2024 at 09:16:06AM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
-> For the staging driver which only supports patter generation the big
-> difference is that the datasheet (rev 4) for MAX96724 do not describe
-> the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
-> not clear if this register is removed or moved to a different offset.
-> What is known is writing to register 0x0009 have no effect on MAX96724.
+> On Tue, May 28, 2024 at 06:09:12AM GMT, Sakari Ailus wrote:
+> > Hi Jacopo,
+> >
+> > On Fri, May 17, 2024 at 12:31:43PM +0200, Jacopo Mondi wrote:
+> > > On Thu, May 16, 2024 at 03:25:37PM GMT, Sakari Ailus wrote:
+> > > > Add link_freq field to struct v4l2_mbus_config in order to pass the link
+> > > > frequency to the receiving sub-device.
+> > > >
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  drivers/media/v4l2-core/v4l2-common.c | 11 ++++++++---
+> > > >  include/media/v4l2-mediabus.h         |  2 ++
+> > > >  2 files changed, 10 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > > index 01650aed7c30..ff859a340c5d 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > > @@ -506,13 +506,18 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
+> > > >  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> > > >  			     unsigned int div)
+> > > >  {
+> > > > +	struct v4l2_mbus_config mbus_config = {};
+> > > >  	struct v4l2_subdev *sd;
+> > > > +	int ret;
+> > > >
+> > > >  	sd = media_entity_to_v4l2_subdev(pad->entity);
+> > > > -	if (!sd)
+> > > > -		return -ENODEV;
+> > > > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
+> > > > +			       &mbus_config);
+> > > > +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> > > > +		return ret;
+> > >
+> > > Should we do like what we did with endpoint matching ? (let alone the
+> > > fact we then backtracked on that.. :)
+> >
+> > Hmm. What exactly are you suggesting?
+> >
 > 
-> This makes it impossible to increase the test pattern clock frequency
-> from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
-> pattern the DPLL frequency have to be increase instead to compensate for
-> this. The frequency selected is found by experimentation as the MAX96724
-> datasheet is much sparser then what's available for MAX96712.
-
-There is a specific User Guide for this chip[1] (under NDA) which 
-describes the test pattern
-clock frequency.
-
-| Debug Extra 0x9 [1:0] | PATGEN_CLK_SRC (0x1dc [7]) | PCLK Frequency |
-|                       |       Pipe 0               |                |
-|-----------------------|----------------------------|----------------|
-| 00                    | x                          | 25  MHz        |
-| 01                    | x                          | 75  MHz        |
-| 1x                    | 0                          | 150 MHz        |
-| 1x                    | 1 (default)                | 375 MHz        |
-
-
-PATGEN_CLK_SRC
-Pipe 0 0x1dc
-Pipe 1 0x1fc
-Pipe 2 0x21c
-Pipe 3 0x23c
-
-
-The document also mention that "This internal Pclk is NOT related to the 
-MIPI CSI
-port clock rate" so increasing the dpll should not increase the pattern 
-generation
-clock.
-
-Perhaps increasing the DPLL allows to transmit more data on the CSI port 
-because the pattern
-generator is running at a higher clock rate than what we expect.
-
-Best regards,
-Julien
-
-[1]: GMSL2_Customers_MAX96724 User Guide (rev2)
+> See below
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->   drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
->   1 file changed, 21 insertions(+), 5 deletions(-)
+> > >
+> > > WARN to encourage tx drivers to implement get_mbus_config and
+> > > advertise the link freq through it ?
+> >
+> > Why? If the value is conveyed by the control, there's no reason to copy it
+> > here, is it?
+> >
 > 
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index ea67bcf69c9d..69a0a6a16cf9 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -17,8 +17,10 @@
->   #include <media/v4l2-subdev.h>
->   
->   #define MAX96712_ID 0x20
-> +#define MAX96724_ID 0xA7
->   
->   #define MAX96712_DPLL_FREQ 1000
-> +#define MAX96724_DPLL_FREQ 1200
->   
->   enum max96712_pattern {
->   	MAX96712_PATTERN_CHECKERBOARD = 0,
-> @@ -31,6 +33,7 @@ struct max96712_priv {
->   	struct gpio_desc *gpiod_pwdn;
->   
->   	bool cphy;
-> +	bool max96724;
->   	struct v4l2_mbus_config_mipi_csi2 mipi;
->   
->   	struct v4l2_subdev sd;
-> @@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
->   
->   static void max96712_mipi_configure(struct max96712_priv *priv)
->   {
-> +	unsigned int dpll_freq;
->   	unsigned int i;
->   	u8 phy5 = 0;
->   
-> @@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
->   	max96712_write(priv, 0x8a5, phy5);
->   
->   	/* Set link frequency for PHY0 and PHY1. */
-> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
->   	max96712_update_bits(priv, 0x415, 0x3f,
-> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
-> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
->   	max96712_update_bits(priv, 0x418, 0x3f,
-> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
-> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
->   
->   	/* Enable PHY0 and PHY1 */
->   	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
-> @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
->   	}
->   
->   	/* PCLK 75MHz. */
-> -	max96712_write(priv, 0x0009, 0x01);
-> +	if (!priv->max96724)
-> +		max96712_write(priv, 0x0009, 0x01);
->   
->   	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
->   	max96712_write_bulk_value(priv, 0x1052, 0, 3);
-> @@ -290,6 +296,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
->   
->   static int max96712_v4l2_register(struct max96712_priv *priv)
->   {
-> +	unsigned int dpll_freq;
->   	long pixel_rate;
->   	int ret;
->   
-> @@ -303,7 +310,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
->   	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
->   	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
->   	 */
-> -	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
-> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
-> +	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
->   	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
->   			  pixel_rate, pixel_rate, 1, pixel_rate);
->   
-> @@ -419,8 +427,15 @@ static int max96712_probe(struct i2c_client *client)
->   	if (priv->gpiod_pwdn)
->   		usleep_range(4000, 5000);
->   
-> -	if (max96712_read(priv, 0x4a) != MAX96712_ID)
-> +	switch (max96712_read(priv, 0x4a)) {
-> +	case MAX96712_ID:
-> +		break;
-> +	case MAX96724_ID:
-> +		priv->max96724 = true;
-> +		break;
-> +	default:
->   		return -ENODEV;
-> +	}
->   
->   	max96712_reset(priv);
->   
-> @@ -444,6 +459,7 @@ static void max96712_remove(struct i2c_client *client)
->   
->   static const struct of_device_id max96712_of_table[] = {
->   	{ .compatible = "maxim,max96712" },
-> +	{ .compatible = "maxim,max96724" },
->   	{ /* sentinel */ },
->   };
->   MODULE_DEVICE_TABLE(of, max96712_of_table);
+> My understanding is that using get_mbus_config() is preferred, but
+> yes, if the control is in place the same value should be propagated
+> through both path, which is probably a biy silly, yeah.
+
+The problem is that few drivers implement get_mbus_config() and they
+actually shouldn't if the configuration is fixed. I've actually thought of
+adding a helper to obtain the information in struct v4l2_mbus_config from
+the V4L2 fwnode endpoint but it's not implemented.
+
+> 
+> Ok, ignore the suggestion then
+> 
+> > >
+> > > >
+> > > > -	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> > > > +	return mbus_config.link_freq ?:
+> > > > +		__v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+> > > >  #endif /* CONFIG_MEDIA_CONTROLLER */
+> > > > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> > > > index 5bce6e423e94..cc5f776dc662 100644
+> > > > --- a/include/media/v4l2-mediabus.h
+> > > > +++ b/include/media/v4l2-mediabus.h
+> > > > @@ -148,6 +148,7 @@ enum v4l2_mbus_type {
+> > > >  /**
+> > > >   * struct v4l2_mbus_config - media bus configuration
+> > > >   * @type: interface type
+> > > > + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
+> > > >   * @bus: bus configuration data structure
+> > > >   * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
+> > > >   *		  Used if the bus is parallel or BT.656.
+> > > > @@ -162,6 +163,7 @@ enum v4l2_mbus_type {
+> > > >   */
+> > > >  struct v4l2_mbus_config {
+> > > >  	enum v4l2_mbus_type type;
+> > > > +	u64 link_freq;
+> > >
+> > > I will retaliate that link_freq has different meaning for serial and
+> > > parallel busses, and it would feel more natural having something like
+> > >
+> > > mipi_csi2.link_freq
+> > > parallel.pixel_clock
+> > >
+> > > or do you think it's an overkill ?
+> >
+> > How is the meaning different? The value reflects the frequency on both
+> > buses.
+> 
+> The meaning is slightly different. For a parallel bus the "link_freq"
+> is actually the pixel clock (and thus "link_freq" is an ill-defined concept
+> for parallel busses ?). For serial busses there actually is a "link
+> frequency" which corresponds to the clock lane frequency.
+
+It's not different on parallel buses: there's a clock signal, too, and the
+data lines do use the same frequency. The frequency of that clock is the
+link frequency. The pixel clock can be different still as multiple samples
+on the bus may be required to obtain a single pixel.
+
+> 
+> In general, however we define it, the link_freq is a bus property and
+> feels better placed inside the per-bus structures to me.
+> 
+> Up to you
+> 
+> >
+> > >
+> > > >  	union {
+> > > >  		struct v4l2_mbus_config_parallel parallel;
+> > > >  		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+> >
 
 -- 
-Julien Massot
-Senior Software Engineer
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales, no. 5513718
+Kind regards,
+
+Sakari Ailus
 
