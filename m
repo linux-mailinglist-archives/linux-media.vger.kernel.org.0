@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-12095-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12096-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388888D1DD8
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 16:05:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0558D1DDC
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 16:05:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E68C1C2223B
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 14:05:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68D37283E79
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 14:05:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B55716F825;
-	Tue, 28 May 2024 14:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD5E816F8F0;
+	Tue, 28 May 2024 14:05:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC6116D4E5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCE616DEA5
 	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 14:05:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716905130; cv=none; b=gcgxu78IONfGz4MnYseTvsqTz3GJLjFERwxBWqaSg30/w4/o4ncy4M4WP5xvRmwjOIG1SWJWoMUoPZzxeV/8UwkNCR424ZioXHz2oarE0Vvs4hMIkRCqcrcejBUnHWXbKUMPoaYvjJBX6f97gO3DkZJkqAklrM3ztw/5F8LQm6A=
+	t=1716905131; cv=none; b=c/yz6ITwxOkJGrn9a3vPaPKCCyw24fH32KyCt0K2YzvSifi1KVw1KnhSCiPgpWokmRYvEBmt0ZFfNkNJ8+1+bdJEItasByxHkOQudkA9T03GXFYrLPfnx5iBkYBghKHyTqkivGZ37ujrq5TRT9OV1+ZntJVRfeo6/6acz+T5OJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716905130; c=relaxed/simple;
-	bh=17H2HqzkwyFVyWVjZkx69YeNHefga/HqGfhqEINEiDE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fHT8gKAmDtVE8WIyzh5whAWro6H47qgD26Ut2qXVSYVGe6D/HjbJTmHv5N+Tzw1jppwWJUPKF17B9UKXcLOcBHNKjI0Sozr43ShpZwb9XWPsbF4sAGwmKw5t83AEWFASwODENenQCByVt2XfLS/wljJdbwcrgUfQ77wzpYXVdoo=
+	s=arc-20240116; t=1716905131; c=relaxed/simple;
+	bh=Dqus7hH5cnhMZ9d8yBxqGyEs4dYgB8Emd/ABmEovwQU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=c/y4GSOvQ4UMOpc78lk+DV+OZcRlJ26UTgFRU81uzw540OmYBYsQJW4vvlVV4mZROutHvUR4IpK5xB9MQfu7TVqmZ7AxrmAOLRyISEj0KUU5FGJmnps25foxKOppF6VWwojn/zsd03U1LOgFL59hBjJAHykADHhCJlEmq8jIcFo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.tretter@pengutronix.de>)
-	id 1sBxS0-0005wE-N7; Tue, 28 May 2024 16:05:16 +0200
+	id 1sBxS0-0005wE-OR; Tue, 28 May 2024 16:05:16 +0200
 From: Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH 0/2] media: rockchip: rga: fix v4l2-compliance errors
-Date: Tue, 28 May 2024 16:05:12 +0200
-Message-Id: <20240528-rk3568-rga-v1-0-b946e55d9d37@pengutronix.de>
+Date: Tue, 28 May 2024 16:05:13 +0200
+Subject: [PATCH 1/2] media: rockchip: rga: fix field in OUTPUT buffers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -44,9 +44,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJjkVWYC/0WNQQqDMBBFryKzbjDGpkqvUlzEyUSHQpRJKIJ4d
- 6Obrj4P/uPtkEiYEryrHYR+nHiJBZpHBTi7OJFiXxiMNk9tTa/k29pXmcmpEELjvUaDnYUijC6
- RGsVFnC8l0pbrvKyM9V+6fqtQ4O2OfobjOAF4IILphAAAAA==
+Message-Id: <20240528-rk3568-rga-v1-1-b946e55d9d37@pengutronix.de>
+References: <20240528-rk3568-rga-v1-0-b946e55d9d37@pengutronix.de>
+In-Reply-To: <20240528-rk3568-rga-v1-0-b946e55d9d37@pengutronix.de>
 To: Jacob Chen <jacob-chen@iotwrt.com>, 
  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -60,27 +60,37 @@ X-SA-Exim-Mail-From: m.tretter@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Fix the Streaming ioctl tests reported by v4l2-compliance for the
-Rockchip RGA driver.
+Returned buffers shouldn't contain V4L2_FIELD_ANY as field. Set the
+field to V4L2_FIELD_NONE, if it isn't set.
 
-Patch 1 fixes the field of the returned buffers and Patch 2 the sequence
-numbers.
-
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
-Michael Tretter (2):
-      media: rockchip: rga: fix field in OUTPUT buffers
-      media: rockchip: rga: fix sequence number handling
+ drivers/media/platform/rockchip/rga/rga-buf.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
- drivers/media/platform/rockchip/rga/rga-buf.c | 15 +++++++++++++++
- drivers/media/platform/rockchip/rga/rga.c     |  4 ++++
- drivers/media/platform/rockchip/rga/rga.h     |  3 +++
- 3 files changed, 22 insertions(+)
----
-base-commit: 8771b7f31b7fff91a998e6afdb60650d4bac59a5
-change-id: 20240528-rk3568-rga-fff1dd0c2c75
+diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
+index 662c81b6d0b5..77c7535893e3 100644
+--- a/drivers/media/platform/rockchip/rga/rga-buf.c
++++ b/drivers/media/platform/rockchip/rga/rga-buf.c
+@@ -119,6 +119,16 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
+ 	if (IS_ERR(f))
+ 		return PTR_ERR(f);
+ 
++	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
++		if (vbuf->field == V4L2_FIELD_ANY)
++			vbuf->field = V4L2_FIELD_NONE;
++		if (vbuf->field != V4L2_FIELD_NONE) {
++			v4l2_err(&ctx->rga->v4l2_dev, "Unsupported field %s\n",
++				 v4l2_field_names[vbuf->field]);
++			return -EINVAL;
++		}
++	}
++
+ 	for (i = 0; i < vb->num_planes; i++) {
+ 		vb2_set_plane_payload(vb, i, f->pix.plane_fmt[i].sizeimage);
+ 
 
-Best regards,
 -- 
-Michael Tretter <m.tretter@pengutronix.de>
+2.39.2
 
 
