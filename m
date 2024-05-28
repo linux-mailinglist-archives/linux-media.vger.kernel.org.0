@@ -1,100 +1,177 @@
-Return-Path: <linux-media+bounces-12054-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12055-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC028D13FB
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 07:38:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D04F8D142F
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:09:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8DE91C21A98
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 05:38:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A3ACA1F21CAE
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 06:09:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E517A4D11B;
-	Tue, 28 May 2024 05:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083D34F207;
+	Tue, 28 May 2024 06:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="PEieZndG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGeO0ygB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C4917E8FF;
-	Tue, 28 May 2024 05:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC58DF6B
+	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 06:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716874698; cv=none; b=TjlNviJGtMA7bk4/4RPIsIhM/D8Wa878+HpdpuZ5RZUH7Q412eDP3OODw+4ZgcPXprwtixcG3JB0F7jhIWKerxb73d5xPg6Vyk7pKC8bFrIsJyrCLPqZoLh72k0oQuk+cNPDFMQXyqSkiS3OCNGws+zGDPBbuRTiSFvHX+f+9QI=
+	t=1716876559; cv=none; b=CmqFX+h7f01TVEjTiZDqE1YqXd2vvobqmZQ90+Zu8rWsiAnBMLbt/cK9iGcJnjePPQI51ldqb5Whk/HGEba77Djt07oFOkrEHNx/lJiU2qUxu1PVzHX0tKKRy2zssTExv/qu8MDkSWmq0Qa23VGrFbmcsEM0bny4PyJ+oyhnm+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716874698; c=relaxed/simple;
-	bh=4xaH1vcTb5D0zK65qdwc7aYjq4DbETqLNC0LaBilIWg=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=pGe6havEKJd7d59Jz28XIXJYQcDHuAiC/snrA0RjAoal+s/VKHnfiYNRVUbCB/+uji/r0s6uE0QmmBLAr3byRt6pehzDvGcuHy9C47qJmvt+m3hKFeqUFV9IkqD94H9LJsZcNbBF/iWMr1mrax+jmTB1bhEgzH883UCxIsznDBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=PEieZndG; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1716874686; x=1717479486; i=markus.elfring@web.de;
-	bh=4xaH1vcTb5D0zK65qdwc7aYjq4DbETqLNC0LaBilIWg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=PEieZndGlQzwVywZbemaLni1FvyP5K/1sS3dDPOqDNGDyoLaI9Zvw6pM94h9j0dB
-	 jzwDmpVilDfHj0ewhVJk2Zqso1QhKF6lDN1xZMWQU8VNRym96ePqvKoNIZaXjvjYw
-	 J7w3D8Wmt9h2xwWGs/99w2fT8q49aYn2OIxYZ73Bi9KaIBhU6f+KSUKN+1/23zP9N
-	 CqdEh1kanpkVN8rdfcHQg0laHVugHaITEF+MmloaaTVLVLyOUDeMz5HLsM5U/xJF6
-	 In54DFB+yOeUsQMrYMKaUlqIXXWnSbqmZVREr/utqMb1QVH73k7gv/DBxBw/hf/FP
-	 FZF5D5ZN/Ah9Pd6d0g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MA4fI-1sNL2y1mYs-00BcGq; Tue, 28
- May 2024 07:38:06 +0200
-Message-ID: <eda2a849-c23a-4624-85da-78a2fdef4fe9@web.de>
-Date: Tue, 28 May 2024 07:37:50 +0200
+	s=arc-20240116; t=1716876559; c=relaxed/simple;
+	bh=ADyt6tZ5dT8q907PgMs4FTsLTOQPQYt5e9LY3SbUHRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPBoqwl8xJEtjuq5Jcis4hsYp4VTNlxcDNgFnQeMo2t6WYr2kfNIbEnl4p/NLYFtPXOAkBYkf4W7glXbfgdAukRoHuwWs10e2HHMLDBsuVDSJDRDfT6Ujgh+PCh7tJi6ydap9fLWXuGCUH8SHzsaA/4dMVoU4ZQUwktizbwahVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGeO0ygB; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716876557; x=1748412557;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ADyt6tZ5dT8q907PgMs4FTsLTOQPQYt5e9LY3SbUHRw=;
+  b=hGeO0ygBuIYJcJkWq08466XIScP6tGpGF5fweF4PWub3bB8U5suwL7j1
+   owEqY3zkGXRdef8lpxKqS1Qh39DwGlcr0Ete9FAFQqakRsrb/L1jkvQ1L
+   U5h4j0rhWDuDEagmFDS223nPs0MjIp9wb2dQMEimNlw/wi/7XulDF3j8Z
+   P1XL1ybKHnKYM47rEVJS06iJDoJJAOsdZroPpsxtHFZEoqSzA+FlNMmNH
+   DHRJYiyL3WVJ6bXUh73mhx53YQG6LsE5KqS6+svDSI8VdNmkpHrtimLry
+   SXWyQMbKRycXRi2jXCYiLGvOtb78zmKtyU5pautQao4H3XFl/94rULhKH
+   Q==;
+X-CSE-ConnectionGUID: 61SUIzOBTGGm0sk+2RQuxA==
+X-CSE-MsgGUID: kzKPcePUSeOPh3aHScwvXg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="12975391"
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="12975391"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 23:09:16 -0700
+X-CSE-ConnectionGUID: 4KuR4NA+Qw61D22omb5R5A==
+X-CSE-MsgGUID: iFlvT29zRx2FFHTnXFPNsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="72367831"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 23:09:16 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 84C7111FA4A;
+	Tue, 28 May 2024 09:09:12 +0300 (EEST)
+Date: Tue, 28 May 2024 06:09:12 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Wentong Wu <wentong.wu@intel.com>
+Subject: Re: [PATCH v6 2/4] media: v4l: Support obtaining link frequency via
+ get_mbus_config
+Message-ID: <ZlV1CAEpU8eqSeTM@kekkonen.localdomain>
+References: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
+ <20240516122539.30787-3-sakari.ailus@linux.intel.com>
+ <auogsnxxlad6e43phqhtu4njj5vzps5njmvuk7fcmiitnj4imn@dms3jrdfyi3s>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Yongsu Yoo <yongsuyoo0215@gmail.com>, linux-media@vger.kernel.org,
- Hyunwoo Kim <v4bel@theori.io>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <20240308121338.1983-1-yongsuyoo0215@gmail.com>
-Subject: Re: [PATCH] media: dvb_ca_en50221: Add a returing EBUSY logic into
- CA_RESET
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240308121338.1983-1-yongsuyoo0215@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wWgN9eCFVmmqVlMBdWuJXKl29yHP8BqWvp1V9JUy7CUsJtNdq+E
- 4xgm9KzyWi07q9r152vgoHsVuSHslkfk/3Boe5aCRu8nEKkTEVAaSUj7XlgDfn3B1fGOazs
- KEYUK7HSXLEkbaO97ctDbS+8z8VGsVZ7qV+bAeglc/LBibZqZFA8shW2QUCLyhbe0s1W5z+
- XHnLtNPvy/0iHbM9KSXZw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:B1t3tgGFvP0=;K9KFOl0638mo7D18LQHGpgEBpfd
- QI0TrJcB0Bx51Ldvmvl1dLoTXvUKQdfg+53ryTxJAnxVrlDmNgk1bf1IzMGasPYGpcCH4uMMn
- GsE425jL/PnYVOTThj7R19nDACyzG5YRB9k8cfMTHZtz53oezh3bzNFcwCowN4dSqujvjt9TE
- PkoSWpDaJuEE/roTUbBUEpYfS0BwXmDw4k7aTirvLWzkHG+mduQRtK/XSIT4MrCNftDQZ8ddH
- xEsGNncjO86xABaTh8Yr5E+BWzGv40M/aWBIBDbWkPIf7y64zVHpGpIv40Qv3pa+pm1WUCLwk
- 0uJ1Q1Fjc2McZppOXIltb/m+oDHt1hoHV4I5kof2Qirn9BnUiH7GM2KzOoCwVmbdrBbX7T5Bi
- /5lHN7W3QfMQbQ+Sfy2/mWsRW2MBm57ENcQok02aHA8eGtlR8DYzr9qtHF/fID5oXw/R8uh7k
- IO6TRxHJ8E5wOy9iM5bpWXisG545WqkLccvrjXyvaDxUY1s+dbiEqgcqTSyEUtgd7XderKEna
- +lVeHtc9EQYpVi5GRpnzNoF2b0ZW2k7/xmAPqaTcNcDGlwRKuPpiVDERz4GVHZcb9pWnhE1qD
- V7MOIDeKzMcDw9EVxjghkjnXALtQnX/vTusSO3zRBqtYA9PVIIhpg/Oh7mExtVFeC0ozCbkYv
- Mg76N3LATfOkxBmMI/NWdZNch81gPYcGMuvK2nixsOEKO5sGZM2bgnDzKWkV2Rt0Tkp3BwzjY
- +yBW0OQjhfsLTHFPFL4wDKEtpgjMRYmB8NM7Vdom+tU4DjrestRvxLqAWhEdD6VxTDfhsGpy2
- YWyMKNww/C+G8tKmYPh+Q/zk/leyeYnB5bLDaCYsig16g=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auogsnxxlad6e43phqhtu4njj5vzps5njmvuk7fcmiitnj4imn@dms3jrdfyi3s>
 
-=E2=80=A6
-> For preventing this problem from happening, we make CA_RESET ioctl do
-> nothing and only return EBUSY if the ioctl is called during the
-> "transiting" states.
+Hi Jacopo,
 
-Would you like to avoid any typos (in the summary phrase)?
+On Fri, May 17, 2024 at 12:31:43PM +0200, Jacopo Mondi wrote:
+> On Thu, May 16, 2024 at 03:25:37PM GMT, Sakari Ailus wrote:
+> > Add link_freq field to struct v4l2_mbus_config in order to pass the link
+> > frequency to the receiving sub-device.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-common.c | 11 ++++++++---
+> >  include/media/v4l2-mediabus.h         |  2 ++
+> >  2 files changed, 10 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > index 01650aed7c30..ff859a340c5d 100644
+> > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > @@ -506,13 +506,18 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
+> >  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> >  			     unsigned int div)
+> >  {
+> > +	struct v4l2_mbus_config mbus_config = {};
+> >  	struct v4l2_subdev *sd;
+> > +	int ret;
+> >
+> >  	sd = media_entity_to_v4l2_subdev(pad->entity);
+> > -	if (!sd)
+> > -		return -ENODEV;
+> > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
+> > +			       &mbus_config);
+> > +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> > +		return ret;
+> 
+> Should we do like what we did with endpoint matching ? (let alone the
+> fact we then backtracked on that.. :)
 
-Regards,
-Markus
+Hmm. What exactly are you suggesting?
+
+> 
+> WARN to encourage tx drivers to implement get_mbus_config and
+> advertise the link freq through it ?
+
+Why? If the value is conveyed by the control, there's no reason to copy it
+here, is it?
+
+> 
+> >
+> > -	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> > +	return mbus_config.link_freq ?:
+> > +		__v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> >  }
+> >  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+> >  #endif /* CONFIG_MEDIA_CONTROLLER */
+> > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> > index 5bce6e423e94..cc5f776dc662 100644
+> > --- a/include/media/v4l2-mediabus.h
+> > +++ b/include/media/v4l2-mediabus.h
+> > @@ -148,6 +148,7 @@ enum v4l2_mbus_type {
+> >  /**
+> >   * struct v4l2_mbus_config - media bus configuration
+> >   * @type: interface type
+> > + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
+> >   * @bus: bus configuration data structure
+> >   * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
+> >   *		  Used if the bus is parallel or BT.656.
+> > @@ -162,6 +163,7 @@ enum v4l2_mbus_type {
+> >   */
+> >  struct v4l2_mbus_config {
+> >  	enum v4l2_mbus_type type;
+> > +	u64 link_freq;
+> 
+> I will retaliate that link_freq has different meaning for serial and
+> parallel busses, and it would feel more natural having something like
+> 
+> mipi_csi2.link_freq
+> parallel.pixel_clock
+> 
+> or do you think it's an overkill ?
+
+How is the meaning different? The value reflects the frequency on both
+buses.
+
+> 
+> >  	union {
+> >  		struct v4l2_mbus_config_parallel parallel;
+> >  		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
