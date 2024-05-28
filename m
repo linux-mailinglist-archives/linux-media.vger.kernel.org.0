@@ -1,153 +1,135 @@
-Return-Path: <linux-media+bounces-12092-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12093-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4528D1D9E
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 15:54:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A0D8D1DC4
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 15:58:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5238A2824D8
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 13:54:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1445283349
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 13:58:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 065C716F8E7;
-	Tue, 28 May 2024 13:53:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 481A216F28D;
+	Tue, 28 May 2024 13:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VMHF84Sz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBAE13AD30
-	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 13:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555E816ABD5
+	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 13:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716904380; cv=none; b=QNxYa/FUj+ft645Y0y5tI3YXfJs8YR6t/7THtxGvNmY52d43BFuwnoFuWr7CKPyiKL7jKCnIKW/i83mDI43tX2UzrYmeytm/HcfkchPjuK2buDU1SA49+CmWXn1iHxKDWs2wMcmL1DKBHwlzYvBlS6asy1G740GN+kJktqFWDl0=
+	t=1716904723; cv=none; b=vA3/Q70pb6l1SvlpJk93Ya/dwupgn9WZjrw+5fJ6lpwNZDb817JI5kdzzIPUXDOVRqJhDJXQZ2RMixG2k1AHHzbc/eLT5x/Ejvu3wt7xeitjg6PXeCUhapcwA3ja5wS7O7LwoTMr3YAtkjdRuY6rIcTiZ7+DWdAOBHIYP04j76Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716904380; c=relaxed/simple;
-	bh=3Pj74Nu4ktesHuDG3HthgKkc3BF0Puu51mhNC0syUjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L2RmfRZZeOWkbwaHi8WgJVeAPt/slkzF1ZZfde8uahRA0Ahw+wbaIkZVI5yGUbXgZ7RdwTDzHzEJu33tboAAJZK2DKPttJdVqJsgTLn2XbaNjEoIhas4zfu4rxrczcuwWp5aEdE3lCGUPtjbp/V5alq1b0N/xtZPRid2oI+4ZO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sBxFG-0003PP-VL; Tue, 28 May 2024 15:52:06 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sBxFE-003Kql-Le; Tue, 28 May 2024 15:52:04 +0200
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sBxFE-001NEu-1o;
-	Tue, 28 May 2024 15:52:04 +0200
-Date: Tue, 28 May 2024 15:52:04 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v3 01/18] media: allegro: nal-hevc: Replace array[1] with
- arrray[N]
-Message-ID: <ZlXhhPtE0EP8PE-L@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20240527-cocci-flexarray-v3-0-cda09c535816@chromium.org>
- <20240527-cocci-flexarray-v3-1-cda09c535816@chromium.org>
+	s=arc-20240116; t=1716904723; c=relaxed/simple;
+	bh=TKnCfkAVaoR5k11Y8L0f97Y9/r4L5dww9OcYJvQwv/g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GDkLd+ZLR76ymBgkB1cJXyNyxUeAhDaAvKmqkcWElitzak7KMFxcJjzf+Pg7OKaJ5X5U+6+hC5TgVnYcbaqz9cyCfF2OSE4xIEJb059MxcrD3DxFgp+Kz4Qu/B3nkPuJORGB469/T9lUweTtTymyTh9xRYDsy92gQs0XSpHirRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VMHF84Sz; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716904721;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=54PHYlJ0PDEnDWhop/PaR+jnOIH2PsxLKNR7Lww/RKs=;
+	b=VMHF84Szi7wSXjM9HU8RbBOhYLezt1AQtx5BkQ38lg+9tMI2fQJDpZ1faS/U8TqgKB35LY
+	qbQbdgysOkeKafhStWvk8/qYtxNGrPy4Fw7jSI2Lil3pPLFC6B4oGjz4/uYY1kiSTQz9n9
+	q+YXEGW4RINCI3HAkgfJZFUjwY/j55s=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-333-J2JRXQn8Pwu6lj8pRZMygA-1; Tue, 28 May 2024 09:58:39 -0400
+X-MC-Unique: J2JRXQn8Pwu6lj8pRZMygA-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a62b36bc187so51742866b.3
+        for <linux-media@vger.kernel.org>; Tue, 28 May 2024 06:58:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716904718; x=1717509518;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=54PHYlJ0PDEnDWhop/PaR+jnOIH2PsxLKNR7Lww/RKs=;
+        b=oZzRWg7U1VfGZZDI7MvDeqDBNQYDfCLvBPPTbehsy1QTUjzvY5OWekNyYcyDhU4F60
+         EYzoWpuj0zidoHSv9VWdd2JkeZKq4b5eV4WSAQov2akfi57Pr5zQgwJFHgk8kWi6Hw5E
+         Tk+HnHs2flBtO71sJ3mNlNe/WPReZgEwHlUC45lfz5OxFOaEuinpT4l1fTAcBWn3fkCe
+         RuLNHbmVpmToZBEX2iwfvnFeD9UyhkzD96H7OOOZS0ciundV1nwlLBHLE5eLIsuAVUM5
+         0yOnbBvlm74pXA29MtjXIJTuLj+GinBH6ZcQx+Tm/rgzMaTvBVl6p2pmHtqreKwPUTuU
+         /DwA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+PmJ57xu7mjMHJUviqfUu1d7vaxMvLgGQ+0pFEKvwb1LMVEU0m/ML5c8trvnHt44thMKvixTXQ5AJqK9T963e0txk8aV7485UXJE=
+X-Gm-Message-State: AOJu0YxYuWWjF8nDtAVsbetYe01a40h0KHIUzQdGDqzx378DtgjlHGmn
+	mgjq7HhW9a/PEb3CFtpb9LDRVWPZszuqFoM/SOGPeE31ftpMbz6kii2zHCdZLjgcI8VX2iVITvC
+	slHbnA3flknKtYvugs4uV3YvoZck8g/CnMJny664qr949rKUYWJfR2lTgB2uf
+X-Received: by 2002:a17:906:bc42:b0:a62:3c94:3bd2 with SMTP id a640c23a62f3a-a6265011270mr904384766b.73.1716904718494;
+        Tue, 28 May 2024 06:58:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEQIR74emKom8ATw+snuAUy13d6llophtQiniGptcCuWj8oFnstnUM6NEvnixIbkTAxpA1/sA==
+X-Received: by 2002:a17:906:bc42:b0:a62:3c94:3bd2 with SMTP id a640c23a62f3a-a6265011270mr904382466b.73.1716904718020;
+        Tue, 28 May 2024 06:58:38 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f28:4600:d3a7:6c26:54cf:e01e? (p200300d82f284600d3a76c2654cfe01e.dip0.t-ipconnect.de. [2003:d8:2f28:4600:d3a7:6c26:54cf:e01e])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626c818362sm617978566b.34.2024.05.28.06.58.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 May 2024 06:58:37 -0700 (PDT)
+Message-ID: <93ee4e04-bdc7-4ac6-b93b-b6cf1b3311af@redhat.com>
+Date: Tue, 28 May 2024 15:58:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240527-cocci-flexarray-v3-1-cda09c535816@chromium.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] udmabuf: add CONFIG_MMU dependency
+To: Arnd Bergmann <arnd@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dave Airlie <airlied@redhat.com>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20240528133138.2237237-1-arnd@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+In-Reply-To: <20240528133138.2237237-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Typo in the subject: arrray -> array
-
-On Mon, 27 May 2024 21:08:51 +0000, Ricardo Ribalda wrote:
-> Structures that have a single element array as the last field can be
-> mistaken as a "flex array".
+Am 28.05.24 um 15:31 schrieb Arnd Bergmann:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> We could replace all the single element arrays in the structure with
-> single element fields, but this driver prefers to follow the ITU-T H.265
-> specification, which defines it as an array.
+> There is no !CONFIG_MMU version of vmf_insert_pfn():
 > 
-> If we introduce a new define N_HRD_PARAMETERS, we make clear our
-> intentions.
-
-N_HRD_PARAMETERS -> N_HRD_PARAMS
-
+> arm-linux-gnueabi-ld: drivers/dma-buf/udmabuf.o: in function `udmabuf_vm_fault':
+> udmabuf.c:(.text+0xaa): undefined reference to `vmf_insert_pfn'
 > 
-> This fixes this cocci warning:
-> drivers/media/platform/allegro-dvt/nal-hevc.h:102:14-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-With that fixed
-
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
-
+> Fixes: f7254e043ff1 ("udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/media/platform/allegro-dvt/nal-hevc.h | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>   drivers/dma-buf/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.h b/drivers/media/platform/allegro-dvt/nal-hevc.h
-> index eb46f12aae80..361e2f55c254 100644
-> --- a/drivers/media/platform/allegro-dvt/nal-hevc.h
-> +++ b/drivers/media/platform/allegro-dvt/nal-hevc.h
-> @@ -96,10 +96,11 @@ struct nal_hevc_vps {
->  	unsigned int extension_data_flag;
->  };
->  
-> +#define N_HRD_PARAMS 1
->  struct nal_hevc_sub_layer_hrd_parameters {
-> -	unsigned int bit_rate_value_minus1[1];
-> -	unsigned int cpb_size_value_minus1[1];
-> -	unsigned int cbr_flag[1];
-> +	unsigned int bit_rate_value_minus1[N_HRD_PARAMS];
-> +	unsigned int cpb_size_value_minus1[N_HRD_PARAMS];
-> +	unsigned int cbr_flag[N_HRD_PARAMS];
->  };
->  
->  struct nal_hevc_hrd_parameters {
-> 
-> -- 
-> 2.45.1.288.g0e0cd299f1-goog
-> 
-> 
+> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> index e4dc53a36428..b46eb8a552d7 100644
+> --- a/drivers/dma-buf/Kconfig
+> +++ b/drivers/dma-buf/Kconfig
+> @@ -35,6 +35,7 @@ config UDMABUF
+>   	default n
+>   	depends on DMA_SHARED_BUFFER
+>   	depends on MEMFD_CREATE || COMPILE_TEST
+> +	depends on MMU
+>   	help
+>   	  A driver to let userspace turn memfd regions into dma-bufs.
+>   	  Qemu can use this to create host dmabufs for guest framebuffers.
+
+Acked-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
