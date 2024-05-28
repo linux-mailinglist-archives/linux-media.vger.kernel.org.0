@@ -1,110 +1,110 @@
-Return-Path: <linux-media+bounces-12086-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12087-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B15D8D1ADE
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 14:15:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA5E8D1B60
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 14:35:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 441EA1F23C35
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 12:15:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59D7428348A
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 12:35:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BA516D9BE;
-	Tue, 28 May 2024 12:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F2E716D9DB;
+	Tue, 28 May 2024 12:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ce0sU6II"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ACr2K2eA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D272A16D9AA;
-	Tue, 28 May 2024 12:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230A116D4FD;
+	Tue, 28 May 2024 12:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716898491; cv=none; b=OfYDpdfoAKjfkgRrYI0+bLvvEo5Ypw8tgoJZegT+/KBuZ8/pXoOe7QtkDtBwduD12ElAzRGzsSytqke/wGbWsyP1J7IR7tWuhl+1t5s3xcscIVZp4DUzhb63IClLLcEtrnRKAq21pPptyEq5BcD3oYNB1qbzckSvB9I/VxvIgSo=
+	t=1716899736; cv=none; b=AWEg1Fmc4O3UHxA1Vp1X09gnjfzAeDyTT/0RBi8ENX87E52Ct2kJ/f3j49+8fhRo1/GC3YlPeTleKhZu/rP0FSVLe4iAlIJxjL28STC7AjbICCXpzeKTGhrkkQBfYGs/+YfSQ8oBszTZTXLnWsoznYbIoQ98d4npKnqu0cfdw0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716898491; c=relaxed/simple;
-	bh=L39FFAsBDHkHQVYAW/Ix5OFoXJhPv4wzbtSy45KM1iI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZKbk2x7fz5bWy488SVO/TKmUthRLT78ifE/JEchW5zSVEhrAxxvhlbmMrT8BRMs3+wlHyCULD73/mlgc0I5dHfODkknHpSNVShHo3Mjo95lxQfzpCORtz67xKJNpj1oJ2kVP+LgUpdPSYyIuzI7FNX8uvCnrR1E5vyN4hELzSgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ce0sU6II; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-66afccbee0cso554085a12.1;
-        Tue, 28 May 2024 05:14:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716898489; x=1717503289; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UieDD2+MqhqP6aiIKPwGaG506R3jOmJuxnuUxcg0fe4=;
-        b=ce0sU6IITdqr+6KaMNcekXdJLlrxghDt5X8XxnfFOMDXqEU4i9kf+0g9heN3YxWS7g
-         pA95jKNcDcjrrz3OjqHeon14gx1dPqKuVZ38xXTgU4aYWTubBKgZ8qrwxMd98HR+z4dr
-         22O1QiWbPqMJjvLMEOMa0156IknJmvjo4Qqq88XhXOHYS807dSy73ysJEPsAAOMlAgga
-         Awu69NF5oTqEE/aTGj3QW4+PPSwD33tMN2b2z36MVCgE2Gj88xcCgPxedw/WcgYmLjoI
-         hb6i6C2wUsYVP+r+SWP79na1tokDvSXcTXdiNFht0lt/D/rDyzIsrfOUjDZGrEhyE+84
-         fYjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716898489; x=1717503289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UieDD2+MqhqP6aiIKPwGaG506R3jOmJuxnuUxcg0fe4=;
-        b=kp96npnt+7NJAPHVy3Lae4yTyl6++YTrd8FTPCYAIbkPzIUnYAPdvb1WiCwhLAfrRA
-         VHJX1JWptsVPxifT+KmXNcXYlY6ZkEiyzFy/AjXMdQlIuVnpxx9nOup8zYVukjulyNw5
-         c1VKMNNe9tOXcs3YGrIiLO+BiFC6DiE/BCXwnPT2LmgJftwkBe5JIhANwAQvprir5gkk
-         sPwbMh/Qk0ghjNwVaRVjTqZWGUCjVWjkG7R6yp+mUMEeh6B86thaC4jinTX142mYnJks
-         4gic+zX9FRutiWawtcpm3MxFgb5DIilJ8IiRvdb/U9SX1uJCF1G8ccVlHmUGwvgyJ7SA
-         2Tyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWgPngWrJwBAWwWbBKN3LhnODUDTFw6ywxmbneACUpUyv6NqeoprNtuUP4V7TLdeKBS2BfYEmNqIlXqPIo4lZXXK3N/wOLiXrwsmGTm
-X-Gm-Message-State: AOJu0YyzSjSDNCYCltR8UDdfUBRc3w1K4qK3SQMEFIQ5vhfOl8+4VKvu
-	TcfGyBi1vaHA6evaTkIbukeNOL40bViTSaXIrXMGKTVLK5yE7T+DCg2yjruI0bviwUU15inoY/S
-	idiqCVbzpX0hdKZ8S+4aCrR+QzJM=
-X-Google-Smtp-Source: AGHT+IFl4OX11PN1S6gDoGJ4yyQ47x2DwJtENvVxXqKfNBdUsWrUqGNtWzRw/CPEBWgD1RgosLspC1FIhfa/iTXzgGc=
-X-Received: by 2002:a17:90b:4d92:b0:2bf:e6f1:59ed with SMTP id
- 98e67ed59e1d1-2bfe6f15b4amr3547022a91.32.1716898488882; Tue, 28 May 2024
- 05:14:48 -0700 (PDT)
+	s=arc-20240116; t=1716899736; c=relaxed/simple;
+	bh=vTQPFxcOsTHxGRqAdJFPPFa+Rb8dSXj7HjENu91SDyI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sVTC78ttM44rgqL38+lDKGTdJEpf+jMP6HksQZhP01YuRj5BAijwIicGVgLxxrlRxXDWOmwPer/GA4UAHjVOI8kIso6YJbanP2SYQKOph8UzdgjHnOfxxPK80aiulp0F0cJo5QIaGVzf5BxqJCoLuZs883Qkzsfv2opbHdSYPSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ACr2K2eA; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1716899714; x=1717504514; i=markus.elfring@web.de;
+	bh=vTQPFxcOsTHxGRqAdJFPPFa+Rb8dSXj7HjENu91SDyI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=ACr2K2eAeyTIVkV9Vcu+9u/8VT+q+ib95KwOaCJ4moCnwqInR8b+UnW67zXyWvel
+	 V64Hj8odu1G/0YXwP8ICDYY63jPRMheTYwBjreGsdr4sBH1ZXzYcUL4fZQ12moQ6u
+	 La4kByvDuCkhO7uNZ7f+C9O90hvQMvr2CW3KcVf1+8+aG9yWAvn8GxJ7IxDumi1QW
+	 sL7/1Wo0lQ/qhNZTJnILJ3gwwra5j1hMdrZFlvZFn32Y7zC1JJNWmIVsKcSZ/AWvt
+	 mkwsnsPgY/q6RgziixDN/bgOj/kt5byuDDT0N6PGQsmXEjO5RrZTWahQO7D8hgG+O
+	 /QGiV1taOrmecuNjEg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N79NA-1sYrlO1GaC-00yBen; Tue, 28
+ May 2024 14:35:14 +0200
+Message-ID: <044e1b22-83ab-4abe-8d7a-04edf038868b@web.de>
+Date: Tue, 28 May 2024 14:35:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240308121338.1983-1-yongsuyoo0215@gmail.com> <eda2a849-c23a-4624-85da-78a2fdef4fe9@web.de>
-In-Reply-To: <eda2a849-c23a-4624-85da-78a2fdef4fe9@web.de>
-From: YongSu Yoo <yongsuyoo0215@gmail.com>
-Date: Tue, 28 May 2024 21:14:37 +0900
-Message-ID: <CANXPkT5ggr8VbYdRy+uSnfHxDRES5arJJ8p+ist1CBTm-1xaUQ@mail.gmail.com>
-Subject: Re: [PATCH] media: dvb_ca_en50221: Add a returing EBUSY logic into CA_RESET
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-media@vger.kernel.org, Hyunwoo Kim <v4bel@theori.io>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, YongSu Yoo <yongsuyoo0215@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: media: dvb_ca_en50221: Add a returing EBUSY logic into CA_RESET
+To: YongSu Yoo <yongsuyoo0215@gmail.com>, linux-media@vger.kernel.org
+Cc: Hyunwoo Kim <v4bel@theori.io>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20240308121338.1983-1-yongsuyoo0215@gmail.com>
+ <eda2a849-c23a-4624-85da-78a2fdef4fe9@web.de>
+ <CANXPkT5ggr8VbYdRy+uSnfHxDRES5arJJ8p+ist1CBTm-1xaUQ@mail.gmail.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <CANXPkT5ggr8VbYdRy+uSnfHxDRES5arJJ8p+ist1CBTm-1xaUQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:7EvkIcrFfYAwUvzeJLbnHp2lP/rlbZybFeFB/C+3kTjCC+lgYc5
+ f6EJZ2hk0AIX0j/LpOwLcWputW6roeYz8R9sqCBFbOdZgaWf4BCOgNJCgvE7DtjCE1dpO87
+ INb+0eUcCBCaOYY04xjCbXBwd34vckogcVtmRxkkFIk9Ljv5Q94oiMOQaSDvI6ILJxAJUlq
+ jv8i2FFbZq3FM9BIq3vhg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:LIg5BihYShU=;FY3DpcWkUt3dvZ1PmOEelVxjEO2
+ QGp7pXuKEmx+HwEOnzNbf6v1kyXsRO63fzh4I1BSjYMPOee+9hOlTi59cqiEeAz4DgveZrcI2
+ uojo5mM6jes7Z4y+NIWSDablgO2QON0uYnp5Bdc8vqmoQpfFkLyS+QfFeAQmxV0NNjC9lY4Xp
+ 8MOaXkT1pZkV9X2QihMjLIP0yGR/OSHsoEYKf7Vr9rg/yJJn0yIwoIZU/SDKOYCtR0soRyHgX
+ CdG44W/11xg6wp5nsZTcFmTayoj8g08D8NAV14M99dLZPR6MhlHUEwv33MFPZqDxNkgLfLPTT
+ p3RGhbUfY/vcOM0ERF/RbZrUdiAdfB83a3M1dUTRlvp5VyKgDl+qb9OAi5y4ZmG531ns787GW
+ DBppQPqehzbr37yRHZHXPo8JtlCTiRIxABvC7lXAuXh+tzPCsPmU7y/o5YVyKfl6Zdm4YSlyG
+ UUlI89bMLI3KXvRWYTnSBkIm1XpwCsuFCPSstsoL0+UeTgx43GIylht8/z6pqM8DIL+Y8jQ00
+ diBTnvRItbL0dWX+K+KgWvrdgtgsf7yrvfUK3i6y3s640V2xet3CN5SVCpdDT470HGOIaJ1LJ
+ Q4nMZNscyUsmLUb5kwKqwJYc3jzkyPDS7xRIfHMLjLYNEnvdLqD9Qbn2CNZLiewhPjBznrZ2x
+ YQqcFJhsMZmHqBAAfwGVAQ/lE8Xj2TlFNC7nI6Z0agwEgOWV26yMwcyjgbqRAl3Boc8FFh3oU
+ nwEklyR+q9I0bskZxQyi+RHBxD5i38cCNwwu/DJq5rwGI6ekrH9DrwdQG9qCtfwM9YJ5NTRla
+ tSXRwyPaK2XE+BYOJComdAXk+JtIRGt+IvYeo5NmqGWVI=
 
-Dear Markus Elfring
+> In response to what you suggested, is it OK if I use Gmail
 
-Initially, I sent this E-mail using the below command
-"....git send-email --to  mchehab@kernel.org,
-linux-media@vger.kernel.org, xxxxxxxxxxx.patch. ..."
+It depends on a proper configuration of preferred message tools.
 
-In response to what you suggested, is it OK if I use Gmail and attach
-a new patch ?
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/email-clients.rst?h=v6.10-rc1#n341
 
 
-2024=EB=85=84 5=EC=9B=94 28=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 2:38, M=
-arkus Elfring <Markus.Elfring@web.de>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+> and attach a new patch ?
 
->
-> =E2=80=A6
-> > For preventing this problem from happening, we make CA_RESET ioctl do
-> > nothing and only return EBUSY if the ioctl is called during the
-> > "transiting" states.
->
-> Would you like to avoid any typos (in the summary phrase)?
->
-> Regards,
-> Markus
+Unlikely.
+
+You may respond with subsequent patch versions which contain hopefully
+a more appropriate summary phrase and improved change descriptions.
+
+Regards,
+Markus
 
