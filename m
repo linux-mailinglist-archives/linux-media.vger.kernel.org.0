@@ -1,36 +1,55 @@
-Return-Path: <linux-media+bounces-12063-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12064-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCE88D1592
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 09:55:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E05DB8D15C7
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:04:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EE96280FA8
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 07:55:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C133B229E3
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:04:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2EB3745C2;
-	Tue, 28 May 2024 07:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A490F13A3F3;
+	Tue, 28 May 2024 08:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="tDnjsbrU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9793E73455;
-	Tue, 28 May 2024 07:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6D078676;
+	Tue, 28 May 2024 08:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716882937; cv=none; b=kGcCbHBxEHz9D4OVc+mVC8ZPQ34aNS85QePchpGYLNYMRlOGnSdQvMGM/YDnTqgb4a2AS+vjNU5AVm+D0aI/CBnszRuviizvNr5aF87jnkbtHHtWqhIR9dSaucgrt3hCsdntlbHCKeK/cFlaE1XwF0/p6We3BZyKYAI/9C5aOWY=
+	t=1716883488; cv=none; b=nZaXn03aaeIdxmlpRgMowPKI2jN5TMrA74k4amI1Ddp2c1oWOI4S+lh0jnjJJxX/G0ygk4A40k3d6P5mmUk16zRiSGii6gwEZC2SNlrO/nYOnAvxxoA0Fqz/1Fc+PUqWCvIqk8OC7zg1pIdVTsjzTGPhWGlmPhPMEsVUpPQJSak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716882937; c=relaxed/simple;
-	bh=1EkBW8lDpZh1PWg2EvwlMNTwmwSt2yEYD3D320dGqGo=;
+	s=arc-20240116; t=1716883488; c=relaxed/simple;
+	bh=jGnnV0FLE1BrjAgUOW5YIKAOxWaHCUeGAngP7Y+0Q54=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IWvZlWXoe4JgJvqgTf4m5T9Y9bPpkxkDvXle8Gg5RABTPizdPKSwSiYyq3j0N441G/IhDIYIrU2L9vfQ41eyWBki/IispVD+pBIiCJHXPnahr5N5nIByOrO3IXV8CbYLPsX0RMz/MNaB1YnIw8EnCjVLo3Xj+jqYG6woMozqzrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B293C32781;
-	Tue, 28 May 2024 07:55:34 +0000 (UTC)
-Message-ID: <7d06c6e4-c555-4117-a22b-5c614d7f6f8a@xs4all.nl>
-Date: Tue, 28 May 2024 09:55:32 +0200
+	 In-Reply-To:Content-Type; b=YZ8beEexvk40s36Sbamd3zoLnw2TcWki8HyLW4eXFqxe4J2JM4hg/XH42l9Dsf1a2Mn83y+7ytzNfnVJIY0ZzmIozNZVmtvrTmvQkmhDcuKfgvj14JzvxDfDX2BU+bpkn0HLYUIHbhAoia7ky8hgNEaTVV77rWQ/Xe8bSmdMlDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=tDnjsbrU; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716883479;
+	bh=jGnnV0FLE1BrjAgUOW5YIKAOxWaHCUeGAngP7Y+0Q54=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tDnjsbrU5Y8ZDuPJ42S9f+ovjR//4qEGGgvP8OYGnvGuyc9qg4bZ11qKnJEvg9vHl
+	 lN37Kmnarw46UfH+owPamclo0BnAz5lIJeeVoshfFHUdAWsO4wppp/35wdqA9/fWCJ
+	 a9d4td4Eq4ugeXsazURqhu3c6l0B5bZq169nuK98Sm6Oi+Ks7UPta8an1eXCA/05ND
+	 rCzZNmyMuJTbkufTufgHKyk2o7MP42/G0gGhPLckogDhl8ltq6DJ9t3mW/jc6dwceb
+	 bYtlqBcE1prtb2GM3QAvgx7zRyQEpyCmTjfaTVpTUnRlForxoREqFbdUQnpe6thDNI
+	 Cs+xlNsFtST0g==
+Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id EB5BC378020A;
+	Tue, 28 May 2024 08:04:38 +0000 (UTC)
+Message-ID: <4f3ea360-f17f-4a91-bbdc-08caebb977a7@collabora.com>
+Date: Tue, 28 May 2024 10:04:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,94 +57,181 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] media: uvcvideo: stop stream during unregister
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Max Staudt <mstaudt@chromium.org>,
- Tomasz Figa <tfiga@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Alan Stern <stern@rowland.harvard.edu>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240327-guenter-mini-v4-0-49955c198eae@chromium.org>
- <20240327-guenter-mini-v4-1-49955c198eae@chromium.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240327-guenter-mini-v4-1-49955c198eae@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] media: staging: max96712: Add support for MAX96724
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: linux-renesas-soc@vger.kernel.org
+References: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 27/03/2024 09:24, Ricardo Ribalda wrote:
-> uvc_unregister_video() can be called asynchronously from
-> uvc_disconnect(). If the device is still streaming when that happens, a
-> plethora of race conditions can happen.
+Hi Niklas,
+
+On 5/27/24 3:34 PM, Niklas Söderlund wrote:
+> The MAX96724 is almost identical to the MAX96712 and can be supported by
+> the same driver, add support for it.
 > 
-> Make sure that the device has stopped streaming before exiting this
-> function.
+> For the staging driver which only supports patter generation the big
+> difference is that the datasheet (rev 4) for MAX96724 do not describe
+> the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
+> not clear if this register is removed or moved to a different offset.
+> What is known is writing to register 0x0009 have no effect on MAX96724.
 > 
-> If the user still holds handles to the driver's file descriptors, any
-> ioctl will return -ENODEV from the v4l2 core.
+> This makes it impossible to increase the test pattern clock frequency
+> from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
+> pattern the DPLL frequency have to be increase instead to compensate for
+> this. The frequency selected is found by experimentation as the MAX96724
+> datasheet is much sparser then what's available for MAX96712.
+
+There is a specific User Guide for this chip[1] (under NDA) which 
+describes the test pattern
+clock frequency.
+
+| Debug Extra 0x9 [1:0] | PATGEN_CLK_SRC (0x1dc [7]) | PCLK Frequency |
+|                       |       Pipe 0               |                |
+|-----------------------|----------------------------|----------------|
+| 00                    | x                          | 25  MHz        |
+| 01                    | x                          | 75  MHz        |
+| 1x                    | 0                          | 150 MHz        |
+| 1x                    | 1 (default)                | 375 MHz        |
+
+
+PATGEN_CLK_SRC
+Pipe 0 0x1dc
+Pipe 1 0x1fc
+Pipe 2 0x21c
+Pipe 3 0x23c
+
+
+The document also mention that "This internal Pclk is NOT related to the 
+MIPI CSI
+port clock rate" so increasing the dpll should not increase the pattern 
+generation
+clock.
+
+Perhaps increasing the DPLL allows to transmit more data on the CSI port 
+because the pattern
+generator is running at a higher clock rate than what we expect.
+
+Best regards,
+Julien
+
+[1]: GMSL2_Customers_MAX96724 User Guide (rev2)
 > 
-> This change make uvc more consistent with the rest of the v4l2 drivers
-> using the vb2_fop_* and vb2_ioctl_* helpers.
-> 
-> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>   drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
+>   1 file changed, 21 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index bbd90123a4e76..17fc945c8deb6 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -1911,8 +1911,19 @@ static void uvc_unregister_video(struct uvc_device *dev)
->  		if (!video_is_registered(&stream->vdev))
->  			continue;
->  
-> +		/*
-> +		 * Serialize other access to the stream.
-> +		 */
-> +		mutex_lock(&stream->mutex);
-> +		uvc_queue_streamoff(&stream->queue, stream->type);
->  		video_unregister_device(&stream->vdev);
->  		video_unregister_device(&stream->meta.vdev);
-> +		mutex_unlock(&stream->mutex);
+> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+> index ea67bcf69c9d..69a0a6a16cf9 100644
+> --- a/drivers/staging/media/max96712/max96712.c
+> +++ b/drivers/staging/media/max96712/max96712.c
+> @@ -17,8 +17,10 @@
+>   #include <media/v4l2-subdev.h>
+>   
+>   #define MAX96712_ID 0x20
+> +#define MAX96724_ID 0xA7
+>   
+>   #define MAX96712_DPLL_FREQ 1000
+> +#define MAX96724_DPLL_FREQ 1200
+>   
+>   enum max96712_pattern {
+>   	MAX96712_PATTERN_CHECKERBOARD = 0,
+> @@ -31,6 +33,7 @@ struct max96712_priv {
+>   	struct gpio_desc *gpiod_pwdn;
+>   
+>   	bool cphy;
+> +	bool max96724;
+>   	struct v4l2_mbus_config_mipi_csi2 mipi;
+>   
+>   	struct v4l2_subdev sd;
+> @@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
+>   
+>   static void max96712_mipi_configure(struct max96712_priv *priv)
+>   {
+> +	unsigned int dpll_freq;
+>   	unsigned int i;
+>   	u8 phy5 = 0;
+>   
+> @@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
+>   	max96712_write(priv, 0x8a5, phy5);
+>   
+>   	/* Set link frequency for PHY0 and PHY1. */
+> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+>   	max96712_update_bits(priv, 0x415, 0x3f,
+> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+>   	max96712_update_bits(priv, 0x418, 0x3f,
+> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+>   
+>   	/* Enable PHY0 and PHY1 */
+>   	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
+> @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+>   	}
+>   
+>   	/* PCLK 75MHz. */
+> -	max96712_write(priv, 0x0009, 0x01);
+> +	if (!priv->max96724)
+> +		max96712_write(priv, 0x0009, 0x01);
+>   
+>   	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+>   	max96712_write_bulk_value(priv, 0x1052, 0, 3);
+> @@ -290,6 +296,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
+>   
+>   static int max96712_v4l2_register(struct max96712_priv *priv)
+>   {
+> +	unsigned int dpll_freq;
+>   	long pixel_rate;
+>   	int ret;
+>   
+> @@ -303,7 +310,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+>   	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
+>   	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
+>   	 */
+> -	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
+> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+> +	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
+>   	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
+>   			  pixel_rate, pixel_rate, 1, pixel_rate);
+>   
+> @@ -419,8 +427,15 @@ static int max96712_probe(struct i2c_client *client)
+>   	if (priv->gpiod_pwdn)
+>   		usleep_range(4000, 5000);
+>   
+> -	if (max96712_read(priv, 0x4a) != MAX96712_ID)
+> +	switch (max96712_read(priv, 0x4a)) {
+> +	case MAX96712_ID:
+> +		break;
+> +	case MAX96724_ID:
+> +		priv->max96724 = true;
+> +		break;
+> +	default:
+>   		return -ENODEV;
+> +	}
+>   
+>   	max96712_reset(priv);
+>   
+> @@ -444,6 +459,7 @@ static void max96712_remove(struct i2c_client *client)
+>   
+>   static const struct of_device_id max96712_of_table[] = {
+>   	{ .compatible = "maxim,max96712" },
+> +	{ .compatible = "maxim,max96724" },
+>   	{ /* sentinel */ },
+>   };
+>   MODULE_DEVICE_TABLE(of, max96712_of_table);
 
-This sequence isn't fool proof. You have to follow the same sequence as
-vb2_video_unregister_device(): take a reference to the video device,
-then unregister, then take the stream mutex and call vb2_queue_release
-for each queue. Finally unlock the mutex and call put_device.
-
-Doing the video_unregister_device first ensures no new ioctls can be
-called on that device node. Taking the mutex ensures that any still
-running ioctls will finish (since it will sleep until they release the
-mutex), and then you can release the queue.
-
-This does require that you call get_device before calling video_unregister_device,
-otherwise everything might be released at that point.
-
-Instead of vb2_queue_release() you might have to call uvc_queue_streamoff,
-but note that there are two queues here: video and meta. The code above
-just calls streamoff for the video device.
-
-For the meta device I think you can just use vb2_video_unregister_device()
-directly, since that sets vdev->queue and vdev->queue.lock to the correct
-values. That would just leave the video device where you need to do this
-manually.
-
-Regards,
-
-	Hans
-
-> +
-> +		/*
-> +		 * Now the vdev is not streaming and all the ioctls will
-> +		 * return -ENODEV
-> +		 */
->  
->  		uvc_debugfs_cleanup_stream(stream);
->  	}
-> 
-
+-- 
+Julien Massot
+Senior Software Engineer
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
