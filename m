@@ -1,116 +1,274 @@
-Return-Path: <linux-media+bounces-12083-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12085-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6CA8D1A43
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 13:51:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E82A58D1A93
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 14:04:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 025511F243F0
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 11:51:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE7011C2246A
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 12:04:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D7C16C871;
-	Tue, 28 May 2024 11:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D7616D337;
+	Tue, 28 May 2024 12:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dQFdbWeh"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="a+8kVL/1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A5816ABC1
-	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 11:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F8071753;
+	Tue, 28 May 2024 12:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716897108; cv=none; b=a2WmzGSGFb2siuNwUOoP5VZxrUPNbZ+ufjNmgzbaq7birEWGzALmzntUdKNO3dU4VLz0kbdIBa6O+E4Bw5i8tjBdT/OBTwAQl56I9HUCsW0d03DV2QLlAhdP9hwj+24/8iPCXNUWGwVVaOHnT40j1U2GLHzRv1H7HGjdK8tPNug=
+	t=1716897848; cv=none; b=hIUVMOKhPGQej/FWhHyLAIdK1J9Cn+fQ/XqVmL1RrKBXJ3+EhgB7U1EpdEDY//30O6J28yPw4PtmR8PH6ybNXOU5DpJmvZEnCOO4hBOsh2O7LtnfusrTYr6JzXRwQVF07YR4jE7aDYoq7A+FGP80ffUNEyFV9y5WsJJTGiG1btc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716897108; c=relaxed/simple;
-	bh=36uSHoMgxGER9AyqV5VeBnVW6VIdtXGcTbVwtzyKn44=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p10Oxz/wqA2Cm7gmKtvancSgQ6oRiozJdQ4cpJvsXkOZAc0nL+T9CVoHFK/V0pb87wBbkItUhEW6YRNz78lhp9Ni70Jt9OyvWTG2RxbxyhJ8urDdPPx/vjGcXzLVOxTuBI08Nseecp/pCmRtqTJ38tv8gElDYNbXiplzCxjmyic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dQFdbWeh; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-529597d77b4so885308e87.0
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2024 04:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716897104; x=1717501904; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SR0swcG5+QwWCJaol74s1Py1ngSe4OivircoLN7dDJU=;
-        b=dQFdbWehASHf/tLujjkM/47lteoefuZtqD5HGb60XiOhOQk+YBzrjbSqixd/SLTKQ1
-         RL72TDdx7kDYyJLlmdY8HYfNRUK2QmX2TuqaTDvBiB/gHhu0nIXLqhKXXa+JU4lgyTwv
-         uVvMzpuAAsbhJVxkZ4o1eubOW4vr/Orp7wSU5izS6Xqpf6rrEenleC4pIDKTP+fRMVkL
-         nZewdk3MqlcfHd+ehT+LhP/UKPjkX8pdry9kofOM4YagsyjszdAka9JtqalmsPgeAKJp
-         LPG/4+T7I2nkS+k6DOAZDILc0E/MSZQTcbh/yBrIQCT8+KV+iOdl8pD0Felfob8xRrTQ
-         zl3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716897104; x=1717501904;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SR0swcG5+QwWCJaol74s1Py1ngSe4OivircoLN7dDJU=;
-        b=E1iqizYLpa6BBZ6f7FWvrFVhCHaF44BWWZst0RzWXOmVAOP4dhXZGB7YUHjrUhStp7
-         QaP48fguH0ZnvJ/zQ78m1+xB5aB9HO4IWMzEQkjsy36JIBue33ObtE8WnhwACKMHj37M
-         PAdUz1HKhGZqXaZbxiYq/WyfasuWww182aFRIXKJvkOZpo7WJ5sWLaYhH34YXC0aK3gk
-         v1Oa2omVPJzvx1CwJChGk/GIjyssetWrauc2NIFHxCIPxEQdlHfmcOeumJljEiA20TII
-         8FpMXhO94gP0fAMcw5xQc+NfEcoLWILtu8PehgTygJE9kGHXhK7kfKLeAxfa0BsxAnOm
-         kTUg==
-X-Forwarded-Encrypted: i=1; AJvYcCUo2fSujVk/0jPW1CcvJSsp++I6XT/3ak/T2bKLIOZ5euMyMsotzqW7XNGqohZ+MeA3nvGc1DACOp7/Ik1EsTNU5Vu9gXqwmDqu/R4=
-X-Gm-Message-State: AOJu0Ywez9RR0QiifJWKrbtKh4dLU0ncT9vEp6N79EDYj6v03tgKZK3h
-	lB8b40i8xgQpCJz+kL5/iumvUqnKYmCyiOQpzFytZJ1mO2G01wGM09IpDvvW/mQ=
-X-Google-Smtp-Source: AGHT+IGtydr8Q+QTfb3HjbwnRs05//k8mxj1FHunYO466H8ygyz2l7N2XNJD5XCJREFfSTK3smXiaQ==
-X-Received: by 2002:a05:6512:3448:b0:51f:4096:dbca with SMTP id 2adb3069b0e04-52966ca92d9mr6185096e87.62.1716897104488;
-        Tue, 28 May 2024 04:51:44 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5297066b68csm941610e87.132.2024.05.28.04.51.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 04:51:44 -0700 (PDT)
-Date: Tue, 28 May 2024 14:51:42 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Marc Gonzalez <mgonzalez@freebox.fr>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Jeffrey Hugo <quic_jhugo@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Bryan O Donoghue <bryan.odonoghue@linaro.org>, MSM <linux-arm-msm@vger.kernel.org>, 
-	linux-media <linux-media@vger.kernel.org>, Pierre-Hugues Husson <phhusson@freebox.fr>, 
-	Arnaud Vrac <avrac@freebox.fr>
-Subject: Re: [PATCH v4 2/3] arm64: dts: qcom: msm8998: add venus node
-Message-ID: <xlsho2uayeay2yzws77donp7xrhwxndv6t6ehobevaszah23l2@risstyo3vhhv>
-References: <1cf08b56-a247-431b-a24b-69f563f49240@freebox.fr>
- <c2fca6c7-2421-42b4-a43d-68b251daf9b4@freebox.fr>
- <e187c5ab-0241-4a45-8d74-a33ec12deec6@freebox.fr>
- <b4a71be9-b888-4396-9eef-28c4a4f2b149@freebox.fr>
+	s=arc-20240116; t=1716897848; c=relaxed/simple;
+	bh=4Ge7JY7ImMa7q9IWrwIynuBy3wbZER4TVhCPOcJVMUc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MzxFlviGQbwRfWUK16N/Ngonl25SBiDKKAZUeW7vf2ciu8ReM6CJOLoDTF5JCcJebxkzcD2XJwF9mwLQyNSUoJKmpBxsSAqRONf2KPpeOgZBdmcCgrPxLzuHAAT3TggKmu21eigeTVSJ7cjqfvxWcagSdZTX8Cb8ipkqS2sAv6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=a+8kVL/1; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716897845;
+	bh=4Ge7JY7ImMa7q9IWrwIynuBy3wbZER4TVhCPOcJVMUc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=a+8kVL/1AnBdLfcK72sAD6H82pUvktcZEGpZKH57wplS47VeFJcfSYF+Frqhd6TjE
+	 K0gTasPiu+XE+xjeCZA/QocXMLlh7PFM4ex1PNNAanMnUCrDRDBbMzBra0pOk04DRj
+	 FYnV6V8w8Z9g5NCid1I/nnX+Y+HIPThv8S4EafJakIDufuj4mfw7k/A/O/ehNv30dJ
+	 TuOD5PJl2ToHMgA6FjxuvvFj3rnVdGfKTc4jyOv/2Xsqlr4au17dOXHpPcqjVqIZaX
+	 VqYoBgiNglBunsOQXq1VlKTMmpxxoS3XvBO7PE2fdL1Ayp4ofaAEmyh5KBq5ynmPC5
+	 faLTHXP8z0jtQ==
+Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9F68A378042B;
+	Tue, 28 May 2024 12:04:04 +0000 (UTC)
+Message-ID: <0a3c796c-2149-42a3-92d6-d45a0ccc78f0@collabora.com>
+Date: Tue, 28 May 2024 14:04:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b4a71be9-b888-4396-9eef-28c4a4f2b149@freebox.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: staging: max96712: Add support for MAX96724
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org
+References: <20240527133410.1690169-1-niklas.soderlund+renesas@ragnatech.se>
+ <4f3ea360-f17f-4a91-bbdc-08caebb977a7@collabora.com>
+ <20240528093750.GA420934@ragnatech.se>
+Content-Language: en-US
+From: Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <20240528093750.GA420934@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 28, 2024 at 12:49:54PM +0200, Marc Gonzalez wrote:
-> On 13/05/2024 10:51, Marc Gonzalez wrote:
+
+
+On 5/28/24 11:37 AM, Niklas Söderlund wrote:
+> Hi Julien,
 > 
-> > On 07/05/2024 11:29, Marc Gonzalez wrote:
-> > 
-> > Hello Bjorn,
-> > 
-> > This patch is supposed to be merged through one of your trees, right?
+> On 2024-05-28 10:04:37 +0200, Julien Massot wrote:
+>> Hi Niklas,
+>>
+>> On 5/27/24 3:34 PM, Niklas Söderlund wrote:
+>>> The MAX96724 is almost identical to the MAX96712 and can be supported by
+>>> the same driver, add support for it.
+>>>
+>>> For the staging driver which only supports patter generation the big
+>>> difference is that the datasheet (rev 4) for MAX96724 do not describe
+>>> the DEBUG_EXTRA register, which is at offset 0x0009 on MAX96712. It's
+>>> not clear if this register is removed or moved to a different offset.
+>>> What is known is writing to register 0x0009 have no effect on MAX96724.
+>>>
+>>> This makes it impossible to increase the test pattern clock frequency
+>>> from 25 MHz to 75Mhz on MAX96724. To be able to get a stable test
+>>> pattern the DPLL frequency have to be increase instead to compensate for
+>>> this. The frequency selected is found by experimentation as the MAX96724
+>>> datasheet is much sparser then what's available for MAX96712.
+>>
+>> There is a specific User Guide for this chip[1] (under NDA) which describes
+>> the test pattern
+>> clock frequency.
+>>
+>> | Debug Extra 0x9 [1:0] | PATGEN_CLK_SRC (0x1dc [7]) | PCLK Frequency |
+>> |                       |       Pipe 0               |                |
+>> |-----------------------|----------------------------|----------------|
+>> | 00                    | x                          | 25  MHz        |
+>> | 01                    | x                          | 75  MHz        |
+>> | 1x                    | 0                          | 150 MHz        |
+>> | 1x                    | 1 (default)                | 375 MHz        |
 > 
-> Bjorn, would you take patches 1 and 2 in your tree?
+> The same table exists in the MAX96712 users guide, which I do have.
 > 
-> Who would take patch 3?
+> The issue is that the datasheet for MAX96724 I found online do not list
+> the Debug Extra (0x9) register that is present on MAX96712. If you have
+> access to the full MAX96724 documentation could you check if it contains
+> the Debug Extra register and at which offset it is?
+No the Debug Extra register is not listed in the datasheet (rev4).
+Only in the User Guide and the Windows GUI.
+> 
+> I if treat MAX96724 as it is documented for MAX96712 I get an
+> unstable/distorted test pattern on MAX96724.
+Ok better to not write this register then :) there might be a reason 
+this register disappeared
+from the datasheet.
+> 
+>>
+>>
+>> PATGEN_CLK_SRC
+>> Pipe 0 0x1dc
+>> Pipe 1 0x1fc
+>> Pipe 2 0x21c
+>> Pipe 3 0x23c
+>>
+>>
+>> The document also mention that "This internal Pclk is NOT related to the
+>> MIPI CSI
+>> port clock rate" so increasing the dpll should not increase the pattern
+>> generation
+>> clock.
+>>
+>> Perhaps increasing the DPLL allows to transmit more data on the CSI port
+>> because the pattern
+>> generator is running at a higher clock rate than what we expect.
+> 
+> That is possible. I only have the limited register information found
+> online for MAX96724, so I can't compare the setup with MAX96712. But my
+> suspicion is that the test pattern clock is running slower on MAX96724
+> without the DEBUG_EXTRA write.
+> 
+> For MAX96712 the reset default value for DEBUG_EXTRA is 0x00, which if
+> this is also true for MAX96724 means the test pattern clock is running
+> at 25Mhz.
+> 
+> This fits with my observations. As without an increased DPLL I do get
+> frames, most only contain zero or a few line. But some contains 80+% of
+> the image. There is little distortion in color on each line, but there
+> are lines missing.
+> 
+> For example on the check pattern generation. The square "corners" lines
+> up perfectly, and the squares are the correct width, but not the correct
+> height, most of them are too short. I'm just happy I found a way to
+> generate a stable pattern on both devices from the documentation I have.
+> 
+> This driver is in staging as it only supports pattern generation and not
+> the GMSL side. My use-case is to have a video source to test the video
+> capture pipeline on Renesas SoCs where both MAX96712 and MAX96724 are in
+> use.
+> 
+>>
+>> Best regards,
+>> Julien
+>>
+>> [1]: GMSL2_Customers_MAX96724 User Guide (rev2)
+>>>
+>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>> ---
+>>>    drivers/staging/media/max96712/max96712.c | 26 ++++++++++++++++++-----
+>>>    1 file changed, 21 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+>>> index ea67bcf69c9d..69a0a6a16cf9 100644
+>>> --- a/drivers/staging/media/max96712/max96712.c
+>>> +++ b/drivers/staging/media/max96712/max96712.c
+>>> @@ -17,8 +17,10 @@
+>>>    #include <media/v4l2-subdev.h>
+>>>    #define MAX96712_ID 0x20
+>>> +#define MAX96724_ID 0xA7
+These identifiers seems incorrect
+#define MAX96712_ID 0xA0 (also valid for MAX96712B)
+#define MAX96724_ID 0xA2
+#define MAX96724F_ID 0xA3
+#define MAX96724R_ID 0xA4
 
-Per MAINTAINERS:
 
-Mauro Carvalho Chehab <mchehab@kernel.org> (maintainer:MEDIA INPUT INFRASTRUCTURE (V4L/DVB))
-linux-media@vger.kernel.org (open list:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
+>>>    #define MAX96712_DPLL_FREQ 1000
+>>> +#define MAX96724_DPLL_FREQ 1200
+>>>    enum max96712_pattern {
+>>>    	MAX96712_PATTERN_CHECKERBOARD = 0,
+>>> @@ -31,6 +33,7 @@ struct max96712_priv {
+>>>    	struct gpio_desc *gpiod_pwdn;
+>>>    	bool cphy;
+>>> +	bool max96724;
+>>>    	struct v4l2_mbus_config_mipi_csi2 mipi;
+>>>    	struct v4l2_subdev sd;
+>>> @@ -120,6 +123,7 @@ static void max96712_mipi_enable(struct max96712_priv *priv, bool enable)
+>>>    static void max96712_mipi_configure(struct max96712_priv *priv)
+>>>    {
+>>> +	unsigned int dpll_freq;
+>>>    	unsigned int i;
+>>>    	u8 phy5 = 0;
+>>> @@ -152,10 +156,11 @@ static void max96712_mipi_configure(struct max96712_priv *priv)
+>>>    	max96712_write(priv, 0x8a5, phy5);
+>>>    	/* Set link frequency for PHY0 and PHY1. */
+>>> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+>>>    	max96712_update_bits(priv, 0x415, 0x3f,
+>>> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+>>> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+>>>    	max96712_update_bits(priv, 0x418, 0x3f,
+>>> -			     ((MAX96712_DPLL_FREQ / 100) & 0x1f) | BIT(5));
+>>> +			     ((dpll_freq / 100) & 0x1f) | BIT(5));
+>>>    	/* Enable PHY0 and PHY1 */
+>>>    	max96712_update_bits(priv, 0x8a2, 0xf0, 0x30);
+>>> @@ -181,7 +186,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+>>>    	}
+>>>    	/* PCLK 75MHz. */
+>>> -	max96712_write(priv, 0x0009, 0x01);
+>>> +	if (!priv->max96724)
+>>> +		max96712_write(priv, 0x0009, 0x01);
+>>>    	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+>>>    	max96712_write_bulk_value(priv, 0x1052, 0, 3);
+>>> @@ -290,6 +296,7 @@ static const struct v4l2_ctrl_ops max96712_ctrl_ops = {
+>>>    static int max96712_v4l2_register(struct max96712_priv *priv)
+>>>    {
+>>> +	unsigned int dpll_freq;
+>>>    	long pixel_rate;
+>>>    	int ret;
+>>> @@ -303,7 +310,8 @@ static int max96712_v4l2_register(struct max96712_priv *priv)
+>>>    	 * TODO: Once V4L2_CID_LINK_FREQ is changed from a menu control to an
+>>>    	 * INT64 control it should be used here instead of V4L2_CID_PIXEL_RATE.
+>>>    	 */
+>>> -	pixel_rate = MAX96712_DPLL_FREQ / priv->mipi.num_data_lanes * 1000000;
+>>> +	dpll_freq = priv->max96724 ? MAX96724_DPLL_FREQ : MAX96712_DPLL_FREQ;
+>>> +	pixel_rate = dpll_freq / priv->mipi.num_data_lanes * 1000000;
+>>>    	v4l2_ctrl_new_std(&priv->ctrl_handler, NULL, V4L2_CID_PIXEL_RATE,
+>>>    			  pixel_rate, pixel_rate, 1, pixel_rate);
+>>> @@ -419,8 +427,15 @@ static int max96712_probe(struct i2c_client *client)
+>>>    	if (priv->gpiod_pwdn)
+>>>    		usleep_range(4000, 5000);
+>>> -	if (max96712_read(priv, 0x4a) != MAX96712_ID)
+>>> +	switch (max96712_read(priv, 0x4a)) {
+0x4a is a VDDCMP register you should read 0xd instead (DEV_ID)
+switch (max96712_read(priv, 0xd)) {
 
-
--- 
-With best wishes
-Dmitry
+>>> +	case MAX96712_ID:
+>>> +		break;
+>>> +	case MAX96724_ID:
+>>> +		priv->max96724 = true;
+>>> +		break;
+>>> +	default:
+>>>    		return -ENODEV;
+>>> +	}
+>>>    	max96712_reset(priv);
+>>> @@ -444,6 +459,7 @@ static void max96712_remove(struct i2c_client *client)
+>>>    static const struct of_device_id max96712_of_table[] = {
+>>>    	{ .compatible = "maxim,max96712" },
+>>> +	{ .compatible = "maxim,max96724" },
+>>>    	{ /* sentinel */ },
+>>>    };
+>>>    MODULE_DEVICE_TABLE(of, max96712_of_table);
+>>
+>> -- 
+Best Regards,
+Julien
 
