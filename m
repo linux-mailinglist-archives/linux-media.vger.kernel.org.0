@@ -1,133 +1,260 @@
-Return-Path: <linux-media+bounces-12099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDDE8D20C0
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 17:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371988D211D
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 18:04:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8E631F2355C
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 15:49:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A148C1F2684D
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 16:04:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C385171657;
-	Tue, 28 May 2024 15:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A50CC171E6C;
+	Tue, 28 May 2024 16:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UZQ8dRjg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wNrtwiXQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A5516DED4
-	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 15:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B54316C688
+	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 16:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716911350; cv=none; b=EN+PzQUdXKm+XlaxqYIvnaWhWpPHXazjTE100XRtrZAIiXlM6k+rQ4DkGhGhMA8yo28QZ/ylGLZGOMTOO//6PzkOOT1oXSgr/XNyprtouUWhAQRLxwTKEv4Qg+jiVvQbxWjQX9NnwQFxLRwcCi5uWkR94NYsL1xbGUxmKs+Kyic=
+	t=1716912277; cv=none; b=IcX8f42BOQlROex5lA9d9dSVHlJLSMwOiC+FwC6RpkgJYNKSuXVs2k4pOKVSKHapbN5PVIkcrXxDcYS5xVKWF4wKBExT/Wk6/yml5n6Vjz9Nmptmo8nqt0ATPZYEvZ0E8YPi8Kkg9Rl5wJxS6qMB5x5SasBz6QEu/c3c2zrewcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716911350; c=relaxed/simple;
-	bh=PA6ldRRGZPR55Vspgpvc2gbgSYz0hwE9+QO/CCHWNs8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NHxC7hO/3u7WTZi6AvO0LZ3sBSvahgHb8q3/P+5TEZAS6wBtDgJaH7W78gAX2SCcV5lnZ+l0yxt3t4ctQ6cRrnTmrS+tPliC+4EFX74rMJ/5kVvOZ0rMtlaZGo9+hxx8FWSEqlowKPLv/aRfWu3dowLcy+b8YAyV9QWo/yPQmQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UZQ8dRjg; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7ea34e637a6so4535539f.2
-        for <linux-media@vger.kernel.org>; Tue, 28 May 2024 08:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1716911348; x=1717516148; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cE3Oipmag/ieav6BFoSRNBz1laxZ2exyEi2fIqACAww=;
-        b=UZQ8dRjgET6XB3SqY5EXFfJdXmoULwZgqI0WGQJXY6H5uxipfySIw+T41xCBguk5kJ
-         tXW/gEpLsZLbzO/JNIKLllfTNB6AZA09oUK2DdaC82jejaM51+JqKp8N/8CIGMrBe3/0
-         Cxcs4haAo+QEkQNNzQJUWdxnmXb2RXTQl/wIM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716911348; x=1717516148;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cE3Oipmag/ieav6BFoSRNBz1laxZ2exyEi2fIqACAww=;
-        b=YKy9maMHO63DcuTUsYCkF1F5LO6TvBXXF4NO/+j/tn7mBbjISMGoSHteOFgzSjc3tV
-         oLPuvae22XZU0rPdZhMNrSvLX/2r+tXzbV5FhZJ+ushlcQhwLzq/DQ/4T+iyarDFaIxq
-         Dkm3PyjFlAC3yxrlUcHd+Ymcm7iPyV8cTFkprGW5slW1FztWO1/lOtYc39t1tz1P2e++
-         jH0cIGY3Kvig1BI/5414z3QYkGBRybXCHohh7OGgQIeSJ8YkgjspqEln9ocxn1/T/u7Z
-         DW7WbR95R3Ne9WQ/yfl1hA5xW5Z6UdlkMJUiMaHpJ6TEmmZe3a0YARVovgPameAZaLwv
-         t/2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUR4IEZC3qETY7N3N5CljCkQMCFxbSwIrmfRQcQibr3OgDur88kEWHeLCiJST0e18j9qfaxHXYv9xLMOJxkA55SSuJEPHvjqcifeVw=
-X-Gm-Message-State: AOJu0YxuH3MOm50ubHWa04nN/leuDzY5qif2+07R39qEsH2Hr7Idykw9
-	bWN4o9+WEhOWIo1bQiocxcdRfzCE3Ak7DjEZ9jQ2O2Nj6it3rKqDDCKWEloKBJSp3A5VOm7iB8s
-	O
-X-Google-Smtp-Source: AGHT+IHkjizk1lmfz+GG6haHtYEqXyvabAjlKAlTX1IbxEwCYNFbBUWUNm8rJx49cBEaGWik0t8cTA==
-X-Received: by 2002:a6b:7d43:0:b0:7de:e04b:42c3 with SMTP id ca18e2360f4ac-7e8c1adcaa7mr1344715639f.0.1716911348103;
-        Tue, 28 May 2024 08:49:08 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-7e903e0b783sm212004739f.4.2024.05.28.08.49.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 May 2024 08:49:07 -0700 (PDT)
-Message-ID: <f7f43200-17f0-47bb-8a5b-3a5534948067@linuxfoundation.org>
-Date: Tue, 28 May 2024 09:49:06 -0600
+	s=arc-20240116; t=1716912277; c=relaxed/simple;
+	bh=NZv8XK+LggAdHvIR9Zvf+zHLJi8FOoT2kQvDIUkl+IY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kmeTZ3iFjTCYcfNzmOkZutSr4aqTma4/niDoAvwboc49nNcVOhUyTpW9f2kq5fScRBjuSwVGdOToIUM61UEKalo9Cb1OK+Y8P7z6HOzDeQzGRK3Rk4IuHRg5UXYhK+d1+OBE1pj8m//e2ulQ16JhqoMZM0NF5KR1xdlxvkLQk1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wNrtwiXQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7B61471;
+	Tue, 28 May 2024 18:04:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1716912269;
+	bh=NZv8XK+LggAdHvIR9Zvf+zHLJi8FOoT2kQvDIUkl+IY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=wNrtwiXQhQnGDP2U14k7zdDZ9NwpHatgayK7Wh17QG10Ts8BwbEgZD/KI565V7YJv
+	 SyYfo7APXWWk0eofjJiDj7qO8luKKHNOhhESdXbTxDSrAOfVhaoUBjuxgbBpoIl1/v
+	 zpjj/7iWCh66Ir8gfU+qvfve7StgiMewaSg+kXTc=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v8 0/8]  media: raspberrypi: Add support for PiSP Back End
+Date: Tue, 28 May 2024 18:03:58 +0200
+Message-ID: <20240528160407.304178-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/9] media: vimc improvements
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
- <20240505203648.GA25270@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240505203648.GA25270@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/5/24 14:36, Laurent Pinchart wrote:
-> Hello,
-> 
-> On Thu, Apr 25, 2024 at 02:57:32AM +0300, Laurent Pinchart wrote:
->> Hello,
->>
->> This patch series cleans up and improves the vimc driver, with the end
->> goal of converting it to the V4L2 subdev active state API. The goal of
->> this exercise is to make the API used by a virtual test driver, to
->> increase test coverage.
->>
->> The series starts with 4 random cleanups, to avoid unnecessary
->> iterations (1/9), constify structures (2/9 and 3/9) and rename a
->> weirdly-named enum (4/9). Patch 5/9 then centralizes the subdev
->> internal_ops initialization to prepare for the switch to the active
->> state API. The remaining patches (6/9 to 9/9) convert the vimc entities
->> to the new API one by one.
->>
->> The result has been tested using the libcamera unit tests, which make
->> extensive use of the vimc driver, as well as with v4l2-compliance. The
->> latter reports 4 errors, but they occur already with the latest stage
->> master branch.
-> 
-> Any comment about this patch series ? Shuah, do you plan to give it a
-> look ? If you don't have much time for vimc these days that's OK, I can
-> work with Kieran to get the patches reviewed.
-> 
+v7->v8:
+- Remove multiple-contexts and remove `struct pispbe_node_group`
+- Address Sakari's style comments
+- Remove CONFIG_PM dependency
 
-Sorry for the delay. I will take a look and apply them for the next
-release.
+v6->v7:
+- Introduce uAPI headers earlier in the series to document them
+- kernel-doc uAPI types in pisp_be_config.h
+- Link pisp_be_config.h kernel documentation in metafmt documentation
 
-> On a related note, I would like to modify the MC pipeline of the vimc
-> driver to make it look more like a real ISP. This would help with unit
-> testing and compliance testing in libcamera. I briefly discussed this
-> with Hans on IRC who had no objection. If anyone has any issue or
-> concern with this plan, I would appreciate if you could let me know.
-> 
+v5->v6:
+- minor updates
+  If no further comments, I think the series is ready to be collected (for
+  v6.11)
 
-I am good with the plan.
+v5->v6:
+- Rebase on recent media_stage master branch
+  - Remove Y12 and Y14 formats as they have upstreamed already
+- Squash in patch from Naush from
+  https://github.com/raspberrypi/linux/pull/6140
 
-thanks,
--- Shuah
+v4->v5:
+- Address Sakari's style comments on the driver
+- Add Naush's tags
+
+v3->v4:
+- Rename the compressed RAW formats and change the page title
+- Minor fixes to the RGB48 documentation
+- Remove the clock name from bindings and driver
+
+v2->v3:
+- Expand documentation of RGB48 formats
+- Add back to the bindings the 'aclk' clock-names property
+  - Explicitly get the clock by name in the driver
+- minor fixes
+
+v1->v2:
+- Add Y12P and Y14P formats to yuv-luma.rst instead of documenting them
+  separately
+- Fix typos in formats and documentation
+- Adjust bindings as suggested during review
+- Fix admin-guide with an up-to-media media graph (remove the HOG node)
+- Add a patch to the driver to safely clean-up the video devices buffer queues
+  in case of errors
+  https://github.com/raspberrypi/linux/commit/9fcfb8ee070ecc2ca9b4fcf4629c4545f9cf178e
+
+Add support for the Raspberry Pi PiSP Back End memory-2-memory ISP.
+Documentation available at:
+https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+
+The PiSP Back End is the memory-2-memory ISP found on Raspberry Pi 5. In
+conjunction with the PiSP Front End, for which a driver is expected to
+hit mainline in the next weeks, it implements the Raspberry Pi 5 camera
+system.
+
+The ISP is fully supported in the Raspberry Pi libcamera version and once
+patches for the PiSP Front End will hit mainline the support will land in
+mainline libcamera as well.
+
+Patch based on media-stage master branch.
+
+A branch is available at
+
+git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
+#pispbe/media-staging/be-upstream-v8
+
+-------------------- Hans' build scripts build summary ------------------------
+date:                   Tue May 28 16:25:12 CEST 2024
+media-tree git repo:    git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
+media-tree git branch:  jmondi/pispbe/media-staging/be-upstream-v8
+media-tree git hash:    009fac2170dd037c036a95787175562bf5186e13
+v4l-utils git hash:     4a6a3725dd192759c2998311b00440b84c60df57
+edid-decode git hash:   5f723267e04deb3aa9610483514a02bcee10d9c2
+gcc version:            i686-linux-gcc (GCC) 13.1.0
+ccache version:         ccache version 4.7.5
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:         v0.5.0-8639-gff1cc4d4
+sparse version:         v0.5.0-8639-gff1cc4d4
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 745fc7cf5ba1a1a841374c61e8470852232584c1
+host hardware:          x86_64
+host os:                6.1.0-18-amd64
+
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: WARNINGS:
+
+drivers/media/pci/ivtv/ivtv-driver.c:1296 ivtv_probe() warn: 'itv->dec_mem' from ioremap() not released on lines: 1296.
+drivers/media/pci/ivtv/ivtv-driver.c:1296 ivtv_probe() warn: 'itv->enc_mem' from ioremap() not released on lines: 1296.
+
+COMPILE_TEST: WARNINGS: VIDEO_INTEL_IPU6
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+spec-git: OK
+kerneldoc: OK
+
+date:                   Tue May 28 17:31:58 CEST 2024
+-------------------------------------------------------------------------------
+
+--------------------------- V4L2 compliance -----------------------------------
+v4l2-compliance 1.27.0-5208, 64 bits, 64-bit time_t
+v4l2-compliance SHA: b13cb2cdedb2 2024-05-28 08:52:30
+
+Compliance test for pispbe device /dev/video0:
+Total for pispbe device /dev/video4: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video1:
+Total for pispbe device /dev/video4: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video2:
+Total for pispbe device /dev/video4: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video3:
+Total for pispbe device /dev/video4: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video4:
+Total for pispbe device /dev/video4: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video5:
+Total for pispbe device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video6:
+Total for pispbe device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+Compliance test for pispbe device /dev/video7:
+Total for pispbe device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
+-------------------------------------------------------------------------------
+
+Jacopo Mondi (7):
+  media: uapi: pixfmt-luma: Document MIPI CSI-2 packing
+  media: uapi: Add a pixel format for BGR48 and RGB48
+  media: uapi: Add Raspberry Pi PiSP Back End uAPI
+  media: uapi: Add meta pixel format for PiSP BE config
+  media: uapi: Add PiSP Compressed RAW Bayer formats
+  media: dt-bindings: Add bindings for Raspberry Pi PiSP Back End
+  media: admin-guide: Document the Raspberry Pi PiSP BE
+
+Naushir Patuck (1):
+  media: raspberrypi: Add support for PiSP BE
+
+ .../admin-guide/media/raspberrypi-pisp-be.dot |   20 +
+ .../admin-guide/media/raspberrypi-pisp-be.rst |  112 +
+ .../admin-guide/media/v4l-drivers.rst         |    1 +
+ .../bindings/media/raspberrypi,pispbe.yaml    |   63 +
+ .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+ .../media/v4l/metafmt-pisp-be.rst             |   56 +
+ .../userspace-api/media/v4l/pixfmt-bayer.rst  |    1 +
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    |   54 +
+ .../media/v4l/pixfmt-srggb8-pisp-comp.rst     |   74 +
+ .../media/v4l/pixfmt-yuv-luma.rst             |    4 +
+ MAINTAINERS                                   |    9 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/raspberrypi/Kconfig    |    5 +
+ drivers/media/platform/raspberrypi/Makefile   |    3 +
+ .../platform/raspberrypi/pisp_be/Kconfig      |   12 +
+ .../platform/raspberrypi/pisp_be/Makefile     |    6 +
+ .../platform/raspberrypi/pisp_be/pisp_be.c    | 1810 +++++++++++++++++
+ .../raspberrypi/pisp_be/pisp_be_formats.h     |  519 +++++
+ drivers/media/v4l2-core/v4l2-common.c         |    2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   13 +
+ .../linux/media/raspberrypi/pisp_be_config.h  |  927 +++++++++
+ .../linux/media/raspberrypi/pisp_common.h     |  199 ++
+ include/uapi/linux/videodev2.h                |   17 +
+ 24 files changed, 3910 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
+ create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-srggb8-pisp-comp.rst
+ create mode 100644 drivers/media/platform/raspberrypi/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_be_config.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_common.h
+
+--
+2.45.1
 
 
