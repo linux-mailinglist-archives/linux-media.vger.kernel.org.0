@@ -1,179 +1,131 @@
-Return-Path: <linux-media+bounces-12062-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12063-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2A38D1573
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 09:44:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCE88D1592
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 09:55:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C91FD284F63
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 07:44:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EE96280FA8
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 07:55:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ECE17346D;
-	Tue, 28 May 2024 07:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aQrAkp5O"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2EB3745C2;
+	Tue, 28 May 2024 07:55:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D537316E
-	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 07:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9793E73455;
+	Tue, 28 May 2024 07:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716882248; cv=none; b=Eii/bMpsuE24IEp6XoiMzih1th11194PwBBX07hlGipWWbd/1BNfxns02uKL4OFxBNEOEducZKtCKZrC9Lb6BS/RNsAvgEYJOXf1xNBmd8AJFlya5Sn8H8leiwoxNx5FvfcJpH4afDOLNROtxS/b+a/7PmfVxpdXF9pfJFhmSV0=
+	t=1716882937; cv=none; b=kGcCbHBxEHz9D4OVc+mVC8ZPQ34aNS85QePchpGYLNYMRlOGnSdQvMGM/YDnTqgb4a2AS+vjNU5AVm+D0aI/CBnszRuviizvNr5aF87jnkbtHHtWqhIR9dSaucgrt3hCsdntlbHCKeK/cFlaE1XwF0/p6We3BZyKYAI/9C5aOWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716882248; c=relaxed/simple;
-	bh=G82cS/oO4p7Z+EIUpSqRXWGdudTSYJJoH/uClaLU1Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cg1ht0zIFn67EydZRtnYqmPiNRZTiUNJJ5WodVgpJ/GMZOT1O4FBldlFZ5cVIxVLSLltgQzr0NsdlvpopTM3PzFvMSbfL5DfXYS7yvkdEv53j60pXFIeAxhncY+NSV3DJpN/Ij+LQXqPuo56YwWCVjB8DrS3jXQU+Dht3AjJNmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aQrAkp5O; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8C811495;
-	Tue, 28 May 2024 09:44:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716882241;
-	bh=G82cS/oO4p7Z+EIUpSqRXWGdudTSYJJoH/uClaLU1Bo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aQrAkp5OEGU8fZFsJXJJ/uaEv+kFi4dvv5l7KWAWCMMJZYZDfGpXrd/JbAkOUTrgP
-	 zEyEkN12lhIiWrizjmMtkmuwQZnEZf/brt7vj+ry7lEIxBeErwFLjcXnehSTIB/wBO
-	 a8f4/Gg8euXI/h2GpA3M83rXWA9LPUyXs96QCDcM=
-Date: Tue, 28 May 2024 09:44:01 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	David Plowman <david.plowman@raspberrypi.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v7 7/8] media: raspberrypi: Add support for PiSP BE
-Message-ID: <fa6vgerzbkdlrncuzawolnufirzfacpcvetjul75sts3huu6fs@74ledwj6q5mz>
-References: <20240524140024.161313-1-jacopo.mondi@ideasonboard.com>
- <20240524140024.161313-8-jacopo.mondi@ideasonboard.com>
- <ZlOimSRFNNt1fdN3@valkosipuli.retiisi.eu>
- <20240527011911.GD24374@pendragon.ideasonboard.com>
- <ZlQryf4bA4CsubPR@valkosipuli.retiisi.eu>
- <6oiill244e4bb4zsdd5x7kzrw62x4pq6vfmps6offh5qvfniyr@4u4xi4fparbk>
- <ZlR_-VL7hy5_Hhe4@valkosipuli.retiisi.eu>
- <20240527153924.GD1490@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1716882937; c=relaxed/simple;
+	bh=1EkBW8lDpZh1PWg2EvwlMNTwmwSt2yEYD3D320dGqGo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IWvZlWXoe4JgJvqgTf4m5T9Y9bPpkxkDvXle8Gg5RABTPizdPKSwSiYyq3j0N441G/IhDIYIrU2L9vfQ41eyWBki/IispVD+pBIiCJHXPnahr5N5nIByOrO3IXV8CbYLPsX0RMz/MNaB1YnIw8EnCjVLo3Xj+jqYG6woMozqzrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B293C32781;
+	Tue, 28 May 2024 07:55:34 +0000 (UTC)
+Message-ID: <7d06c6e4-c555-4117-a22b-5c614d7f6f8a@xs4all.nl>
+Date: Tue, 28 May 2024 09:55:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240527153924.GD1490@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] media: uvcvideo: stop stream during unregister
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Max Staudt <mstaudt@chromium.org>,
+ Tomasz Figa <tfiga@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20240327-guenter-mini-v4-0-49955c198eae@chromium.org>
+ <20240327-guenter-mini-v4-1-49955c198eae@chromium.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240327-guenter-mini-v4-1-49955c198eae@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent, Sakari
+On 27/03/2024 09:24, Ricardo Ribalda wrote:
+> uvc_unregister_video() can be called asynchronously from
+> uvc_disconnect(). If the device is still streaming when that happens, a
+> plethora of race conditions can happen.
+> 
+> Make sure that the device has stopped streaming before exiting this
+> function.
+> 
+> If the user still holds handles to the driver's file descriptors, any
+> ioctl will return -ENODEV from the v4l2 core.
+> 
+> This change make uvc more consistent with the rest of the v4l2 drivers
+> using the vb2_fop_* and vb2_ioctl_* helpers.
+> 
+> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index bbd90123a4e76..17fc945c8deb6 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1911,8 +1911,19 @@ static void uvc_unregister_video(struct uvc_device *dev)
+>  		if (!video_is_registered(&stream->vdev))
+>  			continue;
+>  
+> +		/*
+> +		 * Serialize other access to the stream.
+> +		 */
+> +		mutex_lock(&stream->mutex);
+> +		uvc_queue_streamoff(&stream->queue, stream->type);
+>  		video_unregister_device(&stream->vdev);
+>  		video_unregister_device(&stream->meta.vdev);
+> +		mutex_unlock(&stream->mutex);
 
-On Mon, May 27, 2024 at 06:39:24PM GMT, Laurent Pinchart wrote:
-> Hello,
->
-> On Mon, May 27, 2024 at 12:43:37PM +0000, Sakari Ailus wrote:
-> > On Mon, May 27, 2024 at 12:18:54PM +0200, Jacopo Mondi wrote:
-> > > On Mon, May 27, 2024 at 06:44:25AM GMT, Sakari Ailus wrote:
-> > > > On Mon, May 27, 2024 at 04:19:11AM +0300, Laurent Pinchart wrote:
-> > > > > > One API-based solution could be moving the IOCTL interface to MC device
-> > > > > > node only. This wouldn't be a small change so I'm not proposing doing that
-> > > > > > now.
-> > > > >
-> > > > > I think we could also use the request API. It is a bit more cumbersome
-> > > > > to use from a userspace point of view, but this driver is meant to be
-> > > > > used from libcamera, so we can isolate applications from the extra
-> > > > > burden.
-> > > > >
-> > > > > We will need to add support for formats in the request API (or rather
-> > > > > for requests in the format ioctls).
-> > > > >
-> > > > > From a kernel point of view, the helpers used by the codec drivers may
-> > > > > not be suitable for ISP drivers, but I don't think it would be very
-> > > > > difficult to implement other helpers is needed, isolating the ISP driver
-> > > > > from the complexity of the request API.
-> > > > >
-> > > > > This doesn't preclude developing a better userspace API with ioctls on
-> > > > > the MC device node only at a later point. If the above-mentioned kernel
-> > > > > helpers are done right, transitioning to a new userspace API will have
-> > > > > minimal impact on drivers.
-> > > >
-> > > > This is indeed the third feasible option. I agree. The work on the
-> > > > framework side might not be that much either.
-> > >
-> > > For the time being, I would like to move forward and merge the version
-> > > of the driver with a single enabled context.
-> > >
-> > > As you can see the driver multiples the contexts by creating two
-> > > groups
-> > >
-> > > The number of groups is defined by
-> > >
-> > > /*
-> > >  * We want to support 2 independent instances allowing 2 simultaneous users
-> > >  * of the ISP-BE (of course they share hardware, platform resources and mutex).
-> > >  * Each such instance comprises a group of device nodes representing input
-> > >  * and output queues, and a media controller device node to describe them.
-> > >  */
-> > > #define PISPBE_NUM_NODE_GROUPS 2
-> > >
-> > > Can I simply set this to 1 or should the driver be reworked to remove
-> > > the group concept completely (it will be quite some rework).
-> > >
-> > > You can guess what my preference is, and considering we want to
-> > > experiment with a different API the group part will possibily need to
-> > > be reintroduced.
-> >
-> > I believe you can also guess what my preference is. :-)
-> >
+This sequence isn't fool proof. You have to follow the same sequence as
+vb2_video_unregister_device(): take a reference to the video device,
+then unregister, then take the stream mutex and call vb2_queue_release
+for each queue. Finally unlock the mutex and call put_device.
 
-I can yes :)
+Doing the video_unregister_device first ensures no new ioctls can be
+called on that device node. Taking the mutex ensures that any still
+running ioctls will finish (since it will sleep until they release the
+mutex), and then you can release the queue.
 
-> > I don't expect we'll need the number of groups in the upstream driver.
-> >
+This does require that you call get_device before calling video_unregister_device,
+otherwise everything might be released at that point.
 
-No, not the number, you're right, it would be silly to keep the macro
-and define it to 1.
+Instead of vb2_queue_release() you might have to call uvc_queue_streamoff,
+but note that there are two queues here: video and meta. The code above
+just calls streamoff for the video device.
 
-I'm all for removing the for-loops that create and destroy groups and for
-removing from the group structure the fields that are now global
-(namely the v4l2_device, the subdev and the media_device), but I would
-like to keep the 'group' wrapper in-place, even if we'll end up having
-a single group in mainline.
+For the meta device I think you can just use vb2_video_unregister_device()
+directly, since that sets vdev->queue and vdev->queue.lock to the correct
+values. That would just leave the video device where you need to do this
+manually.
 
-> > Before deciding what to do here I'd like to arrive to a conclusion on how
-> > this gets addressed so the desired functionality is available in the
-> > upstream driver.
-> >
-> > Maybe the Request API is indeed something to consider here.
-> >
-> > I wonder what Laurent thinks.
->
-> Using the request API, we will still have contexts. Instead of having
-> one media device per context, the contexts will be dynamically
-> allocated, one per file handle. Would it be enough, as a first step
-> forward, to refactor the contexts and move the media device and other
-> related pieces out, keeping the fields that we expect will stay
-> per-context ?
->
+Regards,
 
-I suspect we'll have to re-introduce contexts somehow, that's the
-reason why I would like to keep the group structure in place.
+	Hans
 
-I can experiment with removing the global fields from the group and
-check how much refactoring does it take to do so.
+> +
+> +		/*
+> +		 * Now the vdev is not streaming and all the ioctls will
+> +		 * return -ENODEV
+> +		 */
+>  
+>  		uvc_debugfs_cleanup_stream(stream);
+>  	}
+> 
 
-> > > Also if we simply set PISPBE_NUM_NODE_GROUPS=1, the downstream RPi
-> > > kernel will solely need to have 1 patch that restores the value to 2
-> > > to be able to use the mainline kernel driver instead of keeping their
-> > > multi-context downstream version in use until multi-context is
-> > > finalized in mainline.
->
-> --
-> Regards,
->
-> Laurent Pinchart
 
