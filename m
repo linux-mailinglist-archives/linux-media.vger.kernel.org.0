@@ -1,219 +1,195 @@
-Return-Path: <linux-media+bounces-12065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12066-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A9F8D1600
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:13:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6028D160C
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:14:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C23FE1F227F3
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:13:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 748BC2874BA
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:14:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5136213BC04;
-	Tue, 28 May 2024 08:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdtluKWA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56C2813AD0D;
+	Tue, 28 May 2024 08:14:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239B671738
-	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 08:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD2E17E90E
+	for <linux-media@vger.kernel.org>; Tue, 28 May 2024 08:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716883937; cv=none; b=SirRijVAsePOrpPv5deJ1mGOO551GJzoTt/3taQRBnSAsfq8syGUHhSpLc1mCTfCtbDyFbqIv/p/5BV/YwJ9cp1bk0AD+ZrBvoiumcK6yYF/c+5/mBxR9fbdRYG0SWGSRvqyRFjbLIYZN9f6COQ6UU+vkpaaoWEMeClWTQ5rOaU=
+	t=1716884073; cv=none; b=dUwc7gHCVDewoYVvjWSgY+pD9UykIlA4ILzvlk2OjMOOzUxIZZTanU3YdjTx6YjO/X1rddErxTw0I83Q5mgronmvKteq2Rv3+YB2ZMHsORpiwHew11xItIMzCyqCgsijUnwXnGgbn1bLtK0VZl1VhBDYC62P5xG1zDlWrJY5YS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716883937; c=relaxed/simple;
-	bh=9UH13LXD4kgrY8LR/JJv4cvwu5B2KIk7HUfrktmUKIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pw/8orpV4RxRjc2px8NeiS/DwWPWUEul60J3KsaW6GvmJ+rtpKPewYY7Y/YledbA06WcYC/CJVI/H0SgrddhcSfEN+3hIHSk4ef7ybIhQ6zo8uzjtAgWYCfO7OgO9WiNTfESnLh3uwGchCIks58uLzg9PdqcEDkoyzslkzemumk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdtluKWA; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716883936; x=1748419936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9UH13LXD4kgrY8LR/JJv4cvwu5B2KIk7HUfrktmUKIo=;
-  b=ZdtluKWAJakRGR5sJFr1VNDtSHvD3K5FdhJbTZmNJC07ujoYsYsCC7oH
-   v8Rq0kIFims7ADpaUGxMm/JTR6y9DIYto10H7JMI1lUsUkxtrX0tq6CLG
-   HXUyrpCxppkUYEyx71W2rhD3JAF/gabn2mVnWPa/O+wqg7/jJFaeQjGFg
-   QTTZllqg3lH7BaoPTL3OFNUCjBoh35rZmUzBd+Vkis4BXJRXeanOkBORB
-   6y+13yWXgbEyxsOFIikR83OoVD26VtMItomV/DxFWLkoBuDDuTvBQEQmF
-   g8F3RSxlj0EqzCGOldZ3tANTpiF5dtLJkioSraneyzQJnH1Kk+P2cifxm
-   g==;
-X-CSE-ConnectionGUID: NkHvFPv5TzWAThfCAW1w3g==
-X-CSE-MsgGUID: ZqKOB/RGTQigoakQFSZTbw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="17046653"
-X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="17046653"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 01:12:15 -0700
-X-CSE-ConnectionGUID: J9y/TUHTRi2H/THjAuSpiQ==
-X-CSE-MsgGUID: 09dUwHdFQIuxvWMWHCOV3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="58170072"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 01:12:14 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B0EED11FA4A;
-	Tue, 28 May 2024 11:12:11 +0300 (EEST)
-Date: Tue, 28 May 2024 08:12:11 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	Wentong Wu <wentong.wu@intel.com>
-Subject: Re: [PATCH v6 2/4] media: v4l: Support obtaining link frequency via
- get_mbus_config
-Message-ID: <ZlWR24e5UHLvdrAi@kekkonen.localdomain>
-References: <20240516122539.30787-1-sakari.ailus@linux.intel.com>
- <20240516122539.30787-3-sakari.ailus@linux.intel.com>
- <auogsnxxlad6e43phqhtu4njj5vzps5njmvuk7fcmiitnj4imn@dms3jrdfyi3s>
- <ZlV1CAEpU8eqSeTM@kekkonen.localdomain>
- <zxforr3b6ahagkkqghqhxzn555wjq6edubcvybtopj5n636vj6@f5jms6q2rwzn>
+	s=arc-20240116; t=1716884073; c=relaxed/simple;
+	bh=0eWo8k2SiyzsJ9fYOcUPFq5LIaob+zHGyuf05nLWH7A=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=PjW/iL+RQZhn/kw9PpeZD3LhLIgD6nbdyUjxOqotdExdP9BNWi8nsl1hKgV6O7CbsdUpiGL43c6KVgQB7TweKeGFQLa7hoDQON1IOxppoX2qLWEIXPm723K3qaAE1Ijf4h3w1IxEeb76fU7qeaM8W6IAAHX5mQOMUG0+B12FLw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-36eb89514a7so4000065ab.0
+        for <linux-media@vger.kernel.org>; Tue, 28 May 2024 01:14:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716884070; x=1717488870;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zAUolh23tKq5wYxUqvc7bBcvTVTp+n7VeXwB2rrSAdo=;
+        b=A+hqYnUizczWI8B97Sf66Fr/jW0aNv1U48fXFfBQsqZ+TstBAUC37iq8QbiFoseqTx
+         y6QJd5EX4MeW+RMsPQo4bPiOZtufDj0LX7tKSRL6RGLyMInoRmeZ5/R2KLyk5zDkwg+E
+         i6Lok/PEE3M9sIbu1AHJKJVevtXAqh3ain18ltGA3z/55bxh5nQsMm7wrb3KiWU/uLyC
+         nqV1krCsxmHeIldL8CbznWveHz2TMmX35P1YA2vBPkCvkmbgD1KFoV2/VVxCrO5DRJLo
+         TOCNvHswr0ljFfKLZ/W4cMNGLEp1iXtLKrsNR9DVBGO9x9k7fc7eS/BlAxatFgtWXZwk
+         QwQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVoCA8tkmvCpRVFgE5F+ofPa54RHn1GM+15n+cZ6QYpnXiyQ3O4MTFlAhLc7yEo6fBrXmsFWW0LXIgPbDocmvjgTWHeXKUJvW09WwE=
+X-Gm-Message-State: AOJu0YwAyDGM0GcjONlKIPFTzMIpl/dclFABQ4zuZusED1raEypc/laj
+	ew5CoMqKUE0q2GT9UYK3MgRzLJgFq3AO38vDdiYwpNkmkGo82Y3rmP2doU/3MLXuDh3kvhAubGM
+	OigspfTZklG7nWY5z5wE1fpIv0JQB+skdauLuipOhurcSuDsaBd21jQk=
+X-Google-Smtp-Source: AGHT+IHdDIPe/efUxBHApkpoQj8KwBVey4m9Z9nkIX1iqS9LOA9uWHHZOm5WG8g++TidpPWlotNE3rlPYcEutO+WV0CDktKD2PfY
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zxforr3b6ahagkkqghqhxzn555wjq6edubcvybtopj5n636vj6@f5jms6q2rwzn>
+X-Received: by 2002:a05:6e02:1d09:b0:371:e497:209 with SMTP id
+ e9e14a558f8ab-3737b2ba7a5mr7300575ab.1.1716884070294; Tue, 28 May 2024
+ 01:14:30 -0700 (PDT)
+Date: Tue, 28 May 2024 01:14:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002174ba06197f39c1@google.com>
+Subject: [syzbot] [dri?] [media?] general protection fault in udmabuf_create (2)
+From: syzbot <syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	kraxel@redhat.com, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jacopo,
+Hello,
 
-On Tue, May 28, 2024 at 09:16:06AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Tue, May 28, 2024 at 06:09:12AM GMT, Sakari Ailus wrote:
-> > Hi Jacopo,
-> >
-> > On Fri, May 17, 2024 at 12:31:43PM +0200, Jacopo Mondi wrote:
-> > > On Thu, May 16, 2024 at 03:25:37PM GMT, Sakari Ailus wrote:
-> > > > Add link_freq field to struct v4l2_mbus_config in order to pass the link
-> > > > frequency to the receiving sub-device.
-> > > >
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  drivers/media/v4l2-core/v4l2-common.c | 11 ++++++++---
-> > > >  include/media/v4l2-mediabus.h         |  2 ++
-> > > >  2 files changed, 10 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > > > index 01650aed7c30..ff859a340c5d 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > > @@ -506,13 +506,18 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
-> > > >  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> > > >  			     unsigned int div)
-> > > >  {
-> > > > +	struct v4l2_mbus_config mbus_config = {};
-> > > >  	struct v4l2_subdev *sd;
-> > > > +	int ret;
-> > > >
-> > > >  	sd = media_entity_to_v4l2_subdev(pad->entity);
-> > > > -	if (!sd)
-> > > > -		return -ENODEV;
-> > > > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
-> > > > +			       &mbus_config);
-> > > > +	if (ret < 0 && ret != -ENOIOCTLCMD)
-> > > > +		return ret;
-> > >
-> > > Should we do like what we did with endpoint matching ? (let alone the
-> > > fact we then backtracked on that.. :)
-> >
-> > Hmm. What exactly are you suggesting?
-> >
-> 
-> See below
-> 
-> > >
-> > > WARN to encourage tx drivers to implement get_mbus_config and
-> > > advertise the link freq through it ?
-> >
-> > Why? If the value is conveyed by the control, there's no reason to copy it
-> > here, is it?
-> >
-> 
-> My understanding is that using get_mbus_config() is preferred, but
-> yes, if the control is in place the same value should be propagated
-> through both path, which is probably a biy silly, yeah.
+syzbot found the following issue on:
 
-The problem is that few drivers implement get_mbus_config() and they
-actually shouldn't if the configuration is fixed. I've actually thought of
-adding a helper to obtain the information in struct v4l2_mbus_config from
-the V4L2 fwnode endpoint but it's not implemented.
+HEAD commit:    6dc544b66971 Add linux-next specific files for 20240528
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=1590bec8980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6a363b35598e573d
+dashboard link: https://syzkaller.appspot.com/bug?extid=40c7dad27267f61839d4
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 
-> 
-> Ok, ignore the suggestion then
-> 
-> > >
-> > > >
-> > > > -	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> > > > +	return mbus_config.link_freq ?:
-> > > > +		__v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
-> > > >  #endif /* CONFIG_MEDIA_CONTROLLER */
-> > > > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> > > > index 5bce6e423e94..cc5f776dc662 100644
-> > > > --- a/include/media/v4l2-mediabus.h
-> > > > +++ b/include/media/v4l2-mediabus.h
-> > > > @@ -148,6 +148,7 @@ enum v4l2_mbus_type {
-> > > >  /**
-> > > >   * struct v4l2_mbus_config - media bus configuration
-> > > >   * @type: interface type
-> > > > + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
-> > > >   * @bus: bus configuration data structure
-> > > >   * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
-> > > >   *		  Used if the bus is parallel or BT.656.
-> > > > @@ -162,6 +163,7 @@ enum v4l2_mbus_type {
-> > > >   */
-> > > >  struct v4l2_mbus_config {
-> > > >  	enum v4l2_mbus_type type;
-> > > > +	u64 link_freq;
-> > >
-> > > I will retaliate that link_freq has different meaning for serial and
-> > > parallel busses, and it would feel more natural having something like
-> > >
-> > > mipi_csi2.link_freq
-> > > parallel.pixel_clock
-> > >
-> > > or do you think it's an overkill ?
-> >
-> > How is the meaning different? The value reflects the frequency on both
-> > buses.
-> 
-> The meaning is slightly different. For a parallel bus the "link_freq"
-> is actually the pixel clock (and thus "link_freq" is an ill-defined concept
-> for parallel busses ?). For serial busses there actually is a "link
-> frequency" which corresponds to the clock lane frequency.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-It's not different on parallel buses: there's a clock signal, too, and the
-data lines do use the same frequency. The frequency of that clock is the
-link frequency. The pixel clock can be different still as multiple samples
-on the bus may be required to obtain a single pixel.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/334699ab67f8/disk-6dc544b6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4ca32b2218ce/vmlinux-6dc544b6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/400bc5f019b3/bzImage-6dc544b6.xz
 
-> 
-> In general, however we define it, the link_freq is a bus property and
-> feels better placed inside the per-bus structures to me.
-> 
-> Up to you
-> 
-> >
-> > >
-> > > >  	union {
-> > > >  		struct v4l2_mbus_config_parallel parallel;
-> > > >  		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
-> >
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com
 
--- 
-Kind regards,
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+CPU: 1 PID: 7202 Comm: syz-executor.4 Not tainted 6.10.0-rc1-next-20240528-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
+RIP: 0010:PageTail include/linux/page-flags.h:284 [inline]
+RIP: 0010:const_folio_flags include/linux/page-flags.h:312 [inline]
+RIP: 0010:folio_test_head include/linux/page-flags.h:837 [inline]
+RIP: 0010:folio_test_large include/linux/page-flags.h:858 [inline]
+RIP: 0010:folio_nr_pages include/linux/mm.h:2076 [inline]
+RIP: 0010:udmabuf_create+0xa54/0x11c0 drivers/dma-buf/udmabuf.c:376
+Code: 01 00 00 48 8b 44 24 70 42 80 3c 28 00 48 8b 5c 24 68 74 08 48 89 df e8 fa d5 ee fb 4c 8b 3b 49 8d 5f 08 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 dd d5 ee fb 48 8b 1b 48 89 de 48
+RSP: 0018:ffffc9000cfcfbe0 EFLAGS: 00010202
+RAX: 0000000000000001 RBX: 0000000000000008 RCX: dffffc0000000000
+RDX: ffffc90009011000 RSI: 0000000000000cc5 RDI: 0000000000000cc6
+RBP: ffffc9000cfcfd70 R08: ffffffff8fad856f R09: 1ffffffff1f5b0ad
+R10: dffffc0000000000 R11: fffffbfff1f5b0ae R12: 0000000000000001
+R13: dffffc0000000000 R14: ffff88801bf793a8 R15: 0000000000000000
+FS:  00007fb83bd9f6c0(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32f21000 CR3: 000000002e5d8000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ udmabuf_ioctl_create_list drivers/dma-buf/udmabuf.c:439 [inline]
+ udmabuf_ioctl+0x3b2/0x4f0 drivers/dma-buf/udmabuf.c:454
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:907 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb83b07cee9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb83bd9f0c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fb83b1b3f80 RCX: 00007fb83b07cee9
+RDX: 00000000200000c0 RSI: 0000000040087543 RDI: 0000000000000003
+RBP: 00007fb83b0c947f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fb83b1b3f80 R15: 00007ffd6ccc32c8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:PageTail include/linux/page-flags.h:284 [inline]
+RIP: 0010:const_folio_flags include/linux/page-flags.h:312 [inline]
+RIP: 0010:folio_test_head include/linux/page-flags.h:837 [inline]
+RIP: 0010:folio_test_large include/linux/page-flags.h:858 [inline]
+RIP: 0010:folio_nr_pages include/linux/mm.h:2076 [inline]
+RIP: 0010:udmabuf_create+0xa54/0x11c0 drivers/dma-buf/udmabuf.c:376
+Code: 01 00 00 48 8b 44 24 70 42 80 3c 28 00 48 8b 5c 24 68 74 08 48 89 df e8 fa d5 ee fb 4c 8b 3b 49 8d 5f 08 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 dd d5 ee fb 48 8b 1b 48 89 de 48
+RSP: 0018:ffffc9000cfcfbe0 EFLAGS: 00010202
+RAX: 0000000000000001 RBX: 0000000000000008 RCX: dffffc0000000000
+RDX: ffffc90009011000 RSI: 0000000000000cc5 RDI: 0000000000000cc6
+RBP: ffffc9000cfcfd70 R08: ffffffff8fad856f R09: 1ffffffff1f5b0ad
+R10: dffffc0000000000 R11: fffffbfff1f5b0ae R12: 0000000000000001
+R13: dffffc0000000000 R14: ffff88801bf793a8 R15: 0000000000000000
+FS:  00007fb83bd9f6c0(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32f21000 CR3: 000000002e5d8000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	01 00                	add    %eax,(%rax)
+   2:	00 48 8b             	add    %cl,-0x75(%rax)
+   5:	44 24 70             	rex.R and $0x70,%al
+   8:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+   d:	48 8b 5c 24 68       	mov    0x68(%rsp),%rbx
+  12:	74 08                	je     0x1c
+  14:	48 89 df             	mov    %rbx,%rdi
+  17:	e8 fa d5 ee fb       	call   0xfbeed616
+  1c:	4c 8b 3b             	mov    (%rbx),%r15
+  1f:	49 8d 5f 08          	lea    0x8(%r15),%rbx
+  23:	48 89 d8             	mov    %rbx,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	48 89 df             	mov    %rbx,%rdi
+  34:	e8 dd d5 ee fb       	call   0xfbeed616
+  39:	48 8b 1b             	mov    (%rbx),%rbx
+  3c:	48 89 de             	mov    %rbx,%rsi
+  3f:	48                   	rex.W
 
-Sakari Ailus
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
