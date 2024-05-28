@@ -1,129 +1,128 @@
-Return-Path: <linux-media+bounces-12069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24BC8D1663
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:38:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E239D8D1697
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 10:44:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 868B6283BE6
-	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:38:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E9201C20951
+	for <lists+linux-media@lfdr.de>; Tue, 28 May 2024 08:44:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A993213C831;
-	Tue, 28 May 2024 08:37:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C99C13D29A;
+	Tue, 28 May 2024 08:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SglXt0ew"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+oxbp/z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B98428373;
-	Tue, 28 May 2024 08:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDE113CA8C;
+	Tue, 28 May 2024 08:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716885472; cv=none; b=VAYUPCqvi7IeNfQP3GN9QfYGqDGBVeYon71yC0B8LcEhE6OP3SXyjZKKP3u+/9GnmpQ4KyXgcymHexoHfkzoFpj2ZIL3/lj3MN1GUPTdCvVnjUYTb6DZ+/lJ4pTctPbEv2xXGcumyoTkiR4VnhdY/T6PtittstW7fw9kW4IyNZA=
+	t=1716885870; cv=none; b=ojAPFEjDepgovGwKxN+GR8gdkOMrwZ9CDi/CusASpBZ6CfrvgvvU+TynWp2oElqBVQccL8f2VubF/qjK4gkOaa/JovIrObThDvrXoNSD7xHfEErBbmNGQ9U82S/+GAStVAax+CCfD90CuWRpf60LeUR4sZ3K5b7KKV1K3WCn5hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716885472; c=relaxed/simple;
-	bh=TW1jNG1PIoyG2+so13309xJlYyhVgbq9D68UAfsajzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F+CXEdOnQV94TibemSC8ACROXppZBVxnslsC8Itk4Chk/40lPX/JUQsMdK8k59bMgQpuq5Nr4Y7aH4EwpHVTb075jUMF+wXWVeX+qmDduIOnDjtcWWDdOc2Yo0MxO034mQjG4mnuO9/zMHtU7ziehNQCgJvM9+hrJ508hDGH9cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SglXt0ew; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1716885468;
-	bh=TW1jNG1PIoyG2+so13309xJlYyhVgbq9D68UAfsajzA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SglXt0ewsfNVjfgOblte5DXxYe8Odk5aHidxhfv8ZQblVTG7GI9Yc/cFxq62NVZ7X
-	 5DZcv5LCwqa1F6GRv/DV1AwNsaoEZ5rDEWEEepby4GPPxZ3wcUEyNQzKr1Z3cuCU6L
-	 S4+/xEECPAvyyx+UAARquesFnxxjqRtKt1FpNoAPJ5Gr4vj44frFNffkL+EyOYaqGK
-	 NgCuhF8j+H9Xb4RH+6q8YUiXKwO0ZyBs0N3B9ja+Xm8j+6CS4YhqluGnOsyuNBW8Mj
-	 xjbHL5U6lUueOIcVNsA1BXMacHvIMgYXFRVKf3Q/gLlDL1PahnVG5/cwRlnPMfumCI
-	 Bv+WWc54qsaVg==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5C2603782157;
-	Tue, 28 May 2024 08:37:48 +0000 (UTC)
-Date: Tue, 28 May 2024 10:37:47 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Alex Bee <knaerzche@gmail.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: media: rockchip,vpu: Document RK3128
- compatible
-Message-ID: <20240528083747.z55laxnmioorzaru@basti-XPS-13-9310>
-References: <20240523185633.71355-1-knaerzche@gmail.com>
- <20240523185633.71355-2-knaerzche@gmail.com>
- <3639993.hdfAi7Kttb@diego>
+	s=arc-20240116; t=1716885870; c=relaxed/simple;
+	bh=ydSlw6qJhZ+PMwAN+v0YFHLkW9KgfIeaM/bmXs0fKWE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=PE2Ip1IEGADOCUdUM21FfBU0FqeKALN2tp+maY/CUmJmea5+WdYC79ZNW8nadf/YiQFuxgsDagrqU1QaqCNE42EaP4l4KBk6cesIhszEzjaqj7sp5m4LYYst5duex1wQ0z5kZ923R9ZP4O4CExYosRbe4Bka29Pl4gyE9ntYxlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+oxbp/z; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716885869; x=1748421869;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ydSlw6qJhZ+PMwAN+v0YFHLkW9KgfIeaM/bmXs0fKWE=;
+  b=D+oxbp/zHSNaCcW/G14acQ3Vx04kHUY7j0AnmJp1E28tr075PwSpy/MJ
+   3ycn0z6xmKJQLVJwG5OKo1I+1B47W3FO2+Sn1vuGM1UTG13xQlTbcvIqi
+   0YEMy6Bx8ipsbvjHAZPnFR7vqxq3XOAL+Ooq2KMufLPP2xHpCNibORoMV
+   M8q8UO6cXAD3xWMJTSdUe/paOWpB6uFyyO1G93wcJdBi8MqDWax5XbUNV
+   HAdf3OLAttFW4+v+Nh3QS3eOnWJ/D/2c5IcSvRikgfYUfJNhI1l785qf/
+   KyJrYOlxj6KpQivxBOlNmRgFvRoxw/dri4YP8YjNJ1cafilrdFcLWT+aB
+   g==;
+X-CSE-ConnectionGUID: 5iPirMN+QqWPz7VXtcrGlg==
+X-CSE-MsgGUID: Y4FuMvhdShWVeXC43CLkjw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="24630021"
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="24630021"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 01:44:28 -0700
+X-CSE-ConnectionGUID: mk3Ky/zHTI6B2ny+YzcUzw==
+X-CSE-MsgGUID: Kya+lZSxRjWVQEMQoEJsDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="35059195"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 01:44:27 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 13F9111FA4A;
+	Tue, 28 May 2024 11:44:24 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1sBsRT-00B0jn-3C;
+	Tue, 28 May 2024 11:44:23 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Genes Lists <lists@sapience.com>
+Cc: linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	wentong.wu@intel.com,
+	linux-media@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: [PATCH 1/1] ACPI: scan: Ignore Dell XPS 9320 camera graph port nodes
+Date: Tue, 28 May 2024 11:44:13 +0300
+Message-Id: <20240528084413.2624435-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <988e48090982c89ce0c906954832fdfb09a1ce34.camel@sapience.com>
+References: <988e48090982c89ce0c906954832fdfb09a1ce34.camel@sapience.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3639993.hdfAi7Kttb@diego>
 
-Hey Heiko,
+Ignore camera related graph port nodes on Dell XPS 9320. They data in BIOS
+is buggy, just like it is for Dell XPS 9315. The corresponding software
+nodes are created by the ipu-bridge.
 
-On 28.05.2024 10:19, Heiko Stübner wrote:
->Am Donnerstag, 23. Mai 2024, 20:56:31 CEST schrieb Alex Bee:
->> The integration for this SoC is similar to RK3066/RK3188.
->>
->> Document it's compatible.
->>
->> Signed-off-by: Alex Bee <knaerzche@gmail.com>
->
->Reviewed-by: Heiko Stuebner <heiko@sntech.de>
->
->Media people, can you apply this patch alone from the series?
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+Hi,
 
-Yes, will do got this on my list already :).
+Could you test this and see whether it fixes the warning?
 
->
->Thanks
->Heiko
+The camera might work with this change, too.
 
-Regards,
-Sebastian
+- Sakari
 
->
->> ---
->>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
->> index c57e1f488895..d1b47b14ca57 100644
->> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
->> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
->> @@ -26,7 +26,9 @@ properties:
->>            - rockchip,rk3568-vpu
->>            - rockchip,rk3588-av1-vpu
->>        - items:
->> -          - const: rockchip,rk3188-vpu
->> +          - enum:
->> +              - rockchip,rk3128-vpu
->> +              - rockchip,rk3188-vpu
->>            - const: rockchip,rk3066-vpu
->>        - items:
->>            - const: rockchip,rk3228-vpu
->>
->
->
->
->
->
+ drivers/acpi/mipi-disco-img.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/acpi/mipi-disco-img.c b/drivers/acpi/mipi-disco-img.c
+index d05413a0672a..bf9a5cee32ac 100644
+--- a/drivers/acpi/mipi-disco-img.c
++++ b/drivers/acpi/mipi-disco-img.c
+@@ -732,6 +732,12 @@ static const struct dmi_system_id dmi_ignore_port_nodes[] = {
+ 			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "XPS 9315"),
+ 		},
+ 	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "XPS 9320"),
++		},
++	},
+ 	{ }
+ };
+ 
+-- 
+2.39.2
+
 
