@@ -1,45 +1,46 @@
-Return-Path: <linux-media+bounces-12166-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12167-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33EB28D3ADE
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844778D3ADF
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:29:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE78B289D9C
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:29:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3AA0E287D9E
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:29:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA49D181315;
-	Wed, 29 May 2024 15:29:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51C011802C7;
+	Wed, 29 May 2024 15:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rhq6ZqFb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RQCJaWh2"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B28F1802C7;
-	Wed, 29 May 2024 15:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BED746E;
+	Wed, 29 May 2024 15:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716996563; cv=none; b=IABbETnNpPatmr+DMP8mWCnMTcfdDv33EHZgeOf9aLNCd0XdOLP2zb3akh42xngNLB98zFtV53bCCr5mHWC17iNyRBtpyirAgZOREa+hQS+XU372P/qPQWKku8R4NDzuR0tcQPETiJscr5hAYLQYL4dbKYXRmER4CBzbGyOGfj0=
+	t=1716996563; cv=none; b=glopEzOq5HgOkup0ji1mOocwpIrB6yvYabXVz8QOaXwJdu28ZHQ87NPGewtjSv5NGnxDVl68FLdoh7f/MKfxTe6XaTzFbIHm/szVNSpSgVD5t9sMZFtaz+JnwXanSXtcLeaHtBOyN+2bKPB23UIIoE4wSaZDwfIyYHNDh6k60do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716996563; c=relaxed/simple;
-	bh=MR+691o6QI2VzlxrZXSGEXZ0LSPiIz9Rv0+QjuaM6Fw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jqmhTSsmBjn0jojQ6tIBTzjzRS05VkBUGZTYwgb/qD1ZMEAzsJ+lPapPtqGty1k9meO4iNVkKWsGVPLk2qhAyWQphutrvpFnc8u5RvMNQZnwcANfI3vGjSqzTbI4pbR53cf79GX9ahpb91XySGfegF1gAYUBqy0HuILSyPFv+zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rhq6ZqFb; arc=none smtp.client-ip=213.167.242.64
+	bh=AUeHCqKJUsyxUH9rTn0sI/xVufnVxR6ce7+vDVqRXqo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=E2b1ttA8uLwjwGosdj1XFVfSabKCT/pEIVQ7RFFe9vImJsWCWsbZ0D0z3HoH44eZVDVvaqzL8XS5Sgim8dxOr6lnIdIqUm52IaBrVaQG5K0mV7+rbGKHUgkxwCdmjba6UWv/zP8v3ah8sQaV6/gzl5q0AQroLwTgYH6dGyEK8m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RQCJaWh2; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40A57149B;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEAAD2B5A;
 	Wed, 29 May 2024 17:29:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716996555;
-	bh=MR+691o6QI2VzlxrZXSGEXZ0LSPiIz9Rv0+QjuaM6Fw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=rhq6ZqFbqxkDrz1yBsliaYmL5/5jeII5lp0vlwGowdOizeL3FZGrg/zi2bfTzgUrX
-	 +9xiHMlnbQNgYIEdQ7M6nLPdwyghWvK+J4ItJ1kmWGhBHd+3gG1cS4sHrFHu0UL5D2
-	 kblQpU53/anikhWSeRwrsfit3F2RwaA/UUNjSmZk=
+	s=mail; t=1716996556;
+	bh=AUeHCqKJUsyxUH9rTn0sI/xVufnVxR6ce7+vDVqRXqo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RQCJaWh2kB4/0gygzqXnhd/2zjD005vpRv4CTTOkSyigh+f2wXqe9UnrbJ7nNML59
+	 iEUS1prE0Ss+D6zg010CM7NfszgLZbTUReTzv6xea6TbPrzGqU9+gqRno0E7b/SSxB
+	 JGbfr2BSv9lTLI4BH4SjnBBDw7HfttdXAWObGgis=
 From: Daniel Scally <dan.scally@ideasonboard.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -55,10 +56,12 @@ Cc: jacopo.mondi@ideasonboard.com,
 	laurent.pinchart@ideasonboard.com,
 	sakari.ailus@iki.fi,
 	dan.scally@ideasonboard.com
-Subject: [PATCH v5 00/16] Add Arm Mali-C55 Image Signal Processor Driver
-Date: Wed, 29 May 2024 16:28:42 +0100
-Message-Id: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+Subject: [PATCH v5 01/16] media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60 format code
+Date: Wed, 29 May 2024 16:28:43 +0100
+Message-Id: <20240529152858.183799-2-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,112 +70,233 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello all
+The Mali-C55 ISP by ARM requires 20-bits per colour channel input on
+the bus. Add a new media bus format code to represent it.
 
-This patchset introduces a driver for Arm's Mali-C55 Image Signal Processor.
-The driver uses the V4L2 / media controller API and implements both of the ISP's
-capture pipelines allowing a range of output formats plus downscaling and
-cropping. The capture pipelines are named "Full resolution" and "Downscale" and
-so abbreviated FR and DS throughout the driver.
+Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+---
+Changes in v5:
 
-The driver exposes 4 V4L2 subdevices:
+	- none
 
-- mali-c55 isp: input data formatting
-- mali-c55 tpg: test pattern generator (modeled as a camera sensor entity)
-- mali-c55 resizer fr: downscale / crop and format setting for the FR pipe
-- mali-c55 resizer ds: downscale / crop and format setting for the DS pipe
+Changes in v4:
 
-Along with 4 V4L2 Video devices:
+	- None
 
-- mali-c55 fr: Capture device for the full resolution pipe
-- mali-c55 ds: Capture device for the downscale pipe
-- mali-c55 3a stats: Capture device for statistics to support 3A algorithms
-- mali-c55 3a params: Output device for parameter buffers to configure the ISP
+Changes in v3:
 
-Support is implemented in the parameters video device code for many of the ISP'S
-hardware blocks, but not yet all of them. The buffer format is (as far as I am
-aware anyway) a novel design that we intend to be extensible so that support for
-the C55's remaining hardware blocks can be added later.
+	- None
 
-Patches 1, 4, 5, 6 and 7 have already had 4 versions on the mailing list...I
-decided to post the additional work on the driver as extra patches rather than
-merge them all into the existing series as it's already a lot of code to review
-and I hoped that that might make it a little easier...if I'm wrong and that's
-not liked I can just squash them into a much smaller series.
+Changes in v2:
 
-Thanks
-Dan
+	- none
+ .../media/v4l/subdev-formats.rst              | 168 ++++++++++++++++++
+ include/uapi/linux/media-bus-format.h         |   3 +-
+ 2 files changed, 170 insertions(+), 1 deletion(-)
 
-Daniel Scally (15):
-  media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60 format code
-  media: uapi: Add 20-bit bayer formats
-  media: v4l2-common: Add RAW16 format info
-  dt-bindings: media: Add bindings for ARM mali-c55
-  media: mali-c55: Add Mali-C55 ISP driver
-  media: Documentation: Add Mali-C55 ISP Documentation
-  MAINTAINERS: Add entry for mali-c55 driver
-  media: Add MALI_C55_3A_STATS meta format
-  media: uapi: Add 3a stats buffer for mali-c55
-  media: platform: Add mali-c55 3a stats devnode
-  media: platform: Fill stats buffer on ISP_START
-  Documentation: mali-c55: Add Statistics documentation
-  media: uapi: Add parameters structs to mali-c55-config.h
-  media: platform: Add mali-c55 parameters video node
-  Documentation: mali-c55: Document the mali-c55 parameter setting
-
-Jacopo Mondi (1):
-  media: mali-c55: Add image formats for Mali-C55 parameters buffer
-
- .../admin-guide/media/mali-c55-graph.dot      |  19 +
- Documentation/admin-guide/media/mali-c55.rst  | 406 ++++++++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- .../bindings/media/arm,mali-c55.yaml          |  66 ++
- .../userspace-api/media/v4l/meta-formats.rst  |   1 +
- .../media/v4l/metafmt-arm-mali-c55.rst        |  87 ++
- .../media/v4l/subdev-formats.rst              | 268 +++++
- MAINTAINERS                                   |  10 +
- drivers/media/platform/Kconfig                |   1 +
- drivers/media/platform/Makefile               |   1 +
- drivers/media/platform/arm/Kconfig            |   5 +
- drivers/media/platform/arm/Makefile           |   2 +
- drivers/media/platform/arm/mali-c55/Kconfig   |  18 +
- drivers/media/platform/arm/mali-c55/Makefile  |  11 +
- .../platform/arm/mali-c55/mali-c55-capture.c  | 951 ++++++++++++++++++
- .../platform/arm/mali-c55/mali-c55-common.h   | 312 ++++++
- .../platform/arm/mali-c55/mali-c55-core.c     | 825 +++++++++++++++
- .../platform/arm/mali-c55/mali-c55-isp.c      | 626 ++++++++++++
- .../platform/arm/mali-c55/mali-c55-params.c   | 615 +++++++++++
- .../arm/mali-c55/mali-c55-registers.h         | 365 +++++++
- .../arm/mali-c55/mali-c55-resizer-coefs.h     | 382 +++++++
- .../platform/arm/mali-c55/mali-c55-resizer.c  | 779 ++++++++++++++
- .../platform/arm/mali-c55/mali-c55-stats.c    | 350 +++++++
- .../platform/arm/mali-c55/mali-c55-tpg.c      | 402 ++++++++
- drivers/media/v4l2-core/v4l2-common.c         |   4 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
- include/uapi/linux/media-bus-format.h         |   9 +-
- .../uapi/linux/media/arm/mali-c55-config.h    | 851 ++++++++++++++++
- include/uapi/linux/videodev2.h                |   3 +
- 29 files changed, 7370 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/admin-guide/media/mali-c55-graph.dot
- create mode 100644 Documentation/admin-guide/media/mali-c55.rst
- create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
- create mode 100644 Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
- create mode 100644 drivers/media/platform/arm/Kconfig
- create mode 100644 drivers/media/platform/arm/Makefile
- create mode 100644 drivers/media/platform/arm/mali-c55/Kconfig
- create mode 100644 drivers/media/platform/arm/mali-c55/Makefile
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-common.h
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-core.c
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-isp.c
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-params.c
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-registers.h
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer-coefs.h
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-stats.c
- create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
- create mode 100644 include/uapi/linux/media/arm/mali-c55-config.h
-
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index d2a6cd2e1eb2..8d164a9a9e15 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -2224,6 +2224,174 @@ The following table list existing packed 48bit wide RGB formats.
+ 
+     \endgroup
+ 
++The following table list existing packed 60bit wide RGB formats.
++
++.. tabularcolumns:: |p{4.0cm}|p{0.7cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
++
++.. _v4l2-mbus-pixelcode-rgb-60:
++
++.. raw:: latex
++
++    \begingroup
++    \tiny
++    \setlength{\tabcolsep}{2pt}
++
++.. flat-table:: 60bit RGB formats
++    :header-rows:  3
++    :stub-columns: 0
++    :widths: 36 7 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
++
++    * - Identifier
++      - Code
++      -
++      - :cspan:`31` Data organization
++    * -
++      -
++      - Bit
++      -
++      -
++      -
++      -
++      - 59
++      - 58
++      - 57
++      - 56
++      - 55
++      - 54
++      - 53
++      - 52
++      - 51
++      - 50
++      - 49
++      - 48
++      - 47
++      - 46
++      - 45
++      - 44
++      - 43
++      - 42
++      - 41
++      - 40
++      - 39
++      - 38
++      - 37
++      - 36
++      - 35
++      - 34
++      - 33
++      - 32
++    * -
++      -
++      -
++      - 31
++      - 30
++      - 29
++      - 28
++      - 27
++      - 26
++      - 25
++      - 24
++      - 23
++      - 22
++      - 21
++      - 20
++      - 19
++      - 18
++      - 17
++      - 16
++      - 15
++      - 14
++      - 13
++      - 12
++      - 11
++      - 10
++      - 9
++      - 8
++      - 7
++      - 6
++      - 5
++      - 4
++      - 3
++      - 2
++      - 1
++      - 0
++    * .. _MEDIA-BUS-FMT-RGB202020-1X60:
++
++      - MEDIA_BUS_FMT_RGB202020_1X60
++      - 0x1026
++      -
++      -
++      -
++      -
++      -
++      - r\ :sub:`19`
++      - r\ :sub:`18`
++      - r\ :sub:`17`
++      - r\ :sub:`16`
++      - r\ :sub:`15`
++      - r\ :sub:`14`
++      - r\ :sub:`13`
++      - r\ :sub:`12`
++      - r\ :sub:`11`
++      - r\ :sub:`10`
++      - r\ :sub:`8`
++      - r\ :sub:`8`
++      - r\ :sub:`7`
++      - r\ :sub:`6`
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - g\ :sub:`19`
++      - g\ :sub:`18`
++      - g\ :sub:`17`
++      - g\ :sub:`16`
++      - g\ :sub:`15`
++      - g\ :sub:`14`
++      - g\ :sub:`13`
++      - g\ :sub:`12`
++    * -
++      -
++      -
++      - g\ :sub:`11`
++      - g\ :sub:`10`
++      - g\ :sub:`9`
++      - g\ :sub:`8`
++      - g\ :sub:`7`
++      - g\ :sub:`6`
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - b\ :sub:`19`
++      - b\ :sub:`18`
++      - b\ :sub:`17`
++      - b\ :sub:`16`
++      - b\ :sub:`15`
++      - b\ :sub:`14`
++      - b\ :sub:`13`
++      - b\ :sub:`12`
++      - b\ :sub:`11`
++      - b\ :sub:`10`
++      - b\ :sub:`9`
++      - b\ :sub:`8`
++      - b\ :sub:`7`
++      - b\ :sub:`6`
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++
++.. raw:: latex
++
++    \endgroup
++
+ On LVDS buses, usually each sample is transferred serialized in seven
+ time slots per pixel clock, on three (18-bit) or four (24-bit)
+ differential data pairs at the same time. The remaining bits are used
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index d4c1d991014b..49be328d9a3b 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -34,7 +34,7 @@
+ 
+ #define MEDIA_BUS_FMT_FIXED			0x0001
+ 
+-/* RGB - next is	0x1026 */
++/* RGB - next is	0x1027 */
+ #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+ #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+@@ -72,6 +72,7 @@
+ #define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
+ #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
+ #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
++#define MEDIA_BUS_FMT_RGB202020_1X60		0x1026
+ 
+ /* YUV (including grey) - next is	0x202f */
+ #define MEDIA_BUS_FMT_Y8_1X8			0x2001
 -- 
 2.34.1
 
