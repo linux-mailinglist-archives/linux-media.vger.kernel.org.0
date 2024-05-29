@@ -1,74 +1,81 @@
-Return-Path: <linux-media+bounces-12135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12136-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085F68D2CDC
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 08:05:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9238D2CF8
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 08:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9ABBB1F26E2C
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 06:05:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBF951C25429
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 06:14:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E519F15CD7F;
-	Wed, 29 May 2024 06:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62B0315E5C2;
+	Wed, 29 May 2024 06:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m3GVTvxe"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ObHQyTi2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6AA915CD41
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 06:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0547A15CD41
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 06:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716962696; cv=none; b=htZHn+lTP/rYDwRzfXvE7d1esJiCdefEyzCyncf6Q178JQXDQAFQLil743vx8YoE0E0ZxZWsPxROMtXWKtPIydWBSlmq+8vW2ObtVebHA/fGKA4fDKPFP670tHkXreLUNyrBLSXWsQRa3AKQlN4ZfS+vC+GyLFGxzOfaCnqqWqQ=
+	t=1716963234; cv=none; b=i1XBzuUH/vgw0aP4RYB6Isv/GHBiojXiZC+aXAMpF0H5OPax5p+wAfaSL7gqnOtDmxIJbUUOb7VlgJUkwL591F5xrB5l8iC3ZkK2sGJfpRZvp4q+8+fyYAV9XARVQsdsmMEO+Wasr/rZxfXmf2QeGcuX9cidCCfOth7N1b5Fu/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716962696; c=relaxed/simple;
-	bh=FpNmGV/HXxbh1YSfH1cfKb9wfDWQ7c+WTI6wgsq5+TE=;
+	s=arc-20240116; t=1716963234; c=relaxed/simple;
+	bh=3FSvLZlOgEc+aUu5jFCR372lA79UDHQsiGqRizvsNeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t/zwjFIt74YoRxCHYWo2P2W0ZPlX4gqPKS5zEYd5JGWDycK9Z+7OKAwtbM5nNr0EAbdj8E/BjowB0okFqALSY0wsPQku6UdyKdhrVcFGXaWJNoGVdzmKNqqc9B1DqxqB2fn7QI8YJasmMe11W3Z+kJn0OWJ+qL4eFeuVCN4vcoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m3GVTvxe; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716962695; x=1748498695;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FpNmGV/HXxbh1YSfH1cfKb9wfDWQ7c+WTI6wgsq5+TE=;
-  b=m3GVTvxe8Qd5n0BpvTkoWzL5xP+No5357a7mCliPA9ZN4IgyM6AMoYaJ
-   fWBKdlJz2omtrG27kFPzeJxVemR4cOvh5KVR/kQv5jWsSQFOqDKihp//c
-   mcgjCuqnKl2ou+BnbnLC3Rm7MZDEdECT7g+tHF6QpnpVbQ4xNJB9yUAX/
-   6Jt35EFXPkTIkOEXsqMlJ+l6BA6rdpGmsAScYto9s9vQ9NO19Q4vE8Phf
-   1w+xFnOlRjUWCaNa29CsM/6QeqzBra0NuRnlTgmRVJKfXbFlbeki1i1ZJ
-   x6MEV0DdN1riCSlNEkhb0nx2aqPX+mGQZqSmpi4fIh3Ih0lSjxuTmKS9A
-   A==;
-X-CSE-ConnectionGUID: JmS4NEd4SUCnAJuQ2soQLw==
-X-CSE-MsgGUID: pECLKIFSQxq7+VwBJE02kA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="30871682"
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="30871682"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 23:04:54 -0700
-X-CSE-ConnectionGUID: Hqe/FUriQRyu1v3MxJd/9g==
-X-CSE-MsgGUID: +XkOK37iSpqn6DKTaL5WOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="35344796"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 23:04:53 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BB79711FA4A;
-	Wed, 29 May 2024 09:04:50 +0300 (EEST)
-Date: Wed, 29 May 2024 06:04:50 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: bingbu.cao@intel.com
-Cc: linux-media@vger.kernel.org, tian.shu.qiu@intel.com
-Subject: Re: [PATCH 2/2] media: intel/ipu6: add csi2 port sanity check in
- notifier bound
-Message-ID: <ZlbFgkV73nR1VjYT@kekkonen.localdomain>
-References: <20240529034600.117803-1-bingbu.cao@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lkkoS/RqIC21LBmaE2iFFRdfdHPtFQ1yJ89nbZsqrzxFrJUlDC786Rp2coVVMrafiRHejXE0l5j6KLAbN6bvTVDYAt5cnC8EhxBg0oyhdIzu9MBFSefSUMGks7H7EXwK0LJVptviWCquc6tHK7178wrcIgFyQp/cHfYfUm9gprw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ObHQyTi2; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f449f09476so3385005ad.1
+        for <linux-media@vger.kernel.org>; Tue, 28 May 2024 23:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1716963232; x=1717568032; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mb1XJXdu2//C7Xx7gnMlD9T15Ki5dUYRiH8NLKoSURY=;
+        b=ObHQyTi2uozW3LJSjuzasfLf5XFeatxXArsoz5kulkjHaV/vtzdFsBE21GyGaxvKw7
+         s+k/4A+bGU2bulqQjVdb+2pT1xmVC5vuLMY5Vy9pHN6FBCsBEXUWnT3ufRsTkI4XVZNj
+         Qgu2JNJbzpP6vaAUVsOh2G0uWcoMhP7mEOWRE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716963232; x=1717568032;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mb1XJXdu2//C7Xx7gnMlD9T15Ki5dUYRiH8NLKoSURY=;
+        b=sKfN7hYgeUJPRZRIG/d/0ak//BMzvOSoYhhgU0QbkVvTt70HtXDWGSHxYT3NgqtIOn
+         lnRxL2/bTF6643P5dlbljSIbNZyNTs479lJJutgR18nTyjTKAoXYVWPWTaRHyo4vziLc
+         nkn3bEynDUYkwdit+C3Ljy/G14ncYu5npL/j14ap3xV6jhjtVCon2nyyvNBOMyq0BFRr
+         ea3ux/+GIQGrdpEnYLGlggh5rx3EuJrnCWztSHCymNg4XI6w/puE82yWy8Z40w7sQ2N/
+         pa/KPjdaA637qSsyxiplSC3sT4gjKbdUGqO08jHw+r2goRJFb0X1CjrRKFRfkJQ0/G2F
+         MX7w==
+X-Forwarded-Encrypted: i=1; AJvYcCU9Hyp25Mr2ee8Ar0C5iPkANN5qaAyLtLzie20SZZiAtss68vcniIooE4/7OVeU5LhmGXckRrPwBePwKzQgX31LExl4vuOrYcqBWfw=
+X-Gm-Message-State: AOJu0YzLVdsN6OTRJ78pWMNuxg9mzW+gVCqTbh4udahIgBZKWf4BJ/EK
+	tZjIbITve7pSAw63xUqE+yK6lUUXDugQvNIqScsosNsNFU5ZzcZicB1T6AvRrLvaVRxJERodIU9
+	I2w==
+X-Google-Smtp-Source: AGHT+IGM70tAxQ5wUXo06dTx7marcWxV7pZaxCusq+1MywGIjjvwFQbPhH0jgK7VJkUjD6z9/QpLMA==
+X-Received: by 2002:a17:903:18a:b0:1f4:736a:27fa with SMTP id d9443c01a7336-1f4e95f4709mr20001565ad.0.1716963232293;
+        Tue, 28 May 2024 23:13:52 -0700 (PDT)
+Received: from chromium.org (174.71.80.34.bc.googleusercontent.com. [34.80.71.174])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f47efff203sm61305385ad.241.2024.05.28.23.13.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 May 2024 23:13:51 -0700 (PDT)
+Date: Wed, 29 May 2024 15:13:48 +0900
+From: Tomasz Figa <tfiga@chromium.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"hn.chen" <hn.chen@sunplusit.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v10 1/6] media: uvcvideo: Support timestamp lists of any
+ size
+Message-ID: <ga5jxpqrz33js4nzziuj234vxlkjhcanofqymjcy2vi2x7irjb@bkubcfb43ylm>
+References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
+ <20240323-resend-hwtimestamp-v10-1-b08e590d97c7@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,54 +84,55 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240529034600.117803-1-bingbu.cao@intel.com>
+In-Reply-To: <20240323-resend-hwtimestamp-v10-1-b08e590d97c7@chromium.org>
 
-Hi Bingbu,
-
-Thanks for the patch.
-
-On Wed, May 29, 2024 at 11:46:00AM +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
+On Sat, Mar 23, 2024 at 10:48:02AM +0000, Ricardo Ribalda wrote:
+> The tail of the list lives at the position before the head. This is
+> mathematically noted as:
+> ```
+> (head-1) mod size.
+> ```
+> Unfortunately C, does not have a modulus operator, but a remainder
+> operator (%).
+> The reminder operation has a different result than the modulus if
+> (head -1) is a negative number and size is not a power of two.
 > 
-> Invalid csi2 port will break the isys notifier bound ops as it is
-> trying to access an invalid csi2 sub-device instance based on the
-> port. It will trigger a mc warning, and it will cause the sensor
-> driver to unbound an inexistent isys csi2 and crash. Adding a
-> csi2 port sanity check, return error to avoid such case.
+> Adding size to (head-1) allows the code to run with any value of size.
 > 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> This does not change the current behaviour of the driver, as the size is
+> always a power of two, but avoid tedious debugging if we ever change its
+> size.
+> 
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/pci/intel/ipu6/ipu6-isys.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/media/usb/uvc/uvc_video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-> index 5992138c7290..997fbfbf2ea5 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-> @@ -676,8 +676,16 @@ static int isys_notifier_bound(struct v4l2_async_notifier *notifier,
->  		container_of(notifier, struct ipu6_isys, notifier);
->  	struct sensor_async_sd *s_asd =
->  		container_of(asc, struct sensor_async_sd, asc);
-> +	u32 nports;
->  	int ret;
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 7cbf4692bd875..659c9e9880a99 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -732,7 +732,7 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
+>  		goto done;
 >  
-> +	nports = isys->pdata->ipdata->csi2.nports;
-> +	if (nports <= s_asd->csi2.port) {
+>  	first = &clock->samples[clock->head];
+> -	last = &clock->samples[(clock->head - 1) % clock->size];
+> +	last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
+>  
+>  	/* First step, PTS to SOF conversion. */
+>  	delta_stc = buf->pts - (1UL << 31);
+> 
+> -- 
+> 2.44.0.396.g6e790dbe36-goog
+> 
+>
 
-No need for a temporary variable. I'd also put the non-static value
-(s_asd->csi2.port) on the left side of the comparison.
+It could be worth mentioning that basically head == 0 is the problematic
+case here, but otherwise good catch.
 
-> +		dev_err(&isys->adev->auxdev.dev, "invalid csi2 port %u\n",
-> +			s_asd->csi2.port);
-> +		return -EINVAL;
-> +	}
-> +
->  	ret = ipu_bridge_instantiate_vcm(sd->dev);
->  	if (ret) {
->  		dev_err(&isys->adev->auxdev.dev, "instantiate vcm failed\n");
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
--- 
-Kind regards,
-
-Sakari Ailus
+Best regards,
+Tomasz
 
