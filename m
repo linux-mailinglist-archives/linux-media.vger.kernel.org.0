@@ -1,176 +1,179 @@
-Return-Path: <linux-media+bounces-12165-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12166-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32638D3A97
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:19:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EB28D3ADE
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:29:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA4501C20B03
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:19:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE78B289D9C
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:29:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6BA11802A7;
-	Wed, 29 May 2024 15:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA49D181315;
+	Wed, 29 May 2024 15:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WDV6kijH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rhq6ZqFb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBDC1591EC
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 15:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B28F1802C7;
+	Wed, 29 May 2024 15:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716995982; cv=none; b=p2SwS5bazhvhpBQx/DwhwUzbEUeqPDjQ3OC+A5Rp62m+8ChUD7feAkYj5RnQTQggOQuTK0TYt0u4+2w7C8pLMqfX4ZnqQEOZdicC/7vGB4glQeHaf/QWC5g4ik8pOkw04AkpgTNV1cXQ8wNI854KkP13uUUZeua5o56g+WflMOM=
+	t=1716996563; cv=none; b=IABbETnNpPatmr+DMP8mWCnMTcfdDv33EHZgeOf9aLNCd0XdOLP2zb3akh42xngNLB98zFtV53bCCr5mHWC17iNyRBtpyirAgZOREa+hQS+XU372P/qPQWKku8R4NDzuR0tcQPETiJscr5hAYLQYL4dbKYXRmER4CBzbGyOGfj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716995982; c=relaxed/simple;
-	bh=5xb9/pFTUjXMFfCpbbsAlw8Ymuv/0WvozQ/HI2hJ3eI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tsYI5EXNwJVztlIwYNaSWmtJiR6KLkCT1ILfroW4EMC32BSYG2NQUjX1OGNq6yVobhRTdIZhA41bLN87iwHjrVpCJxGamAR3vDPGVvTNXmZ7HmHTBCdKkFACXpCZeyRPaKHA/A6rMjnBQVwZ3vPB9XLM8ib+dhwBlgIkxBM1BoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WDV6kijH; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5785199f7d1so992974a12.2
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 08:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716995979; x=1717600779; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LVMlvGvu+yE6fLI+Siw+dExoNxH7F0Khba0Cygf9Ass=;
-        b=WDV6kijHr7Us1cbFW9ii6bLQB1uXfcz0+0x9Ji7IGWpeE2Uu8QgqYpCJEBCgqbM/6o
-         yichZl+iqPkRthA5JX/VCrZZ7B+hUKIpmm+qlx52Hgs1k2LHeje7o/nqi7Kw5Gon6Pnx
-         KwOIyqL6j2ybGUHMu72mHyKu7jUKhX9/l6FOVHuCMhlg8IVaUnQFlfOUA857DHfUxh1P
-         Z0H2EgqdCIS0s4GRG5XQW3Vztb8pqnK1V30u5nQGnba4fLsCtJIvizoESSeEfXs726kg
-         7L/PVlfBDyT8+1NoxsCD+jDnsrcujedTG/xyJMMH1lFjFDmHFJWuoRCS8do0Zw2ew6uO
-         2tdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716995979; x=1717600779;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVMlvGvu+yE6fLI+Siw+dExoNxH7F0Khba0Cygf9Ass=;
-        b=Y+aa3Zz7J4qpyTPNvyPbI8OOiDczAG9Ym7wcWoV3XaTE63EJ15IeTpa6FHYLfIlhgx
-         1nk6EMh6t1i/5ldWCdXJQTIbBtS71oWbcuhp4vJyGgm9wFhgOd3f7DeTNQ7Ly/f6rQd1
-         Kz8pZ8wqmQEbyCF0or/L5/A9DLDDVivYKZqOmlOl+l9CFmktL4e9wL6XlCyX+wxBduIj
-         Za1ShwSXU7j1F4vssUEZyLy2qsVszBxZ5ehGR0owRrUvH13Z304cCWwPn2DrNkHETVKU
-         E9Sb1Ir9QPJk7K5VAHR4DMdybD4UtQe0uIjkHwBtAP6FLcwhhINTgc5eUquLN8U19Cs+
-         xfjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmST0iGQdOO39Jd2dRV2uXcyoj1J+BwmKhftavrIforlR8bB8pPndGiPzpILILLX8sI0Dw/1MVXh5AgwFxTFXholreHBluaS73L/8=
-X-Gm-Message-State: AOJu0YwIRpgSTEc1Isn2Nr9CIyTj2b1FS70zKjqZRdzT3LKx+JV/Mbkw
-	19MwK2wp60i4tq8CBn02BY9YMicnxd2PlS1tIvyxjEKAbhNyyszlgQDqfVlSRIQ=
-X-Google-Smtp-Source: AGHT+IHCd3nqrD6LOXts5/qJL2JDZ9MXajPdxTu0OJ82kiARsXhmJOxs0nDRy4z6dcf/PiB8YDe+3g==
-X-Received: by 2002:a50:d649:0:b0:572:6af5:1b61 with SMTP id 4fb4d7f45d1cf-57851915266mr14199318a12.6.1716995978643;
-        Wed, 29 May 2024 08:19:38 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-578524bbb5dsm8489083a12.95.2024.05.29.08.19.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 May 2024 08:19:37 -0700 (PDT)
-Date: Wed, 29 May 2024 18:19:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	prabhakar.csengg@gmail.com,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
-Message-ID: <501d8e92-43c8-4205-9c3a-819888fbd5f2@moroto.mountain>
-References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
- <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
- <20240529004047.GB1436@pendragon.ideasonboard.com>
- <7fbf421c-6477-4fc4-93a5-10e2788522c4@moroto.mountain>
- <20240529145253.GE19014@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1716996563; c=relaxed/simple;
+	bh=MR+691o6QI2VzlxrZXSGEXZ0LSPiIz9Rv0+QjuaM6Fw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jqmhTSsmBjn0jojQ6tIBTzjzRS05VkBUGZTYwgb/qD1ZMEAzsJ+lPapPtqGty1k9meO4iNVkKWsGVPLk2qhAyWQphutrvpFnc8u5RvMNQZnwcANfI3vGjSqzTbI4pbR53cf79GX9ahpb91XySGfegF1gAYUBqy0HuILSyPFv+zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rhq6ZqFb; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40A57149B;
+	Wed, 29 May 2024 17:29:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1716996555;
+	bh=MR+691o6QI2VzlxrZXSGEXZ0LSPiIz9Rv0+QjuaM6Fw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rhq6ZqFbqxkDrz1yBsliaYmL5/5jeII5lp0vlwGowdOizeL3FZGrg/zi2bfTzgUrX
+	 +9xiHMlnbQNgYIEdQ7M6nLPdwyghWvK+J4ItJ1kmWGhBHd+3gG1cS4sHrFHu0UL5D2
+	 kblQpU53/anikhWSeRwrsfit3F2RwaA/UUNjSmZk=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com,
+	robh+dt@kernel.org,
+	mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	jerome.forissier@linaro.org,
+	kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	sakari.ailus@iki.fi,
+	dan.scally@ideasonboard.com
+Subject: [PATCH v5 00/16] Add Arm Mali-C55 Image Signal Processor Driver
+Date: Wed, 29 May 2024 16:28:42 +0100
+Message-Id: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240529145253.GE19014@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 29, 2024 at 05:52:53PM +0300, Laurent Pinchart wrote:
-> On Wed, May 29, 2024 at 05:34:41PM +0300, Dan Carpenter wrote:
-> > On Wed, May 29, 2024 at 03:40:47AM +0300, Laurent Pinchart wrote:
-> > > > @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
-> > > >  	}
-> > > >  
-> > > >  	/* Iterate through each output port to discover topology */
-> > > > -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-> > > > +	for_each_endpoint_of_node(parent, ep) {
-> > > >  		/*
-> > > >  		 * Legacy binding mixes input/output ports under the
-> > > >  		 * same parent. So, skip the input ports if we are dealing
-> > > 
-> > > I think there's a bug below. The loop contains
-> > > 
-> > > 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
-> > > 		if (ret)
-> > > 			return ret;
-> > > 
-> > > which leaks the reference to ep. This is not introduced by this patch,
-> > 
-> > Someone should create for_each_endpoint_of_node_scoped().
-> > 
-> > #define for_each_endpoint_of_node_scoped(parent, child) \
-> >         for (struct device_node *child __free(device_node) =           \
-> >              of_graph_get_next_endpoint(parent, NULL); child != NULL;  \
-> >              child = of_graph_get_next_endpoint(parent, child))
-> 
-> I was thinking about that too :-) I wondered if we should then bother
-> taking and releasing references, given that references to the children
-> can't be leaked out of the loop. My reasoning was that the parent
-> device_node is guaranteed to be valid throughout the loop, so borrowing
-> references to children instead of creating new ones within the loop
-> should be fine. This assumes that endpoints and ports can't vanish while
-> the parent is there. Thinking further about it, it may not be a safe
-> assumption for the future. As we anyway use functions internally that
-> create new references, we can as well handle them correctly.
-> 
-> Using this new macro, the loop body would need to call of_node_get() if
-> it wants to get a reference out of the loop.
+Hello all
 
-The child pointer is declared local to just the loop so you'd need
-create a different function scoped variable.  If it's not local to the
-loop then we'd end up taking a reference on each iteration and never
-releasing anything except on error paths.
+This patchset introduces a driver for Arm's Mali-C55 Image Signal Processor.
+The driver uses the V4L2 / media controller API and implements both of the ISP's
+capture pipelines allowing a range of output formats plus downscaling and
+cropping. The capture pipelines are named "Full resolution" and "Downscale" and
+so abbreviated FR and DS throughout the driver.
 
-> That's the right thing to
-> do, and I think it would be less error-prone than having to drop
-> references when exiting from the loop as we do today. It would still be
-> nice if we could have an API that allows catching this missing
-> of_node_get() automatically, but I don't see a simple way to do so at
-> the moment.
+The driver exposes 4 V4L2 subdevices:
 
-That's an interesting point.
+- mali-c55 isp: input data formatting
+- mali-c55 tpg: test pattern generator (modeled as a camera sensor entity)
+- mali-c55 resizer fr: downscale / crop and format setting for the FR pipe
+- mali-c55 resizer ds: downscale / crop and format setting for the DS pipe
 
-If we did "function_scope_var = ep;" here then we'd need to take a
-second reference as you say.  With other cleanup stuff like kfree() it's
-very hard to miss it if we forget to call "no_free_ptr(&ep)" because
-it's on the success path.  It leads to an immediate crash in testing.
-But here it's just ref counting so possibly we might miss that sort of
-bug.
+Along with 4 V4L2 Video devices:
 
-regards,
-dan carpenter
+- mali-c55 fr: Capture device for the full resolution pipe
+- mali-c55 ds: Capture device for the downscale pipe
+- mali-c55 3a stats: Capture device for statistics to support 3A algorithms
+- mali-c55 3a params: Output device for parameter buffers to configure the ISP
+
+Support is implemented in the parameters video device code for many of the ISP'S
+hardware blocks, but not yet all of them. The buffer format is (as far as I am
+aware anyway) a novel design that we intend to be extensible so that support for
+the C55's remaining hardware blocks can be added later.
+
+Patches 1, 4, 5, 6 and 7 have already had 4 versions on the mailing list...I
+decided to post the additional work on the driver as extra patches rather than
+merge them all into the existing series as it's already a lot of code to review
+and I hoped that that might make it a little easier...if I'm wrong and that's
+not liked I can just squash them into a much smaller series.
+
+Thanks
+Dan
+
+Daniel Scally (15):
+  media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60 format code
+  media: uapi: Add 20-bit bayer formats
+  media: v4l2-common: Add RAW16 format info
+  dt-bindings: media: Add bindings for ARM mali-c55
+  media: mali-c55: Add Mali-C55 ISP driver
+  media: Documentation: Add Mali-C55 ISP Documentation
+  MAINTAINERS: Add entry for mali-c55 driver
+  media: Add MALI_C55_3A_STATS meta format
+  media: uapi: Add 3a stats buffer for mali-c55
+  media: platform: Add mali-c55 3a stats devnode
+  media: platform: Fill stats buffer on ISP_START
+  Documentation: mali-c55: Add Statistics documentation
+  media: uapi: Add parameters structs to mali-c55-config.h
+  media: platform: Add mali-c55 parameters video node
+  Documentation: mali-c55: Document the mali-c55 parameter setting
+
+Jacopo Mondi (1):
+  media: mali-c55: Add image formats for Mali-C55 parameters buffer
+
+ .../admin-guide/media/mali-c55-graph.dot      |  19 +
+ Documentation/admin-guide/media/mali-c55.rst  | 406 ++++++++
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ .../bindings/media/arm,mali-c55.yaml          |  66 ++
+ .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+ .../media/v4l/metafmt-arm-mali-c55.rst        |  87 ++
+ .../media/v4l/subdev-formats.rst              | 268 +++++
+ MAINTAINERS                                   |  10 +
+ drivers/media/platform/Kconfig                |   1 +
+ drivers/media/platform/Makefile               |   1 +
+ drivers/media/platform/arm/Kconfig            |   5 +
+ drivers/media/platform/arm/Makefile           |   2 +
+ drivers/media/platform/arm/mali-c55/Kconfig   |  18 +
+ drivers/media/platform/arm/mali-c55/Makefile  |  11 +
+ .../platform/arm/mali-c55/mali-c55-capture.c  | 951 ++++++++++++++++++
+ .../platform/arm/mali-c55/mali-c55-common.h   | 312 ++++++
+ .../platform/arm/mali-c55/mali-c55-core.c     | 825 +++++++++++++++
+ .../platform/arm/mali-c55/mali-c55-isp.c      | 626 ++++++++++++
+ .../platform/arm/mali-c55/mali-c55-params.c   | 615 +++++++++++
+ .../arm/mali-c55/mali-c55-registers.h         | 365 +++++++
+ .../arm/mali-c55/mali-c55-resizer-coefs.h     | 382 +++++++
+ .../platform/arm/mali-c55/mali-c55-resizer.c  | 779 ++++++++++++++
+ .../platform/arm/mali-c55/mali-c55-stats.c    | 350 +++++++
+ .../platform/arm/mali-c55/mali-c55-tpg.c      | 402 ++++++++
+ drivers/media/v4l2-core/v4l2-common.c         |   4 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+ include/uapi/linux/media-bus-format.h         |   9 +-
+ .../uapi/linux/media/arm/mali-c55-config.h    | 851 ++++++++++++++++
+ include/uapi/linux/videodev2.h                |   3 +
+ 29 files changed, 7370 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/mali-c55-graph.dot
+ create mode 100644 Documentation/admin-guide/media/mali-c55.rst
+ create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+ create mode 100644 drivers/media/platform/arm/Kconfig
+ create mode 100644 drivers/media/platform/arm/Makefile
+ create mode 100644 drivers/media/platform/arm/mali-c55/Kconfig
+ create mode 100644 drivers/media/platform/arm/mali-c55/Makefile
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-common.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-core.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-params.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer-coefs.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-stats.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
+ create mode 100644 include/uapi/linux/media/arm/mali-c55-config.h
+
+-- 
+2.34.1
 
 
