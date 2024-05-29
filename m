@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-12177-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12178-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9534F8D3AF9
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:30:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCCA8D3AFA
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:30:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1762CB27969
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:30:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 40DE61C239D3
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:30:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 089191836D2;
-	Wed, 29 May 2024 15:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A5D1836E3;
+	Wed, 29 May 2024 15:29:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vElfIQmj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EyhYkb+y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1112C1802C7;
-	Wed, 29 May 2024 15:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED721802C7;
+	Wed, 29 May 2024 15:29:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716996581; cv=none; b=VjeMmye7TmY3p/ZwQpDC+5smksoW17SQsm6dzXjCAo/lizRuueZChaedrkWHlvbj+yZfWDYlNCtdENabkOLfffeSl59WrN/bnYqRh8LE+UWJL4q7LkPhF9KGUfT6Ju2lEkWaJamriw9yQpd0L3fN7798U3zr1zWMBPN7UIWmPyg=
+	t=1716996584; cv=none; b=ZvRMt3+aRMvzInTFY6jxTimAwdRY/qQcrqydMcsOwjKFLwJt2xZZZ2KgNln2L7kp6s4rQXOH7GppZ98Tll0zcs15i+Cm/Dh8zPqQULFGqEEgG9fX7+JIzi1PfxZExdzt1yyCNY9U5GqtAeB3UCR/zZSpj3n6JpdyxdpEqL9dkGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716996581; c=relaxed/simple;
-	bh=1VZKD/7iXkmlYhIgC1bcHRQA7bBFUpGOqE0+BrQtj9I=;
+	s=arc-20240116; t=1716996584; c=relaxed/simple;
+	bh=ZiO//0gHAM83B+PZxsN+u0NS0mRuPH0tT19a/LMI4rM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PDtG12pYkBv7JlO+4OXBBfOQex0KeYcwlL8ovR2OYqjhaQPwsUXfUtSZgNkogS4LuNCshFfBhmCKeRnbh2pVyMAqTtnAnrjRrE9e3Da35WmzoBKAi12Rokqd7rxTvyjVfbDKhPX1cNW2dwwEe3Ku4VQ+JF3GeTC7/wKE4LuCIVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vElfIQmj; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=KSm/bhkjeGl1UYhcBXxupqtjcjsS2ljXWYstLt6umqUImGcNpnExXiKyePcDX3FHIkmnwz36B1nKF/k6WQ83nOndi1HhRQGjumCXRN3nGnNFSte+N+Omg8ZX+9F+s4Rgs4yZImsc/Si+IyuitQQJbf34IDPFE66Ti4J3rNgQG+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EyhYkb+y; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9573F2F79;
-	Wed, 29 May 2024 17:29:22 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3926B2F86;
+	Wed, 29 May 2024 17:29:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1716996563;
-	bh=1VZKD/7iXkmlYhIgC1bcHRQA7bBFUpGOqE0+BrQtj9I=;
+	bh=ZiO//0gHAM83B+PZxsN+u0NS0mRuPH0tT19a/LMI4rM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vElfIQmjIYkFvXgK2ynoHG95MW/051It+iKrA7QK6wtQtq+8GAcKljmKHLvEFRvBq
-	 0Ntx2QRKNe9MWPsO58ULGqUKe1HWgFSDd3EVInPFEuogPbIyp1JBrBay0p7J0+DuqH
-	 1Q5tdWCRmb3nuS199C/6CkazSTsx/8LylaXni5aA=
+	b=EyhYkb+yzYewzndGbS6PY6qFvwM5zWNqIbYLwoMO9Wz99db1OyRnFovA93zccXlPE
+	 rtODjoR4i4UMR00Hn83f/JPAJMdbjtMAPuY5e2+aBH5A4unziMBhSHRAYHu1bZS5rn
+	 vu6MQSnG/Ssq+U3fMpU77OPRJvv3r8ClWp601j/I=
 From: Daniel Scally <dan.scally@ideasonboard.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -56,9 +56,9 @@ Cc: jacopo.mondi@ideasonboard.com,
 	laurent.pinchart@ideasonboard.com,
 	sakari.ailus@iki.fi,
 	dan.scally@ideasonboard.com
-Subject: [PATCH v5 11/16] media: platform: Fill stats buffer on ISP_START
-Date: Wed, 29 May 2024 16:28:53 +0100
-Message-Id: <20240529152858.183799-12-dan.scally@ideasonboard.com>
+Subject: [PATCH v5 12/16] Documentation: mali-c55: Add Statistics documentation
+Date: Wed, 29 May 2024 16:28:54 +0100
+Message-Id: <20240529152858.183799-13-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240529152858.183799-1-dan.scally@ideasonboard.com>
 References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
@@ -70,11 +70,11 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On ISP_START, fill the stats buffer by reading out the metering space
-in the ISP's memory. This is done for the non-active config just as
-the dma transfer of the registers is. To acheive that, move the
-checking of the current config outside of mali_c55_swap_next_config()
-so we can use it for both functions.
+Add documentation explaining the ability to capture statistics from
+the mali-c55 driver's new V4L2 device, as well as the various tap
+points from which those statistics can be drawn in the ISP's
+processing flow. Additionally add a page detailing the new V4L2
+meta format for the mali-c55 statistics.
 
 Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
 Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
@@ -85,71 +85,139 @@ Changes in v5:
 
 	- New patch
 
- .../platform/arm/mali-c55/mali-c55-core.c     | 35 ++++++++++++++-----
- 1 file changed, 27 insertions(+), 8 deletions(-)
+ Documentation/admin-guide/media/mali-c55.rst  | 60 ++++++++++++++++++-
+ .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+ .../media/v4l/metafmt-arm-mali-c55.rst        | 28 +++++++++
+ 3 files changed, 88 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
 
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-index 9ea70010876c..2cf8b1169604 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-@@ -420,15 +420,9 @@ static u32 mali_c55_check_hwcfg(struct mali_c55 *mali_c55)
- 	return version;
- }
+diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation/admin-guide/media/mali-c55.rst
+index cf4176cb1e44..b75437f6e96a 100644
+--- a/Documentation/admin-guide/media/mali-c55.rst
++++ b/Documentation/admin-guide/media/mali-c55.rst
+@@ -67,10 +67,11 @@ The driver has 4 V4L2 subdevices:
+ - `mali_c55 resizer fr`: The Full-Resolution pipe resizer
+ - `mali_c55 resizer ds`: The Downscale pipe resizer
  
--static void mali_c55_swap_next_config(struct mali_c55 *mali_c55)
-+static void mali_c55_swap_next_config(struct mali_c55 *mali_c55, u32 next_config)
- {
- 	struct mali_c55_ctx *ctx = mali_c55_get_active_context(mali_c55);
--	u32 curr_config, next_config;
--
--	curr_config = mali_c55_read(mali_c55, MALI_C55_REG_PING_PONG_READ, false);
--	curr_config = (curr_config & MALI_C55_REG_PING_PONG_READ_MASK)
--		      >> (ffs(MALI_C55_REG_PING_PONG_READ_MASK) - 1);
--	next_config = curr_config ^ 1;
+-The driver has 2 V4L2 video devices:
++The driver has 3 V4L2 video devices:
  
- 	mali_c55_update_bits(mali_c55, MALI_C55_REG_MCU_CONFIG,
- 			     MALI_C55_REG_MCU_CONFIG_WRITE_MASK, next_config);
-@@ -440,6 +434,7 @@ static irqreturn_t mali_c55_isr(int irq, void *context)
- {
- 	struct device *dev = context;
- 	struct mali_c55 *mali_c55 = dev_get_drvdata(dev);
-+	u32 curr_config, next_config;
- 	u32 interrupt_status;
- 	unsigned int i, j;
+ - `mali-c55 fr`: The full-resolution pipe's capture device
+ - `mali-c55 ds`: The downscale pipe's capture device
++- `mali-c55 3a stats`: The 3A statistics capture device
  
-@@ -465,7 +460,31 @@ static irqreturn_t mali_c55_isr(int irq, void *context)
- 			for (j = i; j < MALI_C55_NUM_CAP_DEVS; j++)
- 				mali_c55_set_next_buffer(&mali_c55->cap_devs[j]);
+ Frame sequences are synchronised across to two capture devices, meaning if one
+ pipe is started later than the other the sequence numbers returned in its
+@@ -326,6 +327,63 @@ configured, followed by formats in the appropriate places:
+     # Set format on the video device and stream
+     yavta -f RGB565 -s 1920x1080 -c10 /dev/video0
  
--			mali_c55_swap_next_config(mali_c55);
-+			/*
-+			 * When the ISP starts a frame we have some work to do:
-+			 *
-+			 * 1. Copy over the config for the **next** frame
-+			 * 2. Read out the metering stats for the **last** frame
-+			 */
++.. _mali-c55-3a-stats:
 +
-+			curr_config = mali_c55_read(mali_c55,
-+						    MALI_C55_REG_PING_PONG_READ,
-+						    false);
-+			curr_config &= MALI_C55_REG_PING_PONG_READ_MASK;
-+			curr_config >>= ffs(MALI_C55_REG_PING_PONG_READ_MASK) - 1;
-+			next_config = curr_config ^ 1;
++Capturing ISP Statistics
++========================
 +
-+			/*
-+			 * The ordering of these two is currently important as
-+			 * mali_c55_stats_fill_buffer() is asynchronous whereas
-+			 * mali_c55_swap_next_config() is not.
-+			 *
-+			 * TODO: Should mali_c55_swap_next_config() be async?
-+			 */
-+			mali_c55_stats_fill_buffer(mali_c55,
-+				next_config ? MALI_C55_CONFIG_PING :
-+				MALI_C55_CONFIG_PONG);
-+			mali_c55_swap_next_config(mali_c55, next_config);
- 
- 			break;
- 		case MALI_C55_IRQ_ISP_DONE:
++The ISP is capable of producing statistics for consumption by image processing
++algorithms running in userspace. These statistics can be captured by queueing
++buffers to the `mali-c55 3a stats` V4L2 Device whilst the ISP is streaming. Only
++the :ref:`V4L2_META_FMT_MALI_C55_3A_STATS <v4l2-meta-fmt-mali-c55-3a-stats>`
++format is supported, so no format-setting need be done:
++
++.. code-block:: none
++
++    # We assume the media graph has been configured to support RGB565 capture
++    # from the mali-c55 fr V4L2 Device, which is at /dev/video0. The statistics
++    # V4L2 device is at /dev/video3
++
++    yavta -f RGB565 -s 1920x1080 -c32 /dev/video0 && \
++    yavta -c10 -F /dev/video3
++
++The layout of the buffer is described by :c:type:`mali_c55_stats_buffer`,
++but broadly statistics are generated to support three image processing
++algorithms; AEXP (Auto-Exposure), AWB (Auto-White Balance) and AF (Auto-Focus).
++These stats can be drawn from various places in the Mali C55 ISP pipeline, known
++as "tap points". This high-level block diagram is intended to explain where in
++the processing flow the statistics can be drawn from::
++
++                  +--> AEXP-2            +----> AEXP-1          +--> AF-0
++                  |                      +----> AF-1            |
++                  |                      |                      |
++      +---------+ |   +--------------+   |   +--------------+   |
++      |  Input  +-+-->+ Digital Gain +---+-->+ Black Level  +---+---+
++      +---------+     +--------------+       +--------------+       |
++  +-----------------------------------------------------------------+
++  |
++  |   +--------------+ +---------+       +----------------+
++  +-->| Sinter Noise +-+  White  +--+--->|  Lens Shading  +--+---------------+
++      |   Reduction  | | Balance |  |    |                |  |               |
++      +--------------+ +---------+  |    +----------------+  |               |
++                                    +---> AEXP-0 (A)         +--> AEXP-0 (B) |
++  +--------------------------------------------------------------------------+
++  |
++  |   +----------------+      +--------------+  +----------------+
++  +-->|  Tone mapping  +-+--->| Demosaicing  +->+ Purple Fringe  +-+-----------+
++      |                | |    +--------------+  |   Correction   | |           |
++      +----------------+ +-> AEXP-IRIDIX        +----------------+ +---> AWB-0 |
++  +----------------------------------------------------------------------------+
++  |                    +-------------+        +-------------+
++  +------------------->|   Colour    +---+--->|    Output   |
++                       | Correction  |   |    |  Pipelines  |
++                       +-------------+   |    +-------------+
++                                         +-->  AWB-1
++
++At present all statistics are drawn from the 0th tap point for each algorithm;
++I.E. AEXP statistics from AEXP-0 (A), AWB statistics from AWB-0 and AF
++statistics from AF-0. In the future this will be configurable.
++
+ References
+ ==========
+ .. [1] https://git.linuxtv.org/v4l-utils.git/
+diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+index c23aac823d2c..73c05cc35321 100644
+--- a/Documentation/userspace-api/media/v4l/meta-formats.rst
++++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+@@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
+     metafmt-d4xx
+     metafmt-generic
+     metafmt-intel-ipu3
++    metafmt-arm-mali-c55
+     metafmt-rkisp1
+     metafmt-uvc
+     metafmt-vivid
+diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+new file mode 100644
+index 000000000000..219a5dd42d70
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+@@ -0,0 +1,28 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _v4l2-meta-fmt-mali-c55-3a-stats:
++
++****************************************
++V4L2_META_FMT_MALI_C55_3A_STATS ('C55S')
++****************************************
++
++3A Statistics
++=============
++The ISP device collects different statistics over an input bayer frame. Those
++statistics can be obtained by userspace from the
++:ref:`mali-c55 3a stats <mali-c55-3a-stats>` metadata capture video node, using
++the :c:type:`v4l2_meta_format` interface. The buffer contains a single instance
++of the C structure :c:type:`mali_c55_stats_buffer` defined in
++``mali-c55-config.h``, so the structure can be obtained from the buffer by:
++
++.. code-block:: C
++
++	struct mali_c55_stats_buffer *stats =
++		(struct mali_c55_stats_buffer *)buf;
++
++For details of the statistics see :c:type:`mali_c55_stats_buffer`.
++
++Arm Mali-C55 uAPI data types
++============================
++
++.. kernel-doc:: include/uapi/linux/media/arm/mali-c55-config.h
 -- 
 2.34.1
 
