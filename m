@@ -1,142 +1,176 @@
-Return-Path: <linux-media+bounces-12164-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12165-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D738D3A77
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:16:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C32638D3A97
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:19:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01E721C2403B
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:16:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA4501C20B03
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:19:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AB571802B5;
-	Wed, 29 May 2024 15:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6BA11802A7;
+	Wed, 29 May 2024 15:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eWmOcuRa"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WDV6kijH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33341746E
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 15:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBDC1591EC
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 15:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716995754; cv=none; b=OHG6c01tu/9ZljpmpJVGXZSzPA8maxOlF6v7lZoyfdaLiYUygg6PePIh4okkCwxLsG3f5ewxAOqSD4jGQpY4O8gorPzfGugAZHjTg+os0xu0lNeGwrpaAUJiYEjisVRahA2X49QJK3alH8SAhefvrdgIb+hmHlZXfTyGtK0vdZ8=
+	t=1716995982; cv=none; b=p2SwS5bazhvhpBQx/DwhwUzbEUeqPDjQ3OC+A5Rp62m+8ChUD7feAkYj5RnQTQggOQuTK0TYt0u4+2w7C8pLMqfX4ZnqQEOZdicC/7vGB4glQeHaf/QWC5g4ik8pOkw04AkpgTNV1cXQ8wNI854KkP13uUUZeua5o56g+WflMOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716995754; c=relaxed/simple;
-	bh=WRJ9P8uMio+H5tef7YzpD6LIS3d726xNkjsqkACcOQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NpzCFovEtL/QbZDeeuzmmxlyl/MlnqJ9SfUmQaXxcSfWxBznHTyt8ZDt/EqvqXjLtNCu34DeL/4yVKnb5/kGy1iUFpkMVk41su4QGGX/l13pG76lYfZp2gcnNKJ2INhde3jtYLTzsooCcEozzpkPJmniHsGN7jtTCh17lOrldW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eWmOcuRa; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716995752;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YJj0N9qxVcQvjL/C32R8iXU+bPiFmqBqHw0V+yGUuuM=;
-	b=eWmOcuRakKQjzG9jkOsvMcrW5F9r+DVnuBMXjOK7JWjs/QFCGU3RJ2vvQDaZM0RETJciG8
-	NJk/7kTPTuCEg09uG17IDnEvdUTQfJFxTTIsGt/fk0eb3of5Tgx3zoB111ktWU1qQYgB+j
-	rMNoyQ/+g8BgZxyYVMlkkr/zA7/GCs4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-R1QZ-Sw1N-aasxtnjdJ37Q-1; Wed, 29 May 2024 11:15:50 -0400
-X-MC-Unique: R1QZ-Sw1N-aasxtnjdJ37Q-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a6265d3cc76so121058466b.0
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 08:15:50 -0700 (PDT)
+	s=arc-20240116; t=1716995982; c=relaxed/simple;
+	bh=5xb9/pFTUjXMFfCpbbsAlw8Ymuv/0WvozQ/HI2hJ3eI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tsYI5EXNwJVztlIwYNaSWmtJiR6KLkCT1ILfroW4EMC32BSYG2NQUjX1OGNq6yVobhRTdIZhA41bLN87iwHjrVpCJxGamAR3vDPGVvTNXmZ7HmHTBCdKkFACXpCZeyRPaKHA/A6rMjnBQVwZ3vPB9XLM8ib+dhwBlgIkxBM1BoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WDV6kijH; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5785199f7d1so992974a12.2
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 08:19:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716995979; x=1717600779; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LVMlvGvu+yE6fLI+Siw+dExoNxH7F0Khba0Cygf9Ass=;
+        b=WDV6kijHr7Us1cbFW9ii6bLQB1uXfcz0+0x9Ji7IGWpeE2Uu8QgqYpCJEBCgqbM/6o
+         yichZl+iqPkRthA5JX/VCrZZ7B+hUKIpmm+qlx52Hgs1k2LHeje7o/nqi7Kw5Gon6Pnx
+         KwOIyqL6j2ybGUHMu72mHyKu7jUKhX9/l6FOVHuCMhlg8IVaUnQFlfOUA857DHfUxh1P
+         Z0H2EgqdCIS0s4GRG5XQW3Vztb8pqnK1V30u5nQGnba4fLsCtJIvizoESSeEfXs726kg
+         7L/PVlfBDyT8+1NoxsCD+jDnsrcujedTG/xyJMMH1lFjFDmHFJWuoRCS8do0Zw2ew6uO
+         2tdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716995749; x=1717600549;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YJj0N9qxVcQvjL/C32R8iXU+bPiFmqBqHw0V+yGUuuM=;
-        b=c+IPpXDLIx8x+gE12XHam/Y9fJs2xkwyzdvkbCUXF29HRb6UMZbb6g1nbtMoU3WBj/
-         5qncdzTSDX3ENI2kXHcn3XWc3YsNsH2onUBtiAV3vspvFEb3zkCAcnZoKHtSA5b8EIsi
-         x3XqDmbSaFOpMkjsFcydGW7K1XrN7QureK9gv08EOb8Qk86goNJDi+jpiBwlsuMd6obI
-         KZNNwljMWO54cPpB4wJMufoQ+gP/4juY18FlJcsbg6ZYSIYs6mLjqiPHcK34nJIstrzE
-         ALlRjmzhKVm8Gm7Y4fEIcjFbbbT6S43QDA4E0A2/kgEbMkBend/JmP6I2zVuqqnAL7KT
-         QRNA==
-X-Forwarded-Encrypted: i=1; AJvYcCXnRV9B83BKMjXTKSdqtUVFJrG6j3DZAmJ9DFECFEt85ZRkw7iDy/0ht8xx4Z1GO4BnJ9630hFoUzHU/YGITI71LmWhrcvHKXzn/gw=
-X-Gm-Message-State: AOJu0YzmAqwoQG+FbK7SoyX/BZBJf1Is+bwYebxXsXVloDKdG0HA/Qe9
-	ruO+Hv+ZB8HhN7fmob2pkEc59iUkWzZ5PoO14K94KwpyJlzn6/+QdIuqYd37/V3EDYzwrgfDT6a
-	QfZEy+gRknBu6rSVtEtTwU3KHqv5XGI1mPFA7oI48L4HmNb+fmFZ6bmSVfz4D
-X-Received: by 2002:a17:906:cc4d:b0:a59:ba2b:590b with SMTP id a640c23a62f3a-a62650118f2mr1002054166b.71.1716995749387;
-        Wed, 29 May 2024 08:15:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHBfQdnnvzdnxDYNpKfHPkp2qs4TrDJoAtAdmrMZ8sw3PrAleFD/8w6K1K/JnNatJUG8QC4mg==
-X-Received: by 2002:a17:906:cc4d:b0:a59:ba2b:590b with SMTP id a640c23a62f3a-a62650118f2mr1002052366b.71.1716995748887;
-        Wed, 29 May 2024 08:15:48 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a62dbdfca11sm438834566b.145.2024.05.29.08.15.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 08:15:47 -0700 (PDT)
-Message-ID: <8107c1fa-0066-4b7f-b161-2cad1a9eba4e@redhat.com>
-Date: Wed, 29 May 2024 17:15:47 +0200
+        d=1e100.net; s=20230601; t=1716995979; x=1717600779;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LVMlvGvu+yE6fLI+Siw+dExoNxH7F0Khba0Cygf9Ass=;
+        b=Y+aa3Zz7J4qpyTPNvyPbI8OOiDczAG9Ym7wcWoV3XaTE63EJ15IeTpa6FHYLfIlhgx
+         1nk6EMh6t1i/5ldWCdXJQTIbBtS71oWbcuhp4vJyGgm9wFhgOd3f7DeTNQ7Ly/f6rQd1
+         Kz8pZ8wqmQEbyCF0or/L5/A9DLDDVivYKZqOmlOl+l9CFmktL4e9wL6XlCyX+wxBduIj
+         Za1ShwSXU7j1F4vssUEZyLy2qsVszBxZ5ehGR0owRrUvH13Z304cCWwPn2DrNkHETVKU
+         E9Sb1Ir9QPJk7K5VAHR4DMdybD4UtQe0uIjkHwBtAP6FLcwhhINTgc5eUquLN8U19Cs+
+         xfjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmST0iGQdOO39Jd2dRV2uXcyoj1J+BwmKhftavrIforlR8bB8pPndGiPzpILILLX8sI0Dw/1MVXh5AgwFxTFXholreHBluaS73L/8=
+X-Gm-Message-State: AOJu0YwIRpgSTEc1Isn2Nr9CIyTj2b1FS70zKjqZRdzT3LKx+JV/Mbkw
+	19MwK2wp60i4tq8CBn02BY9YMicnxd2PlS1tIvyxjEKAbhNyyszlgQDqfVlSRIQ=
+X-Google-Smtp-Source: AGHT+IHCd3nqrD6LOXts5/qJL2JDZ9MXajPdxTu0OJ82kiARsXhmJOxs0nDRy4z6dcf/PiB8YDe+3g==
+X-Received: by 2002:a50:d649:0:b0:572:6af5:1b61 with SMTP id 4fb4d7f45d1cf-57851915266mr14199318a12.6.1716995978643;
+        Wed, 29 May 2024 08:19:38 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-578524bbb5dsm8489083a12.95.2024.05.29.08.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 08:19:37 -0700 (PDT)
+Date: Wed, 29 May 2024 18:19:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	prabhakar.csengg@gmail.com,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
+Message-ID: <501d8e92-43c8-4205-9c3a-819888fbd5f2@moroto.mountain>
+References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
+ <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
+ <20240529004047.GB1436@pendragon.ideasonboard.com>
+ <7fbf421c-6477-4fc4-93a5-10e2788522c4@moroto.mountain>
+ <20240529145253.GE19014@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] media: v4l2-cci: Always assign *val
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-References: <20240529151415.2910827-1-sakari.ailus@linux.intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240529151415.2910827-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240529145253.GE19014@pendragon.ideasonboard.com>
 
-Hi,
-
-On 5/29/24 5:14 PM, Sakari Ailus wrote:
-> Always assign *val to 0 in cci_read(). This has the benefit of not
-> requiring initialisation of the variables data is read to using
-> cci_read(). Once smatch is fixed, it could catch the use of uninitialised
-> reads.
+On Wed, May 29, 2024 at 05:52:53PM +0300, Laurent Pinchart wrote:
+> On Wed, May 29, 2024 at 05:34:41PM +0300, Dan Carpenter wrote:
+> > On Wed, May 29, 2024 at 03:40:47AM +0300, Laurent Pinchart wrote:
+> > > > @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+> > > >  	}
+> > > >  
+> > > >  	/* Iterate through each output port to discover topology */
+> > > > -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
+> > > > +	for_each_endpoint_of_node(parent, ep) {
+> > > >  		/*
+> > > >  		 * Legacy binding mixes input/output ports under the
+> > > >  		 * same parent. So, skip the input ports if we are dealing
+> > > 
+> > > I think there's a bug below. The loop contains
+> > > 
+> > > 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
+> > > 		if (ret)
+> > > 			return ret;
+> > > 
+> > > which leaks the reference to ep. This is not introduced by this patch,
+> > 
+> > Someone should create for_each_endpoint_of_node_scoped().
+> > 
+> > #define for_each_endpoint_of_node_scoped(parent, child) \
+> >         for (struct device_node *child __free(device_node) =           \
+> >              of_graph_get_next_endpoint(parent, NULL); child != NULL;  \
+> >              child = of_graph_get_next_endpoint(parent, child))
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Tested-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
-> ---
->  drivers/media/v4l2-core/v4l2-cci.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> I was thinking about that too :-) I wondered if we should then bother
+> taking and releasing references, given that references to the children
+> can't be leaked out of the loop. My reasoning was that the parent
+> device_node is guaranteed to be valid throughout the loop, so borrowing
+> references to children instead of creating new ones within the loop
+> should be fine. This assumes that endpoints and ports can't vanish while
+> the parent is there. Thinking further about it, it may not be a safe
+> assumption for the future. As we anyway use functions internally that
+> create new references, we can as well handle them correctly.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-> index ee3475bed37f..1ff94affbaf3 100644
-> --- a/drivers/media/v4l2-core/v4l2-cci.c
-> +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> @@ -23,6 +23,15 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
->  	u8 buf[8];
->  	int ret;
->  
-> +	/*
-> +	 * TODO: Fix smatch. Assign *val to 0 here in order to avoid
-> +	 * failing a smatch check on caller when the caller proceeds to
-> +	 * read *val without initialising it on caller's side. *val is set
-> +	 * to a valid value whenever this function returns 0 but smatch
-> +	 * can't figure that out currently.
-> +	 */
-> +	*val = 0;
-> +
->  	if (err && *err)
->  		return *err;
->  
+> Using this new macro, the loop body would need to call of_node_get() if
+> it wants to get a reference out of the loop.
+
+The child pointer is declared local to just the loop so you'd need
+create a different function scoped variable.  If it's not local to the
+loop then we'd end up taking a reference on each iteration and never
+releasing anything except on error paths.
+
+> That's the right thing to
+> do, and I think it would be less error-prone than having to drop
+> references when exiting from the loop as we do today. It would still be
+> nice if we could have an API that allows catching this missing
+> of_node_get() automatically, but I don't see a simple way to do so at
+> the moment.
+
+That's an interesting point.
+
+If we did "function_scope_var = ep;" here then we'd need to take a
+second reference as you say.  With other cleanup stuff like kfree() it's
+very hard to miss it if we forget to call "no_free_ptr(&ep)" because
+it's on the success path.  It leads to an immediate crash in testing.
+But here it's just ref counting so possibly we might miss that sort of
+bug.
+
+regards,
+dan carpenter
 
 
