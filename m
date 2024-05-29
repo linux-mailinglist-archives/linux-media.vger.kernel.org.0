@@ -1,149 +1,133 @@
-Return-Path: <linux-media+bounces-12153-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12154-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C528D3601
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 14:08:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF46A8D366B
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 14:30:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B03A1F24717
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 12:08:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 700041F26750
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 12:30:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B5F4180A86;
-	Wed, 29 May 2024 12:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZqWCIRYW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D879181308;
+	Wed, 29 May 2024 12:30:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8240353802
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 12:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77888647;
+	Wed, 29 May 2024 12:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716984522; cv=none; b=F68u9lJ4N3gfRthuX3CFmcv2jO4iyWwdk4/u4BziY9os9qBf4gSjMdHsk8Lmyk+sUvx/1O+USJoK9c00NbtohCHUHEGPfcpN9NxWRl1zLQi4x7rvTeynDW8S5PBOUL/Kl4ca4VBLQ68QpQN+LE+xDvhOTUbULsNg+W6KOWOo/ro=
+	t=1716985818; cv=none; b=k1g1msfgw8WzuVNWjLwVkzyNLRD28jJfCc1NcehB0uTtnmWFaNQEabNNMjpV0pZhFknqF3D6F5y3eZ0XxwNJB377WuN0tGkMIlL3VAGuFzu2jFVFh7GUQvFdcedFtwx/RPX8AhurA8BRa5mU3Kjsqgd1wPj8gg/iCgYXMYuBFZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716984522; c=relaxed/simple;
-	bh=P5pSh/9FY5f00M9NGXm9vtBz4tuG13GFoE2SRb1NhO0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kZQjNm/5ovciL4GsNb1HIfr76TaEm8yi7xBIlAQ0GSeWLkOG3aArn6yMGOrUr3X6+oqniMrZMalHtIg3YDVS9uczKTPTp/AF2rhVZXK5aTG+yKG3DX5WPt+DmMf+ZnuaBuVDvZ+vjc/MgoWSbRQCWO+ZdePWxKkdzLi5AUfVhQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZqWCIRYW; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3d1bf6d156cso1063910b6e.3
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 05:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1716984519; x=1717589319; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=58Mz1pMCv2xWGH0opDNoc97XaxN4eqbimdmnrrVnn9Q=;
-        b=ZqWCIRYWlIYVcAgo9enarMIo2uPyYugGGjTbT+4gQVfBRdYRv55E6Vn53UHxVK0Uhs
-         1R9StLAebwNgcHve+UZpWLKHBJWNrWfF046GTFjGbaKjI6RKY8fo9rkfBsnv6jkgxFDw
-         wmfJBJkJ37CeIu4GSJ45l+403qCGFkOi+K+TM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716984519; x=1717589319;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=58Mz1pMCv2xWGH0opDNoc97XaxN4eqbimdmnrrVnn9Q=;
-        b=hg74az8dxbkHRCQYzPDgn4ZAxfIvbxWcKP+yRftRDlCLSI80C4k/ee96pR34wf3iuX
-         xPFVAkf+IudHHI+d6YH9kFOGVtYhAPoQWFAfNQF7ZQR8ItNFHyIy1YDvKzHFTjJqTEQU
-         Z9suQAhmMY0JCoLCGTiMVl61kvRzc41sbzvpwHjcYHofGEr5uG0DnMJhAYXpQ+BXTyVV
-         BKbw3q9Lxbxryu54BnjWmiKC+DJARZsxezhjc0MNlugMFVxjD3gBu/YDbzrsa2fOaqeS
-         SxIhnhvB0vwCFjvMxKEeNn/RYvGWWOjKik6krfSGObe3wBxVYQhR+KF+MijUac9mcOdQ
-         DL6w==
-X-Gm-Message-State: AOJu0YzVIakW7gDpbuM+LJL0HYfFKlUKSU3DfRA0nZp3yJ9RkTCQtdKN
-	XRp3RL+mk7kdCfnST4czeJ6UuMJ530jQhxaY5kt82liIMexc+U79r+5Ajxg/yWyABlNvJL2nR5E
-	=
-X-Google-Smtp-Source: AGHT+IE04iWG9pczxIlXMFcTF8XvUQasByNomR/v97K0FmBwfxiB60/y/MMkQ2+5e6zEWo409+W0lQ==
-X-Received: by 2002:a05:6808:2105:b0:3d1:d399:2cde with SMTP id 5614622812f47-3d1d3993288mr3516142b6e.6.1716984519155;
-        Wed, 29 May 2024 05:08:39 -0700 (PDT)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com. [209.85.219.49])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43fde7fd8casm11430881cf.86.2024.05.29.05.08.38
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 05:08:38 -0700 (PDT)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6ab8e0c42d3so9053506d6.3
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 05:08:38 -0700 (PDT)
-X-Received: by 2002:a05:6214:5988:b0:6ab:1b6b:c8ba with SMTP id
- 6a1803df08f44-6abc7a9f3famr166570126d6.1.1716984517986; Wed, 29 May 2024
- 05:08:37 -0700 (PDT)
+	s=arc-20240116; t=1716985818; c=relaxed/simple;
+	bh=DGfatGcTzFpAvYuN4A7ArzVL/lkr9IM2WyCWk2K7P+U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YWNoT2NMP2EpgGZYNVBQgbx4Uh7j8lgA/zZSPoyi1ZnFhJSE5YAnTp+65M6LEvJy7RZTEVZjnWwwOGI28BHe4hGMihLXWedIQNmZzYG866kLUXj2EkMyS/Y+ug2bykQNlKSD1lMMIeCVYsjc+QFq1MjeE/baQMcc3VrCWLt824g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D024D339;
+	Wed, 29 May 2024 05:30:39 -0700 (PDT)
+Received: from [192.168.1.100] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B1073F762;
+	Wed, 29 May 2024 05:30:12 -0700 (PDT)
+Message-ID: <941db167-fda5-4d57-9623-58d8b8c0a7b5@arm.com>
+Date: Wed, 29 May 2024 13:30:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240425132334.18546-2-localevil3@gmail.com>
-In-Reply-To: <20240425132334.18546-2-localevil3@gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 29 May 2024 14:08:25 +0200
-X-Gmail-Original-Message-ID: <CANiDSCv89CcxMW=fA2LBR-qgZmhOcO4J--go6wsCMbGsN+Zf0A@mail.gmail.com>
-Message-ID: <CANiDSCv89CcxMW=fA2LBR-qgZmhOcO4J--go6wsCMbGsN+Zf0A@mail.gmail.com>
-Subject: Re: [PATCH] Add "Quanta ACER HD User Facing" devices.
-To: Ilyas Erezhepov <localevil3@gmail.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Ilyas
-
-On Thu, 25 Apr 2024 at 15:27, Ilyas Erezhepov <localevil3@gmail.com> wrote:
->
-> This patch adds two built-in video cameras for Acer laptops.
->
-> Signed-off-by: Ilyas Erezhepov <localevil3@gmail.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-May I ask where Laurent reviewed the patch?
-
-I am trying to find it in linux-media and I am not able to find it
-
-
->
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 08fcd2ffa727..502c03b6dabe 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2454,6 +2454,29 @@ static const struct usb_device_id uvc_ids[] = {
->           .bInterfaceSubClass   = 1,
->           .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
->           .driver_info          = (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-> +       /* Quanta ACER HD User Facing  0x4035 */
-> +       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> +                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> +         .idVendor             = 0x0408,
-> +         .idProduct            = 0x4035,
-> +         .bInterfaceClass      = USB_CLASS_VIDEO,
-> +         .bInterfaceSubClass   = 1,
-> +         .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
-> +         .driver_info          = (kernel_ulong_t) &(const struct uvc_device_info ) {
-> +               .uvc_version = 0x010a,
-> +         }
-> +       },
-> +       /* Quanta ACER HD User Facing 4033 */
-> +       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> +                               | USB_DEVICE_ID_MATCH_INT_INFO,
-> +         .idVendor             = 0x0408,
-> +         .idProduct            = 0x4033,
-> +         .bInterfaceClass      = USB_CLASS_VIDEO,
-> +         .bInterfaceSubClass   = 1,
-> +         .bInterfaceProtocol   = UVC_PC_PROTOCOL_15,
-> +         .driver_info          = (kernel_ulong_t) &(const struct uvc_device_info ) {
-> +               .uvc_version = 0x010a, }
-> +       },
->         /* LogiLink Wireless Webcam */
->         { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
->                                 | USB_DEVICE_ID_MATCH_INT_INFO,
-> --
-> 2.44.0
->
->
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ "coresight@lists.linaro.org" <coresight@lists.linaro.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ prabhakar.csengg@gmail.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Eugen Hristev <eugen.hristev@collabora.com>, Rob Herring
+ <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
+ <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
+ <20240529004047.GB1436@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: James Clark <james.clark@arm.com>
+In-Reply-To: <20240529004047.GB1436@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
--- 
-Ricardo Ribalda
+
+On 29/05/2024 01:40, Laurent Pinchart wrote:
+> Hi Morimoto-san,
+> 
+> Thank you for the patch.
+> 
+> On Tue, May 28, 2024 at 11:55:32PM +0000, Kuninori Morimoto wrote:
+>> We already have for_each_endpoint_of_node(), don't use
+>> of_graph_get_next_endpoint() directly. Replace it.
+>>
+>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+>> ---
+>>  drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
+>> index 9d550f5697fa8..e9683e613d520 100644
+>> --- a/drivers/hwtracing/coresight/coresight-platform.c
+>> +++ b/drivers/hwtracing/coresight/coresight-platform.c
+>> @@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+>>  	 */
+>>  	if (!parent) {
+>>  		/*
+>> -		 * Avoid warnings in of_graph_get_next_endpoint()
+>> +		 * Avoid warnings in for_each_endpoint_of_node()
+>>  		 * if the device doesn't have any graph connections
+>>  		 */
+>>  		if (!of_graph_is_present(node))
+>> @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
+>>  	}
+>>  
+>>  	/* Iterate through each output port to discover topology */
+>> -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
+>> +	for_each_endpoint_of_node(parent, ep) {
+>>  		/*
+>>  		 * Legacy binding mixes input/output ports under the
+>>  		 * same parent. So, skip the input ports if we are dealing
+> 
+> I think there's a bug below. The loop contains
+> 
+> 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
+> 		if (ret)
+> 			return ret;
+> 
+> which leaks the reference to ep. This is not introduced by this patch,
+> so
+> 
+
+Nice catch, I will send a patch.
+
+Also:
+
+Reviewed-by: James Clark <james.clark@arm.com>
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
 
