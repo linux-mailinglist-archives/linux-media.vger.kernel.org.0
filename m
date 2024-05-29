@@ -1,183 +1,215 @@
-Return-Path: <linux-media+bounces-12194-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12195-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FAA8D3F17
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 21:49:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CDE8D3F54
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 22:04:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5ECD71C22353
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 19:49:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A955B25117
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 20:04:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8496B1C68A6;
-	Wed, 29 May 2024 19:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAA511C2332;
+	Wed, 29 May 2024 20:03:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WaKJxj2r"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="Otl0aylM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CF81C6883
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 19:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717012166; cv=none; b=LxGvU98GzK6tWbt4hDEH0h7xF3XsP7h9sYyETNg4ji0EC1gpnzb00EEOFqo5f/3JtV5/FymLp+sXsfJxJoUi+4N/FTTqHJX6jv/dBmd/3ztKS7nA+WzzuDkIiXJpJ24O+e3LkT+EYFU8UqFP7hghxfa+VVuWenaNyL6PKnWU9Lw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717012166; c=relaxed/simple;
-	bh=6SM4nGMq6YXwjPx3hzOgTtkr8rnEX3Vki2GtQ9/v/Tg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S6cKk51hsQJJ741JOthGgOutpC9+NNKkSuetGvyaRf0D5ygkSW3gIOxmvbhBhIVZ4hS8jLAXhFQtuKgDTbjjlBGJYnbOAPEIyWewrzHtt+1idI5XXXiiFvLjv5VL8qz8WL5Xmtgc5zEoyN/0kBr9XvAJet9+EBd1HrJ/AZfNsug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WaKJxj2r; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5755fafa5a7so128230a12.1
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 12:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717012162; x=1717616962; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mc6m1mM9m4Ud5DdSGHmt9Zcx4NpBQQ1agEgintMCgFk=;
-        b=WaKJxj2rSmiptfxPuIpvUd4DO37VpSMk36dQcSjU2nfbhLrs/6sj+L957ozHRkSxyE
-         TahFIlyXavs4CwVkXbGgibHaZ78nBGAoNz1E+2HWXC9+7wpBE9x3fU/+vVUNcUW6rJqc
-         n0wSQUBi2d3dc4nr8ulLpmSegCq86rCBEhG/icMRdmocKpO4NWAppHoIuWkJ8uNPH+jX
-         o2ArPykUTi8L9m/w0vlaDn5Dc8OxRXwlaoO9jd/ezYSXQJ3I6lBNJtlfF/AcwBvjH0to
-         Qv6SqMuA/Yte/M52TzTy7XMHZ3YE8iF0RhhZ/93YZjD2Ch6+/yU4fVLtCjI9qC9Bx0KN
-         3KUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717012162; x=1717616962;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mc6m1mM9m4Ud5DdSGHmt9Zcx4NpBQQ1agEgintMCgFk=;
-        b=b8DbFD4AA5GGz0qNZ/G1JrZ5e5GUvvQxv4l66kulI7RfDegaGg3v1kh1QFr7T7TyRL
-         OwGU17l1M00IT+v4rUWCsCfB/825fxe+4EwDMmABY5dB7ggPtrQuRLpgVXWwf/+mwGLA
-         SAh7AdwoaJGxlgBgoNMX9SAM5mbExtg0N9aX/TyodKjEQ2PUdqzZ31BgBLmTEvjCaV+9
-         zS6nL5t5t1iA66moZHNPOV73DcQVRBVkaGRvZWIvRAEiiWxjxPxSiINcoP+xIphDPqtb
-         8wIR9mKQ04F4WM9p+noElKfnT1PhU3HSbTb7lDcTcSXzMvorIfpNfzSGeyuZ1/grX1AQ
-         JfEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzjPHGAY4jxVctSL0iq1qw1UaJusjdhg/DfjODnqT7mQ23W4uSTa6O3W8tSb4vBewUjwuEidEkOj8z7qHDidjmzCZLGfejULxgzck=
-X-Gm-Message-State: AOJu0Yy+cWlIuh+a+vS5vdrWZn+K3xmNG0ORwIx5KrXWa3gUWybSd214
-	eimK/q0KCwa6lwrGIPDiZSEXK173abFId3112yDUGnNM3ruyazncqQLXClKMPVlYjeyI2dFbVDm
-	OqqOP3/4oLHQ2+V09LcMFK57wy1jpejCYd3H2
-X-Google-Smtp-Source: AGHT+IF9PV9JeYxxToH3qJtJfXsnwGUXtNUCB5FusC4DI8sGVRwbRTrnhLkmsIc9tQHh+KHAMPViyk6pTFPRs1HCH10=
-X-Received: by 2002:a17:906:c18f:b0:a63:49a5:9390 with SMTP id
- a640c23a62f3a-a65e8f74d3dmr11845366b.41.1717012162364; Wed, 29 May 2024
- 12:49:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B226113B290
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 20:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717013022; cv=pass; b=ELxfgKE3SZ7qGvh+P+74TEUa5HU/cJ8GCeqdQI4q00OdmCEE0pdYC4ZSr2WF8xR8AjODIEblaPp6yAyKs96F8SIrk3m5RFkVC6WbdQzjODW8sFDviytjca/smtiOqoJUNiT8TXwcRPdlQ5bBY+1lREDHPkwYXPsWSDrXf9oJueg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717013022; c=relaxed/simple;
+	bh=+ih+BD0Fgi3olc1GIxlj9UoM2iNncoD5aLmqmx2x27k=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LymrjnFVknzOTO8cGZ5CfP5PrqFIsMmAxe/SG8u5KkTpxcsZ0t7rcmjFqwWQPB/VizpTun8+STW3tOQBqKaongZaVNDC9FJ4cWCUEsXPbYii4twcq3ptp3NygI+JA6YOrht1CuvRl1TP6qknWEkAHVC4+9DconLc/W6S0oRell0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=Otl0aylM; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4VqL0y45c7zyS1
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 23:03:30 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1717013010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=YA/pO+1PLiNXTolaOvIV6v58W/oFHwNBJ7pxOyU1L7s=;
+	b=Otl0aylMXuSAbE4Rrpu5CBcihbs8cH+0pLiD6l5/OtPvlcj5xthSWWKrJF7a7B7Z/lxXDR
+	0Ptwt01uWnZCgGCYjpzm6dsQxV6rci9euowaUtvgq12GqbJ4kdO3E6PX76bTIevXr19hXM
+	aUXXqyyPtWAtZ/mAqa6EKPJvaRhIXlA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1717013010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=YA/pO+1PLiNXTolaOvIV6v58W/oFHwNBJ7pxOyU1L7s=;
+	b=bpRnmXDQu58+DPAspSPsbHvVSza3I6T8SsQht1Ym85TiAQYbY2JwyCsOMTzYjVEYTvc99e
+	QWKGz4fGvdXH7VHzFBQLR42TUZXV+Bj1pEA181rOqkwdnFJ6+O8uSRPaWYQXsmdU9EUIkg
+	fsbou0/9DjLNkat9MgoyBaeWk69K4CA=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1717013010; a=rsa-sha256; cv=none;
+	b=vr+DJmBDKJwtJvZ7YoT3FZ/TZtmG0m5wBfzFr7yS2pmGnPigl7tV7gY7DYIcEEkAjOsi7G
+	6rBLVy7uw+XGp5+qWIJNUAHpwyb9MKsO1gJLrJThAWtLaxZ338wipiUtg20VyVM1Zutrii
+	U7wDdBPPeWSlVFfXSae9IvDWrfeRF68=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0C0F9634C93
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 23:00:23 +0300 (EEST)
+Date: Wed, 29 May 2024 20:00:23 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.11] V4L2 patches
+Message-ID: <ZleJV5YSl92-13CT@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240510232128.1105145-1-almasrymina@google.com>
- <20240510232128.1105145-5-almasrymina@google.com> <d85f4ba4-774f-4577-985f-45a5a1866da7@davidwei.uk>
-In-Reply-To: <d85f4ba4-774f-4577-985f-45a5a1866da7@davidwei.uk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 29 May 2024 12:49:08 -0700
-Message-ID: <CAHS8izPVhDaokO9C+S4RR9b6+77OV2CsNb8jnGGKxNqGTa6DXg@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 04/14] netdev: support binding dma-buf to netdevice
-To: David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 18, 2024 at 11:46=E2=80=AFAM David Wei <dw@davidwei.uk> wrote:
->
-> On 2024-05-10 16:21, Mina Almasry wrote:
-> > +void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *bindin=
-g)
-> > +{
-> > +     struct netdev_rx_queue *rxq;
-> > +     unsigned long xa_idx;
-> > +     unsigned int rxq_idx;
-> > +
-> > +     if (!binding)
-> > +             return;
-> > +
-> > +     if (binding->list.next)
-> > +             list_del(&binding->list);
-> > +
-> > +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
-> > +             if (rxq->mp_params.mp_priv =3D=3D binding) {
-> > +                     /* We hold the rtnl_lock while binding/unbinding
-> > +                      * dma-buf, so we can't race with another thread =
-that
-> > +                      * is also modifying this value. However, the pag=
-e_pool
-> > +                      * may read this config while it's creating its
-> > +                      * rx-queues. WRITE_ONCE() here to match the
-> > +                      * READ_ONCE() in the page_pool.
-> > +                      */
-> > +                     WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
-> > +                     WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
-> > +
-> > +                     rxq_idx =3D get_netdev_rx_queue_index(rxq);
-> > +
-> > +                     netdev_rx_queue_restart(binding->dev, rxq_idx);
->
-> What if netdev_rx_queue_restart() fails? Depending on where it failed, a
-> queue might still be filled from struct net_devmem_dmabuf_binding. This
-> is one downside of the current situation with netdev_rx_queue_restart()
-> needing to do allocations each time.
->
-> Perhaps a full reset if individual queue restart fails?
->
+Hi Hans,
 
-Sorry for the late reply, I've been out on vacation for a few days and
-caught up to some other work.
+Here's a bunch of patches for 6.11. Included are a new driver for imx283,
+fixes and other improvements for imx412, imx258, max96712, IPU6,
+ipu-bridge, hi848 drivers. Fixes and improvements are included for V4L2
+async and compatibility improvements between s_stream and
+{enable,disable}_streams, v4l2-cci and random cleanups removing unused
+struct definitions.
 
-Yes, netdev_rx_queue_restart() can fail, but I'm not sure how to
-recover. Full reset would be an option, but it may be way too big of a
-hammer to do a full reset on this failure. Also, last I discussed with
-Jakub, AFAIU, there is no way for core to reset the driver? I had
-suggested to Jakub to use ndo_stop/ndo_open to reset the driver on
-queue binding/unbinding, but he rejected that as it could cause the
-driver to fail to come back up, which would leave the machine stranded
-from the network. This is why we implemented the queue API, as a way
-to do the binding/unbinding without risking the machine stranding via
-a full reset. This is the previous convo from months back[1].
+Please pull.
 
-So, all in all, I don't see anything amazing we can do here to
-recover. How about just log? I will add a warning in the next
-iteration.
 
-(I applied most of the rest of your suggestions btw).
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
 
-[1] https://patchwork.kernel.org/project/netdevbpf/patch/20231106024413.280=
-1438-13-almasrymina@google.com/#25590262
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
 
---=20
-Thanks,
-Mina
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.11-1.1-signed
+
+for you to fetch changes up to 378e20fc2e3d5e3a5976a91f2cb542feb228fac2:
+
+  media: v4l2-cci: Always assign *val (2024-05-29 22:29:00 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.11
+
+----------------------------------------------------------------
+Bingbu Cao (1):
+      media: ipu-bridge: add mod_devicetable.h header inclusion
+
+Bryan O'Donoghue (1):
+      media: i2c: Fix imx412 exposure control
+
+ChiYuan Huang (1):
+      media: v4l: async: Fix NULL pointer dereference in adding ancillary links
+
+Dave Stevenson (20):
+      media: i2c: imx258: Remove unused defines
+      media: i2c: imx258: Make image geometry meet sensor requirements
+      media: i2c: imx258: Disable digital cropping on binned modes
+      media: i2c: imx258: Remove redundant I2C writes.
+      media: i2c: imx258: Add regulator control
+      media: i2c: imx258: Make V4L2_CID_VBLANK configurable.
+      media: i2c: imx258: Split out common registers from the mode based ones
+      media: i2c: imx258: Add support for 24MHz clock
+      media: i2c: imx258: Add support for running on 2 CSI data lanes
+      media: i2c: imx258: Follow normal V4L2 behaviours for clipping exposure
+      media: i2c: imx258: Add get_selection for pixel array information
+      media: i2c: imx258: Allow configuration of clock lane behaviour
+      media: i2c: imx258: Correct max FRM_LENGTH_LINES value
+      media: i2c: imx258: Issue reset before starting streaming
+      media: i2c: imx258: Set pixel_rate range to the same as the value
+      media: i2c: imx258: Support faster pixel rate on binned modes
+      dt-bindings: media: imx258: Rename to include vendor prefix
+      dt-bindings: media: imx258: Add alternate compatible strings
+      media: i2c: imx258: Change register settings for variants of the sensor
+      media: i2c: imx258: Make HFLIP and VFLIP controls writable
+
+Dr. David Alan Gilbert (4):
+      media: i2c: dw9768: remove unused struct 'regval_list'
+      media: i2c: ks0127: remove unused struct 'adjust'
+      media: i2c: tw9910: remove unused strust 'regval_list'
+      media: i2c: adv7511: remove unused struct 'i2c_reg_value'
+
+Kieran Bingham (1):
+      media: i2c: Add imx283 camera sensor driver
+
+Luis Garcia (2):
+      media: i2c: imx258: Use v4l2_link_freq_to_bitmap helper
+      media: i2c: imx258: Convert to new CCI register access helpers
+
+Niklas Söderlund (1):
+      media: staging: max96712: Store format in subdev active state
+
+Ricardo Ribalda (1):
+      media: i2c: hi846: Fix V4L2_SUBDEV_FORMAT_TRY get_selection()
+
+Sakari Ailus (3):
+      media: async: Warn on attept to create an ancillary link to a non-subdev
+      media: ipu6: Print CSR messages using debug level
+      media: v4l2-cci: Always assign *val
+
+Tomi Valkeinen (11):
+      media: subdev: Add privacy led helpers
+      media: subdev: Use v4l2_subdev_has_op() in v4l2_subdev_enable/disable_streams()
+      media: subdev: Add checks for subdev features
+      media: subdev: Fix use of sd->enabled_streams in call_s_stream()
+      media: subdev: Improve v4l2_subdev_enable/disable_streams_fallback
+      media: subdev: Add v4l2_subdev_is_streaming()
+      media: subdev: Support privacy led in v4l2_subdev_enable/disable_streams()
+      media: subdev: Refactor v4l2_subdev_enable/disable_streams()
+      media: subdev: Support single-stream case in v4l2_subdev_enable/disable_streams()
+      media: subdev: Support non-routing subdevs in v4l2_subdev_s_stream_helper()
+      media: subdev: Improve s_stream documentation
+
+Umang Jain (1):
+      media: dt-bindings: media: Add bindings for IMX283
+
+ .../media/i2c/{imx258.yaml => sony,imx258.yaml}    |   11 +-
+ .../devicetree/bindings/media/i2c/sony,imx283.yaml |  107 ++
+ MAINTAINERS                                        |   11 +-
+ drivers/media/i2c/Kconfig                          |   11 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/adv7511-v4l2.c                   |    5 -
+ drivers/media/i2c/dw9768.c                         |    5 -
+ drivers/media/i2c/hi846.c                          |    2 +-
+ drivers/media/i2c/imx258.c                         | 1424 +++++++++--------
+ drivers/media/i2c/imx283.c                         | 1605 ++++++++++++++++++++
+ drivers/media/i2c/imx412.c                         |    9 +-
+ drivers/media/i2c/ks0127.c                         |    8 -
+ drivers/media/i2c/tw9910.c                         |    5 -
+ drivers/media/pci/intel/ipu6/ipu6-buttress.c       |    4 +-
+ drivers/media/v4l2-core/v4l2-async.c               |    7 +
+ drivers/media/v4l2-core/v4l2-cci.c                 |    9 +
+ drivers/media/v4l2-core/v4l2-subdev.c              |  385 +++--
+ drivers/staging/media/max96712/max96712.c          |   37 +-
+ include/media/ipu-bridge.h                         |    1 +
+ include/media/v4l2-subdev.h                        |   34 +-
+ 20 files changed, 2865 insertions(+), 816 deletions(-)
+ rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml => sony,imx258.yaml} (88%)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
+ create mode 100644 drivers/media/i2c/imx283.c
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
