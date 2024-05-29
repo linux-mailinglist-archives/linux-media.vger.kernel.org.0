@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-12133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2748D8D2B8B
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 05:44:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCB68D2B8E
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 05:46:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6D0A286FFB
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 03:44:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 767051F24A5C
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 03:46:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F6715B139;
-	Wed, 29 May 2024 03:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9629315B14B;
+	Wed, 29 May 2024 03:46:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwopyzL8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCx8ZV6p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A81A273DC
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 03:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A45A10F4
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 03:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716954277; cv=none; b=JASjWYz4/dsxFdVZlP1Cmu7QYt25s3kC/RwCkKVx+JsQpnj7D5/knjHYYHfvumfMGLBHE5Agicr78ttj+xe6xRlwvDShKw3dsgrRXw5ctVyWfftkSI7n5/g1bFsNz7ELDU87goy1/RTirtiuDbPADqXNyEhB/7XeHwPm5yIPo/0=
+	t=1716954365; cv=none; b=ZWz2raF3SZPkMqZTb6pnKsVkLgalU2iBFUuqS2D0ozRKjo+PnDjkKGwzrAp6aYasMxnNMMi2v91aBt5iM6VHfYurqzFPXkOE6WYzpYQbzbQPah9/0Uxx3b2yM6cnnUIXcjhYaSuPFgBU1SqR4NeRXPdxTMBT28HfsHJl52Jwvcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716954277; c=relaxed/simple;
-	bh=GjmhgaikhwIwfDu0rQMWFgnhulBxUgwpGMPxgY+LmIg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XaedfOj//YZdmC+Dmofrw3tjvy+VQdnA3D66+gX6BBdBSMMSBg1ndbAKrCyT4d726xNQmn6NwylGZH3DEoWskKWzBPiOjpKDV+JLlNHmLKFNwBF/Se8Ng08EzjIEypG6+fDIe+hgWlPa6hhLkRMnY1k+Glpvdqc7JaWbjpcqHik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwopyzL8; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1716954365; c=relaxed/simple;
+	bh=ApY7ZQb4ND1iJmnuu8Iiaxf0NtBi+xjAFX//Qm5jr7U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UCwxAHQeJ0ab9zOz7EdZiVDZV19hrGG7NVVytogA3txa/Ccb/5i/CTTnB6OSQ4vtMio0O39IORcqGd3gJnJE1pRpVsrJqWGFV2OisYooLk4cxHiypX/G65kfyMNmw+FAwVTqJ2a4upKCWiNhqFRqGfNZF7bLpwG9k8BumsV/moQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCx8ZV6p; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716954276; x=1748490276;
+  t=1716954363; x=1748490363;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=GjmhgaikhwIwfDu0rQMWFgnhulBxUgwpGMPxgY+LmIg=;
-  b=PwopyzL8UJncFWdm6Hjm7MKBX1WX+zWRQ98H6nEjPM2q24UgRBRTSUz1
-   ViP4q+OYajWDGySij1yqyWgeA1kgJUuyl5LC34wtM9zLxr4FH0DoZ173e
-   Un+QJFoB90VTkM9xPSyjKlXDPGhDqLQmKgUuvhZfo2kl81k1scaocCoB5
-   V5Gy0cpQpbmxyQeHZu8M5lqK6FZ5JVF0zOqj3sAZpI9Ku2O5IQ/6+fofW
-   fY+SMEMpn3nKc1pVroprrq5JRP5oE8QHNfRhql2qTDmEnh9tI4lhLNQ5x
-   BA4GDPX3SjsZ9QRCxGMQJtazViCXVK2MKIjbMbJTe65vQNv3icAi02Ey/
-   Q==;
-X-CSE-ConnectionGUID: OIZyT7MiQYKh0mgRAJbzXw==
-X-CSE-MsgGUID: Dd/CZsJTQNqCDaGeG7j80w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="16283669"
+  bh=ApY7ZQb4ND1iJmnuu8Iiaxf0NtBi+xjAFX//Qm5jr7U=;
+  b=eCx8ZV6pDX0gtawBv6h/bUvE9jfGZlTjWxB3Jow2tx7++Xf+mKMSO1E8
+   Utjx40wIOtMERuXay6zLm3i6Gp3gQ03QK9nx2VTZAT0tdhJ0shykkUbXj
+   2GNBEjAxZTwci+W3OYe3ICXj4fDjRFdrXqymJdXcBwiCWQrtL0JWvC73j
+   HvinXRHr7mtR/IMgPz+5UPV0KW+wkxMHwxwDbRQTE3VGrbi95aOKP3hWX
+   /S0KzuIIc3f3ZfHCI4Eogk/qgPqAzKuBiEhbWKGp6T3hOF1+bpYjqNTxG
+   9woYIDfQvJRyQfU2SqztSm/Mq1UqFS1iFPZzpNLeK97RT1It+rHRerxKB
+   A==;
+X-CSE-ConnectionGUID: ODFWdjACTbqd2YwAQWVhRg==
+X-CSE-MsgGUID: vWdDFdFWQrKzZ/tXt6vmAw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="11742206"
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="16283669"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 20:44:35 -0700
-X-CSE-ConnectionGUID: 1UvLgbcNQr6nWBhPe40p0w==
-X-CSE-MsgGUID: +zlM1KZ0THmHi4PZ1cuRFg==
+   d="scan'208";a="11742206"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 20:46:03 -0700
+X-CSE-ConnectionGUID: PAi0ChYVSvOXD3MuyE1vCw==
+X-CSE-MsgGUID: onR3/sS3SMGIJdVuqIs+SQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,197,1712646000"; 
-   d="scan'208";a="40277326"
+   d="scan'208";a="39731973"
 Received: from icg-hal3.bj.intel.com ([172.16.127.200])
-  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 20:44:33 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 May 2024 20:46:01 -0700
 From: bingbu.cao@intel.com
 To: linux-media@vger.kernel.org,
 	sakari.ailus@linux.intel.com
 Cc: tian.shu.qiu@intel.com
-Subject: [PATCH 1/2] media: intel/ipu6: update the maximum supported csi2 port number to 6
-Date: Wed, 29 May 2024 11:44:32 +0800
-Message-Id: <20240529034432.113999-1-bingbu.cao@intel.com>
+Subject: [PATCH 2/2] media: intel/ipu6: add csi2 port sanity check in notifier bound
+Date: Wed, 29 May 2024 11:46:00 +0800
+Message-Id: <20240529034600.117803-1-bingbu.cao@intel.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -75,27 +75,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-IPU6EP on Meteor Lake SoC supports maximum 6 csi2 ports instead of 4.
+Invalid csi2 port will break the isys notifier bound ops as it is
+trying to access an invalid csi2 sub-device instance based on the
+port. It will trigger a mc warning, and it will cause the sensor
+driver to unbound an inexistent isys csi2 and crash. Adding a
+csi2 port sanity check, return error to avoid such case.
 
-Fixes: 25fedc021985 ("media: intel/ipu6: add Intel IPU6 PCI device driver")
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/intel/ipu6/ipu6-isys.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-index d2bebd208461..56d453378de9 100644
---- a/drivers/media/pci/intel/ipu6/ipu6.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6.c
-@@ -285,7 +285,7 @@ EXPORT_SYMBOL_NS_GPL(ipu6_configure_spc, INTEL_IPU6);
- #define IPU6_ISYS_CSI2_NPORTS		4
- #define IPU6SE_ISYS_CSI2_NPORTS		4
- #define IPU6_TGL_ISYS_CSI2_NPORTS	8
--#define IPU6EP_MTL_ISYS_CSI2_NPORTS	4
-+#define IPU6EP_MTL_ISYS_CSI2_NPORTS	6
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+index 5992138c7290..997fbfbf2ea5 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+@@ -676,8 +676,16 @@ static int isys_notifier_bound(struct v4l2_async_notifier *notifier,
+ 		container_of(notifier, struct ipu6_isys, notifier);
+ 	struct sensor_async_sd *s_asd =
+ 		container_of(asc, struct sensor_async_sd, asc);
++	u32 nports;
+ 	int ret;
  
- static void ipu6_internal_pdata_init(struct ipu6_device *isp)
- {
++	nports = isys->pdata->ipdata->csi2.nports;
++	if (nports <= s_asd->csi2.port) {
++		dev_err(&isys->adev->auxdev.dev, "invalid csi2 port %u\n",
++			s_asd->csi2.port);
++		return -EINVAL;
++	}
++
+ 	ret = ipu_bridge_instantiate_vcm(sd->dev);
+ 	if (ret) {
+ 		dev_err(&isys->adev->auxdev.dev, "instantiate vcm failed\n");
 -- 
 2.34.1
 
