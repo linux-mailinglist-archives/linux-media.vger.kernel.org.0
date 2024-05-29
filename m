@@ -1,94 +1,123 @@
-Return-Path: <linux-media+bounces-12157-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12158-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05808D38B5
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 16:07:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2B38D395E
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 16:34:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D888284506
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 14:07:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D56D21C21876
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 14:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318411D54F;
-	Wed, 29 May 2024 14:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234EE15921D;
+	Wed, 29 May 2024 14:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BigCRDHv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03092C87C
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 14:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1EB1591FD;
+	Wed, 29 May 2024 14:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716991670; cv=none; b=IG7wKXZpYZGfNH8OfdsaQJtY2zSDiQldSsjYuJudrgbxAROuallf8Ul6pIsV837Oi1Vnq8CX/1poupfWcr8SnvQvEydrVJr1oFIYxMPzHVCzhqhEPq2sULJjb7HI0e8FIL2LTc//uiIQuz/mNlSq2BT9wUCo2Zv4ubIxhnKuH5A=
+	t=1716993261; cv=none; b=gGAFp+g0P6PAy9B5f2uzZsQ+e+5k81LGXgZaK8aauq3+2YJGx5nmZWNF0UJi1P6tLQYKQiyIc1U43rYRO4jQYnk/BdPb+YmXwdmL6lw5/0hRZ7w692wOfviVbd5enUpmexsa1178wtM/kmekCctqD/2CJS+Jql+nLuH+1f0XX7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716991670; c=relaxed/simple;
-	bh=sdh912PbGGSN5HqMGZtrWMsWwOgJEATxeW/ILsCmhf4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=d2xLJICARnbncEc5kVu5EBxQjj3wsnoc6uQIe9Gg0yqMCJNzMysofABDGT6rqdV62V3ldOazIwKhZch8dqDm6kFHwhc9/0wsCUQ7vqOGUrOuPaToVoS3/peHQ2nk3GxqJ440l+xVjNFX1vUkMjANC17RBdbUd6aWwk+/tWEHVx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF6EC2BD10;
-	Wed, 29 May 2024 14:07:49 +0000 (UTC)
-Message-ID: <b7097390-1609-4faa-8e88-9bfe5a00641d@xs4all.nl>
-Date: Wed, 29 May 2024 16:07:48 +0200
+	s=arc-20240116; t=1716993261; c=relaxed/simple;
+	bh=JLKy8WDpu5HmtB8Z5d4WT7LLGA/yOmYqTdfiaadPM3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GHsVa96R4GNs54F2knAHQpggOG/xD4wD2/BeJbwX/wVqPFgK5S3ZlsXyYgCwnOe1zgtCY15N4uEKOXeZuiibkaoFrAy54xkAbj5nMiTxyW3qRbVywvzZHR2KaO1m2t6ypYNk2O7jyn3Q1m8L1YC26ydOCEy29nZtulJ+aZanRo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BigCRDHv; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716993260; x=1748529260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JLKy8WDpu5HmtB8Z5d4WT7LLGA/yOmYqTdfiaadPM3k=;
+  b=BigCRDHvGxJLvFekcZGYubIBIhYDJGCOHXALwzwApLpNmg6/NOg7UaJn
+   h8AMmQaJYGnL3xKsa5gJEcnoYPpZoz3NxY1R7LQHJT5HoUVrhmFWyBe/7
+   lkrJ0sB6Q+th1NAQ75SCtfP9aT5dZDUzRror79kjCIwSb3yQozXje6HK5
+   yhTEqKhh6lpmVedq+MP4CfzvZAkI662grez808sQ8wKupJvCGxWZXsluI
+   lXDclJKDCRddheXeXFjsxH2e1tSZi72dwzYycf4N5fa8oLMCnETaYVU8H
+   c8A2wvwx0fd7YnlWIb89sFvbu1JvXcxEzmpQWoj+lVQ4X0PD0VRiP+fPr
+   Q==;
+X-CSE-ConnectionGUID: WvD5LbVvTFCTbpyoQhpodQ==
+X-CSE-MsgGUID: wSettSrzSGqSivlUE/5LKg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="17231098"
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
+   d="scan'208";a="17231098"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 07:34:20 -0700
+X-CSE-ConnectionGUID: uRNd/7unTDGM4mSY9zG97g==
+X-CSE-MsgGUID: bs+wwQN7Rmq9zWhhStL9gg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
+   d="scan'208";a="35540140"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 07:34:13 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sCKNV-0000000BpVS-2taG;
+	Wed, 29 May 2024 17:34:09 +0300
+Date: Wed, 29 May 2024 17:34:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+	adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+	airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+	laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+	vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+	detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+	andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
+	dlatypov@google.com
+Subject: Re: [PATCH v9 07/10] lib: add basic KUnit test for lib/math
+Message-ID: <Zlc84Z7G1YIEbggN@smile.fi.intel.com>
+References: <20240526175655.1093707-1-devarsht@ti.com>
+ <20240526180933.1126116-1-devarsht@ti.com>
+ <ZlTu_9orsuosNiGk@smile.fi.intel.com>
+ <4a8cea8c-4575-bdd8-e8a8-634a2b267ff5@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] edid-decode: Cannot support NonMixed MS without MS
-To: Sebastian Wick <sebastian.wick@redhat.com>, linux-media@vger.kernel.org
-References: <20240529100301.127652-1-sebastian.wick@redhat.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240529100301.127652-1-sebastian.wick@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4a8cea8c-4575-bdd8-e8a8-634a2b267ff5@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Sebastian,
+On Tue, May 28, 2024 at 04:51:46PM +0530, Devarsh Thakkar wrote:
+> On 28/05/24 02:07, Andy Shevchenko wrote:
 
-On 29/05/2024 12:02, Sebastian Wick wrote:
-> When `Max Stream Count` is zero, the sink does not support multistream
-> and thus cannot support NonMixed MS.
+[..]
+
+> >> +#include <kunit/test.h>
+> >> +#include <linux/gcd.h>
+> >> +#include <linux/lcm.h>
+> > 
+> > + math.h (where abs()/DIV_ROUND_*()/etc come from?)
+> > I believe I mentioned that.
+> > 
 > 
-> An EDID with Max Stream Count = 0 and Non Mixed MS = 1 can be found in
-> linuxhw/EDID ./Digital/TCL/TCL5655/1723FF2DC6D1 at commit cff7fe4d44.
-> 
-> Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
-> ---
->  parse-cta-block.cpp | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git ./parse-cta-block.cpp ../parse-cta-block.cpp
-> index 4d2afc6..7cd7a3a 100644
-> --- ./parse-cta-block.cpp
-> +++ ../parse-cta-block.cpp
-> @@ -2498,10 +2498,11 @@ static void cta_hdmi_audio_block(const unsigned char *x, unsigned length)
->  		fail("Empty Data Block with length %u.\n", length);
->  		return;
->  	}
-> -	if (x[0] & 3)
-> +	if (x[0] & 3) {
->  		printf("    Max Stream Count: %u\n", (x[0] & 3) + 1);
-> -	if (x[0] & 4)
-> -		printf("    Supports MS NonMixed\n");
-> +	    if (x[0] & 4)
-> +		    printf("    Supports MS NonMixed\n");
-> +	}
+> I did compile and test this, so math.h was indirectly getting included via
+> some other header file already included but I would not rely on that and
+> include math.h separately as you suggested.
 
-I would actually leave this as-is, but instead add a fail() message
-if MS NonMixed is set, but Max Stream Count == 0.
+Please, follow the IWYU principle, what you are suggesting is a fragile
+approach.
 
-It's really an EDID conformity failure, and it should be reported as such.
+> >> +#include <linux/reciprocal_div.h>
 
-Regards,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-	Hans
-
->  
->  	num_descs = x[1] & 7;
->  	if (num_descs == 0)
 
 
