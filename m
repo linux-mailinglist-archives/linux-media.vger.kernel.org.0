@@ -1,243 +1,208 @@
-Return-Path: <linux-media+bounces-12141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12142-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27B28D2DFA
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 09:17:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FCE8D2DFF
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 09:20:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2AFB1C2349A
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 07:17:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BAFD2841C5
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 07:20:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4251667E9;
-	Wed, 29 May 2024 07:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B1A51667FA;
+	Wed, 29 May 2024 07:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DbI18g/3"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Dtfsht42"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC94215B99A
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 07:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E525115CD6C
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 07:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716967027; cv=none; b=e8nRFHOPgTHpPksOPeMBdeq+9P7tYmnJ3jk6fTXiZS4x0FR54ekmRCMp0k5RM5t5FtkRTEqf/1fu3cQdHMnqoFgdlLpxl9DnORf4lws+rXpl3om2Q7l1k+uExieyN5xmQxhnIluEPe0fP0rEqZMiFeQErN1HUB5OrYs/Bw4VruE=
+	t=1716967237; cv=none; b=lgmBb3mb+Dscufo5RyLUBoNbsQl676ndr44DldbYswPR22vmPanPaTqthYUacqFUHT+wS2Hxe3wV8JwNehcZLMfd1Y6WW9DzkT3VZhrv7ZwbyLpJyJNZzAlpG4YPdMEkNrpG3qSNHeyOTEOVWUO/HHXb3YCqspVdXYMVXA2M58k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716967027; c=relaxed/simple;
-	bh=IAzPICKBc42u6ItBMBTK0Xis8TPhm9iofw8XAMiUGrg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JTvcje5G8H7LVmsgYdtHsNx23Jj7XSEajoD+/HKBmE1oiGNQx7mpnz8ri48Iysb/GgU+kPeWKi1/nFVknLr6gvHD5bwogIIkEYZb/Mo+tGkilesV4xLqASDE2k0I9Ve6wZvZg3jMUwQCF58r3wHphvR4iZ+U2hvHL810DTe2fa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DbI18g/3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8AB966F;
-	Wed, 29 May 2024 09:16:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716967014;
-	bh=IAzPICKBc42u6ItBMBTK0Xis8TPhm9iofw8XAMiUGrg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DbI18g/3Ju1u/cQ42ZxVgu8J1uqYHxkN0edXlG9E3i304Nv0WihXZrTHt/3abzhDR
-	 gS7nea0F0dIDOnx0bZ75Bi3MOjZTvFvRGcRy6baRgRDTLlGSN7QUSm2cXH7E/t45iu
-	 ueW/n1XCDg0yxzrbnk8VnklqnEIuyitDrhCZMfTQ=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v8.1 8/8] media: admin-guide: Document the Raspberry Pi PiSP BE
-Date: Wed, 29 May 2024 09:16:33 +0200
-Message-ID: <20240529071634.11625-1-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240528160407.304178-9-jacopo.mondi@ideasonboard.com>
-References: <20240528160407.304178-9-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1716967237; c=relaxed/simple;
+	bh=RseO8Fq4ilRgMFHbMdVd3HicF/tAkkoL/zOtKS7kuxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XC9uwdLX2mBmUeqF4lsUUQ660lSM3BrPoVCuHxmyuYnI2m2EdFs5iC6QJNYKUnuVTT9rPSPeeyZGrL0maxTnKEUk/8RCQ9757AHtflCooe6aFJniEe9uvIbqTFFRcVXFYWfBUwN3/4UFfYimPtPrV0mxcGOfeljA/gIAX4AZwII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Dtfsht42; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f4851f7c28so14879935ad.3
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 00:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1716967235; x=1717572035; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GrP0lC+ylsDVtkh+78zMfS99ubIeprL0D+84GsbfptA=;
+        b=Dtfsht42+0udI/c9bT8nl+pfcSt4Uhc/xctDzjVSD6Ksb58OAyCeRp553/4psGThuU
+         2UHLBJ5PHQrnIT1qnXVCUkHVtvS8uErLNrXjECXY9loQUlGCsVnJcG+DBD279W1PAB5U
+         ZYhixfruySzK3YCZReF8CPD2Y8+MynVit5TO8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716967235; x=1717572035;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GrP0lC+ylsDVtkh+78zMfS99ubIeprL0D+84GsbfptA=;
+        b=T38G/yBV52AgaxkEORaFj+kbNWnXh+fk1sVs8ohSdo1Nwc/YAC7yoFGa2KbTB5DUvv
+         ibWgd4uVjPJNT9gCdKk9rNrEPn1x6FNuBqK/0kXU8Tr6o/e1gEG54yFZ2btNthWVdNjK
+         JtLEnWWRZJK9adUOcXXSzDHSp+6ZCD3ZNkktqWoL72P7fkpIgPLp99dhUIKQbb+XbjTL
+         s18u5Xm1dJD5TPdDZb0h7Ng4C1N5HD/tSwkRY5xsUF1zfr3Uo7bgpq6EMUMi0GS2IuhJ
+         /mOFO7czrwpdhV+OB4xhE0DDKwIwQGWmUkRMFdFx06RUM4+4EjBmXtNgNNM6+5+p1mmP
+         BLrw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+RuR1gQPx6D18c4bfDz6RcUkSb9SWBlWvqAxxiFbXZZuPo1xbOVON08eWEgpPaP71yq7yRFl3sKzRxc8r1+a9fbrj1PhnAekhAJI=
+X-Gm-Message-State: AOJu0Yw+CZxI5pFY9dOj1RZjEv7eqCMVgKUUSF87B7YmAL/gaY7jgMk6
+	mCLg5ewXk/JR3D7hDkbDho6neYkIcH6ihOLqGhWDETsbDlD1Iz/quk/lZgtPDQ==
+X-Google-Smtp-Source: AGHT+IG0kGGFbfI2cecpO9ImlWQuyySlRGlMDeXY1V6VTJYeY6FsZiH4GA2/DyDB3fWtApC7L6O71Q==
+X-Received: by 2002:a17:902:f54b:b0:1f4:b7ff:ac4f with SMTP id d9443c01a7336-1f4b7ffb0camr59885205ad.50.1716967235146;
+        Wed, 29 May 2024 00:20:35 -0700 (PDT)
+Received: from chromium.org (174.71.80.34.bc.googleusercontent.com. [34.80.71.174])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f471f127c2sm72761645ad.13.2024.05.29.00.20.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 00:20:34 -0700 (PDT)
+Date: Wed, 29 May 2024 16:20:31 +0900
+From: Tomasz Figa <tfiga@chromium.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"hn.chen" <hn.chen@sunplusit.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v10 3/6] media: uvcvideo: Quirk for invalid dev_sof in
+ Logitech C922
+Message-ID: <sb4gvafzk7fb2ohyeksegvyvnjccbyml7oj7nw6g5mvprk4brt@3mhm7we2eqwa>
+References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
+ <20240323-resend-hwtimestamp-v10-3-b08e590d97c7@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240323-resend-hwtimestamp-v10-3-b08e590d97c7@chromium.org>
 
-Add documentation for the PiSP Back End memory-to-memory ISP.
+On Sat, Mar 23, 2024 at 10:48:04AM +0000, Ricardo Ribalda wrote:
+> Logitech C922 internal SOF does not increases at a stable rate of 1kHz.
+> This causes that the device_sof and the host_sof run at different rates,
+> breaking the clock domain conversion algorithm. Eg:
+> 
+> 30 (6) [-] none 30 614400 B 21.245557 21.395214 34.133 fps ts mono/SoE
+> 31 (7) [-] none 31 614400 B 21.275327 21.427246 33.591 fps ts mono/SoE
+> 32 (0) [-] none 32 614400 B 21.304739 21.459256 34.000 fps ts mono/SoE
+> 33 (1) [-] none 33 614400 B 21.334324 21.495274 33.801 fps ts mono/SoE
+> * 34 (2) [-] none 34 614400 B 21.529237 21.527297 5.130 fps ts mono/SoE
+> * 35 (3) [-] none 35 614400 B 21.649416 21.559306 8.321 fps ts mono/SoE
+> 36 (4) [-] none 36 614400 B 21.678789 21.595320 34.045 fps ts mono/SoE
+> ...
+> 99 (3) [-] none 99 614400 B 23.542226 23.696352 33.541 fps ts mono/SoE
+> 100 (4) [-] none 100 614400 B 23.571578 23.728404 34.069 fps ts mono/SoE
+> 101 (5) [-] none 101 614400 B 23.601425 23.760420 33.504 fps ts mono/SoE
+> * 102 (6) [-] none 102 614400 B 23.798324 23.796428 5.079 fps ts mono/SoE
+> * 103 (7) [-] none 103 614400 B 23.916271 23.828450 8.478 fps ts mono/SoE
+> 104 (0) [-] none 104 614400 B 23.945720 23.860479 33.957 fps ts mono/SoE
+> 
+> Instead of disabling completely the hardware timestamping for such
+> hardware we take the assumption that the packet handling jitter is
+> under 2ms and use the host_sof as dev_sof.
+> 
+> We can think of the UVC hardware clock as a system with a coarse clock
+> (the SOF) and a fine clock (the PTS). The coarse clock can be replaced
+> with a clock on the same frequency, if the jitter of such clock is
+> smaller than its sampling rate. That way we can save some of the
+> precision of the fine clock.
+> 
+> To probe this point we have run three experiments on the Logitech C922.
+> On that experiment we run the camera at 33fps and we analyse the
+> difference in msec between a frame and its predecessor. If we display
+> the histogram of that value, a thinner histogram will mean a better
+> meassurement. The results for:
+> - original hw timestamp: https://ibb.co/D1HJJ4x
+> - pure software timestamp: https://ibb.co/QC9MgVK
+> - modified hw timestamp: https://ibb.co/8s9dBdk
+> 
+> This bug in the camera firmware has been confirmed by the vendor.
+> 
+> lsusb -v
+> 
+> Bus 001 Device 044: ID 046d:085c Logitech, Inc. C922 Pro Stream Webcam
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.00
+>   bDeviceClass          239 Miscellaneous Device
+>   bDeviceSubClass         2
+>   bDeviceProtocol         1 Interface Association
+>   bMaxPacketSize0        64
+>   idVendor           0x046d Logitech, Inc.
+>   idProduct          0x085c C922 Pro Stream Webcam
+>   bcdDevice            0.16
+>   iManufacturer           0
+>   iProduct                2 C922 Pro Stream Webcam
+>   iSerial                 1 80B912DF
+>   bNumConfigurations      1
+> 
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
+>  drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  3 files changed, 21 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index bbd90123a4e76..723e6d5680c2e 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2574,6 +2574,15 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTORE_CTRLS_ON_INIT) },
+> +	/* Logitech HD Pro Webcam C922 */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x046d,
+> +	  .idProduct		= 0x085c,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_INVALID_DEVICE_SOF) },
+>  	/* Chicony CNF7129 (Asus EEE 100HE) */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index b2e70fcf4eb4c..d6ca383f643e3 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -558,6 +558,17 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+>  	stream->clock.last_sof = dev_sof;
+>  
+>  	host_sof = usb_get_current_frame_number(stream->dev->udev);
+> +
+> +	/*
+> +	 * On some devices, like the Logitech C922, the device SOF does not run
+> +	 * at a stable rate of 1kHz. For those devices use the host SOF instead.
+> +	 * In the tests performed so far, this improves the timestamp precision.
+> +	 * This is probably explained by a small packet handling jitter from the
+> +	 * host, but the exact reason hasn't been fully determined.
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
-v8->v8.1
+Given that the counter increases at a low frequency (1 kHz), we have a
+millisecond from when the frame is received to go into
+uvc_video_clock_decode() and read it, which should be quite realistic in
+normal conditions.
 
-- Remove references to multiple contexts
-- While at it, refine some hyperlinks
----
- .../admin-guide/media/raspberrypi-pisp-be.dot |  20 ++++
- .../admin-guide/media/raspberrypi-pisp-be.rst | 109 ++++++++++++++++++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- 3 files changed, 130 insertions(+)
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
+I suspect that under a relatively high interrupt load, with interrupts
+of higher priority than USB host, we could end up with more jitter, but
+it should be still better compared to the broken hw timestamp behavior
+and not worse than sw timestamp, because that would be subjected to many
+more factors introducing jitter.
 
-diff --git a/Documentation/admin-guide/media/raspberrypi-pisp-be.dot b/Documentation/admin-guide/media/raspberrypi-pisp-be.dot
-new file mode 100644
-index 000000000000..55671dc1d443
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-pisp-be.dot
-@@ -0,0 +1,20 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port7> 7} | pispbe\n | {<port3> 3 | <port4> 4 | <port5> 5 | <port6> 6}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port3 -> n0000001c [style=bold]
-+	n00000001:port4 -> n00000022 [style=bold]
-+	n00000001:port5 -> n00000028 [style=bold]
-+	n00000001:port6 -> n0000002e [style=bold]
-+	n0000000a [label="pispbe-input\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n0000000a -> n00000001:port0 [style=bold]
-+	n00000010 [label="pispbe-tdn_input\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n00000010 -> n00000001:port1 [style=bold]
-+	n00000016 [label="pispbe-stitch_input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000016 -> n00000001:port2 [style=bold]
-+	n0000001c [label="pispbe-output0\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000022 [label="pispbe-output1\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000028 [label="pispbe-tdn_output\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-+	n0000002e [label="pispbe-stitch_output\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-+	n00000034 [label="pispbe-config\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-+	n00000034 -> n00000001:port7 [style=bold]
-+}
-diff --git a/Documentation/admin-guide/media/raspberrypi-pisp-be.rst b/Documentation/admin-guide/media/raspberrypi-pisp-be.rst
-new file mode 100644
-index 000000000000..a4b04d822602
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-pisp-be.rst
-@@ -0,0 +1,109 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================================
-+Raspberry Pi PiSP Back End Memory-to-Memory ISP (pisp-be)
-+=========================================================
-+
-+The PiSP Back End
-+=================
-+
-+The PiSP Back End is a memory-to-memory Image Signal Processor (ISP) which reads
-+image data from DRAM memory and performs image processing as specified by the
-+application through the parameters in a configuration buffer, before writing
-+pixel data back to memory through two distinct output channels.
-+
-+The ISP registers and programming model are documented in the `Raspberry Pi
-+Image Signal Processor (PiSP) Specification document`_
-+
-+The PiSP Back End ISP processes images in tiles to allow concurrent processing
-+of different images. The handling of image tessellation and the computation of
-+low-level configuration parameters is realized by a free software library
-+called `libpisp <https://github.com/raspberrypi/libpisp>`_.
-+
-+The full image processing pipeline, which involves capturing RAW Bayer data from
-+an image sensor through a MIPI CSI-2 compatible capture interface, storing them
-+in DRAM memory and processing them in the PiSP Back End to obtain images usable
-+by an application is implemented in `libcamera <https://libcamera.org>`_ as
-+part of the Raspberry Pi platform support.
-+
-+The pisp-be driver
-+==================
-+
-+The Raspberry Pi PiSP Back End (pisp-be) driver is located under
-+drivers/media/platform/raspberrypi/pisp-be. It uses the `V4L2 API` to register
-+a number of video capture and output devices, the `V4L2 subdev API` to register
-+a subdevice for the ISP that connects the video devices in a single media graph
-+realized using the `Media Controller (MC) API`.
-+
-+The media topology registered by the `pisp-be` driver is represented below:
-+
-+.. _pips-be-topology:
-+
-+.. kernel-figure:: raspberrypi-pisp-be.dot
-+    :alt:   Diagram of the default media pipeline topology
-+    :align: center
-+
-+
-+The media graph registers the following video device nodes:
-+
-+- pispbe-input: output device for images to be submitted to the ISP for
-+  processing.
-+- pispbe-tdn_input: output device for temporal denoise.
-+- pispbe-stitch_input: output device for image stitching (HDR).
-+- pispbe-output0: first capture device for processed images.
-+- pispbe-output1: second capture device for processed images.
-+- pispbe-tdn_output: capture device for temporal denoise.
-+- pispbe-stitch_output: capture device for image stitching (HDR).
-+- pispbe-config: output device for ISP configuration parameters.
-+
-+pispbe-input
-+------------
-+
-+Images to be processed by the ISP are queued to the `pispbe-input` output device
-+node. For a list of image formats supported as input to the ISP refer to the
-+`Raspberry Pi Image Signal Processor (PiSP) Specification document`_.
-+
-+pispbe-tdn_input, pispbe-tdn_output
-+-----------------------------------
-+
-+The `pispbe-tdn_input` output video device receives images to be processed by
-+the temporal denoise block which are captured from the `pispbe-tdn_output`
-+capture video device. Userspace is responsible for maintaining queues on both
-+devices, and ensuring that buffers completed on the output are queued to the
-+input.
-+
-+pispbe-stitch_input, pispbe-stitch_output
-+-----------------------------------------
-+
-+To realize HDR (high dynamic range) image processing the image stitching and
-+tonemapping blocks are used. The `pispbe-stitch_output` writes images to memory
-+and the `pispbe-stitch_input` receives the previously written frame to process
-+it along with the current input image. Userspace is responsible for maintaining
-+queues on both devices, and ensuring that buffers completed on the output are
-+queued to the input.
-+
-+pispbe-output0, pispbe-output1
-+------------------------------
-+
-+The two capture devices write to memory the pixel data as processed by the ISP.
-+
-+pispbe-config
-+-------------
-+
-+The `pispbe-config` output video devices receives a buffer of configuration
-+parameters that define the desired image processing to be performed by the ISP.
-+
-+The format of the ISP configuration parameter is defined by
-+:c:type:`pisp_be_tiles_config` C structure and the meaning of each parameter is
-+described in the `Raspberry Pi Image Signal Processor (PiSP) Specification
-+document`_.
-+
-+ISP configuration
-+=================
-+
-+The ISP configuration is described solely by the content of the parameters
-+buffer. The only parameter that userspace needs to configure using the V4L2 API
-+is the image format on the output and capture video devices for validation of
-+the content of the parameters buffer.
-+
-+.. _Raspberry Pi Image Signal Processor (PiSP) Specification document: https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 4120eded9a13..b6af448b9fe9 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -23,6 +23,7 @@ Video4Linux (V4L) driver-specific documentation
- 	omap4_camera
- 	philips
- 	qcom_camss
-+	raspberrypi-pisp-be
- 	rcar-fdp1
- 	rkisp1
- 	saa7134
---
-2.45.1
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
+Best regards,
+Tomasz
 
