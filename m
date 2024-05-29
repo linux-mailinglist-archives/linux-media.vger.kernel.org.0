@@ -1,134 +1,136 @@
-Return-Path: <linux-media+bounces-12161-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C39E8D39F8
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 16:53:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A9C8D3A6B
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:13:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 258EEB2761E
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 14:53:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 921031F237FA
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:13:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B7ED15AD95;
-	Wed, 29 May 2024 14:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B4E17DE30;
+	Wed, 29 May 2024 15:12:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gipnSN5D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zsn6g6+3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5362C79DC;
-	Wed, 29 May 2024 14:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E35B17BB2F
+	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 15:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716994388; cv=none; b=CQ1f41C1sxAX5vi+IXIu884OnscJAXvu/6OSEDGi7j7xNy7z9mfAB8n1sEW51fgaDvWuXv41pvuet7DEkytmVIkpjzDy7H4Yi9Q0PBIM4zRtsbUoKmVn9QYd9AA/N9ubLC+WMgakPWSNTrIBBu1GS7GVjtMVm40ow5AClBf99LQ=
+	t=1716995569; cv=none; b=c/7niavWbGARdymOcUYir00vEih83Xo+fDFl0k0XSPmp147nbgMHm24htZodNzbrlb51IhgnYhhLt5W0WOEWHFR9pMd9H4arrKDvBByVeo0qEaT2r7Znu56chIutg98nOaCrtlRTQucdtlllWTyLLKoEqNC1sxu53mR3dph23Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716994388; c=relaxed/simple;
-	bh=IPyfsviMHfRYRP5OZ3gUy0wQdIM5xIEx1uKWNBREPF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lflj3jk08pDB9zwoFZlNpACHpg5X9sKf50h+vr7wvA7BZuvugLrWkVWAISJZxgJHOJeC67wSb1K4Ehzrukj1MivwrRCy9Kx/7Ma5s64dyJbWA1jXbTOhsuN0KSCNsjZpnMxzLl4BBJgbCX7qSBk1bIPw/54zi1EpAmwrltjn4ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gipnSN5D; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12868A27;
-	Wed, 29 May 2024 16:53:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1716994381;
-	bh=IPyfsviMHfRYRP5OZ3gUy0wQdIM5xIEx1uKWNBREPF0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gipnSN5DBSj7oGWyxrhcwgzrXtRO4mDyWNTPqcrwjA/+03UGbhkwmzFj8ylSGPTqL
-	 KGy13WpqOq5al1juCr4RQwjk+vfLlpsYbUU3HFJ2gx6Vx6PLgMiKZhLCbATiKFN75Q
-	 FEuwyHELmIqr5ylVSDlC+XDIecCjxRDc1itzm03g=
-Date: Wed, 29 May 2024 17:52:53 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	prabhakar.csengg@gmail.com,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
-Message-ID: <20240529145253.GE19014@pendragon.ideasonboard.com>
-References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
- <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
- <20240529004047.GB1436@pendragon.ideasonboard.com>
- <7fbf421c-6477-4fc4-93a5-10e2788522c4@moroto.mountain>
+	s=arc-20240116; t=1716995569; c=relaxed/simple;
+	bh=40yGqp9H4Gw/tzPXQqD9gBrUrE7u7++WXsmZMPJOBlg=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=QMaBv48PRkLVjTIwWhKl+NEGtFW6woEurCVil82vdvL4DTRswtZWZepfwve7qJvaKLk99jymmgIyqwfrfW+ZGfbVhpO6ZGkltzeR9Pe2GgmjO4vDdWQDABedAef0ONRuM9ss3YbszEx3AouBgBGkOIu9VA/azYBdn1cSpSiVYJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zsn6g6+3; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70109d34a16so1820504b3a.2
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 08:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716995567; x=1717600367; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3xSZSABEL2KpGBOwcALuAQKVRNjcriFkLSVlGTuHGag=;
+        b=Zsn6g6+3Z+h4SDuGHxMCjcjXC8PnxkHA5o9v4FkuA9rC21ytyCk6KYIp20lWOdk++B
+         dn7SkSE/DkjmeI6z+zWedA/rMlNuNa6voBjH1A361fXr7FTHBRh5N3G7/Vsbl/tIV3pH
+         Mv6zKjpPq97ceFjhHB/LTlDCJCVh3KOYoLGD4tZzw5yslzP7ZyJ6UgY8+WcefbZsUMtB
+         HjBQmKWqxlpvixoSKKMT5oqYW31LrUIdLi/wO8bSZ+euqyNjQO03iWeHVzQGTOYKdteX
+         FGQXWfB9cnZUhuoyUM/3OWSkctHtGLQPeCCaLP54shRIjAbURgd9bE5dvRF+ESpB+1+p
+         KwRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716995567; x=1717600367;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3xSZSABEL2KpGBOwcALuAQKVRNjcriFkLSVlGTuHGag=;
+        b=AVrjaJmD195aOyHyQIsk3mhoqdG6kcV3KpZfOi5x/tjtrL+yAuAlvev5FYDeFkSz9D
+         myQ93Z43pnZeFP0Mma9fZqjfKxLhafCe+1wWeHMnjiK4Zn2r5EQU5zdTJfqBZdXzfr4d
+         jJPzEyMsuSqYFFbJ/kVhudnJeu9yRrJqANIjgMaJeagkvWKs5/FkRH1qJO1dRESWcjnE
+         NJxKHJALHFqxPhV6zreg4hAIhWzZGIsuOjDbB/ZSrhgkSwfHtSLKzpY26pXaIEBi7X1m
+         +gnStlNkZcGrMi+/MpBOjLawcQcwIL5U5RpOmzR1JBaGvDL64/x0GiOP7r9kLokk1eXq
+         0AEg==
+X-Forwarded-Encrypted: i=1; AJvYcCVguTAD/4JOFH9qKfN3bS/TCz8KMPceoMWEW4MKd9sx/2qGMWI7/6pTPXtn1lTgec+uK/bJwY9+1AHmB68E868S6bKGQTj8ZqYfXv8=
+X-Gm-Message-State: AOJu0YwdQIGFO8k+OBhmtr914e0QcavlZ5zayUK6UHvcjv0BVrMlJpd9
+	Ht4BuWEUhAIzSaM1Kqjzv5ACrpI8phFHq4voUj1Cqf6MidkFvAf/uOpkDg==
+X-Google-Smtp-Source: AGHT+IGwleIg6I5voj6ZhTklzZLY/lNES+rpJPyfYtudDAsZWnaycutDYIt5i1JnMgu0f2xay5Qa5A==
+X-Received: by 2002:a17:902:c40e:b0:1f2:f1bf:cf44 with SMTP id d9443c01a7336-1f4486d51c6mr181988715ad.6.1716995567311;
+        Wed, 29 May 2024 08:12:47 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f60f2276d8sm2198215ad.115.2024.05.29.08.12.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 May 2024 08:12:46 -0700 (PDT)
+Message-ID: <bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com>
+Date: Thu, 30 May 2024 00:12:43 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7fbf421c-6477-4fc4-93a5-10e2788522c4@moroto.mountain>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: media: docs: build error of userspace-api.pdf as of v6.10-rc1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 29, 2024 at 05:34:41PM +0300, Dan Carpenter wrote:
-> On Wed, May 29, 2024 at 03:40:47AM +0300, Laurent Pinchart wrote:
-> > > @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
-> > >  	}
-> > >  
-> > >  	/* Iterate through each output port to discover topology */
-> > > -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-> > > +	for_each_endpoint_of_node(parent, ep) {
-> > >  		/*
-> > >  		 * Legacy binding mixes input/output ports under the
-> > >  		 * same parent. So, skip the input ports if we are dealing
-> > 
-> > I think there's a bug below. The loop contains
-> > 
-> > 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
-> > 		if (ret)
-> > 			return ret;
-> > 
-> > which leaks the reference to ep. This is not introduced by this patch,
-> 
-> Someone should create for_each_endpoint_of_node_scoped().
-> 
-> #define for_each_endpoint_of_node_scoped(parent, child) \
->         for (struct device_node *child __free(device_node) =           \
->              of_graph_get_next_endpoint(parent, NULL); child != NULL;  \
->              child = of_graph_get_next_endpoint(parent, child))
+Hello Jean-Michel,
 
-I was thinking about that too :-) I wondered if we should then bother
-taking and releasing references, given that references to the children
-can't be leaked out of the loop. My reasoning was that the parent
-device_node is guaranteed to be valid throughout the loop, so borrowing
-references to children instead of creating new ones within the loop
-should be fine. This assumes that endpoints and ports can't vanish while
-the parent is there. Thinking further about it, it may not be a safe
-assumption for the future. As we anyway use functions internally that
-create new references, we can as well handle them correctly.
+I tested "make pdfdocs" on v6.10-rc1, which ended up in a build error
+from xelatex:
 
-Using this new macro, the loop body would need to call of_node_get() if
-it wants to get a reference out of the loop. That's the right thing to
-do, and I think it would be less error-prone than having to drop
-references when exiting from the loop as we do today. It would still be
-nice if we could have an API that allows catching this missing
-of_node_get() automatically, but I don't see a simple way to do so at
-the moment.
+    Package tabulary Warning: No suitable columns! on input line 48770.
+    
+    ! Extra alignment tab has been changed to \cr.
+    <recently read> \endtemplate 
+                             
+    l.49179 \end{tabulary}
+                          
+    ? 
 
--- 
-Regards,
+I know this won't make any sense for most kernel developers.
 
-Laurent Pinchart
+So, I did bisection for you.
+
+First bad commit is:
+
+    adb1d4655e53 ("media: v4l: Add V4L2-PIX-FMT-Y14P format")
+
+and reverting it resolves the error.
+
+It looks to me like said commit added two columns in the flat-table
+of "Luma-Only Image Formats", without updating hints to latex:
+
+    .. tabularcolumns::
+
+above it.  This results in wrong column count in the output of
+Sphinx's latex builder.
+
+Please update the hint for the additional two columns.
+
+FYI, you can test build without building the whole tree by saying:
+
+    make SPHINXDIRS=userspace-api pdfdocs
+
+Otherwise, you will need to wait a long time.
+
+You can ignore the extra warnings of "WARNING: undefined label:"
+and "WARNING: unknown document:" due to the limited scope of
+documentation.
+
+Regards.
+Akira
 
