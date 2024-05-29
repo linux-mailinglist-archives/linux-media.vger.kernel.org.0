@@ -1,110 +1,211 @@
-Return-Path: <linux-media+bounces-12131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAAD8D2A1B
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 03:51:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B5A8D2B28
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 04:43:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E3DA1C23C18
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 01:51:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8F4E284D82
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 02:43:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F069715ADAD;
-	Wed, 29 May 2024 01:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AA4015B556;
+	Wed, 29 May 2024 02:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ETKXRptG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC9E15ADA0
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 01:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CD315B102;
+	Wed, 29 May 2024 02:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716947454; cv=none; b=nx/2Fy5ls3UF+wzt6Uo+XD8kPC+hQyBsvYlVhuoW31jil06NHJrzmN4nexsUa8ZvPZh+di+DEzhyMX+QuAzM2jrsRQsvPs/omlc86kvayiVpgAorB4FfgVTDcHwdNL01o+M6hYWZ+VSiwsPPlVdzbMMyFVg6kN06UeJOPgU76b4=
+	t=1716950568; cv=none; b=JbRPAQBjOhGTIxe57fOBnx+xXYboRh8yNJaQlJ9a4M5zRUCF+yeM5GpWBKjZlMvHosaeT8M9Fnc0uNnTm55zCXWbfRkKu1n7TQlTh3MSU+K6D4HU0xAMC0TfgpDI9UzOHhgzO81cQWQmNNglHPowHfH2z9/i5n/goPt/TF9icv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716947454; c=relaxed/simple;
-	bh=ZU/oztvXfupyrP8lqzz58nY/Kt8QAy+CAVgv71VKGrA=;
-	h=Date:From:To:Subject:Message-Id; b=WcB2YELNStFTSPFgK+wAswl/NZuc3AU4TqexpzDQ6tWXBybmeCY18xZoNBKv0EvuuJyy3Gv9/H1v197hgrC5babgSADrOMvI+SCsxOETuXgOWfMPZfPXxUnkmDJJpGxBS5A7l58UQZ4CYxQ+HT2xMmtcQ2YqZ/b168lRA2vOuck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1FFBC3277B
-	for <linux-media@vger.kernel.org>; Wed, 29 May 2024 01:50:53 +0000 (UTC)
-Date: Wed, 29 May 2024 03:50:51 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20240529015053.C1FFBC3277B@smtp.kernel.org>
+	s=arc-20240116; t=1716950568; c=relaxed/simple;
+	bh=Jdw6MVrlDfRwAQ4Dvlaenq+UtdPYZrI/GgT7O1G/w1I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ttxs8XeA4GFa4EEarJMKTAggkpU7mTtZMT+iCbGExkeEABOtDAPp3GcfaCG2LXudUwNQMUxbmO9QUIZFrLNawWKRLb7C1V1ORYrVaouSPUPmGpQFDHbnwuMYpuhLvqmro3rERO0EgUN+MpaI/4QqDpNvZbbQlZKZIsse7POL7J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ETKXRptG; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-354b722fe81so1229634f8f.3;
+        Tue, 28 May 2024 19:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716950565; x=1717555365; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WaUSmZ7PBffPeOQ7gcFKeRJS00p2asbGxa8dHTdLep4=;
+        b=ETKXRptGUP3WRzXGWJruTx4VieKCMCMbbQflyXyagF+8I3xrMhNH8yC+ycGZbob2ho
+         KBm8I8KOuo0z+ndzqqlETXDizzycjvFtL5dVIV9t+pem9DeZykIqViQxT+eVSA3/ewrg
+         R6m9pc7c4LWKiR7lwJjWIlIo04t5jdBSrjfIqG0xv0UeSOlLPK+EJcDBaEJDX+GDbLW4
+         FbEJMdUL2ENe1iJgMZfY5317AQdUY2rUoWkOPVIDMbs8NhivC6cHjujmM8OSsvVe5ac+
+         cSyLJN+RNnW7/1fAHtl7hpGk2KVzADz8X5zcIcyTOg4wYNi1d0ucbeDZ1i+YlL9VQKby
+         hKxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716950565; x=1717555365;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WaUSmZ7PBffPeOQ7gcFKeRJS00p2asbGxa8dHTdLep4=;
+        b=DsgYxP4TrLwNJuC37uaHBHU56LdDDIcCE/k7qZUmHuS+2CcOC/oB6JUhBSLkrWAVE8
+         POubmHZws1uB+kDshLOOzZhJbdRbqP1Hd+Hq1JwZPykuWfM3UA69KEhqmSHxnb+6vrUh
+         3J+oIwqfGJDsRqpn32yWXQpducdT80z19czsBjoZHVtUSN5DdyKT99ddvYalLKSzTji7
+         PmbywfYjaSTCPqxLBvxnd34J3IZXSgBfpYONlsqDWVCqh6ewEqn86XyL0KeROw+MNdX7
+         BLbE+8foVeXtb0VVfFR9X5t0+YfvZL6odufrF5rE2yKlxKfqv02HxGqpyuKMvajM2ZhD
+         zu4w==
+X-Forwarded-Encrypted: i=1; AJvYcCU+xFNTt3yU2m5zHnRtwEABYtR9y5pMx2IkgB560lICrBMPoyq5IQOGmxfExGB6MxxidESn6Vto9dkaJEbPSR4TRCmWeI23ryocsF/Mdsfi67dXF9uDOSAulqIwp+zbYtHkAztn6Vp9JY7fO4tgbWZaFRQjHikFvD0gsGgRkwLOR4+pixgEMmTYFDD9eOKuKmO2TDwAT+jNgcsrTaNsL5Iw4Po9Z+dj8kNTlpuZcUwxMG7vCbU77fFY6qRxAvh3xFi3CkVpOuJHDjrczJsTCRt9SX7x6CJw32P4ZVlQ9mLNGd/3ofjc36EH22iHvZUT6lwgzvxdjZBME2IvHxVfjB3OTvinFpRNFJ4v2BMKZ7rU7Dci9Fyf40PpB8bL98Qwh0+V0/B+/KXVrKRiMTObJzoL0k61zTQ9NKfl/HJZQGZQAY3+162oTKws2w98r145NpprPcmP1PWanc1RUw8wBR0WGWu1juMwWMfdhOWkHw==
+X-Gm-Message-State: AOJu0YwiAWxCGmd0ajxweAkaVndJZKQHhjyPkvemz8iQw2HoJmDaZYaB
+	FXY2tTBmJyj7DR3aZw6etCz22nSa0hDujF5u/hskmOTxhSDpoOB2
+X-Google-Smtp-Source: AGHT+IHY3mIPt+8r+bWSLhyahH3HSb2DqvQP0sw5Fzxjvwkj4ZywRulvtF7xu0QbCHkAVDUw9UJ96A==
+X-Received: by 2002:a05:6000:1841:b0:354:c0a6:2815 with SMTP id ffacd0b85a97d-355245e30f8mr11028033f8f.4.1716950565027;
+        Tue, 28 May 2024 19:42:45 -0700 (PDT)
+Received: from [192.168.42.154] ([185.69.144.120])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35579d7d963sm13608610f8f.21.2024.05.28.19.42.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 May 2024 19:42:44 -0700 (PDT)
+Message-ID: <29464e46-e196-47aa-9ff5-23173099c95e@gmail.com>
+Date: Wed, 29 May 2024 03:42:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 11/14] tcp: RX path for devmem TCP
+To: Mina Almasry <almasrymina@google.com>, David Wei <dw@davidwei.uk>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240510232128.1105145-1-almasrymina@google.com>
+ <20240510232128.1105145-12-almasrymina@google.com>
+ <9097e78d-0e7d-43bd-bafd-e53a4872a4d1@davidwei.uk>
+ <CAHS8izOe-uYjm0ttQgHOFpvp_Tj4_oRHV6d1Y1sWJAZJdCdCBA@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izOe-uYjm0ttQgHOFpvp_Tj4_oRHV6d1Y1sWJAZJdCdCBA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On 5/28/24 18:36, Mina Almasry wrote:
+> On Wed, May 22, 2024 at 11:02 PM David Wei <dw@davidwei.uk> wrote:
+...
+>>> +                      */
+>>> +                     if (!skb_frag_net_iov(frag)) {
+>>> +                             net_err_ratelimited("Found non-dmabuf skb with net_iov");
+>>> +                             err = -ENODEV;
+>>> +                             goto out;
+>>> +                     }
+>>> +
+>>> +                     niov = skb_frag_net_iov(frag);
+>>
+>> Sorry if we've already discussed this.
+>>
+>> We have this additional hunk:
+>>
+>> + if (niov->pp->mp_ops != &dmabuf_devmem_ops) {
+>> +       err = -ENODEV;
+>> +       goto out;
+>> + }
+>>
+>> In case one of our skbs end up here, skb_frag_is_net_iov() and
+>> !skb_frags_readable(). Does this even matter? And if so then is there a
+>> better way to distinguish between our two types of net_iovs?
+> 
+> Thanks for bringing this up, yes, maybe we do need a way to
+> distinguish, but it's not 100% critical, no? It's mostly for debug
+> checking?
 
-Results of the daily build of media_tree:
+Not really. io_uring definitely wouldn't want the devmem completion path
+taking an iov and basically stashing it into a socket (via refcount),
+that's a lifetime problem. Nor we'd have all the binding/chunk_owner
+parts you have and probably use there.
 
-date:			Wed May 29 03:00:12 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-v4l-utils git hash:	b13cb2cdedb224458e8c5932bccc7cf9bac18081
-edid-decode git hash:	f4b0548cb4b4cdff7947be59ce795b23e60266ed
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8639-gff1cc4d4
-sparse version:		v0.5.0-8639-gff1cc4d4
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3e9c9a50a2489e266e13733b4caff417b4634d71
-host hardware:		x86_64
-host os:		6.5.0-26-generic
+Same the other way around, you don't want io_uring grabbing your iov
+and locking it up, it won't even be possible to return it back. We
+also may want to have access to backing pages for different fallback
+purposes, for which we need to know the iov came from this particular
+ring.
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: WARNINGS:
+It shouldn't happen for a behaving user, but most of it would likely
+be exploitable one way or another.
 
-drivers/media/pci/ivtv/ivtv-driver.c:1296 ivtv_probe() warn: 'itv->dec_mem' from ioremap() not released on lines: 1296.
-drivers/media/pci/ivtv/ivtv-driver.c:1296 ivtv_probe() warn: 'itv->enc_mem' from ioremap() not released on lines: 1296.
+> I would say add a helper, like net_iov_is_dmabuf() or net_iov_is_io_uring().
 
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+We're verifying that the context the iov bound to is the current
+context (e.g. io_uring instance) we're executing from. If we can
+agree that mp_priv should be a valid pointer, the check would look
+like:
 
-date:			Wed May 29 03:13:41 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+if (pp->mp_priv == io_uring_ifq)
 
-date:			Wed May 29 03:49:53 CEST 2024
+> Checking for niov->pp->mp_ops seems a bit hacky to me, and may be
+> outright broken. IIRC niov's can be disconnected from the page_pool
+> via page_pool_clear_pp_info(), and niov->pp may be null. Abstractly
 
-Detailed results are available here:
+It's called in the release path like page_pool_return_page(),
+I can't imagine someone can sanely clear it while inflight ...
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+> speaking the niov type maybe should be a property of the niov itself,
+> and not the pp the niov is attached to.
 
-Detailed regression test results are available here:
+... but I can just stash all that in niov->owner,
+struct dmabuf_genpool_chunk_owner you have. That might be even
+cleaner. And regardless of it I'll be making some minor changes
+to the structure to make it generic.
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
+> It is not immediately obvious to me what the best thing to do here is,
+> maybe it's best to add a flag to niov or to use niov->pp_magic for
+> this.
+> 
+> I would humbly ask that your follow up patchset takes care of this
+> bit, if possible. I think mine is doing quite a bit of heavy lifting
+> as is (and I think may be close to ready?), when it comes to concerns
+> of devmem + io_uring coexisting if you're able to take care, awesome,
+> if not, I can look into squashing some fix.
 
-Full logs are available here:
+Let it be this way then. It's not a problem while there is
+only one such a provider.
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+Pavel Begunkov
 
