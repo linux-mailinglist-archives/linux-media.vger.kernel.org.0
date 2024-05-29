@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-12168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12169-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8A48D3AE1
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:29:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B7D8D3AE3
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 17:29:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D3F21F2373D
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:29:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51A88289EC1
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDB20181B97;
-	Wed, 29 May 2024 15:29:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EB8B180A61;
+	Wed, 29 May 2024 15:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MDcpA+Gx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VF7GQzVa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4081746E;
-	Wed, 29 May 2024 15:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A4E181331;
+	Wed, 29 May 2024 15:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716996566; cv=none; b=Jf5UDVMapAtfnq6cWwmnepN3VwiiZ9x84Fou+OxCSW5K3zxlhb6byeGSZEFqLv+h8sF11YnbdKrCR4iK99qjuw+fZMuZZSq0Db5vBEAxtUS3iP07ugbwqiysh0MrkUdr1GxN5pscA1FE/sVJrGvoxXBx8WT8BXap3gXyYyEnslE=
+	t=1716996566; cv=none; b=rkiMF6gKomHdsCnRjxRKCazn9OYEf3df6VlOZilLZl+aNaHqdkh2k/B6safwftLqj3FRloeY3k7c4Be9Hcf4d/4WmCF2AYdZn0e0UPTKXOHSIab0jmfKlS4TiU1eQU3xWFO07pPo99Xm2EUdpTWhYs2PmsNhsAr6rDRTAng89e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716996566; c=relaxed/simple;
-	bh=Hu4aMLJwuBDXxhTlXJSWkF/966g2zaAJ82YLQ6LeSCo=;
+	bh=4Zk7tRiwTOL78Byp+CPsuM4Rdg2v2J5MGqG9hkA39w8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VqM6o2A9ZqAsxkQVwcpcQZcEdnKUplZZ/hfhKyKhkSSrd7zoywA8m4xu2T0DjluOQXyYvHO7hiDvZb9Rbwr+FHoMA6b5YgPCMTncQEaSwuppVpKB3kBhcuCDzhhNN/zNImg6ME8ZmeYtIOEL69DCVtyN1qGXMIfm5UoB13a0uo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MDcpA+Gx; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=nQBlmi12+bQe0pUkmsW4GTkx1vQ9JhVpnyDf9MNJqmEqoGkarXiJJ/uohJJv5riAuJQ8eNtnBm8acpB5CzCvzPtMJ53s7nWFkD1cJMeExsZAAz5JbiFwC7HuMfxnGqFI3fAJzLU6fioUMJmzDJG1OTGeWSA7yXNo+Kx5k3ZnZc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VF7GQzVa; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81E3A2D54;
-	Wed, 29 May 2024 17:29:16 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2CE2E2D5F;
+	Wed, 29 May 2024 17:29:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1716996557;
-	bh=Hu4aMLJwuBDXxhTlXJSWkF/966g2zaAJ82YLQ6LeSCo=;
+	bh=4Zk7tRiwTOL78Byp+CPsuM4Rdg2v2J5MGqG9hkA39w8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MDcpA+GxrBxEcR9Ygi4jH63JQYbtO4E9gZTZxgRNxljp4209yycPKkLx+MLmN1m0o
-	 D+OvrFJLZtmo6s0Kjla71NGkBVwkwVUfgEiIgPzO5zKFCxdSxyRxOU+C7NnruUlhG8
-	 AhIeN0l1Q+GKokXlVb0IG84Ud7dTdTyB/ZnvqoSE=
+	b=VF7GQzVaaltwEkTJA/N3hr95DHYNRicmt4hoDxVJrJmVE8lYVwBNCWwWaWfBTJodz
+	 AkpdYNLncSDWNnBskcev/K3q7+zDcCBREMFEyIbOO7xbbNWTqVsBdRPEuDxa8ymR5c
+	 hXsqaRkoKHTQEhnzU3KsVzbLN8TFFIOf2pUay0jg=
 From: Daniel Scally <dan.scally@ideasonboard.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -56,9 +56,9 @@ Cc: jacopo.mondi@ideasonboard.com,
 	laurent.pinchart@ideasonboard.com,
 	sakari.ailus@iki.fi,
 	dan.scally@ideasonboard.com
-Subject: [PATCH v5 02/16] media: uapi: Add 20-bit bayer formats
-Date: Wed, 29 May 2024 16:28:44 +0100
-Message-Id: <20240529152858.183799-3-dan.scally@ideasonboard.com>
+Subject: [PATCH v5 03/16] media: v4l2-common: Add RAW16 format info
+Date: Wed, 29 May 2024 16:28:45 +0100
+Message-Id: <20240529152858.183799-4-dan.scally@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240529152858.183799-1-dan.scally@ideasonboard.com>
 References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
@@ -70,156 +70,33 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Mali-C55 requires input data be in 20-bit format, MSB aligned.
-Add some new media bus format macros to represent that input format.
+Add entries to v4l2_format_info describing the 16-bit bayer
+formats so that they can be used in drivers.
 
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 ---
 Changes in v5:
 
 	- New patch
 
- .../media/v4l/subdev-formats.rst              | 100 ++++++++++++++++++
- include/uapi/linux/media-bus-format.h         |   6 +-
- 2 files changed, 105 insertions(+), 1 deletion(-)
+ drivers/media/v4l2-core/v4l2-common.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index 8d164a9a9e15..f986dfc52879 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -3445,6 +3445,106 @@ organization is given as an example for the first pixel only.
-       - r\ :sub:`2`
-       - r\ :sub:`1`
-       - r\ :sub:`0`
-+    * .. _MEDIA-BUS-FMT-SBGGR20-1X20:
-+
-+      - MEDIA_BUS_FMT_SBGGR20_1X20
-+      - 0x3021
-+      -
-+      - r\ :sub:`19`
-+      - r\ :sub:`18`
-+      - r\ :sub:`17`
-+      - r\ :sub:`16`
-+      - r\ :sub:`15`
-+      - r\ :sub:`14`
-+      - r\ :sub:`13`
-+      - r\ :sub:`12`
-+      - r\ :sub:`11`
-+      - r\ :sub:`10`
-+      - r\ :sub:`9`
-+      - r\ :sub:`8`
-+      - r\ :sub:`7`
-+      - r\ :sub:`6`
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+    * .. _MEDIA-BUS-FMT-SGBRG20-1X20:
-+
-+      - MEDIA_BUS_FMT_SGBRG20_1X20
-+      - 0x3022
-+      -
-+      - r\ :sub:`19`
-+      - r\ :sub:`18`
-+      - r\ :sub:`17`
-+      - r\ :sub:`16`
-+      - r\ :sub:`15`
-+      - r\ :sub:`14`
-+      - r\ :sub:`13`
-+      - r\ :sub:`12`
-+      - r\ :sub:`11`
-+      - r\ :sub:`10`
-+      - r\ :sub:`9`
-+      - r\ :sub:`8`
-+      - r\ :sub:`7`
-+      - r\ :sub:`6`
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+    * .. _MEDIA-BUS-FMT-SGRBG20-1X20:
-+
-+      - MEDIA_BUS_FMT_SGRBG20_1X20
-+      - 0x3023
-+      -
-+      - r\ :sub:`19`
-+      - r\ :sub:`18`
-+      - r\ :sub:`17`
-+      - r\ :sub:`16`
-+      - r\ :sub:`15`
-+      - r\ :sub:`14`
-+      - r\ :sub:`13`
-+      - r\ :sub:`12`
-+      - r\ :sub:`11`
-+      - r\ :sub:`10`
-+      - r\ :sub:`9`
-+      - r\ :sub:`8`
-+      - r\ :sub:`7`
-+      - r\ :sub:`6`
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+    * .. _MEDIA-BUS-FMT-SRGGB20-1X20:
-+
-+      - MEDIA_BUS_FMT_SRGGB20_1X20
-+      - 0x3024
-+      -
-+      - r\ :sub:`19`
-+      - r\ :sub:`18`
-+      - r\ :sub:`17`
-+      - r\ :sub:`16`
-+      - r\ :sub:`15`
-+      - r\ :sub:`14`
-+      - r\ :sub:`13`
-+      - r\ :sub:`12`
-+      - r\ :sub:`11`
-+      - r\ :sub:`10`
-+      - r\ :sub:`9`
-+      - r\ :sub:`8`
-+      - r\ :sub:`7`
-+      - r\ :sub:`6`
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 4165c815faef..c5d5704af5ee 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -331,6 +331,10 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		{ .format = V4L2_PIX_FMT_SGBRG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_SGRBG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_SRGGB12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_SBGGR16,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_SGBRG16,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_SGRBG16,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_SRGGB16,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+ 	};
+ 	unsigned int i;
  
- .. raw:: latex
- 
-diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-index 49be328d9a3b..b6acf8c8e383 100644
---- a/include/uapi/linux/media-bus-format.h
-+++ b/include/uapi/linux/media-bus-format.h
-@@ -122,7 +122,7 @@
- #define MEDIA_BUS_FMT_YUV16_1X48		0x202a
- #define MEDIA_BUS_FMT_UYYVYY16_0_5X48		0x202b
- 
--/* Bayer - next is	0x3021 */
-+/* Bayer - next is	0x3025 */
- #define MEDIA_BUS_FMT_SBGGR8_1X8		0x3001
- #define MEDIA_BUS_FMT_SGBRG8_1X8		0x3013
- #define MEDIA_BUS_FMT_SGRBG8_1X8		0x3002
-@@ -155,6 +155,10 @@
- #define MEDIA_BUS_FMT_SGBRG16_1X16		0x301e
- #define MEDIA_BUS_FMT_SGRBG16_1X16		0x301f
- #define MEDIA_BUS_FMT_SRGGB16_1X16		0x3020
-+#define MEDIA_BUS_FMT_SBGGR20_1X20		0x3021
-+#define MEDIA_BUS_FMT_SGBRG20_1X20		0x3022
-+#define MEDIA_BUS_FMT_SGRBG20_1X20		0x3023
-+#define MEDIA_BUS_FMT_SRGGB20_1X20		0x3024
- 
- /* JPEG compressed formats - next is	0x4002 */
- #define MEDIA_BUS_FMT_JPEG_1X8			0x4001
 -- 
 2.34.1
 
