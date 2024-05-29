@@ -1,40 +1,55 @@
-Return-Path: <linux-media+bounces-12154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF46A8D366B
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 14:30:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 336A78D3748
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 15:14:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 700041F26750
-	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 12:30:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64AFA1C22BDB
+	for <lists+linux-media@lfdr.de>; Wed, 29 May 2024 13:14:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D879181308;
-	Wed, 29 May 2024 12:30:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C951C101DB;
+	Wed, 29 May 2024 13:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cw6Jd7fH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77888647;
-	Wed, 29 May 2024 12:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BEE2DDAD;
+	Wed, 29 May 2024 13:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716985818; cv=none; b=k1g1msfgw8WzuVNWjLwVkzyNLRD28jJfCc1NcehB0uTtnmWFaNQEabNNMjpV0pZhFknqF3D6F5y3eZ0XxwNJB377WuN0tGkMIlL3VAGuFzu2jFVFh7GUQvFdcedFtwx/RPX8AhurA8BRa5mU3Kjsqgd1wPj8gg/iCgYXMYuBFZ0=
+	t=1716988466; cv=none; b=sKV0wnsNrF4OtCID6mRj+mCzeyRucbRnLrc114s0gtUSDPeuu85vOV4GKGVE9b8uWs/S7ucpwS/0A6eMvaSLhccThMCmuAmVGuDNiYPfQsVuXrjcTXwLu/Emd9t6x4aueksVcFaEAO+onTHcEdCm4hqfvMvP/NSz/E+f7pFvZp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716985818; c=relaxed/simple;
-	bh=DGfatGcTzFpAvYuN4A7ArzVL/lkr9IM2WyCWk2K7P+U=;
+	s=arc-20240116; t=1716988466; c=relaxed/simple;
+	bh=DHUO90PUPhlMJ3B+9LiJkV1K2D77bjBIutGq+bUUtz4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YWNoT2NMP2EpgGZYNVBQgbx4Uh7j8lgA/zZSPoyi1ZnFhJSE5YAnTp+65M6LEvJy7RZTEVZjnWwwOGI28BHe4hGMihLXWedIQNmZzYG866kLUXj2EkMyS/Y+ug2bykQNlKSD1lMMIeCVYsjc+QFq1MjeE/baQMcc3VrCWLt824g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D024D339;
-	Wed, 29 May 2024 05:30:39 -0700 (PDT)
-Received: from [192.168.1.100] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B1073F762;
-	Wed, 29 May 2024 05:30:12 -0700 (PDT)
-Message-ID: <941db167-fda5-4d57-9623-58d8b8c0a7b5@arm.com>
-Date: Wed, 29 May 2024 13:30:13 +0100
+	 In-Reply-To:Content-Type; b=PAzSIsiACoyFAbgZfbWGYny9kJUQvWBwyuoSLzHNBrPVAS9eQb19b7uXq5Awa6EXRndcvlaZluO6XuqvyMIo9q/xdnM8Jv4bpBKjcBhkYsukPuKS0+7xB73+/W3Z8V6QcODziEQqEaOEDQNpMhLZ59a5hBPaWWC/oBo39XVRR64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cw6Jd7fH; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716988462;
+	bh=DHUO90PUPhlMJ3B+9LiJkV1K2D77bjBIutGq+bUUtz4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cw6Jd7fHS8GjpN9WNQ9abAufl1Zgwyndm8aJDcc0mYCCJHPbcDPU78u+hCucvxDSY
+	 UuUcvR7Z/XnpiviS9esGpR2ppZhmT1GuURxOm0JxsV6CyfxnN0fTQ295HbpFApHVMn
+	 /fFWBIWezuhTpAzL6uR9/j78oaPfGzcUMyX7At1AOi1iHRKf7KOXz51SBxqO7FTt/5
+	 Zx7qZ+LqRGbNhmzRXYcpSyOe3VHiyCQaHY6lm8KmpORNlYeD9eN1DRmabvaiZcnGKo
+	 9Thv4w6N9xiKisfM1Zu5Ax/HlyWJmGr5VKohI2m+4Gn34obcVbqH9eu7BxcPMxD54e
+	 LrjCUgo6LK6HQ==
+Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: andrzej.p)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id CE9033782087;
+	Wed, 29 May 2024 13:14:21 +0000 (UTC)
+Message-ID: <8a007787-c648-4ae3-829f-7a0b17dd9a89@collabora.com>
+Date: Wed, 29 May 2024 15:14:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -42,92 +57,115 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 resend 2/8] hwtracing: use for_each_endpoint_of_node()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- "coresight@lists.linaro.org" <coresight@lists.linaro.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- prabhakar.csengg@gmail.com,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Eugen Hristev <eugen.hristev@collabora.com>, Rob Herring
- <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <87ikyx4hm1.wl-kuninori.morimoto.gx@renesas.com>
- <87fru14hl7.wl-kuninori.morimoto.gx@renesas.com>
- <20240529004047.GB1436@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/3] media: mediatek: vcodec: fix h264 multi statless
+ decoder smatch warning
+To: =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>,
+ "nhebert@chromium.org" <nhebert@chromium.org>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
+ "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "frkoenig@chromium.org" <frkoenig@chromium.org>,
+ "stevecho@chromium.org" <stevecho@chromium.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "hsinyi@chromium.org" <hsinyi@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20240229095611.6698-1-yunfei.dong@mediatek.com>
+ <20240229095611.6698-2-yunfei.dong@mediatek.com>
+ <4949bd54-8c32-4490-ab19-d38796d29ac1@collabora.com>
+ <9ba79ccf849054974a937d1d605910cf4c8552d6.camel@mediatek.com>
 Content-Language: en-US
-From: James Clark <james.clark@arm.com>
-In-Reply-To: <20240529004047.GB1436@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <9ba79ccf849054974a937d1d605910cf4c8552d6.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
-
-On 29/05/2024 01:40, Laurent Pinchart wrote:
-> Hi Morimoto-san,
+W dniu 3.04.2024 o 05:45, Yunfei Dong (董云飞) pisze:
+> Hi AngeloGioacchino,
 > 
-> Thank you for the patch.
-> 
-> On Tue, May 28, 2024 at 11:55:32PM +0000, Kuninori Morimoto wrote:
->> We already have for_each_endpoint_of_node(), don't use
->> of_graph_get_next_endpoint() directly. Replace it.
+> Thanks for your reviewing.
+> On Tue, 2024-04-02 at 11:50 +0200, AngeloGioacchino Del Regno wrote:
+>> Il 29/02/24 10:56, Yunfei Dong ha scritto:
+>>> Fix smatch static checker warning for vdec_h264_req_multi_if.c.
+>>> Leading to kernel crash when fb is NULL.
+>>>
+>>> Fixes: 397edc703a10 ("media: mediatek: vcodec: add h264 decoder")
+>>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>>> ---
+>>>    .../vcodec/decoder/vdec/vdec_h264_req_multi_if.c         | 9
+>>> +++++++--
+>>>    1 file changed, 7 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git
+>>> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+>>> _multi_if.c
+>>> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+>>> _multi_if.c
+>>> index 0e741e0dc8ba..ab8e708e0df1 100644
+>>> ---
+>>> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+>>> _multi_if.c
+>>> +++
+>>> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req
+>>> _multi_if.c
+>>> @@ -724,11 +724,16 @@ static int vdec_h264_slice_single_decode(void
+>>> *h_vdec, struct mtk_vcodec_mem *bs
+>>>    		return vpu_dec_reset(vpu);
+>>>    
+>>>    	fb = inst->ctx->dev->vdec_pdata->get_cap_buffer(inst->ctx);
+>>> +	if (!fb) {
+>>> +		mtk_vdec_err(inst->ctx, "fb buffer is NULL");
+>>> +		return -EBUSY;
+>>> +	}
+>>> +
+>>>    	src_buf_info = container_of(bs, struct mtk_video_dec_buf,
+>>> bs_buffer);
+>>>    	dst_buf_info = container_of(fb, struct mtk_video_dec_buf,
+>>> frame_buffer);
+>>>    
+>>> -	y_fb_dma = fb ? (u64)fb->base_y.dma_addr : 0;
+>>> -	c_fb_dma = fb ? (u64)fb->base_c.dma_addr : 0;
 >>
->> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
->> ---
->>  drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> You're changing the behavior here, can you please explain why this
+>> change is valid
+>> into the commit description?
 >>
->> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
->> index 9d550f5697fa8..e9683e613d520 100644
->> --- a/drivers/hwtracing/coresight/coresight-platform.c
->> +++ b/drivers/hwtracing/coresight/coresight-platform.c
->> @@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->>  	 */
->>  	if (!parent) {
->>  		/*
->> -		 * Avoid warnings in of_graph_get_next_endpoint()
->> +		 * Avoid warnings in for_each_endpoint_of_node()
->>  		 * if the device doesn't have any graph connections
->>  		 */
->>  		if (!of_graph_is_present(node))
->> @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->>  	}
->>  
->>  	/* Iterate through each output port to discover topology */
->> -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
->> +	for_each_endpoint_of_node(parent, ep) {
->>  		/*
->>  		 * Legacy binding mixes input/output ports under the
->>  		 * same parent. So, skip the input ports if we are dealing
-> 
-> I think there's a bug below. The loop contains
-> 
-> 		ret = of_coresight_parse_endpoint(dev, ep, pdata);
-> 		if (ret)
-> 			return ret;
-> 
-> which leaks the reference to ep. This is not introduced by this patch,
-> so
+> The driver already add the condition to check whether fb is NULL at the
+> front, no need these two lines again.
 > 
 
-Nice catch, I will send a patch.
+Maybe Angelo refers to the function never returning -EBUSY before?
+While at it, if fb is a kind of a buffer, why not -ENOMEM
+when get_cap_buffer() fails?
 
-Also:
+Regards,
 
-Reviewed-by: James Clark <james.clark@arm.com>
+Andrzej
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
+>> Thanks,
+>> Angelo
+>>
+> Best Regards,
+> Yunfei Dong
+>>> +	y_fb_dma = (u64)fb->base_y.dma_addr;
+>>> +	c_fb_dma = (u64)fb->base_c.dma_addr;
+>>>    	mtk_vdec_debug(inst->ctx, "[h264-dec] [%d] y_dma=%llx
+>>> c_dma=%llx",
+>>>    		       inst->ctx->decoded_frame_cnt, y_fb_dma,
+>>> c_fb_dma);
+>>>    
+>>
+>>
+>>
+
 
