@@ -1,153 +1,216 @@
-Return-Path: <linux-media+bounces-12209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A358D42D6
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 03:25:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 213468D4359
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 04:06:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB3311F22DBC
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 01:25:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE72C286691
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 02:06:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2586134AC;
-	Thu, 30 May 2024 01:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005A01BDC3;
+	Thu, 30 May 2024 02:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKaDAN/1"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="DFO1ImVO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2043.outbound.protection.outlook.com [40.107.114.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5D16AB8
-	for <linux-media@vger.kernel.org>; Thu, 30 May 2024 01:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717032346; cv=none; b=n1lQALOeZuzcwQck2A6E+Z4Ygx/pnyyWkxDr45O/e7CmDYSfwrHibYb8vW6VnNTeH5GsdiMtdVjsFu+ENeeaz4zSbcM9tWIjOmDul+xZS8e8ARUj/t4m0gBE4FkSzKETjOosar2vjuO0mT+7nTR0uneWjovjZmMa/h0zDeN12aI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717032346; c=relaxed/simple;
-	bh=1smZDnG8XmH55nzpq9QZJuwuiaA6hGUVW53zy0zxfcg=;
-	h=Message-ID:Date:MIME-Version:Subject:References:To:From:Cc:
-	 In-Reply-To:Content-Type; b=R2Gy+Avn67GN3J46kmLUmZyuo37r1KBavwND9JkjAcyuQoAeJ4Z4dGdTK2POyiLrZVYzDfeT7wk2NzK1ejyO1hKufLwBduZ0NCQX6fFcNa1MiFhvHjz2CFcEIREpQ0BqkdCCoQtuxRQvB+azy7Jz9gBfqHb0ffklhw8YieGNqIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HKaDAN/1; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2bfffa3c748so266871a91.3
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 18:25:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717032344; x=1717637144; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:cc:from:to:references
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pcgcuesWViQCQqXVJ2+Pzo6Qyc3veftU7OoB3aeCebs=;
-        b=HKaDAN/1CTVcpR0SZgqtuGqOLXJSYwuluFdQzXuGLkjfkUzjY0+Ur+uTh/mAMm/4wu
-         QKONT5R3U8Ob+j7goHgGrcF5nHNgq4R3AvI2XkLr9wnNtN4+X8s1jwvD7Wo7BdDJ+Sfm
-         XtkrbRwm29LpE0ZmC/LACPOHTuvRHgAxjyh/IlZtVsnQv2VHrGQAyDVDbPU+bfT38Wvh
-         1hnnOyCc/Ocu2L0o/vzHvvFC8bHLTmcq4PLNKuc9wSy5i4bsdCUKmT0KAZo9ZVNebszd
-         tIwymoKh+cwWxE4deHqXyf2x6h1VFxHm6EnmyVrLZQs3xAzMR8As5k0l2kXTyP00OKLu
-         5Jcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717032344; x=1717637144;
-        h=content-transfer-encoding:in-reply-to:cc:from:to:references
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pcgcuesWViQCQqXVJ2+Pzo6Qyc3veftU7OoB3aeCebs=;
-        b=W170rzZ12IqiPhXvsu+gbefaBHSTBWtI5wzk+2cQRWrE5hj3RcMEygHrl+R7cG94EI
-         90p9XhIQ0wGx/MBE4QBzLDGL3XCcMSUOkyJrQzz0n3TDiYYOKwjAZJDenDCZ0M3Un4no
-         10uQs1XPipl7RaIzzxoNJz0KmfpdaNAEx8z5IRYCD8kJZknoNq9b+AGG3TS7yQXOBhn3
-         hvXya5/esvOeWBQWbaofRu6b/p+GxT9FZXI8t/I5Z43w71iHVowthxCtJX827N9SJxOV
-         XsYuGkCBLKX/p0e0A/7a/oepUtdfCZ/0VqArBMjektvKSsvlpwkpW3QKyoIIF+npSAUa
-         qQ2Q==
-X-Gm-Message-State: AOJu0YyIUJ3JuVE3LFgm5GFumwO/rv1F49ZP11T5+lMkBFwjP0pUGsJb
-	qORMzc2QDy27E9OzRCmns/7k3Wmw0NP/LByXlcNkaeWe+/M2ROoc
-X-Google-Smtp-Source: AGHT+IFw3IwNOS8xrVg0Ej1kZf3F1q6SB8v7jR7M0CRB0plRjXzS1iLbem7iMu7sKsFWmsfnid4tyw==
-X-Received: by 2002:a17:90a:a088:b0:2bc:9bce:d65 with SMTP id 98e67ed59e1d1-2c1abc4b9a1mr777625a91.43.1717032344001;
-        Wed, 29 May 2024 18:25:44 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1a779e937sm481862a91.38.2024.05.29.18.25.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 18:25:43 -0700 (PDT)
-Message-ID: <456dfb99-83ce-45a3-be42-6b951713ff37@gmail.com>
-Date: Thu, 30 May 2024 10:25:41 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAD718040;
+	Thu, 30 May 2024 02:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717034722; cv=fail; b=JmDXTjse6b0B0Y2VNr9I0kt/WXiTYQ8256RI9ou6gW+64GwmhppLSOBVGuTFUWGhOWF13becI3eFBlKsLN5BVmhCGdMnwP15/2Zbg5+iBVPDyw1iGipAvRHk80ZXsmYV95rDbcZZiAB/xiiYVGPQ0HAU0fUqO028NwG80XJ73yc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717034722; c=relaxed/simple;
+	bh=onW2WfcRZU6nixN0Zd9c3I9XlrEOsbiKYmtu4c46fhQ=;
+	h=Date:Message-ID:From:To:Subject:Content-Type:MIME-Version; b=OIl6sovC/OdP9fQQ49mAOg/P1SL9dfr+KVJ8u//NhyU0mMKTa452gYVCsdVdgHk/dKK3Fryc/BzLAhlYf/pNZu5fZM+aoAxViFRU+75jCWkxKJVewqKIAR3ry4FT4TGDRhnBHKghAmlKnvQkKVN1NCCuf50a1b93yiGitKw3jQQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=DFO1ImVO; arc=fail smtp.client-ip=40.107.114.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nheeWCPEFKVMC1sFeF8CGvPXokfmqBqQJNW5qksflFdwM5UNbl8z59V9E5S2HpvFQ42AJnjGsPc8J5K9nOeZnH9QPArfpp7W0cEraKRXywF6R0fFk4V0zNqfKtTzqWNDD4/aOcEHeyIjevB/jBYnPaSkQYkD+TQYZRO5mDLDXGGVpjlfNu8x7FTw7Ae0qBLljmbhXOEBJYEllMehGIxShEBouJQ8Y4m6B3vCY8Jp2SCnW6wlatXu3mJwHxyNHeg3OfWYJQ1U06FXVMesCAf63PXMWe0K6NIiCx3p01K8kYmjlsE1y1KzTtKEvcFH0lUpxuHiI37PWY6aJf1cdRZV0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pR3AX50v+bX4RzO44Jahp2cb6FWnWDUwUTgdZFXFZiI=;
+ b=bGV9mpJjW7QZ+JkQcEL80QXCnzLeMN0kjp5HJZZ6RkDH+xFOw14RqQ5et58znLXWX+Wx2BwQm3lQL0zcNUl/pupXNYJ6dKgY+KJgp47ZBK8J9Fb5Q0oZK51YGJKMJCQh7yg751hipz46LYEi8QSzkx/Y06ROULA/mAPZTTZidC02nxlUu2lcZ7UcDU6YVDugZNB9gW972EjiizgI54gKEw6bcAL5Rnj8t7nDHQTdZZxgFNrVmFb9XZrfKXUy5zkn/QtOBmQZRxfrYcDJlM/ZfbXNP3ssnYt06u+90Yjfj1L9Bldl3xKle9BBM7DcZu4uOn+KvQUOcQP3zdaJovse0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pR3AX50v+bX4RzO44Jahp2cb6FWnWDUwUTgdZFXFZiI=;
+ b=DFO1ImVOAutv81HZcypbmLyoueSlRYPzX/Txxia9kC2T3oP+GrvWiub9MqBDeOj/fe47h33G2cEck/bTRe/e21vzL0w86cWC9LRw+vxTHDDXOtHQo+kY8GMymCLORxmTZlKw/Tw+sK5eKFAjByr7fEhRMTOJY2kWZVlyHewQ6XE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY3PR01MB9900.jpnprd01.prod.outlook.com
+ (2603:1096:400:223::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.21; Thu, 30 May
+ 2024 02:05:12 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7633.018; Thu, 30 May 2024
+ 02:05:12 +0000
+Date: Thu, 30 May 2024 11:05:11 +0900
+Message-ID: <87le3soy08.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: "Lad Prabhakar" <prabhakar.csengg@gmail.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, Eugen Hristev <eugen.hristev@collabora.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Rob Herring <robh+dt@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, coresight@lists.linaro.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org, linux-omap
+ @vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v3 0/9] use for_each_endpoint_of_node()
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+X-ClientProxiedBy: TYAPR01CA0099.jpnprd01.prod.outlook.com
+ (2603:1096:404:2a::15) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Fwd: media: docs: build error of userspace-api.pdf as of v6.10-rc1
-Content-Language: en-US
-References: <bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com>
-To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-From: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com>
-X-Forwarded-Message-Id: <bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB9900:EE_
+X-MS-Office365-Filtering-Correlation-Id: 925f9eef-c0bc-4cbe-38eb-08dc804cf0a4
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|7416005|52116005|1800799015|376005|366007|921011|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?aXF90MmS46ghDLNWGWSa7jhYBtKUQqMLgaumk23Y/xnQmOvsxDK5w28wdy2G?=
+ =?us-ascii?Q?pZs58MZzzVbOPqK5PMpcEweXkk25QW1jIR7PT8kbBMcwzAKVdWqqayS85Nad?=
+ =?us-ascii?Q?DZ3n4ktzuABDFJYUGQM5out7TFQkY62oIB+Gh6OfwrdSbWEItq3Yz7oNRd/V?=
+ =?us-ascii?Q?mUl70NrC5dLz0EPpNL0EPt8X5nkf7Am3Y63rCnYSYmDvMCQO0CmiOUjxVb83?=
+ =?us-ascii?Q?64H1Vh1b4cyvo6vLld4UFLjFmzx1gWmWMpfbxUbFqUR4lhNcxx5e2mZqUQ4V?=
+ =?us-ascii?Q?yUbWzpxMWAlWwsr05TdRY4WAGNdmR72DfzWxzOC4O9M17RiJ+PjS1q6+ujAQ?=
+ =?us-ascii?Q?Ml4fjw/IGuHzhokzYXvxDbN/QeqgIA7W3evxeThE8J3K2AcSuEnAu2tZxI+r?=
+ =?us-ascii?Q?z151Us1x1mMinThMOy2Xa+B9XhBwqUXZvRWtAmONJnkFXIDkmrb8z8wVbB5T?=
+ =?us-ascii?Q?E1UanNSienYWUKifpyU2BYGpT/ul1/GIycBtcD3r80piZnuE/LDz9KFr+HFC?=
+ =?us-ascii?Q?+HXebaMnTI2f3Q60SySLREN+ClEAr4xC8EcBAyGGciRYTSWWVQayVpJ09hB7?=
+ =?us-ascii?Q?DkISFLo0l3+fHGual7NIFvnQ4CTf/Hp+lc6HWXron6wRc9hgK9XLtH/1ZxAP?=
+ =?us-ascii?Q?0TmVbGzBKuYL2KJGJzoLDB/tm/u+NQ0BEyW/M2jWb8QgQBvratHtG6EWdgQ2?=
+ =?us-ascii?Q?TthFvW/vUF6zZbgLz07oXM/KuOnb8Mf/bZ6/1PJbDsvOm9l0yyk0f/d6zEYK?=
+ =?us-ascii?Q?sXF9q8eKfVmxllk9nrhSWdxCewRUh9nDYjz2fG/werE9sCDHDeitrZWpPyYE?=
+ =?us-ascii?Q?HLzjkCfOYVxPm+FRjtvC4RE9RnD929HPilF0gcr141TE4GE1xQmTA1HNzRbi?=
+ =?us-ascii?Q?x/+WXLe6DlOaT/SNYJdXQNL7sm35duidd5snxy0qbnYAlMDvZDeULpNOfS9k?=
+ =?us-ascii?Q?gFt9/dp1chkzJr2G+p2bpq6EtkV/4ZmGXvhXdlKCbvN5OIDyAlZMlgnmP2MM?=
+ =?us-ascii?Q?lspA8TT46eAsmYWd/aA9halkHJ0MsHFhZHVanQZQAtPatqAu1HUmnc4c278j?=
+ =?us-ascii?Q?uW19ypePvWKwEobVNWflJFOS0d1oEDApAqCszQSMY7y7MWLbDX7QchD6wY2i?=
+ =?us-ascii?Q?BmUYonlnsHaWdrVsW353huGpMN5lzH+3r/FjzhC8NPxTzDJgzNGQbsJ1Mw8m?=
+ =?us-ascii?Q?ylQwuKEcG8J4awxrLCL4PMalVSM2dlnvFghFQSRirAW172hNrCuqI2qg7QZt?=
+ =?us-ascii?Q?nm4SI0HzKgmoNoQwdwVOMg8BizrLMvgF+Sczyvz+r4YcYuwJaTXyQ1tgCw61?=
+ =?us-ascii?Q?mACGSio/GqwMYwOPa0bA+dKw?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(52116005)(1800799015)(376005)(366007)(921011)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?YWvhuWPV28ve3lYUgCc8a5wwgIcBYP30etFdS6NK/8plJxD8uN7mlXWsMWHp?=
+ =?us-ascii?Q?thhGReWMeVJYiZ63PCkiUBisUUjf7mjUO33VwtlluBEce1oBApAqGOkuP34u?=
+ =?us-ascii?Q?3hGYGvbITREpk34mRNnuQz/vlvFho7PTu6t4hxVycPIY2GSKOnDRYC5PUIYt?=
+ =?us-ascii?Q?NWRVR10cSioXyT3x6EgdjkFkwkE6mfP99C+rDjU/Cla2Wp2Q4RFax4O4S6xH?=
+ =?us-ascii?Q?M7w7/H7nYmF0zEfdpv28Yo6j7r814JbLoo3/EvYuZEh26icpMm+e4s9J2z3i?=
+ =?us-ascii?Q?panq2h5kyYWJLKuFbUv2Wm/gLRv/7gmttzsLdmwSFGbjVmelgBjgnde2cnDx?=
+ =?us-ascii?Q?Zfk+8DZxD3NluqYQiagbe+Oq0He0JXWki9pJLNfaK4e703gcsOCZR8LY6J64?=
+ =?us-ascii?Q?lsiLAVlJUkKlGzVwkbllGOUlYd4mAZYbXAp7hH/5IL0xXG7PKJhxU2Q9lAVu?=
+ =?us-ascii?Q?U1zOjmuVpcpdV4WPo9D/kDsxlabXZMzBSvtYlaMvPhDvqMvD1AYKKGISSyop?=
+ =?us-ascii?Q?LmowE0h6MWREb751Nivxj7MWQyGRPjAdhf7Ad28qVzQUwTk+BTBsmav7xCQM?=
+ =?us-ascii?Q?JcAww//+IzTPhxIvFw+qFzU5DkRvaLhpiZqhmA9jK7iW2JR/SMPgXQ2OqTKV?=
+ =?us-ascii?Q?keYuqF2tv1JJenQXsNAc8fkjGrDDqkz30AugpDfdF57BxFqIRycsG85F1Dox?=
+ =?us-ascii?Q?MtcjTXMUHxsMOyCj1gZY3HMr8f33Lshd082SQz14UD5NgyvaARqvHvt5FMem?=
+ =?us-ascii?Q?Dxf5u5VPJkrpmIHFWPTWZC5SJGSeFcd0FQLpMDY41a/pbHdiArUyhgMGI4EH?=
+ =?us-ascii?Q?4brpMTlAsHLOFLI5x7phmrFGbBupSZe/T9AzPVuZtLbSWoLJUFLcqiKa0aM3?=
+ =?us-ascii?Q?dKWZ+0csadG/F3tazyvoj32N08xZDtVt2IwqiUJ0cfXcFz72u7ZjGM6JKe8x?=
+ =?us-ascii?Q?qXJ5LZnFFRKjEH2jWoisPY7Ttm4kEgDyfCYWHvTnwzyRmet53DoGgM0JA08C?=
+ =?us-ascii?Q?QI8r05/x0aqytgLY2nQdqla/Kf8QJEabEiLWdw1lEusFrsiLOQNsUfBUrMJC?=
+ =?us-ascii?Q?rzbNd4q6M2jygC2Bf4hzKBuARvMwpL68cL/4kup1APsVYUduVIx2JuMkvzWe?=
+ =?us-ascii?Q?L1wHTkBjCVVRFp4jTlVF8WJ8cmbO8OKgPhpkDMQFaj3WQnasGw067eDh6zmd?=
+ =?us-ascii?Q?7BkSRPQEd03TZ+iYjVBxSXQOXKqSTl2hIii1CnlkWidWB5Tz2Ao9O+1Orcym?=
+ =?us-ascii?Q?55YbyyNgFbyo5vkdQKYQVD/5JWaztDGoBVum8yRsllOpVSI5TQRydbOEpJPC?=
+ =?us-ascii?Q?zgVK9Dxc6naj9X2AxTEVEwY35sOkxalEvToGPPqixWPKMRY/RKnsDDxdlQgz?=
+ =?us-ascii?Q?LHx9mAn9+iwBgjyOmrC4a/YSjp+22lQQlLIBGh+CpgQC6Rz43JYwuUA7p0jk?=
+ =?us-ascii?Q?WKUkHQOP68YLdtWG6/Rft8o3ONA2tA3NNHGoLoJwT4xtep8sAWjYp0U2y0AA?=
+ =?us-ascii?Q?XES5n5qgID5iYSFsEMeZuAPgrHMfqFrP8oyrSqudypP9/l4RSqEEGAnk+tM+?=
+ =?us-ascii?Q?2YFb7IGxSiDcFazKBFJjogpKIMrzSAxqEs8+kAYMmSYaU62vOWTqfAnJWTxI?=
+ =?us-ascii?Q?NrT7p7ir1s4dI2nfW2atllg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 925f9eef-c0bc-4cbe-38eb-08dc804cf0a4
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 02:05:12.4283
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4xq2yFct6RxW2BNzCSfLiUL8bI5zJMGxDjIrhc3yoM4M4Li1aCKY1G0vg6x6lZF4WgOHml9wKnwDk4WTCt/g/OGV70bnQfEEkOM1AR7zFijsPzV3fC95Ot0eDliLAG4q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9900
 
-Hi Jean-Michel,
 
-Assuming <jeanmichel.hautbois@ideasonboard.com> is your past email
-account, forwarding a message bounced from
-"the mail system at host perceval.ideasonboard.com" as "Undelivered".
+Hi Rob, Helge
 
-Also, I'd suggest you to add an entry in .mailmap.
+This is v3 patch-set
 
-Thanks
-Akira
+We already have for_each_endpoint_of_node(), but some drivers are
+not using it. This patch-set replace it.
 
--------- Forwarded Message --------
-Subject: media: docs: build error of userspace-api.pdf as of v6.10-rc1
-Date: Thu, 30 May 2024 00:12:43 +0900
-From: Akira Yokosawa <akiyks@gmail.com>
-To: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+This patch-set is related to "OF" (= Rob), but many driveres are for
+"MultiMedia" (= Helge). I'm not sure who handle these.
 
-Hello Jean-Michel,
+I noticed that my posted 1 patch on (A) was not yet included on
+linus/master. I have included it.
 
-I tested "make pdfdocs" on v6.10-rc1, which ended up in a build error
-from xelatex:
+[o] done
+[*] this patch-set
 
-    Package tabulary Warning: No suitable columns! on input line 48770.
-    
-    ! Extra alignment tab has been changed to \cr.
-    <recently read> \endtemplate 
-                             
-    l.49179 \end{tabulary}
-                          
-    ? 
+	[o] tidyup of_graph_get_endpoint_count()
+(A)	[o] replace endpoint func - use endpoint_by_regs()
+	[*] replace endpoint func - use for_each()
+	[ ] add new port function
+	[ ] add new endpoint function
 
-I know this won't make any sense for most kernel developers.
+v2 -> v3
+	- don't initialize pointer.
+	- add Reviewed-by / Acked-by
+	- include not-yet applied missing patch
 
-So, I did bisection for you.
+v1 -> v2
+	- fixup TI patch
 
-First bad commit is:
+Link: https://lore.kernel.org/r/8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87cyrauf0x.wl-kuninori.morimoto.gx@renesas.com
 
-    adb1d4655e53 ("media: v4l: Add V4L2-PIX-FMT-Y14P format")
+Kuninori Morimoto (9):
+  gpu: drm: replace of_graph_get_next_endpoint()
+  gpu: drm: use for_each_endpoint_of_node()
+  hwtracing: use for_each_endpoint_of_node()
+  media: platform: microchip: use for_each_endpoint_of_node()
+  media: platform: ti: use for_each_endpoint_of_node()
+  media: platform: xilinx: use for_each_endpoint_of_node()
+  staging: media: atmel: use for_each_endpoint_of_node()
+  video: fbdev: use for_each_endpoint_of_node()
+  fbdev: omapfb: use of_graph_get_remote_port()
 
-and reverting it resolves the error.
+ drivers/gpu/drm/drm_of.c                      |  4 +++-
+ drivers/gpu/drm/omapdrm/dss/base.c            |  3 +--
+ .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+ .../hwtracing/coresight/coresight-platform.c  |  4 ++--
+ .../microchip/microchip-sama5d2-isc.c         | 21 +++++++------------
+ .../microchip/microchip-sama7g5-isc.c         | 21 +++++++------------
+ .../media/platform/ti/am437x/am437x-vpfe.c    | 12 +++++------
+ .../media/platform/ti/davinci/vpif_capture.c  | 14 ++++++-------
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  9 ++------
+ .../deprecated/atmel/atmel-sama5d2-isc.c      |  8 ++-----
+ .../deprecated/atmel/atmel-sama7g5-isc.c      |  8 ++-----
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c | 15 +------------
+ .../omap2/omapfb/dss/omapdss-boot-init.c      |  3 +--
+ 14 files changed, 44 insertions(+), 82 deletions(-)
 
-It looks to me like said commit added two columns in the flat-table
-of "Luma-Only Image Formats", without updating hints to latex:
+-- 
+2.43.0
 
-    .. tabularcolumns::
-
-above it.  This results in wrong column count in the output of
-Sphinx's latex builder.
-
-Please update the hint for the additional two columns.
-
-FYI, you can test build without building the whole tree by saying:
-
-    make SPHINXDIRS=userspace-api pdfdocs
-
-Otherwise, you will need to wait a long time.
-
-You can ignore the extra warnings of "WARNING: undefined label:"
-and "WARNING: unknown document:" due to the limited scope of
-documentation.
-
-Regards.
-Akira
 
