@@ -1,137 +1,182 @@
-Return-Path: <linux-media+bounces-12251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12252-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F2F8D4E85
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 16:59:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076658D4E96
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 17:02:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4BB4B22D94
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 14:59:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60F36B22916
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 15:02:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C16DA17D8A4;
-	Thu, 30 May 2024 14:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EF9617D88F;
+	Thu, 30 May 2024 15:01:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OxyE+Pvg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YBSAZJme"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B720717D367;
-	Thu, 30 May 2024 14:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20931E532;
+	Thu, 30 May 2024 15:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717081177; cv=none; b=TsLxCMBrPe287GdmobGt0nvr1QPTHo+2Oq4u9b/XqbDdoKSYjhl4fjmgMt1prKbz0rQShtwlkeSABMNz8SWCdvKZhWRHwOnLPu+Ibu7NcC0sML7yZoYsvd08JQMNijeK4VoNpF4mZeKNW+5FlMV0jDYachWqzEmnMUH9/zc/0qA=
+	t=1717081315; cv=none; b=fGKyWA5PFpbwyi5XOTFYz60/eQQRU+RrgLcXFUTDB0WENWCwclRaMBd7ajXmSu7qs4PUHEiHJSx72crAGaJ1/2COYr6cyuVnIjSKk6NZu6QB/DtgoOsyqI9eRY7OSz139A+D2aptqc29xmSNyW3LQg3928ksx4p5rom6pYBXAG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717081177; c=relaxed/simple;
-	bh=2M/bX3DMlKaFRx7PMmizFrsTFakadvUyhcsjdcaFL/8=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=NBzhqVyK7RMK4z9CFNzANJj2yXkVd5na4pwZ0INHbS/GBMN9rzmBZ1XjioE6GP2gpmiJB9s7zNPUj7STUenj2c+WD2HNKP4fTDK8uUDdlwAaUPGWn3cUi87nUBHJQxMo6yvsakQsJ/4ytq+pkbzMjt9WUgg6THvVWFQrvyIj9TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OxyE+Pvg; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-420180b59b7so10982785e9.0;
-        Thu, 30 May 2024 07:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717081174; x=1717685974; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fN+il09Q5hozBUgCD24l9ZhdhxZZcfUa526Q3onSzJs=;
-        b=OxyE+PvgSIghbN0jXvVQk7eGGqVH5V0zaUPyt6nr4F4PktuSdDPLRIWMjXh3VYgu4Y
-         CSVLY4mBM5UvvyIePPVxtkjFrultaUDvX5OIKl67rjdgzZY00VHjDOM694l3yyT/1Pf+
-         lJTIwVj0VpudkWV8o2o4zjdXK8JauFaoo+iDeMNFYhaenUiPwBmOnxpQ/Uh23/Rngryf
-         bX6nswTmCmGqBSOgmS+B/777XBqghaJsDJi28QzOKmv7iOONBSVudGjuTT9/vugcaKqu
-         uqdIpzen4U7mjvchFdh96US5WTv+lvCOwy2wuQYHlNCAc6kb0njJdUzHKtq4bMU0wCzu
-         4NWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717081174; x=1717685974;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fN+il09Q5hozBUgCD24l9ZhdhxZZcfUa526Q3onSzJs=;
-        b=e8oNVWS5PatTZEFYaxd5uQb3dDQuvutKmx59jCbWoFK+OwfRGKwG5NZ27zKZz68gI0
-         IUOIXqoKd1AhyvUXaJOlZyF4A6Y4K7dj+t1Z410YG2MBXJH8BP6vPXI3klFzBj+lO7Ns
-         12MJKu7DJnaJmZyMdmlUe/OMtwTkw+gTMY8pcs/xEyJH4EKSEksryFY9N3tGTR3+nC4s
-         L3WVUJ/s6aX+AYCX91QQ3VUyOppvFr1OIG5BQJgMFokWAu2Fdct7nOM0UZi2uGrcRA+7
-         sEINBH3P9pz/vXwHnKgBLkeejZ7LwuDK7au2hG357lT8QWuqgU3ecVRIMWrQCD+qniRN
-         KKFg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7HnoCCrtKRXhTbPp4pX7cWFNM7naaaR9KXH0F0tIljaJgnQ/psKkn12Xgpmwtml1zsItc8HxpnnRPxXAQX0B7nwajJWGwTDNS+cX2d38JJu6EOW/K5Frza2MEIk+cUEvLEBI4ghqpLfo=
-X-Gm-Message-State: AOJu0Ywxg7ZGEkRmgGAYN3Yux/KoW4TKm2HH3hJxOiXCTS6UK12+O465
-	tgJAIqzDxd/i9/OyP+5CAPyoabQUF1isKt6MAemHaiQAYp0/ISg5
-X-Google-Smtp-Source: AGHT+IGJHKXKr76/XYhPXeghTC0NwiijcdXEGnge9Z9ZE6srx5obl7LG3w++K3AY/0CPWvteT6YExQ==
-X-Received: by 2002:a5d:4807:0:b0:34d:963a:12cc with SMTP id ffacd0b85a97d-35dc00be0b3mr1801067f8f.53.1717081173704;
-        Thu, 30 May 2024 07:59:33 -0700 (PDT)
-Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dcb2e09b9sm1481373f8f.48.2024.05.30.07.59.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 07:59:33 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=b7e88a8a5532f45237502da7f24ff5e22f5dda01e74efa121a1811c4117a;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+	s=arc-20240116; t=1717081315; c=relaxed/simple;
+	bh=f9rXrmt7+8lC/knKP497JPEr1C/VriBpknTuw33hit0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JSglGRp2lwxSamjQccoDHG7+g9BNNPhJF1fKNDpzrFjUNV/FmbpsPZsM783Su5SX9EHY64aT4TE0c6ZkWCiA7y3/GowW4HqmnOVS0V7SLFZNnPtmlS6tr09g9Xhk0WOdbRqEerbQUfFVsEUF7OD6qrCxgWsKQ/qkoaFKsY+RY4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YBSAZJme; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64C4C2BBFC;
+	Thu, 30 May 2024 15:01:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717081314;
+	bh=f9rXrmt7+8lC/knKP497JPEr1C/VriBpknTuw33hit0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YBSAZJmeLFUhs3Jcwhyp3/kZBkI/0GUWOjTf2m6GbQUWtJ7l8TGe6p7+ZasXZ5xEH
+	 dNiQW5VBgWpgu3R1pc05d7kqdmfT/8Dgv5dKot+NAqENkYOfCfTwe6I1jfG0twfVGR
+	 mqe5MNfQOmD8R1V6TPUJwzjleX1FwVnCDZZvs+b5fj/Tem9lDRr5AwwuExXfYZDEd9
+	 df/EjXzziWNKngavXZOR6W0jQvQZNgfhTzdnbt2BToaYRsO79+ZMJmVpoRh4XMa0Wm
+	 xq+2aTJEqG6jeiCmkjrhh9azTF4ik/jQrpOPaiP1bvEwHG7mnBC28voatWR8zGU0Le
+	 pZsaA+1PKvCiQ==
+Date: Thu, 30 May 2024 17:01:51 +0200
+From: "mripard@kernel.org" <mripard@kernel.org>
+To: Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	Singo Chang =?utf-8?B?KOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>, 
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"jason-jh.lin@mediatek.corp-partner.google.com" <jason-jh.lin@mediatek.corp-partner.google.com>, 
+	Jason-ch Chen =?utf-8?B?KOmZs+W7uuixqik=?= <Jason-ch.Chen@mediatek.com>, 
+	Shawn Sung =?utf-8?B?KOWui+WtneismSk=?= <Shawn.Sung@mediatek.com>, Nancy Lin =?utf-8?B?KOael+aso+ieoik=?= <Nancy.Lin@mediatek.com>, 
+	"daniel@ffwll.ch" <daniel@ffwll.ch>, "jkardatzke@google.com" <jkardatzke@google.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>, "airlied@gmail.com" <airlied@gmail.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v6 0/7] Add mediate-drm secure flow for SVP
+Message-ID: <20240530-inventive-nippy-bee-bb6fa6@houat>
+References: <20240525232928.5524-1-jason-jh.lin@mediatek.com>
+ <20240527-determined-sage-piculet-bfec4a@houat>
+ <4828461fa10101eec29e2885bc1aa0e2b7114e7c.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Thu, 30 May 2024 16:59:32 +0200
-Message-Id: <D1N2H4X8ZL1D.18140DCI2SH8X@gmail.com>
-Cc: <linux-tegra@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] media: tegra-vde: remove unused struct
- 'tegra_vde_h264_frame'
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: <linux@treblig.org>, <mchehab@kernel.org>, <ming.qian@nxp.com>,
- <eagle.zhou@nxp.com>, <digetx@gmail.com>, <jonathanh@nvidia.com>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240530132619.71103-1-linux@treblig.org>
- <20240530132619.71103-4-linux@treblig.org>
-In-Reply-To: <20240530132619.71103-4-linux@treblig.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="bsilt325yu2nqtmw"
+Content-Disposition: inline
+In-Reply-To: <4828461fa10101eec29e2885bc1aa0e2b7114e7c.camel@mediatek.com>
 
---b7e88a8a5532f45237502da7f24ff5e22f5dda01e74efa121a1811c4117a
-Mime-Version: 1.0
+
+--bsilt325yu2nqtmw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
 
-On Thu May 30, 2024 at 3:26 PM CEST,  wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> 'tegra_vde_h264_frame' has been unused since
-> commit 313db7d235a0 ("media: staging: tegra-vde: Remove legacy UAPI
-> support").
->
-> Remove it.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  drivers/media/platform/nvidia/tegra-vde/h264.c | 5 -----
->  drivers/media/platform/nvidia/tegra-vde/vde.h  | 1 -
->  2 files changed, 6 deletions(-)
+On Tue, May 28, 2024 at 07:15:34AM GMT, Jason-JH Lin (=E6=9E=97=E7=9D=BF=E7=
+=A5=A5) wrote:
+> Hi Maxime,
+>=20
+> On Mon, 2024-05-27 at 16:06 +0200, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Sun, May 26, 2024 at 07:29:21AM GMT, Jason-JH.Lin wrote:
+> > > From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
+> > >=20
+> > > Memory Definitions:
+> > > secure memory - Memory allocated in the TEE (Trusted Execution
+> > > Environment) which is inaccessible in the REE (Rich Execution
+> > > Environment, i.e. linux kernel/userspace).
+> > > secure handle - Integer value which acts as reference to 'secure
+> > > memory'. Used in communication between TEE and REE to reference
+> > > 'secure memory'.
+> > > secure buffer - 'secure memory' that is used to store decrypted,
+> > > compressed video or for other general purposes in the TEE.
+> > > secure surface - 'secure memory' that is used to store graphic
+> > > buffers.
+> > >=20
+> > > Memory Usage in SVP:
+> > > The overall flow of SVP starts with encrypted video coming in from
+> > > an
+> > > outside source into the REE. The REE will then allocate a 'secure
+> > > buffer' and send the corresponding 'secure handle' along with the
+> > > encrypted, compressed video data to the TEE. The TEE will then
+> > > decrypt
+> > > the video and store the result in the 'secure buffer'. The REE will
+> > > then allocate a 'secure surface'. The REE will pass the 'secure
+> > > handles' for both the 'secure buffer' and 'secure surface' into the
+> > > TEE for video decoding. The video decoder HW will then decode the
+> > > contents of the 'secure buffer' and place the result in the 'secure
+> > > surface'. The REE will then attach the 'secure surface' to the
+> > > overlay
+> > > plane for rendering of the video.
+> > >=20
+> > > Everything relating to ensuring security of the actual contents of
+> > > the
+> > > 'secure buffer' and 'secure surface' is out of scope for the REE
+> > > and
+> > > is the responsibility of the TEE.
+> > >=20
+> > > DRM driver handles allocation of gem objects that are backed by a
+> > > 'secure
+> > > surface' and for displaying a 'secure surface' on the overlay
+> > > plane.
+> > > This introduces a new flag for object creation called
+> > > DRM_MTK_GEM_CREATE_RESTRICTED which indicates it should be a
+> > > 'secure
+> > > surface'. All changes here are in MediaTek specific code.
+> > > ---
+> > > TODO:
+> > > 1) Drop MTK_DRM_IOCTL_GEM_CREATE and use DMA_HEAP_IOCTL_ALLOC in
+> > > userspace
+> > > 2) DRM driver use secure mailbox channel to handle normal and
+> > > secure flow
+> > > 3) Implement setting mmsys routing table in the secure world series
+> >=20
+> > I'm not sure what you mean here. Why are you trying to upstream
+> > something that still needs to be removed from your patch series?
+> >=20
+> Because their is too much patches need to be fixed in this series, so I
+> list down the remaining TODO items and send to review for the other
+> patches.
+>=20
+> Sorry for the bothering, I'll drop this at the next version.
 
-Not that you really need it, but since I'm here:
+If you don't intend to use it, we just shouldn't add it. Removing the
+TODO item doesn't make sense, even more so if heaps should be the way
+you handle this.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+> > Also, I made some comments on the previous version that have been
+> > entirely ignored and still apply on this version:
+> >=20
+> https://lore.kernel.org/dri-devel/20240415-guppy-of-perpetual-current-3a7=
+974@houat/
+> >=20
+>=20
+> I lost that mail in my mailbox, so I didn't reply at that time.
+> I have imported that mail and replied to you. Hope you don't mind :)
 
---b7e88a8a5532f45237502da7f24ff5e22f5dda01e74efa121a1811c4117a
+I haven't received that answer
+
+Maxime
+
+--bsilt325yu2nqtmw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYlFUACgkQ3SOs138+
-s6F2RA//RFa62PzaTHSpU90ZCnNs5bjRTOvdjV3rRmpKqxeeVNvrZ1A8dkFKD44t
-KN8QbRH035zYs6pfwDN/j0Aj0zKN0icsgN8VxYVVo9I0kyqa6CfuguUdZwS8GA71
-TL8bkyuIlKuY06KJZEZ3V+lmNKIRB6pz7/d2BfmaeTppbJRUMvbUv/+mu00v09Ds
-MqTqw1gRrcVBToZKeHipT/zTW4PcH5Njwi97acXxAAnkUxcaHH3un8z6lBagqsT7
-v0x8SVVhpEaYVzKNzQntRoANALZxk6wYqpI+6Q8OZsJu1WEe4lGWSirRcQZHLiHh
-LcmLNNzWWVZBjqJIzb502U5N4tV7vyUR/8q4u9mj9pSf43uLVvIUQexSiMNEFa3M
-V5juc2Ir93VTBJMQA+wrPZ0V8cRkhOZ2QOYKCEVUIFIYdeXgU1Xxi6RTISG4CQTN
-wowNofBYkYcPMFdDe/CzW7Doe0vgMvd+8nvK8mIndO36iTQnD642/d25CX98HdNA
-ew1GKHzJTChwUJY8n0eY0ApEhzg9ZKU8si0PzpZRy/1hl6R1jB1yUX/gITFV3l7n
-ymqnXc/1j5ubBbMtnkIyk3f7b7U2U10CG+sU678/iIkMUeecTRKGacNEPqffbzyP
-MoVzjB0IzkGsT1O3nlTBc2t76KNUIN70Gb86BFWzqj1+NFi+CzM=
-=Dfi8
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZliU3wAKCRAnX84Zoj2+
+dvrxAX0XabP7ScLHGhP6JhXAY0/kO0KsAhJ6bXLTnMOtM9E/W4y4qvPNP4LCV3Mo
+XV4YepABgM/zYB5oYrwydUNYU7q9S94P/MmmLhGyY8VJb52Xv+ugqz9UT6kvA1I0
+w0SqyRcoag==
+=wGDo
 -----END PGP SIGNATURE-----
 
---b7e88a8a5532f45237502da7f24ff5e22f5dda01e74efa121a1811c4117a--
+--bsilt325yu2nqtmw--
 
