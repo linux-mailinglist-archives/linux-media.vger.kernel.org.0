@@ -1,129 +1,111 @@
-Return-Path: <linux-media+bounces-12269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DB78D50E7
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 19:20:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2BA8D51CF
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 20:32:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F31821F24571
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 17:20:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A7A8284569
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 18:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE15B4643A;
-	Thu, 30 May 2024 17:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79DD44D5BD;
+	Thu, 30 May 2024 18:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="tg3geI7T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p4+EVvH5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6622D05D;
-	Thu, 30 May 2024 17:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48FC4D5B0;
+	Thu, 30 May 2024 18:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717089618; cv=none; b=Ll8E3nHMRVp/0jpEHRx4P7GUdP42VnKB3bZU8r0v7fcSfJUcRN6g9VG48sz4uTEe17qCarHs5IzcSom+W6Tr3fefW/iBNy2VoXfNvh47fItKMgx5jVTHdidtrI0ZiNR4D3KBsT9c88So2mokTFodxLbqtcHtiqa0s9Ju3nOnuEE=
+	t=1717093914; cv=none; b=kh5R6YvTdwWwGY2lh2JQ4uvpb9XW4OzikzpOTpD4858IsPpopby5npB7t92IqP/W7yXRcuYIurVnhoTPkZWCApDHi/bEcdTFYsj137gysuyyNJI0dc2UKRheEU5jQm9YepDD34fNuCN0THSvMd3RimFxZ3RksNZpAPszSWIWxP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717089618; c=relaxed/simple;
-	bh=gcJkTZML9bjHSggEdBQv/CTBlzRC5ardnurEhseoG44=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X5aqQLY0suUDo1qOoxAmQVNMpzF2sYUgaaaBb5iEgXa+bNb6Xq4gRbn37obKIVbN1X9kg0/lcxvWGJwE21GbZhPs2GePog6EfjiUal3Otj5wh2wpFlHFR8W95MLANzRz52DaYoZH5tI9TnS9Zrjd0JJU1qehh2W9J+AK/lbCqKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=tg3geI7T; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44UHJvOf089529;
-	Thu, 30 May 2024 12:19:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717089597;
-	bh=yzX8xGnWsR/OBzBAb36Py2SfhdvyqwDubZ5AlT6laFk=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=tg3geI7Tgxmsxt1AiH9fZgS8KNX5y1fMYFknbvxpz3TQ8NrcZmiLZvzn1JWYjzk+l
-	 EkqxRJgP37Z6WOArn93rJHFG3NQzbrk9UEBSQAbfwjtgQjHYAv2gJ+I6e7TCO2pScG
-	 r65W7YKQ1iKP1+Oye/qKY6L4xV30xR3zmIn+LmE8=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44UHJvSp001047
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 30 May 2024 12:19:57 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 30
- May 2024 12:19:56 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 30 May 2024 12:19:56 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44UHJtfX022288;
-	Thu, 30 May 2024 12:19:56 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <akpm@linux-foundation.org>,
-        <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
-        <adobriyan@gmail.com>, <jani.nikula@intel.com>
-Subject: [PATCH v10 11/11] gpu: ipu-v3: Use generic macro for rounding closest to specified value
-Date: Thu, 30 May 2024 22:49:55 +0530
-Message-ID: <20240530171955.2769314-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240530165925.2715837-1-devarsht@ti.com>
-References: <20240530165925.2715837-1-devarsht@ti.com>
+	s=arc-20240116; t=1717093914; c=relaxed/simple;
+	bh=oV2ANB+ulV/DSp8xJCrxkLf1wBmQtbX6KxkYIPVxXc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n2HrSn6bpvV/oSX4NyYM/TEpLrbhdkWA5EUXpbB5h+1Ji+VvYs2OX1Qznmu8WsQ6CGVsvkPjPFwG7kwDMIYBVt8TEKFuCzPWQIT3AwSHydiNQQkh2wn4SGPeRwDximQmwNVcJH5YwL8W7baAURJwrlQylRFuwPeXhPkE80fzNy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p4+EVvH5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF3CC2BBFC;
+	Thu, 30 May 2024 18:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717093914;
+	bh=oV2ANB+ulV/DSp8xJCrxkLf1wBmQtbX6KxkYIPVxXc0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=p4+EVvH5KamzgwLTElqCojVkEP8mGN9Cj1Rl/avHfcaqPc6Uo4Y2ZmnNdwrdnRux+
+	 sJgt2YhmeCs61sLwVQ+TLhvbfo6eTI2v9LxSt8tCAe4n5VsHDt8LhoQf9SKwhsoV06
+	 NLrPHhuIIX/5W+m3ZPCqgG3INM1BGBXzD1BPS+zyk11I0Um8vtU/KFqOlZckT/8NB4
+	 0JNUXVO9WFlDKfZZp0WXZJmeO1X4K3ndlr9hbEwR5eBJgFnPSoptxsv4LMlASqPu4I
+	 5id25ffRMLsXKdE1K9Rw1s1YxXOd44IL1ESGNoeS7blLpSMcTygcIX0lCkK7Ws51U0
+	 7Rc1eXjTx8qUg==
+Date: Thu, 30 May 2024 20:31:49 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: YongSu Yoo <yongsuyoo0215@gmail.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>, linux-media@vger.kernel.org,
+ Hyunwoo Kim <v4bel@theori.io>, LKML <linux-kernel@vger.kernel.org>, Dan
+ Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH] media: dvb_ca_en50221: Add a returing EBUSY logic into
+ CA_RESET
+Message-ID: <20240530203149.1fe881ed@coco.lan>
+In-Reply-To: <CANXPkT5ggr8VbYdRy+uSnfHxDRES5arJJ8p+ist1CBTm-1xaUQ@mail.gmail.com>
+References: <20240308121338.1983-1-yongsuyoo0215@gmail.com>
+	<eda2a849-c23a-4624-85da-78a2fdef4fe9@web.de>
+	<CANXPkT5ggr8VbYdRy+uSnfHxDRES5arJJ8p+ist1CBTm-1xaUQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Use generic macro round_closest_up() for rounding closest to specified
-value instead of using local macro round_closest().
+Em Tue, 28 May 2024 21:14:37 +0900
+YongSu Yoo <yongsuyoo0215@gmail.com> escreveu:
 
-There is no change from functionality point of view as round_closest_up()
-is functionally same as the previously used local macro round_closest().
+> Dear Markus Elfring
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V10: No change
-V9: No change
-V8: Update commit message
-V1->V7 : (No change, patch introduced in V7)
----
- drivers/gpu/ipu-v3/ipu-image-convert.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Please don't top-post. Makes hard to follow the comments.
+>=20
+>=20
+> 2024=EB=85=84 5=EC=9B=94 28=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 2:38,=
+ Markus Elfring <Markus.Elfring@web.de>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
+>=20
+> >
+> > =E2=80=A6 =20
+> > > For preventing this problem from happening, we make CA_RESET ioctl do
+> > > nothing and only return EBUSY if the ioctl is called during the
+> > > "transiting" states. =20
+> >
+> > Would you like to avoid any typos (in the summary phrase)?
 
-diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
-index 841316582ea9..5192a8b5c02c 100644
---- a/drivers/gpu/ipu-v3/ipu-image-convert.c
-+++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
-@@ -477,8 +477,6 @@ static int calc_image_resize_coefficients(struct ipu_image_convert_ctx *ctx,
- 	return 0;
- }
- 
--#define round_closest(x, y) round_down((x) + (y)/2, (y))
--
- /*
-  * Find the best aligned seam position for the given column / row index.
-  * Rotation and image offsets are out of scope.
-@@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
- 		 * The closest input sample position that we could actually
- 		 * start the input tile at, 19.13 fixed point.
- 		 */
--		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
-+		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
- 		/* Convert 19.13 fixed point to integer */
- 		in_pos_rounded = in_pos_aligned / 8192U;
- 
--- 
-2.39.1
+> Initially, I sent this E-mail using the below command
+> "....git send-email --to  mchehab@kernel.org,
+> linux-media@vger.kernel.org, xxxxxxxxxxx.patch. ..."
 
+Git send-email is a good way to send patches. You may also use
+a decent e-mail client that won't mangle with whitespaces. I use
+myself claws-mail; other develpers use emacs. Feel free to pick your
+poison, but if the email doesn't handle whitespaces well and/or
+don't allow writing the answers below the original comments (instead
+of top-posting), it shouldn't be used.
+
+> In response to what you suggested, is it OK if I use Gmail and attach
+> a new patch ?
+
+No. Never attach a patch as the mailing list will reject, and if not,
+patchwork.linuxtv.org won't pick it.
+
+You may use gmail, if you setup your e-mail client to use it as a
+SMTP server. Using webmail solutions typically won't work open source
+discussions, as it does lots of wrong things, like top-posting, not
+honoring 80 columns on emails and/or mangling tabs and white spaces.
+
+Thanks,
+Mauro
 
