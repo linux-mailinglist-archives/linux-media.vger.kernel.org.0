@@ -1,217 +1,167 @@
-Return-Path: <linux-media+bounces-12240-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12241-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9458D4C1D
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 14:56:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A818D4C29
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 15:00:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E730B2842A4
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 12:56:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A3902871F8
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 13:00:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1023B17CA06;
-	Thu, 30 May 2024 12:55:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E06DD1822E4;
+	Thu, 30 May 2024 13:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ac141h56"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O1nCdI2f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A7A17C9E5;
-	Thu, 30 May 2024 12:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D7017CA10
+	for <linux-media@vger.kernel.org>; Thu, 30 May 2024 13:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717073755; cv=none; b=F5uoA4sTeXewxxHVXooylI+qMpx62MfQSEx2SifXMeMta0+y3mQq7e1NhlrQsyKN1tImMPnXGzrMZ6BcX//wY8IiiRh5VX/1tEoiZJhQv4Wf2s9wKQF8PrkkFNhKwAk/CDcD3UBpsT2PQQWtTFXV3jfOqBuUOUoGinqFWgbcUOE=
+	t=1717074009; cv=none; b=VAf2lz7aukONqQb2kYwT2+cmj3m86Nbkp0OwD+n/PPWl5dknBeeOzmmLlSzcG7pYd/Ngfp3N/Kl7ke2YtfTM3KUAPFX6987BE9TSNz2Nh5hDf5pF149PAWmUjv9Tdg+GEtAH3hMAGjTF57OltxZ8kmqgmNzl1vfOf+vKoVOLc3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717073755; c=relaxed/simple;
-	bh=0X4fg4iFYKDndZ2Iqm/1AYkChQqhNk/LkEu9yRES+Ns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JQ0NbegRB26XU7/6gIEMxSN+O8W5N1yugeUWlSWxOgP134vPbBAhwYyy+Sd1P+UPIQKdSWB7Hp092dj7eNhsWyGXtdRw9rjzQXiB9GA7BPRX69DqRuKT1MQ1bSCqmrXJzFBqoJWHhqrYCNChmBoEWbddOfQSYNghs8p0j2EvZJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ac141h56; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717073755; x=1748609755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0X4fg4iFYKDndZ2Iqm/1AYkChQqhNk/LkEu9yRES+Ns=;
-  b=ac141h56o0hK82QKcIq228m3sO1V6d8R0Oz65gXXZUr55dH6PW+RJ81c
-   C5VXEsbruymAiWuYKCcKP6fpB5sckBBHTJM2wseRGaADItX0fdzZN5Aam
-   x6zE1LuE+Eq0ybiZhZeOQLL62QE1n8h2LrWZKCroDMNqIvMG8kPSXrQtm
-   pdpBWmgI9n+0MIgTUP6tPSDC8ip9UU1wirxbVypcSoy0e4vZ8xG74WmSB
-   yqbQOPo7uaZJfWXBIB+7LPfXrcw5G9WFZTkizZZyKhSwO+VBlPrzDr3em
-   EN7ZNqoQ2bQAATXPwED8bEU1tCokhIGcrUw8X/MLfJstWvNd5ffoFoyss
-   g==;
-X-CSE-ConnectionGUID: tqHujd/tQPKRx+cuPbtI1g==
-X-CSE-MsgGUID: iuKrTuw+RHmHbOQ5GE3jZQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="24212936"
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="24212936"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 05:55:54 -0700
-X-CSE-ConnectionGUID: nGh0ZSuIRT+n4SJAOnAjEQ==
-X-CSE-MsgGUID: sNkZZY+dSvO9LH+0m+cs+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,201,1712646000"; 
-   d="scan'208";a="35786717"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 30 May 2024 05:55:49 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sCfJq-000FLN-2l;
-	Thu, 30 May 2024 12:55:46 +0000
-Date: Thu, 30 May 2024 20:54:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-	dan.scally@ideasonboard.com
-Subject: Re: [PATCH v5 15/16] media: platform: Add mali-c55 parameters video
- node
-Message-ID: <202405302048.Twi0r71r-lkp@intel.com>
-References: <20240529152858.183799-16-dan.scally@ideasonboard.com>
+	s=arc-20240116; t=1717074009; c=relaxed/simple;
+	bh=pj0nrIN3Qs7jpx+J/3Wt1XvGRkbyRR2Eq5pw8utiL9w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hpbY1I2Uf51pRz5JB+12IMuIr50KsLg6DGLWOtXH2Bb+am1mU/pq720b+VnK/2NsxkQOd8X0zRZTlvlb6LoS/kGhXuJOHC2SxJKixejWtY18yTutDF9GuEX6KmLUE3G/XA+OL2PsF3YBwobM6fydDavYcr4qF0yXdVPWe4YdOQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=O1nCdI2f; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-43fe0f361b5so4035581cf.0
+        for <linux-media@vger.kernel.org>; Thu, 30 May 2024 06:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1717074006; x=1717678806; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oTphgebvOjeWdN1xBiIRxM6zg0yoJ4DRfXlzkZveD5Q=;
+        b=O1nCdI2fdN5Y+znKyN3kmo4SeLL1XCTZwNqHqLYRSo+/RwgDJAjR92iOdSG3RkStYt
+         pyP77JIeDSmehbeHb9uxUX6f7guvd/aWQz8xoQ9k+DNew+a5BoMAAO4KJk3pAP2VdMkN
+         n/3t7oj8iZp+0KjYqcuENRtxS1Aomi2FiaGg4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717074006; x=1717678806;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oTphgebvOjeWdN1xBiIRxM6zg0yoJ4DRfXlzkZveD5Q=;
+        b=FnQt5vmwxf0uRMLe8dm3QvPu7VW4Gnf2A8wRdRIKxUMH3ExiSbSw1RNs5BAuscOjEd
+         1YeLrxJ3vF5har3NX0MNLo+ghnXv27/Kpv9+V3GCzlAzCs44QNDbZzhfg9231MbJiWHw
+         pW83vrNVM6cCzam7RZtdi8btR4YzbIB9l63vc4SFO//1ykj7UFYRgAs7YIZqA9Scbhy/
+         Xry66k3VyuNAQ/DctTTKbfP5zG1MXFTidP1QytM8E6fYlzFn56IB8mNYvssR8OwhdQds
+         cWG/IEp8FwK2IX/qZZ34pdQ6vLYQjErLtVv2TWGZAX+F8v9GRBBrrmuiBdBqmKR3mYTG
+         E7UA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmKy3sEybXVP6H/q8RxMw8sQcKBfXzKxL0eWXb6EA1p0i/V2wila8sbrYCiZmmgTOFMNYZwAULHh8a7aNapswNJRz4jXR/bqGzF8I=
+X-Gm-Message-State: AOJu0YwDVK3R/lCPVBHpPJ7g4+QruuK2gSDFF0CuNbUye4S020ZKO4vt
+	obvW4pMmb20zFWatsVGZ1eZuj4cAFoGZPsxJjob5aAg8r0DaTPwbBksBeCZKFQlh8lmrn3QwTwI
+	0iw==
+X-Google-Smtp-Source: AGHT+IGMnjedVpxnVXn+4RtSzy7vzxx9+LNB64aB4VQFfOtijK0JZMxKaAvY73MIWBxMSckFOLGwsg==
+X-Received: by 2002:a05:6214:3288:b0:6ab:8db1:8223 with SMTP id 6a1803df08f44-6ae0cafc324mr20302686d6.13.1717074006150;
+        Thu, 30 May 2024 06:00:06 -0700 (PDT)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com. [209.85.219.41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ad9d1d7611sm18777006d6.100.2024.05.30.06.00.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 May 2024 06:00:05 -0700 (PDT)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6ae0adfba9cso4362306d6.2
+        for <linux-media@vger.kernel.org>; Thu, 30 May 2024 06:00:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVHWaAyGPctuVT+q9Hk9gTY4Tnkpm9RlffZOnONrFlm+93gDjOvJ9tWQofLhvZoi40LJXW/j9rDro9ditucG83OEqu193HQVUsX2sM=
+X-Received: by 2002:a05:6214:3b82:b0:6ae:5b:c181 with SMTP id
+ 6a1803df08f44-6ae0cce1c83mr25263506d6.63.1717074003733; Thu, 30 May 2024
+ 06:00:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240529152858.183799-16-dan.scally@ideasonboard.com>
+References: <20240527-cocci-flexarray-v3-0-cda09c535816@chromium.org>
+ <20240527-cocci-flexarray-v3-3-cda09c535816@chromium.org> <6823bc58-9461-4a54-b5b3-7ea5c46fc68b@xs4all.nl>
+In-Reply-To: <6823bc58-9461-4a54-b5b3-7ea5c46fc68b@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 30 May 2024 14:59:47 +0200
+X-Gmail-Original-Message-ID: <CANiDSCt0PXTP63=dkNpUvH6mYSJ2_mr5xiOd9=RpLqVoD4YY_g@mail.gmail.com>
+Message-ID: <CANiDSCt0PXTP63=dkNpUvH6mYSJ2_mr5xiOd9=RpLqVoD4YY_g@mail.gmail.com>
+Subject: Re: [PATCH v3 03/18] media: dvb-frontend/mxl5xx: Refactor struct MBIN_FILE_T
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Michael Tretter <m.tretter@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
+	Andy Walls <awalls@md.metrocast.net>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Daniel,
+Hi Hans
 
-kernel test robot noticed the following build warnings:
+On Thu, 30 May 2024 at 14:33, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 27/05/2024 23:08, Ricardo Ribalda wrote:
+> > Replace a single element array, with a single element field.
+> >
+> > The following cocci warning is fixed:
+> > drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/dvb-frontends/mxl5xx.c      | 2 +-
+> >  drivers/media/dvb-frontends/mxl5xx_defs.h | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/dvb-frontends/mxl5xx.c b/drivers/media/dvb-frontends/mxl5xx.c
+> > index 91e9c378397c..a15c0438b07a 100644
+> > --- a/drivers/media/dvb-frontends/mxl5xx.c
+> > +++ b/drivers/media/dvb-frontends/mxl5xx.c
+> > @@ -893,7 +893,7 @@ static int do_firmware_download(struct mxl *state, u8 *mbin_buffer_ptr,
+> >       status = write_register(state, FW_DL_SIGN_ADDR, 0);
+> >       if (status)
+> >               return status;
+> > -     segment_ptr = (struct MBIN_SEGMENT_T *) (&mbin_ptr->data[0]);
+> > +     segment_ptr = (struct MBIN_SEGMENT_T *)(&mbin_ptr->data);
+> >       for (index = 0; index < mbin_ptr->header.num_segments; index++) {
+> >               if (segment_ptr->header.id != MBIN_SEGMENT_HEADER_ID) {
+> >                       dev_err(state->i2cdev, "%s: Invalid segment header ID (%c)\n",
+> > diff --git a/drivers/media/dvb-frontends/mxl5xx_defs.h b/drivers/media/dvb-frontends/mxl5xx_defs.h
+> > index 097271f73740..3c5d75ed8fea 100644
+> > --- a/drivers/media/dvb-frontends/mxl5xx_defs.h
+> > +++ b/drivers/media/dvb-frontends/mxl5xx_defs.h
+> > @@ -168,7 +168,7 @@ struct MBIN_FILE_HEADER_T {
+> >
+> >  struct MBIN_FILE_T {
+> >       struct MBIN_FILE_HEADER_T header;
+> > -     u8 data[1];
+> > +     u8 data;
+>
+> From what I can tell, shouldn't this be 'data[]'? It really appears to be a flexible array.
 
-[auto build test WARNING on media-tree/master]
-[cannot apply to linuxtv-media-stage/master sailus-media-tree/master linus/master sailus-media-tree/streams v6.10-rc1 next-20240529]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The field is mainly used to ease the data parsing. There was only
+data[0] used, so I decided to make it into a single element array to
+avoid changing the size of the structure....
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Scally/media-uapi-Add-MEDIA_BUS_FMT_RGB202020_1X60-format-code/20240529-233239
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240529152858.183799-16-dan.scally%40ideasonboard.com
-patch subject: [PATCH v5 15/16] media: platform: Add mali-c55 parameters video node
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20240530/202405302048.Twi0r71r-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240530/202405302048.Twi0r71r-lkp@intel.com/reproduce)
+But you are correct, it looks more clear as a flex array and there is
+no allocation or sizeof() so I think it is safe to change its size.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405302048.Twi0r71r-lkp@intel.com/
+Will squash with the MBIN_SEGMENT_T patch also
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/printk.h:566,
-                    from include/asm-generic/bug.h:22,
-                    from ./arch/nios2/include/generated/asm/bug.h:1,
-                    from include/linux/bug.h:5,
-                    from include/media/media-entity.h:15,
-                    from drivers/media/platform/arm/mali-c55/mali-c55-params.c:9:
-   drivers/media/platform/arm/mali-c55/mali-c55-params.c: In function 'mali_c55_params_write_config':
->> drivers/media/platform/arm/mali-c55/mali-c55-params.c:504:40: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     504 |                 dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/media/platform/arm/mali-c55/mali-c55-params.c:504:17: note: in expansion of macro 'dev_dbg'
-     504 |                 dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
-         |                 ^~~~~~~
-   drivers/media/platform/arm/mali-c55/mali-c55-params.c:504:74: note: format string is defined here
-     504 |                 dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
-         |                                                                        ~~^
-         |                                                                          |
-         |                                                                          long unsigned int
-         |                                                                        %u
+Thanks!
 
 
-vim +504 drivers/media/platform/arm/mali-c55/mali-c55-params.c
+>
+> Regards,
+>
+>         Hans
+>
+> >  };
+> >
+> >  struct MBIN_SEGMENT_HEADER_T {
+> >
+>
 
-   480	
-   481	void mali_c55_params_write_config(struct mali_c55 *mali_c55)
-   482	{
-   483		struct mali_c55_params *params = &mali_c55->params;
-   484		enum vb2_buffer_state state = VB2_BUF_STATE_DONE;
-   485		struct mali_c55_params_buffer *config;
-   486		struct mali_c55_buffer *buf;
-   487		size_t block_offset = 0;
-   488	
-   489		spin_lock(&params->buffers.lock);
-   490	
-   491		buf = list_first_entry_or_null(&params->buffers.queue,
-   492					       struct mali_c55_buffer, queue);
-   493		if (buf)
-   494			list_del(&buf->queue);
-   495		spin_unlock(&params->buffers.lock);
-   496	
-   497		if (!buf)
-   498			return;
-   499	
-   500		buf->vb.sequence = mali_c55->isp.frame_sequence;
-   501		config = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-   502	
-   503		if (config->total_size > MALI_C55_PARAMS_MAX_SIZE) {
- > 504			dev_dbg(mali_c55->dev, "Invalid parameters buffer size %lu\n",
-   505				config->total_size);
-   506			state = VB2_BUF_STATE_ERROR;
-   507			goto err_buffer_done;
-   508		}
-   509	
-   510		/* Walk the list of parameter blocks and process them. */
-   511		while (block_offset < config->total_size) {
-   512			const struct mali_c55_block_handler *block_handler;
-   513			struct mali_c55_params_block_header *block;
-   514	
-   515			block = (struct mali_c55_params_block_header *)
-   516				 &config->data[block_offset];
-   517	
-   518			if (block->type >= MALI_C55_PARAM_BLOCK_SENTINEL) {
-   519				dev_dbg(mali_c55->dev, "Invalid parameters block type\n");
-   520				state = VB2_BUF_STATE_ERROR;
-   521				goto err_buffer_done;
-   522			}
-   523	
-   524			block_handler = &mali_c55_block_handlers[block->type];
-   525			if (block->size != block_handler->size) {
-   526				dev_dbg(mali_c55->dev, "Invalid parameters block size\n");
-   527				state = VB2_BUF_STATE_ERROR;
-   528				goto err_buffer_done;
-   529			}
-   530	
-   531			block_handler->handler(mali_c55, block);
-   532	
-   533			block_offset += block->size;
-   534		}
-   535	
-   536	err_buffer_done:
-   537		vb2_buffer_done(&buf->vb.vb2_buf, state);
-   538	}
-   539	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ricardo Ribalda
 
