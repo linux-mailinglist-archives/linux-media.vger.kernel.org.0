@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-12235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12236-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623FD8D4BA8
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 14:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9658D4BB9
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 14:33:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92C091C2336F
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 12:27:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7C921C2227F
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 12:33:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70932132106;
-	Thu, 30 May 2024 12:26:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C2A0132123;
+	Thu, 30 May 2024 12:33:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3CB183097;
-	Thu, 30 May 2024 12:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5CE18309F;
+	Thu, 30 May 2024 12:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717071981; cv=none; b=hTwPHmC/r2zJIaBk2pXj2DYaA0N3MtFPGPfTwhQ7J8sqFwLD/SlbxnAJB4+U1E7JhvZLYi72jUlTAQ0kBsdINe2K2haCRO9opbsYODIJfszSD2WeNqxstNrwPqHGxK+ufKSAiqe5DN67TydVRb0bGWfiV++W1JnPJT6zDtJTA1M=
+	t=1717072402; cv=none; b=Mz7Tg3+Cp2pq5QDFq8+snv10nhI918OngvDq/J92zqH1h4sOC62/60Of2j1mIr21cKKl7cBHuohZFn1DIfsfXqRTfQaKYFm50/0CieNnikCU+bJFvi57n+FplXk2pPIYnGxVgfr9xbBhH5baYWc5KfY/eyJd2LY+1gqrN5aG8hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717071981; c=relaxed/simple;
-	bh=hCUMVbyeC7mJRppgDdiUtRrZDECb10FExheYtpdKVuc=;
+	s=arc-20240116; t=1717072402; c=relaxed/simple;
+	bh=2D+tP+irQK0VLIbOTiKIw++x+RqzlOCBamg7qaJLCtg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fo/wj7Mq2imYuIVYFPaYj6yQXQn1yOWZ5n67mpJ4d8siaaDQf5UzuY7QnRG5/j+5I40/PVaB3GD1e0GFiuSS4Echf6J6d1QGbk+e8WWpYhDMHsR+zV2sO8HWcOh2uZBGwbXCZ6J7CFf6Nxk9YjggfUxmDtvtQRA8RpGPcWbvUks=
+	 In-Reply-To:Content-Type; b=DyztHDKWnbj5hc7mF0hEHCRYlDYvatqFWRgP50M77DgPwBxHKWgE42z0kH1ojJ5pAFYxcjiQZ4vk+XuR1jDqeZrGlRDUVn7rGnMAdjSkCLL8Znp57FO0kLAI+0QgAWTAer0LqdtI35cnFu4GQ4X3lgTF3mtkG7/ifNFhqpXLHRQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECBDBC2BBFC;
-	Thu, 30 May 2024 12:26:18 +0000 (UTC)
-Message-ID: <4496bc6e-e5c0-4f86-b9c1-37ad2d2b687d@xs4all.nl>
-Date: Thu, 30 May 2024 14:26:17 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F6EC2BBFC;
+	Thu, 30 May 2024 12:33:19 +0000 (UTC)
+Message-ID: <6823bc58-9461-4a54-b5b3-7ea5c46fc68b@xs4all.nl>
+Date: Thu, 30 May 2024 14:33:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,100 +38,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] media: tegra-vde: remove unused struct
- 'tegra_vde_h264_frame'
-To: linux@treblig.org, mchehab@kernel.org, ming.qian@nxp.com,
- eagle.zhou@nxp.com, digetx@gmail.com, jonathanh@nvidia.com
-Cc: linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240525000146.282500-1-linux@treblig.org>
- <20240525000146.282500-4-linux@treblig.org>
+Subject: Re: [PATCH v3 03/18] media: dvb-frontend/mxl5xx: Refactor struct
+ MBIN_FILE_T
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, Andy Walls <awalls@md.metrocast.net>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org
+References: <20240527-cocci-flexarray-v3-0-cda09c535816@chromium.org>
+ <20240527-cocci-flexarray-v3-3-cda09c535816@chromium.org>
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240525000146.282500-4-linux@treblig.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240527-cocci-flexarray-v3-3-cda09c535816@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/05/2024 02:01, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On 27/05/2024 23:08, Ricardo Ribalda wrote:
+> Replace a single element array, with a single element field.
 > 
-> 'tegra_vde_h264_frame' has been unused since
-> commit 313db7d235a0 ("media: staging: tegra-vde: Remove legacy UAPI
-> support").
+> The following cocci warning is fixed:
+> drivers/media/dvb-frontends/mxl5xx_defs.h:171:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 > 
-> Remove it.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/platform/nvidia/tegra-vde/h264.c | 5 -----
->  1 file changed, 5 deletions(-)
+>  drivers/media/dvb-frontends/mxl5xx.c      | 2 +-
+>  drivers/media/dvb-frontends/mxl5xx_defs.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/nvidia/tegra-vde/h264.c b/drivers/media/platform/nvidia/tegra-vde/h264.c
-> index cfea5572a1b8..d8812fc06c67 100644
-> --- a/drivers/media/platform/nvidia/tegra-vde/h264.c
-> +++ b/drivers/media/platform/nvidia/tegra-vde/h264.c
-> @@ -19,11 +19,6 @@
->  #define FLAG_B_FRAME		0x1
->  #define FLAG_REFERENCE		0x2
+> diff --git a/drivers/media/dvb-frontends/mxl5xx.c b/drivers/media/dvb-frontends/mxl5xx.c
+> index 91e9c378397c..a15c0438b07a 100644
+> --- a/drivers/media/dvb-frontends/mxl5xx.c
+> +++ b/drivers/media/dvb-frontends/mxl5xx.c
+> @@ -893,7 +893,7 @@ static int do_firmware_download(struct mxl *state, u8 *mbin_buffer_ptr,
+>  	status = write_register(state, FW_DL_SIGN_ADDR, 0);
+>  	if (status)
+>  		return status;
+> -	segment_ptr = (struct MBIN_SEGMENT_T *) (&mbin_ptr->data[0]);
+> +	segment_ptr = (struct MBIN_SEGMENT_T *)(&mbin_ptr->data);
+>  	for (index = 0; index < mbin_ptr->header.num_segments; index++) {
+>  		if (segment_ptr->header.id != MBIN_SEGMENT_HEADER_ID) {
+>  			dev_err(state->i2cdev, "%s: Invalid segment header ID (%c)\n",
+> diff --git a/drivers/media/dvb-frontends/mxl5xx_defs.h b/drivers/media/dvb-frontends/mxl5xx_defs.h
+> index 097271f73740..3c5d75ed8fea 100644
+> --- a/drivers/media/dvb-frontends/mxl5xx_defs.h
+> +++ b/drivers/media/dvb-frontends/mxl5xx_defs.h
+> @@ -168,7 +168,7 @@ struct MBIN_FILE_HEADER_T {
 >  
-> -struct tegra_vde_h264_frame {
-> -	unsigned int frame_num;
-> -	unsigned int flags;
-> -};
-> -
->  struct tegra_vde_h264_decoder_ctx {
->  	unsigned int dpb_frames_nb;
->  	unsigned int dpb_ref_frames_with_earlier_poc_nb;
+>  struct MBIN_FILE_T {
+>  	struct MBIN_FILE_HEADER_T header;
+> -	u8 data[1];
+> +	u8 data;
 
-There is one more reference to this, that also can be dropped:
-
-$ git grep tegra_vde_h264_frame
-drivers/media/platform/nvidia/tegra-vde/vde.h:struct tegra_vde_h264_frame;
+From what I can tell, shouldn't this be 'data[]'? It really appears to be a flexible array.
 
 Regards,
 
 	Hans
+
+>  };
+>  
+>  struct MBIN_SEGMENT_HEADER_T {
+> 
+
 
