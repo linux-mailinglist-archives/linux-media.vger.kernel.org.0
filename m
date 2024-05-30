@@ -1,143 +1,234 @@
-Return-Path: <linux-media+bounces-12305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4098D5574
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 00:34:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7828D559E
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 00:43:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02D091F21E8A
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 22:34:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D6271C2239F
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 22:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBE351761B9;
-	Thu, 30 May 2024 22:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30D8B182D3C;
+	Thu, 30 May 2024 22:43:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VkDIK9b3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LUgevlqp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F7B7406C
-	for <linux-media@vger.kernel.org>; Thu, 30 May 2024 22:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C2B335A7;
+	Thu, 30 May 2024 22:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717108435; cv=none; b=f2Tz8qQUj5JajpmeczA0aLz4CDQ+a0h6+CyiSKgZHIlG0kHGeg3siRYW7IovXbYcXlSQF3Kadhlp8R3fYj3nyFQy7aa5C7I/ghyuUejtnHYlPxCy3Oeu+Iz8AhoLFJVN0S+dnFnfpdiERYFadPvaFz7EhGk2Da5AFMqVYc6lrPA=
+	t=1717109000; cv=none; b=na21tqizASfi6skRMqLI814pcRi4THBH+BhPVUa3EubrIit7/qJZBZAqj54tFB75aXj7sGCjnUs5bUycGQuEJ/SyFX8GJzsrs/CcfkMpFUpx26QoREkYyrxXhvnjUzWbLttBcGsa5RtQLTKJF8LM1ZyKDVuVVqhdIYtr6fqnDZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717108435; c=relaxed/simple;
-	bh=9JWGX519hx5TYygXBzIaJhurETFRai5Os3mHRud+QMg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XfrBlGv56v4kuWJTqUsy5bkW8eacklX347t+iBJ4fsJP1Q28xIud4Vr4oOVeCLOK5ypz9oSTO00gQE2Yxp8/b6d+NMQLu2zfyXgeJe9744rs8BKK5cp2yvB+hyxq2yFXSTb1HKx79vHkPoVRiM6QoWcUNlrbOybR7L70mJpDLoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VkDIK9b3; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-6818e31e5baso1117601a12.1
-        for <linux-media@vger.kernel.org>; Thu, 30 May 2024 15:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717108433; x=1717713233; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U7hsF+V9CRlUQX/Zqj8qcipzAMvQ/bVXG6EusD9d7Gk=;
-        b=VkDIK9b35VTaRqwufG4X8S3WVrj9tOZMIlrCWKPBJkDGo0v3iVOcYnGu9isMUPFitr
-         E9Jm0L7+G/5XV2Y1iy9J/Dk1Hzh8ROI8cBI2XscpIVALCATdrRk9nYI95x5Om8cBLhjD
-         r4tHOm52pT8pLPiup4tccFxspuMmB3mFd9UAo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717108433; x=1717713233;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U7hsF+V9CRlUQX/Zqj8qcipzAMvQ/bVXG6EusD9d7Gk=;
-        b=kLE5QzDGGpY/qitaKTTEO8GuBQRYSg+eloYU93fflK9jlLGdC/KP8Tcv8tUctiyvCZ
-         Pr2EFlVm4nl+i1yW8g9cPfVhugtKf2VlnJKgg+s4B5yruGNXMeZKj7ZjY4tmz0c3WAQL
-         r9SccEUb+NLEbau1yON+N8EyaZ4KLwTRDoCLISaOCnrEmuxbw40h+HohfuRzEuanTt8d
-         gNnZgZ2ALAn5NmTMSUYB4YR2Taxhgnk92FB+XsoQxQ1B6JDnoXb4KzFb/PSTpGprEQEw
-         W8N8GyKW/xFW7MuAnqUkHdiT2neqAMhtvjdlmL4yAeNBCLA6TeRjQKlmRcDjdylI3+ql
-         SA1Q==
-X-Gm-Message-State: AOJu0YzsCxtp8ADpzIBXRkSukG6QHTG2/3gU5yyiNexRo4/cAA33ryEq
-	BO+N5ncNDbW1M6Ovj1O5diuvccLDABVCQstkCCo1ME51rw9lcOG8QI99NQs/8T2l71ownVuCrdU
-	=
-X-Google-Smtp-Source: AGHT+IGG1rZKkN35ynaNn7wmocaO0cAOsGDSpXyWjQ9gwA+FSQhECAxrW7w159YZnjNKKwR2lpr5nQ==
-X-Received: by 2002:a17:902:d481:b0:1f4:aac7:ffff with SMTP id d9443c01a7336-1f637006e24mr2108105ad.20.1717108432673;
-        Thu, 30 May 2024 15:33:52 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e13:6:b720:a50b:7251:1e59])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-1f63237d9c3sm2958245ad.116.2024.05.30.15.33.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 15:33:52 -0700 (PDT)
-From: Fritz Koenig <frkoenig@chromium.org>
-To: linux-media@vger.kernel.org
-Cc: mchehab@kernel.org,
-	Fritz Koenig <frkoenig@chromium.org>
-Subject: [PATCH 1/1] Documentation: Fix AV1 struct documentation
-Date: Thu, 30 May 2024 15:32:53 -0700
-Message-ID: <20240530223348.1888663-1-frkoenig@chromium.org>
-X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
+	s=arc-20240116; t=1717109000; c=relaxed/simple;
+	bh=0X2dw/UeogrCIoEMegPjW9bubHPq1jD1XjDgrtIFmsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQr49dmp78Vc4AKsLCTfFZ1pcXQjrq7QUxtj43msnbfvmRNMmF1SiRip6QAWpTH+/1AYpQNRhq3t1ab+GyohrJdPpXVBVrVS7/VI8fPum+Fssnlwa9hiIrb55Lt68dVilhmXiYD3Kew+Yg53wWKu+EA0MDS6FG6TzHARUT4fZr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LUgevlqp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B59DA06;
+	Fri, 31 May 2024 00:43:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1717108992;
+	bh=0X2dw/UeogrCIoEMegPjW9bubHPq1jD1XjDgrtIFmsQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LUgevlqpoBpMsA/1CdtgqtHsMzowZWDZVw5P/9SSxKLDi3rtHQjYs89+B7E5qDXrC
+	 XtpBep1/9D7UEUpKhDHqkORYbXeN+S4MpSVLF8cGOXTGanewwq9HCZ4/Vi9XKLVI04
+	 wlkSUiE3pEVFVbG5sOb84LqIMXklivh8MzR1vpdI=
+Date: Fri, 31 May 2024 01:43:04 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	sakari.ailus@iki.fi
+Subject: Re: [PATCH v5 12/16] Documentation: mali-c55: Add Statistics
+ documentation
+Message-ID: <20240530224304.GD5213@pendragon.ideasonboard.com>
+References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+ <20240529152858.183799-13-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240529152858.183799-13-dan.scally@ideasonboard.com>
 
-- v4l2_av1_segmentation table formatting
-- incorrect member name uv_sec_strength
-- incorrect struct name v4l2_av1_global_motion
-- incorrect link label for v4l2_av1_loop_filter
+Hi Dan,
 
-Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
----
+Thank you for the patch.
 
-While looking over the documentation I orginally only saw one issue with
-the AV1 controls. But then I found some more. This patch is intended to
-replace[1].
+On Wed, May 29, 2024 at 04:28:54PM +0100, Daniel Scally wrote:
+> Add documentation explaining the ability to capture statistics from
+> the mali-c55 driver's new V4L2 device, as well as the various tap
+> points from which those statistics can be drawn in the ISP's
+> processing flow. Additionally add a page detailing the new V4L2
+> meta format for the mali-c55 statistics.
+> 
+> Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
+> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+> Changes in v5:
+> 
+> 	- New patch
+> 
+>  Documentation/admin-guide/media/mali-c55.rst  | 60 ++++++++++++++++++-
+>  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>  .../media/v4l/metafmt-arm-mali-c55.rst        | 28 +++++++++
+>  3 files changed, 88 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+> 
+> diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation/admin-guide/media/mali-c55.rst
+> index cf4176cb1e44..b75437f6e96a 100644
+> --- a/Documentation/admin-guide/media/mali-c55.rst
+> +++ b/Documentation/admin-guide/media/mali-c55.rst
+> @@ -67,10 +67,11 @@ The driver has 4 V4L2 subdevices:
+>  - `mali_c55 resizer fr`: The Full-Resolution pipe resizer
+>  - `mali_c55 resizer ds`: The Downscale pipe resizer
+>  
+> -The driver has 2 V4L2 video devices:
+> +The driver has 3 V4L2 video devices:
+>  
+>  - `mali-c55 fr`: The full-resolution pipe's capture device
+>  - `mali-c55 ds`: The downscale pipe's capture device
+> +- `mali-c55 3a stats`: The 3A statistics capture device
+>  
+>  Frame sequences are synchronised across to two capture devices, meaning if one
+>  pipe is started later than the other the sequence numbers returned in its
+> @@ -326,6 +327,63 @@ configured, followed by formats in the appropriate places:
+>      # Set format on the video device and stream
+>      yavta -f RGB565 -s 1920x1080 -c10 /dev/video0
+>  
+> +.. _mali-c55-3a-stats:
+> +
+> +Capturing ISP Statistics
+> +========================
+> +
+> +The ISP is capable of producing statistics for consumption by image processing
+> +algorithms running in userspace. These statistics can be captured by queueing
+> +buffers to the `mali-c55 3a stats` V4L2 Device whilst the ISP is streaming. Only
+> +the :ref:`V4L2_META_FMT_MALI_C55_3A_STATS <v4l2-meta-fmt-mali-c55-3a-stats>`
+> +format is supported, so no format-setting need be done:
+> +
+> +.. code-block:: none
+> +
+> +    # We assume the media graph has been configured to support RGB565 capture
+> +    # from the mali-c55 fr V4L2 Device, which is at /dev/video0. The statistics
+> +    # V4L2 device is at /dev/video3
+> +
+> +    yavta -f RGB565 -s 1920x1080 -c32 /dev/video0 && \
+> +    yavta -c10 -F /dev/video3
+> +
+> +The layout of the buffer is described by :c:type:`mali_c55_stats_buffer`,
+> +but broadly statistics are generated to support three image processing
+> +algorithms; AEXP (Auto-Exposure), AWB (Auto-White Balance) and AF (Auto-Focus).
+> +These stats can be drawn from various places in the Mali C55 ISP pipeline, known
+> +as "tap points". This high-level block diagram is intended to explain where in
+> +the processing flow the statistics can be drawn from::
+> +
+> +                  +--> AEXP-2            +----> AEXP-1          +--> AF-0
+> +                  |                      +----> AF-1            |
+> +                  |                      |                      |
+> +      +---------+ |   +--------------+   |   +--------------+   |
+> +      |  Input  +-+-->+ Digital Gain +---+-->+ Black Level  +---+---+
+> +      +---------+     +--------------+       +--------------+       |
+> +  +-----------------------------------------------------------------+
+> +  |
+> +  |   +--------------+ +---------+       +----------------+
+> +  +-->| Sinter Noise +-+  White  +--+--->|  Lens Shading  +--+---------------+
+> +      |   Reduction  | | Balance |  |    |                |  |               |
+> +      +--------------+ +---------+  |    +----------------+  |               |
+> +                                    +---> AEXP-0 (A)         +--> AEXP-0 (B) |
+> +  +--------------------------------------------------------------------------+
+> +  |
+> +  |   +----------------+      +--------------+  +----------------+
+> +  +-->|  Tone mapping  +-+--->| Demosaicing  +->+ Purple Fringe  +-+-----------+
+> +      |                | |    +--------------+  |   Correction   | |           |
+> +      +----------------+ +-> AEXP-IRIDIX        +----------------+ +---> AWB-0 |
+> +  +----------------------------------------------------------------------------+
+> +  |                    +-------------+        +-------------+
+> +  +------------------->|   Colour    +---+--->|    Output   |
+> +                       | Correction  |   |    |  Pipelines  |
+> +                       +-------------+   |    +-------------+
+> +                                         +-->  AWB-1
+> +
+> +At present all statistics are drawn from the 0th tap point for each algorithm;
+> +I.E. AEXP statistics from AEXP-0 (A), AWB statistics from AWB-0 and AF
+> +statistics from AF-0. In the future this will be configurable.
+> +
+>  References
+>  ==========
+>  .. [1] https://git.linuxtv.org/v4l-utils.git/
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> index c23aac823d2c..73c05cc35321 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
+>      metafmt-d4xx
+>      metafmt-generic
+>      metafmt-intel-ipu3
+> +    metafmt-arm-mali-c55
 
-If it is more desirable I will split them out into individual patches.
+Alphabetical order please.
 
-[1]: https://lore.kernel.org/linux-media/20240530185157.1824672-1-frkoenig@chromium.org/
+>      metafmt-rkisp1
+>      metafmt-uvc
+>      metafmt-vivid
+> diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+> new file mode 100644
+> index 000000000000..219a5dd42d70
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+> @@ -0,0 +1,28 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _v4l2-meta-fmt-mali-c55-3a-stats:
+> +
+> +****************************************
+> +V4L2_META_FMT_MALI_C55_3A_STATS ('C55S')
+> +****************************************
+> +
+> +3A Statistics
+> +=============
 
- .../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Missing blank line.
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-index 786127b1e206..adb62e455d7a 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-@@ -3374,7 +3374,7 @@ semantics" of :ref:`av1`.
-       - ``uv_pri_strength[V4L2_AV1_CDEF_MAX]``
-       -  Specifies the strength of the primary filter.
-     * - __u8
--      - ``uv_secondary_strength[V4L2_AV1_CDEF_MAX]``
-+      - ``uv_sec_strength[V4L2_AV1_CDEF_MAX]``
-       -  Specifies the strength of the secondary filter.
- 
- .. c:type:: v4l2_av1_segment_feature
-@@ -3439,7 +3439,7 @@ semantics" of :ref:`av1`.
-       - Bitmask defining which features are enabled in each segment. Use
-         V4L2_AV1_SEGMENT_FEATURE_ENABLED to build a suitable mask.
-     * - __u16
--      - `feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX]``
-+      - ``feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX]``
-       -  Data attached to each feature. Data entry is only valid if the feature
-          is enabled.
- 
-@@ -3490,7 +3490,7 @@ AV1 Loop filter params as defined in section 6.8.10 "Loop filter semantics" of
- 
- .. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
- 
--.. flat-table:: struct v4l2_av1_global_motion
-+.. flat-table:: struct v4l2_av1_loop_filter
-     :header-rows:  0
-     :stub-columns: 0
-     :widths:       1 1 2
-@@ -3829,7 +3829,7 @@ AV1 Tx mode as described in section 6.8.21 "TX mode semantics" of :ref:`av1`.
-     * - struct :c:type:`v4l2_av1_loop_restoration`
-       - ``loop_restoration``
-       - Loop restoration parameters.
--    * - struct :c:type:`v4l2_av1_loop_global_motion`
-+    * - struct :c:type:`v4l2_av1_global_motion`
-       - ``global_motion``
-       - Global motion parameters.
-     * - __u32
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +The ISP device collects different statistics over an input bayer frame. Those
+> +statistics can be obtained by userspace from the
+> +:ref:`mali-c55 3a stats <mali-c55-3a-stats>` metadata capture video node, using
+> +the :c:type:`v4l2_meta_format` interface. The buffer contains a single instance
+> +of the C structure :c:type:`mali_c55_stats_buffer` defined in
+> +``mali-c55-config.h``, so the structure can be obtained from the buffer by:
+> +
+> +.. code-block:: C
+> +
+> +	struct mali_c55_stats_buffer *stats =
+> +		(struct mali_c55_stats_buffer *)buf;
+> +
+> +For details of the statistics see :c:type:`mali_c55_stats_buffer`.
+> +
+> +Arm Mali-C55 uAPI data types
+> +============================
+> +
+> +.. kernel-doc:: include/uapi/linux/media/arm/mali-c55-config.h
+
 -- 
-2.45.1.288.g0e0cd299f1-goog
+Regards,
 
+Laurent Pinchart
 
