@@ -1,181 +1,316 @@
-Return-Path: <linux-media+bounces-12220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400E48D4412
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 05:25:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 753CD8D4471
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 06:13:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C08381F230F9
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 03:25:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE2F7284C14
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 04:13:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A34A456475;
-	Thu, 30 May 2024 03:25:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B778143879;
+	Thu, 30 May 2024 04:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XTNc6hIW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA32256A
-	for <linux-media@vger.kernel.org>; Thu, 30 May 2024 03:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010DD1411E7
+	for <linux-media@vger.kernel.org>; Thu, 30 May 2024 04:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717039531; cv=none; b=rHwrRCwFa2NYStKFM3A+UHabXZWtRnF9afrqjMSfPgge/59JHPFN2JUe1YAVk0x5YK0GoJugP9PwBwJQiaDjFgLTDe42mEkzkJEfg3JJLkKly/WY3pR+LqB+DVp1eZsn0+OzbTgK0/4zSBQxIiSRAVq5iwbuUhrEviMZkTbd7UE=
+	t=1717042406; cv=none; b=WJa4SSY7PW5n8hbD8hJOyRx80TmBaBqG0+o99R+6QgLdgohLFiGIOVotZ1T+lFAum220yPBJ3cNoAywQ3fyoHbAwsvItPlhaxt/9VIwkIQAzx9fD3sik0bUesJXZn2T74Mf4h2mGWmDh522+lswJgb5suJfOz/Dvl+3OP8uAheY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717039531; c=relaxed/simple;
-	bh=1Jdlb4uXSKwUEkKt1PnKb6Tdl6S6oUusgKunyS2Q31s=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=DR/xaokfXaKruzdM7OUk/fyvnw4zYNuNCN1oRTQA+orMYEFMUkRpDloxz6PKGy8gVps9ccTm/29w0b7I3Hci/JkHYBMvF/ZNRodQmZuUHctHz8I4AhJo8pYs4808cB4vrULJkQNBAHarSqkqVH5jEJI0/L5SizfVo+UK25zCdIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3742c0af134so4464945ab.1
-        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 20:25:29 -0700 (PDT)
+	s=arc-20240116; t=1717042406; c=relaxed/simple;
+	bh=enQqNxaANa2DixxrRw6YySYFLC4MqNMTr8oiFe+NVQo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n610P+3hfJoJrkgb5DGnkFKCqUzVcsXf3gJZcL6ldmcVuhXdV3cMAilJoojY2KwvkKP/5AA1H8agoT0Z4W/nKe89t4dOumXycXIv8JphrmEaFPi/Oh1+i3pjxk5O8F01vG37FvlF2hqGcpX0GftZbIiQwVXH8GO22/NunQ2RPfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XTNc6hIW; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-df4e346e36fso416103276.1
+        for <linux-media@vger.kernel.org>; Wed, 29 May 2024 21:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1717042404; x=1717647204; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PCHk5EhoiGYB7t2tsVSQ58T7WGAAG7FmcqavwmSh1AQ=;
+        b=XTNc6hIWaHPmxcKyO8kaYD6wOVd2QPyfXzgZpXVK6y8SgO7F+bjrzY+fyP+BT9WMmu
+         /nGwOucN6ABdMx8dpjp/NgyNlpiwjkB0tA6kOci68REqAOvC+EplaKUAhrjko1JPxOw0
+         LNYXwq6lF+bfuBwhRxQ0fkeNjtTUUQlKVBlpo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717039529; x=1717644329;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S4K7HM1D3AqG6NeUGOCxHtK8VbYgvci8iQeTeS4D2C0=;
-        b=eduV59aooSxRBbO2Oa/0Am7YW7Ei63op4DWr60wITPKv3kon6zdnWDBl4eowaJQVqD
-         76b9PMOVnyRBD7DgwY0IIyUiHQkugEBW+kdUQkP7YL1mh5jAgKBgttcZEMGQA/Es3pXU
-         zXhoJFrx4IM/vOqqPbf/fIUg145tUKMGwORo+Wdi/PSdsGjydHzBexnTuGLerO0/RET7
-         AD6LRxJkIm9zBHFRWAunaWCSuuhu47m39G9am/omhIw/TceEvpWe/FAjCi0Sa36leqOM
-         gyCDImWgSGHXD9Ttx+lpZMNhWK3yxXnj8z3xw8S0nkjY4GfNpTVpex3zvaJnBvfxdBVx
-         iYpA==
-X-Forwarded-Encrypted: i=1; AJvYcCUDGdR9tQRNHpeZYsvYH5xOtcIth335rFMsl63GU7PKcNQRoiK2KDZ+RJ+0Oii3BF5ytFUP++vF/Gx9Ip3zYZhfMrQXR2uzyvl6ZlM=
-X-Gm-Message-State: AOJu0YyMOcNQ1c5Da9ACvPL742NkPbBSnNqpar5Gptzb9oVN2vKg14uk
-	dBZAuKCjtGk5YSrdoLzeNykKPNKLM2+mJYrBYtysumNI4tZHUjvS7UEwZsqTqT7mggrV54VcKoS
-	AT1zd+pKaNF/GuUHm1RIaNbe6Qt7b+APN6cFu3dNUCCzchEiLwkXMRtA=
-X-Google-Smtp-Source: AGHT+IEXUql0FXR+Lxaqa/6M5rhOpI0OL0iAbamY3PgObpec9S40jP00gT/th087johTJy7XjD35dWWqwVRAD56+EkC9yKg58FZD
+        d=1e100.net; s=20230601; t=1717042404; x=1717647204;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PCHk5EhoiGYB7t2tsVSQ58T7WGAAG7FmcqavwmSh1AQ=;
+        b=npHplEQ25jb4T/Fjcl3+oyJVowglOIQFnj0AttOVTatgTnipoWSsM0Mhrx2bh32P+b
+         Da8hXJTGGYDKuR8KFgCiiKo8WkrokaU+bHRTWhDn0w1OjHPU/OeYdDw89vBKE2MiwCu3
+         KgukwCmBitG4EELPaY5LlBE8K5uwSDZcMnxi+GsU7XeHwa4UMSKTLCoBsHTMsTrNuCr9
+         UpsVbfJYZ17aKNhVveQ/Q9pdMDdRStob7a7RFRSIBO2xTABY9ZwNO6BTSWY4eENck02r
+         4+7L8skm/RcPtGsJl+pkG0LihbEocTtRxDnEHvx6v2in+6z3/Ie8alGdXAwcs5Ku11bC
+         Nu1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXlwepXqwIpgndIbtlTYpG8dNFGmh3aaHiGZIFmTw4XWJnhOgqbEYM0x94pK4wK24tbzwv/2qjGlQ7KGbo1t0MoRCqS93oeLtOg/8Y=
+X-Gm-Message-State: AOJu0Yx9qZLSvTPS+RrGfImAdlSgtvEmUv59zV3jHbfYO8+rRXr1xITo
+	kjI4RgT9o5Ww44mkUA8FL066GZFLo4CgHeKMnCpAfoUPS6+HS0vDQcLi8RiNXCDUsNlO2VULPcU
+	ZzfNXdPFM9FTN0Xtysvgc2AMtoN/PfKkE0MGwc1638yej9HEc4g==
+X-Google-Smtp-Source: AGHT+IFKX3zNP1I7v5CNvQIrmBKsIwCsbjQUs9pHM/g8k0nAZvePZfyfSWtYIpohLc29n8Mqgd1/qFhs349uBa8A3z4=
+X-Received: by 2002:a5b:a44:0:b0:df4:d367:6bd6 with SMTP id
+ 3f1490d57ef6-dfa5a611ccbmr1178796276.29.1717042403904; Wed, 29 May 2024
+ 21:13:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1a46:b0:36c:11a0:7878 with SMTP id
- e9e14a558f8ab-3747dfb5aa8mr438305ab.2.1717039528943; Wed, 29 May 2024
- 20:25:28 -0700 (PDT)
-Date: Wed, 29 May 2024 20:25:28 -0700
-In-Reply-To: <0000000000002174ba06197f39c1@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003032c50619a36bd7@google.com>
-Subject: Re: [syzbot] [dri?] [media?] general protection fault in
- udmabuf_create (2)
-From: syzbot <syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	kraxel@redhat.com, linaro-mm-sig-bounces@lists.linaro.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
-	syzkaller-bugs@googlegroups.com
+References: <20240403091306.1308878-1-yunkec@chromium.org> <20240403091306.1308878-2-yunkec@chromium.org>
+ <idyreh3tm33dappbaoek43urhr75jhcu44l6d67qszos42yhcp@mqxlfmdmryto>
+In-Reply-To: <idyreh3tm33dappbaoek43urhr75jhcu44l6d67qszos42yhcp@mqxlfmdmryto>
+From: Yunke Cao <yunkec@chromium.org>
+Date: Thu, 30 May 2024 13:13:13 +0900
+Message-ID: <CAEDqmY4Tyz33qv7U_r87EgfxXq0dJiUGPHggoeU2F4XVVNm9Zw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] media: videobuf2-core: release all planes first in __prepare_dmabuf()
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has found a reproducer for the following issue on:
+Hi Tomasz,
 
-HEAD commit:    9d99040b1bc8 Add linux-next specific files for 20240529
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=14c083e6980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=735e953fee00ec19
-dashboard link: https://syzkaller.appspot.com/bug?extid=40c7dad27267f61839d4
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=176b79d2980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10266eaa980000
+Thanks for the review.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/f0deeb27b28b/disk-9d99040b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5acd2205cee1/vmlinux-9d99040b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/222eebb6b9d8/bzImage-9d99040b.xz
+On Fri, May 17, 2024 at 8:11=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wr=
+ote:
+>
+> Hi Yunke,
+>
+> On Wed, Apr 03, 2024 at 06:13:04PM +0900, Yunke Cao wrote:
+> > The existing implementation, validating planes, checking if the planes
+> > changed, releasing previous planes and reaquiring new planes all happen=
+s in
+> > the same for loop.
+> >
+> > Split the for loop into 3 parts
+> > 1. In the first for loop, validate planes and check if planes changed.
+> > 2. Call __vb2_buf_dmabuf_put() to release all planes.
+> > 3. In the second for loop, reaquire new planes.
+> >
+> > Signed-off-by: Yunke Cao <yunkec@chromium.org>
+> > ---
+> >  .../media/common/videobuf2/videobuf2-core.c   | 64 ++++++++++---------
+> >  1 file changed, 34 insertions(+), 30 deletions(-)
+> >
+>
+> Thanks for the second revision and sorry for the delay. Please check my
+> comments inline.
+>
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/=
+media/common/videobuf2/videobuf2-core.c
+> > index b6bf8f232f48..702f7b6f783a 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > @@ -1341,11 +1341,13 @@ static int __prepare_dmabuf(struct vb2_buffer *=
+vb)
+> >       for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> >               struct dma_buf *dbuf =3D dma_buf_get(planes[plane].m.fd);
+> >
+> > +             planes[plane].dbuf =3D dbuf;
+> > +
+> >               if (IS_ERR_OR_NULL(dbuf)) {
+> >                       dprintk(q, 1, "invalid dmabuf fd for plane %d\n",
+> >                               plane);
+> >                       ret =3D -EINVAL;
+> > -                     goto err;
+> > +                     goto err_put_dbuf;
+>
+> nit: Maybe err_put_planes, since we're cleaning up the planes[] array?
+>
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+40c7dad27267f61839d4@syzkaller.appspotmail.com
+err_put_planes sounds good to me.
 
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] PREEMPT SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-CPU: 1 PID: 5101 Comm: syz-executor479 Not tainted 6.10.0-rc1-next-20240529-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/02/2024
-RIP: 0010:PageTail include/linux/page-flags.h:284 [inline]
-RIP: 0010:const_folio_flags include/linux/page-flags.h:312 [inline]
-RIP: 0010:folio_test_head include/linux/page-flags.h:837 [inline]
-RIP: 0010:folio_test_large include/linux/page-flags.h:858 [inline]
-RIP: 0010:folio_nr_pages include/linux/mm.h:2076 [inline]
-RIP: 0010:udmabuf_create+0xa54/0x11c0 drivers/dma-buf/udmabuf.c:376
-Code: 01 00 00 48 8b 44 24 70 42 80 3c 28 00 48 8b 5c 24 68 74 08 48 89 df e8 9a 63 ed fb 4c 8b 3b 49 8d 5f 08 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 7d 63 ed fb 48 8b 1b 48 89 de 48
-RSP: 0018:ffffc9000357fbe0 EFLAGS: 00010202
-RAX: 0000000000000001 RBX: 0000000000000008 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: ffff888022207028 RDI: ffff8880295ee248
-RBP: ffffc9000357fd70 R08: ffffffff8fad8daf R09: 1ffffffff1f5b1b5
-R10: dffffc0000000000 R11: fffffbfff1f5b1b6 R12: 0000000000000001
-R13: dffffc0000000000 R14: ffff888022207028 R15: 0000000000000000
-FS:  00005555645a9480(0000) GS:ffff8880b9500000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007feee7c0f0d0 CR3: 0000000022b26000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:420 [inline]
- udmabuf_ioctl+0x304/0x4f0 drivers/dma-buf/udmabuf.c:451
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:907 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7feee7b981b9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffda54957e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007feee7b981b9
-RDX: 00000000200002c0 RSI: 0000000040187542 RDI: 0000000000000003
-RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000001
-R13: 431bde82d7b634db R14: 00007ffda5495820 R15: 0000000000000001
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:PageTail include/linux/page-flags.h:284 [inline]
-RIP: 0010:const_folio_flags include/linux/page-flags.h:312 [inline]
-RIP: 0010:folio_test_head include/linux/page-flags.h:837 [inline]
-RIP: 0010:folio_test_large include/linux/page-flags.h:858 [inline]
-RIP: 0010:folio_nr_pages include/linux/mm.h:2076 [inline]
-RIP: 0010:udmabuf_create+0xa54/0x11c0 drivers/dma-buf/udmabuf.c:376
-Code: 01 00 00 48 8b 44 24 70 42 80 3c 28 00 48 8b 5c 24 68 74 08 48 89 df e8 9a 63 ed fb 4c 8b 3b 49 8d 5f 08 48 89 d8 48 c1 e8 03 <42> 80 3c 28 00 74 08 48 89 df e8 7d 63 ed fb 48 8b 1b 48 89 de 48
-RSP: 0018:ffffc9000357fbe0 EFLAGS: 00010202
-RAX: 0000000000000001 RBX: 0000000000000008 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: ffff888022207028 RDI: ffff8880295ee248
-RBP: ffffc9000357fd70 R08: ffffffff8fad8daf R09: 1ffffffff1f5b1b5
-R10: dffffc0000000000 R11: fffffbfff1f5b1b6 R12: 0000000000000001
-R13: dffffc0000000000 R14: ffff888022207028 R15: 0000000000000000
-FS:  00005555645a9480(0000) GS:ffff8880b9400000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000005fdeb8 CR3: 0000000022b26000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	01 00                	add    %eax,(%rax)
-   2:	00 48 8b             	add    %cl,-0x75(%rax)
-   5:	44 24 70             	rex.R and $0x70,%al
-   8:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
-   d:	48 8b 5c 24 68       	mov    0x68(%rsp),%rbx
-  12:	74 08                	je     0x1c
-  14:	48 89 df             	mov    %rbx,%rdi
-  17:	e8 9a 63 ed fb       	call   0xfbed63b6
-  1c:	4c 8b 3b             	mov    (%rbx),%r15
-  1f:	49 8d 5f 08          	lea    0x8(%r15),%rbx
-  23:	48 89 d8             	mov    %rbx,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
-  2f:	74 08                	je     0x39
-  31:	48 89 df             	mov    %rbx,%rdi
-  34:	e8 7d 63 ed fb       	call   0xfbed63b6
-  39:	48 8b 1b             	mov    (%rbx),%rbx
-  3c:	48 89 de             	mov    %rbx,%rsi
-  3f:	48                   	rex.W
+> >               }
+> >
+> >               /* use DMABUF size if length is not provided */
+> > @@ -1356,17 +1358,14 @@ static int __prepare_dmabuf(struct vb2_buffer *=
+vb)
+> >                       dprintk(q, 1, "invalid dmabuf length %u for plane=
+ %d, minimum length %u\n",
+> >                               planes[plane].length, plane,
+> >                               vb->planes[plane].min_length);
+> > -                     dma_buf_put(dbuf);
+> >                       ret =3D -EINVAL;
+> > -                     goto err;
+> > +                     goto err_put_dbuf;
+> >               }
+> >
+> >               /* Skip the plane if already verified */
+> >               if (dbuf =3D=3D vb->planes[plane].dbuf &&
+> > -                     vb->planes[plane].length =3D=3D planes[plane].len=
+gth) {
+> > -                     dma_buf_put(dbuf);
+> > +                 vb->planes[plane].length =3D=3D planes[plane].length)
+> >                       continue;
+> > -             }
+> >
+> >               dprintk(q, 3, "buffer for plane %d changed\n", plane);
+> >
+> > @@ -1375,29 +1374,30 @@ static int __prepare_dmabuf(struct vb2_buffer *=
+vb)
+> >                       vb->copied_timestamp =3D 0;
+> >                       call_void_vb_qop(vb, buf_cleanup, vb);
+>
+> Would it make sense to also move these two to the if (reacquired) part
+> below, since they are done once for the entire vb?
+>
 
+Yes, Will do in the next version.
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+> >               }
+> > +     }
+> >
+> > -             /* Release previously acquired memory if present */
+> > -             __vb2_plane_dmabuf_put(vb, &vb->planes[plane]);
+> > -             vb->planes[plane].bytesused =3D 0;
+> > -             vb->planes[plane].length =3D 0;
+> > -             vb->planes[plane].m.fd =3D 0;
+> > -             vb->planes[plane].data_offset =3D 0;
+>
+> I don't see the code below setting the 4 fields above to zero. Is it
+> intended?
+>
+
+I thought these were not necessary anymore.
+But now that I look more carefully, it is useful when there is an error bel=
+ow.
+I will add them back in the next version. Thanks for catching this!
+
+> > +     if (reacquired) {
+> > +             __vb2_buf_dmabuf_put(vb);
+> > +
+> > +             for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> > +                     /* Acquire each plane's memory */
+> > +                     mem_priv =3D call_ptr_memop(attach_dmabuf,
+> > +                                               vb,
+> > +                                               q->alloc_devs[plane] ? =
+: q->dev,
+> > +                                               planes[plane].dbuf,
+> > +                                               planes[plane].length);
+> > +                     if (IS_ERR(mem_priv)) {
+> > +                             dprintk(q, 1, "failed to attach dmabuf\n"=
+);
+> > +                             ret =3D PTR_ERR(mem_priv);
+> > +                             goto err_put_dbuf;
+>
+> Hmm, I think in this case we need to also clean up the partially acquired
+> planes of vb.
+>
+> > +                     }
+> >
+> > -             /* Acquire each plane's memory */
+> > -             mem_priv =3D call_ptr_memop(attach_dmabuf,
+> > -                                       vb,
+> > -                                       q->alloc_devs[plane] ? : q->dev=
+,
+> > -                                       dbuf,
+> > -                                       planes[plane].length);
+> > -             if (IS_ERR(mem_priv)) {
+> > -                     dprintk(q, 1, "failed to attach dmabuf\n");
+> > -                     ret =3D PTR_ERR(mem_priv);
+> > -                     dma_buf_put(dbuf);
+> > -                     goto err;
+> > +                     vb->planes[plane].dbuf =3D planes[plane].dbuf;
+> > +                     vb->planes[plane].mem_priv =3D mem_priv;
+> >               }
+> > -
+> > -             vb->planes[plane].dbuf =3D dbuf;
+> > -             vb->planes[plane].mem_priv =3D mem_priv;
+> > +     } else {
+> > +             for (plane =3D 0; plane < vb->num_planes; ++plane)
+> > +                     dma_buf_put(planes[plane].dbuf);
+> >       }
+> >
+> >       /*
+> > @@ -1413,7 +1413,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb=
+)
+> >               if (ret) {
+> >                       dprintk(q, 1, "failed to map dmabuf for plane %d\=
+n",
+> >                               plane);
+> > -                     goto err;
+> > +                     goto err_put_vb2_buf;
+> >               }
+> >               vb->planes[plane].dbuf_mapped =3D 1;
+> >       }
+>
+> I think this entire loop can also go under the (reacquired) case, since
+> (!reacquired) means that all the planes were identical (and thus are
+> alreday mapped). Given that now we release all the planes in one go, we
+> could even simplify it by dropping the dbuf_mapped check from the loop.
+>
+> > @@ -1437,7 +1437,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb=
+)
+> >               ret =3D call_vb_qop(vb, buf_init, vb);
+> >               if (ret) {
+> >                       dprintk(q, 1, "buffer initialization failed\n");
+> > -                     goto err;
+> > +                     goto err_put_vb2_buf;
+> >               }
+> >       }
+>
+> Same for this block.
+>
+> >
+> > @@ -1445,11 +1445,15 @@ static int __prepare_dmabuf(struct vb2_buffer *=
+vb)
+> >       if (ret) {
+> >               dprintk(q, 1, "buffer preparation failed\n");
+> >               call_void_vb_qop(vb, buf_cleanup, vb);
+> > -             goto err;
+> > +             goto err_put_vb2_buf;
+> >       }
+> >
+> >       return 0;
+> > -err:
+> > +
+> > +err_put_dbuf:
+> > +     for (plane =3D 0; plane < vb->num_planes; ++plane)
+>
+> dma_buf_put() will throw a warning if the dmabuf pointer is NULL and just
+> plain crash if IS_ERR(), so we shouldn't call it on array elements that w=
+e
+> didn't succeed for.
+>
+
+I see. Will do in the next version.
+
+> > +             dma_buf_put(planes[plane].dbuf);
+> > +err_put_vb2_buf:
+> >       /* In case of errors, release planes that were already acquired *=
+/
+> >       __vb2_buf_dmabuf_put(vb);
+>
+> Actually, would it make sense to invert the order of clean-up steps here?
+> In case if only the first loop fails, we don't really need to do anything=
+ with
+> vb. Or am I missing something?
+>
+
+It seems the original implementation will call __vb2_buf_dmabuf_put(vb)
+whenever dma_buf_get() returns err or length < min_length. I was trying
+to keep the same behavior here. Do you have any preference?
+
+Also, if "call_vb_qop(vb, buf_prepare, vb);" fails, I think we only need
+__vb2_buf_dmabuf_put(), but not dma_buf_put().
+
+Best,
+Yunke
+
+> Best regards,
+> Tomasz
 
