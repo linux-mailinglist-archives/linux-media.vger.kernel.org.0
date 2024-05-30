@@ -1,235 +1,211 @@
-Return-Path: <linux-media+bounces-12309-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12310-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978BC8D55D3
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 00:55:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F68A8D5663
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 01:42:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFA2B1F2397D
-	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 22:55:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27C07286F21
+	for <lists+linux-media@lfdr.de>; Thu, 30 May 2024 23:42:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C471D183089;
-	Thu, 30 May 2024 22:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2ABC18399D;
+	Thu, 30 May 2024 23:42:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LiiV9/G6"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="kiOzTsXu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2054.outbound.protection.outlook.com [40.107.114.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEC917545;
-	Thu, 30 May 2024 22:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717109704; cv=none; b=bCo93no/s7mLp1UxS7RKMvE157QwIDw9qoauuGbdpID8XqLEZmNf3xr1Hdp6nvX/w+0Yj59neGNBvaJhPLz9E4YxZ75pXNJdyp+mZNYpmavBhFL+JH/MSyXf1Q+ib59QbSyLul//mdiUWkoxCAgy9xhq6a22NsQy/Qb6VCk0ZD4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717109704; c=relaxed/simple;
-	bh=whRluBV3GKS+ywYXZqa7OzxXuiHvou3IvZZC/JmDv/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L/8uha1Srip7sYC/eyrXQUS6wj2xzn1WISk+CyU4U+ZAxVMk3v+teF7JOC2mPDYkj2sOtJa+1634sOjahWCc1I4a9OyPpNOCReUfpS5l4vsKkFLsAjAwZEei7NxJ2qY9ukRjoPMGEeBeZwcH0uGxTWP/jZmoVKobkBUbcukVuQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LiiV9/G6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08DEFA06;
-	Fri, 31 May 2024 00:54:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1717109696;
-	bh=whRluBV3GKS+ywYXZqa7OzxXuiHvou3IvZZC/JmDv/c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LiiV9/G6pljAL2FXCgM/zh9HLSa6etHXeQhnHYJoMUj4rJNlcmBDyf6ruIItGIrA9
-	 XyT5xVcej26EGHM2aHQvAT8/pXatOpC99wpe37GJMqX+L9T02lA44bTx81rw4hxR90
-	 BXibrRRne5ibr8Z56HR3HpkI4Qxzuny26943+VkU=
-Date: Fri, 31 May 2024 01:54:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	sakari.ailus@iki.fi
-Subject: Re: [PATCH v5 16/16] Documentation: mali-c55: Document the mali-c55
- parameter setting
-Message-ID: <20240530225447.GF5213@pendragon.ideasonboard.com>
-References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
- <20240529152858.183799-17-dan.scally@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1B817C7B7;
+	Thu, 30 May 2024 23:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717112522; cv=fail; b=KcBtTq4ivnICfrj/MH2l3bClXIO3TSLKQFoOzdXRabL46TMiSblRSJ52jfaNkLDcJXcdYmbAp3713o6KRr1Aj8mg1Q4pvfRoJTQPsObfQ1+RLhuc5E9O03cNv2ca+mNgwyd/88NFieejO4TTotdjsHPiVi2IWMTtgJfOBlJ8A2o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717112522; c=relaxed/simple;
+	bh=BvUvaENwAbXVo0G9EIG6wd9UIb7zfLkf/4YzWHgUN4U=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=RFWrUm3iJpT96dhqsuAvEw1cMJElDIZxExekXPEFtMkJxBSkydymJYgMgxFYerwbwB8t8H9J/kac+MnNNcG2D+sKLnckskY2RsmMJmbUNsPFXYGI6h4UPGvK7KV5tHzdJsBKm2OMpjs+l+q2mIRhvmqaMVmqmYectE3t9dlPHHQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=kiOzTsXu; arc=fail smtp.client-ip=40.107.114.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jp0IXTKi5oFpM12JCrUUmHjsC1WsQzDuXdul6iTo24sC7RPeW7uLthaGonZ/LmvQbYtvXTqRflNLRGOVF+SmiX/US27Xq0gEQ32CSAZ+oxUH3L6JoXs5xqEj6M0hal2MO8Bgdczh+jVNOJzMhtak5DD7NPSFDEqYeaxB2FI956QZbHYij5XxyLUISSClcFlEnGk+9GCeoqYXxPTjiw1naOxx9c9aC6SP76IsQ/xs8JDIXDKLbUbv3xzQ1Vsg8K/NU7vLA7gam/o3XLgqrPGS1vvR+Xhn5D/NA9etLUGaiIIlHpmdb6TpmKy2/9ntGe3CPcujwHKB5oUmVcmXYtHzJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XOIX+hcKVLYyys99qEEk/1GB6W32WGeCT8a/pXU8O+o=;
+ b=VTBhuX/GNsqFIv5jxVJeIWT4aMqT5RD6sDzxFGUl4vrlHlYydGBq/S1Ipx58pKxw3AlTVUCWyWMIGiytQTXh2EIoA/h0607Q3n0m+D2iTXOdVdRPu4njsGoZTkckgjEvyW1ndVdQg59vXc1+THc6IkqAfP8N02I7FdeNCeq3311mIyN2mhRbNhG2r3hHRBeQNetendr24826huFQ7Uinxvq2qviPAAH1vSlrQ5LK3IeeZ2R4qicqKFZTI0zOqXLfAQwYM+ObhEHkv3f1ojyCaZaO8YuidvY9+7brtOGYw+/7EH/LLMxAcHTcXkA6oT+e7N80mpa/KjhJTmHq3yg74A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XOIX+hcKVLYyys99qEEk/1GB6W32WGeCT8a/pXU8O+o=;
+ b=kiOzTsXuoK+r7IzVfJbbUIvcvmUP4Jy7nuiJVxre6favUEQfeTQ0SzdwdqX61/VFEyy7fdBK2EFsRpqRZfd5ybBF8RZ5kiDxk2wUMHLF640Xf3jm8xAMFvD7CMIGs7GDLiq8PMHFC+4i5DOxWsoFA31JLVcimAzgQQfmBjsZlCI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS0PR01MB5523.jpnprd01.prod.outlook.com
+ (2603:1096:604:af::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.30; Thu, 30 May
+ 2024 23:41:56 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7633.021; Thu, 30 May 2024
+ 23:41:55 +0000
+Message-ID: <87ttie98ak.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Lad Prabhakar <prabhakar.csengg@gmail.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	coresight@lists.linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 7/9] staging: media: atmel: use for_each_endpoint_of_node()
+In-Reply-To: <f0f1b989-2166-44ad-ba70-caf56a4d93c4@moroto.mountain>
+References: <87le3soy08.wl-kuninori.morimoto.gx@renesas.com>
+	<87bk4ooxya.wl-kuninori.morimoto.gx@renesas.com>
+	<f0f1b989-2166-44ad-ba70-caf56a4d93c4@moroto.mountain>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 30 May 2024 23:41:55 +0000
+X-ClientProxiedBy: TY2PR04CA0019.apcprd04.prod.outlook.com
+ (2603:1096:404:f6::31) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240529152858.183799-17-dan.scally@ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS0PR01MB5523:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44d28d13-74bd-4bbd-0886-08dc8102170e
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|7416005|366007|376005|1800799015|52116005|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?m9iDoq+M0QrcAq4c58L5+DZQbFPoEnK/MKcOvUaPFVxVYRIxSp+n1p0yxmUV?=
+ =?us-ascii?Q?R0jwr79XU4Rr+XP1SP5WWDSdZHyMF03WImdIlPj/3lC/2+4yMOzisVIsuEp4?=
+ =?us-ascii?Q?qacWnQmagYM3T+RMRHR3rA7KyM3jsgLKdgfb7HfWaBGG27rOUzTlrFstaGKD?=
+ =?us-ascii?Q?54IWtUxI9y9VBc8v9SLpUOphweZnOOVia+pKUxrmhe8QTBNlZCc2uIRjtu1i?=
+ =?us-ascii?Q?+ldWGK235XDQqsXHkMXDs0DJ4YxyO9MsOHhSwlG0uaJUAMAE4NeklAZn5XfB?=
+ =?us-ascii?Q?LQQ8cjMQYe0RQyU5LzAOf+6thoXRkhrwwP1e2mR/xOUAjkEocFgQMbUHUk57?=
+ =?us-ascii?Q?Wi5GFXEmhA2Ei2YNhEYT+4TI2r04uMdE78JGTzT1/J5zIMT4KVX2gogQnYNS?=
+ =?us-ascii?Q?i2UC6mT51n2qR6sqr3vId8rtCM2wPfXvp8uumHWc2D3hh4RuhQORNoNzzQHq?=
+ =?us-ascii?Q?MiZJ08S7mb2Dgir06dAUto8QjCQmn3VRjB0BSr/tZT6EuQ11lxnPEswQAX1T?=
+ =?us-ascii?Q?v4RnkTJrhMsRw9HFINGxshH7fdjsOO4oJDxUqRXOc3eMfsHkntc6mDC/lfWn?=
+ =?us-ascii?Q?of2m4hIqUBlEvt327/FYwKy9sScGsDzDFARur0I7fbyj42DLKJq+1Jzf11D6?=
+ =?us-ascii?Q?APyCCuKRfTHYjHze1oyBmqqwAFCxvysR1GkG6hHgQLrJURtNx/U+2iSgkWY7?=
+ =?us-ascii?Q?IsNnq6ACm63y+0edLUQM4WV+TE5UdjDqx8VVsyxgahnhALMIImfb29GiA0JU?=
+ =?us-ascii?Q?P3P3g71sDGQ5yTkBEZtU2OBH43ei7mJkmrsuRcULlqxHgIeiug/VvqADz4m+?=
+ =?us-ascii?Q?oEWxM0vU5gfpIgw/4VvAfIhISRXlrpgkTcpWDPuI0DMHGMioHvunPWUEdvda?=
+ =?us-ascii?Q?3qkjQSeF4XymvWq1NUaspErErQu9zzs2hk6YAyrLYfnBbtIFyk6HxrQlO/ib?=
+ =?us-ascii?Q?v7BXkcWcnuly9r6HIqxD1PkPP2al8m3iRPIfW5uoXQBb27FmSrrAnaSBLP95?=
+ =?us-ascii?Q?zoAG3alrTRpj6cLp+i+yb6I1gfLR9AYFCtdJ95jzKYz4BKcjuCi33mM/n8Pc?=
+ =?us-ascii?Q?PZrJ0mXuo3MhYqt6rS0kfjtV8Xs4n2BX/HkNdQkdEB4MYVZAexnJd5Un8Ok8?=
+ =?us-ascii?Q?vRBZwajccDxT422zI2DPCQ82b1Hd4kCoWv+H4NhzU4riic4c6rENN017gYau?=
+ =?us-ascii?Q?IVJPcrrTVNzonhjwVJQb8ZKtaXzKq7kKm4p27u5XwoaAwYAJSLlUExGLialA?=
+ =?us-ascii?Q?no90G+2L+ExwJDhEcQ8Og/6BJpJSVgrG6Hp+orSnkOuZVPuvZ+/dQVQDH9dE?=
+ =?us-ascii?Q?id7GtCEbQ4HbgJOQ6xpD4P4sfCmaIG22FAbQc8mKNa7NOw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(366007)(376005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JriZrLv3x33QA2g8yvlMV7TeJpWuM8JT239g4lfqaapnroNDx+GEo2AK4wtX?=
+ =?us-ascii?Q?asaPrgAz8Z6dL/c9PlKwAHoDrnH3ZGMZu133FjhnXhLrzCclKyYwXBZGgi6z?=
+ =?us-ascii?Q?GTrdwuKmS6eLgzahZgVWUxUNU+HZWsjKn78qczeS/Lefv9AvYfM1Xi8INjIU?=
+ =?us-ascii?Q?hnBaEH9Q3kAeqC5aK7Uy/B5AIkMa/DqNoWaKviVeKzxUHKT3Yd+5wsDELAVx?=
+ =?us-ascii?Q?G9jBwgdkJTh60xr0D8vjZsZvhp5jBkVd+sk/U3iZsYsC5lWCuLMV1yj0xYo+?=
+ =?us-ascii?Q?81m4P81+XrGUKE1b3ZGPFnaKY8iXbapH+cPWRJIDs/gZ7ibkTxCoDpnsUAVb?=
+ =?us-ascii?Q?/6gDHDXP2PtuIeIxKB+UX3b7Ik0qiuKHCEDGt7B9umJmPaMLpSJrT22AyHiB?=
+ =?us-ascii?Q?9jOWKeNJfXPopc8WYYpbRAm9418AeRGfwzx5SBb62TJzKVx/mVQRWZJCeHHX?=
+ =?us-ascii?Q?m0S3626Vr17W4/KjEJOgsc9sElR14lOQrbd84Osy6dZw4ptpLJ0tsudb+dwd?=
+ =?us-ascii?Q?hPjSejFgb4kfIESUTJg29Lh8Im6JXtjy6/JJLJAKgdp7RzCJTSw5TMEhvaMv?=
+ =?us-ascii?Q?avP1egNTz9bDu3JLArdl/Ui1Hmq/5Ul1yG5hO/jmcRx/EWC2mDgVmAfpt96T?=
+ =?us-ascii?Q?zhHB1CWXMGTO477ztr5wSHLkfes0Fb+mTf/faKERpTmdLRm7CabitD19+WEq?=
+ =?us-ascii?Q?wfEJROy5nz9kUp/Oo5gcCuWNa6wzB4UNe5hKDv2ZxKsinZwb/jWIZmDDDX6y?=
+ =?us-ascii?Q?c5v4ef6df/5PnKjn7EffEjEY/R8XS+RQkYA7E6tqTrYz7JYBX+sD/xiqaBUh?=
+ =?us-ascii?Q?+Jy710A2fAwfzidj1bbkLF5GUAd0dUxcYVpTBVBmEp8XrTqVFU2mQvUkhcPI?=
+ =?us-ascii?Q?qFqVMMKGPzL0R6Akx0u60nQtkX2Ue664pIY5KcgCjFWVxYfYNK1X/m59YAQd?=
+ =?us-ascii?Q?P6rmBzgiGUGsys+lF2kNOn50q/Wsi9IGbgf+1tAmmDCtcxAUL0HXSJy3G5jS?=
+ =?us-ascii?Q?fW0KoVO6RZYdtbAW/gCREEW3/iqMynkd2BoHFCJ9bNgGO/7DNYRE3SyGdOmp?=
+ =?us-ascii?Q?RXAnpCOXWE4pTeqHN1iuft+/1E2p3VVahFW1PGU4kWrGPjbVYUZsfhqs6hjX?=
+ =?us-ascii?Q?k86PwYts9vrRuQ1jdb0CyEuT0IlHZQ6uf7yj5H4HVao5Z6seni8Qo2V8BeqA?=
+ =?us-ascii?Q?ccf0/DJDnDO7Pc0Kbhmbv35PSfMFBuTvN0wVNpQrOtNaZ/85qj7lbAV3JI13?=
+ =?us-ascii?Q?ClV/vufVGdfrDEVhMF/Jcg2DOK4PeNuyF4kdHFusW4w+oBMudEA2cDVAbosZ?=
+ =?us-ascii?Q?nCiUpIHXyK1T1uNDbU2PkSkgKKOg5hyGeswFwX0mK3C3FsGNnMDYy7S78txa?=
+ =?us-ascii?Q?QxRQR4Pt7qBigQkvoFyDLQ0DBd9CiSSfJ/VuKjVYwvECxFq3xhUkGbevmm03?=
+ =?us-ascii?Q?A1vCbrE4o49YX4Ih6db5HxXc6Tj5Bxds9SRuBXYb2UHAnCzforFriV6M6Kap?=
+ =?us-ascii?Q?/trSWIEVGGJ/k0xc+uSluQZ+YR+iPK2wzBCb8ku/uk+mBzXt21Uuqi14r5id?=
+ =?us-ascii?Q?Y5NbyywRdv6NxI+lDVDtX+j23IVLg7EXwyB5AGe2tnV42thPutIbXbKFmY/x?=
+ =?us-ascii?Q?g2AB4AjDcShJlggtgFNrwOg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44d28d13-74bd-4bbd-0886-08dc8102170e
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 23:41:55.7717
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I68x4oaud+uLn42ew8h5Nb0V5mFztHXOtgkojSCaFdx2pFejUYRKrdyC8dyUIK5ZoqCDvvVS9px5C1Vy+SpaRyQ9ON5OpX542jdgV1H7utvUTMU65I82ZvKbFe0IUR3N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5523
 
-Hi Dan,
 
-Thank you for the patch.
+Hi Dan
 
-On Wed, May 29, 2024 at 04:28:58PM +0100, Daniel Scally wrote:
-> Document the mali-c55 parameter setting by expanding the relevant
-> pages in both admin-guide/ and userspace-api/.
+> > -	while (1) {
+> > +	for_each_endpoint_of_node(np, epn) {
+> >  		struct v4l2_fwnode_endpoint v4l2_epn = { .bus_type = 0 };
+> >  
+> > -		epn = of_graph_get_next_endpoint(np, epn);
+> > -		if (!epn)
+> > -			return 0;
+> > -
+> >  		ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(epn),
+> >  						 &v4l2_epn);
+> >  		if (ret) {
 > 
-> Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
-> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
-> Changes in v5:
+> This introduces a Smatch warning because now "ret" is uninitialized if
+> the for_each_endpoint_of_node() list is empty.  Is that something which
+> is possible?
 > 
-> 	- New patch
-> 
->  Documentation/admin-guide/media/mali-c55.rst  | 19 +++++-
->  .../media/v4l/metafmt-arm-mali-c55.rst        | 65 ++++++++++++++++++-
->  2 files changed, 79 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation/admin-guide/media/mali-c55.rst
-> index b75437f6e96a..c5e6ac826c99 100644
-> --- a/Documentation/admin-guide/media/mali-c55.rst
-> +++ b/Documentation/admin-guide/media/mali-c55.rst
-> @@ -380,9 +380,24 @@ the processing flow the statistics can be drawn from::
->                         +-------------+   |    +-------------+
->                                           +-->  AWB-1
->  
-> -At present all statistics are drawn from the 0th tap point for each algorithm;
-> +By default all statistics are drawn from the 0th tap point for each algorithm;
->  I.E. AEXP statistics from AEXP-0 (A), AWB statistics from AWB-0 and AF
-> -statistics from AF-0. In the future this will be configurable.
-> +statistics from AF-0. This is configurable for AEXP and AWB statsistics through
-> +programming the ISP's parameters.
-> +
-> +.. _mali-c55-3a-params:
-> +
-> +Programming ISP Parameters
-> +==========================
-> +
-> +The ISP can be programmed with various parameters from userspace to apply to the
-> +hardware before and during video stream. This allows userspace to dynamically
-> +change values such as black level, white balance and lens shading gains and so
-> +on.
-> +
-> +The buffer format and how to populate it are described by the
-> +:ref:`V4L2_META_FMT_MALI_C55_PARAMS <v4l2-meta-fmt-mali-c55-params>` format,
-> +which should be set as the data format for the `mali-c55 3a params` video node.
->  
->  References
->  ==========
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-> index 219a5dd42d70..c359d2c83858 100644
-> --- a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-> @@ -1,10 +1,11 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> +.. _v4l2-meta-fmt-mali-c55-params:
->  .. _v4l2-meta-fmt-mali-c55-3a-stats:
->  
-> -****************************************
-> -V4L2_META_FMT_MALI_C55_3A_STATS ('C55S')
-> -****************************************
-> +********************************************************************************
-> +V4L2_META_FMT_MALI_C55_3A_STATS ('C55S'), V4L2_META_FMT_MALI_C55_PARAMS ('C55P')
-> +********************************************************************************
->  
->  3A Statistics
->  =============
-> @@ -22,6 +23,64 @@ of the C structure :c:type:`mali_c55_stats_buffer` defined in
->  
->  For details of the statistics see :c:type:`mali_c55_stats_buffer`.
->  
-> +Configuration Parameters
-> +========================
-> +
-> +The configuration parameters are passed to the
-> +:ref:`mali-c55 3a params <mali-c55-3a-params>` metadata output video node, using
-> +the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-> +sub-structs for each configurable area of the ISP, parameters for the Mali-C55
-> +are defined as distinct structs or "blocks" which may be added to the data
-> +member of struct mali_c55_params_buffer. Userspace is responsible for populating
-> +the data member with the blocks that need to be configured by the driver, but
-> +need not populate it with **all** the blocks, or indeed with any at all if there
-> +are no configuration changes to make. Populated blocks **must** be consecutive
-> +in the buffer. To assist both userspace and the driver in identifying the
-> +blocks each block-specific struct should embed
+> I've been meaning to make a list of loops which always iterate at least
+> one time.  for_each_cpu() etc.
 
-s/should embed/embeds/
+Oh, OK thank you for pointing it.
+I will fixup and post it next week
 
-> +struct mali_c55_params_block_header as its first member and userspace must
-> +populate the type member with a value from enum mali_c55_param_block_type. Once
-
-It would be nice to add references to the struct and enum.
-
-> +the blocks have been populated into the data buffer, the combined size of all
-> +populated blocks should be set in the total_size member of
-
-s/should be/is/
-
-or "must" or "shall".
-
-> +struct mali_c55_params_buffer. For example:
-> +
-> +.. code-block:: c
-> +
-> +	struct mali_c55_params_buffer *params =
-> +		(struct mali_c55_params_buffer *)buffer;
-> +
-> +	params->version = MALI_C55_PARAM_BUFFER_V0;
-
-I think applications will likely handle the size as follows:
-
-	params->total_size = 0;
-
-> +
-> +	void *data = (void *)params->data;
-> +
-> +	struct mali_c55_params_awb_gains *gains =
-> +		(struct mali_c55_params_awb_gains *)data;
-> +
-> +	gains->header.type = MALI_C55_PARAM_BLOCK_AWB_GAINS;
-> +	gains->header.enabled = true;
-> +	gains->header.size = sizeof(struct mali_c55_params_awb_gains);
-> +
-> +	gains->gain00 = 256;
-> +	gains->gain00 = 256;
-> +	gains->gain00 = 256;
-> +	gains->gain00 = 256;
-> +
-> +	data += sizeof(struct mali_c55_params_awb_gains)
-
-	params->total_size += sizeof(struct mali_c55_params_awb_gains);
-
-> +
-> +	struct mali_c55_params_sensor_off_preshading *blc =
-> +		(struct mali_c55_params_sensor_off_preshading *)data;
-> +
-> +	blc->header.type = MALI_C55_PARAM_BLOCK_SENSOR_OFFS;
-> +	blc->header.enabled = true;
-> +	blc->header.size = sizeof(struct mali_c55_params_sensor_off_preshading);
-> +
-> +	blc->chan00 = 51200;
-> +	blc->chan01 = 51200;
-> +	blc->chan10 = 51200;
-> +	blc->chan11 = 51200;
-> +
-> +	params->total_size = sizeof(struct mali_c55_params_awb_gains) +
-> +			     sizeof(struct mali_c55_params_sensor_off_preshading);
-
-	params->total_size += sizeof(struct mali_c55_params_sensor_off_preshading);
-
-I could be wrong though. Up to you.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
->  Arm Mali-C55 uAPI data types
->  ============================
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Thank you for your help !!
+Best regards
+---
+Kuninori Morimoto
 
