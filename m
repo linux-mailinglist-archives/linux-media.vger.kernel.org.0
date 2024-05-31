@@ -1,238 +1,155 @@
-Return-Path: <linux-media+bounces-12328-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12330-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4802A8D5C4D
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 10:08:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D12F98D5CE0
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 10:37:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCCCC1F25160
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 08:08:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7071B1F263FB
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 08:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B294C7711A;
-	Fri, 31 May 2024 08:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EFF215099D;
+	Fri, 31 May 2024 08:36:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vr88vFkL"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="meMAKXV6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC2C770EE
-	for <linux-media@vger.kernel.org>; Fri, 31 May 2024 08:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42BC14F9FA;
+	Fri, 31 May 2024 08:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717142867; cv=none; b=ri20a5MtxRtGlHcfBHR44OgVSbEGjMXTD3S+Enaivam7NaBVEJJOHv8ILYWyDb5b2Hz5xnzIkvqU/r7Mdj1NWNr61sQGar7ltr9zyqfJCvMar0e2j7bu/iUqfznNby1I9//LHEUhHo9ununGmL+x4iHiFX5pQ+rWtPyHq0YswJ8=
+	t=1717144606; cv=none; b=Lsh7xY7qLUWFwGRRFc5w2JV9REZMuHEDv4XuHwbcibHDmGQVGYAms+MUJFW41HNvphQNGJlAnpC9tutAYuvgwOaOFQngEl7bqAnUQcrR4alB3pKH4V4sXh0tUyCa5pWXSLVaiSjCqpd6gWpMLBlU0JynnSLpQLRpgfkmaRv67s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717142867; c=relaxed/simple;
-	bh=NJ1SS7UPpmFxqwD9vqL/UO9bi5y2mskshhWmk+SaTF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W/1DvaueI9WpUy3wQwJ/b4afHrIcFxtgcdyCy4cUlv3LMSsBGt8R8S/WXfBtQpQgLFvfH66Z4R4wGZ19OSUA96RGRz5WWsH4/iatJdCpwZQ4WTWBlRT+++UUtROhUdGvJ+bk3IgRO7tNCHrAyktvrOqEimZu8GKblsCo6sv/Slc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vr88vFkL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 922442F5E;
-	Fri, 31 May 2024 10:07:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1717142853;
-	bh=NJ1SS7UPpmFxqwD9vqL/UO9bi5y2mskshhWmk+SaTF4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vr88vFkLqmyI5wedgmDgamn6Yhc5m5uq/az3Ui7FZW+y3bECaH3ugfmHuROuuMZ/w
-	 nLEkTtG7cI4nVKFR/KwME+Ifm9WTkxtkbYTHJ8inT6ngUZWF0ZqUEul21tNd4F0fcf
-	 /1I6tl8tTkMZJyi+jAPPGyP+++XVWpZziXsMofcY=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v9 8/8] media: admin-guide: Document the Raspberry Pi PiSP BE
-Date: Fri, 31 May 2024 10:07:07 +0200
-Message-ID: <20240531080707.34568-9-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240531080707.34568-1-jacopo.mondi@ideasonboard.com>
-References: <20240531080707.34568-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1717144606; c=relaxed/simple;
+	bh=TfQdA2XCPGkN/zEB747sTwVs1wSBXHbq/hbPTp30TYs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=gD5JYgRbTD8WZDlp8qp8CJsqrcFYEsKHZyePgx5lTOdCfcMW1uE+HHyInq3X2hbnlO9H7L3fKCw9ZZDulnYqRQrye26/AloU4dBZVx8ghlFP5ZkGxvdn4SWpK0ojRA3ZfJoIqEjxaEAF6C3u+BNpS9LRbnFbkDbY6MtavUPkiF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=meMAKXV6; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44V8aMR9042855;
+	Fri, 31 May 2024 03:36:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1717144582;
+	bh=S0ukmk1g2waDrHjd+R+8zkx4KdRvWUrWFxGLS+wgH5o=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=meMAKXV66h+EykWFPDoMgyrkHcRwg0+dFJ/xtgo6dy/5/lpt8EuwgxEeH80KIrnSG
+	 U940IDV5SC45+69YFr2knqGlDA+G9lN0oYWmsx5AYL2M74hR/3iaqCyPhvJg8TOfCf
+	 sK7vMOV9TYdPqU1Kx/Gd3bBUepEm8LLSZ9pPOv+E=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44V8aMc9051757
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 31 May 2024 03:36:22 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 31
+ May 2024 03:36:22 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 31 May 2024 03:36:22 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44V8aEXd052311;
+	Fri, 31 May 2024 03:36:14 -0500
+Message-ID: <7bed5792-db9d-3bc8-5325-7333076822e9@ti.com>
+Date: Fri, 31 May 2024 14:06:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 06/11] math.h: Add macros for rounding to closest
+ value
+Content-Language: en-US
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+        <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>, <laurent.pinchart@ideasonboard.com>,
+        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
+        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
+        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
+        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+References: <20240530165925.2715837-1-devarsht@ti.com>
+ <20240530171225.2749312-1-devarsht@ti.com>
+ <ZljRSXtXWdOyCJaB@smile.fi.intel.com>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <ZljRSXtXWdOyCJaB@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add documentation for the PiSP Back End memory-to-memory ISP.
+Hi Andy,
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- .../admin-guide/media/raspberrypi-pisp-be.dot |  20 ++++
- .../admin-guide/media/raspberrypi-pisp-be.rst | 109 ++++++++++++++++++
- .../admin-guide/media/v4l-drivers.rst         |   1 +
- 3 files changed, 130 insertions(+)
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
- create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
+Thanks for the review.
 
-diff --git a/Documentation/admin-guide/media/raspberrypi-pisp-be.dot b/Documentation/admin-guide/media/raspberrypi-pisp-be.dot
-new file mode 100644
-index 000000000000..55671dc1d443
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-pisp-be.dot
-@@ -0,0 +1,20 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port7> 7} | pispbe\n | {<port3> 3 | <port4> 4 | <port5> 5 | <port6> 6}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port3 -> n0000001c [style=bold]
-+	n00000001:port4 -> n00000022 [style=bold]
-+	n00000001:port5 -> n00000028 [style=bold]
-+	n00000001:port6 -> n0000002e [style=bold]
-+	n0000000a [label="pispbe-input\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n0000000a -> n00000001:port0 [style=bold]
-+	n00000010 [label="pispbe-tdn_input\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n00000010 -> n00000001:port1 [style=bold]
-+	n00000016 [label="pispbe-stitch_input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n00000016 -> n00000001:port2 [style=bold]
-+	n0000001c [label="pispbe-output0\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000022 [label="pispbe-output1\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000028 [label="pispbe-tdn_output\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-+	n0000002e [label="pispbe-stitch_output\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-+	n00000034 [label="pispbe-config\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-+	n00000034 -> n00000001:port7 [style=bold]
-+}
-diff --git a/Documentation/admin-guide/media/raspberrypi-pisp-be.rst b/Documentation/admin-guide/media/raspberrypi-pisp-be.rst
-new file mode 100644
-index 000000000000..0fcf46f26276
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-pisp-be.rst
-@@ -0,0 +1,109 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================================
-+Raspberry Pi PiSP Back End Memory-to-Memory ISP (pisp-be)
-+=========================================================
-+
-+The PiSP Back End
-+=================
-+
-+The PiSP Back End is a memory-to-memory Image Signal Processor (ISP) which reads
-+image data from DRAM memory and performs image processing as specified by the
-+application through the parameters in a configuration buffer, before writing
-+pixel data back to memory through two distinct output channels.
-+
-+The ISP registers and programming model are documented in the `Raspberry Pi
-+Image Signal Processor (PiSP) Specification document`_
-+
-+The PiSP Back End ISP processes images in tiles. The handling of image
-+tessellation and the computation of low-level configuration parameters is
-+realized by a free software library called `libpisp
-+<https://github.com/raspberrypi/libpisp>`_.
-+
-+The full image processing pipeline, which involves capturing RAW Bayer data from
-+an image sensor through a MIPI CSI-2 compatible capture interface, storing them
-+in DRAM memory and processing them in the PiSP Back End to obtain images usable
-+by an application is implemented in `libcamera <https://libcamera.org>`_ as
-+part of the Raspberry Pi platform support.
-+
-+The pisp-be driver
-+==================
-+
-+The Raspberry Pi PiSP Back End (pisp-be) driver is located under
-+drivers/media/platform/raspberrypi/pisp-be. It uses the `V4L2 API` to register
-+a number of video capture and output devices, the `V4L2 subdev API` to register
-+a subdevice for the ISP that connects the video devices in a single media graph
-+realized using the `Media Controller (MC) API`.
-+
-+The media topology registered by the `pisp-be` driver is represented below:
-+
-+.. _pips-be-topology:
-+
-+.. kernel-figure:: raspberrypi-pisp-be.dot
-+    :alt:   Diagram of the default media pipeline topology
-+    :align: center
-+
-+
-+The media graph registers the following video device nodes:
-+
-+- pispbe-input: output device for images to be submitted to the ISP for
-+  processing.
-+- pispbe-tdn_input: output device for temporal denoise.
-+- pispbe-stitch_input: output device for image stitching (HDR).
-+- pispbe-output0: first capture device for processed images.
-+- pispbe-output1: second capture device for processed images.
-+- pispbe-tdn_output: capture device for temporal denoise.
-+- pispbe-stitch_output: capture device for image stitching (HDR).
-+- pispbe-config: output device for ISP configuration parameters.
-+
-+pispbe-input
-+------------
-+
-+Images to be processed by the ISP are queued to the `pispbe-input` output device
-+node. For a list of image formats supported as input to the ISP refer to the
-+`Raspberry Pi Image Signal Processor (PiSP) Specification document`_.
-+
-+pispbe-tdn_input, pispbe-tdn_output
-+-----------------------------------
-+
-+The `pispbe-tdn_input` output video device receives images to be processed by
-+the temporal denoise block which are captured from the `pispbe-tdn_output`
-+capture video device. Userspace is responsible for maintaining queues on both
-+devices, and ensuring that buffers completed on the output are queued to the
-+input.
-+
-+pispbe-stitch_input, pispbe-stitch_output
-+-----------------------------------------
-+
-+To realize HDR (high dynamic range) image processing the image stitching and
-+tonemapping blocks are used. The `pispbe-stitch_output` writes images to memory
-+and the `pispbe-stitch_input` receives the previously written frame to process
-+it along with the current input image. Userspace is responsible for maintaining
-+queues on both devices, and ensuring that buffers completed on the output are
-+queued to the input.
-+
-+pispbe-output0, pispbe-output1
-+------------------------------
-+
-+The two capture devices write to memory the pixel data as processed by the ISP.
-+
-+pispbe-config
-+-------------
-+
-+The `pispbe-config` output video devices receives a buffer of configuration
-+parameters that define the desired image processing to be performed by the ISP.
-+
-+The format of the ISP configuration parameter is defined by
-+:c:type:`pisp_be_tiles_config` C structure and the meaning of each parameter is
-+described in the `Raspberry Pi Image Signal Processor (PiSP) Specification
-+document`_.
-+
-+ISP configuration
-+=================
-+
-+The ISP configuration is described solely by the content of the parameters
-+buffer. The only parameter that userspace needs to configure using the V4L2 API
-+is the image format on the output and capture video devices for validation of
-+the content of the parameters buffer.
-+
-+.. _Raspberry Pi Image Signal Processor (PiSP) Specification document: https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 4120eded9a13..b6af448b9fe9 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -23,6 +23,7 @@ Video4Linux (V4L) driver-specific documentation
- 	omap4_camera
- 	philips
- 	qcom_camss
-+	raspberrypi-pisp-be
- 	rcar-fdp1
- 	rkisp1
- 	saa7134
--- 
-2.45.1
+On 31/05/24 00:49, Andy Shevchenko wrote:
+> On Thu, May 30, 2024 at 10:42:25PM +0530, Devarsh Thakkar wrote:
+>> Add below rounding related macros:
+>>
+>> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+>> power of 2, with a preference to round up in case two nearest values are
+>> possible.
+>>
+>> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+>> power of 2, with a preference to round down in case two nearest values are
+>> possible.
+>>
+>> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+>> generally be used only when y is not multiple of 2 as otherwise
+>> round_closest* macros should be used which are much faster.
+>>
+>> Examples:
+>>  * round_closest_up(17, 4) = 16
+>>  * round_closest_up(15, 4) = 16
+>>  * round_closest_up(14, 4) = 16
+>>  * round_closest_down(17, 4) = 16
+>>  * round_closest_down(15, 4) = 16
+>>  * round_closest_down(14, 4) = 12
+>>  * roundclosest(21, 5) = 20
+>>  * roundclosest(19, 5) = 20
+>>  * roundclosest(17, 5) = 15
+> 
+> ...
+> 
+>> + * Examples :
+> 
+> It's inconsistent with the other one below.
+> 
+>> + * 	round_closest_up(17, 4) = 16
+>> + *
+>> + * 	round_closest_up(15, 4) = 16
+>> + *
+>> + * 	round_closest_up(14, 4) = 16
+> 
+> The three have TABs/spaces mixture.
+> 
+> I believe you wanted:
+> 
+>  * Examples::
+>  * * round_closest_up(17, 4) = 16
+>  * * round_closest_up(15, 4) = 16
+>  * * round_closest_up(14, 4) = 16
+> 
 
+I initially referred the style from this link [1] but probably missed to
+remove extra space from my patch.
+
+But what you suggested looks better, I will go with what you suggested.
+
+[1]  https://elixir.bootlin.com/linux/v6.9/source/include/linux/int_log.h#L22
+
+Regards
+Devarsh
 
