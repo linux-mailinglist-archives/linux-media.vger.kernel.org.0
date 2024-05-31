@@ -1,75 +1,78 @@
-Return-Path: <linux-media+bounces-12358-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12359-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9898D8D67CE
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 19:11:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBBC8D67D0
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 19:11:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F53C28B3AB
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 17:11:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 734881C27928
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 17:11:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4EA917622F;
-	Fri, 31 May 2024 17:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E50176ABA;
+	Fri, 31 May 2024 17:11:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KMMCiI8N"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Mf/W5Md7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E42156242
-	for <linux-media@vger.kernel.org>; Fri, 31 May 2024 17:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B964156242;
+	Fri, 31 May 2024 17:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717175454; cv=none; b=ELj8AU9YGnevJR1fmq3Cu2jUm85f/zah0nAH5cLSA0Bwr1Jb0OQyw9RC2rfnk8HVXnqKZ2IgQTjcd2np+219+URrcsBUGbHD9HGrcRBwUVBRfA5GiFIuyOKWvTqITixYvVZwuKvyItp02QGo/4IxSpSBlygX/423egJZOSIOfsQ=
+	t=1717175481; cv=none; b=TJJ6CC1Ott6xCcLAJvvuqAMYvBAuKWTMQJwMOuSrLscXGLXGvYGNfbDeKIRZZA4mAwLnDkxxDPd0L0H7Lc8PoR8yRDyljgit0evqXbKAK3hck8JNiOBHR3Xq8i11rD73Sf22Ih4OdJVwnIq9wo9IMWeLRjr12RDXblvOIBzh+4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717175454; c=relaxed/simple;
-	bh=N6qa+kfndNrV7gqeMAv/+q4hO6RYMoB+kq1ym+4/fUY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OXRy9k5b33yv+iRd46WeHiDXe6sSjYrGhg6wRBY0r4FXx1KyquY1mNPY+hxotSZPou5Oy8/IPgWTYx5QAv5faE0qwbkal6UFFL60PeMhAPO0GfkdKpPSRLJNoiKIp22SB3zGhcfYa8vImnN3hVuWp9yplg6bHtYHvbs6UZ28DiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KMMCiI8N; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ff6fe215c6so2003507b3a.3
-        for <linux-media@vger.kernel.org>; Fri, 31 May 2024 10:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717175452; x=1717780252; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mlDtETBlTaH/Q4K2CVmdTG0C4WkeW/ty0+cGsmxryBs=;
-        b=KMMCiI8NzccCONH+ymz+bUeAMUNwcDDMTf5SRg9lzIHHu4AaI2TCT6iC1Eol3l0lw5
-         pmlkaiGX1W91Ly+CwT+x+aZ7U+rFzUZk9zcc+rCaRcW9xLlMk94wU2j5n2Mz1OzmeCO0
-         PbW8/51Jc+rxyegU5VGKpLoWRvXnGBu/Xr8/w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717175452; x=1717780252;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mlDtETBlTaH/Q4K2CVmdTG0C4WkeW/ty0+cGsmxryBs=;
-        b=rgD3CQ5BUKzeJYTDVgf5GJ9BsQbBjGLJFP69r+u2RxwktDFg4X+czikNj5L7cjvvWq
-         20Lttvd7w6BEQmRdd1iXHI2dfkobWIg/FXlNeQ8OYT3OmVRMdm/h6INaGbOySnnapky/
-         iXRQH2iir1quWbfrJAhSN3eF0fD440oQqUwMOyX7bM4iuwsbuGQPeiiT/dIZd7hfZ3iR
-         H6hkBH2ReVCjcU61jBvjQ2joDyI0LbrxfWDoZlwu/8PLgmP0YE+9qZrJQLY1VaqKITDU
-         FxqPHXbVk12wE6kzSuPlExRgvoN2N8h+QGaqKGdT9X2Avgv4lwaDirzU3CiGk/Wv3WSG
-         SiaQ==
-X-Gm-Message-State: AOJu0Yx+CSEwdun9l3WXGwWry/8ruNMYX/J/97Zeh4Mufzx1C28JMTz5
-	EcmNDbH6aiPdQfYPOefhUQpcaeOLxjQDTLuT7VmrzFZtit8bzTgdc57071mFCl7B3U2JbgEDrUc
-	=
-X-Google-Smtp-Source: AGHT+IFfbp2on6Pwj+GvgarOHcDAMIqwASsvft9Tg0HY4+b/w5Ua/Jg9tSkx4MQpe9RfKR8rEu7Ogg==
-X-Received: by 2002:a05:6a20:158b:b0:1b0:1916:92dd with SMTP id adf61e73a8af0-1b26f16e876mr3253592637.5.1717175451673;
-        Fri, 31 May 2024 10:10:51 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e13:6:fe8d:d958:bcaf:8db9])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-70242aec951sm1681525b3a.103.2024.05.31.10.10.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 May 2024 10:10:51 -0700 (PDT)
-From: Fritz Koenig <frkoenig@chromium.org>
-To: linux-media@vger.kernel.org
-Cc: mchehab@kernel.org,
-	Fritz Koenig <frkoenig@chromium.org>
-Subject: [PATCH v2] Documentation: Fix AV1 struct documentation
-Date: Fri, 31 May 2024 10:10:06 -0700
-Message-ID: <20240531171005.2509859-3-frkoenig@chromium.org>
-X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
+	s=arc-20240116; t=1717175481; c=relaxed/simple;
+	bh=KzlT+5InLWpHZxlQT2zKkjaiINnpWnuXY+KHn2mpunk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CvvDwpdrPf0srIWBi7/xVNNXGUG4LWvMFjoW2H0IaJgmpkxSKRk4YewtqCzAPwzWVc4sz0ya/tWH/3s5BvgmTLJBBy4lzXQzmW4aAmLIax+1myrp5diz5ZD1nYttvhX23KiQKqKIF3VyFMCw8+UrjYX777cfnDT4NL66QRMJAm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Mf/W5Md7; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44VHB4Lb055609;
+	Fri, 31 May 2024 12:11:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1717175464;
+	bh=C/gS8PcW18WiTFdp+AvzAMjJftH6gZ+FtjqwmJi1+/w=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=Mf/W5Md7i8EUdgqg6vvqe9j1d55H0Kk9kXyx7xKFnQxMd6iCYBc7CHYWokeGoFVD9
+	 BYCCXcvy7I3k9AFzWZZGunCAilOeAutv8uVew8Zx26om1LEliD7igIN2sDnCdsDnqq
+	 REMIX9i7ipeC9doVB5dW14QhNEXteKQJVyf1AnXs=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44VHB4DO022655
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 31 May 2024 12:11:04 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 31
+ May 2024 12:11:04 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 31 May 2024 12:11:03 -0500
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44VHB3OI071358;
+	Fri, 31 May 2024 12:11:03 -0500
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+        <ezequiel@vanguardiasur.com.ar>, <p.zabel@pengutronix.de>,
+        <linux-rockchip@lists.infradead.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
+        <nicolas@ndufresne.ca>
+Subject: [PATCH v11 05/11] media: verisilicon : Use exported tables from v4l2-jpeg for hantro codec
+Date: Fri, 31 May 2024 22:41:02 +0530
+Message-ID: <20240531171102.1292423-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20240531170229.1270828-1-devarsht@ti.com>
+References: <20240531170229.1270828-1-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,93 +80,221 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-- v4l2_av1_segmentation table formatting
-- incorrect member name uv_sec_strength
-- incorrect struct name v4l2_av1_global_motion
-- incorrect link label for v4l2_av1_loop_filter
-- add max_frame_height_minus_1
-- struct ordering
+Use v4l2-jpeg core API to import reference quantization and huffman tables
+used for JPEG Encoding.
 
-Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
-V2:
-- add max_frame_height_minus_1
-- struct ordering
+V11: No change
+V10: Fix typo in commit message title
+V9: No change
+V8: Add Reviewed-by and Acked-by tags
+V1->V6 (No change, patch introduced in V7)
+---
+ .../media/platform/verisilicon/hantro_jpeg.c  | 128 ++----------------
+ 1 file changed, 14 insertions(+), 114 deletions(-)
 
- .../media/v4l/ext-ctrls-codec-stateless.rst   | 20 +++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-index 786127b1e206..8eb337b3cb00 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-@@ -2993,7 +2993,11 @@ This structure contains all loop filter related parameters. See sections
-       - Applications and drivers must set this to zero.
-     * - __u16
-       - ``max_frame_width_minus_1``
--      - specifies the maximum frame width minus 1 for the frames represented by
-+      - Specifies the maximum frame width minus 1 for the frames represented by
-+        this sequence header.
-+    * - __u16
-+      - ``max_frame_height_minus_1``
-+      - Specifies the maximum frame height minus 1 for the frames represented by
-         this sequence header.
+diff --git a/drivers/media/platform/verisilicon/hantro_jpeg.c b/drivers/media/platform/verisilicon/hantro_jpeg.c
+index d07b1b449b61..fa4e8ee92c05 100644
+--- a/drivers/media/platform/verisilicon/hantro_jpeg.c
++++ b/drivers/media/platform/verisilicon/hantro_jpeg.c
+@@ -11,6 +11,7 @@
+ #include <linux/build_bug.h>
+ #include <linux/kernel.h>
+ #include <linux/string.h>
++#include <media/v4l2-jpeg.h>
+ #include "hantro_jpeg.h"
+ #include "hantro.h"
  
- .. _av1_sequence_flags:
-@@ -3374,7 +3378,7 @@ semantics" of :ref:`av1`.
-       - ``uv_pri_strength[V4L2_AV1_CDEF_MAX]``
-       -  Specifies the strength of the primary filter.
-     * - __u8
--      - ``uv_secondary_strength[V4L2_AV1_CDEF_MAX]``
-+      - ``uv_sec_strength[V4L2_AV1_CDEF_MAX]``
-       -  Specifies the strength of the secondary filter.
+@@ -24,42 +25,6 @@
+ #define HUFF_CHROMA_DC_OFF	394
+ #define HUFF_CHROMA_AC_OFF	427
  
- .. c:type:: v4l2_av1_segment_feature
-@@ -3439,7 +3443,7 @@ semantics" of :ref:`av1`.
-       - Bitmask defining which features are enabled in each segment. Use
-         V4L2_AV1_SEGMENT_FEATURE_ENABLED to build a suitable mask.
-     * - __u16
--      - `feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX]``
-+      - ``feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX]``
-       -  Data attached to each feature. Data entry is only valid if the feature
-          is enabled.
+-/* Default tables from JPEG ITU-T.81
+- * (ISO/IEC 10918-1) Annex K, tables K.1 and K.2
+- */
+-static const unsigned char luma_q_table[] = {
+-	0x10, 0x0b, 0x0a, 0x10, 0x18, 0x28, 0x33, 0x3d,
+-	0x0c, 0x0c, 0x0e, 0x13, 0x1a, 0x3a, 0x3c, 0x37,
+-	0x0e, 0x0d, 0x10, 0x18, 0x28, 0x39, 0x45, 0x38,
+-	0x0e, 0x11, 0x16, 0x1d, 0x33, 0x57, 0x50, 0x3e,
+-	0x12, 0x16, 0x25, 0x38, 0x44, 0x6d, 0x67, 0x4d,
+-	0x18, 0x23, 0x37, 0x40, 0x51, 0x68, 0x71, 0x5c,
+-	0x31, 0x40, 0x4e, 0x57, 0x67, 0x79, 0x78, 0x65,
+-	0x48, 0x5c, 0x5f, 0x62, 0x70, 0x64, 0x67, 0x63
+-};
+-
+-static const unsigned char chroma_q_table[] = {
+-	0x11, 0x12, 0x18, 0x2f, 0x63, 0x63, 0x63, 0x63,
+-	0x12, 0x15, 0x1a, 0x42, 0x63, 0x63, 0x63, 0x63,
+-	0x18, 0x1a, 0x38, 0x63, 0x63, 0x63, 0x63, 0x63,
+-	0x2f, 0x42, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
+-	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
+-	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
+-	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
+-	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63
+-};
+-
+-static const unsigned char zigzag[] = {
+-	 0,  1,  8, 16,  9,  2,  3, 10,
+-	17, 24, 32, 25, 18, 11,  4,  5,
+-	12, 19, 26, 33, 40, 48, 41, 34,
+-	27, 20, 13,  6,  7, 14, 21, 28,
+-	35, 42, 49, 56, 57, 50, 43, 36,
+-	29, 22, 15, 23, 30, 37, 44, 51,
+-	58, 59, 52, 45, 38, 31, 39, 46,
+-	53, 60, 61, 54, 47, 55, 62, 63
+-};
+-
+ static const u32 hw_reorder[] = {
+ 	 0,  8, 16, 24,  1,  9, 17, 25,
+ 	32, 40, 48, 56, 33, 41, 49, 57,
+@@ -71,73 +36,6 @@ static const u32 hw_reorder[] = {
+ 	38, 46, 54, 62, 39, 47, 55, 63
+ };
  
-@@ -3490,7 +3494,7 @@ AV1 Loop filter params as defined in section 6.8.10 "Loop filter semantics" of
+-/* Huffman tables are shared with CODA */
+-static const unsigned char luma_dc_table[] = {
+-	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+-	0x08, 0x09, 0x0a, 0x0b,
+-};
+-
+-static const unsigned char chroma_dc_table[] = {
+-	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+-	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+-	0x08, 0x09, 0x0a, 0x0b,
+-};
+-
+-static const unsigned char luma_ac_table[] = {
+-	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
+-	0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7d,
+-	0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
+-	0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
+-	0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xa1, 0x08,
+-	0x23, 0x42, 0xb1, 0xc1, 0x15, 0x52, 0xd1, 0xf0,
+-	0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0a, 0x16,
+-	0x17, 0x18, 0x19, 0x1a, 0x25, 0x26, 0x27, 0x28,
+-	0x29, 0x2a, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
+-	0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49,
+-	0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
+-	0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
+-	0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79,
+-	0x7a, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89,
+-	0x8a, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98,
+-	0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7,
+-	0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6,
+-	0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3, 0xc4, 0xc5,
+-	0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2, 0xd3, 0xd4,
+-	0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe1, 0xe2,
+-	0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea,
+-	0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
+-	0xf9, 0xfa,
+-};
+-
+-static const unsigned char chroma_ac_table[] = {
+-	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
+-	0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77,
+-	0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
+-	0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
+-	0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91,
+-	0xa1, 0xb1, 0xc1, 0x09, 0x23, 0x33, 0x52, 0xf0,
+-	0x15, 0x62, 0x72, 0xd1, 0x0a, 0x16, 0x24, 0x34,
+-	0xe1, 0x25, 0xf1, 0x17, 0x18, 0x19, 0x1a, 0x26,
+-	0x27, 0x28, 0x29, 0x2a, 0x35, 0x36, 0x37, 0x38,
+-	0x39, 0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
+-	0x49, 0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58,
+-	0x59, 0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
+-	0x69, 0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
+-	0x79, 0x7a, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
+-	0x88, 0x89, 0x8a, 0x92, 0x93, 0x94, 0x95, 0x96,
+-	0x97, 0x98, 0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5,
+-	0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4,
+-	0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3,
+-	0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2,
+-	0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda,
+-	0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9,
+-	0xea, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
+-	0xf9, 0xfa,
+-};
+-
+ /* For simplicity, we keep a pre-formatted JPEG header,
+  * and we'll use fixed offsets to change the width, height
+  * quantization tables, etc.
+@@ -291,10 +189,11 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
+ 		       const unsigned char *tab, int scale)
+ {
+ 	int i;
++	const u8 *zigzag;
  
- .. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
+-	BUILD_BUG_ON(ARRAY_SIZE(zigzag) != JPEG_QUANT_SIZE);
+ 	BUILD_BUG_ON(ARRAY_SIZE(hw_reorder) != JPEG_QUANT_SIZE);
  
--.. flat-table:: struct v4l2_av1_global_motion
-+.. flat-table:: struct v4l2_av1_loop_filter
-     :header-rows:  0
-     :stub-columns: 0
-     :widths:       1 1 2
-@@ -3806,12 +3810,12 @@ AV1 Tx mode as described in section 6.8.21 "TX mode semantics" of :ref:`av1`.
-     * - struct :c:type:`v4l2_av1_quantization`
-       - ``quantization``
-       - Quantization parameters.
--    * - struct :c:type:`v4l2_av1_segmentation`
--      - ``segmentation``
--      - Segmentation parameters.
-     * - __u8
-       - ``superres_denom``
-       - The denominator for the upscaling ratio.
-+    * - struct :c:type:`v4l2_av1_segmentation`
-+      - ``segmentation``
-+      - Segmentation parameters.
-     * - struct :c:type:`v4l2_av1_loop_filter`
-       - ``loop_filter``
-       - Loop filter params
-@@ -3829,7 +3833,7 @@ AV1 Tx mode as described in section 6.8.21 "TX mode semantics" of :ref:`av1`.
-     * - struct :c:type:`v4l2_av1_loop_restoration`
-       - ``loop_restoration``
-       - Loop restoration parameters.
--    * - struct :c:type:`v4l2_av1_loop_global_motion`
-+    * - struct :c:type:`v4l2_av1_global_motion`
-       - ``global_motion``
-       - Global motion parameters.
-     * - __u32
++	v4l2_jpeg_get_zig_zag_scan(&zigzag);
+ 	for (i = 0; i < JPEG_QUANT_SIZE; i++) {
+ 		file_q_tab[i] = jpeg_scale_qp(tab[zigzag[i]], scale);
+ 		reordered_q_tab[i] = jpeg_scale_qp(tab[hw_reorder[i]], scale);
+@@ -304,6 +203,7 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
+ static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
+ {
+ 	int scale;
++	const u8 *luma_q_table, *chroma_q_table;
+ 
+ 	/*
+ 	 * Non-linear scaling factor:
+@@ -314,21 +214,23 @@ static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
+ 	else
+ 		scale = 200 - 2 * ctx->quality;
+ 
+-	BUILD_BUG_ON(ARRAY_SIZE(luma_q_table) != JPEG_QUANT_SIZE);
+-	BUILD_BUG_ON(ARRAY_SIZE(chroma_q_table) != JPEG_QUANT_SIZE);
+ 	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_luma_qtable) != JPEG_QUANT_SIZE);
+ 	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_chroma_qtable) != JPEG_QUANT_SIZE);
+ 
++	v4l2_jpeg_get_reference_quantization_tables(&luma_q_table, &chroma_q_table);
+ 	jpeg_scale_quant_table(ctx->buffer + LUMA_QUANT_OFF,
+-			       ctx->hw_luma_qtable, luma_q_table, scale);
++			       ctx->hw_luma_qtable, (const unsigned char *)luma_q_table, scale);
+ 	jpeg_scale_quant_table(ctx->buffer + CHROMA_QUANT_OFF,
+-			       ctx->hw_chroma_qtable, chroma_q_table, scale);
++			       ctx->hw_chroma_qtable, (const unsigned char *)chroma_q_table, scale);
+ }
+ 
+ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
+ {
+ 	char *buf = ctx->buffer;
++	const u8 *luma_dc_table, *chroma_dc_table, *luma_ac_table, *chroma_ac_table;
+ 
++	v4l2_jpeg_get_reference_huffman_tables(&luma_dc_table,  &luma_ac_table, &chroma_dc_table,
++					       &chroma_ac_table);
+ 	memcpy(buf, hantro_jpeg_header,
+ 	       sizeof(hantro_jpeg_header));
+ 
+@@ -337,12 +239,10 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
+ 	buf[WIDTH_OFF + 0] = ctx->width >> 8;
+ 	buf[WIDTH_OFF + 1] = ctx->width;
+ 
+-	memcpy(buf + HUFF_LUMA_DC_OFF, luma_dc_table, sizeof(luma_dc_table));
+-	memcpy(buf + HUFF_LUMA_AC_OFF, luma_ac_table, sizeof(luma_ac_table));
+-	memcpy(buf + HUFF_CHROMA_DC_OFF, chroma_dc_table,
+-	       sizeof(chroma_dc_table));
+-	memcpy(buf + HUFF_CHROMA_AC_OFF, chroma_ac_table,
+-	       sizeof(chroma_ac_table));
++	memcpy(buf + HUFF_LUMA_DC_OFF, luma_dc_table, V4L2_JPEG_REF_HT_DC_LEN);
++	memcpy(buf + HUFF_LUMA_AC_OFF, luma_ac_table, V4L2_JPEG_REF_HT_AC_LEN);
++	memcpy(buf + HUFF_CHROMA_DC_OFF, chroma_dc_table, V4L2_JPEG_REF_HT_DC_LEN);
++	memcpy(buf + HUFF_CHROMA_AC_OFF, chroma_ac_table, V4L2_JPEG_REF_HT_AC_LEN);
+ 
+ 	jpeg_set_quality(ctx);
+ }
 -- 
-2.45.1.288.g0e0cd299f1-goog
+2.39.1
 
 
