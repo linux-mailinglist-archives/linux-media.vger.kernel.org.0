@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-12368-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12369-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E041C8D684E
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 19:43:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E418D6855
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 19:44:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6171828ABC5
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 17:43:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A256E1F28B91
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 17:44:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3455917C7D3;
-	Fri, 31 May 2024 17:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 503A917C223;
+	Fri, 31 May 2024 17:44:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezI5Syhq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jnTil/6J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A931E4AD;
-	Fri, 31 May 2024 17:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF7E1E4AD;
+	Fri, 31 May 2024 17:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717177377; cv=none; b=HCEKMEbG06fWd/sC5eEiGzzPyuF++CZASqg/aE3zKZO+554ZKZMoj5fTr7CckSX5vSUmK15tnI9I0o0EqGRMWkRLRBLzmrYgXc6zoGnL3V8GY42jF/+358m8qUWrYOOIaKhZo5bnYQ/wATISaHt6HxfjY8S6cZ5URjh20nn3Fg0=
+	t=1717177440; cv=none; b=Sn/jJSCLHfVMXiQ0jxohSibG05fpH1GnKKqQAmEE7mPS5xDBKEzRPvwzK5r5F7aLfgPUrROXOzF7GoGEfF/aIln11Hfag7RP8/JigrlOkOklLXsYsn4gUwRXdLAftLaexgCRniafPqmpiq7D14J2qAgYDFcO3WvxzPcF8A5FnwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717177377; c=relaxed/simple;
-	bh=3KEhrfextvC5rwr5916NhC2mHXO/ytPVGMei+vC/RAg=;
+	s=arc-20240116; t=1717177440; c=relaxed/simple;
+	bh=/Eq6jjMTe5hXojK4Xe9QdTwxwjf55ce8NuTAKC3uO8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OKoSufeJZAqaotC9herBnkgpbd6z0InEuYj8mamzGloteWK90GQjrsJviARHbdbocqb5T7Oz5nDBtupZKMupYawpecM8LRNoZjCOiYm1TqfEp5mmtOW6juUZydpPh2mdKFlquu3TYfmMZy1xkC1F64TfnFk7sukLKEPrOZ+RvIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezI5Syhq; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=R/YcFEjdcPZ4UUHOGaRKCQhKfpdCnf1KBNj1v1Fy2/3Mfb2AsgtKXaw/s0QCloKj6O+xVORRRXSJLBfUkNTPLEkc4E/JCLnngs9cj1XbGiYfpdJv1lpFga8jxBXrp3n0YmE1H3MkXGk/2q+tx/KT0Z0VTMiv/BOaXakG5zbI0zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jnTil/6J; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717177376; x=1748713376;
+  t=1717177439; x=1748713439;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3KEhrfextvC5rwr5916NhC2mHXO/ytPVGMei+vC/RAg=;
-  b=ezI5SyhqB26IuRxOqYfJ+DRbDGcYLyJU1cfz02MXDddGaTqQU08fsEZv
-   DxYYrMkkF4kaxK6DcVsRYqg/7H4/JmOqjdOn2nrkv6EMoU/43devXlRh7
-   rKq+/vbF0+9mhVFS4skC1eVCYprayyPVwsYc3X0A29QTI6pigOstsUM7r
-   JEmNDekhE6OHjmUef28MlSKgZPBYg5AiM8JBtDvI+rK+Xj5No/iAvLZ04
-   9Rhxn2isisZngli3C+SJXf35vm+H/s+YU7Cnov8IruQDtPQtle5btdkWD
-   MVH3QeqA1jgkKhIhgWKUYOR/LYfMVYupVlkyI7U2dV4NJyQZjbJ23GOgM
+  bh=/Eq6jjMTe5hXojK4Xe9QdTwxwjf55ce8NuTAKC3uO8k=;
+  b=jnTil/6JrhZzlASMqklClcMUKB84u2AYAcItXCRCj+lJzwUFE7I90n4L
+   Dnie+E8Ujq2m7+NN7BiSWJHul+8jt5piFw+FIxJ9Md9cTBLfkyQ9W5gVe
+   Bu6bNivLfzGXW8wN8b3GBQ9Mpry+p2g77CWzF46EVCloDt836hJthJPbF
+   tw4i/UBEiFOzze8jOXSAAea9VMWKuSBKgJbNYgMZicU1JoxaZzURNypUD
+   q8k4qaKD4ihtiX2hcmo/EzfP4QgcNIrAa54D1NpTFS3q/jmcdwE3rH7Gx
+   CA5xFEMEasRmB0wQh8L+n2ctq7UfFT/1UIHtIs5E/NVarHx0Byz5chJ1s
    Q==;
-X-CSE-ConnectionGUID: ngLklXjdRASCnbKdFuMf0w==
-X-CSE-MsgGUID: Qbp1SOUuRECuwm7pEdjs7Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="24307803"
+X-CSE-ConnectionGUID: T92O5okWQW2phqRfuQKevQ==
+X-CSE-MsgGUID: c5ihQazCQPGkpTGxufL9Cg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13855802"
 X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
-   d="scan'208";a="24307803"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:42:55 -0700
-X-CSE-ConnectionGUID: 6CJF/SC+TdyRV/1op7y8+w==
-X-CSE-MsgGUID: 1zmOFBwkRO6RzSK5//qJew==
+   d="scan'208";a="13855802"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:43:58 -0700
+X-CSE-ConnectionGUID: lK8G+GTRTF+gVjFfnTGmJA==
+X-CSE-MsgGUID: uim22wo1SxuBhmVGD/DkIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
-   d="scan'208";a="36247877"
+   d="scan'208";a="41307335"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:42:49 -0700
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:43:51 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.97)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sD6H8-0000000CXbb-0lgH;
-	Fri, 31 May 2024 20:42:46 +0300
-Date: Fri, 31 May 2024 20:42:45 +0300
+	id 1sD6I7-0000000CXcT-340d;
+	Fri, 31 May 2024 20:43:47 +0300
+Date: Fri, 31 May 2024 20:43:47 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Devarsh Thakkar <devarsht@ti.com>
 Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -76,11 +76,11 @@ Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
 	detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
 	andrzej.p@collabora.com, nicolas@ndufresne.ca, davidgow@google.com,
 	dlatypov@google.com
-Subject: Re: [PATCH v11 06/11] math.h: Add macros for rounding to closest
- value
-Message-ID: <ZloMFfGKLry6EWNL@smile.fi.intel.com>
+Subject: Re: [PATCH v11 09/11] lib: math_kunit: Add tests for new macros
+ related to rounding to nearest value
+Message-ID: <ZloMU7U1ef1KG3QH@smile.fi.intel.com>
 References: <20240531170229.1270828-1-devarsht@ti.com>
- <20240531171136.1293905-1-devarsht@ti.com>
+ <20240531171628.1306389-1-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,38 +89,27 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240531171136.1293905-1-devarsht@ti.com>
+In-Reply-To: <20240531171628.1306389-1-devarsht@ti.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, May 31, 2024 at 10:41:36PM +0530, Devarsh Thakkar wrote:
-> Add below rounding related macros:
+On Fri, May 31, 2024 at 10:46:28PM +0530, Devarsh Thakkar wrote:
+> Add tests for round_closest_up/down and roundclosest macros which round
+> to nearest multiple of specified argument. These are tested with kunit
+> tool as shared here [1].
 > 
-> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round up in case two nearest values are
-> possible.
-> 
-> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round down in case two nearest values are
-> possible.
-> 
-> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
-> generally be used only when y is not multiple of 2 as otherwise
-> round_closest* macros should be used which are much faster.
-> 
-> Examples:
->  * round_closest_up(17, 4) = 16
->  * round_closest_up(15, 4) = 16
->  * round_closest_up(14, 4) = 16
->  * round_closest_down(17, 4) = 16
->  * round_closest_down(15, 4) = 16
->  * round_closest_down(14, 4) = 12
->  * roundclosest(21, 5) = 20
->  * roundclosest(19, 5) = 20
->  * roundclosest(17, 5) = 15
+> [1]: https://gist.github.com/devarsht/3f9042825be3da4e133b8f4eda067876
 
-I don't know the estimation on how these will really useful or not, but I'm not
-objecting if people think it's needed API.
+Make it a tag...
 
+> 
+
+...here
+
+Link: ... [1]
+
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+
+With the same caveat as per patch 1,
 Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 -- 
