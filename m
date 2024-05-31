@@ -1,77 +1,75 @@
-Return-Path: <linux-media+bounces-12357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532348D67CB
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 19:11:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9898D8D67CE
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 19:11:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 05DC4287F64
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 17:11:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F53C28B3AB
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 17:11:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DCC717CA1A;
-	Fri, 31 May 2024 17:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4EA917622F;
+	Fri, 31 May 2024 17:10:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Bh5TPotG"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KMMCiI8N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9C617CA03;
-	Fri, 31 May 2024 17:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E42156242
+	for <linux-media@vger.kernel.org>; Fri, 31 May 2024 17:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717175417; cv=none; b=TcxYNA4cjCQJKkbygUEt3LpMSCREpKSHzblE6XAlJKC0TVOhjGB2r96hCfwYv2VcweT90tqmeRJeZJj1IbZFaZLQ1rIGGWEuRUOrpDIsvJW8Xy7DEM+4caiE4kjgkni8f2hw0qBq/Ga7u3p9Gn5gV7iqJ2K0BmsQQUel4eva5UU=
+	t=1717175454; cv=none; b=ELj8AU9YGnevJR1fmq3Cu2jUm85f/zah0nAH5cLSA0Bwr1Jb0OQyw9RC2rfnk8HVXnqKZ2IgQTjcd2np+219+URrcsBUGbHD9HGrcRBwUVBRfA5GiFIuyOKWvTqITixYvVZwuKvyItp02QGo/4IxSpSBlygX/423egJZOSIOfsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717175417; c=relaxed/simple;
-	bh=2cTm2yhAWzwDCRr/9Ks+LpmNeAQA4vSnJdB/a+lMses=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O4TnuiHEQDLRlXNlHsZ/99TseLIYzB6JywziXUArp2/EYqGvVIPzoQHP3WcOi3MGqdlMyM8m4U0Y/ey7wQYDaY5pBQVmfGLO8ZBofx0GgZZ0DaY2odxDjMtDfqkaK0TtK7/ul2E+g+vk7yVVM7dWzPb0EGxcimQ2zJs9m+AFNnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Bh5TPotG; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44VH9xUd037042;
-	Fri, 31 May 2024 12:09:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717175399;
-	bh=VF974qXaRJM/YTTLCc3RBtGV16MuNeKd5eSqV3lCUNU=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=Bh5TPotGFjnaKjjDdJk4Qr2gmSoMDGae2/VBGCmyay4qIfW92sHrtSYeOMIwHws3A
-	 MP/aR2cd4ISfuk0cEQ1XLyecp/0rxz6xluyAnrLw4qhdNuhdgeODMeegpgQ3SH8hRv
-	 qWRXhBNUmjwDS7bBSEmzR9ATiqTqbZXEo2sE08lE=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44VH9xkj114912
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 31 May 2024 12:09:59 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 31
- May 2024 12:09:59 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 31 May 2024 12:09:59 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44VH9woQ068563;
-	Fri, 31 May 2024 12:09:59 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <ezequiel@vanguardiasur.com.ar>,
-        <p.zabel@pengutronix.de>, <linux-rockchip@lists.infradead.org>
-Subject: [PATCH v11 04/11] media: imagination: Use exported tables from v4l2-jpeg core
-Date: Fri, 31 May 2024 22:39:58 +0530
-Message-ID: <20240531170958.1289690-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240531170229.1270828-1-devarsht@ti.com>
-References: <20240531170229.1270828-1-devarsht@ti.com>
+	s=arc-20240116; t=1717175454; c=relaxed/simple;
+	bh=N6qa+kfndNrV7gqeMAv/+q4hO6RYMoB+kq1ym+4/fUY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OXRy9k5b33yv+iRd46WeHiDXe6sSjYrGhg6wRBY0r4FXx1KyquY1mNPY+hxotSZPou5Oy8/IPgWTYx5QAv5faE0qwbkal6UFFL60PeMhAPO0GfkdKpPSRLJNoiKIp22SB3zGhcfYa8vImnN3hVuWp9yplg6bHtYHvbs6UZ28DiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KMMCiI8N; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ff6fe215c6so2003507b3a.3
+        for <linux-media@vger.kernel.org>; Fri, 31 May 2024 10:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1717175452; x=1717780252; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mlDtETBlTaH/Q4K2CVmdTG0C4WkeW/ty0+cGsmxryBs=;
+        b=KMMCiI8NzccCONH+ymz+bUeAMUNwcDDMTf5SRg9lzIHHu4AaI2TCT6iC1Eol3l0lw5
+         pmlkaiGX1W91Ly+CwT+x+aZ7U+rFzUZk9zcc+rCaRcW9xLlMk94wU2j5n2Mz1OzmeCO0
+         PbW8/51Jc+rxyegU5VGKpLoWRvXnGBu/Xr8/w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717175452; x=1717780252;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mlDtETBlTaH/Q4K2CVmdTG0C4WkeW/ty0+cGsmxryBs=;
+        b=rgD3CQ5BUKzeJYTDVgf5GJ9BsQbBjGLJFP69r+u2RxwktDFg4X+czikNj5L7cjvvWq
+         20Lttvd7w6BEQmRdd1iXHI2dfkobWIg/FXlNeQ8OYT3OmVRMdm/h6INaGbOySnnapky/
+         iXRQH2iir1quWbfrJAhSN3eF0fD440oQqUwMOyX7bM4iuwsbuGQPeiiT/dIZd7hfZ3iR
+         H6hkBH2ReVCjcU61jBvjQ2joDyI0LbrxfWDoZlwu/8PLgmP0YE+9qZrJQLY1VaqKITDU
+         FxqPHXbVk12wE6kzSuPlExRgvoN2N8h+QGaqKGdT9X2Avgv4lwaDirzU3CiGk/Wv3WSG
+         SiaQ==
+X-Gm-Message-State: AOJu0Yx+CSEwdun9l3WXGwWry/8ruNMYX/J/97Zeh4Mufzx1C28JMTz5
+	EcmNDbH6aiPdQfYPOefhUQpcaeOLxjQDTLuT7VmrzFZtit8bzTgdc57071mFCl7B3U2JbgEDrUc
+	=
+X-Google-Smtp-Source: AGHT+IFfbp2on6Pwj+GvgarOHcDAMIqwASsvft9Tg0HY4+b/w5Ua/Jg9tSkx4MQpe9RfKR8rEu7Ogg==
+X-Received: by 2002:a05:6a20:158b:b0:1b0:1916:92dd with SMTP id adf61e73a8af0-1b26f16e876mr3253592637.5.1717175451673;
+        Fri, 31 May 2024 10:10:51 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e13:6:fe8d:d958:bcaf:8db9])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-70242aec951sm1681525b3a.103.2024.05.31.10.10.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 May 2024 10:10:51 -0700 (PDT)
+From: Fritz Koenig <frkoenig@chromium.org>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+	Fritz Koenig <frkoenig@chromium.org>
+Subject: [PATCH v2] Documentation: Fix AV1 struct documentation
+Date: Fri, 31 May 2024 10:10:06 -0700
+Message-ID: <20240531171005.2509859-3-frkoenig@chromium.org>
+X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,218 +77,93 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Use exported huffman and quantization tables from v4l2-jpeg core library.
+- v4l2_av1_segmentation table formatting
+- incorrect member name uv_sec_strength
+- incorrect struct name v4l2_av1_global_motion
+- incorrect link label for v4l2_av1_loop_filter
+- add max_frame_height_minus_1
+- struct ordering
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
 ---
-V11: No change
-V10: No change
-V1->V9 (No change, patch introduced in V7)
----
- .../platform/imagination/e5010-jpeg-enc.c     | 140 +++---------------
- 1 file changed, 19 insertions(+), 121 deletions(-)
+V2:
+- add max_frame_height_minus_1
+- struct ordering
 
-diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
-index a9ad41f54ab6..e701d573a26a 100644
---- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
-+++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
-@@ -32,116 +32,6 @@
- #include "e5010-jpeg-enc.h"
- #include "e5010-jpeg-enc-hw.h"
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 20 +++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+index 786127b1e206..8eb337b3cb00 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+@@ -2993,7 +2993,11 @@ This structure contains all loop filter related parameters. See sections
+       - Applications and drivers must set this to zero.
+     * - __u16
+       - ``max_frame_width_minus_1``
+-      - specifies the maximum frame width minus 1 for the frames represented by
++      - Specifies the maximum frame width minus 1 for the frames represented by
++        this sequence header.
++    * - __u16
++      - ``max_frame_height_minus_1``
++      - Specifies the maximum frame height minus 1 for the frames represented by
+         this sequence header.
  
--/* Luma and chroma qp table to achieve 50% compression quality
-- * This is as per example in Annex K.1 of ITU-T.81
-- */
--static const u8 luma_q_table[64] = {
--	16, 11, 10, 16, 24, 40, 51, 61,
--	12, 12, 14, 19, 26, 58, 60, 55,
--	14, 13, 16, 24, 40, 57, 69, 56,
--	14, 17, 22, 29, 51, 87, 80, 62,
--	18, 22, 37, 56, 68, 109, 103, 77,
--	24, 35, 55, 64, 81, 104, 113, 92,
--	49, 64, 78, 87, 103, 121, 120, 101,
--	72, 92, 95, 98, 112, 100, 103, 99
--};
--
--static const u8 chroma_q_table[64] = {
--	17, 18, 24, 47, 99, 99, 99, 99,
--	18, 21, 26, 66, 99, 99, 99, 99,
--	24, 26, 56, 99, 99, 99, 99, 99,
--	47, 66, 99, 99, 99, 99, 99, 99,
--	99, 99, 99, 99, 99, 99, 99, 99,
--	99, 99, 99, 99, 99, 99, 99, 99,
--	99, 99, 99, 99, 99, 99, 99, 99,
--	99, 99, 99, 99, 99, 99, 99, 99
--};
--
--/* Zigzag scan pattern */
--static const u8 zigzag[64] = {
--	0,   1,  8, 16,  9,  2,  3, 10,
--	17, 24, 32, 25, 18, 11,  4,  5,
--	12, 19, 26, 33, 40, 48, 41, 34,
--	27, 20, 13,  6,  7, 14, 21, 28,
--	35, 42, 49, 56, 57, 50, 43, 36,
--	29, 22, 15, 23, 30, 37, 44, 51,
--	58, 59, 52, 45, 38, 31, 39, 46,
--	53, 60, 61, 54, 47, 55, 62, 63
--};
--
--/*
-- * Contains the data that needs to be sent in the marker segment of an interchange format JPEG
-- * stream or an abbreviated format table specification data stream.
-- * Specifies the huffman table used for encoding the luminance DC coefficient differences.
-- * The table represents Table K.3 of ITU-T.81
-- */
--static const u8 luma_dc_table[] = {
--	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B
--};
--
--/*
-- * Contains the data that needs to be sent in the marker segment of an interchange format JPEG
-- * stream or an abbreviated format table specification data stream.
-- * Specifies the huffman table used for encoding the luminance AC coefficients.
-- * The table represents Table K.5 of ITU-T.81
-- */
--static const u8 luma_ac_table[] = {
--	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
--	0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7D,
--	0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12, 0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61,
--	0x07, 0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xA1, 0x08, 0x23, 0x42, 0xB1, 0xC1, 0x15, 0x52,
--	0xD1, 0xF0, 0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0A, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x25,
--	0x26, 0x27, 0x28, 0x29, 0x2A, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x43, 0x44, 0x45,
--	0x46, 0x47, 0x48, 0x49, 0x4A, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x63, 0x64,
--	0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x83,
--	0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99,
--	0x9A, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6,
--	0xB7, 0xB8, 0xB9, 0xBA, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xD2, 0xD3,
--	0xD4, 0xD5, 0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8,
--	0xE9, 0xEA, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA
--};
--
--/*
-- * Contains the data that needs to be sent in the marker segment of an interchange format JPEG
-- * stream or an abbreviated format table specification data stream.
-- * Specifies the huffman table used for encoding the chrominance DC coefficient differences.
-- * The table represents Table K.4 of ITU-T.81
-- */
--static const u8 chroma_dc_table[] = {
--	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B
--};
--
--/*
-- * Contains the data that needs to be sent in the marker segment of an interchange format JPEG
-- * stream or an abbreviated format table specification data stream.
-- * Specifies the huffman table used for encoding the chrominance AC coefficients.
-- * The table represents Table K.6 of ITU-T.81
-- */
--static const u8 chroma_ac_table[] = {
--	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
--	0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77,
--	0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21, 0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61,
--	0x71, 0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91, 0xA1, 0xB1, 0xC1, 0x09, 0x23, 0x33,
--	0x52, 0xF0, 0x15, 0x62, 0x72, 0xD1, 0x0A, 0x16, 0x24, 0x34, 0xE1, 0x25, 0xF1, 0x17, 0x18,
--	0x19, 0x1A, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x43, 0x44,
--	0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x63,
--	0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A,
--	0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,
--	0x98, 0x99, 0x9A, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xB2, 0xB3, 0xB4,
--	0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA,
--	0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7,
--	0xE8, 0xE9, 0xEA, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA
--};
--
--#define JPEG_LUM_HT		0x00
--#define JPEG_CHR_HT		0x01
--#define JPEG_DC_HT		0x00
--#define JPEG_AC_HT		0x10
--
- /* forward declarations */
- static const struct of_device_id e5010_of_match[];
+ .. _av1_sequence_flags:
+@@ -3374,7 +3378,7 @@ semantics" of :ref:`av1`.
+       - ``uv_pri_strength[V4L2_AV1_CDEF_MAX]``
+       -  Specifies the strength of the primary filter.
+     * - __u8
+-      - ``uv_secondary_strength[V4L2_AV1_CDEF_MAX]``
++      - ``uv_sec_strength[V4L2_AV1_CDEF_MAX]``
+       -  Specifies the strength of the secondary filter.
  
-@@ -270,6 +160,9 @@ static void calculate_qp_tables(struct e5010_context *ctx)
- {
- 	long long luminosity, contrast;
- 	int quality, i;
-+	const u8 *luma_q_table, *chroma_q_table;
-+
-+	v4l2_jpeg_get_reference_quantization_tables(&luma_q_table, &chroma_q_table);
+ .. c:type:: v4l2_av1_segment_feature
+@@ -3439,7 +3443,7 @@ semantics" of :ref:`av1`.
+       - Bitmask defining which features are enabled in each segment. Use
+         V4L2_AV1_SEGMENT_FEATURE_ENABLED to build a suitable mask.
+     * - __u16
+-      - `feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX]``
++      - ``feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX]``
+       -  Data attached to each feature. Data entry is only valid if the feature
+          is enabled.
  
- 	quality = 50 - ctx->quality;
+@@ -3490,7 +3494,7 @@ AV1 Loop filter params as defined in section 6.8.10 "Loop filter semantics" of
  
-@@ -281,7 +174,7 @@ static void calculate_qp_tables(struct e5010_context *ctx)
- 		contrast *= INCREASE;
- 	}
+ .. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
  
--	for (i = 0; i < ARRAY_SIZE(luma_q_table); i++) {
-+	for (i = 0; i < V4L2_JPEG_PIXELS_IN_BLOCK; i++) {
- 		long long delta = chroma_q_table[i] * contrast + luminosity;
- 		int val = (int)(chroma_q_table[i] + delta);
- 
-@@ -927,41 +820,46 @@ static void encode_marker_segment(struct e5010_context *ctx, void *addr, unsigne
- {
- 	u8 *buffer = (u8 *)addr;
- 	int i;
-+	const u8 *luma_dc_table, *chroma_dc_table, *luma_ac_table, *chroma_ac_table, *zigzag;
-+
-+	v4l2_jpeg_get_reference_huffman_tables(&luma_dc_table,  &luma_ac_table, &chroma_dc_table,
-+					       &chroma_ac_table);
-+	v4l2_jpeg_get_zig_zag_scan(&zigzag);
- 
- 	header_write(ctx, buffer, offset, 2, START_OF_IMAGE);
- 	header_write(ctx, buffer, offset, 2, DQT_MARKER);
- 	header_write(ctx, buffer, offset, 3, LQPQ << 4);
--	for (i = 0; i < PELS_IN_BLOCK; i++)
-+	for (i = 0; i < V4L2_JPEG_PIXELS_IN_BLOCK; i++)
- 		header_write(ctx, buffer, offset, 1, ctx->luma_qp[zigzag[i]]);
- 
- 	header_write(ctx, buffer, offset, 2, DQT_MARKER);
- 	header_write(ctx, buffer, offset, 3, (LQPQ << 4) | 1);
--	for (i = 0; i < PELS_IN_BLOCK; i++)
-+	for (i = 0; i < V4L2_JPEG_PIXELS_IN_BLOCK; i++)
- 		header_write(ctx, buffer, offset, 1, ctx->chroma_qp[zigzag[i]]);
- 
- 	/* Huffman tables */
- 	header_write(ctx, buffer, offset, 2, DHT_MARKER);
- 	header_write(ctx, buffer, offset, 2, LH_DC);
--	header_write(ctx, buffer, offset, 1, JPEG_LUM_HT | JPEG_DC_HT);
--	for (i = 0 ; i < ARRAY_SIZE(luma_dc_table); i++)
-+	header_write(ctx, buffer, offset, 1, V4L2_JPEG_LUM_HT | V4L2_JPEG_DC_HT);
-+	for (i = 0 ; i < V4L2_JPEG_REF_HT_DC_LEN; i++)
- 		header_write(ctx, buffer, offset, 1, luma_dc_table[i]);
- 
- 	header_write(ctx, buffer, offset, 2, DHT_MARKER);
- 	header_write(ctx, buffer, offset, 2, LH_AC);
--	header_write(ctx, buffer, offset, 1, JPEG_LUM_HT | JPEG_AC_HT);
--	for (i = 0 ; i < ARRAY_SIZE(luma_ac_table); i++)
-+	header_write(ctx, buffer, offset, 1, V4L2_JPEG_LUM_HT | V4L2_JPEG_AC_HT);
-+	for (i = 0 ; i < V4L2_JPEG_REF_HT_AC_LEN; i++)
- 		header_write(ctx, buffer, offset, 1, luma_ac_table[i]);
- 
- 	header_write(ctx, buffer, offset, 2, DHT_MARKER);
- 	header_write(ctx, buffer, offset, 2, LH_DC);
--	header_write(ctx, buffer, offset, 1, JPEG_CHR_HT | JPEG_DC_HT);
--	for (i = 0 ; i < ARRAY_SIZE(chroma_dc_table); i++)
-+	header_write(ctx, buffer, offset, 1, V4L2_JPEG_CHR_HT | V4L2_JPEG_DC_HT);
-+	for (i = 0 ; i < V4L2_JPEG_REF_HT_DC_LEN; i++)
- 		header_write(ctx, buffer, offset, 1, chroma_dc_table[i]);
- 
- 	header_write(ctx, buffer, offset, 2, DHT_MARKER);
- 	header_write(ctx, buffer, offset, 2, LH_AC);
--	header_write(ctx, buffer, offset, 1, JPEG_CHR_HT | JPEG_AC_HT);
--	for (i = 0 ; i < ARRAY_SIZE(chroma_ac_table); i++)
-+	header_write(ctx, buffer, offset, 1, V4L2_JPEG_CHR_HT | V4L2_JPEG_AC_HT);
-+	for (i = 0 ; i < V4L2_JPEG_REF_HT_AC_LEN; i++)
- 		header_write(ctx, buffer, offset, 1, chroma_ac_table[i]);
- }
- 
+-.. flat-table:: struct v4l2_av1_global_motion
++.. flat-table:: struct v4l2_av1_loop_filter
+     :header-rows:  0
+     :stub-columns: 0
+     :widths:       1 1 2
+@@ -3806,12 +3810,12 @@ AV1 Tx mode as described in section 6.8.21 "TX mode semantics" of :ref:`av1`.
+     * - struct :c:type:`v4l2_av1_quantization`
+       - ``quantization``
+       - Quantization parameters.
+-    * - struct :c:type:`v4l2_av1_segmentation`
+-      - ``segmentation``
+-      - Segmentation parameters.
+     * - __u8
+       - ``superres_denom``
+       - The denominator for the upscaling ratio.
++    * - struct :c:type:`v4l2_av1_segmentation`
++      - ``segmentation``
++      - Segmentation parameters.
+     * - struct :c:type:`v4l2_av1_loop_filter`
+       - ``loop_filter``
+       - Loop filter params
+@@ -3829,7 +3833,7 @@ AV1 Tx mode as described in section 6.8.21 "TX mode semantics" of :ref:`av1`.
+     * - struct :c:type:`v4l2_av1_loop_restoration`
+       - ``loop_restoration``
+       - Loop restoration parameters.
+-    * - struct :c:type:`v4l2_av1_loop_global_motion`
++    * - struct :c:type:`v4l2_av1_global_motion`
+       - ``global_motion``
+       - Global motion parameters.
+     * - __u32
 -- 
-2.39.1
+2.45.1.288.g0e0cd299f1-goog
 
 
