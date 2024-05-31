@@ -1,135 +1,99 @@
-Return-Path: <linux-media+bounces-12346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C3C8D648E
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 16:31:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8128D64CD
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 16:49:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1875B248A2
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 14:31:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D33161C23E09
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 14:49:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88B1B44374;
-	Fri, 31 May 2024 14:31:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD3E5B68F;
+	Fri, 31 May 2024 14:49:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9577939FF3
-	for <linux-media@vger.kernel.org>; Fri, 31 May 2024 14:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C18626CB;
+	Fri, 31 May 2024 14:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717165861; cv=none; b=knJbXne4uolOhfl8f0flDBNNKExnF6+Qs0y+2N7KGmYigD1voInh9RlcZjkRoWVyTxy+y/WBL8lEEuYueHC7mNwSW6EO45dtTBujmVGIH7+eOpEoJIT/tOhLvb5K9iKr6FTRpVp6xqpZ4gdKzkXoOUSmCZ22Tm4sgWroNagr948=
+	t=1717166977; cv=none; b=btv2HT9ZknzRZhmM8H2nw/M9Bkff6BrIKhi0G9pbNeIoiNvrJeepPGmk4beyMYlSDbReQrGicvjQL0eDo5zlXSSNwfaFHYa/9JUKcivQ5Qj+WY7sYbQoBJ72gL6HrrHAb1NNHqitE733ensof38ihuMEh1toqTwCubolorsfNj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717165861; c=relaxed/simple;
-	bh=gofu5FPGMsYng1KRG5vVEprzMkm5VxOFN7xxMsY7neY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IZCzvOLHbDSdcAB7F+df07huu70V10neIEJHeNG5TIxpguJ4hSAPsQfvRQ6HPqMjlY1r7kYwvUMAjuDjzNJR+6iK70F5qvSgGCJug4SYOEKam6disdg/mz7IRl8UlMMhPFykmDC2FAyoTrtgVUB5jJIQVhWtQ3xIsJUlAcA/TK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sD3HO-0004xZ-N7; Fri, 31 May 2024 16:30:50 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sD3HK-003jxx-DT; Fri, 31 May 2024 16:30:46 +0200
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1sD3HK-001xjl-13;
-	Fri, 31 May 2024 16:30:46 +0200
-Date: Fri, 31 May 2024 16:30:46 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-Subject: Re: [PATCH 1/2] media: rockchip: rga: fix field in OUTPUT buffers
-Message-ID: <ZlnfFu-l0ivMUuf8@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-References: <20240528-rk3568-rga-v1-0-b946e55d9d37@pengutronix.de>
- <20240528-rk3568-rga-v1-1-b946e55d9d37@pengutronix.de>
- <22c65578-c3bf-44cc-a9c2-6e1e29260d3e@xs4all.nl>
+	s=arc-20240116; t=1717166977; c=relaxed/simple;
+	bh=c7HXXvBTV5PGlRRhVIlLpfYS5XM04ZPwGWusUMtWg+w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Xe9uM25SaIB5iZ+dyVnMit+FdFOnJ2vvKxO1JG7HVhJZi1ur+47w/Tld15vTbs6Z/gF2WJIRSfLRV7TQ0RffuE5EnPmaP66waoHvdm9YZliMUO2fQ3gGYzrGLKlA4ULeiUbbt0NDiJ7XYLeFzXRVbsM6bKQycHvC8lgCL21HHF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
+Received: from mgb4.. (unknown [62.77.71.229])
+	by mx.gpxsee.org (Postfix) with ESMTPSA id D0F5B4B2D0;
+	Fri, 31 May 2024 16:49:26 +0200 (CEST)
+From: tumic@gpxsee.org
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
+Subject: [PATCH v6 0/4] media: mgb4: YUV and variable framerate support
+Date: Fri, 31 May 2024 16:49:17 +0200
+Message-ID: <20240531144921.2104-1-tumic@gpxsee.org>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <22c65578-c3bf-44cc-a9c2-6e1e29260d3e@xs4all.nl>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 30 May 2024 14:47:48 +0200, Hans Verkuil wrote:
-> On 28/05/2024 16:05, Michael Tretter wrote:
-> > Returned buffers shouldn't contain V4L2_FIELD_ANY as field. Set the
-> > field to V4L2_FIELD_NONE, if it isn't set.
-> > 
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> >  drivers/media/platform/rockchip/rga/rga-buf.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
-> > index 662c81b6d0b5..77c7535893e3 100644
-> > --- a/drivers/media/platform/rockchip/rga/rga-buf.c
-> > +++ b/drivers/media/platform/rockchip/rga/rga-buf.c
-> > @@ -119,6 +119,16 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
-> >  	if (IS_ERR(f))
-> >  		return PTR_ERR(f);
-> >  
-> > +	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
-> > +		if (vbuf->field == V4L2_FIELD_ANY)
-> > +			vbuf->field = V4L2_FIELD_NONE;
-> > +		if (vbuf->field != V4L2_FIELD_NONE) {
-> > +			v4l2_err(&ctx->rga->v4l2_dev, "Unsupported field %s\n",
-> > +				 v4l2_field_names[vbuf->field]);
-> 
-> This should be v4l2_dbg: incorrect userspace data should not result in
-> spamming of the kernel log. It's fine to report it if debugging is enabled.
+From: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
-I cannot use v4l2_dbg here, as the debug module parameter for the RGA
-driver is defined in a different file. I'll just drop the error message
-in v2.
+Recent mgb4 FW update added support for the YUV image format and variable
+framerates independent of the signal framerate. The following patches extend
+the mgb4 driver with support for both features.
 
-Michael
+Changes in V6:
+- Properly handle the timings when no signal is present.
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > +			return -EINVAL;
-> > +		}
-> > +	}
-> > +
-> >  	for (i = 0; i < vb->num_planes; i++) {
-> >  		vb2_set_plane_payload(vb, i, f->pix.plane_fmt[i].sizeimage);
-> >  
-> > 
-> 
-> 
+Changes in V5:
+- Removed surplus v4l2_format.type checks.
+- Improved the patch descriptions.
+- Splitted the frame rate limit patch into separate code/documentation parts.
+
+Changes in V4:
+- Splitted the output frame_rate handling fix from the variable frame rate
+  addition patch.
+
+Changes in V3:
+- Use div_u64() for 64b division (fixes build error on ARM32)
+
+Changes in V2:
+- Added missing stride limit
+
+Martin Tůma (4):
+  media: mgb4: Add support for YUV image formats
+  media: mgb4: Add support for V4L2_CAP_TIMEPERFRAME
+  media: mgb4: Fixed signal frame rate limit handling
+  media: admin-guide: mgb4: Outputs DV timings documentation update
+
+ Documentation/admin-guide/media/mgb4.rst |  23 +-
+ drivers/media/pci/mgb4/mgb4_core.c       |   2 +-
+ drivers/media/pci/mgb4/mgb4_core.h       |   2 +
+ drivers/media/pci/mgb4/mgb4_io.h         |  29 ++-
+ drivers/media/pci/mgb4/mgb4_sysfs_out.c  |   9 +-
+ drivers/media/pci/mgb4/mgb4_vin.c        | 193 +++++++++++---
+ drivers/media/pci/mgb4/mgb4_vin.h        |   3 +-
+ drivers/media/pci/mgb4/mgb4_vout.c       | 309 ++++++++++++++++++++---
+ drivers/media/pci/mgb4/mgb4_vout.h       |   5 +-
+ 9 files changed, 482 insertions(+), 93 deletions(-)
+
+
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+-- 
+2.45.1
+
 
