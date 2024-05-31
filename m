@@ -1,70 +1,66 @@
-Return-Path: <linux-media+bounces-12340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB838D6215
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 14:47:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8955F8D6228
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 14:49:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F206E1F28F71
-	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 12:47:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1821628A489
+	for <lists+linux-media@lfdr.de>; Fri, 31 May 2024 12:49:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D2A9158A08;
-	Fri, 31 May 2024 12:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31102158862;
+	Fri, 31 May 2024 12:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nMJCspMC"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="rGHlnRHI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE43A74404;
-	Fri, 31 May 2024 12:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2C11586D0;
+	Fri, 31 May 2024 12:48:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717159635; cv=none; b=t1TcOOWrvkheLFp1PeE61wA0dS/uQDflLvTxj55K5V3FpNRQlX80pC5sj6b+xLr4uKE8K8xqWiOngBFYaAI7iFNGQWxPbZs2PqXoqkRzKWr/G+r2vgJks3YxWv1qYGDfyGKbXKlJBWX8Hf6Ut93AZUkWSWKMCaEb2xoEbaXW2IA=
+	t=1717159734; cv=none; b=FJwqliJXH2Kuj56QQxHONBZXLfG1l1zxW+uK5AWy1fx3kY7aG+HJH7PqfjmFwmBmjm94n5ytZbsc1KJX1h70cSGJvs8lMtErcCPpPahT1ilKiTCz9afaHim10TvbED1IuryPnqCPOMN6+wDaSvTAiNDCDzhgCHs7i2gVhWNJ054=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717159635; c=relaxed/simple;
-	bh=iW3CNwK1w77FA/ekGYhGcEUsJbEL6oKwZ2aHH3da/fY=;
+	s=arc-20240116; t=1717159734; c=relaxed/simple;
+	bh=g/oNMocg76yWK2v8EuxnpMD3Hu9NyCAtBqT+lzQxQlA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ga9989MZgz8wn7vQWe+ptNzQNcSIXYH/KkjDXdAyxxRubp4JP8Z59yFpZUlIkTl+z0GAA26QyQvDodd+XAcWkhM1iLYQT0UmSAD7y/4cJf9N7tX+MXCg9kj9G6B8e3smFYXuv72IDLRrxQngGHj0JeYdeyyVxbLyuegytiDVJJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nMJCspMC; arc=none smtp.client-ip=46.235.227.194
+	 Content-Type:MIME-Version; b=pGUf0NuvWX9RVU9jsr6D+I7y9qpufeQbxFp2zdGQTk38mfDC0/NDwlWLbmqGcze0OeNb5myIojBPRl9d+H7j/QbX7kPo9hW65Q9lhIroeVlKdFz66M8bksJBH/L5M74BZnD7zQHHjt0vIpdW1wZy42IatE5NOx3JRC/s1LtCCPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=rGHlnRHI; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1717159630;
-	bh=iW3CNwK1w77FA/ekGYhGcEUsJbEL6oKwZ2aHH3da/fY=;
+	s=mail; t=1717159731;
+	bh=g/oNMocg76yWK2v8EuxnpMD3Hu9NyCAtBqT+lzQxQlA=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=nMJCspMCwgj+AX5HCpHoS2O45tNHJjK1HppWZDKpt/HT5ymNCJrvo5t8DHASgqosc
-	 QZIBZ+gj+1S6uGNPuqktoxYdAlFFYBXUcBpC11wfRk0I6kPedKmwISfr5rkkzgxXhn
-	 CIPdeEZWFCFQRPGSz1crAbNxcAfRg2h/VR/ezyanJOv0hItqVyn+ADSVhQH05C0s0z
-	 /rfWdLvh3nPXbSDgQlTPZqO4Ij1v7QDfFSWdhurVLV69Ixol5lomhvLdLp8u0JrD64
-	 O0Pj2LGog4VDJth6oOhUBwtIswzHzynj/ztxPGFSqLNu0ErHNbCTgKQ/r31gxL2B48
-	 FN5C2FabIQumQ==
+	b=rGHlnRHINbWHvFCUvanARjCe5GzAiK3y7LSzS3ZnXZUq3C1mEv27RDBUUFTmTotxv
+	 WUZNuT1bwk84c3l52Yf9R3waTkPV/7DcrRgPpphQ2ltY8MFcfoSNzKTpSpbHNX2x4j
+	 CC0VuXglIiSJwBfj/Mp1EnY8LNg72VUXgZUsqKBqJ+6+On29KjWPPFi2Y1FfNeK6+w
+	 Lg9c/T9/KXdGd4qV+3hD52hSRFzkXsSFI49NTiqD4rVd/WK+rR5m2qS013fOzq3Mc0
+	 ERmdS4JE0JJyuA9sSR3MWtNFf8U0ak7JIBhlrQZJVMRYy+xWIlL2JjRmKz2HZI3Exy
+	 Z4GvZQPqsMB7Q==
 Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0271F378148F;
-	Fri, 31 May 2024 12:47:08 +0000 (UTC)
-Message-ID: <9f73dffc48394e6304263ac2293a2b18864ae3dd.camel@collabora.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Reduce msg queue trans buffer
- size
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1A800378148F;
+	Fri, 31 May 2024 12:48:49 +0000 (UTC)
+Message-ID: <d11d92e48321e8c1a429a878917e7c6a6211ea4b.camel@collabora.com>
+Subject: Re: [PATCH] media: verisilicon: AV1: Correct some registers fields
+ size or position
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Fei Shao <fshao@chromium.org>, AngeloGioacchino Del Regno
-	 <angelogioacchino.delregno@collabora.com>, Hans Verkuil
-	 <hverkuil-cisco@xs4all.nl>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>, Andrew-CT Chen
- <andrew-ct.chen@mediatek.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Tiffany Lin <tiffany.lin@mediatek.com>, Xiaoyong Lu
- <xiaoyong.lu@mediatek.com>,  linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org,  linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Date: Fri, 31 May 2024 08:47:02 -0400
-In-Reply-To: <20240521095536.3869399-1-fshao@chromium.org>
-References: <20240521095536.3869399-1-fshao@chromium.org>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, mchehab@kernel.org, 
+	heiko@sntech.de
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	kernel@collabora.com
+Date: Fri, 31 May 2024 08:48:44 -0400
+In-Reply-To: <20240521152603.120723-1-benjamin.gaignard@collabora.com>
+References: <20240521152603.120723-1-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
@@ -75,66 +71,55 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Le mardi 21 mai 2024 =C3=A0 17:54 +0800, Fei Shao a =C3=A9crit=C2=A0:
-> In the MediaTek HW vcodec pipeline, the `trans` buffer is used to
-> transfer the data decoded by the lat decoder to the core decoder.
+Le mardi 21 mai 2024 =C3=A0 17:26 +0200, Benjamin Gaignard a =C3=A9crit=C2=
+=A0:
+> Some fields aren't well positionned or with incorrect size inside the
+> hardware registers. Fix them.
 >=20
-> In the beginning, 6MB and 30MB were allocated for the trans buffer to
-> handle FHD and higher-resolution contents respectively, but it turns out
-> that's more than enough in practice and there's room for improvement.
->=20
-> The buffer sizes were reduced to 5MB / 8MB respectively and the decoders
-> have been validated to work normally on the MediaTek Android products.
-> It's time to adopt that change in the upstream MediaTek vcodec driver.
->=20
-> Reduce the msg queue trans buffer size to 5MB / 8MB respectively to
-> optimize the memory usage per decoder instance and improve the overall
-> system performance.
+> That doesn't impact Fluster score test.
 
-I don't disagree with the change, but it feels like this is has hack over a
-hack. We have an entropy decoder (LAT) metadata buffer, which of course is
-resolution dependent, for which we hardcore two sizes.
-
-Any chance Mediatek can document this blob, or at least document the proper
-relation between the size and the resolution ? This way we could dynamicall=
-y
-size the buffer for the chosen resolution and trust it to remain big enough=
- for
-a long time. Removing the non scientific claim of "have been validated", wh=
-ich
-is producible for anyone hitting issue with that change in the future.
-
-Nicolas
+Does it impact any known streams though ? (just for a sake of documentation=
+, not
+really a problem with your change).
 
 >=20
-> Signed-off-by: Fei Shao <fshao@chromium.org>
->=20
-> CC: Yunfei Dong <yunfei.dong@mediatek.com>
->=20
+> Fixes: 727a400686a2 ("media: verisilicon: Add Rockchip AV1 decoder")
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
-> I consulted Yunfei and he confirmed that these are the sizes they are
-> using today.
+>  .../media/platform/verisilicon/rockchip_vpu981_regs.h  | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >=20
->  .../media/platform/mediatek/vcodec/decoder/vdec_msg_queue.c   | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queu=
-e.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.c
-> index f283c4703dc6..e36741179a97 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_msg_queue.c
-> @@ -29,9 +29,9 @@
->  static int vde_msg_queue_get_trans_size(int width, int height)
->  {
->  	if (width > 1920 || height > 1088)
-> -		return 30 * SZ_1M;
-> +		return 8 * SZ_1M;
->  	else
-> -		return 6 * SZ_1M;
-> +		return 5 * SZ_1M;
->  }
+> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h b/=
+drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+> index 182e6c830ff6..990f8e69524a 100644
+> --- a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+> +++ b/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+> @@ -327,7 +327,7 @@
 > =20
->  void vdec_msg_queue_init_ctx(struct vdec_msg_queue_ctx *ctx, int hardwar=
-e_index)
+>  #define av1_apf_threshold		AV1_DEC_REG(55, 0, 0xffff)
+>  #define av1_apf_single_pu_mode		AV1_DEC_REG(55, 30, 0x1)
+> -#define av1_apf_disable			AV1_DEC_REG(55, 30, 0x1)
+> +#define av1_apf_disable			AV1_DEC_REG(55, 31, 0x1)
+> =20
+>  #define av1_dec_max_burst		AV1_DEC_REG(58, 0, 0xff)
+>  #define av1_dec_buswidth		AV1_DEC_REG(58, 8, 0x7)
+> @@ -337,10 +337,10 @@
+>  #define av1_dec_mc_polltime		AV1_DEC_REG(58, 17, 0x3ff)
+>  #define av1_dec_mc_pollmode		AV1_DEC_REG(58,	27, 0x3)
+> =20
+> -#define av1_filt_ref_adj_3		AV1_DEC_REG(59, 0, 0x3f)
+> -#define av1_filt_ref_adj_2		AV1_DEC_REG(59, 7, 0x3f)
+> -#define av1_filt_ref_adj_1		AV1_DEC_REG(59, 14, 0x3f)
+> -#define av1_filt_ref_adj_0		AV1_DEC_REG(59, 21, 0x3f)
+> +#define av1_filt_ref_adj_3		AV1_DEC_REG(59, 0, 0x7f)
+> +#define av1_filt_ref_adj_2		AV1_DEC_REG(59, 7, 0x7f)
+> +#define av1_filt_ref_adj_1		AV1_DEC_REG(59, 14, 0x7f)
+> +#define av1_filt_ref_adj_0		AV1_DEC_REG(59, 21, 0x7f)
+>  #define av1_ref0_sign_bias		AV1_DEC_REG(59, 28, 0x1)
+>  #define av1_ref1_sign_bias		AV1_DEC_REG(59, 29, 0x1)
+>  #define av1_ref2_sign_bias		AV1_DEC_REG(59, 30, 0x1)
 
 
