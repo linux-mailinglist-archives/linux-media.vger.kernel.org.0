@@ -1,75 +1,74 @@
-Return-Path: <linux-media+bounces-12377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12378-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8B28D6F73
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 13:11:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED54E8D6FAC
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 14:14:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B86891F22445
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 11:11:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E9CD1F21894
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 12:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 945D314EC5A;
-	Sat,  1 Jun 2024 11:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D80C150986;
+	Sat,  1 Jun 2024 12:14:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aj/hpU66"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bMbZ4KHl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E41B823DE
-	for <linux-media@vger.kernel.org>; Sat,  1 Jun 2024 11:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A036AAD
+	for <linux-media@vger.kernel.org>; Sat,  1 Jun 2024 12:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717240283; cv=none; b=e1mcIYpIJ6fgbXkl9oWNOEqtd8v65g27Y/Vj5o+FS/UtmTjr2n2oMQAxeaJFdPtstto73LCNT2FchkjMpYBvYcGafF1w/BveD/hm3KBZfD5CjbbB708mFe7i/dZSJRtBr4idJ3UrVcMSwW9BdCcTBgoPMzQVQ54MeDyJSFAJ3eU=
+	t=1717244066; cv=none; b=dCgvht+metWbTdIghLxJKrwSH0/4LOO+hbXjlrVVX2pPZuOjXHgDIiHHvnwGp1VF2TwXqctDAnDq/ZoIpwX+DGW2im6f3ev6QbYIYqQiUk5cqvqIKIx76ccLyFzdn9LY+8an4OFRu/90yIz6J4wwv7F1DqwrPObDJxRqwfYZc3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717240283; c=relaxed/simple;
-	bh=PsCrz80mQHu0e2miGshruCXgw5Mob3LuBbuGWo0WC7Y=;
+	s=arc-20240116; t=1717244066; c=relaxed/simple;
+	bh=GPKG7NUKXrZXWqHhfJl4sLYTYfMq09VL/mrawjC7A3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nvCxxoAXrYn72jC5vGm/efPIHgNuybUGgZLOoRkarSs/pFhGoqdtOKSZL2FdcTEkRh4QrGXK3x/R7aTCWZ/h5bOnyJi8V/z72KN7NG3qGClmdMxIxQSARfWTUOsUXbUpN+w1Tjj6LLMJODHJtlnOpI1jv8vOTLq+acKitFiiq5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aj/hpU66; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=FHnStMJNEBSHzOQSTSI51I1eVJTPcEiRGeGeWi2p3s6r7YjBaEQ/Ms1SGFBLgEf1AoZfYwp9Q3/9LSv1K2egkd7rco9PzbuEmzUTkL31Ot26BtX6agagDEYej0jyQsY5TbPMrtKOHF1o4Pvqu0lbet0B+KFQBIm3Xljbvq65X5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bMbZ4KHl; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717240282; x=1748776282;
+  t=1717244065; x=1748780065;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PsCrz80mQHu0e2miGshruCXgw5Mob3LuBbuGWo0WC7Y=;
-  b=aj/hpU66Ieby01WqDqPtBLhAa9lAPyRdydk6Ad54QiA+f3R18JH1dBKa
-   AtoLk65VELbMn0bBWQ1+j984iI3fV6jgCzE/LP+xjln/cCpCqUV5zKXeh
-   wswYoYeylfPXNd67wIQecf2GRaQPAfLDLTwMmHSh12Phb3gcfutBaR3AG
-   A5gS2ON3l96wqCtYmzIBnevHjcml8JV96+XHbfAbj96XQMA+zaekuLRWu
-   FaHeft0KBNMlIdG/WBubFTDsBlZTvSRBME5XrmjcGO7i+D6rN7IWyZ9vM
-   N3FtT7zauhfQWZHu5h14NZILTfEMfLbP2qGcqOMtQqR9QjHK9p4e6Rb+u
-   g==;
-X-CSE-ConnectionGUID: DbGW709cQ1yc92tkeejlnA==
-X-CSE-MsgGUID: LfYx5DAcSESSmRDTU87jlw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="24443588"
+  bh=GPKG7NUKXrZXWqHhfJl4sLYTYfMq09VL/mrawjC7A3E=;
+  b=bMbZ4KHlN7TQMwA+GgyT7+5mane/5SUeNXJ1ttY/rdgCeUjtGUp2WRU5
+   kRGNN3kPZgGeYpNS1q4gXyHfCLievWWP2H72Yzd8tUST3E6jS9wRSaPpW
+   nNdPSrHCG5GyN5CBTK5mfEzk4iEyZXk61Ow6QzFOc+A+59NLMbMEuO863
+   9HdVx3LQJ213HQAIT5Wz2j0pUV6zIlO2NAHAMcv2Qvh0F+n2ubkwVjAcy
+   u1BoAEF9zJXV4Ddrk/E1cDFuml6SZJcQAfapbDhF4FJUarbFC4sUUAfBg
+   D9rxRpZ7U8sBPXH6dvh17KAbQVUQZNUwe/wfQUzMP/7/FXw6+W3+P0a5I
+   A==;
+X-CSE-ConnectionGUID: RPI7/icbRXC9D/v1JSwFaA==
+X-CSE-MsgGUID: Thne96jxSTWHcwOtnlqKTg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="24365566"
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="24443588"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 04:11:20 -0700
-X-CSE-ConnectionGUID: JxL1XLEWRROYxIUQdFxY2A==
-X-CSE-MsgGUID: o1TZPTqqQy6yjWkJptshtw==
+   d="scan'208";a="24365566"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 05:14:24 -0700
+X-CSE-ConnectionGUID: QqVwAY9fQG6WRALBSp92ew==
+X-CSE-MsgGUID: VJtxr3MCT6uprtv0o58B7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="36428673"
+   d="scan'208";a="37055927"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Jun 2024 04:11:18 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Jun 2024 05:14:22 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDMdn-000Il0-1e;
-	Sat, 01 Jun 2024 11:11:15 +0000
-Date: Sat, 1 Jun 2024 19:10:20 +0800
+	id 1sDNcq-000Ipf-2A;
+	Sat, 01 Jun 2024 12:14:20 +0000
+Date: Sat, 1 Jun 2024 20:13:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Julien Massot <julien.massot@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:test 53/55] drivers/media/i2c/max96717.c:124:46:
- error: too many arguments to function call, expected 3, have 4
-Message-ID: <202406011955.oq2igodk-lkp@intel.com>
+Subject: [sailus-media-tree:test 54/55] drivers/media/i2c/max96714.c:675:16:
+ error: too many arguments to function 'i2c_mux_add_adapter'
+Message-ID: <202406012053.0Av3nXna-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,95 +80,42 @@ Content-Disposition: inline
 
 tree:   git://linuxtv.org/sailus/media_tree.git test
 head:   94e408a1547ef00f59477a072c6f943d62d7a097
-commit: b22ddf6b6ea346fb256ed4adca4cb8c085a2d7fb [53/55] media: i2c: add MAX96717 driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240601/202406011955.oq2igodk-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project bafda89a0944d947fc4b3b5663185e07a397ac30)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406011955.oq2igodk-lkp@intel.com/reproduce)
+commit: 3cef6383eec3ec8ac81afe294a669c2ecd8882ef [54/55] media: i2c: add MAX96714 driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240601/202406012053.0Av3nXna-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240601/202406012053.0Av3nXna-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406011955.oq2igodk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406012053.0Av3nXna-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/media/i2c/max96717.c:13:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/max96717.c:13:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/max96717.c:13:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/media/i2c/max96717.c:15:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/media/i2c/max96717.c:124:46: error: too many arguments to function call, expected 3, have 4
-     124 |         return i2c_mux_add_adapter(priv->mux, 0, 0, 0);
-         |                ~~~~~~~~~~~~~~~~~~~                  ^
-   include/linux/i2c-mux.h:58:5: note: 'i2c_mux_add_adapter' declared here
+   drivers/media/i2c/max96714.c: In function 'max96714_i2c_mux_init':
+>> drivers/media/i2c/max96714.c:675:16: error: too many arguments to function 'i2c_mux_add_adapter'
+     675 |         return i2c_mux_add_adapter(priv->mux, 0, 0, 0);
+         |                ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/i2c/max96714.c:13:
+   include/linux/i2c-mux.h:58:5: note: declared here
       58 | int i2c_mux_add_adapter(struct i2c_mux_core *muxc,
-         |     ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-      59 |                         u32 force_nr, u32 chan_id);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~
-   7 warnings and 1 error generated.
+         |     ^~~~~~~~~~~~~~~~~~~
 
 
-vim +124 drivers/media/i2c/max96717.c
+vim +/i2c_mux_add_adapter +675 drivers/media/i2c/max96714.c
 
-   115	
-   116	static int max96717_i2c_mux_init(struct max96717_priv *priv)
-   117	{
-   118		priv->mux = i2c_mux_alloc(priv->client->adapter, &priv->client->dev,
-   119					  1, 0, I2C_MUX_LOCKED | I2C_MUX_GATE,
-   120					  max96717_i2c_mux_select, NULL);
-   121		if (!priv->mux)
-   122			return -ENOMEM;
-   123	
- > 124		return i2c_mux_add_adapter(priv->mux, 0, 0, 0);
-   125	}
-   126	
+   666	
+   667	static int max96714_i2c_mux_init(struct max96714_priv *priv)
+   668	{
+   669		priv->mux = i2c_mux_alloc(priv->client->adapter, &priv->client->dev,
+   670					  1, 0, I2C_MUX_LOCKED | I2C_MUX_GATE,
+   671					  max96714_i2c_mux_select, NULL);
+   672		if (!priv->mux)
+   673			return -ENOMEM;
+   674	
+ > 675		return i2c_mux_add_adapter(priv->mux, 0, 0, 0);
+   676	}
+   677	
 
 -- 
 0-DAY CI Kernel Test Service
