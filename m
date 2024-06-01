@@ -1,171 +1,114 @@
-Return-Path: <linux-media+bounces-12380-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12381-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234158D6FEF
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 15:09:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D468D712F
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 18:42:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D53A9B22130
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 13:09:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5D811C20DCF
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jun 2024 16:42:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9B771514ED;
-	Sat,  1 Jun 2024 13:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 681B515350F;
+	Sat,  1 Jun 2024 16:42:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XK+toAIN"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="sIS3bpZw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA99412FB34;
-	Sat,  1 Jun 2024 13:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C54E1DFF7;
+	Sat,  1 Jun 2024 16:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717247351; cv=none; b=R3Q51BL6JEI6Omgp8nwceETtxU83cO/5UMRjnXP5ad0GqG93Zwluz/NgOZKPGJ6Vn1+O8Hhdu/ei8n2nNvJIa5OlGiN6YTFFd+6mWFJWcASHiHTy/56xA9O4o8xaG2z4pYMQrk6bcN2PpIL6Rm+TvgkvqHHBShHpeWAcv+jRGKk=
+	t=1717260135; cv=none; b=fcIGLpvofbVyIHMv5qFtrhKUSH9kfaHt8V9BNBfhwQaxfVzjleIPLnbggpqdWjUROLM4ZvpK+7L7gMsU5C501by3hO7/uqehHZjmM8nqwazoCH0lMzq30vNwNpx6vjTn99vEFAdrdXjXTeNXLms0y2UDdwPjYGXclVFdaa5WEp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717247351; c=relaxed/simple;
-	bh=JeCV8WyWwZWgsRBoBsXvODv76tCrqrpoTPjcXqyhaow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M4JE/cPlbdfXEZc7eWNN3ckQSVLOig2VDk4AFk8gaz9q/hj8vLloWO3bTMxvoPR9xx+Q9wW3ffdjgSClrcG6MTScG6PXztxsrJU5ARNj3yqCRq4Dtxl4iaYFAuTJTLtA44gkvYDbYWsmfeyDVljzvmDVDH4qeLdOzDd0OVwNbVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XK+toAIN; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f480624d10so23883935ad.1;
-        Sat, 01 Jun 2024 06:09:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717247349; x=1717852149; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JeCV8WyWwZWgsRBoBsXvODv76tCrqrpoTPjcXqyhaow=;
-        b=XK+toAINfJVGtTmUD3Soy0vZsJyLB8cubuJe/oohosJE2IaO7hXTeDKjcG9hNos62f
-         GJyptL3LNYxldQS3PWjxKnVoONl/DcgWoivTLhiCf8MJwquaGfIx1+g28tsf5TnrcAXt
-         fcNA1NdeyxXUHba0NrCYx5W3sUMwNejEysDA/iTRVdVLisVjYmp30WtRwT4k8NipW/ME
-         0drREBCxR0emIhka6DiTUPv5kg6pe/qxH+AqefRsu7GY79OKUwy40EaqFaVsapp5AiaI
-         V70SSn/KVtxFC8XCcqvioQacmZMftg3asl7k1QEBNqT4rv/DN3rNTxPvYLvAD+tM5+/z
-         SXlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717247349; x=1717852149;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JeCV8WyWwZWgsRBoBsXvODv76tCrqrpoTPjcXqyhaow=;
-        b=mupf7dbpkqcr2BPc2+heTZBijVidN6ng2Quj0GtUTQZrHwszyit75IbOlH+VFWgmki
-         mnqqMvSL5gqqLrl5rOxjNZyPprSryhxaAiCRAiTDSVU3nuGP6gmrmZNr0LOpaoyaQ9nk
-         y/Fg+Xoo2R6rVom+Oe5V4zt3lODm23VoPJWDObB1INKnWj+dVJIK85Y7N5mpeIZjs7ph
-         ra3jmOcFMeErpagEdOUycLhsgITfVKS9jyCee/GyuEzT89xVQLl7B0Xi/ZhTr+FgB/8u
-         ESXlyLnlhKptDbvHfyukGCFdEs+QHAJqUBgMRpvc0P9BqoNdSg4rHH4xFAXUGqZJtt4s
-         G3XA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsDpo+RVKG33/tJ8B2nSqKJjAo1fE5UyixihAQfJyfstahQQdZ98IgGaSXh/WOPmQfBsG+wUsAE60iAffF1iuw+YNNab4chkoaQwj6KVjshlUVCboxjDqvA/sZAbSNCo42nBsgotRNb1KIqq/Nkwh4e/G32hi6ZSExVMFNJ73SmwzOXyid+ed47S2T0SPJvN8ocQpopjAk7ujPGD44PHD4jF6G9z0Y0GPtZNkglZ8nnBaVtX6UTlDMeo6pgMqBcc26xgeqv9OuVdNxuNNSK3dkvV331S5HTQHByrX4NKwXiRExtdw2O6y6U8nCTXzWVQBnCdhN9xsr8/s66bg+QgpKeEioCh8caFlyCG7XTj2quynZe/1LQ1l5TrwvR9VBK4EJViRtZ68adA1HbkoR9VfCPo8+cr+CQ5WT4I3ycUzaa/RKtakCVdFDV4CSnzWC4RRRsmZSHwLgMKqRB0PwnYK+uYQNFCHPcsK4mcyt6BFgG/GDhNmJngp/kSehLtlKSk2GGmK/Fg==
-X-Gm-Message-State: AOJu0YxlpxYMMmDiIQZDSJutOxeVxlxT7Tzqckmx691LsIRcQIFd0xGf
-	au+Un04HmZjznlSwpaTdoUJ0bMe/vuOnUpOvOF6lpLCoNjtzTEgl
-X-Google-Smtp-Source: AGHT+IFMrqly2po5FAbpY8Ll75+7jqZGxykv2GKZgaeba5l+UFazICmi5KDmbbiaIzRe6tWODUDHbA==
-X-Received: by 2002:a17:902:c412:b0:1f6:310b:a3cd with SMTP id d9443c01a7336-1f637018d0dmr55346295ad.20.1717247349084;
-        Sat, 01 Jun 2024 06:09:09 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f632338afbsm33014155ad.47.2024.06.01.06.09.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jun 2024 06:09:08 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id B7AAC186E1EBA; Sat, 01 Jun 2024 20:09:03 +0700 (WIB)
-Date: Sat, 1 Jun 2024 20:09:03 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Mao Zhu <zhumao001@208suo.com>, Ran Sun <sunran001@208suo.com>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Attreyee M <tintinm2017@gmail.com>, LihaSika <lihasika@gmail.com>
-Subject: Re: [PATCH net-next v10 13/14] net: add devmem TCP documentation
-Message-ID: <Zlsdb05xe4EnIXmq@archie.me>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-14-almasrymina@google.com>
+	s=arc-20240116; t=1717260135; c=relaxed/simple;
+	bh=Xu3vkhgffNTzU2/HpNfT9+Hk1mZIlW14sUSAMdOAUcM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SoQhUm6jk1+WQ++qoqeE98LpWiWVcouixQljEEkHzD8qaQllkFucF2ck8345UU7VetxYclKqhPJZRmmIk7eVwo7jiU15hrlTCNKjMHd3BpXwx69t+SqOneIPWa069awvYw0Sy7FbtEftXFmznF2C8Kb0DdrikCKbphSeKaUhKwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=sIS3bpZw; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 451GffZ8036681;
+	Sat, 1 Jun 2024 11:41:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1717260101;
+	bh=+ocxchH9u2Icz4prOAtSV5xvLRJJKRxfx+7US0r/Pik=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=sIS3bpZwCELHxccweU6x52eq+2O1Ue4QnQ+3wx6sWd9Ph/5SBvnFK0mTKgHaGJndb
+	 vKZsUkZ3Oe7to6ThCH6xsu0xc89qM9QE8q7nFH1EGG/+3PLTYE1IabyCy1d1zv0tG/
+	 +1848s9cQKrZRfDRz9FDEJPR6fOi8gD/x+EeypAc=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 451GffhU069778
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sat, 1 Jun 2024 11:41:41 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 1
+ Jun 2024 11:41:40 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sat, 1 Jun 2024 11:41:40 -0500
+Received: from [10.249.130.181] ([10.249.130.181])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 451GfTpn129505;
+	Sat, 1 Jun 2024 11:41:30 -0500
+Message-ID: <1d35fe9f-79f3-4d64-81d6-97a63b333bfc@ti.com>
+Date: Sat, 1 Jun 2024 22:11:28 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aC8Ai/5tbLCsiak5"
-Content-Disposition: inline
-In-Reply-To: <20240530201616.1316526-14-almasrymina@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
+ functions
+To: Randy Dunlap <rdunlap@infradead.org>, <mchehab@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <benjamin.gaignard@collabora.com>,
+        <sebastian.fricke@collabora.com>, <akpm@linux-foundation.org>,
+        <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+        <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <linux-doc@vger.kernel.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
+        <davidgow@google.com>, <dlatypov@google.com>
+References: <20240531170229.1270828-1-devarsht@ti.com>
+ <20240531171220.1295881-1-devarsht@ti.com>
+ <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
+On 01/06/24 00:01, Randy Dunlap wrote:
+> Hi,
+> 
+> On 5/31/24 10:12 AM, Devarsh Thakkar wrote:
+>> Add documentation for rounding, scaling, absolute value and difference,
+>> 32-bit division related macros and functions exported by math.h header
+>> file.
+>>
+> 
+> I don't see any kernel-doc for division functions in this header file.
+> 
+> Do some division functions get rendered somehow?
+> 
 
---aC8Ai/5tbLCsiak5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Good catch. I see couple of them having adequate documentation just
+missing the sphynx syntax, will enable for DIV_ROUND_CLOSEST and
+DIV_ROUND_CLOSEST_ULL.
 
-On Thu, May 30, 2024 at 08:16:12PM +0000, Mina Almasry wrote:
-> Add documentation outlining the usage and details of devmem TCP.
->=20
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->=20
-
-The doc LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---aC8Ai/5tbLCsiak5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZlsdaQAKCRD2uYlJVVFO
-o0YSAP9oUIejut2Xeqpj9kDBtkMcGA4Nf4zKVIgKdapDIWoSMAEA/6GrjlpUnXa2
-aFvYS6BFsRnMWpsP7c/bQ/LplabX6wM=
-=YUa0
------END PGP SIGNATURE-----
-
---aC8Ai/5tbLCsiak5--
+Regards
+Devarsh
 
