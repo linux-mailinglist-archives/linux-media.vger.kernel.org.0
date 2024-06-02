@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-12387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12388-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936A48D741F
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 09:27:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 794CC8D7668
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 16:41:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C902B2107E
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 07:27:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3267D2813E5
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 14:41:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0829F208A4;
-	Sun,  2 Jun 2024 07:27:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB1F482C8;
+	Sun,  2 Jun 2024 14:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="U6QQ9w/s"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="LIWkbNCd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+Received: from msa.smtpout.orange.fr (msa-210.smtpout.orange.fr [193.252.23.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6475D2837D;
-	Sun,  2 Jun 2024 07:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51862AEE0;
+	Sun,  2 Jun 2024 14:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717313223; cv=none; b=cNx+p+PAcEN/wzUKpsfsSCw+VkytnU9/iZZui2uTP/+Lu5obFbpddUaXkB1ZNHM4G9fRMLzxJ17rxYOkRLKfdVn3nsd/IuGmCEcUVf8YzL1zoRnT1+ZtGEc/gRt/KFspK8I9f788lyatZVNVc+YyrHVl0lZBZPKayVxCQzwa5Qs=
+	t=1717339087; cv=none; b=MdiWH1GT+ZfwWC9AkCkeulfs8KWKpqHrLvl0ueqYBdgtOdrRYQofyqLp/9JqkyjMx6oCYLj9ZW7nzAdvq+3ye40VluYKAj+7vA2TcombHucWvsPxRNv31UrrOtSSpnSrxwPN4FeDKEWXKarGTrUc97khaJiqBu6E05Xjn/7pmR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717313223; c=relaxed/simple;
-	bh=5vU+UUp8i0XytBBbtP1BYFK/1J0LMLna6iSlUbFykX0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mdvPQMkK6wR6osYeGMKJDFyVsiF+zc5f4dVewbtL6s4PkywA7SvochQBlUVPKQVmPcPiIf/NdM8Hh+jUwMNITfatcRm3+KvfynbeIrEh8xG/Wf0g5uqDmEVdze6vLNX808duoNGhWAqbBcjy42NKIfk2Tc9FJgLHYZRvNfIbne8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=U6QQ9w/s; arc=none smtp.client-ip=80.12.242.24
+	s=arc-20240116; t=1717339087; c=relaxed/simple;
+	bh=LVysQP63kxgkOPJHDyBMkif3ydpiiR5UrzTv9VFOl8M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PbStoFn79rYOap8TCWHYaNF2qLEdhQm5f42AvsgA8KX+Ap0Mj2tbk2G9jsWpY+Z0lgc5qOQMWMNoo927GOKJwYhzooS+NYOY0gAGDOnQ9E+EU+NPiffe8lrY2E09tsHcU8wEMY/+fJ59nc9mC7ljpiDt9fszqw+O4sXJg83IiFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=LIWkbNCd; arc=none smtp.client-ip=193.252.23.210
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Received: from fedora.home ([86.243.17.157])
 	by smtp.orange.fr with ESMTPA
-	id DfcBsRFnPRv3WDfcBsxUGF; Sun, 02 Jun 2024 09:26:52 +0200
+	id DmCns7nHE13tqDmCnsrjoC; Sun, 02 Jun 2024 16:29:07 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1717313212;
-	bh=uZOPGxZkjH03hL+S3wWEoYW4v++R64OY2Pp65PCtFlk=;
+	s=t20230301; t=1717338547;
+	bh=dcmvFoYnZSeTd8Kj+AiRlBV6qhwSnFlJXOzqirkIDKI=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=U6QQ9w/sy8dhSwP67oABpb93JfZHE6zv46FYWd4eAcxy7/WC+20cN8S/iUlgeVPT6
-	 BrxY5tvmE4cOItOwlqRSxDqDaSrKP7N/2EajXwsDxWpfRHs1muyZUyh+uMb9EUVYif
-	 rs3obQ88J6BmyqfEpNsqrZ/WarFgsGLvTw4xfaw3G0g3iaH0xNyotq5OikjA/EawBu
-	 Ad98CNSv0AqPb7xHzupSqDLU3ATAT8Jt1lo1ENR6d9uKcbDwwVmClczb+QQ20NxDBb
-	 7TsOEygf34r1lPkcsdnEoHxKa+i0Hdq3/NYFhVwH5tyVDAyERf/tDoreNaiDl1+syS
-	 uPd0+Gcrt3lVA==
+	b=LIWkbNCd6zg0rtja3DStnWdGogy3nvoA9T+e2ySWipMxQ9jydRKgLoHXT/kDBMLQY
+	 CbLbVJHriAfr6I94ftpHLQpJYuAVzTTRGk9u9pohxEP9CrgVlCr4z3fgsW+89cH0IO
+	 447SIjK5yUp5tzZ4Hxsnghpj+d4uvtJjz8/tQ6LpDYT9nbwk6pBk9FBTBzQJDdG0J+
+	 sy8h1EvOzojsc8fI7NeXV1MzBswZE+7/vqy0CsoQhWfwlRD4Amo6aI6SxP91i90pAQ
+	 7zvWE1s/BPtThw82pWhoCrqOLREqTi4HjcWEmVA1i98UpHR4o6EgE3zmzBgmi4nDpz
+	 +OTZSaCoEB+mQ==
 X-ME-Helo: fedora.home
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 02 Jun 2024 09:26:52 +0200
+X-ME-Date: Sun, 02 Jun 2024 16:29:07 +0200
 X-ME-IP: 86.243.17.157
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -57,9 +57,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	linux-media@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH] Constify struct dec_bufsize_ops and enc_bufsize_ops
-Date: Sun,  2 Jun 2024 09:26:45 +0200
-Message-ID: <9bc4b28a55c42fa4a125c3e03d4c8b0f208550b4.1717313173.git.christophe.jaillet@wanadoo.fr>
+Subject: [PATCH v2] media: venus: Constify struct dec_bufsize_ops and enc_bufsize_ops
+Date: Sun,  2 Jun 2024 16:27:34 +0200
+Message-ID: <9bc4b24a55c42fa49125cae0304c8b0f208550b1.1717313173.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -86,6 +86,20 @@ After:
 
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
+Changes in v2:
+   - Add missing prefix in the subject
+
+v1: https://lore.kernel.org/all/9bc4b28a55c42fa4a125c3e03d4c8b0f208550b4.1717313173.git.christophe.jaillet@wanadoo.fr/
+
+While looking at lore to find the reference above, I found that this
+patch had already been sent by Rikard Falkeborn <rikard.falkeborn@gmail.com>
+See: https://lore.kernel.org/all/20211212123534.4473-1-rikard.falkeborn@gmail.com/
+
+So, if applied, credits should be for him.
+So feel free to add a Co-Developed-by:, Reported-by:, Suggested-by: or
+whatever makes sense, including removing my Signed-off-by: to put his if
+it sounds better to do it this way.
+
  .../platform/qcom/venus/hfi_plat_bufs_v6.c    | 20 +++++++++----------
  1 file changed, 10 insertions(+), 10 deletions(-)
 
