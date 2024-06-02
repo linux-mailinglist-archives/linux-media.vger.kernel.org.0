@@ -1,212 +1,236 @@
-Return-Path: <linux-media+bounces-12390-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8589D8D7749
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 19:17:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3DF8D77D7
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 22:19:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E239F1F21702
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 17:17:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D9EB1C2154F
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 20:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13F9C55E73;
-	Sun,  2 Jun 2024 17:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E907B3C1;
+	Sun,  2 Jun 2024 20:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TPRERmzB"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="QTKrsM2L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta155.mxroute.com (mail-108-mta155.mxroute.com [136.175.108.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A032663B8
-	for <linux-media@vger.kernel.org>; Sun,  2 Jun 2024 17:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48BF7604F
+	for <linux-media@vger.kernel.org>; Sun,  2 Jun 2024 20:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717348616; cv=none; b=dw+nMyYI/CzEja+zeJt9iRyIr0k50lHu7V+1yuBZtSXLLuYLYGyxbItvFxJ/NrKNZ4wDhAOnGfqVxXaxpeYYvCYDPlknpw42kjQw6nYJxrUUinlCjggB/sO0axnCtBYv6FwK9340sRIF2XmhkTCSPh5747GSCWytQCbw4fEYNqw=
+	t=1717359555; cv=none; b=hpfcouyDihE5wE82ARnOxyRkAiI0/s8+3K42XCv8AKWtz+MEC+pt6gsNUO+i5Lz8f5f9X5TyGT8zT1t2Y1fS5eg3YekfPZHLjgnV/VS0XMvGZ+MF4joYC6+vTrD5bw3AJ1KrvGa01iG3FaLXOxFgRLXTofPM+AkHHkFxYgRrAXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717348616; c=relaxed/simple;
-	bh=dPf6B5T1s47H4oZEF9JcvaGar5LM+nrenbuusF/fwho=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aFuje5L1FHcLcxmBltmjbUL9IAv1mdw/fKkV4K1O11JbjYNL8aj++8vDHGkDLwVjnmdD7HPyrIOZq128KhASD89Oj5mgOV5ktzCsKbnstQ0pasyzeDJMNCJWC7BchJ6k3M4HFXPBtskwExQTgayE7cDSPEvez4POHmQAzB7bNaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TPRERmzB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3AA2E4CA;
-	Sun,  2 Jun 2024 19:16:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1717348606;
-	bh=dPf6B5T1s47H4oZEF9JcvaGar5LM+nrenbuusF/fwho=;
-	h=Date:From:To:Cc:Subject:From;
-	b=TPRERmzBGNAw3Az3aNmGy02+aLLVeoSxsduT5p3f5GMeRX9zlkzOC35SoqyEXumEh
-	 R93Rsli/406FLmDinDlNmHPVUhCw3EWcdMLbsM4JejZkCmtGo//9zKoyBcLvChFdrz
-	 fDwFn+0n82kyQlmK3IGqXaMABQ0fhSvzNjOUH8XM=
-Date: Sun, 2 Jun 2024 20:16:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: RFC: V4L2 subdev states and controls
-Message-ID: <20240602171638.GA9310@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1717359555; c=relaxed/simple;
+	bh=hpqRJ08lO+PkGRfiEidrZnzYIHlnwSGsXOGXGN2+H+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Oke5y9cysOqcCWdVN5FyczskIqIucZYonVKfetju2LO+NwlWMD9z3cuNvC1st5sM11Lkb0MsfxjtZSp9PW2O7BQAD41ZOK8+FUFgsykj2VRCs/EI293N0c1Vy92nnftGUubwhbusobZL5keKyeFiaid74arRqQN0n6MvOV6xLJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=QTKrsM2L; arc=none smtp.client-ip=136.175.108.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta155.mxroute.com (ZoneMTA) with ESMTPSA id 18fda965140000e2b6.011
+ for <linux-media@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Sun, 02 Jun 2024 20:13:55 +0000
+X-Zone-Loop: be7a4312e732c6dd8fefbe576b34b5a3d807f4a6ddea
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=luigi311.com; s=x; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=I3FqIou2Hw7O0efOoyCcVKinCXA2Rt++X7FET/AdEQE=; b=QTKrsM2LdjwUEnqP/XjPTl1EGJ
+	FiWB0i8NLOJirjDBDMVw6U/AZP1qNSnA7AwizchtRgluuVos3zoY9Kjkn59f72zrS4FJAx0YS1izZ
+	ubNA7peLxdx/tg3P/bAyk+gGZyvfpmtyflk8vVj2LMc373EiQrR5i4JXpaRjSXpbv5fMeisqomnSe
+	brSbpE1FaUftnaKZkbJO95VAe9bwiPAxnN4WRa59SffIi13d/LFS2sI14KI5agkMwEfauaWvOVEva
+	bax9STn2Zkgg6/4JxX8c8lTwVoSBatYQT+nCJ7hPMza+vYgCQYqI6BDHplT7WcCHvS0RPSqh91yUh
+	y0JdxxdA==;
+From: git@luigi311.com
+To: linux-media@vger.kernel.org
+Cc: dave.stevenson@raspberrypi.com,
+	jacopo.mondi@ideasonboard.com,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	sakari.ailus@linux.intel.com,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	pavel@ucw.cz,
+	phone-devel@vger.kernel.org,
+	Luis Garcia <git@luigi311.com>
+Subject: [PATCH v6 00/23] imx258 improvement series
+Date: Sun,  2 Jun 2024 14:13:22 -0600
+Message-ID: <20240602201345.328737-1-git@luigi311.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: personal@luigi311.com
 
-Hello Hans,
+From: Luis Garcia <git@luigi311.com>
 
-I've mentioned a few times in the past that I would like to see tighter
-integration of V4L2 controls for subdevs and the subdev states. Other
-developments related to subdev states were of higher priority,
-preventing me from diving into this topic. Now that we've merged quite a
-few state-related patch series, it's time to get back to controls.
+v6:
+  - Drop powerdown-gpio patches
+    - per Sakari Ailus request as it is not part or 
+      not used by the sensor
+    - I tested without it and PPP still works
+    - Dave mentioned its not part of the datasheet 
+      for the imx258
+    - Ondrej Jirman also tested it and it doesnt seem
+      to be needed
 
-I'll try to explain here what I envision, focussing on the goals, to
-start brainstorming possible solutions.
 
-# Background
+v5:
+  - Changed ownership of a few patches to Ondrej Jirman
+  - Implement feedback from Tommy Merciai
+    - media: i2c: imx258: Add support for reset gpio
+    - media: i2c: imx258: Use v4l2_link_freq_to_bitmap helper
+    - media: i2c: imx258: Convert to new CCI register access helpers
 
-First, some background, to make sure every participant in this
-conversation understands what we're talking about.
+v4:
+  - Swapped out the use macro patch for a patch that uses the new
+    CCI register access helpers per Sakari Ailus
+  - Fix order of reset and powerdown gpio before disable regulators
+  - Fix formating of all patches
+  
+  - Implemented feedback from Pavel Machek
+    - media: i2c: imx258: Follow normal V4L2 behaviours
+    - media: i2c: imx258: Allow configuration of clock
+  - Implemented feedback from Sakari Ailus
+    - media: i2c: imx258: Add support for powerdown gpio
 
-## Userspace API
 
-Historically, the V4L2 API has modelled controls, formats and selection
-rectangles using a GET/SET/TRY API. This is still what the API exposes
-today on video devices. The TRY and SET calls update the requested
-format, selection rectangle and controls identically before returning
-them to userspace. The TRY calls then discard the values without
-affecting the hardware configuration, while the SET calls apply the
-values to the device.
+v3 Luis Garcia
 
-For subdevs, controls are handled the same way as on video devices, with
-GET/SET/TRY operations. Formats and selection rectangles, on the other
-hand, are instead handled with GET/SET operations only, but with the
-ability to operate on different device states. The API defines two
-states, the ACTIVE and TRY states. As for video devices, the GET/SET
-operations update the values requested by userspace in the same way. SET
-stores the value in the specified state, and GET retrieves the current
-value from the state.
+- Add Use v4l2_link_freq_to_bitmap helper patch per Sakari Ailus
+- Separate dt-bindings for powerdown per Rob Herring
+- Fix dt-bindings for imx258.yaml
+- Fix sign offs per Dang Huynh 
+- Fix versioning per Conor Dooley and Kieran Bingham
+- Use scripts to validate and fix patches
+- Implemented feedback from Sakari Ailus
+  - media: i2c: imx258: Add support for 24MHz clock
+  - media: i2c: imx258: Add support for running on 2 CSI data lanes
 
-The ACTIVE state corresponds to the hardware state. There is a single
-ACTIVE state, and modifying it affects the hardware. The TRY state does
-not affect the hardware. It offers a storage space for formats and
-selection rectangles. This allows trying different combinations of
-formats and selection rectangles on different pads of a subdev, without
-affecting the hardware state. There is one TRY state per open file
-handle of a subdev, allowing different applications to try subdev
-configurations without affecting each other. When a subdev file handle
-is closed, the corresponding TRY state is destroyed.
+- Implemented feedback from Rob Herring
+  - dt-bindings: media: imx258: Add alternate compatible strings
 
-## Kernel API
 
-Subdev states are modelled in the kernel by a v4l2_subdev_state
-structure. The structure stores formats and selection rectangles (as
-well as routing tables) for all pads of the subdev. A pointer to the
-state is passed to all subdev operations. This simplifies implementation
-of drivers, as they don't have to handle configuration storage manually,
-and can more easily implement common GET/SET handlers for the ACTIVE and
-TRY states.
 
-Controls are handled by the V4L2 control framework. Subdev drivers
-create an instance of the v4l2_ctrl_handler structure, add controls to
-the control handler, and implement a few control operations, mostly
-.s_ctrl(). The control framework handles the V4L2 control userspace API
-with all its legacy and extended ioctls, and implements all the complex
-validation and userspace-visible behaviour.
+v2 Luis Garcia
 
-# Issues and next steps
+- Add use macros patch 
+- Add support for powerdown gpio patch
+- Add support for reset gpio patch
+- Dropped Add support for long exposure modes patch
+- Implemented feedback from Jacopo Mondi
+  - media: i2c: imx258: Add regulator control
+  - media: i2c: imx258: Add support for 24MHz clock
+  - media: i2c: imx258: Add support for running on 2 CSI data lanes
+  - media: i2c: imx258: Add get_selection for pixel array information
+  - media: i2c: imx258: Issue reset before starting streaming
+  - media: i2c: imx258: Set pixel_rate range to the same as the value
+  - dt-bindings: media: imx258: Add alternate compatible strings
+  - media: i2c: imx258: Change register settings for variants of the sensor
+  - media: i2c: imx258: Make HFLIP and VFLIP controls writable
 
-As described above, subdevs and formats and selection rectangles on one
-hand, and controls on the other hand, in very different ways. While
-userspace can test combinations of formats and selection rectangles on
-different subdev pads, it can only do so separately from trying
-controls. For most controls that is not an issue, but some controls
-affect or are affected by formats or selection rectangles. Those include
-(but are not limited to)
+This adds a few more patches and drops one. The long exposure mode patch
+was dropped due to the bug that Jacopo found. The powerdown and reset gpio
+patches were added as that fixes support for the Pinephone Pro, without
+them the sensor doesn't initialize correctly.
 
-- V4L2_CID_HFLIP and V4L2_CID_VFLIP that may affect the Bayer pattern
-  produced by a raw sensor
+Tested on a Pinephone Pro by forcing 24 mhz clock. The two lower 
+resolutions had some artifacts but that is expected as more changes are 
+required to fix them for the Pinephone Pro specifically, kept all 
+registers the same as Dave's original patch since that works on dedicated
+imx258 hardware and the artifacts are PPP specific so it shouldn't 
+be a regression.
 
-- V4L2_CID_HBLANK and V4L2_CID_VBLANK whose higher limits typically
-  depend on the format and selection rectangles, as those values are
-  often expressed at the hardware level as total horizontal/vertical
-  sizes (i.e. active + blanking)
 
-- V4L2_CID_PIXEL_RATE and V4L2_CID_LINK_FREQ, as link frequencies and
-  pixel rates affect the achievable throughput, and thus the usable
-  sensor resolutions and frame rates
 
-Other controls may also be affected.
+v1 Dave Stevenson
 
-The subdev .set_fmt(), .set_selection() and .s_ctrl() operations need to
-handle those dependencies, and not only is this cumbersome for drivers,
-it is also impossible for userspace applications to try combinations of
-formats, selection rectangles and controls without modifying the active
-value of the controls.
+This is a set of patches for imx258 that allow it to work with alternate
+clock frequencies, over either 2 or 4 lanes, and generally adding
+flexibility to the driver.
 
-One way to improve the situation could be to modify some of those
-controls to make them independent from the format and selection
-rectangles. For instance, we could deprecate the HBLANK and VBLANK
-controls and introduce HTOTAL and VTOTAL controls whose maximum value
-wouldn't depend on the sensor output resolution (this has been proposed
-already, see https://lore.kernel.org/all/20230609-v4l2-vtotal-v2-0-cf29925f4517@skidata.com/).
-This would however likely trade one problem for another, as the minimum
-value of the HTOTAL and VTOTAL controls would then depend on the sensor
-output resolution. In any case, not all control can be made independent
-of the formats and selection rectangles.
+Tested with an IMX258 module from Soho Enterprises that has a 24MHz
+oscillator. Both 2 and 4 lane configurations work with correct link
+frequencies and pixel rates.
 
-Another option would be to create a completely new API to configure
-subdevs, tailored to specific use cases. I'm personally focussing on
-drivers for raw camera sensors, and we could create an API that focusses
-on that. The obvious downsides are that userspace would need to learn a
-completely different API, that API would duplicate features of existing
-APIs, and we would anyway be facing the same issues in the API design.
-The kernel-side implementation would be cumbersome too if we want to
-handle interoperability of different APIs. While we may consider this
-option in the long term, I don't think it's a good solution today.
+Jacopo has tested on a PinePhone Pro which has an ~19.2MHz clock fed from
+the SoC, He confirms that the two lower resolution modes work, but not the
+full res mode. Comparing to the BSP it looks like they have some weird
+clock configuration in the 4208x3120 mode (nominally 1224Mb/s/lane instead
+of 1267). As it has never previously worked directly with the mainline
+driver this isn't a regression but may indicate that there is a need for
+support of additional link frequencies in the future.
 
-I would like to explore moving storage of control values to the
-v4l2_subdev_state, the same way we store formats and selection
-rectangles. Subdev drivers would still create control globally, at probe
-time, but the stored value would be duplicated in each state. Control
-ioctls would need to gain a 'which' argument to select the ACTIVE or TRY
-state (ACTIVE would need to be the default for backward compatibility).
+The last patch that makes HFLIP and VFLIP configurable may be contentious
+as I've retained the default configuration of inverted from the original
+driver. I know this was discussed recently, but I can't recall the final
+outcome.
 
-On the kernel side, I think it could help to split the existing
-.s_ctrl() operation in two, with one operation to update (e.g. round)
-the control value, and the limits of other related controls, and one
-operation to apply controls to the hardware. The former would be called
-for both the ACTIVE and TRY states, while the latter would only be
-called for the ACTIVE state.
+I am relying on someone from Intel testing this out, as correcting the
+cropping and supporting flips has changed the Bayer order. Seeing as this
+is all above board in V4L2 terms I really hope that the layers above it
+behave themselves.
 
-Control limits would also likely need to be stored in the subdev state,
-as they will change when formats and selection rectangles change. I wish
-we could avoid this though, as it will make both the implementation and
-the specification of the userspace API behaviour more complex, but I'm
-not sure we can get away without storing limits in the state too. Still,
-control values and control limits are different, and I have a feeling we
-should handle them somehow differently.
+Dave Stevenson (20):
+  media: i2c: imx258: Remove unused defines
+  media: i2c: imx258: Make image geometry meet sensor requirements
+  media: i2c: imx258: Disable digital cropping on binned modes
+  media: i2c: imx258: Remove redundant I2C writes.
+  media: i2c: imx258: Add regulator control
+  media: i2c: imx258: Make V4L2_CID_VBLANK configurable.
+  media: i2c: imx258: Split out common registers from the mode based
+    ones
+  media: i2c: imx258: Add support for 24MHz clock
+  media: i2c: imx258: Add support for running on 2 CSI data lanes
+  media: i2c: imx258: Follow normal V4L2 behaviours for clipping
+    exposure
+  media: i2c: imx258: Add get_selection for pixel array information
+  media: i2c: imx258: Allow configuration of clock lane behaviour
+  media: i2c: imx258: Correct max FRM_LENGTH_LINES value
+  media: i2c: imx258: Issue reset before starting streaming
+  media: i2c: imx258: Set pixel_rate range to the same as the value
+  media: i2c: imx258: Support faster pixel rate on binned modes
+  dt-bindings: media: imx258: Rename to include vendor prefix
+  dt-bindings: media: imx258: Add alternate compatible strings
+  media: i2c: imx258: Change register settings for variants of the
+    sensor
+  media: i2c: imx258: Make HFLIP and VFLIP controls writable
 
-Storing control values in the subdev state will also enable future API
-evolutions in V4L2. I'm thinking in particular about usage of the
-request API with subdevs. If we can store the whole subdev state in the
-v4l2_subdev_state structure, we will be able to construct state
-instances per request, and nicely extend the request API to a whole MC
-device. There will be quite some work to achieve that, but it's a
-direction I'd like to take.
+Luis Garcia (2):
+  media: i2c: imx258: Use v4l2_link_freq_to_bitmap helper
+  media: i2c: imx258: Convert to new CCI register access helpers
 
-Now the stage is yours. All constructive feedback is welcome. Patches
-would be amaazing, but I think we need to discuss this further first.
+Ondrej Jirman (1):
+  media: i2c: imx258: Add support for reset gpio
+
+ .../i2c/{imx258.yaml => sony,imx258.yaml}     |   11 +-
+ MAINTAINERS                                   |    2 +-
+ drivers/media/i2c/Kconfig                     |    1 +
+ drivers/media/i2c/imx258.c                    | 1440 ++++++++++-------
+ 4 files changed, 835 insertions(+), 619 deletions(-)
+ rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml => sony,imx258.yaml} (88%)
 
 -- 
-Regards,
+2.44.0
 
-Laurent Pinchart
 
