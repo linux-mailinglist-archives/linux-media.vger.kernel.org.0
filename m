@@ -1,191 +1,148 @@
-Return-Path: <linux-media+bounces-12388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12389-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794CC8D7668
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 16:41:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 398588D7685
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 17:17:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3267D2813E5
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 14:41:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7ABF71F22734
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 15:17:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DB1F482C8;
-	Sun,  2 Jun 2024 14:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A09433BE;
+	Sun,  2 Jun 2024 15:17:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="LIWkbNCd"
+	dkim=pass (1024-bit key) header.d=mail.bg header.i=@mail.bg header.b="Ca+PgNPW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from msa.smtpout.orange.fr (msa-210.smtpout.orange.fr [193.252.23.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx5.mail.bg (mx5.mail.bg [193.201.172.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51862AEE0;
-	Sun,  2 Jun 2024 14:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.23.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF91B66F
+	for <linux-media@vger.kernel.org>; Sun,  2 Jun 2024 15:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.201.172.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717339087; cv=none; b=MdiWH1GT+ZfwWC9AkCkeulfs8KWKpqHrLvl0ueqYBdgtOdrRYQofyqLp/9JqkyjMx6oCYLj9ZW7nzAdvq+3ye40VluYKAj+7vA2TcombHucWvsPxRNv31UrrOtSSpnSrxwPN4FeDKEWXKarGTrUc97khaJiqBu6E05Xjn/7pmR4=
+	t=1717341439; cv=none; b=tW3ypm6GFGOf+gDoYPFbtMAUvr2VMDxuFDJEvxM0W4Cy+kMU3+2ux73BHUEol1ddW38XsbQVjK1H9hKLfxgtC4d5NV1XGjHw39gDFCHWpoqIu5oNXbkWhkukI5xdYNyoVhgzRSisgWjotrMlIevrKM1wUFt23j440n2lLAeYATc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717339087; c=relaxed/simple;
-	bh=LVysQP63kxgkOPJHDyBMkif3ydpiiR5UrzTv9VFOl8M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PbStoFn79rYOap8TCWHYaNF2qLEdhQm5f42AvsgA8KX+Ap0Mj2tbk2G9jsWpY+Z0lgc5qOQMWMNoo927GOKJwYhzooS+NYOY0gAGDOnQ9E+EU+NPiffe8lrY2E09tsHcU8wEMY/+fJ59nc9mC7ljpiDt9fszqw+O4sXJg83IiFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=LIWkbNCd; arc=none smtp.client-ip=193.252.23.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id DmCns7nHE13tqDmCnsrjoC; Sun, 02 Jun 2024 16:29:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1717338547;
-	bh=dcmvFoYnZSeTd8Kj+AiRlBV6qhwSnFlJXOzqirkIDKI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=LIWkbNCd6zg0rtja3DStnWdGogy3nvoA9T+e2ySWipMxQ9jydRKgLoHXT/kDBMLQY
-	 CbLbVJHriAfr6I94ftpHLQpJYuAVzTTRGk9u9pohxEP9CrgVlCr4z3fgsW+89cH0IO
-	 447SIjK5yUp5tzZ4Hxsnghpj+d4uvtJjz8/tQ6LpDYT9nbwk6pBk9FBTBzQJDdG0J+
-	 sy8h1EvOzojsc8fI7NeXV1MzBswZE+7/vqy0CsoQhWfwlRD4Amo6aI6SxP91i90pAQ
-	 7zvWE1s/BPtThw82pWhoCrqOLREqTi4HjcWEmVA1i98UpHR4o6EgE3zmzBgmi4nDpz
-	 +OTZSaCoEB+mQ==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 02 Jun 2024 16:29:07 +0200
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2] media: venus: Constify struct dec_bufsize_ops and enc_bufsize_ops
-Date: Sun,  2 Jun 2024 16:27:34 +0200
-Message-ID: <9bc4b24a55c42fa49125cae0304c8b0f208550b1.1717313173.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.45.1
+	s=arc-20240116; t=1717341439; c=relaxed/simple;
+	bh=58hLkQt5Z6pDG2oXJ3MNYEtjr8YHua6WhYP+5Xg2h5k=;
+	h=Message-ID:Date:Subject:From:To:Cc:MIME-Version:Content-Type; b=KRtJGah2OAouHxDLUCE3/XOzJ5ZnvG4g4ffUDBa2SuK9MK4HTAly27s+6h05Z3GY+JzsTbz0UEOZwIhSf8DIXRIPCBu/jRTdncvny2DyCEmKq0Yrju7lYc1ZTK7OoCLAPQ2OCxcPEjecTiJQ4dcp9Ay/z+Vi1vqMG1Ct6GvFLPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.bg; spf=pass smtp.mailfrom=mail.bg; dkim=pass (1024-bit key) header.d=mail.bg header.i=@mail.bg header.b=Ca+PgNPW; arc=none smtp.client-ip=193.201.172.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mail.bg
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.bg
+Received: from mail.bg (unknown [10.0.0.24])
+	by mx5.mail.bg (Postfix) with ESMTPA id 744CC9391D8E;
+	Sun,  2 Jun 2024 18:17:13 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mail.bg; s=default;
+	t=1717341433; bh=58hLkQt5Z6pDG2oXJ3MNYEtjr8YHua6WhYP+5Xg2h5k=;
+	h=Message-ID:Date:Subject:From:To:Cc:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	b=Ca+PgNPWUutkuV4i5g/1D08cTn7wQ1s2jhEjHrC93UzhQNv5bSVjGwMazwf6HbsqQ
+	 mZ0CZrWxjxR5OpKRKx8f54yPQRSSNvqPdHkrED2sJM2DJBF+iwZNu64rJ42ZGztwcp
+	 yxzTexqPwRd2cLB0m+qb+k52/YpIAk3Ku9dy2WPM=
+Message-ID: <85bc1bd641de9ed2bca76258fdf13d7b.mailbg@mail.bg>
+Date: Sun, 2 Jun 2024 18:17:13 +0300
+Subject: [PATCH] media: cx23885: Add analog support for AVerMedia H789-C PCIe
+ card
+From: Plamen Atanasov <tigerment@mail.bg>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+ hverkuil@xs4all.nl,
+ hdegoede@redhat.com,
+ laurent.pinchart@ideasonboard.com
+User-Agent: Mail.BG Webmail
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 3 (Normal)
+Importance: Normal
+X-Composed: 2024-06-02T18:17:13+03:00
 
-"struct dec_bufsize_ops and "struct enc_bufsize_ops" are not modified in
-this driver.
-
-Constifying these structures moves some data to a read-only section, so
-increase overall security.
-
-On a x86_64, with allmodconfig:
-Before:
-   text	   data	    bss	    dec	    hex	filename
-  12494	    822	      0	  13316	   3404	drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.o
-
-After:
-   text	   data	    bss	    dec	    hex	filename
-  12766	    566	      0	  13332	   3414	drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.o
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Changes in v2:
-   - Add missing prefix in the subject
-
-v1: https://lore.kernel.org/all/9bc4b28a55c42fa4a125c3e03d4c8b0f208550b4.1717313173.git.christophe.jaillet@wanadoo.fr/
-
-While looking at lore to find the reference above, I found that this
-patch had already been sent by Rikard Falkeborn <rikard.falkeborn@gmail.com>
-See: https://lore.kernel.org/all/20211212123534.4473-1-rikard.falkeborn@gmail.com/
-
-So, if applied, credits should be for him.
-So feel free to add a Co-Developed-by:, Reported-by:, Suggested-by: or
-whatever makes sense, including removing my Signed-off-by: to put his if
-it sounds better to do it this way.
-
- .../platform/qcom/venus/hfi_plat_bufs_v6.c    | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-index f5a655973c08..6289166786ec 100644
---- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-+++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-@@ -1063,51 +1063,51 @@ struct enc_bufsize_ops {
- 	u32 (*persist)(void);
- };
- 
--static struct dec_bufsize_ops dec_h264_ops = {
-+static const struct dec_bufsize_ops dec_h264_ops = {
- 	.scratch = h264d_scratch_size,
- 	.scratch1 = h264d_scratch1_size,
- 	.persist1 = h264d_persist1_size,
- };
- 
--static struct dec_bufsize_ops dec_h265_ops = {
-+static const struct dec_bufsize_ops dec_h265_ops = {
- 	.scratch = h265d_scratch_size,
- 	.scratch1 = h265d_scratch1_size,
- 	.persist1 = h265d_persist1_size,
- };
- 
--static struct dec_bufsize_ops dec_vp8_ops = {
-+static const struct dec_bufsize_ops dec_vp8_ops = {
- 	.scratch = vpxd_scratch_size,
- 	.scratch1 = vp8d_scratch1_size,
- 	.persist1 = vp8d_persist1_size,
- };
- 
--static struct dec_bufsize_ops dec_vp9_ops = {
-+static const struct dec_bufsize_ops dec_vp9_ops = {
- 	.scratch = vpxd_scratch_size,
- 	.scratch1 = vp9d_scratch1_size,
- 	.persist1 = vp9d_persist1_size,
- };
- 
--static struct dec_bufsize_ops dec_mpeg2_ops = {
-+static const struct dec_bufsize_ops dec_mpeg2_ops = {
- 	.scratch = mpeg2d_scratch_size,
- 	.scratch1 = mpeg2d_scratch1_size,
- 	.persist1 = mpeg2d_persist1_size,
- };
- 
--static struct enc_bufsize_ops enc_h264_ops = {
-+static const struct enc_bufsize_ops enc_h264_ops = {
- 	.scratch = h264e_scratch_size,
- 	.scratch1 = h264e_scratch1_size,
- 	.scratch2 = enc_scratch2_size,
- 	.persist = enc_persist_size,
- };
- 
--static struct enc_bufsize_ops enc_h265_ops = {
-+static const struct enc_bufsize_ops enc_h265_ops = {
- 	.scratch = h265e_scratch_size,
- 	.scratch1 = h265e_scratch1_size,
- 	.scratch2 = enc_scratch2_size,
- 	.persist = enc_persist_size,
- };
- 
--static struct enc_bufsize_ops enc_vp8_ops = {
-+static const struct enc_bufsize_ops enc_vp8_ops = {
- 	.scratch = vp8e_scratch_size,
- 	.scratch1 = vp8e_scratch1_size,
- 	.scratch2 = enc_scratch2_size,
-@@ -1186,7 +1186,7 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
- 	u32 codec = params->codec;
- 	u32 width = params->width, height = params->height, out_min_count;
- 	u32 out_width = params->out_width, out_height = params->out_height;
--	struct dec_bufsize_ops *dec_ops;
-+	const struct dec_bufsize_ops *dec_ops;
- 	bool is_secondary_output = params->dec.is_secondary_output;
- 	bool is_interlaced = params->dec.is_interlaced;
- 	u32 max_mbs_per_frame = params->dec.max_mbs_per_frame;
-@@ -1260,7 +1260,7 @@ static int bufreq_enc(struct hfi_plat_buffers_params *params, u32 buftype,
- 		      struct hfi_buffer_requirements *bufreq)
- {
- 	enum hfi_version version = params->version;
--	struct enc_bufsize_ops *enc_ops;
-+	const struct enc_bufsize_ops *enc_ops;
- 	u32 width = params->width;
- 	u32 height = params->height;
- 	bool is_tenbit = params->enc.is_tenbit;
--- 
-2.45.1
+This card has the following ICs: Hybrid tuner TDA18271, CX23888 PCIe bridge=
+/demodulator/decoder (and DVB-T demodulator AF9013S, which is not within th=
+e scope of this patch). It has the following inputs: Tuner, S-Video, Compos=
+ite (shared with the luma input of S-Video) and Audio L/R RCA. VID:PID is 1=
+461:e139. When the patch is applied and the cx23885 kernel module is built =
+and loaded, the following dmesg can be seen:=0A=0A[  749.677298] cx23885: c=
+x23885 driver version 0.0.4 loaded=0A[  749.677554] cx23885: CORE cx23885[0=
+]: subsystem: 1461:e139, board: AVerMedia H789-C [card=3D63,autodetected]=
+=0A[  749.831841] cx25840 8-0044: cx23888 A/V decoder found @ 0x88 (cx23885=
+[0])=0A[  750.451676] cx25840 8-0044: loaded v4l-cx23885-avcore-01.fw firmw=
+are (16382 bytes)=0A[  750.488064] tuner: 7-0063: Tuner -1 found with type(=
+s) Radio TV.=0A[  750.488115] tda18271 7-0063: creating new instance=0A[  7=
+50.490153] tda18271: TDA18271HD/C2 detected @ 7-0063=0A[  750.805043] cx238=
+85: cx23885[0]: registered device video2 [v4l2]=0A[  750.805151] cx23885: c=
+x23885[0]: registered device vbi2=0A[  750.808682] cx23885: cx23885[0]: als=
+a: registered ALSA audio device=0A[  750.808693] cx23885: cx23885_dev_check=
+revision() Hardware revision =3D 0xd0=0A[  750.808700] cx23885: cx23885[0]/=
+0: found at 0000:02:00.0, rev: 4, irq: 18, latency: 0, mmio: 0xddc00000=0A=
+=0AThe card has to be defined in cx23885-cards.c (firmware also has to be l=
+oaded) and cx23885.h. Moreover, audio routing is configured in cx23885-vide=
+o.c. Analog tuning, composite, s-video and stereo audio inputs have been su=
+ccessfully tested with PAL B/G.=0A=0ASigned-off-by: Plamen Atanasov <tigerm=
+ent@mail.bg>=0A---=0A drivers/media/pci/cx23885/cx23885-cards.c | 30 ++++++=
+++++++++++++++++++++++++=0A drivers/media/pci/cx23885/cx23885-video.c |  3 =
+++-=0A drivers/media/pci/cx23885/cx23885.h       |  1 +=0A 3 files changed,=
+ 33 insertions(+), 1 deletion(-)=0A=0Adiff --git a/drivers/media/pci/cx2388=
+5/cx23885-cards.c b/drivers/media/pci/cx23885/cx23885-cards.c=0Aindex 9244b=
+432055..b1a4cd631cf 100644=0A--- a/drivers/media/pci/cx23885/cx23885-cards.=
+c=0A+++ b/drivers/media/pci/cx23885/cx23885-cards.c=0A@@ -860,6 +860,31 @@ =
+struct cx23885_board cx23885_boards[] =3D {=0A                        .amux=
+   =3D CX25840_AUDIO7,=0A                } },=0A        },=0A+       [CX238=
+85_BOARD_AVERMEDIA_H789C] =3D {=0A+               .name           =3D "AVer=
+Media H789-C",=0A+               .porta          =3D CX23885_ANALOG_VIDEO,=
+=0A+               .tuner_type     =3D TUNER_NXP_TDA18271,=0A+             =
+  .tuner_addr     =3D 0x63, /* 0xc0 >> 1 */=0A+               .tuner_bus   =
+   =3D 1,=0A+               .input          =3D {{=0A+                     =
+  .type   =3D CX23885_VMUX_TELEVISION,=0A+                       .vmux   =
+=3D       CX25840_VIN7_CH3 |=0A+                                       CX25=
+840_VIN5_CH2 |=0A+                                       CX25840_VIN2_CH1 |=
+=0A+                                       CX25840_DIF_ON,=0A+             =
+          .amux   =3D CX25840_AUDIO8,=0A+               }, {=0A+           =
+            .type   =3D CX23885_VMUX_COMPOSITE1,=0A+                       =
+.vmux   =3D CX25840_VIN8_CH1,=0A+                       .amux   =3D CX25840=
+_AUDIO7,=0A+               }, {=0A+                       .type   =3D CX238=
+85_VMUX_SVIDEO,=0A+                       .vmux   =3D CX25840_VIN8_CH1 |=0A=
++                                 CX25840_VIN7_CH3 |=0A+                   =
+              CX25840_SVIDEO_ON,=0A+                       .amux   =3D CX25=
+840_AUDIO7,=0A+               }, },=0A+       },=0A };=0A const unsigned in=
+t cx23885_bcount =3D ARRAY_SIZE(cx23885_boards);=0A =0A@@ -1187,6 +1212,10 =
+@@ struct cx23885_subid cx23885_subids[] =3D {=0A                .subvendor=
+ =3D 0x1461,=0A                .subdevice =3D 0x3100,=0A                .ca=
+rd      =3D CX23885_BOARD_AVERMEDIA_CE310B,=0A+       }, {=0A+             =
+  .subvendor =3D 0x1461,=0A+               .subdevice =3D 0xe139,=0A+      =
+         .card      =3D CX23885_BOARD_AVERMEDIA_H789C,=0A        },=0A };=
+=0A const unsigned int cx23885_idcount =3D ARRAY_SIZE(cx23885_subids);=0A@@=
+ -2413,6 +2442,7 @@ void cx23885_card_setup(struct cx23885_dev *dev)=0A    =
+    case CX23885_BOARD_VIEWCAST_260E:=0A        case CX23885_BOARD_VIEWCAST=
+_460E:=0A        case CX23885_BOARD_AVERMEDIA_CE310B:=0A+       case CX2388=
+5_BOARD_AVERMEDIA_H789C:=0A                dev->sd_cx25840 =3D v4l2_i2c_new=
+_subdev(&dev->v4l2_dev,=0A                                &dev->i2c_bus[2].=
+i2c_adap,=0A                                "cx25840", 0x88 >> 1, NULL);=0A=
+diff --git a/drivers/media/pci/cx23885/cx23885-video.c b/drivers/media/pci/=
+cx23885/cx23885-video.c=0Aindex 7d4a409c433..479c0253698 100644=0A--- a/dri=
+vers/media/pci/cx23885/cx23885-video.c=0A+++ b/drivers/media/pci/cx23885/cx=
+23885-video.c=0A@@ -261,7 +261,8 @@ static int cx23885_video_mux(struct cx2=
+3885_dev *dev, unsigned int input)=0A                (dev->board =3D=3D CX2=
+3885_BOARD_AVERMEDIA_HC81R) ||=0A                (dev->board =3D=3D CX23885=
+_BOARD_VIEWCAST_260E) ||=0A                (dev->board =3D=3D CX23885_BOARD=
+_VIEWCAST_460E) ||=0A-               (dev->board =3D=3D CX23885_BOARD_AVERM=
+EDIA_CE310B)) {=0A+               (dev->board =3D=3D CX23885_BOARD_AVERMEDI=
+A_CE310B) ||=0A+               (dev->board =3D=3D CX23885_BOARD_AVERMEDIA_H=
+789C)) {=0A                /* Configure audio routing */=0A                =
+v4l2_subdev_call(dev->sd_cx25840, audio, s_routing,=0A                     =
+   INPUT(input)->amux, 0, 0);=0Adiff --git a/drivers/media/pci/cx23885/cx23=
+885.h b/drivers/media/pci/cx23885/cx23885.h=0Aindex 349462ee2c4..8ba1f30623=
+8 100644=0A--- a/drivers/media/pci/cx23885/cx23885.h=0A+++ b/drivers/media/=
+pci/cx23885/cx23885.h=0A@@ -102,6 +102,7 @@=0A #define CX23885_BOARD_HAUPPA=
+UGE_QUADHD_DVB_885 60=0A #define CX23885_BOARD_HAUPPAUGE_QUADHD_ATSC_885 61=
+=0A #define CX23885_BOARD_AVERMEDIA_CE310B         62=0A+#define CX23885_BO=
+ARD_AVERMEDIA_H789C          63=0A =0A #define GPIO_0 0x00000001=0A #define=
+ GPIO_1 0x00000002
 
 
