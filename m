@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-12414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EB18D780F
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 22:26:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472408D7809
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 22:25:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED2301C22584
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 20:26:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A29E8B22001
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jun 2024 20:25:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECA988662A;
-	Sun,  2 Jun 2024 20:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B3B185C44;
+	Sun,  2 Jun 2024 20:20:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="PjahQmTh"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b="X/weH5KZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-108-mta52.mxroute.com (mail-108-mta52.mxroute.com [136.175.108.52])
+Received: from mail-108-mta56.mxroute.com (mail-108-mta56.mxroute.com [136.175.108.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716A68624F
-	for <linux-media@vger.kernel.org>; Sun,  2 Jun 2024 20:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D328593D
+	for <linux-media@vger.kernel.org>; Sun,  2 Jun 2024 20:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717359661; cv=none; b=Dc5iMaYHTDNJGjW8Zh5gttcJT4LJnkMqS84MFNtL2ymUISsObGOgu1vx8bhYFV26v2pa7dj4S+mgyQq0Q+Id7a7rat/2CyTePaCS0o7e8K6C2ZXW6hGFLudo1G4Q4SCuaGDRtcHFkrrgQ9cYu09He0sGTCBhqpcPNbkZRT+Qwow=
+	t=1717359655; cv=none; b=pqzHcBvHcscRMvUby6e3miIeI0kRM3zA3vcAgyiYpCf2meKuRr3vMgyIpCcQjxHuS//FQ4ADRrNwZulkFZcwV6QX218mc1Oj8Cc7p8TyIKA3/bUFmIe+56d+t8pvc8hE4TOfZScWwCu6hJQIN7aeUA431LrA0BKCz6aYvZnfXvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717359661; c=relaxed/simple;
-	bh=QmPjBLQG9aOEYbUtznTGPd79fnS6w6xjFP1zW/w1XI4=;
+	s=arc-20240116; t=1717359655; c=relaxed/simple;
+	bh=dqyM9Z9VYN6ZFqUOEdi2X52oaA72CYezLlG4kpMzZnc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k9Adxx0wYuB3ckMDj5un268YmQuJDZwHwPEHSNFDQeikcELVnGY3igO/S4OKvAqSPEZphNsxMg5JMzJFsj+nq0X+BxtXFhYcDOwoHcWDB2fkAWSVWWuucXMowYVv6TbGK7ooHwxWfU7pGGDvvKaGgTB9j4/cLFIm9hQNzuuYICY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=PjahQmTh; arc=none smtp.client-ip=136.175.108.52
+	 MIME-Version; b=Pmg134KRdfk8zPr2sKHQS0OzGGHr/ZF4dUkqa43e2Aj9jsQUbuagFNzmOxj5/ZR/OhBVBFb9EdO4PXv9jCR18YN/af6Fdu4h2phYp8++XktLASkJ0ZBqMB+NAk2GZEvT7Xvi4cZSBUKUNJ4fOdVNaGnV5Pl1X/trCvLArjaqKIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com; spf=pass smtp.mailfrom=luigi311.com; dkim=pass (2048-bit key) header.d=luigi311.com header.i=@luigi311.com header.b=X/weH5KZ; arc=none smtp.client-ip=136.175.108.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luigi311.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luigi311.com
 Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
  (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta52.mxroute.com (ZoneMTA) with ESMTPSA id 18fda96f12b000e2b6.011
+ by mail-108-mta56.mxroute.com (ZoneMTA) with ESMTPSA id 18fda97004d000e2b6.013
  for <linux-media@vger.kernel.org>
  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sun, 02 Jun 2024 20:14:36 +0000
-X-Zone-Loop: abe401ebcac061060df75e5c44141789f8fe1d1bb98f
+ Sun, 02 Jun 2024 20:14:40 +0000
+X-Zone-Loop: 9ad75901c48fe0152e1f0a5beb3c3964c5c0e3f5009f
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=luigi311.com; s=x; h=Content-Transfer-Encoding:MIME-Version:References:
 	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=8DfpOiOatSFelR7+oCkigfhbjrDa6jazPRZ3mzGqo9c=; b=PjahQmThcOUlTDiM7Q5JE6bxve
-	6aghCX8t/jvIHyIxJhsR3W92nEaqYYW0H8Vpj4A7nND5WF8hfb5PEqY/lF9aGiLQtafL9LZylSFdF
-	Cp8Oz2eeHhGfhVgPbxQnVGBW8MGhEnbKq8iHjRMsShmpfIfVqwa74RAjJixXQ5ssjMeonBUasZ1yM
-	DDgQEjA9vETEm8zlRWfcOuxUbXFWrq/lD4uphYDXQiZ00Tg1w96oaJrJqIk50IGKP//VfqvxdfA53
-	3aBMjQVwTrmj34kWWCFF0GGXO8SWzQJrs6n9m+NyFb/+EtXjtri/uXLPJYq04j8wx9gWx2PRIw1Fg
-	Dmnp8U/A==;
+	bh=4COuKPQHOipeJ03Bp2DqJuNGbhMNq4ef6Yfoeygk1Yg=; b=X/weH5KZgDfXUAB+/ltW3CxIER
+	D2K54dVjZlm8OXDZuzROejiF2p+vH/f0SzbbcGYUVOeO789dSlXhxFKEmXvFUVIG6UZ6S/TSNtMSl
+	ytdCziI75r0er5EXlmmvneXj2hPHUF8EmyLz3MDaFy1qImF6wdJ9vBX4FPGJK8i5xRMR73ivsBF3r
+	ySMrUX+7QUdnFTwW7BwIIYM0bPu4JJu0N603jDskSYBX/3zcyOF4qw20/lbRRjIlPLkVcARl1X4GI
+	JXi2BNTgOklVzUFy3HatfyLG8yhQzdqLr4BHJxTcHBL7n1+NX20ihGFu67WrX40LAg2tr4ogPFdgU
+	NG4yR8Tw==;
 From: git@luigi311.com
 To: linux-media@vger.kernel.org
 Cc: dave.stevenson@raspberrypi.com,
@@ -69,10 +69,13 @@ Cc: dave.stevenson@raspberrypi.com,
 	linux-kernel@vger.kernel.org,
 	pavel@ucw.cz,
 	phone-devel@vger.kernel.org,
-	Luis Garcia <git@luigi311.com>
-Subject: [PATCH v6 20/23] media: i2c: imx258: Make HFLIP and VFLIP controls writable
-Date: Sun,  2 Jun 2024 14:13:42 -0600
-Message-ID: <20240602201345.328737-21-git@luigi311.com>
+	Ondrej Jirman <megi@xff.cz>,
+	Ondrej Jirman <megous@megous.com>,
+	Luis Garcia <git@luigi311.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>
+Subject: [PATCH v6 21/23] media: i2c: imx258: Add support for reset gpio
+Date: Sun,  2 Jun 2024 14:13:43 -0600
+Message-ID: <20240602201345.328737-22-git@luigi311.com>
 In-Reply-To: <20240602201345.328737-1-git@luigi311.com>
 References: <20240602201345.328737-1-git@luigi311.com>
 Precedence: bulk
@@ -84,247 +87,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Authenticated-Id: personal@luigi311.com
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+From: Ondrej Jirman <megi@xff.cz>
 
-The sensor supports H & V flips, but the controls were READ_ONLY.
+It was documented in DT, but not implemented.
 
-Note that the Bayer order changes with these flips, therefore
-they set the V4L2_CTRL_FLAG_MODIFY_LAYOUT property.
-
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Ondrej Jirman <megous@megous.com>
 Signed-off-by: Luis Garcia <git@luigi311.com>
 Reviewed-by: Pavel Machek <pavel@ucw.cz>
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 ---
- drivers/media/i2c/imx258.c | 100 ++++++++++++++++++++++++-------------
- 1 file changed, 65 insertions(+), 35 deletions(-)
+ drivers/media/i2c/imx258.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-index 54f7625e60a3..f043200e336e 100644
+index f043200e336e..671fe176c64c 100644
 --- a/drivers/media/i2c/imx258.c
 +++ b/drivers/media/i2c/imx258.c
-@@ -78,8 +78,8 @@
+@@ -698,6 +698,8 @@ struct imx258 {
+ 	unsigned int lane_mode_idx;
+ 	unsigned int csi2_flags;
  
- /* Orientation */
- #define REG_MIRROR_FLIP_CONTROL		0x0101
--#define REG_CONFIG_MIRROR_FLIP		0x03
--#define REG_CONFIG_FLIP_TEST_PATTERN	0x02
-+#define REG_CONFIG_MIRROR_HFLIP		0x01
-+#define REG_CONFIG_MIRROR_VFLIP		0x02
- 
- /* IMX258 native and active pixel array size. */
- #define IMX258_NATIVE_WIDTH		4224U
-@@ -484,6 +484,23 @@ static const struct imx258_variant_cfg imx258_pdaf_cfg = {
- 	.num_regs = ARRAY_SIZE(imx258_pdaf_cfg_regs),
- };
- 
-+/*
-+ * The supported formats.
-+ * This table MUST contain 4 entries per format, to cover the various flip
-+ * combinations in the order
-+ * - no flip
-+ * - h flip
-+ * - v flip
-+ * - h&v flips
-+ */
-+static const u32 codes[] = {
-+	/* 10-bit modes. */
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SBGGR10_1X10
-+};
++	struct gpio_desc *reset_gpio;
 +
- static const char * const imx258_test_pattern_menu[] = {
- 	"Disabled",
- 	"Solid Colour",
-@@ -670,6 +687,8 @@ struct imx258 {
- 	struct v4l2_ctrl *vblank;
- 	struct v4l2_ctrl *hblank;
- 	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *hflip;
-+	struct v4l2_ctrl *vflip;
- 
- 	/* Current mode */
- 	const struct imx258_mode *cur_mode;
-@@ -768,9 +787,23 @@ static int imx258_write_regs(struct imx258 *imx258,
- 	return 0;
- }
- 
-+/* Get bayer order based on flip setting. */
-+static u32 imx258_get_format_code(const struct imx258 *imx258)
-+{
-+	unsigned int i;
-+
-+	lockdep_assert_held(&imx258->mutex);
-+
-+	i = (imx258->vflip->val ? 2 : 0) |
-+	    (imx258->hflip->val ? 1 : 0);
-+
-+	return codes[i];
-+}
-+
- /* Open sub-device */
- static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
-+	struct imx258 *imx258 = to_imx258(sd);
- 	struct v4l2_mbus_framefmt *try_fmt =
- 		v4l2_subdev_state_get_format(fh->state, 0);
- 	struct v4l2_rect *try_crop;
-@@ -778,7 +811,7 @@ static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 	/* Initialize try_fmt */
- 	try_fmt->width = supported_modes[0].width;
- 	try_fmt->height = supported_modes[0].height;
--	try_fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	try_fmt->code = imx258_get_format_code(imx258);
- 	try_fmt->field = V4L2_FIELD_NONE;
- 
- 	/* Initialize try_crop */
-@@ -871,10 +904,6 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
- 				IMX258_REG_VALUE_16BIT,
- 				ctrl->val);
--		ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
--				IMX258_REG_VALUE_08BIT,
--				!ctrl->val ? REG_CONFIG_MIRROR_FLIP :
--				REG_CONFIG_FLIP_TEST_PATTERN);
- 		break;
- 	case V4L2_CID_WIDE_DYNAMIC_RANGE:
- 		if (!ctrl->val) {
-@@ -897,6 +926,15 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
- 				       IMX258_REG_VALUE_16BIT,
- 				       imx258->cur_mode->height + ctrl->val);
- 		break;
-+	case V4L2_CID_VFLIP:
-+	case V4L2_CID_HFLIP:
-+		ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
-+				       IMX258_REG_VALUE_08BIT,
-+				       (imx258->hflip->val ?
-+					REG_CONFIG_MIRROR_HFLIP : 0) |
-+				       (imx258->vflip->val ?
-+					REG_CONFIG_MIRROR_VFLIP : 0));
-+		break;
- 	default:
- 		dev_info(&client->dev,
- 			 "ctrl(id:0x%x,val:0x%x) is not handled\n",
-@@ -918,11 +956,13 @@ static int imx258_enum_mbus_code(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state,
- 				  struct v4l2_subdev_mbus_code_enum *code)
- {
--	/* Only one bayer order(GRBG) is supported */
-+	struct imx258 *imx258 = to_imx258(sd);
-+
-+	/* Only one bayer format (10 bit) is supported */
- 	if (code->index > 0)
- 		return -EINVAL;
- 
--	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	code->code = imx258_get_format_code(imx258);
- 
- 	return 0;
- }
-@@ -931,10 +971,11 @@ static int imx258_enum_frame_size(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state,
- 				  struct v4l2_subdev_frame_size_enum *fse)
- {
-+	struct imx258 *imx258 = to_imx258(sd);
- 	if (fse->index >= ARRAY_SIZE(supported_modes))
- 		return -EINVAL;
- 
--	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
-+	if (fse->code != imx258_get_format_code(imx258))
- 		return -EINVAL;
- 
- 	fse->min_width = supported_modes[fse->index].width;
-@@ -945,12 +986,13 @@ static int imx258_enum_frame_size(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
--static void imx258_update_pad_format(const struct imx258_mode *mode,
-+static void imx258_update_pad_format(struct imx258 *imx258,
-+				     const struct imx258_mode *mode,
- 				     struct v4l2_subdev_format *fmt)
- {
- 	fmt->format.width = mode->width;
- 	fmt->format.height = mode->height;
--	fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	fmt->format.code = imx258_get_format_code(imx258);
- 	fmt->format.field = V4L2_FIELD_NONE;
- }
- 
-@@ -962,7 +1004,7 @@ static int __imx258_get_pad_format(struct imx258 *imx258,
- 		fmt->format = *v4l2_subdev_state_get_format(sd_state,
- 							    fmt->pad);
- 	else
--		imx258_update_pad_format(imx258->cur_mode, fmt);
-+		imx258_update_pad_format(imx258, imx258->cur_mode, fmt);
- 
- 	return 0;
- }
-@@ -998,13 +1040,12 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
- 
- 	mutex_lock(&imx258->mutex);
- 
--	/* Only one raw bayer(GBRG) order is supported */
--	fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	fmt->format.code = imx258_get_format_code(imx258);
- 
- 	mode = v4l2_find_nearest_size(supported_modes,
- 		ARRAY_SIZE(supported_modes), width, height,
- 		fmt->format.width, fmt->format.height);
--	imx258_update_pad_format(mode, fmt);
-+	imx258_update_pad_format(imx258, mode, fmt);
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
- 		*framefmt = fmt->format;
-@@ -1154,15 +1195,6 @@ static int imx258_start_streaming(struct imx258 *imx258)
- 		return ret;
+ 	/*
+ 	 * Mutex for serialized access:
+ 	 * Protect sensor module set pad format and start/stop streaming safely.
+@@ -1245,7 +1247,10 @@ static int imx258_power_on(struct device *dev)
+ 		regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
  	}
  
--	/* Set Orientation be 180 degree */
--	ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
--			       IMX258_REG_VALUE_08BIT, REG_CONFIG_MIRROR_FLIP);
--	if (ret) {
--		dev_err(&client->dev, "%s failed to set orientation\n",
--			__func__);
--		return ret;
--	}
--
- 	/* Apply customized values from user */
- 	ret =  __v4l2_ctrl_handler_setup(imx258->sd.ctrl_handler);
- 	if (ret)
-@@ -1315,7 +1347,6 @@ static int imx258_init_controls(struct imx258 *imx258)
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
- 	const struct imx258_link_freq_config *link_freq_cfgs;
- 	struct v4l2_fwnode_device_properties props;
--	struct v4l2_ctrl *vflip, *hflip;
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	const struct imx258_link_cfg *link_cfg;
- 	s64 vblank_def;
-@@ -1340,16 +1371,15 @@ static int imx258_init_controls(struct imx258 *imx258)
- 	if (imx258->link_freq)
- 		imx258->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+-	return ret;
++	gpiod_set_value_cansleep(imx258->reset_gpio, 0);
++	usleep_range(400, 500);
++
++	return 0;
+ }
  
--	/* The driver only supports one bayer order and flips by default. */
--	hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
--				  V4L2_CID_HFLIP, 1, 1, 1, 1);
--	if (hflip)
--		hflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	imx258->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-+					  V4L2_CID_HFLIP, 0, 1, 1, 1);
-+	if (imx258->hflip)
-+		imx258->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+ static int imx258_power_off(struct device *dev)
+@@ -1254,6 +1259,9 @@ static int imx258_power_off(struct device *dev)
+ 	struct imx258 *imx258 = to_imx258(sd);
  
--	vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
--				  V4L2_CID_VFLIP, 1, 1, 1, 1);
--	if (vflip)
--		vflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	imx258->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-+					  V4L2_CID_VFLIP, 0, 1, 1, 1);
-+	if (imx258->vflip)
-+		imx258->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+ 	clk_disable_unprepare(imx258->clk);
++
++	gpiod_set_value_cansleep(imx258->reset_gpio, 1);
++
+ 	regulator_bulk_disable(IMX258_NUM_SUPPLIES, imx258->supplies);
  
- 	link_freq_cfgs = &imx258->link_freq_configs[0];
- 	link_cfg = link_freq_cfgs[imx258->lane_mode_idx].link_cfg;
+ 	return 0;
+@@ -1559,6 +1567,12 @@ static int imx258_probe(struct i2c_client *client)
+ 	if (!imx258->variant_cfg)
+ 		imx258->variant_cfg = &imx258_cfg;
+ 
++	/* request optional reset pin */
++	imx258->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
++						     GPIOD_OUT_HIGH);
++	if (IS_ERR(imx258->reset_gpio))
++		return PTR_ERR(imx258->reset_gpio);
++
+ 	/* Initialize subdev */
+ 	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
+ 
 -- 
 2.44.0
 
