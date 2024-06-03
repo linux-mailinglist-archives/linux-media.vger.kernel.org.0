@@ -1,36 +1,74 @@
-Return-Path: <linux-media+bounces-12429-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12434-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DBE8D7CE5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 09:57:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304BB8D7D0B
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 10:11:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 972BB1C20323
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 07:57:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C2C11F21364
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 08:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2656152F62;
-	Mon,  3 Jun 2024 07:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B2B955C08;
+	Mon,  3 Jun 2024 08:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YLK/KxvT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90624D5AB;
-	Mon,  3 Jun 2024 07:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154FE4EB30;
+	Mon,  3 Jun 2024 08:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717401454; cv=none; b=onuoxBL3hGJsktqPzz2GmZagMUlWN8kJaYNlq7Ny2T5cCD6h65dcvyII1AXNMDiFJVwzjcJTZ2Afqy6TvHWtGsAi9tFEpk0Q9naiQyEth7QlSUOub3MO90WQNcMMW6+yuhdfrWEe+NHrBkxZDEQTP7dkQOz3HxeD6mm8UMA09oA=
+	t=1717402268; cv=none; b=U5Dnpi7Suons4o2jEyw/vomTAtS0Ia/VORuEkjK/grRVSSLasChaM4e1QPiwKI9DBv3NEqg6TTxdCFsc2JHEJMfrPYPSjTSJvN6M8FXUuSQVYtH7/ITs2UfMVe8hUR/AQSUpZbJByJ47RBaaOFbxt+AJxVM4mQ1ss9pjdLH0Y5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717401454; c=relaxed/simple;
-	bh=Uyg23ah4xo8UOSM13Fg/epUvP0Yw1nqnbZ5+dnzYrTQ=;
+	s=arc-20240116; t=1717402268; c=relaxed/simple;
+	bh=5OoZFgoQGPMngn4562roUro26Yi1b3WkPbU2TVYp5II=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NuBqGp2yt0HnxxBD2nruaWk60PKrhbvQy/HMHfcHSEC0y6tJrOWSuNFg5mEZ16Jjr5L1Cxwm2ovKT8bFqMHacRvR8WAevlyzHYHXH6GcZ+2yFpKDosBpfE33MjhJ5mOQ+eaqTt5Su2iM8lkrADqTjGuO7fbkMMGpioj9j3VuxPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469DBC2BD10;
-	Mon,  3 Jun 2024 07:57:31 +0000 (UTC)
-Message-ID: <c5f40d46-9e8d-40f9-82ee-83013dbc134e@xs4all.nl>
-Date: Mon, 3 Jun 2024 09:57:29 +0200
+	 In-Reply-To:Content-Type; b=aScxRWpQolEWKq2wCbjG7VIWlDma8aUeVHEPSmpv+RHYSana8CORfX6MFf41CqmNmf4Ieyatp/OtuBbaZrud9sgaeyho9RWMyDxgEezqznmZHk/OvqBCOnblJgcZFbihPhYezXSvigXmGiBMIVtl+RwPiHJ6fceAxKtUOd8oJDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YLK/KxvT; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-57a31d63b6bso3356578a12.0;
+        Mon, 03 Jun 2024 01:11:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717402265; x=1718007065; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u0iEFgdOgvP8ilqiWdq7v8OaqOOUugnJDJ9/FR98Crw=;
+        b=YLK/KxvTz9pdgsp3TzWgmMHprxYvMbL+ADt8C/WlsqPtwXyGbNz+QQzivxNFicHsUu
+         9tL1gGD5DdFNtbrv24646/HpmepsSA2WvCCyUIvAT7c/wmPm9oKPDftlky7q/q4vtLCQ
+         XUw8pua7+W7kgHGGEMzW0oOuxXMdcqmXV/Am6Jc7O8iIzhbJgXKup/HQUVEGv2MRypTe
+         tnGUv1ddancel0MANHSEz9fWMtwQI4F01AG0mHMRDSmpAfhjiAH/UQCOegzMj4h0exln
+         0OMWSVPgddTcGysL1JVazc25PmIg6X+Y3/Ge23L7zBjk3IClFvHP5d8BSanYRFqv7Lmn
+         3WHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717402265; x=1718007065;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u0iEFgdOgvP8ilqiWdq7v8OaqOOUugnJDJ9/FR98Crw=;
+        b=dS/RWsgg+Hy+30QqbvtqehNO7QySfQb/yY6GIcNayEe9QUSONlb50pX8T0awON3S7F
+         YsVFug04z21i3jdc03wLLbDxRX9En6Pu+h+peFp63JzNMITTdtFxXXH6WDRr1ErSkp7k
+         npywr1EE7QHSrU1ciERC14SmZu1LKoC6Cw3sEMEvy4CaZVzDNq+ySSKFayeQuS8NkBLZ
+         fGSsQhanL5Q/zX939kwZk/WkksgHuPwsv5T580hQ5w3bwYkyPWVbLs+ehKlV1MxRw48l
+         3/27nuhZJXLBLrV8LrmV7nqDszMnYrSr9zOKKP4KJqCfTuHQP11M07YCfQJhEwhy1a1G
+         75dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWHNgj8QDaEjm3UPdf03zsRh8sGoNZBBOPA5F+2ei2iKgl0p0h40bNBXqLg6chhWPhNvQ109pgJLKwAVf2cOxUVVttOn7CVStZAo4igJMYcypMUDCT5egk06GYkuODEdarSXiNvXni01otzcS6KfYFGM7H+YcPUXjvcvnwa++iUjoXkxMYQ
+X-Gm-Message-State: AOJu0YzMx7rdSscXVO5NlqqDAn/XAfoN0CHpySDkJwnnjzskXRka9p/B
+	IZw45WCP6Ux+WhuhRCEs/7QcgUyEOgoIgPwgDnSGy6xBwNV/te4r
+X-Google-Smtp-Source: AGHT+IH6pWS9A6Vbq2Fi3kiLwfN9CRE8W4TLtLaMd2BEzlaTgHeBZGoT0/sgdITW73FJ4YD6wggPRg==
+X-Received: by 2002:a50:9992:0:b0:57a:215a:5cb9 with SMTP id 4fb4d7f45d1cf-57a3638f923mr5604168a12.19.1717402265020;
+        Mon, 03 Jun 2024 01:11:05 -0700 (PDT)
+Received: from [192.168.26.149] (031011218106.poznan.vectranet.pl. [31.11.218.106])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-57a31c9c0b8sm4974672a12.86.2024.06.03.01.11.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jun 2024 01:11:04 -0700 (PDT)
+Message-ID: <16e8b71d-ae71-42e9-afb3-bd8d02a3dd06@gmail.com>
+Date: Mon, 3 Jun 2024 10:11:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,1023 +76,152 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] media: Add Chameleon v3 video interface driver
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
- akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
- dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- chromeos-krk-upstreaming@google.com
-References: <20240507155413.266057-1-panikiel@google.com>
- <20240507155413.266057-2-panikiel@google.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240507155413.266057-2-panikiel@google.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH V2] dt-bindings: media: convert Mediatek consumer IR to
+ the json-schema
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sean Wang <sean.wang@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <20240209085616.1062-1-zajec5@gmail.com>
+ <c6a8fdc1-0230-4438-8b80-c07daf80f1ce@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <c6a8fdc1-0230-4438-8b80-c07daf80f1ce@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 07/05/2024 17:54, Paweł Anikiel wrote:
-> Add v4l2 driver for the video interface present on the Google
-> Chameleon v3. The Chameleon v3 uses the video interface to capture
-> a single video source from a given HDMI or DP connector and write
-> the resulting frames to memory.
+Hi Mauro,
+
+On 23.04.2024 06:22, Rafał Miłecki wrote:
+> On 9.02.2024 09:56, Rafał Miłecki wrote:
+>> From: Rafał Miłecki <rafal@milecki.pl>
+>>
+>> This helps validating DTS files. Introduced changes:
+>> 1. Reworded title
+>> 2. Made "bus" clock required on MT7623 as well
+>> 3. Added required #include-s and adjusted "reg" & clocks in example
+>>
+>> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
 > 
-> Signed-off-by: Paweł Anikiel <panikiel@google.com>
-> ---
->  drivers/media/platform/Kconfig             |   1 +
->  drivers/media/platform/Makefile            |   1 +
->  drivers/media/platform/google/Kconfig      |  13 +
->  drivers/media/platform/google/Makefile     |   3 +
->  drivers/media/platform/google/chv3-video.c | 891 +++++++++++++++++++++
->  5 files changed, 909 insertions(+)
->  create mode 100644 drivers/media/platform/google/Kconfig
->  create mode 100644 drivers/media/platform/google/Makefile
->  create mode 100644 drivers/media/platform/google/chv3-video.c
+> could you take my patch throught your tree?
+
+did you have a chance to look at this? Can you take it to your tree?
+
+
+>> ---
+>> V2: Extended "IR" in title
+>>      Made "bus" required at MT7623 needs it as well
+>>      Updated example
+>>
+>> Thanks AngeloGioacchino!
+>>
+>>   .../bindings/media/mediatek,mt7622-cir.yaml   | 55 +++++++++++++++++++
+>>   .../devicetree/bindings/media/mtk-cir.txt     | 28 ----------
+>>   2 files changed, 55 insertions(+), 28 deletions(-)
+>>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+>>   delete mode 100644 Documentation/devicetree/bindings/media/mtk-cir.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+>> new file mode 100644
+>> index 000000000000..c01210e053f9
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt7622-cir.yaml
+>> @@ -0,0 +1,55 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/mediatek,mt7622-cir.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: MediaTek Consumer Infrared Receiver on-SoC Controller
+>> +
+>> +maintainers:
+>> +  - Sean Wang <sean.wang@mediatek.com>
+>> +
+>> +allOf:
+>> +  - $ref: rc.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - mediatek,mt7622-cir
+>> +      - mediatek,mt7623-cir
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 2
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: clk
+>> +      - const: bus
+>> +
+>> +required:
+>> +  - reg
+>> +  - interrupts
+>> +  - clocks
+>> +  - clock-names
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/mt2701-clk.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +
+>> +    ir@10013000 {
+>> +        compatible = "mediatek,mt7623-cir";
+>> +        reg = <0x10013000 0x1000>;
+>> +        interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+>> +        clocks = <&infracfg CLK_INFRA_IRRX>, <&topckgen CLK_TOP_AXI_SEL>;
+>> +        clock-names = "clk", "bus";
+>> +        linux,rc-map-name = "rc-rc6-mce";
+>> +    };
+>> diff --git a/Documentation/devicetree/bindings/media/mtk-cir.txt b/Documentation/devicetree/bindings/media/mtk-cir.txt
+>> deleted file mode 100644
+>> index 5e18087ce11f..000000000000
+>> --- a/Documentation/devicetree/bindings/media/mtk-cir.txt
+>> +++ /dev/null
+>> @@ -1,28 +0,0 @@
+>> -Device-Tree bindings for Mediatek consumer IR controller
+>> -found in Mediatek SoC family
+>> -
+>> -Required properties:
+>> -- compatible        : Should be
+>> -            "mediatek,mt7623-cir": for MT7623 SoC
+>> -            "mediatek,mt7622-cir": for MT7622 SoC
+>> -- clocks        : list of clock specifiers, corresponding to
+>> -              entries in clock-names property;
+>> -- clock-names        : should contain
+>> -            - "clk" entries: for MT7623 SoC
+>> -            - "clk", "bus" entries: for MT7622 SoC
+>> -- interrupts        : should contain IR IRQ number;
+>> -- reg            : should contain IO map address for IR.
+>> -
+>> -Optional properties:
+>> -- linux,rc-map-name : see rc.txt file in the same directory.
+>> -
+>> -Example:
+>> -
+>> -cir: cir@10013000 {
+>> -    compatible = "mediatek,mt7623-cir";
+>> -    reg = <0 0x10013000 0 0x1000>;
+>> -    interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+>> -    clocks = <&infracfg CLK_INFRA_IRRX>;
+>> -    clock-names = "clk";
+>> -    linux,rc-map-name = "rc-rc6-mce";
+>> -};
 > 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 91e54215de3a..b82f7b142b85 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -69,6 +69,7 @@ source "drivers/media/platform/aspeed/Kconfig"
->  source "drivers/media/platform/atmel/Kconfig"
->  source "drivers/media/platform/cadence/Kconfig"
->  source "drivers/media/platform/chips-media/Kconfig"
-> +source "drivers/media/platform/google/Kconfig"
->  source "drivers/media/platform/intel/Kconfig"
->  source "drivers/media/platform/marvell/Kconfig"
->  source "drivers/media/platform/mediatek/Kconfig"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index 3296ec1ebe16..f7067eb05f76 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -12,6 +12,7 @@ obj-y += aspeed/
->  obj-y += atmel/
->  obj-y += cadence/
->  obj-y += chips-media/
-> +obj-y += google/
->  obj-y += intel/
->  obj-y += marvell/
->  obj-y += mediatek/
-> diff --git a/drivers/media/platform/google/Kconfig b/drivers/media/platform/google/Kconfig
-> new file mode 100644
-> index 000000000000..9674a4c12e2d
-> --- /dev/null
-> +++ b/drivers/media/platform/google/Kconfig
-> @@ -0,0 +1,13 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config VIDEO_CHAMELEONV3
-> +	tristate "Google Chameleon v3 video driver"
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select V4L2_FWNODE
-> +	help
-> +	  v4l2 driver for the video interface present on the Google
-> +	  Chameleon v3. The Chameleon v3 uses the video interface to
-> +	  capture a single video source from a given HDMI or DP connector
-> +	  and write the resulting frames to memory.
-> diff --git a/drivers/media/platform/google/Makefile b/drivers/media/platform/google/Makefile
-> new file mode 100644
-> index 000000000000..cff06486244c
-> --- /dev/null
-> +++ b/drivers/media/platform/google/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_VIDEO_CHAMELEONV3) += chv3-video.o
-> diff --git a/drivers/media/platform/google/chv3-video.c b/drivers/media/platform/google/chv3-video.c
-> new file mode 100644
-> index 000000000000..6e782484abaf
-> --- /dev/null
-> +++ b/drivers/media/platform/google/chv3-video.c
-> @@ -0,0 +1,891 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright 2023-2024 Google LLC.
-> + * Author: Paweł Anikiel <panikiel@google.com>
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/v4l2-dv-timings.h>
-> +#include <linux/videodev2.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-dv-timings.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-ioctl.h>
-> +#include <media/videobuf2-dma-contig.h>
-> +
-> +#define DEVICE_NAME	"chv3-video"
-> +
-> +#define VIDEO_EN			0x00
-> +#define VIDEO_EN_BIT			BIT(0)
-> +#define VIDEO_HEIGHT			0x04
-> +#define VIDEO_WIDTH			0x08
-> +#define VIDEO_BUFFERA			0x0c
-> +#define VIDEO_BUFFERB			0x10
-> +#define VIDEO_BUFFERSIZE		0x14
-> +#define VIDEO_RESET			0x18
-> +#define VIDEO_RESET_BIT			BIT(0)
-> +#define VIDEO_ERRORSTATUS		0x1c
-> +#define VIDEO_IOCOLOR			0x20
-> +#define VIDEO_DATARATE			0x24
-> +#define VIDEO_DATARATE_SINGLE		0x0
-> +#define VIDEO_DATARATE_DOUBLE		0x1
-> +#define VIDEO_PIXELMODE			0x28
-> +#define VIDEO_PIXELMODE_SINGLE		0x0
-> +#define VIDEO_PIXELMODE_DOUBLE		0x1
-> +#define VIDEO_SYNCPOLARITY		0x2c
-> +#define VIDEO_DMAFORMAT			0x30
-> +#define VIDEO_DMAFORMAT_8BPC		0x0
-> +#define VIDEO_DMAFORMAT_10BPC_UPPER	0x1
-> +#define VIDEO_DMAFORMAT_10BPC_LOWER	0x2
-> +#define VIDEO_DMAFORMAT_12BPC_UPPER	0x3
-> +#define VIDEO_DMAFORMAT_12BPC_LOWER	0x4
-> +#define VIDEO_DMAFORMAT_16BPC		0x5
-> +#define VIDEO_DMAFORMAT_RAW		0x6
-> +#define VIDEO_DMAFORMAT_8BPC_PAD	0x7
-> +#define VIDEO_VERSION			0x34
-> +#define VIDEO_VERSION_CURRENT		0xc0fb0001
-> +
-> +#define VIDEO_IRQ_MASK		0x8
-> +#define VIDEO_IRQ_CLR		0xc
-> +#define VIDEO_IRQ_ALL		0xf
-> +#define VIDEO_IRQ_BUFF0		BIT(0)
-> +#define VIDEO_IRQ_BUFF1		BIT(1)
-> +#define VIDEO_IRQ_RESOLUTION	BIT(2)
-> +#define VIDEO_IRQ_ERROR		BIT(3)
-> +
-> +struct chv3_video {
-> +	struct device *dev;
-> +	void __iomem *iobase;
-> +	void __iomem *iobase_irq;
-> +
-> +	struct v4l2_device v4l2_dev;
-> +	struct vb2_queue queue;
-> +	struct video_device vdev;
-> +	struct v4l2_pix_format pix_fmt;
-> +	struct v4l2_dv_timings timings;
-> +	u32 bytes_per_pixel;
-> +
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct v4l2_async_notifier notifier;
-> +	struct v4l2_subdev *subdev;
-> +	int subdev_source_pad;
-> +
-> +	u32 sequence;
-> +	bool writing_to_a;
-> +
-> +	struct list_head bufs;
-> +	spinlock_t bufs_lock;
-> +
-> +	struct mutex video_lock;
-> +};
-> +
-> +struct chv3_video_buffer {
-> +	struct vb2_v4l2_buffer vb;
-> +	struct list_head link;
-> +};
-> +
-> +struct chv3_video_config {
-> +	u32 pixelformat;
-> +	u32 bytes_per_pixel;
-> +	u32 dmaformat;
-> +};
-> +
-> +static void chv3_video_set_format_resolution(struct chv3_video *video, u32 width, u32 height)
-> +{
-> +	video->pix_fmt.width = width;
-> +	video->pix_fmt.height = height;
-> +	video->pix_fmt.bytesperline = width * video->bytes_per_pixel;
-> +	video->pix_fmt.sizeimage = video->pix_fmt.bytesperline * height;
-> +}
-> +
-> +/*
-> + * The video interface has hardware counters which expose the width and
-> + * height of the current video stream. It can't reliably detect if the stream
-> + * is present or not, so this is only used as a fallback in the case where
-> + * we don't have access to the receiver hardware.
-> + */
-> +static int chv3_video_query_dv_timings_fallback(struct chv3_video *video,
-> +						struct v4l2_dv_timings *timings)
-> +{
-> +	u32 width, height;
-> +
-> +	width  = readl(video->iobase + VIDEO_WIDTH);
-> +	height = readl(video->iobase + VIDEO_HEIGHT);
-> +	if (width == 0 || height == 0)
-> +		return -ENOLINK;
-> +
-> +	memset(timings, 0, sizeof(*timings));
-> +	timings->type = V4L2_DV_BT_656_1120;
-> +	timings->bt.width  = width;
-> +	timings->bt.height = height;
-> +	timings->bt.pixelclock = width * height * 24;
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_query_dv_timings(struct chv3_video *video, struct v4l2_dv_timings *timings)
-> +{
-> +	if (video->subdev) {
-> +		return v4l2_subdev_call(video->subdev, pad, query_dv_timings,
-> +					video->subdev_source_pad, timings);
-> +	} else {
-> +		return chv3_video_query_dv_timings_fallback(video, timings);
-> +	}
 
-I would move the contents of chv3_video_query_dv_timings_fallback() to this
-function and drop the old fallback function. It makes more sense if it is all
-in the same function.
-
-> +}
-> +
-> +static const struct v4l2_dv_timings_cap chv3_video_fallback_dv_timings_cap = {
-> +	.type = V4L2_DV_BT_656_1120,
-> +	.bt = {
-> +		.min_width = 640,
-> +		.max_width = 7680,
-> +		.min_height = 480,
-> +		.max_height = 4320,
-> +		.min_pixelclock = 25000000,
-> +		.max_pixelclock = 1080000000,
-> +		.standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-> +			V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
-> +		.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
-> +			V4L2_DV_BT_CAP_REDUCED_BLANKING |
-> +			V4L2_DV_BT_CAP_CUSTOM,
-> +	},
-> +};
-> +
-> +static int chv3_video_enum_dv_timings_fallback(struct chv3_video *video,
-> +					       struct v4l2_enum_dv_timings *timings)
-> +{
-> +	return v4l2_enum_dv_timings_cap(timings, &chv3_video_fallback_dv_timings_cap,
-> +					NULL, NULL);
-> +}
-> +
-> +static int chv3_video_dv_timings_cap_fallback(struct chv3_video *video,
-> +					      struct v4l2_dv_timings_cap *cap)
-> +{
-> +	*cap = chv3_video_fallback_dv_timings_cap;
-> +
-> +	return 0;
-> +}
-
-Same for these two fallback functions: move them to the functions that calls them.
-
-> +
-> +static void chv3_video_apply_dv_timings(struct chv3_video *video)
-> +{
-> +	struct v4l2_dv_timings timings;
-> +	int res;
-> +
-> +	res = chv3_video_query_dv_timings(video, &timings);
-> +	if (res)
-> +		return;
-> +
-> +	video->timings = timings;
-> +	chv3_video_set_format_resolution(video, timings.bt.width, timings.bt.height);
-> +}
-> +
-> +static int chv3_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
-> +{
-> +	strscpy(cap->driver, DEVICE_NAME, sizeof(cap->driver));
-> +	strscpy(cap->card, "Chameleon v3 video", sizeof(cap->card));
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format *fmt)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +
-> +	fmt->fmt.pix = video->pix_fmt;
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +
-> +	if (fmt->index != 0)
-> +		return -EINVAL;
-> +
-> +	fmt->flags = 0;
-> +	fmt->pixelformat = video->pix_fmt.pixelformat;
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_g_input(struct file *file, void *fh, unsigned int *index)
-> +{
-> +	*index = 0;
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_s_input(struct file *file, void *fh, unsigned int index)
-> +{
-> +	if (index != 0)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_enum_input(struct file *file, void *fh, struct v4l2_input *input)
-> +{
-> +	if (input->index != 0)
-> +		return -EINVAL;
-> +
-> +	strscpy(input->name, "input0", sizeof(input->name));
-
-This name is not terribly user friendly. Is it possible to determine a more human
-readable name? E.g. "DP1", "DP2", etc. Something that matches labeling on the Chameleon
-board.
-
-> +	input->type = V4L2_INPUT_TYPE_CAMERA;
-> +	input->capabilities = V4L2_IN_CAP_DV_TIMINGS;
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_g_edid(struct file *file, void *fh, struct v4l2_edid *edid)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +	int res;
-> +
-> +	if (!video->subdev)
-> +		return -ENOTTY;
-> +
-> +	if (edid->pad != 0)
-> +		return -EINVAL;
-> +
-> +	edid->pad = video->subdev_source_pad;
-> +	res = v4l2_subdev_call(video->subdev, pad, get_edid, edid);
-> +	edid->pad = 0;
-> +
-> +	return res;
-> +}
-> +
-> +static int chv3_video_s_edid(struct file *file, void *fh, struct v4l2_edid *edid)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +	int res;
-> +
-> +	if (!video->subdev)
-> +		return -ENOTTY;
-> +
-> +	if (edid->pad != 0)
-> +		return -EINVAL;
-> +
-> +	edid->pad = video->subdev_source_pad;
-> +	res = v4l2_subdev_call(video->subdev, pad, set_edid, edid);
-> +	edid->pad = 0;
-> +
-> +	return res;
-> +}
-> +
-> +static int chv3_video_s_dv_timings(struct file *file, void *fh, struct v4l2_dv_timings *timings)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +
-> +	if (v4l2_match_dv_timings(&video->timings, timings, 0, false))
-> +		return 0;
-> +
-> +	if (vb2_is_busy(&video->queue))
-> +		return -EBUSY;
-
-This should be moved to after the next 'if'.
-
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &chv3_video_fallback_dv_timings_cap, NULL, NULL))
-> +		return -ERANGE;
-> +
-> +	video->timings = *timings;
-> +	chv3_video_set_format_resolution(video, timings->bt.width, timings->bt.height);
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_g_dv_timings(struct file *file, void *fh, struct v4l2_dv_timings *timings)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +
-> +	*timings = video->timings;
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_vidioc_query_dv_timings(struct file *file, void *fh,
-> +					      struct v4l2_dv_timings *timings)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +
-> +	return chv3_video_query_dv_timings(video, timings);
-> +}
-> +
-> +static int chv3_video_enum_dv_timings(struct file *file, void *fh,
-> +				      struct v4l2_enum_dv_timings *timings)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +	int res;
-> +
-> +	if (timings->pad != 0)
-> +		return -EINVAL;
-> +
-> +	if (video->subdev) {
-> +		timings->pad = video->subdev_source_pad;
-> +		res = v4l2_subdev_call(video->subdev, pad, enum_dv_timings, timings);
-> +		timings->pad = 0;
-> +		return res;
-> +	} else {
-> +		return chv3_video_enum_dv_timings_fallback(video, timings);
-
-It is much easier to read if the contents of chv3_video_enum_dv_timings_fallback
-is moved here.
-
-> +	}
-> +}
-> +
-> +static int chv3_video_dv_timings_cap(struct file *file, void *fh, struct v4l2_dv_timings_cap *cap)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +	int res;
-> +
-> +	if (cap->pad != 0)
-> +		return -EINVAL;
-> +
-> +	if (video->subdev) {
-> +		cap->pad = video->subdev_source_pad;
-> +		res = v4l2_subdev_call(video->subdev, pad, dv_timings_cap, cap);
-> +		cap->pad = 0;
-> +		return res;
-> +	} else {
-> +		return chv3_video_dv_timings_cap_fallback(video, cap);
-
-Ditto.
-
-> +	}
-> +}
-> +
-> +static int chv3_video_subscribe_event(struct v4l2_fh *fh,
-> +				      const struct v4l2_event_subscription *sub)
-> +{
-> +	switch (sub->type) {
-> +	case V4L2_EVENT_SOURCE_CHANGE:
-> +		return v4l2_src_change_event_subscribe(fh, sub);
-> +	}
-> +
-> +	return v4l2_ctrl_subscribe_event(fh, sub);
-> +}
-> +
-> +static const struct v4l2_ioctl_ops chv3_video_v4l2_ioctl_ops = {
-> +	.vidioc_querycap = chv3_video_querycap,
-> +
-> +	.vidioc_enum_fmt_vid_cap = chv3_video_enum_fmt_vid_cap,
-> +	.vidioc_g_fmt_vid_cap = chv3_video_g_fmt_vid_cap,
-> +	.vidioc_s_fmt_vid_cap = chv3_video_g_fmt_vid_cap,
-> +	.vidioc_try_fmt_vid_cap = chv3_video_g_fmt_vid_cap,
-> +
-> +	.vidioc_enum_input = chv3_video_enum_input,
-> +	.vidioc_g_input = chv3_video_g_input,
-> +	.vidioc_s_input = chv3_video_s_input,
-> +	.vidioc_g_edid = chv3_video_g_edid,
-> +	.vidioc_s_edid = chv3_video_s_edid,
-> +
-> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_querybuf = vb2_ioctl_querybuf,
-> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> +	.vidioc_expbuf = vb2_ioctl_expbuf,
-> +	.vidioc_qbuf = vb2_ioctl_qbuf,
-> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
-> +
-> +	.vidioc_s_dv_timings = chv3_video_s_dv_timings,
-> +	.vidioc_g_dv_timings = chv3_video_g_dv_timings,
-> +	.vidioc_query_dv_timings = chv3_video_vidioc_query_dv_timings,
-> +	.vidioc_enum_dv_timings = chv3_video_enum_dv_timings,
-> +	.vidioc_dv_timings_cap = chv3_video_dv_timings_cap,
-> +
-> +	.vidioc_subscribe_event = chv3_video_subscribe_event,
-> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-> +};
-> +
-> +static int chv3_video_queue_setup(struct vb2_queue *q,
-> +				  unsigned int *nbuffers, unsigned int *nplanes,
-> +				  unsigned int sizes[], struct device *alloc_devs[])
-> +{
-> +	struct chv3_video *video = vb2_get_drv_priv(q);
-> +
-> +	if (*nplanes) {
-> +		if (sizes[0] < video->pix_fmt.sizeimage)
-> +			return -EINVAL;
-> +		return 0;
-> +	}
-> +	*nplanes = 1;
-> +	sizes[0] = video->pix_fmt.sizeimage;
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * There are two address registers: BUFFERA and BUFFERB. The device
-> + * alternates writing between them (i.e. even frames go to BUFFERA, odd
-> + * ones to BUFFERB).
-> + *
-> + *  (buffer queue) >     QUEUED ---> QUEUED ---> QUEUED ---> ...
-> + *                       BUFFERA     BUFFERB
-> + *  (hw writing to this) ^
-> + *                (and then to this) ^
-> + *
-> + * The buffer swapping happens at irq time. When an irq comes, the next
-> + * frame is already assigned an address in the buffer queue. This gives
-> + * the irq handler a whole frame's worth of time to update the buffer
-> + * address register.
-> + */
-> +
-> +static dma_addr_t chv3_video_buffer_dma_addr(struct chv3_video_buffer *buf)
-> +{
-> +	return vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
-> +}
-> +
-> +static void chv3_video_start_frame(struct chv3_video *video, struct chv3_video_buffer *buf)
-> +{
-> +	video->writing_to_a = 1;
-> +	writel(chv3_video_buffer_dma_addr(buf), video->iobase + VIDEO_BUFFERA);
-> +	writel(VIDEO_EN_BIT, video->iobase + VIDEO_EN);
-> +}
-> +
-> +static void chv3_video_next_frame(struct chv3_video *video, struct chv3_video_buffer *buf)
-> +{
-> +	u32 reg = video->writing_to_a ? VIDEO_BUFFERB : VIDEO_BUFFERA;
-> +
-> +	writel(chv3_video_buffer_dma_addr(buf), video->iobase + reg);
-> +}
-> +
-> +static int chv3_video_start_streaming(struct vb2_queue *q, unsigned int count)
-> +{
-> +	struct chv3_video *video = vb2_get_drv_priv(q);
-> +	struct chv3_video_buffer *buf;
-> +	unsigned long flags;
-> +
-> +	video->sequence = 0;
-> +	writel(video->pix_fmt.sizeimage, video->iobase + VIDEO_BUFFERSIZE);
-> +
-> +	spin_lock_irqsave(&video->bufs_lock, flags);
-> +	buf = list_first_entry_or_null(&video->bufs, struct chv3_video_buffer, link);
-> +	if (buf) {
-> +		chv3_video_start_frame(video, buf);
-> +		if (!list_is_last(&buf->link, &video->bufs))
-> +			chv3_video_next_frame(video, list_next_entry(buf, link));
-> +	}
-> +	spin_unlock_irqrestore(&video->bufs_lock, flags);
-> +
-> +	return 0;
-> +}
-> +
-> +static void chv3_video_stop_streaming(struct vb2_queue *q)
-> +{
-> +	struct chv3_video *video = vb2_get_drv_priv(q);
-> +	struct chv3_video_buffer *buf;
-> +	unsigned long flags;
-> +
-> +	writel(0, video->iobase + VIDEO_EN);
-> +
-> +	spin_lock_irqsave(&video->bufs_lock, flags);
-> +	list_for_each_entry(buf, &video->bufs, link)
-> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> +	INIT_LIST_HEAD(&video->bufs);
-> +	spin_unlock_irqrestore(&video->bufs_lock, flags);
-> +}
-> +
-> +static void chv3_video_buf_queue(struct vb2_buffer *vb)
-> +{
-> +	struct chv3_video *video = vb2_get_drv_priv(vb->vb2_queue);
-> +	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb);
-> +	struct chv3_video_buffer *buf = container_of(v4l2_buf, struct chv3_video_buffer, vb);
-> +	bool first, second;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&video->bufs_lock, flags);
-> +	first = list_empty(&video->bufs);
-> +	second = list_is_singular(&video->bufs);
-> +	list_add_tail(&buf->link, &video->bufs);
-> +	if (vb2_is_streaming(vb->vb2_queue)) {
-
-This should be vb2_start_streaming_called().
-
-It does not matter all that much in this driver, since VIDIOC_STREAMON will
-also call start_streaming, even if there are no buffers queued since the
-vb2_queue min_queued_buffers field is 0. But if that ever changes, then
-vb2_start_streaming_called() is the right call here.
-
-> +		if (first)
-> +			chv3_video_start_frame(video, buf);
-> +		else if (second)
-> +			chv3_video_next_frame(video, buf);
-> +	}
-> +	spin_unlock_irqrestore(&video->bufs_lock, flags);
-> +}
-> +
-> +static const struct vb2_ops chv3_video_vb2_ops = {
-> +	.queue_setup = chv3_video_queue_setup,
-> +	.wait_prepare = vb2_ops_wait_prepare,
-> +	.wait_finish = vb2_ops_wait_finish,
-> +	.start_streaming = chv3_video_start_streaming,
-> +	.stop_streaming = chv3_video_stop_streaming,
-> +	.buf_queue = chv3_video_buf_queue,
-> +};
-> +
-> +static int chv3_video_open(struct file *file)
-> +{
-> +	struct chv3_video *video = video_drvdata(file);
-> +	int res;
-> +
-> +	mutex_lock(&video->video_lock);
-> +	res = v4l2_fh_open(file);
-> +	if (!res) {
-> +		if (v4l2_fh_is_singular_file(file))
-> +			chv3_video_apply_dv_timings(video);
-> +	}
-> +	mutex_unlock(&video->video_lock);
-> +
-> +	return res;
-> +}
-> +
-> +static const struct v4l2_file_operations chv3_video_v4l2_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = chv3_video_open,
-> +	.release = vb2_fop_release,
-> +	.unlocked_ioctl = video_ioctl2,
-> +	.mmap = vb2_fop_mmap,
-> +	.poll = vb2_fop_poll,
-> +};
-> +
-> +static void chv3_video_frame_irq(struct chv3_video *video)
-> +{
-> +	struct chv3_video_buffer *buf;
-> +
-> +	spin_lock(&video->bufs_lock);
-> +
-> +	buf = list_first_entry_or_null(&video->bufs, struct chv3_video_buffer, link);
-> +	if (!buf)
-> +		goto empty;
-> +	list_del(&buf->link);
-> +
-> +	vb2_set_plane_payload(&buf->vb.vb2_buf, 0, video->pix_fmt.sizeimage);
-> +	buf->vb.vb2_buf.timestamp = ktime_get_ns();
-> +	buf->vb.sequence = video->sequence++;
-> +	buf->vb.field = V4L2_FIELD_NONE;
-> +	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> +
-> +	buf = list_first_entry_or_null(&video->bufs, struct chv3_video_buffer, link);
-> +	if (buf) {
-> +		video->writing_to_a = !video->writing_to_a;
-> +		if (!list_is_last(&buf->link, &video->bufs))
-> +			chv3_video_next_frame(video, list_next_entry(buf, link));
-> +	} else {
-> +		writel(0, video->iobase + VIDEO_EN);
-> +	}
-> +empty:
-> +	spin_unlock(&video->bufs_lock);
-> +}
-> +
-> +static void chv3_video_error_irq(struct chv3_video *video)
-> +{
-> +	if (vb2_is_streaming(&video->queue))
-> +		vb2_queue_error(&video->queue);
-> +}
-> +
-> +static void chv3_video_resolution_irq(struct chv3_video *video)
-> +{
-> +	static const struct v4l2_event event = {
-> +		.type = V4L2_EVENT_SOURCE_CHANGE,
-> +		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
-> +	};
-> +
-> +	v4l2_event_queue(&video->vdev, &event);
-> +	chv3_video_error_irq(video);
-> +}
-> +
-> +static irqreturn_t chv3_video_isr(int irq, void *data)
-> +{
-> +	struct chv3_video *video = data;
-> +	unsigned int reg;
-> +
-> +	reg = readl(video->iobase_irq + VIDEO_IRQ_CLR);
-> +	if (!reg)
-> +		return IRQ_NONE;
-> +
-> +	if (reg & VIDEO_IRQ_BUFF0)
-> +		chv3_video_frame_irq(video);
-> +	if (reg & VIDEO_IRQ_BUFF1)
-> +		chv3_video_frame_irq(video);
-> +	if (reg & VIDEO_IRQ_RESOLUTION)
-> +		chv3_video_resolution_irq(video);
-> +	if (reg & VIDEO_IRQ_ERROR) {
-> +		dev_warn(video->dev, "error: 0x%x\n",
-> +			 readl(video->iobase + VIDEO_ERRORSTATUS));
-> +		chv3_video_error_irq(video);
-> +	}
-> +
-> +	writel(reg, video->iobase_irq + VIDEO_IRQ_CLR);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static int chv3_video_check_version(struct chv3_video *video)
-> +{
-> +	u32 version;
-> +
-> +	version = readl(video->iobase + VIDEO_VERSION);
-> +	if (version != VIDEO_VERSION_CURRENT) {
-> +		dev_err(video->dev,
-> +			"wrong hw version: expected %x, got %x\n",
-> +			VIDEO_VERSION_CURRENT, version);
-> +		return -ENODEV;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static void chv3_video_init_timings_and_format(struct chv3_video *video,
-> +					       const struct chv3_video_config *config)
-> +{
-> +	struct v4l2_pix_format *pix = &video->pix_fmt;
-> +	struct v4l2_dv_timings timings = V4L2_DV_BT_CEA_1920X1080P60;
-> +
-> +	video->timings = timings;
-> +	video->bytes_per_pixel = config->bytes_per_pixel;
-> +
-> +	pix->pixelformat = config->pixelformat;
-> +	pix->field = V4L2_FIELD_NONE;
-> +	pix->colorspace = V4L2_COLORSPACE_SRGB;
-> +	chv3_video_set_format_resolution(video, timings.bt.width, timings.bt.height);
-> +}
-> +
-> +#define notifier_to_video(nf) container_of(nf, struct chv3_video, notifier)
-> +
-> +static int chv3_video_async_notify_bound(struct v4l2_async_notifier *notifier,
-> +					 struct v4l2_subdev *subdev,
-> +					 struct v4l2_async_connection *asc)
-> +{
-> +	struct chv3_video *video = notifier_to_video(notifier);
-> +	int pad;
-> +
-> +	pad = media_entity_get_fwnode_pad(&subdev->entity, asc->match.fwnode,
-> +					  MEDIA_PAD_FL_SOURCE);
-> +	if (pad < 0)
-> +		return pad;
-> +
-> +	video->subdev = subdev;
-> +	video->subdev_source_pad = pad;
-> +
-> +	video->v4l2_dev.ctrl_handler = subdev->ctrl_handler;
-> +
-> +	return 0;
-> +}
-> +
-> +static void chv3_video_async_notify_unbind(struct v4l2_async_notifier *notifier,
-> +					   struct v4l2_subdev *subdev,
-> +					   struct v4l2_async_connection *asc)
-> +{
-> +	struct chv3_video *video = notifier_to_video(notifier);
-> +
-> +	vb2_video_unregister_device(&video->vdev);
-> +}
-> +
-> +static int chv3_video_async_notify_complete(struct v4l2_async_notifier *notifier)
-> +{
-> +	struct chv3_video *video = notifier_to_video(notifier);
-> +
-> +	return video_register_device(&video->vdev, VFL_TYPE_VIDEO, -1);
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations chv3_video_async_notify_ops = {
-> +	.bound = chv3_video_async_notify_bound,
-> +	.unbind = chv3_video_async_notify_unbind,
-> +	.complete = chv3_video_async_notify_complete,
-> +};
-> +
-> +static int chv3_video_fallback_init(struct chv3_video *video)
-> +{
-> +	int res;
-> +
-> +	video->subdev = NULL;
-> +	video->subdev_source_pad = 0;
-> +
-> +	v4l2_ctrl_handler_init(&video->ctrl_handler, 1);
-> +	v4l2_ctrl_new_std(&video->ctrl_handler, NULL,
-> +			  V4L2_CID_DV_RX_POWER_PRESENT, 0, 1, 0, 0);
-> +	res = video->ctrl_handler.error;
-> +	if (res)
-> +		goto handler_free;
-> +
-> +	video->v4l2_dev.ctrl_handler = &video->ctrl_handler;
-> +
-> +	res = video_register_device(&video->vdev, VFL_TYPE_VIDEO, -1);
-> +	if (res)
-> +		goto handler_free;
-> +
-> +	return 0;
-> +
-> +handler_free:
-> +	v4l2_ctrl_handler_free(&video->ctrl_handler);
-> +
-> +	return res;
-> +}
-> +
-> +static int chv3_video_fwnode_init(struct chv3_video *video)
-> +{
-> +	struct v4l2_async_connection *asc;
-> +	struct fwnode_handle *endpoint;
-> +	int res;
-> +
-> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(video->dev), NULL);
-> +	if (!endpoint)
-> +		return -EINVAL;
-> +
-> +	v4l2_async_nf_init(&video->notifier, &video->v4l2_dev);
-> +
-> +	asc = v4l2_async_nf_add_fwnode_remote(&video->notifier, endpoint,
-> +					      struct v4l2_async_connection);
-> +	fwnode_handle_put(endpoint);
-> +
-> +	if (IS_ERR(asc))
-> +		return PTR_ERR(asc);
-> +
-> +	video->notifier.ops = &chv3_video_async_notify_ops;
-> +	res = v4l2_async_nf_register(&video->notifier);
-> +	if (res) {
-> +		v4l2_async_nf_cleanup(&video->notifier);
-> +		return res;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int chv3_video_probe(struct platform_device *pdev)
-> +{
-> +	struct chv3_video *video;
-> +	const struct chv3_video_config *config;
-> +	int res;
-> +	int irq;
-> +
-> +	video = devm_kzalloc(&pdev->dev, sizeof(*video), GFP_KERNEL);
-> +	if (!video)
-> +		return -ENOMEM;
-> +	video->dev = &pdev->dev;
-> +	platform_set_drvdata(pdev, video);
-> +
-> +	config = device_get_match_data(video->dev);
-> +
-> +	/* map register space */
-> +	video->iobase = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(video->iobase))
-> +		return PTR_ERR(video->iobase);
-> +
-> +	video->iobase_irq = devm_platform_ioremap_resource(pdev, 1);
-> +	if (IS_ERR(video->iobase_irq))
-> +		return PTR_ERR(video->iobase_irq);
-> +
-> +	/* check hw version */
-> +	res = chv3_video_check_version(video);
-> +	if (res)
-> +		return res;
-> +
-> +	/* setup interrupts */
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return -ENXIO;
-> +	res = devm_request_irq(&pdev->dev, irq, chv3_video_isr, 0, DEVICE_NAME, video);
-> +	if (res)
-> +		return res;
-> +
-> +	/* initialize v4l2_device */
-> +	res = v4l2_device_register(&pdev->dev, &video->v4l2_dev);
-> +	if (res)
-> +		return res;
-> +
-> +	/* initialize vb2 queue */
-> +	video->queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> +	video->queue.io_modes = VB2_MMAP | VB2_DMABUF;
-> +	video->queue.dev = &pdev->dev;
-> +	video->queue.lock = &video->video_lock;
-> +	video->queue.ops = &chv3_video_vb2_ops;
-> +	video->queue.mem_ops = &vb2_dma_contig_memops;
-> +	video->queue.drv_priv = video;
-> +	video->queue.buf_struct_size = sizeof(struct chv3_video_buffer);
-> +	video->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> +	res = vb2_queue_init(&video->queue);
-> +	if (res)
-> +		goto error;
-> +
-> +	/* initialize video_device */
-> +	strscpy(video->vdev.name, DEVICE_NAME, sizeof(video->vdev.name));
-> +	video->vdev.fops = &chv3_video_v4l2_fops;
-> +	video->vdev.ioctl_ops = &chv3_video_v4l2_ioctl_ops;
-> +	video->vdev.lock = &video->video_lock;
-> +	video->vdev.release = video_device_release_empty;
-> +	video->vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-> +	video->vdev.v4l2_dev = &video->v4l2_dev;
-> +	video->vdev.queue = &video->queue;
-> +	video_set_drvdata(&video->vdev, video);
-> +
-> +	if (device_get_named_child_node(&pdev->dev, "port"))
-> +		res = chv3_video_fwnode_init(video);
-> +	else
-> +		res = chv3_video_fallback_init(video);
-> +	if (res)
-> +		goto error;
-> +
-> +	/* initialize rest of driver struct */
-> +	INIT_LIST_HEAD(&video->bufs);
-> +	spin_lock_init(&video->bufs_lock);
-> +	mutex_init(&video->video_lock);
-> +
-> +	chv3_video_init_timings_and_format(video, config);
-> +
-> +	/* initialize hw */
-> +	writel(VIDEO_RESET_BIT, video->iobase + VIDEO_RESET);
-> +	writel(VIDEO_DATARATE_DOUBLE, video->iobase + VIDEO_DATARATE);
-> +	writel(VIDEO_PIXELMODE_DOUBLE, video->iobase + VIDEO_PIXELMODE);
-> +	writel(config->dmaformat, video->iobase + VIDEO_DMAFORMAT);
-> +
-> +	writel(VIDEO_IRQ_ALL, video->iobase_irq + VIDEO_IRQ_MASK);
-> +
-> +	return 0;
-> +
-> +error:
-> +	v4l2_device_unregister(&video->v4l2_dev);
-> +
-> +	return res;
-> +}
-> +
-> +static void chv3_video_remove(struct platform_device *pdev)
-> +{
-> +	struct chv3_video *video = platform_get_drvdata(pdev);
-> +
-> +	/* disable interrupts */
-> +	writel(0, video->iobase_irq + VIDEO_IRQ_MASK);
-> +
-> +	if (video->subdev) {
-> +		/* notifier is initialized only in non-fallback mode */
-> +		v4l2_async_nf_unregister(&video->notifier);
-> +		v4l2_async_nf_cleanup(&video->notifier);
-> +	} else {
-> +		/* ctrl handler is initialized only in fallback mode */
-> +		v4l2_ctrl_handler_free(&video->ctrl_handler);
-> +	}
-> +
-> +	v4l2_device_unregister(&video->v4l2_dev);
-> +}
-> +
-> +static const struct chv3_video_config chv3_video_it = {
-> +	.pixelformat = V4L2_PIX_FMT_BGRX32,
-> +	.bytes_per_pixel = 4,
-> +	.dmaformat = VIDEO_DMAFORMAT_8BPC_PAD,
-> +};
-> +
-> +static const struct chv3_video_config chv3_video_dp = {
-> +	.pixelformat = V4L2_PIX_FMT_RGB24,
-> +	.bytes_per_pixel = 3,
-> +	.dmaformat = VIDEO_DMAFORMAT_8BPC,
-> +};
-> +
-> +static const struct of_device_id chv3_video_match_table[] = {
-> +	{ .compatible = "google,chv3-video-it-1.0", .data = &chv3_video_it },
-> +	{ .compatible = "google,chv3-video-dp-1.0", .data = &chv3_video_dp },
-> +	{ },
-> +};
-> +
-> +static struct platform_driver chv3_video_platform_driver = {
-> +	.probe = chv3_video_probe,
-> +	.remove_new = chv3_video_remove,
-> +	.driver = {
-> +		.name = DEVICE_NAME,
-> +		.of_match_table = chv3_video_match_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(chv3_video_platform_driver);
-> +
-> +MODULE_AUTHOR("Paweł Anikiel <panikiel@google.com>");
-> +MODULE_DESCRIPTION("Google Chameleon v3 video interface driver");
-> +MODULE_LICENSE("GPL");
-
-Regards,
-
-	Hans
 
