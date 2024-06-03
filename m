@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-12464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C012B8D83C4
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 15:21:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BAC8D83C5
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 15:21:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AE22282556
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 13:21:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A937C1C21832
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 13:21:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319B512D1F6;
-	Mon,  3 Jun 2024 13:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D942C12D75F;
+	Mon,  3 Jun 2024 13:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cJGF16zk"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="deF0CkkT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C8112CD91
-	for <linux-media@vger.kernel.org>; Mon,  3 Jun 2024 13:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B0E12CD91
+	for <linux-media@vger.kernel.org>; Mon,  3 Jun 2024 13:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717420868; cv=none; b=bV3uFVditjbcKdyAEC/R8j+4ccRJ2i3FMSKeKSING4bZ07WcES70t1O6eLRaI88Dbg+8qY+bZ6/5Ymzf09ya9lRdZe1W8zqUGk6+RmPGho143d3+YMBLd8dHLF3E+ZAgMU5GY8GpJMv8IIUM55ym4xulFlLlc4Y54ZQO4QILbWk=
+	t=1717420873; cv=none; b=A5FNhI+yIUz6JxS65kXGkvJFM5LZpLlUXtAfF52JMkUcR55uF/9iZTdk1LJYAumHLwbrImiVpUnLC1K/H4RlMGBY5r75bHj1EusMe21XfxQZR02SFlQOIt9u+TjD1RTRmSb0lShtm/R8kpHyjLvhfPWek1heL++YSNxrK8Pm4ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717420868; c=relaxed/simple;
-	bh=kCiZf/EstAVk0j7LktRbvsqhswdKr9a4X1y1doh/JYY=;
+	s=arc-20240116; t=1717420873; c=relaxed/simple;
+	bh=vW/DrzcA2QaVC+nVsqekgkqJdKqV/8/tn9VGlbhxtfU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OfZmIqn1jSFnRte9/tMvKQMOVzmnsj/u/ncyHfuNwChulAc/bJ9PUm+JUEZObvl4Uf+9UenhlHMm3ciZjSw60zmMYHDZWlwjjJQxQwatoLQnWv1cSXN3nLxHNNA0lEphQzU9GCr8YyWCflrn7zQOqeTBkGclK6fTj6oCyLhVaoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cJGF16zk; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=WDJDnuB9VXCuQMD3B87GM8cuG/T4mf8nKHesuxya5NN59Ep/GQyW7bxXukT+XGi3Lm2b7OpbIXMAt4xHvjI0RtfPeQy07MSj4ocu4QgWj1udADoDWK3h1Mg7IoitXGxWXMu4vU0WtwzAKlmNvMlIcMK/pvLGy32XmO6zTQ2m5n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=deF0CkkT; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717420866;
+	s=mimecast20190719; t=1717420871;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4h7oqV7Gp3dwPcoZBciov7bOn4WGfpSJ30Rdq1VmwvM=;
-	b=cJGF16zkScLhsJMuWtRaIeFG4/y7UDgtTbe+/wCIKsN/r6TOvq8XXOMCbd7O4BKxFsRdKe
-	QrwQ6gIOkQzsSS10sdX54kWa24KmjSb/GWE6I2pc8YMJl1PugtKC/5fFWMGHvpqoF7BkuX
-	S2rtyUWXO9+WFoVK4WctAcsKxiD5twg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-618-k6jKerjJN9KY8UC8wApfSw-1; Mon, 03 Jun 2024 09:21:04 -0400
-X-MC-Unique: k6jKerjJN9KY8UC8wApfSw-1
+	bh=wjM1+CX6ixdtpG/JpZd7uV7NuQ2/9yw1tY17ILpmXKE=;
+	b=deF0CkkT3OZt5rV/TGbYPbpMYKsH2bFmrpgKpl0YkwfT57QLlRNQEtaK7eUy2GSaZJPsYB
+	LkLC7IhAAMcDRiqpc6eNAXdUd3a+4/q1PS6v3xTZb0NDsMNjukfR9WvcQ/ak/I3fY/v1od
+	tT+uHb2Ii8Xo3yxU79ox6Tg83fs9W/8=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-647-Z8vMpfmdN2ep5jd_2_43Yg-1; Mon,
+ 03 Jun 2024 09:21:05 -0400
+X-MC-Unique: Z8vMpfmdN2ep5jd_2_43Yg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66F34185A783;
-	Mon,  3 Jun 2024 13:21:03 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 182081C05131;
+	Mon,  3 Jun 2024 13:21:05 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.193.39])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DD73A155D;
-	Mon,  3 Jun 2024 13:21:01 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 931761552;
+	Mon,  3 Jun 2024 13:21:03 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -68,9 +68,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Kate Hsuan <hpa@redhat.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 3/5] media: atomisp: Prefix firmware paths with "intel/ipu/"
-Date: Mon,  3 Jun 2024 15:20:55 +0200
-Message-ID: <20240603132057.255917-3-hdegoede@redhat.com>
+Subject: [PATCH 4/5] media: atomisp: Update TODO
+Date: Mon,  3 Jun 2024 15:20:56 +0200
+Message-ID: <20240603132057.255917-4-hdegoede@redhat.com>
 In-Reply-To: <20240603132057.255917-1-hdegoede@redhat.com>
 References: <20240603132057.255917-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -82,53 +82,68 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-The atomisp firmwares have been added to upstream linux-firmware
-under intel/ipu/ add this prefix to the firmware name passed
-to request_firmware().
-
-Fall back to the old location if this fails to avoid breaking existing
-setups.
+Update the TODO list:
+- Remove comment about adding firmware to linux-firmware this has been done
+- Add a comment about removing unnecessary / unwanted module parameters
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/staging/media/atomisp/TODO | 31 ++----------------------------
+ 1 file changed, 2 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index cfdfbf96c3fe..9d7f57d37b27 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1099,17 +1099,17 @@ atomisp_load_firmware(struct atomisp_device *isp)
+diff --git a/drivers/staging/media/atomisp/TODO b/drivers/staging/media/atomisp/TODO
+index bfef99997a1d..27cbbde93b1e 100644
+--- a/drivers/staging/media/atomisp/TODO
++++ b/drivers/staging/media/atomisp/TODO
+@@ -1,29 +1,3 @@
+-Required firmware
+-=================
+-
+-The atomisp driver requires the following firmware:
+-
+-- for BYT: /lib/firmware/shisp_2400b0_v21.bin
+-
+-  With a version of "irci_stable_candrpv_0415_20150423_1753" to check
+-  the version run: "strings shisp_2400b0_v21.bin | head -n1", sha256sum:
+-
+-  3847b95fb9f1f8352c595ba7394d55b33176751372baae17f89aa483ec02a21b  shisp_2400b0_v21.bin
+-
+-  The shisp_2400b0_v21.bin file with this version can be found on
+-  the Android factory images of various X86 Android tablets such as
+-  e.g. the Chuwi Hi8 Pro.
+-
+-- for CHT: /lib/firmware/shisp_2401a0_v21.bin
+-
+-  With a version of "irci_stable_candrpv_0415_20150521_0458", sha256sum:
+-
+-  e89359f4e4934c410c83d525e283f34c5fcce9cb5caa75ad8a32d66d3842d95c  shisp_2401a0_v21.bin
+-
+-  This can be found here:
+-  https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes-kernel/linux/linux-yocto/shisp_2401a0_v21.bin
+-
+-
+ TODO
+ ====
  
- 	if ((isp->media_dev.hw_revision >> ATOMISP_HW_REVISION_SHIFT) ==
- 	    ATOMISP_HW_REVISION_ISP2401)
--		fw_path = "shisp_2401a0_v21.bin";
-+		fw_path = "intel/ipu/shisp_2401a0_v21.bin";
+@@ -35,6 +9,8 @@ TODO
  
- 	if (isp->media_dev.hw_revision ==
- 	    ((ATOMISP_HW_REVISION_ISP2401_LEGACY << ATOMISP_HW_REVISION_SHIFT) |
- 	     ATOMISP_HW_STEPPING_A0))
--		fw_path = "shisp_2401a0_legacy_v21.bin";
-+		fw_path = "intel/ipu/shisp_2401a0_legacy_v21.bin";
+ * Remove custom sysfs files created by atomisp_drvfs.c
  
- 	if (isp->media_dev.hw_revision ==
- 	    ((ATOMISP_HW_REVISION_ISP2400 << ATOMISP_HW_REVISION_SHIFT) |
- 	     ATOMISP_HW_STEPPING_B0))
--		fw_path = "shisp_2400b0_v21.bin";
-+		fw_path = "intel/ipu/shisp_2400b0_v21.bin";
++* Remove unnecessary/unwanted module parameters
++
+ * Remove abuse of priv field in various v4l2 userspace API structs
  
- 	if (!fw_path) {
- 		dev_err(isp->dev, "Unsupported hw_revision 0x%x\n",
-@@ -1118,6 +1118,9 @@ atomisp_load_firmware(struct atomisp_device *isp)
- 	}
+ * Without a 3A library the capture behaviour is not very good. To take a good
+@@ -61,9 +37,6 @@ TODO
  
- 	rc = request_firmware(&fw, fw_path, isp->dev);
-+	/* Fallback to old fw_path with "intel/ipu/" prefix */
-+	if (rc)
-+		rc = request_firmware(&fw, strrchr(fw_path, '/') + 1, isp->dev);
- 	if (rc) {
- 		dev_err(isp->dev,
- 			"atomisp: Error %d while requesting firmware %s\n",
+ * Fix not all v4l2 apps working, e.g. cheese does not work
+ 
+-* Get manufacturer's authorization to redistribute the binaries for
+-  the firmware files
+-
+ * The atomisp code still has a lot of cruft which needs cleaning up
+ 
+ 
 -- 
 2.45.1
 
