@@ -1,167 +1,263 @@
-Return-Path: <linux-media+bounces-12458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12459-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D370C8D82DD
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 14:53:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 483C78D837D
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 15:08:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E30B28475F
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 12:53:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A95BB253A3
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 13:08:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A4C12D1E0;
-	Mon,  3 Jun 2024 12:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1418C12C528;
+	Mon,  3 Jun 2024 13:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDNXqg0d"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="WEEu1Rac"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A56286A6;
-	Mon,  3 Jun 2024 12:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717419162; cv=none; b=hBrB8hbcAPmq+hF/yGCDQfxmNLa9t6Ynw6rz+kFGpJD8Rtf9Qk6ftm2HNE34uoU41r5m4vjeuIrlSDGN5PWL8SLZOb6tJOaemJaw/F0WW4mGi2nffMZY9BDo6kKi44z/u/kqn3fZWKKnHMwIepuFgi5+/qxsqzd7oGai4ZJCJoQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717419162; c=relaxed/simple;
-	bh=RQVuKO8KsmnX+HwIJQMFQ5nya3BRk3afvXUxYEj9As8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JzCP0Y8JsADxqLjwPxQgrU/i+cKAnGqcPnDN2IsPm8nyjFCoq/3nzWNdJbTofF8MaPfESkHko30A+bkF27tIYu+5qN5ZPynRR24ITNlzM2VKWD2MFoOW1okzQ+klUIxZr70fmyq9ckz0Cxsa9Rvwx6amXryvMtU8wRTgJabQ9IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDNXqg0d; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57a1fe63947so3594221a12.1;
-        Mon, 03 Jun 2024 05:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717419159; x=1718023959; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yfniF8fjsy176YDZGpwH9nU2UAljfW8YFG1uj+a6gnk=;
-        b=TDNXqg0dX/3loM6vbYTEyr1NEGurqH87sB+5Oad9YsQO8kzzevhnRIRepwpE7gcsTD
-         e35nWwMYzenHkE5RIg/I3W++ZCaUWmCHDc1PYl8lKDIvH83bHoZYpGMASE03KWWrSjji
-         CjyrVXtKVNa7ohmdSp8PJQPjpdJzHNBGK4rUgrNIwizcuiq7I0JxYEIdqWHlzdo0/+sD
-         m/0PtAF1kQlVSAjGBJK8iuo/OnY04hxEm+FLtW3zpw3TIH9jYpFgBSJ2faayxzSEB1xe
-         uMfTNgUHmWmwXabtHngny8PAph91C3UmTyfTr7thPkahB2ma8jCLC4QZGgwTjvsohHff
-         xwqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717419159; x=1718023959;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yfniF8fjsy176YDZGpwH9nU2UAljfW8YFG1uj+a6gnk=;
-        b=u25CydszaufKfcB2/I18ZPBtqNFaIDHz1T5R9Q2Kl0Ki7T4ZKAwNzj/M5BmKD3XmCb
-         LmtTcQJKVBOXA49Q/G6C6y4FUKUlASPF79RaoLFt8v17VdN20SmptVaGVsJF3TOAL0oX
-         fZSJkRm/+oVbp2nD6Isk75sUcCqFhB5aMfWyECMu6Z9I80+ZCxvNhv9km4Qg1BF3gkQF
-         9PGsEi6DZPKeLST8SsdTU7sj0/nE7aLPsze1TmdxCT4Oi3QwUPoEN5L++3HMkEmd5mQ7
-         dQf+ZacAe324iygpFgq+2XCbCq21I+/uAhhpIzYAFfqjUCuhh0WogjstPHndOY4G7lRv
-         770g==
-X-Forwarded-Encrypted: i=1; AJvYcCWxw9rRkDB0Ogq5peLF4uM8jksb5/RtXSVu8ITqP2Etf3tLyGu+DWlW1dC+Zz2kGkoshPRsqdqePi/0fqen2YacgddH3J5glwTMXdAhjdX/agIuDjMAWLo+VY81ypL4Jt4VtnFmH/q2obWvnxz4gs0ZjwkfUrzb7Zc7fEf0eFs5YY+ab+is2zHMVlvRUNFllAoN493jnbwkorxZVc2+fG4+biCgDD3mS/Ln+w3YHUzN2q2TGVo+sgWVfkmAgYLL+njjpwQKCuIQgMMc4q+bq4l2I8yGuEQ2uTvZQG5pOX2kTlXr3OD266ValHOnniLgQlQP2pVwxa2g7Ae5Ci4WFavLWY5RbC6xgkyt/ThfdA54olLUvmuAUVgwUgGfYPZixx/GdoWPfsVf4rqEBizzCenvpeQFgLcrYpFzOkCfwEH6pd92OUltjgem5zpPQJIw0NxAKaAic4Ejs8SDNzSuHJH8jFoPJbApd6sOfZboxmIZJDYYoIQHBiEyWNSRRbwhxZx+zYD9OQ==
-X-Gm-Message-State: AOJu0YyMk7f/HGvHRoBNrtTmSTQhhL7dLdBoe3vGrkHSQvcZCq+G46QV
-	Ptgn7ehM2OwFl+HGMzvZWG329x/hS0LtTkpQ6wvQ7HDPTBfowNCy0NeWUGFe
-X-Google-Smtp-Source: AGHT+IHWekmH9nbBwxtAyBA3aP0bAtq3ZvyaOoiHlV8Yt/cXh+LsKG2d/23Eymxd3zWFCpXjqiJUYw==
-X-Received: by 2002:a50:9b19:0:b0:56e:238e:372c with SMTP id 4fb4d7f45d1cf-57a3653a3d7mr5229810a12.26.1717419158381;
-        Mon, 03 Jun 2024 05:52:38 -0700 (PDT)
-Received: from [192.168.42.59] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31b990easm5173294a12.6.2024.06.03.05.52.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jun 2024 05:52:38 -0700 (PDT)
-Message-ID: <fb8fd578-96b8-45b9-b6a9-fe407157122f@gmail.com>
-Date: Mon, 3 Jun 2024 13:52:41 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B33548F7
+	for <linux-media@vger.kernel.org>; Mon,  3 Jun 2024 13:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717420102; cv=pass; b=mY6KWqFUDi5ZMGeavpBhYxEKLPmVzk3WdnHZ4tQNXQPwaoyNPu0YdNtcWlDCg09jO/LHMm4YFi0zy5AibJ3ed/wJNcb1b003/IQEg1aswA5kn729YhvMbnLUHwaJl9h3ZV+wLEc225EAYhkr5wiLIwfBa46+eGdGUpQrlChXqj8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717420102; c=relaxed/simple;
+	bh=5lVUzm8FVov+uP1S4ozxZRxy4brPy7PH5dRHhzRp/k8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Oekq07f4Nh7ikEukuJobidwg0lgECM5rmj61p6QinbiX9AQsdzfsj8cNSdtbFT3R2XUk1NynpJ5u6gM1ADXpVEsTb2bIrZrtSbVg5rC98tpESNHXf6+FwLyANaRdkuCHTn3EgekoIWA1AdlbUIqEK8dn2PnviVZvHjN2vO+Ny/I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=WEEu1Rac; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4VtDYX6Gdkz49Pyc;
+	Mon,  3 Jun 2024 16:08:16 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1717420097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iCXSoSmj3uCJO8Z7llK0ORpuJ/sOgMlZhAjTZZ377b0=;
+	b=WEEu1RacmSD/O6jK1qlm86MVAjMWUS6s+KWytVSR37mUICMFywzuWxA5hNSDjYxKXNcODv
+	r6b4bxHs5wNoT9hoZ+hkKsvaH2gv4MaqL0EEPjIhOizWjSvWTToi4wlB2sgnS0RaYaR9hc
+	lCBxMozAVP62i8j6KhemxHDvCx5aykf52lgXUHspr/Py9kyUIiqR3OVOqTnjHxMUDLrI3p
+	lYBUpjIN+kRHNCGRFK+hddPrpDZZ9ObBWGcKdlzqKfXwMILiiZQA8ozF9aCvuw215dfInc
+	Bym8VoEO+Peqm1WTn+ecv923c2aky7khBYz38bb0GzDpSsZM+gjWUwmEwG3nug==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1717420097; a=rsa-sha256;
+	cv=none;
+	b=hsjQxWcyBH/d3NExPS3IMFb3htHrMYI5XFNe74oQI/Y9i9mECI/OB/xGlEz1jQENYtvKjT
+	AmfOkOiCicawCcxmd3Z0y08JeVhO2447fxVu9y1PY9+amxvi00eJzuGmXbMQJF3LhRTYO1
+	taAtNoJ4faGpQ3tBCTDYusfBQXYSIP8hF7mItjAipfpaZIyQLEEsVRlrzVtt3lKQ2+CkdQ
+	Amjl2KxY7cBgHyZL0VpKr+b807r/kTDyk2AxtslgHwxoWNdvMhnJ1tdwUr51ucM415j0MX
+	YknYrpKWDheNvhseOXI4If4bb11nUtY5nAPnlF/ks+3J9tPfgNJNaWB5346jbQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1717420097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iCXSoSmj3uCJO8Z7llK0ORpuJ/sOgMlZhAjTZZ377b0=;
+	b=UqFLW6Rq7NuNuMeBXKaCunz2Artq0SwUzj3mr7zWQqBuh4FLZu4UeB79+yIYIZkBrEvG1S
+	5WLwFq1eCVofKhI4iB1WjdrH9zgv1EUO9yrY0T/R0HGsxa1300mFtlxuCzyGwfeAl3UPhO
+	EVymvTclFdeROrYu6miYGy0nUtLTgx9mdwg2wvMlca1b0G3KMNVmuuO5P0UpzW1ZsI4Dl8
+	OzyvagGjqcv4393DbiSHkzkdA6tGSqD3MaTduyD0FddtED1XvMIlOLAU6TCEivpwCi59uA
+	RxYlOzDDEGvCQ3K2MM3HgcTNZXitlGvI4PeqL8UYYbEuX9fLnmpFdemYc7IfpA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0BDC3634C93;
+	Mon,  3 Jun 2024 16:06:08 +0300 (EEST)
+Date: Mon, 3 Jun 2024 13:06:06 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL v2 FOR 6.11] V4L2 patches
+Message-ID: <Zl2_vt9T6N-968WA@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 01/14] netdev: add netdev_rx_queue_restart()
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-2-almasrymina@google.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240530201616.1316526-2-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 5/30/24 21:16, Mina Almasry wrote:
-> Add netdev_rx_queue_restart() function to netdev_rx_queue.h
-> 
-> Signed-off-by: David Wei <dw@davidwei.uk>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-...
-> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
-> new file mode 100644
-> index 0000000000000..b3899358e5a9c
-> --- /dev/null
-> +++ b/net/core/netdev_rx_queue.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/netdevice.h>
-> +#include <net/netdev_queues.h>
-> +#include <net/netdev_rx_queue.h>
-> +
-> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
-> +{
-> +	void *new_mem, *old_mem;
-> +	int err;
+Hi Hans, Mauro,
 
-I believe it should also do:
+This PR contains Tomi's V4L2 sub-device
+s_streaming/{enable,disable}_streams compatibility improvements, new
+drivers for imx283 camera sensor, max9671[47] GMSL serialiser and
+deserialiser, fixes and improvements for ov5693, imx258, ipu6, imx412,
+max96712 and hi846 drivers as well as to v4l2-cci and v4l2-async. Trivial
+unused struct definition removal patches from David Gilbert are included,
+too.
 
-if (!dev->queue_mgmt_ops)
-	return -EOPNOTSUPP;
+since v1:
 
-> +
-> +	if (!dev->queue_mgmt_ops->ndo_queue_stop ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_mem_free ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_mem_alloc ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_start)
-> +		return -EOPNOTSUPP;
-> +
-> +	DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked());
+- Fix accidental squashing of Laurent's subdev state constness patches.
+
+- Add Cc: stable to imx412 and hi846 sensor driver fixes.
+
+- Include Hans's patch for GPIO cleanup for ov5693.
+
+Please pull.
+
+
+The following changes since commit 24147897507cd3a7d63745d1518a638bf4132238:
+
+  media: imon: Fix race getting ictx->lock (2024-05-31 14:20:40 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.11-1.3-signed
+
+for you to fetch changes up to c599a9865616fa1c63618002be05d3f90f4a51c3:
+
+  media: ov5693: Drop privacy-LED GPIO control (2024-06-03 15:53:37 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.11
+
+----------------------------------------------------------------
+Bingbu Cao (1):
+      media: ipu-bridge: add mod_devicetable.h header inclusion
+
+Bryan O'Donoghue (1):
+      media: i2c: Fix imx412 exposure control
+
+ChiYuan Huang (1):
+      media: v4l: async: Fix NULL pointer dereference in adding ancillary links
+
+Dave Stevenson (20):
+      media: i2c: imx258: Remove unused defines
+      media: i2c: imx258: Make image geometry meet sensor requirements
+      media: i2c: imx258: Disable digital cropping on binned modes
+      media: i2c: imx258: Remove redundant I2C writes.
+      media: i2c: imx258: Add regulator control
+      media: i2c: imx258: Make V4L2_CID_VBLANK configurable.
+      media: i2c: imx258: Split out common registers from the mode based ones
+      media: i2c: imx258: Add support for 24MHz clock
+      media: i2c: imx258: Add support for running on 2 CSI data lanes
+      media: i2c: imx258: Follow normal V4L2 behaviours for clipping exposure
+      media: i2c: imx258: Add get_selection for pixel array information
+      media: i2c: imx258: Allow configuration of clock lane behaviour
+      media: i2c: imx258: Correct max FRM_LENGTH_LINES value
+      media: i2c: imx258: Issue reset before starting streaming
+      media: i2c: imx258: Set pixel_rate range to the same as the value
+      media: i2c: imx258: Support faster pixel rate on binned modes
+      dt-bindings: media: imx258: Rename to include vendor prefix
+      dt-bindings: media: imx258: Add alternate compatible strings
+      media: i2c: imx258: Change register settings for variants of the sensor
+      media: i2c: imx258: Make HFLIP and VFLIP controls writable
+
+Dr. David Alan Gilbert (4):
+      media: i2c: dw9768: remove unused struct 'regval_list'
+      media: i2c: ks0127: remove unused struct 'adjust'
+      media: i2c: tw9910: remove unused strust 'regval_list'
+      media: i2c: adv7511: remove unused struct 'i2c_reg_value'
+
+Hans de Goede (1):
+      media: ov5693: Drop privacy-LED GPIO control
+
+Julien Massot (5):
+      dt-bindings: media: add Maxim MAX96717 GMSL2 Serializer
+      dt-bindings: media: add Maxim MAX96714 GMSL2 Deserializer
+      media: i2c: add MAX96717 driver
+      media: i2c: add MAX96714 driver
+      drivers: media: max96717: stop the csi receiver before the source
+
+Kieran Bingham (1):
+      media: i2c: Add imx283 camera sensor driver
+
+Laurent Pinchart (3):
+      media: v4l2-subdev: Fix v4l2_subdev_state_get_format() documentation
+      media: v4l2-subdev: Provide const-aware subdev state accessors
+      media: rkisp1: Mark subdev state pointers as const
+
+Luis Garcia (2):
+      media: i2c: imx258: Use v4l2_link_freq_to_bitmap helper
+      media: i2c: imx258: Convert to new CCI register access helpers
+
+Niklas Söderlund (1):
+      media: staging: max96712: Store format in subdev active state
+
+Ricardo Ribalda (1):
+      media: i2c: hi846: Fix V4L2_SUBDEV_FORMAT_TRY get_selection()
+
+Sakari Ailus (4):
+      media: async: Warn on attept to create an ancillary link to a non-subdev
+      media: ipu6: Rework CSI-2 sub-device streaming control
+      media: ipu6: Print CSR messages using debug level
+      media: v4l2-cci: Always assign *val
+
+Tomi Valkeinen (11):
+      media: subdev: Add privacy led helpers
+      media: subdev: Use v4l2_subdev_has_op() in v4l2_subdev_enable/disable_streams()
+      media: subdev: Add checks for subdev features
+      media: subdev: Fix use of sd->enabled_streams in call_s_stream()
+      media: subdev: Improve v4l2_subdev_enable/disable_streams_fallback
+      media: subdev: Add v4l2_subdev_is_streaming()
+      media: subdev: Support privacy led in v4l2_subdev_enable/disable_streams()
+      media: subdev: Refactor v4l2_subdev_enable/disable_streams()
+      media: subdev: Support single-stream case in v4l2_subdev_enable/disable_streams()
+      media: subdev: Support non-routing subdevs in v4l2_subdev_s_stream_helper()
+      media: subdev: Improve s_stream documentation
+
+Umang Jain (1):
+      media: dt-bindings: media: Add bindings for IMX283
+
+ .../bindings/media/i2c/maxim,max96714.yaml         |  174 +++
+ .../bindings/media/i2c/maxim,max96717.yaml         |  157 ++
+ .../media/i2c/{imx258.yaml => sony,imx258.yaml}    |   11 +-
+ .../devicetree/bindings/media/i2c/sony,imx283.yaml |  107 ++
+ MAINTAINERS                                        |   25 +-
+ drivers/media/i2c/Kconfig                          |   45 +
+ drivers/media/i2c/Makefile                         |    3 +
+ drivers/media/i2c/adv7511-v4l2.c                   |    5 -
+ drivers/media/i2c/dw9768.c                         |    5 -
+ drivers/media/i2c/hi846.c                          |    2 +-
+ drivers/media/i2c/imx258.c                         | 1424 +++++++++--------
+ drivers/media/i2c/imx283.c                         | 1605 ++++++++++++++++++++
+ drivers/media/i2c/imx412.c                         |    9 +-
+ drivers/media/i2c/ks0127.c                         |    8 -
+ drivers/media/i2c/max96714.c                       | 1024 +++++++++++++
+ drivers/media/i2c/max96717.c                       |  927 +++++++++++
+ drivers/media/i2c/ov5693.c                         |   10 -
+ drivers/media/i2c/tw9910.c                         |    5 -
+ drivers/media/pci/intel/ipu6/ipu6-buttress.c       |    4 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      |   98 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h      |    2 -
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c     |    3 -
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c     |   43 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |    8 +-
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c      |    8 +-
+ drivers/media/v4l2-core/v4l2-async.c               |    7 +
+ drivers/media/v4l2-core/v4l2-cci.c                 |    9 +
+ drivers/media/v4l2-core/v4l2-subdev.c              |  385 +++--
+ drivers/staging/media/max96712/max96712.c          |   37 +-
+ include/media/ipu-bridge.h                         |    1 +
+ include/media/v4l2-subdev.h                        |   90 +-
+ 31 files changed, 5291 insertions(+), 950 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+ rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml => sony,imx258.yaml} (88%)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
+ create mode 100644 drivers/media/i2c/imx283.c
+ create mode 100644 drivers/media/i2c/max96714.c
+ create mode 100644 drivers/media/i2c/max96717.c
 
 -- 
-Pavel Begunkov
+Kind regards,
+
+Sakari Ailus
 
