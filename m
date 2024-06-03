@@ -1,109 +1,228 @@
-Return-Path: <linux-media+bounces-12482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37B58D874C
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 18:28:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3488D87CE
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 19:22:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E40241C2209D
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 16:28:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A26DF2852F6
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 17:22:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17F9013667F;
-	Mon,  3 Jun 2024 16:28:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A234136E34;
+	Mon,  3 Jun 2024 17:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b="ur2g7t4c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from iodev.co.uk (iodev.co.uk [46.30.189.100])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6714313664B;
-	Mon,  3 Jun 2024 16:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.189.100
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717432117; cv=none; b=qTim4ydLnesTr7Xy2QYVHkzOiV9t9mtpa9IL12foYjNks/ygOM8M7sI66wjV/4M3SMFwr0Pz/rG/KpzJME7wkuzQvZIpO3hutjAey2o8ExuflNDzM4S2n1FknrtdzHg4fSsruye5R3YX19A9YrUMYBaFdKxjUxVaDsCNV+ReuxE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717432117; c=relaxed/simple;
-	bh=S41KtMNy578ooBZOlpzT9d0b338WCUrzYp5MEJGF7PE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i4t/KUjVxm301QzuuMUktFzY2+CWiSH2eN6wynzcAPVgMzuBBgYq1Hzh1puYKBeBCnVzYvez0dDK+im4K4eZnja+8D5CXsGzA5UH5TAegeJK45sGAB/68psdNfNw4h/ojV3eppRLcloz5V/Zt4GuU+wSq0iU5V23FsBtKT2gCVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iodev.co.uk; spf=pass smtp.mailfrom=iodev.co.uk; arc=none smtp.client-ip=46.30.189.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iodev.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iodev.co.uk
-Received: from pirotess (222.red-83-46-228.dynamicip.rima-tde.net [83.46.228.222])
-	by iodev.co.uk (Postfix) with ESMTPSA id 1C0222EF964;
-	Mon, 03 Jun 2024 18:28:34 +0200 (CEST)
-Date: Mon, 3 Jun 2024 18:28:32 +0200
-From: Ismael Luceno <ismael@iodev.co.uk>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-kernel@vger.kernel.org,
-	Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-	Anton Sviridenko <anton@corp.bluecherry.net>,
-	Andrey Utkin <andrey_utkin@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 6/8] media: solo6x10: use 'time_left' variable with
- wait_for_completion_timeout()
-Message-ID: <Zl3vMKEbsCFFwOAe@pirotess>
-References: <20240603092841.9500-1-wsa+renesas@sang-engineering.com>
- <20240603092841.9500-7-wsa+renesas@sang-engineering.com>
- <Zl3ujm4KEBviJIWP@pirotess>
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2086.outbound.protection.outlook.com [40.107.255.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D401366;
+	Mon,  3 Jun 2024 17:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717435315; cv=fail; b=kqoSE+uuoSLs4rUcwNSAnMPXRtalLfSqgLOsoptHRlx3fjT73gy2Uq6SDkVmXi/Wu+YWQZrsWdPOUpejObjCX1kNC/yNRA2kamGEV7I8sKsAeYl22G8aBkzlE92TeHkcibo9I6q1ChGfn2d+vGBqIa5exlI1A5evBMQizOnuXK0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717435315; c=relaxed/simple;
+	bh=M+6B3FJf9LMYJRsNV0UEY98hXGAb7HmQt5g62ixIPsc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OS4tK7wmx3q/Weyq+sBymZ1pLlujwC2j5F58eeVl4u3Kc50FFzoU4uf97nVX7k/jAsHx8EFZ3pR6+KGZxyjO5iArt7B2mB/pSg3PaQs6cTscMgHZ+W2cwXgAkzh2lTw8Fus1EATYeaKVfPDV6ZVAtKY+qRumSvTAqQ+2KqIZnX4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com; spf=pass smtp.mailfrom=oppo.com; dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b=ur2g7t4c; arc=fail smtp.client-ip=40.107.255.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oppo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=idvHuX358MpsPkIcOtjmop/fd2jzI2fNNxMhSTx7i1G0BrmigpJG+pYamRQFX5Ly3GI/kEs4J74g0S08vYI0l81G/CrreFKTRaZnF+rCSxvLye+O4xBLroftiFyz9BEF9CmnHHCbE+Bi2c9muL88sVsgm9VGOYnOO2GCMbcwOrXMAl4tzDJWfibHOqFyS+uduftbIsviE/zXmGh6DOZ4priX5KvaNRtHzj91X+mZkwBEETx66XKMgNfDtSb60/Bt+aq2Zpy+Nb7N9a0CLB41KNPOEkJ7cKBhD11V3MftDoPPXvBUoukYW7rVl30KRoyNr++923Eun9QXyiFlK9QZbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o8IQFPnM4F3yz329uWH6fg+C6coLIJSr27xrEvHGXFk=;
+ b=k8AbVY1yPw1KJVPXhZLWmAnHgDgAV20XlzcERXm1TC6kYPQaWjDDuuxSGBjnYIcewiCGzy9t0BbSqoNMJXa2yoptePWGbHLlF1OQsac/kAKnWf1WesHVsILC5U6kpVsqvgKCtjh2lc72FavjWBHbvyxrVk69ylpFZFJ3uCGpaZiUCVtNjS6GDkeWBBpSdUvIIOIJ3OGIQ+GNiNLdIMoZ4+EwM3shQk0ywMp7NC1KiwRnwzO7UJP1Mbwp9GtDHkFXVvhPeR2EOmLvH5CpH8RnZybbLsQ63O1aKXTlLmQauKQtlxSCYc7hkZLVTDYGkYURyr6mrjETcYVNu3NuCvDnKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 58.252.5.68) smtp.rcpttodomain=google.com smtp.mailfrom=oppo.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=oppo.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oppo.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o8IQFPnM4F3yz329uWH6fg+C6coLIJSr27xrEvHGXFk=;
+ b=ur2g7t4cJJocOVVxtVZuXc6wUpk55qZ4UTA5t/hZhBQGmklnO+FoO0mHHUvdFRKdLvMCQMT86dnn8wAXoQfVQOyICBo7/vwUo9NNMey8dWnmlqAWwIbKbWa3rwJ6HPx4AsCm7V5phq/jC1yKXkUZXWpXhGV4LpjZBm9MqOKmt88=
+Received: from SG2PR01CA0188.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:189::10) by KL1PR02MB6627.apcprd02.prod.outlook.com
+ (2603:1096:820:112::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.24; Mon, 3 Jun
+ 2024 17:21:50 +0000
+Received: from SG1PEPF000082E2.apcprd02.prod.outlook.com
+ (2603:1096:4:189:cafe::83) by SG2PR01CA0188.outlook.office365.com
+ (2603:1096:4:189::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.30 via Frontend
+ Transport; Mon, 3 Jun 2024 17:21:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 58.252.5.68)
+ smtp.mailfrom=oppo.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=oppo.com;
+Received-SPF: Pass (protection.outlook.com: domain of oppo.com designates
+ 58.252.5.68 as permitted sender) receiver=protection.outlook.com;
+ client-ip=58.252.5.68; helo=mail.oppo.com; pr=C
+Received: from mail.oppo.com (58.252.5.68) by
+ SG1PEPF000082E2.mail.protection.outlook.com (10.167.240.5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7633.15 via Frontend Transport; Mon, 3 Jun 2024 17:21:49 +0000
+Received: from oppo.com (172.16.40.118) by mailappw31.adc.com (172.16.56.198)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 4 Jun
+ 2024 01:21:49 +0800
+Date: Tue, 4 Jun 2024 01:21:48 +0800
+From: Hailong Liu <hailong.liu@oppo.com>
+To: John Stultz <jstultz@google.com>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?=
+	<christian.koenig@amd.com>, <21cnbao@gmail.com>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v1] dma-buf: heaps: move the verification of
+ heap_flags to the corresponding heap
+Message-ID: <20240603172148.gb7txpg2ya43jyxn@oppo.com>
+References: <20240603114008.16235-1-hailong.liu@oppo.com>
+ <CANDhNCq50zPB+TS+_Oo0HY0aUuBAdik2KrC8eJRTygbis293sw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <Zl3ujm4KEBviJIWP@pirotess>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANDhNCq50zPB+TS+_Oo0HY0aUuBAdik2KrC8eJRTygbis293sw@mail.gmail.com>
+X-ClientProxiedBy: mailappw31.adc.com (172.16.56.198) To mailappw31.adc.com
+ (172.16.56.198)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG1PEPF000082E2:EE_|KL1PR02MB6627:EE_
+X-MS-Office365-Filtering-Correlation-Id: fee480b1-7dfa-449c-3053-08dc83f1a771
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|82310400017|7416005|36860700004|376005|1800799015;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MWRxbStURit3bWU5VDA2MW15Vk1nbGtpYXJ0cEx2ZFIrWDNKaERwT1R1R0pJ?=
+ =?utf-8?B?cDFjVWI1eXk0eDlGSmpzQm9HZlNmellXZmE1cVJvcnRTN05JRUZXMlQ0Z2xO?=
+ =?utf-8?B?QnIrMWVKNTJNZ1ZKZjZvdzJhN0RMUU5YY0gydnNHWUV0Mm9kSGdqeHlwU0tH?=
+ =?utf-8?B?TC9ZRnJFR1BOeUhmajVKVkl5S1BmQUxIQkRuMXNWR2dPeTYwb1pUZUN3MnBD?=
+ =?utf-8?B?cjJUUFBvTEdvMlNjY3M4emMzckN0VVRyMyt3RjFmK2lIaVQxckFWKzJ6RVJu?=
+ =?utf-8?B?Z2RWV2w3L0l6ZEt1MSt3WThGRHdZdDVQZkdhVVFjZm1SNEdSalYxajNxcERO?=
+ =?utf-8?B?ZFJobW5UTzJxUVcwL3NGaWpZTS9Dc3RWeGhLTlcxOFNxUyt0cE96NWJqZVdh?=
+ =?utf-8?B?dXVHaXhTNGljc0RvdUU4NkRPWXFRUTNlSGFDQkNIcjc2dllPNkt4c3p0c3J3?=
+ =?utf-8?B?YkZsa0F2elN1a21ZNUpTOEV1dGJEaktDV0NPRmQ0cUhMRVRTallHT3V0TjYw?=
+ =?utf-8?B?eGpQUnpHRXR0c0hPMEROTjgrZUhQUDhYU2hsNUY4MXBWd3J0K0c5ejlzMHhS?=
+ =?utf-8?B?TG54OCtROVRBSm9wOW0vYTUvVFlzeFQzNjNuNkFTSmNSSVdGc0ZwSjhDZlBX?=
+ =?utf-8?B?bHYxbC9BMkl2dUtoc3k5NFJZVFIxRHoxS3lUSVc2N1ZtOHdEZDUvdFVtTHc4?=
+ =?utf-8?B?d0xKL0VvdlNyRzExTVFzVzN1OXBTdWJUV3NPTi9Ka3d3Q3g0YUJ2dTlMSmIy?=
+ =?utf-8?B?aVI5MnhuS1pPWnYrV2ZLaCs2bWk0OEh4d2hvdTR1Q0hyZ05ORW96WElPZVIv?=
+ =?utf-8?B?My9lRnQ1czhBRTNxZXpaRE1nTER3WXdjenFPR1JPRUd4ck4wVHV5OVRwZzc1?=
+ =?utf-8?B?ZENjdzJwdnU4VVEvQ3MzTWZxZUYvZndmdklzaXdScmROdTlRSEo4VVZYUkFO?=
+ =?utf-8?B?cjRHQWFDZitiM21WSnRBbW1EWnU3VVhyU3dTSFVjeUEwd2lFN1RHNi9WWTQr?=
+ =?utf-8?B?dlNIbUFFTW5PMDYrVHo1NDJtRzI5b2FicHVCbnNaRHlDbXpWUmx4aWZoeDVG?=
+ =?utf-8?B?c2FMbHlwUXRFTTNXUG1ycitQVTlXMjR0aEd4SEY5WThZNjVhMDE5U0FYYWJy?=
+ =?utf-8?B?Tjd1WVphTW5tdDBjYktKKzRycGlQSm5RUy9GbnlTdUl4dWZDbEpqV2lmNEFa?=
+ =?utf-8?B?VEduZit3MzhIbGk1Nk5JeVVEL1N6eVk2OGFFODdRalAvSUhpVkdub0NmSml2?=
+ =?utf-8?B?S2I5NzFYNUkzaVVRV3hXNDJJSjlhN3BaMFM1OXM0UWczZjBRZ2tqSVRYOEtH?=
+ =?utf-8?B?clpzZmJ6WE9PbjkyY3NiTmpNSHpvc0hBQnQ5VWlXLzcwZU9hWERVY3dOSFlS?=
+ =?utf-8?B?Qko5ckpKYW9pdDE2VlJLaG4yZG5kTU9HejBOU2Z3dUpZS2hjOEJ5VGhKcG5u?=
+ =?utf-8?B?RDdrOWtvV3g5TzVSdS9GRWFjRkVkcC9URVAwMEh0M0JwenZPeUo5T2p0ZmhY?=
+ =?utf-8?B?UlNtaC9peUZtOE1VVDlHK0ZZUndONXd1dkUrTFRTU3hsakE0SS9tNWxTL2E5?=
+ =?utf-8?B?eVh4TVF5Zy80eHNqeDdQT3kyYTlyd21XOWM0Nyt0VHRQMndzY1JxMXZmTEwx?=
+ =?utf-8?B?M1JjUTFOQXJpUGxNTW1oSE14SW40cEJCVTBnQ2JlbjA3c2hsSmxlVkZ3aElG?=
+ =?utf-8?B?ajV4T2JJNTlPdzhNRE0zWHBHdStPNlplTDdpMzU1L0RYaFZVRGk4Sm1sSHB6?=
+ =?utf-8?B?eklqL1lmZk53SXFqUkd6MGJxT1pQSWQ4dVRabXNBTzNFUVBwaTdGYjdkbGRF?=
+ =?utf-8?B?Nm1yQThTT3hJVmxYUTZ6enprV0g5c1JEZ2drVFFBYTcrSTdnS1k2Y3dhVUxC?=
+ =?utf-8?Q?ThFJOzIK539Vo?=
+X-Forefront-Antispam-Report:
+	CIP:58.252.5.68;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.oppo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(82310400017)(7416005)(36860700004)(376005)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: oppo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 17:21:49.8244
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fee480b1-7dfa-449c-3053-08dc83f1a771
+X-MS-Exchange-CrossTenant-Id: f1905eb1-c353-41c5-9516-62b4a54b5ee6
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f1905eb1-c353-41c5-9516-62b4a54b5ee6;Ip=[58.252.5.68];Helo=[mail.oppo.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG1PEPF000082E2.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR02MB6627
 
-On 03/Jun/2024 18:25, Ismael Luceno wrote:
-> On 03/Jun/2024 11:28, Wolfram Sang wrote:
-> > There is a confusing pattern in the kernel to use a variable named 'timeout' to
-> > store the result of wait_for_completion_timeout() causing patterns like:
-> > 
-> > 	timeout = wait_for_completion_timeout(...)
-> > 	if (!timeout) return -ETIMEDOUT;
-> > 
-> > with all kinds of permutations. Use 'time_left' as a variable to make the code
-> > self explaining.
-> > 
-> > Fix to the proper variable type 'unsigned long' while here.
-> > 
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> >  drivers/media/pci/solo6x10/solo6x10-p2m.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/media/pci/solo6x10/solo6x10-p2m.c b/drivers/media/pci/solo6x10/solo6x10-p2m.c
-> > index ca70a864a3ef..5f100e5e03d9 100644
-> > --- a/drivers/media/pci/solo6x10/solo6x10-p2m.c
-> > +++ b/drivers/media/pci/solo6x10/solo6x10-p2m.c
-> > @@ -57,7 +57,7 @@ int solo_p2m_dma_desc(struct solo_dev *solo_dev,
-> >  		      int desc_cnt)
-> >  {
-> >  	struct solo_p2m_dev *p2m_dev;
-> > -	unsigned int timeout;
-> > +	unsigned long time_left;
-> >  	unsigned int config = 0;
-> >  	int ret = 0;
-> >  	unsigned int p2m_id = 0;
-> > @@ -99,12 +99,12 @@ int solo_p2m_dma_desc(struct solo_dev *solo_dev,
-> >  			       desc[1].ctrl);
-> >  	}
-> >  
-> > -	timeout = wait_for_completion_timeout(&p2m_dev->completion,
-> > -					      solo_dev->p2m_jiffies);
-> > +	time_left = wait_for_completion_timeout(&p2m_dev->completion,
-> > +						solo_dev->p2m_jiffies);
-> >  
-> >  	if (WARN_ON_ONCE(p2m_dev->error))
-> >  		ret = -EIO;
-> > -	else if (timeout == 0) {
-> > +	else if (time_left == 0) {
-> >  		solo_dev->p2m_timeouts++;
-> >  		ret = -EAGAIN;
-> >  	}
-> 
-> Signed-off-by: Ismael Luceno <ismael@iodev.co.uk>
+On Mon, 03. Jun 09:01, John Stultz wrote:
+> On Mon, Jun 3, 2024 at 4:40 AM <hailong.liu@oppo.com> wrote:
+> >
+> > From: "Hailong.Liu" <hailong.liu@oppo.com>
+> >
+> > This help module use heap_flags to determine the type of dma-buf,
+> > so that some mechanisms can be used to speed up allocation, such as
+> > memory_pool, to optimize the allocation time of dma-buf.
+>
+> This feels like it's trying to introduce heap specific flags, but
+> doesn't introduce any details about what those flags might be?
+>
+> This seems like it would re-allow the old opaque vendor specific heap
+> flags that we saw in the ION days, which was problematic as different
+> userspaces would use the same interface with potentially colliding
+> heap flags with different meanings. Resulting in no way to properly
+> move to an upstream solution.
+>
+> With the dma-heaps interface, we're trying to make sure it is well
+> defined. One can register a number of heaps with different behaviors,
+> and the heap name is used to differentiate the behavior. Any flags
+> introduced will need to be well defined and behaviorally consistent
+> between heaps. That way when an upstream solution lands, if necessary
+> we can provide backwards compatibility via symlinks.
+>
+> So I don't think this is a good direction to go for dma-heaps.
+>
+> It would be better if you were able to clarify what flag requirements
+> you need, so we can better understand how they might apply to other
+> heaps, and see if it was something we would want to define as a flag
+> (see the discussion here for similar thoughts:
+> https://lore.kernel.org/lkml/CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com/
+> )
+>
+> But if your vendor heap really needs some sort of flags argument that
+> you can't generalize, you can always implement your own dmabuf
+> exporter driver with whatever ioctl interface you'd prefer.
 
-Sorry, I meant Acked-by.
+Thanks for your reply. Let’s continue our discussion here instead
+of on android-review. We aim to enhance memory allocation on each
+all heaps. Your pointer towards heap_flags used in /dev/ion for heap
+identification was helpful.
+
+We now aim to improve priority dma-buf allocation. Consider android
+animations scene:
+
+when device is in low memory, Allocating dma-buf as animation
+buffers enter direct_reclaimation, longer allocation time result in a
+laggy UI. But if we know the usage of the dma-buf, we can use some
+mechanisms to boost, e.g. animation-memory-pool.
+
+However, dma-buf usage identification becomes a challenge. A potential
+solution could be heap_flags. the use of heap_flags seems ugly and
+contrary to the intended design as you said, How aboult extending
+dma_heap_allocation_data as follows?
+
+struct dma_heap_allocation_data {
+	__u64 len;
+	__u32 fd;
+	__u32 fd_flags;
+	__u64 heap_flags;
+	__u64 buf_flags: // buf usage
+};
+
+Do you have any better suggestion?
+
+>
+> thanks
+> -john
+
+--
+
+Best Regards,
+Hailong.
 
