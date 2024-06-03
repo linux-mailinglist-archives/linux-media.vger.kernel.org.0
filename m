@@ -1,110 +1,152 @@
-Return-Path: <linux-media+bounces-12447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA88B8D7E9E
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 11:31:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 497318D7EA6
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 11:31:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC5C81C211FF
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 09:31:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B62201F26A70
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 09:31:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23BE784D09;
-	Mon,  3 Jun 2024 09:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F1568174E;
+	Mon,  3 Jun 2024 09:29:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ikqnVyD0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFilpSOG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF46181730
-	for <linux-media@vger.kernel.org>; Mon,  3 Jun 2024 09:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03A184FD0;
+	Mon,  3 Jun 2024 09:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717406939; cv=none; b=qP5pxxHECGzBSFU3s9UuRonqYtrW43Fqw4TyeWZWIydpF5sfwdAjp1MwNl8zmLQTyEDZ33h6+dDqR/tSE2BRX355G/9DRcaLq5JUnaWDH3n74NtK5/qJd5ewf2Y0sgd4I8uNERt3LJWWP60+9Frdo4JakGLOprW9kbZL4+462ME=
+	t=1717406946; cv=none; b=AKkyemBnzMke2tYvbwlzWFFojKap+ndUiZ9JAIeqtiMq7Xng5EOO5JbqKWNhTHnWW2txQyQ07mmeG4TkfVm0kKQoZrDHgFQLjdW6uW1jGp8eEigX3D3i0GTBguQ6cT9TUHpxwTrOQK4H+xHXrsJl3IWKkB+n+odovdv0JjOxJN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717406939; c=relaxed/simple;
-	bh=Mnmt1ogL9b7vULUwW/DFVNwc/+O/QYY2bGNMf1Qj9Zk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pOHc1mTro0TSz2TKymnYMF7s5hCrHoVRV2NfF/8gU/heF90OPshfZSHnWTET27cA58F2HCc8xzqJvzK/2ziYbTk+2ofnFZxIIvjY+juZri6EgOe+jP3TpIe7f87U5n+scBWBpMcye9jaUoV6/CCbxyaJ+JGWTH1E49a3ZHQ57AA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ikqnVyD0; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=A8oaKiWsS3ONtbUCaXMsPkJITTTFUHiuQzwOzERPisU=; b=ikqnVy
-	D0A3MUpqKSyfow3btR4Hat4yA9Ct8sqzLtY7C4EtypSFiV4mhzzQwdPl6XuHMc3j
-	+6IW793Kbud9/v+HoiZSdbn0nf51seTj6ACROWLEx4BMFo6g+cBcljouIe2ACkRu
-	Ju7k1xeK8ZQe4XUdLc1wK3R1FcTWLjbQdzioXYlYaqndd0gP+EHONgNqX3qFvxDD
-	58kWi5A1QUR2KE5gP02NrH9TPKqjrBWk4l9h9/gLr0/kqwkGvgP/CI//J/x89gg+
-	auRMZsQJ76BUwJv2ic0P/h9ig7d4EA4/OD66XlePb5BjkkHdublFgcXpRk9o0cFW
-	Me/tDDPJ3bZ8NuyA==
-Received: (qmail 1903325 invoked from network); 3 Jun 2024 11:28:53 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jun 2024 11:28:53 +0200
-X-UD-Smtp-Session: l3s3148p1@v/sr9vgZUNcgAwDPXzLGAH1eNELjOc3g
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-kernel@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Benoit Parrot <bparrot@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 8/8] media: ti: cal: use 'time_left' variable with wait_event_timeout()
-Date: Mon,  3 Jun 2024 11:28:39 +0200
-Message-ID: <20240603092841.9500-9-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240603092841.9500-1-wsa+renesas@sang-engineering.com>
-References: <20240603092841.9500-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1717406946; c=relaxed/simple;
+	bh=j4w9K5djQp5xn5C5Ueh22RoGjSGi1Sn90cfAUmAMli4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hn1GpXlDpekCemwUwWcF5Es6pC7i5CcPe34v6cW5eXZb9twHqjIR6qRhDUwcmbIdjsjXw70t/Wi0JLdO5g4P6FUwqDgHSvNcRbJuGnqNDYThFXzwbRRW66s2h+cZGRgvgbtp6waLppNpMAM/YAO7HGU3bW+50icCHjC1d2l+O5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFilpSOG; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717406945; x=1748942945;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=j4w9K5djQp5xn5C5Ueh22RoGjSGi1Sn90cfAUmAMli4=;
+  b=lFilpSOGxrfLNOKxpc/CNnfBwzqocMvPZR4dSypSOU3DjhubFaCLzd8N
+   4Z7n5+YKAuLe4z8KUXvdYUTBQ6Yvk3JcUwQZ/6gzH2Pay74xm22hd4s4F
+   csy/NN8tK+Gwao6uYf4N1+Uv85fh3m5aNklZ7uyAKdkW1nLr+joPJhgpN
+   CFFEqfIpPUrYqJCNkfDwWRn0uXfaFAR15xWRj5ktXGkAcmhNPS6hGyqgJ
+   RnKUU2uifJm+4SB4ysKZS1a0CpdEhoqeCFFo5aq5IPt5+GEr/wLBkF01d
+   GemgXgIKWj7isaMD0wROVkhlCKy33U3qOeOD8KdOFBAAffA+cQ8FVfAjx
+   w==;
+X-CSE-ConnectionGUID: ukm52QiCTa+NpmU/vXCI3Q==
+X-CSE-MsgGUID: pSBL4CKcRxSDAxLyy8fRPQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="17731587"
+X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
+   d="scan'208";a="17731587"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 02:29:04 -0700
+X-CSE-ConnectionGUID: eWA6METETtCUr4cLJQgSJw==
+X-CSE-MsgGUID: MRakdQpsR5CfCmhg/Ux7PQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
+   d="scan'208";a="37444940"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.39])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 02:28:54 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, Ville
+ =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Dave
+ Stevenson <dave.stevenson@raspberrypi.com>, Sui Jingfeng
+ <sui.jingfeng@linux.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mcanal@igalia.com>, Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector
+ infrastructure
+In-Reply-To: <20240603-nippy-ludicrous-caracara-e02e3c@houat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+ <874jadesaj.fsf@intel.com>
+ <20240603-nippy-ludicrous-caracara-e02e3c@houat>
+Date: Mon, 03 Jun 2024 12:28:51 +0300
+Message-ID: <87zfs2cr3g.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-There is a confusing pattern in the kernel to use a variable named 'timeout' to
-store the result of wait_event_timeout() causing patterns like:
+On Mon, 03 Jun 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> Hi Jani,
+>
+> On Fri, May 31, 2024 at 09:43:16PM GMT, Jani Nikula wrote:
+>> On Mon, 27 May 2024, Maxime Ripard <mripard@kernel.org> wrote:
+>> > Let me know what you think,
+>> 
+>> Sorry to report that this series generates a bunch of kernel-doc
+>> warnings in include/drm/drm_connector.h. Documenting nested struct
+>> members doesn't work as smoothly as you'd expect:
+>>
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'broadcast_rgb' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'infoframes' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'avi' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'hdr_drm' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'spd' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'vendor' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'is_limited_range' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'output_bpc' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'output_format' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:1138: warning: Excess struct member 'tmds_char_rate' description in 'drm_connector_state'
+>> ../include/drm/drm_connector.h:2112: warning: Excess struct member 'vendor' description in 'drm_connector'
+>> ../include/drm/drm_connector.h:2112: warning: Excess struct member 'product' description in 'drm_connector'
+>> ../include/drm/drm_connector.h:2112: warning: Excess struct member 'supported_formats' description in 'drm_connector'
+>> ../include/drm/drm_connector.h:2112: warning: Excess struct member 'infoframes' description in 'drm_connector'
+>> ../include/drm/drm_connector.h:2112: warning: Excess struct member 'lock' description in 'drm_connector'
+>> ../include/drm/drm_connector.h:2112: warning: Excess struct member 'audio' description in 'drm_connector'
+>> 
+>> Noticed this when I was rebasing [1]. Having that merged would find
+>> issues in headers at build time instead of 'make htmldocs'.
+>> 
+>> In the mean time, this is the quick reproducer:
+>> 
+>> $ scripts/kernel-doc -none include/drm/drm_connector.h
+>
+> Thanks for the report and the reproducer. I have to admit I have no idea
+> how to fix it, do you have a suggestion?
 
-	timeout = wait_event_timeout(...)
-	if (!timeout) return -ETIMEDOUT;
+Some of them can be fixed by adding the parent struct name, like so:
 
-with all kinds of permutations. Use 'time_left' as a variable to make the code
-self explaining.
+-                * @broadcast_rgb: Connector property to pass the
++                * @hdmi.broadcast_rgb: Connector property to pass the
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/media/platform/ti/cal/cal.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+but I think even that falls apart at some point. :(
 
-diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
-index 528909ae4bd6..5c2c04142aee 100644
---- a/drivers/media/platform/ti/cal/cal.c
-+++ b/drivers/media/platform/ti/cal/cal.c
-@@ -549,7 +549,7 @@ void cal_ctx_start(struct cal_ctx *ctx)
- void cal_ctx_stop(struct cal_ctx *ctx)
- {
- 	struct cal_camerarx *phy = ctx->phy;
--	long timeout;
-+	long time_left;
- 
- 	WARN_ON(phy->vc_enable_count[ctx->vc] == 0);
- 
-@@ -565,9 +565,9 @@ void cal_ctx_stop(struct cal_ctx *ctx)
- 	ctx->dma.state = CAL_DMA_STOP_REQUESTED;
- 	spin_unlock_irq(&ctx->dma.lock);
- 
--	timeout = wait_event_timeout(ctx->dma.wait, cal_ctx_wr_dma_stopped(ctx),
--				     msecs_to_jiffies(500));
--	if (!timeout) {
-+	time_left = wait_event_timeout(ctx->dma.wait, cal_ctx_wr_dma_stopped(ctx),
-+				       msecs_to_jiffies(500));
-+	if (!time_left) {
- 		ctx_err(ctx, "failed to disable dma cleanly\n");
- 		cal_ctx_wr_dma_disable(ctx);
- 	}
+In the end might be easier to separate the struct definitions to reduce
+nesting.
+
+
+BR,
+Jani.
+
+
 -- 
-2.43.0
-
+Jani Nikula, Intel
 
