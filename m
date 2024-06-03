@@ -1,204 +1,160 @@
-Return-Path: <linux-media+bounces-12456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E5E8D818F
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 13:50:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8018D8286
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 14:39:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B627C282F27
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 11:50:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD07C1F25623
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 12:39:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF43D8593D;
-	Mon,  3 Jun 2024 11:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4861112CD89;
+	Mon,  3 Jun 2024 12:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Kz0pq0xI"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Hqcgmw4m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9DF85928
-	for <linux-media@vger.kernel.org>; Mon,  3 Jun 2024 11:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E167212C473;
+	Mon,  3 Jun 2024 12:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717415413; cv=none; b=Icv5lV3xKTk8YEmfR9tTtOeJE9LwcsKgoPUd6UwtvDCSVHE+mbWhguKG4o9ZnmHBUnKh3siw5/BtWudXhLnSmEFfsSpmNZ5ETYqM8GOlnamSgifJq8YweKMhyvhOsBeW3ynZ7TefiJ87LUOq1Ud3Dxk3d/WgSQs0ms+e5hzhyys=
+	t=1717418358; cv=none; b=Vk/eOovX1rtovngQD33wcFTz1tsOUENVxJq7oWHjIIkuDlOAfn+NRPefGKpXBrAbMD50P4EbdgXOKdCcxLNL7DYlxk9cqoBEgxaMajy6MT/GW7Xs68CHKfCTICBVr1+VzP5LZFXDuYgx/E4lqc9xiPrtd7U4dA/3EcNCTKfKZc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717415413; c=relaxed/simple;
-	bh=05B4p2rv3Qe9JKaIpGYffAxk+1ldI7JRkOPrkIt7xdY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LIRfZhhLhLRrsa5aqRp6sZTUF+WQuFM0qyrat16fUz/2UBvgxClBROoD+tyPfqoWXeSTCcwUe9bTyZ8ru0BSXSzC1mV73VJHJbBpRFFiJaOBGxusuVvWd8IZ4jddicnT3bXKnAyJVFZ0qnkUzAJUZzaUVaNs/r0HMSSQRR/j7ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Kz0pq0xI; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3d1b7ad2283so1769736b6e.3
-        for <linux-media@vger.kernel.org>; Mon, 03 Jun 2024 04:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717415410; x=1718020210; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/2D3kDdYe/wPgM031L5fSfVW0xrekq6nogjEUevsgZY=;
-        b=Kz0pq0xITPLdyg5pQJ8Xiu6DkLDfjbsC9++RLWT/iIsY9JgM6Rnhf8LvyE14v2e4wO
-         r+h30OoELmoYZE3z6lpXurDKl+jYWW7DBg/Ji3aceRwxjhZip1cNTlk+jIVAZ9C86CHs
-         KVJEUgfvN/qEtWz+kmXxizvd9faKMUaOJSZLo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717415410; x=1718020210;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/2D3kDdYe/wPgM031L5fSfVW0xrekq6nogjEUevsgZY=;
-        b=FXXuF7J7cHXAFONWEhv7aHdbcR6BW/wmmiXQzAl0Ywv8vCgGXZazIUHkBFq/Gf1JZA
-         mtQNt7mZYLP7pi1h7qYYA3o3X31QvBlcJpuSWvs+xl6e7LVUUvAyU7ySHSpSHStCvMfh
-         wsy/YlPlDGrXWtxbqF3dexxFhFNhFSkw62SdHMKQ9dM1Zh57+bZsd/WgjhQjoZ0T/HcV
-         TqQtaVrlNix50ddXOpcDHJCjcDX6xH34sIMXv2bWa1em6GMO4uKjyX6LMAlBxnfAZGsA
-         lEK+EU+V65NixinrXJXmc6flkBVJKnvecdwl4I/kW4GLLnClrJ6rbCmGp8myWaHQoRK5
-         DuWQ==
-X-Gm-Message-State: AOJu0YzaTpGNhjKDJxkA6cVHZrXq2Ke+y1pobGVLfbuau6K7mn061PEg
-	jVhdPSr7vRchj9gLKZLqlY8EJ4OsznSlvj9mR3W9m7EED9hWC9WGxafOMlS7mx4VmGk/wbjhpCQ
-	=
-X-Google-Smtp-Source: AGHT+IFOdZ6WEWA2dZhARruRJJn0QScRcA+qBXylCaQwYPWqRofE7Fy0Ek+dyt0auAA0xBmJwGHnMA==
-X-Received: by 2002:a05:6808:3091:b0:3c7:3106:e2e1 with SMTP id 5614622812f47-3d1e34719bbmr10885717b6e.8.1717415408877;
-        Mon, 03 Jun 2024 04:50:08 -0700 (PDT)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com. [209.85.167.173])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d1e1933f38sm1306983b6e.0.2024.06.03.04.50.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jun 2024 04:50:08 -0700 (PDT)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3c9cf863a58so1828237b6e.2
-        for <linux-media@vger.kernel.org>; Mon, 03 Jun 2024 04:50:07 -0700 (PDT)
-X-Received: by 2002:a05:6808:1415:b0:3c9:9404:6c99 with SMTP id
- 5614622812f47-3d1e35b9151mr11324235b6e.42.1717415407255; Mon, 03 Jun 2024
- 04:50:07 -0700 (PDT)
+	s=arc-20240116; t=1717418358; c=relaxed/simple;
+	bh=LEM9nLCZweC6fzBGd3LiqBJyI0EVR5DWYNV+RHxhfJc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Rk9j9+yPewQeBwWkcfpqTv/2MUBRkd96DN9uvKLncenknwEqkwIwWeL8LvNvxyVGw8zoK+QqXBUX33BV8gf5Cbs2FbbzDo9+qlb17gWRUNQTHVawf2rIrDf61oFVDX+5MOspdqPCl2cPHh1zlYtsNrCpSRcyyZD1TBaDnCVrwbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Hqcgmw4m; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1717418356; x=1748954356;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=LEM9nLCZweC6fzBGd3LiqBJyI0EVR5DWYNV+RHxhfJc=;
+  b=Hqcgmw4moR5xrn3ljGdNG2NQIqkjpx77ho9zS40XDNG2X3wb34CUkuya
+   X/mt32h+rUIU0pzJci/Ji1fsu/fcQxsni0pycwJPYZMybmJ9+da3Bqhe+
+   QRLyxgI0JOR7uXmU/EF8JF1RKBIpsXNd0o16tFy+L44kcuJp+QW/q6oJ0
+   NhAJzLZ0M4xuF5Aw+lk8aZ6MkwDPrIcWdT4qJPG61eu3enuINwaherele
+   ghX+9sPDzlaZ4vZOYHUNDgiwNl+85sbGEvJA0Sk9jhg6rhrPNTEVHkd5V
+   SipaiU+scw1XcuBPMYKDZUtj4XS3gEvmCQCTM12MAE38i40ax4V1plv7I
+   g==;
+X-CSE-ConnectionGUID: mGTV6IY0SjuqO4B8d/I3Zg==
+X-CSE-MsgGUID: cs2mH/dwScqctcaN/BguNA==
+X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
+   d="scan'208";a="194291692"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Jun 2024 05:39:11 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 3 Jun 2024 05:38:36 -0700
+Received: from [10.159.227.221] (10.10.85.11) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Mon, 3 Jun 2024 05:38:23 -0700
+Message-ID: <7e618af0-51a7-4941-a386-0ac68c66d358@microchip.com>
+Date: Mon, 3 Jun 2024 14:38:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240602065053.36850-1-dhs@frame.work>
-In-Reply-To: <20240602065053.36850-1-dhs@frame.work>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 3 Jun 2024 13:49:51 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuhOhrN3FaCyFeGgnJ8BD_YDU8ZHq8MrXG3icSNN+iiKg@mail.gmail.com>
-Message-ID: <CANiDSCuhOhrN3FaCyFeGgnJ8BD_YDU8ZHq8MrXG3icSNN+iiKg@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Override default flags
-To: Daniel Schaefer <dhs@frame.work>
-Cc: linux-media@vger.kernel.org, Edgar Thier <info@edgarthier.net>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Levin <ktl@frame.work>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
+To: Allen Pais <apais@linux.microsoft.com>, <linux-kernel@vger.kernel.org>
+CC: <tj@kernel.org>, <keescook@chromium.org>, <vkoul@kernel.org>,
+	<marcan@marcan.st>, <sven@svenpeter.dev>, <florian.fainelli@broadcom.com>,
+	<rjui@broadcom.com>, <sbranden@broadcom.com>, <paul@crapouillou.net>,
+	<Eugeniy.Paltsev@synopsys.com>, <manivannan.sadhasivam@linaro.org>,
+	<vireshk@kernel.org>, <Frank.Li@nxp.com>, <leoyang.li@nxp.com>,
+	<zw@zh-kernel.org>, <wangzhou1@hisilicon.com>, <haijie1@huawei.com>,
+	<shawnguo@kernel.org>, <s.hauer@pengutronix.de>, <sean.wang@mediatek.com>,
+	<matthias.bgg@gmail.com>, <angelogioacchino.delregno@collabora.com>,
+	<afaerber@suse.de>, <logang@deltatee.com>, <daniel@zonque.org>,
+	<haojian.zhuang@gmail.com>, <robert.jarzmik@free.fr>, <andersson@kernel.org>,
+	<konrad.dybcio@linaro.org>, <orsonzhai@gmail.com>,
+	<baolin.wang@linux.alibaba.com>, <zhang.lyra@gmail.com>,
+	<patrice.chotard@foss.st.com>, <linus.walleij@linaro.org>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <peter.ujfalusi@gmail.com>, <kys@microsoft.com>,
+	<haiyangz@microsoft.com>, <wei.liu@kernel.org>, <decui@microsoft.com>,
+	<jassisinghbrar@gmail.com>, <mchehab@kernel.org>,
+	<maintainers@bluecherrydvr.com>, <ulf.hansson@linaro.org>,
+	<manuel.lauss@gmail.com>, <mirq-linux@rere.qmqm.pl>,
+	<jh80.chung@samsung.com>, <oakad@yahoo.com>,
+	<hayashi.kunihiko@socionext.com>, <mhiramat@kernel.org>,
+	<brucechang@via.com.tw>, <HaraldWelte@viatech.com>, <pierre@ossman.eu>,
+	<duncan.sands@free.fr>, <stern@rowland.harvard.edu>, <oneukum@suse.com>,
+	<openipmi-developer@lists.sourceforge.net>, <dmaengine@vger.kernel.org>,
+	<asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-rpi-kernel@lists.infradead.org>, <linux-mips@vger.kernel.org>,
+	<imx@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-actions@lists.infradead.org>,
+	<linux-arm-msm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+	<linux-hyperv@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+	<linux-omap@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-10-apais@linux.microsoft.com>
+Content-Language: en-US, fr
+From: Aubin Constans <aubin.constans@microchip.com>
+In-Reply-To: <20240327160314.9982-10-apais@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Daniel
-
-Thanks for the patch. Some minor nits.
-
-Feel free to ignore it if you prefer your style.
-
-
-On Sun, 2 Jun 2024 at 08:52, Daniel Schaefer <dhs@frame.work> wrote:
->
-> When the UVC device has a control that is readonly it doesn't set the
-> SET_CUR flag. For example the privacy control has SET_CUR flag set in
-> the defaults in the `uvc_ctrls` variable. Even if the device does not
-> have it set, it's not cleared by uvc_ctrl_get_flags.
->
-> Originally written with assignment in commit 859086ae3636 ("media:
-> uvcvideo: Apply flags from device to actual properties"). But changed to
-> |= in commit 0dc68cabdb62 ("media: uvcvideo: Prevent setting unavailable
-> flags"). It would not clear the default flags.
->
-> With this patch applied the correct flags are reported to user space.
-> Tested with:
->
-> ```
-> > v4l2-ctl --list-ctrls | grep privacy
-> privacy 0x009a0910 (bool)   : default=0 value=0 flags=read-only
-> ```
->
-> Cc: Edgar Thier <info@edgarthier.net>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Levin <ktl@frame.work>
-> Signed-off-by: Daniel Schaefer <dhs@frame.work>
-Fixes: 0dc68cabdb62 ("media: uvcvideo: Prevent setting unavailable flags")
-
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+On 27/03/2024 17:03, Allen Pais wrote:
+> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> 
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
+> 
+> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+> 
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
+> 
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 > ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 26 +++++++++++++++++---------
->  1 file changed, 17 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 4b685f883e4d..f50542e26542 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -2031,15 +2031,23 @@ static int uvc_ctrl_get_flags(struct uvc_device *dev,
->         else
->                 ret = uvc_query_ctrl(dev, UVC_GET_INFO, ctrl->entity->id,
->                                      dev->intfnum, info->selector, data, 1);
-> -       if (!ret)
-> -               info->flags |= (data[0] & UVC_CONTROL_CAP_GET ?
-> -                               UVC_CTRL_FLAG_GET_CUR : 0)
-> -                           |  (data[0] & UVC_CONTROL_CAP_SET ?
-> -                               UVC_CTRL_FLAG_SET_CUR : 0)
-> -                           |  (data[0] & UVC_CONTROL_CAP_AUTOUPDATE ?
-> -                               UVC_CTRL_FLAG_AUTO_UPDATE : 0)
-> -                           |  (data[0] & UVC_CONTROL_CAP_ASYNCHRONOUS ?
-> -                               UVC_CTRL_FLAG_ASYNCHRONOUS : 0);
-> +       if (!ret) {
-> +               info->flags = (data[0] & UVC_CONTROL_CAP_GET)
-> +                       ? (info->flags | UVC_CTRL_FLAG_GET_CUR)
-> +                       : (info->flags & ~UVC_CTRL_FLAG_GET_CUR);
-> +
-> +               info->flags = (data[0] & UVC_CONTROL_CAP_SET)
-> +                       ? (info->flags | UVC_CTRL_FLAG_SET_CUR)
-> +                       : (info->flags & ~UVC_CTRL_FLAG_SET_CUR);
-> +
-> +               info->flags = (data[0] & UVC_CONTROL_CAP_AUTOUPDATE)
-> +                       ? (info->flags | UVC_CTRL_FLAG_AUTO_UPDATE)
-> +                       : (info->flags & ~UVC_CTRL_FLAG_AUTO_UPDATE);
-> +
-> +               info->flags = (data[0] & UVC_CONTROL_CAP_ASYNCHRONOUS)
-> +                       ? (info->flags | UVC_CTRL_FLAG_ASYNCHRONOUS)
-> +                       : (info->flags & ~UVC_CTRL_FLAG_ASYNCHRONOUS);
-> +       }
+>   drivers/mmc/host/atmel-mci.c                  | 35 ++++-----
+[...]
 
-nit: I would have done it as
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 4b685f883e4d..c453a67e1407 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2031,7 +2031,12 @@ static int uvc_ctrl_get_flags(struct uvc_device *dev,
-        else
-                ret = uvc_query_ctrl(dev, UVC_GET_INFO, ctrl->entity->id,
-                                     dev->intfnum, info->selector, data, 1);
--       if (!ret)
-+       if (!ret) {
-+               info->flags &= ~(UVC_CTRL_FLAG_GET_CUR |
-+                               UVC_CTRL_FLAG_SET_CUR |
-+                               UVC_CTRL_FLAG_AUTO_UPDATE |
-+                               UVC_CTRL_FLAG_ASYNCHRONOUS);
-+
-                info->flags |= (data[0] & UVC_CONTROL_CAP_GET ?
-                                UVC_CTRL_FLAG_GET_CUR : 0)
-                            |  (data[0] & UVC_CONTROL_CAP_SET ?
-@@ -2040,6 +2045,7 @@ static int uvc_ctrl_get_flags(struct uvc_device *dev,
-                                UVC_CTRL_FLAG_AUTO_UPDATE : 0)
-                            |  (data[0] & UVC_CONTROL_CAP_ASYNCHRONOUS ?
-                                UVC_CTRL_FLAG_ASYNCHRONOUS : 0);
-+       }
+For atmel-mci, judging from a few simple tests, performance is preserved.
+E.g. writing to a SD Card on the SAMA5D3-Xplained board:
+time dd if=/dev/zero of=/opt/_del_me bs=4k count=64k
 
+      Base 6.9.0 : 0.07user 5.05system 0:18.92elapsed 27%CPU
+   Patched 6.9.0+: 0.12user 4.92system 0:18.76elapsed 26%CPU
 
->
->         kfree(data);
->         return ret;
-> --
-> 2.43.0
->
->
+However, please resolve what checkpatch is complaining about:
+scripts/checkpatch.pl --strict 
+PATCH-9-9-mmc-Convert-from-tasklet-to-BH-workqueue.mbox
 
+   WARNING: please, no space before tabs
+   #72: FILE: drivers/mmc/host/atmel-mci.c:367:
+   +^Istruct work_struct ^Iwork;$
 
--- 
-Ricardo Ribalda
+Same as discussions on the USB patch[1] and others in this series, I am 
+also in favour of "workqueue" or similar in the comments, rather than 
+just "work".
+
+Apart from that:
+Tested-by: Aubin Constans <aubin.constans@microchip.com>
+Acked-by: Aubin Constans <aubin.constans@microchip.com>
+
+Thanks.
+
+[1]: 
+https://lore.kernel.org/linux-mmc/CAOMdWSLipPfm3OZTpjZz4uF4M+E_8QAoTeMcKBXawLnkTQx6Jg@mail.gmail.com/
 
