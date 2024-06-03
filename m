@@ -1,124 +1,107 @@
-Return-Path: <linux-media+bounces-12473-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C438C8D859C
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 16:57:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B6A8D85FA
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 17:26:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D81B282030
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 14:57:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53EDA281E7A
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 15:26:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2B53130487;
-	Mon,  3 Jun 2024 14:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B7F130495;
+	Mon,  3 Jun 2024 15:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="puVrGSra"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mdyuQMZ+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDEC4A12;
-	Mon,  3 Jun 2024 14:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B53112CDBA
+	for <linux-media@vger.kernel.org>; Mon,  3 Jun 2024 15:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717426655; cv=none; b=cp0hGji7PB+PF/R06SsQOkucp7zG9NbvwVzgvcldyIsI4NkFuebC8cujqDpaD6eVErfPWXdOdy5s13Qbl3T/k+yWPRK+eXaONiCRCqVIuVfXHVEWvviF2IqtQSHU1V5ucKKKJW4js5qNycCZlfDexyI5ptO+6DEdreHRrfzl7Dk=
+	t=1717428371; cv=none; b=Ug0wuM5DKWfZgel/7VcgoLg88DGeyG1kKE+UQA/8coMy0KZUS9iywgSbKrTjV7Mnh5+/dx6lrGO61fbanKgxi/Q2DQJKI0meC0Cq4GJqHKDqJnfz2m7dZ7y572Lai7IAe4VA1NDIfxaspqnLFgUKFkflUdJ7lDCPUPOfxXyO7ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717426655; c=relaxed/simple;
-	bh=XxQOFTFoETaApC1cOL3VI9vHYDh/3zcRncz7EKtboyY=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=jaJF2jkgqc5Uxkhj5ds4T4WXMImN7kSbixl9K0wP77HxpfGShASuqloPJopwOzBRrOL6xRFQ96GQB+Rm5WlxsleHkFGRPdDVgolgP84blhS77yhoCx5NmVb2PwsjeMYNYN8wIlQ1y8Ok5Hg1+AnoFNYSPCacbqGO2zN0j6glwIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=puVrGSra; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1717426651;
-	bh=XxQOFTFoETaApC1cOL3VI9vHYDh/3zcRncz7EKtboyY=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=puVrGSraQ2BTNhqJXtmrCAtWWnWOGs84SAif9IB6w1H/VwBBhw/C4RSdSUgieT69D
-	 01D2VwK9btyiIcmFQf8JJXJhfjbG2hvER1bSnGGkcCNpOW0ELhoXJVFtNThvFriwO5
-	 QqzoVl7/NLPubt7e4aOfJ4pIMtIdbAx3wbZgttEiYyVA/RnIgAjoIwnRkrjvvXgpnD
-	 wvyelex7+9RYkhUsct/ljpH1GhEsh6mBG8vvYZgyw+tMsNsAPF7XYNTkdeWu7fO+2v
-	 d8lJ8mpP6kQ3SVOw3OcI0OmJGCELXtbiPfTfgPJ3Kst3MUcMuT6VukeGLJLHCtMpBC
-	 Z/8yk2gSEh8sA==
-Received: from smtpclient.apple (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: dwlsalmeida)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1539B378216D;
-	Mon,  3 Jun 2024 14:57:28 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1717428371; c=relaxed/simple;
+	bh=9ErfmJPX78O0wIPfvxmAkfOVjxzZ6nKx7SYmxrK8rJ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KJlXJldZXbCHNlM4bczxgaSK4p6tqxmgSuWjL2HdBZNuYYueDq1GemKoSO89U0Radr/GY9UdF8EOJYP05QW3v/YkXYaKWmzG+w2EogBZYlYN7hGSgZuRAtmYWjz/WcwbAC3bYV30VkDbsaQDXQ3/HAzarwwX56v3AmJrb016sMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mdyuQMZ+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7468039F;
+	Mon,  3 Jun 2024 17:25:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1717428353;
+	bh=9ErfmJPX78O0wIPfvxmAkfOVjxzZ6nKx7SYmxrK8rJ4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mdyuQMZ+9ZGEFK1sWp/dhJP9rfT3ME2Sal3ORSgF8rKfbwJdht/VdCW+gCYNPCWw2
+	 IiKZFrdRMeLfmOP0Zsu0cR3w6kvMIWXqv7xWY3F+/t/T/QcydNbOmoBoKgkUtwNJi2
+	 vqvlES/V8eRC68qzEzHpB4fewqLQAIsmB3TaEHl4=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: [RFC 0/3] media: videobuf2: Allow driver to override vb2_queue.buf_ops
+Date: Mon,  3 Jun 2024 17:25:44 +0200
+Message-ID: <20240603152548.107158-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [PATCH] media: mediatek: jpeg: support 34bits
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20240327040145.7155-1-jianhua.lin@mediatek.com>
-Date: Mon, 3 Jun 2024 11:57:15 -0300
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- matthias.bgg@gmail.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D76FE1CB-1EF9-4F38-8D73-F3E0D7942A6C@collabora.com>
-References: <20240327040145.7155-1-jianhua.lin@mediatek.com>
-To: Jianhua Lin <jianhua.lin@mediatek.com>
-X-Mailer: Apple Mail (2.3774.600.62)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Jianhua,
+Hello
 
+  I have the need to allocate a scratch buffer to mirror the content of the
+vb2_buffer planes (more detail on this on request).
 
-> + ret =3D of_property_read_u32(pdev->dev.of_node, "mediatek,34bits",
-> + &jpeg->support_34bit);
-> + if (ret !=3D 0) {
-> + dev_info(&pdev->dev, "default for 32bits");
-> + jpeg->support_34bit =3D 0;
-> + }
-> + dev_info(&pdev->dev, "use 34bits: %d", jpeg->support_34bit);
-> +
+The allocation of such 'scratch' buffer should ideally be done once, at buffer
+creation time (and released at buffer release time ?)
 
-Please use of_property_read_bool instead.
+Looking at the videobuf2 framework implementation I noticed that the ideal entry
+point for this would be vb2_queue.buf_ops.init_buffer, which is called in the
+__vb2_queue_alloc() call path.
 
+I have noticed that the vb2_queue.buf_ops members seems to be there to be made
+overridable by drivers, but are instead:
 
-> enc_get_file_size(void __iomem *base, u32 support_34bit)
-> {
-> - return readl(base + JPEG_ENC_DMA_ADDR0) -
-> + u32 value =3D 1;
-> +
-> + if (support_34bit)
-> + value =3D 4;
-> +
-> + return readl(base + JPEG_ENC_DMA_ADDR0) * value -
->       readl(base + JPEG_ENC_DST_ADDR0);
-> }
+1) unconditionally set by the framework in vb2_queue_init_name()
+2) the core helpers are not exported
 
-Please use the ternary operator instead, there=E2=80=99s no need for two =
-assignments.
+hence I was wondering if this is the result some half-baked attempt to make
+them ovverridable or the possibility of override them was instead deprecated.
+As I found no traces of this in the log, I thought it was easier to send an
+RFC.
 
-Can you please add a comment inline to explain why this multiplier is =
-needed?
+I also checked what other entry points I could have used to allocate backing
+memory for a buffer, and I have considered vb2_queue.vb2_ops.buf_init which
+is however called in the vb2_req_prepare() call path (I'm not using the request
+API atm) or in the VIDIOC_PREPARE_BUF call path, which requires ad-hoc
+instrumentation in user space (something I would like to avoid if possibile).
 
+What do you think ?
 
-> EXPORT_SYMBOL_GPL(mtk_jpeg_enc_get_file_size);
-> @@ -75,6 +80,9 @@ void mtk_jpeg_enc_start(void __iomem *base)
->=20
-> value =3D readl(base + JPEG_ENC_CTRL);
-> value |=3D JPEG_ENC_CTRL_INT_EN_BIT | JPEG_ENC_CTRL_ENABLE_BIT;
-> + value |=3D JPEG_ENC_CTRL_RDMA_PADDING_EN;
-> + value |=3D JPEG_ENC_CTRL_RDMA_RIGHT_PADDING_EN;
-> + value &=3D ~JPEG_ENC_CTRL_RDMA_PADDING_0_EN;
-> writel(value, base + JPEG_ENC_CTRL);
-> }
+Jacopo Mondi (3):
+  media: videobuf2: WARN if !vb2_queue.buf_ops
+  media: Allow drivers to overwrite vb2_queue.buf_ops
+  media: rkisp1-params: Override vb2_queue.buf_ops
 
-These do not have to be gated by =E2=80=9Csupport_34bit=E2=80=9D ?
+ .../media/common/videobuf2/videobuf2-core.c   | 12 ++++---
+ .../media/common/videobuf2/videobuf2-v4l2.c   | 34 +++++++++++--------
+ .../platform/rockchip/rkisp1/rkisp1-params.c  | 18 +++++++++-
+ include/media/videobuf2-core.h                |  7 ++++
+ include/media/videobuf2-v4l2.h                |  8 +++++
+ 5 files changed, 60 insertions(+), 19 deletions(-)
 
-=E2=80=94 Daniel=
+--
+2.45.1
+
 
