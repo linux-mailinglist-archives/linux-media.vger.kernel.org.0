@@ -1,1153 +1,1060 @@
-Return-Path: <linux-media+bounces-12428-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12429-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C898B8D7C74
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 09:29:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DBE8D7CE5
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 09:57:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 325AF2832C3
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 07:29:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 972BB1C20323
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 07:57:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E26D947A6C;
-	Mon,  3 Jun 2024 07:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gKqZh5YF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2656152F62;
+	Mon,  3 Jun 2024 07:57:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A353FB1C;
-	Mon,  3 Jun 2024 07:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90624D5AB;
+	Mon,  3 Jun 2024 07:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717399773; cv=none; b=IXULzHuW75H8n+TQdZu0jPtmElgrZckOHJApT2M6gAF4OcOcsIaKECH8oh7p0u1ffkMKYUBCAnO51Xz7olD52CXlVqMYcNnjY8bwsO+qT1GOfkTiT4S9xaFsfx07nSOVISx8M9xy3FnTRuQzneel8I8O/BPf+nHbKYsbseunx/c=
+	t=1717401454; cv=none; b=onuoxBL3hGJsktqPzz2GmZagMUlWN8kJaYNlq7Ny2T5cCD6h65dcvyII1AXNMDiFJVwzjcJTZ2Afqy6TvHWtGsAi9tFEpk0Q9naiQyEth7QlSUOub3MO90WQNcMMW6+yuhdfrWEe+NHrBkxZDEQTP7dkQOz3HxeD6mm8UMA09oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717399773; c=relaxed/simple;
-	bh=8C9jbhauqGCvUi76wZl84OLMh0IOS2NE9f4AFn46ZjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cz1rstC+Y3Jwgc6RSGeD36OJedwdFJgATPLOxdpD/9DHNGhcTner3z9/0RZsoJsHDd67qaYeryS2Q0eqgWnPlR3vrt7jek5Rt5XRpE96WxW6IcI/ULisJBF63kwyNdNP79odlF4GY9s8agq4jj7PgVcd5DmBHSZwXtcXUiu5V+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gKqZh5YF; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52b950aa47bso1635199e87.1;
-        Mon, 03 Jun 2024 00:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717399768; x=1718004568; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5CV0DITLnlYog0aW3mrfFR9Sqc6k7+AuAv9jTPdoSwc=;
-        b=gKqZh5YFPchQdHY6qR2YwwXrd3lKHOOMWU6kIwpG6CLy0hx/gDvkv3l472x/wacNO6
-         fVw2Wk5KlROUpmjTGr/C1yQwxeDhsCfj9KV34k5kmRlETqluTfPnOH/4lOJRs1XdgH2U
-         HUsmCH02O2UtlFgvs/RVJ2G6z4XauwB89bsM33Woek8ZQ/6mYXZvmXa6prKy5r9Zdzzt
-         rNtPPpwf5ejNxcNV9Kw03F7hccMXgnKCtwLDAvtKgjoEZJckCw6qZW8OohFaWYsJpICt
-         23qKZ6E+xaCk0OeOOIPoEiziB8jsqTKpqrRZd+W7+fI+8+4nxdqWiZdhEMaEV8UUyCEp
-         WFog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717399768; x=1718004568;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5CV0DITLnlYog0aW3mrfFR9Sqc6k7+AuAv9jTPdoSwc=;
-        b=Pwy7qis9oZ6ls2DeDya8ue9tx7Y34NP+HvKAi1ZS8FKYPHDQAW6zzaky3wvMlxXfoR
-         qBjDo6rvKzm/hcDJLmM0f+ZKpP+fQGOLWhXxk5uj2VKbNW6wDqc5e41jH3Trs0YkF1IC
-         Luk7Lft0AfhNA21PVb7pr0hOXZ3Ag0b3qTmP22KFLuWzzZ4b6HkkIQrTldTvuVXnkdaA
-         fBJmY1ZeH0oaw3DVglx9Ed/wCF4yZIkr4ekqjUHQpaJRLMr5I4ebaTpYYU99iNMQNWus
-         wnGxAKy1YN25jYTyavuGalGYZBIc2LdP7R40D9R0OJFUTF6GHSCjw5FZtawe0UhK+WK4
-         yyVA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6w3+evhLEPnoGeRB93wIOP5ZtSdX9DmNneIpErmjq/2jDzQOcqLksXPVgUOvE+Uqy3UB1S4uNAAj1EUNexTN3N3BgPhbfMhD6UP6bXs4Gw8G2NzH1g12BKWQUGKXA9uPVYFIK8PkItA==
-X-Gm-Message-State: AOJu0YxFnv7dcQfzANxmWn/EcpPYE9KeKfmHTNASNINTzyipFLCOqMVl
-	re4RGtQnJGLSJL9a3veUUg5O2Nty3UQX7JBC3zeSQhU519YlcVy22JNmIQ==
-X-Google-Smtp-Source: AGHT+IHRE0ZXAvzhvkVwHg7dP2OatHYfbLqi25/XkuPrFg9Ixn7cmSqVsbm7b8+D62DNCxu3kOawJw==
-X-Received: by 2002:a05:6512:312a:b0:520:36bb:a6e1 with SMTP id 2adb3069b0e04-52b896b3d30mr5757187e87.29.1717399768066;
-        Mon, 03 Jun 2024 00:29:28 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-58-5.cust.vodafonedsl.it. [188.217.58.5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421386d858esm58077415e9.48.2024.06.03.00.29.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 00:29:27 -0700 (PDT)
-Date: Mon, 3 Jun 2024 09:29:25 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org, sakari.ailus@iki.fi,
-	devicetree@vger.kernel.org, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, mchehab@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org
-Subject: Re: [PATCH v7 3/5] media: i2c: add MAX96717 driver
-Message-ID: <Zl1w1YGqFJIBKYUm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20240430131931.166012-1-julien.massot@collabora.com>
- <20240430131931.166012-4-julien.massot@collabora.com>
+	s=arc-20240116; t=1717401454; c=relaxed/simple;
+	bh=Uyg23ah4xo8UOSM13Fg/epUvP0Yw1nqnbZ5+dnzYrTQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NuBqGp2yt0HnxxBD2nruaWk60PKrhbvQy/HMHfcHSEC0y6tJrOWSuNFg5mEZ16Jjr5L1Cxwm2ovKT8bFqMHacRvR8WAevlyzHYHXH6GcZ+2yFpKDosBpfE33MjhJ5mOQ+eaqTt5Su2iM8lkrADqTjGuO7fbkMMGpioj9j3VuxPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469DBC2BD10;
+	Mon,  3 Jun 2024 07:57:31 +0000 (UTC)
+Message-ID: <c5f40d46-9e8d-40f9-82ee-83013dbc134e@xs4all.nl>
+Date: Mon, 3 Jun 2024 09:57:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/10] media: Add Chameleon v3 video interface driver
+To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
+ akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
+ dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
+ robh+dt@kernel.org, tzimmermann@suse.de
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ chromeos-krk-upstreaming@google.com
+References: <20240507155413.266057-1-panikiel@google.com>
+ <20240507155413.266057-2-panikiel@google.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240507155413.266057-2-panikiel@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240430131931.166012-4-julien.massot@collabora.com>
 
-Hi Julien,
-
-On Tue, Apr 30, 2024 at 03:19:29PM +0200, Julien Massot wrote:
-> This driver handles the MAX96717 serializer in tunnel mode.
-> All incoming CSI traffic will be tunneled through the GMSL2
-> link.
+On 07/05/2024 17:54, Paweł Anikiel wrote:
+> Add v4l2 driver for the video interface present on the Google
+> Chameleon v3. The Chameleon v3 uses the video interface to capture
+> a single video source from a given HDMI or DP connector and write
+> the resulting frames to memory.
 > 
-> The MAX96717 driver can handle MAX96717 and MAX96717F variants
-> with the same "maxim,max96717f" compatible.
-> 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> Signed-off-by: Paweł Anikiel <panikiel@google.com>
 > ---
-> Change since v6:
->  - Kconfig select MEDIA_CONTROLLER, V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API
->  - rename 'REG3' register to 'MAX96717_REG3'
->  - Initialized 'ret' variable in 'max96717_gpiochip_probe'
->  - remove max96714_v4l2_notifier_unregister and call the function directly
->  - Do not store private pointer with i2c_set_clientdata since the v4l2-i2c
->    uses it to store the subdev pointer
->  - use dev_err_probe at gpio chip initialization
+>  drivers/media/platform/Kconfig             |   1 +
+>  drivers/media/platform/Makefile            |   1 +
+>  drivers/media/platform/google/Kconfig      |  13 +
+>  drivers/media/platform/google/Makefile     |   3 +
+>  drivers/media/platform/google/chv3-video.c | 891 +++++++++++++++++++++
+>  5 files changed, 909 insertions(+)
+>  create mode 100644 drivers/media/platform/google/Kconfig
+>  create mode 100644 drivers/media/platform/google/Makefile
+>  create mode 100644 drivers/media/platform/google/chv3-video.c
 > 
-> Change since v5:
->  - set the driver compatible back to MAX96717F that can be used as a fallback for MAX96717
-> 
-> Change since v4:
->  - make the driver compatible with MAX96717 instead of MAX96717F
->  - Add the device id for the MAX96717
->  - remove hw_data structure for now, it can be usefull later for handling different serializers e.g max9295
-> 
-> Change since v3:
->  - Maintainers: align to the new binding path
->  - Kconfig: better describe the symbol
->  - store the v4l2_mbus_config_mipi_csi2 structure instead of the full endpoint in the driver private structure
->  - use MAX96717_PAD_SINK/SOURCE instead of 0/1 for pad intialization
->  - Removed incorrect call to fwnode_handle_put(priv->sd.fwnode)
->  - Use unsigned int instead of u8
->  - Allocate clk name out of the clk struct initialization
->  - fixed multiline comment
->  - Removed one unnecessary goto at the end of the probe function
-> 
-> Change since v2:
->  - Use CCI helpers instead of recoding register access
->  - add missing bitfield header
-> ---
->  MAINTAINERS                  |   7 +
->  drivers/media/i2c/Kconfig    |  17 +
->  drivers/media/i2c/Makefile   |   1 +
->  drivers/media/i2c/max96717.c | 928 +++++++++++++++++++++++++++++++++++
->  4 files changed, 953 insertions(+)
->  create mode 100644 drivers/media/i2c/max96717.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index eea74166a2d9..cfaa904ace59 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13426,6 +13426,13 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
->  F:	drivers/staging/media/max96712/max96712.c
->  
-> +MAX96717 GMSL2 SERIALIZER DRIVER
-> +M:	Julien Massot <julien.massot@collabora.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-> +F:	drivers/media/i2c/max96717.c
-> +
->  MAX9860 MONO AUDIO VOICE CODEC DRIVER
->  M:	Peter Rosin <peda@axentia.se>
->  L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index c6d3ee472d81..9918195e09ba 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1575,6 +1575,23 @@ config VIDEO_DS90UB960
->  	  Device driver for the Texas Instruments DS90UB960
->  	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
->  
-> +config VIDEO_MAX96717
-> +	tristate "Maxim MAX96717 GMSL2 Serializer support"
-> +	depends on OF && I2C && VIDEO_DEV && COMMON_CLK
-> +	select I2C_MUX
-> +	select MEDIA_CONTROLLER
-> +	select GPIOLIB
-> +	select V4L2_CCI_I2C
-> +	select V4L2_FWNODE
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	help
-> +	  Device driver for the Maxim MAX96717 GMSL2 Serializer.
-> +	  MAX96717 serializers convert video on a MIPI CSI-2
-> +	  input to a GMSL2 output.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called max96717.
-> +
->  endmenu
->  
->  endif # VIDEO_DEV
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index dfbe6448b549..9e007116f929 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -64,6 +64,7 @@ obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
->  obj-$(CONFIG_VIDEO_M52790) += m52790.o
->  obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
->  obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
-> +obj-$(CONFIG_VIDEO_MAX96717) += max96717.o
->  obj-$(CONFIG_VIDEO_ML86V7667) += ml86v7667.o
->  obj-$(CONFIG_VIDEO_MSP3400) += msp3400.o
->  obj-$(CONFIG_VIDEO_MT9M001) += mt9m001.o
-> diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index 91e54215de3a..b82f7b142b85 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -69,6 +69,7 @@ source "drivers/media/platform/aspeed/Kconfig"
+>  source "drivers/media/platform/atmel/Kconfig"
+>  source "drivers/media/platform/cadence/Kconfig"
+>  source "drivers/media/platform/chips-media/Kconfig"
+> +source "drivers/media/platform/google/Kconfig"
+>  source "drivers/media/platform/intel/Kconfig"
+>  source "drivers/media/platform/marvell/Kconfig"
+>  source "drivers/media/platform/mediatek/Kconfig"
+> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> index 3296ec1ebe16..f7067eb05f76 100644
+> --- a/drivers/media/platform/Makefile
+> +++ b/drivers/media/platform/Makefile
+> @@ -12,6 +12,7 @@ obj-y += aspeed/
+>  obj-y += atmel/
+>  obj-y += cadence/
+>  obj-y += chips-media/
+> +obj-y += google/
+>  obj-y += intel/
+>  obj-y += marvell/
+>  obj-y += mediatek/
+> diff --git a/drivers/media/platform/google/Kconfig b/drivers/media/platform/google/Kconfig
 > new file mode 100644
-> index 000000000000..1ea76f922bdb
+> index 000000000000..9674a4c12e2d
 > --- /dev/null
-> +++ b/drivers/media/i2c/max96717.c
-> @@ -0,0 +1,928 @@
+> +++ b/drivers/media/platform/google/Kconfig
+> @@ -0,0 +1,13 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config VIDEO_CHAMELEONV3
+> +	tristate "Google Chameleon v3 video driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_FWNODE
+> +	help
+> +	  v4l2 driver for the video interface present on the Google
+> +	  Chameleon v3. The Chameleon v3 uses the video interface to
+> +	  capture a single video source from a given HDMI or DP connector
+> +	  and write the resulting frames to memory.
+> diff --git a/drivers/media/platform/google/Makefile b/drivers/media/platform/google/Makefile
+> new file mode 100644
+> index 000000000000..cff06486244c
+> --- /dev/null
+> +++ b/drivers/media/platform/google/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +obj-$(CONFIG_VIDEO_CHAMELEONV3) += chv3-video.o
+> diff --git a/drivers/media/platform/google/chv3-video.c b/drivers/media/platform/google/chv3-video.c
+> new file mode 100644
+> index 000000000000..6e782484abaf
+> --- /dev/null
+> +++ b/drivers/media/platform/google/chv3-video.c
+> @@ -0,0 +1,891 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Maxim GMSL2 Serializer Driver
-> + *
-> + * Copyright (C) 2024 Collabora Ltd.
+> + * Copyright 2023-2024 Google LLC.
+> + * Author: Paweł Anikiel <panikiel@google.com>
 > + */
 > +
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/clk-provider.h>
 > +#include <linux/delay.h>
-> +#include <linux/fwnode.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/i2c-mux.h>
-> +#include <linux/i2c.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <media/v4l2-cci.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/v4l2-dv-timings.h>
+> +#include <linux/videodev2.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-dv-timings.h>
+> +#include <media/v4l2-event.h>
 > +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-subdev.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/videobuf2-dma-contig.h>
 > +
-> +#define MAX96717_DEVICE_ID  0xbf
-> +#define MAX96717F_DEVICE_ID 0xc8
-> +#define MAX96717_PORTS      2
-> +#define MAX96717_PAD_SINK   0
-> +#define MAX96717_PAD_SOURCE 1
+> +#define DEVICE_NAME	"chv3-video"
 > +
-> +#define MAX96717_DEFAULT_CLKOUT_RATE	24000000UL
+> +#define VIDEO_EN			0x00
+> +#define VIDEO_EN_BIT			BIT(0)
+> +#define VIDEO_HEIGHT			0x04
+> +#define VIDEO_WIDTH			0x08
+> +#define VIDEO_BUFFERA			0x0c
+> +#define VIDEO_BUFFERB			0x10
+> +#define VIDEO_BUFFERSIZE		0x14
+> +#define VIDEO_RESET			0x18
+> +#define VIDEO_RESET_BIT			BIT(0)
+> +#define VIDEO_ERRORSTATUS		0x1c
+> +#define VIDEO_IOCOLOR			0x20
+> +#define VIDEO_DATARATE			0x24
+> +#define VIDEO_DATARATE_SINGLE		0x0
+> +#define VIDEO_DATARATE_DOUBLE		0x1
+> +#define VIDEO_PIXELMODE			0x28
+> +#define VIDEO_PIXELMODE_SINGLE		0x0
+> +#define VIDEO_PIXELMODE_DOUBLE		0x1
+> +#define VIDEO_SYNCPOLARITY		0x2c
+> +#define VIDEO_DMAFORMAT			0x30
+> +#define VIDEO_DMAFORMAT_8BPC		0x0
+> +#define VIDEO_DMAFORMAT_10BPC_UPPER	0x1
+> +#define VIDEO_DMAFORMAT_10BPC_LOWER	0x2
+> +#define VIDEO_DMAFORMAT_12BPC_UPPER	0x3
+> +#define VIDEO_DMAFORMAT_12BPC_LOWER	0x4
+> +#define VIDEO_DMAFORMAT_16BPC		0x5
+> +#define VIDEO_DMAFORMAT_RAW		0x6
+> +#define VIDEO_DMAFORMAT_8BPC_PAD	0x7
+> +#define VIDEO_VERSION			0x34
+> +#define VIDEO_VERSION_CURRENT		0xc0fb0001
 > +
-> +/* DEV */
-> +#define MAX96717_REG3    CCI_REG8(0x3)
-> +#define MAX96717_RCLKSEL GENMASK(1, 0)
-> +#define RCLKSEL_REF_PLL  CCI_REG8(0x3)
-> +#define MAX96717_REG6    CCI_REG8(0x6)
-> +#define RCLKEN           BIT(5)
-> +#define MAX96717_DEV_ID  CCI_REG8(0xd)
-> +#define MAX96717_DEV_REV CCI_REG8(0xe)
-> +#define MAX96717_DEV_REV_MASK GENMASK(3, 0)
+> +#define VIDEO_IRQ_MASK		0x8
+> +#define VIDEO_IRQ_CLR		0xc
+> +#define VIDEO_IRQ_ALL		0xf
+> +#define VIDEO_IRQ_BUFF0		BIT(0)
+> +#define VIDEO_IRQ_BUFF1		BIT(1)
+> +#define VIDEO_IRQ_RESOLUTION	BIT(2)
+> +#define VIDEO_IRQ_ERROR		BIT(3)
 > +
-> +/* VID_TX Z */
-> +#define MAX96717_VIDEO_TX2 CCI_REG8(0x112)
-> +#define MAX96717_VIDEO_PCLKDET BIT(7)
+> +struct chv3_video {
+> +	struct device *dev;
+> +	void __iomem *iobase;
+> +	void __iomem *iobase_irq;
 > +
-> +/* GPIO */
-> +#define MAX96717_NUM_GPIO         11
-> +#define MAX96717_GPIO_REG_A(gpio) CCI_REG8(0x2be + (gpio) * 3)
-> +#define MAX96717_GPIO_OUT         BIT(4)
-> +#define MAX96717_GPIO_IN          BIT(3)
-> +#define MAX96717_GPIO_RX_EN       BIT(2)
-> +#define MAX96717_GPIO_TX_EN       BIT(1)
-> +#define MAX96717_GPIO_OUT_DIS     BIT(0)
+> +	struct v4l2_device v4l2_dev;
+> +	struct vb2_queue queue;
+> +	struct video_device vdev;
+> +	struct v4l2_pix_format pix_fmt;
+> +	struct v4l2_dv_timings timings;
+> +	u32 bytes_per_pixel;
 > +
-> +/* FRONTTOP */
-> +/* MAX96717 only have CSI port 'B' */
-> +#define MAX96717_FRONTOP0     CCI_REG8(0x308)
-> +#define MAX96717_START_PORT_B BIT(5)
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +	struct v4l2_async_notifier notifier;
+> +	struct v4l2_subdev *subdev;
+> +	int subdev_source_pad;
 > +
-> +/* MIPI_RX */
-> +#define MAX96717_MIPI_RX1       CCI_REG8(0x331)
-> +#define MAX96717_MIPI_LANES_CNT GENMASK(5, 4)
-> +#define MAX96717_MIPI_RX2       CCI_REG8(0x332) /* phy1 Lanes map */
-> +#define MAX96717_PHY2_LANES_MAP GENMASK(7, 4)
-> +#define MAX96717_MIPI_RX3       CCI_REG8(0x333) /* phy2 Lanes map */
-> +#define MAX96717_PHY1_LANES_MAP GENMASK(3, 0)
-> +#define MAX96717_MIPI_RX4       CCI_REG8(0x334) /* phy1 lane polarities */
-> +#define MAX96717_PHY1_LANES_POL GENMASK(6, 4)
-> +#define MAX96717_MIPI_RX5       CCI_REG8(0x335) /* phy2 lane polarities */
-> +#define MAX96717_PHY2_LANES_POL GENMASK(2, 0)
+> +	u32 sequence;
+> +	bool writing_to_a;
 > +
-> +/* MIPI_RX_EXT */
-> +#define MAX96717_MIPI_RX_EXT11 CCI_REG8(0x383)
-> +#define MAX96717_TUN_MODE      BIT(7)
+> +	struct list_head bufs;
+> +	spinlock_t bufs_lock;
 > +
-> +/* REF_VTG */
-> +#define REF_VTG0                CCI_REG8(0x3f0)
-> +#define REFGEN_PREDEF_EN        BIT(6)
-> +#define REFGEN_PREDEF_FREQ_MASK GENMASK(5, 4)
-> +#define REFGEN_PREDEF_FREQ_ALT  BIT(3)
-> +#define REFGEN_RST              BIT(1)
-> +#define REFGEN_EN               BIT(0)
-> +
-> +/* MISC */
-> +#define PIO_SLEW_1 CCI_REG8(0x570)
-> +
-> +struct max96717_priv {
-> +	struct i2c_client		  *client;
-> +	struct regmap			  *regmap;
-> +	struct i2c_mux_core		  *mux;
-> +	struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
-> +	struct v4l2_subdev                sd;
-> +	struct media_pad                  pads[MAX96717_PORTS];
-> +	struct v4l2_async_notifier        notifier;
-> +	struct v4l2_subdev                *source_sd;
-> +	u16                               source_sd_pad;
-> +	u64			          enabled_source_streams;
-> +	u8                                pll_predef_index;
-> +	struct clk_hw                     clk_hw;
-> +	struct gpio_chip                  gpio_chip;
+> +	struct mutex video_lock;
 > +};
 > +
-> +static inline struct max96717_priv *sd_to_max96717(struct v4l2_subdev *sd)
+> +struct chv3_video_buffer {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head link;
+> +};
+> +
+> +struct chv3_video_config {
+> +	u32 pixelformat;
+> +	u32 bytes_per_pixel;
+> +	u32 dmaformat;
+> +};
+> +
+> +static void chv3_video_set_format_resolution(struct chv3_video *video, u32 width, u32 height)
 > +{
-> +	return container_of(sd, struct max96717_priv, sd);
+> +	video->pix_fmt.width = width;
+> +	video->pix_fmt.height = height;
+> +	video->pix_fmt.bytesperline = width * video->bytes_per_pixel;
+> +	video->pix_fmt.sizeimage = video->pix_fmt.bytesperline * height;
 > +}
 > +
-> +static inline struct max96717_priv *clk_hw_to_max96717(struct clk_hw *hw)
+> +/*
+> + * The video interface has hardware counters which expose the width and
+> + * height of the current video stream. It can't reliably detect if the stream
+> + * is present or not, so this is only used as a fallback in the case where
+> + * we don't have access to the receiver hardware.
+> + */
+> +static int chv3_video_query_dv_timings_fallback(struct chv3_video *video,
+> +						struct v4l2_dv_timings *timings)
 > +{
-> +	return container_of(hw, struct max96717_priv, clk_hw);
-> +}
+> +	u32 width, height;
 > +
-> +static int max96717_i2c_mux_select(struct i2c_mux_core *mux, u32 chan)
-> +{
+> +	width  = readl(video->iobase + VIDEO_WIDTH);
+> +	height = readl(video->iobase + VIDEO_HEIGHT);
+> +	if (width == 0 || height == 0)
+> +		return -ENOLINK;
+> +
+> +	memset(timings, 0, sizeof(*timings));
+> +	timings->type = V4L2_DV_BT_656_1120;
+> +	timings->bt.width  = width;
+> +	timings->bt.height = height;
+> +	timings->bt.pixelclock = width * height * 24;
+> +
 > +	return 0;
 > +}
 > +
-> +static int max96717_i2c_mux_init(struct max96717_priv *priv)
+> +static int chv3_video_query_dv_timings(struct chv3_video *video, struct v4l2_dv_timings *timings)
 > +{
-> +	priv->mux = i2c_mux_alloc(priv->client->adapter, &priv->client->dev,
-> +				  1, 0, I2C_MUX_LOCKED | I2C_MUX_GATE,
-> +				  max96717_i2c_mux_select, NULL);
-> +	if (!priv->mux)
-> +		return -ENOMEM;
-> +
-> +	return i2c_mux_add_adapter(priv->mux, 0, 0, 0);
-
-Rebasing the driver on top of linux 6.10.0-rc1 I'm getting the following
-error:
-
-error: too many arguments to function ‘i2c_mux_add_adapter’
-
-Please fix that: i2c_mux_add_adapter(priv->mux, 0, 0);
-
-Same for the max96714.c driver.
-
-Thanks & Regards,
-Tommaso
-
-> +}
-> +
-> +static inline int max96717_start_csi(struct max96717_priv *priv, bool start)
-> +{
-> +	return cci_update_bits(priv->regmap, MAX96717_FRONTOP0,
-> +			       MAX96717_START_PORT_B,
-> +			       start ? MAX96717_START_PORT_B : 0, NULL);
-> +}
-> +
-> +static int max96717_gpiochip_get(struct gpio_chip *gpiochip,
-> +				 unsigned int offset)
-> +{
-> +	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
-> +	u64 val;
-> +	int ret;
-> +
-> +	ret = cci_read(priv->regmap, MAX96717_GPIO_REG_A(offset),
-> +		       &val, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val & MAX96717_GPIO_OUT_DIS)
-> +		return !!(val & MAX96717_GPIO_IN);
-> +	else
-> +		return !!(val & MAX96717_GPIO_OUT);
-> +}
-> +
-> +static void max96717_gpiochip_set(struct gpio_chip *gpiochip,
-> +				  unsigned int offset, int value)
-> +{
-> +	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
-> +
-> +	cci_update_bits(priv->regmap, MAX96717_GPIO_REG_A(offset),
-> +			MAX96717_GPIO_OUT, MAX96717_GPIO_OUT, NULL);
-> +}
-> +
-> +static int max96717_gpio_get_direction(struct gpio_chip *gpiochip,
-> +				       unsigned int offset)
-> +{
-> +	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
-> +	u64 val;
-> +	int ret;
-> +
-> +	ret = cci_read(priv->regmap, MAX96717_GPIO_REG_A(offset), &val, NULL);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return !!(val & MAX96717_GPIO_OUT_DIS);
-> +}
-> +
-> +static int max96717_gpio_direction_out(struct gpio_chip *gpiochip,
-> +				       unsigned int offset, int value)
-> +{
-> +	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
-> +
-> +	return cci_update_bits(priv->regmap, MAX96717_GPIO_REG_A(offset),
-> +			       MAX96717_GPIO_OUT_DIS | MAX96717_GPIO_OUT,
-> +			       value ? MAX96717_GPIO_OUT : 0, NULL);
-> +}
-> +
-> +static int max96717_gpio_direction_in(struct gpio_chip *gpiochip,
-> +				      unsigned int offset)
-> +{
-> +	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
-> +
-> +	return cci_update_bits(priv->regmap, MAX96717_GPIO_REG_A(offset),
-> +			       MAX96717_GPIO_OUT_DIS, MAX96717_GPIO_OUT_DIS,
-> +			       NULL);
-> +}
-> +
-> +static int max96717_gpiochip_probe(struct max96717_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct gpio_chip *gc = &priv->gpio_chip;
-> +	int i, ret = 0;
-> +
-> +	gc->label = dev_name(dev);
-> +	gc->parent = dev;
-> +	gc->owner = THIS_MODULE;
-> +	gc->ngpio = MAX96717_NUM_GPIO;
-> +	gc->base = -1;
-> +	gc->can_sleep = true;
-> +	gc->get_direction = max96717_gpio_get_direction;
-> +	gc->direction_input = max96717_gpio_direction_in;
-> +	gc->direction_output = max96717_gpio_direction_out;
-> +	gc->set = max96717_gpiochip_set;
-> +	gc->get = max96717_gpiochip_get;
-> +	gc->of_gpio_n_cells = 2;
-> +
-> +	/* Disable GPIO forwarding */
-> +	for (i = 0; i < gc->ngpio; i++)
-> +		cci_update_bits(priv->regmap, MAX96717_GPIO_REG_A(i),
-> +				MAX96717_GPIO_RX_EN | MAX96717_GPIO_TX_EN,
-> +				0, &ret);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_gpiochip_add_data(dev, gc, priv);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to create gpio_chip\n");
-> +		return ret;
+> +	if (video->subdev) {
+> +		return v4l2_subdev_call(video->subdev, pad, query_dv_timings,
+> +					video->subdev_source_pad, timings);
+> +	} else {
+> +		return chv3_video_query_dv_timings_fallback(video, timings);
 > +	}
+
+I would move the contents of chv3_video_query_dv_timings_fallback() to this
+function and drop the old fallback function. It makes more sense if it is all
+in the same function.
+
+> +}
+> +
+> +static const struct v4l2_dv_timings_cap chv3_video_fallback_dv_timings_cap = {
+> +	.type = V4L2_DV_BT_656_1120,
+> +	.bt = {
+> +		.min_width = 640,
+> +		.max_width = 7680,
+> +		.min_height = 480,
+> +		.max_height = 4320,
+> +		.min_pixelclock = 25000000,
+> +		.max_pixelclock = 1080000000,
+> +		.standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
+> +			V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
+> +		.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
+> +			V4L2_DV_BT_CAP_REDUCED_BLANKING |
+> +			V4L2_DV_BT_CAP_CUSTOM,
+> +	},
+> +};
+> +
+> +static int chv3_video_enum_dv_timings_fallback(struct chv3_video *video,
+> +					       struct v4l2_enum_dv_timings *timings)
+> +{
+> +	return v4l2_enum_dv_timings_cap(timings, &chv3_video_fallback_dv_timings_cap,
+> +					NULL, NULL);
+> +}
+> +
+> +static int chv3_video_dv_timings_cap_fallback(struct chv3_video *video,
+> +					      struct v4l2_dv_timings_cap *cap)
+> +{
+> +	*cap = chv3_video_fallback_dv_timings_cap;
+> +
+> +	return 0;
+> +}
+
+Same for these two fallback functions: move them to the functions that calls them.
+
+> +
+> +static void chv3_video_apply_dv_timings(struct chv3_video *video)
+> +{
+> +	struct v4l2_dv_timings timings;
+> +	int res;
+> +
+> +	res = chv3_video_query_dv_timings(video, &timings);
+> +	if (res)
+> +		return;
+> +
+> +	video->timings = timings;
+> +	chv3_video_set_format_resolution(video, timings.bt.width, timings.bt.height);
+> +}
+> +
+> +static int chv3_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+> +{
+> +	strscpy(cap->driver, DEVICE_NAME, sizeof(cap->driver));
+> +	strscpy(cap->card, "Chameleon v3 video", sizeof(cap->card));
 > +
 > +	return 0;
 > +}
 > +
-> +static int _max96717_set_routing(struct v4l2_subdev *sd,
-> +				 struct v4l2_subdev_state *state,
-> +				 struct v4l2_subdev_krouting *routing)
+> +static int chv3_video_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format *fmt)
 > +{
-> +	static const struct v4l2_mbus_framefmt format = {
-> +		.width = 1280,
-> +		.height = 1080,
-> +		.code = MEDIA_BUS_FMT_Y8_1X8,
-> +		.field = V4L2_FIELD_NONE,
-> +	};
-> +	int ret;
+> +	struct chv3_video *video = video_drvdata(file);
 > +
-> +	ret = v4l2_subdev_routing_validate(sd, routing,
-> +					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing, &format);
-> +	if (ret)
-> +		return ret;
+> +	fmt->fmt.pix = video->pix_fmt;
 > +
 > +	return 0;
 > +}
 > +
-> +static int max96717_set_routing(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *state,
-> +				enum v4l2_subdev_format_whence which,
-> +				struct v4l2_subdev_krouting *routing)
+> +static int chv3_video_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
 > +{
-> +	struct max96717_priv *priv = sd_to_max96717(sd);
+> +	struct chv3_video *video = video_drvdata(file);
 > +
-> +	if (which == V4L2_SUBDEV_FORMAT_ACTIVE && priv->enabled_source_streams)
-> +		return -EBUSY;
-> +
-> +	return _max96717_set_routing(sd, state, routing);
-> +}
-> +
-> +static int max96717_set_fmt(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *state,
-> +			    struct v4l2_subdev_format *format)
-> +{
-> +	struct max96717_priv *priv = sd_to_max96717(sd);
-> +	struct v4l2_mbus_framefmt *fmt;
-> +	u64 stream_source_mask;
-> +
-> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
-> +	    priv->enabled_source_streams)
-> +		return -EBUSY;
-> +
-> +	/* No transcoding, source and sink formats must match. */
-> +	if (format->pad == MAX96717_PAD_SOURCE)
-> +		return v4l2_subdev_get_fmt(sd, state, format);
-> +
-> +	/* Set sink format */
-> +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-> +	if (!fmt)
+> +	if (fmt->index != 0)
 > +		return -EINVAL;
 > +
-> +	*fmt = format->format;
+> +	fmt->flags = 0;
+> +	fmt->pixelformat = video->pix_fmt.pixelformat;
 > +
-> +	/* Propagate to source format */
-> +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-> +							   format->stream);
-> +	if (!fmt)
+> +	return 0;
+> +}
+> +
+> +static int chv3_video_g_input(struct file *file, void *fh, unsigned int *index)
+> +{
+> +	*index = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_video_s_input(struct file *file, void *fh, unsigned int index)
+> +{
+> +	if (index != 0)
 > +		return -EINVAL;
-> +	*fmt = format->format;
 > +
-> +	stream_source_mask = BIT(format->stream);
-> +
-> +	return v4l2_subdev_state_xlate_streams(state, MAX96717_PAD_SOURCE,
-> +					       MAX96717_PAD_SINK,
-> +					       &stream_source_mask);
+> +	return 0;
 > +}
 > +
-> +static int max96717_init_state(struct v4l2_subdev *sd,
-> +			       struct v4l2_subdev_state *state)
+> +static int chv3_video_enum_input(struct file *file, void *fh, struct v4l2_input *input)
 > +{
-> +	struct v4l2_subdev_route routes[] = {
-> +		{
-> +			.sink_pad = MAX96717_PAD_SINK,
-> +			.sink_stream = 0,
-> +			.source_pad = MAX96717_PAD_SOURCE,
-> +			.source_stream = 0,
-> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-> +		},
+> +	if (input->index != 0)
+> +		return -EINVAL;
+> +
+> +	strscpy(input->name, "input0", sizeof(input->name));
+
+This name is not terribly user friendly. Is it possible to determine a more human
+readable name? E.g. "DP1", "DP2", etc. Something that matches labeling on the Chameleon
+board.
+
+> +	input->type = V4L2_INPUT_TYPE_CAMERA;
+> +	input->capabilities = V4L2_IN_CAP_DV_TIMINGS;
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_video_g_edid(struct file *file, void *fh, struct v4l2_edid *edid)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +	int res;
+> +
+> +	if (!video->subdev)
+> +		return -ENOTTY;
+> +
+> +	if (edid->pad != 0)
+> +		return -EINVAL;
+> +
+> +	edid->pad = video->subdev_source_pad;
+> +	res = v4l2_subdev_call(video->subdev, pad, get_edid, edid);
+> +	edid->pad = 0;
+> +
+> +	return res;
+> +}
+> +
+> +static int chv3_video_s_edid(struct file *file, void *fh, struct v4l2_edid *edid)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +	int res;
+> +
+> +	if (!video->subdev)
+> +		return -ENOTTY;
+> +
+> +	if (edid->pad != 0)
+> +		return -EINVAL;
+> +
+> +	edid->pad = video->subdev_source_pad;
+> +	res = v4l2_subdev_call(video->subdev, pad, set_edid, edid);
+> +	edid->pad = 0;
+> +
+> +	return res;
+> +}
+> +
+> +static int chv3_video_s_dv_timings(struct file *file, void *fh, struct v4l2_dv_timings *timings)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +
+> +	if (v4l2_match_dv_timings(&video->timings, timings, 0, false))
+> +		return 0;
+> +
+> +	if (vb2_is_busy(&video->queue))
+> +		return -EBUSY;
+
+This should be moved to after the next 'if'.
+
+> +
+> +	if (!v4l2_valid_dv_timings(timings, &chv3_video_fallback_dv_timings_cap, NULL, NULL))
+> +		return -ERANGE;
+> +
+> +	video->timings = *timings;
+> +	chv3_video_set_format_resolution(video, timings->bt.width, timings->bt.height);
+> +
+> +	return 0;
+> +}
+> +
+> +static int chv3_video_g_dv_timings(struct file *file, void *fh, struct v4l2_dv_timings *timings)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +
+> +	*timings = video->timings;
+> +	return 0;
+> +}
+> +
+> +static int chv3_video_vidioc_query_dv_timings(struct file *file, void *fh,
+> +					      struct v4l2_dv_timings *timings)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +
+> +	return chv3_video_query_dv_timings(video, timings);
+> +}
+> +
+> +static int chv3_video_enum_dv_timings(struct file *file, void *fh,
+> +				      struct v4l2_enum_dv_timings *timings)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +	int res;
+> +
+> +	if (timings->pad != 0)
+> +		return -EINVAL;
+> +
+> +	if (video->subdev) {
+> +		timings->pad = video->subdev_source_pad;
+> +		res = v4l2_subdev_call(video->subdev, pad, enum_dv_timings, timings);
+> +		timings->pad = 0;
+> +		return res;
+> +	} else {
+> +		return chv3_video_enum_dv_timings_fallback(video, timings);
+
+It is much easier to read if the contents of chv3_video_enum_dv_timings_fallback
+is moved here.
+
+> +	}
+> +}
+> +
+> +static int chv3_video_dv_timings_cap(struct file *file, void *fh, struct v4l2_dv_timings_cap *cap)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +	int res;
+> +
+> +	if (cap->pad != 0)
+> +		return -EINVAL;
+> +
+> +	if (video->subdev) {
+> +		cap->pad = video->subdev_source_pad;
+> +		res = v4l2_subdev_call(video->subdev, pad, dv_timings_cap, cap);
+> +		cap->pad = 0;
+> +		return res;
+> +	} else {
+> +		return chv3_video_dv_timings_cap_fallback(video, cap);
+
+Ditto.
+
+> +	}
+> +}
+> +
+> +static int chv3_video_subscribe_event(struct v4l2_fh *fh,
+> +				      const struct v4l2_event_subscription *sub)
+> +{
+> +	switch (sub->type) {
+> +	case V4L2_EVENT_SOURCE_CHANGE:
+> +		return v4l2_src_change_event_subscribe(fh, sub);
+> +	}
+> +
+> +	return v4l2_ctrl_subscribe_event(fh, sub);
+> +}
+> +
+> +static const struct v4l2_ioctl_ops chv3_video_v4l2_ioctl_ops = {
+> +	.vidioc_querycap = chv3_video_querycap,
+> +
+> +	.vidioc_enum_fmt_vid_cap = chv3_video_enum_fmt_vid_cap,
+> +	.vidioc_g_fmt_vid_cap = chv3_video_g_fmt_vid_cap,
+> +	.vidioc_s_fmt_vid_cap = chv3_video_g_fmt_vid_cap,
+> +	.vidioc_try_fmt_vid_cap = chv3_video_g_fmt_vid_cap,
+> +
+> +	.vidioc_enum_input = chv3_video_enum_input,
+> +	.vidioc_g_input = chv3_video_g_input,
+> +	.vidioc_s_input = chv3_video_s_input,
+> +	.vidioc_g_edid = chv3_video_g_edid,
+> +	.vidioc_s_edid = chv3_video_s_edid,
+> +
+> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
+> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+> +	.vidioc_querybuf = vb2_ioctl_querybuf,
+> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+> +	.vidioc_expbuf = vb2_ioctl_expbuf,
+> +	.vidioc_qbuf = vb2_ioctl_qbuf,
+> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+> +	.vidioc_streamon = vb2_ioctl_streamon,
+> +	.vidioc_streamoff = vb2_ioctl_streamoff,
+> +
+> +	.vidioc_s_dv_timings = chv3_video_s_dv_timings,
+> +	.vidioc_g_dv_timings = chv3_video_g_dv_timings,
+> +	.vidioc_query_dv_timings = chv3_video_vidioc_query_dv_timings,
+> +	.vidioc_enum_dv_timings = chv3_video_enum_dv_timings,
+> +	.vidioc_dv_timings_cap = chv3_video_dv_timings_cap,
+> +
+> +	.vidioc_subscribe_event = chv3_video_subscribe_event,
+> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+> +};
+> +
+> +static int chv3_video_queue_setup(struct vb2_queue *q,
+> +				  unsigned int *nbuffers, unsigned int *nplanes,
+> +				  unsigned int sizes[], struct device *alloc_devs[])
+> +{
+> +	struct chv3_video *video = vb2_get_drv_priv(q);
+> +
+> +	if (*nplanes) {
+> +		if (sizes[0] < video->pix_fmt.sizeimage)
+> +			return -EINVAL;
+> +		return 0;
+> +	}
+> +	*nplanes = 1;
+> +	sizes[0] = video->pix_fmt.sizeimage;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * There are two address registers: BUFFERA and BUFFERB. The device
+> + * alternates writing between them (i.e. even frames go to BUFFERA, odd
+> + * ones to BUFFERB).
+> + *
+> + *  (buffer queue) >     QUEUED ---> QUEUED ---> QUEUED ---> ...
+> + *                       BUFFERA     BUFFERB
+> + *  (hw writing to this) ^
+> + *                (and then to this) ^
+> + *
+> + * The buffer swapping happens at irq time. When an irq comes, the next
+> + * frame is already assigned an address in the buffer queue. This gives
+> + * the irq handler a whole frame's worth of time to update the buffer
+> + * address register.
+> + */
+> +
+> +static dma_addr_t chv3_video_buffer_dma_addr(struct chv3_video_buffer *buf)
+> +{
+> +	return vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
+> +}
+> +
+> +static void chv3_video_start_frame(struct chv3_video *video, struct chv3_video_buffer *buf)
+> +{
+> +	video->writing_to_a = 1;
+> +	writel(chv3_video_buffer_dma_addr(buf), video->iobase + VIDEO_BUFFERA);
+> +	writel(VIDEO_EN_BIT, video->iobase + VIDEO_EN);
+> +}
+> +
+> +static void chv3_video_next_frame(struct chv3_video *video, struct chv3_video_buffer *buf)
+> +{
+> +	u32 reg = video->writing_to_a ? VIDEO_BUFFERB : VIDEO_BUFFERA;
+> +
+> +	writel(chv3_video_buffer_dma_addr(buf), video->iobase + reg);
+> +}
+> +
+> +static int chv3_video_start_streaming(struct vb2_queue *q, unsigned int count)
+> +{
+> +	struct chv3_video *video = vb2_get_drv_priv(q);
+> +	struct chv3_video_buffer *buf;
+> +	unsigned long flags;
+> +
+> +	video->sequence = 0;
+> +	writel(video->pix_fmt.sizeimage, video->iobase + VIDEO_BUFFERSIZE);
+> +
+> +	spin_lock_irqsave(&video->bufs_lock, flags);
+> +	buf = list_first_entry_or_null(&video->bufs, struct chv3_video_buffer, link);
+> +	if (buf) {
+> +		chv3_video_start_frame(video, buf);
+> +		if (!list_is_last(&buf->link, &video->bufs))
+> +			chv3_video_next_frame(video, list_next_entry(buf, link));
+> +	}
+> +	spin_unlock_irqrestore(&video->bufs_lock, flags);
+> +
+> +	return 0;
+> +}
+> +
+> +static void chv3_video_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct chv3_video *video = vb2_get_drv_priv(q);
+> +	struct chv3_video_buffer *buf;
+> +	unsigned long flags;
+> +
+> +	writel(0, video->iobase + VIDEO_EN);
+> +
+> +	spin_lock_irqsave(&video->bufs_lock, flags);
+> +	list_for_each_entry(buf, &video->bufs, link)
+> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+> +	INIT_LIST_HEAD(&video->bufs);
+> +	spin_unlock_irqrestore(&video->bufs_lock, flags);
+> +}
+> +
+> +static void chv3_video_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct chv3_video *video = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *v4l2_buf = to_vb2_v4l2_buffer(vb);
+> +	struct chv3_video_buffer *buf = container_of(v4l2_buf, struct chv3_video_buffer, vb);
+> +	bool first, second;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&video->bufs_lock, flags);
+> +	first = list_empty(&video->bufs);
+> +	second = list_is_singular(&video->bufs);
+> +	list_add_tail(&buf->link, &video->bufs);
+> +	if (vb2_is_streaming(vb->vb2_queue)) {
+
+This should be vb2_start_streaming_called().
+
+It does not matter all that much in this driver, since VIDIOC_STREAMON will
+also call start_streaming, even if there are no buffers queued since the
+vb2_queue min_queued_buffers field is 0. But if that ever changes, then
+vb2_start_streaming_called() is the right call here.
+
+> +		if (first)
+> +			chv3_video_start_frame(video, buf);
+> +		else if (second)
+> +			chv3_video_next_frame(video, buf);
+> +	}
+> +	spin_unlock_irqrestore(&video->bufs_lock, flags);
+> +}
+> +
+> +static const struct vb2_ops chv3_video_vb2_ops = {
+> +	.queue_setup = chv3_video_queue_setup,
+> +	.wait_prepare = vb2_ops_wait_prepare,
+> +	.wait_finish = vb2_ops_wait_finish,
+> +	.start_streaming = chv3_video_start_streaming,
+> +	.stop_streaming = chv3_video_stop_streaming,
+> +	.buf_queue = chv3_video_buf_queue,
+> +};
+> +
+> +static int chv3_video_open(struct file *file)
+> +{
+> +	struct chv3_video *video = video_drvdata(file);
+> +	int res;
+> +
+> +	mutex_lock(&video->video_lock);
+> +	res = v4l2_fh_open(file);
+> +	if (!res) {
+> +		if (v4l2_fh_is_singular_file(file))
+> +			chv3_video_apply_dv_timings(video);
+> +	}
+> +	mutex_unlock(&video->video_lock);
+> +
+> +	return res;
+> +}
+> +
+> +static const struct v4l2_file_operations chv3_video_v4l2_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = chv3_video_open,
+> +	.release = vb2_fop_release,
+> +	.unlocked_ioctl = video_ioctl2,
+> +	.mmap = vb2_fop_mmap,
+> +	.poll = vb2_fop_poll,
+> +};
+> +
+> +static void chv3_video_frame_irq(struct chv3_video *video)
+> +{
+> +	struct chv3_video_buffer *buf;
+> +
+> +	spin_lock(&video->bufs_lock);
+> +
+> +	buf = list_first_entry_or_null(&video->bufs, struct chv3_video_buffer, link);
+> +	if (!buf)
+> +		goto empty;
+> +	list_del(&buf->link);
+> +
+> +	vb2_set_plane_payload(&buf->vb.vb2_buf, 0, video->pix_fmt.sizeimage);
+> +	buf->vb.vb2_buf.timestamp = ktime_get_ns();
+> +	buf->vb.sequence = video->sequence++;
+> +	buf->vb.field = V4L2_FIELD_NONE;
+> +	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> +
+> +	buf = list_first_entry_or_null(&video->bufs, struct chv3_video_buffer, link);
+> +	if (buf) {
+> +		video->writing_to_a = !video->writing_to_a;
+> +		if (!list_is_last(&buf->link, &video->bufs))
+> +			chv3_video_next_frame(video, list_next_entry(buf, link));
+> +	} else {
+> +		writel(0, video->iobase + VIDEO_EN);
+> +	}
+> +empty:
+> +	spin_unlock(&video->bufs_lock);
+> +}
+> +
+> +static void chv3_video_error_irq(struct chv3_video *video)
+> +{
+> +	if (vb2_is_streaming(&video->queue))
+> +		vb2_queue_error(&video->queue);
+> +}
+> +
+> +static void chv3_video_resolution_irq(struct chv3_video *video)
+> +{
+> +	static const struct v4l2_event event = {
+> +		.type = V4L2_EVENT_SOURCE_CHANGE,
+> +		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
 > +	};
-> +	struct v4l2_subdev_krouting routing = {
-> +		.num_routes = ARRAY_SIZE(routes),
-> +		.routes = routes,
-> +	};
 > +
-> +	return _max96717_set_routing(sd, state, &routing);
+> +	v4l2_event_queue(&video->vdev, &event);
+> +	chv3_video_error_irq(video);
 > +}
 > +
-> +static bool max96717_pipe_pclkdet(struct max96717_priv *priv)
+> +static irqreturn_t chv3_video_isr(int irq, void *data)
 > +{
-> +	u64 val = 0;
+> +	struct chv3_video *video = data;
+> +	unsigned int reg;
 > +
-> +	cci_read(priv->regmap, MAX96717_VIDEO_TX2, &val, NULL);
+> +	reg = readl(video->iobase_irq + VIDEO_IRQ_CLR);
+> +	if (!reg)
+> +		return IRQ_NONE;
 > +
-> +	return val & MAX96717_VIDEO_PCLKDET;
-> +}
-> +
-> +static int max96717_log_status(struct v4l2_subdev *sd)
-> +{
-> +	struct max96717_priv *priv = sd_to_max96717(sd);
-> +	struct device *dev = &priv->client->dev;
-> +
-> +	dev_info(dev, "Serializer: max96717\n");
-> +	dev_info(dev, "Pipe: pclkdet:%d\n", max96717_pipe_pclkdet(priv));
-> +
-> +	return 0;
-> +}
-> +
-> +static int max96717_enable_streams(struct v4l2_subdev *sd,
-> +				   struct v4l2_subdev_state *state, u32 pad,
-> +				   u64 streams_mask)
-> +{
-> +	struct max96717_priv *priv = sd_to_max96717(sd);
-> +	struct device *dev = &priv->client->dev;
-> +	u64 sink_streams;
-> +	int ret;
-> +
-> +	sink_streams = v4l2_subdev_state_xlate_streams(state,
-> +						       MAX96717_PAD_SOURCE,
-> +						       MAX96717_PAD_SINK,
-> +						       &streams_mask);
-> +
-> +	if (!priv->enabled_source_streams)
-> +		max96717_start_csi(priv, true);
-> +
-> +	ret = v4l2_subdev_enable_streams(priv->source_sd, priv->source_sd_pad,
-> +					 sink_streams);
-> +	if (ret) {
-> +		dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
-> +			sink_streams);
-> +		goto stop_csi;
+> +	if (reg & VIDEO_IRQ_BUFF0)
+> +		chv3_video_frame_irq(video);
+> +	if (reg & VIDEO_IRQ_BUFF1)
+> +		chv3_video_frame_irq(video);
+> +	if (reg & VIDEO_IRQ_RESOLUTION)
+> +		chv3_video_resolution_irq(video);
+> +	if (reg & VIDEO_IRQ_ERROR) {
+> +		dev_warn(video->dev, "error: 0x%x\n",
+> +			 readl(video->iobase + VIDEO_ERRORSTATUS));
+> +		chv3_video_error_irq(video);
 > +	}
 > +
-> +	priv->enabled_source_streams |= streams_mask;
+> +	writel(reg, video->iobase_irq + VIDEO_IRQ_CLR);
 > +
-> +	return 0;
-> +
-> +stop_csi:
-> +	if (!priv->enabled_source_streams)
-> +		max96717_start_csi(priv, false);
-> +	return ret;
+> +	return IRQ_HANDLED;
 > +}
 > +
-> +static int max96717_disable_streams(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *state, u32 pad,
-> +				    u64 streams_mask)
+> +static int chv3_video_check_version(struct chv3_video *video)
 > +{
-> +	struct max96717_priv *priv = sd_to_max96717(sd);
-> +	u64 sink_streams;
-> +	int ret;
+> +	u32 version;
 > +
-> +	sink_streams = v4l2_subdev_state_xlate_streams(state,
-> +						       MAX96717_PAD_SOURCE,
-> +						       MAX96717_PAD_SINK,
-> +						       &streams_mask);
-> +
-> +	ret = v4l2_subdev_disable_streams(priv->source_sd, priv->source_sd_pad,
-> +					  sink_streams);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv->enabled_source_streams &= ~streams_mask;
-> +
-> +	if (!priv->enabled_source_streams)
-> +		max96717_start_csi(priv, false);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_pad_ops max96717_pad_ops = {
-> +	.enable_streams = max96717_enable_streams,
-> +	.disable_streams = max96717_disable_streams,
-> +	.set_routing = max96717_set_routing,
-> +	.get_fmt = v4l2_subdev_get_fmt,
-> +	.set_fmt = max96717_set_fmt,
-> +};
-> +
-> +static const struct v4l2_subdev_core_ops max96717_subdev_core_ops = {
-> +	.log_status = max96717_log_status,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops max96717_internal_ops = {
-> +	.init_state = max96717_init_state,
-> +};
-> +
-> +static const struct v4l2_subdev_ops max96717_subdev_ops = {
-> +	.core = &max96717_subdev_core_ops,
-> +	.pad = &max96717_pad_ops,
-> +};
-> +
-> +static const struct media_entity_operations max96717_entity_ops = {
-> +	.link_validate = v4l2_subdev_link_validate,
-> +};
-> +
-> +static int max96717_notify_bound(struct v4l2_async_notifier *notifier,
-> +				 struct v4l2_subdev *source_subdev,
-> +				 struct v4l2_async_connection *asd)
-> +{
-> +	struct max96717_priv *priv = sd_to_max96717(notifier->sd);
-> +	struct device *dev = &priv->client->dev;
-> +	int ret;
-> +
-> +	ret = media_entity_get_fwnode_pad(&source_subdev->entity,
-> +					  source_subdev->fwnode,
-> +					  MEDIA_PAD_FL_SOURCE);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to find pad for %s\n",
-> +			source_subdev->name);
-> +		return ret;
-> +	}
-> +
-> +	priv->source_sd = source_subdev;
-> +	priv->source_sd_pad = ret;
-> +
-> +	ret = media_create_pad_link(&source_subdev->entity, priv->source_sd_pad,
-> +				    &priv->sd.entity, 0,
-> +				    MEDIA_LNK_FL_ENABLED |
-> +				    MEDIA_LNK_FL_IMMUTABLE);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to link %s:%u -> %s:0\n",
-> +			source_subdev->name, priv->source_sd_pad,
-> +			priv->sd.name);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations max96717_notify_ops = {
-> +	.bound = max96717_notify_bound,
-> +};
-> +
-> +static int max96717_v4l2_notifier_register(struct max96717_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct v4l2_async_connection *asd;
-> +	struct fwnode_handle *ep_fwnode;
-> +	int ret;
-> +
-> +	ep_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-> +						    MAX96717_PAD_SINK, 0, 0);
-> +	if (!ep_fwnode) {
-> +		dev_err(dev, "No graph endpoint\n");
+> +	version = readl(video->iobase + VIDEO_VERSION);
+> +	if (version != VIDEO_VERSION_CURRENT) {
+> +		dev_err(video->dev,
+> +			"wrong hw version: expected %x, got %x\n",
+> +			VIDEO_VERSION_CURRENT, version);
 > +		return -ENODEV;
 > +	}
+> +	return 0;
+> +}
 > +
-> +	v4l2_async_subdev_nf_init(&priv->notifier, &priv->sd);
+> +static void chv3_video_init_timings_and_format(struct chv3_video *video,
+> +					       const struct chv3_video_config *config)
+> +{
+> +	struct v4l2_pix_format *pix = &video->pix_fmt;
+> +	struct v4l2_dv_timings timings = V4L2_DV_BT_CEA_1920X1080P60;
 > +
-> +	asd = v4l2_async_nf_add_fwnode_remote(&priv->notifier, ep_fwnode,
+> +	video->timings = timings;
+> +	video->bytes_per_pixel = config->bytes_per_pixel;
+> +
+> +	pix->pixelformat = config->pixelformat;
+> +	pix->field = V4L2_FIELD_NONE;
+> +	pix->colorspace = V4L2_COLORSPACE_SRGB;
+> +	chv3_video_set_format_resolution(video, timings.bt.width, timings.bt.height);
+> +}
+> +
+> +#define notifier_to_video(nf) container_of(nf, struct chv3_video, notifier)
+> +
+> +static int chv3_video_async_notify_bound(struct v4l2_async_notifier *notifier,
+> +					 struct v4l2_subdev *subdev,
+> +					 struct v4l2_async_connection *asc)
+> +{
+> +	struct chv3_video *video = notifier_to_video(notifier);
+> +	int pad;
+> +
+> +	pad = media_entity_get_fwnode_pad(&subdev->entity, asc->match.fwnode,
+> +					  MEDIA_PAD_FL_SOURCE);
+> +	if (pad < 0)
+> +		return pad;
+> +
+> +	video->subdev = subdev;
+> +	video->subdev_source_pad = pad;
+> +
+> +	video->v4l2_dev.ctrl_handler = subdev->ctrl_handler;
+> +
+> +	return 0;
+> +}
+> +
+> +static void chv3_video_async_notify_unbind(struct v4l2_async_notifier *notifier,
+> +					   struct v4l2_subdev *subdev,
+> +					   struct v4l2_async_connection *asc)
+> +{
+> +	struct chv3_video *video = notifier_to_video(notifier);
+> +
+> +	vb2_video_unregister_device(&video->vdev);
+> +}
+> +
+> +static int chv3_video_async_notify_complete(struct v4l2_async_notifier *notifier)
+> +{
+> +	struct chv3_video *video = notifier_to_video(notifier);
+> +
+> +	return video_register_device(&video->vdev, VFL_TYPE_VIDEO, -1);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations chv3_video_async_notify_ops = {
+> +	.bound = chv3_video_async_notify_bound,
+> +	.unbind = chv3_video_async_notify_unbind,
+> +	.complete = chv3_video_async_notify_complete,
+> +};
+> +
+> +static int chv3_video_fallback_init(struct chv3_video *video)
+> +{
+> +	int res;
+> +
+> +	video->subdev = NULL;
+> +	video->subdev_source_pad = 0;
+> +
+> +	v4l2_ctrl_handler_init(&video->ctrl_handler, 1);
+> +	v4l2_ctrl_new_std(&video->ctrl_handler, NULL,
+> +			  V4L2_CID_DV_RX_POWER_PRESENT, 0, 1, 0, 0);
+> +	res = video->ctrl_handler.error;
+> +	if (res)
+> +		goto handler_free;
+> +
+> +	video->v4l2_dev.ctrl_handler = &video->ctrl_handler;
+> +
+> +	res = video_register_device(&video->vdev, VFL_TYPE_VIDEO, -1);
+> +	if (res)
+> +		goto handler_free;
+> +
+> +	return 0;
+> +
+> +handler_free:
+> +	v4l2_ctrl_handler_free(&video->ctrl_handler);
+> +
+> +	return res;
+> +}
+> +
+> +static int chv3_video_fwnode_init(struct chv3_video *video)
+> +{
+> +	struct v4l2_async_connection *asc;
+> +	struct fwnode_handle *endpoint;
+> +	int res;
+> +
+> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(video->dev), NULL);
+> +	if (!endpoint)
+> +		return -EINVAL;
+> +
+> +	v4l2_async_nf_init(&video->notifier, &video->v4l2_dev);
+> +
+> +	asc = v4l2_async_nf_add_fwnode_remote(&video->notifier, endpoint,
 > +					      struct v4l2_async_connection);
+> +	fwnode_handle_put(endpoint);
 > +
-> +	fwnode_handle_put(ep_fwnode);
+> +	if (IS_ERR(asc))
+> +		return PTR_ERR(asc);
 > +
-> +	if (IS_ERR(asd)) {
-> +		dev_err(dev, "Failed to add subdev: %ld", PTR_ERR(asd));
-> +		v4l2_async_nf_cleanup(&priv->notifier);
-> +		return PTR_ERR(asd);
-> +	}
-> +
-> +	priv->notifier.ops = &max96717_notify_ops;
-> +
-> +	ret = v4l2_async_nf_register(&priv->notifier);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register subdev_notifier");
-> +		v4l2_async_nf_cleanup(&priv->notifier);
-> +		return ret;
+> +	video->notifier.ops = &chv3_video_async_notify_ops;
+> +	res = v4l2_async_nf_register(&video->notifier);
+> +	if (res) {
+> +		v4l2_async_nf_cleanup(&video->notifier);
+> +		return res;
 > +	}
 > +
 > +	return 0;
 > +}
 > +
-> +static int max96717_subdev_init(struct max96717_priv *priv)
+> +static int chv3_video_probe(struct platform_device *pdev)
 > +{
-> +	struct device *dev = &priv->client->dev;
-> +	int ret;
+> +	struct chv3_video *video;
+> +	const struct chv3_video_config *config;
+> +	int res;
+> +	int irq;
 > +
-> +	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96717_subdev_ops);
-> +	priv->sd.internal_ops = &max96717_internal_ops;
-> +
-> +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
-> +	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	priv->sd.entity.ops = &max96717_entity_ops;
-> +
-> +	priv->pads[MAX96717_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> +	priv->pads[MAX96717_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> +
-> +	ret = media_entity_pads_init(&priv->sd.entity, 2, priv->pads);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to init pads\n");
-> +
-> +	ret = v4l2_subdev_init_finalize(&priv->sd);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret,
-> +			      "v4l2 subdev init finalized failed\n");
-> +		goto err_entity_cleanup;
-> +	}
-> +	ret = max96717_v4l2_notifier_register(priv);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret,
-> +			      "v4l2 subdev notifier register failed\n");
-> +		goto err_free_state;
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev(&priv->sd);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "v4l2_async_register_subdev error\n");
-> +		goto err_unreg_notif;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_unreg_notif:
-> +	v4l2_async_nf_unregister(&priv->notifier);
-> +	v4l2_async_nf_cleanup(&priv->notifier);
-> +err_free_state:
-> +	v4l2_subdev_cleanup(&priv->sd);
-> +err_entity_cleanup:
-> +	media_entity_cleanup(&priv->sd.entity);
-> +
-> +	return ret;
-> +}
-> +
-> +static void max96717_subdev_uninit(struct max96717_priv *priv)
-> +{
-> +	v4l2_async_unregister_subdev(&priv->sd);
-> +	v4l2_async_nf_unregister(&priv->notifier);
-> +	v4l2_async_nf_cleanup(&priv->notifier);
-> +	v4l2_subdev_cleanup(&priv->sd);
-> +	media_entity_cleanup(&priv->sd.entity);
-> +}
-> +
-> +struct max96717_pll_predef_freq {
-> +	unsigned long freq;
-> +	bool is_alt;
-> +	u8 val;
-> +};
-> +
-> +static const struct max96717_pll_predef_freq max96717_predef_freqs[] = {
-> +	{ 13500000, true,  0 }, { 19200000, false, 0 },
-> +	{ 24000000, true,  1 }, { 27000000, false, 1 },
-> +	{ 37125000, false, 2 }, { 74250000, false, 3 },
-> +};
-> +
-> +static unsigned long
-> +max96717_clk_recalc_rate(struct clk_hw *hw, unsigned long parent_rate)
-> +{
-> +	struct max96717_priv *priv = clk_hw_to_max96717(hw);
-> +
-> +	return max96717_predef_freqs[priv->pll_predef_index].freq;
-> +}
-> +
-> +static unsigned int max96717_clk_find_best_index(struct max96717_priv *priv,
-> +						 unsigned long rate)
-> +{
-> +	unsigned int i, idx;
-> +	unsigned long diff_new, diff_old;
-> +
-> +	diff_old = U32_MAX;
-> +	idx = 0;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(max96717_predef_freqs); i++) {
-> +		diff_new = abs(rate - max96717_predef_freqs[i].freq);
-> +		if (diff_new < diff_old) {
-> +			diff_old = diff_new;
-> +			idx = i;
-> +		}
-> +	}
-> +
-> +	return idx;
-> +}
-> +
-> +static long max96717_clk_round_rate(struct clk_hw *hw, unsigned long rate,
-> +				    unsigned long *parent_rate)
-> +{
-> +	struct max96717_priv *priv = clk_hw_to_max96717(hw);
-> +	struct device *dev = &priv->client->dev;
-> +	unsigned int idx;
-> +
-> +	idx = max96717_clk_find_best_index(priv, rate);
-> +
-> +	if (rate != max96717_predef_freqs[idx].freq) {
-> +		dev_warn(dev, "Request CLK freq:%lu, found CLK freq:%lu\n",
-> +			 rate, max96717_predef_freqs[idx].freq);
-> +	}
-> +
-> +	return max96717_predef_freqs[idx].freq;
-> +}
-> +
-> +static int max96717_clk_set_rate(struct clk_hw *hw, unsigned long rate,
-> +				 unsigned long parent_rate)
-> +{
-> +	struct max96717_priv *priv = clk_hw_to_max96717(hw);
-> +	unsigned int val, idx;
-> +	int ret = 0;
-> +
-> +	idx = max96717_clk_find_best_index(priv, rate);
-> +
-> +	val = FIELD_PREP(REFGEN_PREDEF_FREQ_MASK,
-> +			 max96717_predef_freqs[idx].val);
-> +
-> +	if (max96717_predef_freqs[idx].is_alt)
-> +		val |= REFGEN_PREDEF_FREQ_ALT;
-> +
-> +	val |= REFGEN_RST | REFGEN_PREDEF_EN;
-> +
-> +	cci_write(priv->regmap, REF_VTG0, val, &ret);
-> +	cci_update_bits(priv->regmap, REF_VTG0, REFGEN_RST | REFGEN_EN,
-> +			REFGEN_EN, &ret);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv->pll_predef_index = idx;
-> +
-> +	return 0;
-> +}
-> +
-> +static int max96717_clk_prepare(struct clk_hw *hw)
-> +{
-> +	struct max96717_priv *priv = clk_hw_to_max96717(hw);
-> +
-> +	return cci_update_bits(priv->regmap, MAX96717_REG6, RCLKEN,
-> +			       RCLKEN, NULL);
-> +}
-> +
-> +static void max96717_clk_unprepare(struct clk_hw *hw)
-> +{
-> +	struct max96717_priv *priv = clk_hw_to_max96717(hw);
-> +
-> +	cci_update_bits(priv->regmap, MAX96717_REG6, RCLKEN, 0, NULL);
-> +}
-> +
-> +static const struct clk_ops max96717_clk_ops = {
-> +	.prepare     = max96717_clk_prepare,
-> +	.unprepare   = max96717_clk_unprepare,
-> +	.set_rate    = max96717_clk_set_rate,
-> +	.recalc_rate = max96717_clk_recalc_rate,
-> +	.round_rate  = max96717_clk_round_rate,
-> +};
-> +
-> +static int max96717_register_clkout(struct max96717_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct clk_init_data init = { .ops = &max96717_clk_ops };
-> +	int ret;
-> +
-> +	init.name = kasprintf(GFP_KERNEL, "max96717.%s.clk_out",
-> +			      dev_name(dev));
-> +	if (!init.name)
+> +	video = devm_kzalloc(&pdev->dev, sizeof(*video), GFP_KERNEL);
+> +	if (!video)
 > +		return -ENOMEM;
+> +	video->dev = &pdev->dev;
+> +	platform_set_drvdata(pdev, video);
 > +
-> +	/* RCLKSEL Reference PLL output */
-> +	ret = cci_update_bits(priv->regmap, MAX96717_REG3, MAX96717_RCLKSEL,
-> +			      MAX96717_RCLKSEL, NULL);
-> +	/* MFP4 fastest slew rate */
-> +	cci_update_bits(priv->regmap, PIO_SLEW_1, BIT(5) | BIT(4), 0, &ret);
-> +	if (ret)
-> +		goto free_init_name;
+> +	config = device_get_match_data(video->dev);
 > +
-> +	priv->clk_hw.init = &init;
+> +	/* map register space */
+> +	video->iobase = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(video->iobase))
+> +		return PTR_ERR(video->iobase);
 > +
-> +	/* Initialize to 24 MHz */
-> +	ret = max96717_clk_set_rate(&priv->clk_hw,
-> +				    MAX96717_DEFAULT_CLKOUT_RATE, 0);
-> +	if (ret < 0)
-> +		goto free_init_name;
+> +	video->iobase_irq = devm_platform_ioremap_resource(pdev, 1);
+> +	if (IS_ERR(video->iobase_irq))
+> +		return PTR_ERR(video->iobase_irq);
 > +
-> +	ret = devm_clk_hw_register(dev, &priv->clk_hw);
-> +	kfree(init.name);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Cannot register clock HW\n");
+> +	/* check hw version */
+> +	res = chv3_video_check_version(video);
+> +	if (res)
+> +		return res;
 > +
-> +	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
-> +					  &priv->clk_hw);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Cannot add OF clock provider\n");
+> +	/* setup interrupts */
+> +	irq = platform_get_irq(pdev, 0);
+> +	if (irq < 0)
+> +		return -ENXIO;
+> +	res = devm_request_irq(&pdev->dev, irq, chv3_video_isr, 0, DEVICE_NAME, video);
+> +	if (res)
+> +		return res;
 > +
-> +	return 0;
+> +	/* initialize v4l2_device */
+> +	res = v4l2_device_register(&pdev->dev, &video->v4l2_dev);
+> +	if (res)
+> +		return res;
 > +
-> +free_init_name:
-> +	kfree(init.name);
-> +	return ret;
-> +}
+> +	/* initialize vb2 queue */
+> +	video->queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +	video->queue.io_modes = VB2_MMAP | VB2_DMABUF;
+> +	video->queue.dev = &pdev->dev;
+> +	video->queue.lock = &video->video_lock;
+> +	video->queue.ops = &chv3_video_vb2_ops;
+> +	video->queue.mem_ops = &vb2_dma_contig_memops;
+> +	video->queue.drv_priv = video;
+> +	video->queue.buf_struct_size = sizeof(struct chv3_video_buffer);
+> +	video->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	res = vb2_queue_init(&video->queue);
+> +	if (res)
+> +		goto error;
 > +
-> +static int max96717_init_csi_lanes(struct max96717_priv *priv)
-> +{
-> +	struct v4l2_mbus_config_mipi_csi2 *mipi = &priv->mipi_csi2;
-> +	unsigned long lanes_used = 0;
-> +	unsigned int nlanes, lane, val = 0;
-> +	int ret;
+> +	/* initialize video_device */
+> +	strscpy(video->vdev.name, DEVICE_NAME, sizeof(video->vdev.name));
+> +	video->vdev.fops = &chv3_video_v4l2_fops;
+> +	video->vdev.ioctl_ops = &chv3_video_v4l2_ioctl_ops;
+> +	video->vdev.lock = &video->video_lock;
+> +	video->vdev.release = video_device_release_empty;
+> +	video->vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	video->vdev.v4l2_dev = &video->v4l2_dev;
+> +	video->vdev.queue = &video->queue;
+> +	video_set_drvdata(&video->vdev, video);
 > +
-> +	nlanes = mipi->num_data_lanes;
+> +	if (device_get_named_child_node(&pdev->dev, "port"))
+> +		res = chv3_video_fwnode_init(video);
+> +	else
+> +		res = chv3_video_fallback_init(video);
+> +	if (res)
+> +		goto error;
 > +
-> +	ret = cci_update_bits(priv->regmap, MAX96717_MIPI_RX1,
-> +			      MAX96717_MIPI_LANES_CNT,
-> +			      FIELD_PREP(MAX96717_MIPI_LANES_CNT,
-> +					 nlanes - 1), NULL);
+> +	/* initialize rest of driver struct */
+> +	INIT_LIST_HEAD(&video->bufs);
+> +	spin_lock_init(&video->bufs_lock);
+> +	mutex_init(&video->video_lock);
 > +
-> +	/* lanes polarity */
-> +	for (lane = 0; lane < nlanes + 1; lane++) {
-> +		if (!mipi->lane_polarities[lane])
-> +			continue;
-> +		/* Clock lane */
-> +		if (lane == 0)
-> +			val |= BIT(2);
-> +		else if (lane < 3)
-> +			val |= BIT(lane - 1);
-> +		else
-> +			val |= BIT(lane);
-> +	}
+> +	chv3_video_init_timings_and_format(video, config);
 > +
-> +	cci_update_bits(priv->regmap, MAX96717_MIPI_RX5,
-> +			MAX96717_PHY2_LANES_POL,
-> +			FIELD_PREP(MAX96717_PHY2_LANES_POL, val), &ret);
+> +	/* initialize hw */
+> +	writel(VIDEO_RESET_BIT, video->iobase + VIDEO_RESET);
+> +	writel(VIDEO_DATARATE_DOUBLE, video->iobase + VIDEO_DATARATE);
+> +	writel(VIDEO_PIXELMODE_DOUBLE, video->iobase + VIDEO_PIXELMODE);
+> +	writel(config->dmaformat, video->iobase + VIDEO_DMAFORMAT);
 > +
-> +	cci_update_bits(priv->regmap, MAX96717_MIPI_RX4,
-> +			MAX96717_PHY1_LANES_POL,
-> +			FIELD_PREP(MAX96717_PHY1_LANES_POL,
-> +				   val >> 3), &ret);
-> +	/* lanes mapping */
-> +	for (lane = 0, val = 0; lane < nlanes; lane++) {
-> +		val |= (mipi->data_lanes[lane] - 1) << (lane * 2);
-> +		lanes_used |= BIT(mipi->data_lanes[lane] - 1);
-> +	}
-> +
-> +	/*
-> +	 * Unused lanes need to be mapped as well to not have
-> +	 * the same lanes mapped twice.
-> +	 */
-> +	for (; lane < 4; lane++) {
-> +		unsigned int idx = find_first_zero_bit(&lanes_used, 4);
-> +
-> +		val |= idx << (lane * 2);
-> +		lanes_used |= BIT(idx);
-> +	}
-> +
-> +	cci_update_bits(priv->regmap, MAX96717_MIPI_RX3,
-> +			MAX96717_PHY1_LANES_MAP,
-> +			FIELD_PREP(MAX96717_PHY1_LANES_MAP, val), &ret);
-> +
-> +	return cci_update_bits(priv->regmap, MAX96717_MIPI_RX2,
-> +			       MAX96717_PHY2_LANES_MAP,
-> +			       FIELD_PREP(MAX96717_PHY2_LANES_MAP, val >> 4),
-> +			       &ret);
-> +}
-> +
-> +static int max96717_hw_init(struct max96717_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	u64 dev_id, val;
-> +	int ret;
-> +
-> +	ret = cci_read(priv->regmap, MAX96717_DEV_ID, &dev_id, NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Fail to read the device id\n");
-> +
-> +	if (dev_id != MAX96717_DEVICE_ID && dev_id != MAX96717F_DEVICE_ID)
-> +		return dev_err_probe(dev, -EOPNOTSUPP,
-> +				     "Unsupported device id got %x\n", (u8)dev_id);
-> +
-> +	ret = cci_read(priv->regmap, MAX96717_DEV_REV, &val, NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Fail to read device revision");
-> +
-> +	dev_dbg(dev, "Found %x (rev %lx)\n", (u8)dev_id,
-> +		(u8)val & MAX96717_DEV_REV_MASK);
-> +
-> +	ret = cci_read(priv->regmap, MAX96717_MIPI_RX_EXT11, &val, NULL);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Fail to read mipi rx extension");
-> +
-> +	if (!(val & MAX96717_TUN_MODE))
-> +		return dev_err_probe(dev, -EOPNOTSUPP,
-> +				     "Only supporting tunnel mode");
-> +
-> +	return max96717_init_csi_lanes(priv);
-> +}
-> +
-> +static int max96717_parse_dt(struct max96717_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct v4l2_fwnode_endpoint vep = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY
-> +	};
-> +	struct fwnode_handle *ep_fwnode;
-> +	unsigned char num_data_lanes;
-> +	int ret;
-> +
-> +	ep_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-> +						    MAX96717_PAD_SINK, 0, 0);
-> +	if (!ep_fwnode)
-> +		return dev_err_probe(dev, -ENOENT, "no endpoint found\n");
-> +
-> +	ret = v4l2_fwnode_endpoint_parse(ep_fwnode, &vep);
-> +
-> +	fwnode_handle_put(ep_fwnode);
-> +
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "Failed to parse sink endpoint");
-> +
-> +	num_data_lanes = vep.bus.mipi_csi2.num_data_lanes;
-> +	if (num_data_lanes < 1 || num_data_lanes > 4)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "Invalid data lanes must be 1 to 4\n");
-> +
-> +	memcpy(&priv->mipi_csi2, &vep.bus.mipi_csi2, sizeof(priv->mipi_csi2));
+> +	writel(VIDEO_IRQ_ALL, video->iobase_irq + VIDEO_IRQ_MASK);
 > +
 > +	return 0;
+> +
+> +error:
+> +	v4l2_device_unregister(&video->v4l2_dev);
+> +
+> +	return res;
 > +}
 > +
-> +static int max96717_probe(struct i2c_client *client)
+> +static void chv3_video_remove(struct platform_device *pdev)
 > +{
-> +	struct device *dev = &client->dev;
-> +	struct max96717_priv *priv;
-> +	int ret;
+> +	struct chv3_video *video = platform_get_drvdata(pdev);
 > +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
+> +	/* disable interrupts */
+> +	writel(0, video->iobase_irq + VIDEO_IRQ_MASK);
 > +
-> +	priv->client = client;
-> +	priv->regmap = devm_cci_regmap_init_i2c(client, 16);
-> +	if (IS_ERR(priv->regmap)) {
-> +		ret = PTR_ERR(priv->regmap);
-> +		return dev_err_probe(dev, ret, "Failed to init regmap\n");
+> +	if (video->subdev) {
+> +		/* notifier is initialized only in non-fallback mode */
+> +		v4l2_async_nf_unregister(&video->notifier);
+> +		v4l2_async_nf_cleanup(&video->notifier);
+> +	} else {
+> +		/* ctrl handler is initialized only in fallback mode */
+> +		v4l2_ctrl_handler_free(&video->ctrl_handler);
 > +	}
 > +
-> +	ret = max96717_parse_dt(priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to parse the dt\n");
-> +
-> +	ret = max96717_hw_init(priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to initialize the hardware\n");
-> +
-> +	ret = max96717_gpiochip_probe(priv);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to init gpiochip\n");
-> +
-> +	ret = max96717_register_clkout(priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to register clkout\n");
-> +
-> +	ret = max96717_subdev_init(priv);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to initialize v4l2 subdev\n");
-> +
-> +	ret = max96717_i2c_mux_init(priv);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "failed to add remote i2c adapter\n");
-> +		max96717_subdev_uninit(priv);
-> +	}
-> +
-> +	return ret;
+> +	v4l2_device_unregister(&video->v4l2_dev);
 > +}
 > +
-> +static void max96717_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct max96717_priv *priv = sd_to_max96717(sd);
-> +
-> +	max96717_subdev_uninit(priv);
-> +	i2c_mux_del_adapters(priv->mux);
-> +}
-> +
-> +static const struct of_device_id max96717_of_ids[] = {
-> +	{ .compatible = "maxim,max96717f" },
-> +	{ }
+> +static const struct chv3_video_config chv3_video_it = {
+> +	.pixelformat = V4L2_PIX_FMT_BGRX32,
+> +	.bytes_per_pixel = 4,
+> +	.dmaformat = VIDEO_DMAFORMAT_8BPC_PAD,
 > +};
-> +MODULE_DEVICE_TABLE(of, max96717_of_ids);
 > +
-> +static struct i2c_driver max96717_i2c_driver = {
-> +	.driver	= {
-> +		.name		= "max96717",
-> +		.of_match_table	= max96717_of_ids,
+> +static const struct chv3_video_config chv3_video_dp = {
+> +	.pixelformat = V4L2_PIX_FMT_RGB24,
+> +	.bytes_per_pixel = 3,
+> +	.dmaformat = VIDEO_DMAFORMAT_8BPC,
+> +};
+> +
+> +static const struct of_device_id chv3_video_match_table[] = {
+> +	{ .compatible = "google,chv3-video-it-1.0", .data = &chv3_video_it },
+> +	{ .compatible = "google,chv3-video-dp-1.0", .data = &chv3_video_dp },
+> +	{ },
+> +};
+> +
+> +static struct platform_driver chv3_video_platform_driver = {
+> +	.probe = chv3_video_probe,
+> +	.remove_new = chv3_video_remove,
+> +	.driver = {
+> +		.name = DEVICE_NAME,
+> +		.of_match_table = chv3_video_match_table,
 > +	},
-> +	.probe		= max96717_probe,
-> +	.remove		= max96717_remove,
 > +};
 > +
-> +module_i2c_driver(max96717_i2c_driver);
+> +module_platform_driver(chv3_video_platform_driver);
 > +
-> +MODULE_DESCRIPTION("Maxim GMSL2 MAX96717 Serializer Driver");
-> +MODULE_AUTHOR("Julien Massot <julien.massot@collabora.com>");
+> +MODULE_AUTHOR("Paweł Anikiel <panikiel@google.com>");
+> +MODULE_DESCRIPTION("Google Chameleon v3 video interface driver");
 > +MODULE_LICENSE("GPL");
-> -- 
-> 2.44.0
-> 
-> 
+
+Regards,
+
+	Hans
 
