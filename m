@@ -1,36 +1,65 @@
-Return-Path: <linux-media+bounces-12436-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12437-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F72A8D7DAF
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 10:46:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D87A8D7DC9
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 10:48:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82857B23458
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 08:46:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 878871F24E35
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jun 2024 08:48:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7651C7640E;
-	Mon,  3 Jun 2024 08:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AA0E823CA;
+	Mon,  3 Jun 2024 08:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="4kzbDaM0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F2A26AD0;
-	Mon,  3 Jun 2024 08:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB3681736;
+	Mon,  3 Jun 2024 08:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717404288; cv=none; b=tkDpczz70h7i95Iwzm/QPRyRM0eP2g6gGU87iDsR4ZtcSugfdI0+Pe11XctB0zr4l/rQ9t7yZ4620lFNnyXTQ5ab5xukGPbvF+1ngDKMEhDc68LeBWy738silCsXmaGH1aPowSFvJuXWB+5KWxBgjwXX+c1rs8envGex5eCzKHU=
+	t=1717404428; cv=none; b=eTnFJVv2ATiu8XM9vvVZT9xLYoRZM4xVsHqfFkfHjrZJdaP0QSoFiMP0WXPICO/vKCRNurot0b6waxHj4mjYFTRyvFsJkvLak8/aPVQhIWr9fQOSmkX7O6j3QTjYwcwQioGO4rdTcbIIebinAQT2q3XhlFlPM8c9fsGYFMR4Qsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717404288; c=relaxed/simple;
-	bh=Nn0UnjjkktmGapK4phNafV9vEY9xLc3hkoj9zYThLRE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o2zFQGqNQS579LcDLeRqEGZHjK7e47CPYBA1EZqDVRfs5vC6R1XJKJw6Wf7vigXl2FI9bXEojVmpOrgFW9OC0ZVSoV9daozFfrdndZTv724ca3WYxFwC3NEePZ8YnfrbSRL3Srl2A2pdC2xyb2jcOcsJFQlphKGjaMuV6GTa/Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6A5C2BD10;
-	Mon,  3 Jun 2024 08:44:44 +0000 (UTC)
-Message-ID: <75274526-66c8-4ebf-8842-d753bd4353a5@xs4all.nl>
-Date: Mon, 3 Jun 2024 10:44:43 +0200
+	s=arc-20240116; t=1717404428; c=relaxed/simple;
+	bh=4K7nj//IB95NQDmk7+1awX10JKPvXQq7j5HzT0K3WbU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:References:To:CC:
+	 In-Reply-To:Content-Type; b=TDbDTBj1lNs0gMOpD9fp5r4tfMHQiPA2RsMysgNK72S6VvosFZGeXOUXqOKoTO70te2qZwBlW+8aZHhxdFdsBfaH4cRMKaKtLw8sKC32+Q5GhYbBtz0ws3ibaogg8n5mfujJJj0FCjSnkjZRXa/uYuwvjHislse0hLc9zwQXsY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=4kzbDaM0; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4537NAKD018951;
+	Mon, 3 Jun 2024 10:46:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	Qpxf+Iz424T4bPUJD3hcBhowtB7icuKYhmMWW77VdPo=; b=4kzbDaM0+2uC2uZI
+	BTWpc7oUUKZQE77opADNqTGdGRlpaILSkMcvEJXWPw5MwVHMGUsTx3Bwp9TTfj1w
+	KZaQjY3mbh2XNMcuRanO+wdFT3f77WoavSS7XzuIVsQDCl2T/cCsoaMEOiSHR/6v
+	fzNV8oDqX7mQ/8iJ646dsvFtsERKmnthnnWdb69TAesfhvG5CsOt0F2H6nS9exsF
+	qtIJsJFWgT+KcfvpQLKx+SssFdzgaK63e3WjTWaDIqI2IO2GRWm4XTvaim++mRRU
+	8+nFbtLPlRskj6EkRjJSm6mlPmy4/GxyS8TmkyYP27+lhb1oEbaaCswEz7qpl5Z+
+	c8aiFw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ygd70kx77-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Jun 2024 10:46:56 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A651440046;
+	Mon,  3 Jun 2024 10:46:51 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 05BE7214545;
+	Mon,  3 Jun 2024 10:46:14 +0200 (CEST)
+Received: from [10.131.140.24] (10.131.140.24) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 3 Jun
+ 2024 10:46:13 +0200
+Message-ID: <832ab797-3852-4b30-a0b1-7ea9c85fdfa6@foss.st.com>
+Date: Mon, 3 Jun 2024 10:46:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,351 +67,154 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] Add Chameleon v3 video support
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>, airlied@gmail.com,
- akpm@linux-foundation.org, conor+dt@kernel.org, daniel@ffwll.ch,
- dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- chromeos-krk-upstreaming@google.com
-References: <20240507155413.266057-1-panikiel@google.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240507155413.266057-1-panikiel@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Sylvain Petinot <sylvain.petinot@foss.st.com>
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD56G3 camera sensor
+ binding
+References: <20240521162950.6987-1-sylvain.petinot@foss.st.com>
+ <20240521162950.6987-2-sylvain.petinot@foss.st.com>
+ <2110ba34-658e-4d60-b524-2f5ead6c8d3e@linaro.org>
+ <77fa3ed3-2341-4106-adf2-ec8bd9de91ff@foss.st.com>
+ <ceab83fe-b741-4f9e-8b0c-9de3ca79fc55@linaro.org>
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <benjamin.mugnier@foss.st.com>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, Sakari Ailus
+	<sakari.ailus@iki.fi>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+In-Reply-To: <ceab83fe-b741-4f9e-8b0c-9de3ca79fc55@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-06-03_05,2024-05-30_01,2024-05-17_01
 
-Hi Paweł,
+Hello Krzysztof,
 
-On 07/05/2024 17:54, Paweł Anikiel wrote:
-> Google Chameleon v3 is a testing device capable of emulating multiple
-> DisplayPort monitors, used for testing purposes.  It is based on an Arria
-> 10 SoCFPGA.  This patchset adds V4L2 drivers for two IP blocks used in the
-> device's FPGA: the Chameleon v3 video interface, and the Intel DisplayPort
-> RX IP.  The former is a video capture device that takes video signal and
-> writes frames into memory, which can be later processed by userspace.
-> The latter is a DisplayPort receiver IP from Intel, its datasheet can
-> be found at:
-> https://www.intel.com/programmable/technical-pdfs/683273.pdf
-> 
-> The video interface driver is a regular v4l2 capture device driver, while
-> the DP RX driver is a v4l2 subdevice driver. In order to avoid code
-> duplication, some parts of the DisplayPort code from the DRM subsystem
-> were put into headers usable by the DP RX driver.
-> 
-> This patchset depends on changes merged into the linux-media tree at:
-> git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.10d
-> 
-> Here is the output of `v4l2-compliance -s` run on a Chameleon v3 for
-> /dev/video0 (no attached subdevice):
 
-This v3 series looks pretty good to me, so from a V4L2 perspective I believe
-a v4 should be OK.
+On 5/27/2024 9:00 PM, Krzysztof Kozlowski wrote:
+> On 27/05/2024 15:14, Sylvain Petinot wrote:
+>>>
+>>>> Signed-off-by: Sylvain Petinot <sylvain.petinot@foss.st.com>
+>>>> ---
+>>>>  .../bindings/media/i2c/st,st-vd56g3.yaml      | 132 ++++++++++++++++++
+>>>>  MAINTAINERS                                   |   9 ++
+>>>>  2 files changed, 141 insertions(+)
+>>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..22cb2557e311
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vd56g3.yaml
+>>>
+>>> Why duplicated 'st'?
+>>
+>> Legacy : our first st-mipid02 driver was upstream this way few years back.
+>>
+>> We have 3 options :
+>>
+>> 1- keep this unpleasant naming to keep consistency with st-mipid02 [1]
+>> and st-vgxy61 [2]
+> 
+> ? Unpleasant?
+> Please follow generic rules. Filename must match compatible and
+> compatible must follow vendor,device format.
+> 
+>> 2- rename this driver properly ('vd56g3') and keep the two others the
+>> old way (I personally don't like this option)
+> 
+> We do not talk about driver here. Does not matter.
+> 
+>> 3- rename this driver properly ('vd56g3') and in a second patch rename
+>> the two others drivers.
+>>
+>> I would be interested to get Sakari's opinion on this subject.
+> 
+> About what? Renaming drivers?
+> 
+>>
+>> [1]:
+>> https://elixir.bootlin.com/linux/v6.9.1/source/drivers/media/i2c/st-mipid02.c
+>>
+>> [2]:
+>> https://elixir.bootlin.com/linux/v6.9.1/source/drivers/media/i2c/st-vgxy61.c
+> 
+> Howe are these drivers anyhow related to the *binding*?
 
-But I need Acked-by for the drm and bindings patches before I can
-merge a v4.
+I got your point. bindings will be updated accordingly in V3 to follow
+vendor,device format.
 
-Regards,
+My point was more about consistency :
+1- ensure driver name is aligned with the bindings name (without vendor
+prefix)
+2- ensure all ST image sensor drivers and bindings follow the same rules.
+But, you're right, this is a out of bindings topic and I will handle it
+separately.
 
-	Hans
-
 > 
-> ```
-> v4l2-compliance 1.27.0-5204, 32 bits, 32-bit time_t
-> v4l2-compliance SHA: dd049328e528 2024-04-29 13:40:09
 > 
-> Compliance test for chv3-video device /dev/video0:
+> ...
 > 
-> Driver Info:
-> 	Driver name      : chv3-video
-> 	Card type        : Chameleon v3 video
-> 	Bus info         : platform:c0060500.video
-> 	Driver version   : 6.9.0
-> 	Capabilities     : 0x84200001
-> 		Video Capture
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04200001
-> 		Video Capture
-> 		Streaming
-> 		Extended Pix Format
+>>>> +
+>>>> +  st,leds:
+>>>> +    description:
+>>>> +      Sensor's GPIOs used for external LED control. Signal being the enveloppe
+>>>> +      of the integration time.
+>>>
+>>> More information is needed. GPIOs coming from LED or SoC? What's the
+>>> meaning of values?
+>>
+>> The vd56g3 image sensor provides 8 GPIOS that can be used for different
+>> use cases (external led controls, synchronization between master/slave
+>> sensors, external sensor trigger, etc.). This submission supports only
+>> the first use case: the control of one(or multiple) external LED.
 > 
-> Required ioctls:
-> 	test VIDIOC_QUERYCAP: OK
-> 	test invalid ioctls: OK
+> What your driver supports is not really relevant. Describe hardware.
 > 
-> Allow for multiple opens:
-> 	test second /dev/video0 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
+>>
+>> The vd56g3 sensor family are optimized for visible and near infrared
+>> scenes. In NIR, external IR leds are generally used for illumination.
+>>
+>> With such use case, a led (or a led driver) can be connected directly to
+>> one of the 8 GPIOs of the sensor. On the driver side, when a led is
+>> configured in the dt, the driver will configure the sensor accordingly.
+>> It will also offer an optional "V4L2_FLASH_LED_MODE_FLASH" control to
+>> start/stop the external control.
+>>
+>> Different signal modes are supported by the HW, but the default
+>> (implemented) one is a "strobe" mode where signal is the envelope of the
+>> integration time (IR led is on while image sensor is integrating).
 > 
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
+> You did not explain the meaning of the property. Please describe the
+> hardware and the meaning of values used in this property.
 > 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 1 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
-> 	test VIDIOC_DV_TIMINGS_CAP: OK
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls (Input 0):
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 2 Private Controls: 0
-> 
-> Format ioctls (Input 0):
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 0):
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 0):
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test CREATE_BUFS maximum buffers: OK
-> 	test VIDIOC_REMOVE_BUFS: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 	test TIME32/64: OK
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
-> 	test read/write: OK (Not Supported)
-> 	test blocking wait: OK
-> 	test MMAP (no poll): OK
-> 	test MMAP (select): OK
-> 	test MMAP (epoll): OK
-> 	test USERPTR (no poll): OK (Not Supported)
-> 	test USERPTR (select): OK (Not Supported)
-> 	test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for chv3-video device /dev/video0: 55, Succeeded: 55, Failed: 0, Warnings: 0
-> ```
-> 
-> Here is the output of `v4l2-compliance -s` run on a Chameleon v3 for
-> /dev/video4 (attached subdevice):
-> 
-> ```
-> v4l2-compliance 1.27.0-5204, 32 bits, 32-bit time_t
-> v4l2-compliance SHA: dd049328e528 2024-04-29 13:40:09
-> 
-> Compliance test for chv3-video device /dev/video4:
-> 
-> Driver Info:
-> 	Driver name      : chv3-video
-> 	Card type        : Chameleon v3 video
-> 	Bus info         : platform:c0060600.video
-> 	Driver version   : 6.9.0
-> 	Capabilities     : 0x84200001
-> 		Video Capture
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04200001
-> 		Video Capture
-> 		Streaming
-> 		Extended Pix Format
-> 
-> Required ioctls:
-> 	test VIDIOC_QUERYCAP: OK
-> 	test invalid ioctls: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video4 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 1 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
-> 	test VIDIOC_DV_TIMINGS_CAP: OK
-> 	test VIDIOC_G/S_EDID: OK
-> 
-> Control ioctls (Input 0):
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 2 Private Controls: 0
-> 
-> Format ioctls (Input 0):
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 0):
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 0):
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test CREATE_BUFS maximum buffers: OK
-> 	test VIDIOC_REMOVE_BUFS: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 	test TIME32/64: OK
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
-> 	test read/write: OK (Not Supported)
-> 	test blocking wait: OK
-> 	test MMAP (no poll): OK
-> 	test MMAP (select): OK
-> 	test MMAP (epoll): OK
-> 	test USERPTR (no poll): OK (Not Supported)
-> 	test USERPTR (select): OK (Not Supported)
-> 	test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for chv3-video device /dev/video4: 55, Succeeded: 55, Failed: 0, Warnings: 0
-> ```
-> 
-> v3 changes:
->   - Send v4l2-subdev API changes as a separate patchset
->   - Drop chameleonv3/ directory
->   - Change capture device name from "framebuffer" to "video interface"
->   - Set sensible min and max dv timing caps
->   - Set pixelclock to htotal * vtotal * 24Hz (we can't detect the actual value)
->   - Remove enum_framesizes
->   - Use v4l2_match_dv_timings()
->   - Add V4L2_CID_DV_RX_POWER_PRESENT control
->   - Use V4L2_DV_BT_CEA_1920X1080P60 as default timing
->   - Use vb2_video_unregister_device()
->   - Move subdev pad initialization to probe
->   - Change subdev entity function to MEDIA_ENT_F_DV_DECODER
->   - Drop dprx 'port' property and always use 'ports' instead
->   - Remove legacy-format property and use multiple compats
->   - Cleanup notifier only in non-fallback mode
->   - Cleanup subdev entity using media_entity_cleanup()
->   - Increase HPD pulse length to 500ms (see comment in dprx_set_edid())
->   - Pull HPD low before updating EDID
->   - Add a DisplayPort media bus type
->   - Move receiver properties to port endpoint (data-lanes, link-frequencies)
-> 
-> v2 changes:
->   - Add missing includes in dt binding examples
->   - Add version number to intel,dprx compatible
->   - Use generic node names in dts
->   - Add and document IP configuration parameters
->   - Remove IRQ registers from intel-dprx (they're not a part of the IP)
->   - Remove no-endpoint property and check for "port" node instead
-> 
-> Paweł Anikiel (10):
->   media: Add Chameleon v3 video interface driver
->   drm/dp_mst: Move DRM-independent structures to separate header
->   lib: Move DisplayPort CRC functions to common lib
->   drm/display: Add mask definitions for DP_PAYLOAD_ALLOCATE_* registers
->   media: dt-bindings: video-interfaces: Support DisplayPort MST
->   media: v4l2-mediabus: Add support for DisplayPort media bus
->   media: intel: Add Displayport RX IP driver
->   media: dt-bindings: Add Chameleon v3 video interface
->   media: dt-bindings: Add Intel Displayport RX IP
->   ARM: dts: chameleonv3: Add video device nodes
-> 
->  .../bindings/media/google,chv3-video.yaml     |   64 +
->  .../devicetree/bindings/media/intel,dprx.yaml |  172 ++
->  .../bindings/media/video-interfaces.yaml      |    7 +
->  .../socfpga/socfpga_arria10_chameleonv3.dts   |  194 ++
->  drivers/gpu/drm/display/Kconfig               |    1 +
->  drivers/gpu/drm/display/drm_dp_mst_topology.c |   76 +-
->  drivers/media/platform/Kconfig                |    1 +
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/google/Kconfig         |   13 +
->  drivers/media/platform/google/Makefile        |    3 +
->  drivers/media/platform/google/chv3-video.c    |  891 +++++++
->  drivers/media/platform/intel/Kconfig          |   12 +
->  drivers/media/platform/intel/Makefile         |    1 +
->  drivers/media/platform/intel/intel-dprx.c     | 2283 +++++++++++++++++
->  drivers/media/v4l2-core/v4l2-fwnode.c         |   38 +
->  include/drm/display/drm_dp.h                  |    9 +-
->  include/drm/display/drm_dp_mst.h              |  238 ++
->  include/drm/display/drm_dp_mst_helper.h       |  232 +-
->  include/dt-bindings/media/video-interfaces.h  |    2 +
->  include/linux/crc-dp.h                        |   10 +
->  include/media/v4l2-fwnode.h                   |    5 +
->  include/media/v4l2-mediabus.h                 |   17 +
->  lib/Kconfig                                   |    8 +
->  lib/Makefile                                  |    1 +
->  lib/crc-dp.c                                  |   78 +
->  25 files changed, 4053 insertions(+), 304 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/google,chv3-video.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/intel,dprx.yaml
->  create mode 100644 drivers/media/platform/google/Kconfig
->  create mode 100644 drivers/media/platform/google/Makefile
->  create mode 100644 drivers/media/platform/google/chv3-video.c
->  create mode 100644 drivers/media/platform/intel/intel-dprx.c
->  create mode 100644 include/drm/display/drm_dp_mst.h
->  create mode 100644 include/linux/crc-dp.h
->  create mode 100644 lib/crc-dp.c
 > 
 
+Sure, this was more contextual information. Please find below a proposal
+for the "st,leds" property :
+
+st,leds:
+  description:
+    List sensor's GPIOs used to control strobe light sources during exposure
+    time. The numbers identify the sensor pin on which the illumination
+system
+    is connected. GPIOs are active-high.
+  $ref: /schemas/types.yaml#/definitions/uint32-array
+  minItems: 1
+  maxItems: 8
+  items:
+    minimum: 0
+    maximum: 7
+
+> 
+> Best regards,
+> Krzysztof
+> 
+
+--
+Sylvain
 
