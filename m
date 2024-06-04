@@ -1,105 +1,354 @@
-Return-Path: <linux-media+bounces-12501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12502-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE218FAC16
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 09:33:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D29CE8FAC26
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 09:38:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92A151F22142
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 07:33:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 897D92824C4
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 07:38:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D399143C6B;
-	Tue,  4 Jun 2024 07:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F6DE14039D;
+	Tue,  4 Jun 2024 07:37:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708E1420A9;
-	Tue,  4 Jun 2024 07:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C45D1EB30
+	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 07:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717486184; cv=none; b=p9udJyN5gEk+TJjmRXP30IDatzgTqjflPUSOUIzuZPCDzDKHWItS67hevlsNFczPK/yzZRWdP2ykvxFSI2BkF5ylF52PQ0lDovJKczhRqTvdM1qK+tScu5TaVwkpKGcvuN8UtzSTBZOUDmnneICoNqfLqv5Udt9wX4EUa4UOq5s=
+	t=1717486678; cv=none; b=HZUtP82BSaPs/SnU2NxdoGj0Rcd+wiV0a9YTpOH1GB0hZsb7TyITSMrgHIa4byfIu3uCg692yGBM0AIBizBdEcvSJq6CPDChZWuKRfe7lnSA8jNp3ph/a++YrRMLvQlGzkgmZKJQnLZKm/RNRXE7iVR9J4uYu8lzMSK+3B5Pgac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717486184; c=relaxed/simple;
-	bh=L2ef4ikBLUExpwxVj8ejG78+FAX/tyzxxZk0OjjBtp4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RbTd5R3FJCSec8DC76npVfijzBOrfH4ObgJ8d1wJAZkG59Xjsgf/sipQY0B9vToFGRDB8ABWr7Vd6R1oUfAYy7gKHheN8wKMyU9EVZ1v7tYQPgRBDn1PWPSd2iS1F2tAdwRc/JRKx4l/sZ/jVw8K5iDRaMxciHUuRcL90EHeJqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-627efad69b4so40236047b3.3;
-        Tue, 04 Jun 2024 00:29:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717486181; x=1718090981;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/iRhLEa+24trXeoO/jrPuZGCt2Kxtvn5FwJN2M8BSH0=;
-        b=XWy3AUNchqeCERsWs/c5IQoW5J63GY1D6sdg6wwMFkY2ZRZQ2RFz/Q36h1+Pji1ouG
-         Ha7nQXsYEGwS7J4WkMANY3iiv3u/1qEZCkkbE6f91bsIMNe1wsjfvMC+xxDEZabVhI2t
-         LYPbazp0IGvSsOs2Wpa3gzA53cDjRAGEbuJOgJmzewa1IXASoYWTSweOCCUWzyPIXL9b
-         woZrAPSaS3gQdbDfbuEALBWnOsqrHsCTEMc/1VlG6ejzsBcudSes6Y6XA5pHrrKvYGFg
-         P2dcgg6lnWXO8qoAtZpgoDRArKjOaYOVFc5Ay6wnhCluBndT5C0K5l6T/zaCuC3oQpuY
-         3PEw==
-X-Forwarded-Encrypted: i=1; AJvYcCU76S4tVOlkokQw2eUJSP9ZMF03Kd5xFENo/nG3Tf8xrLDCRaDQbjeGX41XRq9w/SlWUsLuPY5z4hVWTOnNeM4AYyhwWHzV5E2kxqHFCvv2B+SNIbgXGF0Xv8XF+QT6faDlSf+SlHYXUVhq+zoU81CTNkfn5wOvDtds5CJU2ixkiooEsnQEtsoFl8s=
-X-Gm-Message-State: AOJu0Yykwommz2JpXBaa83RG9hxV+UQqQAX5/C8hKyZThvU7zsBtk+1Y
-	UsYiv24kRq6JIeegAAiW/Ygh6/V1P1ediR2KqYO3lA/Sl1z3dQz2LE9wdM0N
-X-Google-Smtp-Source: AGHT+IEXuH9l1UvL41KI76eqN3sjv10ssgOhCvPSyUJyXk11uzsSl6bRKnSsiUEarGNkdVG/L9X+UA==
-X-Received: by 2002:a81:af0d:0:b0:627:d0e8:1775 with SMTP id 00721157ae682-62c797d50ddmr117429317b3.39.1717486181343;
-        Tue, 04 Jun 2024 00:29:41 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62c76602a3bsm17435707b3.59.2024.06.04.00.29.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 00:29:40 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dfa7faffa3aso3638648276.0;
-        Tue, 04 Jun 2024 00:29:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVfwcokW5TFbJU0L/UDyYXHJCuMKoiyOMA/IbluqcHeQ4dGIgtcY4vrf9JIXbX9ql5pS7p6NTqUzbRUpCa9/obLXUal7OYSXE2GLg0VzxzxgAxCuX4HHBYUBqvhRy4O/oB/Z8Q+Gccs6CvnvirTzJaPuIEvVq2yqssf/uCR5iqOcsq7mQucc9AGijg=
-X-Received: by 2002:a25:3c42:0:b0:de5:4f12:7ea0 with SMTP id
- 3f1490d57ef6-dfa73be4a33mr11236897276.8.1717486180337; Tue, 04 Jun 2024
- 00:29:40 -0700 (PDT)
+	s=arc-20240116; t=1717486678; c=relaxed/simple;
+	bh=WabLcK7ew6mFSnhUn15FX7Ftay8kRHpCivCIPbfYGTg=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=mRBKZV2L4kr8HdgjFzGy4+nJqDPCimSrqwUqN/LrgZHBi+Dt6kOaWotLUF2c94oe9nFkYmIL27DxT5+qkdqiah3sHGJJpri+EcDCC/UpyNT1gzJ4K/oWPu+1L/wj8nUZnauhPEe3KqTyCzHrNeLPpHfYhgr+zDi9aBW/nIunIYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sEOk0-0003hd-05;
+	Tue, 04 Jun 2024 07:37:56 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sEOjy-000I7s-1b;
+	Tue, 04 Jun 2024 07:37:55 +0000
+Date: Tue, 4 Jun 2024 07:37:54 +0000 (UTC)
+From: Jenkins Builder Robot <jenkins@linuxtv.org>
+Reply-To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org
+To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Message-ID: <976284328.2.1717486675286@builder.linuxtv.org>
+Subject: [Jenkins] stage-drivers-build #202: build failed for clang15
+ allmodconfig
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527132046.1680595-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240527132046.1680595-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Jun 2024 09:29:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU=SUwSgSU58LeATh31c9kPBUi=AhOiA1xOxFhZ2_bvWw@mail.gmail.com>
-Message-ID: <CAMuHMdU=SUwSgSU58LeATh31c9kPBUi=AhOiA1xOxFhZ2_bvWw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: media: renesas,csi2: Add binding for V4M
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1_1237005307.1717486675234"
+X-Jenkins-Job: stage-drivers-build
 
-On Mon, May 27, 2024 at 3:21=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Document support for the CSI-2 module in the Renesas V4M (r8a779h0) SoC.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+------=_Part_1_1237005307.1717486675234
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Some tests failed:
+	PASS: arm32 allmodconfig
+	PASS: x86_64 allyesconfig
+	PASS: arm64 allyesconfig
+	PASS: arm32 allyesconfig
+	PASS: x86_64 allmodconfig
+	PASS: x86_64 no PM
+	PASS: arm64 allmodconfig
+	FAIL: clang15 allmodconfig
 
-Gr{oetje,eeting}s,
+GENERAL INFO
 
-                        Geert
+BUILD SUCCESSFUL
+Build URL: https://builder.linuxtv.org/job/stage-drivers-build/202/
+Project: stage-drivers-build
+Date of build: Tue, 4 Jun 2024 06:45:06 GMT
+Build duration: 52 min and counting
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+CHANGE SET
+
+  	 Revision  by hverkuil: (media: ipu-bridge: add mod_devicetable.h header inclusion)
+
+	 change: edit include/media/ipu-bridge.h
+
+  	 Revision  by hverkuil: (media: i2c: Fix imx412 exposure control)
+
+	 change: edit drivers/media/i2c/imx412.c
+
+  	 Revision  by hverkuil: (media: i2c: hi846: Fix V4L2_SUBDEV_FORMAT_TRY get_selection())
+
+	 change: edit drivers/media/i2c/hi846.c
+
+  	 Revision  by hverkuil: (media: v4l: async: Fix NULL pointer dereference in adding ancillary links)
+
+	 change: edit drivers/media/v4l2-core/v4l2-async.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Remove unused defines)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Make image geometry meet sensor requirements)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Disable digital cropping on binned modes)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Remove redundant I2C writes.)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Add regulator control)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Make V4L2_CID_VBLANK configurable.)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Split out common registers from the mode based ones)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Add support for 24MHz clock)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Add support for running on 2 CSI data lanes)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Follow normal V4L2 behaviours for clipping exposure)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Add get_selection for pixel array information)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Allow configuration of clock lane behaviour)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Correct max FRM_LENGTH_LINES value)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Issue reset before starting streaming)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Set pixel_rate range to the same as the value)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Support faster pixel rate on binned modes)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (dt-bindings: media: imx258: Rename to include vendor prefix)
+
+	 change: delete Documentation/devicetree/bindings/media/i2c/imx258.yaml
+
+	 change: add Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+
+	 change: edit MAINTAINERS
+
+  	 Revision  by hverkuil: (dt-bindings: media: imx258: Add alternate compatible strings)
+
+	 change: edit Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Change register settings for variants of the sensor)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Make HFLIP and VFLIP controls writable)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Use v4l2_link_freq_to_bitmap helper)
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: i2c: imx258: Convert to new CCI register access helpers)
+
+	 change: edit drivers/media/i2c/Kconfig
+
+	 change: edit drivers/media/i2c/imx258.c
+
+  	 Revision  by hverkuil: (media: async: Warn on attept to create an ancillary link to a non-subdev)
+
+	 change: edit drivers/media/v4l2-core/v4l2-async.c
+
+  	 Revision  by hverkuil: (media: staging: max96712: Store format in subdev active state)
+
+	 change: edit drivers/staging/media/max96712/max96712.c
+
+  	 Revision  by hverkuil: (media: ipu6: Rework CSI-2 sub-device streaming control)
+
+	 change: edit drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+
+	 change: edit drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+
+	 change: edit drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
+
+	 change: edit drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+
+  	 Revision  by hverkuil: (media: subdev: Add privacy led helpers)
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+  	 Revision  by hverkuil: (media: subdev: Use v4l2_subdev_has_op() in v4l2_subdev_enable/disable_streams())
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+  	 Revision  by hverkuil: (media: subdev: Add checks for subdev features)
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+  	 Revision  by hverkuil: (media: subdev: Fix use of sd-&gt;enabled_streams in call_s_stream())
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+	 change: edit include/media/v4l2-subdev.h
+
+  	 Revision  by hverkuil: (media: subdev: Improve v4l2_subdev_enable/disable_streams_fallback)
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+	 change: edit include/media/v4l2-subdev.h
+
+  	 Revision  by hverkuil: (media: subdev: Add v4l2_subdev_is_streaming())
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+	 change: edit include/media/v4l2-subdev.h
+
+  	 Revision  by hverkuil: (media: subdev: Support privacy led in v4l2_subdev_enable/disable_streams())
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+  	 Revision  by hverkuil: (media: subdev: Refactor v4l2_subdev_enable/disable_streams())
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+  	 Revision  by hverkuil: (media: subdev: Support single-stream case in v4l2_subdev_enable/disable_streams())
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+  	 Revision  by hverkuil: (media: subdev: Support non-routing subdevs in v4l2_subdev_s_stream_helper())
+
+	 change: edit drivers/media/v4l2-core/v4l2-subdev.c
+
+  	 Revision  by hverkuil: (media: subdev: Improve s_stream documentation)
+
+	 change: edit include/media/v4l2-subdev.h
+
+  	 Revision  by hverkuil: (media: dt-bindings: media: Add bindings for IMX283)
+
+	 change: edit MAINTAINERS
+
+	 change: add Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
+
+  	 Revision  by hverkuil: (media: i2c: Add imx283 camera sensor driver)
+
+	 change: edit MAINTAINERS
+
+	 change: edit drivers/media/i2c/Kconfig
+
+	 change: edit drivers/media/i2c/Makefile
+
+	 change: add drivers/media/i2c/imx283.c
+
+  	 Revision  by hverkuil: (media: i2c: dw9768: remove unused struct &#039;regval_list&#039;)
+
+	 change: edit drivers/media/i2c/dw9768.c
+
+  	 Revision  by hverkuil: (media: i2c: ks0127: remove unused struct &#039;adjust&#039;)
+
+	 change: edit drivers/media/i2c/ks0127.c
+
+  	 Revision  by hverkuil: (media: i2c: tw9910: remove unused strust &#039;regval_list&#039;)
+
+	 change: edit drivers/media/i2c/tw9910.c
+
+  	 Revision  by hverkuil: (media: i2c: adv7511: remove unused struct &#039;i2c_reg_value&#039;)
+
+	 change: edit drivers/media/i2c/adv7511-v4l2.c
+
+  	 Revision  by hverkuil: (media: ipu6: Print CSR messages using debug level)
+
+	 change: edit drivers/media/pci/intel/ipu6/ipu6-buttress.c
+
+  	 Revision  by hverkuil: (media: v4l2-cci: Always assign *val)
+
+	 change: edit drivers/media/v4l2-core/v4l2-cci.c
+
+  	 Revision  by hverkuil: (media: v4l2-subdev: Fix v4l2_subdev_state_get_format() documentation)
+
+	 change: edit include/media/v4l2-subdev.h
+
+  	 Revision  by hverkuil: (media: v4l2-subdev: Provide const-aware subdev state accessors)
+
+	 change: edit include/media/v4l2-subdev.h
+
+  	 Revision  by hverkuil: (media: rkisp1: Mark subdev state pointers as const)
+
+	 change: edit drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+
+	 change: edit drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+
+  	 Revision  by hverkuil: (dt-bindings: media: add Maxim MAX96717 GMSL2 Serializer)
+
+	 change: add Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+
+  	 Revision  by hverkuil: (dt-bindings: media: add Maxim MAX96714 GMSL2 Deserializer)
+
+	 change: add Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+
+  	 Revision  by hverkuil: (media: i2c: add MAX96717 driver)
+
+	 change: edit MAINTAINERS
+
+	 change: edit drivers/media/i2c/Kconfig
+
+	 change: edit drivers/media/i2c/Makefile
+
+	 change: add drivers/media/i2c/max96717.c
+
+  	 Revision  by hverkuil: (media: i2c: add MAX96714 driver)
+
+	 change: edit drivers/media/i2c/Kconfig
+
+	 change: edit MAINTAINERS
+
+	 change: edit drivers/media/i2c/Makefile
+
+	 change: add drivers/media/i2c/max96714.c
+
+  	 Revision  by hverkuil: (drivers: media: max96717: stop the csi receiver before the source)
+
+	 change: edit drivers/media/i2c/max96717.c
+
+  	 Revision  by hverkuil: (media: ov5693: Drop privacy-LED GPIO control)
+
+	 change: edit drivers/media/i2c/ov5693.c
+------=_Part_1_1237005307.1717486675234--
 
