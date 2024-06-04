@@ -1,219 +1,170 @@
-Return-Path: <linux-media+bounces-12510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12511-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFB88FB03B
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 12:46:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C08528FB04B
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 12:47:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 807421C20F23
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 10:46:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5ED621F23771
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 10:47:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30C3D145FE5;
-	Tue,  4 Jun 2024 10:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 717A81459F7;
+	Tue,  4 Jun 2024 10:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bmGlkb7f"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vpb9T5xC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5317140380;
-	Tue,  4 Jun 2024 10:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01EA1448FD
+	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 10:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717497844; cv=none; b=sUKBWesAOOpUPIqTpBFqs7nua88ZmjwdSbaT6U33h24WV1+w5WH0xnriwWkU/BXnDuasXryZpk9f7Jfmpf9XfnR8hxgjPZ/HOPB0FP/drdxPpmHGMjLqm85A8yt3EcQ/vlltC09O2HWWWF9+klMpRIVX88ZmCdGdoDgb9Cua4nw=
+	t=1717497970; cv=none; b=KFiMrfG1SYIuzDTK6zdrw5BRwXeGytk8WQBBVfmO7EjaFCrB9zXiXoL/v/SaA6IsMFHn8gsI/YwOvPPukawzqimDoMq0IMkAgn7NcdDMa2VgwIHNoZuDSKAwt9j8JEEHmSGBQIEYOHjCPqwsLiXt88KKOM7NZOuMrtCH4+Bskng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717497844; c=relaxed/simple;
-	bh=DPM+EDomGxB90Phwba3+RF1YK3Pp5DAZEL2fd9tMqEk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ccBHTMkpUmZhYiRgFqKokfwEGVs+WBR8Si6O8RodyKpSICcSA9EOEmnAFmNrRFa8umX02zmZOuFX5Yl1RAvMdpdbMQpfyjIZp63CJeP/1Hpm11O9QgTbgbDbMb7gbVHWnr1HE9OMnkgbff6brWJ4fbDlu7H1OTF078ksSoJlWR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=bmGlkb7f; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 454AhsWk117457;
-	Tue, 4 Jun 2024 05:43:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717497834;
-	bh=JNQ1FgRAcSPat55XxBjV/Ohkfq4q46+5vn0VpBwLLsk=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=bmGlkb7f3Ya0weKIlEwZOIWTgkfDg/ZCbE8eZ2dW4BkhhU2FgKeeXk8ga+L71DX9/
-	 VbejZQC+0xxXpCYsCLjerktkUeKVI0G5290h4y3eA9cH4938btD2c7WO/rOA8sb1lj
-	 y4TmcI4aeztay0G2jmXdZGVTxQs+6M8onO4P5sSQ=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 454AhsV7002508
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 4 Jun 2024 05:43:54 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 4
- Jun 2024 05:43:53 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 4 Jun 2024 05:43:53 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 454AhriZ108105;
-	Tue, 4 Jun 2024 05:43:53 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>
-Subject: [PATCH v12 01/13] media: dt-bindings: Add Imagination E5010 JPEG Encoder
-Date: Tue, 4 Jun 2024 16:13:52 +0530
-Message-ID: <20240604104352.2241348-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240604104001.2235082-1-devarsht@ti.com>
-References: <20240604104001.2235082-1-devarsht@ti.com>
+	s=arc-20240116; t=1717497970; c=relaxed/simple;
+	bh=hZouHW3Be7oHDmJaYU8Pk6X1E3qcjMSGo2PmSWsTIao=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fzO2wNvIXBNwrcD74c0NqPoGzD1lVYmCfDvj64aCjcSWiLp5soH1qsgvNVdoHgjKxgvsihm+bB0LbLbQXvB5ULOCAFeDduT3MzmY2itiyRJd+9jxaoNGgPk8jbZ10rZH8Cuyq7VQWGoQDVhVvRkimhUPDC4WI2PYfhI4A14VRFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vpb9T5xC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717497967;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=2INWL2HfkCEOUaQcejz/ZeHkVaV6BSYyKwTdM3007eI=;
+	b=Vpb9T5xCqbLl/vEg46CQbaPtaum2aU1Kq09viT2hQ0KVlbfzbja9WQMs965fTYiwvw8vWa
+	fLAthv2q/+m1MF/nguFaTPK/3+aZQIzpWv4T9zfVJ9vaFbaPBq/xl1Ab15tbvkXKRc4E6v
+	mkNE2B0xIgA1xkQTGPY05/5Y8bUiV8w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-624-IXvmnkg6PLaI90hqRcVK9A-1; Tue, 04 Jun 2024 06:46:06 -0400
+X-MC-Unique: IXvmnkg6PLaI90hqRcVK9A-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-35e532f32d8so87400f8f.2
+        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2024 03:46:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717497965; x=1718102765;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2INWL2HfkCEOUaQcejz/ZeHkVaV6BSYyKwTdM3007eI=;
+        b=q9bZvqOl5jRMg95kYRy2QnLublihuf61FSlwJzGp6BCKTEEKcYH2mwpnm9tJ+QO8Lb
+         QLdzNzC7GqUiYBkJIPUwpEpSp7OZfaxIxN+s+Yl+X2daRmiXbYQm1WT0oiPTRf9c1t12
+         33B7s9YeITu3NH6pY7uIKxiKTAN14HgfzkyPYwgg9g1Id8F4dXToVDeH7IZEcRazw9YY
+         g0oD/MXHDbxScSCvcgPRf8KIRyQtqy0kWeW7hB6BalNU4HKi5dFw8my/L1iDkDSKrzKv
+         OvFAIHgprEmij+MqzgFN+ycPttKnX69e6ykoZ67bszzokjOohS68zfkxpmp6agegSxyE
+         J/rA==
+X-Forwarded-Encrypted: i=1; AJvYcCU1gInVn3CNL+u8fVjqHMBhGdBZfsnl8mMTloqi4d7Zkk2IklgHk8mYxGCD7vhZ/bE1DNRvqe7gIdUv8MGlhmqtnFvKeTO+mrfCMD8=
+X-Gm-Message-State: AOJu0YxoeDqoHjKqHAWi3thLdzB7n2jJy9QfWZ14QsGTQzFzEEkELdsv
+	LSCNwXj6e2pVi9LgB0FDEK4bGBLdoHYw3Hshz/c12hLG2YcxXlturrDschDR1e7VMUmB88lR55I
+	EG1CLS/Tqww2G2Spsfiavyq/B2eH2/YzrXVTsCq0TKYbFyjgC/rV5hTOUtNey
+X-Received: by 2002:a05:600c:1c1d:b0:41f:9c43:574f with SMTP id 5b1f17b1804b1-4212e0c3a8amr93112475e9.3.1717497965485;
+        Tue, 04 Jun 2024 03:46:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhZkg/0Z/sKJT7J3TWrid9lXiu2XPNT//okkfjNQbBrbPkwkDbEMZqKI/3Co973LwwfL0QWQ==
+X-Received: by 2002:a05:600c:1c1d:b0:41f:9c43:574f with SMTP id 5b1f17b1804b1-4212e0c3a8amr93112015e9.3.1717497965040;
+        Tue, 04 Jun 2024 03:46:05 -0700 (PDT)
+Received: from gerbillo.redhat.com ([2a0d:3344:1b74:3a10::f71])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4212b84f8e7sm148593855e9.20.2024.06.04.03.46.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 03:46:04 -0700 (PDT)
+Message-ID: <84162ef4c695cb764454087ca0bc81082d4fac8d.camel@redhat.com>
+Subject: Re: [PATCH net-next v10 10/14] net: add support for skbs with
+ unreadable frags
+From: Paolo Abeni <pabeni@redhat.com>
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>,  Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,  Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Pavel Begunkov
+ <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand
+ <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Date: Tue, 04 Jun 2024 12:46:01 +0200
+In-Reply-To: <20240530201616.1316526-11-almasrymina@google.com>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+	 <20240530201616.1316526-11-almasrymina@google.com>
+Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=mQINBGISiDUBEAC5uMdJicjm3ZlWQJG4u2EU1EhWUSx8IZLUTmEE8zmjPJFSYDcjtfGcbzLPb63BvX7FADmTOkO7gwtDgm501XnQaZgBUnCOUT8qv5MkKsFH20h1XJyqjPeGM55YFAXc+a4WD0YyO5M0+KhDeRLoildeRna1ey944VlZ6Inf67zMYw9vfE5XozBtytFIrRyGEWkQwkjaYhr1cGM8ia24QQVQid3P7SPkR78kJmrT32sGk+TdR4YnZzBvVaojX4AroZrrAQVdOLQWR+w4w1mONfJvahNdjq73tKv51nIpu4SAC1Zmnm3x4u9r22mbMDr0uWqDqwhsvkanYmn4umDKc1ZkBnDIbbumd40x9CKgG6ogVlLYeJa9WyfVMOHDF6f0wRjFjxVoPO6p/ZDkuEa67KCpJnXNYipLJ3MYhdKWBZw0xc3LKiKc+nMfQlo76T/qHMDfRMaMhk+L8gWc3ZlRQFG0/Pd1pdQEiRuvfM5DUXDo/YOZLV0NfRFU9SmtIPhbdm9cV8Hf8mUwubihiJB/9zPvVq8xfiVbdT0sPzBtxW0fXwrbFxYAOFvT0UC2MjlIsukjmXOUJtdZqBE3v3Jf7VnjNVj9P58+MOx9iYo8jl3fNd7biyQWdPDfYk9ncK8km4skfZQIoUVqrWqGDJjHO1W9CQLAxkfOeHrmG29PK9tHIwARAQABtB9QYW9sbyBBYmVuaSA8cGFiZW5pQHJlZGhhdC5jb20+iQJSBBMBCAA8FiEEg1AjqC77wbdLX2LbKSR5jcyPE6QFAmISiDUCGwMFCwkIBwIDIgIBBhUKCQgLAgQWAgMBAh4HAheAAAoJECkkeY3MjxOkJSYQAJcc6MTsuFxYdYZkeWjW//zbD3ApRHzpNlHLVSuJqHr9/aDS+tyszgS8jj9MiqALzgq4iZbg
+ 7ZxN9ZsDL38qVIuFkSpgMZCiUHdxBC11J8nbBSLlpnc924UAyr5XrGA99 6Wl5I4Km3128GY6iAkH54pZpOmpoUyBjcxbJWHstzmvyiXrjA2sMzYjt3Xkqp0cJfIEekOi75wnNPofEEJg28XPcFrpkMUFFvB4Aqrdc2yyR8Y36rbw18sIX3dJdomIP3dL7LoJi9mfUKOnr86Z0xltgcLPGYoCiUZMlXyWgB2IPmmcMP2jLJrusICjZxLYJJLofEjznAJSUEwB/3rlvFrSYvkKkVmfnfro5XEr5nStVTECxfy7RTtltwih85LlZEHP8eJWMUDj3P4Q9CWNgz2pWr1t68QuPHWaA+PrXyasDlcRpRXHZCOcvsKhAaCOG8TzCrutOZ5NxdfXTe3f1jVIEab7lNgr+7HiNVS+UPRzmvBc73DAyToKQBn9kC4jh9HoWyYTepjdcxnio0crmara+/HEyRZDQeOzSexf85I4dwxcdPKXv0fmLtxrN57Ae82bHuRlfeTuDG3x3vl/Bjx4O7Lb+oN2BLTmgpYq7V1WJPUwikZg8M+nvDNcsOoWGbU417PbHHn3N7yS0lLGoCCWyrK1OY0QM4EVsL3TjOfUtCNQYW9sbyBBYmVuaSA8cGFvbG8uYWJlbmlAZ21haWwuY29tPokCUgQTAQgAPBYhBINQI6gu+8G3S19i2ykkeY3MjxOkBQJiEoitAhsDBQsJCAcCAyICAQYVCgkICwIEFgIDAQIeBwIXgAAKCRApJHmNzI8TpBzHD/45pUctaCnhee1vkQnmStAYvHmwrWwIEH1lzDMDCpJQHTUQOOJWDAZOFnE/67bxSS81Wie0OKW2jvg1ylmpBA0gPpnzIExQmfP72cQ1TBoeVColVT6Io35BINn+ymM7c0Bn8RvngSEpr3jBtqvvWXjvtnJ5/HbOVQCg62NC6ewosoKJPWpGXMJ9SKsVIOUHsmoWK60spzeiJoSmAwm3zTJQnM5kRh2q
+ iWjoCy8L35zPqR5TV+f5WR5hTVCqmLHSgm1jxwKhPg9L+GfuE4d0SWd84y GeOB3sSxlhWsuTj1K6K3MO9srD9hr0puqjO9sAizd0BJP8ucf/AACfrgmzIqZXCfVS7jJ/M+0ic+j1Si3yY8wYPEi3dvbVC0zsoGj9n1R7B7L9c3g1pZ4L9ui428vnPiMnDN3jh9OsdaXeWLvSvTylYvw9q0DEXVQTv4/OkcoMrfEkfbXbtZ3PRlAiddSZA5BDEkkm6P9KA2YAuooi1OD9d4MW8LFAeEicvHG+TPO6jtKTacdXDRe611EfRwTjBs19HmabSUfFcumL6BlVyceIoSqXFe5jOfGpbBevTZtg4kTSHqymGb6ra6sKs+/9aJiONs5NXY7iacZ55qG3Ib1cpQTps9bQILnqpwL2VTaH9TPGWwMY3Nc2VEc08zsLrXnA/yZKqZ1YzSY9MGXWYLkCDQRiEog1ARAAyXMKL+x1lDvLZVQjSUIVlaWswc0nV5y2EzBdbdZZCP3ysGC+s+n7xtq0o1wOvSvaG9h5q7sYZs+AKbuUbeZPu0bPWKoO02i00yVoSgWnEqDbyNeiSW+vI+VdiXITV83lG6pS+pAoTZlRROkpb5xo0gQ5ZeYok8MrkEmJbsPjdoKUJDBFTwrRnaDOfb+Qx1D22PlAZpdKiNtwbNZWiwEQFm6mHkIVSTUe2zSemoqYX4QQRvbmuMyPIbwbdNWlItukjHsffuPivLF/XsI1gDV67S1cVnQbBgrpFDxN62USwewXkNl+ndwa+15wgJFyq4Sd+RSMTPDzDQPFovyDfA/jxN2SK1Lizam6o+LBmvhIxwZOfdYH8bdYCoSpqcKLJVG3qVcTwbhGJr3kpRcBRz39Ml6iZhJyI3pEoX3bJTlR5Pr1Kjpx13qGydSMos94CIYWAKhegI06aTdvvuiigBwjngo/Rk5S+iEGR5KmTqGyp27o6YxZy6D4NIc6PKUzhIUxfvuHNvfu
+ sD2W1U7eyLdm/jCgticGDsRtweytsgCSYfbz0gdgUuL3EBYN3JLbAU+UZpy v/fyD4cHDWaizNy/KmOI6FFjvVh4LRCpGTGDVPHsQXaqvzUybaMb7HSfmBBzZqqfVbq9n5FqPjAgD2lJ0rkzb9XnVXHgr6bmMRlaTlBMAEQEAAYkCNgQYAQgAIBYhBINQI6gu+8G3S19i2ykkeY3MjxOkBQJiEog1AhsMAAoJECkkeY3MjxOkY1YQAKdGjHyIdOWSjM8DPLdGJaPgJdugHZowaoyCxffilMGXqc8axBtmYjUIoXurpl+f+a7S0tQhXjGUt09zKlNXxGcebL5TEPFqgJTHN/77ayLslMTtZVYHE2FiIxkvW48yDjZUlefmphGpfpoXe4nRBNto1mMB9Pb9vR47EjNBZCtWWbwJTIEUwHP2Z5fV9nMx9Zw2BhwrfnODnzI8xRWVqk7/5R+FJvl7s3nY4F+svKGD9QHYmxfd8Gx42PZc/qkeCjUORaOf1fsYyChTtJI4iNm6iWbD9HK5LTMzwl0n0lL7CEsBsCJ97i2swm1DQiY1ZJ95G2Nz5PjNRSiymIw9/neTvUT8VJJhzRl3Nb/EmO/qeahfiG7zTpqSn2dEl+AwbcwQrbAhTPzuHIcoLZYV0xDWzAibUnn7pSrQKja+b8kHD9WF+m7dPlRVY7soqEYXylyCOXr5516upH8vVBmqweCIxXSWqPAhQq8d3hB/Ww2A0H0PBTN1REVw8pRLNApEA7C2nX6RW0XmA53PIQvAP0EAakWsqHoKZ5WdpeOcH9iVlUQhRgemQSkhfNaP9LqR1XKujlTuUTpoyT3xwAzkmSxN1nABoutHEO/N87fpIbpbZaIdinF7b9srwUvDOKsywfs5HMiUZhLKoZzCcU/AEFjQsPTATACGsWf3JYPnWxL9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Add dt-bindings for Imagination E5010 JPEG Encoder [1] which is implemented
-as stateful V4L2 M2M driver.
+On Thu, 2024-05-30 at 20:16 +0000, Mina Almasry wrote:
+> diff --git a/net/core/gro.c b/net/core/gro.c
+> index 26f09c3e830b7..7b9d018f552bd 100644
+> --- a/net/core/gro.c
+> +++ b/net/core/gro.c
+> @@ -422,6 +422,9 @@ static void gro_pull_from_frag0(struct sk_buff *skb, =
+int grow)
+>  {
+>  	struct skb_shared_info *pinfo =3D skb_shinfo(skb);
+> =20
+> +	if (WARN_ON_ONCE(!skb_frags_readable(skb)))
+> +		return;
+> +
+>  	BUG_ON(skb->end - skb->tail < grow);
+> =20
+>  	memcpy(skb_tail_pointer(skb), NAPI_GRO_CB(skb)->frag0, grow);
+> @@ -443,7 +446,7 @@ static void gro_try_pull_from_frag0(struct sk_buff *s=
+kb)
+>  {
+>  	int grow =3D skb_gro_offset(skb) - skb_headlen(skb);
+> =20
+> -	if (grow > 0)
+> +	if (grow > 0 && skb_frags_readable(skb))
+>  		gro_pull_from_frag0(skb, grow);
+>  }
 
-The device supports baseline encoding with two different quantization
-tables and compression ratio as demanded.
+I'm unsure if this was already mentioned, so please pardon the eventual
+duplicate...
 
-Minimum resolution supported is 64x64 and Maximum resolution supported is
-8192x8192.
+The above code is quite critical performance wise, and the previous
+patch already prevent frag0 from being set to a non paged frag, so what
+about dropping the above additional checks?
 
-Link: https://www.ti.com/lit/pdf/spruj16 [1] (Section 7.6 JPEG Encoder)
-Co-developed-by: David Huang <d-huang@ti.com>
-Signed-off-by: David Huang <d-huang@ti.com>
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-V6->V12: No change
-V5:
- - Add Reviewed-By tag
-V4:
- - Use ti-specific compatible ti,am62a-jpeg-enc as secondary one
- - Update commit message and title
- - Remove clock-names as only single clock
-V3:
-- Add vendor specific compatible
-- Update reg names
-- Update clocks to 1
-- Fix dts example with proper naming
-V2: No change
----
- .../bindings/media/img,e5010-jpeg-enc.yaml    | 75 +++++++++++++++++++
- MAINTAINERS                                   |  5 ++
- 2 files changed, 80 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+thanks!
 
-diff --git a/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-new file mode 100644
-index 000000000000..085020cb9e61
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-@@ -0,0 +1,75 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/img,e5010-jpeg-enc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Imagination E5010 JPEG Encoder
-+
-+maintainers:
-+  - Devarsh Thakkar <devarsht@ti.com>
-+
-+description: |
-+  The E5010 is a JPEG encoder from Imagination Technologies implemented on
-+  TI's AM62A SoC. It is capable of real time encoding of YUV420 and YUV422
-+  inputs to JPEG and M-JPEG. It supports baseline JPEG Encoding up to
-+  8Kx8K resolution.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - const: ti,am62a-jpeg-enc
-+          - const: img,e5010-jpeg-enc
-+      - const: img,e5010-jpeg-enc
-+
-+  reg:
-+    items:
-+      - description: The E5010 core register region
-+      - description: The E5010 mmu register region
-+
-+  reg-names:
-+    items:
-+      - const: core
-+      - const: mmu
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - clocks
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    soc {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+      jpeg-encoder@fd20000 {
-+          compatible = "img,e5010-jpeg-enc";
-+          reg = <0x00 0xfd20000 0x00 0x100>,
-+                <0x00 0xfd20200 0x00 0x200>;
-+          reg-names = "core", "mmu";
-+          clocks = <&k3_clks 201 0>;
-+          power-domains = <&k3_pds 201 TI_SCI_PD_EXCLUSIVE>;
-+          interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-+      };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dbc5d9ec3d20..f68e1a5757b5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10767,6 +10767,11 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/auxdisplay/img,ascii-lcd.yaml
- F:	drivers/auxdisplay/img-ascii-lcd.c
- 
-+IMGTEC JPEG ENCODER DRIVER
-+M:	Devarsh Thakkar <devarsht@ti.com>
-+S:	Supported
-+F:	Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
-+
- IMGTEC IR DECODER DRIVER
- S:	Orphan
- F:	drivers/media/rc/img-ir/
--- 
-2.39.1
+Paolo
 
 
