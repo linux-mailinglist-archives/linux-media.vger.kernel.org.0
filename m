@@ -1,441 +1,238 @@
-Return-Path: <linux-media+bounces-12529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FBA8FB290
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 14:47:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAED8FB4C8
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 16:06:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07BBF28553C
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 12:47:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 325AF1C20A56
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 14:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3883E146592;
-	Tue,  4 Jun 2024 12:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC77118C05;
+	Tue,  4 Jun 2024 14:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTzH1mF9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA72E146A8C;
-	Tue,  4 Jun 2024 12:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598931A28D
+	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 14:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717505186; cv=none; b=Q6l9ix7xqW18+RCozWh5xXLYS7GdfJB3ALJlFZNGnqBc5ZvIIX9Y1NoAuSICeNI2PWmqfc4eAbEP6xw5rfLQpaMOzaJAPqmP5gtr9T9qoY7CFTJ4vCrG2NmLGPQB2z+duXioimLvAkOgbuOFeQ8Cm/tpfRZxwk/13rUJI9V+8Lg=
+	t=1717510009; cv=none; b=PbMpJWn/vkVLc9Pozj9MMR1mC84F/NUpVG/teizikTK43Y2mm7hkdX5vGHR7CQCkJqwI6b/RaD/Q5crYtgzJWb/uAp427eVn7rpAKVnWmUePXUq/qrkJlJHNWH7OjPJ+21v+hzI5gl35hk/tL9bowvymacor/oNO2k7qHtKsGKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717505186; c=relaxed/simple;
-	bh=N2tQ10M1thMcd/btnrlujSu/lmE9NMX155tIVRoqrfw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L8JDM+uBGWU4zpsfYCAgRR/QjkhgalokrKJlMAqcpbwkI+GXkMO8NYMjZlA1u/AYi5Ceuu3bUh47E8RupmWD9j8uGxspV1vk9QDLMDTBxopMqRM+Q7qy0azZ/73vhmD9p14iqJLKLl6+AJfd66Q+3pkI6vUrejN+0qL4bn40LhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79439C4AF07;
-	Tue,  4 Jun 2024 12:46:23 +0000 (UTC)
-Message-ID: <b1effb32-5b9e-4a48-9cd7-63f20d8334b1@xs4all.nl>
-Date: Tue, 4 Jun 2024 14:46:21 +0200
+	s=arc-20240116; t=1717510009; c=relaxed/simple;
+	bh=cUupgxDGJyevYAWMApWO02XMhNhYS8rNXsj6V0FgAaY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=e9+FlakiPNsP6xQ+/DHKNvhPjeS33wPvL7pbd/hB/YTARV6cI1kWf1Hs2lMqqpUB9BA7sX5a0UsMPX7zM6IwEx71Y9sdoCaXHNyUXblIwzqInF+SbXaoxmOq+A+xLXj6Xegn1piRfqErPWaakCf5Gq8ObbaDs7qidfrjB4Mzt5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTzH1mF9; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717510008; x=1749046008;
+  h=date:from:to:cc:subject:message-id;
+  bh=cUupgxDGJyevYAWMApWO02XMhNhYS8rNXsj6V0FgAaY=;
+  b=UTzH1mF9ImxcnAki3Di+mUr5AD2aKEL1PotRS2b3W18LpQatvqTeAz1E
+   VQwLqz17+xS2i8pwULCnMR8ATwO6r7jA/cY5RFV1Pyv6UHaKaxDnI/Lqa
+   KI4pBDFIoanAxTMfs8ii4dfgTmeCN8AjfNQaHff9B0uCpgwEl9BpochPe
+   nRMAWmiRFAP5TTDB7GuHghS9Te77ez82x1hLFY/we3NFd/dhEWxkOYTs6
+   1IQ8zPJKtSDmf3DY3PICJqbzH+dCx+kMt3VFr7ZyfmCcbz+MLxZ4MFOby
+   bzF2kozrpzaGg1FE9+8jESllTgSagQ6mh7jGRbPqEltrU3YbmHtoSAj43
+   Q==;
+X-CSE-ConnectionGUID: pZHI/K0SS7i5r1cC5wf68Q==
+X-CSE-MsgGUID: 0Z0SNBtTQeu3PTWSgRawrg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14213114"
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="14213114"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 07:06:47 -0700
+X-CSE-ConnectionGUID: kjo2PrNeT6KTnpxh4Ismpw==
+X-CSE-MsgGUID: HuDeW/n5Q2a0i25QgeDWBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="37258454"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 04 Jun 2024 07:06:45 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sEUoF-000NJR-1k;
+	Tue, 04 Jun 2024 14:06:43 +0000
+Date: Tue, 04 Jun 2024 22:04:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ c599a9865616fa1c63618002be05d3f90f4a51c3
+Message-ID: <202406042249.15v5aQiH-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] media: Add Chameleon v3 video interface driver
-To: =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, conor+dt@kernel.org,
- daniel@ffwll.ch, dinguyen@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- maarten.lankhorst@linux.intel.com, mchehab@kernel.org, mripard@kernel.org,
- robh+dt@kernel.org, tzimmermann@suse.de, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, chromeos-krk-upstreaming@google.com
-References: <20240507155413.266057-1-panikiel@google.com>
- <20240507155413.266057-2-panikiel@google.com>
- <c5f40d46-9e8d-40f9-82ee-83013dbc134e@xs4all.nl>
- <CAM5zL5reA_nyt0FfmE2+eFESq6JdHJ8Z1wCp1zEsvLECeOx3mA@mail.gmail.com>
- <fee56d57-ae17-4001-8f22-bd32ce74c8af@xs4all.nl>
- <CAM5zL5qbfMnjrBqaF7gw1XfiiFpCF4QTVTvO9ZMPmNFiHJDvDg@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAM5zL5qbfMnjrBqaF7gw1XfiiFpCF4QTVTvO9ZMPmNFiHJDvDg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 04/06/2024 14:03, Paweł Anikiel wrote:
-> On Mon, Jun 3, 2024 at 4:56 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> On 03/06/2024 16:32, Paweł Anikiel wrote:
->>> On Mon, Jun 3, 2024 at 9:57 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>>
->>>> On 07/05/2024 17:54, Paweł Anikiel wrote:
->>>>> Add v4l2 driver for the video interface present on the Google
->>>>> Chameleon v3. The Chameleon v3 uses the video interface to capture
->>>>> a single video source from a given HDMI or DP connector and write
->>>>> the resulting frames to memory.
->>>>>
->>>>> Signed-off-by: Paweł Anikiel <panikiel@google.com>
->>>>> ---
->>>>>  drivers/media/platform/Kconfig             |   1 +
->>>>>  drivers/media/platform/Makefile            |   1 +
->>>>>  drivers/media/platform/google/Kconfig      |  13 +
->>>>>  drivers/media/platform/google/Makefile     |   3 +
->>>>>  drivers/media/platform/google/chv3-video.c | 891 +++++++++++++++++++++
->>>>>  5 files changed, 909 insertions(+)
->>>>>  create mode 100644 drivers/media/platform/google/Kconfig
->>>>>  create mode 100644 drivers/media/platform/google/Makefile
->>>>>  create mode 100644 drivers/media/platform/google/chv3-video.c
->>>>>
->>>>> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
->>>>> index 91e54215de3a..b82f7b142b85 100644
->>>>> --- a/drivers/media/platform/Kconfig
->>>>> +++ b/drivers/media/platform/Kconfig
->>>>> @@ -69,6 +69,7 @@ source "drivers/media/platform/aspeed/Kconfig"
->>>>>  source "drivers/media/platform/atmel/Kconfig"
->>>>>  source "drivers/media/platform/cadence/Kconfig"
->>>>>  source "drivers/media/platform/chips-media/Kconfig"
->>>>> +source "drivers/media/platform/google/Kconfig"
->>>>>  source "drivers/media/platform/intel/Kconfig"
->>>>>  source "drivers/media/platform/marvell/Kconfig"
->>>>>  source "drivers/media/platform/mediatek/Kconfig"
->>>>> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
->>>>> index 3296ec1ebe16..f7067eb05f76 100644
->>>>> --- a/drivers/media/platform/Makefile
->>>>> +++ b/drivers/media/platform/Makefile
->>>>> @@ -12,6 +12,7 @@ obj-y += aspeed/
->>>>>  obj-y += atmel/
->>>>>  obj-y += cadence/
->>>>>  obj-y += chips-media/
->>>>> +obj-y += google/
->>>>>  obj-y += intel/
->>>>>  obj-y += marvell/
->>>>>  obj-y += mediatek/
->>>>> diff --git a/drivers/media/platform/google/Kconfig b/drivers/media/platform/google/Kconfig
->>>>> new file mode 100644
->>>>> index 000000000000..9674a4c12e2d
->>>>> --- /dev/null
->>>>> +++ b/drivers/media/platform/google/Kconfig
->>>>> @@ -0,0 +1,13 @@
->>>>> +# SPDX-License-Identifier: GPL-2.0-only
->>>>> +
->>>>> +config VIDEO_CHAMELEONV3
->>>>> +     tristate "Google Chameleon v3 video driver"
->>>>> +     depends on V4L_PLATFORM_DRIVERS
->>>>> +     depends on VIDEO_DEV
->>>>> +     select VIDEOBUF2_DMA_CONTIG
->>>>> +     select V4L2_FWNODE
->>>>> +     help
->>>>> +       v4l2 driver for the video interface present on the Google
->>>>> +       Chameleon v3. The Chameleon v3 uses the video interface to
->>>>> +       capture a single video source from a given HDMI or DP connector
->>>>> +       and write the resulting frames to memory.
->>>>> diff --git a/drivers/media/platform/google/Makefile b/drivers/media/platform/google/Makefile
->>>>> new file mode 100644
->>>>> index 000000000000..cff06486244c
->>>>> --- /dev/null
->>>>> +++ b/drivers/media/platform/google/Makefile
->>>>> @@ -0,0 +1,3 @@
->>>>> +# SPDX-License-Identifier: GPL-2.0-only
->>>>> +
->>>>> +obj-$(CONFIG_VIDEO_CHAMELEONV3) += chv3-video.o
->>>>> diff --git a/drivers/media/platform/google/chv3-video.c b/drivers/media/platform/google/chv3-video.c
->>>>> new file mode 100644
->>>>> index 000000000000..6e782484abaf
->>>>> --- /dev/null
->>>>> +++ b/drivers/media/platform/google/chv3-video.c
->>>>> @@ -0,0 +1,891 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0
->>>>> +/*
->>>>> + * Copyright 2023-2024 Google LLC.
->>>>> + * Author: Paweł Anikiel <panikiel@google.com>
->>>>> + */
->>>>> +
->>>>> +#include <linux/delay.h>
->>>>> +#include <linux/dma-mapping.h>
->>>>> +#include <linux/interrupt.h>
->>>>> +#include <linux/kernel.h>
->>>>> +#include <linux/module.h>
->>>>> +#include <linux/of.h>
->>>>> +#include <linux/platform_device.h>
->>>>> +#include <linux/v4l2-dv-timings.h>
->>>>> +#include <linux/videodev2.h>
->>>>> +#include <media/v4l2-ctrls.h>
->>>>> +#include <media/v4l2-device.h>
->>>>> +#include <media/v4l2-dv-timings.h>
->>>>> +#include <media/v4l2-event.h>
->>>>> +#include <media/v4l2-fwnode.h>
->>>>> +#include <media/v4l2-ioctl.h>
->>>>> +#include <media/videobuf2-dma-contig.h>
->>>>> +
->>>>> +#define DEVICE_NAME  "chv3-video"
->>>>> +
->>>>> +#define VIDEO_EN                     0x00
->>>>> +#define VIDEO_EN_BIT                 BIT(0)
->>>>> +#define VIDEO_HEIGHT                 0x04
->>>>> +#define VIDEO_WIDTH                  0x08
->>>>> +#define VIDEO_BUFFERA                        0x0c
->>>>> +#define VIDEO_BUFFERB                        0x10
->>>>> +#define VIDEO_BUFFERSIZE             0x14
->>>>> +#define VIDEO_RESET                  0x18
->>>>> +#define VIDEO_RESET_BIT                      BIT(0)
->>>>> +#define VIDEO_ERRORSTATUS            0x1c
->>>>> +#define VIDEO_IOCOLOR                        0x20
->>>>> +#define VIDEO_DATARATE                       0x24
->>>>> +#define VIDEO_DATARATE_SINGLE                0x0
->>>>> +#define VIDEO_DATARATE_DOUBLE                0x1
->>>>> +#define VIDEO_PIXELMODE                      0x28
->>>>> +#define VIDEO_PIXELMODE_SINGLE               0x0
->>>>> +#define VIDEO_PIXELMODE_DOUBLE               0x1
->>>>> +#define VIDEO_SYNCPOLARITY           0x2c
->>>>> +#define VIDEO_DMAFORMAT                      0x30
->>>>> +#define VIDEO_DMAFORMAT_8BPC         0x0
->>>>> +#define VIDEO_DMAFORMAT_10BPC_UPPER  0x1
->>>>> +#define VIDEO_DMAFORMAT_10BPC_LOWER  0x2
->>>>> +#define VIDEO_DMAFORMAT_12BPC_UPPER  0x3
->>>>> +#define VIDEO_DMAFORMAT_12BPC_LOWER  0x4
->>>>> +#define VIDEO_DMAFORMAT_16BPC                0x5
->>>>> +#define VIDEO_DMAFORMAT_RAW          0x6
->>>>> +#define VIDEO_DMAFORMAT_8BPC_PAD     0x7
->>>>> +#define VIDEO_VERSION                        0x34
->>>>> +#define VIDEO_VERSION_CURRENT                0xc0fb0001
->>>>> +
->>>>> +#define VIDEO_IRQ_MASK               0x8
->>>>> +#define VIDEO_IRQ_CLR                0xc
->>>>> +#define VIDEO_IRQ_ALL                0xf
->>>>> +#define VIDEO_IRQ_BUFF0              BIT(0)
->>>>> +#define VIDEO_IRQ_BUFF1              BIT(1)
->>>>> +#define VIDEO_IRQ_RESOLUTION BIT(2)
->>>>> +#define VIDEO_IRQ_ERROR              BIT(3)
->>>>> +
->>>>> +struct chv3_video {
->>>>> +     struct device *dev;
->>>>> +     void __iomem *iobase;
->>>>> +     void __iomem *iobase_irq;
->>>>> +
->>>>> +     struct v4l2_device v4l2_dev;
->>>>> +     struct vb2_queue queue;
->>>>> +     struct video_device vdev;
->>>>> +     struct v4l2_pix_format pix_fmt;
->>>>> +     struct v4l2_dv_timings timings;
->>>>> +     u32 bytes_per_pixel;
->>>>> +
->>>>> +     struct v4l2_ctrl_handler ctrl_handler;
->>>>> +     struct v4l2_async_notifier notifier;
->>>>> +     struct v4l2_subdev *subdev;
->>>>> +     int subdev_source_pad;
->>>>> +
->>>>> +     u32 sequence;
->>>>> +     bool writing_to_a;
->>>>> +
->>>>> +     struct list_head bufs;
->>>>> +     spinlock_t bufs_lock;
->>>>> +
->>>>> +     struct mutex video_lock;
->>>>> +};
->>>>> +
->>>>> +struct chv3_video_buffer {
->>>>> +     struct vb2_v4l2_buffer vb;
->>>>> +     struct list_head link;
->>>>> +};
->>>>> +
->>>>> +struct chv3_video_config {
->>>>> +     u32 pixelformat;
->>>>> +     u32 bytes_per_pixel;
->>>>> +     u32 dmaformat;
->>>>> +};
->>>>> +
->>>>> +static void chv3_video_set_format_resolution(struct chv3_video *video, u32 width, u32 height)
->>>>> +{
->>>>> +     video->pix_fmt.width = width;
->>>>> +     video->pix_fmt.height = height;
->>>>> +     video->pix_fmt.bytesperline = width * video->bytes_per_pixel;
->>>>> +     video->pix_fmt.sizeimage = video->pix_fmt.bytesperline * height;
->>>>> +}
->>>>> +
->>>>> +/*
->>>>> + * The video interface has hardware counters which expose the width and
->>>>> + * height of the current video stream. It can't reliably detect if the stream
->>>>> + * is present or not, so this is only used as a fallback in the case where
->>>>> + * we don't have access to the receiver hardware.
->>>>> + */
->>>>> +static int chv3_video_query_dv_timings_fallback(struct chv3_video *video,
->>>>> +                                             struct v4l2_dv_timings *timings)
->>>>> +{
->>>>> +     u32 width, height;
->>>>> +
->>>>> +     width  = readl(video->iobase + VIDEO_WIDTH);
->>>>> +     height = readl(video->iobase + VIDEO_HEIGHT);
->>>>> +     if (width == 0 || height == 0)
->>>>> +             return -ENOLINK;
->>>>> +
->>>>> +     memset(timings, 0, sizeof(*timings));
->>>>> +     timings->type = V4L2_DV_BT_656_1120;
->>>>> +     timings->bt.width  = width;
->>>>> +     timings->bt.height = height;
->>>>> +     timings->bt.pixelclock = width * height * 24;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_query_dv_timings(struct chv3_video *video, struct v4l2_dv_timings *timings)
->>>>> +{
->>>>> +     if (video->subdev) {
->>>>> +             return v4l2_subdev_call(video->subdev, pad, query_dv_timings,
->>>>> +                                     video->subdev_source_pad, timings);
->>>>> +     } else {
->>>>> +             return chv3_video_query_dv_timings_fallback(video, timings);
->>>>> +     }
->>>>
->>>> I would move the contents of chv3_video_query_dv_timings_fallback() to this
->>>> function and drop the old fallback function. It makes more sense if it is all
->>>> in the same function.
->>>>
->>>>> +}
->>>>> +
->>>>> +static const struct v4l2_dv_timings_cap chv3_video_fallback_dv_timings_cap = {
->>>>> +     .type = V4L2_DV_BT_656_1120,
->>>>> +     .bt = {
->>>>> +             .min_width = 640,
->>>>> +             .max_width = 7680,
->>>>> +             .min_height = 480,
->>>>> +             .max_height = 4320,
->>>>> +             .min_pixelclock = 25000000,
->>>>> +             .max_pixelclock = 1080000000,
->>>>> +             .standards = V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
->>>>> +                     V4L2_DV_BT_STD_CVT | V4L2_DV_BT_STD_GTF,
->>>>> +             .capabilities = V4L2_DV_BT_CAP_PROGRESSIVE |
->>>>> +                     V4L2_DV_BT_CAP_REDUCED_BLANKING |
->>>>> +                     V4L2_DV_BT_CAP_CUSTOM,
->>>>> +     },
->>>>> +};
->>>>> +
->>>>> +static int chv3_video_enum_dv_timings_fallback(struct chv3_video *video,
->>>>> +                                            struct v4l2_enum_dv_timings *timings)
->>>>> +{
->>>>> +     return v4l2_enum_dv_timings_cap(timings, &chv3_video_fallback_dv_timings_cap,
->>>>> +                                     NULL, NULL);
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_dv_timings_cap_fallback(struct chv3_video *video,
->>>>> +                                           struct v4l2_dv_timings_cap *cap)
->>>>> +{
->>>>> +     *cap = chv3_video_fallback_dv_timings_cap;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>
->>>> Same for these two fallback functions: move them to the functions that calls them.
->>>>
->>>>> +
->>>>> +static void chv3_video_apply_dv_timings(struct chv3_video *video)
->>>>> +{
->>>>> +     struct v4l2_dv_timings timings;
->>>>> +     int res;
->>>>> +
->>>>> +     res = chv3_video_query_dv_timings(video, &timings);
->>>>> +     if (res)
->>>>> +             return;
->>>>> +
->>>>> +     video->timings = timings;
->>>>> +     chv3_video_set_format_resolution(video, timings.bt.width, timings.bt.height);
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->>>>> +{
->>>>> +     strscpy(cap->driver, DEVICE_NAME, sizeof(cap->driver));
->>>>> +     strscpy(cap->card, "Chameleon v3 video", sizeof(cap->card));
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format *fmt)
->>>>> +{
->>>>> +     struct chv3_video *video = video_drvdata(file);
->>>>> +
->>>>> +     fmt->fmt.pix = video->pix_fmt;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
->>>>> +{
->>>>> +     struct chv3_video *video = video_drvdata(file);
->>>>> +
->>>>> +     if (fmt->index != 0)
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     fmt->flags = 0;
->>>>> +     fmt->pixelformat = video->pix_fmt.pixelformat;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_g_input(struct file *file, void *fh, unsigned int *index)
->>>>> +{
->>>>> +     *index = 0;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_s_input(struct file *file, void *fh, unsigned int index)
->>>>> +{
->>>>> +     if (index != 0)
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int chv3_video_enum_input(struct file *file, void *fh, struct v4l2_input *input)
->>>>> +{
->>>>> +     if (input->index != 0)
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     strscpy(input->name, "input0", sizeof(input->name));
->>>>
->>>> This name is not terribly user friendly. Is it possible to determine a more human
->>>> readable name? E.g. "DP1", "DP2", etc. Something that matches labeling on the Chameleon
->>>> board.
->>>
->>> The driver would require some board-specific instance info to
->>> determine if the video interface is connected to DP1, DP2, or the
->>> auxiliary decoder (or something entirely different if this IP was used
->>> on a different board). I don't see an easy way to determine such a
->>> human readable name, unfortunately.
->>
->> It is possible, but it requires adding a connector to video pipeline in the device tree.
->> See e.g. Documentation/devicetree/bindings/display/connector/dp-connector.yaml and
->> Documentation/devicetree/bindings/media/i2c/tvp5150.txt.
-> 
-> I am using connectors in the device tree, actually. See the last
-> commit of this patchset. However, it's not connected directly - the
-> video interface is connected to the DP receiver which is then
-> connected to the connector.
-> 
->>
->> While connectors are used in drm, in the media subsytem only the tvp5150 driver ever
->> used it for analog video inputs.
->>
->> The connectors have a label, and that can be used to fill in the input name.
->>
->> It is worth checking if this would work without too much effort, but if not, then
->> at least change the "input0" string to something like "Video Input".
-> 
-> In order to read the connector label, the video interface driver would
-> have to make some assumptions about the incoming pipeline, e.g. figure
-> out which port of the decoder dt node is the input (how? just assume
-> it's port 0?). Do you see a good way to deal with that?
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: c599a9865616fa1c63618002be05d3f90f4a51c3  media: ov5693: Drop privacy-LED GPIO control
 
-It is the Displayport RX IP driver that has to parse the connector data
-and create connector entities in the media topology. The video interface
-driver would have to walk the graph to find those connector entities and
-the entity name would contains the input name.
+elapsed time: 1474m
 
-'git grep MEDIA_ENT_FL_CONNECTOR' gives a good idea where this is used.
+configs tested: 145
+configs skipped: 3
 
-Note: connectors are currently only used for S-Video and Composite inputs,
-so some infrastructure would need to be added for HDMI/DP inputs.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I have never done this, so you may well encounter unexpected issues.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240604   gcc  
+arc                   randconfig-002-20240604   gcc  
+arm                               allnoconfig   clang
+arm                                 defconfig   clang
+arm                   randconfig-002-20240604   gcc  
+arm                   randconfig-004-20240604   gcc  
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-002-20240604   gcc  
+arm64                 randconfig-003-20240604   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240604   gcc  
+csky                  randconfig-002-20240604   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240604   gcc  
+i386         buildonly-randconfig-002-20240604   clang
+i386         buildonly-randconfig-003-20240604   clang
+i386         buildonly-randconfig-004-20240604   gcc  
+i386         buildonly-randconfig-005-20240604   clang
+i386         buildonly-randconfig-006-20240604   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240604   clang
+i386                  randconfig-002-20240604   clang
+i386                  randconfig-003-20240604   clang
+i386                  randconfig-004-20240604   clang
+i386                  randconfig-005-20240604   gcc  
+i386                  randconfig-006-20240604   gcc  
+i386                  randconfig-011-20240604   clang
+i386                  randconfig-012-20240604   gcc  
+i386                  randconfig-013-20240604   gcc  
+i386                  randconfig-014-20240604   clang
+i386                  randconfig-015-20240604   clang
+i386                  randconfig-016-20240604   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240604   gcc  
+loongarch             randconfig-002-20240604   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240604   gcc  
+nios2                 randconfig-002-20240604   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240604   gcc  
+parisc                randconfig-002-20240604   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20240604   gcc  
+powerpc               randconfig-002-20240604   gcc  
+powerpc               randconfig-003-20240604   gcc  
+powerpc64             randconfig-001-20240604   gcc  
+powerpc64             randconfig-002-20240604   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-002-20240604   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-002-20240604   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240604   gcc  
+sh                    randconfig-002-20240604   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240604   gcc  
+sparc64               randconfig-002-20240604   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240604   clang
+x86_64       buildonly-randconfig-002-20240604   clang
+x86_64       buildonly-randconfig-003-20240604   gcc  
+x86_64       buildonly-randconfig-004-20240604   clang
+x86_64       buildonly-randconfig-005-20240604   gcc  
+x86_64       buildonly-randconfig-006-20240604   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240604   clang
+x86_64                randconfig-002-20240604   gcc  
+x86_64                randconfig-003-20240604   gcc  
+x86_64                randconfig-004-20240604   gcc  
+x86_64                randconfig-005-20240604   gcc  
+x86_64                randconfig-006-20240604   gcc  
+x86_64                randconfig-011-20240604   clang
+x86_64                randconfig-012-20240604   clang
+x86_64                randconfig-013-20240604   clang
+x86_64                randconfig-014-20240604   clang
+x86_64                randconfig-015-20240604   clang
+x86_64                randconfig-016-20240604   clang
+x86_64                randconfig-071-20240604   clang
+x86_64                randconfig-072-20240604   gcc  
+x86_64                randconfig-073-20240604   gcc  
+x86_64                randconfig-074-20240604   clang
+x86_64                randconfig-075-20240604   clang
+x86_64                randconfig-076-20240604   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240604   gcc  
+xtensa                randconfig-002-20240604   gcc  
 
-That said, having support for this would be really nice.
-
-Regards,
-
-	Hans
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
