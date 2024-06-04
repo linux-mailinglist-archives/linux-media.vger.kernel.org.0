@@ -1,237 +1,216 @@
-Return-Path: <linux-media+bounces-12546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12547-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDB28FBB3E
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 20:07:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F078FBB65
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 20:17:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D70DB272EA
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 18:07:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F0632B21F45
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 18:17:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE1F14A0BD;
-	Tue,  4 Jun 2024 18:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C216614A4E1;
+	Tue,  4 Jun 2024 18:17:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="jdwW1syV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WHc4DSx6"
+	dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b="sEIXPKds"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2055.outbound.protection.outlook.com [40.107.255.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D09179BC;
-	Tue,  4 Jun 2024 18:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717524454; cv=none; b=atXZ1NVBZGVZZ7doE2EwBOTX3YNf8pFX0Q4t1MvPWflxtDwQuGBap9HmQj96ekIS8Bzk+Tik+LxldsGBySsh12CFvgoWozKj/LyxpRTw8LfR4qOAs3yb/p6NYQSUQ82IolJaz0BjPk0yaXnfCg45ra8pP+Zl9nVKf8ZMx8RU73c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717524454; c=relaxed/simple;
-	bh=HGGHD3mHvmQMZTFcebtOLkE5WGxJJhbDHj/XcODxKB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTM4N57DvigubE1qL/2JR6rbTKRwCiDdb9WOalDxmuvL8OY5blsf6v16z80AJliOKYq+dfvX6THuD44RPt/E43usAAuF9gF+LnHtk2kdrGPHafXbnwTfqR0kyQejgR7dD3EVpikSBBrx1tqFLgqOOuFMJqDRn2gOxipiN4S+YJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=jdwW1syV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WHc4DSx6; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 81C1E1140060;
-	Tue,  4 Jun 2024 14:07:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 04 Jun 2024 14:07:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1717524449;
-	 x=1717610849; bh=b0/ZogdI17qL7g16M72y0vMpQ1quxF2QL0mG1G9bqrc=; b=
-	jdwW1syVBsjggkJNoJe6WgX0QUjEB4eiT8AEBcsP7wA/4mNBF3ZjmeGoiG9fLdpk
-	XJeXoleUMzZqv6z23U9I4v43l5CLyZKp5lX+MQo9SUSLdJV5isflbmHU00CmH40F
-	AA2mK/F4B2Yj74tgU+VoZPXmiNRBtvLKWE1WAPXZFbZS+4Cock5KBDg7SQPquqRt
-	+wzzTVMeNP1lG3HvspDu1hZ9jPas0ZAlujJiyfP3MQ4HOnSIyq57LmhIjIF7Bwzq
-	B+Dki09kWU2XatXT/BwVXTn0zxoBiTDSO4sTbhLbnUwJbJWpLgVPg6xYQpULsw97
-	xK+xsl0HskaK+SIDFRaiyg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1717524449; x=
-	1717610849; bh=b0/ZogdI17qL7g16M72y0vMpQ1quxF2QL0mG1G9bqrc=; b=W
-	Hc4DSx61VUKyxSknTeBI3xR09+aC83tVZ+1fAoQxVlxQK3KhTjz4XdXIpC4VkXa4
-	Y9EDRo2j/60LPimiKRFkfQgHIhLf1czCMU/qXVxa3Aas87PqzzsGU2VdCtuoxoKo
-	ML4CKEMmwqNhrWeVNyFDXPtf8EV1/rucdeIZUqoZml795ajCfj4jTMvh11PqgTzV
-	Fwtl3iO1aK0Bz/ed0U5usyyn4PJZMh+V9vfMfOyTUPJfKzRq3bCwUaEefO8pghtQ
-	AgY92w0pjk7Ebc+cVy2tOfHrMt7TckfmIFg6LSJZOpBecIEctfQotwtDl5Pl3CWy
-	w1yNn7hX5fXOU2Y13g2ww==
-X-ME-Sender: <xms:31dfZh48Dzx4snTxymOST4dxOoCrPZc6sk3Xz0-pQp2wC3uyn4oA0w>
-    <xme:31dfZu6oHfpZLz9oSWill4Yz8DeefssNw_UA_q8pl3BvZXovEN1MOwoOHoVDKnFPM
-    0bNBlyjY5aKLtG_n4U>
-X-ME-Received: <xmr:31dfZocZLzuh1IqdnXKastNG8g3SBr1_jt3jxpZ48GD-ZW0H7aPKEQzlHPs_ghMxXXuV5co0pd622lnqQtNCaQp0v5gTp7M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdelgedgudduhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
-    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
-    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
-    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
-    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:31dfZqKUVGOpwgoTSqPUEaMecqpm3buEteZmnpIAV98pWBtje0XcPQ>
-    <xmx:31dfZlKZKAaKX_ONxkZlpbkPJcOl5ozUB_jX2NhhA8o9GcooPe1TgA>
-    <xmx:31dfZjyQhw2pLSB1zp81q45Nuz0ucNFcV5zXgJE2sRLXGC87W6NDZA>
-    <xmx:31dfZhLjOwB7Q9IZqUVPOWEbHAyjEMQsVacbNVqM3hELSudHbQIcsQ>
-    <xmx:4VdfZiECTI7aX5r6T89_sZ0OrvQJAYBq6tJQh04yORnHqA4ES1B0E_mo>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Jun 2024 14:07:26 -0400 (EDT)
-Date: Tue, 4 Jun 2024 20:07:24 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-vin: Add support for RAW10
-Message-ID: <20240604180724.GG710180@ragnatech.se>
-References: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434925F860;
+	Tue,  4 Jun 2024 18:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717525023; cv=fail; b=YI3opvTsTICpaTUr/b0lqSt1Tq7PMqKyTACVK9qf0jdG22r++NMRRlx2F44ZIorStK53ty30/4KiJiNmVKtt+V6YAR88vlG2IZtdn+TWxfdrYGuNlVLG0wre2ZpP434EnXqCZYyIF/ew9AedMDDeERIUYBmkhTouR+o/XsRDpnI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717525023; c=relaxed/simple;
+	bh=GF2abqMaLnANd9TQIYFWmMLiiIjiCZqZcAK+COXaFB4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=B6xVXfrSaFimIqPcP1G1FczvM6dQoUISNPLkt0zvOyZ6Pj2UXBgiXUzXejHGp42hQIBhY1jCRWkpecDlbqKhmjIYQy3EGeD77PG6S+xy9i3IEZuqbkhesef7cguRNJ4a8PhuiILsfixUrwNCejh+cbP/mq1acmqC2G42CJsZi6A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com; spf=pass smtp.mailfrom=oppo.com; dkim=pass (1024-bit key) header.d=oppo.com header.i=@oppo.com header.b=sEIXPKds; arc=fail smtp.client-ip=40.107.255.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oppo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oppo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NHCWFwAk1E6NoA2S0igQJOY1aep8WYsSRvS9CQ+hb8a4X5JSOip0cdHjlj9qmQ2mmmW2eCZr0XXl/iItKM07I3PsDXJpU6MMwXvVYIFemZy3+MGhsJppxiFzkZec6GNO9c0e2QCPTZTGwTnwx3ociorb7WC4vpmukF11V1rsih3mnDWBq48Jl+8SMTSz720AQ3yPzp9fno75kEY6U/3asuev3+0CeW+rvHQRUicRhjwDnZ7BPKE5893+E9MCfy7Vczc5wgOsQcO+59Yrx2QP5NyuXw60ByudT42ozJmc1zpd/CTAF0evU6KFjSVebjLcMvOUHCOErmEXDQZXEjGDVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cswQKSqfHIlb46vh8M9APYnPW07el9ykaBkEOz3+C0g=;
+ b=Dtl1w2XIcryhRo7jasVjVjZn9gGGbMN+mcWL1pUFjB+Zm9zoF5xtqKGbt0wFsZT6jvahrWBaqSwhd15A5HNAXNz3ye+J7k41qSuIatyD0m+X91HHkykP17GFxL+kGDcS752KYhN1Bg5ewsmEiXxjwQWBZZzD0ErSyAx7iWOxnZahe7DkkEyULVwLtv8a6TGmv2+aUJ7vx9/RYXLznjd07OHNFIM1v6YB2p1wRiOdtNAd9M2bh9cLqWoqoAedoLai6PNqEYJy/J28fKvjXCfZQ6pu6B331Fla2viHQ4RzrTg52E0pT3WvSidD9JvK0tj+CBsNyNGS8xwnHqbC43JpiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 58.252.5.68) smtp.rcpttodomain=google.com smtp.mailfrom=oppo.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=oppo.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oppo.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cswQKSqfHIlb46vh8M9APYnPW07el9ykaBkEOz3+C0g=;
+ b=sEIXPKdsEIzdsvjt0tx5TswDKRPbd/eB0fpNYzD2C1UjCRkdOBMaNwVwmuPVR4R1Ah1BWTW3GsknoJmgq3lH1g/e0tixsyOBODER0OEcN6ruTYBJfHJ8K7SO6AjKjcbYY6+E56RM+uG2PxHhBGpYBdKwFIQGrDy+KNvzQphFpiE=
+Received: from PSBPR02CA0018.apcprd02.prod.outlook.com (2603:1096:301::28) by
+ SI2PR02MB5860.apcprd02.prod.outlook.com (2603:1096:4:1bf::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7611.28; Tue, 4 Jun 2024 18:16:58 +0000
+Received: from HK3PEPF0000021E.apcprd03.prod.outlook.com
+ (2603:1096:301:0:cafe::bb) by PSBPR02CA0018.outlook.office365.com
+ (2603:1096:301::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.31 via Frontend
+ Transport; Tue, 4 Jun 2024 18:16:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 58.252.5.68)
+ smtp.mailfrom=oppo.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=oppo.com;
+Received-SPF: Pass (protection.outlook.com: domain of oppo.com designates
+ 58.252.5.68 as permitted sender) receiver=protection.outlook.com;
+ client-ip=58.252.5.68; helo=mail.oppo.com; pr=C
+Received: from mail.oppo.com (58.252.5.68) by
+ HK3PEPF0000021E.mail.protection.outlook.com (10.167.8.40) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7633.15 via Frontend Transport; Tue, 4 Jun 2024 18:16:57 +0000
+Received: from [127.0.0.1] (172.16.40.118) by mailappw31.adc.com
+ (172.16.56.198) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 5 Jun
+ 2024 02:16:56 +0800
+Message-ID: <f6dcb031-9668-4387-b279-958e344bdbaf@oppo.com>
+Date: Wed, 5 Jun 2024 02:16:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1] dma-buf: heaps: move the verification of
+ heap_flags to the corresponding heap
+To: John Stultz <jstultz@google.com>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+	"T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>, <21cnbao@gmail.com>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+References: <20240603114008.16235-1-hailong.liu@oppo.com>
+ <CANDhNCq50zPB+TS+_Oo0HY0aUuBAdik2KrC8eJRTygbis293sw@mail.gmail.com>
+ <20240603172148.gb7txpg2ya43jyxn@oppo.com>
+ <CANDhNCrwgce7G5_-4tNfgTHcdL12zt3JKBg=o3bHrzMmfFMctg@mail.gmail.com>
+ <cff79c75-4c9c-46e0-a3ac-b9c0e8cad6f0@oppo.com>
+ <CANDhNCq1O9T6WxCpe9yNBycMu7U0SCVYBdW3R=J8jEqyqWYCiA@mail.gmail.com>
+Content-Language: en-US
+From: Hailong Liu <hailong.liu@oppo.com>
+In-Reply-To: <CANDhNCq1O9T6WxCpe9yNBycMu7U0SCVYBdW3R=J8jEqyqWYCiA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
+X-ClientProxiedBy: mailappw31.adc.com (172.16.56.198) To mailappw31.adc.com
+ (172.16.56.198)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: HK3PEPF0000021E:EE_|SI2PR02MB5860:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1e685c1-8e15-4058-48ef-08dc84c28535
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|376005|82310400017|1800799015|36860700004|7416005;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?OS9vVkdkTGNxN3NyQTdZTjEwaUgvaG15UnBDakFkQlJyNWxBY3V6MDZDLy92?=
+ =?utf-8?B?cGhPNmRXekZvaG15cVNWMHN1TEpVZ0pibnFVSk0yaTJDbHdwRERDQUhYa2hz?=
+ =?utf-8?B?MXZFM2VhZW9tdm1sZTM3NytOcnVKZzRjQ1RJd1JwbVdtZEZmTlBncHF4QTlx?=
+ =?utf-8?B?WlRxQUp6ajEyMjhiajFMZEx6K0k2dHgvUlFFUC9WbS9iWUxPRHd2dGxRNFJx?=
+ =?utf-8?B?MUdBZUFPdWp6U1V0OHhYZjZmOGw4K1FLSUUvSnVTbkxjN05vTUJJUEVYaEUy?=
+ =?utf-8?B?Q1JaUDZtemJCVHBqR1BsT3pLeWszZGUxbTJDZnNrSE9Sa0JNWWlGY21sRG5J?=
+ =?utf-8?B?emdIYmQ2aEx1NUtvSEhZdWVaYlBMdnBjSWVmUVhrUnNsdlF6STJOd0Fsc1I1?=
+ =?utf-8?B?Z3UwL2tyZWlScENSMU93alZ0TENmdWsrVW54eDhFNXljUlNjYVE2VTNzMHhz?=
+ =?utf-8?B?QVpuZ1VBM2UrUHl2U2pMWVJ6b3JVRFF1Y25uMGpiR2RreStZUU1aZWpKL0Jv?=
+ =?utf-8?B?NnFnMDdLODhYU3ZnN0xyOVB4VjJma1hhRnprNXJTUWg2ZURiUUUxOTJ4OFUy?=
+ =?utf-8?B?ZW40MmdJSStQOVRYMzdWMHYwQURJaUV4RGNhT3cwaFVZNCtNM29uS2Z6QmRN?=
+ =?utf-8?B?VGxNcDdEWEh2NkpoYnllVWFJYW1xeDlTdTNuV0dCektwbHp4RFhjMzJ6bU04?=
+ =?utf-8?B?Uzk0c2hOYkw1YUdiVlN1QVZZMnN0ZE91Q0pSVEI4czc3VE1kcTFZNWQvRzNZ?=
+ =?utf-8?B?R0E5ZmpjeXpGN21OeEVhOFA1bkFiODMxTk1pVEFteUNBN0F4a0JCSnFaWnp1?=
+ =?utf-8?B?Vkc4aCtrQm9XRVJmdURiSmRSSGg3Z3VSVkFOQ0VQSlE0N3hTdEtadUlsM0gv?=
+ =?utf-8?B?S0hUV1pzQThWSi9LM2tKN1RZVDJrTjBMQmhMQnV6d1d0UFJwcHAzUVRSMUpn?=
+ =?utf-8?B?K1NFSUlqM1hJdGpSMlNLZDJlb2NNUXUzbC9ETi9EZzlic2Q2QUNyaWxIT2dy?=
+ =?utf-8?B?WFdQc3FVK3Z5bHpEeDNtLzVuZWdubnFKRFpESVcyZ0FxVVhYR056WHhXRlg1?=
+ =?utf-8?B?TE12ZEdYYXdHa1NzZjVjM2tOY3p5aER5ZENEN3BkNm5adVlxalBQT0wxZU9M?=
+ =?utf-8?B?L2Z2TGJZTi9CN3VJMkpudm1uUzVFcElhWmhRV3ZhUzBFNWhwMEM3Ti91OGVH?=
+ =?utf-8?B?d3MvcWZqbXE0cml0Vm5SWFpoTVhGMkpocVhaUURXUHVXTi8yN1FvejVUUUZX?=
+ =?utf-8?B?a2pPam1uWElWZGRUUHJLNUVrNkNiM1Bob2JET0xONXVJVVdZN0lGQU1xZXM0?=
+ =?utf-8?B?LzBVVFNhSjIySEc5YnpEcEpHY0lEWk5PQnltV1liekgxZnFyTXdLVEh0NWdY?=
+ =?utf-8?B?cEFjNTV1SFhJb1VmSk5lRjYrS0ZMQmhVWDBwZVh1cjE2NXNYNk8xK2Q4b1BQ?=
+ =?utf-8?B?Qk0yaHl5Z0N6QW5waWRtSTNtTWsvRmNRdkhUZWswQnI3a1ZBWjRaQ2J6V2E0?=
+ =?utf-8?B?MVF3TUVEN3FISmdUWGR3YlZ5OFlZSkJsdzB2czhkbERNVjVGT1N0ajFicVBN?=
+ =?utf-8?B?RVFpRjRPOTMzUmtOTi9CdGx0eFZ5bUV1emVISG95NXI4anZSL0dOa2M0N05z?=
+ =?utf-8?B?L2dnQTVQMnVVNmN0aDNnVTdST0dNWFhlellEZ01keUtEZEZhQnJNc0NvUnVO?=
+ =?utf-8?B?bjVWV2doc05iQnk5NjZ0Mk40RWJ6T0gzQW92YjcyWjduTUhqOGpkYTJFQTZy?=
+ =?utf-8?B?Ky8xUXU4bDlxNFZLMEFWQVlKN2RxVjl0cFkzSy9jU2dIVkdQeWFxQ0ZtbWFz?=
+ =?utf-8?B?cE56SEliMGlsbjMrOVR4cEVuRnVEaFlybUNzd2xvMFlpdTdNSVEwMDNKSE5p?=
+ =?utf-8?Q?4QTemWqBkVqQ2?=
+X-Forefront-Antispam-Report:
+	CIP:58.252.5.68;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.oppo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(376005)(82310400017)(1800799015)(36860700004)(7416005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: oppo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 18:16:57.0963
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1e685c1-8e15-4058-48ef-08dc84c28535
+X-MS-Exchange-CrossTenant-Id: f1905eb1-c353-41c5-9516-62b4a54b5ee6
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f1905eb1-c353-41c5-9516-62b4a54b5ee6;Ip=[58.252.5.68];Helo=[mail.oppo.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	HK3PEPF0000021E.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR02MB5860
 
-Hi Hans,
-
-Gentle ping on this patch.
-
-On 2024-04-17 14:02:30 +0200, Niklas Söderlund wrote:
-> Some R-Car SoCs are capable of capturing RAW10. Add support for it
-> using the V4L2_PIX_FMT_Y10 pixel format, which I think is the correct
-> format to express RAW10 unpacked to users.
+On 6/4/2024 11:33 PM, John Stultz wrote:
+> On Mon, Jun 3, 2024 at 11:30 PM Hailong Liu <hailong.liu@oppo.com> wrote:
+>> On 6/4/2024 2:06 AM, John Stultz wrote:
+>>> On Mon, Jun 3, 2024 at 10:21 AM Hailong Liu <hailong.liu@oppo.com> wrote:
+>>>> We now aim to improve priority dma-buf allocation. Consider android
+>>>> animations scene:
+>>>>
+>>>> when device is in low memory, Allocating dma-buf as animation
+>>>> buffers enter direct_reclaimation, longer allocation time result in a
+>>>> laggy UI. But if we know the usage of the dma-buf, we can use some
+>>>> mechanisms to boost, e.g. animation-memory-pool.
+>>>
+>>> Can you generalize this a bit further? When would userland know to use
+>>> this new flag?
+>>> If it is aware, would it make sense to just use a separate heap name instead?
+>>>
+>>> (Also: These other mechanisms you mention should probably also be
+>>> submitted upstream, however for upstream there's also the requirement
+>>> that we have open users and are not just enabling proprietary blob
+>>> userspace, which makes any changes to dma-buf heaps for out of tree
+>>> code quite difficult)
+>>>
+>>>> However, dma-buf usage identification becomes a challenge. A potential
+>>>> solution could be heap_flags. the use of heap_flags seems ugly and
+>>>> contrary to the intended design as you said, How aboult extending
+>>>> dma_heap_allocation_data as follows?
+>>>>
+>>>> struct dma_heap_allocation_data {
+>>>>         __u64 len;
+>>>>         __u32 fd;
+>>>>         __u32 fd_flags;
+>>>>         __u64 heap_flags;
+>>>>         __u64 buf_flags: // buf usage
+>>>> };
+>>>
+>>> This would affect the ABI (forcing a new ioctl number).  And it's
+>>> unclear what flags you envision as buffer specific (rather than heap
+>>> specific as this patch suggested).
+>>>
+>>> I think we need more details about the specific problem you're seeing
+>>> and trying to resolve.
+>> This patch mainly focuses on optimization for Android scenarios. Let’s
+>> discuss it on the issue website.
+>> Bug: 344501512
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since RFC
-> - Fix spelling in rcar-vin.h
-> ---
->  drivers/media/platform/renesas/rcar-vin/rcar-core.c |  1 +
->  drivers/media/platform/renesas/rcar-vin/rcar-dma.c  | 12 ++++++++++++
->  drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c |  8 ++++++++
->  drivers/media/platform/renesas/rcar-vin/rcar-vin.h  |  4 +++-
->  4 files changed, 24 insertions(+), 1 deletion(-)
+> Ok, we can do that if you need.
 > 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> index 809c3a38cc4a..e9675cb8faa2 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-> @@ -1279,6 +1279,7 @@ static const struct rvin_info rcar_info_r8a779a0 = {
->  	.use_mc = true,
->  	.use_isp = true,
->  	.nv12 = true,
-> +	.raw10 = true,
->  	.max_width = 4096,
->  	.max_height = 4096,
->  };
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> index e2c40abc6d3d..dd290054dfe7 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -123,7 +123,9 @@
->  /* Video n Data Mode Register bits */
->  #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
->  #define VNDMR_A8BIT_MASK	(0xff << 24)
-> +#define VNDMR_RMODE_RAW10	(2 << 19)
->  #define VNDMR_YMODE_Y8		(1 << 12)
-> +#define VNDMR_YC_THR		(1 << 11)
->  #define VNDMR_EXRGB		(1 << 8)
->  #define VNDMR_BPSM		(1 << 4)
->  #define VNDMR_ABIT		(1 << 2)
-> @@ -780,6 +782,9 @@ static int rvin_setup(struct rvin_dev *vin)
->  	case MEDIA_BUS_FMT_Y8_1X8:
->  		vnmc |= VNMC_INF_RAW8;
->  		break;
-> +	case MEDIA_BUS_FMT_Y10_1X10:
-> +		vnmc |= VNMC_INF_RGB666;
-> +		break;
->  	default:
->  		break;
->  	}
-> @@ -888,6 +893,9 @@ static int rvin_setup(struct rvin_dev *vin)
->  			dmr = 0;
->  		}
->  		break;
-> +	case V4L2_PIX_FMT_Y10:
-> +		dmr = VNDMR_RMODE_RAW10 | VNDMR_YC_THR;
-> +		break;
->  	default:
->  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
->  			vin->format.pixelformat);
-> @@ -1270,6 +1278,10 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
->  		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
->  			return -EPIPE;
->  		break;
-> +	case MEDIA_BUS_FMT_Y10_1X10:
-> +		if (vin->format.pixelformat != V4L2_PIX_FMT_Y10)
-> +			return -EPIPE;
-> +		break;
->  	default:
->  		return -EPIPE;
->  	}
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> index bb4b07bed28d..e7298688541d 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> @@ -86,6 +86,10 @@ static const struct rvin_video_format rvin_formats[] = {
->  		.fourcc			= V4L2_PIX_FMT_GREY,
->  		.bpp			= 1,
->  	},
-> +	{
-> +		.fourcc			= V4L2_PIX_FMT_Y10,
-> +		.bpp			= 4,
-> +	},
->  };
->  
->  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-> @@ -106,6 +110,10 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
->  		if (!vin->info->nv12 || !(BIT(vin->id) & 0x3333))
->  			return NULL;
->  		break;
-> +	case V4L2_PIX_FMT_Y10:
-> +		if (!vin->info->raw10)
-> +			return NULL;
-> +		break;
->  	default:
->  		break;
->  	}
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> index 997a66318a29..f87d4bc9e53e 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> @@ -151,7 +151,8 @@ struct rvin_group_route {
->   * @model:		VIN model
->   * @use_mc:		use media controller instead of controlling subdevice
->   * @use_isp:		the VIN is connected to the ISP and not to the CSI-2
-> - * @nv12:		support outputing NV12 pixel format
-> + * @nv12:		support outputting NV12 pixel format
-> + * @raw10:		support outputting RAW10 pixel format
->   * @max_width:		max input width the VIN supports
->   * @max_height:		max input height the VIN supports
->   * @routes:		list of possible routes from the CSI-2 recivers to
-> @@ -163,6 +164,7 @@ struct rvin_info {
->  	bool use_mc;
->  	bool use_isp;
->  	bool nv12;
-> +	bool raw10;
->  
->  	unsigned int max_width;
->  	unsigned int max_height;
-> -- 
-> 2.44.0
-> 
+> But if this is ever going to go upstream (and it's more and more
+> important that we minimize out of tree technical debt), conversations
+> about how to generalize this will need to happen on the list.
+> We need a more complete design and test results to convince upstream to accept. 
+Thank you again for your suggestion.
 
--- 
-Kind Regards,
-Niklas Söderlund
+Brs, 
+Hailong.
+> thanks
+> -john
+
 
