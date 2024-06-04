@@ -1,106 +1,99 @@
-Return-Path: <linux-media+bounces-12535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12536-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BFF8FB8A4
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 18:16:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CCE8FB8BC
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 18:20:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C60FD1C24AF0
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 16:16:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF4C228944C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 16:20:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9304B14883E;
-	Tue,  4 Jun 2024 16:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 859F514830A;
+	Tue,  4 Jun 2024 16:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b8dBm8Yn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F246677A1E;
-	Tue,  4 Jun 2024 16:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E0C38396
+	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 16:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717517771; cv=none; b=rPiW8RhofNu2QWwaT/Jj3Qq63DZpBwE+BJfE/FPe8H0HVo4MvDs9xBSKAmiC99AyaRTcdm3HdkHZ1sbMn3suvdUbcvvBq9Est7kf5MQ8YDjsJrfx3Jrp4O2YXNt70UZXBEn9AkgknkXtKFeX/6fE8TKKR+lsqMJ7kMnnKxiC2b4=
+	t=1717518015; cv=none; b=dQOC0HUNDx8d2vavWSrFIcKL6Gm3J658YBA831e6o+qGNZxZPuSJH+kxrxalKOkU7YNNw6chwtUoueVNJA7vDnwmG7GguEuF1cV1zADay9Jc9niHUJGWrXpcifeU3h4bBlTG206HOtwRsGfekMMWpY0Amt0SPhv59nsbqU/Aw5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717517771; c=relaxed/simple;
-	bh=invKrC589zcraP5ug/OrIxlSdk1/hQC0D+eJC5VrpC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VoXHt25y652mWabH5Z8RQAh4gjqdZ+EuNfdReAazOw5N4BANeB7BfILFsix3njv0qqfnjGhodcBiM9WoPlTRgEpvn1xprZjVFuWeQ+W496n1xAvjv2QSH//IjrqTqbsFbKxCg7lm07bxCu8AJdP1Cn2zf7C4lAx+/DcP32LJElk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB26C2BBFC;
-	Tue,  4 Jun 2024 16:15:53 +0000 (UTC)
-Date: Tue, 4 Jun 2024 12:15:51 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Pavel Begunkov
- <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe
- <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand
- <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v10 05/14] netdev: netdevice devmem allocator
-Message-ID: <20240604121551.07192993@gandalf.local.home>
-In-Reply-To: <bea8b8bf1630309bb004f614e4a3c7f684a6acb6.camel@redhat.com>
-References: <20240530201616.1316526-1-almasrymina@google.com>
-	<20240530201616.1316526-6-almasrymina@google.com>
-	<bea8b8bf1630309bb004f614e4a3c7f684a6acb6.camel@redhat.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1717518015; c=relaxed/simple;
+	bh=d+tgkngD/cTC8oE3q056Nr1Cpxv1C1iu0exAwPJ/ch4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mxMREjfxVqpCnoe+mYaSwcdg0Kk4YgKE2cHOMXUsvG5DDTJIClUSnzHBgbXTpWANW8mVK8eyb1/z71EV920Da2CtX7K1EMule307ARtuuYVvnLIHkFhhViYRFSWc37jeRuGeK7W8IbzKe0iNy4+8c7SGs1leOfFN7LIIvPgtQwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=b8dBm8Yn; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1717518012;
+	bh=d+tgkngD/cTC8oE3q056Nr1Cpxv1C1iu0exAwPJ/ch4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=b8dBm8YntT8kGsdBnaxleaVbxDUAovGY/IoJXE+Lj0fIrINLA7o9kguSFhCgidpaH
+	 Fm2DzYiNubyyNk9e1KujOnNprITY0ivRg/kP2iN0kNwOBD6TsyOcjyLeLmOs2XidaQ
+	 CYCrZEyqj2PngpjBI7Chs6Lsff9phguvrjocz9g6G49LDAOf9y9qYgcQqBn6xrwYyZ
+	 oCTjrtn3kFSn2K9bHY16tuHtCDYnlvibuvqDl8nsWMrRWPBnC9H8TmVFxv6t/HpWNg
+	 Xpy0xVDq2R5BMWiW1iheexv1H3wWS7xZL0fvyZAa/JBTt5ryN5k6yxnHjGTJsKiAKA
+	 oqPxtSqOc2K3g==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4015537813E1;
+	Tue,  4 Jun 2024 16:20:12 +0000 (UTC)
+Message-ID: <dccc6a628e063a63d62713c6b7516977925866ef.camel@collabora.com>
+Subject: Re: [PATCH] Documentation: Fix v4l2_ctrl_vp8_frame struct
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org
+Cc: mchehab@kernel.org
+Date: Tue, 04 Jun 2024 12:20:09 -0400
+In-Reply-To: <20240529222224.1582708-1-frkoenig@chromium.org>
+References: <20240529222224.1582708-1-frkoenig@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 04 Jun 2024 12:13:15 +0200
-Paolo Abeni <pabeni@redhat.com> wrote:
+Le mercredi 29 mai 2024 =C3=A0 15:22 -0700, Fritz Koenig a =C3=A9crit=C2=A0=
+:
+> Description and control were out of sync.
+>=20
+> Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
 
-> On Thu, 2024-05-30 at 20:16 +0000, Mina Almasry wrote:
-> > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > index d82f92d7cf9ce..d5fac8edf621d 100644
-> > --- a/net/core/devmem.c
-> > +++ b/net/core/devmem.c
-> > @@ -32,6 +32,14 @@ static void net_devmem_dmabuf_free_chunk_owner(struct gen_pool *genpool,
-> >  	kfree(owner);
-> >  }
-> >  
-> > +static inline dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)  
-> 
-> Minor nit: please no 'inline' keyword in c files.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-I'm curious. Is this a networking rule? I use 'inline' in my C code all the
-time.
+> ---
+>  .../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst     | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-statel=
+ess.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.r=
+st
+> index 786127b1e206..22bde00d42df 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+> @@ -971,8 +971,8 @@ FWHT Flags
+>        - ``horizontal_scale``
+>        - Horizontal scaling factor.
+>      * - __u8
+> -      - ``vertical_scaling factor``
+> -      - Vertical scale.
+> +      - ``vertical_scale``
+> +      - Vertical scaling factor.
+>      * - __u8
+>        - ``version``
+>        - Bitstream version.
 
--- Steve
 
