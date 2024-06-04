@@ -1,105 +1,125 @@
-Return-Path: <linux-media+bounces-12504-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12505-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0CD8FAC56
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 09:43:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C34B88FAD35
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 10:13:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B3801C213B9
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 07:43:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F84AB21880
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 08:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E0871411D8;
-	Tue,  4 Jun 2024 07:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF9901422AF;
+	Tue,  4 Jun 2024 08:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDe9ZVCg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B29F140399;
-	Tue,  4 Jun 2024 07:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8CD446CF;
+	Tue,  4 Jun 2024 08:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717487011; cv=none; b=nd1YfPth+aiUWSYzZLf8HxVFXgEXBHkTz1sHLM68udZL73heK2PFIi33RrwF3DRo3V5PGUIjf39SSmHr4fekjuirnNPmQ+UwpkUtcclY2fCM4wQbl1Lbxc9BuUduL1WRv6IHCBjpTJzCIuHV6x6SXvK9cOef4Vp8Ozo6gtC2YKg=
+	t=1717488782; cv=none; b=KirgqMB6UMB6lWEjryMxNypDriMB2uR3WXGKfbP3Kb8rEktOdwZ41qqQusne8/uqi0e5s771fsusHcsZ7Jdadxd83DhzkHZFLEiYdsdiA2gpYxfxlyyJ3k6fnLD+5SUVCZtFxhX9XIk/GuZTW/xauMRK6rjFZA1o98O9T2sjSEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717487011; c=relaxed/simple;
-	bh=amAXDqO7NUNvUAMQ98AmXoymVFem6B1PHzgszlp0n9g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CCvjcW/C8/b9GxZi6/iFamb35b4h886t59fgmB4XqnWKR0nkn/gvS49y5JhGNUPUz2G1RGV5iQ338o7l+9fj01CkGeJCWlHHs+IXq/z9HHXgxkHaxIDTMLxW2zI1LcSdso4X6sRbzf/m5xu7kzuPJiGiBRxfkLm/BmKBeXjvLQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-62a2424ed00so55193087b3.1;
-        Tue, 04 Jun 2024 00:43:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717487009; x=1718091809;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nl0/qZK6Xs6+vehlrTCMsO5n2PAF37JLMCSBbCoV/Zk=;
-        b=WNcuq2JwIzA2I17lVx6SR5KFG/2tuBpQONO99sxZ1B1y1j4KKYGSY9IRow4Q0T/99k
-         mkgm+alwNIR8i+vh6Z7q8T5tMNWfTzTpQZN2DLkrUzYtGuQSdjSmrgKKI76fKDG4JOWb
-         +qXJ51rmMV97fSAQCPU+NOOOgaWRRcAQd2prenb85Dn5LYSaBCqw8il7uUVlVjw+9jmG
-         PPBiiCBhp6G15Uf0CbYS5LquZJARZp7LkJvs5QHaIL+WLXK/Dm3d5ZqE02S1VBNrYwY2
-         34ZOwd6yGgVFhLuSRFVFPULrPI3gw6E/pPI5SikMe+ow71BM0GwNUdWSUkKbzVhGXBH2
-         emrA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJUOPhmOjrFOU8uHIlaTSjImKvvbTZDQmXojwOKJsDvb59d59cvX+8zEgHQqZFYUIL1ZwOAiz37793NZ9+XFYJB89qofb7xk8bPqeR2lol5izdBGhNtIYSTdTMqE75fbx1lSWKxaURE+Enyk6pDC381qB/EJ/s8Iw/21NnRAEnEAOGuzyJROdsHPc=
-X-Gm-Message-State: AOJu0YyhFZqjFTGjXGLJm3SyIWgI4+/bgtkKPX/87CFsgGkjPJf+TF18
-	0TqMurie4HtwyEHdLQxhTOizJ56vBUj/PeGUtpTptBpcOQOEURCcjh+egTY+
-X-Google-Smtp-Source: AGHT+IGfJh3yoJmi3pMlGbuHQEl1ym32Gkmjy9x75UdFNQ7kcviAjtG+VpJElqTQBABgYX1WTSDeyg==
-X-Received: by 2002:a05:690c:82d:b0:627:7e65:979 with SMTP id 00721157ae682-62c7973fafdmr118109927b3.24.1717487008682;
-        Tue, 04 Jun 2024 00:43:28 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-62c765b9256sm17626167b3.5.2024.06.04.00.43.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 00:43:28 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-62a2424ed00so55192877b3.1;
-        Tue, 04 Jun 2024 00:43:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU/eMP7gD/MxidVidvN8arpj3+hAHFq4748iw2ufpc5at2JN0eofcGmQHiH4Zt4sR91cIoT2QBxZ7vijiWjGvT/EAVEL3N6x2mNPZJFhaW17rep2o0eUaU/hDWWbPdm2TEhrnfWRfEcsbmXoicLtLuzGhh/68tJKTKktYjiBH8VEevJdmB5N7ktSnY=
-X-Received: by 2002:a25:8205:0:b0:dfa:6ecc:d924 with SMTP id
- 3f1490d57ef6-dfa73bc3317mr11048601276.5.1717487008055; Tue, 04 Jun 2024
- 00:43:28 -0700 (PDT)
+	s=arc-20240116; t=1717488782; c=relaxed/simple;
+	bh=IUW2B66zglTPFtJQ8pWUpEiPWX7KR3/WKlHiDVvPWBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y6VdIMijAMk8XrQAVo8zT0qhU3HJvoK3kwBCmN0iy/qeHXgEaV3uusOj4FtOh+Yhh0buFxm8kzahMYc7hFeahSzq+QVRr2mFlJEmwkHPksfcmf62FDBcp9bd/NGJx4Pk2tWpwI1gDfBL4t1a84Qaw19nJMRYKxQ+EIWfaitn2jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hDe9ZVCg; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717488780; x=1749024780;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IUW2B66zglTPFtJQ8pWUpEiPWX7KR3/WKlHiDVvPWBs=;
+  b=hDe9ZVCglGsfrP5rAxHWGQMDtUvS52NWHjTrDp4MnhZW8qfDUthfrrNn
+   FNqO+rIZWOnIfRQiEbNETUMYhd7sv5TDVL0mMUkFo520u+Teq5ay3PyVx
+   DhFvNvum2rxCDb4+jEJ4zgOcUMyiycuzWXU2NyS3kS25w2rvOyU2e+vt2
+   IDsKD4zGGUHx5M0uDVMgMtjcFVYGHlSfUGdqlZUGOXPvIkar3ueh8H3Ob
+   NdM7jJhhf/0pNWkGAn8zj2jsXGDiOVOfRH2Wb6hN3bDoOFIhscS0lQWFo
+   O+HV7LtFMuB9C8K4OmW/WUaHWm2sEYhg/JDvx3C7g1Dp2aG7m5OTnww37
+   g==;
+X-CSE-ConnectionGUID: M5ubC3fvRq+Uu6Y5AN4nQg==
+X-CSE-MsgGUID: /IO2qM5qRdaik3rEgUGHtg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="13825743"
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="13825743"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 01:12:59 -0700
+X-CSE-ConnectionGUID: a/q7GY0wR4mKWYbZhvEtcg==
+X-CSE-MsgGUID: 5Z830YFKT+GoDQ3tx2NI7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
+   d="scan'208";a="60325023"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 01:12:53 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BE57C11FA4A;
+	Tue,  4 Jun 2024 11:12:50 +0300 (EEST)
+Date: Tue, 4 Jun 2024 08:12:50 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Zhi Mao <zhi.mao@mediatek.com>
+Cc: mchehab@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	laurent.pinchart@ideasonboard.com, shengnan.wang@mediatek.com,
+	yaya.chang@mediatek.com,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	yunkec@chromium.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	jacopo.mondi@ideasonboard.com, 10572168@qq.com,
+	hverkuil-cisco@xs4all.nl, heiko@sntech.de, jernej.skrabec@gmail.com,
+	macromorgan@hotmail.com, linus.walleij@linaro.org,
+	hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
+	gerald.loacker@wolfvision.net, andy.shevchenko@gmail.com,
+	bingbu.cao@intel.com, dan.scally@ideasonboard.com,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v4 0/2] media: i2c: Add support for GC05A2 sensor
+Message-ID: <Zl7MgsleDr66xMAi@kekkonen.localdomain>
+References: <20240427052233.8915-1-zhi.mao@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527131849.1678877-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240527131849.1678877-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Jun 2024 09:43:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWJhrNe8pbQrBtuDbVu9djhs47oUyCLnjLW4tGDVPyCfw@mail.gmail.com>
-Message-ID: <CAMuHMdWJhrNe8pbQrBtuDbVu9djhs47oUyCLnjLW4tGDVPyCfw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: media: renesas,vin: Add binding for V4M
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240427052233.8915-1-zhi.mao@mediatek.com>
 
-On Mon, May 27, 2024 at 3:19=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+Hi Zhi,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Sat, Apr 27, 2024 at 01:22:30PM +0800, Zhi Mao wrote:
+> This series adds YAML DT binding and V4L2 sub-device driver for Galaxycore's
+> GC05A2 5-megapixel 10-bit RAW CMOS 1/5" sensor, with an MIPI CSI-2 image data
+> interface and the I2C control bus.
+> 
+> The driver is implemented with V4L2 framework.
+>  - Async registered as a V4L2 sub-device.
+>  - As the first component of camera system including Seninf, ISP pipeline.
+>  - A media entity that provides one source pad in common.
+>  - Used in camera features on ChromeOS application.
+> 
+> Also this driver supports following features:
+>  - manual exposure and analog gain control support
+>  - vertical blanking control support
+>  - test pattern support
+>  - media controller support
+>  - runtime PM support
+>  - support resolution: 2592x1944@30fps, 1280x720@60fps
 
-Gr{oetje,eeting}s,
+I was about to take the set but then I noticed the driver and the DT
+bindings are missing a MAINTAINERS entry. Could you post a new patch adding
+that. Same for the VCM driver, I think it was missing one, too.
 
-                        Geert
+-- 
+Regards,
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Sakari Ailus
 
