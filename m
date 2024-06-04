@@ -1,124 +1,148 @@
-Return-Path: <linux-media+bounces-12542-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12540-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F120C8FB969
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 18:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13C18FB94C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 18:43:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB509285168
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 16:46:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B36E282236
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 16:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8FDF1494CA;
-	Tue,  4 Jun 2024 16:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b="tZjIPass"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72D321494C2;
+	Tue,  4 Jun 2024 16:43:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB90147C7D
-	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 16:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BF1148847;
+	Tue,  4 Jun 2024 16:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717519571; cv=none; b=kW1G3jhc+UI3CkgKjIaVc177r7+OgkqrSoWkOaYmJnf17ASf9yvTraNYgjb8q2/pkGjKdG3MokZ4qLLhCZxn1nW9wGczMPTx3aSkxU5bfezSNWbAAKg2Gy0kXAGbkWXBXYtWg2G1brYl3h6ZNupi8WWeKGJj0p2AVPIf7YSyLRc=
+	t=1717519384; cv=none; b=OlCJephw07T+5wvKsyAOGxJ1edQZ/0O0T6Y4aSahpKs3XXLgB03Fo+dCHRuNOCx2SbBWc2QED+gY7rnW3Nb8Qr0ECi8rFyhe6Ct6drLDYTpekI5vclA07hkBXtZPPeKs3SYvXYjMBTR0/n5ofKPveqKYvqlldfXp50K6aOzmi1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717519571; c=relaxed/simple;
-	bh=V/n6N+TOSeadphevdOSNbz+/OF7dVHiqPrKnq5b76Kw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=d3pRgZzNtR/yy+hsdHnhXEO/hbVabBydE8vqcZnQBp4CeRCo4U+EisOP4s3aG3TzQV2TUj2HJoc/k6ac3VOxvHdUIRGJZ7fd2LQdvRRZM9XaZ08vOYZ4MclzCqBMT7aarEWaoaexFpWzOmvxbuRs1gtC4i4R1sPqZaXqT/OQd7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr; spf=pass smtp.mailfrom=freebox.fr; dkim=pass (2048-bit key) header.d=freebox-fr.20230601.gappssmtp.com header.i=@freebox-fr.20230601.gappssmtp.com header.b=tZjIPass; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=freebox.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=freebox.fr
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-35b447d78f1so10912f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2024 09:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=freebox-fr.20230601.gappssmtp.com; s=20230601; t=1717519567; x=1718124367; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WzX2crzner54qLH1BfhKB/A+YfwINCia8LSzqi1+8vk=;
-        b=tZjIPassX4ao52fljki28nkQFowzi8xv85CYONNniqNGIH6acvTZyhWgHaEAetxVWt
-         jlNt6Hr+6B+QS4m0ozSJMSyYJv1c2x26PExC5eVonXF6FlKt3ZAZTVviSOGMVDZ+y28W
-         qA3VWCc9Kf435DYdG+mQtsaiD9ywX5bhrRUO6h0jI91Zskb3CV+jFq1yZNHYmbltTeV6
-         ASLqzLYCGQ5k0a6m1qtB0II9WTTIlL9ORtnVe6055YUwOvEFyORyNARzbQ+33NMqBfGS
-         GZnyFusmvBdq6G/jo9hSGjtmlYen7Z1WRH44niuUHWgUmdvefzx/plNIZ/SCreck+dYo
-         YQ/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717519567; x=1718124367;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WzX2crzner54qLH1BfhKB/A+YfwINCia8LSzqi1+8vk=;
-        b=WgI/ersGcgIAGT3xNdDtGhcyUhdyjNE9vl6wNgeXTFOVRxaCIkWU2chMfO5kTjWYIB
-         PdpWGOnlbKVSTdYEaV21UO3xTQ+p4YewN+TDfBvl+wELe6qLU1Fx1XrBs168bu1U0k9h
-         ILP3+leQD8t/DAeXPQ4vw72Zh6TvVORxMRezkveXhF79ArywL5HMoTAylRmeZRpfmMDQ
-         bnHvVqn8DhN0qh9BNvZwwZDc/UIF+0Z34RiD0KqZ7ggtMYQSpFTRcis4Td4bQk7kRiZU
-         /wkRb4Hpca9Tv01uccaIO+zKzhcsrYu+4Z69ChHR0eGXPC9+oJ6JeuBzIlzpN3KXbEwG
-         SA/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUb34lZCHw59yPKd8vFcrkLTFn8OKZy2HYHM/N8IwGe7eNoIf3bYN9G3ONuXb79qbLTJl2GJKjSZsJ4fK821isH1GtodELPcXdeSsw=
-X-Gm-Message-State: AOJu0YyCAFhrdjxgDh3kiZju93TkHiGYXwNXKh6hFgh5+yFVIVr+4vN8
-	DcRL+WymE6i62rPz3NYh9KsQuWky85J0/vCZENZYN0VYlqddcCDqJ3t8r9zz0DTQ3+HY4/BYVr6
-	crW8=
-X-Google-Smtp-Source: AGHT+IHsjwQSpgpoULxOmieXHX2EY9bSw43cMW3Y1lHVNFwHiKurh8RKIaF8+RMv/nVJic85jiZtmA==
-X-Received: by 2002:adf:fd8f:0:b0:359:f17c:134f with SMTP id ffacd0b85a97d-35e7c591460mr2636525f8f.32.1717519566817;
-        Tue, 04 Jun 2024 09:46:06 -0700 (PDT)
-Received: from [192.168.108.81] (freebox.vlq16.iliad.fr. [213.36.7.13])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04c090esm12634482f8f.6.2024.06.04.09.46.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jun 2024 09:46:06 -0700 (PDT)
-Message-ID: <2db42e45-c034-43be-be96-0e88511d1878@freebox.fr>
-Date: Tue, 4 Jun 2024 18:42:04 +0200
+	s=arc-20240116; t=1717519384; c=relaxed/simple;
+	bh=oPp4w96Wn+D5XlEch5Zme9OLK7LhiUVGAGTFRFKOodA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CWbYMHgM1cifiFHLmlbP09OUtTS+Ry8+r19Gr0bqFWtyd+wPaV/Cj+EygfiwmeegBBZjSvzaTldp5y96y09bPFf2cXFMEAHQQqZy3rolER7p7J/LM4AbixTbhjCSsP8BJ4KQaNo1UqHfzC91m503+RhV/tS+fKrrcNewc+/KBnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BBAC2BBFC;
+	Tue,  4 Jun 2024 16:42:46 +0000 (UTC)
+Date: Tue, 4 Jun 2024 12:42:43 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Paolo Abeni <pabeni@redhat.com>, Mina Almasry <almasrymina@google.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Pavel Begunkov
+ <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v10 05/14] netdev: netdevice devmem allocator
+Message-ID: <20240604124243.66203a46@gandalf.local.home>
+In-Reply-To: <20240604163158.GB21513@ziepe.ca>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+	<20240530201616.1316526-6-almasrymina@google.com>
+	<bea8b8bf1630309bb004f614e4a3c7f684a6acb6.camel@redhat.com>
+	<20240604121551.07192993@gandalf.local.home>
+	<20240604163158.GB21513@ziepe.ca>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v5 1/3] dt-bindings: media: add qcom,msm8998-venus
-From: Marc Gonzalez <mgonzalez@freebox.fr>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: MSM <linux-arm-msm@vger.kernel.org>,
- linux-media <linux-media@vger.kernel.org>, DT <devicetree@vger.kernel.org>,
- Pierre-Hugues Husson <phhusson@freebox.fr>, Arnaud Vrac <avrac@freebox.fr>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Bryan O Donoghue <bryan.odonoghue@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>
-References: <8b2705b7-f33c-4ebe-a6a8-c5ef776fe9ad@freebox.fr>
-Content-Language: en-US
-In-Reply-To: <8b2705b7-f33c-4ebe-a6a8-c5ef776fe9ad@freebox.fr>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-msm8998 has the same video encode/decode accelerator as msm8996.
+On Tue, 4 Jun 2024 13:31:58 -0300
+Jason Gunthorpe <jgg@ziepe.ca> wrote:
 
-Signed-off-by: Marc Gonzalez <mgonzalez@freebox.fr>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> On Tue, Jun 04, 2024 at 12:15:51PM -0400, Steven Rostedt wrote:
+> > On Tue, 04 Jun 2024 12:13:15 +0200
+> > Paolo Abeni <pabeni@redhat.com> wrote:
+> >   
+> > > On Thu, 2024-05-30 at 20:16 +0000, Mina Almasry wrote:  
+> > > > diff --git a/net/core/devmem.c b/net/core/devmem.c
+> > > > index d82f92d7cf9ce..d5fac8edf621d 100644
+> > > > --- a/net/core/devmem.c
+> > > > +++ b/net/core/devmem.c
+> > > > @@ -32,6 +32,14 @@ static void net_devmem_dmabuf_free_chunk_owner(struct gen_pool *genpool,
+> > > >  	kfree(owner);
+> > > >  }
+> > > >  
+> > > > +static inline dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)    
+> > > 
+> > > Minor nit: please no 'inline' keyword in c files.  
+> > 
+> > I'm curious. Is this a networking rule? I use 'inline' in my C code all the
+> > time.  
+> 
+> It mostly comes from Documentation/process/coding-style.rst:
+> 
+> 15) The inline disease
+> ----------------------
+> 
+> There appears to be a common misperception that gcc has a magic "make me
+> faster" speedup option called ``inline``. While the use of inlines can be
+> appropriate (for example as a means of replacing macros, see Chapter 12), it
+> very often is not. Abundant use of the inline keyword leads to a much bigger
+> kernel, which in turn slows the system as a whole down, due to a bigger
+> icache footprint for the CPU and simply because there is less memory
+> available for the pagecache. Just think about it; a pagecache miss causes a
+> disk seek, which easily takes 5 milliseconds. There are a LOT of cpu cycles
+> that can go into these 5 milliseconds.
+> 
+> A reasonable rule of thumb is to not put inline at functions that have more
+> than 3 lines of code in them. An exception to this rule are the cases where
+> a parameter is known to be a compiletime constant, and as a result of this
+> constantness you *know* the compiler will be able to optimize most of your
+> function away at compile time. For a good example of this later case, see
+> the kmalloc() inline function.
+> 
+> Often people argue that adding inline to functions that are static and used
+> only once is always a win since there is no space tradeoff. While this is
+> technically correct, gcc is capable of inlining these automatically without
+> help, and the maintenance issue of removing the inline when a second user
+> appears outweighs the potential value of the hint that tells gcc to do
+> something it would have done anyway.
+> 
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-index 3a4d817e544e2..56c16458e3bb4 100644
---- a/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
-@@ -18,7 +18,9 @@ allOf:
- 
- properties:
-   compatible:
--    const: qcom,msm8996-venus
-+    enum:
-+      - qcom,msm8996-venus
-+      - qcom,msm8998-venus
- 
-   power-domains:
-     maxItems: 1
--- 
-2.34.1
+Interesting, as I sped up the ftrace ring buffer by a substantial amount by
+adding strategic __always_inline, noinline, likely() and unlikely()
+throughout the code. It had to do with what was considered the fast path
+and slow path, and not actually the size of the function. gcc got it
+horribly wrong.
 
+-- Steve
 
