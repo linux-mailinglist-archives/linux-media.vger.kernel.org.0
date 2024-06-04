@@ -1,122 +1,423 @@
-Return-Path: <linux-media+bounces-12531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301ED8FB52F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 16:25:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D74158FB62C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 16:53:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D87B31F2327B
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 14:25:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 059BF1C23AFF
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 14:53:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D045C12D203;
-	Tue,  4 Jun 2024 14:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EsR9JZTo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C945014883F;
+	Tue,  4 Jun 2024 14:47:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDA412B14F
-	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 14:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70CF13CFA4
+	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 14:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717511104; cv=none; b=rmykl+8onqD1k3rt35mWOrwTyI5UkmC0aV/o1L8/EB0xj6lQOvq2x/hTRwzNYGHgh+de9Z0/hs2YHsF0eN5LmFvPwkcfjmZwj1bitP5ZmkcA8oMdFxrYnJ5Qmn5inWthOgbftMfAR1TKPmHsi/PtdTeV1JLOUKuD59E2+lx2DTo=
+	t=1717512422; cv=none; b=k0jFBfcUnC0p93GtpI8jm6zfraVQZhrTqpzi97F0Fx5cTPbGOeOwKq28yQalnyrUGCmwwUQRM7h8axHECu9IGiForY08bipBnSBJ27yPeb4oZXEwuR/nC3iZoyFs/fKcc0VZnCz08kPjqlQ2CzbHh2wjkZi9LLfkA8T2xTLmvAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717511104; c=relaxed/simple;
-	bh=g7HwtyuvYTBo2rej/G5YfeusZ14WNDzVGFKH0/WwBXk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qNk9iaw+Iwy/5LaZO1wJUoKfoU9+6CmQdX+/8ercs2EkR1QYAEZAK95Jm0kXqaiprmtasVukHKRyxHCctkuUGLEg0rF/KZfaKxFSxgDdBJEOnG3ZCjvt/wsheFltVEVUGlkE9xV/U25Ank+Fo+zaiujOVpFULvmT8+BOV+PLhtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EsR9JZTo; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-795186ae415so43536485a.2
-        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2024 07:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717511102; x=1718115902; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3+7ucRN6SOyS+e3mibEJsTCMuvSYJSeNULQZ9UJG6/E=;
-        b=EsR9JZTofDLXFG4mQ72/7JJ+mvysiI37otGFB/g6AFDsRRs7GgZ/kVB6y/myiTepZY
-         +m2bdHYZlDP/jzSK/G/d/5FDBWy2V5KQD5pUQhCnuLLFd5/Zz2Ucdng5e6Ra8sA/ltku
-         +XR85fDOBjufJSDl7NFHbpNwfqgrTNLolLDcu/6ojg2j8LNWmYKTRZ4SXi1yfmBPmpyr
-         k7LTWh2MhEuYaDtQWF2K7WA+vAI3fNDyNWK7Vx6W8mELdulHSKEajyPDcZXQMWGKsIk3
-         jKqDMfJluHfGBlX8/foEtCtT5O9Jhfx5I9DvqA1GmAAuw/tizmdMriUJsoYKGyn1iYuS
-         loaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717511102; x=1718115902;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3+7ucRN6SOyS+e3mibEJsTCMuvSYJSeNULQZ9UJG6/E=;
-        b=U7PTnswl50xfXielQOar6MAbLUSnCyxKctcFYQh5O7VAQ0/C3iy505qjqHyfj6vDIY
-         ucOX7sCrcMCzfflen0gonW7el6T+m/XOdOxjNRt2gslzIS2hKHFwlAkggQz+Nmg3kHZV
-         Hj+ivxipLBfMDFt2kDa2LyTdy7ebOenmWGpB3TO6dxLySuImcR91v5K97fRjK7Ydaxo8
-         EppQaG3T14R1vBOhHGcHQ8CjdIS3ResZXy/BDVMv7xw9TxwBypkDgctSVSyIYOO9y646
-         +cItkDmPcMVFXpmw40Cq5NfoRaDexAMWz4S0kgyjv7iBp0Vj/c6O7BSVBSDNWt2s9h6k
-         lPoA==
-X-Gm-Message-State: AOJu0YyauJg4gtkUl0goHrOTIbXSQgWA14uqnSZNZvPfnH808qU2Rcw7
-	CZJVfCMvShS76PD+BFdqaxbQDp8DVKKul8lewfR3HaIF/O/qWi+q
-X-Google-Smtp-Source: AGHT+IE3+9BZ5y349FHsh8U+bdmSsNzzPatwboP/Fkky+PG17kis8RzxrrU2nUHYNwUmRgovETYslw==
-X-Received: by 2002:a05:620a:11a4:b0:795:1dc1:3b18 with SMTP id af79cd13be357-7951dc13b75mr102483885a.29.1717511101648;
-        Tue, 04 Jun 2024 07:25:01 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:17:5985::7a9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-794f2efc66fsm366399585a.19.2024.06.04.07.25.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 07:25:01 -0700 (PDT)
-Message-ID: <62b33f6b3552bd54e2743238a3a24387e8422493.camel@gmail.com>
-Subject: Re: [PATCH] media: verisilicon: Use fourcc format string
-From: Nicolas Dufresne <nicolas.dufresne@gmail.com>
-To: Michael Tretter <m.tretter@pengutronix.de>,
- ezequiel@vanguardiasur.com.ar,  p.zabel@pengutronix.de, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	kernel@pengutronix.de, mtr@pengutronix.de
-Date: Tue, 04 Jun 2024 10:25:00 -0400
-In-Reply-To: <20240528130314.464867-1-m.tretter@pengutronix.de>
-References: <20240528130314.464867-1-m.tretter@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+	s=arc-20240116; t=1717512422; c=relaxed/simple;
+	bh=qY/L5//uBLRxx/tKtfZ+Q7vY9vnenY//rfL5ZFNjsm8=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=twj+71nU+zR/9an+sogczp9SuriRlzev3X1WU9Ybg0Lxks7kO+w1mtlYmedXxtu9S9OZJPqwLgcpf7q1IpDPeJ/6lKqTsevC2yFjhzRaWLWO9iSmvAXgQZuzSVkTcU2Xk+xiLwd3lsaRpNmvtHqa6hyMLY59f4vLKpk6g5g74CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sEVRD-0006lK-2r;
+	Tue, 04 Jun 2024 14:46:59 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sEVRC-001DOb-3A;
+	Tue, 04 Jun 2024 14:46:59 +0000
+Date: Tue, 4 Jun 2024 14:46:59 +0000 (UTC)
+From: Jenkins Builder Robot <jenkins@linuxtv.org>
+Reply-To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org
+To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Message-ID: <1530684487.4.1717512419774@builder.linuxtv.org>
+In-Reply-To: <976284328.2.1717486675286@builder.linuxtv.org>
+References: <976284328.2.1717486675286@builder.linuxtv.org>
+Subject: [Jenkins] stage-drivers-build #203: build failed for clang15
+ allmodconfig
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_3_1064223398.1717512419728"
+X-Jenkins-Job: stage-drivers-build
 
-Le mardi 28 mai 2024 =C3=A0 15:03 +0200, Michael Tretter a =C3=A9crit=C2=A0=
-:
-> There is a fourcc format string for printing formats. Use it instead of
-> open coding the conversion.
->=20
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+------=_Part_3_1064223398.1717512419728
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Some tests failed:
+	PASS: arm32 allmodconfig
+	PASS: arm32 allyesconfig
+	PASS: x86_64 allyesconfig
+	PASS: x86_64 allmodconfig
+	PASS: x86_64 no PM
+	PASS: arm64 allyesconfig
+	PASS: arm64 allmodconfig
+	FAIL: clang15 allmodconfig
 
-> ---
->  drivers/media/platform/verisilicon/hantro_v4l2.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index df6f2536263b..62d3962c18d9 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -303,11 +303,7 @@ static int hantro_try_fmt(const struct hantro_ctx *c=
-tx,
-> =20
->  	coded =3D capture =3D=3D ctx->is_encoder;
-> =20
-> -	vpu_debug(4, "trying format %c%c%c%c\n",
-> -		  (pix_mp->pixelformat & 0x7f),
-> -		  (pix_mp->pixelformat >> 8) & 0x7f,
-> -		  (pix_mp->pixelformat >> 16) & 0x7f,
-> -		  (pix_mp->pixelformat >> 24) & 0x7f);
-> +	vpu_debug(4, "trying format %p4cc\n", &pix_mp->pixelformat);
-> =20
->  	fmt =3D hantro_find_format(ctx, pix_mp->pixelformat);
->  	if (!fmt) {
+GENERAL INFO
 
+BUILD SUCCESSFUL
+Build URL: https://builder.linuxtv.org/job/stage-drivers-build/203/
+Project: stage-drivers-build
+Date of build: Tue, 4 Jun 2024 14:30:06 GMT
+Build duration: 16 min and counting
+
+
+CHANGE SET
+
+  	 Revision  by hverkuil: (media: av7110: remove old documentation files)
+
+	 change: delete drivers/staging/media/av7110/video-continue.rst
+
+	 change: delete drivers/staging/media/av7110/video-get-pts.rst
+
+	 change: delete drivers/staging/media/av7110/audio-set-mixer.rst
+
+	 change: delete drivers/staging/media/av7110/video-get-capabilities.rst
+
+	 change: delete drivers/staging/media/av7110/video-fast-forward.rst
+
+	 change: delete drivers/staging/media/av7110/audio-fclose.rst
+
+	 change: delete drivers/staging/media/av7110/audio-get-capabilities.rst
+
+	 change: delete drivers/staging/media/av7110/video-set-display-format.rst
+
+	 change: delete drivers/staging/media/av7110/audio-bilingual-channel-select.rst
+
+	 change: delete drivers/staging/media/av7110/audio_data_types.rst
+
+	 change: delete drivers/staging/media/av7110/video-fclose.rst
+
+	 change: delete drivers/staging/media/av7110/audio-set-bypass-mode.rst
+
+	 change: delete drivers/staging/media/av7110/video-slowmotion.rst
+
+	 change: delete drivers/staging/media/av7110/video-get-size.rst
+
+	 change: delete drivers/staging/media/av7110/video-try-command.rst
+
+	 change: delete drivers/staging/media/av7110/audio-stop.rst
+
+	 change: delete drivers/staging/media/av7110/video-command.rst
+
+	 change: delete drivers/staging/media/av7110/video_function_calls.rst
+
+	 change: delete drivers/staging/media/av7110/video.rst
+
+	 change: delete drivers/staging/media/av7110/audio-get-status.rst
+
+	 change: delete drivers/staging/media/av7110/audio-select-source.rst
+
+	 change: delete drivers/staging/media/av7110/audio-set-streamtype.rst
+
+	 change: delete drivers/staging/media/av7110/audio-fwrite.rst
+
+	 change: delete drivers/staging/media/av7110/video-get-event.rst
+
+	 change: delete drivers/staging/media/av7110/video-select-source.rst
+
+	 change: delete drivers/staging/media/av7110/audio-set-id.rst
+
+	 change: delete drivers/staging/media/av7110/audio-set-mute.rst
+
+	 change: delete drivers/staging/media/av7110/video-play.rst
+
+	 change: delete drivers/staging/media/av7110/video-set-format.rst
+
+	 change: delete drivers/staging/media/av7110/video-set-streamtype.rst
+
+	 change: delete drivers/staging/media/av7110/video_types.rst
+
+	 change: delete drivers/staging/media/av7110/audio-continue.rst
+
+	 change: delete drivers/staging/media/av7110/TODO
+
+	 change: delete drivers/staging/media/av7110/video-get-status.rst
+
+	 change: delete drivers/staging/media/av7110/video-clear-buffer.rst
+
+	 change: delete drivers/staging/media/av7110/audio-clear-buffer.rst
+
+	 change: delete drivers/staging/media/av7110/audio-set-av-sync.rst
+
+	 change: delete drivers/staging/media/av7110/audio-channel-select.rst
+
+	 change: delete drivers/staging/media/av7110/video-freeze.rst
+
+	 change: delete drivers/staging/media/av7110/audio.rst
+
+	 change: delete drivers/staging/media/av7110/audio-play.rst
+
+	 change: delete drivers/staging/media/av7110/video-set-blank.rst
+
+	 change: delete drivers/staging/media/av7110/audio-fopen.rst
+
+	 change: delete drivers/staging/media/av7110/video-stop.rst
+
+	 change: delete drivers/staging/media/av7110/video-fwrite.rst
+
+	 change: delete drivers/staging/media/av7110/video-stillpicture.rst
+
+	 change: delete drivers/staging/media/av7110/video-fopen.rst
+
+	 change: delete drivers/staging/media/av7110/video-get-frame-count.rst
+
+	 change: delete drivers/staging/media/av7110/audio-pause.rst
+
+	 change: delete drivers/staging/media/av7110/audio_function_calls.rst
+
+  	 Revision  by hverkuil: (media: av7110: remove budget-patch driver)
+
+	 change: edit drivers/staging/media/av7110/Makefile
+
+	 change: edit drivers/staging/media/av7110/Kconfig
+
+	 change: delete drivers/staging/media/av7110/budget-patch.c
+
+  	 Revision  by hverkuil: (media: sp8870: coding style fixes: whitespace)
+
+	 change: edit drivers/staging/media/av7110/sp8870.h
+
+	 change: edit drivers/staging/media/av7110/sp8870.c
+
+  	 Revision  by hverkuil: (media: sp8870: coding style fixes: newline, comments and braces)
+
+	 change: edit drivers/staging/media/av7110/sp8870.h
+
+	 change: edit drivers/staging/media/av7110/sp8870.c
+
+  	 Revision  by hverkuil: (media: sp8870: coding style fixes: miscellaneous)
+
+	 change: edit drivers/staging/media/av7110/sp8870.c
+
+	 change: edit drivers/staging/media/av7110/sp8870.h
+
+  	 Revision  by hverkuil: (media: sp8870: coding style fixes: logging)
+
+	 change: edit drivers/staging/media/av7110/sp8870.h
+
+	 change: edit drivers/staging/media/av7110/sp8870.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: pointer_location)
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.c
+
+	 change: edit drivers/staging/media/av7110/av7110.h
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: blank lines)
+
+	 change: edit drivers/staging/media/av7110/av7110.h
+
+	 change: edit drivers/staging/media/av7110/av7110_av.h
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.h
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.h
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: whitespace)
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.h
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.c
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.h
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: newline)
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.h
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: whitespace (strict))
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.h
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/av7110.h
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.c
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.c
+
+	 change: edit drivers/staging/media/av7110/av7110_av.h
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.h
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: comments)
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.h
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.h
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: braces)
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: assignments)
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: comparsations)
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: sizeof)
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: variable types)
+
+	 change: edit drivers/staging/media/av7110/av7110_av.h
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110.h
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: miscellaneous)
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: deep_indentation)
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.c
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: logging)
+
+	 change: edit drivers/staging/media/av7110/av7110.c
+
+	 change: edit drivers/staging/media/av7110/av7110_av.c
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ir.c
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.c
+
+	 change: edit drivers/staging/media/av7110/av7110_v4l.c
+
+	 change: edit drivers/staging/media/av7110/dvb_filter.c
+
+	 change: edit drivers/staging/media/av7110/av7110.h
+
+  	 Revision  by hverkuil: (media: av7110: coding style fixes: avoid_externs)
+
+	 change: edit drivers/staging/media/av7110/av7110_av.h
+
+	 change: edit drivers/staging/media/av7110/av7110_ipack.h
+
+	 change: edit drivers/staging/media/av7110/av7110.h
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.h
+
+	 change: edit drivers/staging/media/av7110/av7110_hw.h
+------=_Part_3_1064223398.1717512419728--
 
