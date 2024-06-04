@@ -1,165 +1,131 @@
-Return-Path: <linux-media+bounces-12548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12549-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175768FBE4D
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 23:50:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7997B8FC022
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 01:45:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C52F128715E
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 21:50:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ACB121C22840
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jun 2024 23:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F022814D43E;
-	Tue,  4 Jun 2024 21:48:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B85214E2EF;
+	Tue,  4 Jun 2024 23:44:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TLqBAdzy"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4DYnlGoH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B2214C5BA
-	for <linux-media@vger.kernel.org>; Tue,  4 Jun 2024 21:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DC714D6E1;
+	Tue,  4 Jun 2024 23:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717537737; cv=none; b=cMx8gzSKDgw7ahiczhUYgJp+5/GFQO0ES9kMxREWAogMmUfdMASVts97QepTHrOkWhGfqjdyGgZrqlEjCgCH3gqzJS+jx9NZ680vU2yPAAa2JB6pPzNWgYQ2U/iIXnS6DYtoFUzHxvCHC4Qk9NQYNXmD+G3HExkMHfNPzsM+BY4=
+	t=1717544694; cv=none; b=jhKIw31WhFvYnKXyu0H5IsHZo7f77H+UuN1+R4PLDribxd3dsikuF2rcxsSBc7yGxeJK4X0F/qFCjvTvZF2ZlHC+1OUynEycIJCgMT76JP4yfWYALzl+cp+leMnnhzvl0dtEDxWpL3L8w3YMpEf2Ngf1YvXasrOjv4JVaEvWVC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717537737; c=relaxed/simple;
-	bh=IRWZWDyIfD866bu1iHsqV5MIwWhs/68+p5kgY24NSTs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qWgnKSO4i16CO1+/uSEpPvDmwzXhJVl/g+bi/o8VNIAIlcpjpNECpzbc/XRoTTrqp2NsEJAabEzrm/sUxKmfOJn7kvgOY7amw3GAf20im5nJ5lY5HSUHWTiWANl/7kU13fjbEUXn8ns7jmqi30A+C37djtn4cLfzG8wspMQuWgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TLqBAdzy; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-80ad2893ae5so468602241.3
-        for <linux-media@vger.kernel.org>; Tue, 04 Jun 2024 14:48:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717537735; x=1718142535; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x4ENqaSOEce3ETYuXHj1qdhP9pTGq8Gy5gP1OKt6MjE=;
-        b=TLqBAdzylk/KvYw9Hy3c4NjtfVQtnXJ0KDyQYbtd7SmbvfMghbNmXUk7WFylt8+h8o
-         Dk/qZKWmPwySrage6cidZQF59t96TRgZI631HPR2Yw/iaDE75TpcY2VYpDswUFoCP4Se
-         9aT58NP1ue4Gwb5VP1pq9vTe6sSAGsrti23WM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717537735; x=1718142535;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x4ENqaSOEce3ETYuXHj1qdhP9pTGq8Gy5gP1OKt6MjE=;
-        b=ukSrYTVA/M+1QiLJLtXjmdpujkuqhnDSXCoRf0L2zpbTlFjhz3kJSISD2SNa3aLC3C
-         7SNtcvPPK+3fBi/7c6YGm1+sWG1g5paK1JdRAR5l5OCmvrXD9V5CX7VXHCsWmX/g++2J
-         lBUy8NCDSTwxu9jRA/rLiyLBkd7Ggdp+t6wJvUon/JoFX+jZWRtPU3sZfbNJQtmLgUyA
-         Q3BFkCPhJPTKc6DC410C/yfMKXLnJKJIFnATQ7MMekRt2dFp7CtBAoVhxD7dFMRdemTR
-         5oN8dmFFUcbtyOGeISN9AQfT5ebuVzMdjUqY193Yn6DSgw/A4i3Md5K8qWrKRMOpMPAE
-         J7Yw==
-X-Gm-Message-State: AOJu0Ywbl6xLn2KYEwQlyZL+Q0adn6cGPg2ARJZVvSJVdAzvy/UpH7vc
-	H12hZUclBw7JJn5CEdTAI6b2O3C3c87lC0EYC7qAYfZc25wbxsE3j5ceMz0fYdMiZ6NQjxnam97
-	dEr14lNIH1NEA0BcoaS6u5h7nj2mzG753VixE
-X-Google-Smtp-Source: AGHT+IEtJgFA6iwOOFwPYRB6Cs4MOKMuqsg4/DjbJB4sytGr904pTnfUa6989L7fj4P+0qQwjtJLFEpnGmH5niohvmc=
-X-Received: by 2002:a05:6102:1982:b0:48b:bff0:5b0f with SMTP id
- ada2fe7eead31-48c044f347cmr947988137.0.1717537734671; Tue, 04 Jun 2024
- 14:48:54 -0700 (PDT)
+	s=arc-20240116; t=1717544694; c=relaxed/simple;
+	bh=5vLaTMhC/f80cHfutQVA8NT+YBHXfBWGgHaK2vOxNpQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fpDFON7lauewfG4hkWenVziJ1Kgl/ErIQFvYq4Oo7OjpNCysu5PTlAQGzS+/HlBl2OaFfl499s6FmqDfDvPDem2n+JKy59+AlAxmiDYY4LzFX/SMaOj2TQT/RTWHR8lG+TYxcKkdHsBl4c/3V9EiX9UtfM8V+YV1sJfQdnZQvEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4DYnlGoH; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=PhT9KFFOExWQF20U3AwXuDAmtkcJMJ2i2CdJFaJH1tU=; b=4DYnlGoH09CVVe9B8D6eWoe6IX
+	DObz3+SkqGCNdjLs+aUSWP4imauIabFyOz0tYAXBGAaspL4LEEykxzsBt1MplXhQMcu03p7QOuQAx
+	8TnzwFCM/jMxcD752sO5+qJexRWAe9BvXi/lZ0eAt2OWIDNwwpRUDYNeI+HKaBzM6AbI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sEdpV-00GqyR-E0; Wed, 05 Jun 2024 01:44:37 +0200
+Date: Wed, 5 Jun 2024 01:44:37 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Paolo Abeni <pabeni@redhat.com>,
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v10 05/14] netdev: netdevice devmem allocator
+Message-ID: <3be107ce-3d9f-4528-b9f7-1c9e38da0688@lunn.ch>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-6-almasrymina@google.com>
+ <bea8b8bf1630309bb004f614e4a3c7f684a6acb6.camel@redhat.com>
+ <20240604121551.07192993@gandalf.local.home>
+ <20240604163158.GB21513@ziepe.ca>
+ <20240604124243.66203a46@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl> <568b8c9d-410f-49a8-a560-0cf948297ab4@xs4all.nl>
-In-Reply-To: <568b8c9d-410f-49a8-a560-0cf948297ab4@xs4all.nl>
-From: Steve Cho <stevecho@chromium.org>
-Date: Tue, 4 Jun 2024 14:48:43 -0700
-Message-ID: <CAC-pXoO3pmM87dywsGFX1Vs=gXhUy6eqVEYZ+5JRcRhxHFzZqg@mail.gmail.com>
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240604124243.66203a46@gandalf.local.home>
 
-Hi Hans,
+> Interesting, as I sped up the ftrace ring buffer by a substantial amount by
+> adding strategic __always_inline, noinline, likely() and unlikely()
+> throughout the code. It had to do with what was considered the fast path
+> and slow path, and not actually the size of the function. gcc got it
+> horribly wrong.
 
-If allowed, I would like to talk about how V4L2 virtual video decode
-driver is used to enhance testing on Chromium.
-I expect it to be 30mins.
+And what did the compiler people say when you reported gcc was getting
+it wrong?
 
-Steve
+Our assumption is, the compiler is better than a human at deciding
+this. Or at least, a human who does not spend a long time profiling
+and tuning. If this assumption is not true, we probably should be
+trying to figure out why, and improving the compiler when
+possible. That will benefit everybody.
 
-On Wed, May 15, 2024 at 2:32=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.nl> w=
-rote:
->
-> Hi all,
->
-> On 5/6/24 13:33, Hans Verkuil wrote:
-> > Hi all,
-> >
-> > We will organize another Media Summit on Monday September 16th to coinc=
-ide with
-> > the Open Source Summit Europe in Vienna:
-> >
-> > https://events.linuxfoundation.org/open-source-summit-europe/
-> >
-> > Avnet Silica has very kindly offered to host this summit at their Vienn=
-a
-> > office, which is about 35 minutes by public transport from the OSSE ven=
-ue.
-> >
-> > Location:
-> >
-> > https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH=
-+(Silica)/@48.183203,16.3100937,15z/data=3D!4m6!3m5!1s0x476da80e20b26d5b:0x=
-2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=3Dtt=
-u
-> >
-> > The meeting room can hold 18 people and has video conferencing support =
-(MS Teams).
-> >
-> > That said, I want to keep remote participation to a minimum. This yearl=
-y summit is meant
-> > for active media developers to meet up face-to-face and to discuss medi=
-a subsystem issues.
-> > But if you are an active media developer, but are not able to attend in=
- person, then this
-> > is an option.
-> >
-> > If you have a topic that you want to discuss, just 'Reply All' to this =
-announcement.
-> > It would be very much appreciated if you can also add a guesstimate of =
-the time
-> > you need for your topic.
-> >
-> > If you want to attend the meeting (either in person or remote), then se=
-nd an email to me
-> > directly. Since the number of seats is limited, I may have to put peopl=
-e on a waiting list.
-> > Please let me know sooner rather than later (ideally by mid-July) so I =
-have a good idea
-> > what to expect.
-> >
-> > Priority goes to presenters and the core media maintainers. If multiple=
- people of the same
-> > company want to attend, then I may ask to limit attendance to one or tw=
-o people.
-> >
-> > It is hard to predict how many people want to attend, so I'll see how i=
-t goes.
->
-> Just a quick update:
->
-> After just 9 days I already have 5 people who want to present something.
-> And currently I have 10 people who want to attend in person and one remot=
-ely.
->
-> So I am confident that we should be able to fill that room :-)
->
-> Regards,
->
->         Hans
->
+       Andrew
+
 
