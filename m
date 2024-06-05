@@ -1,67 +1,83 @@
-Return-Path: <linux-media+bounces-12582-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12574-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523B38FC9E4
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 13:11:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1620E8FC9BE
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 13:09:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60E8D1C24062
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 11:11:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A95FD28263F
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 11:09:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA5FB19306B;
-	Wed,  5 Jun 2024 11:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FF451922F6;
+	Wed,  5 Jun 2024 11:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="XzmtI09r"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ffAS1vBu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990BC190490;
-	Wed,  5 Jun 2024 11:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388B71946D3
+	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 11:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717585799; cv=none; b=kYRzDQEy+7Pch36wHbpGK/BIFS/ein9n52QkmKK7ZY9tlioT8Kh0eFFoGExrINALjgmWLmHJQZTLDiwYrV7ZnxBP95pXnmXldddXfyWx6mtROWD0nDBYSlF4fljvrEaoVKcCCvHKn60m6Gaq3+SIlSTUC+nN4DvkUs1Gzdd6nK4=
+	t=1717585756; cv=none; b=mHP3+nBKndVN154e+1iyc7zK9n0faefB736OzQ+wQ4y0yUC5yAufWkDwUmBDoSuabcqI1bN97L8pMo1z2aq0C5XsCbsToyKoFCNRnolj/fmpDLYzVfVwEMrA1E6RVf4zFKVV3wVK1VJYLCj6rOz6X0wn0YIH8iWjFtEO+ffkXdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717585799; c=relaxed/simple;
-	bh=HzcPhbufi5cXlv2G7/7Dg+cEaQz53uXcRQczeDy0Lfs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V2vLPM1TAoDjBRts65zdi47U5vdEHkDq0192jk8mRR7OcAm6HvqOCYc4vntgM1SASXbzmP5kxSkupdoK2DIzI2oHY5868Md2YRQj0yyL1sUiXB1phorH/TMWKFEsGjDqYXDSVY8OMueDJYBuaVo/wuZ+tNaiYYzJSoU3Q7KhjFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=XzmtI09r; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1717585744;
+	s=arc-20240116; t=1717585756; c=relaxed/simple;
+	bh=8Xx1ouwwexCtSNH14UOczjxunvtAa6ek+PdnfDHEF/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f4FGU8ICLFruN/jfMtbjT73qQt/lMz6qJdo1TxAtC5ik+Y5z1YXQ1U8OodG3wYhWXyC+3j17KcmkWGChnSU4Mbo0AUx5r6Q6m+tb9yxtHbZtfAy5AOSALlYhKYfwpHvQYxDESduiYVnJKQaQpHQ4nztxkQqMITwK0se4M85da3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ffAS1vBu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717585754;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zZ1Ob78ZjWlZgX+z9DrKajLPpBuBZCqRum8/eJrHWnI=;
-	b=XzmtI09rBY87MWojYhpPffNwV+tIMJP6oV+FTMNTTJFdgqd6aGorPN8QY9MEhjGs0p30GT
-	UDdqbOzhHbVGVhxE6bULS4PlV2hNYB8TNXt+MPSR3S/QMXX9ISC/bgsOfQE1l+Dn8t2dnY
-	BAIpk7/OcL7arzBDOyPGSrn5rpSGGuY=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Nuno Sa <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v10 6/6] Documentation: iio: Document high-speed DMABUF based API
-Date: Wed,  5 Jun 2024 13:08:45 +0200
-Message-ID: <20240605110845.86740-7-paul@crapouillou.net>
-In-Reply-To: <20240605110845.86740-1-paul@crapouillou.net>
-References: <20240605110845.86740-1-paul@crapouillou.net>
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tncC1Ez6NP/HHqgcRSeNYywzHgA1laaS8gNo9KdTqbI=;
+	b=ffAS1vBu5hYs3pR8XqtgAaDaNR0K5lcK7L82Gk4mUvZOwaGJlcUyhnzLO2GzO+sCNi5IZR
+	vI5O5006SvqDxcUNcLAZFn2kNvs0qqwmSS8pFnEl0EYMzvoR0basouXpd80gjCWwdq4ajn
+	BwZFAV2Ujtz9E6lo4EwUz3sv/anE/Wg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-651-sKZnt866ND2m4CtqHN9HhA-1; Wed, 05 Jun 2024 07:09:12 -0400
+X-MC-Unique: sKZnt866ND2m4CtqHN9HhA-1
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7951f93b044so100750385a.1
+        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2024 04:09:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717585751; x=1718190551;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tncC1Ez6NP/HHqgcRSeNYywzHgA1laaS8gNo9KdTqbI=;
+        b=K6+wFx6BDMdzBUG16Kvs6LsiRVho6B35tJ5z1yPRC5/cvkq+7cpBDg9Y1FQTj6fCMn
+         jPHeOO3iWCoRvcFT0f7klZKD3xFrTxa41FBxaZX0tqJHWj43loFm6akXvsZmLyX9EhNx
+         mGddWCUN1dRRD+C2sks91NrmNJXqJD7i/5ErAXWT47qYpiyGoMd0Ei2JdqaYwkPiro+N
+         KFxKnL72Fr+UE6abkQAgSc46aO/1TsGW14+e37u1EMeFtSHqniI8XCqEQwtRom1UDqtk
+         IyeFUsHS/0QRRDALemnqv8Dd2nj1BYoaRmlaiywUbXgfOehv1aOagHwWqHRfyLGBitwm
+         zWRw==
+X-Gm-Message-State: AOJu0Yy22uFtZ2WcG9ilPmFBrTL2WBGqzjj10aOO5IBtSMBIq0Ts07Dy
+	WaMJRWoqlxsa1u2CSOv28naxEE+GXyy4CufmNBg65A6N22P7sDwUsYoogwsR1+Vu6qICH3C+xPN
+	oGp6fj22/JL5TYrbratOilSg0eL6XDzYbOfUG9KptJ1puB0kvMvQ0tnZVShDR0g96SsnIlgIsYz
+	B6Q0rWczKYo97RJEQxCKio2DRXZKQjiYlZghMTEg+XuieU5zahaO8gtLc=
+X-Received: by 2002:a05:6214:3da1:b0:6ad:9cc3:4e0a with SMTP id 6a1803df08f44-6b030a86602mr22245826d6.58.1717585750907;
+        Wed, 05 Jun 2024 04:09:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEeUoMOpT6N8jHTEiIoA//pq3/H+gTrcVWJpuhNcN7bglDP9qYU60nE4P/hUHBHlVwZ55aOKQ==
+X-Received: by 2002:a05:6214:3da1:b0:6ad:9cc3:4e0a with SMTP id 6a1803df08f44-6b030a86602mr22245676d6.58.1717585750445;
+        Wed, 05 Jun 2024 04:09:10 -0700 (PDT)
+Received: from toolbox.redhat.com ([2001:9e8:89ab:ee00:9c20:c1a3:e856:8e0e])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44004d1d721sm41751251cf.76.2024.06.05.04.09.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 04:09:10 -0700 (PDT)
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 1/3] edid-decode: build: compile with -Wno-variadic-macros
+Date: Wed,  5 Jun 2024 13:09:01 +0200
+Message-ID: <20240605110907.621053-1-sebastian.wick@redhat.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,105 +86,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the new DMABUF based API.
-
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-
+Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
 ---
-v2: - Explicitly state that the new interface is optional and is
-      not implemented by all drivers.
-    - The IOCTLs can now only be called on the buffer FD returned by
-      IIO_BUFFER_GET_FD_IOCTL.
-    - Move the page up a bit in the index since it is core stuff and not
-      driver-specific.
+ meson.build | 1 +
+ 1 file changed, 1 insertion(+)
 
-v3: Update the documentation to reflect the new API.
-
-v5: Use description lists for the documentation of the three new IOCTLs
-    instead of abusing subsections.
-
-v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
-    whose format changed in iio/togreg.
----
- Documentation/iio/iio_dmabuf_api.rst | 54 ++++++++++++++++++++++++++++
- Documentation/iio/index.rst          |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 Documentation/iio/iio_dmabuf_api.rst
-
-diff --git a/Documentation/iio/iio_dmabuf_api.rst b/Documentation/iio/iio_dmabuf_api.rst
-new file mode 100644
-index 000000000000..1cd6cd51a582
---- /dev/null
-+++ b/Documentation/iio/iio_dmabuf_api.rst
-@@ -0,0 +1,54 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+High-speed DMABUF interface for IIO
-+===================================
-+
-+1. Overview
-+===========
-+
-+The Industrial I/O subsystem supports access to buffers through a
-+file-based interface, with read() and write() access calls through the
-+IIO device's dev node.
-+
-+It additionally supports a DMABUF based interface, where the userspace
-+can attach DMABUF objects (externally created) to a IIO buffer, and
-+subsequently use them for data transfers.
-+
-+A userspace application can then use this interface to share DMABUF
-+objects between several interfaces, allowing it to transfer data in a
-+zero-copy fashion, for instance between IIO and the USB stack.
-+
-+The userspace application can also memory-map the DMABUF objects, and
-+access the sample data directly. The advantage of doing this vs. the
-+read() interface is that it avoids an extra copy of the data between the
-+kernel and userspace. This is particularly useful for high-speed devices
-+which produce several megabytes or even gigabytes of data per second.
-+It does however increase the userspace-kernelspace synchronization
-+overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs have to
-+be used for data integrity.
-+
-+2. User API
-+===========
-+
-+As part of this interface, three new IOCTLs have been added. These three
-+IOCTLs have to be performed on the IIO buffer's file descriptor,
-+obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-+
-+  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
-+    Attach the DMABUF object, identified by its file descriptor, to the
-+    IIO buffer. Returns zero on success, and a negative errno value on
-+    error.
-+
-+  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
-+    Detach the given DMABUF object, identified by its file descriptor,
-+    from the IIO buffer. Returns zero on success, and a negative errno
-+    value on error.
-+
-+    Note that closing the IIO buffer's file descriptor will
-+    automatically detach all previously attached DMABUF objects.
-+
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-+    Enqueue a previously attached DMABUF object to the buffer queue.
-+    Enqueued DMABUFs will be read from (if output buffer) or written to
-+    (if input buffer) as long as the buffer is enabled.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 4c13bfa2865c..9cb4c50cb20d 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -9,6 +9,7 @@ Industrial I/O
+diff --git ./meson.build ../meson.build
+index ca57652..80f810f 100644
+--- ./meson.build
++++ ../meson.build
+@@ -7,6 +7,7 @@ edid_decode_args = [
+ 	'-Wno-missing-field-initializers',
+ 	'-Wno-unused-parameter',
+ 	'-Wimplicit-fallthrough',
++	'-Wno-variadic-macros',
+ ]
+ edid_decode_link_args = []
  
-    iio_configfs
-    iio_devbuf
-+   iio_dmabuf_api
-    iio_tools
- 
- Industrial I/O Kernel Drivers
 -- 
-2.43.0
+2.45.0
 
 
