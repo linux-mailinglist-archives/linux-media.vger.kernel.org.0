@@ -1,189 +1,165 @@
-Return-Path: <linux-media+bounces-12567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12568-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADD48FC7B5
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 11:25:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F017E8FC7B8
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 11:25:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 808C11F223A1
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 09:25:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 124DC1C20FD1
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 09:25:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFBFB190058;
-	Wed,  5 Jun 2024 09:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8B7918F2E6;
+	Wed,  5 Jun 2024 09:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4IlBDUi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F/P1LCHk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B73518FDB5
-	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 09:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E071946A9
+	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 09:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717579402; cv=none; b=Ergxc0imyvLCLOi+fC0JqWz0yNvG+89xRTbVqtjeyGL4YyiInfGMhPX7dpxQSK54/JK1SoK0/F222DXGaM1NK13t+92aqr6tcFZndlcE7bCwjHfEkYqbCDDCNsC2OTFRCQUWtrfWJ4UPvhmFSHZYIphNYaeQPZADzwZ8OPvfzAg=
+	t=1717579526; cv=none; b=gLezAJWJFukjjp4d7C05Dg89/u97l+gtYrpAQbPemRxuyQtduMTcE+/BIBpV1Tjzx8+cIeXLgw/laWrQDBFc2L1aKe2YgVNhdmECL9k5LIEUSDGgdy3AtWGjy9I/u6RkcCLqXQGv3NbDCVdsDlxiJgA6D57JJ9K71YdfvO3dEgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717579402; c=relaxed/simple;
-	bh=BF60kLa1oYWmpf/QdzM7vo5ujZs8ZT6VD8XVScs00UE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aUSfb8be0c+vE1o2gnH9LL/VctKA1wnWT6Ciog178wv5W3N9equwq7UbLSGrdQYKcy3TA5aW22pBPiJvSf3RSXMmkt/R4KGShOL3CvbgN2IKFupqICjfpCY74HGCaBhBaswYRaf/g9oIkzpK63KuUfiAzYewoLitu5nAdok5DTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4IlBDUi; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717579400; x=1749115400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BF60kLa1oYWmpf/QdzM7vo5ujZs8ZT6VD8XVScs00UE=;
-  b=R4IlBDUixrfpi3mKn8gSJEkYrARYRB26ULgOVjSdU0Mgt4Mte0RrfJok
-   EUjZL5+1bgYzqDqWuTRAWqzc3ojH0szhSj+u7eaJppYHQJm49nuAnW/BV
-   ND1xjYKdDELk8Y/cVpxBXnalqPGU5bdOGBdqh387F/Rg4bg01I56DTWxT
-   6CtvHI8S/5gZYSMtF81Ib1KPYZLlppXoVjPDSCF82OFLMvp9l2arxWboA
-   vDRJpnIcpqnnPgFcDszqzmHlHTqBsw6xL0AceofOseMZLOxbL7obd5mdM
-   kPQ9nXwqYO5lJRRn5cXNlLGtIFc4Qe4pcuYhFkRxcH1Zp/mwmubi/rj8E
-   w==;
-X-CSE-ConnectionGUID: FFchE0DjSM+OmtOpPCz3bA==
-X-CSE-MsgGUID: BSEuGBpOTH+4vyyD6EaCLA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14287400"
-X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; 
-   d="scan'208";a="14287400"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 02:23:20 -0700
-X-CSE-ConnectionGUID: 0PY6PhOUSWiPdnJeuQ7jlA==
-X-CSE-MsgGUID: /IuVTlNDT1G1hZ6d5fMG7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,216,1712646000"; 
-   d="scan'208";a="41969022"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 02:23:18 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 63A0211FB5E;
-	Wed,  5 Jun 2024 12:23:16 +0300 (EEST)
-Date: Wed, 5 Jun 2024 09:23:16 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 19/29] media: omap3isp: Release the isp device struct
- by media device callback
-Message-ID: <ZmAuhOIKX2x4SMux@kekkonen.localdomain>
-References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
- <20231220103713.113386-20-sakari.ailus@linux.intel.com>
- <20240207142311.GQ23702@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1717579526; c=relaxed/simple;
+	bh=jDIMASg0bbSoa59nEMmcvY5ZQPMiGKrt21tWciEt5bQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jnJxNRtZXN5JPbcRc/nTanqRd2MUARA7PnuvM3A+/ECaOK8mTeCXXshYxis8eq9PsiKxkPfyTo2gi47hXH9pYGMezJqpPwTZySWb1p6I0cP5pOKKkJU5K26a/KF57oAUSsn+2gxRnpy+H5OKqKWqbBeBy2rzGJ/UPZb99zGcOD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F/P1LCHk; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a690c8e64bdso170151166b.3
+        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2024 02:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717579523; x=1718184323; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EoJWhO/kN/nIDMel5oucInBCEkvezehjU4YBYZFp3Zg=;
+        b=F/P1LCHk0wJMEW2LFzaxw6AYQPJWyEM4G27vsBD/rcfdTLk90iSH7KjdPqZSAU0fRp
+         Ib0BQgQmywaOI9OzqmXD7W7gEW0d4Ypr5G7GAYFmpGim250B93t6QHCN4IzYyioxI41k
+         W0jKttazCsbX28q6S4Q6t2Fka1v5IZ61zAHWVLDQ4lYx1fj00OnEu/adafn2jCXY6B/N
+         4FuxGB7koP/iSyyXbKHrqCTUIh71flTAwXGLdL6Vue2mE65zaKhkjBrfPYYlxLS/ugqu
+         WAh9zkLjGP5zqofN8iWiKUt3s1psGgqfyRiTSsskucxOWtYoObfwGWc7uUr9DKjCI1Db
+         vJxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717579523; x=1718184323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EoJWhO/kN/nIDMel5oucInBCEkvezehjU4YBYZFp3Zg=;
+        b=Fwxdd6cW9k9jH9Bk2H1kxdclrE1W335R+tq3vFKrTWEwHzLNdqek+ZpQC1yHZ/cZI1
+         lQrIUxhyLojFy466WB0FX4Zm+haVqaV78XbyI/eMlgBMjWnIVV2nu2u+SQJbdxDatJWn
+         YD9+2HZqtJmzBzl/K6qlwSWIdP5D933gbj4191ncOM5MIgm2OAMJ7aEuftCcNSLDcoBd
+         ZjL/oXpSf2YVQt2eMsyj22KEYfbuxvtQYv0NSpAOVaqmFb+YoDZLzWasb/Z7kxtkSeE1
+         FUmT2V19zYrOo2RaSrAOC2wc1p/9qwSblUtB5JzUF4XyrgVbnY7SWwXlwUSBcsYMVI7I
+         IZmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSjiTHciE4gd5svIxtTMt13m0uz/sjCOioaC6CM3I2738yYYHBfQhmDBg4GRlSl1779auPle8ieWwEwCCtkBsjXi7q1ZOaD+Gmlcs=
+X-Gm-Message-State: AOJu0Yzq2bR7JDnKdgU7zoTB1EwEk3uBrs92EFXgsathXICQRMLS68nD
+	W8sEJVKyx7oUUzyX8K5px4koipWHL/K4VJsYBV1kUK016D/6pMyw/VO6D9uIjxrlSMF5WkkdOI7
+	5cRmBLuF1m/i0R2ysKBzHSB1qiI0ztFQMoIPfxg==
+X-Google-Smtp-Source: AGHT+IFiP2ByR690BX/p3xTWlgJRgSVR/t1BSJlG5eKWmT1URJ9DvEySnKdhmO6+OqTKFLDZLb8znMZmfpCG8k6SisY=
+X-Received: by 2002:a50:ab56:0:b0:57a:9159:df05 with SMTP id
+ 4fb4d7f45d1cf-57a9159df5fmr1279266a12.36.1717579522861; Wed, 05 Jun 2024
+ 02:25:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240207142311.GQ23702@pendragon.ideasonboard.com>
+References: <20240605012605.5341-1-21cnbao@gmail.com>
+In-Reply-To: <20240605012605.5341-1-21cnbao@gmail.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 5 Jun 2024 14:55:11 +0530
+Message-ID: <CAO_48GFq0Cd6rkWidN-=irT4kW9pEOqu_YxY9vd2nRRKcEy-tw@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: align fd_flags and heap_flags with dma_heap_allocation_data
+To: Barry Song <21cnbao@gmail.com>
+Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
+	Brian.Starkey@arm.com, benjamin.gaignard@collabora.com, 
+	christian.koenig@amd.com, dri-devel@lists.freedesktop.org, jstultz@google.com, 
+	linux-kernel@vger.kernel.org, tjmercier@google.com, v-songbaohua@oppo.com, 
+	hailong.liu@oppo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hello Barry,
 
-Thanks for the review.
 
-On Wed, Feb 07, 2024 at 04:23:11PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Dec 20, 2023 at 12:37:03PM +0200, Sakari Ailus wrote:
-> > Use the media device release callback to release the isp device's data
-> > structure. This approach has the benefit of not releasing memory which may
-> > still be accessed through open file handles whilst the isp driver is being
-> > unbound.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > ---
-> >  drivers/media/platform/ti/omap3isp/isp.c | 24 +++++++++++++++++++-----
-> >  1 file changed, 19 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
-> > index 1cda23244c7b..ef6a781d6da1 100644
-> > --- a/drivers/media/platform/ti/omap3isp/isp.c
-> > +++ b/drivers/media/platform/ti/omap3isp/isp.c
-> > @@ -649,8 +649,11 @@ static irqreturn_t isp_isr(int irq, void *_isp)
-> >  	return IRQ_HANDLED;
-> >  }
-> >  
-> > +static void isp_release(struct media_device *mdev);
-> > +
-> 
-> Forward declarations are not nice :-( Any hope to reorder functions to
-> fix this ?
+On Wed, 5 Jun 2024 at 06:56, Barry Song <21cnbao@gmail.com> wrote:
+>
+> From: Barry Song <v-songbaohua@oppo.com>
+>
+> dma_heap_allocation_data defines the UAPI as follows:
+>
+>  struct dma_heap_allocation_data {
+>         __u64 len;
+>         __u32 fd;
+>         __u32 fd_flags;
+>         __u64 heap_flags;
+>  };
+>
+> However, dma_heap_buffer_alloc() casts both fd_flags and heap_flags
+> into unsigned int. We're inconsistent with types in the non UAPI
+> arguments. This patch fixes it.
 
-This depends on moving isp_cleanup_modules up, too. If you think it's the
-lesser evil I'm fine with that.
+Thank you for your patch; I've pushed it to drm-misc-next.
 
-> 
-> >  static const struct media_device_ops isp_media_ops = {
-> >  	.link_notify = v4l2_pipeline_link_notify,
-> > +	.release = isp_release,
-> >  };
-> >  
-> >  /* -----------------------------------------------------------------------------
-> > @@ -1607,7 +1610,6 @@ static void isp_unregister_entities(struct isp_device *isp)
-> >  	omap3isp_stat_unregister_entities(&isp->isp_hist);
-> >  
-> >  	v4l2_device_unregister(&isp->v4l2_dev);
-> > -	media_device_cleanup(&isp->media_dev);
-> >  }
-> >  
-> >  static int isp_link_entity(
-> > @@ -1955,6 +1957,19 @@ static void isp_detach_iommu(struct isp_device *isp)
-> >  #endif
-> >  }
-> >  
-> > +static void isp_release(struct media_device *mdev)
-> > +{
-> > +	struct isp_device *isp =
-> > +		container_of(mdev, struct isp_device, media_dev);
-> > +
-> > +	isp_cleanup_modules(isp);
-> > +
-> > +	media_entity_enum_cleanup(&isp->crashed);
-> > +	v4l2_async_nf_cleanup(&isp->notifier);
-> 
-> This duplicates the call in isp_remove().
+Best,
+Sumit.
+>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> Acked-by: John Stultz <jstultz@google.com>
+> ---
+>  -v2:
+>  collect ack of John, thanks!
+>  refine commit message;
+>
+>  drivers/dma-buf/dma-heap.c    | 4 ++--
+>  include/uapi/linux/dma-heap.h | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 84ae708fafe7..2298ca5e112e 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -50,8 +50,8 @@ static struct class *dma_heap_class;
+>  static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+>
+>  static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+> -                                unsigned int fd_flags,
+> -                                unsigned int heap_flags)
+> +                                u32 fd_flags,
+> +                                u64 heap_flags)
+>  {
+>         struct dma_buf *dmabuf;
+>         int fd;
+> diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.=
+h
+> index 6f84fa08e074..a4cf716a49fa 100644
+> --- a/include/uapi/linux/dma-heap.h
+> +++ b/include/uapi/linux/dma-heap.h
+> @@ -19,7 +19,7 @@
+>  #define DMA_HEAP_VALID_FD_FLAGS (O_CLOEXEC | O_ACCMODE)
+>
+>  /* Currently no heap flags */
+> -#define DMA_HEAP_VALID_HEAP_FLAGS (0)
+> +#define DMA_HEAP_VALID_HEAP_FLAGS (0ULL)
+>
+>  /**
+>   * struct dma_heap_allocation_data - metadata passed from userspace for
+> --
+> 2.34.1
+>
 
-I'll drop the one in isp_remove().
 
-> 
-> > +
-> > +	kfree(isp);
-> > +}
-> > +
-> >  static int isp_attach_iommu(struct isp_device *isp)
-> >  {
-> >  #ifdef CONFIG_ARM_DMA_USE_IOMMU
-> > @@ -2004,16 +2019,15 @@ static void isp_remove(struct platform_device *pdev)
-> >  	v4l2_async_nf_unregister(&isp->notifier);
-> >  	v4l2_async_nf_cleanup(&isp->notifier);
-> >  	isp_unregister_entities(isp);
-> > -	isp_cleanup_modules(isp);
-> > +
-> >  	isp_xclk_cleanup(isp);
-> >  
-> >  	__omap3isp_get(isp, false);
-> >  	isp_detach_iommu(isp);
-> >  	__omap3isp_put(isp, false);
-> >  
-> > -	media_entity_enum_cleanup(&isp->crashed);
-> > -
-> > -	kfree(isp);
-> > +	/* May release isp immediately */
-> > +	media_device_put(&isp->media_dev);
-> >  }
-> >  
-> >  enum isp_of_phy {
-> 
+--=20
+Thanks and regards,
 
--- 
-Kind regards,
-
-Sakari Ailus
+Sumit Semwal (he / him)
+Tech Lead - LCG, Vertical Technologies
+Linaro.org =E2=94=82 Open source software for ARM SoCs
 
