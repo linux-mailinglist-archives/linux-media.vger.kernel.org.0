@@ -1,106 +1,134 @@
-Return-Path: <linux-media+bounces-12553-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12554-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDD28FC16E
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 03:51:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A4F8FC338
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 08:00:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 91E5EB22619
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 01:51:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 052F31F231EE
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 06:00:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD325577E;
-	Wed,  5 Jun 2024 01:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A3AD21C17E;
+	Wed,  5 Jun 2024 06:00:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8830E1EA90
-	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 01:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86954EB55
+	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 06:00:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717552300; cv=none; b=UmkcVP0w3Fb8CHMnNgOlh/Z7kRCNY//rJuG24fUJ3L0FM58yTELCBQGFXOm/2cRmiKxW0WwtJAb6KLCD7EHQUojZGwdLcUOL5NWT5cmn4A0mkmSlrZPxLjTuVk0f6eHE1Pj80Qd90kxA+7rO10qy1dTuV0WTUls68PsFZCwcSK8=
+	t=1717567248; cv=none; b=Q6zsiaE2YkQ/kazQrVKSGHVpjmE7DiSnhBn/6uLsad4AygYHb2qngnn1QnY9DyCQbVuom4McNNNEut9NZxPiFXWf5liAxMUVZSLhycCRGX+0lcIWSKNVwXTx8FXqvQnu7AjpEqdBOLkD3PQQAA2/ky3wXy8xbVZhysCMny0RZ6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717552300; c=relaxed/simple;
-	bh=0qam7koPIYLRXRWk98eoINR0alSP1PZ8+sy+LDwswHo=;
-	h=Date:From:To:Subject:Message-Id; b=j+HCAn0kw0vtFEor0napYzuZCMnNN4CTN1YtRjaboknqNjkPlUMqFIia4uMcEWa0hS3u+3FGHgZoThFi6G4X8Tft/8QmTeXSZtiqaBUwwy4M15P37Z6bXWtpUj+N4KBgf35rqQhSFTCQG7BaWI0Yv8lmMml4iDVH6s9DsWW2Exc=
+	s=arc-20240116; t=1717567248; c=relaxed/simple;
+	bh=5OQSyxnPfpiFXsL6zpttwAUotkZ4eCEeNyHzVat5Jz0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fk/rMWEJQ+KFMI1hkGjVOAlXVGhuzleT+ea53MbGG9SbAUcY897PqsIS5YOMOs1dqqM3n5gwUDtN9L7JPcT+M1sHCy2HTw8tl+dAdD8YipTjiZMFEubzW7hKEjzqyS0cLigqdZaetQ1NciDpTILf5wBnA4EVALJ8UBLAwM10rCs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A835BC2BBFC
-	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 01:51:39 +0000 (UTC)
-Date: Wed, 05 Jun 2024 03:51:37 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240605015139.A835BC2BBFC@smtp.kernel.org>
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4ECC32781;
+	Wed,  5 Jun 2024 06:00:47 +0000 (UTC)
+Message-ID: <1e8f0155-1b8b-4bb4-8358-5854e991910d@xs4all.nl>
+Date: Wed, 5 Jun 2024 08:00:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] edid-decode: Cannot support NonMixed MS without MS
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: linux-media@vger.kernel.org
+References: <20240529100301.127652-1-sebastian.wick@redhat.com>
+ <b7097390-1609-4faa-8e88-9bfe5a00641d@xs4all.nl>
+ <CA+hFU4yNeQmJRNZT2eSKtdX6pSv-oixNRRj-O5--8R-gK5oo6w@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CA+hFU4yNeQmJRNZT2eSKtdX6pSv-oixNRRj-O5--8R-gK5oo6w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On 04/06/2024 18:57, Sebastian Wick wrote:
+> On Wed, May 29, 2024 at 4:16 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> Hi Sebastian,
+>>
+>> On 29/05/2024 12:02, Sebastian Wick wrote:
+>>> When `Max Stream Count` is zero, the sink does not support multistream
+>>> and thus cannot support NonMixed MS.
+>>>
+>>> An EDID with Max Stream Count = 0 and Non Mixed MS = 1 can be found in
+>>> linuxhw/EDID ./Digital/TCL/TCL5655/1723FF2DC6D1 at commit cff7fe4d44.
+>>>
+>>> Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+>>> ---
+>>>  parse-cta-block.cpp | 7 ++++---
+>>>  1 file changed, 4 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git ./parse-cta-block.cpp ../parse-cta-block.cpp
+>>> index 4d2afc6..7cd7a3a 100644
+>>> --- ./parse-cta-block.cpp
+>>> +++ ../parse-cta-block.cpp
+>>> @@ -2498,10 +2498,11 @@ static void cta_hdmi_audio_block(const unsigned char *x, unsigned length)
+>>>               fail("Empty Data Block with length %u.\n", length);
+>>>               return;
+>>>       }
+>>> -     if (x[0] & 3)
+>>> +     if (x[0] & 3) {
+>>>               printf("    Max Stream Count: %u\n", (x[0] & 3) + 1);
+>>> -     if (x[0] & 4)
+>>> -             printf("    Supports MS NonMixed\n");
+>>> +         if (x[0] & 4)
+>>> +                 printf("    Supports MS NonMixed\n");
+>>> +     }
+>>
+>> I would actually leave this as-is, but instead add a fail() message
+>> if MS NonMixed is set, but Max Stream Count == 0.
+>>
+>> It's really an EDID conformity failure, and it should be reported as such.
+> 
+> I'm all for adding a fail() message but I'm afraid our implementation
+> which tries to be compatible with the output here won't have access to
+> the MS NonMixed bit when Max Stream Count == 0.
+> 
+> Would this work for you?
+> 
+>     if (x[0] & 3) {
+>         printf("    Max Stream Count: %u\n", (x[0] & 3) + 1);
+>         if (x[0] & 4)
+>             printf("    Supports MS NonMixed\n");
+>         else
+>                 fail("NonMixed MS support indicated but MS is unsupported\n");
+>     }
 
-Results of the daily build of media_tree:
+Correcting the logic that would be this:
 
-date:			Wed Jun  5 03:00:16 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	1aea3d1d4a21e3e7895663b848ffae79ee82e065
-v4l-utils git hash:	7d55dd435be30c47bf4766ec264ace1c0ffb06e5
-edid-decode git hash:	f4b0548cb4b4cdff7947be59ce795b23e60266ed
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8639-gff1cc4d4
-sparse version:		v0.5.0-8639-gff1cc4d4
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3e9c9a50a2489e266e13733b4caff417b4634d71
-host hardware:		x86_64
-host os:		6.5.0-26-generic
+	if (x[0] & 3) {
+        	printf("    Max Stream Count: %u\n", (x[0] & 3) + 1);
+		if (x[0] & 4)
+			printf("    Supports MS NonMixed\n");
+	} else if (x[0] & 4) {
+		fail("MS NonMixed support indicated but Max Stream Count == 0.\n");
+	}
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+And that works for me.
 
-date:			Wed Jun  5 03:14:13 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+Regards,
 
-date:			Wed Jun  5 03:50:39 CEST 2024
+	Hans
 
-Detailed results are available here:
+> 
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>>       num_descs = x[1] & 7;
+>>>       if (num_descs == 0)
+>>
+> 
 
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
