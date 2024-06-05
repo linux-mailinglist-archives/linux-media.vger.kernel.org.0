@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-12561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12562-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD1008FC4C2
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 09:41:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C964A8FC4C3
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 09:41:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C48F1F2230A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 07:41:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8043F2828CF
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jun 2024 07:41:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA7A118F2E3;
-	Wed,  5 Jun 2024 07:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E2118C35D;
+	Wed,  5 Jun 2024 07:40:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="li7uccOq"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mK5hivPZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0724418F2D9
-	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 07:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B908D18C356
+	for <linux-media@vger.kernel.org>; Wed,  5 Jun 2024 07:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717573248; cv=none; b=u5roZ4ua5FTGWTaEkkuPgGslfiIGhVqOBTJRjnPun1WhtqFmh+Kv1/HleMsTaEisPJPqhvloERoN7UOmrLNGeT7ggAkuRAMcxVOKtIFJqoXtfiZRE+U0OMivK9ecQlxlrINe1p1evgkRRnCZ3rHOTyrCjDLa0RURYIrk0J/1OMo=
+	t=1717573250; cv=none; b=mpXMF/DiwFvSNmr0LwkFD1eRqnqLtWEndZhnGhWybVmVbs9N7To6bUnpaZXCOYz017E8nBFwaFHtx4PUbds2yo4SFuK/dG41x4Gn/I6Eq2PsCsgApmYoUdOIXl0VtAR0qFB3l0S0Wslcm8J5CeoxOTwwR3bDlNazlpgHexQvxc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717573248; c=relaxed/simple;
-	bh=n5fDZYdf8tnquDv4cDTSmY4cutIjFCCgX8eNH7j0RRo=;
+	s=arc-20240116; t=1717573250; c=relaxed/simple;
+	bh=/ASCOX5eT+IGEco2MTmPN5goM4pJFVnmbynShjYA9C8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AZ9urWbg0sVpeYBzIEUxaf37o1Reql59QkgDAtp0dOSrSp05NOU78UCpWIGZnJ2L7Wx5vzUDlZ58am4pDo7HYwhIGSzBZGGCuoB0i0/4PYE38/+fP9g6DvNg1FeuISxhsuaasIrdgAKeMc3lLO7w4SDbO6UQUmrtiZCVOeec2Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=li7uccOq; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=fRw34GBpmgTC+/dGDbQeSyTQNWRqAi9ThwLwncZFgiluT4oU6gWjLFz3pSDC6nVyorapINNxKbqltteeNPHvKIWi4XDbLr7/SFRh718BzgWWCmNwvikNTF2lnIkEsTX3ZY4IfDwfcFTZJ5mUYoKrbCpulnenJGjq54ejQTZfMx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mK5hivPZ; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7024d571d8eso4036425b3a.0
-        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2024 00:40:46 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-703e5a09c11so552892b3a.2
+        for <linux-media@vger.kernel.org>; Wed, 05 Jun 2024 00:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717573246; x=1718178046; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1717573248; x=1718178048; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kvM/pmj9mOQJ/m+0J3H6muW7b88nPJP7pDjAngMaRbo=;
-        b=li7uccOqkJ9mcKQn37MJCz9IGgvMUx95k8T/HjTWbClL54ZI1hLGE1xrJVH58ALaIu
-         ub6K4ohPYce4ujoyAKjuHicdGayXFkeFO5Uth7CSGa+/m8eOVyV5yjIC8sT+pcu7FXp1
-         H8GuC8W4aqw34OUFuP6+5sXU1hmq/XgD5mvgM=
+        bh=t04at/1az1gpesu5WPsR4YAcHcPjXq1Mids7Upubl5M=;
+        b=mK5hivPZhVuBssCdES496CMP2iKxIY3mbWbZpc7F89nl1+HZwsugWKGgEy1vXBLBuo
+         ZDHJfe4zUPNw4W/bPhjgC0QG5PZI0dYccEFMFzrpY0ZfN61hS1YE8CIjZzh3aReODjWV
+         6yTvS79d4CuWizDNg0H/pxCcRLZo9xvf4P48M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717573246; x=1718178046;
+        d=1e100.net; s=20230601; t=1717573248; x=1718178048;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kvM/pmj9mOQJ/m+0J3H6muW7b88nPJP7pDjAngMaRbo=;
-        b=Hxlwt6j2UiYuwC1OcFN1WD8DCrCYR4bMqcYO/3EMUTncdhGCK/M38vxiVUaeMfojXX
-         4SQu9fmBpAjWb28p+EWffYHH18kAjhnQRdLJBDp1fy8+6FLe4675s3tr5jK2CQwPooI7
-         twi66B9SUogzxgBxKN6iLg6W62h41vB/ufAE2JDZoup8/4FIWRVyw8mso3AhMGiCvIeU
-         vGlVhuvB/gKpW2d0nFiIwZgqH0C3oQMB3KGV9EXyGJtOIuJaknOV9jlBmR0uREGs8f5t
-         xUBC7fqOallTuKPVA2MEAeEcmORj6mO2f5NaoOkVap6xocpiAwnpTKp874/YpDal35A+
-         0G+A==
-X-Gm-Message-State: AOJu0YyiMkgZtICUqiId0NkpGiLDH7GPhndq62n9QmhRRvxDukNdvaPQ
-	knw5GblhQ/DKDWxueN49ffUVM9A1MLJ/HkSiAuRl7QOg8h3FoGs8mR5qF9b3mg==
-X-Google-Smtp-Source: AGHT+IHeF4pUp6YVL0a+U+Df6O/eJtfdEKN0/mNghRnvTagvD1al64Cp0U7hAHg4LClX+W24kzDteA==
-X-Received: by 2002:a05:6a21:188:b0:1b1:d7a3:a76b with SMTP id adf61e73a8af0-1b2b6fca806mr2279743637.33.1717573246083;
-        Wed, 05 Jun 2024 00:40:46 -0700 (PDT)
+        bh=t04at/1az1gpesu5WPsR4YAcHcPjXq1Mids7Upubl5M=;
+        b=AlmAzf5f3VSngcjg16De5JDQV6sCTqShRbiOfQq+yj0t/UTJw1aVl9rjktWCyWNT/w
+         g6gUZcI2Ei24GU+pp+BRQG0SIoI6ZIvDoH7Lh0Xrn0tQlFTF3k5Yq1WYs1P+Zn+uOWGv
+         SuTpInP/V0oFt+7S+Q0Fv/BCBz3YLITI7CqG0NkB8RjdAfWQH7qzRZssdhikfegjDCcF
+         2D3prj6Izlj3Hpr4ov8wJ6Gzb8j/JuEBR2dWltVRKbW+dUxXSfmgVF6xah2ot4PWJA8s
+         CDU6BNCKetR4ZGgOx8QWTo1+BTMO9L1wXvtxfb4mjPFLl90GMjuADSD3tYw76NNEIPPG
+         Wsgw==
+X-Gm-Message-State: AOJu0YyYexlJJ4LTxURZEj9I9kQk2fJX1uYBhSLZ9+VzXa7Y2wFv26zt
+	FMld1/c/yNgngfWovJjC5ixXh8h17FF2fiyjWwQGxd7DivzbF3o0KKEpL/BzGg==
+X-Google-Smtp-Source: AGHT+IGDNcfAOhvHZeEUbC2a/gQw1w1ZyjIGSZhGGpNBEwE1axh1itrdawQ2fyddNhyLVFxeqxWCEg==
+X-Received: by 2002:a05:6a20:3c8a:b0:1b0:2472:da14 with SMTP id adf61e73a8af0-1b2b6e4b4c5mr2346362637.2.1717573247958;
+        Wed, 05 Jun 2024 00:40:47 -0700 (PDT)
 Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:f834:a68:ab2:f744])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6324e54besm95500405ad.254.2024.06.05.00.40.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6324e54besm95500405ad.254.2024.06.05.00.40.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 00:40:45 -0700 (PDT)
+        Wed, 05 Jun 2024 00:40:47 -0700 (PDT)
 From: Yunke Cao <yunkec@chromium.org>
 To: Tomasz Figa <tfiga@chromium.org>,
 	Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -70,9 +70,9 @@ To: Tomasz Figa <tfiga@chromium.org>,
 	Hans Verkuil <hverkuil@xs4all.nl>
 Cc: linux-media@vger.kernel.org,
 	Yunke Cao <yunkec@chromium.org>
-Subject: [PATCH v3 3/4] media: videobuf2-core: reverse the iteration order in __vb2_buf_dmabuf_put
-Date: Wed,  5 Jun 2024 16:40:34 +0900
-Message-ID: <20240605074035.2620140-4-yunkec@chromium.org>
+Subject: [PATCH v3 4/4] media: videobuf2-core: attach once if multiple planes share the same dbuf
+Date: Wed,  5 Jun 2024 16:40:35 +0900
+Message-ID: <20240605074035.2620140-5-yunkec@chromium.org>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
 In-Reply-To: <20240605074035.2620140-1-yunkec@chromium.org>
 References: <20240605074035.2620140-1-yunkec@chromium.org>
@@ -84,32 +84,110 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Release the planes from num_planes - 1 to 0.
+When multiple planes use the same dma buf, each plane will have its own dma
+buf attachment and mapping. It is a waste of IOVA space.
+
+This patch adds a dbuf_duplicated boolean in vb2_plane. If a plane's dbuf
+is the same as an existing plane, do not create another attachment and
+mapping.
 
 Signed-off-by: Yunke Cao <yunkec@chromium.org>
 ---
-v3:
-- Change local variable to an integer to make the code cleaner.
+v3
+- Adjust the patch according to the previous patches to resolve conflicts.
+- Add comment to explain the purpose of the change.
+
+v2
+- Separate out the refactor changes out to previous patches.
+- Fix mem_priv check.
 ---
- drivers/media/common/videobuf2/videobuf2-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../media/common/videobuf2/videobuf2-core.c   | 29 ++++++++++++++++---
+ include/media/videobuf2-core.h                |  3 ++
+ 2 files changed, 28 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index a4fbc7a57ee0..cbc8928f0418 100644
+index cbc8928f0418..90b65bf6c463 100644
 --- a/drivers/media/common/videobuf2/videobuf2-core.c
 +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -324,9 +324,9 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
-  */
- static void __vb2_buf_dmabuf_put(struct vb2_buffer *vb)
- {
--	unsigned int plane;
-+	int plane;
+@@ -304,10 +304,13 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
+ 	if (!p->mem_priv)
+ 		return;
  
--	for (plane = 0; plane < vb->num_planes; ++plane)
-+	for (plane = vb->num_planes - 1; plane >= 0; --plane)
- 		__vb2_plane_dmabuf_put(vb, &vb->planes[plane]);
+-	if (p->dbuf_mapped)
+-		call_void_memop(vb, unmap_dmabuf, p->mem_priv);
++	if (!p->dbuf_duplicated) {
++		if (p->dbuf_mapped)
++			call_void_memop(vb, unmap_dmabuf, p->mem_priv);
++
++		call_void_memop(vb, detach_dmabuf, p->mem_priv);
++	}
+ 
+-	call_void_memop(vb, detach_dmabuf, p->mem_priv);
+ 	dma_buf_put(p->dbuf);
+ 	p->mem_priv = NULL;
+ 	p->dbuf = NULL;
+@@ -316,6 +319,7 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
+ 	p->length = 0;
+ 	p->m.fd = 0;
+ 	p->data_offset = 0;
++	p->dbuf_duplicated = false;
  }
  
+ /*
+@@ -1374,7 +1378,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 	struct vb2_plane planes[VB2_MAX_PLANES];
+ 	struct vb2_queue *q = vb->vb2_queue;
+ 	void *mem_priv;
+-	unsigned int plane;
++	unsigned int plane, i;
+ 	int ret = 0;
+ 	bool reacquired = vb->planes[0].mem_priv == NULL;
+ 
+@@ -1427,6 +1431,23 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
+ 		}
+ 
+ 		for (plane = 0; plane < vb->num_planes; ++plane) {
++			/*
++			 * This is an optimization to reduce dma_buf attachment/mapping.
++			 * When the same dma_buf is used for multiple planes, there is no need
++			 * to create duplicated attachments.
++			 */
++			for (i = 0; i < plane; ++i) {
++				if (planes[plane].dbuf == vb->planes[i].dbuf) {
++					vb->planes[plane].dbuf_duplicated = true;
++					vb->planes[plane].dbuf = vb->planes[i].dbuf;
++					vb->planes[plane].mem_priv = vb->planes[i].mem_priv;
++					break;
++				}
++			}
++
++			if (vb->planes[plane].dbuf_duplicated)
++				continue;
++
+ 			/* Acquire each plane's memory */
+ 			mem_priv = call_ptr_memop(attach_dmabuf,
+ 						  vb,
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 955237ac503d..053ced60595f 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -154,6 +154,8 @@ struct vb2_mem_ops {
+  * @mem_priv:	private data with this plane.
+  * @dbuf:	dma_buf - shared buffer object.
+  * @dbuf_mapped:	flag to show whether dbuf is mapped or not
++ * @duplicated_dbuf:	boolean to show whether dbuf is duplicated with a
++ *		previous plane of the buffer.
+  * @bytesused:	number of bytes occupied by data in the plane (payload).
+  * @length:	size of this plane (NOT the payload) in bytes. The maximum
+  *		valid size is MAX_UINT - PAGE_SIZE.
+@@ -179,6 +181,7 @@ struct vb2_plane {
+ 	void			*mem_priv;
+ 	struct dma_buf		*dbuf;
+ 	unsigned int		dbuf_mapped;
++	bool			dbuf_duplicated;
+ 	unsigned int		bytesused;
+ 	unsigned int		length;
+ 	unsigned int		min_length;
 -- 
 2.45.1.288.g0e0cd299f1-goog
 
