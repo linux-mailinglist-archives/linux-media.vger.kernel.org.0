@@ -1,122 +1,139 @@
-Return-Path: <linux-media+bounces-12657-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12658-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323728FE792
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 15:21:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A238FE7DA
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 15:32:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6DFE28601A
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 13:20:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8B6BB24D93
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 13:32:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31FB8198E66;
-	Thu,  6 Jun 2024 13:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A355195FD9;
+	Thu,  6 Jun 2024 13:32:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dr0D+icq"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="IIauxGLV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2AC197A89
-	for <linux-media@vger.kernel.org>; Thu,  6 Jun 2024 13:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB27C19597D;
+	Thu,  6 Jun 2024 13:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717679865; cv=none; b=uZ+JqXw4vI0CwSEWOvKsVcXRMtOr1Z7AroumWf4fnQeALbTl1oEp0brAV7FmZ1uX42wQAUDiFF1ILnKMR97wGnjwx1L1bKXSukQzDGBekIGLJ/+OrTDcaDCSTNvNmvHcibZ8PSAOUkPTm2Rpx6OPjqdkFm8K4IyafgugdbeNMRw=
+	t=1717680727; cv=none; b=duxbZ8YUa3JMnbaXqYFsTe0sXjWNAJF94rHcujtqT0FF/YQ0AsAHrfS5UCq5ADqgh+GGWOwXnOrkkgqjx4nMZCPqJ6Lr0S01llkCh8osbN9+2hBNapI/3iA/pAk7CgJCqUyFD6nrqhbNOLa1s4ALEd8l7JZrzODjToM5ZE9y9OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717679865; c=relaxed/simple;
-	bh=Avo2Fleh4ujjt70o15EeficxKnpelBo2TOFCLUdZKFI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nZuycRCrMur1gCPcqQ+WYBeqP20us5rM/Upc4OaqlVQuxhx0miSqg2Mnd7Dwc/Loy3EMiwCfBZdBEPq1lHRCVjR0Ixu06pZAqm9r/O+Yubxku1QsjtMf0l03N58/RFMPeaLI5pEpPYql+Xm2W/Xbb4zkSoLYLCMLQ36A7WNeQNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dr0D+icq; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-440299bcf53so4553251cf.3
-        for <linux-media@vger.kernel.org>; Thu, 06 Jun 2024 06:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717679863; x=1718284663; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2o9uFpZwETiKeZWYLVPp/h/C01HBTzSktsioUGg06Ew=;
-        b=dr0D+icqsuyL2nuQ7p7S3Vud/E3YjHXXW6VdaFnIvukhdpS6XoVSxygvcFuE3lurd4
-         ElRlCgM7ovhhl4r98jnxmqNfFGAemoaFK95QcAr78CbdyY7YSZRiDvoAgDLT1m3Hjd6n
-         yrt+P0n5v7LJW1e/NjwPDP670UOhdTjCZpvfM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717679863; x=1718284663;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2o9uFpZwETiKeZWYLVPp/h/C01HBTzSktsioUGg06Ew=;
-        b=BtAhA3yiOnwFUCybUe6ToxGLJDb+CBMthDU7X/r4SSdR9jVMOOosUSwYMJQuc/Sb05
-         wnyu+MrqtC0+sab8rHU+JKT1eUw27VkA8hvwiZ0FfRghRj1vs/YJDoJl0l0OyNSuREL2
-         qXiBlS7whaajADUYM6noBuSs98XTOO+MmW08KN5uwgBQiBnNccRy4ZXALbmQjtJnxXpI
-         Qmg/R84+0h6nPljiDJGrNItpdx4kscUkLki/BDqor3VAEIHWCWvdUbGf9pJDcEWtQF0n
-         LjgjEmlvhjWqQ39xMFuD+CQ1SKRoqLuhDSsU78EiFlr322d7Q9u5r6XJkU4ml/AuloBM
-         z9cA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgxvNiV1CiiX68HewPjGQ3tlYJLKxPCpeqSro+2zaz7RGwQenGj3okJIBE4thzcx96GfXodoP42psYPDXaZeYkBarb0PBtTVAdyK4=
-X-Gm-Message-State: AOJu0YzV2rA5HgUn99TYesX6KDw4JVK09AZc3KctY5HnEJuA/9USLASS
-	HrN8Xk7lrfWjg//3SaSYcoJhbzIPzu071x3T51gueYHqYp3CMUV7jUaPtV2grw==
-X-Google-Smtp-Source: AGHT+IE8jXrmgfRC91PfzOqBRQfeMgy1DzBFB7+DOjFIBnca6lzwJN2RUcERx9LU43E0vr3vRV6ErQ==
-X-Received: by 2002:a05:6214:3f91:b0:6af:cdb3:5db with SMTP id 6a1803df08f44-6b031cecca9mr63488376d6.63.1717679863024;
-        Thu, 06 Jun 2024 06:17:43 -0700 (PDT)
-Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b04f6607f5sm6118036d6.31.2024.06.06.06.17.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 06:17:42 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 06 Jun 2024 13:16:45 +0000
-Subject: [PATCH v4 11/11] media: venus: Refactor
- hfi_buffer_alloc_mode_supported
+	s=arc-20240116; t=1717680727; c=relaxed/simple;
+	bh=53K5bVAU63enbPKQhnSpr1fiYKwTeDxOkN3UofZdK8E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UiuSq2rYGaysH/469nNZMb24xko5ytDcnaXn5lVg0H3al7SmhkNV8/ByXsNzNUWERS4wN5ZH62T8i5NCuYOsh2PTnaKH+ueYeN8Lpcl6M5iZXc2M6pPgilsYkbAkVndiLvFwCQ/rc0PlEAdTtBgG4OkS7yOP5Ryc8WY5+06SMFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=IIauxGLV; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 456DVYEY112323;
+	Thu, 6 Jun 2024 08:31:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1717680694;
+	bh=Kx5MbrOxEtUYpPljTcPyApoVWRxhbFbQe/9s37OMmCI=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=IIauxGLVgHg8W+1s6ZuXkpglyYHoGyj6IbB/vdCltxFUk5OMs1jzDWba6/9RH6VpF
+	 QKfehPzFWYMiIyAaEIvkBHLd3TT4sGc6gsO3SVtPFOC2idQy+mHWEVuU1qsr6fdiPQ
+	 B2udbUq6G6Zenk8payCeoJ4yekMhmgRwPh2jnUts=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 456DVYU6025743
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 6 Jun 2024 08:31:34 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 6
+ Jun 2024 08:31:34 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 6 Jun 2024 08:31:34 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 456DVQmd125266;
+	Thu, 6 Jun 2024 08:31:27 -0500
+Message-ID: <7e4a0071-18a0-b892-5cd3-c8eb70617090@ti.com>
+Date: Thu, 6 Jun 2024 19:01:26 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v12 12/13] media: imagination: Round to closest multiple
+ for cropping region
+Content-Language: en-US
+To: Sebastian Fricke <sebastian.fricke@collabora.com>
+CC: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <dri-devel@lists.freedesktop.org>,
+        <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
+        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+        <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
+        <jani.nikula@intel.com>
+References: <20240604104001.2235082-1-devarsht@ti.com>
+ <20240604105335.2257629-1-devarsht@ti.com>
+ <20240606114459.x73yebdu7kg7re52@basti-XPS-13-9310>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20240606114459.x73yebdu7kg7re52@basti-XPS-13-9310>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240606-cocci-flexarray-v4-11-3379ee5eed28@chromium.org>
-References: <20240606-cocci-flexarray-v4-0-3379ee5eed28@chromium.org>
-In-Reply-To: <20240606-cocci-flexarray-v4-0-3379ee5eed28@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
- Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.12.4
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Replace the old style single element array at the end of the struct with
-a flex array.
+Hi Sebastian
 
-The code does not allocate this structure, so the size change should not
-be a problem.
+Thanks for the update.
+On 06/06/24 17:14, Sebastian Fricke wrote:
+> Hey,
+> 
+> On 04.06.2024 16:23, Devarsh Thakkar wrote:
+>> If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
+>> (V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
+>> multiple of requested value while updating the crop rectangle coordinates.
+>>
+>> Use the rounding macro which gives preference to rounding down in case two
+>> nearest values (high and low) are possible to raise the probability of
+>> cropping rectangle falling inside the bound region.
+>>
+>> This complies with the VIDIOC_G_SELECTION, VIDIOC_S_SELECTION ioctl
+>> description as documented in v4l uapi [1] which specifies that driver
+>> should choose crop rectangle as close as possible if no flags are passed by
+>> user-space, as quoted below :
+>>
+>> "``0`` - The driver can adjust the rectangle size freely and shall choose a
+>> crop/compose rectangle as close as possible to the requested
+>> one."
+>>
+>> Link:
+>> https://www.kernel.org/doc/Documentation/userspace-api/media/v4l/vidioc-g-selection.rst [1]
+>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> 
+> Acked-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> 
+> Can, whoever picks up the math changes, pick up this change as well?
+> I will send 1-6 via the media subsystem.
+> 
 
-This fixes the following cocci warning:
-drivers/media/platform/qcom/venus/hfi_helper.h:1233:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+For [PATCH 1/13] to [PATCH 6/13] patches from the series,
+I see few warnings reported to me offline for some of the patches which were
+caught from using smatch/sparse related automation scripts which were somehow
+missed by my equivalent test script. The fixes should be trivial though and I
+will be rolling out a v13 soon to fix them up.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/platform/qcom/venus/hfi_helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The rest of the patches (PATCH 7/13 to PATCH 13/13) no smatch/sparse related
+warnings were caught for these though, and are good to go in. Although, I can
+still include them in V13 too just to avoid any confusion.
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index dee439ea4d2e..9545c964a428 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -1230,7 +1230,7 @@ struct hfi_interlace_format_supported {
- struct hfi_buffer_alloc_mode_supported {
- 	u32 buffer_type;
- 	u32 num_entries;
--	u32 data[1];
-+	u32 data[];
- };
- 
- struct hfi_metadata_pass_through {
-
--- 
-2.45.2.505.gda0bf45e8d-goog
-
+Regards
+Devarsh
 
