@@ -1,183 +1,144 @@
-Return-Path: <linux-media+bounces-12639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E378FE45A
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 12:32:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D42088FE5B6
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 13:45:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD54E1C2323A
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 10:32:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78DD81F273AB
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 11:45:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 462C1195387;
-	Thu,  6 Jun 2024 10:32:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2638195962;
+	Thu,  6 Jun 2024 11:45:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ij9/iU/U"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="3sml7F9U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32A517E8ED
-	for <linux-media@vger.kernel.org>; Thu,  6 Jun 2024 10:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739011957FC;
+	Thu,  6 Jun 2024 11:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717669926; cv=none; b=jYq7VoqLZ7mkfszRvSr5WjUaXBxIcsetACFjipqCMRFCCqTkBxjqNBefWXraVkN1TB7M29CqVTPqvyicuN4yrLSMjHxNazNAxe8+CoyiAVz+K/dn408YH5zkriB9CJXNzInXo4FYT5FPzc2ybr5daYKWzLtDuNJwjw6x5fkY58c=
+	t=1717674304; cv=none; b=ILuxVW5rGKF893Zf+l6mmZO92TuV46FGnFdopKCYw8KmtG3bkU6BiwhqxUCacaqA9dEHR280rxr2UYXaZ13tsR6EIyEIRH/XxEBpZHQy3FphHEMi5LJIDp+mAaJrxbxfmjP2RrgApQdJcMwZKgpE+98R4zQd2lBHnUPv/YAKbOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717669926; c=relaxed/simple;
-	bh=n0hrzdYnBksW+DamHG6BupTO1J0YAJybs/VDL2sugrE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uov7lggP/0YGwIvBHiIfFjDEWi42ZJFL98ws2FeWrQZ3w3tfNv89+MeZOz3y9h2K5LMhzXe3UrgwGo9wiXVadHDl+1YmIbSMA8nRwc6R15o7kz8dzcLMPoMAPrsH1h/yDpT8p7tjgeou0RIeXelIBRWV/jnEf0iLIAfAbOSPVns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ij9/iU/U; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eaa80cb4d3so10992681fa.1
-        for <linux-media@vger.kernel.org>; Thu, 06 Jun 2024 03:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717669923; x=1718274723; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2yOK4FlQCW+JMOCwnWP72jJymCtr5dD6IgIpna60BCY=;
-        b=Ij9/iU/Uyo6fcf8LONJ7xC09lvYBG8qaaeEz4vBXq2BTPZbQ2/pF3yyQBM4fRbFGfh
-         G2YVI79pdecNzRewdbn8sACLDUSzd7rOjlh6zMMORYPcVD1QveoeZ2kHNSsE+9FRNNbv
-         STcLcfiwZHhGsSEvRFW5mX9h4B8YphLBoSkl78uJsHCRnl9eDwrE59GFqtGknBB9mMy1
-         OSPuYgWTVQS8j2w3KVuq+5S7UftcTUbs1qQVWVzbjEhqRqb3+fKICTURvn7oWD734yHM
-         ft1saZpU5WP1Di0/lkFYY358dTnV3FFIlPJYisX1EUMUoYuw+wFXKiytWhGLxoNHAlTO
-         IcBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717669923; x=1718274723;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2yOK4FlQCW+JMOCwnWP72jJymCtr5dD6IgIpna60BCY=;
-        b=CW3qPDA1ez3wISbxrsVzL/+WnCVIu9R05hEP3ccTQxkc4QNM12ucb7oUO2foCHCT5V
-         t26tF2OrPO2GqaswAarO8ju356AdJ+lRsg8CpuUkL6YEuF6sw94G6zaU55UAOrEvDt9s
-         wlO9zHFcIX0Ep9SOjn4f40VdznmQoioUVLPgdDTrKKSEdlGJCMzRXvt0QzhNqzK3oN53
-         QvIpVD288F8HL65uXPapmLw7JSRfYYQBknnnQWr2A0oBhkR9Ki7KuLJiMKROWV4BhPsh
-         xWU8e5UhfTluK+T8l1PEinYHyrI3nKHnsc0juo+WXhJchjctYyxv3Ti81EVP/OJmuRs3
-         vL0g==
-X-Forwarded-Encrypted: i=1; AJvYcCU0rpIcvJQAkIAHuA/OCfCu+MSPfgoRptzMRNR0P4hBhgCGQO87LVuGgzhorwuJ0DjLG6gmqIf1/rfllkrDd3kyyz1hYdLkbpt/xao=
-X-Gm-Message-State: AOJu0Yy8ke9L9ijP7xZgOb1ufXTkcBuEoCCRgEJYdYJ9idEHHeLM/wc6
-	blZyHd9adVRkL92aHUE5d1B1BHw5URz2dfU4OCsciJzWbnp+Y12J+LnKTomTTcTYjc8BYib4RZ2
-	fNHLr7M4wzK32HzEghcGNeMZuE91dD5jJcbs+
-X-Google-Smtp-Source: AGHT+IHb92CvWzY0UMLIO3bnYXJ9lrbqmbf5jFApgNniI36TJ0LubnwynaglXsT5ps/3HCuaPh8FvkYR0EYkfnbTRiI=
-X-Received: by 2002:a2e:9643:0:b0:2e1:9c57:195a with SMTP id
- 38308e7fff4ca-2eac7a5fd4dmr33302121fa.32.1717669922881; Thu, 06 Jun 2024
- 03:32:02 -0700 (PDT)
+	s=arc-20240116; t=1717674304; c=relaxed/simple;
+	bh=cD3Jsio92s31TDYJCHOEGyn5uxqsUCgDOpPoEWrtzSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hntr/sUAsNLIb6bX042/+6vXdYF7XS8hmYYaOqRdCsMqv3rKNh4vWOUF9AZs1cHjdGE+PKN+WnXThgMX2AgVpyTn/SEC/DxPTzuBu6x/oGd91l6aPYOTNEJEmaUYP6IFOD9/2tosuHE/mOcheT7z8i6JXyOjWNlefR3fq5UA9Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=3sml7F9U; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1717674300;
+	bh=cD3Jsio92s31TDYJCHOEGyn5uxqsUCgDOpPoEWrtzSg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=3sml7F9UeZ6Pd1mHhkDdgob/2Ebsf9axWIcs5viD3rqI0ZrSfatluuz3WXQCDw556
+	 +fQ8DVou0JDE8t9ETvDXzM2hs4StwjhBQymIl7oo2ruXPJ9hDDng+k5X1kvFujKCpD
+	 PW//QTOwHWYsMj2DTDfF8GmRywiONkiOo7TF6RDwGG+iRqz+6Jcd1enjPZ+ziN0VkX
+	 XHwqwr/KKun+iL0SP7bEHCuZUdCGtcqVkC+qRwMiwZUvXQnlFqy7NfUW16bBcf4wTs
+	 woxrG/UfUC5ZTteeOBJQp3hMaFXk8CE/1RTOpIfuwTJKXXuTwKH0cRDlFFgehNxIr3
+	 trRzrQbe5B5Hw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 47E7A378061A;
+	Thu,  6 Jun 2024 11:45:00 +0000 (UTC)
+Date: Thu, 6 Jun 2024 13:44:59 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.gaignard@collabora.com, dri-devel@lists.freedesktop.org,
+	laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+	vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+	detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com,
+	andrzej.p@collabora.com, nicolas@ndufresne.ca,
+	p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+	andriy.shevchenko@linux.intel.com, adobriyan@gmail.com,
+	jani.nikula@intel.com
+Subject: Re: [PATCH v12 12/13] media: imagination: Round to closest multiple
+ for cropping region
+Message-ID: <20240606114459.x73yebdu7kg7re52@basti-XPS-13-9310>
+References: <20240604104001.2235082-1-devarsht@ti.com>
+ <20240604105335.2257629-1-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605175953.2613260-1-joychakr@google.com> <20240605175953.2613260-8-joychakr@google.com>
- <f98a1d8f-e936-4798-8447-c642e8fe11d5@moroto.mountain> <CAOSNQF0Qj2CnRDWAGM8Y1wyEdgWP04RDJx1TKO-Ge4nUH=qxoQ@mail.gmail.com>
- <2b979aa4-3a63-4010-9670-294ce7624e18@moroto.mountain>
-In-Reply-To: <2b979aa4-3a63-4010-9670-294ce7624e18@moroto.mountain>
-From: Joy Chakraborty <joychakr@google.com>
-Date: Thu, 6 Jun 2024 16:01:42 +0530
-Message-ID: <CAOSNQF02nUPZ=8re=uyruhxReQSjPoc8L-9yTnWMe4EfJ0-huA@mail.gmail.com>
-Subject: Re: [PATCH v1 07/17] misc: eeprom: at25: Change nvmem reg_read/write
- return type
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-hwmon@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, manugautam@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240604105335.2257629-1-devarsht@ti.com>
 
-On Thu, Jun 6, 2024 at 3:41=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> On Thu, Jun 06, 2024 at 03:12:03PM +0530, Joy Chakraborty wrote:
-> > > These functions are used internally and exported to the user through
-> > > sysfs via bin_attr_nvmem_read/write().  For internal users partial re=
-ads
-> > > should be treated as failure.  What are we supposed to do with a part=
-ial
-> > > read?  I don't think anyone has asked for partial reads to be support=
-ed
-> > > from sysfs either except Greg was wondering about it while reading th=
-e
-> > > code.
-> > >
-> > > Currently, a lot of drivers return -EINVAL for partial read/writes bu=
-t
-> > > some return success.  It is a bit messy.  But this patchset doesn't
-> > > really improve anything.  In at24_read() we check if it's going to be=
- a
-> > > partial read and return -EINVAL.  Below we report a partial read as a
-> > > full read.  It's just a more complicated way of doing exactly what we
-> > > were doing before.
-> >
-> > Currently what drivers return is up to their interpretation of int
-> > return type, there are a few drivers which also return the number of
-> > bytes written/read already like
-> > drivers/misc/mchp_pci1xxxx/mchp_pci1xxxx_otpe2p.c .
->
-> Returning non-zero is a bug.  It won't break bin_attr_nvmem_read/write()
-> but it will break other places like nvmem_access_with_keepouts(),
-> __nvmem_cell_read() and nvmem_cell_prepare_write_buffer() where all
-> non-zero returns from nvmem_reg_read() are treated as an error.
->
+Hey,
 
-Yes, I will resend the patch to fix that.
+On 04.06.2024 16:23, Devarsh Thakkar wrote:
+>If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
+>(V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
+>multiple of requested value while updating the crop rectangle coordinates.
+>
+>Use the rounding macro which gives preference to rounding down in case two
+>nearest values (high and low) are possible to raise the probability of
+>cropping rectangle falling inside the bound region.
+>
+>This complies with the VIDIOC_G_SELECTION, VIDIOC_S_SELECTION ioctl
+>description as documented in v4l uapi [1] which specifies that driver
+>should choose crop rectangle as close as possible if no flags are passed by
+>user-space, as quoted below :
+>
+>"``0`` - The driver can adjust the rectangle size freely and shall choose a
+>crop/compose rectangle as close as possible to the requested
+> one."
+>
+>Link: https://www.kernel.org/doc/Documentation/userspace-api/media/v4l/vidioc-g-selection.rst [1]
+>Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 
-> > The objective of the patch was to handle partial reads and errors at
-> > the nvmem core and instead of leaving it up to each nvmem provider by
-> > providing a better return value to nvmem providers.
-> >
-> > Regarding drivers/misc/eeprom/at25.c which you pointed below, that is
-> > a problem in my code change. I missed that count was modified later on
-> > and should initialize bytes_written to the new value of count, will
-> > fix that when I come up with the new patch.
-> >
-> > I agree that it does not improve anything for a lot of nvmem providers
-> > for example the ones which call into other reg_map_read/write apis
-> > which do not return the number of bytes read/written but it does help
-> > us do better error handling at the nvmem core layer for nvmem
-> > providers who can return the valid number of bytes read/written.
->
-> If we're going to support partial writes, then it needs to be done all
-> the way.  We need to audit functions like at24_read() and remove the
-> -EINVAL lines.
->
->    440          if (off + count > at24->byte_len)
->    441                  return -EINVAL;
->
-> It should be:
->
->         if (off + count > at24->byte_len)
->                 count =3D at24->byte_len - off;
->
-> Some drivers handle writing zero bytes as -EINVAL and some return 0.
-> Those changes could be done before we change the API.
->
+Acked-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-Sure, we can do it in a phased manner like you suggested in another
-reply by creating new pointers and slowly moving each driver to the
-new pointer and then deprecating the old one.
+Can, whoever picks up the math changes, pick up this change as well?
+I will send 1-6 via the media subsystem.
 
-> You updated nvmem_access_with_keepouts() to handle negative returns but
-> not zero returns so it could lead to a forever loop.
+Regards,
+Sebastian
+
+>---
+>V12: No change
+>V11: No change
+>V10: No change
+>V9:  No change
+>V8:  Update commit message with specification reference
+>V1->V7 (No change, patch introduced in V7)
+>---
+> drivers/media/platform/imagination/e5010-jpeg-enc.c | 8 ++++----
+> 1 file changed, 4 insertions(+), 4 deletions(-)
 >
-
-Yes, that is a possible case. Will rework it.
-
-> regards,
-> dan carpenter
+>diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+>index e701d573a26a..d65646f0c38c 100644
+>--- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
+>+++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+>@@ -517,10 +517,10 @@ static int e5010_s_selection(struct file *file, void *fh, struct v4l2_selection
 >
-Thanks
-Joy
+> 	switch (s->flags) {
+> 	case 0:
+>-		s->r.width = round_down(s->r.width, queue->fmt->frmsize.step_width);
+>-		s->r.height = round_down(s->r.height, queue->fmt->frmsize.step_height);
+>-		s->r.left = round_down(s->r.left, queue->fmt->frmsize.step_width);
+>-		s->r.top = round_down(s->r.top, 2);
+>+		s->r.width = round_closest_down(s->r.width, queue->fmt->frmsize.step_width);
+>+		s->r.height = round_closest_down(s->r.height, queue->fmt->frmsize.step_height);
+>+		s->r.left = round_closest_down(s->r.left, queue->fmt->frmsize.step_width);
+>+		s->r.top = round_closest_down(s->r.top, 2);
+>
+> 		if (s->r.left + s->r.width > queue->width)
+> 			s->r.width = round_down(s->r.width + s->r.left - queue->width,
+>-- 
+>2.39.1
+>
 
