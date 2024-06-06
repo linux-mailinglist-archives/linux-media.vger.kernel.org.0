@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-12668-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12669-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903288FF152
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 17:55:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 803B28FF15B
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 17:56:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F8EA1C22557
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 15:55:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3033E1F235ED
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 15:56:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7CED197A65;
-	Thu,  6 Jun 2024 15:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61004198A24;
+	Thu,  6 Jun 2024 15:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="yaXnGMIq"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ekkM/LzS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD911E861
-	for <linux-media@vger.kernel.org>; Thu,  6 Jun 2024 15:55:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6028D198A17
+	for <linux-media@vger.kernel.org>; Thu,  6 Jun 2024 15:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717689337; cv=none; b=tXNrWpE3ThLHWT5Jc+uqh4BWBoJGI4LsPpVE/C/4IjUKpzuoCprTU4ZFL6vAktooi19g8MZrBoB3HfePolLvhrgYTC1xaxFdTCrXsu3jcl06a7mPUlEZRePKBvaT7ZLxBs7AXErZ4BHDLCQfEANxlxj8GTxFsm70EBSk2wnGpMU=
+	t=1717689342; cv=none; b=rq6GD0PiWom4fRIrWau6ien/VYvX9xvABr58+Y04AM0DH3unMRq5nfcVS7qMsQGxC3cac296I7oUp8jkj8NGQ7ykwwPnQeeTQtb08fxlmic770FeOJY0HHiIZGmWhOMDTrH0GlE3ROeomyj1J/0qGD2mDpywD0RZBrobaKtHLak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717689337; c=relaxed/simple;
-	bh=lArHKXUkkyXTo6kvgtsqbTwiT3uIHIVivBzQ+2PXtuw=;
+	s=arc-20240116; t=1717689342; c=relaxed/simple;
+	bh=qUHnzxeyaHxdTYNRmGOiGWksGNnSwBaQ7SbW/1t7DDo=;
 	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jJJ1LjpDqlU+I5Or00c3RYir3FPOlmb9wiHNbl0o11jEbuu8Y1DWtG8IWJki1oy/mjdtQNhN4HaW4VdrvxpI6h0erjqu5IS07LqQZQFhdM1YD0GF/uJynJzp4z5wkC6BM9CCeXbpCuRwDthnIbo8m6J34zTdpe4E5h4Kg2l+rx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=yaXnGMIq; arc=none smtp.client-ip=46.235.227.194
+	 Content-Disposition; b=eXAqtOGBm25aRab3EICfbWvPgUcrLx+Iv5x5THk4yZCKzS07TOSI933rUB/yiZRNjNEbG79shi3neDBXbAfV594rTxcqX3W1XNkEV8GDSugLb4ojxGheLVtu67DUvTiFxLsZhQmugVCLmTXaG4QUOS+rihlA9vCXc/9xMQmFsz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ekkM/LzS; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1717689334;
-	bh=lArHKXUkkyXTo6kvgtsqbTwiT3uIHIVivBzQ+2PXtuw=;
+	s=mail; t=1717689339;
+	bh=qUHnzxeyaHxdTYNRmGOiGWksGNnSwBaQ7SbW/1t7DDo=;
 	h=Date:From:To:Subject:From;
-	b=yaXnGMIqKsezSPJszzPZ3l9IzipEAwjArC9Cuh/FC94h8BHNY/FEo/8y0q43ly7S2
-	 lR4etRdIF3gupXNp4Qbx2Q0S710kE+x5eM6MDY+g0fk4IFEvb3biFi641+JzJANxY8
-	 2gOU6o4hHaJ1GLYRUSfpWygMaeFL5FTisUdOPw3SkB1tB5eR15Y73RX327efQK6aYv
-	 rD2XpHWuOKB0S9Diqnhd14wIofCqV3O3eP5m3Mu9B7vnQzNsRVoxeQQxGPM3vZDJIP
-	 iL3kA0tkIemJKievLji0hbDr1ic1sJCb5m9VOjxjzWwKSzA+gj0CCc91XEALUuuaOs
-	 aobmPyeAtZ3Yg==
+	b=ekkM/LzSbmOZDmiVX8yEFCLioywFcaZ8SWf4rHWpnBdM4X40UaQmfNpmjtbzKK/tX
+	 wif7MJsFVBOGpGS2a4akr76y1VYbd5iNykZCiLKHaqg3KOSOSEK1NzgtRx7W28h5ph
+	 1Ij8NYPGWXyosJea+u0YfssrnkMJPN1FWzcF71dZPiXSvkMaDCLF0qrjRaAj4RSju5
+	 SZDRlbFldi8M7jS8hSMv6YKMHFzJw4zGDU8NxZ0x3cCSH01HylVpMtX0+d7dNad9hm
+	 GARm2BajWSRcNWrB46D7Eg1Gzdsbfp9PR157jiuzbGiNSkYvqhqXvEp76KTq7el1xZ
+	 f2UQiHbaWb/oQ==
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id F2FC937821C1
-	for <linux-media@vger.kernel.org>; Thu,  6 Jun 2024 15:55:33 +0000 (UTC)
-Date: Thu, 6 Jun 2024 17:55:32 +0200
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8A42737821C1
+	for <linux-media@vger.kernel.org>; Thu,  6 Jun 2024 15:55:39 +0000 (UTC)
+Date: Thu, 6 Jun 2024 17:55:38 +0200
 From: Sebastian Fricke <sebastian.fricke@collabora.com>
 To: linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.11] Add average QP control
-Message-ID: <20240606155532.43rac2olf6qnnkq2@basti-XPS-13-9310>
+Subject: [GIT-PULL FOR 6.11] Various MediaTek VCodec changes
+Message-ID: <20240606155538.rspfssdzau7j5hn5@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,7 +64,7 @@ Content-Disposition: inline
 
 Hey Hans & Mauro,
 
-please pull.
+please pull the following set of changes.
 
 The following changes since commit 1aea3d1d4a21e3e7895663b848ffae79ee82e065:
 
@@ -72,30 +72,29 @@ The following changes since commit 1aea3d1d4a21e3e7895663b848ffae79ee82e065:
 
 are available in the Git repository at:
 
-   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.11-add-avg-qp-ctrl
+   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.11-various-vcodec-changes
 
-for you to fetch changes up to a3504a8198a9516facf57f84b546ba0c677f0ad8:
+for you to fetch changes up to 267dcbd18e41cc6ab843dced6c54f5a9384df07a:
 
-   media: amphion: Report the average QP of current encoded frame (2024-06-06 12:37:03 +0200)
-
-----------------------------------------------------------------
-Add an average QP control and apply it in the amphion driver
+   media: mediatek: vcodec: Alloc DMA memory with DMA_ATTR_ALLOC_SINGLE_PAGES (2024-06-06 12:53:55 +0200)
 
 ----------------------------------------------------------------
-Ming Qian (3):
-       media: v4l2-ctrls: Add average QP control
-       media: amphion: Remove lock in s_ctrl callback
-       media: amphion: Report the average QP of current encoded frame
+Various small changes for the Mediatek Vcodec driver
 
-  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 14 ++++++++++++++
-  drivers/media/platform/amphion/vdec.c                    |  2 --
-  drivers/media/platform/amphion/venc.c                    |  6 ++++--
-  drivers/media/platform/amphion/vpu.h                     |  1 +
-  drivers/media/platform/amphion/vpu_defs.h                |  1 +
-  drivers/media/platform/amphion/vpu_v4l2.c                | 16 ++++++++++++++++
-  drivers/media/platform/amphion/vpu_v4l2.h                |  1 +
-  drivers/media/platform/amphion/vpu_windsor.c             |  2 ++
-  drivers/media/v4l2-core/v4l2-ctrls-defs.c                |  5 +++++
-  include/uapi/linux/v4l2-controls.h                       |  2 ++
-  10 files changed, 46 insertions(+), 4 deletions(-)
+----------------------------------------------------------------
+Douglas Anderson (1):
+       media: mediatek: vcodec: Alloc DMA memory with DMA_ATTR_ALLOC_SINGLE_PAGES
+
+Irui Wang (1):
+       media: mediatek: vcodec: Handle invalid decoder vsi
+
+Yunfei Dong (2):
+       media: mediatek: vcodec: add decoder command to support stateless decoder
+       media: mediatek: vcodec: Fix unreasonable data conversion
+
+  .../mediatek/vcodec/common/mtk_vcodec_util.c       |  3 +-
+  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c       | 60 +++++++++++++++++++---
+  .../mediatek/vcodec/decoder/vdec/vdec_vp8_if.c     |  2 +-
+  .../platform/mediatek/vcodec/decoder/vdec_vpu_if.c |  6 +++
+  4 files changed, 63 insertions(+), 8 deletions(-)
 
