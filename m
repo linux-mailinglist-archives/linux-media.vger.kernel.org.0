@@ -1,80 +1,48 @@
-Return-Path: <linux-media+bounces-12678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12679-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A268FF46A
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 20:13:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 179188FF527
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 21:10:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C86B1F25846
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 18:13:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 303E21C2693D
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jun 2024 19:10:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9DCA1993A7;
-	Thu,  6 Jun 2024 18:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB6A351021;
+	Thu,  6 Jun 2024 19:10:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SoqiDdeP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R70I/UpW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD50A198E74
-	for <linux-media@vger.kernel.org>; Thu,  6 Jun 2024 18:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97804487BE;
+	Thu,  6 Jun 2024 19:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717697566; cv=none; b=ICY0cbM3OqcVCJcXtUTckPf7579RazmDz6mKkET8XuX2JWKx+Q4CNjDefHPPplLrXpVAmJDhUrLipf3cyQBEr4zMZu1N0ZkujOrQai2z1rqWZ9N3hTMTDgOk5hh4Bm6hVpUXD9vnku7MU2ObTyx716tcY+YH9m2drGaCjW7aQFY=
+	t=1717701022; cv=none; b=NoTJHQFewrpwiHq1wXfKfXCV6gzMfzfSeXck9G9/qDvfe5tK7N49nUutIH2xfOKLYFPb8qZ+OWscbvrFZ8Sk3baS404cV78BgIimP1lN+oHTDx7lx01El2QN+L1qycHX79vpRn06PJFnf5+DX53frsXbhm3PAHCpwQF3cYm6iF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717697566; c=relaxed/simple;
-	bh=g18wcZ4Vrm3OPpEKR5GaSFXC3qL8zJOqLvXNZzYFeuM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=dkznaFOfagoCVCaUq8VxEuNJuC4GRQGfaFv5H2uZ6aJHbo/T1zesutGtZGqFYhshpFvQLbkAoysCwFajib57wecvBVNJjACJDRB5UExGJKVRrBUm9eyES6CE6wLBjh2Z7hvXeLccgv7nOBM8vq6gOctvjPEqu5UYvvMcOihLU4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SoqiDdeP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717697563;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KeMRLeH8AVI7a9rTTiY6E9/CXZa2WPt/Gto/LcU6z5E=;
-	b=SoqiDdePkvNH0uu7KcxzL1hr51Px56KeKd7hbdojySVWqGHeAcDXrMBBf9JbL92rRsm5rF
-	97Su1htbKADhpuSa2ykMQffSXgkoq7gDsQlsNze1f7Q2Yj7z3xuzMVFMtmZtF1AdXJNS6e
-	ABEkvz08mFCx/bKK9MIT9dxOhnq0m4M=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-172-BF0uJ2NKOOGpW0tvbFm61A-1; Thu, 06 Jun 2024 14:12:41 -0400
-X-MC-Unique: BF0uJ2NKOOGpW0tvbFm61A-1
-Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2ea93bbf517so9858831fa.0
-        for <linux-media@vger.kernel.org>; Thu, 06 Jun 2024 11:12:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717697560; x=1718302360;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KeMRLeH8AVI7a9rTTiY6E9/CXZa2WPt/Gto/LcU6z5E=;
-        b=IPfi7W7WB4lrfmaXXElei4gbIHxe1HpX9M4k9TjINEHDeQmmTJ9Bd64qTDTlRtmRtw
-         +RaSKgnATNA2zIAo6MLuNbqNiv4uewZla7eS4wyG+28Sj6hs+Or370E/iew+ApC1GdSS
-         kVnKc/ANUbYZMnAIhMVlBWeGsVu+ct7FozYowb6su1GCx3RL9Mca3kjx350ZD7/HEKzR
-         puJZH8TwUbzgEM58egD1jcYiXNCxyiFHgHJclseS26e1y0eVTMeDjNcRvd36gQSdOnLK
-         o/6KTJ9Zn7PSOLydcDOq29N9l6uvPO3KbCcLdBe5QIZRUn+xr+Yu4mkFHf1iY7rgauWT
-         3m6w==
-X-Forwarded-Encrypted: i=1; AJvYcCW68Br4sxs43osRTGfMcwqsTnCZf2obMmmexoQFtj/LbFrUBhrZFnZnSFe1d9L074r/aobmbDrIcMlgc3NGxzhy0wQveQYEKGlhSvQ=
-X-Gm-Message-State: AOJu0YzQFuxXjggCR/OFUP4mArMKzcakLFZkcL3xA2qzjT4dfe05WddX
-	o2Ht42CsiApXx/43j0EYtx7xW/+b6YXq9g6cyzj5ULWAEnM2eSU5Rr9corOI8//nQFVGq1EkJMx
-	WdQ5FenKklyTMcV2yNfscb+5B2KGgKYJiP/HCVsacUJTxt1WtfWfoAOzq0G3C
-X-Received: by 2002:a2e:be0d:0:b0:2ea:bc04:9876 with SMTP id 38308e7fff4ca-2eadce712d0mr3647961fa.38.1717697560051;
-        Thu, 06 Jun 2024 11:12:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEA8ZzHNP1/hcWkbYv2OrPty7pGVWuhlHWVUFyoEu0CW/LdPcqaEzki1tsMBhjPdaeTrSwq3Q==
-X-Received: by 2002:a2e:be0d:0:b0:2ea:bc04:9876 with SMTP id 38308e7fff4ca-2eadce712d0mr3647841fa.38.1717697559679;
-        Thu, 06 Jun 2024 11:12:39 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aae13dc46sm1465248a12.52.2024.06.06.11.12.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jun 2024 11:12:38 -0700 (PDT)
-Message-ID: <e9062095-b312-44df-a9e3-0b09f3ec9eff@redhat.com>
-Date: Thu, 6 Jun 2024 20:12:37 +0200
+	s=arc-20240116; t=1717701022; c=relaxed/simple;
+	bh=xJCE8FpdiVCiRHk5SlZXXZ0oA/8xE1pnw58Jv6miC1Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HfJRICRQiQ9ZawUFz7F4W8C5y3uhNeqTEgsAjm9iJy/e/MmNmdc6Spvv7bGtZkElZSII9EuqlTLZ1rEqAeTbpJSfaDzjGSAnjlGaRxuogPcHzUAEuq1remgQPucWCWyO4YOXh8bWwzNEANhIhLp7UmtgbYUHVEhSfQQY9BtqrP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R70I/UpW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi [91.158.144.210])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11977720;
+	Thu,  6 Jun 2024 21:10:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1717701008;
+	bh=xJCE8FpdiVCiRHk5SlZXXZ0oA/8xE1pnw58Jv6miC1Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=R70I/UpWdAupO6/nYTKKrKLUgQVfv41bfLp9QwGgqou/CxI9iF4y3PD7YHYmd6ibp
+	 RHhP9pIG6Ia7spnU2iFlEEJPwwJyKklE2bypX4POXln82PzT7wQ2kYzUeATb/kujga
+	 vQvMqJVwoDCshI/m1IE/VrQE5iFunGxEj1S34qBE=
+Message-ID: <afe76b3c-8e75-4c70-bcc2-9ee5f57d70b7@ideasonboard.com>
+Date: Thu, 6 Jun 2024 22:10:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,84 +50,132 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] ACPI: scan: Ignore Dell XPS 9320 camera graph port
- nodes
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Genes Lists <lists@sapience.com>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: linux-kernel@vger.kernel.org, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
- wentong.wu@intel.com, linux-media@vger.kernel.org,
- linux-acpi@vger.kernel.org,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-References: <988e48090982c89ce0c906954832fdfb09a1ce34.camel@sapience.com>
- <20240528084413.2624435-1-sakari.ailus@linux.intel.com>
- <a05df025-a0be-49cd-84a9-7d7fb2eeb33e@redhat.com>
-Content-Language: en-US, nl
-In-Reply-To: <a05df025-a0be-49cd-84a9-7d7fb2eeb33e@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v5 05/16] media: mali-c55: Add Mali-C55 ISP driver
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ sakari.ailus@iki.fi
+References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+ <20240529152858.183799-6-dan.scally@ideasonboard.com>
+ <20240530001507.GG10586@pendragon.ideasonboard.com>
+ <20240530214348.GA5213@pendragon.ideasonboard.com>
+ <ygr7rhp23gjc4ywmcdy7d5coh4wubxlvkdxcvwgdpk4j343pnd@h4if5jtz7mop>
+ <20240606175306.GB26663@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240606175306.GB26663@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-+To: Rafael since this was Cc-ed to linux-acpi but never send
-to Rafael directly.
-
-Rafael this fixes a crash in 6.10-rc1 for some users and is necessary
-to make the cameras work on the Dell XPS 13 plus 9320 .
-
-On 5/28/24 7:09 PM, Hans de Goede wrote:
-> Hi Sakari,
+On 06/06/2024 20:53, Laurent Pinchart wrote:
+>>>>> +			return -EINVAL;
+>>>>> +		}
+>>>>> +
+>>>>> +		active_sink = route->sink_pad;
+>>>>> +	}
+>>>>> +	if (active_sink == UINT_MAX) {
+>>>>> +		dev_err(rzr->mali_c55->dev, "One route has to be active");
+>>>>> +		return -EINVAL;
+>>>>> +	}
+>>> The recommended handling of invalid routing is to adjust the routing
+>>> table, not to return errors.
+>> How should I adjust it ? The error here is due to the fact multiple
+>> routes are set as active, which one should I make active ? the first
+>> one ? Should I go and reset the flags in the subdev_route for the one
+>> that has to be made non-active ?
+> The same way you would adjust an invalid format, you can pick the route
+> you consider should be the default.
 > 
-> On 5/28/24 10:44 AM, Sakari Ailus wrote:
->> Ignore camera related graph port nodes on Dell XPS 9320. They data in BIOS
->> is buggy, just like it is for Dell XPS 9315. The corresponding software
->> nodes are created by the ipu-bridge.
->>
->> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> ---
->> Hi,
->>
->> Could you test this and see whether it fixes the warning?
->>
->> The camera might work with this change, too.
-> 
-> Thank you I just received a Dell XPS 13 plus 9320 myself to use
-> for VSC testing and I can confirm that with this patch 6.10.0-rc1
-> works, including giving a picture with the libcamera software ISP +
-> 3 small libcamera patches.
+> I'd like Sakari's and Tomi's opinions on this, as it's a new API and the
+> behaviour is still a bit in flux.
 
-I forgot to add:
+Well... My opinion is that the driver adjusting the given config 
+parameters (for any ioctl) is awful and should be deprecated. If the 
+user asks for X, and the driver adjusts it and returns Y, then the user 
+has two options: fail, because it didn't get X (after possibly laborious 
+field by field checks), or shrug it's virtual shoulders and accept Y and 
+hope that things still work even though it wanted X.
 
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+But maybe that was an answer to a question you didn't really ask =).
 
-Regards,
+I think setting it to default routing in case of an error is as fine as 
+any other "fix" for the routing. It won't work anyway.
 
-Hans
+But if the function sets default routing and returns 0 here, why would 
+it return an error from v4l2_subdev_routing_validate()? Should it just 
+set default routing in that case too? So should set_routing() ever 
+return an error, if we can just set the default routing?
 
+In the VIDIOC_SUBDEV_S_ROUTING doc we do list some cases where EINVAL or 
+E2BIG is returned. But only a few, and I think 
+v4l2_subdev_routing_validate() will return errors for many other cases too.
 
+For what it's worth, the drivers I have written just return an error. 
+It's simple for the driver and the user and works. If the consensus is 
+that the drivers should instead set the default routing, or somehow 
+mangle the given routing to an acceptable form, I can update those 
+drivers accordingly.
 
+But we probably need to update the docs too to be a bit more clear what 
+VIDIOC_SUBDEV_S_ROUTING will do (although are the other ioctls any 
+clearer?).
 
->>  drivers/acpi/mipi-disco-img.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/drivers/acpi/mipi-disco-img.c b/drivers/acpi/mipi-disco-img.c
->> index d05413a0672a..bf9a5cee32ac 100644
->> --- a/drivers/acpi/mipi-disco-img.c
->> +++ b/drivers/acpi/mipi-disco-img.c
->> @@ -732,6 +732,12 @@ static const struct dmi_system_id dmi_ignore_port_nodes[] = {
->>  			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "XPS 9315"),
->>  		},
->>  	},
->> +	{
->> +		.matches = {
->> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
->> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "XPS 9320"),
->> +		},
->> +	},
->>  	{ }
->>  };
->>  
+All that said, I think it's still a bit case-by-case. I don't think the 
+drivers should always return an error if they get a routing table that's 
+not 100% perfect. E.g. if a device supports two static routes, but the 
+second one can be enabled or disabled, the driver should still accept a 
+routing table from the user with only the first route present. Etc.
+
+For the specific case in this patch... I'd prefer returning an error, or 
+if that's not ok, set default routing.
+
+  Tomi
 
 
