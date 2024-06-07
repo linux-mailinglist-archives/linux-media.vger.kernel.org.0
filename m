@@ -1,184 +1,155 @@
-Return-Path: <linux-media+bounces-12722-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12723-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98059003A2
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 14:32:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCE49003D0
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 14:42:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59798288CCE
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 12:32:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 910F31F2241E
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 12:42:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92BB91940B5;
-	Fri,  7 Jun 2024 12:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 833C11946DF;
+	Fri,  7 Jun 2024 12:41:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtQAu4d4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSGVBbPc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9351850B7;
-	Fri,  7 Jun 2024 12:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F07419409E
+	for <linux-media@vger.kernel.org>; Fri,  7 Jun 2024 12:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717763469; cv=none; b=ihspyxSIkcpuqeAjV+svjm+SkQD9qNXYX9PJkfxVmIC+UWD9oys+w1j7+dWZavBsOxIpzshgJ1BxvcNHI+y5XEG+wifOv3T+MwunJVuYIR75/9556gnf6zzfP3iw3ZCl1jkiNxN4VHU3Vzta36xYVqPpyS+opBRpz8S0aJdNnn4=
+	t=1717764072; cv=none; b=Ojs7VMHmYhwiVBv7f3gm9wVEHgdxC26VzhujklonUFYZZFdSfIGONl1zYft4oESivWDGIKPpuKRnn3x/cKLm4Gg+WaF1dscQDRlqsoyHF5ew5JaZwxNbJq68xUr5xfwbmP78+ZVONppvgPigMAHhHVxdzucYJ+tc6nABPryZDm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717763469; c=relaxed/simple;
-	bh=RuDIhSbO/ax8zNd2ran6Gzbl4un6OLukSdQSWrPKP5s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a/zTJTJicgj4W/5Q/iphzeMeSZekEl003bNzHzMCLNpIAo9mkXFcy4U63VjHZcE2g6FeSklUFNyJ9VKakOtL/876BMoGTs9R2hljDJPqzv/KIZYijP6ntyTlyTbP/Msj6wEdANSSnEyY6qJZWOuUQj8kbICpjfv9/nba0aUBYC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtQAu4d4; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-57a4ce82f30so2517618a12.0;
-        Fri, 07 Jun 2024 05:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717763466; x=1718368266; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=N0t9qQNDQyMfGhvDGBq4R0rinqRtCXO9/OSll4uI/+M=;
-        b=mtQAu4d4XlKrMSJMuzE18hRv2rGbyDiD8PeDYFQlpjxKEyese7Q53wrKH5y7oUV0Vr
-         28Qp+AbcRgTV1Aj01fBvOek2LMZJJq+L1zIi+bVehdV1sc7kg/D3jeO5vx9U+4RPtgdj
-         yG5aQ4H8tE0lj9y4eoETprXJN5qaDbqIzTTuND1LdErfoZ7rBxqdXznx2oJ2T8QSIVy8
-         FtxPTyaQAF56ka1alhP2g8ln+GjH9WO/SAwT9RiEjJfjKjAQcNVLgGeujJ2EDs6C6vq2
-         ACzakRjCQ1ieHSg76vaxICyfybb0GzAyUmjCS3hazrsU6dcFucLDCGTE82AUtwFRdkjl
-         DhPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717763466; x=1718368266;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N0t9qQNDQyMfGhvDGBq4R0rinqRtCXO9/OSll4uI/+M=;
-        b=rVPli6S6EASMiI6mheun6Fu7IdqWS0g86MxC91RVtpvRtYzd0Ym6bXyXJdopMh/G9P
-         5YJ+6trasR1YR3mn+L32bD0RRjdqNIH6P0SYFA3WQtWR2d8DnYDGFQuYnPX9fbOwWS+h
-         Cr3WRu5Mognrwpf7qksd4cqnQ6S0B0Kxa0z83Z4p8mGLRMot/IXxo74XMOeovzpl+YeU
-         MBNdf8PyF6haaXaKF3sNI9bNM1bpem+TYKQ49voCMbNNqFiVhwQ+lSGmdHn4692gQXYi
-         eue+2+OfiQ2WAyD95yeAiaXm3WT2GKyxaFSm0a5G2PE1O+MjQ92W2zdn4Ao8hFuKVIHf
-         4dHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUbzO0U9d0UxOjnBfIPvPW7Gdcbi5u0nij75sNJ5L4YyKV4sZgQGtHUeq66OaVOZa7o364L06hUFtvNsDFqd0vxSeLvmGOLo1MtNJTJ+7frSgpJW+i1+DS2na40+SehZOM37Mr0BiTz2FI9uZmKYRKTrBuYpgKhvqNwzvPBPnSE3kObE9hkFuLR2O9iTHySWC5pRHbhRvGESefDVs7oDwA30CdzphslEQ4djsZhDgKJ5Vns1ub9j68emOaQ6vR2havGFxd47HE5RbX8Tb3uC7C/CBW+2uiluVSaAhN8X6aCdj6sWrgqc18IhKFqOqYfx568thGB7uzkCvq3w6PSfuO/UrNtSX1OsAGWXr7V1S5Io+3nSWIfe5xXbJ47OUj0IuzqLa9Wn0EG8belrI7GHf8Sm1JjBcerIXKq7aHDqyzobGQz3oqz44ztxZ7Oe2GXxjq2aOFSecydfh5NrIpinOkmti1IUiuB051L4p+gA==
-X-Gm-Message-State: AOJu0YxgtfnolRWsE5AWPrSQtME2r7j+voX3VOENYEATnhwPyfy2SeV9
-	Mwgz4ifZaW31IES/mqKYgPTqjiMbshWU1djPEoUeIvXtVuWN1bp7
-X-Google-Smtp-Source: AGHT+IH5SNInb5yZq3Cuj7U8oACNWHmzMuuF2G63X2k2tjaQ/s20PtWq1uTiQglncTLckDH15vmQlg==
-X-Received: by 2002:a50:c181:0:b0:57c:5ec9:f5d9 with SMTP id 4fb4d7f45d1cf-57c5eca001emr1193325a12.31.1717763466203;
-        Fri, 07 Jun 2024 05:31:06 -0700 (PDT)
-Received: from [192.168.42.93] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57aadf9d8d0sm2682019a12.8.2024.06.07.05.31.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jun 2024 05:31:05 -0700 (PDT)
-Message-ID: <ff4e0e14-9f3e-4d8b-a2a6-75dfc1f6e96b@gmail.com>
-Date: Fri, 7 Jun 2024 13:31:07 +0100
+	s=arc-20240116; t=1717764072; c=relaxed/simple;
+	bh=ZSeRmYb225co1IgIUpFIKfkPoKm+WHf6x+HzdDrplr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fPtjfdHq2p0XoPzFjLteY7fOfMykpfYq1Ed4PaX6l4ijxpvkEFVNh4HgDs4AR8ycB26o5WTBnWxyLZvwQFt/32NxtkkiL4FPXEDdGF/ed/0kZ3vh8Z+CTbaES/zjrwVacyYtwNPcExfXF9f4eaX8wBoPPcpnLK2bKHCNBZtaKr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSGVBbPc; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717764071; x=1749300071;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZSeRmYb225co1IgIUpFIKfkPoKm+WHf6x+HzdDrplr8=;
+  b=CSGVBbPcHVeib+AFtEvQfs2tLB7ygqi1tEDoapONN5sxjAwbmaFy52KL
+   8Nx6MpizncHKDXGtDdwUYHjd2TjzoHLgAqoq7xKFkM5k0QtrL0QP+Jh5E
+   SAp/yb7BAEy7+YGv5LzqVxz9IcyWPVa5/B0usl4IGI65FVp2NX/mrtIZe
+   8O+RbdPUxbsVzpx0wVJUg2xwwgfDTsBF7WgesU9tnPKyaAu9GG4q1Y1bP
+   cF/EU9S3oRhMumQQgfVboTwqagtiLrF9ESJhdJ755/NZWo4ic7yyWVN4s
+   QUf7bRqxmxUyQaS2iuoAMTgm067x+XEb0mBbhwFuATsGDRnQ/FbPmSJVx
+   g==;
+X-CSE-ConnectionGUID: atGJHjChRBqEAK4FpJTw3Q==
+X-CSE-MsgGUID: /nLU0kSuSgOmh6SPQKmPtQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25109584"
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
+   d="scan'208";a="25109584"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 05:41:09 -0700
+X-CSE-ConnectionGUID: o0AzZr1kQH2GG7tttYrN+g==
+X-CSE-MsgGUID: E/RnBgxhRaC0hBKs82Tq1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
+   d="scan'208";a="38764695"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 05:41:09 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 47A8911FA94;
+	Fri,  7 Jun 2024 15:41:05 +0300 (EEST)
+Date: Fri, 7 Jun 2024 12:41:05 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Wentong Wu <wentong.wu@intel.com>
+Cc: linux-media@vger.kernel.org, hao.yao@intel.com,
+	Jason Chen <jason.z.chen@intel.com>
+Subject: Re: [PATCH 2/3] media: ivsc: csi: add separate lock for v4l2 control
+ handler
+Message-ID: <ZmL_4f8UIab5qaZp@kekkonen.localdomain>
+References: <20240603082614.1567712-1-wentong.wu@intel.com>
+ <20240603082614.1567712-3-wentong.wu@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 06/14] page_pool: convert to use netmem
-To: Steven Rostedt <rostedt@goodmis.org>,
- Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-7-almasrymina@google.com>
- <20240605214837.44efcc6f@gandalf.local.home>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240605214837.44efcc6f@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240603082614.1567712-3-wentong.wu@intel.com>
 
-On 6/6/24 02:48, Steven Rostedt wrote:
-> On Thu, 30 May 2024 20:16:05 +0000
-> Mina Almasry <almasrymina@google.com> wrote:
-> 
->> @@ -42,51 +42,52 @@ TRACE_EVENT(page_pool_release,
->>   TRACE_EVENT(page_pool_state_release,
->>   
->>   	TP_PROTO(const struct page_pool *pool,
->> -		 const struct page *page, u32 release),
->> +		 netmem_ref netmem, u32 release),
->>   
->> -	TP_ARGS(pool, page, release),
->> +	TP_ARGS(pool, netmem, release),
->>   
->>   	TP_STRUCT__entry(
->>   		__field(const struct page_pool *,	pool)
->> -		__field(const struct page *,		page)
->> +		__field(netmem_ref,			netmem)
-> 
-> Why make this of type "netmem_ref" and not just "unsigned long"?
-> 
->>   		__field(u32,				release)
->>   		__field(unsigned long,			pfn)
->>   	),
->>   
->>   	TP_fast_assign(
->>   		__entry->pool		= pool;
->> -		__entry->page		= page;
->> +		__entry->netmem		= netmem;
-> 
-> You could have this be:
-> 
-> 		__entry->netmem		= (__force unsigned long)netmem;
-> 
->>   		__entry->release	= release;
->> -		__entry->pfn		= page_to_pfn(page);
->> +		__entry->pfn		= netmem_to_pfn(netmem);
->>   	),
->>   
->> -	TP_printk("page_pool=%p page=%p pfn=0x%lx release=%u",
->> -		  __entry->pool, __entry->page, __entry->pfn, __entry->release)
->> +	TP_printk("page_pool=%p netmem=%lu pfn=0x%lx release=%u",
->> +		  __entry->pool, (__force unsigned long)__entry->netmem,
-> 
-> And not have to expose the above text to user space (look at the format
-> file it produces).
-> 
-> It being of type "netmem_ref" in the ring buffer is useless.
+Hi Wentong,
 
-netmem is a pointer with one bit serving as a flag, considering
-mangling it might be better to %p it and perhaps also print its
-type (page* vs iov) separately.
+Thanks for the patchset.
+
+On Mon, Jun 03, 2024 at 04:26:13PM +0800, Wentong Wu wrote:
+> There're possibilities that privacy status change notification happens
+> in the middle of the ongoing mei command which already takes the command
+> lock, but v4l2_ctrl_s_ctrl() would also need the same lock prior to this
+> patch, so this may results in circular locking problem. This patch adds
+> one dedicated lock for v4l2 control handler to avoid described issue.
+
+Before this patch, wouldn't the ongoing MEI command simply complete before
+v4l2_ctrl_s_ctrl() could proceed?
+
+> 
+> Reported-by: Hao Yao <hao.yao@intel.com>
+> Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+> Tested-by: Jason Chen <jason.z.chen@intel.com>
+> ---
+>  drivers/media/pci/intel/ivsc/mei_csi.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
+> index 004ebab0b814..d6ba0d9efca1 100644
+> --- a/drivers/media/pci/intel/ivsc/mei_csi.c
+> +++ b/drivers/media/pci/intel/ivsc/mei_csi.c
+> @@ -126,6 +126,8 @@ struct mei_csi {
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	struct v4l2_ctrl *freq_ctrl;
+>  	struct v4l2_ctrl *privacy_ctrl;
+> +	/* lock for v4l2 controls */
+> +	struct mutex ctrl_lock;
+>  	unsigned int remote_pad;
+>  	/* start streaming or not */
+>  	int streaming;
+> @@ -563,11 +565,13 @@ static int mei_csi_init_controls(struct mei_csi *csi)
+>  	u32 max;
+>  	int ret;
+>  
+> +	mutex_init(&csi->ctrl_lock);
+> +
+>  	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
+>  	if (ret)
+>  		return ret;
+>  
+> -	csi->ctrl_handler.lock = &csi->lock;
+> +	csi->ctrl_handler.lock = &csi->ctrl_lock;
+>  
+>  	max = ARRAY_SIZE(link_freq_menu_items) - 1;
+>  	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
+> @@ -756,6 +760,7 @@ static int mei_csi_probe(struct mei_cl_device *cldev,
+>  
+>  err_ctrl_handler:
+>  	v4l2_ctrl_handler_free(&csi->ctrl_handler);
+> +	mutex_destroy(&csi->ctrl_lock);
+>  	v4l2_async_nf_unregister(&csi->notifier);
+>  	v4l2_async_nf_cleanup(&csi->notifier);
+>  
+> @@ -775,6 +780,7 @@ static void mei_csi_remove(struct mei_cl_device *cldev)
+>  	v4l2_async_nf_unregister(&csi->notifier);
+>  	v4l2_async_nf_cleanup(&csi->notifier);
+>  	v4l2_ctrl_handler_free(&csi->ctrl_handler);
+> +	mutex_destroy(&csi->ctrl_lock);
+>  	v4l2_async_unregister_subdev(&csi->subdev);
+>  	v4l2_subdev_cleanup(&csi->subdev);
+>  	media_entity_cleanup(&csi->subdev.entity);
 
 -- 
-Pavel Begunkov
+Kind regards,
+
+Sakari Ailus
 
