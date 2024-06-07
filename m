@@ -1,106 +1,250 @@
-Return-Path: <linux-media+bounces-12698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12699-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA648FF9BF
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 03:51:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 127DE8FFD6B
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 09:44:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E576F283E07
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 01:51:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 923A01F22D95
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 07:44:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B479125B9;
-	Fri,  7 Jun 2024 01:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE90F156C6A;
+	Fri,  7 Jun 2024 07:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="YPjDmDk9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2697410A24
-	for <linux-media@vger.kernel.org>; Fri,  7 Jun 2024 01:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BDB14F9DB;
+	Fri,  7 Jun 2024 07:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717725081; cv=none; b=cerLcXp3ILtBAPpfNw3q90xTAfL3rIhfh4iP/8ykHWutXpGmOC2mC15rHosPFiKNYQl4IdJ0ZixVg4e0kvYVVt9e1WlV5AstkoTi5PSHw2PdvWbtlQz+tCr8+fz+nOKEdDaMCdNCIFELpqqPbpLDhsRBIIzYOkoM7UcIUaCwUt8=
+	t=1717746258; cv=none; b=ewBOVTBOEZ5JIQgbCfkNvR5uVMt8iRSAwx26ySAQVIl8Ovy1/+dsbRqKL3wtxthMy5EHmtOhTlOjYkhKA7BgO6FnDqAFXf9UGott+xkM4ulvUPSxwI8rh1b6b8rtSsrIfwjmw3uS08Z1KRkqy2SPdfhxBO8dEx89+6EHnw05kIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717725081; c=relaxed/simple;
-	bh=mLIefD1aBef0yg3EYRkBQUZuXNsFAIwkzGrU5600uko=;
-	h=Date:From:To:Subject:Message-Id; b=SivqjJUu0UiDgavd36AjQF3KJIiqiuzKl+v4f/RhtDC46WgZfzIWJoHtKCxUmOTU4DuL2coaxBfYZ8ONgFO/I7i8fVEBWqKr4iOQ45Vf2HOaTKb6Z5UU/zhJJDJFhaJGEJNViBNsIFiEnYPlyX7wFRCpFhzdScsX2gx4P99dLn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E81CC2BD10
-	for <linux-media@vger.kernel.org>; Fri,  7 Jun 2024 01:51:20 +0000 (UTC)
-Date: Fri, 07 Jun 2024 03:51:18 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240607015120.4E81CC2BD10@smtp.kernel.org>
+	s=arc-20240116; t=1717746258; c=relaxed/simple;
+	bh=jg6y42A8tuanMkc0qiGHDqRmsY6EuDBjOBYeQQggbQA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=P2zlC66Pm4tx7tSIdW1ZLi/xaHSG01lJ8VZQQTJb9eZIKcx6/DKk5kABulFmoODqLS7ba9fZYn/Lb0Gv1xjWZ4CfjJOze1f5MY/Cbt30G+nFgLu064ijnSGKzeCJkhTqGsqGWNezfDk8LardMo1mbVg4DgR93VDlFL+Z63QhQ9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=YPjDmDk9; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1717746243;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=jg6y42A8tuanMkc0qiGHDqRmsY6EuDBjOBYeQQggbQA=;
+	b=YPjDmDk95H45K8usjyG/alYRZzUUfvo8CrQ3hxP2rTwW8bqre46UhwODogNPMxsNdhTeeb
+	2eaxZPZ88z2mrLo/Ci3nZpjdYdSY0zYo7yoAO7sBKrHxyAPw3Uww5HwknAvmX1BUiO9k91
+	s31N2OSNgeKKWr3CDXH0AOUmwI/B0bo=
+Message-ID: <14d802e84cbb8d3c9610386908706f264af34726.camel@crapouillou.net>
+Subject: Re: [PATCH v10 6/6] Documentation: iio: Document high-speed DMABUF
+ based API
+From: Paul Cercueil <paul@crapouillou.net>
+To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Cameron
+ <jic23@kernel.org>,  Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
+ <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>, 
+	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org
+Date: Fri, 07 Jun 2024 09:44:01 +0200
+In-Reply-To: <5052adab-5b5e-4ac2-902c-bb373c00bbbb@infradead.org>
+References: <20240605110845.86740-1-paul@crapouillou.net>
+	 <20240605110845.86740-7-paul@crapouillou.net>
+	 <5052adab-5b5e-4ac2-902c-bb373c00bbbb@infradead.org>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
+ qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
+ JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
+ 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
+ X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
+ AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
+ Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
+ Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
+ McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
+ 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
+ LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Randy,
 
-Results of the daily build of media_tree:
+Le jeudi 06 juin 2024 =C3=A0 10:32 -0700, Randy Dunlap a =C3=A9crit=C2=A0:
+> Hi,
+>=20
+> On 6/5/24 4:08 AM, Paul Cercueil wrote:
+> > Document the new DMABUF based API.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> >=20
+> > ---
+> > v2: - Explicitly state that the new interface is optional and is
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 not implemented by all drivers.
+> > =C2=A0=C2=A0=C2=A0 - The IOCTLs can now only be called on the buffer FD=
+ returned
+> > by
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IIO_BUFFER_GET_FD_IOCTL.
+> > =C2=A0=C2=A0=C2=A0 - Move the page up a bit in the index since it is co=
+re stuff
+> > and not
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 driver-specific.
+> >=20
+> > v3: Update the documentation to reflect the new API.
+> >=20
+> > v5: Use description lists for the documentation of the three new
+> > IOCTLs
+> > =C2=A0=C2=A0=C2=A0 instead of abusing subsections.
+> >=20
+> > v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated
+> > index.rst
+> > =C2=A0=C2=A0=C2=A0 whose format changed in iio/togreg.
+> > ---
+> > =C2=A0Documentation/iio/iio_dmabuf_api.rst | 54
+> > ++++++++++++++++++++++++++++
+> > =C2=A0Documentation/iio/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> > =C2=A02 files changed, 55 insertions(+)
+> > =C2=A0create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+> >=20
+> > diff --git a/Documentation/iio/iio_dmabuf_api.rst
+> > b/Documentation/iio/iio_dmabuf_api.rst
+> > new file mode 100644
+> > index 000000000000..1cd6cd51a582
+> > --- /dev/null
+> > +++ b/Documentation/iio/iio_dmabuf_api.rst
+> > @@ -0,0 +1,54 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +High-speed DMABUF interface for IIO
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +1. Overview
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +The Industrial I/O subsystem supports access to buffers through a
+> > +file-based interface, with read() and write() access calls through
+> > the
+> > +IIO device's dev node.
+> > +
+> > +It additionally supports a DMABUF based interface, where the
+> > userspace
+> > +can attach DMABUF objects (externally created) to a IIO buffer,
+> > and
+>=20
+> I would say/write:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to an IIO buffer,
 
-date:			Fri Jun  7 03:00:13 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	1aea3d1d4a21e3e7895663b848ffae79ee82e065
-v4l-utils git hash:	7d55dd435be30c47bf4766ec264ace1c0ffb06e5
-edid-decode git hash:	4c6e2c1def469b77631c69aa6f52ca8392e21cc7
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8639-gff1cc4d4
-sparse version:		v0.5.0-8639-gff1cc4d4
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3e9c9a50a2489e266e13733b4caff417b4634d71
-host hardware:		x86_64
-host os:		6.5.0-26-generic
+Right.
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+> > +subsequently use them for data transfers.
+> > +
+> > +A userspace application can then use this interface to share
+> > DMABUF
+> > +objects between several interfaces, allowing it to transfer data
+> > in a
+> > +zero-copy fashion, for instance between IIO and the USB stack.
+> > +
+> > +The userspace application can also memory-map the DMABUF objects,
+> > and
+> > +access the sample data directly. The advantage of doing this vs.
+> > the
+> > +read() interface is that it avoids an extra copy of the data
+> > between the
+> > +kernel and userspace. This is particularly useful for high-speed
+> > devices
+> > +which produce several megabytes or even gigabytes of data per
+> > second.
+> > +It does however increase the userspace-kernelspace synchronization
+> > +overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs
+> > have to
+> > +be used for data integrity.
+> > +
+> > +2. User API
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +As part of this interface, three new IOCTLs have been added. These
+> > three
+> > +IOCTLs have to be performed on the IIO buffer's file descriptor,
+> > +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+> > +
+> > +=C2=A0 ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (int =
+fd)
+> ?
 
-date:			Fri Jun  7 03:14:00 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+Yes, I can change that. Although it's very obvious what the "int" is
+for, given the text above.
 
-date:			Fri Jun  7 03:50:19 CEST 2024
+>=20
+> > +=C2=A0=C2=A0=C2=A0 Attach the DMABUF object, identified by its file de=
+scriptor,
+> > to the
+> > +=C2=A0=C2=A0=C2=A0 IIO buffer. Returns zero on success, and a negative=
+ errno
+> > value on
+> > +=C2=A0=C2=A0=C2=A0 error.
+> > +
+> > +=C2=A0 ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
+>=20
+> ditto.
+>=20
+> > +=C2=A0=C2=A0=C2=A0 Detach the given DMABUF object, identified by its f=
+ile
+> > descriptor,
+> > +=C2=A0=C2=A0=C2=A0 from the IIO buffer. Returns zero on success, and a=
+ negative
+> > errno
+> > +=C2=A0=C2=A0=C2=A0 value on error.
+> > +
+> > +=C2=A0=C2=A0=C2=A0 Note that closing the IIO buffer's file descriptor =
+will
+> > +=C2=A0=C2=A0=C2=A0 automatically detach all previously attached DMABUF=
+ objects.
+> > +
+> > +=C2=A0 ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf
+> > *iio_dmabuf)``
+> > +=C2=A0=C2=A0=C2=A0 Enqueue a previously attached DMABUF object to the =
+buffer
+> > queue.
+> > +=C2=A0=C2=A0=C2=A0 Enqueued DMABUFs will be read from (if output buffe=
+r) or
+> > written to
+> > +=C2=A0=C2=A0=C2=A0 (if input buffer) as long as the buffer is enabled.
+>=20
+> thanks.
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Cheers,
+-Paul
 
