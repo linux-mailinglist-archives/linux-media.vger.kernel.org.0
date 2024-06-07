@@ -1,352 +1,353 @@
-Return-Path: <linux-media+bounces-12736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12738-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5439004E6
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:31:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFA09004EC
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:32:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DB261C2481F
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:31:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9F4B28F8A2
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:32:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FC911974E3;
-	Fri,  7 Jun 2024 13:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79EC9194A7F;
+	Fri,  7 Jun 2024 13:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="GuIyLith"
+	dkim=pass (2048-bit key) header.d=opensynergy.com header.i=@opensynergy.com header.b="uiAkQHTB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from refb01.tmes.trendmicro.eu (refb01.tmes.trendmicro.eu [18.185.115.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED7D1946C6;
-	Fri,  7 Jun 2024 13:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717766921; cv=none; b=aY40gOlvb1avqJZhT17eSdWS1bmxWmMC3wcH4LOzNxFexAfHgVJMMi/fTsA/Z8TdmTU2t1gAtAx1adMaJjIzZEOtaE99mixHgLR9Kjz9TWyrCxHCX8F818U+UG8flu/Rg8nsw6BDUKmeEvq1O/3AW8C1/iw0yeSOlRX0DXncBuw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717766921; c=relaxed/simple;
-	bh=9YJDgD1sUF9wLiqDz96LWHNWgihyqNTKefm3EPo+PYg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ur8CeR6Qpi7OFhkGHjP0Axx20vqUApLjGRsyLqCk3jbqpAGEWvf8MPUMJOJtpDyIeDpgMZmNcgcUqjfyfH8T5Z6NcX4LJiqcnvortL8SCGCZL0LeApz3WK5Okzw2/LkdheUgTTKPB0n6sHarR1fyEa5wFy2mfLNL6gDHWNEGpHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=GuIyLith; arc=none smtp.client-ip=198.47.19.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DSXkT089042;
-	Fri, 7 Jun 2024 08:28:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717766913;
-	bh=a2o0W9ZTFF+lA1Bhtoj/rJ7TGEn+u+N/UnDDrxbd6ck=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=GuIyLithFAkqa9SUjr139gcXjCGvpm9z9DYpALlWRGFiCCpE6+komDIsOfqmVGQyk
-	 TtY+Rlmf5hQymogKzDDfaQ0odpCjtj/V2BGapqFvib6lmvA6h5qZ1zNRrgg6EaB3cj
-	 UvtWWjCUNsN7gm9/hI5GOMssSP72z/1Nrj5Vklnw=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DSX1S013748
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 7 Jun 2024 08:28:33 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 7
- Jun 2024 08:28:33 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 7 Jun 2024 08:28:33 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DSWfN038953;
-	Fri, 7 Jun 2024 08:28:32 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>
-Subject: [PATCH v13 03/13] media: v4l2-jpeg: Export reference quantization and huffman tables
-Date: Fri, 7 Jun 2024 18:58:31 +0530
-Message-ID: <20240607132831.3551333-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240607131900.3535250-1-devarsht@ti.com>
-References: <20240607131900.3535250-1-devarsht@ti.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE514194089
+	for <linux-media@vger.kernel.org>; Fri,  7 Jun 2024 13:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=18.185.115.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717766961; cv=fail; b=UxkFhN3lEIdyRJp4XXmj45e3W1OWRqde0AT4HhApzRtipr74Y0c+m63jX/J8AUyeOhEv+1/2u3AL8l93qu9kBcqTPHYIoJi73ziYTHd1kX79Wuy+ziJUToTORyyWSUSghLuwlx/+5xodE9WXXGn8yy4DIIFtbwHlR1ThzLFpXmI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717766961; c=relaxed/simple;
+	bh=h4mPMXVt4/HxPOlNo2p++lRCQHMh6pSzmRpdVsViZZA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GY2zCj11DKQ6GhMlkwqKj5TOg2G31fTt6hpDbqusUh2rmZJYldQ4SjqjuyL1DFqZ+reD6UMwK8oprE+3PAa+OG70OUjhz/JId8IzskK5HY174GCatiTDlhmrPDzzOwpF93g3K0RQ9PURa8Xb8KEfHmomKU0BAwe5NDZgbjevXXA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensynergy.com; spf=pass smtp.mailfrom=opensynergy.com; dkim=pass (2048-bit key) header.d=opensynergy.com header.i=@opensynergy.com header.b=uiAkQHTB; arc=fail smtp.client-ip=18.185.115.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensynergy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensynergy.com
+Received: from 104.47.7.177_.trendmicro.com (unknown [172.21.10.52])
+	by refb01.tmes.trendmicro.eu (Postfix) with ESMTPS id 52E6F10065F0D
+	for <linux-media@vger.kernel.org>; Fri,  7 Jun 2024 13:29:17 +0000 (UTC)
+Received: from 104.47.7.177_.trendmicro.com (unknown [172.21.197.65])
+	by repost01.tmes.trendmicro.eu (Postfix) with SMTP id A579B10001FA9;
+	Fri,  7 Jun 2024 13:29:10 +0000 (UTC)
+X-TM-MAIL-RECEIVED-TIME: 1717766941.574000
+X-TM-MAIL-UUID: a4dce02f-c241-4a9c-b097-db2998b54184
+Received: from DEU01-BE0-obe.outbound.protection.outlook.com (unknown [104.47.7.177])
+	by repre01.tmes.trendmicro.eu (Trend Micro Email Security) with ESMTPS id 8C76210000E20;
+	Fri,  7 Jun 2024 13:29:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XM0HVm5RJyudnuCXRcLqleBy7wrOkGGUuFQolSSEJeIXSoso35rY36CrDhNCUupsJfY8I0gptY/DIDCo5HCuyRmk+uAETlm3++tDDb/jVl6F6KW5w5syO8KBxxPLMOzVyrnQ5I/XQoF7UaAD7kusk9GKWuOYa4aSLTu97EWAHLIXDB7Z+l4tqWTEriITPCkGKUp++1k7AdRO5jREM6vDRPdcnA10vwbS85qTjYECeebXb11R9tVtmNUEcXTC7rWJkgPEReauXlTLVwO9qEmOIIWdA8h5x/4/ituYds43HmDsD8eiS+Wr1WUIJuThlZIFIEgV60xRHaLreGBtwXXxSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lKrBs/MZBIKIH2R5hedO4+IcnyoEnlez5heLldeqrb4=;
+ b=UjahS45Eu0crv+ksD0M2UCPIeac2GCIj2x9tpvNbCw2vH+C2jwG7wehCQsZJ1lMnqzZZxXSjhzV+jGrLjPL51R1FNn1mDKVXywc65YnNPRetA1DujoipwtY2ACTALRNEbBdqhLJQXBleGYfbWZsCWYcPcWSMwT/1DZdRJNrkmOIhZIQivjNQ8gdcFXg1BWUQt4qk5Ux3vgUV4YmAyxQGBJA2fikgOpm6nHTKnXiZnkbuj1xn6sxHGnw3Lw/Rw5nCF1Ku5N5H/w4zgdMB6K/51nS6o/A34vztWk+8ojs6seY53ivqGLX2hsxylvieH2dyooJnfuFcQ94CMJq3SMftLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=opensynergy.com; dmarc=pass action=none
+ header.from=opensynergy.com; dkim=pass header.d=opensynergy.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=opensynergy.com;
+Message-ID: <b2abecb4-03a2-49ce-bfc3-2d95eb7a6956@opensynergy.com>
+Date: Fri, 7 Jun 2024 15:28:56 +0200
+Subject: Re: [PATCH v2 0/1] virtio-media: Add device specification
+To: Albert Esteve <aesteve@redhat.com>, virtio-dev@lists.linux.dev
+Cc: Matti.Moell@opensynergy.com, cohuck@redhat.com, mst@redhat.com,
+ acourbot@chromium.org, daniel.almeida@collabora.com, changyeon@google.com,
+ alex.bennee@linaro.org, gurchetansingh@google.com, ribalda@google.com,
+ nicolas.dufresne@collabora.com, eballetb@redhat.com,
+ linux-media@vger.kernel.org
+References: <20240607080045.1337046-1-aesteve@redhat.com>
+Content-Language: en-US
+From: Alexander Gordeev <alexander.gordeev@opensynergy.com>
+In-Reply-To: <20240607080045.1337046-1-aesteve@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA0P291CA0017.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1::16) To BE0P281MB0177.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:d::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BE0P281MB0177:EE_|FR3P281MB1454:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d0d6c9a-7d4f-4dac-3d22-08dc86f5ca05
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|376005|366007|1800799015;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eEt6c0EwUDZBaHNiL0pZYjhCdUhiQ1dVQjRRdy9id24zdURtZE92K0JkdHdL?=
+ =?utf-8?B?NTlPQVUvTzRtcWJzWnJCWkxTelJtZ3VuYUhkU0YrbEd6SnR3THRkYS85U1hH?=
+ =?utf-8?B?bmM1NUt5YzByK29ndDBrTCtTcVhLaTZtQzVpT0ZOR3NZWFJ2dVlyMzBCZURp?=
+ =?utf-8?B?R203bTdtSlExK2Z2YW5QNjRKajdNZlk1THJKMTN4Q25vR1I5aGlPcFdRV3FM?=
+ =?utf-8?B?di9ONzNTYzd3WVpkNVcxM1NObDdUaTl6bUVtWHB6Mm1scUx1Y2I0RFBOVTNM?=
+ =?utf-8?B?a00rQ0lSQkdLNE01amtHQmpJVVJXb2hiSUhLZlA2SnF1S0lSWXQ0Snc4a1JJ?=
+ =?utf-8?B?NDNpVWlTVEc3eWJoTHdjbElnU3FDQSs0N0pjc3FsOHFpOEpQOE81NjNCdEhO?=
+ =?utf-8?B?M3RpUjFVSVVVMzhsYUNRdXltVkIxRDVxbkpLek80NEpzMXpkdkNpUDN3Y3pI?=
+ =?utf-8?B?UDRyNU1uQ1ZFQUVDS0dnRGtSeEtvQk4vWnAwVnZnOUF0cnlpWjdQa3J0dFQr?=
+ =?utf-8?B?ZWxZdUhkZXZxeHQzUmRIdUlKcXViN2cvM0ZuOWZEZHlHTmFIdXpNT0hXcnBS?=
+ =?utf-8?B?RkE2Mm5KMDg2R1U5cTdIL00xUlpMV2wzN25MUEVvalpVR3UydTl5eWtZMlcr?=
+ =?utf-8?B?bzI3Q0hnMVQzN2FKQmxvSW4yZ3NzNzU0VnplNnh1dWEvaTdncTN5c1F0MWJ2?=
+ =?utf-8?B?OFhEZy9TWmJmTEpQT3cvSE5jelZaWHdkemJVMmZNb2ZIWVB5RWpRbXp5Y1dT?=
+ =?utf-8?B?a0Y0VlhnQWhaNUVDWTNqWjRrYS9GTnIyTElqNk9RRmVhRUYvemFQQVRHSGVo?=
+ =?utf-8?B?d2cvdEErOEVnSDVWbnZsM0JtdXpvNS92dzV0cFZwUW9SSVI1ZXQxclp5alhp?=
+ =?utf-8?B?ZnpMQzJHVEdmdGlIL2dGM3hZTVQxT1BLOGM4MUljT2I5b2ZZSGpQK0pVUXlW?=
+ =?utf-8?B?aElEa0ttcHNkeWJ0YzkvMmZqSGtzcU1ObHBCZllJd0Z0MkkzQXpoYmJYa0ZV?=
+ =?utf-8?B?eUh1b2lRdGt6WnhCeXVQWWdGL3EzNndxcGgvRzhpVWJ2Y3hmbmFMa0kyeTNK?=
+ =?utf-8?B?L0VheUE3cHZ2M01xUnROUVF5bDZhQytRM2d0WmFTeGtLVzRDUHROU29vNUo0?=
+ =?utf-8?B?Nnd6cEgzTUwwc0h4V01Sa0dUUEFiQUxxUjdCcUtqc3BEL25XNVJUTVdiMnVW?=
+ =?utf-8?B?OVN0SFJVTzVkSWU4dXFsRzZQREZaN0tVWVdCZFQyV1gyQTExY2lMRjd6eFRV?=
+ =?utf-8?B?RXBsUzNmbFhGbWgwZkFlSzhvcFl2c1hlYkUySTBBTDRhR1Z6cGFwdHYvVkkz?=
+ =?utf-8?B?WkNaZXNjN1dJbzlsRDUxZ2xOR0krcC9scXBCZTJvbmp6MU1TbkN2Ujhua2Fj?=
+ =?utf-8?B?TDI2QTNtVkwxSTFYVzhGYnRaV29YQTFiaEFzKzduOHVva29NZ2x5czQvTFRm?=
+ =?utf-8?B?cC9VMmVKeWpUdjVIenNaMFUxdmhGMzN5M1dNNnEzNnZyNmJ0TkVUeW1Rc0Jy?=
+ =?utf-8?B?YStQeGtqSzEvNnB4NW50eFJMekc3cDBCVVZObHI1Q0dNWDhmeVhlZ3BqUWsx?=
+ =?utf-8?B?amJXOEVyRHg4MW1lTmxYOGF3VzBXbnpOY2poT3VmOVR6WXFNbnNMMmcvMHVF?=
+ =?utf-8?B?K2ZIa2NUeHZWRGt0Vnc2dUl5T25Id1dMQ285SjZDSitPNW5taWQzSFFIWUp2?=
+ =?utf-8?B?Q21valV2YWdma2hoOTlrUDJuN0pIVllKUCtNQmRCRjN3MUsrUThodjFnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BE0P281MB0177.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(366007)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RjJ5cFRZVTJEeUhyQUlQNTNtK21ON1lCR25HZCtuT2dIbWM0Z3RjMFhDZ3U3?=
+ =?utf-8?B?N3dKMDNVTStmT2RZV1dtK08veHFXeGxqSkRpM2ZmeHNyNFZ3U29qcHE4djhT?=
+ =?utf-8?B?TGxBa0pabUpTNWxzYnJRS0ZUTlN3TnZuaktNOXRHYVY4Tjl2T0RYNk92bWkz?=
+ =?utf-8?B?b3YyTHRHS2ZYSkRSU0wyN2sxTG4rbUZTbXpKZXVobTkwK0dLNnVxMDB2VXEy?=
+ =?utf-8?B?WXE2SlhKMzAwT29oZXNZWTFZODBZTElLUDh4djc5c3psZGZRamtJcFowMFFF?=
+ =?utf-8?B?Y3d1NXgzY0ZLR0FPdXBCM2J3UlEwUmJ0YkJlZG8wdys4MTZWTktvTkJVYzBU?=
+ =?utf-8?B?dWZzYUtVQ1grVkRYdEF4VEI3Ympkb0lQYW5xV0hKbW5xcVFaVHp5bUt5QzJq?=
+ =?utf-8?B?VklFVE1jQWd3NExieVA2QXlydFdsUUpWTmVkSm9vZUUwK0RleWlXN2VGQThk?=
+ =?utf-8?B?T254cFNOMHdZU1JxNXIrWWpFZWhpOUpVQ3gwckRDV1BIckUxbW94THFCT2Rq?=
+ =?utf-8?B?bnJNUithbnd5T0JKT3RuZTIxb3ZsUVJZcTdPN2dGRUdUWWFLbXA4N05sUzRQ?=
+ =?utf-8?B?bTNpWE1BRU1UYzFKUjBxdmJRYitiazhsb21YTzhka0N3Z3B4aEw5aFI0bWdU?=
+ =?utf-8?B?OElHbWZKZEJFbEtxWXE0djd5dW5XQmNtVDBwVmUyZFhETCsrb0hTU2Z5N1pq?=
+ =?utf-8?B?RGljQWdIZXQ2MHJCVWhNdGFLUkhhUFRqeERvOGVyUldWV3NRVGxlVkRtZUZZ?=
+ =?utf-8?B?TXlZSWRBYldXUHVXaWdKeWlLZnExQ3hiZUJEWEk3VUJVbWxEYWJaTm5XSG1m?=
+ =?utf-8?B?SlhydWdKRVA3Ti9laW5OMUFGazZaM29aSGc1UjBYcnY3TkdSRjJFdXZzK2kx?=
+ =?utf-8?B?OWhjUTJyNXNBaThTTklxR0NKUFVmOC81WG9YM1haRlIyMlBRZDVhRTAyWXll?=
+ =?utf-8?B?NzJiQTFPK0xrNE9yMEZDNU9IMWgwTnBEUHpiTEZyeHFuYXh0N2pweEl6T3BY?=
+ =?utf-8?B?RXg2T1lLbG95d3lEWUlRd3Jqb3VrdkY5QVhKUVo4K2U5V2hhVitIVVVMQ3JU?=
+ =?utf-8?B?SGtkdHg2K05DQ2kvczdjK2JQdUkvVE9GN3NtL09KQjk2YkwyUDdUUW9GaVgr?=
+ =?utf-8?B?VjJWSTUrdzRrc25yWHRMRHlsWWQ2ZTNzV3hlWndRaTJVYWZndlU4UUZ2ZHY1?=
+ =?utf-8?B?eW1FVmZmekZzK2NwZUtXNFNyOUxaeHZTSjVtcGZaQUZpcjFudFdRdFlGMDRE?=
+ =?utf-8?B?R0REeS9HaGpMYzRUcXJjTVJpZEhSMGF6OHd5ckVJblBNcGkzM1M3QVRzRUZp?=
+ =?utf-8?B?aGtSNjVnRlR4cTlTWThOZ0NBbG5xYTZPZEtzdnpNYlJDSjM4TloyUzlhU1JD?=
+ =?utf-8?B?U09PRTJaWVlkYzNCWlpNZC9ENWs3YUMyazRCdjBOTDVEOFBveHFxUWJVWjRL?=
+ =?utf-8?B?dzlRUmcrandSbWFkQXBYdTV3TVBTeFhHWmd5eXJxVFJ1MHgyRUFKZzZuWktD?=
+ =?utf-8?B?SnE1S1JGQk14RlhuVEpMVnNNQXJVajdkdWJ3ZGQwbFB1WWM1NnNnd2lVZGxX?=
+ =?utf-8?B?KzVHQmt4VTJEaU1TMlhlMDlmbGpId2RETkw3M3h1NysrQjNHMmZORDFkRU1N?=
+ =?utf-8?B?OTNMSFNtNk9ORGR3MERkQ1V2cFZleTNQZ3BpQ1ZOQjZKRmpSb1BtcnJuUWlL?=
+ =?utf-8?B?TTNGMjg5V1I4OFJhaWpGd3N4anFtRjQ3K2xxd2txanlSTlZyMXlUUXRtM2Rt?=
+ =?utf-8?B?NnRGQlphVGNqTFdFR01tcUxOUVhkK00wUURBU2QxcEVISEloTzd1eldNaUhC?=
+ =?utf-8?B?UWF0eGJyczQ0MG93alFGcGVVNXM2SFlYcERqTUhWT2ppTkQ5anZZYTBjQnoz?=
+ =?utf-8?B?eDI0THNRZ3hHZlRvZFB4MFhZbzdzSmxta0lqVmQzVDJYL3A4ZkllV1VJVUQy?=
+ =?utf-8?B?RnA3dnZxVUpOQ3dGSEI1OUtOUVgwT0pPVTJmODlOS3NKWXRaR3hGaGhKVXRy?=
+ =?utf-8?B?L0hSQk9IenNucEZ6OUxIdkJ2Y05wd0lCaFB2bC91RDFiNTBHZ3hsYXFjNXZH?=
+ =?utf-8?B?RytodUY5Z1NGZ2E1Zml3NlRnMFBFby9xV2UxcGp6dkc4UjhMV3J1Q2UvSStw?=
+ =?utf-8?Q?3eL13PFIzPHxbZ/NbCUD++obl?=
+X-OriginatorOrg: opensynergy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d0d6c9a-7d4f-4dac-3d22-08dc86f5ca05
+X-MS-Exchange-CrossTenant-AuthSource: BE0P281MB0177.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 13:28:59.6810
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 800fae25-9b1b-4edc-993d-c939c4e84a64
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zUnK6g3lrbnUry54cPpq63AQ12bQyUxR5zJGkWC22AC0PqabUrCHyoHcA3vWHeAHdIY/K/TLJCwA4SZ2HcgfSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR3P281MB1454
+X-TM-AS-ERS: 104.47.7.177-0.0.0.0
+X-TMASE-Version: StarCloud-1.3-9.1.1023-28436.002
+X-TMASE-Result: 10--24.025100-4.000000
+X-TMASE-MatchedRID: 0FbuSxFHrmnEeENaa6f3ipQ/7SF2k7HSDDgMha/WNJWmiVeoNe/DChf6
+	P5SYTz3whdV4DNbM8esSIpOZI85QV40IhLRfrm0owCynNqaZmbgftZuMZfm2Sc+9rQ+ljgUnU3L
+	lkMVqCR22rF0xZKBGAAmYviVgIizsPqLVifTMwhLnSw797O7vsMBJQtlfP5o9SN0awXNAjwVLiX
+	zOfLapnr84v1ncdyt/6wlzBnX8OEAW2fjHaLKh0BBO39LWoxf3HkO3Jwwo8GTYB7h0QmbuTXg8w
+	OTJF6Ws/KmF6PXUvSF7lwZF7GC6hP4tSK3Y++M+wBDfgAwffVNGDXkz8A7dj4M+VZimfMfO4Qpv
+	Gpvkj+db6vrNZx7TgYnvjQ1qO1rnoG8aa0RhIhaCeSwp+1c04+Xp5Ieya85+B1/+MhJHxqBQuyT
+	WcRlTdkvf7TMPgZT6IXvLm60VOTxa/TI2/6XK8uMkmBIy75MrLDnt+iPiISGoHJcUcHtaqlJ7G8
+	3umMVvXk7Rlwq0n7dCeEor3AIpkftaF3Lm3R5NG+h1KEqcgkYJZ2Q97L+53dZsF6RN0T1Z2is2J
+	ndz3MoLBf2DjkLv2Ue5oGsVx/VACvFujtW1edaors6fQnzHvqEdrhqOPissN0X64jGy2dYocZCi
+	FAXLX5nIks1lKSkzBqppdY0Ui0fHzgRDb/6bnqAMgqqohH1PoXieF+7O0prgCr61uI2z4i2SOQM
+	Upav70B9raYNQBm9XvsCGVv8czvD9A8H1rUWtlIFBfXfM6ZSK7q7iyFn58e6Y/d5rGedhZpWOUZ
+	K9+E0E5DpoN1ht3liotxKi0ygwWAgtBtD1e7rrhpwxi7CLzzmoMBkrmuf/mCYM4MaoFU97wQPQv
+	9XohUiWqV2CUL6T2HlzhM3zNtnRKDuafjrn+bOqTHJspUBKpa3EDSoNNvSJkcezle6Ws3hjRNft
+	OUC/O/mB2+12nNVaOxpgjiWHdQKmARN5PTKc
+X-TMASE-XGENCLOUD: 51fcad86-a674-4548-ba49-dff0358f8a13-0-0-200-0
+X-TM-Deliver-Signature: E9F12A6FD0054B16685D5EB7287D29B2
+X-TM-Addin-Auth: eSS9+SRVl1rtVQJCq6TQJt9qyjshkEibyMzPgmO2gcStMjVEtFRSFRQY/Aw
+	oBjOPCahOM3ZFaELSwnaUTvM0hj6g8Rhbcc4iLRubKiEuOcerynzeqSKF+gFyR4mrYZpiaO1oc5
+	jftiU3jnpttA5hYGHRWCx26orteCBQlB9us0SxB1YAnJiUJ7ql3xFmAfT3zfm+iwdyFdoSw6TwV
+	YtRl8JAlzdNtT7xjOW8GEigYfQeiyWUYqo5T/ALl8oVpCMn09ZeRMdInlxAhpRvF8mOySpvBFoh
+	NDCYBJDfKrjvstM=.XpvntRZfpj/f8PSCutx5kdr+P5nQAtxgHeOCFBofIEGMOJBUf5Lh+rPQvN
+	xAw9hN3g0fha4HAnoXwndQfEnMHLxlRiP7yJIxZZe4qEIfVnI/mysP+aIGqUkAOfE2AM9yGoi4O
+	RRAkw+AWq3KL7d9DrcU4xLehhn9+cB7/YXdJHEhBXGTxjfsz5C6POMdJo8hBNC0FWne9t2gXbES
+	5g3bs/f9iIvSzzRhuJACsspfjmj7hlA6tEhA2fNlLPf1xw+hXAxUVwI4fRkfizaJKrKQ9wjxeHb
+	8+QaPdmjEfxiGN2nV5adiLRW/xttq5bp4x9IXNrbRb0AC7LfBpLj690UOgg==
+X-TM-Addin-ProductCode: EMS
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=opensynergy.com;
+	s=TM-DKIM-20210503141657; t=1717766950;
+	bh=h4mPMXVt4/HxPOlNo2p++lRCQHMh6pSzmRpdVsViZZA=; l=6314;
+	h=Date:To:From;
+	b=uiAkQHTBrZiMn/HlnCF6f+vHf6kD8oedOO9r6YbqAUpVJkytsP0ofQDtdFN1B1eAt
+	 aahjAVYdtXOe+OAhyw87cf3Mg+8fIoTaBHYdEQDIZzlt5Z1PEXymkOMjB58uCv5iAA
+	 cadUsWbcsBl94rRL9Myqz5ixbmGPbSEUgJDG7wlU+nfdr9Bni7ViPRLfHRvyMnVNMz
+	 Op7pv6u5BAnGCrms2bvk1SCz5F1AHAD232+dapD1ES48XqA3B/BP8WZreWd1wdinmp
+	 vu9p89tBcs3r+YGtQnplCFl8JGAynrFDGaVfY7GfmNchgRMiy2f4kUaD6OI0QYLtoH
+	 ckil6VcEQfi+w==
 
-Export reference quantization and huffman tables as provided in ITU-T.81 so
-that they can be re-used by other JPEG drivers.
+Hi Albert,
 
-These are example tables provided in ITU-T.81 as reference tables and the
-JPEG encoders are free to use either these or their own proprietary tables.
+On 07.06.24 10:00, Albert Esteve wrote:
+> Hi,
+> 
+> This a formal attempt of including virtio-media
+> device specification.
+> 
+> Virtio-media came from a discussion on virtio-dev
+> mailing list, which lead to presenting virtio-v4l2[1]
+> specification as an alternative to virtio-video.
+> 
+> Later, virtio-v4l2 was renamed to virtio-media[2]
+> and published through:
+> 
+> https://github.com/chromeos/virtio-media
+> 
+> The repository above includes a virtio-media driver able
+> to pass v4l2-compliance when proxying the vivid/vicodec
+> virtual devices or an actual UVC camera using the
+> V4L2 vhost device (available in the repository).
+> Steps to reproduce are also detailed[3].
+> 
+> There is some overlap with virtio-video in regards
+> to which devices it can handle. However,
+> as virtio-media will likely be the virtualization
+> solution for ChromeOS (already landed into the chromeos
+> organization) and possibly other Google projects for
+> media devices, it would be desirable to include the
+> specification in the next virtio release despite
+> the aforementioned overlap.
+> 
+> The device ID in this document differs from
+> the ID in the virtio-media project repository.
+> And it will probably need some discussion on which
+> would be the correct definitive ID.
+> 
+> Full PDF: https://drive.google.com/file/d/1pNCFP06VoV8Zuyx0aDVQ7HAT4xp-pZ0a/view?usp=sharing
+> PDF with the media section only: https://drive.google.com/file/d/1sn3NUUeCm46zVyJKHkpytTIgGw1fUt5T/view?usp=sharing
+> 
+> [1] https://mail.google.com/mail/u/0?ui=2&ik=73ebd65ebd&attid=0.1&permmsgid=msg-f:1767388565327924962&th=1887068940754ee2&view=att&disp=inline&realattid=f_libalimc0
+> [2] https://www.mail-archive.com/virtio-dev@lists.oasis-open.org/msg12665.html
+> [3] https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md
+> 
+> Albert Esteve (1):
+>    virtio-media: Add virtio media device specification
+> 
+>   conformance.tex                           |  13 +-
+>   content.tex                               |   1 +
+>   device-types/media/description.tex        | 578 ++++++++++++++++++++++
+>   device-types/media/device-conformance.tex |  11 +
+>   device-types/media/driver-conformance.tex |   9 +
+>   5 files changed, 608 insertions(+), 4 deletions(-)
+>   create mode 100644 device-types/media/description.tex
+>   create mode 100644 device-types/media/device-conformance.tex
+>   create mode 100644 device-types/media/driver-conformance.tex
 
-Also add necessary prefixes to be used for huffman tables in global header
-file.
+I'd like to add some general considerations:
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V13: Fix smatch/sparse related below warning by using static global
-variable for arrays:
-Logs:
-+drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'luma_qt' was not
-declared. Should it be static?
-+drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'chroma_qt' was
-not declared. Should it be static?
-+drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'zigzag' was not
-declared. Should it be static?
-+drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'luma_dc_ht' was
-not declared. Should it be static?
-+drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'luma_ac_ht' was
-not declared. Should it be static?
-+drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'chroma_dc_ht' was
-not declared. Should it be static?
-+drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'chroma_ac_ht' was
-not declared. Should it be static?"
+1. virtio-media device capability discovery is very chatty
 
-V12: Fix html-doc warnings by removing * from args
-V11: No change
-V10: Add description for new macros introduced in this patchset
-V1->V9: No change (Patch introduced in V7)
- drivers/media/v4l2-core/v4l2-jpeg.c | 162 +++++++++++++++++++++++++++-
- include/media/v4l2-jpeg.h           |  28 +++++
- 2 files changed, 189 insertions(+), 1 deletion(-)
+V4L2 requires potentially hundreds of system calls to get the full view 
+of the device capabilities. This is inherited by virtio-media.
+AFAIU V4L2 developers agree there is room for enhancement here, see [1], 
+[2]. Also I've been told VIDIOC_G_EXT_CTRLS/VIDIOC_S_EXT_CTRLS were 
+added for similar reasons.
 
-diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
-index 94435a7b6816..bd6305c92e0e 100644
---- a/drivers/media/v4l2-core/v4l2-jpeg.c
-+++ b/drivers/media/v4l2-core/v4l2-jpeg.c
-@@ -16,7 +16,7 @@
- #include <linux/types.h>
- #include <media/v4l2-jpeg.h>
- 
--MODULE_DESCRIPTION("V4L2 JPEG header parser helpers");
-+MODULE_DESCRIPTION("V4L2 JPEG helpers");
- MODULE_AUTHOR("Philipp Zabel <kernel@pengutronix.de>");
- MODULE_LICENSE("GPL");
- 
-@@ -52,6 +52,115 @@ MODULE_LICENSE("GPL");
- #define COM	0xfffe	/* comment */
- #define TEM	0xff01	/* temporary */
- 
-+/* Luma and chroma qp tables to achieve 50% compression quality
-+ * This is as per example in Annex K.1 of ITU-T.81
-+ */
-+static const u8 luma_qt[] = {
-+	16, 11, 10, 16, 24, 40, 51, 61,
-+	12, 12, 14, 19, 26, 58, 60, 55,
-+	14, 13, 16, 24, 40, 57, 69, 56,
-+	14, 17, 22, 29, 51, 87, 80, 62,
-+	18, 22, 37, 56, 68, 109, 103, 77,
-+	24, 35, 55, 64, 81, 104, 113, 92,
-+	49, 64, 78, 87, 103, 121, 120, 101,
-+	72, 92, 95, 98, 112, 100, 103, 99
-+};
-+
-+static const u8 chroma_qt[] = {
-+	17, 18, 24, 47, 99, 99, 99, 99,
-+	18, 21, 26, 66, 99, 99, 99, 99,
-+	24, 26, 56, 99, 99, 99, 99, 99,
-+	47, 66, 99, 99, 99, 99, 99, 99,
-+	99, 99, 99, 99, 99, 99, 99, 99,
-+	99, 99, 99, 99, 99, 99, 99, 99,
-+	99, 99, 99, 99, 99, 99, 99, 99,
-+	99, 99, 99, 99, 99, 99, 99, 99
-+};
-+
-+/* Zigzag scan pattern */
-+static const u8 zigzag[] = {
-+	0,   1,  8, 16,  9,  2,  3, 10,
-+	17, 24, 32, 25, 18, 11,  4,  5,
-+	12, 19, 26, 33, 40, 48, 41, 34,
-+	27, 20, 13,  6,  7, 14, 21, 28,
-+	35, 42, 49, 56, 57, 50, 43, 36,
-+	29, 22, 15, 23, 30, 37, 44, 51,
-+	58, 59, 52, 45, 38, 31, 39, 46,
-+	53, 60, 61, 54, 47, 55, 62, 63
-+};
-+
-+/*
-+ * Contains the data that needs to be sent in the marker segment of an
-+ * interchange format JPEG stream or an abbreviated format table specification
-+ * data stream. Specifies the huffman table used for encoding the luminance DC
-+ * coefficient differences. The table represents Table K.3 of ITU-T.81
-+ */
-+static const u8 luma_dc_ht[] = {
-+	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
-+	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B
-+};
-+
-+/*
-+ * Contains the data that needs to be sent in the marker segment of an
-+ * interchange format JPEG stream or an abbreviated format table specification
-+ * data stream. Specifies the huffman table used for encoding the luminance AC
-+ * coefficients. The table represents Table K.5 of ITU-T.81
-+ */
-+static const u8 luma_ac_ht[] = {
-+	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03, 0x05, 0x05, 0x04, 0x04,
-+	0x00, 0x00, 0x01, 0x7D, 0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
-+	0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07, 0x22, 0x71, 0x14, 0x32,
-+	0x81, 0x91, 0xA1, 0x08, 0x23, 0x42, 0xB1, 0xC1, 0x15, 0x52, 0xD1, 0xF0,
-+	0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0A, 0x16, 0x17, 0x18, 0x19, 0x1A,
-+	0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
-+	0x3A, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x53, 0x54, 0x55,
-+	0x56, 0x57, 0x58, 0x59, 0x5A, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
-+	0x6A, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x83, 0x84, 0x85,
-+	0x86, 0x87, 0x88, 0x89, 0x8A, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98,
-+	0x99, 0x9A, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xB2,
-+	0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xC2, 0xC3, 0xC4, 0xC5,
-+	0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8,
-+	0xD9, 0xDA, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA,
-+	0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA
-+};
-+
-+/*
-+ * Contains the data that needs to be sent in the marker segment of an interchange format JPEG
-+ * stream or an abbreviated format table specification data stream.
-+ * Specifies the huffman table used for encoding the chrominance DC coefficient differences.
-+ * The table represents Table K.4 of ITU-T.81
-+ */
-+static const u8 chroma_dc_ht[] = {
-+	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
-+	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B
-+};
-+
-+/*
-+ * Contains the data that needs to be sent in the marker segment of an
-+ * interchange format JPEG stream or an abbreviated format table specification
-+ * data stream. Specifies the huffman table used for encoding the chrominance
-+ * AC coefficients. The table represents Table K.6 of ITU-T.81
-+ */
-+static const u8 chroma_ac_ht[] = {
-+	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04, 0x07, 0x05, 0x04, 0x04,
-+	0x00, 0x01, 0x02, 0x77, 0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
-+	0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71, 0x13, 0x22, 0x32, 0x81,
-+	0x08, 0x14, 0x42, 0x91, 0xA1, 0xB1, 0xC1, 0x09, 0x23, 0x33, 0x52, 0xF0,
-+	0x15, 0x62, 0x72, 0xD1, 0x0A, 0x16, 0x24, 0x34, 0xE1, 0x25, 0xF1, 0x17,
-+	0x18, 0x19, 0x1A, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x35, 0x36, 0x37, 0x38,
-+	0x39, 0x3A, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x53, 0x54,
-+	0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
-+	0x69, 0x6A, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x82, 0x83,
-+	0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x92, 0x93, 0x94, 0x95, 0x96,
-+	0x97, 0x98, 0x99, 0x9A, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9,
-+	0xAA, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xC2, 0xC3,
-+	0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6,
-+	0xD7, 0xD8, 0xD9, 0xDA, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9,
-+	0xEA, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA
-+};
-+
- /**
-  * struct jpeg_stream - JPEG byte stream
-  * @curr: current position in stream
-@@ -675,3 +784,54 @@ int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
- 	return jpeg_parse_huffman_tables(&stream, huffman_tables);
- }
- EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_huffman_tables);
-+
-+/**
-+ * v4l2_jpeg_get_reference_quantization_tables - Get reference quantization
-+ *						 tables as defined in ITU-T.81
-+ * @ref_luma_qt: Output variable pointing to luma quantization table
-+ * @ref_chroma_qt: Output variable pointing to chroma quantization table
-+ */
-+void v4l2_jpeg_get_reference_quantization_tables(const u8 **ref_luma_qt, const
-+						 u8 **ref_chroma_qt)
-+{
-+	if (ref_luma_qt)
-+		*ref_luma_qt = luma_qt;
-+	if (ref_chroma_qt)
-+		*ref_chroma_qt = chroma_qt;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_get_reference_quantization_tables);
-+
-+/**
-+ * v4l2_jpeg_get_zig_zag_scan - Get zigzag scan table as defined in ITU-T.81
-+ * @ref_zigzag: Output variable pointing to zigzag scan table
-+ */
-+void v4l2_jpeg_get_zig_zag_scan(const u8 **ref_zigzag)
-+{
-+	if (ref_zigzag)
-+		*ref_zigzag = zigzag;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_get_zig_zag_scan);
-+
-+/**
-+ * v4l2_jpeg_get_reference_huffman_tables - Get reference huffman tables as
-+ *					    defined in ITU-T.81
-+ * @ref_luma_dc_ht : Output variable pointing to huffman table for luma DC
-+ * @ref_luma_ac_ht : Output variable pointing to huffman table for luma AC
-+ * @ref_chroma_dc_ht : Output variable pointing to huffman table for chroma DC
-+ * @ref_chroma_ac_ht : Output variable pointing to huffman table for chroma AC
-+ */
-+void v4l2_jpeg_get_reference_huffman_tables(const u8 **ref_luma_dc_ht,
-+					    const u8 **ref_luma_ac_ht,
-+					    const u8 **ref_chroma_dc_ht,
-+					    const u8 **ref_chroma_ac_ht)
-+{
-+	if (ref_luma_dc_ht)
-+		*ref_luma_dc_ht = luma_dc_ht;
-+	if (ref_luma_ac_ht)
-+		*ref_luma_ac_ht = luma_ac_ht;
-+	if (ref_chroma_dc_ht)
-+		*ref_chroma_dc_ht = chroma_dc_ht;
-+	if (ref_chroma_ac_ht)
-+		*ref_chroma_ac_ht = chroma_ac_ht;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_get_reference_huffman_tables);
-diff --git a/include/media/v4l2-jpeg.h b/include/media/v4l2-jpeg.h
-index 2dba843ce3bd..b470bbffb73f 100644
---- a/include/media/v4l2-jpeg.h
-+++ b/include/media/v4l2-jpeg.h
-@@ -14,6 +14,30 @@
- 
- #define V4L2_JPEG_MAX_COMPONENTS	4
- #define V4L2_JPEG_MAX_TABLES		4
-+/*
-+ * Prefixes used to generate huffman table class and destination identifiers as
-+ * described below:
-+ *
-+ * V4L2_JPEG_LUM_HT | V4L2_JPEG_DC_HT : Prefix for Luma DC coefficients
-+ *					huffman table
-+ * V4L2_JPEG_LUM_HT | V4L2_JPEG_AC_HT : Prefix for Luma AC coefficients
-+ *					huffman table
-+ * V4L2_JPEG_CHR_HT | V4L2_JPEG_DC_HT : Prefix for Chroma DC coefficients
-+ *					huffman table
-+ * V4L2_JPEG_CHR_HT | V4L2_JPEG_AC_HT : Prefix for Chroma AC coefficients
-+ *					huffman table
-+ */
-+#define V4L2_JPEG_LUM_HT		0x00
-+#define V4L2_JPEG_CHR_HT		0x01
-+#define V4L2_JPEG_DC_HT			0x00
-+#define V4L2_JPEG_AC_HT			0x10
-+
-+/* Length of reference huffman tables as provided in Table K.3 of ITU-T.81 */
-+#define V4L2_JPEG_REF_HT_AC_LEN		178
-+#define V4L2_JPEG_REF_HT_DC_LEN		28
-+
-+/* Array size for 8x8 block of samples or DCT coefficient */
-+#define V4L2_JPEG_PIXELS_IN_BLOCK	64
- 
- /**
-  * struct v4l2_jpeg_reference - reference into the JPEG buffer
-@@ -154,4 +178,8 @@ int v4l2_jpeg_parse_quantization_tables(void *buf, size_t len, u8 precision,
- int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
- 				   struct v4l2_jpeg_reference *huffman_tables);
- 
-+void v4l2_jpeg_get_reference_quantization_tables(const u8 **luma_qt, const u8 **chroma_qt);
-+void v4l2_jpeg_get_zig_zag_scan(const u8 **zigzag);
-+void v4l2_jpeg_get_reference_huffman_tables(const u8 **luma_dc_ht, const u8 **luma_ac_ht,
-+					    const u8 **chroma_dc_ht, const u8 **chroma_ac_ht);
- #endif
+ From the point of view of virtualization developers like my colleagues 
+and me hundreds of hypervisor "exits" are excessive and costly. It can 
+noticeably increase boot times, which is something we fight against in 
+automotive. AFAIU other virtio developers agree with this, see [3].
+
+In contrast virtio-video has been doing this in one command from day 
+one. Yes, the data was incomplete. That's why in draft v9 I added TLV as 
+a way to store all possible capabilities. I hope the linux-media folks 
+could take a look on it. Maybe this is something, that can be adopted in 
+V4L2?
+
+2. virtio-media has a hard dependency on V4L2
+
+There are certainly some "patches" on top of V4L2 in virtio-media, like 
+the representation of the extended controls (which actually looks 
+similar to the representation of the controls in virtio-video) or 
+VIRTIO_MEDIA_EVT_DQBUF. But how far can this go? Is it OK to add your 
+own ioctl ids in virtio-media?
+
+AFAIK the linux-media maintainers have been overloaded for years, see 
+[4]. Would they be happy to deal with the additional requirements? Would 
+virtio community like to have a dependency here?
+
+2.1. an example: format modifiers
+
+There is a patchset aiming at unifying V4L2 pixel formats and extending 
+them with DRM format modifiers. It is now at version 7 submitted in 
+2023, see [5]. The first version was submitted in 2019, see [6]. Not 
+merged yet AFAIK.
+
+In virtio-video I just added them in draft v9.
+
+I'm absolutely not trying to criticize here. I just try to highlight 
+that there is a lot of legacy and the process is painful. Right now we 
+have an opportunity to design a new API according to the current state 
+of the art of the stateful codecs.
+
+3. uncertainty with cameras
+
+AFAIK there is still no agreement about how cameras should be 
+virtualized, see [3], [7], [8], [9]. virtio-media provides support for 
+cameras in a specific way, which might not be desirable.
+
+4. (minor) is it possible/hard to implement the device in hardware/on a 
+micro controller?
+
+This is something I thought about recently, there might be a use-case 
+for it in the future. One of the concerns is that dynamic memory 
+allocations are IMHO inevitable in virtio-media or virtio-video up to 
+draft v8. I think multiple virtqueues in virtio-video draft v9 would 
+help here. Not sure yet...
+
+There are also other minor concerns, that are probably tolerable.
+
+[1] 
+https://lore.kernel.org/linux-media/20230922100303.GF19112@pendragon.ideasonboard.com/
+[2] Page 6 in 
+https://hverkuil.home.xs4all.nl/mediasummit2023-pdfs/Hsia-Jun%20Li%20-%20V4L2%20M2M%20EXT%20API%20enhancement.pdf
+[3] https://old.linaro.org/blog/the-challenges-of-abstracting-virtio/
+[4] 
+https://lore.kernel.org/linux-media/4b6b1355-9baa-ff1e-e1c0-89dfdc83ad04@xs4all.nl/
+[5] 
+https://lore.kernel.org/linux-media/20230206043308.28365-2-ayaka@soulik.info/
+[6] 
+https://lore.kernel.org/linux-media/20190319145243.25047-1-boris.brezillon@collabora.com/
+[7] https://lore.kernel.org/virtio-dev/87354dtp30.fsf@linaro.org/
+[8] 
+https://lore.kernel.org/linux-media/00f53c06-e66d-aa46-ca4f-c3baab6cf455@xs4all.nl/
+[9] 
+https://lore.kernel.org/virtio-dev/CAAFQd5BrhDZtFX3vdhBVSLXthe8CykYsZzVQ9ddZxVNvNS3ArA@mail.gmail.com/
+
 -- 
-2.39.1
+Alexander Gordeev
+Senior Software Engineer
 
+OpenSynergy GmbH
+Rotherstr. 20, 10245 Berlin
+www.opensynergy.com
 
