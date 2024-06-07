@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-12747-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12748-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99ACF900514
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:37:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8F5900517
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:37:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 204121F236A5
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:37:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 94DDCB297C9
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:37:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF51B19ADA6;
-	Fri,  7 Jun 2024 13:33:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58EF5194C93;
+	Fri,  7 Jun 2024 13:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="L6NYNlPj"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="vP0kU3Jq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99415195978;
-	Fri,  7 Jun 2024 13:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C84194128;
+	Fri,  7 Jun 2024 13:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717767200; cv=none; b=dUayqq+4ZJATYRdq/426uM7GBaZoV1f4sRhRqJuk1GH9Grnmr4xcZk7hOdL7qKF7wlXVSoPo1NHlnFgCoeBSh/7TGnEDc3EvOz6MGwvRqAuiX4aF5CLmePaXASy0T4Iu1fHcVqa+5VJPHen+G4aZOIwY81KRCii/aaOaLCbVXDY=
+	t=1717767241; cv=none; b=N5rL567WYA2jjc18TNu8Iezn+No7vpvVJUF3iP/TW6AWGhYmeJXgboWz8BOPjlEUd0oPYpD7mmcnPqPk4ApTDxlnGKI8EhCt4phYx26HuxT1DMPG8u4ON7Ce8ys4Uxz5eysHyMG/mI/iG5kiejFKm4+SOfgxn+u7ZW3pEloZmdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717767200; c=relaxed/simple;
-	bh=sTv+4L8NPPBBpg+i+qz9cePrzDf4eKNTqM5Xda6LRw0=;
+	s=arc-20240116; t=1717767241; c=relaxed/simple;
+	bh=0YLhmyjheVzSXXSOrOiwBn47uAon+CPY+/qhGgmycN8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O4KZQM1uqWYHSsgzYzsQJH8lNlqj7Gz0da5XV6VewDb0F0V08LEwz86FFZApmIn+RKgKIsLt7Il6WV4wAVwJiMmAXL2W8iFhlAy+WdvXJbnWaY8j+oeAE9XBH9K7n9y816B7GcxN64TGkuLOQsE+e8sm++Q6PfAGXIm3vZ/BhR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=L6NYNlPj; arc=none smtp.client-ip=198.47.19.142
+	 MIME-Version:Content-Type; b=u5xpL4jolin2QhIbz3RG1Eg50AamYrkME33OWEGrEGtLOh6giILLy79RQYqDX1lUHQKE5czh+IkuNrnh6zandAno94asD+qeaquUnan++5rtDF1Yeyreng4waWJVM16BcqPPvQb8TZfPDX+UrB2Wi/5cFquRFYDU2/joeRPL9AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=vP0kU3Jq; arc=none smtp.client-ip=198.47.23.249
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DWsoO118337;
-	Fri, 7 Jun 2024 08:32:54 -0500
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DXi1C004677;
+	Fri, 7 Jun 2024 08:33:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717767174;
-	bh=dnlV6EZfbKSSOB5yAkozQxyQBhab8cR780BU+/JTZrQ=;
+	s=ti-com-17Q1; t=1717767224;
+	bh=2ALN0fauWepwefecugaG1Bmw8RPodxWqs7BmCdEY/wc=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=L6NYNlPjRde1WkOLXLqkzPfOtF1fM01Iox5Db8LaU+PXPUP3EhmR0AJQgTT855PCg
-	 tTnKhY/zUIsqKBlWxrMXKA0TcDA8n1gwyMUoMGkd9zp2JBDjtBN/s3lVqfCEuBFLmg
-	 VlSqGMjGto1chRA//GNAmNzTk49pP8+u5raJiBZs=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DWsWD017223
+	b=vP0kU3JqKWvQIDVxw14ev+g6s2u+Uxnc8QtMVxuiGmEHboH+IlRWtURfW9ibS3Vrq
+	 QEdm/YTGIYftPw+BI2Mv6/bOdCfc+rtsT5+ztOuHWOdfcGQ9t428NGZ1W5wMHPIC1z
+	 Q0DttF7O/tE0D5xZ3JQvnIRpYRpb+TQpzhvu6Zl4=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DXi0u017642
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 7 Jun 2024 08:32:54 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+	Fri, 7 Jun 2024 08:33:44 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 7
- Jun 2024 08:32:54 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2024 08:33:44 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 7 Jun 2024 08:32:54 -0500
+ Frontend Transport; Fri, 7 Jun 2024 08:33:44 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DWrnp119514;
-	Fri, 7 Jun 2024 08:32:54 -0500
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DXhoI120585;
+	Fri, 7 Jun 2024 08:33:44 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
         <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
+        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
         <dri-devel@lists.freedesktop.org>
 CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
         <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
         <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
         <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
-        <daniel@ffwll.ch>, <akpm@linux-foundation.org>,
+        <nicolas@ndufresne.ca>, <akpm@linux-foundation.org>,
         <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
         <adobriyan@gmail.com>, <jani.nikula@intel.com>
-Subject: [PATCH v13 12/13] media: imagination: Round to closest multiple for cropping region
-Date: Fri, 7 Jun 2024 19:02:53 +0530
-Message-ID: <20240607133253.3559339-1-devarsht@ti.com>
+Subject: [PATCH v13 13/13] gpu: ipu-v3: Use generic macro for rounding closest to specified value
+Date: Fri, 7 Jun 2024 19:03:43 +0530
+Message-ID: <20240607133343.3560760-1-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20240607131900.3535250-1-devarsht@ti.com>
 References: <20240607131900.3535250-1-devarsht@ti.com>
@@ -85,52 +85,42 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-If neither of the flags to round down (V4L2_SEL_FLAG_LE) or round up
-(V4L2_SEL_FLAG_GE) are specified by the user, then round to nearest
-multiple of requested value while updating the crop rectangle coordinates.
+Use generic macro round_closest_up() for rounding closest to specified
+value instead of using local macro round_closest().
 
-Use the rounding macro which gives preference to rounding down in case two
-nearest values (high and low) are possible to raise the probability of
-cropping rectangle falling inside the bound region.
+There is no change from functionality point of view as round_closest_up()
+is functionally same as the previously used local macro round_closest().
 
-This complies with the VIDIOC_G_SELECTION, VIDIOC_S_SELECTION ioctl
-description as documented in v4l uapi [1] which specifies that driver
-should choose crop rectangle as close as possible if no flags are passed by
-user-space, as quoted below :
-
-"``0`` - The driver can adjust the rectangle size freely and shall choose a
-crop/compose rectangle as close as possible to the requested
- one."
-
-Link: https://www.kernel.org/doc/Documentation/userspace-api/media/v4l/vidioc-g-selection.rst [1]
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 ---
-V9->V13: No change
-V8: Update commit message with specification reference
-V1->V7 (No change, patch introduced in V7)
----
- drivers/media/platform/imagination/e5010-jpeg-enc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+V9-V13: No change
+V8: Update commit message
+V1->V7 : (No change, patch introduced in V7)
+ drivers/gpu/ipu-v3/ipu-image-convert.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
-index 4b6fbe99d5ff..ea96b1bc5315 100644
---- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
-+++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
-@@ -517,10 +517,10 @@ static int e5010_s_selection(struct file *file, void *fh, struct v4l2_selection
+diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
+index 841316582ea9..5192a8b5c02c 100644
+--- a/drivers/gpu/ipu-v3/ipu-image-convert.c
++++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
+@@ -477,8 +477,6 @@ static int calc_image_resize_coefficients(struct ipu_image_convert_ctx *ctx,
+ 	return 0;
+ }
  
- 	switch (s->flags) {
- 	case 0:
--		s->r.width = round_down(s->r.width, queue->fmt->frmsize.step_width);
--		s->r.height = round_down(s->r.height, queue->fmt->frmsize.step_height);
--		s->r.left = round_down(s->r.left, queue->fmt->frmsize.step_width);
--		s->r.top = round_down(s->r.top, 2);
-+		s->r.width = round_closest_down(s->r.width, queue->fmt->frmsize.step_width);
-+		s->r.height = round_closest_down(s->r.height, queue->fmt->frmsize.step_height);
-+		s->r.left = round_closest_down(s->r.left, queue->fmt->frmsize.step_width);
-+		s->r.top = round_closest_down(s->r.top, 2);
+-#define round_closest(x, y) round_down((x) + (y)/2, (y))
+-
+ /*
+  * Find the best aligned seam position for the given column / row index.
+  * Rotation and image offsets are out of scope.
+@@ -565,7 +563,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
+ 		 * The closest input sample position that we could actually
+ 		 * start the input tile at, 19.13 fixed point.
+ 		 */
+-		in_pos_aligned = round_closest(in_pos, 8192U * in_align);
++		in_pos_aligned = round_closest_up(in_pos, 8192U * in_align);
+ 		/* Convert 19.13 fixed point to integer */
+ 		in_pos_rounded = in_pos_aligned / 8192U;
  
- 		if (s->r.left + s->r.width > queue->width)
- 			s->r.width = round_down(s->r.width + s->r.left - queue->width,
 -- 
 2.39.1
 
