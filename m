@@ -1,116 +1,145 @@
-Return-Path: <linux-media+bounces-12702-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12703-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 247068FFDAA
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 09:57:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F3E8FFDBA
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 10:01:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 227111C2241F
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 07:57:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD6661C2241F
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 08:01:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3689E15AAB8;
-	Fri,  7 Jun 2024 07:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C94015AABB;
+	Fri,  7 Jun 2024 08:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJs4S3fw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aUaco5yq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D55B155CAB;
-	Fri,  7 Jun 2024 07:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2876153819
+	for <linux-media@vger.kernel.org>; Fri,  7 Jun 2024 08:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717747039; cv=none; b=KPm3AOatRX0OwqR8zK0B3ELdlyAzXdpa3QxynpU3rXOWDYSxiVgWSKNIX3U4jGhF4BfN4muKhPg+9gsfYb5nVDdCQ4R2C36CowyfBuDEUJbZWodgPUChPQLS8NU8nbqkjZIG3hQjCQoQ7KdV2eItBSMNLy2M673eWyD3CEke6Io=
+	t=1717747265; cv=none; b=FbEZG+kOrHKWH3K26Muj5QXr3xpo38yNE7l9AeGvef4YTK1KbX3q3F5Fu7+g7G6wEFEv+duG0oS6Z7aSHowkyXP+OQbgwnqDQwcCOfRlwpHgS4I90NBdFrXNiFwGWhEzCCQ12D/aWzSIsSL49U69yQzEhsE3ldt6+Tg+8E2h9LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717747039; c=relaxed/simple;
-	bh=g6Va+Z0ohKfz7eXfxYO9xCRun7LJHKXk2sadRvB2F0U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WoAsMutxxZgHYdUcZ46qlxqMB7jNLJCqSH+WlK2EzJmZLD44eYPAY4v1AALjdO1hqCmS/etZaLmo/aLbrVa6RbPlGkvzmJrtl4o6OOlgn9Z5IRokP2IMavxjviPBvwawm5Lx0EyW9B0of+TEChj5NL5C/iSaA+WlcWSIC2KhL3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJs4S3fw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FF12C3277B;
-	Fri,  7 Jun 2024 07:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717747039;
-	bh=g6Va+Z0ohKfz7eXfxYO9xCRun7LJHKXk2sadRvB2F0U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PJs4S3fw1EGitDf0NXmloONiujMf8NmNpf7PDpsUBeWeqQIob0QfXd4deu66xgFx7
-	 p0XXWgJ40BjT7+c3iE+JZiFenHZBkUCBKxTLA6GZ0L8O7pAB7I0l7EpGka82MoSf2Z
-	 CX/+PuLVG5w1YyHJTTwj8uCefGQGbY+MlHcy6Is5Q+O74LppLnJWblfdrbbVQv8To2
-	 k08ckos4WJw4QJna8S56xFnn4Ar3RypHUsYtcf8u5x4C5IMkWYM7425MlYVTLktHcS
-	 6A1SSlLCdsXIdfthvdWBRDhnsrHcVIe4G3Nkpfqe3Ly0ZCH7kLbstI2nMvpHis0vGQ
-	 5v1R/SptOV2hA==
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5ba68c30395so210788eaf.1;
-        Fri, 07 Jun 2024 00:57:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUqcVt/eH0SIIROlplTlrME5EvC+Ukyv/amOWfl1p6w0bJOhq/jtHuh67c031Ukz6qvyKMW7RI7NPiDkOEM0cKssJckhZHFKfGs7Ys2oMgtziK93m7m89Mng/7hFKNiVXeBkxUqiLxYwBo=
-X-Gm-Message-State: AOJu0Ywqt6Q1goQ51d//XpZVislD4mk0wV7lpH2ZPVox9/LQxht+VXjw
-	vWidQSpVZKVKJ7LjAib6YjdbdSRtg7+q0/Kw0uxz9c74JzKSjBZTbKK8uUardgRvlH85eeRApR8
-	gJeby2e2/y1rr7zMyVNH+Np4yOJA=
-X-Google-Smtp-Source: AGHT+IGwbuLlETCCLw3LCaMkCnEI4XyLlbw9QF1Bs42Bhc6zhHL+C2mbuQ2AnEtralKPc1ICNO5qpkJjGvOD5+/JJ1Y=
-X-Received: by 2002:a4a:ac08:0:b0:5aa:3e4f:f01e with SMTP id
- 006d021491bc7-5baae73b688mr1654053eaf.1.1717747038386; Fri, 07 Jun 2024
- 00:57:18 -0700 (PDT)
+	s=arc-20240116; t=1717747265; c=relaxed/simple;
+	bh=Ev8VSr7NNjr8stJk3l9ykYSz2HHF4nYolyWUrkjRUpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=jEr01rWkU7PQrjceXj2e/di8EJbB4iSOtneIqim0X3QOLTmLhsi0dUsjZ6vA8SDqdvxowm27R+7pliZiPy+Qdwgz9Ui14XShZYVbWmgJFx/K5DuJRedtJT4ZufAUoLxg/PYspWMy7sbKlXETDXN4f93LhopMfJpSant5YjSlvoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aUaco5yq; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717747262;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=X5wczm/4WuwuofGAgY+n6uBY4T2mqdxItzIT97XTSFI=;
+	b=aUaco5yqoFkQi1oqZo7PmbTiu9iVRbWvrHRUWDF5sKUNP403mY/vPhpXoCLyWXnRsQNHn/
+	EthS2g1enZOgVgKN6nO17Skl7oPS+QoLEL/QkbfNFutxQbB3ZUaO8ITYBJf6vAnAiZ7M+Q
+	aGd893JkZ9dx4H6hl6cpfEw0k0z8L/k=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-480-vLbVQoU4NBmk9bAdP8loMg-1; Fri,
+ 07 Jun 2024 04:00:56 -0400
+X-MC-Unique: vLbVQoU4NBmk9bAdP8loMg-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B29C6197701E;
+	Fri,  7 Jun 2024 08:00:53 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.45.225.67])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8E375195917B;
+	Fri,  7 Jun 2024 08:00:47 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+To: virtio-dev@lists.linux.dev,
+	virtio-dev@lists.oasis-open.org
+Cc: Matti.Moell@opensynergy.com,
+	cohuck@redhat.com,
+	mst@redhat.com,
+	acourbot@chromium.org,
+	daniel.almeida@collabora.com,
+	Alexander.Gordeev@opensynergy.com,
+	changyeon@google.com,
+	alex.bennee@linaro.org,
+	gurchetansingh@google.com,
+	ribalda@google.com,
+	nicolas.dufresne@collabora.com,
+	eballetb@redhat.com,
+	linux-media@vger.kernel.org,
+	virtio-comment@lists.oasis-open.org,
+	Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH v2 0/1] virtio-media: Add device specification
+Date: Fri,  7 Jun 2024 10:00:44 +0200
+Message-ID: <20240607080045.1337046-1-aesteve@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <8afe9391b96ff3e1c60e624c1b8a3b2bd5039560.camel@sapience.com>
- <ZlTllJeZBiGapHwZ@kekkonen.localdomain> <988e48090982c89ce0c906954832fdfb09a1ce34.camel@sapience.com>
- <eb10620deecc8feeae1e308c22de199be7c48ca6.camel@sapience.com>
- <ZmHasj3hfwwKimZF@kekkonen.localdomain> <7fb5f0d6-f105-4219-839b-908c96c42972@leemhuis.info>
-In-Reply-To: <7fb5f0d6-f105-4219-839b-908c96c42972@leemhuis.info>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 7 Jun 2024 09:57:06 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hnELQtpRsC1JdsExr48yjdjB9B_u8hj+_CmpEQSUeRSQ@mail.gmail.com>
-Message-ID: <CAJZ5v0hnELQtpRsC1JdsExr48yjdjB9B_u8hj+_CmpEQSUeRSQ@mail.gmail.com>
-Subject: Re: 6.10-rc1 : crash in mei_csi_probe
-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Genes Lists <lists@sapience.com>, 
-	linux-kernel@vger.kernel.org, mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
-	laurent.pinchart@ideasonboard.com, wentong.wu@intel.com, 
-	linux-media@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-On Thu, Jun 6, 2024 at 7:07=E2=80=AFPM Linux regression tracking (Thorsten
-Leemhuis) <regressions@leemhuis.info> wrote:
->
-> On 06.06.24 17:50, Sakari Ailus wrote:
-> > On Thu, Jun 06, 2024 at 11:39:35AM -0400, Genes Lists wrote:
-> >> On Mon, 2024-05-27 at 16:58 -0400, Genes Lists wrote:
-> >>> On Mon, 2024-05-27 at 19:57 +0000, Sakari Ailus wrote:
-> >>>>
-> >>>> Thanks for reporting this.
-> >>>>
-> >>>> On Mon, May 27, 2024 at 12:34:41PM -0400, Genes Lists wrote:
-> >>>>>
-> >>>>> First happened in 6.10-rc1 (6.9.2 stable is fine)
-> >>>>
-> >>>> Do you happen to have .config available? A full dmesg would also be
-> >>>> helpful.
-> >>>>
-> >>>> Does the system crash after the warning or not?
-> >>>
-> >>> System stays up and remains quite usable.
-> >>>
-> >>> config and dmesg attached.
-> >>
-> >> Hi Sakari - just to let you know this is still happening in 6.10-rc2.
-> >
-> > It'll disappear once this patch is in:
-> > <URL:https://lore.kernel.org/linux-acpi/MW5PR11MB5787C81ABF0C9FFF5A17E4=
-888DF32@MW5PR11MB5787.namprd11.prod.outlook.com/T/#t>.
->
-> Do you plan to submit this again while fixing the typo Wentong Wu
-> pointed out? Or should Rafael (now CCed here) fix this while picking it
-> up? He might not have seen it as he's not in the list of recipients; he
-> furthermore is likely not aware that this is a regression fix, as it
-> lacks Fixes, Reported-by and Closes tags.
+Hi,
 
-Please see my reply to the patch:
-https://lore.kernel.org/linux-acpi/CAJZ5v0i1NxGHMKskP7W+hAusjt=3D5jYYWTF2vg=
-JPR0gnrNTgFaw@mail.gmail.com/
+This a formal attempt of including virtio-media
+device specification.
+
+Virtio-media came from a discussion on virtio-dev
+mailing list, which lead to presenting virtio-v4l2[1]
+specification as an alternative to virtio-video.
+
+Later, virtio-v4l2 was renamed to virtio-media[2]
+and published through:
+
+https://github.com/chromeos/virtio-media
+
+The repository above includes a virtio-media driver able
+to pass v4l2-compliance when proxying the vivid/vicodec
+virtual devices or an actual UVC camera using the
+V4L2 vhost device (available in the repository).
+Steps to reproduce are also detailed[3].
+
+There is some overlap with virtio-video in regards
+to which devices it can handle. However,
+as virtio-media will likely be the virtualization
+solution for ChromeOS (already landed into the chromeos
+organization) and possibly other Google projects for
+media devices, it would be desirable to include the
+specification in the next virtio release despite
+the aforementioned overlap.
+
+The device ID in this document differs from
+the ID in the virtio-media project repository.
+And it will probably need some discussion on which
+would be the correct definitive ID.
+
+Full PDF: https://drive.google.com/file/d/1pNCFP06VoV8Zuyx0aDVQ7HAT4xp-pZ0a/view?usp=sharing
+PDF with the media section only: https://drive.google.com/file/d/1sn3NUUeCm46zVyJKHkpytTIgGw1fUt5T/view?usp=sharing
+
+[1] https://mail.google.com/mail/u/0?ui=2&ik=73ebd65ebd&attid=0.1&permmsgid=msg-f:1767388565327924962&th=1887068940754ee2&view=att&disp=inline&realattid=f_libalimc0
+[2] https://www.mail-archive.com/virtio-dev@lists.oasis-open.org/msg12665.html
+[3] https://github.com/chromeos/virtio-media/blob/main/TRY_IT_OUT.md
+
+Albert Esteve (1):
+  virtio-media: Add virtio media device specification
+
+ conformance.tex                           |  13 +-
+ content.tex                               |   1 +
+ device-types/media/description.tex        | 578 ++++++++++++++++++++++
+ device-types/media/device-conformance.tex |  11 +
+ device-types/media/driver-conformance.tex |   9 +
+ 5 files changed, 608 insertions(+), 4 deletions(-)
+ create mode 100644 device-types/media/description.tex
+ create mode 100644 device-types/media/device-conformance.tex
+ create mode 100644 device-types/media/driver-conformance.tex
+
+-- 
+2.44.0
+
 
