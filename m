@@ -1,109 +1,164 @@
-Return-Path: <linux-media+bounces-12764-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12765-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1EF900A94
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 18:37:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B47F7900AE3
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 19:00:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDB611C21F35
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 16:37:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C06E28B858
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 16:59:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2786919D06A;
-	Fri,  7 Jun 2024 16:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C526D19B3D2;
+	Fri,  7 Jun 2024 16:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUjZYsZN"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G2AVTqpi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800CC195804;
-	Fri,  7 Jun 2024 16:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6B419AD48
+	for <linux-media@vger.kernel.org>; Fri,  7 Jun 2024 16:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717778133; cv=none; b=GrC1pepWK4D6aGEiiQ1H5tdhInVHwcvTXsFoL9Fr+qKPp2irG93+vwG7joiv54xj5/QCN1FGFAOjjpKJ77CBTdUVQSSjj6AgWrueCbaSeRSl8FkYAfk4pAtxqmVShTKB35oZZenF4cojH19ccd/I5ysFSvWgLu4GjOApIicIPp4=
+	t=1717779574; cv=none; b=RNkzmXaD8Z7uWoCWuKdMiLgjN2iM/ENSoI4eyKUmu737QyVKPfnrve34ERQeGJUwLtFoBvl42IbTjldjvoTCow3MEiwNN84i8onfvSHwlxwyMgv86XxYE20KxQlu2S8ZaHm8cnarDkdl9Bq81yoav4JejEGNU5wgCQJyIqkLlYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717778133; c=relaxed/simple;
-	bh=zcmYl3RMG+9CalkrxbsEE5yzEf0SPPRbktmruT0o8D0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dQgNROPxxAY4xPHceQntwii7Dv3s4xAuXn05Mp3ACtimvTw6tcvOSaXQ9xxvlMQKeJ/LZZM3GgZYUl482aPBCgBtPzdjszS15v/WaFond9wfkHpHG1gyn77elOJQMgU0XGbQAHW8Eseyzm/Fkq0gTq606wo5FXXO0CPvgf+oif0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUjZYsZN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D28C2BBFC;
-	Fri,  7 Jun 2024 16:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717778133;
-	bh=zcmYl3RMG+9CalkrxbsEE5yzEf0SPPRbktmruT0o8D0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QUjZYsZNIlmdexktlGNJYhtVVJm6brOK3QTHdkQJKbRonLo2pdbBBQHiYJKA4j654
-	 O+qYzSfgn6KWNdmbdeHd1vOImhTOoCGtHXnbSHim+xlxw2rzhOscUPkuvaqLHVTF3b
-	 2YnWra1lchyoNzqGqoDBKGXAokPc6UPZ2x/79RcUGmodcP/KacCwAII3g1EN79kWFw
-	 2SPY1yjvR27DrrGLtO4IHpv/xVfROriH4pxZqzX3fjNZt/yAZx4r3SX7z2coHBSudG
-	 7MCU4HxTXsR+aDES/wyAMN+AhU4tWnZXWAk/uQOaSvs/LNHOPb1QT36uL3HDL7JsBp
-	 TLfuwknCR65Fw==
-Date: Fri, 7 Jun 2024 09:35:30 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Patrice Chotard <patrice.chotard@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] media: c8sectpfe: Add missing parameter names
-Message-ID: <20240607163530.GC2483293@thelio-3990X>
-References: <20240606-c8sectpfe-v1-1-c4b18f38295d@chromium.org>
+	s=arc-20240116; t=1717779574; c=relaxed/simple;
+	bh=b716fHLqA+q2jVEnF0wQCq5rwwcoiNDI2tYRdVxGBJ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nqvawG5hkTsBaezCPgjnkHLgbxpQnHX2tWY+QQ1yq0SaHMGwgy3N7TBz4gs9+jsn+WaeRgJtC92uksnWrRkJEKx4bqQBUEP0HIoSuacOS/2Z/HbNA01gxfG6RJGAC87jruF/XKkhFNxve+itafpiZ9cRcIkfBT3R0zGe+9p7oZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G2AVTqpi; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57a52dfd081so2838518a12.2
+        for <linux-media@vger.kernel.org>; Fri, 07 Jun 2024 09:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717779569; x=1718384369; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b716fHLqA+q2jVEnF0wQCq5rwwcoiNDI2tYRdVxGBJ8=;
+        b=G2AVTqpij2cJhN5HRQo3ptWXB/TQ9YDh9RGrpGeXVnp1CnL9i2DHQgrabHfRJ+vI4v
+         6rj8PhKQhbrqw08lFKhBQBeW3OEzxZgvZ0sM8DqYOCgzynh/TqX8zhUpecpLeveUgZe/
+         4WO2raT386olPe7+CqYN3aB+/KVKBRO+MtAq0XGvPQZgecLr0Yv0La164s3HFQRW75Oj
+         zZN4yPFMx3bgrVJwSDOEuMmEHfxotBiwl6JuetdpyYQLp0Ofu9L4f3YRHWKNySwxc9/Q
+         JR8ZXjlMx3qbDJacaMfkf8ysfsu1jvPB+cyZ9tvZ8GL8kf1mEaJBMzprr6qo856Q0ny6
+         yaFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717779569; x=1718384369;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b716fHLqA+q2jVEnF0wQCq5rwwcoiNDI2tYRdVxGBJ8=;
+        b=nKZld9eYwnCYkjPvxSkmm8uJC5aMZWD3vbnwT2oLoaGatpXwGmbNfUc838EXyRZ/Uj
+         qrMfIYMlRDI1kZYdj8FPw9x7ZmsJWRujqHhc4VMNVyFKDPLtFQUa+UjTGLP3cXyaKmUR
+         dMeBFJqJcA1a8lE2RGxV7AYM0R9kxRE9Po0AQX9Amri4rd1mnWFOYBwTUtwdZupg8vT2
+         ccHVSp3dOChE/A/ISYVKAo8SPurJ8j4vtPL+wATv0CDTm8h/p10gfNDb5gCHe5StFxOO
+         oGCQZ/rM9rCNmNRfmuc2rhwOE91rhVMDVWeRnNsMK6YEnEJFZkSHfNoo7wkQ2N7Fh4pB
+         wOZg==
+X-Forwarded-Encrypted: i=1; AJvYcCXNxc32Hlxz/aP9CfPfxJ/pc9XweQ5hi/f2R9mPusEwDU2CV7Uqabdj77qaGhW3duh3ccq9tbJ56OoCHn5X1JkzwwQJTtl951INlbg=
+X-Gm-Message-State: AOJu0YwxHpRln+M8CwXH8N8FZmY31x3W0n7dK/8wll1gOUBKn/GK7s/S
+	H/DKM5J4HXTYmemsA0pDlAD5Ye/j/WF6VPMUERqUH8QOVobRFwxouSehpEjHM+YWQWGGoD98yuc
+	u1Qobxer+9yL0XZyjsC4sN357ZV6gkXkDyJEr
+X-Google-Smtp-Source: AGHT+IFO8pnZEEr0e5+OyIy57985L/vijoXMBq19GG2GOaDteqsHQMVykhBCrf2eEzDSRbH9iO1UMt7DJvGo0PZ4Mj4=
+X-Received: by 2002:a17:906:12c1:b0:a63:3cd4:97d2 with SMTP id
+ a640c23a62f3a-a6cdbd0d2e5mr206803066b.63.1717779569136; Fri, 07 Jun 2024
+ 09:59:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240606-c8sectpfe-v1-1-c4b18f38295d@chromium.org>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com> <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com> <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com> <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <8f44ca2a-8910-418f-b4a6-ca1e051484ba@gmail.com> <a8df4459-30bf-4414-aeca-2f67c461adc4@gmail.com>
+In-Reply-To: <a8df4459-30bf-4414-aeca-2f67c461adc4@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 7 Jun 2024 09:59:16 -0700
+Message-ID: <CAHS8izNcYMsSpTNVSGRJHK6u+kDxnFab5Km1rYy8b++0FeUNgA@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Ahern <dsahern@kernel.org>, Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 06, 2024 at 01:01:07PM +0000, Ricardo Ribalda wrote:
-> clang 19 complains about the missing parameter name. Let's add it.
-> 
-> drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h:19:62: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202406050908.1kL1C69p-lkp@intel.com/
-> Fixes: e22b4973ee20 ("media: c8sectpfe: Do not depend on DEBUG_FS")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+On Fri, Jun 7, 2024 at 8:47=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
+om> wrote:
+>
+> On 6/7/24 16:42, Pavel Begunkov wrote:
+> > On 6/7/24 15:27, David Ahern wrote:
+> >> On 6/7/24 7:42 AM, Pavel Begunkov wrote:
+> >>> I haven't seen any arguments against from the (net) maintainers so
+> >>> far. Nor I see any objection against callbacks from them (considering
+> >>> that either option adds an if).
+> >>
+> >> I have said before I do not understand why the dmabuf paradigm is not
+> >> sufficient for both device memory and host memory. A less than ideal
+> >> control path to put hostmem in a dmabuf wrapper vs extra checks and
+> >> changes in the datapath. The former should always be preferred.
+> >
+> > If we're talking about types of memory specifically, I'm not strictly
+> > against wrapping into dmabuf in kernel, but that just doesn't give
+> > anything.
+>
+> And the reason I don't have too strong of an opinion on that is
+> mainly because it's just setup/cleanup path.
+>
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+I agree wrapping io uring in dmabuf seems to be an unnecessary detour.
+I never understood the need or upside to do that, but it could be a
+lack of understanding on my part.
 
-> ---
->  drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
-> index 8e1bfd860524..3fe177b59b16 100644
-> --- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
-> +++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
-> @@ -16,8 +16,8 @@
->  void c8sectpfe_debugfs_init(struct c8sectpfei *);
->  void c8sectpfe_debugfs_exit(struct c8sectpfei *);
->  #else
-> -static inline void c8sectpfe_debugfs_init(struct c8sectpfei *) {};
-> -static inline void c8sectpfe_debugfs_exit(struct c8sectpfei *) {};
-> +static inline void c8sectpfe_debugfs_init(struct c8sectpfei *fei) {};
-> +static inline void c8sectpfe_debugfs_exit(struct c8sectpfei *fei) {};
->  #endif
->  
->  #endif /* __C8SECTPFE_DEBUG_H */
-> 
-> ---
-> base-commit: 1aea3d1d4a21e3e7895663b848ffae79ee82e065
-> change-id: 20240606-c8sectpfe-5f00b9867f36
-> 
-> Best regards,
-> -- 
-> Ricardo Ribalda <ribalda@chromium.org>
-> 
+However, the concern that David brings up may materialize. I've had to
+spend a lot of time minimizing or justifying checks to the code with
+page pool benchmarks that detect even 1 cycle regressions. You may be
+asked to run the same benchmarks and minimize similar overhead.
+
+The benchmark in question is Jesper's bench_page_pool_simple. I've
+forked it and applied it on top of net-next here:
+https://github.com/mina/linux/commit/927596f87ab5791a8a6ba8597ba2189747396e=
+54
+
+As io_uring ZC comes close to merging, I suspect it would be good to
+run this to understand the regression in the fast path, if any. If
+there are no to little regressions, I have no concerns over io uring
+memory not being wrapped in dmabufs, and David may agree as well.
+
+--
+Thanks,
+Mina
 
