@@ -1,75 +1,77 @@
-Return-Path: <linux-media+bounces-12741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0432D9004F5
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED5E9004F7
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:33:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E6311F21480
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:32:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A90361F2360A
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9897194AD1;
-	Fri,  7 Jun 2024 13:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00F83195387;
+	Fri,  7 Jun 2024 13:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="c5pmKRAr"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="GwbeohZz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A32D13D2A0;
-	Fri,  7 Jun 2024 13:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB1F1DFEB;
+	Fri,  7 Jun 2024 13:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717767027; cv=none; b=GIgtAIIyeRayfbctbmIY7gd7WtjlpBL8oWWfwwRAjJRyqPvYXte/Daj9oAhMus2f7oir8+Aps9A57unTkluhjfw87QsOMnX4pUov/3MBFKl/pC4RoE8KrQIGxF4GHKG6OGsZQgA+p6aH6H/Lv9lseDMhgfRK+l3984ZH4P4VFaI=
+	t=1717767050; cv=none; b=dgLS1VLnGNUQav8zVKYMZ+RGjqi6iyaeXolx93tnO/IjfLHrOmIKHejdmgF5sPxJ5An4NqwJAbdLCjELAl1PMUGto254kZuQ/GR1u9DFbt4gD6IJVXCkZ8jE/Jed+kp009CLPof1RU1tqKsMU/ML6KPwy/D9xsrHifdDX/SLK+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717767027; c=relaxed/simple;
-	bh=6pVcRftZ9US+s4fX7bTowE7emRoXvyijU38vyJ6yZ08=;
+	s=arc-20240116; t=1717767050; c=relaxed/simple;
+	bh=E9WAN1nWyMYGyn40v9XuvkFgSu2QFIpFEvxOhHf71XA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S6r5VOYjdw3QX45c9FkkS3DTnJF7+My+4ntcNeXZueiqYe+ze9H7lxSWU1cRF5Dm2dk4CzloPBcYNhmKb3NpJ6V/uIqe/knc1TMkgFs7Nvx7hDjLVdJpb3dal9tI73vEMaCSwX93W1sv9xUVfIbku3AsKfYnjFR4dUvcj5278N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=c5pmKRAr; arc=none smtp.client-ip=198.47.19.142
+	 MIME-Version:Content-Type; b=u2wNzkXLWWE15/Ye5Tx1wwgajKUVHHuNKb1nlOPY477KlHGoosna3KPS0rWjikaQoHz3l+JonxZ++rFp3GO9AtASE+vAscTo4oK/2YI21kyjbTGsWpl/0zm1OE7rFIwiEEaqSIZayY1WjcclzSKQYoCkL0UhD8iwl+uMUEthY5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=GwbeohZz; arc=none smtp.client-ip=198.47.19.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DUAl3116698;
-	Fri, 7 Jun 2024 08:30:10 -0500
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DUXCS117000;
+	Fri, 7 Jun 2024 08:30:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717767010;
-	bh=t/45uToTzvle1DU3dPZ6R7yriRkJXy54nbH9mTAodPM=;
+	s=ti-com-17Q1; t=1717767033;
+	bh=mQTpqKBioeHkJyoOLDE3kmEy90IWWpuUFK/eBuma05M=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=c5pmKRArQajDX8WsB83Y4yfTry9PLmi7k8dqmP7wWOrMEbbImfnA/i4SuLE8PCl7v
-	 Rvs7ZyZPevCYZiM8ATCW4kYN9M3Ms4k+mPOu8Abg/MkBbBs2TPlDKV+pa5TfY/JUlw
-	 gi0bBJjiEgu0ojzHaxZ9nLwY+iJCrnHk3U7EKi6I=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DUAuK015334
+	b=GwbeohZzXT/Qx3WJLtMsNtf+CdTPBD/KSDNf7LKx7Vr84eukY1OzPlndSVzH0UqyQ
+	 Pe4dQHvW3LblDGPLgeTOuOB/ArX48E7b183x+Ns5wEDQxESxaa2bL7voIUTSeAGPZe
+	 zHa/o6SexlXCjEdEZ6LYNjKYJaC86EHuo4baCxk0=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DUXrB015667
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 7 Jun 2024 08:30:10 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+	Fri, 7 Jun 2024 08:30:33 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 7
- Jun 2024 08:30:10 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2024 08:30:33 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 7 Jun 2024 08:30:10 -0500
+ Frontend Transport; Fri, 7 Jun 2024 08:30:33 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DU9jD115084;
-	Fri, 7 Jun 2024 08:30:10 -0500
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DUWI6043730;
+	Fri, 7 Jun 2024 08:30:32 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
         <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <ezequiel@vanguardiasur.com.ar>, <p.zabel@pengutronix.de>,
-        <linux-rockchip@lists.infradead.org>
+        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+        <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
+        <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+        <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
 CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
         <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
         <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
         <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>
-Subject: [PATCH v13 06/13] media: verisilicon : Use exported tables from v4l2-jpeg for hantro codec
-Date: Fri, 7 Jun 2024 19:00:08 +0530
-Message-ID: <20240607133008.3554256-1-devarsht@ti.com>
+        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+Subject: [PATCH v13 07/13] math.h: Add macros for rounding to closest value
+Date: Fri, 7 Jun 2024 19:00:31 +0530
+Message-ID: <20240607133031.3554979-1-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20240607131900.3535250-1-devarsht@ti.com>
 References: <20240607131900.3535250-1-devarsht@ti.com>
@@ -83,230 +85,145 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Use v4l2-jpeg core API to import reference quantization and huffman tables
-used for JPEG Encoding.
+Add below rounding related macros:
+
+round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+power of 2, with a preference to round up in case two nearest values are
+possible.
+
+round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+power of 2, with a preference to round down in case two nearest values are
+possible.
+
+roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+generally be used only when y is not multiple of 2 as otherwise
+round_closest* macros should be used which are much faster.
+
+Examples:
+ * round_closest_up(17, 4) = 16
+ * round_closest_up(15, 4) = 16
+ * round_closest_up(14, 4) = 16
+ * round_closest_down(17, 4) = 16
+ * round_closest_down(15, 4) = 16
+ * round_closest_down(14, 4) = 12
+ * roundclosest(21, 5) = 20
+ * roundclosest(19, 5) = 20
+ * roundclosest(17, 5) = 15
 
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-V11->V13: No change
-V10: Fix typo in commit message title
-V9: No change
-V8: Add Reviewed-by and Acked-by tags
-V1->V6 (No change, patch introduced in V7)
----
- drivers/media/platform/verisilicon/Kconfig    |   1 +
- .../media/platform/verisilicon/hantro_jpeg.c  | 128 ++----------------
- 2 files changed, 15 insertions(+), 114 deletions(-)
+NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
+which uses similar macro locally and which is updated in further patch
+in the series to use this generic macro instead along with other drivers
+having similar requirements.
 
-diff --git a/drivers/media/platform/verisilicon/Kconfig b/drivers/media/platform/verisilicon/Kconfig
-index 9a34d14c6e40..149d0b32c324 100644
---- a/drivers/media/platform/verisilicon/Kconfig
-+++ b/drivers/media/platform/verisilicon/Kconfig
-@@ -12,6 +12,7 @@ config VIDEO_HANTRO
- 	select VIDEOBUF2_VMALLOC
- 	select V4L2_MEM2MEM_DEV
- 	select V4L2_H264
-+	select V4L2_JPEG_HELPER
- 	select V4L2_VP9
- 	help
- 	  Support for the Hantro IP based Video Processing Units present on
-diff --git a/drivers/media/platform/verisilicon/hantro_jpeg.c b/drivers/media/platform/verisilicon/hantro_jpeg.c
-index d07b1b449b61..fa4e8ee92c05 100644
---- a/drivers/media/platform/verisilicon/hantro_jpeg.c
-+++ b/drivers/media/platform/verisilicon/hantro_jpeg.c
-@@ -11,6 +11,7 @@
- #include <linux/build_bug.h>
- #include <linux/kernel.h>
- #include <linux/string.h>
-+#include <media/v4l2-jpeg.h>
- #include "hantro_jpeg.h"
- #include "hantro.h"
+Link: https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
+
+V13:
+- No change
+
+V12:
+- Add Acked-by
+
+V11:
+- Fix commenting style per review comments and remove extra whitespace
+
+V10:
+- Update example comment to fix formatting issues as observed with html docs
+
+V9:
+- No change
+
+V8:
+- Add new macro to round to nearest value for non-multiple of 2
+- Update commit message as suggested:
+
+V1->V6 (No change, patch introduced in V7)
+ include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+
+diff --git a/include/linux/math.h b/include/linux/math.h
+index dd4152711de7..79e3dfda77fc 100644
+--- a/include/linux/math.h
++++ b/include/linux/math.h
+@@ -34,6 +34,52 @@
+  */
+ #define round_down(x, y) ((x) & ~__round_mask(x, y))
  
-@@ -24,42 +25,6 @@
- #define HUFF_CHROMA_DC_OFF	394
- #define HUFF_CHROMA_AC_OFF	427
++/**
++ * round_closest_up - round closest to be multiple of specified value (which is
++ *                    power of 2) with preference to rounding up
++ * @x: the value to round
++ * @y: multiple to round closest to (must be a power of 2)
++ *
++ * Rounds @x to closest multiple of @y (which must be a power of 2).
++ * The value can be either rounded up or rounded down depending upon rounded
++ * value's closeness to the specified value. If there are two closest possible
++ * values, i.e. the difference between the specified value and it's rounded up
++ * and rounded down values is same then preference is given to rounded up
++ * value.
++ *
++ * To perform arbitrary rounding to closest value (not multiple of 2), use
++ * roundclosest().
++ *
++ * Examples:
++ * * round_closest_up(17, 4) = 16
++ * * round_closest_up(15, 4) = 16
++ * * round_closest_up(14, 4) = 16
++ */
++#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
++
++/**
++ * round_closest_down - round closest to be multiple of specified value (which
++ *			is power of 2) with preference to rounding down
++ * @x: the value to round
++ * @y: multiple to round closest to (must be a power of 2)
++ *
++ * Rounds @x to closest multiple of @y (which must be a power of 2).
++ * The value can be either rounded up or rounded down depending upon rounded
++ * value's closeness to the specified value. If there are two closest possible
++ * values, i.e. the difference between the specified value and it's rounded up
++ * and rounded down values is same then preference is given to rounded up
++ * value.
++ *
++ * To perform arbitrary rounding to closest value (not multiple of 2), use
++ * roundclosest().
++ *
++ * Examples:
++ * * round_closest_down(17, 4) = 16
++ * * round_closest_down(15, 4) = 16
++ * * round_closest_down(14, 4) = 12
++ */
++#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
++
+ #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
  
--/* Default tables from JPEG ITU-T.81
-- * (ISO/IEC 10918-1) Annex K, tables K.1 and K.2
-- */
--static const unsigned char luma_q_table[] = {
--	0x10, 0x0b, 0x0a, 0x10, 0x18, 0x28, 0x33, 0x3d,
--	0x0c, 0x0c, 0x0e, 0x13, 0x1a, 0x3a, 0x3c, 0x37,
--	0x0e, 0x0d, 0x10, 0x18, 0x28, 0x39, 0x45, 0x38,
--	0x0e, 0x11, 0x16, 0x1d, 0x33, 0x57, 0x50, 0x3e,
--	0x12, 0x16, 0x25, 0x38, 0x44, 0x6d, 0x67, 0x4d,
--	0x18, 0x23, 0x37, 0x40, 0x51, 0x68, 0x71, 0x5c,
--	0x31, 0x40, 0x4e, 0x57, 0x67, 0x79, 0x78, 0x65,
--	0x48, 0x5c, 0x5f, 0x62, 0x70, 0x64, 0x67, 0x63
--};
--
--static const unsigned char chroma_q_table[] = {
--	0x11, 0x12, 0x18, 0x2f, 0x63, 0x63, 0x63, 0x63,
--	0x12, 0x15, 0x1a, 0x42, 0x63, 0x63, 0x63, 0x63,
--	0x18, 0x1a, 0x38, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x2f, 0x42, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63,
--	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63
--};
--
--static const unsigned char zigzag[] = {
--	 0,  1,  8, 16,  9,  2,  3, 10,
--	17, 24, 32, 25, 18, 11,  4,  5,
--	12, 19, 26, 33, 40, 48, 41, 34,
--	27, 20, 13,  6,  7, 14, 21, 28,
--	35, 42, 49, 56, 57, 50, 43, 36,
--	29, 22, 15, 23, 30, 37, 44, 51,
--	58, 59, 52, 45, 38, 31, 39, 46,
--	53, 60, 61, 54, 47, 55, 62, 63
--};
--
- static const u32 hw_reorder[] = {
- 	 0,  8, 16, 24,  1,  9, 17, 25,
- 	32, 40, 48, 56, 33, 41, 49, 57,
-@@ -71,73 +36,6 @@ static const u32 hw_reorder[] = {
- 	38, 46, 54, 62, 39, 47, 55, 63
- };
+ #define DIV_ROUND_DOWN_ULL(ll, d) \
+@@ -77,6 +123,23 @@
+ }							\
+ )
  
--/* Huffman tables are shared with CODA */
--static const unsigned char luma_dc_table[] = {
--	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
--	0x08, 0x09, 0x0a, 0x0b,
--};
--
--static const unsigned char chroma_dc_table[] = {
--	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
--	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
--	0x08, 0x09, 0x0a, 0x0b,
--};
--
--static const unsigned char luma_ac_table[] = {
--	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
--	0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7d,
--	0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
--	0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
--	0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xa1, 0x08,
--	0x23, 0x42, 0xb1, 0xc1, 0x15, 0x52, 0xd1, 0xf0,
--	0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0a, 0x16,
--	0x17, 0x18, 0x19, 0x1a, 0x25, 0x26, 0x27, 0x28,
--	0x29, 0x2a, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
--	0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49,
--	0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
--	0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
--	0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79,
--	0x7a, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89,
--	0x8a, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98,
--	0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7,
--	0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6,
--	0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3, 0xc4, 0xc5,
--	0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2, 0xd3, 0xd4,
--	0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe1, 0xe2,
--	0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea,
--	0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
--	0xf9, 0xfa,
--};
--
--static const unsigned char chroma_ac_table[] = {
--	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
--	0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77,
--	0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
--	0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
--	0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91,
--	0xa1, 0xb1, 0xc1, 0x09, 0x23, 0x33, 0x52, 0xf0,
--	0x15, 0x62, 0x72, 0xd1, 0x0a, 0x16, 0x24, 0x34,
--	0xe1, 0x25, 0xf1, 0x17, 0x18, 0x19, 0x1a, 0x26,
--	0x27, 0x28, 0x29, 0x2a, 0x35, 0x36, 0x37, 0x38,
--	0x39, 0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
--	0x49, 0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58,
--	0x59, 0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
--	0x69, 0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78,
--	0x79, 0x7a, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
--	0x88, 0x89, 0x8a, 0x92, 0x93, 0x94, 0x95, 0x96,
--	0x97, 0x98, 0x99, 0x9a, 0xa2, 0xa3, 0xa4, 0xa5,
--	0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xb2, 0xb3, 0xb4,
--	0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3,
--	0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2,
--	0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda,
--	0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9,
--	0xea, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
--	0xf9, 0xfa,
--};
--
- /* For simplicity, we keep a pre-formatted JPEG header,
-  * and we'll use fixed offsets to change the width, height
-  * quantization tables, etc.
-@@ -291,10 +189,11 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
- 		       const unsigned char *tab, int scale)
- {
- 	int i;
-+	const u8 *zigzag;
- 
--	BUILD_BUG_ON(ARRAY_SIZE(zigzag) != JPEG_QUANT_SIZE);
- 	BUILD_BUG_ON(ARRAY_SIZE(hw_reorder) != JPEG_QUANT_SIZE);
- 
-+	v4l2_jpeg_get_zig_zag_scan(&zigzag);
- 	for (i = 0; i < JPEG_QUANT_SIZE; i++) {
- 		file_q_tab[i] = jpeg_scale_qp(tab[zigzag[i]], scale);
- 		reordered_q_tab[i] = jpeg_scale_qp(tab[hw_reorder[i]], scale);
-@@ -304,6 +203,7 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
- static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
- {
- 	int scale;
-+	const u8 *luma_q_table, *chroma_q_table;
- 
- 	/*
- 	 * Non-linear scaling factor:
-@@ -314,21 +214,23 @@ static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
- 	else
- 		scale = 200 - 2 * ctx->quality;
- 
--	BUILD_BUG_ON(ARRAY_SIZE(luma_q_table) != JPEG_QUANT_SIZE);
--	BUILD_BUG_ON(ARRAY_SIZE(chroma_q_table) != JPEG_QUANT_SIZE);
- 	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_luma_qtable) != JPEG_QUANT_SIZE);
- 	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_chroma_qtable) != JPEG_QUANT_SIZE);
- 
-+	v4l2_jpeg_get_reference_quantization_tables(&luma_q_table, &chroma_q_table);
- 	jpeg_scale_quant_table(ctx->buffer + LUMA_QUANT_OFF,
--			       ctx->hw_luma_qtable, luma_q_table, scale);
-+			       ctx->hw_luma_qtable, (const unsigned char *)luma_q_table, scale);
- 	jpeg_scale_quant_table(ctx->buffer + CHROMA_QUANT_OFF,
--			       ctx->hw_chroma_qtable, chroma_q_table, scale);
-+			       ctx->hw_chroma_qtable, (const unsigned char *)chroma_q_table, scale);
- }
- 
- void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
- {
- 	char *buf = ctx->buffer;
-+	const u8 *luma_dc_table, *chroma_dc_table, *luma_ac_table, *chroma_ac_table;
- 
-+	v4l2_jpeg_get_reference_huffman_tables(&luma_dc_table,  &luma_ac_table, &chroma_dc_table,
-+					       &chroma_ac_table);
- 	memcpy(buf, hantro_jpeg_header,
- 	       sizeof(hantro_jpeg_header));
- 
-@@ -337,12 +239,10 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
- 	buf[WIDTH_OFF + 0] = ctx->width >> 8;
- 	buf[WIDTH_OFF + 1] = ctx->width;
- 
--	memcpy(buf + HUFF_LUMA_DC_OFF, luma_dc_table, sizeof(luma_dc_table));
--	memcpy(buf + HUFF_LUMA_AC_OFF, luma_ac_table, sizeof(luma_ac_table));
--	memcpy(buf + HUFF_CHROMA_DC_OFF, chroma_dc_table,
--	       sizeof(chroma_dc_table));
--	memcpy(buf + HUFF_CHROMA_AC_OFF, chroma_ac_table,
--	       sizeof(chroma_ac_table));
-+	memcpy(buf + HUFF_LUMA_DC_OFF, luma_dc_table, V4L2_JPEG_REF_HT_DC_LEN);
-+	memcpy(buf + HUFF_LUMA_AC_OFF, luma_ac_table, V4L2_JPEG_REF_HT_AC_LEN);
-+	memcpy(buf + HUFF_CHROMA_DC_OFF, chroma_dc_table, V4L2_JPEG_REF_HT_DC_LEN);
-+	memcpy(buf + HUFF_CHROMA_AC_OFF, chroma_ac_table, V4L2_JPEG_REF_HT_AC_LEN);
- 
- 	jpeg_set_quality(ctx);
- }
++/**
++ * roundclosest - round to nearest multiple
++ * @x: the value to round
++ * @y: multiple to round nearest to
++ *
++ * Rounds @x to nearest multiple of @y.
++ * The rounded value can be greater than or less than @x depending
++ * upon it's nearness to @x. If @y will always be a power of 2, consider
++ * using the faster round_closest_up() or round_closest_down().
++ *
++ * Examples:
++ * * roundclosest(21, 5) = 20
++ * * roundclosest(19, 5) = 20
++ * * roundclosest(17, 5) = 15
++ */
++#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
++
+ /*
+  * Divide positive or negative dividend by positive or negative divisor
+  * and round to closest integer. Result is undefined for negative
 -- 
 2.39.1
 
