@@ -1,76 +1,79 @@
-Return-Path: <linux-media+bounces-12743-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7079004FD
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:33:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C80900502
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 15:34:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD110B29062
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:33:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 904291F23763
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jun 2024 13:34:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A94FD196C9E;
-	Fri,  7 Jun 2024 13:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B43331974FD;
+	Fri,  7 Jun 2024 13:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kfm9fNc7"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="SzGCP+JP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8864019414B;
-	Fri,  7 Jun 2024 13:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DA0194120;
+	Fri,  7 Jun 2024 13:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717767072; cv=none; b=TSipNGrIdMZWnlU86HObfBiIyzblmVdBDHQmpA46YqnujPHUaTyFO+LY4DOcDgXaudGa1+WmhmlCUpKfg5lr9VAhk6C79zeq2j5FeHtjVpz59CZsBHO3NAyp+rkddXHSqozTEORg1d1jjVCjYQysddh7NlsszTOVXCijAEe6aW4=
+	t=1717767102; cv=none; b=cbLJZ06Bxx0VZel9Esg+y11xFnWoB8Kcsu3Fk5oVp0bAs53wn8051kbWGwzY+EIaOIWwt6eL1rUtOVWmTMqLFk2nK0bfMYmItDc4iAv5NoNrVCCTFfmFc+Ptcc36JhnAvLjnVVD6GMump+DPjEB+YPmyd5BB444fVrjQ++NrpsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717767072; c=relaxed/simple;
-	bh=FINJunvslvsDft6X0FCW9fIW4x9HDOR96bpphV+WFCY=;
+	s=arc-20240116; t=1717767102; c=relaxed/simple;
+	bh=XqLBnbXePtGLuJK13oyHDSQ/geHy7iZ320cBA8k3IQU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XQ3BiFTMfur1//35lLaUKaOiNbxGacSbmM6W2pggg6Xfon1JoRTAKq/3gOMICpZgmo4QcHA3fdQ5waScBw4im/GCnUnI+G3Fku45f6llgXaLNySIyUowNREtyKOqrrWQym81+at2R53YpOqCkI/LEl6xwjoinjrS5dKHUR76Vho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=kfm9fNc7; arc=none smtp.client-ip=198.47.23.248
+	 MIME-Version:Content-Type; b=UAMNnhPJhg2s7NHg4Q7WgvEXtt++51A57nCsnzz1EMZms8wrYN6AB2Bcnm2J214LJbuzVNbycVLbgPiqv1/6xfHYRA54USm2af3amT4FyoNK5OvxLjSoXwkeINnLxZuodU7hTGtGV1q0DWYaQN9YZ/XxkNxr2TYn5zF5BNo52wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=SzGCP+JP; arc=none smtp.client-ip=198.47.19.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DUs0Q086595;
-	Fri, 7 Jun 2024 08:30:54 -0500
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DVM8I117429;
+	Fri, 7 Jun 2024 08:31:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717767054;
-	bh=wT+sQQdkJtU/Yzp+KDhp78KwpzqYXgXkTsAS0oqdKjo=;
+	s=ti-com-17Q1; t=1717767082;
+	bh=Rv8Hb874Nu8V7306/erfIx0SE7TmvbbVdALGp3wOf+0=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=kfm9fNc7bGqRLA/2gSux2n+ddxvpW/qyBK2QZeIzk79EM1qhzrkx/VnsXk+VELHQ4
-	 L1Yyqj6Tnsga/SY1Cl6hVcUPG6ASOgFmRz1y4J5jPvrK6isvMqPMSpakbkt0WVIZXc
-	 vQYdrV2PIZk2m/UUUVOjZ9uTbh65yVeEp+FahcNQ=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DUsUt110033
+	b=SzGCP+JPDSTFI+Hj+GjNiwbRof+soYCwKliXrsQiSpUkBnrgqoAXukYfX2JTXZ6FG
+	 iV6XGk2v78Gi3KIRZaJ2B7P/gX8WWzOHSE9apjdtzOdrLJzJZzoMsXhhVyMYuR/0w8
+	 O+9MlTLddRwXrsyNP4dY702rCSe+oGYtd57G8Cdk=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DVM0J110365
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 7 Jun 2024 08:30:54 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+	Fri, 7 Jun 2024 08:31:22 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 7
- Jun 2024 08:30:53 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2024 08:31:21 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 7 Jun 2024 08:30:53 -0500
+ Frontend Transport; Fri, 7 Jun 2024 08:31:21 -0500
 Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DUr5d116566;
-	Fri, 7 Jun 2024 08:30:53 -0500
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DVKdt045230;
+	Fri, 7 Jun 2024 08:31:21 -0500
 From: Devarsh Thakkar <devarsht@ti.com>
 To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
         <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <akpm@linux-foundation.org>, <andriy.shevchenko@linux.intel.com>,
-        <adobriyan@gmail.com>, <andi.shyti@linux.intel.com>,
-        <p.zabel@pengutronix.de>
+        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
+        <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
+        <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
+        <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <rdunlap@infradead.org>,
+        <linux-doc@vger.kernel.org>
 CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
         <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
         <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
         <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>
-Subject: [PATCH v13 08/13] math.h: Use kernel-doc syntax for divison macros
-Date: Fri, 7 Jun 2024 19:00:52 +0530
-Message-ID: <20240607133052.3555642-1-devarsht@ti.com>
+        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
+Subject: [PATCH v13 09/13] Documentation: core-api: Add math.h macros and functions
+Date: Fri, 7 Jun 2024 19:01:20 +0530
+Message-ID: <20240607133120.3556488-1-devarsht@ti.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20240607131900.3535250-1-devarsht@ti.com>
 References: <20240607131900.3535250-1-devarsht@ti.com>
@@ -84,57 +87,37 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Enable rEST documentation for divison macros DIV_ROUND_CLOSEST and
-DIV_ROUND_CLOSEST_ULL by using kernel-doc markup and syntax for documenting
-them.
+Add documentation for rounding, scaling, absolute value and 32-bit division
+related macros and functions exported by math.h header file.
 
 Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-V1->V13 : No change (Patch introduced in V12)
- include/linux/math.h | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+V13: No change
+V12: Add Reviewed-by
+V11: Fix title for math function header
+V10: Patch introduced
+V1->V9 (No change)
+ Documentation/core-api/kernel-api.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/linux/math.h b/include/linux/math.h
-index 79e3dfda77fc..2ab9489bba81 100644
---- a/include/linux/math.h
-+++ b/include/linux/math.h
-@@ -140,9 +140,14 @@
-  */
- #define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index ae92a2571388..7de494e76fa6 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -185,6 +185,12 @@ Division Functions
+ .. kernel-doc:: lib/math/gcd.c
+    :export:
  
--/*
-- * Divide positive or negative dividend by positive or negative divisor
-- * and round to closest integer. Result is undefined for negative
-+/**
-+ * DIV_ROUND_CLOSEST - Divide positive or negative dividend by positive or
-+ *		       negative divisor and round to closest value
-+ * @x: dividend value
-+ * @divisor: divisor value
-+ *
-+ * Divide positive or negative dividend value @x by positive or negative
-+ * @divisor value and round to closest integer. Result is undefined for negative
-  * divisors if the dividend variable type is unsigned and for negative
-  * dividends if the divisor variable type is unsigned.
-  */
-@@ -157,9 +162,15 @@
- 		(((__x) - ((__d) / 2)) / (__d));	\
- }							\
- )
--/*
-- * Same as above but for u64 dividends. divisor must be a 32-bit
-- * number.
++Rounding, absolute value, division and 32-bit scaling functions
++---------------------------------------------------------------
 +
-+/**
-+ * DIV_ROUND_CLOSEST_ULL - Divide 64-bit unsigned dividend by 32-bit divisor and
-+ *			   round to closest value
-+ * @x: unsigned 64-bit dividend
-+ * @divisor: 32-bit divisor
-+ *
-+ * Divide unsigned 64-bit dividend value @x by 32-bit @divisor value
-+ * and round to closest integer. Result is undefined for negative divisors.
-  */
- #define DIV_ROUND_CLOSEST_ULL(x, divisor)(		\
- {							\
++.. kernel-doc:: include/linux/math.h
++   :internal:
++
+ UUID/GUID
+ ---------
+ 
 -- 
 2.39.1
 
