@@ -1,95 +1,143 @@
-Return-Path: <linux-media+bounces-12780-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9144901402
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 01:51:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C311901404
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 01:53:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67C221F22579
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 23:51:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB848281AAE
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 23:53:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 589C043AC3;
-	Sat,  8 Jun 2024 23:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B249433C0;
+	Sat,  8 Jun 2024 23:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxcWSL9b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D1D1CA96
-	for <linux-media@vger.kernel.org>; Sat,  8 Jun 2024 23:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414461C2A8;
+	Sat,  8 Jun 2024 23:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717890665; cv=none; b=APNAhUhVrh/bn/Kxbn7/mnDM5woDTVKhL3qJxLnwSw72HYNJ7hnaGquLYaOiDULkEUagii7E8MOyeBZjwIbeKVLP/6Upo7ymmPMWyw/bs/sRg4m+EUsHQav8V5u9g6yl6WaaqHIV78UTiCAKXi2MQMUZzYJs4K6AkgWb21KQV6Y=
+	t=1717890777; cv=none; b=jeF0y/EKbG6FWAhtu07MLjdQEvyMUi4pj8KN7v2xaIALSaD0RuK3K0BI0ldM0+rI3z6WFHeLVevkGpg1Hvu1Mne6BwAECpXex28Zs9NJmcz95bJinkdxdf95168UGuYgJ3r4+oxGQtJ/YMvmWa88Wbo/viOzg/8XJbvPgFcdmvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717890665; c=relaxed/simple;
-	bh=d0niSI0BPqgORWJ8d6uor4Qauk2a0PRIg7Z3CF9XdmY=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=BYmVHybRSSv7f7cZhLUoA6fXKgkVca/wfR1Xh9GEh6D3S9Qd+kxoAA5sUfpSOWSi9a6OzZgPB/LGDAectqz4uRzShHQDVrQNhgLHtheFzlFnjLztGHiwraeOwMojz3BP7CEVV6zWrNfNLA/X8C6cw+2P3m/Z4LIqnj/+v94FPT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-37586a82295so18808145ab.3
-        for <linux-media@vger.kernel.org>; Sat, 08 Jun 2024 16:51:03 -0700 (PDT)
+	s=arc-20240116; t=1717890777; c=relaxed/simple;
+	bh=ErxOsjKMtTmP/x3fFoENFlt4Bq6AFdvGmZJE07FNYDw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WDCZ3XKbsl7aMFMYpRmJ95eMrsrCczsoMQ34Gx5+uhLz/gquy4sBGrDPXFPO+0wbAwWHrYLnuSQzJHPIOhi83VSO/lDIGWARzjOqEPAwZhjyWsceNpz/knMEoXMhcSLd3IBlFo41sf2i2//WIGn+aXICFJx+CBDIIY+jxpHthrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxcWSL9b; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f70509b811so1223895ad.1;
+        Sat, 08 Jun 2024 16:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717890775; x=1718495575; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n4BawGddy099suoSVAo/enjQcEjBMWzi9BmGLP0915s=;
+        b=fxcWSL9boZ3aYU67m6m+5VzcWRPk9sN4Rq2zF0yOcXgfuisC991jPXygRRDotuFf6p
+         DRrLZom7yExamnWZcfV+5kkhmryRTDk8aBxcXv/gHV7C4blcIdeMazZ57xmkkypJfY2b
+         BtkRY1RshA2Tz9cdWKcMNqFas0QFBtwF7tO90KjGkic/WhY2jTuLcSpSMCVGi9OkS+UW
+         Z/JlCMSGmg912M6FUV4c2+QGRsF57McCfokXpcVkzpOM7NDaOFj5LgrKLifO/aBtotAu
+         +QeHDJP5IH0YdhbKfn/6aqPESaI9Qc4dZW9kH9RObBwAEMzzqWEKulB9Jcn4uWEyhidI
+         /53A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717890663; x=1718495463;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
+        d=1e100.net; s=20230601; t=1717890775; x=1718495575;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K1VLo2KJi9o9tzQVg0N1w+H/e9lvP5uDzyw9PtVc0as=;
-        b=QUxb+etjzRnOpi+oZr0BmzX3ovr7zgGobTVwIfNNJSVxg4WAJbpVeZRye5EOXGFZBp
-         pbsV1uiJxLQNoCZQMRyNIDSsVhmJJZYC8fRbJeXwIxkzTR0zVLblRzSUyx3lZwMNrEkT
-         Sj6u+5Vm7Bmyb8EXA6a9jsJNJTL8T6O3HUcsRZtxN5Tn3VVmobT81vcEmwYE1vQHaLbB
-         0B/9TwIVfDf9E0+8+MVCWZP/79dUtq77bIvnd5twntWghuOtGw+r/NuYFunDL9TbbQvN
-         308oIdQVYj+m1WgAYJ1EenfVFLt9wbv8gAYflFwrt18TPW0+6fBgrgOtNZlT1WD2q0fd
-         nURQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5bDh0nEAStn6+tDemEYKtn4H1E+i5Jm2fJu5C/iR0aVWFcd1dUL59dSJl2MZdGS8NtLEc87tOBE50SM0u4V/YL2G+SGgbMTGRnjY=
-X-Gm-Message-State: AOJu0Yyg2hwfl4NXbMPH1NMvSlMwOHh0TChpK1SJt4K8Y2PXCcIeTKhM
-	U2UocCS6s2h8dXcw2ihiCb+wHr650Fw4Sz9TcPKefVftbFiAFT+809F4/aZJE9RcIM4fQ6Tu8R1
-	5U/ar+VdaxOtAMfW1kXc+hj2RHljqfzkTEcOsEOwq/9gn2YDhQLC3898=
-X-Google-Smtp-Source: AGHT+IHJ8bs/U3I3g1f4q/Xp24Ah0Qnma9lKdfqjhw9W8j5aEoYUBtabb+mH1Cbm0PU1piVVmfgBeW2+PGKAZvVoTvSuYOx3fOwS
+        bh=n4BawGddy099suoSVAo/enjQcEjBMWzi9BmGLP0915s=;
+        b=d2ta0ex0UPUKFAJPPK1D9ADpVF7OodqDZwNTwlab4+s5YlLXPHxpQtjRO0ptMJS5zv
+         yZsZ0imhLyqRRod3fofPsHrBn02HW+f3oriF/1h0BqtYSEttXMVhBLPp6ZTQMPuScwWO
+         9PI/xgWrh27hPid8TDIcH/MnCuW3GcZpdGHwgrxp8QD0ke1fQB3fkGG89SRrVPf6c3yW
+         kGRXTE0k0bY4vhWyGsRMXdgpBDT70XZyJSn0HbGKDjuWodb+Lm4qO5G39Dc7mP3NhE9o
+         5xQIHMqW7I8jwniI4Hnp6Ego2Pimv7uFwXWnees5ovcT9Lgv95fol+t8vbAbeLW+gkv0
+         igeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWUfAbGrsFMSwNskpwS8SDovdLT29FjMYYzxo1l8VPp/orA9rCnZkFTWvxkj1uIJab1bCER6/XL3JIzjqHcO6KR2E9Wt47rGN//Cwyd
+X-Gm-Message-State: AOJu0Yycp09XjDSmq2osw8X29tpbjAy9NsmuCxcI06f7hnG8KLz4wKBc
+	+NH4hgIfLeM0Hsyc4QR+bQUZL0433H+lLm6CqsSKlkdXITLSCQBZ
+X-Google-Smtp-Source: AGHT+IEvVP1BdMGcJUKsfnt5xqsalFj7s6gS9ecgWh120vtHspbwyazdPyZM283xo2tKpBVW4gYeuA==
+X-Received: by 2002:a17:902:db10:b0:1f4:b7ff:ac4a with SMTP id d9443c01a7336-1f6d02f55d9mr66607875ad.37.1717890775428;
+        Sat, 08 Jun 2024 16:52:55 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6ea2d17c5sm26730365ad.46.2024.06.08.16.52.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Jun 2024 16:52:55 -0700 (PDT)
+Message-ID: <bcdce8da-a0de-4138-a821-9ee2a3183e24@gmail.com>
+Date: Sun, 9 Jun 2024 08:52:52 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c49:b0:374:9a34:a0a with SMTP id
- e9e14a558f8ab-375803d3e9bmr5712495ab.6.1717890662891; Sat, 08 Jun 2024
- 16:51:02 -0700 (PDT)
-Date: Sat, 08 Jun 2024 16:51:02 -0700
-In-Reply-To: <0000000000008b96230610c6b3fe@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b99437061a6996df@google.com>
-Subject: Re: [syzbot] [media?] [usb?] possible deadlock in vb2_video_unregister_device
-From: syzbot <syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com>
-To: benjamin.gaignard@collabora.com, hdanton@sina.com, 
-	hverkuil-cisco@xs4all.nl, hverkuil@xs4all.nl, 
-	laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
-	m.szyprowski@samsung.com, mchehab@kernel.org, syzkaller-bugs@googlegroups.com, 
-	tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: v4l: Fix missing tabular column hint for Y14P
+ format
+To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Akira Yokosawa <akiyks@gmail.com>
+References: <20240608-jmh-correct-mkdocs-luma-v1-1-7e114a2c4bdf@yoseli.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20240608-jmh-correct-mkdocs-luma-v1-1-7e114a2c4bdf@yoseli.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-syzbot suspects this issue was fixed by commit:
+Hi,
 
-commit 65e6a2773d655172143cc0b927cdc89549842895
-Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Date:   Sat Mar 2 10:37:08 2024 +0000
+On Sat, 08 Jun 2024 18:41:27 +0200, Jean-Michel Hautbois wrote:
+> The original commit added two columns in the flat-table of Luma-Only
+> Image Formats, without updating hints to latex: above it.  This results
+> in wrong column count in the output of Sphinx's latex builder.
+> 
+> Fix it.
+> 
+> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+> Link: https://lore.kernel.org/linux-media/bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com/
+> Fixes: adb1d4655e53 (media: v4l: Add V4L2-PIX-FMT-Y14P format)
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+> ---
+>  Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> index b3c5779521d8..2e7d0d3151a1 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+> @@ -21,9 +21,9 @@ are often referred to as greyscale formats.
+>  
+>  .. raw:: latex
+>  
+> -    \scriptsize
+> +    \tiny
+>  
+> -.. tabularcolumns:: |p{3.6cm}|p{3.0cm}|p{1.3cm}|p{2.6cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|
+> +.. tabularcolumns:: |p{3.6cm}|p{2.4cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|
 
-    media: usbtv: Remove useless locks in usbtv_video_free()
+With the \tiny font, widths of columns 1 and 2 can be reduced.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1009e6f6980000
-start commit:   b401b621758e Linux 6.8-rc5
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=eff9f3183d0a20dd
-dashboard link: https://syzkaller.appspot.com/bug?extid=3b1d4b3d5f7a358bf9a9
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ffaae8180000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13ef909c180000
+Either way, this fixes the build error of pdfdocs.  So,
 
-If the result looks correct, please mark the issue as fixed by replying with:
+Reviewed-and-tested-by: Akira Yokosawa <akiyks@gmail.com>
 
-#syz fix: media: usbtv: Remove useless locks in usbtv_video_free()
+        Thanks, Akira
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>  
+>  .. flat-table:: Luma-Only Image Formats
+>      :header-rows: 1
+> 
+> ---
+> base-commit: dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
+> change-id: 20240608-jmh-correct-mkdocs-luma-79d348ded7aa
+> 
+> Best regards,
+
 
