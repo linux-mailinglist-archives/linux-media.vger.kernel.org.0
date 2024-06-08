@@ -1,145 +1,101 @@
-Return-Path: <linux-media+bounces-12772-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12773-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637F99011C3
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 15:56:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EF3901218
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 16:38:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 601B81C212BD
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 13:56:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D83D1C20ACA
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 14:38:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D86179958;
-	Sat,  8 Jun 2024 13:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102C515D5CB;
+	Sat,  8 Jun 2024 14:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b="YEtQyrMY"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TWlsk+io"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41AB149DED
-	for <linux-media@vger.kernel.org>; Sat,  8 Jun 2024 13:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE21383BD
+	for <linux-media@vger.kernel.org>; Sat,  8 Jun 2024 14:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717854977; cv=none; b=sE6aaPNS6bibsAPNXgPaNfL5KsSoDgbf3odHupgcmtZIEfp2XNR5DiAZLTHl2l4UJaFFnWbm7uxgve1w8D/WyFL8sirmp6ByClcsumfodhfU0n3ZhltiEQzYVwAT/jZmRtYxcH6A95q2IDrtVaCELY+O2+/43BjFBCW+EU1Szjk=
+	t=1717857510; cv=none; b=WX+IzgJg8OAliezH292Dw+OlMDYuDFdq0Bqz4CyM5JERe1n0HU0yvgZ2hYiLq+Ls4cU6XV4ALqws/7pXyAj/GzUlLexmAqowaUBhrCWlxJxfwHKvM7Da5FOdmqLaiC+rJhzyDsA+ARK9mKXA2FH5qzuS7g/tUVjve+7i6Pn5+MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717854977; c=relaxed/simple;
-	bh=BFmmkJ1kCuW6NiwWZ+Ysq3taXRkdFNXbbRTu+OaKqJY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hKfmxE0Ow1hDAlynrFrGM8D4rnxgo/zxz9yk5kFmy3B7bVnXiedFx12FGPAe+d4cunYHKZFfiUBdBpJdwHGx5OKruObYqp7dA9BqDvW3GOioXflDD6jK7XHFKBEe1VAYU7l79P44DGzLubrnVeT9hGkiDMvZP55R6lsv66TCWB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yoseli.org; spf=none smtp.mailfrom=yoseli.org; dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b=YEtQyrMY; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yoseli.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=yoseli.org
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0560960004;
-	Sat,  8 Jun 2024 13:56:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yoseli.org; s=gm1;
-	t=1717854968;
+	s=arc-20240116; t=1717857510; c=relaxed/simple;
+	bh=H0HZErXCSvm+xHLOrEsJDhL2s3kkTkVhSfy6wImZT7c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c3BIvuw0owQ0eW0yUPGLdBU/bXJ36PMIX8bMypBDHjoHHJkOwVN8uWfQwJ8qJ0QQWFmDvab3DMYHR6cpdycCTG43OgbEvb6XjQ9cv3W+gl050hBGEFGCwrvAlQE6ET+Qg8ZiLSjee5iB8UuJzD2Reg2djuVYfCsY2Af13mgs5RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TWlsk+io; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717857507;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AyYFGUl6v+RlXOuRgeCLpBJpE5dCWFay1tdHx22GMpk=;
-	b=YEtQyrMYLox6lJF8OUhIy/c2Q4arnmF2sB3B4ghNtPKcgOgutBES7a7Iy0vS1TVG/0yZNh
-	6h7S9pr/GEUHwtQgpd2PkORJ8v28h4BsMyY1qUT5829JqCMtgCIdmevz1+54TnubR+RLuO
-	EbKCBjRjCXq+zzdya4gttvkX9ooG91Srw24GtPo6YQHc0/OhQDh5mr2zrT17TcY2k/tKa4
-	48fzAIH908tU5vaTsDaOS5+Awgg/nxhhOj9ofU97iMMtXYjGdkDqgbKC6Pb5guFlSzfw0M
-	JK7sx4LXHiGfmP8Vtwr/0dtMe1nn8CWmV4NsNJQiY2JKK2bTAFdcGpo3Pqwtiw==
-Message-ID: <74d923bb-28b3-48f1-9da9-2311e6293ab4@yoseli.org>
-Date: Sat, 8 Jun 2024 15:56:07 +0200
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=aiSu/o+Vl2BMDdaP7Ooe46zuYfZhy9NSRTPm5klE1oQ=;
+	b=TWlsk+io/9Q2eLUr9Xt35hQorlMLZGRQkq/vxckfsfxQJIKhghhQwrKXAycCo4DTrlPMZD
+	NJEgp30vtThe8QrPKeT3q8me7Ew+7y1EMUR5iLGF0KIY/gGXKIKa81gz2OqoGU6qXPqeIO
+	RV/kXXZR91Vzm4sTLXwJrHifrjy3qnY=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-66-FBWHiUvcOYaJns0xpQ6Bmw-1; Sat,
+ 08 Jun 2024 10:38:24 -0400
+X-MC-Unique: FBWHiUvcOYaJns0xpQ6Bmw-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 262BA19560AB;
+	Sat,  8 Jun 2024 14:38:23 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.6])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6967630000C4;
+	Sat,  8 Jun 2024 14:38:21 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: ov2680: Pass correct number of controls to v4l2_ctrl_handler_init()
+Date: Sat,  8 Jun 2024 16:38:15 +0200
+Message-ID: <20240608143815.192079-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: media: docs: build error of userspace-api.pdf as of
- v6.10-rc1
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-media@vger.kernel.org
-References: <bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com>
- <456dfb99-83ce-45a3-be42-6b951713ff37@gmail.com>
-Content-Language: en-US
-From: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-In-Reply-To: <456dfb99-83ce-45a3-be42-6b951713ff37@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: jeanmichel.hautbois@yoseli.org
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Hi Akira,
+The ov2680 driver has 9 controls now and the call to
+v4l2_ctrl_new_fwnode_properties() adds 2 more.
 
-On 30/05/2024 03:25, Akira Yokosawa wrote:
-> Hi Jean-Michel,
-> 
-> Assuming <jeanmichel.hautbois@ideasonboard.com> is your past email
-> account, forwarding a message bounced from
-> "the mail system at host perceval.ideasonboard.com" as "Undelivered".
-> 
-> Also, I'd suggest you to add an entry in .mailmap.
+Tell v4l2_ctrl_handler_init() to pre-allocate space for 11
+controls to match this.
 
-Indeed, a patch just gone a few minutes ago;-)
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/media/i2c/ov2680.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-<snip>
-> 
-> I tested "make pdfdocs" on v6.10-rc1, which ended up in a build error
-> from xelatex:
-> 
->      Package tabulary Warning: No suitable columns! on input line 48770.
->      
->      ! Extra alignment tab has been changed to \cr.
->      <recently read> \endtemplate
->                               
->      l.49179 \end{tabulary}
->                            
->      ?
-> 
-> I know this won't make any sense for most kernel developers.
+diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+index 3ae0ea58668d..7237fb27ecd0 100644
+--- a/drivers/media/i2c/ov2680.c
++++ b/drivers/media/i2c/ov2680.c
+@@ -971,7 +971,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	v4l2_ctrl_handler_init(hdl, 5);
++	v4l2_ctrl_handler_init(hdl, 11);
+ 
+ 	hdl->lock = &sensor->lock;
+ 
+-- 
+2.45.1
 
-You seem to know me very well :-) !
-
-> 
-> So, I did bisection for you.
-> 
-> First bad commit is:
-> 
->      adb1d4655e53 ("media: v4l: Add V4L2-PIX-FMT-Y14P format")
-> 
-> and reverting it resolves the error.
-> 
-> It looks to me like said commit added two columns in the flat-table
-> of "Luma-Only Image Formats", without updating hints to latex:
-> 
->      .. tabularcolumns::
-> 
-> above it.  This results in wrong column count in the output of
-> Sphinx's latex builder.
-> 
-> Please update the hint for the additional two columns.
-> 
-> FYI, you can test build without building the whole tree by saying:
-> 
->      make SPHINXDIRS=userspace-api pdfdocs
-> 
-> Otherwise, you will need to wait a long time.
-
-Thanks a lot for this detailed report, as I reproduced the issue quickly 
-and easily !
-
-Now, I would like your advice. I update the tabularcolumns to add the 
-two new columns, but it does not fit on the page anymore [1].
-
-What would be the best way to solve this ?
-
-[1]: https://cryptpad.fr/file/#/2/file/C8sTCY-cv9jj-mwgzkZgjEtr/
-Thanks,
-JM
-
-> 
-> You can ignore the extra warnings of "WARNING: undefined label:"
-> and "WARNING: unknown document:" due to the limited scope of
-> documentation.
-> 
-> Regards.
-> Akira
 
