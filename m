@@ -1,185 +1,125 @@
-Return-Path: <linux-media+bounces-12774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188A090122F
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 17:02:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32426901259
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 17:36:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCC9A282521
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 15:02:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51C751C20E1D
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 15:36:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9372415688F;
-	Sat,  8 Jun 2024 15:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8406917967F;
+	Sat,  8 Jun 2024 15:36:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AN2lEaWP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6anO2Yz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7AE2561B
-	for <linux-media@vger.kernel.org>; Sat,  8 Jun 2024 15:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCE4524C4;
+	Sat,  8 Jun 2024 15:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717858966; cv=none; b=gdujGCFWUjUS3kdLriNd4/nOFQzAa9z/xeqIYRj9cB5PCtA2JrcIvEgSmNAUnnUCIceXUfYE3RWnQNT6JaTcoHtv+/w5AJogc3ogNuJUiYKg8SxVP090dBXhdMKM/cWu++Kg87Tq/WFRPHZnH1DrUcd8P9ZgCfFUaPyS6t1tKKk=
+	t=1717860994; cv=none; b=TW4ode8+UrWMESZE6hGmRPRzUchW7pwxh8sqnJYCNt8tRHAAgS+i3BP7f7W5/6GDf+QdhPDgrGE/N/SR9D3i9WtiTG7Tw72ioJFiciBOk86XlRdRgV3p2Ye0JioPplBmgVOSoVYEScbQR030NG4DbsXac7LPWkN/2iIJxjXr2kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717858966; c=relaxed/simple;
-	bh=ksHjcMfgWFYj1Y4daDRYH+H2NXdsLnBpzH7Zez8a/ps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R6cPXtsWWF4ZI0ntjd5+xXuhEgtYO9vfLhPTpWXt2ymdNvFuPLB4qd1JtS1Dy2Qrirh+8tfH22PZYLVsKfgVnd380Qf8QClB84IDMeDxG+dCUPiHjpmIwouR9ahpN5yNO48AVk3XvD5ZyvM5qOUsqMErSBp4X3X+IpDgWl4CheM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AN2lEaWP; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6ff6fe215c6so2659817b3a.3
-        for <linux-media@vger.kernel.org>; Sat, 08 Jun 2024 08:02:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717858964; x=1718463764; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b50Kbu/e0srKYYtu860q1nHZjGwc5eggYw2/MD3bY+Q=;
-        b=AN2lEaWPSIg9PFpwXAG3sHT71wydwGF6TM0qfx8Y/3OxHHvm7ikzE7sciDXRZIcgdx
-         +L3vcxgZJRGpvB1f5teKYjGasn5ZEbuljEhxRTnCjONaKGdw0fAsef1mrbdzn7t1AJGL
-         JwFbECaTFlWCT+bArEHHWf+NcQu30lvhjoh7MgcCong+7JFiuFXtGhsRQHbZj1or084y
-         Quycj9wj9PvzY4WgqnUnguRe4kb1TiwCo6K6KKZ2o95qoAAlNbXavUmweMA/xDxlBT+7
-         NLOobAY0CXBhD9+vxnh3NaO71kJcF1PWyl9guInNVpxmPX5cJLIvyiY+pFHWkqsOmE8T
-         fFqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717858964; x=1718463764;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b50Kbu/e0srKYYtu860q1nHZjGwc5eggYw2/MD3bY+Q=;
-        b=TxjHvdMsfJUQEnra0AglyZkZMHZ1GZS5arTU+FRjjFUVSpDEQ4aXHDp5gQH4VUHrdC
-         ubT4pz2ZHZcponIu0rad97rqVehb/vsW5EjNPpuoixw9aTD+d+NOhLK3lfyDqWF4mcGO
-         Eu83c3gusUEkWv/7d8D+POaoBTWB/hwovbtU7xjRL2BMW7FbiIwC5LsR5PY2Ae7DH9IC
-         vIC8Ca1ML81+DJZWhRgfTxgb+477v0/66QdOsbRZky3f2bOHors1gYHvKgbzB93042FD
-         1yAhLg4P75ru1Hr9YK2UDkuOpNfxxgzCi4wdsVlFP/M8GqHhhpzwaMajRmQv6XGU3jZP
-         fcbQ==
-X-Gm-Message-State: AOJu0YzRWxop5uTnwC/FUzB3beaZAACqbS0DUWWtS96vl3AUlkxJbA3z
-	m+rLaSUx+b33DpJovyYmleUdRcIIWb5YR7fxt6rw5fWGOaRkwNB4h0vqHw==
-X-Google-Smtp-Source: AGHT+IFsBrmM81kdP3zj36RNzoH2Yg4CWORxT17ZObHOGT4k4x3vARLTvmel367qSj5KPt9lhooqTA==
-X-Received: by 2002:a05:6a20:a103:b0:1af:baf9:fef6 with SMTP id adf61e73a8af0-1b2f96d6b2dmr6024361637.16.1717858963488;
-        Sat, 08 Jun 2024 08:02:43 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7041bb50dd1sm1947739b3a.193.2024.06.08.08.02.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Jun 2024 08:02:43 -0700 (PDT)
-Message-ID: <83ffb1d7-fe1d-4eba-893e-f685a1addcd0@gmail.com>
-Date: Sun, 9 Jun 2024 00:02:40 +0900
+	s=arc-20240116; t=1717860994; c=relaxed/simple;
+	bh=PPltt7u92wnv+PxGs+e4EpDvJsH07LVd0WQfhfe5Un8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=MWpN0r2fPQXuqyEkXwAe1H7bWtxZsrBy+LA19mbeG8P2csDqaB15n3QmyAqMiBiprnIbda00idBZ4SEjk39SCJnxFXNt0rvxhB/JzFMf/5MQekNAQ8QCY5GQamDGE5XNSd8LnN4UIn9ZB9obyBk95JqeIXV3xXa9XYE0okcsDTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6anO2Yz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D72C2BD11;
+	Sat,  8 Jun 2024 15:36:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717860993;
+	bh=PPltt7u92wnv+PxGs+e4EpDvJsH07LVd0WQfhfe5Un8=;
+	h=Date:From:To:Cc:Subject:From;
+	b=O6anO2YzaaT7ptr+nugSZ/acFRti3oxWsLMR7/hRcp62tul7sVoJlGaqfvvYcYMsF
+	 UiNm5lQnoajnMnltwyXA0aH0ES03sqQJb20UJ4UiF41ecnN+VzUIHF8nlHxdsSn3RJ
+	 h7yxddSv1uE5Z9qd7pwtWRU1Moco/mHTh8zr9ZJu7mcPieomqKWhQXZKv8gNmEtXSl
+	 Gkw3KZ7qhXShfFGE+5r3+XX2JR2X/6/suB4c5Joa6JMJO0IBA06G3JmsG0o08H8MK5
+	 5Q9TU73DyH3bNhD0y0HYabAxn8GA3LfA6vpmR/A/oI8S9tF5AvqT4AX1wMfR6dr8+h
+	 RbLXAjprBj0kg==
+Date: Sat, 8 Jun 2024 17:36:28 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL for v6.10-rc3] media fixes
+Message-ID: <20240608173628.05f15fbc@coco.lan>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Fwd: media: docs: build error of userspace-api.pdf as of
- v6.10-rc1
-To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Cc: linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com>
- <456dfb99-83ce-45a3-be42-6b951713ff37@gmail.com>
- <74d923bb-28b3-48f1-9da9-2311e6293ab4@yoseli.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <74d923bb-28b3-48f1-9da9-2311e6293ab4@yoseli.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 8 Jun 2024 15:56:07 +0200, Jean-Michel Hautbois wrote:
-> Hi Akira,
-> 
-> On 30/05/2024 03:25, Akira Yokosawa wrote:
->> Hi Jean-Michel,
->>
->> Assuming <jeanmichel.hautbois@ideasonboard.com> is your past email
->> account, forwarding a message bounced from
->> "the mail system at host perceval.ideasonboard.com" as "Undelivered".
->>
->> Also, I'd suggest you to add an entry in .mailmap.
-> 
-> Indeed, a patch just gone a few minutes ago;-)
-> 
-> <snip>
->>
->> I tested "make pdfdocs" on v6.10-rc1, which ended up in a build error
->> from xelatex:
->>
->>      Package tabulary Warning: No suitable columns! on input line 48770.
->>           ! Extra alignment tab has been changed to \cr.
->>      <recently read> \endtemplate
->>                                    l.49179 \end{tabulary}
->>                                 ?
->>
->> I know this won't make any sense for most kernel developers.
-> 
-> You seem to know me very well :-) !
-> 
->>
->> So, I did bisection for you.
->>
->> First bad commit is:
->>
->>      adb1d4655e53 ("media: v4l: Add V4L2-PIX-FMT-Y14P format")
->>
->> and reverting it resolves the error.
->>
->> It looks to me like said commit added two columns in the flat-table
->> of "Luma-Only Image Formats", without updating hints to latex:
->>
->>      .. tabularcolumns::
->>
->> above it.  This results in wrong column count in the output of
->> Sphinx's latex builder.
->>
->> Please update the hint for the additional two columns.
->>
->> FYI, you can test build without building the whole tree by saying:
->>
->>      make SPHINXDIRS=userspace-api pdfdocs
->>
->> Otherwise, you will need to wait a long time.
-> 
-> Thanks a lot for this detailed report, as I reproduced the issue quickly and easily !
-> 
-> Now, I would like your advice. I update the tabularcolumns to add the two new columns, but it does not fit on the page anymore [1].
-> 
-> What would be the best way to solve this ?
-> 
-> [1]: https://cryptpad.fr/file/#/2/file/C8sTCY-cv9jj-mwgzkZgjEtr/
+Hi Linus,
 
-Let me see.
+Please pull from:
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/me=
+dia/v6.10-2
 
-It looks to me that you can reduce the width of 4th column (of "Byte 1")
-to 1.3cm.
 
-If that can not make the table fit in the page width, try reduce the
-width of 2nd column (Of "Code").
+For:
+  - some fixes at the new ipu6 driver (and related fixes at mei csi driver);
+  - fix a double debugfs remove logic at mgb4 driver;
+  - a documentation fix.
 
-Another option world be to reduce the font size by using \tiny instead
-of \scriptsize in the
+Regards,
+Mauro
 
-    .. raw:: latex
+---
 
-directive above the table and reduce widths of every column.
+The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
 
-You may need to do a couple of tries and errors.
+  Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
 
-Good luck!
+are available in the Git repository at:
 
-Akira
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/me=
+dia/v6.10-2
 
-> Thanks,
-> JM
-> 
->>
->> You can ignore the extra warnings of "WARNING: undefined label:"
->> and "WARNING: unknown document:" due to the limited scope of
->> documentation.
->>
->> Regards.
->> Akira
+for you to fetch changes up to ffb9072bce200a4d004006e8b40c366933cf517b:
+
+  media: intel/ipu6: add csi2 port sanity check in notifier bound (2024-05-=
+30 16:34:59 +0200)
+
+----------------------------------------------------------------
+media fixes for v6.10-rc3
+
+----------------------------------------------------------------
+Bingbu Cao (3):
+      media: intel/ipu6: fix the buffer flags caused by wrong parentheses
+      media: intel/ipu6: update the maximum supported csi2 port number to 6
+      media: intel/ipu6: add csi2 port sanity check in notifier bound
+
+Christophe JAILLET (3):
+      media: intel/ipu6: Fix some redundant resources freeing in ipu6_pci_r=
+emove()
+      media: intel/ipu6: Move isys_remove() close to isys_probe()
+      media: intel/ipu6: Fix an error handling path in isys_probe()
+
+Martin T=C5=AFma (1):
+      media: mgb4: Fix double debugfs remove
+
+Sakari Ailus (3):
+      media: Documentation: v4l: Fix ACTIVE route flag
+      media: mei: csi: Put the IPU device reference
+      media: mei: csi: Warn less verbosely of a missing device fwnode
+
+ .../userspace-api/media/v4l/dev-subdev.rst         |  2 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c     |  6 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys.c           | 71 +++++++++++++-----=
+----
+ drivers/media/pci/intel/ipu6/ipu6.c                |  5 +-
+ drivers/media/pci/intel/ivsc/mei_csi.c             |  5 +-
+ drivers/media/pci/mgb4/mgb4_core.c                 |  7 ++-
+ 6 files changed, 56 insertions(+), 40 deletions(-)
 
 
