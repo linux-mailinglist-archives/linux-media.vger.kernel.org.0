@@ -1,230 +1,95 @@
-Return-Path: <linux-media+bounces-12779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12780-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541FD9013FD
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 01:44:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9144901402
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 01:51:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3EEB1F220E3
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 23:44:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67C221F22579
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 23:51:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA7DF433AB;
-	Sat,  8 Jun 2024 23:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r5SLxSs0"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 589C043AC3;
+	Sat,  8 Jun 2024 23:51:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A27324B28;
-	Sat,  8 Jun 2024 23:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D1D1CA96
+	for <linux-media@vger.kernel.org>; Sat,  8 Jun 2024 23:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717890279; cv=none; b=A4F0yiBaFk3VuA/8tsSCX9PmXupoO5mLhbeS57dr8Dle9BPgCGhNA1fZZNHoofk0PSrrV0mVYhRm2fSp/lVH9DQv0zm45aQ3Xla0OLhYV0wpVkyYWO0UkQqfm5aA3rZSKnddV3nXly5pYNqWD67wCvskmpi8Omj1Pe9W5HolI9s=
+	t=1717890665; cv=none; b=APNAhUhVrh/bn/Kxbn7/mnDM5woDTVKhL3qJxLnwSw72HYNJ7hnaGquLYaOiDULkEUagii7E8MOyeBZjwIbeKVLP/6Upo7ymmPMWyw/bs/sRg4m+EUsHQav8V5u9g6yl6WaaqHIV78UTiCAKXi2MQMUZzYJs4K6AkgWb21KQV6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717890279; c=relaxed/simple;
-	bh=TfZnoATFHHsKtckujopS8nC7+AmIssqSCa1UW2djo80=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UqeAFZeJq9w6CRKhMpz65MnRyylOrZFa4/e9LN5xnspN2jfOB52uJXhx/JVeNfwJuAt285ymsAABuPpU9pjyz1Y7gJ5eb7QAVoEVtNgUD6l6KLWqQM2vtkmbiYiU905K0o/GZ3bGbR1T4eX2sBMj/PVnhMSLPJM+zcvY1HpwC+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r5SLxSs0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=V9bl0X2EUcg+/xnMVivcRgLaDT642pZxVyxB/8arGRo=; b=r5SLxSs0teVt0heVXrFiXPTwyh
-	tCLqTim0yTaGhz3n/W/2p7hFcf8NukTwA46KXmiIP0XpsC6luaUevq140h1890113yB57+n+KfNmO
-	uN+xa0Yg1MYqwi1EE/ceYNRdisVm9L3N0TJqI1n7GevQ1kmHjiPoEVZvm9wdyw1jekPEAUh0EzZgg
-	2JR88baihne8VB2a/uqyTXjLRapVYx1feB46Is8C9rdo2fEoqnTt0v3LgCZZg4K9j245kznxHtjwH
-	6glUe7oqvDFGJvTAE1RevWQtoE+rHuvfYslN2Bn6XioLEIA2LuQdU5IWXPAFzbyVXHAAvdE9ENGIw
-	gJ6u7X3Q==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sG5jW-00000001Dol-2nQv;
-	Sat, 08 Jun 2024 23:44:26 +0000
-Message-ID: <efbd5520-5eaa-49ab-817f-ae27172f8ceb@infradead.org>
-Date: Sat, 8 Jun 2024 16:44:24 -0700
+	s=arc-20240116; t=1717890665; c=relaxed/simple;
+	bh=d0niSI0BPqgORWJ8d6uor4Qauk2a0PRIg7Z3CF9XdmY=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=BYmVHybRSSv7f7cZhLUoA6fXKgkVca/wfR1Xh9GEh6D3S9Qd+kxoAA5sUfpSOWSi9a6OzZgPB/LGDAectqz4uRzShHQDVrQNhgLHtheFzlFnjLztGHiwraeOwMojz3BP7CEVV6zWrNfNLA/X8C6cw+2P3m/Z4LIqnj/+v94FPT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-37586a82295so18808145ab.3
+        for <linux-media@vger.kernel.org>; Sat, 08 Jun 2024 16:51:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717890663; x=1718495463;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K1VLo2KJi9o9tzQVg0N1w+H/e9lvP5uDzyw9PtVc0as=;
+        b=QUxb+etjzRnOpi+oZr0BmzX3ovr7zgGobTVwIfNNJSVxg4WAJbpVeZRye5EOXGFZBp
+         pbsV1uiJxLQNoCZQMRyNIDSsVhmJJZYC8fRbJeXwIxkzTR0zVLblRzSUyx3lZwMNrEkT
+         Sj6u+5Vm7Bmyb8EXA6a9jsJNJTL8T6O3HUcsRZtxN5Tn3VVmobT81vcEmwYE1vQHaLbB
+         0B/9TwIVfDf9E0+8+MVCWZP/79dUtq77bIvnd5twntWghuOtGw+r/NuYFunDL9TbbQvN
+         308oIdQVYj+m1WgAYJ1EenfVFLt9wbv8gAYflFwrt18TPW0+6fBgrgOtNZlT1WD2q0fd
+         nURQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5bDh0nEAStn6+tDemEYKtn4H1E+i5Jm2fJu5C/iR0aVWFcd1dUL59dSJl2MZdGS8NtLEc87tOBE50SM0u4V/YL2G+SGgbMTGRnjY=
+X-Gm-Message-State: AOJu0Yyg2hwfl4NXbMPH1NMvSlMwOHh0TChpK1SJt4K8Y2PXCcIeTKhM
+	U2UocCS6s2h8dXcw2ihiCb+wHr650Fw4Sz9TcPKefVftbFiAFT+809F4/aZJE9RcIM4fQ6Tu8R1
+	5U/ar+VdaxOtAMfW1kXc+hj2RHljqfzkTEcOsEOwq/9gn2YDhQLC3898=
+X-Google-Smtp-Source: AGHT+IHJ8bs/U3I3g1f4q/Xp24Ah0Qnma9lKdfqjhw9W8j5aEoYUBtabb+mH1Cbm0PU1piVVmfgBeW2+PGKAZvVoTvSuYOx3fOwS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 6/6] Documentation: iio: Document high-speed DMABUF
- based API
-To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240605110845.86740-1-paul@crapouillou.net>
- <20240605110845.86740-7-paul@crapouillou.net>
- <5052adab-5b5e-4ac2-902c-bb373c00bbbb@infradead.org>
- <14d802e84cbb8d3c9610386908706f264af34726.camel@crapouillou.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <14d802e84cbb8d3c9610386908706f264af34726.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:1c49:b0:374:9a34:a0a with SMTP id
+ e9e14a558f8ab-375803d3e9bmr5712495ab.6.1717890662891; Sat, 08 Jun 2024
+ 16:51:02 -0700 (PDT)
+Date: Sat, 08 Jun 2024 16:51:02 -0700
+In-Reply-To: <0000000000008b96230610c6b3fe@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000b99437061a6996df@google.com>
+Subject: Re: [syzbot] [media?] [usb?] possible deadlock in vb2_video_unregister_device
+From: syzbot <syzbot+3b1d4b3d5f7a358bf9a9@syzkaller.appspotmail.com>
+To: benjamin.gaignard@collabora.com, hdanton@sina.com, 
+	hverkuil-cisco@xs4all.nl, hverkuil@xs4all.nl, 
+	laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, syzkaller-bugs@googlegroups.com, 
+	tfiga@chromium.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Paul.
+syzbot suspects this issue was fixed by commit:
 
-On 6/7/24 12:44 AM, Paul Cercueil wrote:
-> Hi Randy,
-> 
-> Le jeudi 06 juin 2024 à 10:32 -0700, Randy Dunlap a écrit :
->> Hi,
->>
->> On 6/5/24 4:08 AM, Paul Cercueil wrote:
->>> Document the new DMABUF based API.
->>>
->>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
->>>
->>> ---
->>> v2: - Explicitly state that the new interface is optional and is
->>>       not implemented by all drivers.
->>>     - The IOCTLs can now only be called on the buffer FD returned
->>> by
->>>       IIO_BUFFER_GET_FD_IOCTL.
->>>     - Move the page up a bit in the index since it is core stuff
->>> and not
->>>       driver-specific.
->>>
->>> v3: Update the documentation to reflect the new API.
->>>
->>> v5: Use description lists for the documentation of the three new
->>> IOCTLs
->>>     instead of abusing subsections.
->>>
->>> v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated
->>> index.rst
->>>     whose format changed in iio/togreg.
->>> ---
->>>  Documentation/iio/iio_dmabuf_api.rst | 54
->>> ++++++++++++++++++++++++++++
->>>  Documentation/iio/index.rst          |  1 +
->>>  2 files changed, 55 insertions(+)
->>>  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
->>>
->>> diff --git a/Documentation/iio/iio_dmabuf_api.rst
->>> b/Documentation/iio/iio_dmabuf_api.rst
->>> new file mode 100644
->>> index 000000000000..1cd6cd51a582
->>> --- /dev/null
->>> +++ b/Documentation/iio/iio_dmabuf_api.rst
->>> @@ -0,0 +1,54 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +===================================
->>> +High-speed DMABUF interface for IIO
->>> +===================================
->>> +
->>> +1. Overview
->>> +===========
->>> +
->>> +The Industrial I/O subsystem supports access to buffers through a
->>> +file-based interface, with read() and write() access calls through
->>> the
->>> +IIO device's dev node.
->>> +
->>> +It additionally supports a DMABUF based interface, where the
->>> userspace
->>> +can attach DMABUF objects (externally created) to a IIO buffer,
->>> and
->>
->> I would say/write:                                to an IIO buffer,
-> 
-> Right.
-> 
->>> +subsequently use them for data transfers.
->>> +
->>> +A userspace application can then use this interface to share
->>> DMABUF
->>> +objects between several interfaces, allowing it to transfer data
->>> in a
->>> +zero-copy fashion, for instance between IIO and the USB stack.
->>> +
->>> +The userspace application can also memory-map the DMABUF objects,
->>> and
->>> +access the sample data directly. The advantage of doing this vs.
->>> the
->>> +read() interface is that it avoids an extra copy of the data
->>> between the
->>> +kernel and userspace. This is particularly useful for high-speed
->>> devices
->>> +which produce several megabytes or even gigabytes of data per
->>> second.
->>> +It does however increase the userspace-kernelspace synchronization
->>> +overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs
->>> have to
->>> +be used for data integrity.
->>> +
->>> +2. User API
->>> +===========
->>> +
->>> +As part of this interface, three new IOCTLs have been added. These
->>> three
->>> +IOCTLs have to be performed on the IIO buffer's file descriptor,
->>> +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
->>> +
->>> +  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
->>
->>                                      (int fd)
->> ?
-> 
-> Yes, I can change that. Although it's very obvious what the "int" is
-> for, given the text above.
-> 
+commit 65e6a2773d655172143cc0b927cdc89549842895
+Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Date:   Sat Mar 2 10:37:08 2024 +0000
 
-Yes. This is just to be consistent with the text below:
+    media: usbtv: Remove useless locks in usbtv_video_free()
 
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1009e6f6980000
+start commit:   b401b621758e Linux 6.8-rc5
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=eff9f3183d0a20dd
+dashboard link: https://syzkaller.appspot.com/bug?extid=3b1d4b3d5f7a358bf9a9
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ffaae8180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13ef909c180000
 
->>
->>> +    Attach the DMABUF object, identified by its file descriptor,
->>> to the
->>> +    IIO buffer. Returns zero on success, and a negative errno
->>> value on
->>> +    error.
->>> +
->>> +  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
->>
->> ditto.
->>
->>> +    Detach the given DMABUF object, identified by its file
->>> descriptor,
->>> +    from the IIO buffer. Returns zero on success, and a negative
->>> errno
->>> +    value on error.
->>> +
->>> +    Note that closing the IIO buffer's file descriptor will
->>> +    automatically detach all previously attached DMABUF objects.
->>> +
->>> +  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf
->>> *iio_dmabuf)``
->>> +    Enqueue a previously attached DMABUF object to the buffer
->>> queue.
->>> +    Enqueued DMABUFs will be read from (if output buffer) or
->>> written to
->>> +    (if input buffer) as long as the buffer is enabled.
->>
->> thanks.
-> 
-> Cheers,
-> -Paul
+If the result looks correct, please mark the issue as fixed by replying with:
 
-thanks.
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+#syz fix: media: usbtv: Remove useless locks in usbtv_video_free()
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
