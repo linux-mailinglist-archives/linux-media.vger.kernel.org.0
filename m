@@ -1,143 +1,210 @@
-Return-Path: <linux-media+bounces-12781-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12782-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C311901404
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 01:53:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB59014B3
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 08:22:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB848281AAE
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jun 2024 23:53:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C5A31C20BD4
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 06:22:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B249433C0;
-	Sat,  8 Jun 2024 23:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD30617550;
+	Sun,  9 Jun 2024 06:22:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxcWSL9b"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="MWxjwXh9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414461C2A8;
-	Sat,  8 Jun 2024 23:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717890777; cv=none; b=jeF0y/EKbG6FWAhtu07MLjdQEvyMUi4pj8KN7v2xaIALSaD0RuK3K0BI0ldM0+rI3z6WFHeLVevkGpg1Hvu1Mne6BwAECpXex28Zs9NJmcz95bJinkdxdf95168UGuYgJ3r4+oxGQtJ/YMvmWa88Wbo/viOzg/8XJbvPgFcdmvs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717890777; c=relaxed/simple;
-	bh=ErxOsjKMtTmP/x3fFoENFlt4Bq6AFdvGmZJE07FNYDw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WDCZ3XKbsl7aMFMYpRmJ95eMrsrCczsoMQ34Gx5+uhLz/gquy4sBGrDPXFPO+0wbAwWHrYLnuSQzJHPIOhi83VSO/lDIGWARzjOqEPAwZhjyWsceNpz/knMEoXMhcSLd3IBlFo41sf2i2//WIGn+aXICFJx+CBDIIY+jxpHthrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxcWSL9b; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f70509b811so1223895ad.1;
-        Sat, 08 Jun 2024 16:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717890775; x=1718495575; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=n4BawGddy099suoSVAo/enjQcEjBMWzi9BmGLP0915s=;
-        b=fxcWSL9boZ3aYU67m6m+5VzcWRPk9sN4Rq2zF0yOcXgfuisC991jPXygRRDotuFf6p
-         DRrLZom7yExamnWZcfV+5kkhmryRTDk8aBxcXv/gHV7C4blcIdeMazZ57xmkkypJfY2b
-         BtkRY1RshA2Tz9cdWKcMNqFas0QFBtwF7tO90KjGkic/WhY2jTuLcSpSMCVGi9OkS+UW
-         Z/JlCMSGmg912M6FUV4c2+QGRsF57McCfokXpcVkzpOM7NDaOFj5LgrKLifO/aBtotAu
-         +QeHDJP5IH0YdhbKfn/6aqPESaI9Qc4dZW9kH9RObBwAEMzzqWEKulB9Jcn4uWEyhidI
-         /53A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717890775; x=1718495575;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n4BawGddy099suoSVAo/enjQcEjBMWzi9BmGLP0915s=;
-        b=d2ta0ex0UPUKFAJPPK1D9ADpVF7OodqDZwNTwlab4+s5YlLXPHxpQtjRO0ptMJS5zv
-         yZsZ0imhLyqRRod3fofPsHrBn02HW+f3oriF/1h0BqtYSEttXMVhBLPp6ZTQMPuScwWO
-         9PI/xgWrh27hPid8TDIcH/MnCuW3GcZpdGHwgrxp8QD0ke1fQB3fkGG89SRrVPf6c3yW
-         kGRXTE0k0bY4vhWyGsRMXdgpBDT70XZyJSn0HbGKDjuWodb+Lm4qO5G39Dc7mP3NhE9o
-         5xQIHMqW7I8jwniI4Hnp6Ego2Pimv7uFwXWnees5ovcT9Lgv95fol+t8vbAbeLW+gkv0
-         igeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUfAbGrsFMSwNskpwS8SDovdLT29FjMYYzxo1l8VPp/orA9rCnZkFTWvxkj1uIJab1bCER6/XL3JIzjqHcO6KR2E9Wt47rGN//Cwyd
-X-Gm-Message-State: AOJu0Yycp09XjDSmq2osw8X29tpbjAy9NsmuCxcI06f7hnG8KLz4wKBc
-	+NH4hgIfLeM0Hsyc4QR+bQUZL0433H+lLm6CqsSKlkdXITLSCQBZ
-X-Google-Smtp-Source: AGHT+IEvVP1BdMGcJUKsfnt5xqsalFj7s6gS9ecgWh120vtHspbwyazdPyZM283xo2tKpBVW4gYeuA==
-X-Received: by 2002:a17:902:db10:b0:1f4:b7ff:ac4a with SMTP id d9443c01a7336-1f6d02f55d9mr66607875ad.37.1717890775428;
-        Sat, 08 Jun 2024 16:52:55 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6ea2d17c5sm26730365ad.46.2024.06.08.16.52.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Jun 2024 16:52:55 -0700 (PDT)
-Message-ID: <bcdce8da-a0de-4138-a821-9ee2a3183e24@gmail.com>
-Date: Sun, 9 Jun 2024 08:52:52 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74BC568A;
+	Sun,  9 Jun 2024 06:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717914123; cv=pass; b=cGEA4Rxh1OaHORMVQbxt24/lWXx3DVgZtZ7eJ+0bMq3SC+j3IQeigbxcQh1nmbbkJ180oP3+jvMFqXqO7Hr3VCMeCKND4oTL2LSHdpBNZwqCSGCRnWBsCrwEipBV2VdWy7bAsbnJd3FhpaHyf2cJJNv/OHWZl5kd8oXIB3PrQ7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717914123; c=relaxed/simple;
+	bh=VSZ92pV3AucnLK8hN95dDKzWaGIS9Zmj7GOSIzj6KXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o40M7og1jS7WpDQjgnYx10ZCJ5VEmXU0IcdEOx1klKcNdOGW0yL29H0ajvN/Wfrcjiau9I08k8Kli6LwsBvWQtq01DLlhrFbu+M4O0L9opbSIMs55IkCc9Okyduy0uQslD3tBf5S7GBdnnP6Nl41dNglJZmseY+fL6qDERULpXw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=MWxjwXh9; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4VxlFt12NTzyRF;
+	Sun,  9 Jun 2024 09:21:54 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1717914116;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/CjfKa8cImL97CymJHsFxLj8doDjqDxazoQdqIj3VnM=;
+	b=MWxjwXh9C/Bo5VAQIBv6GjLDlJAkhPCkF+Tap1rRykxlXS0Q0IVSVOtgRkUYCwK+hvtJ91
+	EgPefs2xfBNsvUkGynwyEyBynJBXFUGyERTHWC6Sp68qxlnC/vfDoInVs1ea4iHouNGveP
+	WHEmMQwR10Jdd9vwussrxt7RQU7rWZw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1717914116;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/CjfKa8cImL97CymJHsFxLj8doDjqDxazoQdqIj3VnM=;
+	b=mENg3wx9wX+MkqOj3OfhvxCf/pvITDWD5AIgVOEkQVnOjefusKHPMIQlaQtIvLKf7dRrJ2
+	Y2i7Nad42YnA6kfRJro9/hMRQR7qqEepYnC6SPYGdyJ78kzc2AMO8hRZYBA1lpWpobvmt3
+	bNesWC5c+8gkZvMeDEw2T0m3BSIu/X4=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1717914116; a=rsa-sha256; cv=none;
+	b=eR9MO2uej7jxWQbnClaQHVvkeo9rt5cb7U/mWedcIzzDNLOBWAZ2E6AEiV4+JKDn97rExo
+	H7KIJeApNxADYV6b5kCJKaU58F/4rB+nlOzkW7/NDyPr3fJaYF8+1dnKtK9u+tPbYubkz0
+	aVirVY3eOfBwy8ABt5nb/Ev+N8G5Ytw=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4F603634C93;
+	Sun,  9 Jun 2024 09:21:53 +0300 (EEST)
+Date: Sun, 9 Jun 2024 06:21:52 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, nayden.kanchev@arm.com,
+	robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v5 05/16] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <ZmVKANYj7uD3IFmy@valkosipuli.retiisi.eu>
+References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+ <20240529152858.183799-6-dan.scally@ideasonboard.com>
+ <20240530001507.GG10586@pendragon.ideasonboard.com>
+ <20240530214348.GA5213@pendragon.ideasonboard.com>
+ <ygr7rhp23gjc4ywmcdy7d5coh4wubxlvkdxcvwgdpk4j343pnd@h4if5jtz7mop>
+ <20240606175306.GB26663@pendragon.ideasonboard.com>
+ <afe76b3c-8e75-4c70-bcc2-9ee5f57d70b7@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l: Fix missing tabular column hint for Y14P
- format
-To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Akira Yokosawa <akiyks@gmail.com>
-References: <20240608-jmh-correct-mkdocs-luma-v1-1-7e114a2c4bdf@yoseli.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20240608-jmh-correct-mkdocs-luma-v1-1-7e114a2c4bdf@yoseli.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afe76b3c-8e75-4c70-bcc2-9ee5f57d70b7@ideasonboard.com>
 
-Hi,
+Moi,
 
-On Sat, 08 Jun 2024 18:41:27 +0200, Jean-Michel Hautbois wrote:
-> The original commit added two columns in the flat-table of Luma-Only
-> Image Formats, without updating hints to latex: above it.  This results
-> in wrong column count in the output of Sphinx's latex builder.
+On Thu, Jun 06, 2024 at 10:10:14PM +0300, Tomi Valkeinen wrote:
+> On 06/06/2024 20:53, Laurent Pinchart wrote:
+> > > > > > +			return -EINVAL;
+> > > > > > +		}
+> > > > > > +
+> > > > > > +		active_sink = route->sink_pad;
+> > > > > > +	}
+> > > > > > +	if (active_sink == UINT_MAX) {
+> > > > > > +		dev_err(rzr->mali_c55->dev, "One route has to be active");
+> > > > > > +		return -EINVAL;
+> > > > > > +	}
+> > > > The recommended handling of invalid routing is to adjust the routing
+> > > > table, not to return errors.
+> > > How should I adjust it ? The error here is due to the fact multiple
+> > > routes are set as active, which one should I make active ? the first
+> > > one ? Should I go and reset the flags in the subdev_route for the one
+> > > that has to be made non-active ?
+> > The same way you would adjust an invalid format, you can pick the route
+> > you consider should be the default.
+> > 
+> > I'd like Sakari's and Tomi's opinions on this, as it's a new API and the
+> > behaviour is still a bit in flux.
 > 
-> Fix it.
+> Well... My opinion is that the driver adjusting the given config parameters
+> (for any ioctl) is awful and should be deprecated. If the user asks for X,
+> and the driver adjusts it and returns Y, then the user has two options:
+> fail, because it didn't get X (after possibly laborious field by field
+> checks), or shrug it's virtual shoulders and accept Y and hope that things
+> still work even though it wanted X.
+
+This is still often the only way to tell what the hardware can do as the
+limitations in different cases (cropping and scaling for instance) can be
+arbitrary. The other option is that the user space has to know the hardware
+capabilities without them being available from the kernel.
+
+There could be cases of IOCTLs where returning an error if what was
+requested can't be performed exactly is workable in general, but then again
+having consistency across IOCTL behaviour is very beneficial as well.
+
+If you need something exactly, then I think you should check after the
+IOCTL that this is what you also got, beyond the IOCTL succeeding.
+
 > 
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Link: https://lore.kernel.org/linux-media/bdbc27ba-5098-49fb-aabf-753c81361cc7@gmail.com/
-> Fixes: adb1d4655e53 (media: v4l: Add V4L2-PIX-FMT-Y14P format)
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-> ---
->  Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> But maybe that was an answer to a question you didn't really ask =).
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> index b3c5779521d8..2e7d0d3151a1 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> @@ -21,9 +21,9 @@ are often referred to as greyscale formats.
->  
->  .. raw:: latex
->  
-> -    \scriptsize
-> +    \tiny
->  
-> -.. tabularcolumns:: |p{3.6cm}|p{3.0cm}|p{1.3cm}|p{2.6cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|
-> +.. tabularcolumns:: |p{3.6cm}|p{2.4cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|p{1.3cm}|
-
-With the \tiny font, widths of columns 1 and 2 can be reduced.
-
-Either way, this fixes the build error of pdfdocs.  So,
-
-Reviewed-and-tested-by: Akira Yokosawa <akiyks@gmail.com>
-
-        Thanks, Akira
-
->  
->  .. flat-table:: Luma-Only Image Formats
->      :header-rows: 1
+> I think setting it to default routing in case of an error is as fine as any
+> other "fix" for the routing. It won't work anyway.
 > 
-> ---
-> base-commit: dc772f8237f9b0c9ea3f34d0dc4a57d1f6a5070d
-> change-id: 20240608-jmh-correct-mkdocs-luma-79d348ded7aa
-> 
-> Best regards,
+> But if the function sets default routing and returns 0 here, why would it
+> return an error from v4l2_subdev_routing_validate()? Should it just set
+> default routing in that case too? So should set_routing() ever return an
+> error, if we can just set the default routing?
 
+S_ROUTING is a bit special as it deals with multiple routes and the user
+space does have a way to add them incrementally.
+
+Perhaps we should document better what the driver is expected to to correct
+the routes?
+
+I'd think routes may be added by the driver (as some of them cannot be
+disabled for instance) but if a requested route cannot be created, that
+should probably be an error.
+
+I've copied my current (with all the pending patches) documentation here
+<URL:https://www.retiisi.eu/~sailus/v4l2/tmp/streams-doc/userspace-api/media/v4l/dev-subdev.html#streams-multiplexed-media-pads-and-internal-routing>.
+
+The text does not elaborate what exactly a driver could or should do, apart
+from specifying the condition for EINVAL. I think we should specify this in
+greater detail. My original thought wws the adjustment would be done by
+adding static routes omitted by the caller, not trying to come up with e.g.
+valid pad/stream pairs when user provided invalid ones.
+
+Could this correction functionality be limited to returning static routes?
+
+> 
+> In the VIDIOC_SUBDEV_S_ROUTING doc we do list some cases where EINVAL or
+> E2BIG is returned. But only a few, and I think
+> v4l2_subdev_routing_validate() will return errors for many other cases too.
+> 
+> For what it's worth, the drivers I have written just return an error. It's
+> simple for the driver and the user and works. If the consensus is that the
+> drivers should instead set the default routing, or somehow mangle the given
+> routing to an acceptable form, I can update those drivers accordingly.
+> 
+> But we probably need to update the docs too to be a bit more clear what
+> VIDIOC_SUBDEV_S_ROUTING will do (although are the other ioctls any
+> clearer?).
+> 
+> All that said, I think it's still a bit case-by-case. I don't think the
+> drivers should always return an error if they get a routing table that's not
+> 100% perfect. E.g. if a device supports two static routes, but the second
+> one can be enabled or disabled, the driver should still accept a routing
+> table from the user with only the first route present. Etc.
+> 
+> For the specific case in this patch... I'd prefer returning an error, or if
+> that's not ok, set default routing.
+
+Not modifying the routing table is another option as well but it may
+require separating validating user-provided routes and applying the routes
+to the sub-device state. The default could be useful in principle, too, for
+routing-unaware applications but they won't be calling S_ROUTING anyway.
+
+-- 
+Terveisin,
+
+Sakari Ailus
 
