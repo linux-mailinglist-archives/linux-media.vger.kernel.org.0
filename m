@@ -1,163 +1,158 @@
-Return-Path: <linux-media+bounces-12790-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12791-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AAE901850
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 23:35:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2491890185F
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 23:58:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 620FB281456
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 21:35:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A81728116C
+	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 21:58:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B5604F5EC;
-	Sun,  9 Jun 2024 21:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4756B54662;
+	Sun,  9 Jun 2024 21:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbFNo2dd"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="N1qgJlIg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542041865C;
-	Sun,  9 Jun 2024 21:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD5415B3;
+	Sun,  9 Jun 2024 21:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717968920; cv=none; b=JHPA64nIMna3JiL1bcwsT8moZsi/Ul120h+DlTxxJjjO0UqVQWg6YRvzJp+bhB1rtbavd3iPbZ9KIdmx/YBBJxwadZGnXxPp2ynVa3gVI1/airHRAnFZxJdasp5NHv8jtzcLOtSD2n5oYosovA2jmOuRMJsrSAZ8AQR0vrXHsQM=
+	t=1717970303; cv=none; b=g81efY0jfeeTmL1g2J2i4uZNOwLw7E73a/osyXehJCU8IUXMxuiw4WZAn9l7/+hB0dxBtYYX6BJmKU2NS8CGcYpCBYL+9vgly11jo60gnl4YW2jH9c2eSJ2q3WtXiobKmH92z5fOMFabtdadBBue9OgdD6ajuyTIdHp0ukas8dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717968920; c=relaxed/simple;
-	bh=NggCni5/L5cTBXUIBFqY3F7gjWHq0T3xTvnizjfd+xY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oz1ZDK0eOEJaVTKPRSRr4ZbfbKi8lDTz5WAYLMd8AcWozsigSmxWNBULcPH8FkYAu/Nuxj+stgWognoPSACPaSvVzydTVe9oDsM/UYdx40pyTcWiFiKdH9ilQYCf/W9J3jmOKkUDTsAv24juk6KVW4CwYBTvyBAOuoLhkVQIlJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MbFNo2dd; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2c2c6277ef3so1667863a91.3;
-        Sun, 09 Jun 2024 14:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717968918; x=1718573718; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ndimQ1augEQsEDnmgHlTCdtF4xCjGs49iTEPiAaTzOc=;
-        b=MbFNo2ddgb+8rPTG/JgLoLW0GOb41FTMDcAX/YtAf0OQSapQeHHJ9VXJp67cDXysxs
-         Ht+um1DMf+fc2fSs2rAPOQeLaTAocF/zZ2UErqUobOZXh5/DgG2jQiIpQotycFVvz2zb
-         HYwhnhY5WkWK7xt7/HsPP4n6AF72NlvY9482g6/+dJSQonHKrNzyfu0bKwTlnhgwJ5aO
-         9q45XlVzwUl9wYAbvJXCtOuslh01bgzHKgbgucpBtLyVk6Cb7NBQDUOnEJx313s48cvp
-         iro2kzXfuDR1LgKAkRI6xHo7lm7ZO066BZuUe4ISWiUao2w3Lagx8IWwirMHMSstCFHg
-         pCtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717968918; x=1718573718;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ndimQ1augEQsEDnmgHlTCdtF4xCjGs49iTEPiAaTzOc=;
-        b=Q3gTupGjI9PtUY4cNBHs6kocySupxYBtr012S481CGf7S07XJM3u/TvCpjDdDcPDmP
-         KAh9A+/aEPef0+5DQJM7XPEMzlhXKyr7ulep+FCD36I4pdAVZfItav91laPvEtTErV5/
-         YKh1IaM8LTXTaLOjcWWfqXaCvCI3ckN/c2Se6sJjQ6CUw08OEb3Xp5/nFcTdoF4IfiAY
-         vJJfnAWFTGPMZhWuO4HQfMH4FLjz6s7aL5dse22qMZ7rpI3DUDA/A+d4mnpcADHwzE5F
-         L6QjSnKg+JEfws7orW8hfxsn+2I6tdO6eRC2XJ+O57ufd3oxfGfB9kPBkJFbb+bMV2ME
-         WkQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUb51PC85jtoCBHZ4RmfbF5C/p1YpHc+/9tDUUvyAPmLPc1Px7mT3bx+mD4ipdnt3DRBK10Fpde/ox5c29dW6dXwqQvcVoBRhJFoPvK
-X-Gm-Message-State: AOJu0Yw1tAXCabI6blHGk9TXEgMri/EjK+d71osNLpJEY6ZIGlTcmenr
-	ojYfJu24/SrQP9AofVxzbSUZSB57SkPWJN9pv8b4P+5dbdgInEpIimL9w1T/L6nzQ6rNX1Ql6kj
-	2d45+HS/v5+727vR3qHZKBtsJ5pQ=
-X-Google-Smtp-Source: AGHT+IHN82ILqx4FIWAjpnnC2lPxptbeDHkrLfgro+IoLeVx+9scx89ri565ooDtjx6Wqeih5K4n1sY+2L0D3cT9oKA=
-X-Received: by 2002:a17:90a:ee45:b0:2c1:aefa:1e7f with SMTP id
- 98e67ed59e1d1-2c2bc9bb6admr6678570a91.3.1717968918503; Sun, 09 Jun 2024
- 14:35:18 -0700 (PDT)
+	s=arc-20240116; t=1717970303; c=relaxed/simple;
+	bh=wrmf7nQafpJR6HI3SMheOheaSImeKAI4rYO9BfKRNks=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=uK8rMOwipgmsWkg+xvh+djTm+ZWJgVmoDPS0Nc8P0cHo+RdTwat0uFRxsbxT/vJ+kC701M8kB3wxf97IJ95PCBBYUvXAD3s9i7lOsRPvJhQW8x0gE/Wf6V81VhB/bB8vEgqdNsf09IDajGEC0MEFJQT0i4ifcfPhwzimXOLRMdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=N1qgJlIg; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 459Ki6XT027125;
+	Sun, 9 Jun 2024 21:58:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Geie8OwuMJG6PiGVP/N7mQ
+	scxmIur4X/0gDMW8lBPF4=; b=N1qgJlIgiTvcnqT5xg5WONCGeKQCtcAywAo/uu
+	5mX/eNouVBXmjbd8jq6uL9PfkTITsL7CaPc6v7svyth9DOz7vHG1p8wKlB+zyzMU
+	bywxS7viixThqLGUVminDyZ25ZuBVwuoNXbFv60QLmA+js1/YneFN4PoY4iE5NHm
+	vd3hiR+aL9E8Ey8i/0YFTGmLL5er6TFDyqhl9Cke+vzCK6FqXBN8w72qB007N2F2
+	zKCWfOYzG8FeSyOQ2Tjg6ygBlwX354q7umxBEUL/lMUEBPTpMTXRVyISE4/IoAA/
+	44ZLcF8FnW3uZA+OxJiO9+XVuSEL8eKtCMYAzBjjh85nfHIg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymfh32gpa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 09 Jun 2024 21:58:15 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 459LwEAU019770
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 9 Jun 2024 21:58:14 GMT
+Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 9 Jun 2024
+ 14:58:07 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Sun, 9 Jun 2024 14:58:06 -0700
+Subject: [PATCH] media: saa7134: add missing MODULE_DESCRIPTION() macros
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240607-trimmer-pummel-b452ed15e103@spud>
-In-Reply-To: <20240607-trimmer-pummel-b452ed15e103@spud>
-From: Adam Ford <aford173@gmail.com>
-Date: Sun, 9 Jun 2024 16:35:07 -0500
-Message-ID: <CAHCN7xJgjRwBUwy9LgRObTUXUnp9dWDJD9Z9hnZbN9S1h1dR_A@mail.gmail.com>
-Subject: Re: [PATCH v1] media: i2c: imx219: fix msr access command sequence
-To: Conor Dooley <conor@kernel.org>
-Cc: linux-media@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Andrey Konovalov <andrey.konovalov@linaro.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240609-md-drivers-media-pci-saa7134-v1-1-ec0a8b70b404@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAG0lZmYC/x3MTQqDMBBA4avIrDuQaPp7Felikox1oKYy04og3
+ r1p4W2+zdvAWIUNbs0GyouYvEqFPzSQRioPRsnV0Lo2uJO74pQxqyyshhNnIZyToBGdfRdwiF2
+ uHS/BJ6iLWXmQ9b/v79WRjDEqlTT+pk8pnxUnsjcr7PsXMtnhfo0AAAA=
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: hJO0-AEjbSVkOx5IN1rs0t8rjTY9y5CY
+X-Proofpoint-GUID: hJO0-AEjbSVkOx5IN1rs0t8rjTY9y5CY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-09_17,2024-06-06_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 bulkscore=0 phishscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=807 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406090173
 
-On Fri, Jun 7, 2024 at 10:50=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> From: Conor Dooley <conor.dooley@microchip.com>
->
-> It was reported to me that the imx219 didn't work on one of our
-> development kits partly because the access sequence is incorrect.
-> The datasheet I could find [1] for this camera has the access sequence:
-> Seq. No. Address (Hex) data
-> 1        30EB          05
-> 2        30EB          0C
-> 3        300A          FF
-> 4        300B          FF
-> 5        30EB          05
-> 6        30EB          09
->
-> but the driver swaps the first two elements. Laurent pointed out on IRC
-> that the original code used the correct sequence for 1920x1080 but the
-> current sequence for 3280x2464 and 1640x1232. During refactoring of the
-> init sequence the current order was used for all formats.
->
-> Switch to using the documented sequence.
->
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-go7007.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-alsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-dvb.o
 
+Add the missing invocations of the MODULE_DESCRIPTION() macro.
 
-Tested-by:  Adam Ford <aford173@gmail.com>  #imx8mp-beacon-kit
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+ drivers/media/pci/saa7134/saa7134-alsa.c    | 1 +
+ drivers/media/pci/saa7134/saa7134-dvb.c     | 1 +
+ drivers/media/pci/saa7134/saa7134-empress.c | 1 +
+ drivers/media/pci/saa7134/saa7134-go7007.c  | 1 +
+ 4 files changed, 4 insertions(+)
 
-adam
+diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
+index dd2236c5c4a1..f86a44dfe6e3 100644
+--- a/drivers/media/pci/saa7134/saa7134-alsa.c
++++ b/drivers/media/pci/saa7134/saa7134-alsa.c
+@@ -1254,5 +1254,6 @@ static void saa7134_alsa_exit(void)
+ /* We initialize this late, to make sure the sound system is up and running */
+ late_initcall(saa7134_alsa_init);
+ module_exit(saa7134_alsa_exit);
++MODULE_DESCRIPTION("Philips SAA7134 DMA audio support");
+ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("Ricardo Cerqueira");
+diff --git a/drivers/media/pci/saa7134/saa7134-dvb.c b/drivers/media/pci/saa7134/saa7134-dvb.c
+index 9c6cfef03331..555d2eff9370 100644
+--- a/drivers/media/pci/saa7134/saa7134-dvb.c
++++ b/drivers/media/pci/saa7134/saa7134-dvb.c
+@@ -52,6 +52,7 @@
+ #include "s5h1411.h"
+ 
+ MODULE_AUTHOR("Gerd Knorr <kraxel@bytesex.org> [SuSE Labs]");
++MODULE_DESCRIPTION("DVB/ATSC Support for saa7134 based TV cards");
+ MODULE_LICENSE("GPL");
+ 
+ static unsigned int antenna_pwr;
+diff --git a/drivers/media/pci/saa7134/saa7134-empress.c b/drivers/media/pci/saa7134/saa7134-empress.c
+index 434fa1ee1c33..bbf480ab31ca 100644
+--- a/drivers/media/pci/saa7134/saa7134-empress.c
++++ b/drivers/media/pci/saa7134/saa7134-empress.c
+@@ -19,6 +19,7 @@
+ /* ------------------------------------------------------------------ */
+ 
+ MODULE_AUTHOR("Gerd Knorr <kraxel@bytesex.org> [SuSE Labs]");
++MODULE_DESCRIPTION("Philips SAA7134 empress support");
+ MODULE_LICENSE("GPL");
+ 
+ static unsigned int empress_nr[] = {[0 ... (SAA7134_MAXBOARDS - 1)] = UNSET };
+diff --git a/drivers/media/pci/saa7134/saa7134-go7007.c b/drivers/media/pci/saa7134/saa7134-go7007.c
+index da83893ffee9..bd37db5ce363 100644
+--- a/drivers/media/pci/saa7134/saa7134-go7007.c
++++ b/drivers/media/pci/saa7134/saa7134-go7007.c
+@@ -516,4 +516,5 @@ static void __exit saa7134_go7007_mod_cleanup(void)
+ module_init(saa7134_go7007_mod_init);
+ module_exit(saa7134_go7007_mod_cleanup);
+ 
++MODULE_DESCRIPTION("go7007 support for saa7134 based TV cards");
+ MODULE_LICENSE("GPL v2");
 
-> Link: https://www.opensourceinstruments.com/Electronics/Data/IMX219PQ.pdf=
- [1]
-> Fixes: 8508455961d5 ("media: i2c: imx219: Split common registers from mod=
-e tables")
-> Fixes: 1283b3b8f82b ("media: i2c: Add driver for Sony IMX219 sensor")
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
-> I got the report of this third hand, I don't have a device and can't
-> test this. I do wonder why the RPis get away with the sequence that
-> seemingly doesn't work for the guy that reported this to me. My theory
-> is either that they noticed the sequence was wrong while adding some
-> other MSR access that is needed on this board while either cross
-> checking the values written or because the other MSR accesses didn't
-> take effect.
->
-> CC: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-> CC: Adam Ford <aford173@gmail.com>
-> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> CC: Andrey Konovalov <andrey.konovalov@linaro.org>
-> CC: linux-media@vger.kernel.org
-> CC: linux-kernel@vger.kernel.org
-> ---
->  drivers/media/i2c/imx219.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 51ebf5453fce..e78a80b2bb2e 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -162,8 +162,8 @@ static const struct cci_reg_sequence imx219_common_re=
-gs[] =3D {
->         { IMX219_REG_MODE_SELECT, 0x00 },       /* Mode Select */
->
->         /* To Access Addresses 3000-5fff, send the following commands */
-> -       { CCI_REG8(0x30eb), 0x0c },
->         { CCI_REG8(0x30eb), 0x05 },
-> +       { CCI_REG8(0x30eb), 0x0c },
->         { CCI_REG8(0x300a), 0xff },
->         { CCI_REG8(0x300b), 0xff },
->         { CCI_REG8(0x30eb), 0x05 },
-> --
-> 2.43.0
->
+---
+base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
+change-id: 20240609-md-drivers-media-pci-saa7134-fb3db3d5841c
+
 
