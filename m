@@ -1,58 +1,55 @@
-Return-Path: <linux-media+bounces-12860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12861-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F5E902210
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 14:53:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A33BC90226E
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 15:09:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 457A6285E43
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 12:53:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12617B23053
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 13:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10B5D81728;
-	Mon, 10 Jun 2024 12:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 968E481ACA;
+	Mon, 10 Jun 2024 13:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Leqc6Kvn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pW5Ox50I"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC39E80C04;
-	Mon, 10 Jun 2024 12:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC28DDC0;
+	Mon, 10 Jun 2024 13:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718024001; cv=none; b=VyAGBfRktcqHgJiylvf0zutn5LU+Re559IOzJU/hu1cMddv9cDbC+g1urF0dODZX3mg4Zh68lMGDxH3YbDQswrlyWCa0SctNqAFpz4LthzxCpTkEFtXo/jKLuuyMP60d0aFqMUmKJIG9Vq895czzD21TWUl2Gz4n+Ty+Hz9aJBE=
+	t=1718024974; cv=none; b=ln8B4ihJ23ioEbXMEM3X9yl37ICoKsuLo6arGHdCFa6DrxcT9q1vMA+4SvypLvnh+nc+4Te3JG8yxLrFDHdFolQZhE0hxl1z1MeWwd7v5BdVEoj1KUBMEAVwPHpJvSsuwrZb0kYp7jsLWno8AOtgDi4NP/Qi3qRSxlYkXLdE9iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718024001; c=relaxed/simple;
-	bh=wcohEeF4gEM8YyrO9XdyR/1RfQ3aZQdKPRPXDmVl77c=;
+	s=arc-20240116; t=1718024974; c=relaxed/simple;
+	bh=P3HR2KD0zqsJGS2R7ct1yLvmTw5LrC648wwAWEh3bUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ota77rRnBQlmk8ToqU5lvBiznpR3hpjUai4RmC5laZ82gd5dl/K/Z15jG+gJ8RvkcLltxo1pTICytiNgfyjbGzIjlSe1lfIecIoWlOhY3Amm+46pcwpWWpgZsutie95CnnG1LF6YdWj7yq1uQoJ9sufSdRit5sCZEKjtG6e6Qjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Leqc6Kvn; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fxs7ihslj9bOonxRzpklYUIWfgJUK/bGDth29KqQuBs+Vz+vt1oBw3V6JWvqpSzhkeaPhUezRg2jQJYHNb9eVUj3N05sV/RNCci7/VF21Q3xFlf5n6nx3SCFTzpTwW9w0KakXqUbaIZOjJ6M3H1hB1m+yjUNCrnmwiL2cB6Cs4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pW5Ox50I; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F0F29230;
-	Mon, 10 Jun 2024 14:53:05 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A85A1397;
+	Mon, 10 Jun 2024 15:09:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718023986;
-	bh=wcohEeF4gEM8YyrO9XdyR/1RfQ3aZQdKPRPXDmVl77c=;
+	s=mail; t=1718024957;
+	bh=P3HR2KD0zqsJGS2R7ct1yLvmTw5LrC648wwAWEh3bUg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Leqc6KvnGTAnYiXdta0MPbfSJnlA57wK00SXfNhLjRxiRnyOfNwmqBdTiuLxqqvSc
-	 xaVJbOGmKMgXW6ZJc5Q2Kidb/YUCBbimB/Ko0GqAHHq4OUFMPkR6Z84DNwMMjCgfSe
-	 8qJqFfvjw5ap9TJ5Nbj884ALBeImc2LBUpx/bC4E=
-Date: Mon, 10 Jun 2024 15:52:58 +0300
+	b=pW5Ox50IAYhuClLVzAgESOCNu/rD3nRuNXCwV7pNawUfPV3JQPRAxzLLKT9teYaOd
+	 0VNKnzH+GB/Lz0LgrkUon2N/ANy5yBl/nTA8LShcM2ofu05uMjRCNA7dMowBoc3bAz
+	 XNhTD2V8481Nc5LOuTjQeFRnaN0JWhivSHPYaA78=
+Date: Mon, 10 Jun 2024 16:09:10 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v10 6/6] media: uvcvideo: Fix hw timestamp handling for
- slow FPS
-Message-ID: <20240610125258.GS18479@pendragon.ideasonboard.com>
-References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
- <20240323-resend-hwtimestamp-v10-6-b08e590d97c7@chromium.org>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: uvcvideo: Enforce alignment of frame and
+ interval
+Message-ID: <20240610130910.GA12787@pendragon.ideasonboard.com>
+References: <20240404-uvc-align-v2-1-9e104b0ecfbd@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,121 +58,94 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240323-resend-hwtimestamp-v10-6-b08e590d97c7@chromium.org>
+In-Reply-To: <20240404-uvc-align-v2-1-9e104b0ecfbd@chromium.org>
 
 Hi Ricardo,
 
 Thank you for the patch.
 
-On Sat, Mar 23, 2024 at 10:48:07AM +0000, Ricardo Ribalda wrote:
-> In UVC 1.5 we get a single clock value per frame. With the current
-> buffer size of 32, FPS slowers than 32 might roll-over twice.
+On Thu, Apr 04, 2024 at 05:56:18PM +0000, Ricardo Ribalda wrote:
+> Struct uvc_frame and interval (u32*) are packaged together on
+> streaming->formats on a single contiguous allocation.
 > 
-> The current code cannot handle two roll-over and provide invalid
-> timestamps.
+> Right now they allocated right after uvc_format, without taking into
+
+s/they/they are/
+
+> consideration their required alignment.
 > 
-> Remove all the samples from the circular buffer that are more than two
-> rollovers old, so the algorithm always provides good timestamps.
+> This is working fine because both structures have a field with a
+> pointer, but it will stop working when the sizeof() of any of those
+> structs is not a multiple of the sizeof(void*).
 > 
-> Note that we are removing values that are more than one second old,
-> which means that there is enough distance between the two points that
-> we use for the interpolation to provide good values.
+> Enforce that alignment during the allocation.
 > 
-> Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/usb/uvc/uvc_video.c | 24 ++++++++++++++++++++++++
->  drivers/media/usb/uvc/uvcvideo.h  |  1 +
->  2 files changed, 25 insertions(+)
+> This is better than 3 allocations, and do not have any performance
+> penalty.
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 5df8f61d39cd1..900b57afac93a 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -471,8 +471,31 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
->  {
->  	unsigned long flags;
+> I have tried this patch printing the size and the address of the
+> pointers in the old and the new mode, and it looks the same.
+> 
+> [    2.235223] drivers/media/usb/uvc/uvc_driver.c:694 uvc_parse_streaming 432
+> [    2.235249] drivers/media/usb/uvc/uvc_driver.c:704 uvc_parse_streaming 432
+> [    2.235256] drivers/media/usb/uvc/uvc_driver.c:714 uvc_parse_streaming 00000000d32087cc 00000000d3803788
+> [    2.235265] drivers/media/usb/uvc/uvc_driver.c:720 uvc_parse_streaming 00000000d32087cc 00000000d3803788
+> ---
+> Changes in v2: Thanks Laurent.
+> - Enforce alignment during allocation instead of using __aligned()
+>   macros.
+> - Link to v1: https://lore.kernel.org/r/20230501-uvc-align-v1-1-0f713e4b84c3@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 7aefa76a42b31..7d9844ba3b205 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -663,16 +663,26 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+>  		goto error;
+>  	}
 >  
+> -	size = nformats * sizeof(*format) + nframes * sizeof(*frame)
+> -	     + nintervals * sizeof(*interval);
 > +	/*
-> +	 * If we write new data on the position where we had the last
-> +	 * overflow, remove the overflow pointer. There is no overflow
-
-s/overflow/SOF overflow/
-
-otherwise it sounds like a circular buffer overflow. Same in the other
-comments below.
-
-> +	 * on the whole circular buffer.
+> +	 * Allocate memory for the formats, the frames and the intervals,
+> +	 * plus any required padding to guarantee that everything has the
+> +	 * correct alignment.
 > +	 */
-> +	if (clock->head == clock->last_sof_overflow)
-> +		clock->last_sof_overflow = -1;
+> +	size = nformats * sizeof(*format);
+> +	size = ALIGN(size, __alignof__(*frame)) + nframes * sizeof(*frame);
+> +	size = ALIGN(size, __alignof__(*interval))
+> +	       + nintervals * sizeof(*interval);
+
+You have two extra spaces here. I'll fix when applying.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > +
->  	spin_lock_irqsave(&clock->lock, flags);
+>  	format = kzalloc(size, GFP_KERNEL);
+> -	if (format == NULL) {
+> +	if (!format) {
+>  		ret = -ENOMEM;
+>  		goto error;
+>  	}
 >  
-> +	/* Handle overflows */
-
-s/overflows/overflows./
-
-> +	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-> +		/*
-> +		 * Remove data from the circular buffer that is older than the
-> +		 * last overflow. We only support one overflow per circular
-> +		 * buffer.
-> +		 */
-> +		if (clock->last_sof_overflow != -1) {
-> +			clock->count = (clock->head - clock->last_sof_overflow
-> +					+ clock->count) % clock->count;
-
-If I'm following you correctly here, you want to set count to the
-distance between last_sof_overflow and head. Shouldn't it be
-
-			clock->count = (clock->head - clock->last_sof_overflow
-					+ clock->size) % clock->size;
-
-> +		}
-
-No need for curly braces.
-
-> +		clock->last_sof_overflow = clock->head;
-> +	}
-> +
-> +	/* Add sample */
-
-s/sample/sample./
-
-I still think it would be nicer to handle multiple rollovers correctly,
-but that probably better handled by moving all the clock handling to
-userspace. With the above issues addressed, I think this patch can go
-in.
-
-I could address all these issues when applying, but I'd like the count
--> size change to be tested first. You can submit a new version of this
-patch only, I've applied the rest of the series to my tree already.
-
->  	clock->samples[clock->head] = *sample;
->  	clock->head = (clock->head + 1) % clock->size;
->  	clock->count = min(clock->count + 1, clock->size);
-> @@ -616,6 +639,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
->  	clock->head = 0;
->  	clock->count = 0;
->  	clock->last_sof = -1;
-> +	clock->last_sof_overflow = -1;
->  	clock->sof_offset = -1;
->  }
+> -	frame = (struct uvc_frame *)&format[nformats];
+> -	interval = (u32 *)&frame[nframes];
+> +	frame = (void *)format + nformats * sizeof(*format);
+> +	frame = PTR_ALIGN(frame, __alignof__(*frame));
+> +	interval = (void *)frame + nframes * sizeof(*frame);
+> +	interval = PTR_ALIGN(interval, __alignof__(*interval));
 >  
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index cb9dd50bba8ac..fb9f9771131ac 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -499,6 +499,7 @@ struct uvc_streaming {
->  		unsigned int head;
->  		unsigned int count;
->  		unsigned int size;
-> +		unsigned int last_sof_overflow;
->  
->  		u16 last_sof;
->  		u16 sof_offset;
+>  	streaming->format = format;
+>  	streaming->nformats = nformats;
+> 
+> ---
+> base-commit: 58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
+> change-id: 20230501-uvc-align-6ff202b68dab
 
 -- 
 Regards,
