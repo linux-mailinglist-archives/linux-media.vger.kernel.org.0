@@ -1,158 +1,141 @@
-Return-Path: <linux-media+bounces-12791-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12792-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2491890185F
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 23:58:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D83C9018F3
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 02:28:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A81728116C
-	for <lists+linux-media@lfdr.de>; Sun,  9 Jun 2024 21:58:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3730D1C20E7E
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 00:28:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4756B54662;
-	Sun,  9 Jun 2024 21:58:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF9C44687;
+	Mon, 10 Jun 2024 00:27:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="N1qgJlIg"
+	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="eaS/rB5p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD5415B3;
-	Sun,  9 Jun 2024 21:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3A617EF
+	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 00:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717970303; cv=none; b=g81efY0jfeeTmL1g2J2i4uZNOwLw7E73a/osyXehJCU8IUXMxuiw4WZAn9l7/+hB0dxBtYYX6BJmKU2NS8CGcYpCBYL+9vgly11jo60gnl4YW2jH9c2eSJ2q3WtXiobKmH92z5fOMFabtdadBBue9OgdD6ajuyTIdHp0ukas8dI=
+	t=1717979279; cv=none; b=kl0D+kU7izXAO+FKa5lyUqroAzVDkmUTcMyKwXMtBYn8DMd+6ZhrZi9hyyg2GEuZCHr4THYMyXb8PUKM7aLEJoZXH0A6nWHI4z1h9sragTe3lAT12csl9VmpLfLFHst9WtIjDh9ZQm+SMYEjsx0Igh7ag0++kdIcNwv/j4XFwHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717970303; c=relaxed/simple;
-	bh=wrmf7nQafpJR6HI3SMheOheaSImeKAI4rYO9BfKRNks=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=uK8rMOwipgmsWkg+xvh+djTm+ZWJgVmoDPS0Nc8P0cHo+RdTwat0uFRxsbxT/vJ+kC701M8kB3wxf97IJ95PCBBYUvXAD3s9i7lOsRPvJhQW8x0gE/Wf6V81VhB/bB8vEgqdNsf09IDajGEC0MEFJQT0i4ifcfPhwzimXOLRMdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=N1qgJlIg; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 459Ki6XT027125;
-	Sun, 9 Jun 2024 21:58:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=Geie8OwuMJG6PiGVP/N7mQ
-	scxmIur4X/0gDMW8lBPF4=; b=N1qgJlIgiTvcnqT5xg5WONCGeKQCtcAywAo/uu
-	5mX/eNouVBXmjbd8jq6uL9PfkTITsL7CaPc6v7svyth9DOz7vHG1p8wKlB+zyzMU
-	bywxS7viixThqLGUVminDyZ25ZuBVwuoNXbFv60QLmA+js1/YneFN4PoY4iE5NHm
-	vd3hiR+aL9E8Ey8i/0YFTGmLL5er6TFDyqhl9Cke+vzCK6FqXBN8w72qB007N2F2
-	zKCWfOYzG8FeSyOQ2Tjg6ygBlwX354q7umxBEUL/lMUEBPTpMTXRVyISE4/IoAA/
-	44ZLcF8FnW3uZA+OxJiO9+XVuSEL8eKtCMYAzBjjh85nfHIg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymfh32gpa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Jun 2024 21:58:15 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 459LwEAU019770
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 9 Jun 2024 21:58:14 GMT
-Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 9 Jun 2024
- 14:58:07 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Sun, 9 Jun 2024 14:58:06 -0700
-Subject: [PATCH] media: saa7134: add missing MODULE_DESCRIPTION() macros
+	s=arc-20240116; t=1717979279; c=relaxed/simple;
+	bh=MhpwXQPEWuldXab2yRt6lwaofFGFqOHBQxOKwwMzkWs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=prlKI0dqTcJvnfzb5Q34nNP4hjKAtkdbWev+w5GNawBE90I6+48cl1ZRwYwmZKvpOqpP9LUPYayF5rFsFnbN91KESJ5CN2XkxudVjDMn3hKrw9VZ/xQZQqsn24eJTVwDJbmLgNjN85wqel08TagC2uxvUOuXuEGzUid4OBH7/Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=eaS/rB5p; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2c306e87b1fso342017a91.3
+        for <linux-media@vger.kernel.org>; Sun, 09 Jun 2024 17:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1717979277; x=1718584077; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MhpwXQPEWuldXab2yRt6lwaofFGFqOHBQxOKwwMzkWs=;
+        b=eaS/rB5ptAbHAU0q7qdhCVXxZ7lbplvWL9hU4TV8HO/se05eThjpH8FgH1E6aS56n0
+         rW/FP7pOSyTxC+8whzwcsq90dLgrS0QhatoUNkRaMF2tATXfBuMr+yUVS6o0AfoXCkNB
+         TQ/NutpDHJ4gJiMiKl9PcUGQqkiHEQYofisKHAoQrKewsoipTcj45F4gmgOrwRNPXnAG
+         hLrgEbuXXS/YMk9seiceNyXS95VU2N5n+4a/vXtDWKNahfG762KAc+Imp1kvFGXC0A+p
+         MU7pTWE7PVbAluvuq5FFXNSY19XM4DoyPVbkO2q5ZxDdT0TvSqVt3YTSZnHaNO60Y+T1
+         bMRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717979277; x=1718584077;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MhpwXQPEWuldXab2yRt6lwaofFGFqOHBQxOKwwMzkWs=;
+        b=rSA5nsFfg+eh5p2xko/2apsVHVKEOXKeBsDhMKsv/YAiVFDzcNQtDGsagBNmQDvpb7
+         9A8KNgJ/xDDRnX9/dFKRYUamFb6t2/CLM/thEiLfQhvchN1bVHkXko/zBY8L41XXU5Ee
+         IpovX0zn9wHy1cKq2hV6EEuYs0xspq/61rsmRFxVugH6N0xkXEykVuugSszU3mg3oe/3
+         D39meoHsbcNZdtlRTIaljxXsUUa1R+tp5oTmOzWHafysbs7ERivRDGWY2+WOqk5xeLmw
+         nu+4bZj0EFBfjjzC1udAZZBw8IudU7kjJrcFQ5YD6KfZLExmDMztR7CZs0v9OYqVm9lZ
+         N9yQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVw9wH+/6H5zVr2eiHOkdHzDXGqZMDl+jyxcydQppfLRIrYfUC/5Mmi//Zwzxx52IT8ofJHmlPCSHclZNyN19QjAmg7jAi1kZIYIk=
+X-Gm-Message-State: AOJu0Yw7gQ0aZbfTlH40ivLRbw0g4X7G2qtOZH+32C3P7c/Fry0TRU5S
+	WxHiVhdhWSbWZGIFApSEdM7NpnQdBs2PnMX/lM79PD6LZp8MZT6fEsx/ezsBLd4=
+X-Google-Smtp-Source: AGHT+IHFUY13EgQWeWpod8cMzpAhYoaErdO5QtBiSVL31xjUWTYCgJQDuWf1poRGpWIptTmVDcqXrA==
+X-Received: by 2002:a17:902:d4c3:b0:1f4:a36c:922c with SMTP id d9443c01a7336-1f6d02de0d6mr98614085ad.20.1717979276488;
+        Sun, 09 Jun 2024 17:27:56 -0700 (PDT)
+Received: from [192.168.1.8] (174-21-189-109.tukw.qwest.net. [174.21.189.109])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd75f162sm70228185ad.61.2024.06.09.17.27.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Jun 2024 17:27:56 -0700 (PDT)
+Message-ID: <8f7bc361-aa92-4d73-b276-f2d6bb4fbd6a@davidwei.uk>
+Date: Sun, 9 Jun 2024 17:27:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+Content-Language: en-GB
+To: David Ahern <dsahern@kernel.org>, Pavel Begunkov
+ <asml.silence@gmail.com>, Mina Almasry <almasrymina@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240609-md-drivers-media-pci-saa7134-v1-1-ec0a8b70b404@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAG0lZmYC/x3MTQqDMBBA4avIrDuQaPp7Felikox1oKYy04og3
- r1p4W2+zdvAWIUNbs0GyouYvEqFPzSQRioPRsnV0Lo2uJO74pQxqyyshhNnIZyToBGdfRdwiF2
- uHS/BJ6iLWXmQ9b/v79WRjDEqlTT+pk8pnxUnsjcr7PsXMtnhfo0AAAA=
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: hJO0-AEjbSVkOx5IN1rs0t8rjTY9y5CY
-X-Proofpoint-GUID: hJO0-AEjbSVkOx5IN1rs0t8rjTY9y5CY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-09_17,2024-06-06_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 bulkscore=0 phishscore=0 adultscore=0
- mlxscore=0 mlxlogscore=807 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406090173
 
-make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-go7007.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-alsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-dvb.o
+On 2024-06-07 17:27, David Ahern wrote:
+> I also do not understand why the ifq cache and overloading xdp functions
+> have stuck around; I always thought both were added by Jonathan to
+> simplify kernel ports during early POC days.
 
-Add the missing invocations of the MODULE_DESCRIPTION() macro.
-
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/media/pci/saa7134/saa7134-alsa.c    | 1 +
- drivers/media/pci/saa7134/saa7134-dvb.c     | 1 +
- drivers/media/pci/saa7134/saa7134-empress.c | 1 +
- drivers/media/pci/saa7134/saa7134-go7007.c  | 1 +
- 4 files changed, 4 insertions(+)
-
-diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
-index dd2236c5c4a1..f86a44dfe6e3 100644
---- a/drivers/media/pci/saa7134/saa7134-alsa.c
-+++ b/drivers/media/pci/saa7134/saa7134-alsa.c
-@@ -1254,5 +1254,6 @@ static void saa7134_alsa_exit(void)
- /* We initialize this late, to make sure the sound system is up and running */
- late_initcall(saa7134_alsa_init);
- module_exit(saa7134_alsa_exit);
-+MODULE_DESCRIPTION("Philips SAA7134 DMA audio support");
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Ricardo Cerqueira");
-diff --git a/drivers/media/pci/saa7134/saa7134-dvb.c b/drivers/media/pci/saa7134/saa7134-dvb.c
-index 9c6cfef03331..555d2eff9370 100644
---- a/drivers/media/pci/saa7134/saa7134-dvb.c
-+++ b/drivers/media/pci/saa7134/saa7134-dvb.c
-@@ -52,6 +52,7 @@
- #include "s5h1411.h"
- 
- MODULE_AUTHOR("Gerd Knorr <kraxel@bytesex.org> [SuSE Labs]");
-+MODULE_DESCRIPTION("DVB/ATSC Support for saa7134 based TV cards");
- MODULE_LICENSE("GPL");
- 
- static unsigned int antenna_pwr;
-diff --git a/drivers/media/pci/saa7134/saa7134-empress.c b/drivers/media/pci/saa7134/saa7134-empress.c
-index 434fa1ee1c33..bbf480ab31ca 100644
---- a/drivers/media/pci/saa7134/saa7134-empress.c
-+++ b/drivers/media/pci/saa7134/saa7134-empress.c
-@@ -19,6 +19,7 @@
- /* ------------------------------------------------------------------ */
- 
- MODULE_AUTHOR("Gerd Knorr <kraxel@bytesex.org> [SuSE Labs]");
-+MODULE_DESCRIPTION("Philips SAA7134 empress support");
- MODULE_LICENSE("GPL");
- 
- static unsigned int empress_nr[] = {[0 ... (SAA7134_MAXBOARDS - 1)] = UNSET };
-diff --git a/drivers/media/pci/saa7134/saa7134-go7007.c b/drivers/media/pci/saa7134/saa7134-go7007.c
-index da83893ffee9..bd37db5ce363 100644
---- a/drivers/media/pci/saa7134/saa7134-go7007.c
-+++ b/drivers/media/pci/saa7134/saa7134-go7007.c
-@@ -516,4 +516,5 @@ static void __exit saa7134_go7007_mod_cleanup(void)
- module_init(saa7134_go7007_mod_init);
- module_exit(saa7134_go7007_mod_cleanup);
- 
-+MODULE_DESCRIPTION("go7007 support for saa7134 based TV cards");
- MODULE_LICENSE("GPL v2");
-
----
-base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
-change-id: 20240609-md-drivers-media-pci-saa7134-fb3db3d5841c
-
+Setting up an Rx queue for ZC w/ a different pp will be done properly
+using the new queue API that Mina merged recently. Those custom XDP
+hooks will be gone in a non-RFC patchset.
 
