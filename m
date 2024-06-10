@@ -1,150 +1,212 @@
-Return-Path: <linux-media+bounces-12872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12873-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF54D90256A
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 17:21:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0DC90258C
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 17:26:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0AA27B26A74
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 15:19:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C76191F2100F
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 15:26:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02C4714F109;
-	Mon, 10 Jun 2024 15:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC48214EC73;
+	Mon, 10 Jun 2024 15:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ETS5HpY/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j/XNjI2G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1758D14372B;
-	Mon, 10 Jun 2024 15:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC8E14EC47;
+	Mon, 10 Jun 2024 15:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718032608; cv=none; b=ZhYILebKFCMEgzSN4EGBu+fvUU5Pw6mpMCH2wztUqfRDD+DM5kxAl4Stq6eg+jkffrA6eC7VnVoj0e2lqEuV9MPPxurzMfxcXRT7MNQKfkW4sgz348FIFW26ZLlbykX1I5iDcp9wf9THCKVWRl5eRCHgHW0mAwOncAZHrKGjdmo=
+	t=1718032871; cv=none; b=CysUMU/1OYqtkwmd1SSpFvc5/2xL3rYRXm5hEojTlAfQIf52qHPsrdl0JDvFQnHuPOXwvEChDY/naJ6p2Yru/+dzzc2DskEDPWMClA9enW1gqji37WjENSBWlniQ0T4cFZldW7GpEOxZ/boprVr2Za+/La6Ija9DedpNjgIil08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718032608; c=relaxed/simple;
-	bh=O4K2WVyffh0yFu7MqI9zVOz6iOMDjKw5eu0ZI4dIaVk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XUvcn3DdELyY03D87REYHx1VY9vm+OUjg+iJsv8rYbaod2/+9Gdqt7xWt/A0+cZiZOOvSKB2wGQbjqc3c8cgdIzBKmFbKcnhjoeAG9Q+swGp7HDTQw7C8J8IME/9ne9nrJW9x6l8JWLAJJIfM96tA9lauerGIrl6OHn4OF1pdJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ETS5HpY/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17272C32786;
-	Mon, 10 Jun 2024 15:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718032607;
-	bh=O4K2WVyffh0yFu7MqI9zVOz6iOMDjKw5eu0ZI4dIaVk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ETS5HpY/0Kf6xf4RQ1EeQ5ezwwa3Hu3a2SFdCj67odD7KI2UYD7Fs2d1r5g7y6wIf
-	 vTIqROSJQNRXs1n9kJDCdzxcS7+nLskAscR53y6Tg+D3s6zi6S/mSwJ7junGgMfPGz
-	 cFVN88hW7TnVgKXnCw7asGpLrZreR7IS4oFRMy+H9qtpSq3cfrL6cdUOlH8XQCjevL
-	 VdpqhB/9QWwIUedEYRuh4MevTomxzXE6ulQ6FOvNli9X5RdARoFkmIdzyPoMwtaZ2o
-	 jqiLoW+RrYZ9fTS86/FAROafJwR54RozEVCGgmVDPux00UDvaj3N87ZaAfFbOkWXsm
-	 4oYGUGuuH8ZZQ==
-Message-ID: <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
-Date: Mon, 10 Jun 2024 09:16:43 -0600
+	s=arc-20240116; t=1718032871; c=relaxed/simple;
+	bh=I95YfeR4z6uaBo8ShVWAd+z5U0ONBdc/Mf/dNEVoGb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHlCB1E4b4UaNLXQI9cMZp/hhUZP3iQYxPvh9tp7MqFUhEoCwlJha+f/3GKYFqIxYLfSv7eTeYYfWDRbT3mIopIXF+itqvNFtfR2hukcNyRGIkMUXCZ/B1JNPraKIDBOdv22uN576tlyslF7hYdnrFzB+FCIDJLWB/MsPnLO/eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=j/XNjI2G; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1FF239F;
+	Mon, 10 Jun 2024 17:20:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718032854;
+	bh=I95YfeR4z6uaBo8ShVWAd+z5U0ONBdc/Mf/dNEVoGb8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j/XNjI2GGs5Z/9LaKhn1e+/ugW9C4MVTBR4qApHE+MgdWHq09l2hJyRxVnbxviE8j
+	 uRSrD6FXWV99GtmGdh13jaUrkNlgRvWgcf8mIcMJt4h59gDO3f/YT+wZ+yf9jYrU6z
+	 i8XZQBJnOakj1O0KTeWgw2A7ExpTa0pYiDb+YqwM=
+Date: Mon, 10 Jun 2024 18:20:46 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] media: uvcvideo: Refactor Power Line Frequency limit
+ selection
+Message-ID: <20240610152046.GJ26663@pendragon.ideasonboard.com>
+References: <20240318-billion-v1-0-2f7bc0ee2030@chromium.org>
+ <20240318-billion-v1-2-2f7bc0ee2030@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@ziepe.ca>, Pavel Begunkov <asml.silence@gmail.com>
-Cc: David Wei <dw@davidwei.uk>, Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca>
- <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
- <20240610121625.GI791043@ziepe.ca>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <20240610121625.GI791043@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240318-billion-v1-2-2f7bc0ee2030@chromium.org>
 
-On 6/10/24 6:16 AM, Jason Gunthorpe wrote:
-> On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
->> On 6/10/24 01:37, David Wei wrote:
->>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
->>>> IMHO it seems to compose poorly if you can only use the io_uring
->>>> lifecycle model with io_uring registered memory, and not with DMABUF
->>>> memory registered through Mina's mechanism.
->>>
->>> By this, do you mean io_uring must be exclusively used to use this
->>> feature?
->>>
->>> And you'd rather see the two decoupled, so userspace can register w/ say
->>> dmabuf then pass it to io_uring?
->>
->> Personally, I have no clue what Jason means. You can just as
->> well say that it's poorly composable that write(2) to a disk
->> cannot post a completion into a XDP ring, or a netlink socket,
->> or io_uring's main completion queue, or name any other API.
-> 
-> There is no reason you shouldn't be able to use your fast io_uring
-> completion and lifecycle flow with DMABUF backed memory. Those are not
-> widly different things and there is good reason they should work
-> together.
-> 
-> Pretending they are totally different just because two different
-> people wrote them is a very siloed view.
-> 
->> The devmem TCP callback can implement it in a way feasible to
->> the project, but it cannot directly post events to an unrelated
->> API like io_uring. And devmem attaches buffers to a socket,
->> for which a ring for returning buffers might even be a nuisance.
-> 
-> If you can't compose your io_uring completion mechanism with a DMABUF
-> provided backing store then I think it needs more work.
-> 
+Hi Ricardo,
 
-exactly. io_uring, page_pool, dmabuf - all kernel building blocks for
-solutions. This why I was pushing for Mina's set not to be using the
-name `devmem` - it is but one type of memory and with dmabuf it should
-not matter if it is gpu or host (or something else later on - cxl?).
+Thank you for the patch.
 
+On Mon, Mar 18, 2024 at 11:55:24PM +0000, Ricardo Ribalda wrote:
+> Move the PLF mapping logic to its own function. This patch does not
+> introduce any new functionality to the logic, it is just a preparation
+> patch.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 93 ++++++++++++++++++++++++----------------
+>  1 file changed, 55 insertions(+), 38 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 3e939b4fbaaaf..67522143c6c85 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -459,6 +459,56 @@ static void uvc_ctrl_set_rel_speed(struct uvc_control_mapping *mapping,
+>  	data[first+1] = min_t(int, abs(value), 0xff);
+>  }
+>  
+> +const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
+> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> +	.entity		= UVC_GUID_UVC_PROCESSING,
+> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> +	.size		= 2,
+> +	.offset		= 0,
+> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> +	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
+> +				  V4L2_CID_POWER_LINE_FREQUENCY_50HZ),
+> +};
+> +
+> +const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
+> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> +	.entity		= UVC_GUID_UVC_PROCESSING,
+> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> +	.size		= 2,
+> +	.offset		= 0,
+> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> +	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
+> +				  V4L2_CID_POWER_LINE_FREQUENCY_DISABLED),
+> +};
+> +
+> +static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc15 = {
+> +	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> +	.entity		= UVC_GUID_UVC_PROCESSING,
+> +	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> +	.size		= 2,
+> +	.offset		= 0,
+> +	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> +	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> +	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_AUTO,
+> +				  V4L2_CID_POWER_LINE_FREQUENCY_DISABLED),
+> +};
+> +
+> +static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+> +	struct uvc_control *ctrl, const struct uvc_control_mapping *mapping);
+
+I wonder if we could avoid the forward declaration by turning the
+.add_mapping() operation into a .filter_mapping() (name to be
+bikshedded) that would return a replacement mapping instead of adding
+it. The caller (the __uvc_ctrl_add_custom_mapping() function) would then
+call __uvc_ctrl_add_mapping() unconditionally. You could actually call
+the new operation directly in __uvc_ctrl_add_custom_mapping() without
+having to add a new __uvc_ctrl_add_custom_mapping() function. What do
+you think, would that be simpler and more redable ?
+
+> +
+> +static int uvc_ctrl_add_plf_mapping(struct uvc_video_chain *chain,
+> +	struct uvc_control *ctrl, const struct uvc_control_mapping *mapping)
+> +{
+> +	if (chain->dev->uvc_version < 0x150)
+> +		return __uvc_ctrl_add_mapping(chain, ctrl,
+> +					      &uvc_ctrl_power_line_mapping_uvc11);
+> +
+> +	return __uvc_ctrl_add_mapping(chain, ctrl,
+> +				      &uvc_ctrl_power_line_mapping_uvc15);
+> +}
+> +
+>  static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>  	{
+>  		.id		= V4L2_CID_BRIGHTNESS,
+> @@ -748,51 +798,18 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>  		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
+>  		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
+>  	},
+> -};
+> -
+> -const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
+> -	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> -	.entity		= UVC_GUID_UVC_PROCESSING,
+> -	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> -	.size		= 2,
+> -	.offset		= 0,
+> -	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> -	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> -	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
+> -				  V4L2_CID_POWER_LINE_FREQUENCY_50HZ),
+> -};
+> -
+> -const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
+> -	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> -	.entity		= UVC_GUID_UVC_PROCESSING,
+> -	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> -	.size		= 2,
+> -	.offset		= 0,
+> -	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> -	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> -	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
+> -				  V4L2_CID_POWER_LINE_FREQUENCY_DISABLED),
+> +	{
+> +		.entity		= UVC_GUID_UVC_PROCESSING,
+> +		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> +		.add_mapping	= uvc_ctrl_add_plf_mapping,
+> +	},
+>  };
+>  
+>  static const struct uvc_control_mapping *uvc_ctrl_mappings_uvc11[] = {
+> -	&uvc_ctrl_power_line_mapping_uvc11,
+>  	NULL, /* Sentinel */
+>  };
+>  
+> -static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc15 = {
+> -	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
+> -	.entity		= UVC_GUID_UVC_PROCESSING,
+> -	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+> -	.size		= 2,
+> -	.offset		= 0,
+> -	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> -	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> -	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_AUTO,
+> -				  V4L2_CID_POWER_LINE_FREQUENCY_DISABLED),
+> -};
+> -
+>  static const struct uvc_control_mapping *uvc_ctrl_mappings_uvc15[] = {
+> -	&uvc_ctrl_power_line_mapping_uvc15,
+>  	NULL, /* Sentinel */
+>  };
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
