@@ -1,159 +1,110 @@
-Return-Path: <linux-media+bounces-12874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12875-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670069025D6
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 17:41:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7EB902643
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 18:04:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBA0228ABF8
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 15:41:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D461C1C21A10
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 16:04:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92A731420DD;
-	Mon, 10 Jun 2024 15:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B40D1422CA;
+	Mon, 10 Jun 2024 16:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NBC3BjeV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8Q9EX5+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDA613D8A7
-	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 15:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CE312E1F1;
+	Mon, 10 Jun 2024 16:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718034104; cv=none; b=TzflAcrqbhgK3EAQ66peUG7etf5hZe+5lWyyFzewOTUGk1d1cdX+uzKJhAjW5CMDxmYkns1x/IBr3B9MoItpm6YeepD4Hhwr3C9bXx0U64w38TCMH44sRl6epr41yY+7BOk/sKhTJcAmksFBM/RUjYfFviutanW8YCl+/DNqjV4=
+	t=1718035433; cv=none; b=PU6YA49gqXK5RIU9rq6p4I0fda3cym5Kk23B+cNPAWDlaRa1atj4nW8WYgNE8MYn8iQrf3N52JAmQDiiuZYCv3moPN1yG4nKRNuPGVgLBA7/9K4SFICee8Kaoj4EzohGm+jzdIoNCWB9pVM8ydBFxjnLJHD1nSmYYbpoFrWjKJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718034104; c=relaxed/simple;
-	bh=NH9qOe8AuGn3R+TevtlS2pqQNAL05iIcoVXpQ7CPaGI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nq7awHv3busKPTVGMStIGp5Ja9LbjSDPqE30a+r8/iGu6KJn0tzoB3kdH+vMrMUt9KF8c2Umem/v88xGoCkq4sws1mXPYnRPG0NEWEK6mUJCxmFRFNsKsR8z897OAwpzorcoCQgjJ3RHdUH6AvWZ/OYXPPAyeY8u9K1ibVUcjlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NBC3BjeV; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a6f1dc06298so5676466b.1
-        for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 08:41:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718034100; x=1718638900; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NH9qOe8AuGn3R+TevtlS2pqQNAL05iIcoVXpQ7CPaGI=;
-        b=NBC3BjeV43Tto6rj7jzWS0apRPZAnZhJNBOou0IKmm3h/8DlAdjhG4Y5gsqiMZ3pAd
-         eHigC7Qcovtju7HZ8zQbCH+6Mddcwh9xzZyF87jwWeINqrgM1FR10aoNpM9dZICtDvyc
-         xpf/0lnr4kBXB8f4u7FUjoUTnij835IuH9nXp7+XMaRWHJ0DuFWMNuTFhWOjApFRaXYT
-         7RG3m7uf6qb1wB3E+GyK9gA7GBP6oTu3azHkQzuLULoMA/9i+b2aihNWU9FBTH7e5imH
-         Ehtos6vd4QKW9+lJTwoCRJli+5DpQDQDQZAogzlY1LO+FpPUy3lqrKWKLqAw+vVHctXA
-         UdOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718034100; x=1718638900;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NH9qOe8AuGn3R+TevtlS2pqQNAL05iIcoVXpQ7CPaGI=;
-        b=ed+9vyRq9LzGNrlh/h2B53mNURynHY9to86lzidOuh07A3brfQxnx7VTZBGqzvLuPO
-         lMXihjUNK4sPZKcLPYHjjCnisfZSU7o18ozFgbqmCSGnMCjFUKqE+HX/73sovmNNikRH
-         E2FAfTTMU5ST+UYtb92Twmo5v8Y/aNl+RQ8+9L6X5LVP7w6y6Wt4vkX/FrZJ8edjb06B
-         hxsWGcBUbwAEWZhuOJRF8A3Sm0k+KmC3UaHR+sUcfTY2fl8dVedydk8elTUnKivXBBWZ
-         veKS6nxBeXjYXh1xaHmo7bSmcq9Bu1pMfL/zoWAfaaTRgwo0kx2gOGjlLaw4OwRcZsIf
-         LWdw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7s7H7t37+IZIQzEj9us/Jg4J38rCWFLesIUa8a8+a3Y5Nk2bHXYMVYXbYeTouzphYZXuufnDOjpOq4DFtjbg+ry+e/g/+r0V07bs=
-X-Gm-Message-State: AOJu0YxWIynY5wAAtCf11hIWPz9TMxxaHPjYF8tLcgWU4jIWQBk4ib3+
-	KxQKPmEOwzH1JHp6wqyOIMS6qCPuRAwAgndU+FfHM5ZL3bSveRw+7Bl58Lv40jCC1Ca28uIdfuV
-	sAukXAQqAa+mY3zO3G6j8CFpL/ZDNYKBDtKLC
-X-Google-Smtp-Source: AGHT+IGhBtLDJFK2P+RcfVlyA2ZAGso96YWHpocomofOltg8xljfiwSKPnAsDJBDqZd1U8grgl7y/Dr4+a+0D+ppdnU=
-X-Received: by 2002:a17:906:8888:b0:a6f:279b:37ca with SMTP id
- a640c23a62f3a-a6f279b38b3mr91530566b.51.1718034099331; Mon, 10 Jun 2024
- 08:41:39 -0700 (PDT)
+	s=arc-20240116; t=1718035433; c=relaxed/simple;
+	bh=RwF9HGM3v2JKmElGI/IpKM2vavADFeV3uIMUuQdu26c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q07qi59ffdAGyzWsnE+umAOeQUwetoeAFqbKYlnSzcXPjElULMbLXVC4uSgIrn0idj+JPVTpFTKR96y5pUtteZApTiDuUIZ5kfvVxkTB3c0Q9xuy9RZpci0qhbCYioS/Jxaz4RZs5Vm408fKRgTdIp6YtSlia0l5Phbf/kVzVsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8Q9EX5+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E17BC2BBFC;
+	Mon, 10 Jun 2024 16:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718035433;
+	bh=RwF9HGM3v2JKmElGI/IpKM2vavADFeV3uIMUuQdu26c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j8Q9EX5+QfFyJCpRn7bWKcWYhZ2ozI/RXD9E5XPU87ccZAafj699B+zdYmzmWBziV
+	 kyjcQz2D14y++caMYTVT3iDIJYH308qW2xr03tMf6Xf/6HOyfHwSalygea1rexJO/Q
+	 oIDmcX7m982/HX4yfz4cw56Go16Y+/X67D80NLa/f6eCcc+wca/VqbqTv3V0GKhlzL
+	 uYoI51TTtGPHOT3koTxy2dm01g5XROmIzsQ+VIVGpl3f2P5VSz0kMi8oVIbxL4p3LV
+	 lG0frsg/As6SHhQuVAZUTm20DWUhtEGpF5ypwKB4wr6kiSUhmwkGSrtyIgYN8R2jpz
+	 OlATPS7zbOvmg==
+Date: Mon, 10 Jun 2024 17:03:49 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240610-screen-wolverine-78370c66d40f@spud>
+References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org> <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com> <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com> <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca> <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com> <20240610121625.GI791043@ziepe.ca>
- <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
-In-Reply-To: <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 10 Jun 2024 08:41:25 -0700
-Message-ID: <CAHS8izNwmXQTLc9VADpushYKyeJ4ZY4G9aV47W2-1St65-tKUg@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	David Ahern <dsahern@kernel.org>, Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="UpOQ7ScyTPHogBDg"
+Content-Disposition: inline
+In-Reply-To: <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+
+
+--UpOQ7ScyTPHogBDg
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 10, 2024 at 5:38=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 10.06.24 um 14:16 schrieb Jason Gunthorpe:
-> > On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
-> >> On 6/10/24 01:37, David Wei wrote:
-> >>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
-> >>>> IMHO it seems to compose poorly if you can only use the io_uring
-> >>>> lifecycle model with io_uring registered memory, and not with DMABUF
-> >>>> memory registered through Mina's mechanism.
-> >>> By this, do you mean io_uring must be exclusively used to use this
-> >>> feature?
-> >>>
-> >>> And you'd rather see the two decoupled, so userspace can register w/ =
-say
-> >>> dmabuf then pass it to io_uring?
-> >> Personally, I have no clue what Jason means. You can just as
-> >> well say that it's poorly composable that write(2) to a disk
-> >> cannot post a completion into a XDP ring, or a netlink socket,
-> >> or io_uring's main completion queue, or name any other API.
-> > There is no reason you shouldn't be able to use your fast io_uring
-> > completion and lifecycle flow with DMABUF backed memory. Those are not
-> > widly different things and there is good reason they should work
-> > together.
->
-> Well there is the fundamental problem that you can't use io_uring to
-> implement the semantics necessary for a dma_fence.
->
-> That's why we had to reject the io_uring work on DMA-buf sharing from
-> Google a few years ago.
->
+On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas S=F6derlund wrote:
+> Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+>=20
+> Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/D=
+ocumentation/devicetree/bindings/media/renesas,vin.yaml
+> index 5539d0f8e74d..168cb02f8abe 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -54,6 +54,7 @@ properties:
+>                - renesas,vin-r8a77995 # R-Car D3
+>                - renesas,vin-r8a779a0 # R-Car V3U
+>                - renesas,vin-r8a779g0 # R-Car V4H
+> +              - renesas,vin-r8a779h0 # R-Car V4M
 
-Any chance someone can link me to this? io_uring, as far as my
-primitive understanding goes, is not yet very adopted at Google, and
-I'm curious what this effort is.
+Your driver patch suggests that this is compatible with the g variant.
 
---=20
-Thanks,
-Mina
+--UpOQ7ScyTPHogBDg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmcj5QAKCRB4tDGHoIJi
+0tFhAP9hVva+Qfu5znqYBjqL6eKNP0nBZMzhNm581qicnXKWfAEAgAHMIl3RsIOu
+RdQ/KcfmhQrIDCv2bH5uv5PwlCnpCAI=
+=/tCf
+-----END PGP SIGNATURE-----
+
+--UpOQ7ScyTPHogBDg--
 
