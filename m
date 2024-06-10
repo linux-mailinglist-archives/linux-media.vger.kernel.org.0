@@ -1,157 +1,133 @@
-Return-Path: <linux-media+bounces-12882-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12883-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F659027CC
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 19:34:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA1E9028B7
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 20:34:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A80B21F22DC5
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 17:34:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF6ABB211E5
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 18:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60034147C89;
-	Mon, 10 Jun 2024 17:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B17A14D2B2;
+	Mon, 10 Jun 2024 18:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P/9QKB6o"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VWxoyoa/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAB08F6D
-	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 17:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766AF26AF6;
+	Mon, 10 Jun 2024 18:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718040870; cv=none; b=Fx+ciPd+6/Yd89NAzCZJDKz71aIUFkBTQcX+X7H+DzANrBcGiXOxLnUlnMuQ3HpsanGgmrC/c89z41lhdleuAmti4tZwhjzwTlMcF4TsjHxmCd2odqYy1h5xa2FswI8dESTsinWFlN7gZoHcFnsx3mSSCzGbR/zPb8QWECcagvc=
+	t=1718044429; cv=none; b=jfaSqRIJRGnY8GZbxH6iCsc9X3f5NNxFY0tsV/2xSXDXZuGhi2P83FpiHo46dZ1baYXbZ5u48YLw2Ra0ZDfQsRsUVTdurOPw3onI2x0wM5F9jl6VFdwz2e3ywjzneOTFnkwjWnpxrzmuw4mgeFdHvDe+pmjgeqP+FGUr0m6vASs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718040870; c=relaxed/simple;
-	bh=OI1ctTHkCsMH4Yd0bz8xm9EXdTGTPnqRPNky58Yo9h4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jguX63JqcKNRjB2ChjhHvmcHrXo2NTlmQC4Nbi5cxu2P0e37/SCzBf1JwiWuuHmvs2Rs6rR9E6wlcFS6qP5CMsI0BSPTpDpoK2nsysUYnpMB/Y5PHq1cwfPUInXNGE3Me/fGRbUO0M19hCFU/JmNzV4jXLSLJxpQnlzlLxUScHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P/9QKB6o; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718040868;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/t2Kvn5czuKZiRPB4kiAYw1d5tMUfUZmntRPocdNxUM=;
-	b=P/9QKB6oBGHbXeO+rR1ZjmtnR1I4R2G6ovMZLqB+vRTkBlDf5qrzObCgGSzdLJK9+8gp+P
-	rlaeyhnoBlKI+ILdxqvAUX2D97cxQjShXR62FrLdVVI9wBCVi/mOo/odiEatqL23/JPcwU
-	4G8czRi7a3KHmmMo01LRFGIuhw1X90I=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-85-ZXH68SGVN-iRdvOQYIW6WQ-1; Mon,
- 10 Jun 2024 13:34:24 -0400
-X-MC-Unique: ZXH68SGVN-iRdvOQYIW6WQ-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E34C1195608A;
-	Mon, 10 Jun 2024 17:34:23 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.77])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E5E1830000C4;
-	Mon, 10 Jun 2024 17:34:21 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: ipu-bridge: Add HIDs from out of tree IPU6 driver ipu-bridge copy
-Date: Mon, 10 Jun 2024 19:34:18 +0200
-Message-ID: <20240610173418.16119-2-hdegoede@redhat.com>
-In-Reply-To: <20240610173418.16119-1-hdegoede@redhat.com>
-References: <20240610173418.16119-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1718044429; c=relaxed/simple;
+	bh=MhYkkZlm3UmS4JCGSGG9dMAixhu/CWMEmyoYPi9a+38=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=AQeD5IcidJ2c0tMwCQCbvihqMsm9mKiLXv7zw9Iqock7s+LJph/6hOHrnRukzdmtOF0Ej3D1+SYB2VtOk74blS3cMcED/yXXhJ/GkBi/lmWoqAooZDRixkYtr/Vzos2etCWlJVghE8K9MyihXUhcVfb2tiy/NwVqh0d9qy6AQfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VWxoyoa/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45AE6Njj008673;
+	Mon, 10 Jun 2024 18:33:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=GUH6yhSecG1utkT0x+EZga
+	3Lu1Q63PspR2KXwK5oNSQ=; b=VWxoyoa/Sf7w1T4qjuoxS1NzOHY/bnpKzURJX/
+	dVpRfjOVF3ihZrDQPdna3ZL4HH6ugtfFDJV7c2Ahhc7F5XQlaTlDxmnk/fyZkT+B
+	kxM9cAcihve7QhoiPzDYd7EF2g7C2UQM6w5tq+wn6yus5HooL9dEQH8Al8jTYwg+
+	FL2JCJJRJhU4HZThw/yeHN0VY+oh3wtMoFQ1cgpsPizp64+vlZKXpGp03kvQsTay
+	0hD6/kgWf5WTWIDV1NWX1B1vlieH+6CWj/3sdz3627p0al7KSET2dIxo0F/h0IeQ
+	Bcabv9riTL8KddizYTe/5O2jC3ykZnweW1wcnGCWCN94itNQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymgfk4umj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Jun 2024 18:33:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45AIXeC4002703
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Jun 2024 18:33:40 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
+ 2024 11:33:39 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Mon, 10 Jun 2024 11:33:38 -0700
+Subject: [PATCH] media: v4l: add missing MODULE_DESCRIPTION() macros
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240610-md-drivers-media-v4l2-core-v1-1-2fe08f6c9a0f@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAAJHZ2YC/x3MwQrCMAwA0F8ZORvo6hD0V8RD2mZbYO0k0TIY+
+ 3frju/ydjBWYYNHt4NyFZO1NPSXDuJMZWKU1Aze+cHdeoc5YVKprIaZkxDWYfEYV2VM8R5CvI7
+ OBwcteCuPsp3589UcyBiDUonzv1ykfDfMZB9WOI4f7jvVposAAAA=
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Z6PyHy2JK5mEPhQSnWmV44Dua4v4vsS8
+X-Proofpoint-ORIG-GUID: Z6PyHy2JK5mEPhQSnWmV44Dua4v4vsS8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-10_04,2024-06-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1011 priorityscore=1501 phishscore=0 adultscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=999 suspectscore=0 impostorscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406100139
 
-The out of tree IPU6 driver comes with its own copy of the ipu-bridge code.
-It also comes bundled with standard v4l2 sensor drivers. Many of these have
-been mainlined and the rest is being mainlined but not all are upstream
-yet.
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
 
-The latest version of the out of tree code now will use the mainline kernel
-ipu-bridge version when build against new enough kernels.
+Add the missing invocations of the MODULE_DESCRIPTION() macro.
 
-This however breaks support for (bundled) sensor drivers which do not (yet)
-have an entry in the mainline ipu-bridge code.
-
-Add the missing entries to the mainline ipu-bridge code to make
-the transition to having everything in mainline easier.
-
-The alternative HID for the OV13B10 and the OV08x40 entries both are for
-sensors already supported in mainline which were missing.
-
-The downside of adding these HIDs is that this will cause the IPU3 / IPU6
-drivers to delay registering there /dev/video# nodes until a sensor driver
-has bound, which for the non mainline drivers may never happen. This is
-not really an issue because almost all IPU designs only have front (user)
-facing sensors and all the added HIDs are for the main RGB (not IR) sensor.
-So if the sensor driver is missing then the user can already not use
-the camera and adding these HIDs does not really change that.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 ---
- drivers/media/pci/intel/ipu-bridge.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ drivers/media/v4l2-core/v4l2-async.c  | 1 +
+ drivers/media/v4l2-core/v4l2-fwnode.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index f1d0d5f4854e..a0e9a71580b5 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -47,6 +47,12 @@
-  * Please keep the list sorted by ACPI HID.
-  */
- static const struct ipu_sensor_config ipu_supported_sensors[] = {
-+	/* Himax HM11B1 */
-+	IPU_SENSOR_CONFIG("HIMX11B1", 1, 384000000),
-+	/* Himax HM2170 */
-+	IPU_SENSOR_CONFIG("HIMX2170", 1, 384000000),
-+	/* Himax HM2172 */
-+	IPU_SENSOR_CONFIG("HIMX2172", 1, 384000000),
- 	/* GalaxyCore GC0310 */
- 	IPU_SENSOR_CONFIG("INT0310", 0),
- 	/* Omnivision OV5693 */
-@@ -59,14 +65,24 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
- 	IPU_SENSOR_CONFIG("INT347E", 1, 319200000),
- 	/* Hynix Hi-556 */
- 	IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
--	/* Omnivision OV01A10 */
-+	/* Omnivision OV01A10 / OV01A1S */
- 	IPU_SENSOR_CONFIG("OVTI01A0", 1, 400000000),
-+	IPU_SENSOR_CONFIG("OVTI01AS", 1, 400000000),
-+	/* Omnivision OV02C10 */
-+	IPU_SENSOR_CONFIG("OVTI02C1", 1, 400000000),
-+	/* Omnivision OV02E10 */
-+	IPU_SENSOR_CONFIG("OVTI02E1", 1, 360000000),
-+	/* Omnivision OV08A10 */
-+	IPU_SENSOR_CONFIG("OVTI08A1", 1, 500000000),
-+	/* Omnivision OV08x40 */
-+	IPU_SENSOR_CONFIG("OVTI08F4", 1, 400000000),
-+	/* Omnivision OV13B10 */
-+	IPU_SENSOR_CONFIG("OVTI13B1", 1, 560000000),
-+	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
- 	/* Omnivision OV2680 */
- 	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
- 	/* Omnivision OV8856 */
- 	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
--	/* Omnivision OV13B10 */
--	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
- };
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index 222f01665f7c..4ffb105bde0b 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -965,4 +965,5 @@ module_exit(v4l2_async_exit);
+ MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
+ MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+ MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
++MODULE_DESCRIPTION("V4L2 asynchronous subdevice registration API");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 89c7192148df..f19c8adf2c61 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -1251,6 +1251,7 @@ int v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd)
+ }
+ EXPORT_SYMBOL_GPL(v4l2_async_register_subdev_sensor);
  
- static const struct ipu_property_names prop_names = {
--- 
-2.45.1
++MODULE_DESCRIPTION("V4L2 fwnode binding parsing library");
+ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+ MODULE_AUTHOR("Sylwester Nawrocki <s.nawrocki@samsung.com>");
+
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240610-md-drivers-media-v4l2-core-dc9bbc3f02b0
 
 
