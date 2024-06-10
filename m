@@ -1,143 +1,128 @@
-Return-Path: <linux-media+bounces-12855-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54A990208B
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 13:43:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B81B7902159
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 14:14:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C68D41C20FE3
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 11:43:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E1AFB23443
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 12:14:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E8CF7D40D;
-	Mon, 10 Jun 2024 11:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tSfnduN5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FB7C7F466;
+	Mon, 10 Jun 2024 12:14:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7437711A;
-	Mon, 10 Jun 2024 11:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F02D4AEC8;
+	Mon, 10 Jun 2024 12:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718019810; cv=none; b=q8YhLJdZycU7q90F45/XeDV8en6pbe+F7j9ibRmo17b7+l62jRiXIMblgbkXWYqMI8/mS2DdrXxLy1w6KVav0QnfnWcsfBfTjHAD7ee/SSjawPwqNxNiMvP/ON9NIGIJJ9PZIbaNBdm3WnaYcr+pE/ZOYX6s6XI91EMTbGop9kI=
+	t=1718021674; cv=none; b=oFUWsU3PY5XFSfXqFReVDw4bxH15E/6XRDqIBApxIFlWgXrxJIpv2m5Gv51Ru6I3Lfa8JjjGtZohfehTi0fgin1Vn4vAc829+zo6kyjxqf0koDMOSdt5Gxny3sRhZ8yxXmnf7zfXaFZiivWc8zKBGf4bTSJqgFb5mgYTpcQru7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718019810; c=relaxed/simple;
-	bh=A2UrWvpzcV8mD91bwCSuFpb+wTplVoHZLc2I0ye9+58=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F/aMC2SJpRf2lKR9VgChi2+znViqimudhZIlBrcvCUbcxLANLkTE5WX2SL4N/C1lMXSEjnxxSUe4lddEm4ac8O1QVoZxay7Eov29ktoA44aqNh2I7E1K3BPqnfOYhUiejXmzPiYq4dUJnULhFKnnb4/l1r1Ar+iwN3cCCf5e6y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tSfnduN5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95BB966F;
-	Mon, 10 Jun 2024 13:43:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718019795;
-	bh=A2UrWvpzcV8mD91bwCSuFpb+wTplVoHZLc2I0ye9+58=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tSfnduN55Y2h/duvE2uu4wyNYNhEvYg3wqCkgr02/GJF0jfWiJPKHLkuq4SE77TDw
-	 SGnipWbyc1DI61bmsR4+Pl2BJ49bmOgcMmhloBVKhMMPQFmdzPh5oHi2JYF6MwQx5O
-	 hfI1O9LiR4O3+lNecMDcsO8jT61tNVGhBAdvE8DY=
-Date: Mon, 10 Jun 2024 14:43:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"hn.chen" <hn.chen@sunplusit.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v10 4/6] media: uvcvideo: Allow hw clock updates with
- buffers not full
-Message-ID: <20240610114306.GR18479@pendragon.ideasonboard.com>
-References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
- <20240323-resend-hwtimestamp-v10-4-b08e590d97c7@chromium.org>
- <4kck7oedsnj6kfiv7ykwsjg35qodg5bdktu5t5w3xtg2xuscto@2yh6kfdqwimc>
+	s=arc-20240116; t=1718021674; c=relaxed/simple;
+	bh=tSD/spwG0jlfg5BNTrfBgNtnqVVQfXYcZXTvLSD3ctc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W39DYci1GXLkw95ivQz8ypbcMQL4XIExC0Bg7GXb1aj42hlYpCqYvZQVHTsPz3I9HdqqmQ4dfe6UNZdYSyPms45nuTROKOfViEin8FETOJFcbxXkHBhwhUi5Rjm09f/FX5mOyWo/qJ+nVW90O1XC261P7bmF2vKgO32ojbprRQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-62a080a171dso44182737b3.0;
+        Mon, 10 Jun 2024 05:14:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718021672; x=1718626472;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rHN5PNSfpyJJMvIa1bV6iDaPxyd3BjfSogHZhJiBWEk=;
+        b=ck6OqPMukpBWSWK43K8dz4Z0kI4aXNByw4UC4CHyRDcrMcuhR4efizpY9C2tlWvd7P
+         8KZ7b/lABd/XSxhu2yacXWUv3ZG9QxRYZUTsuge8jfJBgxOw6IR++cEt/Rq0hNaMenk9
+         Ok+JvauTo8lAxWcIaySEX14l6e44Nbdcg1MsZbJ9aUbCbEVs9Un0eDyjI0M18Zq74dIy
+         UrLMWb02NHPoLbrhafD10q0DcvWDpdUwL6sU5GZg7+dbMbCWtgYsxNEwjRWxDeWYlJ3j
+         LwQT06DJv1W1tkHJDBTfzdT/QWcF1LemXrDgrloUCayBMkpqwZk+c/so40DE+F64ABuh
+         pu8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXqsLOw/mJkCwZp6L1gerbt+CB7YZiH6NzIMn2CKtF+UgLD1YWx8r22f+IP9ferW6Ms7Hoee2v2GOFDV3InusyW/1nN2M7NkENQ1/FBuIvyHR4u1/KWQyXT9VPaYIbvH9IKD1ttd5icNavtGSSllqnNFD82oWQaON2MINUArFpTWpwQQkBmq+hChGE=
+X-Gm-Message-State: AOJu0Yw8nlsj1mSUDaq0DWiu5z2r+g5EIf1QjXlDHbQ7wFfEUgF+IRs6
+	WUGb8xQEyIooz8nv0TO1UjQKd0/Q6BHIb423v3en04v3xZn0UAGKgDH9PPTw
+X-Google-Smtp-Source: AGHT+IHvS5l89CXOreedNxW7h0jInGjTe8YMGJp1kmIeF7iohejDwc4vfqSdBfapodUl36KAHthkMA==
+X-Received: by 2002:a81:a7c4:0:b0:62a:530:472f with SMTP id 00721157ae682-62cd568e9b9mr92371547b3.32.1718021671572;
+        Mon, 10 Jun 2024 05:14:31 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-62d0889cc81sm4400717b3.70.2024.06.10.05.14.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jun 2024 05:14:31 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dfaff6bee06so2299395276.1;
+        Mon, 10 Jun 2024 05:14:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV4b1/ooVzzrH9xpDvG2TrMT6kxFYgs5i1oA4D1KNMAkhTw73a/l4OV0rvaUhp9DDuwGIByxYZogc1AgQl+YKFnQ3trgLo4OCLazyFnxPNvS+Ue0P/rODtcVX/f/mG+msc4Seg9Ispmlv1vc2aJ4xcmWgYEoF+6uNApAxpDbBz/k+FN8aPXF6o4Z2Q=
+X-Received: by 2002:a25:255:0:b0:dfb:538:6a49 with SMTP id 3f1490d57ef6-dfb05386d33mr7559585276.5.1718021671217;
+ Mon, 10 Jun 2024 05:14:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4kck7oedsnj6kfiv7ykwsjg35qodg5bdktu5t5w3xtg2xuscto@2yh6kfdqwimc>
+References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se> <20240610113124.2396688-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240610113124.2396688-3-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Jun 2024 14:14:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUJqY=CRdhSe68tgE6xFAko-bEemwZBqJuXyX+9iP9eZA@mail.gmail.com>
+Message-ID: <CAMuHMdUJqY=CRdhSe68tgE6xFAko-bEemwZBqJuXyX+9iP9eZA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] media: rcar-vin: Add support for R-Car V4M
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 29, 2024 at 05:03:08PM +0900, Tomasz Figa wrote:
-> On Sat, Mar 23, 2024 at 10:48:05AM +0000, Ricardo Ribalda wrote:
-> > With UVC 1.5 we get as little as one clock sample per frame. Which means
-> > that it takes 32 frames to move from the software timestamp to the
-> > hardware timestamp method.
-> > 
-> > This results in abrupt changes in the timestamping after 32 frames (~1
-> > second), resulting in noticeable artifacts when used for encoding.
-> > 
-> > With this patch we modify the update algorithm to work with whatever
-> > amount of values are available.
-> > 
-> > Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-> > Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++--
-> >  1 file changed, 14 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index d6ca383f643e3..af25b9f1b53fe 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -768,10 +768,10 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
-> >  
-> >  	spin_lock_irqsave(&clock->lock, flags);
-> >  
-> > -	if (clock->count < clock->size)
-> > +	if (clock->count < 2)
-> >  		goto done;
-> >  
-> > -	first = &clock->samples[clock->head];
-> > +	first = &clock->samples[(clock->head - clock->count + clock->size) % clock->size];
-> >  	last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
-> >  
-> >  	/* First step, PTS to SOF conversion. */
-> > @@ -786,6 +786,18 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
-> >  	if (y2 < y1)
-> >  		y2 += 2048 << 16;
-> >  
-> > +	/*
-> > +	 * Have at least 1/4 of a second of timestamps before we
-> > +	 * try to do any calculation. Otherwise we do not have enough
-> > +	 * precision. This value was determined by running Android CTS
-> > +	 * on different devices.
-> > +	 *
-> > +	 * dev_sof runs at 1KHz, and we have a fixed point precision of
-> > +	 * 16 bits.
-> > +	 */
-> > +	if ((y2 - y1) < ((1000 / 4) << 16))
-> > +		goto done;
-> 
-> Not a comment for this patch directly, but...
-> 
-> This kind of makes me wonder if we don't want to have some documentation
-> that specifies what the userspace can expect from the timestamps, so
-> that this isn't changed randomly in the future breaking what was fixed
-> by this patch.
+Hi Niklas,
 
-I think timestamp handling should really be moved to userspace. It will
-be easier to handle with floating-point arithmetic there. That would
-have been difficult to manage for applications a while ago, but now that
-we have libcamera, we could implement it there. This isn't high on my
-todo list though.
+On Mon, Jun 10, 2024 at 1:32=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Add support for R-Car V4M. The V4M is similar to V4H and uses the ISP
+> Channel Selector as its only possible video input source. Reuse and
+> rename the info structure from V4H to cover all current Gen4 SoCs.
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+> ---
+> * Changes since v1
+> - Create a shared Gen4 info strucutre.
 
-> Anyway:
-> 
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Thanks for the update!
 
--- 
-Regards,
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Laurent Pinchart
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+> @@ -1283,7 +1283,7 @@ static const struct rvin_info rcar_info_r8a779a0 =
+=3D {
+>         .max_height =3D 4096,
+>  };
+>
+> -static const struct rvin_info rcar_info_r8a779g0 =3D {
+> +static const struct rvin_info rcar_info_gen4 =3D {
+>         .model =3D RCAR_GEN3,
+>         .use_mc =3D true,
+>         .use_isp =3D true,
+
+FTR, rcar_info_gen4 is (still) identical to rcar_info_r8a779a0.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
