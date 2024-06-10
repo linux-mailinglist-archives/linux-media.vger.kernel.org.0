@@ -1,180 +1,131 @@
-Return-Path: <linux-media+bounces-12888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70779902960
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 21:32:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBCD9029B4
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 22:08:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DE1531F22134
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 19:32:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AA35285AC0
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 20:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD2AC14F9ED;
-	Mon, 10 Jun 2024 19:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2BC814F9CD;
+	Mon, 10 Jun 2024 20:08:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WE9/dnSq"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ond31ySz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913591487C5;
-	Mon, 10 Jun 2024 19:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CC71B812;
+	Mon, 10 Jun 2024 20:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718047942; cv=none; b=PftlkzNw6h8FnEx13fzNUKrHavKxCTKIU3ee/jwCzCrszjmbNS/uhq9nt5yIN5AzsgYScaZyR996X8+shssLI1UMjYvc7eItbMf5vTyx5cfGWUSw8aN0Q3Xrzv7hwvc1e991rmZsUse7CfSz1DdXSxnfxSEfneFdIvoL7PsG+bk=
+	t=1718050123; cv=none; b=qgf6edIWa5nSEIfZa3PtviQV9MTvbo5s5tY92ZQbhdzYyruF+u4LFC5QC7mf7jnL0/ylnke3EqP1Re9vkQfIfw5278HiawiG/DjO0jVClv2KzC+ShM0uaIyjaJgwOsmdHYFGLnSBiA6WDPGfnfS3AFg5vPBVlmfZtp8J6oLpaU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718047942; c=relaxed/simple;
-	bh=VuTq4b10N4/opfBKMwzqFtKLSskXYPKPtG7BtOveSas=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wtb1jzJaLjVAYasbna/MzyXPYIKM8dLI3PyhDLmEOzOxRQLYb22erO+vqXO7z3tR162menWUaGdCbosQWRIXVyBuv6dY7SoqUkB4Um3DejmA7F0NB2JA07BK++HGrg7Znsu1g2Fcyk41PWQTHzs8cv1WomMVP0CAdoaNsOT6OiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WE9/dnSq; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-35dc9cef36dso309382f8f.3;
-        Mon, 10 Jun 2024 12:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718047939; x=1718652739; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cH6LVxT06plsrA1ReD8cM9W1acWe7q6EhO7RV1s6Td4=;
-        b=WE9/dnSqN3r8tM5kG9pDm5UEpCR/364ome8tT2CGY6rbwmhnleWIOAyPzxMO4ldTDX
-         Ss37g6/L61ssC5UDmjRYsrE+751vN09Lyn02fhZUPn6kOrOYF3E3Qqd1KBSjK+dq7Gui
-         0CuZ6kUCxOugmj3L23bipe5Rf/U+9FGtj8kp3mJj4Uc7ZzFTab5zgTuCOsRQQQuEVNml
-         +WRzvgwNpa3rYdpF51y954J9/8llhR1iVRE3Kt7+6+vFpAUZrk38qWYnZzHGhWxPdkQW
-         qZCC6tjjtaAbxcjQGL0q1pfX/uaGOwj0lcx0q8CSgyy2+3NKcrRBcaBP9PFK+jksN1Vf
-         s4Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718047939; x=1718652739;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cH6LVxT06plsrA1ReD8cM9W1acWe7q6EhO7RV1s6Td4=;
-        b=MKO9J27OBZfKIbygAP9ZmyelmIHgN+UnCbusxJEbK7ab+GBqsQKTu8kLods2RnzbDX
-         WI9J2qBB76LUL1TThUtVLJkyxVh08+1FINkbBpwKuSyx27WTIQj5xAyJTIssscjQFLcC
-         YBq3XJnzhcdInuYTznclWCvPIojGLgmuXf1wbU8HisoVi31RWsR68hgtZKIXPhpr/TBp
-         kqjMyd1FlTYWJxp0KigeRzdMcR33r5/kP4cKmx1lowQDXxVwB1dTlUyiRC8XWVOQ8dr+
-         iZ3EfcYhzEtVoDsyVTot5jvYjnA/g84iZV1h0tRQa9Y/S9mx47qziIj7ET6nRmPYxbfU
-         DMpg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzTHz/qeWe79ekn6RsiOx+cT9VGRorUrRKukY+ehv7rm/+yEw2i14al1f05aM72KhvcKzu2dVssIE9SLutIbcMuGvGKsR4ov4fxtyG73ewI1eNQTT4koxBemXfdUE57M8oEzQJ1ZDTekxf7R73GpmpnvoLGD5Rc3smEhNZBMB47uBhMA3MABZtPBexVzvpxDcvOkfD89hhFSgVYe4dtur61T09TzkO+UPq7z+NgBfdpjwyyGTLnPRmClQ65EkLn97B4eHobxDHfaZzoA3g9m4fke7MtELOjFXAK1DoOysu4lsURkapdghr18+PSBJi0DLigZbgTPkMK/CoiZPZ0OpiLa+JMBWEIR6K7Mym6yqd/KwCy5jMqPvlrzN/U4hvDZAgaa3alvdvQhyhl4l9pBS4Ln5Bc1KBsqrpa7kgakADUZYBEtmC75ndZepR3fpVePiOFRfhPLfYSkZ0wWba1RIzEh8nULNDI4S5UWbN07SurDNe444F1WzZpLcugLI8Lh1wQYrh9g==
-X-Gm-Message-State: AOJu0YwutSUG3RfUji42u2rH72AZykuAlmwGGcog9uFD9FBcfk7tzGGl
-	X7e+ULr8iBIex08koXtdO3/5uAywhBX/4lQmMCHH/ekAtzHlhx4w
-X-Google-Smtp-Source: AGHT+IHyebdJqoC8N9cFVipCugkjo2s6jygXE3iaN8ED6lgnlN+5ynOFecePOgT3p/WcNF0ptUpPjg==
-X-Received: by 2002:a05:600c:1551:b0:421:4786:eb0c with SMTP id 5b1f17b1804b1-42164a44b35mr87551775e9.33.1718047938725;
-        Mon, 10 Jun 2024 12:32:18 -0700 (PDT)
-Received: from [192.168.42.64] ([148.252.129.53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421cd1fdec7sm47319585e9.25.2024.06.10.12.32.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jun 2024 12:32:18 -0700 (PDT)
-Message-ID: <4c4739df-c2fc-4e9a-a27e-aec00a5667da@gmail.com>
-Date: Mon, 10 Jun 2024 20:32:16 +0100
+	s=arc-20240116; t=1718050123; c=relaxed/simple;
+	bh=1gswl6hf4KHobVmATfrT2dR7m2dVBSRQN13oHELIETA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=YgwoAV7aHCLtqSLQqodcNzMottpH/2H9LRIdRSFBh+ToSmvvOAoe1Tzq5sYKKto0oYojy4jFriznuipSEro8TkXIQ6li0zrUoeWb4qn9hsr3vJSvMBRp3sDhePTV8cosqSQwBIQ3Ik7bLLzYX3+CJpgVbSkfqrRW8b8dKXvS/jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ond31ySz; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45AFA5dr002816;
+	Mon, 10 Jun 2024 20:08:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=buLfj6Ltji1S/aYhBziLxu
+	GbOEFEO5iPEML74KGy2gc=; b=ond31ySz1HuKj+g4aQrtaMlziTBcV14tiHLn15
+	ydupiJYKsU3JQsbdXTaQvAy3YUkagsDhB51dfnuMQzc3cD8KOwKJwihXBAx5En+I
+	udh9gw8qCaM6sWFVjgCAgsqzu3M9jDHuYmO50dCyKyKQuxphHyy+bIXRe8I2DD0J
+	mR9x0WMtTVRW5HKLYBi2qktvPqsSYPmnw8QssgiMVOdl5q/xDiZ/yL+6fAnWJmun
+	22xSOvZUQU1TeR2I1iB5Jb37ab+urI6xgwD19F//Ts4ehuvHPpalC+TPT7cy97dK
+	9fl3KUeSNmDi2zUqJwU7tcfuqE1BG1jeszQynDsBPeLkgBgw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ymgk8vn8w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Jun 2024 20:08:38 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45AK8bXZ031737
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Jun 2024 20:08:37 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Jun
+ 2024 13:08:37 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Mon, 10 Jun 2024 13:08:36 -0700
+Subject: [PATCH] media: go7007: add missing MODULE_DESCRIPTION() macros
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Mina Almasry <almasrymina@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, David Wei <dw@davidwei.uk>,
- David Ahern <dsahern@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca>
- <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
- <20240610121625.GI791043@ziepe.ca>
- <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
- <CAHS8izNwmXQTLc9VADpushYKyeJ4ZY4G9aV47W2-1St65-tKUg@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izNwmXQTLc9VADpushYKyeJ4ZY4G9aV47W2-1St65-tKUg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240610-md-drivers-media-usb-go7007-v1-1-89f1087750af@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAENdZ2YC/x3MwQqDMAwA0F+RnBdodUy2Xxk7pG3UwFpHoiKI/
+ 75ux3d5BxirsMGjOUB5E5O5VPhLA3GiMjJKqobWtVd38w5zwqSysRpmTkK4WsBx7p3rsfMx0nA
+ PXaAAdfgoD7L/9+erOpAxBqUSp9/5lrLumMkWVjjPL+rxnBGMAAAA
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: yAodk-ZHKSt6IhEavRCceAi9tMa18nog
+X-Proofpoint-ORIG-GUID: yAodk-ZHKSt6IhEavRCceAi9tMa18nog
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-10_06,2024-06-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=939 mlxscore=0 adultscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0 clxscore=1011
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406100152
 
-On 6/10/24 16:41, Mina Almasry wrote:
-> On Mon, Jun 10, 2024 at 5:38 AM Christian König
-> <christian.koenig@amd.com> wrote:
->>
->> Am 10.06.24 um 14:16 schrieb Jason Gunthorpe:
->>> On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
->>>> On 6/10/24 01:37, David Wei wrote:
->>>>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
->>>>>> IMHO it seems to compose poorly if you can only use the io_uring
->>>>>> lifecycle model with io_uring registered memory, and not with DMABUF
->>>>>> memory registered through Mina's mechanism.
->>>>> By this, do you mean io_uring must be exclusively used to use this
->>>>> feature?
->>>>>
->>>>> And you'd rather see the two decoupled, so userspace can register w/ say
->>>>> dmabuf then pass it to io_uring?
->>>> Personally, I have no clue what Jason means. You can just as
->>>> well say that it's poorly composable that write(2) to a disk
->>>> cannot post a completion into a XDP ring, or a netlink socket,
->>>> or io_uring's main completion queue, or name any other API.
->>> There is no reason you shouldn't be able to use your fast io_uring
->>> completion and lifecycle flow with DMABUF backed memory. Those are not
->>> widly different things and there is good reason they should work
->>> together.
->>
->> Well there is the fundamental problem that you can't use io_uring to
->> implement the semantics necessary for a dma_fence.
->>
->> That's why we had to reject the io_uring work on DMA-buf sharing from
->> Google a few years ago.
->>
-> 
-> Any chance someone can link me to this? io_uring, as far as my
-> primitive understanding goes, is not yet very adopted at Google, and
-> I'm curious what this effort is.
-I'm curious as well, I don't remember it floating anywhere in mailing
-lists. The only discussion I recall was about
-DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT, but it didn't get through only because
-someone pushed for evenfds.
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/go7007/go7007.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/usb/go7007/go7007-usb.o
 
--- 
-Pavel Begunkov
+Add the missing invocations of the MODULE_DESCRIPTION() macro.
+
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+ drivers/media/usb/go7007/go7007-driver.c | 1 +
+ drivers/media/usb/go7007/go7007-usb.c    | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/media/usb/go7007/go7007-driver.c b/drivers/media/usb/go7007/go7007-driver.c
+index eb03f98b2ef1..468406302cd5 100644
+--- a/drivers/media/usb/go7007/go7007-driver.c
++++ b/drivers/media/usb/go7007/go7007-driver.c
+@@ -736,4 +736,5 @@ void go7007_update_board(struct go7007 *go)
+ }
+ EXPORT_SYMBOL(go7007_update_board);
+ 
++MODULE_DESCRIPTION("WIS GO7007 MPEG encoder support");
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go7007/go7007-usb.c
+index 762c13e49bfa..334cdde81a5c 100644
+--- a/drivers/media/usb/go7007/go7007-usb.c
++++ b/drivers/media/usb/go7007/go7007-usb.c
+@@ -1352,4 +1352,5 @@ static struct usb_driver go7007_usb_driver = {
+ };
+ 
+ module_usb_driver(go7007_usb_driver);
++MODULE_DESCRIPTION("WIS GO7007 USB support");
+ MODULE_LICENSE("GPL v2");
+
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240610-md-drivers-media-usb-go7007-31ccaf9b3bab
+
 
