@@ -1,72 +1,57 @@
-Return-Path: <linux-media+bounces-12815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12816-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E34901D56
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 10:54:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E89DB901DC0
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 11:06:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D0B71F2114A
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 08:54:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85F74286965
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 09:06:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AECF6F314;
-	Mon, 10 Jun 2024 08:54:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C31757FB;
+	Mon, 10 Jun 2024 09:00:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B/bfl5HB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fB/fnZKy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADC76F2E7;
-	Mon, 10 Jun 2024 08:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D843C74429
+	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 09:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718009689; cv=none; b=JkrxUYsaJQ64KFUgyuqRo0WHWLCmNlvw9NJNeglHrTNh2QpiAN9XZPWPN2Q7vBPTPncpwS4gD+4efsVtjy93IehzCqPmco0TaIkwVfB16VXXHswtCg1TS0GhXtTtvuY51hycxmSKAamiMCTA14DZFZxT4S6MZpq4xtvhDR6g+MI=
+	t=1718010054; cv=none; b=RDirN8/hlc27GQ272yHhzTswYvo6u/7h1AF/iPkHMRieIKKBWjgvjx9CC7slfnxPdbXeEjGa4Hlmfqx/Pu1+DsY+/Ba/R8p8mZFjkFfN+fvK1I+iiK6fenst1O5f+D0ZBgvBgv+FubgXvhp/MLlo7h3bEewgmHwGKeC6zRc2EJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718009689; c=relaxed/simple;
-	bh=1uMH5ebVeQ4Wu83z83imey9mwf02x2hoI5G0NYSkvZY=;
+	s=arc-20240116; t=1718010054; c=relaxed/simple;
+	bh=0ftA7L/tWPb2UnyhCRLH/w63pkcQ7riuf0zGme07Vs0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QlbFK/X+FodW7IZyLQeog6VXFIXG+zV8SgeoWmKr0Nn4gyAiNac7OSRMryYhOBwScRDDx3MAyelrllqFFRmBLGAlMmjiMS9orwdckL643CD6YgoAzUFQOY7zNreDwn/ZG6gSIYdTB7IAtuOL8vhuXPQJCAWXGGTpvFdTt/URVAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B/bfl5HB; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Td67Kcihs8S+/yLFIRNBvncXhxOuZTtV7wiyDdGjTFtNCYQ6Zs24ndek7wKGH6odVVcIDPhrbwE36h0ZV67DRinQDSNunfspmns8IznC+8ztbhDfJC0tpPQMBwE8OVPLgQLT7gn2aMWHJv9zxgzZ9vX+O2UTXHaFsodv1uCaSJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fB/fnZKy; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10ED8397;
-	Mon, 10 Jun 2024 10:54:32 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC86D397;
+	Mon, 10 Jun 2024 11:00:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718009673;
-	bh=1uMH5ebVeQ4Wu83z83imey9mwf02x2hoI5G0NYSkvZY=;
+	s=mail; t=1718010038;
+	bh=0ftA7L/tWPb2UnyhCRLH/w63pkcQ7riuf0zGme07Vs0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B/bfl5HBaA7nFpgLad02WGpvLjlGXYbbAV4ty6j4/RpX5kv1Q2wgz41Q5KSoelibo
-	 uTiq449X1R9B0IMnEs5FaInqPD27kZ4XeNltKl+Z5NZefD0QIzaAGAR78RuLM/Cnz3
-	 oR6T/B3sHY4GLIurI9PqMVRO6xjC6nQvUanY/CkY=
-Date: Mon, 10 Jun 2024 11:54:24 +0300
+	b=fB/fnZKyGTbJHtmjC3qEWbQeh/RdlYMfgYv0sJhqILxiXLwXfiuoavF53UEe4kNdr
+	 8f6w+6czJ58KjRiAlXjcAy3QNnBtatVXDbcFirVatLLDvjx2DnY/vsmsTAdvzZrs1W
+	 4Csz6F8/6C2AZ1JxJWfMgAWeGqGj8R+NyXWzZbZk=
+Date: Mon, 10 Jun 2024 12:00:28 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Julien Stephan <jstephan@baylibre.com>,
-	Louis Kuo <louis.kuo@mediatek.com>,
-	Phi-Bang Nguyen <pnguyen@baylibre.com>,
-	Andy Hsieh <andy.hsieh@mediatek.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Florian Sylvestre <fsylvestre@baylibre.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v4 1/5] dt-bindings: media: add mediatek ISP3.0 sensor
- interface
-Message-ID: <20240610085424.GH26663@pendragon.ideasonboard.com>
-References: <20240110141443.364655-1-jstephan@baylibre.com>
- <20240110141443.364655-2-jstephan@baylibre.com>
- <e0bf8667-cbb8-49ba-bb44-3edf93b019b8@linaro.org>
- <CAEHHSvYt-aqFahi=B_si=duJH8xDgy_9nndgR-P0+U5THX69uw@mail.gmail.com>
- <20240607144154.GD18479@pendragon.ideasonboard.com>
- <cf49fbb3-9de6-4e57-bc38-d720f76118a7@linaro.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [v4l-utils] [PATCH v1 3/3] utils: media-ctl: Support accessing
+ the subdev TRY state
+Message-ID: <20240610090028.GL18479@pendragon.ideasonboard.com>
+References: <20240610012238.30462-1-laurent.pinchart@ideasonboard.com>
+ <20240610012238.30462-4-laurent.pinchart@ideasonboard.com>
+ <fc1ff8b7-5404-44f3-acf5-9ee2e7b43c4d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,52 +60,173 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cf49fbb3-9de6-4e57-bc38-d720f76118a7@linaro.org>
+In-Reply-To: <fc1ff8b7-5404-44f3-acf5-9ee2e7b43c4d@ideasonboard.com>
 
-Hi Krzysztof,
+Hi Tomi,
 
-On Mon, Jun 10, 2024 at 09:54:03AM +0200, Krzysztof Kozlowski wrote:
-> On 07/06/2024 16:41, Laurent Pinchart wrote:
-> > On Fri, Jun 07, 2024 at 10:52:33AM +0200, Julien Stephan wrote:
-> >> Le ven. 12 janv. 2024 à 08:32, Krzysztof Kozlowski a écrit :
-> >>> On 10/01/2024 15:14, Julien Stephan wrote:
-> 
-> Eeeh? January?
-> 
-> ...
-> 
-> >>>
-> >>>> +
-> >>>> +          seninf: seninf@15040000 {
-> >>>
-> >>> Node names should be generic. See also an explanation and list of
-> >>> examples (not exhaustive) in DT specification:
-> >>> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+On Mon, Jun 10, 2024 at 09:14:59AM +0300, Tomi Valkeinen wrote:
+> On 10/06/2024 04:22, Laurent Pinchart wrote:
+> > Add a -W/--which argument to media-ctl to select which state to operate
+> > on. Default to the ACTIVE state to preserve the current behaviour.
 > > 
-> > The seninf is (mostly) a set of MIPI CSI-2 receivers. Would you prefer
-> > 'csi', 'mipi-csi', 'csi-2' or any other name ?
+> > Despite the fact that all values set on the TRY state are lost when
+> > media-ctl terminates, support for the TRY state is useful in order to
+> > retrieve the default configuration of subdevs, or to try configurations.
 > 
-> csi@ works for me
-> 
-> > There's also the camsv IP in the same series that needs a generic name.
-> > I really don't know what to propose for it. Could you recommend
-> > something that would make you happy ?
-> 
-> Sorry,that's almost half year old thread. Not present in my inbox.
+> I think this is fine, but I'm curious why you chose such an argument. I 
+> would have thought "-t/--try" (or even just --try) would have been 
+> simpler to implement and to use. I think I would remember "--try" 
+> easily, but "-W TRY", I fear I'll have to check the man page every time...
 
-I remember someone presenting a talk titled "Beginner Linux kernel
-maintainer's toolbox" in Prague last year. The talk mentioned a tool
-call b4. I highly recommend it ;-)
+There are a few reasons:
 
-> > On a side note, that document lacks appropriate generic names for lots
-> > of building blocks found in recent SoCs, it would be nice to get it
-> > updated. You will eventually get better quality DT patches then :-)
+- Be closer to the API (media-ctl is a low-level tool)
+- Support other values later if the kernel API evolves (no plan for
+  that, but who knows ?)
+- I find it easier to propagate arguments in scripts this way. If a
+  script that wraps media-ctl receives a nothing/--try argument, it's
+  fairly easy to translate that to nothing/-W TRY. If it receives a
+  --foo ACTIVE/TRY argument (on the command line, in an interactive
+  prompt, as part of a string that tells what to do on a pad, ...), then
+  translating that to '-W arg' is easier than to nothing/-W TRY.
+
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >   utils/media-ctl/media-ctl.c | 13 +++++++------
+> >   utils/media-ctl/options.c   | 18 +++++++++++++++++-
+> >   utils/media-ctl/options.h   |  1 +
+> >   3 files changed, 25 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
+> > index 42b1bd9aaa6e..33df0880fd9b 100644
+> > --- a/utils/media-ctl/media-ctl.c
+> > +++ b/utils/media-ctl/media-ctl.c
+> > @@ -600,7 +600,6 @@ static void media_print_topology_text(struct media_device *media,
+> >   
+> >   int main(int argc, char **argv)
+> >   {
+> > -	const enum v4l2_subdev_format_whence which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> >   	struct media_device *media;
+> >   	struct media_entity *entity = NULL;
+> >   	int ret = -1;
+> > @@ -667,7 +666,8 @@ int main(int argc, char **argv)
+> >   			goto out;
+> >   		}
+> >   
+> > -		v4l2_subdev_print_format(pad->entity, pad->index, stream, which);
+> > +		v4l2_subdev_print_format(pad->entity, pad->index, stream,
+> > +					 media_opts.which);
+> >   	}
+> >   
+> >   	if (media_opts.get_dv_pad) {
+> > @@ -709,9 +709,10 @@ int main(int argc, char **argv)
+> >   		media_print_topology_dot(media);
+> >   	} else if (media_opts.print) {
+> >   		if (entity)
+> > -			media_print_topology_text_entity(media, entity, which);
+> > +			media_print_topology_text_entity(media, entity,
+> > +							 media_opts.which);
+> >   		else
+> > -			media_print_topology_text(media, which);
+> > +			media_print_topology_text(media, media_opts.which);
+> >   	} else if (entity) {
+> >   		const char *devname;
+> >   
+> > @@ -741,7 +742,7 @@ int main(int argc, char **argv)
+> >   	}
+> >   
+> >   	if (media_opts.routes) {
+> > -		ret = v4l2_subdev_parse_setup_routes(media, which,
+> > +		ret = v4l2_subdev_parse_setup_routes(media, media_opts.which,
+> >   						     media_opts.routes);
+> >   		if (ret) {
+> >   			printf("Unable to setup routes: %s (%d)\n",
+> > @@ -751,7 +752,7 @@ int main(int argc, char **argv)
+> >   	}
+> >   
+> >   	if (media_opts.formats) {
+> > -		ret = v4l2_subdev_parse_setup_formats(media, which,
+> > +		ret = v4l2_subdev_parse_setup_formats(media, media_opts.which,
+> >   						      media_opts.formats);
+> >   		if (ret) {
+> >   			printf("Unable to setup formats: %s (%d)\n",
+> > diff --git a/utils/media-ctl/options.c b/utils/media-ctl/options.c
+> > index 3c408a1b9b06..3606525c33da 100644
+> > --- a/utils/media-ctl/options.c
+> > +++ b/utils/media-ctl/options.c
+> > @@ -40,6 +40,7 @@
+> >   
+> >   struct media_options media_opts = {
+> >   	.devname = MEDIA_DEVNAME_DEFAULT,
+> > +	.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> >   };
+> >   
+> >   static void print_version()
+> > @@ -75,6 +76,7 @@ static void usage(const char *argv0)
+> >   	printf("-r, --reset		Reset all links to inactive\n");
+> >   	printf("-v, --verbose		Be verbose\n");
+> >   	printf("    --version		Show version information\n");
+> > +	printf("-W, --which which	Select the subdev state to operate on\n");
+> >   	printf("\n");
+> >   	printf("Links and formats are defined as\n");
+> >   	printf("\tlinks           = link { ',' link } ;\n");
+> > @@ -140,6 +142,8 @@ static void usage(const char *argv0)
+> >   	for (i = V4L2_YCBCR_ENC_DEFAULT; i <= V4L2_YCBCR_ENC_SMPTE240M; i++)
+> >   		printf("\t                %s\n",
+> >   		       v4l2_subdev_ycbcr_encoding_to_string(i));
+> > +
+> > +	printf("\twhich           Subdev state ('ACTIVE' or 'TRY')\n");
+> >   }
+> >   
+> >   #define OPT_PRINT_DOT			256
+> > @@ -168,6 +172,7 @@ static struct option opts[] = {
+> >   	{"reset", 0, 0, 'r'},
+> >   	{"verbose", 0, 0, 'v'},
+> >   	{"version", 0, 0, OPT_VERSION},
+> > +	{"which", 1, 0, 'W'},
+> >   	{ },
+> >   };
+> >   
+> > @@ -244,7 +249,7 @@ int parse_cmdline(int argc, char **argv)
+> >   	}
+> >   
+> >   	/* parse options */
+> > -	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:R:",
+> > +	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:R:W:",
+> >   				  opts, NULL)) != -1) {
+> >   		switch (opt) {
+> >   		case 'd':
+> > @@ -294,6 +299,17 @@ int parse_cmdline(int argc, char **argv)
+> >   			media_opts.routes = optarg;
+> >   			break;
+> >   
+> > +		case 'W':
+> > +			if (!strcmp(optarg, "ACTIVE"))
+> > +				media_opts.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > +			else if (!strcmp(optarg, "TRY"))
+> > +				media_opts.which = V4L2_SUBDEV_FORMAT_TRY;
+> > +			else {
+> > +				printf("Invalid 'which' value '%s'\n", optarg);
+> > +				return 1;
+> > +			}
+> > +			break;
+> > +
+> >   		case OPT_PRINT_DOT:
+> >   			media_opts.print_dot = 1;
+> >   			break;
+> > diff --git a/utils/media-ctl/options.h b/utils/media-ctl/options.h
+> > index 753d09347585..095729b98014 100644
+> > --- a/utils/media-ctl/options.h
+> > +++ b/utils/media-ctl/options.h
+> > @@ -37,6 +37,7 @@ struct media_options
+> >   	const char *get_dv_pad;
+> >   	const char *dv_pad;
+> >   	const char *routes;
+> > +	enum v4l2_subdev_format_whence which;
+> >   };
+> >   
+> >   extern struct media_options media_opts;
 > 
-> The list grew recently, so just add something there. But it is okay if
-> some name is not really generic, it's just recommendation.
-
-OK, then I think we can go for 'csi' for seninf, and keep 'camsv'.
 
 -- 
 Regards,
