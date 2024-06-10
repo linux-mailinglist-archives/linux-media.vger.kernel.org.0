@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-12801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938A5901AD9
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 08:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197F5901AE0
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 08:10:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E8FC1F223C5
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 06:08:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 986491F20CD3
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 06:10:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE28F1171D;
-	Mon, 10 Jun 2024 06:08:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A0E171D2;
+	Mon, 10 Jun 2024 06:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Gm815bY/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yqihr2hC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF88A18B14
-	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 06:08:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC24014F98
+	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 06:10:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717999711; cv=none; b=Ui933I4cPAolxQNswZUqbREThaSidaXZu+TiHSNoh64DMCrmnHdS021kqpCX8l7aKTCtTwyENNyyRJcfl59zIBefh3EQSxYbAb9HZd7GtQcXJmMfaJg9xY1yw5NenkOOaQDiHvRqt7MIrtBg/o/KGG7XuujU9rn6/ig1WBeaJy8=
+	t=1717999844; cv=none; b=MdhlUrFCiXoexSe5yRNIUeS6rFytV/RUlfPZ5M9zqOFMTBFuURQhI4fOG3P3D5wbcwLJMjQbZQzfqlculwnf03PIRogJIuQdUOft1+Saxlse5q4m94gkvkr7lfotuxCztmnJ1t/xVrM3KuAPUQ2sm/BnIDtfbnKGLy3OT7nCjso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717999711; c=relaxed/simple;
-	bh=8xIrsA1T+5toBxOwijzjFLN2cUPzrGeRDebfCiXHPaI=;
+	s=arc-20240116; t=1717999844; c=relaxed/simple;
+	bh=hFBFXYFg2QZDa8xS2ABnY1YOZoQFAGaLvWXnnQ8nYe0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XpMnDdj5g1AQNNDlTnpolZBS8KDBMBgybNVHgcdzsgEskYIk0RmXq+dWQ6+R5OWRQKfuUOgcJHr1FSIMI+HWwFKqA3HL98bgTt22dx+sA6CWHhcYgOfcWBRqHWA6dMqg1PVScwZPH7NS+LG6mLR6twwYM9QWQT61z8vwDYUYb88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Gm815bY/; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=jBMhMc1XYDTiFgRqLaaePAL/QHQlQICsdmesz6zYC46UUzLvmHM5m2uun4aLPxTI9/mvyDaY9/BISXo5PEmTn7UmYfFeH1g1gt1aYs+FzFRbRaOTdrSO1LgaQEzmGyNRDr7j/HRwQ5e23fueJh4V+33Jsa6b01inHgHPmaZF4lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yqihr2hC; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi [91.158.144.210])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 151C6397;
-	Mon, 10 Jun 2024 08:08:14 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E81E397;
+	Mon, 10 Jun 2024 08:10:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1717999694;
-	bh=8xIrsA1T+5toBxOwijzjFLN2cUPzrGeRDebfCiXHPaI=;
+	s=mail; t=1717999829;
+	bh=hFBFXYFg2QZDa8xS2ABnY1YOZoQFAGaLvWXnnQ8nYe0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gm815bY/kGCtCVY2pusXk46V6ryrT0+NJIfXxgW3rM2IVEE9WrdRYLXOI68oX2GTF
-	 EEfFmAKtuPYzNfBUqX16UMgLZenwfABa67R4C4VrqXDJYqTLnixZUfoBZCaG5K0WyO
-	 GsSPtz01cLuxjkO7Nm52EAlhqk8jOtBW9yiNnNuc=
-Message-ID: <252fc9a1-8830-4820-b7be-5ca46d9a7ca0@ideasonboard.com>
-Date: Mon, 10 Jun 2024 09:08:22 +0300
+	b=Yqihr2hCniXYJkiLqiYexr/R29BeMJ8edxtULMRpaeYPAruOHKu4oHhTG5MItRWRx
+	 8DpU0OUCLhgOojc+Ih3aifSzqxBp6gn1hTfc4/JX3gwETIvTPwbfkTcN8UMkrht2gf
+	 hXdtYKnhzHKy6qyfQ4SC2sVPMi/xEzHo1iYeTcHo=
+Message-ID: <bdcb11ac-2d00-4c7e-9521-7e3891946ccb@ideasonboard.com>
+Date: Mon, 10 Jun 2024 09:10:37 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,14 +50,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [v4l-utils] [PATCH v1 1/3] libv4l2subdev: Extend API with 'which'
- argument where missing
+Subject: Re: [v4l-utils] [PATCH v1 2/3] utils: media-ctl: Prepare for TRY
+ state support
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@iki.fi>,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>
 References: <20240610012238.30462-1-laurent.pinchart@ideasonboard.com>
- <20240610012238.30462-2-laurent.pinchart@ideasonboard.com>
+ <20240610012238.30462-3-laurent.pinchart@ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -103,22 +103,15 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20240610012238.30462-2-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20240610012238.30462-3-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 10/06/2024 04:22, Laurent Pinchart wrote:
-> Many functions exposed by libv4l2subdev have been added over time
-> hardcoding usage of the V4L2_SUBDEV_FORMAT_ACTIVE state. Extend them
-> with a 'which' argument to allow callers to access the TRY state as
-> well. Update existing callers to pass V4L2_SUBDEV_FORMAT_ACTIVE
-> unconditionally, preserving the existing behaviour.
-> 
-> To support accessing the TRY state when getting or setting frame
-> intervals, set the V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH client
-> capability.
-
-I would have split this one to a separate patch, but not a biggie.
+> Pass a 'which' argument to all functions to select which state to
+> access. Hardcode the value to V4L2_SUBDEV_FORMAT_ACTIVE in a single
+> location in main(), to preserve the existing behaviour. This prepares
+> media-ctl for support of the TRY state.
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
@@ -127,422 +120,151 @@ Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->   utils/media-ctl/libv4l2subdev.c | 65 +++++++++++++++++++++------------
->   utils/media-ctl/media-ctl.c     | 11 ++++--
->   utils/media-ctl/v4l2subdev.h    | 49 ++++++++++++++++++++++---
->   3 files changed, 92 insertions(+), 33 deletions(-)
+>   utils/media-ctl/media-ctl.c | 39 ++++++++++++++++++-------------------
+>   1 file changed, 19 insertions(+), 20 deletions(-)
 > 
-> diff --git a/utils/media-ctl/libv4l2subdev.c b/utils/media-ctl/libv4l2subdev.c
-> index e0df686e01c7..163fd610dce7 100644
-> --- a/utils/media-ctl/libv4l2subdev.c
-> +++ b/utils/media-ctl/libv4l2subdev.c
-> @@ -69,7 +69,8 @@ int v4l2_subdev_open(struct media_entity *entity)
->   	ret = ioctl(entity->fd, VIDIOC_SUBDEV_QUERYCAP, &subdevcap);
->   	subdev_streams = !ret && (subdevcap.capabilities & V4L2_SUBDEV_CAP_STREAMS);
->   
-> -	clientcap.capabilities = V4L2_SUBDEV_CLIENT_CAP_STREAMS;
-> +	clientcap.capabilities = V4L2_SUBDEV_CLIENT_CAP_STREAMS
-> +			       | V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH;
->   
->   	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_CLIENT_CAP, &clientcap);
->   	client_streams = !ret && (clientcap.capabilities & V4L2_SUBDEV_CLIENT_CAP_STREAMS);
-> @@ -240,10 +241,11 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
->   
->   int v4l2_subdev_get_routing(struct media_entity *entity,
->   			    struct v4l2_subdev_route **routes,
-> -			    unsigned int *num_routes)
-> +			    unsigned int *num_routes,
-> +			    enum v4l2_subdev_format_whence which)
->   {
->   	struct v4l2_subdev_routing routing = {
-> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> +		.which = which,
->   	};
->   	struct v4l2_subdev_route *r;
->   	int ret;
-> @@ -287,10 +289,11 @@ int v4l2_subdev_get_routing(struct media_entity *entity,
->   
->   int v4l2_subdev_set_routing(struct media_entity *entity,
->   			    struct v4l2_subdev_route *routes,
-> -			    unsigned int num_routes)
-> +			    unsigned int num_routes,
-> +			    enum v4l2_subdev_format_whence which)
->   {
->   	struct v4l2_subdev_routing routing = {
-> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> +		.which = which,
->   		.routes = (uintptr_t)routes,
->   		.num_routes = num_routes,
->   		.len_routes = num_routes,
-> @@ -387,7 +390,8 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
->   
->   int v4l2_subdev_get_frame_interval(struct media_entity *entity,
->   				   struct v4l2_fract *interval,
-> -				   unsigned int pad, unsigned int stream)
-> +				   unsigned int pad, unsigned int stream,
-> +				   enum v4l2_subdev_format_whence which)
->   {
->   	struct v4l2_subdev_frame_interval ival;
->   	int ret;
-> @@ -404,6 +408,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
->   	memset(&ival, 0, sizeof(ival));
->   	ival.pad = pad;
->   	ival.stream = stream;
-> +	ival.which = which;
->   
->   	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &ival);
->   	if (ret < 0)
-> @@ -415,7 +420,8 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
->   
->   int v4l2_subdev_set_frame_interval(struct media_entity *entity,
->   				   struct v4l2_fract *interval,
-> -				   unsigned int pad, unsigned int stream)
-> +				   unsigned int pad, unsigned int stream,
-> +				   enum v4l2_subdev_format_whence which)
->   {
->   	struct v4l2_subdev_frame_interval ival;
->   	int ret;
-> @@ -433,6 +439,7 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
->   	ival.pad = pad;
->   	ival.stream = stream;
->   	ival.interval = *interval;
-> +	ival.which = which;
->   
->   	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &ival);
->   	if (ret < 0)
-> @@ -514,7 +521,9 @@ static int v4l2_subdev_parse_setup_route(struct media_device *media,
->   	return 0;
->   }
->   
-> -int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
-> +int v4l2_subdev_parse_setup_routes(struct media_device *media,
-> +				   enum v4l2_subdev_format_whence which,
-> +				   const char *p)
->   {
->   	struct media_entity *entity;
->   	struct v4l2_subdev_route *routes;
-> @@ -578,7 +587,7 @@ int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
->   			  r->flags);
->   	}
->   
-> -	ret = v4l2_subdev_set_routing(entity, routes, num_routes);
-> +	ret = v4l2_subdev_set_routing(entity, routes, num_routes, which);
->   	if (ret) {
->   		media_dbg(entity->media, "VIDIOC_SUBDEV_S_ROUTING failed: %d\n",
->   			  ret);
-> @@ -961,7 +970,8 @@ static struct media_pad *v4l2_subdev_parse_pad_format(
->   
->   static int set_format(struct media_pad *pad,
->   		      unsigned int stream,
-> -		      struct v4l2_mbus_framefmt *format)
-> +		      struct v4l2_mbus_framefmt *format,
-> +		      enum v4l2_subdev_format_whence which)
->   {
->   	int ret;
->   
-> @@ -975,7 +985,7 @@ static int set_format(struct media_pad *pad,
->   		  pad->entity->info.name, pad->index, stream);
->   
->   	ret = v4l2_subdev_set_format(pad->entity, format, pad->index, stream,
-> -				     V4L2_SUBDEV_FORMAT_ACTIVE);
-> +				     which);
->   	if (ret < 0) {
->   		media_dbg(pad->entity->media,
->   			  "Unable to set format: %s (%d)\n",
-> @@ -992,7 +1002,8 @@ static int set_format(struct media_pad *pad,
->   }
->   
->   static int set_selection(struct media_pad *pad, unsigned int stream,
-> -			 unsigned int target, struct v4l2_rect *rect)
-> +			 unsigned int target, struct v4l2_rect *rect,
-> +			 enum v4l2_subdev_format_whence which)
->   {
->   	int ret;
->   
-> @@ -1005,7 +1016,7 @@ static int set_selection(struct media_pad *pad, unsigned int stream,
->   		  pad->entity->info.name, pad->index, stream);
->   
->   	ret = v4l2_subdev_set_selection(pad->entity, rect, pad->index, stream,
-> -					target, V4L2_SUBDEV_FORMAT_ACTIVE);
-> +					target, which);
->   	if (ret < 0) {
->   		media_dbg(pad->entity->media,
->   			  "Unable to set selection rectangle: %s (%d)\n",
-> @@ -1021,7 +1032,8 @@ static int set_selection(struct media_pad *pad, unsigned int stream,
->   }
->   
->   static int set_frame_interval(struct media_pad *pad, unsigned int stream,
-> -			      struct v4l2_fract *interval)
-> +			      struct v4l2_fract *interval,
-> +			      enum v4l2_subdev_format_whence which)
->   {
->   	int ret;
->   
-> @@ -1034,7 +1046,7 @@ static int set_frame_interval(struct media_pad *pad, unsigned int stream,
->   		  pad->entity->info.name, pad->index, stream);
->   
->   	ret = v4l2_subdev_set_frame_interval(pad->entity, interval, pad->index,
-> -					     stream);
-> +					     stream, which);
->   	if (ret < 0) {
->   		media_dbg(pad->entity->media,
->   			  "Unable to set frame interval: %s (%d)",
-> @@ -1050,6 +1062,7 @@ static int set_frame_interval(struct media_pad *pad, unsigned int stream,
->   
->   
->   static int v4l2_subdev_parse_setup_format(struct media_device *media,
-> +					  enum v4l2_subdev_format_whence which,
->   					  const char *p, char **endp)
->   {
->   	struct v4l2_mbus_framefmt format = { 0, 0, 0 };
-> @@ -1072,26 +1085,26 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
->   	}
->   
->   	if (pad->flags & MEDIA_PAD_FL_SINK) {
-> -		ret = set_format(pad, stream, &format);
-> +		ret = set_format(pad, stream, &format, which);
->   		if (ret < 0)
->   			return ret;
->   	}
->   
-> -	ret = set_selection(pad, stream, V4L2_SEL_TGT_CROP, &crop);
-> +	ret = set_selection(pad, stream, V4L2_SEL_TGT_CROP, &crop, which);
->   	if (ret < 0)
->   		return ret;
->   
-> -	ret = set_selection(pad, stream, V4L2_SEL_TGT_COMPOSE, &compose);
-> +	ret = set_selection(pad, stream, V4L2_SEL_TGT_COMPOSE, &compose, which);
->   	if (ret < 0)
->   		return ret;
->   
->   	if (pad->flags & MEDIA_PAD_FL_SOURCE) {
-> -		ret = set_format(pad, stream, &format);
-> +		ret = set_format(pad, stream, &format, which);
->   		if (ret < 0)
->   			return ret;
->   	}
->   
-> -	ret = set_frame_interval(pad, stream, &interval);
-> +	ret = set_frame_interval(pad, stream, &interval, which);
->   	if (ret < 0)
->   		return ret;
->   
-> @@ -1109,9 +1122,11 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
->   			if (link->source == pad &&
->   			    link->sink->entity->info.type == MEDIA_ENT_T_V4L2_SUBDEV) {
->   				remote_format = format;
-> -				set_format(link->sink, stream, &remote_format);
-> +				set_format(link->sink, stream, &remote_format,
-> +					   which);
->   
-> -				ret = set_frame_interval(link->sink, stream, &interval);
-> +				ret = set_frame_interval(link->sink, stream,
-> +							 &interval, which);
->   				if (ret < 0 && ret != -EINVAL && ret != -ENOTTY)
->   					return ret;
->   			}
-> @@ -1122,13 +1137,15 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
->   	return 0;
->   }
->   
-> -int v4l2_subdev_parse_setup_formats(struct media_device *media, const char *p)
-> +int v4l2_subdev_parse_setup_formats(struct media_device *media,
-> +				    enum v4l2_subdev_format_whence which,
-> +				    const char *p)
->   {
->   	char *end;
->   	int ret;
->   
->   	do {
-> -		ret = v4l2_subdev_parse_setup_format(media, p, &end);
-> +		ret = v4l2_subdev_parse_setup_format(media, which, p, &end);
->   		if (ret < 0)
->   			return ret;
->   
 > diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
-> index 1a9e393ac1f3..44256df953db 100644
+> index 44256df953db..42b1bd9aaa6e 100644
 > --- a/utils/media-ctl/media-ctl.c
 > +++ b/utils/media-ctl/media-ctl.c
-> @@ -108,7 +108,8 @@ static void v4l2_subdev_print_format(struct media_entity *entity,
->   	if (ret != 0)
+> @@ -109,7 +109,7 @@ static void v4l2_subdev_print_format(struct media_entity *entity,
 >   		return;
 >   
-> -	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad, stream);
-> +	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad, stream,
-> +					     V4L2_SUBDEV_FORMAT_ACTIVE);
+>   	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad, stream,
+> -					     V4L2_SUBDEV_FORMAT_ACTIVE);
+> +					     which);
 >   	if (ret != 0 && ret != -ENOTTY && ret != -EINVAL)
 >   		return;
 >   
-> @@ -527,7 +528,8 @@ static void media_print_topology_text_entity(struct media_device *media,
+> @@ -459,7 +459,8 @@ static void media_print_topology_dot(struct media_device *media)
+>   static void media_print_pad_text(struct media_entity *entity,
+>   				 const struct media_pad *pad,
+>   				 struct v4l2_subdev_route *routes,
+> -				 unsigned int num_routes)
+> +				 unsigned int num_routes,
+> +				 enum v4l2_subdev_format_whence which)
+>   {
+>   	uint64_t printed_streams_mask = 0;
+>   	unsigned int i;
+> @@ -468,8 +469,7 @@ static void media_print_pad_text(struct media_entity *entity,
+>   		return;
+>   
+>   	if (!routes) {
+> -		v4l2_subdev_print_format(entity, pad->index, 0,
+> -					 V4L2_SUBDEV_FORMAT_ACTIVE);
+> +		v4l2_subdev_print_format(entity, pad->index, 0, which);
+>   	} else {
+>   		for (i = 0; i < num_routes; ++i) {
+>   			const struct v4l2_subdev_route *route = &routes[i];
+> @@ -494,20 +494,21 @@ static void media_print_pad_text(struct media_entity *entity,
+>   				continue;
+>   
+>   			v4l2_subdev_print_format(entity, pad->index, stream,
+> -						 V4L2_SUBDEV_FORMAT_ACTIVE);
+> +						 which);
+>   
+>   			printed_streams_mask |= (1ULL << stream);
+>   		}
+>   	}
+>   
+> -	v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +	v4l2_subdev_print_pad_dv(entity, pad->index, which);
+>   
+>   	if (pad->flags & MEDIA_PAD_FL_SOURCE)
+>   		v4l2_subdev_print_subdev_dv(entity);
+>   }
+>   
+>   static void media_print_topology_text_entity(struct media_device *media,
+> -					     struct media_entity *entity)
+> +					     struct media_entity *entity,
+> +					     enum v4l2_subdev_format_whence which)
+>   {
+>   	static const struct flag_name link_flags[] = {
+>   		{ MEDIA_LNK_FL_ENABLED, "ENABLED" },
+> @@ -528,8 +529,7 @@ static void media_print_topology_text_entity(struct media_device *media,
 >   	unsigned int padding;
 >   
 >   	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
-> -		v4l2_subdev_get_routing(entity, &routes, &num_routes);
-> +		v4l2_subdev_get_routing(entity, &routes, &num_routes,
-> +					V4L2_SUBDEV_FORMAT_ACTIVE);
+> -		v4l2_subdev_get_routing(entity, &routes, &num_routes,
+> -					V4L2_SUBDEV_FORMAT_ACTIVE);
+> +		v4l2_subdev_get_routing(entity, &routes, &num_routes, which);
 >   
 >   	padding = printf("- entity %u: ", info->id);
 >   	printf("%s (%u pad%s, %u link%s", info->name,
-> @@ -738,7 +740,9 @@ int main(int argc, char **argv)
+> @@ -557,7 +557,7 @@ static void media_print_topology_text_entity(struct media_device *media,
+>   		printf("\tpad%u: ", j);
+>   		print_flags(pad_flags, ARRAY_SIZE(pad_flags), pad->flags);
+>   		printf("\n");
+> -		media_print_pad_text(entity, pad, routes, num_routes);
+> +		media_print_pad_text(entity, pad, routes, num_routes, which);
+>   
+>   		for (k = 0; k < num_links; k++) {
+>   			const struct media_link *link = media_entity_get_link(entity, k);
+> @@ -585,7 +585,8 @@ static void media_print_topology_text_entity(struct media_device *media,
+>   	free(routes);
+>   }
+>   
+> -static void media_print_topology_text(struct media_device *media)
+> +static void media_print_topology_text(struct media_device *media,
+> +				      enum v4l2_subdev_format_whence which)
+>   {
+>   	unsigned int nents = media_get_entities_count(media);
+>   	unsigned int i;
+> @@ -594,11 +595,12 @@ static void media_print_topology_text(struct media_device *media)
+>   
+>   	for (i = 0; i < nents; ++i)
+>   		media_print_topology_text_entity(
+> -			media, media_get_entity(media, i));
+> +			media, media_get_entity(media, i), which);
+>   }
+>   
+>   int main(int argc, char **argv)
+>   {
+> +	const enum v4l2_subdev_format_whence which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>   	struct media_device *media;
+>   	struct media_entity *entity = NULL;
+>   	int ret = -1;
+> @@ -665,8 +667,7 @@ int main(int argc, char **argv)
+>   			goto out;
+>   		}
+>   
+> -		v4l2_subdev_print_format(pad->entity, pad->index, stream,
+> -					 V4L2_SUBDEV_FORMAT_ACTIVE);
+> +		v4l2_subdev_print_format(pad->entity, pad->index, stream, which);
+>   	}
+>   
+>   	if (media_opts.get_dv_pad) {
+> @@ -708,9 +709,9 @@ int main(int argc, char **argv)
+>   		media_print_topology_dot(media);
+>   	} else if (media_opts.print) {
+>   		if (entity)
+> -			media_print_topology_text_entity(media, entity);
+> +			media_print_topology_text_entity(media, entity, which);
+>   		else
+> -			media_print_topology_text(media);
+> +			media_print_topology_text(media, which);
+>   	} else if (entity) {
+>   		const char *devname;
+>   
+> @@ -740,8 +741,7 @@ int main(int argc, char **argv)
 >   	}
 >   
 >   	if (media_opts.routes) {
-> -		ret = v4l2_subdev_parse_setup_routes(media, media_opts.routes);
-> +		ret = v4l2_subdev_parse_setup_routes(media,
-> +						     V4L2_SUBDEV_FORMAT_ACTIVE,
-> +						     media_opts.routes);
+> -		ret = v4l2_subdev_parse_setup_routes(media,
+> -						     V4L2_SUBDEV_FORMAT_ACTIVE,
+> +		ret = v4l2_subdev_parse_setup_routes(media, which,
+>   						     media_opts.routes);
 >   		if (ret) {
 >   			printf("Unable to setup routes: %s (%d)\n",
->   			       strerror(-ret), -ret);
-> @@ -748,6 +752,7 @@ int main(int argc, char **argv)
+> @@ -751,8 +751,7 @@ int main(int argc, char **argv)
+>   	}
 >   
 >   	if (media_opts.formats) {
->   		ret = v4l2_subdev_parse_setup_formats(media,
-> +						      V4L2_SUBDEV_FORMAT_ACTIVE,
+> -		ret = v4l2_subdev_parse_setup_formats(media,
+> -						      V4L2_SUBDEV_FORMAT_ACTIVE,
+> +		ret = v4l2_subdev_parse_setup_formats(media, which,
 >   						      media_opts.formats);
 >   		if (ret) {
 >   			printf("Unable to setup formats: %s (%d)\n",
-> diff --git a/utils/media-ctl/v4l2subdev.h b/utils/media-ctl/v4l2subdev.h
-> index 1277040bfeae..0c1feae28e88 100644
-> --- a/utils/media-ctl/v4l2subdev.h
-> +++ b/utils/media-ctl/v4l2subdev.h
-> @@ -142,32 +142,44 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
->    * @param entity - subdev-device media entity.
->    * @param routes - routes of the subdev.
->    * @param num_routes - number of routes.
-> + * @param which - identifier of the routes to get.
->    *
->    * Get the routes of @a entity and return them in an allocated array in @a routes
->    * and the number of routes in @a num_routes.
->    *
->    * The caller is responsible for freeing the routes array after use.
->    *
-> + * @a which is set to V4L2_SUBDEV_FORMAT_TRY to get the routing table stored in
-> + * the file handle, of V4L2_SUBDEV_FORMAT_ACTIVE to get the device's active
-> + * routing table.
-> + *
->    * @return 0 on success, or a negative error code on failure.
->    */
->   int v4l2_subdev_get_routing(struct media_entity *entity,
->   			    struct v4l2_subdev_route **routes,
-> -			    unsigned int *num_routes);
-> +			    unsigned int *num_routes,
-> +			    enum v4l2_subdev_format_whence which);
->   
->   /**
->    * @brief Set the routing table of a subdev media entity.
->    * @param entity - subdev-device media entity.
->    * @param routes - routes of the subdev.
->    * @param num_routes - number of routes.
-> + * @param which - identifier of the routes to set.
->    *
->    * Set the routes of @a entity. The routes are given in @a routes with the
->    * length of @a num_routes.
->    *
-> + * @a which is set to V4L2_SUBDEV_FORMAT_TRY to set the routing table stored in
-> + * the file handle, of V4L2_SUBDEV_FORMAT_ACTIVE to set the device's active
-> + * routing table.
-> + *
->    * @return 0 on success, or a negative error code on failure.
->    */
->   int v4l2_subdev_set_routing(struct media_entity *entity,
->   			    struct v4l2_subdev_route *route,
-> -			    unsigned int num_routes);
-> +			    unsigned int num_routes,
-> +			    enum v4l2_subdev_format_whence which);
->   
->   /**
->    * @brief Query the digital video capabilities of a pad.
-> @@ -228,6 +240,7 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
->    * @param interval - frame interval to be filled.
->    * @param pad - pad number.
->    * @param stream - stream number.
-> + * @param which - identifier of the interval to get.
->    *
->    * Retrieve the current frame interval on subdev @a entity and store it in the
->    * @a interval structure.
-> @@ -235,11 +248,16 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
->    * Frame interval retrieving is usually supported only on devices at the
->    * beginning of video pipelines, such as sensors.
->    *
-> + * @a which is set to V4L2_SUBDEV_FORMAT_TRY to get the frame interval stored
-> + * in the file handle, of V4L2_SUBDEV_FORMAT_ACTIVE to get the device's active
-> + * frame interval.
-> + *
->    * @return 0 on success, or a negative error code on failure.
->    */
->   
->   int v4l2_subdev_get_frame_interval(struct media_entity *entity,
-> -	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
-> +	struct v4l2_fract *interval, unsigned int pad, unsigned int stream,
-> +	enum v4l2_subdev_format_whence which);
->   
->   /**
->    * @brief Set the frame interval on a sub-device.
-> @@ -247,6 +265,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
->    * @param interval - frame interval.
->    * @param pad - pad number.
->    * @param stream - stream number.
-> + * @param which - identifier of the interval to set.
->    *
->    * Set the frame interval on subdev @a entity to @a interval. The driver is
->    * allowed to modify the requested frame interval, in which case @a interval is
-> @@ -255,14 +274,20 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
->    * Frame interval setting is usually supported only on devices at the beginning
->    * of video pipelines, such as sensors.
->    *
-> + * @a which is set to V4L2_SUBDEV_FORMAT_TRY to set the frame interval stored
-> + * in the file handle, of V4L2_SUBDEV_FORMAT_ACTIVE to set the device's active
-> + * frame interval.
-> + *
->    * @return 0 on success, or a negative error code on failure.
->    */
->   int v4l2_subdev_set_frame_interval(struct media_entity *entity,
-> -	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
-> +	struct v4l2_fract *interval, unsigned int pad, unsigned int stream,
-> +	enum v4l2_subdev_format_whence which);
->   
->   /**
->    * @brief Parse a string and apply format, crop and frame interval settings.
->    * @param media - media device.
-> + * @param which - identifier of the parameters to set.
->    * @param p - input string
->    * @param endp - pointer to string p where parsing ended (return)
->    *
-> @@ -272,20 +297,32 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
->    *
->    * Format strings are separeted by commas (,).
->    *
-> + * @a which is set to V4L2_SUBDEV_FORMAT_TRY to set the parameters stored in the
-> + * file handle, of V4L2_SUBDEV_FORMAT_ACTIVE to set the device's active
-> + * parameters.
-> + *
->    * @return 0 on success, or a negative error code on failure.
->    */
-> -int v4l2_subdev_parse_setup_formats(struct media_device *media, const char *p);
-> +int v4l2_subdev_parse_setup_formats(struct media_device *media,
-> +				    enum v4l2_subdev_format_whence which,
-> +				    const char *p);
->   
->   /**
->    * @brief Parse a string and apply route settings.
->    * @param media - media device.
-> + * @param which - identifier of the routes to set.
->    * @param p - input string
->    *
->    * Parse string @a p and apply route settings to a subdev.
->    *
-> + * @a which is set to V4L2_SUBDEV_FORMAT_TRY to set the routes stored in the
-> + * file handle, of V4L2_SUBDEV_FORMAT_ACTIVE to set the device's active routes.
-> + *
->    * @return 0 on success, or a negative error code on failure.
->    */
-> -int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p);
-> +int v4l2_subdev_parse_setup_routes(struct media_device *media,
-> +				   enum v4l2_subdev_format_whence which,
-> +				   const char *p);
->   
->   /**
->    * @brief Convert media bus pixel code to string.
 
 
