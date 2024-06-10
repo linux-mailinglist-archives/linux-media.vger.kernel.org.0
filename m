@@ -1,113 +1,224 @@
-Return-Path: <linux-media+bounces-12871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E592902529
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 17:15:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 461ED902519
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 17:13:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6ABACB244A8
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 15:15:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5A181F23AE5
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 15:13:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA45E13D615;
-	Mon, 10 Jun 2024 15:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5B8313F437;
+	Mon, 10 Jun 2024 15:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="1H0IFhza"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MfCiaIy3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7651E4A0;
-	Mon, 10 Jun 2024 15:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F4913D8BF;
+	Mon, 10 Jun 2024 15:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718032491; cv=none; b=WqaJKtD+rjldkebKadzffIZyCHjmBflwVpji9sbRvHc508WC36Zexz6bXwDFrkhtiN45X6RTu3ZmLRIL3dDD78BDpR1xeHp4v3O/PGvVqwp9reOcbtonOgpU9iOTH1QPQKfCbD5lDh0oWe1bxLvJwApBjcQPt3GzzOrEbg/f3i8=
+	t=1718032364; cv=none; b=hSeAkG5yp4j/FgZ45Yx7FMl+QDiz74oV/lHEWh5193IfrVjfNtS1WhjRujBlzUlCyu9F8ZpylDcV879HOumnXcoh4uOnG1WY0b5CTA2S2yejF0zMhcpUvofkvb2MpoOD7ixkItHG3JgVs2ZJZvWPWyOvH9Out+xhBxvSSz4zHEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718032491; c=relaxed/simple;
-	bh=IjlJcW2rpcpR2AhzMpx2AVjJOXObCUBp5FaDLv7xw4M=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Op7Ljwc486bI4rtP5u9w9iHeORyaZo6B+vauES8uoqL9aEZ3G0fYtTbI0ok337rNsaaM2mVB2RGtc2FHB8gAN52GA24KVujCx5QTjdJ6HqHvcRjtazF5jB593M8Jh0ayUnlZJnbiJ8fVNgyjnTAP+rjaUqQwkIGYMKuPGPKXpfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=1H0IFhza; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45ACQhJW012970;
-	Mon, 10 Jun 2024 17:14:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	NW9V2p3c6jEdfWsts/AzRAESe219hPF54H1y4m1f7Hk=; b=1H0IFhzamhX0Dprg
-	4UXoYUi8bj956wyWORsaplevL7RVsSYmXr62lwovRdP884aIiv8ldwaN2Mz2AhZo
-	QsknU78+knd5BoVhPGK0Qmr4GqF1dVOeIDWD8RhTrhoovkaeosDIuYLYXCuiOepg
-	OCvn1JN18ufLjTScuQ2kJWTU7BYXGBRJjoh4qWTqVqbmmTvnYfLD4osSirF4E1az
-	Lma+2RCe3w6q2WYDAcHhH8cmWBNGBE3L3vG2CoBoEBeUHH+MOF2x8bm+o7xP+LyB
-	gYoeOkZBLVLMyPkN5voQ/zKOX96TrcxkkN+ZNWkYMorT4xuEC/QCGjXkcwtbT/gD
-	J/CZZg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ymcqgfsee-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Jun 2024 17:14:41 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 74D774002D;
-	Mon, 10 Jun 2024 17:14:24 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9F61921B53E;
-	Mon, 10 Jun 2024 17:13:48 +0200 (CEST)
-Received: from localhost (10.130.72.241) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 10 Jun
- 2024 17:13:48 +0200
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>
-CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Benjamin Mugnier
-	<benjamin.mugnier@foss.st.com>
-Subject: [PATCH 3/3] media: vgxy61: Add MODULE_ALIAS()
-Date: Mon, 10 Jun 2024 17:08:15 +0200
-Message-ID: <20240610150815.228790-4-benjamin.mugnier@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240610150815.228790-1-benjamin.mugnier@foss.st.com>
-References: <20240610150815.228790-1-benjamin.mugnier@foss.st.com>
+	s=arc-20240116; t=1718032364; c=relaxed/simple;
+	bh=Y57ApLX20A/77kiC6X5p1+QDAwxyCh4m0CBGPX/KFBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pMww/LjCfDMFS1eKlSrP9wqT5XnWds/1y9m7JQy0C4xcenDTp/1Twa9yxseNpYRyzqYWnlB3z+co9hH8AuuBwSQa+RIvg/9AJGTBtaNySWPjwoHru6KuK+KCrtD+vtEhQOauOwg+/Ph/Lo6qXQxikDoGsgjHDd+4KFn6wU9O7V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MfCiaIy3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3578B39F;
+	Mon, 10 Jun 2024 17:12:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718032349;
+	bh=Y57ApLX20A/77kiC6X5p1+QDAwxyCh4m0CBGPX/KFBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MfCiaIy34BeAmIWH//ozCzoqy0wiW1L4Spz09e4cvBMqNry6uHeDJXeJVV8qI6SdJ
+	 Xztl/NSqsfa48wxI8ZayIjI+rQHj+C3mYw1dVNxyN4xiwYVPenmCf2jxzqG26Y315M
+	 Z4jEJpgHUz111W/nh2yyjmzkVvhlatvTbiTjJx4Y=
+Date: Mon, 10 Jun 2024 18:12:21 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] media: uvcvideo: Allow custom control mapping
+Message-ID: <20240610151221.GI26663@pendragon.ideasonboard.com>
+References: <20240318-billion-v1-0-2f7bc0ee2030@chromium.org>
+ <20240318-billion-v1-1-2f7bc0ee2030@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-10_02,2024-06-10_01,2024-05-17_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240318-billion-v1-1-2f7bc0ee2030@chromium.org>
 
-Preserve user space retro compatibility after the device rename.
+Hi Ricardo,
 
-Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
----
- drivers/media/i2c/vgxy61.c | 1 +
- 1 file changed, 1 insertion(+)
+Thank you for the patch.
 
-diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
-index ca3b43608dad..c85f356946ca 100644
---- a/drivers/media/i2c/vgxy61.c
-+++ b/drivers/media/i2c/vgxy61.c
-@@ -1898,3 +1898,4 @@ MODULE_AUTHOR("Mickael Guene <mickael.guene@st.com>");
- MODULE_AUTHOR("Sylvain Petinot <sylvain.petinot@foss.st.com>");
- MODULE_DESCRIPTION("VGXY61 camera subdev driver");
- MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:st-vgxy61");
+On Mon, Mar 18, 2024 at 11:55:23PM +0000, Ricardo Ribalda wrote:
+> Some advanced controls might not be completely implemented by vendors.
+> 
+> If the controls are a enumeration, UVC does not gives a way to probe
+> what is implemented and what is not.
+> 
+> Lets create a new callback function where heuristics can be implemented
+
+s/Lets/Let's/
+
+> to detect what is implemented and what not.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 15 ++++++++--
+>  drivers/media/usb/uvc/uvcvideo.h | 59 +++++++++++++++++++++-------------------
+>  2 files changed, 43 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index e59a463c27618..3e939b4fbaaaf 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -2434,6 +2434,14 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+>  	return -ENOMEM;
+>  }
+>  
+> +static int __uvc_ctrl_add_custom_mapping(struct uvc_video_chain *chain,
+> +	struct uvc_control *ctrl, const struct uvc_control_mapping *mapping)
+
+The name isn't great is in most cases it doesn't add a custom mapping.
+
+> +{
+> +	if (mapping && mapping->add_mapping)
+> +		return mapping->add_mapping(chain, ctrl, mapping);
+> +	return __uvc_ctrl_add_mapping(chain, ctrl, mapping);
+> +}
+> +
+>  int uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+>  	const struct uvc_control_mapping *mapping)
+>  {
+> @@ -2637,7 +2645,8 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+>  
+>  			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+>  			    ctrl->info.selector == mapping->selector) {
+> -				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+> +				__uvc_ctrl_add_custom_mapping(chain, ctrl,
+> +							      mapping);
+>  				custom = true;
+>  			}
+>  		}
+> @@ -2652,7 +2661,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+>  
+>  		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+>  		    ctrl->info.selector == mapping->selector)
+> -			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+> +			__uvc_ctrl_add_custom_mapping(chain, ctrl, mapping);
+>  	}
+>  
+>  	/* Finally process version-specific mappings. */
+> @@ -2664,7 +2673,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+>  
+>  		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+>  		    ctrl->info.selector == mapping->selector)
+> -			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+> +			__uvc_ctrl_add_custom_mapping(chain, ctrl, mapping);
+>  	}
+>  }
+>  
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 6fb0a78b1b009..611350a82c37f 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -101,34 +101,6 @@ struct uvc_control_info {
+>  	u32 flags;
+>  };
+>  
+> -struct uvc_control_mapping {
+> -	struct list_head list;
+> -	struct list_head ev_subs;
+> -
+> -	u32 id;
+> -	char *name;
+> -	u8 entity[16];
+> -	u8 selector;
+> -
+> -	u8 size;
+> -	u8 offset;
+> -	enum v4l2_ctrl_type v4l2_type;
+> -	u32 data_type;
+> -
+> -	const u32 *menu_mapping;
+> -	const char (*menu_names)[UVC_MENU_NAME_LEN];
+> -	unsigned long menu_mask;
+> -
+> -	u32 master_id;
+> -	s32 master_manual;
+> -	u32 slave_ids[2];
+> -
+> -	s32 (*get)(struct uvc_control_mapping *mapping, u8 query,
+> -		   const u8 *data);
+> -	void (*set)(struct uvc_control_mapping *mapping, s32 value,
+> -		    u8 *data);
+> -};
+> -
+
+You can leave the structure here, close to the other related structuers,
+and add forward declarations of the uvc_video_chain and uvc_control
+structures just before the existing forward declaration of uvc_device.
+
+>  struct uvc_control {
+>  	struct uvc_entity *entity;
+>  	struct uvc_control_info info;
+> @@ -336,6 +308,37 @@ struct uvc_video_chain {
+>  	u8 ctrl_class_bitmap;			/* Bitmap of valid classes */
+>  };
+>  
+> +struct uvc_control_mapping {
+> +	struct list_head list;
+> +	struct list_head ev_subs;
+> +
+> +	u32 id;
+> +	char *name;
+> +	u8 entity[16];
+> +	u8 selector;
+> +
+> +	u8 size;
+> +	u8 offset;
+> +	enum v4l2_ctrl_type v4l2_type;
+> +	u32 data_type;
+> +
+> +	const u32 *menu_mapping;
+> +	const char (*menu_names)[UVC_MENU_NAME_LEN];
+> +	unsigned long menu_mask;
+> +
+> +	u32 master_id;
+> +	s32 master_manual;
+> +	u32 slave_ids[2];
+> +
+> +	int (*add_mapping)(struct uvc_video_chain *chain,
+> +			   struct uvc_control *ctrl,
+> +			   const struct uvc_control_mapping *mapping);
+> +	s32 (*get)(struct uvc_control_mapping *mapping, u8 query,
+> +		   const u8 *data);
+> +	void (*set)(struct uvc_control_mapping *mapping, s32 value,
+> +		    u8 *data);
+> +};
+> +
+>  struct uvc_stats_frame {
+>  	unsigned int size;		/* Number of bytes captured */
+>  	unsigned int first_data;	/* Index of the first non-empty packet */
+> 
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
 
