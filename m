@@ -1,112 +1,127 @@
-Return-Path: <linux-media+bounces-12895-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12897-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C37902C2D
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 01:05:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50AA2902C3F
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 01:10:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B4D81F231F5
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 23:05:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C549BB2166B
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 23:10:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 066061514F6;
-	Mon, 10 Jun 2024 23:05:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A34E15251B;
+	Mon, 10 Jun 2024 23:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AE0tYdJ2"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q7HpKo41"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4501514C6
-	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 23:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC0247A40
+	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 23:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718060722; cv=none; b=Ozp3HzrZmDXrriXIFksyDOyhieCX0jO1KUijpr5HQPyWIyyzEUuAYkCG4xSWbIv3kEz2YYC7lNZMCei5WLSC3NXBHuqAAvGUAopE3eApGxjHgNLP0+7bqYSoUtYBbOY73eKoihjiI1X6h64YN7w5uxlHnua6mx59zMycCR72uDs=
+	t=1718060997; cv=none; b=EeVU4vERGYRjgNNTDv1C5qXkov6NwWwkJVMuKIgqK/+bSRaJ/dEbPnYsfioBvTdr2inFAOB51aVdyUd0kva/TL4+lIET+aX9AgHkYXtzuUO3AV9t4Mo5ltNETqM68ed33oF1qYPwrLfeTYXK+IfA3vgXJsQaBXUCri6gElQQpMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718060722; c=relaxed/simple;
-	bh=0iAQrERYxy8ofmSmW1ynsHwEiXbQ2uB33xUNEsgQzSY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i5t5qiBrrGMxd5MiFRcP8erSlH8Q8sUmmgdGzZxLRUByg4CgSPY5Sa/hso+OerQyX8ORD6gcu27yj3C5j6cAB5EoPdXz2w3Kl5RB1OSs2sIbYMovQ4DK3t4PtGwDN0Y2j4W5d9+gKUPC3n6ISPb9iNAQDDhcELB5n3jI2vkpAxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=AE0tYdJ2; arc=none smtp.client-ip=209.85.167.46
+	s=arc-20240116; t=1718060997; c=relaxed/simple;
+	bh=7yOCw5ehRCh9Die2Lwd6uWTzJjn9VrsOF6i3rUuNHEk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=p153JXERcYW9MN8XNFLO6pigC3lTFC+lba/ZOdUun0wJSEA2uZn2bxjxcxqrE8AqIrTbcwp0MJC733CzuEeCmNWBDyCj0kI1NuJzNHnKod5c5x9Y6j4KUUevOVRk/wjO3B+IDXpOEujUYQRO2ucWvzeswzIA3ZRT1DArIpetqow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Q7HpKo41; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5295eb47b48so5851218e87.1
-        for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 16:05:20 -0700 (PDT)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-440609dd118so10168291cf.1
+        for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 16:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718060719; x=1718665519; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/1Y/1ng7J+NJ/Pxck+jwlwukOV+5HqrD1XO5KGcJr80=;
-        b=AE0tYdJ2BZkVFw6kuSTDLRFwWCFrf+OEpqptDrYDmSsVdqCm031I+jIlgWlZJBaz3S
-         efwV/dLjigrLYxOF/zIu/snGHE0lIfJ7hsptCWRnhzNRfv+HUwzExnRZH7wlWj8aUkqs
-         nEYTHh0R0p25lfrQe6lQ4lGJqfs2+8gutPBxw=
+        d=chromium.org; s=google; t=1718060994; x=1718665794; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/ICdOWrg5mG8fO0nrrLGSS0O+w4350VdKAB7pBCMUhM=;
+        b=Q7HpKo41CimlwXiAJNtk4EQfQjotltLWx+K06ziTSxgvQb8ZBUT9PEjjjqKADfTttj
+         DzCoX2tJ0hTdMDEXUUCqLyhWhBSBgNVt1tQSvUgz4s9p5VpKFVao4LIdBXf7N7tyq5t4
+         b6CuIToR7QgvLg1HRKoO8TKfQwrFgwtfM+JM8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718060719; x=1718665519;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1718060994; x=1718665794;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/1Y/1ng7J+NJ/Pxck+jwlwukOV+5HqrD1XO5KGcJr80=;
-        b=O88CD5PKO5iODEzOfR8boCJmhafb63qm/clr7+grrntANOzFcmWYJ/HqvhsszEtQPJ
-         KuMWHvpvz+j/qOd7CUh2zkOF9blYdAi9Z6FF5wtjFJ1pIR5TGOJksQ6ELs3Smw4hGJLh
-         EnKyA4DHnmVn2D2OQJeZGRd34MZZ9B9rQGKVsKT7/uGZmcZf3E8HfSXuumdoWeL+E9pt
-         3msYyeVzl4vW58RLjJJWZTZv8k3zKHZPWqnTtk+8u4+eMJUupkfeZDa8DzQTRJwp4VG4
-         QN3cixLWd0QlNi7F57dgVBEHQpCdcZukx0HQiuOcHvDDhIELBQ2hcKWJiTHOrB6eqAJ4
-         2oZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+yyg4SbXUKW+NmqUvuZydPh3IkGwfl/XOqvWZYY9tqf1LMTTBgsMAhVwliJcYWsc9Kur3nUf7hAfWqMuH8ia7raBAhp382lNeybY=
-X-Gm-Message-State: AOJu0Ywb+dz4gNsl2IKNC6dMn9UMIbJTKPQErYn/LcnjbDrEBFYK7F7v
-	kciGNFjUUnEuKsVXYpLvqY6NcT7vFSNEXci0icM6AUsHEiH0MZLVwHVg/hStGtYSQFTgCMg3jjV
-	amArI
-X-Google-Smtp-Source: AGHT+IHpPzw1k15tBpBjFZVf6dS/RqFctJOkWIlJwyuZycIe9KeGIXg9jOeY1KnaZ0bhtQt2y9C2TQ==
-X-Received: by 2002:a05:6512:3d0b:b0:52c:836a:3db8 with SMTP id 2adb3069b0e04-52c836a3e68mr4927637e87.15.1718060719011;
-        Mon, 10 Jun 2024 16:05:19 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52c89a3e905sm843713e87.209.2024.06.10.16.05.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jun 2024 16:05:18 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52bd48cf36bso3715157e87.3
-        for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 16:05:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUNIJhV2afBNhZQIS82wV2fni08catMNJF/po9sWyzwWu/e2pUx5IOu/1gHrnWbQefD/ky5oMjJf9+CXd23hlRmOZ5bJNrXYZbedQ4=
-X-Received: by 2002:a05:6512:324f:b0:52b:fc90:acdc with SMTP id
- 2adb3069b0e04-52bfc90ae01mr4654385e87.32.1718060717297; Mon, 10 Jun 2024
- 16:05:17 -0700 (PDT)
+        bh=/ICdOWrg5mG8fO0nrrLGSS0O+w4350VdKAB7pBCMUhM=;
+        b=VeRsAE1sCndXyp+HoNi1iE2VNjsEF+2ZzoI1mKytr4QeCMV/wYFTCKAcl/MbyDmFS1
+         woXcLx5fP3JEJRuQEqdSnoOsCe39kW5BPIU9+VFQIv8O+X2fHaGRbzz2AEzsdA9t0qMq
+         aMD5pPwlrbNpk+2FEv/AlF7iLfkZ47Ap+QEtEXC5QzxGz5DfLhpgkqN3O6Q9PoPuC22n
+         uwMa5BOIN7EsF8E4OXua+2lWpOV1jMbgD788WEZuDaEf0nvJ9rOhQAe4HCKmMGxHa+6C
+         /Q0VSoqB3XIgtBFPVZzmj0cNxQWQnbzVXEvMr1owiImm/HzrZYt6r0XTsJNGfEx9G5Z/
+         p5Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCUpHGVkWu7rRu30bTELkIWJdwoHoyQvFnBAe+tJ7E08y3ciKQARefwuHujUBL/QAR5BMiHwWwKdOC1ifKRNZWPPbNZWGmhWP4CDPXs=
+X-Gm-Message-State: AOJu0YwZJ/8ICL93PYoM9Cclutw0XXxKtKfWf2p5gj7U/Z3LeRv7EZFC
+	HcF2z9AGxzZMobuOUkEU8u1KewoUCNkdC4CG33UPMS2SdEHpFdPIe2QxLUhjmg==
+X-Google-Smtp-Source: AGHT+IGxw6UDURFkAaIXBhSE8QYt8olnJgp1gO8TAyo+egZMro2afsnjv/Q591w5ZZsDakY7NP6JVg==
+X-Received: by 2002:a05:6214:3992:b0:6b0:649a:7a25 with SMTP id 6a1803df08f44-6b0649a7c7bmr103223616d6.22.1718060993914;
+        Mon, 10 Jun 2024 16:09:53 -0700 (PDT)
+Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b06519d521sm35256946d6.65.2024.06.10.16.09.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jun 2024 16:09:53 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 0/7] media: uvc: Probe PLF limits at start-up
+Date: Mon, 10 Jun 2024 23:09:51 +0000
+Message-Id: <20240610-billion-v2-0-38e861475f85@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240318-billion-v1-0-2f7bc0ee2030@chromium.org>
- <20240318-billion-v1-2-2f7bc0ee2030@chromium.org> <20240610152046.GJ26663@pendragon.ideasonboard.com>
-In-Reply-To: <20240610152046.GJ26663@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 11 Jun 2024 01:05:01 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsO1Cvn-S9gKLJ1ecNdejqy7-VmiJVRCfS82-fFy_BBeg@mail.gmail.com>
-Message-ID: <CANiDSCsO1Cvn-S9gKLJ1ecNdejqy7-VmiJVRCfS82-fFy_BBeg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] media: uvcvideo: Refactor Power Line Frequency limit selection
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMCHZ2YC/z3MQQ7CIBCF4as0sxZDgWrjynuYLgCHMklbGlCia
+ bi72ESX/8vLt0HCSJjg0mwQMVOisNQQhwas18uIjO61QXChuGwlMzRN9cM6I7TqnO5PTkF9rxE
+ dvXbpNtT2lB4hvnc4t9/1Z/R/I7eMM+HOxnJEwSW/Wh/DTM/5GOIIQynlA/FUqp+hAAAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.12.4
 
-Hi Laurent
+The UVC standard descries the values for the PLF control for its
+versions 1.1 and and 1.5, but it does not describe which values MUST be
+implemented.
 
-On Mon, 10 Jun 2024 at 17:21, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> > +static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
-> > +     struct uvc_control *ctrl, const struct uvc_control_mapping *mapping);
->
-> I wonder if we could avoid the forward declaration by turning the
-> .add_mapping() operation into a .filter_mapping() (name to be
-> bikshedded) that would return a replacement mapping instead of adding
-> it. The caller (the __uvc_ctrl_add_custom_mapping() function) would then
-> call __uvc_ctrl_add_mapping() unconditionally. You could actually call
-> the new operation directly in __uvc_ctrl_add_custom_mapping() without
-> having to add a new __uvc_ctrl_add_custom_mapping() function. What do
-> you think, would that be simpler and more redable ?
+So far, we have been adding "device quirks" to provide proper limits for
+the control, but this is failing to scale.
 
-Let me add it as a forward patch, let me know what you think.
+Add a function that during probe-time checks the capability of the
+control.
 
-Regards!
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2: Thanks Laurent
+- Cleanup mapings from uvc_device_info
+- Use __free()
+- Implement filter_mapping
+- Link to v1: https://lore.kernel.org/r/20240318-billion-v1-0-2f7bc0ee2030@chromium.org
+
+---
+Ricardo Ribalda (7):
+      media: uvcvideo: Allow custom control mapping
+      media: uvcvideo: Refactor Power Line Frequency limit selection
+      media: uvcvideo: Probe the PLF characteristics
+      media: uvcvideo: Cleanup version-specific mapping
+      media: uvcvideo: Remove PLF device quirking
+      media: uvcvideo: Remove mappings form uvc_device_info
+      media: uvcvideo: Replace get_mapping with filter_mapping
+
+ drivers/media/usb/uvc/uvc_ctrl.c   | 191 ++++++++++++++++++++-----------------
+ drivers/media/usb/uvc/uvc_driver.c | 122 -----------------------
+ drivers/media/usb/uvc/uvcvideo.h   |   8 +-
+ 3 files changed, 109 insertions(+), 212 deletions(-)
+---
+base-commit: b14257abe7057def6127f6fb2f14f9adc8acabdb
+change-id: 20240313-billion-5b2a45fa86f4
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
 
