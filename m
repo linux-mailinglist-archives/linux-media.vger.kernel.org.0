@@ -1,151 +1,135 @@
-Return-Path: <linux-media+bounces-12880-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12881-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310ED90275C
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 18:59:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD879027CB
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 19:34:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BC741C20DA9
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 16:59:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B8E4B23936
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 17:34:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A32414389E;
-	Mon, 10 Jun 2024 16:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A540E14659A;
+	Mon, 10 Jun 2024 17:34:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="VtLdEU80";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fh/K3p8g"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FLO52sL2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from wfhigh3-smtp.messagingengine.com (wfhigh3-smtp.messagingengine.com [64.147.123.154])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D1C1EA6F;
-	Mon, 10 Jun 2024 16:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE548F6D
+	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 17:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718038784; cv=none; b=gei8pGNCdt6+0F9g7kmLe8DMClykAGX2jpkiQuKmume4nszJfd+fPQy9J4/UIrl98IlNKAMs5n/M7M1cAkE3SkPzedDrjfDFUM1hv1z7i8rU4dQJeoRCKqLDU9UKYEGhufLbMJw/6cYgcnMO5rs+g/EM+O/Wv0Uq9CxjhFvCDS0=
+	t=1718040868; cv=none; b=T9WCNrh4KwFPU3NGxE0G+DcNmr3wWocf3P/lObeQKrhIdlCVTEVey9n1XWzmNGuxBndNB9Cc6UZVgI0+aVahAEtXVtqg5Ze/5RRc4UxXFSl5U619zpY8iX8z3Nudj7NLN6bHHFMYjCg7kYRJyLG9S02/Z2pkoUfGTz4qjGdOGjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718038784; c=relaxed/simple;
-	bh=3huiau6qlrNkKfWaufi5V+jQlWTAO41JYjpXr98MUIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JihWPom19Gm3YQQoRK2F/8OteLHCehww6bOE3M6spY9AduadhTT/Bs/GgSglkSSnmw9xENakieC1XIr8LJ8lX2Bw+Qls2ZcQCRCRHkzvAsVtO7SQH3KIQ0/9N8A5Z7UoF2B9xN0x2uZR1PwE+7EDBc/3fOpbjgHUx1zVsy/WVYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=VtLdEU80; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fh/K3p8g; arc=none smtp.client-ip=64.147.123.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 8848418000EB;
-	Mon, 10 Jun 2024 12:59:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 10 Jun 2024 12:59:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1718038779;
-	 x=1718125179; bh=dm/RILVXdRiU7G2dzezG7xRb98q5YeytvFv4g2s+ROM=; b=
-	VtLdEU80NgLbeKybjMsLWfYo1R/oXrbTj3FncKvHJ7iOHZpMR54doPiAhbDwWKFu
-	aqAfJ0FRyuR0H1zGdpL2xZ6U6zL0YPharZayYAugpNorkMXeACz/7BJBrdm0l2OP
-	nXXVcZ+NxmGhAeOuWBhjjHS9zHnVhD4qraufH1YRkHCal/TPHn+cLB9e6bsgBex9
-	DEApONKQX1g7xan+8GUtNr1sIW9iBqoXQh6limzBcJ5xOVuZ6vvuB/Oc+X6uX1zE
-	ESrrXrXKm3LHG1jgWFhgpG/oeGqj4kAjPfsuUwEpwFlan14RU2fW3UHqQGTR8+YA
-	/Jl/MfcWaYH1ZnEBloWznQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718038779; x=
-	1718125179; bh=dm/RILVXdRiU7G2dzezG7xRb98q5YeytvFv4g2s+ROM=; b=f
-	h/K3p8gmX/p8fSy8K7U9B5OyCosZPOHtXHR+RMpFrpZuOhc9EbCWbRiAJNqBZaM+
-	p7GNRFr9XGSCO+EMf/TJft9eE07U6qF8G04Cep/OvjA38MJ+ir0JBEFSyrFFGNgx
-	Rs1ZMY2XZUDx0E7/w44sdC7X+5D1kbnyiSrncqapT/rrxu5tQM4N3rxyJdshCTxY
-	nuHSrizRDMl1OEoSWmQHvEawrLWaUNdQynasuTs1RiXLWK+hspXHL481lOsrpfsO
-	lkt3Uc7RTOthkTFBU7UjTdm/MY4XfZnFajhHsvAKrrbElbC3x9vAMekJk6v3cqAR
-	+okDv4fDwdmVIe5AHc+RA==
-X-ME-Sender: <xms:-zBnZibLzWHtg4zkj8oYjpl6_9eOUnQ8nGXQa2HoOwfqqbShi2LYSQ>
-    <xme:-zBnZla_IQyKlP8iRu7uUyfCRyvEbg8NAMVWOgv6jNdYdz65kx7_3p4AuWRNUX9OF
-    OapWIARmfCeeJlRsrY>
-X-ME-Received: <xmr:-zBnZs8T7mpi1-3YfOsqPh92ssGGXqkRPEdHIgyJhwd2_cm2adpH8FVMxMbiaOZXW3OJme5whInPqH-Ih-TnQtWFt1CVvqM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedutddguddtiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
-    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
-    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
-    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
-    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:-zBnZkrV4Xb-MQaeCA7T1H8xx-paPjmfihOG3zBnVXuhfcj-NAJQ6Q>
-    <xmx:-zBnZtoQRIzRU0ELbG7dbBlh3Gl5liJHBe33Ib-MvHMVWaI6G726Ow>
-    <xmx:-zBnZiSl_fWVbzL6Dl4hgEoZCQY7M4PcTlaOBljiH9xDQ3DsylDdaA>
-    <xmx:-zBnZto5K4dP_R1Jlp_L9R6TOzY9DQExRY8tfHFpjk9n018TtzDl2w>
-    <xmx:-zBnZo3cnnWpQYJ-BpL9wi--nyYe1joPFxwibIARPeb1p3dwViVGApOX>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Jun 2024 12:59:38 -0400 (EDT)
-Date: Mon, 10 Jun 2024 18:59:35 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Conor Dooley <conor@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
- V4M
-Message-ID: <20240610165935.GA382677@ragnatech.se>
-References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
- <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
- <20240610-screen-wolverine-78370c66d40f@spud>
+	s=arc-20240116; t=1718040868; c=relaxed/simple;
+	bh=6BL43B9XAdbcFfry/EVwYGwfmvcVYVpkVARnqTHxVfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mgPZd2BAKvi3bpWlZa6aii+V694G0AlV3ALsu/gS6wDAZFC1SW/iY74rkusmsvcZOoXkRxxmbVccXXr4FIBabPDturQA96v6dKudL18kTWxDMhWS5mZjSr4BNw1VtIjs0LcEZshrK79PzsndbADsAiI8M2Yev6IHg1hAZuRyW/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FLO52sL2; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718040865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lD06i76qDc78lsTuKc4whE4gcJwNVz6YxpAk8sVYZ1s=;
+	b=FLO52sL27eqWMroA++Wt52GKVw9TJ7FbcXRLiiEKWYKK33PuIigLK+VJzfDUJZatHz1liQ
+	6wYM5VrEa5/viYuIQk3TPHe4k9XrJzcpqTsvKjVLvixvs0NubpMzP1zCkLSdhfSCkpJisX
+	NkILYD63M0WHjzIOBQQ5xH2F+zGxo6A=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-648-rHgAfufKPOOj5bXTjkZBrQ-1; Mon,
+ 10 Jun 2024 13:34:23 -0400
+X-MC-Unique: rHgAfufKPOOj5bXTjkZBrQ-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E86A719560AD;
+	Mon, 10 Jun 2024 17:34:21 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.77])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D63DD30000C3;
+	Mon, 10 Jun 2024 17:34:19 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org
+Subject: [PATCH 1/2] media: ipu-bridge: Sort ipu_supported_sensors[] array by ACPI HID
+Date: Mon, 10 Jun 2024 19:34:17 +0200
+Message-ID: <20240610173418.16119-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240610-screen-wolverine-78370c66d40f@spud>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Hi Conor,
+Sort the sensors in ipu_supported_sensors[] by ACPI HID rather then having
+them in some random order.
 
-Thanks for your feedback.
+While at it also use the correct (same as datasheet) capitalization
+for the sensor names in the comments. Instead of sometimes writing
+OV#### and sometimes ov####.
 
-On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
-> On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas Söderlund wrote:
-> > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > index 5539d0f8e74d..168cb02f8abe 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > @@ -54,6 +54,7 @@ properties:
-> >                - renesas,vin-r8a77995 # R-Car D3
-> >                - renesas,vin-r8a779a0 # R-Car V3U
-> >                - renesas,vin-r8a779g0 # R-Car V4H
-> > +              - renesas,vin-r8a779h0 # R-Car V4M
-> 
-> Your driver patch suggests that this is compatible with the g variant.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/media/pci/intel/ipu-bridge.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-Currently it is. But that not always be true, I tried to outline this in 
-to cover letter.
-
-    The V4M capture pipeline is similar to the other Gen4 SoC supported
-    upstream already V4H. Currently all futures supported for VIN on V4M are
-    also supported by V4H and the driver code can be shared. But as done for
-    other R-Car IP bindings a new dedicated binding for V4M is created.
-    This have proved prudent in the past where quirks are found even within
-    the same generation as more advance use-cases are enabled.
-
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index 61750cc98d70..f1d0d5f4854e 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -43,28 +43,30 @@
+  * becoming apparent in the future.
+  *
+  * Do not add an entry for a sensor that is not actually supported.
++ *
++ * Please keep the list sorted by ACPI HID.
+  */
+ static const struct ipu_sensor_config ipu_supported_sensors[] = {
++	/* GalaxyCore GC0310 */
++	IPU_SENSOR_CONFIG("INT0310", 0),
+ 	/* Omnivision OV5693 */
+ 	IPU_SENSOR_CONFIG("INT33BE", 1, 419200000),
++	/* Omnivision OV2740 */
++	IPU_SENSOR_CONFIG("INT3474", 1, 180000000),
+ 	/* Omnivision OV8865 */
+ 	IPU_SENSOR_CONFIG("INT347A", 1, 360000000),
+ 	/* Omnivision OV7251 */
+ 	IPU_SENSOR_CONFIG("INT347E", 1, 319200000),
++	/* Hynix Hi-556 */
++	IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
++	/* Omnivision OV01A10 */
++	IPU_SENSOR_CONFIG("OVTI01A0", 1, 400000000),
+ 	/* Omnivision OV2680 */
+ 	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
+-	/* Omnivision ov8856 */
++	/* Omnivision OV8856 */
+ 	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
+-	/* Omnivision ov2740 */
+-	IPU_SENSOR_CONFIG("INT3474", 1, 180000000),
+-	/* Hynix hi556 */
+-	IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
+-	/* Omnivision ov13b10 */
++	/* Omnivision OV13B10 */
+ 	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
+-	/* GalaxyCore GC0310 */
+-	IPU_SENSOR_CONFIG("INT0310", 0),
+-	/* Omnivision ov01a10 */
+-	IPU_SENSOR_CONFIG("OVTI01A0", 1, 400000000),
+ };
+ 
+ static const struct ipu_property_names prop_names = {
 -- 
-Kind Regards,
-Niklas Söderlund
+2.45.1
+
 
