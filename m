@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-12841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12843-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A045F901EDF
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 12:07:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84975901EE1
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 12:07:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38DED280D79
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 10:07:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 944611C21474
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 10:07:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96DA175813;
-	Mon, 10 Jun 2024 10:05:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B43457E58C;
+	Mon, 10 Jun 2024 10:06:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NSbV51Qq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYb8fI6H"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64CD7CF16
-	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 10:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80D37D3F1
+	for <linux-media@vger.kernel.org>; Mon, 10 Jun 2024 10:05:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718013959; cv=none; b=VNvhXjOFSkQaapC2ijmuwAWWWSUoFdW361AHXnFCabIPelWlCzyCl1KqiYqh8afDXOuwy7WbRn6lVBk01U68UyL2viZsQAQBj5iJCC0a4z7Y8GXpWyzXgXvul9CqUpmiV6gC0bKcS8pn+wwkpI2BzQi7uqpsmvLX6BJL+DOD3zU=
+	t=1718013960; cv=none; b=i9MCsivCb/hHmo2TItlxHgVMTVdMG/DogFXUxIuiDC+rsTTx/4srtBpOb2V3pHx6WbFoMGYBzjGq1ROT7qF2GYSTEbExClW1f/y5W4plpE9Od1KUYiWBiaV/jk/tpOWF3Xi0C3uGJooAocuKhpnweZB3/d7vTtzdRV91QDhaD5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718013959; c=relaxed/simple;
-	bh=+rG7vchsA0u3MasKBPPJoNX+GZxQlI7TKYCl1XWjqSk=;
+	s=arc-20240116; t=1718013960; c=relaxed/simple;
+	bh=WBJkQRl6HUUCoBTVYVQygl04ebZa2GrobqlbR0Xm2nk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nB3lex/MhCGsSsTBcykbzHeG5snqKkUYkiCCtJ0BRn6QSOuApgR3lPo0d0dzyC2tU8pUr74jdYpJw+Nur45mpIO8WY/J6sbplrk8s3HbBj7fgCzXgvWrlMbUomIpkYGF8rAysz2jbQUDxtvDV0h3V54awD0YhlUBM7iq2Enhtks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NSbV51Qq; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=bcm94s6OQFxmmymReno79zkeaWuLd4mmVKLBflz9ll2jKXlMug1uhsctFlkQJCj8Ij5EivETalnPMShlri+mhtoM+q3vpptCCNzOvtUtjFi3tBm4YKPyh6oTpEtJzPiYTrfS5RWnm3IGRAEXy3dldlS7q8q6cJCYzeZr5ij/www=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYb8fI6H; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718013958; x=1749549958;
+  t=1718013959; x=1749549959;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+rG7vchsA0u3MasKBPPJoNX+GZxQlI7TKYCl1XWjqSk=;
-  b=NSbV51Qq8lNs30XmsCFkp+WVTXPLr30OAiWeDuieaOrsQ4FHqZDCCq8d
-   tIvHI0royZ6Lur6hHuGwKp3REYyCzFthDiIUUTiZqexvG1uxW0uEWFpKY
-   a0INQy02xNkE2GaAyNc9rWNzTEE7Lryv1ovjTlqlGhThx0xFacylWB4B0
-   qx/X1clOGb1QREp5tPk+SgfqQ7cxXvGIxgSGIv1iH4wjRurIXY+s19q2f
-   B27+d/ZhZbCyEWP+KBY8NvWYJLQ09ChEbCZ2Eygn9gXlwjtjSzBEI7lIf
-   fzV92hEnOOeOo3MOetn9cVNSr//Gv8K8CJvmTYXQLG4tug1bbJF/GeRIc
+  bh=WBJkQRl6HUUCoBTVYVQygl04ebZa2GrobqlbR0Xm2nk=;
+  b=ZYb8fI6HgSSE3O/EvqvQgMw1eIskazxCNOlRAXvCpVjlmMIA7lbj6goi
+   j5FDMt3K86esCAlpYTyeh7WeNyxkwFTtRRE+dwDwRyP6sBXviPsb9tWt2
+   HI9JRfO4RNxZUWSLZ3gOd4HA2D6Jwf0y/ouFbZcb0QrJ5FCS4MQDhHvZt
+   NE8AGfbIR4JxkgWIq9wFBolOvLcvAroFPTZo9b4M/53328OhUhg8NlJl8
+   7kRbb7xcQY5SM0tXxJP6E9ECg9yjtFXlOI+jsaiEE1HzpM5mV2140dvVk
+   39t5sy1fC0HzV37sDCkAEptg013juwTFyjMwxuXW7HaNr4PB2PiKGmoYc
    Q==;
-X-CSE-ConnectionGUID: 0Gs7KIDyRQauh+c8sQy0vA==
-X-CSE-MsgGUID: nh9UCBDERPCu77XcSESTOw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14819938"
+X-CSE-ConnectionGUID: vBeLtpIiTU6fKVZ0dZQmyg==
+X-CSE-MsgGUID: f9nUPbecTfqMD1/uB8vCyA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14819955"
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="14819938"
+   d="scan'208";a="14819955"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 03:05:52 -0700
-X-CSE-ConnectionGUID: VPT1G7l/TQmJcCWPUhnvZA==
-X-CSE-MsgGUID: wmEsBFFrQFCzZeUFtbND+w==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 03:05:53 -0700
+X-CSE-ConnectionGUID: cF3N9HyXSyOnR16Pn2oDbA==
+X-CSE-MsgGUID: KFmbbviUSDWwV7lLoB+EKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
-   d="scan'208";a="39137358"
+   d="scan'208";a="39137367"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 03:05:50 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3DE25120BD7;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 45CA5120BE5;
 	Mon, 10 Jun 2024 13:05:41 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1sGbuH-004eDq-0j;
+	id 1sGbuH-004eDv-0p;
 	Mon, 10 Jun 2024 13:05:41 +0300
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	hverkuil@xs4all.nl
-Subject: [PATCH v4 19/26] media: vimc: Release resources on media device release
-Date: Mon, 10 Jun 2024 13:05:23 +0300
-Message-Id: <20240610100530.1107771-20-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 20/26] media: Documentation: Document how Media device resources are released
+Date: Mon, 10 Jun 2024 13:05:24 +0300
+Message-Id: <20240610100530.1107771-21-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
 References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
@@ -83,79 +83,71 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Release all the resources when the media device is released, moving away
-from the struct v4l2_device used for that purpose. This is done to
-exemplify the use of the media device's release callback.
+Document that after unregistering, Media device memory resources are
+released by the release() callback rather than by calling
+media_device_cleanup().
 
-Switch to container_of_const(), too, while we're changing the code anyway.
+Also add that driver memory resources should be bound to the Media device,
+not V4L2 device.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/test-drivers/vimc/vimc-core.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ Documentation/driver-api/media/mc-core.rst | 18 ++++++++++++++++--
+ include/media/media-device.h               |  6 ++++--
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-index af127476e920..3e59f8c256c7 100644
---- a/drivers/media/test-drivers/vimc/vimc-core.c
-+++ b/drivers/media/test-drivers/vimc/vimc-core.c
-@@ -264,13 +264,12 @@ static int vimc_add_subdevs(struct vimc_device *vimc)
- 	return 0;
- }
- 
--static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
-+static void vimc_mdev_release(struct media_device *mdev)
- {
- 	struct vimc_device *vimc =
--		container_of(v4l2_dev, struct vimc_device, v4l2_dev);
-+		container_of_const(mdev, struct vimc_device, mdev);
- 
- 	vimc_release_subdevs(vimc);
--	media_device_cleanup(&vimc->mdev);
- 	kfree(vimc->ent_devs);
- 	kfree(vimc);
- }
-@@ -336,6 +335,10 @@ static int vimc_register_devices(struct vimc_device *vimc)
- 	return ret;
- }
- 
-+static const struct media_device_ops vimc_mdev_ops = {
-+	.release = vimc_mdev_release,
-+};
+diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
+index 2456950ce8ff..f9108f14d1ed 100644
+--- a/Documentation/driver-api/media/mc-core.rst
++++ b/Documentation/driver-api/media/mc-core.rst
+@@ -46,13 +46,27 @@ Drivers initialise media device instances by calling
+ :c:func:`media_device_init()`. After initialising a media device instance, it is
+ registered by calling :c:func:`__media_device_register()` via the macro
+ ``media_device_register()`` and unregistered by calling
+-:c:func:`media_device_unregister()`. An initialised media device must be
+-eventually cleaned up by calling :c:func:`media_device_cleanup()`.
++:c:func:`media_device_unregister()`. The resources of a newly unregistered media
++device will be released by the ``release()`` callback of :c:type:`media_device`
++ops, which will be called when the last user of the media device has released it
++calling :c:func:`media_device_put()`.
 +
- static int vimc_probe(struct platform_device *pdev)
- {
- 	const struct font_desc *font = find_font("VGA8x16");
-@@ -369,12 +372,12 @@ static int vimc_probe(struct platform_device *pdev)
- 	snprintf(vimc->mdev.bus_info, sizeof(vimc->mdev.bus_info),
- 		 "platform:%s", VIMC_PDEV_NAME);
- 	vimc->mdev.dev = &pdev->dev;
-+	vimc->mdev.ops = &vimc_mdev_ops;
- 	media_device_init(&vimc->mdev);
++The ``release()`` callback is the way all the resources of the media device are
++released once :c:func:`media_device_init()` has been called. This is also
++relevant during device driver's probe function as the ``release()`` callback
++will also have to be able to safely release the resources related to a partially
++initialised media device.
  
- 	ret = vimc_register_devices(vimc);
- 	if (ret) {
--		media_device_cleanup(&vimc->mdev);
--		kfree(vimc);
-+		media_device_put(&vimc->mdev);
- 		return ret;
- 	}
- 	/*
-@@ -382,7 +385,6 @@ static int vimc_probe(struct platform_device *pdev)
- 	 * if the registration fails, we release directly from probe
- 	 */
+ Note that it is not allowed to unregister a media device instance that was not
+ previously registered, or clean up a media device instance that was not
+ previously initialised.
  
--	vimc->v4l2_dev.release = vimc_v4l2_dev_release;
- 	platform_set_drvdata(pdev, vimc);
- 	return 0;
- }
-@@ -397,6 +399,7 @@ static void vimc_remove(struct platform_device *pdev)
- 	media_device_unregister(&vimc->mdev);
- 	v4l2_device_unregister(&vimc->v4l2_dev);
- 	v4l2_device_put(&vimc->v4l2_dev);
-+	media_device_put(&vimc->mdev);
- }
++Media device and driver's per-device context
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Drivers should use the struct media_device_ops ``release()`` callback to release
++their own resources and not e.g. that of the struct v4l2_device.
++
+ Entities
+ ^^^^^^^^
  
- static void vimc_dev_release(struct device *dev)
+diff --git a/include/media/media-device.h b/include/media/media-device.h
+index f1afbfc4dca2..fe4625f3f62b 100644
+--- a/include/media/media-device.h
++++ b/include/media/media-device.h
+@@ -252,8 +252,10 @@ static inline void media_device_put(struct media_device *mdev)
+  *
+  * @mdev:	pointer to struct &media_device
+  *
+- * This function that will destroy the graph_mutex that is
+- * initialized in media_device_init().
++ * This function that will destroy the graph_mutex that is initialized in
++ * media_device_init(). Note that *only* drivers that do not manage releasing
++ * the memory of th media device itself call this function. This function is
++ * thus effectively DEPRECATED.
+  */
+ void media_device_cleanup(struct media_device *mdev);
+ 
 -- 
 2.39.2
 
