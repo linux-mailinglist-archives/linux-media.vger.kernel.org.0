@@ -1,154 +1,161 @@
-Return-Path: <linux-media+bounces-12861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33BC90226E
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 15:09:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 974B3902352
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 16:01:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 12617B23053
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 13:09:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 405CA1F277E7
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jun 2024 14:01:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 968E481ACA;
-	Mon, 10 Jun 2024 13:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5559014E2E8;
+	Mon, 10 Jun 2024 13:56:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pW5Ox50I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KR64bmM+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC28DDC0;
-	Mon, 10 Jun 2024 13:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112091411D7;
+	Mon, 10 Jun 2024 13:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718024974; cv=none; b=ln8B4ihJ23ioEbXMEM3X9yl37ICoKsuLo6arGHdCFa6DrxcT9q1vMA+4SvypLvnh+nc+4Te3JG8yxLrFDHdFolQZhE0hxl1z1MeWwd7v5BdVEoj1KUBMEAVwPHpJvSsuwrZb0kYp7jsLWno8AOtgDi4NP/Qi3qRSxlYkXLdE9iY=
+	t=1718027795; cv=none; b=Td/BoxqHHw0EevRJnM6Id/0+Re4ISZsCwFwvxSGepiBtMLXZokxWtkutfmpXymHl8SsDfsGVORdv99ONavE7bBjf8AUWca2Xa96kKn5ZKo/EtUVsw2oKwCUciJrAro1MWCXHk/dNVaGbaOcsdjlPSBYXlgIeNX9kBWQhtBK353I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718024974; c=relaxed/simple;
-	bh=P3HR2KD0zqsJGS2R7ct1yLvmTw5LrC648wwAWEh3bUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fxs7ihslj9bOonxRzpklYUIWfgJUK/bGDth29KqQuBs+Vz+vt1oBw3V6JWvqpSzhkeaPhUezRg2jQJYHNb9eVUj3N05sV/RNCci7/VF21Q3xFlf5n6nx3SCFTzpTwW9w0KakXqUbaIZOjJ6M3H1hB1m+yjUNCrnmwiL2cB6Cs4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pW5Ox50I; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A85A1397;
-	Mon, 10 Jun 2024 15:09:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718024957;
-	bh=P3HR2KD0zqsJGS2R7ct1yLvmTw5LrC648wwAWEh3bUg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pW5Ox50IAYhuClLVzAgESOCNu/rD3nRuNXCwV7pNawUfPV3JQPRAxzLLKT9teYaOd
-	 0VNKnzH+GB/Lz0LgrkUon2N/ANy5yBl/nTA8LShcM2ofu05uMjRCNA7dMowBoc3bAz
-	 XNhTD2V8481Nc5LOuTjQeFRnaN0JWhivSHPYaA78=
-Date: Mon, 10 Jun 2024 16:09:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: uvcvideo: Enforce alignment of frame and
- interval
-Message-ID: <20240610130910.GA12787@pendragon.ideasonboard.com>
-References: <20240404-uvc-align-v2-1-9e104b0ecfbd@chromium.org>
+	s=arc-20240116; t=1718027795; c=relaxed/simple;
+	bh=cL4zYHOUTrROgPJMTGHdIkSCW0JMb4J3yiWWX+7hroE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=meYiUdX7He3DTepCOfOJ0kbvm7/tSrrwEM89B5NYGSllFArUyqndT1tyEKDMpYa4kTD/UBU2WdamDReHAOseoc15F45n4wPxfDO1YlFxO51orVIG4pwYj55Qk7C9MnNPXD3TrHvJqFtlmz5EiH/IdmVYB9qWRj1GInn1X2cVSTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KR64bmM+; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a68b41ef3f6so494477466b.1;
+        Mon, 10 Jun 2024 06:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718027792; x=1718632592; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aKiRdG6IE0dAu5/ML0DRkz7ioaoUbf9nHeDRsbZ/6cg=;
+        b=KR64bmM+1CLMhzKb9oqmw/GqeVwcX4XEVknJyfBu3AQA6H/9F/YrmaWgp+AspnhZrE
+         wflqtCIqwLxOL4Kstjf6ZmpD/hwrS+ULGK9cgfHlstMWu2ppKGAl5WFpdf26hD9BBwHi
+         i1E5G/i0TrMBe6Hdbpnx79tyfXmUx7ZjJGeGfQYikiqJXpo8UOuok6XM1oBJAh0usY0H
+         3Y1c/8lCa/Bb6nz8MEtCu3Y8g4XuhSIFGdIEytqv8JlXWVfKtnqs2PwhrFClCsL0Opj/
+         EJ959NRhvPF4GOZMOAt8NVBQiqu/MS3sRrnJTT8+tnt8nhYuJn/NpZQVF3ZqAuuWFwfs
+         ruKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718027792; x=1718632592;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aKiRdG6IE0dAu5/ML0DRkz7ioaoUbf9nHeDRsbZ/6cg=;
+        b=YY6GjyVh/xMRo6q0bv1Sk0odB+K8YyARvGCj0qEFw+HHEQu95b568/VWvjuBAyOzur
+         9MXsZEebdd8WiAc9/mMZfdlh7BrN9AVSfh/x75lcKDCyTp6POfLK5M2LXLjQ9qp9CAZK
+         BpXP7pxP9+BHvZsJ9JB4FQCp3eKCFkqrWLBWBLov4GoYJexUXvdy0Ca3WIHoXtesIcoI
+         /ReASP9/EaiWI5irdCYX593WF4cHbe5/iPPwsQ5UeDvUsIw+xcXaFNj+g0mTUBd25wxf
+         8f07EoR2GvKv77oxuTQUZQ/fCT17Lpdm1Wf/Mk6CpkGZ6y1RQvebhEoinOkG2Idkq5eO
+         5f9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ9g/uNIaSX21CpyVVnHfN81mH0n1dbddvElLXyuE+2P1MdOG6wCRwZ6Piw9ew8F2K4GcLKi+mQrz8ydDbQWm0OqZs+vlVBsG2+EUfL78iUOL529k12sByXIMU9udCErpWjbylwGPIIkB2WqkwbafaqPGNveCBG7FOl/Ir9qrzxeQTzk1w
+X-Gm-Message-State: AOJu0YwkLPB59IntwEViVEsRZwCUhhgVIrNw+3i0jABnjxc0Ma2Pn/Jn
+	miWYKH3X9nv0hzZ43KH1i3Nk7Ry8sWwY9tc/KPr4CTiVLEs9NYk=
+X-Google-Smtp-Source: AGHT+IEaCfhpaGaeNvro0IJoqapFgXHDI0HHYONRa7o82dj+8EDsxBZg7VHJktoUt9EW7H6Z824NaQ==
+X-Received: by 2002:a17:906:285a:b0:a6f:1f18:2b72 with SMTP id a640c23a62f3a-a6f1f182ccamr169363966b.0.1718027792023;
+        Mon, 10 Jun 2024 06:56:32 -0700 (PDT)
+Received: from ?IPV6:2a02:810b:f40:4600:efc5:4499:36c1:811e? ([2a02:810b:f40:4600:efc5:4499:36c1:811e])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f200ce38esm122278266b.92.2024.06.10.06.56.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jun 2024 06:56:31 -0700 (PDT)
+Message-ID: <aa475252-701c-4d1a-b495-8079dfd01a86@gmail.com>
+Date: Mon, 10 Jun 2024 15:56:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240404-uvc-align-v2-1-9e104b0ecfbd@chromium.org>
+User-Agent: Mozilla Thunderbird
+From: Alex Bee <knaerzche@gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: media: rockchip,vpu: Document RK3128
+ compatible
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20240523185633.71355-1-knaerzche@gmail.com>
+ <20240523185633.71355-2-knaerzche@gmail.com> <3639993.hdfAi7Kttb@diego>
+ <20240528083747.z55laxnmioorzaru@basti-XPS-13-9310>
+Content-Language: en-US
+In-Reply-To: <20240528083747.z55laxnmioorzaru@basti-XPS-13-9310>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Ricardo,
+Hi,
 
-Thank you for the patch.
+Am 28.05.24 um 10:37 schrieb Sebastian Fricke:
+> Hey Heiko,
+>
+> On 28.05.2024 10:19, Heiko Stübner wrote:
+>> Am Donnerstag, 23. Mai 2024, 20:56:31 CEST schrieb Alex Bee:
+>>> The integration for this SoC is similar to RK3066/RK3188.
+>>>
+>>> Document it's compatible.
+>>>
+>>> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+>>
+>> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+>>
+>> Media people, can you apply this patch alone from the series?
+>
+> Yes, will do got this on my list already :).
+>
+is there anything holding you back from applying this? It's really only the
+bindings which go though the media tree (i.e. this patch) and it has
+been acked and reviewed some weeks ago. It'd be great if we could add the
+vpu to the SoC DT before 6.11 merge window opens but the addition depends
+on the compatible to be documented. Please let me know if there's anything
+left to do for me.
 
-On Thu, Apr 04, 2024 at 05:56:18PM +0000, Ricardo Ribalda wrote:
-> Struct uvc_frame and interval (u32*) are packaged together on
-> streaming->formats on a single contiguous allocation.
-> 
-> Right now they allocated right after uvc_format, without taking into
-
-s/they/they are/
-
-> consideration their required alignment.
-> 
-> This is working fine because both structures have a field with a
-> pointer, but it will stop working when the sizeof() of any of those
-> structs is not a multiple of the sizeof(void*).
-> 
-> Enforce that alignment during the allocation.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> This is better than 3 allocations, and do not have any performance
-> penalty.
-> 
-> I have tried this patch printing the size and the address of the
-> pointers in the old and the new mode, and it looks the same.
-> 
-> [    2.235223] drivers/media/usb/uvc/uvc_driver.c:694 uvc_parse_streaming 432
-> [    2.235249] drivers/media/usb/uvc/uvc_driver.c:704 uvc_parse_streaming 432
-> [    2.235256] drivers/media/usb/uvc/uvc_driver.c:714 uvc_parse_streaming 00000000d32087cc 00000000d3803788
-> [    2.235265] drivers/media/usb/uvc/uvc_driver.c:720 uvc_parse_streaming 00000000d32087cc 00000000d3803788
-> ---
-> Changes in v2: Thanks Laurent.
-> - Enforce alignment during allocation instead of using __aligned()
->   macros.
-> - Link to v1: https://lore.kernel.org/r/20230501-uvc-align-v1-1-0f713e4b84c3@chromium.org
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 7aefa76a42b31..7d9844ba3b205 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -663,16 +663,26 @@ static int uvc_parse_streaming(struct uvc_device *dev,
->  		goto error;
->  	}
->  
-> -	size = nformats * sizeof(*format) + nframes * sizeof(*frame)
-> -	     + nintervals * sizeof(*interval);
-> +	/*
-> +	 * Allocate memory for the formats, the frames and the intervals,
-> +	 * plus any required padding to guarantee that everything has the
-> +	 * correct alignment.
-> +	 */
-> +	size = nformats * sizeof(*format);
-> +	size = ALIGN(size, __alignof__(*frame)) + nframes * sizeof(*frame);
-> +	size = ALIGN(size, __alignof__(*interval))
-> +	       + nintervals * sizeof(*interval);
-
-You have two extra spaces here. I'll fix when applying.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
->  	format = kzalloc(size, GFP_KERNEL);
-> -	if (format == NULL) {
-> +	if (!format) {
->  		ret = -ENOMEM;
->  		goto error;
->  	}
->  
-> -	frame = (struct uvc_frame *)&format[nformats];
-> -	interval = (u32 *)&frame[nframes];
-> +	frame = (void *)format + nformats * sizeof(*format);
-> +	frame = PTR_ALIGN(frame, __alignof__(*frame));
-> +	interval = (void *)frame + nframes * sizeof(*frame);
-> +	interval = PTR_ALIGN(interval, __alignof__(*interval));
->  
->  	streaming->format = format;
->  	streaming->nformats = nformats;
-> 
-> ---
-> base-commit: 58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
-> change-id: 20230501-uvc-align-6ff202b68dab
-
--- 
-Regards,
-
-Laurent Pinchart
+Alex
+>>
+>> Thanks
+>> Heiko
+>
+> Regards,
+> Sebastian
+>
+>>
+>>> ---
+>>>  Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 4 +++-
+>>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git 
+>>> a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml 
+>>> b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>>> index c57e1f488895..d1b47b14ca57 100644
+>>> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>>> @@ -26,7 +26,9 @@ properties:
+>>>            - rockchip,rk3568-vpu
+>>>            - rockchip,rk3588-av1-vpu
+>>>        - items:
+>>> -          - const: rockchip,rk3188-vpu
+>>> +          - enum:
+>>> +              - rockchip,rk3128-vpu
+>>> +              - rockchip,rk3188-vpu
+>>>            - const: rockchip,rk3066-vpu
+>>>        - items:
+>>>            - const: rockchip,rk3228-vpu
+>>>
+>>
+>>
+>>
+>>
+>>
 
