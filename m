@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-12917-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12918-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7429032F5
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 08:47:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E6D9032FD
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 08:49:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E87F1C2375A
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 06:47:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 593E61C2347D
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 06:49:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE957171E41;
-	Tue, 11 Jun 2024 06:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD72917276D;
+	Tue, 11 Jun 2024 06:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZOY6ugXK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUs5Qk+Y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418A718641;
-	Tue, 11 Jun 2024 06:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAF1171095;
+	Tue, 11 Jun 2024 06:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718088450; cv=none; b=SIGJOTyWUsfPUoiUw7Urz9RduwkJ0DVRcrlq9F2WGRgIU8QVZTNsX18zxUmr/OJAHcCb+nu+7F0S4REU2wRnoVwL8GebhB7IyYEW4rlhtQhRdoOGV4FzZGhu2ihZsFIof8xocPoB3LGCMjWMeHZxGxgfPmi5LynDVBK6RNlyuIE=
+	t=1718088540; cv=none; b=H6TPP9hNOuzv9EbjGBa5pszaJtmlaDWfpvUE1cwuggT7525ML/4zIq3SZDWcWRpbI1QpxFS7tMOVnmemtXHHNKa9qvvzUPPFHWdXo5OWRlsmqLPiTGv6Pp/Psm04EWuC+W69Y9iMguNk1W3GFJn6l7JhDifXekvBqsdrOhy8c58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718088450; c=relaxed/simple;
-	bh=MtaSqRNOfmcFRZpC+T9uNp+z2kvm8fBWsUTGbMsxisM=;
+	s=arc-20240116; t=1718088540; c=relaxed/simple;
+	bh=sqdcRAJXLMtoR6ZfeQzx4vqpaxxnFspu874lptV9+pY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u4nLMhoaCot7swqS2784WAJ2ajJovt+icX5A2czifGJqdbj6BmmCjKGXFnaJruJprx8ra3osyOcaqRNetN7g4IZzlF9tSwl67BdVuvwyOR/XoX1woAk4MNjfOetkrS001cP0hAZQc2kHiRM4w8QJ9K/Ovn4lzuDEw9R0WRZHq48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZOY6ugXK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58AA8C2BD10;
-	Tue, 11 Jun 2024 06:47:26 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=c88ITcHntbM5P5kpKGQdMpC/TeENSSpnY1ozA7KqAfLKCfAR7ZF2NypH3OrY4fjQXhJw3+C8pyy1C9C6MB+UKvCQ7ul8VQKOiqKSwg46MZ5EH+8ShE9ZkOs6S+uJW7fDNB6Bfycw9d/r1uHF08kMfzNmVDGZ5Kysak1Wt14mKTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUs5Qk+Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E177C4AF1C;
+	Tue, 11 Jun 2024 06:48:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718088450;
-	bh=MtaSqRNOfmcFRZpC+T9uNp+z2kvm8fBWsUTGbMsxisM=;
+	s=k20201202; t=1718088539;
+	bh=sqdcRAJXLMtoR6ZfeQzx4vqpaxxnFspu874lptV9+pY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZOY6ugXK/0kcAXabH91jdPyxdVbILVgZY9//O+vPOebPe2R3RgNFuPFpEjQl+8KOU
-	 VO22tsg2rGNFpBum6nAl6cKdA0qTgWfZ5StpiHKbJ3QjGJqppBf8JQAYOXo76Fb/m3
-	 cOMmwKE0Z4UrKOXsMraVGNOoOgIYj2wFblBohnmFyZG9QJe6fYuty3d4baxu8nFzFH
-	 yWv52mdz1ylvBtLPY8X2rmV1RnAnVyt53Rlwn8vRre7Q1h9pmgHoL77kL0p5LrU4Pt
-	 dbX9wkW9pFOGfB8BDv64WnH+RQTSII7AtgjCihpjUn+oNkJKk1LgTmA+hrf51pXEy6
-	 PebazFy9FAb9w==
-Message-ID: <b4de42ba-d884-44b1-9f0e-12f5818c6781@kernel.org>
-Date: Tue, 11 Jun 2024 08:47:25 +0200
+	b=YUs5Qk+Yaubr73cmZXJR9lN3ujUwrzci0KsvphW/8w8KOLdsYa0dVG4XGH5Mlsf51
+	 l8DfalUMOMh+g1j9FG27z+ugbUGCJXopzedze/MMAD0qjbu2hHENn/GJcRFsz0Aiiy
+	 BmDZOG2yn8lSJqJvxmm8JtUegxuGx/KQ8yMJ6twL9X/MdnbPFQcif483OhOT6x7TAD
+	 l7Nh8w34eSN/Fa4YJyXl+M2arNHHF4X8x/t4Id13P46imrCTt82s5PTA99d/a1MH8M
+	 sM/LnYafQgFRfDKCYLVgVmses8YTTMNGU2bT9obVN+Skqn/nlTqWepsSSlNm7vnx2X
+	 6A0fCwBjYNurA==
+Message-ID: <5ad52f32-658f-4ae9-902a-9a696973d2ce@kernel.org>
+Date: Tue, 11 Jun 2024 08:48:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: vgxy61: Add legacy compatible string
+Subject: Re: [PATCH 3/3] media: vgxy61: Add MODULE_ALIAS()
 To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -60,7 +60,7 @@ To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240610150815.228790-1-benjamin.mugnier@foss.st.com>
- <20240610150815.228790-3-benjamin.mugnier@foss.st.com>
+ <20240610150815.228790-4-benjamin.mugnier@foss.st.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,36 +106,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240610150815.228790-3-benjamin.mugnier@foss.st.com>
+In-Reply-To: <20240610150815.228790-4-benjamin.mugnier@foss.st.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/06/2024 17:08, Benjamin Mugnier wrote:
-> As the driver has been renamed from 'st-vgxy61' to 'vgxy61', its
-> compatible string has been updated to reflect this change. Therefore old
-> device trees will not work anymore.
-> Add the old driver name as another compatible name to handle the
-> retro compatibility.
+> Preserve user space retro compatibility after the device rename.
 > 
 > Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 > ---
->  drivers/media/i2c/vgxy61.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/media/i2c/vgxy61.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
-> index 30378e962016..ca3b43608dad 100644
+> index ca3b43608dad..c85f356946ca 100644
 > --- a/drivers/media/i2c/vgxy61.c
 > +++ b/drivers/media/i2c/vgxy61.c
-> @@ -1867,6 +1867,11 @@ static void vgxy61_remove(struct i2c_client *client)
->  }
->  
->  static const struct of_device_id vgxy61_dt_ids[] = {
-> +	{ .compatible = "st,vgxy61" },
-> +	/*
-> +	 * Previously the driver was named 'st-vgxy61' instead of simply
-> +	 * 'vgxy61', keep it for retrocompatibility purposes.
+> @@ -1898,3 +1898,4 @@ MODULE_AUTHOR("Mickael Guene <mickael.guene@st.com>");
+>  MODULE_AUTHOR("Sylvain Petinot <sylvain.petinot@foss.st.com>");
+>  MODULE_DESCRIPTION("VGXY61 camera subdev driver");
+>  MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:st-vgxy61");
 
-NAK.
+Why? Isn't this autoloated by OF alias? There was never here platform
+alias so no functionality is lost.
+
+NAK
 
 Best regards,
 Krzysztof
