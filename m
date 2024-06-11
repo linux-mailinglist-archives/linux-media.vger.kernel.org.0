@@ -1,146 +1,118 @@
-Return-Path: <linux-media+bounces-12952-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12953-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9180903CD8
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 15:14:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DDF903D0F
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 15:22:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C1961C22622
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 13:14:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E02BFB26BB1
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 13:22:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1E617D35C;
-	Tue, 11 Jun 2024 13:14:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3087A17CA1B;
+	Tue, 11 Jun 2024 13:22:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="t1v78wLD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJvxpd51"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BF017C7CD;
-	Tue, 11 Jun 2024 13:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D6617C7C6;
+	Tue, 11 Jun 2024 13:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718111651; cv=none; b=T+QkEws28atmD05G28AWHDighPvf4hFJ3k6WlRWXD3+8x5rh/0PnlA4rJO+Q+SF178xWayJfd9Pu9QtCLLn+gq7Ea+UOu2DUSwPl+N40fv5Hat5sbjozz/osUAklhuWgt9U4mco6onSGqZ3l6aWkJC/v2OTiPg0FrDh0HDthP+M=
+	t=1718112161; cv=none; b=QeSr/gDBzHCYQyshOw4fDD/DYxLm7RobRq1x6cr49v/QZ1fJRyQ87TmaMo2Mqvd7eL1QEqwXq4ba4zKbvamwR/PgF0TQlbDYdCs04bR8lXeEbpWqCi21Jvcg4802Fv4pdcGc1HdPvXl0rUZBw1gNQ/ava5+ktWIxc503dk0FLNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718111651; c=relaxed/simple;
-	bh=1px+pBBKwT/kT5Nl3k339zWLK3XeVGSfRfAFkwQM8u0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=L3xWR02TMUJ7062oz0dX/hpd248BmJXXYd05jYqFT7P9B+4u9ehIxpRZPEGeSpLB/N4lbeFSN046k7ApemyNjl+i0UX/CsmCjcza0BRhvkPE/rWFOPcjHYClDgADvZBkG1jG5n7OiySuvJs+8/Q0hp9xXCAqwxAs4HRXkwq+RKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=t1v78wLD; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45BCUnRS012090;
-	Tue, 11 Jun 2024 15:14:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	5IHnpbmUpj49Nn64F1e9zeYA5D+TVXazrWvkh/paJ8k=; b=t1v78wLDWtTfw8mu
-	7MBgnI05q8pF4ynt4ihNaiIRMv0k/4o22f/lxfwrCffE84APqMyCg482VVBleRmF
-	jVhufqLYNP24cYDAk0uMcg2WMJWo0W1q2ZfbpTUNHnaWipex0ZXUg+F+cPdGmnJB
-	MWOSmoxbYA7hCAvHUeBbkgNpRtqqFwNJPqVfh7a+h8a04hDFp3k13DGEkvmWlfU7
-	LUZGU14v99r+5v4TF98nSFFrn4MsFSZEIiSwCGizUVtTVp9hxjeQFPqV9/wTuoVW
-	ngWuoolT+IVbnm6Cbqv5PXOst958BiGSyYfCOD1q7H5fzPDS1/yxb3zyYXEUIDC5
-	sMrv/Q==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ypbp3u0b6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Jun 2024 15:14:00 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E3C744002D;
-	Tue, 11 Jun 2024 15:13:56 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1B105216842;
-	Tue, 11 Jun 2024 15:13:19 +0200 (CEST)
-Received: from [10.130.72.241] (10.130.72.241) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 11 Jun
- 2024 15:13:18 +0200
-Message-ID: <02daa868-17d6-44c8-8508-555ab258f77d@foss.st.com>
-Date: Tue, 11 Jun 2024 15:13:18 +0200
+	s=arc-20240116; t=1718112161; c=relaxed/simple;
+	bh=jA9dvE7L9ZJmw9za/ZknPNMPAQ+nyOtSi6kn/GimkXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g54z85g8RnxBY7o7Q2k1GWuk9F9q8BAMt2KKz/k99+luPOiKo/w7Ik97a3x3kLy9+af16mLnzWr4ChnBbjf+pxft1+uE6Chxux0kV8YGh6F0HwwSz0YEdvjZ2j/hPZZAXLJ/CEHPV0+dgX1yPtuTir1gayAEgwH3z4PH273vg7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJvxpd51; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46807C2BD10;
+	Tue, 11 Jun 2024 13:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718112160;
+	bh=jA9dvE7L9ZJmw9za/ZknPNMPAQ+nyOtSi6kn/GimkXY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OJvxpd51vL1fgaAMZi+67oKms4QBWh1elR9Hk7cG6nG9e9gXGeFrMfWIIAEael+i3
+	 lAkE99VPxEfh5CyATJUju6DP+t3VIiBAQTucjgQ0ijMajJBcxew3jixbWnwkA4lB3w
+	 ugE0bmKSv4ByzTWhXiqCIEtwrFfOxt+cNpxRnb5kV3Pnz4F4fIUqKNgxjQoYWWx4Qh
+	 8zpY0odtnULrAV/ck1rMQnSKWXf63qG4qt6DqqFfTrBr+8cSR+V1A2y62QjUtMw5og
+	 nm+chU1m0V08cd11shPoWB/8gBRuAnigd/2INuHL6WAuyjUDRqmNsS6XCFFfwI6dMG
+	 6+fylC4MotZmw==
+Date: Tue, 11 Jun 2024 14:22:37 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Chan <michael.chan@broadcom.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/6] auxbus: make to_auxiliary_drv accept and return a
+ constant pointer
+Message-ID: <ZmhPnQqYFXWP4heL@finisterre.sirena.org.uk>
+References: <20240611130103.3262749-7-gregkh@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] media: vgxy61: Add MODULE_ALIAS()
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20240610150815.228790-1-benjamin.mugnier@foss.st.com>
- <20240610150815.228790-4-benjamin.mugnier@foss.st.com>
- <ZmgI8nET4sdhdwQx@kekkonen.localdomain>
- <76fd2e25-3a9c-49fa-994f-6a392e42a6bb@foss.st.com>
- <ZmhM9mAcQqMGKnzw@kekkonen.localdomain>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <ZmhM9mAcQqMGKnzw@kekkonen.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-11_07,2024-06-11_01,2024-05-17_01
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Xh2Kj1DQz4GcFSrR"
+Content-Disposition: inline
+In-Reply-To: <20240611130103.3262749-7-gregkh@linuxfoundation.org>
+X-Cookie: Your love life will be... interesting.
 
-On 6/11/24 15:11, Sakari Ailus wrote:
-> Hi Benjamin,
-> 
-> On Tue, Jun 11, 2024 at 01:57:24PM +0200, Benjamin Mugnier wrote:
->> Hi Sakari,
->>
->> On 6/11/24 10:21, Sakari Ailus wrote:
->>> Hi Benjamin,
->>>
->>> On Mon, Jun 10, 2024 at 05:08:15PM +0200, Benjamin Mugnier wrote:
->>>> Preserve user space retro compatibility after the device rename.
->>>>
->>>> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->>>> ---
->>>>  drivers/media/i2c/vgxy61.c | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
->>>> index ca3b43608dad..c85f356946ca 100644
->>>> --- a/drivers/media/i2c/vgxy61.c
->>>> +++ b/drivers/media/i2c/vgxy61.c
->>>> @@ -1898,3 +1898,4 @@ MODULE_AUTHOR("Mickael Guene <mickael.guene@st.com>");
->>>>  MODULE_AUTHOR("Sylvain Petinot <sylvain.petinot@foss.st.com>");
->>>>  MODULE_DESCRIPTION("VGXY61 camera subdev driver");
->>>>  MODULE_LICENSE("GPL");
->>>> +MODULE_ALIAS("platform:st-vgxy61");
->>>
->>> Perhaps just "st-vgxy61" so that the module still loads if someone loads it
->>> explicitly? That's what you'd want, right, as the old compatible string
->>> will remain?
->>>
->>
->> Yes it is for explicit loading. I'll remove the "platform" prefix.
->>
->> But maybe I'm overthinking and I could just remove the MODULE_ALIAS()
->> completely from this series. What do you think ?
-> 
-> Most of the time the modules are loaded based on devices found, so this
-> would likely not change things much.
-> 
-> Up to you.
-> 
 
-Then I'd rather remove it entirely. The less legacy code the better.
-Thank you.
+--Xh2Kj1DQz4GcFSrR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-Regards,
+On Tue, Jun 11, 2024 at 03:01:04PM +0200, Greg Kroah-Hartman wrote:
+> In the quest to make struct device constant, start by making
+> to_auziliary_drv() return a constant pointer so that drivers that call
+> this can be fixed up before the driver core changes.
 
-Benjamin
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--Xh2Kj1DQz4GcFSrR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZoT5wACgkQJNaLcl1U
+h9BOJwf/aeKGbgsNQMBhINPc1+PAR8b5cph+EiF+ikcvcatJwJlRp44vA9jbRubp
+RmTlt5cENNxdSPxZ4L1agVt+lbemBcTfLZFQLj+KvZjLhC2oeXhkcbjY3eLmIsVw
+yQjm6MBnwdVo/8KD/jHCX4VMeCIcqtyTSjXqy3Q7kWlquqICAer7jB2riTxPOsUA
+AZ8DvqF1TQees1OHELAdmRRkcSOufQXeZRHCfeiDTpAFFnOazvtPmeAPcQpA5c8v
+JITj6HWMZxHRs9efcbyOOTVYnUcE3cZY3lUuqKJqzEfI08F75CJiZvb1hS/fRrPU
+6Nig9Tiir3XUu0ajZMrfXBdbm+3HOg==
+=XJxc
+-----END PGP SIGNATURE-----
+
+--Xh2Kj1DQz4GcFSrR--
 
