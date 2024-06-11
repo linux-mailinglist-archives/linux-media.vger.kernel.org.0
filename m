@@ -1,125 +1,153 @@
-Return-Path: <linux-media+bounces-12958-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12959-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11246903F65
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 17:00:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C23903FD7
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 17:19:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B07F31F23B26
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 15:00:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0AC6328290D
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 15:19:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D590D17573;
-	Tue, 11 Jun 2024 14:59:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A2D208AF;
+	Tue, 11 Jun 2024 15:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LfhYiDZe"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="G1I5g/of"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7D212B89;
-	Tue, 11 Jun 2024 14:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D5917554
+	for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 15:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718117994; cv=none; b=Ic9NvGo90SIh5juZrpp4Bwvp5eh8mhfJQyKIeKDCZfItuNbVmDGMoIxNiSLM9c9LzKCdB9O8hqB+5QRJkWxS4n3+4+M1kLbbLTT6uA0ovRFrVZBkg8M47T9TrsrHZLS1dQ1LWn4TjSjjrT8F8wrKRRVGMe8TcXxrq5gPc3SBiWs=
+	t=1718119152; cv=none; b=HT38F5gtasrP6zbROPI8z3Lcb+WvywtvhUyuvXgOiIERka8d4uFm3zuFFfO2i3gBbUXeOZWcfpEZ37reoEx+Kev5DaJTUUfWESkTEcvU9vWUI3GD+c/BD89aal8vcLkEO3ZB36LGdVjviV3LxD6fX4jJPPemYMVNQ0MVjVX4HwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718117994; c=relaxed/simple;
-	bh=UYctEp2wmBZzjxzC3roRrXYvcSyT/7HQ0rmZrgj/cNc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s9aHy4X+laoYZxaQ7PbqQCngo6J2m2juufNfePIeCgX6SGtEbf7NAz+Tlim5eLHBvrsi3V6wgjgqwRFE7R3xNvRMCO/rBfaGQOXMtDRq/RWJ0flMIeu4Dz/BPPEKnmo/YKkUKzewCaZA0FDbrs53ZWw4N3mzke2gh+jI1isT1a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LfhYiDZe; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718117993; x=1749653993;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UYctEp2wmBZzjxzC3roRrXYvcSyT/7HQ0rmZrgj/cNc=;
-  b=LfhYiDZe8kThRfE8yLQvG2sFbyS8+dCMXxUwgIosgln42Yw89kDkSE7k
-   Vis3sfMaTD/YGdnsxaQt3DL96SvZkavp734WvOI7FDVJ6G3e188TS5xEB
-   biwQH0wbFVwuG7OpVY2+0RD8YSzuXzPzBaOlOAbn9vggFuq8mFIBySUb9
-   7wIdnMqI+TYddOoShaZzk5o2RqXVQAOF/W9zKi1//ENYEL0EyvqFyzydb
-   d5HkrzAKgio6B8n0q5pjRaz7nHOynZOfAjnvFFvGUoScTEcsILIEbWsYa
-   5cjGhI8Bc1Y8e20NlPrndxDXV3/QN/28rtSgqqxH7/dILy8S9OKmmjHZ9
-   w==;
-X-CSE-ConnectionGUID: ykX6/Oj+Rk+IoIH/3G1mxg==
-X-CSE-MsgGUID: XHGPxFhORAGKLR2DNl3AtA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="26250246"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="26250246"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 07:59:52 -0700
-X-CSE-ConnectionGUID: vv8eEkUCSdKcMX/+DEiYcQ==
-X-CSE-MsgGUID: gJOYl7FQT+qk1WmRL0Gs9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="44408424"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa005.jf.intel.com with ESMTP; 11 Jun 2024 07:59:50 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 79063169; Tue, 11 Jun 2024 17:59:49 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH v1 1/1] mailmap: Add my outdated addresses to the map file
-Date: Tue, 11 Jun 2024 17:58:57 +0300
-Message-ID: <20240611145940.3879610-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	s=arc-20240116; t=1718119152; c=relaxed/simple;
+	bh=nZBnie7/9yW63lBsCc3eXsSO8y38QNlz/K+eQllR9WI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vBLHPdPuTa8RwVtGJqxTA1n6fTwM9S/su6KOg+aNk5c6OYFpwZBU8fUnKNBwIb5sNimy41bIufax+GGSGlOGOB9ExdjCM1sElQqqJitdoRPLiQiIUQpspcRU5wMHkQtJGgnoxxZUH4/tSqKVcEw4D/RoDhAEcgjWRQ0RYEE4IKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=G1I5g/of; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dfa48f505dfso6270994276.3
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 08:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1718119150; x=1718723950; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=M10CbUZmXB7Dee3D7sJ9T+X7/UYDjZpP4+Wii7wbA+4=;
+        b=G1I5g/ofopLBTUnpl6cUM9rW6fDK11dJ03MW6Qd44pfsMa2i38oGeG2gy8jz94cHvz
+         YihGr3NM7pu0Fc5Jjr8T3hYhZ/a7ANLU95XTqlq0Ep1D+uQsyDYk0pPSyk9dOpKM28M6
+         VHwG+fjoaUJVuvdnTJVFSA+IGimTenrZwnqZVHlv7W3CXYDls6CUnz57Ulyug/3FggeT
+         SAud/Cu4nGPJr2PyC9K951ZIRfvaUwNtA3Ib7ZLpAYSBpR2MZS+m5xpN2CFQr4Ks8qom
+         dGo5sH9z4w15EbWzFZ+3Igvs36CSgcAEZ/CsrqSj7Rrz1TxWSpjclSmj4Y5KSH7M9b43
+         F1Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718119150; x=1718723950;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M10CbUZmXB7Dee3D7sJ9T+X7/UYDjZpP4+Wii7wbA+4=;
+        b=Cw/IUNz6XqNgbIF1PwGti6Kemm+PPKqpAzwWdhCdMHbJUCBqBNRnfKOjK093akG3w1
+         i2/euOzrSnBTEUew8be+6Ra1pRqAfO88/t2Yz+zaORH5cFdhJJUzLtmC1KSG2YPPcexV
+         PPzddWshjRLB90fMK7rg9zmOH/XW2gJtl9XR96EZJc+wzemS++iqYWQGvtJLm+ubJMtY
+         X8o/BjMgWS4r9ZquzvtKAYeJlmeJD0AJ1XfjNFp+m3CJAeR1jAJp5K9sPKpJIo8L2dwa
+         70qP0ypiIEi7b7DaqCKQdvyxrR317TM2ZWuqufDg5GqaSQ12b4XgVWJhdymiECUy+98A
+         a1uQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVS/ZAxWYVEidkkcz1zun7ZlzR6dVyqfCoSYwbOtHQ0ASmJxE3mZH7Jt/9UlUGHTeBkmUV2BzKNXvW5i1P/Fjc8yLlcrR8ajd2nzaQ=
+X-Gm-Message-State: AOJu0Yx7C/qTzyHtx+N3uV8WMQYg+p8h3G0Ez1+Bj4sYrAPg4FbhLA2M
+	mUbHKgo9n+gpPGdKLSwcI2FemjyUVhcvc4IqslxdCpwrHItv1+dR40TGYrgCMD0AWcXt3n0/9nK
+	+noX2nJe3xCvNKTOABjvwd5P6g9Flkwy3UzAWrg==
+X-Google-Smtp-Source: AGHT+IGZktdb+mXNwm5zMn5WZrRMM33fN6s00SSt7So0FNfjBJkDtcWY/jhchu4Ql1yDEY/OiyCWdDlQcY7P67hPaog=
+X-Received: by 2002:a25:4982:0:b0:dfd:b3bb:ac11 with SMTP id
+ 3f1490d57ef6-dfdb3bbaedamr816466276.59.1718119149436; Tue, 11 Jun 2024
+ 08:19:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240510100324.5961-1-abdulrasaqolawani@gmail.com>
+In-Reply-To: <20240510100324.5961-1-abdulrasaqolawani@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 11 Jun 2024 16:18:53 +0100
+Message-ID: <CAPY8ntCWoq6UMns04W6-BmYtCHggVr4xqZjOX1bcZtwyO-2EEg@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: replacing of_node_put with __free(device_node)
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Cc: sakari.ailus@linux.intel.com, jacopo@jmondi.org, mchehab@kernel.org, 
+	julia.lawall@inria.fr, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+	javier.carrasco.cruz@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-There is a couple of outdated addresses that are still visible
-in the Git history, add them to .mailmap.
+Hi
 
-While at it, replace one in the comment.
+Thanks for the patch.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+The subject should be "media: i2c: ov5647:" or just "media: ov5647" as
+you're only touching the one driver.
 
-Cc'ed to Linus, since I have no clue who is the best to apply this
-change.
+On Fri, 10 May 2024 at 11:11, Abdulrasaq Lawani
+<abdulrasaqolawani@gmail.com> wrote:
+>
+> Replaced instance of of_node_put with __free(device_node)
+> to protect against any memory leaks due to future changes
+> in control flow.
+>
+> Suggested-by: Julia Lawall <julia.lawall@inria.fr>
+> Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index 7e1ecdf2485f..d593dba092e3 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -1360,23 +1360,19 @@ static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
+>         struct v4l2_fwnode_endpoint bus_cfg = {
+>                 .bus_type = V4L2_MBUS_CSI2_DPHY,
+>         };
+> -       struct device_node *ep;
+> +       struct device_node *ep __free(device_node) = of_graph_get_endpoint_by_regs(np, 0, -1);
 
- .mailmap                                  | 2 ++
- drivers/media/pci/saa7134/saa7134-cards.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+The media subsystem still requests a max line length of 80.
+https://github.com/torvalds/linux/blob/master/Documentation/driver-api/media/maintainer-entry-profile.rst#coding-style-addendum
+Break the line after the =
 
-diff --git a/.mailmap b/.mailmap
-index efd9fa867a8e..b6e9fe0916ce 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -72,6 +72,8 @@ Andrey Ryabinin <ryabinin.a.a@gmail.com> <aryabinin@virtuozzo.com>
- Andrzej Hajda <andrzej.hajda@intel.com> <a.hajda@samsung.com>
- André Almeida <andrealmeid@igalia.com> <andrealmeid@collabora.com>
- Andy Adamson <andros@citi.umich.edu>
-+Andy Shevchenko <andy@kernel.org> <andy@smile.org.ua>
-+Andy Shevchenko <andy@kernel.org> <ext-andriy.shevchenko@nokia.com>
- Anilkumar Kolli <quic_akolli@quicinc.com> <akolli@codeaurora.org>
- Anirudh Ghayal <quic_aghayal@quicinc.com> <aghayal@codeaurora.org>
- Antoine Tenart <atenart@kernel.org> <antoine.tenart@bootlin.com>
-diff --git a/drivers/media/pci/saa7134/saa7134-cards.c b/drivers/media/pci/saa7134/saa7134-cards.c
-index 1280696f65f2..e80fb4ebfda6 100644
---- a/drivers/media/pci/saa7134/saa7134-cards.c
-+++ b/drivers/media/pci/saa7134/saa7134-cards.c
-@@ -5152,7 +5152,7 @@ struct saa7134_board saa7134_boards[] = {
- 		},
- 	},
- 	[SAA7134_BOARD_AVERMEDIA_STUDIO_507UA] = {
--		/* Andy Shevchenko <andy@smile.org.ua> */
-+		/* Andy Shevchenko <andy@kernel.org> */
- 		.name           = "Avermedia AVerTV Studio 507UA",
- 		.audio_clock    = 0x00187de7,
- 		.tuner_type     = TUNER_PHILIPS_FM1216ME_MK3, /* Should be MK5 */
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+>         int ret;
+>
+> -       ep = of_graph_get_endpoint_by_regs(np, 0, -1);
+>         if (!ep)
+>                 return -EINVAL;
+>
+>         ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+>         if (ret)
+> -               goto out;
+> +               return ret;
+>
+>         sensor->clock_ncont = bus_cfg.bus.mipi_csi2.flags &
+>                               V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+>
+> -out:
+> -       of_node_put(ep);
+> -
+>         return ret;
 
+This could be "return 0;" as you've already returned if it was non-zero.
+
+I know very little of this new mechanism, but it looks reasonable, and
+Sakari has given it a basic blessing in a previous patch set.
+With the above 3 comments addressed:
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+>  }
+
+>
+> --
+> 2.34.1
+>
 
