@@ -1,144 +1,135 @@
-Return-Path: <linux-media+bounces-12966-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12967-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31ACF904276
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 19:34:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF47A90428C
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 19:40:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD9DC1F26589
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 17:34:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FC3C284ACC
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 17:40:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8931A4F5F9;
-	Tue, 11 Jun 2024 17:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4147C50A62;
+	Tue, 11 Jun 2024 17:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWxr0+Mf"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="r1AdC6K4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5871F43AD5;
-	Tue, 11 Jun 2024 17:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704AB45948
+	for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 17:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718127257; cv=none; b=CoSPrEGIy6gqi7mp1bbO2PZS/0Tz+jGxpBKrdnDM7rtFiytKwTJqTfUxo6XiSC3JWKy9q/ECUkPw3bjiXjHXubwEPbk4gtenFA5/pez4v8rADUFCDFN3gGHuwiwJibh7s2Q6yqDBcEYQaIT7ck8AU0i/8zlJMa21ocN082RUwgU=
+	t=1718127594; cv=none; b=IRALdXJJv4njYMbZLD6EpMSUOprXOVExkvHFwsoW5Gp+x1H8lnDZDT03s1Bf5ZzfwzSHRaHfWImVUNcAY62691n4XgwsJhSJQVPMk/inxumaCuUlKVdSn10srW2F3kJ//Arhs3/VL6FuB8eV6ZUPw29AxmEGhRXaZUZ6TYKPU9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718127257; c=relaxed/simple;
-	bh=IGWRkyXrapW7OPOE9BiYZCSGgeR9F5qaCexXoS2vqgY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BROvmCZ3qIDsW6r7Q7DymJvWaFQoOI7mXAGHRJ3B5XqhVWwzjJuyYeDD/7jwNDMN42go4trT9NvqLH/Vb7ZcrLNf94AGoP2LGbBogXhJa69Zh3HGOn5gnsoJuBHN6RLQ1go2ZTzAOwfOj9Rzq3FZ5jFT25B+lF1R0yFeQHKAoBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWxr0+Mf; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718127255; x=1749663255;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=IGWRkyXrapW7OPOE9BiYZCSGgeR9F5qaCexXoS2vqgY=;
-  b=IWxr0+MfehaHIxuOjWMe69fO9ZqzV4rzujSkl9SUglZbvqjTsp8NY4wU
-   SHUFwZafOFLtFkVLRyQCZcD19M/ocwPIMI10z90noim+kYzh2EO2Xe2++
-   8YBSgtjyHOZDFt6u+FO43SdNfR57rtB+UWbR1Zd/u9AN6bDNKL4KvzDA0
-   5jcufOhjel+O2/DpkmT62wYA7yptTySWyD9J8q4aUQclj938AugOnuqBS
-   ysP82TPD5ihUyfvGm71dHvWDy59By9fz9reOqMVWlIXr4IdYeeduOKJiN
-   uksP9mxTU3NJ3wozjZQowPri2CeaSKOknECCsNEoB9CizaSLwRhYnsYM1
-   Q==;
-X-CSE-ConnectionGUID: kGs3ls+oThWhMWdnkYiAXw==
-X-CSE-MsgGUID: d0Rr2RmqTsG2cVjyV3EouQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="18685823"
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="18685823"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 10:34:14 -0700
-X-CSE-ConnectionGUID: DNfh+BcqTou8u9tShGZuKQ==
-X-CSE-MsgGUID: Zb35i7RcREybUQmYmRkGUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
-   d="scan'208";a="39486007"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 10:34:13 -0700
-From: Tony Luck <tony.luck@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Tony Luck <tony.luck@intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v6 05/49 RESEND] media: atomisp: Switch to new Intel CPU model defines
-Date: Tue, 11 Jun 2024 10:34:06 -0700
-Message-ID: <20240611173406.352874-1-tony.luck@intel.com>
-X-Mailer: git-send-email 2.45.0
+	s=arc-20240116; t=1718127594; c=relaxed/simple;
+	bh=M+YEW6v90HYOunPyx/IlYlhLI0yXEPgyWnG6YGrfh14=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tAyAgCgV6I6j/OHbbFi7/DLJCDexcr2QJbIkU/pHbINCjqQDj5EJRIj7BmcllBSYdJP03Rr7U8ub8XEZfFDMrFOjspE5WX+yIBd71ci/+/XJwAIEQnYP/DRsm4Yn/TPve/zNR1nIGCax7FieVLhNKaXOfZldst2k3iLKoss94zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=r1AdC6K4; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dfde20fafb1so383996276.0
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 10:39:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1718127591; x=1718732391; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=M+YEW6v90HYOunPyx/IlYlhLI0yXEPgyWnG6YGrfh14=;
+        b=r1AdC6K4XiwuWp+D2P5+JJfvx803s7FZyQX7rwY2sXXlr/HO4icJVDZdWNOK8rsnky
+         gKI2tn/doGYrRMGrlbqab+wXUOSJd+QItqBLEd7ofMBq87dTMOU6yiNTxyzDE+r6h9Za
+         /IpXIrFRrZ1GuXOG4sz0C2l59GVdJnyVkAXa2aAZpfzmzGHDmzF9dS3Ow3miqKFvBmmI
+         OtZHoP9SPHO2DHeTq8pZOr/t2rPKKFzYZPKaO7GSz8TWMjTMchtimwZjDemOLDoG+WpZ
+         hGOXfrnhOVJ57eZh89ApZnwEZdh6ob3hmjESKblODGYD50zmNr479wlycU5l1D2xbAJ3
+         TpRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718127591; x=1718732391;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M+YEW6v90HYOunPyx/IlYlhLI0yXEPgyWnG6YGrfh14=;
+        b=cmrOPY7wX7EXfbcxfUfmE7lwidDl9UjHI1V+Vq0KopLnb0nfbI8OnY44drGIdwbBM8
+         x4J9d9ErAjaNA1OQS7KV0tDslSwhwkRdRzq7YbaUv89eXEKligBROLcemiz+djSI6UE7
+         /uHprjpWMoO6ufxaMFjMXd3JYl2Mpe1TwXD9tmrHbO89RbYQv97v93X25Ix0hk93O2OI
+         Q5eR8rviRDsN/NRS6r2Wti1M15ks/jyplVq8pBGgId0XH1ktH91uWnElHPrk7FqZ30Rs
+         JzrwOhFd9yf6AKeAw7cK27QoIyU6Qf5UiSZGTlquG6pofEojpkgLY6W0N351+Oev/0W/
+         fuEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQkG14mP81JiO8+irxcpsXZqDgPfMxa7w0TP+R8fVi2wpc6JJ5/b6HmgzmIQPm2zjY+GBAHV3xWwDFgklhXhS1AvT8W5O3fKV01Uo=
+X-Gm-Message-State: AOJu0YyuXaZHMKrOYk1d32YVGXOVnpGgKU/SKB732umSwh5fPTzJ1tYa
+	BdNhGSjDRAl9OlED5v9LWkWahF3V1UXyyXEgIyMrHzHI5u83g1E3rg0fwPfKDsh67a6efci48c5
+	QpJGzz4w/bmOpA7D7rYlTiDZLIQEKKg0glaUwrA==
+X-Google-Smtp-Source: AGHT+IHpvYwqV9BO3US0LJmfVBiXIJYyylZtaBYtv8R/58jOsl6ckUjdYf0HzAM/Skx/2BjUIGC5Og2SM/I+ruYFwRo=
+X-Received: by 2002:a25:ab24:0:b0:dfa:ff7e:d410 with SMTP id
+ 3f1490d57ef6-dfaff7ed6f5mr11899278276.40.1718127591425; Tue, 11 Jun 2024
+ 10:39:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240607-trimmer-pummel-b452ed15e103@spud> <20240607155704.GB1242@pendragon.ideasonboard.com>
+ <CAPY8ntBNNOFR1nn05g4Y-SOv_tN0YJv9wygO=+S80-zA1oq7mg@mail.gmail.com>
+ <20240607-celibacy-contend-c4a6be15804b@spud> <20240610-wolverine-hanky-37cc8c409958@wendy>
+In-Reply-To: <20240610-wolverine-hanky-37cc8c409958@wendy>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 11 Jun 2024 18:39:35 +0100
+Message-ID: <CAPY8ntA2f8D3d=7sXBcjGbOUYSw=Wa14yEd-=tmbJ5jJba+5Ug@mail.gmail.com>
+Subject: Re: [PATCH v1] media: i2c: imx219: fix msr access command sequence
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Conor Dooley <conor@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Adam Ford <aford173@gmail.com>, 
+	Andrey Konovalov <andrey.konovalov@linaro.org>, linux-kernel@vger.kernel.org, 
+	Naushir Patuck <naush@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 
-New CPU #defines encode vendor and family as well as model.
+Hi Conor
 
-Signed-off-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Acked-by: Hans de Goede <hdegoede@redhat.com>
----
+On Mon, 10 Jun 2024 at 08:32, Conor Dooley <conor.dooley@microchip.com> wrote:
+>
+> On Fri, Jun 07, 2024 at 06:55:01PM +0100, Conor Dooley wrote:
+> > On Fri, Jun 07, 2024 at 06:29:49PM +0100, Dave Stevenson wrote:
+> >
+> > > > > ---
+> > > > > I got the report of this third hand, I don't have a device and can't
+> > > > > test this. I do wonder why the RPis get away with the sequence that
+> > > > > seemingly doesn't work for the guy that reported this to me. My theory
+> > > > > is either that they noticed the sequence was wrong while adding some
+> > > > > other MSR access that is needed on this board while either cross
+> > > > > checking the values written or because the other MSR accesses didn't
+> > > > > take effect.
+> > >
+> > > Did the change fix it for the reporter? We're using the driver with no
+> > > changes to the register settings cf mainline.
+> > > Why it works on the Pi but not on a Microchip board is likely to be
+> > > something quite subtle.
+> >
+> > I've asked, maybe it turns out to just be the first of my suggestions,
+> > and they noticed it was not matching in passing.
+>
+> Apparently it was the latter & they did need to fix the sequence to be
+> able to write the MSRs.
 
-Mauro, Hans, Greg: Which one of you owns this one. Can you take
-a look please. Let me know if changes are needed.
+Fair enough.
 
- .../atomisp/include/linux/atomisp_platform.h  | 27 ++++++++-----------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+> > They did introduce two
+> > additional MSR accesses, both outside of the range documented in the
+> > datasheets I could find online. They did have explanations for what those
+> > undocumented MSRs did (0x5040 and 0x5041) in the mail I got, but given
+> > it's third hand info to me, I dunno if we have the datasheet etc. I'll
+> > try to find out some more next week.
+>
+> Seemingly what those two additional MSRs do is under NDA so I would have
+> no way of justifying a patch to add them or the devicetree property
+> required to know whether or not the additional MSR writes is needed. :)
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-index 0e3f6fb78483..fdeb247036b0 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-@@ -18,7 +18,7 @@
- #ifndef ATOMISP_PLATFORM_H_
- #define ATOMISP_PLATFORM_H_
- 
--#include <asm/intel-family.h>
-+#include <asm/cpu_device_id.h>
- #include <asm/processor.h>
- 
- #include <linux/i2c.h>
-@@ -178,22 +178,17 @@ void atomisp_unregister_subdev(struct v4l2_subdev *subdev);
- int v4l2_get_acpi_sensor_info(struct device *dev, char **module_id_str);
- 
- /* API from old platform_camera.h, new CPUID implementation */
--#define __IS_SOC(x) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
--		     boot_cpu_data.x86 == 6 &&                       \
--		     boot_cpu_data.x86_model == (x))
--#define __IS_SOCS(x,y) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
--		        boot_cpu_data.x86 == 6 &&                       \
--		        (boot_cpu_data.x86_model == (x) || \
--		         boot_cpu_data.x86_model == (y)))
--
--#define IS_MFLD	__IS_SOC(INTEL_FAM6_ATOM_SALTWELL_MID)
--#define IS_BYT	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT)
--#define IS_CHT	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT)
--#define IS_MRFD	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT_MID)
--#define IS_MOFD	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT_MID)
-+#define __IS_SOC(x) (boot_cpu_data.x86_vfm == x)
-+#define __IS_SOCS(x, y) (boot_cpu_data.x86_vfm == x || boot_cpu_data.x86_vfm == y)
-+
-+#define IS_MFLD	__IS_SOC(INTEL_ATOM_SALTWELL_MID)
-+#define IS_BYT	__IS_SOC(INTEL_ATOM_SILVERMONT)
-+#define IS_CHT	__IS_SOC(INTEL_ATOM_AIRMONT)
-+#define IS_MRFD	__IS_SOC(INTEL_ATOM_SILVERMONT_MID)
-+#define IS_MOFD	__IS_SOC(INTEL_ATOM_AIRMONT_MID)
- 
- /* Both CHT and MOFD come with ISP2401 */
--#define IS_ISP2401 __IS_SOCS(INTEL_FAM6_ATOM_AIRMONT, \
--			     INTEL_FAM6_ATOM_AIRMONT_MID)
-+#define IS_ISP2401 __IS_SOCS(INTEL_ATOM_AIRMONT, \
-+			     INTEL_ATOM_AIRMONT_MID)
- 
- #endif /* ATOMISP_PLATFORM_H_ */
--- 
-2.45.0
+NDAs can be a real pain sometimes.
+I'm happy with the patch though, and it doesn't stop anything else
+working on the Pi.
 
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
