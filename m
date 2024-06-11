@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-12916-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12917-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EC99032F2
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 08:47:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7429032F5
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 08:47:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 706921C226A3
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 06:47:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E87F1C2375A
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 06:47:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69A6D171E44;
-	Tue, 11 Jun 2024 06:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE957171E41;
+	Tue, 11 Jun 2024 06:47:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FU0bKomp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZOY6ugXK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F7A18641;
-	Tue, 11 Jun 2024 06:47:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418A718641;
+	Tue, 11 Jun 2024 06:47:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718088441; cv=none; b=IJek5BqIk22aGMj3iZxUbUx25zQBdmJ2Fvj5OW7Zsy7qq0mLxcZ3X+GBYpKTmfX8OInkTaeuWVn6T0STjqxp33n1XQgIZ3O/EgwBH2TovPyZmB2DkAS+7goHszpgbJirLcox8vtDYrjsnB/iBHVYuzAMIao8+zwPpFOe4yb6LHk=
+	t=1718088450; cv=none; b=SIGJOTyWUsfPUoiUw7Urz9RduwkJ0DVRcrlq9F2WGRgIU8QVZTNsX18zxUmr/OJAHcCb+nu+7F0S4REU2wRnoVwL8GebhB7IyYEW4rlhtQhRdoOGV4FzZGhu2ihZsFIof8xocPoB3LGCMjWMeHZxGxgfPmi5LynDVBK6RNlyuIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718088441; c=relaxed/simple;
-	bh=2HXB5eQC3xMm+Zm9CtyzEAOmLfWV97XhXikgJRPQCWE=;
+	s=arc-20240116; t=1718088450; c=relaxed/simple;
+	bh=MtaSqRNOfmcFRZpC+T9uNp+z2kvm8fBWsUTGbMsxisM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oiTe4X+Tnm2bwLvQzyNq+USyFh67eWgVDTh9CftKoWp7KlvwYUEllHFj7Lqt1bRMHxbVXUnWTvNtNJm6dm3meOvBj/Pl2lb8JEeXgXmEjo2I7UkMxejFRamowOxCd2wW6oEM/wz6kTRqRskNN45+RHVOAN5qkjuuFiQOLla/snI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FU0bKomp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18376C2BD10;
-	Tue, 11 Jun 2024 06:47:17 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=u4nLMhoaCot7swqS2784WAJ2ajJovt+icX5A2czifGJqdbj6BmmCjKGXFnaJruJprx8ra3osyOcaqRNetN7g4IZzlF9tSwl67BdVuvwyOR/XoX1woAk4MNjfOetkrS001cP0hAZQc2kHiRM4w8QJ9K/Ovn4lzuDEw9R0WRZHq48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZOY6ugXK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58AA8C2BD10;
+	Tue, 11 Jun 2024 06:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718088441;
-	bh=2HXB5eQC3xMm+Zm9CtyzEAOmLfWV97XhXikgJRPQCWE=;
+	s=k20201202; t=1718088450;
+	bh=MtaSqRNOfmcFRZpC+T9uNp+z2kvm8fBWsUTGbMsxisM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FU0bKompzepEIXj5dkh5kHbIslBM5yVoeA89A02XJ7wCkDBDNMYIKtjFq9BRyqclZ
-	 xVlCPRtKxkVPxJlXX7wFI0fkrEBIFbqhj8d25Pw82iVg82YpPRyqqmrktUna0koG99
-	 nTzttudklQ+0txqUY6zNq2L+6nUtWQW1NEQh4jfuF771aHHzzPbIj4N3wQU7vuVW6S
-	 PRk2MOcp3lzzIHC/lzbqLwJc4MEldHaYgJ6QQ7wfDbjx51VUSAac/0c9GcjFerw5jx
-	 E9CKKon0hxFrKUPdGTM61DSdpywCOyOgLx6uTen8auwenvaFtHhgAXqSBwNjZiEKth
-	 ERV8nunmx7P4A==
-Message-ID: <1a13587c-28c1-4074-8b0f-7f663b308b65@kernel.org>
-Date: Tue, 11 Jun 2024 08:47:15 +0200
+	b=ZOY6ugXK/0kcAXabH91jdPyxdVbILVgZY9//O+vPOebPe2R3RgNFuPFpEjQl+8KOU
+	 VO22tsg2rGNFpBum6nAl6cKdA0qTgWfZ5StpiHKbJ3QjGJqppBf8JQAYOXo76Fb/m3
+	 cOMmwKE0Z4UrKOXsMraVGNOoOgIYj2wFblBohnmFyZG9QJe6fYuty3d4baxu8nFzFH
+	 yWv52mdz1ylvBtLPY8X2rmV1RnAnVyt53Rlwn8vRre7Q1h9pmgHoL77kL0p5LrU4Pt
+	 dbX9wkW9pFOGfB8BDv64WnH+RQTSII7AtgjCihpjUn+oNkJKk1LgTmA+hrf51pXEy6
+	 PebazFy9FAb9w==
+Message-ID: <b4de42ba-d884-44b1-9f0e-12f5818c6781@kernel.org>
+Date: Tue, 11 Jun 2024 08:47:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: vgxy61: Fix driver name
+Subject: Re: [PATCH 2/3] media: vgxy61: Add legacy compatible string
 To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -60,7 +60,7 @@ To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20240610150815.228790-1-benjamin.mugnier@foss.st.com>
- <20240610150815.228790-2-benjamin.mugnier@foss.st.com>
+ <20240610150815.228790-3-benjamin.mugnier@foss.st.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,61 +106,36 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240610150815.228790-2-benjamin.mugnier@foss.st.com>
+In-Reply-To: <20240610150815.228790-3-benjamin.mugnier@foss.st.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/06/2024 17:08, Benjamin Mugnier wrote:
-> From 'st-vgxy61' to 'vgxy61'.
-> Align with other drivers to not use the vendor prefix.
-> Also the vendor prefix is already mentioned in the device tree
-> compatible string, being 'st,vgxy61', and does not need to be expressed twice.
-
-What bindings have anything to do with driver name?
-
-I think I made it clear last time.
-
-
+> As the driver has been renamed from 'st-vgxy61' to 'vgxy61', its
+> compatible string has been updated to reflect this change. Therefore old
+> device trees will not work anymore.
+> Add the old driver name as another compatible name to handle the
+> retro compatibility.
 > 
 > Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 > ---
->  .../media/i2c/{st,st-vgxy61.yaml => st,vgxy61.yaml}       | 6 +++---
->  Documentation/userspace-api/media/drivers/index.rst       | 2 +-
->  .../media/drivers/{st-vgxy61.rst => vgxy61.rst}           | 0
->  MAINTAINERS                                               | 8 ++++----
->  drivers/media/i2c/Kconfig                                 | 2 +-
->  drivers/media/i2c/Makefile                                | 2 +-
->  drivers/media/i2c/{st-vgxy61.c => vgxy61.c}               | 2 +-
->  7 files changed, 11 insertions(+), 11 deletions(-)
->  rename Documentation/devicetree/bindings/media/i2c/{st,st-vgxy61.yaml => st,vgxy61.yaml} (95%)
->  rename Documentation/userspace-api/media/drivers/{st-vgxy61.rst => vgxy61.rst} (100%)
->  rename drivers/media/i2c/{st-vgxy61.c => vgxy61.c} (99%)
+>  drivers/media/i2c/vgxy61.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml b/Documentation/devicetree/bindings/media/i2c/st,vgxy61.yaml
-> similarity index 95%
-> rename from Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> rename to Documentation/devicetree/bindings/media/i2c/st,vgxy61.yaml
-> index 8c28848b226a..4e4c2c7ad168 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/st,vgxy61.yaml
-> @@ -2,7 +2,7 @@
->  # Copyright (c) 2022 STMicroelectronics SA.
->  %YAML 1.2
->  ---
-> -$id: http://devicetree.org/schemas/media/i2c/st,st-vgxy61.yaml#
-> +$id: http://devicetree.org/schemas/media/i2c/st,vgxy61.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
+> index 30378e962016..ca3b43608dad 100644
+> --- a/drivers/media/i2c/vgxy61.c
+> +++ b/drivers/media/i2c/vgxy61.c
+> @@ -1867,6 +1867,11 @@ static void vgxy61_remove(struct i2c_client *client)
+>  }
 >  
->  title: STMicroelectronics VGxy61 HDR Global Shutter Sensor Family
-> @@ -23,7 +23,7 @@ description: |-
->  
->  properties:
->    compatible:
-> -    const: st,st-vgxy61
-> +    const: st,vgxy61
+>  static const struct of_device_id vgxy61_dt_ids[] = {
+> +	{ .compatible = "st,vgxy61" },
+> +	/*
+> +	 * Previously the driver was named 'st-vgxy61' instead of simply
+> +	 * 'vgxy61', keep it for retrocompatibility purposes.
 
-Why? No. NAK.
-
+NAK.
 
 Best regards,
 Krzysztof
