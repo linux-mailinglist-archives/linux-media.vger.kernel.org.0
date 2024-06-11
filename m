@@ -1,167 +1,177 @@
-Return-Path: <linux-media+bounces-12969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12970-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3552990432B
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 20:09:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C69A9045FD
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 22:54:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85EADB22B1C
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 18:09:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52CC9B24160
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 20:54:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B3286F301;
-	Tue, 11 Jun 2024 18:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AEE01527B6;
+	Tue, 11 Jun 2024 20:54:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ORBH1T28"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fcxfk+a1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF275BAFC
-	for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 18:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E6F8488;
+	Tue, 11 Jun 2024 20:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718129374; cv=none; b=HC5ttdK43lB6gUCm+VSgUiQ7AbDhclKzndRK58ST96s8rZM7ifMgxj1g5vonXD0nH81wA5tEIbar91encrmeHcZj6DuhFoAX+xvHKUsvqaCyl8YZ97Llwt+7T3P9eG/NCyurpFRZ4frjbsCX15wQrx0B2cA9CpTOK6XNaa1Hz2E=
+	t=1718139282; cv=none; b=hSupsohHI8ifB5ThBXw42Wo8Y1/H5xV1h9BS5hQzXUuZqu4IRwNGcagDjkTTjpBUULvHwlw8UyEWOJqr58jCYTLv38EucAL6Lz5puUHcCE3lWipIf8BFR0owYkdWtEgdaM/3afN6YrxBvNkVDVLVmEMQj7rmlNfT9UAxXUsCI90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718129374; c=relaxed/simple;
-	bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kQM6KKznUHizFz6FOsjxLcbkk3rXmZV/rk3jSZY6SBfvHgb6fuYC2mHDaXrWImcOLgf+XpCgR26tu06G97HwamPfWt8D4iWhsX/jzUb9x/lSCZ5B2xGE+3/SxlQIdXzQMvuzEXEaS3HaEkJ3Petb0zVPCIq0oS0NBTQLXcHFo1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ORBH1T28; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6265d3ba8fso604873766b.0
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 11:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718129370; x=1718734170; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
-        b=ORBH1T28Kv+Gm9vfDRFh0o9KoHNuPBRhIxafHB3qgyANZSEAx+9LLa6Wv5Iv2FulVM
-         1C4r4QsMP/tolax4DaWy4QrJlMTPTRDUpbMg8JdQqiADkwRyXa1Iy11Ylt5B7YbjRIRq
-         OctBI7JiWrNqmKnqBVdhpMRueuExFqKOmwSK+7OfBSrsjK4SgORfTkvjgaMoS3DMo0Q7
-         FkTsN8QksrcUNYzFDEG1UmAfTCd8yxst6SYakYd6YSlIZ9FEq+7SBeD6XMUjZNk9BCcy
-         Wrv4JJvkiSqmCMz3b9EpLjg4cplFB6acY4gYixvwk4VoXVVCe+PzWeGjji2mognTN5AY
-         C0/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718129370; x=1718734170;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
-        b=UV4sAGHZYeFf9L7MzTu6xiVVrpi2NF4I6OSxq1DLP3oIzhNxsS00jxwhWYZFdACx2Z
-         zPbOCC5Yx0m0ORWbeNNxshMycDw5PRUywbyIR8jvzhl35WYN5xSpWifoj8cICpoUxA4O
-         Msd5KuFIYaLwopCs2bAdO+XvUZbhhdq1foi0wDVrowQ58M5L+9tC9ZiR0L3y7bsmmyPu
-         JHEH04hrBh+z7MDVZ2g2iwR/E2rn3VM+V/D7oJfOGyg8EOceyUTf06lWxinjhI40sjuR
-         Yq3qy5hGx3Kari0I4ZGPvGqKZgS9jkO/dU/nKG+gBd8qvEI3b9/wsliL/Bo3bgDSfp6A
-         9ATg==
-X-Forwarded-Encrypted: i=1; AJvYcCXyaGX5v4cAaLuAPKt8hTLTZ9JPBFPeC/RsrCMVSik83fvGYv+chHfFybAOVOLt5KeeeyggbxVxc2w2Q/z2p/3F9mf/TG6iZsbXniE=
-X-Gm-Message-State: AOJu0Ywia6v0M0uMmYovwrh1FT21uWCPjn0/vMqallD/SnKvd2zFirgr
-	7Oe1MYXrBSC8gGCZ32LbOrGgAouKODp14VMIMrdapp3LpMPpmfF79YYAO3sXBiBfXcduq70+D6p
-	xcckvXfFps7HJvLW4zInb6LfojLwOi5Ceqb58
-X-Google-Smtp-Source: AGHT+IHSnbMlQQE9x/zPWpkI90JIlOTBHgyEzLn5RoXQZyiGaSSB2YwhfXwjdqq72pgI+LQF0hGDSafJjuWqavJQlB4=
-X-Received: by 2002:a17:906:4742:b0:a6f:393a:9dea with SMTP id
- a640c23a62f3a-a6f393aa161mr132795366b.77.1718129370030; Tue, 11 Jun 2024
- 11:09:30 -0700 (PDT)
+	s=arc-20240116; t=1718139282; c=relaxed/simple;
+	bh=SjB7p6Q6YXXhjAsZE+Txm0hdxAi9BcAoW4amSB4Hhmc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XJPAhAy9U/nPoBH9Znvhzn/p8jCWpHmzA8LQRXFvEEOVbWBkbMGqe/Bv/rgicm4VM+AsJzsY3lljCGnNJ0Ofk9nMWnn8k+r8qvduvVcos6D+6jBWB1LtG8JlqCFrxzT3SUfR+3nmKLGOQwFjAGw19gGBU1r4sEl7692ngRBFN9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fcxfk+a1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56503C2BD10;
+	Tue, 11 Jun 2024 20:54:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718139282;
+	bh=SjB7p6Q6YXXhjAsZE+Txm0hdxAi9BcAoW4amSB4Hhmc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Fcxfk+a1tSJp/hBDuM/+3yaJyaUme6cz+nYeKDzua3y3GDHrOb0L5XGLTz+vsppW8
+	 MkTJlgF0SrjEkn/3P2TgmMBnLG3kCv3MIDOPSuIvBQDtOoqO/dl93tB8eDvzO5tOON
+	 BFFmg4mEgXHdEOqLFjJUfGP+2DNmsCjYhGu3n/XR3KBL4qMpiwVuHurHXg57qlJc9s
+	 f4Y+SxrKNA5H/PicWmdK2EI+iKc62+JF7x5GvtdHWmSHcVcrIpQ9qFe10h2KJdJqTg
+	 Q+GJChXCO6AtCRIQ518wFOP9zHLJR2mcDTtrArra9ErWQ9RjuRmgw1xhZYK75F93z3
+	 mqN2tGJZfc6jw==
+Message-ID: <bd2aa638-e30c-4011-925b-4d922fe28f61@kernel.org>
+Date: Tue, 11 Jun 2024 22:54:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com> <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca> <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com> <20240610121625.GI791043@ziepe.ca>
- <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org> <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
- <20240610221500.GN791043@ziepe.ca>
-In-Reply-To: <20240610221500.GN791043@ziepe.ca>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 11 Jun 2024 11:09:15 -0700
-Message-ID: <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
-	David Wei <dw@davidwei.uk>, Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] media: vgxy61: Add legacy compatible string
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240610150815.228790-1-benjamin.mugnier@foss.st.com>
+ <20240610150815.228790-3-benjamin.mugnier@foss.st.com>
+ <b4de42ba-d884-44b1-9f0e-12f5818c6781@kernel.org>
+ <ZmgIiaqJy1tWL4Yz@kekkonen.localdomain>
+ <b7514285-7a05-4874-a0fd-59ef16d5bce1@kernel.org>
+ <458f8b1c-d750-424c-99dd-d31fde036314@foss.st.com>
+ <4fd73e81-4573-4e1c-9623-c2f7f153d43a@kernel.org>
+ <11cb5143-3c0e-4e7d-bcdb-6e8371bb1c0c@foss.st.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <11cb5143-3c0e-4e7d-bcdb-6e8371bb1c0c@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 10, 2024 at 3:15=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
->
-> On Mon, Jun 10, 2024 at 08:20:08PM +0100, Pavel Begunkov wrote:
-> > On 6/10/24 16:16, David Ahern wrote:
->
-> > > > There is no reason you shouldn't be able to use your fast io_uring
-> > > > completion and lifecycle flow with DMABUF backed memory. Those are =
-not
-> > > > widly different things and there is good reason they should work
-> > > > together.
-> >
-> > Let's not mix up devmem TCP and dmabuf specifically, as I see it
-> > your question was concerning the latter: "... DMABUF memory registered
-> > through Mina's mechanism". io_uring's zcrx can trivially get dmabuf
-> > support in future, as mentioned it's mostly the setup side. ABI,
-> > buffer workflow and some details is a separate issue, and I don't
-> > see how further integration aside from what we're already sharing
-> > is beneficial, on opposite it'll complicate things.
->
-> Again, I am talking about composability here, duplicating the DMABUF
-> stuff into io_uring is not composable, it is just duplicating things.
->
-> It does not match the view that there should be two distinct layers
-> here, one that provides the pages and one that manages the
-> lifecycle. As HCH pushes for pages either come from the allocator and
-> get to use the struct folio or the come from a dmabuf and they
-> don't. That is it, the only two choices.
->
-> The iouring stuff is trying to confuse the source of the pages with
-> the lifecycle - which is surely convenient, but is why Christoph is
-> opposing it.
->
+On 11/06/2024 15:07, Benjamin Mugnier wrote:
+> 
+>>>
+>>> Will this be ok for you ? Tell me your thoughts.
+>>
+>> It seems you are making some changes assuming there is some error to be
+>> fixed, but there is none. Compatible is just some unique string, so the
+>> original compatible, although unfortunate, is okay and must not be
+>> changed. I already explained that adding new compatibles for such cases
+>> is only for exceptions. Is this exception? No. You provided no rationale
+>> to make it an exception.
+> 
+> Thank you. I think I failed to provide some details :
+> 
+> The change is motivated by a will of consistency in naming.
 
-Just curious: in Pavel's effort, io_uring - which is not a device - is
-trying to share memory with the page_pool, which is also not a device.
-And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
-going to be the kernel's standard for any memory sharing between any 2
-components in the future, even when they're not devices? As in you
-expect dmabuf exporters which are not devices to be added to the
-kernel? Currently the only dmabuf exporter which is not a device
-(AFAIK) is udmabuf, which is used for testing and emulation, not
-really a production thing, I think.
+Consistency is a preference and not really a reason here. Could be named
+"st,yellow-elephant" and it would be kind of fine...
 
---=20
-Thanks,
-Mina
+> As you correctly mentioned in the vd56g3 series [1], bindings should be
+> 'vendor,device'. This will be changed for the vd56g3 series v3 by
+
+Yeah, but that ship has sailed. Where is the answer about all the users?
+You pick pieces of my arguments and ignore some parts of it.
+
+None of this is suitable for exception. Style or preference is not
+argument for exception.
+
+> Sylvain, but the vgxy61 binding is already badly named.
+> We will then have these 2 bindings in the wild : st,vd56g3 and
+> st,st-vgxy61, for very similar sensors. Hence the will to add a
+> st,vgxy61 binding for consistency.
+
+Nope.
+
+> This also prepares the ground for new camera sensor drivers we plan to
+> submit later on, and that will respect the st,device binding naming scheme.
+
+Nope
+
+> 
+> Is it the correct way to go ?
+
+Nope, sorry.
+
+I already said this several times in this email thread - answers here
+and in other emails. Now, again.
+
+When I said about exceptions, I really meant exceptions, e.g. something
+is broken or something never worked and has to be fixed. Style or
+preference is not this case. No point to keep arguing how style is
+important for you.
+
+
+Best regards,
+Krzysztof
+
 
