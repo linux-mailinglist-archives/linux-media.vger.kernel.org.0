@@ -1,177 +1,144 @@
-Return-Path: <linux-media+bounces-12965-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12966-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB8190425D
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 19:26:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31ACF904276
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 19:34:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 953BB1C2322B
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 17:26:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD9DC1F26589
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 17:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C9D04D8BB;
-	Tue, 11 Jun 2024 17:26:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8931A4F5F9;
+	Tue, 11 Jun 2024 17:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c2suFtL5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWxr0+Mf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6006147F5D;
-	Tue, 11 Jun 2024 17:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5871F43AD5;
+	Tue, 11 Jun 2024 17:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718126765; cv=none; b=kfKeGubXX9dkkvYUewMu6qZW943Zv3HTcyf5Keap1xAx6oumHzdP8LcLCXUR6xe6oVtKhkSSjZ40YbeFVcuqzE/lmwx4Ayth8ESP04g0gXnaOgNhcsHAHjOONV9+OKFg7JHyzmKBb8CcKCGtWuVCjVZfXFr9kUz0WCCHrbhcr9o=
+	t=1718127257; cv=none; b=CoSPrEGIy6gqi7mp1bbO2PZS/0Tz+jGxpBKrdnDM7rtFiytKwTJqTfUxo6XiSC3JWKy9q/ECUkPw3bjiXjHXubwEPbk4gtenFA5/pez4v8rADUFCDFN3gGHuwiwJibh7s2Q6yqDBcEYQaIT7ck8AU0i/8zlJMa21ocN082RUwgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718126765; c=relaxed/simple;
-	bh=SQVKiWoMEQlGJzZl2xfryE32TSjR7fWPakYa+xG+jOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c1dG7UpfJDzgAT01vG4M47RuSnTlUpkHxeYpayHXFxdfwUQxl4Sifji/1W8lafjk8PR5v9cJsMsaIXBpiTTjauhu1qdxNlUOWit9q8kDl96kc9VZAbFfBtNHIPbrQMABripC1omNPqmZazJIzBpJ39l+nsN53PDBX6fD2v//QO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c2suFtL5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CECECC2BD10;
-	Tue, 11 Jun 2024 17:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718126764;
-	bh=SQVKiWoMEQlGJzZl2xfryE32TSjR7fWPakYa+xG+jOQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c2suFtL5Vem76e++QV+lrZeQ7MGiZxVNYh58xkSQi2PPsLfzgMS+DIViYpPHwQIIF
-	 OQsYe+Y8zKrquo+xzNMcQu6lXzyiUATsppSouXRBdVURX2p/4tkeyTY8YA3VjNSpRq
-	 F64+77bYB6rnQpQt6afrIzUOf6dOR6B4sXGhn7UVKtUTB8MLQAEFpwkuEtLMEi5GDu
-	 HRy6oaJUJJdwjklzdWv+LgNpsX8DPiNzS9u2kLYOXfEPTvmV8CzRmlgvdhLcfUbiza
-	 CAmlUqVumeZrj5/6o682Y84/8n7jfxQeLepnQGIcQ1Xm+1hE6nkCG3V6dye3Leykmi
-	 1MBzCTM49UwkA==
-Date: Tue, 11 Jun 2024 10:26:02 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH v4 2/2] media: i2c: Add imx283 camera sensor driver
-Message-ID: <20240611172602.GA2226028@thelio-3990X>
-References: <20240402-kernel-name-extraversion-v4-0-fb776893e4ec@ideasonboard.com>
- <20240402-kernel-name-extraversion-v4-2-fb776893e4ec@ideasonboard.com>
+	s=arc-20240116; t=1718127257; c=relaxed/simple;
+	bh=IGWRkyXrapW7OPOE9BiYZCSGgeR9F5qaCexXoS2vqgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BROvmCZ3qIDsW6r7Q7DymJvWaFQoOI7mXAGHRJ3B5XqhVWwzjJuyYeDD/7jwNDMN42go4trT9NvqLH/Vb7ZcrLNf94AGoP2LGbBogXhJa69Zh3HGOn5gnsoJuBHN6RLQ1go2ZTzAOwfOj9Rzq3FZ5jFT25B+lF1R0yFeQHKAoBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWxr0+Mf; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718127255; x=1749663255;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IGWRkyXrapW7OPOE9BiYZCSGgeR9F5qaCexXoS2vqgY=;
+  b=IWxr0+MfehaHIxuOjWMe69fO9ZqzV4rzujSkl9SUglZbvqjTsp8NY4wU
+   SHUFwZafOFLtFkVLRyQCZcD19M/ocwPIMI10z90noim+kYzh2EO2Xe2++
+   8YBSgtjyHOZDFt6u+FO43SdNfR57rtB+UWbR1Zd/u9AN6bDNKL4KvzDA0
+   5jcufOhjel+O2/DpkmT62wYA7yptTySWyD9J8q4aUQclj938AugOnuqBS
+   ysP82TPD5ihUyfvGm71dHvWDy59By9fz9reOqMVWlIXr4IdYeeduOKJiN
+   uksP9mxTU3NJ3wozjZQowPri2CeaSKOknECCsNEoB9CizaSLwRhYnsYM1
+   Q==;
+X-CSE-ConnectionGUID: kGs3ls+oThWhMWdnkYiAXw==
+X-CSE-MsgGUID: d0Rr2RmqTsG2cVjyV3EouQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="18685823"
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="18685823"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 10:34:14 -0700
+X-CSE-ConnectionGUID: DNfh+BcqTou8u9tShGZuKQ==
+X-CSE-MsgGUID: Zb35i7RcREybUQmYmRkGUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,230,1712646000"; 
+   d="scan'208";a="39486007"
+Received: from agluck-desk3.sc.intel.com ([172.25.222.70])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 10:34:13 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Tony Luck <tony.luck@intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: [PATCH v6 05/49 RESEND] media: atomisp: Switch to new Intel CPU model defines
+Date: Tue, 11 Jun 2024 10:34:06 -0700
+Message-ID: <20240611173406.352874-1-tony.luck@intel.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240402-kernel-name-extraversion-v4-2-fb776893e4ec@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Umang,
+New CPU #defines encode vendor and family as well as model.
 
-On Tue, Apr 02, 2024 at 03:37:51PM +0530, Umang Jain wrote:
-> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> 
-> Add a v4l2 subdevice driver for the Sony IMX283 image sensor.
-> 
-> The IMX283 is a 20MP Diagonal 15.86 mm (Type 1) CMOS Image Sensor with
-> Square Pixel for Color Cameras.
-> 
-> The following features are supported:
-> - Manual exposure an gain control support
-> - vblank/hblank/link freq control support
-> - Test pattern support control
-> - Arbitrary horizontal and vertical cropping
-> - Supported resolution:
->   - 5472x3648 @ 20fps (SRGGB12)
->   - 5472x3648 @ 25fps (SRGGB10)
->   - 2736x1824 @ 50fps (SRGGB12)
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Signed-off-by: Tony Luck <tony.luck@intel.com>
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Acked-by: Hans de Goede <hdegoede@redhat.com>
+---
 
-This change is now in -next as commit ccb4eb4496fa ("media: i2c: Add
-imx283 camera sensor driver").
+Mauro, Hans, Greg: Which one of you owns this one. Can you take
+a look please. Let me know if changes are needed.
 
-> +++ b/drivers/media/i2c/imx283.c
-...
-> +/* IMX283 native and active pixel array size. */
-> +static const struct v4l2_rect imx283_native_area = {
-> +	.top = 0,
-> +	.left = 0,
-> +	.width = 5592,
-> +	.height = 3710,
-> +};
-> +
-> +static const struct v4l2_rect imx283_active_area = {
-> +	.top = 40,
-> +	.left = 108,
-> +	.width = 5472,
-> +	.height = 3648,
-> +};
-...
-> +#define CENTERED_RECTANGLE(rect, _width, _height)			\
-> +	{								\
-> +		.left = rect.left + ((rect.width - (_width)) / 2),	\
-> +		.top = rect.top + ((rect.height - (_height)) / 2),	\
-> +		.width = (_width),					\
-> +		.height = (_height),					\
-> +	}
-...
-> +		.crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
+ .../atomisp/include/linux/atomisp_platform.h  | 27 ++++++++-----------
+ 1 file changed, 11 insertions(+), 16 deletions(-)
 
-This construct does not work with GCC prior to 7 and Clang prior to 17
-(where certain const structures and variables will be considered
-constant expressions for the sake of initializers and such), resulting
-in:
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 0e3f6fb78483..fdeb247036b0 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -18,7 +18,7 @@
+ #ifndef ATOMISP_PLATFORM_H_
+ #define ATOMISP_PLATFORM_H_
+ 
+-#include <asm/intel-family.h>
++#include <asm/cpu_device_id.h>
+ #include <asm/processor.h>
+ 
+ #include <linux/i2c.h>
+@@ -178,22 +178,17 @@ void atomisp_unregister_subdev(struct v4l2_subdev *subdev);
+ int v4l2_get_acpi_sensor_info(struct device *dev, char **module_id_str);
+ 
+ /* API from old platform_camera.h, new CPUID implementation */
+-#define __IS_SOC(x) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
+-		     boot_cpu_data.x86 == 6 &&                       \
+-		     boot_cpu_data.x86_model == (x))
+-#define __IS_SOCS(x,y) (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL && \
+-		        boot_cpu_data.x86 == 6 &&                       \
+-		        (boot_cpu_data.x86_model == (x) || \
+-		         boot_cpu_data.x86_model == (y)))
+-
+-#define IS_MFLD	__IS_SOC(INTEL_FAM6_ATOM_SALTWELL_MID)
+-#define IS_BYT	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT)
+-#define IS_CHT	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT)
+-#define IS_MRFD	__IS_SOC(INTEL_FAM6_ATOM_SILVERMONT_MID)
+-#define IS_MOFD	__IS_SOC(INTEL_FAM6_ATOM_AIRMONT_MID)
++#define __IS_SOC(x) (boot_cpu_data.x86_vfm == x)
++#define __IS_SOCS(x, y) (boot_cpu_data.x86_vfm == x || boot_cpu_data.x86_vfm == y)
++
++#define IS_MFLD	__IS_SOC(INTEL_ATOM_SALTWELL_MID)
++#define IS_BYT	__IS_SOC(INTEL_ATOM_SILVERMONT)
++#define IS_CHT	__IS_SOC(INTEL_ATOM_AIRMONT)
++#define IS_MRFD	__IS_SOC(INTEL_ATOM_SILVERMONT_MID)
++#define IS_MOFD	__IS_SOC(INTEL_ATOM_AIRMONT_MID)
+ 
+ /* Both CHT and MOFD come with ISP2401 */
+-#define IS_ISP2401 __IS_SOCS(INTEL_FAM6_ATOM_AIRMONT, \
+-			     INTEL_FAM6_ATOM_AIRMONT_MID)
++#define IS_ISP2401 __IS_SOCS(INTEL_ATOM_AIRMONT, \
++			     INTEL_ATOM_AIRMONT_MID)
+ 
+ #endif /* ATOMISP_PLATFORM_H_ */
+-- 
+2.45.0
 
-  drivers/media/i2c/imx283.c:443:30: error: initializer element is not constant
-     .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                ^
-  drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-     .left = rect.left + ((rect.width - (_width)) / 2), \
-             ^~~~
-  drivers/media/i2c/imx283.c:443:30: note: (near initialization for 'supported_modes_12bit[0].crop.left')
-     .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                ^
-  drivers/media/i2c/imx283.c:412:11: note: in definition of macro 'CENTERED_RECTANGLE'
-     .left = rect.left + ((rect.width - (_width)) / 2), \
-             ^~~~
-  drivers/media/i2c/imx283.c:443:30: error: initializer element is not constant
-     .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                ^
-  drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-     .top = rect.top + ((rect.height - (_height)) / 2), \
-            ^~~~
-  drivers/media/i2c/imx283.c:443:30: note: (near initialization for 'supported_modes_12bit[0].crop.top')
-     .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                                ^
-  drivers/media/i2c/imx283.c:413:10: note: in definition of macro 'CENTERED_RECTANGLE'
-     .top = rect.top + ((rect.height - (_height)) / 2), \
-            ^~~~
-
-  drivers/media/i2c/imx283.c:443:30: error: initializer element is not a compile-time constant
-                  .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                          ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/media/i2c/imx283.c:412:11: note: expanded from macro 'CENTERED_RECTANGLE'
-                  .left = rect.left + ((rect.width - (_width)) / 2),      \
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/media/i2c/imx283.c:492:30: error: initializer element is not a compile-time constant
-                  .crop = CENTERED_RECTANGLE(imx283_active_area, 5472, 3648),
-                          ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  drivers/media/i2c/imx283.c:412:11: note: expanded from macro 'CENTERED_RECTANGLE'
-                  .left = rect.left + ((rect.width - (_width)) / 2),      \
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  2 errors generated.
-
-with these compiler versions. Usually, the values are just refactored
-with #define macros.
-
-Cheers,
-Nathan
 
