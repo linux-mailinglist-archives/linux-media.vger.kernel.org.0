@@ -1,71 +1,73 @@
-Return-Path: <linux-media+bounces-12937-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12938-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B853E903991
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 13:04:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2B9903993
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 13:04:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 57EAD1F259C9
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 11:04:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94B571F26077
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 11:04:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698D217BB04;
-	Tue, 11 Jun 2024 11:03:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2011917C208;
+	Tue, 11 Jun 2024 11:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SZFcxS5t"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RBPI+5fi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F73A17995B
-	for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 11:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5F917A930
+	for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 11:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718103787; cv=none; b=Ur8YW6TSnd9f8PNJEVkyHrJe/BlPBGSiF3sqKOXu27KkGW4hkJN7N+LdAf4rlFEvLANB+inwDbzYrH8ytwgEw01iIevK53b780wDzYGe6Bt/HPkhKjyhYaKWXVW7R3sqf8pjYmjBAS1+cbMelY2oSNYgvM2wiI3RjojKqEekF5g=
+	t=1718103789; cv=none; b=bq+3zWc4mFZHe2Ts82eujR+7vyo8GfAHXF9GiUVA7GmugkGyVKdLVWa8JxbzAaIQL/8SeNr4EHEDmyR6nlWFsX0rAh7AuSz6ntw+GVuBxli8lQzm0ByKN8g52j0Nl4yuNrl1o/F7Qgr1Alev/kySlK/ADlI/3n1UGzHTWxIGmuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718103787; c=relaxed/simple;
-	bh=8CJl8RanGtivcVT/pp3jOMy9BIfUbYWvQRvH1zViZr4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZvIn6y1voGHGGB8qr31j6GMcMhBq69ISJ5vZkBLrZfPHSNBgXHm+6VIjWnoAoBZyxAqOiBW5hd7ls0nzwOmPI5n5kBuiigxyAkH1P3xbpjBznBIfm4NMtxfyW85CNUCT2RFmC0tsQiWjJ0vc/r1m8e3ub8tEPzeWAFWjEYqq9ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SZFcxS5t; arc=none smtp.client-ip=209.85.219.48
+	s=arc-20240116; t=1718103789; c=relaxed/simple;
+	bh=axQU43Aml76H/iOKeENoFQKWJ7/gXB7cHl8R20BADw0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=c8v0sbCzUPFNVIl8+bwcZoH01H9dqAVz6XCeFwuH5CyhfDh3F2ZvCHs5VuPZ30uIkxzcZlYh0cr0JoaptrKglFwNo9RJrOCc/h1W3cnaNGKKqgB6+ab8f1HQXVYuDNxNnM59rJWvVKcs/maLn+MNUIxG75OEE3HGo9IhZKdA9rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RBPI+5fi; arc=none smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6b072522bd5so13711696d6.2
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 04:03:06 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-628c1f09f5cso11646597b3.1
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 04:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718103785; x=1718708585; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AMGmfOlQSxICq+sdEbtT3L0n6fIs2+2rB6Lvtt/5NAw=;
-        b=SZFcxS5tyid16rHrtmaAwVfpVQoYpvXVSEjrpjm5PxfOmjRP1mOCTZquwnraMfSuXf
-         QQJwrl0gWL6GJT28hf/hIBGHnvzvB1mbspk8bCSXhGVorbTY0bLMh5I2miu8o1aAC9cc
-         bspCW8vJwlFWNd3LOQP0PDMFkAY8R9cQsMLic=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718103785; x=1718708585;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1718103786; x=1718708586; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AMGmfOlQSxICq+sdEbtT3L0n6fIs2+2rB6Lvtt/5NAw=;
-        b=LJt68Dm0ExIC7jDu084ImaNym4zYISAEKRcbERxYRqVQbnI+YW/cYf3uG3UZd2Dlxe
-         iSBgkvW6WsGggXjX37MWjeXkKgCbIJmQW0HP6t2/KF5C3vOLNVYWn7DvTXh2NROADgRc
-         IPwHRYnUCHregk/ja+uVko4fG2r4HHMZW4i6cD4OSpqoSzpqwcNPqYkmtp5cA5eCpGc7
-         YRD/jNjOZ1VtX31grtIvnAorvgM3k8ImW/jjr8iMBdeoij0hwUQf6Px4yYbQ6KqkAqUu
-         5sW0ryl7YxUnMiTK4SCOYqnkjLWhuYaWIScmJB25+7H3UdZmQLjMFRwV8iQoGINDIfUc
-         6rDw==
-X-Gm-Message-State: AOJu0YxhwP2y6Cqfo1suGYXGjyuAfxui9DdA1jd3lbz6UidZIqiAB+TG
-	UD0ExfLgLZfhK/eHPvFj4JdK9n3+kDBHsvB76VFqQ50jWpfDasFIk47PSJAR3ncd8Dz9F1LRU3a
-	V+S7p
-X-Google-Smtp-Source: AGHT+IGTFKcy3CJcHEpOqOJMcdjoxKaj/uE383bgqCnGXhJLfs+f5KNQmu6LGZ8cgJR9iVeaS8Muyg==
-X-Received: by 2002:a05:6214:3904:b0:6b0:69fd:46c6 with SMTP id 6a1803df08f44-6b069fd489bmr78103586d6.5.1718103784666;
-        Tue, 11 Jun 2024 04:03:04 -0700 (PDT)
+        bh=ImkowAObGGvWARM8qyLmBbLia+4Yl3rwgPb+hZwmCUk=;
+        b=RBPI+5fi+7ZtMQlr8m+cof2zBRR1hqx/EWUmps6wAv/Fg5AYKOj73UnB22sTrKSiG8
+         IBdUVb8iawNejjSzj2wF6IXvmN3mk7RlXQ/l0HoWoAYHaSwHD3o83LwdSxRYqNzF69Mq
+         lX3CTDy+ci3KdBSMdyTa58+jvRTLZlrvbOQeM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718103786; x=1718708586;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ImkowAObGGvWARM8qyLmBbLia+4Yl3rwgPb+hZwmCUk=;
+        b=APn2owwuL9y7JJL+Jkjhoj4ljmDzLb8+EWQaf6G5nibptOkUDqUrStrr9Ktlhzx895
+         zHG/ep8iAFQW/upOKiPid/x0VpsEeTNWf17xnpFArrjfIStSGKZYkdpsHJ4cCwHejREp
+         vGYbhTC+uXY+jwHr6RWsk4GuVfA1b8HbzBkMg11ZtxyS8P2laYm+ne78+MEoICw8oQ7f
+         LL0YyA578JBhGHUQvtY7ovJrMHqPSRYjlf5+8+SiwCKF7YwzMbSXmc6skGt0292aZvdu
+         yTuiMnbbqhsSSYEfkG6tf4my8zwtO28dv5z8llJVTLwztTG/eI0BxDnLvFQHz8i9MkrQ
+         BufQ==
+X-Gm-Message-State: AOJu0YxI6edufSLSr9DGRNrsassWvseNhcQPvGf6bLxgHI+1xkBJCV+f
+	3LV0N0KE/P/5uUwgVwxNhU7VL5zbcOF8zQ9PPICQIsn9gYMgEZC2vYn0s3yFrEDXEPmuThOYK6N
+	GWtJF
+X-Google-Smtp-Source: AGHT+IGKfgJjl5AbFdYEmHwgB4UA+CO9/L0Ej5JUQlX4Aq+awTo2bU562C9zspGvacUwumd87j7oSA==
+X-Received: by 2002:a0d:d442:0:b0:615:4e88:c02d with SMTP id 00721157ae682-62cd55f46c1mr126934237b3.23.1718103785263;
+        Tue, 11 Jun 2024 04:03:05 -0700 (PDT)
 Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b08bf006f4sm6392076d6.90.2024.06.11.04.03.03
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b08bf006f4sm6392076d6.90.2024.06.11.04.03.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 11 Jun 2024 04:03:04 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 0/2] media: Follow-up for coccinelle lock fixes patchset
-Date: Tue, 11 Jun 2024 11:02:56 +0000
-Message-Id: <20240611-coccinelle-followup-v1-0-df2de9c2f320@chromium.org>
+Date: Tue, 11 Jun 2024 11:02:57 +0000
+Subject: [PATCH 1/2] media: drivers/media/dvb-core: Split
+ dvb_frontend_open()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -74,34 +76,200 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOAuaGYC/x3MTQqAIBBA4avIrBNUKqirRAuzsQYGDaUfCO+et
- PwW772QMRFmGMULCS/KFEOFbgS43YYNJa3VYJRpVa+1dNE5CsiM0kfmeJ+H9J3tzaKGzhsFtTw
- Senr+6zSX8gGZXcmxZQAAAA==
+Message-Id: <20240611-coccinelle-followup-v1-1-df2de9c2f320@chromium.org>
+References: <20240611-coccinelle-followup-v1-0-df2de9c2f320@chromium.org>
+In-Reply-To: <20240611-coccinelle-followup-v1-0-df2de9c2f320@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-Hans requested some changes for this patch:
-https://patchwork.linuxtv.org/project/linux-media/patch/20240506-cocci-locks-v1-5-a67952fe5d19@chromium.org/
+Move the actual opening to its own function.
 
-Refactor the patch and try again :).
+Not intended code change. This is a preparation for the next patch.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-Ricardo Ribalda (2):
-      media: drivers/media/dvb-core: Split dvb_frontend_open()
-      media: drivers/media/dvb-core: Refactor dvb_frontend_open locking
+ drivers/media/dvb-core/dvb_frontend.c | 143 +++++++++++++++++-----------------
+ 1 file changed, 70 insertions(+), 73 deletions(-)
 
- drivers/media/dvb-core/dvb_frontend.c | 160 ++++++++++++++++++----------------
- 1 file changed, 87 insertions(+), 73 deletions(-)
----
-base-commit: 1034ead1a7333e65e516c583f757717f461eba43
-change-id: 20240611-coccinelle-followup-f5a62b095f20
+diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+index 4f78f30b3646..e81b9996530e 100644
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -2760,80 +2760,13 @@ static __poll_t dvb_frontend_poll(struct file *file, struct poll_table_struct *w
+ 	return 0;
+ }
+ 
+-static int dvb_frontend_open(struct inode *inode, struct file *file)
++static int __dvb_frontend_open(struct inode *inode, struct file *file)
+ {
+ 	struct dvb_device *dvbdev = file->private_data;
+ 	struct dvb_frontend *fe = dvbdev->priv;
+ 	struct dvb_frontend_private *fepriv = fe->frontend_priv;
+-	struct dvb_adapter *adapter = fe->dvb;
+ 	int ret;
+ 
+-	dev_dbg(fe->dvb->device, "%s:\n", __func__);
+-	if (fe->exit == DVB_FE_DEVICE_REMOVED)
+-		return -ENODEV;
+-
+-	if (adapter->mfe_shared == 2) {
+-		mutex_lock(&adapter->mfe_lock);
+-		if ((file->f_flags & O_ACCMODE) != O_RDONLY) {
+-			if (adapter->mfe_dvbdev &&
+-			    !adapter->mfe_dvbdev->writers) {
+-				mutex_unlock(&adapter->mfe_lock);
+-				return -EBUSY;
+-			}
+-			adapter->mfe_dvbdev = dvbdev;
+-		}
+-	} else if (adapter->mfe_shared) {
+-		mutex_lock(&adapter->mfe_lock);
+-
+-		if (!adapter->mfe_dvbdev)
+-			adapter->mfe_dvbdev = dvbdev;
+-
+-		else if (adapter->mfe_dvbdev != dvbdev) {
+-			struct dvb_device
+-				*mfedev = adapter->mfe_dvbdev;
+-			struct dvb_frontend
+-				*mfe = mfedev->priv;
+-			struct dvb_frontend_private
+-				*mfepriv = mfe->frontend_priv;
+-			int mferetry = (dvb_mfe_wait_time << 1);
+-
+-			mutex_unlock(&adapter->mfe_lock);
+-			while (mferetry-- && (mfedev->users != -1 ||
+-					      mfepriv->thread)) {
+-				if (msleep_interruptible(500)) {
+-					if (signal_pending(current))
+-						return -EINTR;
+-				}
+-			}
+-
+-			mutex_lock(&adapter->mfe_lock);
+-			if (adapter->mfe_dvbdev != dvbdev) {
+-				mfedev = adapter->mfe_dvbdev;
+-				mfe = mfedev->priv;
+-				mfepriv = mfe->frontend_priv;
+-				if (mfedev->users != -1 ||
+-				    mfepriv->thread) {
+-					mutex_unlock(&adapter->mfe_lock);
+-					return -EBUSY;
+-				}
+-				adapter->mfe_dvbdev = dvbdev;
+-			}
+-		}
+-	}
+-
+-	if (dvbdev->users == -1 && fe->ops.ts_bus_ctrl) {
+-		if ((ret = fe->ops.ts_bus_ctrl(fe, 1)) < 0)
+-			goto err0;
+-
+-		/* If we took control of the bus, we need to force
+-		   reinitialization.  This is because many ts_bus_ctrl()
+-		   functions strobe the RESET pin on the demod, and if the
+-		   frontend thread already exists then the dvb_init() routine
+-		   won't get called (which is what usually does initial
+-		   register configuration). */
+-		fepriv->reinitialise = 1;
+-	}
+-
+ 	if ((ret = dvb_generic_open(inode, file)) < 0)
+ 		goto err1;
+ 
+@@ -2871,8 +2804,6 @@ static int dvb_frontend_open(struct inode *inode, struct file *file)
+ 
+ 	dvb_frontend_get(fe);
+ 
+-	if (adapter->mfe_shared)
+-		mutex_unlock(&adapter->mfe_lock);
+ 	return ret;
+ 
+ err3:
+@@ -2891,9 +2822,75 @@ static int dvb_frontend_open(struct inode *inode, struct file *file)
+ err1:
+ 	if (dvbdev->users == -1 && fe->ops.ts_bus_ctrl)
+ 		fe->ops.ts_bus_ctrl(fe, 0);
+-err0:
+-	if (adapter->mfe_shared)
+-		mutex_unlock(&adapter->mfe_lock);
++
++	return ret;
++}
++
++static int dvb_frontend_open(struct inode *inode, struct file *file)
++{
++	struct dvb_device *dvbdev = file->private_data;
++	struct dvb_frontend *fe = dvbdev->priv;
++	struct dvb_adapter *adapter = fe->dvb;
++	int ret;
++
++	dev_dbg(fe->dvb->device, "%s:\n", __func__);
++	if (fe->exit == DVB_FE_DEVICE_REMOVED)
++		return -ENODEV;
++
++	if (!adapter->mfe_shared)
++		return __dvb_frontend_open(inode, file);
++
++	if (adapter->mfe_shared == 2) {
++		mutex_lock(&adapter->mfe_lock);
++		if ((file->f_flags & O_ACCMODE) != O_RDONLY) {
++			if (adapter->mfe_dvbdev &&
++			    !adapter->mfe_dvbdev->writers) {
++				mutex_unlock(&adapter->mfe_lock);
++				return -EBUSY;
++			}
++			adapter->mfe_dvbdev = dvbdev;
++		}
++	} else {
++		mutex_lock(&adapter->mfe_lock);
++
++		if (!adapter->mfe_dvbdev) {
++			adapter->mfe_dvbdev = dvbdev;
++		} else if (adapter->mfe_dvbdev != dvbdev) {
++			struct dvb_device
++				*mfedev = adapter->mfe_dvbdev;
++			struct dvb_frontend
++				*mfe = mfedev->priv;
++			struct dvb_frontend_private
++				*mfepriv = mfe->frontend_priv;
++			int mferetry = (dvb_mfe_wait_time << 1);
++
++			mutex_unlock(&adapter->mfe_lock);
++			while (mferetry-- && (mfedev->users != -1 ||
++					      mfepriv->thread)) {
++				if (msleep_interruptible(500)) {
++					if (signal_pending(current))
++						return -EINTR;
++				}
++			}
++
++			mutex_lock(&adapter->mfe_lock);
++			if (adapter->mfe_dvbdev != dvbdev) {
++				mfedev = adapter->mfe_dvbdev;
++				mfe = mfedev->priv;
++				mfepriv = mfe->frontend_priv;
++				if (mfedev->users != -1 ||
++				    mfepriv->thread) {
++					mutex_unlock(&adapter->mfe_lock);
++					return -EBUSY;
++				}
++				adapter->mfe_dvbdev = dvbdev;
++			}
++		}
++	}
++
++	ret = __dvb_frontend_open(inode, file);
++	mutex_unlock(&adapter->mfe_lock);
++
+ 	return ret;
+ }
+ 
 
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.45.2.505.gda0bf45e8d-goog
 
 
