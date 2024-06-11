@@ -1,134 +1,168 @@
-Return-Path: <linux-media+bounces-12915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE75F9032C7
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 08:36:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EC99032F2
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 08:47:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EA63BB288B2
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 06:34:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 706921C226A3
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 06:47:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0105D171E5F;
-	Tue, 11 Jun 2024 06:34:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69A6D171E44;
+	Tue, 11 Jun 2024 06:47:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tk+dXBXX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FU0bKomp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B718F5A;
-	Tue, 11 Jun 2024 06:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F7A18641;
+	Tue, 11 Jun 2024 06:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718087664; cv=none; b=ZSO3oCk8tiWs8pqRkZDtSo+Nzm6+SREKLsz8PgcygqQcwisZbWVLezKxRj3NF4voll6YQcWYkecVs6Tpz5/BydKBnzvqXO8Gb5uDokipZPdrxdHX/fwUDZ9O1W5jWKLBzAWfP0xkN2B7ferJdNzwFnop0KAI6ZINHxSeLK0VMOI=
+	t=1718088441; cv=none; b=IJek5BqIk22aGMj3iZxUbUx25zQBdmJ2Fvj5OW7Zsy7qq0mLxcZ3X+GBYpKTmfX8OInkTaeuWVn6T0STjqxp33n1XQgIZ3O/EgwBH2TovPyZmB2DkAS+7goHszpgbJirLcox8vtDYrjsnB/iBHVYuzAMIao8+zwPpFOe4yb6LHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718087664; c=relaxed/simple;
-	bh=HD6zuN/YU9GfTvnsSFMgwOJWHu0eEEC9QbPLvuRX1c8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aA1oZR+6Z0YtT+afqBQsXVtKi/Y34eYCkxjtA40UvqhALkI8bmcHZWMx/selLdGkPxHvZnBKMOGFAGNAaN62AAcwVdqaPoHXKX/zeTgMju+Hrz8BSFdmv9eNFZqPG+0ZUUItF5q44PklN2SQJ2/WtmAAFOxKCRSvN5KkhscvbLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tk+dXBXX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=hzKsVpPKje036bzKOnuX4U/056zgkgQVmUIf1wvq07g=; b=tk+dXBXXnk+zd0X6cNVDuqRLwz
-	8yla0aeDdhwXFJ5H8iEksLC/i+v8TgdhFIN0LrVDrz2eU4w6hqwkIAkpocyNUX4FO8vIuauY1ocdQ
-	IkB79AVkz2KMdYCaIZvu6zf1rUP4dybZcAUKcaJ/teL9/hO0Uegap6UhilSpklGsaM6rTnhS//YmH
-	7OMCj1MhnKEKhaT1tyODcZC89YNawnzk6gECL6aqJ4gYeUPwBWI1GsvQm0fn46ZSwIKv8aXfaH8zN
-	Z2LY5bDtuzpTNWTbmi3g/LNfCMxo1svf/LzeWeNgyyGk+GVWq7vtPAlG6ZBgyil8yUn31T6UUKzTj
-	Kg/+ijvw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGv5H-00000007iHI-2R65;
-	Tue, 11 Jun 2024 06:34:19 +0000
-Date: Mon, 10 Jun 2024 23:34:19 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-Message-ID: <Zmfv6_uWAVavYJNj@infradead.org>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <ZmAgszZpSrcdHtyl@infradead.org>
- <ee9a55cd-7541-4865-ab2a-9e860b88c9e4@gmail.com>
+	s=arc-20240116; t=1718088441; c=relaxed/simple;
+	bh=2HXB5eQC3xMm+Zm9CtyzEAOmLfWV97XhXikgJRPQCWE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oiTe4X+Tnm2bwLvQzyNq+USyFh67eWgVDTh9CftKoWp7KlvwYUEllHFj7Lqt1bRMHxbVXUnWTvNtNJm6dm3meOvBj/Pl2lb8JEeXgXmEjo2I7UkMxejFRamowOxCd2wW6oEM/wz6kTRqRskNN45+RHVOAN5qkjuuFiQOLla/snI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FU0bKomp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18376C2BD10;
+	Tue, 11 Jun 2024 06:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718088441;
+	bh=2HXB5eQC3xMm+Zm9CtyzEAOmLfWV97XhXikgJRPQCWE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FU0bKompzepEIXj5dkh5kHbIslBM5yVoeA89A02XJ7wCkDBDNMYIKtjFq9BRyqclZ
+	 xVlCPRtKxkVPxJlXX7wFI0fkrEBIFbqhj8d25Pw82iVg82YpPRyqqmrktUna0koG99
+	 nTzttudklQ+0txqUY6zNq2L+6nUtWQW1NEQh4jfuF771aHHzzPbIj4N3wQU7vuVW6S
+	 PRk2MOcp3lzzIHC/lzbqLwJc4MEldHaYgJ6QQ7wfDbjx51VUSAac/0c9GcjFerw5jx
+	 E9CKKon0hxFrKUPdGTM61DSdpywCOyOgLx6uTen8auwenvaFtHhgAXqSBwNjZiEKth
+	 ERV8nunmx7P4A==
+Message-ID: <1a13587c-28c1-4074-8b0f-7f663b308b65@kernel.org>
+Date: Tue, 11 Jun 2024 08:47:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ee9a55cd-7541-4865-ab2a-9e860b88c9e4@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: vgxy61: Fix driver name
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240610150815.228790-1-benjamin.mugnier@foss.st.com>
+ <20240610150815.228790-2-benjamin.mugnier@foss.st.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240610150815.228790-2-benjamin.mugnier@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 07, 2024 at 02:45:55PM +0100, Pavel Begunkov wrote:
-> On 6/5/24 09:24, Christoph Hellwig wrote:
-> > On Mon, Jun 03, 2024 at 03:52:32PM +0100, Pavel Begunkov wrote:
-> > > The question for Christoph is what exactly is the objection here? Why we
-> > > would not be using well defined ops when we know there will be more
-> > > users?
-> > 
-> > The point is that there should be no more users.  If you need another
+On 10/06/2024 17:08, Benjamin Mugnier wrote:
+> From 'st-vgxy61' to 'vgxy61'.
+> Align with other drivers to not use the vendor prefix.
+> Also the vendor prefix is already mentioned in the device tree
+> compatible string, being 'st,vgxy61', and does not need to be expressed twice.
+
+What bindings have anything to do with driver name?
+
+I think I made it clear last time.
+
+
 > 
-> Does that "No more" stops after devmem tcp?
+> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> ---
+>  .../media/i2c/{st,st-vgxy61.yaml => st,vgxy61.yaml}       | 6 +++---
+>  Documentation/userspace-api/media/drivers/index.rst       | 2 +-
+>  .../media/drivers/{st-vgxy61.rst => vgxy61.rst}           | 0
+>  MAINTAINERS                                               | 8 ++++----
+>  drivers/media/i2c/Kconfig                                 | 2 +-
+>  drivers/media/i2c/Makefile                                | 2 +-
+>  drivers/media/i2c/{st-vgxy61.c => vgxy61.c}               | 2 +-
+>  7 files changed, 11 insertions(+), 11 deletions(-)
+>  rename Documentation/devicetree/bindings/media/i2c/{st,st-vgxy61.yaml => st,vgxy61.yaml} (95%)
+>  rename Documentation/userspace-api/media/drivers/{st-vgxy61.rst => vgxy61.rst} (100%)
+>  rename drivers/media/i2c/{st-vgxy61.c => vgxy61.c} (99%)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml b/Documentation/devicetree/bindings/media/i2c/st,vgxy61.yaml
+> similarity index 95%
+> rename from Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+> rename to Documentation/devicetree/bindings/media/i2c/st,vgxy61.yaml
+> index 8c28848b226a..4e4c2c7ad168 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/st,vgxy61.yaml
+> @@ -2,7 +2,7 @@
+>  # Copyright (c) 2022 STMicroelectronics SA.
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/media/i2c/st,st-vgxy61.yaml#
+> +$id: http://devicetree.org/schemas/media/i2c/st,vgxy61.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: STMicroelectronics VGxy61 HDR Global Shutter Sensor Family
+> @@ -23,7 +23,7 @@ description: |-
+>  
+>  properties:
+>    compatible:
+> -    const: st,st-vgxy61
+> +    const: st,vgxy61
 
-There should be no other memory source other than the page allocator
-and dmabuf.  If you need different life time control for your
-zero copy proposal don't mix that up with the contol of the memory
-source.
+Why? No. NAK.
+
+
+Best regards,
+Krzysztof
 
 
