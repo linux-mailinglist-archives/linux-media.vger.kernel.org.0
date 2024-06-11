@@ -1,244 +1,184 @@
-Return-Path: <linux-media+bounces-12941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78A59039AD
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 13:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1037E9039AC
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 13:06:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7578E2870A5
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 11:06:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4F732864E6
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jun 2024 11:06:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A1E17B400;
-	Tue, 11 Jun 2024 11:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F88B7407C;
+	Tue, 11 Jun 2024 11:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ObatnTPz"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lTSbI3Nv";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OEQVy8z/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh6-smtp.messagingengine.com (fhigh6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8860217A931
-	for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 11:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C19BE57E;
+	Tue, 11 Jun 2024 11:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718103989; cv=none; b=CUYG50VX9HqjzddlgpYI0BmQvv0MJ1bs27crPaousqeQvLjWrUUpR1xSM/UrapznX/UwxGp9RKUtIgvLFItldnWmzzmW8zLXMXspYmPiUQFLYt5NML+bBSCC9AfPzi3HR6K0GozXy1Dnan/8oIZJdCV/zC4hscTpBCIYGTp5SeQ=
+	t=1718103984; cv=none; b=JM07bvPwK84mMis5ou17rhr+4BwebDLv+ribW9tTXU0zdag8ck6xKUSiNNAHyvytLzGXlcu2FbI55O4sSfc3nHbmIPMhFmVC3h2N94DsLM75viVU5qlvgJa/bdMhoTdxJLzo+gnh+0nUYtni1t4meRMimdVB6//dkFanympmy2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718103989; c=relaxed/simple;
-	bh=aAVd2WDvvTkPPfBWNMJFmg5PwBYAWsTDRn23d7aRcSE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jrq25gDqg7jHNEzgfGSMgA8W40T445paVcWQk2/tZK10+iqbKEjV2kj3AIiekU0DyFIBC95cnRUDSJ7OmXCAU/xBczJErJedKlzYyTZy3gtSZDNTqkknv2NrROTg+tGEhJaKdp6+msZMt8/4unm9s93ELWnyG/ibH/6DTA5GSn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ObatnTPz; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a6ef46d25efso432919966b.0
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 04:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718103986; x=1718708786; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uND+DbqkwAQma6Z1CxIVpXNGmjE2PlBSr/+NfcNYd88=;
-        b=ObatnTPzsTDurkYpF++/il1AAKEwIluak4HmcAYvyb6eQce1hWoI8/vobVBefawDJv
-         UQDIKSS8AQLBcPkYL4Jl4iCSJwOZy8ONbOnE1B7ovhUr67JVBP4qsDVBkcEUuSlCkdcH
-         tRWW/bMGq6mf2HpIoAwzgP9QcApy1DaIBiUEI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718103986; x=1718708786;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uND+DbqkwAQma6Z1CxIVpXNGmjE2PlBSr/+NfcNYd88=;
-        b=LVb38VzmxoPxYnlkPSjR9hnwieMFmIhLghC6WFANUqe4yRQRxnMCsiJszjJ/1LoAlg
-         OmbREWOBtZSP+Xi8ookpO922QEdHIdbpiA6zvzCtUxMktNBtODHw/JS7kCppFIoAopG3
-         vfnFKiaXmE/Y/ok1dvPy9YX7QUN7MznjrWTiFoyaHkfUgpqUEbzo+YXL860I93JnXcIq
-         ezYOaYEvwUZezOZwbdw5xJ4DPG0ILbHXZAscY7fhWsrtjZGGMtSX6hqx7m4dB/6DxhQM
-         bVw/342+PbiVyPYA+Av6xyaNgAPhGJO3K1O1MgymQDfAeEjPXbHGL/Yj2KDOKd48PJvF
-         swgg==
-X-Gm-Message-State: AOJu0YxGkhZHQoFTVKDajTDUz0bTpL9gtMKbat/ZYFVnahOgcgtTzYla
-	AvotRibdzW5ePYQ3fVeZW9Q1iZXuVS6+tsa1TPG79Hmc8e6dEyY6vSahQuLVtraVUbDKBP/pCdX
-	3950H
-X-Google-Smtp-Source: AGHT+IFKlPGDIoW/LwNIW4OY+V+J2SjwS2SpbQJgMnqQw+sVeRy+EeFngt+clHR0aESIS0KvpIL1OA==
-X-Received: by 2002:a17:906:7192:b0:a6e:fccc:e4a with SMTP id a640c23a62f3a-a6efccc1101mr515254866b.0.1718103985612;
-        Tue, 11 Jun 2024 04:06:25 -0700 (PDT)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c805cc4d6sm742854666b.84.2024.06.11.04.06.25
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 04:06:25 -0700 (PDT)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6f177b78dcso278923966b.1
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 04:06:25 -0700 (PDT)
-X-Received: by 2002:a17:906:6ca:b0:a6f:d1f:6469 with SMTP id
- a640c23a62f3a-a6f0d1f6572mr460727466b.64.1718103984777; Tue, 11 Jun 2024
- 04:06:24 -0700 (PDT)
+	s=arc-20240116; t=1718103984; c=relaxed/simple;
+	bh=kCcTvWtKYC3z662/qvikpyrrZjkSxbPYnTXNnjhU9Oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gQoR4xDh7HJ4tgz2t9VWYgSjylUMh62dtE0hAujjnZvFkRz7Dzct50pMN++8gqack15o8quk9l5V11RzYveccvILX89GFFmkzT0RSjWhj9QgWt5+8fMnpm0E7wx2UpbnL+kw46lKBdhF5FFWjCqH3r4ygWwTRH9GhTq/zoC2sEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lTSbI3Nv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OEQVy8z/; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 15A2A11401A4;
+	Tue, 11 Jun 2024 07:06:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Tue, 11 Jun 2024 07:06:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1718103980;
+	 x=1718190380; bh=SX9RnFxbOSvQkwauOjq0Z1bd6M9f7vAYP+2UOw1ai5A=; b=
+	lTSbI3NvavzQqdV56tcv7OdFkidDhj4TXiPU/ySpyRub3sKZOM5ItdX0nvFgGFt7
+	sfP3jbvxMypGXCh9vWSDa+XLQsigXXK6mglNiNMC4abzg3thtMCf+o5WEPF5jFaW
+	XPesTfuTb2qCX++d66REpOy0ArNE9/6wgON3Ye1ter7nrmNh4TfOAIxiEeJ1AaR+
+	CsYbNeSbrAFRy8K8eSbO3txVJrRqdOmJzFWQJY1Q/bKPlFhLJOw9c3hq5GfLLYyb
+	eyPituPtdEdDcfzXeKQ57O6JfhxBWig1ZYgWfYVqkHoa9mSqaC0adR+ct8Fzu06Y
+	EfaMU2Y6Kalsc7T+nyeHmg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718103980; x=
+	1718190380; bh=SX9RnFxbOSvQkwauOjq0Z1bd6M9f7vAYP+2UOw1ai5A=; b=O
+	EQVy8z/MecFTzPzqOTNkiyjKf6DV2A3DU9S85/nD1xh4YUGXo1FeMBLa7ORjxKl8
+	qj5Qyi4PEjGM17CxradD52FHJMC1/8COSAlcIlBwqaiW8PuZQiBrmft6oQjADt+j
+	YROpZek4QsLAJx7PGy8+WgCWEXkYD1FoyN/pG4JdH8DUHo7rtSdmVfd2Qrq2zu1o
+	a5NqWHDYpMoBulTQSF32fT+UulbcIElVT32Vo9Q/tUn0zKcHJR6oZ9TlX8BxqT9S
+	lypdptirhIdCIo1O49uYT4betAFNzWvkOV4c0u1cuWhhycyNM9uWfhrqukflvK6D
+	gLoFCFBvpIWwJMnG6I8gQ==
+X-ME-Sender: <xms:qy9oZiczjLA-r-YtezYCJkJV2nXhRGBnw1KbQdEtCn_I7fbAV37QJQ>
+    <xme:qy9oZsPtkGN3PcWbFSHCIsHrIcKWabee6R5yVe-WHKZ6Y-VCR27k7MpQPYgNOKZ0l
+    9SYvFdvYzfm3EJatg8>
+X-ME-Received: <xmr:qy9oZjjGdtvbwT7lKYjfdtgvwsE7p-TWGRMJKNXF16DyZVjLLbUztebMam4Riazv5cGAq_eBZe8WCtIb63pD6JEMNxmVsR0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeduvddgfeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:qy9oZv8hLLjcYKoL6WNKb4kcwE2wbZ1pDwTpFJaF6NyzIEyENMvvXg>
+    <xmx:qy9oZutXrcYUdS409VB2guLlxpYWeQ-55rz4Z0Gel96goZTrwEn13w>
+    <xmx:qy9oZmEtVqzujrpXNhp_M0NLM1hA9HCCl1nmkeEIQcXNeNzaSNa0Kg>
+    <xmx:qy9oZtMJgDNhkZOxT9C_3met0bSFcp4Bwl3Iryi3jptkidGjJuP0nA>
+    <xmx:rC9oZoLAGUCHomY3Mf82AbS31fAIKSruZ9GpRZeBedQ0vR2y9f0bCcRw>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Jun 2024 07:06:19 -0400 (EDT)
+Date: Tue, 11 Jun 2024 13:06:17 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Conor Dooley <conor@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240611110617.GD382677@ragnatech.se>
+References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240610-screen-wolverine-78370c66d40f@spud>
+ <20240610165935.GA382677@ragnatech.se>
+ <20240610-yoga-antler-e6447592de16@spud>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611-coccinelle-followup-v1-0-df2de9c2f320@chromium.org> <20240611-coccinelle-followup-v1-2-df2de9c2f320@chromium.org>
-In-Reply-To: <20240611-coccinelle-followup-v1-2-df2de9c2f320@chromium.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 11 Jun 2024 13:06:10 +0200
-X-Gmail-Original-Message-ID: <CANiDSCspKogsswOLCDiqADM2f6PdaKVUaOuhvx2tuQniZu=BYA@mail.gmail.com>
-Message-ID: <CANiDSCspKogsswOLCDiqADM2f6PdaKVUaOuhvx2tuQniZu=BYA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: drivers/media/dvb-core: Refactor
- dvb_frontend_open locking
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240610-yoga-antler-e6447592de16@spud>
 
-Hi Hans
+On 2024-06-10 22:32:29 +0100, Conor Dooley wrote:
+> On Mon, Jun 10, 2024 at 06:59:35PM +0200, Niklas Söderlund wrote:
+> > Hi Conor,
+> > 
+> > Thanks for your feedback.
+> > 
+> > On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
+> > > On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas Söderlund wrote:
+> > > > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+> > > > 
+> > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > index 5539d0f8e74d..168cb02f8abe 100644
+> > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > @@ -54,6 +54,7 @@ properties:
+> > > >                - renesas,vin-r8a77995 # R-Car D3
+> > > >                - renesas,vin-r8a779a0 # R-Car V3U
+> > > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > > +              - renesas,vin-r8a779h0 # R-Car V4M
+> > > 
+> > > Your driver patch suggests that this is compatible with the g variant.
+> > 
+> > Currently it is. But that not always be true, I tried to outline this in 
+> > to cover letter.
+> 
+> To be honest, I don't usually read cover letters when reviewing bindings.
+> Information about why things are/are not compatible should be in a
+> commit itself.
+> 
+> >     The V4M capture pipeline is similar to the other Gen4 SoC supported
+> >     upstream already V4H. Currently all futures supported for VIN on V4M are
+> >     also supported by V4H and the driver code can be shared. But as done for
+> >     other R-Car IP bindings a new dedicated binding for V4M is created.
+> >     This have proved prudent in the past where quirks are found even within
+> >     the same generation as more advance use-cases are enabled.
+> 
+> I don't understand how this precludes using the g variant as a fallback
+> compatible. I'm not suggesting that you don't add a specific one for the
+> h variant.
 
-I clicked on send too fast sorry :S
+The bindings have been around for a while and currently there are 25 SoC 
+specific compatibles, one for each SoC supported. Each compatible 
+consist of the SoC model number, not the VIN IP model/version number as 
+no such versioning schema exist.
 
-CHECK: Alignment should match open parenthesis
-#37: FILE: drivers/media/dvb-core/dvb_frontend.c:2831:
-+static int wait_dvb_frontend(struct dvb_adapter *adapter,
-+                              struct dvb_device *mfedev)
+The datasheets are specific for each SoC and there are differences 
+between almost every SoC. There are of course lots of similarities 
+between the SoCs and the similarities are cluster around the 3 
+generations (Gen{2,3,4}) supported.
 
-CHECK: Please don't use multiple blank lines
-#71: FILE: drivers/media/dvb-core/dvb_frontend.c:2872:
+Using the g variant as fallback in DTS for h variant even if we also add 
+a specific one for h is confusing. As g and h are two different SoC.
 
-+
+The g variant is r8a779g0 which is the SoC name/number for V4H.
+The h variant is r8a779h0 which is the SoC name/number for V4M.
 
-Let me know if I should resend or you can handle it while merging. I
-already fixed in my tree in case I have to send a v2
-
-Thanks!
-
-On Tue, 11 Jun 2024 at 13:03, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Split out the wait function, and introduce some new toys: guard and
-> lockdep.
->
-> This fixes the following cocci warnings:
-> drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2776
-> drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2786
-> drivers/media/dvb-core/dvb_frontend.c:2897:1-7: preceding lock on line 2809
->
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/dvb-core/dvb_frontend.c | 59 ++++++++++++++++++++++-------------
->  1 file changed, 38 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-> index e81b9996530e..a7739f5e78cb 100644
-> --- a/drivers/media/dvb-core/dvb_frontend.c
-> +++ b/drivers/media/dvb-core/dvb_frontend.c
-> @@ -30,6 +30,7 @@
->  #include <linux/kthread.h>
->  #include <linux/ktime.h>
->  #include <linux/compat.h>
-> +#include <linux/lockdep.h>
->  #include <asm/processor.h>
->
->  #include <media/dvb_frontend.h>
-> @@ -2826,6 +2827,34 @@ static int __dvb_frontend_open(struct inode *inode, struct file *file)
->         return ret;
->  }
->
-> +static int wait_dvb_frontend(struct dvb_adapter *adapter,
-> +                              struct dvb_device *mfedev)
-> +{
-> +       struct dvb_frontend *mfe = mfedev->priv;
-> +       struct dvb_frontend_private *mfepriv = mfe->frontend_priv;
-> +       int mferetry = (dvb_mfe_wait_time << 1);
-> +       int ret = 0;
-> +
-> +       lockdep_assert_held(&adapter->mfe_lock);
-> +
-> +       if (mfedev->users == -1 && !mfepriv->thread)
-> +               return 0;
-> +
-> +       mutex_unlock(&adapter->mfe_lock);
-> +
-> +       while (mferetry-- && (mfedev->users != -1 || mfepriv->thread)) {
-> +               if (msleep_interruptible(500))
-> +                       if (signal_pending(current)) {
-> +                               ret = -EINTR;
-> +                               break;
-> +                       }
-> +       }
-> +
-> +       mutex_lock(&adapter->mfe_lock);
-> +
-> +       return ret;
-> +}
-> +
->  static int dvb_frontend_open(struct inode *inode, struct file *file)
->  {
->         struct dvb_device *dvbdev = file->private_data;
-> @@ -2840,19 +2869,17 @@ static int dvb_frontend_open(struct inode *inode, struct file *file)
->         if (!adapter->mfe_shared)
->                 return __dvb_frontend_open(inode, file);
->
-> +
-> +       guard(mutex)(&adapter->mfe_lock);
-> +
->         if (adapter->mfe_shared == 2) {
-> -               mutex_lock(&adapter->mfe_lock);
->                 if ((file->f_flags & O_ACCMODE) != O_RDONLY) {
->                         if (adapter->mfe_dvbdev &&
-> -                           !adapter->mfe_dvbdev->writers) {
-> -                               mutex_unlock(&adapter->mfe_lock);
-> +                           !adapter->mfe_dvbdev->writers)
->                                 return -EBUSY;
-> -                       }
->                         adapter->mfe_dvbdev = dvbdev;
->                 }
->         } else {
-> -               mutex_lock(&adapter->mfe_lock);
-> -
->                 if (!adapter->mfe_dvbdev) {
->                         adapter->mfe_dvbdev = dvbdev;
->                 } else if (adapter->mfe_dvbdev != dvbdev) {
-> @@ -2862,34 +2889,24 @@ static int dvb_frontend_open(struct inode *inode, struct file *file)
->                                 *mfe = mfedev->priv;
->                         struct dvb_frontend_private
->                                 *mfepriv = mfe->frontend_priv;
-> -                       int mferetry = (dvb_mfe_wait_time << 1);
-> -
-> -                       mutex_unlock(&adapter->mfe_lock);
-> -                       while (mferetry-- && (mfedev->users != -1 ||
-> -                                             mfepriv->thread)) {
-> -                               if (msleep_interruptible(500)) {
-> -                                       if (signal_pending(current))
-> -                                               return -EINTR;
-> -                               }
-> -                       }
->
-> -                       mutex_lock(&adapter->mfe_lock);
-> +                       ret = wait_dvb_frontend(adapter, mfedev);
-> +                       if (ret)
-> +                               return ret;
-> +
->                         if (adapter->mfe_dvbdev != dvbdev) {
->                                 mfedev = adapter->mfe_dvbdev;
->                                 mfe = mfedev->priv;
->                                 mfepriv = mfe->frontend_priv;
->                                 if (mfedev->users != -1 ||
-> -                                   mfepriv->thread) {
-> -                                       mutex_unlock(&adapter->mfe_lock);
-> +                                   mfepriv->thread)
->                                         return -EBUSY;
-> -                               }
->                                 adapter->mfe_dvbdev = dvbdev;
->                         }
->                 }
->         }
->
->         ret = __dvb_frontend_open(inode, file);
-> -       mutex_unlock(&adapter->mfe_lock);
->
->         return ret;
->  }
->
-> --
-> 2.45.2.505.gda0bf45e8d-goog
->
-
+I think the core of the problem is that there are no versioning schema 
+for the individual IP blocks used on each SoC. For better or worse the 
+bindings for lots of Renesas IPs are centred around SoC name/number and 
+not the individual IP implementations.
 
 -- 
-Ricardo Ribalda
+Kind Regards,
+Niklas Söderlund
 
