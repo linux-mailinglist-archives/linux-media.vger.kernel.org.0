@@ -1,133 +1,171 @@
-Return-Path: <linux-media+bounces-12985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-12986-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596099049E4
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 06:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C028904A04
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 06:31:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15F851F2451C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 04:13:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1950B1F24AA4
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 04:31:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39869208AF;
-	Wed, 12 Jun 2024 04:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB7D23765;
+	Wed, 12 Jun 2024 04:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="n/F7W5hh"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JywGFy1/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC3628385
-	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 04:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776153209
+	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 04:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718165576; cv=none; b=GoUQNXQnGg5X/tDV/weS7nAT3ZWl6Kr6s6+ijzHnYdtEA1GLTDXmil99r2i6ZaT4iW3D7bu8xqbNAs9kjqIR2/xNqc6qdbo6bcJB8ENmBpYSI2uV12DqVDgTIMb5Ddp9ieX4tSRK356WygfSDuBk27Hh6z/vz9xafkN7lRGQJ7k=
+	t=1718166690; cv=none; b=YvgtKudMBdCkWAnEXg+0fW6hMeNnqsnVdLGg5Dvki9dl0xN+NJ1ectznU355n3Vts3R1LVCwyur8w38J23aG41y8Qi90mapOiNdOcllXWFtjTXN3v4DucVMK93Nz9uMuJctNBhCL1i0JuIL3Rk0oo2kG/35yrVo05W7HVO0l2so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718165576; c=relaxed/simple;
-	bh=KCiP/Gxv0AiHUU4dZ/FxdzbDXyeg/BiSsXDUXCQtCFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EjXzTX1vZnI3d6UxlqFKilLIK5M2wSncpN0hcK0z4gqd4kPq99ta8NibNDhX3SeSUJ594VXBVrSP+n1zuY6EdbKzWNeUtFs1YHrGfifnUVgcBNA1CmUAwTdjUcI3fPblYAjUF0HiQasvEiZyYm/UM327CsfSW7h5ptEaAaspSpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=n/F7W5hh; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1718166690; c=relaxed/simple;
+	bh=hSnJiEgR5nMe+pD1oPm3BPIx6ljI+CeVh/tUDiPt7w4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TGZb0Ar8aXrY04WO4hxNdRSbXOTXwiPygjMltMIpv/WBHyYCrFJWod3u6u6HWlBpKd5i7h/JN96K0l7pH3HUKn/MDCQCvFkANh+R1Z1EEfF91sn6McLpxE6akLjOfz/m9lR+H7W9AbQ51wYHTajTd+9OzH2J8tkeUCrBDcJ4mJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JywGFy1/; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57ca8e45a1bso318915a12.0
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 21:12:54 -0700 (PDT)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7041053c0fdso3551619b3a.3
+        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 21:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718165572; x=1718770372; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KCiP/Gxv0AiHUU4dZ/FxdzbDXyeg/BiSsXDUXCQtCFY=;
-        b=n/F7W5hhuNsZT4EBElumtuL4jzwk4iJ61SgAEVgwMF6UJT1rgGXAvXRM2aS3izrqPD
-         bahMFIvKKRU3ymoQIIXbYd9wfbMsRkIzrFIDrD8hfNlpGJ7gKbecIC6Z3t3jrkieMOqM
-         +eL+FM07yoTsJjhrVZV8GPn4rKrb/0UVMS5FE=
+        d=chromium.org; s=google; t=1718166689; x=1718771489; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=26yCayUAzc76t5ERK7B6b8gwpGmJll8Ij+c08Bg2GMU=;
+        b=JywGFy1/ZJMdXblpUDu3vfbAHc41BGpW3SFtL5fAaPkpgADXKjklyV8/QSAf5MZrYl
+         awRCMjXfwK8enCCLyMgvArnetTGIFCIvYP1w9RqvYYqSWPuYrFejFCfL2Ut+twi2egRp
+         t5QAarNFZxXMKlNn/2heBWSKSqGE38tMpSOi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718165572; x=1718770372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KCiP/Gxv0AiHUU4dZ/FxdzbDXyeg/BiSsXDUXCQtCFY=;
-        b=TB9Wsj1H3Cr1ZpXNUPn3iE+DVvO6BIZQIAN/o59vmNjSZsb2HOPXU8abeie6BMDkV8
-         QxVWswTZiFnEu+TlTWzNP4r5T4YqSLVNVBN1ro4pjR54umrTpPhbQEcmriRHqsFzjmjP
-         Rv2k2RjSMNyaCfivUa9fwnxDG0z4pUYb+IPfEvZF+9jgkVtR6cfHr937RpgPOYRc0V7h
-         64V7ZK8f5+8AI6jM+xGQgsiKAE//q9lQ5rEfkDX1OvG4z5NnrRJzpfLOZqYcxGyDE9Kd
-         gWOkOIFdyo98loHNzRi54z0sObGh9QQtu2O5K/Q4HWYop6SCjRtBd6RkyPRE8MM5xvUZ
-         cdDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtvPNGoUVjvFIVEbcLFA7xneUJeFjARAa88INW4aLr/I5ySDWd7z8h9fNhFdMr1HVuKBP4i5ECE+35Sgg03gfFFOABQfOnftezSds=
-X-Gm-Message-State: AOJu0YxRw/EmSx9YsJ6t7iJ5tsAqdR1JZbTitT+s11FJmAxlmvklfEHp
-	AKkVddkgBxcLCJuUQQas5kfdD3+2bkA355QJub/YRr9VUWrcUp/k+zbpE8jqtpFfnVGkLmo6rVd
-	AXw==
-X-Google-Smtp-Source: AGHT+IEkqbTQCobcsDbkOwOSI/BuVt+0VZ3CnFptVqU+zSLuzKdEJ4L+kCXYSJQtciZCtqn4HDVZ5Q==
-X-Received: by 2002:a17:906:3491:b0:a6e:f596:7433 with SMTP id a640c23a62f3a-a6f47f99ca6mr53495266b.45.1718165571862;
-        Tue, 11 Jun 2024 21:12:51 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f0d8b280esm516479166b.149.2024.06.11.21.12.51
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 21:12:51 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-579fa270e53so2806241a12.3
-        for <linux-media@vger.kernel.org>; Tue, 11 Jun 2024 21:12:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbGZWtmEAxIl5pRKHCpMHlFuc69nFxf0aHBcIm3udvw/MEESxiSwHxxgRqtoj2pFeXkWId7yPQ3CeWz+IjmAVLX1hVjLYUWV8ZBRQ=
-X-Received: by 2002:a17:907:944c:b0:a6f:7cb:6e76 with SMTP id
- a640c23a62f3a-a6f480084f5mr62371966b.51.1718165570466; Tue, 11 Jun 2024
- 21:12:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718166689; x=1718771489;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=26yCayUAzc76t5ERK7B6b8gwpGmJll8Ij+c08Bg2GMU=;
+        b=u6tMfjyj3ffkUedPOR8X9lpCFKvZ6CWrSbQeNeJGT7n+lZjTwNgXyOZJMnjleWVe3D
+         cQHi0kjVnJ5ffAtQs2aEf9fOZrmqk55MJnRi4OTAZVVuy2I5MJUUA0zVIO8YTtlEd3/4
+         0sra0IUCYUjElX5vlwPz2XHkdRRlrbXqU5mYJjC60D1WBfth6ln+DeQj+ZkYY529rqzn
+         5cZdiGYn/pCnNGTUaZswqPS3V7UMtBVENYwNkP5Bkbk5hPhzHNmeD2F1nWNJWDUEOx0Y
+         25MctFo317LZohus3/TvjNpqByt9JA4KooiBkhVXrwoHBd2HhbCgN8KaWAUx9W3Imz+5
+         00Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Xwav7TOVRY+gn0r52FkImSMR67DlAtqz3PpQWpijR5RMq82+kBSQFg1ndvj+mvwdIfLrmtTBScXD2w92gvBemeNXAEgx88lXBg8=
+X-Gm-Message-State: AOJu0Yw04c+1H1fTjAAwnQ9E5EJ9aqX/f75wLqxRKbissbN83wBiH7k7
+	3mQOztQZjKOj56RuXnDZOL6dPnr0Iz/XaRoXeofGKsHWht63/QjFU5H1bkAu3A==
+X-Google-Smtp-Source: AGHT+IEDNIroERFQYahAEyUp89r/l251ag7KXTZkZl5/HBfB+fwRsfZPqR83QoYb4oKa3SSk62X7hQ==
+X-Received: by 2002:a05:6a21:81a2:b0:1b2:2e3e:42dd with SMTP id adf61e73a8af0-1b8a9be9bb0mr745623637.34.1718166688682;
+        Tue, 11 Jun 2024 21:31:28 -0700 (PDT)
+Received: from chromium.org (174.71.80.34.bc.googleusercontent.com. [34.80.71.174])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f74179d0basm11631455ad.122.2024.06.11.21.31.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 21:31:28 -0700 (PDT)
+Date: Wed, 12 Jun 2024 13:31:22 +0900
+From: Tomasz Figa <tfiga@chromium.org>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Jeffrey Kardatzke <jkardatzke@google.com>, 
+	=?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Chen-Yu Tsai <wenst@chromium.org>, 
+	Yong Wu <yong.wu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>, 
+	Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter <daniel@ffwll.ch>, 
+	Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v6,03/24] v4l2: verify restricted dmabufs are used in
+ restricted queue
+Message-ID: <rw6dkzasaz4lnvtmxkxlkxte5nvphpjixigjouvjkpctscpdla@bheblt7kmj4y>
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+ <20240516122102.16379-4-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl> <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
-In-Reply-To: <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 12 Jun 2024 13:12:29 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
-Message-ID: <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-To: Daniel Almeida <daniel.almeida@collabora.com>, 
-	Hidenori Kobayashi <hidenorik@chromium.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240516122102.16379-4-yunfei.dong@mediatek.com>
 
-On Wed, May 15, 2024 at 1:19=E2=80=AFAM Daniel Almeida
-<daniel.almeida@collabora.com> wrote:
->
-> Hi Hans, all,
->
-> I=E2=80=99d like to attend in person and discuss the use of Rust in the s=
-ubsystem, especially in light of [0] and [1].
->
-> Please note that these are new submissions that are unrelated with what w=
-as discussed last year.
->
-> 30 minutes will do.
->
-> [0] https://lwn.net/ml/linux-media/20240227215146.46487-1-daniel.almeida@=
-collabora.com/
-> [1] https://lwn.net/Articles/970565
+On Thu, May 16, 2024 at 08:20:41PM +0800, Yunfei Dong wrote:
+> From: Jeffrey Kardatzke <jkardatzke@google.com>
+> 
+> Verfies in the dmabuf implementations that if the restricted memory
+> flag is set for a queue that the dmabuf submitted to the queue is
+> unmappable.
+> 
+> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 8 ++++++++
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 8 ++++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 3d4fd4ef5310..35a3c1c01eae 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -710,6 +710,14 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* Verify the dmabuf is restricted if we are in restricted mode, this is done
+> +	 * by validating there is no page entry for the dmabuf.
+> +	 */
 
-Somewhat related to the topic: I see potential for a quite big
-redesign of the videobuf2 framework going forward and recently with
-more Rust adoption I'm starting to think it could benefit from being
-implemented in Rust, since we would have to rewrite it quite a bit
-anyway. Especially since it's a part of the subsystem that has to deal
-with memory management, object lifetime and asynchronousness quite a
-lot and we had a history of issues there. So it could be interesting
-to hear everyone's thoughts.
+Kernel coding style [1] defines multi-line comments to start with an empty
+line.
 
-That said, I wouldn't be able to travel this time unfortunately, so it
-would be nice if we could arrange this topic in a time slot friendly
-for remote attendance from Japan. Also +Hidenori Kobayashi from my
-team who would also be interested in joining remotely.
+[1] https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
 
-Best,
+> +	if (buf->vb->vb2_queue->restricted_mem && !sg_dma_is_restricted(sgt->sgl)) {
+> +		pr_err("restricted queue requires restricted dma_buf");
+> +		return -EINVAL;
+
+This would leak the mapping. We need to unmap the attachment here.
+
+> +	}
+> +
+>  	/* checking if dmabuf is big enough to store contiguous chunk */
+>  	contig_size = vb2_dc_get_contiguous_size(sgt);
+>  	if (contig_size < buf->size) {
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 6975a71d740f..2399a9c074ba 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -570,6 +570,14 @@ static int vb2_dma_sg_map_dmabuf(void *mem_priv)
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* Verify the dmabuf is restricted if we are in restricted mode, this is done
+> +	 * by validating there is no page entry for the dmabuf.
+> +	 */
+
+Ditto.
+
+> +	if (buf->vb->vb2_queue->restricted_mem && !sg_dma_is_restricted(sgt->sgl)) {
+> +		pr_err("restricted queue requires restricted dma_buf");
+> +		return -EINVAL;
+
+Ditto.
+
+Best regards,
 Tomasz
+
+> +	}
+> +
+>  	buf->dma_sgt = sgt;
+>  	buf->vaddr = NULL;
+>  
+> -- 
+> 2.25.1
+> 
 
