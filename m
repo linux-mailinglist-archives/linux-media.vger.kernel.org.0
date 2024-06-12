@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-13072-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF01B905A04
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 19:32:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6509905A00
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 19:32:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F6961F22818
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 17:32:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 608E3B2604E
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 17:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A6361836C8;
-	Wed, 12 Jun 2024 17:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1EC183084;
+	Wed, 12 Jun 2024 17:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="R3rVf2+k"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="f7WvOn48"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D0176ACD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86929EBB;
 	Wed, 12 Jun 2024 17:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718213545; cv=none; b=od4vzerB9rWM3puFV3B+FRud3lIjXGtiQHgGuDEus7FbA9Za36vqVT2FR7vlQH0Mlz3XXwbhzoLHZWVTcMDyXvAWozKubkFSpSZdrFQTq7KtYfYaQqV/4L+XocrDTidmfqklnJQmizmUzWN/F/DpiTTpxX4wNbBg0Ot1vmvdOtU=
+	t=1718213545; cv=none; b=l3Qb/TAXnhGGqukEQP1ueufO+tneV1vIOiX9pMHuUmN0nv8vmGOQHCivJfAWAld91HLcD+Y26FV/XIxIgZxF9BOe2gMeTdmEniAtLgtX7v3+nuym9EGB+iKhlFgiO9zDUQMhbIamuwyRqT3nVXtybFFJ6BgGw1hjNon/3e8rlgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718213545; c=relaxed/simple;
-	bh=VEM0T7Y24bsYJeE8dDbB44Yk+1yMMARS0IlFh2wyh1Y=;
+	bh=qT3T7wi3nE+eFhkZ2bUnCRb/SyRrxFgNwM5t87xUarI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t1RYAwpxE3ygrLWtfCQ8n3HtBRiSJgRClcEYnyw4wuO/rIqyKfMw6aBhRsQMFZgbkkyszsVLgnBfhxWnPgnGIhSNhEoPzRyPR04QmhUVR39LwktIrQrXh9k0D9d3FVqaq9UNKDekhPJVmPTBvUeysHlafzomcG599fOMH4oXY9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=R3rVf2+k; arc=none smtp.client-ip=46.235.227.194
+	 MIME-Version; b=bV1Fc+qKxPLZTi5UWv1JDqxBEXVQf7WG7PpqBs+U9Xfv74vG3olXvBhAzAWnRrCRr8UZ2P7BwTOsfZlR+7P+0oqp4x9HaK2fMaTRgKkJRqAWgs+o8mJo2TfFsSsIO1RpUFEbAOrvk1foy0WVggimiGIyPcEpdY/PpOM9PA1eFTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=f7WvOn48; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1718213541;
-	bh=VEM0T7Y24bsYJeE8dDbB44Yk+1yMMARS0IlFh2wyh1Y=;
+	bh=qT3T7wi3nE+eFhkZ2bUnCRb/SyRrxFgNwM5t87xUarI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R3rVf2+kdqNlzYfHpH2RTI8JqDoN2WFj5syMa9mpmmfCqCuqhgtRLmNVKdsspwBUu
-	 UmJ/XQVmUmcmcGjVEN+dNTpJZKKJSCnq8omeNZqW3B/7ILsrEAZXYTUcWcxvPftGCN
-	 WDL2EN4F+wu7myRdZKewoEck5+Z+rl4BGkQlS/e+F/RtN8WyGCh28HpGnhuKLYTU9w
-	 kRKBRMHryUnDnuJiH51FKgXXKz5yM6+m/+1NkhnteJBO9N2BdFe8nit7cSzdFhVIge
-	 HbwdYPDHOjoSfpZcdglomxNvmYYb8D4RA68MeQecWVzwh0uBzbR+FZ7HyHktwJoDx5
-	 UCGb95SQ8XjEg==
+	b=f7WvOn48Zarlf+9C1J/sh6Z/Qf3l8ugftHR2RXi05xjXmPAVPn3HjySLkto+GtntX
+	 IOcxZwleqeeZ1J1OnqV5vDMMTvxM11ChjP/M0zv9VzWVZuJo3kv0ubKb8vix9N5BGt
+	 u8gV9bXASfQhuLm9mq3Mzr54L8lgRXRhkoCI5ZtOxH6wimSzF+2+Trmp5iE5cq3vmq
+	 d4Ie6pjUHsnHQHA3ZlfJjNRu/o2P8IepqEcJFqg75Jor1FUiwKYLR+a/i1X74HsLby
+	 H8Cs/5K9cnxsB00lS6tGXP2d2rMWz8mSONzemrQVQnrDySR3dPHW0iO4wDtdMWlHbH
+	 sTN6WPobSMLJQ==
 Received: from jupiter.universe (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id AB3E9378219F;
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B4D8937821A0;
 	Wed, 12 Jun 2024 17:32:21 +0000 (UTC)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id 5A8AC4800C7; Wed, 12 Jun 2024 19:32:21 +0200 (CEST)
+	id 5CAC14800CD; Wed, 12 Jun 2024 19:32:21 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -66,10 +66,11 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	kernel@collabora.com,
+	Conor Dooley <conor.dooley@microchip.com>,
 	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH v5 1/5] media: dt-bindings: rk3568-vepu: Add RK3588 VEPU121
-Date: Wed, 12 Jun 2024 19:15:41 +0200
-Message-ID: <20240612173213.42827-2-sebastian.reichel@collabora.com>
+Subject: [PATCH v5 2/5] media: dt-bindings: rockchip-vpu: Add RK3588 VPU121
+Date: Wed, 12 Jun 2024 19:15:42 +0200
+Message-ID: <20240612173213.42827-3-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240612173213.42827-1-sebastian.reichel@collabora.com>
 References: <20240612173213.42827-1-sebastian.reichel@collabora.com>
@@ -81,33 +82,32 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
 
-This encoder-only device is present four times on this SoC, and should
-support everything the rk3568 vepu supports (so JPEG, H.264 and VP8
-encoding). No fallback compatible has been added, since the operating
-systems might already support RK3568 VEPU and want to avoid registering
-four of them separately considering they can be used as a cluster.
+RK3588 has four Hantro H1 VEPUs (encoder-only) modules and one combined
+Hantro H1/G1 VPU (decoder and encoder). These are not described as
+separate IP, since they are sharing an internal cache. This adds the
+RK3588 specific compatible string for the combined VPU, which seems to
+be identical to the version found in the RK3568.
 
-Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- .../devicetree/bindings/media/rockchip,rk3568-vepu.yaml      | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/media/rockchip-vpu.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
-index 9d90d8d0565a..8b9496e6a2bb 100644
---- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
-@@ -15,8 +15,9 @@ description:
- 
- properties:
-   compatible:
--    enum:
--      - rockchip,rk3568-vepu
-+    oneOf:
-+      - const: rockchip,rk3568-vepu
-+      - const: rockchip,rk3588-vepu121
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+index c57e1f488895..2710bb2fb0d1 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+@@ -31,6 +31,9 @@ properties:
+       - items:
+           - const: rockchip,rk3228-vpu
+           - const: rockchip,rk3399-vpu
++      - items:
++          - const: rockchip,rk3588-vpu121
++          - const: rockchip,rk3568-vpu
  
    reg:
      maxItems: 1
