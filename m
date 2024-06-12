@@ -1,289 +1,281 @@
-Return-Path: <linux-media+bounces-13018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C901F904F6E
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 11:41:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05563904FF4
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 12:02:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26409B26D75
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 09:41:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95E86287A89
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 10:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F365816E86B;
-	Wed, 12 Jun 2024 09:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCB4716EBF1;
+	Wed, 12 Jun 2024 10:00:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AiMTGGoB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oka+Bq/U"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BE416DECC
-	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 09:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551C13BAD7
+	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 10:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718185256; cv=none; b=uDRu8XJBZ9yfNCA69RbT0NPspo9BGiyXloCAxlZYFI6REBCn3ZgzBaDJI5eCtInJkisFuiznx/HpG/v2Jqji63x52ILokrBAz7dMBC58pWAxAhSuyfzP/tByapAvDWH2hhSg3b1aKnk8GWrR9VrXvj3UcRn4vcDlnXrIhLtgyHw=
+	t=1718186445; cv=none; b=I169hbo8p4UXs3Gy3an+DNLUr1WC2lEqvmq80fFWhc8NU+qRFcK2Gix2Pk43DYlQtWTyFlhm5R8aWG0bp4FsACsikCmHiHzRuDUg1giMTVuIth23KTZ04bHj1vQ0k9nNN7ynPWjNmodwNCtjHnngWwui3jyHmutCRNiPIu0J9M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718185256; c=relaxed/simple;
-	bh=i9fI1HsChEcDODg6pWxpleBQcCH6D4AIVISPmBDzgKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxOin1HZHyb14DmapLRzNNq8Wkh19gYxR8b9CNHtR6/I2LEWTV2NtixeK11MQuSOjRXn2bGNGOEE4+d/hcys4wUiW/2bAYQttDy/jrWjmsf+hyAVHpyYF88lAV01jS7zXHQ5r2E4li5NmbxbvfuzvOz+EnJQd4rXABn1C+sKNYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AiMTGGoB; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1718186445; c=relaxed/simple;
+	bh=aLDlFhqcGcyN9O3jIv9ScSWcJ77fQqxUGiFNQzJ2sRo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FQm96qcLh+NdG6hqYiXIZR6hywreH0nzuN0IeQjN5VGn+/pf9xXE9FPQg4tnID24bmZG3KawO7QzG2RIfcfGGSWrPFTWHUhNjIaPkHEJCVXzKwghEm1REM1ImpSRU6Wk5+FQItqaLJtYtogTMJwTAR3F9UdkEMhv3mz8wIAyBNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oka+Bq/U; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFAF1230;
-	Wed, 12 Jun 2024 11:40:39 +0200 (CEST)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C807230;
+	Wed, 12 Jun 2024 12:00:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718185240;
-	bh=i9fI1HsChEcDODg6pWxpleBQcCH6D4AIVISPmBDzgKM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AiMTGGoB/CJalBCGPxzjJwuL7jqI+P0IHaStzAF7Vrw/aet3jizH2eDD4i0FyuYsQ
-	 9p+gZwIqvwX9avh7Xyy5kwyQPBHywphXSwQ4CGobywrgOXwwJWCX+NtGshb8hpFGrZ
-	 +fq8iL+xuTFaPL8gmPWXvfSEbd46SI+QT1c2RB1I=
-Date: Wed, 12 Jun 2024 12:40:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Hidenori Kobayashi <hidenorik@chromium.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Sean Young <sean@mess.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-Message-ID: <20240612094032.GJ28989@pendragon.ideasonboard.com>
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
- <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
- <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
- <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
- <20240612095448.1e99b751@coco.lan>
- <CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
- <20240612083430.GE28989@pendragon.ideasonboard.com>
- <CAAFQd5ApRq4WL_PcGKp+58u64yKfvyxgfCxXxiZjqzSugzV1FA@mail.gmail.com>
- <20240612092001.GF28989@pendragon.ideasonboard.com>
- <CAAFQd5CLEGJPC7N9U4f2gk2PxzY_-8Zu+GBmnYae9n-Fxtm+9Q@mail.gmail.com>
+	s=mail; t=1718186427;
+	bh=aLDlFhqcGcyN9O3jIv9ScSWcJ77fQqxUGiFNQzJ2sRo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oka+Bq/UM8JSM0EKfOCkIYC9ra5TmphU88ztMuwpcFjj603hjemY82OA+cs5lLBFn
+	 CVOeTRxxeNcU7jyFGqJtc/ny0j4Y1Jtg5AJJTbsoGrDGiR//Hb+wbjhvUWTkpHpW32
+	 y2HDE4//L64ngaytwNp1tnee9F+W9drQadMh0jtU=
+Message-ID: <b5fe2fa2-cd83-46e0-96f7-b8374f1faeb4@ideasonboard.com>
+Date: Wed, 12 Jun 2024 11:00:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAFQd5CLEGJPC7N9U4f2gk2PxzY_-8Zu+GBmnYae9n-Fxtm+9Q@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] uapi: videodev2: Add V4L2_META_FMT_RK_ISP1_EXT_PARAMS
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Stefan Klug <stefan.klug@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+References: <20240605165434.432230-1-jacopo.mondi@ideasonboard.com>
+ <20240605165434.432230-3-jacopo.mondi@ideasonboard.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240605165434.432230-3-jacopo.mondi@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 12, 2024 at 06:33:14PM +0900, Tomasz Figa wrote:
-> On Wed, Jun 12, 2024 at 6:20 PM Laurent Pinchart wrote:
-> > On Wed, Jun 12, 2024 at 06:01:07PM +0900, Tomasz Figa wrote:
-> > > On Wed, Jun 12, 2024 at 5:34 PM Laurent Pinchart wrote:
-> > > > On Wed, Jun 12, 2024 at 05:22:34PM +0900, Tomasz Figa wrote:
-> > > > > On Wed, Jun 12, 2024 at 4:54 PM Mauro Carvalho Chehab wrote:
-> > > > > > Em Wed, 12 Jun 2024 08:46:50 +0200 Hans Verkuil escreveu:
-> > > > > > > On 6/12/24 06:12, Tomasz Figa wrote:
-> > > > > > > > On Wed, May 15, 2024 at 1:19 AM Daniel Almeida wrote:
-> > > > > > > >>
-> > > > > > > >> Hi Hans, all,
-> > > > > > > >>
-> > > > > > > >> I’d like to attend in person and discuss the use of Rust in the subsystem, especially in light of [0] and [1].
-> > > > > > > >>
-> > > > > > > >> Please note that these are new submissions that are unrelated with what was discussed last year.
-> > > > > > > >>
-> > > > > > > >> 30 minutes will do.
-> > > > > > > >>
-> > > > > > > >> [0] https://lwn.net/ml/linux-media/20240227215146.46487-1-daniel.almeida@collabora.com/
-> > > > > > > >> [1] https://lwn.net/Articles/970565
-> > > > > > > >
-> > > > > > > > Somewhat related to the topic: I see potential for a quite big
-> > > > > > > > redesign of the videobuf2 framework going forward and recently with
-> > > > > > > > more Rust adoption I'm starting to think it could benefit from being
-> > > > > > > > implemented in Rust, since we would have to rewrite it quite a bit
-> > > > > > > > anyway. Especially since it's a part of the subsystem that has to deal
-> > > > > > > > with memory management, object lifetime and asynchronousness quite a
-> > > > > > > > lot and we had a history of issues there. So it could be interesting
-> > > > > > > > to hear everyone's thoughts.
-> > > > > > >
-> > > > > > > I think it is far too soon to write a framework like that in Rust.
-> > > > > >
-> > > > > > Agreed. I don't object redesigns in C to make it better - which could have
-> > > > > > some colateral effect of making things easier for a future Rust adoption,
-> > > > > > but such changes should be justified by themselves, and not because of a
-> > > > > > language change.
-> > > > >
-> > > > > No, the thought of redesign doesn't come from the language change,
-> > > > > it's the other way around. Since rewriting a lot of the code already,
-> > > > > why not do it in a language that is generally considered better.
-> > > > >
-> > > > > > See: redesigns at the core will potentially affect lots of drivers,
-> > > > > > so it needs very good technical reasons why doing it. Plus, it requires
-> > > > > > comprehensive tests with different types of hardware/drivers to reduce the
-> > > > > > risk of regressions. Depending on the changes, it may require extra tests
-> > > > > > with devices that are outside complex camera world: radio, analog and digital
-> > > > > > TV drivers - and even some input devices that use VB2 - to ensure that
-> > > > > > nothing broke.
-> > > > >
-> > > > > We don't have to do it in an all-or-nothing way. We can start with an
-> > > > > experimental new implementation in Rust, which could be gradually
-> > > > > tested. It could even be done the same way as the vb -> vb2
-> > > > > transition, although I suspect it wouldn't really be necessary, as I
-> > > > > would like to see it more like a drop-in replacement. In general I
-> > > > > think the API exposed outside of the framework wouldn't really change
-> > > > > that much, it's more about the internal design.
-> > > > >
-> > > > > > > To be
-> > > > > > > honest, I won't even consider it until Linus officially accepts Rust as a
-> > > > > > > second language in the kernel, instead of as an experiment.
-> > > > > >
-> > > > > > This is not enough: if the core starts to use a second language, all media
-> > > > > > developers will be affected and will be required to have expertise on such
-> > > > > > language.
-> > > > >
-> > > > > Let's be realistic, how many developers are actively touching vb2 these days?
-> > > > >
-> > > > > > That's not something that should happen without careful
-> > > > > > analysis and plans that should include a gradual roll-up, lost of tests
-> > > > > > with the affected drivers including the legacy ones and some strategy to
-> > > > > > quickly solve regression issues.
-> > > > >
-> > > > > That said, I agree. It needs proper discussion and planning. That's
-> > > > > why I'm proposing this as a topic. :)
-> > > > > Moreover the redesign itself also needs proper discussion and is more
-> > > > > of a long term goal, not something to land in the next few days.
-> > > >
-> > > > Focussing on this topic, if we're brainstorming memory management for
-> > > > media devices, I'd like to throw in a controversial idea. In addition to
-> > > > being clearer on the fact that USERPTR is deprecated,
-> > >
-> > > Definitely. This has been long overdue.
-> > >
-> > > >  I would like to
-> > > > deprecate MMAP too and only focus on DMABUF. I believe Linux needs a
-> > > > centralized buffer allocator, instead of having multiple allocation APIs
-> > > > scattered in different places. There are design ideas in gralloc that we
-> > > > could benefit from.
-> > >
-> > > Given that we now have DMA-buf heaps in mainline, it sounds much more
-> > > realistic. It would certainly help eliminate some issues in the vb2
-> > > layer, such as vb2-dma-sg having its own open coded page allocation
-> > > that can't handle DMA addressing limitations (which can be fixed with
-> > > some additions to the DMA API, but eliminating the problem altogether
-> > > is way better than any other solution.)
-> >
-> > There are (at least) two issues we'll have to solve to make DMA heaps
-> > more universally usable:
-> >
-> > - Memory allocation from DMA heaps isn't accounted in the process
-> >   resource limits. This is one of the blockers for getting distributions
-> >   to enable the heaps. We'll have to fix that.
-> 
-> I think the same applies to MMAP buffers today or am I missing something?
+Hi Jacopo
 
-Correct. We could fix that too, but I'd rather focus on DMA heaps.
+On 05/06/2024 17:54, Jacopo Mondi wrote:
+> Add a new format definition for the RkISP1 extensible parameters
+> format and document it.
+>
+> Document the usage of the new format in the rkisp1 admin guide.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>   Documentation/admin-guide/media/rkisp1.rst    | 11 +++-
+>   .../media/v4l/metafmt-rkisp1.rst              | 62 ++++++++++++++++---
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+>   include/uapi/linux/videodev2.h                |  1 +
+>   4 files changed, 64 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
+> index 6f14d9561fa5..934c25e191df 100644
+> --- a/Documentation/admin-guide/media/rkisp1.rst
+> +++ b/Documentation/admin-guide/media/rkisp1.rst
+> @@ -114,11 +114,18 @@ to be applied to the hardware during a video stream, allowing userspace
+>   to dynamically modify values such as black level, cross talk corrections
+>   and others.
+>   
+> -The buffer format is defined by struct :c:type:`rkisp1_params_cfg`, and
+> -userspace should set
+> +The ISP driver supports two different parameters configuration methods, the
+> +`fixed parameters format` or the `extensible parameters format`.
+> +
+> +When using the `fixed parameters` method the buffer format is defined by struct
+> +:c:type:`rkisp1_params_cfg`, and userspace set
+>   :ref:`V4L2_META_FMT_RK_ISP1_PARAMS <v4l2-meta-fmt-rk-isp1-params>` as the
+>   dataformat.
+>   
+> +When using the fixed parameters method the buffer format is defined by struct
+> +:c:type:`rkisp1_ext_params_cfg`, and userspace set
+s/set/should set
+> +:ref:`V4L2_META_FMT_RK_ISP1_EXT_PARAMS <v4l2-meta-fmt-rk-isp1-ext-params>` as
+> +the dataformat.
+>   
+>   Capturing Video Frames Example
+>   ==============================
+> diff --git a/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst b/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
+> index fa04f00bcd2e..6ff776d071a3 100644
+> --- a/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
+> +++ b/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
+> @@ -1,28 +1,72 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> -.. _v4l2-meta-fmt-rk-isp1-params:
+> -
+>   .. _v4l2-meta-fmt-rk-isp1-stat-3a:
+>   
+> -*****************************************************************************
+> -V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s')
+> -*****************************************************************************
+> +************************************************************************************************************************
+> +V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s'), V4L2_META_FMT_RK_ISP1_EXT_PARAMS ('rk1e')
+> +************************************************************************************************************************
+>   
+> +========================
+>   Configuration parameters
+>   ========================
+>   
+> -The configuration parameters are passed to the
+> +The configuration of the RkISP1 ISP is performed by userspace by providing
+> +parameters for the ISP to the driver using the :c:type:`v4l2_meta_format`
+> +interface.
+> +
+> +There are currently two methods that allow to configure the ISP, the `fixed
+> +parameters` configuration format and the `extensible parameters` configuration
+> +format.
+> +
+> +.. _v4l2-meta-fmt-rk-isp1-params:
+> +
+> +Fixed parameters configuration format
+> +=====================================
+> +
+> +When using the fixed configuration format, parameters are passed to the
+>   :ref:`rkisp1_params <rkisp1_params>` metadata output video node, using
+> -the :c:type:`v4l2_meta_format` interface. The buffer contains
+> -a single instance of the C structure :c:type:`rkisp1_params_cfg` defined in
+> -``rkisp1-config.h``. So the structure can be obtained from the buffer by:
+> +the `V4L2_META_FMT_RK_ISP1_PARAMS` meta pixel format.
+> +
+> +The buffer contains a single instance of the C structure
+> +:c:type:`rkisp1_params_cfg` defined in ``rkisp1-config.h``. So the structure can
+> +be obtained from the buffer by:
+>   
+>   .. code-block:: c
+>   
+>   	struct rkisp1_params_cfg *params = (struct rkisp1_params_cfg*) buffer;
+>   
+> +As the members of :c:type:`rkisp1_params_cfg` are defined in the
+> +``rkisp1-config.h`` header, the structure layout is immutable and cannot be
+> +extended further. For this reason the fixed configuration format only allows the
+> +configuration of the ISP blocks supported at the time when the structure had
+> +been defined in the header file, as introducing new parameters or modifying the
+> +existing ones would change the buffer layout and cause breakages in existing
+> +applications.
 
-> That said, it's something that has to be fixed anyway. DMA heaps would
-> make it easier to fix, since we would have one central place where the
-> accounting could be implemented.
-> 
-> > - We need a userspace library to pick the right heap based on the memory
-> >   constraints of the devices that you'll want to share the buffer with.
-> >   This will require exposing those constraints to userspace somehow.
-> 
-> That is not a new problem either. Today with MMAP we also need the
-> userspace to somehow choose the right exporter. So we could start with
-> each video node pointing to the right heap (probably for each plane
-> separately?), which would provide the same level of functionality as
-> with MMAP today, but using a uniform API and a central implementation
-> in the kernel.
-> 
-> Then we could follow up with exposing more information, if needed, to
-> help the userspace make a more informed decision.
 
-The two issues can be decoupled for the implementation phase, true, but
-I think we'll have to showcase a design that solves them both if we want
-to get adoption fo this API shift.
+I'm not sure I'd bother with the last sentence; up to you though. Possibly a quick explainer as to 
+why there's two separate methods and why the extensible one should be preferred could be in the 
+"Configuration parameters" section instead.
 
-> > I'm sure there will be more issues, but solving issues is what we do :-)
-> >
-> > > That said, as we already use a centralized DMA-buf allocator in
-> > > ChromeOS and don't really care about the MMAP mode, I'm definitely
-> > > biased here. We would need to hear from people working on userspace
-> > > which still uses it (if there is any).
-> > >
-> > > > > > It is not a matter of what language is better. Instead, it is a matter of
-> > > > > > not affecting code maintenance during the (probably long) transition period
-> > > > > > and beyond.
-> > > > > >
-> > > > > > If you see the past history, the transition from V4L to V4L2 took more than 10
-> > > > > > years - being possible to be done only with the help of libv4l, plus a
-> > > > > > lot of backward-compat code that we added. Still there were several
-> > > > > > regressions and we even had to quickly patch the Kernel and/or some apps
-> > > > > > that were using the uAPI on different ways.
-> > > > >
-> > > > > That's a different situation, because UAPI is involved.
-> > > > >
-> > > > > > Yet, the transition from VB1 to VB2 was also painful, and took a lot of time.
-> > > > >
-> > > > > Yes, vb -> vb2 would be a more appropriate comparison.
-> > > > >
-> > > > > > On both cases, there were very good technical reasons for the transition,
-> > > > > > in terms of missing needed features, broken memory models and serious
-> > > > > > troubles that utterly causing VB1 to not work well on non-x86 hardware.
-> > > > >
-> > > > > It's a very similar situation now, vb2 doesn't work well on modern
-> > > > > hardware, but I still have hopes that it can be fixed without
-> > > > > affecting the driver-facing behavior. (We would probably need to
-> > > > > develop some unit tests that validate the driver-facing behavior to
-> > > > > ensure that.)
-> > > > >
-> > > > > > In the end, the authors of the core changes need to acquire legacy hardware
-> > > > > > and to do lots of driver-specific changes to avoid breaking existing stuff.
-> > > > > > Hans and I had to dedicate a lot of time and efforts on such transitions,
-> > > > > > as it required a lot of work.
-> > > > > >
-> > > > > > I can tell you: there's no fun on such changes: typically, companies won't
-> > > > > > pay someone to do changes on drivers for legacy hardware, specially
-> > > > > > when there are no real benefits, which is the case here, as the final result
-> > > > > > is just to keep the existing drivers to work with existing hardware,
-> > > > > > usually without any new features. So, the ones behind such core changes
-> > > > > > have to commit fixing drivers usually on their spare time.
-> > > > >
-> > > > > I don't get that argument. Wouldn't the same apply to any core change?
-> > > > > I think the reason we have driver maintainers is that they can help
-> > > > > with testing. Moreover, we need to invest into testing infrastructure
-> > > > > (which is what people have been doing recently via Media CI) to make
-> > > > > such changes less painful. Otherwise the subsystem will just bit-rot
-> > > > > and become useful for modern use cases.
-> > > >
-> > > > I've recently seen an increase in people experimenting with sourdough,
-> > > > kombucha, kimchi and other fermentation techniques, so rotting isn't
-> > > > always negative [*], but I assume you meant useless here, not useful :-)
-> > >
-> > > Yeah, definitely. I'd love it if bit-rotting led to computer software
-> > > becoming more useful, but sadly it's rarely the case.
-> > >
-> > > > * I'll draw the line at surströmming.
-> > > >
-> > > > > > > The vb2 framework can certainly use some more work, and esp. better support
-> > > > > > > for codecs, since that's where the main pain is at the moment.
-> > > > > > >
-> > > > > > > But I would need to see a proper proposal first. I assume that's what you
-> > > > > > > plan to present?
-> > > > > > >
-> > > > > > > > That said, I wouldn't be able to travel this time unfortunately, so it
-> > > > > > > > would be nice if we could arrange this topic in a time slot friendly
-> > > > > > > > for remote attendance from Japan. Also +Hidenori Kobayashi from my
-> > > > > > > > team who would also be interested in joining remotely.
-> > > > > > >
-> > > > > > > That would mean a slot in the morning, right? Since Japan is 7 hours ahead
-> > > > > > > of CEST.
+> +
+> +.. _v4l2-meta-fmt-rk-isp1-ext-params:
+> +
+> +Extensible parameters configuration format
+> +==========================================
+> +
+> +When using the extensible configuration format, parameters are passed to the
+> +:ref:`rkisp1_params <rkisp1_params>` metadata output video node, using
+> +the `V4L2_META_FMT_RK_ISP1_EXT_PARAMS` meta pixel format.
+> +
+> +The buffer contains a single instance of the C structure
+> +:c:type:`rkisp1_ext_params_cfg` defined in ``rkisp1-config.h``. The
+> +:c:type:`rkisp1_ext_params_cfg` structure is designed to allow userspace to
+> +populate the data buffer with only the configuration data for the ISP block it
+s/block/block(s)?
+> +intends to configure. The extensible parameters format design allows to define
+> +new block types and new configuration parameters and defines a versioning scheme
+Perhaps "allows developers to define new block types to support new configuration parameters"?
+> +so that it can be extended and versioned without breaking compatibility with
+> +existing applications.
+> +
+> +For these reasons, this configuration method if preferred over the `fixed
+> +parameters` format alternative.
+> +
+>   .. rkisp1_stat_buffer
+>   
+> +===========================
+>   3A and histogram statistics
+>   ===========================
+>   
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 4c76d17b4629..aefdc1efd24b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1456,6 +1456,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>   	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+>   	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
+>   	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
+> +	case V4L2_META_FMT_RK_ISP1_EXT_PARAMS:	descr = "Rockchip ISP1 Ext 3A Params"; break;
 
--- 
-Regards,
+I think spell out "Extensible" personally; we already allow breaking like length limits here.
 
-Laurent Pinchart
+
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+
+>   	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+>   	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+>   	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index fe6b67e83751..7c2a303c6f59 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -840,6 +840,7 @@ struct v4l2_pix_format {
+>   /* Vendor specific - used for RK_ISP1 camera sub-system */
+>   #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+>   #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
+> +#define V4L2_META_FMT_RK_ISP1_EXT_PARAMS	v4l2_fourcc('R', 'K', '1', 'E') /* Rockchip ISP1 3a Extensible Parameters */
+>   
+>   #ifdef __KERNEL__
+>   /*
 
