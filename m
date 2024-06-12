@@ -1,173 +1,199 @@
-Return-Path: <linux-media+bounces-13007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13009-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C04A904E09
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 10:23:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01E66904E10
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 10:23:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 243E81C24A34
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 08:23:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CFC11F27FD5
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 08:23:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D61A716D33B;
-	Wed, 12 Jun 2024 08:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C32016D4C8;
+	Wed, 12 Jun 2024 08:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eIB/WlVT"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="5ztkh6O4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BEA16C86A;
-	Wed, 12 Jun 2024 08:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1742616C847;
+	Wed, 12 Jun 2024 08:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718180465; cv=none; b=nA3MbQTIFw+MjWB2/Vpfypv3RaWnTAp3K6+RGVUFZ9D1doRddHr9hsYybHxgPCijMOdvm36gquz2YJ3J8BuAQvyTvbHpRhGW5cicZFJUf2j3foxJzpmn3+DQOgpgdGFuEwjEP3l110PdQ27xpu+qODSw+X0qde+Ojgfx3PGwBWY=
+	t=1718180591; cv=none; b=KwAGYS645I8l2HCy9sQChct1b3uKE6/OwFedG9xBoGqABQepRRZRA6Iej2nNGs8eiIWVP+EImMcri9ZwPyV10dwRj9shiIxSMh8qPhypaYKAFYwsoRy4l+yIJ+5sTVakh6fh+2V8uTn7SVWy0rVg/VGQJacAUlTCY2i8LROh85E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718180465; c=relaxed/simple;
-	bh=0aQm+Q4u8OOmf36lomTVoSFtAnohhZsZAjQ39xDxwr0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i47pPtpszLOzjPfvnBNv17PNTq2q08Mph6d/WVCEx16BQJB87lcziiUMRNZPSK/pNri3Q78nr1guOBdlTL+eG9nrr2MipUuh3/rXQqpzRehEcoTHcoQJvTbpKyMkTsI14MoAcE1ip9SooEb7wS22uXdSKEqgaX4qGYxXyPXZxMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eIB/WlVT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63A0C63B;
-	Wed, 12 Jun 2024 10:20:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718180447;
-	bh=0aQm+Q4u8OOmf36lomTVoSFtAnohhZsZAjQ39xDxwr0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eIB/WlVT2qN6aJuVLl/7867V0CY6nqusIX2MJArfp8mc2agxxzFd50Yqk8HQ2qLZU
-	 jMpOJ7OjrkVMhc6hGzRgqMMMrj8Rh4F5vIqxLncQBtaQNpFIUtq3M138g4xUTXX0/+
-	 92ynl9iwhPwH5aTri2hFd/qyyrgrwJAVL6oq5CwQ=
-Date: Wed, 12 Jun 2024 11:20:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Tomasz Figa <tfiga@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"hn.chen" <hn.chen@sunplusit.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v10 4/6] media: uvcvideo: Allow hw clock updates with
- buffers not full
-Message-ID: <20240612082040.GD28989@pendragon.ideasonboard.com>
-References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
- <20240323-resend-hwtimestamp-v10-4-b08e590d97c7@chromium.org>
- <4kck7oedsnj6kfiv7ykwsjg35qodg5bdktu5t5w3xtg2xuscto@2yh6kfdqwimc>
- <20240610114306.GR18479@pendragon.ideasonboard.com>
- <CAAFQd5DAXq6fTrp6jF42URrwzwE+tGz_jJCRM2bhieD76u+QpA@mail.gmail.com>
- <20240612074342.GA28989@pendragon.ideasonboard.com>
- <CANiDSCuM9RdQ9Tq4-vL2b8UP3_GFV41gvnKm7Gmh2dpmCO98+A@mail.gmail.com>
+	s=arc-20240116; t=1718180591; c=relaxed/simple;
+	bh=9N3OweDQgcGJyws9SM6sqrkHn9fTMjWjILZBLGP8XK8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MDAOu6SO0XqVAvM06DqX/+/NK20ckY7Trum2dVEEzuxl8H+6skTMoyRsZ42pKnqAquQ79NnhijU1AZwsKheCdAjoP9EaWRg/0e/2FgcXhS0SN76tPg6hwp8CjWrOyAlCfyQoYEkiO/lHuj9fMMwGQVStTIlVLF57dggF9YU21+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=5ztkh6O4; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45C6GZ02015552;
+	Wed, 12 Jun 2024 10:22:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=sQynSTz9r90PygX8PsR9BB
+	DC55tTFZGRrls4Q247R6I=; b=5ztkh6O4h2I4N3LzISQoI96ZThMJgS6gOZvB61
+	rjKt3iSU4Ns5HE8BlpOG7F3kT+/yoaRC4mqrF0jEYcgGO2SI4FviAlK9BahNmHHQ
+	Dsw2ph1B4HkJoMcyy5ze8qgwIf9AsL6I/yeWaPar+MzKEi6D9iHInUU9xVwdcFf/
+	SvCkfshNh2HNkk0dIJxzw243sajNbHtRE8ZERptrk7+4b64HPR+TDvwakBGuGEZs
+	fwaAxOywHGJn8p3OPkMb7xMUSyAoV//McpxRjc4Ig+T3g4q/oCsZbMQpIufLXv2J
+	LZi3fSxT+nIqMtzBvZNOZeX7/3SihzDVkXC6Fmb99qaVrh3g==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ypub3aax8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 10:22:15 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 17AE54002D;
+	Wed, 12 Jun 2024 10:22:10 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 913B820F56F;
+	Wed, 12 Jun 2024 10:21:32 +0200 (CEST)
+Received: from localhost (10.130.72.241) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 12 Jun
+ 2024 10:21:32 +0200
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Sakari Ailus
+	<sakari.ailus@linux.intel.com>,
+        Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Benjamin Mugnier
+	<benjamin.mugnier@foss.st.com>
+Subject: [PATCH v2] media: i2c: vgxy61: Fix device name
+Date: Wed, 12 Jun 2024 10:21:14 +0200
+Message-ID: <20240612082114.43125-1-benjamin.mugnier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiDSCuM9RdQ9Tq4-vL2b8UP3_GFV41gvnKm7Gmh2dpmCO98+A@mail.gmail.com>
+Content-Type: text/plain
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-12_04,2024-06-11_01,2024-05-17_01
 
-On Wed, Jun 12, 2024 at 09:47:26AM +0200, Ricardo Ribalda wrote:
-> On Wed, 12 Jun 2024 at 09:44, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > On Wed, Jun 12, 2024 at 12:28:56PM +0900, Tomasz Figa wrote:
-> > > On Mon, Jun 10, 2024 at 8:43 PM Laurent Pinchart wrote:
-> > > > On Wed, May 29, 2024 at 05:03:08PM +0900, Tomasz Figa wrote:
-> > > > > On Sat, Mar 23, 2024 at 10:48:05AM +0000, Ricardo Ribalda wrote:
-> > > > > > With UVC 1.5 we get as little as one clock sample per frame. Which means
-> > > > > > that it takes 32 frames to move from the software timestamp to the
-> > > > > > hardware timestamp method.
-> > > > > >
-> > > > > > This results in abrupt changes in the timestamping after 32 frames (~1
-> > > > > > second), resulting in noticeable artifacts when used for encoding.
-> > > > > >
-> > > > > > With this patch we modify the update algorithm to work with whatever
-> > > > > > amount of values are available.
-> > > > > >
-> > > > > > Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-> > > > > > Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++--
-> > > > > >  1 file changed, 14 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > > > > index d6ca383f643e3..af25b9f1b53fe 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > > > @@ -768,10 +768,10 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
-> > > > > >
-> > > > > >     spin_lock_irqsave(&clock->lock, flags);
-> > > > > >
-> > > > > > -   if (clock->count < clock->size)
-> > > > > > +   if (clock->count < 2)
-> > > > > >             goto done;
-> > > > > >
-> > > > > > -   first = &clock->samples[clock->head];
-> > > > > > +   first = &clock->samples[(clock->head - clock->count + clock->size) % clock->size];
-> > > > > >     last = &clock->samples[(clock->head - 1 + clock->size) % clock->size];
-> > > > > >
-> > > > > >     /* First step, PTS to SOF conversion. */
-> > > > > > @@ -786,6 +786,18 @@ void uvc_video_clock_update(struct uvc_streaming *stream,
-> > > > > >     if (y2 < y1)
-> > > > > >             y2 += 2048 << 16;
-> > > > > >
-> > > > > > +   /*
-> > > > > > +    * Have at least 1/4 of a second of timestamps before we
-> > > > > > +    * try to do any calculation. Otherwise we do not have enough
-> > > > > > +    * precision. This value was determined by running Android CTS
-> > > > > > +    * on different devices.
-> > > > > > +    *
-> > > > > > +    * dev_sof runs at 1KHz, and we have a fixed point precision of
-> > > > > > +    * 16 bits.
-> > > > > > +    */
-> > > > > > +   if ((y2 - y1) < ((1000 / 4) << 16))
-> > > > > > +           goto done;
-> > > > >
-> > > > > Not a comment for this patch directly, but...
-> > > > >
-> > > > > This kind of makes me wonder if we don't want to have some documentation
-> > > > > that specifies what the userspace can expect from the timestamps, so
-> > > > > that this isn't changed randomly in the future breaking what was fixed
-> > > > > by this patch.
-> > > >
-> > > > I think timestamp handling should really be moved to userspace. It will
-> > > > be easier to handle with floating-point arithmetic there. That would
-> > > > have been difficult to manage for applications a while ago, but now that
-> > > > we have libcamera, we could implement it there. This isn't high on my
-> > > > todo list though.
-> > >
-> > > While indeed that would probably be a better way to handle the complex
-> > > logic if we designed the driver today, we already have userspace that
-> > > expects the timestamps to be handled correctly in the kernel. I
-> > > suspect moving it to the userspace would require some core V4L2
-> > > changes to define a new timestamp handling mode, where multiple raw
-> > > hardware timestamps are exposed to the userspace, instead of the high
-> > > level system monotonic one.
-> >
-> > The uvcvideo driver already supports exposing the packet headers to
-> > userspace through a metadata capture device, so I think we have all the
-> > components we need. The only missing thing would be the implementation
-> > in libcamera :-)
-> 
-> We would still have to duplicate the quirk information in libcamera
-> and the kernel.
+Rename 'st-vgxy61' to 'vgxy61', dropping the vendor prefix to follow the
+same naming scheme as the vast majority of device drivers.
+The device tree binding does not fall into binding rename exceptions and
+therefore must not be changed. Keep its legacy name.
 
-Sure, and there will be some level of code duplication. My point is that
-I believe it can be done in userspace, and while small changes to the
-clock handling on the kernel side are fine, if we wanted to change the
-code significantly I think it would be better moved to userspace. I
-don't have plans to work on this, and I'm not requesting anyone to do so
-either at this point.
+Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+---
+ Documentation/userspace-api/media/drivers/index.rst         | 2 +-
+ .../media/drivers/{st-vgxy61.rst => vgxy61.rst}             | 0
+ MAINTAINERS                                                 | 6 +++---
+ drivers/media/i2c/Kconfig                                   | 2 +-
+ drivers/media/i2c/Makefile                                  | 2 +-
+ drivers/media/i2c/{st-vgxy61.c => vgxy61.c}                 | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
+ rename Documentation/userspace-api/media/drivers/{st-vgxy61.rst => vgxy61.rst} (100%)
+ rename drivers/media/i2c/{st-vgxy61.c => vgxy61.c} (99%)
 
+diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+index 2252063593bf..d706cb47b112 100644
+--- a/Documentation/userspace-api/media/drivers/index.rst
++++ b/Documentation/userspace-api/media/drivers/index.rst
+@@ -35,6 +35,6 @@ For more details see the file COPYING in the source distribution of Linux.
+ 	max2175
+ 	npcm-video
+ 	omap3isp-uapi
+-	st-vgxy61
+ 	thp7312
+ 	uvcvideo
++	vgxy61
+diff --git a/Documentation/userspace-api/media/drivers/st-vgxy61.rst b/Documentation/userspace-api/media/drivers/vgxy61.rst
+similarity index 100%
+rename from Documentation/userspace-api/media/drivers/st-vgxy61.rst
+rename to Documentation/userspace-api/media/drivers/vgxy61.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ef6be9d95143..33ee4d5e7f0e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20892,8 +20892,8 @@ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+-F:	Documentation/userspace-api/media/drivers/st-vgxy61.rst
+-F:	drivers/media/i2c/st-vgxy61.c
++F:	Documentation/userspace-api/media/drivers/vgxy61.rst
++F:	drivers/media/i2c/vgxy61.c
+ 
+ ST VL53L0X ToF RANGER(I2C) IIO DRIVER
+ M:	Song Qiang <songqiang1304521@gmail.com>
+@@ -23210,7 +23210,7 @@ F:	drivers/media/i2c/mt*
+ F:	drivers/media/i2c/og*
+ F:	drivers/media/i2c/ov*
+ F:	drivers/media/i2c/s5*
+-F:	drivers/media/i2c/st-vgxy61.c
++F:	drivers/media/i2c/vgxy61.c
+ 
+ VF610 NAND DRIVER
+ M:	Stefan Agner <stefan@agner.ch>
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index c6d3ee472d81..25619d5e29c4 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -659,7 +659,7 @@ config VIDEO_S5K6A3
+ 	  This is a V4L2 sensor driver for Samsung S5K6A3 raw
+ 	  camera sensor.
+ 
+-config VIDEO_ST_VGXY61
++config VIDEO_VGXY61
+ 	tristate "ST VGXY61 sensor support"
+ 	select V4L2_CCI_I2C
+ 	depends on OF && GPIOLIB
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index dfbe6448b549..d322ba161da5 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -124,7 +124,6 @@ obj-$(CONFIG_VIDEO_SAA717X) += saa717x.o
+ obj-$(CONFIG_VIDEO_SAA7185) += saa7185.o
+ obj-$(CONFIG_VIDEO_SONY_BTF_MPX) += sony-btf-mpx.o
+ obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
+-obj-$(CONFIG_VIDEO_ST_VGXY61) += st-vgxy61.o
+ obj-$(CONFIG_VIDEO_TC358743) += tc358743.o
+ obj-$(CONFIG_VIDEO_TC358746) += tc358746.o
+ obj-$(CONFIG_VIDEO_TDA1997X) += tda1997x.o
+@@ -148,6 +147,7 @@ obj-$(CONFIG_VIDEO_TW9910) += tw9910.o
+ obj-$(CONFIG_VIDEO_UDA1342) += uda1342.o
+ obj-$(CONFIG_VIDEO_UPD64031A) += upd64031a.o
+ obj-$(CONFIG_VIDEO_UPD64083) += upd64083.o
++obj-$(CONFIG_VIDEO_VGXY61) += vgxy61.o
+ obj-$(CONFIG_VIDEO_VP27SMPX) += vp27smpx.o
+ obj-$(CONFIG_VIDEO_VPX3220) += vpx3220.o
+ obj-$(CONFIG_VIDEO_WM8739) += wm8739.o
+diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/vgxy61.c
+similarity index 99%
+rename from drivers/media/i2c/st-vgxy61.c
+rename to drivers/media/i2c/vgxy61.c
+index b9e7c57027b1..30378e962016 100644
+--- a/drivers/media/i2c/st-vgxy61.c
++++ b/drivers/media/i2c/vgxy61.c
+@@ -1878,7 +1878,7 @@ static const struct dev_pm_ops vgxy61_pm_ops = {
+ 
+ static struct i2c_driver vgxy61_i2c_driver = {
+ 	.driver = {
+-		.name  = "st-vgxy61",
++		.name  = "vgxy61",
+ 		.of_match_table = vgxy61_dt_ids,
+ 		.pm = &vgxy61_pm_ops,
+ 	},
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
 
