@@ -1,117 +1,159 @@
-Return-Path: <linux-media+bounces-13121-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13122-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF387905EDF
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 00:58:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C29905F4D
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 01:37:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52BBBB21C4E
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 22:58:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BC8D286A68
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 23:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F129012C80F;
-	Wed, 12 Jun 2024 22:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0FDF12D742;
+	Wed, 12 Jun 2024 23:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YW3Y7PjC"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NnrvBYH4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1763028385;
-	Wed, 12 Jun 2024 22:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBF012D205;
+	Wed, 12 Jun 2024 23:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718233114; cv=none; b=QHziIrvuIHTJOaDZkBqLBCPDugMttCsZXHrKLBx442R7cdZPL+WJfQK5lVmj4nsCNvPRv0WQoYYyRG9u6nmoUh+BKUGJYGaeJBIjTiCuuiCACcS7OV9E0Sj42WGS1SWSvllkiI4z2jUem7n9kc5iTCCxxV2IvYbFfuwVwAY+pvk=
+	t=1718235444; cv=none; b=sI9jK5dXg0dpXHqfS9vFS0qgwuQrHeAEBsnbiq443anHEPKGmbK62GBhPkp21iWNJHCAg//tplxLApLivYyXwU8b7/CR3B6mwgiEbT/dnMwAOtpFOz0Fszww7ipefa/TBq51HWhlXDqdbogdJ2XDUJmk3MBTpsZ3Jq/DpSS5Iak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718233114; c=relaxed/simple;
-	bh=kBo3PrZiEdUdqC/4BbLA7KGTFYsksjNhvJlPCWpd8U0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=X5YQ5/zW7WdJnekWX1+LegSv1EzHgCS9mCkMNOgEJfRZ+9aP+sSVRBMXR9VlY9cST1w26+8otBnhnFLM5ePEtXRtd96HS8KyAQ6sDuxqSKd/G6y1RRDlWYueitui+F7KyYbv7iEVTvtkwIiAiA64BKjqI/XKwHeqplL6sDPJcNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YW3Y7PjC; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CKnNOC022525;
-	Wed, 12 Jun 2024 22:58:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=KVruShR2VdwkCpzyg19f+X
-	RXwOT8ljeHnXvU1gTxSnw=; b=YW3Y7PjCFNWgGtpVXutUr9enKD6MYiUSW031XH
-	wius+sEmZ0byo4wS4py7gx12lEG4dsE5De2VD4q8ip3I+zFZsuur5AlaxfJADB/f
-	xFN4F35FScJLmm/PQisgEEdnPAu6TVB1UUxqY1GVn1I9v41S+xQXabQvQZqor+4/
-	TEpljxYmTbTzJ4PYo11hwTb+oePylvN2EqRbr18gnWACYxLnAz6ods4ybm19a6K9
-	fX1NvW8CcBOrw8QY8om1wvnqcICqPorAkfayxk9n4uMw0lhQ9ykEY/HooE54G3ze
-	A6Wkp/CimF04e46ePmYfNyZSp43LlFOzgX64XpVdAeGB3YHg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yq4s8jqh1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 22:58:28 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45CMwRnD028747
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 22:58:27 GMT
-Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
- 2024 15:58:26 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Wed, 12 Jun 2024 15:58:25 -0700
-Subject: [PATCH] media: rc: add missing MODULE_DESCRIPTION() macro
+	s=arc-20240116; t=1718235444; c=relaxed/simple;
+	bh=p0StulPiskZvXiAXXy2XqSB+UCYvZvpYVdWBgttD7Nk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BpvPZBudRB1F42MdMAZ3e/a9SKyud/IP5FYMDFxYUfGZ/KavGfE/yCP6S7Sl4ur+QeDgPyz9dEaYIMziaNx14dmD2DrOsllY+jQunVgGCYSvK9lTYhhPufsxMIKUcrkt1hDYQDwfrXmbmOCoqbyvo0uwzbs2p1kmDgxsSkuE8KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NnrvBYH4; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718235440;
+	bh=p0StulPiskZvXiAXXy2XqSB+UCYvZvpYVdWBgttD7Nk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NnrvBYH4gcX8jVX7MkBBhnFfP9qpqrsQxMTSYlOMraNkSxwFH0Li6QJtGdX/78m2a
+	 RBMRctyynP+nNr+yZoE+4fC+VvoXN8Nbv4dLqsD6fZK5ThvBv6j2Hpu4muLIDOaJz+
+	 4wxHZvfTbFt7oIcP50Jnd0epTTJgfM5nCKa1co+Z0PiHSF/DE04YPabQ4nm7r5F8v+
+	 gp994IEVMcFT4C/J6yPzIUzYcprN/wOTjjXl/T9UaIikSo3qmQJaAuiX+aKhBFPmly
+	 h0QusGDacO2lBOzdUVzeiiEkPpL+Uy41i4MOiL7W5nQaIB1Kghz0k60NTs/O6YILD1
+	 UWY1DJk6t4wWg==
+Received: from mercury (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D9AFF3781022;
+	Wed, 12 Jun 2024 23:37:20 +0000 (UTC)
+Received: by mercury (Postfix, from userid 1000)
+	id 56CFD10608F7; Thu, 13 Jun 2024 01:37:20 +0200 (CEST)
+Date: Thu, 13 Jun 2024 01:37:20 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Oded Gabbay <ogabbay@kernel.org>, Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 1/9] iommu/rockchip: Add compatible for
+ rockchip,rk3588-iommu
+Message-ID: <75xclodzhu2slf6jntwxzx5gvthgl62g2jcmgeukbafkzkisbf@okedx7ic6aij>
+References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
+ <20240612-6-10-rocket-v1-1-060e48eea250@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240612-md-drivers-media-rc-v1-1-3c3458bb73e8@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIABAoamYC/x3M0QrCMAyF4VcZuTawVinoq4gXWZu5gK2S6BiMv
- fsyLz8O51/BWIUNbt0KyrOYvJsjnDrIE7UnoxQ3xD5e+hQi1oJFZWY1rFyEUDOGq09jSvmcEvj
- zozzK8q/eH+6BjHFQank6Wi9pvwUr2ZcVtm0HzskoFoQAAAA=
-To: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: QQIRi8NXxO5Y2mMnDx-rjRb8chdcF3R5
-X-Proofpoint-ORIG-GUID: QQIRi8NXxO5Y2mMnDx-rjRb8chdcF3R5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_10,2024-06-12_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- spamscore=0 mlxscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1011 mlxlogscore=941 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406120164
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lszhpdxqfwkdo2zm"
+Content-Disposition: inline
+In-Reply-To: <20240612-6-10-rocket-v1-1-060e48eea250@tomeuvizoso.net>
 
-With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+--lszhpdxqfwkdo2zm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/media/rc/rc-main.c | 1 +
- 1 file changed, 1 insertion(+)
+Hello Tomeu,
 
-diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-index 6bdad6341844..a4c539b17cf3 100644
---- a/drivers/media/rc/rc-main.c
-+++ b/drivers/media/rc/rc-main.c
-@@ -2092,4 +2092,5 @@ subsys_initcall(rc_core_init);
- module_exit(rc_core_exit);
- 
- MODULE_AUTHOR("Mauro Carvalho Chehab");
-+MODULE_DESCRIPTION("Remote Controller core module");
- MODULE_LICENSE("GPL v2");
+On Wed, Jun 12, 2024 at 03:52:54PM GMT, Tomeu Vizoso wrote:
+> So far, seems to be fully compatible with the one in the RK3568.
+>=20
+> The bindings already had this compatible, but the driver didn't
+> advertise it.
+>=20
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
 
----
-base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-change-id: 20240612-md-drivers-media-rc-19061f66c366
+The driver does not need to advise it, since it already handles
+"rockchip,rk3568-iommu" and the correct compatible for the RK3588
+IOMMU is:
 
+compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+
+i.e. with the RK3568 compatible as fallback. So the kernel will
+just bind to the fallback compatible. Iff differences are found
+in the future, the kernel can start to make use of the more
+specific compatible.
+
+-- Sebastian
+
+>  drivers/iommu/rockchip-iommu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iomm=
+u.c
+> index 4b369419b32c..f5629515bd78 100644
+> --- a/drivers/iommu/rockchip-iommu.c
+> +++ b/drivers/iommu/rockchip-iommu.c
+> @@ -1363,6 +1363,9 @@ static const struct of_device_id rk_iommu_dt_ids[] =
+=3D {
+>  	{	.compatible =3D "rockchip,rk3568-iommu",
+>  		.data =3D &iommu_data_ops_v2,
+>  	},
+> +	{	.compatible =3D "rockchip,rk3588-iommu",
+> +		.data =3D &iommu_data_ops_v2,
+> +	},
+>  	{ /* sentinel */ }
+>  };
+> =20
+>=20
+> --=20
+> 2.45.2
+>=20
+>=20
+
+--lszhpdxqfwkdo2zm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmZqMSwACgkQ2O7X88g7
++poM9w//Quf+iUHT1ho9F5H0znbElz82rmJuzS/FCgjZREXsvOOlDdO9WHuR42rU
+l7MZhQDNTSYuQ5ok+BbED5k26VuJf3KXdAU2k0guFceqY5kZiwJwq4HVEtUFeUqV
+ShNoJYdOKvLtlpQKgVPj9SBTNz63dazB0XigVFEwP6U4fSM5n8OoE/JtBWcGZBsp
+I22H5BHefpX7xVoG5d04lMM9EyOxeQToJ2Vveu7D7xMye8rEljBN+RHAnpUZ00dK
+svok25DuJKwkWEiIEmPHqJah6avsRr7/vzUz0494Ybz5MkFOFrPVwPfPp9Ge3DK6
+LIJ4YZtarT99Jz1kUWzzMS8Tls61CAp3CTxq8TrlFsUvRzqmdKMwy9r+TFaXaRHb
+klyFZh+s+qZmMyGnYyWlnKY4RWKbP8EvyPAdGh73rvgjvAaciy8ozDfp8wdEPp0W
+WgQ9hIFHPgqpvV+C3dYQv+QBe/ozOzZASrJtIec8PMozNXQcj8+xMfDhzM/k0sXi
+azp/EFcbg8AEuoNiXhJmfQBX3lr5Mgf+z3vLvTyST+MTPD9ebqp1CkaBdrHT66jI
+Agcf6OBhf8/BYIHTv5e7uFho09S/frrYXqskHJnazd/tckysU+jf//EryBDLOF77
+DCJbslCIkJ/jIfrX9BAKU+U+At3JN68xbB+Z1WOu5OoExUtLhO8=
+=mDX6
+-----END PGP SIGNATURE-----
+
+--lszhpdxqfwkdo2zm--
 
