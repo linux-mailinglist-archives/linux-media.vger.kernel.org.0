@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-13085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13084-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63631905B04
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:33:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D30F905B01
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:33:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 027D8B269FD
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 18:33:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E57E2852CF
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 18:33:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AFAA8289E;
-	Wed, 12 Jun 2024 18:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE1CA80049;
+	Wed, 12 Jun 2024 18:31:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEE18003F;
-	Wed, 12 Jun 2024 18:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF6257C8A;
+	Wed, 12 Jun 2024 18:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718217096; cv=none; b=e7iIsLgJxHFfers0YrZy8qaOG2vCsvwM7MJTZngJUy4wo3dOtfI27d3zE31hg4XoAUp3Y6fijnv3G/TMhGv5pTJrEGiCP4IobHI34TT87VWh1GbjeO0cYx7Tft7XZdg4Hm8Qiq8uVNgD/cq62YsevOTbIehW8LspHFi0FqjexKA=
+	t=1718217094; cv=none; b=hOOzmAK2PcG5O6cdsqg2X/6BE7j/QBsnwuBUDSDVj3Qsm1HzEejU9w4Hb04BL2iuZ5Nqm4ai9TcPsHKx5DimnxCH/uEC0IESZ6rjrIGVU7hfLv88lUL9EaVVg6AiM4hnyuChpojF/dyLNFi0QcbKogzfJGpPmD7efwDj5VGiFlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718217096; c=relaxed/simple;
-	bh=KJpri+IbVnAoZKMxYgYMeN+Mhz/Vw1rvPuNwlL7jfN4=;
+	s=arc-20240116; t=1718217094; c=relaxed/simple;
+	bh=ESjmU9gJ2L1QxdyTF1ckdrrFop0h+nJAejCPZh5QRfI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=EqJs1Orl74d3AdKOwtCvwc3TGHW9boZ5lYNHKZ4xZXRl7tnVM0l/1vPjjm/o4KLAR8D9NW5M1NbF5uQFu1Q2kbyv/BcZWBHZ4PEvMlIyKTmpVxXBXme+Y74Ub8D/RIBlKt4cvoN21nmhxTgFZg5A6MEeeLO6LJnDNofeUQYjpE0=
+	 Mime-Version:Content-Type; b=ixbUW1qv+mDrPNb6abNkutnJ0kuL7NrKMcmdCpWsDz0WIs6/LfHkU884UDBoCKFQzoSA6Em2XcmqD9CyjRwf6BVWWwkeIK1JKKsj80BbCq1fZf0pEkDZHwTFvaUBGRyavqDtQEt2yD9pLiwX8nHoh1F93meCk1zTbpGZXXZsbqU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
 Received: from fedori.lan (c3e47615.dsl.pool.telekom.hu [::ffff:195.228.118.21])
   (AUTH: CRAM-MD5 soyer@irl.hu, )
   by irl.hu with ESMTPSA
-  id 0000000000070662.000000006669E981.0016B242; Wed, 12 Jun 2024 20:31:28 +0200
+  id 0000000000070666.000000006669E982.0016B24C; Wed, 12 Jun 2024 20:31:29 +0200
 From: Gergo Koteles <soyer@irl.hu>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
   Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH 1/2] media: v4l2: ctrls: Add ROLL_ABSOLUTE control
-Date: Wed, 12 Jun 2024 20:31:13 +0200
-Message-ID: <d4d606920a2e08fa468eb6c98f7f2f387ed58e16.1718216718.git.soyer@irl.hu>
+Subject: [PATCH 2/2] media: v4l2: map UVC_CT_ROLL_ABSOLUTE_CONTROL
+Date: Wed, 12 Jun 2024 20:31:14 +0200
+Message-ID: <163b1aee53fa78fe1a8d0b8bb7b0f7be1f1975c9.1718216718.git.soyer@irl.hu>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <cover.1718216718.git.soyer@irl.hu>
 References: <cover.1718216718.git.soyer@irl.hu>
@@ -54,55 +54,40 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-Add V4L2_CID_ROLL_ABSOLUTE as an integer control to
-retrieve and set the camera roll in degrees, and its
-documentation.
+Some new UVC cameras can report whether they are mounted in 'portrait
+mode'.
+
+Current roll degrees (-90, 0, 90, 180) are reported with
+UVC_CT_ROLL_ABSOLUTE_CONTROL.
+
+Map UVC_CT_ROLL_ABSOLUTE_CONTROL to V4L2_CID_ROLL_ABSOLUTE to
+make it available to userspace.
 
 Signed-off-by: Gergo Koteles <soyer@irl.hu>
 ---
- Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst | 5 +++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c                  | 1 +
- include/uapi/linux/v4l2-controls.h                         | 2 ++
- 3 files changed, 8 insertions(+)
+ drivers/media/usb/uvc/uvc_ctrl.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-index cdc515c60468..81bc31a4bf79 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-@@ -672,3 +672,8 @@ enum v4l2_scene_mode -
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 4b685f883e4d..bc3272b6ceb1 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -748,6 +748,15 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+ 		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
+ 		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
+ 	},
++	{
++		.id		= V4L2_CID_ROLL_ABSOLUTE,
++		.entity		= UVC_GUID_UVC_CAMERA,
++		.selector	= UVC_CT_ROLL_ABSOLUTE_CONTROL,
++		.size		= 16,
++		.offset		= 0,
++		.v4l2_type	= V4L2_CTRL_TYPE_INTEGER,
++		.data_type	= UVC_CTRL_DATA_TYPE_SIGNED,
++	},
+ };
  
-     As modes differ for each sensor, menu items are not standardized by this
-     control and are left to the programmer.
-+
-+``V4L2_CID_ROLL_ABSOLUTE (integer)``
-+    This control describes the camera rotation along the image viewing axis in
-+    degrees. Values range from -180 to +180, the default is zero. Positive
-+    values rotate the camera clockwise, negative values counter-clockwise.
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 8696eb1cdd61..0e8af56cb2a2 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1086,6 +1086,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
- 	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
- 	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
-+	case V4L2_CID_ROLL_ABSOLUTE:		return "Roll, Absolute";
- 
- 	/* FM Radio Modulator controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 99c3f5e99da7..a6d28e54bbc0 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1087,6 +1087,8 @@ enum v4l2_auto_focus_range {
- 
- #define V4L2_CID_HDR_SENSOR_MODE		(V4L2_CID_CAMERA_CLASS_BASE+36)
- 
-+#define V4L2_CID_ROLL_ABSOLUTE			(V4L2_CID_CAMERA_CLASS_BASE+37)
-+
- /* FM Modulator class control IDs */
- 
- #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+ const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
 -- 
 2.45.2
 
