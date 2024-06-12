@@ -1,115 +1,400 @@
-Return-Path: <linux-media+bounces-13065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13066-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3359057AE
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 17:57:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 443649058A2
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 18:23:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96BF32852F9
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 15:57:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7B7F1F228B5
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 16:23:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA02B181D1F;
-	Wed, 12 Jun 2024 15:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB4A181BAD;
+	Wed, 12 Jun 2024 16:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYWVzenO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KjjxG+Fb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8729181312;
-	Wed, 12 Jun 2024 15:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73617181BA8
+	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 16:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718207758; cv=none; b=TqXTeEeTAyXVbweCTjoWfBrrGZJUwDrCPyIDjVgVE3FZ26jyM9Z3RPxx6/LeAjEp3TsP95CT+n6UP0CUMsRsB8M3+YQyKDh1oR2OoF1wnWNVpe8KaS7+09BcaDD6vEo2GpIVOIzC3TiLZ1xqA9gNc9zEuyE5KGmvuf/A4EuNMZA=
+	t=1718209273; cv=none; b=HfNZjh4VhBfpC7MSitEoUusKaFXFqnJl+l0Hjv+aPni+Y3xTYb2jjEtjtweZoe80TZ2Uen8Tlx4Ic7XLOVyEHPuCtlSKvOIu2eYeQe2vWLEkTe660SaAkHdz/g+imj+0GSdqbf5od+Bh97EDUkK31rhU8L7l/8E8js4myLqOB0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718207758; c=relaxed/simple;
-	bh=OGohKvk0MjWf9+Q8+mvrBX+1BAlKKRyUXLbfH75xyb4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=aVOTTwsJpcctQuUjdTM8dhm19LLOc1Dt6AuwIhKCXrejUHcYcJPE5H4DC9Fzyw6QCAdYqEK0nP0ui81Knrinl0W7LiaUbPTrmLHR1XPSyo1uTsFW2/6YtmNxiP9jkihUCMxy7nnZMPsyNeMQ5f1h0fnSNwiH7kbWlovFqnKdm34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYWVzenO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7AEC7C4DDE4;
-	Wed, 12 Jun 2024 15:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718207757;
-	bh=OGohKvk0MjWf9+Q8+mvrBX+1BAlKKRyUXLbfH75xyb4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=kYWVzenO6v46dav7m+6VeeBQvWtkfZ2ijSROLzZNF2xhVox8NT4g6D7nEQ7Yr1CvD
-	 QbMqbzoNwKvtHxN4oOUSJGsdzFSOiqxLCA02gKqMCQ7TCsZzzusBONx5M/RWdCVpV3
-	 EiLccKqgRHfAnZUsG10WiKCsIr5ffuOoIqg1qhcsU6IhDG8FGsX5pkowWNVMy10FlC
-	 cn2EJB/8N7UtSBq02dCqRuSQs3PZ1MDiLAg7XtxdpzyjShLg11I47hWenlonizyvmL
-	 MeVPPNyid+I2VhiIZBpPj5WbK56sRWz78MH6UY8PKtaaCMSFrdgOOixPo+5vEX+bSG
-	 8/iqEXeUVgsUQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 61107C43618;
-	Wed, 12 Jun 2024 15:55:57 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1718209273; c=relaxed/simple;
+	bh=E++Ttm7rP8MAvlF3eG6XLQak9eELE+RMeD4FClePYVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sYJP9VK9Zzx7+xwINBn7pMbpf0+WG8/cB+sly/vexWOm5KP4cA4gyhHwxcD9d2DBqJ4UU8ORNhrIDWctiTbTJTi6fQyFvqEN+FWt8rF9vWThVSdRLv0G1DUxUDla3niJREireIWuX0DIYieOPqKlqLLGPfUKkbQhGRKdf6HzIDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KjjxG+Fb; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DF7F4AB;
+	Wed, 12 Jun 2024 18:20:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718209255;
+	bh=E++Ttm7rP8MAvlF3eG6XLQak9eELE+RMeD4FClePYVQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KjjxG+FbzxCUrnrrI8RSSRLXWccl5DuFEjblH9Ad8y/1whoesFaW9TQAejoBVvFJM
+	 JSu+78TTUe6nVyvCYC8AGWzLKAT4uhF3kUAAMq2lu9JtTqgcjFbo4TMv0IwZhFYKaV
+	 SAH07v52+30vOhenfLVpptXcq6f7nW+k678mi5o4=
+Date: Wed, 12 Jun 2024 19:20:48 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dan Scally <dan.scally@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH 8/8] media: rkisp1: Copy and validate parameters buffer
+Message-ID: <20240612162048.GF15991@pendragon.ideasonboard.com>
+References: <20240605165434.432230-1-jacopo.mondi@ideasonboard.com>
+ <20240605165434.432230-9-jacopo.mondi@ideasonboard.com>
+ <2c7e4fb9-a23c-41f3-a5d1-fa8699e313be@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH] tracing/treewide: Remove second parameter of
- __assign_str()
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <171820775738.32393.13116890369510221266.git-patchwork-notify@kernel.org>
-Date: Wed, 12 Jun 2024 15:55:57 +0000
-References: <20240516133454.681ba6a0@rorschach.local.home>
-In-Reply-To: <20240516133454.681ba6a0@rorschach.local.home>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ath10k@lists.infradead.org,
- Julia.Lawall@inria.fr, linux-s390@vger.kernel.org, dev@openvswitch.org,
- linux-cifs@vger.kernel.org, linux-bcachefs@vger.kernel.org,
- linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- io-uring@vger.kernel.org, torvalds@linux-foundation.org,
- iommu@lists.linux.dev, ath11k@lists.infradead.org,
- linux-media@vger.kernel.org, linux-wpan@vger.kernel.org,
- linux-pm@vger.kernel.org, selinux@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-erofs@lists.ozlabs.org, virtualization@lists.linux.dev,
- linux-sound@vger.kernel.org, linux-block@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, mathieu.desnoyers@efficios.com,
- linux-cxl@vger.kernel.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, linux-edac@vger.kernel.org,
- linux-hwmon@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- ath12k@lists.infradead.org, tipc-discussion@lists.sourceforge.net,
- mhiramat@kernel.org, netdev@vger.kernel.org, bpf@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-nfs@vger.kernel.org,
- linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2c7e4fb9-a23c-41f3-a5d1-fa8699e313be@ideasonboard.com>
 
-Hello:
+On Wed, Jun 12, 2024 at 03:28:05PM +0100, Daniel Scally wrote:
+> Hi Jacopo. As mentioned in the last patch, I think that this could be
+> squashed into 5/8, but a couple of comments below
 
-This patch was applied to jaegeuk/f2fs.git (dev)
-by Steven Rostedt (Google) <rostedt@goodmis.org>:
+I think it should be moved earlier, yes, probably even before the
+introduction of extended parameters.
 
-On Thu, 16 May 2024 13:34:54 -0400 you wrote:
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> 
-> [
->    This is a treewide change. I will likely re-create this patch again in
->    the second week of the merge window of v6.10 and submit it then. Hoping
->    to keep the conflicts that it will cause to a minimum.
-> ]
-> 
-> [...]
+> On 05/06/2024 17:54, Jacopo Mondi wrote:
+> > With the introduction of the extensible parameters format support in the
+> > rkisp1-param.c module, the RkISP1 driver now configures the ISP blocks
+> > by parsing the content of a data buffer of variable size provided by
+> > userspace through the V4L2 meta-output interface using the MMAP memory
+> > handling mode.
+> >
+> > As the parameters buffer is mapped in the userspace process memory,
+> > applications have access to the buffer content while the driver
+> > parses it.
+> >
+> > To prevent potential issues during the parameters buffer parsing and
+> > processing in the driver, implement three vb2_ops to
+> >
+> > 1) allocate a scratch buffer in the driver private buffer structure
+> > 2) validate the buffer content at VIDIOC_QBUF time
+> > 3) copy the content of the user provided configuration parameters
+> >     in the driver-private scratch buffer
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >   .../platform/rockchip/rkisp1/rkisp1-params.c  | 154 ++++++++++++++----
+> >   1 file changed, 124 insertions(+), 30 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > index 4adaf084ce6e..003239e14511 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > @@ -5,6 +5,8 @@
+> >    * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
+> >    */
+> >   
+> > +#include <linux/string.h>
+> > +
+> >   #include <media/v4l2-common.h>
+> >   #include <media/v4l2-event.h>
+> >   #include <media/v4l2-ioctl.h>
+> > @@ -1943,17 +1945,14 @@ static const struct rkisp1_ext_params_handler {
+> >   };
+> >   
+> >   static int __rkisp1_ext_params_config(struct rkisp1_params *params,
+> > -				      struct rkisp1_ext_params_cfg *cfg,
+> > +				      struct rkisp1_params_buffer *buffer,
+> >   				      u32 block_group_mask)
+> >   {
+> > +	struct rkisp1_ext_params_cfg *cfg = buffer->cfg;
 
-Here is the summary with links:
-  - [f2fs-dev] tracing/treewide: Remove second parameter of __assign_str()
-    https://git.kernel.org/jaegeuk/f2fs/c/2c92ca849fcc
+Maybe do this in the callers to avoid changing the prototype of this
+function and the other functions below.
 
-You are awesome, thank you!
+> >   	size_t block_offset = 0;
+> >   
+> > -	if (cfg->total_size > RKISP1_EXT_PARAMS_MAX_SIZE) {
+> > -		dev_dbg(params->rkisp1->dev,
+> > -			"Invalid parameters buffer size %llu\n",
+> > -			cfg->total_size);
+> > -		return -EINVAL;
+> > -	}
+> > +	if (WARN_ON(!cfg))
+> > +		return -ENOMEM;
+> >   
+> >   	/* Walk the list of parameter blocks and process them. */
+> >   	while (block_offset < cfg->total_size) {
+> > @@ -1965,25 +1964,13 @@ static int __rkisp1_ext_params_config(struct rkisp1_params *params,
+> >   		block_offset += block->size;
+> >   
+> >   		/*
+> > -		 * Validate the block id and make sure the block group is in
+> > -		 * the list of groups to configure.
+> > +		 * Make sure the block group is in  the list of groups to
+> > +		 * configure.
+> >   		 */
+> > -		if (block->type >= RKISP1_EXT_PARAMS_BLOCK_TYPE_SENTINEL) {
+> > -			dev_dbg(params->rkisp1->dev,
+> > -				"Invalid parameters block type\n");
+> > -			return -EINVAL;
+> > -		}
+> > -
+> >   		block_handler = &rkisp1_ext_params_handlers[block->type];
+> >   		if (!(block_handler->group & block_group_mask))
+> >   			continue;
+> >   
+> > -		if (block->size != block_handler->size) {
+> > -			dev_dbg(params->rkisp1->dev,
+> > -				"Invalid parameters block size\n");
+> > -			return -EINVAL;
+> > -		}
+> > -
+> >   		block_handler->handler(params, block);
+> >   	}
+> >   
+> > @@ -1991,9 +1978,9 @@ static int __rkisp1_ext_params_config(struct rkisp1_params *params,
+> >   }
+> >   
+> >   static int rkisp1_ext_params_config(struct rkisp1_params *params,
+> > -				    struct rkisp1_ext_params_cfg *cfg)
+> > +				    struct rkisp1_params_buffer *buffer)
+> >   {
+> > -	return __rkisp1_ext_params_config(params, cfg,
+> > +	return __rkisp1_ext_params_config(params, buffer,
+> >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS |
+> >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC |
+> >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_MEAS);
+> > @@ -2001,17 +1988,17 @@ static int rkisp1_ext_params_config(struct rkisp1_params *params,
+> >   
+> >   static int
+> >   rkisp1_ext_params_other_meas_config(struct rkisp1_params *params,
+> > -				    struct rkisp1_ext_params_cfg *cfg)
+> > +				    struct rkisp1_params_buffer *buffer)
+> >   {
+> > -	return __rkisp1_ext_params_config(params, cfg,
+> > +	return __rkisp1_ext_params_config(params, buffer,
+> >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS |
+> >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_MEAS);
+> >   }
+> >   
+> >   static int rkisp1_ext_params_lsc_config(struct rkisp1_params *params,
+> > -					struct rkisp1_ext_params_cfg *cfg)
+> > +					struct rkisp1_params_buffer *buffer)
+> >   {
+> > -	return __rkisp1_ext_params_config(params, cfg,
+> > +	return __rkisp1_ext_params_config(params, buffer,
+> >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC);
+> >   }
+> >   
+> > @@ -2057,7 +2044,7 @@ void rkisp1_params_isr(struct rkisp1_device *rkisp1)
+> >   		rkisp1_isp_isr_lsc_config(params, cfg);
+> >   		rkisp1_isp_isr_meas_config(params, cfg);
+> >   	} else {
+> > -		ret = rkisp1_ext_params_config(params, cfg);
+> > +		ret = rkisp1_ext_params_config(params, buf);
+> >   	}
+> >   
+> >   	if (ret)
+> > @@ -2168,7 +2155,7 @@ int rkisp1_params_pre_configure(struct rkisp1_params *params,
+> >   		rkisp1_isp_isr_other_config(params, cfg);
+> >   		rkisp1_isp_isr_meas_config(params, cfg);
+> >   	} else {
+> > -		ret = rkisp1_ext_params_other_meas_config(params, cfg);
+> > +		ret = rkisp1_ext_params_other_meas_config(params, buf);
+> >   	}
+> >   
+> >   	if (ret) {
+> > @@ -2215,7 +2202,7 @@ int rkisp1_params_post_configure(struct rkisp1_params *params)
+> >   	if (params->metafmt.dataformat == V4L2_META_FMT_RK_ISP1_PARAMS)
+> >   		rkisp1_isp_isr_lsc_config(params, cfg);
+> >   	else
+> > -		ret = rkisp1_ext_params_lsc_config(params, cfg);
+> > +		ret = rkisp1_ext_params_lsc_config(params, buf);
+> >   
+> >   	if (ret)
+> >   		goto complete_and_unlock;
+> > @@ -2407,6 +2394,110 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
+> >   	return 0;
+> >   }
+> >   
+> > +static int rkisp1_params_vb2_buf_init(struct vb2_buffer *vb)
+> > +{
+> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > +	struct rkisp1_params_buffer *params_buf =
+> > +		container_of(vbuf, struct rkisp1_params_buffer, vb);
+
+A to_rkisp1_params_buffer() inline function in the previous patch would
+be nice.
+
+> > +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
+> > +	size_t buf_size = params->metafmt.buffersize;
+> > +
+> > +	if (params->metafmt.dataformat == V4L2_META_FMT_RK_ISP1_PARAMS) {
+> > +		params_buf->cfg = NULL;
+> > +		return 0;
+> > +	}
+
+The problem is not restricted to the extensible format, how about doing
+the same for the legacy format ?
+
+> > +
+> > +	params_buf->cfg = kvmalloc(buf_size, GFP_KERNEL);
+> > +	if (IS_ERR_OR_NULL(params_buf->cfg))
+
+Can kvmalloc() return an error pointer ?
+
+> > +		return -ENOMEM;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void rkisp1_params_vb2_buf_cleanup(struct vb2_buffer *vb)
+> > +{
+> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > +	struct rkisp1_params_buffer *params_buf =
+> > +		container_of(vbuf, struct rkisp1_params_buffer, vb);
+> > +
+> > +	kvfree(params_buf->cfg);
+
+	params_buf->cfg = NULL;
+
+to be safe.
+
+> > +}
+> > +
+> > +static int rkisp1_params_validate_ext_params(struct rkisp1_params *params,
+> > +					     struct rkisp1_ext_params_cfg *cfg)
+> > +{
+> > +	size_t block_offset = 0;
+> > +
+> > +	if (cfg->total_size > RKISP1_EXT_PARAMS_MAX_SIZE) {
+> > +		dev_dbg(params->rkisp1->dev,
+> > +			"Invalid parameters buffer size %llu\n",
+> > +			cfg->total_size);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	/* Walk the list of parameter blocks and validate them. */
+> > +	while (block_offset < cfg->total_size) {
+> > +		const struct rkisp1_ext_params_handler *hdlr;
+> > +		struct rkisp1_ext_params_block_header *block;
+> > +
+> > +		block = (struct rkisp1_ext_params_block_header *)
+> > +			&cfg->data[block_offset];
+> > +		block_offset += block->size;
+
+Move this line to the end of the loop to avoid block_offset ever
+pointing beyond the end of the buffer.
+
+> > +
+> > +		if (block->type >= RKISP1_EXT_PARAMS_BLOCK_TYPE_SENTINEL) {
+> > +			dev_dbg(params->rkisp1->dev,
+> > +				"Invalid parameters block type\n");
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		hdlr = &rkisp1_ext_params_handlers[block->type];
+> > +		if (hdlr->group != RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS &&
+> > +		    hdlr->group != RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC &&
+> > +		    hdlr->group != RKISP1_EXT_PARAMS_BLOCK_GROUP_MEAS) {
+> > +			dev_dbg(params->rkisp1->dev,
+> > +				"Invalid parameters block group\n");
+> > +			return -EINVAL;
+> > +		}
+>
+> I think this check can probably be dropped; those values are from the
+> kernel driver rather than userspace inputs.
+>
+> > +
+> > +		if (block->size != hdlr->size) {
+> > +			dev_dbg(params->rkisp1->dev,
+> > +				"Invalid parameters block size\n");
+> > +			return -EINVAL;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rkisp1_params_vb2_buf_out_validate(struct vb2_buffer *vb)
+> > +{
+> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > +	struct rkisp1_params_buffer *params_buf =
+> > +		container_of(vbuf, struct rkisp1_params_buffer, vb);
+> > +	struct vb2_queue *vq = vb->vb2_queue;
+> > +	struct rkisp1_params *params = vq->drv_priv;
+> > +	struct rkisp1_ext_params_cfg *cfg =
+> > +		vb2_plane_vaddr(&params_buf->vb.vb2_buf, 0);
+> > +	int ret;
+> > +
+> > +	/* Fixed parameters format doesn't require validation. */
+> > +	if (params->metafmt.dataformat == V4L2_META_FMT_RK_ISP1_PARAMS)
+> > +		return 0;
+
+You need to add a check to rkisp1_params_s_fmt_meta_out() to reject
+format changes once the queue is busy, or you'll have bad surprises.
+
+> > +
+> > +	ret = rkisp1_params_validate_ext_params(params, cfg);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/*
+> > +	 * If the parameters buffer is valid, copy it to the internal scratch
+> > +	 * buffer to avoid userspace modifying the buffer content while
+> > +	 * the driver processes it.
+> > +	 */
+
+You need to swap the validation and memcpy(), otherwise userspace could
+modify it after you have validated the contents and before the copy.
+
+> > +	memcpy(params_buf->cfg, cfg, sizeof(*cfg));
+>
+> I think that this part is something that we probably ought to handle
+> in vb2 core if we can, since the problem it's fixing isn't specific to
+> the extensible parameters format or even the rkisp1 itself (unless I'm
+> missing something). That doesn't have to block this set though, we can
+> change this over to a vb2-core implementation when that's done.
+
+I like the idea. I think we can experiment with it in rkisp1, and then
+move it to vb2 when adding a second implementation (likely C55 ?).
+
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >   static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
+> >   {
+> >   	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > @@ -2455,6 +2546,9 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
+> >   
+> >   static const struct vb2_ops rkisp1_params_vb2_ops = {
+> >   	.queue_setup = rkisp1_params_vb2_queue_setup,
+> > +	.buf_init = rkisp1_params_vb2_buf_init,
+> > +	.buf_cleanup = rkisp1_params_vb2_buf_cleanup,
+> > +	.buf_out_validate = rkisp1_params_vb2_buf_out_validate,
+> >   	.wait_prepare = vb2_ops_wait_prepare,
+> >   	.wait_finish = vb2_ops_wait_finish,
+> >   	.buf_queue = rkisp1_params_vb2_buf_queue,
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Regards,
 
-
+Laurent Pinchart
 
