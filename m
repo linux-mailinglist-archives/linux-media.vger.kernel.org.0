@@ -1,216 +1,187 @@
-Return-Path: <linux-media+bounces-12999-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13000-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363E2904D18
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 09:47:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1627904D31
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 09:55:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 23AC81C22E1F
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 07:47:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79C5A1F23082
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 07:55:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADF6216B753;
-	Wed, 12 Jun 2024 07:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F062916C69E;
+	Wed, 12 Jun 2024 07:54:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jaX7PZYR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t+ZXHdLh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5589C1369AF
-	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 07:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD8416B736
+	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 07:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718178466; cv=none; b=EBulHQXPqnISAQ4xHfTT9Yk+f0gLJwM+FPaRqYs/UPtprYkhUqbeMjWBBYFWXI25F80mTSL9G++ZRa9mB4506SnuZf8Yvve5Xtqk0a6srkgHy15kXp5YpoI/7OEhxtdhwckvPT44mZDdIPaUFp4b2DCPKWD8XuG4ZbfXOEQdMvc=
+	t=1718178895; cv=none; b=Y/vLM4PW+jVn4ukMsWZUBi1xNkeCXE2EDWhSS34Z5AmV30qefDlzwz2Hw5vHp4TUDuH6nWzKdI6m5qn9V3SXzDUUXNi40XYrq9iBQA9SA0iCJJwKFQQOyYUKcYruXfqgRHS9WZgp4SRl86HHbL3SHbAcfDvefdSXzV/L8Ae2N7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718178466; c=relaxed/simple;
-	bh=+tl9JMqUu0n+y7TzF8Ko462bpmGnHN5qKwZIJDCVbU4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UlOgyYp0l1M6Apvo1yXnRcbL9BMdvm20GivuIpMVDpEpcfjeeU0jz0P+FIPfeonVLnAAD+2kQ/XmYzrzuft9nMWIrYU5jfUUd9SLlycuZ57PJF/LlhgScQuYl+zyy92Y3imAcyAzMkLlMI4zwIUTzDNR8W5abKDDZmJrlSC0m2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jaX7PZYR; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52bc1261f45so5073137e87.0
-        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 00:47:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718178462; x=1718783262; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nLdTXN9lYe0a3EsiIXNNLenN6Ja+aPhpUeSTY7jocuk=;
-        b=jaX7PZYRr2Ktc3Ao3BIi5Xw92yLS37DI6+uEJaGmMpRlJAq0rlzzQfEkYluwOigUZo
-         j87gsAzAHn23OYO806EyzIKT4Tt4J2oK92yqFryng0egZASs/v2kJDGwBwgJjDMOAI0q
-         jNLKX1q+33hZhm7wzh6HtahzUy/Etur6kTZew=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718178462; x=1718783262;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nLdTXN9lYe0a3EsiIXNNLenN6Ja+aPhpUeSTY7jocuk=;
-        b=nGvDf4TRTscxsMILUsAc9fH5JXgIwRuwOGrB71BrPLAWlvplhFSdFYSGiEoH4WPHZ7
-         XspSRAdpNEX5/Fo6IJdjMLkRoeoEu0szFxJvAZeRMHKzSsUdsDPfJyqtxhEjb+2wR+Yp
-         wquSqMttMwVGecT531KOTfwlSYuOEJwuN5yfIDOPxzP4/o+8uzgyCs95+3YlE7lDhDfK
-         0Jyx66SSf3pwuJWyq7lhVNg1dgZejb34uqp0Eks8KZXu80WwBsfDxl31ngYogdP5ZHdV
-         zeRfaF9Ozks6+BTZtC+c97Cl8D2OzjdUpYsXMLVaVh96MxedPKZPPm6LinrzFlaY4Hb5
-         SIeg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUiJ3U+hBrlzcmKaK8XPie4qlwmGivoGiDD3MNRr3MTLjwJkOyFAfl08UljMK7JljkUNYRvpuQ/WARoNGntK9uiS2YiQ5AnKVma8E=
-X-Gm-Message-State: AOJu0YyCmnOY5UKK/5fyE2Eo81gRYrWcFd69bVpz3OiQs28TfOHdscmM
-	hNP5icrOfl80tzccsvzVVBEiSH11O7MGMzDR63USDMUyvj8u4gKUNBpeNVh0kLUZnUVv0isrLfl
-	DVuT9
-X-Google-Smtp-Source: AGHT+IHhIYrRDsZmLyocBbuOVnsmSp/HM2W9JbRUE6PvGue3GzZuIaAjs6b/rMhl/iwAVRJPHy3SHQ==
-X-Received: by 2002:a05:6512:3da5:b0:52b:c0cd:7312 with SMTP id 2adb3069b0e04-52c9a3fca3bmr821266e87.49.1718178462309;
-        Wed, 12 Jun 2024 00:47:42 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb434dda8sm2360461e87.300.2024.06.12.00.47.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jun 2024 00:47:41 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5295e488248so7176613e87.2
-        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 00:47:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXIBJSQXEdSqW6sc/0lFRZDGOjMO0lmLJyHyNIMRc7XNPdEvRtTkDhA6OKO2DdZsdxky1hLsIxJlXg7VuKIZ7ZMIqqXjQNIHFPx2E0=
-X-Received: by 2002:a05:6512:61b:b0:52b:ce2f:5d11 with SMTP id
- 2adb3069b0e04-52c9a3c6eb8mr505332e87.25.1718178461142; Wed, 12 Jun 2024
- 00:47:41 -0700 (PDT)
+	s=arc-20240116; t=1718178895; c=relaxed/simple;
+	bh=/lEMc67NZdQLBOPaDgardSPjlSRm/W4yDz3mK4yOK/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TxjnZMvv6qkegpeOnPP9nWMUJhuDaWYOUBoj6ma1rPOiPk4+s5ezvrfwJTeZy29U2mTCF+Q2Jr9LoDH99nQoQqNcQN9k3UEv0ukBt6p6sqnVlRRYc4+2krOzbQcSPJNTyUD+8qynoT17iziBrxZbrqrCm0cRQStKjP6lgwEF3TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t+ZXHdLh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66756C3277B;
+	Wed, 12 Jun 2024 07:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718178895;
+	bh=/lEMc67NZdQLBOPaDgardSPjlSRm/W4yDz3mK4yOK/M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=t+ZXHdLhvYO29XtYwi8oXeVtkPDBcBgbhpeX42eEVwqwCDURFxgCY5iJzUkey53b8
+	 Fq2JZivuJQg98UjhzByxV2bbDYKC2S876zni8s0KcPj/stsLuFE0JcUjxHt0t5ywn9
+	 CMp/HxlgmeM8KuenYh51YlfZYZvNCXEkDofzYMJxpqVPooAOLTlLbDqLGvYpwVadvI
+	 DyNvVb9QA1fHdHAh7nl9n3JavjQ/KOghQvlEJhHcXNjVJD4etiF/QfvP8OyD18gs7b
+	 yawJO5ikePvV3pJQ9NJvE5Py7DrVuVXQYFGSpBlxuE+0vHtqnHggTGAafUiYS+yvT/
+	 O+EzZhsPC5FOQ==
+Date: Wed, 12 Jun 2024 09:54:48 +0200
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Tomasz Figa <tfiga@chromium.org>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Hidenori Kobayashi
+ <hidenorik@chromium.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young
+ <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Sebastian
+ Fricke <sebastian.fricke@collabora.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [ANN] Request for Topics and registration for a Media Summit
+ September 16th
+Message-ID: <20240612095448.1e99b751@coco.lan>
+In-Reply-To: <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+	<7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
+	<CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
+	<2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240323-resend-hwtimestamp-v10-0-b08e590d97c7@chromium.org>
- <20240323-resend-hwtimestamp-v10-4-b08e590d97c7@chromium.org>
- <4kck7oedsnj6kfiv7ykwsjg35qodg5bdktu5t5w3xtg2xuscto@2yh6kfdqwimc>
- <20240610114306.GR18479@pendragon.ideasonboard.com> <CAAFQd5DAXq6fTrp6jF42URrwzwE+tGz_jJCRM2bhieD76u+QpA@mail.gmail.com>
- <20240612074342.GA28989@pendragon.ideasonboard.com>
-In-Reply-To: <20240612074342.GA28989@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 12 Jun 2024 09:47:26 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuM9RdQ9Tq4-vL2b8UP3_GFV41gvnKm7Gmh2dpmCO98+A@mail.gmail.com>
-Message-ID: <CANiDSCuM9RdQ9Tq4-vL2b8UP3_GFV41gvnKm7Gmh2dpmCO98+A@mail.gmail.com>
-Subject: Re: [PATCH v10 4/6] media: uvcvideo: Allow hw clock updates with
- buffers not full
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "hn.chen" <hn.chen@sunplusit.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sergey Senozhatsky <senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 12 Jun 2024 at 09:44, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, Jun 12, 2024 at 12:28:56PM +0900, Tomasz Figa wrote:
-> > On Mon, Jun 10, 2024 at 8:43=E2=80=AFPM Laurent Pinchart wrote:
-> > > On Wed, May 29, 2024 at 05:03:08PM +0900, Tomasz Figa wrote:
-> > > > On Sat, Mar 23, 2024 at 10:48:05AM +0000, Ricardo Ribalda wrote:
-> > > > > With UVC 1.5 we get as little as one clock sample per frame. Whic=
-h means
-> > > > > that it takes 32 frames to move from the software timestamp to th=
-e
-> > > > > hardware timestamp method.
-> > > > >
-> > > > > This results in abrupt changes in the timestamping after 32 frame=
-s (~1
-> > > > > second), resulting in noticeable artifacts when used for encoding=
-.
-> > > > >
-> > > > > With this patch we modify the update algorithm to work with whate=
-ver
-> > > > > amount of values are available.
-> > > > >
-> > > > > Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-> > > > > Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > ---
-> > > > >  drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++--
-> > > > >  1 file changed, 14 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/us=
-b/uvc/uvc_video.c
-> > > > > index d6ca383f643e3..af25b9f1b53fe 100644
-> > > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > > @@ -768,10 +768,10 @@ void uvc_video_clock_update(struct uvc_stre=
-aming *stream,
-> > > > >
-> > > > >     spin_lock_irqsave(&clock->lock, flags);
-> > > > >
-> > > > > -   if (clock->count < clock->size)
-> > > > > +   if (clock->count < 2)
-> > > > >             goto done;
-> > > > >
-> > > > > -   first =3D &clock->samples[clock->head];
-> > > > > +   first =3D &clock->samples[(clock->head - clock->count + clock=
-->size) % clock->size];
-> > > > >     last =3D &clock->samples[(clock->head - 1 + clock->size) % cl=
-ock->size];
-> > > > >
-> > > > >     /* First step, PTS to SOF conversion. */
-> > > > > @@ -786,6 +786,18 @@ void uvc_video_clock_update(struct uvc_strea=
-ming *stream,
-> > > > >     if (y2 < y1)
-> > > > >             y2 +=3D 2048 << 16;
-> > > > >
-> > > > > +   /*
-> > > > > +    * Have at least 1/4 of a second of timestamps before we
-> > > > > +    * try to do any calculation. Otherwise we do not have enough
-> > > > > +    * precision. This value was determined by running Android CT=
-S
-> > > > > +    * on different devices.
-> > > > > +    *
-> > > > > +    * dev_sof runs at 1KHz, and we have a fixed point precision =
-of
-> > > > > +    * 16 bits.
-> > > > > +    */
-> > > > > +   if ((y2 - y1) < ((1000 / 4) << 16))
-> > > > > +           goto done;
-> > > >
-> > > > Not a comment for this patch directly, but...
-> > > >
-> > > > This kind of makes me wonder if we don't want to have some document=
-ation
-> > > > that specifies what the userspace can expect from the timestamps, s=
-o
-> > > > that this isn't changed randomly in the future breaking what was fi=
-xed
-> > > > by this patch.
-> > >
-> > > I think timestamp handling should really be moved to userspace. It wi=
-ll
-> > > be easier to handle with floating-point arithmetic there. That would
-> > > have been difficult to manage for applications a while ago, but now t=
-hat
-> > > we have libcamera, we could implement it there. This isn't high on my
-> > > todo list though.
-> >
-> > While indeed that would probably be a better way to handle the complex
-> > logic if we designed the driver today, we already have userspace that
-> > expects the timestamps to be handled correctly in the kernel. I
-> > suspect moving it to the userspace would require some core V4L2
-> > changes to define a new timestamp handling mode, where multiple raw
-> > hardware timestamps are exposed to the userspace, instead of the high
-> > level system monotonic one.
->
-> The uvcvideo driver already supports exposing the packet headers to
-> userspace through a metadata capture device, so I think we have all the
-> components we need. The only missing thing would be the implementation
-> in libcamera :-)
+Em Wed, 12 Jun 2024 08:46:50 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-We would still have to duplicate the quirk information in libcamera
-and the kernel.
+> On 6/12/24 06:12, Tomasz Figa wrote:
+> > On Wed, May 15, 2024 at 1:19=E2=80=AFAM Daniel Almeida
+> > <daniel.almeida@collabora.com> wrote: =20
+> >>
+> >> Hi Hans, all,
+> >>
+> >> I=E2=80=99d like to attend in person and discuss the use of Rust in th=
+e subsystem, especially in light of [0] and [1].
+> >>
+> >> Please note that these are new submissions that are unrelated with wha=
+t was discussed last year.
+> >>
+> >> 30 minutes will do.
+> >>
+> >> [0] https://lwn.net/ml/linux-media/20240227215146.46487-1-daniel.almei=
+da@collabora.com/
+> >> [1] https://lwn.net/Articles/970565 =20
+> >=20
+> > Somewhat related to the topic: I see potential for a quite big
+> > redesign of the videobuf2 framework going forward and recently with
+> > more Rust adoption I'm starting to think it could benefit from being
+> > implemented in Rust, since we would have to rewrite it quite a bit
+> > anyway. Especially since it's a part of the subsystem that has to deal
+> > with memory management, object lifetime and asynchronousness quite a
+> > lot and we had a history of issues there. So it could be interesting
+> > to hear everyone's thoughts. =20
+>=20
+> I think it is far too soon to write a framework like that in Rust.
 
+Agreed. I don't object redesigns in C to make it better - which could have
+some colateral effect of making things easier for a future Rust adoption,
+but such changes should be justified by themselves, and not because of a
+language change.
 
+See: redesigns at the core will potentially affect lots of drivers,
+so it needs very good technical reasons why doing it. Plus, it requires=20
+comprehensive tests with different types of hardware/drivers to reduce the
+risk of regressions. Depending on the changes, it may require extra tests
+with devices that are outside complex camera world: radio, analog and digit=
+al=20
+TV drivers - and even some input devices that use VB2 - to ensure that
+nothing broke.
 
->
-> --
+> To be
+> honest, I won't even consider it until Linus officially accepts Rust as a
+> second language in the kernel, instead of as an experiment.
+
+This is not enough: if the core starts to use a second language, all media
+developers will be affected and will be required to have expertise on such
+language. That's not something that should happen without careful
+analysis and plans that should include a gradual roll-up, lost of tests
+with the affected drivers including the legacy ones and some strategy to
+quickly solve regression issues.
+
+It is not a matter of what language is better. Instead, it is a matter of
+not affecting code maintenance during the (probably long) transition period
+and beyond.
+
+If you see the past history, the transition from V4L to V4L2 took more than=
+ 10
+years - being possible to be done only with the help of libv4l, plus a
+lot of backward-compat code that we added. Still there were several
+regressions and we even had to quickly patch the Kernel and/or some apps
+that were using the uAPI on different ways.
+
+Yet, the transition from VB1 to VB2 was also painful, and took a lot of tim=
+e.
+
+On both cases, there were very good technical reasons for the transition,
+in terms of missing needed features, broken memory models and serious
+troubles that utterly causing VB1 to not work well on non-x86 hardware.
+
+In the end, the authors of the core changes need to acquire legacy hardware
+and to do lots of driver-specific changes to avoid breaking existing stuff.
+Hans and I had to dedicate a lot of time and efforts on such transitions,=20
+as it required a lot of work.
+
+I can tell you: there's no fun on such changes: typically, companies won't
+pay someone to do changes on drivers for legacy hardware, specially
+when there are no real benefits, which is the case here, as the final result
+is just to keep the existing drivers to work with existing hardware,
+usually without any new features. So, the ones behind such core changes
+have to commit fixing drivers usually on their spare time.
+
+> The vb2 framework can certainly use some more work, and esp. better suppo=
+rt
+> for codecs, since that's where the main pain is at the moment.
+>=20
+> But I would need to see a proper proposal first. I assume that's what you
+> plan to present?
+>=20
+> > That said, I wouldn't be able to travel this time unfortunately, so it
+> > would be nice if we could arrange this topic in a time slot friendly
+> > for remote attendance from Japan. Also +Hidenori Kobayashi from my
+> > team who would also be interested in joining remotely. =20
+>=20
+> That would mean a slot in the morning, right? Since Japan is 7 hours ahead
+> of CEST.
+>=20
 > Regards,
->
-> Laurent Pinchart
+>=20
+> 	Hans
+>=20
+> >=20
+> > Best,
+> > Tomasz =20
+>=20
 
 
-
---
-Ricardo Ribalda
+Thanks,
+Mauro
 
