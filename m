@@ -1,163 +1,128 @@
-Return-Path: <linux-media+bounces-13054-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13055-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E20790555C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 16:40:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 032EA90559F
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 16:48:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ECC93B21A95
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 14:40:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A1F41C219A9
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 14:48:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DC7E17E8E9;
-	Wed, 12 Jun 2024 14:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61C5617F502;
+	Wed, 12 Jun 2024 14:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wJr6F2t1"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lOO4c99V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC6417DE34;
-	Wed, 12 Jun 2024 14:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1440B17F36D;
+	Wed, 12 Jun 2024 14:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718203222; cv=none; b=mhktHb2FWOMOfSJnejFrozJzMW06Uh1ip3HGcQwiRvWx3MQg3I7iQePdX8TqAhHK1UApIZgqVkHVFeR6YhP9MxUrQqvjeSp/ueVEr2N7/kQ31awbxZUwou9wT53BwHVEE6TiWbKPJiZ+htsgbzobUPykuGNifZUBJAN+ObATzTs=
+	t=1718203600; cv=none; b=kzoJolJhMzTmU17CRn2nte1O2+PFI5/Kt2Ft0NBwX9Z9GhWC9b3RBuZshUnddlCTrGaAIDYzBEAd9Bv3bPO2sxKzPgeoMxgvd4x25EjSlyQB3/mDYKWh5xpD4x3Sga/T2Nww9GLystmDlHNNcZhTANueq4OiVwpaRrSk+uOoLfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718203222; c=relaxed/simple;
-	bh=JPNJmCvj0/G+NJcBj5UdicW55buFti9R+yrbgiH8D/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tnNnveT+r/uXbhAuhIWR85d1tsc+mQNbxb6UBLz/t4T+oeU6bQ2Nr0BjR9VbnZWuCmdDLUmdwkJR8lAoioU1gM6ZP2iM92EwR7X/ka0EdZwam/0sSQqgEfxOsrL8FaHMBsFwS/19KcQv0y/eHE6J0tL0HpkIsCxWYbFi521ACAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wJr6F2t1; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5B3429A;
-	Wed, 12 Jun 2024 16:40:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718203203;
-	bh=JPNJmCvj0/G+NJcBj5UdicW55buFti9R+yrbgiH8D/o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wJr6F2t1UjHrDJkj3IdB3qb/VJJ0SPbrJzZgNOlR7UYyN+KaFEjudY0ky6g7V/sKc
-	 W7Yz4gnJBJ0ewejY8zhIvZbdFPYKbzORCZKgE2QR6vgtnjiHWSVwQUmNkQ2Xw3uZjq
-	 m6TewdaS51KybIlwpVY/HMSL5ul3wqQgtg0Unjm0=
-Date: Wed, 12 Jun 2024 17:39:56 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Genes Lists <lists@sapience.com>, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, hverkuil-cisco@xs4all.nl, wentong.wu@intel.com,
-	linux-media@vger.kernel.org, linux-acpi@vger.kernel.org,
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>
-Subject: Re: [PATCH 1/1] ACPI: scan: Ignore Dell XPS 9320 camera graph port
- nodes
-Message-ID: <20240612143956.GN28989@pendragon.ideasonboard.com>
-References: <a05df025-a0be-49cd-84a9-7d7fb2eeb33e@redhat.com>
- <e9062095-b312-44df-a9e3-0b09f3ec9eff@redhat.com>
- <4b387b4d-f778-4891-9f07-df5fc0a093cd@redhat.com>
- <ZmmQLt7wB-yGQBTw@kekkonen.localdomain>
- <CAJZ5v0ii3WFQRPdfHeeW4M9kXSWDVxxxy02zThcf25mjNwqDAw@mail.gmail.com>
- <ZmmT56Cyvb2FCyav@kekkonen.localdomain>
- <CAJZ5v0hOBggQR_=uA3VuhruQnZihVxHHovpTz4=qfcbiSunsYw@mail.gmail.com>
- <ZmmY3he9vfWVWU3I@kekkonen.localdomain>
- <CAJZ5v0j7HTfg1wY+B+7vhE6tBKPVHMuu_MsFHjaLK70VS_cNEw@mail.gmail.com>
- <18cb82bb-51c6-4a52-80a4-6b1e3d95f99c@redhat.com>
+	s=arc-20240116; t=1718203600; c=relaxed/simple;
+	bh=a4USTPMVf9sHbKEMgkVx+fvDI3fnm6l5LxNGdngwNto=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=PpfSs+YVgp3yImvBpsddLqMm8aaRe7YELCO2KCrssspY9Lt8U+ZwUxUtS2oZAayAgaSz1RkuQEf3OQY+Ag2peRdZ76cB7ujWCTMzJcqCGE0luoL//c7UM9Fh5F6bNxiyJuNZBRL4cBk/qIyuqvnHnAh8FKHCBDc7aBlXymxSAsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lOO4c99V; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CA1X6I032442;
+	Wed, 12 Jun 2024 14:46:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=ekX2Gw2ZRDFR6Doc/SoVvy
+	y4GVmslzkIqvdh+4BwNx4=; b=lOO4c99V3dks+xgWRSEKUtK6N6sHAX5XiEhuJW
+	oFOazlg3tIwsz8M/qE4xNV2UpwWzy1A/f3RSKDzBdd5HRMZAPC5LYuvecfzCHPj/
+	40gB7urpPR2A6541pxOGnAHvzEId5AcD0jqDy44/QL0mRaYwXzh0VZRFVAif37zl
+	LKzfGXb4EnnVlC6hloeuZD/sxSuuxM1UpIZ86CyO2LpCTJIJSjJ7MWYrFCOrw71d
+	Q5hJAezm0Xj/SPfabZkcoN520BaNfWeJW1RsyG05Wo6u+j5scXgg34fwhwjs/MS1
+	dfXZkq3OCtx9+IS8Ty8bgZOIzwkh+JEOs+iv4ueVQxLyfx5g==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ypp87uk2f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 14:46:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45CEkVOD001578
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 14:46:31 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
+ 2024 07:46:30 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Wed, 12 Jun 2024 07:46:28 -0700
+Subject: [PATCH] media: videobuf2: add missing MODULE_DESCRIPTION() macro
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <18cb82bb-51c6-4a52-80a4-6b1e3d95f99c@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240612-md-drivers-media-common-videobuf2-v1-1-4625ab172fd9@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAMO0aWYC/x3NywrCMBBA0V8ps3YgjRofv1Jc5DGxAyaRiQ2F0
+ n83ujybezeoJEwV7sMGQo0rl9wxHgbws81PQg7doJU+KTNqTAGDcCOpmCiwRV9SKhkbBypuiRr
+ pGN35ai5G3TT0zlso8vp/TI9uZyuhE5v9/Cu/OC8rJls/JLDvX7W1JtOSAAAA
+To: Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski
+	<m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: T34xx6uQmWIb7MZAW7isFKEiNQ3FsyvW
+X-Proofpoint-ORIG-GUID: T34xx6uQmWIb7MZAW7isFKEiNQ3FsyvW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-12_08,2024-06-12_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 mlxlogscore=855 priorityscore=1501 adultscore=0
+ bulkscore=0 mlxscore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406120105
 
-On Wed, Jun 12, 2024 at 04:30:30PM +0200, Hans de Goede wrote:
-> On 6/12/24 3:06 PM, Rafael J. Wysocki wrote:
-> > On Wed, Jun 12, 2024 at 2:47 PM Sakari Ailus wrote:
-> >> On Wed, Jun 12, 2024 at 02:32:26PM +0200, Rafael J. Wysocki wrote:
-> >>>>>>> I just hit the same problem on another Dell laptop. It seems that
-> >>>>>>> all Dell laptops with IPU6 camera from the Tiger Lake, Alder Lake
-> >>>>>>> and Raptor Lake generations suffer from this problem.
-> >>>>>>>
-> >>>>>>> So instead of playing whack a mole with DMI matches we should
-> >>>>>>> simply disable ACPI MIPI DISCO support on all Dell laptops
-> >>>>>>> with those CPUs. I'm preparing a fix for this to replace
-> >>>>>>> the DMI matching now.
-> >>>>>>
-> >>>>>> DisCo for Imaging support shouldn't be dropped on these systems, and this
-> >>>>>> isn't what your patch does either. Instead the ACPI graph port nodes (as
-> >>>>>> per Linux specific definitions) are simply dropped, i.e. this isn't related
-> >>>>>> to DisCo for Imaging at all.
-> >>>>>
-> >>>>> So it looks like the changelog of that patch could be improved, right?
-> >>>>
-> >>>> Well, yes. The reason the function is in the file is that nearly all camera
-> >>>> related parsing is located there, not that it would be related to DisCo for
-> >>>> Imaging as such.
-> >>>
-> >>> So IIUC the camera graph port nodes are created by default with the
-> >>> help of the firmware-supplied information, but if that is defective a
-> >>> quirk can be added to skip the creation of those ports in which case
-> >>> they will be created elsewhere.
-> >>>
-> >>> Is this correct?
-> >>
-> >> Yes.
-> > 
-> > So it would be good to add a comment to this effect to
-> > acpi_nondev_subnode_extract() where acpi_graph_ignore_port() is
-> > called.
-> > 
-> > And there is a somewhat tangential question that occurred to me: If
-> > the nodes are created elsewhere when acpi_graph_ignore_port() is true,
-> > why is it necessary to consult the platform firmware for the
-> > information on them at all?  Wouldn't it be better to simply always
-> > create them elsewhere?
-> 
-> That is a good question. The ACPI MIPI DISCO specification is an
-> attempt standardize how MIPI cameras and their sensors are described
-> in ACPI.
-> 
-> But this is not actually being used by any Windows drivers atm. The windows
-> drivers rely on their own custom ACPI data which gets translated into
-> standard Linux device-properties by: drivers/media/pci/intel/ipu-bridge.c 
-> 
-> and so far AFAIK there are 0 laptops where there actually is 100% functional
-> ACPI MIPI information. I believe that some work is in place to get correct
-> usable ACPI MIPI information in place in the ACPI tables of some Meteor Lake
-> laptops. But I believe that there too it does not work yet with the BIOS
-> version with which current Windows models are shipping. It is being fixed
-> for systems which have Linux support from the vendor but I suspect that
+With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
 
-I think it's shipped in Chrome Books. Sakari can confirm.
+Add the missing invocation of the MODULE_DESCRIPTION() macro.
 
-> on other models if ACPI MIPI DISCO information is there it will not
-> necessarily be reliable because AFAICT Windows does not actually use it.
-> 
-> And TBH this has me worried about camera support for Meteor Lake devices
-> going forward. We really need to have 1 reliable source of truth here and
-> using information which is ignored by Windows does not seem like the best
-> source to use.
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+While doing these cleanups, in most cases I've taken the descriptions
+directly from code comments, Kconfig descriptions, or git logs, but in
+this case I didn't see a nice concise description so I invented this
+one. Please suggest a replacement if this isn't an appropriate
+description.
+---
+ drivers/media/common/videobuf2/videobuf2-dvb.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-As long as the Windows drivers don't use the ACPI data that Linux uses,
-you can be 100% sure it will be wrong. That will never be fixed if Intel
-doesn't address the issue on their side, and effort we would put in
-standardizing that data for machines shipped by Windows OEMs is a waste
-of time in my opinion. Our only option, given Intel's failure, is to
-keep reverse-engineering camera support per machine for the time being
-(sometimes with the help of OEMs).
+diff --git a/drivers/media/common/videobuf2/videobuf2-dvb.c b/drivers/media/common/videobuf2/videobuf2-dvb.c
+index 8c15bcd07eef..6f6650183184 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dvb.c
++++ b/drivers/media/common/videobuf2/videobuf2-dvb.c
+@@ -19,6 +19,7 @@
+ /* ------------------------------------------------------------------ */
+ 
+ MODULE_AUTHOR("Gerd Knorr <kraxel@bytesex.org> [SuSE Labs]");
++MODULE_DESCRIPTION("Simple DVB helper framework for videobuf2");
+ MODULE_LICENSE("GPL");
+ 
+ /* ------------------------------------------------------------------ */
 
-> Sakari I know you have been pushing for MIPI camera descriptions under
-> ACPI to move to a standardized format and I can see how that is a good
-> thing, but atm it seems to mainly cause things to break and before
-> the ACPI MIPI DISCO support landed in 6.8 we did not have these issues,
-> since the information used by the ipu-bridge code does seem to be correct.
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240612-md-drivers-media-common-videobuf2-e3fb58676092
 
--- 
-Regards,
-
-Laurent Pinchart
 
