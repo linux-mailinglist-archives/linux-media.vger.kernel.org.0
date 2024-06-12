@@ -1,166 +1,117 @@
-Return-Path: <linux-media+bounces-13077-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13078-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47925905A75
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:11:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D47A4905AA4
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:20:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5A471F22A81
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 18:11:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0464D1C21AA0
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 18:20:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64502183091;
-	Wed, 12 Jun 2024 18:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA0840867;
+	Wed, 12 Jun 2024 18:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="tQXH8/Xq"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pzHI3nyz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FD4183072
-	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 18:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507EB3B78D;
+	Wed, 12 Jun 2024 18:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718215849; cv=none; b=IP3jL9mIzNKEafUZN6qemLi5OzSoB0bubuMAd/ntX/BXBAyG3pjK93BR2EQETT4NKzHg8Hg2ndDA7c6q79z2C6APVUQh4OWPUIaRzXqsPk/9LgaCW8oTh7BRihJxvC9C+LoqqTwHB/6M/1/uv9BbII88X6zjYKVY6Od6Tagod9U=
+	t=1718216396; cv=none; b=POo9F9VGIE4ALREqIj2rkrGaDhH8wgRUiFsa+oM+2ANTpQel6nFRqqVDn86RYOGJHmAQd/hVkOecc9SlmbEZyIS6exn0HOvency9gBN1FbxGjJ1Q7vggE/Ph1H71gkhjGeKMYcAY0EqXpF2pABTR7NJT3feT1bdTFB82vmf8Mzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718215849; c=relaxed/simple;
-	bh=+XnHRTnS9LdzjAnCfXLi+O0dR/LBhekA4iksGxNsJfw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oQ4xvpSQAtuw2Uf7nWi/vwYBW7Tx607DoUpjj6EIXvNyqyzD0FOGfSXA88pZVZiRMpCYeiVmefljmFaIN9uTt073dw3Dlsg3ONmTz0Wpf2tbKutyqYK1xm1lLm90GkRys3TGxwabYpdOSGOy6HF0E7nK62qz/qc2jYHr8jU+plk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=tQXH8/Xq; arc=none smtp.client-ip=95.215.58.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
-X-Envelope-To: ezequiel@vanguardiasur.com.ar
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1718215845;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7Wwh90v24Qe0BQdwYakUsPolSiapUti7KGb/PL1W8ms=;
-	b=tQXH8/Xq1QwVd4wMRAzNCmzYZzKLwohN/fYu1HQM4kXHE6+bf2CX1BhmaEvz3S/Hg3SPKy
-	87DEEJ6ISuSnNmwLRBcaqGex7Bxy0nahTAxNfXA/B+VJ87tJWcgbu97vRj6gpo5TchKCPY
-	mjpYLhImN/fkkrTqDuctfIyl/PIQxHa+WHB5fM3NFGtWxKQ+zBbN3kPV6sxOu4N3ZGIXC+
-	8mrczhGNnlxVPOGPvff1s/5YuwwE2bOL1PfB7wITly/t5jnO/0Fq3dNP+pU/wBsczUIhVi
-	26rDjcJfWZyO7caBLM/8sBaFKy6JEUViMJOwrqA5MyvSwrqRkK6+c8EHUvx1iw==
-X-Envelope-To: p.zabel@pengutronix.de
-X-Envelope-To: frattaroli.nicolas@gmail.com
-X-Envelope-To: heiko@sntech.de
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: robh@kernel.org
-X-Envelope-To: krzk+dt@kernel.org
-X-Envelope-To: conor+dt@kernel.org
-X-Envelope-To: liujianfeng1994@gmail.com
-X-Envelope-To: linkmauve@linkmauve.fr
-X-Envelope-To: nicolas.dufresne@collabora.com
-X-Envelope-To: linux-media@vger.kernel.org
-X-Envelope-To: linux-rockchip@lists.infradead.org
-X-Envelope-To: devicetree@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: kernel@collabora.com
-X-Envelope-To: sigmaris@gmail.com
-X-Envelope-To: sebastian.reichel@collabora.com
-X-Envelope-To: sebastian.reichel@collabora.com
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jianfeng Liu <liujianfeng1994@gmail.com>,
- Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com, Hugh Cole-Baker <sigmaris@gmail.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject:
- Re: [PATCH v5 5/5] arm64: dts: rockchip: Add VPU121 support for RK3588
-Date: Wed, 12 Jun 2024 20:10:30 +0200
-Message-ID: <4207056.GSNtieVc0Q@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20240612173213.42827-6-sebastian.reichel@collabora.com>
-References:
- <20240612173213.42827-1-sebastian.reichel@collabora.com>
- <20240612173213.42827-6-sebastian.reichel@collabora.com>
+	s=arc-20240116; t=1718216396; c=relaxed/simple;
+	bh=nPimuZQ0UWcYvonaJlq2ON6+IH0LRCu0HdaiWnuUcr8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=nKaLM1VzORhI+1koyN8GJPu8kfOuGswagYOjs7rikr3T4dtkFQzElj6W7B4InpPnliHkzgi4MB47zHGa6J2mYdVfJ3+YXlxjDDRF1nEtKWrAQbyrSguWuV9ne/5AhTIA683g0AbqVr6oHHUu/L/5mkoYvtcW61p7SSvvnvQ0H0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pzHI3nyz; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CGOUAx004125;
+	Wed, 12 Jun 2024 18:19:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Ab6Gj3VvvSTzRxsA4sQ8ni
+	k250uuwROQA7dFhi+go1U=; b=pzHI3nyzFkKdbwk0Glw2Uvs50vC+g3a1FvrvY+
+	qdWtuT9V2emoawDRVx1uqX0Rm5AyT4tXRYnu3i/TQ/Fa6uZKy9s9v12EKu09m3QJ
+	c3yHKvEOAH0HIPWfT1JgSzZs+x5o+7IwlKkqBs8JLynqatldLOFlarLClZiCo3xp
+	EoDdT0ghRl+xUP0gS3yVWYYLfcoPrlWs+ufQWQY9+WdHewtehn+XttalpJgnGaGy
+	hxgjhfgdsUlNoG7K7DrRzGZ5pODzD7v/Cw5IANP+2R7OgxxHHvCstvOEhd4op9z4
+	IlgrtVVnI2U2El5EIgMZgI8UsDLrl0NBsyIoORDT1RUSXlpg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ype914rmd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 18:19:51 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45CIJoOS012193
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 18:19:50 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
+ 2024 11:19:50 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Wed, 12 Jun 2024 11:19:49 -0700
+Subject: [PATCH] media: uda1342: add missing MODULE_DESCRIPTION() macro
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5992854.hoJakhlImG";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240612-md-drivers-media-i2c-v1-1-7011b578a07c@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAMTmaWYC/x3MwQ6CMAyA4VchPdtkDALqqxgP3ValiZumRUJCe
+ Hemx+/w/xsYq7DBtdlAeRGTd6loTw3EicqTUVI1eOd7N7Qec8KksrAaZk5CKD5ix2dHw9jFyxi
+ gph/lh6z/7e1eHcgYg1KJ02/2kvJdMZPNrLDvB6VeZcKFAAAA
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: fj63BiEZwCoXJGP7lB9ZEsrL4wpYmWCt
+X-Proofpoint-ORIG-GUID: fj63BiEZwCoXJGP7lB9ZEsrL4wpYmWCt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-12_09,2024-06-12_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0 bulkscore=0
+ clxscore=1015 mlxlogscore=798 impostorscore=0 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406120130
 
---nextPart5992854.hoJakhlImG
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Wed, 12 Jun 2024 20:10:30 +0200
-Message-ID: <4207056.GSNtieVc0Q@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <20240612173213.42827-6-sebastian.reichel@collabora.com>
-MIME-Version: 1.0
+With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
 
-Hi,
+Add the missing invocation of the MODULE_DESCRIPTION() macro.
 
-On Wednesday, 12 June 2024 19:15:45 CEST Sebastian Reichel wrote:
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi index
-> 9edbcfe778ca..e7e1b456b9b9 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -1239,6 +1239,27 @@ jpeg_enc3_mmu: iommu@fdbac800 {
->                 #iommu-cells = <0>;
->         };
-> 
-> +       vpu: video-codec@fdb50000 {
-> +               compatible = "rockchip,rk3588-vpu121",
-> "rockchip,rk3568-vpu"; +               reg = <0x0 0xfdb50000 0x0 0x800>;
-> +               interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
-> +               interrupt-names = "vdpu";
-> +               clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +               clock-names = "aclk", "hclk";
-> +               iommus = <&vpu_mmu>;
-> +               power-domains = <&power RK3588_PD_VDPU>;
-> +       };
-> +
-> +       vpu_mmu: iommu@fdb50800 {
-> +               compatible = "rockchip,rk3588-iommu",
-> "rockchip,rk3568-iommu"; +               reg = <0x0 0xfdb50800 0x0 0x40>;
-> +               interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
-> +               clock-names = "aclk", "iface";
-> +               clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +               power-domains = <&power RK3588_PD_VDPU>;
-> +               #iommu-cells = <0>;
-> +       };
-> +
->         av1d: video-codec@fdc70000 {
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+ drivers/media/i2c/uda1342.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Shouldn't these nodes come *before* 
-jpeg_enc0: video-codec@fdba0000 
-As fdb50000 is lower then fdba0000?
+diff --git a/drivers/media/i2c/uda1342.c b/drivers/media/i2c/uda1342.c
+index da7bc4700bed..abd052a44bd7 100644
+--- a/drivers/media/i2c/uda1342.c
++++ b/drivers/media/i2c/uda1342.c
+@@ -95,4 +95,5 @@ static struct i2c_driver uda1342_driver = {
+ 
+ module_i2c_driver(uda1342_driver);
+ 
++MODULE_DESCRIPTION("Philips UDA1342 audio codec driver");
+ MODULE_LICENSE("GPL v2");
 
-Cheers,
-  Diederik
---nextPart5992854.hoJakhlImG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZmnklgAKCRDXblvOeH7b
-bjdlAQD4lJfAZ+uWdf2M0bt3TgJkdY9aeTap7nRn/OtdhFmyLwD+KKaiUZBld2Py
-aS3zD6719QKISeO69bc5PwdusH9GXAA=
-=RLxZ
------END PGP SIGNATURE-----
-
---nextPart5992854.hoJakhlImG--
-
-
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240612-md-drivers-media-i2c-3e80a673c97b
 
 
