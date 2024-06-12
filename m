@@ -1,117 +1,146 @@
-Return-Path: <linux-media+bounces-13114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FAB905D2C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 22:53:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84683905D49
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 22:59:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8786F1F22304
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:53:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9706A1C21E9E
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:59:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DED084E16;
-	Wed, 12 Jun 2024 20:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA168528F;
+	Wed, 12 Jun 2024 20:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DxsBvOM7"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z6SruB8v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9608D55C3E
-	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 20:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86D384A56;
+	Wed, 12 Jun 2024 20:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718225592; cv=none; b=XbTVphDFaFEpWVsQwfSm7MSsGtQE1ePkCO5nOYUVCu2OXlrBs0aVAtBndJQGw12hZu147+j+tJkBM21wh2WAd9/zr3AeEUDSw9qNBJDOZfxFWL5Gk2iDGHYUnUgkRIMsZPrY/2NnsAKEm8chO9AgHxLnFuObR0sENO+b+r/LI4w=
+	t=1718225949; cv=none; b=GJqrVB2he+ZHZd9nltygiG+i4FSzzaRc6w0au9V7XlClVs4tzToSOwjKFxU2ILjXiQTsWnO9K1cqVU7GmAqa4LnAcm6V9bHCk1OMWPfFdqJ5rU1P8gqh3FpbgLupQCXCwMtsDnTxpuGuomU4B0flXi91RyVeugKD9HYdYDmFoMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718225592; c=relaxed/simple;
-	bh=NaxZVQJehRTITyTSdMpSPNI5GgMIyG2Jfi5riUT+7Ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V1s0+dH7QMPTwlr17DQYu+fSS/iNNaLrd37+NSovvR8TFdZHWCxvRanVmRrBZZEG/f+VBQ1wRmGMWJVNuWk2Sjyg9+HpdVa69CTnamvQ15cfNeVn5hyBtDt0SmKnawvRiIr99xuKk0BxtceHXqkmvtEJeyHUz+s17VNubwSVeH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DxsBvOM7; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E2A915B5;
-	Wed, 12 Jun 2024 22:52:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718225575;
-	bh=NaxZVQJehRTITyTSdMpSPNI5GgMIyG2Jfi5riUT+7Ks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DxsBvOM7W3DKHxGQWwdOtePFWipIUg9mtMivECFUYNErXDtQm7d5AbFGKcveKDDtq
-	 BWOV1hyQujJhCjoYnQL51liDi+tgydtTWbCGA0edQpWi92ceUk9CkmBFVzkgFJfOdd
-	 8KOqwTkfJq5dkYeAgHq0IgsJDm3s6FPoy++0ECWE=
-Date: Wed, 12 Jun 2024 23:52:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Tomasz Figa <tfiga@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Hidenori Kobayashi <hidenorik@chromium.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Sean Young <sean@mess.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-Message-ID: <20240612205249.GB11102@pendragon.ideasonboard.com>
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
- <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
- <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
- <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
- <20240612095448.1e99b751@coco.lan>
- <CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
- <20240612083430.GE28989@pendragon.ideasonboard.com>
- <20240612224406.41dd88fc@coco.lan>
+	s=arc-20240116; t=1718225949; c=relaxed/simple;
+	bh=onNKzjgA3bLnrhQ91DOWISsPRYS3ZKDz36/FANmYGs0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Dp+M16EKnEcD99NtEMaXoIzpCxUh2tOX8b5XtEI/QDL9j7oILBne/Mhw4JuNQzTSowUTQzGihSFDrJLvuahPtkUB7dZq8Qi9Ij0H19HFdThPzQNzexV16u9ARye0Qf3sDnEh3exnuMwuYMz6YUpIMlhYsSY7vriLh0VeQK4CeN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z6SruB8v; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718225945;
+	bh=onNKzjgA3bLnrhQ91DOWISsPRYS3ZKDz36/FANmYGs0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Z6SruB8vNB2Y/DCbnrkLaXh5mzh2EQttTZ7L0+bm+N+eDH5MSkb20HkUQXyh6LOBI
+	 9cavqK2YXc/0rKjRSMlWHPeBvck/f/qF+hj1iZVV7ekg8fGNMvwlJ+aG84l9aIMBV9
+	 9fDyuaOLcmxPxCQW6mvwp8QUEP+jXIFfYV4TGk4pV5e7XacxMAUzqkwBlU6lPM/rGY
+	 9WV4sfKLkd8js0+YWSMleBhIadlZFtTAUjKROa13xR57DO8TPUzpQaNDVf35WhsTJU
+	 8+0uTUQg8SoOxLR1yp8jCc2B9DcdmvJWaRg3+OovviNW2RjT6XT5y1wU/WY2S+FIaM
+	 yqeV0UiHFGt9w==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 207F4378020D;
+	Wed, 12 Jun 2024 20:59:02 +0000 (UTC)
+Message-ID: <03aca2439ac31ec01b24233384cc8c8d5179df02.camel@collabora.com>
+Subject: Re: [PATCH v6,04/24] v4l: add documentation for restricted memory
+ flag
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomasz Figa <tfiga@chromium.org>, Yunfei Dong
+ <yunfei.dong@mediatek.com>,  Jeffrey Kardatzke <jkardatzke@google.com>,
+ =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" <nfraprado@collabora.com>, 
+ Nathan Hebert <nhebert@chromium.org>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Marek Szyprowski <m.szyprowski@samsung.com>, Chen-Yu
+ Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,  Hsin-Yi Wang
+ <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, Daniel Vetter
+ <daniel@ffwll.ch>,  Steve Cho <stevecho@chromium.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Brian Starkey <Brian.Starkey@arm.com>, John
+ Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>,  linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  linux-mediatek@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Date: Wed, 12 Jun 2024 16:58:58 -0400
+In-Reply-To: <20240612202507.GT28989@pendragon.ideasonboard.com>
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+	 <20240516122102.16379-5-yunfei.dong@mediatek.com>
+	 <20240522111622.GA31185@pendragon.ideasonboard.com>
+	 <bhgv5djcjc4yt75pyug2yirrymeucjyslthnvq6k2kpp7axfph@jzo5wpcbgwun>
+	 <33d38919f3f94b6e1848aaee20cf52ac9c1df606.camel@collabora.com>
+	 <20240612202507.GT28989@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240612224406.41dd88fc@coco.lan>
 
-Hi Mauro,
+Hi,
 
-On Wed, Jun 12, 2024 at 10:44:06PM +0200, Mauro Carvalho Chehab wrote:
-> Em Wed, 12 Jun 2024 11:34:30 +0300 Laurent Pinchart escreveu:
-> 
-> > Focussing on this topic, if we're brainstorming memory management for
-> > media devices, I'd like to throw in a controversial idea. In addition to
-> > being clearer on the fact that USERPTR is deprecated, I would like to
-> > deprecate MMAP too and only focus on DMABUF. I believe Linux needs a
-> > centralized buffer allocator, instead of having multiple allocation APIs
-> > scattered in different places. There are design ideas in gralloc that we
-> > could benefit from.
-> 
-> Deprecating USERPTR is doable, as not many apps use it, and they're
-> mostly focused on complex camera/ARM scenario. Now, deprecating MMAP at 
-> V4L2 core is a different history: lots of different userspace programs,
-> including browsers and proprietary apps like zoom, etc. rely on MMAP
-> support. We can only consider deprecating MMAP once applications switch 
-> to DMABUF.
+Le mercredi 12 juin 2024 =C3=A0 23:25 +0300, Laurent Pinchart a =C3=A9crit=
+=C2=A0:
+> On Wed, Jun 12, 2024 at 03:43:58PM -0400, Nicolas Dufresne wrote:
+> > Le mercredi 12 juin 2024 =C3=A0 13:37 +0900, Tomasz Figa a =C3=A9crit=
+=C2=A0:
+> > > > Why is this flag needed ? Given that the usage model requires the V=
+4L2
+> > > > device to be a dma buf importer, why would userspace set the
+> > > > V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM flag and pass a non-restricted
+> > > > buffer to the device ?
+> > >=20
+> > > Given that the flag is specified at REQBUF / CREATE_BUFS time, it's
+> > > actually useful to tell the driver the queue is operating in restrict=
+ed
+> > > (aka secure) mode.
+> > >=20
+> > > I suppose we could handle that at the time of a first QBUF, but that
+> > > would make the driver initialization and validation quite a bit of pa=
+in.
+> > > So I'd say that the design being proposed here makes things simpler a=
+nd
+> > > more clear, even if it doesn't add any extra functionality.
+> >=20
+> > There is few more reasons I notice in previous series (haven't read the=
+ latest):
+> >=20
+> > - The driver needs to communicate through the OPTEE rather then SCP and=
+ some
+> > communication are needed just to figure-out things like supported profi=
+le/level
+> > resolutions etc.
+> > - The driver needs to allocate auxiliary buffers in secure heap too, al=
+location
+> > at runtime are not the best
+>=20
+> Will the same driver support both modes on the same system ?
 
-Deprecating doesn't mean dropping it right away, it means telling
-application developers that DMABUF is the recommended way. We will still
-have to support MMAP for a long time, including fixing bugs in it, as
-that will be a long transition. And it first requires solving the
-problem of centralizing allocation for DMABUF. It won't happen
-overnight, but I'm trying to gather support for the idea, and get people
-to collaborate on solving the technical problems that are currently
-blocking this long term evolution. If the media subsystem endorsed the
-effort, basically saying publicly that we are fine deprecating MMAP in
-principle once a good replacement will be available, it may help. I
-don't expect the deprecation to happen before at least two years, and
-the removal from the kernel would probably take another 10 to 15 years
-:-)
+Yes, as per this implementation, it seems you can flip from one mode to ano=
+ther
+even on the same instance.
 
--- 
-Regards,
+Nicolas
 
-Laurent Pinchart
+>=20
+> > Note that the discussion around this flag already took place in the ver=
+y first
+> > iteration of the serie, it was originally using a CID and that was a pr=
+oposed
+> > replacement from Hans.
+>=20
+
 
