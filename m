@@ -1,61 +1,62 @@
-Return-Path: <linux-media+bounces-13040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C45890543F
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 15:53:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C118905444
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 15:53:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F0161F2632C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 13:53:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9404B22323
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 13:53:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E941A17DE10;
-	Wed, 12 Jun 2024 13:53:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8993017DE24;
+	Wed, 12 Jun 2024 13:53:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BDA16F271;
-	Wed, 12 Jun 2024 13:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B2E17D355;
+	Wed, 12 Jun 2024 13:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718200386; cv=none; b=E7IdmuaBkBwCyU5Syz0PBNmOvPcsmMKe5/iMf+y7XBnaau8hCREJdSZt997PN4QGVMT57ceLvVyO6oMRZnBI8pmiU9o2nF++7R5FwwKEFnvhQrw+aLPS/GphJQAAJzaMDiMe5+ND2AUigDN0qDSL/SPfsLOp/q1yArLGJAXg/Bg=
+	t=1718200389; cv=none; b=eJd2fFN+gC5H9q9iHWd5WdMi0kfhVmicqi4G6sf7pXwsYPrOuB+6w/5iUuOALp3KH+Be7H/mNwToxKlE4i+6Owkps2MEpuE0HEBZyWuGi5HZO98BYv8EKChrLSkVM2RE3Bp46/HgPi2ewifyr8OdU/MB2Z3M3aDpvyopdQ1mh4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718200386; c=relaxed/simple;
-	bh=VwTo+mvW090vyc3G2pODaN13478wwyTxNG0+WDia1OE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hlvsfanZifzjh4fRswBpqxinjHLoSjiopoKpGETNiTj7EzVNcP9dYl18EzDT//kun22JF8I2PjZ50Fbx76hKq8EEyFNjRCAEPYMYhoY5TDdIbxTF9XLSa+6RjZgsrPTsnXoMLSkkeR/YxdqmY0zvZ+195zxyvYGfOUSWogw0obQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1718200389; c=relaxed/simple;
+	bh=CV2uriN9S/YzuxYjZG9aIAQnqMjtHHg9/LRTS/nuTmU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=q7JgZNwCOZhoPom3QbUi+uhSASX/clCU0e64luA2FgKBI3u7JsnA4cMOucME9i66KW5mz/xKjVgYKOzblWIAhXwhwkH/EVwxGv3yc3Gs8KBn3SOvaqpWBuXDBxBbfS0I4116qdCvvG9Jwf2rnbNZW6lFxLbL+xSB8AWw27IGc6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42278f3aea4so11709005e9.1;
-        Wed, 12 Jun 2024 06:53:04 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42165f6645fso19520405e9.2;
+        Wed, 12 Jun 2024 06:53:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718200383; x=1718805183;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TGBcr2RK+U/upO1TBgkbMQlKphC74REv/dCO0ULM5Bc=;
-        b=qeRxbPrEdE4VK9/36PUjq/7JZzAzW5sMcyOBf3oj+R/A7wKEaedUf1UeukjmM2fEpa
-         95e7zsZqNg52lJr2/umQ0+YC/48VNYIUKgUEUGKOqFjLSinB/dRIMuTFiZwKWmsYHxPt
-         aqqaXZMubm0qyEJpFzD1DkwW9qAaZKJanuLQDh64depwpUUOBGzVkorS941DhudJqRLu
-         SkHxcVDV+3/FGuVne3CAqUElm9cn+x/G1qj2qb6ZuHhLJ8ndU/sGm0sYzP5WEOYgHNfm
-         BN4r4wOYIFXU/6fBZzlzvEJ1ZjZ5+tDI4JoRSl17toq8hKAp62NvrLsNxOqOBG91l4vt
-         IEbg==
-X-Forwarded-Encrypted: i=1; AJvYcCWjCojKLEB+Prf4qMy8GwmowZuQ22RceLmIqd8LyeXYpkSHBdgkaDa/dTh6lBaqFj8ixQrh8FNCINRK36RJTZIkMoTNqdsmUEoXJR96gF8E9mjy/ptYrdnizJid3PHJS4Kr5Au5NjWbMzPj6his+xi4PcEx72CxfE2eUtirYspVHBJIj/Nc
-X-Gm-Message-State: AOJu0YxaIEmM0vlCPvZDFDvNRCxN96b8H3Xks6d/mADXyzvUWIZf0EMA
-	k3msITYN+3VgboYz0tkYT2fIP53EA7bHXgkO5Vt/Fi9lJ097suNl
-X-Google-Smtp-Source: AGHT+IFpLlhCxjJHPHBYfibghuC2LyUOVhxW9VizojTuoZbWMakCG+/4bvOBPIPTBmnYXt2VZXwpnA==
-X-Received: by 2002:a5d:45c7:0:b0:35f:2161:1fc0 with SMTP id ffacd0b85a97d-35fe892bddamr1198669f8f.70.1718200382941;
-        Wed, 12 Jun 2024 06:53:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718200385; x=1718805185;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XdcbJPuvm/SOnoBP3pphclytefXjwVWNFObDahPD+Oc=;
+        b=OcZurVGyUOg4vg2tTrY7HG7Bt2c4TpH++gQNSTZrnAdj/6tLSkG8b3SeC5sq04Om+y
+         xZ/WmzII7TuyqsDyTo6yajpa+RR+E9wjjsvu0csGhLF1FVqVUxTdDptWwT5bea1N18mW
+         F7lWlMrcDN6o5K9bm2dbezjCmAFh5/6jTZeDRkKueeAy4P3QMhfQOwMfbtk3XIgRhden
+         JPd1tBMbT2DqRiZcKcSSSR+5SqjFdW6pTBfn1yuBiMVtLVd8sp+dba9h78caIz2kZtul
+         TR0qOqTAcNOMFk9cVRmSoW9nZaec9SqPSEOj8Gu5+qZEvKUJ+jGhSH72/PilI0ONCfHU
+         DNFg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3KfnIxPYCoABSWyS+EBclVFH0vfu3BQ7YJqW+RYhwFWlMi1AckZDXaLhiAQKd6r/1WvWhci/i0kmxdsJK1S06B94A5iuLPUYk9KnYybaOuGAsjT1/7fCgcqu6ZvNjKdyrwZTqmI0VaSwL8pDAFYgKKAUChaHif3kWpS2r9o2FhAb8jmdx
+X-Gm-Message-State: AOJu0YyjfJUK1WNyBvFd7w2UF4BlytDZAF3w2onXi8GJ65ZYw05tVNsr
+	uRCyiEF29X+W4z96f95ZAeRlrvBnUP9Y/y+IK6KtDUJ6CzPH+WqJ
+X-Google-Smtp-Source: AGHT+IFJ6HaoLtBMH/sfOyJVvqVCohkpotBVV3isMd0LH8wFPWn4nrbmoRl/1VKV0QqTF75zWTXtLw==
+X-Received: by 2002:a05:600c:a46:b0:422:683b:df2a with SMTP id 5b1f17b1804b1-422862acc15mr18775005e9.13.1718200384503;
+        Wed, 12 Jun 2024 06:53:04 -0700 (PDT)
 Received: from ramallet.home (cst-prg-45-36.cust.vodafone.cz. [46.135.45.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422871ec9e6sm28201695e9.38.2024.06.12.06.53.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422871ec9e6sm28201695e9.38.2024.06.12.06.53.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 06:53:02 -0700 (PDT)
+        Wed, 12 Jun 2024 06:53:04 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: [PATCH 0/9] New DRM accel driver for Rockchip's RKNN NPU
-Date: Wed, 12 Jun 2024 15:52:53 +0200
-Message-Id: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
+Date: Wed, 12 Jun 2024 15:52:54 +0200
+Subject: [PATCH 1/9] iommu/rockchip: Add compatible for
+ rockchip,rk3588-iommu
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,9 +65,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADaoaWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDM0MjXTNdQwPdovzk7NQSXUtjQ7OU1LRkQ5NkcyWgjoKi1LTMCrBp0bG
- 1tQDVw8QnXQAAAA==
+Message-Id: <20240612-6-10-rocket-v1-1-060e48eea250@tomeuvizoso.net>
+References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
+In-Reply-To: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
  Robin Murphy <robin.murphy@arm.com>, Heiko Stuebner <heiko@sntech.de>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -85,56 +86,32 @@ Cc: iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  Tomeu Vizoso <tomeu@tomeuvizoso.net>
 X-Mailer: b4 0.13.0
 
-This series adds a new driver for the NPU that Rockchip includes in its
-newer SoCs, developed by them on the NVDLA base.
+So far, seems to be fully compatible with the one in the RK3568.
 
-In its current form, it supports the specific NPU in the RK3588 SoC.
-
-The userspace driver is part of Mesa and an initial draft can be found at:
-
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
+The bindings already had this compatible, but the driver didn't
+advertise it.
 
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
-Tomeu Vizoso (9):
-      iommu/rockchip: Add compatible for rockchip,rk3588-iommu
-      iommu/rockchip: Attach multiple power domains
-      dt-bindings: mailbox: rockchip,rknn: Add bindings
-      arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588s
-      arm64: dts: rockchip: Enable the NPU on quartzpro64
-      accel/rocket: Add a new driver for Rockchip's NPU
-      accel/rocket: Add IOCTL for BO creation
-      accel/rocket: Add job submission IOCTL
-      accel/rocket: Add IOCTLs for synchronizing memory accesses
+ drivers/iommu/rockchip-iommu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
- .../devicetree/bindings/npu/rockchip,rknn.yaml     |  123 +
- MAINTAINERS                                        |    8 +
- .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts |    8 +
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi          |   53 +
- drivers/accel/Kconfig                              |    1 +
- drivers/accel/Makefile                             |    1 +
- drivers/accel/rocket/Kconfig                       |   13 +
- drivers/accel/rocket/Makefile                      |   10 +
- drivers/accel/rocket/rocket_core.c                 |  155 +
- drivers/accel/rocket/rocket_core.h                 |   48 +
- drivers/accel/rocket/rocket_device.c               |   39 +
- drivers/accel/rocket/rocket_device.h               |   40 +
- drivers/accel/rocket/rocket_drv.c                  |  243 ++
- drivers/accel/rocket/rocket_drv.h                  |   16 +
- drivers/accel/rocket/rocket_gem.c                  |  136 +
- drivers/accel/rocket/rocket_gem.h                  |   33 +
- drivers/accel/rocket/rocket_job.c                  |  708 ++++
- drivers/accel/rocket/rocket_job.h                  |   49 +
- drivers/accel/rocket/rocket_registers.h            | 4449 ++++++++++++++++++++
- drivers/iommu/rockchip-iommu.c                     |   39 +
- include/uapi/drm/rocket_accel.h                    |  116 +
- 21 files changed, 6288 insertions(+)
----
-base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-change-id: 20240612-6-10-rocket-9316defc14c7
+diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
+index 4b369419b32c..f5629515bd78 100644
+--- a/drivers/iommu/rockchip-iommu.c
++++ b/drivers/iommu/rockchip-iommu.c
+@@ -1363,6 +1363,9 @@ static const struct of_device_id rk_iommu_dt_ids[] = {
+ 	{	.compatible = "rockchip,rk3568-iommu",
+ 		.data = &iommu_data_ops_v2,
+ 	},
++	{	.compatible = "rockchip,rk3588-iommu",
++		.data = &iommu_data_ops_v2,
++	},
+ 	{ /* sentinel */ }
+ };
+ 
 
-Best regards,
 -- 
-Tomeu Vizoso <tomeu@tomeuvizoso.net>
+2.45.2
 
 
