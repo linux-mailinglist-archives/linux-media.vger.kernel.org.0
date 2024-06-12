@@ -1,117 +1,200 @@
-Return-Path: <linux-media+bounces-13099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13100-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E33905C40
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 21:47:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8D8905C6E
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 22:00:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD3061F228BB
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 19:47:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BE59285415
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:00:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4904284A46;
-	Wed, 12 Jun 2024 19:47:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C39A84A27;
+	Wed, 12 Jun 2024 20:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l581TawO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MRYSh+uT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611902F50;
-	Wed, 12 Jun 2024 19:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E68282F7;
+	Wed, 12 Jun 2024 20:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718221656; cv=none; b=SmCvLgnawZVBrEz2/WKz2SqqHNtDUyFktbiEV83vwestkQHi3Flzk0tmko+En/HDtuk2ylIDmcodxq+BUg10Rt1aGxrthQwaZ3gkvgBBfOYOS9w96igV/sUjgikfRKGd0dh47hsMHNI2vqd4rBX5PhCRtt1DRtVo/g9ycmDltds=
+	t=1718222437; cv=none; b=l3ftX4kx1rTHqFcU3b7k6fZcrJFcDJj7y6ZC6v0IZrxnwq4dwkQP2N+4v+h25RPIkjQwayC6+BhOSQOFQG8dgMAP/FYmer02lUixXz43RuRB1JPWUufhu27K/mn7ssv1uFfLG7VPx3sdNXUkiD+culzUMZJLIaA9x6dID3Mj2no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718221656; c=relaxed/simple;
-	bh=iXYrYf6E3VhpKvW64KtUd6Z5LCbXkEegDMyJGiIA/oE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=jCZwzpXL9k0Wi54FNIvws7CHHf1Zlg8M1/genKadDa/I7p0S/XbCfMm1xB88dtDY8V9Apgb4gDs/I0qxrCrlJz5iofvIRoH0iLFG7Os2jQ21eOAlvSgTTgCXeJQvGG7Q5pJfCywV+hzu0AQ1AsJhzBO+Gr2wfmfKJITHx0z6eKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l581TawO; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CHW7Hh001183;
-	Wed, 12 Jun 2024 19:47:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=ww4DJkpHpVwnOLvPdxsLkl
-	dRNeezNP3rbu3LoE38HcI=; b=l581TawOjWicNLrKoJrF24VSEq2R3amStx/Npb
-	C3wE1b7Q63BlcoZfismcGZ6jTX2hcSk5YrnffH3H6dGxXw4IzBI+A1+mFyOeHmc3
-	N/yl291mqYr1uWADrg7Oxvk/9ex10CJPHSgzh0Pa/Omc4XzCKitMoOqHc5wzCR0y
-	eaeleQhOsTC0WtkZY3SN65pIXpWjoNoVXLurTFlkmnZC/Y9fqf48fsLFawShiCbg
-	UI3WuJpNIavce3Pal1sZU1YI+9ABN8Y6N/X32D3sHIdnUD4lJDce8Lw9k5bs/lHH
-	baURJHjeBM4zghiaxHYwPfSwXhdiAj1BU0Hcy4cD3zGPxsQQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ypp87vgs0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 19:47:32 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45CJlU5c025453
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 19:47:31 GMT
-Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
- 2024 12:47:30 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Wed, 12 Jun 2024 12:47:29 -0700
-Subject: [PATCH] media: tda9887: add missing MODULE_DESCRIPTION() macro
+	s=arc-20240116; t=1718222437; c=relaxed/simple;
+	bh=r6UKj1YTs/BxhHFO//uwGY1rsOihH/uBihwuOdyGH/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QkvLEVweytqON9xiERJ+eVR6waMKICFOWmeuUVDN2FTDa9f5IOjUOACttXJjvGAujmLeNWB3SP3Kxzo8Dtf8prbA95sxSyOlza1yJ8FyPwFy7jkgLIbc8JZdyfCkoT2d7cnk3JaLGdZW1IasI9C4HihaZzH23ekp25U41BHT3c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MRYSh+uT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54309230;
+	Wed, 12 Jun 2024 22:00:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718222420;
+	bh=r6UKj1YTs/BxhHFO//uwGY1rsOihH/uBihwuOdyGH/U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MRYSh+uT1ng2i6Y82++s/bC6+d+Zssg77Js1G8bZ90OxtbAVOPfWyNfmpVy8M5gIM
+	 Bj72uuvAXPqavtwGwzUOMfaU9yIJDhLQUSCmbvSKlMH90fnKjUtqJK0l8FxB0iboAn
+	 L+cqt8YeAHmjFguN1Kpx1O8+tfBZL8yi5YTr1c24=
+Date: Wed, 12 Jun 2024 23:00:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Genes Lists <lists@sapience.com>, linux-kernel@vger.kernel.org,
+	mchehab@kernel.org, hverkuil-cisco@xs4all.nl, wentong.wu@intel.com,
+	linux-media@vger.kernel.org, linux-acpi@vger.kernel.org,
+	"regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Subject: Re: [PATCH 1/1] ACPI: scan: Ignore Dell XPS 9320 camera graph port
+ nodes
+Message-ID: <20240612200012.GP28989@pendragon.ideasonboard.com>
+References: <ZmmQLt7wB-yGQBTw@kekkonen.localdomain>
+ <CAJZ5v0ii3WFQRPdfHeeW4M9kXSWDVxxxy02zThcf25mjNwqDAw@mail.gmail.com>
+ <ZmmT56Cyvb2FCyav@kekkonen.localdomain>
+ <CAJZ5v0hOBggQR_=uA3VuhruQnZihVxHHovpTz4=qfcbiSunsYw@mail.gmail.com>
+ <ZmmY3he9vfWVWU3I@kekkonen.localdomain>
+ <CAJZ5v0j7HTfg1wY+B+7vhE6tBKPVHMuu_MsFHjaLK70VS_cNEw@mail.gmail.com>
+ <ZmnnFueL-Cgw5Eqp@kekkonen.localdomain>
+ <CAJZ5v0gtK9yusimCOVV2dGkQWDwQ6=r=vfbgC-eE60Cg-5wk_Q@mail.gmail.com>
+ <ZmnrtIEla9R24egi@kekkonen.localdomain>
+ <CAJZ5v0hXU62QiXxWfkbiovciNNEk0h49kRdScmz5qONTMDA+4A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240612-md-drivers-media-tuners-v1-1-7ea6440d766c@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAFD7aWYC/x3MwQqDMAyA4VeRnBeo0vWwVxk7xDadgbUbiYogv
- rt1x+/w/zsYq7DBo9tBeRWTb23obx3EieqbUVIzDG7wLvQDloRJZWU1LJyEcF7qBbpnTzGz8yF
- Aq3/KWbb/+flqHskYR6Uap+v3kbpsWMhmVjiOE2VC9GGIAAAA
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.13.0
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -520wfINMfu24n5CnOh1Ujuy0MvHfMZl
-X-Proofpoint-ORIG-GUID: -520wfINMfu24n5CnOh1Ujuy0MvHfMZl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_10,2024-06-12_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- spamscore=0 suspectscore=0 mlxlogscore=910 priorityscore=1501 adultscore=0
- bulkscore=0 mlxscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406120140
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0hXU62QiXxWfkbiovciNNEk0h49kRdScmz5qONTMDA+4A@mail.gmail.com>
 
-With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+On Wed, Jun 12, 2024 at 08:50:57PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Jun 12, 2024 at 8:41 PM Sakari Ailus wrote:
+> > On Wed, Jun 12, 2024 at 08:29:21PM +0200, Rafael J. Wysocki wrote:
+> > > On Wed, Jun 12, 2024 at 8:21 PM Sakari Ailus wrote:
+> > > > On Wed, Jun 12, 2024 at 03:06:53PM +0200, Rafael J. Wysocki wrote:
+> > > > > On Wed, Jun 12, 2024 at 2:47 PM Sakari Ailus wrote:
+> > > > > > On Wed, Jun 12, 2024 at 02:32:26PM +0200, Rafael J. Wysocki wrote:
+> > > > > > > > > > > I just hit the same problem on another Dell laptop. It seems that
+> > > > > > > > > > > all Dell laptops with IPU6 camera from the Tiger Lake, Alder Lake
+> > > > > > > > > > > and Raptor Lake generations suffer from this problem.
+> > > > > > > > > > >
+> > > > > > > > > > > So instead of playing whack a mole with DMI matches we should
+> > > > > > > > > > > simply disable ACPI MIPI DISCO support on all Dell laptops
+> > > > > > > > > > > with those CPUs. I'm preparing a fix for this to replace
+> > > > > > > > > > > the DMI matching now.
+> > > > > > > > > >
+> > > > > > > > > > DisCo for Imaging support shouldn't be dropped on these systems, and this
+> > > > > > > > > > isn't what your patch does either. Instead the ACPI graph port nodes (as
+> > > > > > > > > > per Linux specific definitions) are simply dropped, i.e. this isn't related
+> > > > > > > > > > to DisCo for Imaging at all.
+> > > > > > > > >
+> > > > > > > > > So it looks like the changelog of that patch could be improved, right?
+> > > > > > > >
+> > > > > > > > Well, yes. The reason the function is in the file is that nearly all camera
+> > > > > > > > related parsing is located there, not that it would be related to DisCo for
+> > > > > > > > Imaging as such.
+> > > > > > >
+> > > > > > > So IIUC the camera graph port nodes are created by default with the
+> > > > > > > help of the firmware-supplied information, but if that is defective a
+> > > > > > > quirk can be added to skip the creation of those ports in which case
+> > > > > > > they will be created elsewhere.
+> > > > > > >
+> > > > > > > Is this correct?
+> > > > > >
+> > > > > > Yes.
+> > > > >
+> > > > > So it would be good to add a comment to this effect to
+> > > > > acpi_nondev_subnode_extract() where acpi_graph_ignore_port() is
+> > > > > called.
+> > > > >
+> > > > > And there is a somewhat tangential question that occurred to me: If
+> > > > > the nodes are created elsewhere when acpi_graph_ignore_port() is true,
+> > > > > why is it necessary to consult the platform firmware for the
+> > > > > information on them at all?  Wouldn't it be better to simply always
+> > > > > create them elsewhere?
+> > > >
+> > > > Simple answer: for the same reason why in general system specific
+> > > > information comes from ACPI and not from platform data compiled into the
+> > > > kernel.
+> > > >
+> > > > Of course this is technically possible but it does not scale.
+> > >
+> > > While I agree in general, in this particular case the platform data
+> > > compiled into the kernel needs to be present anyway, at least
+> > > apparently, in case the data coming from the platform firmware is
+> > > invalid.
+> > >
+> > > So we need to do 3 things: compile in the platform data into the
+> > > kernel and expect the platform firmware to provide the necessary
+> > > information, and add quirks for the systems where it is known invalid.
+> > >
+> > > Isn't this a bit too much?
+> >
+> > Isn't this pretty much how ACPI works currently?
+> 
+> No, we don't need to put platform data into the kernel for every bit
+> of information that can be retrieved from the platform firmware via
+> ACPI.
+> 
+> The vast majority of information in the ACPI tables is actually
+> correct and if quirks are needed, they usually are limited in scope.
+> 
+> Where it breaks is when the ACPI tables are not sufficiently validated
+> by OEMs which mostly happens when the data in question are not needed
+> to pass some sort of certification or admission tests.
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+We have to be careful here. Part of the job of the ACPI methods for
+camera objects is to control the camera sensor PMIC and set up the right
+voltages (many PMICs have programmable output levels). In many cases
+we've seen with the IPU3, broken ACPI support means the methods will try
+to do something completely bogus, like accessing a PMIC at an incorrect
+I2C address. That's mostly fine, it will result in the camera not being
+detected. We could however have broken ACPI implementation that would
+program the PMIC to output voltages that would damage the sensor. Users
+won't be happy.
 
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
- drivers/media/tuners/tda9887.c | 1 +
- 1 file changed, 1 insertion(+)
+And now that I wrote that, maybe that's what we should hope for, a major
+recall of machines from Dell or Lenovo, whose financial cost would give
+an incentive to fixing this mess in the future... *sigh*
 
-diff --git a/drivers/media/tuners/tda9887.c b/drivers/media/tuners/tda9887.c
-index dca2fc776e44..b2f7054c1832 100644
---- a/drivers/media/tuners/tda9887.c
-+++ b/drivers/media/tuners/tda9887.c
-@@ -707,4 +707,5 @@ struct dvb_frontend *tda9887_attach(struct dvb_frontend *fe,
- }
- EXPORT_SYMBOL_GPL(tda9887_attach);
- 
-+MODULE_DESCRIPTION("NXP TDA9885/6/7 analog IF demodulator driver");
- MODULE_LICENSE("GPL");
+> Which unfortunately is related to whether or not Windows uses those data.
+> 
+> > We can support systems that contain correct DSDT description of cameras
+> > without platform data. I was, until recently, only aware of Dell XPS 9315
+> > that has incorrect camera description and that based on recent findings
+> > seems to extend to other Dell systems with IPU6 (Hans's patches have the
+> > details).
+> >
+> > Still this is not a reason to break systems that have correct camera
+> > description and expect the users to report them so they can be listed as
+> > such.
+> 
+> Well, what do you mean by "break".  I thought that platform data
+> needed to support them were built into the kernel, weren't they?
+> 
+> > > > On laptops shipped with Windows some additional information is also available
+> > > > from ACPI via custom objects but a lot of information is just hard coded into
+> > > > the IPU bridge as well as the INT3472 driver.
+> > >
+> > > Well, that's how it goes.
+> >
+> > Yes, but is it desirable?
+> 
+> No, it is not desirable, but the way to address it is to convince the
+> Windows people to stop doing this and use standard-defined data from
+> the ACPI tables instead.  It cannot be addressed by Linux unilaterally
+> trying to do the right thing, because there are OEMs who don't care
+> about Linux.
 
----
-base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-change-id: 20240612-md-drivers-media-tuners-a5f4acfe0466
+-- 
+Regards,
 
+Laurent Pinchart
 
