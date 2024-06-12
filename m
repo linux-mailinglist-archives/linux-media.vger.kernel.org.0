@@ -1,191 +1,96 @@
-Return-Path: <linux-media+bounces-13112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13113-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30F0905CF8
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 22:41:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39840905D00
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 22:44:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 215CDB213C1
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:41:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E14BE1F21810
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 20:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 318A184E16;
-	Wed, 12 Jun 2024 20:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3820184E0A;
+	Wed, 12 Jun 2024 20:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JtnpjQOV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="In+1rT8x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1807684D39;
-	Wed, 12 Jun 2024 20:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0A384DF1
+	for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 20:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718224897; cv=none; b=FD+jRkfWN9312zPND5YrFbXo3u+ZCIJ3kQn+EzzhoYLROcV85xxkMWikv1QMDPmi9gHH9a6opesIzQ9IjekrS2TKhXkgbwB+bDue6NJsCU1Fl6ZUHVaDL0e2AlZHfGss5DLv+E6GyGSD6PAs6xB+/By8DKC7y3EZfAXhNsK5Yws=
+	t=1718225053; cv=none; b=qZsw1/BfnP50ShVJgba8d1ugpcmehCNRxDjiVRwLKgcjKTpL9VPEF5muqyu7IjNvf545lPZTHB15ZZke0gzL9eOaQEUYZ381mvz184HPUMUB4HbNYYpfmAhxdT19NRR496ATDiWZ8ybPKdfkTc7ecWT74TWDj5UjAe19u3hRs3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718224897; c=relaxed/simple;
-	bh=iksz8x0J+16o1rcdeXT1mVm0qNREjzh30WqMubfeTgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DRBhXGv/Ni7ESboRFcq42ha4mZnBmqN3mxd+oxCdbNRhwzhHA7xbanAI0d5tlqPC3ynm11fmuV84mY5PIWgyGmTAUotlKZbqwV+opIgShe/c6KEkaNAjCViTV0qZL20ruCIqKn4BHTpYygIpR7Tt8VyZcB27Fqs+HbmsFQGRBsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JtnpjQOV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB78A12E4;
-	Wed, 12 Jun 2024 22:41:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718224881;
-	bh=iksz8x0J+16o1rcdeXT1mVm0qNREjzh30WqMubfeTgI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JtnpjQOVy2sLoaifEsK4xCzR24o0w82Tw4QpdFx7X5Z6WDWPm5piRH8BitafAQyoK
-	 YeQ0NrkbMmSoltft8qcVxQzpKXUNLvv5Mbturel1XhUKux1YacEWxMJPTQEd1CnXmC
-	 qDREB10+CTLfSv+fEt+Vxu9kZbg67c/g0fpCeVgY=
-Date: Wed, 12 Jun 2024 23:41:14 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Genes Lists <lists@sapience.com>, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, hverkuil-cisco@xs4all.nl, wentong.wu@intel.com,
-	linux-media@vger.kernel.org, linux-acpi@vger.kernel.org,
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>
-Subject: Re: [PATCH 1/1] ACPI: scan: Ignore Dell XPS 9320 camera graph port
- nodes
-Message-ID: <20240612204114.GV28989@pendragon.ideasonboard.com>
-References: <ZmmT56Cyvb2FCyav@kekkonen.localdomain>
- <CAJZ5v0hOBggQR_=uA3VuhruQnZihVxHHovpTz4=qfcbiSunsYw@mail.gmail.com>
- <ZmmY3he9vfWVWU3I@kekkonen.localdomain>
- <CAJZ5v0j7HTfg1wY+B+7vhE6tBKPVHMuu_MsFHjaLK70VS_cNEw@mail.gmail.com>
- <ZmnnFueL-Cgw5Eqp@kekkonen.localdomain>
- <CAJZ5v0gtK9yusimCOVV2dGkQWDwQ6=r=vfbgC-eE60Cg-5wk_Q@mail.gmail.com>
- <ZmnrtIEla9R24egi@kekkonen.localdomain>
- <CAJZ5v0hXU62QiXxWfkbiovciNNEk0h49kRdScmz5qONTMDA+4A@mail.gmail.com>
- <20240612200012.GP28989@pendragon.ideasonboard.com>
- <CAJZ5v0hF+6_RCyP-Rr+ajNNEKe0YenFR8x6wX3dG1Pq+vguTwg@mail.gmail.com>
+	s=arc-20240116; t=1718225053; c=relaxed/simple;
+	bh=+Jt5kEktEP1KG2R8UNNW2tpDDNXeeGCljnyof8/ghJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kG0K8dSO/TqD/3dXFi2BhhfGWxj8kO1ihEn0xxl1zfBAEkiD2wHCl0k5a3sPq/yK1rx/hIUxXCElzGWQ7xHSTeRtWMhhiM3YktyH5xwJpaZmLekmWDoJ4QqiHQW7EoOQoL9SCZmym11Cgz2OOxcimpuKnBDGZovM95fifzl2Rgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=In+1rT8x; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7481CC116B1;
+	Wed, 12 Jun 2024 20:44:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718225053;
+	bh=+Jt5kEktEP1KG2R8UNNW2tpDDNXeeGCljnyof8/ghJU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=In+1rT8xXx1BEuEG2pC/9J6tyfQLk3EZhx5i62ienv+WjKryXdJ/4t2RPDH9ip67T
+	 oL+N5V5ZLIinCzQvaoxdNsgL4YgLWkl2bQPEOGOphDzCZbW8rBdkcSt/9ert1j8Y7s
+	 0i5xcYXvBTk+C5Qi565ILidrZ6t0YXurSejymfP7LjlVUt4ME91LhAZeYU1BkOer7g
+	 lKY163gBJvZLX4rQjEhp5m8lhRhA810dD6ytPZlxadgbuL9dOzOzk83+kKQFi/AXjw
+	 UvkRq8bwJkLhnCrbrLUUPMMOa4eu7lbc4d2SUJyyZs+yUK2G5uyDs9O2uEGTMm32YW
+	 nnYW5TFERHWXg==
+Date: Wed, 12 Jun 2024 22:44:06 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Hidenori Kobayashi
+ <hidenorik@chromium.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Sean Young <sean@mess.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Ricardo Ribalda <ribalda@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [ANN] Request for Topics and registration for a Media Summit
+ September 16th
+Message-ID: <20240612224406.41dd88fc@coco.lan>
+In-Reply-To: <20240612083430.GE28989@pendragon.ideasonboard.com>
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+	<7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
+	<CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
+	<2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
+	<20240612095448.1e99b751@coco.lan>
+	<CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
+	<20240612083430.GE28989@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0hF+6_RCyP-Rr+ajNNEKe0YenFR8x6wX3dG1Pq+vguTwg@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 12, 2024 at 10:31:06PM +0200, Rafael J. Wysocki wrote:
-> On Wed, Jun 12, 2024 at 10:00 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > On Wed, Jun 12, 2024 at 08:50:57PM +0200, Rafael J. Wysocki wrote:
-> > > On Wed, Jun 12, 2024 at 8:41 PM Sakari Ailus wrote:
-> > > > On Wed, Jun 12, 2024 at 08:29:21PM +0200, Rafael J. Wysocki wrote:
-> > > > > On Wed, Jun 12, 2024 at 8:21 PM Sakari Ailus wrote:
-> > > > > > On Wed, Jun 12, 2024 at 03:06:53PM +0200, Rafael J. Wysocki wrote:
-> > > > > > > On Wed, Jun 12, 2024 at 2:47 PM Sakari Ailus wrote:
-> > > > > > > > On Wed, Jun 12, 2024 at 02:32:26PM +0200, Rafael J. Wysocki wrote:
-> > > > > > > > > > > > > I just hit the same problem on another Dell laptop. It seems that
-> > > > > > > > > > > > > all Dell laptops with IPU6 camera from the Tiger Lake, Alder Lake
-> > > > > > > > > > > > > and Raptor Lake generations suffer from this problem.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > So instead of playing whack a mole with DMI matches we should
-> > > > > > > > > > > > > simply disable ACPI MIPI DISCO support on all Dell laptops
-> > > > > > > > > > > > > with those CPUs. I'm preparing a fix for this to replace
-> > > > > > > > > > > > > the DMI matching now.
-> > > > > > > > > > > >
-> > > > > > > > > > > > DisCo for Imaging support shouldn't be dropped on these systems, and this
-> > > > > > > > > > > > isn't what your patch does either. Instead the ACPI graph port nodes (as
-> > > > > > > > > > > > per Linux specific definitions) are simply dropped, i.e. this isn't related
-> > > > > > > > > > > > to DisCo for Imaging at all.
-> > > > > > > > > > >
-> > > > > > > > > > > So it looks like the changelog of that patch could be improved, right?
-> > > > > > > > > >
-> > > > > > > > > > Well, yes. The reason the function is in the file is that nearly all camera
-> > > > > > > > > > related parsing is located there, not that it would be related to DisCo for
-> > > > > > > > > > Imaging as such.
-> > > > > > > > >
-> > > > > > > > > So IIUC the camera graph port nodes are created by default with the
-> > > > > > > > > help of the firmware-supplied information, but if that is defective a
-> > > > > > > > > quirk can be added to skip the creation of those ports in which case
-> > > > > > > > > they will be created elsewhere.
-> > > > > > > > >
-> > > > > > > > > Is this correct?
-> > > > > > > >
-> > > > > > > > Yes.
-> > > > > > >
-> > > > > > > So it would be good to add a comment to this effect to
-> > > > > > > acpi_nondev_subnode_extract() where acpi_graph_ignore_port() is
-> > > > > > > called.
-> > > > > > >
-> > > > > > > And there is a somewhat tangential question that occurred to me: If
-> > > > > > > the nodes are created elsewhere when acpi_graph_ignore_port() is true,
-> > > > > > > why is it necessary to consult the platform firmware for the
-> > > > > > > information on them at all?  Wouldn't it be better to simply always
-> > > > > > > create them elsewhere?
-> > > > > >
-> > > > > > Simple answer: for the same reason why in general system specific
-> > > > > > information comes from ACPI and not from platform data compiled into the
-> > > > > > kernel.
-> > > > > >
-> > > > > > Of course this is technically possible but it does not scale.
-> > > > >
-> > > > > While I agree in general, in this particular case the platform data
-> > > > > compiled into the kernel needs to be present anyway, at least
-> > > > > apparently, in case the data coming from the platform firmware is
-> > > > > invalid.
-> > > > >
-> > > > > So we need to do 3 things: compile in the platform data into the
-> > > > > kernel and expect the platform firmware to provide the necessary
-> > > > > information, and add quirks for the systems where it is known invalid.
-> > > > >
-> > > > > Isn't this a bit too much?
-> > > >
-> > > > Isn't this pretty much how ACPI works currently?
-> > >
-> > > No, we don't need to put platform data into the kernel for every bit
-> > > of information that can be retrieved from the platform firmware via
-> > > ACPI.
-> > >
-> > > The vast majority of information in the ACPI tables is actually
-> > > correct and if quirks are needed, they usually are limited in scope.
-> > >
-> > > Where it breaks is when the ACPI tables are not sufficiently validated
-> > > by OEMs which mostly happens when the data in question are not needed
-> > > to pass some sort of certification or admission tests.
-> >
-> > We have to be careful here. Part of the job of the ACPI methods for
-> > camera objects is to control the camera sensor PMIC and set up the right
-> > voltages (many PMICs have programmable output levels). In many cases
-> > we've seen with the IPU3, broken ACPI support means the methods will try
-> > to do something completely bogus, like accessing a PMIC at an incorrect
-> > I2C address. That's mostly fine, it will result in the camera not being
-> > detected. We could however have broken ACPI implementation that would
-> > program the PMIC to output voltages that would damage the sensor. Users
-> > won't be happy.
-> 
-> My point is basically that if that data were also used by Windows,
-> then chances are that breakage of this sort would be caught during
-> Windows validation before shipping the machines and so it wouldn't
-> affect Linux as well.
-> 
-> However, if OEMs have no vehicle to validate their systems against,
-> bad things can happen indeed.
-> 
-> Also, if an OEM has no incentive to carry out the requisite checks,
-> the result is likely to be invalid data in the platform firmware.
+Em Wed, 12 Jun 2024 11:34:30 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-We're exactly on the same page. The only solution [*] I can see for this
-problem is to get the Windows drivers to use the same ACPI data as the
-Linux drivers.
+> Focussing on this topic, if we're brainstorming memory management for
+> media devices, I'd like to throw in a controversial idea. In addition to
+> being clearer on the fact that USERPTR is deprecated, I would like to
+> deprecate MMAP too and only focus on DMABUF. I believe Linux needs a
+> centralized buffer allocator, instead of having multiple allocation APIs
+> scattered in different places. There are design ideas in gralloc that we
+> could benefit from.
 
-* Another solution would be for OEMs to stop caring about Windows and
-testing their machines with Linux only, essentially reversing the
-current situation. Chances of this happening however seem even tinier
-:-)
+Deprecating USERPTR is doable, as not many apps use it, and they're
+mostly focused on complex camera/ARM scenario. Now, deprecating MMAP at 
+V4L2 core is a different history: lots of different userspace programs,
+including browsers and proprietary apps like zoom, etc. rely on MMAP
+support. We can only consider deprecating MMAP once applications switch 
+to DMABUF.
 
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Mauro
 
