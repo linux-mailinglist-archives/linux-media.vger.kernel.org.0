@@ -1,136 +1,119 @@
-Return-Path: <linux-media+bounces-13075-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13069-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E63905A0D
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 19:33:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF88A9059FA
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 19:32:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8D63286457
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 17:33:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 87EDF1F235F9
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 17:32:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2BE31850A5;
-	Wed, 12 Jun 2024 17:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF3E1822D6;
+	Wed, 12 Jun 2024 17:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ChRObb4c"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TVXqOwN2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8AF1836F7;
-	Wed, 12 Jun 2024 17:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E68CEBB;
+	Wed, 12 Jun 2024 17:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718213548; cv=none; b=VpOKqkxrp+2qJHlXaO1i5GWFv6PIoJ+R0KSotAGOVX6H/lD6nDdWV5uPkUN3tpfG2K41IGxI6C9t33mQvCCVFKDQCAxIEHIaqjB2/5D0NPwt2XC7DLzOw1ElRJKt00xBPCnJBZt8DPHxXD1j3kF+Ils87cnMWtpwaSr1RRkPa5I=
+	t=1718213536; cv=none; b=Zw4XV21M96seOQNjJWDA5oVScUo9ViE9hah8EFswaD3PzQLtktKCcbcwYSuX/cdeg2LDS6n0W49taX71E3uObRUscH81DBD0I9TT6lzXYIkyjmuVzx4314+WP0e8Qybvx1UpXSc+d/0j/Cku2mkg/+FAMUQCxvVzSfVSiCP95WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718213548; c=relaxed/simple;
-	bh=09CuY792gYzujtrKgRSq5WilLJwPVg6zDs+yUzN6Tus=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U1d7g1xoc0IuhAKmcDwFqBwv1rXaH23hgQMfK9lPPK+v86BxEk74hARCAOoYGbC3aEe4DGEA5p13YyTxZ4VKmi/8Xl8nWnqTF2Owz6qYWK3N61ncxfhWXcIE2kGrLtVFsgrI6nTz/+EIGXyCIIOO0Jr00VhNOtzlMU7/BGph5V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ChRObb4c; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718213542;
-	bh=09CuY792gYzujtrKgRSq5WilLJwPVg6zDs+yUzN6Tus=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ChRObb4cGRQZCu7ko5Pmmb3VO70BNnD1QJBg+PJckCN1aDpi+ABBzjsl+VfAIPrwx
-	 miEp470WoHAj1pEiLwbGAbZTta0smRqyjwEZOXkazG55sUZctz+17lKJQ3qQqxsUlU
-	 n7ogL6s/897T+61wHIKarYCgKscaPcw1tC7ENA4UMR8Lz5XwbxoNTrehhmMJvaEkfs
-	 mrA47oip4cdMHnNF+Nf1prOzycQIpC5fSAYnCOHBPrXTUw7HLC1GA53ZAiR3IqSALq
-	 uOF3fGKByuDD9q88p93qgoL51GRmjqHR1mMs7MCcskL3Vnh662CmRnr5+vXjodEk8B
-	 m/AgKX1gDZW1A==
-Received: from jupiter.universe (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3260037821A3;
-	Wed, 12 Jun 2024 17:32:22 +0000 (UTC)
-Received: by jupiter.universe (Postfix, from userid 1000)
-	id 624CA4800D0; Wed, 12 Jun 2024 19:32:21 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jianfeng Liu <liujianfeng1994@gmail.com>,
-	Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel@collabora.com,
-	Hugh Cole-Baker <sigmaris@gmail.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: [PATCH v5 5/5] arm64: dts: rockchip: Add VPU121 support for RK3588
-Date: Wed, 12 Jun 2024 19:15:45 +0200
-Message-ID: <20240612173213.42827-6-sebastian.reichel@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240612173213.42827-1-sebastian.reichel@collabora.com>
-References: <20240612173213.42827-1-sebastian.reichel@collabora.com>
+	s=arc-20240116; t=1718213536; c=relaxed/simple;
+	bh=zjbHWafLDrLMhpm1Fx+WBUgHsZ4FyEYGnE5EXfFvuEE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=VAfHVvB9E2bmjM5t/0GeTEKZEZ9PlindsaB3m1FKbl3HhJj2KA4ofmgJkSqPQbyiArd35YlOTVE8Zy780sXTJaDqSbT2RKT3gHZT+BClSejO0qwnNwnkbP3Zvv3QpbBrjrxeZWORYdW7nLnH3paimD8J+SCUL52B334h9cFISNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TVXqOwN2; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CGP1DS001869;
+	Wed, 12 Jun 2024 17:32:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=0j+A7kVraJuYj0pACpPFgG
+	KTDT6UcqwmtpQGUxRWGn0=; b=TVXqOwN2/Hl0W30DqUrFutO6/dKQoRAVF38vqn
+	YcmeT9666RaLP98j8biow4aPxcmUq3IVCn36NaA7RcG2hkFfam+XVGvFtFdJEg5i
+	TfbZzebsehN/d+kklSTOBIpCfQ0VdDIF8tfr+H1y2LDglUs5XH1bqXW2bgx/NefI
+	PErIdUl1eRUjqSuEBSKLJN7gShEuCuznXnTfkfzzK+xKN1eCePr5gno73idsOwzN
+	Ls82RVwobS8K3I+J/v1pTbDqe5igcnpQnIx3/LuceWVPu3IsLux6sHOnX9g4piyo
+	nU2mGVq+N8OMEzhe0a1G2IMM5R2Ethxh+70A++PWiGYfDO4A==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yqbfq8ffv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 17:32:10 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45CHW93w028043
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 12 Jun 2024 17:32:09 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
+ 2024 10:32:09 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Wed, 12 Jun 2024 10:32:07 -0700
+Subject: [PATCH] media: si470x: add missing MODULE_DESCRIPTION() macro
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240612-md-drivers-media-radio-si470x-v1-1-1aa4b06b954a@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAJfbaWYC/x3MwQrCMAwA0F8ZORvoyljFXxEP7ZK5gO0kcaMw9
+ u9Wj+/yDjBWYYNbd4DyLiZraegvHUxLLE9GoWbwzg9u7D1mQlLZWQ0zk0TUSLKiyRBcxdn3V09
+ jcCERtOOtPEv9//dHc4rGmDSWafmtLylbxRztwwrn+QWd6aI1jgAAAA==
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _-6xklLjt3-BDsOEKzcQjtNYIC18GNjp
+X-Proofpoint-ORIG-GUID: _-6xklLjt3-BDsOEKzcQjtNYIC18GNjp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-12_08,2024-06-12_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1011
+ spamscore=0 phishscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406120126
 
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
+With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
 
-Enable Hantro G1 video decoder in RK3588's devicetree.
+Add the missing invocation of the MODULE_DESCRIPTION() macro.
 
-Tested with FFmpeg v4l2_request code taken from [1]
-with MPEG2, H.264 and VP8 samples.
-
-[1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/packages/multimedia/ffmpeg/patches/v4l2-request/ffmpeg-001-v4l2-request.patch
-
-Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-Tested-by: Hugh Cole-Baker <sigmaris@gmail.com>
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/media/radio/si470x/radio-si470x-common.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-index 9edbcfe778ca..e7e1b456b9b9 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-@@ -1239,6 +1239,27 @@ jpeg_enc3_mmu: iommu@fdbac800 {
- 		#iommu-cells = <0>;
- 	};
+diff --git a/drivers/media/radio/si470x/radio-si470x-common.c b/drivers/media/radio/si470x/radio-si470x-common.c
+index dc0c1d8d23f0..af0a70910099 100644
+--- a/drivers/media/radio/si470x/radio-si470x-common.c
++++ b/drivers/media/radio/si470x/radio-si470x-common.c
+@@ -790,4 +790,5 @@ const struct video_device si470x_viddev_template = {
+ };
+ EXPORT_SYMBOL_GPL(si470x_viddev_template);
  
-+	vpu: video-codec@fdb50000 {
-+		compatible = "rockchip,rk3588-vpu121", "rockchip,rk3568-vpu";
-+		reg = <0x0 0xfdb50000 0x0 0x800>;
-+		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
-+		interrupt-names = "vdpu";
-+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-+		clock-names = "aclk", "hclk";
-+		iommus = <&vpu_mmu>;
-+		power-domains = <&power RK3588_PD_VDPU>;
-+	};
-+
-+	vpu_mmu: iommu@fdb50800 {
-+		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-+		reg = <0x0 0xfdb50800 0x0 0x40>;
-+		interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clock-names = "aclk", "iface";
-+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-+		power-domains = <&power RK3588_PD_VDPU>;
-+		#iommu-cells = <0>;
-+	};
-+
- 	av1d: video-codec@fdc70000 {
- 		compatible = "rockchip,rk3588-av1-vpu";
- 		reg = <0x0 0xfdc70000 0x0 0x800>;
--- 
-2.43.0
++MODULE_DESCRIPTION("Core radio driver for Si470x FM Radio Receivers");
+ MODULE_LICENSE("GPL");
+
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240612-md-drivers-media-radio-si470x-f2182d6707bd
 
 
