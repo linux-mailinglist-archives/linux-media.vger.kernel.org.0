@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-13071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0432905A02
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 19:32:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E60905A09
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 19:33:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E21801C210FE
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 17:32:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A78631F223B7
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jun 2024 17:33:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83AD18309B;
-	Wed, 12 Jun 2024 17:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02767184109;
+	Wed, 12 Jun 2024 17:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="L00ouhxp"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PqcYgz1F"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DC3181CE7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D7617E91E;
 	Wed, 12 Jun 2024 17:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718213545; cv=none; b=qQljsRqSk4hlqC+eEO1dKWH/NQyWGP0SSR1oCgNnA21W4FeCBwFAXL9FYpezEWI7zwv8i/S1Bqw49/3FrQB5rdfUcJ09SBX+OyQAXG+LVUW/Q5kZLMedLYoua5HbLCL/CWPbK2gcy0IGK6svokBYfExKoMSQ2gbUPxDdhqOyVlg=
+	t=1718213546; cv=none; b=WMwUHAdrJ5Fu6RsR+4n+PXkiOJBrIRWmeVO9oHQtLkTEWDR1uZ/W0llPignp8c1ETTf8HJIuDhnmmIvQ0hOZDZyaCWIaLAAMkBx76Oc3U/uW3mROf5T1+QhtyyoFRdKpr2AvQTkdxVJjmgRzP5imqKqYGbAJSxwgyZNXPgA68m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718213545; c=relaxed/simple;
-	bh=KKnehwnapMDXEYhFKS5XsfL67lPPoRVBA2nN+Yi9Q24=;
+	s=arc-20240116; t=1718213546; c=relaxed/simple;
+	bh=r9Pm0rMa12TnlTbVnCAif5kBsOtAXCY8BoST484+vUQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ELvaB9QH4vozRXWf1tUW0/fHhKt6euVNDkDEILdMeWVceJsF+O0pgGXinzEEw9YvS9YaK/byMhfbL2UP9PRQjzJlzV/rJkWQBvRgMR9/9nfRub1UgsVco73yjZ/278jBNweNLYOd+AX1LBG2NkeUjFyVaq2nuTj1NyhVCOVsN1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=L00ouhxp; arc=none smtp.client-ip=46.235.227.194
+	 MIME-Version; b=hZY24DCVlCnHwWau6hUAKR9K40aZTtRMRTDC6h/Jp5QMbc8p4pIgB90zA5Ts0r8fY2E4pcL1lP5OnsFdRSWtup+8TIW4/GhjRfj8SeYjOnta430v9glBsUfaFCNykHf91oGi99bMqXiixR/B3C/INGfRssLvfJDruMuUWlYTSoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PqcYgz1F; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718213541;
-	bh=KKnehwnapMDXEYhFKS5XsfL67lPPoRVBA2nN+Yi9Q24=;
+	s=mail; t=1718213542;
+	bh=r9Pm0rMa12TnlTbVnCAif5kBsOtAXCY8BoST484+vUQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L00ouhxpqR5XhuMSWrJNBvj0w+0dSXrylM2KwH60f5E1Nean4momD3IEMV5YxXwi4
-	 KhokKYcNRRvzpKckrZcWxWMRO7Fao9nD+Z/YNAq/vY8R3NQ2uY0wBUeHjQ6P6W2/+I
-	 ZBrik0KeuZJ764dk5+1g1Fsjv0wqXTLBXbvX+RgAC2DfBheHvBjpHUSMYSi6EIyrNe
-	 a/rGvJAFXu+fMhQInJ0axuxw9+hkBUwAVm6GvW9wH7YJO2llTZrCIRsmYWHbhnPOdE
-	 ddOAX1Ke72O+u0U6vHoQ7Lynf9B1bCciqQ4JgGUeEw00I9ZVzwrfer4uN5JOkK+DOE
-	 VpGZP+JrB9ZrA==
+	b=PqcYgz1FzL+j/xAfT53N0okz1nknSrba+8D8H82pfxa/tY/HR9Z8wGzKbiNivoEff
+	 CpqM2XcjJ1LobLBYxrvkKKmZBx0TCuRgQ7zSOK78tfphvEpxw77W2QTA9BQ1ti/c+0
+	 ipDCrBAxt14PHeK4phaBk7ysmWZciAwOkiNVNEuNXm7SjXLlkkOenChUE1InBvAaD7
+	 Uhtk13fDS34ncRiPnQz6gsea3Fn4ewzT8KO2x+ftf2ChRm/OTapc90JSoBa3QFQOiv
+	 lW2BX/9OtlkB8k7ZsnWdkK8UzKtp1Ku4lwUrhu+AwwQ8r0ndRuhyHZ1lkLQ3hoIq/s
+	 9YZMktstN/KHA==
 Received: from jupiter.universe (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C2916378219B;
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D1BCF3781139;
 	Wed, 12 Jun 2024 17:32:21 +0000 (UTC)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id 5E8E44800CE; Wed, 12 Jun 2024 19:32:21 +0200 (CEST)
+	id 607274800CF; Wed, 12 Jun 2024 19:32:21 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -65,11 +65,11 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-rockchip@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	kernel@collabora.com
-Subject: [PATCH v5 3/5] media: hantro: Add RK3588 VEPU121 support
-Date: Wed, 12 Jun 2024 19:15:43 +0200
-Message-ID: <20240612173213.42827-4-sebastian.reichel@collabora.com>
+	kernel@collabora.com,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: [PATCH v5 4/5] arm64: dts: rockchip: Add VEPU121 to RK3588
+Date: Wed, 12 Jun 2024 19:15:44 +0200
+Message-ID: <20240612173213.42827-5-sebastian.reichel@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240612173213.42827-1-sebastian.reichel@collabora.com>
 References: <20240612173213.42827-1-sebastian.reichel@collabora.com>
@@ -81,77 +81,111 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Avoid exposing each of the 4 Hantro H1 cores separately to userspace.
-For now just expose the first one.
+From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 
+RK3588 has 4 Hantro G1 encoder-only cores. They are all independent IP,
+but can be used as a cluster (i.e. sharing work between the cores).
+These cores are called VEPU121 in the TRM. The TRM describes one more
+VEPU121, but that is combined with a Hantro H1. That one will be handled
+using the VPU binding instead.
+
+Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- .../media/platform/verisilicon/hantro_drv.c   | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 80 +++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 34b123dafd89..b722a20c5fe3 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -722,6 +722,7 @@ static const struct of_device_id of_hantro_match[] = {
- 	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
- 	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
- 	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
-+	{ .compatible = "rockchip,rk3588-vepu121", .data = &rk3568_vpu_variant, },
- 	{ .compatible = "rockchip,rk3588-av1-vpu", .data = &rk3588_vpu981_variant, },
- #endif
- #ifdef CONFIG_VIDEO_HANTRO_IMX8M
-@@ -992,6 +993,39 @@ static const struct media_device_ops hantro_m2m_media_ops = {
- 	.req_queue = v4l2_m2m_request_queue,
- };
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+index 6ac5ac8b48ab..9edbcfe778ca 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+@@ -1159,6 +1159,86 @@ power-domain@RK3588_PD_SDMMC {
+ 		};
+ 	};
  
-+/*
-+ * Some SoCs, like RK3588 have multiple identical Hantro cores, but the
-+ * kernel is currently missing support for multi-core handling. Exposing
-+ * separate devices for each core to userspace is bad, since that does
-+ * not allow scheduling tasks properly (and creates ABI). With this workaround
-+ * the driver will only probe for the first core and early exit for the other
-+ * cores. Once the driver gains multi-core support, the same technique
-+ * for detecting the main core can be used to cluster all cores together.
-+ */
-+static int hantro_disable_multicore(struct hantro_dev *vpu)
-+{
-+	const char *compatible;
-+	struct device_node *node;
-+	int ret;
++	jpeg_enc0: video-codec@fdba0000 {
++		compatible = "rockchip,rk3588-vepu121";
++		reg = <0x0 0xfdba0000 0x0 0x800>;
++		interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
++		clock-names = "aclk", "hclk";
++		iommus = <&jpeg_enc0_mmu>;
++		power-domains = <&power RK3588_PD_VDPU>;
++	};
 +
-+	/* Intentionally ignores the fallback strings */
-+	ret = of_property_read_string(vpu->dev->of_node, "compatible", &compatible);
-+	if (ret)
-+		return ret;
++	jpeg_enc0_mmu: iommu@fdba0800 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdba0800 0x0 0x40>;
++		interrupts = <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
++		clock-names = "aclk", "iface";
++		power-domains = <&power RK3588_PD_VDPU>;
++		#iommu-cells = <0>;
++	};
 +
-+	/* first compatible node found from the root node is considered the main core */
-+	node = of_find_compatible_node(NULL, NULL, compatible);
-+	if (!node)
-+		return -EINVAL; /* broken DT? */
++	jpeg_enc1: video-codec@fdba4000 {
++		compatible = "rockchip,rk3588-vepu121";
++		reg = <0x0 0xfdba4000 0x0 0x800>;
++		interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER1>, <&cru HCLK_JPEG_ENCODER1>;
++		clock-names = "aclk", "hclk";
++		iommus = <&jpeg_enc1_mmu>;
++		power-domains = <&power RK3588_PD_VDPU>;
++	};
 +
-+	if (vpu->dev->of_node != node) {
-+		dev_info(vpu->dev, "missing multi-core support, ignoring this instance\n");
-+		return -ENODEV;
-+	}
++	jpeg_enc1_mmu: iommu@fdba4800 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdba4800 0x0 0x40>;
++		interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER1>, <&cru HCLK_JPEG_ENCODER1>;
++		clock-names = "aclk", "iface";
++		power-domains = <&power RK3588_PD_VDPU>;
++		#iommu-cells = <0>;
++	};
 +
-+	return 0;
-+}
++	jpeg_enc2: video-codec@fdba8000 {
++		compatible = "rockchip,rk3588-vepu121";
++		reg = <0x0 0xfdba8000 0x0 0x800>;
++		interrupts = <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER2>, <&cru HCLK_JPEG_ENCODER2>;
++		clock-names = "aclk", "hclk";
++		iommus = <&jpeg_enc2_mmu>;
++		power-domains = <&power RK3588_PD_VDPU>;
++	};
 +
- static int hantro_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *match;
-@@ -1011,6 +1045,10 @@ static int hantro_probe(struct platform_device *pdev)
- 	match = of_match_node(of_hantro_match, pdev->dev.of_node);
- 	vpu->variant = match->data;
- 
-+	ret = hantro_disable_multicore(vpu);
-+	if (ret)
-+		return ret;
++	jpeg_enc2_mmu: iommu@fdba8800 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdba8800 0x0 0x40>;
++		interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER2>, <&cru HCLK_JPEG_ENCODER2>;
++		clock-names = "aclk", "iface";
++		power-domains = <&power RK3588_PD_VDPU>;
++		#iommu-cells = <0>;
++	};
 +
- 	/*
- 	 * Support for nxp,imx8mq-vpu is kept for backwards compatibility
- 	 * but it's deprecated. Please update your DTS file to use
++	jpeg_enc3: video-codec@fdbac000 {
++		compatible = "rockchip,rk3588-vepu121";
++		reg = <0x0 0xfdbac000 0x0 0x800>;
++		interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER3>, <&cru HCLK_JPEG_ENCODER3>;
++		clock-names = "aclk", "hclk";
++		iommus = <&jpeg_enc3_mmu>;
++		power-domains = <&power RK3588_PD_VDPU>;
++	};
++
++	jpeg_enc3_mmu: iommu@fdbac800 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdbac800 0x0 0x40>;
++		interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_JPEG_ENCODER3>, <&cru HCLK_JPEG_ENCODER3>;
++		clock-names = "aclk", "iface";
++		power-domains = <&power RK3588_PD_VDPU>;
++		#iommu-cells = <0>;
++	};
++
+ 	av1d: video-codec@fdc70000 {
+ 		compatible = "rockchip,rk3588-av1-vpu";
+ 		reg = <0x0 0xfdc70000 0x0 0x800>;
 -- 
 2.43.0
 
