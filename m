@@ -1,124 +1,130 @@
-Return-Path: <linux-media+bounces-13126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13127-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38890905F88
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 02:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4719B905F98
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 02:10:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93ABAB224DB
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 00:06:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BE4BBB22A08
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 00:10:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE24B652;
-	Thu, 13 Jun 2024 00:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C25820ED;
+	Thu, 13 Jun 2024 00:10:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FwXPUSvW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mz/ZQ4SN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB2237C;
-	Thu, 13 Jun 2024 00:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA6137C;
+	Thu, 13 Jun 2024 00:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718237156; cv=none; b=WrOPFcnAda4GisamcWVZvgb5MpuuZ3t5Kjjpziz+rlmrb0mM4eUy1tWLljvNHiXuJgyUZYW20mSzmYrarV8LykmZHAlShQPvFqn2geWZ47acwsIdG9xNSe2QwJ6qsQNkyJMrTbgJDCNNwJ/Eqar0NEN91df67wxo/bK28T1/XuE=
+	t=1718237432; cv=none; b=hrlwPFeAog/B8XYNVTRfZz4tNgZJlsJ75L0cRtlORlEDV5Rrno6WJ1MvVSE0UtCzWFrAWLqgsrTN6pSnrlmQ4TzKQqi77eqNQ5AF+u2Uvpp8IxPE3DJWepbaOy+Y4swkMSlse1LkWq9L9TOITwXuCOA/IhuuGSr+sW4TTB/4NKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718237156; c=relaxed/simple;
-	bh=LyIhlSiU9zms9Jq6SWfnbAsKlxdZw4+/KwF9352sHTY=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=IEMzkdS6sy5XtcRJlE7hSDgI1O/WEl4Z3PMLqvvm86zkJ9/7omBBaNpLRQkricDMs8O5tiFf6QBbsjdlDExoYpANyezHR3gPkHPJqDyCYuqwdUs2Mr1flZCJFrXGIuu8yzbz72mt/9SxfInrkZIAhFnarsEoTesIDm7rReKaKf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FwXPUSvW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B34084CF;
-	Thu, 13 Jun 2024 02:05:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718237137;
-	bh=LyIhlSiU9zms9Jq6SWfnbAsKlxdZw4+/KwF9352sHTY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=FwXPUSvWiXUazK7DEGkvRf0HY5wqzfYeiI6bYiS+dLfNMyQKK8famyXXoP5livdzX
-	 T7TVgbrIuiF2lfjP4FATiND5v8os2zxuoMu5xzp4qmE82HYFr06p/tiwX2JgkjNF1k
-	 X7Z3sH2Tdyx8GB/P2JxWv+XFdtOkXfS0WTQgDDJs=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1718237432; c=relaxed/simple;
+	bh=ALaMOklo/D6m9out9qebU875GAFWtP61hk1J63pvt/w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BGTfOfycW+8XJWjm6WtyCQMTCZ4ViI1AeILaW5e40PN+BZ96FqKqUpC9aw1KjwrJsix9l9B0XgI4Qwx4axQbraEL7z8ObmIH7N4tG9gJLSvHgYp8PzL+5tF4RnQausEAeq/Fbh/WsSKoqY/0+2bqzmwXp0V1tPYK4Hjk4G16fzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mz/ZQ4SN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09BC8C116B1;
+	Thu, 13 Jun 2024 00:10:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718237431;
+	bh=ALaMOklo/D6m9out9qebU875GAFWtP61hk1J63pvt/w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mz/ZQ4SNRhD4Slftyf1RGHhLam/Qf7W3PwDTBqymj8MrjJ2zFfcEBpzzqoIp7aIRE
+	 +HNQhNVE1+IOeDAWgqZssDT0yMjs5KujxGNYD5/v0d4xLqGdW6Z4IfirrVTI0gfG77
+	 pMXEtZ7kL2cG4kkEGdlkXN+sdZwbMnbryjY9PGB3jmEupZmxCvx/3ljnSDJVkMYjc3
+	 aerFM5mLp0PJV3xP/U6IojVO32XHdmwSgJHAiTk7a4PvwYlAlAf0U2KtXvJacugqV3
+	 /CEmWSpj8No1QubiV6AWTL6traVV8XO5JJaskmf2fawRbrkUX9ZG4c4dRG9FtdOikt
+	 K1w3nC+pECkGA==
+Date: Wed, 12 Jun 2024 17:10:29 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
+ Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
+ =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
+ Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, linux-mm@kvack.org, Matthew Wilcox
+ <willy@infradead.org>
+Subject: Re: [PATCH net-next v11 05/13] page_pool: convert to use netmem
+Message-ID: <20240612171029.71adc273@kernel.org>
+In-Reply-To: <20240607005127.3078656-6-almasrymina@google.com>
+References: <20240607005127.3078656-1-almasrymina@google.com>
+	<20240607005127.3078656-6-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <18d2c28fc8b47889689a1506957ea2a308c80fa2.camel@mediatek.com>
-References: <20240612012019.19078-1-zhi.mao@mediatek.com> <20240612012019.19078-3-zhi.mao@mediatek.com> <7c71534f-9815-4ea3-969f-c04d249d35d2@collabora.com> <18d2c28fc8b47889689a1506957ea2a308c80fa2.camel@mediatek.com>
-Subject: Re: [PATCH v3 2/3] media: i2c: Add GT97xx VCM driver
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: heiko@sntech.de <heiko@sntech.de>, linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>, laurent.pinchart+renesas@ideasonboard.com <laurent.pinchart+renesas@ideasonboard.com>, yunkec@chromium.org <yunkec@chromium.org>, linux-mediatek@lists.infradead.org <linux-mediatek@lists.infradead.org>, linux-media@vger.kernel.org <linux-media@vger.kernel.org>, hdegoede@redhat.com <hdegoede@redhat.com>, bingbu.cao@intel.com <bingbu.cao@intel.com>, paul.elder@ideasonboard.com <paul.elder@ideasonboard.com>, devicetree@vger.kernel.org <devicetree@vger.kernel.org>, andy.shevchenko@gmail.com <andy.shevchenko@gmail.com>, Yaya Chang =?utf-8?b?5by16ZuF5riF?= <Yaya.Chang@mediatek.com>, Shengnan Wang =?utf-8?b?546L5Zyj55S3?= <shengnan.wang@mediatek.com>, p.zabel@pengutronix.de <p.zabel@pengutronix.de>, alain.volmat@foss.st.com <alain.volmat@foss.st.com>, sakari.ailus@linux.intel.com <sakari.ailus@linux.intel.com>, tomi.valkeinen@ideasonboard.com <tomi.valkeinen@ideasonboard.com>, 10572168@qq.com
-  <10572168@qq.com>, hverkuil-cisco@xs4all.nl <hverkuil-cisco@xs4all.nl>, linux-arm-kernel@lists.infradead.org <linux-arm-kernel@lists.infradead.org>, matthias.bgg@gmail.com <matthias.bgg@gmail.com>, mehdi.djait@bootlin.com <mehdi.djait@bootlin.com>
-To: Zhi Mao =?utf-8?b?5q+b5pm6?= <zhi.mao@mediatek.com>, angelogioacchino.delregno@collabora.com, conor+dt@kernel.org, krzk+dt@kernel.org, mchehab@kernel.org, robh@kernel.org, dongchun.zhu@mediatek.com
-Date: Thu, 13 Jun 2024 01:05:49 +0100
-Message-ID: <171823714905.1550852.13442340621133903705@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Zhi,
+On Fri,  7 Jun 2024 00:51:15 +0000 Mina Almasry wrote:
+> Abstrace the memory type from the page_pool so we can later add support
+> for new memory types. Convert the page_pool to use the new netmem type
+> abstraction, rather than use struct page directly.
+> 
+> As of this patch the netmem type is a no-op abstraction: it's always a
+> struct page underneath. All the page pool internals are converted to
+> use struct netmem instead of struct page, and the page pool now exports
+> 2 APIs:
+> 
+> 1. The existing struct page API.
+> 2. The new struct netmem API.
+> 
+> Keeping the existing API is transitional; we do not want to refactor all
+> the current drivers using the page pool at once.
+> 
+> The netmem abstraction is currently a no-op. The page_pool uses
+> page_to_netmem() to convert allocated pages to netmem, and uses
+> netmem_to_page() to convert the netmem back to pages to pass to mm APIs,
+> 
+> Follow up patches to this series add non-paged netmem support to the
+> page_pool. This change is factored out on its own to limit the code
+> churn to this 1 patch, for ease of code review.
 
-Also - Cc: Dongchun Zhu <dongchun.zhu@mediatek.com> who is listed as the
-DW9768 VCM driver author...
+Sorry for lack of meaningful review, busy times, in the meantime:
 
-Quoting Zhi Mao (=E6=AF=9B=E6=99=BA) (2024-06-12 12:13:40)
-> Hi Angelo,
->=20
-> Thanks for your review.
->=20
-> On Wed, 2024-06-12 at 09:07 +0200, AngeloGioacchino Del Regno wrote:
-> > Il 12/06/24 03:20, Zhi Mao ha scritto:
-> > > Add a V4L2 sub-device driver for Giantec GT97xx VCM.
-> > >=20
-> > > Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-> >=20
-> > Hello Zhi,
-> >=20
-> > I fail to see why would you need to upstream this new driver instead
-> > of
-> > simply adding the IC_INFO_REG to the already existing (and more
-> > featureful)
-> > dw9768 driver, which also seems to support the Giantec GT9769 VCM.
-
-Even more so especially as
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri=
-vers/media/i2c/dw9768.c
-already directly supports the compatible strings added by this driver -
-surely we don't want multiple (near identical) drivers matching the same
-compatible string?
-
-> >=20
->=20
-> Our project uses Giantec VCM hardware.=20
-> For detailed vendor information, please visit: (
-> https://en.giantec-semi.com/yqmd/164).=20
-> The VCM datasheet we are referencing is provided by Giantec.=20
-> Currently, the relationship between Giantec VCM and Dongwoon VCM is
-> unclear, but Dongwoon seems to be another manufacturer of VCM
-> hardware.=20
->=20
-> From the perspective of software driver development and maintenance, it
-> makes sense for each vendor's hardware should have its own software
-> driver.
-
-Personally, I don't think so. If two vendors make identical parts, we
-shouldn't have two identical drivers.
-
-I still have plans to refactor VCM drivers if I get some spare-time(tm)
-as almost each driver does the same identical task. They're all just
-copies of the boilerplate.  That seems like something we should reduce,
-not increase.
-
---
-Kieran
-
-
-> So, I upstream a new VCM driver for Giantec.
->=20
-> > Cheers,
-> > Angelo
+drivers/net/ethernet/renesas/ravb_main.c:306:16: error: incompatible integer to pointer conversion assigning to 'struct page *' from 'netmem_ref' (aka 'unsigned long') [-Wint-conversion]
+  306 |         rx_buff->page = page_pool_alloc(priv->rx_pool[q], &rx_buff->offset,
+      |                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  307 |                                         &size, gfp_mask);
+      |                                         ~~~~~~~~~~~~~~~~
+-- 
+pw-bot: cr
 
