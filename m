@@ -1,150 +1,196 @@
-Return-Path: <linux-media+bounces-13206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EA59078B8
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 18:51:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA399079AE
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 19:21:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B87CE1C20B13
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 16:51:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B737A281D96
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 17:21:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C4901339A4;
-	Thu, 13 Jun 2024 16:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B019514A0BC;
+	Thu, 13 Jun 2024 17:21:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RAP1EmdH"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="llsDK23Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018FA17FD;
-	Thu, 13 Jun 2024 16:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D56D145FFD;
+	Thu, 13 Jun 2024 17:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718297474; cv=none; b=eVBColMOK4aSDprXhwMGY4zHJkdaMwc2P5pRwFEElg2T2BjelB49o6zVdIzy4FumrqIWtTZiaSM52thuskSwgu+ZQV9Dmsvh7t6AVeblN1NqN7734ed6qs7Tm3SJGnJfPQzhre7snlVzRk7U6UvnI1pKy5C/ku2pMeOgrnma2hQ=
+	t=1718299288; cv=none; b=rhQcDJ0kE7xMESAWKTzVnNiU51QPLCAbnIW4GBng1gm3g43LjmOrFmDHIA8PlMdzQhjwVOXnwM9JP16O4S5mFELM2cnZwm3VYqU8gxXKK6zKsWbD3YNS9oVwY7dJgcwYGNj5pFGok6senXuv9V3/rxxkYpqDkxIhHjj/791Wd9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718297474; c=relaxed/simple;
-	bh=AqclkLgO7O3ZBcq/ORHN2o8G8ZYFtWnr+enwKmSDttQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvVPGgTHwLyRSlVzyI8FDoRiVZwwiknpJRjPahC5ujsoavfmg89TRvQG613/T9SZnlxj8O9eC46NKc/E3j2BDmExCR3XdzEG7grUHr5FH0XlTmxHopF1Ot7bfC+/ynNk327rs2ORS3FiBcOu2Re9NARiX/DUya/8/Ki7P+VlLsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RAP1EmdH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43B43C3277B;
-	Thu, 13 Jun 2024 16:51:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718297473;
-	bh=AqclkLgO7O3ZBcq/ORHN2o8G8ZYFtWnr+enwKmSDttQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RAP1EmdH6e4rSur0gGQcMy9m++pdFcnJYstl9o+fBm1gU3AeICVzzyjK1F4OBJxO7
-	 JZGun/GoFJd/bM3pASp+hMcLVVifVdQhvbeQcqwCgalOFKtrTpHbPHoaVwZMn9Pthv
-	 FevjeMbQhvHI5CD6ItFAfoLbs0PxFHil9XLueLbtn0DKGOk+qwnWTpqLFmQO6Qo4dM
-	 XMqIbcaYCH5ic+NhejJQjD8TsZchJvFYs+ISpZfIyYAYeQKDKh+Zq15OZci5tESN85
-	 R5TsPinydfVEB+SXT2T4ILJm+/+OlxU/n/frFVKGLmWGPHO+I6bU8IZ8vx6FQP00n8
-	 eMkFD25JQX1pw==
-Date: Thu, 13 Jun 2024 10:51:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Conor Dooley <conor@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: renesas,vin: Add binding for
- V4M
-Message-ID: <20240613165111.GA2005299-robh@kernel.org>
-References: <20240610113124.2396688-1-niklas.soderlund+renesas@ragnatech.se>
- <20240610113124.2396688-2-niklas.soderlund+renesas@ragnatech.se>
- <20240610-screen-wolverine-78370c66d40f@spud>
- <20240610165935.GA382677@ragnatech.se>
- <20240610-yoga-antler-e6447592de16@spud>
- <20240611110617.GD382677@ragnatech.se>
+	s=arc-20240116; t=1718299288; c=relaxed/simple;
+	bh=oQpR3WqnngfQNJeUbEy88r36UtSxS3u5kZrjD+GeDi0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=A+vmUTvUB6FkQfMnLmnY/zQSzOv/n4z/SW7WIS4S/fSKnux4WkKtVYAN5IiXVnkBUb3VNcBBWLCIN70Q9kJxCPpilX2izt5estqt8X8nMRWvaGEFrXznjzw77PBBCfpaFQduV2cCfpPiyeC1YtM2G9jFS/WlemIjsVSQIImOluU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=llsDK23Y; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718299284;
+	bh=oQpR3WqnngfQNJeUbEy88r36UtSxS3u5kZrjD+GeDi0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=llsDK23YX1btoiKV3FQ9dsccXLlI05kxWEIs0kEr0eIOhxZ/T5Yjxd12/qEsK61ds
+	 yvLDsaU542aYUx60VvJPvGIdPerlpY9+QfijAuOlUHs4l9mQDe6QGku80UXhPfQoXu
+	 N3vA8ZZI1uYDM3Vaidr4MmfJJcKFmmhd0RwqHsrtfiodk7tekw5hiuMdN0cwhKu0c/
+	 9fnwXbRY1tPP1vRb3I9VDqginw4NghLU7IpLZC8xrXJnMG0vncSfQ531ygQoqFortR
+	 3jkkwvUHTeAKJap9MgyzmUfRnCjG2iLuxJIS92V1OwWzrzfnpcGE8Xccu+fz7Yj4n1
+	 UkQ9CNAEnV82Q==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BCA943781139;
+	Thu, 13 Jun 2024 17:21:18 +0000 (UTC)
+Message-ID: <c9d1704ee28d1dc3d187308b03cb5278c1bf723b.camel@collabora.com>
+Subject: Re: [PATCH v6 5/6] arm64: dts: rockchip: Add VEPU121 to RK3588
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, Heiko Stuebner
+ <heiko@sntech.de>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>, Jianfeng Liu
+ <liujianfeng1994@gmail.com>, Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+ linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+Date: Thu, 13 Jun 2024 13:21:04 -0400
+In-Reply-To: <20240613135034.31684-6-sebastian.reichel@collabora.com>
+References: <20240613135034.31684-1-sebastian.reichel@collabora.com>
+	 <20240613135034.31684-6-sebastian.reichel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240611110617.GD382677@ragnatech.se>
 
-On Tue, Jun 11, 2024 at 01:06:17PM +0200, Niklas Söderlund wrote:
-> On 2024-06-10 22:32:29 +0100, Conor Dooley wrote:
-> > On Mon, Jun 10, 2024 at 06:59:35PM +0200, Niklas Söderlund wrote:
-> > > Hi Conor,
-> > > 
-> > > Thanks for your feedback.
-> > > 
-> > > On 2024-06-10 17:03:49 +0100, Conor Dooley wrote:
-> > > > On Mon, Jun 10, 2024 at 01:31:23PM +0200, Niklas Söderlund wrote:
-> > > > > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
-> > > > > 
-> > > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > ---
-> > > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
-> > > > >  1 file changed, 1 insertion(+)
-> > > > > 
-> > > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > index 5539d0f8e74d..168cb02f8abe 100644
-> > > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > @@ -54,6 +54,7 @@ properties:
-> > > > >                - renesas,vin-r8a77995 # R-Car D3
-> > > > >                - renesas,vin-r8a779a0 # R-Car V3U
-> > > > >                - renesas,vin-r8a779g0 # R-Car V4H
-> > > > > +              - renesas,vin-r8a779h0 # R-Car V4M
-> > > > 
-> > > > Your driver patch suggests that this is compatible with the g variant.
-> > > 
-> > > Currently it is. But that not always be true, I tried to outline this in 
-> > > to cover letter.
-> > 
-> > To be honest, I don't usually read cover letters when reviewing bindings.
-> > Information about why things are/are not compatible should be in a
-> > commit itself.
-> > 
-> > >     The V4M capture pipeline is similar to the other Gen4 SoC supported
-> > >     upstream already V4H. Currently all futures supported for VIN on V4M are
-> > >     also supported by V4H and the driver code can be shared. But as done for
-> > >     other R-Car IP bindings a new dedicated binding for V4M is created.
-> > >     This have proved prudent in the past where quirks are found even within
-> > >     the same generation as more advance use-cases are enabled.
-> > 
-> > I don't understand how this precludes using the g variant as a fallback
-> > compatible. I'm not suggesting that you don't add a specific one for the
-> > h variant.
-> 
-> The bindings have been around for a while and currently there are 25 SoC 
-> specific compatibles, one for each SoC supported. Each compatible 
-> consist of the SoC model number, not the VIN IP model/version number as 
-> no such versioning schema exist.
-> 
-> The datasheets are specific for each SoC and there are differences 
-> between almost every SoC. There are of course lots of similarities 
-> between the SoCs and the similarities are cluster around the 3 
-> generations (Gen{2,3,4}) supported.
-> 
-> Using the g variant as fallback in DTS for h variant even if we also add 
-> a specific one for h is confusing. As g and h are two different SoC.
+Le jeudi 13 juin 2024 =C3=A0 15:48 +0200, Sebastian Reichel a =C3=A9crit=C2=
+=A0:
+> From: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+>=20
+> RK3588 has 4 Hantro G1 encoder-only cores. They are all independent IP,
+               Hantro H1
 
-Why? That is the very definition of how "compatible" is supposed to 
-work.
+H1 is the encoder core, G1 is the decoder core, and this exists as a combo =
+on
+this platform (vpu121).
 
-> The g variant is r8a779g0 which is the SoC name/number for V4H.
-> The h variant is r8a779h0 which is the SoC name/number for V4M.
-> 
-> I think the core of the problem is that there are no versioning schema 
-> for the individual IP blocks used on each SoC. For better or worse the 
-> bindings for lots of Renesas IPs are centred around SoC name/number and 
-> not the individual IP implementations.
+> but can be used as a cluster (i.e. sharing work between the cores).
+> These cores are called VEPU121 in the TRM. The TRM describes one more
+> VEPU121, but that is combined with a Hantro H1. That one will be handled
+> using the VPU binding instead.
+>=20
+> Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-We've tried IP version based compatibles before. It doesn't work. Guess 
-what, the IP version changes with nearly every SoC. Chip designers have 
-no discipline.
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Rob
+> ---
+>  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 80 +++++++++++++++++++++++
+>  1 file changed, 80 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/=
+dts/rockchip/rk3588s.dtsi
+> index 6ac5ac8b48ab..dd85d4e55922 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+> @@ -1159,6 +1159,86 @@ power-domain@RK3588_PD_SDMMC {
+>  		};
+>  	};
+> =20
+> +	vepu121_0: video-codec@fdba0000 {
+> +		compatible =3D "rockchip,rk3588-vepu121";
+> +		reg =3D <0x0 0xfdba0000 0x0 0x800>;
+> +		interrupts =3D <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
+> +		clock-names =3D "aclk", "hclk";
+> +		iommus =3D <&vepu121_0_mmu>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +	};
+> +
+> +	vepu121_0_mmu: iommu@fdba0800 {
+> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+> +		reg =3D <0x0 0xfdba0800 0x0 0x40>;
+> +		interrupts =3D <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER0>, <&cru HCLK_JPEG_ENCODER0>;
+> +		clock-names =3D "aclk", "iface";
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +		#iommu-cells =3D <0>;
+> +	};
+> +
+> +	vepu121_1: video-codec@fdba4000 {
+> +		compatible =3D "rockchip,rk3588-vepu121";
+> +		reg =3D <0x0 0xfdba4000 0x0 0x800>;
+> +		interrupts =3D <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER1>, <&cru HCLK_JPEG_ENCODER1>;
+> +		clock-names =3D "aclk", "hclk";
+> +		iommus =3D <&vepu121_1_mmu>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +	};
+> +
+> +	vepu121_1_mmu: iommu@fdba4800 {
+> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+> +		reg =3D <0x0 0xfdba4800 0x0 0x40>;
+> +		interrupts =3D <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER1>, <&cru HCLK_JPEG_ENCODER1>;
+> +		clock-names =3D "aclk", "iface";
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +		#iommu-cells =3D <0>;
+> +	};
+> +
+> +	vepu121_2: video-codec@fdba8000 {
+> +		compatible =3D "rockchip,rk3588-vepu121";
+> +		reg =3D <0x0 0xfdba8000 0x0 0x800>;
+> +		interrupts =3D <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER2>, <&cru HCLK_JPEG_ENCODER2>;
+> +		clock-names =3D "aclk", "hclk";
+> +		iommus =3D <&vepu121_2_mmu>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +	};
+> +
+> +	vepu121_2_mmu: iommu@fdba8800 {
+> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+> +		reg =3D <0x0 0xfdba8800 0x0 0x40>;
+> +		interrupts =3D <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER2>, <&cru HCLK_JPEG_ENCODER2>;
+> +		clock-names =3D "aclk", "iface";
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +		#iommu-cells =3D <0>;
+> +	};
+> +
+> +	vepu121_3: video-codec@fdbac000 {
+> +		compatible =3D "rockchip,rk3588-vepu121";
+> +		reg =3D <0x0 0xfdbac000 0x0 0x800>;
+> +		interrupts =3D <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER3>, <&cru HCLK_JPEG_ENCODER3>;
+> +		clock-names =3D "aclk", "hclk";
+> +		iommus =3D <&vepu121_3_mmu>;
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +	};
+> +
+> +	vepu121_3_mmu: iommu@fdbac800 {
+> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+> +		reg =3D <0x0 0xfdbac800 0x0 0x40>;
+> +		interrupts =3D <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks =3D <&cru ACLK_JPEG_ENCODER3>, <&cru HCLK_JPEG_ENCODER3>;
+> +		clock-names =3D "aclk", "iface";
+> +		power-domains =3D <&power RK3588_PD_VDPU>;
+> +		#iommu-cells =3D <0>;
+> +	};
+> +
+>  	av1d: video-codec@fdc70000 {
+>  		compatible =3D "rockchip,rk3588-av1-vpu";
+>  		reg =3D <0x0 0xfdc70000 0x0 0x800>;
+
 
