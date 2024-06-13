@@ -1,376 +1,334 @@
-Return-Path: <linux-media+bounces-13183-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13184-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC959069A6
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 12:08:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAF69069AB
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 12:09:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A9100B21899
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 10:08:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A5A31C2259E
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 10:09:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE0F51411FD;
-	Thu, 13 Jun 2024 10:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996B71411E8;
+	Thu, 13 Jun 2024 10:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XvEW5tGM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8111E1411CD;
-	Thu, 13 Jun 2024 10:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2097713E3E4
+	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 10:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718273312; cv=none; b=dFnAc25+3IAoYmHwAI9ge2L98d00tWrjPc8xWuk2Qz2mrHRTYTkG4J49a6yaQgMH0hZUt8cDlTRQyTSwoeKRYVcKxHFzjGcJUGf0NUFE+CHp5HcWcZ7RUctpodIwO7XsvmFb1xW/2l1ycCyDD8Abi42NcZ4VQscojDir98rNS9I=
+	t=1718273364; cv=none; b=fyDI+o0bKI5jj3TKW/02Di1hypyDePHntdig3bpqzZ8sFMDBSpSQedlGqCQ/bCmNYfo1As+4EuDKyvZs+11WB2xOkVrbeDAQtKojKgK+HV4hQzIupes96WUoNMpNfr87G9zOqRHEIZ/ZWR7LEnoNIJtYjJ+r3l5cJ2rANUgXHhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718273312; c=relaxed/simple;
-	bh=cEArx9mzHgsB/rYrdqilf+3WfQuNBbb2M6oNfy8Y1V0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lNXnvMRVsn0F37uHBS5pUWm4PFnsv5a6fOLOTnZgFaV42FBcIZujRkmWLs3Fdac4LngCbONlSzwCn3eFIa73YI4FeaD7rOyJxNkUjPTUksc/IIgPe1O3e1hBPJzr7VQWvGqsUtISxYmHkAHkbSoPHuh4qepP5hga9xgBcKg3Bfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05B45C3277B;
-	Thu, 13 Jun 2024 10:08:27 +0000 (UTC)
-Message-ID: <59866428-342b-4ba4-a7c7-2df1477aa7e6@xs4all.nl>
-Date: Thu, 13 Jun 2024 12:08:26 +0200
+	s=arc-20240116; t=1718273364; c=relaxed/simple;
+	bh=YtUionCB/pIPU4E9Wne5fnhaD7H+8Q57H83aBfFFccw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bXJ6/nVkZbE+assJCkHmCfuyE2MnOB6esk784cxMk9H/I4JUI0nz+L3I6tNuN4ORshu3fxFwOqld/CfZ9UzeQy51lNnkOmtQRliRNMxh8PHL95XSGHhG/XVOeowAoItWFDbd9BAS5EdyweANDecscvUK7ZQjCRz6doFdaQWyKS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XvEW5tGM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 78F1E4CC;
+	Thu, 13 Jun 2024 12:09:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718273346;
+	bh=YtUionCB/pIPU4E9Wne5fnhaD7H+8Q57H83aBfFFccw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XvEW5tGMhA1Os6cB9GFYE1h6obQFhJxhd/p+Y06Ja2xw0jP2cFlk+X+66N0pS2++Z
+	 vOhS6sW0tzV2MQsPg8XRoXCjj/qp6WNmDnv1zvaqHpYqhRa07VwmU/dr/ARhY4T+Y3
+	 hvwskyl3rhUYLkaM2+Qyq3bIXR3npXSO9756N6A8=
+Date: Thu, 13 Jun 2024 13:08:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Hidenori Kobayashi <hidenorik@chromium.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [ANN] Request for Topics and registration for a Media Summit
+ September 16th
+Message-ID: <20240613100859.GF7291@pendragon.ideasonboard.com>
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+ <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
+ <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
+ <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
+ <20240612095448.1e99b751@coco.lan>
+ <CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
+ <20240612223448.30f1e9cb@coco.lan>
+ <3211e218-265d-47f5-858b-9b81b185eba7@xs4all.nl>
+ <CAAFQd5Byb5MVNTzgvg7JD-CTX1KR59Osf0AGunBH1UxVYd6XMw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 03/13] media: v4l2-jpeg: Export reference quantization
- and huffman tables
-To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com
-Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca
-References: <20240607131900.3535250-1-devarsht@ti.com>
- <20240607132831.3551333-1-devarsht@ti.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240607132831.3551333-1-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5Byb5MVNTzgvg7JD-CTX1KR59Osf0AGunBH1UxVYd6XMw@mail.gmail.com>
 
-Hi Devarsh,
-
-On 07/06/2024 15:28, Devarsh Thakkar wrote:
-> Export reference quantization and huffman tables as provided in ITU-T.81 so
-> that they can be re-used by other JPEG drivers.
+On Thu, Jun 13, 2024 at 05:14:45PM +0900, Tomasz Figa wrote:
+> On Thu, Jun 13, 2024 at 4:38 PM Hans Verkuil wrote:
+> > On 12/06/2024 22:35, Mauro Carvalho Chehab wrote:
+> > > Em Wed, 12 Jun 2024 17:22:34 +0900 Tomasz Figa escreveu:
+> > >> On Wed, Jun 12, 2024 at 4:54 PM Mauro Carvalho Chehab wrote:
+> > >>> Em Wed, 12 Jun 2024 08:46:50 +0200 Hans Verkuil escreveu:
+> > >>>> On 6/12/24 06:12, Tomasz Figa wrote:
+> > >>>>> On Wed, May 15, 2024 at 1:19 AM Daniel Almeida wrote:
+> > >>>>>>
+> > >>>>>> Hi Hans, all,
+> > >>>>>>
+> > >>>>>> I’d like to attend in person and discuss the use of Rust in the subsystem, especially in light of [0] and [1].
+> > >>>>>>
+> > >>>>>> Please note that these are new submissions that are unrelated with what was discussed last year.
+> > >>>>>>
+> > >>>>>> 30 minutes will do.
+> > >>>>>>
+> > >>>>>> [0] https://lwn.net/ml/linux-media/20240227215146.46487-1-daniel.almeida@collabora.com/
+> > >>>>>> [1] https://lwn.net/Articles/970565
+> > >>>>>
+> > >>>>> Somewhat related to the topic: I see potential for a quite big
+> > >>>>> redesign of the videobuf2 framework going forward and recently with
+> > >>>>> more Rust adoption I'm starting to think it could benefit from being
+> > >>>>> implemented in Rust, since we would have to rewrite it quite a bit
+> > >>>>> anyway. Especially since it's a part of the subsystem that has to deal
+> > >>>>> with memory management, object lifetime and asynchronousness quite a
+> > >>>>> lot and we had a history of issues there. So it could be interesting
+> > >>>>> to hear everyone's thoughts.
+> > >>>>
+> > >>>> I think it is far too soon to write a framework like that in Rust.
+> > >>>
+> > >>> Agreed. I don't object redesigns in C to make it better - which could have
+> > >>> some colateral effect of making things easier for a future Rust adoption,
+> > >>> but such changes should be justified by themselves, and not because of a
+> > >>> language change.
+> > >>
+> > >> No, the thought of redesign doesn't come from the language change,
+> > >> it's the other way around. Since rewriting a lot of the code already,
+> > >> why not do it in a language that is generally considered better.
+> > >
+> > > As Hans said, Rast has experimental support. We can't have drivers
+> > > depending on experimental stuff.
+> >
+> > Indeed.
+> >
+> > While discussing Rust for experimental drivers or codec libraries is
+> > interesting (and I am doing a Rust course, so hopefully I have a better
+> > understanding of what's involved by the upcoming media summit), using
+> > it for core media frameworks is simply a hard NACK until Linus blesses
+> > Rust as a second kernel language.
+> >
+> > So don't spend your valuable time on that.
 > 
-> These are example tables provided in ITU-T.81 as reference tables and the
-> JPEG encoders are free to use either these or their own proprietary tables.
+> Alright. I'm fine with C as well, although it's a shame that
+> eventually when Rust becomes a first-class citizen we'll be left with
+> a lot of legacy code base. Anyway, I guess let's wait until that
+> happens first. :)
+
+You make it sound like any global acceptance of rust will automatically
+make C a second class citizen. That may not help getting more people to
+accept a second language :-)
+
+> > >>> See: redesigns at the core will potentially affect lots of drivers,
+> > >>> so it needs very good technical reasons why doing it. Plus, it requires
+> > >>> comprehensive tests with different types of hardware/drivers to reduce the
+> > >>> risk of regressions. Depending on the changes, it may require extra tests
+> > >>> with devices that are outside complex camera world: radio, analog and digital
+> > >>> TV drivers - and even some input devices that use VB2 - to ensure that
+> > >>> nothing broke.
+> > >>
+> > >> We don't have to do it in an all-or-nothing way. We can start with an
+> > >> experimental new implementation in Rust, which could be gradually
+> > >> tested. It could even be done the same way as the vb -> vb2
+> > >> transition, although I suspect it wouldn't really be necessary, as I
+> > >> would like to see it more like a drop-in replacement. In general I
+> > >> think the API exposed outside of the framework wouldn't really change
+> > >> that much, it's more about the internal design.
+> >
+> > It makes no sense to have a C and a Rust version of vb2. This framework
+> > is critical to all drivers, and we're not going to support two versions
+> > and fix bugs/add features in two places. Again, it's a hard NACK. Don't
+> > waste time on that.
+> >
+> > If there are ideas to make vb2 better, then I am all for that.
+> >
+> > I just want to mention two things here:
+> >
+> > For most drivers, using vb2 is just fine: the work a driver needs to do is
+> > quite straightforward. Exceptions are codec drivers and possibly complex
+> > camera drivers when they need to use requests (not certain yet).
+
+For camera drivers, I plan to experiment with the request API at some
+point, and I think the current way it's handled in helpers through the
+subsystem, including in vb2, will not be a good match for the needs. As
+far as I understand, when a request is queued, core code then dispatches
+calls to vb2 and control operations corresponding to the request
+contents. What we will likely need instead is using a top-level entry
+point and getting data out of the request manually, not through
+callbacks. I'll report more on this once I start experimenting.
+
+> Do we have any data that suggests that non-codec and non-complex
+> camera drivers are actually "most drivers"?
 > 
-> Also add necessary prefixes to be used for huffman tables in global header
-> file.
+> Anyway, I agree that "using" vb2 is indeed fine and I want us to keep
+> using it. But whether it actually works well is a different story.
+> Things become problematic as soon as someone intends to run something
+> more complex than yavta, e.g. exporting and importing DMA-bufs is
+> involved.
 > 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V13: Fix smatch/sparse related below warning by using static global
-> variable for arrays:
-> Logs:
-> +drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'luma_qt' was not
-> declared. Should it be static?
-> +drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'chroma_qt' was
-> not declared. Should it be static?
-> +drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'zigzag' was not
-> declared. Should it be static?
-> +drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'luma_dc_ht' was
-> not declared. Should it be static?
-> +drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'luma_ac_ht' was
-> not declared. Should it be static?
-> +drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'chroma_dc_ht' was
-> not declared. Should it be static?
-> +drivers/media/v4l2-core/v4l2-jpeg.c: warning: symbol 'chroma_ac_ht' was
-> not declared. Should it be static?"
+> So putting aside the Rust discussion (that wasn't really the core
+> point), could I get 30 minutes to cover the vb2 pain points and how we
+> could fix them? Or should we just work on that and send patches?
+> Either works for me. (In fact we started already, e.g. via the
+> duplicate plane mapping patch series).
 > 
-> V12: Fix html-doc warnings by removing * from args
-> V11: No change
-> V10: Add description for new macros introduced in this patchset
-> V1->V9: No change (Patch introduced in V7)
->  drivers/media/v4l2-core/v4l2-jpeg.c | 162 +++++++++++++++++++++++++++-
->  include/media/v4l2-jpeg.h           |  28 +++++
->  2 files changed, 189 insertions(+), 1 deletion(-)
+> > Internally vb2 is quite complex, but that's because what it does is quite
+> > complex. And that's fine. If the internal structure can be improved to
+> > make it less complex, then I'm all for that, but there is no magic bullet
+> > (including using Rust instead of C) that suddenly makes everything simple.
+> >
+> > Generally I prefer to have the complexity in core frameworks, that will
+> > only make life easier for the driver developers.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
-> index 94435a7b6816..bd6305c92e0e 100644
-> --- a/drivers/media/v4l2-core/v4l2-jpeg.c
-> +++ b/drivers/media/v4l2-core/v4l2-jpeg.c
-> @@ -16,7 +16,7 @@
->  #include <linux/types.h>
->  #include <media/v4l2-jpeg.h>
->  
-> -MODULE_DESCRIPTION("V4L2 JPEG header parser helpers");
-> +MODULE_DESCRIPTION("V4L2 JPEG helpers");
->  MODULE_AUTHOR("Philipp Zabel <kernel@pengutronix.de>");
->  MODULE_LICENSE("GPL");
->  
-> @@ -52,6 +52,115 @@ MODULE_LICENSE("GPL");
->  #define COM	0xfffe	/* comment */
->  #define TEM	0xff01	/* temporary */
->  
-> +/* Luma and chroma qp tables to achieve 50% compression quality
-> + * This is as per example in Annex K.1 of ITU-T.81
-> + */
-> +static const u8 luma_qt[] = {
-> +	16, 11, 10, 16, 24, 40, 51, 61,
-> +	12, 12, 14, 19, 26, 58, 60, 55,
-> +	14, 13, 16, 24, 40, 57, 69, 56,
-> +	14, 17, 22, 29, 51, 87, 80, 62,
-> +	18, 22, 37, 56, 68, 109, 103, 77,
-> +	24, 35, 55, 64, 81, 104, 113, 92,
-> +	49, 64, 78, 87, 103, 121, 120, 101,
-> +	72, 92, 95, 98, 112, 100, 103, 99
-> +};
+> I prefer complexity neither in drivers nor core frameworks, but we
+> can't have everything. ;)
+> 
+> I agree that buffer management is a complex problem, so we can't avoid
+> some level of complexity, although there is certainly room for
+> improvement in vb2. That also wasn't the core reason for the proposed
+> redesign. The core point is about the functional issues.
+> 
+> > To summarize:
+> >
+> > Until Rust is accepted by Linus as a second kernel language, as media
+> > maintainer I will NACK core media frameworks written in Rust. I won't
+> > spend time on it, it's an immediate NACK from me.
+> >
+> > Note that this doesn't imply that once Linus *does* accept Rust, that we
+> > are OK with core frameworks written in Rust. But that will be a separate
+> > discussion once that happens.
+> 
+> Ack.
+> 
+> > > Having two implementations of the same logic doesn't sound reasonable,
+> > > as it doubles the maintainership effort: all changes done on one
+> > > implementation needs to be moved to the other one.
+> > >
+> > > Btw, we also have seem this problem before with VB and, up to some
+> > > sense, with VB2, as some drivers used to have their own buffer
+> > > handling implementation that usually started from a VB or VB2 fork.
+> > >
+> > > So, if VB2 has issues, let's fix it in C code.
+> > >
+> > >>>> To be
+> > >>>> honest, I won't even consider it until Linus officially accepts Rust as a
+> > >>>> second language in the kernel, instead of as an experiment.
+> > >>>
+> > >>> This is not enough: if the core starts to use a second language, all media
+> > >>> developers will be affected and will be required to have expertise on such
+> > >>> language.
+> > >>
+> > >> Let's be realistic, how many developers are actively touching vb2 these days?
+> > >
+> > > How many developers don't need VB2? Hopefully none :-)
+> > >
+> > >>> That's not something that should happen without careful
+> > >>> analysis and plans that should include a gradual roll-up, lost of tests
+> > >>> with the affected drivers including the legacy ones and some strategy to
+> > >>> quickly solve regression issues.
+> > >>
+> > >> That said, I agree. It needs proper discussion and planning. That's
+> > >> why I'm proposing this as a topic. :)
+> > >> Moreover the redesign itself also needs proper discussion and is more
+> > >> of a long term goal, not something to land in the next few days.
+> > >>
+> > >>>
+> > >>> It is not a matter of what language is better. Instead, it is a matter of
+> > >>> not affecting code maintenance during the (probably long) transition period
+> > >>> and beyond.
+> > >>>
+> > >>> If you see the past history, the transition from V4L to V4L2 took more than 10
+> > >>> years - being possible to be done only with the help of libv4l, plus a
+> > >>> lot of backward-compat code that we added. Still there were several
+> > >>> regressions and we even had to quickly patch the Kernel and/or some apps
+> > >>> that were using the uAPI on different ways.
+> > >>
+> > >> That's a different situation, because UAPI is involved.
+> > >
+> > > It is different, but similar, up to some sense, as a change at VB2
+> > > implementation will likely affect its kAPI, its behavior or both.
+> > >
+> > > The point I'm underlining is that core redesigns do affect existing
+> > > drivers usually on unexpected ways.
+> > >
+> > >>
+> > >>>
+> > >>> Yet, the transition from VB1 to VB2 was also painful, and took a lot of time.
+> > >>>
+> > >>
+> > >> Yes, vb -> vb2 would be a more appropriate comparison.
+> > >>
+> > >>> On both cases, there were very good technical reasons for the transition,
+> > >>> in terms of missing needed features, broken memory models and serious
+> > >>> troubles that utterly causing VB1 to not work well on non-x86 hardware.
+> > >>>
+> > >>
+> > >> It's a very similar situation now, vb2 doesn't work well on modern
+> > >> hardware, but I still have hopes that it can be fixed without
+> > >> affecting the driver-facing behavior. (We would probably need to
+> > >> develop some unit tests that validate the driver-facing behavior to
+> > >> ensure that.)
+> > >>
+> > >>> In the end, the authors of the core changes need to acquire legacy hardware
+> > >>> and to do lots of driver-specific changes to avoid breaking existing stuff.
+> > >>> Hans and I had to dedicate a lot of time and efforts on such transitions,
+> > >>> as it required a lot of work.
+> > >>>
+> > >>> I can tell you: there's no fun on such changes: typically, companies won't
+> > >>> pay someone to do changes on drivers for legacy hardware, specially
+> > >>> when there are no real benefits, which is the case here, as the final result
+> > >>> is just to keep the existing drivers to work with existing hardware,
+> > >>> usually without any new features. So, the ones behind such core changes
+> > >>> have to commit fixing drivers usually on their spare time.
+> > >>>
+> > >>
+> > >> I don't get that argument. Wouldn't the same apply to any core change?
+> > >
+> > > It depends of the type of change. For instance, an addition of a new
+> > > V4L2 control should not cause regressions to existing drivers. The
+> > > same would be true if one adds a new memory allocation component for
+> > > VB2 (e. g. something similar to videobuf2-vmalloc.c/videobuf2-dma-sg.c/..):
+> > > only drivers using the new way would be affected.
+> > >
+> > >> I think the reason we have driver maintainers is that they can help
+> > >> with testing. Moreover, we need to invest into testing infrastructure
+> > >> (which is what people have been doing recently via Media CI) to make
+> > >> such changes less painful. Otherwise the subsystem will just bit-rot
+> > >> and become useful for modern use cases.
+> > >
+> > > Using CI to check for uAPI/kAPI changes is helpful, but it doesn't cover
+> > > actual drivers. For that, we would need to invest on a CI solution
+> > > integrated with lots of different hardware pieces, to check for actual
+> > > driver regressions.
+> > >
+> > > On one of my previous work, the company I used to work had that: they
+> > > had some monitors display some things, and the camera captured input
+> > > were compared to what the monitor were actually displaying. Doable, but
+> > > expensive.
 
-Why make this so complicated?
-
-Just do this:
-
-const u8 v4l2_jpeg_table_luma_qt[V4L2_JPEG_PIXELS_IN_BLOCK] = {
-	16, 11, 10, 16,  24,  40,  51,  61,
-	12, 12, 14, 19,  26,  58,  60,  55,
-	14, 13, 16, 24,  40,  57,  69,  56,
-	14, 17, 22, 29,  51,  87,  80,  62,
-	18, 22, 37, 56,  68, 109, 103,  77,
-	24, 35, 55, 64,  81, 104, 113,  92,
-	49, 64, 78, 87, 103, 121, 120, 101,
-	72, 92, 95, 98, 112, 100, 103,  99
-};
-EXPORT_SYMBOL_GPL(v4l2_jpeg_table_luma_qt);
-
-and in the header add:
-
-extern const u8 v4l2_jpeg_table_luma_qt[V4L2_JPEG_PIXELS_IN_BLOCK];
-
-Same for the other tables.
-
-And in the header add:
-
-extern const u8 v4l2_jpeg_table_luma_qt[V4L2_JPEG_PIXELS_IN_BLOCK];
-
-It's similar to e.g. 'const u8 v4l2_vp9_kf_y_mode_prob[10][10][9];'
-in v4l2-vp9.c/h.
-
-It also ensures that the compiler knows the size of each array,
-so it can detect out-of-bounds errors. And you can drop the accessor
-functions, as there is no longer any need for that.
-
-I really want this out-of-bounds detection, the code as it is now is too
-risky. So please make a v14.
-
-> +
-> +static const u8 chroma_qt[] = {
-
-Just to make it clear: don't use [] here, use the actual define for the
-array size. That way you get a compiler warning if you missed an entry
-in the initialization.
-
-Apologies for the late review, I only noticed this when I checked the
-pull request.
-
+-- 
 Regards,
 
-	Hans
-
-> +	17, 18, 24, 47, 99, 99, 99, 99,
-> +	18, 21, 26, 66, 99, 99, 99, 99,
-> +	24, 26, 56, 99, 99, 99, 99, 99,
-> +	47, 66, 99, 99, 99, 99, 99, 99,
-> +	99, 99, 99, 99, 99, 99, 99, 99,
-> +	99, 99, 99, 99, 99, 99, 99, 99,
-> +	99, 99, 99, 99, 99, 99, 99, 99,
-> +	99, 99, 99, 99, 99, 99, 99, 99
-> +};
-> +
-> +/* Zigzag scan pattern */
-> +static const u8 zigzag[] = {
-> +	0,   1,  8, 16,  9,  2,  3, 10,
-> +	17, 24, 32, 25, 18, 11,  4,  5,
-> +	12, 19, 26, 33, 40, 48, 41, 34,
-> +	27, 20, 13,  6,  7, 14, 21, 28,
-> +	35, 42, 49, 56, 57, 50, 43, 36,
-> +	29, 22, 15, 23, 30, 37, 44, 51,
-> +	58, 59, 52, 45, 38, 31, 39, 46,
-> +	53, 60, 61, 54, 47, 55, 62, 63
-> +};
-> +
-> +/*
-> + * Contains the data that needs to be sent in the marker segment of an
-> + * interchange format JPEG stream or an abbreviated format table specification
-> + * data stream. Specifies the huffman table used for encoding the luminance DC
-> + * coefficient differences. The table represents Table K.3 of ITU-T.81
-> + */
-> +static const u8 luma_dc_ht[] = {
-> +	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
-> +	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B
-> +};
-> +
-> +/*
-> + * Contains the data that needs to be sent in the marker segment of an
-> + * interchange format JPEG stream or an abbreviated format table specification
-> + * data stream. Specifies the huffman table used for encoding the luminance AC
-> + * coefficients. The table represents Table K.5 of ITU-T.81
-> + */
-> +static const u8 luma_ac_ht[] = {
-> +	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03, 0x05, 0x05, 0x04, 0x04,
-> +	0x00, 0x00, 0x01, 0x7D, 0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
-> +	0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07, 0x22, 0x71, 0x14, 0x32,
-> +	0x81, 0x91, 0xA1, 0x08, 0x23, 0x42, 0xB1, 0xC1, 0x15, 0x52, 0xD1, 0xF0,
-> +	0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0A, 0x16, 0x17, 0x18, 0x19, 0x1A,
-> +	0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39,
-> +	0x3A, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x53, 0x54, 0x55,
-> +	0x56, 0x57, 0x58, 0x59, 0x5A, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
-> +	0x6A, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x83, 0x84, 0x85,
-> +	0x86, 0x87, 0x88, 0x89, 0x8A, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98,
-> +	0x99, 0x9A, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xB2,
-> +	0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xC2, 0xC3, 0xC4, 0xC5,
-> +	0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8,
-> +	0xD9, 0xDA, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA,
-> +	0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA
-> +};
-> +
-> +/*
-> + * Contains the data that needs to be sent in the marker segment of an interchange format JPEG
-> + * stream or an abbreviated format table specification data stream.
-> + * Specifies the huffman table used for encoding the chrominance DC coefficient differences.
-> + * The table represents Table K.4 of ITU-T.81
-> + */
-> +static const u8 chroma_dc_ht[] = {
-> +	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-> +	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B
-> +};
-> +
-> +/*
-> + * Contains the data that needs to be sent in the marker segment of an
-> + * interchange format JPEG stream or an abbreviated format table specification
-> + * data stream. Specifies the huffman table used for encoding the chrominance
-> + * AC coefficients. The table represents Table K.6 of ITU-T.81
-> + */
-> +static const u8 chroma_ac_ht[] = {
-> +	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04, 0x07, 0x05, 0x04, 0x04,
-> +	0x00, 0x01, 0x02, 0x77, 0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
-> +	0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71, 0x13, 0x22, 0x32, 0x81,
-> +	0x08, 0x14, 0x42, 0x91, 0xA1, 0xB1, 0xC1, 0x09, 0x23, 0x33, 0x52, 0xF0,
-> +	0x15, 0x62, 0x72, 0xD1, 0x0A, 0x16, 0x24, 0x34, 0xE1, 0x25, 0xF1, 0x17,
-> +	0x18, 0x19, 0x1A, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x35, 0x36, 0x37, 0x38,
-> +	0x39, 0x3A, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x53, 0x54,
-> +	0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
-> +	0x69, 0x6A, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x82, 0x83,
-> +	0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x92, 0x93, 0x94, 0x95, 0x96,
-> +	0x97, 0x98, 0x99, 0x9A, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9,
-> +	0xAA, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xC2, 0xC3,
-> +	0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6,
-> +	0xD7, 0xD8, 0xD9, 0xDA, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9,
-> +	0xEA, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA
-> +};
-> +
->  /**
->   * struct jpeg_stream - JPEG byte stream
->   * @curr: current position in stream
-> @@ -675,3 +784,54 @@ int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
->  	return jpeg_parse_huffman_tables(&stream, huffman_tables);
->  }
->  EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_huffman_tables);
-> +
-> +/**
-> + * v4l2_jpeg_get_reference_quantization_tables - Get reference quantization
-> + *						 tables as defined in ITU-T.81
-> + * @ref_luma_qt: Output variable pointing to luma quantization table
-> + * @ref_chroma_qt: Output variable pointing to chroma quantization table
-> + */
-> +void v4l2_jpeg_get_reference_quantization_tables(const u8 **ref_luma_qt, const
-> +						 u8 **ref_chroma_qt)
-> +{
-> +	if (ref_luma_qt)
-> +		*ref_luma_qt = luma_qt;
-> +	if (ref_chroma_qt)
-> +		*ref_chroma_qt = chroma_qt;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_jpeg_get_reference_quantization_tables);
-> +
-> +/**
-> + * v4l2_jpeg_get_zig_zag_scan - Get zigzag scan table as defined in ITU-T.81
-> + * @ref_zigzag: Output variable pointing to zigzag scan table
-> + */
-> +void v4l2_jpeg_get_zig_zag_scan(const u8 **ref_zigzag)
-> +{
-> +	if (ref_zigzag)
-> +		*ref_zigzag = zigzag;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_jpeg_get_zig_zag_scan);
-> +
-> +/**
-> + * v4l2_jpeg_get_reference_huffman_tables - Get reference huffman tables as
-> + *					    defined in ITU-T.81
-> + * @ref_luma_dc_ht : Output variable pointing to huffman table for luma DC
-> + * @ref_luma_ac_ht : Output variable pointing to huffman table for luma AC
-> + * @ref_chroma_dc_ht : Output variable pointing to huffman table for chroma DC
-> + * @ref_chroma_ac_ht : Output variable pointing to huffman table for chroma AC
-> + */
-> +void v4l2_jpeg_get_reference_huffman_tables(const u8 **ref_luma_dc_ht,
-> +					    const u8 **ref_luma_ac_ht,
-> +					    const u8 **ref_chroma_dc_ht,
-> +					    const u8 **ref_chroma_ac_ht)
-> +{
-> +	if (ref_luma_dc_ht)
-> +		*ref_luma_dc_ht = luma_dc_ht;
-> +	if (ref_luma_ac_ht)
-> +		*ref_luma_ac_ht = luma_ac_ht;
-> +	if (ref_chroma_dc_ht)
-> +		*ref_chroma_dc_ht = chroma_dc_ht;
-> +	if (ref_chroma_ac_ht)
-> +		*ref_chroma_ac_ht = chroma_ac_ht;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_jpeg_get_reference_huffman_tables);
-> diff --git a/include/media/v4l2-jpeg.h b/include/media/v4l2-jpeg.h
-> index 2dba843ce3bd..b470bbffb73f 100644
-> --- a/include/media/v4l2-jpeg.h
-> +++ b/include/media/v4l2-jpeg.h
-> @@ -14,6 +14,30 @@
->  
->  #define V4L2_JPEG_MAX_COMPONENTS	4
->  #define V4L2_JPEG_MAX_TABLES		4
-> +/*
-> + * Prefixes used to generate huffman table class and destination identifiers as
-> + * described below:
-> + *
-> + * V4L2_JPEG_LUM_HT | V4L2_JPEG_DC_HT : Prefix for Luma DC coefficients
-> + *					huffman table
-> + * V4L2_JPEG_LUM_HT | V4L2_JPEG_AC_HT : Prefix for Luma AC coefficients
-> + *					huffman table
-> + * V4L2_JPEG_CHR_HT | V4L2_JPEG_DC_HT : Prefix for Chroma DC coefficients
-> + *					huffman table
-> + * V4L2_JPEG_CHR_HT | V4L2_JPEG_AC_HT : Prefix for Chroma AC coefficients
-> + *					huffman table
-> + */
-> +#define V4L2_JPEG_LUM_HT		0x00
-> +#define V4L2_JPEG_CHR_HT		0x01
-> +#define V4L2_JPEG_DC_HT			0x00
-> +#define V4L2_JPEG_AC_HT			0x10
-> +
-> +/* Length of reference huffman tables as provided in Table K.3 of ITU-T.81 */
-> +#define V4L2_JPEG_REF_HT_AC_LEN		178
-> +#define V4L2_JPEG_REF_HT_DC_LEN		28
-> +
-> +/* Array size for 8x8 block of samples or DCT coefficient */
-> +#define V4L2_JPEG_PIXELS_IN_BLOCK	64
->  
->  /**
->   * struct v4l2_jpeg_reference - reference into the JPEG buffer
-> @@ -154,4 +178,8 @@ int v4l2_jpeg_parse_quantization_tables(void *buf, size_t len, u8 precision,
->  int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
->  				   struct v4l2_jpeg_reference *huffman_tables);
->  
-> +void v4l2_jpeg_get_reference_quantization_tables(const u8 **luma_qt, const u8 **chroma_qt);
-> +void v4l2_jpeg_get_zig_zag_scan(const u8 **zigzag);
-> +void v4l2_jpeg_get_reference_huffman_tables(const u8 **luma_dc_ht, const u8 **luma_ac_ht,
-> +					    const u8 **chroma_dc_ht, const u8 **chroma_ac_ht);
->  #endif
-
+Laurent Pinchart
 
