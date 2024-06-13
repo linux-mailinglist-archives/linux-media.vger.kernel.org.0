@@ -1,111 +1,140 @@
-Return-Path: <linux-media+bounces-13202-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13203-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B406790778F
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 17:53:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692EA907818
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 18:18:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA2CE1C22762
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 15:53:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3C60B24885
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 16:18:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 244F212EBC2;
-	Thu, 13 Jun 2024 15:53:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0E5145B03;
+	Thu, 13 Jun 2024 16:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYn8cIes"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="DZClKZ3z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EEC4C6B
-	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 15:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A04A14198E
+	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 16:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718294009; cv=none; b=L6+2G6qsBk0eIF29delqmLbYh4KrvD+d2iRG+1ew71L5E7BIoCa1dBM6HOgqxesqHElk2OArwKMsZLB5QC55ET6/b4FcPehgFoNZxKm9VDmC/MlJpbq5dWUd0ANFGJlmFEs31M3hNp75rH3g0TZnmxtWMW8eDxgJHI2LwBA1HBA=
+	t=1718295513; cv=none; b=WdysXtqDGsxXw2RGskzm35wZO4H0SdmZ9GuIQSB7bNsPuv0uVFPLMWtwEF9YVli2R5sFtqSbJOA/5CgMs3tFzc1GRuM9HKshDIbu8p2PeEuacCqPXlLucCN22VJDxSU2+oyLrJiXxZmFWRHUHa+L4eSGAfWxZjcPR2Q4/2PW0y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718294009; c=relaxed/simple;
-	bh=rI09vXtiQaoVk1Bp1c/l0arsuj0l/55M1tBQU3nr+Ew=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hjLGR3FpqpZ8CykuF/JiJTzjiNwxpSiCMlDGz0NmdidOj1lAp/LpFknEUM4zZ9uXhCzo2+6l36Zb3wKh9KwF3j/FOZUQSciy/77K423ZSlZKT29orfpcvjZborBiCdtXRxP39CyR1IGcpKRlHIUrCi2uNQY8+BaffYjmtIMMuZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYn8cIes; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718294008; x=1749830008;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rI09vXtiQaoVk1Bp1c/l0arsuj0l/55M1tBQU3nr+Ew=;
-  b=hYn8cIesVs62BgBCGpOplfO7LnVU8IwYZ2avMMVjmEFUMlEQsBgBFm2G
-   0KPeb7RmK8wfF0wKmVhO2Pnh/67YrqWoRUVngEEknWdafzqBeyT9+V4oG
-   Q9A0eXZw8iGXaPKgW0WHf8rBgsnaNVaK/bGYaYd8ofNCFf6p5gXETwySR
-   RvlpBNQvUPC+0oEd/c3FC9SZMrsv9jtyYuEb6SsWkuNu6UbTujfo5ayth
-   vCoifW79olSyJyRaXviA46GJ7sCDeeSsc2veFc2vp274+TPp+5D0oRunj
-   5QM0mXrYuNU/jJSEOJwyH3IoFRHtOuKJmLVjJj5sd1SiqPEkpBcZVh4ZD
-   w==;
-X-CSE-ConnectionGUID: K/1xuNilRSeQk8jVYpIrAw==
-X-CSE-MsgGUID: ShlQNWboSfq5vdheGFqB+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="25802948"
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
-   d="scan'208";a="25802948"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 08:53:27 -0700
-X-CSE-ConnectionGUID: bVXBR9OPR5+LNQ6PVdu1Hw==
-X-CSE-MsgGUID: eSlrnabpRLqzBP2qlO13tQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,235,1712646000"; 
-   d="scan'208";a="40154603"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 08:53:26 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9718811FA94;
-	Thu, 13 Jun 2024 18:53:23 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1sHmlP-009yO1-1j;
-	Thu, 13 Jun 2024 18:53:23 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: hverkuil@xs4all.nl,
-	wentong.wu@intel.com
-Subject: [PATCH 1/1] media: ivsc: Depend on IPU_BRIDGE or not IPU_BRIDGE
-Date: Thu, 13 Jun 2024 18:53:13 +0300
-Message-Id: <20240613155313.2377069-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1718295513; c=relaxed/simple;
+	bh=KZCa6znuMKXC8bkLoWWIPiVEbKqZN3WV5EwnSOH8WJ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e90KlCJ3wLStDZYowyc0CrMheXaTNDlOdWam7qbaxnAkos9fm2W6VjpjCHVXGTT2p3ESSve3xYJjeAHQfSpLLuSP1gA3Ynb0EaZ2BRyqyKCNuq0Zse+8y1T9cc1nG0fVTUi6EaBO7qApGNi5RElczEjLNByKCvnggVukgyrcAxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=DZClKZ3z; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dfef552d425so1602317276.0
+        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 09:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1718295510; x=1718900310; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GZBbzPtIS9puZD9LsDe5Aioc6E2UGfepOTkRRP9sOes=;
+        b=DZClKZ3z+ATu1lMzTx7GBSAZidBtv/LCC3jJkRPgnpDPiug7a4XCXp9RRKvC9m+0tN
+         ZKSjuXW91JL65khSw+o9Xzd/JLdCRQzdfPyEGWOqy3Dte8XpcvX2h/OiZQLZCyEpvoYb
+         kUV+hHBPeM8YXvH5uMzlBwL+qCjcM8ncg2LWQAujcg23mYs2He5bubyrGUbn9R7v5IJb
+         yuZCkD2Gzb4q1GuRWC1zMmKGxq1mhHnrsc8Vh+vsjsizrRaQBcC4iHGj9cypIlm02mCX
+         jA5RoxYLSG6ZMBoVFtH8Y8Jx2+79JCM3w3ji14bRwnyRb+6wSL82HEHsKkQ+dezXh0/l
+         6SuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718295510; x=1718900310;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GZBbzPtIS9puZD9LsDe5Aioc6E2UGfepOTkRRP9sOes=;
+        b=A8Jn9dSrLZAEU1tsx7iue33seEK82t0hP//rGheRiTc5NXCe50GN0BqyzkW5dbwgaa
+         xeAFhmvLyllXjnkb7B8rStPg6M2UGyGojI2UjAXTZRFq+diiph8P/qJmNJocfgAi3qEK
+         NjWS5n2QAH91kW2D83eQKY63vTjO+6gRuuX55b5pUGskApzRccTUkllwNzU/5mxFdFco
+         JnV7Sn/UchHhTcIKlSWJ/g1xaDJEAN9+bkzaQU+RjZSjl/g6HNtZFwW2Q19QASyMXyIS
+         3HTEESt8qO9XpMTu/qlgv35CjJenlHmHwHPk388xocpiOk/8FcBhVxorY1hsDMW20erT
+         my+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXWwbtJoEUqLLJxd+mOFslMi0vnx3TRHrX++SmhNngVVTdBk2s0ncY+e7XyldOocPXwXOfW4B/YiPBDke9r+VVvrbJABQtWth13GoI=
+X-Gm-Message-State: AOJu0YzDwohwHdlLofRYBE505Z7r7YaQeKh0B/1eOGWGzrK8bbgTIZjZ
+	WSSS8Q1mAADzdsoTvuj8EfeucKWyj5DkVxg/w+vBICrOkw00YZIgpCkXU13ByhBfkPhNjqIj/3g
+	jsVb6g0ipVVXChiVmgNiLvXuoMoPiSupd7zJsUA==
+X-Google-Smtp-Source: AGHT+IEZkQCpgQWnHPnqmV72SlpJSSYgy+aR2OvtQyA4oEofTAHLBz7bN09buIDJU6nT5s+qaUGywS58qIOzm6CBeeA=
+X-Received: by 2002:a25:18a:0:b0:dfa:c4b8:630e with SMTP id
+ 3f1490d57ef6-dfe66a6574dmr4785136276.33.1718295510404; Thu, 13 Jun 2024
+ 09:18:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240612105232.400361-1-abdulrasaqolawani@gmail.com>
+In-Reply-To: <20240612105232.400361-1-abdulrasaqolawani@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 13 Jun 2024 17:18:13 +0100
+Message-ID: <CAPY8ntDcSRbJL9q+RuVXU_CAw3QXLAqYrdN4D+V-B2Bdz4VRKA@mail.gmail.com>
+Subject: Re: [PATCH v2] media: i2c: ov5647: replacing of_node_put with __free(device_node)
+To: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Cc: sakari.ailus@linux.intel.com, jacopo@jmondi.org, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com, 
+	julia.lawall@inria.fr
+Content-Type: text/plain; charset="UTF-8"
 
-The ivsc drivers may use the ipu-bridge but currently it's possible to
-link the ivsc to the kernel and ipu-bridge as a module. This won't work.
-Require that the ipu-bridge is either linked to the kernel or disabled if
-ivsc is linked to the kernel as well, by depending on IPU_BRIDGE or
-!IPU_BRIDGE.
+On Wed, 12 Jun 2024 at 11:53, Abdulrasaq Lawani
+<abdulrasaqolawani@gmail.com> wrote:
+>
+> Replace instance of of_node_put with __free(device_node)
+> to protect against any memory leaks due to future changes
+> in control flow.
+>
+> Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202406132238.3hXHG7nB-lkp@intel.com/
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ivsc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Conditional ack had already been given on v1.
+I don't know this new __free well enough to give an R-b, but it looks sane.
 
-diff --git a/drivers/media/pci/intel/ivsc/Kconfig b/drivers/media/pci/intel/ivsc/Kconfig
-index 407a800c81bc..a7d9607ecdc6 100644
---- a/drivers/media/pci/intel/ivsc/Kconfig
-+++ b/drivers/media/pci/intel/ivsc/Kconfig
-@@ -4,6 +4,7 @@
- config INTEL_VSC
- 	tristate "Intel Visual Sensing Controller"
- 	depends on INTEL_MEI && ACPI && VIDEO_DEV
-+	depends on IPU_BRIDGE || !IPU_BRIDGE
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
- 	select V4L2_FWNODE
--- 
-2.39.2
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
+> ---
+>  drivers/media/i2c/ov5647.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index 7e1ecdf2485f..0fb4d7bff9d1 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -1360,24 +1360,21 @@ static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
+>         struct v4l2_fwnode_endpoint bus_cfg = {
+>                 .bus_type = V4L2_MBUS_CSI2_DPHY,
+>         };
+> -       struct device_node *ep;
+> +       struct device_node *ep __free(device_node) =
+> +               of_graph_get_endpoint_by_regs(np, 0, -1);
+>         int ret;
+>
+> -       ep = of_graph_get_endpoint_by_regs(np, 0, -1);
+>         if (!ep)
+>                 return -EINVAL;
+>
+>         ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+>         if (ret)
+> -               goto out;
+> +               return ret;
+>
+>         sensor->clock_ncont = bus_cfg.bus.mipi_csi2.flags &
+>                               V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+>
+> -out:
+> -       of_node_put(ep);
+> -
+> -       return ret;
+> +       return 0;
+>  }
+>
+>  static int ov5647_probe(struct i2c_client *client)
+> --
+> 2.43.0
+>
 
