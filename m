@@ -1,36 +1,41 @@
-Return-Path: <linux-media+bounces-13168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13169-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3A79066F7
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 10:37:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B45DB90670D
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 10:38:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B52211F2169D
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 08:37:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2C79B25CA9
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 08:38:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6811D13BC38;
-	Thu, 13 Jun 2024 08:35:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71A40140E26;
+	Thu, 13 Jun 2024 08:36:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAFF26AE4
-	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 08:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD3413D523;
+	Thu, 13 Jun 2024 08:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718267719; cv=none; b=FY2qhyrPt7luB7P52WKTqLkJH0lh2YS+YuN6Y6reuvymBAh7SGdM9dal7kFWAON3E4YFdsOU5LynY16o0HtVrGsVGK1X1ZfNt6eDdzB+nGtNCc9U2UNSc+iXjWHiU4Gk/Grat0AgXv5Id4wftxrXuuDveIGlCGG94Okxu7+QMpA=
+	t=1718267796; cv=none; b=XgqrWfWk/XX93h5daw2VrEPSJg9MTLgABEoNm/OxxpyWtcP0QqLFAafGCkJf+Tzl680GUPaGQBWcFF659gTIhJH3xTUrI/xQ8gWD828Ag0ZLuAJJTPOLc5bp5BA5S/zyfWU8uupR5VJ9Fn8VmkdWOSRvybRjoHRRBzziMhZhpiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718267719; c=relaxed/simple;
-	bh=sh0qDR/qeZgS0JmjbLpQR8bqe4VUNH/cj51BqM/HQ78=;
+	s=arc-20240116; t=1718267796; c=relaxed/simple;
+	bh=a09l5h73FaDd7vlH/86BhnM3rl737CKNI/vH4xhurWc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cGjwNzklchvGCdLmQdRO//5oICcmL+XtEGEXm/ldu+3xp+9e1wtvGfsDdLQL6UoSH8qVNkdGRoJmOMPXzM32ly5oSzcBJn+UxCcQjIFlpN/DkeUBAY5mTMINDooVmqsQus2Lkf+yAOJg7f7v2m7YVJyBc5HwLxucnf+/LDz9DwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272ECC3277B;
-	Thu, 13 Jun 2024 08:35:15 +0000 (UTC)
-Message-ID: <ccdef158-d6d5-46f9-a5aa-2af00b64ee1b@xs4all.nl>
-Date: Thu, 13 Jun 2024 10:35:14 +0200
+	 In-Reply-To:Content-Type; b=O3xYxf9gK6xC3N5Mpz4HeWQCx4Mq7mSpbPgx0IrKmY3bKrG+NpG9iEnvEgBHZaleLt1rz0AsoXeeJ1tb0awTiwCvkyPZb6dmfjPefIWBSIUmRgG2WjtjIZvK0SEiXPxvPDvV4a17DRKwn5MuWtS0Xu2ksJ4J4TigY0A4Ir2bycQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,234,1712588400"; 
+   d="asc'?scan'208";a="207767857"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 13 Jun 2024 17:36:22 +0900
+Received: from [10.226.93.204] (unknown [10.226.93.204])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 422B94203313;
+	Thu, 13 Jun 2024 17:36:00 +0900 (JST)
+Message-ID: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
+Date: Thu, 13 Jun 2024 09:36:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,359 +43,374 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [ANN] Request for Topics and registration for a Media Summit
- September 16th
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Hidenori Kobayashi <hidenorik@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
- <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
- <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
- <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
- <20240612095448.1e99b751@coco.lan>
- <CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
- <20240612223448.30f1e9cb@coco.lan>
- <3211e218-265d-47f5-858b-9b81b185eba7@xs4all.nl>
- <CAAFQd5Byb5MVNTzgvg7JD-CTX1KR59Osf0AGunBH1UxVYd6XMw@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <CAAFQd5Byb5MVNTzgvg7JD-CTX1KR59Osf0AGunBH1UxVYd6XMw@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
+Content-Language: en-GB
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-6-almasrymina@google.com>
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+Organization: Renesas Electronics Corporation
+In-Reply-To: <20240613013557.1169171-6-almasrymina@google.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------2BCbfj48rMDr1Ni41u40ZNJI"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------2BCbfj48rMDr1Ni41u40ZNJI
+Content-Type: multipart/mixed; boundary="------------GGmF9Y2iOanb3ZPuNcD0T337";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+Message-ID: <322e7317-61dc-4f1e-8706-7db6f5f7a030@bp.renesas.com>
+Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-6-almasrymina@google.com>
+In-Reply-To: <20240613013557.1169171-6-almasrymina@google.com>
+
+--------------GGmF9Y2iOanb3ZPuNcD0T337
+Content-Type: multipart/mixed; boundary="------------VLyD3IZiBv1Y2W5pY0JQYGkf"
+
+--------------VLyD3IZiBv1Y2W5pY0JQYGkf
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On 13/06/2024 10:14, Tomasz Figa wrote:
-> On Thu, Jun 13, 2024 at 4:38 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 12/06/2024 22:35, Mauro Carvalho Chehab wrote:
->>> Em Wed, 12 Jun 2024 17:22:34 +0900
->>> Tomasz Figa <tfiga@chromium.org> escreveu:
->>>
->>>> On Wed, Jun 12, 2024 at 4:54 PM Mauro Carvalho Chehab
->>>> <mchehab@kernel.org> wrote:
->>>>>
->>>>> Em Wed, 12 Jun 2024 08:46:50 +0200
->>>>> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
->>>>>
->>>>>> On 6/12/24 06:12, Tomasz Figa wrote:
->>>>>>> On Wed, May 15, 2024 at 1:19 AM Daniel Almeida
->>>>>>> <daniel.almeida@collabora.com> wrote:
->>>>>>>>
->>>>>>>> Hi Hans, all,
->>>>>>>>
->>>>>>>> I’d like to attend in person and discuss the use of Rust in the subsystem, especially in light of [0] and [1].
->>>>>>>>
->>>>>>>> Please note that these are new submissions that are unrelated with what was discussed last year.
->>>>>>>>
->>>>>>>> 30 minutes will do.
->>>>>>>>
->>>>>>>> [0] https://lwn.net/ml/linux-media/20240227215146.46487-1-daniel.almeida@collabora.com/
->>>>>>>> [1] https://lwn.net/Articles/970565
->>>>>>>
->>>>>>> Somewhat related to the topic: I see potential for a quite big
->>>>>>> redesign of the videobuf2 framework going forward and recently with
->>>>>>> more Rust adoption I'm starting to think it could benefit from being
->>>>>>> implemented in Rust, since we would have to rewrite it quite a bit
->>>>>>> anyway. Especially since it's a part of the subsystem that has to deal
->>>>>>> with memory management, object lifetime and asynchronousness quite a
->>>>>>> lot and we had a history of issues there. So it could be interesting
->>>>>>> to hear everyone's thoughts.
->>>>>>
->>>>>> I think it is far too soon to write a framework like that in Rust.
->>>>>
->>>>> Agreed. I don't object redesigns in C to make it better - which could have
->>>>> some colateral effect of making things easier for a future Rust adoption,
->>>>> but such changes should be justified by themselves, and not because of a
->>>>> language change.
->>>>
->>>> No, the thought of redesign doesn't come from the language change,
->>>> it's the other way around. Since rewriting a lot of the code already,
->>>> why not do it in a language that is generally considered better.
->>>
->>> As Hans said, Rast has experimental support. We can't have drivers
->>> depending on experimental stuff.
->>
->> Indeed.
->>
->> While discussing Rust for experimental drivers or codec libraries is
->> interesting (and I am doing a Rust course, so hopefully I have a better
->> understanding of what's involved by the upcoming media summit), using
->> it for core media frameworks is simply a hard NACK until Linus blesses
->> Rust as a second kernel language.
->>
->> So don't spend your valuable time on that.
->>
-> 
-> Alright. I'm fine with C as well, although it's a shame that
-> eventually when Rust becomes a first-class citizen we'll be left with
-> a lot of legacy code base. Anyway, I guess let's wait until that
-> happens first. :)
-> 
->>>
->>>>
->>>>>
->>>>> See: redesigns at the core will potentially affect lots of drivers,
->>>>> so it needs very good technical reasons why doing it. Plus, it requires
->>>>> comprehensive tests with different types of hardware/drivers to reduce the
->>>>> risk of regressions. Depending on the changes, it may require extra tests
->>>>> with devices that are outside complex camera world: radio, analog and digital
->>>>> TV drivers - and even some input devices that use VB2 - to ensure that
->>>>> nothing broke.
->>>>
->>>> We don't have to do it in an all-or-nothing way. We can start with an
->>>> experimental new implementation in Rust, which could be gradually
->>>> tested. It could even be done the same way as the vb -> vb2
->>>> transition, although I suspect it wouldn't really be necessary, as I
->>>> would like to see it more like a drop-in replacement. In general I
->>>> think the API exposed outside of the framework wouldn't really change
->>>> that much, it's more about the internal design.
->>
->> It makes no sense to have a C and a Rust version of vb2. This framework
->> is critical to all drivers, and we're not going to support two versions
->> and fix bugs/add features in two places. Again, it's a hard NACK. Don't
->> waste time on that.
->>
->> If there are ideas to make vb2 better, then I am all for that.
->>
->> I just want to mention two things here:
->>
->> For most drivers, using vb2 is just fine: the work a driver needs to do is
->> quite straightforward. Exceptions are codec drivers and possibly complex
->> camera drivers when they need to use requests (not certain yet).
-> 
-> Do we have any data that suggests that non-codec and non-complex
-> camera drivers are actually "most drivers"?
+On 13/06/2024 02:35, Mina Almasry wrote:
+> Abstrace the memory type from the page_pool so we can later add support=
 
-Anything with a simple video pipeline: webcams and PCI/USB video capture
-cards in particular. All devices you probably never work with since they
-are primary PC oriented and not for embedded systems/SoCs.
 
-I have drawers full of them...
+s/Abstrace/Abstract/
 
-Codec drivers are a minority.
+> for new memory types. Convert the page_pool to use the new netmem type
+> abstraction, rather than use struct page directly.
+>=20
+> As of this patch the netmem type is a no-op abstraction: it's always a
+> struct page underneath. All the page pool internals are converted to
+> use struct netmem instead of struct page, and the page pool now exports=
 
-> 
-> Anyway, I agree that "using" vb2 is indeed fine and I want us to keep
-> using it. But whether it actually works well is a different story.
-> Things become problematic as soon as someone intends to run something
-> more complex than yavta, e.g. exporting and importing DMA-bufs is
-> involved.
-> 
-> So putting aside the Rust discussion (that wasn't really the core
-> point), could I get 30 minutes to cover the vb2 pain points and how we
-> could fix them? Or should we just work on that and send patches?
-> Either works for me. (In fact we started already, e.g. via the
-> duplicate plane mapping patch series).
+> 2 APIs:
+>=20
+> 1. The existing struct page API.
+> 2. The new struct netmem API.
+>=20
+> Keeping the existing API is transitional; we do not want to refactor al=
+l
+> the current drivers using the page pool at once.
+>=20
+> The netmem abstraction is currently a no-op. The page_pool uses
+> page_to_netmem() to convert allocated pages to netmem, and uses
+> netmem_to_page() to convert the netmem back to pages to pass to mm APIs=
+,
+>=20
+> Follow up patches to this series add non-paged netmem support to the
+> page_pool. This change is factored out on its own to limit the code
+> churn to this 1 patch, for ease of code review.
+>=20
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>=20
+> ---
+>=20
+> v12:
+> - Fix allmodconfig build error. Very recently renesas/ravb_main.c added=
 
-Sure! Can you make a new reply to this topic with a proposal? This is
-hidden inside this longer thread, so I'd rather have a fresh post.
+>   a dependency on page_pool that I missed in my rebase. The dependency
+>   calls page_pool_alloc() directly as it wants to set a custom gfp_mask=
+,
+>   which is unique as all other drivers call a wrapper to that function.=
 
-Regards,
+>   Fix it by adding netmem_to_page() in the driver.> - Fix printing netm=
+em trace printing (Pavel).
+>=20
+> v11:
+> - Fix typing to remove sparse warning. (Paolo/Steven)
+>=20
+> v9:
+> - Fix sparse error (Simon).
+>=20
+> v8:
+> - Fix napi_pp_put_page() taking netmem instead of page to fix
+>   patch-by-patch build error.
+> - Add net/netmem.h include in this patch to fix patch-by-patch build
+>   error.
+>=20
+> v6:
+>=20
+> - Rebased on top of the merged netmem_ref type.
+>=20
+> Cc: linux-mm@kvack.org
+> Cc: Matthew Wilcox <willy@infradead.org>
+>=20
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c |   5 +-
+>  include/linux/skbuff_ref.h               |   4 +-
+>  include/net/netmem.h                     |  15 ++
+>  include/net/page_pool/helpers.h          | 120 ++++++---
+>  include/net/page_pool/types.h            |  14 +-
+>  include/trace/events/page_pool.h         |  30 +--
+>  net/bpf/test_run.c                       |   5 +-
+>  net/core/page_pool.c                     | 304 ++++++++++++-----------=
 
-	Hans
+>  net/core/skbuff.c                        |   8 +-
+>  9 files changed, 305 insertions(+), 200 deletions(-)
+>=20
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
+ernet/renesas/ravb_main.c
+> index c1546b916e4ef..093236ebfeecb 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -303,8 +303,9 @@ ravb_alloc_rx_buffer(struct net_device *ndev, int q=
+, u32 entry, gfp_t gfp_mask,
+> =20
+>  	rx_buff =3D &priv->rx_buffers[q][entry];
+>  	size =3D info->rx_buffer_size;
+> -	rx_buff->page =3D page_pool_alloc(priv->rx_pool[q], &rx_buff->offset,=
 
-> 
->>
->> Internally vb2 is quite complex, but that's because what it does is quite
->> complex. And that's fine. If the internal structure can be improved to
->> make it less complex, then I'm all for that, but there is no magic bullet
->> (including using Rust instead of C) that suddenly makes everything simple.
->>
->> Generally I prefer to have the complexity in core frameworks, that will
->> only make life easier for the driver developers.
-> 
-> I prefer complexity neither in drivers nor core frameworks, but we
-> can't have everything. ;)
-> 
-> I agree that buffer management is a complex problem, so we can't avoid
-> some level of complexity, although there is certainly room for
-> improvement in vb2. That also wasn't the core reason for the proposed
-> redesign. The core point is about the functional issues.
-> 
->>
->> To summarize:
->>
->> Until Rust is accepted by Linus as a second kernel language, as media
->> maintainer I will NACK core media frameworks written in Rust. I won't
->> spend time on it, it's an immediate NACK from me.
->>
->> Note that this doesn't imply that once Linus *does* accept Rust, that we
->> are OK with core frameworks written in Rust. But that will be a separate
->> discussion once that happens.
-> 
-> Ack.
-> 
-> Best regards,
-> Tomasz
-> 
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>> Having two implementations of the same logic doesn't sound reasonable,
->>> as it doubles the maintainership effort: all changes done on one
->>> implementation needs to be moved to the other one.
->>>
->>> Btw, we also have seem this problem before with VB and, up to some
->>> sense, with VB2, as some drivers used to have their own buffer
->>> handling implementation that usually started from a VB or VB2 fork.
->>>
->>> So, if VB2 has issues, let's fix it in C code.
->>>
->>>>>> To be
->>>>>> honest, I won't even consider it until Linus officially accepts Rust as a
->>>>>> second language in the kernel, instead of as an experiment.
->>>>>
->>>>> This is not enough: if the core starts to use a second language, all media
->>>>> developers will be affected and will be required to have expertise on such
->>>>> language.
->>>>
->>>> Let's be realistic, how many developers are actively touching vb2 these days?
->>>
->>> How many developers don't need VB2? Hopefully none :-)
->>>
->>>>> That's not something that should happen without careful
->>>>> analysis and plans that should include a gradual roll-up, lost of tests
->>>>> with the affected drivers including the legacy ones and some strategy to
->>>>> quickly solve regression issues.
->>>>
->>>> That said, I agree. It needs proper discussion and planning. That's
->>>> why I'm proposing this as a topic. :)
->>>> Moreover the redesign itself also needs proper discussion and is more
->>>> of a long term goal, not something to land in the next few days.
->>>>
->>>>>
->>>>> It is not a matter of what language is better. Instead, it is a matter of
->>>>> not affecting code maintenance during the (probably long) transition period
->>>>> and beyond.
->>>>>
->>>>> If you see the past history, the transition from V4L to V4L2 took more than 10
->>>>> years - being possible to be done only with the help of libv4l, plus a
->>>>> lot of backward-compat code that we added. Still there were several
->>>>> regressions and we even had to quickly patch the Kernel and/or some apps
->>>>> that were using the uAPI on different ways.
->>>>
->>>> That's a different situation, because UAPI is involved.
->>>
->>> It is different, but similar, up to some sense, as a change at VB2
->>> implementation will likely affect its kAPI, its behavior or both.
->>>
->>> The point I'm underlining is that core redesigns do affect existing
->>> drivers usually on unexpected ways.
->>>
->>>>
->>>>>
->>>>> Yet, the transition from VB1 to VB2 was also painful, and took a lot of time.
->>>>>
->>>>
->>>> Yes, vb -> vb2 would be a more appropriate comparison.
->>>>
->>>>> On both cases, there were very good technical reasons for the transition,
->>>>> in terms of missing needed features, broken memory models and serious
->>>>> troubles that utterly causing VB1 to not work well on non-x86 hardware.
->>>>>
->>>>
->>>> It's a very similar situation now, vb2 doesn't work well on modern
->>>> hardware, but I still have hopes that it can be fixed without
->>>> affecting the driver-facing behavior. (We would probably need to
->>>> develop some unit tests that validate the driver-facing behavior to
->>>> ensure that.)
->>>>
->>>>> In the end, the authors of the core changes need to acquire legacy hardware
->>>>> and to do lots of driver-specific changes to avoid breaking existing stuff.
->>>>> Hans and I had to dedicate a lot of time and efforts on such transitions,
->>>>> as it required a lot of work.
->>>>>
->>>>> I can tell you: there's no fun on such changes: typically, companies won't
->>>>> pay someone to do changes on drivers for legacy hardware, specially
->>>>> when there are no real benefits, which is the case here, as the final result
->>>>> is just to keep the existing drivers to work with existing hardware,
->>>>> usually without any new features. So, the ones behind such core changes
->>>>> have to commit fixing drivers usually on their spare time.
->>>>>
->>>>
->>>> I don't get that argument. Wouldn't the same apply to any core change?
->>>
->>> It depends of the type of change. For instance, an addition of a new
->>> V4L2 control should not cause regressions to existing drivers. The
->>> same would be true if one adds a new memory allocation component for
->>> VB2 (e. g. something similar to videobuf2-vmalloc.c/videobuf2-dma-sg.c/..):
->>> only drivers using the new way would be affected.
->>>
->>>> I think the reason we have driver maintainers is that they can help
->>>> with testing. Moreover, we need to invest into testing infrastructure
->>>> (which is what people have been doing recently via Media CI) to make
->>>> such changes less painful. Otherwise the subsystem will just bit-rot
->>>> and become useful for modern use cases.
->>>
->>> Using CI to check for uAPI/kAPI changes is helpful, but it doesn't cover
->>> actual drivers. For that, we would need to invest on a CI solution
->>> integrated with lots of different hardware pieces, to check for actual
->>> driver regressions.
->>>
->>> On one of my previous work, the company I used to work had that: they
->>> had some monitors display some things, and the camera captured input
->>> were compared to what the monitor were actually displaying. Doable, but
->>> expensive.
->>>
->>> Regards,
->>> Mauro
->>>
->>> Thanks,
->>> Mauro
->>
-> 
+> -					&size, gfp_mask);
+> +	rx_buff->page =3D netmem_to_page(page_pool_alloc(priv->rx_pool[q],
+> +						       &rx_buff->offset,
+> +						       &size, gfp_mask));
+>  	if (unlikely(!rx_buff->page)) {
+>  		/* We just set the data size to 0 for a failed mapping which
+>  		 * should prevent DMA from happening...
 
+[snip]
+
+> =20
+> -static inline struct page *page_pool_alloc(struct page_pool *pool,
+> -					   unsigned int *offset,
+> -					   unsigned int *size, gfp_t gfp)
+> +static inline netmem_ref page_pool_alloc(struct page_pool *pool,
+> +					 unsigned int *offset,
+> +					 unsigned int *size, gfp_t gfp)
+>  {
+>  	unsigned int max_size =3D PAGE_SIZE << pool->p.order;
+> -	struct page *page;
+> +	netmem_ref netmem;
+> =20
+>  	if ((*size << 1) > max_size) {
+>  		*size =3D max_size;
+>  		*offset =3D 0;
+> -		return page_pool_alloc_pages(pool, gfp);
+> +		return page_pool_alloc_netmem(pool, gfp);
+>  	}
+> =20
+> -	page =3D page_pool_alloc_frag(pool, offset, *size, gfp);
+> -	if (unlikely(!page))
+> -		return NULL;
+> +	netmem =3D page_pool_alloc_frag_netmem(pool, offset, *size, gfp);
+> +	if (unlikely(!netmem))
+> +		return 0;
+> =20
+>  	/* There is very likely not enough space for another fragment, so app=
+end
+>  	 * the remaining size to the current fragment to avoid truesize
+> @@ -140,7 +142,7 @@ static inline struct page *page_pool_alloc(struct p=
+age_pool *pool,
+>  		pool->frag_offset =3D max_size;
+>  	}
+> =20
+> -	return page;
+> +	return netmem;
+>  }
+> =20
+>  /**
+> @@ -154,7 +156,7 @@ static inline struct page *page_pool_alloc(struct p=
+age_pool *pool,
+>   * utilization and performance penalty.
+>   *
+>   * Return:
+> - * Return allocated page or page fragment, otherwise return NULL.
+> + * Return allocated page or page fragment, otherwise return 0.
+>   */
+>  static inline struct page *page_pool_dev_alloc(struct page_pool *pool,=
+
+>  					       unsigned int *offset,
+> @@ -162,7 +164,7 @@ static inline struct page *page_pool_dev_alloc(stru=
+ct page_pool *pool,
+>  {
+>  	gfp_t gfp =3D (GFP_ATOMIC | __GFP_NOWARN);
+> =20
+> -	return page_pool_alloc(pool, offset, size, gfp);
+> +	return netmem_to_page(page_pool_alloc(pool, offset, size, gfp));
+>  }
+
+I find this API change confusing - why should page_pool_alloc() return a
+netmem_ref but page_pool_dev_alloc() return a struct page *?
+
+Is there any reason to change page_pool_alloc() anyway? It calls
+page_pool_alloc_pages() or page_pool_alloc_frag() as appropriate, both
+of which your patch already converts to wrappers around the appropriate
+_netmem() functions. In all instances where page_pool_alloc() is called
+in this patch, you wrap it with netmem_to_page() anyway, there are no
+calls to page_pool_alloc() added which actually want a netmem_ref.
+
+Thanks,
+
+--=20
+Paul Barker
+--------------VLyD3IZiBv1Y2W5pY0JQYGkf
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------VLyD3IZiBv1Y2W5pY0JQYGkf--
+
+--------------GGmF9Y2iOanb3ZPuNcD0T337--
+
+--------------2BCbfj48rMDr1Ni41u40ZNJI
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZmqvcAUDAAAAAAAKCRDbaV4Vf/JGvUxW
+AP4uKbMQBWqrwm4N0a12WI8fJo+BUUCc25C9JJxwln5cIQEAkBtvIuJdTLFRhcetWpSP/iJbKgG5
+snTgszJnAOLlDAE=
+=U1fu
+-----END PGP SIGNATURE-----
+
+--------------2BCbfj48rMDr1Ni41u40ZNJI--
 
