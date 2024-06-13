@@ -1,129 +1,260 @@
-Return-Path: <linux-media+bounces-13186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13187-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D66906A82
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 12:56:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD0990717D
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 14:37:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4DEAD284C83
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 10:56:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A3931F26331
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 12:37:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996D7142917;
-	Thu, 13 Jun 2024 10:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 671A7143870;
+	Thu, 13 Jun 2024 12:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqFn+x1w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TT64gkUy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B30A142648;
-	Thu, 13 Jun 2024 10:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD41020ED;
+	Thu, 13 Jun 2024 12:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718276160; cv=none; b=SN50Zbg2eABEBc9Kd3BdrRG5uISZp081t+NfiwsgJpHpLTtyJlUsyhdNExyy/D0leRfgxFT4/g2XDI7+oI6zxuKf5CCQyCr7B9hvA/Y0pOtZVFepYxVSTlLLEj29GekJqcv5F8Yc3yeFIs1NRYQ93lQjHp6sqxQK+HeBcG/nAA0=
+	t=1718282241; cv=none; b=Ikl9kuIZ+SnlzbgtuafMLlrgHooc6/FdEQcP4h6yzKda5/Dv0QD4C1F5en4RhX1sTQBhrdrODeFNAcvmsvyZguFCZqILaHWVLmA/dxYkSRMrobNzvH4J0lPF55v4ugVSfUDTs5gHiXRB+kRyEnoJPpsnoq7k+lZCFmWtfXDcI4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718276160; c=relaxed/simple;
-	bh=6b8ovoJTtpRLHBC4ajzYK05o5vyr6KBXY3vrPVEqJ8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B8J4rkws4/3CUWkq6dyfGQUS5y+w0xLtCGKQ+xWuEOK9ESnwvWZSgqmJPl1e4iUnxBbyXWdqKxYUwam2lPI9kTRzfRiK8LlzPLbGBElnhgVQaErkv8OkgWoiF+LqlAzDXAFbsQvLPgxXdbfrSsydYMKfb/DYapOVHrrHXJf+/LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqFn+x1w; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718276159; x=1749812159;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6b8ovoJTtpRLHBC4ajzYK05o5vyr6KBXY3vrPVEqJ8Q=;
-  b=CqFn+x1wOCQ+MmZPdmbUXywU5A6mmHfaF+O9WYfsI2+lWkEbbejdE4OL
-   8LPnkcM3Erx5DXXiVUvXIaH+mebH4sGJuT1NLHHjo/1yutUpBuzgrMcnt
-   DTVPjsQcEy1kPcdTgXI73J889R5XIISGGK0t+gsqZk4XX9ulKAbX+9JBj
-   jRyus3siiIr9U1+Fq+15BruAf2rPgGpLXnj3wy0jkRXGI7AqY8Z958XR6
-   Erlq3TDvGqu1eCjMYcAbuHGG6kdgywaN8coCRtblWybEAvhht2V595Ccb
-   bbwrXkDPj3wBSx8KZLpQKH/LFIdcrB+1kq37+F5AW3PnFtxFwjhVXR7vY
-   w==;
-X-CSE-ConnectionGUID: snFNkx/ZQHaw/kDTXmuvnw==
-X-CSE-MsgGUID: jYcVhsXIRTmaRBdPbkNgCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="37606714"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="37606714"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 03:55:58 -0700
-X-CSE-ConnectionGUID: tnrO+fJUQeGyx0/k0IZjWg==
-X-CSE-MsgGUID: bKS/wAsASY+1gpvGdJC2ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="45228251"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jun 2024 03:55:51 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHi7R-0002WE-0F;
-	Thu, 13 Jun 2024 10:55:49 +0000
-Date: Thu, 13 Jun 2024 18:55:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-Message-ID: <202406131802.9chtX0Ci-lkp@intel.com>
-References: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
+	s=arc-20240116; t=1718282241; c=relaxed/simple;
+	bh=VDJefMT8xEQw6dtn2VOdumNzxAyhkyOn6nPBaW3ZJiI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mjfk6G0Jb4fzxKY5NPHBXzkRGLd6KWqplgc0S4RevfveQlZBZwIUXRAlfJylry0/eiEiEDfUIiBsVuBG57f56irAif0W5mcD+r4PVxoWfvEF5mTGcLLU4PpMQ2nquoo+mi2ALEwbxCfXKqVGIqItzm+O5u6MMHm45bjKXks5ryA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TT64gkUy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D807C4AF53;
+	Thu, 13 Jun 2024 12:37:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718282241;
+	bh=VDJefMT8xEQw6dtn2VOdumNzxAyhkyOn6nPBaW3ZJiI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=TT64gkUypWGpN57uf31YfLVd6Oqds94a3mJKRp0vfTVwexIHa2PHxnUkuIolWZg5Q
+	 zVI5g/L1svui4NPbN8DWXstFNwDSpy6G7ik0uXNbyE2WyloZt3tFMSJ4aHJz/qJyN5
+	 icnSJVk83GVjDCHJ8NsvbNcX8uUbi2cXzeo2fn/FHf4VmphJpN+ec5/hbI1mDCAXXA
+	 5mEI89vMLBYjxmHMHtbIduJQqnjjQZN0Zctylwv4P+qf3Pp59Y0kJwosGLdC65EPAe
+	 t7bK+FyJOxueWeJd22ryfPioTdnFg4CmFga9wgsl/UQekLcdwZ1mkJW6qit5znbWcy
+	 NZ3O8G/4+Dodg==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5bad7941dcfso37758eaf.3;
+        Thu, 13 Jun 2024 05:37:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUy+8V/HgYUKkNrKs+M52VcDniDcbjXbBsC9x0BxHLpI933OpFO9AW4MZmUL1qxGxFldm6aP/f3Nd+9nU/L65jGetUWGmYYtxwOsnzWf0q/QwaXt59qX4GgO/7jt9hPQDRbJ3Ysx6+GpumMJDtsLoC+Cn9I8hUoohegC6nOxN7dcu3Akawc
+X-Gm-Message-State: AOJu0Yx+8Q/sHUNxDhYyeCTZL04xHT1Is73lc5fiz20o+9ehu1WWAbzA
+	Kl0+jg2VTRKEG+NkFovnvra6qOq9nj5N2Czbrj9FIjdaZkwsPgum3vVg9jyHvjBf15Q/Js2xm1K
+	7h+JTUh4HC/89Lbuoy5ufR5E3gEc=
+X-Google-Smtp-Source: AGHT+IF3D9bX2FCgBxRWF3J91JRycIDlipicsuGKj32M8JQW0MoP4JJyINqoxlncsVsvD3FsRtlEpauxLEFmyLYNnDU=
+X-Received: by 2002:a4a:e9f6:0:b0:5bd:87a0:66d with SMTP id
+ 006d021491bc7-5bdabe6f5a3mr189994eaf.1.1718282240455; Thu, 13 Jun 2024
+ 05:37:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
+References: <ZmmT56Cyvb2FCyav@kekkonen.localdomain> <CAJZ5v0hOBggQR_=uA3VuhruQnZihVxHHovpTz4=qfcbiSunsYw@mail.gmail.com>
+ <ZmmY3he9vfWVWU3I@kekkonen.localdomain> <CAJZ5v0j7HTfg1wY+B+7vhE6tBKPVHMuu_MsFHjaLK70VS_cNEw@mail.gmail.com>
+ <ZmnnFueL-Cgw5Eqp@kekkonen.localdomain> <CAJZ5v0gtK9yusimCOVV2dGkQWDwQ6=r=vfbgC-eE60Cg-5wk_Q@mail.gmail.com>
+ <ZmnrtIEla9R24egi@kekkonen.localdomain> <CAJZ5v0hXU62QiXxWfkbiovciNNEk0h49kRdScmz5qONTMDA+4A@mail.gmail.com>
+ <20240612200012.GP28989@pendragon.ideasonboard.com> <CAJZ5v0hF+6_RCyP-Rr+ajNNEKe0YenFR8x6wX3dG1Pq+vguTwg@mail.gmail.com>
+ <20240612204114.GV28989@pendragon.ideasonboard.com>
+In-Reply-To: <20240612204114.GV28989@pendragon.ideasonboard.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 13 Jun 2024 14:37:09 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0geGXHM-yHR-CWN8JremnbnSNFkWJEB+8ZZ=jPbUNy6kA@mail.gmail.com>
+Message-ID: <CAJZ5v0geGXHM-yHR-CWN8JremnbnSNFkWJEB+8ZZ=jPbUNy6kA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] ACPI: scan: Ignore Dell XPS 9320 camera graph port nodes
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans de Goede <hdegoede@redhat.com>, Genes Lists <lists@sapience.com>, linux-kernel@vger.kernel.org, 
+	mchehab@kernel.org, hverkuil-cisco@xs4all.nl, wentong.wu@intel.com, 
+	linux-media@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	"regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomeu,
+On Wed, Jun 12, 2024 at 10:41=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Wed, Jun 12, 2024 at 10:31:06PM +0200, Rafael J. Wysocki wrote:
+> > On Wed, Jun 12, 2024 at 10:00=E2=80=AFPM Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > >
+> > > On Wed, Jun 12, 2024 at 08:50:57PM +0200, Rafael J. Wysocki wrote:
+> > > > On Wed, Jun 12, 2024 at 8:41=E2=80=AFPM Sakari Ailus wrote:
+> > > > > On Wed, Jun 12, 2024 at 08:29:21PM +0200, Rafael J. Wysocki wrote=
+:
+> > > > > > On Wed, Jun 12, 2024 at 8:21=E2=80=AFPM Sakari Ailus wrote:
+> > > > > > > On Wed, Jun 12, 2024 at 03:06:53PM +0200, Rafael J. Wysocki w=
+rote:
+> > > > > > > > On Wed, Jun 12, 2024 at 2:47=E2=80=AFPM Sakari Ailus wrote:
+> > > > > > > > > On Wed, Jun 12, 2024 at 02:32:26PM +0200, Rafael J. Wysoc=
+ki wrote:
+> > > > > > > > > > > > > > I just hit the same problem on another Dell lap=
+top. It seems that
+> > > > > > > > > > > > > > all Dell laptops with IPU6 camera from the Tige=
+r Lake, Alder Lake
+> > > > > > > > > > > > > > and Raptor Lake generations suffer from this pr=
+oblem.
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > So instead of playing whack a mole with DMI mat=
+ches we should
+> > > > > > > > > > > > > > simply disable ACPI MIPI DISCO support on all D=
+ell laptops
+> > > > > > > > > > > > > > with those CPUs. I'm preparing a fix for this t=
+o replace
+> > > > > > > > > > > > > > the DMI matching now.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > DisCo for Imaging support shouldn't be dropped on=
+ these systems, and this
+> > > > > > > > > > > > > isn't what your patch does either. Instead the AC=
+PI graph port nodes (as
+> > > > > > > > > > > > > per Linux specific definitions) are simply droppe=
+d, i.e. this isn't related
+> > > > > > > > > > > > > to DisCo for Imaging at all.
+> > > > > > > > > > > >
+> > > > > > > > > > > > So it looks like the changelog of that patch could =
+be improved, right?
+> > > > > > > > > > >
+> > > > > > > > > > > Well, yes. The reason the function is in the file is =
+that nearly all camera
+> > > > > > > > > > > related parsing is located there, not that it would b=
+e related to DisCo for
+> > > > > > > > > > > Imaging as such.
+> > > > > > > > > >
+> > > > > > > > > > So IIUC the camera graph port nodes are created by defa=
+ult with the
+> > > > > > > > > > help of the firmware-supplied information, but if that =
+is defective a
+> > > > > > > > > > quirk can be added to skip the creation of those ports =
+in which case
+> > > > > > > > > > they will be created elsewhere.
+> > > > > > > > > >
+> > > > > > > > > > Is this correct?
+> > > > > > > > >
+> > > > > > > > > Yes.
+> > > > > > > >
+> > > > > > > > So it would be good to add a comment to this effect to
+> > > > > > > > acpi_nondev_subnode_extract() where acpi_graph_ignore_port(=
+) is
+> > > > > > > > called.
+> > > > > > > >
+> > > > > > > > And there is a somewhat tangential question that occurred t=
+o me: If
+> > > > > > > > the nodes are created elsewhere when acpi_graph_ignore_port=
+() is true,
+> > > > > > > > why is it necessary to consult the platform firmware for th=
+e
+> > > > > > > > information on them at all?  Wouldn't it be better to simpl=
+y always
+> > > > > > > > create them elsewhere?
+> > > > > > >
+> > > > > > > Simple answer: for the same reason why in general system spec=
+ific
+> > > > > > > information comes from ACPI and not from platform data compil=
+ed into the
+> > > > > > > kernel.
+> > > > > > >
+> > > > > > > Of course this is technically possible but it does not scale.
+> > > > > >
+> > > > > > While I agree in general, in this particular case the platform =
+data
+> > > > > > compiled into the kernel needs to be present anyway, at least
+> > > > > > apparently, in case the data coming from the platform firmware =
+is
+> > > > > > invalid.
+> > > > > >
+> > > > > > So we need to do 3 things: compile in the platform data into th=
+e
+> > > > > > kernel and expect the platform firmware to provide the necessar=
+y
+> > > > > > information, and add quirks for the systems where it is known i=
+nvalid.
+> > > > > >
+> > > > > > Isn't this a bit too much?
+> > > > >
+> > > > > Isn't this pretty much how ACPI works currently?
+> > > >
+> > > > No, we don't need to put platform data into the kernel for every bi=
+t
+> > > > of information that can be retrieved from the platform firmware via
+> > > > ACPI.
+> > > >
+> > > > The vast majority of information in the ACPI tables is actually
+> > > > correct and if quirks are needed, they usually are limited in scope=
+.
+> > > >
+> > > > Where it breaks is when the ACPI tables are not sufficiently valida=
+ted
+> > > > by OEMs which mostly happens when the data in question are not need=
+ed
+> > > > to pass some sort of certification or admission tests.
+> > >
+> > > We have to be careful here. Part of the job of the ACPI methods for
+> > > camera objects is to control the camera sensor PMIC and set up the ri=
+ght
+> > > voltages (many PMICs have programmable output levels). In many cases
+> > > we've seen with the IPU3, broken ACPI support means the methods will =
+try
+> > > to do something completely bogus, like accessing a PMIC at an incorre=
+ct
+> > > I2C address. That's mostly fine, it will result in the camera not bei=
+ng
+> > > detected. We could however have broken ACPI implementation that would
+> > > program the PMIC to output voltages that would damage the sensor. Use=
+rs
+> > > won't be happy.
+> >
+> > My point is basically that if that data were also used by Windows,
+> > then chances are that breakage of this sort would be caught during
+> > Windows validation before shipping the machines and so it wouldn't
+> > affect Linux as well.
+> >
+> > However, if OEMs have no vehicle to validate their systems against,
+> > bad things can happen indeed.
+> >
+> > Also, if an OEM has no incentive to carry out the requisite checks,
+> > the result is likely to be invalid data in the platform firmware.
+>
+> We're exactly on the same page. The only solution [*] I can see for this
+> problem is to get the Windows drivers to use the same ACPI data as the
+> Linux drivers.
 
-kernel test robot noticed the following build warnings:
+That is long-term, however, and in the meantime something needs to be
+done about it too.
 
-[auto build test WARNING on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
+Sakari is telling me that the warning on boot triggered by firmware
+issues was in a new driver and it has been addressed in 6.10-rc3
+already.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/iommu-rockchip-Add-compatible-for-rockchip-rk3588-iommu/20240612-215814
-base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-patch link:    https://lore.kernel.org/r/20240612-6-10-rocket-v1-6-060e48eea250%40tomeuvizoso.net
-patch subject: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-config: arc-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_DRM_ACCEL_ROCKET-0-0 (https://download.01.org/0day-ci/archive/20240613/202406131802.9chtX0Ci-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240613/202406131802.9chtX0Ci-lkp@intel.com/reproduce)
+This is good, as we don't need to worry about people reporting a
+regression because of it any more.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406131802.9chtX0Ci-lkp@intel.com/
+Still, IIUC, the driver simply fails to probe if it doesn't get
+correct information from the platform firmware and a quirk needs to be
+added to the ACPI enumeration code for the driver to use a different
+source of information.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by DRM_ACCEL_ROCKET
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-     Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
-     Selected by [y]:
-     - DRM_ACCEL_ROCKET [=y] && DRM [=y] && (ARM64 || COMPILE_TEST [=y]) && MMU [=y]
+I'm wondering if the driver could be modified to switch over to the
+different source of information automatically if the firmware-provided
+data don't make any sense to it, after logging an FW_BUG message.  It
+could even use the other source of information to sanity-check the
+firmware-provided data in principle.  It's all software, so it should
+be doable.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> * Another solution would be for OEMs to stop caring about Windows and
+> testing their machines with Linux only, essentially reversing the
+> current situation. Chances of this happening however seem even tinier
+> :-)
+
+Seriously though, we could create a Linux-based utility that would
+retrieve all of the relevant information from the firmware using the
+existing kernel code and they say "this is what I would do to the
+hardware based on this information".  That could help people to do
+basic checks if they cared.
 
