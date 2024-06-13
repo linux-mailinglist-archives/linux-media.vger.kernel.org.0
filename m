@@ -1,145 +1,191 @@
-Return-Path: <linux-media+bounces-13163-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13164-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923519065EE
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 09:58:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F71D906617
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 10:01:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3514F2812CA
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 07:58:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2F43B21860
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 08:01:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6B4713DDA5;
-	Thu, 13 Jun 2024 07:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="JrGg/6qg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6623C13CFB2;
+	Thu, 13 Jun 2024 08:01:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E68A13D607;
-	Thu, 13 Jun 2024 07:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC13113CA8D;
+	Thu, 13 Jun 2024 08:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718265403; cv=none; b=ti83BvKKKxYTAMK0gxUuL+dWJLFpRpPjpfYqjxvDNFl8FG6axIM5bwXTs1+K2DTR91SaHWzdyX3FSmazvJc/Smom8vRXfxvL0Jxz530nxcRRtQ1H4AzJvbLbYClECWwjR1F5luoLny3gmDEkL5GE4hxEpygsOw/uriol3xpPR2Q=
+	t=1718265683; cv=none; b=Apo05thg5jzCqd/sH2oqy0/ocJWw30fz4+zmY19Heyyfk332wX6iTxR6ueiHkQei4qsCFS/+b1R1Q6DCh+xyg4DtzSLXvHKWII3VwyOEBtCNy8HMWFx41t3ow7PLuoIX8uzt6+EyeFlOrdAUEtqNF95cUn+oN3Ab6sbp1LgMELA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718265403; c=relaxed/simple;
-	bh=GwtrW5471joAc5Ed4Kj55CjUq75+jsgEdYRndPXtQcg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jp2E41Iv1QCKtf6pdWiwgK1Iv/EBPdPXGa2Znw6SCFiXYKo7cIUUOUnBnLCsKkN/ZDi7yHu+FLa16DDiz6CL0CmA5AnodY5GBFVbciE8sAUagIgEC/mCxMj5PcZ2M1ysT9Gsfj0PCXMl3n49HAVLa2T6YQuodUcYGhLXbCx9TFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=JrGg/6qg; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 740d4c2c295a11efa54bbfbb386b949c-20240613
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=E7llR/RAqOOuOrro8s4iot5nsHsj1Nl6C3DN2LP19uk=;
-	b=JrGg/6qgKHsPdsvdDjKEw5t9fVdphxtQ1zAGkOprHGOhPJIZtJRNcBcd6VF5Seek7GbgupsX+Au6lF1+3njTkEphat+Er179Ua57hMmA+SyLoqVpeglVg4sjY1hQ1HK82PbWhBQ3jr9Dufw7DZxVN3L6lKFuNvEXhWU5fAKjBdA=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.39,REQID:81253da8-fe6e-4a1e-863a-6c6866a5b55e,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:393d96e,CLOUDID:7baf8988-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 740d4c2c295a11efa54bbfbb386b949c-20240613
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 815185349; Thu, 13 Jun 2024 15:56:34 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 13 Jun 2024 15:56:32 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 13 Jun 2024 15:56:32 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
- Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v3 7/7] media: mediatek: vcodec: remove media request checking
-Date: Thu, 13 Jun 2024 15:55:32 +0800
-Message-ID: <20240613075532.32128-8-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240613075532.32128-1-yunfei.dong@mediatek.com>
-References: <20240613075532.32128-1-yunfei.dong@mediatek.com>
+	s=arc-20240116; t=1718265683; c=relaxed/simple;
+	bh=ijIgL4trQAoJvWli1jZxpI3we8f18cgQdunh1oh+b3w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JFn7AqD7Ebo6+yHfeCEpdRkQmPZ65obgubisJClry1tiO9TQTtqtJqCSIzF6q4nJI185uTmWcPOa8K+3Rbz2m2W2oxoR1TXfzrOtZA8PREYTVj3KW6qTK/mc96YGmqt0ybw9p0V32SQz9+OBEmE0jf0yFKWYHKvM6hmFsUDXJ9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875be5.versanet.de ([83.135.91.229] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sHfOQ-0007fB-G8; Thu, 13 Jun 2024 10:01:10 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jianfeng Liu <liujianfeng1994@gmail.com>,
+ Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v5 3/5] media: hantro: Add RK3588 VEPU121 support
+Date: Thu, 13 Jun 2024 10:01:09 +0200
+Message-ID: <14943967.O6BkTfRZtg@diego>
+In-Reply-To: <g3zzuwv2pti6oudc5xlab3cdjpqbhjsdxdsphzch4mtcaisqxl@iwkxgillwi2f>
+References:
+ <20240612173213.42827-1-sebastian.reichel@collabora.com>
+ <1739853.izSxrag8PF@diego>
+ <g3zzuwv2pti6oudc5xlab3cdjpqbhjsdxdsphzch4mtcaisqxl@iwkxgillwi2f>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-If the media request of each source buffer is NULL, need to
-set the buffer status to error, then schedule again in case
-of access NULL pointer. No need to check again after media
-request pointer is non zero.
+Am Donnerstag, 13. Juni 2024, 00:44:38 CEST schrieb Sebastian Reichel:
+> Hi,
+>=20
+> On Wed, Jun 12, 2024 at 08:08:51PM GMT, Heiko St=FCbner wrote:
+> > Am Mittwoch, 12. Juni 2024, 19:15:43 CEST schrieb Sebastian Reichel:
+> > > Avoid exposing each of the 4 Hantro H1 cores separately to userspace.
+> > > For now just expose the first one.
+> > >=20
+> > > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > > ---
+> > >  .../media/platform/verisilicon/hantro_drv.c   | 38 +++++++++++++++++=
+++
+> > >  1 file changed, 38 insertions(+)
+> > >=20
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/driver=
+s/media/platform/verisilicon/hantro_drv.c
+> > > index 34b123dafd89..b722a20c5fe3 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> > > @@ -722,6 +722,7 @@ static const struct of_device_id of_hantro_match[=
+] =3D {
+> > >  	{ .compatible =3D "rockchip,rk3399-vpu", .data =3D &rk3399_vpu_vari=
+ant, },
+> > >  	{ .compatible =3D "rockchip,rk3568-vepu", .data =3D &rk3568_vepu_va=
+riant, },
+> > >  	{ .compatible =3D "rockchip,rk3568-vpu", .data =3D &rk3568_vpu_vari=
+ant, },
+> > > +	{ .compatible =3D "rockchip,rk3588-vepu121", .data =3D &rk3568_vpu_=
+variant, },
+> > >  	{ .compatible =3D "rockchip,rk3588-av1-vpu", .data =3D &rk3588_vpu9=
+81_variant, },
+> > >  #endif
+> > >  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+> > > @@ -992,6 +993,39 @@ static const struct media_device_ops hantro_m2m_=
+media_ops =3D {
+> > >  	.req_queue =3D v4l2_m2m_request_queue,
+> > >  };
+> > > =20
+> > > +/*
+> > > + * Some SoCs, like RK3588 have multiple identical Hantro cores, but =
+the
+> > > + * kernel is currently missing support for multi-core handling. Expo=
+sing
+> > > + * separate devices for each core to userspace is bad, since that do=
+es
+> > > + * not allow scheduling tasks properly (and creates ABI). With this =
+workaround
+> > > + * the driver will only probe for the first core and early exit for =
+the other
+> > > + * cores. Once the driver gains multi-core support, the same techniq=
+ue
+> > > + * for detecting the main core can be used to cluster all cores toge=
+ther.
+> > > + */
+> > > +static int hantro_disable_multicore(struct hantro_dev *vpu)
+> > > +{
+> > > +	const char *compatible;
+> > > +	struct device_node *node;
+> > > +	int ret;
+> > > +
+> > > +	/* Intentionally ignores the fallback strings */
+> > > +	ret =3D of_property_read_string(vpu->dev->of_node, "compatible", &c=
+ompatible);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	/* first compatible node found from the root node is considered the=
+ main core */
+> > > +	node =3D of_find_compatible_node(NULL, NULL, compatible);
+> > > +	if (!node)
+> > > +		return -EINVAL; /* broken DT? */
+> > > +
+> > > +	if (vpu->dev->of_node !=3D node) {
+> > > +		dev_info(vpu->dev, "missing multi-core support, ignoring this inst=
+ance\n");
+> > > +		return -ENODEV;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int hantro_probe(struct platform_device *pdev)
+> > >  {
+> > >  	const struct of_device_id *match;
+> > > @@ -1011,6 +1045,10 @@ static int hantro_probe(struct platform_device=
+ *pdev)
+> > >  	match =3D of_match_node(of_hantro_match, pdev->dev.of_node);
+> > >  	vpu->variant =3D match->data;
+> > > =20
+> > > +	ret =3D hantro_disable_multicore(vpu);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> >=20
+> > I think this might be better as two patches?
+> >=20
+> > As this patch stands, the disable-multicore handling is done for _all_
+> > hantro variants, so part of me wants this to be labeled as such.
+> >=20
+> > The whole reasoning is completely ok, but somehow having this under
+> > the "add rk3588" umbrella feels strange ;-)
+>=20
+> I can do that, but the 'rockchip,rk3588-vepu121' part is only needed
+> because of the multicore handling. If the kernel already had this bit
+> in the past, the RK3568 compatible could be used for RK3588 (as a
+> fallback compatible), just like for VPU121.
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../vcodec/decoder/mtk_vcodec_dec_stateless.c      | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+I meant, you're doing hantro_disable_multicore() here also for everyone
+else (i.MX etc), hence I'd like that to be a separate commit in this
+series like:
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-index 3dba3549000a..43af18df03ea 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-@@ -359,10 +359,14 @@ static void mtk_vdec_worker(struct work_struct *work)
- 			  ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
- 	/* Apply request controls. */
- 	src_buf_req = vb2_src->req_obj.req;
--	if (src_buf_req)
-+	if (src_buf_req) {
- 		v4l2_ctrl_request_setup(src_buf_req, &ctx->ctrl_hdl);
--	else
-+	} else {
- 		mtk_v4l2_vdec_err(ctx, "vb2 buffer media request is NULL");
-+		v4l2_m2m_buf_done(vb2_v4l2_src, VB2_BUF_STATE_ERROR);
-+		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-+		return;
-+	}
- 
- 	ret = vdec_if_decode(ctx, bs_src, NULL, &res_chg);
- 	if (ret && ret != -EAGAIN) {
-@@ -380,8 +384,7 @@ static void mtk_vdec_worker(struct work_struct *work)
- 	state = ret ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE;
- 	if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
- 	    ctx->current_codec == V4L2_PIX_FMT_VP8_FRAME) {
--		if (src_buf_req)
--			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-+		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
- 		vb2_v4l2_dst = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
- 		v4l2_m2m_buf_done(vb2_v4l2_dst, state);
- 		v4l2_m2m_buf_done(vb2_v4l2_src, state);
-@@ -398,8 +401,7 @@ static void mtk_vdec_worker(struct work_struct *work)
- 	 */
- 	ctx->last_vb2_v4l2_src = (ret != -EAGAIN) ? NULL : vb2_v4l2_src;
- 	if (ret && ret != -EAGAIN) {
--		if (src_buf_req)
--			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-+		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
- 		v4l2_m2m_buf_done(vb2_v4l2_src, state);
- 	}
- 
--- 
-2.18.0
+=2D---- 8< ------
+media: hantro: Disable multi-core handling for the time being
+
+The VSI doc for the Hantro codec describes the grouping of up to 4 instance=
+s.
+The kernel currently doesn't handle multi-core processing .... foo bar ....
+=2D---- 8< ------
+
+And then add rk3588 support on top of that.
+
+
+Heiko
+
 
 
