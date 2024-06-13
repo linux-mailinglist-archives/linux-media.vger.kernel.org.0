@@ -1,164 +1,334 @@
-Return-Path: <linux-media+bounces-13152-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13153-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914DC906497
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 09:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB5A9064C4
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 09:18:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0C1BE1F23175
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 07:09:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 227F11F22721
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 07:18:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C63C137C24;
-	Thu, 13 Jun 2024 07:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16D9D5914A;
+	Thu, 13 Jun 2024 07:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cMLnEj0D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C44622
-	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 07:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9F07FB
+	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 07:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718262539; cv=none; b=eMzrELnEo9O4sm7gaqDpQDA57WTeUqGAT9NScL5amttD4sMpTLXI4b5t4MWLETeUBl3PxjTPBzakrTPp/NGra5ggMdL9j1wjzstvjHhZVEN9o5jpRpryu3ZB9+rw/1ApPPpEhzl1HO3dmzsgN6OohQ5018YiZLDvQX5S8gFnUDY=
+	t=1718263089; cv=none; b=feP/MHcJri3gx/yk4/M4VNnggV6ghskUdqL4GLAFr/OcCK/tcb0xOFZzqNL3ArI+sol4vsf4WmJGaC4AmwoTHn99Ojh63bpojIrG/K0nUjc8obwV0VHRJJflBwSnwcigd6m9BGtyAvdy05jCTBmKzCNLDZwI5U2hNanPoLEGGcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718262539; c=relaxed/simple;
-	bh=giVvejYdBsgl8trcoQDgOwWVxokG8VvdMhRQGXyf1OU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aEV0CWYDKS7kI1Zcq9eOquJgg0gC91AHewxKBQAWYwlkrdBmAWzUDHpHsHvC8XUwl/Mz35cnOahWiX7gBZ3DW/8yMLkvqwsjKXBfT+PfISafTRkIyahdyFYQ4IfLwQg8BkYHuBqOfwoaxoUo+zkfUSrXQ0wo/p/4GJJl/MF3Rf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35836C2BBFC;
-	Thu, 13 Jun 2024 07:08:57 +0000 (UTC)
-Message-ID: <ae8cc9b0-2792-4991-83b5-d6a5e50f2d2e@xs4all.nl>
-Date: Thu, 13 Jun 2024 09:08:55 +0200
+	s=arc-20240116; t=1718263089; c=relaxed/simple;
+	bh=NFawOIOeqbwWu2fa4TqTDPulab2QTDHj8kkh2xmnCE8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ObKpnHZnZYSxkSQ8vGasTHvg7E50sKdZZiSQQcRUY3xC8OVLFp4Dg2SDXHH6qgMzrfLH6RU4M7tLiFN7cO34cd06sYnqidEeEmUVKdnn1qcRi+WvQom1krr+JC1gibK6MKmtJsQ1fffVXmax2IvzgtzQS9tcGKPF0k6qpcZ0zLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cMLnEj0D; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2eaafda3b5cso7195461fa.3
+        for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 00:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718263086; x=1718867886; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xaYYAKTToc1G3rzx2GP+97vvyi6uy2puQme5ScL1rHI=;
+        b=cMLnEj0DBVvVNSu2fZ46u7+SSKXq/HTBkZi6XWe58dkXeTrC+bvJZo4A6ToQ5Lr7LG
+         /QuzAFTxfxAK97oIoHjq4C8DlSx7OqjMpivqR67BVa29nrpILQ2DSne57IawG3wXHltp
+         R46rEg/62tpImClni42v+QY+64xXS7B/5qEyA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718263086; x=1718867886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xaYYAKTToc1G3rzx2GP+97vvyi6uy2puQme5ScL1rHI=;
+        b=YTiwl4ajw+aUIDK7DRoJ7JD0klmJVLV0aH8uYAcCWFmYv5z1jS8uvVHD/yAnuSXP65
+         oEBrMVpTjxXdNhmfOl1QTZY7KhIjeyDPaRROMaxeU78btyxhiY2hU3y7jhL+1kf57cvE
+         7TEDq24vfF80OmcD/F5vgTSVPLqduTwdRB55LZG1kzbSdX+DOh84okNq+9r2ziBd7FTo
+         hpyOHG7peOBzxZLnlzrLncD+XyjVwIkkdfwo30eId3tOncPNqGJwGJ0D0gpCwK8oCTFk
+         2V5oTpaHTXybkQvjyIY7oqXyILF67w7Sm3rdQCHWAVot4JDISOFI9dT+NaHiWkJsDqqL
+         bD1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXYiumRUrspCd5tRASuGY99ZpfxA3+g6snVzz/UAJo3OV0HjgXxw6OHuJIgKFPvw9F00hUc0kjG34faiOuWwIUXnwluItdnCpW4C1c=
+X-Gm-Message-State: AOJu0Yz31FugWUdiNL9M9tcHcN060PK0FlzLrD5sXtXerQzRC6rPD4C+
+	dmefR76JLLeAP7jxe9FN7GtJzjCdBVrlF1M2hkItO1SdNArlK09BPz439KTTyE50kYZw8KN0Kgk
+	rj/P4P7c4td4JinWAWFiA8TTSGzNQkpZnDLJB
+X-Google-Smtp-Source: AGHT+IF2SOjxD36qgdVi0HXHMkd3S6E5iOu9IelmHMNCNHqV+dLgmmhjl9dhQKA2mwdmg6RCJcUogH/yvdNodQU5Wj0=
+X-Received: by 2002:a2e:9105:0:b0:2ea:e751:fef4 with SMTP id
+ 38308e7fff4ca-2ebfc92b9e2mr21733361fa.20.1718263085470; Thu, 13 Jun 2024
+ 00:18:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+ <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com> <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
+ <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl> <20240612095448.1e99b751@coco.lan>
+ <CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
+ <20240612083430.GE28989@pendragon.ideasonboard.com> <CAAFQd5ApRq4WL_PcGKp+58u64yKfvyxgfCxXxiZjqzSugzV1FA@mail.gmail.com>
+In-Reply-To: <CAAFQd5ApRq4WL_PcGKp+58u64yKfvyxgfCxXxiZjqzSugzV1FA@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 13 Jun 2024 15:17:53 +0800
+Message-ID: <CAGXv+5FrLyhEqZEm8w6sqm9ZX+=N_x6vgLaG4HYbuK_f4XMvhg@mail.gmail.com>
 Subject: Re: [ANN] Request for Topics and registration for a Media Summit
  September 16th
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Tomasz Figa <tfiga@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Hidenori Kobayashi <hidenorik@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
- <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
- <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
- <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
- <20240612095448.1e99b751@coco.lan>
- <CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
- <20240612083430.GE28989@pendragon.ideasonboard.com>
- <20240612224406.41dd88fc@coco.lan>
- <20240612205249.GB11102@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240612205249.GB11102@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Hidenori Kobayashi <hidenorik@chromium.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, Sean Young <sean@mess.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/06/2024 22:52, Laurent Pinchart wrote:
-> Hi Mauro,
-> 
-> On Wed, Jun 12, 2024 at 10:44:06PM +0200, Mauro Carvalho Chehab wrote:
->> Em Wed, 12 Jun 2024 11:34:30 +0300 Laurent Pinchart escreveu:
->>
->>> Focussing on this topic, if we're brainstorming memory management for
->>> media devices, I'd like to throw in a controversial idea. In addition to
->>> being clearer on the fact that USERPTR is deprecated, I would like to
->>> deprecate MMAP too and only focus on DMABUF. I believe Linux needs a
->>> centralized buffer allocator, instead of having multiple allocation APIs
->>> scattered in different places. There are design ideas in gralloc that we
->>> could benefit from.
->>
->> Deprecating USERPTR is doable, as not many apps use it, and they're
->> mostly focused on complex camera/ARM scenario. Now, deprecating MMAP at 
->> V4L2 core is a different history: lots of different userspace programs,
->> including browsers and proprietary apps like zoom, etc. rely on MMAP
->> support. We can only consider deprecating MMAP once applications switch 
->> to DMABUF.
-> 
-> Deprecating doesn't mean dropping it right away, it means telling
-> application developers that DMABUF is the recommended way. We will still
-> have to support MMAP for a long time, including fixing bugs in it, as
-> that will be a long transition. And it first requires solving the
-> problem of centralizing allocation for DMABUF. It won't happen
-> overnight, but I'm trying to gather support for the idea, and get people
-> to collaborate on solving the technical problems that are currently
-> blocking this long term evolution. If the media subsystem endorsed the
-> effort, basically saying publicly that we are fine deprecating MMAP in
-> principle once a good replacement will be available, it may help. I
-> don't expect the deprecation to happen before at least two years, and
-> the removal from the kernel would probably take another 10 to 15 years
-> :-)
-> 
+On Wed, Jun 12, 2024 at 5:02=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wr=
+ote:
+>
+> On Wed, Jun 12, 2024 at 5:34=E2=80=AFPM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Tomasz,
+> >
+> > On Wed, Jun 12, 2024 at 05:22:34PM +0900, Tomasz Figa wrote:
+> > > On Wed, Jun 12, 2024 at 4:54=E2=80=AFPM Mauro Carvalho Chehab wrote:
+> > > > Em Wed, 12 Jun 2024 08:46:50 +0200 Hans Verkuil escreveu:
+> > > > > On 6/12/24 06:12, Tomasz Figa wrote:
+> > > > > > On Wed, May 15, 2024 at 1:19=E2=80=AFAM Daniel Almeida wrote:
+> > > > > >>
+> > > > > >> Hi Hans, all,
+> > > > > >>
+> > > > > >> I=E2=80=99d like to attend in person and discuss the use of Ru=
+st in the subsystem, especially in light of [0] and [1].
+> > > > > >>
+> > > > > >> Please note that these are new submissions that are unrelated =
+with what was discussed last year.
+> > > > > >>
+> > > > > >> 30 minutes will do.
+> > > > > >>
+> > > > > >> [0] https://lwn.net/ml/linux-media/20240227215146.46487-1-dani=
+el.almeida@collabora.com/
+> > > > > >> [1] https://lwn.net/Articles/970565
+> > > > > >
+> > > > > > Somewhat related to the topic: I see potential for a quite big
+> > > > > > redesign of the videobuf2 framework going forward and recently =
+with
+> > > > > > more Rust adoption I'm starting to think it could benefit from =
+being
+> > > > > > implemented in Rust, since we would have to rewrite it quite a =
+bit
+> > > > > > anyway. Especially since it's a part of the subsystem that has =
+to deal
+> > > > > > with memory management, object lifetime and asynchronousness qu=
+ite a
+> > > > > > lot and we had a history of issues there. So it could be intere=
+sting
+> > > > > > to hear everyone's thoughts.
+> > > > >
+> > > > > I think it is far too soon to write a framework like that in Rust=
+.
+> > > >
+> > > > Agreed. I don't object redesigns in C to make it better - which cou=
+ld have
+> > > > some colateral effect of making things easier for a future Rust ado=
+ption,
+> > > > but such changes should be justified by themselves, and not because=
+ of a
+> > > > language change.
+> > >
+> > > No, the thought of redesign doesn't come from the language change,
+> > > it's the other way around. Since rewriting a lot of the code already,
+> > > why not do it in a language that is generally considered better.
+> > >
+> > > > See: redesigns at the core will potentially affect lots of drivers,
+> > > > so it needs very good technical reasons why doing it. Plus, it requ=
+ires
+> > > > comprehensive tests with different types of hardware/drivers to red=
+uce the
+> > > > risk of regressions. Depending on the changes, it may require extra=
+ tests
+> > > > with devices that are outside complex camera world: radio, analog a=
+nd digital
+> > > > TV drivers - and even some input devices that use VB2 - to ensure t=
+hat
+> > > > nothing broke.
+> > >
+> > > We don't have to do it in an all-or-nothing way. We can start with an
+> > > experimental new implementation in Rust, which could be gradually
+> > > tested. It could even be done the same way as the vb -> vb2
+> > > transition, although I suspect it wouldn't really be necessary, as I
+> > > would like to see it more like a drop-in replacement. In general I
+> > > think the API exposed outside of the framework wouldn't really change
+> > > that much, it's more about the internal design.
+> > >
+> > > > > To be
+> > > > > honest, I won't even consider it until Linus officially accepts R=
+ust as a
+> > > > > second language in the kernel, instead of as an experiment.
+> > > >
+> > > > This is not enough: if the core starts to use a second language, al=
+l media
+> > > > developers will be affected and will be required to have expertise =
+on such
+> > > > language.
+> > >
+> > > Let's be realistic, how many developers are actively touching vb2 the=
+se days?
+> > >
+> > > > That's not something that should happen without careful
+> > > > analysis and plans that should include a gradual roll-up, lost of t=
+ests
+> > > > with the affected drivers including the legacy ones and some strate=
+gy to
+> > > > quickly solve regression issues.
+> > >
+> > > That said, I agree. It needs proper discussion and planning. That's
+> > > why I'm proposing this as a topic. :)
+> > > Moreover the redesign itself also needs proper discussion and is more
+> > > of a long term goal, not something to land in the next few days.
+> >
+> > Focussing on this topic, if we're brainstorming memory management for
+> > media devices, I'd like to throw in a controversial idea. In addition t=
+o
+> > being clearer on the fact that USERPTR is deprecated,
+>
+> Definitely. This has been long overdue.
+>
+> >  I would like to
+> > deprecate MMAP too and only focus on DMABUF. I believe Linux needs a
+> > centralized buffer allocator, instead of having multiple allocation API=
+s
+> > scattered in different places. There are design ideas in gralloc that w=
+e
+> > could benefit from.
+> >
+>
+> Given that we now have DMA-buf heaps in mainline, it sounds much more
+> realistic. It would certainly help eliminate some issues in the vb2
+> layer, such as vb2-dma-sg having its own open coded page allocation
+> that can't handle DMA addressing limitations (which can be fixed with
+> some additions to the DMA API, but eliminating the problem altogether
+> is way better than any other solution.)
+>
+> That said, as we already use a centralized DMA-buf allocator in
+> ChromeOS and don't really care about the MMAP mode, I'm definitely
+> biased here. We would need to hear from people working on userspace
+> which still uses it (if there is any).
 
-IMHO you cannot removed MMAP support: it is the only streaming I/O method
-that is supported by all drivers, whereas DMABUF isn't. And many, many userspace
-applications use that. Nor does it pose problems: it just works.
+That's not entirely true. In the decode path, if a post-processor is
+needed (mostly for detiling), then the decoder capture buffers are
+allocated with the MMAP mode.
 
-USERPTR support is another matter: there have been problems with it, and
-the vb2 code is hard to understand and to support.
 
-I wouldn't shed a tear if it disappears. The strategy would be to first
-make sure any driver supporting USERPTR also supports DMABUF, and then
-put USERPTR under a kernel config option. Initially it would default to y,
-but issue a warning, and later (after a few years) it can default to n
-and eventually be removed.
+ChenYu
 
-Regards,
-
-	Hans
+> > > > It is not a matter of what language is better. Instead, it is a mat=
+ter of
+> > > > not affecting code maintenance during the (probably long) transitio=
+n period
+> > > > and beyond.
+> > > >
+> > > > If you see the past history, the transition from V4L to V4L2 took m=
+ore than 10
+> > > > years - being possible to be done only with the help of libv4l, plu=
+s a
+> > > > lot of backward-compat code that we added. Still there were several
+> > > > regressions and we even had to quickly patch the Kernel and/or some=
+ apps
+> > > > that were using the uAPI on different ways.
+> > >
+> > > That's a different situation, because UAPI is involved.
+> > >
+> > > > Yet, the transition from VB1 to VB2 was also painful, and took a lo=
+t of time.
+> > >
+> > > Yes, vb -> vb2 would be a more appropriate comparison.
+> > >
+> > > > On both cases, there were very good technical reasons for the trans=
+ition,
+> > > > in terms of missing needed features, broken memory models and serio=
+us
+> > > > troubles that utterly causing VB1 to not work well on non-x86 hardw=
+are.
+> > >
+> > > It's a very similar situation now, vb2 doesn't work well on modern
+> > > hardware, but I still have hopes that it can be fixed without
+> > > affecting the driver-facing behavior. (We would probably need to
+> > > develop some unit tests that validate the driver-facing behavior to
+> > > ensure that.)
+> > >
+> > > > In the end, the authors of the core changes need to acquire legacy =
+hardware
+> > > > and to do lots of driver-specific changes to avoid breaking existin=
+g stuff.
+> > > > Hans and I had to dedicate a lot of time and efforts on such transi=
+tions,
+> > > > as it required a lot of work.
+> > > >
+> > > > I can tell you: there's no fun on such changes: typically, companie=
+s won't
+> > > > pay someone to do changes on drivers for legacy hardware, specially
+> > > > when there are no real benefits, which is the case here, as the fin=
+al result
+> > > > is just to keep the existing drivers to work with existing hardware=
+,
+> > > > usually without any new features. So, the ones behind such core cha=
+nges
+> > > > have to commit fixing drivers usually on their spare time.
+> > >
+> > > I don't get that argument. Wouldn't the same apply to any core change=
+?
+> > > I think the reason we have driver maintainers is that they can help
+> > > with testing. Moreover, we need to invest into testing infrastructure
+> > > (which is what people have been doing recently via Media CI) to make
+> > > such changes less painful. Otherwise the subsystem will just bit-rot
+> > > and become useful for modern use cases.
+> >
+> > I've recently seen an increase in people experimenting with sourdough,
+> > kombucha, kimchi and other fermentation techniques, so rotting isn't
+> > always negative [*], but I assume you meant useless here, not useful :-=
+)
+>
+> Yeah, definitely. I'd love it if bit-rotting led to computer software
+> becoming more useful, but sadly it's rarely the case.
+>
+> Best regards,
+> Tomasz
+>
+> >
+> > * I'll draw the line at surstr=C3=B6mming.
+> >
+> > > > > The vb2 framework can certainly use some more work, and esp. bett=
+er support
+> > > > > for codecs, since that's where the main pain is at the moment.
+> > > > >
+> > > > > But I would need to see a proper proposal first. I assume that's =
+what you
+> > > > > plan to present?
+> > > > >
+> > > > > > That said, I wouldn't be able to travel this time unfortunately=
+, so it
+> > > > > > would be nice if we could arrange this topic in a time slot fri=
+endly
+> > > > > > for remote attendance from Japan. Also +Hidenori Kobayashi from=
+ my
+> > > > > > team who would also be interested in joining remotely.
+> > > > >
+> > > > > That would mean a slot in the morning, right? Since Japan is 7 ho=
+urs ahead
+> > > > > of CEST.
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
 
