@@ -1,93 +1,146 @@
-Return-Path: <linux-media+bounces-13128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC61B90603F
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 03:04:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3AB90613F
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 03:45:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37D8228489A
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 01:04:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD4931C20FBD
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 01:45:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FB8FD530;
-	Thu, 13 Jun 2024 01:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8ECD1426F;
+	Thu, 13 Jun 2024 01:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Sezacqbl"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="Y4G9Lj7Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C67A8BEC;
-	Thu, 13 Jun 2024 01:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B8CDF71;
+	Thu, 13 Jun 2024 01:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718240645; cv=none; b=Y13sNSYhde5gyOMgKV8d30p+nbw3K5a2j8H+Dpd+siXPPkRYibq4j0cu3ADnVhMWSprTcJfB1zhbF/sjzYZNJe87eHZCjPt5yYKg5Kdf3qARzoU1KIrpPk8l8H2JgLT5QnK/ueQaLqxLlef5fczmAXjm08bE8mhjAUJIzI65VZE=
+	t=1718243097; cv=none; b=eI3nr/NON+y8NrMozl5/ul2UuhDbKAKoFdXUt6Hcwr7c/37+o3xacC29A/gMC0RzHo7zweA0Qr/dmiYPpgDzixXzJutPyrpGSFNIvzGsggFfgHJbijzxQGElaXvk5QOaKuNbTFrLyK2kbax/F0jfmgv7dgI78TgxsMTHMJ9hdVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718240645; c=relaxed/simple;
-	bh=eI6fr6y6BDbBbC7J2/cwrajhoyoAgMBifMm8zEHNPTY=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=kE9Y2jkgDXpx3JJoimkwsI7hUqH8lFsg+JL+Sli65EwlmxgUJluq+TzpspRxYdFdp4982hiQJwA7K6qEhCJBz8Qi2lnl5uBB5OE+ab74Ec8Xw4SINqJXSqNP0mabgLbma4phpo88BHJi69CmocJlbDQU2Veel290mEgr3atNJmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Sezacqbl; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EDAE4D0;
-	Thu, 13 Jun 2024 03:03:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718240629;
-	bh=eI6fr6y6BDbBbC7J2/cwrajhoyoAgMBifMm8zEHNPTY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=SezacqblUV0M+VvWatCgzsFjZb251HxTCOoD/48aQu+qMllu8XtUlJUqK8cFbeM9L
-	 RWEFSLHzVInRCdjcwYaCMKDXfkljSg+9Njn6UU6DRdHv2zVqTjkRwmz7u2ilO7rgPP
-	 4K9DhjFaQxGup9aQiNwG07pJ/77NW9IupBnYjJs0=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1718243097; c=relaxed/simple;
+	bh=JApacLBSnTiOxd/MDGkRAN1Y3sRYhlmQq2aTWoRE4bE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WdoeKLtn358RvcCZ5pExg4p+b67qjG2ObQ7+RYlKfZgSZva0l+cRmXzZPQ6FYEmWZNzb5Ha4krXD6Q7ZtsDt4mYO6VoOIixb6KnE6psJIuwl7r7/E+bZJn+f/ggRQhMgMwYOrJmfizn2C+e1S4v+Hn8ikaaAn2TxQNjX0qN+TF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=Y4G9Lj7Y; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id B6DDC88889;
+	Thu, 13 Jun 2024 03:44:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1718243087;
+	bh=8D0zdflsI+96R7w3bD5NSguq6bh8HmskkbvDsqKuIjI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Y4G9Lj7YZyz826W8kg8SLmzz9PcBNKaX50qQDykFrdDIxPA84jt+DMD0TQ4JsPO+j
+	 rehvu3K1/7z8DtyBOriAYXVMhgx3/yQEqgnIjrR8xCbK0lPc90qHiLZmfl2f4c9oHR
+	 8+UvmkJsqFwwVliqIfSe2ebT3yxhYbsAIxvmItvr/Ce5qHRBz5cSmddPyFr1qpNYNf
+	 IH+4sRid03mnPXH5mcJKe0o8g+U7E4ChhwVGn4N/3NBJsfHve2Xw57vyjQdq4ru8Wg
+	 4PGYoXOL5W4kEysH9T3a1Y5xwccL4lQoVIq5Iiv78FBrv7gWDQFkpYjiViBOuwR6A6
+	 7omnv3C+2ppwg==
+Message-ID: <3cc52973-61b0-4698-98b7-402634f2b620@denx.de>
+Date: Thu, 13 Jun 2024 03:10:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240612-md-drivers-media-common-v1-1-b5603c85f629@quicinc.com>
-References: <20240612-md-drivers-media-common-v1-1-b5603c85f629@quicinc.com>
-Subject: Re: [PATCH] usb: uvc: add missing MODULE_DESCRIPTION() macro
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, Jeff Johnson <quic_jjohnson@quicinc.com>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Date: Thu, 13 Jun 2024 02:04:00 +0100
-Message-ID: <171824064052.2248009.2434759914694160537@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] arm64: dts: imx8mp: Add DT nodes for the two ISPs
+To: Peng Fan <peng.fan@nxp.com>, Adam Ford <aford173@gmail.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ Paul Elder <paul.elder@ideasonboard.com>, Conor Dooley
+ <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Rob Herring <robh@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <20240325151339.19041-1-laurent.pinchart@ideasonboard.com>
+ <4879631.GXAFRqVoOG@steina-w>
+ <20240325204924.GY18799@pendragon.ideasonboard.com>
+ <2929432.e9J7NaK4W3@steina-w>
+ <CAHCN7xLFjJUZQZwPbj5xyxnprwAV3TOvd_6A6sBwOPK+V6uQPA@mail.gmail.com>
+ <AM6PR04MB59412D143AA8C20AFB479E8F88C72@AM6PR04MB5941.eurprd04.prod.outlook.com>
+ <6ba1db19-32d6-4d25-824d-731bea65b583@denx.de>
+ <AM6PR04MB594198421BCC895B506C408A88C72@AM6PR04MB5941.eurprd04.prod.outlook.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <AM6PR04MB594198421BCC895B506C408A88C72@AM6PR04MB5941.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-Quoting Jeff Johnson (2024-06-13 00:58:59)
-> With ARCH=3Darm64, make allmodconfig && make W=3D1 C=3D1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uv=
-c.o
->=20
-> Add the missing invocation of the MODULE_DESCRIPTION() macro.
->=20
-> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+On 6/11/24 5:01 AM, Peng Fan wrote:
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+[...]
 
-> ---
->  drivers/media/common/uvc.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
-> index 9c0ba7a6c185..c54c2268fee6 100644
-> --- a/drivers/media/common/uvc.c
-> +++ b/drivers/media/common/uvc.c
-> @@ -180,4 +180,5 @@ const struct uvc_format_desc *uvc_format_by_guid(cons=
-t u8 guid[16])
->  }
->  EXPORT_SYMBOL_GPL(uvc_format_by_guid);
-> =20
-> +MODULE_DESCRIPTION("USB Video Class common code");
->  MODULE_LICENSE("GPL");
->=20
-> ---
-> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-> change-id: 20240612-md-drivers-media-common-01f67d64768a
->
+>>>> According to the i.MX8MP Data sheet, the nominal speed for
+>>>> MEDIA_ISP_CLOCL_ROOT is 400MHZ with 500MHz being allowed in
+>> overdrive
+>>>> mode.
+>>>>
+>>>> I think this clock rate should drop to  the nominal value of 400MHz
+>>>> and those boards who support overdrive can increase it to 500MHz to
+>>>> avoid stiability issues and/or running out of spec.  I created an
+>>>> imx8mm and imx8mn- overdrive.dtsi file.  If there is interest, I can do the
+>> same for the 8MP as well.
+>>>>
+>>>> I haven't gone through all the clocks to determine if/what clocks are
+>>>> being overdriven.
+>>>
+>>> Shouldn't the bootloader take the work to runtime update the freq?
+>>> Why need introduce an extra overdrive.dtsi?
+>>
+>> Shouldn't the overdrive/non-overdrive decision be done in board DT instead ?
+> 
+> It is bootloader configure voltage to nominal, then bootloader should use
+> nominal device tree or runtime update dtb.
+> If bootloader configure voltage to over-drive, bootloader could use
+> nominal or over-drive dtb
+
+I think the bootloader should always configure the minimal common 
+configuration, i.e. nominal voltage, nominal clock, so that it would 
+achieve maximum compatibility with any SoC in that SoC line up.
+
+If the user does need overdrive configuration, they should specify that 
+in their board DT.
+
+Keep in mind, the kernel is easy to update (including kernel DT), the 
+bootloader is not easy to update (esp. in field, bootloader update may 
+render a system unbootable if it fails). I would say, it is better to 
+keep the complicated things out of the bootloader if at all possible.
+
+> If introduce x.dtsi and x-overdrive.dtsi, how to let board choose which dtsi
+> to include?
+
+#include "x.dtsi"
+or
+#include "x-overdrive.dtsi"
+
+But I think your question is -- how to do that at runtime ?
+
+U-Boot can apply DT overlays onto DT that is passed to Linux, so if the 
+user has board variants where they need both nonoverdrive/overdrive 
+options, they can apply DT overlay which enables the overdrive mode on 
+boards which need it. This can be done from U-Boot boot.scr or similar 
+boot script, which can again be easily updated, without the need to 
+update the bootloader itself (if something goes wrong or needs to be 
+changed in the future).
 
