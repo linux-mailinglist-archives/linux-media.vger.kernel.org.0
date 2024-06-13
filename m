@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-13144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90EB3906185
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 04:06:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFB79061C0
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 04:27:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA3141C2157C
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 02:06:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10E271F223D8
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 02:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA502D60A;
-	Thu, 13 Jun 2024 02:06:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E434978283;
+	Thu, 13 Jun 2024 02:27:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FeSl3aPj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VqVMf8tG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFC617C72;
-	Thu, 13 Jun 2024 02:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11DA17C69;
+	Thu, 13 Jun 2024 02:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718244392; cv=none; b=rsQdJDnxalYKy3lerHvExSUp51hQHHUXXDYchxZuXHziaDw2E1UFoy5Os5ZHKy4YmSzLe1oREycOjrBb5DQ2WuoH8NMHULY9iAK4vWM/tXb58lREmBlONlFmo46ma2f+ZHexw8ev+S3icF6hAXHd35RUGdEftlMa8GISR70ZRrw=
+	t=1718245655; cv=none; b=pmQS7pY7s13Qywp0aww4gSl2WwpUDELIuaEO32+nGMUyCfsKmZxuhsyBrUOaN7nm5qt8IQIY5gCb7MWykjKub9eo/9hvAU/dGaBQmbOBnQGGUJvigHsN16cACH98Z6x3/zSj4geXrdYvouF3uGpybcqnbZWXUFU2aJwV+ZM1/l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718244392; c=relaxed/simple;
-	bh=8sFmvQ7Z83X7NLUoXzzUfw6X3sNAVrct6codoq1wV7Q=;
+	s=arc-20240116; t=1718245655; c=relaxed/simple;
+	bh=Nh2RzwaSTxJgbNfHmt3JRc0uEjv3nRlrnUDcdTPlwq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ahN4vHTQZX/E29ojOqaqH00WW3uXfg6WRp4BA5txMLpg/lDvyU+3df4HZrbnyFQO7fJjZQM+e+yo1hOGwMneVpGFaip7AUaZNz5ohs14bQ9a1f6WljkIJ9uCrTVHnmtMCpZahhy4hYWfY/8MeAIKAjYTT6aTTICD9hNeZTtXyXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FeSl3aPj; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=j3RToR2RuO20+68BSmKwTH/o6gngfxyApY3ktFUNv/JybdAmfzTkq9KKkqnSyfWZ+PoJUoXd/knUiscM4cbi9x6gD0f7LjbA8FosQD9DVPSIfJCIbx9Kc0PDGSbBOFYMh1iIIHA0bSZdwgXNdfg4t9nINKG7rGqVZi42w7njGjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VqVMf8tG; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718244391; x=1749780391;
+  t=1718245652; x=1749781652;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8sFmvQ7Z83X7NLUoXzzUfw6X3sNAVrct6codoq1wV7Q=;
-  b=FeSl3aPjOjZFmnCKj9Sfa4taT7g0EXtP7ZvmJ3dBSfVbZjhjpisYgt/i
-   H1QwLVH4WAf6wWP0DA4vrMmpI/ceWvokH6AeVCEyA9on2Okz8XMQ4CvWd
-   MPkjG7qBcP23BD+/g8HmhLOl6+sAiZu8x+Xk9L4MmM3pvi5ssCk/C5Nsp
-   iRohLlX3Iees3RD6pp2fKjbP7dId1DZpqquKNUa3QeM9bb7pWRLsqn/93
-   um7uRHeiDEwCncXhYnzyYPA6QLHtGQY9de+GHuzPvM2vWH1XPf3BGJ9as
-   NQUuNfzeUdSUPt1u+j44ctJxJ8BkoIVWWe3p99redMnftwDCemYJ1fHF4
-   g==;
-X-CSE-ConnectionGUID: WYbSL4Q3QZa2HulvPGK6oQ==
-X-CSE-MsgGUID: P75acOM5TCSmz+MfFGhNRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15194300"
+  bh=Nh2RzwaSTxJgbNfHmt3JRc0uEjv3nRlrnUDcdTPlwq8=;
+  b=VqVMf8tGl0GqyXf6C+Zjq2AeJzt1xBJ84PfSOq3v7Y4ep5FX/UYPtzCy
+   wZ6csTKR3JwYsOeY3bqkkvLXN4JrH4bE/Vg0xUlCwISPKqOh4WVoqI0Sl
+   uNy20oVW98cCuOD9N328bD80BkXnt5dtcCuY4Zg4EKQf18J9zLxLqXGTa
+   gsB+s375A3pv965i/g+gcJeH8SIX6uUjm98enI9q6JMdoBMDKpemc5tla
+   du6VocFv4RmgXGT6fae5ZKq4EXCahJTdxuabawLgBAq1I7glE5XgWyPX0
+   AMxTqPMi6YDj1PnyOcQ3fT/IBdPfwPYtDOEnE1bRg/xenBHy3KjFFMQn2
+   w==;
+X-CSE-ConnectionGUID: XxZwVx+tS1yirIUFxQCBqg==
+X-CSE-MsgGUID: ikPWenUVQ22a0doG6kiIbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14762594"
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="15194300"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 19:06:30 -0700
-X-CSE-ConnectionGUID: S0kNdoNXTeaDmFV2fIXYpQ==
-X-CSE-MsgGUID: 6aVpmYIvR1+lJTRSNmEW5g==
+   d="scan'208";a="14762594"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 19:27:32 -0700
+X-CSE-ConnectionGUID: Hfsi00ypS3ujyFebs+qM4w==
+X-CSE-MsgGUID: ZXcO7e85TC+r/0EEzcI5Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="44427853"
+   d="scan'208";a="44371511"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Jun 2024 19:06:24 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 12 Jun 2024 19:27:26 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sHZr4-000270-15;
-	Thu, 13 Jun 2024 02:06:22 +0000
-Date: Thu, 13 Jun 2024 10:05:59 +0800
+	id 1sHaBP-00027m-2g;
+	Thu, 13 Jun 2024 02:27:23 +0000
+Date: Thu, 13 Jun 2024 10:27:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
@@ -84,7 +84,7 @@ Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
 	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 Subject: Re: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-Message-ID: <202406130901.oiofrkFe-lkp@intel.com>
+Message-ID: <202406131022.1JKNS7me-lkp@intel.com>
 References: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -106,48 +106,44 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/iommu-rockch
 base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
 patch link:    https://lore.kernel.org/r/20240612-6-10-rocket-v1-6-060e48eea250%40tomeuvizoso.net
 patch subject: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20240613/202406130901.oiofrkFe-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406130901.oiofrkFe-lkp@intel.com/reproduce)
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240613/202406131022.1JKNS7me-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131022.1JKNS7me-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406130901.oiofrkFe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406131022.1JKNS7me-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/loongarch/include/asm/processor.h:17,
-                    from arch/loongarch/include/asm/thread_info.h:15,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/loongarch/include/generated/asm/current.h:1,
-                    from include/linux/mutex.h:14,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/accel/rocket/rocket_core.c:6:
->> arch/loongarch/include/uapi/asm/ptrace.h:25:25: error: expected identifier before '(' token
-      25 | #define PC              (GPR_END + 2)
-         |                         ^
-   drivers/accel/rocket/rocket_registers.h:53:9: note: in expansion of macro 'PC'
-      53 |         PC = 0x00000100,
-         |         ^~
+   In file included from include/linux/clk.h:13,
+                    from drivers/accel/rocket/rocket_drv.c:4:
+>> drivers/accel/rocket/rocket_drv.c:213:31: error: 'rocket_pm_ops' undeclared here (not in a function); did you mean 'rocket_probe'?
+     213 |                 .pm = pm_ptr(&rocket_pm_ops),
+         |                               ^~~~~~~~~~~~~
+   include/linux/kernel.h:48:44: note: in definition of macro 'PTR_IF'
+      48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   drivers/accel/rocket/rocket_drv.c:213:23: note: in expansion of macro 'pm_ptr'
+     213 |                 .pm = pm_ptr(&rocket_pm_ops),
+         |                       ^~~~~~
 
 
-vim +25 arch/loongarch/include/uapi/asm/ptrace.h
+vim +213 drivers/accel/rocket/rocket_drv.c
 
-803b0fc5c3f2ba Huacai Chen 2022-05-31  16  
-803b0fc5c3f2ba Huacai Chen 2022-05-31  17  /*
-803b0fc5c3f2ba Huacai Chen 2022-05-31  18   * For PTRACE_{POKE,PEEK}USR. 0 - 31 are GPRs,
-803b0fc5c3f2ba Huacai Chen 2022-05-31  19   * 32 is syscall's original ARG0, 33 is PC, 34 is BADVADDR.
-803b0fc5c3f2ba Huacai Chen 2022-05-31  20   */
-803b0fc5c3f2ba Huacai Chen 2022-05-31  21  #define GPR_BASE	0
-803b0fc5c3f2ba Huacai Chen 2022-05-31  22  #define GPR_NUM		32
-803b0fc5c3f2ba Huacai Chen 2022-05-31  23  #define GPR_END		(GPR_BASE + GPR_NUM - 1)
-803b0fc5c3f2ba Huacai Chen 2022-05-31  24  #define ARG0		(GPR_END + 1)
-803b0fc5c3f2ba Huacai Chen 2022-05-31 @25  #define PC		(GPR_END + 2)
-803b0fc5c3f2ba Huacai Chen 2022-05-31  26  #define BADVADDR	(GPR_END + 3)
-803b0fc5c3f2ba Huacai Chen 2022-05-31  27  
+   207	
+   208	static struct platform_driver rocket_driver = {
+   209		.probe = rocket_probe,
+   210		.remove_new = rocket_remove,
+   211		.driver	 = {
+   212			.name = "rocket",
+ > 213			.pm = pm_ptr(&rocket_pm_ops),
+   214			.of_match_table = dt_match,
+   215		},
+   216	};
+   217	module_platform_driver(rocket_driver);
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
