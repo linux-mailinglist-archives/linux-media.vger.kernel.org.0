@@ -1,151 +1,146 @@
-Return-Path: <linux-media+bounces-13145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13146-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFB79061C0
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 04:27:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9B09061C6
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 04:28:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10E271F223D8
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 02:27:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CEA51C2139A
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 02:28:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E434978283;
-	Thu, 13 Jun 2024 02:27:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38ABB7E788;
+	Thu, 13 Jun 2024 02:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VqVMf8tG"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f37yKs3d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11DA17C69;
-	Thu, 13 Jun 2024 02:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2E358AC4
+	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 02:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718245655; cv=none; b=pmQS7pY7s13Qywp0aww4gSl2WwpUDELIuaEO32+nGMUyCfsKmZxuhsyBrUOaN7nm5qt8IQIY5gCb7MWykjKub9eo/9hvAU/dGaBQmbOBnQGGUJvigHsN16cACH98Z6x3/zSj4geXrdYvouF3uGpybcqnbZWXUFU2aJwV+ZM1/l8=
+	t=1718245686; cv=none; b=s2ENNHcqhrTJ+qMI4vZrTrmFG7FvTmK1MjGdFae3OPCC0yASyz13MssvTZb4Xz8PhRH3dwTO4+DYOx+BNonWbAuOXRVU3qrDqfVZgDmw11bJecvMJbecX81RPQdiAHRv/xx3dLmbpfCAruGxii/ve6o1gYlowNKW39p9RoWIVig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718245655; c=relaxed/simple;
-	bh=Nh2RzwaSTxJgbNfHmt3JRc0uEjv3nRlrnUDcdTPlwq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j3RToR2RuO20+68BSmKwTH/o6gngfxyApY3ktFUNv/JybdAmfzTkq9KKkqnSyfWZ+PoJUoXd/knUiscM4cbi9x6gD0f7LjbA8FosQD9DVPSIfJCIbx9Kc0PDGSbBOFYMh1iIIHA0bSZdwgXNdfg4t9nINKG7rGqVZi42w7njGjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VqVMf8tG; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718245652; x=1749781652;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nh2RzwaSTxJgbNfHmt3JRc0uEjv3nRlrnUDcdTPlwq8=;
-  b=VqVMf8tGl0GqyXf6C+Zjq2AeJzt1xBJ84PfSOq3v7Y4ep5FX/UYPtzCy
-   wZ6csTKR3JwYsOeY3bqkkvLXN4JrH4bE/Vg0xUlCwISPKqOh4WVoqI0Sl
-   uNy20oVW98cCuOD9N328bD80BkXnt5dtcCuY4Zg4EKQf18J9zLxLqXGTa
-   gsB+s375A3pv965i/g+gcJeH8SIX6uUjm98enI9q6JMdoBMDKpemc5tla
-   du6VocFv4RmgXGT6fae5ZKq4EXCahJTdxuabawLgBAq1I7glE5XgWyPX0
-   AMxTqPMi6YDj1PnyOcQ3fT/IBdPfwPYtDOEnE1bRg/xenBHy3KjFFMQn2
-   w==;
-X-CSE-ConnectionGUID: XxZwVx+tS1yirIUFxQCBqg==
-X-CSE-MsgGUID: ikPWenUVQ22a0doG6kiIbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14762594"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="14762594"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 19:27:32 -0700
-X-CSE-ConnectionGUID: Hfsi00ypS3ujyFebs+qM4w==
-X-CSE-MsgGUID: ZXcO7e85TC+r/0EEzcI5Aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="44371511"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Jun 2024 19:27:26 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHaBP-00027m-2g;
-	Thu, 13 Jun 2024 02:27:23 +0000
-Date: Thu, 13 Jun 2024 10:27:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-Message-ID: <202406131022.1JKNS7me-lkp@intel.com>
-References: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
+	s=arc-20240116; t=1718245686; c=relaxed/simple;
+	bh=wQjkzUNkQvO1QQTmzJdFmOhe3eLsPajk6NuewFDYhho=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hfqBcN6j6A8YHkot2XfoM/1zbIhHQtBRR+kerUesoKZhwZF5IrPxqiNyVTxX2/OZeWLW0nrN2zzLYU7RjmB+MdviilCT6PGY3d+3KrM7cW9rkBbYy9RkRTjVE7GWhm0n+Cpzpa3GEgVMbypmj/w15lR9vU0HdzweurbfH0lUSWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=f37yKs3d; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52bd48cf36bso720719e87.3
+        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 19:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718245682; x=1718850482; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NqJHo/nm4dwxUT1vSJWjZGt/TMqLX57toHgV/NshWrQ=;
+        b=f37yKs3dt4fnBxljKLCDr4a0BTa5Ia63EuIZlmUwoxsvUYhjYICzT11NIXBEBigtJY
+         8h5m5vcYBnpIq4pk9rSB296kWwOpcjwLhIPViqZV+o1oy39dJKeDF48vH9Hwnm41yXZj
+         xlhoNxqMToaQHYi9Tf8vvRby/xhWKbGQ6L6BQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718245682; x=1718850482;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NqJHo/nm4dwxUT1vSJWjZGt/TMqLX57toHgV/NshWrQ=;
+        b=HuVh9TLLgD1T9jB2VBmYFaaolxxz8RnGAXpPRP2E7prAAufONNVjjQil2QKQOHeAVh
+         AQgvStfsNLxEU/jPv/lsFtnBb/QBLKcHinf/2QXCTdhjHAuvxZpaUVR+u4ISSkSC6KW5
+         NoPX1FIapVYIy5uSwSMATNNKQZPWo8xSw9aat2V+JDkk1m+T70navib+EyEnV94RA8vw
+         DH/lWhVVKAw98I7V5y0DF1zF5aO9mb2jYKSHSDvqwQ2VizN03EewCb9gB9S6JnqYon6B
+         71wWMjL/fY4cO7PCiX2yXBLQ2GHOHtk0UGUkG3aBJoRhqyFnGy/DPcXMvABiTaufBRsC
+         gCpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqL9E9QXBOqA0LlHFUCK942F5Dzh61/YyDGs7iMEJM0zUAW+yfWMQvo87iPZvLf8QezVWSZTfqK7KtXUWH997eD6HfAfayB3zr/4M=
+X-Gm-Message-State: AOJu0YzedazDI0QdkDijTKYlHST+acvp5JJstMTA73CY8QaHB6pb8UPN
+	njWh4SwjmjseEJzVu9LggN9CCJfdUESrgVvNu3yE1ttAmyvIvCv+TSCmn2PxPjaLScpQCfLwGv8
+	zzA==
+X-Google-Smtp-Source: AGHT+IHq+KGV3YGUdsiMjlzX9IEVKx2vN9Ys4853TFX3LID6ApYC11GrtwrEr9WJc9B/Nh2oLFgF/Q==
+X-Received: by 2002:a2e:a98b:0:b0:2eb:fe64:47de with SMTP id 38308e7fff4ca-2ebfe644865mr22678411fa.9.1718245682444;
+        Wed, 12 Jun 2024 19:28:02 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec05bf43b0sm593091fa.3.2024.06.12.19.28.01
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jun 2024 19:28:01 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52bc1261e8fso644396e87.0
+        for <linux-media@vger.kernel.org>; Wed, 12 Jun 2024 19:28:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVeJ32I+7x7gQu4/UB9b8GPUPxQpZWFGVq4cqL+mWQva6aDkhCa9TcILBjpt6daaPRId8b4nSBwdsYUKBuacwjHVLrk/ZM10eZ17IU=
+X-Received: by 2002:ac2:418a:0:b0:52b:c147:ea38 with SMTP id
+ 2adb3069b0e04-52c9a405960mr1780155e87.68.1718245681292; Wed, 12 Jun 2024
+ 19:28:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240612-6-10-rocket-v1-6-060e48eea250@tomeuvizoso.net>
+References: <20240612-md-drivers-media-common-videobuf2-v1-1-4625ab172fd9@quicinc.com>
+In-Reply-To: <20240612-md-drivers-media-common-videobuf2-v1-1-4625ab172fd9@quicinc.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Thu, 13 Jun 2024 11:27:22 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Bdh6Lsje-71_HDK9T141jMNeNh1v400ukUVn1L5WO-kA@mail.gmail.com>
+Message-ID: <CAAFQd5Bdh6Lsje-71_HDK9T141jMNeNh1v400ukUVn1L5WO-kA@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: add missing MODULE_DESCRIPTION() macro
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomeu,
+Hi Jeff,
 
-kernel test robot noticed the following build errors:
+On Wed, Jun 12, 2024 at 11:46=E2=80=AFPM Jeff Johnson <quic_jjohnson@quicin=
+c.com> wrote:
+>
+> With ARCH=3Dx86, make allmodconfig && make W=3D1 C=3D1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/vi=
+deobuf2/videobuf2-dvb.o
+>
+> Add the missing invocation of the MODULE_DESCRIPTION() macro.
+>
+> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+> ---
+> While doing these cleanups, in most cases I've taken the descriptions
+> directly from code comments, Kconfig descriptions, or git logs, but in
+> this case I didn't see a nice concise description so I invented this
+> one. Please suggest a replacement if this isn't an appropriate
+> description.
+> ---
+>  drivers/media/common/videobuf2/videobuf2-dvb.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dvb.c b/drivers/med=
+ia/common/videobuf2/videobuf2-dvb.c
+> index 8c15bcd07eef..6f6650183184 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dvb.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dvb.c
+> @@ -19,6 +19,7 @@
+>  /* ------------------------------------------------------------------ */
+>
+>  MODULE_AUTHOR("Gerd Knorr <kraxel@bytesex.org> [SuSE Labs]");
+> +MODULE_DESCRIPTION("Simple DVB helper framework for videobuf2");
 
-[auto build test ERROR on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
+Thanks for the patch!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/iommu-rockchip-Add-compatible-for-rockchip-rk3588-iommu/20240612-215814
-base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-patch link:    https://lore.kernel.org/r/20240612-6-10-rocket-v1-6-060e48eea250%40tomeuvizoso.net
-patch subject: [PATCH 6/9] accel/rocket: Add a new driver for Rockchip's NPU
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240613/202406131022.1JKNS7me-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131022.1JKNS7me-lkp@intel.com/reproduce)
+Looking at the header at the top of the file:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406131022.1JKNS7me-lkp@intel.com/
+ * some helper function for simple DVB cards which simply DMA the
+ * complete transport stream and let the computer sort everything else
+ * (i.e. we are using the software demux, ...).  Also uses vb2
+ * to manage DMA buffers.
 
-All errors (new ones prefixed by >>):
+I think I'd call it "Videobuf2 helpers library for simple DVB cards".
+But maybe we could have some DVB expert comment on this. :)
 
-   In file included from include/linux/clk.h:13,
-                    from drivers/accel/rocket/rocket_drv.c:4:
->> drivers/accel/rocket/rocket_drv.c:213:31: error: 'rocket_pm_ops' undeclared here (not in a function); did you mean 'rocket_probe'?
-     213 |                 .pm = pm_ptr(&rocket_pm_ops),
-         |                               ^~~~~~~~~~~~~
-   include/linux/kernel.h:48:44: note: in definition of macro 'PTR_IF'
-      48 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/accel/rocket/rocket_drv.c:213:23: note: in expansion of macro 'pm_ptr'
-     213 |                 .pm = pm_ptr(&rocket_pm_ops),
-         |                       ^~~~~~
+Regardless of whether the description stays or changes, feel free to add
 
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-vim +213 drivers/accel/rocket/rocket_drv.c
-
-   207	
-   208	static struct platform_driver rocket_driver = {
-   209		.probe = rocket_probe,
-   210		.remove_new = rocket_remove,
-   211		.driver	 = {
-   212			.name = "rocket",
- > 213			.pm = pm_ptr(&rocket_pm_ops),
-   214			.of_match_table = dt_match,
-   215		},
-   216	};
-   217	module_platform_driver(rocket_driver);
-   218	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Tomasz
 
