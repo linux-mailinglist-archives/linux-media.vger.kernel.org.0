@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-13159-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2A69065DE
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 09:57:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC44F9065EA
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 09:58:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA394281CA8
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 07:57:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 442E41F22E39
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 07:58:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 516B713D252;
-	Thu, 13 Jun 2024 07:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D04E13D639;
+	Thu, 13 Jun 2024 07:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="h9I18BI9"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="mR+oh5sp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EF513CFB2;
-	Thu, 13 Jun 2024 07:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C95013D2AF;
+	Thu, 13 Jun 2024 07:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718265398; cv=none; b=hMMM/eVCK/l8paK3P3hECpPXp0w5fvCQZt4IzuhEQLb9+1DHzYpRwjgYKhUT/r2a6z2KPSfle1fA1mLf49lljMh9zd5QdNBkmybfz8pevfPTmPAN6L4S35Fa54/oYU3VHd14X8A6+V2J88zQZr1b4z/SP3YyRmf8lhcp0CzImz4=
+	t=1718265401; cv=none; b=PzqBQWA1lAEzgNSmQwIH8LNpDJiHaTL7yzMLlyK4N5YK/KgrHATKRSuuis8ZqnRe4BOYtnTm5CYUqrYd9FIaqNmyh8zGNjmv7X/LP7mZIkXXRDzn3fzmXwlLfG0Uig5PaMGQtb6WG8szvfaT3xz2JYN/k9pfMaIMg5Loei6zH54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718265398; c=relaxed/simple;
-	bh=Uh3KieEEk6oCjKWGdFKObgJqNfBOrfglpZzYfkP6HP8=;
+	s=arc-20240116; t=1718265401; c=relaxed/simple;
+	bh=FO0HjmjmO1UkrRvFmf0wuuJ5aoMWdHBpVJ/cI6qe0Pk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sPvI9ljvJ9a+w0WCgPb9jAzHCsUnFjDoH8ylbRKbNkzH3I1mYo3jigvxRoQL2E1JL2cdXxwzry/o1vDzNxcP9uA8T7jvjCmcwarYHffXW/AlmtwSO32SyINKT76ZFzkFcPEE4JkHAofMon+JADJl+LC7xYI9Rb2HMxb/YCnuKEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=h9I18BI9; arc=none smtp.client-ip=210.61.82.184
+	 MIME-Version:Content-Type; b=ds2YO/AHxYSdiwh8CWP11FsZDHUxP+HJ8NEjplZ3tqRbVFVCc6X4/pi1RPEpsPBmEnNOhxCZVLtMU1fyuP49fWrpRbbehxSMTBCqx2pJVXuHuxa0TvypIcSxpmuJcVOPe2sisBFAYD6lWiPFITsXMa5yh3FU894bhBgsoI5ZVYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=mR+oh5sp; arc=none smtp.client-ip=60.244.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 71a9677c295a11efa22eafcdcd04c131-20240613
+X-UUID: 72345d0a295a11efa54bbfbb386b949c-20240613
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=XkCwA2iKKXIESghvnsGMrf/b1u79QCM/rrWHfheFC3E=;
-	b=h9I18BI99DR7nyqp4DWUQguYXVFBHXHgfmjCSfHlTjjRRpEYQDAlIm8dDhHKwGefcJCT9Jy7dzsJiu/aqZYjGqN63Sv7k6W0XkwAOGGRa6WatoxHmJv93dI651CvkyGKF/qqjTEL7ce+7g6LkYcgW0BjOIpbRCY3P8ZGDz+yCbg=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=efUV+7fXfF9YZ3eGwR2krXhtXA8ycq50CEI1d9RZjro=;
+	b=mR+oh5spuXr+O8T5AImZalggqIl4wlgVhkekdQy7iFwsGS2i5iYdxvo+FULiQHinl+EPSiU5Sh86ULTdmw9AtqXdKDZREighSrgpL29ztuvRHSw+AkvCIbK63p6QL27mShqmEiAEU6OgFj1wX9WZji9if/ZIUm83CB65grgsp7k=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.39,REQID:2eb59ee5-4ebf-4ee1-b5c1-ef9581b78426,IP:0,U
+X-CID-O-INFO: VERSION:1.1.39,REQID:3d8177c2-5689-4d03-84e7-70497fe48a10,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:393d96e,CLOUDID:6494f093-e2c0-40b0-a8fe-7c7e47299109,B
+X-CID-META: VersionHash:393d96e,CLOUDID:57088744-4544-4d06-b2b2-d7e12813c598,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
 	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
 	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 71a9677c295a11efa22eafcdcd04c131-20240613
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+X-UUID: 72345d0a295a11efa54bbfbb386b949c-20240613
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
 	(envelope-from <yunfei.dong@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1989946365; Thu, 13 Jun 2024 15:56:30 +0800
+	with ESMTP id 1469798300; Thu, 13 Jun 2024 15:56:31 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 13 Jun 2024 15:56:28 +0800
+ 15.2.1118.26; Thu, 13 Jun 2024 00:56:29 -0700
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 13 Jun 2024 15:55:51 +0800
+ 15.2.1118.26 via Frontend Transport; Thu, 13 Jun 2024 15:56:28 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
 	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
@@ -72,9 +72,9 @@ CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v3 3/7] media: mediatek: vcodec: flush decoder before remove all source buffer
-Date: Thu, 13 Jun 2024 15:55:28 +0800
-Message-ID: <20240613075532.32128-4-yunfei.dong@mediatek.com>
+Subject: [PATCH v3 4/7] media: mediatek: vcodec: using input information to get vb2 buffer
+Date: Thu, 13 Jun 2024 15:55:29 +0800
+Message-ID: <20240613075532.32128-5-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240613075532.32128-1-yunfei.dong@mediatek.com>
 References: <20240613075532.32128-1-yunfei.dong@mediatek.com>
@@ -88,56 +88,94 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-MTK: N
 
-Flush decoder will reset all driver to init status, lat and core work
-queue will stop to work. If lat or core work queue in working when
-remove all source buffer, will lead to remove source buffer again
-or buff done with one non-existent source buffer.
+vb2 buffer may be removed from ready list when lat try to get
+next src buffer, leading to vb2 buffer not the current one.
+Need to get vb2 buffer according to current input memory information.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 ---
- .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 22 +++++++++----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c     | 13 +++++++------
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c     | 15 +++++++--------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-index 3b278892f1d3..3e0879c41a95 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-@@ -883,17 +883,6 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
- 			  ctx->id, q->type, ctx->state, ctx->decoded_frame_cnt);
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+index 90217cc8e242..a744740ba5f1 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+@@ -1062,19 +1062,20 @@ static inline void vdec_av1_slice_vsi_to_remote(struct vdec_av1_slice_vsi *vsi,
  
- 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
--		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
--			if (src_buf != &ctx->empty_flush_buf.vb) {
--				struct media_request *req =
--					src_buf->vb2_buf.req_obj.req;
--
--				if (req)
--					v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
--				v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
--			}
--		}
--
- 		if (ctx->state >= MTK_STATE_HEADER) {
- 			/* Until STREAMOFF is called on the CAPTURE queue
- 			 * (acknowledging the event), the driver operates
-@@ -916,6 +905,17 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
- 				mtk_v4l2_vdec_err(ctx, "DecodeFinal failed, ret=%d", ret);
- 		}
+ static int vdec_av1_slice_setup_lat_from_src_buf(struct vdec_av1_slice_instance *instance,
+ 						 struct vdec_av1_slice_vsi *vsi,
++						 struct mtk_vcodec_mem *bs,
+ 						 struct vdec_lat_buf *lat_buf)
+ {
+-	struct vb2_v4l2_buffer *src;
++	struct mtk_video_dec_buf *src_buf_info;
+ 	struct vb2_v4l2_buffer *dst;
  
-+		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
-+			if (src_buf != &ctx->empty_flush_buf.vb) {
-+				struct media_request *req =
-+					src_buf->vb2_buf.req_obj.req;
-+
-+				if (req)
-+					v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
-+				v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
-+			}
-+		}
-+
- 		ctx->state = MTK_STATE_FLUSH;
- 		return;
- 	}
+-	src = v4l2_m2m_next_src_buf(instance->ctx->m2m_ctx);
+-	if (!src)
++	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
++	if (!src_buf_info)
+ 		return -EINVAL;
+ 
+-	lat_buf->vb2_v4l2_src = src;
++	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
+ 
+ 	dst = &lat_buf->ts_info;
+-	v4l2_m2m_buf_copy_metadata(src, dst, true);
++	v4l2_m2m_buf_copy_metadata(lat_buf->vb2_v4l2_src, dst, true);
+ 	vsi->frame.cur_ts = dst->vb2_buf.timestamp;
+ 
+ 	return 0;
+@@ -1724,7 +1725,7 @@ static int vdec_av1_slice_setup_lat(struct vdec_av1_slice_instance *instance,
+ 	struct vdec_av1_slice_vsi *vsi = &pfc->vsi;
+ 	int ret;
+ 
+-	ret = vdec_av1_slice_setup_lat_from_src_buf(instance, vsi, lat_buf);
++	ret = vdec_av1_slice_setup_lat_from_src_buf(instance, vsi, bs, lat_buf);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+index 3dceb668ba1c..c50a454ab4f7 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+@@ -712,19 +712,18 @@ int vdec_vp9_slice_setup_single_from_src_to_dst(struct vdec_vp9_slice_instance *
+ }
+ 
+ static int vdec_vp9_slice_setup_lat_from_src_buf(struct vdec_vp9_slice_instance *instance,
++						 struct mtk_vcodec_mem *bs,
+ 						 struct vdec_lat_buf *lat_buf)
+ {
+-	struct vb2_v4l2_buffer *src;
+-	struct vb2_v4l2_buffer *dst;
++	struct mtk_video_dec_buf *src_buf_info;
+ 
+-	src = v4l2_m2m_next_src_buf(instance->ctx->m2m_ctx);
+-	if (!src)
++	src_buf_info = container_of(bs, struct mtk_video_dec_buf, bs_buffer);
++	if (!src_buf_info)
+ 		return -EINVAL;
+ 
+-	lat_buf->vb2_v4l2_src = src;
++	lat_buf->vb2_v4l2_src = &src_buf_info->m2m_buf.vb;
+ 
+-	dst = &lat_buf->ts_info;
+-	v4l2_m2m_buf_copy_metadata(src, dst, true);
++	v4l2_m2m_buf_copy_metadata(lat_buf->vb2_v4l2_src, &lat_buf->ts_info, true);
+ 	return 0;
+ }
+ 
+@@ -1154,7 +1153,7 @@ static int vdec_vp9_slice_setup_lat(struct vdec_vp9_slice_instance *instance,
+ 	struct vdec_vp9_slice_vsi *vsi = &pfc->vsi;
+ 	int ret;
+ 
+-	ret = vdec_vp9_slice_setup_lat_from_src_buf(instance, lat_buf);
++	ret = vdec_vp9_slice_setup_lat_from_src_buf(instance, bs, lat_buf);
+ 	if (ret)
+ 		goto err;
+ 
 -- 
 2.18.0
 
