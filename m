@@ -1,212 +1,157 @@
-Return-Path: <linux-media+bounces-13171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98479906824
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 11:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D168190683F
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 11:12:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3043E282F4A
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 09:09:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80BB42865B1
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jun 2024 09:12:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792EE13DB83;
-	Thu, 13 Jun 2024 09:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F11313E02F;
+	Thu, 13 Jun 2024 09:12:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QQASjc/4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FvF4PpNL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEDB13D633;
-	Thu, 13 Jun 2024 09:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBCC13DDDB
+	for <linux-media@vger.kernel.org>; Thu, 13 Jun 2024 09:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718269736; cv=none; b=kf/y1zI/9eF/mVRJ+WAg43gfTMUTCY+Dzpc9DGWX8VBesFTroLJq6fbSj0OTh8d2+I5HW1LoU8OA/gzII9KT/Y72S9wXpoMLn8toExfzQ6MBUselpqwibLgP1q2Aal0SreBKTmvfszs+avFpcxNNahx++kQjohl1Hz2CL0RRUvg=
+	t=1718269958; cv=none; b=EHDJzpdbZd0aqvFSvSB3LY2hSx/FmRC5ZNTcptCaI0UlJWzzdU47I/O1VqO2fUs+M21WkDKH+suy6UR/CaGl9WAbTvEdCJwkMliBGhGwqJDo/5YVlofdQmQyanFulzkwM69UMEjHZoFjFjVbdC1p95s0Zwb6BmXE5sQlKUhFsg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718269736; c=relaxed/simple;
-	bh=Nz4bq/RV/DLL86umhKgYai6V/Hg+Fl/30aSJdOT7Jbg=;
+	s=arc-20240116; t=1718269958; c=relaxed/simple;
+	bh=TjS01o4kZ7f18VmIjOLeLfijCdE5SeO84ThRObghw4E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mSLA8hXQLmeeHTkJJJdBnpojG0ZneBnANW6Ka6d9aghdhtgsSug+vhQ3+2bI8ctRYicP0XWlaUPBKcmauIfKICBbhosEV0UzP2UF0oaCXZioSmyoZGHgce38PZv+ssxpcfe/2o2QbhWUmtcYdJkmsXuSWL5tC3Y3emD15iBRIBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QQASjc/4; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718269735; x=1749805735;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nz4bq/RV/DLL86umhKgYai6V/Hg+Fl/30aSJdOT7Jbg=;
-  b=QQASjc/4RRM09Uau/GdpMrjfTJsYFayIF7RtHj/9vq7y9L6jVaSMojym
-   7EJYSLnD4OH9xpGYNAENo4dRARNNcC/+YB867hpFI9mSHeSrkV637h4Q0
-   9Da9j7noYeBpDCROoi7Ltn+xabdrm0c9Nf6sLejlVqnYcPSXAFiLfQ6zb
-   UiEJ85l6FnNo4Sjhq9kQgVSmMVs62D9jUkHnXJ1VDyplhHS/JEx7iZxjq
-   HrjP4Bh143Colk/84p7nPYmCItqMbJsxAFnTt5eKM++5aJLQSq00dDpq6
-   hPueK387CfY4TyuQutS/qoDL1TguZu90W27OZ54xsjwfyg3VwWW22L9UI
-   Q==;
-X-CSE-ConnectionGUID: 01WjDDv1SQ2piBX69Z/ADQ==
-X-CSE-MsgGUID: bnfSKVH+S3KqANEzPyAHbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="26498688"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="26498688"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 02:08:54 -0700
-X-CSE-ConnectionGUID: GLT45S0sQR2HOiedp1pbaw==
-X-CSE-MsgGUID: EwMmexHPQzGx+7U88srY9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="45201966"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jun 2024 02:08:48 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHgRp-0002Qs-1L;
-	Thu, 13 Jun 2024 09:08:45 +0000
-Date: Thu, 13 Jun 2024 17:08:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 8/9] accel/rocket: Add job submission IOCTL
-Message-ID: <202406131640.WbBaRMbr-lkp@intel.com>
-References: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CF1KD3JQvbW3mhMMogvi1zKPZFsWNbqH5X8tf4lc6zPEr9RU9Qtjr0m2qsXXi4up3CGhKDS/a+Va1ZOs4Yw2RXozzlSSeTU7/rA95lvnGt5we4eS7J0kxdQkUQdqboeaOezqvVWYv/4rpZrRj5M3r7hzeZKNAxgU6KNAFruwh+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FvF4PpNL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD87FBEB;
+	Thu, 13 Jun 2024 11:12:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718269941;
+	bh=TjS01o4kZ7f18VmIjOLeLfijCdE5SeO84ThRObghw4E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FvF4PpNLPwGKuOsYqdozWScG6uOpn/qq66xEIev7lmKdWWP+qQJmSeGYVVNiepHdR
+	 dxInjII3uof+eVcmWLFkyb/rH1dTKmgWkbFQRtOmisSuI/vmBO+QyRF481aUQBTMXg
+	 bATt8Q/uFeJVrYOMhIvevH9fcAdZw/sWojJq+dDI=
+Date: Thu, 13 Jun 2024 12:12:13 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Hidenori Kobayashi <hidenorik@chromium.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [ANN] Request for Topics and registration for a Media Summit
+ September 16th
+Message-ID: <20240613091213.GC7291@pendragon.ideasonboard.com>
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+ <7CB6738E-DADE-4F4D-9501-C701B2F3F2B7@collabora.com>
+ <CAAFQd5Ae7ctMiPWw1=ugeVCFhTJYbNQ_G2xnoOoc-EYRqp4B2A@mail.gmail.com>
+ <2326f490-d9dc-4fa9-a9dd-86e56d7ba6d2@xs4all.nl>
+ <20240612095448.1e99b751@coco.lan>
+ <CAAFQd5BRJt7HB+=Xc8sq+xj1eLOoeUGnFp=Ndv6WJzcw_39wEg@mail.gmail.com>
+ <20240612083430.GE28989@pendragon.ideasonboard.com>
+ <20240612224406.41dd88fc@coco.lan>
+ <20240612205249.GB11102@pendragon.ideasonboard.com>
+ <ae8cc9b0-2792-4991-83b5-d6a5e50f2d2e@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240612-6-10-rocket-v1-8-060e48eea250@tomeuvizoso.net>
+In-Reply-To: <ae8cc9b0-2792-4991-83b5-d6a5e50f2d2e@xs4all.nl>
 
-Hi Tomeu,
+Hi Hans,
 
-kernel test robot noticed the following build warnings:
+On Thu, Jun 13, 2024 at 09:08:55AM +0200, Hans Verkuil wrote:
+> On 12/06/2024 22:52, Laurent Pinchart wrote:
+> > On Wed, Jun 12, 2024 at 10:44:06PM +0200, Mauro Carvalho Chehab wrote:
+> >> Em Wed, 12 Jun 2024 11:34:30 +0300 Laurent Pinchart escreveu:
+> >>
+> >>> Focussing on this topic, if we're brainstorming memory management for
+> >>> media devices, I'd like to throw in a controversial idea. In addition to
+> >>> being clearer on the fact that USERPTR is deprecated, I would like to
+> >>> deprecate MMAP too and only focus on DMABUF. I believe Linux needs a
+> >>> centralized buffer allocator, instead of having multiple allocation APIs
+> >>> scattered in different places. There are design ideas in gralloc that we
+> >>> could benefit from.
+> >>
+> >> Deprecating USERPTR is doable, as not many apps use it, and they're
+> >> mostly focused on complex camera/ARM scenario. Now, deprecating MMAP at 
+> >> V4L2 core is a different history: lots of different userspace programs,
+> >> including browsers and proprietary apps like zoom, etc. rely on MMAP
+> >> support. We can only consider deprecating MMAP once applications switch 
+> >> to DMABUF.
+> > 
+> > Deprecating doesn't mean dropping it right away, it means telling
+> > application developers that DMABUF is the recommended way. We will still
+> > have to support MMAP for a long time, including fixing bugs in it, as
+> > that will be a long transition. And it first requires solving the
+> > problem of centralizing allocation for DMABUF. It won't happen
+> > overnight, but I'm trying to gather support for the idea, and get people
+> > to collaborate on solving the technical problems that are currently
+> > blocking this long term evolution. If the media subsystem endorsed the
+> > effort, basically saying publicly that we are fine deprecating MMAP in
+> > principle once a good replacement will be available, it may help. I
+> > don't expect the deprecation to happen before at least two years, and
+> > the removal from the kernel would probably take another 10 to 15 years
+> > :-)
+> 
+> IMHO you cannot removed MMAP support: it is the only streaming I/O method
+> that is supported by all drivers, whereas DMABUF isn't. And many, many userspace
+> applications use that. Nor does it pose problems: it just works.
 
-[auto build test WARNING on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
+I may have failed to get my point across properly, so I'll try again :-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomeu-Vizoso/iommu-rockchip-Add-compatible-for-rockchip-rk3588-iommu/20240612-215814
-base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
-patch link:    https://lore.kernel.org/r/20240612-6-10-rocket-v1-8-060e48eea250%40tomeuvizoso.net
-patch subject: [PATCH 8/9] accel/rocket: Add job submission IOCTL
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20240613/202406131640.WbBaRMbr-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 4403cdbaf01379de96f8d0d6ea4f51a085e37766)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240613/202406131640.WbBaRMbr-lkp@intel.com/reproduce)
+What I would like to do is
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406131640.WbBaRMbr-lkp@intel.com/
+1. Explore how we can implement a centralized allocator that
+applications can use on any Linux system to provide dmabuf instances.
 
-All warnings (new ones prefixed by >>):
+2. Implement that allocator.
 
-   In file included from drivers/accel/rocket/rocket_job.c:6:
-   In file included from include/drm/drm_file.h:39:
-   In file included from include/drm/drm_prime.h:37:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/accel/rocket/rocket_job.c:6:
-   In file included from include/drm/drm_file.h:39:
-   In file included from include/drm/drm_prime.h:37:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/accel/rocket/rocket_job.c:6:
-   In file included from include/drm/drm_file.h:39:
-   In file included from include/drm/drm_prime.h:37:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/accel/rocket/rocket_job.c:6:
-   In file included from include/drm/drm_file.h:39:
-   In file included from include/drm/drm_prime.h:37:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/accel/rocket/rocket_job.c:353:11: warning: variable 'status' set but not used [-Wunused-but-set-variable]
-     353 |         uint32_t status, raw_status;
-         |                  ^
->> drivers/accel/rocket/rocket_job.c:353:19: warning: variable 'raw_status' set but not used [-Wunused-but-set-variable]
-     353 |         uint32_t status, raw_status;
-         |                          ^
-   drivers/accel/rocket/rocket_job.c:40:1: warning: unused function 'to_rocket_fence' [-Wunused-function]
-      40 | to_rocket_fence(struct dma_fence *fence)
-         | ^~~~~~~~~~~~~~~
-   10 warnings generated.
+3. Deprecate MMAP, meaning documenting that users of V4L2 should use the
+centralized allocator and DMABUF. No code change in V4L2, no removal of
+MMAP, and bugs in MMAP support would keep being addressed.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=y]
-   Selected by [m]:
-   - DRM_ACCEL_ROCKET [=m] && DRM [=m] && (ARM64 || COMPILE_TEST [=y]) && MMU [=y]
+4. 5-10 years later, start scheduling MMAP removal, as in setting a date
+for it.
 
+5. 5-10 years more in the future, drop MMAP when nobody will be using it
+anymore.
 
-vim +/status +353 drivers/accel/rocket/rocket_job.c
+It's phases 1 to 3 that I'm the most interested in. 4 and 5 are just
+about dropping code *when* MMAP isn't used anymore *iff* that ever
+happens.
 
-   350	
-   351	static void rocket_job_handle_irq(struct rocket_core *core)
-   352	{
- > 353		uint32_t status, raw_status;
-   354	
-   355		pm_runtime_mark_last_busy(core->dev->dev);
-   356	
-   357		status = rocket_read(core, REG_PC_INTERRUPT_STATUS);
-   358		raw_status = rocket_read(core, REG_PC_INTERRUPT_RAW_STATUS);
-   359	
-   360		rocket_write(core, REG_PC_OPERATION_ENABLE, 0x0);
-   361		rocket_write(core, REG_PC_INTERRUPT_CLEAR, 0x1ffff);
-   362	
-   363		spin_lock(&core->job_lock);
-   364	
-   365		if (core->in_flight_job)
-   366			rocket_job_handle_done(core, core->in_flight_job);
-   367	
-   368		spin_unlock(&core->job_lock);
-   369	}
-   370	
+> USERPTR support is another matter: there have been problems with it, and
+> the vb2 code is hard to understand and to support.
+> 
+> I wouldn't shed a tear if it disappears. The strategy would be to first
+> make sure any driver supporting USERPTR also supports DMABUF, and then
+> put USERPTR under a kernel config option. Initially it would default to y,
+> but issue a warning, and later (after a few years) it can default to n
+> and eventually be removed.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
 
