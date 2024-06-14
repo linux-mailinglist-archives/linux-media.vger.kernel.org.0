@@ -1,135 +1,164 @@
-Return-Path: <linux-media+bounces-13279-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13280-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9021490909B
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 18:40:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD75909122
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 19:12:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD85F284168
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 16:40:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CD44B238F5
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 17:12:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7499F181B84;
-	Fri, 14 Jun 2024 16:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA58319AD48;
+	Fri, 14 Jun 2024 17:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MJPzMklW"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="Vw3+h8yr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1A919D8B3;
-	Fri, 14 Jun 2024 16:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718383211; cv=none; b=jj9Yd2uKkmfbSlYgBSkismGttIskmF4touWS0Ez8ZFu1uW79ZZmzWbwAP808L4EsqHdNXlKkJs07QWnbn2qNME4tkYeYz7DaZ5I0kgfqpxQpaYHrU87Pdj4Z+TTX2xOabeeAy8x8H6ThcDAsHW8KAoGTe084yTuyhjxc5Xqz+sQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718383211; c=relaxed/simple;
-	bh=3/EpBHFCwFxGp4rZgZ9kAxejp5oyqD5NlW4xxmoqCBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lAUlPqOtNjW1Im9Qrqs35p7Dxe5K1KT5xAD+I8ehyu2aX5uTOjlav4Y5ArJT4XdNau7h1nCuhwyiFEjqWnTewJ1zc/mqoAKwPXB62RGovv7VmGD9mJz5h+9e3AteOLY2SR7kB40da3uCwzBwJihrIVQV7DdELCldW1o35uAH9B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MJPzMklW; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45E9m9mU032695;
-	Fri, 14 Jun 2024 16:39:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	euP53KvYb4OJB4lz2pMwCFHlr8WB3Zw8Vqkw9q4K+yU=; b=MJPzMklWEv2QvVr6
-	dDRImL+6abJwTfPmSY59ATFEY6yWKvHotDZJq0Tr+G45fIazFqYz3OwL/LbjCGQD
-	qCTxWMSXB5yLOx098wRnPCjps3B+vNBaGnCtwVk194//KibcL5Kcx+XMdz1AQggw
-	w1Xd+C0VIxsq57iY0VJiTnHH7KRz/89sVs6aU7Upskv1waehrIZjUaScA1F0U0+z
-	MxQDWi32w6eGcUvusWOlAfFdiTvdsPFZ7ByGtbHI0q1k5vL7jppTjCtLE8JC/lS+
-	fWnbJt3/8Gp7ZjWQwoW5GLUpR52VZ9NFyt/O0KhaDTDVwFMypvWw1k7KVdkS3TRN
-	bQbPPQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yr6q2tbcu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Jun 2024 16:39:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45EGdjnX013203
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Jun 2024 16:39:45 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Jun
- 2024 09:39:43 -0700
-Message-ID: <7e32d69f-7024-01d8-a165-fc00ea60fa90@quicinc.com>
-Date: Fri, 14 Jun 2024 10:39:43 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699731974EA
+	for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 17:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718385142; cv=pass; b=K6d+b7AsdB97cvauNOdz7s8PAHe3nsFqIOFL0SDkyrwB2biwNBSTgoMl39vN+XIUJO87c0AbKoy2jbFayozxKfnmWQJUmmUcUBJKLp+hnn+P9peEI0UUkXHderS4IY3q/Lve45eOnjv98C8C9nU4u7xSom5tdF1MQUEktsZrxOk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718385142; c=relaxed/simple;
+	bh=Jfs467dswzjrwldDXpvq87Zs/77rHqJZVtlFdNOYRh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u2AJFjE7xX+pd9+AkI4U1tTrin7AgeFxtKsZffJ/8qOuX0e7/S7OCPKrixYkCdJz/WboNt3kzsTugabGtjw0mjYPc7pNHHxy4QdmlSwoITSG7Mqi/klaXbUWNOvPp+2/sWhz1PpK5LTwC1t92+qLTbW6ZjdjU7K8Ah3KZvLLKKw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=Vw3+h8yr; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4W15Rz08hkzyR2;
+	Fri, 14 Jun 2024 20:12:14 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1718385135;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=IzI3uYJ+FhK2PMOJmo4LbP9c8r0NeTEbetquTYGzcII=;
+	b=Vw3+h8yrqXSOI+t9+o/kempWODAwNomVTo7cS3IqgSODiXzgcNn2DX+ftMzm+6RjZirdcV
+	kAhVpxEQWe5XxP2sJ2arNtH81KTYPCKv/LT2JY3Tb1ApE/Eub69oT1toJIaZQIzBqg+Z9x
+	QYrvnVeXATxdqR6VgbYbe6yAsbAZjy4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1718385135;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=IzI3uYJ+FhK2PMOJmo4LbP9c8r0NeTEbetquTYGzcII=;
+	b=SEqC5XhQ0mBCeDb4kk/GrLOTfZJX0sfyyzrHltswwqJ/FdneLZfh9V6HJcdFNbUDRbPA9D
+	LgfQWax2XVXqntNsAu73+EiPRt3gHwIyqEpi0lCSD9Dz6h0f1krXHfjQdcmaTji3RvshNm
+	QtxprZPZBFeZkx9WYjH9ve844fZsd0M=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1718385135; a=rsa-sha256; cv=none;
+	b=ipTETkAu/XFECoQoE1lK1ojFswpRpysJj3o/KENajZoc34RnbDDm4zQ7585CXQ8lI38+oL
+	cQ/iuylrB4kuxHKLiBwGpN8WLtjX1Lo++9z60S8Sw0or0C5GhdA4DHy+VgJHYNdGeM0Kqg
+	/0rdduoJ7GbazZJPgRf033NkXxzmJAA=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 370AD634C93;
+	Fri, 14 Jun 2024 20:12:14 +0300 (EEST)
+Date: Fri, 14 Jun 2024 17:12:14 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR 6.11] V4L2 patches
+Message-ID: <Zmx57vVS4lsTXkfs@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 9/9] accel/rocket: Add IOCTLs for synchronizing memory
- accesses
-Content-Language: en-US
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Joerg Roedel <joro@8bytes.org>,
-        Will
- Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Heiko Stuebner
-	<heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Oded Gabbay
-	<ogabbay@kernel.org>,
-        Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>,
-        David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard
-	<mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-CC: <iommu@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
- <20240612-6-10-rocket-v1-9-060e48eea250@tomeuvizoso.net>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20240612-6-10-rocket-v1-9-060e48eea250@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 50nkHqkNt-PDRn_5o0klNCIcppNdnO4M
-X-Proofpoint-ORIG-GUID: 50nkHqkNt-PDRn_5o0klNCIcppNdnO4M
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-14_14,2024-06-14_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=840
- malwarescore=0 mlxscore=0 spamscore=0 suspectscore=0 adultscore=0
- impostorscore=0 bulkscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406140113
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/12/2024 7:53 AM, Tomeu Vizoso wrote:
-> diff --git a/include/uapi/drm/rocket_accel.h b/include/uapi/drm/rocket_accel.h
-> index 888c9413e4cd..1539af0af4fe 100644
-> --- a/include/uapi/drm/rocket_accel.h
-> +++ b/include/uapi/drm/rocket_accel.h
-> @@ -12,9 +12,13 @@ extern "C" {
->   #endif
->   
->   #define DRM_ROCKET_CREATE_BO			0x00
-> -#define DRM_ROCKET_SUBMIT			0x01
-> +#define DRM_ROCKET_PREP_BO			0x01
-> +#define DRM_ROCKET_FINI_BO			0x02
-> +#define DRM_ROCKET_SUBMIT			0x03
+Hi Hans, Mauro,
 
-This looks like a uAPI breaking change.  Shouldn't you have defined 
-SUBMIT as 0x03 from the beginning, or put the new BO ioctls after it?
+Here are fixes for the IVSC, alvium and imx219 drivers, and cleanups and
+improvements for the rest (ov5647, vgxy61, alvium, ov2680 and ipu-bridge).
 
+Also included is the use of MODULE_DESCRIPTION() macro for v4l2-async and
+v4l2-fwnode.
+
+Please pull.
+
+
+The following changes since commit 156922faabcef2979cb2ddc2fbaa659b5ea37f54:
+
+  media: atomisp: Switch to new Intel CPU model defines (2024-06-13 21:43:56 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.11-2.2-signed
+
+for you to fetch changes up to 76694bf770818c6823f9d2fb07aae6038626a279:
+
+  media: v4l: add missing MODULE_DESCRIPTION() macros (2024-06-14 20:07:40 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.11
+
+----------------------------------------------------------------
+Abdulrasaq Lawani (1):
+      media: i2c: ov5647: replacing of_node_put with __free(device_node)
+
+Benjamin Mugnier (1):
+      media: i2c: vgxy61: Fix device name
+
+Conor Dooley (1):
+      media: i2c: imx219: fix msr access command sequence
+
+Hans de Goede (3):
+      media: ipu-bridge: Sort ipu_supported_sensors[] array by ACPI HID
+      media: ipu-bridge: Add HIDs from out of tree IPU6 driver ipu-bridge copy
+      media: ov2680: Pass correct number of controls to v4l2_ctrl_handler_init()
+
+Jeff Johnson (1):
+      media: v4l: add missing MODULE_DESCRIPTION() macros
+
+Tommaso Merciai (5):
+      media: i2c: alvium: fix alvium_get_fw_version()
+      media: i2c: alvium: rename acquisition frame rate enable reg
+      media: i2c: alvium: enable acquisition frame rate
+      media: i2c: alvium: implement enum_frame_size
+      media: i2c: alvium: Move V4L2_CID_GAIN to V4L2_CID_ANALOG_GAIN
+
+Wentong Wu (3):
+      media: ivsc: csi: add separate lock for v4l2 control handler
+      media: ivsc: csi: don't count privacy on as error
+      media: ivsc: csi: remove privacy status in struct mei_csi
+
+ .../userspace-api/media/drivers/index.rst          |  2 +-
+ .../media/drivers/{st-vgxy61.rst => vgxy61.rst}    |  0
+ MAINTAINERS                                        |  6 +-
+ drivers/media/i2c/Kconfig                          |  2 +-
+ drivers/media/i2c/Makefile                         |  2 +-
+ drivers/media/i2c/alvium-csi2.c                    | 65 +++++++++++++++++-----
+ drivers/media/i2c/alvium-csi2.h                    | 16 ++++--
+ drivers/media/i2c/imx219.c                         |  2 +-
+ drivers/media/i2c/ov2680.c                         |  2 +-
+ drivers/media/i2c/ov5647.c                         | 11 ++--
+ drivers/media/i2c/{st-vgxy61.c => vgxy61.c}        |  2 +-
+ drivers/media/pci/intel/ipu-bridge.c               | 40 +++++++++----
+ drivers/media/pci/intel/ivsc/mei_csi.c             | 24 +++++---
+ drivers/media/v4l2-core/v4l2-async.c               |  1 +
+ drivers/media/v4l2-core/v4l2-fwnode.c              |  1 +
+ 15 files changed, 121 insertions(+), 55 deletions(-)
+ rename Documentation/userspace-api/media/drivers/{st-vgxy61.rst => vgxy61.rst} (100%)
+ rename drivers/media/i2c/{st-vgxy61.c => vgxy61.c} (99%)
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
