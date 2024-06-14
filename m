@@ -1,165 +1,185 @@
-Return-Path: <linux-media+bounces-13262-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13263-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA8D908B3F
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 14:07:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6363908BC5
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 14:34:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F8261F247BF
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:07:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8C9B1C21564
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:34:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C675195FEF;
-	Fri, 14 Jun 2024 12:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ABC31990CD;
+	Fri, 14 Jun 2024 12:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wfalRvyS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD23811FE;
-	Fri, 14 Jun 2024 12:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794DE197A90;
+	Fri, 14 Jun 2024 12:34:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718366859; cv=none; b=bZ4Eh5Oslaj2tftOdNqV+FbFhP5bCN+Bvz1JWOgeQcNhcbSXkqVMeQV6No6zHsGMhyRMakDkqQgunCsGz4cXn12H0tmWt8NjeDsv+ZpvQRze12TpRf+Zmv1SyjJAwjcfWKGWHG0qeKKgNxqqR9TNlmvP12Ldjmr758w+wbJ5QUM=
+	t=1718368449; cv=none; b=atS+0H7xlX8+6Cirzpl3DPn5E8FE1boS/ye/CxIYf18rW4vpi/8Q3ba+3jme7atjDo+d5I7cg1XtMNjHnSyk9GCZKKxZGPXjHPZdOxrp2IJgTfw8UNDo+hzrHafNP5iOc6RDs8JO8JjbmTbdv2krNKIJmwPVSR2905mjNJQLzCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718366859; c=relaxed/simple;
-	bh=Vq6GkNjm49Si+NAnbQlMEolVQ3XwS1Z66jv5HfAMGuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TcQJU4oqA8B/PivOwt7hp1N87BxsexC+yFO0LKBpspA+MrIzVqVqRLaZ7NL8xJ4kD6AxqKtY6oXH06CQv676nIqMYvXfCUwsLi89mPdN6XmOVEAibgMMD8vxsMvBEfYtz6zo4X4TGQvgNj1ClB+4aeYHEuqBxv64FUWzJvPUXa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E093AFEC;
-	Fri, 14 Jun 2024 05:08:00 -0700 (PDT)
-Received: from [10.57.71.136] (unknown [10.57.71.136])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DBB43F64C;
-	Fri, 14 Jun 2024 05:07:32 -0700 (PDT)
-Message-ID: <3516994c-7b06-4409-b9a9-975b9f7a60eb@arm.com>
-Date: Fri, 14 Jun 2024 13:07:29 +0100
+	s=arc-20240116; t=1718368449; c=relaxed/simple;
+	bh=B2nOjYL3lFg4bp1IsZgH4scpFXv01qJzfqLMfIueunY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7XyJcVCFKJIkqeHNfW7qZFRDrK1mqKGWGYzhbs9Lq/odAO3gANTH1MZ4C/z9F1Rg1XsjPHRIiNGxMJrJr3FMKuwOJjkNYy7ksjov/P+DLn1kCziXYvAhPWW9V4ml0eP4PdWli+8JoV34Po7GNJpt6mV68uwmigAvw6e3xL9T4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wfalRvyS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A86A17047;
+	Fri, 14 Jun 2024 14:33:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718368430;
+	bh=B2nOjYL3lFg4bp1IsZgH4scpFXv01qJzfqLMfIueunY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=wfalRvyS2jqZaU2aTE1qzDFVqvw+JjmEL4BWenYU2ak8p855BAIf301hhF72gYjeD
+	 tmBqjnpSmcZ8VcP/ZNyfhERe6jDNPMfhKlUhOE+iITaPA0/rbKnaffGNDt66mg4wAc
+	 ctes+j4do1WRWp4aECKVv0LRmTGKC62ESHXis1GA=
+Date: Fri, 14 Jun 2024 15:33:45 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Louis Kuo <louis.kuo@mediatek.com>,
+	Phi-bang Nguyen <pnguyen@baylibre.com>,
+	Florian Sylvestre <fsylvestre@baylibre.com>,
+	Andy Hsieh <andy.hsieh@mediatek.com>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v4 3/5] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 sensor interface
+Message-ID: <20240614123345.GN6019@pendragon.ideasonboard.com>
+References: <20240110141443.364655-1-jstephan@baylibre.com>
+ <20240110141443.364655-4-jstephan@baylibre.com>
+ <3c2bee40-3792-409c-b42f-f8b013ff641c@collabora.com>
+ <CAEHHSvaT_U+HNzWQUoK9EuqGuqEd11+Lu0CLz_rL7uQf0Q5isw@mail.gmail.com>
+ <53838e76-bfa4-41f5-a015-a37472e98991@collabora.com>
+ <CAEHHSvaRqZM9c8oD05WKkhOHdjKLBkR6tXp2Q1b8OMiDxDsDhQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] iommu/rockchip: Attach multiple power domains
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@tomeuvizoso.net>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net>
- <20240612-6-10-rocket-v1-2-060e48eea250@tomeuvizoso.net>
- <ffviz6ak6qsn2reg5y35aerzy7wxfx6fzix6xjyminbhfcguus@clszdjakdcjd>
- <CAAObsKCx+r5UuESnrPem1Rb1-BF4i8FVwu6uozWhABOWoq+M4Q@mail.gmail.com>
- <CAAObsKChaBZ2C5ezWsiZ_LoN6R2HFhFA9=UNSRYB6cyeo-jreg@mail.gmail.com>
- <vmgk4wmlxbsb7lphq2ep3xnxx3mbv6e6lecihtftxoyp5lidvy@mectcwirrlek>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <vmgk4wmlxbsb7lphq2ep3xnxx3mbv6e6lecihtftxoyp5lidvy@mectcwirrlek>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEHHSvaRqZM9c8oD05WKkhOHdjKLBkR6tXp2Q1b8OMiDxDsDhQ@mail.gmail.com>
 
-On 2024-06-13 10:38 pm, Sebastian Reichel wrote:
-> Hi,
+On Fri, Jun 14, 2024 at 12:38:15PM +0200, Julien Stephan wrote:
+> Le mer. 12 juin 2024 à 10:06, AngeloGioacchino Del Regno a écrit :
+> >
+> > Il 10/06/24 16:39, Julien Stephan ha scritto:
+> [...]
+> > >>
+> > >>> +     writel(0x10001, input->base + SENINF_TG1_SEN_CK);
+> > >>
+> > >> Unroll this one... this is the TG1 sensor clock divider.
+> > >>
+> > >> CLKFL GENMASK(5, 0)
+> > >> CLKRS GENMASK(13, 8)
+> > >> CLKCNT GENMASK(21,16)
+> > >>
+> > >> Like this, I don't get what you're trying to set, because you're using a fixed
+> > >> sensor clock rate, meaning that only a handful of camera sensors will be usable.
+> > >>
+> > >> Is this 8Mhz? 16? 24? what? :-)
+> > >>
+> > >> Two hints:
+> > >>    - sensor_clk = clk_get_rate(isp_clk) / (tg1_sen_ck_clkcnt + 1);
+> > >>    - int mtk_seninf_set_sensor_clk(u8 rate_mhz);
+> > >>
+> > >> Please :-)
+> > >
+> > > Hi Angelo,
+> > >
+> > > I think I get your point about not hardcoding the sensor rate, but I
+> > > am not sure how to use
+> > > a mtk_seninf_set_sensor_clk(u8 rate_mhz); function.
+> > >
+> > > Where would it be called? How is it exposed to the user?
+> > >
+> >
+> > As for where: setup, streaming start, resolution change (which may be covered
+> > by streaming start anyway, as a change should be calling stop->start anyway).
+> >
+> > And for the how is it exposed to the user - well, depends what you mean for user,
+> > but it's all standard V4L2 API :-)
+> >
+> > Last but not least, I can give you another hint....
+> >
+> > struct media_entity *entity = (something_here);
+> > struct media_pad *mpad;
+> > struct v4l2_subdev *cam_subdev;
+> > struct v4l2_ctrl *ctl;
+> > s64 link_frequency, pixel_clock;
+> >
+> > if (entity->pads[0].flags & MEDIA_PAD_FL_SINK)
+> >     return -E_NOT_A_CAMERA_SENSOR_WE_IGNORE_THIS_ONE;
+> >
+> > pad = media_pad_remote_pad_first(&entity->pads[0]);
+> > if (!pad)
+> >    return -ENOENT;
+> >
+> > if (!is_media_entity_v4l2_subdev(pad->entity))
+> >    return -ENOENT;
+> >
+> > if (pad->entity->function != MEDIA_ENT_F_CAM_SENSOR)
+> >    return -ENOENT;
+> >
 > 
-> On Thu, Jun 13, 2024 at 11:34:02AM GMT, Tomeu Vizoso wrote:
->> On Thu, Jun 13, 2024 at 11:24 AM Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
->>> On Thu, Jun 13, 2024 at 2:05 AM Sebastian Reichel
->>> <sebastian.reichel@collabora.com> wrote:
->>>> On Wed, Jun 12, 2024 at 03:52:55PM GMT, Tomeu Vizoso wrote:
->>>>> IOMMUs with multiple base addresses can also have multiple power
->>>>> domains.
->>>>>
->>>>> The base framework only takes care of a single power domain, as some
->>>>> devices will need for these power domains to be powered on in a specific
->>>>> order.
->>>>>
->>>>> Use a helper function to stablish links in the order in which they are
->>>>> in the DT.
->>>>>
->>>>> This is needed by the IOMMU used by the NPU in the RK3588.
->>>>>
->>>>> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
->>>>> ---
->>>>
->>>> To me it looks like this is multiple IOMMUs, which should each get
->>>> their own node. I don't see a good reason for merging these
->>>> together.
->>>
->>> I have made quite a few attempts at splitting the IOMMUs and also the
->>> cores, but I wasn't able to get things working stably. The TRM is
->>> really scant about how the 4 IOMMU instances relate to each other, and
->>> what the fourth one is for.
->>>
->>> Given that the vendor driver treats them as a single IOMMU with four
->>> instances and we don't have any information on them, I resigned myself
->>> to just have them as a single device.
->>>
->>> I would love to be proved wrong though and find a way fo getting
->>> things stably as different devices so they can be powered on and off
->>> as needed. We could save quite some code as well.
->>
->> FWIW, here a few ways how I tried to structure the DT nodes, none of
->> these worked reliably:
->>
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-devices-power/arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L1163
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-schema-subnodes//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L1162
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-devices//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L1163
->> https://gitlab.freedesktop.org/tomeu/linux/-/blob/6.10-rocket-multiple-iommus//arch/arm64/boot/dts/rockchip/rk3588s.dtsi?ref_type=heads#L2669
->>
->> I can very well imagine I missed some way of getting this to work, but
->> for every attempt, the domains, iommus and cores were resumed in
->> different orders that presumably caused problems during concurrent
->> execution fo workloads.
->>
->> So I fell back to what the vendor driver does, which works reliably
->> (but all cores have to be powered on at the same time).
+> Hi Angelo,
 > 
-> Mh. The "6.10-rocket-multiple-iommus" branch seems wrong. There is
-> only one iommu node in that. I would have expected a test with
+> Thank you for the detailed explanation :)
+> However, I can't make it work because in my case, seninf is connected
+> to an external ISP
+> so pad->entity->function == MEDIA_ENT_F_PROC_VIDEO_ISP.
 > 
-> rknn {
->      // combined device
-> 
->      iommus = <&iommu1>, <&iommu2>, ...;
-> };
-> 
-> Otherwise I think I would go with the schema-subnodes variant. The
-> driver can initially walk through the sub-nodes and collect the
-> resources into the main device, so on the driver side nothing would
-> really change. But that has a couple of advantages:
-> 
-> 1. DT and DT binding are easier to read
-> 2. It's similar to e.g. CPU cores each having their own node
-> 3. Easy to extend to more cores in the future
-> 4. The kernel can easily switch to proper per-core device model when
->     the problem has been identified
+> How can I get the pad corresponding to the sensor?
 
-It also would seem to permit describing and associating the per-core 
-IOMMUs individually - apart from core 0's apparent coupling to whatever 
-shared "uncore" stuff exists for the whole thing, from the distinct 
-clocks, interrupts, power domains etc. lining up with each core I'd 
-guess those IOMMUs are not interrelated the same way the ISP's 
-read/write IOMMUs are (which was the main justification for adopting the 
-multiple-reg design originally vs. distinct DT nodes like Exynos does). 
-However, practically that would require the driver to at least populate 
-per-core child devices to make DMA API or IOMMU API mappings with, since 
-we couldn't spread the "collect the resources" trick into those 
-subsystems as well.
+You don't have to. You can drop that check, and get the link frequency
+of the source subdev with v4l2_get_link_freq(), whatever it is.
 
-Thanks,
-Robin.
+> > cam_subdev = media_entity_to_v4l2_subdev(pad->entity);
+> > ctl = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
+> 
+> Is this mandatory to implement V4L2_CID_PIXEL_RATE ?
+> Should I return an error if not found?
+
+Does SENINF need to know both the pixel rate and link frequency ?
+V4L2_CID_PIXEL_RATE is very ill-defined, at the moment it only makes
+sense as a value relative to the sensor pixel array, and doesn't really
+apply further down in the pipeline. What information do you need to
+program the SENINF ?
+
+> > /* multiplier is usually bits per pixel, divider is usually num of lanes */
+> > link_frequency = v4l2_get_link_freq(cam_subdev->ctrl_handler, multiplier, divider);
+> > pixel_clock = v4l2_ctrl_g_ctrl_int64(ctl);
+> 
+> How to know the sensor clock given link_frequency and pixel_clock?
+> Can you point me to drivers doing something similar?
+> 
+> >
+> > ....now you know what the sensor wants, set the seninf sensor clock accordingly.
+> >
+> > Cheers
+> > Angelo
+> >
+> [...]
+
+-- 
+Regards,
+
+Laurent Pinchart
 
