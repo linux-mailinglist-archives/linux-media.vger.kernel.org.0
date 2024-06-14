@@ -1,72 +1,73 @@
-Return-Path: <linux-media+bounces-13266-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13267-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAAF908BE0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 14:42:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAF1908BE1
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 14:42:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78BF5288238
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:42:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66B59B267C1
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:42:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6823B19AD41;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75A8F19AD45;
 	Fri, 14 Jun 2024 12:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PQIxWPGD"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ybaa0PRF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A20D1990CD
-	for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 12:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860E71993BA
+	for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 12:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718368903; cv=none; b=hNyJz8hkhetECF1kYtdJCcZ5gpA0zxse1PGRRAJJWOZ/0oy69wtmu8KeW2Sdb3gsWC/it3Uy03MrxqvO0IT5xB3kbDR8ul2r79P67c0N5ZvB+LkNPW/ou7iwcWiC5OkbXt/xD6ClHoGDq8Ei8dva0EN4W1WubRPV6OEHDh8PrKg=
+	t=1718368903; cv=none; b=GsUKFirQ7SfLR7jTEUpIhtPGyu6pIUk2W+qR69Nph9pTs5l7ChcBpz+Dja3SZEp4v1zuXgm/TXshnM0f6MWIyjMw2GQqxbkvWeH82oeLKZFJil9dDzQu8Y6d6fbIckvq27hsYXa0cbyLkV8QYrR6m4EKm0aRdPgfKi+3nMTLov4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718368903; c=relaxed/simple;
-	bh=uXpDcwRqOU3iiAGO1O46hyoNKWa9ISkvjQJvmjavmUM=;
+	bh=qBhEPUORN0+wfjTZKZ+VX36yspUBM554ilvl/WxMkYA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cWq/TvLu+90OHbAOUbWKo4xLHiOiq8+RiKiAEthwxpPk6QDKzQejnp0GDbo7sJrWEYiJudbJ9B2mrc0DYxpi0cv4rTfAdegDbEEEdU7zGQ+00OurXxKNd4ArVSVtRye0KypCbV78qxitJaOUgmUzOvhZ2RINGt6X+QTLxhVRNCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PQIxWPGD; arc=none smtp.client-ip=209.85.222.170
+	 In-Reply-To:To:Cc; b=DFbAkKPHpdQblDt8tliOfk3FGTZ6hzS4yciwG5/7v5pkVtbMQtyXmb9e0TaYgI1nyoM4A8lZhPQhcbR2/TgIWbNoQ76Y7dIiBn0YFYjQHBgTXvuQjnHBEqc3uWVfdklSvij5xLAGU4Mf33avdvay5dsQ5bdUGbpx2iVFSdaiUgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ybaa0PRF; arc=none smtp.client-ip=209.85.219.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-795a4fde8bfso119104985a.2
-        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 05:41:41 -0700 (PDT)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6b064841f81so16998686d6.1
+        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 05:41:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718368900; x=1718973700; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1718368901; x=1718973701; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AKoE+RIOmQJlHGEBp9l62JpXSTtIbmY829LT5LUBfbs=;
-        b=PQIxWPGDgRT8sz2HTQ6b/8wsEsCoTgBUF+BB9148O37m16ExYB1no1WgKaeIJmAj3B
-         Gp+lFGee2T4ggk3WTadRGhxgkFpv73XDheYTPxsSWUBI8mLBtNj+d/b+TITYol5Qo0dt
-         bhPNtXUH6VYCxqLqja6kDqslCi/0nJH2rs5FA=
+        bh=Gp8nRHlyjFIEZs46UyxWOxZiNNyfZrapMqA1AdjCANo=;
+        b=Ybaa0PRFN7IrdBIf28pGUp9N0wNde7PPgfna2APda/FI+XxKukWqcG/L8f8UjQV4lj
+         QuTSpCkNclRYsM7GUpmDLjv2J9QzB60CUrLg+WmOV8jgeEMUWbPWq589XfXYpeejR3da
+         hMT+a7ElF02A/tDPkhNMQR+i17ubGHSiZWhOU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718368900; x=1718973700;
+        d=1e100.net; s=20230601; t=1718368901; x=1718973701;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AKoE+RIOmQJlHGEBp9l62JpXSTtIbmY829LT5LUBfbs=;
-        b=ftCAeaCfCBwElYCyrR8uqFw/ZCpTPL4ywKBe32tYbWxi6b+BYnfyCFEnyLhAUe/AbJ
-         s2RebNytNifNY/o24cnquwQ1oKkOe8VfehiqIz00eUBHWBSw8a3hWQPfSQfD2yBuBMGQ
-         21XF0Lfdwbduvjl46QNuLFOi/B/AhnKN7dnvSFQtQEm2BR6X0mZqhAI96kbSVsfGLYkz
-         TlTLOFPFoflu9guaXzBbR87fXL0Kxm3azxgkk41LDpDHXk5Wg8oVJauU12GtdZrGvCE+
-         Zff3f9mTyt5IbB5faZX8D2UZOPWgnjufZiXAOtAQrAJIkXPPNRoD9JCUC43Yxu17JUR1
-         EhaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGH0/xRuUOjkkTDVSq05dASJvD/vlIWPBCODRl3COWlMQ5JJ9sDOg8acT74hDguJ43PX9r/JFNC7RhoqvpvjjH7ZpfPJxbnVQ583Q=
-X-Gm-Message-State: AOJu0YxtMgQnQxYdymuGeXFY5eB1iRsyVBTjsc+UwLP6adlA+0TPS3WY
-	Gvl8To1wEH7PBVeJ2JN4tNPjwFWG975l99AmlnF862hyUzsVIARJHVaQnB5VDg==
-X-Google-Smtp-Source: AGHT+IHDIaw9zNQIJOOgfKn75K1P93hUk40/EXahuqWPNl2coOrMG2Gw7mzdwnqJJMwkub7LkhrqRQ==
-X-Received: by 2002:a0c:e78d:0:b0:6b0:6400:3b6f with SMTP id 6a1803df08f44-6b2afc78e7emr24373436d6.8.1718368900344;
-        Fri, 14 Jun 2024 05:41:40 -0700 (PDT)
+        bh=Gp8nRHlyjFIEZs46UyxWOxZiNNyfZrapMqA1AdjCANo=;
+        b=BStBV8QDu9LboX+Gmys7LPzQYt5mNS5E7PqwxbHNU8hxCAur3a0crhgMZF53/F8OOb
+         5ygBOBgCdTj/G4gN/VaxPjLyGskJ0uqCUfwvaesdSfWwtDIMV+yAzSPZY/6VcIKYFwYn
+         QHTRb0hRc2Tj9+V3cMgXiptEqj/MppNl0/KD0pCdRI7R9nIGi/qLO/Ifx41cjtltyC7K
+         lhaG9h5+6YVCEmm/Pz2atSchpM3585SGapWHD360sX4WInWzEYjsY0s1zTjvAjXfivw6
+         naIpMLUlD6batam2RsmOZQ+E1XaOhxV5cArbxHuNtlZMmcuz11WIwhkRl8wevkOgXJjv
+         2jvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUB4wXvFyRxwytpAcY/hYg0iDc0J127daCk/+92P68944etGQaarLoif9086FnxuUPfKpaBzrnttKFPSHpVT+iZ2Uq3rBr5tCrpJ3E=
+X-Gm-Message-State: AOJu0YxpbU54ErD7tnmvA56tEk3x6JTGxB3DjQPWGpJEH0XwBTsRbEHE
+	9SAyefFZ/DYMRScSKSpaoobTcSR5CexwTnxKBwQ82yEoAHdUQD/YQGewqS0HrQ==
+X-Google-Smtp-Source: AGHT+IHJtNT5OlxAJG5HTDAFmHTNEauVEn25IMzysKx6zq1wIY70PbE6ooXmIq4IYnjopljkwoIOcg==
+X-Received: by 2002:a0c:f7c5:0:b0:6b2:ad94:2195 with SMTP id 6a1803df08f44-6b2afd6ab6dmr27101546d6.46.1718368901539;
+        Fri, 14 Jun 2024 05:41:41 -0700 (PDT)
 Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5c202e8sm17734056d6.50.2024.06.14.05.41.39
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5c202e8sm17734056d6.50.2024.06.14.05.41.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 05:41:39 -0700 (PDT)
+        Fri, 14 Jun 2024 05:41:40 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 14 Jun 2024 12:41:28 +0000
-Subject: [PATCH v6 2/4] media: uvcvideo: Refactor the status irq API
+Date: Fri, 14 Jun 2024 12:41:29 +0000
+Subject: [PATCH v6 3/4] media: uvcvideo: Avoid race condition during
+ unregister
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,7 +76,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240614-guenter-mini-v6-2-7b7fdc3b21b3@chromium.org>
+Message-Id: <20240614-guenter-mini-v6-3-7b7fdc3b21b3@chromium.org>
 References: <20240614-guenter-mini-v6-0-7b7fdc3b21b3@chromium.org>
 In-Reply-To: <20240614-guenter-mini-v6-0-7b7fdc3b21b3@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -89,224 +90,35 @@ Cc: Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>,
  Sergey Senozhatsky <senozhatsky@chromium.org>
 X-Mailer: b4 0.13.0
 
-There are two different use-cases of uvc_status():
-	- adding/removing a user when the camera is open/closed
-	- stopping/starting when the camera is suspended/resumed
+The control events are handled asynchronously by the driver. Once the
+control event are handled, the urb is re-submitted.
 
-Make the API reflect these two use-cases and move all the refcounting
-and locking logic to the uvc_status.c file.
+If we simply kill the urb, there is a chance that a control event is
+waiting to be processed, which will re-submit the urb after the device is
+disconnected.
+
+uvc_status_suspend() flushes the async controls and stops the urb in a
+correct manner.
 
 Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 13 ++-------
- drivers/media/usb/uvc/uvc_status.c | 55 ++++++++++++++++++++++++++++++++++++--
- drivers/media/usb/uvc/uvc_v4l2.c   | 22 +++++----------
- drivers/media/usb/uvc/uvcvideo.h   | 10 ++++---
- 4 files changed, 67 insertions(+), 33 deletions(-)
+ drivers/media/usb/uvc/uvc_status.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 55132688e363..c8c0352af1e5 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2135,7 +2135,6 @@ static int uvc_probe(struct usb_interface *intf,
- 	INIT_LIST_HEAD(&dev->streams);
- 	kref_init(&dev->ref);
- 	atomic_set(&dev->nmappings, 0);
--	mutex_init(&dev->lock);
- 
- 	dev->udev = usb_get_dev(udev);
- 	dev->intf = usb_get_intf(intf);
-@@ -2301,10 +2300,7 @@ static int uvc_suspend(struct usb_interface *intf, pm_message_t message)
- 	/* Controls are cached on the fly so they don't need to be saved. */
- 	if (intf->cur_altsetting->desc.bInterfaceSubClass ==
- 	    UVC_SC_VIDEOCONTROL) {
--		mutex_lock(&dev->lock);
--		if (dev->users)
--			uvc_status_stop(dev);
--		mutex_unlock(&dev->lock);
-+		uvc_status_suspend(dev);
- 		return 0;
- 	}
- 
-@@ -2335,12 +2331,7 @@ static int __uvc_resume(struct usb_interface *intf, int reset)
- 				return ret;
- 		}
- 
--		mutex_lock(&dev->lock);
--		if (dev->users)
--			ret = uvc_status_start(dev, GFP_NOIO);
--		mutex_unlock(&dev->lock);
--
--		return ret;
-+		return uvc_status_resume(dev);
- 	}
- 
- 	list_for_each_entry(stream, &dev->streams, list) {
 diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-index a78a88c710e2..375a95dd3011 100644
+index 375a95dd3011..8fd8250110e2 100644
 --- a/drivers/media/usb/uvc/uvc_status.c
 +++ b/drivers/media/usb/uvc/uvc_status.c
-@@ -257,6 +257,8 @@ int uvc_status_init(struct uvc_device *dev)
- 	unsigned int pipe;
- 	int interval;
+@@ -294,7 +294,7 @@ int uvc_status_init(struct uvc_device *dev)
  
-+	mutex_init(&dev->status_lock);
-+
- 	if (ep == NULL)
- 		return 0;
- 
-@@ -302,18 +304,22 @@ void uvc_status_cleanup(struct uvc_device *dev)
- 	kfree(dev->status);
- }
- 
--int uvc_status_start(struct uvc_device *dev, gfp_t flags)
-+static int __uvc_status_start(struct uvc_device *dev, gfp_t flags)
+ void uvc_status_unregister(struct uvc_device *dev)
  {
-+	lockdep_assert_held(&dev->status_lock);
-+
- 	if (dev->int_urb == NULL)
- 		return 0;
- 
- 	return usb_submit_urb(dev->int_urb, flags);
+-	usb_kill_urb(dev->int_urb);
++	uvc_status_suspend(dev);
+ 	uvc_input_unregister(dev);
  }
  
--void uvc_status_stop(struct uvc_device *dev)
-+static void __uvc_status_stop(struct uvc_device *dev)
- {
- 	struct uvc_ctrl_work *w = &dev->async_ctrl;
- 
-+	lockdep_assert_held(&dev->status_lock);
-+
- 	/*
- 	 * Prevent the asynchronous control handler from requeing the URB. The
- 	 * barrier is needed so the flush_status change is visible to other
-@@ -350,3 +356,48 @@ void uvc_status_stop(struct uvc_device *dev)
- 	 */
- 	smp_store_release(&dev->flush_status, false);
- }
-+
-+int uvc_status_resume(struct uvc_device *dev)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&dev->status_lock);
-+	if (dev->status_users)
-+		ret = __uvc_status_start(dev, GFP_NOIO);
-+	mutex_unlock(&dev->status_lock);
-+
-+	return ret;
-+}
-+
-+void uvc_status_suspend(struct uvc_device *dev)
-+{
-+	mutex_lock(&dev->status_lock);
-+	if (dev->status_users)
-+		__uvc_status_stop(dev);
-+	mutex_unlock(&dev->status_lock);
-+}
-+
-+int uvc_status_get(struct uvc_device *dev)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&dev->status_lock);
-+	if (!dev->status_users)
-+		ret = __uvc_status_start(dev, GFP_KERNEL);
-+	if (!ret)
-+		dev->status_users++;
-+	mutex_unlock(&dev->status_lock);
-+
-+	return ret;
-+}
-+
-+void uvc_status_put(struct uvc_device *dev)
-+{
-+	mutex_lock(&dev->status_lock);
-+	if (dev->status_users == 1)
-+		__uvc_status_stop(dev);
-+	WARN_ON(!dev->status_users);
-+	if (dev->status_users)
-+		dev->status_users--;
-+	mutex_unlock(&dev->status_lock);
-+}
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index f4988f03640a..97c5407f6603 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -628,20 +628,13 @@ static int uvc_v4l2_open(struct file *file)
- 		return -ENOMEM;
- 	}
- 
--	mutex_lock(&stream->dev->lock);
--	if (stream->dev->users == 0) {
--		ret = uvc_status_start(stream->dev, GFP_KERNEL);
--		if (ret < 0) {
--			mutex_unlock(&stream->dev->lock);
--			usb_autopm_put_interface(stream->dev->intf);
--			kfree(handle);
--			return ret;
--		}
-+	ret = uvc_status_get(stream->dev);
-+	if (ret) {
-+		usb_autopm_put_interface(stream->dev->intf);
-+		kfree(handle);
-+		return ret;
- 	}
- 
--	stream->dev->users++;
--	mutex_unlock(&stream->dev->lock);
--
- 	v4l2_fh_init(&handle->vfh, &stream->vdev);
- 	v4l2_fh_add(&handle->vfh);
- 	handle->chain = stream->chain;
-@@ -670,10 +663,7 @@ static int uvc_v4l2_release(struct file *file)
- 	kfree(handle);
- 	file->private_data = NULL;
- 
--	mutex_lock(&stream->dev->lock);
--	if (--stream->dev->users == 0)
--		uvc_status_stop(stream->dev);
--	mutex_unlock(&stream->dev->lock);
-+	uvc_status_put(stream->dev);
- 
- 	usb_autopm_put_interface(stream->dev->intf);
- 	return 0;
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 6fb0a78b1b00..00b600eb058c 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -555,8 +555,6 @@ struct uvc_device {
- 
- 	const struct uvc_device_info *info;
- 
--	struct mutex lock;		/* Protects users */
--	unsigned int users;
- 	atomic_t nmappings;
- 
- 	/* Video control interface */
-@@ -578,6 +576,8 @@ struct uvc_device {
- 	struct usb_host_endpoint *int_ep;
- 	struct urb *int_urb;
- 	struct uvc_status *status;
-+	struct mutex status_lock; /* Protects status_users */
-+	unsigned int status_users;
- 	bool flush_status;
- 
- 	struct input_dev *input;
-@@ -744,8 +744,10 @@ int uvc_register_video_device(struct uvc_device *dev,
- int uvc_status_init(struct uvc_device *dev);
- void uvc_status_unregister(struct uvc_device *dev);
- void uvc_status_cleanup(struct uvc_device *dev);
--int uvc_status_start(struct uvc_device *dev, gfp_t flags);
--void uvc_status_stop(struct uvc_device *dev);
-+int uvc_status_resume(struct uvc_device *dev);
-+void uvc_status_suspend(struct uvc_device *dev);
-+int uvc_status_get(struct uvc_device *dev);
-+void uvc_status_put(struct uvc_device *dev);
- 
- /* Controls */
- extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited;
 
 -- 
 2.45.2.627.g7a2c4fd464-goog
