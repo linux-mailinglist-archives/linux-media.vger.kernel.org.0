@@ -1,203 +1,286 @@
-Return-Path: <linux-media+bounces-13260-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13261-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4F1908A32
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:38:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 862B7908A85
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:52:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32E0B28CB10
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 10:38:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75ADD1C225F9
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 10:52:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00ACA1946B8;
-	Fri, 14 Jun 2024 10:38:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A37EA1957E1;
+	Fri, 14 Jun 2024 10:52:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pa5/W4yY"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Au3NklDu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60112194127
-	for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 10:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0D71922C1
+	for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 10:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718361511; cv=none; b=KbV0FZOEw+VBL7+MqPrVLJ3tNwS7QfDA8yxDVDABSDgEkEDixm3QeZ69pj1VrMOeA68Y3BWJvEN3FgLhDjSPoQYIBMJDnZqEnpuB26bfdq52pKZVJfs+7EFejF0HU/hB5PyP6KcqjXRjDLCd+Xagn5tKNGFMDHoENp87HghFevE=
+	t=1718362348; cv=none; b=o7v+e7voYLUfDmM13UqAnmog9Eau1xTrioybnBPN+8MUA72rUazNyvS2zc/S23LV6wf9HPeCCZIplAXhsvLmD3t+0vKgqNAeda4c+viipK7ETB9eZct9NRrsRkFaJh+PNyG4h2q3bB/ngL+t4S5a8014RAHADU2f38sOEiSNlY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718361511; c=relaxed/simple;
-	bh=2j9w101auUmiKXhAcno40D23v2revVO9TZYw2w4t+U4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bZfB6uE8aHLqcJbE3EsZ0612T3PpyeYiuqd0HKCmVkgOGyXZohEQnMArPZbKoAAT3rXAaN3S1+E5Ex70bZfOAkxTrZix8nxYRPABt1mPUJdP6TyY5JiCJ0KuH88AR5wM7Mkwo2i9lltdU98okEPE8Ln5qr8ZMkcMTdih7JTQG48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=pa5/W4yY; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57a30dbdb7fso3004338a12.3
-        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 03:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718361508; x=1718966308; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9lEx+5wwN9fBLZNltFTgu34oXR2RNqSzay2NOoaIOLs=;
-        b=pa5/W4yYF2Cx4Bg5RBkbeal6ZMba/dUxK/3c4d1YmiRsiVcYLGcRqGI2puZNslG/fV
-         fgSLEtwjoFUZVVVqMy1QaqmcgQTXP0okX28uAZqKZaHsevLkpZ6uXQpExiy598SonQTU
-         xicMD9kCsK6OvvkqwYAuEPiluWIlcvbb2FyFIPfCrKr1V/DV2uwptOxxb3S5F80B1KD5
-         fF4MqsKlOd/FXS5xN9t41MHdlhrLHlGOaFnBYTCkJ3lqxbqEwv5KCZbV70VzRqf4luXb
-         foRRM3sRNYqpNlk51a7FdSiBHfrvSFlVX4wrRIaX9/r5C4e3hLtEvl9kVvLZZGXb2Qa/
-         8GeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718361508; x=1718966308;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9lEx+5wwN9fBLZNltFTgu34oXR2RNqSzay2NOoaIOLs=;
-        b=CnhNmGhqBw2oI0roouksCSCxywYR+imFlR++LgmXNWKN5XlD9i012iE/yaVz/gY6a5
-         bYeAjRzU73BigDpFy2fRROaIDT/Gvkm1rl64Z+o2ndRUgmE2BWGptI5ljccRxk/VwlUF
-         BSwRoVAj7G+x77XkJ3cFhm1ixlXtXrX7F5cmmUzQAxS0BsYYzABwfT4v92mR+fBlA/x0
-         vUKNEDyysCBKCyACu9As0iIUyGLRAdyLxjMxeJpzGoOHCK8eBVWN4slF6vvwl2Pi2l35
-         PDkECi0gUtTY0l46SWVlEHc/z4VfdSn/5sQiXGqCrKs5E53rcFpzXDK9XHXHar2TzFFL
-         6/Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCULK4xsMcDHdtXl5JoTmzu/HhzDIvL1XG9QV4PB4adKvcwBOGFneXRAC4U1ungOWejP/U8lzTFdurvtSUk4jAjT2UVHpoxzBU8Xo9M=
-X-Gm-Message-State: AOJu0YzP4cyuxXkFeRmoKYBEqdmbOyprPaiBUvhmDHo4FutEq0KH277S
-	Fdm06iYZPTAdvOTkXwwMBSJg3HjvrJVV0Ew6eDzga89vUglDE461ah1em/Iq+GD845jVO6Hckhv
-	Z0v9R+FuqnvQh8GapmpAinbnmXVlEDiQiByr7wA==
-X-Google-Smtp-Source: AGHT+IG6jcyBZObUWctTNk2L0XtXOwkk2+zrzjA/HUVBoU8DzbjLvKPo6VWfCt3UnQlMuaZ2eeI5BtTF1vwgfTlOAfE=
-X-Received: by 2002:a17:906:2709:b0:a6f:4ebd:31a3 with SMTP id
- a640c23a62f3a-a6f60cefe94mr178307866b.14.1718361507464; Fri, 14 Jun 2024
- 03:38:27 -0700 (PDT)
+	s=arc-20240116; t=1718362348; c=relaxed/simple;
+	bh=E7mWdcQsyTPfMACp8TVimWqgwL7vIGIz1Fg7Oos1Ef4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YV80Bun/vmjC64tsSzHMgILI7nP0iKbZeoJwoHYNlqskAUYnYGue/hTgWEAXkPpAkBAXmtZyFEhFjefEj4G/V4CBPLmg4p10ef82qNnGe2ARx6ealiu87TI0DpmQyyt2NfkTp+3/NG+ZFAZ8USpv10OrabZMp+kNINlnngYwePI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Au3NklDu; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Lc7gYvXZD/VXNK9V93ZQLpm3XlCKUvmAda4dS0DeM8U=; b=Au3NklDulz/QlkpkytTJDzLgMj
+	DPqrOpHpjEBgJy+ESYYkdodKAcujMQiqf8it+lBy7jSqol1IQxRBd0fK4da5e65rOtast63vvMgGX
+	1zLN7JIoB/g7YwAD8aDutTg6v1goKoH5fiwYBILJZ+NXLRHoTW9tYrQCU7w7/FBqUadNjxaYPTj+o
+	FsfkLHa9ivR/dTmOKqxb9Tt11cCicm9AqgmMpe/Xc15fME+ahq9FXLy4k+MccUDijUcngQk+4aouv
+	jsntd1/IiLOq7MCqRDh3KFTjdo4KArz/h54PsD7Dah1oFLzt8z3YNLkv8VTNlQ9zVUpVcnYbvCfC5
+	5nTSUA8Q==;
+Received: from [84.69.19.168] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1sI4XM-0035ZL-1a; Fri, 14 Jun 2024 12:52:04 +0200
+Message-ID: <fc68dce2-88e0-4055-a074-bd45f7e68912@igalia.com>
+Date: Fri, 14 Jun 2024 11:52:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240110141443.364655-1-jstephan@baylibre.com>
- <20240110141443.364655-4-jstephan@baylibre.com> <3c2bee40-3792-409c-b42f-f8b013ff641c@collabora.com>
- <CAEHHSvaT_U+HNzWQUoK9EuqGuqEd11+Lu0CLz_rL7uQf0Q5isw@mail.gmail.com> <53838e76-bfa4-41f5-a015-a37472e98991@collabora.com>
-In-Reply-To: <53838e76-bfa4-41f5-a015-a37472e98991@collabora.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 14 Jun 2024 12:38:15 +0200
-Message-ID: <CAEHHSvaRqZM9c8oD05WKkhOHdjKLBkR6tXp2Q1b8OMiDxDsDhQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 sensor interface
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>, 
-	Florian Sylvestre <fsylvestre@baylibre.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Andy Hsieh <andy.hsieh@mediatek.com>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-media@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Paul Elder <paul.elder@ideasonboard.com>, 
-	Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le mer. 12 juin 2024 =C3=A0 10:06, AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> a =C3=A9crit :
->
-> Il 10/06/24 16:39, Julien Stephan ha scritto:
-[...]
-> >>
-> >>> +     writel(0x10001, input->base + SENINF_TG1_SEN_CK);
-> >>
-> >> Unroll this one... this is the TG1 sensor clock divider.
-> >>
-> >> CLKFL GENMASK(5, 0)
-> >> CLKRS GENMASK(13, 8)
-> >> CLKCNT GENMASK(21,16)
-> >>
-> >> Like this, I don't get what you're trying to set, because you're using=
- a fixed
-> >> sensor clock rate, meaning that only a handful of camera sensors will =
-be usable.
-> >>
-> >> Is this 8Mhz? 16? 24? what? :-)
-> >>
-> >> Two hints:
-> >>    - sensor_clk =3D clk_get_rate(isp_clk) / (tg1_sen_ck_clkcnt + 1);
-> >>    - int mtk_seninf_set_sensor_clk(u8 rate_mhz);
-> >>
-> >> Please :-)
-> >
-> > Hi Angelo,
-> >
-> > I think I get your point about not hardcoding the sensor rate, but I
-> > am not sure how to use
-> > a mtk_seninf_set_sensor_clk(u8 rate_mhz); function.
-> >
-> > Where would it be called? How is it exposed to the user?
-> >
->
-> As for where: setup, streaming start, resolution change (which may be cov=
-ered
-> by streaming start anyway, as a change should be calling stop->start anyw=
-ay).
->
-> And for the how is it exposed to the user - well, depends what you mean f=
-or user,
-> but it's all standard V4L2 API :-)
->
-> Last but not least, I can give you another hint....
->
-> struct media_entity *entity =3D (something_here);
-> struct media_pad *mpad;
-> struct v4l2_subdev *cam_subdev;
-> struct v4l2_ctrl *ctl;
-> s64 link_frequency, pixel_clock;
->
-> if (entity->pads[0].flags & MEDIA_PAD_FL_SINK)
->     return -E_NOT_A_CAMERA_SENSOR_WE_IGNORE_THIS_ONE;
->
-> pad =3D media_pad_remote_pad_first(&entity->pads[0]);
-> if (!pad)
->    return -ENOENT;
->
-> if (!is_media_entity_v4l2_subdev(pad->entity))
->    return -ENOENT;
->
-> if (pad->entity->function !=3D MEDIA_ENT_F_CAM_SENSOR)
->    return -ENOENT;
->
-
-Hi Angelo,
-
-Thank you for the detailed explanation :)
-However, I can't make it work because in my case, seninf is connected
-to an external ISP
-so pad->entity->function =3D=3D MEDIA_ENT_F_PROC_VIDEO_ISP.
-
-How can I get the pad corresponding to the sensor?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf/sw_sync: Add a reference when adding fence to
+ timeline list
+Content-Language: en-GB
+To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ kernel-dev@igalia.com, Chris Wilson <chris@chris-wilson.co.uk>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Rob Clark <robdclark@chromium.org>
+References: <20240324101533.3271056-1-cascardo@igalia.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20240324101533.3271056-1-cascardo@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-> cam_subdev =3D media_entity_to_v4l2_subdev(pad->entity);
-> ctl =3D v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
+On 24/03/2024 10:15, Thadeu Lima de Souza Cascardo wrote:
+> commit e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence
+> signal") fixed a recursive locking when a signal callback released a fence.
+> It did it by taking an extra reference while traversing it on the list and
+> holding the timeline lock.
+> 
+> However, this is racy and may end up adding to a kref that is 0, triggering
+> a well deserved warning, as later that reference would be put again.
+> 
+> CPU 0					CPU 1
+> sync_file_release			sync_timeline_signal
+>    dma_fence_put
+>      timeline_fence_release
+> 					  spin_lock_irq(&obj->lock)
+> 					  dma_fence_get(&pt->base)
+>      spin_lock_irqsave(fence->lock, flags)
+> 
+> As shown above, it is possible for the last reference to be dropped, but
+> sync_timeline_signal take the lock before timeline_fence_release, which
+> will lead to a 0->1 kref transition, which is not allowed.
+> 
+> This is because there is still a pointer to the fence object in the list,
+> which should be accounted as a reference.
+> 
+> In previous discussions about this [3], it was called out that keeping such
+> a reference was not a good idea because the fence also holds a reference to
+> the timeline, hence leading to a loop. However, accounting for that
+> reference doesn't change that the loop already exists. And userspace holds
+> references in the form of file descriptors, so it is still possible to
+> avoid potential memory leaks.
+> 
+> This fix also avoids other issues. The nested locking is still possible to
+> trigger when closing the timeline, as sw_sync_debugfs_release also calls
+> dma_fence_signal_locked while holding the lock. By holding a reference and
+> releasing it only after doing the signal, that nested locking is avoided.
+> 
+> There are a few quirks about the reference counting here, though.
+> 
+> In the simple case when sync_pt_create adds a new fence to the list, it
+> returns with 2 references instead of 1. That is dealt with as
+> sw_sync_ioctl_create_fence always puts a reference after calling
+> sync_file_create. That is necessary for multiple reasons.
+> 
+> One is that it takes care of the error case when sync_file_create fails.
 >
+> The extra reference is put, while the fence is still held on the list, so
+> its last reference will be put when it is removed from the list either in
+> sync_timeline_signal or sw_sync_debugfs_release.
 
-Is this mandatory to implement V4L2_CID_PIXEL_RATE ?
-Should I return an error if not found?
+So any fences where sync_file_create failed linger around until 
+sw_sync_debugfs_release? Okay-ish I guess since it is a pathological case.
 
-> /* multiplier is usually bits per pixel, divider is usually num of lanes =
-*/
-> link_frequency =3D v4l2_get_link_freq(cam_subdev->ctrl_handler, multiplie=
-r, divider);
-> pixel_clock =3D v4l2_ctrl_g_ctrl_int64(ctl);
->
+> It also avoids the race when a signal may come in between sync_pt_create
+> and sync_file_create as the lock is dropped. If that happens, the fence
+> will be removed from the list, but a reference will still be kept as
+> sync_file_create takes a reference.
+> 
+> Then, there is the case when a fence with the given seqno already exists.
+> sync_pt_create returns with an extra reference to it, that we later put.
+> Similar reasoning can be applied here. That one extra reference is
+> necessary to avoid a race with signaling (and release), and we later put
+> that extra reference.
+> 
+> Finally, there is the case when the fence is already signaled and not added
+> to the list. In such case, sync_pt_create must return with a single
+> reference as this fence has not been added to the timeline list. It will
+> either be freed in case sync_file_create fails or the file will keep its
+> reference, which is later put when the file is released.
+> 
+> This is based on Chris Wilson attempt [2] to fix recursive locking during
+> timeline signal. Hence, their signoff.
+> 
+> Link: https://lore.kernel.org/all/20200714154102.450826-1-bas@basnieuwenhuizen.nl/ [1]
+> Link: https://lore.kernel.org/all/20200715100432.13928-2-chris@chris-wilson.co.uk/ [2]
+> Link: https://lore.kernel.org/all/20230817213729.110087-1-robdclark@gmail.com/T/ [3]
+> Fixes: e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence signal")
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Cc: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/dma-buf/sw_sync.c | 42 ++++++++++++++++-----------------------
+>   1 file changed, 17 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> index c353029789cf..83b624ac4faa 100644
+> --- a/drivers/dma-buf/sw_sync.c
+> +++ b/drivers/dma-buf/sw_sync.c
+> @@ -151,16 +151,7 @@ static const char *timeline_fence_get_timeline_name(struct dma_fence *fence)
+>   
+>   static void timeline_fence_release(struct dma_fence *fence)
+>   {
+> -	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+>   	struct sync_timeline *parent = dma_fence_parent(fence);
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(fence->lock, flags);
+> -	if (!list_empty(&pt->link)) {
+> -		list_del(&pt->link);
+> -		rb_erase(&pt->node, &parent->pt_tree);
+> -	}
+> -	spin_unlock_irqrestore(fence->lock, flags);
+>   
+>   	sync_timeline_put(parent);
+>   	dma_fence_free(fence);
+> @@ -229,7 +220,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
+>    */
+>   static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+>   {
+> -	LIST_HEAD(signalled);
+>   	struct sync_pt *pt, *next;
+>   
+>   	trace_sync_timeline(obj);
+> @@ -242,20 +232,14 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+>   		if (!timeline_fence_signaled(&pt->base))
+>   			break;
+>   
+> -		dma_fence_get(&pt->base);
+> -
+> -		list_move_tail(&pt->link, &signalled);
+> +		list_del(&pt->link);
+>   		rb_erase(&pt->node, &obj->pt_tree);
+>   
+>   		dma_fence_signal_locked(&pt->base);
+> +		dma_fence_put(&pt->base);
+>   	}
+>   
+>   	spin_unlock_irq(&obj->lock);
+> -
+> -	list_for_each_entry_safe(pt, next, &signalled, link) {
+> -		list_del_init(&pt->link);
+> -		dma_fence_put(&pt->base);
+> -	}
+>   }
+>   
+>   /**
+> @@ -299,13 +283,11 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+>   			} else if (cmp < 0) {
+>   				p = &parent->rb_left;
+>   			} else {
+> -				if (dma_fence_get_rcu(&other->base)) {
+> -					sync_timeline_put(obj);
+> -					kfree(pt);
+> -					pt = other;
+> -					goto unlock;
+> -				}
+> -				p = &parent->rb_left;
+> +				/* This is later put in sw_sync_ioctl_create_fence. */
+> +				dma_fence_get(&other->base);
+> +				dma_fence_put(&pt->base);
 
-How to know the sensor clock given link_frequency and pixel_clock?
-Can you point me to drivers doing something similar?
+Couldn't this have stayed a direct kfree given pt is not exposed to 
+anywhere at this point, nor it will be? I know there would need to be an 
+explicit sync_timeline_put(obj) too, as before, but perhaps that would 
+read more obvious.
 
-Cheers,
-Julien
->
-> ....now you know what the sensor wants, set the seninf sensor clock accor=
-dingly.
->
-> Cheers
-> Angelo
->
-[...]
+> +				pt = other;
+> +				goto unlock;
+>   			}
+>   		}
+>   		rb_link_node(&pt->node, parent, p);
+> @@ -314,6 +296,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+>   		parent = rb_next(&pt->node);
+>   		list_add_tail(&pt->link,
+>   			      parent ? &rb_entry(parent, typeof(*pt), node)->link : &obj->pt_list);
+> +		/* Adding to the list requires a reference. */
+> +		dma_fence_get(&pt->base);
+>   	}
+>   unlock:
+>   	spin_unlock_irq(&obj->lock);
+> @@ -354,6 +338,7 @@ static int sw_sync_debugfs_release(struct inode *inode, struct file *file)
+>   	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+>   		dma_fence_set_error(&pt->base, -ENOENT);
+>   		dma_fence_signal_locked(&pt->base);
+> +		dma_fence_put(&pt->base);
 
-Cheers
-Julien
+Can't this be dropping one reference too many?
+
+There is one reference for being on the list, and one for the owning 
+file. Or there is another one?
+
+If there isn't, dma_fence_signal_locked will drop the one for being on 
+the list, and then we drop one more here. Is it the last one? Shouldn't 
+sync_file_release still own one?
+
+Regards,
+
+Tvrtko
+
+>   	}
+>   
+>   	spin_unlock_irq(&obj->lock);
+> @@ -386,7 +371,14 @@ static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
+>   	}
+>   
+>   	sync_file = sync_file_create(&pt->base);
+> +
+> +	/*
+> +	 * Puts the extra reference returned by sync_pt_create. This is necessary
+> +	 * to avoid a race where the fence is signaled, removed from the list and
+> +	 * released right after sync_pt_create releases the lock and returns.
+> +	 */
+>   	dma_fence_put(&pt->base);
+> +
+>   	if (!sync_file) {
+>   		err = -ENOMEM;
+>   		goto err;
 
