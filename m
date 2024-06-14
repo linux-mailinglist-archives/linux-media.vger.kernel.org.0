@@ -1,144 +1,112 @@
-Return-Path: <linux-media+bounces-13256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3A29086EE
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 11:02:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3077A90877D
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 11:32:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1AFDBB23283
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 09:02:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC63E1F24C22
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 09:32:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31AFF191497;
-	Fri, 14 Jun 2024 09:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16FD41922FC;
+	Fri, 14 Jun 2024 09:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dowkx4Wl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E2B146A7A;
-	Fri, 14 Jun 2024 09:02:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6599A13BAC8;
+	Fri, 14 Jun 2024 09:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718355732; cv=none; b=nM14kHWFiLp1ijfYm+ApDYNdBjSEYWtAnswHmVxXR/pGa+yjTsBkoRRV8alLFN+LYmXBY+mhNPvEWQt71v/YXsBjwQnxtOk5i5g5eGs15xHHZlj/WL8Pyh4Z+1VlIDW8y3WBWEgpm5pM2RslyjTFprlwVYwToDcqBwOQ0yt++2A=
+	t=1718357522; cv=none; b=WwEL3o9QnuIo1qYFrZOpzPCmmQTMy7JDuyhQ1SmotVUjAq/o6ymf5boInQtyRd9fEKV3Fxd/AtsltGf2MawRcsZYkJHGg7ptq8MZpQsSaRy2mbEgxXKFXWYCvkwanW0EehKQ2q1BQG3m+K3fLWkTvdZaKtPnENi6b05hVxgnm20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718355732; c=relaxed/simple;
-	bh=xSwd9RT7wcgXqiFIolq3usCVmZfuWKhwVGxFbsWPf5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qWAzzEdlVMovsSXjlSHylDnIsquI/g72dvfBwuBHhI9sT2/ojz1LlPxslVwaY93n+COafB7tixzgnsGcc66svTEvOFubgmpVc8OhwUolK4Nz2unD8F2XTD8MHIqnmk4ILG4iH6OerlWXecFuS7iuwm7iqtvZ9eFPxN5mKJSYHrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E23DC32786;
-	Fri, 14 Jun 2024 09:02:10 +0000 (UTC)
-Message-ID: <08900a94-cbba-4c76-8b47-e467f747cd99@xs4all.nl>
-Date: Fri, 14 Jun 2024 11:02:08 +0200
+	s=arc-20240116; t=1718357522; c=relaxed/simple;
+	bh=vq/hKXj8k3TXQ6CBXyolStxtljiu0fDBYD/cq4bFmRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hXhwJlQVPgFdyEx6IqYI98b4OlJaO0IZXRiAG6BdP/5PoPA2blE5AXqsx4SeqwXB5ts0qr/+JGoMx9IttbKfnfjbaFh1nL7iAXDg/nx5lBwF6e2FlgagLMgBwpr8rSnRJwsrk0C/LqMxJwlb6paWk7uTtroHHzs0bP0pWH61PMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dowkx4Wl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75168C2BD10;
+	Fri, 14 Jun 2024 09:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718357522;
+	bh=vq/hKXj8k3TXQ6CBXyolStxtljiu0fDBYD/cq4bFmRs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dowkx4Wli/K0fxQuXPa9Ov4p8jq4KCLXebXQhTLM5C+aiOubAYAqt6VKGvEfTd+is
+	 u1H5cT2n6PNIyOSwsRfQdqH8u3Ft3fyV9zHmquoyyb8BUFk+PERVN+tIV4ajqw8vsW
+	 7RY/uftugQcGLKrN6adOWRZRq7HYsGiNvsG/NHATdB9mbrBWreXhWtLEtiVV/8DM6O
+	 /vkRXKIZ9h/aVv+Tf83y0fRDuc/X49dFn9IxjzSMYU720OV2uuxRpCpBG/1DNhh+th
+	 z0C+Kh+7fItagFuiZgbzOIl7R01Bac1D8IAu15pqxJKVOASbc5i9MjozYRBusaqX82
+	 AGLEieEUdavxA==
+Date: Fri, 14 Jun 2024 10:31:58 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: [PATCH RESEND v5 00/16] Add audio support for the MediaTek Genio
+ 350-evk board
+Message-ID: <ZmwODkYov79VHznK@finisterre.sirena.org.uk>
+References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/4] media: uvcvideo: stop stream during unregister
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Alan Stern <stern@rowland.harvard.edu>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240611-guenter-mini-v5-0-047b6fe5d08b@chromium.org>
- <20240611-guenter-mini-v5-1-047b6fe5d08b@chromium.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240611-guenter-mini-v5-1-047b6fe5d08b@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SeMD/ZPP93d62FnM"
+Content-Disposition: inline
+In-Reply-To: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
+X-Cookie: Your love life will be... interesting.
 
-On 11/06/2024 10:12, Ricardo Ribalda wrote:
-> uvc_unregister_video() can be called asynchronously from
-> uvc_disconnect(). If the device is still streaming when that happens, a
-> plethora of race conditions can happen.
-> 
-> Make sure that the device has stopped streaming before exiting this
-> function.
-> 
-> If the user still holds handles to the driver's file descriptors, any
-> ioctl will return -ENODEV from the v4l2 core.
-> 
-> This change make uvc more consistent with the rest of the v4l2 drivers
-> using the vb2_fop_* and vb2_ioctl_* helpers.
-> 
-> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 32 +++++++++++++++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index bbd90123a4e7..f1df6384e738 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -1908,11 +1908,41 @@ static void uvc_unregister_video(struct uvc_device *dev)
->  	struct uvc_streaming *stream;
->  
->  	list_for_each_entry(stream, &dev->streams, list) {
-> +		/* Nothing to do here, continue. */
->  		if (!video_is_registered(&stream->vdev))
->  			continue;
->  
-> +		/*
-> +		 * For stream->vdev we follow the same logic as:
-> +		 * vb2_video_unregister_device().
-> +		 */
-> +
-> +		/* 1. Take a reference to vdev */
-> +		get_device(&stream->vdev.dev);
-> +
-> +		/* 2. Ensure that no new ioctls can be called. */
->  		video_unregister_device(&stream->vdev);
-> -		video_unregister_device(&stream->meta.vdev);
-> +
-> +		/* 3. Wait for old ioctls to finish. */
-> +		mutex_lock(&stream->mutex);
-> +
-> +		/* 4. Stop streamming. */
 
-streamming -> streaming
+--SeMD/ZPP93d62FnM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +		uvc_queue_streamoff(&stream->queue, stream->type);
+On Fri, Jun 14, 2024 at 09:27:43AM +0200, Alexandre Mergnat wrote:
+> This serie aim to add the following audio support for the Genio 350-evk:
+> - Playback
+>   - 2ch Headset Jack (Earphone)
+>   - 1ch Line-out Jack (Speaker)
+>   - 8ch HDMI Tx
 
-This should call uvc_queue_release (just a wrapper around vb2_queue_release())
-instead. Then it is identical in behavior to vb2_video_unregister_device.
+I seem to remember you had review comments that needed addressing from
+AngeloGioacchino, why resend without addressing those?
 
-Note that uvc_v4l2_release() also calls uvc_queue_release(): it's safe
-to call uvc_queue_release() twice.
+--SeMD/ZPP93d62FnM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-With that change:
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZsDg4ACgkQJNaLcl1U
+h9AoDwf9Gw5El3fz0zRFzNFxxe/7UfRa8HACWErrPscsXGk4tslBOE3UwCx3bw4Q
+6VnbJ45siXspBD7/Zjhjhi9lvAZlz6ucKm2glWijqZHLg9xmSBrRyEDb2G98FWlI
+SMczNAxg5QXwBUnID0bua6y5ZOldZEAGl53t5KuXWRe0/Znwns2+gUpSt3MAoDp8
+rPfYqUv2whvlBzGYmg6XlbTskN/c/+qpODFdThrx57aGRjxRoVc82kAmN814Gbc/
+nqKrNhIYzQDYBwKB1cuDXatDavgYFA5FugzeuZ80Va5/ZiuMX7JLgMHeVGQJZrQq
+Jbv+xbpMJ+ow5S6rLO0D2CcOA91DsA==
+=TqJQ
+-----END PGP SIGNATURE-----
 
-Regards,
-
-	Hans
-
-> +
-> +		mutex_unlock(&stream->mutex);
-> +
-> +		put_device(&stream->vdev.dev);
-> +
-> +		/*
-> +		 * For stream->meta.vdev we can directly call:
-> +		 * vb2_video_unregister_device().
-> +		 */
-> +		vb2_video_unregister_device(&stream->meta.vdev);
-> +
-> +		/*
-> +		 * Now both vdevs are not streaming and all the ioctls will
-> +		 * return -ENODEV.
-> +		 */
->  
->  		uvc_debugfs_cleanup_stream(stream);
->  	}
-> 
-
+--SeMD/ZPP93d62FnM--
 
