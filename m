@@ -1,185 +1,180 @@
-Return-Path: <linux-media+bounces-13263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6363908BC5
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 14:34:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EDC908BDC
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 14:41:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8C9B1C21564
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:34:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28B0C1F24060
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 12:41:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ABC31990CD;
-	Fri, 14 Jun 2024 12:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59602199258;
+	Fri, 14 Jun 2024 12:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wfalRvyS"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cwjx2ORl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794DE197A90;
-	Fri, 14 Jun 2024 12:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B174194A7F
+	for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 12:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718368449; cv=none; b=atS+0H7xlX8+6Cirzpl3DPn5E8FE1boS/ye/CxIYf18rW4vpi/8Q3ba+3jme7atjDo+d5I7cg1XtMNjHnSyk9GCZKKxZGPXjHPZdOxrp2IJgTfw8UNDo+hzrHafNP5iOc6RDs8JO8JjbmTbdv2krNKIJmwPVSR2905mjNJQLzCE=
+	t=1718368901; cv=none; b=PiOQonZJK5G1aAUYBNPPjaznC67SJnPYSyi58a75ZvOGq7ixnKkZ4Bxe1RIB4YftJ+d4s2ItdgWvAyev0XGbGWEyC9ETz9WjcmV9MCjZwZlf4UNoz+5PryCKoajVKQF5n89U9ocZfzwTf6fkWpaFOMufN10fh0nYwAXxIJtFNC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718368449; c=relaxed/simple;
-	bh=B2nOjYL3lFg4bp1IsZgH4scpFXv01qJzfqLMfIueunY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K7XyJcVCFKJIkqeHNfW7qZFRDrK1mqKGWGYzhbs9Lq/odAO3gANTH1MZ4C/z9F1Rg1XsjPHRIiNGxMJrJr3FMKuwOJjkNYy7ksjov/P+DLn1kCziXYvAhPWW9V4ml0eP4PdWli+8JoV34Po7GNJpt6mV68uwmigAvw6e3xL9T4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wfalRvyS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A86A17047;
-	Fri, 14 Jun 2024 14:33:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718368430;
-	bh=B2nOjYL3lFg4bp1IsZgH4scpFXv01qJzfqLMfIueunY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wfalRvyS2jqZaU2aTE1qzDFVqvw+JjmEL4BWenYU2ak8p855BAIf301hhF72gYjeD
-	 tmBqjnpSmcZ8VcP/ZNyfhERe6jDNPMfhKlUhOE+iITaPA0/rbKnaffGNDt66mg4wAc
-	 ctes+j4do1WRWp4aECKVv0LRmTGKC62ESHXis1GA=
-Date: Fri, 14 Jun 2024 15:33:45 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Louis Kuo <louis.kuo@mediatek.com>,
-	Phi-bang Nguyen <pnguyen@baylibre.com>,
-	Florian Sylvestre <fsylvestre@baylibre.com>,
-	Andy Hsieh <andy.hsieh@mediatek.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v4 3/5] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 sensor interface
-Message-ID: <20240614123345.GN6019@pendragon.ideasonboard.com>
-References: <20240110141443.364655-1-jstephan@baylibre.com>
- <20240110141443.364655-4-jstephan@baylibre.com>
- <3c2bee40-3792-409c-b42f-f8b013ff641c@collabora.com>
- <CAEHHSvaT_U+HNzWQUoK9EuqGuqEd11+Lu0CLz_rL7uQf0Q5isw@mail.gmail.com>
- <53838e76-bfa4-41f5-a015-a37472e98991@collabora.com>
- <CAEHHSvaRqZM9c8oD05WKkhOHdjKLBkR6tXp2Q1b8OMiDxDsDhQ@mail.gmail.com>
+	s=arc-20240116; t=1718368901; c=relaxed/simple;
+	bh=5YUAy/v9vbOWgyn64F/ohClnfmw7OfyrVXzdrl7025U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=t9YJpXS0wgZPG9J92JaBSyRcueSWKVEY1/ouXYRkc0u7KJyqAaiu5SKUVCw2+Qcjmy6sQc2CesbcLFkVj5yQz44EqG/JhkcW4O8VlWFOkQHCyhRZhHST64ceCV8BZE+M37EJXrpGsJBi4GjoZ5Mgc/ir3AIl6FeBkvjp9W87iiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cwjx2ORl; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b05e504bceso15113866d6.2
+        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 05:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718368898; x=1718973698; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KkK/kPgUL4odHiBy6guZH3ikqbdzkjrt8yaE6xDHlz0=;
+        b=cwjx2ORlSyxrCeSIBhLQJeI+18ev5J6CUKQkK1iUpmh56NDrrJ4lZg2K84Q/MueNuc
+         q4aoutYAddIBwIgoohqvpwwMKCol/U2HXe2++zeARZgkFq4gUWfKcCfS5tDao4G47knI
+         CJMCWWDIJV5QxvQHS1MoODAxTWEEt94SMhVbE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718368898; x=1718973698;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KkK/kPgUL4odHiBy6guZH3ikqbdzkjrt8yaE6xDHlz0=;
+        b=eHtCeZYFhVm0vMFUi/aPXJxAxOjtGiA3cYb8bW7FK9E5W9WyQ2wMZ4ZbKOC67WLvK6
+         NFuPRSjW1w3VwyoCX58CdwmNJMND1I7g2dE5YYRQQ9VI8sGXq0uPCPD7mAUhrBjmwHvW
+         ZG6RsNs1heDsQ/q4d2wwDnpazjR9bT5g3nYNe2Ls1/dvr1WMy8loYL9AfRX39twQprTV
+         5MdjdJ0frqCz9eGKHSm68rAYGmlA7AlGkD7PDVZs8MqL6WnX0wOPLQqg8Jd7agcsZH8x
+         kK2c8V586hRRU1BWvloutL0Ud7aTmwRpfT8kWX5ftzs23n8D+2ceL/aMhzFxd57Y3DkN
+         FYmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWN96DO++87kyTAY70R5xlzckGqqrq+lSjtPvFmfYiz9nZV2TI6crQKtB4Fc6CWEQSxuBcPkBu5+z2f3VUDmCY7d2pA4WQDl599UJQ=
+X-Gm-Message-State: AOJu0YzrAj625liZ6yzzMITLCqOAIZM2oociuk2apuIM8QgCjTpaClTT
+	M5VF0VFxkJnsQ9Oyp27CfpeXoJrxu+qnjTLHPSprUxEeTA2pCeFGcl9CgZJPag==
+X-Google-Smtp-Source: AGHT+IHNqU2GJfptQrcQaG8pJjaC87mF0Mtx6eQJf/jOQN/ukdR0fH/cQhlVblx8FIcrL9gvEYednw==
+X-Received: by 2002:ad4:551b:0:b0:6b0:67d0:ff76 with SMTP id 6a1803df08f44-6b2afcd2338mr23501166d6.26.1718368898477;
+        Fri, 14 Jun 2024 05:41:38 -0700 (PDT)
+Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5c202e8sm17734056d6.50.2024.06.14.05.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jun 2024 05:41:37 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v6 0/4] uvcvideo: Attempt N to land UVC race conditions
+ fixes
+Date: Fri, 14 Jun 2024 12:41:26 +0000
+Message-Id: <20240614-guenter-mini-v6-0-7b7fdc3b21b3@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEHHSvaRqZM9c8oD05WKkhOHdjKLBkR6tXp2Q1b8OMiDxDsDhQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHY6bGYC/33PTWrEMAwF4KsMXtdF/o3dVe9RZhHbSmKYOGBPA
+ mXI3UcUSktIuxJP8D2hB2tYMzb2dnmwiltueSkU7MuFxakvI/KcKDMJUoECz8cVyx0rn3PJ3Hl
+ nRQCncRCMSOgb8lD7EidCZb3daDnldl/q59eJTdD4+KNtExy4lV0SEAeL3r7HqS5zXufXpY7sS
+ l2b/M9L8mi1gGQ8JK1OvPr2GpQ0B6/IRx2iFYlegjOvf/vu4DV57b0xUXiHPZ548+OtEAdvyIP
+ ugh3QJHDh4Pd9fwJY75PFsAEAAA==
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>, 
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Fri, Jun 14, 2024 at 12:38:15PM +0200, Julien Stephan wrote:
-> Le mer. 12 juin 2024 à 10:06, AngeloGioacchino Del Regno a écrit :
-> >
-> > Il 10/06/24 16:39, Julien Stephan ha scritto:
-> [...]
-> > >>
-> > >>> +     writel(0x10001, input->base + SENINF_TG1_SEN_CK);
-> > >>
-> > >> Unroll this one... this is the TG1 sensor clock divider.
-> > >>
-> > >> CLKFL GENMASK(5, 0)
-> > >> CLKRS GENMASK(13, 8)
-> > >> CLKCNT GENMASK(21,16)
-> > >>
-> > >> Like this, I don't get what you're trying to set, because you're using a fixed
-> > >> sensor clock rate, meaning that only a handful of camera sensors will be usable.
-> > >>
-> > >> Is this 8Mhz? 16? 24? what? :-)
-> > >>
-> > >> Two hints:
-> > >>    - sensor_clk = clk_get_rate(isp_clk) / (tg1_sen_ck_clkcnt + 1);
-> > >>    - int mtk_seninf_set_sensor_clk(u8 rate_mhz);
-> > >>
-> > >> Please :-)
-> > >
-> > > Hi Angelo,
-> > >
-> > > I think I get your point about not hardcoding the sensor rate, but I
-> > > am not sure how to use
-> > > a mtk_seninf_set_sensor_clk(u8 rate_mhz); function.
-> > >
-> > > Where would it be called? How is it exposed to the user?
-> > >
-> >
-> > As for where: setup, streaming start, resolution change (which may be covered
-> > by streaming start anyway, as a change should be calling stop->start anyway).
-> >
-> > And for the how is it exposed to the user - well, depends what you mean for user,
-> > but it's all standard V4L2 API :-)
-> >
-> > Last but not least, I can give you another hint....
-> >
-> > struct media_entity *entity = (something_here);
-> > struct media_pad *mpad;
-> > struct v4l2_subdev *cam_subdev;
-> > struct v4l2_ctrl *ctl;
-> > s64 link_frequency, pixel_clock;
-> >
-> > if (entity->pads[0].flags & MEDIA_PAD_FL_SINK)
-> >     return -E_NOT_A_CAMERA_SENSOR_WE_IGNORE_THIS_ONE;
-> >
-> > pad = media_pad_remote_pad_first(&entity->pads[0]);
-> > if (!pad)
-> >    return -ENOENT;
-> >
-> > if (!is_media_entity_v4l2_subdev(pad->entity))
-> >    return -ENOENT;
-> >
-> > if (pad->entity->function != MEDIA_ENT_F_CAM_SENSOR)
-> >    return -ENOENT;
-> >
-> 
-> Hi Angelo,
-> 
-> Thank you for the detailed explanation :)
-> However, I can't make it work because in my case, seninf is connected
-> to an external ISP
-> so pad->entity->function == MEDIA_ENT_F_PROC_VIDEO_ISP.
-> 
-> How can I get the pad corresponding to the sensor?
+Back in 2020 Guenter published a set of patches to fix some race
+conditions in UVC:
+https://lore.kernel.org/all/20200917022547.198090-5-linux@roeck-us.net/
 
-You don't have to. You can drop that check, and get the link frequency
-of the source subdev with v4l2_get_link_freq(), whatever it is.
+That kind of race conditions are not only seen in UVC, but are a common
+seen in almost all the kernel, so this is what it was decided back then
+that we should try to fix them at higher levels.
 
-> > cam_subdev = media_entity_to_v4l2_subdev(pad->entity);
-> > ctl = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
-> 
-> Is this mandatory to implement V4L2_CID_PIXEL_RATE ?
-> Should I return an error if not found?
+After that. A lot of video_is_registered() were added to the core:
 
-Does SENINF need to know both the pixel rate and link frequency ?
-V4L2_CID_PIXEL_RATE is very ill-defined, at the moment it only makes
-sense as a value relative to the sensor pixel array, and doesn't really
-apply further down in the pipeline. What information do you need to
-program the SENINF ?
+```
+ribalda@alco:~/work/linux$ git grep is_registered drivers/media/v4l2-core/
+drivers/media/v4l2-core/v4l2-compat-ioctl32.c:  if (!video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev)) {
+drivers/media/v4l2-core/v4l2-dev.c:             if (video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-dev.c:     if (!video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-dev.c:     if (video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-dev.c:     if (vdev == NULL || !video_is_registered(vdev)) {
+drivers/media/v4l2-core/v4l2-dev.c:             if (video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-dev.c:     if (!vdev || !video_is_registered(vdev))
+drivers/media/v4l2-core/v4l2-ioctl.c:   if (!video_is_registered(vfd)) {
+drivers/media/v4l2-core/v4l2-subdev.c:  if (video_is_registered(vdev)) {
+```
 
-> > /* multiplier is usually bits per pixel, divider is usually num of lanes */
-> > link_frequency = v4l2_get_link_freq(cam_subdev->ctrl_handler, multiplier, divider);
-> > pixel_clock = v4l2_ctrl_g_ctrl_int64(ctl);
-> 
-> How to know the sensor clock given link_frequency and pixel_clock?
-> Can you point me to drivers doing something similar?
-> 
-> >
-> > ....now you know what the sensor wants, set the seninf sensor clock accordingly.
-> >
-> > Cheers
-> > Angelo
-> >
-> [...]
+And recently Sakari is trying to land:
+https://lore.kernel.org/linux-media/20230201214535.347075-1-sakari.ailus@linux.intel.com/
 
+Which will make obsolete a lot off (all?) of the video_is_registered() checks in
+Guenter's patches.
+
+Besides those checks, there were some other valid races fixed in his
+patches.
+
+This patchset tries to fix the races still present in our code.
+
+Thanks!
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v6: Thanks Hans
+- s/uvc_queue_streamoff/uvc_queue_release/
+- Link to v5: https://lore.kernel.org/r/20240611-guenter-mini-v5-0-047b6fe5d08b@chromium.org
+
+Changes in v5: Thanks Hans!
+- Refactor unregister as vb2_video_unregister_device
+- I have tested the first patch independently from the others, so it
+  could be merged in two steps if needed.
+- Link to v4: https://lore.kernel.org/r/20240327-guenter-mini-v4-0-49955c198eae@chromium.org
+
+Changes in v4: Thanks Sergey and Guenter
+- Fix typos
+- Move location of mutex_init
+- Split patch to make the suspend change explicit
+- Link to v3: https://lore.kernel.org/r/20240325-guenter-mini-v3-0-c4bc61d84e03@chromium.org
+
+Changes in v3: Thanks Hans!
+- Stop streaming during uvc_unregister()
+- Refactor the uvc_status code
+- Link to v2: https://lore.kernel.org/r/20230309-guenter-mini-v2-0-e6410d590d43@chromium.org
+
+Changes in v2:
+- Actually send the series to the ML an not only to individuals.
+- Link to v1: https://lore.kernel.org/r/20230309-guenter-mini-v1-0-627d10cf6e96@chromium.org
+
+---
+Ricardo Ribalda (4):
+      media: uvcvideo: Stop stream during unregister
+      media: uvcvideo: Refactor the status irq API
+      media: uvcvideo: Avoid race condition during unregister
+      media: uvcvideo: Exit early if there is not int_urb
+
+ drivers/media/usb/uvc/uvc_driver.c | 45 +++++++++++++++++++--------
+ drivers/media/usb/uvc/uvc_status.c | 62 +++++++++++++++++++++++++++++++++++---
+ drivers/media/usb/uvc/uvc_v4l2.c   | 22 ++++----------
+ drivers/media/usb/uvc/uvcvideo.h   | 10 +++---
+ 4 files changed, 103 insertions(+), 36 deletions(-)
+---
+base-commit: b14257abe7057def6127f6fb2f14f9adc8acabdb
+change-id: 20230309-guenter-mini-89861b084ef1
+
+Best regards,
 -- 
-Regards,
+Ricardo Ribalda <ribalda@chromium.org>
 
-Laurent Pinchart
 
