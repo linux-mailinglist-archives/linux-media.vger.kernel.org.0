@@ -1,237 +1,186 @@
-Return-Path: <linux-media+bounces-13273-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13274-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3F5908DE9
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 16:55:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67028908E96
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 17:23:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57A3B2847C4
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 14:55:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 598351C21200
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jun 2024 15:23:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBED5175BF;
-	Fri, 14 Jun 2024 14:55:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E3616B720;
+	Fri, 14 Jun 2024 15:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="e0peMdVP"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="H6sZ+JFk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7204C96
-	for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 14:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE60915CD64;
+	Fri, 14 Jun 2024 15:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718376902; cv=none; b=QJCZ3KW8VuKW2VpTV8XcASWgNSJQ76CxhidNItkJCgZFHag0UQXlqzbQlfONuFRrqZTveoTAPweAvl2YUocvftKg8IUMmJ07ciDVkeupZzJf3rmz9byhIs4AZ1bGXoAkSe2SsNdMHZiEjidqpksUESOZOHb7ZuZBawFlj+sxmOM=
+	t=1718378584; cv=none; b=NJlQZWVu2sG0X/QTzq3l3PO+nNNXuSqrscEGRNQuzOlu/+6zbhcV8ICQGJKIe7h0x7Ed+buc7h+4f9ZSucVgCIZWNk2LCnF6UzXjlPFenAJ0MwA4jtNARa87nL8mP1FplZdQNNu7k+EcWZofi42phs2trAvjhYHLL6dcA4GVy4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718376902; c=relaxed/simple;
-	bh=ePyV2mgKNple3T7qBgOKPNX3ONHppQL/WQz9ZOXDXTM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VfJmw62Loyyi9v/TNX9jkK7cC3c4katTjVnJQkYbPHH/AEB4B30vHqDGCGqX7QX4SeEPba4SzdmrV3aMbjq+tNXdcP3dOniuw5lbowTIYzl1Z4RoiRsQiUrxIB06bzeZ6rMv3kl7Qd802liQE3m4Y2jIknqQVkxEDDqQdhqp8rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=e0peMdVP; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a6efe62f583so225784066b.3
-        for <linux-media@vger.kernel.org>; Fri, 14 Jun 2024 07:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718376898; x=1718981698; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SdyE64ITlsEjDYdjWbst/sH7Q92347D+3IPnUE30Q5I=;
-        b=e0peMdVP5479tPlYB/HEntbs+UH/zRTVbfvSTpsk4aZKAPs51G4lc/EJRGYHs19VL1
-         w9J8vEyXb6NLj2V7vM5uaMFjB2DHPxBhuRotkmTUNJkWaRQ3EJT69y08xA4J/AXSc8wo
-         IC2hXkEzzeA7CirLK/+MKTC1Zo7ALbHNeAq8QEr3WNbM5utLZmPwsDf4KCRWQaTiMDZ8
-         CIj98OI9DpqCer3lCQ4iad9UekDDbmmL6iOjjGDGW640tQbbGlaAzql6QoqUD8oLuizk
-         mN8d1DaJrQ5GlqlXXDbNC68OqSkQVsWzhKU9PDuYfsz+B2P8JyFSPTSG4hhRWpfTwR/i
-         4lhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718376898; x=1718981698;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SdyE64ITlsEjDYdjWbst/sH7Q92347D+3IPnUE30Q5I=;
-        b=MCGlPbDhqGWaNKSlR8i7jkxZy/l3PXzOZBAjTf0yiCGWDyZGVQABuJpjCdVBf0IFrS
-         Z/AdrmtMgEwsbtf9PKl1GX13JwGC7OvlscfcA2pvwB2qyaymjBrphGqxA+oYR5JHhYSl
-         94kqjEGgTT5Q59nAJORrx07wuYga6FcRJ0aYbCWq6EWvT0GpAQdBDetPjojx5DVl36D0
-         302XOqSgcCzTziiLrEUgCZZcu6hVyLLaM9U+wxn+0qklWKkWNkHCvbiEOJrrvGEY5xJS
-         DrwDbguuOUv2dPK0UHaHdL/WBCdJx/rX9piSIqqhp43VP001PFQtJBppz0Ite47isHeT
-         //DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBxuBzHjxSqzL+T2/5+pyRUF9FVLldTj2eRazT4WI/CLUigeCjnj7LuRZCbl7opSdeA+mi1e/Gbo7MODqq6Ohb+TnmWFUks5/ahSs=
-X-Gm-Message-State: AOJu0Yyi9k3NP6WtjcmVToKRV/G8hqq+GCULNou9RorHBnGjBcMOQEXh
-	jf2Sj4asLyRwqWlw/WAWN7TCL3qaPbljBspfMw8YvG5PS2BblRio3tJiNVM+gU5DpxPvTqViYlP
-	oXMwM9RxLVtZd5LFRN6WYIi5kWhVFI9dqtn2c5A==
-X-Google-Smtp-Source: AGHT+IFVQaFnc4sfLJ78hdBU5GqD7d5dF9LIJLkwZUP4nd0PeFSLQwba1QbMbPKaH5pBbY4kR1qCtQocrfy0T/ty0cM=
-X-Received: by 2002:a17:907:d312:b0:a6f:668b:3434 with SMTP id
- a640c23a62f3a-a6f668b35f7mr185814266b.31.1718376898096; Fri, 14 Jun 2024
- 07:54:58 -0700 (PDT)
+	s=arc-20240116; t=1718378584; c=relaxed/simple;
+	bh=ceHwlhkQOv5Wkvy5F61fCWlYXHLEh5xGfP6+3SG6EDs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=C4o71iNwZnPrnMbbnMDeQyYs6CRFXkVKz3qAM5a4SBlaxYPBPYTu97H6J1tjhjCh93KwLumTKWP18wNFuG1k8mTkXdcjtqoiIzvr2m4Uf6yRFISGg5Uhrkh3BbLs48+RVWV8YT3nbr9rSLQI3sQpn//MIj+a6e17u2dQrNXvLHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=H6sZ+JFk; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=yAGhS
+	Ow2NI85cih3XGIkfc/UtZ8P/eczFTAfdvqLy8o=; b=H6sZ+JFkVQTNUzqKHaUah
+	N/CJydLUMiy1B8fj/9SITomrvG2oIcTQqUvOqpbyfYKo0b4Fw1wbGoz4q0ggrmNV
+	raLZVoLLy4Fv3ELXa5C4qFpv2e9FqCUagUsIzscZsTSa35D/w7hfT9Q7+YrbO3vI
+	4CGTNj8l6l5IQcmYARwGKw=
+Received: from ubuntu.localdomain (unknown [120.228.117.74])
+	by gzga-smtp-mta-g1-0 (Coremail) with SMTP id _____wD3n6tCYGxmSah9Cg--.3328S2;
+	Fri, 14 Jun 2024 23:22:42 +0800 (CST)
+From: Chi Zhiling <chizhiling@163.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chi Zhiling <chizhiling@kylinos.cn>
+Subject: [PATCH v2] media: xc2028: avoid use-after-free in load_firmware_cb()
+Date: Fri, 14 Jun 2024 08:22:25 -0700
+Message-Id: <20240614152225.3943-1-chizhiling@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240531091026.3094284-1-chizhiling@163.com>
+References: <20240531091026.3094284-1-chizhiling@163.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240110141443.364655-1-jstephan@baylibre.com>
- <20240110141443.364655-4-jstephan@baylibre.com> <3c2bee40-3792-409c-b42f-f8b013ff641c@collabora.com>
- <CAEHHSvaT_U+HNzWQUoK9EuqGuqEd11+Lu0CLz_rL7uQf0Q5isw@mail.gmail.com>
- <53838e76-bfa4-41f5-a015-a37472e98991@collabora.com> <CAEHHSvaRqZM9c8oD05WKkhOHdjKLBkR6tXp2Q1b8OMiDxDsDhQ@mail.gmail.com>
- <20240614123345.GN6019@pendragon.ideasonboard.com> <CAEHHSvaWO7m=n5_f0BM7gwuDMfh_GMX=x3DknG28PnmtZbrGQw@mail.gmail.com>
- <20240614144248.GA20136@pendragon.ideasonboard.com>
-In-Reply-To: <20240614144248.GA20136@pendragon.ideasonboard.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 14 Jun 2024 16:54:47 +0200
-Message-ID: <CAEHHSvZPATFV=w451KaaT+e__EK9u3Vc5ORPRQ-Gfa4rJ_o8hA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 sensor interface
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>, 
-	Florian Sylvestre <fsylvestre@baylibre.com>, Andy Hsieh <andy.hsieh@mediatek.com>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-media@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Paul Elder <paul.elder@ideasonboard.com>, 
-	Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3n6tCYGxmSah9Cg--.3328S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXF47KrWDJr43Ar1UJr4fKrg_yoWrWw43pF
+	nxZFWfCrW8Jry3Jr47Jr4UJr1FqrW5Aa10kr4xA34agr13WrZ8tryUtFWUXr1UWr45Aa47
+	JF15JrWrtF4qyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UsFxUUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbBLwr9nWXAk3F1ZQABsT
 
-Le ven. 14 juin 2024 =C3=A0 16:43, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> a =C3=A9crit :
->
-> Hi Julien,
->
-> On Fri, Jun 14, 2024 at 04:14:52PM +0200, Julien Stephan wrote:
-> > Le ven. 14 juin 2024 =C3=A0 14:34, Laurent Pinchart a =C3=A9crit :
-> > > On Fri, Jun 14, 2024 at 12:38:15PM +0200, Julien Stephan wrote:
-> > > > Le mer. 12 juin 2024 =C3=A0 10:06, AngeloGioacchino Del Regno a =C3=
-=A9crit :
-> > > > >
-> > > > > Il 10/06/24 16:39, Julien Stephan ha scritto:
-> > > > [...]
-> > > > > >>
-> > > > > >>> +     writel(0x10001, input->base + SENINF_TG1_SEN_CK);
-> > > > > >>
-> > > > > >> Unroll this one... this is the TG1 sensor clock divider.
-> > > > > >>
-> > > > > >> CLKFL GENMASK(5, 0)
-> > > > > >> CLKRS GENMASK(13, 8)
-> > > > > >> CLKCNT GENMASK(21,16)
-> > > > > >>
-> > > > > >> Like this, I don't get what you're trying to set, because you'=
-re using a fixed
-> > > > > >> sensor clock rate, meaning that only a handful of camera senso=
-rs will be usable.
-> > > > > >>
-> > > > > >> Is this 8Mhz? 16? 24? what? :-)
-> > > > > >>
-> > > > > >> Two hints:
-> > > > > >>    - sensor_clk =3D clk_get_rate(isp_clk) / (tg1_sen_ck_clkcnt=
- + 1);
-> > > > > >>    - int mtk_seninf_set_sensor_clk(u8 rate_mhz);
-> > > > > >>
-> > > > > >> Please :-)
-> > > > > >
-> > > > > > Hi Angelo,
-> > > > > >
-> > > > > > I think I get your point about not hardcoding the sensor rate, =
-but I
-> > > > > > am not sure how to use
-> > > > > > a mtk_seninf_set_sensor_clk(u8 rate_mhz); function.
-> > > > > >
-> > > > > > Where would it be called? How is it exposed to the user?
-> > > > > >
-> > > > >
-> > > > > As for where: setup, streaming start, resolution change (which ma=
-y be covered
-> > > > > by streaming start anyway, as a change should be calling stop->st=
-art anyway).
-> > > > >
-> > > > > And for the how is it exposed to the user - well, depends what yo=
-u mean for user,
-> > > > > but it's all standard V4L2 API :-)
-> > > > >
-> > > > > Last but not least, I can give you another hint....
-> > > > >
-> > > > > struct media_entity *entity =3D (something_here);
-> > > > > struct media_pad *mpad;
-> > > > > struct v4l2_subdev *cam_subdev;
-> > > > > struct v4l2_ctrl *ctl;
-> > > > > s64 link_frequency, pixel_clock;
-> > > > >
-> > > > > if (entity->pads[0].flags & MEDIA_PAD_FL_SINK)
-> > > > >     return -E_NOT_A_CAMERA_SENSOR_WE_IGNORE_THIS_ONE;
-> > > > >
-> > > > > pad =3D media_pad_remote_pad_first(&entity->pads[0]);
-> > > > > if (!pad)
-> > > > >    return -ENOENT;
-> > > > >
-> > > > > if (!is_media_entity_v4l2_subdev(pad->entity))
-> > > > >    return -ENOENT;
-> > > > >
-> > > > > if (pad->entity->function !=3D MEDIA_ENT_F_CAM_SENSOR)
-> > > > >    return -ENOENT;
-> > > > >
-> > > >
-> > > > Hi Angelo,
-> > > >
-> > > > Thank you for the detailed explanation :)
-> > > > However, I can't make it work because in my case, seninf is connect=
-ed
-> > > > to an external ISP
-> > > > so pad->entity->function =3D=3D MEDIA_ENT_F_PROC_VIDEO_ISP.
-> > > >
-> > > > How can I get the pad corresponding to the sensor?
-> > >
-> > > You don't have to. You can drop that check, and get the link frequenc=
-y
-> > > of the source subdev with v4l2_get_link_freq(), whatever it is.
-> > >
-> > > > > cam_subdev =3D media_entity_to_v4l2_subdev(pad->entity);
-> > > > > ctl =3D v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_PIXEL_RATE)=
-;
-> > > >
-> > > > Is this mandatory to implement V4L2_CID_PIXEL_RATE ?
-> > > > Should I return an error if not found?
-> > >
-> > > Does SENINF need to know both the pixel rate and link frequency ?
-> > > V4L2_CID_PIXEL_RATE is very ill-defined, at the moment it only makes
-> > > sense as a value relative to the sensor pixel array, and doesn't real=
-ly
-> > > apply further down in the pipeline. What information do you need to
-> > > program the SENINF ?
-> >
-> > Hi Laurent,
-> >
-> > I need to know the clock divider for the sensor
->
-> Could you provide some details on how the SENINF uses that divisor ?
-> What does it control, and what are the constraints ?
->
+From: Chi Zhiling <chizhiling@kylinos.cn>
 
-According to the datasheet,  SENINF_TG1_SEN_CK[21:16] :CLKCNT : Sensor
-master clock will be ISP_clock/(CLKCNT+1) where CLKCNT >=3D 1
+syzkaller reported use-after-free in load_firmware_cb() [1].
+The reason is because the module allocated a struct tuner in tuner_probe(),
+and then the module initialization failed, the struct tuner was released.
+A worker which created during module initialization accesses this struct
+tuner later, it caused use-after-free.
 
-> > > > > /* multiplier is usually bits per pixel, divider is usually num o=
-f lanes */
-> > > > > link_frequency =3D v4l2_get_link_freq(cam_subdev->ctrl_handler, m=
-ultiplier, divider);
-> > > > > pixel_clock =3D v4l2_ctrl_g_ctrl_int64(ctl);
-> > > >
-> > > > How to know the sensor clock given link_frequency and pixel_clock?
-> > > > Can you point me to drivers doing something similar?
-> > > >
-> > > > >
-> > > > > ....now you know what the sensor wants, set the seninf sensor clo=
-ck accordingly.
-> > > > >
-> > > > > Cheers
-> > > > > Angelo
-> > > > >
-> > > > [...]
->
-> --
-> Regards,
->
-> Laurent Pinchart
+The process is as follows:
+
+task-6504           worker_thread
+tuner_probe                             <= alloc dvb_frontend [2]
+...
+request_firmware_nowait                 <= create a worker
+...
+tuner_remove                            <= free dvb_frontend
+...
+                    request_firmware_work_func  <= the firmware is ready
+                    load_firmware_cb    <= but now the dvb_frontend has been freed
+
+To fix the issue, check the dvd_frontend in load_firmware_cb(), if it is
+null, report a warning and just return.
+
+[1]:
+    ==================================================================
+     BUG: KASAN: use-after-free in load_firmware_cb+0x1310/0x17a0
+     Read of size 8 at addr ffff8000d7ca2308 by task kworker/2:3/6504
+
+     Call trace:
+      load_firmware_cb+0x1310/0x17a0
+      request_firmware_work_func+0x128/0x220
+      process_one_work+0x770/0x1824
+      worker_thread+0x488/0xea0
+      kthread+0x300/0x430
+      ret_from_fork+0x10/0x20
+
+     Allocated by task 6504:
+      kzalloc
+      tuner_probe+0xb0/0x1430
+      i2c_device_probe+0x92c/0xaf0
+      really_probe+0x678/0xcd0
+      driver_probe_device+0x280/0x370
+      __device_attach_driver+0x220/0x330
+      bus_for_each_drv+0x134/0x1c0
+      __device_attach+0x1f4/0x410
+      device_initial_probe+0x20/0x30
+      bus_probe_device+0x184/0x200
+      device_add+0x924/0x12c0
+      device_register+0x24/0x30
+      i2c_new_device+0x4e0/0xc44
+      v4l2_i2c_new_subdev_board+0xbc/0x290
+      v4l2_i2c_new_subdev+0xc8/0x104
+      em28xx_v4l2_init+0x1dd0/0x3770
+
+     Freed by task 6504:
+      kfree+0x238/0x4e4
+      tuner_remove+0x144/0x1c0
+      i2c_device_remove+0xc8/0x290
+      __device_release_driver+0x314/0x5fc
+      device_release_driver+0x30/0x44
+      bus_remove_device+0x244/0x490
+      device_del+0x350/0x900
+      device_unregister+0x28/0xd0
+      i2c_unregister_device+0x174/0x1d0
+      v4l2_device_unregister+0x224/0x380
+      em28xx_v4l2_init+0x1d90/0x3770
+
+     The buggy address belongs to the object at ffff8000d7ca2000
+      which belongs to the cache kmalloc-2k of size 2048
+     The buggy address is located 776 bytes inside of
+      2048-byte region [ffff8000d7ca2000, ffff8000d7ca2800)
+     The buggy address belongs to the page:
+     page:ffff7fe00035f280 count:1 mapcount:0 mapping:ffff8000c001f000 index:0x0
+     flags: 0x7ff800000000100(slab)
+     raw: 07ff800000000100 ffff7fe00049d880 0000000300000003 ffff8000c001f000
+     raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
+     page dumped because: kasan: bad access detected
+
+     Memory state around the buggy address:
+      ffff8000d7ca2200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+      ffff8000d7ca2280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+     >ffff8000d7ca2300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                           ^
+      ffff8000d7ca2380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+      ffff8000d7ca2400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+     ==================================================================
+
+[2]
+    Actually, it is allocated for struct tuner, and dvb_frontend is inside.
+
+Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+---
+ drivers/media/tuners/xc2028.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/tuners/xc2028.c b/drivers/media/tuners/xc2028.c
+index 5a967edceca9..352b8a3679b7 100644
+--- a/drivers/media/tuners/xc2028.c
++++ b/drivers/media/tuners/xc2028.c
+@@ -1361,9 +1361,16 @@ static void load_firmware_cb(const struct firmware *fw,
+ 			     void *context)
+ {
+ 	struct dvb_frontend *fe = context;
+-	struct xc2028_data *priv = fe->tuner_priv;
++	struct xc2028_data *priv;
+ 	int rc;
+ 
++	if (!fe) {
++		pr_warn("xc2028: No frontend in %s\n", __func__);
++		return;
++	}
++
++	priv = fe->tuner_priv;
++
+ 	tuner_dbg("request_firmware_nowait(): %s\n", fw ? "OK" : "error");
+ 	if (!fw) {
+ 		tuner_err("Could not load firmware %s.\n", priv->fname);
+-- 
+2.25.1
+
 
