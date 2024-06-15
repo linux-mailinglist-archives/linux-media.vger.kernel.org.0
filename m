@@ -1,106 +1,117 @@
-Return-Path: <linux-media+bounces-13290-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13291-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB58909562
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 03:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F0690956E
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 03:58:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83169284812
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 01:51:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62F8E285A31
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 01:58:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82FE1FBA;
-	Sat, 15 Jun 2024 01:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F061524C;
+	Sat, 15 Jun 2024 01:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="U671+UAD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740E2173
-	for <linux-media@vger.kernel.org>; Sat, 15 Jun 2024 01:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A22D515;
+	Sat, 15 Jun 2024 01:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718416283; cv=none; b=YO2cvF16Qr8ZhLNK1UKAG7tsCxCQlUQnFrmAeWCWdmY34G8NZO+OSAuBxweXr+iYok5PgfJHjiT926IjNGZS6io3b4dS/srPtLWWdALDzGOnUZt9lcLhpQdI9C91LPkXmkUEUbprMUOGPtt1VmE+dddAKxLkoKrfLQgp82DPRro=
+	t=1718416701; cv=none; b=LpT7goLlU1Em7zngMOgtMT6vaiEhCt6/arwzr651kf8EIItxlOAarv1wVMHzVUgAlSkP/BWz2/ed9esXwRd21qBJ2M41onlI5qsBeN44ztX+pQ/9r6KRmfcJlTwthUK/qoxogYn4nAht4lAQPZT/g5lz3e5yw9j7oE0NjqhZsX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718416283; c=relaxed/simple;
-	bh=kqqUNIHGPOpYUv3/4A48NXG+4xNTs2BUSd+nCxx5VAI=;
-	h=Date:From:To:Subject:Message-Id; b=C6BKzg0QwR3LV5W4L5kd17nwo04aZBlhAKEk5Q0oHpr3QIJDRODBZNPODp+rNJBTOwYoyx++FEI+UD3HNi8yGE4pcIgq4Ewg4u0wL7ZV4q9WBX7m9zBVU75LJ1MENzST8634KeP2myFVNeYnEVQ9/BgGjiCtUgpOEd4IBy8GaQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E96BDC2BD10
-	for <linux-media@vger.kernel.org>; Sat, 15 Jun 2024 01:51:22 +0000 (UTC)
-Date: Sat, 15 Jun 2024 03:51:20 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240615015122.E96BDC2BD10@smtp.kernel.org>
+	s=arc-20240116; t=1718416701; c=relaxed/simple;
+	bh=0UTcYjd/8qry8O1pLuXm3l+KAOWonlHQZvdyiqU7/JM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j/+9yjYHWygsQNwEVpAJCWUlFXcUXNBj/UsaeHJBzJCWS7HJoyjN8QTKYGx3y+ElYqtfzS86CkUkIDtxRnsdCLwV5ghSWLEZw8pDdXrBGXxtGZ+9PnnqHGFrefC8MOF/AXoQV5Nu33tCA/XYuwENdMpebUHt/KZUGs+jup0ihKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=U671+UAD; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718416697;
+	bh=0UTcYjd/8qry8O1pLuXm3l+KAOWonlHQZvdyiqU7/JM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U671+UADHvs8gQ98je0MEVzUl8WLvHhfyn4jmSIgM5ChBC38OyxBDhtjhBVqMTqyj
+	 9w2dFHRBTOGM6O/GCVtZ2TviKFUnainsR+DPX7Ul5HhoOtce0KrCTz2yvfxrbaRhMi
+	 aHOtaQlFkLLN3cKVr/FYhRpQJkufmFPzsw0VFVNxbCj07vj6f8nsScKQLfgRw0M4Tr
+	 Izc/u77ruz2XCFRXCRf47l0eowOb6yzXPE7G0gIr8RKwZJU8jTfuwD7DZTcpHclBxg
+	 a2yoChE4gg2S21jQZvSKgbHvoVFnwMThR0Bg8tppTz89VkSzEaeOTYQuIfPWacpLlB
+	 DfccvweTBHjuQ==
+Received: from arisu.hitronhub.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2CD263781104;
+	Sat, 15 Jun 2024 01:58:14 +0000 (UTC)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Alexey Charkov <alchark@gmail.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	Detlev Casanova <detlev.casanova@collabora.com>
+Subject: [PATCH 0/3] media: rockchip: Add rkvdec2 driver
+Date: Fri, 14 Jun 2024 21:56:26 -0400
+Message-ID: <20240615015734.1612108-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Add a rkvdec2 driver for newer video decoder found on rk3588 based SoC.
 
-Results of the daily build of media_tree:
+See the first commit message for implementation details.
 
-date:			Sat Jun 15 03:00:14 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	5bc4a0132d7acf0cad739342584a249f748a6c61
-v4l-utils git hash:	9b1ffffaa7408c1a4e55c2f375c66ad9a0cf16c4
-edid-decode git hash:	2c4ba3ec64d0fd7ee4343f5f328c5c71f8282b74
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8639-gff1cc4d4
-sparse version:		v0.5.0-8639-gff1cc4d4
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: be24540c169ec3016775f81d1a36b4133e96c7df
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+Detlev Casanova (3):
+  media: rockchip: Introduce the rkvdec2 driver
+  media: dt-bindings: rockchip: Document RK3588 Video Decoder 2 bindings
+  arm64: dts: rockchip: Add rkvdec2 Video Decoder on rk3588(s)
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+ .../bindings/media/rockchip,vdec2.yaml        |   80 ++
+ .../boot/dts/rockchip/rk3588-rock-5b.dts      |    4 +
+ .../boot/dts/rockchip/rk3588s-orangepi-5.dts  |    4 +
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi     |   19 +
+ drivers/staging/media/Kconfig                 |    1 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/rkvdec2/Kconfig         |   15 +
+ drivers/staging/media/rkvdec2/Makefile        |    3 +
+ drivers/staging/media/rkvdec2/TODO            |   13 +
+ drivers/staging/media/rkvdec2/rkvdec2-h264.c  |  899 +++++++++++++
+ drivers/staging/media/rkvdec2/rkvdec2-regs.h  |  372 ++++++
+ drivers/staging/media/rkvdec2/rkvdec2.c       | 1160 +++++++++++++++++
+ drivers/staging/media/rkvdec2/rkvdec2.h       |  123 ++
+ 13 files changed, 2694 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec2.yaml
+ create mode 100644 drivers/staging/media/rkvdec2/Kconfig
+ create mode 100644 drivers/staging/media/rkvdec2/Makefile
+ create mode 100644 drivers/staging/media/rkvdec2/TODO
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
 
-date:			Sat Jun 15 03:14:10 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+-- 
+2.44.2
 
-date:			Sat Jun 15 03:50:17 CEST 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
