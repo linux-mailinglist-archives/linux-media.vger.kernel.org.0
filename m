@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-13309-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13310-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132F9909A38
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 00:25:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 956EC909A41
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 00:32:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A87BE1F21AE2
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 22:25:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3694A283415
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 22:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17E1761FFE;
-	Sat, 15 Jun 2024 22:25:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C369E69D31;
+	Sat, 15 Jun 2024 22:32:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GZ8gRDmD"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OuDwpIHp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A2E17C74;
-	Sat, 15 Jun 2024 22:25:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ADC38DC7;
+	Sat, 15 Jun 2024 22:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718490308; cv=none; b=EW6H2ybXP2lUdvpSFFuH62NQ0VnxhXD5/bbo1U7mF7mpdQI+oMLYGqflW0ZdaZfI2A25ygRE+LOeocdMuxSM5ogGdGNEB1SRaRLSqIi0QacC6OTIBFGmKm8cFIayA7SX9kNo9oS6ophIQYqS4O1vU0GvJa8zrvpRSwpd7n9aXo0=
+	t=1718490728; cv=none; b=Vu9d1Hahs/hHCgQoR3pk5axiFjZvM4ADpmH2GZXO+7+vSNxNeoWiQj2V81HsBcZaIGB7jXGAP5c8Rbk+E6UqNKVIpUG+B7OtkRirgct14SSRaJAVoyIgx1zjcAswfUL0SfMnyssejy+I4QjC6gVX86OYeKEK8ZHWWJFMaAOwT/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718490308; c=relaxed/simple;
-	bh=DF0mGyVb2ch10JLEOTK+vaR3v2RXWZJObNDqqoXwVpM=;
+	s=arc-20240116; t=1718490728; c=relaxed/simple;
+	bh=7XrSzKmwP52JgdaTxNDC5ItcCdg1ekFDgIZGwIYnShs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GKL+3CnLwYz114Ca0SPTwvFu7DbwbZGVvet2Jj1kfu08EDPxQNFotee2p5f5GzGjqdJhPLviHLWimwv0DDnO3Ue8co6oltNUHXG8118/Vvl9tfYChaEc3GGdgALL6dsMR6yE+dd0FhkCLkpC7peEsfLBajDXTgi9MlB4UTCA0Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GZ8gRDmD; arc=none smtp.client-ip=46.235.227.194
+	 In-Reply-To:Content-Type; b=U3vGRN37MnyYdFCzj6dSBKXIebowdwaENp9fCWsTqWr+LbWyycCKSY8n0um1Mxm20F/ONlvfKEg8EhfI4xSVFd666nwlEFuc/8+2L5lAZUxreOYE1BpbN13CnBSZ/SiBrfMtGxgFKU5dhM9bo7A2ZvoSHxXZE3C4spFLPUAgBJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OuDwpIHp; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718490305;
-	bh=DF0mGyVb2ch10JLEOTK+vaR3v2RXWZJObNDqqoXwVpM=;
+	s=mail; t=1718490725;
+	bh=7XrSzKmwP52JgdaTxNDC5ItcCdg1ekFDgIZGwIYnShs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GZ8gRDmDUEff4jpkGY7Qy7Gfmm2/4xB90nA7YAOZpcj+v7T3oASQLLv5JulrqPXIt
-	 EGkgp02QzHjkbe7uYrVMYVz79vnpZXG281NpHyFknU3c2ckzfCDWLSDwMX2IwwbfPL
-	 A59jfWVuQeAYMpUB+h/vpNc/RLUfAW0EPFdLtSTf0g4KYaL5Ctw6x7+o11Y38SFyt3
-	 MBBlUzqMcLdh/ojyBWau4DubLtSOEq7Qa7hX8AiwJ4V5g+p5Jaal6I1OZ0HOMAW2yn
-	 RX9ukhSRfVDQhi0F6+YqBirSgplj+w+J5gURKb1yJ+2hpwvTbhzadwcDLiu/4GPaAo
-	 9A/Kr2V+9mf4Q==
+	b=OuDwpIHpTYC6TNb5JC1Zk4EkLodvsgULeNI4dFtjeJpW96MmjrEzapMLUgxB6gT97
+	 kObTwo2x56YIi+krngtB9zMao0Qejt2JsSNI/sAuVOciq66S70BdMvejN2PaIUC+VW
+	 bLJoS6SeyweOGIcTEU0/Nygd6ycDdnFiOkgbrOH9Np3ygK6R/shxyQMOkATLQiCg4c
+	 tK7GSixfcjWp2stA6j4JjhzOVYdqeD2uPAEYMucJkZuU/xpvlOvBq/HTXaw22TXXUS
+	 xF4SNDw64xuWb8Y4svgtYAwcP3idWb3R36prYVi5u1VC9KEbEvkCOc8ItkCPWBxxam
+	 QW87WAPsLHK1w==
 Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dmitry.osipenko)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B87663780575;
-	Sat, 15 Jun 2024 22:25:03 +0000 (UTC)
-Message-ID: <09db1c27-b802-4cf5-95f0-d08611a5cd74@collabora.com>
-Date: Sun, 16 Jun 2024 01:24:59 +0300
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 744653780575;
+	Sat, 15 Jun 2024 22:32:03 +0000 (UTC)
+Message-ID: <b298efa3-ea5c-4ac5-9026-8bc09eea4c84@collabora.com>
+Date: Sun, 16 Jun 2024 01:32:00 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,14 +73,23 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
 References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
  <20240615015734.1612108-2-detlev.casanova@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 6/15/24 04:56, Detlev Casanova wrote:
-> +int a = sizeof(struct rkvdec2_rps);
+> +	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
+> +	pm_runtime_use_autosuspend(&pdev->dev);
+> +	pm_runtime_enable(&pdev->dev);
+> +
+> +	ret = clk_bulk_prepare_enable(ARRAY_SIZE(rkvdec2_clk_names), rkvdec->clocks);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Could not start clocks\n");
+> +		return ret;
+> +	}
 
-Remove this
+Remove this clk_bulk_prepare_enable(), clocks are enabled by runtime-resume.
+
 
