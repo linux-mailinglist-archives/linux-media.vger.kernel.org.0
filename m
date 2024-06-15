@@ -1,95 +1,201 @@
-Return-Path: <linux-media+bounces-13310-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13311-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956EC909A41
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 00:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC245909A4E
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 00:59:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3694A283415
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 22:32:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38079282194
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 22:59:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C369E69D31;
-	Sat, 15 Jun 2024 22:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OuDwpIHp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 868666BB5C;
+	Sat, 15 Jun 2024 22:58:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ADC38DC7;
-	Sat, 15 Jun 2024 22:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC909537F2;
+	Sat, 15 Jun 2024 22:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718490728; cv=none; b=Vu9d1Hahs/hHCgQoR3pk5axiFjZvM4ADpmH2GZXO+7+vSNxNeoWiQj2V81HsBcZaIGB7jXGAP5c8Rbk+E6UqNKVIpUG+B7OtkRirgct14SSRaJAVoyIgx1zjcAswfUL0SfMnyssejy+I4QjC6gVX86OYeKEK8ZHWWJFMaAOwT/E=
+	t=1718492332; cv=none; b=hiU7Zhy1HfItKHPQzZB6F58gaiZFgXYkHvKfmiJ0dSqarpdqh492J1DHNbQOFPq0i+Anxnr9l9te6izUcDeCN3t8j7rxLNlopIS9eVQAa5bJRBIAkWkbSpZMlbg02LArR/MsAPXXUZnnAp54EQzevLkUPJYwgSQQrSNMwPlyFIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718490728; c=relaxed/simple;
-	bh=7XrSzKmwP52JgdaTxNDC5ItcCdg1ekFDgIZGwIYnShs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U3vGRN37MnyYdFCzj6dSBKXIebowdwaENp9fCWsTqWr+LbWyycCKSY8n0um1Mxm20F/ONlvfKEg8EhfI4xSVFd666nwlEFuc/8+2L5lAZUxreOYE1BpbN13CnBSZ/SiBrfMtGxgFKU5dhM9bo7A2ZvoSHxXZE3C4spFLPUAgBJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OuDwpIHp; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718490725;
-	bh=7XrSzKmwP52JgdaTxNDC5ItcCdg1ekFDgIZGwIYnShs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OuDwpIHpTYC6TNb5JC1Zk4EkLodvsgULeNI4dFtjeJpW96MmjrEzapMLUgxB6gT97
-	 kObTwo2x56YIi+krngtB9zMao0Qejt2JsSNI/sAuVOciq66S70BdMvejN2PaIUC+VW
-	 bLJoS6SeyweOGIcTEU0/Nygd6ycDdnFiOkgbrOH9Np3ygK6R/shxyQMOkATLQiCg4c
-	 tK7GSixfcjWp2stA6j4JjhzOVYdqeD2uPAEYMucJkZuU/xpvlOvBq/HTXaw22TXXUS
-	 xF4SNDw64xuWb8Y4svgtYAwcP3idWb3R36prYVi5u1VC9KEbEvkCOc8ItkCPWBxxam
-	 QW87WAPsLHK1w==
-Received: from [100.109.49.129] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dmitry.osipenko)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 744653780575;
-	Sat, 15 Jun 2024 22:32:03 +0000 (UTC)
-Message-ID: <b298efa3-ea5c-4ac5-9026-8bc09eea4c84@collabora.com>
-Date: Sun, 16 Jun 2024 01:32:00 +0300
+	s=arc-20240116; t=1718492332; c=relaxed/simple;
+	bh=P1YVi7a9KN4Sv0YEIiIcHYvtV+ZKTrEhkKY+YeE5nqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ec8ZX0vCh08/PC2GjAZ0OOyDqbxA6kr+S06WFqsnObCBRdifooeguu1Ko3IteJkhAyXyh1VLsFlcVXKk7Hj7DOLWAROjKQ83wwvqmtDc2CHw4Yi55FJ2riuNrAtrbwlXMVzqy9/n3idcPfpCigiBjSFY/n3Xpw+wdMxQnoOCKWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from 79-98-74-242.sys-data.com ([79.98.74.242] helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1sIcLe-00022x-WA; Sun, 16 Jun 2024 00:58:15 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Jonas Karlman <jonas@kwiboo.se>,
+ Detlev Casanova <detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Diederik de Haas <didi.debian@cknow.org>, Andy Yan <andy.yan@rock-chips.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Subject:
+ Re: [PATCH 2/3] media: dt-bindings: rockchip: Document RK3588 Video Decoder 2
+ bindings
+Date: Sun, 16 Jun 2024 00:58:13 +0200
+Message-ID: <4352466.CQOukoFCf9@phil>
+In-Reply-To: <14930500.uLZWGnKmhe@arisu>
+References:
+ <20240615015734.1612108-1-detlev.casanova@collabora.com>
+ <442bbb41-40ed-4e6c-b854-02b636f09fc3@kwiboo.se> <14930500.uLZWGnKmhe@arisu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
-To: Detlev Casanova <detlev.casanova@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Diederik de Haas <didi.debian@cknow.org>, Andy Yan
- <andy.yan@rock-chips.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
-References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
- <20240615015734.1612108-2-detlev.casanova@collabora.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 6/15/24 04:56, Detlev Casanova wrote:
-> +	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
-> +	pm_runtime_use_autosuspend(&pdev->dev);
-> +	pm_runtime_enable(&pdev->dev);
-> +
-> +	ret = clk_bulk_prepare_enable(ARRAY_SIZE(rkvdec2_clk_names), rkvdec->clocks);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Could not start clocks\n");
-> +		return ret;
-> +	}
+Am Samstag, 15. Juni 2024, 21:49:21 CEST schrieb Detlev Casanova:
+> On Saturday, June 15, 2024 4:11:00 A.M. EDT Jonas Karlman wrote:
+> > Hi Detlev,
+> > 
+> > On 2024-06-15 03:56, Detlev Casanova wrote:
+> > > Document the Rockchip RK3588 Video Decoder 2 bindings.
+> > 
+> > Why the need for a new schema file and not just extending existing
+> > rockchip,vdec.yaml with a new compatible and the new clock?
+> 
+> Yes, that can work as well indeed. I wasn't sure if different drivers could 
+> share a schema file.
+> 
+> > > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> > > ---
+> > > 
+> > >  .../bindings/media/rockchip,vdec2.yaml        | 80 +++++++++++++++++++
+> > >  1 file changed, 80 insertions(+)
+> > >  create mode 100644
+> > >  Documentation/devicetree/bindings/media/rockchip,vdec2.yaml> 
+> > > diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec2.yaml
+> > > b/Documentation/devicetree/bindings/media/rockchip,vdec2.yaml new file
+> > > mode 100644
+> > > index 000000000000..e54891b46986
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/rockchip,vdec2.yaml
+> > > @@ -0,0 +1,80 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/rockchip,vdec2.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Rockchip Video Decoder 2 (VDec2)
+> > > +
+> > > +maintainers:
+> > > +  - Heiko Stuebner <heiko@sntech.de>
+> > > +
+> > > +description: |-
+> > > +  The Rockchip rk3588 has a stateless Video Decoder that can decodes
+> > > H.264, +  HEVC, VP9 and AVS2 streams.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: rockchip,rk3588-vdec2
+> > 
+> > I fail to see the need to call this vdec2 instead of established vdec.
+> > 
+> > Suggest this is changed to rockchip,rk3588-vdec.
+> 
+> Wouldn't that be misleading if rockchip,rk3399-vdec and rockchip,rk3588-vdec 
+> use different drivers ?
 
-Remove this clk_bulk_prepare_enable(), clocks are enabled by runtime-resume.
+Devicetrees and their binding don't care about how operating system
+implement things in drivers. 
+
+While they come with the Linux-kernel most of the time, they are pretty
+much independent from implementation details.
+
+
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: The Video decoder AXI interface clock
+> > > +      - description: The Video decoder AHB interface clock
+> > > +      - description: The Video decoder core clock
+> > > +      - description: The Video decoder CABAC clock
+> > > +      - description: The Video decoder HEVC CABAC clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: axi
+> > > +      - const: ahb
+> > > +      - const: core
+> > > +      - const: cabac
+> > > +      - const: hevc_cabac
+> > > +
+> > > +  assigned-clocks: true
+> > > +
+> > > +  assigned-clock-rates: true
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - interrupts
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - power-domains
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> > > +    #include <dt-bindings/power/rk3588-power.h>
+> > > +
+> > > +    vdec2: video-codec@fdc38100 {
+> > > +        compatible = "rockchip,rk3588-vdec2";
+> > > +        reg = <0x0 0xfdc38100 0x0 0x500>;
+> > > +        interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
+> > > +        clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru
+> > > CLK_RKVDEC0_CORE>, +                 <&cru CLK_RKVDEC0_CA>, <&cru
+> > > CLK_RKVDEC0_HEVC_CA>; +        clock-names = "axi", "ahc", "core",
+> > > +                      "cabac", "hevc_cabac";
+> > > +        assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
+> > > +                          <&cru CLK_RKVDEC0_CA>, <&cru
+> > > CLK_RKVDEC0_HEVC_CA>; +        assigned-clock-rates = <800000000>,
+> > > <600000000>,
+> > > +                               <600000000>, <1000000000>;
+> > > +        power-domains = <&power RK3588_PD_RKVDEC0>;
+> > 
+> > iommus and resets seem to be missing?
+> 
+> Indeed, even if their are not used yet, I'd make sens to already have them 
+> here to stabilize the device tree, right ?
+
+correct. DT only ever describes the hardware. And while it is possible
+to extend bindings later, having the obvious things in it from the start
+makes a lot of sense.
+
+
 
 
