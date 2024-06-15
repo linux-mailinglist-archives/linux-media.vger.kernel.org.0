@@ -1,269 +1,161 @@
-Return-Path: <linux-media+bounces-13302-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13303-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9C39097EA
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 13:16:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE31B90988F
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 15:55:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 910471F221FE
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 11:16:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 74C1CB217B7
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jun 2024 13:55:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 495303F9FC;
-	Sat, 15 Jun 2024 11:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4E9F49627;
+	Sat, 15 Jun 2024 13:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="xOkvf8bk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ai/hAGqb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD583D96A;
-	Sat, 15 Jun 2024 11:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D425944F;
+	Sat, 15 Jun 2024 13:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718450189; cv=none; b=NpvYvRRbBfc5jjlGnBtDcCdzXMdicqb+jYWGA2412M4+VoEzrRl9VoM2G728FaRn2k04QB/39SD+Y1dPlv/P5DZG41gca3y4xOXgmvsBFcHWKTbkJIs1ik1qinRuQ336CUNJLueg6PAOMUyAXHiF8oxwVkVC5lx+3FrhpxRKsUU=
+	t=1718459725; cv=none; b=I59QbSQhJbKbMMs0hvoRz8YFOBWyivRo5kKB38SeVKE5iKO0FfmrJVnrGAySN3Sj93JmLtrqqrQkdFdWLY5K/KToI2byE3cPe6iC4RSY5SBN7JSWFIBbY3WKfgQsB4xY0dWLdLZ+ArBYg3LbsiJu7BYc6FZlRVaHoQoYS3yGXZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718450189; c=relaxed/simple;
-	bh=+qHT3f+/AOb9YgCvAG8VMXIyyDSdraW1NCKmyVQT+/E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Kv9BU5zVAMkiPSKNyiiNeCSo7LR7n6OH2L4eTHc79FEpizlviRB++yACeVbLEjw+ZAX1wxMo61oCx+EpDDtHhScVbAgtZlJLdqhoIzPa/1xHrEA5A5ilg8P0XFLhNO5EdZ+S9nh2NlzvYNGVDpLBNS+9Iz6oxWeeOTE1ULarSgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=xOkvf8bk; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1718449679;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=eE9dplccZ2IeUfRMWTD1T9OavWFDEd5FuUtuIlbIm48=;
-	b=xOkvf8bkCrpq2IaS1Ixz5oCY3xoo4+sPUB3J1Vgi3F5n8lrhY0e2cJezGW4bYSxzgzo5YH
-	zWxDPcXHUGpw34CyuKIBuN0g2hdVCkA9sP4V2AokcJD10YLd1epRDiNLCC8OTzsJaM7hgC
-	3GoD4JmHyWcDyfyqBw2Z4I/eJZV/Lzc=
-Message-ID: <0cdcf83a1ab7c199244d4a00157f6fa8979ef819.camel@crapouillou.net>
-Subject: Re: [PATCH v10 3/6] iio: core: Add new DMABUF interface
- infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>,  Jonathan Corbet <corbet@lwn.net>, Nuno Sa
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Date: Sat, 15 Jun 2024 13:07:58 +0200
-In-Reply-To: <20240609105302.07de907a@jic23-huawei>
-References: <20240605110845.86740-1-paul@crapouillou.net>
-	 <20240605110845.86740-4-paul@crapouillou.net>
-	 <20240609105302.07de907a@jic23-huawei>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
- qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
- JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
- 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
- X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
- AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
- Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
- Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
- McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
- 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
- LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1718459725; c=relaxed/simple;
+	bh=o2zni6lmU6brxTe62oPbpr/wNnVyUniYuEMKpQZnOmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TyThjsJbVeGzzov0u1EcC3EPJJjZtaS1ygsYdAKVOI32eMwj4Zrj4lKz6cqFn7VrKQ+jxrblm0TQZ3aGXjrV78kNqyMp2vNErLTUzKdO7Mv0tgdsWQiS4MoAMXzySxY50eQgxbPvR5Lg5mzoaWu+haCXmylZws2k0awHKdzsTWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ai/hAGqb; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718459723; x=1749995723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o2zni6lmU6brxTe62oPbpr/wNnVyUniYuEMKpQZnOmQ=;
+  b=ai/hAGqbww4RcVptOnfayU1o+TDDLZZsSD2kJGDZKhDLB381oDeJrkzX
+   /X+23SO772j7Bhb/uSk5N2TfYq2OZeqUZNCYEf6avaIMDxC5j2yY7khBI
+   TEoguSNFzTUIOSUxHstQqeXAkyvCT3oGYjtMKL27mJ0oVCz3ehHHLOQzQ
+   EpC8ZK7M+9JY+xZTLh2u0QLa+yW676bMXriI/Ic9QdXDY5ZH2sD9uzUR3
+   JwEVBoqveeKeSX1FYlDjEVvakSJhpVsx22UfuxQfpg4mYSJ7NT7kN5agM
+   T2WNla0s0Nb5wYzo7nyHk6FVWW9JuhPJwDnASgQcYOMsHlLt18Krle/FM
+   Q==;
+X-CSE-ConnectionGUID: ebqFZ+r4QYuAPFkovE2KeA==
+X-CSE-MsgGUID: NR3OeXq0TT2okG3fNIxdjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11104"; a="40760307"
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="40760307"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 06:55:22 -0700
+X-CSE-ConnectionGUID: Z1nASWauRT2SWTLC7u9Yow==
+X-CSE-MsgGUID: AAqhFvwAQbO9qsOphaSZhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
+   d="scan'208";a="40630041"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 15 Jun 2024 06:55:19 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sITsC-00005N-21;
+	Sat, 15 Jun 2024 13:55:16 +0000
+Date: Sat, 15 Jun 2024 21:55:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Alexey Charkov <alchark@gmail.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Andy Yan <andy.yan@rock-chips.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	Detlev Casanova <detlev.casanova@collabora.com>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Message-ID: <202406152129.dV4K8R5k-lkp@intel.com>
+References: <20240615015734.1612108-2-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240615015734.1612108-2-detlev.casanova@collabora.com>
 
-Le dimanche 09 juin 2024 =C3=A0 10:53 +0100, Jonathan Cameron a =C3=A9crit=
-=C2=A0:
-> On Wed,=C2=A0 5 Jun 2024 13:08:42 +0200
-> Paul Cercueil <paul@crapouillou.net> wrote:
->=20
-> > Add the necessary infrastructure to the IIO core to support a new
-> > optional DMABUF based interface.
-> >=20
-> > With this new interface, DMABUF objects (externally created) can be
-> > attached to a IIO buffer, and subsequently used for data transfer.
-> >=20
-> > A userspace application can then use this interface to share DMABUF
-> > objects between several interfaces, allowing it to transfer data in
-> > a
-> > zero-copy fashion, for instance between IIO and the USB stack.
-> >=20
-> > The userspace application can also memory-map the DMABUF objects,
-> > and
-> > access the sample data directly. The advantage of doing this vs.
-> > the
-> > read() interface is that it avoids an extra copy of the data
-> > between the
-> > kernel and userspace. This is particularly userful for high-speed
-> > devices which produce several megabytes or even gigabytes of data
-> > per
-> > second.
-> >=20
-> > As part of the interface, 3 new IOCTLs have been added:
-> >=20
-> > IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
-> > =C2=A0Attach the DMABUF object identified by the given file descriptor
-> > to the
-> > =C2=A0buffer.
-> >=20
-> > IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
-> > =C2=A0Detach the DMABUF object identified by the given file descriptor
-> > from
-> > =C2=A0the buffer. Note that closing the IIO buffer's file descriptor
-> > will
-> > =C2=A0automatically detach all previously attached DMABUF objects.
-> >=20
-> > IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
-> > =C2=A0Request a data transfer to/from the given DMABUF object. Its file
-> > =C2=A0descriptor, as well as the transfer size and flags are provided i=
-n
-> > the
-> > =C2=A0"iio_dmabuf" structure.
-> >=20
-> > These three IOCTLs have to be performed on the IIO buffer's file
-> > descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
->=20
-> Need a brief note on the sign off chain.
-> What is Nuno's role in this series as he's not sending the emails and
-> not
-> marked with Co-developed-by=20
+Hi Detlev,
 
-That's a good question. I think he sent one revision of the patchset
-(v7 or something like that) so he added his SoB.
+kernel test robot noticed the following build errors:
 
-(Nuno: you confirm?)
+[auto build test ERROR on rockchip/for-next]
+[also build test ERROR on robh/for-next linus/master v6.10-rc3 next-20240613]
+[cannot apply to media-tree/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I'll add his Co-developed-by then.
+url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-rockchip-Introduce-the-rkvdec2-driver/20240615-100124
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20240615015734.1612108-2-detlev.casanova%40collabora.com
+patch subject: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20240615/202406152129.dV4K8R5k-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406152129.dV4K8R5k-lkp@intel.com/reproduce)
 
-Cheers,
--Paul
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406152129.dV4K8R5k-lkp@intel.com/
 
-> I gave this a much more thorough look in earlier versions than I have
-> today but
-> a few really minor things inline (that I might have fixed up whilst
-> applying)
-> but looks like you'll be done a v11 for Randy's docs comments anyway
-> :(
->=20
-> Jonathan
->=20
->=20
-> > diff --git a/drivers/iio/industrialio-buffer.c
-> > b/drivers/iio/industrialio-buffer.c
-> > index 0138b21b244f..c98c8ac83785 100644
-> > --- a/drivers/iio/industrialio-buffer.c
-> > +++ b/drivers/iio/industrialio-buffer.c
->=20
-> > +struct iio_dmabuf_priv {
-> > +	struct list_head entry;
-> > +	struct kref ref;
-> > +
-> > +	struct iio_buffer *buffer;
-> > +	struct iio_dma_buffer_block *block;
-> > +
-> > +	u64 context;
-> > +	spinlock_t lock;
->=20
-> Given you are going to have a v11, please add a comment to this lock
-> to say what data it is protecting.=20
->=20
-> > +
-> > +	struct dma_buf_attachment *attach;
-> > +	struct sg_table *sgt;
-> > +	enum dma_data_direction dir;
-> > +	atomic_t seqno;
-> > +};
->=20
->=20
-> > diff --git a/include/linux/iio/buffer_impl.h
-> > b/include/linux/iio/buffer_impl.h
-> > index 89c3fd7c29ca..1a221c1d7736 100644
-> > --- a/include/linux/iio/buffer_impl.h
-> > +++ b/include/linux/iio/buffer_impl.h
-> > @@ -9,8 +9,12 @@
-> > =C2=A0#include <uapi/linux/iio/buffer.h>
-> > =C2=A0#include <linux/iio/buffer.h>
-> > =C2=A0
-> > +struct dma_buf_attachment;
-> > +struct dma_fence;
-> > =C2=A0struct iio_dev;
-> > +struct iio_dma_buffer_block;
-> > =C2=A0struct iio_buffer;
-> > +struct sg_table;
-> > =C2=A0
-> > =C2=A0/**
-> > =C2=A0 * INDIO_BUFFER_FLAG_FIXED_WATERMARK - Watermark level of the
-> > buffer can not be
-> > @@ -39,6 +43,13 @@ struct iio_buffer;
-> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device stop=
-s sampling. Calles are balanced
-> > with @enable.
-> > =C2=A0 * @release:		called when the last reference to the
-> > buffer is dropped,
-> > =C2=A0 *			should free all resources allocated by the
-> > buffer.
-> > + * @attach_dmabuf:	called from userspace via ioctl to attach
-> > one external
-> > + *			DMABUF.
-> > + * @detach_dmabuf:	called from userspace via ioctl to detach
-> > one previously
-> > + *			attached DMABUF.
-> > + * @enqueue_dmabuf:	called from userspace via ioctl to queue
-> > this DMABUF
-> > + *			object to this buffer. Requires a valid
-> > DMABUF fd, that
-> > + *			was previouly attached to this buffer.
->=20
-> Missing docs for lock_queue() and unlock_queue()
->=20
-> Kernel-doc must be complete or bots are going to moan at us :(
->=20
-> > =C2=A0 * @modes:		Supported operating modes by this buffer
-> > type
-> > =C2=A0 * @flags:		A bitmask combination of
-> > INDIO_BUFFER_FLAG_*
-> > =C2=A0 *
-> > @@ -68,6 +79,17 @@ struct iio_buffer_access_funcs {
-> > =C2=A0
-> > =C2=A0	void (*release)(struct iio_buffer *buffer);
-> > =C2=A0
-> > +	struct iio_dma_buffer_block * (*attach_dmabuf)(struct
-> > iio_buffer *buffer,
-> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct
-> > dma_buf_attachment *attach);
-> > +	void (*detach_dmabuf)(struct iio_buffer *buffer,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dma_buffer_block *block);
-> > +	int (*enqueue_dmabuf)(struct iio_buffer *buffer,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dma_buffer_block *block,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence *fence, struct
-> > sg_table *sgt,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t size, bool cyclic);
-> > +	void (*lock_queue)(struct iio_buffer *buffer);
-> > +	void (*unlock_queue)(struct iio_buffer *buffer);
-> > +
->=20
->=20
+All errors (new ones prefixed by >>):
 
+   drivers/staging/media/rkvdec2/rkvdec2-h264.c: In function 'rkvdec2_write_regs':
+>> drivers/staging/media/rkvdec2/rkvdec2-h264.c:563:9: error: implicit declaration of function '__iowrite32_copy_full'; did you mean '__iowrite32_copy'? [-Werror=implicit-function-declaration]
+     563 |         __iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_REGS,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         __iowrite32_copy
+   cc1: some warnings being treated as errors
+
+
+vim +563 drivers/staging/media/rkvdec2/rkvdec2-h264.c
+
+   557	
+   558	static void rkvdec2_write_regs(struct rkvdec2_ctx *ctx)
+   559	{
+   560		struct rkvdec2_dev *rkvdec = ctx->dev;
+   561		struct rkvdec2_h264_ctx *h264_ctx = ctx->priv;
+   562	
+ > 563		__iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_REGS,
+   564				      &h264_ctx->regs.common,
+   565				      sizeof(h264_ctx->regs.common));
+   566		__iowrite32_copy_full(rkvdec->regs + OFFSET_CODEC_PARAMS_REGS,
+   567				      &h264_ctx->regs.h264_param,
+   568				      sizeof(h264_ctx->regs.h264_param));
+   569		__iowrite32_copy_full(rkvdec->regs + OFFSET_COMMON_ADDR_REGS,
+   570				      &h264_ctx->regs.common_addr,
+   571				      sizeof(h264_ctx->regs.common_addr));
+   572		__iowrite32_copy_full(rkvdec->regs + OFFSET_CODEC_ADDR_REGS,
+   573				      &h264_ctx->regs.h264_addr,
+   574				      sizeof(h264_ctx->regs.h264_addr));
+   575		__iowrite32_copy_full(rkvdec->regs + OFFSET_POC_HIGHBIT_REGS,
+   576				      &h264_ctx->regs.h264_highpoc,
+   577				      sizeof(h264_ctx->regs.h264_highpoc));
+   578	}
+   579	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
