@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-13346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483CC90A0C3
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 01:14:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6A590A0C4
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 01:14:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A20D4281FB7
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 23:14:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC3C61C20F4F
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 23:14:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6FD173537;
-	Sun, 16 Jun 2024 23:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F8CC757EA;
+	Sun, 16 Jun 2024 23:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AJJ5XmXT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kSZGoPTQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266707347C
-	for <linux-media@vger.kernel.org>; Sun, 16 Jun 2024 23:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C757345A
+	for <linux-media@vger.kernel.org>; Sun, 16 Jun 2024 23:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718579663; cv=none; b=a4P0lrGUwKRoDro9qndpZplhDE30lEEol3DF50DNlNDh8hvepPnWLReboCr9uCm37gZF1PSpqGYuUXcrqQmNZqhxsULFtsl0wiiJqMvgaFXP2xUDIsEMjoeFuzGhik5PiT2v3zcRwczLkVsGfCIOP6NCcB5ljQjNes2rgA6r8fU=
+	t=1718579663; cv=none; b=hA5SYoYh3sgASQLwOpzfge2R2dtdaOcpZiy6rnFZEo3SvMJM+B62edMthmO20Rtc8Mr4s8mbY3w6ikNjHO5IxnA6lKQCEXs6sE47FkYH0vcZDr4x4TcAdTJy8Amd0lw4VuyHRpvko+ADIqvKOs9qqVMfWk2ZGKLFOBMq04FoCbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718579663; c=relaxed/simple;
-	bh=Fs5XjOWtP7BoJyan1KSozNGL/hGPvlGlUKtZyLNTy34=;
+	bh=ty92+51p503s5GdOukIwOXXvA3Ib9qMnJPk9CxE/ZAM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kNgFZVitVwDMe13VN9op2DiVWYELPMzENa3tJJey8E3DJ+UjHhjlsVbzTEmpG9uc/AdPNWQlnaOBQeDnXmOVtSuj5rJTxCI6GGlgzupl9ZHyxf6OhMO8f+hnjiDVpTyVoJ288s0uJiy+gxnQ+lxQkl9G82oIcnVmMvR6W6Exb7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AJJ5XmXT; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=uZsslLkz+a1KAYGWh7gS4sCRY0tvmKyUPd+ottQbdLdi96wCijWKGZKD+mHFjyvdzXsRMGnzdrTbW7IDKJlBvggZykG8SfP7WNb/ry4urrFoOJsSxpZXRvA/vFm/kBB3NTd+XxPKOpgn4lh3gbkWt4mJNIZkDG9lzw4NUeAUnjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kSZGoPTQ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E0CF5A9A;
-	Mon, 17 Jun 2024 01:14:02 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE4162D5;
+	Mon, 17 Jun 2024 01:14:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718579643;
-	bh=Fs5XjOWtP7BoJyan1KSozNGL/hGPvlGlUKtZyLNTy34=;
+	s=mail; t=1718579644;
+	bh=ty92+51p503s5GdOukIwOXXvA3Ib9qMnJPk9CxE/ZAM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AJJ5XmXTnfm7hKCBSrKkfI8wffSPOgyJ/rmaeZ+uTTUWj4Sy7EOkiFwurJ+X9F1xB
-	 OZU5HLcjTQSAEYsabnymx6PEzVWY36VrLsIF7HTjFTuqpirQyP6BmopQjkLfCY5YZa
-	 dw9rydKY9Yx8Ni+0V2XrqoBFUee1GOwMQszjlPXE=
+	b=kSZGoPTQhoc4cHm924Mf+JHeJ48gtCR0UYwD2oal5QVGtzmo3hkimyVk0auq2Oq1c
+	 nNVGa8tk950tzK4FzhFCXLglJnvqifFauKs8FHEIkAk3xMN+Rb4MDiBo2a4NIWXLiG
+	 KActar7Mrv6tKummN+kA/J7b8rjIA1FFkcfN9m08=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Ricardo Ribalda <ribalda@chromium.org>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCH v3 5/6] media: uvcvideo: Remove PLF device quirking
-Date: Mon, 17 Jun 2024 02:13:49 +0300
-Message-ID: <20240616231350.6787-6-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 6/6] media: uvcvideo: Remove mappings form uvc_device_info
+Date: Mon, 17 Jun 2024 02:13:50 +0300
+Message-ID: <20240616231350.6787-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240616231350.6787-1-laurent.pinchart@ideasonboard.com>
 References: <20240616231350.6787-1-laurent.pinchart@ideasonboard.com>
@@ -61,224 +61,67 @@ Content-Transfer-Encoding: 8bit
 
 From: Ricardo Ribalda <ribalda@chromium.org>
 
-We can use heuristics to figure out the proper range of the control
-instead of quirking every single device.
+We do not have any quirk device making us of this. Remove from now. It
+can be easily reverted later if needed.
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c   |   4 +-
- drivers/media/usb/uvc/uvc_driver.c | 131 -----------------------------
- drivers/media/usb/uvc/uvcvideo.h   |   2 -
- 3 files changed, 2 insertions(+), 135 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 27 +--------------------------
+ drivers/media/usb/uvc/uvcvideo.h |  1 -
+ 2 files changed, 1 insertion(+), 27 deletions(-)
 
 diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index bd5d8aed385d..e2452ba62939 100644
+index e2452ba62939..9a78baaf927b 100644
 --- a/drivers/media/usb/uvc/uvc_ctrl.c
 +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -459,7 +459,7 @@ static void uvc_ctrl_set_rel_speed(struct uvc_control_mapping *mapping,
- 	data[first+1] = min_t(int, abs(value), 0xff);
- }
+@@ -2669,32 +2669,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 	if (!ctrl->initialized)
+ 		return;
  
--const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
-+static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
- 	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
- 	.entity		= UVC_GUID_UVC_PROCESSING,
- 	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-@@ -471,7 +471,7 @@ const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
- 				  V4L2_CID_POWER_LINE_FREQUENCY_50HZ),
- };
- 
--const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
-+static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
- 	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
- 	.entity		= UVC_GUID_UVC_PROCESSING,
- 	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index cafafe0c625a..3fb48889d1ec 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2400,20 +2400,6 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-  * Driver initialization and cleanup
-  */
- 
--static const struct uvc_device_info uvc_ctrl_power_line_limited = {
--	.mappings = (const struct uvc_control_mapping *[]) {
--		&uvc_ctrl_power_line_mapping_limited,
--		NULL, /* Sentinel */
--	},
--};
+-	/*
+-	 * First check if the device provides a custom mapping for this control,
+-	 * used to override standard mappings for non-conformant devices. Don't
+-	 * process standard mappings if a custom mapping is found. This
+-	 * mechanism doesn't support combining standard and custom mappings for
+-	 * a single control.
+-	 */
+-	if (chain->dev->info->mappings) {
+-		bool custom = false;
 -
--static const struct uvc_device_info uvc_ctrl_power_line_uvc11 = {
--	.mappings = (const struct uvc_control_mapping *[]) {
--		&uvc_ctrl_power_line_mapping_uvc11,
--		NULL, /* Sentinel */
--	},
--};
+-		for (i = 0; chain->dev->info->mappings[i]; ++i) {
+-			const struct uvc_control_mapping *mapping =
+-				chain->dev->info->mappings[i];
 -
- static const struct uvc_device_info uvc_quirk_probe_minmax = {
- 	.quirks = UVC_QUIRK_PROBE_MINMAX,
- };
-@@ -2444,33 +2430,6 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
-  * though they are compliant.
-  */
- static const struct usb_device_id uvc_ids[] = {
--	/* Quanta USB2.0 HD UVC Webcam */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x0408,
--	  .idProduct		= 0x3090,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
--	/* Quanta USB2.0 HD UVC Webcam */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x0408,
--	  .idProduct		= 0x4030,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
--	/* Quanta USB2.0 HD UVC Webcam */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x0408,
--	  .idProduct		= 0x4034,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
- 	/* LogiLink Wireless Webcam */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
-@@ -2637,42 +2596,6 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_RESTRICT_FRAME_RATE) },
--	/* Chicony EasyCamera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x04f2,
--	  .idProduct		= 0xb5eb,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
--	/* Chicony Electronics Co., Ltd Integrated Camera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x04f2,
--	  .idProduct		= 0xb67c,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
--	/* Chicony EasyCamera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x04f2,
--	  .idProduct		= 0xb6ba,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
--	/* Chicony EasyCamera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x04f2,
--	  .idProduct		= 0xb746,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
- 	/* Alcor Micro AU3820 (Future Boy PC USB Webcam) */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
-@@ -3057,15 +2980,6 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
--	/* SunplusIT Inc HD Camera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x2b7e,
--	  .idProduct		= 0xb752,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
- 	/* Insta360 Link */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
-@@ -3075,51 +2989,6 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_DISABLE_AUTOSUSPEND) },
--	/* Lenovo Integrated Camera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x30c9,
--	  .idProduct		= 0x0093,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
--	/* Sonix Technology USB 2.0 Camera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x3277,
--	  .idProduct		= 0x0072,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
--	/* Shine-Optics Integrated Camera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x3277,
--	  .idProduct		= 0x009e,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
--	/* Acer EasyCamera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x5986,
--	  .idProduct		= 0x1172,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
--	/* Acer EasyCamera */
--	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
--				| USB_DEVICE_ID_MATCH_INT_INFO,
--	  .idVendor		= 0x5986,
--	  .idProduct		= 0x1180,
--	  .bInterfaceClass	= USB_CLASS_VIDEO,
--	  .bInterfaceSubClass	= 1,
--	  .bInterfaceProtocol	= 0,
--	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
- 	/* Intel D410/ASR depth camera */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
+-			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+-			    ctrl->info.selector == mapping->selector) {
+-				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+-				custom = true;
+-			}
+-		}
+-
+-		if (custom)
+-			return;
+-	}
+-
+-	/* Process common mappings next. */
++	/* Process common mappings. */
+ 	for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
+ 		const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
+ 
 diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 93b421918d3b..da3c38922ebd 100644
+index da3c38922ebd..d21d83a6d7a4 100644
 --- a/drivers/media/usb/uvc/uvcvideo.h
 +++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -756,8 +756,6 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags);
- void uvc_status_stop(struct uvc_device *dev);
+@@ -530,7 +530,6 @@ struct uvc_device_info {
+ 	u32	quirks;
+ 	u32	meta_format;
+ 	u16	uvc_version;
+-	const struct uvc_control_mapping **mappings;
+ };
  
- /* Controls */
--extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited;
--extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11;
- extern const struct v4l2_subscribed_event_ops uvc_ctrl_sub_ev_ops;
- 
- int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+ struct uvc_status_streaming {
 -- 
 Regards,
 
