@@ -1,433 +1,215 @@
-Return-Path: <linux-media+bounces-13330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE65909FAD
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 22:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E8B909FBD
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 22:38:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 17559B21D81
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 20:25:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 341A3B21785
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 20:38:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 408FB73441;
-	Sun, 16 Jun 2024 20:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B5960269;
+	Sun, 16 Jun 2024 20:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i7UeJRx+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XrbWQfKW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C50B6D1BB;
-	Sun, 16 Jun 2024 20:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724384503A;
+	Sun, 16 Jun 2024 20:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718569501; cv=none; b=lnp7GzAZ4KQdtD8L3kRrF5rAq89Jlmgzmb2XHtUGSXsrce49DZtRpgxTmM9d3HNVRExCJGknQJn5GC037ljWyF+08bRMaWW3dIpmsf3Od0l6RVokpRCWvZzfxWxCvwGBoQ/Vsathl1NY/45MmFVDX/raAbNXW7+W8VHpLjKFqLM=
+	t=1718570312; cv=none; b=do442u5Xn19ZQl8PRzj2jByl/wtoCTzPyZYooclJ0agr8HT/qTpfxIQScXdwl0u6Nc4nbpF2UU/sSCgyBUUF1uheRw29efUhvCH2VhNxiVwTFiKehlTOppjEq4qdRzcZSAMn5e4uLjxeHRRkYqb1Ki/hVoNcY0hP/eNxGk5dhas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718569501; c=relaxed/simple;
-	bh=yPwbdOw+ixK61962ZVIIEP1xu2W+P6b/jkqpagr2ueE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SYOWMhHGaiUiYxkDb5e1fsdpA0Rl9i7jbpjq9gL9jtN96EnJv88GHKAjcfP6hn9XUb5j+xA+x6NkLMWLyat4s/UmX9nGtTq9aN7Duj0pEeg1oyw6oVNTqiRGyTIriPNftOaMOQI1FmsnFoTArZtj/KPY8hG+ORyDJxhzkM3oUgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i7UeJRx+; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52c85a7f834so4874824e87.0;
-        Sun, 16 Jun 2024 13:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718569497; x=1719174297; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IBGE8babRVzQ5cBRLMslnofZrYMp6gzkLk3PF9MoAr4=;
-        b=i7UeJRx+N3U6F3EEde0WBVTGpqQl+MyOt+T6V1Sp/7yO9haLGBasrVDb0w4z7S+YTi
-         J5q+jpYHzWHOZixL6nS8E3GWeHLxRRB38tyEve1U2k7vbqarA7pqWyy1oFZfU2Wph7X7
-         DuNESOkDakk+jozuuG2iYCps4kaQWKo1EdAGNnwV+8AKBtVp62ARoqumItmxJ0d3igMy
-         X5vyatXz61htU/d2CDnZKydeYNwAy9fdrB3KGrjC+xqIPgYTkK18P2BwYk4/RfmS+yVp
-         GH/vMXGrugujSWiAjXHMzY95Z5q9jrqDkaT3YJ5a/gtxKg419Yr6AVSo12gcgpjTFD8r
-         0m0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718569497; x=1719174297;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IBGE8babRVzQ5cBRLMslnofZrYMp6gzkLk3PF9MoAr4=;
-        b=LfezUMqeqdNP0ZfsDPzwbprL0vUwjtW/f7PS3uTyeEv3axdd1j42tK7Ynf41ya7u2n
-         uUJruQg12Zff6/Il1x5SkUmcZkpc5Hwt2Nfn8FaJgf9x9Z5CLz+hgLFh7YeSStt+TBOl
-         ubnSHrrNphhzS2UxKGRcFCdeTmpvZ5uO70S3kqiDaG2S0lFwICZ4hBO+MVGHm1TX8OfB
-         2JNsqoiwWsP57PHF6qn7LCQCpEnVK7PVh7/L/OQ4YYuwseFgeF25jQYkVHWgB3pArpXY
-         Xk7LJZOZhglDQ/iWq3s/IgPafCS/TjV/PiDvuPRORdpwn1KuZGno49ZvrlXXysylzy72
-         v0OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXM8IC/4PLS1y2mfytER5x0N8air96jB5mYTNCtgkdWOGMvkxdB3N2HUBcY/KHvbCQS1a6bzqF98DzyKFhSDnvi0+xQjPXJfYFixAOw
-X-Gm-Message-State: AOJu0YwiziDrhnzQvXo1/fEHOjkW1x9wOptUkMiWzfd0JeftzrzNiVrr
-	2dpId1ZK3H04/6nj6Z7mtx2tacrW0ZMzif+oIBHtYXU1dH8ak8Z++4bh9F87
-X-Google-Smtp-Source: AGHT+IFySM1CE9QUtIORFDNXG09MjYy2/j1wj+yRJF1SknqKhkED+6ZVizH3s2B1MsGJ9zyu20yvtA==
-X-Received: by 2002:a19:6912:0:b0:52c:99c9:bef6 with SMTP id 2adb3069b0e04-52ca6e5639fmr4680376e87.7.1718569496769;
-        Sun, 16 Jun 2024 13:24:56 -0700 (PDT)
-Received: from localhost (95-24-152-217.broadband.corbina.ru. [95.24.152.217])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca282ee54sm1060043e87.73.2024.06.16.13.24.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jun 2024 13:24:55 -0700 (PDT)
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>
-Subject: [PATCH 4/4] media: i2c: ov4689: Implement 2x2 binning
-Date: Sun, 16 Jun 2024 23:24:33 +0300
-Message-ID: <20240616202433.227895-5-mike.rudenko@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240616202433.227895-1-mike.rudenko@gmail.com>
-References: <20240616202433.227895-1-mike.rudenko@gmail.com>
+	s=arc-20240116; t=1718570312; c=relaxed/simple;
+	bh=9eVdpnryx4quXlWRY+B3jp2hmH7bA33RckewPEOrq+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X3jVoBNLAZ/rXDYvDYV4OeA56lRVYDi8oSkXxe59R5Qt/ZyQ2wC2ljkOAZAakTmtIiYkDXQnNUvJh7uK1D7Czm/ZVn74GEfxcnoi5HYVPe1ty/BHA/SPbpwCuxbme9PFqg0zJ1+xASJqxej+Uijgin2RgHB4nGxYtajVVo4LeyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XrbWQfKW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE52D669;
+	Sun, 16 Jun 2024 22:38:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718570291;
+	bh=9eVdpnryx4quXlWRY+B3jp2hmH7bA33RckewPEOrq+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XrbWQfKWzmcUvyQhQhIPT9/NFnL+73sv4z7/+lOWY0/kMppIn6ELsaGDTzQA8QDBR
+	 FUJEcBG5n6rrVEPEXAR7+AeYAP11e4bUr3DCcmqrY0MwhpNyJYbyVa69Zr5clG+CVH
+	 pFA2VyM2n5lKtMrx8PGU2dd293Kv2rpFQmAdzSGY=
+Date: Sun, 16 Jun 2024 23:38:07 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, nayden.kanchev@arm.com,
+	robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v5 05/16] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <20240616203807.GB10964@pendragon.ideasonboard.com>
+References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+ <20240529152858.183799-6-dan.scally@ideasonboard.com>
+ <20240530001507.GG10586@pendragon.ideasonboard.com>
+ <20240530214348.GA5213@pendragon.ideasonboard.com>
+ <ygr7rhp23gjc4ywmcdy7d5coh4wubxlvkdxcvwgdpk4j343pnd@h4if5jtz7mop>
+ <20240606175306.GB26663@pendragon.ideasonboard.com>
+ <afe76b3c-8e75-4c70-bcc2-9ee5f57d70b7@ideasonboard.com>
+ <ZmVKANYj7uD3IFmy@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZmVKANYj7uD3IFmy@valkosipuli.retiisi.eu>
 
-Implement 2x2 binning support. Compute best binning mode (none or 2x2)
-from pad crop and pad format in ov4689_set_fmt. Use output frame size
-instead of analogue crop to compute control ranges and BLC anchors.
+On Sun, Jun 09, 2024 at 06:21:52AM +0000, Sakari Ailus wrote:
+> On Thu, Jun 06, 2024 at 10:10:14PM +0300, Tomi Valkeinen wrote:
+> > On 06/06/2024 20:53, Laurent Pinchart wrote:
+> > > > > > > +			return -EINVAL;
+> > > > > > > +		}
+> > > > > > > +
+> > > > > > > +		active_sink = route->sink_pad;
+> > > > > > > +	}
+> > > > > > > +	if (active_sink == UINT_MAX) {
+> > > > > > > +		dev_err(rzr->mali_c55->dev, "One route has to be active");
+> > > > > > > +		return -EINVAL;
+> > > > > > > +	}
+> > > > >
+> > > > > The recommended handling of invalid routing is to adjust the routing
+> > > > > table, not to return errors.
+> > > >
+> > > > How should I adjust it ? The error here is due to the fact multiple
+> > > > routes are set as active, which one should I make active ? the first
+> > > > one ? Should I go and reset the flags in the subdev_route for the one
+> > > > that has to be made non-active ?
+> > >
+> > > The same way you would adjust an invalid format, you can pick the route
+> > > you consider should be the default.
+> > > 
+> > > I'd like Sakari's and Tomi's opinions on this, as it's a new API and the
+> > > behaviour is still a bit in flux.
+> > 
+> > Well... My opinion is that the driver adjusting the given config parameters
+> > (for any ioctl) is awful and should be deprecated. If the user asks for X,
+> > and the driver adjusts it and returns Y, then the user has two options:
+> > fail, because it didn't get X (after possibly laborious field by field
+> > checks), or shrug it's virtual shoulders and accept Y and hope that things
+> > still work even though it wanted X.
+> 
+> This is still often the only way to tell what the hardware can do as the
+> limitations in different cases (cropping and scaling for instance) can be
+> arbitrary. The other option is that the user space has to know the hardware
+> capabilities without them being available from the kernel.
 
-Also move ov4689_hts_min and ov4689_update_ctrl_ranges, since they are
-now also called from ov4689_set_fmt. Update frame timings to
-accommodate the requirements of binning mode and avoid visual
-artefacts. Additionally, report 2x2 binned mode in addition to
-non-binned one in ov4689_enum_frame_sizes.
+For some parameters that make sense (we don't have a try mechanism for
+ISP parameters buffers for instance), but when it comes to configuring a
+pipeline, I think a parameters adjustment model is needed when we don't
+have means to expose constraints in a generic way to userspace. The
+question is in which category routing falls.
 
-Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
----
- drivers/media/i2c/ov4689.c | 179 ++++++++++++++++++++++++-------------
- 1 file changed, 117 insertions(+), 62 deletions(-)
+> There could be cases of IOCTLs where returning an error if what was
+> requested can't be performed exactly is workable in general, but then again
+> having consistency across IOCTL behaviour is very beneficial as well.
+> 
+> If you need something exactly, then I think you should check after the
+> IOCTL that this is what you also got, beyond the IOCTL succeeding.
 
-diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-index c4c7c462672a..1499fbe88b76 100644
---- a/drivers/media/i2c/ov4689.c
-+++ b/drivers/media/i2c/ov4689.c
-@@ -114,7 +114,7 @@
-  * Minimum working vertical blanking value. Found experimentally at
-  * minimum HTS values.
-  */
--#define OV4689_VBLANK_MIN		31
-+#define OV4689_VBLANK_MIN		35
- 
- static const char *const ov4689_supply_names[] = {
- 	"avdd", /* Analog power */
-@@ -256,6 +256,18 @@ static const struct cci_reg_sequence ov4689_common_regs[] = {
- 	{ CCI_REG8(0x5503), 0x0f }, /* OTP_DPC_END_L otp_end_address[7:0] = 0x0f */
- };
- 
-+static const struct cci_reg_sequence ov4689_2x2_binning_regs[] = {
-+	{ CCI_REG8(0x3632), 0x05 }, /* ADC */
-+	{ CCI_REG8(0x376b), 0x40 }, /* Sensor control */
-+	{ CCI_REG8(0x3814), 0x03 }, /* H_INC_ODD */
-+	{ CCI_REG8(0x3821), 0x07 }, /* TIMING_FORMAT_2 hor_binning = 1*/
-+	{ CCI_REG8(0x382a), 0x03 }, /* V_INC_ODD */
-+	{ CCI_REG8(0x3830), 0x08 }, /* BLC_NUM_OPTION blc_use_num_2 = 1 */
-+	{ CCI_REG8(0x3836), 0x02 }, /* TIMING_REG_36 r_zline_use_num_2 = 1 */
-+	{ CCI_REG8(0x4001), 0x50 }, /* BLC DEBUG MODE */
-+	{ CCI_REG8(0x4502), 0x44 }, /* ADC synch control*/
-+};
-+
- static const u64 link_freq_menu_items[] = { 504000000 };
- 
- static const char *const ov4689_test_pattern_menu[] = {
-@@ -305,18 +317,85 @@ static const struct ov4689_gain_range ov4689_gain_ranges[] = {
- 	},
- };
- 
-+/*
-+ * For now, only 2x2 binning implemented in this driver.
-+ */
-+static void ov4689_best_binning(struct ov4689 *ov4689,
-+				const struct v4l2_mbus_framefmt *format,
-+				const struct v4l2_rect *crop,
-+				unsigned int *binning)
-+{
-+	const struct v4l2_area candidates[] = {
-+		{ crop->width, crop->height },
-+		{ crop->width / 2, crop->height / 2 },
-+	};
-+
-+	const struct v4l2_area *best;
-+	int index;
-+
-+	best = v4l2_find_nearest_size(candidates, ARRAY_SIZE(candidates), width,
-+				      height, format->width, format->height);
-+	index = best - candidates;
-+	*binning = index + 1;
-+
-+	dev_dbg(ov4689->dev,
-+		"best_binning: crop=%dx%d format=%dx%d binning=%d\n",
-+		crop->width, crop->height, format->width, format->height,
-+		*binning);
-+}
-+
-+/*
-+ * Minimum working HTS value for given output width (found
-+ * experimentally).
-+ */
-+static unsigned int ov4689_hts_min(unsigned int width)
-+{
-+	return max_t(unsigned int, 3156, 224 + width * 19 / 16);
-+}
-+
-+static void ov4689_update_ctrl_ranges(struct ov4689 *ov4689, unsigned int width,
-+				      unsigned int height)
-+{
-+	struct v4l2_ctrl *exposure = ov4689->exposure;
-+	struct v4l2_ctrl *vblank = ov4689->vblank;
-+	struct v4l2_ctrl *hblank = ov4689->hblank;
-+	s64 def_val, min_val, max_val;
-+
-+	min_val = ov4689_hts_min(width) - width;
-+	max_val = OV4689_HTS_MAX - width;
-+	def_val = clamp_t(s64, hblank->default_value, min_val, max_val);
-+	__v4l2_ctrl_modify_range(hblank, min_val, max_val, hblank->step,
-+				 def_val);
-+
-+	min_val = OV4689_VBLANK_MIN;
-+	max_val = OV4689_HTS_MAX - width;
-+	def_val = clamp_t(s64, vblank->default_value, min_val, max_val);
-+	__v4l2_ctrl_modify_range(vblank, min_val, max_val, vblank->step,
-+				 def_val);
-+
-+	min_val = exposure->minimum;
-+	max_val = height + vblank->val - 4;
-+	def_val = clamp_t(s64, exposure->default_value, min_val, max_val);
-+	__v4l2_ctrl_modify_range(exposure, min_val, max_val, exposure->step,
-+				 def_val);
-+}
-+
- static int ov4689_set_fmt(struct v4l2_subdev *sd,
- 			  struct v4l2_subdev_state *sd_state,
- 			  struct v4l2_subdev_format *fmt)
- {
-+	struct ov4689 *ov4689 = to_ov4689(sd);
- 	struct v4l2_mbus_framefmt *format;
- 	struct v4l2_rect *crop;
-+	unsigned int binning;
- 
- 	crop = v4l2_subdev_state_get_crop(sd_state, fmt->pad);
- 	format = v4l2_subdev_state_get_format(sd_state, fmt->pad);
- 
--	format->width = crop->width;
--	format->height = crop->height;
-+	ov4689_best_binning(ov4689, &fmt->format, crop, &binning);
-+
-+	format->width = crop->width / binning;
-+	format->height = crop->height / binning;
- 
- 	format->code = MEDIA_BUS_FMT_SBGGR10_1X10;
- 	format->field = V4L2_FIELD_NONE;
-@@ -327,6 +406,9 @@ static int ov4689_set_fmt(struct v4l2_subdev *sd,
- 
- 	fmt->format = *format;
- 
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		ov4689_update_ctrl_ranges(ov4689, format->width, format->height);
-+
- 	return 0;
- }
- 
-@@ -346,8 +428,9 @@ static int ov4689_enum_frame_sizes(struct v4l2_subdev *sd,
- 				   struct v4l2_subdev_frame_size_enum *fse)
- {
- 	const struct v4l2_rect *crop;
-+	int binning;
- 
--	if (fse->index >= 1)
-+	if (fse->index >= 2)
- 		return -EINVAL;
- 
- 	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
-@@ -355,10 +438,11 @@ static int ov4689_enum_frame_sizes(struct v4l2_subdev *sd,
- 
- 	crop = v4l2_subdev_state_get_crop(sd_state, 0);
- 
--	fse->min_width = crop->width;
--	fse->max_width = crop->width;
--	fse->max_height = crop->height;
--	fse->min_height = crop->height;
-+	binning = fse->index + 1;
-+	fse->min_width = crop->width / binning;
-+	fse->max_width = crop->width / binning;
-+	fse->max_height = crop->height / binning;
-+	fse->min_height = crop->height / binning;
- 
- 	return 0;
- }
-@@ -398,42 +482,6 @@ static int ov4689_get_selection(struct v4l2_subdev *sd,
- 	return -EINVAL;
- }
- 
--/*
-- * Minimum working HTS value for given output width (found
-- * experimentally).
-- */
--static unsigned int ov4689_hts_min(unsigned int width)
--{
--	return max_t(unsigned int, 3156, 224 + width * 19 / 16);
--}
--
--static void ov4689_update_ctrl_ranges(struct ov4689 *ov4689,
--				      struct v4l2_rect *crop)
--{
--	struct v4l2_ctrl *exposure = ov4689->exposure;
--	struct v4l2_ctrl *vblank = ov4689->vblank;
--	struct v4l2_ctrl *hblank = ov4689->hblank;
--	s64 def_val, min_val, max_val;
--
--	min_val = ov4689_hts_min(crop->width) - crop->width;
--	max_val = OV4689_HTS_MAX - crop->width;
--	def_val = clamp_t(s64, hblank->default_value, min_val, max_val);
--	__v4l2_ctrl_modify_range(hblank, min_val, max_val, hblank->step,
--				 def_val);
--
--	min_val = OV4689_VBLANK_MIN;
--	max_val = OV4689_HTS_MAX - crop->width;
--	def_val = clamp_t(s64, vblank->default_value, min_val, max_val);
--	__v4l2_ctrl_modify_range(vblank, min_val, max_val, vblank->step,
--				 def_val);
--
--	min_val = exposure->minimum;
--	max_val = crop->height + vblank->val - 4;
--	def_val = clamp_t(s64, exposure->default_value, min_val, max_val);
--	__v4l2_ctrl_modify_range(exposure, min_val, max_val, exposure->step,
--				 def_val);
--}
--
- static int ov4689_set_selection(struct v4l2_subdev *sd,
- 				struct v4l2_subdev_state *state,
- 				struct v4l2_subdev_selection *sel)
-@@ -470,7 +518,8 @@ static int ov4689_set_selection(struct v4l2_subdev *sd,
- 		format->height = rect.height;
- 
- 		if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
--			ov4689_update_ctrl_ranges(ov4689, &rect);
-+			ov4689_update_ctrl_ranges(ov4689, rect.width,
-+						  rect.height);
- 	}
- 
- 	*crop = rect;
-@@ -485,21 +534,25 @@ static int ov4689_setup_timings(struct ov4689 *ov4689,
- 	const struct v4l2_mbus_framefmt *format;
- 	struct regmap *rm = ov4689->regmap;
- 	const struct v4l2_rect *crop;
-+	const int v_offset = 2;
-+	unsigned int binning;
- 	int ret = 0;
- 
- 	format = v4l2_subdev_state_get_format(state, 0);
- 	crop = v4l2_subdev_state_get_crop(state, 0);
- 
-+	ov4689_best_binning(ov4689, format, crop, &binning);
-+
- 	cci_write(rm, OV4689_REG_H_CROP_START, crop->left, &ret);
--	cci_write(rm, OV4689_REG_V_CROP_START, crop->top, &ret);
--	cci_write(rm, OV4689_REG_H_CROP_END, crop->left + crop->width + 1, &ret);
--	cci_write(rm, OV4689_REG_V_CROP_END, crop->top + crop->height + 1, &ret);
-+	cci_write(rm, OV4689_REG_V_CROP_START, crop->top - v_offset, &ret);
-+	cci_write(rm, OV4689_REG_H_CROP_END, crop->left + crop->width + 3, &ret);
-+	cci_write(rm, OV4689_REG_V_CROP_END, crop->top + crop->height + 7, &ret);
- 
- 	cci_write(rm, OV4689_REG_H_OUTPUT_SIZE, format->width, &ret);
- 	cci_write(rm, OV4689_REG_V_OUTPUT_SIZE, format->height, &ret);
- 
- 	cci_write(rm, OV4689_REG_H_WIN_OFF, 0, &ret);
--	cci_write(rm, OV4689_REG_V_WIN_OFF, 0, &ret);
-+	cci_write(rm, OV4689_REG_V_WIN_OFF, v_offset, &ret);
- 
- 	/*
- 	 * Maximum working value of vfifo_read_start for given output
-@@ -507,6 +560,10 @@ static int ov4689_setup_timings(struct ov4689 *ov4689,
- 	 */
- 	cci_write(rm, OV4689_REG_VFIFO_CTRL_01, format->width / 16 - 1, &ret);
- 
-+	if (binning == 2)
-+		cci_multi_reg_write(ov4689->regmap, ov4689_2x2_binning_regs,
-+				    ARRAY_SIZE(ov4689_2x2_binning_regs),
-+				    &ret);
- 	return ret;
- }
- 
-@@ -519,20 +576,20 @@ static int ov4689_setup_blc_anchors(struct ov4689 *ov4689,
- 				    struct v4l2_subdev_state *state)
- {
- 	unsigned int width_def = OV4689_H_OUTPUT_SIZE_DEFAULT;
-+	const struct v4l2_mbus_framefmt *format;
- 	struct regmap *rm = ov4689->regmap;
--	const struct v4l2_rect *crop;
- 	int ret = 0;
- 
--	crop = v4l2_subdev_state_get_crop(state, 0);
-+	format = v4l2_subdev_state_get_format(state, 0);
- 
- 	cci_write(rm, OV4689_REG_ANCHOR_LEFT_START,
--		  OV4689_ANCHOR_LEFT_START_DEF * crop->width / width_def, &ret);
-+		  OV4689_ANCHOR_LEFT_START_DEF * format->width / width_def, &ret);
- 	cci_write(rm, OV4689_REG_ANCHOR_LEFT_END,
--		  OV4689_ANCHOR_LEFT_END_DEF * crop->width / width_def, &ret);
-+		  OV4689_ANCHOR_LEFT_END_DEF * format->width / width_def, &ret);
- 	cci_write(rm, OV4689_REG_ANCHOR_RIGHT_START,
--		  OV4689_ANCHOR_RIGHT_START_DEF * crop->width / width_def, &ret);
-+		  OV4689_ANCHOR_RIGHT_START_DEF * format->width / width_def, &ret);
- 	cci_write(rm, OV4689_REG_ANCHOR_RIGHT_END,
--		  OV4689_ANCHOR_RIGHT_END_DEF * crop->width / width_def, &ret);
-+		  OV4689_ANCHOR_RIGHT_END_DEF * format->width / width_def, &ret);
- 
- 	return ret;
- }
-@@ -749,19 +806,19 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct regmap *regmap = ov4689->regmap;
- 	struct v4l2_subdev_state *sd_state;
- 	struct device *dev = ov4689->dev;
--	struct v4l2_rect *crop;
-+	struct v4l2_mbus_framefmt *fmt;
- 	s64 max_expo, def_expo;
- 	int sensor_gain = 0;
- 	int ret = 0;
- 
- 	sd_state = v4l2_subdev_get_locked_active_state(&ov4689->subdev);
--	crop = v4l2_subdev_state_get_crop(sd_state, 0);
-+	fmt = v4l2_subdev_state_get_format(sd_state, 0);
- 
- 	/* Propagate change of current control to all related controls */
- 	switch (ctrl->id) {
- 	case V4L2_CID_VBLANK:
- 		/* Update max exposure while meeting expected vblanking */
--		max_expo = crop->height + ctrl->val - 4;
-+		max_expo = fmt->height + ctrl->val - 4;
- 		def_expo = clamp_t(s64, ov4689->exposure->default_value,
- 				   ov4689->exposure->minimum, max_expo);
- 
-@@ -785,16 +842,14 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
- 		cci_write(regmap, OV4689_REG_GAIN, sensor_gain, &ret);
- 		break;
- 	case V4L2_CID_VBLANK:
--		cci_write(regmap, OV4689_REG_VTS,
--			  ctrl->val + crop->height, &ret);
-+		cci_write(regmap, OV4689_REG_VTS, ctrl->val + fmt->height, &ret);
- 		break;
- 	case V4L2_CID_TEST_PATTERN:
- 		ret = ov4689_enable_test_pattern(ov4689, ctrl->val);
- 		break;
- 	case V4L2_CID_HBLANK:
- 		cci_write(regmap, OV4689_REG_HTS,
--			  (ctrl->val + crop->width) /
--			  OV4689_HTS_DIVIDER, &ret);
-+			  (ctrl->val + fmt->width) / OV4689_HTS_DIVIDER, &ret);
- 		break;
- 	case V4L2_CID_VFLIP:
- 		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT1,
+I do agree with Tomi that this kind of check can be annoying for
+applications. In cases where checking the result would be complex, and
+where there is very little use case for receiving anything but the exact
+configuration you asked for, adjusting the parameters could increase the
+implementation complexity on both the kernel side and userspace side for
+no or very little benefit.
+
+> > But maybe that was an answer to a question you didn't really ask =).
+> > 
+> > I think setting it to default routing in case of an error is as fine as any
+> > other "fix" for the routing. It won't work anyway.
+> > 
+> > But if the function sets default routing and returns 0 here, why would it
+> > return an error from v4l2_subdev_routing_validate()? Should it just set
+> > default routing in that case too? So should set_routing() ever return an
+> > error, if we can just set the default routing?
+
+That's a good point. I asked myself the same question after sending my
+previous e-mail, and wondered if anyone else would notice too :-)
+
+> S_ROUTING is a bit special as it deals with multiple routes and the user
+> space does have a way to add them incrementally.
+> 
+> Perhaps we should document better what the driver is expected to to correct
+> the routes?
+
+We should document the expected behaviour clearly. After agreeing on the
+expected behaviour, that is.
+
+> I'd think routes may be added by the driver (as some of them cannot be
+> disabled for instance) but if a requested route cannot be created, that
+> should probably be an error.
+> 
+> I've copied my current (with all the pending patches) documentation here
+> <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/streams-doc/userspace-api/media/v4l/dev-subdev.html#streams-multiplexed-media-pads-and-internal-routing>.
+>
+> The text does not elaborate what exactly a driver could or should do, apart
+> from specifying the condition for EINVAL. I think we should specify this in
+
+I don't see mentions of EINVAL related to streams there, am I missing
+something ?
+
+> greater detail. My original thought wws the adjustment would be done by
+> adding static routes omitted by the caller, not trying to come up with e.g.
+> valid pad/stream pairs when user provided invalid ones.
+> 
+> Could this correction functionality be limited to returning static routes?
+
+That would make userspace a tad simpler, and wouldn't be hard to do in
+the kernel, but I wonder if departing from the rule that invalid routing
+tables result in an error is worth it for such a small gain.
+
+> > In the VIDIOC_SUBDEV_S_ROUTING doc we do list some cases where EINVAL or
+> > E2BIG is returned. But only a few, and I think
+> > v4l2_subdev_routing_validate() will return errors for many other cases too.
+> > 
+> > For what it's worth, the drivers I have written just return an error. It's
+> > simple for the driver and the user and works. If the consensus is that the
+> > drivers should instead set the default routing, or somehow mangle the given
+> > routing to an acceptable form, I can update those drivers accordingly.
+> > 
+> > But we probably need to update the docs too to be a bit more clear what
+> > VIDIOC_SUBDEV_S_ROUTING will do (although are the other ioctls any
+> > clearer?).
+> > 
+> > All that said, I think it's still a bit case-by-case. I don't think the
+> > drivers should always return an error if they get a routing table that's not
+> > 100% perfect. E.g. if a device supports two static routes, but the second
+> > one can be enabled or disabled, the driver should still accept a routing
+> > table from the user with only the first route present. Etc.
+> > 
+> > For the specific case in this patch... I'd prefer returning an error, or if
+> > that's not ok, set default routing.
+> 
+> Not modifying the routing table is another option as well but it may
+> require separating validating user-provided routes and applying the routes
+
+I'm not sure to follow you here. By not modifying the routing table, do
+you mean returning an error ? Why would that require separation of
+validation and configuration ?
+
+> to the sub-device state. The default could be useful in principle, too, for
+> routing-unaware applications but they won't be calling S_ROUTING anyway.
+
 -- 
-2.45.2
+Regards,
 
+Laurent Pinchart
 
