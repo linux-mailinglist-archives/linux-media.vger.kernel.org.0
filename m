@@ -1,216 +1,113 @@
-Return-Path: <linux-media+bounces-13325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13326-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F79909F8D
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 21:39:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7217909FA5
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 22:25:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2010C1C21D75
-	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 19:39:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5169A2829AB
+	for <lists+linux-media@lfdr.de>; Sun, 16 Jun 2024 20:25:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF13E4D13F;
-	Sun, 16 Jun 2024 19:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E23954660;
+	Sun, 16 Jun 2024 20:24:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OtG5ggWs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1LT5TGH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920BC1B27D;
-	Sun, 16 Jun 2024 19:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64037171B0;
+	Sun, 16 Jun 2024 20:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718566768; cv=none; b=H0F0D75yshUBtsa8Yv+cUzc5WMvZlteA//oiV8Ykllz/ld+jMwRSFJxdHSnyvpdR2mVZcwfxs8Rp6s1AiPUsDY9FhuIH30xQ1qIs1PlhqkQjIIK4fGw0Wnhv6UtLeGR7NfXS/NdUhSXDqDUGq6N3HXRS0aFblp6jxXA8TkENdXU=
+	t=1718569492; cv=none; b=ON9uRgjm5jrzTrlB56wYdGzqkYcqJu42TJNIa+urGGubMFBpS1uq571OoK0fVvVDFFNyWerc4Ps4VT+iZVHDA+YAZnu6hVfA/wqNjvnxMv/Y3FlLMYYubdcvigivC8x6/SDdkUeWwECR+bFvZs9Gd7Vd/l6fuLR8FKIp5/ZVnZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718566768; c=relaxed/simple;
-	bh=2m/5QEYEdi3O2P0lDiY6WGoFB3JhPXaqvMmDWs7BEM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BmsdDkprye5XgorQ/KIs1SIbXxiMbSQRH7Qnym2c/gaiao7hjYJYMLWyzBzec2EhMYbEFo89SnpFWFRgIpMawuXGKW/xMgJ2cvPldVNfpgbgQreYL/3rv5iAU821GiwsyJTEx1ymZ7/zNWBZSuaAVDWw8B3XoC1sYqB0ZHTlTYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OtG5ggWs; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18E87581;
-	Sun, 16 Jun 2024 21:39:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718566746;
-	bh=2m/5QEYEdi3O2P0lDiY6WGoFB3JhPXaqvMmDWs7BEM4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OtG5ggWssiTD1gFqEW5n26A6SEoHLnJfcmad0MJQk8g9sppZs0GAXidcRI+7r4eTG
-	 44E3KU2z7O4/IDptuFAmoFvoLaa/J22pyeOZxrYvRoPl6p7dlQoukzxd9XqDLpObW5
-	 KICHF2CT/dcD5cKwo0tiO6pz9dYgGFVVbezN7tw0=
-Date: Sun, 16 Jun 2024 22:39:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dan Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	sakari.ailus@iki.fi
-Subject: Re: [PATCH v5 05/16] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <20240616193901.GA10964@pendragon.ideasonboard.com>
-References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
- <20240529152858.183799-6-dan.scally@ideasonboard.com>
- <20240530001507.GG10586@pendragon.ideasonboard.com>
- <6d0be0cf-ff77-4943-8505-f78ad922e3fb@ideasonboard.com>
+	s=arc-20240116; t=1718569492; c=relaxed/simple;
+	bh=oNuaO1jo3KinBiiB0xSizdpx2brD0fHVwhlbtoXMEp0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lqA4SoFtc7rUh3yzqx/VuUugXsjpKyctUfnwVrCc5gv62ko5QUdK2J6vnOmXUoJ9veaaQ3Ze7tq7ZKqnDFjB3YKQ+lCRrlcUm17QyxISI+RS0jM1WAqIqeqM5tgzkDx+iylZ1kRX1hcrCSdaV/7RcVt6RRsHUCzbyUTEi2Llqlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1LT5TGH; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52c85a7f834so4874742e87.0;
+        Sun, 16 Jun 2024 13:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718569489; x=1719174289; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WHVMomGHcSIp/epje/wT1wza3Ec47qxEB33XDVvopA0=;
+        b=k1LT5TGHodb3ozO8Tyiy7YfCZetzcYYpbDN+Ged+S7kb1A76X3rou9UzQpouVquV/U
+         aLqp+stTcH99FaCDwXjRoTUeryyU7MxJcW4/U1i/zWozNeDmL1qY8hOkqTBxY5vjpKw9
+         Jtk8H7kC54LTBRYpW+6drhYZOgLy3FRHtWS06HOJvqq6oyRKfHeOIw2BI/xPoarnQ6bK
+         DCzA5fOuk3vuzulzf47Ak2E68nSLqSXE4BYmUkZ+79vV/aBYcq2oJ8UspJzLykLDy0k7
+         469vn2xjGKgkCuB+Npr0elXU6N2fCLfi3LnoC26nm0NVZIJuKLbsX0/heUjK07b4kZOT
+         DKAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718569489; x=1719174289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WHVMomGHcSIp/epje/wT1wza3Ec47qxEB33XDVvopA0=;
+        b=fdu6wlP1ced487jmIg7pFVDgLME3OkOAsZQSH9i8Pt2Dy1W7SALqr88+6gHA3AKW3/
+         T2T78KFoIU5mTVfTPFBVVY7lXVEGo41szw9dgz/4Ibho/FNdQJa0IwLPDuFeqmy4afAQ
+         5XK4p0y+WN4ikg5H0jx7//3c/mElIYFA/PETM1Rr+fm2n8VyDGi/fNlCwJVoRhaVBJJz
+         iRab/xXsefcLkLFM/zxMIZ3hdfVklVaIz5tNxJzskizOJQtROU/DLG/YhKCFF/KQ2YwW
+         Y8OnjX6C36Hmv6o3NsxKRgwV/6q34j21JjVjQK0U/ayTZA5n0mdeB6vYzbqJmo8mxx/j
+         tSgg==
+X-Forwarded-Encrypted: i=1; AJvYcCWE2sO0zqCQyCgJFXDGt8Sxopa7S0/vGYs/2JJQx8aWmcJeg8Go7nznrwOeE/2PLLPSLYBe2+7J5ciYQhxrwsltODbnXEIB1cZVAA2E
+X-Gm-Message-State: AOJu0Yz0WeY5n4hYreayuhGHbnw2VAZL8yXRXIETtDSS1DLHGU54+2hw
+	jZwKaTTmjDVJMrQI5n53Yhyca2OWjNDF0bvFkUCWnkrtFlIW2kLm9HaHcvLb
+X-Google-Smtp-Source: AGHT+IEqpLSg09ZjCQsKqhFp0zYgRb/L5DnUeDl0q6jbFoQUfKQ1iUS8cLtF4HS/+ELyURKuxSYWLQ==
+X-Received: by 2002:a05:6512:3298:b0:52b:84bd:345e with SMTP id 2adb3069b0e04-52ca6e90a9dmr5718182e87.43.1718569487433;
+        Sun, 16 Jun 2024 13:24:47 -0700 (PDT)
+Received: from localhost (95-24-152-217.broadband.corbina.ru. [95.24.152.217])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ca2888595sm1081618e87.284.2024.06.16.13.24.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jun 2024 13:24:47 -0700 (PDT)
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>
+Subject: [PATCH 0/4] Omnivision OV4689 cropping and binning
+Date: Sun, 16 Jun 2024 23:24:29 +0300
+Message-ID: <20240616202433.227895-1-mike.rudenko@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6d0be0cf-ff77-4943-8505-f78ad922e3fb@ideasonboard.com>
 
-Hi Dan,
+This small series consists of patches 17-20 from [1], which were
+requested to merged separately later. No significant changes have been
+made since and the R-b's are kept.
 
-On Fri, Jun 14, 2024 at 11:13:29AM +0100, Daniel Scally wrote:
-> On 30/05/2024 01:15, Laurent Pinchart wrote:
-> > On Wed, May 29, 2024 at 04:28:47PM +0100, Daniel Scally wrote:
-> >> Add a driver for Arm's Mali-C55 Image Signal Processor. The driver is
-> >> V4L2 and Media Controller compliant and creates subdevices to manage
-> >> the ISP itself, its internal test pattern generator as well as the
-> >> crop, scaler and output format functionality for each of its two
-> >> output devices.
-> >>
-> >> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
-> >> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> >> ---
-> >> Changes in v5:
-> >>
-> >> 	- Reworked input formats - previously we allowed representing input data
-> >> 	  as any 8-16 bit format. Now we only allow input data to be represented
-> >> 	  by the new 20-bit bayer formats, which is corrected to the equivalent
-> >> 	  16-bit format in RAW bypass mode.
-> >> 	- Stopped bypassing blocks that we haven't added supporting parameters
-> >> 	  for yet.
-> >> 	- Addressed most of Sakari's comments from the list
-> >>
-> >> Changes not yet made in v5:
-> >>
-> >> 	- The output pipelines can still be started and stopped independently of
-> >> 	  one another - I'd like to discuss that more.
-> >> 	- the TPG subdev still uses .s_stream() - I need to rebase onto a tree
-> >> 	  with working .enable_streams() for a single-source-pad subdevice.
-> >>
-> >> Changes in v4:
-> >>
-> >> 	- Reworked mali_c55_update_bits() to internally perform the bit-shift
-> >
-> > I really don't like that, it makes the code very confusing, even more so
-> > as it differs from regmap_update_bits().
-> >
-> > Look at this for instance:
-> >
-> > 	mali_c55_update_bits(mali_c55, MALI_C55_REG_MCU_CONFIG,
-> > 			     MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK,
-> > 			     MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK);
-> >
-> > It only works by change because MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK is
-> > BIT(0).
-> >
-> > Sorry, I know it will be painful, but this change needs to be reverted.
-> 
-> I'd like to argue for keeping this, on the grounds that it's better. I got lazy in the change you 
-> reference there, and because BIT(0) is the same as 0x01 didn't bother changing it. I agree that 
-> that's confusing but I think it would be better to keep the change and just update all the call 
-> sites properly. The benefits as I see them are two:
-> 
-> 
-> 1. This method ensures sane consistent calling of the function. Without the internal shift you have 
-> to shift the values at the call site, but there's no reason to do that if the value you're setting 
-> is 0x00 or if the field you're targeting in the register starts at bit 0, so I think writing code 
-> naturally we'd have a mix of situations like so:
-> 
-> 
-> #define REG_1 0xfc00
-> 
-> #define REG_2 0xff
-> 
-> mali_c55_update_bits(mali_c55, 0x1234, REG_1, 0x02 << 10);
-> 
-> mali_c55_update_bits(mali_c55, 0x1234, REG_1, 0x00);
-> 
-> mali_c55_update_bits(mali_c55, 0x1234, REG_2, 0x02);
->
-> And I think that the mixture is more confusing than the difference with regmap_update_bits(). We 
-> could include the bitshifting for consistencies sake despite it being unecessary, but it's extra 
-> work for no real reason and itself "looks wrong" if the field starts at bit(0)...it would look less 
-> wrong with an offset macro that defines the number of bits to shift as 0 but then we're on to 
-> advantage #2...
-> 
-> 2. It makes the driver far cleaner. Without it we either have magic numbers scattered throughout 
-> (and sometimes have to calculate them with extra variables where the write can target different 
-> places conditionally) or have macros defining the number of bits to shift, or have to do (ffs(mask) 
-> - 1) everywhere, and that tends to make the call sites a lot messier - this was the original reason 
-> I moved it internal actually.
-> 
-> What do you think?
+Patch 1 implements configurable analogue crop rectangle via
+.set_selection callback. Patches 2 and 3 are refactorings and are not
+supposed to introduce any functional change. Patch 4 enables 2x2
+binning option.
 
-All register values (possibly with the exception of 0) should have
-macros. The callers will thus not need to perform shifts manually, they
-will all be handled in the register fields macros. From a caller point
-of view, not handling the shifts inside mali_c55_update_bits() will not
-make a difference.
+[1] https://lore.kernel.org/all/20240402164552.19171-1-mike.rudenko@gmail.com/
 
-It's the first time I notice a driver trying to shift internally in its
-update_bits function. I think that's really confusing, especially given
-that it departs from how regmap operates. I still strongly favour
-handling the shifts in the register macros.
+Mikhail Rudenko (4):
+  media: i2c: ov4689: Configurable analogue crop
+  media: i2c: ov4689: Eliminate struct ov4689_mode
+  media: i2c: ov4689: Refactor ov4689_s_stream
+  media: i2c: ov4689: Implement 2x2 binning
 
-> >> 	- Reworked the resizer to allow cropping during streaming
-> >> 	- Fixed a bug in NV12 output
-> >>
-> >> Changes in v3:
-> >>
-> >> 	- Mostly minor fixes suggested by Sakari
-> >> 	- Fixed the sequencing of vb2 buffers to be synchronised across the two
-> >> 	  capture devices.
-> >>
-> >> Changes in v2:
-> >>
-> >> 	- Clock handling
-> >> 	- Fixed the warnings raised by the kernel test robot
-> >>
-> >>   drivers/media/platform/Kconfig                |   1 +
-> >>   drivers/media/platform/Makefile               |   1 +
-> >>   drivers/media/platform/arm/Kconfig            |   5 +
-> >>   drivers/media/platform/arm/Makefile           |   2 +
-> >>   drivers/media/platform/arm/mali-c55/Kconfig   |  18 +
-> >>   drivers/media/platform/arm/mali-c55/Makefile  |   9 +
-> >>   .../platform/arm/mali-c55/mali-c55-capture.c  | 951 ++++++++++++++++++
-> >>   .../platform/arm/mali-c55/mali-c55-common.h   | 266 +++++
-> >>   .../platform/arm/mali-c55/mali-c55-core.c     | 767 ++++++++++++++
-> >>   .../platform/arm/mali-c55/mali-c55-isp.c      | 611 +++++++++++
-> >>   .../arm/mali-c55/mali-c55-registers.h         | 258 +++++
-> >>   .../arm/mali-c55/mali-c55-resizer-coefs.h     | 382 +++++++
-> >>   .../platform/arm/mali-c55/mali-c55-resizer.c  | 779 ++++++++++++++
-> >>   .../platform/arm/mali-c55/mali-c55-tpg.c      | 402 ++++++++
-> >>   14 files changed, 4452 insertions(+)
-> >>   create mode 100644 drivers/media/platform/arm/Kconfig
-> >>   create mode 100644 drivers/media/platform/arm/Makefile
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/Kconfig
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/Makefile
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-common.h
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer-coefs.h
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
-> >>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
+ drivers/media/i2c/ov4689.c | 483 +++++++++++++++++++++++++------------
+ 1 file changed, 328 insertions(+), 155 deletions(-)
 
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+--
+2.45.2
 
