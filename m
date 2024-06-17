@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-13410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47EF290AB0D
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 12:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E58D90AB1E
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 12:33:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ABB0FB35029
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:55:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2716EB303C3
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7405197500;
-	Mon, 17 Jun 2024 09:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 755FA161320;
+	Mon, 17 Jun 2024 09:57:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA6E19306B
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7DF1922D3
+	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718617797; cv=none; b=sIf8AXu6JUkv5okFYmEUAQCWpIHdOadqages8mWZip715r4UM1Qu+uyI4HmInjSc99gfsSuKNep/9j04mJATFgGryHMM8CYH5N79f6Vf3bEOqGChJ9lXdjbxbhhLTtMbxiUZgD/LIE5mBwLxEPQsNahkY2AskCG/O8FfgSIfD50=
+	t=1718618243; cv=none; b=cWOF2oTZuPXVUUv/6CnuJb0J6ergxi0O47QZUv7YbT97GBZGAwD/NvrWqPj1FwV2GVXUkknHEZMPqRh3+7Lj/hz1Orz6uc+RbNxqUeGM6tgFb8VivOsrXIFf293daxszSZ54pUp7yhTMlE2AxgMSXUCd0XIrhqi3xAlvzvlorBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718617797; c=relaxed/simple;
-	bh=j1IlzpNex6/q6d6UqtsdqSqpz9J4hJYGm6SE+cQrQlU=;
+	s=arc-20240116; t=1718618243; c=relaxed/simple;
+	bh=iDqLfYP5HgHzW47RjEJEG0uPxtFSJFH7h42H/Ju33P4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LhYbjYd9EJd0I4PVinfT8oEFZIGE8TeiIUgZrV5e1maGhSUCER6u5EoJVlv1hPh8X9AaAKIbFdGEdAw2vYProYiBy6VFVoSwngnm7wwXbTZWLS96QTg5dr4Ve8PaQ3jlMHh1SQNmUcv86BhkGZOpC/kf17wDHWNNhKovM7FYJIE=
+	 In-Reply-To:Content-Type; b=t1hCTdlMnVhgX4/Blei8vQn4to5ySHY8v9JDqwRqEBH3dZ3qPJ6spIsJoRoNB4UV9qF55aqehQ653GoMuUPbnrVaUvbBUfagIHinA6jNlqJicyGPYwwIMhKqf06CEYZEkuVERyvRE+UJgUBMfBDnnrPLFzzT0boauiXKdzQNZV0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8283BC2BD10;
-	Mon, 17 Jun 2024 09:49:56 +0000 (UTC)
-Message-ID: <a7be89a1-3049-4513-bb58-e372138c7f81@xs4all.nl>
-Date: Mon, 17 Jun 2024 11:49:54 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED895C4AF1D;
+	Mon, 17 Jun 2024 09:57:21 +0000 (UTC)
+Message-ID: <20c3243e-9bd4-457a-9b1d-d6c65cf31a58@xs4all.nl>
+Date: Mon, 17 Jun 2024 11:57:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,12 +38,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 19/26] media: vimc: Release resources on media device
- release
+Subject: Re: [PATCH v4 22/26] media: mc: Maintain a list of open file handles
+ in a media device
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com
 References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-20-sakari.ailus@linux.intel.com>
+ <20240610100530.1107771-23-sakari.ailus@linux.intel.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -89,96 +89,126 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240610100530.1107771-20-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240610100530.1107771-23-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/06/2024 12:05, Sakari Ailus wrote:
-> Release all the resources when the media device is released, moving away
-> from the struct v4l2_device used for that purpose. This is done to
-> exemplify the use of the media device's release callback.
-> 
-> Switch to container_of_const(), too, while we're changing the code anyway.
+> The list of file handles is needed to deliver media events as well as for
+> other purposes in the future.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/test-drivers/vimc/vimc-core.c | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
+>  drivers/media/mc/mc-device.c  | 19 ++++++++++++++++++-
+>  drivers/media/mc/mc-devnode.c |  2 +-
+>  include/media/media-devnode.h |  4 +++-
+>  3 files changed, 22 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-> index af127476e920..3e59f8c256c7 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-core.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
-> @@ -264,13 +264,12 @@ static int vimc_add_subdevs(struct vimc_device *vimc)
+> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> index a9505ab4412d..46d1b0c9d8be 100644
+> --- a/drivers/media/mc/mc-device.c
+> +++ b/drivers/media/mc/mc-device.c
+> @@ -45,8 +45,9 @@ static inline void __user *media_get_uptr(__u64 arg)
+>  	return (void __user *)(uintptr_t)arg;
+>  }
+>  
+> -static int media_device_open(struct file *filp)
+> +static int media_device_open(struct media_devnode *devnode, struct file *filp)
+>  {
+> +	struct media_device *mdev = to_media_device(devnode);
+>  	struct media_device_fh *fh;
+>  
+>  	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
+> @@ -55,13 +56,23 @@ static int media_device_open(struct file *filp)
+>  
+>  	filp->private_data = &fh->fh;
+>  
+> +	spin_lock_irq(&mdev->fh_list_lock);
+> +	list_add(&fh->mdev_list, &mdev->fh_list);
+> +	spin_unlock_irq(&mdev->fh_list_lock);
+> +
 >  	return 0;
 >  }
 >  
-> -static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
-> +static void vimc_mdev_release(struct media_device *mdev)
+>  static int media_device_close(struct file *filp)
 >  {
->  	struct vimc_device *vimc =
-> -		container_of(v4l2_dev, struct vimc_device, v4l2_dev);
-> +		container_of_const(mdev, struct vimc_device, mdev);
+> +	struct media_devnode *devnode = media_devnode_data(filp);
+> +	struct media_device *mdev = to_media_device(devnode);
+>  	struct media_device_fh *fh = media_device_fh(filp);
+>  
+> +	spin_lock_irq(&mdev->fh_list_lock);
+> +	list_del(&fh->mdev_list);
+> +	spin_unlock_irq(&mdev->fh_list_lock);
+> +
+>  	kfree(fh);
+>  
+>  	return 0;
+> @@ -769,11 +780,13 @@ void media_device_init(struct media_device *mdev)
+>  	INIT_LIST_HEAD(&mdev->pads);
+>  	INIT_LIST_HEAD(&mdev->links);
+>  	INIT_LIST_HEAD(&mdev->entity_notify);
+> +	INIT_LIST_HEAD(&mdev->fh_list);
+>  
+>  	mutex_init(&mdev->req_queue_mutex);
+>  	mutex_init(&mdev->graph_mutex);
+>  	ida_init(&mdev->entity_internal_idx);
+>  	atomic_set(&mdev->request_id, 0);
+> +	spin_lock_init(&mdev->fh_list_lock);
+>  
+>  	mdev->devnode.release = media_device_release;
+>  	media_devnode_init(&mdev->devnode);
+> @@ -830,6 +843,10 @@ void media_device_unregister(struct media_device *mdev)
+>  	if (!media_devnode_is_registered(&mdev->devnode))
+>  		return;
+>  
+> +	spin_lock_irq(&mdev->fh_list_lock);
+> +	list_del_init(&mdev->fh_list);
+> +	spin_unlock_irq(&mdev->fh_list_lock);
 
-Please don't mix this in. It makes no sense here since vimc is never
-const. Such a change doesn't belong in this series. So just leave it
-at container_of and update the commit log.
+Huh? This doesn't make sense to me. Unregistering the media device
+makes no difference to the list of open filehandles.
 
-With that change you can add my:
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> +
+>  	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
+>  	dev_dbg(mdev->dev, "Media device unregistering\n");
+>  	media_devnode_unregister(&mdev->devnode);
+> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
+> index 26491daaba96..617156963911 100644
+> --- a/drivers/media/mc/mc-devnode.c
+> +++ b/drivers/media/mc/mc-devnode.c
+> @@ -154,7 +154,7 @@ static int media_open(struct inode *inode, struct file *filp)
+>  	get_device(&devnode->dev);
+>  	mutex_unlock(&media_devnode_lock);
+>  
+> -	ret = devnode->fops->open(filp);
+> +	ret = devnode->fops->open(devnode, filp);
+>  	if (ret) {
+>  		put_device(&devnode->dev);
+>  		return ret;
+> diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
+> index e4e8552598eb..898fa67ca090 100644
+> --- a/include/media/media-devnode.h
+> +++ b/include/media/media-devnode.h
+> @@ -21,6 +21,8 @@
+>  #include <linux/device.h>
+>  #include <linux/cdev.h>
+>  
+> +struct media_devnode;
+> +
+>  /*
+>   * Flag to mark the media_devnode struct as registered. Drivers must not touch
+>   * this flag directly, it will be set and cleared by media_devnode_register and
+> @@ -49,7 +51,7 @@ struct media_file_operations {
+>  	__poll_t (*poll) (struct file *, struct poll_table_struct *);
+>  	long (*ioctl) (struct file *, unsigned int, unsigned long);
+>  	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+> -	int (*open) (struct file *);
+> +	int (*open) (struct media_devnode *, struct file *);
+>  	int (*release) (struct file *);
+>  };
+>  
 
 Regards,
 
 	Hans
-
->  
->  	vimc_release_subdevs(vimc);
-> -	media_device_cleanup(&vimc->mdev);
->  	kfree(vimc->ent_devs);
->  	kfree(vimc);
->  }
-> @@ -336,6 +335,10 @@ static int vimc_register_devices(struct vimc_device *vimc)
->  	return ret;
->  }
->  
-> +static const struct media_device_ops vimc_mdev_ops = {
-> +	.release = vimc_mdev_release,
-> +};
-> +
->  static int vimc_probe(struct platform_device *pdev)
->  {
->  	const struct font_desc *font = find_font("VGA8x16");
-> @@ -369,12 +372,12 @@ static int vimc_probe(struct platform_device *pdev)
->  	snprintf(vimc->mdev.bus_info, sizeof(vimc->mdev.bus_info),
->  		 "platform:%s", VIMC_PDEV_NAME);
->  	vimc->mdev.dev = &pdev->dev;
-> +	vimc->mdev.ops = &vimc_mdev_ops;
->  	media_device_init(&vimc->mdev);
->  
->  	ret = vimc_register_devices(vimc);
->  	if (ret) {
-> -		media_device_cleanup(&vimc->mdev);
-> -		kfree(vimc);
-> +		media_device_put(&vimc->mdev);
->  		return ret;
->  	}
->  	/*
-> @@ -382,7 +385,6 @@ static int vimc_probe(struct platform_device *pdev)
->  	 * if the registration fails, we release directly from probe
->  	 */
->  
-> -	vimc->v4l2_dev.release = vimc_v4l2_dev_release;
->  	platform_set_drvdata(pdev, vimc);
->  	return 0;
->  }
-> @@ -397,6 +399,7 @@ static void vimc_remove(struct platform_device *pdev)
->  	media_device_unregister(&vimc->mdev);
->  	v4l2_device_unregister(&vimc->v4l2_dev);
->  	v4l2_device_put(&vimc->v4l2_dev);
-> +	media_device_put(&vimc->mdev);
->  }
->  
->  static void vimc_dev_release(struct device *dev)
-
 
