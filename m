@@ -1,199 +1,122 @@
-Return-Path: <linux-media+bounces-13406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13408-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192AB90AA3F
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 11:53:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C6D90AA4C
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 11:55:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19C0D1C23B04
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:53:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C33E51F20FA4
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:55:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D7C195995;
-	Mon, 17 Jun 2024 09:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5AF3196C92;
+	Mon, 17 Jun 2024 09:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mlpdwIUc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7519597E
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3194195FE2;
+	Mon, 17 Jun 2024 09:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718617471; cv=none; b=oq9u3y/Ky0o+6OR8Fsdy8dC8BoKGBUjoxpi+X2gfLoTysv7tstjcUNKvnTV8H79GS4aAHJRaEilFXvsMtFz0Uk4M8DmF/GxRdHT1OuxBLaqCh/6ZrhQwbjc/4UxeqUmgAb7YNEZfAZffORMQKyIhrq4/w4xuPiThyd8l//1FwZk=
+	t=1718617612; cv=none; b=u70Y7gsGnntYe6FVv7q905L+DO5kF6TA/JlqPH37rwMQibUabV+WCDRLKFKaqi+1ZOv9u3Ir4f+KXDoxPMZVM9qljenl6ldbCaRkiEph6kn+wyaHPJe/8T6x0R8QYkTMJcB1IX85/i6TY5+0nZirSefLyhwETU/tusNUL8dw3EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718617471; c=relaxed/simple;
-	bh=msRYWZkXlWe6h8V50kkriUN0Ooh5uojuI4T9uNhxM4w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CqCV1Xlq/c87pFHLdegKEvhuMeoeW0YJZT0Wz0BHdgj7h+g9oMHKhpvCiRbLF/TwJz7OkHinFqQWtdYDjGi7MfHzHZ8abiZyy4j66B+pKmDq92NohwTorvekyywE4pzlhhfxUl1AMZM7zyTW+8cLns98I+ZblLyjv1TuZMX2ohs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D521C4AF1A;
-	Mon, 17 Jun 2024 09:44:30 +0000 (UTC)
-Message-ID: <ef2f0fce-9f32-43a7-a61a-3fe88fe94461@xs4all.nl>
-Date: Mon, 17 Jun 2024 11:44:28 +0200
+	s=arc-20240116; t=1718617612; c=relaxed/simple;
+	bh=200rAfAzRy+STZSBANqXeDNoLGwsi5SU29OnGXdNjtg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=EcDI3yC60xoRzxJ1nJ/wcyrhl7RYiv3c22LfEBI88dWC6KbMRpFGnoGjOq1OwAsKGU1FstfycfIzjB4PRHkBUqRplWbSMTpjXp9aUAQLFqSV47rZFUyAYpoouYknsUqTd2nmcNNjcQc9EG3HdWaNe5RI1LgjF7ajQqw1QVky0So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mlpdwIUc; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57c714a1e24so4615929a12.2;
+        Mon, 17 Jun 2024 02:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718617609; x=1719222409; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NyP9XShbHHAL/4NU3Mfcaign9e+kGEJMKFWD0UA/5Ic=;
+        b=mlpdwIUcr0p9Li86bTv+U1fo3sVhjDAEKjtCnThTVz9gAKYvoS4+tAwxmIdoxgHRtO
+         HvoJosY0C8wJ2eAudsw2yWy6IbIFKm4FVI03k6TbYo6seY/IR2DZ3dCOWM+n+17iboxO
+         j/u/kJLD0lCLCrh27iEfM+j88dkPS/8Gcqgm5DNuKVo2QDofCk7JjwNc8JGnvUmTSmp1
+         J/X9XMxXJbGMiDTPGEwuyWalfebk2NvM7soZRow5vd6LZxBRc8bzz4Oj84vTYtihyVqo
+         1wv/RhZMStUinfe3RGqN9IX/PD8iODNKV9G63AITopn25o4s6292oLu4jUSwV7TmrcgJ
+         OW2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718617609; x=1719222409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NyP9XShbHHAL/4NU3Mfcaign9e+kGEJMKFWD0UA/5Ic=;
+        b=LKrNlt5mpUQ2pBts6Qn/UBAgx655FqlO+APfoR1EKP0X3AkcO2r77zUBuEioi5ItjY
+         EiHRgiFXDpidOTRKAAU4OKOY1r2olrxQAXKFDUuoNnDWacFIaOGZcj/NbSLeozGDPc/w
+         tzqTHSQcFuNfO3qGkhF9MhmOC2zu7DRxc2n8gl5gTcqW5E1UX7p/urzMwKhIyC79lloG
+         vGEbOEDrRjO0x/wKMjukiPeCu3lhmrZTAysYSZa6DesCzEtu2GkoZvl/S6eWs1aRTYy1
+         wQP7gaqUjmzsmdZ7LioGLTzQlzPbkhSe9e4RlGmU9rlxRLKc/233uhTjreCRjqigHzeF
+         r0FA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPo4CZOObFiG4RSywdzyr/2aS8aRwxNa5heOUT4dZA/lBabFHUn8IxFkyi5mDzUI70c+wx1GV7K0gNnZJhg5ph6msj8vs1Ysr8drCh1Yy8hyCrXtMlDnHLBNvEahAMK2SuQ73eNyfC
+X-Gm-Message-State: AOJu0YwtCUfQFxZGhMNiy90flISxrVf4QJQoZT552t/5ufG3GnIog4nY
+	S0kPhY/oN2U6QLPUSZqdbQed5IKmFxqpY/AfypC6zszH+CTO7o6h
+X-Google-Smtp-Source: AGHT+IHuEqticHK3dZxHG99692oY49qS0FvfDLBUXP4QW2Jls7nMHWex5KYvXNwoKK/dpz50MOgzag==
+X-Received: by 2002:a50:d596:0:b0:57c:6bd6:d8e2 with SMTP id 4fb4d7f45d1cf-57cbd4f6b9bmr6374154a12.0.1718617608759;
+        Mon, 17 Jun 2024 02:46:48 -0700 (PDT)
+Received: from localhost.lan (031011218106.poznan.vectranet.pl. [31.11.218.106])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb72da790sm6141318a12.35.2024.06.17.02.46.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 02:46:48 -0700 (PDT)
+From: =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Sean Wang <sean.wang@mediatek.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	linux-media@vger.kernel.org
+Subject: [PATCH 1/2] ARM: dts: mediatek: mt7623: fix IR nodename
+Date: Mon, 17 Jun 2024 11:46:33 +0200
+Message-Id: <20240617094634.23173-1-zajec5@gmail.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 16/26] media: mc: Postpone graph object removal until
- free
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com
-References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-17-sakari.ailus@linux.intel.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240610100530.1107771-17-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/06/2024 12:05, Sakari Ailus wrote:
-> The media device itself will be unregistered based on it being unbound and
-> driver's remove callback being called. The graph objects themselves may
-> still be in use; rely on the media device release callback to release
-> them.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+From: Rafał Miłecki <rafal@milecki.pl>
 
-Also please update to <hverkuil-cisco@xs4all.nl>.
+Fix following validation error:
+arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: cir@10013000: $nodename:0: 'cir@10013000' does not match '^ir(-receiver)?(@[a-f0-9]+)?$'
+        from schema $id: http://devicetree.org/schemas/media/mediatek,mt7622-cir.yaml#
 
-Thank you!
+Fixes: 91044f38dae7 ("arm: dts: mt7623: add ir nodes to the mt7623.dtsi file")
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+---
+ arch/arm/boot/dts/mediatek/mt7623.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	Hans
-
-> ---
->  drivers/media/mc/mc-device.c | 59 ++++++++++++++++--------------------
->  1 file changed, 26 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index bbc233e726d2..f1a88edb7573 100644
-> --- a/drivers/media/mc/mc-device.c
-> +++ b/drivers/media/mc/mc-device.c
-> @@ -702,8 +702,33 @@ EXPORT_SYMBOL_GPL(media_device_unregister_entity_notify);
->  
->  static void __media_device_release(struct media_device *mdev)
->  {
-> +	struct media_entity *entity;
-> +	struct media_entity *next;
-> +	struct media_interface *intf, *tmp_intf;
-> +	struct media_entity_notify *notify, *nextp;
-> +
->  	dev_dbg(mdev->dev, "Media device released\n");
->  
-> +	/* Remove all entities from the media device */
-> +	list_for_each_entry_safe(entity, next, &mdev->entities, graph_obj.list)
-> +		__media_device_unregister_entity(entity);
-> +
-> +	/* Remove all entity_notify callbacks from the media device */
-> +	list_for_each_entry_safe(notify, nextp, &mdev->entity_notify, list)
-> +		__media_device_unregister_entity_notify(mdev, notify);
-> +
-> +	/* Remove all interfaces from the media device */
-> +	list_for_each_entry_safe(intf, tmp_intf, &mdev->interfaces,
-> +				 graph_obj.list) {
-> +		/*
-> +		 * Unlink the interface, but don't free it here; the
-> +		 * module which created it is responsible for freeing
-> +		 * it
-> +		 */
-> +		__media_remove_intf_links(intf);
-> +		media_gobj_destroy(&intf->graph_obj);
-> +	}
-> +
->  	ida_destroy(&mdev->entity_internal_idx);
->  	mdev->entity_internal_idx_max = 0;
->  	media_graph_walk_cleanup(&mdev->pm_count_walk);
-> @@ -787,43 +812,11 @@ EXPORT_SYMBOL_GPL(__media_device_register);
->  
->  void media_device_unregister(struct media_device *mdev)
->  {
-> -	struct media_entity *entity;
-> -	struct media_entity *next;
-> -	struct media_interface *intf, *tmp_intf;
-> -	struct media_entity_notify *notify, *nextp;
-> -
->  	if (mdev == NULL)
->  		return;
->  
-> -	mutex_lock(&mdev->graph_mutex);
-> -
-> -	/* Check if mdev was ever registered at all */
-> -	if (!media_devnode_is_registered(&mdev->devnode)) {
-> -		mutex_unlock(&mdev->graph_mutex);
-> +	if (!media_devnode_is_registered(&mdev->devnode))
->  		return;
-> -	}
-> -
-> -	/* Remove all entities from the media device */
-> -	list_for_each_entry_safe(entity, next, &mdev->entities, graph_obj.list)
-> -		__media_device_unregister_entity(entity);
-> -
-> -	/* Remove all entity_notify callbacks from the media device */
-> -	list_for_each_entry_safe(notify, nextp, &mdev->entity_notify, list)
-> -		__media_device_unregister_entity_notify(mdev, notify);
-> -
-> -	/* Remove all interfaces from the media device */
-> -	list_for_each_entry_safe(intf, tmp_intf, &mdev->interfaces,
-> -				 graph_obj.list) {
-> -		/*
-> -		 * Unlink the interface, but don't free it here; the
-> -		 * module which created it is responsible for freeing
-> -		 * it
-> -		 */
-> -		__media_remove_intf_links(intf);
-> -		media_gobj_destroy(&intf->graph_obj);
-> -	}
-> -
-> -	mutex_unlock(&mdev->graph_mutex);
->  
->  	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
->  	dev_dbg(mdev->dev, "Media device unregistering\n");
+diff --git a/arch/arm/boot/dts/mediatek/mt7623.dtsi b/arch/arm/boot/dts/mediatek/mt7623.dtsi
+index f0b4a09004b3..9c5a52ce9351 100644
+--- a/arch/arm/boot/dts/mediatek/mt7623.dtsi
++++ b/arch/arm/boot/dts/mediatek/mt7623.dtsi
+@@ -308,7 +308,7 @@ pwrap: pwrap@1000d000 {
+ 		clock-names = "spi", "wrap";
+ 	};
+ 
+-	cir: cir@10013000 {
++	cir: ir-receiver@10013000 {
+ 		compatible = "mediatek,mt7623-cir";
+ 		reg = <0 0x10013000 0 0x1000>;
+ 		interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+-- 
+2.35.3
 
 
