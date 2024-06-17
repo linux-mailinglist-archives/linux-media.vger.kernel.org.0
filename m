@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-13403-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13404-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7818790A94C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 11:16:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 540E790AA2D
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 11:50:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E4D81F239A6
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:16:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 586FF1C23873
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:50:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 846901946B2;
-	Mon, 17 Jun 2024 09:14:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12B11194AD8;
+	Mon, 17 Jun 2024 09:39:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F264194158
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCF8194ACD
+	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718615640; cv=none; b=hbCP53qBEwUeOdMz1ezMRKkUSM3nfcj2HU25fX/j4bB8yw+j5Efa9HB0io0KrFeplcHrX1UTBhEzqRsjLHdRqfx0jThQtjpRQtCiRG0vX3IrbrjQkmepZ/ZxCsPbzzxilDlJE5FlKUArq8Iq2aPx2AD9/XBL0IVEPi+DPMFw2kc=
+	t=1718617183; cv=none; b=LCV5c0xKxXA4CClK01LespU9u4Chwj77ZPvTGSUHLt5X4T/K+ehYT6xp0ax7hTkUJuPLX8LUKXdk2qBn4IYfqmewgeoHq52fYuTSOjL2wEAhL9pHpz1cSgmo2ScVd7M5T2ZwC+Umownkycx/T/FOLnmh6lUCATLRj939zt/DHEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718615640; c=relaxed/simple;
-	bh=Iye274qWnwJHLXkx6zAlCVFs8HeLTe/s3le7NguK4tk=;
+	s=arc-20240116; t=1718617183; c=relaxed/simple;
+	bh=YlOHA6sCalipKOZvHZqeF3LAgPSwlXJdo3rmUXb774Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fXgWkGOf3y362gDdNiz5bOfyD1wxtxiQeo5qog4X0jdcegoRoc8PHue6TgQSMcL7EfYukCU6RDTUD4fJcT7QmhtNaq+rm+Tt/i9SUgj375sI804DkWSGmF4bhcwAkzrD9aQVbpJW2plbxWgi0yJNNpiMRE7eTuUQ3jwlSrTimQc=
+	 In-Reply-To:Content-Type; b=kEslI+3ta2Vu4/PqEn+9/l6TrI/zkJP9RuAQ5BOPBR7737eCQ1U9zUX8gtNDCkUt7e/w+qIxEScg9WQX5etsvvNPKQ1JW2IrBLisNBjpECyWm88eLzEsDh0VFwYskTCRLY69gdhRmTiuabrJzrVl+qoXOuwRR3j51iMZ6iEIaMc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD03C3277B;
-	Mon, 17 Jun 2024 09:13:58 +0000 (UTC)
-Message-ID: <f60178f3-2cc0-4f3a-b1ed-0e90d0d7ef60@xs4all.nl>
-Date: Mon, 17 Jun 2024 11:13:57 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F005C4AF1A;
+	Mon, 17 Jun 2024 09:39:42 +0000 (UTC)
+Message-ID: <10d4bdf9-e35f-4584-973c-07dab784f2bd@xs4all.nl>
+Date: Mon, 17 Jun 2024 11:39:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,12 +38,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/26] media: mc: Do not call cdev_device_del() if
- cdev_device_add() fails
+Subject: Re: [PATCH v4 15/26] media: v4l: Acquire a reference to the media
+ device for every video device
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com
 References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-9-sakari.ailus@linux.intel.com>
+ <20240610100530.1107771-16-sakari.ailus@linux.intel.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -89,49 +89,127 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240610100530.1107771-9-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240610100530.1107771-16-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/06/2024 12:05, Sakari Ailus wrote:
-> cdev_device_del() is the right function to remove a device when
-> cdev_device_add() succeeds. If it does not, however, put_device() needs to
-> be used instead. Fix this.
+> The video device depends on the existence of its media device --- if there
+> is one. Acquire a reference to it.
+> 
+> Note that when the media device release callback is used, then the V4L2
+> device release callback is ignored and a warning is issued if both are
+> set.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Hmm, this too is due to a revert patch (03/26) removing something that needs
-to be reinstated.
-
-Wouldn't it be better to fold this into 04/26, with a comment in the commit
-log of that commit?
-
-The problem with this commit log is that it suggests that it fixes a bug,
-when really it just corrects something introduced by a revert.
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 Regards,
 
 	Hans
 
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/media/mc/mc-devnode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/v4l2-core/v4l2-dev.c | 53 ++++++++++++++++++++----------
+>  1 file changed, 35 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-> index 2e33c2007f08..707593d127a7 100644
-> --- a/drivers/media/mc/mc-devnode.c
-> +++ b/drivers/media/mc/mc-devnode.c
-> @@ -252,9 +252,9 @@ int __must_check media_devnode_register(struct media_devnode *devnode,
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index be2ba7ca5de2..4bf4398fd2fe 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -176,6 +176,11 @@ static void v4l2_device_release(struct device *cd)
+>  {
+>  	struct video_device *vdev = to_video_device(cd);
+>  	struct v4l2_device *v4l2_dev = vdev->v4l2_dev;
+> +	bool v4l2_dev_call_release = v4l2_dev->release;
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	struct media_device *mdev = v4l2_dev->mdev;
+> +	bool mdev_has_release = mdev && mdev->ops && mdev->ops->release;
+> +#endif
 >  
->  cdev_add_error:
->  	mutex_lock(&media_devnode_lock);
-> -	cdev_device_del(&devnode->cdev, &devnode->dev);
->  	clear_bit(devnode->minor, media_devnode_nums);
->  	mutex_unlock(&media_devnode_lock);
-> +	put_device(&devnode->dev);
+>  	mutex_lock(&videodev_lock);
+>  	if (WARN_ON(video_devices[vdev->minor] != vdev)) {
+> @@ -198,8 +203,8 @@ static void v4l2_device_release(struct device *cd)
 >  
->  	return ret;
+>  	mutex_unlock(&videodev_lock);
+>  
+> -#if defined(CONFIG_MEDIA_CONTROLLER)
+> -	if (v4l2_dev->mdev && vdev->vfl_dir != VFL_DIR_M2M) {
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	if (mdev && vdev->vfl_dir != VFL_DIR_M2M) {
+>  		/* Remove interfaces and interface links */
+>  		media_devnode_remove(vdev->intf_devnode);
+>  		if (vdev->entity.function != MEDIA_ENT_F_UNKNOWN)
+> @@ -207,23 +212,28 @@ static void v4l2_device_release(struct device *cd)
+>  	}
+>  #endif
+>  
+> -	/* Do not call v4l2_device_put if there is no release callback set.
+> -	 * Drivers that have no v4l2_device release callback might free the
+> -	 * v4l2_dev instance in the video_device release callback below, so we
+> -	 * must perform this check here.
+> -	 *
+> -	 * TODO: In the long run all drivers that use v4l2_device should use the
+> -	 * v4l2_device release callback. This check will then be unnecessary.
+> -	 */
+> -	if (v4l2_dev->release == NULL)
+> -		v4l2_dev = NULL;
+> -
+>  	/* Release video_device and perform other
+>  	   cleanups as needed. */
+>  	vdev->release(vdev);
+>  
+> -	/* Decrease v4l2_device refcount */
+> -	if (v4l2_dev)
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	if (mdev)
+> +		media_device_put(mdev);
+> +
+> +	/*
+> +	 * Generally both struct media_device and struct v4l2_device are
+> +	 * embedded in the same driver's context struct so having a release
+> +	 * callback in both is a bug.
+> +	 */
+> +	if (WARN_ON(v4l2_dev_call_release && mdev_has_release))
+> +		v4l2_dev_call_release = false;
+> +#endif
+> +
+> +	/*
+> +	 * Decrease v4l2_device refcount, but only if the media device doesn't
+> +	 * have a release callback.
+> +	 */
+> +	if (v4l2_dev_call_release)
+>  		v4l2_device_put(v4l2_dev);
+>  }
+>  
+> @@ -795,11 +805,17 @@ static int video_register_media_controller(struct video_device *vdev)
+>  	u32 intf_type;
+>  	int ret;
+>  
+> -	/* Memory-to-memory devices are more complex and use
+> -	 * their own function to register its mc entities.
+> +	if (!vdev->v4l2_dev->mdev)
+> +		return 0;
+> +
+> +	/*
+> +	 * Memory-to-memory devices are more complex and use their own function
+> +	 * to register its mc entities.
+>  	 */
+> -	if (!vdev->v4l2_dev->mdev || vdev->vfl_dir == VFL_DIR_M2M)
+> +	if (vdev->vfl_dir == VFL_DIR_M2M) {
+> +		media_device_get(vdev->v4l2_dev->mdev);
+>  		return 0;
+> +	}
+>  
+>  	vdev->entity.obj_type = MEDIA_ENTITY_TYPE_VIDEO_DEVICE;
+>  	vdev->entity.function = MEDIA_ENT_F_UNKNOWN;
+> @@ -878,6 +894,7 @@ static int video_register_media_controller(struct video_device *vdev)
+>  
+>  	/* FIXME: how to create the other interface links? */
+>  
+> +	media_device_get(vdev->v4l2_dev->mdev);
+>  #endif
+>  	return 0;
 >  }
 
 
