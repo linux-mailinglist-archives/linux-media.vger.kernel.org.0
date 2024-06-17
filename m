@@ -1,149 +1,235 @@
-Return-Path: <linux-media+bounces-13438-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13439-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F95E90B1E8
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 16:28:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 636D890B1EE
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 16:28:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F11471C22DC9
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 14:28:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D98061F24D1F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 14:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46A3B1AD9C2;
-	Mon, 17 Jun 2024 13:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23C011AED36;
+	Mon, 17 Jun 2024 13:43:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PH+kglPm"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="S3HkmBr6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC90A1AC247;
-	Mon, 17 Jun 2024 13:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17C91AED24;
+	Mon, 17 Jun 2024 13:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718631744; cv=none; b=RfjjhFZVOtOd6voTF6HIlEs0tVuNu4DNF263aL68mXp9NKoP7Naw5sTtnazLgh5myfC7nCcq0g/Yp/phKGPKsl+EdYaq1iGmg5wM9ENf1TgVapBGzadofGhGqrvfNYZWKhIyGXd484VmGBTduSCyjHDvV5JwIJi4cWHVLL47azM=
+	t=1718631817; cv=none; b=NyF3nKvBeuImKxDxQgdwbI9gCwfTRYxJKazqwxWUs5NasgN0VYlqLlPmRt7LYlVrf3raWcd/MYGQHTRj0xPUjB7fpvJ+MuoBQC/oP1YR/LGqot6DUqadlgBiq2TdOXmPnw81Kr19BRe1nWBJilOiN7mn0myE8bW1pP7vPpQj1h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718631744; c=relaxed/simple;
-	bh=XybUM66pzGC133M0KdH1g4ly7r8A7aRbNbucQeFTvoc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XVJwPXDpo4cruv2WUbf9woXr/J8/1u/8dgFy6hrZt1Y9wwGd7cNwT1mWjBlDpBWR2WvV/8eD9j0NPtlY9DhaiganXQoK8tDZWv5zDRgkoc7bVt1z7L0+EiYW67N/0QQsrvkokFZt+Qi9GPMCFgBUvbvFN0ydL5fPrTejK9tKfic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PH+kglPm; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ec0f3b9bb8so28211021fa.1;
-        Mon, 17 Jun 2024 06:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718631741; x=1719236541; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lLq64Jy1y7qzLgBK9Is0sT9q7OKvIVCzHqdhb6LFXBE=;
-        b=PH+kglPmYmPRJdM1VACdOF/ZtV91wTm/HR5WjlXGN+4UsLQtOg4S2Im+ZXgjyWRQZE
-         QoG7gLHQIIHNi5FWP+EY24AL8ahgatYlEONYAKtuvl2Z01qpdx5l6MP1xUPfLj/iaw+z
-         T3EYF8ftty5zuLTidXsaF5GwhKd/VUR6YBnkF6Ent/YjnXuLKqkagOlw7vDTPRLb/CD/
-         4+2DXuxstxEdeeK/R6K5JKD+se3wlqeGa5Ks3VElvpe5UHxM+ngKEM7hlfuuZYygTf6V
-         gPCCFo/SVYdwuKsxs1jqFWZMX4DReWbWIUPyFKjaENy/Im89+xvCtNE4F3wjY6zDEHVZ
-         9GNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718631741; x=1719236541;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lLq64Jy1y7qzLgBK9Is0sT9q7OKvIVCzHqdhb6LFXBE=;
-        b=Smpn7pPN5JUEqj+nrQOwX9jiy7meyfYrj0uzOBtrxgDcB70BWDeMRmt0yVqQ5+UQaN
-         IKwxhdk6KEyWYZc+h4h9SOUrpvSPgggiz6Yj7NX2Xma+i98qBG2nbHI/6Fs6lMbjUoTA
-         xLSisZI57YqNgQLgkLbcPgEdfkHU4SDSXWoiwmMh7ehKb86aH3aJb6RgInaqyURxTjSo
-         Dw0oszm4AYY2RbjNMVZPqnQ8HSJY/CgH3rn3uawpk5j5oHik/k6yL1K8aCq5KFRqggvc
-         FunVP51Hxtv1c6mvjUJzS0brZuaptd4qLtF1/+2SWSC8xkSdb7gIwPx1S/5pFTzJ4Rbl
-         5DWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwCtEAUQP/OpgC5DwAG6tWlpZCOaeGZ5rA9rUn8Dag39pdmnt1T7mBOFeS3gPiTzBOSlZY56P9lbWqANISI6lqnD77CGlKYJyhIsSKXM84gsrQAVMpS7qLtBGfrrsoUwYoqDQYpdqaNBl6zRxeGbwabDC11NEnRv3YgJ72Wqsb9trBKqJhaqurpLwd5NbS5tBhxJ1/+8rd94aaZB/SfIsMBuxlFK+XosCaTdi3wNU0Ioml7RG+jY814LPCsmFm6/AXsORCOUU7pW9BqgRFUpD8MqvAm69GN6snTxG2tc56ydJY3Rt+ZOxlr5P3GadvWHO86Fji0e3CLBVeRXdm3rCD4fFRMuATOf1qnTJW14kJSnCxO3ldAwP4rVkKXFl1/GciJB7NjbdtInRbuWaaEDmamkuz7eXv3Sf0bSxehGIrJ1MqXpowkvrdtu2dPKfzRofePgiR4v6Qx3dQAsvUPC5W2+u7wynkpu4W5GrOPSamSt3u9yxar/JPHdT+9mMWBR/VMxyUQnCE21XaDb53Lm9EeFrRHpxF3OcQXLIxZYiYnavVL6skXDZg
-X-Gm-Message-State: AOJu0Yx17SlP6Qcm2/FmZNNXpbJQr5CSMMZqvLHRZE3bHLAe4iDj3j6Q
-	U4GRM9cLX2+SlbyS6ytnWLVU9fqwaLjh0Dwg+JjDio2rI7k9E8lC
-X-Google-Smtp-Source: AGHT+IGqHzJEUi1a7luh9jW8SHVbZk8TdcfnJo2RG3dm48EiRHLhDHgyG2l2mawW7oSV97i58gBdzA==
-X-Received: by 2002:a2e:a443:0:b0:2ec:1a8b:c380 with SMTP id 38308e7fff4ca-2ec1a8bc478mr51361181fa.45.1718631740813;
-        Mon, 17 Jun 2024 06:42:20 -0700 (PDT)
-Received: from [192.168.42.82] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb72ce12fsm6461432a12.7.2024.06.17.06.42.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 06:42:20 -0700 (PDT)
-Message-ID: <8bc8c6db-e25e-42ce-8cd2-be50b4a735e2@gmail.com>
-Date: Mon, 17 Jun 2024 14:42:21 +0100
+	s=arc-20240116; t=1718631817; c=relaxed/simple;
+	bh=wPdlMn4BkQJ1i+WvuHCmNwqJAwmoMMcYl971v9DomFs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qx4zdbnv2Qg8BSc21KFZfBUvdnlFrBtfowTfiQN0y+m4JuWbkv74F9xTwXYB5/q14HFL6RK66EwJPSS5UgdK7VOiM0U2TioNGxcYc+m8N7YGkLWmVrTD6VTIZgbXZehSzpel+IjPPkHcdiU+YdCsACFoD+ykculXWQuS1HIh0o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=S3HkmBr6; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718631814;
+	bh=wPdlMn4BkQJ1i+WvuHCmNwqJAwmoMMcYl971v9DomFs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=S3HkmBr6agUfW95p6IZ5XRCZ8SXGakexEfxerssqNteb6ERE+9IrPn+eIzXQ3pPwT
+	 QRQcBuxxe/IdVRooZRu4o6xbj88PsaPT0WRD7HzPGgSeFCnVoavP/DQJB7t8eKL9gP
+	 GEClxw+4Gn1LePmGb7jSe7RM4T09+hfsHST1NeqyQDdJOHvOdbpbP0LVG7K7j/DxS+
+	 gc2UJuy5w7VXuaOlPt+5WIvUXr4S97awQsFm5m1SjMBFPkxpnEP0rzHEhR5UPX99je
+	 f417DkkCcpc9mkI4RuDtBywU40yoThKahWTcPehbESaQIyfFwJhaHm4gPpQYvorx3E
+	 jb7T1pIkbGI/Q==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6CB9E3782121;
+	Mon, 17 Jun 2024 13:43:32 +0000 (UTC)
+Message-ID: <ec8e632a80a8d4ded6f692d92dff9f699881773e.camel@collabora.com>
+Subject: Re: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Diederik de Haas <didi.debian@cknow.org>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, Jonas Karlman <jonas@kwiboo.se>,  Andy
+ Yan <andyshrk@163.com>
+Cc: Alex Bee <knaerzche@gmail.com>, Benjamin Gaignard
+	 <benjamin.gaignard@collabora.com>, Sebastian Fricke
+	 <sebastian.fricke@collabora.com>, Christopher Obbard
+	 <chris.obbard@collabora.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Mon, 17 Jun 2024 09:43:29 -0400
+In-Reply-To: <122755518.lCnTqr06ca@bagend>
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+	 <122755518.lCnTqr06ca@bagend>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 04/13] netdev: netdevice devmem allocator
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240613013557.1169171-1-almasrymina@google.com>
- <20240613013557.1169171-5-almasrymina@google.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240613013557.1169171-5-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 6/13/24 02:35, Mina Almasry wrote:
-> Implement netdev devmem allocator. The allocator takes a given struct
-> netdev_dmabuf_binding as input and allocates net_iov from that
-> binding.
-> 
-> The allocation simply delegates to the binding's genpool for the
-> allocation logic and wraps the returned memory region in a net_iov
-> struct.
+Hi,
 
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+Le dimanche 16 juin 2024 =C3=A0 11:47 +0200, Diederik de Haas a =C3=A9crit=
+=C2=A0:
+> On Sunday, 5 November 2023 17:54:59 CEST Jonas Karlman wrote:
+> > This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 su=
+pport
+> > for display driver have landed in mainline tree.
+> >=20
+> > This series adds H.264 High 10 and 4:2:2 profile support to the Rockchi=
+p
+> > Video Decoder driver.
+> >=20
+> > Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
+> > Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YU=
+V.
+> >=20
+> > Patch 3 change to use bytesperline and buffer height to configure strid=
+es.
+> > Patch 4 change to use values from SPS/PPS control to configure the HW.
+> > Patch 5 remove an unnecessary call to validate sps at streaming start.
+> >=20
+> > Patch 6-10 refactor code to support filtering of CAPUTRE formats based
+> > on the image format returned from a get_image_fmt ops.
+> >=20
+> > Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+> >=20
+> > Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+> >=20
+> >   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+> >   ...
+> >   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0,
+> > Warnings: 0
+> >=20
+> >   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
+> >   ...
+> >   Ran 65/69 tests successfully
+> >=20
+> >   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
+> >   ...
+> >   Ran 127/135 tests successfully
+> >=20
+> > Before this series:
+> >=20
+> >   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
+> >   ...
+> >   Ran 44/69 tests successfully
+> >=20
+> > ...
+> >=20
+> > Following commits adds support for NV15/NV20/NV30 to VOP driver:
+> > 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
+> > d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
+> >=20
+> > To fully runtime test this series you may need above drm commits and ff=
+mpeg
+> > patches from [2], this series and drm patches is also available at [3].
+> >=20
+> > [1]
+> > https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo=
+.se/
+> > [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/ [3]
+> > https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10=
+-v4/
+> > [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865 [5]
+> > https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+>=20
+> Reviving this old thread now that rkvdec2 'stuff' emerged.
+> I have (actually) done quite some tests with this (and "media: rkvdec: Ad=
+d=20
+> HEVC backend" patch set) and they have been part of my kernel builds ever=
+=20
+> since.
+> I _think_, but don't know, that is relevant for Andy's question:
+>=20
+> On zondag 16 juni 2024 08:58:20 CEST Andy Yan <andyshrk@163.com> wrote:
+> > How can I test these patches? Do they require any additional userspace
+> > patches?
+>=20
+> I have the same question and I think you'd need this and the HEVC patch s=
+et=20
+> and then also patch FFmpeg and then it should enable HW acceleration.
+> So my question boils down to: with the rkvdec2 patch set, should V4L2-req=
+uests=20
+> now also work with rkvdec, so not just Hantro anymore?
 
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
--- 
-Pavel Begunkov
+FFmpeg changes are still downstream, and different people (even within
+LibreELEC) seems to have slightly different version or alteration. It would=
+ be
+really nice if this work could move upstream FFMpeg so that we can be more =
+sure
+what what "working with FFmpeg v4l2-requests" means.
+
+Meanwhile, support in upstream GStreamer is stable on Hantro G2 and Mediate=
+k
+VCODEC. In theory, it works fine with RKVDEC, and it will certainly work wi=
+th
+RKVDEC2 when we get to write the HEVC support.
+
+>=20
+> BTW: the libdrm commits have been merged upstream quite some time ago, so=
+ if=20
+> you have a recent version of that, you don't need to patch that.
+> If you use FFmpeg 7.0, then Jonas has a branch for that too (haven't trie=
+d it=20
+> yet though).
+>=20
+> FWIW: my test results were a bit mixed. I didn't post them before as I do=
+n't=20
+> fully/really understand this 'video stuff', and I didn't want you all to =
+suffer=20
+> from what was likely a PEBKAC issue.
+>=20
+> On my PineTab2 (rk3566) I had some h.264 videos HW accelerated, but not a=
+ll.=20
+> My guess is that it's related to the resolution. 1920x1080 worked, while =
+it=20
+> didn't work with a 1280x640 video. The video still played, just not HW=
+=20
+> accelerated. IOW: improvements in some and otherwise it was just rendered=
+ by=20
+> the CPU (I think), just like before.
+
+This is because all rk35XX have two hardware video decoders for H.264. This=
+ is
+not to be be confused with rkvdec which is gone. It has a modified Hantro G=
+1
+core (limited to 1080p60) and rkvdec2 core (driver in progress). I don't th=
+ink
+Rockchip really expected the first one to be ever used, but upstream has be=
+en
+pushy and its now enabled upstream. That has a side effect, which is that
+userspace will have to work harder on these platform to pick the right HW f=
+or
+the task.
+
+>=20
+> On my Rock64 I got a pink tint with all videos, like described here:
+> https://github.com/mpv-player/mpv/issues/12968
+> IIUC, that's actually a problem in the lima driver?
+
+Its not clear from the bug report. This visual artefact has been seen with
+wayland compositors lately (notably weston). Notably, this can happen if yo=
+u try
+and import NV12 with mesa (panfrost and lima included) but forcing a TEXTUR=
+E_2D
+target instead of external target. Normally this should be rejected by mesa=
+, but
+is accidentally not, and cause miss-render.
+
+Nicolas
+
+>=20
+> Cheers,
+>   Diederik
+
 
