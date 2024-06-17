@@ -1,53 +1,54 @@
-Return-Path: <linux-media+bounces-13479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13480-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79F790BA15
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 20:48:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AEE90BA28
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 20:53:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B6E41C245A1
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 18:48:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87103282FC9
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 18:53:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F67C198A38;
-	Mon, 17 Jun 2024 18:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E96A198E84;
+	Mon, 17 Jun 2024 18:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KtxyItUw"
+	dkim=pass (2048-bit key) header.d=samwein.com header.i=@samwein.com header.b="CUTMd0QC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10FF166312
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 18:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D2B198E77
+	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 18:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718650095; cv=none; b=GIa55IbVJFW5V6o/KBakQLJaZaSqRXgMA7WQ1gZu0Fqqi9zxoQQXcdfdEDFpoN/MkfFz5z6mc93SPhUOpErSoVGWbYbQQA1zmsLXo7TsTIZzaWEWGGAR667hM7jWsn9eES01RyUG3TKXGyelGvavgkRxAkDPqsskD3sHilv1iIQ=
+	t=1718650405; cv=none; b=m+IbHSgAWavlFu5mn03qS55Chjrk0sBID/rCYNia6Oiw3inC9bnnB6cKzTSebBqoFS6p/Ksy2fRh7PK05bswk6WfhsRvLCc/AMYTq4DwG6xBR96Pr9wdFG7L1NaD3Uf3J/B+5ZjDUReScrhA24w1U4aSaM947Mx9s3pdT4L8DPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718650095; c=relaxed/simple;
-	bh=Ard6r4DCpeIqRIoL/8snjOE0kG+4/w3gflE5kK/74FU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fFtyBcEBiC1BfxtOP2u45aqk1Vu6s7zAEQtJtBjfMlB+KeK7Bg992Yy6Z4nL6hinDox/rP8MB7/RXFL/rPiWskHbDidqaAtJ1Im+1HdV1ASn9TUVUN9JBGy4DJ/rIJBD2qineNsCHL/UVXaG6Enc78pR6VG5fooq/nZJVRg1u1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KtxyItUw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECF672D5;
-	Mon, 17 Jun 2024 20:47:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718650074;
-	bh=Ard6r4DCpeIqRIoL/8snjOE0kG+4/w3gflE5kK/74FU=;
-	h=Date:From:To:Cc:Subject:From;
-	b=KtxyItUwi1T0b4Mz+VWqymWvTJXPin6qpIWydGQLPkRV9L0WQ4DGSyZtVwhqrG/UH
-	 iNcCxin5KshJubp2A16TZ3woZh0JQP3z1vphpnEWbPjAD6R/ELVq4Yr5heJk4mWqdu
-	 VY3E8qcTo824siYAWwGq36FhIq7bNF1FoH2Z1AwA=
-Date: Mon, 17 Jun 2024 21:47:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: =?utf-8?B?8J+Qpy1tZWRpYQ==?= <linux-media@vger.kernel.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: [GIT PULL FOR v6.11] uvcvideo fixes and improvements
-Message-ID: <20240617184749.GB23867@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1718650405; c=relaxed/simple;
+	bh=/+c6Murei3LGgtDG7wSqDCOVu0K9tdO2tL/dyX7B5so=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Gss3b+SjC0gsxZSX51HrL9avWOGan/UZsfiLXiFnqq7WFGV1SfXRmSQO2il2WHlLnIjc4SLkTmjqn2nQRlDMTCS8gsZhWl+iJDlbHAQmjr8ksKkPTY0uwRWGHXnbIjPGhZTPu51koSFs5ihEhGfFO2B8x0S++y2yPBexNtOi41M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=samwein.com; spf=pass smtp.mailfrom=samwein.com; dkim=pass (2048-bit key) header.d=samwein.com header.i=@samwein.com header.b=CUTMd0QC; arc=none smtp.client-ip=185.70.43.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=samwein.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samwein.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samwein.com;
+	s=protonmail2; t=1718650395; x=1718909595;
+	bh=0U8OttajX9ITswcxmQmgSiPEx1Zre4DJ8QWk3cIeKUc=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=CUTMd0QCJaKozEh0F20crGlxyM5yct/PL0ZTAjLmNzEdbWC71qySRhc6M+bjEMinc
+	 rNw7NtMeWdWn7H7pZrKDlBZF8Ik6bSWbp0+G79G5PAiVNOGV25D+EavsN6+qMQBOEb
+	 rcg6FYZyZX3tY2XPAH8RftSPT9c6p6J/kTj3+MPxCbadvGwJp+1wHDAmfqW/lpsYek
+	 6YwL5+DB3xn/WovleOZoSRl2uwr46oI7QV1mj9obUMnHKKR8nN8ntHTXBR7DfBxxa2
+	 yfA9t/UvNpF1T8sdl0fG5qhzFLX6CEg/LA7s03q1VhRCNEGf5xeA6dqsdjGh3kpC27
+	 WOqqwTTjbde+A==
+Date: Mon, 17 Jun 2024 18:53:09 +0000
+To: linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, bingbu.cao@linux.intel.com
+From: Samuel Wein <sam@samwein.com>
+Cc: Samuel Wein <sam@samwein.com>
+Subject: [PATCH v3] media: Fix examples in ipu6-isys admin-guide
+Message-ID: <20240617185243.12517-1-sam@samwein.com>
+Feedback-ID: 2153553:user:proton
+X-Pm-Message-ID: 733161ef395061d576b6af21aa0be81cb72b9698
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,62 +56,55 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans, Mauro,
+Fix flags in X1 Yoga example. MEDIA_LNK_FL_DYNAMIC (0x4 in the link flag)
+was removed in V4 Intel IPU6 and IPU6 input system drivers.
+Added -V flag to media-ctl commands for X1 Yoga, lower-case v only makes it=
+ verbose
+upper-case V sets the format.
 
-The following changes since commit 91798162245991e26949ef62851719bb2177a9c2:
+Signed-off-by: Samuel Wein <sam@samwein.com>
+---
+ Documentation/admin-guide/media/ipu6-isys.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-  media: v4l: add missing MODULE_DESCRIPTION() macros (2024-06-15 11:16:40 +0200)
+diff --git a/Documentation/admin-guide/media/ipu6-isys.rst b/Documentation/=
+admin-guide/media/ipu6-isys.rst
+index 0721e920b5e6..d05086824a74 100644
+--- a/Documentation/admin-guide/media/ipu6-isys.rst
++++ b/Documentation/admin-guide/media/ipu6-isys.rst
+@@ -135,16 +135,16 @@ sensor ov2740 on Lenovo X1 Yoga laptop.
+ .. code-block:: none
+=20
+     media-ctl -l "\"ov2740 14-0036\":0 -> \"Intel IPU6 CSI2 1\":0[1]"
+-    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\"=
+:0[5]"
+-    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\"=
+:0[5]"
++    media-ctl -l "\"Intel IPU6 CSI2 1\":1 -> \"Intel IPU6 ISYS Capture 0\"=
+:0[1]"
++    media-ctl -l "\"Intel IPU6 CSI2 1\":2 -> \"Intel IPU6 ISYS Capture 1\"=
+:0[1]"
+=20
+     # set routing
+-    media-ctl -v -R "\"Intel IPU6 CSI2 1\" [0/0->1/0[1],0/1->2/1[1]]"
++    media-ctl -R "\"Intel IPU6 CSI2 1\" [0/0->1/0[1],0/1->2/1[1]]"
+=20
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
+-    media-ctl -v "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
++    media-ctl -V "\"Intel IPU6 CSI2 1\":0/0 [fmt:SGRBG10/1932x1092]"
++    media-ctl -V "\"Intel IPU6 CSI2 1\":0/1 [fmt:GENERIC_8/97x1]"
++    media-ctl -V "\"Intel IPU6 CSI2 1\":1/0 [fmt:SGRBG10/1932x1092]"
++    media-ctl -V "\"Intel IPU6 CSI2 1\":2/1 [fmt:GENERIC_8/97x1]"
+=20
+     CAPTURE_DEV=3D$(media-ctl -e "Intel IPU6 ISYS Capture 0")
+     ./yavta --data-prefix -c100 -n5 -I -s1932x1092 --file=3D/tmp/frame-#.b=
+in \
+--=20
+2.34.1
 
-are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-next-uvc-20240617
-
-for you to fetch changes up to 3d93396243319946c75c1e1542363e53deeced45:
-
-  media: uvcvideo: Remove mappings form uvc_device_info (2024-06-17 21:02:12 +0300)
-
-----------------------------------------------------------------
-uvcvideo fixes and improvements
-
-----------------------------------------------------------------
-Daniel Schaefer (1):
-      media: uvcvideo: Override default flags
-
-Laurent Pinchart (1):
-      media: uvcvideo: Force UVC version to 1.0a for 0408:4035
-
-Michal Pecio (1):
-      media: uvcvideo: Fix the bandwdith quirk on USB 3.x
-
-Oleksandr Natalenko (1):
-      media: uvcvideo: Add quirk for invalid dev_sof in Logitech C920
-
-Ricardo Ribalda (14):
-      media: uvcvideo: Support timestamp lists of any size
-      media: uvcvideo: Ignore empty TS packets
-      media: uvcvideo: Quirk for invalid dev_sof in Logitech C922
-      media: uvcvideo: Allow hw clock updates with buffers not full
-      media: uvcvideo: Refactor clock circular buffer
-      media: uvcvideo: Fix hw timestamp handling for slow FPS
-      media: uvcvideo: Fix integer overflow calculating timestamp
-      media: uvcvideo: Enforce alignment of frame and interval
-      media: uvcvideo: Allow custom control mapping
-      media: uvcvideo: Refactor Power Line Frequency limit selection
-      media: uvcvideo: Probe the PLF characteristics
-      media: uvcvideo: Cleanup version-specific mapping
-      media: uvcvideo: Remove PLF device quirking
-      media: uvcvideo: Remove mappings form uvc_device_info
-
- drivers/media/usb/uvc/uvc_ctrl.c   | 193 +++++++++++++++++++++----------------
- drivers/media/usb/uvc/uvc_driver.c | 160 ++++++------------------------
- drivers/media/usb/uvc/uvc_video.c  | 169 ++++++++++++++++++++++----------
- drivers/media/usb/uvc/uvcvideo.h   |  10 +-
- 4 files changed, 261 insertions(+), 271 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
 
