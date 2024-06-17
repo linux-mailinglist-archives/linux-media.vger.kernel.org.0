@@ -1,214 +1,136 @@
-Return-Path: <linux-media+bounces-13412-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13413-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E58D90AB1E
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 12:33:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E7590AACC
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 12:09:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2716EB303C3
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:58:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 093901F23884
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 10:09:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 755FA161320;
-	Mon, 17 Jun 2024 09:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79724194092;
+	Mon, 17 Jun 2024 10:09:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xoh9O1g/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7DF1922D3
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BD610799
+	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 10:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718618243; cv=none; b=cWOF2oTZuPXVUUv/6CnuJb0J6ergxi0O47QZUv7YbT97GBZGAwD/NvrWqPj1FwV2GVXUkknHEZMPqRh3+7Lj/hz1Orz6uc+RbNxqUeGM6tgFb8VivOsrXIFf293daxszSZ54pUp7yhTMlE2AxgMSXUCd0XIrhqi3xAlvzvlorBo=
+	t=1718618978; cv=none; b=QKZXyTZrRd2fsvyGaF8Ll0xHqFkx5yVftFYa7zaM9khssN0baZRK63aHHYPPRXGQKRqHOMtWBdoXxGDbzR4xRQ0k41FSbivvkoR1Mf16UTqOzg89JafbkmKjsx5yLp9OuqFxXZ4sKdGIZjNrrexaf12HoU17g27WS8z+djdJzwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718618243; c=relaxed/simple;
-	bh=iDqLfYP5HgHzW47RjEJEG0uPxtFSJFH7h42H/Ju33P4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t1hCTdlMnVhgX4/Blei8vQn4to5ySHY8v9JDqwRqEBH3dZ3qPJ6spIsJoRoNB4UV9qF55aqehQ653GoMuUPbnrVaUvbBUfagIHinA6jNlqJicyGPYwwIMhKqf06CEYZEkuVERyvRE+UJgUBMfBDnnrPLFzzT0boauiXKdzQNZV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED895C4AF1D;
-	Mon, 17 Jun 2024 09:57:21 +0000 (UTC)
-Message-ID: <20c3243e-9bd4-457a-9b1d-d6c65cf31a58@xs4all.nl>
-Date: Mon, 17 Jun 2024 11:57:20 +0200
+	s=arc-20240116; t=1718618978; c=relaxed/simple;
+	bh=abXbalBwk1bAskMNTjj2kM5zTlGBm3tx7/ix4cyjFtI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PclQYLqRv3i30fIkAcNb9jcbfKGU71Vhmo5XanUwYg/H5zkA/j7R9eJ5BLTMSUXtN7zQjvXk/MIx+7W0BiXydXXRK7OLqEWk4z5nGFylygYK2ty96BcxPKD8DDtFurUuFvlqrjFm37Swa9tVGCcUWdu7deGXvo1IWFXVlbTBSbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xoh9O1g/; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718618977; x=1750154977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=abXbalBwk1bAskMNTjj2kM5zTlGBm3tx7/ix4cyjFtI=;
+  b=Xoh9O1g/zlsXI1+oyZpO8VVklCATE58v0JMPnEvIErptoNW3EVSrs4wO
+   emFL7NYqbq/OFeZaSmhFVmmwduDFF9t2rrWMbOMVUG6Ya+W1+lSpf4JFG
+   f2CZwQoYE9xv9FymbIXiLfCCCboViTcy1jQF8Pzqir/L0aXHdnW+L7M/8
+   OQb9DUsWbVzcMvoKwYJ6ZwqvwZomau6fMZwsH83E9t6tR7ZtioyV+lf/9
+   STKdJfVarqmN3iD17WcgspznXEDKtlm53SOIsvP8AW4ZwcOJTybeVhu5T
+   GK0gUBkP6PMB8CAIQP1wy9/bfYPHErn8j+DSF2Z2l2NHdvsvoJMNDiDa0
+   A==;
+X-CSE-ConnectionGUID: 7PHC9dCLQT2kx0c/x8gexQ==
+X-CSE-MsgGUID: /pit8KiYTMe857FruXFPiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15208432"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="15208432"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 03:09:36 -0700
+X-CSE-ConnectionGUID: gDThXDRPRXWa0ls7yaAMwg==
+X-CSE-MsgGUID: W+LfE2w7SF64ejNwET4tYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="46081898"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 03:09:36 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 165D411F7E1;
+	Mon, 17 Jun 2024 13:09:33 +0300 (EEST)
+Date: Mon, 17 Jun 2024 10:09:33 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v4 19/26] media: vimc: Release resources on media device
+ release
+Message-ID: <ZnALXQw1bcnR07NO@kekkonen.localdomain>
+References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
+ <20240610100530.1107771-20-sakari.ailus@linux.intel.com>
+ <a7be89a1-3049-4513-bb58-e372138c7f81@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 22/26] media: mc: Maintain a list of open file handles
- in a media device
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com
-References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-23-sakari.ailus@linux.intel.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240610100530.1107771-23-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7be89a1-3049-4513-bb58-e372138c7f81@xs4all.nl>
 
-On 10/06/2024 12:05, Sakari Ailus wrote:
-> The list of file handles is needed to deliver media events as well as for
-> other purposes in the future.
+Hi Hans,
+
+Thank you for the review.
+
+On Mon, Jun 17, 2024 at 11:49:54AM +0200, Hans Verkuil wrote:
+> On 10/06/2024 12:05, Sakari Ailus wrote:
+> > Release all the resources when the media device is released, moving away
+> > from the struct v4l2_device used for that purpose. This is done to
+> > exemplify the use of the media device's release callback.
+> > 
+> > Switch to container_of_const(), too, while we're changing the code anyway.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/test-drivers/vimc/vimc-core.c | 15 +++++++++------
+> >  1 file changed, 9 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+> > index af127476e920..3e59f8c256c7 100644
+> > --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> > +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> > @@ -264,13 +264,12 @@ static int vimc_add_subdevs(struct vimc_device *vimc)
+> >  	return 0;
+> >  }
+> >  
+> > -static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
+> > +static void vimc_mdev_release(struct media_device *mdev)
+> >  {
+> >  	struct vimc_device *vimc =
+> > -		container_of(v4l2_dev, struct vimc_device, v4l2_dev);
+> > +		container_of_const(mdev, struct vimc_device, mdev);
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/mc/mc-device.c  | 19 ++++++++++++++++++-
->  drivers/media/mc/mc-devnode.c |  2 +-
->  include/media/media-devnode.h |  4 +++-
->  3 files changed, 22 insertions(+), 3 deletions(-)
+> Please don't mix this in. It makes no sense here since vimc is never
+> const. Such a change doesn't belong in this series. So just leave it
+> at container_of and update the commit log.
+
+Ok, I can remove it.
+
+I also posted a patch to address the matter in container_of()
+documentation. Let's see.
+
 > 
-> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index a9505ab4412d..46d1b0c9d8be 100644
-> --- a/drivers/media/mc/mc-device.c
-> +++ b/drivers/media/mc/mc-device.c
-> @@ -45,8 +45,9 @@ static inline void __user *media_get_uptr(__u64 arg)
->  	return (void __user *)(uintptr_t)arg;
->  }
->  
-> -static int media_device_open(struct file *filp)
-> +static int media_device_open(struct media_devnode *devnode, struct file *filp)
->  {
-> +	struct media_device *mdev = to_media_device(devnode);
->  	struct media_device_fh *fh;
->  
->  	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
-> @@ -55,13 +56,23 @@ static int media_device_open(struct file *filp)
->  
->  	filp->private_data = &fh->fh;
->  
-> +	spin_lock_irq(&mdev->fh_list_lock);
-> +	list_add(&fh->mdev_list, &mdev->fh_list);
-> +	spin_unlock_irq(&mdev->fh_list_lock);
-> +
->  	return 0;
->  }
->  
->  static int media_device_close(struct file *filp)
->  {
-> +	struct media_devnode *devnode = media_devnode_data(filp);
-> +	struct media_device *mdev = to_media_device(devnode);
->  	struct media_device_fh *fh = media_device_fh(filp);
->  
-> +	spin_lock_irq(&mdev->fh_list_lock);
-> +	list_del(&fh->mdev_list);
-> +	spin_unlock_irq(&mdev->fh_list_lock);
-> +
->  	kfree(fh);
->  
->  	return 0;
-> @@ -769,11 +780,13 @@ void media_device_init(struct media_device *mdev)
->  	INIT_LIST_HEAD(&mdev->pads);
->  	INIT_LIST_HEAD(&mdev->links);
->  	INIT_LIST_HEAD(&mdev->entity_notify);
-> +	INIT_LIST_HEAD(&mdev->fh_list);
->  
->  	mutex_init(&mdev->req_queue_mutex);
->  	mutex_init(&mdev->graph_mutex);
->  	ida_init(&mdev->entity_internal_idx);
->  	atomic_set(&mdev->request_id, 0);
-> +	spin_lock_init(&mdev->fh_list_lock);
->  
->  	mdev->devnode.release = media_device_release;
->  	media_devnode_init(&mdev->devnode);
-> @@ -830,6 +843,10 @@ void media_device_unregister(struct media_device *mdev)
->  	if (!media_devnode_is_registered(&mdev->devnode))
->  		return;
->  
-> +	spin_lock_irq(&mdev->fh_list_lock);
-> +	list_del_init(&mdev->fh_list);
-> +	spin_unlock_irq(&mdev->fh_list_lock);
+> With that change you can add my:
+> 
+> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Huh? This doesn't make sense to me. Unregistering the media device
-makes no difference to the list of open filehandles.
+Thank you!
 
-> +
->  	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
->  	dev_dbg(mdev->dev, "Media device unregistering\n");
->  	media_devnode_unregister(&mdev->devnode);
-> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-> index 26491daaba96..617156963911 100644
-> --- a/drivers/media/mc/mc-devnode.c
-> +++ b/drivers/media/mc/mc-devnode.c
-> @@ -154,7 +154,7 @@ static int media_open(struct inode *inode, struct file *filp)
->  	get_device(&devnode->dev);
->  	mutex_unlock(&media_devnode_lock);
->  
-> -	ret = devnode->fops->open(filp);
-> +	ret = devnode->fops->open(devnode, filp);
->  	if (ret) {
->  		put_device(&devnode->dev);
->  		return ret;
-> diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
-> index e4e8552598eb..898fa67ca090 100644
-> --- a/include/media/media-devnode.h
-> +++ b/include/media/media-devnode.h
-> @@ -21,6 +21,8 @@
->  #include <linux/device.h>
->  #include <linux/cdev.h>
->  
-> +struct media_devnode;
-> +
->  /*
->   * Flag to mark the media_devnode struct as registered. Drivers must not touch
->   * this flag directly, it will be set and cleared by media_devnode_register and
-> @@ -49,7 +51,7 @@ struct media_file_operations {
->  	__poll_t (*poll) (struct file *, struct poll_table_struct *);
->  	long (*ioctl) (struct file *, unsigned int, unsigned long);
->  	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
-> -	int (*open) (struct file *);
-> +	int (*open) (struct media_devnode *, struct file *);
->  	int (*release) (struct file *);
->  };
->  
+-- 
+Kind regards,
 
-Regards,
-
-	Hans
+Sakari Ailus
 
