@@ -1,74 +1,36 @@
-Return-Path: <linux-media+bounces-13397-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13398-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FED90A81A
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 10:06:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3735090A844
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 10:20:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E84E0280D7C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 08:05:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A371BB215E6
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 08:20:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB2BF18628D;
-	Mon, 17 Jun 2024 08:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="M27ogRyL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0247B190078;
+	Mon, 17 Jun 2024 08:20:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7933F190474
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 08:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9541E7492;
+	Mon, 17 Jun 2024 08:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718611543; cv=none; b=gI6K+h4WVj+kNRRysXagpasFPHEQMlHd6Gnz4MtrPlQj1DycwUGQBr8nRq4MBvzgCcq+1LLKjN+pCi+QDXqR9OYJdcvHX/1OnHdp92wS5Q5e6qG8BZ1UJ+60umz9nDddKmzFFT0nHkVFWCM5NECJAt8Y1ouxwUWxlqVLRhHNIiI=
+	t=1718612401; cv=none; b=Jx8KH6ie0OQ1pg+g3EnX+ijfXTwQUjlmbs07igwg1q35dOjNGHwtOkRWSorQJOehx95i0MScuDBwjKRBXqRztn8YYg/c7tdfIFEbkWJbrN+mebfxVquzpSIE7rD7ZtIE1btQojWia6OrX3WHfZoR+ZFkzd/6XeFfBwqzwZio0dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718611543; c=relaxed/simple;
-	bh=jJknf9JjCF3QX4BKrwowK8j7mwdmpuB67UlqCB88zt4=;
+	s=arc-20240116; t=1718612401; c=relaxed/simple;
+	bh=vIUSsvM/QflL2lNOUzh0g8ckoqLm+jCUhefDwOubcOI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HgttYDLZ0TMObQtfosdqVugpffUkJnFblubfy+TTiS8aUuaFotCRpmdAP+9mfzuA4MuyczmAjal2u6LuYrURxj1NB8/g2rcVOAEQM0sLIaM0OpymlafdmyJrilHGIdzPEMsajgf3ne2IoatElwVxcAAVq4+EGLlor+QQqfzDTQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=M27ogRyL; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-421f4d1c057so31946615e9.3
-        for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 01:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718611540; x=1719216340; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RhK0l1wiP2QqjV41iED4AMmcoD6qMZOANZydgxIA9xw=;
-        b=M27ogRyLqqJDYSYax0gkBfghsm3QbB66bTsHMHrev59VUVxA0Yg0V8HUI5yIxrE+8Z
-         BtLTY4NRJCyCOZIvqgqWqoMzyq1sokyikQs9QIzqWXcHEp5kL9rQmBR+CC47qs7Wm/bN
-         uk3PMOLC8w8befLEkHMcSEwA/eQCrUBvTvPT5HggkPceonbChvQKizbmg2CVsyG8DVVT
-         BCNdeDS4ZB2412qUy08+9YLuhU5tuBGzdEqN2RBjSNbEdnc6X5QtsxiNe2x0rFT/s+B8
-         s4x8eTTPj7eKf75UxX+WcCj9p9E7dm8YngRfEJ1zzu/ufdMDxm2Xym3jZXSEMwMfxGbx
-         CwJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718611540; x=1719216340;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RhK0l1wiP2QqjV41iED4AMmcoD6qMZOANZydgxIA9xw=;
-        b=tVSw8n19rkRBjJxyrzEWfK5dBYY5Msl2b/VYoolAQDNOnBC6+S2Xpa0knwV7WSaDwJ
-         YGRWNK2IrwQCzF8IzXi5VLL3D8BSzKirv257G3moSYNKv+nMWkXF/W7rnaNTfWwd+ODy
-         lHlJPzoUC0lBF2gqaU17x7/k25JZkqnO09UGbLnTcuIF9jXxEzfxX+QZ45+jLwLGnz53
-         eMImUlzi5ZerkGT+0c/nxeJoXp78HYkLlQ9BhaM9GqhKAUKFCtF+jozZOHYvPmm1ip8y
-         ylYsLsI7v2bhlfU1NSRxVb6At7v99Ccel9u08fTVMKzfC7RR/p56yNJ0TSCH65KEyVo+
-         YV7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVKtK0n5hPh6QCAVaV3vICwxVcqpjwgXdPRky3cNCYy1YZ9K9Zt1KY/cc2NSsKGyF4uAvyWmi4SMP/LJVzORQKgZnYNWAoy6Qbxpgs=
-X-Gm-Message-State: AOJu0YwB+AnqdVXgl54QtIsNkRre2c43k7ByXXKVU4HQTrXcxiCbxdJy
-	FbYSmV6k01C4fYh4Bku4V+c+Mr0ukYccUxva4G9r1E47//knRSzoxeYesvBwPEs=
-X-Google-Smtp-Source: AGHT+IGAPWtrsBoKqiT6NA7h3nhAEtNjGh3ZlArWedHKrxD1LJKsjTkfQ0ARrSXU5FBmgRUnhtV3jg==
-X-Received: by 2002:a05:600c:468d:b0:421:2ddf:aec4 with SMTP id 5b1f17b1804b1-42304844f6dmr74278975e9.30.1718611539796;
-        Mon, 17 Jun 2024 01:05:39 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42286fe9263sm187819725e9.15.2024.06.17.01.05.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jun 2024 01:05:39 -0700 (PDT)
-Message-ID: <85e9451d-2cd0-457f-a246-017433757fff@baylibre.com>
-Date: Mon, 17 Jun 2024 10:05:37 +0200
+	 In-Reply-To:Content-Type; b=WooaOJKj7B3GgJD3qroFPHsU9AU+tN+3DZzuzLMG97JhQoVWMFF9ry8Z2/q2kwywKaYb+tH1sWjio2LNIwGtFtTEEcA6I1EbP6avG8s+yngd9NqzNv5s8lceMAPMZNZIc7la52lGlKBezCDEqlOwxTgD3zpIpUl6kLej8ffeNn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C677AC2BD10;
+	Mon, 17 Jun 2024 08:19:58 +0000 (UTC)
+Message-ID: <fc2738fd-5e24-4aea-82d0-e31e7b3b4e20@xs4all.nl>
+Date: Mon, 17 Jun 2024 10:19:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,51 +38,104 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v5 00/16] Add audio support for the MediaTek Genio
- 350-evk board
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Nicolas Belin <nbelin@baylibre.com>
-References: <20240226-audio-i350-v5-0-54827318b453@baylibre.com>
- <ZmwODkYov79VHznK@finisterre.sirena.org.uk>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <ZmwODkYov79VHznK@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v4 1/4] media: uvcvideo: stop stream during unregister
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomasz Figa <tfiga@chromium.org>, Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>, Max Staudt <mstaudt@chromium.org>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>
+References: <20240327-guenter-mini-v4-0-49955c198eae@chromium.org>
+ <20240327-guenter-mini-v4-1-49955c198eae@chromium.org>
+ <CAAFQd5BhJExCEA7_Ck2skWR52baSDH63-+oEZnpo4UiMc0C7=A@mail.gmail.com>
+ <20240616235844.GO4782@pendragon.ideasonboard.com>
+ <54cb2795-bcb3-40c8-841c-4570d857d366@xs4all.nl>
+ <Zm_sN3Ta7MrjGrQL@kekkonen.localdomain>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <Zm_sN3Ta7MrjGrQL@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-
-
-On 14/06/2024 11:31, Mark Brown wrote:
-> On Fri, Jun 14, 2024 at 09:27:43AM +0200, Alexandre Mergnat wrote:
->> This serie aim to add the following audio support for the Genio 350-evk:
->> - Playback
->>    - 2ch Headset Jack (Earphone)
->>    - 1ch Line-out Jack (Speaker)
->>    - 8ch HDMI Tx
+On 17/06/2024 09:56, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> I seem to remember you had review comments that needed addressing from
-> AngeloGioacchino, why resend without addressing those?
+> On Mon, Jun 17, 2024 at 09:27:43AM +0200, Hans Verkuil wrote:
+>> On 17/06/2024 01:58, Laurent Pinchart wrote:
+>>> Hi Tomasz,
+>>>
+>>> On Thu, Jun 06, 2024 at 06:57:50PM +0900, Tomasz Figa wrote:
+>>>> On Wed, Mar 27, 2024 at 5:24 PM Ricardo Ribalda wrote:
+>>>>>
+>>>>> uvc_unregister_video() can be called asynchronously from
+>>>>> uvc_disconnect(). If the device is still streaming when that happens, a
+>>>>> plethora of race conditions can happen.
+>>>>>
+>>>>> Make sure that the device has stopped streaming before exiting this
+>>>>> function.
+>>>>>
+>>>>> If the user still holds handles to the driver's file descriptors, any
+>>>>> ioctl will return -ENODEV from the v4l2 core.
+>>>>>
+>>>>> This change make uvc more consistent with the rest of the v4l2 drivers
+>>>>> using the vb2_fop_* and vb2_ioctl_* helpers.
+>>>>>
+>>>>> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>>>> ---
+>>>>>  drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
+>>>>>  1 file changed, 11 insertions(+)
+>>>>
+>>>> First of all, thanks for the patch. I have a question about the
+>>>> problem being fixed here.
+>>>>
+>>>> Could you point out a specific race condition example that could
+>>>> happen without this change?
+>>>> From what I see in __video_do_ioctl((), no ioctls would be executed
+>>>> anymore after the video node is unregistered.
+>>>> Since the device is not present either, what asynchronous code paths
+>>>> could be still triggered?
+>>>
+>>> I believe the issue is that some ioctls can be in progress while the
+>>> device is unregistered. I'll let Ricardo confirm.
+>>>
+>>> I've tried to explain multiple times before that this should be handled
+>>> in the V4L2 core, ideally with fixes in the cdev core too, as this issue
+>>> affects all cdev drivers. I've pointed to related patches that have been
+>>> posted for the cdev core. They need to be wrapped in V4L2 functions to
+>>> make them easier to use for drivers. If we don't want to depend on those
+>>> cdev changes, we can implement the "wrappers" with fixes limited to
+>>> V4L2 until the cdev changes get merged (assuming someone would resurect
+>>> them).
+>>
+>> But there is already a V4L2 wrapper for that: vb2_video_unregister_device().
+>> It safely unregisters the video device, ensuring any in-flight ioctls finish
+>> first, and it stops any video streaming.
+>>
+>> The only reason it can't be used in uvc for the video stream is that that
+>> vb2_queue doesn't set the lock field (i.e. uses the core V4L2 serialization
+>> mechanism). The metadata stream *does* set that field, so for that stream this
+>> function can be used.
+>>
+>> While it would be nice to have this fixed in the cdev core part, that will
+>> take very long, and we have a perfectly fine V4L2 helper for this already.
+> 
+> It might not take *that* long to get there but it won't happen unless
+> someone does it. Dan Williams posted a patch but his immediate problem was
+> solved differently so there it remains
+> <URL:https://lore.kernel.org/all/161117153248.2853729.2452425259045172318.stgit@dwillia2-desk3.amr.corp.intel.com/>.
+> 
+> In the meantime vb_video_unregister_device() would seem to be the best
+> choice.
 
-I don't see any comment:
-https://lore.kernel.org/lkml/20240226-audio-i350-v5-0-e7e2569df481@baylibre.com/
+Also note that even if these cdev improvements ever land, that doesn't remove
+the need for vb2_video_unregister_device, since that also explicitly stops
+any streaming that is in progress. Which is something you really want to do
+when the device is unbound.
 
--- 
 Regards,
-Alexandre
+
+	Hans
+
 
