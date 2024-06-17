@@ -1,101 +1,174 @@
-Return-Path: <linux-media+bounces-13476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD4190B8DF
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 20:03:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C27D90B968
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 20:17:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB2201C23D4D
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 18:03:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B1ABEB2AEA7
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 18:07:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BDE6198A2C;
-	Mon, 17 Jun 2024 17:59:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03670195967;
+	Mon, 17 Jun 2024 18:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPap/inV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PSDAJ8S+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB5A19409A
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 17:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC29194093
+	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 18:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718647188; cv=none; b=Vbij/BYmk9fzaf7bl2xQxCB0jxB8g65fDeLexVxLN8IgHASYsvgxnxN4U2/J8EBSq1YcEgD1q37ADrixUYsOpcKcdtLfTxWvhN9nZCV0at2BvozlPiw7VBvWfK2TNASb4lCIgoushzIwykrBnDMb4o+CllZDSj7IBaGDySM9ZbM=
+	t=1718647417; cv=none; b=XS98oKuN880aHI5WFSjLyDL4cOCdOhT9gAToW5JxhaQ3e2CmKMz6C+D7Ku2/6sOmUMCx0Q0NQ5soxTgcg5czv1zcqZBQqb3WPn4GHNUbM53H8T0S1OM+ggMXPk8lOGC8fQedUmLiaQWUtupVlOzdPmK4J0bWggAvjPHUiVvXrEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718647188; c=relaxed/simple;
-	bh=fEdhIw05VbDcyWHh/X6xJ6bXP0sJXRz3jcGtJkxDW4I=;
+	s=arc-20240116; t=1718647417; c=relaxed/simple;
+	bh=7wGQWDhi6lQQiJ+si7D4t5oFV9PoAp/Yzievup+XB6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JNjwaRO2nMsktppmOF2uD3mMaKQUzxt2Bk+f6E1VS2Kp7mVGBPwJWsrexetLXyWsdYcmAve/2VBq+gvvNna9O8JQzO0lbGyK9M5OlEbjEmDYR1fES3RawCRwFSOufJkguqWJICrp3qkKDwAebX83z6BD/N1HnYGpUIr/T2Jxepg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPap/inV; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718647186; x=1750183186;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fEdhIw05VbDcyWHh/X6xJ6bXP0sJXRz3jcGtJkxDW4I=;
-  b=RPap/inVwjZ6tTkSxogksNF8qAZSmj9uf8YFZ40tIwgrfW8P4lwBwlSF
-   m3Bm68BZcomDa1uHaHbYU+fNPJuWsmt8rbHC1BdZDw936K69uzk+2BU5c
-   IJQ8CL+5rgNKz+Ykj+jt3smfcol/OdhnQRMg8+Y/Zzg+7Gy3NSrwxu9U8
-   lc2ZRaew6mNa0ZAM9hrmtbOv4M6kLo9yeZ0JpzbLzIuImutFZa+cSe5Ow
-   9Tv5dQSuNADr/nXhdgONvW1fdd02XGZvpEvkPU5HTbmUh/WaJW4P2oVf6
-   Uzxk6mpoC5LmscoO5ISazF/dAK+ltSHA8tlmYgRVuJFr80irEL+4N8FRI
-   Q==;
-X-CSE-ConnectionGUID: sPfZPSXHS3iOhVNwotDTwA==
-X-CSE-MsgGUID: yyxsegncQj6+OU9TLdL/Kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="19343107"
-X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="19343107"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 10:59:45 -0700
-X-CSE-ConnectionGUID: 7Mlf/XmAQ8WyPP6GxC4q4g==
-X-CSE-MsgGUID: HIbs2hUaTAmBamH0BA7M8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="45707530"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 10:59:44 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1022811F9DB;
-	Mon, 17 Jun 2024 20:59:42 +0300 (EEST)
-Date: Mon, 17 Jun 2024 17:59:42 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v4 12/26] media: mc: Shuffle functions around
-Message-ID: <ZnB5jtl11MrAod2R@kekkonen.localdomain>
-References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-13-sakari.ailus@linux.intel.com>
- <32a7845d-47ec-4af6-9255-8aa375ded3ba@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CfKGCE2rsUJ7zivGvgC9cxC034dFcoEqIiek3xFs+ZVbkhU4n08LiHwma1Jzth2oVf4KFsjUAniRjgWr2cr33OsNoWboQrzbmJPNFd87n9kaQhmAKS8KBo9MwQUiKyzGizuJqOdI6eXam7OH/Wrepw+qgx1poeHvBQY58GmxkrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PSDAJ8S+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD9632D5;
+	Mon, 17 Jun 2024 20:03:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718647396;
+	bh=7wGQWDhi6lQQiJ+si7D4t5oFV9PoAp/Yzievup+XB6Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PSDAJ8S+yvyVc+xFMGWc9g1RY+pWoTnU60T+4WYX7ZR4Lnc5YN3GlQjsaHmIwYOri
+	 ooJ/Cg+lSdPFsvc3RQMYA4PWsCSFqbPEzKkFkie/2KiEkIglOC0vTESMD5QV1rylM8
+	 vhfcuAF3p8i9iaNFJUYdVxbY+ChUE+cx11pOt98w=
+Date: Mon, 17 Jun 2024 21:03:11 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: linux-media@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v3 0/6] media: uvc: Probe PLF limits at start-up
+Message-ID: <20240617180311.GA23867@pendragon.ideasonboard.com>
+References: <20240616231350.6787-1-laurent.pinchart@ideasonboard.com>
+ <CANiDSCsNa_agem5t=5tHbppyem=OhbfULsArWJquxUCrCwAW9Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <32a7845d-47ec-4af6-9255-8aa375ded3ba@xs4all.nl>
+In-Reply-To: <CANiDSCsNa_agem5t=5tHbppyem=OhbfULsArWJquxUCrCwAW9Q@mail.gmail.com>
 
-Hi Hans,
-
-On Mon, Jun 17, 2024 at 11:41:10AM +0200, Hans Verkuil wrote:
-> On 10/06/2024 12:05, Sakari Ailus wrote:
-> > As the call paths of the functions in question will change, move them
-> > around in anticipation of that. No other changes.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+On Mon, Jun 17, 2024 at 09:43:50AM +0200, Ricardo Ribalda wrote:
+> Hi Laurent
 > 
-> That should be:
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > 
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> On Mon, 17 Jun 2024 at 01:14, Laurent Pinchart wrote:
+> >
+> > Hello,
+> >
+> > This patch series is a new version of Ricardo's v2 that incorporate my
+> > review feedback and squash v2 7/7 into the appropriate commits. I've
+> > decided to send it as a new version to speed up merging.
+> >
+> > As part of the squashing, patch 1/6 now implements a slightly different
+> > filtering logic by ignoring mappings whose .filter_mapping() function
+> > returns NULL. Apart from that, the series should be functionally
+> > equivalento to v2.
+> >
+> > The patches have been rebased on my UVC -next branch. The base commit
+> > can be found in
+> > git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git. If
+> > this version is acceptable, I will add it to the branch and send a pull
+> > request in the next few days.
+> 
+> For reference this is the diff with v2
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index eb930825c354..79c6dacd516e 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -495,8 +495,8 @@ static const struct uvc_control_mapping
+> uvc_ctrl_power_line_mapping_uvc15 = {
+>                                   V4L2_CID_POWER_LINE_FREQUENCY_DISABLED),
+>  };
+> 
+> -static const struct uvc_control_mapping *uvc_ctrl_filter_plf_mapping
+> -               (struct uvc_video_chain *chain, struct uvc_control *ctrl)
+> +static const struct uvc_control_mapping *uvc_ctrl_filter_plf_mapping(
+> +       struct uvc_video_chain *chain, struct uvc_control *ctrl)
+>  {
+>         const struct uvc_control_mapping *out_mapping =
+>                                         &uvc_ctrl_power_line_mapping_uvc11;
+> @@ -2408,8 +2408,7 @@ static int uvc_ctrl_add_info(struct uvc_device
+> *dev, struct uvc_control *ctrl,
+>   * Add a control mapping to a given control.
+>   */
+>  static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
+> -                                 struct uvc_control *ctrl,
+> -                                 const struct uvc_control_mapping *mapping)
+> +       struct uvc_control *ctrl, const struct uvc_control_mapping *mapping)
+> 
+> Just curious, do you have a nice vim code formatter that you can
+> share? Or is it just "what looks nicer"?
 
-To be addressed for v5, the same for 16th patch.
+It's the latter I'm afraid, and I'm sure it has changed over time. I
+would nowadays use the '-' style, not the '+' style here. The diff shows
+a change, but that's only because splitting patch 7/7 and squashing it
+in previous patches removed the need to change the
+__uvc_ctrl_add_mapping() function, so I ended up dropping the style
+change.
+
+>  {
+>         struct uvc_control_mapping *map;
+>         unsigned int size;
+> @@ -2670,14 +2669,14 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+> 
+>         /* Process common mappings. */
+>         for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
+> -               const struct uvc_control_mapping *mapping = NULL;
+> -
+> -               /* Try to get a custom mapping from the device. */
+> -               if (uvc_ctrl_mappings[i].filter_mapping)
+> -                       mapping = uvc_ctrl_mappings[i].filter_mapping(chain,
+> -                                                                     ctrl);
+> -               if (!mapping)
+> -                       mapping = &uvc_ctrl_mappings[i];
+> +               const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
+> +
+> +               /* Let the device provide a custom mapping. */
+> +               if (mapping->filter_mapping) {
+> +                       mapping = mapping->filter_mapping(chain, ctrl);
+> +                       if (!mapping)
+> +                               continue;
+> +               }
+> 
+> I guess that if the device is too broken to fail filter_mapping we can
+> skip that control.
+
+And I think we *should* skip it in that case, as exposing the control
+would lead to trouble.
+
+> > Ricardo Ribalda (6):
+> >   media: uvcvideo: Allow custom control mapping
+> >   media: uvcvideo: Refactor Power Line Frequency limit selection
+> >   media: uvcvideo: Probe the PLF characteristics
+> >   media: uvcvideo: Cleanup version-specific mapping
+> >   media: uvcvideo: Remove PLF device quirking
+> >   media: uvcvideo: Remove mappings form uvc_device_info
+> >
+> >  drivers/media/usb/uvc/uvc_ctrl.c   | 184 ++++++++++++++++-------------
+> >  drivers/media/usb/uvc/uvc_driver.c | 131 --------------------
+> >  drivers/media/usb/uvc/uvcvideo.h   |   8 +-
+> >  3 files changed, 105 insertions(+), 218 deletions(-)
+> >
+> >
+> > base-commit: 75007ad7544c3a4da6b670983fb41cc4cbe8e9b1
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
 
