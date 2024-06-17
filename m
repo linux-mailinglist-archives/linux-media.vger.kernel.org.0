@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-13405-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13406-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA16D90AA36
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 11:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192AB90AA3F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 11:53:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C90871C238C0
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:51:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19C0D1C23B04
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 09:53:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD67A194C9F;
-	Mon, 17 Jun 2024 09:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0D7C195995;
+	Mon, 17 Jun 2024 09:44:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D61190475
-	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7519597E
+	for <linux-media@vger.kernel.org>; Mon, 17 Jun 2024 09:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718617273; cv=none; b=nnFwTcho0Y21YtcWgdkZhVbBBDxttMViQJww8pDQ+bHs3JppuKfFChLUE7J2jA5ltsFNLJuQTSgNMM9JoApOKyGMBkncFGAoURPZgSRLGGPov5ggWuHGJsSq4M+5euq1Ch2L/SeGAMmmbCDRiQILxsV9GKaYDXipPBGmIHlrAGY=
+	t=1718617471; cv=none; b=oq9u3y/Ky0o+6OR8Fsdy8dC8BoKGBUjoxpi+X2gfLoTysv7tstjcUNKvnTV8H79GS4aAHJRaEilFXvsMtFz0Uk4M8DmF/GxRdHT1OuxBLaqCh/6ZrhQwbjc/4UxeqUmgAb7YNEZfAZffORMQKyIhrq4/w4xuPiThyd8l//1FwZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718617273; c=relaxed/simple;
-	bh=3C+aj784oDuOdMbNkVBxKAfDR7bBxkrU0btEzVyckhI=;
+	s=arc-20240116; t=1718617471; c=relaxed/simple;
+	bh=msRYWZkXlWe6h8V50kkriUN0Ooh5uojuI4T9uNhxM4w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G4rnnx/b5ldcHebe61L9JcXGaOlaPC8gRrB4RzGVDUsOlReyjfXtEN0eSRJEg4j6O7vsKYi0S9I3kLguLDV94wD9Aztc2bt92lfU2uc/zn9+MhDSa5XB42SfvFF9yrKIGQLhcpAuj0ikvfgM3nB6z7vyWdrX0EgypMDGBDdO2QE=
+	 In-Reply-To:Content-Type; b=CqCV1Xlq/c87pFHLdegKEvhuMeoeW0YJZT0Wz0BHdgj7h+g9oMHKhpvCiRbLF/TwJz7OkHinFqQWtdYDjGi7MfHzHZ8abiZyy4j66B+pKmDq92NohwTorvekyywE4pzlhhfxUl1AMZM7zyTW+8cLns98I+ZblLyjv1TuZMX2ohs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EB5FC2BD10;
-	Mon, 17 Jun 2024 09:41:12 +0000 (UTC)
-Message-ID: <32a7845d-47ec-4af6-9255-8aa375ded3ba@xs4all.nl>
-Date: Mon, 17 Jun 2024 11:41:10 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D521C4AF1A;
+	Mon, 17 Jun 2024 09:44:30 +0000 (UTC)
+Message-ID: <ef2f0fce-9f32-43a7-a61a-3fe88fe94461@xs4all.nl>
+Date: Mon, 17 Jun 2024 11:44:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,11 +38,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 12/26] media: mc: Shuffle functions around
+Subject: Re: [PATCH v4 16/26] media: mc: Postpone graph object removal until
+ free
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com
 References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-13-sakari.ailus@linux.intel.com>
+ <20240610100530.1107771-17-sakari.ailus@linux.intel.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -88,101 +89,111 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240610100530.1107771-13-sakari.ailus@linux.intel.com>
+In-Reply-To: <20240610100530.1107771-17-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/06/2024 12:05, Sakari Ailus wrote:
-> As the call paths of the functions in question will change, move them
-> around in anticipation of that. No other changes.
+> The media device itself will be unregistered based on it being unbound and
+> driver's remove callback being called. The graph objects themselves may
+> still be in use; rely on the media device release callback to release
+> them.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
 
-That should be:
+Also please update to <hverkuil-cisco@xs4all.nl>.
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
+Thank you!
 
 	Hans
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/media/mc/mc-device.c | 54 ++++++++++++++++++------------------
->  1 file changed, 27 insertions(+), 27 deletions(-)
+>  drivers/media/mc/mc-device.c | 59 ++++++++++++++++--------------------
+>  1 file changed, 26 insertions(+), 33 deletions(-)
 > 
 > diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index dd4d589a6701..f1f3addf7932 100644
+> index bbc233e726d2..f1a88edb7573 100644
 > --- a/drivers/media/mc/mc-device.c
 > +++ b/drivers/media/mc/mc-device.c
-> @@ -673,6 +673,33 @@ void media_device_unregister_entity(struct media_entity *entity)
->  }
->  EXPORT_SYMBOL_GPL(media_device_unregister_entity);
+> @@ -702,8 +702,33 @@ EXPORT_SYMBOL_GPL(media_device_unregister_entity_notify);
 >  
-> +void media_device_register_entity_notify(struct media_device *mdev,
-> +					struct media_entity_notify *nptr)
-> +{
-> +	mutex_lock(&mdev->graph_mutex);
-> +	list_add_tail(&nptr->list, &mdev->entity_notify);
-> +	mutex_unlock(&mdev->graph_mutex);
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_register_entity_notify);
-> +
-> +/*
-> + * Note: Should be called with mdev->lock held.
-> + */
-> +static void __media_device_unregister_entity_notify(struct media_device *mdev,
-> +					struct media_entity_notify *nptr)
-> +{
-> +	list_del(&nptr->list);
-> +}
-> +
-> +void media_device_unregister_entity_notify(struct media_device *mdev,
-> +					struct media_entity_notify *nptr)
-> +{
-> +	mutex_lock(&mdev->graph_mutex);
-> +	__media_device_unregister_entity_notify(mdev, nptr);
-> +	mutex_unlock(&mdev->graph_mutex);
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_unregister_entity_notify);
-> +
->  void media_device_init(struct media_device *mdev)
+>  static void __media_device_release(struct media_device *mdev)
 >  {
->  	INIT_LIST_HEAD(&mdev->entities);
-> @@ -740,33 +767,6 @@ int __must_check __media_device_register(struct media_device *mdev,
->  }
->  EXPORT_SYMBOL_GPL(__media_device_register);
+> +	struct media_entity *entity;
+> +	struct media_entity *next;
+> +	struct media_interface *intf, *tmp_intf;
+> +	struct media_entity_notify *notify, *nextp;
+> +
+>  	dev_dbg(mdev->dev, "Media device released\n");
 >  
-> -void media_device_register_entity_notify(struct media_device *mdev,
-> -					struct media_entity_notify *nptr)
-> -{
-> -	mutex_lock(&mdev->graph_mutex);
-> -	list_add_tail(&nptr->list, &mdev->entity_notify);
-> -	mutex_unlock(&mdev->graph_mutex);
-> -}
-> -EXPORT_SYMBOL_GPL(media_device_register_entity_notify);
-> -
-> -/*
-> - * Note: Should be called with mdev->lock held.
-> - */
-> -static void __media_device_unregister_entity_notify(struct media_device *mdev,
-> -					struct media_entity_notify *nptr)
-> -{
-> -	list_del(&nptr->list);
-> -}
-> -
-> -void media_device_unregister_entity_notify(struct media_device *mdev,
-> -					struct media_entity_notify *nptr)
-> -{
-> -	mutex_lock(&mdev->graph_mutex);
-> -	__media_device_unregister_entity_notify(mdev, nptr);
-> -	mutex_unlock(&mdev->graph_mutex);
-> -}
-> -EXPORT_SYMBOL_GPL(media_device_unregister_entity_notify);
-> -
+> +	/* Remove all entities from the media device */
+> +	list_for_each_entry_safe(entity, next, &mdev->entities, graph_obj.list)
+> +		__media_device_unregister_entity(entity);
+> +
+> +	/* Remove all entity_notify callbacks from the media device */
+> +	list_for_each_entry_safe(notify, nextp, &mdev->entity_notify, list)
+> +		__media_device_unregister_entity_notify(mdev, notify);
+> +
+> +	/* Remove all interfaces from the media device */
+> +	list_for_each_entry_safe(intf, tmp_intf, &mdev->interfaces,
+> +				 graph_obj.list) {
+> +		/*
+> +		 * Unlink the interface, but don't free it here; the
+> +		 * module which created it is responsible for freeing
+> +		 * it
+> +		 */
+> +		__media_remove_intf_links(intf);
+> +		media_gobj_destroy(&intf->graph_obj);
+> +	}
+> +
+>  	ida_destroy(&mdev->entity_internal_idx);
+>  	mdev->entity_internal_idx_max = 0;
+>  	media_graph_walk_cleanup(&mdev->pm_count_walk);
+> @@ -787,43 +812,11 @@ EXPORT_SYMBOL_GPL(__media_device_register);
+>  
 >  void media_device_unregister(struct media_device *mdev)
 >  {
->  	struct media_entity *entity;
+> -	struct media_entity *entity;
+> -	struct media_entity *next;
+> -	struct media_interface *intf, *tmp_intf;
+> -	struct media_entity_notify *notify, *nextp;
+> -
+>  	if (mdev == NULL)
+>  		return;
+>  
+> -	mutex_lock(&mdev->graph_mutex);
+> -
+> -	/* Check if mdev was ever registered at all */
+> -	if (!media_devnode_is_registered(&mdev->devnode)) {
+> -		mutex_unlock(&mdev->graph_mutex);
+> +	if (!media_devnode_is_registered(&mdev->devnode))
+>  		return;
+> -	}
+> -
+> -	/* Remove all entities from the media device */
+> -	list_for_each_entry_safe(entity, next, &mdev->entities, graph_obj.list)
+> -		__media_device_unregister_entity(entity);
+> -
+> -	/* Remove all entity_notify callbacks from the media device */
+> -	list_for_each_entry_safe(notify, nextp, &mdev->entity_notify, list)
+> -		__media_device_unregister_entity_notify(mdev, notify);
+> -
+> -	/* Remove all interfaces from the media device */
+> -	list_for_each_entry_safe(intf, tmp_intf, &mdev->interfaces,
+> -				 graph_obj.list) {
+> -		/*
+> -		 * Unlink the interface, but don't free it here; the
+> -		 * module which created it is responsible for freeing
+> -		 * it
+> -		 */
+> -		__media_remove_intf_links(intf);
+> -		media_gobj_destroy(&intf->graph_obj);
+> -	}
+> -
+> -	mutex_unlock(&mdev->graph_mutex);
+>  
+>  	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
+>  	dev_dbg(mdev->dev, "Media device unregistering\n");
 
 
