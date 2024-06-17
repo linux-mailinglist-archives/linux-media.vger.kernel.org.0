@@ -1,260 +1,267 @@
-Return-Path: <linux-media+bounces-13383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13385-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351B890A5E5
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 08:32:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D9D90A622
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 08:53:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FF361C2181E
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 06:32:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E27291F23FAE
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 06:53:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A9C1862AF;
-	Mon, 17 Jun 2024 06:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72461186E38;
+	Mon, 17 Jun 2024 06:53:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k4ucxqli"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="jghTbNey";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="RX4rDvSj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD76B17F36D;
-	Mon, 17 Jun 2024 06:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718605908; cv=none; b=FPpg1IkBlhikpU957g/o9tg+0WihGCn5fxr9uphy6eWU/ZPDIggeHL7MccCdGc0HqL2R2rHePFqTRtir8P88O+oauH/xwFfnIOAXWTtUvF5w8TozrIz7bogPmia68JZKqShdu8imq1x4JkSqcqnUc5s1/IqHQIWQ0I3oPg0bnUk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718605908; c=relaxed/simple;
-	bh=h3NzhOWdPi1eKZoED4GYlzALqjZOAKHefLrPEdRQEm8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YNyDdwZQXQgUgBHBEJOVmQqRNSgyMmiamKsb/dVHRrXX9ceenQFffESmWQ+6nIEZSZRDtwwPFY7q2lRxxvT6G4ThMVUmFmzxKUvP2oWUrtQ87eAMu2HLY12TTCXKzwU1ggwA0YWNcSrEByie3w8LBqT6xSAmKbfuyk27Sraubuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=k4ucxqli; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3AF8E2D5;
-	Mon, 17 Jun 2024 08:31:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718605887;
-	bh=h3NzhOWdPi1eKZoED4GYlzALqjZOAKHefLrPEdRQEm8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=k4ucxqlivYSrRRVNAJGC+A7KCpwbofbuKz0200d3cqlz/YumgBV7CL4aI4QO9z9Tk
-	 Y+PYAWWq8+3OdU5bGXOVxR12aO6cNO07g3ToHQ04ALwB9eRfnizsGsjcSVl/3lfcUv
-	 hhNL+via8XLaIR13y0dNlLUKaJ26wzJV9+CZ5b7M=
-Message-ID: <600e744f-3a0b-4536-9cd1-43a86a326563@ideasonboard.com>
-Date: Mon, 17 Jun 2024 07:31:40 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BC917C7B3;
+	Mon, 17 Jun 2024 06:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718607198; cv=fail; b=UgxvumpZ/inD/6kvML4vxw/We8jPBQGG66OkUIma0mjl2KOsHEkaqmXfJeF6uXcg5iF976g3fla1oIszN1xBnJXwG0oIsOQemqZwJxFt1JsgLznhcvZh83cbwKm6pRJY+Rt1yeIOLvn/AaXZDkz8Pe53dKyyPcuFMMfamLMBz4Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718607198; c=relaxed/simple;
+	bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=sA5vkPJRq9WiL1FSHktg2xg48dw1lJfgpFcnM0vJE0zsomezo/d3x5zDHEvmIS+kh1Us5bh05Hq98jI82ebjLfk/YxZnG+aLWbY4SzemNHY+bq4tttupwMONtwot5sB+9ktgZj2VYEZRQMTgah5AnFNoH8GhOf0KqaSaoMFvsWs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=jghTbNey; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=RX4rDvSj; arc=fail smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 4358ceca2c7611efa54bbfbb386b949c-20240617
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
+	b=jghTbNey+JXU9iCQDRpmgMNk0i3uxWm0/xDCiGcvELLqPWNtaCVVLyHMsCU/gMs4ts3NkejRX/xJmJiPket08dnbd2HpIs2mr45dKfeaSB5hKRLdTbjAnsO9BDqGeQKGYU6xeC/bHsb0LmCskxzibH5Ds8GxfE2c+AEVJCeROqI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.39,REQID:ad586716-7f6d-4c2d-9175-4b57fb91a33c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:393d96e,CLOUDID:aa0faa44-4544-4d06-b2b2-d7e12813c598,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 4358ceca2c7611efa54bbfbb386b949c-20240617
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+	(envelope-from <yong.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1032889422; Mon, 17 Jun 2024 14:53:11 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sun, 16 Jun 2024 23:53:11 -0700
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 17 Jun 2024 14:53:11 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TgXehTmcQXDppmbxBWVpbPWGxnNPFgL+okATcN8aoEsE2jhIvM3AQtIJrQvMVtWHPyiVXRvrbAxvEgBdtdh7GwHH0PT4qe+CRuORklh5Kz4P+qSIHx9yCClNvCj4l5ZWfi1q+PjyIZyp8rTuIoIsVSI9rYP7KMG/Z3xe9mD3HZNjZRO/RUgg3E9xi/nG8slBhk/Cw/2n6og07J8IPCnVfA8k4iDDbMZUMr0G2iLVIA1/G7FDS4obLKloMWBQkZEereJiu5mqN2R471682/LmRbOHBz48ooyjB5AJGk2wOft6MCiWvVxu/dxQz9uALCLUd5YWEllU6V5XrqKXoRE32g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
+ b=eUmi7vyLXMfleenfCvxQV4vL3Q90317XefZ/ZGJqqUeLi5oDXkxIdNrquLorr04wMH7Lg598pGncfZHtvBz1c8VE1qkueGmidECBD403AGOMi2lGDHWRTiplKOwgra87N2zA41Rp7EhVauWoX4pkuhDTCYYNrJogR7lx9zY0flQtByRpfKsG5zj/EmFMVeU17Gs1BhJv6CX01ZvBG9hm4NMtKsUUCoVL1GFEFySDjYUpesbWylLnHTh9YvC6jYilq9ibvkcQTGCPxyINR2RWTJi8FCcO54mDQqZ5Fo093GKK/Zet9kvQZg3MsK47idl/tTMp4IQW2d0eQ7UlCpjyKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
+ b=RX4rDvSjrb+zw/VlozxhEnT0fo9sCb1mIu4Q9pzONNCXO4Z6NKzCsPd9BNN17qIv9w1azvKR/CFwNTd8j1cwtLXV79/T6grDxiZWbH7AZJemOu5YJb+nPT4tXnmRNkyS7VQ3q7bogjSBZa4LiGzU7ZGCL1DMY2a3cTllN4EbG34=
+Received: from SI2PR03MB5885.apcprd03.prod.outlook.com (2603:1096:4:142::7) by
+ TYSPR03MB8719.apcprd03.prod.outlook.com (2603:1096:405:8f::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.30; Mon, 17 Jun 2024 06:53:08 +0000
+Received: from SI2PR03MB5885.apcprd03.prod.outlook.com
+ ([fe80::683a:246a:d31f:1c0]) by SI2PR03MB5885.apcprd03.prod.outlook.com
+ ([fe80::683a:246a:d31f:1c0%5]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
+ 06:53:07 +0000
+From: =?utf-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
+To: "tfiga@chromium.org" <tfiga@chromium.org>,
+	=?utf-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>
+CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"frkoenig@chromium.org" <frkoenig@chromium.org>, "stevecho@chromium.org"
+	<stevecho@chromium.org>, "wenst@chromium.org" <wenst@chromium.org>,
+	"nhebert@chromium.org" <nhebert@chromium.org>, "christian.koenig@amd.com"
+	<christian.koenig@amd.com>, "jstultz@google.com" <jstultz@google.com>,
+	"nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>, "m.szyprowski@samsung.com"
+	<m.szyprowski@samsung.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"jkardatzke@google.com" <jkardatzke@google.com>, "Brian.Starkey@arm.com"
+	<Brian.Starkey@arm.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "sebastian.fricke@collabora.com"
+	<sebastian.fricke@collabora.com>, "benjamin.gaignard@collabora.com"
+	<benjamin.gaignard@collabora.com>, "tjmercier@google.com"
+	<tjmercier@google.com>, "hverkuil-cisco@xs4all.nl"
+	<hverkuil-cisco@xs4all.nl>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "hsinyi@chromium.org" <hsinyi@chromium.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+	"angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>, "nfraprado@collabora.com"
+	<nfraprado@collabora.com>, Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: Re: [PATCH v6,12/24] media: mediatek: vcodec: add interface to
+ allocate/free secure memory
+Thread-Topic: [PATCH v6,12/24] media: mediatek: vcodec: add interface to
+ allocate/free secure memory
+Thread-Index: AQHap4uop8FE3IlRwUe2u2Cz6N4cnLHDwf8AgAf07YA=
+Date: Mon, 17 Jun 2024 06:53:07 +0000
+Message-ID: <20fec212d49cc3f0479be7a855d9816f5739ce93.camel@mediatek.com>
+References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
+	 <20240516122102.16379-13-yunfei.dong@mediatek.com>
+	 <4a5tf2cl744xzqslox4ddzmdpuvwksr54g3qk2jl4soatdts45@e6xmmm2ijmv6>
+In-Reply-To: <4a5tf2cl744xzqslox4ddzmdpuvwksr54g3qk2jl4soatdts45@e6xmmm2ijmv6>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SI2PR03MB5885:EE_|TYSPR03MB8719:EE_
+x-ms-office365-filtering-correlation-id: a7371101-b232-4832-6ff6-08dc8e9a252c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230037|366013|376011|7416011|1800799021|38070700015;
+x-microsoft-antispam-message-info: =?utf-8?B?dEh5azZqc1dwQXFSbWlFdlVUbFczVmR2K1NpSmE2YTJrQjliVmpzeUpESURQ?=
+ =?utf-8?B?Ri9ESm45cCt1Uk9DaTQ1Y0tBMngwb1ExQ1Z1UTJtc3AzYi9kdzdhUXd3ZUJa?=
+ =?utf-8?B?dVMwbGRGNU5HYUQ4dmVqZnVXcGFycC9qNlIzRmdNTmtMUjhVTnJMOGp2SWR5?=
+ =?utf-8?B?VjZxS1E5ZDVoYWZiUXBxVjZ2Q29idm9MVTV3UmNiUEN0Q2VjczUyOTRCRkIz?=
+ =?utf-8?B?NTREdTRuZDBTSCt3R2piOW9BVndQckZ1WTAxL1B3VjE3OUVvNDRaWmx6SGF1?=
+ =?utf-8?B?bDh1UWdqbGcyNDJyYWFOajU5MUQ2OGJORVcxQ1c1UmFKSElCWGUveVAwQVFG?=
+ =?utf-8?B?a1VSN1lsYW1HTEpOc3NwTWx6dGJpWi9JbnpyWVhQMlE0bnE5ckpuK0dRRmIv?=
+ =?utf-8?B?ZEdHL28xVzJKbk03QjBibG10L3E3dzVFamo1TUN6cWptc2w5T3V5QlJsV0U3?=
+ =?utf-8?B?V09tQWd6Z2FXaFg3czFlRjFWVmxwdXlZSWhhaitDT0l4enJYdXNoVHBzNXVO?=
+ =?utf-8?B?Vm9QVWN3N2JEc0VmYzRaeThiN2FQbnJDUmRjeXpqbUtjeTRXZHVDOFN0Tyto?=
+ =?utf-8?B?YnkzcUZDOWpjZ2pjWmFJT1RMTzI1M0F0Rjc3aURRak5oc2NSN3hxOHYydVBq?=
+ =?utf-8?B?TXZPR1BWelV4RFJqZ09nazRJeVEzTnozdkkvb2xPbTJMYTRSamYzckVuZEs4?=
+ =?utf-8?B?TDh2VHVwemE0VjRSR3RQbXZicklkUzdURHoybzQ3RU11QUVPUmg5Y0NSQTlw?=
+ =?utf-8?B?ejhFemVWZzU0R0g0V0Q4aTcrbXphMmlsRk9JNGFmbUtBVVZhRU5PT2tDZ1hP?=
+ =?utf-8?B?bDN6MXNCcDdOUHAzSmViaWJORVdaWlcxTWY2ZlZTQW53aTBhUHZ3bzJIVW5W?=
+ =?utf-8?B?YytWdmJBYU81L0M3THRsSnU2T0Y3Tm45dWdYeHhjTjdva3dTTklIUDVDN0xM?=
+ =?utf-8?B?RnF3UUQ1SjVyKytzVGpwS0JEeVBCQVBEMWRoYzByakp5bGEweElacTIzZGcx?=
+ =?utf-8?B?L1BqNmJHTjMydCtOOHZvQ2tydFJXRUpka1ZwM2c0R3RHQlp4TW5DR25iV1ky?=
+ =?utf-8?B?MUFhdWZsZE1ib3R4eGRIM2k3elZIZTN1WWdFb3grVlRUSE9rcGR2K1d6YnMx?=
+ =?utf-8?B?U3JTWXc5SGtRMkdVRGtnNFdFMkRCOEpuSHJmSUUwTWF3eW42WTM1b1JVN1N0?=
+ =?utf-8?B?SU1NVm10NEVIenBFT0NqWWoxcS9hWU1jNlZXdlAxS3QzNEpUWkcrREVBRlRU?=
+ =?utf-8?B?bDc1L1BMU3BWU3pBNUxQTDNLK3k0ZlRFMGl2cVRxZ09vK2FFSVpNdzhxZW96?=
+ =?utf-8?B?aDNKYmlQLzV1TVFaOXNyZXRqeVBOVXBHTW1BL3lDcU81aE9hQWtkdkxyWU5q?=
+ =?utf-8?B?OEVVSnBBZkxjbXlobW5zbjFNUG5ENmNGSGJucXI1cW5lWW9xY1VQTEVQRDNp?=
+ =?utf-8?B?RkFCSUxuZWJCUHBwT1RlZ081R0xYN1NmNC9rdjdQUG43YlEzZytPZGtMNHRp?=
+ =?utf-8?B?ZmFvZXNjcGRvS0kzelluY3Nkd0RET1pJR1l2ZzkxNUFaVVk1dTBFZGczMnZX?=
+ =?utf-8?B?T0NrcGNkSzFDS2pYUVlkcVIyS2RoM3FoRWxxT09PUytYOCs4c2lQK2dzMVZX?=
+ =?utf-8?B?Vi9DT0JWOHVkNzl2Um1aOFRzZXlacCtPUVBabzhTSnlnQzhZSThFNVk2cmdO?=
+ =?utf-8?B?UUVML0NSNXRjZ0lHWjRPUVlSdHdPRDBXSDRzbzF2ODVNVHoxODMwK3NCZ0ZV?=
+ =?utf-8?Q?KqY19H7DIbQEOplrDPuIuu7J9+9jUzN4nGjwmPg?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB5885.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(376011)(7416011)(1800799021)(38070700015);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SHZoaW1XaFlualBwZlV0UWttSUY5R1pwZWFmTno5R0htalF2UHNGQmt6cm82?=
+ =?utf-8?B?RVhUblNtc1d6dUtlbTBPQkl5QnN4Q25VdG5WYWZDNEhYejIvQUdzNkR2QnZo?=
+ =?utf-8?B?NTd0Ym4rbE5zN2M4b0lJaWc2SVgvZkJJQkRaSHAzVHZuUU1qMnlGdkhTQ2h3?=
+ =?utf-8?B?SjRIMjlNOC9sT0NGRm5OR2xza0prdU04Q21oMnJuZmlubXc3NnMyQ084UjFS?=
+ =?utf-8?B?UkZyQmw2U2gwd2drblRtclNISnZnbElaTFJ5bjZaNVZ5c3ZxeEVzRmVHVzhy?=
+ =?utf-8?B?b3craXNQcFR6YndVTkVHbS9tWitJeVk5ZllCWlRmMG1ndTRYYm82OWcwdGdo?=
+ =?utf-8?B?TVFEWGRoY205Wm91ZXc1SG9JU3pNNHhSVGhzNzNyRHBIb3FxVU05aW5xU0lM?=
+ =?utf-8?B?dTQrOEFLeUZrOGI3R2MvNGJIRVhzRVVDdUFRYU9YVFM0QXZLbGlJZWVDeG53?=
+ =?utf-8?B?UnJDOU1HOW9hRzh5OUd2azJJUTdpTGZrTlpjb3FrVC9YQ0JHQ0orcnJUbVJk?=
+ =?utf-8?B?dTNCTUFsQlFOZG1XT3JlZHpiNVB4RGJhSkpJL1NVS2lJclo2eUplaDFIc21V?=
+ =?utf-8?B?Z01ZSkkxUkJpZkZkcjAwaXlRdEkvVzJMTWJqYzVpSmxKUjVyeFR5bEh0M2dI?=
+ =?utf-8?B?UzVHbTZnSTZZK2ZITUowWUFsZkEvNGNYSUhnVmNnakhjWTBwWGtYZGVYeHE0?=
+ =?utf-8?B?SndDYTY0bGc3b3RXQUhsYnZyZFNhSnRVUHhacytLOE5LaERGWC9VRndGV2I5?=
+ =?utf-8?B?VUZEaXpyZGlsdWVUNENRb0V4WUN3VlVTNmYwajBuR2VKRmovc1N0WGMrSkh4?=
+ =?utf-8?B?TndmVXFqZnlUN285aUdEMjhiaVU2TFpYeUdZeVVrVGlyV1BFZVViOXRpZVhx?=
+ =?utf-8?B?bTlNUngrTm1NUkpEUUI4WVlEdVZJcmhtVW9vWHRPMGJrZFFHUU92MmJNKy91?=
+ =?utf-8?B?enh2SnNTbGhqUGJqNkZVN2xQMDFSRmFEdUdMNEhkeTRURGtoZlFGaWdvam5i?=
+ =?utf-8?B?L1ozeng4bis1dGIybmdtdUtIRW9hYlkvYm1wNlN3SDdqaTU5YWJ3TzVYTEds?=
+ =?utf-8?B?d1Q5YmgwUmVqQm9hRkx2TWFGUWVWMUhqd3BEY3FoU0F0cFFNTks2b2Q2WjJi?=
+ =?utf-8?B?WWpINXA2bDR3RGdIZFFhdGRtellhd3NoNUVpZTlyQXY4MmZsQTBkdkdIai9q?=
+ =?utf-8?B?RkRiQk4vYlZid3hPUWtIUHdNTmEwd3lrc29tekRPbGVVY2ZGOWo2YlpPZjNJ?=
+ =?utf-8?B?dVNzcjd3S2s4dk5Bb3FOQ29WOEwxZnNzZG85Rm5NWlZwNUREbWlnSnBQSVZD?=
+ =?utf-8?B?RU5DeTZ3cHdmUWlyMEpZZi8zVWZpY2ZHdkxka0U3N2JNaFdKSVk1SGpiYmw0?=
+ =?utf-8?B?MWJVbzVEdDhtOWFDcGNIVy9GUGxTb1VGYy9ucDR4OVdxRXFxZnBuaGhSd0Zp?=
+ =?utf-8?B?ME01ZlFCOG0vNHNzYi8xRlJHNWNmcG1mY0JCeU9rV3RoVnU2ZVFBeDNjUzZU?=
+ =?utf-8?B?dTl6Z2ltQzR4ankvK2RoZm9NZkdiTkErTk4wc1MxQlBSdElnZWtXNEZmNXpz?=
+ =?utf-8?B?YkZHbHRkcG1vRjBQZm8zeVUwSjh5RzRmdHdrSG9KZkpLNlp6cklFWktpNmxN?=
+ =?utf-8?B?M1BMODZiMlRtUmkvSy9EUzhLeUZERVI1OFlncEpWYVZzTmFtNEhVSHF0dnBI?=
+ =?utf-8?B?UlhvaU5yaWxTbWczbHFPeC9zZ3ZNdnI5Q0MxaDk4VXF1ekxucDRSZkp2S1Vx?=
+ =?utf-8?B?ZnN0N2NtQTNFakUyaW9yNkZkaURqY0FyYWdxeWo4eENFbW51T0EvNzFoemRr?=
+ =?utf-8?B?a0U0YUkwT0I1UG1xQ2JoTDVFNzM4MGNlVTY1aWF2cCtKRWplUkVxOVhwVDU1?=
+ =?utf-8?B?WHRkcDZ2L0RvWDY5L1hid1k1Q0E0bytrUlNqWGVIRzY3SVlwdlZDd2RpS3Rz?=
+ =?utf-8?B?MlBOZURFWUdvbnFjalFPZHl0QllmTS9LNmhPazVtdmIzOU1meTRWN0lCQVM3?=
+ =?utf-8?B?a1Q3cjJCYlA2eGIzZ0puTFN5amRMSG1HSGo1VW9QSThNbnVSOWN3TnVtWlAx?=
+ =?utf-8?B?bGJPTTQyNzhaQ0QrdmRZeWQrSG5uQVo5Vi9aTU11MGJmaldGK1g4QkU2NSsz?=
+ =?utf-8?Q?edYbv4p5keLzmwTB84Q4e4CnK?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AAB85E8724F73A43A7C4F165F373FD93@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/16] media: mali-c55: Add Mali-C55 ISP driver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
- sakari.ailus@iki.fi
-References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
- <20240529152858.183799-6-dan.scally@ideasonboard.com>
- <20240530001507.GG10586@pendragon.ideasonboard.com>
- <6d0be0cf-ff77-4943-8505-f78ad922e3fb@ideasonboard.com>
- <20240616193901.GA10964@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240616193901.GA10964@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB5885.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7371101-b232-4832-6ff6-08dc8e9a252c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2024 06:53:07.9490
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SsLTpnnezSR8R/FvZjJE3B4F049i3AKFNuKuM6zGEZZV020i3ODQl+5SJWT4k7MCt5Ntf090gyVZBqVcMwrLNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8719
+X-MTK: N
 
-Morning Laurent
-
-On 16/06/2024 20:39, Laurent Pinchart wrote:
-> Hi Dan,
->
-> On Fri, Jun 14, 2024 at 11:13:29AM +0100, Daniel Scally wrote:
->> On 30/05/2024 01:15, Laurent Pinchart wrote:
->>> On Wed, May 29, 2024 at 04:28:47PM +0100, Daniel Scally wrote:
->>>> Add a driver for Arm's Mali-C55 Image Signal Processor. The driver is
->>>> V4L2 and Media Controller compliant and creates subdevices to manage
->>>> the ISP itself, its internal test pattern generator as well as the
->>>> crop, scaler and output format functionality for each of its two
->>>> output devices.
->>>>
->>>> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
->>>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->>>> ---
->>>> Changes in v5:
->>>>
->>>> 	- Reworked input formats - previously we allowed representing input data
->>>> 	  as any 8-16 bit format. Now we only allow input data to be represented
->>>> 	  by the new 20-bit bayer formats, which is corrected to the equivalent
->>>> 	  16-bit format in RAW bypass mode.
->>>> 	- Stopped bypassing blocks that we haven't added supporting parameters
->>>> 	  for yet.
->>>> 	- Addressed most of Sakari's comments from the list
->>>>
->>>> Changes not yet made in v5:
->>>>
->>>> 	- The output pipelines can still be started and stopped independently of
->>>> 	  one another - I'd like to discuss that more.
->>>> 	- the TPG subdev still uses .s_stream() - I need to rebase onto a tree
->>>> 	  with working .enable_streams() for a single-source-pad subdevice.
->>>>
->>>> Changes in v4:
->>>>
->>>> 	- Reworked mali_c55_update_bits() to internally perform the bit-shift
->>> I really don't like that, it makes the code very confusing, even more so
->>> as it differs from regmap_update_bits().
->>>
->>> Look at this for instance:
->>>
->>> 	mali_c55_update_bits(mali_c55, MALI_C55_REG_MCU_CONFIG,
->>> 			     MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK,
->>> 			     MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK);
->>>
->>> It only works by change because MALI_C55_REG_MCU_CONFIG_OVERRIDE_MASK is
->>> BIT(0).
->>>
->>> Sorry, I know it will be painful, but this change needs to be reverted.
->> I'd like to argue for keeping this, on the grounds that it's better. I got lazy in the change you
->> reference there, and because BIT(0) is the same as 0x01 didn't bother changing it. I agree that
->> that's confusing but I think it would be better to keep the change and just update all the call
->> sites properly. The benefits as I see them are two:
->>
->>
->> 1. This method ensures sane consistent calling of the function. Without the internal shift you have
->> to shift the values at the call site, but there's no reason to do that if the value you're setting
->> is 0x00 or if the field you're targeting in the register starts at bit 0, so I think writing code
->> naturally we'd have a mix of situations like so:
->>
->>
->> #define REG_1 0xfc00
->>
->> #define REG_2 0xff
->>
->> mali_c55_update_bits(mali_c55, 0x1234, REG_1, 0x02 << 10);
->>
->> mali_c55_update_bits(mali_c55, 0x1234, REG_1, 0x00);
->>
->> mali_c55_update_bits(mali_c55, 0x1234, REG_2, 0x02);
->>
->> And I think that the mixture is more confusing than the difference with regmap_update_bits(). We
->> could include the bitshifting for consistencies sake despite it being unecessary, but it's extra
->> work for no real reason and itself "looks wrong" if the field starts at bit(0)...it would look less
->> wrong with an offset macro that defines the number of bits to shift as 0 but then we're on to
->> advantage #2...
->>
->> 2. It makes the driver far cleaner. Without it we either have magic numbers scattered throughout
->> (and sometimes have to calculate them with extra variables where the write can target different
->> places conditionally) or have macros defining the number of bits to shift, or have to do (ffs(mask)
->> - 1) everywhere, and that tends to make the call sites a lot messier - this was the original reason
->> I moved it internal actually.
->>
->> What do you think?
-> All register values (possibly with the exception of 0) should have
-> macros. The callers will thus not need to perform shifts manually, they
-> will all be handled in the register fields macros. From a caller point
-> of view, not handling the shifts inside mali_c55_update_bits() will not
-> make a difference.
->
-> It's the first time I notice a driver trying to shift internally in its
-> update_bits function. I think that's really confusing, especially given
-> that it departs from how regmap operates. I still strongly favour
-> handling the shifts in the register macros.
-
-
-Alright - I will handle it that way (in fact I already did). Thanks!
-
->
->>>> 	- Reworked the resizer to allow cropping during streaming
->>>> 	- Fixed a bug in NV12 output
->>>>
->>>> Changes in v3:
->>>>
->>>> 	- Mostly minor fixes suggested by Sakari
->>>> 	- Fixed the sequencing of vb2 buffers to be synchronised across the two
->>>> 	  capture devices.
->>>>
->>>> Changes in v2:
->>>>
->>>> 	- Clock handling
->>>> 	- Fixed the warnings raised by the kernel test robot
->>>>
->>>>    drivers/media/platform/Kconfig                |   1 +
->>>>    drivers/media/platform/Makefile               |   1 +
->>>>    drivers/media/platform/arm/Kconfig            |   5 +
->>>>    drivers/media/platform/arm/Makefile           |   2 +
->>>>    drivers/media/platform/arm/mali-c55/Kconfig   |  18 +
->>>>    drivers/media/platform/arm/mali-c55/Makefile  |   9 +
->>>>    .../platform/arm/mali-c55/mali-c55-capture.c  | 951 ++++++++++++++++++
->>>>    .../platform/arm/mali-c55/mali-c55-common.h   | 266 +++++
->>>>    .../platform/arm/mali-c55/mali-c55-core.c     | 767 ++++++++++++++
->>>>    .../platform/arm/mali-c55/mali-c55-isp.c      | 611 +++++++++++
->>>>    .../arm/mali-c55/mali-c55-registers.h         | 258 +++++
->>>>    .../arm/mali-c55/mali-c55-resizer-coefs.h     | 382 +++++++
->>>>    .../platform/arm/mali-c55/mali-c55-resizer.c  | 779 ++++++++++++++
->>>>    .../platform/arm/mali-c55/mali-c55-tpg.c      | 402 ++++++++
->>>>    14 files changed, 4452 insertions(+)
->>>>    create mode 100644 drivers/media/platform/arm/Kconfig
->>>>    create mode 100644 drivers/media/platform/arm/Makefile
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/Kconfig
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/Makefile
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-common.h
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-core.c
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-isp.c
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-registers.h
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer-coefs.h
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
-> [snip]
->
+T24gV2VkLCAyMDI0LTA2LTEyIGF0IDE0OjIyICswOTAwLCBUb21hc3ogRmlnYSB3cm90ZToNCj4g
+IAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVu
+IGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhl
+IGNvbnRlbnQuDQo+ICBPbiBUaHUsIE1heSAxNiwgMjAyNCBhdCAwODoyMDo1MFBNICswODAwLCBZ
+dW5mZWkgRG9uZyB3cm90ZToNCj4gPiBOZWVkIHRvIGNhbGwgZG1hIGhlYXAgaW50ZXJmYWNlIHRv
+IGFsbG9jYXRlL2ZyZWUgc2VjdXJlIG1lbW9yeSB3aGVuDQo+IHBsYXlpbmcNCj4gPiBzZWN1cmUg
+dmlkZW8uDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogWXVuZmVpIERvbmcgPHl1bmZlaS5kb25n
+QG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL21lZGlhL3BsYXRmb3JtL21lZGlhdGVr
+L3Zjb2RlYy9LY29uZmlnICAgIHwgICAxICsNCj4gPiAgLi4uL21lZGlhdGVrL3Zjb2RlYy9jb21t
+b24vbXRrX3Zjb2RlY191dGlsLmMgIHwgMTIyDQo+ICsrKysrKysrKysrKysrKysrLQ0KPiA+ICAu
+Li4vbWVkaWF0ZWsvdmNvZGVjL2NvbW1vbi9tdGtfdmNvZGVjX3V0aWwuaCAgfCAgIDMgKw0KPiA+
+ICAzIGZpbGVzIGNoYW5nZWQsIDEyMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiA+
+IA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2Rl
+Yy9LY29uZmlnDQo+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay92Y29kZWMvS2Nv
+bmZpZw0KPiA+IGluZGV4IGJjODI5MjIzMjUzMC4uNzA3ODY1NzAzZTYxIDEwMDY0NA0KPiA+IC0t
+LSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvdmNvZGVjL0tjb25maWcNCj4gPiAr
+KysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2RlYy9LY29uZmlnDQo+ID4g
+QEAgLTE3LDYgKzE3LDcgQEAgY29uZmlnIFZJREVPX01FRElBVEVLX1ZDT0RFQw0KDQpbc25pcF0N
+CiAgDQo+ID4gLXZvaWQgbXRrX3Zjb2RlY19tZW1fZnJlZSh2b2lkICpwcml2LCBzdHJ1Y3QgbXRr
+X3Zjb2RlY19tZW0gKm1lbSkNCj4gPiArc3RhdGljIGludCBtdGtfdmNvZGVjX21lbV9hbGxvY19z
+ZWMoc3RydWN0IG10a192Y29kZWNfZGVjX2N0eA0KPiAqY3R4LCBzdHJ1Y3QgbXRrX3Zjb2RlY19t
+ZW0gKm1lbSkNCj4gPiArew0KPiA+ICtzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmY3R4LT5kZXYtPnBs
+YXRfZGV2LT5kZXY7DQo+ID4gK3N0cnVjdCBkbWFfYnVmICpkbWFfYnVmZmVyOw0KPiA+ICtzdHJ1
+Y3QgZG1hX2hlYXAgKnZkZWNfaGVhcDsNCj4gPiArc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAq
+YXR0YWNoOw0KPiA+ICtzdHJ1Y3Qgc2dfdGFibGUgKnNndDsNCj4gPiArdW5zaWduZWQgbG9uZyBz
+aXplID0gbWVtLT5zaXplOw0KPiA+ICtpbnQgcmV0ID0gMDsNCj4gPiArDQo+ID4gK2lmICghc2l6
+ZSkNCj4gPiArcmV0dXJuIC1FSU5WQUw7DQo+ID4gKw0KPiA+ICt2ZGVjX2hlYXAgPSBkbWFfaGVh
+cF9maW5kKCJyZXN0cmljdGVkX210a19jbWEiKTsNCj4gPiAraWYgKCF2ZGVjX2hlYXApIHsNCj4g
+PiArbXRrX3Y0bDJfdmRlY19lcnIoY3R4LCAiZG1hIGhlYXAgZmluZCBmYWlsZWQhIik7DQo+ID4g
+K3JldHVybiAtRVBFUk07DQo+ID4gK30NCj4gDQo+IEhvdyBpcyB0aGUgaGVhcCBuYW1lIGRldGVy
+bWluZWQgaGVyZT8gTXkgcmVjb2xsZWN0aW9uIGlzIHRoYXQgdGhlDQo+IGhlYXANCj4gbmFtZSBj
+b21lcyBmcm9tIHRoZSBoZWFwIG5vZGUgaW4gdGhlIERULCBzbyBpdCBtYXkgdmFyeSBkZXBlbmRp
+bmcgb24NCj4gdGhlDQo+IGJvYXJkLg0KPiANCj4gSXMgdGhlIGhlYXAgbmFtZSBkb2N1bWVudGVk
+IGFueXdoZXJlIGluIHRoZSBEVCBiaW5kaW5ncz8NCj4gDQo+IFNob3VsZG4ndCB3ZSByYXRoZXIg
+cXVlcnkgRFQgZm9yIGEgcGhhbmRsZSB0byB0aGUgcmlnaHQgaGVhcD8NCj4gDQoNCkhpIFRvbWFz
+eiwNCg0KVGhpcyBoZWFwIG5hbWUgZG9lcyBub3QgY29tZSBmcm9tIGR0LWJpbmRpbmcuIEl0IGlz
+IGhhcmQtY29kZWQgaW4gdGhlDQpkcml2ZXJbMV0uIEJlY2F1c2UgdGhlIGhlYXAgZHJpdmVyIGlz
+IGEgcHVyZSBTVyBkcml2ZXIsIHRoZXJlIGlzIG5vDQpjb3JyZXNwb25kaW5nIEhXIHVuaXQsIGFu
+ZCB0aGVyZSBpcyBubyB3YXkgdG8gYWRkIGEgZHRzaSBub2RlLg0KDQpbMV0gDQpodHRwczovL2xv
+cmUua2VybmVsLm9yZy9saW51eC1tZWRpYXRlay8yMDI0MDUxNTExMjMwOC4xMDE3MS0xMC15b25n
+Lnd1QG1lZGlhdGVrLmNvbS8NCg0KVGhhbmtzLg0K
 
