@@ -1,152 +1,159 @@
-Return-Path: <linux-media+bounces-24711-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24712-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC45A10082
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 06:44:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 466F8A101EA
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 09:22:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C448A3A418B
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 05:44:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0549E3A8A75
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 08:22:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5953E233558;
-	Tue, 14 Jan 2025 05:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08B7B2500C8;
+	Tue, 14 Jan 2025 08:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Nsqf2mfV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jE+YwIxA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512DA231C9A;
-	Tue, 14 Jan 2025 05:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1192230D15;
+	Tue, 14 Jan 2025 08:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736833438; cv=none; b=R1AX1dFYmRX7MYHaeH4AGQrmpuBtoChDCrEDMFOwjosts2nfRix5NlTQhetxye/htD6zvpOvNTv23S6RleKHHr7Z4XExst2iqTo6HE2hvb0HX1t3DumiHQKR8mM4CTUb/bYl/jOZRa2NioES310lKzTsj7P9Fyc7ChoRuZveupA=
+	t=1736842916; cv=none; b=RnBPZ8pQR35tR/U4HndnpNcnIrnxg4XKkArFOl26m0XtbCjAHYNTvvKu/ub1U4/Sb/+vGWp8YIu4A3tO8NOtZC35EqQhY62de5St93ycV0R8QTIiF3thAf/Qw3Bppv84d269FCOqPZzAZ44Ypr+rnE6Lo5TsrtDv8MHaNdrSfVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736833438; c=relaxed/simple;
-	bh=cKml3boNXhKJCjGfO8JR9YoQ53irun1W7520qjTwBOg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Zm4E2OqRC8/cHDX1+3Tn2g7nzFiiGLbcEnFFkdjrT6hlXlKzmnuiF+2A0rKpw/FzJpUUnYLl13S0vyGJuv96kRHo0Bp3/ZNcRjaK0p/3+/IXzsMw8veCUiGnJoQ6oH9sI83sA3Pwt0aueojidAhtARzC2aTDG1MRbrX7WS6bPaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Nsqf2mfV; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50E2rh9b008675;
-	Tue, 14 Jan 2025 05:43:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MF1jZiyP472C/WssSq3gta35NQX4excFFj4Sf23glEk=; b=Nsqf2mfVw/i2pksM
-	Rxe2QUJ2jgb+0Jhgn2rmyGNmSVkPy++xvYf0mTcl/YyC4Z6twxazomgsbF2qF9b0
-	3pBHsVHBPxEwnMA/lZx2nFKgORhOeKvYfdi0wYYavungHU90Ha9mawyGm8p6eAd8
-	2DWb7ydgG9QmB+NVq2p4O82OK4YeD39FYB+HOnSL9VqWwHqYyPrteCh79/Nfg/Ao
-	qkIN28tFaoJwZUNjrtjwdHNq2JTd3LOqouDxv1zx01/lJNHBPydlPv7ydH//uRAy
-	nKHRsC2X1+yLl0MM+qiQxb3aTNcvjt9+LVx9U3OLkxtuCuNcGADWNi3CxUpiyYqt
-	WlEkJw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445fhtra24-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 05:43:52 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50E5hpZU027485
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 05:43:51 GMT
-Received: from [10.231.216.103] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 13 Jan
- 2025 21:43:48 -0800
-Message-ID: <812bd104-8661-456a-ae0f-56942bb5d4f4@quicinc.com>
-Date: Tue, 14 Jan 2025 13:43:46 +0800
+	s=arc-20240116; t=1736842916; c=relaxed/simple;
+	bh=YFJKCb0jqMAhlwNKuT95tl8Htv3gL4ALSvmG3zHbfqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hXd3qDeOB25dVIW5NPHA6zNDiN5SCBMw8nvsPyvASf38Cp6SsSWK5kxr1NIH7dDTiq8ZmD1fP9GfD/ACaOa2z7aisS+CtvlH5VfXkG23tBQWhDUCJINwrhsmTaeR5EMahQaoKQ29RlOUa7FsT/sSkMgNB/2FeUFutj6cFar+GjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jE+YwIxA; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736842915; x=1768378915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YFJKCb0jqMAhlwNKuT95tl8Htv3gL4ALSvmG3zHbfqM=;
+  b=jE+YwIxA2nOhW+W9BCs4jSJhqopYxRk4B67+LzoVqAGAZH8a/J4J1vRu
+   c0mN6CRT8yOcpGfLVty90jA9IW2pbBKaIrkh5ZZY5wKwvu6RnrXvtx0np
+   o3lycRhHKOjg7JktovKkjtydHlHdURcNdpfHgwSQEh0aVp+6VThQiS6eS
+   ITs2kDSfjXQjGKoB1gLJwMqK3bKmEk9YQ6qhfB0LYxZZzAyupuh+zy+gh
+   e/wcO/R1h6tgTVN8Lvtwq2maymOfPuVsAfn8SuSRpN+6vqefDaFOspTp2
+   QcjqEKms8bK6NlnWMUVsGUosNQCssMTczyho9FB6GbR+kqlyD165UYxCF
+   w==;
+X-CSE-ConnectionGUID: BnSZLHJnRRWbIPOHB9XLUw==
+X-CSE-MsgGUID: pbJmPwsoSlWp/K5HjV79Mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40893898"
+X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; 
+   d="scan'208";a="40893898"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 00:21:54 -0800
+X-CSE-ConnectionGUID: 4bgDJI7lSkCxurHBiLu3JA==
+X-CSE-MsgGUID: O/PUG0G3R9COCkCPxJ2Amg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105610990"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa008.jf.intel.com with ESMTP; 14 Jan 2025 00:21:49 -0800
+Date: Tue, 18 Jun 2024 07:28:43 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	sumit.semwal@linaro.org, christian.koenig@amd.com,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+	zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+Message-ID: <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-9-yilun.xu@linux.intel.com>
+ <20250108133026.GQ5556@nvidia.com>
+ <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
+ <20250109144051.GX5556@nvidia.com>
+ <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
+ <20250110133116.GF5556@nvidia.com>
+ <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050>
+ <20250113164935.GP5556@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for
- video GDSC's
-To: Bjorn Andersson <andersson@kernel.org>
-CC: Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
-	<sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia" <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        Taniya Das
-	<quic_tdas@quicinc.com>
-References: <20241223-switch_gdsc_mode-v2-0-eb5c96aee662@quicinc.com>
- <20241223-switch_gdsc_mode-v2-1-eb5c96aee662@quicinc.com>
- <szj4urqpxoek3y65ov6bavxqjsgs5nnu5o32e73z47mudelq4v@6fjbmm2h7pen>
- <7556a703-db1a-48f1-8546-e9acf91ca0c6@quicinc.com>
- <fmxvklw2fmt4akltrpw6v4wmmi6teu7rozz6tozr4hkos6io4s@4jp76l7xql3l>
-Content-Language: en-US
-From: Renjiang Han <quic_renjiang@quicinc.com>
-In-Reply-To: <fmxvklw2fmt4akltrpw6v4wmmi6teu7rozz6tozr4hkos6io4s@4jp76l7xql3l>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: JqtM465CDXbRWceQ9Jok7dZrbAXAJ7JO
-X-Proofpoint-ORIG-GUID: JqtM465CDXbRWceQ9Jok7dZrbAXAJ7JO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- impostorscore=0 clxscore=1015 mlxscore=0 mlxlogscore=999
- priorityscore=1501 malwarescore=0 spamscore=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2501140045
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250113164935.GP5556@nvidia.com>
 
+On Mon, Jan 13, 2025 at 12:49:35PM -0400, Jason Gunthorpe wrote:
+> On Sat, Jan 11, 2025 at 11:48:06AM +0800, Xu Yilun wrote:
+> 
+> > > > > can be sure what is the correct UAPI. In other words, make the
+> > > > > VFIO device into a CC device should also prevent mmaping it and so on.
+> > > > 
+> > > > My idea is prevent mmaping first, then allow VFIO device into CC dev (TDI).
+> > > 
+> > > I think you need to start the TDI process much earlier. Some arches
+> > > are going to need work to prepare the TDI before the VM is started.
+> > 
+> > Could you elaborate more on that? AFAICS Intel & AMD are all good on
+> > "late bind", but not sure for other architectures.
+> 
+> I'm not sure about this, the topic has been confused a bit, and people
+> often seem to  misunderstand what the full scenario actually is. :\
 
-On 1/8/2025 12:41 PM, Bjorn Andersson wrote:
-> On Thu, Jan 02, 2025 at 12:06:14PM +0800, Renjiang Han wrote:
->> On 12/26/2024 11:54 AM, Bjorn Andersson wrote:
->>>> The video driver will be using the newly introduced
->>>> dev_pm_genpd_set_hwmode() API to switch the video GDSC to HW and SW
->>>> control modes at runtime.
->>> "Will be using", does that imply then that if this patch is merged
->>> before (or without the venus patch) something unexpected will happen?
->>>
->>> Please clarify how you expect this to be merged, or clarify in the
->>> commit message that ordering is not of any concern.
->>>
->>> Regards,
->>> Bjorn
->>   Thanks for your comment. This patch series is to make the video driver
->>   to use dev_pm_genpd_set_hwmode() to switch GDSC mode. This patch and
->>   the venus driver patch need to be merged at the same time. Otherwise,
->>   the video will not work properly on these platforms.
->>
-> The two patches are handled by different maintainers, of different
-> subsystems and as such would not be expected to be merged together ever.
->
-> If you have such requirements, it need to be made very clear to the
-> maintainers that they will have to synchronize the effort.
->
->
-> You're expected to always keep the tree "bisectable", i.e. the tree
-> should function after each commit in the git history. Please clarify
-> the best possible order here, and if the changes truly need to be merged
-> in some specific order let's see if we can get Maruo's Acked-by and I
-> could merge the pair through the clock tree.
->
-> Regards,
-> Bjorn
-  Thank you for your reminder. As we synced offline, this patch series
-  needs to be merged into the same release. If only the clock patch or
-  the venus driver patch is merged, it will cause the venus driver to
-  not work properly, but will not affect other functions of the system.
+Yes, it is in early stage and open to discuss.
 
--- 
-Best Regards,
-Renjiang
+> 
+> What I'm talking abou there is that you will tell the secure world to
+> create vPCI function that has the potential to be secure "TDI run"
+> down the road. The VM will decide when it reaches the run state. This
 
+Yes.
+
+> is needed so the secure world can prepare anything it needs prior to
+> starting the VM.
+
+OK. From Dan's patchset there are some touch point for vendor tsm
+drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
+
+Maybe we could move to Dan's thread for discussion.
+
+https://lore.kernel.org/linux-coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-xfh.jf.intel.com/
+
+> Setting up secure vIOMMU emulation, for instance. I
+
+I think this could be done at VM late bind time.
+
+> expect ARM will need this, I'd be surprised if AMD actually doesn't in
+> the full scenario with secure viommu.
+
+AFAICS, AMD needs secure viommu.
+
+> 
+> It should not be a surprise to the secure world after the VM has
+> started that suddenly it learns about a vPCI function that wants to be
+
+With some pre-VM stage touch point, it wouldn't be all of a sudden.
+
+> secure. This should all be pre-arranged as possible before starting
+
+But our current implementation is not to prepare as much as possible,
+but only necessary, so most of the secure work for vPCI function is done
+at late bind time.
+
+Thank,
+Yilun
+
+> the VM, even if alot of steps happen after the VM starts running (or
+> maybe don't happen at all).
+> 
+> Jason
 
