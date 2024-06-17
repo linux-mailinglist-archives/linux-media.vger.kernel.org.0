@@ -1,267 +1,272 @@
-Return-Path: <linux-media+bounces-13385-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D9D90A622
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 08:53:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE4890A621
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 08:53:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E27291F23FAE
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 06:53:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C286A1C25D5C
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jun 2024 06:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72461186E38;
-	Mon, 17 Jun 2024 06:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D743186E25;
+	Mon, 17 Jun 2024 06:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="jghTbNey";
-	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="RX4rDvSj"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="bf5Zk+IG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BC917C7B3;
-	Mon, 17 Jun 2024 06:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870EB39FFB;
+	Mon, 17 Jun 2024 06:53:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718607198; cv=fail; b=UgxvumpZ/inD/6kvML4vxw/We8jPBQGG66OkUIma0mjl2KOsHEkaqmXfJeF6uXcg5iF976g3fla1oIszN1xBnJXwG0oIsOQemqZwJxFt1JsgLznhcvZh83cbwKm6pRJY+Rt1yeIOLvn/AaXZDkz8Pe53dKyyPcuFMMfamLMBz4Q=
+	t=1718607197; cv=pass; b=pne4f2Ngriu4h/DJFy4XdxSmioxpyYX2hxntuEmucKXhHINdkr4O26IWPnxQrV/aSUtwu/zbdgtiYlb09+rIRfm5mYrpn80UeK5ZU1HJ5bIZ/hRuN2n25ddqdtnBifW/mUmoKxVzR2CGP6YSC2+UJWvldPnHOCqgMoKJG5H2odM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718607198; c=relaxed/simple;
-	bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=sA5vkPJRq9WiL1FSHktg2xg48dw1lJfgpFcnM0vJE0zsomezo/d3x5zDHEvmIS+kh1Us5bh05Hq98jI82ebjLfk/YxZnG+aLWbY4SzemNHY+bq4tttupwMONtwot5sB+9ktgZj2VYEZRQMTgah5AnFNoH8GhOf0KqaSaoMFvsWs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=jghTbNey; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=RX4rDvSj; arc=fail smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 4358ceca2c7611efa54bbfbb386b949c-20240617
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
-	b=jghTbNey+JXU9iCQDRpmgMNk0i3uxWm0/xDCiGcvELLqPWNtaCVVLyHMsCU/gMs4ts3NkejRX/xJmJiPket08dnbd2HpIs2mr45dKfeaSB5hKRLdTbjAnsO9BDqGeQKGYU6xeC/bHsb0LmCskxzibH5Ds8GxfE2c+AEVJCeROqI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.39,REQID:ad586716-7f6d-4c2d-9175-4b57fb91a33c,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:393d96e,CLOUDID:aa0faa44-4544-4d06-b2b2-d7e12813c598,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 4358ceca2c7611efa54bbfbb386b949c-20240617
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-	(envelope-from <yong.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1032889422; Mon, 17 Jun 2024 14:53:11 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sun, 16 Jun 2024 23:53:11 -0700
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 17 Jun 2024 14:53:11 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TgXehTmcQXDppmbxBWVpbPWGxnNPFgL+okATcN8aoEsE2jhIvM3AQtIJrQvMVtWHPyiVXRvrbAxvEgBdtdh7GwHH0PT4qe+CRuORklh5Kz4P+qSIHx9yCClNvCj4l5ZWfi1q+PjyIZyp8rTuIoIsVSI9rYP7KMG/Z3xe9mD3HZNjZRO/RUgg3E9xi/nG8slBhk/Cw/2n6og07J8IPCnVfA8k4iDDbMZUMr0G2iLVIA1/G7FDS4obLKloMWBQkZEereJiu5mqN2R471682/LmRbOHBz48ooyjB5AJGk2wOft6MCiWvVxu/dxQz9uALCLUd5YWEllU6V5XrqKXoRE32g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
- b=eUmi7vyLXMfleenfCvxQV4vL3Q90317XefZ/ZGJqqUeLi5oDXkxIdNrquLorr04wMH7Lg598pGncfZHtvBz1c8VE1qkueGmidECBD403AGOMi2lGDHWRTiplKOwgra87N2zA41Rp7EhVauWoX4pkuhDTCYYNrJogR7lx9zY0flQtByRpfKsG5zj/EmFMVeU17Gs1BhJv6CX01ZvBG9hm4NMtKsUUCoVL1GFEFySDjYUpesbWylLnHTh9YvC6jYilq9ibvkcQTGCPxyINR2RWTJi8FCcO54mDQqZ5Fo093GKK/Zet9kvQZg3MsK47idl/tTMp4IQW2d0eQ7UlCpjyKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x8CteyC2LY78mph4t+PG4oQc0C/jofnpHvTIgCt5cb4=;
- b=RX4rDvSjrb+zw/VlozxhEnT0fo9sCb1mIu4Q9pzONNCXO4Z6NKzCsPd9BNN17qIv9w1azvKR/CFwNTd8j1cwtLXV79/T6grDxiZWbH7AZJemOu5YJb+nPT4tXnmRNkyS7VQ3q7bogjSBZa4LiGzU7ZGCL1DMY2a3cTllN4EbG34=
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com (2603:1096:4:142::7) by
- TYSPR03MB8719.apcprd03.prod.outlook.com (2603:1096:405:8f::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7677.30; Mon, 17 Jun 2024 06:53:08 +0000
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::683a:246a:d31f:1c0]) by SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::683a:246a:d31f:1c0%5]) with mapi id 15.20.7677.030; Mon, 17 Jun 2024
- 06:53:07 +0000
-From: =?utf-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
-To: "tfiga@chromium.org" <tfiga@chromium.org>,
-	=?utf-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"frkoenig@chromium.org" <frkoenig@chromium.org>, "stevecho@chromium.org"
-	<stevecho@chromium.org>, "wenst@chromium.org" <wenst@chromium.org>,
-	"nhebert@chromium.org" <nhebert@chromium.org>, "christian.koenig@amd.com"
-	<christian.koenig@amd.com>, "jstultz@google.com" <jstultz@google.com>,
-	"nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "m.szyprowski@samsung.com"
-	<m.szyprowski@samsung.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"jkardatzke@google.com" <jkardatzke@google.com>, "Brian.Starkey@arm.com"
-	<Brian.Starkey@arm.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "sebastian.fricke@collabora.com"
-	<sebastian.fricke@collabora.com>, "benjamin.gaignard@collabora.com"
-	<benjamin.gaignard@collabora.com>, "tjmercier@google.com"
-	<tjmercier@google.com>, "hverkuil-cisco@xs4all.nl"
-	<hverkuil-cisco@xs4all.nl>, "matthias.bgg@gmail.com"
-	<matthias.bgg@gmail.com>, "hsinyi@chromium.org" <hsinyi@chromium.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-	"angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>, "nfraprado@collabora.com"
-	<nfraprado@collabora.com>, Project_Global_Chrome_Upstream_Group
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: Re: [PATCH v6,12/24] media: mediatek: vcodec: add interface to
- allocate/free secure memory
-Thread-Topic: [PATCH v6,12/24] media: mediatek: vcodec: add interface to
- allocate/free secure memory
-Thread-Index: AQHap4uop8FE3IlRwUe2u2Cz6N4cnLHDwf8AgAf07YA=
+	s=arc-20240116; t=1718607197; c=relaxed/simple;
+	bh=W6o5OFHPV903s3p/dxPKCzEI3sKGQY/2nQbvsZRxpLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YoINhJ32+sSJAvwElXt0coffBjn4Njzs+RaJ39YlEYWJL1+RQHsaJxIoIZsOnjzK0VyVBLpee+D1u5HsQGxkGU3KOhyeorMdJVFCcic+67FbnGtxAROnXdYy0N6/b7NAxDpWCd3IY7W538xWaKlyS0H18JGZLA2Plcl5/Rozw5E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=bf5Zk+IG; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4W2gZD47h7z49Q4J;
+	Mon, 17 Jun 2024 09:53:08 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1718607189;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6uM9bQS23wS/E3Smjz6I8J48DsYFyEmhgCN++2bd06U=;
+	b=bf5Zk+IGlVR0GCuS1tBR4o1xKV3iJLFAHkqQafKJit6IzQn/WHnZUmB+Seq5p/vg79KZ6t
+	q1WkXJ/UbNpZcw5McY2aWelByD8RKxomDKquZgZl1PmYXBX3FzD5eVsMZd4vWumRPshiZs
+	p4rjPqA9Afne5H0TQjPxWluqEMC+fn5sCLEA4/xv41qgPf4ROqIjFxezneiB4cVuOamijl
+	D8jZC0sU3a5eMyBjvQI9LIs//262p9XQOODO8ePaR2zzKk7w3wHGWluoE7DLALHgZwRquA
+	DCowO4CHF/vDI1n0jIkGSm5d1MqgAh+/4chewekQ0mWvwd7Z7HuyxHczqoDEQQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1718607189; a=rsa-sha256;
+	cv=none;
+	b=lOJd2AbRGWco3YqNfFGvOISmSbFKfXt+p9SXblLenZH5NkO3pl8Hmo30HrlNm22ILxEFpl
+	lFXXd8VBufe/0N+/41bKT2NgmGGxKyrSW30vOtm95++jVnm3LrXBnvuwOr7iKc38wmlW/y
+	r08ef1rzLID2XnJ5HyqGFMr9IJBWY4H2m6+R1dhO54y6C2qzddpNWTpdYUMKB//1fbuzsz
+	HbvcuBp3fxziOqoF+1Dy4jC2lwUYZBZJyT0h0E47btlF2b7sg4ikTqhQBffm0MvVJESJa7
+	6X47BbLKW9uGy2Uzse/TVWQ2GvM4EfHWfXdfukxjqkXWRkBxirlyt0TB7ougyA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1718607189;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6uM9bQS23wS/E3Smjz6I8J48DsYFyEmhgCN++2bd06U=;
+	b=TEL/6PRiT3valJJGt2sCzkeYA4ZyeqI8x3JS7I88MFtssakG4OQW2KW+GGk33820jMXyDu
+	8WV2+c1EXR1SBtsL5Jg9Mti13bX3s6isS8wQsqSg77hTodt4P2mVhblImDeY2SaxWcAp2F
+	2FKmeXJctCQRLI3VaW5EZN5yyKWK+NQt0U1TvB2WvGyf7jXCwLZomO2JMX6plnyaZnLJij
+	8GLar7wMF7UbqVYPG1bdz7yjvJBdtx4aMqOFX0CaOAIdO8rZKUVagD/lxSvT9wcE2Kc+hL
+	IshEn/Fi4gOpe7ZWWTb8kKfv6E96mlln70Vp9E+SZ2eyt1FLgPXqdA1ny4yOPQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3BC6D634C93;
+	Mon, 17 Jun 2024 09:53:07 +0300 (EEST)
 Date: Mon, 17 Jun 2024 06:53:07 +0000
-Message-ID: <20fec212d49cc3f0479be7a855d9816f5739ce93.camel@mediatek.com>
-References: <20240516122102.16379-1-yunfei.dong@mediatek.com>
-	 <20240516122102.16379-13-yunfei.dong@mediatek.com>
-	 <4a5tf2cl744xzqslox4ddzmdpuvwksr54g3qk2jl4soatdts45@e6xmmm2ijmv6>
-In-Reply-To: <4a5tf2cl744xzqslox4ddzmdpuvwksr54g3qk2jl4soatdts45@e6xmmm2ijmv6>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR03MB5885:EE_|TYSPR03MB8719:EE_
-x-ms-office365-filtering-correlation-id: a7371101-b232-4832-6ff6-08dc8e9a252c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230037|366013|376011|7416011|1800799021|38070700015;
-x-microsoft-antispam-message-info: =?utf-8?B?dEh5azZqc1dwQXFSbWlFdlVUbFczVmR2K1NpSmE2YTJrQjliVmpzeUpESURQ?=
- =?utf-8?B?Ri9ESm45cCt1Uk9DaTQ1Y0tBMngwb1ExQ1Z1UTJtc3AzYi9kdzdhUXd3ZUJa?=
- =?utf-8?B?dVMwbGRGNU5HYUQ4dmVqZnVXcGFycC9qNlIzRmdNTmtMUjhVTnJMOGp2SWR5?=
- =?utf-8?B?VjZxS1E5ZDVoYWZiUXBxVjZ2Q29idm9MVTV3UmNiUEN0Q2VjczUyOTRCRkIz?=
- =?utf-8?B?NTREdTRuZDBTSCt3R2piOW9BVndQckZ1WTAxL1B3VjE3OUVvNDRaWmx6SGF1?=
- =?utf-8?B?bDh1UWdqbGcyNDJyYWFOajU5MUQ2OGJORVcxQ1c1UmFKSElCWGUveVAwQVFG?=
- =?utf-8?B?a1VSN1lsYW1HTEpOc3NwTWx6dGJpWi9JbnpyWVhQMlE0bnE5ckpuK0dRRmIv?=
- =?utf-8?B?ZEdHL28xVzJKbk03QjBibG10L3E3dzVFamo1TUN6cWptc2w5T3V5QlJsV0U3?=
- =?utf-8?B?V09tQWd6Z2FXaFg3czFlRjFWVmxwdXlZSWhhaitDT0l4enJYdXNoVHBzNXVO?=
- =?utf-8?B?Vm9QVWN3N2JEc0VmYzRaeThiN2FQbnJDUmRjeXpqbUtjeTRXZHVDOFN0Tyto?=
- =?utf-8?B?YnkzcUZDOWpjZ2pjWmFJT1RMTzI1M0F0Rjc3aURRak5oc2NSN3hxOHYydVBq?=
- =?utf-8?B?TXZPR1BWelV4RFJqZ09nazRJeVEzTnozdkkvb2xPbTJMYTRSamYzckVuZEs4?=
- =?utf-8?B?TDh2VHVwemE0VjRSR3RQbXZicklkUzdURHoybzQ3RU11QUVPUmg5Y0NSQTlw?=
- =?utf-8?B?ejhFemVWZzU0R0g0V0Q4aTcrbXphMmlsRk9JNGFmbUtBVVZhRU5PT2tDZ1hP?=
- =?utf-8?B?bDN6MXNCcDdOUHAzSmViaWJORVdaWlcxTWY2ZlZTQW53aTBhUHZ3bzJIVW5W?=
- =?utf-8?B?YytWdmJBYU81L0M3THRsSnU2T0Y3Tm45dWdYeHhjTjdva3dTTklIUDVDN0xM?=
- =?utf-8?B?RnF3UUQ1SjVyKytzVGpwS0JEeVBCQVBEMWRoYzByakp5bGEweElacTIzZGcx?=
- =?utf-8?B?L1BqNmJHTjMydCtOOHZvQ2tydFJXRUpka1ZwM2c0R3RHQlp4TW5DR25iV1ky?=
- =?utf-8?B?MUFhdWZsZE1ib3R4eGRIM2k3elZIZTN1WWdFb3grVlRUSE9rcGR2K1d6YnMx?=
- =?utf-8?B?U3JTWXc5SGtRMkdVRGtnNFdFMkRCOEpuSHJmSUUwTWF3eW42WTM1b1JVN1N0?=
- =?utf-8?B?SU1NVm10NEVIenBFT0NqWWoxcS9hWU1jNlZXdlAxS3QzNEpUWkcrREVBRlRU?=
- =?utf-8?B?bDc1L1BMU3BWU3pBNUxQTDNLK3k0ZlRFMGl2cVRxZ09vK2FFSVpNdzhxZW96?=
- =?utf-8?B?aDNKYmlQLzV1TVFaOXNyZXRqeVBOVXBHTW1BL3lDcU81aE9hQWtkdkxyWU5q?=
- =?utf-8?B?OEVVSnBBZkxjbXlobW5zbjFNUG5ENmNGSGJucXI1cW5lWW9xY1VQTEVQRDNp?=
- =?utf-8?B?RkFCSUxuZWJCUHBwT1RlZ081R0xYN1NmNC9rdjdQUG43YlEzZytPZGtMNHRp?=
- =?utf-8?B?ZmFvZXNjcGRvS0kzelluY3Nkd0RET1pJR1l2ZzkxNUFaVVk1dTBFZGczMnZX?=
- =?utf-8?B?T0NrcGNkSzFDS2pYUVlkcVIyS2RoM3FoRWxxT09PUytYOCs4c2lQK2dzMVZX?=
- =?utf-8?B?Vi9DT0JWOHVkNzl2Um1aOFRzZXlacCtPUVBabzhTSnlnQzhZSThFNVk2cmdO?=
- =?utf-8?B?UUVML0NSNXRjZ0lHWjRPUVlSdHdPRDBXSDRzbzF2ODVNVHoxODMwK3NCZ0ZV?=
- =?utf-8?Q?KqY19H7DIbQEOplrDPuIuu7J9+9jUzN4nGjwmPg?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB5885.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(376011)(7416011)(1800799021)(38070700015);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SHZoaW1XaFlualBwZlV0UWttSUY5R1pwZWFmTno5R0htalF2UHNGQmt6cm82?=
- =?utf-8?B?RVhUblNtc1d6dUtlbTBPQkl5QnN4Q25VdG5WYWZDNEhYejIvQUdzNkR2QnZo?=
- =?utf-8?B?NTd0Ym4rbE5zN2M4b0lJaWc2SVgvZkJJQkRaSHAzVHZuUU1qMnlGdkhTQ2h3?=
- =?utf-8?B?SjRIMjlNOC9sT0NGRm5OR2xza0prdU04Q21oMnJuZmlubXc3NnMyQ084UjFS?=
- =?utf-8?B?UkZyQmw2U2gwd2drblRtclNISnZnbElaTFJ5bjZaNVZ5c3ZxeEVzRmVHVzhy?=
- =?utf-8?B?b3craXNQcFR6YndVTkVHbS9tWitJeVk5ZllCWlRmMG1ndTRYYm82OWcwdGdo?=
- =?utf-8?B?TVFEWGRoY205Wm91ZXc1SG9JU3pNNHhSVGhzNzNyRHBIb3FxVU05aW5xU0lM?=
- =?utf-8?B?dTQrOEFLeUZrOGI3R2MvNGJIRVhzRVVDdUFRYU9YVFM0QXZLbGlJZWVDeG53?=
- =?utf-8?B?UnJDOU1HOW9hRzh5OUd2azJJUTdpTGZrTlpjb3FrVC9YQ0JHQ0orcnJUbVJk?=
- =?utf-8?B?dTNCTUFsQlFOZG1XT3JlZHpiNVB4RGJhSkpJL1NVS2lJclo2eUplaDFIc21V?=
- =?utf-8?B?Z01ZSkkxUkJpZkZkcjAwaXlRdEkvVzJMTWJqYzVpSmxKUjVyeFR5bEh0M2dI?=
- =?utf-8?B?UzVHbTZnSTZZK2ZITUowWUFsZkEvNGNYSUhnVmNnakhjWTBwWGtYZGVYeHE0?=
- =?utf-8?B?SndDYTY0bGc3b3RXQUhsYnZyZFNhSnRVUHhacytLOE5LaERGWC9VRndGV2I5?=
- =?utf-8?B?VUZEaXpyZGlsdWVUNENRb0V4WUN3VlVTNmYwajBuR2VKRmovc1N0WGMrSkh4?=
- =?utf-8?B?TndmVXFqZnlUN285aUdEMjhiaVU2TFpYeUdZeVVrVGlyV1BFZVViOXRpZVhx?=
- =?utf-8?B?bTlNUngrTm1NUkpEUUI4WVlEdVZJcmhtVW9vWHRPMGJrZFFHUU92MmJNKy91?=
- =?utf-8?B?enh2SnNTbGhqUGJqNkZVN2xQMDFSRmFEdUdMNEhkeTRURGtoZlFGaWdvam5i?=
- =?utf-8?B?L1ozeng4bis1dGIybmdtdUtIRW9hYlkvYm1wNlN3SDdqaTU5YWJ3TzVYTEds?=
- =?utf-8?B?d1Q5YmgwUmVqQm9hRkx2TWFGUWVWMUhqd3BEY3FoU0F0cFFNTks2b2Q2WjJi?=
- =?utf-8?B?WWpINXA2bDR3RGdIZFFhdGRtellhd3NoNUVpZTlyQXY4MmZsQTBkdkdIai9q?=
- =?utf-8?B?RkRiQk4vYlZid3hPUWtIUHdNTmEwd3lrc29tekRPbGVVY2ZGOWo2YlpPZjNJ?=
- =?utf-8?B?dVNzcjd3S2s4dk5Bb3FOQ29WOEwxZnNzZG85Rm5NWlZwNUREbWlnSnBQSVZD?=
- =?utf-8?B?RU5DeTZ3cHdmUWlyMEpZZi8zVWZpY2ZHdkxka0U3N2JNaFdKSVk1SGpiYmw0?=
- =?utf-8?B?MWJVbzVEdDhtOWFDcGNIVy9GUGxTb1VGYy9ucDR4OVdxRXFxZnBuaGhSd0Zp?=
- =?utf-8?B?ME01ZlFCOG0vNHNzYi8xRlJHNWNmcG1mY0JCeU9rV3RoVnU2ZVFBeDNjUzZU?=
- =?utf-8?B?dTl6Z2ltQzR4ankvK2RoZm9NZkdiTkErTk4wc1MxQlBSdElnZWtXNEZmNXpz?=
- =?utf-8?B?YkZHbHRkcG1vRjBQZm8zeVUwSjh5RzRmdHdrSG9KZkpLNlp6cklFWktpNmxN?=
- =?utf-8?B?M1BMODZiMlRtUmkvSy9EUzhLeUZERVI1OFlncEpWYVZzTmFtNEhVSHF0dnBI?=
- =?utf-8?B?UlhvaU5yaWxTbWczbHFPeC9zZ3ZNdnI5Q0MxaDk4VXF1ekxucDRSZkp2S1Vx?=
- =?utf-8?B?ZnN0N2NtQTNFakUyaW9yNkZkaURqY0FyYWdxeWo4eENFbW51T0EvNzFoemRr?=
- =?utf-8?B?a0U0YUkwT0I1UG1xQ2JoTDVFNzM4MGNlVTY1aWF2cCtKRWplUkVxOVhwVDU1?=
- =?utf-8?B?WHRkcDZ2L0RvWDY5L1hid1k1Q0E0bytrUlNqWGVIRzY3SVlwdlZDd2RpS3Rz?=
- =?utf-8?B?MlBOZURFWUdvbnFjalFPZHl0QllmTS9LNmhPazVtdmIzOU1meTRWN0lCQVM3?=
- =?utf-8?B?a1Q3cjJCYlA2eGIzZ0puTFN5amRMSG1HSGo1VW9QSThNbnVSOWN3TnVtWlAx?=
- =?utf-8?B?bGJPTTQyNzhaQ0QrdmRZeWQrSG5uQVo5Vi9aTU11MGJmaldGK1g4QkU2NSsz?=
- =?utf-8?Q?edYbv4p5keLzmwTB84Q4e4CnK?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AAB85E8724F73A43A7C4F165F373FD93@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, nayden.kanchev@arm.com,
+	robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v5 05/16] media: mali-c55: Add Mali-C55 ISP driver
+Message-ID: <Zm_dU6LQE1SgVMj-@valkosipuli.retiisi.eu>
+References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
+ <20240529152858.183799-6-dan.scally@ideasonboard.com>
+ <20240530001507.GG10586@pendragon.ideasonboard.com>
+ <20240530214348.GA5213@pendragon.ideasonboard.com>
+ <ygr7rhp23gjc4ywmcdy7d5coh4wubxlvkdxcvwgdpk4j343pnd@h4if5jtz7mop>
+ <20240606175306.GB26663@pendragon.ideasonboard.com>
+ <afe76b3c-8e75-4c70-bcc2-9ee5f57d70b7@ideasonboard.com>
+ <ZmVKANYj7uD3IFmy@valkosipuli.retiisi.eu>
+ <20240616203807.GB10964@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB5885.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7371101-b232-4832-6ff6-08dc8e9a252c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2024 06:53:07.9490
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SsLTpnnezSR8R/FvZjJE3B4F049i3AKFNuKuM6zGEZZV020i3ODQl+5SJWT4k7MCt5Ntf090gyVZBqVcMwrLNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8719
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240616203807.GB10964@pendragon.ideasonboard.com>
 
-T24gV2VkLCAyMDI0LTA2LTEyIGF0IDE0OjIyICswOTAwLCBUb21hc3ogRmlnYSB3cm90ZToNCj4g
-IAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVu
-IGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhl
-IGNvbnRlbnQuDQo+ICBPbiBUaHUsIE1heSAxNiwgMjAyNCBhdCAwODoyMDo1MFBNICswODAwLCBZ
-dW5mZWkgRG9uZyB3cm90ZToNCj4gPiBOZWVkIHRvIGNhbGwgZG1hIGhlYXAgaW50ZXJmYWNlIHRv
-IGFsbG9jYXRlL2ZyZWUgc2VjdXJlIG1lbW9yeSB3aGVuDQo+IHBsYXlpbmcNCj4gPiBzZWN1cmUg
-dmlkZW8uDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogWXVuZmVpIERvbmcgPHl1bmZlaS5kb25n
-QG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL21lZGlhL3BsYXRmb3JtL21lZGlhdGVr
-L3Zjb2RlYy9LY29uZmlnICAgIHwgICAxICsNCj4gPiAgLi4uL21lZGlhdGVrL3Zjb2RlYy9jb21t
-b24vbXRrX3Zjb2RlY191dGlsLmMgIHwgMTIyDQo+ICsrKysrKysrKysrKysrKysrLQ0KPiA+ICAu
-Li4vbWVkaWF0ZWsvdmNvZGVjL2NvbW1vbi9tdGtfdmNvZGVjX3V0aWwuaCAgfCAgIDMgKw0KPiA+
-ICAzIGZpbGVzIGNoYW5nZWQsIDEyMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiA+
-IA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2Rl
-Yy9LY29uZmlnDQo+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay92Y29kZWMvS2Nv
-bmZpZw0KPiA+IGluZGV4IGJjODI5MjIzMjUzMC4uNzA3ODY1NzAzZTYxIDEwMDY0NA0KPiA+IC0t
-LSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvdmNvZGVjL0tjb25maWcNCj4gPiAr
-KysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2RlYy9LY29uZmlnDQo+ID4g
-QEAgLTE3LDYgKzE3LDcgQEAgY29uZmlnIFZJREVPX01FRElBVEVLX1ZDT0RFQw0KDQpbc25pcF0N
-CiAgDQo+ID4gLXZvaWQgbXRrX3Zjb2RlY19tZW1fZnJlZSh2b2lkICpwcml2LCBzdHJ1Y3QgbXRr
-X3Zjb2RlY19tZW0gKm1lbSkNCj4gPiArc3RhdGljIGludCBtdGtfdmNvZGVjX21lbV9hbGxvY19z
-ZWMoc3RydWN0IG10a192Y29kZWNfZGVjX2N0eA0KPiAqY3R4LCBzdHJ1Y3QgbXRrX3Zjb2RlY19t
-ZW0gKm1lbSkNCj4gPiArew0KPiA+ICtzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmY3R4LT5kZXYtPnBs
-YXRfZGV2LT5kZXY7DQo+ID4gK3N0cnVjdCBkbWFfYnVmICpkbWFfYnVmZmVyOw0KPiA+ICtzdHJ1
-Y3QgZG1hX2hlYXAgKnZkZWNfaGVhcDsNCj4gPiArc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAq
-YXR0YWNoOw0KPiA+ICtzdHJ1Y3Qgc2dfdGFibGUgKnNndDsNCj4gPiArdW5zaWduZWQgbG9uZyBz
-aXplID0gbWVtLT5zaXplOw0KPiA+ICtpbnQgcmV0ID0gMDsNCj4gPiArDQo+ID4gK2lmICghc2l6
-ZSkNCj4gPiArcmV0dXJuIC1FSU5WQUw7DQo+ID4gKw0KPiA+ICt2ZGVjX2hlYXAgPSBkbWFfaGVh
-cF9maW5kKCJyZXN0cmljdGVkX210a19jbWEiKTsNCj4gPiAraWYgKCF2ZGVjX2hlYXApIHsNCj4g
-PiArbXRrX3Y0bDJfdmRlY19lcnIoY3R4LCAiZG1hIGhlYXAgZmluZCBmYWlsZWQhIik7DQo+ID4g
-K3JldHVybiAtRVBFUk07DQo+ID4gK30NCj4gDQo+IEhvdyBpcyB0aGUgaGVhcCBuYW1lIGRldGVy
-bWluZWQgaGVyZT8gTXkgcmVjb2xsZWN0aW9uIGlzIHRoYXQgdGhlDQo+IGhlYXANCj4gbmFtZSBj
-b21lcyBmcm9tIHRoZSBoZWFwIG5vZGUgaW4gdGhlIERULCBzbyBpdCBtYXkgdmFyeSBkZXBlbmRp
-bmcgb24NCj4gdGhlDQo+IGJvYXJkLg0KPiANCj4gSXMgdGhlIGhlYXAgbmFtZSBkb2N1bWVudGVk
-IGFueXdoZXJlIGluIHRoZSBEVCBiaW5kaW5ncz8NCj4gDQo+IFNob3VsZG4ndCB3ZSByYXRoZXIg
-cXVlcnkgRFQgZm9yIGEgcGhhbmRsZSB0byB0aGUgcmlnaHQgaGVhcD8NCj4gDQoNCkhpIFRvbWFz
-eiwNCg0KVGhpcyBoZWFwIG5hbWUgZG9lcyBub3QgY29tZSBmcm9tIGR0LWJpbmRpbmcuIEl0IGlz
-IGhhcmQtY29kZWQgaW4gdGhlDQpkcml2ZXJbMV0uIEJlY2F1c2UgdGhlIGhlYXAgZHJpdmVyIGlz
-IGEgcHVyZSBTVyBkcml2ZXIsIHRoZXJlIGlzIG5vDQpjb3JyZXNwb25kaW5nIEhXIHVuaXQsIGFu
-ZCB0aGVyZSBpcyBubyB3YXkgdG8gYWRkIGEgZHRzaSBub2RlLg0KDQpbMV0gDQpodHRwczovL2xv
-cmUua2VybmVsLm9yZy9saW51eC1tZWRpYXRlay8yMDI0MDUxNTExMjMwOC4xMDE3MS0xMC15b25n
-Lnd1QG1lZGlhdGVrLmNvbS8NCg0KVGhhbmtzLg0K
+Hi Laurent,
+
+On Sun, Jun 16, 2024 at 11:38:07PM +0300, Laurent Pinchart wrote:
+> On Sun, Jun 09, 2024 at 06:21:52AM +0000, Sakari Ailus wrote:
+> > On Thu, Jun 06, 2024 at 10:10:14PM +0300, Tomi Valkeinen wrote:
+> > > On 06/06/2024 20:53, Laurent Pinchart wrote:
+> > > > > > > > +			return -EINVAL;
+> > > > > > > > +		}
+> > > > > > > > +
+> > > > > > > > +		active_sink = route->sink_pad;
+> > > > > > > > +	}
+> > > > > > > > +	if (active_sink == UINT_MAX) {
+> > > > > > > > +		dev_err(rzr->mali_c55->dev, "One route has to be active");
+> > > > > > > > +		return -EINVAL;
+> > > > > > > > +	}
+> > > > > >
+> > > > > > The recommended handling of invalid routing is to adjust the routing
+> > > > > > table, not to return errors.
+> > > > >
+> > > > > How should I adjust it ? The error here is due to the fact multiple
+> > > > > routes are set as active, which one should I make active ? the first
+> > > > > one ? Should I go and reset the flags in the subdev_route for the one
+> > > > > that has to be made non-active ?
+> > > >
+> > > > The same way you would adjust an invalid format, you can pick the route
+> > > > you consider should be the default.
+> > > > 
+> > > > I'd like Sakari's and Tomi's opinions on this, as it's a new API and the
+> > > > behaviour is still a bit in flux.
+> > > 
+> > > Well... My opinion is that the driver adjusting the given config parameters
+> > > (for any ioctl) is awful and should be deprecated. If the user asks for X,
+> > > and the driver adjusts it and returns Y, then the user has two options:
+> > > fail, because it didn't get X (after possibly laborious field by field
+> > > checks), or shrug it's virtual shoulders and accept Y and hope that things
+> > > still work even though it wanted X.
+> > 
+> > This is still often the only way to tell what the hardware can do as the
+> > limitations in different cases (cropping and scaling for instance) can be
+> > arbitrary. The other option is that the user space has to know the hardware
+> > capabilities without them being available from the kernel.
+> 
+> For some parameters that make sense (we don't have a try mechanism for
+> ISP parameters buffers for instance), but when it comes to configuring a
+> pipeline, I think a parameters adjustment model is needed when we don't
+> have means to expose constraints in a generic way to userspace. The
+> question is in which category routing falls.
+> 
+> > There could be cases of IOCTLs where returning an error if what was
+> > requested can't be performed exactly is workable in general, but then again
+> > having consistency across IOCTL behaviour is very beneficial as well.
+> > 
+> > If you need something exactly, then I think you should check after the
+> > IOCTL that this is what you also got, beyond the IOCTL succeeding.
+> 
+> I do agree with Tomi that this kind of check can be annoying for
+> applications. In cases where checking the result would be complex, and
+> where there is very little use case for receiving anything but the exact
+> configuration you asked for, adjusting the parameters could increase the
+> implementation complexity on both the kernel side and userspace side for
+> no or very little benefit.
+> 
+> > > But maybe that was an answer to a question you didn't really ask =).
+> > > 
+> > > I think setting it to default routing in case of an error is as fine as any
+> > > other "fix" for the routing. It won't work anyway.
+> > > 
+> > > But if the function sets default routing and returns 0 here, why would it
+> > > return an error from v4l2_subdev_routing_validate()? Should it just set
+> > > default routing in that case too? So should set_routing() ever return an
+> > > error, if we can just set the default routing?
+> 
+> That's a good point. I asked myself the same question after sending my
+> previous e-mail, and wondered if anyone else would notice too :-)
+> 
+> > S_ROUTING is a bit special as it deals with multiple routes and the user
+> > space does have a way to add them incrementally.
+> > 
+> > Perhaps we should document better what the driver is expected to to correct
+> > the routes?
+> 
+> We should document the expected behaviour clearly. After agreeing on the
+> expected behaviour, that is.
+> 
+> > I'd think routes may be added by the driver (as some of them cannot be
+> > disabled for instance) but if a requested route cannot be created, that
+> > should probably be an error.
+> > 
+> > I've copied my current (with all the pending patches) documentation here
+> > <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/streams-doc/userspace-api/media/v4l/dev-subdev.html#streams-multiplexed-media-pads-and-internal-routing>.
+> >
+> > The text does not elaborate what exactly a driver could or should do, apart
+> > from specifying the condition for EINVAL. I think we should specify this in
+> 
+> I don't see mentions of EINVAL related to streams there, am I missing
+> something ?
+> 
+> > greater detail. My original thought wws the adjustment would be done by
+> > adding static routes omitted by the caller, not trying to come up with e.g.
+> > valid pad/stream pairs when user provided invalid ones.
+> > 
+> > Could this correction functionality be limited to returning static routes?
+> 
+> That would make userspace a tad simpler, and wouldn't be hard to do in
+> the kernel, but I wonder if departing from the rule that invalid routing
+> tables result in an error is worth it for such a small gain.
+
+I'm just referring to our previous decision on the matter. :-)
+
+Of course an application can do G_ROUTING, toggle the routes it needs to
+and call S_ROUTING again, in order to be (fairly) certain it'll succeed.
+
+Say, if an application wants to enable an embedded data route, then it'll
+be required to supply the route for the image data as well, even if there's
+no configuration that could be made for that route.
+
+I'm thinking of fairly generic code here, if a device requires special
+routing setup, it'll need the user space to be aware of it.
+
+> 
+> > > In the VIDIOC_SUBDEV_S_ROUTING doc we do list some cases where EINVAL or
+> > > E2BIG is returned. But only a few, and I think
+> > > v4l2_subdev_routing_validate() will return errors for many other cases too.
+> > > 
+> > > For what it's worth, the drivers I have written just return an error. It's
+> > > simple for the driver and the user and works. If the consensus is that the
+> > > drivers should instead set the default routing, or somehow mangle the given
+> > > routing to an acceptable form, I can update those drivers accordingly.
+> > > 
+> > > But we probably need to update the docs too to be a bit more clear what
+> > > VIDIOC_SUBDEV_S_ROUTING will do (although are the other ioctls any
+> > > clearer?).
+> > > 
+> > > All that said, I think it's still a bit case-by-case. I don't think the
+> > > drivers should always return an error if they get a routing table that's not
+> > > 100% perfect. E.g. if a device supports two static routes, but the second
+> > > one can be enabled or disabled, the driver should still accept a routing
+> > > table from the user with only the first route present. Etc.
+> > > 
+> > > For the specific case in this patch... I'd prefer returning an error, or if
+> > > that's not ok, set default routing.
+> > 
+> > Not modifying the routing table is another option as well but it may
+> > require separating validating user-provided routes and applying the routes
+> 
+> I'm not sure to follow you here. By not modifying the routing table, do
+> you mean returning an error ? Why would that require separation of
+> validation and configuration ?
+
+If a driver has already made changes to its routing table, it's a bad idea
+to return an error to the user. In this case changes shouldn't be made.
+
+> 
+> > to the sub-device state. The default could be useful in principle, too, for
+> > routing-unaware applications but they won't be calling S_ROUTING anyway.
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
