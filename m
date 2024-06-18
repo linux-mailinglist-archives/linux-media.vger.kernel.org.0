@@ -1,75 +1,111 @@
-Return-Path: <linux-media+bounces-13495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13496-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8040590C3C4
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 08:40:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 997EC90C3E1
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 08:43:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95B421C20C47
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 06:40:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A9B27B23101
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 06:43:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFD145025E;
-	Tue, 18 Jun 2024 06:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 384BD6F2F7;
+	Tue, 18 Jun 2024 06:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZig6J7I"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="L0vABP1f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69C6481A3
-	for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 06:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D104D9E9;
+	Tue, 18 Jun 2024 06:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718692797; cv=none; b=KQqAqfOMwS2cD5UNXvFmKOULlx3l1Y8+TNHYSynpTyVk/p9pEhDPNaHBkswm9Q1JCAj2WhH8WLF40IC87jmy6EidiNV+0lDhnRrX3raQlDmkhEc9O12LR95uIloB6hXdTDsFIM34IQhA2oDm4BytgFDLobJSDegbALPkj8hqnHg=
+	t=1718693009; cv=none; b=ndqwo70nFhbeeiZJ/NeA7X1PQ6ABSApEugC0yR3G1mKUweLTKSDWbzwAkJTgDSBmFpeoq4WRQzOxpjWxLmLA1N5/LP9N1mNyLgf6KzS7P2sUEbqKwb6E7LF9K3R7Pc3JVOeSa0PhqetAAPCgoSCBwN7IPm5oU8P/35o9rfHM2Pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718692797; c=relaxed/simple;
-	bh=wiO0fhIipAAIvEzumNnXNRmklCY9YAi7GLDzVgIdGT4=;
+	s=arc-20240116; t=1718693009; c=relaxed/simple;
+	bh=VpgJPad+08pstL0ZoWCCeKae7OP1hyR3SvT9SVEit8g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rQm5nTIwpsqEHsDn8Lv2X5u1YY88tjrj4vq0wztsxPrtVEu5k1CjTu+pZf5ju5RhQqClhAiXCvXmR4ZhZumGzaVU9B/QTVUvU3VJevS4Il7E1GmiuG3cIp0vjFZK2uVvpamfvgJaMD1ZmlbHbz831aRUWNxYbgyveBMbPzJXZ2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZig6J7I; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718692796; x=1750228796;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wiO0fhIipAAIvEzumNnXNRmklCY9YAi7GLDzVgIdGT4=;
-  b=PZig6J7IjTHxezzxKRI4LGXaOAlJCS1x0028gHyX8gxr4/l8UHOb8Dw4
-   kyuxcVv6i/o7IkXoXHwsKfnEXoINbmVuVIZ16UhvOZHb9Qz+WuAe2xDrY
-   8S0tILAOAmGiX6fKif8jjsQ54zywgtFFD1oVhN5WfMSL97mYf4KlZDZz7
-   GKqXDp+9OlQuXa7+N+eee47swCFtysEfaK7M/Nbl/v5il3Ps+iH/y38E7
-   BknVIonsQu1lPTBt7j6wgIpYyjLN0yi2azsJWXRD77M9xAizbecx4zDYJ
-   lPDapKqxwrCYta+VMlRaSl/VtLMSce0PMvuK5j3OcaKiFI1z6EOCs8Iq1
-   Q==;
-X-CSE-ConnectionGUID: xml8+WT1Re2lfdzrVNcYRg==
-X-CSE-MsgGUID: Ad+VkaoBSz6inaVqi9DifA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="12124732"
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="12124732"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 23:39:55 -0700
-X-CSE-ConnectionGUID: RfHOoAgOSPa5Beq3sp+cqg==
-X-CSE-MsgGUID: 1D0nWPUYQ1OlDGIyrPAZXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="45899602"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 23:39:54 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E462711F7E1;
-	Tue, 18 Jun 2024 09:39:51 +0300 (EEST)
-Date: Tue, 18 Jun 2024 06:39:51 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v4 25/26] media: mc: Enforce one-time registration
-Message-ID: <ZnErt2bYTQhEzdUG@kekkonen.localdomain>
-References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-26-sakari.ailus@linux.intel.com>
- <85b8a8d5-eb84-40ee-95c7-497bd2e7b110@xs4all.nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=V1S9Ml0ETnhzxiWDRsN3PDrwZJlH7MXJTuMEHFUPfFqNv7I7Z3L198yjSOTx4YBJEZWzRBCtF/Te3o5EEUNoUCCLcbzXrGZ7Prw4gqwAyf51bV0gwEnSnRYmvBnBZls8XICaBQ3nfnpuEVoP3pxEaQatAfzDRQ6/v++zoZ3BRus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=L0vABP1f; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=xIkCb0DXrPi2i+bQKQrhJv9RbtgOZyK9PyIWQ2EUHTE=; b=L0vABP1f825b9Xo3raJ9hulo7A
+	Uo4uoOV2vhy7muoBeOW/TB5V/l0+kHaLHQUt8KX+GAt5Yj7YUqmyxPlhKYuf2lTo2JtLbVsZ+YVsj
+	QDPFYKr34JiZXCBcVZawwjtADj1qK6BHJJ9KCkk7nauvWFPo4H28zswTZmzR+elu7xmP5o8OgPJE/
+	VXRo151WFZrse5FpNgbTZ0TUQoMKvf6i3fmi1+rDXvDP3xbW4odddxZfbMBKD4jbqRY01eGdJOaYS
+	nj5A1ODp12D2/vsnP8NnbsAW27Om+ZgazSCXtrr3rm5KnhqNG/JGBFlIPcQTcR7OWaXaJ5CJGPTqd
+	NS3QCLmQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sJSYo-0000000DqmO-2M4P;
+	Tue, 18 Jun 2024 06:43:18 +0000
+Date: Mon, 17 Jun 2024 23:43:18 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZnEshp0VICflc6Bg@infradead.org>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <ZmAgszZpSrcdHtyl@infradead.org>
+ <ee9a55cd-7541-4865-ab2a-9e860b88c9e4@gmail.com>
+ <Zmfv6_uWAVavYJNj@infradead.org>
+ <8ca3e144-75f3-4e57-9ae0-cc88f245094e@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,32 +114,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <85b8a8d5-eb84-40ee-95c7-497bd2e7b110@xs4all.nl>
+In-Reply-To: <8ca3e144-75f3-4e57-9ae0-cc88f245094e@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Hans,
-
-On Mon, Jun 17, 2024 at 12:42:02PM +0200, Hans Verkuil wrote:
-> On 10/06/2024 12:05, Sakari Ailus wrote:
-> > A media devnode may be registered only once. Enforce this by setting the
-> > minor to -1 in init.
-> > 
-> > Registration initialises the character device and sets up the device name.
-> > These should take place only once during the lifetime of the media device.
+On Mon, Jun 17, 2024 at 07:04:43PM +0100, Pavel Begunkov wrote:
+> > There should be no other memory source other than the page allocator
+> > and dmabuf.  If you need different life time control for your
+> > zero copy proposal don't mix that up with the contol of the memory
+> > source.
 > 
-> This has nothing to do with patch 23/26, right?
-> 
-> I would move this to before that patch.
+> No idea how I'm mixing it up when I was explaining exactly this
+> all along as well as that the callback (and presumably the call
+> site in general) you was so eager to nack is used exactly to
+> implement the life time control.
 
-Sounds good.
+And that's exactly my point.  You want to use one callback to mix
+allocation source and life time control.  That's the perfect recipe
+to create an un-extensible un-composable mess.
 
-> 
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Thanks!
-
--- 
-Sakari Ailus
 
