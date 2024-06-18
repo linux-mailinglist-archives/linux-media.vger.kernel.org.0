@@ -1,111 +1,149 @@
-Return-Path: <linux-media+bounces-13522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13523-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD32390C970
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:30:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E4A90C973
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:30:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF10F1C2336C
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:30:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 072A3285ECE
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:30:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB3D13E3EE;
-	Tue, 18 Jun 2024 10:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D560143722;
+	Tue, 18 Jun 2024 10:30:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SFRDuNsM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcaEa+Al"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29000131E41;
-	Tue, 18 Jun 2024 10:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3F91B966
+	for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 10:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718706556; cv=none; b=CJ1bUiMsQPUJ1XcKmnyz7cG2FMds/afuq2G3AXozxvNPRvkaUOLGDUW8Et3S73VV5I3ZZFQ9FY9Kd6hcoGkKxb3G/+cuxlpiUIS35fjN4xx4Xr/Ji4IudBM5kWei9FxOC7AXgZ8g7Rs01Il6eq/dd+GpBifl4poGwosDizBJnS0=
+	t=1718706636; cv=none; b=L+dWliZtMUnQHdz34PDa2h8+38hgXoU5SNxRFj4uS3XMlCQhMTMtYAyNHrT2pppYfnRgdXbHilKPw9n95mXGfwtSUHsxaE/txxaa3XLw29mBcC+Hr0dGgDRH0pIONuZu4DnXhuUOev/MQtvwwAXI3tWytzyKqCx20vHOM46j8YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718706556; c=relaxed/simple;
-	bh=i/vbYMzV09lvmllMwQDrzk4i1bXW2AowZWY1Lqym2OM=;
+	s=arc-20240116; t=1718706636; c=relaxed/simple;
+	bh=YSjB+EqD7GfIp2Mqh8DIUazzPva+okVZmw9otbyBm9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVz3qMwYumqHWruWq0btPaQ3NP9lXBl9sTf9aLw5Pu/6YEgaxLSZF8qXSQ46zNPlBXGAFuUIAVoRyjjqpBaqgWR8B4tiRvK5b2EuuDGNTflTlGfsObz5g50Fg0gVi+woX34EJqjMtgvek5cVLP0ugYhltKno4Ekk84cdiCcLSss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SFRDuNsM; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 522EE564;
-	Tue, 18 Jun 2024 12:28:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718706534;
-	bh=i/vbYMzV09lvmllMwQDrzk4i1bXW2AowZWY1Lqym2OM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SFRDuNsMKzyWkLatI+AyeRgwbjpSBtMu80Mv/d41NIQQqhE6UmCcqtTppR9SVGiJ9
-	 4JVhbp08USNl7vIreNpt1sBvVO01hoLrhjmxeyPTcP9YVCej8qxEcar2PIDXEbyJKh
-	 dKBSdtERQlxAbqMgRSApS4i+8RZ4Oq9y9haGj/qE=
-Date: Tue, 18 Jun 2024 12:29:08 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [RFC PATCH v1 07/19] media: renesas: vsp1: Simplify partition
- calculation
-Message-ID: <wu4rr6we2sx6rnkn4tnmztagqj2cgz4qbqmsfvtzpm5dqywzrb@k7c26twnb3bi>
-References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
- <20231122043009.2741-8-laurent.pinchart+renesas@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=guj8W0lAcb1nw37rDbieGFAsBVJIXM0GQgN2zyb55KPpLx/mTYuf2KTm9l28WBtP+qEJNkACxumRGzYbKlEhB7LTepOSwttRViZclIl6PectOTMPINy1KnSIZ0A3hm/ca+iKr8E7kiY+FJ7d2/xft/xmFe33NEXPLoeDiWP17/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JcaEa+Al; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718706635; x=1750242635;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YSjB+EqD7GfIp2Mqh8DIUazzPva+okVZmw9otbyBm9s=;
+  b=JcaEa+AlpLk82nb2O3SCEMBiA+UnSxgLPB1TVDBtjqUhBv+LIJBOwHn+
+   Wv33gulGSF6CFuXHB52lQDBzMrbTSQeWgGB50/Ye+j/Pg2XG5KaHD9n4c
+   cB/N0huZi+yWhWCRv+hXmfh8gkgFHazmkR3IaAS9jwDdc2zMXpoubZEty
+   8h8fDCdHL4RTpIGhhZO92IQB99/AjaRyrpJCOQKve4AqOJJLzlrQ2O1GH
+   7nTkBGaSNZjujKDTzjR92uwDfwpAJ3VoN3r8OuOYvWVE1eqONnzlC03mD
+   CPObR3KzzcRaDKOAGivr4DMhzZxxea8YyfKW1K2BdFGMXOJ7mFEatfOfc
+   w==;
+X-CSE-ConnectionGUID: RQ5EzfOkTt+WnxwzEFcyrw==
+X-CSE-MsgGUID: iBcjSEUDRKe84xx/S64bNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15287837"
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="15287837"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 03:30:34 -0700
+X-CSE-ConnectionGUID: 11kC4R8qS/SNh8pIefLcJQ==
+X-CSE-MsgGUID: Tr0OKzJJQmmfKVFRx5FNVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
+   d="scan'208";a="42187373"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 03:30:33 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5A8BF11F7E1;
+	Tue, 18 Jun 2024 13:30:30 +0300 (EEST)
+Date: Tue, 18 Jun 2024 10:30:30 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v4 00/26] Media device lifetime management
+Message-ID: <ZnFhxse4FoN3l2wr@kekkonen.localdomain>
+References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
+ <7b5e8220-2081-439e-962f-01a4e7839cef@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231122043009.2741-8-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <7b5e8220-2081-439e-962f-01a4e7839cef@xs4all.nl>
 
-Hi Laurent
+Hi Hans,
 
-On Wed, Nov 22, 2023 at 06:29:57AM GMT, Laurent Pinchart wrote:
-> When calculation a partition in vsp1_pipeline_calculate_partition(),
-> there is no need to handle the case where the whole image is covered by
-> a single partition locally. In that case, the index and div_size
-> parameters are 0 and format->width respectively, which makes the general
-> code behave exactly as the special case. Drop the special case.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index b90240b24b3a..ca6817f45dd2 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -495,16 +495,6 @@ void vsp1_pipeline_calculate_partition(struct vsp1_pipeline *pipe,
->  	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
->  					      RWPF_PAD_SINK);
->
-> -	/* A single partition simply processes the output size in full. */
-> -	if (pipe->partitions <= 1) {
-> -		window.left = 0;
-> -		window.width = format->width;
-> -
-> -		vsp1_pipeline_propagate_partition(pipe, partition, index,
-> -						  &window);
-> -		return;
-> -	}
-> -
->  	/* Initialise the partition with sane starting conditions. */
->  	window.left = index * div_size;
->  	window.width = div_size;
+On Mon, Jun 17, 2024 at 01:55:53PM +0200, Hans Verkuil wrote:
+> On 10/06/2024 12:05, Sakari Ailus wrote:
+> > Hi folks,
+> > 
+> > This is a refresh of my 2016 RFC patchset to start addressing object
+> > lifetime issues in Media controller. It further allows continuing work to
+> > address lifetime management of media entities.
+> > 
+> > The underlying problem is described in detail in v4 of the previous RFC:
+> > <URL:https://lore.kernel.org/linux-media/20161108135438.GO3217@valkosipuli.retiisi.org.uk/>.
+> > In brief, there is currently no connection between releasing media device
+> > (and related) memory and IOCTL calls, meaning that there is a time window
+> > during which released kernel memory can be accessed, and that access can be
+> > triggered from the user space. The only reason why this is not a grave
+> > security issue is that it is not triggerable by the user alone but requires
+> > unbinding a device. That is still not an excuse for not fixing it.
+> > 
+> > This set differs from the earlier RFC to address the issue in the
+> > following respects:
+> > 
+> > - Make changes for ipu3-cio2 driver, too.
+> > 
+> > - Continue to provide best effort attempt to keep the window between device
+> >   removal and user space being able to access released memory as small as
+> >   possible. This means the problem won't become worse for drivers for which
+> >   Media device lifetime management has not been implemented.
+> > 
+> > The latter is achieved by adding a new object, Media devnode compat
+> > reference, which is allocated, refcounted and eventually released by the
+> > Media controller framework itself, and where the information on registration
+> > and open filehandles is maintained. This is only done if the driver does not
+> > manage the lifetime of the media device itself, i.e. its release operation
+> > is NULL.
+> > 
+> > Due to this, Media device file handles will also be introduced by this
+> > patchset. I thought the first user of this would be Media device events but
+> > it seems we already need them here.
+> > 
+> > Some patches are temporarily reverted in order to make reworks easier,
+> > then applied later on. Others are not re-applied: this is a change of
+> > direction, not development over those patches. It would be possible to
+> > squash the reverts into others on the expense of readability, so the
+> > reverts are maintained for that reason.
+> > 
+> > I've tested this on ipu3-cio2 with and without the refcounting patch (media:
+> > ipu3-cio2: Release the cio2 device context by media device callback),
+> > including failures in a few parts of the driver initialisation process in
+> > the MC framework. I've also tested the vimc driver.
+> 
+> You need to convert at least one m2m test driver (vicodec and ideally also
+> vim2m). M2M device have their own media controller setup, so it is good to
+> have at least one converted.
 
-Assuming index == 0 and div_size == format->width in case of a single
-partition:
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+My earlier objection to convert vim2m to managed media device lifetime was
+that vim2m was obviously intended to be compiled without MC but it seems
+since 016baa59bf9f6 CONFIG_MEDIA_CONTROLLER is selected for the driver.
+Thus the related #ifdefs can be removed, too.
 
-> --
-> Regards,
->
-> Laurent Pinchart
->
->
+I'll add two patches for this, one that can be merged independently for
+removing the #ifdefs.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
