@@ -1,124 +1,146 @@
-Return-Path: <linux-media+bounces-13502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13503-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A9E90C7E7
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 12:55:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A84690C7EB
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 12:56:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D15C52814F9
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 10:55:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 183041F20FBA
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 10:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E0821CD5CC;
-	Tue, 18 Jun 2024 09:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED9191CE095;
+	Tue, 18 Jun 2024 09:26:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="1zHS64/b"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Qz4y1zSi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D1D15746C;
-	Tue, 18 Jun 2024 09:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26F8156F5E;
+	Tue, 18 Jun 2024 09:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718702770; cv=none; b=bKyEYjwd+pRRrysRZrT5t6ZMPcf0jJCYHeXaqDS1Te3Wkz26QpyKytmuVXEfdRNG2RL5yj1Q/rm4h3qcgTdv+adhQ+hkrIADHlU2/6R9PEM81sd8t4PcZqellPh/J7K7YveGN9hi2rJJO72jJ30oeaVyJs7wF1/3AgroqCDE5EA=
+	t=1718702803; cv=none; b=OGN80vww7GpMuuAUoAj4PYMCdGJz2cCIO4OXXljAxljy2rhVBqFEto075n0w8Ve5ALUxERI59TyiY8UBHfMGa+bo55TWpa/4i3weLI19WLxj9h0FKsppOBpw7Dwagw6dZ457hemThn5oDw6GlyvoKIvJc573bI1D/YW6CTSLnLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718702770; c=relaxed/simple;
-	bh=GCW7NA4dl5Xd1S18xVblRR4uRlpHDpp4NbT+Np6s3/M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fiuYas1Lt82WrH1tA8EDn00rCFDVca71+BH1MADE6Bx9GsBs2T+N1rkpMnvcM8X2MLT3jGBRtN3RWaXSnxwyYXuRk3pKzq3tztiFhOIj+TszaVMPCWIzNf0ALb8MTmqWperjgqjnh3GVSvxf4M35fwAe8prDfew2br91F3ZB1c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=1zHS64/b; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1718702760;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vXPLlenIHOVNSxchFiFQi3fw6uzbHuydzsC7VVd5GHk=;
-	b=1zHS64/bgpAwap7kyt5U4z7WR4EDDIxoqY22qu0YQI2O3XifRrK4zNIuwTYEFuqIWKzqwm
-	ifzecavzaf/TxD8N/PWg+YI6BApCdvIJdQi6EAIC+YwCwJYikgL3muFWH05TOODkNzbNrN
-	hSdAQ748taP5Coys1FUqn3WmyiG0X5E=
-Message-ID: <31c868f86d47195e0658eeafc4d6a2cbb9c013ce.camel@crapouillou.net>
-Subject: Re: [PATCH v10 3/6] iio: core: Add new DMABUF interface
- infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Markus Elfring <Markus.Elfring@web.de>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
-  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Vinod
- Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-Date: Tue, 18 Jun 2024 11:25:52 +0200
-In-Reply-To: <6a41fd88-5496-462a-86d2-446c2990fcf7@web.de>
-References: <20240605110845.86740-4-paul@crapouillou.net>
-	 <6a41fd88-5496-462a-86d2-446c2990fcf7@web.de>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
- qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
- JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
- 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
- X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
- AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
- Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
- Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
- McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
- 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
- LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1718702803; c=relaxed/simple;
+	bh=DrWNUqlodNWphpl4db5ftnDdMdqxjQFTcF7ia2DCoEg=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=VRv/jG3deTTnUYrzIGtnYvuyQuBE0uR8CPoPxMT6YKuLkmZ/b9qiESXcd84K+FUjQgZsihfK5grac3rfjk1eYfYjNGebPaBVhjPaz2S9pOBCE8/cLVsxBeK/ItPgIEBP7zgo1bNlJ/Uc5hWoXBr3IuP0DFsebG9l59hCWjM795M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Qz4y1zSi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45I9LBpE003923;
+	Tue, 18 Jun 2024 09:26:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:date:from:message-id:subject:to; s=qcppdkim1; bh=kzCbpGUZRfQH
+	vL0wyrp+IrtWtyMeO5w+QTeqqQME+Iw=; b=Qz4y1zSiI8wjtFooo9Xqg/DmjtMt
+	eUV+ezzefomIoiNd+/tu9a9oCk9YZ5IZl2zOl7BXn5y8v+RKI5WGaI2jUlcffox/
+	Pmsut9DjOI7tFS2R/wlyGqtChNPkfL6itWsVdx2fTVrq4fAIyFMxYpaPITfDfz5S
+	JfV53fYkZX9RR3NC/hpvb+tbIv1cANUBNeioSrTdOOnrn6brTL7FTySSsm+nhtIs
+	bIvkU2z0kUQu+OCHJY12Rqq0OYtpKn1CChClZuf6xLQKurEw72qc9J8HsPUQP6zk
+	eqxX78s88S7xO8F3eylomIthtOVoADzgmB/XgLazfMa8Wi4VGV6Bl6etvg==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ys3qf63mv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 09:26:31 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTP id 45I9QPUO007770;
+	Tue, 18 Jun 2024 09:26:25 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3ys41kpnkw-1;
+	Tue, 18 Jun 2024 09:26:25 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 45I9QPDm007765;
+	Tue, 18 Jun 2024 09:26:25 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 45I9QPEg007764;
+	Tue, 18 Jun 2024 09:26:25 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+	id DDF063275; Tue, 18 Jun 2024 14:56:24 +0530 (+0530)
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Zheng Wang <zyytlz.wz@163.com>,
+        stable@vger.kernel.org, Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH v3] media: venus: fix use after free bug in venus_remove due to race condition
+Date: Tue, 18 Jun 2024 14:55:59 +0530
+Message-Id: <1718702759-18914-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: h4fzPSZPSkh-Bqb6o9oWh8Bk5cEiQxlI
+X-Proofpoint-ORIG-GUID: h4fzPSZPSkh-Bqb6o9oWh8Bk5cEiQxlI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1011
+ malwarescore=0 spamscore=0 mlxlogscore=904 bulkscore=0 phishscore=0
+ lowpriorityscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406180069
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
 
-Hi Markus,
+From: Zheng Wang <zyytlz.wz@163.com>
 
-Le lundi 17 juin 2024 =C3=A0 08:56 +0200, Markus Elfring a =C3=A9crit=C2=A0=
-:
-> =E2=80=A6
-> > +++ b/drivers/iio/industrialio-buffer.c
-> =E2=80=A6
-> > =C2=A0static int iio_buffer_chrdev_release(struct inode *inode, struct
-> > file *filep)
-> > =C2=A0{
-> =E2=80=A6
-> > =C2=A0	wake_up(&buffer->pollq);
-> >=20
-> > +	mutex_lock(&buffer->dmabufs_mutex);
-> > +
-> > +	/* Close all attached DMABUFs */
-> =E2=80=A6
-> > +	mutex_unlock(&buffer->dmabufs_mutex);
-> > +
-> > =C2=A0	kfree(ib);
-> =E2=80=A6
->=20
-> Would you become interested to apply a statement like
-> =E2=80=9Cguard(mutex)(&buffer->dmabufs_mutex);=E2=80=9D?
-> https://elixir.bootlin.com/linux/v6.10-rc3/source/include/linux/mutex.h#L=
-196
+in venus_probe, core->work is bound with venus_sys_error_handler, which is
+used to handle error. The code use core->sys_err_done to make sync work.
+The core->work is started in venus_event_notify.
 
-I'll update the patch to use it.
+If we call venus_remove, there might be an unfished work. The possible
+sequence is as follows:
 
-Cheers,
--Paul
+CPU0                  CPU1
+
+                     |venus_sys_error_handler
+venus_remove         |
+hfi_destroy	 		 |
+venus_hfi_destroy	 |
+kfree(hdev);	     |
+                     |hfi_reinit
+					 |venus_hfi_queues_reinit
+                     |//use hdev
+
+Fix it by canceling the work in venus_remove.
+
+Cc: stable@vger.kernel.org
+Fixes: af2c3834c8ca ("[media] media: venus: adding core part and helper functions")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Changes since v2:
+- used cancel_delayed_work_sync instead of cancel_delayed_work
+
+ drivers/media/platform/qcom/venus/core.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index a712dd4..c139270 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -424,6 +424,7 @@ static void venus_remove(struct platform_device *pdev)
+ 	struct device *dev = core->dev;
+ 	int ret;
+ 
++	cancel_delayed_work_sync(&core->work);
+ 	ret = pm_runtime_get_sync(dev);
+ 	WARN_ON(ret < 0);
+ 
+-- 
+2.7.4
+
 
