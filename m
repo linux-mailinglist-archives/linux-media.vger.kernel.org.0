@@ -1,271 +1,235 @@
-Return-Path: <linux-media+bounces-13530-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13531-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7551B90CA62
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:52:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3680390CA6C
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:53:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F21BD285E86
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:52:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB9581F2407F
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:53:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B95A148833;
-	Tue, 18 Jun 2024 11:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EF3514F12B;
+	Tue, 18 Jun 2024 11:34:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PKmmLshU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QdunJ2Iz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC59F1482FA;
-	Tue, 18 Jun 2024 11:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7468114F10C;
+	Tue, 18 Jun 2024 11:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718710347; cv=none; b=cJqUC7XcPoI67TDrpiBT7Da4Xy6fb9R56i7N/GaDMEtGn4LziXdzdZ80ZQi7z8HJ2lzk805mWFerqnK8qAWNjNCgAYcKf7O1ZnK3jMhOfxvdbzxEvMMmtWSZMMlD8vmY0c6O6m2tSv7uruKj+SakdziX4Rcf1itPVPY/ih69TLg=
+	t=1718710488; cv=none; b=jsWnr0cieP03q2nDWGGnOBXnIOBUl1yvrQvWUqzM0j/Y1qn5XZ76kzENmYv0d+Z2lKCNi7r/pMVbjiy1VtA3QFWF/YVOeG+H8QE/gXxxefM1vIGOxbztcXeCC5Fq0b6MLFL9VoeE2aLAIEhRt70kfCdadc/E7T2CNKKYpny+ZCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718710347; c=relaxed/simple;
-	bh=9/VNuOy6f41HZQkBY0gWS/PVvybaUlmHcB4BzVq3fj0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=X/IbtO8AyBauWC8DSJ4ILafqKCvHxmdGy1fmibPlir2pDeLeJ/nOFF/wdhrtN+cq1IvCg4x1maT7McRwpQ7XUKTPoBRmGiV6wBc7ElVJwAm27XnvOTNdtoA+YKUzSvnJbvW8ULfDeNJUbJ9yPisORyuXep7zHo5SeDjBMz+LCd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PKmmLshU; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45IBCqbl005316;
-	Tue, 18 Jun 2024 11:32:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fLHp7/SHMGmvtgP/YBRXcnsXboqjNC1Kcw5z6pT1Kow=; b=PKmmLshUv911AkHf
-	cMu8uDBhV4WpE13ywdvklDMwIqFi3UqLxitTunySvMX52+0tNqdm5CbNM6TFY/pF
-	eJStiXb3HhmvchHuFESpU4DP9gE+WPjCNGcgUa54MpqjGy+/Kr6tCzeRe3FeCHZY
-	bsdbOpE5COi/4SnA4JLk6rVSypiwzmGL3xLU16kMQMEJ76+tlgu3Z7SnnAT2TPaK
-	yuSl4J7n3NPNDvPo3WHyzDopZOTkdljk/Ct13dWwwkgvGL4mEC4+0oTJKgsjdJIk
-	RRy88aTlaIHTbnduac1VHsePpfDDFcrNbgKbe45dWZ5ysX2/gwLfkB9s6HdUpMWZ
-	I7botQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yu95rg2a9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Jun 2024 11:32:05 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45IBW4mi009390
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Jun 2024 11:32:04 GMT
-Received: from [10.216.29.175] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
- 2024 04:31:59 -0700
-Message-ID: <15adb142-b88b-e6e1-ddc7-1b4613d1a510@quicinc.com>
-Date: Tue, 18 Jun 2024 17:01:56 +0530
+	s=arc-20240116; t=1718710488; c=relaxed/simple;
+	bh=CaMHzQ+fGcj7IBp4gC2C4wthgzck3bdiP43hn8uUtpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WHxqd6UOqBTakGHq54cQBZEkCPr9GrAIoUiXuOuCdfIlEgTzf1AXIPGBNxzqPc5maoTz/GyvbGQDTha5Vnxwm+iD9vBm7jrJqiwWnkp6dfbBMYcL0DZdABiLCGS6o7zF5x5mXgieYk3zrf0loERsGuwXbsHgF+o9A0gvQWFWqHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QdunJ2Iz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 740487E1;
+	Tue, 18 Jun 2024 13:34:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718710467;
+	bh=CaMHzQ+fGcj7IBp4gC2C4wthgzck3bdiP43hn8uUtpM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QdunJ2Izt0QosB0bXpQOxioy2NxBtrm9icdEg2VbxrgRG+z5OxMxNMVja4oZkzIDB
+	 c3j32s8ktCaNsPsvF5Qzd2sWCYrIh3Wa6mjuxFew90eXRoH/EphXNAnzI0Q+7+Wz1M
+	 5JCeb4i7k8NYuL+DGy5dz9XGRmpLu2DT23WKwrzo=
+Date: Tue, 18 Jun 2024 13:34:41 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC PATCH v1 11/19] media: renesas: vsp1: Add and use function
+ to dump a pipeline to the log
+Message-ID: <zhtlotecrnczxjpchurr3rkmewnbvlalvyivec5yzrbf3js5r4@sirkpss6cbpt>
+References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20231122043009.2741-12-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 09/18] media: venus: Remove unused structs
-To: Ricardo Ribalda <ribalda@chromium.org>,
-        Michael Tretter
-	<m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad
- Dybcio <konrad.dybcio@linaro.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        Hans
- Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20240527-cocci-flexarray-v3-0-cda09c535816@chromium.org>
- <20240527-cocci-flexarray-v3-9-cda09c535816@chromium.org>
-Content-Language: en-US
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20240527-cocci-flexarray-v3-9-cda09c535816@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: tNFSyOd5xrxEVQT2jHL6m7c7QQfraI0y
-X-Proofpoint-ORIG-GUID: tNFSyOd5xrxEVQT2jHL6m7c7QQfraI0y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 mlxscore=0 adultscore=0 clxscore=1011 priorityscore=1501
- spamscore=0 phishscore=0 mlxlogscore=991 suspectscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406180085
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231122043009.2741-12-laurent.pinchart+renesas@ideasonboard.com>
 
-Hi Ricardo,
+Hi Laurent
 
-On 5/28/2024 2:38 AM, Ricardo Ribalda wrote:
-> This structures are not used, and have a single element array at the end
-> of them. Remove them.
-> 
-> This fix the following cocci warnings:
-> drivers/media/platform/qcom/venus/hfi_helper.h:764:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1041:5-15: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1088:39-51: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1093:5-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1144:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1239:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_helper.h:1272:4-13: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:85:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:180:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> drivers/media/platform/qcom/venus/hfi_cmds.h:189:5-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+On Wed, Nov 22, 2023 at 06:30:01AM GMT, Laurent Pinchart wrote:
+> It is useful for debugging purpose to dump a vsp1_pipeline to the kernel
+> log. Add a new function to do so, and use it when initializing the video
+> and DRM pipelines.
+>
+> As __vsp1_pipeline_dump() needs to construct the log message
+> iteratively, it uses pr_cont(...) (exact equivalent to the more verbose
+> "printk(KERN_CONT ..."). The function thus can't use dev_dbg() to log
+> the initial part of the message, for two reasons:
+>
+> - pr_cont() doesn't seem to work with dev_*(). Even if the format string
+>   passed to dev_*() doesn't end with a '\n', pr_cont() starts a new line
+>   in the log. This behaviour doesn't seem to be clearly documented, and
+>   may or may not be on purpose.
+>
+> - Messages printed by dev_dbg() may be omitted if dynamic debugging is
+>   enabled. In that case, the continuation messages will still be
+>   printed, leading to confusing log messages.
+>
+> To still benefit from the dynamic debug infrastructure, we declare a
+> vsp1_pipeline_dump() macro that uses _dynamic_func_call() when dynamic
+> debugging is enabled. The whole vsp1_pipeline_dump() call can be
+> selected at runtime. The __vsp1_pipeline_dump() function then uses a
+> plain "printk(KERN_DEBUG ...)" to print the message header using the
+> debug log level, and pr_cont() to print the rest of the message on the
+> same line.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/media/platform/qcom/venus/hfi_cmds.h   | 26 -----------------
->  drivers/media/platform/qcom/venus/hfi_helper.h | 39 --------------------------
->  2 files changed, 65 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> index 20acd412ee7b..41f765eac4d9 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> @@ -77,14 +77,6 @@ struct hfi_sys_get_property_pkt {
->  	u32 data[1];
->  };
->  
-> -struct hfi_sys_set_buffers_pkt {
-> -	struct hfi_pkt_hdr hdr;
-> -	u32 buffer_type;
-> -	u32 buffer_size;
-> -	u32 num_buffers;
-> -	u32 buffer_addr[1];
-> -};
-> -
->  struct hfi_sys_ping_pkt {
->  	struct hfi_pkt_hdr hdr;
->  	u32 client_data;
-> @@ -171,24 +163,6 @@ struct hfi_session_empty_buffer_uncompressed_plane0_pkt {
->  	u32 data[1];
->  };
->  
-> -struct hfi_session_empty_buffer_uncompressed_plane1_pkt {
-> -	u32 flags;
-> -	u32 alloc_len;
-> -	u32 filled_len;
-> -	u32 offset;
-> -	u32 packet_buffer2;
-> -	u32 data[1];
-> -};
-> -
-> -struct hfi_session_empty_buffer_uncompressed_plane2_pkt {
-> -	u32 flags;
-> -	u32 alloc_len;
-> -	u32 filled_len;
-> -	u32 offset;
-> -	u32 packet_buffer3;
-> -	u32 data[1];
-> -};
-> -
->  struct hfi_session_fill_buffer_pkt {
->  	struct hfi_session_hdr_pkt shdr;
->  	u32 stream_id;
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index e4c05d62cfc7..7c0edef263ae 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -759,11 +759,6 @@ struct hfi_multi_stream_3x {
->  	u32 enable;
->  };
->  
-> -struct hfi_multi_view_format {
-> -	u32 views;
-> -	u32 view_order[1];
-> -};
-> -
->  #define HFI_MULTI_SLICE_OFF			0x1
->  #define HFI_MULTI_SLICE_BY_MB_COUNT		0x2
->  #define HFI_MULTI_SLICE_BY_BYTE_COUNT		0x3
-> @@ -1036,11 +1031,6 @@ struct hfi_codec_supported {
->  	u32 enc_codecs;
->  };
->  
-> -struct hfi_properties_supported {
-> -	u32 num_properties;
-> -	u32 properties[1];
-> -};
-> -
->  struct hfi_max_sessions_supported {
->  	u32 max_sessions;
->  };
-> @@ -1083,16 +1073,6 @@ struct hfi_resource_ocmem_requirement {
->  	u32 size;
->  };
->  
-> -struct hfi_resource_ocmem_requirement_info {
-> -	u32 num_entries;
-> -	struct hfi_resource_ocmem_requirement requirements[1];
-The struct "hfi_resource_ocmem_requirement" can also be removed alongwith this.
+>  .../media/platform/renesas/vsp1/vsp1_drm.c    |  5 +++++
+>  .../media/platform/renesas/vsp1/vsp1_pipe.c   | 22 +++++++++++++++++++
+>  .../media/platform/renesas/vsp1/vsp1_pipe.h   | 19 ++++++++++++++++
+>  .../media/platform/renesas/vsp1/vsp1_video.c  | 10 ++++++++-
+>  4 files changed, 55 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index 3954c138fa7b..1aa59a74672f 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -733,6 +733,8 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+>  	if (ret < 0)
+>  		goto unlock;
+>
+> +	vsp1_pipeline_dump(pipe, "LIF setup");
+> +
+>  	/* Enable the VSP1. */
+>  	ret = vsp1_device_get(vsp1);
+>  	if (ret < 0)
+> @@ -906,6 +908,9 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
+>  	}
+>
+>  	vsp1_du_pipeline_setup_inputs(vsp1, pipe);
+> +
+> +	vsp1_pipeline_dump(pipe, "atomic update");
+> +
+>  	vsp1_du_pipeline_configure(pipe);
+>
+>  done:
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index 8eba3cda1e3d..edc5e9f3ba65 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -301,6 +301,28 @@ void vsp1_pipeline_init(struct vsp1_pipeline *pipe)
+>  	pipe->state = VSP1_PIPELINE_STOPPED;
+>  }
+>
+> +void __vsp1_pipeline_dump(struct _ddebug *, struct vsp1_pipeline *pipe,
+> +			  const char *msg)
+> +{
+> +	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
+> +	struct vsp1_entity *entity;
+> +	bool first = true;
+> +
+> +	printk(KERN_DEBUG "%s: %s: pipe: ", dev_name(vsp1->dev), msg);
+> +
+> +	list_for_each_entry(entity, &pipe->entities, list_pipe) {
+> +		const char *name;
+> +
+> +		name = strchrnul(entity->subdev.name, ' ');
+> +		name = name ? name + 1 : entity->subdev.name;
+> +
+> +		pr_cont("%s%s", first ? "" : ", ", name);
+> +		first = false;
+> +	}
+> +
+> +	pr_cont("\n");
+> +}
+> +
+>  /* Must be called with the pipe irqlock held. */
+>  void vsp1_pipeline_run(struct vsp1_pipeline *pipe)
+>  {
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> index c1f411227de7..46a82a9f766a 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+> @@ -9,6 +9,7 @@
+>  #ifndef __VSP1_PIPE_H__
+>  #define __VSP1_PIPE_H__
+>
+> +#include <linux/dynamic_debug.h>
+>  #include <linux/kref.h>
+>  #include <linux/list.h>
+>  #include <linux/spinlock.h>
+> @@ -142,6 +143,24 @@ struct vsp1_pipeline {
+>  void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
+>  void vsp1_pipeline_init(struct vsp1_pipeline *pipe);
+>
+> +void __vsp1_pipeline_dump(struct _ddebug *, struct vsp1_pipeline *pipe,
+> +			  const char *msg);
+> +
+> +#if defined(CONFIG_DYNAMIC_DEBUG) || \
+> +	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
+> +#define vsp1_pipeline_dump(pipe, msg)			\
+> +	_dynamic_func_call("vsp1_pipeline_dump()", __vsp1_pipeline_dump, pipe, msg)
+> +#elif defined(DEBUG)
+> +#define vsp1_pipeline_dump(pipe, msg)			\
+> +	__vsp1_pipeline_dump(NULL, pipe, msg)
+> +#else
+> +#define vsp1_pipeline_dump(pipe, msg)			\
+> +({							\
+> +	if (0)						\
+> +		__vsp1_pipeline_dump(NULL, pipe, msg);	\
+> +)}
 
-> -};
-> -
-> -struct hfi_property_sys_image_version_info_type {
-> -	u32 string_size;
-> -	u8  str_image_version[1];
-> -};
-> -
->  struct hfi_codec_mask_supported {
->  	u32 codecs;
->  	u32 video_domains;
-> @@ -1135,15 +1115,6 @@ struct hfi_index_extradata_config {
->  	u32 index_extra_data_id;
->  };
->  
-> -struct hfi_extradata_header {
-> -	u32 size;
-> -	u32 version;
-> -	u32 port_index;
-> -	u32 type;
-> -	u32 data_size;
-> -	u8 data[1];
-> -};
-> -
->  struct hfi_batch_info {
->  	u32 input_batch_count;
->  	u32 output_batch_count;
-> @@ -1234,11 +1205,6 @@ static inline void hfi_bufreq_set_count_min_host(struct hfi_buffer_requirements
->  		req->count_min = val;
->  };
->  
-> -struct hfi_data_payload {
-> -	u32 size;
-> -	u8 data[1];
-> -};
-> -
->  struct hfi_enable_picture {
->  	u32 picture_type;
->  };
-> @@ -1267,11 +1233,6 @@ struct hfi_buffer_alloc_mode_supported {
->  	u32 data[1];
->  };
->  
-> -struct hfi_mb_error_map {
-> -	u32 error_map_size;
-> -	u8 error_map[1];
-> -};
-> -
->  struct hfi_metadata_pass_through {
->  	int enable;
->  	u32 size;
-> 
-Regards,
-Vikash
+Why can't this simply be
+
+#else
+#define vsp1_pipeline_dump(pipe, msg)
+#endif
+
+?
+
+> +#endif
+> +
+>  void vsp1_pipeline_run(struct vsp1_pipeline *pipe);
+>  bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe);
+>  int vsp1_pipeline_stop(struct vsp1_pipeline *pipe);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index 6a8db541543a..84394994ccee 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -520,11 +520,19 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
+>  static int vsp1_video_pipeline_init(struct vsp1_pipeline *pipe,
+>  				    struct vsp1_video *video)
+>  {
+> +	int ret;
+> +
+>  	vsp1_pipeline_init(pipe);
+>
+>  	pipe->frame_end = vsp1_video_pipeline_frame_end;
+>
+> -	return vsp1_video_pipeline_build(pipe, video);
+> +	ret = vsp1_video_pipeline_build(pipe, video);
+> +	if (ret)
+> +		return ret;
+> +
+> +	vsp1_pipeline_dump(pipe, "video");
+> +
+> +	return 0;
+>  }
+>
+>  static struct vsp1_pipeline *vsp1_video_pipeline_get(struct vsp1_video *video)
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+>
 
