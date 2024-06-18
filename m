@@ -1,137 +1,123 @@
-Return-Path: <linux-media+bounces-13511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6AD90C8B8
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:13:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC6990C8D4
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:16:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 989CD285675
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:13:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CC211C222A5
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:16:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD3551AD481;
-	Tue, 18 Jun 2024 10:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAC9E1AE08B;
+	Tue, 18 Jun 2024 10:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ldzvAATI"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="AlD+nGDp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C927F158A20;
-	Tue, 18 Jun 2024 10:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF87155CB9;
+	Tue, 18 Jun 2024 10:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718704803; cv=none; b=pAW+4k88omiqR7tzSoLgEJc6zzNoq6KXa91w4UBw2MoqSGHIyueW6+idk6pUOX+VwVmV562+7S7KC20RkwtQy01vIi6hzH35XFIPVM+0BH9Nq2HWMt8StsAlQuJNMyQR1CVkQ/q41moTjB6OrHOCubgpuGsm8JseyB88+DGFURQ=
+	t=1718704993; cv=none; b=bJ+skRC/apLO4/UBdlQ4iQtlJ2E3Lc63lZ+qAEQ83z25bLx2P6youd+KA/Ry7Z+gWq42HZOyjhhwE8tCzB0omIozaWdLwCPD3i+4oPOOQ8cr+/OXKvtDrrVDcubVwoxMgZXlUFUb0uZuZEu9DhMJf78sq7hXNJdg8fR/5MdWtcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718704803; c=relaxed/simple;
-	bh=gOksFzGUFU+cBumxtm8iGlbqGQrllsZ6cQJQVlLp6S0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IkWmBtT6O7tJV3S56cUxfbutwZvpeBEdhRvkrSPLf0WrgTHmYo0ZFdKamMGK9Oex0N7f+SirSCQcVkom+MBL8l3UpyRag4QZQV0bIzl4B7Ajx/RYTytMMHsg2QWPbTFX6HwTxFFNO87tZts0BGsEzOQM7Dsto9VJWhEk8zLjumk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ldzvAATI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA47B564;
-	Tue, 18 Jun 2024 11:59:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718704782;
-	bh=gOksFzGUFU+cBumxtm8iGlbqGQrllsZ6cQJQVlLp6S0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ldzvAATI6HClnoqjycl1k5U40OAnJldH6Lbg2nPCA98lE34oAZfzUdSsQ4/qA4taI
-	 b+bVMrWcydYyUvtCNcHwSuSMwGkdWzLiOwt86YqaFSmo169AtER1DvDCMax2qGH8Bw
-	 iTIun6XgvEmhc8wFrojKucjonYAHq8tQ9RpnJpQ4=
-Date: Tue, 18 Jun 2024 11:59:57 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [RFC PATCH v1 04/19] media: renesas: vsp1: Drop
- brx_get_compose() wrapper
-Message-ID: <j2rmeiug46xvakomhqwyeieo32xgh5v5pvpx6lsk5bpig5xfon@osj5puw7jljl>
-References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
- <20231122043009.2741-5-laurent.pinchart+renesas@ideasonboard.com>
+	s=arc-20240116; t=1718704993; c=relaxed/simple;
+	bh=386FCeqt+cn7DvWw7dkFBzGG8Ln9RJz10ej5VMspYfw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mN7IhOPqDKiOzVedrrOClSZhPwRe7A8XGUsqHlt12H+kk5gIzl9jXyOWQekyJC4gkTKQbp/SM6fib0gDvwYvrQo6EfCBeHQbDr6ZtSOLTovnxwdJarrj2ZPuuYbHxYDcjdRC4eb+MGnYhtsUi+994VDeKeZMd8y2YvgTMX43u1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=AlD+nGDp; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1718704989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NxqtKVmPuUzwzAnL9yG1og2+bE3kuPHhJ1Yqq2XKxc0=;
+	b=AlD+nGDpK6gCIMbHauLWNfqyJinEDblVKdWZGHz8xE48iFVFAme6uVJkQxDFPoZt+uEFes
+	/Rc3cYsphNB5UaWeiWtzJDipNZxbF8aDK7Rh46l3rVOyiHVVMQSgTLZITWCQUM9hQNvgAB
+	9RsRg4uhiVPvSW2xh8ZZGUqFGS4FvjI=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Nuno Sa <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v11 0/7] iio: new DMABUF based API v11
+Date: Tue, 18 Jun 2024 12:02:55 +0200
+Message-ID: <20240618100302.72886-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231122043009.2741-5-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent
+Hi Jonathan,
 
-On Wed, Nov 22, 2023 at 06:29:54AM GMT, Laurent Pinchart wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> The brx_get_compose() function is just a wrapper around
-> v4l2_subdev_state_get_compose() without any added value. Drop it and
-> call v4l2_subdev_state_get_compose() directly.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Here's the v11 of my patchset that introduces DMABUF support to IIO.
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+It addresses the few points that were raised in the review of the v10.
+It also adds Nuno as a co-developer.
 
-Thanks
-  j
+Changelog:
+- [3/7]:
+    - Document .lock_queue / .unlock_queue buffer callbacks
+    - Add small comment to explain what the spinlock protects
+    - Use guard(mutex)
 
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> index 0eb4d8fe4285..05940d0427bf 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> @@ -96,13 +96,6 @@ static int brx_enum_frame_size(struct v4l2_subdev *subdev,
->  	return 0;
->  }
->
-> -static struct v4l2_rect *brx_get_compose(struct vsp1_brx *brx,
-> -					 struct v4l2_subdev_state *sd_state,
-> -					 unsigned int pad)
-> -{
-> -	return v4l2_subdev_state_get_compose(sd_state, pad);
-> -}
-> -
->  static void brx_try_format(struct vsp1_brx *brx,
->  			   struct v4l2_subdev_state *sd_state,
->  			   unsigned int pad, struct v4l2_mbus_framefmt *fmt)
-> @@ -157,7 +150,7 @@ static int brx_set_format(struct v4l2_subdev *subdev,
->  	if (fmt->pad != brx->entity.source_pad) {
->  		struct v4l2_rect *compose;
->
-> -		compose = brx_get_compose(brx, state, fmt->pad);
-> +		compose = v4l2_subdev_state_get_compose(state, fmt->pad);
->  		compose->left = 0;
->  		compose->top = 0;
->  		compose->width = format->width;
-> @@ -204,7 +197,7 @@ static int brx_get_selection(struct v4l2_subdev *subdev,
->  			return -EINVAL;
->
->  		mutex_lock(&brx->entity.lock);
-> -		sel->r = *brx_get_compose(brx, state, sel->pad);
-> +		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
->  		mutex_unlock(&brx->entity.lock);
->  		return 0;
->
-> @@ -253,7 +246,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
->  	sel->r.width = format->width;
->  	sel->r.height = format->height;
->
-> -	compose = brx_get_compose(brx, state, sel->pad);
-> +	compose = v4l2_subdev_state_get_compose(state, sel->pad);
->  	*compose = sel->r;
->
->  done:
-> --
-> Regards,
->
-> Laurent Pinchart
->
->
+- [4/7]:
+    - Remove useless field "attach" in struct iio_dma_buffer_block
+    - Document "sg_table" and "fence" fields in struct iio_block_state
+
+- [6/7]:
+    - "a IIO buffer" -> "an IIO buffer"
+    - Add variable name in IOCTL calls
+
+- [7/7]: New patch, to document the DMA changes
+
+Cheers,
+-Paul
+
+Paul Cercueil (7):
+  dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+  dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+  iio: core: Add new DMABUF interface infrastructure
+  iio: buffer-dma: Enable support for DMABUFs
+  iio: buffer-dmaengine: Support new DMABUF based userspace API
+  Documentation: iio: Document high-speed DMABUF based API
+  Documentation: dmaengine: Document new dma_vec API
+
+ Documentation/driver-api/dmaengine/client.rst |   9 +
+ .../driver-api/dmaengine/provider.rst         |  10 +
+ Documentation/iio/iio_dmabuf_api.rst          |  54 +++
+ Documentation/iio/index.rst                   |   1 +
+ drivers/dma/dma-axi-dmac.c                    |  40 ++
+ drivers/iio/Kconfig                           |   1 +
+ drivers/iio/buffer/industrialio-buffer-dma.c  | 178 ++++++-
+ .../buffer/industrialio-buffer-dmaengine.c    |  62 ++-
+ drivers/iio/industrialio-buffer.c             | 457 ++++++++++++++++++
+ include/linux/dmaengine.h                     |  33 ++
+ include/linux/iio/buffer-dma.h                |  31 ++
+ include/linux/iio/buffer_impl.h               |  33 ++
+ include/uapi/linux/iio/buffer.h               |  22 +
+ 13 files changed, 911 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+
+-- 
+2.43.0
+
 
