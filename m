@@ -1,208 +1,158 @@
-Return-Path: <linux-media+bounces-13504-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13506-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4771490C7F5
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 12:56:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A854F90C814
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 12:59:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DDBA1C2212B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 10:56:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AE10285EDC
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 10:59:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B33411CF3CB;
-	Tue, 18 Jun 2024 09:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F5561D1914;
+	Tue, 18 Jun 2024 09:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="x80VpSNI"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jCVm8vli"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D2E156C6F;
-	Tue, 18 Jun 2024 09:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5230E157E87;
+	Tue, 18 Jun 2024 09:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718702995; cv=none; b=XiFKmzqNmV/DzV/TVimh+LnAnE4gAGisoDCnk3JCu+eyBO7IvhNMrZ6pkC3lzP3KJhlt0sxw5DPF0ZJoEh/P3vaSP+EXO+znDJEuhfhLPdK1Z9T1ME+4Qa8UrZrh/PW1jFGbSsKisjXSjjk8Gixz5DtPx4BU8/aWuAD11TG6ZY0=
+	t=1718703249; cv=none; b=W878G6Xq3VaxX2R7AeyhRtB/YFQsUnywg8H0Tlp61DaUBb4wEHEsvBx0P288VGjdcUE4arV/sBosjiOon/5/LUOvPeIv2JOsb1Z93/pzVSWZjvzwN2VwnEFyy0b/VkMSJg2H812Voja45ArAOp9fQ5Nug3qU3PJw6MVQQh5l1BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718702995; c=relaxed/simple;
-	bh=OylkFZBeJjThujKHXaJzf5IMFOgK/pwvhWGCCycLVMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nRrU0Y/zIsMbHHi74jt7FarFfPd9h7507W91nl7uZEe4/wVyZyXp1mugcNwKzxRbIcvqhg+hGiuI5rda9N4Am99csLk//CRJs4Q8+7NExbEo18UkLLovAUkCYHo3Guo4SuZUuC+ODryBxzopdR70mkmONx8P5NJrakDrVYu624M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=x80VpSNI; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718702991;
-	bh=OylkFZBeJjThujKHXaJzf5IMFOgK/pwvhWGCCycLVMs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=x80VpSNIhycMLIIYe2tr+ox3BbJPCiaJYh75+KqRqv2AZ/7GbhMapAl62x/36ERi+
-	 WssKEjk9SaTUnWGcOW/sjoAcOQszP4goGdNV8aAaN4KUZRQ4BaKncqMyxwL/Kq+5yM
-	 rIiOi765bii8P5PGQeYmnkgfAk1XLqJbe8x8wyfx/Hw4Ao0weavnT/sSij4XV5ZZ2e
-	 XRLfCCEhLsxP1e1crjUTDOoIvwLDS1Hjmg+Lo3NNSLNduhWfpy4Li64sZgInf/gnRH
-	 tQ3Zfzns4/foFgyhUA9E6pfbnkcRRpoZ/el/r4CTumlfnK9vxIcHIkbH669RXuoSex
-	 Kv7kiZSd5r4ZQ==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4431A37820D6;
-	Tue, 18 Jun 2024 09:29:51 +0000 (UTC)
-Date: Tue, 18 Jun 2024 11:29:50 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: "Jackson.lee" <jackson.lee@chipsnmedia.com>
-Cc: mchehab@kernel.org, nicolas@ndufresne.ca, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, hverkuil@xs4all.nl,
-	nas.chung@chipsnmedia.com, lafley.kim@chipsnmedia.com,
-	b-brnich@ti.com
-Subject: Re: [RESEND PATCH v6 0/4] Add features to an existing driver
-Message-ID: <20240618092950.5xvkuhm7og27xgpj@basti-XPS-13-9310>
-References: <20240617104818.221-1-jackson.lee@chipsnmedia.com>
+	s=arc-20240116; t=1718703249; c=relaxed/simple;
+	bh=SuuMdxTB1TUBGVcPE3uMbDVIZIHn+4mmBaHPMxoGQL4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SBUgZAJEiy49IfepK+WPVrkTlUjXsbgB4UBo4OzfVatrP0AgMXK67sl3m5yLl09i/xyd8bdZkuCUU5bwCCcuU+UjfDsjx2wATu9VMet+22BIL9UPypnEPNbt763zOhV0pb6YUwbnsvU2LBPXV+/QR6w8L1TgQ4FHfYn+JPp0TEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jCVm8vli; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45I4HAS1029833;
+	Tue, 18 Jun 2024 09:33:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WtVfBckLiI5FLen15wtMjcawDbR9unoUCWkw3vJ4c6c=; b=jCVm8vlidaIoUFvm
+	tOXuZOfyMpi89j21Ve9Mola4mq+cReuT8kiDPfWcIa6NhSMFbirIpdOMlORBHtS8
+	s2bb6TSkr8Ip4h5OyKwp0VCBYjnzgDvfuhOhpiyxZ1CMFH5E3Vpv9FDERclZhuD8
+	3mek5ooxf88cehYMCxang9Cc8hxnm/hd7bITY8v46Kpfe9bIJpYIFFLXotCnQfaX
+	TKSFYEOy3KNtcA3kpXuwWMGhWolp2wRLnKWbal4IVeN2clHMwb1giReSwEHg01Vc
+	4qhB4GUTSuVApSofC3BP9bozZx2P6jLQLbprV2KYp6EhnZOM3uQEkuKMKvqEHLmv
+	qfrsZg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ytfut3brq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 09:33:49 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45I9Xmre011769
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 09:33:48 GMT
+Received: from [10.217.216.152] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
+ 2024 02:33:40 -0700
+Message-ID: <9984b744-ddd2-4ef9-a766-8e8ad40a6bfb@quicinc.com>
+Date: Tue, 18 Jun 2024 15:03:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240617104818.221-1-jackson.lee@chipsnmedia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V5 RESEND 1/5] PM: domains: Allow devices attached to
+ genpd to be managed by HW
+To: Jagadeesh Kona <quic_jkona@quicinc.com>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        "Stephen
+ Boyd" <sboyd@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Ulf Hansson" <ulf.hansson@linaro.org>,
+        "Rafael J . Wysocki"
+	<rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Andy
+ Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>,
+        Satya Priya Kakitapalli
+	<quic_skakitap@quicinc.com>,
+        Imran Shaik <quic_imrashai@quicinc.com>,
+        "Ajit
+ Pandey" <quic_ajipan@quicinc.com>, Dhruva Gole <d-gole@ti.com>
+References: <20240413152013.22307-1-quic_jkona@quicinc.com>
+ <20240413152013.22307-2-quic_jkona@quicinc.com>
+Content-Language: en-US
+From: Taniya Das <quic_tdas@quicinc.com>
+In-Reply-To: <20240413152013.22307-2-quic_jkona@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Tdta4hSDgOD0LTzLi2KBW5duGrYlq5x-
+X-Proofpoint-GUID: Tdta4hSDgOD0LTzLi2KBW5duGrYlq5x-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=938
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0 mlxscore=0
+ adultscore=0 clxscore=1011 spamscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406180070
 
-Hey Jackson,
 
-what is up with all the resends, I can see that you send V6 two times
-without a RESEND tag and once with a RESEND tag?
-Was that an error on your side or did you actually change something?
-Does it matter for me which version to consider or are they all the same
-content-wise?
 
-Regards,
-Sebastian
+On 4/13/2024 8:50 PM, Jagadeesh Kona wrote:
+> Some power-domains may be capable of relying on the HW to control the power
+> for a device that's hooked up to it. Typically, for these kinds of
+> configurations the consumer driver should be able to change the behavior of
+> power domain at runtime, control the power domain in SW mode for certain
+> configurations and handover the control to HW mode for other usecases.
+> 
+> To allow a consumer driver to change the behaviour of the PM domain for its
+> device, let's provide a new function, dev_pm_genpd_set_hwmode(). Moreover,
+> let's add a corresponding optional genpd callback, ->set_hwmode_dev(),
+> which the genpd provider should implement if it can support switching
+> between HW controlled mode and SW controlled mode. Similarly, add the
+> dev_pm_genpd_get_hwmode() to allow consumers to read the current mode and
+> its corresponding optional genpd callback, ->get_hwmode_dev(), which the
+> genpd provider can also implement to synchronize the initial HW mode
+> state in genpd_add_device() by reading back the mode from the hardware.
+> 
+> Signed-off-by: Ulf Hansson<ulf.hansson@linaro.org>
+> Signed-off-by: Abel Vesa<abel.vesa@linaro.org>
+> Signed-off-by: Jagadeesh Kona<quic_jkona@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov<dmitry.baryshkov@linaro.org>
+> Reviewed-by: Dhruva Gole<d-gole@ti.com>
+> ---
+>   drivers/pmdomain/core.c   | 64 +++++++++++++++++++++++++++++++++++++++
+>   include/linux/pm_domain.h | 17 +++++++++++
+>   2 files changed, 81 insertions(+)
 
-On 17.06.2024 19:48, Jackson.lee wrote:
->The wave5 codec driver is a stateful encoder/decoder.
->The following patches is for supporting yuv422 inpuy format, supporting runtime suspend/resume feature and extra things.
->
->v4l2-compliance results:
->========================
->
->v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->
->Buffer ioctls:
->       warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
->       warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
->    test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->    test VIDIOC_EXPBUF: OK
->    test Requests: OK (Not Supported)
->
->Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 2 Total for wave5-enc device /dev/video1: 45, Succeeded: 45, Failed: 0, Warnings: 0
->
->Fluster test results:
->=====================
->
->Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0 Using 1 parallel job(s)
->Ran 132/147 tests successfully               in 88.745 secs
->
->(1 test fails because of not supporting to parse multi frames, 1 test fails because of a missing frame and slight corruption,
-> 2 tests fail because of sizes which are incompatible with the IP, 11 tests fail because of unsupported 10 bit format)
->
->Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Using 1 parallel job(s)
->Ran 77/135 tests successfully               in 32.044 secs
->
->(58 fail because the hardware is unable to decode  MBAFF / FMO / Field / Extended profile streams.)
->
->Change since v5:
->================
->* For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage.
-> - Fix v4l2-compliance error for the vidioc_enum_framesizes
->
->* For [PATCH v4 1/4] media: chips-media: wave5: Support SPS/PPS generation for each IDR
-> - Remove warning messages for the checkpatch.pl script
->
->Change since v4:
->================
->* For [PATCH v4 2/4] media: chips-media: wave5: Support runtime suspend/resume
-> - Fix warning message
->
->* For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage.
-> - Fix warning message
-> - add Reviewed-By tag
->
->* For [PATCH v4 4/4] media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder
-> - add Reviewed-By tag
->
->Change since v3:
->=================
->
->* For [PATCH v4 1/4] media: chips-media: wave5: Support SPS/PPS generation for each IDR
-> - add Reviewed-By tag
->
->* For [PATCH v4 2/4] media: chips-media: wave5: Support runtime suspend/resume
-> - add Reviewed-By tag
->
->* For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage.
-> - modify the commit message
-> - define three framesize structures for decoder
->
->* For [PATCH v4 4/4] media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder
-> - modify the commit message
-> - use the v4l2_format_info to calculate luma, chroma size
->
->Change since v2:
->=================
->
->* For [PATCH v3 0/4] media: chips-media: wave5: Support SPS/PPS generation for each IDR
-> - add the suggested _SHIFT suffix
->
->* For [PATCH v3 1/4] media: chips-media: wave5: Support runtime suspend/resume
-> - change a commit message
->
->* For [PATCH v3 2/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage
-> - add pix_fmt_type parameter into wave5_update_pix_fmt function
-> - add min/max width/height values into dec_fmt_list
->
->Change since v1:
->=================
->
->* For [PATCH v2 0/4] media: chips-media: wave5: Support SPS/PPS generation for each IDR
-> - define a macro for register addresses
->
->* For [PATCH v2 1/4] media: chips-media: wave5: Support runtime suspend/resume
-> - add auto suspend/resume
->
->* For [PATCH v2 2/4] media: chips-media: wave5: Use helpers to calculate bytesperline and sizeimage
-> - use helper functions to calculate bytesperline and sizeimage
->
->* For [PATCH v2 3/4] media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder
-> - remove unnecessary codes
->
->Change since v0:
->=================
->The DEFAULT_SRC_SIZE macro was defined using multiple lines, To make a simple define, tab and multiple lines has been removed, The macro is defined using one line.
->
->
->jackson.lee (4):
->  media: chips-media: wave5: Support SPS/PPS generation for each IDR
->  media: chips-media: wave5: Support runtime suspend/resume
->  media: chips-media: wave5: Use helpers to calculate bytesperline and
->    sizeimage.
->  media: chips-media: wave5: Support YUV422 raw pixel-formats on the
->    encoder.
->
-> .../platform/chips-media/wave5/wave5-helper.c |  24 ++
-> .../platform/chips-media/wave5/wave5-helper.h |   5 +
-> .../platform/chips-media/wave5/wave5-hw.c     |  30 +-
-> .../chips-media/wave5/wave5-vpu-dec.c         | 316 +++++++-----------
-> .../chips-media/wave5/wave5-vpu-enc.c         | 308 +++++++++--------
-> .../platform/chips-media/wave5/wave5-vpu.c    |  43 +++
-> .../platform/chips-media/wave5/wave5-vpu.h    |   5 +-
-> .../platform/chips-media/wave5/wave5-vpuapi.c |  14 +-
-> .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
-> .../chips-media/wave5/wave5-vpuconfig.h       |  27 +-
-> .../media/platform/chips-media/wave5/wave5.h  |   3 +
-> 11 files changed, 430 insertions(+), 346 deletions(-)
->
->-- 
->2.43.0
->
+Reviewed-by: Taniya Das <quic_tdas@quicinc.com>
+
+-- 
+Thanks & Regards,
+Taniya Das.
 
