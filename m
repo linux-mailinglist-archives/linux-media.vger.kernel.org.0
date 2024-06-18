@@ -1,159 +1,142 @@
-Return-Path: <linux-media+bounces-13533-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13534-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1664090CA90
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:55:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 193CF90CAC4
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 13:59:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 909092889C1
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:55:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4B011F218B6
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 11:59:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F176155C89;
-	Tue, 18 Jun 2024 11:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B01A12B95;
+	Tue, 18 Jun 2024 11:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zd6H5iZd"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="k3gaUvuP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CD4155395;
-	Tue, 18 Jun 2024 11:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316372139D5;
+	Tue, 18 Jun 2024 11:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718710813; cv=none; b=uQ0rJ0wKVL85mgx+TmU5WKhCxrQ3Ca07md+Ki3wfxWta6cWLOg3WoqjHWPPkL5UbK1Upf0iHeb9vC/5slQnaBYuauxtmY+POSN4m0VxlgLhRdhb+bpcHNgHJKulgtJhWgYKblk8aTK/WAZAYlUZyg5LxWg+0ZnBg598L+ExSgTM=
+	t=1718711391; cv=none; b=bqOAd3MRkquXCG0STA8+6HRN7QVGes1UbM+OH2DxNY/3BkPUsPzmQgSp6thPDNtnCblNG+Y5LVRdnT2rYrYtBiDiYchYuYMkLGk3DE6xMfNJb6wCosRgKUWKsT8vHppy2vL85Y4N+4+ORFLkAaOkPBCZvW2a/aK0Fz+wbk5rjug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718710813; c=relaxed/simple;
-	bh=3lZSziatHbH2qXjBGEliNz48M5CThCwzTut2GQxW/ww=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bvcAhQ6KrYtT+/HjjdV+oKBqxgUonSMjclSzpXDJfs0pMiVmZKJiOpBQYvmhBpqmwQI2MPeeO8OIcz/W3cWJX9/xCRpc1zrEG6ohYIoCa5BRhg2KMuPIKebQAZ6T6c8fUDX5LaJPkrSFr7uM+mNYZ1YqAAFI0Q1U9Z/dIB4Drlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zd6H5iZd; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57d046f4afdso122887a12.1;
-        Tue, 18 Jun 2024 04:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718710810; x=1719315610; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wkL4gZeTFn58PzKiilUj2Jvl065qOPmkOqhQzjfXBnk=;
-        b=Zd6H5iZdbt8XYrfM2c+f7fRN7pCzYXBksdwvBb0rdNXRBxONFTQDLayIHoZ+1CEXKx
-         z5SllyqlzVGi80jVh73AHKRsH63GWMac+aeveM04pcuDmZP3mQhIq+kDiQSgqsl+PGet
-         n2lFAa/p//6cKg4gLSasMyAPxS++8j9SsE6skJXnJr+4caGKSQZK52PxFMaAgFSHyBw2
-         xxwmtUNapB+zvvO5B40i627zWXlyDuTyJ+NYd7XmRE4N0k2mCuc16vfgnmgTKWCEAw5Q
-         nqNxF+LnbjDvaUmE6l26Wc1Nv0okGS/vz197nZPs/bg5jUAu462HfoQ5ybiXZ6ERwqPd
-         u82Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718710810; x=1719315610;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wkL4gZeTFn58PzKiilUj2Jvl065qOPmkOqhQzjfXBnk=;
-        b=GBIGOqzZq2XAW3KCDfN1EmVQyLepGq+cuu03oMyOBwF62P2ge1xhW6DCCHwXAR/V6z
-         qK3NcRTvKYGKqDIBYWBR5lx+3RHk/ioWyoQMi8kU12n6OQjF+cYeAa5bEkF7kVNLgLkM
-         leIZvWTsbppJ6qxN7oscPR0OQAjouGf9zlBuErWadQrWQ7BbwiieGxBjAJkUVWtH/pnK
-         wTDAJbLWM4ZSPx52JkuQN7lfqDp+uDqs9OXomhA8z1OAJxVms54czAoJZGj/OMYQP7Xd
-         yoabcgPQykIpbg7bou3mtvhH1ukLohtoh0qtJk54nHMwy0g58wNjkUybgU3QYROu7cTW
-         j4xw==
-X-Forwarded-Encrypted: i=1; AJvYcCXgN38X9zN+uyEV7T0gxN+LeuE8FuV37KNXm+hxNG32EirvvuIINK58S9tJ6MGhDQHTeoyB8dgB+SH44W7RqRvvOeMI3b2KgDWB7+KVAvEsxNqiAqAdkn3osk6hXf1WT64Emb1jDRvlmGDNvqlkdiys2kTTpEv9nZcny5GdsiXu3DhpTozBEFTBZXR/ezLo8TOevHbDnTNAIJug4t4f3opiNBBcZ1P68bgiMAVVSOZoe63pddRSQfQuUR1xvEWVnHB4ZXBub6vQq3B7KaVR2POFLbIAceNCpvN95jFyDLfmV9KLezQhzvFueSxSgPkK5jCf/RJAb/lSoza+Np3Ve7NLEuceYu2e/OEyfMTUgmQqu5ZzMg2EOC7wtjxLecLd30jOSKyQKWBRGpEUaDk/bpGxdMUBTQKfj/HxM2i3ZfCPt5kRtSiaZYcfqsW2s9wAS9ABejpYn0QGCv67XGdS72p2RjhgwnodsyCcFtOmIFpdILL08SCCdcBX2PE9pnXKjoiFrqQThQ==
-X-Gm-Message-State: AOJu0Yyu+0jmklM2ZhBMzxVNr2twcG2AiZG115jlFy82HSOI/NAL6onb
-	luNa5JP8WtLN487yuqGa7DYBUPTaas/6TBVPyMLdm/nSfLyaZ2KX
-X-Google-Smtp-Source: AGHT+IHTXs6888aBCQaVqx3Ld2cescOW04wu9+DX8hnGCFhgSs6AKtIOVIvQW1zhvtYJcvE1BCkIfg==
-X-Received: by 2002:a50:c30b:0:b0:579:d673:4e67 with SMTP id 4fb4d7f45d1cf-57cbd6c7495mr9752771a12.26.1718710810253;
-        Tue, 18 Jun 2024 04:40:10 -0700 (PDT)
-Received: from [192.168.42.11] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb72e9515sm7685752a12.41.2024.06.18.04.40.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 04:40:09 -0700 (PDT)
-Message-ID: <204af618-03f7-4f2e-bbcb-7111011f78bf@gmail.com>
-Date: Tue, 18 Jun 2024 12:40:09 +0100
+	s=arc-20240116; t=1718711391; c=relaxed/simple;
+	bh=Tzk91DoHaadOT64YjBsGigmTYiJhoGfeUIu5jwYyKkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=PfcIkk2wr3bWjUGeGO7t9O71Kpwhh1Gt6vyyG1E9aoHUxi0vTSRabVwXp94Tl+dkLgigINEW+urwVvkn930unWpkpNCO8YBm098j+rLJoc8e8e4RzRFcQCt3QW0Bez/L4HP0lwhvYlRpNXXmMTHVvKTSLh4q1C6WviBxMIAyjqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=k3gaUvuP; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45I8MaPb009918;
+	Tue, 18 Jun 2024 11:49:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	kLqwmlFh1zeU26wZiij4VFN4sDFCwOCWgt4zPJH3iPY=; b=k3gaUvuPyWASq1Cg
+	5FNuT+pZcEH09QupUc2UbgTkCii628olsY2Q8EZegqQGFtw7MIcz6w/0a33yfX6B
+	DkbaOJH/5Z6ItBSMwgJCh9FWU5aaoowjCpwonNVj5V1wDEcTiyO2ytAa+3a0o9lT
+	35z8PALQdlB98aPGPgXs12sqdceMNP/rEQ8iX/i1UE5W10LlWwDHXrBbKDpaG0Ht
+	AEpSoZQSjGuO5m9sxrhhip2MD/YudFCLoO6NW/LFYRwc7SOCjPwZUrmrH0E56nXl
+	ug8SI9vQrk/VEKa989qshYleDBzI2icP2jLm+RhVi+e8kjQTBWmSiAoUiCjeEfQC
+	woDJAw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ytuav9w6a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 11:49:32 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45IBnVup003790
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 11:49:31 GMT
+Received: from [10.216.29.175] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Jun
+ 2024 04:49:26 -0700
+Message-ID: <b641f9dc-d0a3-85b6-c9ce-fe297e69dc80@quicinc.com>
+Date: Tue, 18 Jun 2024 17:19:23 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <ZmAgszZpSrcdHtyl@infradead.org>
- <ee9a55cd-7541-4865-ab2a-9e860b88c9e4@gmail.com>
- <Zmfv6_uWAVavYJNj@infradead.org>
- <8ca3e144-75f3-4e57-9ae0-cc88f245094e@gmail.com>
- <ZnEshp0VICflc6Bg@infradead.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 10/18] media: venus: Use flex array for
+ hfi_session_release_buffer_pkt
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <ZnEshp0VICflc6Bg@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Ricardo Ribalda <ribalda@chromium.org>,
+        Michael Tretter
+	<m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad
+ Dybcio <konrad.dybcio@linaro.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>,
+        Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20240527-cocci-flexarray-v3-0-cda09c535816@chromium.org>
+ <20240527-cocci-flexarray-v3-10-cda09c535816@chromium.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <20240527-cocci-flexarray-v3-10-cda09c535816@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Tduht-B7wsvOtoH8g3f1yYD-jkIWaYIU
+X-Proofpoint-ORIG-GUID: Tduht-B7wsvOtoH8g3f1yYD-jkIWaYIU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 mlxscore=0 phishscore=0 adultscore=0 clxscore=1015
+ spamscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406180087
 
-On 6/18/24 07:43, Christoph Hellwig wrote:
-> On Mon, Jun 17, 2024 at 07:04:43PM +0100, Pavel Begunkov wrote:
->>> There should be no other memory source other than the page allocator
->>> and dmabuf.  If you need different life time control for your
->>> zero copy proposal don't mix that up with the contol of the memory
->>> source.
->>
->> No idea how I'm mixing it up when I was explaining exactly this
->> all along as well as that the callback (and presumably the call
->> site in general) you was so eager to nack is used exactly to
->> implement the life time control.
+
+On 5/28/2024 2:39 AM, Ricardo Ribalda wrote:
+> Replace the old style single element array with a flex array. We do not
+> allocate this structure, so the size change should not be an issue.
 > 
-> And that's exactly my point.  You want to use one callback to mix
-> allocation source and life time control.  
-
-No, it only takes the role of life time control and doesn't
-care about the source. The allocation source step with
-corresponding initialisation happens separately and
-priorly, at initialisation time.
-
-> That's the perfect recipe
-> to create an un-extensible un-composable mess
--- 
-Pavel Begunkov
+> This fixes the following cocci warning:
+> drivers/media/platform/qcom/venus/hfi_cmds.h:204:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/platform/qcom/venus/hfi_cmds.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
+> index 41f765eac4d9..6dff949c4402 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
+> @@ -201,7 +201,7 @@ struct hfi_session_release_buffer_pkt {
+>  	u32 extradata_size;
+>  	u32 response_req;
+>  	u32 num_buffers;
+> -	u32 buffer_info[1];
+> +	u32 buffer_info[];
+>  };
+>  
+>  struct hfi_session_release_resources_pkt {
+> 
+Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 
