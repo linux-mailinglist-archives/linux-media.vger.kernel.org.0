@@ -1,45 +1,45 @@
-Return-Path: <linux-media+bounces-13612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13618-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329C490DCCD
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 21:49:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1846990DCD7
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 21:50:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A832B1F25EA7
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 19:49:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8381285F0C
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 19:50:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF65517A937;
-	Tue, 18 Jun 2024 19:47:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB16D188CAE;
+	Tue, 18 Jun 2024 19:48:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="HenJYAdY"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="MLiSRG/u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B48B176FAC
-	for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 19:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A96F185E78
+	for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 19:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.172.40.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718740061; cv=none; b=kXPaDSTHl8xJzqSbv8OIwkOxE+edbobyt8y87qZUH/SqM9QJ58v1NgjaZLjOd07Bmz3jd1vNZTkfuHPsg2kEm/eovmjWpu+NCn39QFIcrhikcovPbYeWSt3QgEdQSIfgCfzkBHwsrtedb11LoVUfXLqltMv3tSFjtPh7QBKugXE=
+	t=1718740080; cv=none; b=fGCj8/AvgyGKtT6d51d0z+BBvDfiKsYP6xJIeOhB6IN+fcZGkHwVhuJq/AZw9b8sCP7VXBrOMfFaGdlQUZW6fQY8W4Q08UCkWZSdInvUSaIIzpZ/X6qFJJ3JQtPmAob1ZBhm4is1lcrwjsdI/z1PRtdtpLxpaBPwxyCgdPol40g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718740061; c=relaxed/simple;
-	bh=f7MDqrTS9VA2w94f9+abC6s+OPf3kDOoiI4lylYuxJk=;
+	s=arc-20240116; t=1718740080; c=relaxed/simple;
+	bh=snynFABNM1Gck5Um7mIRJ4IKlsAaJh7ae0xK4flsN6M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JDYSO1RcZQoh86USVniXY9Ql6IwNz7ndBHXgF5ri98dscT2vaWIrfHTSkLbDVAUSR5xSYprA+bW9jJ7/e+g8BARahAFIzMILOjA/xyxGz1c4CCeUgliCdBAlM1fPHm6iW21FUC/a3+Gr2zCTtfbfZONgK9LnwtcENEZ95Now+LI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=HenJYAdY; arc=none smtp.client-ip=149.28.215.223
+	 MIME-Version; b=SZtKZY/ybx8E2zUXd6SHT03AwnznV0QedXQ7TqufueBjKE+pioDvCkVk5ekXyCvYSmlMvhrSk9crkioSYbo2rmbiX4y9w2R0KJmaCNZEa+1Xbf3up79/t+qmuXqbZ5wydPAtymGeo4DGyifBOAk91W1GDSqFWGg7uAWOcJGSL8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=MLiSRG/u; arc=none smtp.client-ip=167.172.40.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1718740037; bh=KB45lJtSwQJs9wxJYwKUH/S/Frg3RhjQrCXHEaw5DeQ=;
- b=HenJYAdYjg+PRVnPJ0uai12GuMaqdaDEywRDETcDa2zsws1szChQvi3TGKyjVfISrGXl768Kr
- lycQDdzoCcuSMLsvRk6fP1QGinOqYGv35jbAkyWABOv8WVQcon4hSxiKFa+YXlLj5v4pCBesfhY
- 1DQnHrz6ssolwYW+UplVfuC71MCz5IUme35Y8wU3ianW+wF+rxYfg1wj4pdE/JUBYInMJ11b9/x
- PyG5GTzWTMJyfDK8O4jiIGK4+WQU2bHsOFjJzZIs1h1JyiR4fNWvtjlzUXU82GO+9rdlkIIwDRm
- VCswyX4WbIQTMg4P9GESbB+cLtYep4w+TtvbAWNAYawA==
+ t=1718740039; bh=cTokzGuyZHy1zj6EjyxdTVicVJYVVw875XcQ0l6Fy9M=;
+ b=MLiSRG/un15q/I2VlOgT5rHLpuZ1qEyz0/R5KGo08Lmhh4DWKIosf/LoqWIuys+JpIf5um8F9
+ EZ8Ggh3yHHJniBJnXbSX4oJoiWutOHTZmef8CzmM9S7CMDXUROdCgVDstUY7Kv5yY6rXArbRaqB
+ CIaK86qnLkBvpFE2B0YP49m1YhiQtrzY/VmjFdu4jgghZPYikS82plWNGHxChGFbD82e9sU5QIh
+ fX1pGtCTDYkiWl91DlqIKK+Fv+DApSDA8t6/lrs1uaVEqjpfMJ8r8zKi8wXxsCtPRoOJGwJgKGS
+ 4gvrcfcNCRvPFHuPoIvrXCygu4J7COC7ls/vpJn1yWQA==
 From: Jonas Karlman <jonas@kwiboo.se>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Greg
@@ -52,9 +52,9 @@ Cc: Alex Bee <knaerzche@gmail.com>, Nicolas Dufresne
  <detlev.casanova@collabora.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v5 04/10] media: rkvdec: h264: Don't hardcode SPS/PPS parameters
-Date: Tue, 18 Jun 2024 19:46:28 +0000
-Message-ID: <20240618194647.742037-5-jonas@kwiboo.se>
+Subject: [PATCH v5 05/10] media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+Date: Tue, 18 Jun 2024 19:46:29 +0000
+Message-ID: <20240618194647.742037-6-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240618194647.742037-1-jonas@kwiboo.se>
 References: <20240618194647.742037-1-jonas@kwiboo.se>
@@ -70,18 +70,12 @@ X-Report-Abuse: abuse@forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
 X-ForwardEmail-Version: 0.4.40
 X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 6671e43f64ade33c90059fb7
+ 167.172.40.54
+X-ForwardEmail-ID: 6671e44464ade33c90059fcb
 
-From: Alex Bee <knaerzche@gmail.com>
+Extract call to v4l2_fill_pixfmt_mp() and ajusting of sizeimage into a
+helper. Replace current code with a call to the new helper.
 
-Some SPS/PPS parameters are currently hardcoded in the driver even
-though they exist in the stable uapi controls.
-
-Use values from SPS/PPS controls instead of hardcoding them.
-
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
-[jonas@kwiboo.se: constraint_set_flags condition, commit message]
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
@@ -91,48 +85,66 @@ v5:
 - Collect r-b and t-b tags
 
 v4:
-- No change
+- Do not reset pix_mp->field in rkvdec_fill_decoded_pixfmt()
 
 v3:
-- New patch
+- No changes
 
- drivers/staging/media/rkvdec/rkvdec-h264.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 7a1e76d423df..8bce8902b8dd 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -655,13 +655,14 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index ac398b5a9736..d1087519d218 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -27,6 +27,16 @@
+ #include "rkvdec.h"
+ #include "rkvdec-regs.h"
  
- #define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
- 	/* write sps */
--	WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
--	WRITE_PPS(0xff, PROFILE_IDC);
--	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
-+	WRITE_PPS(sps->seq_parameter_set_id, SEQ_PARAMETER_SET_ID);
-+	WRITE_PPS(sps->profile_idc, PROFILE_IDC);
-+	WRITE_PPS(!!(sps->constraint_set_flags & (1 << 3)), CONSTRAINT_SET3_FLAG);
- 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
- 	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
- 	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
--	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-+	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS),
-+		  QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
- 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
- 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
- 	WRITE_PPS(sps->pic_order_cnt_type, PIC_ORDER_CNT_TYPE);
-@@ -688,8 +689,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 		  DIRECT_8X8_INFERENCE_FLAG);
++static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
++				       struct v4l2_pix_format_mplane *pix_mp)
++{
++	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
++			    pix_mp->width, pix_mp->height);
++	pix_mp->plane_fmt[0].sizeimage += 128 *
++		DIV_ROUND_UP(pix_mp->width, 16) *
++		DIV_ROUND_UP(pix_mp->height, 16);
++}
++
+ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+@@ -192,13 +202,9 @@ static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
  
- 	/* write pps */
--	WRITE_PPS(0xff, PIC_PARAMETER_SET_ID);
--	WRITE_PPS(0x1f, PPS_SEQ_PARAMETER_SET_ID);
-+	WRITE_PPS(pps->pic_parameter_set_id, PIC_PARAMETER_SET_ID);
-+	WRITE_PPS(pps->seq_parameter_set_id, PPS_SEQ_PARAMETER_SET_ID);
- 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE),
- 		  ENTROPY_CODING_MODE_FLAG);
- 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT),
+ 	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
+ 	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+-	v4l2_fill_pixfmt_mp(&f->fmt.pix_mp,
+-			    ctx->coded_fmt_desc->decoded_fmts[0],
+-			    ctx->coded_fmt.fmt.pix_mp.width,
+-			    ctx->coded_fmt.fmt.pix_mp.height);
+-	f->fmt.pix_mp.plane_fmt[0].sizeimage += 128 *
+-		DIV_ROUND_UP(f->fmt.pix_mp.width, 16) *
+-		DIV_ROUND_UP(f->fmt.pix_mp.height, 16);
++	f->fmt.pix_mp.width = ctx->coded_fmt.fmt.pix_mp.width;
++	f->fmt.pix_mp.height = ctx->coded_fmt.fmt.pix_mp.height;
++	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
+ }
+ 
+ static int rkvdec_enum_framesizes(struct file *file, void *priv,
+@@ -264,12 +270,7 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
+ 				       &pix_mp->height,
+ 				       &coded_desc->frmsize);
+ 
+-	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
+-			    pix_mp->width, pix_mp->height);
+-	pix_mp->plane_fmt[0].sizeimage +=
+-		128 *
+-		DIV_ROUND_UP(pix_mp->width, 16) *
+-		DIV_ROUND_UP(pix_mp->height, 16);
++	rkvdec_fill_decoded_pixfmt(ctx, pix_mp);
+ 	pix_mp->field = V4L2_FIELD_NONE;
+ 
+ 	return 0;
 -- 
 2.45.2
 
