@@ -1,152 +1,163 @@
-Return-Path: <linux-media+bounces-13585-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13586-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F37390D94C
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 18:33:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D0790D961
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 18:34:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 413481C2445F
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 16:33:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE8F21C248E8
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 16:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5A591386C6;
-	Tue, 18 Jun 2024 16:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A54313DB98;
+	Tue, 18 Jun 2024 16:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="gCCEbTr3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1B04D8BD;
-	Tue, 18 Jun 2024 16:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A686B74070
+	for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 16:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718728393; cv=none; b=Kv+zo9ey2yUTnXJzqJN4nomqXqu6SLaWu+FY0rDX7M5bQD0ARrI5cBw5uUVbzf5gIfCEzeFuHFNzqymmobWk72a81j7DPnGOH1dsAl9Mi3Yo19EtT/T8OeY+dri/GX++BCXrLoI5/rHPC4CKTXcolLVzA6Y8P8054pTvxXWgtP0=
+	t=1718728453; cv=none; b=d9fm39ZLKkHLhbkdjb6f5iPg8vW3iZmBt9h9YfCreR6U16+i9SAHbLRDIHOW644HOrHtQeDhCJLECDi3ZEp77DmYqlX+AV/h3cVllpmVxFQhKGZfzuaMsMAMCQtYnoPOyoBDozUVKck+JQTsec75AU2YLO4onAEusmQ4St2B/PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718728393; c=relaxed/simple;
-	bh=7q4SLjqvoE5tKhcBw6h3BfxkMgZ1oGX4akOqYJf6/LM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=C8uZywfpAZzYNdipjHTUNJEkr4tTNZEb0JWiD58aH1EwC3Rw1BN98AuyDkpF3CXi8IX7Nl7WiYQWKEwmGALURTb7YNZWzUDeqdarQYC4lKhV2619ScvldUWawR6o4ZQfx4XZp3JCMU63Yb3jbBBFHWU6iGjM4mAn64PAwmrats0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b69c7d.dsl.pool.telekom.hu [::ffff:81.182.156.125])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000071665.000000006671B6C4.002A21A5; Tue, 18 Jun 2024 18:33:03 +0200
-From: Gergo Koteles <soyer@irl.hu>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-  Mauro Carvalho Chehab <mchehab@kernel.org>,
-  John Bauer <johnebgood@securitylive.com>, ribalda@chromium.org,
-  linh.tp.vu@gmail.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-  Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH v3 1/1] media: uvcvideo: UVC minimum relative pan/tilt/zoom speed fix.
-Date: Tue, 18 Jun 2024 18:32:40 +0200
-Message-ID: <b062c3ec615a69cbc1b154b1838df3cdc3e1282a.1718726777.git.soyer@irl.hu>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <cover.1718726777.git.soyer@irl.hu>
-References: <cover.1718726777.git.soyer@irl.hu>
+	s=arc-20240116; t=1718728453; c=relaxed/simple;
+	bh=JwSJvOkZ9FK72lyrJf2XHFu9wWCzAyRi9vx/g3UaMRM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=r79QGcIcFtAGjHOE/XggUJoRey55hl19NVDAmni9/f4JMvTHh8wxRXXx5fJ9pzjDf09UIqNS7JKqxT0mNtmcjijrXAbBVba/gtKgyFjMFByKI8Bt+4aC51dVMY7nuNX1cujLogmXJ4nuZsPUj2SilPEzBxw4ggmgdJofc6DLGfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=gCCEbTr3; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6b501a4344bso826166d6.3
+        for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 09:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1718728450; x=1719333250; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UyATPdua0xIvG9IEZTu2KPUCxjrD23ixmP+LULFeCqg=;
+        b=gCCEbTr3uHSVavBggfirSoulSDm89IEDZTNmLhU3RVoZeBqnAlI/qGBUAR329w46Ns
+         UOn+7ZaTgv2P2e20AgB6S/CkqGJLuYNh/EL+eGbckBNR1NG6jn09p40rRUGUPMPYZFwy
+         5RrZM61CPPZXvaWDMvaWQxsOCKyW+xCD2K/DZ9LYXTTAJOomeEat0nuAc5eaCPtkXq1e
+         /UvYb5Gpnkv6XBO4Sl67KLXmvVo3sxsZOzyoO38gepmPlMoOMTwzHSqKkt+OcL9sXQST
+         2m8Cg52bjPywD/64H9fAyJ7zqvXuB36qXThHootCje1QO57bkXAAPV7rXHwNexK6G226
+         e05A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718728450; x=1719333250;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UyATPdua0xIvG9IEZTu2KPUCxjrD23ixmP+LULFeCqg=;
+        b=OjFkGbp00zNdI981dEDcoY66RhX3SPQtTOJ591zoVVFoJ3giDduuldaUAvD38UvNK3
+         oNZVTi0kcO6OwkDzLcEeJNz/OAp6JF4DGE+kuuW7k/5j3KP5iVkh910N97eMezy1Q2Pe
+         dhHM1b5/BJPtWMMNmSFpWjwyWRYH+GJbzwvNkcLvbF/jChKXII9gDHaqek7LCfJwVqG0
+         Dh0VSFMUy04nKuQIsGEM31KuNfOrT5skhh8M96eYT5pYTaPpJHgBwyMo582IW8lEaEoC
+         ZqA0fnsJJKrl8bbLKyJzWwl0dbeE5Np5mC8E261at02MDj/GSN5cmJ9e/aOw/G6mAwAu
+         HV3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVnSGIDEixIrud9dhhfbN3JxkRCB0FyWNwpGv3TlGic7pje9bZlM+kps0hY324DY9o83sNhhbQdJ4LcKanCK45qqq72LmLFBcmEWFY=
+X-Gm-Message-State: AOJu0YycdmXeNe/LxCnxQ9H0gj38jNfcINwelGdjApn33J/vzq1+a3kD
+	/h1yO7aWbqBDqw9BpdOMi0RZzFRIPWkKkM/HOSty3rylgUbQ/hf3JdsPCQYfJMA=
+X-Google-Smtp-Source: AGHT+IHobfGlJhLnHEFotyk1CGxdoLtB4S8IrrxZ0v/h08LqEqBMy+9LORb68TjsMWCIXoDBM5yDLA==
+X-Received: by 2002:a05:6214:80c:b0:6b0:724a:6ed9 with SMTP id 6a1803df08f44-6b501e1e3acmr2439486d6.17.1718728450578;
+        Tue, 18 Jun 2024 09:34:10 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:17:5fb9::7a9])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b2a5bf1f96sm68175396d6.12.2024.06.18.09.34.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 09:34:10 -0700 (PDT)
+Message-ID: <0e8561108c4fc99291ad7cdc0c6af2dbb8e58f02.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Detlev Casanova <detlev.casanova@collabora.com>, Jianfeng Liu
+	 <liujianfeng1994@gmail.com>
+Cc: alchark@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org, 
+	cristian.ciocaltea@collabora.com, devicetree@vger.kernel.org, 
+	didi.debian@cknow.org, dsimic@manjaro.org, gregkh@linuxfoundation.org, 
+	heiko@sntech.de, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	mchehab@kernel.org, robh@kernel.org, sebastian.reichel@collabora.com
+Date: Tue, 18 Jun 2024 12:34:07 -0400
+In-Reply-To: <4302165.yKVeVyVuyW@arisu>
+References: <4116468.VLH7GnMWUR@arisu>
+	 <20240618121329.79936-1-liujianfeng1994@gmail.com>
+	 <4302165.yKVeVyVuyW@arisu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
+MIME-Version: 1.0
 
-From: John Bauer <johnebgood@securitylive.com>
+Hi,
 
-The minimum UVC control value for the relative pan/tilt/zoom speeds
-cannot be probed as the implementation condenses the pan and tilt
-direction and speed into two 16 bit values. The minimum cannot be
-set at probe time because it is probed first and the maximum is not
-yet known. With this fix if a relative speed control is queried
-or set the minimum is set and checked based on the additive inverse of
-the maximum at that time.
+Le mardi 18 juin 2024 =C3=A0 08:39 -0400, Detlev Casanova a =C3=A9crit=C2=
+=A0:
+> On Tuesday, June 18, 2024 8:13:29 A.M. EDT Jianfeng Liu wrote:
+> > Hi Detlev,
+> >=20
+> > On Fri, 14 Jun 2024 21:56:27 -0400, Detlev Casanova wrote:
+> > > +		.frmsize =3D {
+> > > +			.min_width =3D 16,
+> > > +			.max_width =3D  65520,
+> > > +			.step_width =3D 16,
+> > > +			.min_height =3D 16,
+> > > +			.max_height =3D  65520,
+> > > +			.step_height =3D 16,
+> > > +		},
+> >=20
+> > I think the min/max width/height are incorrect. From rockchip's TRM V1.=
+0
+> > Part1 page 374, supported image size is 64x64 to 65472x65472.
+> i,
+> Page 374 shows the sizes for h265. h264 is the next table, where 16x16 an=
+d=20
+> 65520x65520 is documented.
 
-Signed-off-by: John Bauer <johnebgood@securitylive.com>
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 38 +++++++++++++++++++++++++++-----
- 1 file changed, 33 insertions(+), 5 deletions(-)
+Just a theory, but 64x64 looks like Mali GPU requirement to me. Can you giv=
+e
+more details how it fails exactly ?
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 4b685f883e4d..93ed2462e90b 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -441,7 +441,6 @@ static s32 uvc_ctrl_get_rel_speed(struct uvc_control_mapping *mapping,
- 		return (rel == 0) ? 0 : (rel > 0 ? data[first+1]
- 						 : -data[first+1]);
- 	case UVC_GET_MIN:
--		return -data[first+1];
- 	case UVC_GET_MAX:
- 	case UVC_GET_RES:
- 	case UVC_GET_DEF:
-@@ -1233,6 +1232,17 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
- 	return ~0;
- }
- 
-+static bool is_relative_ptz_ctrl(__u32 ctrl_id)
-+{
-+	switch (ctrl_id) {
-+	case V4L2_CID_ZOOM_CONTINUOUS:
-+	case V4L2_CID_PAN_SPEED:
-+	case V4L2_CID_TILT_SPEED:
-+		return true;
-+	}
-+	return false;
-+}
-+
- static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl,
- 	struct uvc_control_mapping *mapping,
-@@ -1322,14 +1332,23 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		break;
- 	}
- 
--	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
--		v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
--				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
--
- 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
- 		v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
- 				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
- 
-+	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
-+		/*
-+		 * For the relative speed implementation the minimum
-+		 * value cannot be probed so it becomes the additive
-+		 * inverse of maximum.
-+		 */
-+		if (is_relative_ptz_ctrl(v4l2_ctrl->id))
-+			v4l2_ctrl->minimum = -v4l2_ctrl->maximum;
-+		else
-+			v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
-+						uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-+	}
-+
- 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
- 		v4l2_ctrl->step = mapping->get(mapping, UVC_GET_RES,
- 				  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-@@ -1916,6 +1935,15 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 				   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
- 		max = mapping->get(mapping, UVC_GET_MAX,
- 				   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-+
-+		/*
-+		 * For the relative speed implementation the minimum
-+		 * value cannot be probed so it becomes the additive
-+		 * inverse of maximum.
-+		 */
-+		if (is_relative_ptz_ctrl(xctrl->id))
-+			min = -max;
-+
- 		step = mapping->get(mapping, UVC_GET_RES,
- 				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
- 		if (step == 0)
--- 
-2.45.2
+Meanwhile, if fluster suite does not exercise it already, we can craft a st=
+ream
+to verify the its decodes fine. We also have issues in rkvdec were the driv=
+er
+reports CAPTURE queue constraints for OUTPUT formats.
+
+Nicolas
+
+>=20
+> > And my
+> > chromium can't use rkvdec2 because min width/height are set to 16, whic=
+h
+> >=20
+> > will cause error at here in rkvdec2_h264_validate_sps:
+> > > +	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+> > > +	    height > ctx->coded_fmt.fmt.pix_mp.height)
+> > > +		return -EINVAL;
+> >=20
+> > width is 16, height is 32 while ctx->coded_fmt.fmt.pix_mp.width and
+> > ctx->coded_fmt.fmt.pix_mp.height are both 16.
+>=20
+> Maybe
+>=20
+> if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+> 	height *=3D 2;
+>=20
+> is causing issues in this case, I can check.
+>=20
+> > After changing them to 64 my chromium can use rkvdec2 to decode h264
+> > videos now.
+> >=20
+> > Anyway many thanks to your amazing work!
+> >=20
+> > Best regards,
+> > Jianfeng
+>=20
 
 
