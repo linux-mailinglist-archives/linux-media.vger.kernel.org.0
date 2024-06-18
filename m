@@ -1,60 +1,58 @@
-Return-Path: <linux-media+bounces-13569-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13570-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7050090D699
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 17:08:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DD990D6D5
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 17:14:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16796282F1B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 15:08:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7E5C1C2549B
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 15:14:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5E641CD3C;
-	Tue, 18 Jun 2024 15:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 376AB3DB89;
+	Tue, 18 Jun 2024 15:11:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Zm89y7S1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IDvVcH2y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C67418C22;
-	Tue, 18 Jun 2024 15:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1417D3DBB7;
+	Tue, 18 Jun 2024 15:11:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718723305; cv=none; b=NhQrDVGvxzR9xl88oqjSeGLn5tdw9aW6JKY1RSHbo28DZhwY53HzNXk5txiJO7aFLw1GgACFt7SAAvm77o59wPZYCqHkQNRT/RYz/XJfvqsAefa3c2X0Klfp/ojKtD1I/O20YF7JMcs9H2EJvBvCibdj2EJbpywPZywUFdaOMTE=
+	t=1718723517; cv=none; b=rqIIuDEWtAYwBkNLaI0ewfAaaB5d5jrR+lleqe6chTGULbtUZ6zJO+Kp6dFCn0qSTIje0M8R5d5yC8Zw1RXYursUuv+lagTedgPKvsi/yo0Pz1O5SFahbHdElZ7C0OJjhKD3I5pz+lAf4hdsWRDTqg4sKOktUK5/8zMUEhrmCSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718723305; c=relaxed/simple;
-	bh=khG3xc3vkb1exZoO/8wrNW/e03ySqjgHAht5UQAE0jk=;
+	s=arc-20240116; t=1718723517; c=relaxed/simple;
+	bh=5/8KXGO0PH1RFt/sKwfKQYjBbvvo5Q6jQ85zOGqIbME=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MiQJkClQFuxjEFUTJAtyttvpZfub2u0SAiDNMr6cYwJE51mITyYKJVAYah40Xjq2FEZuRmjxYc0xa3ui+1s1YR3CVeY6gaErnMmLOtWtE6LiKdcWXOZWPWg2iAPMMOOqelfiNwiiHrRn1xzT6N3aJJ0FHNBNnU0ComtjpRkM5jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Zm89y7S1; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=NOe0GwZdEcvOhkBeHiLm9I4r+fju5GvEB9F7ZHWbAHW4p7GAgJU05aoY7ZxBxuv8Ajz2FvtvgjMCyYb8ByTaxdqh/zWL1SKNYIyBE9ctdMy4jLwYLUcfMYt7tI8QOI7CKiseI+80c7rVePm4wJOw3m9/HhZmFjOFCIeE/cjF/Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IDvVcH2y; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6CA5908;
-	Tue, 18 Jun 2024 17:08:04 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A23EA908;
+	Tue, 18 Jun 2024 17:11:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718723284;
-	bh=khG3xc3vkb1exZoO/8wrNW/e03ySqjgHAht5UQAE0jk=;
+	s=mail; t=1718723496;
+	bh=5/8KXGO0PH1RFt/sKwfKQYjBbvvo5Q6jQ85zOGqIbME=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zm89y7S1zof9vKA4BqQbD4+fCWhdHwJl/SAar4tetn/wx4dgdVTu6AI2K/2MSp+bK
-	 A5vFxIaIz8DkbVIWI7ehGGe9xlAQad/4SqcjL6BjM86ISWHYjhx23VBUzo84/79tLi
-	 /IoAOzdyXqmQ0cfW47bXKxPqSTyF/DYIriDKA5Vc=
-Date: Tue, 18 Jun 2024 18:08:00 +0300
+	b=IDvVcH2yvZ0GxItcIjXhU2SuvQdzWTTGl7F4tBMSmtCorZVGjXsjPvUNdfkH5hG32
+	 W+9opoSp9CQ2spyut/KeLpEid4N/I4NLbMMoerqAJGfdPt3f3t2idlCEGwNaUGJz1m
+	 jHHeeEt3Tq5sHHwAhQbS29ADGnwOwVhdVficyJNs=
+Date: Tue, 18 Jun 2024 18:11:30 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-vin: Add support for RAW10
-Message-ID: <20240618150800.GB22767@pendragon.ideasonboard.com>
-References: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdWxxzn2t2qURChY=62GmDPKbQku63uRCCg=CDRCeOwJTw@mail.gmail.com>
- <20240618144101.GB17243@pendragon.ideasonboard.com>
- <20240618145113.GC17243@pendragon.ideasonboard.com>
- <20240618150114.GR382677@ragnatech.se>
+Subject: Re: [PATCH v4 00/11] media: renesas: rcar-csi2: Use the subdev
+ active state
+Message-ID: <20240618151130.GC22767@pendragon.ideasonboard.com>
+References: <20240617161135.130719-1-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,74 +61,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240618150114.GR382677@ragnatech.se>
+In-Reply-To: <20240617161135.130719-1-jacopo.mondi@ideasonboard.com>
 
-On Tue, Jun 18, 2024 at 05:01:14PM +0200, Niklas Söderlund wrote:
-> Hi Laurent,
+Hi Jacopo,
+
+I've taken the series in my tree and I'm running some tests. If all goes
+well I'll send a pull request shortly.
+
+On Mon, Jun 17, 2024 at 06:11:23PM +0200, Jacopo Mondi wrote:
+> v3->v4:
+> - Add tags
+> - Re-sort patches as suggested by Niklas to avoid breaking bisection
 > 
-> Thanks for your review.
+> v2->v3:
+> - rcar-csi2: Collect v2.2 of [4/11]
+> - adv748x: enum_mbus_code: reduce the number of formats to the ones supported
+>   by the HDMI and Analog front ends;
+> - adv748x: enum_mbus_code: enumerate all formats on sink pad; enumerate the
+>   active format on the source pad
+> - max9286: Apply the format to all pads to enforce all links to have the same
+>   format
+> - max9286: Remove max9286_set_fsync_period() from setup
 > 
-> On 2024-06-18 17:51:13 +0300, Laurent Pinchart wrote:
-> > On Tue, Jun 18, 2024 at 05:41:03PM +0300, Laurent Pinchart wrote:
-> > > Hi Geert,
-> > > 
-> > > On Wed, Apr 17, 2024 at 03:34:36PM +0200, Geert Uytterhoeven wrote:
-> > > > On Wed, Apr 17, 2024 at 2:06 PM Niklas Söderlund wrote:
-> > > > > Some R-Car SoCs are capable of capturing RAW10. Add support for it
-> > > > > using the V4L2_PIX_FMT_Y10 pixel format, which I think is the correct
-> > > > > format to express RAW10 unpacked to users.
-> > > > >
-> > > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > 
-> > > > Thanks for your patch!
-> > > > 
-> > > > I am no VIN or V4L2 expert, but the register bits LGTM, so
-> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > 
-> > > > > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > > > > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> > > > > @@ -780,6 +782,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> > > > >         case MEDIA_BUS_FMT_Y8_1X8:
-> > > > >                 vnmc |= VNMC_INF_RAW8;
-> > > > >                 break;
-> > > > > +       case MEDIA_BUS_FMT_Y10_1X10:
-> > > > > +               vnmc |= VNMC_INF_RGB666;
-> > > > 
-> > > > The actual meaning of this bit is not uniform across all SoCs.
-> > > > On R-Car V3U it means (partial) 16 bpp, on R-Car Gen3 it means 18 bpp.
-> > > 
-> > > The INF bits have different meanings depending on the VIN input. What
-> > > you refer to above for V3U is for the CSI-2 input, while for the rest of
-> > > Gen3 you quote the values for the parallel input. Value 111 is
-> > > documented as "prohibit" for the CSI-2 input on the rest of Gen3.
-> > 
-> > To be precise, for V3U the documentation indicates "Input from Channel
-> > Selector", not CSI-2. V3U has no parallel input.
+> v2->v1:
+>   - Remove "media: adv748x-csi2: Initialize subdev format"
+>   - Add "media: adv748x-afe: Use 1X16 media bus code"
+>   - Tested with CVBS
+>   - address comments from Laurent and Niklas
 > 
-> Yes it's getting a tad complex, but there is no issue here is there?  
-> This patch extends struct struct rvin_info with a new raw10 bool which 
-> indicates if raw10 is supported, or not. If it's not supported the 
-> driver rejects the MEDIA_BUS_FMT_Y10_1X10 in format validation.
-
-Apart from the naming causing some confusion, I don't see any issue.
-Functionally this part of the patch seems correct.
-
-> > The macros for the INF bits mix names for different types of inputs, it
-> > could be a good idea to clean this up.
+> A branch is available at
+> https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git/
+> jmondi/renesas-drivers-2024-06-11-v6.10-rc3/multistream-subdev-active-state
 > 
-> There are so many things in this driver I would like to clean up and are 
-> working on. The first step is to clean up the async and VIN group mess, 
-> there are patches for that on the list. Once that is done I'm planing to 
-> refactor the init functions and defines, one per generation in different 
-> files to make it more clear how things look on the different generations.
-
-I'm looking forward to that :-)
-
-> > > > > +               break;
-> > > > >         default:
-> > > > >                 break;
-> > > > >         }
+> As a follow-up to the recently sent
+> "media: renesas: rcar-csi2: Support multiple streams" series, this smaller
+> version collects some fixes and implement usage of the subdev active state
+> to simplify the R-Car CSI-2, ADV748x and MAX9286 drivers implementations.
+> 
+> Tested with GMSL on Eagle V3M
+> Tested with HDMI on Salvator-X
+> Tested with CVBS on Salvator-X
+> Boot tested on WhiteHawk V4H
+> 
+> 
+> Jacopo Mondi (11):
+>   media: rcar-vin: Fix YUYV8_1X16 handling for CSI-2
+>   media: rcar-csi2: Disable runtime_pm in probe error
+>   media: rcar-csi2: Cleanup subdevice in remove()
+>   media: rcar-csi2: Use the subdev active state
+>   media: adv748x-csi2: Implement enum_mbus_codes
+>   media: adv748x-afe: Use 1X16 media bus code
+>   media: adv748x-csi2: Validate the image format
+>   media: adv748x-csi2: Use the subdev active state
+>   media: max9286: Fix enum_mbus_code
+>   media: max9286: Use the subdev active state
+>   media: max9286: Use frame interval from subdev state
+> 
+>  drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
+>  drivers/media/i2c/adv748x/adv748x-csi2.c      | 145 +++++++++-----
+>  drivers/media/i2c/adv748x/adv748x.h           |   1 -
+>  drivers/media/i2c/max9286.c                   | 181 +++++++-----------
+>  drivers/media/platform/renesas/rcar-csi2.c    | 155 +++++++++------
+>  .../platform/renesas/rcar-vin/rcar-dma.c      |  16 +-
+>  6 files changed, 271 insertions(+), 231 deletions(-)
 
 -- 
 Regards,
