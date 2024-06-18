@@ -1,141 +1,188 @@
-Return-Path: <linux-media+bounces-13497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13499-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBF890C513
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 10:57:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C02C790C65B
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 12:19:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06F9C281D96
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 08:57:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4D8F1C213D7
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 10:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86211155302;
-	Tue, 18 Jun 2024 07:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3AFC178378;
+	Tue, 18 Jun 2024 07:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ZAaxwRlr"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oCoLP7pr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77345153BF5;
-	Tue, 18 Jun 2024 07:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F24018EBF
+	for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 07:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718695403; cv=none; b=TAuNS9uHAZ1DonsivNZ/OuYq0j1J46IXU3xCo8kCchslzUjFd79fpEK7P3PX7UOJ5Z9xP+qNdJf2LWWWeQPbazBd8WqlwzOK7IxPj/bteKZfG3EtFqhhbRpSary90FJA5JzlAELYMMcTEgHyZIWzAiQid7l6pl/MELSjesZZ0dM=
+	t=1718696904; cv=none; b=upIYf3jacpudyE5X/jXQgw0ulDuV+at9Zc+Ujyq/aaf3Q1ZooVEFZ4+KFMuF9czCvvr0dcDJ1uNTRpaRc1w6z18TwCVdDxptkhNX+5Jy6GQTfoZFrPe5q47mrAf1FpN2SGCbygtu6kQOmz9Nek8aEHxNGWSa2grBNEVCEbHLLnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718695403; c=relaxed/simple;
-	bh=gomqLja6oB518XBfskwiAXXhfVP2n488gnbUGW/bzMc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=D1C6842SSFtecRr4z+fx786a5I58rUolSsP8NVc0c1dmUonZhJoz9UCtAq0x7ekpw1DsdbT+hU6MKxVtriXtWgIahJtPgfqluBN5Dg753lXHM9A5tG7L3Hrmb+/IgqpnLQPFw4Mh+xvbqb24L8vtQFasCTEsgN9YZdg0oUXcTU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ZAaxwRlr; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718695349; x=1719300149; i=markus.elfring@web.de;
-	bh=Bg3TIL3KzmjNs9lk8+SASEJZvZeUEBVqupiovsiTnss=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ZAaxwRlrcDx0PCUvBtnXqrsiSNHNscYtnpXW3gtMAuUSGj7pQhStYq/XKutIVp56
-	 UaFzrLJLtCiY1/L81xaJ4vLb2HjBan605/HVBJBYM9pg6nSlIj3IxVmPOLj0ewt1r
-	 a8XLes3LhC9PEuCL+Fo4OKaN0q6+9jIIqhuiJw7XG70oVWcxB/cDGEk74bjQaHLnw
-	 gN0gS1F71wo6DWYzC9OrL7H5+IewSLK8mc338mARjN91R3JXgQqpkUqHgKjgN/8Fz
-	 rpGu+drIIOhV2cNX7JjNgi9tLPmUVTleoQmaUFKVJosUhyHWq7/4icxlisnYRJZA3
-	 9ccHftpWfRUSzN8f2A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mtgyp-1ser2g39mZ-010pwq; Tue, 18
- Jun 2024 09:22:29 +0200
-Message-ID: <ad8716ac-cff3-4fe5-86e1-f5f188e8b6b1@web.de>
-Date: Tue, 18 Jun 2024 09:22:03 +0200
+	s=arc-20240116; t=1718696904; c=relaxed/simple;
+	bh=+i2usPNZNgsyG7GktfYMCH5Ks0ugtDc9juyqEc/9YzU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U2+8+emIpo2FscZiUYxX7X3TIt1Bt5ZOUWu4SQemZRzaEYB8uU4fdLn0eHy2w4GlXnT7qRpuhqCyGTQqTKJ4Q/ngoMWFRNJ38Hk2fox52h+VteKt67hrLDJXwOGozcyW8zbYWoCHSAiq+9KpfoNOO2lbH/crTqHtAXBsyfiu0nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oCoLP7pr; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6ef793f4b8so527084266b.1
+        for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 00:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718696901; x=1719301701; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sCxa0N6a/etTSTm358fxjAycnT2MNf/L62aewqr2SjQ=;
+        b=oCoLP7preiduLiZUSmEIU0D9PNWQdD3yaKWarnveFckNSTypHuBLHGGF2JVIQRiYRG
+         LnDKJat3Mvf9U96C3jiSERM9wcjtR8o6REaC17p8wtjVPFsd+F0VNDAbNDmrWkSCxZMk
+         h2J54ZFBXbiFGTARopi4NHQVOHdwHAMEIO8qU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718696901; x=1719301701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sCxa0N6a/etTSTm358fxjAycnT2MNf/L62aewqr2SjQ=;
+        b=hW5qTDfZ2bC47BPjTAJIsO1F5sZBxgV9gfyjpKkc6v7YJ5i3i+vnR0dOuORP6R0X6k
+         eACwSslUrszNW8Lqydmg5Rkie7IOV43CmaLLT/ArtrSkKPUsaYOGxhOYYRTF5sLA/apx
+         +NW1lCn0Y80aY9k06WAgprDOQ1dQJ2bMQEcNJbRMFYulzP2GpdkWZp4TxAhx3vFmWRw7
+         cf2uUu5LNGOcr6ChqjA+mKGMas1Utv3RWrEL9NQQYjknniD23PIlAxG8ioAjw2tDJO5f
+         vlCCxP0PDctEV38vfqxuZsrKOWqgBaf+fACb1+d1+wutcx2xE8hiOTx9ofs8yW0VdhZM
+         hRUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhAsd03lsSU5w/GLTO5CSWefkUNIiwyWHlWJLsAA4wbzFz3OT+D9vNNbgq7zQof6PufYtXJ5r5MAaOpVhS5WhcJJ4y8u+ETFZSP/s=
+X-Gm-Message-State: AOJu0YzURKT46+l2KRMILDcvZeYPoFdYxwVPqQZYrdW+ioPtu5hkLtwK
+	grotRNUpw1Jz6ZWP8oSg7HHfdtNs3tEEyrHcbjoSbHomAqX8IryQXVaSdIPcGQ8qoSpnx/OHnXm
+	tpe5/
+X-Google-Smtp-Source: AGHT+IGYfNBheOLalYMrH0h053+GIg0ZtIDijg2ENrFA2Xw/9tawbAEey1+JMmEUPYbIh0ixJx00YA==
+X-Received: by 2002:a17:907:3f03:b0:a6f:5fe2:56e9 with SMTP id a640c23a62f3a-a6f60d2b9a7mr968802266b.17.1718696900859;
+        Tue, 18 Jun 2024 00:48:20 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56ed3585sm592901666b.117.2024.06.18.00.48.20
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Jun 2024 00:48:20 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a63359aaaa6so764200466b.2
+        for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 00:48:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVeX53hBid+Fqt3jxt+E3pynbOLmdpdGUFSMr/30eL7/jfqm+Cdauwjn8JQ5/L/fcDyUHa/MXk86TbSJuOUHy37k1vrxsUc7jruHEY=
+X-Received: by 2002:a17:906:ca0d:b0:a6f:fbc:b3f3 with SMTP id
+ a640c23a62f3a-a6f60dc89cbmr680235166b.47.1718696899670; Tue, 18 Jun 2024
+ 00:48:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: John Stultz <jstultz@google.com>, "T. J. Mercier" <tjmercier@google.com>,
- Yong Wu <yong.wu@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nathan Hebert <nhebert@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Tomasz Figa <tfiga@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Brian Starkey
- <Brian.Starkey@arm.com>, Chen-Yu Tsai <wenst@chromium.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, =?UTF-8?Q?Fritz_K=C3=B6nig?=
- <frkoenig@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Simon Horman <horms@kernel.org>,
- Steve Cho <stevecho@chromium.org>, Sumit Semwal <sumit.semwal@linaro.org>
-References: <20240516122102.16379-7-yunfei.dong@mediatek.com>
-Subject: Re: [PATCH v6 06/24] dma-heap: Add proper kref handling on dma-buf
- heaps
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240516122102.16379-7-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20240618073004.3420436-1-tao.jiang_2@nxp.com>
+In-Reply-To: <20240618073004.3420436-1-tao.jiang_2@nxp.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 18 Jun 2024 16:47:45 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5B_RTHsMwMdD59RAAyFne_0Ok_A4ExdkVOgi=G6-UGfRQ@mail.gmail.com>
+Message-ID: <CAAFQd5B_RTHsMwMdD59RAAyFne_0Ok_A4ExdkVOgi=G6-UGfRQ@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: sync caches for dmabuf memory
+To: TaoJiang <tao.jiang_2@nxp.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca, 
+	shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com, 
+	xiahong.bao@nxp.com, eagle.zhou@nxp.com, ming.qian@oss.nxp.com, 
+	imx@lists.linux.dev, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, m.szyprowski@samsung.com, 
+	sumit.semwal@linaro.org, christian.koenig@amd.com, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	Ming Qian <ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/+1vL2hF7w7/U6j+yJ4izBj1AbDZAVu4X1KpoJgdg2qMKCHU9BN
- Ifzm7y0IJZmLWnGCgmLUXzMukVIIELPS2EhhatKYzu6tegs4kxeySDupbDGTrWDASOQJbOg
- w9mOFs8Z1DfRanYvPSUkCR/gV8N0LYIh/MMX5DaY5G2apsoDTwnw29KpsyxShh4kisbe83Z
- 9Cw/fKtyKjptSRJf//RyA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:U8P0/GzVv8g=;JqrQtoY7YisOf6G5dLTpAxpmI8u
- UFlogheq71vxQwctu+U17hGJGx1e0HgWjuqEj2EXCNpHlvCP8TBGwWMaQoHnE1mMJqYTmm7RO
- Hhc94KlC1DelubZ5B+fXFdo+h/FkZpOUrd69UF8y2tCbPaV+zInRsxLq1UqQ358gU/EAHdehr
- TjsysmHaHnK00+gSR7hSY5BYGSrzuZBrX6viwHhtKSUHGi4+L0l6Aozpec8jLoGYUcbkQeMm9
- uhzGvk1yY8Av24P33qsqMjQwn01CAyTWSxyiuGuzMF4GtF38lOU8xjEug2UvzTDMRZNyVLhUT
- U+I0ydY/tuZRz8NpxgoWlaNzkUw5uJSTFxzO5oxtKD78/hfpLtUBzE0qKH6hhYMYnZquucjI1
- ghhamIqV+LBcwq2feNe1NOyfGfFX7aR8vS1H4jgAX09nYH2XXYg7tYqNsHmvZK2C86GhtVuKS
- w1mocZ4vHdgG1L0fQxKce3KZ4p9Br4Ebys5u5+zT6y/bPJ2dzke/SE8f9vlhyBYJalm0Qhjk4
- DXLfQt7zZFbLrK7DcoFO6CQ4X/ohCwOndeGEORneIy6/n8HBP+elbGyy7Y25+SoHccXmgbcuc
- b3FNLH4GZWv9XmhHn1HiUwWAShJla3r/9Lawn065g0aNjsLCShH8yU3EPUM1aFIwHz4OrDOWa
- I09c9SFF/tEcnNinSpKIT73FSejNr4NxRapyYFCYkYODb6rW62DeXWoR79XEvl9Q2KQpqGpLG
- iMikMNBnwC3zVIuFmmy4OjMH0oyAP5JmcqLOy2OZxqFHk1S9JwKgbzYHNIFOgdGwd3+WDmEJc
- Qxb+EpsaK7s31isNgGSIQIiL2vfV4oPG+DtW8o2JotqH0=
 
-> Add proper refcounting on the dma_heap structure.
+Hi TaoJiang,
 
-             reference counting?
+On Tue, Jun 18, 2024 at 4:30=E2=80=AFPM TaoJiang <tao.jiang_2@nxp.com> wrot=
+e:
+>
+> From: Ming Qian <ming.qian@nxp.com>
+>
+> When the memory type is VB2_MEMORY_DMABUF, the v4l2 device can't know
+> whether the dma buffer is coherent or synchronized.
+>
+> The videobuf2-core will skip cache syncs as it think the DMA exporter
+> should take care of cache syncs
+>
+> But in fact it's likely that the client doesn't
+> synchronize the dma buf before qbuf() or after dqbuf(). and it's
+> difficult to find this type of error directly.
+>
+> I think it's helpful that videobuf2-core can call
+> dma_buf_end_cpu_access() and dma_buf_begin_cpu_access() to handle the
+> cache syncs.
+>
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> Signed-off-by: TaoJiang <tao.jiang_2@nxp.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
 
+Sorry, that patch is incorrect. I believe you're misunderstanding the
+way DMA-buf buffers should be managed in the userspace. It's the
+userspace responsibility to call the DMA_BUF_IOCTL_SYNC ioctl [1] to
+signal start and end of CPU access to the kernel and imply necessary
+cache synchronization.
 
-> While existing heaps are built-in, we may eventually
-> have heaps loaded from modules, and we'll need to be
-> able to properly handle the references to the heaps
+[1] https://docs.kernel.org/driver-api/dma-buf.html#dma-buffer-ioctls
 
-You may occasionally put more than 52 characters into text lines
-of such a change description.
+So, really sorry, but it's a NAK.
 
+Best regards,
+Tomasz
 
-=E2=80=A6
-> +++ b/drivers/dma-buf/dma-heap.c
-=E2=80=A6
-> +static void dma_heap_release(struct kref *ref)
-> +{
-=E2=80=A6
-> +	mutex_lock(&heap_list_lock);
-> +	list_del(&heap->list);
-> +	mutex_unlock(&heap_list_lock);
-=E2=80=A6
-
-Would you become interested to apply a statement like =E2=80=9Cguard(mutex=
-)(&heap_list_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/mutex.h#L1=
-96
-
-Regards,
-Markus
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/me=
+dia/common/videobuf2/videobuf2-core.c
+> index 358f1fe42975..4734ff9cf3ce 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -340,6 +340,17 @@ static void __vb2_buf_mem_prepare(struct vb2_buffer =
+*vb)
+>         vb->synced =3D 1;
+>         for (plane =3D 0; plane < vb->num_planes; ++plane)
+>                 call_void_memop(vb, prepare, vb->planes[plane].mem_priv);
+> +
+> +       if (vb->memory !=3D VB2_MEMORY_DMABUF)
+> +               return;
+> +       for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> +               struct dma_buf *dbuf =3D vb->planes[plane].dbuf;
+> +
+> +               if (!dbuf)
+> +                       continue;
+> +
+> +               dma_buf_end_cpu_access(dbuf, vb->vb2_queue->dma_dir);
+> +       }
+>  }
+>
+>  /*
+> @@ -356,6 +367,17 @@ static void __vb2_buf_mem_finish(struct vb2_buffer *=
+vb)
+>         vb->synced =3D 0;
+>         for (plane =3D 0; plane < vb->num_planes; ++plane)
+>                 call_void_memop(vb, finish, vb->planes[plane].mem_priv);
+> +
+> +       if (vb->memory !=3D VB2_MEMORY_DMABUF)
+> +               return;
+> +       for (plane =3D 0; plane < vb->num_planes; ++plane) {
+> +               struct dma_buf *dbuf =3D vb->planes[plane].dbuf;
+> +
+> +               if (!dbuf)
+> +                       continue;
+> +
+> +               dma_buf_begin_cpu_access(dbuf, vb->vb2_queue->dma_dir);
+> +       }
+>  }
+>
+>  /*
+> --
+> 2.43.0-rc1
+>
 
