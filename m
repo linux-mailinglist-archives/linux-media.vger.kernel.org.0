@@ -1,175 +1,156 @@
-Return-Path: <linux-media+bounces-13547-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13548-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E44190CC03
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 14:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FBE90CCB9
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 14:55:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78A2A282033
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 12:41:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C3F0A284C2C
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jun 2024 12:55:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DDF7158A16;
-	Tue, 18 Jun 2024 12:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDC5819B595;
+	Tue, 18 Jun 2024 12:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RTcOHE2e"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ykziTRJg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5541586D5
-	for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 12:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE6D19047A;
+	Tue, 18 Jun 2024 12:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718714207; cv=none; b=M1eFVkf26BTxwV72QmlVt0Nc1lYhutDeW8C28RM6DUM1MmdNYRWFR1c+MyDP8flIt4vtHApJrvJp2fFBsrA7JZA5gidgVftq47kvfJXWrWtlvleDipV9BVftwAqVLE1LOcYpSI2GVJ9ccBOP6tRt8XXXpK6vf33OLVqRZi0v/RM=
+	t=1718714381; cv=none; b=Yp1C/6mAOjCmGc10d8HVy1mSNenmsXYQzP9fbX/7bHA5X6tEumpTl17/pZJxk3fDYo5/sw4oSTaXYtWX1QCXe8A65fx+I5NotZ05FUUGHOjkPZC/T48wcAHBFwt1t7TQR9HWvNuvebh/rpozHt3aNVInRAATm+6x+KDHs6jndcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718714207; c=relaxed/simple;
-	bh=wc3nxRp/zEr6rzxbLlYJyj2e4UgxApK3/epeyKCpZJk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fvlJ1Hk+qgBSUUddNsiIGy1whbc1RlDtdaf8EP4ojDN/SLzbbEPCNgRTT8IXuuHTPBhoAcHFlYklQt1EvV1K+gbMbd045ZAcmyufLf2NQB8cfIAKt7ZT2LBh5Qc4Uxfa2hhcgyu47bn7pZQo+thrXxys1CGXhWrQ1ZUptYe9cQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RTcOHE2e; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eaae2a6dc1so95180761fa.0
-        for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 05:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718714203; x=1719319003; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NTiN80rKMTOzOqZ3XNmwbttNTimI7k+ulamUrzc9SmI=;
-        b=RTcOHE2ePs2Zf3PZlJ19bZIRr6S/J8kyDHy5iGG6U1svG9xcWffaCoNBqACl6HDb38
-         eIvp/14/774SJYZ52+c1vzdk7TRidgIAvDKzuzNKLrwMSaCwUZlW5LaJeuNdTKidye2G
-         xNGe7kYj+AA7wRvqsnJ9kLuVup7vGueYvTJaM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718714203; x=1719319003;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NTiN80rKMTOzOqZ3XNmwbttNTimI7k+ulamUrzc9SmI=;
-        b=H1lPOF/aQMJGYmxqccaf4HPoCbqdgz88pAnhWGmjFze7TLsSjs02y50vVFdXWhQ5/e
-         MKUEb7y+0+gbfn+iHDgxCHi6SBLGSOgpeAaB4gRXFRMOFaS62dxkCCJLguRbWPsKqOo6
-         SlW8QjVF1z1T1XhMdpOWXAggMWDUfm1ORup6bgH3DmycUrTMo2aJNpoEOvgAsZL5KpzS
-         BJ8d5unvFCU8QiOMJESUj+z6eVZ9RMZZbrcfM71CiqeNOxSdFdEyIze3IoyKegaXLKZL
-         9z1B/Nna2DrI+91FafQ8zao05H2nyFbmx2IXjXc8nEfn7P3TJbJtPb1TkSqJqKnFGZdj
-         4qZg==
-X-Forwarded-Encrypted: i=1; AJvYcCXNjVaum3x11dI6m+a/KAz4iqWMdQA+eT4aPfqrffp/S8ooSD28zqFYaXe7GC4imT8K1kp+U2JAZK40ylqiDYomiaipcEkdmkzr6EU=
-X-Gm-Message-State: AOJu0YyZY8v3dxW8h1Ktyc2UyI/qPwVC41cQueATHAdzcRo5fos8S1Bu
-	0h0u/f5bEhBcVTeZ78+vSRElgwrKUZgqsuXkGUVecaKp693aUD5SWT9QhWOrcDRTun/m3xK3zOV
-	GcA==
-X-Google-Smtp-Source: AGHT+IF0TpVJ/oO0P+dXPIF4q2LZoJiheIkdOGAhASzp/xocSIvHUJd6r5VYZ5zwEGFUWrmrRLKR9A==
-X-Received: by 2002:a2e:3005:0:b0:2ec:1d05:1bfe with SMTP id 38308e7fff4ca-2ec1d051c12mr75147651fa.53.1718714203275;
-        Tue, 18 Jun 2024 05:36:43 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ec05c1957dsm16892541fa.71.2024.06.18.05.36.42
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 05:36:42 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52c82101407so8928873e87.3
-        for <linux-media@vger.kernel.org>; Tue, 18 Jun 2024 05:36:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVXLZ7aTY0SL5C0JWGFUD2JbyOMgz5ij7M9UlsiIMvUosrI8HzLksqJmIqcsaYhVJcQ2FVe0V3eLrqxB/H733OqPs6cnHYhiBYYaME=
-X-Received: by 2002:a05:6512:3e25:b0:52c:8b03:99d1 with SMTP id
- 2adb3069b0e04-52ca6e92adcmr12517058e87.48.1718714202517; Tue, 18 Jun 2024
- 05:36:42 -0700 (PDT)
+	s=arc-20240116; t=1718714381; c=relaxed/simple;
+	bh=e+/mKXkRdPvjBlGr8XNXuV89ZJiYt/k+nMVYcqGYbKw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hWU2mwnLGpEB2Qiy3P78uOtyG9BE4xcNofpXCzito+tiNFKegZTRNUVFTyEs67VLYlxvRii4sqTdwBeLeqkYVsZz7t0pbWdksHmbKlbYjd963ev/x+qF2VmuW372NS7n9KRoZUWOhYaPPR7t0Vpm1R0WH30FXM+wFnriRG8D83Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ykziTRJg; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718714377;
+	bh=e+/mKXkRdPvjBlGr8XNXuV89ZJiYt/k+nMVYcqGYbKw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ykziTRJg5Cai9lwNaWd4iGmTspqKZ/8uEq0NJOinsUZaTJgQRSq9nxRGFRXZOYqmq
+	 YwhMr3wTp0AjvEfb9B3pBj5Vclj264bU9APaHtq6XukCY5kJ/RMHnx4x6lL79m9Wif
+	 S95liCtyqX19lDj8euZlkjQ1vHZwmmU8DQNQnTMf4B+jqI+K2+7YijGPS1Ew6GU0uL
+	 U2kd1m6VD36AVzTp6dKuDvLFaDKR7zhAPLkrEBQcMywh6jLNA7jwqN7tXuVpEsrSno
+	 lm7dympUxa9TLpwKZWHrL2SzRElJLcNHLAP49S39FbDGis4BWJTiT3TReI8UjdpWOX
+	 pYRom/Y1ib8gQ==
+Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B09F73780BDB;
+	Tue, 18 Jun 2024 12:39:34 +0000 (UTC)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>
+Cc: alchark@gmail.com, andy.yan@rock-chips.com, conor+dt@kernel.org,
+ cristian.ciocaltea@collabora.com, devicetree@vger.kernel.org,
+ didi.debian@cknow.org, dsimic@manjaro.org, gregkh@linuxfoundation.org,
+ heiko@sntech.de, krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ liujianfeng1994@gmail.com, mchehab@kernel.org, nicolas@ndufresne.ca,
+ robh@kernel.org, sebastian.reichel@collabora.com
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Date: Tue, 18 Jun 2024 08:39:07 -0400
+Message-ID: <4302165.yKVeVyVuyW@arisu>
+Organization: Collabora
+In-Reply-To: <20240618121329.79936-1-liujianfeng1994@gmail.com>
+References:
+ <4116468.VLH7GnMWUR@arisu> <20240618121329.79936-1-liujianfeng1994@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527-cocci-flexarray-v3-0-cda09c535816@chromium.org> <3f7baafb-82c7-3955-e871-687fafe8048c@quicinc.com>
-In-Reply-To: <3f7baafb-82c7-3955-e871-687fafe8048c@quicinc.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 18 Jun 2024 14:36:27 +0200
-X-Gmail-Original-Message-ID: <CANiDSCszoUyZW85qaCrkkfNR73dXBrAURayWD8_jpV6Er6fOsg@mail.gmail.com>
-Message-ID: <CANiDSCszoUyZW85qaCrkkfNR73dXBrAURayWD8_jpV6Er6fOsg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/18] media: Fix the last set of coccinelle warnings
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Michael Tretter <m.tretter@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
-	Andy Walls <awalls@md.metrocast.net>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="nextPart4472750.OBFZWjSADL";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 
-Hi Vikash
+--nextPart4472750.OBFZWjSADL
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+Date: Tue, 18 Jun 2024 08:39:07 -0400
+Message-ID: <4302165.yKVeVyVuyW@arisu>
+Organization: Collabora
+In-Reply-To: <20240618121329.79936-1-liujianfeng1994@gmail.com>
+MIME-Version: 1.0
 
-On Tue, 18 Jun 2024 at 14:34, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
->
-> Hi Ricardo,
->
-> On 5/28/2024 2:38 AM, Ricardo Ribalda wrote:
-> > With this set we are done with all the cocci warning/errors.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > Changes in v3:
-> > - Do not rename structure fields. (Thanks Bryan)
-> > - Link to v2: https://lore.kernel.org/r/20240507-cocci-flexarray-v2-0-7aea262cf065@chromium.org
-> >
-> > Changes in v2:
-> > - allegro: Replace hard coded 1 with a define. (Thanks Michael)
-> > - Link to v1: https://lore.kernel.org/r/20240507-cocci-flexarray-v1-0-4a421c21fd06@chromium.org
-> >
-> > ---
-> > Ricardo Ribalda (18):
-> >       media: allegro: nal-hevc: Replace array[1] with arrray[N]
-> >       media: xilinx: Refactor struct xvip_dma
-> >       media: dvb-frontend/mxl5xx: Refactor struct MBIN_FILE_T
-> >       media: dvb-frontend/mxl5xx: Use flex array for MBIN_SEGMENT_T
-> >       media: pci: cx18: Use flex arrays for struct cx18_scb
-> >       media: siano: Refactor struct sms_msg_data
-> >       media: siano: Remove unused structures
-> >       media: siano: Use flex arrays for sms_firmware
-> >       media: venus: Remove unused structs
-> >       media: venus: Use flex array for hfi_session_release_buffer_pkt
-> >       media: venus: Refactor struct hfi_uncompressed_plane_info
-> >       media: venus: Refactor struct hfi_session_get_property_pkt
-> >       media: venus: Refactor struct hfi_uncompressed_format_supported
-> >       media: venus: Refactor hfi_session_empty_buffer_uncompressed_plane0_pkt
-> >       media: venus: Refactor hfi_session_empty_buffer_compressed_pkt
-> >       media: venus: Refactor hfi_sys_get_property_pkt
-> >       media: venus: Refactor hfi_session_fill_buffer_pkt
-> >       media: venus: Refactor hfi_buffer_alloc_mode_supported
-> >
-> >  drivers/media/common/siano/smscoreapi.c        | 10 +++---
-> >  drivers/media/common/siano/smscoreapi.h        | 18 ++---------
-> >  drivers/media/common/siano/smsdvb-main.c       |  4 +--
-> >  drivers/media/common/siano/smsendian.c         |  8 +++--
-> >  drivers/media/dvb-frontends/mxl5xx.c           |  2 +-
-> >  drivers/media/dvb-frontends/mxl5xx_defs.h      |  4 +--
-> >  drivers/media/pci/cx18/cx18-scb.h              |  2 +-
-> >  drivers/media/platform/allegro-dvt/nal-hevc.h  |  7 ++--
-> >  drivers/media/platform/qcom/venus/hfi_cmds.c   |  8 ++---
-> >  drivers/media/platform/qcom/venus/hfi_cmds.h   | 38 ++++------------------
-> >  drivers/media/platform/qcom/venus/hfi_helper.h | 45 ++------------------------
-> >  drivers/media/platform/qcom/venus/hfi_parser.c |  2 +-
-> >  drivers/media/platform/xilinx/xilinx-dma.c     |  4 +--
-> >  drivers/media/platform/xilinx/xilinx-dma.h     |  2 +-
-> >  14 files changed, 39 insertions(+), 115 deletions(-)
-> > ---
-> > base-commit: 48259b90973718d2277db27b5e510f0fe957eaa0
-> > change-id: 20240507-cocci-flexarray-9a807a8e108e
-> >
-> > Best regards,
->
-> Could you also mention if you have run any video usecase on any of the boards
-> with these changes ?
+On Tuesday, June 18, 2024 8:13:29 A.M. EDT Jianfeng Liu wrote:
+> Hi Detlev,
+> 
+> On Fri, 14 Jun 2024 21:56:27 -0400, Detlev Casanova wrote:
+> >+		.frmsize = {
+> >+			.min_width = 16,
+> >+			.max_width =  65520,
+> >+			.step_width = 16,
+> >+			.min_height = 16,
+> >+			.max_height =  65520,
+> >+			.step_height = 16,
+> >+		},
+> 
+> I think the min/max width/height are incorrect. From rockchip's TRM V1.0
+> Part1 page 374, supported image size is 64x64 to 65472x65472.
 
-I have only compile tested this series. If you have access to any of
-the hardware it would be great if you could test it out :)
+Page 374 shows the sizes for h265. h264 is the next table, where 16x16 and 
+65520x65520 is documented.
 
-Regards!
+> And my
+> chromium can't use rkvdec2 because min width/height are set to 16, which
+> 
+> will cause error at here in rkvdec2_h264_validate_sps:
+> >+	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+> >+	    height > ctx->coded_fmt.fmt.pix_mp.height)
+> >+		return -EINVAL;
+> 
+> width is 16, height is 32 while ctx->coded_fmt.fmt.pix_mp.width and
+> ctx->coded_fmt.fmt.pix_mp.height are both 16.
 
->
-> Regards,
-> Vikash
+Maybe
+
+if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+	height *= 2;
+
+is causing issues in this case, I can check.
+
+> After changing them to 64 my chromium can use rkvdec2 to decode h264
+> videos now.
+> 
+> Anyway many thanks to your amazing work!
+> 
+> Best regards,
+> Jianfeng
+
+
+--nextPart4472750.OBFZWjSADL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZxf+sACgkQ5EFKUk4x
+7bYJOAf/Zme2uxfjX+cwsN758W5amw+QvLxn04CfI871RZj09w3zEbV6ZQ1ZYAPg
+mG4XI/KLEUI/tDA0AX6DvEkK0K81bxsoPx+NTzH7sMpeoyq52NtrscARBNUE+jrW
+hiMntPl1ZnnQub2q4K36Lvdiao7vdsM4xBQZC+bq2qo/CaaSY1KvJou6wsgMvug9
+lVVfhHT9EO2bpYntOpZgjJlleNCu6V1lN/b9VhKOFMxCAYhBKDMxXWnfJrx2J8sL
+ATZ68cdCoNSIC7xLlcMfOUzVM8lfTG/dvW8e+VLsoBBbX4FWll8Pk2wKC8r2/Sw8
+/+doLEMSMZG4MUevBqAHFpjkXgkMbA==
+=KICS
+-----END PGP SIGNATURE-----
+
+--nextPart4472750.OBFZWjSADL--
 
 
 
--- 
-Ricardo Ribalda
 
