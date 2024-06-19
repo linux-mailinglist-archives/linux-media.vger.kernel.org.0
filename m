@@ -1,152 +1,130 @@
-Return-Path: <linux-media+bounces-13691-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13692-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F6A90EB27
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 14:32:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFD590EB35
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 14:35:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 74AEFB23A16
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 12:32:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAF2B285F8E
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 12:35:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E43214291E;
-	Wed, 19 Jun 2024 12:32:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AA2B12DDBF;
+	Wed, 19 Jun 2024 12:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rodi/qzm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DnASga92"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BF881737;
-	Wed, 19 Jun 2024 12:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A60E82D9F;
+	Wed, 19 Jun 2024 12:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718800324; cv=none; b=RNMpLnO3lLKC6vY2yzNo87YtOre1BRW0RVWRguaPb6NW50cKm9NQy0BQh74hn4z2IJ2qR6VEUHjzdmShIlOVpjkTVtUEO1DjwJEq0UHYgkjjXQjkVAXRrDADF5wjzaGvvw3qM4iEqe2MFG+T7BsPq4Cdj6B6fo3m04aKA4ZO7f4=
+	t=1718800493; cv=none; b=GuwsaNIPsz3kK0lazyYdc7ItbF/6Ac6jx1HB8/6CGiV0XwXPYENELR4iLCuuN6ODBpfOegIHL/u7L3ymnaXlLdkD76XpguFwGd9Mvwq2XE5Pkxdtm4oShDo2u+MsTbfq+i3pgjVn2FGkXH0TawdO6xkKNk0TJHDxP8x9KXgT55U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718800324; c=relaxed/simple;
-	bh=QRrOp+Vau6wu0t1fLIbTXgRzJn8k+2sXjvkyAztT+qo=;
+	s=arc-20240116; t=1718800493; c=relaxed/simple;
+	bh=izLEjKclWmIAjHC4MNPzF0kEUXBzIGhUDyI33snqJIc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jMqawfmEljhzwMpLQ1I8WFZFSvqRiLLgXK40iU6mnFE48DLsd9aPsN933bHvDtAF/+F0DhDD234dw1MX5pz7Ucqf233AFLeOXMaVHa9QqHG9F9pRb1omZym7oPHrLUlOGWy6toJoEGfm4BicWeVpGFkpYeS/CUpFv+AWmZAXV1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rodi/qzm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09F4C541;
-	Wed, 19 Jun 2024 14:31:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718800302;
-	bh=QRrOp+Vau6wu0t1fLIbTXgRzJn8k+2sXjvkyAztT+qo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rodi/qzmHOSX/s7siMI7A+WuySrTxw+tZEYq+JnX/znKu6vPvEV4HmRn5BxRxeCzw
-	 98a7WvMzng0+OGovPTj3b797cA2ddPlZ0UIDXjYcog+2KC+LDi+QU6Hz8oDUowG1y4
-	 wwCd/g6NKbPhDQwlyzrFafkMWQ8xwYbQwecNNQv8=
-Date: Wed, 19 Jun 2024 15:31:38 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 12/19] media: renesas: vsp1: Keep the DRM pipeline
- entities sorted
-Message-ID: <20240619123138.GA3125@pendragon.ideasonboard.com>
-References: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240619001722.9749-13-laurent.pinchart+renesas@ideasonboard.com>
- <171879964925.2248009.4044816953897425991@ping.linuxembedded.co.uk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=M096exBoNcwSeCrr4GmGULO5EzS8bYl4f2Pn+PQng0+i8h1lF13qS+G/ItLJ8hdK3EX+hm6EidldV89gechlc0z8K1DGIQ7BnhUH/vrS4nTK6WmVN2XNHOYTR+ziyYlgpeej+MtDZKUNZRl9tRqlQlGlYaUJc/AGwqBSOm+1oXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DnASga92; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f9b523a15cso3278025ad.0;
+        Wed, 19 Jun 2024 05:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718800491; x=1719405291; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=izLEjKclWmIAjHC4MNPzF0kEUXBzIGhUDyI33snqJIc=;
+        b=DnASga92zvP15UWiLkNfkdvFzbyay1o9y+0G8uR1T3nSe3Oa8Y5T3gzO6YfO1C5LC/
+         oz5Zv3qrR4PCWmpDd9rOs4qunHHsgqVEgqfZxvNm6F94DxZwZKmEMPNTNqJ+ubb+C7MP
+         aA3DL5qmjEqL2rwv0ltOfi9RYN6C5e+HD77Lw/4NpXyOLjGekodUakxM8Y4iB/a7r37O
+         RNURp0FGJZ1u4TD4g/OW9GRle2H2bxAQwV6RscqAMz+gu6gEAUAkEGJ46nno2Q9PgrW5
+         Xt1r4qBj3fyLfTIjbdE7UmUlqBthdWJxSdUroyQ4O7xXqBU91Cm83PvEY762DMjDvLnz
+         7T9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718800491; x=1719405291;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=izLEjKclWmIAjHC4MNPzF0kEUXBzIGhUDyI33snqJIc=;
+        b=rt7FuRHdnRso3pfGlTtlyawXP+ExhbNger2QB4hFwonRbNsiFUEy8nUrg+dfU/8tMP
+         YP3GClBF9yA+iZe9QkGEWaPgOJN9VVhaDK3tENI8HBV0OJF8jp9QxdaEu93z8JCwe+gZ
+         CgW13xt3VcnDrtfwEbGC+0U0pAAlQI2+gcWseIeOrLnm4yUTAbPmr0FB8mWQMsiO06aZ
+         wwl7J4RZlvHw+xPdizHZd93mFrGAK82x2u8H5cw160dbVsNkBMzRCSA1aR6HgUu6Fvtk
+         Q7jT/vZG4aDUDqIdlflZv2bsHabEXg6PVtEgMSIomCbYK96ciXH87MM7VS7E6DuBgi3V
+         VUOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBDMR3o5rKN5X1JnxzBg065kXlSeQMgwWjTuB3zghiiJre2MgZ1QXrMqwSl9yJGh7NhX/YE5DKAhKHZpIo33cgAB0DBCtH/qRkXRIZ+LaUMZ+GeuLH6hgm47oKsr4SwpW3q/YruAi2nA1WLEBAtVCvGR0nTDvENVbC0lrIP/1/1PlY6gbZbu2ChRXZGplNildnkYJT8qE2L4lSDnMhWF0MS0aL+WqfQ1f1HU1Y2tepvdp3h1jjBHesrjA=
+X-Gm-Message-State: AOJu0YxD6ab7rVNLdaWzr4KYEISMQioH0YBpQQ9G0TX6umo/ITLIq0S0
+	WKPpUzqZP7Ex1bFSVNYFwwWwryFILwXWmaHBJ/eE5Ih/dxui5Mni
+X-Google-Smtp-Source: AGHT+IEcB9hqDiOaiiqXDcdkruBbV/uMxC4QPzGwEbCe7v1uupCHq+Ap/o3FdsOBJyDISnfA+bQ6nQ==
+X-Received: by 2002:a17:902:e80d:b0:1f9:b19b:4281 with SMTP id d9443c01a7336-1f9b19b46admr18456575ad.33.1718800491391;
+        Wed, 19 Jun 2024 05:34:51 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855f1ac4bsm115511095ad.227.2024.06.19.05.34.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 05:34:50 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id AE04C190E115C; Wed, 19 Jun 2024 19:34:48 +0700 (WIB)
+Date: Wed, 19 Jun 2024 19:34:48 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Paul Cercueil <paul@crapouillou.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v11 7/7] Documentation: dmaengine: Document new dma_vec
+ API
+Message-ID: <ZnLQaBQrV7KhxOeC@archie.me>
+References: <20240618100302.72886-1-paul@crapouillou.net>
+ <20240618100302.72886-8-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="P+G0VMb+YrutxSpB"
+Content-Disposition: inline
+In-Reply-To: <20240618100302.72886-8-paul@crapouillou.net>
+
+
+--P+G0VMb+YrutxSpB
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <171879964925.2248009.4044816953897425991@ping.linuxembedded.co.uk>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 19, 2024 at 01:20:49PM +0100, Kieran Bingham wrote:
-> Quoting Laurent Pinchart (2024-06-19 01:17:15)
-> > Some of the code that handles pipeline configuration assumes that
-> > entities in a pipeline's entities list are sorted from sink to source.
-> > To prepare for using that code with the DRM pipeline, insert the BRx
-> > just before the WPF, and the RPFs at the head of the list.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> > index 1aa59a74672f..e44359b661b6 100644
-> > --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> > @@ -317,7 +317,10 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_device *vsp1,
-> >                         list_add_tail(&released_brx->list_pipe,
-> >                                       &pipe->entities);
-> >  
-> > -               /* Add the BRx to the pipeline. */
-> > +               /*
-> > +                * Add the BRx to the pipeline, inserting it just before the
-> > +                * WPF.
-> 
-> So - the pipe->output is from what I recall/can see the output wpf.
->  (struct vsp1_rwpf *output)
-> 
-> > +                */
-> >                 dev_dbg(vsp1->dev, "%s: pipe %u: acquired %s\n",
-> >                         __func__, pipe->lif->index, BRX_NAME(brx));
-> >  
-> > @@ -326,7 +329,8 @@ static int vsp1_du_pipeline_setup_brx(struct vsp1_device *vsp1,
-> >                 pipe->brx->sink = &pipe->output->entity;
-> >                 pipe->brx->sink_pad = 0;
-> >  
-> > -               list_add_tail(&pipe->brx->list_pipe, &pipe->entities);
-> > +               list_add_tail(&pipe->brx->list_pipe,
-> > +                             &pipe->output->entity.list_pipe);
-> 
-> But this reads to me as if we're adding the brx after ('the tail') of
-> the output WPF....
-> 
-> Now ... of course if we open up list_add_tail()
-> 
->  * Insert a new entry before the specified head.
-> 
-> And that checks out - because of course the list_add adds it as the
-> 'next' item in the list... and we're using list_add_tail as a convenient
-> way to provide list_add_before() ...
-> 
-> So I believe this is correct, but the nuance of it reads back to front to me.
-> 
-> Because of that it possibly deserves a better comment to be explicit on
-> what it's doing, or makes me wonder if list.h should have something that
-> explicitly impliments
-> 
-> #define list_add_before list_add_tail
+On Tue, Jun 18, 2024 at 12:03:02PM +0200, Paul Cercueil wrote:
+> Document the dmaengine_prep_peripheral_dma_vec() API function, the
+> device_prep_peripheral_dma_vec() backend function, and the dma_vec
+> struct.
+>=20
 
-https://lore.kernel.org/all/alpine.LSU.2.11.1406061242370.16010@eggly.anvils/
+LGTM, thanks!
 
-I'll let you argue :-)
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> but otherwise - it does check out.
-> 
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> 
-> >         }
-> >  
-> >         /*
-> > @@ -420,7 +424,7 @@ static int vsp1_du_pipeline_setup_inputs(struct vsp1_device *vsp1,
-> >  
-> >                 if (!rpf->entity.pipe) {
-> >                         rpf->entity.pipe = pipe;
-> > -                       list_add_tail(&rpf->entity.list_pipe, &pipe->entities);
-> > +                       list_add(&rpf->entity.list_pipe, &pipe->entities);
-> >                 }
-> >  
-> >                 brx->inputs[i].rpf = rpf;
+--=20
+An old man doll... just what I always wanted! - Clara
 
--- 
-Regards,
+--P+G0VMb+YrutxSpB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Laurent Pinchart
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZnLQaAAKCRD2uYlJVVFO
+o62HAP9Sf4C2GxRgQTiPvegZlarJtrtpsHOKgq1BhJIuokVeCgEA3Sb4DkOK66Dj
+J768fmI0av+lWGHkQD9s9mkd4Y3TcAc=
+=Ys7t
+-----END PGP SIGNATURE-----
+
+--P+G0VMb+YrutxSpB--
 
