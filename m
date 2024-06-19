@@ -1,327 +1,213 @@
-Return-Path: <linux-media+bounces-13747-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13748-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7807190F3F2
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 18:21:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D4590F4E8
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 19:19:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A0731F2189B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 16:21:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59A491F21D09
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 17:19:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6449D152531;
-	Wed, 19 Jun 2024 16:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77920156237;
+	Wed, 19 Jun 2024 17:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wYJwTJKp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IfVB5J3b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E681B1CAA2
-	for <linux-media@vger.kernel.org>; Wed, 19 Jun 2024 16:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33AD14EC56;
+	Wed, 19 Jun 2024 17:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718814066; cv=none; b=R653BXBrlzJjf4vLdxEHVwMHFPzy56kEFCib6kZv2hew2DsRwH0DKwbTBrNwRZbs4E8txNmx7BcJD+8beMLrU8TtpyVth6pmSD8qU6QDJa/iA3b9wDikohIE3pI84RmhTG/n+rQsPHBMUgiLHvVkt3YGiP0uTwXhNDAp5WM0/1I=
+	t=1718817587; cv=none; b=bfZgayBqy+429FHrxu2GS76FH9FLUrYXdY2TT0ZGMpE3bmjuUMbmnmflAVsF/6F4XXw4mIxntcykrNH8hl2EuypFCmXRbvCmMnMIROrZKOnjQZtut7HJg8TFyV/ogZKqJv1B4alRjLV93QomK3VtbibPl9wvRJ5JmwqXNGJqHY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718814066; c=relaxed/simple;
-	bh=i2z0zNPVX1CRpxFxH9O7xfD7gM24gvGLN5T4LsmRWVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o5OdFciPclWfDL15YC7AhLU7wqfoDPSxHxz5UgP++QJJT/0Z+HMUQgSyrcJKv6kbRLXYiJM98knsezdCNlRLdYykA4EEAIab6f4uTbNti1Dyb3enl2HN6WTEv2Y4W/9teTh3FkVAozYkadIvfGA6esc9tZX2+gr5GUeD6AXvpA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wYJwTJKp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01D7F541;
-	Wed, 19 Jun 2024 18:20:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718814044;
-	bh=i2z0zNPVX1CRpxFxH9O7xfD7gM24gvGLN5T4LsmRWVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wYJwTJKp4caQfjALz+ouOjnnxeoF106Sl/caulo2VF/wRdIknzDJGY6YUWXi2zhQZ
-	 JFa3k902a6ZCDu6sHwqCk8s1Rde9MpsctYXW/nSbgmW+QLLpMcw0dwLcjJEIH/eKX5
-	 iV1HSOxH08dCfsg3y1EBbQT3MxG1XNoqTUJrQEI0=
-Date: Wed, 19 Jun 2024 18:20:59 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Dan Scally <dan.scally@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Paul Elder <paul.elder@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH 8/8] media: rkisp1: Copy and validate parameters buffer
-Message-ID: <ydoscmwgwae5fau7ee5nciekugm5lk3getd4kojaqqnwj6kilx@fwkkmqgx5ze4>
-References: <20240605165434.432230-1-jacopo.mondi@ideasonboard.com>
- <20240605165434.432230-9-jacopo.mondi@ideasonboard.com>
- <2c7e4fb9-a23c-41f3-a5d1-fa8699e313be@ideasonboard.com>
- <20240612162048.GF15991@pendragon.ideasonboard.com>
- <bwwipysiavy6cszkshx6gjistawbsktsrqszz2izhy62aywh4c@3tgl2vwbyxur>
- <20240619154420.GA16295@pendragon.ideasonboard.com>
- <i4gg7fcbdc7p5rw35vu4qdowyw4rhwlqdxmc7umnbwb6tsdo37@wq6so7nww7cm>
- <20240619161101.GD3125@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1718817587; c=relaxed/simple;
+	bh=mm1hylyXkmDHuJt81ydCZkHXptOfO14tJz3vZpematc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oTrh3nYEtpVznwiomLT3ih74inLLJtCXHDMH3KubiKSQlg2CLW05v7v2rE6ajTiOhqjupvt816ttBgKeiBd6FLMbY96jQuMJaH9nLU4qb2P1lV3E7Ca4o/OlRIB5WVwYi9fmTC9+SUt/+6G+BocsaOcg1knH0LmebFgShqji3xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IfVB5J3b; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-57d046f4afdso1179108a12.1;
+        Wed, 19 Jun 2024 10:19:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718817583; x=1719422383; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ukRvnNcVX5voue1fTgUH3KmAmzHRKYHvwwI9CKvpFMY=;
+        b=IfVB5J3bEMYyqhsXBwFLORISgb73Lz6EDWILStcr8sj+Dyw4ie5zIkYHQDfP1LRpko
+         xETRZeLkBDhlcrlDoWGoqA7Etrx6+THobQRbANaWmK7Ae79+McfiQ6uOjDned37o6MOZ
+         As7t9ZuJ+xb5bKN7nftavvKrNHKfLshS4on7VGMxa3Rq+y3JwnVU5A+9rZ0DBNXw836R
+         1KOZYdTSOUUXSgOjBt6RAYJ2n3Q4dH+X9kkMfiUTd/M8I5PQKpmFUfQpE7ic7IYkvaGg
+         eKqBRQHy9VBxtjYttwu4jM5UfC4xN4GHUv7U1RWyQ//tzV8VoQ8F7fORXnVcHlW93JRG
+         8PpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718817583; x=1719422383;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ukRvnNcVX5voue1fTgUH3KmAmzHRKYHvwwI9CKvpFMY=;
+        b=U+tOcZrBD8IC4zMjT6vCaE6YmexqltSDziR570HC9tzTyxSMT2Ld8ZKcAncqOtVABT
+         2oPRwZYeZGn59/rqGOlI/ud/wc8MlFFknKghw5XCnLnK6zLwxxs44MjewhBttyTuGy3m
+         wk18rmivmEcKO4rNhwJsrdTbPmcfpKrQRscB2UgoTZhvjpmfsg/1rDLHFYQ/x/vDmvLo
+         DuP/MZrT0+rclDlVdLn53xJc/+q/0vgPkmH/VhMndcClk+wYl11n95gqnu6ByIAFdkAJ
+         sf143dI+hp8Z2It7wJkUgdJYd3Zb/uGXovOSacRRswt4cmKbC3Byxq4G3PWVyG43xSB5
+         phag==
+X-Forwarded-Encrypted: i=1; AJvYcCVgAh5syl8CcXg/yCQoOfFFBY07a9pAb/vRnCaX4jXBDvR8prV7UUxn87+g6SdnURWyn6Aj2s77wtvypbwikUBtcecBlKxWk7eBlnxmzvSY3gR0m0yQsyPY8I0I5VxvHi/R3BCwOIWlwUhOLb+L08EAHxJT7IEZ8XDe2IdS9jPb9TWhNGGR
+X-Gm-Message-State: AOJu0Yz3yd0wyHnItLuh3y9VVZYR26ZLdOEWne/hZ/f07j95Mrz6fO6b
+	x+ugKnYN/puCTJuXK2OUWykH16cvZy0OIUch5MMsCnePwJsvc+g=
+X-Google-Smtp-Source: AGHT+IFNzK6QeAtlQ+ZgmOEcPV0B9TECO0/iPeztr7u31qsK3JvkUB2iuN22u9S27LK6ks8S/XPQqQ==
+X-Received: by 2002:a50:96cf:0:b0:57c:5874:4f5c with SMTP id 4fb4d7f45d1cf-57d07ea857fmr2350044a12.32.1718817582346;
+        Wed, 19 Jun 2024 10:19:42 -0700 (PDT)
+Received: from ?IPV6:2a02:810b:f40:4600:a583:e39c:f68e:e81f? ([2a02:810b:f40:4600:a583:e39c:f68e:e81f])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57cb72da371sm8529513a12.24.2024.06.19.10.19.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jun 2024 10:19:42 -0700 (PDT)
+Message-ID: <052f2ea7-2ded-4d39-a513-3a47fee1bf02@gmail.com>
+Date: Wed, 19 Jun 2024 19:19:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240619161101.GD3125@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
+ rk3588(s)
+To: Jonas Karlman <jonas@kwiboo.se>,
+ Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20240619150029.59730-1-detlev.casanova@collabora.com>
+ <20240619150029.59730-5-detlev.casanova@collabora.com>
+ <6e5ddd5c-340d-4474-a490-427a82db4a97@kwiboo.se>
+Content-Language: en-US
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <6e5ddd5c-340d-4474-a490-427a82db4a97@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent
 
-On Wed, Jun 19, 2024 at 07:11:01PM GMT, Laurent Pinchart wrote:
-> On Wed, Jun 19, 2024 at 05:55:12PM +0200, Jacopo Mondi wrote:
-> > Hi Laurent
-> >
-> > On Wed, Jun 19, 2024 at 06:44:20PM GMT, Laurent Pinchart wrote:
-> > > Hi Jacopo,
-> > >
-> > > On Wed, Jun 19, 2024 at 04:22:00PM +0200, Jacopo Mondi wrote:
-> > > > On Wed, Jun 12, 2024 at 07:20:48PM GMT, Laurent Pinchart wrote:
-> > > > > On Wed, Jun 12, 2024 at 03:28:05PM +0100, Daniel Scally wrote:
-> > > > > > Hi Jacopo. As mentioned in the last patch, I think that this could be
-> > > > > > squashed into 5/8, but a couple of comments below
-> > > > >
-> > > > > I think it should be moved earlier, yes, probably even before the
-> > > > > introduction of extended parameters.
-> > > >
-> > > > I'm not sure I agree here
-> > > >
-> > > > Squashing would create a patch that does too many things. Moving it
-> > > > before the introduction of the extensible format would not make much
-> > > > sense, as there would be nothing to validate/copy for the fixed
-> > > > format.
-> > >
-> > > I think the copy should be done for the fixed format too. See below.
-> > >
-> > > > I'll keep the ordering I have here if not a big deal.
-> > > >
-> > > > > > On 05/06/2024 17:54, Jacopo Mondi wrote:
-> > > > > > > With the introduction of the extensible parameters format support in the
-> > > > > > > rkisp1-param.c module, the RkISP1 driver now configures the ISP blocks
-> > > > > > > by parsing the content of a data buffer of variable size provided by
-> > > > > > > userspace through the V4L2 meta-output interface using the MMAP memory
-> > > > > > > handling mode.
-> > > > > > >
-> > > > > > > As the parameters buffer is mapped in the userspace process memory,
-> > > > > > > applications have access to the buffer content while the driver
-> > > > > > > parses it.
-> > > > > > >
-> > > > > > > To prevent potential issues during the parameters buffer parsing and
-> > > > > > > processing in the driver, implement three vb2_ops to
-> > > > > > >
-> > > > > > > 1) allocate a scratch buffer in the driver private buffer structure
-> > > > > > > 2) validate the buffer content at VIDIOC_QBUF time
-> > > > > > > 3) copy the content of the user provided configuration parameters
-> > > > > > >     in the driver-private scratch buffer
-> > > > > > >
-> > > > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > > > > ---
-> > > > > > >   .../platform/rockchip/rkisp1/rkisp1-params.c  | 154 ++++++++++++++----
-> > > > > > >   1 file changed, 124 insertions(+), 30 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> > > > > > > index 4adaf084ce6e..003239e14511 100644
-> > > > > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> > > > > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> > > > > > > @@ -5,6 +5,8 @@
-> > > > > > >    * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
-> > > > > > >    */
-> > > > > > >
-> > > > > > > +#include <linux/string.h>
-> > > > > > > +
-> > > > > > >   #include <media/v4l2-common.h>
-> > > > > > >   #include <media/v4l2-event.h>
-> > > > > > >   #include <media/v4l2-ioctl.h>
-> > > > > > > @@ -1943,17 +1945,14 @@ static const struct rkisp1_ext_params_handler {
-> > > > > > >   };
-> > > > > > >
-> > > > > > >   static int __rkisp1_ext_params_config(struct rkisp1_params *params,
-> > > > > > > -				      struct rkisp1_ext_params_cfg *cfg,
-> > > > > > > +				      struct rkisp1_params_buffer *buffer,
-> > > > > > >   				      u32 block_group_mask)
-> > > > > > >   {
-> > > > > > > +	struct rkisp1_ext_params_cfg *cfg = buffer->cfg;
-> > > > >
-> > > > > Maybe do this in the callers to avoid changing the prototype of this
-> > > > > function and the other functions below.
-> > > > >
-> > > > > > >   	size_t block_offset = 0;
-> > > > > > >
-> > > > > > > -	if (cfg->total_size > RKISP1_EXT_PARAMS_MAX_SIZE) {
-> > > > > > > -		dev_dbg(params->rkisp1->dev,
-> > > > > > > -			"Invalid parameters buffer size %llu\n",
-> > > > > > > -			cfg->total_size);
-> > > > > > > -		return -EINVAL;
-> > > > > > > -	}
-> > > > > > > +	if (WARN_ON(!cfg))
-> > > > > > > +		return -ENOMEM;
-> > > > > > >
-> > > > > > >   	/* Walk the list of parameter blocks and process them. */
-> > > > > > >   	while (block_offset < cfg->total_size) {
-> > > > > > > @@ -1965,25 +1964,13 @@ static int __rkisp1_ext_params_config(struct rkisp1_params *params,
-> > > > > > >   		block_offset += block->size;
-> > > > > > >
-> > > > > > >   		/*
-> > > > > > > -		 * Validate the block id and make sure the block group is in
-> > > > > > > -		 * the list of groups to configure.
-> > > > > > > +		 * Make sure the block group is in  the list of groups to
-> > > > > > > +		 * configure.
-> > > > > > >   		 */
-> > > > > > > -		if (block->type >= RKISP1_EXT_PARAMS_BLOCK_TYPE_SENTINEL) {
-> > > > > > > -			dev_dbg(params->rkisp1->dev,
-> > > > > > > -				"Invalid parameters block type\n");
-> > > > > > > -			return -EINVAL;
-> > > > > > > -		}
-> > > > > > > -
-> > > > > > >   		block_handler = &rkisp1_ext_params_handlers[block->type];
-> > > > > > >   		if (!(block_handler->group & block_group_mask))
-> > > > > > >   			continue;
-> > > > > > >
-> > > > > > > -		if (block->size != block_handler->size) {
-> > > > > > > -			dev_dbg(params->rkisp1->dev,
-> > > > > > > -				"Invalid parameters block size\n");
-> > > > > > > -			return -EINVAL;
-> > > > > > > -		}
-> > > > > > > -
-> > > > > > >   		block_handler->handler(params, block);
-> > > > > > >   	}
-> > > > > > >
-> > > > > > > @@ -1991,9 +1978,9 @@ static int __rkisp1_ext_params_config(struct rkisp1_params *params,
-> > > > > > >   }
-> > > > > > >
-> > > > > > >   static int rkisp1_ext_params_config(struct rkisp1_params *params,
-> > > > > > > -				    struct rkisp1_ext_params_cfg *cfg)
-> > > > > > > +				    struct rkisp1_params_buffer *buffer)
-> > > > > > >   {
-> > > > > > > -	return __rkisp1_ext_params_config(params, cfg,
-> > > > > > > +	return __rkisp1_ext_params_config(params, buffer,
-> > > > > > >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS |
-> > > > > > >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC |
-> > > > > > >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_MEAS);
-> > > > > > > @@ -2001,17 +1988,17 @@ static int rkisp1_ext_params_config(struct rkisp1_params *params,
-> > > > > > >
-> > > > > > >   static int
-> > > > > > >   rkisp1_ext_params_other_meas_config(struct rkisp1_params *params,
-> > > > > > > -				    struct rkisp1_ext_params_cfg *cfg)
-> > > > > > > +				    struct rkisp1_params_buffer *buffer)
-> > > > > > >   {
-> > > > > > > -	return __rkisp1_ext_params_config(params, cfg,
-> > > > > > > +	return __rkisp1_ext_params_config(params, buffer,
-> > > > > > >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS |
-> > > > > > >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_MEAS);
-> > > > > > >   }
-> > > > > > >
-> > > > > > >   static int rkisp1_ext_params_lsc_config(struct rkisp1_params *params,
-> > > > > > > -					struct rkisp1_ext_params_cfg *cfg)
-> > > > > > > +					struct rkisp1_params_buffer *buffer)
-> > > > > > >   {
-> > > > > > > -	return __rkisp1_ext_params_config(params, cfg,
-> > > > > > > +	return __rkisp1_ext_params_config(params, buffer,
-> > > > > > >   					  RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC);
-> > > > > > >   }
-> > > > > > >
-> > > > > > > @@ -2057,7 +2044,7 @@ void rkisp1_params_isr(struct rkisp1_device *rkisp1)
-> > > > > > >   		rkisp1_isp_isr_lsc_config(params, cfg);
-> > > > > > >   		rkisp1_isp_isr_meas_config(params, cfg);
-> > > > > > >   	} else {
-> > > > > > > -		ret = rkisp1_ext_params_config(params, cfg);
-> > > > > > > +		ret = rkisp1_ext_params_config(params, buf);
-> > > > > > >   	}
-> > > > > > >
-> > > > > > >   	if (ret)
-> > > > > > > @@ -2168,7 +2155,7 @@ int rkisp1_params_pre_configure(struct rkisp1_params *params,
-> > > > > > >   		rkisp1_isp_isr_other_config(params, cfg);
-> > > > > > >   		rkisp1_isp_isr_meas_config(params, cfg);
-> > > > > > >   	} else {
-> > > > > > > -		ret = rkisp1_ext_params_other_meas_config(params, cfg);
-> > > > > > > +		ret = rkisp1_ext_params_other_meas_config(params, buf);
-> > > > > > >   	}
-> > > > > > >
-> > > > > > >   	if (ret) {
-> > > > > > > @@ -2215,7 +2202,7 @@ int rkisp1_params_post_configure(struct rkisp1_params *params)
-> > > > > > >   	if (params->metafmt.dataformat == V4L2_META_FMT_RK_ISP1_PARAMS)
-> > > > > > >   		rkisp1_isp_isr_lsc_config(params, cfg);
-> > > > > > >   	else
-> > > > > > > -		ret = rkisp1_ext_params_lsc_config(params, cfg);
-> > > > > > > +		ret = rkisp1_ext_params_lsc_config(params, buf);
-> > > > > > >
-> > > > > > >   	if (ret)
-> > > > > > >   		goto complete_and_unlock;
-> > > > > > > @@ -2407,6 +2394,110 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
-> > > > > > >   	return 0;
-> > > > > > >   }
-> > > > > > >
-> > > > > > > +static int rkisp1_params_vb2_buf_init(struct vb2_buffer *vb)
-> > > > > > > +{
-> > > > > > > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > > > > > > +	struct rkisp1_params_buffer *params_buf =
-> > > > > > > +		container_of(vbuf, struct rkisp1_params_buffer, vb);
-> > > > >
-> > > > > A to_rkisp1_params_buffer() inline function in the previous patch would
-> > > > > be nice.
-> > > > >
-> > > > > > > +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
-> > > > > > > +	size_t buf_size = params->metafmt.buffersize;
-> > > > > > > +
-> > > > > > > +	if (params->metafmt.dataformat == V4L2_META_FMT_RK_ISP1_PARAMS) {
-> > > > > > > +		params_buf->cfg = NULL;
-> > > > > > > +		return 0;
-> > > > > > > +	}
-> > > > >
-> > > > > The problem is not restricted to the extensible format, how about doing
-> > > > > the same for the legacy format ?
-> > > >
-> > > > Copying the buffer in ? Not sure I agree. The extensible format allows
-> > > > userspace to change the memory layout of the buffer, if this happens
-> > > > while the driver parses it, we'll ooops. With the fixed format the
-> > > > memory layout is fixed, if userspace changes the content of the buffer
-> > > > (ie the configuration parameters) after qbuf, well, it's their
-> > > > problem.
-> > >
-> > > Can you guarantee that the driver will never ever crash or corrupt
-> > > memory if that happens ? Especially if you take into account the fact
-> >
-> > All of the mainline driver work in this way today. But ok if most
-> > people think it's worth it, I'll do so and re-order the patches.
+Am 19.06.24 um 17:28 schrieb Jonas Karlman:
+> Hi Detlev,
 >
-> Unless the memcpy really hinders performances, I think we should ensure
-> safety first and foremest.
+> On 2024-06-19 16:57, Detlev Casanova wrote:
+>> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
+>>
+>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+>> ---
+>>   arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50 +++++++++++++++++++++++
+>>   1 file changed, 50 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+>> index 6ac5ac8b48ab..7690632f57f1 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+>> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
+>>   		ranges = <0x0 0x0 0xff001000 0xef000>;
+>>   		#address-cells = <1>;
+>>   		#size-cells = <1>;
+>> +
+>> +		vdec0_sram: rkvdec-sram@0 {
+>> +			reg = <0x0 0x78000>;
+>> +			pool;
+>> +		};
+>> +
+>> +		vdec1_sram: rkvdec-sram@1 {
+>> +			reg = <0x78000 0x77000>;
+>> +			pool;
+>> +		};
+>>   	};
+>>   
+>>   	pinctrl: pinctrl {
+>> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
+>>   			#interrupt-cells = <2>;
+>>   		};
+>>   	};
+>> +
+>> +	vdec0: video-decoder@fdc38100 {
+>> +		compatible = "rockchip,rk3588-vdec";
+>> +		reg = <0x0 0xfdc38100 0x0 0x500>;
+>> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
+>> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
+>> +			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
+>> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
+>> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
+>> +				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
+>> +		assigned-clock-rates = <800000000>, <600000000>,
+>> +				       <600000000>, <1000000000>;
+>> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
+>> +			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
+>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
+>> +			      "rst_core", "rst_hevc_cabac";
+>> +		power-domains = <&power RK3588_PD_RKVDEC0>;
+>> +		sram = <&vdec0_sram>;
+>> +		status = "okay";
+>> +	};
+>> +
+>> +	vdec1: video-decoder@fdc40100 {
+>> +		compatible = "rockchip,rk3588-vdec";
+>> +		reg = <0x0 0xfdc40100 0x0 0x500>;
+>> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
+>> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
+>> +			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
+>> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
+>> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
+>> +				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
+>> +		assigned-clock-rates = <800000000>, <600000000>,
+>> +				       <600000000>, <1000000000>;
+>> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
+>> +			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
+>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
+>> +			      "rst_core", "rst_hevc_cabac";
+>> +		power-domains = <&power RK3588_PD_RKVDEC1>;
+>> +		sram = <&vdec1_sram>;
+>> +		status = "okay";
+>> +	};
+> This is still missing the iommus, please add the iommus, they should be
+> supported/same as the one used for e.g. VOP2:
 >
-
-I haven't run any test, but I doubt the performance penality is
-terrible
-
-> > > that the compiler and CPU can reorder accesses, as well as split and
-> > > merge accesses (i.e. reading the same memory location multiple times
-> > > when it's accessed once only in the code), that seems hard to do.
-> > >
-> > > > Copying (and validation) is costly and if it serves to avoid
-> > > > an ooops it's more than justified. In the other case I'm not sure.
-> > >
-> > > How expensive is the copy ?
-> >
-> > For sure it doubles the allocated memory as we've one backing memory
-> > buffer for each buffer requested by userspace.
+>    compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
 >
-> True, but parameter buffers are quite small. I haven't checked but I
-> would expect everything to hold in one page.
-
-True that.
-
-Ok, safety first, I'll add support for copying in the fixed format as
-well!
-
-Thanks
-  j
-
+> The VOP2 MMUs does have one extra mmu_cfg_mode flag in AUTO_GATING,
+> compared to the VDPU381 MMUs, however only the AV1D MMU should be
+> special on RK3588.
 >
-> --
+> Please add the iommus :-)
+When looking add the vendor DT/iommu driver I'm seeing serval quirks
+applied for vdec's iommus. Since it's rightly frowned upon adding such
+boolean-quirk-properties to upstream devicetrees, we'd at least need
+additional (fallback-) compatibles, even if it works with the iommu driver
+as is (what I doubt, but haven't tested). We need to be able to apply those
+quirks later without changing the devicetree (as usual) and I'm sure RK
+devs haven't added these quirks for the personal amusement. If Detlev says
+iommu is out of scope for this series (which is valid), I'd say it's fine
+to leave them out for now (as no binding exists) and the HW works
+(obviously) fine without them.
+
 > Regards,
+> Jonas
 >
-> Laurent Pinchart
+>>   };
+>>   
+>>   #include "rk3588s-pinctrl.dtsi"
 
