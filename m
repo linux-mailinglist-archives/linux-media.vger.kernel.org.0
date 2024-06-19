@@ -1,120 +1,192 @@
-Return-Path: <linux-media+bounces-13698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A9A90EE88
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 15:29:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AFC90EFE6
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 16:15:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C93681C24801
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 13:29:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EEE82856EB
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 14:15:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C61F14A609;
-	Wed, 19 Jun 2024 13:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D4F3FF1;
+	Wed, 19 Jun 2024 14:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ZcRSyda3"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="k0vcEqpV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5214114601E;
-	Wed, 19 Jun 2024 13:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACA014F9F1;
+	Wed, 19 Jun 2024 14:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718803759; cv=none; b=WhmEN4ljzDxhbLOltjNwGCAr+BUkIwi4Z7tQVwx5Azzj3li57BIzDWJK/HZtlKm86u96uH/IQ2J/cPJlPRxqd8LDbRvEpXUWxw/ivAg6BSonIQKPct7m5lZxEgn7eUS40SdjCjg6MyRm32F3o8iLsPK1nurdPBQrUqrm2g/tvpk=
+	t=1718806503; cv=none; b=R/3hYP0o0mvbeKR2c20MmVr2BarIGGU6cygafFA169/Jqm/v+rcnscwT2di/5SXyDbZnw3zlh4+aYC8wEGhdNK5zxXlJkEgSuCHWPEIO6k6r4NoLkC7a13k1fnuFvXBgEUzVIa/DT26z3wphwfTOD+Zt+yaDIGfkRHVmLNvGxlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718803759; c=relaxed/simple;
-	bh=dmUopKpgxEYeprNgTnMdC5f05WlDYqe8aQuoCu7zLfk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NLIQrx3Thd6MAqLCFMkxU4QJy1rwxcO4rT2R8o3AGByeYa4TKNjU3Msk8+oncb1GF7aOxOd/kV6xQDHi+TCQpEsGF6vlMefaBLFc5L+PWaWi36M0DpHLvAvTsnZnzjVrrQZ5k8JglELpG2/vBBc/SlKOES0WB1J1g90O7ySPPJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ZcRSyda3; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718803725; x=1719408525; i=markus.elfring@web.de;
-	bh=Cqv24v/8lPgdG+NBHkh3HOkG7c3WtsIJpUILM4XYcKM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=ZcRSyda3HljeeSrPJsg9pt/SRxpkFHlcTRi7289KIbREzjXnwYJjEL1b4ikYNyW0
-	 cwW2t0z/i+PgBzGJZiJi0DglhseueROUNz0HG4pwc3qldtuJ5jRI7MgUspvcwEA3Q
-	 MEaj14Balwr38BcHKbT0+yUpLht6u+kQ+r4IDeFaZXNtOO0AQXYYbfNxM1qdX061D
-	 1CZw7uJVV1rqnUvKEzkbkzyPiVj9foILjLYAyrYxm1dD0qgfhIop+nwagQxHXKbps
-	 T51aMnsKpdNl7/gt5I2+nGV4TaZbgsg3SrNmjqkGylvMem0EgtWxIruVS6lNFpi8U
-	 4NS5T70OYGbFOvl1NQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MUl9H-1rtlXw0E0f-00K0rd; Wed, 19
- Jun 2024 15:28:45 +0200
-Message-ID: <d8d4cca1-031f-4ea7-89da-573e0863c3ec@web.de>
-Date: Wed, 19 Jun 2024 15:28:43 +0200
+	s=arc-20240116; t=1718806503; c=relaxed/simple;
+	bh=o9WGLkoWQpIUSTg5wDZ0p/U4FrhMY6Lo9WunXU4/juU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gbYD9vd2e75RyL5U+7/c5mE3QaQRWC27oNlc/dMsL6EcF56SFI0ATL7u/q6a373R7/8ez3i8V88VxjP2DqvZIRjPFVqFxcNNjEjT5y12QbbG1mKMVP0lyH+R/POmC8zltZ0lndgqQwcD8CGAUobIoKcisZJorqWrJTZEE5W5vyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=k0vcEqpV; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45J9ldvB007546;
+	Wed, 19 Jun 2024 14:14:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=7xaCSLx4kLuRx6dHM1H2af
+	rH2o9PCQLGNrfD8OemfZ4=; b=k0vcEqpVNALkn0q7ApQUnIq+v4AJE1Mr21qxvR
+	Tzjs+2FwB89R4XY1W4e0yqlf9FghmSOAUJah9zgG3lpzoIqSYjwfs1WV6bAXwBHN
+	LnlQJktJpd8+quyT8ObTy3k87e0A0059T3mIEYr7A3Fz6cuzfSXfPI5nVo/LebUE
+	g5Nw96lkq6dDTpRZR0LVPffPKYAgxUpclJ5tcoxPiNzZkfDMGZSlKJtHYUipg87/
+	ws99NGr8DJmlUraSpzdOW/z84o/2G9TY6+fH/zGT2rCNmhjZqwQ0aBVQr9bII35w
+	Y5AcvqPGA7gh/Qeo8UoScBVefAwt7xmxmp6yJ7vCe7zJqgUw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yuja79wfp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Jun 2024 14:14:51 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45JEEngT014078
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Jun 2024 14:14:49 GMT
+Received: from hu-jkona-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 19 Jun 2024 07:14:42 -0700
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette
+	<mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J .
+ Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        "Andy
+ Gross" <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>
+CC: <linux-pm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
+        "Jagadeesh Kona" <quic_jkona@quicinc.com>,
+        Satya Priya Kakitapalli
+	<quic_skakitap@quicinc.com>,
+        Imran Shaik <quic_imrashai@quicinc.com>,
+        "Ajit
+ Pandey" <quic_ajipan@quicinc.com>
+Subject: [PATCH V6 0/5] Add control for switching back and forth to HW control
+Date: Wed, 19 Jun 2024 19:44:08 +0530
+Message-ID: <20240619141413.7983-1-quic_jkona@quicinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface
- infrastructure
-To: Paul Cercueil <paul@crapouillou.net>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-References: <20240618100302.72886-4-paul@crapouillou.net>
- <fc3045c5-d542-4a6c-906d-84f72e776e9c@web.de>
- <8d536bb864c145340a15f496ad3b89e08a847718.camel@crapouillou.net>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <8d536bb864c145340a15f496ad3b89e08a847718.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MrJKaxOVCei/mZBzi2PVNabKJ6tVMvGyFZ5xYhMj5+zLLOoWPW9
- RP1yEleiWkMbS2BUGrEkH6qWN74vGTCeozUL9FB2tABigS/1SKC/gRb6PjhqDjkxi8TvibN
- DirViL6WNMQC8mFjztRZzggJYPP4XdQPTe30mSzWbulcYWwh8hlHd6aXs+ESjHDzKU9+Y0k
- FHer/BM6ZfIttjr8bzCaQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:l/XCafQtm8M=;bwyV0boUcJejmr0awi4VkGYb3GT
- 8KvUhYW4dlBpvKPcQb+UN/Q6hCIjR0DKLLpUkvsRqwzuV/on4SZSWw+QLa+duVi1FfiJlqb4C
- 4Baj1bsgCB6QeLRkJHaYQPVlgPWz+mC9yWM3C1TR10W3ERu+mGsut1HSrqDA+zVsmR+nMgaWB
- 4nmIhoyOe1U2LhuNyCgfpx0Q5q6DF9SPHNghAdilUKEQXIE7kfG3QlBNcBOZNuGo5hxDArrBq
- wRPnl2z2PbR47TkcBmRlcdomU92Z2m26JLjSPGFyUniY2OhmqMwvCbI1e+9GtlIal/IP/HbHV
- LasZf5HRKoj7imJCZzUoiUsVIsA9RE6g2LZE3ouH8fPLRKUYFbW2raRX+HXia/M0HfNJxbyk8
- +wgDRNi1Fx6i2L97JYOtjcRybz8qDuCv7X+im9g5L635DLibimhTJlvF9dfFVF/PTmkPbptkO
- yAwbbKSw9Z/IfYCZ6d7+lh2vLZt5VLbngU1JZJ/Pz+qj6o8xaCthpCzf6FilfNut0xIxKNYY6
- 9IqKEL5scAjXRhIDv5ieh2WZNLMFvT5iIi37u3lXrnp1N995MVRm5rBraB4wQU/CqLh7HeOQL
- mQ+HezzE1Qcv6bfS44m7WB7ZkXiefpwrcEpcieQI54mwmNl4+wUlhCWa7+WVnM9AbGUTad4c8
- 4Uymo0kUl6sV4dIsl4YxsR1+5XDMEFvyOk4fxvHjKUarsn1dkXHKmqy90J/ujrKCnfI/6DsVk
- WgZBx38VO5Exv1Urg8H4ZBlAYDVCJA1aWy4kKNi2t1+wRAxKNCU3EE//+oEbjR4qmFP3MLGtN
- SoQmH7zNnqvoZRGShO1xA+cixFbbN9Nst1Yo9Qg2EQWSbULpnDszsWJ1lusLMDb2Dz
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: DxNLJOab-R-IT30z5wp6fqSuiGGjsweS
+X-Proofpoint-GUID: DxNLJOab-R-IT30z5wp6fqSuiGGjsweS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+ phishscore=0 bulkscore=0 suspectscore=0 clxscore=1015 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406190106
 
->> =E2=80=A6
->>> +++ b/drivers/iio/industrialio-buffer.c
->> =E2=80=A6
->>> +static void iio_buffer_dmabuf_release(struct kref *ref)
->>> +{
->> =E2=80=A6
->>> +	dma_resv_lock(dmabuf->resv, NULL);
->>> +	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
->>> +	dma_resv_unlock(dmabuf->resv);
->> =E2=80=A6
->>
->> Under which circumstances will another lock guard become applicable?
->> https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup=
-.h#L179
->
-> As soon as "struct dma_resv" gets a DEFINE_GUARD().
+This series adds support for dev_pm_genpd_set_hwmode() and dev_pm_genpd_get_hwmode() APIs
+and support in gdsc provider drivers to register respective callbacks and venus consumer
+driver example using above API to switch the power domain(GDSC) to HW/SW modes dynamically
+at runtime.
 
-Would any contributor like to add a macro call accordingly?
+Changes in V6:
+- [PATCH 3/5]: Added details for 1usec delay in gdsc_set_hwmode()
+- [PATCH 4/5]: Updated commit text
+- Added R-By and T-By tags received on V5 RESEND
+- Link to V5 RESEND: https://lore.kernel.org/all/20240413152013.22307-1-quic_jkona@quicinc.com/
+- Link to V5: https://lore.kernel.org/all/20240315111046.22136-1-quic_jkona@quicinc.com/
 
-Regards,
-Markus
+Changes in V5:
+- Updated 1st patch as per V4 review comments to synchronize the initial HW mode state by
+  invoking ->get_hwmode_dev()callback in genpd_add_device()
+- With above change, SW cached hwmode will contain correct value initially, and it will be
+  updated everytime mode is changed in set_hwmode, hence updated dev_pm_genpd_get_hwmode()
+  to just return SW cached hwmode in 1st patch
+- Updated commit text for 1st, 3rd, 4th and 5th patches
+- Updated 3rd and 5th patches as per review comments received on V4 series
+- Added R-By tags received in older series to 1st and 2nd patches
+- Link to V4: https://lore.kernel.org/all/20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org/
+
+Changes in V4:
+ - Re-worded 1st patch commit message, as per Bjorn's suggestion, and added
+   Dmitry's R-b tag
+ - Added Bjorn's and Dmitry's R-b tags to the 2nd patch
+ - Re-worded 3rd patch commit message, to better explain the HW_CTRL_TRIGGER flag.
+ - Added mode transition delay when setting mode for GDSC
+ - Added status polling if GDSSC is enabled when transitioning from HW to SW
+ - Re-worded 4th patch commit message to better explain why the
+   HW_CTRL_TRIGGER needs to be used instead
+ - Drop changes to SC7180, SDM845 and SM8550 video CC drivers, as only
+   SC7280 and SM8250 have been tested so far. More platforms (with v6 venus)
+   will be added eventually.
+ - Call genpd set_hwmode API only for v6 and dropped the vcodec_pmdomains_hwctrl.
+ - Re-worded 5th patch commit message accordingly. 
+ - Link to V3: https://lore.kernel.org/lkml/20230823114528.3677667-1-abel.vesa@linaro.org/ 
+
+Changes in V3:
+ - 5th patch has been squashed in the 4th one
+ - Link to V2: https://lore.kernel.org/lkml/20230816145741.1472721-1-abel.vesa@linaro.org/
+
+Changes in V2:
+ - patch for printing domain HW-managed mode in the summary
+ - patch that adds one consumer (venus)
+ - patch for gdsc with new (different) flag
+ - patch for videocc GDSC provider to update flags
+ - Link to V1: https://lore.kernel.org/all/20230628105652.1670316-1-abel.vesa@linaro.org/
+
+Abel Vesa (1):
+  PM: domains: Add the domain HW-managed mode to the summary
+
+Jagadeesh Kona (3):
+  clk: qcom: gdsc: Add set and get hwmode callbacks to switch GDSC mode
+  clk: qcom: videocc: Use HW_CTRL_TRIGGER for SM8250, SC7280 vcodec
+    GDSC's
+  venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on
+    V6
+
+Ulf Hansson (1):
+  PM: domains: Allow devices attached to genpd to be managed by HW
+
+ drivers/clk/qcom/gdsc.c                       | 42 ++++++++++
+ drivers/clk/qcom/gdsc.h                       |  1 +
+ drivers/clk/qcom/videocc-sc7280.c             |  2 +-
+ drivers/clk/qcom/videocc-sm8250.c             |  4 +-
+ .../media/platform/qcom/venus/pm_helpers.c    | 39 ++++++----
+ drivers/pmdomain/core.c                       | 78 ++++++++++++++++++-
+ include/linux/pm_domain.h                     | 17 ++++
+ 7 files changed, 162 insertions(+), 21 deletions(-)
+
+-- 
+2.43.0
+
 
