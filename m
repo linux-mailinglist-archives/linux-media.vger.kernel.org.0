@@ -1,210 +1,179 @@
-Return-Path: <linux-media+bounces-13752-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13753-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044F790F5B6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 20:07:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 983F190F68B
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 20:56:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A209A283658
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 18:07:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DC572830BE
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 18:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B218157E91;
-	Wed, 19 Jun 2024 18:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F01E158869;
+	Wed, 19 Jun 2024 18:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="XPlySN/P"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="BF7cQI6D";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yv5miaMC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1678157466
-	for <linux-media@vger.kernel.org>; Wed, 19 Jun 2024 18:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39245524C4;
+	Wed, 19 Jun 2024 18:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718820429; cv=none; b=WDNRQ3+jvsfz3pq02xKLcjTLXhrfEEhISD5wpYGytzNXc+xjMLWJIVF/hge9g7jVggHuGHlP6XLqgb7SXpyKc9vnGNMwVAk239P8zf0sfBPJr5Dg0muKT2abzC1/r2Es2tbaw4TQ75O/ElTnIvuVsYjlGRFYs9EHyscjSBdtFao=
+	t=1718823376; cv=none; b=HbUzOOylpUkZjFurWHcmrCiNMmA6Zq9mS3oWBV/9sKkNISV+FSyp47Ja+Zw3m+OHLmH+ygwRzSQko/gh55sByak+hP5dDkd/YZcn4EtS2U3I3I6I0Jde3Eo1yyz9mOVIRF/d4bvCw7c9Dc+E088XPzZE2Oc3CRuXQut6UsKOjBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718820429; c=relaxed/simple;
-	bh=BkLHYQs4IK59lmPyJ6OiHr71hrKs+r7G898hHMuwO0g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ErcpbKxao5vaZbu0cJH9HwMBiHp9J6zYUwidfAeZolx5O7NevcnZJqr4h40ffikqsK1PgysVwkiRIjufjAYnTnJumAc7Rg/fbU2mqmaOOTk2JOZWD6VP/NTlM6peuIuUYkkbXJ4Obg/G/dST5u8QT7XGRzBD5GmnqZckj66sjO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=XPlySN/P; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1718820410;
- bh=XavrKDSs1iLysu/VoOW1lzmFXR6F1ISw3mOM/563aBs=;
- b=XPlySN/P0LWLFvOWOMQW2wRzXOYsLDAVjkBWJIDcdMEoI4bXhIaVR0Dv3Lc1thrBr0E8uDoCm
- 9IPbtSRfGhOhLb0gx8p3eH0GNZ2VffBLZhHSvg76EsmEk0L2IC7cTs0mbolKd6GT22seXTiX5JA
- vBsLkkv1aBuwlQPYl3vxtCILM9baa05Agln+9IiF6ns1GAAFvdM5c08XcI6SC/QozgZBVDyr+Wq
- /8a8z4AKJeT5Fm2JMhNKRPDPS7YKsq8Ldr9AUrRFsf4C7VZzHy5ZEj9Hl7/dXRK1NtsGgzlDrRD
- LCDhz0pUWaHQ5GBcKASZAgE83/8VZY6TKDUvwgFrwNgA==
-Message-ID: <e6e2e0f1-0b16-4a3d-ae7b-be5a04d7902b@kwiboo.se>
-Date: Wed, 19 Jun 2024 20:06:40 +0200
+	s=arc-20240116; t=1718823376; c=relaxed/simple;
+	bh=BXaBrly0Edxx0iSo+w3G8w3LlyVGw8jS0iBVypyeI7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CxhqxXChqqd77qElyv2ViAQQq3TmB0tpYGJR6GWp0xyGDLgiH8Y4kQ3e+JaT5cW0VELWp96X0S3XFt9gOW3a/G3a2m+wmnnklYyDnv7XrbSSJckAXTwJtQZ5B8wLW7srEpq5hsptU43DscNKtTWyzRIkWJjw10q68ynO/sle7Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=BF7cQI6D; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Yv5miaMC; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 0A81913801A1;
+	Wed, 19 Jun 2024 14:56:11 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Wed, 19 Jun 2024 14:56:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1718823371;
+	 x=1718909771; bh=jmPIQR1Ww2PZOtZ6FHeU+kqz22qvRT7bktPdDN2Y7F0=; b=
+	BF7cQI6DTOIt4RVbDxTjHqGBtQUWq8zBvpIRUZv1ctjvqAm/U2Te1J3cjSNQGjkR
+	bSDbudnhftw7UwaUTth+w280oUFvRyI38dAZxfRoP3poQZjX1LzmOjU8qStN2QaV
+	EO4Z019+zKPwRsNEpiQAyVUOzxHk5PvjydrZayVmdg35XrKaNbKmWRdMH/bFJ1Ti
+	jfJ+7mshP9VVXefEGpQ7lKFkin/uTm6rjd5lHxlP4JbRj9kB3IXffb3bzym7M32A
+	WcflghJtVUhdDVtP+Cmnj+r97tX1slRD9LoDmztqkh6yz7GDyx7fZmYZ4UFkzQaw
+	K8AfavoznDOkZadflykX4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718823371; x=
+	1718909771; bh=jmPIQR1Ww2PZOtZ6FHeU+kqz22qvRT7bktPdDN2Y7F0=; b=Y
+	v5miaMCSmyip1W+x/4REt7THR/vy3JqwrHHZQR1cwPfcfNko/MhJTJM+ZqqgsC+H
+	HVq61D1GFs/HRqzPqHPiCElMRtRF5yIhbJEswZfOz+rfXQ1cdSiuMSWS5ZixEjJD
+	+lh5C1l9culOwbBumsEc5TI5pxscmsoFMh9r+It5WX8oyggY+g8tJTEmjvfSJiAU
+	+CuULWVhfu/F5jAKE65OmhMDfKvnhItzLkP1MJLZjd7hwjd8kk+YfY4yxy85Cvy+
+	K9dv2QTl5Xi0hn43Tl2BA3r4s/13c4PMzPINDgyHw1eQ17O7btAZSIr8EKQYbC14
+	qGBwvFQIFUC9rhl5Whycg==
+X-ME-Sender: <xms:yilzZvLw6SlhRWbSaci6QSBpUgJOKhmg2SDOF1VdZo0PbquDwd4NOQ>
+    <xme:yilzZjIfI0qLT6WbavIdgZCumVsNvSKRmOCDWinvfHfiEcyt3DYyjH2GcTO0wTn0x
+    YocrdgL8dN-khobxek>
+X-ME-Received: <xmr:yilzZnuMczSs7biNs6IqAeQWhzuUupkiYT4N5t15jJM1VkKQhlIMzSCI9zKc1WBHtHGks6G06riDM-jSD8M63ozsltl44gM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeftddgudeftdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
+    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
+    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
+    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
+    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:yilzZoa-sJXJehPcUkEcJSt3m_muhqLyJ_vMWnD9Ql1IiDiA1o48Jw>
+    <xmx:yilzZmZHOZuc7Plifp-UEdXK8hnDup6Jw1FqG9OCeTIPex9YHPLBvg>
+    <xmx:yilzZsCmd1QV4yI-SlA1lD02kcoD9VvZz_8XrPFmGxhsMPPpKqxS0w>
+    <xmx:yilzZkYRYCIyNRuc5Z63YNL9rmMDOnAksEkq9W3XBgOD_lJbOF7A2g>
+    <xmx:yylzZjR_uAYwUtHQkYL8Plkpf4c86zsJ_LjC4KK_sDpWxiTPpfrTISb3>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Jun 2024 14:56:10 -0400 (EDT)
+Date: Wed, 19 Jun 2024 20:56:07 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Conor Dooley <conor@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for
+ V4M
+Message-ID: <20240619185607.GT382677@ragnatech.se>
+References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240619-passage-iodine-9f944b26a30d@spud>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-To: Alex Bee <knaerzche@gmail.com>, Detlev Casanova
- <detlev.casanova@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
- <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>, Andy Yan
- <andy.yan@rock-chips.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240619150029.59730-1-detlev.casanova@collabora.com>
- <20240619150029.59730-5-detlev.casanova@collabora.com>
- <6e5ddd5c-340d-4474-a490-427a82db4a97@kwiboo.se>
- <052f2ea7-2ded-4d39-a513-3a47fee1bf02@gmail.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <052f2ea7-2ded-4d39-a513-3a47fee1bf02@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 66731e37e29fa10c39ba9bb6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240619-passage-iodine-9f944b26a30d@spud>
 
-Hi Alex,
+Hi Conor,
 
-On 2024-06-19 19:19, Alex Bee wrote:
+On 2024-06-19 18:33:37 +0100, Conor Dooley wrote:
+> On Wed, Jun 19, 2024 at 05:35:58PM +0200, Niklas Söderlund wrote:
+> > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
-> Am 19.06.24 um 17:28 schrieb Jonas Karlman:
->> Hi Detlev,
->>
->> On 2024-06-19 16:57, Detlev Casanova wrote:
->>> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
->>>
->>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
->>> ---
->>>   arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50 +++++++++++++++++++++++
->>>   1 file changed, 50 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>> index 6ac5ac8b48ab..7690632f57f1 100644
->>> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
->>>   		ranges = <0x0 0x0 0xff001000 0xef000>;
->>>   		#address-cells = <1>;
->>>   		#size-cells = <1>;
->>> +
->>> +		vdec0_sram: rkvdec-sram@0 {
->>> +			reg = <0x0 0x78000>;
->>> +			pool;
->>> +		};
->>> +
->>> +		vdec1_sram: rkvdec-sram@1 {
->>> +			reg = <0x78000 0x77000>;
->>> +			pool;
->>> +		};
->>>   	};
->>>   
->>>   	pinctrl: pinctrl {
->>> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
->>>   			#interrupt-cells = <2>;
->>>   		};
->>>   	};
->>> +
->>> +	vdec0: video-decoder@fdc38100 {
->>> +		compatible = "rockchip,rk3588-vdec";
->>> +		reg = <0x0 0xfdc38100 0x0 0x500>;
->>> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
->>> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
->>> +			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
->>> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
->>> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
->>> +				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
->>> +		assigned-clock-rates = <800000000>, <600000000>,
->>> +				       <600000000>, <1000000000>;
->>> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
->>> +			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
->>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>> +			      "rst_core", "rst_hevc_cabac";
->>> +		power-domains = <&power RK3588_PD_RKVDEC0>;
->>> +		sram = <&vdec0_sram>;
->>> +		status = "okay";
->>> +	};
->>> +
->>> +	vdec1: video-decoder@fdc40100 {
->>> +		compatible = "rockchip,rk3588-vdec";
->>> +		reg = <0x0 0xfdc40100 0x0 0x500>;
->>> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
->>> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
->>> +			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
->>> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
->>> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
->>> +				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
->>> +		assigned-clock-rates = <800000000>, <600000000>,
->>> +				       <600000000>, <1000000000>;
->>> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
->>> +			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
->>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>> +			      "rst_core", "rst_hevc_cabac";
->>> +		power-domains = <&power RK3588_PD_RKVDEC1>;
->>> +		sram = <&vdec1_sram>;
->>> +		status = "okay";
->>> +	};
->> This is still missing the iommus, please add the iommus, they should be
->> supported/same as the one used for e.g. VOP2:
->>
->>    compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
->>
->> The VOP2 MMUs does have one extra mmu_cfg_mode flag in AUTO_GATING,
->> compared to the VDPU381 MMUs, however only the AV1D MMU should be
->> special on RK3588.
->>
->> Please add the iommus :-)
-> When looking add the vendor DT/iommu driver I'm seeing serval quirks
-> applied for vdec's iommus. Since it's rightly frowned upon adding such
-> boolean-quirk-properties to upstream devicetrees, we'd at least need
-> additional (fallback-) compatibles, even if it works with the iommu driver
-> as is (what I doubt, but haven't tested). We need to be able to apply those
-> quirks later without changing the devicetree (as usual) and I'm sure RK
-> devs haven't added these quirks for the personal amusement.
+> Didn't we just have a conversation about this, yet nothing has changed?
+> NAK. Either you need a fallback or to explain why a fallback is not
+> suitable _in this patch_.
 
-Based on what I investigated the hw should work similar, and the quirks
-mostly seem related to optimizations and sw quirks, like do not zap each
-line, keep it alive even when pm runtime say it is not in use and other
-quirks that seem to be more of sw nature on how to best utilize the hw.
+Sorry, I'm confused from the conclusion of our conversation in v2. I did 
+add an explanation to why not fallback is used, but I added it to patch 
+2/2 which adds the compatible to the driver.
 
-> If Detlev says
-> iommu is out of scope for this series (which is valid), I'd say it's fine
-> to leave them out for now (as no binding exists) and the HW works
-> (obviously) fine without them.
+It was my understanding that a SoC specific compatible was needed in 
+either case so, at lest to me, made more sens to explain why in the 
+driver patch the reason go into detail about the register differences 
+between the two. Sorry if I misunderstood. I can add the same 
+explanation to both patches, would this help explain why only a SoC 
+specific value is added?
 
-Sure, use of MMU can be added later.
+  The datasheet for the two SoCs have small nuances around the Pre-Clip
+  registers ELPrC and EPPrC in three use-cases, interlaced images,
+  embedded data and RAW8 input. On V4H the values written to the registers
+  are based on odd numbers while on V4M they are even numbers, based on
+  the input image size.
 
-Regards,
-Jonas
+  No board that uses these SoCs which also have the external peripherals
+  to test these nuances exists. Most likely this is an issue in the
+  datasheet, but to make this easy to address in the future do not add a
+  common Gen4 fallback compatible. Instead uses SoC specific compatibles
+  for both SoCs. This is what was done for Gen3 SoCs, which also had
+  similar nuances in the register documentation.
 
 > 
->> Regards,
->> Jonas
->>
->>>   };
->>>   
->>>   #include "rk3588s-pinctrl.dtsi"
+> Thanks,
+> Conor.
+> 
+> > ---
+> >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > index 5539d0f8e74d..168cb02f8abe 100644
+> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > @@ -54,6 +54,7 @@ properties:
+> >                - renesas,vin-r8a77995 # R-Car D3
+> >                - renesas,vin-r8a779a0 # R-Car V3U
+> >                - renesas,vin-r8a779g0 # R-Car V4H
+> > +              - renesas,vin-r8a779h0 # R-Car V4M
+> >  
+> >    reg:
+> >      maxItems: 1
+> > -- 
+> > 2.45.2
+> > 
 
+
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
