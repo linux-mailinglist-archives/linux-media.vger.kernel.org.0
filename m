@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-13632-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13633-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646C490E09D
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 02:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E288990E09F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 02:18:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E22F2841B3
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 00:18:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 638AC2846A4
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 00:18:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE2976FC7;
-	Wed, 19 Jun 2024 00:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DBEBA935;
+	Wed, 19 Jun 2024 00:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XFW37RLX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QYEMK8T8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB294405;
-	Wed, 19 Jun 2024 00:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54E479E0;
+	Wed, 19 Jun 2024 00:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718756286; cv=none; b=FssIomviB3NWZnGhhnikKZn8v5owvUssjU0KOgk/2WrfC4OiQ+5sO0jwNI98V+LceXqgNdkhDByGRR9J+ejF3YPZ7t1kVDSGNzxPtLWZD7J56TxQNEz7C7/RCGRo8IUmw62wWhC17oRfYS6M/uNTZ0CIJJRJKKD9UpDt3YQCDAo=
+	t=1718756287; cv=none; b=G5RS31yLMCfrnnGQSvAvUZWrFEzPHSTojTRTk5NDfgUJZZ4lTU2i8j/0m9r1Fdsvj6/f2fnAIkjdHgpytA4c0v+H6te6T6h5ULE3dijtvzZj9akLdHzVjePAYvBvogCferVn3l5SwwuiOEVp8whPQouoRWiik2omVFT1GuaT8N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718756286; c=relaxed/simple;
-	bh=6CvoHvE2nLDnunH3nA7Mk6/3YgtGkl7basVXc2gquwU=;
+	s=arc-20240116; t=1718756287; c=relaxed/simple;
+	bh=6qXtUTwnj469Cr3TWoelf13fjkf+UUMQS8aVXWRa2iw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WUUxUO9KOvJjtd0711UaAEzeAv8DBSzT5nE6kmv98wgey6HZmiynuzF0iE5kJBL+DlQtQS111eNcI5sLj0UpFkFGuI4bvkgCDg+af2uLhHPXCMD/msbJ5AZ0Ys1PxQyKgG6F7LprNeoNhYhCY0A67HVLiQH1n0Tw0WCUyUc0Nas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XFW37RLX; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Kvcx3aiZkDK9Ytoo+gAjBBTm2gZxN98wfsOaI6JHR7bEDY+QZqM1b32rjXcMZjvikKnbay04R5SwGmXNEmMee/BpH6god5q7ycrGFfqLBHZdx360tAtoAVxj89cwChzBRb3cxy0l2gytmocGcRQ2aXsG9Bmleuwxy+kV1XKg5t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QYEMK8T8; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 284081030;
-	Wed, 19 Jun 2024 02:17:40 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9EF21277;
+	Wed, 19 Jun 2024 02:17:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718756260;
-	bh=6CvoHvE2nLDnunH3nA7Mk6/3YgtGkl7basVXc2gquwU=;
+	s=mail; t=1718756262;
+	bh=6qXtUTwnj469Cr3TWoelf13fjkf+UUMQS8aVXWRa2iw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XFW37RLXGJXTenwnBZf0DkCt/6Tlj9CtKz2mUuWw3PEFxU6Lt3PyRuLWzd4zKxAuz
-	 LP5o1iyKcbIz1r75QbNvEjjduVDNbAtvihnkjFb7n9VvydP3zCPbh0WEDvEY1slznI
-	 04Bm2Mwym9dk45cQShOHXAVb8oIgX7ze840XAbw4=
+	b=QYEMK8T8v6pyYabMpM2d/E9g0SfgYIR9FGAIQik5ixg8oYjoxBCnXtf/1jd3zyWs+
+	 spKZ1gvcmnaqAY+jVw6nZQ+XIkopHPQpGstt34m4WPL6QlptbzCiJ60aDjvZhCf3Wo
+	 LbMB7agJFpIZioeHtprur/py3tTP0GkuDiotiUiA=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v2 10/19] media: renesas: vsp1: Replace vsp1_partition_window with v4l2_rect
-Date: Wed, 19 Jun 2024 03:17:13 +0300
-Message-ID: <20240619001722.9749-11-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 11/19] media: renesas: vsp1: Add and use function to dump a pipeline to the log
+Date: Wed, 19 Jun 2024 03:17:14 +0300
+Message-ID: <20240619001722.9749-12-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -62,205 +62,159 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vsp1_partition_window structure is used to store the horizontal size
-of a partition window. This is all that is currently needed, as all
-partitions span the whole image vertically. The horizontal window size
-is retrieved in the .configure_partition() handler from the
-vsp1_partition_window structure, and the vertical window size from the
-subdev state.
+It is useful for debugging purpose to dump a vsp1_pipeline to the kernel
+log. Add a new function to do so, and use it when initializing the video
+and DRM pipelines.
 
-Accessing the subdev state in the .configure_partition() handler is
-problematic in the context of moving to the V4L2 subdev active state
-API, as .configure_partition() is called in non-interruptable context,
-and the state lock can't be taken. To avoid this, start by storing the
-vertical size in the window, replacing the custom vsp1_partition_window
-structure with a v4l2_rect. Retrieving the vertical size from the window
-in .configure_partition() will be done in a subsequent change.
+As __vsp1_pipeline_dump() needs to construct the log message
+iteratively, it uses pr_cont(...) (exact equivalent to the more verbose
+"printk(KERN_CONT ..."). The function thus can't use dev_dbg() to log
+the initial part of the message, for two reasons:
+
+- pr_cont() doesn't seem to work with dev_*(). Even if the format string
+  passed to dev_*() doesn't end with a '\n', pr_cont() starts a new line
+  in the log. This behaviour doesn't seem to be clearly documented, and
+  may or may not be on purpose.
+
+- Messages printed by dev_dbg() may be omitted if dynamic debugging is
+  enabled. In that case, the continuation messages will still be
+  printed, leading to confusing log messages.
+
+To still benefit from the dynamic debug infrastructure, we declare a
+vsp1_pipeline_dump() macro that uses _dynamic_func_call() when dynamic
+debugging is enabled. The whole vsp1_pipeline_dump() call can be
+selected at runtime. The __vsp1_pipeline_dump() function then uses a
+plain "printk(KERN_DEBUG ...)" to print the message header using the
+debug log level, and pr_cont() to print the rest of the message on the
+same line.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/vsp1/vsp1_entity.h |  3 +--
- .../media/platform/renesas/vsp1/vsp1_pipe.c   |  6 ++++--
- .../media/platform/renesas/vsp1/vsp1_pipe.h   | 21 +++++--------------
- .../media/platform/renesas/vsp1/vsp1_rpf.c    |  2 +-
- .../media/platform/renesas/vsp1/vsp1_sru.c    |  4 +++-
- .../media/platform/renesas/vsp1/vsp1_uds.c    | 10 ++++-----
- .../media/platform/renesas/vsp1/vsp1_wpf.c    |  2 +-
- 7 files changed, 20 insertions(+), 28 deletions(-)
+ .../media/platform/renesas/vsp1/vsp1_drm.c    |  5 +++++
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   | 22 +++++++++++++++++++
+ .../media/platform/renesas/vsp1/vsp1_pipe.h   | 19 ++++++++++++++++
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 10 ++++++++-
+ 4 files changed, 55 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-index 7b86b2fef3e5..f67f60677644 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-@@ -19,7 +19,6 @@ struct vsp1_dl_body;
- struct vsp1_dl_list;
- struct vsp1_pipeline;
- struct vsp1_partition;
--struct vsp1_partition_window;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+index 3954c138fa7b..1aa59a74672f 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+@@ -733,6 +733,8 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 	if (ret < 0)
+ 		goto unlock;
  
- enum vsp1_entity_type {
- 	VSP1_ENTITY_BRS,
-@@ -91,7 +90,7 @@ struct vsp1_entity_operations {
- 	unsigned int (*max_width)(struct vsp1_entity *, struct vsp1_pipeline *);
- 	void (*partition)(struct vsp1_entity *, struct vsp1_pipeline *,
- 			  struct vsp1_partition *, unsigned int,
--			  struct vsp1_partition_window *);
-+			  struct v4l2_rect *);
- };
- 
- struct vsp1_entity {
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-index ac52ed8f65ba..f7701c5ff492 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-@@ -459,7 +459,7 @@ void vsp1_pipeline_propagate_alpha(struct vsp1_pipeline *pipe,
- static void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
- 					      struct vsp1_partition *partition,
- 					      unsigned int index,
--					      struct vsp1_partition_window *window)
-+					      struct v4l2_rect *window)
- {
- 	struct vsp1_entity *entity;
- 
-@@ -485,7 +485,7 @@ void vsp1_pipeline_calculate_partition(struct vsp1_pipeline *pipe,
- 				       unsigned int index)
- {
- 	const struct v4l2_mbus_framefmt *format;
--	struct vsp1_partition_window window;
-+	struct v4l2_rect window;
- 	unsigned int modulus;
- 
- 	/*
-@@ -498,6 +498,8 @@ void vsp1_pipeline_calculate_partition(struct vsp1_pipeline *pipe,
- 	/* Initialise the partition with sane starting conditions. */
- 	window.left = index * div_size;
- 	window.width = div_size;
-+	window.top = 0;
-+	window.height = format->height;
- 
- 	modulus = format->width % div_size;
- 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-index 3d2e35ac8fa0..c1f411227de7 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-@@ -53,17 +53,6 @@ enum vsp1_pipeline_state {
- 	VSP1_PIPELINE_STOPPING,
- };
- 
--/*
-- * struct vsp1_partition_window - Partition window coordinates
-- * @left: horizontal coordinate of the partition start in pixels relative to the
-- *	  left edge of the image
-- * @width: partition width in pixels
-- */
--struct vsp1_partition_window {
--	unsigned int left;
--	unsigned int width;
--};
--
- /*
-  * struct vsp1_partition - A description of a slice for the partition algorithm
-  * @rpf: The RPF partition window configuration
-@@ -73,11 +62,11 @@ struct vsp1_partition_window {
-  * @wpf: The WPF partition window configuration
-  */
- struct vsp1_partition {
--	struct vsp1_partition_window rpf[VSP1_MAX_RPF];
--	struct vsp1_partition_window uds_sink;
--	struct vsp1_partition_window uds_source;
--	struct vsp1_partition_window sru;
--	struct vsp1_partition_window wpf;
-+	struct v4l2_rect rpf[VSP1_MAX_RPF];
-+	struct v4l2_rect uds_sink;
-+	struct v4l2_rect uds_source;
-+	struct v4l2_rect sru;
-+	struct v4l2_rect wpf;
- };
- 
- /*
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-index 3b8a62299226..862751616646 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-@@ -366,7 +366,7 @@ static void rpf_partition(struct vsp1_entity *entity,
- 			  struct vsp1_pipeline *pipe,
- 			  struct vsp1_partition *partition,
- 			  unsigned int partition_idx,
--			  struct vsp1_partition_window *window)
-+			  struct v4l2_rect *window)
- {
- 	struct vsp1_rwpf *rpf = to_rwpf(&entity->subdev);
- 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-index 749ba7705000..8ce949de8d9a 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-@@ -323,7 +323,7 @@ static void sru_partition(struct vsp1_entity *entity,
- 			  struct vsp1_pipeline *pipe,
- 			  struct vsp1_partition *partition,
- 			  unsigned int partition_idx,
--			  struct vsp1_partition_window *window)
-+			  struct v4l2_rect *window)
- {
- 	struct vsp1_sru *sru = to_sru(&entity->subdev);
- 	struct v4l2_mbus_framefmt *input;
-@@ -337,6 +337,8 @@ static void sru_partition(struct vsp1_entity *entity,
- 	if (input->width != output->width) {
- 		window->width /= 2;
- 		window->left /= 2;
-+		window->height /= 2;
-+		window->top /= 2;
++	vsp1_pipeline_dump(pipe, "LIF setup");
++
+ 	/* Enable the VSP1. */
+ 	ret = vsp1_device_get(vsp1);
+ 	if (ret < 0)
+@@ -906,6 +908,9 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
  	}
  
- 	partition->sru = *window;
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-index 737362ca2315..4a14fd3baac1 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-@@ -363,16 +363,12 @@ static void uds_partition(struct vsp1_entity *entity,
- 			  struct vsp1_pipeline *pipe,
- 			  struct vsp1_partition *partition,
- 			  unsigned int partition_idx,
--			  struct vsp1_partition_window *window)
-+			  struct v4l2_rect *window)
- {
- 	struct vsp1_uds *uds = to_uds(&entity->subdev);
- 	const struct v4l2_mbus_framefmt *output;
- 	const struct v4l2_mbus_framefmt *input;
- 
--	/* Initialise the partition state. */
--	partition->uds_sink = *window;
--	partition->uds_source = *window;
--
- 	input = v4l2_subdev_state_get_format(uds->entity.state, UDS_PAD_SINK);
- 	output = v4l2_subdev_state_get_format(uds->entity.state,
- 					      UDS_PAD_SOURCE);
-@@ -381,6 +377,10 @@ static void uds_partition(struct vsp1_entity *entity,
- 				  / output->width;
- 	partition->uds_sink.left = window->left * input->width
- 				 / output->width;
-+	partition->uds_sink.height = input->height;
-+	partition->uds_sink.top = 0;
+ 	vsp1_du_pipeline_setup_inputs(vsp1, pipe);
 +
-+	partition->uds_source = *window;
++	vsp1_pipeline_dump(pipe, "atomic update");
++
+ 	vsp1_du_pipeline_configure(pipe);
  
- 	*window = partition->uds_sink;
+ done:
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+index f7701c5ff492..b45e1b4eb5a1 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+@@ -301,6 +301,28 @@ void vsp1_pipeline_init(struct vsp1_pipeline *pipe)
+ 	pipe->state = VSP1_PIPELINE_STOPPED;
  }
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-index 80fe7571f4ff..f8d1e2f47691 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-@@ -515,7 +515,7 @@ static void wpf_partition(struct vsp1_entity *entity,
- 			  struct vsp1_pipeline *pipe,
- 			  struct vsp1_partition *partition,
- 			  unsigned int partition_idx,
--			  struct vsp1_partition_window *window)
-+			  struct v4l2_rect *window)
+ 
++void __vsp1_pipeline_dump(struct _ddebug *, struct vsp1_pipeline *pipe,
++			  const char *msg)
++{
++	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
++	struct vsp1_entity *entity;
++	bool first = true;
++
++	printk(KERN_DEBUG "%s: %s: pipe: ", dev_name(vsp1->dev), msg);
++
++	list_for_each_entry(entity, &pipe->entities, list_pipe) {
++		const char *name;
++
++		name = strchrnul(entity->subdev.name, ' ');
++		name = name ? name + 1 : entity->subdev.name;
++
++		pr_cont("%s%s", first ? "" : ", ", name);
++		first = false;
++	}
++
++	pr_cont("\n");
++}
++
+ /* Must be called with the pipe irqlock held. */
+ void vsp1_pipeline_run(struct vsp1_pipeline *pipe)
  {
- 	partition->wpf = *window;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+index c1f411227de7..46a82a9f766a 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+@@ -9,6 +9,7 @@
+ #ifndef __VSP1_PIPE_H__
+ #define __VSP1_PIPE_H__
+ 
++#include <linux/dynamic_debug.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
+ #include <linux/spinlock.h>
+@@ -142,6 +143,24 @@ struct vsp1_pipeline {
+ void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
+ void vsp1_pipeline_init(struct vsp1_pipeline *pipe);
+ 
++void __vsp1_pipeline_dump(struct _ddebug *, struct vsp1_pipeline *pipe,
++			  const char *msg);
++
++#if defined(CONFIG_DYNAMIC_DEBUG) || \
++	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
++#define vsp1_pipeline_dump(pipe, msg)			\
++	_dynamic_func_call("vsp1_pipeline_dump()", __vsp1_pipeline_dump, pipe, msg)
++#elif defined(DEBUG)
++#define vsp1_pipeline_dump(pipe, msg)			\
++	__vsp1_pipeline_dump(NULL, pipe, msg)
++#else
++#define vsp1_pipeline_dump(pipe, msg)			\
++({							\
++	if (0)						\
++		__vsp1_pipeline_dump(NULL, pipe, msg);	\
++)}
++#endif
++
+ void vsp1_pipeline_run(struct vsp1_pipeline *pipe);
+ bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe);
+ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index 2c0e10df8f3e..10a0485abc6c 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -526,11 +526,19 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
+ static int vsp1_video_pipeline_init(struct vsp1_pipeline *pipe,
+ 				    struct vsp1_video *video)
+ {
++	int ret;
++
+ 	vsp1_pipeline_init(pipe);
+ 
+ 	pipe->frame_end = vsp1_video_pipeline_frame_end;
+ 
+-	return vsp1_video_pipeline_build(pipe, video);
++	ret = vsp1_video_pipeline_build(pipe, video);
++	if (ret)
++		return ret;
++
++	vsp1_pipeline_dump(pipe, "video");
++
++	return 0;
  }
+ 
+ static struct vsp1_pipeline *vsp1_video_pipeline_get(struct vsp1_video *video)
 -- 
 Regards,
 
