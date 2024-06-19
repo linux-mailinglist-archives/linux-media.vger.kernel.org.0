@@ -1,179 +1,228 @@
-Return-Path: <linux-media+bounces-13753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983F190F68B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 20:56:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3D590F69B
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 21:00:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DC572830BE
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 18:56:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C2088B24934
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 18:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F01E158869;
-	Wed, 19 Jun 2024 18:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F151F158D78;
+	Wed, 19 Jun 2024 18:59:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="BF7cQI6D";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yv5miaMC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d4m7+t60"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com [103.168.172.146])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39245524C4;
-	Wed, 19 Jun 2024 18:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A440158859;
+	Wed, 19 Jun 2024 18:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718823376; cv=none; b=HbUzOOylpUkZjFurWHcmrCiNMmA6Zq9mS3oWBV/9sKkNISV+FSyp47Ja+Zw3m+OHLmH+ygwRzSQko/gh55sByak+hP5dDkd/YZcn4EtS2U3I3I6I0Jde3Eo1yyz9mOVIRF/d4bvCw7c9Dc+E088XPzZE2Oc3CRuXQut6UsKOjBk=
+	t=1718823580; cv=none; b=JffkV8BntQrbx/1Pto27xrox2jpf/zyX0r/saJdNNGwD6KHHhngNyKZCeIyBjYX4xk3qOu/j0Do3vA/QLO070nt5fVIzrmyUXNm+gm63Ui27Y/kA1txO2D2uM1i34aAo6kDhnpfz1QvDnGDaEMmuPHvMZpr+zyJ7e5+SqU0+CHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718823376; c=relaxed/simple;
-	bh=BXaBrly0Edxx0iSo+w3G8w3LlyVGw8jS0iBVypyeI7I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CxhqxXChqqd77qElyv2ViAQQq3TmB0tpYGJR6GWp0xyGDLgiH8Y4kQ3e+JaT5cW0VELWp96X0S3XFt9gOW3a/G3a2m+wmnnklYyDnv7XrbSSJckAXTwJtQZ5B8wLW7srEpq5hsptU43DscNKtTWyzRIkWJjw10q68ynO/sle7Xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=BF7cQI6D; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Yv5miaMC; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 0A81913801A1;
-	Wed, 19 Jun 2024 14:56:11 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Wed, 19 Jun 2024 14:56:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1718823371;
-	 x=1718909771; bh=jmPIQR1Ww2PZOtZ6FHeU+kqz22qvRT7bktPdDN2Y7F0=; b=
-	BF7cQI6DTOIt4RVbDxTjHqGBtQUWq8zBvpIRUZv1ctjvqAm/U2Te1J3cjSNQGjkR
-	bSDbudnhftw7UwaUTth+w280oUFvRyI38dAZxfRoP3poQZjX1LzmOjU8qStN2QaV
-	EO4Z019+zKPwRsNEpiQAyVUOzxHk5PvjydrZayVmdg35XrKaNbKmWRdMH/bFJ1Ti
-	jfJ+7mshP9VVXefEGpQ7lKFkin/uTm6rjd5lHxlP4JbRj9kB3IXffb3bzym7M32A
-	WcflghJtVUhdDVtP+Cmnj+r97tX1slRD9LoDmztqkh6yz7GDyx7fZmYZ4UFkzQaw
-	K8AfavoznDOkZadflykX4Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718823371; x=
-	1718909771; bh=jmPIQR1Ww2PZOtZ6FHeU+kqz22qvRT7bktPdDN2Y7F0=; b=Y
-	v5miaMCSmyip1W+x/4REt7THR/vy3JqwrHHZQR1cwPfcfNko/MhJTJM+ZqqgsC+H
-	HVq61D1GFs/HRqzPqHPiCElMRtRF5yIhbJEswZfOz+rfXQ1cdSiuMSWS5ZixEjJD
-	+lh5C1l9culOwbBumsEc5TI5pxscmsoFMh9r+It5WX8oyggY+g8tJTEmjvfSJiAU
-	+CuULWVhfu/F5jAKE65OmhMDfKvnhItzLkP1MJLZjd7hwjd8kk+YfY4yxy85Cvy+
-	K9dv2QTl5Xi0hn43Tl2BA3r4s/13c4PMzPINDgyHw1eQ17O7btAZSIr8EKQYbC14
-	qGBwvFQIFUC9rhl5Whycg==
-X-ME-Sender: <xms:yilzZvLw6SlhRWbSaci6QSBpUgJOKhmg2SDOF1VdZo0PbquDwd4NOQ>
-    <xme:yilzZjIfI0qLT6WbavIdgZCumVsNvSKRmOCDWinvfHfiEcyt3DYyjH2GcTO0wTn0x
-    YocrdgL8dN-khobxek>
-X-ME-Received: <xmr:yilzZnuMczSs7biNs6IqAeQWhzuUupkiYT4N5t15jJM1VkKQhlIMzSCI9zKc1WBHtHGks6G06riDM-jSD8M63ozsltl44gM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeftddgudeftdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
-    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
-    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
-    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
-    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:yilzZoa-sJXJehPcUkEcJSt3m_muhqLyJ_vMWnD9Ql1IiDiA1o48Jw>
-    <xmx:yilzZmZHOZuc7Plifp-UEdXK8hnDup6Jw1FqG9OCeTIPex9YHPLBvg>
-    <xmx:yilzZsCmd1QV4yI-SlA1lD02kcoD9VvZz_8XrPFmGxhsMPPpKqxS0w>
-    <xmx:yilzZkYRYCIyNRuc5Z63YNL9rmMDOnAksEkq9W3XBgOD_lJbOF7A2g>
-    <xmx:yylzZjR_uAYwUtHQkYL8Plkpf4c86zsJ_LjC4KK_sDpWxiTPpfrTISb3>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Jun 2024 14:56:10 -0400 (EDT)
-Date: Wed, 19 Jun 2024 20:56:07 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Conor Dooley <conor@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for
- V4M
-Message-ID: <20240619185607.GT382677@ragnatech.se>
-References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
- <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
- <20240619-passage-iodine-9f944b26a30d@spud>
+	s=arc-20240116; t=1718823580; c=relaxed/simple;
+	bh=9YKTt5nleAVeB5QIIL4fbWwVqki2HBwlAz6F69L9bRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gb4JMbzfNqTCsbxGBmC5bTxV1B/FHbLVUZPRGe4GQIexif3mxcl5eULG6Grk/OKv0ttAorDeczM0Ky1pZoGXmj0Q4R85YiVrXxhIW3I4FNEY/T41B0UfelmcJNp1jSr++ZWfbYdNdT9p4LVkU2PvW/vlciVDsN6gDsFNh9Tw9do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d4m7+t60; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9195F541;
+	Wed, 19 Jun 2024 20:59:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718823557;
+	bh=9YKTt5nleAVeB5QIIL4fbWwVqki2HBwlAz6F69L9bRc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=d4m7+t60xzbw6T1UYQuHWOhy40jwl5PI8OSKPqYmUPn4q+cwKfa14bf6TPvpz8PMx
+	 emoJ1It/OGqVu6TcFOr7NccazxNxVz+4C08avIzHGePNsUKUHabEvyflnO9n7ellUV
+	 yJlvAmXccSY15LaU8PjARqyOwks1oGzJy7c8Rl8Q=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2.1 11/19] media: renesas: vsp1: Add and use function to dump a pipeline to the log
+Date: Wed, 19 Jun 2024 21:59:13 +0300
+Message-ID: <20240619185913.5656-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.44.2
+In-Reply-To: <20240619001722.9749-12-laurent.pinchart+renesas@ideasonboard.com>
+References: <20240619001722.9749-12-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240619-passage-iodine-9f944b26a30d@spud>
 
-Hi Conor,
+It is useful for debugging purpose to dump a vsp1_pipeline to the kernel
+log. Add a new function to do so, and use it when initializing the video
+and DRM pipelines.
 
-On 2024-06-19 18:33:37 +0100, Conor Dooley wrote:
-> On Wed, Jun 19, 2024 at 05:35:58PM +0200, Niklas Söderlund wrote:
-> > Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> Didn't we just have a conversation about this, yet nothing has changed?
-> NAK. Either you need a fallback or to explain why a fallback is not
-> suitable _in this patch_.
+As __vsp1_pipeline_dump() needs to construct the log message
+iteratively, it uses pr_cont(...) (exact equivalent to the more verbose
+"printk(KERN_CONT ..."). The function thus can't use dev_dbg() to log
+the initial part of the message, for two reasons:
 
-Sorry, I'm confused from the conclusion of our conversation in v2. I did 
-add an explanation to why not fallback is used, but I added it to patch 
-2/2 which adds the compatible to the driver.
+- pr_cont() doesn't seem to work with dev_*(). Even if the format string
+  passed to dev_*() doesn't end with a '\n', pr_cont() starts a new line
+  in the log. This behaviour doesn't seem to be clearly documented, and
+  may or may not be on purpose.
 
-It was my understanding that a SoC specific compatible was needed in 
-either case so, at lest to me, made more sens to explain why in the 
-driver patch the reason go into detail about the register differences 
-between the two. Sorry if I misunderstood. I can add the same 
-explanation to both patches, would this help explain why only a SoC 
-specific value is added?
+- Messages printed by dev_dbg() may be omitted if dynamic debugging is
+  enabled. In that case, the continuation messages will still be
+  printed, leading to confusing log messages.
 
-  The datasheet for the two SoCs have small nuances around the Pre-Clip
-  registers ELPrC and EPPrC in three use-cases, interlaced images,
-  embedded data and RAW8 input. On V4H the values written to the registers
-  are based on odd numbers while on V4M they are even numbers, based on
-  the input image size.
+To still benefit from the dynamic debug infrastructure, we declare a
+vsp1_pipeline_dump() macro that uses _dynamic_func_call() when dynamic
+debugging is enabled. The whole vsp1_pipeline_dump() call can be
+selected at runtime. The __vsp1_pipeline_dump() function then uses a
+plain "printk(KERN_DEBUG ...)" to print the message header using the
+debug log level, and pr_cont() to print the rest of the message on the
+same line.
 
-  No board that uses these SoCs which also have the external peripherals
-  to test these nuances exists. Most likely this is an issue in the
-  datasheet, but to make this easy to address in the future do not add a
-  common Gen4 fallback compatible. Instead uses SoC specific compatibles
-  for both SoCs. This is what was done for Gen3 SoCs, which also had
-  similar nuances in the register documentation.
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+---
+Changes since v2:
 
-> 
-> Thanks,
-> Conor.
-> 
-> > ---
-> >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > index 5539d0f8e74d..168cb02f8abe 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > @@ -54,6 +54,7 @@ properties:
-> >                - renesas,vin-r8a77995 # R-Car D3
-> >                - renesas,vin-r8a779a0 # R-Car V3U
-> >                - renesas,vin-r8a779g0 # R-Car V4H
-> > +              - renesas,vin-r8a779h0 # R-Car V4M
-> >  
-> >    reg:
-> >      maxItems: 1
-> > -- 
-> > 2.45.2
-> > 
+- Name first parameter in __vsp1_pipeline_dump() definition
+- Fix typo in !DEBUG vsp1_pipeline_dump() macro
+---
+ .../media/platform/renesas/vsp1/vsp1_drm.c    |  5 +++++
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   | 22 +++++++++++++++++++
+ .../media/platform/renesas/vsp1/vsp1_pipe.h   | 19 ++++++++++++++++
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 10 ++++++++-
+ 4 files changed, 55 insertions(+), 1 deletion(-)
 
-
-
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+index 3954c138fa7b..1aa59a74672f 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+@@ -733,6 +733,8 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 	if (ret < 0)
+ 		goto unlock;
+ 
++	vsp1_pipeline_dump(pipe, "LIF setup");
++
+ 	/* Enable the VSP1. */
+ 	ret = vsp1_device_get(vsp1);
+ 	if (ret < 0)
+@@ -906,6 +908,9 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
+ 	}
+ 
+ 	vsp1_du_pipeline_setup_inputs(vsp1, pipe);
++
++	vsp1_pipeline_dump(pipe, "atomic update");
++
+ 	vsp1_du_pipeline_configure(pipe);
+ 
+ done:
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+index f7701c5ff492..87cb62cf38fa 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+@@ -301,6 +301,28 @@ void vsp1_pipeline_init(struct vsp1_pipeline *pipe)
+ 	pipe->state = VSP1_PIPELINE_STOPPED;
+ }
+ 
++void __vsp1_pipeline_dump(struct _ddebug *dbg, struct vsp1_pipeline *pipe,
++			  const char *msg)
++{
++	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
++	struct vsp1_entity *entity;
++	bool first = true;
++
++	printk(KERN_DEBUG "%s: %s: pipe: ", dev_name(vsp1->dev), msg);
++
++	list_for_each_entry(entity, &pipe->entities, list_pipe) {
++		const char *name;
++
++		name = strchrnul(entity->subdev.name, ' ');
++		name = name ? name + 1 : entity->subdev.name;
++
++		pr_cont("%s%s", first ? "" : ", ", name);
++		first = false;
++	}
++
++	pr_cont("\n");
++}
++
+ /* Must be called with the pipe irqlock held. */
+ void vsp1_pipeline_run(struct vsp1_pipeline *pipe)
+ {
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+index c1f411227de7..1ba7bdbad5a8 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+@@ -9,6 +9,7 @@
+ #ifndef __VSP1_PIPE_H__
+ #define __VSP1_PIPE_H__
+ 
++#include <linux/dynamic_debug.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
+ #include <linux/spinlock.h>
+@@ -142,6 +143,24 @@ struct vsp1_pipeline {
+ void vsp1_pipeline_reset(struct vsp1_pipeline *pipe);
+ void vsp1_pipeline_init(struct vsp1_pipeline *pipe);
+ 
++void __vsp1_pipeline_dump(struct _ddebug *, struct vsp1_pipeline *pipe,
++			  const char *msg);
++
++#if defined(CONFIG_DYNAMIC_DEBUG) || \
++	(defined(CONFIG_DYNAMIC_DEBUG_CORE) && defined(DYNAMIC_DEBUG_MODULE))
++#define vsp1_pipeline_dump(pipe, msg)			\
++	_dynamic_func_call("vsp1_pipeline_dump()", __vsp1_pipeline_dump, pipe, msg)
++#elif defined(DEBUG)
++#define vsp1_pipeline_dump(pipe, msg)			\
++	__vsp1_pipeline_dump(NULL, pipe, msg)
++#else
++#define vsp1_pipeline_dump(pipe, msg)			\
++({							\
++	if (0)						\
++		__vsp1_pipeline_dump(NULL, pipe, msg);	\
++})
++#endif
++
+ void vsp1_pipeline_run(struct vsp1_pipeline *pipe);
+ bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe);
+ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index 2c0e10df8f3e..10a0485abc6c 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -526,11 +526,19 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
+ static int vsp1_video_pipeline_init(struct vsp1_pipeline *pipe,
+ 				    struct vsp1_video *video)
+ {
++	int ret;
++
+ 	vsp1_pipeline_init(pipe);
+ 
+ 	pipe->frame_end = vsp1_video_pipeline_frame_end;
+ 
+-	return vsp1_video_pipeline_build(pipe, video);
++	ret = vsp1_video_pipeline_build(pipe, video);
++	if (ret)
++		return ret;
++
++	vsp1_pipeline_dump(pipe, "video");
++
++	return 0;
+ }
+ 
+ static struct vsp1_pipeline *vsp1_video_pipeline_get(struct vsp1_video *video)
 -- 
-Kind Regards,
-Niklas Söderlund
+Regards,
+
+Laurent Pinchart
+
 
