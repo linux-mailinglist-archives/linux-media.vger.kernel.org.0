@@ -1,82 +1,94 @@
-Return-Path: <linux-media+bounces-13759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C5090F99D
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 01:05:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5EAD90F9A0
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 01:07:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC9AF28256B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 23:05:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45B2A282635
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 23:07:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 010E215B143;
-	Wed, 19 Jun 2024 23:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 456DF15B142;
+	Wed, 19 Jun 2024 23:07:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0E961FCF;
-	Wed, 19 Jun 2024 23:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E6A768EC;
+	Wed, 19 Jun 2024 23:07:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718838299; cv=none; b=B08xs1Echx7gHYwEnR0FgpA31qD3hifAdMXjRPQ0S/0DrQPZj3v+2+assvfEmnEZFc3yU4GwKaqCDkebM++Wu9j3srDJ6UF+k5J3BIIAV3uW63Hgmci7wfUwAAysfejEhKYdmregANk+FgCFxpev9yp0oR866Sqegx0RJNyRSKY=
+	t=1718838440; cv=none; b=kHNObyZTxWuBM/mEG9/XnY7FdoKz6y38vLsB65sAFP/zbMlHbWIEcxjIKAu/+uf8nRKLmhThHYbaJkkFswJObUVjgYxz8olvr+PvRWbAjwcquLR/8ydkdXqkYD8KNDrR/nuQbNhgmkEWMm66SBbwunAhLol8TXHcsNwKhjOZga8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718838299; c=relaxed/simple;
-	bh=9XuT53Lp90wtkqv14CncYQI9cUDhf6Dn4IqRZ9dKl5o=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AJ8cK/u8dtubfYjkvMGmeyY6lzuLiAwa5Qhoeart9xmvK/P+q+Gdh+Ep3E2A22TlqTzFMQ0WQvrgYwV+5efH9HDrw2/Gy9LBgxe/+g3ScsvbO4FHodBPVKcwJKA/+6NOcbmiqHYbVXNNEtxNqy66QgAQvmdu1xwlYQQbZhKXsIU=
+	s=arc-20240116; t=1718838440; c=relaxed/simple;
+	bh=9HsR6ljcoMUVKNNH+pR4AbSIfJq+cfzP3SRKSNQEtfE=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=UtSySJGLdzbTmge+hzcAB3Lo0LOXk5XTVO9hVZAv/RMe0u6OCEbE2HuxffDIVSJ0WOzrjuxcX60MltfFVG3h8uEmL3F8cyNmLiUvXX/G6yxDzl/psQwLconTGB8r4kueBbPDjKjDX74VvQXaiYXUXCSODO78Cv50eMEdDXfCcZQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
 Received: from fedori.lan (51b69c7d.dsl.pool.telekom.hu [::ffff:81.182.156.125])
   (AUTH: CRAM-MD5 soyer@irl.hu, )
   by irl.hu with ESMTPSA
-  id 000000000006FE7E.0000000066736412.002E429E; Thu, 20 Jun 2024 01:04:50 +0200
-Message-ID: <0b4f531d5eb1258709f8a584a4ef1ac14636a8db.camel@irl.hu>
-Subject: Re: [PATCH v3 1/1] media: uvcvideo: UVC minimum relative
- pan/tilt/zoom speed fix.
+  id 000000000006FE9C.00000000667364A5.002E43E5; Thu, 20 Jun 2024 01:07:17 +0200
 From: Gergo Koteles <soyer@irl.hu>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
   Mauro Carvalho Chehab <mchehab@kernel.org>,
-  John Bauer <johnebgood@securitylive.com>, linh.tp.vu@gmail.com,
-  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 20 Jun 2024 01:04:49 +0200
-In-Reply-To: <CANiDSCs2MLqdNuZtcQEHhE6c8XXc=4AKNcuHNNgqJKnc9da3Hg@mail.gmail.com>
-References: <cover.1718726777.git.soyer@irl.hu>
-	 <b062c3ec615a69cbc1b154b1838df3cdc3e1282a.1718726777.git.soyer@irl.hu>
-	 <CANiDSCs2MLqdNuZtcQEHhE6c8XXc=4AKNcuHNNgqJKnc9da3Hg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+  John Bauer <johnebgood@securitylive.com>, ribalda@chromium.org,
+  linh.tp.vu@gmail.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+  Gergo Koteles <soyer@irl.hu>
+Subject: [PATCH v4 0/1] media: uvcvideo: UVC minimum relative pan/tilt/zoom speed fix
+Date: Thu, 20 Jun 2024 01:05:12 +0200
+Message-ID: <cover.1718835633.git.soyer@irl.hu>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-Hi Ricardo,
+Hello,
 
-Thanks for the review.
+I applied Ricardo's suggestion.
+And I found a few ways to improve the style.
 
-On Wed, 2024-06-19 at 08:15 +0200, Ricardo Ribalda wrote:
->=20
-> nit: The following would probably be more correct but less clear:
->=20
-> if  (is_relative_ptz_ctrl(xctrl->id))
->     min =3D -max;
-> else
->     min =3D mapping->get(mapping, UVC_GET_MIN,...)
->=20
-> So up to you what do you/Laurent what is better ;)
->=20
+I've also added Ricardo's reviewed-by tag as these are just style changes.
 
->=20
-I like this better. I'll send a v4.
+---
+Changes in v4:
+- Based on Ricardo's suggestion, only query the min value in uvc_ctrl_set
+  if necessary
+- Rename is_relative_ptz_ctrl function to uvc_ctrl_is_relative_ptz for
+  consistency
+- Rename 'relative speed implementation' to 'relative PTZ controls' in
+  comments
+- Fix indentation of comments
+- Reduce the length of the new lines to 80
+- Link to v3: https://lore.kernel.org/all/cover.1718726777.git.soyer@irl.hu/
+
+Changes in v3:
+- Based on Ricardo's suggestion, I squashed the two patches.
+- Link to v2: https://lore.kernel.org/all/20240405-uvc-fix-relative-ptz-speed-v1-0-c32cdb2a899d@securitylive.com/
+
+Changes in v2:
+- Made recommended changes, moved control check to helper function and removed dead code.
+- Link to v1: https://lore.kernel.org/all/20240326-uvc-relative-ptz-speed-fix-v1-1-453fd5ccfd37@securitylive.com/
+---
+John Bauer (1):
+  media: uvcvideo: UVC minimum relative pan/tilt/zoom speed fix.
+
+ drivers/media/usb/uvc/uvc_ctrl.c | 42 ++++++++++++++++++++++++++------
+ 1 file changed, 35 insertions(+), 7 deletions(-)
+
+-- 
+2.45.2
 
 Best regards,
 Gergo Koteles
-
 
