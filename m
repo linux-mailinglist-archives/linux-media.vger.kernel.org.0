@@ -1,186 +1,119 @@
-Return-Path: <linux-media+bounces-13679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E665C90E851
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 12:27:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A0F90E89F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 12:50:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 698FA1F21F50
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 10:27:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A7862841BA
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 10:50:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E54316F2F8;
-	Wed, 19 Jun 2024 10:27:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA0312FF83;
+	Wed, 19 Jun 2024 10:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kq8EXNUE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Au9JpWnS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF34277F0B;
-	Wed, 19 Jun 2024 10:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206DE75811;
+	Wed, 19 Jun 2024 10:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718792854; cv=none; b=EsywL7MC0wxXRUr5aa9tW8UCA1aZhV+EQ9rvxDHbk7HsCkjyam6NW2hkK8qzoqfSSGfOhi3AYCROESThVvQ87hwOskQ0HnDRTyVwZre7S1WhIo1I0RXCv0ZgbhkGndbTSNmDfTdiktuoDrt+9TmfVtUnc+bbopZajKkwoVM+I2I=
+	t=1718794203; cv=none; b=qOKPC2TLsTs6DAqi7nz+df02nORGy64Hjog2e56hYrUoejlwckoLhXOpGF9c4rRfoLXfH1pc7fREGEAHEhgTDp3hhoO/NUOU597X2TPSet7W1KEoKptMhWbXCWZ+Pdw4iYAmPX1jM0It9ua+KOiSl7FDac/UKYIiaisBclRMdAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718792854; c=relaxed/simple;
-	bh=Po6rLiiLYmVB2a4i9yoEDHQtVf1CvljI6wljwScnm/Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MXXKxU8m+oMe26Dqb9UtzOw30xZdvkwBEEG7OuTNNXqhGoBNU4owc4JXHIVD2bNSVuqkDM7mPeabD4lCKNkDltu/7yJKg2PLekN301uMat3JVWtMmGg47bH+QeaELM2Z3lbnO76LDqqYh8I7WJ9HSQE4a41CQnEktNdvSGo2mRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kq8EXNUE; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718792850;
-	bh=Po6rLiiLYmVB2a4i9yoEDHQtVf1CvljI6wljwScnm/Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kq8EXNUEhE6G5wgiCNTojlxDD0ITutYp3eNUlwYNjNrYROuZrSQn83dvBAwhSa5KF
-	 nGsT2K20V+mL9JeixZ2gcpIdxgXGf8va3gsMwv46qFMC43VjzzJuZLP1aBH63+dima
-	 u8zyjfnsuUmO5Kfsj8o8DyBayOE1IHEaNHvwTs8dl7nn2UddiLIDPlx/hJpXdygng7
-	 Va9lvIFRRLz1RDpWUN3THDw4x5lOvwjM24PSq97K40nXIWbnay1zgnko1L9g9F1scU
-	 y+J6boAX5/19xL/Ur5N8i11AJjCsnnjrarBPsmBcKu2FwcKjIkcUQUwkFFzuHQPd2t
-	 WXDrIZpiGbJGQ==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B54A93780F7F;
-	Wed, 19 Jun 2024 10:27:29 +0000 (UTC)
-Message-ID: <c8ec67c6-a486-4665-b5ce-ea858116a8a2@collabora.com>
-Date: Wed, 19 Jun 2024 12:27:29 +0200
+	s=arc-20240116; t=1718794203; c=relaxed/simple;
+	bh=T2JL3ZjhOKB//JD0pX68PF8o5G/wZe9nFJhhTObij90=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A8u8xGGH6jmAGusFcFXuBgA68+T8c5/Jc51aQs38xNrYaUSIhbUHejt7DAIzmgI2TuKNLUtjUFpdIxqqPR5Hv+bcqJVQLD/9a0DVCRLhjJv6qrTdylXMyFEULh7rbMoRyMfXH08eZduK64FqM7veU8sUIuw0jG1qrKrTOWSWpBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Au9JpWnS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85B9A541;
+	Wed, 19 Jun 2024 12:49:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718794182;
+	bh=T2JL3ZjhOKB//JD0pX68PF8o5G/wZe9nFJhhTObij90=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Au9JpWnS5XFN87HcdrUf1fjYYfXyvnyT33Tr1foJ5D3zPzDz4sOv15Ppfm1D3Ks58
+	 Q6bHryfN8aeprQR+zlXEvk8YoDFYbTfnoZccG14MxyLs83acfq/WBPUcl2nYm19V3B
+	 tJzkwQiNFDYVyCVWffS53/4bWY+eyLxQi2UF90+A=
+Date: Wed, 19 Jun 2024 13:49:38 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: renesas: vsp1: Print debug message to diagnose
+ validation failure
+Message-ID: <20240619104938.GJ21998@pendragon.ideasonboard.com>
+References: <20240618194140.26788-1-laurent.pinchart+renesas@ideasonboard.com>
+ <wbnjltcntvv2r4fv776lxcecsoihofzudikepvhkuucltf5yrl@577txugeutpe>
+ <171878876949.2248009.10006118252023995535@ping.linuxembedded.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] soc: mediatek: mtk-mutex: Add support for MT8188
- VPPSYS
-To: Fei Shao <fshao@chromium.org>
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, amergnat@baylibre.com, moudy.ho@mediatek.com,
- hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com,
- u.kleine-koenig@pengutronix.de, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, kernel@collabora.com
-References: <20240322092845.381313-1-angelogioacchino.delregno@collabora.com>
- <20240322092845.381313-3-angelogioacchino.delregno@collabora.com>
- <CAC=S1niaYZ=NNTwfSrJPdj79uG_hmqGm=cz_Sis3Zrf9octsnw@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAC=S1niaYZ=NNTwfSrJPdj79uG_hmqGm=cz_Sis3Zrf9octsnw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <171878876949.2248009.10006118252023995535@ping.linuxembedded.co.uk>
 
-Il 19/06/24 12:09, Fei Shao ha scritto:
-> Hi Angelo,
+On Wed, Jun 19, 2024 at 10:19:29AM +0100, Kieran Bingham wrote:
+> Quoting Jacopo Mondi (2024-06-19 08:24:09)
+> > On Tue, Jun 18, 2024 at 10:41:40PM GMT, Laurent Pinchart wrote:
+> > > When formats don't match between a subdev and a connected video device,
+> > > starting streaming returns an error without giving the user any
+> > > indication as to what went wrong. To help debugging pipeline
+> > > misconfigurations, add a debug message that indicates the cause of the
+> > > failure.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > 
+> > Doesn't v4l2-subdev.c give you the same information if you enable
+> > debug there ?
 > 
-> On Fri, Mar 22, 2024 at 5:29 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Add MT8188 VPPSYS0 and VPPSYS1 mutex info to driver data
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/soc/mediatek/mtk-mutex.c | 41 ++++++++++++++++++++++++++++++++
->>   1 file changed, 41 insertions(+)
->>
->> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
->> index 73c256d3950b..b5af1fb5847e 100644
->> --- a/drivers/soc/mediatek/mtk-mutex.c
->> +++ b/drivers/soc/mediatek/mtk-mutex.c
->> @@ -496,6 +496,39 @@ static const unsigned int mt8188_mutex_mod[DDP_COMPONENT_ID_MAX] = {
->>          [DDP_COMPONENT_MERGE5] = MT8188_MUTEX_MOD_DISP1_VPP_MERGE4,
->>   };
->>
->> +static const unsigned int mt8188_mdp_mutex_table_mod[MUTEX_MOD_IDX_MAX] = {
->> +       [MUTEX_MOD_IDX_MDP_RDMA0] = MT8195_MUTEX_MOD_MDP_RDMA0,
->> +       [MUTEX_MOD_IDX_MDP_RDMA2] = MT8195_MUTEX_MOD_MDP_RDMA2,
->> +       [MUTEX_MOD_IDX_MDP_RDMA3] = MT8195_MUTEX_MOD_MDP_RDMA3,
->> +       [MUTEX_MOD_IDX_MDP_FG0] = MT8195_MUTEX_MOD_MDP_FG0,
->> +       [MUTEX_MOD_IDX_MDP_FG2] = MT8195_MUTEX_MOD_MDP_FG2,
->> +       [MUTEX_MOD_IDX_MDP_FG3] = MT8195_MUTEX_MOD_MDP_FG3,
->> +       [MUTEX_MOD_IDX_MDP_HDR0] = MT8195_MUTEX_MOD_MDP_HDR0,
->> +       [MUTEX_MOD_IDX_MDP_HDR2] = MT8195_MUTEX_MOD_MDP_HDR2,
->> +       [MUTEX_MOD_IDX_MDP_HDR3] = MT8195_MUTEX_MOD_MDP_HDR3,
->> +       [MUTEX_MOD_IDX_MDP_AAL0] = MT8195_MUTEX_MOD_MDP_AAL0,
->> +       [MUTEX_MOD_IDX_MDP_AAL2] = MT8195_MUTEX_MOD_MDP_AAL2,
->> +       [MUTEX_MOD_IDX_MDP_AAL3] = MT8195_MUTEX_MOD_MDP_AAL3,
->> +       [MUTEX_MOD_IDX_MDP_RSZ0] = MT8195_MUTEX_MOD_MDP_RSZ0,
->> +       [MUTEX_MOD_IDX_MDP_RSZ2] = MT8195_MUTEX_MOD_MDP_RSZ2,
->> +       [MUTEX_MOD_IDX_MDP_RSZ3] = MT8195_MUTEX_MOD_MDP_RSZ3,
->> +       [MUTEX_MOD_IDX_MDP_MERGE2] = MT8195_MUTEX_MOD_MDP_MERGE2,
->> +       [MUTEX_MOD_IDX_MDP_MERGE3] = MT8195_MUTEX_MOD_MDP_MERGE3,
->> +       [MUTEX_MOD_IDX_MDP_TDSHP0] = MT8195_MUTEX_MOD_MDP_TDSHP0,
->> +       [MUTEX_MOD_IDX_MDP_TDSHP2] = MT8195_MUTEX_MOD_MDP_TDSHP2,
->> +       [MUTEX_MOD_IDX_MDP_TDSHP3] = MT8195_MUTEX_MOD_MDP_TDSHP3,
->> +       [MUTEX_MOD_IDX_MDP_COLOR0] = MT8195_MUTEX_MOD_MDP_COLOR0,
->> +       [MUTEX_MOD_IDX_MDP_COLOR2] = MT8195_MUTEX_MOD_MDP_COLOR2,
->> +       [MUTEX_MOD_IDX_MDP_COLOR3] = MT8195_MUTEX_MOD_MDP_COLOR3,
->> +       [MUTEX_MOD_IDX_MDP_OVL0] = MT8195_MUTEX_MOD_MDP_OVL0,
->> +       [MUTEX_MOD_IDX_MDP_PAD0] = MT8195_MUTEX_MOD_MDP_PAD0,
->> +       [MUTEX_MOD_IDX_MDP_PAD2] = MT8195_MUTEX_MOD_MDP_PAD2,
->> +       [MUTEX_MOD_IDX_MDP_PAD3] = MT8195_MUTEX_MOD_MDP_PAD3,
+> I think it would, except that this is being called from streamon - not the
+> link-validation.
+
+It does for subdev-to-subdev links validated by
+v4l2_subdev_link_validate(). This is for the subdev-to-video link,
+validated manually by the driver.
+
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
-> I know it's too late since this is in the tree already, but I noticed
-> that MDP_COMP_TCC0 is added in the 4th patch but not here.
-> Is that expected?
-> 
+> > > ---
+> > >  drivers/media/platform/renesas/vsp1/vsp1_video.c | 8 +++++++-
+> > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> > > index 5a9cb0e5640e..d6f2739456bf 100644
+> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> > > @@ -78,8 +78,14 @@ static int vsp1_video_verify_format(struct vsp1_video *video)
+> > >
+> > >       if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
+> > >           video->rwpf->format.height != fmt.format.height ||
+> > > -         video->rwpf->format.width != fmt.format.width)
+> > > +         video->rwpf->format.width != fmt.format.width) {
+> > > +             dev_dbg(video->vsp1->dev,
+> > > +                     "Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
+> > > +                     video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
+> > > +                     video->rwpf->format.height, fmt.format.code,
+> > > +                     fmt.format.width, fmt.format.height);
+> > >               return -EINVAL;
+> > > +     }
+> > >
+> > >       return 0;
+> > >  }
+> > >
+> > > base-commit: 91798162245991e26949ef62851719bb2177a9c2
 
-Many, many, many thanks for that. I missed TCC0 for real in the mutex mod
-list for MT8188, even though it's present at bit 10.
+-- 
+Regards,
 
-I'll send a Fixes commit adding that bit in a jiffy.
-
-Cheers,
-Angelo
-
-> Everything else looks nice, so just a record in the mailing list:
-> Reviewed-by: Fei Shao <fshao@chromium.org>
-> 
-> Regards,
-> Fei
-> 
-> 
->> +       [MUTEX_MOD_IDX_MDP_WROT0] = MT8195_MUTEX_MOD_MDP_WROT0,
->> +       [MUTEX_MOD_IDX_MDP_WROT2] = MT8195_MUTEX_MOD_MDP_WROT2,
->> +       [MUTEX_MOD_IDX_MDP_WROT3] = MT8195_MUTEX_MOD_MDP_WROT3,
->> +};
->> +
->>   static const unsigned int mt8192_mutex_mod[DDP_COMPONENT_ID_MAX] = {
->>          [DDP_COMPONENT_AAL0] = MT8192_MUTEX_MOD_DISP_AAL0,
->>          [DDP_COMPONENT_CCORR] = MT8192_MUTEX_MOD_DISP_CCORR0,
->> @@ -735,6 +768,13 @@ static const struct mtk_mutex_data mt8188_mutex_driver_data = {
->>          .mutex_sof_reg = MT8183_MUTEX0_SOF0,
->>   };
->>
->> +static const struct mtk_mutex_data mt8188_vpp_mutex_driver_data = {
->> +       .mutex_sof = mt8188_mutex_sof,
->> +       .mutex_mod_reg = MT8183_MUTEX0_MOD0,
->> +       .mutex_sof_reg = MT8183_MUTEX0_SOF0,
->> +       .mutex_table_mod = mt8188_mdp_mutex_table_mod,
->> +};
->> +
->>   static const struct mtk_mutex_data mt8192_mutex_driver_data = {
->>          .mutex_mod = mt8192_mutex_mod,
->>          .mutex_sof = mt8183_mutex_sof,
->> @@ -1089,6 +1129,7 @@ static const struct of_device_id mutex_driver_dt_match[] = {
->>          { .compatible = "mediatek,mt8186-disp-mutex", .data = &mt8186_mutex_driver_data },
->>          { .compatible = "mediatek,mt8186-mdp3-mutex", .data = &mt8186_mdp_mutex_driver_data },
->>          { .compatible = "mediatek,mt8188-disp-mutex", .data = &mt8188_mutex_driver_data },
->> +       { .compatible = "mediatek,mt8188-vpp-mutex",  .data = &mt8188_vpp_mutex_driver_data },
->>          { .compatible = "mediatek,mt8192-disp-mutex", .data = &mt8192_mutex_driver_data },
->>          { .compatible = "mediatek,mt8195-disp-mutex", .data = &mt8195_mutex_driver_data },
->>          { .compatible = "mediatek,mt8195-vpp-mutex",  .data = &mt8195_vpp_mutex_driver_data },
->> --
->> 2.44.0
->>
->>
-
-
+Laurent Pinchart
 
