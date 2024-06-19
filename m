@@ -1,153 +1,210 @@
-Return-Path: <linux-media+bounces-13751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13752-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27BA90F56C
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 19:46:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 044F790F5B6
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 20:07:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BFC91F21BC1
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 17:46:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A209A283658
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 18:07:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A705815665A;
-	Wed, 19 Jun 2024 17:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B218157E91;
+	Wed, 19 Jun 2024 18:07:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNGI5Ko9"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="XPlySN/P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03F041C69;
-	Wed, 19 Jun 2024 17:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1678157466
+	for <linux-media@vger.kernel.org>; Wed, 19 Jun 2024 18:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718819194; cv=none; b=IycX3gWUuSVvh9lv5i8hH/KqoVp9plruZCiJXR3gxpQLwYFQlhgy0xa/6aombgiMntbFPlDKeLLn8RJem039sUfjT4WppiKAZfAZtR2FgTsLTUlNmUKYAXHkMqOuiRzw4hgjUzrBSVosrPaNDvWggQESX+7OZAPlf/+p2nrDnz4=
+	t=1718820429; cv=none; b=WDNRQ3+jvsfz3pq02xKLcjTLXhrfEEhISD5wpYGytzNXc+xjMLWJIVF/hge9g7jVggHuGHlP6XLqgb7SXpyKc9vnGNMwVAk239P8zf0sfBPJr5Dg0muKT2abzC1/r2Es2tbaw4TQ75O/ElTnIvuVsYjlGRFYs9EHyscjSBdtFao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718819194; c=relaxed/simple;
-	bh=KfuZUDtRbQnetyeAbuRd3zXq8hTkCKuI/Ak5W9iGk3c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AGgXQ86T86egRi8elFSwC8yazX8Zooc7i13EXAMgMCMY8//ZT+q9qKNi0o/7NxO2O4vsScs5yPxa1XiECm4TVgBeuCHU4o7q1BD/tMrdqFoXlewcIFvbE05cyxc17IIdRTbPQ9uPTW9Zu5VgnatVzSE+h1rvh05avFuAsO0P1g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNGI5Ko9; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-6fb2f398423so46709a12.0;
-        Wed, 19 Jun 2024 10:46:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718819192; x=1719423992; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5UHgTKJnVvGzz0RhWWxAYapaJvaOUe+M0dNscdnn3ck=;
-        b=jNGI5Ko9jLtsITieqTDK5RstE9lVTd8c7UErCwTmuwNQEkNxxncOMKV2iRQT+DerIY
-         m9zAdD7xxlmXP8WXgSbcAMieMSC5ynbY27CjXCKkD/+CYeHvpoorAJ+OplJwR+vIz0qN
-         ZPVoWcDv9vip6JzkAdoF9TCLFMepChmGI/H2BGPYHdVdWMwjkR8/mm8uuyFQbdJMm+px
-         tis0ZWydgGHSYh7vBPRFYdmsixO5tO4wKWNswuOBpjP8QOqEtQH8G98X8bHc9t59WbdJ
-         wRkQTO+x3cyb5a8EFOnx1iWr45sPvceurm/QeDK59Af9/L26oiaPgc3uhwVUXykniPsj
-         lpug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718819192; x=1719423992;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5UHgTKJnVvGzz0RhWWxAYapaJvaOUe+M0dNscdnn3ck=;
-        b=mxoM+zsLZA6wqHp4m9bfV+/E/gnh4/p4Nwb6NsOegnOmcTuVlrO4FGLHU+JtooHlay
-         ZFhCnphH3QwUSC6ZJ+qRvEmz2U7x18yWmFMjCUXdAcgxwB31c+LHgPfmQvX0W4EqW5fp
-         /cNg0MaTIHKs4ZiBzM661GnH+kUF9Lw5yIkBg3Mul8da9yVSkjygw7V6xIb51HOl8RtM
-         OxpnGCxtjQH4EHyth0lHSjLTY1Q0AYTzeuFZofq+F73DlGkKWC43/6twfMTNKlq64z75
-         3bF03z7OgO6kfEzsMKdXfhZ3TGozJV5qZIY0AMVU1VQkXXbjuo1pLlVlnYVukTcRpycx
-         c1sA==
-X-Forwarded-Encrypted: i=1; AJvYcCUkOZoKb2Zbrw3p8ilE20v5GiFckOgv6UHUz8Kv75QCPoorQGVGiyrPOG/CDlOubxOWvRsFfvmbKXvodBced/Cuj4/1xkLIwSyoYXetFYc8U6OnyHCzsmGpr9oImVYEPEyEzmkYya06LdYlhSY+LIw1KNaaE+1ZpPsrv3X+Lpa3fbacNLPS
-X-Gm-Message-State: AOJu0YxNitLwoUvNb0YI675QclJAZomCBDSB8MuIQtVNbi0WQhd9sd78
-	nqKSYsCiEHMCw6LEJxMCNHxZ4corfyQzYQpRG3f5vQ6s/pUtpFP5
-X-Google-Smtp-Source: AGHT+IH0tqeqkE1rjW4+gz7APWuek16GJuuOw7jkeXENxmGKwm/HYrhSwM4hQ5g0CoPb1P5AUDj4bw==
-X-Received: by 2002:a17:90a:7087:b0:2c2:da02:a2c7 with SMTP id 98e67ed59e1d1-2c7b5dca970mr2971807a91.44.1718819191973;
-        Wed, 19 Jun 2024 10:46:31 -0700 (PDT)
-Received: from localhost.localdomain ([221.220.128.96])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4c45ac5f3sm13364906a91.12.2024.06.19.10.46.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 10:46:31 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: detlev.casanova@collabora.com
-Cc: andy.yan@rock-chips.com,
-	benjamin.gaignard@collabora.com,
-	boris.brezillon@collabora.com,
-	conor+dt@kernel.org,
-	daniel.almeida@collabora.com,
-	devicetree@vger.kernel.org,
-	didi.debian@cknow.org,
-	dsimic@manjaro.org,
-	ezequiel@vanguardiasur.com.ar,
-	gregkh@linuxfoundation.org,
-	heiko@sntech.de,
-	hverkuil-cisco@xs4all.nl,
-	jonas@kwiboo.se,
-	knaerzche@gmail.com,
-	krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	nicolas.dufresne@collabora.com,
-	paul.kocialkowski@bootlin.com,
-	robh@kernel.org,
-	sebastian.reichel@collabora.com
-Subject: Re: [PATCH v2 2/4] media: rockchip: Introduce the rkvdec2 driver
-Date: Thu, 20 Jun 2024 01:46:23 +0800
-Message-Id: <20240619174623.270706-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240619150029.59730-3-detlev.casanova@collabora.com>
-References: <20240619150029.59730-3-detlev.casanova@collabora.com>
+	s=arc-20240116; t=1718820429; c=relaxed/simple;
+	bh=BkLHYQs4IK59lmPyJ6OiHr71hrKs+r7G898hHMuwO0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ErcpbKxao5vaZbu0cJH9HwMBiHp9J6zYUwidfAeZolx5O7NevcnZJqr4h40ffikqsK1PgysVwkiRIjufjAYnTnJumAc7Rg/fbU2mqmaOOTk2JOZWD6VP/NTlM6peuIuUYkkbXJ4Obg/G/dST5u8QT7XGRzBD5GmnqZckj66sjO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=XPlySN/P; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1718820410;
+ bh=XavrKDSs1iLysu/VoOW1lzmFXR6F1ISw3mOM/563aBs=;
+ b=XPlySN/P0LWLFvOWOMQW2wRzXOYsLDAVjkBWJIDcdMEoI4bXhIaVR0Dv3Lc1thrBr0E8uDoCm
+ 9IPbtSRfGhOhLb0gx8p3eH0GNZ2VffBLZhHSvg76EsmEk0L2IC7cTs0mbolKd6GT22seXTiX5JA
+ vBsLkkv1aBuwlQPYl3vxtCILM9baa05Agln+9IiF6ns1GAAFvdM5c08XcI6SC/QozgZBVDyr+Wq
+ /8a8z4AKJeT5Fm2JMhNKRPDPS7YKsq8Ldr9AUrRFsf4C7VZzHy5ZEj9Hl7/dXRK1NtsGgzlDrRD
+ LCDhz0pUWaHQ5GBcKASZAgE83/8VZY6TKDUvwgFrwNgA==
+Message-ID: <e6e2e0f1-0b16-4a3d-ae7b-be5a04d7902b@kwiboo.se>
+Date: Wed, 19 Jun 2024 20:06:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
+ rk3588(s)
+To: Alex Bee <knaerzche@gmail.com>, Detlev Casanova
+ <detlev.casanova@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
+ <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>, Andy Yan
+ <andy.yan@rock-chips.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>, Nicolas Dufresne
+ <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20240619150029.59730-1-detlev.casanova@collabora.com>
+ <20240619150029.59730-5-detlev.casanova@collabora.com>
+ <6e5ddd5c-340d-4474-a490-427a82db4a97@kwiboo.se>
+ <052f2ea7-2ded-4d39-a513-3a47fee1bf02@gmail.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <052f2ea7-2ded-4d39-a513-3a47fee1bf02@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 66731e37e29fa10c39ba9bb6
 
-Hi Detlev,
+Hi Alex,
 
-On Wed, 19 Jun 2024 10:57:19 -0400, Detlev Casanova wrote:
->+	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
->+		height *= 2;
->+
->+	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
->+	    height > ctx->coded_fmt.fmt.pix_mp.height)
->+		return -EINVAL;
+On 2024-06-19 19:19, Alex Bee wrote:
+> 
+> Am 19.06.24 um 17:28 schrieb Jonas Karlman:
+>> Hi Detlev,
+>>
+>> On 2024-06-19 16:57, Detlev Casanova wrote:
+>>> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
+>>>
+>>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+>>> ---
+>>>   arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50 +++++++++++++++++++++++
+>>>   1 file changed, 50 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+>>> index 6ac5ac8b48ab..7690632f57f1 100644
+>>> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+>>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+>>> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
+>>>   		ranges = <0x0 0x0 0xff001000 0xef000>;
+>>>   		#address-cells = <1>;
+>>>   		#size-cells = <1>;
+>>> +
+>>> +		vdec0_sram: rkvdec-sram@0 {
+>>> +			reg = <0x0 0x78000>;
+>>> +			pool;
+>>> +		};
+>>> +
+>>> +		vdec1_sram: rkvdec-sram@1 {
+>>> +			reg = <0x78000 0x77000>;
+>>> +			pool;
+>>> +		};
+>>>   	};
+>>>   
+>>>   	pinctrl: pinctrl {
+>>> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
+>>>   			#interrupt-cells = <2>;
+>>>   		};
+>>>   	};
+>>> +
+>>> +	vdec0: video-decoder@fdc38100 {
+>>> +		compatible = "rockchip,rk3588-vdec";
+>>> +		reg = <0x0 0xfdc38100 0x0 0x500>;
+>>> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
+>>> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
+>>> +			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
+>>> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
+>>> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
+>>> +				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
+>>> +		assigned-clock-rates = <800000000>, <600000000>,
+>>> +				       <600000000>, <1000000000>;
+>>> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
+>>> +			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
+>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
+>>> +			      "rst_core", "rst_hevc_cabac";
+>>> +		power-domains = <&power RK3588_PD_RKVDEC0>;
+>>> +		sram = <&vdec0_sram>;
+>>> +		status = "okay";
+>>> +	};
+>>> +
+>>> +	vdec1: video-decoder@fdc40100 {
+>>> +		compatible = "rockchip,rk3588-vdec";
+>>> +		reg = <0x0 0xfdc40100 0x0 0x500>;
+>>> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
+>>> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
+>>> +			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
+>>> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
+>>> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
+>>> +				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
+>>> +		assigned-clock-rates = <800000000>, <600000000>,
+>>> +				       <600000000>, <1000000000>;
+>>> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
+>>> +			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
+>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
+>>> +			      "rst_core", "rst_hevc_cabac";
+>>> +		power-domains = <&power RK3588_PD_RKVDEC1>;
+>>> +		sram = <&vdec1_sram>;
+>>> +		status = "okay";
+>>> +	};
+>> This is still missing the iommus, please add the iommus, they should be
+>> supported/same as the one used for e.g. VOP2:
+>>
+>>    compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
+>>
+>> The VOP2 MMUs does have one extra mmu_cfg_mode flag in AUTO_GATING,
+>> compared to the VDPU381 MMUs, however only the AV1D MMU should be
+>> special on RK3588.
+>>
+>> Please add the iommus :-)
+> When looking add the vendor DT/iommu driver I'm seeing serval quirks
+> applied for vdec's iommus. Since it's rightly frowned upon adding such
+> boolean-quirk-properties to upstream devicetrees, we'd at least need
+> additional (fallback-) compatibles, even if it works with the iommu driver
+> as is (what I doubt, but haven't tested). We need to be able to apply those
+> quirks later without changing the devicetree (as usual) and I'm sure RK
+> devs haven't added these quirks for the personal amusement.
 
-I did further invesatigation on chromium. I find that before real video
-is decoded, chromium will call VIDIOC_STREAMON twice with value of
-sps->flags 0:
+Based on what I investigated the hw should work similar, and the quirks
+mostly seem related to optimizations and sw quirks, like do not zap each
+line, keep it alive even when pm runtime say it is not in use and other
+quirks that seem to be more of sw nature on how to best utilize the hw.
 
-At the first time width and height are 16; ctx->coded_fmt.fmt.pix_mp.width
-and coded_fmt.fmt.pix_mp.height are 16, which are the min size of decoder;
-At the second time width and height are still 16; while
-coded_fmt.fmt.pix_mp.width is 1920 and coded_fmt.fmt.pix_mp.height is
-1088, which are the real size of video.
+> If Detlev says
+> iommu is out of scope for this series (which is valid), I'd say it's fine
+> to leave them out for now (as no binding exists) and the HW works
+> (obviously) fine without them.
 
-So VIDIOC_STREAMON will fall at the first time call because sps->flags is
-0 so V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set, and then height is
-doubled to 32 which is larger than 16.
+Sure, use of MMU can be added later.
 
-What do you think if we skip doubling height if sps->flags is 0 and at the
-same time V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set? The following hack
-did fix my chromium:
+Regards,
+Jonas
 
---- a/drivers/staging/media/rkvdec2/rkvdec2-h264.c
-+++ b/drivers/staging/media/rkvdec2/rkvdec2-h264.c
-@@ -767,7 +767,7 @@ static int rkvdec2_h264_validate_sps(struct rkvdec2_ctx *ctx,
-         * which is half the final height (see (7-18) in the
-         * specification)
-         */
--       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
-+       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) && sps->flags)
-                height *= 2;
- 
-        if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+> 
+>> Regards,
+>> Jonas
+>>
+>>>   };
+>>>   
+>>>   #include "rk3588s-pinctrl.dtsi"
 
-Best regards
-Jianfeng
 
