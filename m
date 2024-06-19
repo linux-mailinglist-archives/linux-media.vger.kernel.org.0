@@ -1,163 +1,127 @@
-Return-Path: <linux-media+bounces-13736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13737-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44AA90F249
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 17:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69B090F250
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 17:37:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A67601C21859
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 15:36:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E55E21C21759
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 15:37:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B621514D4;
-	Wed, 19 Jun 2024 15:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE5F15279A;
+	Wed, 19 Jun 2024 15:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="jJwaDtqL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tyi8S5Gh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879D214A615;
-	Wed, 19 Jun 2024 15:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B231D22339;
+	Wed, 19 Jun 2024 15:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718811332; cv=none; b=HHC5nU5Rzw+SOD65JEtAamFa+IT9PEtSacTjpS86XtrZ3OA3qhY/3riGMSX7AwiUL36a2ay98Vd6oNpUSkyeMFHB3z6B30XCccCTfAXclUUyYDeS9fw/mU780blxOPSICfI6tERCShho/NnLoO9wnfgq6M933e0NrnB99LuKtf0=
+	t=1718811394; cv=none; b=l94pgra7B3XBN49By3T+2Fr4lGLNpyQfTlJ7ygmvNGLSZg1I9yrmh1w/boP8Z8yriLnwr4YIfuzlTz0R2yU+LFXU8PpFFqy58FZlJq3tVX5WxgCtRnnUsWOVVD5xu1B3eqoWCgl1k3JSC1ThcV/WjYot8CmrDyTxvowvG15gnms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718811332; c=relaxed/simple;
-	bh=BPtgPXEQiiuawM/+sV4u73JRNY2yrOfHMDvL02Wxe9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OVgnsopiJKVGgopJg5FnNmDWrhA/JjEQJiP4ai+eMBkIh2R3vVK7ai1E1jviBSiJ8mb0ZW74XfiDI4uEsnWEYDOL9dhc7thVcEz6mLaNdhkwhMQnfkdrRCDHmBqeu+2mtaAEDkeY3Ira00JLg21xau6JspYqnpbm4brBqNc9UTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-Received: from i5e8616dc.versanet.de ([94.134.22.220] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sJxL1-00061d-Ji; Wed, 19 Jun 2024 17:35:07 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: linux-kernel@vger.kernel.org,
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
- Andy Yan <andy.yan@rock-chips.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Alex Bee <knaerzche@gmail.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Detlev Casanova <detlev.casanova@collabora.com>
-Subject:
- Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-Date: Wed, 19 Jun 2024 17:34:51 +0200
-Message-ID: <2379859.OYXXYNVTWy@diego>
-In-Reply-To: <20240619150029.59730-5-detlev.casanova@collabora.com>
-References:
- <20240619150029.59730-1-detlev.casanova@collabora.com>
- <20240619150029.59730-5-detlev.casanova@collabora.com>
+	s=arc-20240116; t=1718811394; c=relaxed/simple;
+	bh=s2CSdJFOVfOEijvCuRIJxOB1pcs0A8JwFgiQpouLGyI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Af7HYREmvIzBQXDj77T7a7ZS7KYCn7qkCYsSaoDZRWgsE8uZ+ttb+vHcAwmOswaKkyeggb4MoJMan4edxScLf0Nk5dpDS2yp65iOPu8KiFe/gFpT87fuWBg1aSatlw0KUDgevlPup1oHX1P6BLt3thn0Q/fee4rkvy6k8qR7hDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=jJwaDtqL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tyi8S5Gh; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfout.nyi.internal (Postfix) with ESMTP id C08931380155;
+	Wed, 19 Jun 2024 11:36:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 19 Jun 2024 11:36:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1718811389; x=1718897789; bh=wB
+	xMtOnV9YJzQ0lvBapPajLAIE5xYLwtHhfrYGj5nic=; b=jJwaDtqLzQubGVtC78
+	xd0ps3F0G/m0mvaCJkIb/s22YKX6wUFcGb/G1UYJf8ixNpx2bd1spnCFb2SsBVNC
+	WMuD6tyWw3+OL3+C72tAWGiOlnMQNb2kpIWkF0cIhWDA6A6wCltDvkKoVsZMap6s
+	6QPNVyR3Rq9VpFqSx3rXGqgHJzpTJ6v5KOD55Bh+CKo/QcZUgOyopdNO2BD7VnFy
+	URMAEAGyMODuwU6gVwRLsCzUnShjE3TyBbQenr7YJ40oEF9ZEsrL4uCv8OuHMUWL
+	o3V5DhY4diHnaceQRlt6BwGwAkP2lWZilAmtt38y4O0NQaM+8DCRXtEP/LCaTne3
+	bczg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1718811389; x=1718897789; bh=wBxMtOnV9YJzQ
+	0lvBapPajLAIE5xYLwtHhfrYGj5nic=; b=tyi8S5GhrNtgPd41fgoe8RN6AFP+N
+	ggvCWikQfLY42BMuIHfIaF9f/aDuduVq858PBLQUXX1hsYyLVjqZ6qm27h24faMq
+	owsnrlB9KX6NPcYfv1fKxRj7fb2X1sfcimFc+pjx1Pgrr4NunE6cN3sif9Ms6ocm
+	iR+0xXIYzwGTuDNFUxDmAwvxnHXFK+PY9LhLYEhNheRw3tbieujT+aVIJUJLVT+8
+	Ft8MuU9seaw2ohlx4t3D7b2oEjdg59UY78TmieKOJk5/JXk/kYZiwv8kD4ye+YwM
+	bC23MmkJRgfUGr9m6MjVEC5Vdj0xm8j0/wDJTZ/yTaNFGrBIQLEanKRwA==
+X-ME-Sender: <xms:_fpyZrGF5SCPe7Uc86x1vGDnfXS8ktxP5QlWXqXy64CuVsUFzkqTmA>
+    <xme:_fpyZoUO-Tzr-JYtkP-1HtCLc2Yv8o_nLucok9rXgq2FDJ4GrPCsJSN6KbhT2a_vo
+    WliwmRyAEy52qzWKok>
+X-ME-Received: <xmr:_fpyZtIEE2ngPmvY-kLMFRnGYXjIdGEHy2y7VzghvsfgLCtFunUESwI7ux87-zc4kps4mzkbVbzxKzguEVr49eJgOw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeftddgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:_fpyZpEl6aWqK4uDNk76O3EY6zP13ripKUcw34w4rbWZd_-SFVUtgw>
+    <xmx:_fpyZhUJ9bf7N48Px6en1yNFb_wm_bIpVWcJsaiUfGEJBRIva0zSlA>
+    <xmx:_fpyZkNYwI8rqoEa-aLEjVA1oD7Rtkns_3K2Fd7xy432AaH44QN2Cg>
+    <xmx:_fpyZg1Yk-6dNH_JVf_DmDlSHQpPyuuuFHpEegC-C_XwlT-swjcVHg>
+    <xmx:_fpyZqMKNC2cTGlEDlXEWkfgQWdaLOV-0YuvXou00CL7-Gx1EUmbu8kf>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Jun 2024 11:36:28 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 0/2] rcar-vin: Add support for R-Car V4M
+Date: Wed, 19 Jun 2024 17:35:57 +0200
+Message-ID: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Am Mittwoch, 19. Juni 2024, 16:57:21 CEST schrieb Detlev Casanova:
-> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50 +++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> index 6ac5ac8b48ab..7690632f57f1 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
-> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
->  		ranges = <0x0 0x0 0xff001000 0xef000>;
->  		#address-cells = <1>;
->  		#size-cells = <1>;
-> +
-> +		vdec0_sram: rkvdec-sram@0 {
-> +			reg = <0x0 0x78000>;
-> +			pool;
-> +		};
-> +
-> +		vdec1_sram: rkvdec-sram@1 {
-> +			reg = <0x78000 0x77000>;
-> +			pool;
-> +		};
->  	};
->  
->  	pinctrl: pinctrl {
-> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
->  			#interrupt-cells = <2>;
->  		};
->  	};
-> +
-> +	vdec0: video-decoder@fdc38100 {
-> +		compatible = "rockchip,rk3588-vdec";
-> +		reg = <0x0 0xfdc38100 0x0 0x500>;
-> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
-> +			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
-> +				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		assigned-clock-rates = <800000000>, <600000000>,
-> +				       <600000000>, <1000000000>;
-> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
-> +			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
-> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
-> +			      "rst_core", "rst_hevc_cabac";
-> +		power-domains = <&power RK3588_PD_RKVDEC0>;
-> +		sram = <&vdec0_sram>;
-> +		status = "okay";
+Hello,
 
-okay is the default status, so is not needed when the node is always-on
+This small series adds bindings and support to rcar-vin for R-Car V4M.
 
-> +	};
-> +
-> +	vdec1: video-decoder@fdc40100 {
-> +		compatible = "rockchip,rk3588-vdec";
-> +		reg = <0x0 0xfdc40100 0x0 0x500>;
-> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
-> +			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
-> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
-> +				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
-> +		assigned-clock-rates = <800000000>, <600000000>,
-> +				       <600000000>, <1000000000>;
-> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
-> +			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
-> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
-> +			      "rst_core", "rst_hevc_cabac";
-> +		power-domains = <&power RK3588_PD_RKVDEC1>;
-> +		sram = <&vdec1_sram>;
-> +		status = "okay";
+The two patches where previously posted separately as v1, but are now
+collected in a single series.
 
-same
+See individual patches for changes since previous version.
 
-> +	};
->  };
->  
->  #include "rk3588s-pinctrl.dtsi"
-> 
+Niklas Söderlund (2):
+  dt-bindings: media: renesas,vin: Add binding for V4M
+  media: rcar-vin: Add support for R-Car V4M
 
+ Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c      | 8 ++++++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-
+-- 
+2.45.2
 
 
