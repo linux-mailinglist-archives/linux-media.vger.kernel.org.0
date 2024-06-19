@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-13623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13624-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA0D90E08C
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 02:17:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F30ED90E08F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 02:18:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1E201C2115C
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 00:17:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86B351F23492
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 00:18:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B13E1852;
-	Wed, 19 Jun 2024 00:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B704687;
+	Wed, 19 Jun 2024 00:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s5XiQ+T6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BcDl9jIP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458E9196;
-	Wed, 19 Jun 2024 00:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820A11869;
+	Wed, 19 Jun 2024 00:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718756270; cv=none; b=UvWo26VnI6WEgcfL5kHsCJM6RK4PmjpJ8BgcihxwEocPcjIRE8jTWyWrPMIcUwsAi2YUx5xQhACpwGaAYj5EoOtR8Y95gz9rfGHdWv8Yv5iXmWt4q1qntGxGUr6NjABy8DW3r/TDh9ETxxYupxFtNGbl+pGqCPAKk6U13FhOjNk=
+	t=1718756273; cv=none; b=Cfmwj8OQd1n2+7xR1dsHXNirJC8QO0qn78xoQXLqvYPbDHM0gDmAIeMOqSD3qpfO+3ROQ2r1t+yChT6u0IFlokz+9Dkj0iHDh09LOxJiefLbnsdOrPIAtnixudccDXwyvcpvl5qmHbPUOD76gWPRRKwDJZsU4DhHPhbsC2OrfxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718756270; c=relaxed/simple;
-	bh=35rBV0tSZU31yWETzA3krY8AHpmw7ehjEFzsLPna14I=;
+	s=arc-20240116; t=1718756273; c=relaxed/simple;
+	bh=qxh0cmdGs8qU7xlN/5BhZwE7tuq+9Llv3sMeC1Cnxv0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=szbjW3/KZsx3O7lzlCirr6XWwGh8gpYtYR+poE0qO6cg2ygj010odDwiq+tPNFOE9sxOCV+121pXh74VjeTL+odzwAf81KfTFmbxd6+ATTWxdYiTHTCBg6dXWcwxnTbUj/xOS7fgdcEICgmHm4aqMLVg55gSsttnJd5UhdOYk08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s5XiQ+T6; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=QaOWZxFPG0obT2vLVyMbCoDl/ZM5sPgTXLX6Zd8J1eX8BhTqZEV27vDfpaQCsu/Jmqcsf4JbxMBWifnmTYBk6YhC/9kjonKIadcFtrQEnvcw7KOfWJ9yMD0SnqOGHSZYGA7HAXIKrDRtpJPRMcyKdhfDLzxOZPVdh8WhIMnO/ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BcDl9jIP; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA5311011;
-	Wed, 19 Jun 2024 02:17:27 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7519A1030;
+	Wed, 19 Jun 2024 02:17:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718756248;
-	bh=35rBV0tSZU31yWETzA3krY8AHpmw7ehjEFzsLPna14I=;
+	s=mail; t=1718756249;
+	bh=qxh0cmdGs8qU7xlN/5BhZwE7tuq+9Llv3sMeC1Cnxv0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s5XiQ+T6DXsmPoNR0+ZxEpLJFplYhrbQbHG5Ou707RKIexTayDLXZJa1sDY5gENvI
-	 tXbEhoEO/IkiX7KxmnTk/c5xuy/f6YVUPgCIyctbT/1xVupOLHDxmoCq71r65fW4sD
-	 dk/iatnBe93df3ln7hgUX3sDEXmTrXHljdm9cJPg=
+	b=BcDl9jIPhGllS828MmlqphECEd7O1DdwMHrJaaJnHGBOfEF1R5Vk1TLbBYCXjjtru
+	 ZphLao2TjQxJtqvqiQ7YTi95sNmocMxHgnHPLvrJQGrMzbLuvv7wnFjV7Wm79iDjdC
+	 DSiyxjFOQDAvNHtDMvWkH0t/c9s9HMKzIZzK1Bgw=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
@@ -49,9 +49,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v2 01/19] media: renesas: vsp1: Drop vsp1_entity_get_pad_format() wrapper
-Date: Wed, 19 Jun 2024 03:17:04 +0300
-Message-ID: <20240619001722.9749-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 02/19] media: renesas: vsp1: Drop vsp1_entity_get_pad_selection() wrapper
+Date: Wed, 19 Jun 2024 03:17:05 +0300
+Message-ID: <20240619001722.9749-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20240619001722.9749-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -65,609 +65,265 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The vsp1_entity_get_pad_format() function is just a wrapper around
-v4l2_subdev_state_get_format() without any added value. Drop it and call
-v4l2_subdev_state_get_format() directly.
+The vsp1_entity_get_pad_selection() function is just a wrapper around
+v4l2_subdev_state_get_crop() or v4l2_subdev_state_get_compose() without
+any added value. Drop it and call the functions it wraps directly.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
-Changes since v1:
-
-- Remove unneeded line breaks
----
- .../media/platform/renesas/vsp1/vsp1_brx.c    | 18 +++++-----
- .../media/platform/renesas/vsp1/vsp1_clu.c    |  3 +-
- .../media/platform/renesas/vsp1/vsp1_entity.c | 27 +++-----------
+ .../media/platform/renesas/vsp1/vsp1_entity.c | 32 ++-----------------
  .../media/platform/renesas/vsp1/vsp1_entity.h |  4 ---
- .../media/platform/renesas/vsp1/vsp1_histo.c  |  6 ++--
- .../media/platform/renesas/vsp1/vsp1_hsit.c   |  5 ++-
- .../media/platform/renesas/vsp1/vsp1_lif.c    |  4 +--
- .../media/platform/renesas/vsp1/vsp1_rpf.c    | 10 +++---
- .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 14 +++-----
- .../media/platform/renesas/vsp1/vsp1_sru.c    | 31 +++++++---------
- .../media/platform/renesas/vsp1/vsp1_uds.c    | 35 ++++++++-----------
- .../media/platform/renesas/vsp1/vsp1_uif.c    |  5 ++-
- .../media/platform/renesas/vsp1/vsp1_video.c  | 10 +++---
- .../media/platform/renesas/vsp1/vsp1_wpf.c    | 25 ++++++-------
- 14 files changed, 73 insertions(+), 124 deletions(-)
+ .../media/platform/renesas/vsp1/vsp1_hgo.c    |  7 ++--
+ .../media/platform/renesas/vsp1/vsp1_hgt.c    |  7 ++--
+ .../media/platform/renesas/vsp1/vsp1_histo.c  | 31 ++++++------------
+ .../media/platform/renesas/vsp1/vsp1_rpf.c    |  6 ++--
+ .../media/platform/renesas/vsp1/vsp1_uif.c    |  9 ++----
+ 7 files changed, 20 insertions(+), 76 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-index a8535c6e2c46..0eb4d8fe4285 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-@@ -119,8 +119,8 @@ static void brx_try_format(struct vsp1_brx *brx,
- 
- 	default:
- 		/* The BRx can't perform format conversion. */
--		format = vsp1_entity_get_pad_format(&brx->entity, sd_state,
--						    BRX_PAD_SINK(0));
-+		format = v4l2_subdev_state_get_format(sd_state,
-+						      BRX_PAD_SINK(0));
- 		fmt->code = format->code;
- 		break;
- 	}
-@@ -150,7 +150,7 @@ static int brx_set_format(struct v4l2_subdev *subdev,
- 
- 	brx_try_format(brx, state, fmt->pad, &fmt->format);
- 
--	format = vsp1_entity_get_pad_format(&brx->entity, state, fmt->pad);
-+	format = v4l2_subdev_state_get_format(state, fmt->pad);
- 	*format = fmt->format;
- 
- 	/* Reset the compose rectangle. */
-@@ -169,8 +169,7 @@ static int brx_set_format(struct v4l2_subdev *subdev,
- 		unsigned int i;
- 
- 		for (i = 0; i <= brx->entity.source_pad; ++i) {
--			format = vsp1_entity_get_pad_format(&brx->entity,
--							    state, i);
-+			format = v4l2_subdev_state_get_format(state, i);
- 			format->code = fmt->format.code;
- 		}
- 	}
-@@ -242,8 +241,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
- 	 * The compose rectangle top left corner must be inside the output
- 	 * frame.
- 	 */
--	format = vsp1_entity_get_pad_format(&brx->entity, state,
--					    brx->entity.source_pad);
-+	format = v4l2_subdev_state_get_format(state, brx->entity.source_pad);
- 	sel->r.left = clamp_t(unsigned int, sel->r.left, 0, format->width - 1);
- 	sel->r.top = clamp_t(unsigned int, sel->r.top, 0, format->height - 1);
- 
-@@ -251,7 +249,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
- 	 * Scaling isn't supported, the compose rectangle size must be identical
- 	 * to the sink format size.
- 	 */
--	format = vsp1_entity_get_pad_format(&brx->entity, state, sel->pad);
-+	format = v4l2_subdev_state_get_format(state, sel->pad);
- 	sel->r.width = format->width;
- 	sel->r.height = format->height;
- 
-@@ -290,8 +288,8 @@ static void brx_configure_stream(struct vsp1_entity *entity,
- 	unsigned int flags;
- 	unsigned int i;
- 
--	format = vsp1_entity_get_pad_format(&brx->entity, brx->entity.state,
--					    brx->entity.source_pad);
-+	format = v4l2_subdev_state_get_format(brx->entity.state,
-+					      brx->entity.source_pad);
- 
- 	/*
- 	 * The hardware is extremely flexible but we have no userspace API to
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_clu.c b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
-index 625776a9bda4..1e57676a420c 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_clu.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
-@@ -181,8 +181,7 @@ static void clu_configure_stream(struct vsp1_entity *entity,
- 	 * The yuv_mode can't be changed during streaming. Cache it internally
- 	 * for future runtime configuration calls.
- 	 */
--	format = vsp1_entity_get_pad_format(&clu->entity, clu->entity.state,
--					    CLU_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(clu->entity.state, CLU_PAD_SINK);
- 	clu->yuv_mode = format->code == MEDIA_BUS_FMT_AYUV8_1X32;
- }
- 
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-index 0a5a7f9cc870..fa748cf89d44 100644
+index fa748cf89d44..8d39f1ee00ab 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-@@ -127,23 +127,6 @@ vsp1_entity_get_state(struct vsp1_entity *entity,
+@@ -127,32 +127,6 @@ vsp1_entity_get_state(struct vsp1_entity *entity,
  	}
  }
  
 -/**
-- * vsp1_entity_get_pad_format - Get a pad format from storage for an entity
+- * vsp1_entity_get_pad_selection - Get a pad selection from storage for entity
 - * @entity: the entity
 - * @sd_state: the state storage
 - * @pad: the pad number
+- * @target: the selection target
 - *
-- * Return the format stored in the given configuration for an entity's pad. The
-- * configuration can be an ACTIVE or TRY configuration.
+- * Return the selection rectangle stored in the given configuration for an
+- * entity's pad. The configuration can be an ACTIVE or TRY configuration. The
+- * selection target can be COMPOSE or CROP.
 - */
--struct v4l2_mbus_framefmt *
--vsp1_entity_get_pad_format(struct vsp1_entity *entity,
--			   struct v4l2_subdev_state *sd_state,
--			   unsigned int pad)
+-struct v4l2_rect *
+-vsp1_entity_get_pad_selection(struct vsp1_entity *entity,
+-			      struct v4l2_subdev_state *sd_state,
+-			      unsigned int pad, unsigned int target)
 -{
--	return v4l2_subdev_state_get_format(sd_state, pad);
+-	switch (target) {
+-	case V4L2_SEL_TGT_COMPOSE:
+-		return v4l2_subdev_state_get_compose(sd_state, pad);
+-	case V4L2_SEL_TGT_CROP:
+-		return v4l2_subdev_state_get_crop(sd_state, pad);
+-	default:
+-		return NULL;
+-	}
 -}
 -
- /**
-  * vsp1_entity_get_pad_selection - Get a pad selection from storage for entity
-  * @entity: the entity
-@@ -191,7 +174,7 @@ int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
- 		return -EINVAL;
- 
- 	mutex_lock(&entity->lock);
--	fmt->format = *vsp1_entity_get_pad_format(entity, state, fmt->pad);
-+	fmt->format = *v4l2_subdev_state_get_format(state, fmt->pad);
- 	mutex_unlock(&entity->lock);
- 
- 	return 0;
-@@ -238,7 +221,7 @@ int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
- 			return -EINVAL;
- 
- 		mutex_lock(&entity->lock);
--		format = vsp1_entity_get_pad_format(entity, state, 0);
-+		format = v4l2_subdev_state_get_format(state, 0);
- 		code->code = format->code;
- 		mutex_unlock(&entity->lock);
- 	}
-@@ -276,7 +259,7 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
- 	if (!state)
- 		return -EINVAL;
- 
--	format = vsp1_entity_get_pad_format(entity, state, fse->pad);
-+	format = v4l2_subdev_state_get_format(state, fse->pad);
- 
- 	mutex_lock(&entity->lock);
- 
-@@ -346,7 +329,7 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
- 		goto done;
- 	}
- 
--	format = vsp1_entity_get_pad_format(entity, state, fmt->pad);
-+	format = v4l2_subdev_state_get_format(state, fmt->pad);
- 
- 	if (fmt->pad == entity->source_pad) {
- 		/* The output format can't be modified. */
-@@ -374,7 +357,7 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
- 	fmt->format = *format;
- 
- 	/* Propagate the format to the source pad. */
--	format = vsp1_entity_get_pad_format(entity, state, entity->source_pad);
-+	format = v4l2_subdev_state_get_format(state, entity->source_pad);
+ /*
+  * vsp1_subdev_get_pad_format - Subdev pad get_fmt handler
+  * @subdev: V4L2 subdevice
+@@ -361,15 +335,13 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
  	*format = fmt->format;
  
  	/* Reset the crop and compose rectangles. */
+-	selection = vsp1_entity_get_pad_selection(entity, state, fmt->pad,
+-						  V4L2_SEL_TGT_CROP);
++	selection = v4l2_subdev_state_get_crop(state, fmt->pad);
+ 	selection->left = 0;
+ 	selection->top = 0;
+ 	selection->width = format->width;
+ 	selection->height = format->height;
+ 
+-	selection = vsp1_entity_get_pad_selection(entity, state, fmt->pad,
+-						  V4L2_SEL_TGT_COMPOSE);
++	selection = v4l2_subdev_state_get_compose(state, fmt->pad);
+ 	selection->left = 0;
+ 	selection->top = 0;
+ 	selection->width = format->width;
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-index 735f32dde4b5..e913befe7fc8 100644
+index e913befe7fc8..802c0c2acab0 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
 @@ -138,10 +138,6 @@ struct v4l2_subdev_state *
  vsp1_entity_get_state(struct vsp1_entity *entity,
  		      struct v4l2_subdev_state *sd_state,
  		      enum v4l2_subdev_format_whence which);
--struct v4l2_mbus_framefmt *
--vsp1_entity_get_pad_format(struct vsp1_entity *entity,
--			   struct v4l2_subdev_state *sd_state,
--			   unsigned int pad);
- struct v4l2_rect *
- vsp1_entity_get_pad_selection(struct vsp1_entity *entity,
- 			      struct v4l2_subdev_state *sd_state,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-index cd1c8778662e..0d7e4afae0f8 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-@@ -229,8 +229,7 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+-struct v4l2_rect *
+-vsp1_entity_get_pad_selection(struct vsp1_entity *entity,
+-			      struct v4l2_subdev_state *sd_state,
+-			      unsigned int pad, unsigned int target);
  
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
- 	case V4L2_SEL_TGT_CROP_DEFAULT:
--		format = vsp1_entity_get_pad_format(&histo->entity, state,
--						    HISTO_PAD_SINK);
-+		format = v4l2_subdev_state_get_format(state, HISTO_PAD_SINK);
- 		sel->r.left = 0;
- 		sel->r.top = 0;
- 		sel->r.width = format->width;
-@@ -262,8 +261,7 @@ static int histo_set_crop(struct v4l2_subdev *subdev,
- 	struct v4l2_rect *selection;
+ void vsp1_entity_route_setup(struct vsp1_entity *entity,
+ 			     struct vsp1_pipeline *pipe,
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+index 40c571a987ef..4ee5f0e5e9c3 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+@@ -140,11 +140,8 @@ static void hgo_configure_stream(struct vsp1_entity *entity,
+ 	unsigned int hratio;
+ 	unsigned int vratio;
  
- 	/* The crop rectangle must be inside the input frame. */
--	format = vsp1_entity_get_pad_format(&histo->entity, sd_state,
--					    HISTO_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(sd_state, HISTO_PAD_SINK);
- 	sel->r.left = clamp_t(unsigned int, sel->r.left, 0, format->width - 1);
- 	sel->r.top = clamp_t(unsigned int, sel->r.top, 0, format->height - 1);
- 	sel->r.width = clamp_t(unsigned int, sel->r.width, HISTO_MIN_SIZE,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-index bc1299c29ac9..4a8cce808c93 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-@@ -78,7 +78,7 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
- 		goto done;
- 	}
+-	crop = vsp1_entity_get_pad_selection(entity, entity->state,
+-					     HISTO_PAD_SINK, V4L2_SEL_TGT_CROP);
+-	compose = vsp1_entity_get_pad_selection(entity, entity->state,
+-						HISTO_PAD_SINK,
+-						V4L2_SEL_TGT_COMPOSE);
++	crop = v4l2_subdev_state_get_crop(entity->state, HISTO_PAD_SINK);
++	compose = v4l2_subdev_state_get_compose(entity->state, HISTO_PAD_SINK);
  
--	format = vsp1_entity_get_pad_format(&hsit->entity, state, fmt->pad);
-+	format = v4l2_subdev_state_get_format(state, fmt->pad);
+ 	vsp1_hgo_write(hgo, dlb, VI6_HGO_REGRST, VI6_HGO_REGRST_RCLEA);
  
- 	if (fmt->pad == HSIT_PAD_SOURCE) {
- 		/*
-@@ -101,8 +101,7 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
- 	fmt->format = *format;
- 
- 	/* Propagate the format to the source pad. */
--	format = vsp1_entity_get_pad_format(&hsit->entity, state,
--					    HSIT_PAD_SOURCE);
-+	format = v4l2_subdev_state_get_format(state, HSIT_PAD_SOURCE);
- 	*format = fmt->format;
- 	format->code = hsit->inverse ? MEDIA_BUS_FMT_ARGB8888_1X32
- 		     : MEDIA_BUS_FMT_AHSV8888_1X32;
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index b1d21a54837b..29d4c1521e6a 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -93,8 +93,8 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 	unsigned int obth;
- 	unsigned int lbth;
- 
--	format = vsp1_entity_get_pad_format(&lif->entity, lif->entity.state,
--					    LIF_PAD_SOURCE);
-+	format = v4l2_subdev_state_get_format(lif->entity.state,
-+					      LIF_PAD_SOURCE);
- 
- 	switch (entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) {
- 	case VI6_IP_VERSION_MODEL_VSPD_GEN2:
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-index c47579efc65f..19d9f078748c 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-@@ -80,12 +80,10 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	vsp1_rpf_write(rpf, dlb, VI6_RPF_SRCM_PSTRIDE, pstride);
- 
- 	/* Format */
--	sink_format = vsp1_entity_get_pad_format(&rpf->entity,
--						 rpf->entity.state,
--						 RWPF_PAD_SINK);
--	source_format = vsp1_entity_get_pad_format(&rpf->entity,
--						   rpf->entity.state,
--						   RWPF_PAD_SOURCE);
-+	sink_format = v4l2_subdev_state_get_format(rpf->entity.state,
-+						   RWPF_PAD_SINK);
-+	source_format = v4l2_subdev_state_get_format(rpf->entity.state,
-+						     RWPF_PAD_SOURCE);
- 
- 	infmt = VI6_RPF_INFMT_CIPM
- 	      | (fmtinfo->hwfmt << VI6_RPF_INFMT_RDFMT_SHIFT);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-index 09fb6ffa14e2..574623a48a3d 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-@@ -79,7 +79,7 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
- 	    fmt->format.code != MEDIA_BUS_FMT_AYUV8_1X32)
- 		fmt->format.code = MEDIA_BUS_FMT_AYUV8_1X32;
- 
--	format = vsp1_entity_get_pad_format(&rwpf->entity, state, fmt->pad);
-+	format = v4l2_subdev_state_get_format(state, fmt->pad);
- 
- 	if (fmt->pad == RWPF_PAD_SOURCE) {
- 		/*
-@@ -113,8 +113,7 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
- 	}
- 
- 	/* Propagate the format to the source pad. */
--	format = vsp1_entity_get_pad_format(&rwpf->entity, state,
--					    RWPF_PAD_SOURCE);
-+	format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
- 	*format = fmt->format;
- 
- 	if (rwpf->flip.rotate) {
-@@ -157,8 +156,7 @@ static int vsp1_rwpf_get_selection(struct v4l2_subdev *subdev,
- 		break;
- 
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
--		format = vsp1_entity_get_pad_format(&rwpf->entity, state,
--						    RWPF_PAD_SINK);
-+		format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
- 		sel->r.left = 0;
- 		sel->r.top = 0;
- 		sel->r.width = format->width;
-@@ -204,8 +202,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
- 	}
- 
- 	/* Make sure the crop rectangle is entirely contained in the image. */
--	format = vsp1_entity_get_pad_format(&rwpf->entity, state,
--					    RWPF_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
- 
- 	/*
- 	 * Restrict the crop rectangle coordinates to multiples of 2 to avoid
-@@ -229,8 +226,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
- 	*crop = sel->r;
- 
- 	/* Propagate the format to the source pad. */
--	format = vsp1_entity_get_pad_format(&rwpf->entity, state,
--					    RWPF_PAD_SOURCE);
-+	format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
- 	format->width = crop->width;
- 	format->height = crop->height;
- 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-index 11e008aa9f20..749ba7705000 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-@@ -131,7 +131,7 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
- 	if (!state)
- 		return -EINVAL;
- 
--	format = vsp1_entity_get_pad_format(&sru->entity, state, SRU_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(state, SRU_PAD_SINK);
- 
- 	mutex_lock(&sru->entity.lock);
- 
-@@ -184,8 +184,7 @@ static void sru_try_format(struct vsp1_sru *sru,
- 
- 	case SRU_PAD_SOURCE:
- 		/* The SRU can't perform format conversion. */
--		format = vsp1_entity_get_pad_format(&sru->entity, sd_state,
--						    SRU_PAD_SINK);
-+		format = v4l2_subdev_state_get_format(sd_state, SRU_PAD_SINK);
- 		fmt->code = format->code;
- 
- 		/*
-@@ -234,13 +233,12 @@ static int sru_set_format(struct v4l2_subdev *subdev,
- 
- 	sru_try_format(sru, state, fmt->pad, &fmt->format);
- 
--	format = vsp1_entity_get_pad_format(&sru->entity, state, fmt->pad);
-+	format = v4l2_subdev_state_get_format(state, fmt->pad);
- 	*format = fmt->format;
- 
- 	if (fmt->pad == SRU_PAD_SINK) {
- 		/* Propagate the format to the source pad. */
--		format = vsp1_entity_get_pad_format(&sru->entity, state,
--						    SRU_PAD_SOURCE);
-+		format = v4l2_subdev_state_get_format(state, SRU_PAD_SOURCE);
- 		*format = fmt->format;
- 
- 		sru_try_format(sru, state, SRU_PAD_SOURCE, format);
-@@ -277,10 +275,9 @@ static void sru_configure_stream(struct vsp1_entity *entity,
- 	struct v4l2_mbus_framefmt *output;
- 	u32 ctrl0;
- 
--	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
--					   SRU_PAD_SINK);
--	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
--					    SRU_PAD_SOURCE);
-+	input = v4l2_subdev_state_get_format(sru->entity.state, SRU_PAD_SINK);
-+	output = v4l2_subdev_state_get_format(sru->entity.state,
-+					      SRU_PAD_SOURCE);
- 
- 	if (input->code == MEDIA_BUS_FMT_ARGB8888_1X32)
- 		ctrl0 = VI6_SRU_CTRL0_PARAM2 | VI6_SRU_CTRL0_PARAM3
-@@ -307,10 +304,9 @@ static unsigned int sru_max_width(struct vsp1_entity *entity,
- 	struct v4l2_mbus_framefmt *input;
- 	struct v4l2_mbus_framefmt *output;
- 
--	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
--					   SRU_PAD_SINK);
--	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
--					    SRU_PAD_SOURCE);
-+	input = v4l2_subdev_state_get_format(sru->entity.state, SRU_PAD_SINK);
-+	output = v4l2_subdev_state_get_format(sru->entity.state,
-+					      SRU_PAD_SOURCE);
- 
- 	/*
- 	 * The maximum input width of the SRU is 288 input pixels, but 32
-@@ -333,10 +329,9 @@ static void sru_partition(struct vsp1_entity *entity,
- 	struct v4l2_mbus_framefmt *input;
- 	struct v4l2_mbus_framefmt *output;
- 
--	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
--					   SRU_PAD_SINK);
--	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
--					    SRU_PAD_SOURCE);
-+	input = v4l2_subdev_state_get_format(sru->entity.state, SRU_PAD_SINK);
-+	output = v4l2_subdev_state_get_format(sru->entity.state,
-+					      SRU_PAD_SOURCE);
- 
- 	/* Adapt if SRUx2 is enabled. */
- 	if (input->width != output->width) {
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-index d89f1197b86c..887b1f70611a 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-@@ -136,7 +136,7 @@ static int uds_enum_frame_size(struct v4l2_subdev *subdev,
- 	if (!state)
- 		return -EINVAL;
- 
--	format = vsp1_entity_get_pad_format(&uds->entity, state, UDS_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(state, UDS_PAD_SINK);
- 
- 	mutex_lock(&uds->entity.lock);
- 
-@@ -183,8 +183,7 @@ static void uds_try_format(struct vsp1_uds *uds,
- 
- 	case UDS_PAD_SOURCE:
- 		/* The UDS scales but can't perform format conversion. */
--		format = vsp1_entity_get_pad_format(&uds->entity, sd_state,
--						    UDS_PAD_SINK);
-+		format = v4l2_subdev_state_get_format(sd_state, UDS_PAD_SINK);
- 		fmt->code = format->code;
- 
- 		uds_output_limits(format->width, &minimum, &maximum);
-@@ -217,13 +216,12 @@ static int uds_set_format(struct v4l2_subdev *subdev,
- 
- 	uds_try_format(uds, state, fmt->pad, &fmt->format);
- 
--	format = vsp1_entity_get_pad_format(&uds->entity, state, fmt->pad);
-+	format = v4l2_subdev_state_get_format(state, fmt->pad);
- 	*format = fmt->format;
- 
- 	if (fmt->pad == UDS_PAD_SINK) {
- 		/* Propagate the format to the source pad. */
--		format = vsp1_entity_get_pad_format(&uds->entity, state,
--						    UDS_PAD_SOURCE);
-+		format = v4l2_subdev_state_get_format(state, UDS_PAD_SOURCE);
- 		*format = fmt->format;
- 
- 		uds_try_format(uds, state, UDS_PAD_SOURCE, format);
-@@ -265,10 +263,9 @@ static void uds_configure_stream(struct vsp1_entity *entity,
- 	unsigned int vscale;
- 	bool multitap;
- 
--	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
--					   UDS_PAD_SINK);
--	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
--					    UDS_PAD_SOURCE);
-+	input = v4l2_subdev_state_get_format(uds->entity.state, UDS_PAD_SINK);
-+	output = v4l2_subdev_state_get_format(uds->entity.state,
-+					      UDS_PAD_SOURCE);
- 
- 	hscale = uds_compute_ratio(input->width, output->width);
- 	vscale = uds_compute_ratio(input->height, output->height);
-@@ -310,8 +307,8 @@ static void uds_configure_partition(struct vsp1_entity *entity,
- 	struct vsp1_partition *partition = pipe->partition;
- 	const struct v4l2_mbus_framefmt *output;
- 
--	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
--					    UDS_PAD_SOURCE);
-+	output = v4l2_subdev_state_get_format(uds->entity.state,
-+					      UDS_PAD_SOURCE);
- 
- 	/* Input size clipping. */
- 	vsp1_uds_write(uds, dlb, VI6_UDS_HSZCLIP, VI6_UDS_HSZCLIP_HCEN |
-@@ -335,10 +332,9 @@ static unsigned int uds_max_width(struct vsp1_entity *entity,
- 	const struct v4l2_mbus_framefmt *input;
- 	unsigned int hscale;
- 
--	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
--					   UDS_PAD_SINK);
--	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
--					    UDS_PAD_SOURCE);
-+	input = v4l2_subdev_state_get_format(uds->entity.state, UDS_PAD_SINK);
-+	output = v4l2_subdev_state_get_format(uds->entity.state,
-+					      UDS_PAD_SOURCE);
- 	hscale = output->width / input->width;
- 
- 	/*
-@@ -377,10 +373,9 @@ static void uds_partition(struct vsp1_entity *entity,
- 	partition->uds_sink = *window;
- 	partition->uds_source = *window;
- 
--	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
--					   UDS_PAD_SINK);
--	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
--					    UDS_PAD_SOURCE);
-+	input = v4l2_subdev_state_get_format(uds->entity.state, UDS_PAD_SINK);
-+	output = v4l2_subdev_state_get_format(uds->entity.state,
-+					      UDS_PAD_SOURCE);
- 
- 	partition->uds_sink.width = window->width * input->width
- 				  / output->width;
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uif.c b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
-index f66936a28a2a..ee5b6ba22898 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_uif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
-@@ -104,8 +104,7 @@ static int uif_get_selection(struct v4l2_subdev *subdev,
- 	switch (sel->target) {
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
- 	case V4L2_SEL_TGT_CROP_DEFAULT:
--		format = vsp1_entity_get_pad_format(&uif->entity, state,
--						    UIF_PAD_SINK);
-+		format = v4l2_subdev_state_get_format(state, UIF_PAD_SINK);
- 		sel->r.left = 0;
- 		sel->r.top = 0;
- 		sel->r.width = format->width;
-@@ -150,7 +149,7 @@ static int uif_set_selection(struct v4l2_subdev *subdev,
- 	}
- 
- 	/* The crop rectangle must be inside the input frame. */
--	format = vsp1_entity_get_pad_format(&uif->entity, state, UIF_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(state, UIF_PAD_SINK);
- 
- 	sel->r.left = clamp_t(unsigned int, sel->r.left, 0, format->width - 1);
- 	sel->r.top = clamp_t(unsigned int, sel->r.top, 0, format->height - 1);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index d6f2739456bf..813699d372f6 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -203,9 +203,8 @@ static void vsp1_video_calculate_partition(struct vsp1_pipeline *pipe,
- 	 * Partitions are computed on the size before rotation, use the format
- 	 * at the WPF sink.
- 	 */
--	format = vsp1_entity_get_pad_format(&pipe->output->entity,
--					    pipe->output->entity.state,
--					    RWPF_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
-+					      RWPF_PAD_SINK);
- 
- 	/* A single partition simply processes the output size in full. */
- 	if (pipe->partitions <= 1) {
-@@ -268,9 +267,8 @@ static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
- 	 * Partitions are computed on the size before rotation, use the format
- 	 * at the WPF sink.
- 	 */
--	format = vsp1_entity_get_pad_format(&pipe->output->entity,
--					    pipe->output->entity.state,
--					    RWPF_PAD_SINK);
-+	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
-+					      RWPF_PAD_SINK);
- 	div_size = format->width;
- 
- 	/*
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-index 9693aeab1cac..5129181b8217 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-@@ -65,12 +65,10 @@ static int vsp1_wpf_set_rotation(struct vsp1_rwpf *wpf, unsigned int rotation)
- 		goto done;
- 	}
- 
--	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
--						 wpf->entity.state,
--						 RWPF_PAD_SINK);
--	source_format = vsp1_entity_get_pad_format(&wpf->entity,
--						   wpf->entity.state,
--						   RWPF_PAD_SOURCE);
-+	sink_format = v4l2_subdev_state_get_format(wpf->entity.state,
-+						   RWPF_PAD_SINK);
-+	source_format = v4l2_subdev_state_get_format(wpf->entity.state,
-+						     RWPF_PAD_SOURCE);
- 
- 	mutex_lock(&wpf->entity.lock);
- 
-@@ -245,12 +243,10 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 	u32 srcrpf = 0;
- 	int ret;
- 
--	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
--						 wpf->entity.state,
--						 RWPF_PAD_SINK);
--	source_format = vsp1_entity_get_pad_format(&wpf->entity,
--						   wpf->entity.state,
--						   RWPF_PAD_SOURCE);
-+	sink_format = v4l2_subdev_state_get_format(wpf->entity.state,
-+						   RWPF_PAD_SINK);
-+	source_format = v4l2_subdev_state_get_format(wpf->entity.state,
-+						     RWPF_PAD_SOURCE);
- 
- 	/* Format */
- 	if (!pipe->lif || wpf->writeback) {
-@@ -383,9 +379,8 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
- 	unsigned int flip;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+index 8281b86874ab..b739d8045576 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+@@ -139,11 +139,8 @@ static void hgt_configure_stream(struct vsp1_entity *entity,
+ 	u8 upper;
  	unsigned int i;
  
--	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
--						 wpf->entity.state,
--						 RWPF_PAD_SINK);
-+	sink_format = v4l2_subdev_state_get_format(wpf->entity.state,
-+						   RWPF_PAD_SINK);
- 	width = sink_format->width;
- 	height = sink_format->height;
- 	left = 0;
+-	crop = vsp1_entity_get_pad_selection(entity, entity->state,
+-					     HISTO_PAD_SINK, V4L2_SEL_TGT_CROP);
+-	compose = vsp1_entity_get_pad_selection(entity, entity->state,
+-						HISTO_PAD_SINK,
+-						V4L2_SEL_TGT_COMPOSE);
++	crop = v4l2_subdev_state_get_crop(entity->state, HISTO_PAD_SINK);
++	compose = v4l2_subdev_state_get_compose(entity->state, HISTO_PAD_SINK);
+ 
+ 	vsp1_hgt_write(hgt, dlb, VI6_HGT_REGRST, VI6_HGT_REGRST_RCLEA);
+ 
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+index 0d7e4afae0f8..85d2fc538327 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+@@ -218,9 +218,7 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+ 	switch (sel->target) {
+ 	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+ 	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+-		crop = vsp1_entity_get_pad_selection(&histo->entity, state,
+-						     HISTO_PAD_SINK,
+-						     V4L2_SEL_TGT_CROP);
++		crop = v4l2_subdev_state_get_crop(state, HISTO_PAD_SINK);
+ 		sel->r.left = 0;
+ 		sel->r.top = 0;
+ 		sel->r.width = crop->width;
+@@ -237,9 +235,11 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+ 		break;
+ 
+ 	case V4L2_SEL_TGT_COMPOSE:
++		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
++		break;
++
+ 	case V4L2_SEL_TGT_CROP:
+-		sel->r = *vsp1_entity_get_pad_selection(&histo->entity, state,
+-							sel->pad, sel->target);
++		sel->r = *v4l2_subdev_state_get_crop(state, sel->pad);
+ 		break;
+ 
+ 	default:
+@@ -256,9 +256,7 @@ static int histo_set_crop(struct v4l2_subdev *subdev,
+ 			  struct v4l2_subdev_state *sd_state,
+ 			  struct v4l2_subdev_selection *sel)
+ {
+-	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+ 	struct v4l2_mbus_framefmt *format;
+-	struct v4l2_rect *selection;
+ 
+ 	/* The crop rectangle must be inside the input frame. */
+ 	format = v4l2_subdev_state_get_format(sd_state, HISTO_PAD_SINK);
+@@ -270,14 +268,8 @@ static int histo_set_crop(struct v4l2_subdev *subdev,
+ 				format->height - sel->r.top);
+ 
+ 	/* Set the crop rectangle and reset the compose rectangle. */
+-	selection = vsp1_entity_get_pad_selection(&histo->entity, sd_state,
+-						  sel->pad, V4L2_SEL_TGT_CROP);
+-	*selection = sel->r;
+-
+-	selection = vsp1_entity_get_pad_selection(&histo->entity, sd_state,
+-						  sel->pad,
+-						  V4L2_SEL_TGT_COMPOSE);
+-	*selection = sel->r;
++	*v4l2_subdev_state_get_crop(sd_state, sel->pad) = sel->r;
++	*v4l2_subdev_state_get_compose(sd_state, sel->pad) = sel->r;
+ 
+ 	return 0;
+ }
+@@ -286,7 +278,6 @@ static int histo_set_compose(struct v4l2_subdev *subdev,
+ 			     struct v4l2_subdev_state *sd_state,
+ 			     struct v4l2_subdev_selection *sel)
+ {
+-	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+ 	struct v4l2_rect *compose;
+ 	struct v4l2_rect *crop;
+ 	unsigned int ratio;
+@@ -299,9 +290,7 @@ static int histo_set_compose(struct v4l2_subdev *subdev,
+ 	sel->r.left = 0;
+ 	sel->r.top = 0;
+ 
+-	crop = vsp1_entity_get_pad_selection(&histo->entity, sd_state,
+-					     sel->pad,
+-					     V4L2_SEL_TGT_CROP);
++	crop = v4l2_subdev_state_get_crop(sd_state, sel->pad);
+ 
+ 	/*
+ 	 * Clamp the width and height to acceptable values first and then
+@@ -326,9 +315,7 @@ static int histo_set_compose(struct v4l2_subdev *subdev,
+ 	ratio = 1 << (crop->height * 2 / sel->r.height / 3);
+ 	sel->r.height = crop->height / ratio;
+ 
+-	compose = vsp1_entity_get_pad_selection(&histo->entity, sd_state,
+-						sel->pad,
+-						V4L2_SEL_TGT_COMPOSE);
++	compose = v4l2_subdev_state_get_compose(sd_state, sel->pad);
+ 	*compose = sel->r;
+ 
+ 	return 0;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+index 19d9f078748c..4efcec5253d6 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+@@ -155,10 +155,8 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+ 	if (pipe->brx) {
+ 		const struct v4l2_rect *compose;
+ 
+-		compose = vsp1_entity_get_pad_selection(pipe->brx,
+-							pipe->brx->state,
+-							rpf->brx_input,
+-							V4L2_SEL_TGT_COMPOSE);
++		compose = v4l2_subdev_state_get_compose(pipe->brx->state,
++							rpf->brx_input);
+ 		left = compose->left;
+ 		top = compose->top;
+ 	}
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uif.c b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+index ee5b6ba22898..cecd2f7024f4 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_uif.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+@@ -112,8 +112,7 @@ static int uif_get_selection(struct v4l2_subdev *subdev,
+ 		break;
+ 
+ 	case V4L2_SEL_TGT_CROP:
+-		sel->r = *vsp1_entity_get_pad_selection(&uif->entity, state,
+-							sel->pad, sel->target);
++		sel->r = *v4l2_subdev_state_get_crop(state, sel->pad);
+ 		break;
+ 
+ 	default:
+@@ -159,8 +158,7 @@ static int uif_set_selection(struct v4l2_subdev *subdev,
+ 				format->height - sel->r.top);
+ 
+ 	/* Store the crop rectangle. */
+-	selection = vsp1_entity_get_pad_selection(&uif->entity, state,
+-						  sel->pad, V4L2_SEL_TGT_CROP);
++	selection = v4l2_subdev_state_get_crop(state, sel->pad);
+ 	*selection = sel->r;
+ 
+ done:
+@@ -202,8 +200,7 @@ static void uif_configure_stream(struct vsp1_entity *entity,
+ 	vsp1_uif_write(uif, dlb, VI6_UIF_DISCOM_DOCMPMR,
+ 		       VI6_UIF_DISCOM_DOCMPMR_SEL(9));
+ 
+-	crop = vsp1_entity_get_pad_selection(entity, entity->state,
+-					     UIF_PAD_SINK, V4L2_SEL_TGT_CROP);
++	crop = v4l2_subdev_state_get_crop(entity->state, UIF_PAD_SINK);
+ 
+ 	left = crop->left;
+ 	width = crop->width;
 -- 
 Regards,
 
