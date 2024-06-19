@@ -1,88 +1,121 @@
-Return-Path: <linux-media+bounces-13708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A6990F066
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 16:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC4E90F0E3
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 16:39:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1248F1C217DD
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 14:27:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EC831C24919
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 14:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E21BE18029;
-	Wed, 19 Jun 2024 14:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1338F1DA4C;
+	Wed, 19 Jun 2024 14:37:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="W+5U/ABe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EJaiHwHp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B678B11723
-	for <linux-media@vger.kernel.org>; Wed, 19 Jun 2024 14:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521644D8B4
+	for <linux-media@vger.kernel.org>; Wed, 19 Jun 2024 14:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718807237; cv=none; b=jI4o1FdLYUgfVK2xG/dhBFw1X+Z79Nww+UHd4VX5/xRenlpQ1xsIrMEFRjjXmr7Us0OlvtTxKNgE9O1gbs9JLzjdzXIDgVIDHI2vjVZ6MOb/SY3NiB77S4uOOICTo9lheUBnJ58+m4mZratcjcwzvzvTV1iPnV8aDxHqk+o5vAE=
+	t=1718807875; cv=none; b=Nm3ZTiq3pLCBc6oLcPkQsI4oOjtiRMG58aPnvOkUt9zh1GNJukaaiqr0buZQWRqJ9FCNVhW92w/2CK9iq0+N59d1JRmozYF7eXqE4QUhVHymNSceHEry/X5iN6ej0n90hkjJ17lcdIG/dyjgJ2jyDMV9iXt+kIkXYhgn6UQ7CXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718807237; c=relaxed/simple;
-	bh=VkeW1jf2VYoy7mcFcjxI+35MVpGUCdRLKjvc6ncs+fY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MFG9Z0+9rCh8LCpp8QC/qpIOJN0OQkBbMJ7SyIKfUNSEi/taWIV2vvFvgfKKpQ9vT0VA6x1oTVC3uTSbsFq/LYVU64NEM0rIbwbyy3qJD87bYFFb0N4omKSwmpcCF2iSyOfWk3s5hSt/9uhWFRHzFywZYgQd5Xq38wDvqRnm9cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=W+5U/ABe; arc=none smtp.client-ip=88.97.38.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1718807226; bh=VkeW1jf2VYoy7mcFcjxI+35MVpGUCdRLKjvc6ncs+fY=;
-	h=Date:From:To:Subject:From;
-	b=W+5U/ABeX83QHg1FByRI7B4sTxFcDdKZ4gx7fSadQ+mSk+A4qSXbl0uYePrNBVION
-	 7WwFPuS7sypAdT29+InqC9wlLBUqPx2NUt0oVs2K9Dh7f+INQ0AlCXbbnKTzVXQP6s
-	 Xq+o2Xr2o9LxQ81eMRMF8m7GF0Iiy0+mx2B6p7JRL4tlcVIVHnr7mfttktJaWKcWW7
-	 gjJ8Pt8yrVEqQA5UlLR3M+evZTCuFJ/FZ91KOkLbjLVVGDFsAl2MVEJl50UomMH0v9
-	 L8v5NQ57N++/dSQ7uT1Zrx/fDqQT332dnfCHNsBw8Q0d1lgkzofj9j7lLF8yamqfGU
-	 lAtNhnXilnLAQ==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id A6CBD10073E; Wed, 19 Jun 2024 15:27:06 +0100 (BST)
-Date: Wed, 19 Jun 2024 15:27:06 +0100
-From: Sean Young <sean@mess.org>
-To: linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.11] Trival rc fix
-Message-ID: <ZnLquuL7ki8H_cvK@gofer.mess.org>
+	s=arc-20240116; t=1718807875; c=relaxed/simple;
+	bh=xz8466KeS3kFFR0h/8XeCqzSrxi1hZ75OsH8Tv9FjPI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k0iQ3qJ+vXpN9sYzamVTm4Rv7SHJ+q1bCIC0Gdhq8Lv7wIg0IDInc9BEpkJA9BYQvW+9OOFUSrt/0wo4DOSmTLUjoc0y7wtGt2hd6gDmHA8OpZkU1oheiUr4V07E0VnfLB/y11JmFDI1UV/FIQyPE8YTLG/xlHd7dz8fzr4+rkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EJaiHwHp; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57cbc66a0a6so540576a12.1
+        for <linux-media@vger.kernel.org>; Wed, 19 Jun 2024 07:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718807870; x=1719412670; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mW6qIwgaMhv1Ukx6IUSceUqe9uJpeRHrbJHiEQy9EwE=;
+        b=EJaiHwHprRqUXvGvwRBw5AcTvT/Qwd758d8F1zyOXd//VDqQphHziP4K96uf9N8337
+         q3Un43RAtXDTkVE9XbcbNo3n2e2Y5ZsTExjxncHstu2VLXiYmKOe7adTi2iSBJMkSWgL
+         VCuTLibikSimhZDssQQZCyV7XC9yFLPT1O2nkkPDY4FOg9rGGudFjwv17R7B32+FWC+h
+         8tZLRqA31RohYeZzc3CKHmLX8rhqskC9t8IjQsXqJR/S3EKR756zKwx14J7fewvUQtx9
+         ylJyCz7vk5PLewX4f+D28tNuj0qIJuXE6UAtjOUJcb3C68cZJCqYVZ3Vbb3gHYIZmaa5
+         N7IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718807870; x=1719412670;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mW6qIwgaMhv1Ukx6IUSceUqe9uJpeRHrbJHiEQy9EwE=;
+        b=NrhK2dUArESOIrsTkAXbiEfcm7v/1EDeTLR61BF+xvZnbMHhkTQ/PdhZnoIq3p9SPe
+         7A28yciBL1tW62hju0vOsaN0XvkIgWLNB2k185vpfTwjqnD6Y1uW/4W44DDXzQ4wVi5J
+         oaqXLPnhLw7AyFCLkMXpL/yTgi0nj2m1tqaYb0SC8dBev3YxlhRIC7qaTWP+63y/NE5o
+         yfpZtZo5EAK1Ct7k07SvX4F3H5MUCddarHWxPLytfJYP14pWpwZP8hzgqhLyYkYMvhTF
+         gXblVV2akBnJeAqT55VUzjRzRVjXq3io7NMu/S4vQW9zl/ODasIV0t3yOf0V90zmZ22x
+         Zd2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVavVtP7c5M1QQs9TaOuWTZqKuLrBZu39l6tiu3MEV3ipJB5ISjIeYE+hzyUMifHE3V+8SEFYff5rtmcTz7xKcYEaTVrpOUdjljJYM=
+X-Gm-Message-State: AOJu0Yw6AHFMJd8ahReo/iKCCvu+5WHpUH0iuyj5gaqgl2EXTn5inXye
+	H2imdXlBt6XtCGSTW0U2zUV0whhtlbUyi5a2/HBTu/+scT6VNLg/1agfL3rTb2QbdP47XwcRniH
+	oErP3rkv01lDbVb5oisbkp/5z7PT2OC/FSuBZQA==
+X-Google-Smtp-Source: AGHT+IHuis2PWxnbeePb9S0U1LQ2x2sGfOwuZsNdXB0g7qlMm761qcR5dMpoqfdYtNv6UIguJ9ZLskZKA13dNPaiPkc=
+X-Received: by 2002:a50:d4da:0:b0:57c:b82e:884b with SMTP id
+ 4fb4d7f45d1cf-57d06ade10bmr1620556a12.19.1718807870558; Wed, 19 Jun 2024
+ 07:37:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240606020213.49854-1-21cnbao@gmail.com> <ZmctTwAuzkObaXLi@google.com>
+In-Reply-To: <ZmctTwAuzkObaXLi@google.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 19 Jun 2024 20:07:38 +0530
+Message-ID: <CAO_48GE_YHFFjKBb6hhZQ4--3j3H3+AUTaPkZWfHTGgBa=b78Q@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf/heaps: Correct the types of fd_flags and heap_flags
+To: Carlos Llamas <cmllamas@google.com>
+Cc: Barry Song <21cnbao@gmail.com>, linaro-mm-sig@lists.linaro.org, 
+	linux-media@vger.kernel.org, Brian.Starkey@arm.com, 
+	benjamin.gaignard@collabora.com, christian.koenig@amd.com, 
+	dri-devel@lists.freedesktop.org, jstultz@google.com, 
+	linux-kernel@vger.kernel.org, tjmercier@google.com, v-songbaohua@oppo.com, 
+	hailong.liu@oppo.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Hans, Mauro,
+Hi Barry,
 
-Just a trival change. Sending out now so it doesn't get forgotten.
+On Mon, 10 Jun 2024 at 22:14, Carlos Llamas <cmllamas@google.com> wrote:
+>
+> On Thu, Jun 06, 2024 at 02:02:13PM +1200, Barry Song wrote:
+> > From: Barry Song <v-songbaohua@oppo.com>
+> >
+> > dma_heap_allocation_data defines the UAPI as follows:
+> >
+> >  struct dma_heap_allocation_data {
+> >         __u64 len;
+> >         __u32 fd;
+> >         __u32 fd_flags;
+> >         __u64 heap_flags;
+> >  };
+> >
+> > But dma heaps are casting both fd_flags and heap_flags into
+> > unsigned long. This patch makes dma heaps - cma heap and
+> > system heap have consistent types with UAPI.
+> >
+> > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
 
-Thanks,
+Thanks for this cleanup; pushed to drm-misc-next.
 
-Sean
+> > ---
+>
+> Looks good to me, thanks!
+>
+> Reviewed-by: Carlos Llamas <cmllamas@google.com>
 
-The following changes since commit 91798162245991e26949ef62851719bb2177a9c2:
 
-  media: v4l: add missing MODULE_DESCRIPTION() macros (2024-06-15 11:16:40 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/syoung/media_tree.git tags/v6.11c
-
-for you to fetch changes up to 8454f80272ad52e95e5dee5d224e434d99347263:
-
-  media: rc: add missing MODULE_DESCRIPTION() macro (2024-06-19 15:20:30 +0100)
-
-----------------------------------------------------------------
-v6.11c
-
-----------------------------------------------------------------
-Jeff Johnson (1):
-      media: rc: add missing MODULE_DESCRIPTION() macro
-
- drivers/media/rc/rc-main.c | 1 +
- 1 file changed, 1 insertion(+)
+Best,
+Sumit.
 
