@@ -1,209 +1,153 @@
-Return-Path: <linux-media+bounces-13750-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13751-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29ABC90F53E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 19:37:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B27BA90F56C
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 19:46:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0877D1C224A3
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 17:37:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BFC91F21BC1
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jun 2024 17:46:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B8C155A5B;
-	Wed, 19 Jun 2024 17:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A705815665A;
+	Wed, 19 Jun 2024 17:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rkZWXkYJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNGI5Ko9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E001E87B;
-	Wed, 19 Jun 2024 17:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03F041C69;
+	Wed, 19 Jun 2024 17:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718818658; cv=none; b=OdnLMCwESv+bXV4fYi1DSxaYGqgfmOB7xHNmWnIRfAsXgBZZulZH+0AR2Y4R3Mueo+L51une2+imgwtsF9hiURZnIBlMJQz56Z8iIJcCNhwFa/8t57Q+3ShB+zSxQpvZVULiLC09Fkj0wqlUHCwR6/Dp9nb53pigt7d0bmydM6w=
+	t=1718819194; cv=none; b=IycX3gWUuSVvh9lv5i8hH/KqoVp9plruZCiJXR3gxpQLwYFQlhgy0xa/6aombgiMntbFPlDKeLLn8RJem039sUfjT4WppiKAZfAZtR2FgTsLTUlNmUKYAXHkMqOuiRzw4hgjUzrBSVosrPaNDvWggQESX+7OZAPlf/+p2nrDnz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718818658; c=relaxed/simple;
-	bh=aTTUFWcg2KfCBZQyUcLHsG1W9EOcEhA72GIkli1rAjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/VkUSC7xKeLbHUID/9+UzhNWJx7DkaH1D62hsHI85MYiSUUhoSkfzXvDW7aY3XUHT/D0fOMFgsCw3G1qrWSotH6oIJvgpk4q8P9+Cyp+Y8RbtnGDbMgtS7ZxEnPUd5Mdr5Z04aFrRKgaWm0PpKZ2ld6mcvmqDLPF1/s7eER1nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rkZWXkYJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18216C2BBFC;
-	Wed, 19 Jun 2024 17:37:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718818657;
-	bh=aTTUFWcg2KfCBZQyUcLHsG1W9EOcEhA72GIkli1rAjg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rkZWXkYJ0650nk3Skne+YMQ35tM8hYlNF/QdJudkzL5FQEGh9y8n9bIx/GD8NGEnF
-	 HzwuWFbOguznxmS/U05NEwW5vU1s4K+hkxKxDGRcWhukZpYfOc9m7ejAbS0wpXV4ze
-	 OLTMg9cSzBIIyCbazuXgXQ0XfvoRfP+tLLSjUw0GpVk/GARc9AInzn7qi0d/NRq2JO
-	 fhQCcUQng/ytMYTofKBIjReTdqceA+J7O+ywCjmksm2q3+rn+OI66AF5FJMeoQfTJb
-	 TguBMxEJKYN04aUkmlhrA5b6HN4TTKwNf5UvWE9QQwVuzRbLl1tHpdAMErHzW/tUau
-	 Sc7I4W4Yn+8JQ==
-Date: Wed, 19 Jun 2024 18:37:31 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Jonas Karlman <jonas@kwiboo.se>, Alex Bee <knaerzche@gmail.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] media: dt-bindings: rockchip: Document RK3588
- Video Decoder bindings
-Message-ID: <20240619-contently-demote-769bf48d7eb6@spud>
-References: <20240619150029.59730-1-detlev.casanova@collabora.com>
- <20240619150029.59730-4-detlev.casanova@collabora.com>
+	s=arc-20240116; t=1718819194; c=relaxed/simple;
+	bh=KfuZUDtRbQnetyeAbuRd3zXq8hTkCKuI/Ak5W9iGk3c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AGgXQ86T86egRi8elFSwC8yazX8Zooc7i13EXAMgMCMY8//ZT+q9qKNi0o/7NxO2O4vsScs5yPxa1XiECm4TVgBeuCHU4o7q1BD/tMrdqFoXlewcIFvbE05cyxc17IIdRTbPQ9uPTW9Zu5VgnatVzSE+h1rvh05avFuAsO0P1g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNGI5Ko9; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-6fb2f398423so46709a12.0;
+        Wed, 19 Jun 2024 10:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718819192; x=1719423992; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5UHgTKJnVvGzz0RhWWxAYapaJvaOUe+M0dNscdnn3ck=;
+        b=jNGI5Ko9jLtsITieqTDK5RstE9lVTd8c7UErCwTmuwNQEkNxxncOMKV2iRQT+DerIY
+         m9zAdD7xxlmXP8WXgSbcAMieMSC5ynbY27CjXCKkD/+CYeHvpoorAJ+OplJwR+vIz0qN
+         ZPVoWcDv9vip6JzkAdoF9TCLFMepChmGI/H2BGPYHdVdWMwjkR8/mm8uuyFQbdJMm+px
+         tis0ZWydgGHSYh7vBPRFYdmsixO5tO4wKWNswuOBpjP8QOqEtQH8G98X8bHc9t59WbdJ
+         wRkQTO+x3cyb5a8EFOnx1iWr45sPvceurm/QeDK59Af9/L26oiaPgc3uhwVUXykniPsj
+         lpug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718819192; x=1719423992;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5UHgTKJnVvGzz0RhWWxAYapaJvaOUe+M0dNscdnn3ck=;
+        b=mxoM+zsLZA6wqHp4m9bfV+/E/gnh4/p4Nwb6NsOegnOmcTuVlrO4FGLHU+JtooHlay
+         ZFhCnphH3QwUSC6ZJ+qRvEmz2U7x18yWmFMjCUXdAcgxwB31c+LHgPfmQvX0W4EqW5fp
+         /cNg0MaTIHKs4ZiBzM661GnH+kUF9Lw5yIkBg3Mul8da9yVSkjygw7V6xIb51HOl8RtM
+         OxpnGCxtjQH4EHyth0lHSjLTY1Q0AYTzeuFZofq+F73DlGkKWC43/6twfMTNKlq64z75
+         3bF03z7OgO6kfEzsMKdXfhZ3TGozJV5qZIY0AMVU1VQkXXbjuo1pLlVlnYVukTcRpycx
+         c1sA==
+X-Forwarded-Encrypted: i=1; AJvYcCUkOZoKb2Zbrw3p8ilE20v5GiFckOgv6UHUz8Kv75QCPoorQGVGiyrPOG/CDlOubxOWvRsFfvmbKXvodBced/Cuj4/1xkLIwSyoYXetFYc8U6OnyHCzsmGpr9oImVYEPEyEzmkYya06LdYlhSY+LIw1KNaaE+1ZpPsrv3X+Lpa3fbacNLPS
+X-Gm-Message-State: AOJu0YxNitLwoUvNb0YI675QclJAZomCBDSB8MuIQtVNbi0WQhd9sd78
+	nqKSYsCiEHMCw6LEJxMCNHxZ4corfyQzYQpRG3f5vQ6s/pUtpFP5
+X-Google-Smtp-Source: AGHT+IH0tqeqkE1rjW4+gz7APWuek16GJuuOw7jkeXENxmGKwm/HYrhSwM4hQ5g0CoPb1P5AUDj4bw==
+X-Received: by 2002:a17:90a:7087:b0:2c2:da02:a2c7 with SMTP id 98e67ed59e1d1-2c7b5dca970mr2971807a91.44.1718819191973;
+        Wed, 19 Jun 2024 10:46:31 -0700 (PDT)
+Received: from localhost.localdomain ([221.220.128.96])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4c45ac5f3sm13364906a91.12.2024.06.19.10.46.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 10:46:31 -0700 (PDT)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: detlev.casanova@collabora.com
+Cc: andy.yan@rock-chips.com,
+	benjamin.gaignard@collabora.com,
+	boris.brezillon@collabora.com,
+	conor+dt@kernel.org,
+	daniel.almeida@collabora.com,
+	devicetree@vger.kernel.org,
+	didi.debian@cknow.org,
+	dsimic@manjaro.org,
+	ezequiel@vanguardiasur.com.ar,
+	gregkh@linuxfoundation.org,
+	heiko@sntech.de,
+	hverkuil-cisco@xs4all.nl,
+	jonas@kwiboo.se,
+	knaerzche@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	nicolas.dufresne@collabora.com,
+	paul.kocialkowski@bootlin.com,
+	robh@kernel.org,
+	sebastian.reichel@collabora.com
+Subject: Re: [PATCH v2 2/4] media: rockchip: Introduce the rkvdec2 driver
+Date: Thu, 20 Jun 2024 01:46:23 +0800
+Message-Id: <20240619174623.270706-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240619150029.59730-3-detlev.casanova@collabora.com>
+References: <20240619150029.59730-3-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="D5HLkMsx9LZ0D828"
-Content-Disposition: inline
-In-Reply-To: <20240619150029.59730-4-detlev.casanova@collabora.com>
+Content-Transfer-Encoding: 8bit
 
+Hi Detlev,
 
---D5HLkMsx9LZ0D828
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 19 Jun 2024 10:57:19 -0400, Detlev Casanova wrote:
+>+	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+>+		height *= 2;
+>+
+>+	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+>+	    height > ctx->coded_fmt.fmt.pix_mp.height)
+>+		return -EINVAL;
 
-On Wed, Jun 19, 2024 at 10:57:20AM -0400, Detlev Casanova wrote:
-> Document the Rockchip RK3588 Video Decoder bindings.
->=20
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  .../bindings/media/rockchip,vdec.yaml         | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b=
-/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> index 08b02ec16755..22cb62faaa9b 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> @@ -17,6 +17,7 @@ properties:
->    compatible:
->      oneOf:
->        - const: rockchip,rk3399-vdec
-> +      - const: rockchip,rk3588-vdec
->        - items:
->            - enum:
->                - rockchip,rk3228-vdec
-> @@ -30,29 +31,56 @@ properties:
->      maxItems: 1
-> =20
->    clocks:
-> +    minItems: 4
->      items:
->        - description: The Video Decoder AXI interface clock
->        - description: The Video Decoder AHB interface clock
->        - description: The Video Decoded CABAC clock
->        - description: The Video Decoder core clock
-> +      - description: The Video decoder HEVC CABAC clock
-> =20
->    clock-names:
-> +    minItems: 4
->      items:
->        - const: axi
->        - const: ahb
->        - const: cabac
->        - const: core
-> +      - const: hevc_cabac
-> =20
->    assigned-clocks: true
-> =20
->    assigned-clock-rates: true
-> =20
-> +  resets:
-> +    items:
-> +      - description: The Video Decoder AXI interface reset
-> +      - description: The Video Decoder AHB interface reset
-> +      - description: The Video Decoded CABAC reset
-> +      - description: The Video Decoder core reset
-> +      - description: The Video decoder HEVC CABAC reset
-> +
-> +  reset-names:
-> +    items:
-> +      - const: rst_axi
-> +      - const: rst_ahb
-> +      - const: rst_cabac
-> +      - const: rst_core
-> +      - const: rst_hevc_cabac
-> +
->    power-domains:
->      maxItems: 1
-> =20
->    iommus:
->      maxItems: 1
-> =20
-> +  sram:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-> +      phandle to a reserved on-chip SRAM regions.
-> +      Some SoCs, like rk3588 provide on-chip SRAM to store temporary
-> +      buffers during decoding.
-> +
->  required:
->    - compatible
->    - reg
-> @@ -61,6 +89,24 @@ required:
->    - clock-names
->    - power-domains
-> =20
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: rockchip,rk3588-vdec
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 5
-> +        clock-names:
-> +          minItems: 5
-> +
-> +        resets:
-> +          minItems: 5
-> +        reset-names:
-> +          minItems: 5
+I did further invesatigation on chromium. I find that before real video
+is decoded, chromium will call VIDIOC_STREAMON twice with value of
+sps->flags 0:
 
-You need an else clause here to restrict sram, resets on the other
-platforms and to cap clocks at maxItems: 4.
+At the first time width and height are 16; ctx->coded_fmt.fmt.pix_mp.width
+and coded_fmt.fmt.pix_mp.height are 16, which are the min size of decoder;
+At the second time width and height are still 16; while
+coded_fmt.fmt.pix_mp.width is 1920 and coded_fmt.fmt.pix_mp.height is
+1088, which are the real size of video.
 
-Thanks,
-Conor.
+So VIDIOC_STREAMON will fall at the first time call because sps->flags is
+0 so V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set, and then height is
+doubled to 32 which is larger than 16.
 
---D5HLkMsx9LZ0D828
-Content-Type: application/pgp-signature; name="signature.asc"
+What do you think if we skip doubling height if sps->flags is 0 and at the
+same time V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set? The following hack
+did fix my chromium:
 
------BEGIN PGP SIGNATURE-----
+--- a/drivers/staging/media/rkvdec2/rkvdec2-h264.c
++++ b/drivers/staging/media/rkvdec2/rkvdec2-h264.c
+@@ -767,7 +767,7 @@ static int rkvdec2_h264_validate_sps(struct rkvdec2_ctx *ctx,
+         * which is half the final height (see (7-18) in the
+         * specification)
+         */
+-       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
++       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) && sps->flags)
+                height *= 2;
+ 
+        if (width > ctx->coded_fmt.fmt.pix_mp.width ||
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnMXWgAKCRB4tDGHoIJi
-0unCAQC2SBHJSe0kI6JV8OXZNtLluXhS2J4UwBm+kjbN2zXMugD/Rnr/Zc9PCLvM
-lEBc7CW/o9jDLrIyQYTKdCF2lJw0jwc=
-=k/38
------END PGP SIGNATURE-----
-
---D5HLkMsx9LZ0D828--
+Best regards
+Jianfeng
 
