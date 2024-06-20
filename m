@@ -1,102 +1,111 @@
-Return-Path: <linux-media+bounces-13785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13786-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AAB910184
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:34:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FADE9101DF
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:50:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 672C31F22E2D
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 10:34:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 850A01C214DD
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 10:50:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEDE81AAE10;
-	Thu, 20 Jun 2024 10:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ABB91AD4B0;
+	Thu, 20 Jun 2024 10:46:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ATnmfz0a"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ELOL7gKQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D2F2594;
-	Thu, 20 Jun 2024 10:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D991AD484;
+	Thu, 20 Jun 2024 10:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718879641; cv=none; b=lw7BqYXNmSNHFmuDxO1/cGgceY2zG2tR1G5TsXou84em1IA2FUEFupJS/GQUCJOxG9rC+ZpJeOElFn/Pk/NgZYMfHnKieDV+9RaY/OsGmOsEOkgScBmIp3duaJw4r9sd3+upnj9LcfhPC6CGtuuN8uBuTkHCXmqMFsqVAWZ7ZWw=
+	t=1718880378; cv=none; b=ZPX5/93XgFRLoffQm+CuYB4zUUnriPXDbiJQqPh8Cfu4Xk+34lLvMycqa1TIHWIzuhvxTLKchkBT5iAH6s1w3KWeizK92nVOUf/kgDAAW18HYsssvqr5tpLuF+HYLiTo0Epg/F/uby0MDV6QCiMj1QKZI703YSBPIAxzlj0TFLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718879641; c=relaxed/simple;
-	bh=HShNafy3kcrdH/pYm/qzr0SfI1ZGqiTlGUQzNoPyLqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/qH0gekFIjSfXR75Ee/0lvmEbdRnC7Lyys5mq6bgrDyFTA1dm1cI/1mnAZs1EciQjz3aR0PosyUlJB3p2Ckr/wzau8YLy4WxUUJuy/MORLKLgPo6Mpw/G/jWBsQWkt5SRNKdnwAdyswJUnbfZoGBtR+lf6Jb3nJ94SzGaJ/aJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ATnmfz0a; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92D8966F;
-	Thu, 20 Jun 2024 12:33:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718879618;
-	bh=HShNafy3kcrdH/pYm/qzr0SfI1ZGqiTlGUQzNoPyLqc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ATnmfz0aOnKlDcZ/w5vfw0GVZOGh2cCpcMFoXuytz9U8jOqc8rm69zStK8q5s/q5Y
-	 FY+oRlewL9Us0L7jEtKstTSZEuNX7IsicKPQPueZ9bLyjW/ZZcOLNWtVaAiSIqEoIY
-	 eu8hpUjfresfwvotkIhLh4xksTwvoP9GioFWjsa8=
-Date: Thu, 20 Jun 2024 13:33:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: i2c: Kconfig: Fix missing firmware upload config
- select
-Message-ID: <20240620103335.GA27999@pendragon.ideasonboard.com>
-References: <20240620102544.1918105-1-kory.maincent@bootlin.com>
+	s=arc-20240116; t=1718880378; c=relaxed/simple;
+	bh=8awIg/wBCB7FIoVC+vPhOB+vEvEyHOGDIN/RcnR+5Ds=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=s2BiQVccm6qFhzodqL70v8kXIaAZOUm3GcPl2vnUA9xkI2I2ZGMnlv62+EpRaxJLD98eMMTMcWZVUI8nie65SIw32vG+ehSWcKnq87ZBTLycnKMqMOE+d1op0T2kUHcLoMnmBnLf5/me+CxA/VJsgqMR9aZ21etrNjjhoGY8JpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ELOL7gKQ; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718880331; x=1719485131; i=markus.elfring@web.de;
+	bh=Li8eiNsap0bizfOQ9HPDPrawZQbmEHLbqYMyIF+i22w=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=ELOL7gKQIory3FK6VEcJNutrH5YQatKgd7IOgi4QjpkjDHPWbcvc8mTZxbyuitLV
+	 VRi6VIbr1f5UFmvi+RVRuW+ASXMM0uDkM7KnfBNKZMNVS+1dS8aPaC4Ib1Xn68zn6
+	 rHGn+ISLojVl/UkCSLlDGgT8HDmZwAiAfW1SNXXNRFG/nrrumlUTHCHIUDTKKQeG3
+	 piyzDRs1t6hx+x7K0Ef2zgjVUYi0lykbOHnRX1aDC8HUeFuNHSLL1ET7KfvqZPdcS
+	 AUynwekgohExYbMLi1a+R7zBNmQC1whsMtj9k2uGvTvLLS9ml0eoLo3Sm7/cPC1Jp
+	 ctnWvyyXTIuIUVfJkw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MeUc2-1ssUBS3U8q-00lcXl; Thu, 20
+ Jun 2024 12:45:30 +0200
+Message-ID: <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
+Date: Thu, 20 Jun 2024 12:45:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240620102544.1918105-1-kory.maincent@bootlin.com>
+User-Agent: Mozilla Thunderbird
+To: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Julia Lawall <julia.lawall@inria.fr>, Lee Jones <lee@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <202406191014.9JAzwRV6-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NTRxLCtqL0ApiDn3i1UPRK0ESzMnPEcNQTBlesEZBU9CEYqPi1f
+ AGUE0Iqpc83BxVHUG3k89Q5F/8z3etbqR3DfEvcjeL6Lx3pae77qYOIXUgtST37Ab8Do7k/
+ wU+c7CnLhk3+TYr1zOspLJGta6mikzAbopzkKmb71FDA4NI3466ErYGosxNpmnHTc9l4MJl
+ +CGi0hB0G1QMCNRUrV1Uw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:CgG6g3IuUkA=;GjeLuLN4k0zR5HkEhPPDnj3RINq
+ /CkwuYA+LrI5aUWTIamlyDVGI2+yh3QArzyJ1np2UYSYrgxICqa8foIibHUj53F84/MrMcLgN
+ GFrlIyXRWVkXW9fbV75qNQJodpMS9f6kv/bJ1NGIei4S3ewSiKcHU1jPpTzxbjNQjGBBEumPe
+ qAfjWGQherZuLeRpGpQjN/Kgpk+Cr00WMTLsBj7wWqRRR86NsVtzsuvgHSl5brUDWNVp3qGkW
+ 79/2lncKNGLQ/RXgQTGya5dwEulbNeslrEdSt6qMQMb+Nv9rIR4FWhp0ZGSVNytzEF3wam0sB
+ 3dVQZsO6RihZ04m5LerPVT+np3V6RDup5Kvm4wcP4Ti6xvI0dtVafefyZELYAcfYD9mdVE8fN
+ iqI8Ujalah+CZN5KCorrwfn01U/QdcOsZjQKG5mNVHRJTo6WhLHPap6R1OtSuCQxr7SiHQCHO
+ dSoY1BmUgMPnfnglAhaA0xtqFIG1eWrzf0k4Po2ej4e5fTe2J7E3JUVkoUYDNSkfyr2cZAlMk
+ LfrwOZ7p3YCbmeCJDEdYAWCwS8Uzd2uasIh+RKhUKsyjiKpt7uAibE4HFl2zl34J71qplTItr
+ zw9C2y2fYmdsJShro/sGE4I1fXYUvHpLm2N9g1FUvaxLvECa96Z3wlbFhlDOPcWLUSMYMO1CP
+ gngHha2pIf1xmH7Gt3mu1eickL+qEJ3tHc/ZL96Dpm7U4MuTo9Hm5oVgSi8h3ewr3hy1VNBI3
+ HJUY4BmHs48k0qNMZ4H8hT34jR1O7Al23WHZaxCNv7QjCPVS/TJY+qfpNBUITcG4Zft10nQJo
+ M/UF/zY1FmHRWGS8h3/KE5FpFUG8vYIGB57PgcfYuB3pLVgAGs7J9TIa/s1dsmlMUS
 
-Hi Kory,
+=E2=80=A6
+> All errors (new ones prefixed by >>):
+>
+>>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this=
+ goto statement to its label
+>     1715 |                 goto err_dmabuf_unmap_attachment;
+=E2=80=A6
 
-Thank you for the patch.
+Which software design options would you like to try out next
+so that such a questionable compilation error message will be avoided fina=
+lly?
 
-On Thu, Jun 20, 2024 at 12:25:43PM +0200, Kory Maincent wrote:
-> FW_LOADER config only selects the firmware loader API, but we also need
-> the sysfs_upload symbols for firmware_upload_unregister() and
-> firmware_upload_register() to function properly.
-> 
-> Fixes: 7a52ab415b43 ("media: i2c: Add driver for THine THP7312")
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index c6d3ee472d81..742bc665602e 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -679,6 +679,7 @@ config VIDEO_THP7312
->  	tristate "THine THP7312 support"
->  	depends on I2C
->  	select FW_LOADER
-> +	select FW_UPLOAD
->  	select MEDIA_CONTROLLER
->  	select V4L2_CCI_I2C
->  	select V4L2_FWNODE
-
--- 
 Regards,
-
-Laurent Pinchart
+Markus
 
