@@ -1,137 +1,209 @@
-Return-Path: <linux-media+bounces-13775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13776-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CE8910015
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 11:15:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8A2910059
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 11:28:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 049FBB2384A
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 09:15:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EF86281830
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 09:28:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A93D019DF82;
-	Thu, 20 Jun 2024 09:15:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29561A3BDA;
+	Thu, 20 Jun 2024 09:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jQXtiUPx"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lchDhiMl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8231D19AD6B
-	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 09:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C6C39FD7;
+	Thu, 20 Jun 2024 09:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718874922; cv=none; b=LR5Z0TFd5hZP3vMxuciKKJqZsDp45JVkdqC0/9ptS3NRBjZhGGFRYSEAZfODre1L76Pta5/kibxfaNqp76hy5NKWBuK1zjimEbtW4IsK+Q5RfKPxXo8QcyBq2u2vEhHPVkJQ2QJzamwdtHqdowzBcV683dOJqsBD2dl6JQtpY0c=
+	t=1718875723; cv=none; b=ByyWVZsO8NzxrMRlrWDCDEbocAQs4sa2KDWSDrsnHV13va+uVwlKsEmo61UHgcYUIRiS6dgz592V4XTptd9FBGBWhoN+g5dIUxvaLXT9vNr6dGDBqHdaZ6389R7s2MxWVRKfaVKs70Va/vG3YDhhQ1XLpLICQRn/X3Sm1ibf/xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718874922; c=relaxed/simple;
-	bh=twrKicxt/rd7uHUWZ9PB4Nj/C1XsrWrLk7y1UUM0q1s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=utA8ksoCplfqEtZ1Jho6cpJ/ftY90Hqw1Ko9+APtH3e1AFpoykmu+J0sOXblWzk2WUWEyFEwxYJFZtncr+EOPdnQKYlv/Ep499gjDJWZ1zvLhgkB2HJwD1JH+ppNKzSHRK71YvOIA21ELZUSjZswJYivPIayp9YXYKXH535zSkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jQXtiUPx; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-35f06861ae6so540416f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 02:15:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718874918; x=1719479718; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ssz6l0c4GlCVyQ6sIifih4sFsZrfN+AIGv56k+ZMISE=;
-        b=jQXtiUPxs/9vVbzVzViFQmJk+1jaf1Cy4WfAbNZIcvKnavNGuYniTzqU8Dxh8PfUQ6
-         PPlPgvPL49gjifQ6z2J59qyRmLTHKp5HtWs/OuQpM91Zb/pLdpyLPonnJIl55NCDCT79
-         joTlycjUDPI3vX4tVVjZTUdC+MRgPG77DqfwLCxWTjvVyJgw4qtyaEZLRxpdfOM4CEb5
-         VgnRrAnULK72he6QKo8E9upvQ6fhZbvgzbnDoSCyYF1XgWEF8Z4yCPidd6BGLfNbqJMl
-         hk+OpwzihPmo7rvzl+ASLDzOdIGc+ejsGIt3mkRsdCF2iSzx0VlaZdMAF9kYHekdoahT
-         fo8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718874918; x=1719479718;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ssz6l0c4GlCVyQ6sIifih4sFsZrfN+AIGv56k+ZMISE=;
-        b=c6gQvxTbQkI+UA1+DGSvme8FB5YYlg3HJ0yi28Lxma/scu9Z/OMYDwnmtbWYjNIVWo
-         xyNdgWmgCQvQHZJqldobGm/f+2o37a6GkWWYs1SfG1RCGSjL2DIaSbQY/4g7jXfaIvtF
-         3WzQy7+r6b+CXO1C40+qBgENwjj4oyMJRZX6pPRMayQTnug/gpqJsmz1X/h5y9cmesXj
-         DU2NSkq5Mnp1+GWExys0uAQ7RYWti8gb4k7rxTgnBvQP/HI9mbjstTIEkkavr3uPUhtQ
-         ovoTxEDxv1jDiDoHKYAD3lcCjJLMmSfU/AtNvwQYqMQ02y1joJggQRAdG5Gs9geXiTgU
-         XDNQ==
-X-Gm-Message-State: AOJu0YzK/dqXW+3gD6fvdZmrm46X4jaWbteEp5wwD4OfJSLSpUR951Po
-	epnwWEzfaEl9HUZGvHevQaqsCu7yGvPmK5r95Em6swCYHaIxiOmuKS5z6D58
-X-Google-Smtp-Source: AGHT+IHcA3sx6dlxQ0suIOCsJ7mMvRCb3Xn8l97/IYGVGDDRn6Z8nnyYAz3A0jPuVyGs4Altj2IWSw==
-X-Received: by 2002:a05:6000:136d:b0:365:3c04:c941 with SMTP id ffacd0b85a97d-3653c04ca93mr512886f8f.24.1718874918269;
-        Thu, 20 Jun 2024 02:15:18 -0700 (PDT)
-Received: from cheofusi.cheofusi ([129.0.189.44])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3632d8562a1sm4591060f8f.2.2024.06.20.02.15.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 02:15:17 -0700 (PDT)
-From: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-To: linux-media@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Brandon Cheo Fusi <fusibrandon13@gmail.com>
-Subject: [PATCH v4l-utils] common: Use posix_memalign for allocating userptr buffers
-Date: Thu, 20 Jun 2024 10:15:05 +0100
-Message-Id: <20240620091505.359637-1-fusibrandon13@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1718875723; c=relaxed/simple;
+	bh=m8KQ0CG7MxsfCOUp9aL+Pw6h/7zIsptflSEXm+JmxPY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GGZNWT2Twort5opb/wF5xCY0jhv3C2YTKxuyH24Vn8uK4gjIWI8jqUVmm6dfiTXEDejM6RGWJRZ+PgvFz43ugVl/6o0RQ6iWeuHinYveQmkhbV4uF22RxjMgnrE++Y8SWzHC0iQRB/peZiGHlFFtpEeU39wK7IJG8n5oaKJaz3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lchDhiMl; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45K14U76025733;
+	Thu, 20 Jun 2024 09:28:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TlThF/S6qrr8QeZ5KCYrQVO1lILTdee58Eh9BRos3gc=; b=lchDhiMlIvHl0ay8
+	Vf5I+yZPaKowUdBOgfzaUNNwV0k7lUhwFUz00Ng7wi8FSfzQdjAx/lKGze2YUAOH
+	CkhbhA2smLF0SWhZ6lDTKFD6c4VRyBPpT8LaWFxMA0B04gbqwdL8yzgkXGOb5FpM
+	9YYPOLWkLy++D6SmkuJxmizimTB1x3fzOTnMS2Anu6c9Voly9ocpDutCKP3aZUxa
+	7QkLkiGRSrugFL6bH0C+Gbqh3uSTFn0HG/Lj3LkajmMi6BBQb0dbdecPhYkTP10E
+	oTKxjrqcZQy/2chTXkOifqKmg6YXqDNj1yCXLJARnxXYOxPtbrNObRt7jSMpvcMZ
+	pYkjvg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yujc4kwy5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Jun 2024 09:28:36 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45K9SZca008541
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Jun 2024 09:28:35 GMT
+Received: from [10.216.22.73] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
+ 2024 02:28:33 -0700
+Message-ID: <5b919082-f8c1-569f-a9b1-cd2cdeac8b26@quicinc.com>
+Date: Thu, 20 Jun 2024 14:58:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] Constify struct dec_bufsize_ops and enc_bufsize_ops
+Content-Language: en-US
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+References: <9bc4b28a55c42fa4a125c3e03d4c8b0f208550b4.1717313173.git.christophe.jaillet@wanadoo.fr>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <9bc4b28a55c42fa4a125c3e03d4c8b0f208550b4.1717313173.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: PgfO9nJlvZuP5LP7gPz5yCCchdDdSD3y
+X-Proofpoint-GUID: PgfO9nJlvZuP5LP7gPz5yCCchdDdSD3y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-20_07,2024-06-19_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1011
+ priorityscore=1501 mlxlogscore=999 malwarescore=0 lowpriorityscore=0
+ mlxscore=0 bulkscore=0 impostorscore=0 spamscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406200066
 
-When dealing with a userptr pointing to a buffer in userspace,
-videobuf2 swaps the corresponding physical pages with other pages
-so we have a contiguous area of memory for DMA. This only works if
-the userptr is page aligned.
+Hi Christophe,
 
-The current way of allocating user buffers using malloc only
-guarantees alignment up to `alignof(max_align_t)`, which is usually
-16. So replace malloc with posix_memalign to ensure the returned
-pointer is on a page boundary.
+On 6/2/2024 12:56 PM, Christophe JAILLET wrote:
+> "struct dec_bufsize_ops and "struct enc_bufsize_ops" are not modified in
+> this driver.
+> 
+> Constifying these structures moves some data to a read-only section, so
+> increase overall security.
+> 
+> On a x86_64, with allmodconfig:
+> Before:
+>    text	   data	    bss	    dec	    hex	filename
+>   12494	    822	      0	  13316	   3404	drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.o
+> 
+> After:
+>    text	   data	    bss	    dec	    hex	filename
+>   12766	    566	      0	  13332	   3414	drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.o
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+>  .../platform/qcom/venus/hfi_plat_bufs_v6.c    | 20 +++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> index f5a655973c08..6289166786ec 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> @@ -1063,51 +1063,51 @@ struct enc_bufsize_ops {
+>  	u32 (*persist)(void);
+>  };
+>  
+> -static struct dec_bufsize_ops dec_h264_ops = {
+> +static const struct dec_bufsize_ops dec_h264_ops = {
+>  	.scratch = h264d_scratch_size,
+>  	.scratch1 = h264d_scratch1_size,
+>  	.persist1 = h264d_persist1_size,
+>  };
+>  
+> -static struct dec_bufsize_ops dec_h265_ops = {
+> +static const struct dec_bufsize_ops dec_h265_ops = {
+>  	.scratch = h265d_scratch_size,
+>  	.scratch1 = h265d_scratch1_size,
+>  	.persist1 = h265d_persist1_size,
+>  };
+>  
+> -static struct dec_bufsize_ops dec_vp8_ops = {
+> +static const struct dec_bufsize_ops dec_vp8_ops = {
+>  	.scratch = vpxd_scratch_size,
+>  	.scratch1 = vp8d_scratch1_size,
+>  	.persist1 = vp8d_persist1_size,
+>  };
+>  
+> -static struct dec_bufsize_ops dec_vp9_ops = {
+> +static const struct dec_bufsize_ops dec_vp9_ops = {
+>  	.scratch = vpxd_scratch_size,
+>  	.scratch1 = vp9d_scratch1_size,
+>  	.persist1 = vp9d_persist1_size,
+>  };
+>  
+> -static struct dec_bufsize_ops dec_mpeg2_ops = {
+> +static const struct dec_bufsize_ops dec_mpeg2_ops = {
+>  	.scratch = mpeg2d_scratch_size,
+>  	.scratch1 = mpeg2d_scratch1_size,
+>  	.persist1 = mpeg2d_persist1_size,
+>  };
+>  
+> -static struct enc_bufsize_ops enc_h264_ops = {
+> +static const struct enc_bufsize_ops enc_h264_ops = {
+>  	.scratch = h264e_scratch_size,
+>  	.scratch1 = h264e_scratch1_size,
+>  	.scratch2 = enc_scratch2_size,
+>  	.persist = enc_persist_size,
+>  };
+>  
+> -static struct enc_bufsize_ops enc_h265_ops = {
+> +static const struct enc_bufsize_ops enc_h265_ops = {
+>  	.scratch = h265e_scratch_size,
+>  	.scratch1 = h265e_scratch1_size,
+>  	.scratch2 = enc_scratch2_size,
+>  	.persist = enc_persist_size,
+>  };
+>  
+> -static struct enc_bufsize_ops enc_vp8_ops = {
+> +static const struct enc_bufsize_ops enc_vp8_ops = {
+>  	.scratch = vp8e_scratch_size,
+>  	.scratch1 = vp8e_scratch1_size,
+>  	.scratch2 = enc_scratch2_size,
+> @@ -1186,7 +1186,7 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
+>  	u32 codec = params->codec;
+>  	u32 width = params->width, height = params->height, out_min_count;
+>  	u32 out_width = params->out_width, out_height = params->out_height;
+> -	struct dec_bufsize_ops *dec_ops;
+> +	const struct dec_bufsize_ops *dec_ops;
+>  	bool is_secondary_output = params->dec.is_secondary_output;
+>  	bool is_interlaced = params->dec.is_interlaced;
+>  	u32 max_mbs_per_frame = params->dec.max_mbs_per_frame;
+> @@ -1260,7 +1260,7 @@ static int bufreq_enc(struct hfi_plat_buffers_params *params, u32 buftype,
+>  		      struct hfi_buffer_requirements *bufreq)
+>  {
+>  	enum hfi_version version = params->version;
+> -	struct enc_bufsize_ops *enc_ops;
+> +	const struct enc_bufsize_ops *enc_ops;
+>  	u32 width = params->width;
+>  	u32 height = params->height;
+>  	bool is_tenbit = params->enc.is_tenbit;
 
-Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
----
- utils/common/v4l-helpers.h | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index cf0e92d..92a6fdc 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -1652,6 +1652,19 @@ static inline int v4l_queue_munmap_bufs(struct v4l_fd *f, struct v4l_queue *q,
- 	return 0;
- }
- 
-+static inline void *userptr_malloc(size_t size)
-+{
-+	int v4l2_page_size = getpagesize();
-+	void *ptr_addr = 0;
-+
-+	int ret = posix_memalign(&ptr_addr, v4l2_page_size, size);
-+	if (ret != 0) {
-+		fprintf(stderr, "malloc via posix_memalign failed\n");
-+		return 0;
-+	}
-+	return ptr_addr;
-+}
-+
- static inline int v4l_queue_alloc_bufs(struct v4l_fd *f,
- 		struct v4l_queue *q, unsigned from)
- {
-@@ -1661,7 +1674,7 @@ static inline int v4l_queue_alloc_bufs(struct v4l_fd *f,
- 		return 0;
- 	for (b = from; b < v4l_queue_g_buffers(q); b++) {
- 		for (p = 0; p < v4l_queue_g_num_planes(q); p++) {
--			void *m = malloc(v4l_queue_g_length(q, p));
-+			void *m = userptr_malloc(v4l_queue_g_length(q, p));
- 
- 			if (m == NULL)
- 				return errno;
--- 
-2.39.2
-
+Regards,
+Vikash
 
