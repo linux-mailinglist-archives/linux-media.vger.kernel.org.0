@@ -1,66 +1,57 @@
-Return-Path: <linux-media+bounces-13844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13845-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F94910B6C
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 18:10:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2797910B73
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 18:10:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 789B91C2408A
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:10:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C9201F2148F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:10:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 070DD1B14F2;
-	Thu, 20 Jun 2024 16:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D4BF1B14E4;
+	Thu, 20 Jun 2024 16:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/vqKjnk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mT27RLPe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B021AF68A;
-	Thu, 20 Jun 2024 16:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63741B14E0
+	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 16:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718899790; cv=none; b=L0N3qWiHoNgnqv5l51xpjQJrPwcWDmUrZun7Kzp5xKWb0hQyy8ZoJ723xuvMwxooWktfAkKPSdENsl3+V/MORE6/Mf3Ub1gvjgPXhgR6Qx5x08KLtq9AY/4/QndZqPmfAudXoRxIAMiYqNtOwoflWBMzE0oXD43Zr1trstC3yO4=
+	t=1718899831; cv=none; b=VczBaBVQZfThpyqf/DhyKqcG1BcMZgo8yuj9opqjC3kx/uGyDRif4Ki4qglQfFonyx6OYFAU7125fiUiYkym3gkeImc7nyj6p/ajGjrbNarnhznquUiPr9AxRhrItpFLu9iH7+9JDCU1v1UCrjY4mZvAvCmzlW1Kh5PZLTz/Xdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718899790; c=relaxed/simple;
-	bh=XQWFgbT1rILISA7GfD948pyMzLIvF0B1LSVD5WWIYrA=;
+	s=arc-20240116; t=1718899831; c=relaxed/simple;
+	bh=GdDLUmJ09vW+8Q6GtsFWoUI/wTN33NdxONR+m9HQMRU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MoVPHZcNzYwHxFbhOTBA9kVK25ncNuO5rwrTP41gtJ/104eX9orIW/6T3HR86XYeTxx/5x8XasGrHgnYNc7W8IX1dANgpmoKmiaYtu3jM5EAxb7dWJ3vHI34qGoPBzT6REZQl+Uzl3R9JLGGVhUIb9mIqmsIcOYj4VmB+02v9CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/vqKjnk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5A4C2BD10;
-	Thu, 20 Jun 2024 16:09:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718899789;
-	bh=XQWFgbT1rILISA7GfD948pyMzLIvF0B1LSVD5WWIYrA=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=RRRNOFXlqDRnWgPyomDvSgC+3TlEFEbEJWZ5LiIN1HzzzDXNJaVqdNlGTxA2M1S9JJ8kp/rn7RDY5YmqRgDGZI0RgbrAA92YC7GvRx29jg1EYaydcWU3yhTvjFwGM4iRyhlWcaD6cYTM4rtaTa0SstgK7o3niNrJWlZuNz+Disg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mT27RLPe; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34AB2A4C;
+	Thu, 20 Jun 2024 18:10:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1718899803;
+	bh=GdDLUmJ09vW+8Q6GtsFWoUI/wTN33NdxONR+m9HQMRU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b/vqKjnkHu+L1R4UdBumQWvGZcFgNTl2F9cMHXjtfeby5EBZ06pxIECyEeoI7HNlf
-	 IOK34i3IorowljsYyoXsX/yB83rvD9RXoU0LOZ4C4TacZ1YdhNkCzOPP+v2Na6ON8n
-	 RNJ7UDIgveeS1ta1aGV3qlfjC6MKsO3VptQGp0Nt1os6xti5YTw94JpNH4Ml57ESh1
-	 Adi1p0o/PKimgZcHce23WfypOPqnkwnrFX/RNgBJ5oK0AIKTaIHUfWPrYSG1aly0RT
-	 DhriWD6p6OnZn5VmGYVINgUg48uAgRIqk2cibDkEmQxTsySp+zAk3EUYu8e6/BtpN+
-	 N08P0hApcNYtA==
-Date: Thu, 20 Jun 2024 21:39:45 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Julia Lawall <julia.lawall@inria.fr>, Lee Jones <lee@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-Message-ID: <ZnRUSaHJhz7XLcKa@matsya>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
+	b=mT27RLPe3i1rOAOAT2l/em94/rIsliPc2Fo1xp6EFrx3YUfou7Vn2egP/ruFXWDC4
+	 5NbUMSTRT+SfZbHISfus97qCNfO5lyef4kVdMhrVMtYWjUbmbK7RtRzdBV1SW5Su2p
+	 1czdWfQoVuXz9YCDf1eiJOJPWTPg7nJqUTdINBBk=
+Date: Thu, 20 Jun 2024 19:09:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 0/9] media: vimc improvements
+Message-ID: <20240620160959.GG30640@pendragon.ideasonboard.com>
+References: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
+ <bb5eb601-a7b6-4c77-afd8-bfabcd8c15d4@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,22 +60,51 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
+In-Reply-To: <bb5eb601-a7b6-4c77-afd8-bfabcd8c15d4@linuxfoundation.org>
 
-On 20-06-24, 12:45, Markus Elfring wrote:
-> …
-> > All errors (new ones prefixed by >>):
-> >
-> >>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
-> >     1715 |                 goto err_dmabuf_unmap_attachment;
-> …
+On Thu, Jun 20, 2024 at 09:59:31AM -0600, Shuah Khan wrote:
+> On 4/24/24 17:57, Laurent Pinchart wrote:
+> > Hello,
+> > 
+> > This patch series cleans up and improves the vimc driver, with the end
+> > goal of converting it to the V4L2 subdev active state API. The goal of
+> > this exercise is to make the API used by a virtual test driver, to
+> > increase test coverage.
+> > 
+> > The series starts with 4 random cleanups, to avoid unnecessary
+> > iterations (1/9), constify structures (2/9 and 3/9) and rename a
+> > weirdly-named enum (4/9). Patch 5/9 then centralizes the subdev
+> > internal_ops initialization to prepare for the switch to the active
+> > state API. The remaining patches (6/9 to 9/9) convert the vimc entities
+> > to the new API one by one.
+> > 
+> > The result has been tested using the libcamera unit tests, which make
+> > extensive use of the vimc driver, as well as with v4l2-compliance. The
+> > latter reports 4 errors, but they occur already with the latest stage
+> > master branch.
+> > 
+> > Laurent Pinchart (9):
+> >    media: vimc: Don't iterate over single pad
+> >    media: vimc: Constify vimc_ent_type structures
+> >    media: vimc: Constify the ent_config array
+> >    media: vimc: scaler: Rename vic_sca_pad enum to vimc_scaler_pad
+> >    media: vimc: Centralize subdev internal_ops initialization
+> >    media: vimc: Initialize subdev active state
+> >    media: vimc: sensor: Use subdev active state
+> >    media: vimc: debayer: Use subdev active state
+> >    media: vimc: scaler: Use subdev active state
+> > 
 > 
-> Which software design options would you like to try out next
-> so that such a questionable compilation error message will be avoided finally?
+> Thank you. Applied the series to
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux.git/log/?h=vimc
+> 
+> I will send pull request to Mauro in a week.
 
-The one where all emails from Markus go to dev/null
+Thank you Shuah. Much appreciated.
 
 -- 
-~Vinod
+Regards,
+
+Laurent Pinchart
 
