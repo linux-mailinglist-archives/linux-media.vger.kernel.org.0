@@ -1,148 +1,68 @@
-Return-Path: <linux-media+bounces-13861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372A5911131
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 20:45:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF803911170
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 20:53:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54DAB1C21169
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 18:45:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A95871F22D92
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 18:53:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5031BD8E8;
-	Thu, 20 Jun 2024 18:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F41521B4C3F;
+	Thu, 20 Jun 2024 18:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HzfBEEKn"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="aMq43eqK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869E31B5824;
-	Thu, 20 Jun 2024 18:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BF71B1509
+	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 18:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718908347; cv=none; b=sgsg/2Qlu51p/wmW7yBRwd8Zr0ygIuJZhyvv5Y46zl/joF/qnLrbwiOdl1G4OtNgFoexI1h7yW87oVisWIM9tuuLNJIEdS/fEx7E2dmHDKbMV/hdTbSjcqcJ20JO12rIuC6vrJY80On/7oTT1JF8TaVbUHZPirlBiPo3ZaRCWF8=
+	t=1718909497; cv=none; b=qb7guTmzVZbt3+GBf8D+Qpau490Uh0SdpFczaOT5R+cPiOkyqG3KC5ehvCTjtMld+lO2q/EOrHwesc3jLnbJZiW7jVJ0itCh3haVCCzXKsG+wTwfJb4z5ybSderGGrwLhGuDn3A2TGuZaQiR94/y23INq4udrcS6NB48wQZpQyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718908347; c=relaxed/simple;
-	bh=bcnNV5dpAp1ceLCDW/J9hztLgbbtYChtelB1u6t4YSQ=;
+	s=arc-20240116; t=1718909497; c=relaxed/simple;
+	bh=tTgT4w9eqpvkO1rVwr8IRiU3ZnfR8Xj1YvxopGFHyko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qnd3fnhBfi4H87p5+0kk9tB+80VnxgTHwHf2Vzo7uPh/JSH1QvqMmhnBmfMKbXC7ASAlD02xzK2GeG6Av2SaCjZSp1spfKraMnNSJEHK6r3d+N5YkzvMscEf9VqwXpoF6Xyg6sOCAFzOLi/AddNfGics4+nozE7kzeU0MvqVM0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HzfBEEKn; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-6e40d54e4a3so920614a12.0;
-        Thu, 20 Jun 2024 11:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718908345; x=1719513145; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8iVi8v7MOsNpmY/+YQC9/JqsYXXSSMQtfI1oW5IIrXg=;
-        b=HzfBEEKnb7yMAtIc5pi9tlUmYi4AfFghtmFY1E+uM0IMwnBht3eJriKkN8NcNR7XVI
-         smfgFnp/9d8HBYzy5PhJisccqfDPtxDMPjwkclbQ1S6uEAq9wY15GK+MSBQif0TrsO8B
-         zbA+yRzNq7vYHOF2XXzjbO25SELOob70DWS35DMogw8ZmTKpvwHKWL70RyqrTriDopYr
-         HCJx5HkbWN3Emt1BC91boa3/B3Mkt+vswtjA05a4Z2Wx6f0KV7Y4kjvOrwnXGQo/MjIf
-         ZOiLdWIUEhyop6G/Yfk3tJw8QiW95Nc5KxUzQX6G3bK/X52BhrIiSMaWdINnEu7u17N4
-         mGHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718908345; x=1719513145;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8iVi8v7MOsNpmY/+YQC9/JqsYXXSSMQtfI1oW5IIrXg=;
-        b=C3ZlwU4hoHPLjNgIuYXG62Pp27j5nmaEfsNrLoCgmfz/tocAICKLPwpaKNaBY+kHyX
-         +VrrBQRTsFuswx7GCM2+XB/Y2eGuWGQOOSE8pWZQGLRlev/m//xv6jIvicbrq8bava7s
-         ZR9VTgy5mRpQtewslwIZybqpI4FVSSAiVIY50+45ApNrwPj0bb1xIdXhT83keJQvko7c
-         bckYIzOVUwVL2+qrgSZivKLe6g6JK0fwI1TgJIOnsNZD8iC+Yn3OaQlXSGv1KZl8lMVC
-         on+FotgLVFpBt2jqF7AK4wnuFofA9O2V1KJuyQ4mNPboXZZPrsro7Q10unE8qoKZ9FLx
-         xQLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOHoZ9qAgTmUNNpyljH5nCSrvXMKU/tYjPd7VK5kU8TSb9W3Tusy3600a1ufwKAq3VljcggSlWqcORpeqDG+X5kqHfklM5lA31mzWmFSQMbw1uXmQRXcuFs9YwOthoK9OuNRI3NdNCNapPD5iWxI2CBlTTUgF5FcLYPra1R/8xP2ogyc+2+qq1hAC9rNVEwrn+aA8/ibhbFOwTcA8pkBntxhh7vZrtmabSgiQEcV7gJC8S424cMt9nq6C51SsAS1dv8EoZRwGvUU+M5BetzEjOM7ulfcpOqFKyPgiQ+SZb9ia00Bj18KY5JxhIiFg/ZDhe+wT6UbKyQFB+I4SrBy35yy74C7iXncM7Z0Ub6JJz0+LqDqiv5hqxOIyyVjD/6L3o4czrsrcmgM+5dnpRBKvGfeK7K1wKwfYiisS/1d+AYgrEJE0Z47Q1dihizSj/CED/S7YTbo2T5a3esUTe7KV//WZxUflTU3YvnmOfSjns5eZ0NxvaFM3O7xJVFobHeRg2qjS/eFmS/GEnUq2fGvOfdE90zCZ8OSr0daEuqgkORdW34gGZhODRLK4PbFwfmaHM/59urbHiqiyMC2OO7Md0Z/2+wp0yBvhHlwqeK9PThd14BlscyM2RMwEdo4Yi+4hGZBABuHJlN6wmPyT60ZYPO5C2UTs4PBSL7AlBL/VCZ/s+GIcquQt2wvFD8y90Bt3pdZ1jrZrzOAw9Fr1wfKAUFkD21qMQAbdADw3leiKJTxiOp1OmpIoakAfTbjtmJtH5W4mq1Q==
-X-Gm-Message-State: AOJu0YwSVc+ntQF5icdUe82us6R41IQ282c8elg71bk7Dpzqkt9CE4b6
-	Jlfc/V/wjHffbEkwKLXhvJ8nYQ8uZ7lzEcd/N3Z6WYN3P/ovE/dz
-X-Google-Smtp-Source: AGHT+IGwYt1/AWmTgUMNjVMcs2dgiLwPkNhT8ZohuoeI/pLSbMfw85UksxqJbsocMe0+kY+O1HneTA==
-X-Received: by 2002:a17:903:230c:b0:1f9:bb35:f313 with SMTP id d9443c01a7336-1f9bb35f5b7mr46779535ad.30.1718908344747;
-        Thu, 20 Jun 2024 11:32:24 -0700 (PDT)
-Received: from localhost ([216.228.127.128])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e80ef6sm140498555ad.115.2024.06.20.11.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 11:32:23 -0700 (PDT)
-Date: Thu, 20 Jun 2024 11:32:21 -0700
-From: Yury Norov <yury.norov@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Borislav Petkov <bp@alien8.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Disseldorp <ddiss@suse.de>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Fenghua Yu <fenghua.yu@intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-	Jiri Pirko <jiri@resnulli.us>, Jiri Slaby <jirislaby@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>, Karsten Graul <kgraul@linux.ibm.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
-	Kees Cook <keescook@chromium.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Simek <monstr@monstr.eu>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Oliver Neukum <oneukum@suse.com>, Paolo Abeni <pabeni@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ping-Ke Shih <pkshih@realtek.com>, Rich Felker <dalias@libc.org>,
-	Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	GR-QLogic-Storage-Upstream@marvell.com, alsa-devel@alsa-project.org,
-	ath10k@lists.infradead.org, dmaengine@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-net-drivers@amd.com, linux-pci@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, mpi3mr-linuxdrv.pdl@broadcom.com,
-	netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Bart Van Assche <bvanassche@acm.org>, Jan Kara <jack@suse.cz>,
-	Matthew Wilcox <willy@infradead.org>,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH v4 00/40] lib/find: add atomic find_bit() primitives
-Message-ID: <ZnR1tQN01kN97G_F@yury-ThinkPad>
-References: <20240620175703.605111-1-yury.norov@gmail.com>
- <CAHk-=wiUTXC452qbypG3jW6XCZGfc8d-iehSavxn5JkQ=sv0zA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iDU4XeX7d3EdKZYYeB+Ez7xt8wKyMVrYEVY9/fqh5x3+RUgvKN+lsk5Pmb2YroB757jvAPm2gEC1Pu+jqSKcxn2mZZz1IdnWXYTw10lqXaOrXBxANhASQW+NQCYUrhgw1wXXNCZfNcqbKSmGqX1wSLRr/8mO26PJLAd3qtBxE08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=aMq43eqK; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=MU27GOzofHBzoS9hK/8L/jeMMjyo3rBAQPotylssncU=; b=aMq43eqKJIPsW7w7r8ZFyWcIZn
+	X/aeIQU2dxXsxDW36/2Pz1CK0a+TGfqsgMfO2+GFLYCVrot5AlDJIfpbv6cdl/4uYBnqg5abHewpA
+	4xjVxIxytCr7ndJV8sBvdmSeLaygK8uSvEoj0pTIk4lZvCAjMmQnwK2dpmnCvDqW0NLq5eIZkTHvb
+	CJBmQPzowG5M/ufD1IeVBn7c9YqaTr45OmlPIcpx9kDaI5wSRhX81TgzcqkXPTKy2n5TRN0i19bqi
+	MSEn037M2f6RhTh5Ze7NHHJWLLNAHOqXAvy0EpewW2t2Rt6jRjnDXaexANWTgJaWs9UuQjvMhe/+i
+	ZpAD2Iug==;
+Received: from 179-125-75-233-dinamico.pombonet.net.br ([179.125.75.233] helo=quatroqueijos.cascardo.eti.br)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1sKMsF-005aFQ-5L; Thu, 20 Jun 2024 20:51:07 +0200
+Date: Thu, 20 Jun 2024 15:50:58 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	kernel-dev@igalia.com, Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+	Rob Clark <robdclark@chromium.org>
+Subject: Re: [PATCH] dma-buf/sw_sync: Add a reference when adding fence to
+ timeline list
+Message-ID: <ZnR6EmzUy2bCKHHI@quatroqueijos.cascardo.eti.br>
+References: <20240324101533.3271056-1-cascardo@igalia.com>
+ <fc68dce2-88e0-4055-a074-bd45f7e68912@igalia.com>
+ <ZmyFKVuYvs59Oirt@quatroqueijos.cascardo.eti.br>
+ <d8f02671-67df-43c3-9f23-1904f661a590@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -151,51 +71,356 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wiUTXC452qbypG3jW6XCZGfc8d-iehSavxn5JkQ=sv0zA@mail.gmail.com>
+In-Reply-To: <d8f02671-67df-43c3-9f23-1904f661a590@igalia.com>
 
-On Thu, Jun 20, 2024 at 11:00:38AM -0700, Linus Torvalds wrote:
-> On Thu, 20 Jun 2024 at 10:57, Yury Norov <yury.norov@gmail.com> wrote:
-> >
-> >
-> > The typical lock-protected bit allocation may look like this:
+On Wed, Jun 19, 2024 at 01:14:38PM +0100, Tvrtko Ursulin wrote:
 > 
-> If it looks like this, then nobody cares. Clearly the user in question
-> never actually cared about performance, and you SHOULD NOT then say
-> "let's optimize this that nobody cares about":.
+> On 14/06/2024 19:00, Thadeu Lima de Souza Cascardo wrote:
+> > On Fri, Jun 14, 2024 at 11:52:03AM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 24/03/2024 10:15, Thadeu Lima de Souza Cascardo wrote:
+> > > > commit e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence
+> > > > signal") fixed a recursive locking when a signal callback released a fence.
+> > > > It did it by taking an extra reference while traversing it on the list and
+> > > > holding the timeline lock.
+> > > > 
+> > > > However, this is racy and may end up adding to a kref that is 0, triggering
+> > > > a well deserved warning, as later that reference would be put again.
+> > > > 
+> > > > CPU 0					CPU 1
+> > > > sync_file_release			sync_timeline_signal
+> > > >     dma_fence_put
+> > > >       timeline_fence_release
+> > > > 					  spin_lock_irq(&obj->lock)
+> > > > 					  dma_fence_get(&pt->base)
+> > > >       spin_lock_irqsave(fence->lock, flags)
+> > > > 
+> > > > As shown above, it is possible for the last reference to be dropped, but
+> > > > sync_timeline_signal take the lock before timeline_fence_release, which
+> > > > will lead to a 0->1 kref transition, which is not allowed.
+> > > > 
+> > > > This is because there is still a pointer to the fence object in the list,
+> > > > which should be accounted as a reference.
+> > > > 
+> > > > In previous discussions about this [3], it was called out that keeping such
+> > > > a reference was not a good idea because the fence also holds a reference to
+> > > > the timeline, hence leading to a loop. However, accounting for that
+> > > > reference doesn't change that the loop already exists. And userspace holds
+> > > > references in the form of file descriptors, so it is still possible to
+> > > > avoid potential memory leaks.
+> > > > 
+> > > > This fix also avoids other issues. The nested locking is still possible to
+> > > > trigger when closing the timeline, as sw_sync_debugfs_release also calls
+> > > > dma_fence_signal_locked while holding the lock. By holding a reference and
+> > > > releasing it only after doing the signal, that nested locking is avoided.
+> > > > 
+> > > > There are a few quirks about the reference counting here, though.
+> > > > 
+> > > > In the simple case when sync_pt_create adds a new fence to the list, it
+> > > > returns with 2 references instead of 1. That is dealt with as
+> > > > sw_sync_ioctl_create_fence always puts a reference after calling
+> > > > sync_file_create. That is necessary for multiple reasons.
+> > > > 
+> > > > One is that it takes care of the error case when sync_file_create fails.
+> > > > 
+> > > > The extra reference is put, while the fence is still held on the list, so
+> > > > its last reference will be put when it is removed from the list either in
+> > > > sync_timeline_signal or sw_sync_debugfs_release.
+> > > 
+> > > So any fences where sync_file_create failed linger around until
+> > > sw_sync_debugfs_release? Okay-ish I guess since it is a pathological case.
+> > > 
+> > 
+> > The challenge here is to determine which one of the multiple cases we are
+> > dealing with. Since we don't hold the lock while sync_file_create is
+> > called, we are left with this situation. An alternative would be to fold
+> > sync_pt_create into sw_sync_ioctl_create_fence, so at least we can
+> > determine which case is which. That would also fix the case where we handle
+> > userspace a file descriptor with a fence that is not even on the list.
 > 
-> Yury, I spend an inordinate amount of time just double-checking your
-> patches. I ended up having to basically undo one of them just days
-> ago.
-
-Is that in master already? I didn't get any email, and I can't find
-anything related in the master branch.
-
-> New rule: before you send some optimization, you need to have NUMBERS.
-
-I tried to underline that it's not a performance optimization at my
-best. People notice some performance differences, but it's ~3%, no
-more.
-
-> Some kind of "look, this code is visible in profiles, so we actually care".
-
-The original motivation comes from a KCSAN report, so it's already
-visible in profiles. See [1] in cover letter. This series doesn't fix
-that particular issue, but it adds tooling that allow people to search
-and acquire bits in bitmaps without firing KCSAN warnings.
-
-This series fixes one real bug in the codebase - see #33, and
-simplifies bitmaps usage in many other places. Many people like
-it, and acked the patches.
-
-Again, this is NOT a performance series.
-
-Thanks,
-Yury
-
-> Because without numbers, I'm just not going to pull anything from you.
-> These insane inlines for things that don't matter need to stop.
+> Since sync_pt_create is local and has only this single caller it could be
+> worth exploring this option to see if it could simplify things and get rid
+> of this lingering objects corner case.
 > 
-> And if they *DO* matter, you need to show that they matter.
+
+So when I went back looking into this, I actually needed to make
+sw_sync_ioctl_create_fence be able to allocate the sync_file without
+assigning a fence. That's when I realized it wouldn't buy us much as we
+could check for the signaled case and return NULL. Let me look at this
+again and get back to you.
+
+> > > > It also avoids the race when a signal may come in between sync_pt_create
+> > > > and sync_file_create as the lock is dropped. If that happens, the fence
+> > > > will be removed from the list, but a reference will still be kept as
+> > > > sync_file_create takes a reference.
+> > > > 
+> > > > Then, there is the case when a fence with the given seqno already exists.
+> > > > sync_pt_create returns with an extra reference to it, that we later put.
+> > > > Similar reasoning can be applied here. That one extra reference is
+> > > > necessary to avoid a race with signaling (and release), and we later put
+> > > > that extra reference.
+> > > > 
+> > > > Finally, there is the case when the fence is already signaled and not added
+> > > > to the list. In such case, sync_pt_create must return with a single
+> > > > reference as this fence has not been added to the timeline list. It will
+> > > > either be freed in case sync_file_create fails or the file will keep its
+> > > > reference, which is later put when the file is released.
+> > > > 
+> > > > This is based on Chris Wilson attempt [2] to fix recursive locking during
+> > > > timeline signal. Hence, their signoff.
+> > > > 
+> > > > Link: https://lore.kernel.org/all/20200714154102.450826-1-bas@basnieuwenhuizen.nl/ [1]
+> > > > Link: https://lore.kernel.org/all/20200715100432.13928-2-chris@chris-wilson.co.uk/ [2]
+> > > > Link: https://lore.kernel.org/all/20230817213729.110087-1-robdclark@gmail.com/T/ [3]
+> > > > Fixes: e531fdb5cd5e ("dma-buf/sw_sync: Avoid recursive lock during fence signal")
+> > > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> > > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> > > > Cc: Rob Clark <robdclark@chromium.org>
+> > > > ---
+> > > >    drivers/dma-buf/sw_sync.c | 42 ++++++++++++++++-----------------------
+> > > >    1 file changed, 17 insertions(+), 25 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> > > > index c353029789cf..83b624ac4faa 100644
+> > > > --- a/drivers/dma-buf/sw_sync.c
+> > > > +++ b/drivers/dma-buf/sw_sync.c
+> > > > @@ -151,16 +151,7 @@ static const char *timeline_fence_get_timeline_name(struct dma_fence *fence)
+> > > >    static void timeline_fence_release(struct dma_fence *fence)
+> > > >    {
+> > > > -	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+> > > >    	struct sync_timeline *parent = dma_fence_parent(fence);
+> > > > -	unsigned long flags;
+> > > > -
+> > > > -	spin_lock_irqsave(fence->lock, flags);
+> > > > -	if (!list_empty(&pt->link)) {
+> > > > -		list_del(&pt->link);
+> > > > -		rb_erase(&pt->node, &parent->pt_tree);
+> > > > -	}
+> > > > -	spin_unlock_irqrestore(fence->lock, flags);
+> > > >    	sync_timeline_put(parent);
+> > > >    	dma_fence_free(fence);
+> > > > @@ -229,7 +220,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
+> > > >     */
+> > > >    static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+> > > >    {
+> > > > -	LIST_HEAD(signalled);
+> > > >    	struct sync_pt *pt, *next;
+> > > >    	trace_sync_timeline(obj);
+> > > > @@ -242,20 +232,14 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+> > > >    		if (!timeline_fence_signaled(&pt->base))
+> > > >    			break;
+> > > > -		dma_fence_get(&pt->base);
+> > > > -
+> > > > -		list_move_tail(&pt->link, &signalled);
+> > > > +		list_del(&pt->link);
+> > > >    		rb_erase(&pt->node, &obj->pt_tree);
+> > > >    		dma_fence_signal_locked(&pt->base);
+> > > > +		dma_fence_put(&pt->base);
+> > > >    	}
+> > > >    	spin_unlock_irq(&obj->lock);
+> > > > -
+> > > > -	list_for_each_entry_safe(pt, next, &signalled, link) {
+> > > > -		list_del_init(&pt->link);
+> > > > -		dma_fence_put(&pt->base);
+> > > > -	}
+> > > >    }
+> > > >    /**
+> > > > @@ -299,13 +283,11 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+> > > >    			} else if (cmp < 0) {
+> > > >    				p = &parent->rb_left;
+> > > >    			} else {
+> > > > -				if (dma_fence_get_rcu(&other->base)) {
+> > > > -					sync_timeline_put(obj);
+> > > > -					kfree(pt);
+> > > > -					pt = other;
+> > > > -					goto unlock;
+> > > > -				}
+> > > > -				p = &parent->rb_left;
+> > > > +				/* This is later put in sw_sync_ioctl_create_fence. */
+> > > > +				dma_fence_get(&other->base);
+> > > > +				dma_fence_put(&pt->base);
+> > > 
+> > > Couldn't this have stayed a direct kfree given pt is not exposed to anywhere
+> > > at this point, nor it will be? I know there would need to be an explicit
+> > > sync_timeline_put(obj) too, as before, but perhaps that would read more
+> > > obvious.
+> > > 
+> > 
+> > Maybe this is a matter of opinion. I find it easier to read dma_fence_put
+> > instead of doing what I just did which was checking that sync_timeline_put
+> > and kfree was all left to do. And then I notice there is also tracing
+> > involved in that path. Do we care about tracing such a case? Or do we want
+> > it explicitly not traced? I would rather keep it as dma_fence_put.
 > 
->                Linus
+> Could be a matter of opinion yeah.
+> 
+
+So, dma_fence_put has the advantage of being safer in the long term as
+freeing the fence becomes more than what it is right now. And as I
+mentioned, it adds tracing to the mix. dma_fence_init was called and that
+called trace_dma_fence_init. It is fair that a call to
+trace_dma_fence_destroy is seen when this fence is gone, even if it's not
+even added to the list.
+
+The advantage from doing the kfree instead is that it shows that this is
+putting the single/last reference. We could add a comment there to make it
+more explicit.
+
+> > > > +				pt = other;
+> > > > +				goto unlock;
+> > > >    			}
+> > > >    		}
+> > > >    		rb_link_node(&pt->node, parent, p);
+> > > > @@ -314,6 +296,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+> > > >    		parent = rb_next(&pt->node);
+> > > >    		list_add_tail(&pt->link,
+> > > >    			      parent ? &rb_entry(parent, typeof(*pt), node)->link : &obj->pt_list);
+> > > > +		/* Adding to the list requires a reference. */
+> > > > +		dma_fence_get(&pt->base);
+> > > >    	}
+> > > >    unlock:
+> > > >    	spin_unlock_irq(&obj->lock);
+> > > > @@ -354,6 +338,7 @@ static int sw_sync_debugfs_release(struct inode *inode, struct file *file)
+> > > >    	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+> > > >    		dma_fence_set_error(&pt->base, -ENOENT);
+> > > >    		dma_fence_signal_locked(&pt->base);
+> > > > +		dma_fence_put(&pt->base);
+> > > 
+> > > Can't this be dropping one reference too many?
+> > > 
+> > > There is one reference for being on the list, and one for the owning file.
+> > > Or there is another one?
+> > > 
+> > > If there isn't, dma_fence_signal_locked will drop the one for being on the
+> > > list, and then we drop one more here. Is it the last one? Shouldn't
+> > > sync_file_release still own one?
+> > 
+> > Does dma_fence_signal_locked drop a reference? A callback may drop a
+> 
+> Is this a question or a suggestive? I mean doesn't it? After this patch
+> sync_timeline_signal() becomes:
+> 
+
+Well, it was a honest question as you suggested that it does.
+sync_timeline_signal is not called by dma_fence_signal_locked. It is called
+as a result of an IOCTL on the timeline/sw_sync fd. And as can be seen
+below, it removes the fence from the list. So when sw_sync_debugfs_release
+is called later, it won't find that same fence on the list anymore. The
+reference to it has been removed, hence why the reference is put.
+
+So, basically: to add a reference to the list, you need to get. When
+removing from the list, you need to put.
+
+> ...
+> 	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+> 		if (!timeline_fence_signaled(&pt->base))
+> 			break;
+> 
+> 		list_del(&pt->link);
+>  		rb_erase(&pt->node, &obj->pt_tree);
+> 
+>  		dma_fence_signal_locked(&pt->base);
+> 		dma_fence_put(&pt->base); --*******--> -1
+>  	}
+> ...
+> 
+> So this drops the "on the list reference" and then closing of the
+> sw_sync_debugfs closes the other:
+> 
+> sw_sync_debugfs_release()
+> ...
+> 
+>     	list_for_each_entry_safe(pt, next, &obj->pt_list, link) {
+>     		dma_fence_set_error(&pt->base, -ENOENT);
+>     		dma_fence_signal_locked(&pt->base);
+>  		dma_fence_put(&pt->base); ---*******--> -2
+> 
+> At which point two references are dropped. What becomes of the reference
+> which is associated with the sync fence fd itself? I mean when userspace
+> closes that fd and sync_file_release runs, will the dma_fence_put in there
+> be one too many?
+> 
+> I am easily missing something is my disclaimer. It should be easily testable
+> from an IGT and remove any doubt. Create some fences, close the sw_sync
+> timeline, then close individual fences. Kref debug aids should tell us if
+> there was one reference dropped too many.
+
+I will see if I can work out some extra testing with IGT. I have done a lot
+of ad-hoc testing as I needed to test for the multiple other issues this is
+fixing: under some race conditions, a use-after-free, a memory leak, a
+potential deadlock (or lockdep warning).
+
+Thanks again for the feedback.
+Cascardo.
+
+> 
+> > reference because it was necessarily taken, but then it is an extra
+> > reference. We are dropping this one here because we are done with the list.
+> > We are not actually removing things from the list because it cannot be
+> > referenced anymore, sw_sync is being released.
+> > 
+> > Now, I may not remember some of the details, and this might be related to
+> > the circular references that is discussed in the commit message, but let's
+> > assume that we still have an opened fd sync_file reference to this fence.
+> > The only thing touching the list left is sync_timeline_signal, which is
+> > called by an ioctl on the timeline fd which is not available anymore. We
+> > can explicitly remove things from the list here and be on the safer side.
+> > The issue exists already, it is just not possible to trigger it with the
+> > current code.
+> > 
+> > I am not sure how easy it is to provide a different version that fixes both
+> > the "useless fence on pt_list to which userspace has no fd" and "fence fd
+> > that can never be signaled as it is not on the list because it was already
+> > signaled". Perhaps this last one can be "fixed" with setting the signaled
+> > bit on the fence, but I have the impression this is already done. So,
+> > perhaps, not much worth doing it?
+> > 
+> > Thanks a lot.
+> > Cascardo.
+> > 
+> > PS:
+> > 
+> > After a quick revisit here, we can easily fix the case when the fence is
+> > not added to the list: return NULL (or rather, change it to an ERR_PTR)
+> > when the fence is already signaled. Any preference for an error code here?
+> > -EEXIST, perhaps?
+> 
+> I'll postpone thinking about this until I understand the main question from
+> above.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > As for the case where sync_file_create or copy_to_user fails and the fence
+> > is left on the list, this wouldn't be different from creating the fence and
+> > closing the file descriptor. The fence would still be left there until it
+> > is either signaled or the timeline is released.
+> > 
+> > 
+> > > 
+> > > Regards,
+> > > 
+> > > Tvrtko
+> > > 
+> > > >    	}
+> > > >    	spin_unlock_irq(&obj->lock);
+> > > > @@ -386,7 +371,14 @@ static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
+> > > >    	}
+> > > >    	sync_file = sync_file_create(&pt->base);
+> > > > +
+> > > > +	/*
+> > > > +	 * Puts the extra reference returned by sync_pt_create. This is necessary
+> > > > +	 * to avoid a race where the fence is signaled, removed from the list and
+> > > > +	 * released right after sync_pt_create releases the lock and returns.
+> > > > +	 */
+> > > >    	dma_fence_put(&pt->base);
+> > > > +
+> > > >    	if (!sync_file) {
+> > > >    		err = -ENOMEM;
+> > > >    		goto err;
+> > 
+> 
 
