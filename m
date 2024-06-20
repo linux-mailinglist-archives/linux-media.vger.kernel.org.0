@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-13826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E2B910827
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:27:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A85791082D
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:27:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEDD6281402
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:27:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 901E61C21237
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:27:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 764451AED41;
-	Thu, 20 Jun 2024 14:26:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4FA1B0105;
+	Thu, 20 Jun 2024 14:26:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="L6ars+UU"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hSCtGxVA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7101AE86E;
-	Thu, 20 Jun 2024 14:26:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C98B1AE096;
+	Thu, 20 Jun 2024 14:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718893582; cv=none; b=jf7NuUf5Soz8MGlRRjGbERYVCNVe+HK8TMKGGVdwRjA+Kr0Le0n9HyBVtmr54YpPJFikWfHevPGAGfQh4X/A58F1lB7x3q/mxd01yqIY/mHxUJLICfEWw1xAs9qMgHTMaPxJ/wQXx5ivRBzCYx8szaSVygIFu9xr2BaDx0WPXrY=
+	t=1718893587; cv=none; b=fj3zQgyiWmX3GCaC/1xV5mKzpTE0v8i1soo1AyI4mLl4/uoENXDMPAplcqZyxEN2yCIbiC+8ncpAyBhU/y/vIv8ii6u1TYuTOh2p7i5U2WwlznMDBNFuIMsdxrABH8FB2+4PYKeAKNgtRfkjW/g/itn92a1YdmFAgzAvT1xQu3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718893582; c=relaxed/simple;
-	bh=sIkfsnAVoRds5WEklbfbC0UMyyLpSMkwJORy5GD4llI=;
+	s=arc-20240116; t=1718893587; c=relaxed/simple;
+	bh=J4ZzHlMsU2GCNXR+PaXtuLPzMGTluUszmXuqmkPWX1s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l+HFbuRfLh0zDrf38JOcYnLoY8QkrIMc1s1ujptcJgiVvxEbUYYdS1NLXqF4Qx2ovGYjHcwLF0F5iXbyFJCWErjXvX7jg6VEa28k8cOLlEz9lcaBIznUlLxkkcBEz5HU7M/Qij5/vC83wV+UMT1fwS1xKt+/UEn1GQBvgtkGmwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=L6ars+UU; arc=none smtp.client-ip=46.235.227.194
+	 MIME-Version; b=Jx6ol5sq05LMkhVTg5jiq3VT3ksqzFFlfNtYIuqQ2qJH/qTTOMlBKoQNmyzzUGAPe/3i5lCN/XH+7/O730l1znmrJjspfb+2dcTLPIFFtCQuxiXb4Pl3rN+qITH2emflqPxovm+E5Th71eiu+0Z6Eh43ZV3DJFgnGLHWjmGu9Yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hSCtGxVA; arc=none smtp.client-ip=46.235.227.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1718893579;
-	bh=sIkfsnAVoRds5WEklbfbC0UMyyLpSMkwJORy5GD4llI=;
+	s=mail; t=1718893583;
+	bh=J4ZzHlMsU2GCNXR+PaXtuLPzMGTluUszmXuqmkPWX1s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L6ars+UU8ohJqBv97do828pZdjXZvYeXIXxXszh5cvWbRlxk41wJ1grI0pcugmcYM
-	 7sOOAg9IlqadKzqQJHTCh/ATXPWKcGEE081SlKdUkumDEv68ZiGYJJdBmJPaUsW7Wz
-	 z1FibZmOZ4uDiXO+qM90wDd2m1tx9V+6pN4/Em0qUewDtvIxbLa6KbEQZh/dxvtdbW
-	 KWfXj7VTNFzHwpEaCdZc3quO9qe2RkyX/wDjhk3mmYVTkIS714TPEWsXvwAAQpylNr
-	 B8XBaQLM074aXB94Vie9DrGWQZLz9tyKBv2jlms1GNXsTX1DWEvaV5KZJ6Oz6BQxhU
-	 T90nS/ieJ0PQA==
+	b=hSCtGxVAqcL2jXdMLdAqo+79uJgPvFtYyvYYjSf3GAKnkPBGzVOXMnZjt4KF6UP4f
+	 lA7jlIS3WpQZ+wOGbIIMT57IXHi+EZ00NPKBAFX9UzNHPrGN5CSOdIKeJ9HuJDU/LO
+	 c2wHoSBg5s2UNfFBKhkYoycUqkjmp0/otfPFFh3dnWD93GFfJumWMcrPX/yp/l3qoi
+	 DqQeZ2ME1kBqIpriMOzFbcaLAzds+DG/JabA39wHGzrfnxKx8QThTKv1y8qScwPWl9
+	 gYFDqeA5/roM6ljkjnPzUDVofaPK3KlkmInSgACTzqYeIpGpTFP91jBEShAymECkZE
+	 xIh3uhRyrq95Q==
 Received: from arisu.hitronhub.home (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2780B37821D3;
-	Thu, 20 Jun 2024 14:26:16 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2960837821D9;
+	Thu, 20 Jun 2024 14:26:20 +0000 (UTC)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -75,9 +75,9 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	Detlev Casanova <detlev.casanova@collabora.com>
-Subject: [PATCH v3 3/4] media: dt-bindings: rockchip: Document RK3588 Video Decoder bindings
-Date: Thu, 20 Jun 2024 10:19:45 -0400
-Message-ID: <20240620142532.406564-4-detlev.casanova@collabora.com>
+Subject: [PATCH v3 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on rk3588(s)
+Date: Thu, 20 Jun 2024 10:19:46 -0400
+Message-ID: <20240620142532.406564-5-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240620142532.406564-1-detlev.casanova@collabora.com>
 References: <20240620142532.406564-1-detlev.casanova@collabora.com>
@@ -89,116 +89,79 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the Rockchip RK3588 Video Decoder bindings.
+Add the rkvdec2 Video Decoder to the RK3588s devicetree.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- .../bindings/media/rockchip,vdec.yaml         | 55 +++++++++++++++++++
- 1 file changed, 55 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 48 +++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-index 08b02ec16755..d44f6b0d2c55 100644
---- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-@@ -17,6 +17,7 @@ properties:
-   compatible:
-     oneOf:
-       - const: rockchip,rk3399-vdec
-+      - const: rockchip,rk3588-vdec
-       - items:
-           - enum:
-               - rockchip,rk3228-vdec
-@@ -30,29 +31,56 @@ properties:
-     maxItems: 1
- 
-   clocks:
-+    minItems: 4
-     items:
-       - description: The Video Decoder AXI interface clock
-       - description: The Video Decoder AHB interface clock
-       - description: The Video Decoded CABAC clock
-       - description: The Video Decoder core clock
-+      - description: The Video decoder HEVC CABAC clock
- 
-   clock-names:
-+    minItems: 4
-     items:
-       - const: axi
-       - const: ahb
-       - const: cabac
-       - const: core
-+      - const: hevc_cabac
- 
-   assigned-clocks: true
- 
-   assigned-clock-rates: true
- 
-+  resets:
-+    items:
-+      - description: The Video Decoder AXI interface reset
-+      - description: The Video Decoder AHB interface reset
-+      - description: The Video Decoded CABAC reset
-+      - description: The Video Decoder core reset
-+      - description: The Video decoder HEVC CABAC reset
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+index 6ac5ac8b48ab..9c44c99125b4 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
+@@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
+ 		ranges = <0x0 0x0 0xff001000 0xef000>;
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
 +
-+  reset-names:
-+    items:
-+      - const: rst_axi
-+      - const: rst_ahb
-+      - const: rst_cabac
-+      - const: rst_core
-+      - const: rst_hevc_cabac
++		vdec0_sram: rkvdec-sram@0 {
++			reg = <0x0 0x78000>;
++			pool;
++		};
 +
-   power-domains:
-     maxItems: 1
++		vdec1_sram: rkvdec-sram@1 {
++			reg = <0x78000 0x77000>;
++			pool;
++		};
+ 	};
  
-   iommus:
-     maxItems: 1
- 
-+  sram:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      phandle to a reserved on-chip SRAM regions.
-+      Some SoCs, like rk3588 provide on-chip SRAM to store temporary
-+      buffers during decoding.
+ 	pinctrl: pinctrl {
+@@ -2665,6 +2675,44 @@ gpio4: gpio@fec50000 {
+ 			#interrupt-cells = <2>;
+ 		};
+ 	};
 +
- required:
-   - compatible
-   - reg
-@@ -61,6 +89,33 @@ required:
-   - clock-names
-   - power-domains
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: rockchip,rk3588-vdec
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 5
-+        clock-names:
-+          minItems: 5
++	vdec0: video-decoder@fdc38100 {
++		compatible = "rockchip,rk3588-vdec";
++		reg = <0x0 0xfdc38100 0x0 0x500>;
++		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
++			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
++		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
++		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
++				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
++		assigned-clock-rates = <800000000>, <600000000>,
++				       <600000000>, <1000000000>;
++		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
++			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
++		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
++			      "rst_core", "rst_hevc_cabac";
++		power-domains = <&power RK3588_PD_RKVDEC0>;
++		sram = <&vdec0_sram>;
++	};
 +
-+        resets:
-+          minItems: 5
-+        reset-names:
-+          minItems: 5
-+    else:
-+      properties:
-+        clocks:
-+          maxItems: 4
-+        clock-names:
-+          maxItems: 4
-+        resets: false
-+        reset-names: false
-+        sram: false
-+
- additionalProperties: false
++	vdec1: video-decoder@fdc40100 {
++		compatible = "rockchip,rk3588-vdec";
++		reg = <0x0 0xfdc40100 0x0 0x500>;
++		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
++			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
++		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
++		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
++				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
++		assigned-clock-rates = <800000000>, <600000000>,
++				       <600000000>, <1000000000>;
++		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
++			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
++		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
++			      "rst_core", "rst_hevc_cabac";
++		power-domains = <&power RK3588_PD_RKVDEC1>;
++		sram = <&vdec1_sram>;
++	};
+ };
  
- examples:
+ #include "rk3588s-pinctrl.dtsi"
 -- 
 2.44.2
 
