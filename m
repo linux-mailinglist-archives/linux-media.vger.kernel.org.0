@@ -1,236 +1,210 @@
-Return-Path: <linux-media+bounces-13778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B496910065
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 11:31:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B09B3910076
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 11:35:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE50FB21DEA
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 09:31:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A8841F21277
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 09:35:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03ADF1A3BC8;
-	Thu, 20 Jun 2024 09:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CC51A4F0C;
+	Thu, 20 Jun 2024 09:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XWEJO25s"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="NceWNLW9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BB9199EBA
-	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 09:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88F41802E;
+	Thu, 20 Jun 2024 09:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718875876; cv=none; b=Z6qgROxEvz9SFdr6HpnXASsFX/VMxIDbjiu0U8KTjD9YM7JwYp+td10NdEDEG5h478txR3PsN+fDXrTnTW2aiO55leGYN0viV8c8UD5W6nBXNPmshNXxw8+66dY0QxSitv5QjRQTYKLYz/zu4YIuKoxeNU+qKqj9NEI1migIFP4=
+	t=1718876145; cv=none; b=HPOGUOzrZ5PJKVB9gtRyWYCZTPA1VC9rQLFLt16PYeV6N2vzrqyvClyuqS4kAbp2g+DedVXoS9f9LnHalTGz91E3rjECINvok9yREYrIhxcP3FLqw+gPcVYH2TlWeS//oKaeXoMKT95iEybSyN7ncqP+ZMI+DU6sVq38Bv3zIJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718875876; c=relaxed/simple;
-	bh=oNQWqjoHp1e0pj0OyDiwmZzwh92Q1HiSWBqxKNbIzrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oo4BMIPXzl7M8x1AE5kW4xxAUeuBAk8bZI5iC0rwdnLjFgcKbsOD7Jn2hUe2CgNkn1hvBjngANObDxWrwACi/VizlUT8CooW27M9dkWIJ4y50JSyavb4m8cJUuR/AeCJcFEsKd76n2Z/DxOP6J5h804KyPpEIypl2s6hHYgOhX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XWEJO25s; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFAAAA4C;
-	Thu, 20 Jun 2024 11:30:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718875853;
-	bh=oNQWqjoHp1e0pj0OyDiwmZzwh92Q1HiSWBqxKNbIzrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XWEJO25s7v0+50n9rykDrnSm52sdsC5+jIa6i/PFYinNyGXNeoEeloktZ/2CHCcRu
-	 aoOcwflkVBt3TjI/3ahG/PB/toxqodo7gwEWDET0Ek+4BUopW2VZuO+HvJOViDfOsb
-	 ghJJIPl6slTlRum3C6CLiW8+6rC26uBJ8fZyptpE=
-Date: Thu, 20 Jun 2024 18:31:02 +0900
-From: Paul Elder <paul.elder@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH 2/8] uapi: videodev2: Add V4L2_META_FMT_RK_ISP1_EXT_PARAMS
-Message-ID: <ZnP21hj1cJzMHnpJ@pyrite.rasen.tech>
-References: <20240605165434.432230-1-jacopo.mondi@ideasonboard.com>
- <20240605165434.432230-3-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1718876145; c=relaxed/simple;
+	bh=/im2dJUny8GKoQW+PN7rXm2Wg0NNCu6haplVD9oaSw8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=euU57rWi/3tAu6mn0R4bLQkcHwA6x3vIjRg+/asQSimwoLp7dwqphCSA3h2ABY5r86rcc/I3HXVe+TYDuegXuoilrie5f5GoQrnz13rWFv/YF+kgVMzEetTmAi6a0pa3JLtadHuruVT7nJtepye/fuECjQQwEpbcdsrWaiGRLtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=NceWNLW9; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45K9ZTDQ022533;
+	Thu, 20 Jun 2024 04:35:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1718876129;
+	bh=LuavQ3UC+4/Ob7tONsBWjdr8str9OS1gS5F4yxXaans=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=NceWNLW9zcklCRy6jNVQDNpck5HQ3D8ehO7BXXQd/muV/S4FA8VqFJCV8Z6sjpDt8
+	 vLDYHiTxlYYzETsien5It9ebvzJk5XEOhqJ9ujXs15Uq4uUKho9bZi64vxghhWp4+l
+	 bp8PIuBMBkH1KnRPIFHd/c6CVR4r/iaiQG6HXE64=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45K9ZT4H071619
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 20 Jun 2024 04:35:29 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 20
+ Jun 2024 04:35:28 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 20 Jun 2024 04:35:28 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45K9ZNUN057394;
+	Thu, 20 Jun 2024 04:35:24 -0500
+Message-ID: <881dcea1-a592-4506-083a-9d5f3c6a8781@ti.com>
+Date: Thu, 20 Jun 2024 15:05:23 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240605165434.432230-3-jacopo.mondi@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RESEND PATCH v6 2/4] media: chips-media: wave5: Support runtime
+ suspend/resume
+Content-Language: en-US
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>,
+        "mchehab@kernel.org"
+	<mchehab@kernel.org>,
+        "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+        "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        Nas Chung
+	<nas.chung@chipsnmedia.com>,
+        "lafley.kim" <lafley.kim@chipsnmedia.com>,
+        "b-brnich@ti.com" <b-brnich@ti.com>,
+        Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>,
+        "Luthra, Jai" <j-luthra@ti.com>, Vibhore
+	<vibhore@ti.com>,
+        Dhruva Gole <d-gole@ti.com>, Aradhya <a-bhatia1@ti.com>,
+        "Raghavendra, Vignesh" <vigneshr@ti.com>
+References: <20240617104818.221-1-jackson.lee@chipsnmedia.com>
+ <20240617104818.221-3-jackson.lee@chipsnmedia.com>
+ <6e6f767c-85e9-87f6-394f-440efcc0fd21@ti.com>
+ <SE1P216MB13037621438C8CE6142A69A8EDCF2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+ <SE1P216MB130382374B76CD8BC9FFCFE5EDC82@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <SE1P216MB130382374B76CD8BC9FFCFE5EDC82@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Wed, Jun 05, 2024 at 06:54:21PM +0200, Jacopo Mondi wrote:
-> Add a new format definition for the RkISP1 extensible parameters
-> format and document it.
+Hi Jackson,
+
+On 20/06/24 05:41, jackson.lee wrote:
 > 
-> Document the usage of the new format in the rkisp1 admin guide.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  Documentation/admin-guide/media/rkisp1.rst    | 11 +++-
->  .../media/v4l/metafmt-rkisp1.rst              | 62 ++++++++++++++++---
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 64 insertions(+), 11 deletions(-)
+>> -----Original Message-----
+>> From: jackson.lee
+>> Sent: Thursday, June 20, 2024 8:57 AM
+>> To: Devarsh Thakkar <devarsht@ti.com>; mchehab@kernel.org;
+>> nicolas@ndufresne.ca; sebastian.fricke@collabora.com
+>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>; lafley.kim
+>> <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; Nicolas Dufresne
+>> <nicolas.dufresne@collabora.com>
+>> Subject: RE: [RESEND PATCH v6 2/4] media: chips-media: wave5: Support runtime
+>> suspend/resume
+>>
+>> Hi Devarsh
+>>
+>> If there is no feeding bitstreams during encoding and decoding frames, then
+>> driver's status is switched to suspended automatically by autosuspend.
+
+I think the pm_runtime_*_autosuspend helpers are to schedule a delayed suspend
+i.e. after the pm counter goes to 0, suspend the device after timeout period
+which is set to 5s in this case.
+
+Even without using the pm_runtime_*_autosuspend helpers, i.e if you use
+pm_runtime_resume_and_get on start streaming and pm_runtime_put_sync on stop
+streaming the device gets suspended automatically if not in use albeit
+immediately after the pm counter goes to 0. And this is what many codec
+devices drivers do today [1]. Ain't that suffice what we want ?
+
+In my view the delayed suspend functionality is generally helpful for devices
+where resume latencies are higher for e.g. this light sensor driver [2] uses
+it because it takes 250ms to stabilize after resumption and I don't see this
+being used in codec drivers generally since there is no such large resume
+latency. Please let me know if I am missing something or there is a strong
+reason to have delayed suspend for wave5.
+
+>> And if we don’t use autosuspend, it is very difficult for us to catch if
+>> there is feeding or not while working a pipeline.
+>> So it is very efficient for managing power status.
+
+As mentioned above, if you mean by autosuspend that device should
+automatically suspend if not used then you don't require to use
+pm_runtime_*_autosuspend helpers (as those are for delayed suspend actually)
+and instead use the generic pm helpers pm_runtime_resume_and_get and
+pm_runtime_put_sync and PM core will automatically suspend the device when pm
+counter drops to 0 and resume it back when pm counter is incremented.
+
+>>
+>> If the delay is very great value, we can adjust it.
+>>
+
+As mentioned above, I feel we don't require to use pm_runtime_*_autosuspend
+helpers at first place.
+
+>> Thanks
+>> Jackson
+>>
 > 
-> diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
-> index 6f14d9561fa5..934c25e191df 100644
-> --- a/Documentation/admin-guide/media/rkisp1.rst
-> +++ b/Documentation/admin-guide/media/rkisp1.rst
-> @@ -114,11 +114,18 @@ to be applied to the hardware during a video stream, allowing userspace
->  to dynamically modify values such as black level, cross talk corrections
->  and others.
->  
-> -The buffer format is defined by struct :c:type:`rkisp1_params_cfg`, and
-> -userspace should set
-> +The ISP driver supports two different parameters configuration methods, the
-> +`fixed parameters format` or the `extensible parameters format`.
-> +
-> +When using the `fixed parameters` method the buffer format is defined by struct
-> +:c:type:`rkisp1_params_cfg`, and userspace set
->  :ref:`V4L2_META_FMT_RK_ISP1_PARAMS <v4l2-meta-fmt-rk-isp1-params>` as the
->  dataformat.
->  
-> +When using the fixed parameters method the buffer format is defined by struct
-
-s/fixed/extensible/ ?
-
-> +:c:type:`rkisp1_ext_params_cfg`, and userspace set
-> +:ref:`V4L2_META_FMT_RK_ISP1_EXT_PARAMS <v4l2-meta-fmt-rk-isp1-ext-params>` as
-> +the dataformat.
->  
->  Capturing Video Frames Example
->  ==============================
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst b/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-> index fa04f00bcd2e..6ff776d071a3 100644
-> --- a/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-> @@ -1,28 +1,72 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -.. _v4l2-meta-fmt-rk-isp1-params:
-> -
->  .. _v4l2-meta-fmt-rk-isp1-stat-3a:
->  
-> -*****************************************************************************
-> -V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s')
-> -*****************************************************************************
-> +************************************************************************************************************************
-> +V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s'), V4L2_META_FMT_RK_ISP1_EXT_PARAMS ('rk1e')
-> +************************************************************************************************************************
->  
-> +========================
->  Configuration parameters
->  ========================
->  
-> -The configuration parameters are passed to the
-> +The configuration of the RkISP1 ISP is performed by userspace by providing
-> +parameters for the ISP to the driver using the :c:type:`v4l2_meta_format`
-> +interface.
-> +
-> +There are currently two methods that allow to configure the ISP, the `fixed
-> +parameters` configuration format and the `extensible parameters` configuration
-> +format.
-> +
-> +.. _v4l2-meta-fmt-rk-isp1-params:
-> +
-> +Fixed parameters configuration format
-> +=====================================
-> +
-> +When using the fixed configuration format, parameters are passed to the
->  :ref:`rkisp1_params <rkisp1_params>` metadata output video node, using
-> -the :c:type:`v4l2_meta_format` interface. The buffer contains
-> -a single instance of the C structure :c:type:`rkisp1_params_cfg` defined in
-> -``rkisp1-config.h``. So the structure can be obtained from the buffer by:
-> +the `V4L2_META_FMT_RK_ISP1_PARAMS` meta pixel format.
-> +
-> +The buffer contains a single instance of the C structure
-> +:c:type:`rkisp1_params_cfg` defined in ``rkisp1-config.h``. So the structure can
-> +be obtained from the buffer by:
->  
->  .. code-block:: c
->  
->  	struct rkisp1_params_cfg *params = (struct rkisp1_params_cfg*) buffer;
->  
-> +As the members of :c:type:`rkisp1_params_cfg` are defined in the
-> +``rkisp1-config.h`` header, the structure layout is immutable and cannot be
-> +extended further. For this reason the fixed configuration format only allows the
-> +configuration of the ISP blocks supported at the time when the structure had
-> +been defined in the header file, as introducing new parameters or modifying the
-> +existing ones would change the buffer layout and cause breakages in existing
-> +applications.
-> +
-> +.. _v4l2-meta-fmt-rk-isp1-ext-params:
-> +
-> +Extensible parameters configuration format
-> +==========================================
-> +
-> +When using the extensible configuration format, parameters are passed to the
-> +:ref:`rkisp1_params <rkisp1_params>` metadata output video node, using
-> +the `V4L2_META_FMT_RK_ISP1_EXT_PARAMS` meta pixel format.
-> +
-> +The buffer contains a single instance of the C structure
-> +:c:type:`rkisp1_ext_params_cfg` defined in ``rkisp1-config.h``. The
-> +:c:type:`rkisp1_ext_params_cfg` structure is designed to allow userspace to
-> +populate the data buffer with only the configuration data for the ISP block it
-> +intends to configure. The extensible parameters format design allows to define
-
-s/allows to define/allows defining/
-
-> +new block types and new configuration parameters and defines a versioning scheme
-
-s/parameters/parameters,/
-
-
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-
-> +so that it can be extended and versioned without breaking compatibility with
-> +existing applications.
-> +
-> +For these reasons, this configuration method if preferred over the `fixed
-> +parameters` format alternative.
-> +
->  .. rkisp1_stat_buffer
->  
-> +===========================
->  3A and histogram statistics
->  ===========================
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 4c76d17b4629..aefdc1efd24b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1456,6 +1456,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
->  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
->  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
-> +	case V4L2_META_FMT_RK_ISP1_EXT_PARAMS:	descr = "Rockchip ISP1 Ext 3A Params"; break;
->  	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index fe6b67e83751..7c2a303c6f59 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -840,6 +840,7 @@ struct v4l2_pix_format {
->  /* Vendor specific - used for RK_ISP1 camera sub-system */
->  #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
->  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
-> +#define V4L2_META_FMT_RK_ISP1_EXT_PARAMS	v4l2_fourcc('R', 'K', '1', 'E') /* Rockchip ISP1 3a Extensible Parameters */
->  
->  #ifdef __KERNEL__
->  /*
-> -- 
-> 2.45.1
+> One more thing, 
 > 
+> When an instance is closed or started, we are currently putting a power status to suspend or resumed immediately.
+So I tested this series and see below issues :
+
+1) I see it seems to break VPU operation on AM62A using upstream linux-next
+colliding with the polling functionality there since that device does not have
+an irq and relies on polling as I see below logs on bootup :
+
+[2024-06-20 13:01:12] root@am62axx-evm:~# dmesg | tail
+[2024-06-20 13:01:16] [   23.744372] x8 : ffff000804248a50 x7 :
+ffff00087f6ba0c0 x6 : 0000000000000000
+[2024-06-20 13:01:16] [   23.744381] x5 : 0000000000f42400 x4 :
+0000000000000000 x3 : 0000000000000001
+[2024-06-20 13:01:16] [   23.744390] x2 : ffff0008041ad808 x1 :
+0000000000000044 x0 : ffff800082150044
+[2024-06-20 13:01:16] [   23.744400] Call trace:
+[2024-06-20 13:01:16] [   23.744404]  wave5_vdi_read_register+0x8/0x20 [wave5]
+[2024-06-20 13:01:16] [   23.744420]  kthread_worker_fn+0xcc/0x184
+[2024-06-20 13:01:16] [   23.744432]  kthread+0x118/0x11c
+[2024-06-20 13:01:16] [   23.744440]  ret_from_fork+0x10/0x20
+[2024-06-20 13:01:16] [   23.744452] Code: b9000022 d65f03c0 f940b000 8b214000
+(b9400000)
+[2024-06-20 13:01:16] [   23.744458] ---[ end trace 0000000000000000 ]---
+
+I think care needs to be taken to make sure timer is started after device is
+powered on and stopped before device gets powered off.
+
+
+> The autospend feature is being only used when there is no feeding while working a pipeline.
+
+2) I think above doesn't seem to work, Brandon had a hack patch on vendor tree
+[3] for AM62A timer, with that I no longer see above crash issue but I observe
+that there is a 5 second wait to power off device even after last instance is
+closed as seen here [4], seems like power counter is not getting set to 0 on
+instance close, you may try to reproduce the same on j721s2 evm too.
+
+
+[1]:
+https://gitlab.com/linux-kernel/linux-next/-/blob/master/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c?ref_type=heads#L1637
+[2]:
+https://gitlab.com/linux-kernel/linux-next/-/blob/next-20240619/drivers/iio/light/bh1780.c?ref_type=tags#L179
+[3]:
+https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/commit/?h=ti-linux-6.6.y-cicd&id=0be8de03825c2834a39af603b088cbf31e19d55d
+[4]: https://gist.github.com/devarsht/009075d8706001f447733ed859152d90
+
+Regards
+Devarsh
 
