@@ -1,179 +1,172 @@
-Return-Path: <linux-media+bounces-13852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C06910E5F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 19:22:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3141A910F70
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 19:51:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0178D1C21C2E
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 17:22:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D9E0B288D3
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 17:40:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53141B3F0A;
-	Thu, 20 Jun 2024 17:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4711C0040;
+	Thu, 20 Jun 2024 17:33:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="l2uvP6jJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DvYoYla7"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="4e3GMXpV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E541A4F1D;
-	Thu, 20 Jun 2024 17:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774A21BF32C;
+	Thu, 20 Jun 2024 17:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718904165; cv=none; b=adzZZqBYWwBwXN7BxSn94sVJBVAJiIR0VUU16U6z+6lKGg6tfE591mrRh0j4l3PTmApJm4P3gxppg9i63VP0J6XCoLUTDwdo2ebG/xhbz6xMPfVSJhCdZtIIWUXPLOrLb6g5tMyLacb52rgYX61iVheDHLHFkE98RP9tb9bJbec=
+	t=1718904781; cv=none; b=m/NuB4APjPidz2VPI/3GnFhxvfuFGO1E4B47QSUWJm+6i5jPvpfSn+cWyKbATPTheXrtYPOkGDjI4qc+UpWPGKGazRmvXs3tEkyNd640kzmURUW333V6ezMA/xdr07z9l3lbxMIVQnPGBdtvHroDje3AMOoMKyohR29TJhnEHBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718904165; c=relaxed/simple;
-	bh=4GZytodNabpBpQfHkn0vHgr7691PnQZlRpPCrb0qEqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sFzj3NMHBr2j85dwUBWpBwj8UikszfauEt4csE0g6KeZAsyP4nGhOJdpopFItLsctsu7B0gh5ZQ07FWso5Ey5i0pyYAsFaEPUWdI4lFS2+z8HflMOuFETjaSSRcd0NduDmTxpDHVKM5+7rBqTxmicGgHJ+jl7TT+mmg4jc60liI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=l2uvP6jJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DvYoYla7; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfout.nyi.internal (Postfix) with ESMTP id C168C1380120;
-	Thu, 20 Jun 2024 13:22:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 20 Jun 2024 13:22:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1718904160;
-	 x=1718990560; bh=VkdvAqCpdBsmsMXIeyPYcuMengxQ+03Ye9lgxOnYspo=; b=
-	l2uvP6jJgtazJl1/LHGOyjytI4yw23c1JKu+eYqiuAGGyPrfcgxpkFLCyavavPvA
-	NEY6wD0J+aI3/Fm2Fmj/guEbP7fNXEB/ciPTjHurucfWXcg0Qp6hSCMynZoPiG99
-	1/R2kxWpcX05X250hMjOONM3INBIMpTlIk7Une3FGezvvyTh2LNgAgwNZ6Wxphe6
-	BxDAGoW84isIlS/kUKxz098jn3ZWngyyq1AK+3BAV67GC1WRAOLArRaR24zd8LD2
-	zd8pqdwEP/q4lmZIX/W38d48o7QB9XahPjVKX3mNw4IhNvXk82DaRTNoewYXdOrf
-	RDxC40ZXKRMitWBeLLM8Rw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1718904160; x=
-	1718990560; bh=VkdvAqCpdBsmsMXIeyPYcuMengxQ+03Ye9lgxOnYspo=; b=D
-	vYoYla7f++xU6eEop8yMmQ1ZENaPvxwCfvx7DvvmKxeaunbTWa7Z6Q1C2vDGWUgd
-	57C7Q+WGLMwv17UTj3tyonW7x4akbCmn0yDtfM+w5rTvspa3N3oatI+SnLnh5BZ1
-	A0oYnU9V5DZMNBBUpesG/6nlJL/oN52D43+7K+yyShsMavn+aVmihFeg/G0O0nXN
-	+9GHNLRDLPMYCvq4EBiEj/toWz5Tj6Ro5eR3uGI/hZ/fPXgCvMlACxKFjph0ltMh
-	Dp5gQI1T3S6bT6pxwtby9rVztFWLnns3PzSSZmsfLyRSVAka5a1arhzBF/8c6FrS
-	HhHz+zCy7tRY6SZCBOJgg==
-X-ME-Sender: <xms:YGV0ZlOjDjgf04O_hIYTe6zWg457CXOoooZdNhDMVD0w1SVZ28hnzQ>
-    <xme:YGV0Zn84ctcLTQgmnTeF-Yy2AuumR5O5F49nvKgmWvpx_pkxbO6HT4bEkuqPAzbqz
-    6CGXSyyOrzrXK9N1MU>
-X-ME-Received: <xmr:YGV0ZkSA2IhUonAuzcSEwqF7nwf-OHVInrk1Z24vGSVY5BLmneVR6E58vi8RfUFqwUfxYQp4tW4oGgKhmen-zzg9sXzLZdI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefvddguddufecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhi
-    khhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvg
-    hnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleel
-    hfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
-    vghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:YGV0Zhsh_0L12XeIliRQc2oHYHdqMITreXLfkr4012lohOwhWiMpnQ>
-    <xmx:YGV0Ztceh-lwKjjwun-aBN8MkCe_2AVVQDM011Bj1xFo0aVnzgzYJg>
-    <xmx:YGV0Zt3nVzVMs5j-LcxFuUA-Mx-86vAmtpStTNolAGRiZfL0AH65uA>
-    <xmx:YGV0Zp_YF4nXohgcJ2b2nHNo5o541nytiBpfyoiOeJUvAsG1HP85hg>
-    <xmx:YGV0ZuUUX4OU7tUBIiFqfSM4W2105h_QqdRNjndE1X7_R4ZtS9YVnHsX>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 20 Jun 2024 13:22:40 -0400 (EDT)
-Date: Thu, 20 Jun 2024 19:22:37 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Conor Dooley <conor@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for
- V4M
-Message-ID: <20240620172237.GA3623951@ragnatech.se>
-References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
- <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
- <20240619-passage-iodine-9f944b26a30d@spud>
- <20240619185607.GT382677@ragnatech.se>
- <20240619204321.GU382677@ragnatech.se>
- <20240620-gating-coherent-af984389b2d7@spud>
+	s=arc-20240116; t=1718904781; c=relaxed/simple;
+	bh=kp1Q4kOh5cBalrsrfuwKZ2xz4Q7tGmSDRh5ia6AColo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ew4eyQrtXCnF6KweAx3aHE7rllFAcMYEFyHRWtnqTdVeI5/+rWiLSPiGwLvYiuENDI6klur1NsEalqcDZfADL4tug7jiv2S2L7oTgGF1IDMIWjeQeQ+YNyP7WkDTZ9D0s+qsrTZpXUstUgw357FuiNp4ypCcuMDPgaXsnO0vi9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=4e3GMXpV; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718904777;
+	bh=kp1Q4kOh5cBalrsrfuwKZ2xz4Q7tGmSDRh5ia6AColo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=4e3GMXpVwKiIbMVo4FBTo077VSFfO5NQaKIm+GvYE0c9IoGOwMTxnAhivY1LKwwJn
+	 f4B2jyWmH4Zf3NACjEEVJr8gYnVYui4oms0nZU56Lmt1Q4zIreD8y/4lvW/G4JVJQi
+	 2sCeaJn5B11ezbhnsWDv0ra281KOkh5mLup6am1As6xZY7xD60TuXOMarPf5YB4BEw
+	 iNcKY9zGZQHLoWE9aywIFKjLzsJNz6dnEpbd3QeYpmg/Yngvv+D+sm0VFO0C5SjU+x
+	 VyQfhhXyjzfKH9padDtAaxaYRH5vcljyGsa6LUfyFMVXx/tDRqbkd3qjN7jbxX+cQT
+	 DPor6Xqk351pA==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B112237810CD;
+	Thu, 20 Jun 2024 17:32:55 +0000 (UTC)
+Message-ID: <07d56a690d5fed16082e73c5565b67777e31494a.camel@collabora.com>
+Subject: Re: [RESEND PATCH v6 2/4] media: chips-media: wave5: Support
+ runtime suspend/resume
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Devarsh Thakkar <devarsht@ti.com>, "jackson.lee"
+	 <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org" <mchehab@kernel.org>, 
+ "sebastian.fricke@collabora.com"
+	 <sebastian.fricke@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,  Nas Chung
+ <nas.chung@chipsnmedia.com>, "lafley.kim" <lafley.kim@chipsnmedia.com>,
+ "b-brnich@ti.com" <b-brnich@ti.com>, "Luthra, Jai" <j-luthra@ti.com>,
+ Vibhore <vibhore@ti.com>,  Dhruva Gole <d-gole@ti.com>, Aradhya
+ <a-bhatia1@ti.com>, "Raghavendra, Vignesh" <vigneshr@ti.com>
+Date: Thu, 20 Jun 2024 13:32:52 -0400
+In-Reply-To: <e901967f-59df-f4b0-de51-61e542c04161@ti.com>
+References: <20240617104818.221-1-jackson.lee@chipsnmedia.com>
+	 <20240617104818.221-3-jackson.lee@chipsnmedia.com>
+	 <6e6f767c-85e9-87f6-394f-440efcc0fd21@ti.com>
+	 <SE1P216MB13037621438C8CE6142A69A8EDCF2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <SE1P216MB130382374B76CD8BC9FFCFE5EDC82@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <881dcea1-a592-4506-083a-9d5f3c6a8781@ti.com>
+	 <b2f7552d37075538e22640f7b42838d29d3f8b3e.camel@collabora.com>
+	 <e901967f-59df-f4b0-de51-61e542c04161@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240620-gating-coherent-af984389b2d7@spud>
 
-On 2024-06-20 17:27:00 +0100, Conor Dooley wrote:
+Le jeudi 20 juin 2024 =C3=A0 19:50 +0530, Devarsh Thakkar a =C3=A9crit=C2=
+=A0:
+> Hi Nicolas,
+>=20
+> On 20/06/24 19:35, Nicolas Dufresne wrote:
+> > Hi Devarsh,
+> >=20
+> > Le jeudi 20 juin 2024 =C3=A0 15:05 +0530, Devarsh Thakkar a =C3=A9crit=
+=C2=A0:
+> > > In my view the delayed suspend functionality is generally helpful for=
+ devices
+> > > where resume latencies are higher for e.g. this light sensor driver [=
+2] uses
+> > > it because it takes 250ms to stabilize after resumption and I don't s=
+ee this
+> > > being used in codec drivers generally since there is no such large re=
+sume
+> > > latency. Please let me know if I am missing something or there is a s=
+trong
+> > > reason to have delayed suspend for wave5.
+> >=20
+> > It sounds like you did proper scientific testing of the suspend results=
+ calls,
+> > mind sharing the actual data ?
+>=20
+> Nopes, I did not do that but yes I agree it is good to profile and evalua=
+te
+> the trade-off but I am not expecting 250ms kind of latency. I would sugge=
+st
+> Jackson to do the profiling for the resume latencies.
 
-> > +      - items:
-> > +          - enum:
-> >                - renesas,vin-r8a779g0 # R-Car V4H
-> > +              - renesas,vin-r8a779h0 # R-Car V4M
-> > +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
-> > 
-> > If so I can see that working as I could still fix any issues that come 
-> > from differences between V4H and V4M if needed. If so do you think it 
-> > best to add this in two different patches? One to add the 
-> > renesas,rcar-gen4-vin fallback (which will also need DTS updates to fix 
-> > warnings from exciting users of V4H not listing the gen4 fallback) and 
-> > one to add V4M?
-> 
-> 
-> I would just do:
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> index 5539d0f8e74d..22bbad42fc03 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -54,6 +54,9 @@ properties:
->                - renesas,vin-r8a77995 # R-Car D3
->                - renesas,vin-r8a779a0 # R-Car V3U
->                - renesas,vin-r8a779g0 # R-Car V4H
-> +      - items:
-> +          - const: renesas,vin-r8a779h0 # R-Car V4L2
-> +          - const: renesas,vin-r8a779g0 # R-Car V4H
+I'd clearly like to see numbers before we proceed.
 
-@Geert: What do you think about this? This would be a first use-case for 
-compatibles crossing SoC DTS files that I know of. I'm a bit uneasy 
-going down this road.
+>=20
+> But perhaps a separate issue, I did notice that intention of the patchset=
+ was
+> to suspend without waiting for the timeout if there is no application hav=
+ing a
+> handle to the wave5 device but even if I close the last instance I still =
+see
+> the IP stays on for 5seconds as seen in this logs [1] and this perhaps co=
+uld
+> be because extra pm counter references being hold.
 
-Would this not also effect the existing users of renesas,vin-r8a779g0 
-which would now need something similar to what you propose below with a 
-list of SoC compatibles and a fallback.
+Not sure where this comes from, I'm not aware of drivers doing that with M2=
+M
+instances. Only=20
 
->  
->    reg:
->      maxItems: 1
-> 
-> Which requires no driver or dts changes. That could become:
->       - items:
->           - enum:
->               - renesas,vin-r8a779h0 # R-Car V4L2
->               - renesas,vin-r8a779i0 # R-Car R4P17
->           - const: renesas,vin-r8a779g0 # R-Car V4H
+>=20
+> [2024-06-20 12:32:50] Freeing pipeline ...
+>=20
+> and after 5 seconds..
+>=20
+> [2024-06-20 12:32:55] |   204     | AM62AX_DEV_CODEC0 | DEVICE_STATE_ON |
+> [2024-06-20 12:32:56] |   204     | AM62AX_DEV_CODEC0 | DEVICE_STATE_OFF
+>=20
+> [1]: https://gist.github.com/devarsht/009075d8706001f447733ed859152d90
 
-FWIW, on Gen2 where fallback es where useful compared to Gen3 we did 
-this with "renesas,rcar-gen2-vin".
+Appart from the 5s being too long, that is expected. If it fails after that=
+,
+this is a bug, we we should hold on merging this until the problem has been
+resolved.
 
-> 
-> if there's another compatible device in the future.
-> 
-> > Apologies again for the confusion.
-> 
-> dw about it
+Imagine that userspace is going gapless playback, if you have a lets say 30=
+ms on
+forced suspend cycle due to close/open of the decoder instance, it won't
+actually endup gapless. The delay will ensure that we only suspend when nee=
+ded.
 
+There is other changes I have asked in this series, since we always have th=
+e
+case where userspace just pause on streaming, and we want that prolonged pa=
+used
+lead to suspend. Hopefully this has been strongly tested and is not just ad=
+ded
+for "completeness".
 
+Its important to note that has a reviewer only, my time is limited, and I
+completely rely on the author judgment of delay tuning and actual testing.
 
--- 
-Kind Regards,
-Niklas Söderlund
+Nicolas
+
+>=20
+> Regards
+> Devarsh
+
 
