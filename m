@@ -1,97 +1,117 @@
-Return-Path: <linux-media+bounces-13796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13797-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22C69103E2
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:24:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B229103F8
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:28:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 999C41F21D26
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:24:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D817D282DAB
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:28:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBA0C1AC24E;
-	Thu, 20 Jun 2024 12:24:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6F91AC78D;
+	Thu, 20 Jun 2024 12:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rGcAW5HN"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="lqyoE7Lh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2539FC0C;
-	Thu, 20 Jun 2024 12:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F001AC43A;
+	Thu, 20 Jun 2024 12:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718886240; cv=none; b=PBXhQx4h4/R82i5O8fsmJrjni8ITAHqzL5UJG3tM1e3kdWekmXYZPg/XA7NoPuUL1IvyRYaxplMpNDxg6vcDvqF15iHqB5CsxL68+ghg3i3NBA+wlGQtO9Ia6IsVZOqah+HB0OkgrCoOy+3Adclyn16CdWDLeuNnHy3IrVPsnyE=
+	t=1718886471; cv=none; b=p6nMIZTdhPMu4KSgKd8wvaX+oJgNrMQ1pFvyPZsXjetlCOrOmKYhzBMm8Eogeyr4JXyc62PkmvjMpkWwfhVg3ejMTC+OKvy+6j2SSdz2tm+08sAKIv6GB8EDX+kUqYVI2geYL6Im+apqGLd43RRKImwl3Zl0NxSQvXfGb0EBvKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718886240; c=relaxed/simple;
-	bh=AW7DaSZCd1KDBTYJ8IgKl9VZdfL5b7uzrNFPFjz+b+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gTVSMK/gApoF0PbmbU/mEhuwtaXdJqxQPFbJaLccV2K1m4gS6ZMqWqRmqgifzCPV96J4LWihWX8ZL48TLH+vhes3t6aFm2OeDVir5bKZeBpwngb2UGl1jZT1voxpZjlEYP7aSlGgOsZfpIlCRzWH+7XEOztLv+pw5yeCTkNrZEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rGcAW5HN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E9E6A4C;
-	Thu, 20 Jun 2024 14:23:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718886218;
-	bh=AW7DaSZCd1KDBTYJ8IgKl9VZdfL5b7uzrNFPFjz+b+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rGcAW5HNlyjJxdodt1YIqfiETn5M6V+KiJGSP6Yc6YtEvllXdtQBm0gJAJ/ctZvPP
-	 R3icLqrOcxwczHZ98aumvuFwleohB2HsWeCA+R1O53sF256HtdRMoyiUeGAq7detwF
-	 yFSg9ednfR1hjWcJjbQMVTlRNr0V9++tKAiY0SsA=
-Date: Thu, 20 Jun 2024 21:23:49 +0900
-From: Paul Elder <paul.elder@ideasonboard.com>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: i2c: Kconfig: Fix missing firmware upload config
- select
-Message-ID: <ZnQfVX5bbmDSsFlK@pyrite.rasen.tech>
-References: <20240620102544.1918105-1-kory.maincent@bootlin.com>
+	s=arc-20240116; t=1718886471; c=relaxed/simple;
+	bh=IVri826X6pjvmhvTPcELbF/pb2ND/lJ9NsEDK/hpclw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o+wVlu5dE6CeY3YxgXaXXFrEHW9vov5Knb5FrLFsP9j+tDrSKelDc4Y/aGoPhFwxh/FS04YbiG6vt+DhZGGnxx0dd3Vb3dciYkDul2whgg6MJmpINE+iTBiy+yLHUmIw1DN5EaDMCEsB8q/nqAtYt+5y0tqTU01Knl4trKU13c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=lqyoE7Lh; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1718886461;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Phdke2IFP5DcYdJ0p7PW2PSRcousUzjTQIkIha9HQSc=;
+	b=lqyoE7LhGfv+iomk4eTa9NEiOz1RYXGYKWnWtmg0TLRMwz3ZwT5U4Q1tiD3BbLWC7jd1gd
+	wvR7Cn975V5ErvS3+B/VzBl9ndkSmmj8f4FUb3xv3z9aE/TKsnvtI/iW13i70tQlXiJFk3
+	stFWt0d2tKtU1RCBJSvdUg2aBvZBX2s=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Nuno Sa <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v12 0/7] iio: new DMABUF based API v12
+Date: Thu, 20 Jun 2024 14:27:19 +0200
+Message-ID: <20240620122726.41232-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240620102544.1918105-1-kory.maincent@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 20, 2024 at 12:25:43PM +0200, Kory Maincent wrote:
-> FW_LOADER config only selects the firmware loader API, but we also need
-> the sysfs_upload symbols for firmware_upload_unregister() and
-> firmware_upload_register() to function properly.
-> 
-> Fixes: 7a52ab415b43 ("media: i2c: Add driver for THine THP7312")
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+Hi Jonathan,
 
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+Here's the v12 of my patchset that introduces DMABUF support to IIO.
 
-> ---
->  drivers/media/i2c/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index c6d3ee472d81..742bc665602e 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -679,6 +679,7 @@ config VIDEO_THP7312
->  	tristate "THine THP7312 support"
->  	depends on I2C
->  	select FW_LOADER
-> +	select FW_UPLOAD
->  	select MEDIA_CONTROLLER
->  	select V4L2_CCI_I2C
->  	select V4L2_FWNODE
-> -- 
-> 2.34.1
-> 
-> 
+Apart from a small documentation fix, it reverts to using
+mutex_lock/mutex_unlock in one particular place, which used cleanup
+GOTOs (which don't play well with scope-managed cleanups).
+
+Changelog:
+- [3/7]:
+    - Revert to mutex_lock/mutex_unlock in iio_buffer_attach_dmabuf(),
+      as it uses cleanup GOTOs
+- [6/7]:
+    - "obtained using..." -> "which can be obtained using..."
+
+This is based on next-20240619.
+
+Cheers,
+-Paul
+
+Paul Cercueil (7):
+  dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+  dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+  iio: core: Add new DMABUF interface infrastructure
+  iio: buffer-dma: Enable support for DMABUFs
+  iio: buffer-dmaengine: Support new DMABUF based userspace API
+  Documentation: iio: Document high-speed DMABUF based API
+  Documentation: dmaengine: Document new dma_vec API
+
+ Documentation/driver-api/dmaengine/client.rst |   9 +
+ .../driver-api/dmaengine/provider.rst         |  10 +
+ Documentation/iio/iio_dmabuf_api.rst          |  54 +++
+ Documentation/iio/index.rst                   |   1 +
+ drivers/dma/dma-axi-dmac.c                    |  40 ++
+ drivers/iio/Kconfig                           |   1 +
+ drivers/iio/buffer/industrialio-buffer-dma.c  | 178 ++++++-
+ .../buffer/industrialio-buffer-dmaengine.c    |  62 ++-
+ drivers/iio/industrialio-buffer.c             | 459 ++++++++++++++++++
+ include/linux/dmaengine.h                     |  33 ++
+ include/linux/iio/buffer-dma.h                |  31 ++
+ include/linux/iio/buffer_impl.h               |  33 ++
+ include/uapi/linux/iio/buffer.h               |  22 +
+ 13 files changed, 913 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+
+-- 
+2.43.0
+
 
