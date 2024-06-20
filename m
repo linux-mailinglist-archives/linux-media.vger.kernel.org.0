@@ -1,238 +1,589 @@
-Return-Path: <linux-media+bounces-13792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13794-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1835591022F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 13:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E219103A3
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:04:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B6721F224F8
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 11:09:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F9651F21F55
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:04:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED111AB373;
-	Thu, 20 Jun 2024 11:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rNGWKIWV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C516B1AAE02;
+	Thu, 20 Jun 2024 12:04:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D83D1AB8EB;
-	Thu, 20 Jun 2024 11:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F378175E;
+	Thu, 20 Jun 2024 12:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718881694; cv=none; b=RkrroWUy763wt0yX6Kpgsr05Z0E/LYARdlvxJEA2NBFDkMSRRGMVCHFhwi0pfdU+SdneDRE1UhjE1rodigYebN8QBWjhIdTRCxtNvefhkjGpG9ZK9p4xScfaDVyei1F/P3SYbpTx5HVvjHFxel2SV+Gu6KN3FNa13kkyzX5ShFc=
+	t=1718885061; cv=none; b=jijWvwMLtLrNdxSSTR1ezue7crvOakU2IC0UMVFFWwmqqqtzfWAI8VCZyyP/7utzF8XAOtu1zE7tWOariRdFXb7aIU3pjhzTWNc78yCWFS5bku2HsMMOXnU2uB6Z5whItf+j8Vzf16BoNeR7uM2mlCzxatqaVh58u+A3lnDsTbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718881694; c=relaxed/simple;
-	bh=hkNlI+sgdGQzSZGPKmgnDdL4kzR0qMFhYbi4GF2MhhA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ev+3h1EtlR5luLM7U/ls7QcNIb1GCEgkxMOzxSMR9CP45oogtWFhh8p7LTVxqsukjYMOHGZbPjs5b1LCfA3RBO1i6iNUZ3py2+8wb3/VGirHRxv7D6Yuv6P2G8BYnyV879UVG7EINTYTIFG7x7M08xUcZESZ9shVIQv1itqvMTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rNGWKIWV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-144-210.elisa-laajakaista.fi [91.158.144.210])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A382F1440;
-	Thu, 20 Jun 2024 13:07:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718881670;
-	bh=hkNlI+sgdGQzSZGPKmgnDdL4kzR0qMFhYbi4GF2MhhA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=rNGWKIWVj+WZjUGyHSSfIhd/vSJ9Pi6oM0cfDcXLwo9oHnrO+/5d8D5esn+xWeBDJ
-	 7I/EPFUCg96RwOS2N2JkXJAQ+Kg1V3as2dQscVDODR+A6oIqzqCl+8PvTHpqgnCOOM
-	 CBtBkXIqWFGRLJa7dePh/2O8HYBOd4rgopiGN0lo=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 20 Jun 2024 14:07:53 +0300
-Subject: [PATCH v2 4/4] media: admin-guide: Document the Raspberry Pi CFE
- (rp1-cfe)
+	s=arc-20240116; t=1718885061; c=relaxed/simple;
+	bh=/rnJIfDMz58XJ9kBch42tOFQeYg0PSUvuDshcPA247U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KsrtUcEeIz49JkTYDCKmJMO3MyJ4deDfMLX1R/4ax4jsF5Q0rvuTJnUWPj4RG+FESWjh2iAGM1ZS14CbWMSkmuxe8st5PaZc4bfyOqrXydZKzsue+39n3dvMnbhRsPITL7usJ89hEKovQCEg5GX1fFZsr0QayL1YYr4j0zS9fmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0CBFC2BD10;
+	Thu, 20 Jun 2024 12:04:16 +0000 (UTC)
+Message-ID: <94acc95a-c0cc-4ec1-836f-bedbd46b73cd@xs4all.nl>
+Date: Thu, 20 Jun 2024 14:04:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/13] staging: media: starfive: Add for StarFive ISP
+ 3A SC
+To: Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Ming Qian <ming.qian@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mingjia Zhang <mingjia.zhang@mediatek.com>, Marvin Lin <milkfafa@gmail.com>
+Cc: Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240402100011.13480-1-changhuang.liang@starfivetech.com>
+ <20240402100011.13480-9-changhuang.liang@starfivetech.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240402100011.13480-9-changhuang.liang@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240620-rp1-cfe-v2-4-b8b48fdba3b3@ideasonboard.com>
-References: <20240620-rp1-cfe-v2-0-b8b48fdba3b3@ideasonboard.com>
-In-Reply-To: <20240620-rp1-cfe-v2-0-b8b48fdba3b3@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, 
- Naushir Patuck <naush@raspberrypi.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- 20240531080707.34568-1-jacopo.mondi@ideasonboard.com
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6375;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=hkNlI+sgdGQzSZGPKmgnDdL4kzR0qMFhYbi4GF2MhhA=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmdA2SFjXFTwKl1fuxvldNezS4egKmmfjRMPAhZ
- WJ2iaZzzFWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZnQNkgAKCRD6PaqMvJYe
- 9VnpEACCQe8jSHZ+Ry+Dw4k039nV97aOw/U6Rsq76xf9hANgmtvGgXXmiQDpPn/oGeIt8PySOqf
- bUMvcm7Id0zQmyLACo3cmgiiyQyRIOKa/5xHHUiGcjjwf9ux4/u/iBgDh53tacO+tobbIldyRuR
- 7BSMChsvVvQxDErg/MuH4ze2mrea7Z6yWJ3CqzeEfmld3B8NfS6TNlbCGBWQl15Hprg1Nvw1VjK
- Nc6/h92reR5/A0m/LyNDUU0fjdxIKXzwk+GpgNmolYkPHT3liSYvkBbARwgkvrsq0XG2FFUxT7u
- xID354KNZrfpEFpM8VH14r1GudiuUuJbdLLVEx9I3PpseMKtCTrchkez4IsOaB65RidCkl7GIek
- hsIDE5zdSWAubYWBgIBlS3Kzd+pTbvZRoxHTDFpBSZp6wF2uYMmg4nDBq+/RaC+D9+ZApDkl41X
- dnkEfBU/Blhy3uzNcKilHTl649hI+aRB6MZpyw5IgBLf1PT8qR6Eiix+LABEb4Cb98zhOMGIc7l
- CxxM3YEbbAiIF+Tdvnt5MDCAH001brcyr51uOsz0FEvQOQFYTuV/SsOaOp6XIeWFSf5iI3PL693
- aLDMaQ7197pqbzwHAF62QfYRyZQ2X4EL9w9MpAhlnw2Xp9WJ8h2o3FeCcloSzshKZE6KDkywtEQ
- tgM7tKaZL9dpotw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Add documentation for rp1-cfe driver.
+On 02/04/2024 12:00, Changhuang Liang wrote:
+> Register ISP 3A "capture_scd" video device to receive statistics
+> collection data.
+> 
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> ---
+>  .../staging/media/starfive/camss/stf-buffer.h |   1 +
+>  .../staging/media/starfive/camss/stf-camss.c  |  13 ++
+>  .../media/starfive/camss/stf-capture.c        |  21 ++-
+>  .../media/starfive/camss/stf-isp-hw-ops.c     |  66 ++++++++
+>  .../staging/media/starfive/camss/stf-isp.h    |  23 +++
+>  .../staging/media/starfive/camss/stf-video.c  | 143 +++++++++++++++++-
+>  .../staging/media/starfive/camss/stf-video.h  |   1 +
+>  7 files changed, 259 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/staging/media/starfive/camss/stf-buffer.h b/drivers/staging/media/starfive/camss/stf-buffer.h
+> index 9d1670fb05ed..727d00617448 100644
+> --- a/drivers/staging/media/starfive/camss/stf-buffer.h
+> +++ b/drivers/staging/media/starfive/camss/stf-buffer.h
+> @@ -23,6 +23,7 @@ enum stf_v_state {
+>  struct stfcamss_buffer {
+>  	struct vb2_v4l2_buffer vb;
+>  	dma_addr_t addr[2];
+> +	void *vaddr;
+>  	struct list_head queue;
+>  };
+>  
+> diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+> index 323aa70fdeaf..3fe4e3332719 100644
+> --- a/drivers/staging/media/starfive/camss/stf-camss.c
+> +++ b/drivers/staging/media/starfive/camss/stf-camss.c
+> @@ -126,6 +126,7 @@ static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+>  static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  {
+>  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
+>  	int ret;
+>  
+> @@ -150,8 +151,18 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  
+>  	cap_yuv->video.source_subdev = &isp_dev->subdev;
+>  
+> +	ret = media_create_pad_link(&isp_dev->subdev.entity, STF_ISP_PAD_SRC_SCD,
+> +				    &cap_scd->video.vdev.entity, 0, 0);
+> +	if (ret)
+> +		goto err_rm_links0;
+> +
+> +	cap_scd->video.source_subdev = &isp_dev->subdev;
+> +
+>  	return ret;
+>  
+> +err_rm_links0:
+> +	media_entity_remove_links(&isp_dev->subdev.entity);
+> +	media_entity_remove_links(&cap_yuv->video.vdev.entity);
+>  err_cap_unregister:
+>  	stf_capture_unregister(stfcamss);
+>  err_isp_unregister:
+> @@ -163,10 +174,12 @@ static int stfcamss_register_devs(struct stfcamss *stfcamss)
+>  static void stfcamss_unregister_devs(struct stfcamss *stfcamss)
+>  {
+>  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
+>  
+>  	media_entity_remove_links(&isp_dev->subdev.entity);
+>  	media_entity_remove_links(&cap_yuv->video.vdev.entity);
+> +	media_entity_remove_links(&cap_scd->video.vdev.entity);
+>  
+>  	stf_isp_unregister(&stfcamss->isp_dev);
+>  	stf_capture_unregister(stfcamss);
+> diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
+> index 75f6ef405e61..328b8c6e351d 100644
+> --- a/drivers/staging/media/starfive/camss/stf-capture.c
+> +++ b/drivers/staging/media/starfive/camss/stf-capture.c
+> @@ -12,6 +12,7 @@
+>  static const char * const stf_cap_names[] = {
+>  	"capture_raw",
+>  	"capture_yuv",
+> +	"capture_scd",
+>  };
+>  
+>  static const struct stfcamss_format_info stf_wr_fmts[] = {
+> @@ -55,6 +56,14 @@ static const struct stfcamss_format_info stf_isp_fmts[] = {
+>  	},
+>  };
+>  
+> +/* 3A Statistics Collection Data */
+> +static const struct stfcamss_format_info stf_isp_scd_fmts[] = {
+> +	{
+> +		.code = MEDIA_BUS_FMT_METADATA_FIXED,
+> +		.pixelformat = V4L2_META_FMT_STF_ISP_STAT_3A,
+> +	},
+> +};
+> +
+>  static inline struct stf_capture *to_stf_capture(struct stfcamss_video *video)
+>  {
+>  	return container_of(video, struct stf_capture, video);
+> @@ -84,6 +93,8 @@ static void stf_init_addrs(struct stfcamss_video *video)
+>  		stf_set_raw_addr(video->stfcamss, addr0);
+>  	else if (cap->type == STF_CAPTURE_YUV)
+>  		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
+> +	else
+> +		stf_set_scd_addr(video->stfcamss, addr0, addr1, TYPE_AWB);
+>  }
+>  
+>  static void stf_cap_s_cfg(struct stfcamss_video *video)
+> @@ -227,18 +238,24 @@ static void stf_capture_init(struct stfcamss *stfcamss, struct stf_capture *cap)
+>  	INIT_LIST_HEAD(&cap->buffers.ready_bufs);
+>  	spin_lock_init(&cap->buffers.lock);
+>  
+> -	cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  	cap->video.stfcamss = stfcamss;
+>  	cap->video.bpl_alignment = 16 * 8;
+>  
+>  	if (cap->type == STF_CAPTURE_RAW) {
+> +		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  		cap->video.formats = stf_wr_fmts;
+>  		cap->video.nformats = ARRAY_SIZE(stf_wr_fmts);
+>  		cap->video.bpl_alignment = 8;
+>  	} else if (cap->type == STF_CAPTURE_YUV) {
+> +		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  		cap->video.formats = stf_isp_fmts;
+>  		cap->video.nformats = ARRAY_SIZE(stf_isp_fmts);
+>  		cap->video.bpl_alignment = 1;
+> +	} else {
+> +		cap->video.type = V4L2_BUF_TYPE_META_CAPTURE;
+> +		cap->video.formats = stf_isp_scd_fmts;
+> +		cap->video.nformats = ARRAY_SIZE(stf_isp_scd_fmts);
+> +		cap->video.bpl_alignment = 16 * 8;
+>  	}
+>  }
+>  
+> @@ -362,9 +379,11 @@ void stf_capture_unregister(struct stfcamss *stfcamss)
+>  {
+>  	struct stf_capture *cap_raw = &stfcamss->captures[STF_CAPTURE_RAW];
+>  	struct stf_capture *cap_yuv = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  
+>  	stf_capture_unregister_one(cap_raw);
+>  	stf_capture_unregister_one(cap_yuv);
+> +	stf_capture_unregister_one(cap_scd);
+>  }
+>  
+>  int stf_capture_register(struct stfcamss *stfcamss,
+> diff --git a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> index 6b3966ca18bf..abdfa4417145 100644
+> --- a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> +++ b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> @@ -451,11 +451,57 @@ void stf_set_yuv_addr(struct stfcamss *stfcamss,
+>  	stf_isp_reg_write(stfcamss, ISP_REG_UV_PLANE_START_ADDR, uv_addr);
+>  }
+>  
+> +static enum stf_isp_type_scd stf_isp_get_scd_type(struct stfcamss *stfcamss)
+> +{
+> +	int val;
+> +
+> +	val = stf_isp_reg_read(stfcamss, ISP_REG_SC_CFG_1);
+> +	return (enum stf_isp_type_scd)(val & ISP_SC_SEL_MASK) >> 30;
+> +}
+> +
+> +void stf_set_scd_addr(struct stfcamss *stfcamss,
+> +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
+> +		      enum stf_isp_type_scd type_scd)
+> +{
+> +	stf_isp_reg_set_bit(stfcamss, ISP_REG_SC_CFG_1, ISP_SC_SEL_MASK,
+> +			    SEL_TYPE(type_scd));
+> +	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
+> +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr);
+> +}
+> +
+> +static void stf_isp_fill_yhist(struct stfcamss *stfcamss, void *vaddr)
+> +{
+> +	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
+> +	u32 reg_addr = ISP_REG_YHIST_ACC_0;
+> +	u32 i;
+> +
+> +	for (i = 0; i < 64; i++, reg_addr += 4)
+> +		sc->y_histogram[i] = stf_isp_reg_read(stfcamss, reg_addr);
+> +}
+> +
+> +static void stf_isp_fill_flag(struct stfcamss *stfcamss, void *vaddr,
+> +			      enum stf_isp_type_scd *type_scd)
+> +{
+> +	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
+> +
+> +	*type_scd = stf_isp_get_scd_type(stfcamss);
+> +	if (*type_scd == TYPE_AWB) {
+> +		sc->flag = JH7110_ISP_SC_FALG_AWB;
+> +		*type_scd = TYPE_OECF;
+> +	} else {
+> +		sc->flag = JH7110_ISP_SC_FALG_AE_AF;
+> +		*type_scd = TYPE_AWB;
+> +	}
+> +}
+> +
+>  irqreturn_t stf_line_irq_handler(int irq, void *priv)
+>  {
+>  	struct stfcamss *stfcamss = priv;
+>  	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stfcamss_buffer *change_buf;
+> +	enum stf_isp_type_scd type_scd;
+> +	u32 value;
+>  	u32 status;
+>  
+>  	status = stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0);
+> @@ -467,6 +513,17 @@ irqreturn_t stf_line_irq_handler(int irq, void *priv)
+>  					stf_set_yuv_addr(stfcamss, change_buf->addr[0],
+>  							 change_buf->addr[1]);
+>  			}
+> +
+> +			value = stf_isp_reg_read(stfcamss, ISP_REG_CSI_MODULE_CFG);
+> +			if (value & CSI_SC_EN) {
+> +				change_buf = stf_change_buffer(&cap_scd->buffers);
+> +				if (change_buf) {
+> +					stf_isp_fill_flag(stfcamss, change_buf->vaddr,
+> +							  &type_scd);
+> +					stf_set_scd_addr(stfcamss, change_buf->addr[0],
+> +							 change_buf->addr[1], type_scd);
+> +				}
+> +			}
+>  		}
+>  
+>  		stf_isp_reg_set_bit(stfcamss, ISP_REG_CSIINTS,
+> @@ -485,6 +542,7 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
+>  {
+>  	struct stfcamss *stfcamss = priv;
+>  	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
+> +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
+>  	struct stfcamss_buffer *ready_buf;
+>  	u32 status;
+>  
+> @@ -496,6 +554,14 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
+>  				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+>  		}
+>  
+> +		if (status & ISPC_SC) {
+> +			ready_buf = stf_buf_done(&cap_scd->buffers);
+> +			if (ready_buf) {
+> +				stf_isp_fill_yhist(stfcamss, ready_buf->vaddr);
+> +				vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> +			}
+> +		}
+> +
+>  		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
+>  				  (status & ~ISPC_INT_ALL_MASK) |
+>  				  ISPC_ISP | ISPC_CSI | ISPC_SC);
+> diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/staging/media/starfive/camss/stf-isp.h
+> index fcda0502e3b0..0af7b367e57a 100644
+> --- a/drivers/staging/media/starfive/camss/stf-isp.h
+> +++ b/drivers/staging/media/starfive/camss/stf-isp.h
+> @@ -10,6 +10,7 @@
+>  #ifndef STF_ISP_H
+>  #define STF_ISP_H
+>  
+> +#include <linux/jh7110-isp.h>
+>  #include <media/v4l2-subdev.h>
+>  
+>  #include "stf-video.h"
+> @@ -107,6 +108,12 @@
+>  #define Y_COOR(y)				((y) << 16)
+>  #define X_COOR(x)				((x) << 0)
+>  
+> +#define ISP_REG_SCD_CFG_0			0x098
+> +
+> +#define ISP_REG_SC_CFG_1			0x0bc
+> +#define ISP_SC_SEL_MASK				GENMASK(31, 30)
+> +#define SEL_TYPE(n)				((n) << 30)
+> +
+>  #define ISP_REG_LCCF_CFG_2			0x0e0
+>  #define ISP_REG_LCCF_CFG_3			0x0e4
+>  #define ISP_REG_LCCF_CFG_4			0x0e8
+> @@ -305,6 +312,10 @@
+>  #define DNRM_F(n)				((n) << 16)
+>  #define CCM_M_DAT(n)				((n) << 0)
+>  
+> +#define ISP_REG_YHIST_CFG_4			0xcd8
+> +
+> +#define ISP_REG_YHIST_ACC_0			0xd00
+> +
+>  #define ISP_REG_GAMMA_VAL0			0xe00
+>  #define ISP_REG_GAMMA_VAL1			0xe04
+>  #define ISP_REG_GAMMA_VAL2			0xe08
+> @@ -389,6 +400,15 @@
+>  #define IMAGE_MAX_WIDTH				1920
+>  #define IMAGE_MAX_HEIGH				1080
+>  
+> +#define ISP_YHIST_BUFFER_SIZE			(64 * sizeof(__u32))
+> +
+> +enum stf_isp_type_scd {
+> +	TYPE_DEC = 0,
+> +	TYPE_OBC,
+> +	TYPE_OECF,
+> +	TYPE_AWB,
+> +};
+> +
+>  /* pad id for media framework */
+>  enum stf_isp_pad_id {
+>  	STF_ISP_PAD_SINK = 0,
+> @@ -429,5 +449,8 @@ int stf_isp_unregister(struct stf_isp_dev *isp_dev);
+>  
+>  void stf_set_yuv_addr(struct stfcamss *stfcamss,
+>  		      dma_addr_t y_addr, dma_addr_t uv_addr);
+> +void stf_set_scd_addr(struct stfcamss *stfcamss,
+> +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
+> +		      enum stf_isp_type_scd type_scd);
+>  
+>  #endif /* STF_ISP_H */
+> diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
+> index 989b5e82bae9..d9e51d4e2004 100644
+> --- a/drivers/staging/media/starfive/camss/stf-video.c
+> +++ b/drivers/staging/media/starfive/camss/stf-video.c
+> @@ -125,6 +125,14 @@ static int stf_video_init_format(struct stfcamss_video *video)
+>  	return 0;
+>  }
+>  
+> +static int stf_video_scd_init_format(struct stfcamss_video *video)
+> +{
+> +	video->active_fmt.fmt.meta.dataformat = video->formats[0].pixelformat;
+> +	video->active_fmt.fmt.meta.buffersize = sizeof(struct jh7110_isp_sc_buffer);
+> +
+> +	return 0;
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Video queue operations
+>   */
+> @@ -330,6 +338,75 @@ static const struct vb2_ops stf_video_vb2_q_ops = {
+>  	.stop_streaming  = video_stop_streaming,
+>  };
+>  
+> +static int video_scd_queue_setup(struct vb2_queue *q,
+> +				 unsigned int *num_buffers,
+> +				 unsigned int *num_planes,
+> +				 unsigned int sizes[],
+> +				 struct device *alloc_devs[])
+> +{
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- .../admin-guide/media/raspberrypi-rp1-cfe.dot      | 27 ++++++++
- .../admin-guide/media/raspberrypi-rp1-cfe.rst      | 78 ++++++++++++++++++++++
- Documentation/admin-guide/media/v4l-drivers.rst    |  1 +
- 3 files changed, 106 insertions(+)
+This still needs:
 
-diff --git a/Documentation/admin-guide/media/raspberrypi-rp1-cfe.dot b/Documentation/admin-guide/media/raspberrypi-rp1-cfe.dot
-new file mode 100644
-index 000000000000..7717f2291049
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-rp1-cfe.dot
-@@ -0,0 +1,27 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0} | csi2\n/dev/v4l-subdev0 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port1 -> n00000011 [style=dashed]
-+	n00000001:port1 -> n00000007:port0
-+	n00000001:port2 -> n00000015
-+	n00000001:port2 -> n00000007:port0 [style=dashed]
-+	n00000001:port3 -> n00000019 [style=dashed]
-+	n00000001:port3 -> n00000007:port0 [style=dashed]
-+	n00000001:port4 -> n0000001d [style=dashed]
-+	n00000001:port4 -> n00000007:port0 [style=dashed]
-+	n00000007 [label="{{<port0> 0 | <port1> 1} | pisp-fe\n/dev/v4l-subdev1 | {<port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000007:port2 -> n00000021
-+	n00000007:port3 -> n00000025 [style=dashed]
-+	n00000007:port4 -> n00000029
-+	n0000000d [label="{imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000d:port0 -> n00000001:port0 [style=bold]
-+	n00000011 [label="rp1-cfe-csi2-ch0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n00000015 [label="rp1-cfe-csi2-ch1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n00000019 [label="rp1-cfe-csi2-ch2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n0000001d [label="rp1-cfe-csi2-ch3\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n00000021 [label="rp1-cfe-fe-image0\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000025 [label="rp1-cfe-fe-image1\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-+	n00000029 [label="rp1-cfe-fe-stats\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-+	n0000002d [label="rp1-cfe-fe-config\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-+	n0000002d -> n00000007:port1
-+}
-diff --git a/Documentation/admin-guide/media/raspberrypi-rp1-cfe.rst b/Documentation/admin-guide/media/raspberrypi-rp1-cfe.rst
-new file mode 100644
-index 000000000000..668d978a9875
---- /dev/null
-+++ b/Documentation/admin-guide/media/raspberrypi-rp1-cfe.rst
-@@ -0,0 +1,78 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============================================
-+Raspberry Pi PiSP Camera Front End (rp1-cfe)
-+============================================
-+
-+The PiSP Camera Front End
-+=========================
-+
-+The PiSP Camera Front End (CFE) is a module which combines a CSI-2 receiver with
-+a simple ISP, called the Front End (FE).
-+
-+The CFE has four DMA engines and can write frames from four separate streams
-+received from the CSI-2 to the memory. One of those streams can also be routed
-+directly to the FE, which can do minimal image processing, write two versions
-+(e.g. non-scaled and downscaled versions) of the received frames to memory and
-+provide statistics of the received frames.
-+
-+The FE registers are documented in the `Raspberry Pi Image Signal Processor
-+(ISP) Specification document
-+<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf>`_,
-+and example code for FE can be found in `libpisp
-+<https://github.com/raspberrypi/libpisp>`_.
-+
-+The rp1-cfe driver
-+==================
-+
-+The Raspberry Pi PiSP Camera Front End (rp1-cfe) driver is located under
-+drivers/media/platform/raspberrypi/rp1-cfe. It uses the `V4L2 API` to register
-+a number of video capture and output devices, the `V4L2 subdev API` to register
-+subdevices for the CSI-2 received and the FE that connects the video devices in
-+a single media graph realized using the `Media Controller (MC) API`.
-+
-+The media topology registered by the `rp1-cfe` driver, in this particular
-+example connected to an imx219 sensor, is the following one:
-+
-+.. _rp1-cfe-topology:
-+
-+.. kernel-figure:: raspberrypi-rp1-cfe.dot
-+    :alt:   Diagram of an example media pipeline topology
-+    :align: center
-+
-+The media graph contains the following video device nodes:
-+
-+- rp1-cfe-csi2-ch0: capture device for the first CSI-2 stream
-+- rp1-cfe-csi2-ch1: capture device for the second CSI-2 stream
-+- rp1-cfe-csi2-ch2: capture device for the third CSI-2 stream
-+- rp1-cfe-csi2-ch3: capture device for the fourth CSI-2 stream
-+- rp1-cfe-fe-image0: capture device for the first FE output
-+- rp1-cfe-fe-image1: capture device for the second FE output
-+- rp1-cfe-fe-stats: capture device for the FE statistics
-+- rp1-cfe-fe-config: output device for FE configuration
-+
-+rp1-cfe-csi2-chX
-+----------------
-+
-+The rp1-cfe-csi2-chX capture devices are normal V4L2 capture devices which
-+can be used to capture video frames or metadata received from the CSI-2.
-+
-+rp1-cfe-fe-image0, rp1-cfe-fe-image1
-+------------------------------------
-+
-+The rp1-cfe-fe-image0 and rp1-cfe-fe-image1 capture devices are used to write
-+the processed frames to memory.
-+
-+rp1-cfe-fe-stats
-+----------------
-+
-+The format of the FE statistics buffer is defined by
-+:c:type:`pisp_statistics` C structure and the meaning of each parameter is
-+described in the `PiSP specification` document.
-+
-+rp1-cfe-fe-config
-+-----------------
-+
-+The format of the FE configuration buffer is defined by
-+:c:type:`pisp_fe_config` C structure and the meaning of each parameter is
-+described in the `PiSP specification` document.
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index b6af448b9fe9..61da154e079a 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -26,6 +26,7 @@ Video4Linux (V4L) driver-specific documentation
- 	raspberrypi-pisp-be
- 	rcar-fdp1
- 	rkisp1
-+	raspberrypi-rp1-cfe
- 	saa7134
- 	si470x
- 	si4713
+        if (*nplanes)
+                return sizes[0] < sizeof(struct jh7110_isp_sc_buffer) ? -EINVAL : 0;
 
--- 
-2.34.1
+for proper VIDIOC_CREATEBUFS support.
 
+Otherwise this will probably fail with 'v4l2-compliance -s'.
+
+> +	*num_planes = 1;
+> +	sizes[0] = sizeof(struct jh7110_isp_sc_buffer);
+> +
+> +	return 0;
+> +}
+> +
+> +static int video_scd_buf_init(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
+> +	dma_addr_t *paddr;
+> +
+> +	paddr = vb2_plane_cookie(vb, 0);
+> +	buffer->addr[0] = *paddr;
+> +	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
+> +	buffer->vaddr = vb2_plane_vaddr(vb, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int video_scd_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +
+> +	if (sizeof(struct jh7110_isp_sc_buffer) > vb2_plane_size(vb, 0))
+> +		return -EINVAL;
+> +
+> +	vb2_set_plane_payload(vb, 0, sizeof(struct jh7110_isp_sc_buffer));
+> +
+> +	vbuf->field = V4L2_FIELD_NONE;
+> +
+> +	return 0;
+> +}
+> +
+> +static int video_scd_start_streaming(struct vb2_queue *q, unsigned int count)
+> +{
+> +	struct stfcamss_video *video = vb2_get_drv_priv(q);
+> +
+> +	video->ops->start_streaming(video);
+> +
+> +	return 0;
+> +}
+> +
+> +static void video_scd_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct stfcamss_video *video = vb2_get_drv_priv(q);
+> +
+> +	video->ops->stop_streaming(video);
+> +
+> +	video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR);
+> +}
+> +
+> +static const struct vb2_ops stf_video_scd_vb2_q_ops = {
+> +	.queue_setup     = video_scd_queue_setup,
+> +	.wait_prepare    = vb2_ops_wait_prepare,
+> +	.wait_finish     = vb2_ops_wait_finish,
+> +	.buf_init        = video_scd_buf_init,
+> +	.buf_prepare     = video_scd_buf_prepare,
+> +	.buf_queue       = video_buf_queue,
+> +	.start_streaming = video_scd_start_streaming,
+> +	.stop_streaming  = video_scd_stop_streaming,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 ioctls
+>   */
+> @@ -448,6 +525,37 @@ static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
+>  	.vidioc_streamoff               = vb2_ioctl_streamoff,
+>  };
+>  
+> +static int video_scd_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+> +{
+> +	struct stfcamss_video *video = video_drvdata(file);
+> +	struct v4l2_meta_format *meta = &f->fmt.meta;
+> +
+> +	if (f->type != video->type)
+> +		return -EINVAL;
+> +
+> +	meta->dataformat = video->active_fmt.fmt.meta.dataformat;
+> +	meta->buffersize = video->active_fmt.fmt.meta.buffersize;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ioctl_ops stf_vid_scd_ioctl_ops = {
+> +	.vidioc_querycap                = video_querycap,
+> +	.vidioc_enum_fmt_meta_cap       = video_enum_fmt,
+> +	.vidioc_g_fmt_meta_cap          = video_scd_g_fmt,
+> +	.vidioc_s_fmt_meta_cap          = video_scd_g_fmt,
+> +	.vidioc_try_fmt_meta_cap        = video_scd_g_fmt,
+> +	.vidioc_reqbufs                 = vb2_ioctl_reqbufs,
+> +	.vidioc_querybuf                = vb2_ioctl_querybuf,
+> +	.vidioc_qbuf                    = vb2_ioctl_qbuf,
+> +	.vidioc_expbuf                  = vb2_ioctl_expbuf,
+> +	.vidioc_dqbuf                   = vb2_ioctl_dqbuf,
+> +	.vidioc_create_bufs             = vb2_ioctl_create_bufs,
+> +	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
+> +	.vidioc_streamon                = vb2_ioctl_streamon,
+> +	.vidioc_streamoff               = vb2_ioctl_streamoff,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 file operations
+>   */
+> @@ -473,6 +581,9 @@ static int stf_link_validate(struct media_link *link)
+>  	struct stfcamss_video *video = video_get_drvdata(vdev);
+>  	int ret;
+>  
+> +	if (video->type == V4L2_BUF_TYPE_META_CAPTURE)
+> +		return 0;
+> +
+>  	ret = stf_video_check_format(video);
+>  
+>  	return ret;
+> @@ -506,7 +617,11 @@ int stf_video_register(struct stfcamss_video *video,
+>  	q = &video->vb2_q;
+>  	q->drv_priv = video;
+>  	q->mem_ops = &vb2_dma_contig_memops;
+> -	q->ops = &stf_video_vb2_q_ops;
+> +
+> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		q->ops = &stf_video_vb2_q_ops;
+> +	else
+> +		q->ops = &stf_video_scd_vb2_q_ops;
+>  	q->type = video->type;
+>  	q->io_modes = VB2_DMABUF | VB2_MMAP;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> @@ -529,16 +644,28 @@ int stf_video_register(struct stfcamss_video *video,
+>  		goto err_mutex_destroy;
+>  	}
+>  
+> -	ret = stf_video_init_format(video);
+> -	if (ret < 0) {
+> -		dev_err(video->stfcamss->dev,
+> -			"Failed to init format: %d\n", ret);
+> -		goto err_media_cleanup;
+> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+> +		ret = stf_video_init_format(video);
+> +		if (ret < 0) {
+> +			dev_err(video->stfcamss->dev,
+> +				"Failed to init format: %d\n", ret);
+> +			goto err_media_cleanup;
+> +		}
+> +		vdev->ioctl_ops = &stf_vid_ioctl_ops;
+> +		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE;
+> +	} else {
+> +		ret = stf_video_scd_init_format(video);
+> +		if (ret < 0) {
+> +			dev_err(video->stfcamss->dev,
+> +				"Failed to init format: %d\n", ret);
+> +			goto err_media_cleanup;
+> +		}
+> +		vdev->ioctl_ops = &stf_vid_scd_ioctl_ops;
+> +		vdev->device_caps = V4L2_CAP_META_CAPTURE;
+>  	}
+>  
+>  	vdev->fops = &stf_vid_fops;
+> -	vdev->ioctl_ops = &stf_vid_ioctl_ops;
+> -	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	vdev->device_caps |= V4L2_CAP_STREAMING;
+>  	vdev->entity.ops = &stf_media_ops;
+>  	vdev->vfl_dir = VFL_DIR_RX;
+>  	vdev->release = stf_video_release;
+> diff --git a/drivers/staging/media/starfive/camss/stf-video.h b/drivers/staging/media/starfive/camss/stf-video.h
+> index 59799b65cbe5..53a1cf4e59b7 100644
+> --- a/drivers/staging/media/starfive/camss/stf-video.h
+> +++ b/drivers/staging/media/starfive/camss/stf-video.h
+> @@ -37,6 +37,7 @@ enum stf_v_line_id {
+>  enum stf_capture_type {
+>  	STF_CAPTURE_RAW = 0,
+>  	STF_CAPTURE_YUV,
+> +	STF_CAPTURE_SCD,
+>  	STF_CAPTURE_NUM,
+>  };
+>  
+
+Regards,
+
+	Hans
 
