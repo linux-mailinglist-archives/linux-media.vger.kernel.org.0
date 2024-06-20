@@ -1,55 +1,36 @@
-Return-Path: <linux-media+bounces-13786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13787-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FADE9101DF
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D9F9101E7
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:51:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 850A01C214DD
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 10:50:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C1941C219B0
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 10:51:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ABB91AD4B0;
-	Thu, 20 Jun 2024 10:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ELOL7gKQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CD651AB340;
+	Thu, 20 Jun 2024 10:47:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D991AD484;
-	Thu, 20 Jun 2024 10:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A886E1A8C1B
+	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 10:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718880378; cv=none; b=ZPX5/93XgFRLoffQm+CuYB4zUUnriPXDbiJQqPh8Cfu4Xk+34lLvMycqa1TIHWIzuhvxTLKchkBT5iAH6s1w3KWeizK92nVOUf/kgDAAW18HYsssvqr5tpLuF+HYLiTo0Epg/F/uby0MDV6QCiMj1QKZI703YSBPIAxzlj0TFLM=
+	t=1718880438; cv=none; b=Pfd+FfvXiSg/xwI05eWVj78VGs67abiCt79d90i+zNcxPffk1IynQdgQYc4V1kaoq6DeaQqBudfMl55GI9Ei+bUOkstRB4+W5CxKTocw/cQSr9ETaDnT6MaaG3yPsbQoIyOt6/dbXh0QC7BtJfhs+76Rw5Zg6ryvTNMrc17ZdMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718880378; c=relaxed/simple;
-	bh=8awIg/wBCB7FIoVC+vPhOB+vEvEyHOGDIN/RcnR+5Ds=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=s2BiQVccm6qFhzodqL70v8kXIaAZOUm3GcPl2vnUA9xkI2I2ZGMnlv62+EpRaxJLD98eMMTMcWZVUI8nie65SIw32vG+ehSWcKnq87ZBTLycnKMqMOE+d1op0T2kUHcLoMnmBnLf5/me+CxA/VJsgqMR9aZ21etrNjjhoGY8JpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ELOL7gKQ; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718880331; x=1719485131; i=markus.elfring@web.de;
-	bh=Li8eiNsap0bizfOQ9HPDPrawZQbmEHLbqYMyIF+i22w=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ELOL7gKQIory3FK6VEcJNutrH5YQatKgd7IOgi4QjpkjDHPWbcvc8mTZxbyuitLV
-	 VRi6VIbr1f5UFmvi+RVRuW+ASXMM0uDkM7KnfBNKZMNVS+1dS8aPaC4Ib1Xn68zn6
-	 rHGn+ISLojVl/UkCSLlDGgT8HDmZwAiAfW1SNXXNRFG/nrrumlUTHCHIUDTKKQeG3
-	 piyzDRs1t6hx+x7K0Ef2zgjVUYi0lykbOHnRX1aDC8HUeFuNHSLL1ET7KfvqZPdcS
-	 AUynwekgohExYbMLi1a+R7zBNmQC1whsMtj9k2uGvTvLLS9ml0eoLo3Sm7/cPC1Jp
-	 ctnWvyyXTIuIUVfJkw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MeUc2-1ssUBS3U8q-00lcXl; Thu, 20
- Jun 2024 12:45:30 +0200
-Message-ID: <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
-Date: Thu, 20 Jun 2024 12:45:14 +0200
+	s=arc-20240116; t=1718880438; c=relaxed/simple;
+	bh=uhZ23A03yRmL/BsobYDVT0az2u5LSl9kClhYnwbA8HA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NzBdZJjh6T6vHXZh7BsR3huC3gSvc0wUsIev4uqQlvnW42AYk7t8dkHXqXquLQrbVMDQTomO4hLDdAexJhV/BxKfgawd94YN6C9gOIQHNpFrMhXvgio+XkgaIYfs6NHv1CsV1p7NZiNHEsHgvESQ1Q363IaKjhYZR8aj+G2eX/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 451D4C2BD10;
+	Thu, 20 Jun 2024 10:47:17 +0000 (UTC)
+Message-ID: <8b6661d4-b5e6-4fc6-a064-748ec9e073ff@xs4all.nl>
+Date: Thu, 20 Jun 2024 12:47:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,55 +38,125 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Julia Lawall <julia.lawall@inria.fr>, Lee Jones <lee@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <202406191014.9JAzwRV6-lkp@intel.com>
+Subject: Re: [PATCH v1 1/9] media: vimc: Don't iterate over single pad
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
+ <20240424235741.17093-2-laurent.pinchart@ideasonboard.com>
+ <bad644d0-f139-4df4-bac8-e64cc8e8324c@linuxfoundation.org>
+ <20240530194515.GA28160@pendragon.ideasonboard.com>
+ <339ab149-6cfc-498e-9650-e72e7e2cd039@linuxfoundation.org>
+ <20240530202153.GA23937@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240530202153.GA23937@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:NTRxLCtqL0ApiDn3i1UPRK0ESzMnPEcNQTBlesEZBU9CEYqPi1f
- AGUE0Iqpc83BxVHUG3k89Q5F/8z3etbqR3DfEvcjeL6Lx3pae77qYOIXUgtST37Ab8Do7k/
- wU+c7CnLhk3+TYr1zOspLJGta6mikzAbopzkKmb71FDA4NI3466ErYGosxNpmnHTc9l4MJl
- +CGi0hB0G1QMCNRUrV1Uw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:CgG6g3IuUkA=;GjeLuLN4k0zR5HkEhPPDnj3RINq
- /CkwuYA+LrI5aUWTIamlyDVGI2+yh3QArzyJ1np2UYSYrgxICqa8foIibHUj53F84/MrMcLgN
- GFrlIyXRWVkXW9fbV75qNQJodpMS9f6kv/bJ1NGIei4S3ewSiKcHU1jPpTzxbjNQjGBBEumPe
- qAfjWGQherZuLeRpGpQjN/Kgpk+Cr00WMTLsBj7wWqRRR86NsVtzsuvgHSl5brUDWNVp3qGkW
- 79/2lncKNGLQ/RXgQTGya5dwEulbNeslrEdSt6qMQMb+Nv9rIR4FWhp0ZGSVNytzEF3wam0sB
- 3dVQZsO6RihZ04m5LerPVT+np3V6RDup5Kvm4wcP4Ti6xvI0dtVafefyZELYAcfYD9mdVE8fN
- iqI8Ujalah+CZN5KCorrwfn01U/QdcOsZjQKG5mNVHRJTo6WhLHPap6R1OtSuCQxr7SiHQCHO
- dSoY1BmUgMPnfnglAhaA0xtqFIG1eWrzf0k4Po2ej4e5fTe2J7E3JUVkoUYDNSkfyr2cZAlMk
- LfrwOZ7p3YCbmeCJDEdYAWCwS8Uzd2uasIh+RKhUKsyjiKpt7uAibE4HFl2zl34J71qplTItr
- zw9C2y2fYmdsJShro/sGE4I1fXYUvHpLm2N9g1FUvaxLvECa96Z3wlbFhlDOPcWLUSMYMO1CP
- gngHha2pIf1xmH7Gt3mu1eickL+qEJ3tHc/ZL96Dpm7U4MuTo9Hm5oVgSi8h3ewr3hy1VNBI3
- HJUY4BmHs48k0qNMZ4H8hT34jR1O7Al23WHZaxCNv7QjCPVS/TJY+qfpNBUITcG4Zft10nQJo
- M/UF/zY1FmHRWGS8h3/KE5FpFUG8vYIGB57PgcfYuB3pLVgAGs7J9TIa/s1dsmlMUS
+Content-Transfer-Encoding: 7bit
 
-=E2=80=A6
-> All errors (new ones prefixed by >>):
->
->>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this=
- goto statement to its label
->     1715 |                 goto err_dmabuf_unmap_attachment;
-=E2=80=A6
+On 30/05/2024 22:21, Laurent Pinchart wrote:
+> On Thu, May 30, 2024 at 02:18:05PM -0600, Shuah Khan wrote:
+>> On 5/30/24 13:45, Laurent Pinchart wrote:
+>>> On Thu, May 30, 2024 at 01:27:53PM -0600, Shuah Khan wrote:
+>>>> On 4/24/24 17:57, Laurent Pinchart wrote:
+>>>>> The .init_state() operations of the debayer and sensor entities iterate
+>>>>> over the entity's pads. In practice, the iteration covers a single pad
+>>>>> only. Access the pad directly and remove the loops.
+>>>>
+>>>> I am not seeing much of a reason to do this. This code is good
+>>>> even when num_pads change.
+>>>>
+>>>> Don't change the loops.
+>>>
+>>> Why so ? Beside the fact that the loop wastes some CPU cycles, the
+>>> current code implies that there would be multiple source pads, which is
+>>> confusing for the reader. I think the result of this patch is both
+>>> improved efficiency and improved readability.
+>>
+>> It is currently flexible and if and when more pads get added,
+>> there is no need to change it. I am not concerned about the
+>> efficiency on this test driver. Also people use the test
+>> driver as a sample.
+> 
+> If pad gets added, we don't know yet if the code will work as-is.
+> Chances are it will need to change anyway. I don't think it's a good
+> idea to prepare for a situation that we can't foresee without having
+> good reasons to make assumptions.
+> 
+> I have plans to refactor the vimc driver exteensively, changing how the
+> different entities behave, to bring it closer to how a real inline ISP
+> is architectured. The .init_state() functions will likely be rewritten
+> completely.
+> 
+> I agree with the sample argument, and that's one more reason why I think
+> this patch does the right thing :-)
 
-Which software design options would you like to try out next
-so that such a questionable compilation error message will be avoided fina=
-lly?
+I agree with Laurent on this. Sensor and debayer subdev devices have
+hardwired pads determined by the hardware, it is not something that is
+flexible. Since this is also serves as an example of such a driver, it
+makes sense to hardcode it, as that is how it is done in practice.
+
+It would be nice though to use defines rather than hardcoding it to 1
+in a line like this:
+
+	mf = v4l2_subdev_state_get_format(sd_state, 1);
+
+It would make it easier to read and see which pad index is source and
+which is sink.
+
+The sensor has only one pad, so there you can use the index 0, creating
+PAD defines doesn't add anything for a sensor.
 
 Regards,
-Markus
+
+	Hans
+
+> 
+>> Please leave it the way it is.
+> 
+
 
