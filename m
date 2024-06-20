@@ -1,128 +1,155 @@
-Return-Path: <linux-media+bounces-13821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893AD910794
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:09:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095C291081C
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:26:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B864C1C21C98
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:09:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBB4928259E
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FD8A1AD9D3;
-	Thu, 20 Jun 2024 14:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECD31AE080;
+	Thu, 20 Jun 2024 14:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aEJuulX0"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="3av3fyJ8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575F11ACE61;
-	Thu, 20 Jun 2024 14:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EAA1AD4B2;
+	Thu, 20 Jun 2024 14:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718892540; cv=none; b=szf6/dgYklX1qT6iwD2D4n4WDevFy8OlLm4gew89SCO9DL/NrnTU9oVSWOt7SStO1DsecEtW28YNjZauh3gQFusIO10Sq2hsx4k4X4juS9EBoH14PO33Xa58j7H+70A+6O8bXBwT9kH/YlXcx+bCV97vAKIO2dgBpwwDZJU7mdk=
+	t=1718893570; cv=none; b=ibddsNpZxYEYrFha3AMqVSZY1+yK5yf6Rjns9duTQEmuUNVWgEAMgbrocKlRV/rgA77Zq6818JgWYQ5Ej/yFMvjnohmdKvv3erlXB0AwZGbL1aR/0rv918Ko2CiD08H6W65soKhJ9LfPl3noGt6I8vEaf4Zj/0DRqCHn3yo2Rvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718892540; c=relaxed/simple;
-	bh=bkoariQAFK5nzptqulE5lD4Ceq9ZNl7I/5y71MtF05E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uRWDFYXVJgofUc/UORUt0WtSPE3OaRk42bo5qtFx2gSjltRT2BY7ni5PumDUE2auzaWk8T4zMaljOnBoc0hMtiY6r5lP9uo2hwq1UtTGU+Vsnbv4ELNhqLCLKFPm2HN7GgkoCEWaylCKNg8lec7ilwbfg/1AC+IBpAmD5k5HwEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aEJuulX0; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70623ec42c2so759508b3a.0;
-        Thu, 20 Jun 2024 07:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718892539; x=1719497339; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bkoariQAFK5nzptqulE5lD4Ceq9ZNl7I/5y71MtF05E=;
-        b=aEJuulX0jjYaqSnZkVAkKwhLoW87T9LVCZe4XV/JMH0kAxX2TQe7CvbbXb0pPFh4Qh
-         +Wj3iqMc3vhY0GVy+3DBebyU+P4pbHwBmFzcbPuvJDrHpIZuWfO7zJuMuSr4Dd5eWfla
-         zRIvmNivP3W84FN5sTdIkmY6OdKRPiu4pQ5yh/CobGFteOOZXunB1IEh4Bw4vcJeEaVz
-         rSidujIA+e54/QNVC0swlr7eVppkYnNpvO9IEY3eVnc6STcg363E9SweA68rfaSviwGI
-         gTTZdwo2/ezB8YYQMF3MRXlPdand6UgS8XjJA+6ohfUEnr8bH1QcnwJ5TyHxNGkIgZ/5
-         Ufwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718892539; x=1719497339;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bkoariQAFK5nzptqulE5lD4Ceq9ZNl7I/5y71MtF05E=;
-        b=uNbUYik8ey499IUjzk1secF4EmwmYX1Q3Y0P7QpiM2iDy6j/44rfPMBbbKXShvtYt4
-         wvj0oyJ7DGfW+MUXBaeSdr6EG/NysS4E7UtdjKmlBAEE50dJG0eOMU4vLTiiRBQS4gMK
-         LVa2YE4e38TOOU5pGQQ/wcJQ6G2FsPkgg9jWZ9DUi+R26B5xbiJbH6f5XSOdtIG//IMe
-         QPEOfTAiZjsmbNbDcf1q5QAl2SR9zC6U2JgCtyU8d1aGPR3derLzLmvRL8CltoUpP+8n
-         goyD6Jm1r6agkiAu24KVQITYdRZHHOP9fUy6enELFSgdb1TaspSim8qPh7TndFpx322L
-         ojbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVQnPlSh5BOGXeQypkP5KwA5h7T4l5YQtnQcgYh4mqXyJb9ej9AwpbhNwL9/SX7e6n8LgAwKdnoT3KgfChsYOAy+QYkJvBawh2gaGf4dLLsBQPyGH0MWdl1lrFMqxPvRqAlk4HdKc7tiW+o220wdLTZP2iR0a8xBRpx+DZ0uAT/2F2ATpBy1sVRIrGJccoS9zCTtkhsgsZDbQ5pwtDH0JU1Fill0YA51f+TWS+uJ32STFxJ+uFTJlW3mnE=
-X-Gm-Message-State: AOJu0Yy8Sscwz/pBGRDjfLZXc2ZYnnUx0VtgNrit0abBjF07uiqyn0nV
-	L9ck7xooPLgWezdHTs4A5H2fdw0M0cr1W38v+2cmeBDegD/XCMlW
-X-Google-Smtp-Source: AGHT+IEWi/i9vtD/HvCPbZdrn1cy8dwPBWfdCTrVuHryTftlO8XzUts6A/QV130K6XeOnU1kYBckXA==
-X-Received: by 2002:a05:6a00:4f06:b0:705:995c:3e30 with SMTP id d2e1a72fcca58-706290abf4fmr7801065b3a.17.1718892538504;
-        Thu, 20 Jun 2024 07:08:58 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705cc987743sm12800997b3a.90.2024.06.20.07.08.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 07:08:58 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id AFD9C1824D9E0; Thu, 20 Jun 2024 21:08:55 +0700 (WIB)
-Date: Thu, 20 Jun 2024 21:08:55 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v12 6/7] Documentation: iio: Document high-speed DMABUF
- based API
-Message-ID: <ZnQ398_ZtYpo-JLS@archie.me>
-References: <20240620122726.41232-1-paul@crapouillou.net>
- <20240620122726.41232-7-paul@crapouillou.net>
+	s=arc-20240116; t=1718893570; c=relaxed/simple;
+	bh=0/FfAt3cSYRx0NHA0nqVIaLGkcN+3itJkOw3CRTTXcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FHmL92uY7Mrmd0w4LObZLhge7lclMb8Q7YvrU227zF4CikWgAhvkDAYpxXGmMavE7yHJda5Pmt+sQ4K9IeztSrH+h7yN7fh7QPDvlfhBdR7YGqGialjSQpkjWI5DxkI4OXQdpeT3Rv33fJlHr0Mchi8XhLgG1+7IhB51SPD17VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=3av3fyJ8; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718893567;
+	bh=0/FfAt3cSYRx0NHA0nqVIaLGkcN+3itJkOw3CRTTXcw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=3av3fyJ8qpK83vb7XS+AGaXwQBHXIG10nU980ofHt7F9LVF2Hy6yHyhJzZLnGFwEM
+	 8n8PLMhF9+6mD2MItdoiawBvntnqlYBljLsFlu8bznzfo0e2YNr2LRTTQAHby9zSYQ
+	 k5Pn1sWlnPW+VIEGj6CAXgfB73Qy0Lcs6wWiaigCHOqFq+SBz2aulYLVHlY+TVgF/l
+	 Zc6hiPUU6LuGcJh7ABTk4BCEgDGcVBjIYZtF9lDBho9Q9HjnDYxv9iBuXOSD3AMZiI
+	 8Dx4mjz7nT1sXsudtboOi906aNj9X4x8mT20MIhMG+R1DwUSYraFkCb3fOPjeIqPfP
+	 Fj2rfyJthY7JQ==
+Received: from arisu.hitronhub.home (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C90283782159;
+	Thu, 20 Jun 2024 14:26:03 +0000 (UTC)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Alex Bee <knaerzche@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	Detlev Casanova <detlev.casanova@collabora.com>
+Subject: [PATCH v3 0/4] media: rockchip: Add rkvdec2 driver
+Date: Thu, 20 Jun 2024 10:19:42 -0400
+Message-ID: <20240620142532.406564-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OmuTAUrc7S676QKv"
-Content-Disposition: inline
-In-Reply-To: <20240620122726.41232-7-paul@crapouillou.net>
+Content-Transfer-Encoding: 8bit
 
+Add a rkvdec2 driver for newer video decoder found on rk3588 based SoC.
 
---OmuTAUrc7S676QKv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is also found on other hardware like the RK356x, but not tested yet,
+so it will be added later.
 
-On Thu, Jun 20, 2024 at 02:27:25PM +0200, Paul Cercueil wrote:
-> Document the new DMABUF based API.
->=20
+Support for yuv 4:2:2 and 10 bits streams will also be added later, when the
+https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se
+patch set is merged.
 
-LGTM, thanks!
+The support for IOMMU will be added later as preliminary tests show that
+the current rockchip iommu driver fails to allocate pages for the video
+decoder iommu.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+See the second commit message for more details.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Changes since v2:
+- doc: Disable resets and sram for other platforms, add maxItems for
+  clocks
+- Fix h264 spec equation number in comment
+- Remove superfluous status field in dtsi
+- Add TODO item for IOMMU
 
---OmuTAUrc7S676QKv
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes since v1:
+- Add support for RCB in SRAM
+- Move bindings to rockchip,vdec.yaml
+- Add resets bindings
+- Add second core and enable them from dtsi file
+- Only expose one video device to userspace (but don't support multicore yet)
+- Share CABAC table with rkvdec
+- Fix iowrite32 call and add preliminary support for arm
+- Remove unused code
+- Improve registers naming and code style
+- Remove DMA_ATTR_ALLOC_SINGLE_PAGES flag
 
------BEGIN PGP SIGNATURE-----
+Detlev Casanova (4):
+  media: rockchip: Move H264 CABAC table to header file
+  media: rockchip: Introduce the rkvdec2 driver
+  media: dt-bindings: rockchip: Document RK3588 Video Decoder bindings
+  arm64: dts: rockchip: Add rkvdec2 Video Decoder on rk3588(s)
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZnQ37gAKCRD2uYlJVVFO
-o/r8AQCIFAAnhfXKSkVIpjhII/qaXwnWsgfL4cVfExJmpumexgD/Ri4NWMVAfeiY
-yXZE6Mz87M0muGonVU4ld7vLcryHOwE=
-=A0ev
------END PGP SIGNATURE-----
+ .../bindings/media/rockchip,vdec.yaml         |   55 +
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi     |   48 +
+ drivers/staging/media/Kconfig                 |    1 +
+ drivers/staging/media/Makefile                |    1 +
+ .../staging/media/rkvdec/rkvdec-h264-cabac.h  |  509 +++++++
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |  500 +------
+ drivers/staging/media/rkvdec2/Kconfig         |   15 +
+ drivers/staging/media/rkvdec2/Makefile        |    3 +
+ drivers/staging/media/rkvdec2/TODO            |    9 +
+ drivers/staging/media/rkvdec2/rkvdec2-h264.c  |  739 ++++++++++
+ drivers/staging/media/rkvdec2/rkvdec2-regs.h  |  345 +++++
+ drivers/staging/media/rkvdec2/rkvdec2.c       | 1253 +++++++++++++++++
+ drivers/staging/media/rkvdec2/rkvdec2.h       |  130 ++
+ 13 files changed, 3109 insertions(+), 499 deletions(-)
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264-cabac.h
+ create mode 100644 drivers/staging/media/rkvdec2/Kconfig
+ create mode 100644 drivers/staging/media/rkvdec2/Makefile
+ create mode 100644 drivers/staging/media/rkvdec2/TODO
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
+ create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
 
---OmuTAUrc7S676QKv--
+-- 
+2.44.2
+
 
