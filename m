@@ -1,110 +1,198 @@
-Return-Path: <linux-media+bounces-13765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13766-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17DA90FB10
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 03:51:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E357E90FC27
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 07:20:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5152BB21C72
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 01:51:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79F061F25419
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 05:20:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A784017577;
-	Thu, 20 Jun 2024 01:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 908062C694;
+	Thu, 20 Jun 2024 05:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3x8D+JX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510AD171A1
-	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 01:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CE4628
+	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 05:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718848272; cv=none; b=VTw/c1HcM2CfYUD0Y4pMDuFwRnwBB4tECvks37xx2wtsLsUwRiR4MacHE0pJDmLWMI1LiGLSxcAIPMqk99qY0pG20aQbVbqc9mh+oj3XOVMbPsCrDT1VKYNGa/RkyGenZq7DZlfjPRohE8WHjE1/gKrgmVAJzDN2NABsIfPscAs=
+	t=1718860837; cv=none; b=QrQjMA117wBISS8lJ8VadMU2B2eIPAZDKnwd7P8K+ICjvc6LNejsEb+Td61KK/7aScHqGv10/T1e6QqF4HR5xl0AtmzN9GTwNpQ+lEU+lJqFcdnuXTpyWhDQLkAaUdOFU9jnckfb9Or7VRjP2toxMvk988DskXlv105SmLjcXEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718848272; c=relaxed/simple;
-	bh=exIU+yq3UQ524T7HjE/ymsP/pJPFq/Rm3CEZk7UpIJo=;
-	h=Date:From:To:Subject:Message-Id; b=LEg0Ifx+TJM96kAhc0dLeDpVN0JEr/KW1k1xrecW0B67mN8y3HHnUi1ODUDEGUCQkp/BYuz6xCpnYB1QSh8J1H1ZSFKQmzw6/6PGlkCr9Jgpjlf4EfuQCWGgTJ7575LojXgflbyDk8GQBd0t90jKjMPlYw2NzeHE8w2G9TZ8+VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 816C5C2BBFC
-	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 01:51:11 +0000 (UTC)
-Date: Thu, 20 Jun 2024 03:51:09 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20240620015111.816C5C2BBFC@smtp.kernel.org>
+	s=arc-20240116; t=1718860837; c=relaxed/simple;
+	bh=zvM1TpI9Q1JHCXoILMFpwv48syTcviNPyQDRE7dJgEs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LUr4lD/I6Of5jps1iX/AOhUUU793vOvE4zzWk8d0FCjc/NB2dkFjmH7+3mu15EOdu79TzxU5R7Qjm1s1uDm9mH0PsJ58hG+DyvC33aGbSxYYkG/HrOieFZdvgE6FYL8YqNu0+4Hs1PUCI1UQGWrVI2Xy9zcBiArUSnJNKFfa/y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3x8D+JX; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718860835; x=1750396835;
+  h=date:from:to:cc:subject:message-id;
+  bh=zvM1TpI9Q1JHCXoILMFpwv48syTcviNPyQDRE7dJgEs=;
+  b=E3x8D+JXXGKrahzO0KDMYRvuec1j8zZxz7PiF0ZNVq5ObA0lO14v+6VK
+   9vls2QffB8c9VOZMCKFDzNsJyGTCVLfoeidhAkNhM6BWZgOMZC4gAdCMg
+   33Fh/8N+QZbLGeFVyDYbGOTNFUm1zzpX5OWcnDVhhwQ4k3opvNgF9hnVX
+   BL15/F4WlW97INvi7WyRWXkK7oiORV4NALVmE6XXSRPsjk5Vqm4s7Z6Ou
+   kJNVU/DWrwmje1mx10OjLYd2mAZDNzfpYIhlGmcMrvkFs7mPG9a+z6j1G
+   f08FB30Qswiwdy1dATJpQzuUb5BS+FxHqXxxoVxOPnNjvLKdUQfM6KKZv
+   w==;
+X-CSE-ConnectionGUID: K/NAq7NVRA6v5/MLUKdniw==
+X-CSE-MsgGUID: kJm1mtmLTVy0PnmaZijKhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15647568"
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="15647568"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 22:20:34 -0700
+X-CSE-ConnectionGUID: BAi8j7fDT7OTtDsChKyAoA==
+X-CSE-MsgGUID: 4ai88ZwqQxGmRvQ7Bv1eEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="41944233"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 19 Jun 2024 22:20:33 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sKADm-0007Ko-2R;
+	Thu, 20 Jun 2024 05:20:30 +0000
+Date: Thu, 20 Jun 2024 13:20:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:fixes] BUILD SUCCESS
+ fd404435d44b453d62afe77545b9252c2cc72c8a
+Message-ID: <202406201311.9H2Ec4Yy-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+tree/branch: https://git.linuxtv.org/media_stage.git fixes
+branch HEAD: fd404435d44b453d62afe77545b9252c2cc72c8a  media: ivsc: Depend on IPU_BRIDGE or not IPU_BRIDGE
 
-Results of the daily build of media_tree:
+elapsed time: 6881m
 
-date:			Thu Jun 20 03:00:13 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	91798162245991e26949ef62851719bb2177a9c2
-v4l-utils git hash:	9b1ffffaa7408c1a4e55c2f375c66ad9a0cf16c4
-edid-decode git hash:	5d66c548e93acac1ab09675aa424912a4be879a8
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8655-ge9a8c157
-sparse version:		v0.5.0-8655-ge9a8c157
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: be24540c169ec3016775f81d1a36b4133e96c7df
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+configs tested: 105
+configs skipped: 2
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: WARNINGS:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-drivers/media/usb/b2c2/flexcop-usb.c:199 flexcop_usb_memory_req() warn: iterator 'i' not incremented
-drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_streaming() warn: mixing irqsave and irq
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                               defconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240616   gcc-13.2.0
+arc                   randconfig-002-20240616   gcc-13.2.0
+arm                               allnoconfig   clang-19
+arm                                 defconfig   clang-14
+arm                   randconfig-001-20240616   gcc-13.2.0
+arm                   randconfig-002-20240616   gcc-13.2.0
+arm                   randconfig-003-20240616   clang-16
+arm                   randconfig-004-20240616   clang-19
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240616   gcc-13.2.0
+arm64                 randconfig-002-20240616   clang-19
+arm64                 randconfig-003-20240616   clang-19
+arm64                 randconfig-004-20240616   clang-19
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240616   gcc-13.2.0
+csky                  randconfig-002-20240616   gcc-13.2.0
+hexagon                           allnoconfig   clang-19
+hexagon                             defconfig   clang-19
+hexagon               randconfig-001-20240616   clang-19
+hexagon               randconfig-002-20240616   clang-19
+i386                             allmodconfig   gcc-13
+i386                              allnoconfig   gcc-13
+i386                             allyesconfig   gcc-13
+i386         buildonly-randconfig-001-20240615   clang-18
+i386         buildonly-randconfig-002-20240615   gcc-9
+i386         buildonly-randconfig-003-20240615   gcc-7
+i386         buildonly-randconfig-004-20240615   clang-18
+i386         buildonly-randconfig-005-20240615   clang-18
+i386         buildonly-randconfig-006-20240615   gcc-13
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240615   clang-18
+i386                  randconfig-002-20240615   gcc-13
+i386                  randconfig-003-20240615   clang-18
+i386                  randconfig-004-20240615   clang-18
+i386                  randconfig-005-20240615   clang-18
+i386                  randconfig-006-20240615   clang-18
+i386                  randconfig-011-20240615   clang-18
+i386                  randconfig-012-20240615   gcc-12
+i386                  randconfig-013-20240615   gcc-13
+i386                  randconfig-014-20240615   clang-18
+i386                  randconfig-015-20240615   clang-18
+i386                  randconfig-016-20240615   gcc-13
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240616   gcc-13.2.0
+loongarch             randconfig-002-20240616   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                                defconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240616   gcc-13.2.0
+nios2                 randconfig-002-20240616   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+openrisc                            defconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                              defconfig   gcc-13.2.0
+parisc                randconfig-001-20240616   gcc-13.2.0
+parisc                randconfig-002-20240616   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc               randconfig-001-20240616   gcc-13.2.0
+powerpc               randconfig-002-20240616   clang-19
+powerpc               randconfig-003-20240616   gcc-13.2.0
+powerpc64             randconfig-001-20240616   gcc-13.2.0
+powerpc64             randconfig-002-20240616   clang-19
+powerpc64             randconfig-003-20240616   gcc-13.2.0
+riscv                             allnoconfig   gcc-13.2.0
+riscv                               defconfig   clang-19
+riscv                 randconfig-001-20240616   clang-14
+riscv                 randconfig-002-20240616   gcc-13.2.0
+s390                              allnoconfig   clang-19
+s390                                defconfig   clang-19
+s390                  randconfig-001-20240616   clang-19
+s390                  randconfig-002-20240616   clang-19
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-13.2.0
+sh                    randconfig-001-20240616   gcc-13.2.0
+sh                    randconfig-002-20240616   gcc-13.2.0
+sparc                             allnoconfig   gcc-13.2.0
+sparc                               defconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-13.2.0
+sparc64               randconfig-001-20240616   gcc-13.2.0
+sparc64               randconfig-002-20240616   gcc-13.2.0
+um                                allnoconfig   clang-17
+um                                  defconfig   clang-19
+um                             i386_defconfig   gcc-13
+um                    randconfig-001-20240616   gcc-13
+um                    randconfig-002-20240616   gcc-10
+um                           x86_64_defconfig   clang-15
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64                              defconfig   gcc-13
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                randconfig-001-20240616   gcc-13.2.0
+xtensa                randconfig-002-20240616   gcc-13.2.0
 
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Thu Jun 20 03:14:06 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
-
-date:			Thu Jun 20 03:50:08 CEST 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
