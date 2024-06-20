@@ -1,146 +1,125 @@
-Return-Path: <linux-media+bounces-13804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F6F910428
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:30:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EFE910449
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 14:35:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60D881F21E1F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:30:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5DE4AB24375
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 12:35:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A5541ACE83;
-	Thu, 20 Jun 2024 12:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="M26+S+ZB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED5A11AC438;
+	Thu, 20 Jun 2024 12:35:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9601AC765;
-	Thu, 20 Jun 2024 12:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9920D1A4F2B
+	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 12:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718886529; cv=none; b=AmWl7n388rIK32GhbIVpPROir897tCBLrTfk/ht1HSBrGP5naPSyZrDfxwXKovopcMasg9d3iUPJxqg1VSnJrM0TTYkZNjl17DanWqPM9mCeXoUOcCbSZNYbjfe61q433CUgZsSp2JzI8dBX+sGVCsYP2Sc6yyIZHVJZUbvNpvQ=
+	t=1718886910; cv=none; b=QjrkOK6meji2qXGeUPJcUv/D8cxLBZ0d17evz2shDbZbRDBSu7uWCkAWOXL2hEfOAEJKEPPLr9boD5CKT9RciWHk2hzsnf2lCNNdTP+dr8Gik2NJg7taZagiql8mkwlxTM1/2BdiEkDLcz4W56BAIGQAGm9a23HDhxGin0RRKEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718886529; c=relaxed/simple;
-	bh=X7I9QTXjWXLV5adf+VLzAIKVei/MuLCImpBgdp5MFW0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VJm4QqVvSbDSffl1kMYhJQ0ANJWaZX3IImdkQ9+W80V410nLF3KyZC4xmxws9TK0Dw5T4ZL15tTskCJGZX+BQ/NOz+CFwi5tMF2M4UMxVna6pjtW4A3TGnX/XgVAFlnFzcdN7au33Rze6kH4V5I3ndJqZbWZEk2NaZqwRvYjTvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=M26+S+ZB; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1718886469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ohuxApLNdhOX7LZ/v+Xu3NNVbPIJcpf85Dd0wZ/o3s=;
-	b=M26+S+ZB7da4Tf54WshO20DXN4NdDv+ZKNPYgCJbP05fpECQBaQS+sxffHumo5a5Xd9qMC
-	G9142wxy8t61XicEf4R3sQHKLHGiLjHDjMniZjQLfiiAlQ1OUy5Uf6ay2EA46BBPV8ZUXi
-	zzC1qP6ig5jK22F+tbIrOI4l/Si+H8I=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Nuno Sa <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Paul Cercueil <paul@crapouillou.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v12 7/7] Documentation: dmaengine: Document new dma_vec API
-Date: Thu, 20 Jun 2024 14:27:26 +0200
-Message-ID: <20240620122726.41232-8-paul@crapouillou.net>
-In-Reply-To: <20240620122726.41232-1-paul@crapouillou.net>
-References: <20240620122726.41232-1-paul@crapouillou.net>
+	s=arc-20240116; t=1718886910; c=relaxed/simple;
+	bh=iUEM1dQbsFuTvu2ZO6DeZ8aZvZ1I4Hpewm6lYIA8KXA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=mmNj4la5UHRk140tO0Nc/YSLbPNR5HVo+NgPca6KUWXiidNodtKpPuF5742AAaCCWSibiWcph7uY89nCJT9k9QvF35Lc/FZpkkYix4PSLE2m3SRbzrxPyz8YRyvnPAJrI6aYYweNxcjwRLA0d0fdVY3OBbLj1+Wl5p94At1m1QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A871BC32786;
+	Thu, 20 Jun 2024 12:35:09 +0000 (UTC)
+Message-ID: <921108e1-0ae1-4e95-a161-77af991ee16c@xs4all.nl>
+Date: Thu, 20 Jun 2024 14:35:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Allen Pais <allen.lkml@gmail.com>, Ming Qian <ming.qian@nxp.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT PULL FOR v6.11] Various fixes and enhancements
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Document the dmaengine_prep_peripheral_dma_vec() API function, the
-device_prep_peripheral_dma_vec() backend function, and the dma_vec
-struct.
+The main change is the conversion from tasklet to BH workqueue. Allen, thank you
+for your work on that and the quick turnaround time after my reviews. Nice to
+get this in.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Besides that there are a few small fixes.
 
----
-v11: New patch
----
- Documentation/driver-api/dmaengine/client.rst   |  9 +++++++++
- Documentation/driver-api/dmaengine/provider.rst | 10 ++++++++++
- 2 files changed, 19 insertions(+)
+If there are no objections, then I plan to merge this during the weekend or on
+Monday at the latest.
 
-diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
-index ecf139f73da4..d491e385d61a 100644
---- a/Documentation/driver-api/dmaengine/client.rst
-+++ b/Documentation/driver-api/dmaengine/client.rst
-@@ -80,6 +80,10 @@ The details of these operations are:
- 
-   - slave_sg: DMA a list of scatter gather buffers from/to a peripheral
- 
-+  - peripheral_dma_vec: DMA an array of scatter gather buffers from/to a
-+    peripheral. Similar to slave_sg, but uses an array of dma_vec
-+    structures instead of a scatterlist.
-+
-   - dma_cyclic: Perform a cyclic DMA operation from/to a peripheral till the
-     operation is explicitly stopped.
- 
-@@ -102,6 +106,11 @@ The details of these operations are:
- 		unsigned int sg_len, enum dma_data_direction direction,
- 		unsigned long flags);
- 
-+     struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
-+		struct dma_chan *chan, const struct dma_vec *vecs,
-+		size_t nents, enum dma_data_direction direction,
-+		unsigned long flags);
-+
-      struct dma_async_tx_descriptor *dmaengine_prep_dma_cyclic(
- 		struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
- 		size_t period_len, enum dma_data_direction direction);
-diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-index ceac2a300e32..3085f8b460fa 100644
---- a/Documentation/driver-api/dmaengine/provider.rst
-+++ b/Documentation/driver-api/dmaengine/provider.rst
-@@ -433,6 +433,12 @@ supported.
-     - residue: Provides the residue bytes of the transfer for those that
-       support residue.
- 
-+- ``device_prep_peripheral_dma_vec``
-+
-+  - Similar to ``device_prep_slave_sg``, but it takes a pointer to a
-+    array of ``dma_vec`` structures, which (in the long run) will replace
-+    scatterlists.
-+
- - ``device_issue_pending``
- 
-   - Takes the first transaction descriptor in the pending queue,
-@@ -544,6 +550,10 @@ dma_cookie_t
- - Not really relevant any more since the introduction of ``virt-dma``
-   that abstracts it away.
- 
-+dma_vec
-+
-+- A small structure that contains a DMA address and length.
-+
- DMA_CTRL_ACK
- 
- - If clear, the descriptor cannot be reused by provider until the
--- 
-2.43.0
+Regards,
 
+	Hans
+
+The following changes since commit 7fc65b78b465b8511a503491e7c3116d46dc6c72:
+
+  media: platform: mtk-mdp3: Add support for MT8188 MDP3 components (2024-06-20 11:47:48 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.11d
+
+for you to fetch changes up to 5167c3159c1b78bc9e43e7932df27cb16f518ce4:
+
+  media: imx-jpeg: Drop initial source change event if capture has been setup (2024-06-20 14:17:10 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Allen Pais (1):
+      media: Convert from tasklet to BH workqueue
+
+Chi Zhiling (1):
+      media: xc2028: avoid use-after-free in load_firmware_cb()
+
+Christophe JAILLET (1):
+      media: cx231xx: Constify struct vb2_ops
+
+Ming Qian (2):
+      media: imx-jpeg: Remove some redundant error logs
+      media: imx-jpeg: Drop initial source change event if capture has been setup
+
+ drivers/media/pci/bt8xx/bt878.c                          |  8 ++++----
+ drivers/media/pci/bt8xx/bt878.h                          |  3 ++-
+ drivers/media/pci/bt8xx/dvb-bt8xx.c                      |  8 ++++----
+ drivers/media/pci/ddbridge/ddbridge.h                    |  2 +-
+ drivers/media/pci/mantis/hopper_cards.c                  |  2 +-
+ drivers/media/pci/mantis/mantis_cards.c                  |  2 +-
+ drivers/media/pci/mantis/mantis_common.h                 |  2 +-
+ drivers/media/pci/mantis/mantis_dma.c                    |  4 ++--
+ drivers/media/pci/mantis/mantis_dma.h                    |  2 +-
+ drivers/media/pci/mantis/mantis_dvb.c                    | 12 ++++++------
+ drivers/media/pci/ngene/ngene-core.c                     | 22 +++++++++++-----------
+ drivers/media/pci/ngene/ngene.h                          |  5 +++--
+ drivers/media/pci/smipcie/smipcie-main.c                 | 18 +++++++++---------
+ drivers/media/pci/smipcie/smipcie.h                      |  3 ++-
+ drivers/media/pci/ttpci/budget-av.c                      |  3 ++-
+ drivers/media/pci/ttpci/budget-ci.c                      | 27 ++++++++++++++-------------
+ drivers/media/pci/ttpci/budget-core.c                    | 10 +++++-----
+ drivers/media/pci/ttpci/budget.h                         |  5 +++--
+ drivers/media/pci/tw5864/tw5864-core.c                   |  2 +-
+ drivers/media/pci/tw5864/tw5864-video.c                  | 13 +++++++------
+ drivers/media/pci/tw5864/tw5864.h                        |  7 ++++---
+ drivers/media/platform/intel/pxa_camera.c                | 15 ++++++++-------
+ drivers/media/platform/marvell/mcam-core.c               |  8 ++++----
+ drivers/media/platform/marvell/mcam-core.h               |  3 ++-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c           | 14 +++-----------
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c | 14 +++++++-------
+ drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h |  2 +-
+ drivers/media/radio/wl128x/fmdrv.h                       |  5 +++--
+ drivers/media/radio/wl128x/fmdrv_common.c                | 40 ++++++++++++++++++++--------------------
+ drivers/media/rc/mceusb.c                                |  2 +-
+ drivers/media/tuners/xc2028.c                            |  9 ++++++++-
+ drivers/media/usb/cx231xx/cx231xx-417.c                  |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c                |  2 +-
+ drivers/media/usb/ttusb-dec/ttusb_dec.c                  | 21 +++++++++++----------
+ 34 files changed, 154 insertions(+), 143 deletions(-)
 
