@@ -1,202 +1,124 @@
-Return-Path: <linux-media+bounces-13848-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13849-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F709910CFA
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 18:33:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C634E910D29
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 18:36:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA10A289067
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:33:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FE001F21210
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 16:36:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E9BA1B3739;
-	Thu, 20 Jun 2024 16:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A85F61B4C32;
+	Thu, 20 Jun 2024 16:33:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxsJiyep"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="U4wfLMhE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33DA1B29C8;
-	Thu, 20 Jun 2024 16:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996B21B3727;
+	Thu, 20 Jun 2024 16:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718900826; cv=none; b=VTdmXWhFpYUNDIVB/s5nQhNiIAYtI4HNMOnSla9RcYKSpmpzbaKfBRM6iYhOP1XLhLyjXHo1EwsD23lMxrK98WM9eDqsf+L46SvIDJ4O4KPhdz1i1e6Q0uVbF+XuzNxWRUY3xrmg4n4NEetvhtL2t784ubW6Ye24Szha9dovRuc=
+	t=1718901233; cv=none; b=GtPdR0l2TlPMMrs2SZ1ZuHX3yW0XCkiFYuVbNX8zvz7w8VAO7Lx0j/ClYT9iWIwEJRBZly7m3vX8We/hYPn1MF+20xkK6RCQchij0EUZPWXVcJKPB7mSDUFO5QCuNe+Fo2IsItZjWzPvnfOqg2wW7nfxSwuDW25WQaULPGm9EcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718900826; c=relaxed/simple;
-	bh=KnOXbvU8KZ4215R34n+QAMLx/UGXjos+Ob1U2qvJudE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bSSsWtvaRVM00Fs3dHxClcP29q8HURQ/Vr+2t9qMWInB++7qgXE6SuxaAazPiYf+qqv1xbr2qq0BCpw5XpHhQcA2n6dVz+E2dYRjC15JWenszayCknE4oDdlR72zHZKwH40IAy5SjXmBHi4iv5m5y8otulqQqzDiE1N13XhvTSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxsJiyep; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AF84C2BD10;
-	Thu, 20 Jun 2024 16:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718900825;
-	bh=KnOXbvU8KZ4215R34n+QAMLx/UGXjos+Ob1U2qvJudE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XxsJiyepgezG1tUMpU4h3FbKi6Gxia9Ktnt7RIp5t5Z2F85K8x4ZUSMIJhV7J6Rtt
-	 1YAl0vg20JwJSOH1QU0sZjCp3POU3zY0JAiJ8pOP8Fh2OiG8fZPo9I3oY8fSnfx5g8
-	 jgDO5AAtjp8fawuk9hp7SJNZ+cf9o0gRds9zUrrWT/AwmWW2i/L0/efhy2+ZIzpIhs
-	 OE5FxPyLSHZoROD6Ns8WpbleP5o+kibnzNnIhT2L/WxqnPXa8VrPVzQlAnQ7IgzzqL
-	 uVfwZTw/yeexFkNKT8zD4dOYivzwy3Eb0xwKfMpgA/gjvzT+BxoS+2ALLENWKYqB6C
-	 VGo2stX0pJaNA==
-Date: Thu, 20 Jun 2024 17:27:00 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for
- V4M
-Message-ID: <20240620-gating-coherent-af984389b2d7@spud>
-References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
- <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
- <20240619-passage-iodine-9f944b26a30d@spud>
- <20240619185607.GT382677@ragnatech.se>
- <20240619204321.GU382677@ragnatech.se>
+	s=arc-20240116; t=1718901233; c=relaxed/simple;
+	bh=uGqy7zfNB+grtryFih/VB1IHVnD5ET/9Jx8TxfjQS3U=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=WPzCcJwf48l2NQiNC0hNSLeNvlm9V4MtTm9rcBwAYd+wz71eyugKBrpHO/OE9ogBjyKIULRVfkpHqscapBIHaQAD0MLfttGnzmOa7QpJtMLU8vrtXVR6KVPsFWrLC/CTSXScSH70WTzp7IrawUwrEavWTYAudf8ZzgJ2RYtXL4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=U4wfLMhE; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718901173; x=1719505973; i=markus.elfring@web.de;
+	bh=dykB42Sd3Re8NZvckvEK5UPju/y5TnSdBQ5mULG1s+g=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=U4wfLMhEqGf/E6owLCEXzYfF2p1eof2l1Z1G0B174YWML31y+GstGgGuYseaK8W5
+	 20FjbUI51rhZFM/28AFVsOiUflRpo83Rn3OgQoxAOTnb3g4rCdnjKgRkkrFoptmA2
+	 XahFJvFmysdUjmll65ysQyG0wA30G5LkHfCpFpDcMXEPuYRheckabK3Bnbj29/XRy
+	 s8cEOUpflyJg4v6av1dhi9v6MJ+5oKPRKDumtHuZKYPBEtbAjnDrXKOTAQp/CRc8U
+	 afrD8aAjsd9o5gqOIC8jqOkZDW5djEwDw3eSxD2ahX7c5mULcFLtBxoeqorJy9eRM
+	 t4QWjn5FdXYQDSTIHQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MAtsZ-1sE27I0wDR-0008e4; Thu, 20
+ Jun 2024 18:32:53 +0200
+Message-ID: <ca3efef9-9720-46be-a59d-a9a4c5873ea2@web.de>
+Date: Thu, 20 Jun 2024 18:32:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rAeApIGv6bYD7fXM"
-Content-Disposition: inline
-In-Reply-To: <20240619204321.GU382677@ragnatech.se>
-
-
---rAeApIGv6bYD7fXM
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+To: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Julia Lawall <julia.lawall@inria.fr>, Lee Jones <lee@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <20240620122726.41232-4-paul@crapouillou.net>
+Subject: Re: [PATCH v12 3/7] iio: core: Add new DMABUF interface
+ infrastructure
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240620122726.41232-4-paul@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:jeIzi8pMUjRRHbkEI2McLlbFKS2rmTp2/YbWVN/pPMg1625Dmrm
+ OG7fNtWabJLFJVITv55DtECwqQZJrxQqDrkpXx1tYmjLmWo4ibjIqLpK0G+tPWF+YQKJOXl
+ X/CPLEcXcpigj9lmdLnvVZNThD1kaIAPXqRFU2Mb7gXvFj8W0tg2Gte24rlJ9rwFjO2p3Zk
+ 42RBmPZVkFpHq88jk31og==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:+eTpu5gHISo=;FvPn9BFx0q8Vg3ZhRq6hxBpzKLZ
+ U2PEJ659y+nj6QPHJYsDL+YEaJTPpXHTxgx6wRviFNOe4p3/yROsBK76+gOunzodRdYeS4BqN
+ oqOr6J/RHfTPEXsFWBtO6kASEmubf1Q41aTy8TiKAUINr1QroIcBFlzv/5ZilBf1bC70Xq5rk
+ PMPyOq3IPqtZymss7xyFlSsMHwNImQGNG7dxgDakPJ+qL5eyXplYP4YuPxOVuuAct/LjZ9Gau
+ DZiIvmiYP7esUvAlxG+TEcIRU/PtAjKKQhug9NCEd5TKnVm69K4Qb2HhnEeXKpkRj2P6U72KT
+ 0QaXQFFOo3nzYNw79cseCq+B01LfPyQdgOL+KnMH7zqbNRj4l8yvKgmaoAPCuZcSrdH36XWVU
+ lBWsQTVodUo8YwquewptgmXQzdsXxHPk7DtPS7ZCb1V6K97ErqY4YLuLZUhN/iUxYoeQfVGiP
+ FrVafcM/vpkCyDDwWhZbe6+JMh3E34KA1VhP+GVSozJFNemH8EpBfAg/2fWwaPhNYGcdrDpSv
+ SA9mzcvxhJAmKx8wYLLpobtdCTY9jqrut8pJK708A93fxLx0xs4hd70TkjFBvSSiXPBYIWHn/
+ 1YkHWswiiSMk0yoIsTfqJLMShiF4KbmgnsC6pRmm/BC9IzyM/D5Z7acm/ZZv9elLpcEaq8ot8
+ qcadgr7f040EA2OAa5Fg1S7qcIiBuMJf3+BTtU32X/J7fvZuSrfUpdzQP18EP0rFvVsZoWgnd
+ vBqsqXpRfJ4XaA+vWxJqcfF/6rvwut9TAVZ5+LVezjZ2rnOhPwpLeyfoZbHPMKVgxtfRZy9Cm
+ JumtidR4NTrYbH8Eyja37pmb4PkQs/jVIkjk5wy+K3LytLQTq2LT+/Scao1DN2M88q
 
-On Wed, Jun 19, 2024 at 10:43:21PM +0200, Niklas S=F6derlund wrote:
-> Hello again.
->=20
-> On 2024-06-19 20:56:11 +0200, Niklas S=F6derlund wrote:
-> > Hi Conor,
-> >=20
-> > On 2024-06-19 18:33:37 +0100, Conor Dooley wrote:
-> > > On Wed, Jun 19, 2024 at 05:35:58PM +0200, Niklas S=F6derlund wrote:
-> > > > Document support for the VIN module in the Renesas V4M (r8a779h0) S=
-oC.
-> > > >=20
-> > > > Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnate=
-ch.se>
-> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >=20
-> > > Didn't we just have a conversation about this, yet nothing has change=
-d?
-> > > NAK. Either you need a fallback or to explain why a fallback is not
-> > > suitable _in this patch_.
-> >=20
-> > Sorry, I'm confused from the conclusion of our conversation in v2. I di=
-d=20
-> > add an explanation to why not fallback is used, but I added it to patch=
-=20
-> > 2/2 which adds the compatible to the driver.
+=E2=80=A6
+> v11:
+=E2=80=A6
+>     - Use guard(mutex)
+>
+> v12:
+>     - Revert to mutex_lock/mutex_unlock in iio_buffer_attach_dmabuf(),
+>       as it uses cleanup GOTOs
+=E2=80=A6
 
-If you're unsure at all just ask, better that than send a new version.
+I would find it nice if better design options could gain acceptance.
+Will the chances grow to adjust scopes another bit for involved variables
+in such function implementations?
 
-> >=20
-> > It was my understanding that a SoC specific compatible was needed in=20
-> > either case so, at lest to me, made more sens to explain why in the=20
-> > driver patch the reason go into detail about the register differences=
-=20
-> > between the two. Sorry if I misunderstood. I can add the same=20
-> > explanation to both patches, would this help explain why only a SoC=20
-> > specific value is added?
-> >=20
-> >   The datasheet for the two SoCs have small nuances around the Pre-Clip
-> >   registers ELPrC and EPPrC in three use-cases, interlaced images,
-> >   embedded data and RAW8 input. On V4H the values written to the regist=
-ers
-> >   are based on odd numbers while on V4M they are even numbers, based on
-> >   the input image size.
-> >=20
-> >   No board that uses these SoCs which also have the external peripherals
-> >   to test these nuances exists. Most likely this is an issue in the
-> >   datasheet, but to make this easy to address in the future do not add a
-> >   common Gen4 fallback compatible. Instead uses SoC specific compatibles
-> >   for both SoCs. This is what was done for Gen3 SoCs, which also had
-> >   similar nuances in the register documentation.
->=20
-> After have read thru v1 and v2 comments a few more times I think I might=
-=20
-> have spotted what I got wrong. If so I apologies for wasting your time=20
-> reviewing this. I'm really trying to understand what I got wrong and=20
-> address the review feedback.
->=20
-> Is what you are asking for with a fallback something like this?
->=20
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -53,7 +53,11 @@ properties:
->                - renesas,vin-r8a77990 # R-Car E3
->                - renesas,vin-r8a77995 # R-Car D3
->                - renesas,vin-r8a779a0 # R-Car V3U
-> +      - items:
-> +          - enum:
->                - renesas,vin-r8a779g0 # R-Car V4H
-> +              - renesas,vin-r8a779h0 # R-Car V4M
-> +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
->=20
-> If so I can see that working as I could still fix any issues that come=20
-> from differences between V4H and V4M if needed. If so do you think it=20
-> best to add this in two different patches? One to add the=20
-> renesas,rcar-gen4-vin fallback (which will also need DTS updates to fix=
-=20
-> warnings from exciting users of V4H not listing the gen4 fallback) and=20
-> one to add V4M?
+A) Enclosing a source code part with extra curly brackets?
+
+B) scoped_guard()?
+   https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup=
+.h#L137
+
+C) Moving a locked source code part into a separate function implementatio=
+n?
 
 
-I would just do:
-diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Doc=
-umentation/devicetree/bindings/media/renesas,vin.yaml
-index 5539d0f8e74d..22bbad42fc03 100644
---- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-@@ -54,6 +54,9 @@ properties:
-               - renesas,vin-r8a77995 # R-Car D3
-               - renesas,vin-r8a779a0 # R-Car V3U
-               - renesas,vin-r8a779g0 # R-Car V4H
-+      - items:
-+          - const: renesas,vin-r8a779h0 # R-Car V4L2
-+          - const: renesas,vin-r8a779g0 # R-Car V4H
-=20
-   reg:
-     maxItems: 1
-
-Which requires no driver or dts changes. That could become:
-      - items:
-          - enum:
-              - renesas,vin-r8a779h0 # R-Car V4L2
-              - renesas,vin-r8a779i0 # R-Car R4P17
-          - const: renesas,vin-r8a779g0 # R-Car V4H
-
-if there's another compatible device in the future.
-
-> Apologies again for the confusion.
-
-dw about it
-
---rAeApIGv6bYD7fXM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnRYVAAKCRB4tDGHoIJi
-0nJaAP4nbknEPXlFlb9tewu8DoPhP8rUH58pecFgjZaPmQaQUQEA67YiSVdkJkMf
-kgcLhH6cH6DFISiEAS2REfPqdOPmZQU=
-=Xp3h
------END PGP SIGNATURE-----
-
---rAeApIGv6bYD7fXM--
+Regards,
+Markus
 
