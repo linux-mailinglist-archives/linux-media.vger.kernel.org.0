@@ -1,48 +1,72 @@
-Return-Path: <linux-media+bounces-13841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13842-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F73910A31
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 17:41:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 616F3910AD7
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 17:59:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1ABE31F229E4
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 15:41:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1DF5B283053
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jun 2024 15:59:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 834B41B0124;
-	Thu, 20 Jun 2024 15:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CFD71B0136;
+	Thu, 20 Jun 2024 15:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkIsszvS"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Shgu/VWh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90BE1AF6B5;
-	Thu, 20 Jun 2024 15:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6613D1B0103
+	for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 15:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718898086; cv=none; b=GTE6NEp9rbzztaFrj0aNSL7aUbsnDcAS0Dkv1/XkcWVSDEieLDTr8cSSf5lB0cKkjw9cZ2bDSJShmiiCtRAWRgyXV6Go37EzTqOB7XZoG9Pk5sZPOKZtjf9IT2Qr6IUX/E+7YTIQ6g13xqqdRV3ASS/pYncL4KvWs99LYB8bdXs=
+	t=1718899176; cv=none; b=jM/cm90i9AIpE+PZpGpAHPmJgSrNHhdYrV8b7xOCEDZ8UraSLmD1uQLw/RHDXxnAx5HwBpYCYuREmRZ5u1Hnmb737j4tmopw1vsNWspROZlUA9PYN4lhdYXauupjC1gC9AtuN0J8mIHzFuAYK5TXM4B7Rzj4yrRkURAm2rYYNog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718898086; c=relaxed/simple;
-	bh=uXUQcC50fbjgB0KPnRDtDslrC8JyKIUItq1pr5paBoI=;
+	s=arc-20240116; t=1718899176; c=relaxed/simple;
+	bh=WIa/bRL83R71AZiqE9lSdkl9nR/5CWtQ69gs3EUS4Z4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=milqmIibxmJuqMllo0DKTnD5Ud8JMU/QJOhfSOK6DK3Ci+Zcr02nQYUPeDgrEkYgD3lQApJuy9zAyT7zySF6Rgb6HH7HiM4v3ek74MxV/TxQgY26sgQi8T+o1aFCReaiXfxOrvoICKdLDs3GLARtRKHPb7S4xfn69JxfuI8IxbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkIsszvS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 208C9C2BD10;
-	Thu, 20 Jun 2024 15:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718898085;
-	bh=uXUQcC50fbjgB0KPnRDtDslrC8JyKIUItq1pr5paBoI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZkIsszvSM4/Ajr56xQhCIfuNxnI8q5fVkVegM0T6V3NMrslGImYvLCdMkUZMij89i
-	 VzBs5QMu2CvMaUC/Rp14LE+3OccIDDquaFJPzFScTRN6q8SgH04Q/buwg0UM11npHq
-	 6VpUZOyExsyTQLmP+2gkP8CEkG0AwOEo2Vy4JVG3yOf6bTGxL/+pFi9dG+QwXWuK0A
-	 uIru3VGJP/pZeCS/JCE+jI+ogO8xWtPN2+zWJ2slGmu/w4AsalyIdy+SFBGX9glhJh
-	 6RtNpVf2m/u6W2d0GCxMVe+AZko9dXAQhSzr6xQf2U4ubAJwf756QRB9cWaD8svuww
-	 rJkVuwqljKwTw==
-Message-ID: <475b8567-e77b-47d4-96bc-19405f3a6ffd@kernel.org>
-Date: Thu, 20 Jun 2024 17:41:16 +0200
+	 In-Reply-To:Content-Type; b=rnhCiOLX+x7fW5Gw5no3J+RrMcqcmzq98iL+lKXGXrWUO7prPjeyTPo/I7VwbHI994jP/dkoQjuqlw038UodSo5rlpEYTyQjVWgsu0nyZA72GsZhruVsEJmy51KhX6kGAOAlJUzLkPBsxvNghBcD/qPAuo09JhGdCXkgN3aH6QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Shgu/VWh; arc=none smtp.client-ip=209.85.166.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3748ec0cae2so617485ab.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Jun 2024 08:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1718899172; x=1719503972; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0e0szqJIRrMNC/KT5pU/mdb5mtxgEC0IWwq1wwbrVks=;
+        b=Shgu/VWhRWHgOBnvCkDWdzunyqr8z0dzshgPa3eUaLhqkTyNiu7i1cW/3O0SVPwspa
+         RPwKDOtGQyIPGlp49PQPky0/Pk0WyYzKpp3P9u3AtKdsaSK0tDbkywS8saYOOr1HQIY0
+         VPsgNnqb7p0lQOBwVbS8g/6qeZtqdZY2xsNh4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718899172; x=1719503972;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0e0szqJIRrMNC/KT5pU/mdb5mtxgEC0IWwq1wwbrVks=;
+        b=hxX29epirc7TSVA7YwzlhgVGnzAIRYdO8tp5c6azc42Wq4QwdkQWdYYwvhNFY7m7yG
+         sljHCQ7a9lwJVX8njWemoeiNUCg6HFpObh4N+y2UrD6pFOeQ9nMBSy3ANQdj37nIkA9Q
+         7fV+P+7Ip2T3dU839CUU5BVOfu+dOKQshwM/lxKfq4Y5ZDeZ4tZolgsQcids5ICwGs9r
+         TqRU8lBoTbKwYkspLMBwUT19QHiXocw0gRZSG8rToajzThYPnKSMN1tMeydGRh9FPGOB
+         Ay57m4mnLk2xfdl0lHpqwZJ+XTS02yugcbph6VdwVOsOS+/pVk6b2yR+m5TqG0/2EY8L
+         apnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFPC2qgl6r6+1lBnzhnukdmhjRT7IW/zGnGg9H1EThe4au7u7Uy4JZdQd6qx/neC3Yej9yNNoHL6Eu/fYj/9qBx23F/+GknLHr4jQ=
+X-Gm-Message-State: AOJu0YybR80ZD5zsyQtZ1sk36vttixBz8ZBb8igTWj8nd/lEUX8arMCB
+	dak6TDXScyxtfhJj4w62WefdyAr7YTzuR/ExcONfw+KQToSagWarRkGV4N4axnVced6YrXcwiDL
+	C
+X-Google-Smtp-Source: AGHT+IGdHzAZq2MtMhvtBjWgPl33yWzsA8nxG52Tlk0F+IfDNJ1iUKFE8D0uOC29f5RW7SKlMBG+ZQ==
+X-Received: by 2002:a05:6e02:584:b0:375:dfbf:b543 with SMTP id e9e14a558f8ab-3761d6e5388mr52915935ab.2.1718899172464;
+        Thu, 20 Jun 2024 08:59:32 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-375d866e530sm32343995ab.8.2024.06.20.08.59.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jun 2024 08:59:31 -0700 (PDT)
+Message-ID: <bb5eb601-a7b6-4c77-afd8-bfabcd8c15d4@linuxfoundation.org>
+Date: Thu, 20 Jun 2024 09:59:31 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,89 +74,58 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] dt-bindings: media: Add bindings for
- raspberrypi,rp1-cfe
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Naushir Patuck
- <naush@raspberrypi.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- 20240531080707.34568-1-jacopo.mondi@ideasonboard.com
-References: <20240620-rp1-cfe-v2-0-b8b48fdba3b3@ideasonboard.com>
- <20240620-rp1-cfe-v2-2-b8b48fdba3b3@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v1 0/9] media: vimc improvements
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240620-rp1-cfe-v2-2-b8b48fdba3b3@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240424235741.17093-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 20/06/2024 13:07, Tomi Valkeinen wrote:
-> Add DT bindings for raspberrypi,rp1-cfe.
+On 4/24/24 17:57, Laurent Pinchart wrote:
+> Hello,
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
+> This patch series cleans up and improves the vimc driver, with the end
+> goal of converting it to the V4L2 subdev active state API. The goal of
+> this exercise is to make the API used by a virtual test driver, to
+> increase test coverage.
+> 
+> The series starts with 4 random cleanups, to avoid unnecessary
+> iterations (1/9), constify structures (2/9 and 3/9) and rename a
+> weirdly-named enum (4/9). Patch 5/9 then centralizes the subdev
+> internal_ops initialization to prepare for the switch to the active
+> state API. The remaining patches (6/9 to 9/9) convert the vimc entities
+> to the new API one by one.
+> 
+> The result has been tested using the libcamera unit tests, which make
+> extensive use of the vimc driver, as well as with v4l2-compliance. The
+> latter reports 4 errors, but they occur already with the latest stage
+> master branch.
+> 
+> Laurent Pinchart (9):
+>    media: vimc: Don't iterate over single pad
+>    media: vimc: Constify vimc_ent_type structures
+>    media: vimc: Constify the ent_config array
+>    media: vimc: scaler: Rename vic_sca_pad enum to vimc_scaler_pad
+>    media: vimc: Centralize subdev internal_ops initialization
+>    media: vimc: Initialize subdev active state
+>    media: vimc: sensor: Use subdev active state
+>    media: vimc: debayer: Use subdev active state
+>    media: vimc: scaler: Use subdev active state
+> 
 
+Thank you. Applied the series to
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux.git/log/?h=vimc
 
+I will send pull request to Mauro in a week.
 
-Best regards,
-Krzysztof
+thanks,
+-- Shuah
 
 
