@@ -1,63 +1,48 @@
-Return-Path: <linux-media+bounces-13883-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B13911937
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 06:06:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDCA911AF7
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 08:11:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5246C1F22690
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 04:06:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 145F6283FCD
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 06:11:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C80212C479;
-	Fri, 21 Jun 2024 04:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7D75168C3C;
+	Fri, 21 Jun 2024 06:10:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NryIwRmr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SgHVQoco"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCCA1E535;
-	Fri, 21 Jun 2024 04:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00583168C17;
+	Fri, 21 Jun 2024 06:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718942797; cv=none; b=Kwu+Ice8DCjaC5ox6wVm/OzWwA0AXJ4tFcHz3SIgJSVxL5uyZ94EDPmbuPBzOvFbdpZaZ8IV+6dy24noJaav8LtSPglKwijhs3d+cZiZDpcG/Xl4MlFgpYfmK32mzPYYDifKXlO0D+ZxAUNPK7aLGwvr7S6Y4qBmGath56hSS3U=
+	t=1718950238; cv=none; b=lgt5kboeDImTOghqWsbjTkEpOCUOLyq9JcqWf+9zA+5+nOaFQfPAGGPc+3y9eh6pP5oJwLD3J+8CPnJ8fcoFpUGy5JBER4FOgUJ2F7JCU9Qs3axiQDw/e+knAYxShQiQxCFU1Gsb+AaVlKnawigNkiIzkc6ikiRNohyuwe3kXUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718942797; c=relaxed/simple;
-	bh=q5eI23SwCdBtO7h+as6aceTQ9BvBJGmXFebrJIHsthI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ljgE23SMyFSjd9Xx1vUfkPZ+5hVk30Q/m8sBw1u1C14tYnQtGtuy706a1SJzocK47NOU+6JypxTzalCXtOWCasgO7qBrhQJ3ES7E+a4aiWFwMlfns5VDKtdaxMM+brbqWJ0GumLxjXx6/P+qJBSVxi32PfzO7nJkGxnKvZbsZlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NryIwRmr; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45KHBrGm020192;
-	Fri, 21 Jun 2024 04:06:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	L2nKs0Qa0VjuMP1GLy2bvvRUh1BIK0f4rqiEzz3LlMI=; b=NryIwRmrMMlNAN0+
-	Pz0pObGM4j+ChhpipaRplOq/LQVJj/rmVDDOTAVmQDhi3oJ0WbbOGIeBOLfD8fTw
-	IQSZLfLbXDZtLuQqr0HZVuL5/r4okMoVTXpqYzXZRf/Dd923i+kEw6lUxF4dpoCi
-	0PFFDna+Z1hIkJ1A1gmeF2eh3NnRSSQG3iSCaSyC5lS6jrYyS/wyEW/FqSoWUkY8
-	6oL0HcIZix6pXc10uBM2jjrhK5L/klysOYYWDBnF+Gs9BgDhLhOFp2IZ/X8B28Oj
-	EGR5riAFRzbSDSdCrZ194IeShS0IGy7lV/ZfePith61OYh3jXjeeI91dk1+WhRah
-	eKDpyQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvrkw98xk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Jun 2024 04:06:24 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45L46NZU025553
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 21 Jun 2024 04:06:23 GMT
-Received: from [10.217.216.152] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
- 2024 21:06:12 -0700
-Message-ID: <8747d2c8-d6ed-420c-8f37-fccc2552963c@quicinc.com>
-Date: Fri, 21 Jun 2024 09:36:08 +0530
+	s=arc-20240116; t=1718950238; c=relaxed/simple;
+	bh=vanRCVs7Il0N1bVX0/dHBOpckIxMz3F6/5aZRbOXc3M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gjQPF79QalDQvdInnmd40943iu9RJgui4Ie2SeN6bQHDdYjWAk9pBnoBP5j0cyLtqVDw5ZA/l9duaDjXDFgIVBlfBrqTAHJIaO7+pOr6qeBNDUgo0r8h3zhtvFQDPE3XrDSTFORBtBnTaNsnPNqYCMFQ6bpSJGvdN0A6DgCGqaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SgHVQoco; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C4CC2BBFC;
+	Fri, 21 Jun 2024 06:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718950237;
+	bh=vanRCVs7Il0N1bVX0/dHBOpckIxMz3F6/5aZRbOXc3M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SgHVQocoCiIw1OHhZ5VnmaFBHjno76cQpn3hOUw3agt9k/yNyFP4X20lAMb/XwW+r
+	 PsNJ3RRtPQHqHTvq+AnyiIoL6sByOVlWJjEECnAvn8h/skjp4fmp5rpvxXmasyXR5p
+	 M3y1GUkH4gZl9esHKaTyI6x8RL2rIzUuKPMns1GfxHUcE1JEwDpKQQnBUzQjiFmznV
+	 DgsmS8eM76NSSRZC046k0iLRArOqBJ3u12icEapzxoaE21/nPncY7XAW0EtDLlq9om
+	 3B8yUQ2w48nD/WWOjS7QdOPDHrDixtUfV5qGeSebzGUYwkALUXJL4DyImgOpaCrpoO
+	 4lWJR1dUvEW/A==
+Message-ID: <3acc5a0a-260a-4958-aab2-1d473c835a1b@kernel.org>
+Date: Fri, 21 Jun 2024 08:10:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,96 +50,130 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V6 5/5] venus: pm_helpers: Use dev_pm_genpd_set_hwmode to
- switch GDSC mode on V6
-To: Jagadeesh Kona <quic_jkona@quicinc.com>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "Stephen
- Boyd" <sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Ulf Hansson" <ulf.hansson@linaro.org>,
-        "Rafael J . Wysocki"
-	<rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>, Pavel Machek
-	<pavel@ucw.cz>,
-        Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Andy
- Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Abel Vesa <abel.vesa@linaro.org>
-CC: <linux-pm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Satya Priya Kakitapalli
-	<quic_skakitap@quicinc.com>,
-        Imran Shaik <quic_imrashai@quicinc.com>,
-        "Ajit
- Pandey" <quic_ajipan@quicinc.com>
-References: <20240619141413.7983-1-quic_jkona@quicinc.com>
- <20240619141413.7983-6-quic_jkona@quicinc.com>
+Subject: Re: [PATCH v2 2/4] media: rockchip: Introduce the rkvdec2 driver
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Detlev Casanova <detlev.casanova@collabora.com>,
+ linux-kernel@vger.kernel.org, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Alex Bee <knaerzche@gmail.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+References: <20240619150029.59730-1-detlev.casanova@collabora.com>
+ <20240619150029.59730-3-detlev.casanova@collabora.com>
+ <dc232a01-1495-42ff-ad2a-5a0aa780b60c@kernel.org>
+ <klzru2ak3yxccywqr57bslyctqtmrl2d3eghgv5letp7jkel6s@rlupljmxfijg>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Taniya Das <quic_tdas@quicinc.com>
-In-Reply-To: <20240619141413.7983-6-quic_jkona@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <klzru2ak3yxccywqr57bslyctqtmrl2d3eghgv5letp7jkel6s@rlupljmxfijg>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: mr7imzXc97-dTnXFUF09W3VK7vHwpGY4
-X-Proofpoint-ORIG-GUID: mr7imzXc97-dTnXFUF09W3VK7vHwpGY4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-20_12,2024-06-20_04,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
- clxscore=1015 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- mlxscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406210027
 
-
-
-On 6/19/2024 7:44 PM, Jagadeesh Kona wrote:
-> The Venus driver requires vcodec GDSC to be ON in SW mode for clock
-> operations and move it back to HW mode to gain power benefits. Earlier,
-> as there is no interface to switch the GDSC mode from GenPD framework,
-> the GDSC is moved to HW control mode as part of GDSC enable callback and
-> venus driver is writing to its POWER_CONTROL register to keep the GDSC ON
-> from SW whereever required. But the POWER_CONTROL register addresses
-> are not constant and can vary across the variants.
+On 20/06/2024 15:41, Sebastian Reichel wrote:
+> Hi,
 > 
-> Also as per the HW recommendation, the GDSC mode switching needs to be
-> controlled from respective GDSC register and this is a uniform approach
-> across all the targets. Hence use dev_pm_genpd_set_hwmode() API which
-> controls GDSC mode switching using its respective GDSC register.
+> On Thu, Jun 20, 2024 at 12:30:00PM GMT, Krzysztof Kozlowski wrote:
+>> On 19/06/2024 16:57, Detlev Casanova wrote:
+>>> +static const char * const rkvdec2_clk_names[] = {
+>>> +	"axi",
+>>> +	"ahb",
+>>> +	"core",
+>>> +	"cabac",
+>>> +	"hevc_cabac",
+>>> +};
+>>> +
+>>> +/*
+>>> + * Some SoCs, like RK3588 have multiple identical vdpu34x cores, but the
+>>> + * kernel is currently missing support for multi-core handling. Exposing
+>>> + * separate devices for each core to userspace is bad, since that does
+>>> + * not allow scheduling tasks properly (and creates ABI). With this workaround
+>>> + * the driver will only probe for the first core and early exit for the other
+>>> + * cores. Once the driver gains multi-core support, the same technique
+>>> + * for detecting the main core can be used to cluster all cores together.
+>>> + */
+>>> +static int rkvdec2_disable_multicore(struct rkvdec2_dev *rkvdec)
+>>> +{
+>>> +	const char *compatible;
+>>> +	struct device_node *node;
+>>> +	int ret;
+>>> +
+>>> +	/* Intentionally ignores the fallback strings */
+>>> +	ret = of_property_read_string(rkvdec->dev->of_node, "compatible", &compatible);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	/* first compatible node found from the root node is considered the main core */
+>>
+>> So you rely on order of nodes? Before you claim "identical cores", but
+>> now "main core" suggests one is different than others.
 > 
-> In venus V6 variants, the vcodec gdsc gets enabled in SW mode by default
-> with new HW_CTRL_TRIGGER flag and there is no need to switch it to SW
-> mode again after enable, hence add check to avoid switching gdsc to SW mode
-> again after gdsc enable. Similarly add check to avoid switching GDSC to HW
-> mode before disabling the GDSC, so GDSC gets enabled in SW mode in the next
-> enable.
-> 
-> Signed-off-by: Jagadeesh Kona<quic_jkona@quicinc.com>
-> Signed-off-by: Abel Vesa<abel.vesa@linaro.org>
-> Tested-by: Bryan O'Donoghue<bryan.odonoghue@linaro.org>
-> ---
->   .../media/platform/qcom/venus/pm_helpers.c    | 39 +++++++++++--------
->   1 file changed, 23 insertions(+), 16 deletions(-)
+> Heh, I wrote that comment for Hantro. By main core I was referencing
+> the software side of things. With a number of equal cores and no DT
+> node describing a cluster (from HW point of view it's just equal
+> cores), they somehow need to be combined into a single entity to allow
+> scheduling work between them. This solves the issue by making one of
+> the devices the "main" device. From the HW point it's exactly the same
+> as the others. The function could also use the last core or the second
+> one. It does not matter as long as there is only one "main" core.
 
-Reviewed-by: Taniya Das <quic_tdas@quicinc.com>
+Sounds good. Maybe comment could be a bit extended with this
+explanation, so the term "main" is clarified.
 
--- 
-Thanks & Regards,
-Taniya Das.
+Best regards,
+Krzysztof
 
 
