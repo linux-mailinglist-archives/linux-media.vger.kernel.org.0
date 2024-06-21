@@ -1,114 +1,107 @@
-Return-Path: <linux-media+bounces-13904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13905-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8D3912066
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 11:22:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E658491208D
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 11:29:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8F821F24218
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 09:22:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90F781F24BFC
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 09:29:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1DD16E876;
-	Fri, 21 Jun 2024 09:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 217B416EC10;
+	Fri, 21 Jun 2024 09:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtoADSXS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZI5fmlmm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EEF52F71;
-	Fri, 21 Jun 2024 09:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008CE16EB51;
+	Fri, 21 Jun 2024 09:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718961763; cv=none; b=CeLYRnRMOvLGy9mpUJuddHPhzdFLGWyteIuO78ayMjcUDRR1ZWACog4tmSague/zrhXIvPZZ3kw/w7ciRV/KvVf4GArvO2C4kNzdjc9v/dGgtoQ4//E5By8Rt4RJMs6Z9Fl/DAXbhNG5xc4zUFrtEwsRpvI1YAttFQDvDkaGaYw=
+	t=1718962114; cv=none; b=iOKrbE67G70c8hkQzBBYCf2foxRe5FK8YfOcAfoTGC2aOM+N/8/Ys3X/4Mfc8mRvnGslIeE1HmGZNBhCRH5Hm8V9UQMP5qnOJUJlen4cVV5ZJiuDoBANFRhs/DPKWxiOPF0Ge0rIKIB2IBP9y3VHKvNod2zPjH+UTRjuK+6XF9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718961763; c=relaxed/simple;
-	bh=0DChm4oZFs0LJKI90R8W/14zMUVHY5Ac9kAsA7OIYR4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Nk7T8dVhjllybIdfwKXAuSrf4hwEStUJCrnVajl0a0lYHAjVkU6o2OatrGz5XXYXQ9X+MT6aWYQjPu6z5wTbzVhI6P8fBEnMY3+XthM2d9sT1hBZFy0Y3vUU6j3Ew6WA6iLkd1DAt6WTPsE3leLnS3bSqppfihGVbKXebWH8yAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GtoADSXS; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f44b5b9de6so14794535ad.3;
-        Fri, 21 Jun 2024 02:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718961762; x=1719566562; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0DChm4oZFs0LJKI90R8W/14zMUVHY5Ac9kAsA7OIYR4=;
-        b=GtoADSXSXrvesm5fRdcPc0Z9z/x2EE28KE/P4qzIhWXT+FRC6blVjTQbXNDzGqbcwb
-         T/kOBXh8/ysm1aGhTx8q6KBdmIGjYNI3oUGyAz0QKNpKEqY/ZAsIcxvPCtYf3e6vt1+j
-         RyDf7YksOvXjmztYJgL3PvO2Wg+nQwKBHavIWPIZwkV/gEpIbVHL5DJ5UDH3ABdU26mM
-         3jJAdxHr69Pz6mesqtdPa5f2u/Nzd0wCBK32FYUtHThc69LhFPGoSuhR/kuYCnLJUCNO
-         jdG3jN/K6uKSU/85187ZhIMmGunyqXxo3QuzPKMM4HkEQ15+JQ/TQIXK05D3j3eVttiC
-         0f+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718961762; x=1719566562;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0DChm4oZFs0LJKI90R8W/14zMUVHY5Ac9kAsA7OIYR4=;
-        b=V091Qczd1vNe3ZBxskTiaWDvksRvGRlNAsj1dIzVy+8cAPohzMgt/mtmbWCXqZdoMA
-         HSnpOrJdHMuJevTcJluakpp3eiDwshbJyJcVexdrO2Z1sNzaudCA/iZQ8MT1H9mQVluz
-         0xm6no4t8bzPOFcsXh6WBsQY/IQ1+ll5+mj0EE20VE/6o3zxtxR/lgvJJx2PkQHBfaTD
-         B9qD/yB88LxdEdZewvwdXctt9uAJDL2HYP/Aer9qxtD6wWgePSr9dOzYMUwich94FdEK
-         bFru+bIWrEl33NUFaPMoN7ipPD9JxpwGKDaTKwikba8+3quUE4PCb3UQTvoXdRI9J14l
-         D5/A==
-X-Forwarded-Encrypted: i=1; AJvYcCXs7itZRnJ84I/YpP7fdEVvQK++mlS8qBHtc1tZJoB50P5g8FvI4O5ta+1iHAYDLPoG8jeMfliqfx0RIK4QWq581z2EJp3E4BDiC2CUczB5w/+EjtePXETkH17VHmJUTcq7ExeRF6cGJn8sFsUbd1uTNCNCYMr/cdo56iPwWVXeycBbjZh7
-X-Gm-Message-State: AOJu0Yw9SxCm64hCxnxtZVbNj/PgMXCwgwBlc9eIcQF6yLSYdH3wXkZX
-	GWjQSUB3Qw08ypFRUjVSrkV7TXzmZwCRppqq8pTKHshG+Mz8umpE
-X-Google-Smtp-Source: AGHT+IEapwoXM3TE/uZjttS5wEj6FJq1+Ictg80vAM9P5mq/tKCuoOcx6e+5kChf/aTCKpsl/dBlgg==
-X-Received: by 2002:a17:902:e808:b0:1f7:1a9:bf09 with SMTP id d9443c01a7336-1f9aa458609mr89974475ad.51.1718961761807;
-        Fri, 21 Jun 2024 02:22:41 -0700 (PDT)
-Received: from localhost.localdomain ([221.220.128.96])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3c5bf9sm9761485ad.122.2024.06.21.02.22.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 02:22:41 -0700 (PDT)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: sebastian.reichel@collabora.com
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	ezequiel@vanguardiasur.com.ar,
-	frattaroli.nicolas@gmail.com,
-	heiko@sntech.de,
-	kernel@collabora.com,
-	krzk+dt@kernel.org,
-	linkmauve@linkmauve.fr,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	liujianfeng1994@gmail.com,
-	nicolas.dufresne@collabora.com,
-	p.zabel@pengutronix.de,
-	robh@kernel.org,
-	sigmaris@gmail.com,
-	detlev.casanova@collabora.com
-Subject: Re: [PATCH v7 6/6] arm64: dts: rockchip: Add VPU121 support for RK3588
-Date: Fri, 21 Jun 2024 17:22:34 +0800
-Message-Id: <20240621092234.280171-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240618183816.77597-7-sebastian.reichel@collabora.com>
-References: <20240618183816.77597-7-sebastian.reichel@collabora.com>
+	s=arc-20240116; t=1718962114; c=relaxed/simple;
+	bh=Pi27VntCnhtxxGjw86sEx39ep/qFaupg9gZ0tlm2Yuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lRU8K64EVfhXUeM6/vmQbPrdpNdnOkU27IgzFiW5DczP4xJ5wPPJBH/psg3bmuEnpYRpfoFBQRYCn/8oo0t6Yuj2QOaU+Yi5jl/i+Ykb6S+oi+p7ZC5LbyPaCgqcEP+oNGiteYXdTACxa3nUyYLSqEeLrDd3vsXrFW5m5VVaNU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZI5fmlmm; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718962110;
+	bh=Pi27VntCnhtxxGjw86sEx39ep/qFaupg9gZ0tlm2Yuo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZI5fmlmmCp6rud/ONymtgmAUfX3s9VKrjMsB7xE2Ap7kz3emJE19vnYAUk3sGcES4
+	 wWZAYI2W63dlnnYZsLPmnkSf8H5EIFFeOJ24qV/IG8sMtqS95vok+5SZ55tRZF07eK
+	 zxGQDNPvr4CSs0yYd8rJ5GAjhO7IUA1gx17CS+AInCT2P0QMJSc8n9W8seuDMwdIHC
+	 cXy7sO7XaiVW3AMQeWntpQ8palvpU7wK4vs+GEECnXcU7Wg/g7H6uVmoZOXZFpEgmE
+	 xS+cxGnjwQhoVwh2IWWBjkqxTQ0RAM9YuCfbkGEYDVP5mzbDY2TJozNTGiYSQHZEFe
+	 koSHtdWUJ737w==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B5C1637820FA;
+	Fri, 21 Jun 2024 09:28:30 +0000 (UTC)
+Date: Fri, 21 Jun 2024 11:28:29 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.gaignard@collabora.com, laurent.pinchart@ideasonboard.com,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+	j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+	nicolas@ndufresne.ca, Markus Elfring <Markus.Elfring@web.de>
+Subject: Re: [PATCH v13 03/13] media: v4l2-jpeg: Export reference
+ quantization and huffman tables
+Message-ID: <20240621092829.2zdmebqm4zr33ki5@basti-XPS-13-9310>
+References: <20240607131900.3535250-1-devarsht@ti.com>
+ <20240607132831.3551333-1-devarsht@ti.com>
+ <59866428-342b-4ba4-a7c7-2df1477aa7e6@xs4all.nl>
+ <e948cea7-d5c7-a7e6-d921-ad7c2f93cd5a@ti.com>
+ <904289bb-96a0-4a0d-9046-96acd8843b98@xs4all.nl>
+ <02462e7e-bd55-2374-10e2-240e9d94c5db@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <02462e7e-bd55-2374-10e2-240e9d94c5db@ti.com>
 
-Hi Sebastian,
+Hey Devarsh,
 
-Detlev is working on rkvdec2 and gstreamer can't deal with two h264
-stateless decoders. So it's better to disable h264 decoding feature of
-this vpu121, just like what we have done for rk3399. If your multicore
-patch can handle the jpeg enc node at fdb50000 with other VEPU121 nodes
-properly, we can just use compatible string "rockchip,rk3399-vpu" instead
-of "rockchip,rk3568-vpu".
+On 21.06.2024 14:22, Devarsh Thakkar wrote:
+>Hi Sebastian,
+>
+>On 20/06/24 12:32, Hans Verkuil wrote:
+>> On 19/06/2024 16:19, Devarsh Thakkar wrote:
+>[..]
+>> I've reviewed v14 3/6, so Sebastian when Sebastian posts a new PR I can process
+>> it.
+>>
+>> Ignore any reviews by Markus Elfring, he's a troll.
+>>
+>
+>Just wanted to check if we are good w.r.t V14 [1] and it's possible for you to
+>create a PR with V14 as discussed above?
 
-Best regards,
-Jianfeng
+Yup looks good so far, as soon as I have a timeslot I'll send it out.
+
+>
+>[1]: https://lore.kernel.org/all/20240618193651.2771478-1-devarsht@ti.com/
+>
+>Regards
+>Devarsh
+
+Regards,
+Sebastian
 
