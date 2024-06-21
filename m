@@ -1,123 +1,162 @@
-Return-Path: <linux-media+bounces-13933-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13932-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A956F9125EE
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 14:50:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E2F9125E7
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 14:50:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B0F1C1C21B29
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 12:50:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41CD2286818
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 12:50:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A8C815DBA1;
-	Fri, 21 Jun 2024 12:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63DB715B131;
+	Fri, 21 Jun 2024 12:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Depd7Ivb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l8IKh8rP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B788D15D5C9;
-	Fri, 21 Jun 2024 12:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6E9153BDE;
+	Fri, 21 Jun 2024 12:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718973879; cv=none; b=TmHKMYYI0f04MOpAihwOuBo3EJ0nPqdtfHceXIhBlb/x5SjWgrO+GBAqqHoPZ0gg2RPXs0VzwXnRk/6PfUFnSu2a9oyu4Cp+pcr+Bt31kdfCy2duM5TTyi6wiN9oXOKjHLe6652FJbyZUhvi5/0Dp3N2tbUN/C6Pz2Br5Zv6oV8=
+	t=1718973868; cv=none; b=HGE4yV57TRa5A0nqbwGW1UGLHOU7BKT7D+21gCxy8Ich5fZBFemElOMthPC8RQS4CJDENChITHitYrgQwD7598gU2TqzRF8vD9EgsXv+kUiU/5z7XvUYxoRt2KvN1gM5kE41wjhpjDjh5RrySiyzc8wp9nJHP9A5jvG1ZEayS3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718973879; c=relaxed/simple;
-	bh=4disZLx9gKDKUUazkD/gKoYEP6ecgmkrNj9i5jO7sJE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=pJB+TRaSZDnaiwLY7K7b3nDxRHj8Np7KWLUd7F0DhPoADGGRtsUKxksWDjfUcX+obwH7oQasOU3qxcqM8+6CFO4xvX4lEadURlKNZjS6JiE1C/0j6xBtsqhzyth8ZOGHu/jZpSlv5sgp9rxNww8gTdCstNWorp/N22Zmdxebv3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Depd7Ivb; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45LCiNRo043480;
-	Fri, 21 Jun 2024 07:44:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1718973863;
-	bh=Jh2gGIgiK54xCiQ7E9NcsKRUuNvsvP4Zw6O2vyFH2Ls=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Depd7IvbhLujjaPt7z6/ykXyHnmllcrTP7ato+QP+pKE07qqUjA9nsGr2BA8R5JRV
-	 9XH5WENweoDT4ePMVXss0olFLGmya0SUNvgBMi8mf+pL10oE1PJrqCuvvLrIKELHe2
-	 iX21K4xnlVHQf0m/KQ8zPLyfulqi0r082Xcj03hg=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45LCiNoG008737
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 21 Jun 2024 07:44:23 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 21
- Jun 2024 07:44:23 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 21 Jun 2024 07:44:23 -0500
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45LCiGwf097047;
-	Fri, 21 Jun 2024 07:44:17 -0500
-Message-ID: <8dda9d0c-3154-a7fd-1233-ca5be59639de@ti.com>
-Date: Fri, 21 Jun 2024 18:14:16 +0530
+	s=arc-20240116; t=1718973868; c=relaxed/simple;
+	bh=bwqf13fJbLJEoJ55Fq8cVIZa/qvXiPcZ4TMFf7szj6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tLoBqn7nQer6GBZtv/ToPhtgjp+lufnucD+ZM1M231VjoWy+Lxp5vtFuBicCJEND6rZSwjPCw0kLeTKznFk2cKb6DiXaMXxn0ooZ6wUiNR0kRBtG7WHsCSLfUO49XBRESlbaqpTzxx9GYYFAaoGU4Hf8b8BiEVQc5J/E7CLJ39c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l8IKh8rP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4569EC2BBFC;
+	Fri, 21 Jun 2024 12:44:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718973868;
+	bh=bwqf13fJbLJEoJ55Fq8cVIZa/qvXiPcZ4TMFf7szj6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l8IKh8rPJ6LhZPucaRVWP/8fVx7Xxn6rv2vU7HIlfwyi9Q96L78zxrZ3zhmjtudB0
+	 J3tju9CVfyLjhlAOJWMauyHtWsdLjK3txtaalshO/dngDUizd1XzDP6LMIUbZBXavB
+	 +8KE0WLENQ6jEdfgeJYwijdzrlgFvpOTR2HFnkBrAc0rdcKAXPoTkZLV4bV/cTusbH
+	 OBtLDjkQPYR3wotR+Wn7W5zr040SNYXGr1ZQRN8QKzEvEtgTV8xggmtD7my/kpv1qT
+	 wLn6blkh/cY091zWPbqahLn59Luh3YNHrKn/lEiz3fKB1cxWABQ/Sb62GAvK/7RrdJ
+	 tIK9yeZk6HlDg==
+Date: Fri, 21 Jun 2024 13:44:20 +0100
+From: Mark Brown <broonie@kernel.org>
+To: amergnat@baylibre.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: [PATCH v6 12/16] ASoC: codecs: add MT6357 support
+Message-ID: <1ca27c79-a83a-42a7-9e9b-766da0064c73@sirena.org.uk>
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v14 2/6] media: imagination: Add E5010 JPEG Encoder driver
-Content-Language: en-US
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-CC: <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
-        <benjamin.gaignard@collabora.com>, <laurent.pinchart@ideasonboard.com>,
-        <praneeth@ti.com>, <nm@ti.com>, <vigneshr@ti.com>, <a-bhatia1@ti.com>,
-        <j-luthra@ti.com>, <b-brnich@ti.com>, <detheridge@ti.com>,
-        <p-mantena@ti.com>, <vijayp@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <afd@ti.com>
-References: <20240618193651.2771478-1-devarsht@ti.com>
- <20240618193651.2771478-3-devarsht@ti.com>
- <20240621123715.enqtdqxskdkod5ze@basti-XPS-13-9310>
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20240621123715.enqtdqxskdkod5ze@basti-XPS-13-9310>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Y31DJCgxhlUXFcNQ"
+Content-Disposition: inline
+In-Reply-To: <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
+X-Cookie: Androphobia:
 
-Hi Sebastian
 
-On 21/06/24 18:07, Sebastian Fricke wrote:
-> Hey Devarsh,
-> 
-> This doesn't compile without errors for me, curious, it probably did
-> compile without problems for you right?
-> 
-> drivers/media/platform/imagination/e5010-jpeg-enc.c:1622:19: error:
-> initialization of ‘int (*)(struct platform_device *)’ from incompatible
-> pointer type ‘void (*)(struct platform_device *)’
-> [-Werror=incompatible-pointer-types]
->  1622 |         .remove = e5010_remove,
->       |                   ^~~~~~~~~~~~
-> drivers/media/platform/imagination/e5010-jpeg-enc.c:1622:19: note: (near
-> initialization for ‘e5010_driver.remove’)
-> cc1: some warnings being treated as errors
-> 
+--Y31DJCgxhlUXFcNQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Yes I think it did compile fine for me.
-Did you try this on tip of linux-next ?
+On Wed, Jun 19, 2024 at 04:46:48PM +0200, amergnat@baylibre.com wrote:
 
-As mentioned in changelog, there was update in platform driver for return type
-of remove function which got changed to void return type. Please check if you
-have this patch [1] in your tree which got recently merged.
+> +	/* gain default values*/
+> +	regmap_update_bits(priv->regmap, MT6357_AUDENC_ANA_CON0, MT6357_AUDPREAMPLGAIN_MASK,
+> +			   UL_GAIN_0DB << MT6357_AUDPREAMPLGAIN_SFT);
+> +	regmap_update_bits(priv->regmap, MT6357_AUDENC_ANA_CON1, MT6357_AUDPREAMPRGAIN_MASK,
+> +			   UL_GAIN_0DB << MT6357_AUDPREAMPRGAIN_SFT);
+> +
+> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON1,
+> +			   MT6357_AUD_LOL_GAIN_MASK |
+> +			   MT6357_AUD_LOR_GAIN_MASK,
+> +			   DL_GAIN_0DB << MT6357_AUD_LOL_GAIN_SFT |
+> +			   DL_GAIN_0DB << MT6357_AUD_LOR_GAIN_SFT);
+> +
+> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON2,
+> +			   MT6357_AUD_HPL_GAIN_MASK |
+> +			   MT6357_AUD_HPR_GAIN_MASK,
+> +			   DL_GAIN_0DB << MT6357_AUD_HPL_GAIN_SFT |
+> +			   DL_GAIN_0DB << MT6357_AUD_HPR_GAIN_SFT);
+> +
+> +	regmap_update_bits(priv->regmap, MT6357_ZCD_CON3,
+> +			   MT6357_AUD_HS_GAIN_MASK, DL_GAIN_0DB);
 
-Kindly let me know if you still face any issues.
+We generally leave everything at chip defaults, why is this different?
 
-[1]:
-https://lore.kernel.org/all/20240527083416.1177106-2-u.kleine-koenig@pengutronix.de/
+> +static int mt6357_codec_probe(struct snd_soc_component *codec)
+> +{
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+> +
+> +	mt6357_codec_init(priv);
+> +	return 0;
+> +}
 
-Regards
-Devarsh
+Why not just inline mt6357_codec_init() into the one user?
+
+> +static unsigned int mt6357_read(struct snd_soc_component *codec, unsigned int reg)
+> +{
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+> +	unsigned int val;
+> +
+> +	regmap_read(priv->regmap, reg, &val);
+> +	return val;
+> +}
+> +
+> +static int mt6357_write(struct snd_soc_component *codec, unsigned int reg, unsigned int value)
+> +{
+> +	struct mt6357_priv *priv = snd_soc_component_get_drvdata(codec);
+> +
+> +	return regmap_update_bits(priv->regmap, reg, 0xffff, value);
+> +}
+
+Why open code these, the core has standard adaptors for regmap?
+
+> +static const u32 micbias_values[MT6357_MICBIAS_ARRAY_SIZE] = {
+> +	1700000, 1800000, 1900000, 2000000,
+> +	2100000, 2500000, 2600000, 2700000
+> +};
+
+Just use ARRAY_SIZE() for the size then the number can't be out of sync.
+
+
+--Y31DJCgxhlUXFcNQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ1daMACgkQJNaLcl1U
+h9DFewf+M/CBa2qN5RnVF8Zc5QWTvxC4SKpFwRma8NGXYRkdIuRXOhTpxRG85BYY
+w0ndJAb81OyrS1X3S8EpFu0cTQdBB7po6aGY3/n1tnY0JIkQ820QI+XDGlduderG
+aPJ1LFil592z/y4CEYhDWzOsFWLLyJKyRI490d6BuyRNdljzSLS1QmJ2HrpnPI/S
+D63ThavR4gijP3ePCZ6Bajond76rmR5CDUo3/LtUBAliMvLcIpwdKqcEjjdpMm7G
+BuKS/CUvpRgJ5D+hyi9xFWRSBajwhFVLHJ1R/jtOLU/DQiYH/x78dMej8JApEp6X
+Gohk7DuuhbfZflRiEj17qKTMYvMWvA==
+=P5mN
+-----END PGP SIGNATURE-----
+
+--Y31DJCgxhlUXFcNQ--
 
