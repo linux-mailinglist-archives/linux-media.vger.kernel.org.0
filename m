@@ -1,251 +1,243 @@
-Return-Path: <linux-media+bounces-13912-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13914-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9EB9120FB
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 11:42:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45889912159
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 11:56:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD9571C2319A
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 09:42:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68A2D1C21022
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 09:56:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4590016F8EF;
-	Fri, 21 Jun 2024 09:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B43B16F8E4;
+	Fri, 21 Jun 2024 09:55:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eT2enNBT"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EHIAoa68"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A6216EBE7;
-	Fri, 21 Jun 2024 09:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02A516E87B;
+	Fri, 21 Jun 2024 09:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718962858; cv=none; b=b2JRGBOzoPnOtBiEezIhywFDTOfleEQGFovXAgfvSR0ZlY/kHUngOSSjvfxg+Z3nsPd8mDv5JxvJkVyx31BMUgjuJTYlVtDVdhqDm9xnZsJcXimi70anvZshjxY+9FBMoiuS4d0vlilzQ8w5dn4tIGGPOpY/KsKsSH/Ob4k58ZY=
+	t=1718963756; cv=none; b=TkXjwfDnIH7Wl1ph5zTMOzfWUhhEeqtgTaKb8x1B+rZwILdrc9Rpv9Pv0WM6JKsGGRuUXbx72wSqaFkzYXeNTTWRFnMmtYXMXQn+2LUPcYdF9ee88f7c36lvGeNwldeiwluaL6QwYS4C9ICm/LogunNqL5u07VRtOjnHTARik9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718962858; c=relaxed/simple;
-	bh=086ciIBUwSein3FKRXzbIwvB2nfQumI262UryjRwkC4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=P8YBcKhOPnw1c1120uazbyoSs6kMhtjOIBhbBZQrSYJAfn7VotqjjAo+IM5L1Ec69Y1f1ioGe9e4BytD/rK9giJsDK/ZEX/sZYEgjBGOWE4b9Ejo6N33s5kQJmyoHWLYT1eUgvujF9x5SRPWk38YvVOXCsG5O1eQVEvgZzgzsTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eT2enNBT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 83FD5C4AF54;
-	Fri, 21 Jun 2024 09:40:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718962857;
-	bh=086ciIBUwSein3FKRXzbIwvB2nfQumI262UryjRwkC4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=eT2enNBTB3j7z67DLa9e1wu7xdOhnJv/OSXHmbzWjz1C8t+fWUOkcMYgoSWNKoPek
-	 RTIMZKnaqWGWhP0JcPJ0waK1HQwOoLlClGWWGV6EOnMubqWfADhqXB7MNKmJld//En
-	 6BPqqT0RatBt6hybEfbIY/uEelt6wi8XHLIMWmCBmyZq7xnPUHqkNiI5+207Q88m6z
-	 v15hQGFBu5STuYoQP+iTbO+pD1EGcWHik1jTpw7vRKTCku9hdobc0N/N7of/cHAIQo
-	 PYhc1DJ+9LjpnJ8561sd+S91iXbXXBnyc5ml+GfH+3Rjucp74E45mPYHIg2MfNnsBM
-	 Pkitx0kHF4ZIA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D73DC27C4F;
-	Fri, 21 Jun 2024 09:40:57 +0000 (UTC)
-From: George Chan via B4 Relay <devnull+gchan9527.gmail.com@kernel.org>
-Date: Fri, 21 Jun 2024 17:40:58 +0800
-Subject: [PATCH RFT 6/6] arm64: dts: qcom: sc7180: Add support for camss
- subsys
+	s=arc-20240116; t=1718963756; c=relaxed/simple;
+	bh=2uvIOYm/6Txt3aNQXCJHHxUsOvqbKc3bO0kcqt5t4o0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=dQ9E/SoiRcW5i0q0Ljn4lkMtAdZ0MKJm3qw5dAomH5Ajbvn/CUtUtCvsdB/MoHtc1Czv2qOFI8zQzxgwojjPV55rfrP7sZ5hARFMlxph0gUE6i+3knVPtt8ak75WYnv+F0WrMfDemXXFI69Gbl2BnmquXYc0M6InSi0leAfZZJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=EHIAoa68; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45L9oWQO006674;
+	Fri, 21 Jun 2024 09:55:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	C7r0iU1QgDXiHzLeAODaeM49VGbxfg8Jjfz3e4wQM0g=; b=EHIAoa68lEPLqNCN
+	62sdCoH09X+OrSriYqZvh66c8566fiYsymgi5imHRKbs0Np+70f9GK/DLYrOqGgK
+	xCCaGszrShk+WPGRXAL5/5gzuZssVzER4yAsipQeItPQvNRQz+frp2yLBqapfutx
+	czFtCjo+sDfISAoRR69SPU1lr4tmS1xEMJLzbssJj/0boTPI5MLESfFZvTJH94aZ
+	dHT9jkJwbJjW/c49yKpbuqaco2UyeIcxXJy5OhNcv4EvcWLss2pcbPiSmuDxHpCT
+	nGW/dk4UkOV3BWBwMyiGieFU1wiffqkNQIWNT6Yz0La0oWz22tTQgCZ8Pya7KWv+
+	rT/lgA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvrkkj8p5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 21 Jun 2024 09:55:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45L9tgRM002205
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 21 Jun 2024 09:55:42 GMT
+Received: from [10.217.216.47] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 21 Jun
+ 2024 02:55:34 -0700
+Message-ID: <7c0ca78a-51ea-4421-af95-46f91d1fdbb9@quicinc.com>
+Date: Fri, 21 Jun 2024 15:24:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240621-b4-sc7180-camss-v1-6-14937929f30e@gmail.com>
-References: <20240621-b4-sc7180-camss-v1-0-14937929f30e@gmail.com>
-In-Reply-To: <20240621-b4-sc7180-camss-v1-0-14937929f30e@gmail.com>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- George Chan <gchan9527@gmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718962855; l=4150;
- i=gchan9527@gmail.com; s=20240621; h=from:subject:message-id;
- bh=B8rhLES5xtNqCPArzEgX9w5nXV1pwjkOAbh2DRGd8HY=;
- b=P2glylTdS03cwFIQg4vYqmZQCnI2va7LPlU45e0jcpfBa3hgqbaEywoLDDqKmfKCqg7D+pnpg
- mhGmwOELNPLA4ShMM6oEpru5J/F7QDqc/VZj0md3oi/tJspGC24iV/8
-X-Developer-Key: i=gchan9527@gmail.com; a=ed25519;
- pk=Ac2fkTqgUBlj2sns9hRIWJTYhWHO1BsmHbdBb5UpUUY=
-X-Endpoint-Received: by B4 Relay for gchan9527@gmail.com/20240621 with
- auth_id=176
-X-Original-From: George Chan <gchan9527@gmail.com>
-Reply-To: gchan9527@gmail.com
-
-From: George Chan <gchan9527@gmail.com>
-
-Introduce camss subsys support to sc7180 family soc.
-
-Signed-off-by: George Chan <gchan9527@gmail.com>
----
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 134 +++++++++++++++++++++++++++++++++++
- 1 file changed, 134 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index b5ebf8980325..6ed4caafbe98 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
-  */
- 
-+#include <dt-bindings/clock/qcom,camcc-sc7180.h>
- #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
- #include <dt-bindings/clock/qcom,gcc-sc7180.h>
- #include <dt-bindings/clock/qcom,gpucc-sc7180.h>
-@@ -3150,6 +3151,139 @@ camnoc_virt: interconnect@ac00000 {
- 			qcom,bcm-voters = <&apps_bcm_voter>;
- 		};
- 
-+		camss: camss@acb3000 {
-+			compatible = "qcom,sc7180-camss";
-+
-+			reg = <0 0x0acb3000 0 0x1000>,
-+				<0 0x0acba000 0 0x1000>,
-+				<0 0x0acc8000 0 0x1000>,
-+				<0 0x0ac65000 0 0x1000>,
-+				<0 0x0ac66000 0 0x1000>,
-+				<0 0x0ac67000 0 0x1000>,
-+				<0 0x0ac68000 0 0x1000>,
-+				<0 0x0acaf000 0 0x4000>,
-+				<0 0x0acb6000 0 0x4000>,
-+				<0 0x0acc4000 0 0x4000>;
-+			reg-names = "csid0",
-+				"csid1",
-+				"csid2",
-+				"csiphy0",
-+				"csiphy1",
-+				"csiphy2",
-+				"csiphy3",
-+				"vfe0",
-+				"vfe1",
-+				"vfe_lite";
-+
-+			interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 473 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
-+				<GIC_SPI 472 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "csid0",
-+				"csid1",
-+				"csid2",
-+				"csiphy0",
-+				"csiphy1",
-+				"csiphy2",
-+				"csiphy3",
-+				"vfe0",
-+				"vfe1",
-+				"vfe_lite";
-+
-+			power-domains = <&camcc IFE_0_GDSC>,
-+				<&camcc IFE_1_GDSC>,
-+				<&camcc TITAN_TOP_GDSC>;
-+
-+			power-domain-names = "ife0",
-+				"ife1",
-+				"top";
-+
-+			required-opps = <&rpmhpd_opp_low_svs>;
-+
-+			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
-+				<&camcc CAM_CC_CPAS_AHB_CLK>,
-+				<&camcc CAM_CC_IFE_0_CSID_CLK>,
-+				<&camcc CAM_CC_IFE_1_CSID_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_CSID_CLK>,
-+				<&camcc CAM_CC_CSIPHY0_CLK>,
-+				<&camcc CAM_CC_CSI0PHYTIMER_CLK>,
-+				<&camcc CAM_CC_CSIPHY1_CLK>,
-+				<&camcc CAM_CC_CSI1PHYTIMER_CLK>,
-+				<&camcc CAM_CC_CSIPHY2_CLK>,
-+				<&camcc CAM_CC_CSI2PHYTIMER_CLK>,
-+				<&camcc CAM_CC_CSIPHY3_CLK>,
-+				<&camcc CAM_CC_CSI3PHYTIMER_CLK>,
-+				<&gcc GCC_CAMERA_AHB_CLK>,
-+				<&gcc GCC_CAMERA_HF_AXI_CLK>,
-+				<&camcc CAM_CC_SOC_AHB_CLK>,
-+				<&camcc CAM_CC_IFE_0_AXI_CLK>,
-+				<&camcc CAM_CC_IFE_0_CLK>,
-+				<&camcc CAM_CC_IFE_0_CPHY_RX_CLK>,
-+				<&camcc CAM_CC_IFE_1_AXI_CLK>,
-+				<&camcc CAM_CC_IFE_1_CLK>,
-+				<&camcc CAM_CC_IFE_1_CPHY_RX_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_CLK>,
-+				<&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>;
-+
-+			clock-names = "camnoc_axi",
-+				"cpas_ahb",
-+				"csi0",
-+				"csi1",
-+				"csi2",
-+				"csiphy0",
-+				"csiphy0_timer",
-+				"csiphy1",
-+				"csiphy1_timer",
-+				"csiphy2",
-+				"csiphy2_timer",
-+				"csiphy3",
-+				"csiphy3_timer",
-+				"gcc_camera_ahb",
-+				"gcc_camera_axi",
-+				"soc_ahb",
-+				"vfe0_axi",
-+				"vfe0",
-+				"vfe0_cphy_rx",
-+				"vfe1_axi",
-+				"vfe1",
-+				"vfe1_cphy_rx",
-+				"vfe_lite",
-+				"vfe_lite_cphy_rx";
-+
-+			iommus = <&apps_smmu 0x820 0x0>,
-+				<&apps_smmu 0x840 0x0>,
-+				<&apps_smmu 0x860 0x0>;
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+				};
-+
-+				port@3 {
-+					reg = <3>;
-+				};
-+			};
-+		};
-+
- 		camcc: clock-controller@ad00000 {
- 			compatible = "qcom,sc7180-camcc";
- 			reg = <0 0x0ad00000 0 0x10000>;
-
--- 
-2.34.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V6 3/5] clk: qcom: gdsc: Add set and get hwmode callbacks
+ to switch GDSC mode
+To: Caleb Connolly <caleb.connolly@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        "Stephen
+ Boyd" <sboyd@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Ulf Hansson" <ulf.hansson@linaro.org>,
+        "Rafael J . Wysocki"
+	<rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Andy
+ Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>
+CC: <linux-pm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
+        "Satya
+ Priya Kakitapalli" <quic_skakitap@quicinc.com>,
+        Imran Shaik
+	<quic_imrashai@quicinc.com>,
+        Ajit Pandey <quic_ajipan@quicinc.com>
+References: <20240619141413.7983-1-quic_jkona@quicinc.com>
+ <20240619141413.7983-4-quic_jkona@quicinc.com>
+ <18c0b683-97c8-4d53-9852-840a21c11d9a@linaro.org>
+Content-Language: en-US
+From: Jagadeesh Kona <quic_jkona@quicinc.com>
+In-Reply-To: <18c0b683-97c8-4d53-9852-840a21c11d9a@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: lVY92_RC4gy1AddugClrJViwzS1DjiS4
+X-Proofpoint-ORIG-GUID: lVY92_RC4gy1AddugClrJViwzS1DjiS4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-21_04,2024-06-20_04,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 mlxlogscore=999
+ bulkscore=0 phishscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406210073
 
 
+
+On 6/20/2024 3:40 AM, Caleb Connolly wrote:
+> Hi Jagadeesh,
+> 
+> Sorry, some grammar nitpicks.
+> 
+> On 19/06/2024 16:14, Jagadeesh Kona wrote:
+>> Some GDSC client drivers require the GDSC mode to be switched dynamically
+>> to HW mode at runtime to gain the power benefits. Typically such client
+>> drivers require the GDSC to be brought up in SW mode initially to enable
+>> the required dependent clocks and configure the hardware to proper state.
+>> Once initial hardware set up is done, they switch the GDSC to HW mode to
+>> save power. At the end of usecase, they switch the GDSC back to SW mode
+>> and disable the GDSC.
+>>
+>> Introduce HW_CTRL_TRIGGER flag to register the set_hwmode_dev and
+>> get_hwmode_dev callbacks for GDSC's whose respective client drivers
+>> require the GDSC mode to be switched dynamically at runtime using
+>> dev_pm_genpd_set_hwmode() API.
+>>
+>> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
+>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>   drivers/clk/qcom/gdsc.c | 42 +++++++++++++++++++++++++++++++++++++++++
+>>   drivers/clk/qcom/gdsc.h |  1 +
+>>   2 files changed, 43 insertions(+)
+>>
+>> diff --git a/drivers/clk/qcom/gdsc.c b/drivers/clk/qcom/gdsc.c
+>> index df9618ab7eea..6acc7af82255 100644
+>> --- a/drivers/clk/qcom/gdsc.c
+>> +++ b/drivers/clk/qcom/gdsc.c
+>> @@ -363,6 +363,44 @@ static int gdsc_disable(struct generic_pm_domain 
+>> *domain)
+>>       return 0;
+>>   }
+>> +static int gdsc_set_hwmode(struct generic_pm_domain *domain, struct 
+>> device *dev, bool mode)
+>> +{
+>> +    struct gdsc *sc = domain_to_gdsc(domain);
+>> +    int ret;
+>> +
+>> +    ret = gdsc_hwctrl(sc, mode);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    /*
+>> +     * Wait for the GDSC to go through a power down and
+>> +     * up cycle. In case SW/FW end up polling status
+>> +     * bits for the gdsc before the power cycle is completed
+>> +     * it might read the status wrongly.
+> 
+> If we poll the status register before the power cycle is finished we 
+> might read incorrect values.
+
+Thanks Caleb for your review. Sure, will take care of these comments in
+next series.
+
+Thanks,
+Jagadeesh
+
+>> +     */
+>> +    udelay(1);
+>> +
+>> +    /*
+>> +     * When GDSC is switched to HW mode, HW can disable the GDSC.
+> The GDSC
+>> +     * When GDSC is switched back to SW mode, the GDSC will be enabled
+> The GDSC
+>> +     * again, hence need to poll for GDSC to complete the power 
+>> uphence we need to poll
+> 
+> Kind regards,
+>> +     */
+>> +    if (!mode)
+>> +        return gdsc_poll_status(sc, GDSC_ON);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static bool gdsc_get_hwmode(struct generic_pm_domain *domain, struct 
+>> device *dev)
+>> +{
+>> +    struct gdsc *sc = domain_to_gdsc(domain);
+>> +    u32 val;
+>> +
+>> +    regmap_read(sc->regmap, sc->gdscr, &val);
+>> +
+>> +    return !!(val & HW_CONTROL_MASK);
+>> +}
+>> +
+>>   static int gdsc_init(struct gdsc *sc)
+>>   {
+>>       u32 mask, val;
+>> @@ -451,6 +489,10 @@ static int gdsc_init(struct gdsc *sc)
+>>           sc->pd.power_off = gdsc_disable;
+>>       if (!sc->pd.power_on)
+>>           sc->pd.power_on = gdsc_enable;
+>> +    if (sc->flags & HW_CTRL_TRIGGER) {
+>> +        sc->pd.set_hwmode_dev = gdsc_set_hwmode;
+>> +        sc->pd.get_hwmode_dev = gdsc_get_hwmode;
+>> +    }
+>>       ret = pm_genpd_init(&sc->pd, NULL, !on);
+>>       if (ret)
+>> diff --git a/drivers/clk/qcom/gdsc.h b/drivers/clk/qcom/gdsc.h
+>> index 803512688336..1e2779b823d1 100644
+>> --- a/drivers/clk/qcom/gdsc.h
+>> +++ b/drivers/clk/qcom/gdsc.h
+>> @@ -67,6 +67,7 @@ struct gdsc {
+>>   #define ALWAYS_ON    BIT(6)
+>>   #define RETAIN_FF_ENABLE    BIT(7)
+>>   #define NO_RET_PERIPH    BIT(8)
+>> +#define HW_CTRL_TRIGGER    BIT(9)
+>>       struct reset_controller_dev    *rcdev;
+>>       unsigned int            *resets;
+>>       unsigned int            reset_count;
+> 
 
