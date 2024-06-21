@@ -1,135 +1,170 @@
-Return-Path: <linux-media+bounces-13891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CD7911C97
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 09:14:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCB7911CB3
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 09:21:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB2631F2199A
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 07:14:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09E511C22221
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 07:21:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6530516B3AE;
-	Fri, 21 Jun 2024 07:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OK5N6Zlg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDBB63C2F;
+	Fri, 21 Jun 2024 07:21:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B49212D742;
-	Fri, 21 Jun 2024 07:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D43516A957;
+	Fri, 21 Jun 2024 07:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718954076; cv=none; b=nOC/1a3Fp2e+0cbkFJZqNftWDSN52f6ZUwrb4kKFS4Sz6wt2uRCCtMGPRR3OCh/rw/bD+FITESL7My7t+T/MkMWD6fFgBC71jPjx0IGUrP732V84DN+nxjUVXtMqO/knZH7ftGZa9BqCLJe8WnCn0i55l0Gv43YykujxhXSfS/0=
+	t=1718954500; cv=none; b=YMnaySG+5QqR6ZDgquBxb2oyHeMUxG5W+NoHrCVkDAtwe7D0Pck3oWG4OeGT3PADSTwaIWeW8hgEhyJeoSNK7GUIq0pC+DZClc5iRKZGFPdSzOTu3Nz931LhzNKbKrFvycW68shcUxwR7hk8f8B5IsGZm+mD+1HRG1q6KgaWgeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718954076; c=relaxed/simple;
-	bh=I1d26+FYwmfD9Tc9dF0H8tsiQttz7MrvNQjmOX9mk7s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hMM0GFO/UdNzOwr5ZMfzZV9DUdI+fEexb+mMdSXHQelcBKsbVv8lYwlUyCcbXCcXxyRpsU8k+wzXmXvdr/0l61jVgJfLIg193Azc8nEt9w4HA+AZ8TejAoMLYdPBSCR0DX7Zu1/IR/0YgtJ9/45mrL585pxBssQu1kkEfWH01Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OK5N6Zlg; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1718954500; c=relaxed/simple;
+	bh=7CMx5bxarm0V6bXOjOERHcGYnuBsH12q3jR5evZkhxU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KO7Al8rR3PNzw/MsHCweoz3AdBLAW43XcXJElJiIVAiEnTrQoM4tjUfwQv/I1u0AJBV88GAwYACqHHJcQHH9eD6w3k19CdJW0p8qHwIUIcmhgN7gBxjgSjIjWmGlKLLpVutbKX+33chHb7PKWWtMVhPZuG5bNLukfoMCIHRn9w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57ccd1111aeso1968988a12.0;
-        Fri, 21 Jun 2024 00:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718954073; x=1719558873; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=I1d26+FYwmfD9Tc9dF0H8tsiQttz7MrvNQjmOX9mk7s=;
-        b=OK5N6ZlgNpyFNOORJZRwBMCpsCNLwvI18yVWo52fpDE0suypmbKCTy3ncALVmKk0zw
-         RwhysRvZlwmHUP7Jw2HiA/LpVzATOMz+2aAx0s3CmJC49vxRww0H3xlfCOzfX9w3H4lO
-         /vR9gCJ2JlAhhJuDWxjJP9X8uPnL/nNe9czTF/UqWdeoXqSEs9KRCvKCokbnLrjIrpYd
-         k1uuNjzaw040m5gV5AxSwmKwBFKYf6bM/ysIit95xnydsio4ub3DxrVi6Zjq9EMSjTMq
-         LnIFE3DsCJYOGSJAjPQ15zRtz7kgiVOqlRxi+FVMAgJC4BxSOLFO2U4QePftEF1Srlhk
-         /bNg==
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dff02b8a956so1681587276.1;
+        Fri, 21 Jun 2024 00:21:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718954073; x=1719558873;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I1d26+FYwmfD9Tc9dF0H8tsiQttz7MrvNQjmOX9mk7s=;
-        b=iThCWaHMLvTOoqe1UhJk+gSZf3CytwTdLvGnKSHUeV9S3dHEUoWChew1VJLsl4Z2It
-         ZfV/Dz9WkPfV7SxRU68p0JnWU8H4ox4pTMuWLA7t6QXqN2D2QxDB2OV0Merz2ylXMa7F
-         XMunmQ5kLJNuWuAehQf5DkurABDdPId0xwkelIykbgu+TEulZZDv+ZsAefdoOmTExhhe
-         kiQRtI9RaYDvrpddVFCrSVcfsSB6uHn0LQW5FtxFYe7aoskAwNcTfeW9Of1UBsiFm6e9
-         UkBlx5YIV+d7rFKsA94VOHBWnhmMzghBGatTxJf8Kf7GaNf6IkF2tCdXXgPEzrnZywxb
-         55Pg==
-X-Forwarded-Encrypted: i=1; AJvYcCWHjnbniz7LbmcF9XRO+G4G5bj9g+ucKsw7wf0B2Ouzwo6zAiOrW4jsJk2M8cDNQySCGyNl0EqoniMK3b7XuJ5GLiG7zvM1TUIHIDfGME4GU/WuWLrnXyywOstMykyPUJdVn+0PwNa7SVg3bArW4gNPe1qhKReAVi7Lb9kFsr+D6ujju81zlc05TeaVgS+vyeyWVbhaxgOukZqmcF8aaFW6D3PT3raGyzzfeEGvh+fu3RZc7IM02lvMIkc=
-X-Gm-Message-State: AOJu0YwuchHEaJeiGExuTvtgHofCVXTeAecZM58QtgV7eIkeqHw51tvA
-	C3imSTGbp9DKMo30qxgIGTBB5++L49Im9L7zGkHbnz1w+wjwl2Hr
-X-Google-Smtp-Source: AGHT+IHJQ1yPK263/uUvL42ye22QYzUxYEagwPu/zDgRslXQjOwm4KteKF6Tb6SaGoGeiBRNCTcVaA==
-X-Received: by 2002:a50:c050:0:b0:57d:22ef:d055 with SMTP id 4fb4d7f45d1cf-57d22efd0e0mr2481140a12.24.1718954073269;
-        Fri, 21 Jun 2024 00:14:33 -0700 (PDT)
-Received: from ?IPv6:2003:f6:ef1c:c500:ee59:d953:f148:40ba? (p200300f6ef1cc500ee59d953f14840ba.dip0.t-ipconnect.de. [2003:f6:ef1c:c500:ee59:d953:f148:40ba])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d305351dbsm527719a12.77.2024.06.21.00.14.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Jun 2024 00:14:32 -0700 (PDT)
-Message-ID: <b7283f9458047e63e7d8c8b80daf2bd6232403cb.camel@gmail.com>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com, Paul Cercueil
- <paul@crapouillou.net>, Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, 
- linux-iio@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>,
- oe-kbuild-all@lists.linux.dev,  LKML <linux-kernel@vger.kernel.org>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Julia Lawall
- <julia.lawall@inria.fr>, Randy Dunlap <rdunlap@infradead.org>
-Date: Fri, 21 Jun 2024 09:18:23 +0200
-In-Reply-To: <ZnUnFeum1Z2ahm9M@matsya>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
-	 <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de> <ZnRUSaHJhz7XLcKa@matsya>
-	 <20240620170522.GU3029315@google.com> <ZnUnFeum1Z2ahm9M@matsya>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 
+        d=1e100.net; s=20230601; t=1718954497; x=1719559297;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PACd0JpJmNYTIfca4Iea8deTmLaxbsTwqXeNwFLnksA=;
+        b=BUlugN5+D0pEQA6Y5ZVSVFPE6SVHY3nVGlPcVWK1MWRNxnm9HTe6GCizmhpNJTYvPo
+         tuHB6niaEX7hK9M+jrKRb/uUF5j+eRGb70n5ftlO7kP53Q7rFEDcjA8mmft+r6jgNVT4
+         JIwJUfmxqqOchVXela9cm7kJAFFVFuoZR6sIb3/l9ILvmvbm3ILigFkJLWX8AzrlMJdb
+         KPEXSBFsC1/kH6nqAaWXbOQW/hh5HOdWy8EX3h8mPHcpkv1/yQ8b5wE0KzIwV/0eQJu0
+         eVisjZD5ZoaJSu8O6Huqiec/V8x1XPP+fPaZroPiG5qCuZVJfiFV6SytzgpG/oz+t184
+         w+IA==
+X-Forwarded-Encrypted: i=1; AJvYcCUilCdbrnqvPcgFpB/I2/Cbs34rnQJzRFC7TOWawljm9E00YBwi2bF2v2GkrC2rrgF1nC6AM5/fNyLUMYELsRg/QjDum5xI7wMbpBqHUMKExc0ZsX5AxJ5or3TR+OOUpuprzUak64gKqUe74EFg5xNsha9h3RVwVAVU17iXYK2IKXM30WiG1KYHz1o=
+X-Gm-Message-State: AOJu0Yyt9PZZmNnC6WwJ1zzD+nKAMMXMcSYSgZcsQ57FKsnVEIEDohLY
+	lnNI4zAvqYQoBfEXql2EYwqptQXUhrqwveOAmOgji/JFH8lWB2WTsmkMqYa9
+X-Google-Smtp-Source: AGHT+IF/3VLqYTGe5uwZjivcFccUaABcRl++AVguPPabGq+UJsMB4gCnYw3V8atN7oq5BdK0F7EtVg==
+X-Received: by 2002:a25:ae11:0:b0:e02:bc76:3407 with SMTP id 3f1490d57ef6-e02be16f25fmr8385764276.34.1718954496864;
+        Fri, 21 Jun 2024 00:21:36 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e02e62656d0sm246821276.35.2024.06.21.00.21.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Jun 2024 00:21:36 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dff02b8a956so1681562276.1;
+        Fri, 21 Jun 2024 00:21:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUV9ASaKjGoQf/Dg7biLJuaSyO+vNwleswFSNyiOalbZFp+mOlDkeB4M8kdApCksEQn4jcupNL1D2RAXV2hXOAeyw21AStakA6e5h3WWaN9Ug19xTBxHWOH6pTmTRWW5ZF1esRYMl5yqDCEszb53qwU1bKttsCHY+p0+0jhd2+lnhTaDqX6U/awbvI=
+X-Received: by 2002:a25:b181:0:b0:e02:79a0:8b62 with SMTP id
+ 3f1490d57ef6-e02be16c4e5mr7671226276.32.1718954496385; Fri, 21 Jun 2024
+ 00:21:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240619153559.1647957-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240619153559.1647957-2-niklas.soderlund+renesas@ragnatech.se>
+ <20240619-passage-iodine-9f944b26a30d@spud> <20240619185607.GT382677@ragnatech.se>
+ <20240619204321.GU382677@ragnatech.se> <20240620-gating-coherent-af984389b2d7@spud>
+ <20240620172237.GA3623951@ragnatech.se>
+In-Reply-To: <20240620172237.GA3623951@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 21 Jun 2024 09:21:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUaWMiQ_wrmX14uwkeU1D_55ehmJD8+GZ4eydWfw4Mi-Q@mail.gmail.com>
+Message-ID: <CAMuHMdUaWMiQ_wrmX14uwkeU1D_55ehmJD8+GZ4eydWfw4Mi-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: renesas,vin: Add binding for V4M
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Conor Dooley <conor@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2024-06-21 at 12:39 +0530, Vinod Koul wrote:
-> On 20-06-24, 18:05, Lee Jones wrote:
-> > On Thu, 20 Jun 2024, Vinod Koul wrote:
-> >=20
-> > > On 20-06-24, 12:45, Markus Elfring wrote:
-> > > > =E2=80=A6
-> > > > > All errors (new ones prefixed by >>):
-> > > > >=20
-> > > > > > > drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump =
-from
-> > > > > > > this goto statement to its label
-> > > > > =C2=A0=C2=A0=C2=A0 1715 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err_dmabuf_u=
-nmap_attachment;
-> > > > =E2=80=A6
-> > > >=20
-> > > > Which software design options would you like to try out next
-> > > > so that such a questionable compilation error message will be avoid=
-ed
-> > > > finally?
-> > >=20
-> > > The one where all emails from Markus go to dev/null
-> >=20
-> > Play nice please.
->=20
-> Would love to... but Markus has been repeat offender
->=20
-> Sadly, I am yet to see a constructive approach or even better a helpful
-> patch which improve something, rather than vague suggestions on the list
->=20
+Hi Niklas,
 
-Yeah, just look at how many automatic replies he get's from Greg pretty muc=
-h
-saying to ignore his comments.
+On Thu, Jun 20, 2024 at 7:22=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2024-06-20 17:27:00 +0100, Conor Dooley wrote:
+> > > +      - items:
+> > > +          - enum:
+> > >                - renesas,vin-r8a779g0 # R-Car V4H
+> > > +              - renesas,vin-r8a779h0 # R-Car V4M
+> > > +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
+> > >
+> > > If so I can see that working as I could still fix any issues that com=
+e
+> > > from differences between V4H and V4M if needed. If so do you think it
+> > > best to add this in two different patches? One to add the
+> > > renesas,rcar-gen4-vin fallback (which will also need DTS updates to f=
+ix
+> > > warnings from exciting users of V4H not listing the gen4 fallback) an=
+d
+> > > one to add V4M?
+> >
+> >
+> > I would just do:
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b=
+/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > index 5539d0f8e74d..22bbad42fc03 100644
+> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > @@ -54,6 +54,9 @@ properties:
+> >                - renesas,vin-r8a77995 # R-Car D3
+> >                - renesas,vin-r8a779a0 # R-Car V3U
+> >                - renesas,vin-r8a779g0 # R-Car V4H
+> > +      - items:
+> > +          - const: renesas,vin-r8a779h0 # R-Car V4L2
+> > +          - const: renesas,vin-r8a779g0 # R-Car V4H
+>
+> @Geert: What do you think about this? This would be a first use-case for
+> compatibles crossing SoC DTS files that I know of. I'm a bit uneasy
+> going down this road.
 
-- Nuno S=C3=A1
+Me too ;-)
+
+> Would this not also effect the existing users of renesas,vin-r8a779g0
+> which would now need something similar to what you propose below with a
+> list of SoC compatibles and a fallback.
+>
+> >
+> >    reg:
+> >      maxItems: 1
+> >
+> > Which requires no driver or dts changes. That could become:
+> >       - items:
+> >           - enum:
+> >               - renesas,vin-r8a779h0 # R-Car V4L2
+> >               - renesas,vin-r8a779i0 # R-Car R4P17
+> >           - const: renesas,vin-r8a779g0 # R-Car V4H
+>
+> FWIW, on Gen2 where fallback es where useful compared to Gen3 we did
+> this with "renesas,rcar-gen2-vin".
+
+We do know there are differences (albeit probably small) among the R-Car
+Gen4 VIN implementations, so I am reluctant to add a family-specific
+compatible value.  Typically we only use a family-specific compatible
+value if the IP cores are known (or better, assumed ;-) to be identical.
+
+And sometimes our assumptions turn out to be wrong...
+See slides 25-33 (last two for the numbers) of my talk at ER2019
+https://embedded-recipes.org/2019/talks/herd-your-socs-become-a-matchmaker/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
