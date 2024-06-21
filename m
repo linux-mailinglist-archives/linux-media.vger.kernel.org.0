@@ -1,131 +1,132 @@
-Return-Path: <linux-media+bounces-13928-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13929-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3417912387
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 13:28:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D5291248A
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 13:56:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D426F1C2515B
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 11:28:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C3EE2832E2
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 11:56:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7C19176AAF;
-	Fri, 21 Jun 2024 11:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4B0173357;
+	Fri, 21 Jun 2024 11:55:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Un0i7p2K"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="uRJDSg3o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73B817557B
-	for <linux-media@vger.kernel.org>; Fri, 21 Jun 2024 11:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA4317278D;
+	Fri, 21 Jun 2024 11:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718969124; cv=none; b=aC7c0oRnDOcQjClhDYfRx2lahtBDQZB8W5Uhha2WBuB/KUIrpxG71eApDE0nHZMV0RLA5F2cbMQxZpBUaRsufq2Wk7+ciSFXZLTd6pI5F4xVzecKFYH6fbcBEI7OfiFjkHlMWmfMegIanFb1D83kJa70nZNTlbhzwc4oAGqt+3Y=
+	t=1718970951; cv=none; b=SRLq6rR0vInalB5jPMQRWuI0OUuG1zJFoYB1k/V8zBD7WJkt+rlJUDbee4Nqe0dENyTZap4SaxQQchHC3XrL8HwV+HhcNH9f8ur15g7+WnAxpB10fKsDQwkMXdSxuQtXH12C8jiATvGHhZG9JiQA//d8QN70nq0/PyqmR+SRCVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718969124; c=relaxed/simple;
-	bh=/78T4gIP6Vl7qO16NoY/Yc+0FArSmsilMMQukCe6F6Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l69sXhwKKovfGaBhJbrqdASesDNPxmdq2mehE4VpIF+t6Qv6oFSUuvURwFXQyQZymVW3HdT2chZxJhH6Kbo7WVVONqTy2MIiWOYXni4pP9NNidzSUUCaTMFF1Luvgy/oxbe8rNaT5d59KRIfBQKCtQYVeTTtKqYd7/2g+zpeX3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Un0i7p2K; arc=none smtp.client-ip=209.85.208.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-57d0eca877cso2199153a12.2
-        for <linux-media@vger.kernel.org>; Fri, 21 Jun 2024 04:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718969121; x=1719573921; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NVqer5McNqdNZnecI/834Szrx4B8E3Deyrvm1bBN9j4=;
-        b=Un0i7p2K6bw0p+YO4Sxsmx+evq4Aq3M4dyXapGavjzfqtxmBSy4C9McKXsQCBQvS/N
-         RDAjAkvj3lifiiej0NVA7dDSTca99Tn+/3JrAqu9sNPzuozBKaXrqa7Or83Orx9iPqAE
-         EI3rv5if4dGHvhPR8FUifG66WhngykGyYCA9eiSSyk2lCCA/kpREjjz60XAgDLvrzwQ5
-         GMwXoQ109Ic7YdWuYeQu8sTp2gb9/p+vQXpH06KCoRLS2hcm8VxVNjFlCLSXB/yluWLy
-         W3+E+8jNpZoujli8Fx4ezpKfnyO5ZknmSp0t5NuiseYQRgnHRblPflRltiItnW70P4Pu
-         Vg+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718969121; x=1719573921;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NVqer5McNqdNZnecI/834Szrx4B8E3Deyrvm1bBN9j4=;
-        b=ssUY1ruNrJEcGh/mItDhtc6tS3VfPaIuNA4pDpSEgl/EpNUnqeCGIUjSGq46I+Plbs
-         +UBfxDIkfsqQ7L0bBz9PEh42enxwET1CrAKunBv36rQ0t4Lf6PN0bEfoxjz5FkEkTVWA
-         z/mZgzzXHKfWSdZ4gIU11X2pTXnfhpKRiG13ndfI0EtIiVxXXL7S49M5jWpgrfxNtBAe
-         I9aT6RUKIBaoxMbPcst3yPn6bAfEwDZBA4gGuRXFldUGeeyaN6qsBgUIdYgUhzreSlgc
-         9CDm3wWuI0ib5j09StnP/n9ieWe3LRIXntJkhM9e8JlY5oaE2HVWkHTdTaQP7KCMj9zb
-         ZDMg==
-X-Gm-Message-State: AOJu0YzdUtB2ba+FKqsa63M6FempmJQ0AlX0v/OVqa9Y8Nuv/A2qkowE
-	2R36sLgQnNv8GRF+Aj2rAYdx/yQ1/aa1gIEVpd19mdwFk0/5aXehqt+oc+fPKx0=
-X-Google-Smtp-Source: AGHT+IH126ydw90RFkIhA8Jjhs+0tNi7TXjbkKjB2FNHRMNyT4BERWZyQz9kSzzxO2pfpg2TTTUqyA==
-X-Received: by 2002:a17:906:b41:b0:a6f:1445:9de8 with SMTP id a640c23a62f3a-a6fab778da9mr570586766b.54.1718969120996;
-        Fri, 21 Jun 2024 04:25:20 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf489e1asm73538966b.47.2024.06.21.04.25.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jun 2024 04:25:20 -0700 (PDT)
-Message-ID: <cd9b5612-1160-4284-be7f-4efbcbbbe346@linaro.org>
-Date: Fri, 21 Jun 2024 12:25:18 +0100
+	s=arc-20240116; t=1718970951; c=relaxed/simple;
+	bh=9EWTfhevVP6TT+S5MmRO88VX1lFmzRE/f5ndlAriqq8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=of7VHU/HDHTxUEGZAjZFyI6mG5gGtir6arJknriVEafmTG50fCeLnJqmFGtzB3YOfOEimY1y/Dw9xIWD6+McIbp2QdLcPODT4z+ZDkFKWxN77jav9untDiaEnkB6zMreS+CdLZgj+8f/mpZDn24UrHVG9DQX0tqfNQSGM8mzUKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=uRJDSg3o; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45LBtR4H106155;
+	Fri, 21 Jun 2024 06:55:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1718970927;
+	bh=N2ZE99Uz1VZASX7cXNMBkj1q/fbnzsz/c+sABmANsi8=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=uRJDSg3ooqlVPxSOB5UehIxqHLNJhOtMSgY2wD7JGPZWe1pma8rRWTlxa0+HZmWv2
+	 rsxoRvW0WiYtVTypdsouue5yr7oNyQ6Dy29Jww2wcDZkwDDPteZ6Y1KzKlex6Wemie
+	 fQ6xsnTDGyhHu/1s6IprjOTg2jiX2VTBiBWPXSNw=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45LBtRvu012474
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 21 Jun 2024 06:55:27 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 21
+ Jun 2024 06:55:26 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 21 Jun 2024 06:55:26 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45LBtLXe023771;
+	Fri, 21 Jun 2024 06:55:22 -0500
+Message-ID: <98e52732-36fa-3e76-cd2c-fde9181bdeb7@ti.com>
+Date: Fri, 21 Jun 2024 17:25:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.2.2
- two-phase MIPI CSI-2 DPHY init
-To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240621-b4-sc7180-camss-v1-0-14937929f30e@gmail.com>
- <20240621-b4-sc7180-camss-v1-3-14937929f30e@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RESEND PATCH v6 2/4] media: chips-media: wave5: Support runtime
+ suspend/resume
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240621-b4-sc7180-camss-v1-3-14937929f30e@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>,
+        Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        Nas Chung
+	<nas.chung@chipsnmedia.com>,
+        "lafley.kim" <lafley.kim@chipsnmedia.com>,
+        "b-brnich@ti.com" <b-brnich@ti.com>, "Luthra, Jai" <j-luthra@ti.com>,
+        Vibhore
+	<vibhore@ti.com>, Dhruva Gole <d-gole@ti.com>,
+        Aradhya <a-bhatia1@ti.com>, "Raghavendra, Vignesh" <vigneshr@ti.com>
+References: <20240617104818.221-1-jackson.lee@chipsnmedia.com>
+ <20240617104818.221-3-jackson.lee@chipsnmedia.com>
+ <6e6f767c-85e9-87f6-394f-440efcc0fd21@ti.com>
+ <SE1P216MB13037621438C8CE6142A69A8EDCF2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+ <SE1P216MB130382374B76CD8BC9FFCFE5EDC82@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+ <881dcea1-a592-4506-083a-9d5f3c6a8781@ti.com>
+ <b2f7552d37075538e22640f7b42838d29d3f8b3e.camel@collabora.com>
+ <e901967f-59df-f4b0-de51-61e542c04161@ti.com>
+ <07d56a690d5fed16082e73c5565b67777e31494a.camel@collabora.com>
+ <SE1P216MB13033A129DF3DF878ECD4F85EDC92@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <SE1P216MB13033A129DF3DF878ECD4F85EDC92@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 21/06/2024 10:40, George Chan via B4 Relay wrote:
-> From: George Chan <gchan9527@gmail.com>
+Hi Jackson,
+
+On 21/06/24 06:00, jackson.lee wrote:
+> Hi Nicolas / Devarsh
 > 
-> Add a PHY configuration sequence for the sc7180 which uses a Qualcomm
-> Gen 2 version 1.2.2 CSI-2 PHY.
 > 
-> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
-> mode. This configuration supports two-phase D-PHY mode.
+> There are lots of mail thread in the loop, I have confusion.
+> I'd like to make check-up list for the "Support runtime suspend/resume" patch.
 > 
-> Signed-off-by: George Chan <gchan9527@gmail.com>
-> ---
->   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 120 +++++++++++++++++++++
->   1 file changed, 120 insertions(+)
+> 1. Profiling resume latency
+> 2. after that, adjusting the time.
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index df7e93a5a4f6..181bb7f7c300 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -348,6 +348,121 @@ csiphy_reg_t lane_regs_sm8250[5][20] = {
->   	},
->   };
->   
-> +/* GEN2 1.2.2 2PH */
 
-This is the init sequence for 1_2_1 not 1_2_2
+Beyond above two points,
 
-https://review.lineageos.org/c/LineageOS/android_kernel_xiaomi_sm8250/+/311931/10/techpack/camera/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_2_1_hwreg.h
+3. I think this patchset also breaks hrtimer polling and so the VPU operation
+on AM62A which completely relies on polling, you can test with removing the
+interrupt property from your dts file before/after this patch-set. With the
+polling it needs to be taken care that polling is started only after device is
+on power-on state and is stopped before device gets suspended.
 
-https://review.lineageos.org/c/LineageOS/android_kernel_xiaomi_sm8250/+/311931/10/techpack/camera/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_2_2_hwreg.h
+4. There is some discussion going on between me and Nicholas on whether
+delayed suspend is really required after last instance close or not. My
+thought was that we should suspend immediately after last instance close, but
+Nicolas mentioned some concerns w.r.t use-cases such as gapless playback so I
+am following up with him.
 
-Please fix.
-
----
-bod
+Regards
+Devarsh
 
