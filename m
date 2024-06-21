@@ -1,180 +1,132 @@
-Return-Path: <linux-media+bounces-13944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3B8912894
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 16:55:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B54EF9128AB
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 16:58:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03E0E1F21B40
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 14:55:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7BDD1C2510E
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 14:58:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6FCB3AC0C;
-	Fri, 21 Jun 2024 14:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4AF3F9EC;
+	Fri, 21 Jun 2024 14:58:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="an3X+/BY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLNZ5w7O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A0246542
-	for <linux-media@vger.kernel.org>; Fri, 21 Jun 2024 14:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20A74F20E;
+	Fri, 21 Jun 2024 14:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718981683; cv=none; b=CAV4jZ3Tb3+GUmWef5fp/4MOL2D1tPuT9PwffaXs7o4VeMi00u+twSp0Zzw8kCop+c55ryytONf/mHx1uOu/dLqZp+g+SjlSOo/fvzcK8iwLUcDhbp761o9HE6ibX+JsLJWtX5eH2i6XQ+2saTE9TdLvJE1eS1pKHYkqTIzgB9U=
+	t=1718981916; cv=none; b=tMBzGlfMFh9E1ZhyBhdgAxHQaGm/3ppANToVIpjsIIj7rGlgO2UsPvBAEF0HhGD1zHJPj5EfLb531pR3rYxdLVMW/zcQthZeLKRX9ZHDV+tvRWHlNe6uw5l9azXz/cMe2Ftaj9l3HJlu7GyuRIsQVKo6y26f4H6f+tHDhoFwcwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718981683; c=relaxed/simple;
-	bh=2iJ6D0/im8UkLj38PPq0bxlLJaUrdDVXLmNRDXoniX4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qLxBxzyrXCFzXDRJtkjW16BbOSTkGYWIR8xpCfqLCRLYV/Ae2QgPq3AsW+3Y51nFw2EsL4t3jYX1GbfCpx45IvNVePrKNIAnbtCPlqu05zyguA2yCaZRu8se1ZCbN5YFefgkRapfU5t2/lkpDdhHzL3oLHHrK/cMeI7UXJmr21Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=an3X+/BY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03BF6153F;
-	Fri, 21 Jun 2024 16:54:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1718981652;
-	bh=2iJ6D0/im8UkLj38PPq0bxlLJaUrdDVXLmNRDXoniX4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=an3X+/BYBbJm+sWO9Y24uaGmDJ2DMBkUZaX63L9zSAk92J7PyZT/0DhDNQ/Tq1+pw
-	 4yWB31LV+uFY1aD06iie+/eP5KQZSiung485ynx9X3fRWgc1drS5wwx32zrpWpW3WL
-	 OAOabkU7yZAV+yFByGYEu2AdAj/YIPVkfJ9OxDxM=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [PATCH 7/7] media: rkisp1: Implement s_fmt/try_fmt
-Date: Fri, 21 Jun 2024 16:54:05 +0200
-Message-ID: <20240621145406.119088-8-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240621145406.119088-1-jacopo.mondi@ideasonboard.com>
-References: <20240621145406.119088-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1718981916; c=relaxed/simple;
+	bh=iTy+ar2v/aPDrGFgYNM/EKjztldR0LbzdgwRrLgUwaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wv8IWBjg3DfhYD53V5+QKsczOlFV85oC0N+EcriULzuwqu7NwhzCCSoJowSc8Pms9ces6ZOBvx50SfYtF9grbm9d4yQML9i+4NH+LcIr6sG1KV8cQmorgSMc8arxPFKjft5z6SGSzRpegEhQiPOTMOswYsPYxchXKNDlEyBik5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLNZ5w7O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE66C2BBFC;
+	Fri, 21 Jun 2024 14:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718981915;
+	bh=iTy+ar2v/aPDrGFgYNM/EKjztldR0LbzdgwRrLgUwaU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dLNZ5w7OhfaSkX+v1brG7veriBApUjUqkk7BE8esWrTGvoYtGimxMKK3Gl0PPc54O
+	 xknBq1zsamjVsrO3GuexV7RVQMc7uVA3vArhI2tkHqL5ya35XV3N272wNYvUFhb8RF
+	 bf9IcY23muCRsn/KvT95JTyEk9IpAxIuPZDGb1IDxGQZ22QnIKpWxNgXETaoatEjMb
+	 qGA8hBa+roOxP8p89YBJZAiZpoPt26NWrfOLECjww3vw0ggAsly7e4aGb92+iDk8ko
+	 B4qe57iWIrTC7lFt1FsMQ3nOueuVOatM7CNelfL4Aohry88xYCRBpxefZ5A/YK1bWK
+	 odNViv395bCYg==
+Date: Fri, 21 Jun 2024 15:58:27 +0100
+From: Mark Brown <broonie@kernel.org>
+To: amergnat@baylibre.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nicolas Belin <nbelin@baylibre.com>
+Subject: Re: [PATCH v6 12/16] ASoC: codecs: add MT6357 support
+Message-ID: <e6f1e8b6-f542-4cc7-828d-69810209e9b3@sirena.org.uk>
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jw2Y2pYWLtcvlWMC"
+Content-Disposition: inline
+In-Reply-To: <20240226-audio-i350-v6-12-f754ec1a7634@baylibre.com>
+X-Cookie: Your supervisor is thinking about you.
 
-Implement in the rkisp1 driver support for the s_fmt and try_fmt
-operation to allow userspace to select between the extensible
-and the fixed parameters formats.
 
-Implement enum_mbus_code to enumerate the fixed and the extensible
-formats and disallow changing the data format while the queue is busy.
+--jw2Y2pYWLtcvlWMC
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- .../platform/rockchip/rkisp1/rkisp1-params.c  | 58 ++++++++++++++++---
- 1 file changed, 50 insertions(+), 8 deletions(-)
+On Wed, Jun 19, 2024 at 04:46:48PM +0200, amergnat@baylibre.com wrote:
+> From: Nicolas Belin <nbelin@baylibre.com>
+>=20
+> Add the support of MT6357 PMIC audio codec.
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index f3ea70c7e0c1..904164bd201a 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -54,6 +54,17 @@ static const struct v4l2_meta_format rkisp1_params_formats[] = {
- 	},
- };
- 
-+static const struct v4l2_meta_format *
-+rkisp1_params_get_format_info(u32 dataformat)
-+{
-+	for (unsigned int i = 0; i < ARRAY_SIZE(rkisp1_params_formats); i++) {
-+		if (rkisp1_params_formats[i].dataformat == dataformat)
-+			return &rkisp1_params_formats[i];
-+	}
-+
-+	return &rkisp1_params_formats[RKISP1_PARAMS_FIXED];
-+}
-+
- static inline void
- rkisp1_param_set_bits(struct rkisp1_params *params, u32 reg, u32 bit_mask)
- {
-@@ -2222,12 +2233,12 @@ static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
- 					   struct v4l2_fmtdesc *f)
- {
- 	struct video_device *video = video_devdata(file);
--	struct rkisp1_params *params = video_get_drvdata(video);
- 
--	if (f->index > 0 || f->type != video->queue->type)
-+	if (f->index >= ARRAY_SIZE(rkisp1_params_formats) ||
-+	    f->type != video->queue->type)
- 		return -EINVAL;
- 
--	f->pixelformat = params->metafmt->dataformat;
-+	f->pixelformat = rkisp1_params_formats[f->index].dataformat;
- 
- 	return 0;
- }
-@@ -2242,9 +2253,40 @@ static int rkisp1_params_g_fmt_meta_out(struct file *file, void *fh,
- 	if (f->type != video->queue->type)
- 		return -EINVAL;
- 
--	memset(meta, 0, sizeof(*meta));
--	meta->dataformat = params->metafmt->dataformat;
--	meta->buffersize = params->metafmt->buffersize;
-+	*meta = *params->metafmt;
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_try_fmt_meta_out(struct file *file, void *fh,
-+					  struct v4l2_format *f)
-+{
-+	struct video_device *video = video_devdata(file);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	*meta = *rkisp1_params_get_format_info(meta->dataformat);
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_s_fmt_meta_out(struct file *file, void *fh,
-+					struct v4l2_format *f)
-+{
-+	struct video_device *video = video_devdata(file);
-+	struct rkisp1_params *params = video_get_drvdata(video);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	if (vb2_is_busy(video->queue))
-+		return -EBUSY;
-+
-+	params->metafmt = rkisp1_params_get_format_info(meta->dataformat);
-+	*meta = *params->metafmt;
- 
- 	return 0;
- }
-@@ -2274,8 +2316,8 @@ static const struct v4l2_ioctl_ops rkisp1_params_ioctl = {
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
- 	.vidioc_enum_fmt_meta_out = rkisp1_params_enum_fmt_meta_out,
- 	.vidioc_g_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
--	.vidioc_s_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
--	.vidioc_try_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
-+	.vidioc_s_fmt_meta_out = rkisp1_params_s_fmt_meta_out,
-+	.vidioc_try_fmt_meta_out = rkisp1_params_try_fmt_meta_out,
- 	.vidioc_querycap = rkisp1_params_querycap,
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
- 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
--- 
-2.45.2
+This breaks an x86 allmodconfig build:
 
+/build/stage/linux/sound/soc/codecs/mt6357.c: In function =E2=80=98mt_delay=
+_250_event=E2=80=99:
+/build/stage/linux/sound/soc/codecs/mt6357.c:993:29: error: unused variable=
+ =E2=80=98pri
+v=E2=80=99 [-Werror=3Dunused-variable]
+  993 |         struct mt6357_priv *priv =3D snd_soc_component_get_drvdata(=
+cmpnt);
+      |                             ^~~~
+/build/stage/linux/sound/soc/codecs/mt6357.c: In function =E2=80=98mt6357_p=
+latform_drive
+r_probe=E2=80=99:
+/build/stage/linux/sound/soc/codecs/mt6357.c:1867:55: error: too many argum=
+ents=20
+for format [-Werror=3Dformat-extra-args]
+ 1867 |                 return dev_err_probe(&pdev->dev, ret, "Failed to pa=
+rse d
+ts\n", __func__);
+      |                                                       ^~~~~~~~~~~~~=
+~~~~~
+~~~~~
+cc1: all warnings being treated as errors
+
+
+--jw2Y2pYWLtcvlWMC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZ1lRIACgkQJNaLcl1U
+h9A1bwf/V2Qer6d82i9EFIihaq/lGhQ/qfe9gIru+7gJsGI4DqFQH74lqhneOg79
+dbDE9ZxWZMSkRPam0eioJpIWXqp6PInaXpjQ/9S2xHdNwc1c/uUCoChWA98NXlo5
+RADmcGSWVwtbKq/nplum3hiKS2+GF5VUC6Rce/pnb22YK8EGSfgsMzdtSRVrcqaW
+3Rjoh1zf6wzyWBjQmJ1x+8C0lvVH2IbGzQStK9Khpo+Ojz5prAo6tXZA983ktHF5
+m4VZoVblQEiohNk7UTYvsUD511IEo2WS1f9NIHZcQLSzjTbst70usLoGwnA9sjmb
++0XWKkjxGKPzqT7CHhn2IW2qzOam0Q==
+=OTn4
+-----END PGP SIGNATURE-----
+
+--jw2Y2pYWLtcvlWMC--
 
