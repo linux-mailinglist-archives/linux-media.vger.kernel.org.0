@@ -1,138 +1,136 @@
-Return-Path: <linux-media+bounces-13955-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13956-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45AA69128FA
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 17:09:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E26912C44
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 19:12:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7914A1C260A0
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 15:09:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06C471F21944
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 17:12:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5DD55769;
-	Fri, 21 Jun 2024 15:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3C7168494;
+	Fri, 21 Jun 2024 17:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SpOHQkCR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YNanM4eJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612FB54FB5
-	for <linux-media@vger.kernel.org>; Fri, 21 Jun 2024 15:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF9515FD01;
+	Fri, 21 Jun 2024 17:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718982546; cv=none; b=ZnXrLMd/Ef80tg1tSIWF01veWqcPlO4XzicPDAps6PIffD3xIwvzF7Ba5ixTchfT1MIYZPjLpgp10H2jgxsfXzm3B1dJdEg82b2bp4PI1Gl1RkAvFB6SXMuBITuD18PV4WiKDiqQLr6mEv0xHthTd4UaHeZSmevtFSAnK/BIC4U=
+	t=1718989934; cv=none; b=szYd5LP7FPjK5/h+gx54KDCGFUKu3k6qPjj4oIP8nwu5MlZi6tMowRrAlJY14gR83EDxvygo4KX1W/MGGXB/kA+d3ymBcFuXQyd/GxasNu+Tji2Wjq2mqk7jU6LEb9xkW54Rf+ZueM8njHHP1yOzxUqV2nA+Dkii44abWksB4CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718982546; c=relaxed/simple;
-	bh=5rAiojQsTigWicXmeRh0G3zeGjSh5M2Z4R9eMuRP03o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P2eMuistMpRT7iCxddbimlKbLlUK4cyeK20h9CNK3MoIU5iVUj/XuH6PnNAeK51W63N+92gQlCBZRyYBY8cGm7BCdgoLgsIZxpS3qSLgeGh9uxDUzZ+KfQfAQYygNMn8BqOfBGpRX+jdp+8oEujqa8hZ6b23z4sXILPJPj+f/vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SpOHQkCR; arc=none smtp.client-ip=209.85.221.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-35f06861ae6so1727211f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 21 Jun 2024 08:09:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718982542; x=1719587342; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=//HkFPNKhQCDrBklAqKNRQHsY6okQNFrsrBgpNJVhqs=;
-        b=SpOHQkCRR6j/MSHjaghFG7HDGcYrS+B4p+kYGw8Rg3BeZkIKbH6j5/bGCmrp0rQUO5
-         zdR+VqjpfrmBqKi6jJZuvRsJ5lrXuule5KFSn6rC5XIVdde2sh9cCMO05SwNnFnixOit
-         30P1Bn7dfb7rYW6GgH73waanBeQPmSVMqdRaJHK5Kh02vHuXh8g2y6AtCj2FtZocmIyE
-         qCfDQi8t/8EjJoxQ8E0vT8yyzLPVre+4ESxijWFBNB5MuODbqtlyGub649o0AxkGmEBN
-         UI8lWhXrymPFNXAvG60swIxBUl0HaA1M/yeNRAdZwpAjLBpUHPtI2eEetlpf/6K1S5Gx
-         phWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718982542; x=1719587342;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=//HkFPNKhQCDrBklAqKNRQHsY6okQNFrsrBgpNJVhqs=;
-        b=cz2vSMBbCBBB1q56pd9vxQ1mgVPuVL9B3usgW5vTl2dPZQ0LOH7+Vpn5+rpVYyeC7w
-         RqBOEFLOQXhtGMYzZMsk4iSB3TsUlJNzGonyeingEaS1xjRKNzfUmALBwdF47nVv94+n
-         CKx4QEKE/OIj0Be35DnGjj1j1P4iNrV9MU/tkv9Shr5wEBgcr6YFyOUsH9/kq5RUb8RX
-         Qa1eBYIyCWGMwT4ADRw5yRbL92psMqORKfhqjHFtrkvHSYXfPcZaivPAfA4wTIMmKsI0
-         /Fw95Rw/EQ+d/ETEg+v0vVOy5z5oxOCxxFB3wjLxg3AWtKg79iQBSPKY4PFfmbPBjKMr
-         sJWg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmsYxLC7JQ2dbmv43Zug5ajIPC6T3L9GMItgUzJqXXfhtikSUic/NfY5+YjEOUTnYWoIgDyx321m3RIuwKVXhgfT/bySAs4qYhmKg=
-X-Gm-Message-State: AOJu0Ywg3zjPJV1LQAoANFYHr08LdS7szHYIo/4waxkOYt49cotFWNY5
-	qyG5uBCeh/PMRGspZrqDS200fAOpaqFbtTkvqg5S6aVOd5zR+ekhvPEMSrveS90=
-X-Google-Smtp-Source: AGHT+IEGnNGgEhdZNo+A4PyZkLewBw+hk+J0cWFK1e7wUugiFCIuZNoRwrcESwM31W13TJnjrOc5VA==
-X-Received: by 2002:a5d:64c5:0:b0:363:7bbf:efcc with SMTP id ffacd0b85a97d-3637bbff072mr7044215f8f.62.1718982541786;
-        Fri, 21 Jun 2024 08:09:01 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3663a2f679bsm2001097f8f.81.2024.06.21.08.09.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jun 2024 08:09:01 -0700 (PDT)
-Message-ID: <b0785dc2-aa91-4b81-9d5b-f49bb1ab6fb6@linaro.org>
-Date: Fri, 21 Jun 2024 16:09:00 +0100
+	s=arc-20240116; t=1718989934; c=relaxed/simple;
+	bh=++1Bh6Bz4ld02gS+hABD4jUN+a0ZkMgvKtRMDgV/RNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KjPuh8oRGhHrfbWd/cEJywMUkyf0wcVmchOlRug4CcHr8euQCLpEgFRBMVnzUfA8r87PFRrA4aUX/zPynogi/Nb16hWbXJYRBxnFT4VoVpcrgXWLr1Q4+S9dk9jdBMdXSByHgsIfMm7JLU2gE07AKRnXBS8xA38Gp0IwMOnsM9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YNanM4eJ; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718989933; x=1750525933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=++1Bh6Bz4ld02gS+hABD4jUN+a0ZkMgvKtRMDgV/RNM=;
+  b=YNanM4eJnaKML3cxHZRljwgGvpa8H9+3M2N6l72yIlm+ndP/nsHsQWjw
+   7gdo4yNVcDRYphTk5nkKO3fcl/j9uaKoJuKR+VGGi7igSQpVJJwWNGTWH
+   +fe990r8E+wH8OlPRY++F4UMfw6JIUD7irJsh8v1t0U/JKD8ojIq0VAk4
+   slOy7UMmLF1s9+/U9L1A1Dmi1q6nDYeTsQPUlZ/bfod4t9X3+ZDQ66iT9
+   hNWN4NQWgA40hThiEJL59P/EssWA1ZihKNFBrF6vzwVW9CjslhotiJk25
+   Go7lWtak8fqOYjL5Cf83ye9iEC4TnVU5VcACoP8vuzaoc1Vn+YGaeZeFT
+   A==;
+X-CSE-ConnectionGUID: 8jYNiUh9QUOQUBuLNR9QpA==
+X-CSE-MsgGUID: fbAlKcMqR+S+ltv1QJmJ7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="26720321"
+X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
+   d="scan'208";a="26720321"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 10:12:12 -0700
+X-CSE-ConnectionGUID: gSt7STmmRS+chjK92N9MFw==
+X-CSE-MsgGUID: kvsIov8dRpW7ZBYGvSqVEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
+   d="scan'208";a="73858655"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 10:12:10 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 011D811F855;
+	Fri, 21 Jun 2024 20:12:08 +0300 (EEST)
+Date: Fri, 21 Jun 2024 17:12:07 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: dt-bindings: Add description of OmniVision
+ OG01A1B image sensor
+Message-ID: <ZnW0Z7miY7bWfC_B@kekkonen.localdomain>
+References: <20240620124745.1265011-1-vladimir.zapolskiy@linaro.org>
+ <20240620124745.1265011-2-vladimir.zapolskiy@linaro.org>
+ <e61b5066-c256-4ad6-93ea-cc10cdfafc31@kernel.org>
+ <ZnSLY4MFIwXE6Fj4@kekkonen.localdomain>
+ <9824cc10-ab59-4cac-9a88-a1f9bb84a1d5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/8] media: qcom: camss: Split testgen, RDI and RX for
- CSID 170
-To: kernel test robot <lkp@intel.com>,
- Gjorgji Rosikopulos <quic_grosikop@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, andersson@kernel.org, konrad.dybcio@linaro.org,
- mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
- quic_hariramp@quicinc.com
-References: <20240522154659.510-7-quic_grosikop@quicinc.com>
- <202405232059.8lLokYw2-lkp@intel.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <202405232059.8lLokYw2-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9824cc10-ab59-4cac-9a88-a1f9bb84a1d5@kernel.org>
 
-On 23/05/2024 13:59, kernel test robot wrote:
-> Hi Gjorgji,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on media-tree/master]
-> [also build test WARNING on linus/master next-20240523]
-> [cannot apply to v6.9]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:https://github.com/intel-lab-lkp/linux/commits/Gjorgji-Rosikopulos/media-qcom-camss-Add-per-sub-device-type-resources/20240522-235220
-> base:   git://linuxtv.org/media_tree.git master
-> patch link:https://lore.kernel.org/r/20240522154659.510-7-quic_grosikop%40quicinc.com
-> patch subject: [PATCH v4 6/8] media: qcom: camss: Split testgen, RDI and RX for CSID 170
-> config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240523/202405232059.8lLokYw2-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405232059.8lLokYw2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot<lkp@intel.com>
-> | Closes:https://lore.kernel.org/oe-kbuild-all/202405232059.8lLokYw2-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     drivers/media/platform/qcom/camss/camss-csid-gen2.c: In function '__csid_configure_rdi_stream':
->>> drivers/media/platform/qcom/camss/camss-csid-gen2.c:265:13: warning: variable 'phy_sel' set but not used [-Wunused-but-set-variable]
->       265 |         u32 phy_sel = 0;
->           |             ^~~~~~~
+Hi Krzysztof,
 
-Gjorgji.
+On Thu, Jun 20, 2024 at 10:28:03PM +0200, Krzysztof Kozlowski wrote:
+> On 20/06/2024 22:04, Sakari Ailus wrote:
+> > Hi Krzysztof,
+> > 
+> > On Thu, Jun 20, 2024 at 05:33:15PM +0200, Krzysztof Kozlowski wrote:
+> >> On 20/06/2024 14:47, Vladimir Zapolskiy wrote:
+> >>> +    properties:
+> >>> +      endpoint:
+> >>> +        $ref: /schemas/media/video-interfaces.yaml#
+> >>> +        unevaluatedProperties: false
+> >>> +
+> >>> +        properties:
+> >>> +          data-lanes:
+> >>> +            minItems: 1
+> >>> +            maxItems: 2
+> >>> +
+> >>> +          link-frequencies: true
+> >>
+> >> This should not be needed.
+> > 
+> > Why?
+> 
+> Because it is a no-op. Changes nothing, absolutely nothing. Property is
+> allowed from video-interfaces via unevaluatedProperties.
 
-This appears to be a dead variable now.
+Right, indeed.
 
-I don't see a need to respin this series but, could you send a 
-supplementary patch to fix this up ?
+This should be listeed as required instead.
 
----
-bod
+> 
+> > 
+> > Please see
+> > <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks>.
+> 
+> This doe snot cover empty link-frequencies or I could not spot what you
+> are referring to.
+> 
+> Unless you are suggesting that this should be fixed into proper
+> frequencies? Then yes, Ack. Keep it with proper values.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
