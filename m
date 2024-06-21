@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-13916-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13917-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A720912171
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 12:03:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B22FB912174
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 12:04:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1808B22C9E
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 10:03:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2CA31C21F1F
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 10:04:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 598B717106F;
-	Fri, 21 Jun 2024 10:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E29BB171074;
+	Fri, 21 Jun 2024 10:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hW/0/RDW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAZvG71n"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63FB17084B;
-	Fri, 21 Jun 2024 10:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEE216EB6D;
+	Fri, 21 Jun 2024 10:03:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718964193; cv=none; b=lQ4feOz+EDAUbnorKAY4JwxxG1DrK//BbZtIXj8ZYEoEewquk7vdBUSHzqPTycEMLkgvNl3iMIt21TnIqM/pglsLzImyFKxLo40pNrGlHJ3PMYuWFgefVyDnc6uxYYzhTMXmoWZnwDl0fRZqFHq7Ka85jB/naUEEUhWNJhr03XA=
+	t=1718964240; cv=none; b=dNo2X3vEy2PAFuCODf8EQjRFaiCEF61iE7Kh+Gw1cIiAmgUz8xRivaIx9NBugLEYC2sHbqsyBHVa2vH7tvbVfUNi/ZSd/JiRaUG274Q0iex3BF2fD/YscyrrVV9wWt+R8dMDl5niUkLkTxM2EXhJAOBz4KsfQG5avBMIg+hTpMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718964193; c=relaxed/simple;
-	bh=UjESiy1TNOzfLUh/8IPsnPa2pjqVOExKCEIHSFEL7WA=;
+	s=arc-20240116; t=1718964240; c=relaxed/simple;
+	bh=1uRydKMHp9Y9j3dEHrtvzyWwenFraiSt0EFvONHUVl8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PDVybq+aivIGEvA6dxR9m/eLqTxhpaa8zpZWOQr/y4j/B9odKbLWl8goK1Ato8CNkx7Wjj8gKZMPE41tIFDbYCH9RJfm8zh/TqtKIoxZPcRQT8wXpN2meMdXNMMRnjrSGFdE/+By8i2nXo00IFCbim8M85K7mWoxgZncQ4UJ6Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hW/0/RDW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE10C2BBFC;
-	Fri, 21 Jun 2024 10:03:07 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=sy/l6SQg7ao+WcB8RN1N71S22jypt5cSZZkNU32KhkFYPe4WNu9DdT7ZGXzQc7LX5CqIQ66+aiWFBcmI5cRwi5tptWp1L6etXDLEXd5YWCwOp5qUTcJRmYN8p2CF8VnMJbMDuBN6sRhWiH4Y/GYkpjOuMVYEUAfj/xntedL6WVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAZvG71n; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942DEC2BBFC;
+	Fri, 21 Jun 2024 10:03:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718964193;
-	bh=UjESiy1TNOzfLUh/8IPsnPa2pjqVOExKCEIHSFEL7WA=;
+	s=k20201202; t=1718964239;
+	bh=1uRydKMHp9Y9j3dEHrtvzyWwenFraiSt0EFvONHUVl8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hW/0/RDW7qJzBUei4YSNfcuyW2z9V5YmLEK8zzcN14grkf5scqrJPhF26yiynWNS/
-	 RkeldcSLzk7Oy9oRg6onnkK79A0dqgi26AH+DWuze8O2DjzdmEAcXupCqdL85ZbFR4
-	 Uj2mGziJXAKWfgkAxMC/OnMLotyJen8oi9TgKYOFxNaZe2rigxXuqNLAEUHuRWG9ws
-	 2ipIVERse6p8az2mRg20b+LxXeDXYD0ZWnPWEs1+B9mTq12RPfUFTu+tDO3Vy7UZpz
-	 AvEN//guCdqaZQG9eWkZTAln1+3o6Ht/p6b6zSaduamzN9iPMNdgdGfBlx2UIFuxJm
-	 ezovADbo6/YZw==
-Message-ID: <f835bd3c-82a7-4798-ac49-cf0d0014d70c@kernel.org>
-Date: Fri, 21 Jun 2024 12:03:05 +0200
+	b=iAZvG71nfHFPhkoD3LX5VmEj61bJqMMPi0Ko+VGXI978406wTOacYaVUq2FaLfJv3
+	 qn8SIc1jPE47zZhmGBBYmJJmlNFEb6jdkLITsntfsscyX98zT2monF2pBDE2ptIZVX
+	 eQKQjTfvMAKlqO3jZOs0MQkRZMARYPKckjeSS+AsMGXdnN9M3LpC08gpXXUHZxhl96
+	 wqsCE58UkZcSCJMASmnlBVNPIcvQStVWiLh3+UvBopQ47JkBLEf7QMAdIHWUUxw9jE
+	 FKCW8P4bpXslenvhzrmAMzZB1iHE/xMM8yZpSDG6zsgN5EYJwT95jwn2boDq4ugihE
+	 KIH3jLa0Cmcgw==
+Message-ID: <04ca2166-2eac-4e45-8809-0f93e8b9d832@kernel.org>
+Date: Fri, 21 Jun 2024 12:03:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] media: qcom: camss: Add CAMSS_SC7180 enum
+Subject: Re: [PATCH RFT 6/6] arm64: dts: qcom: sc7180: Add support for camss
+ subsys
 To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
  Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -62,7 +63,7 @@ To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240621-b4-sc7180-camss-v1-0-14937929f30e@gmail.com>
- <20240621-b4-sc7180-camss-v1-2-14937929f30e@gmail.com>
+ <20240621-b4-sc7180-camss-v1-6-14937929f30e@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,31 +109,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240621-b4-sc7180-camss-v1-2-14937929f30e@gmail.com>
+In-Reply-To: <20240621-b4-sc7180-camss-v1-6-14937929f30e@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 21/06/2024 11:40, George Chan via B4 Relay wrote:
 > From: George Chan <gchan9527@gmail.com>
 > 
-> Adds a CAMSS SoC identifier for the SC7180.
+> Introduce camss subsys support to sc7180 family soc.
 > 
 > Signed-off-by: George Chan <gchan9527@gmail.com>
 > ---
->  drivers/media/platform/qcom/camss/camss.h | 1 +
->  1 file changed, 1 insertion(+)
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 134 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 134 insertions(+)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-> index ac15fe23a702..5e750c481b74 100644
-> --- a/drivers/media/platform/qcom/camss/camss.h
-> +++ b/drivers/media/platform/qcom/camss/camss.h
-> @@ -76,6 +76,7 @@ enum camss_version {
->  	CAMSS_8x96,
->  	CAMSS_660,
->  	CAMSS_845,
-> +	CAMSS_7180,
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index b5ebf8980325..6ed4caafbe98 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -5,6 +5,7 @@
+>   * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
+>   */
+>  
+> +#include <dt-bindings/clock/qcom,camcc-sc7180.h>
+>  #include <dt-bindings/clock/qcom,dispcc-sc7180.h>
+>  #include <dt-bindings/clock/qcom,gcc-sc7180.h>
+>  #include <dt-bindings/clock/qcom,gpucc-sc7180.h>
+> @@ -3150,6 +3151,139 @@ camnoc_virt: interconnect@ac00000 {
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+> +		camss: camss@acb3000 {
+> +			compatible = "qcom,sc7180-camss";
+> +
+> +			reg = <0 0x0acb3000 0 0x1000>,
+> +				<0 0x0acba000 0 0x1000>,
 
-This patch on its own makes no sense. Squash it with patch adding 7180.
+All this looks misaligned.
+
+
 
 Best regards,
 Krzysztof
