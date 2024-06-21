@@ -1,100 +1,110 @@
-Return-Path: <linux-media+bounces-13878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13879-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997D4911820
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 03:42:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C174E911833
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 03:51:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A5501C2152C
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 01:42:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C3E92843AC
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 01:51:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A4AC8287E;
-	Fri, 21 Jun 2024 01:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12358287E;
+	Fri, 21 Jun 2024 01:51:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9502F2F;
-	Fri, 21 Jun 2024 01:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5FB3EA6C
+	for <linux-media@vger.kernel.org>; Fri, 21 Jun 2024 01:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718934164; cv=none; b=HulN/HZrdI/TGsP3SzEC5SY9jDmyjHntBO2hXpQcBx87FTsR/qUKHi6yGuFx0i20DRKcsuvOmp1YZjgdDgxhaaGFE1KYpNnURuUwT+yTPqiX6pXSjoWQ/c8nCMpagTFsYJIczojn7tXzilryaNdi7gSE1FaO7xkqziRIM8h/ww0=
+	t=1718934667; cv=none; b=ry7Hje6f7y/9ZuOAhVkQRhvfWlB/BkXg6XFOb9rzBVBN8+SBSc2lTrk3AjpHwUxx7JpBkr6s+nygvc4GRAb3JXpwiU6r3WegRHx75jMSKK+E1ObGEIvO6CqXWcxjpTbvMiylY+QV+0WoZJuuA7ZcG8rySd920bLUeje2bTQA2ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718934164; c=relaxed/simple;
-	bh=DZEVQTJMhVQBoUZ4+jSBDdNj0mLZGNkY2CZLSefgrho=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ENmxv/2GtP3IF9mWAUg9gWNPFiqqlFKJvWy1v3KLcMG0tJbDZT1ye2gywoYwxmUxCXL+4Jilpi4o7EQPnKIdXp2VxH4l92T+LwCEq4imvYhF10sopnyX6qWSjkZ7N9W4EHBJXBlvKJRsHmZlpjLFyPYNvSeSrZDqI+/rn3G45ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowAD355g72XRmjgneCw--.1501S2;
-	Fri, 21 Jun 2024 09:37:00 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: rfoss@kernel.org,
-	todor.too@gmail.com,
-	bryan.odonoghue@linaro.org,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] media: qcom: camss: Add check for v4l2_fwnode_endpoint_parse
-Date: Fri, 21 Jun 2024 09:35:22 +0800
-Message-Id: <20240621013522.1704762-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1718934667; c=relaxed/simple;
+	bh=THha77xF6dVVtTMiqCsBsiLVzVMMgpMu4vxeJnw6LDU=;
+	h=Date:From:To:Subject:Message-Id; b=Q9zR2cAW3Jme1MMxWXhTh+uFwN4D6OrpNCp+bgr6e3p9UVZhaDZTnR5Inz75Z2bmYN+x2pwpptE03CbKs36BYS1ALWF14X7tfC5TSq30oInTeZQxbQ/rWtTmthHArjzIEdC0bGJpiMsjKfXnj3h5qN/CSLiZKRYQ9IStvtpqONI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC352C2BD10
+	for <linux-media@vger.kernel.org>; Fri, 21 Jun 2024 01:51:06 +0000 (UTC)
+Date: Fri, 21 Jun 2024 03:51:04 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240621015106.AC352C2BD10@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAD355g72XRmjgneCw--.1501S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFy3KrWfZw4UurW3uryfJFb_yoWDGFX_GF
-	W8ZFZ3WFy8Gr1kGr4jy34SkryUt3ykuF109F4aqFy3ta1DCas7JrWvvr1DXryxuFyqvF1D
-	G34qvr9xC3srCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbc8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
-	0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVWk
-	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
-	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
-	cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUOMKZDUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-Add check for the return value of v4l2_fwnode_endpoint_parse() and
-return the error if it fails in order to catch the error.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/media/platform/qcom/camss/camss.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 1923615f0eea..c90a28fa8891 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1406,8 +1406,11 @@ static int camss_of_parse_endpoint_node(struct device *dev,
- 	struct v4l2_mbus_config_mipi_csi2 *mipi_csi2;
- 	struct v4l2_fwnode_endpoint vep = { { 0 } };
- 	unsigned int i;
-+	int ret;
- 
--	v4l2_fwnode_endpoint_parse(of_fwnode_handle(node), &vep);
-+	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(node), &vep);
-+	if (ret)
-+		return ret;
- 
- 	csd->interface.csiphy_id = vep.base.port;
- 
--- 
-2.25.1
+date:			Fri Jun 21 03:00:17 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	7fc65b78b465b8511a503491e7c3116d46dc6c72
+v4l-utils git hash:	9b1ffffaa7408c1a4e55c2f375c66ad9a0cf16c4
+edid-decode git hash:	5d66c548e93acac1ab09675aa424912a4be879a8
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8660-g2dd6476c
+sparse version:		v0.5.0-8660-g2dd6476c
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: be24540c169ec3016775f81d1a36b4133e96c7df
+host hardware:		x86_64
+host os:		6.5.0-35-generic
 
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-of.config: OK
+no-acpi.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: WARNINGS:
+
+drivers/media/usb/b2c2/flexcop-usb.c:199 flexcop_usb_memory_req() warn: iterator 'i' not incremented
+drivers/media/platform/renesas/vsp1/vsp1_histo.c:153 histo_stop_streaming() warn: mixing irqsave and irq
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Fri Jun 21 03:14:05 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+
+date:			Fri Jun 21 03:50:03 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
