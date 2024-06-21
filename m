@@ -1,124 +1,110 @@
-Return-Path: <linux-media+bounces-13901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13902-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C747911E7C
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 10:21:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFA7911F62
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 10:53:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D2D51C216DA
-	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 08:21:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A6221C22796
+	for <lists+linux-media@lfdr.de>; Fri, 21 Jun 2024 08:53:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0E5A16D4D0;
-	Fri, 21 Jun 2024 08:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE6816DEA8;
+	Fri, 21 Jun 2024 08:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VZFGUieu"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZaUs2T40"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D84155C82;
-	Fri, 21 Jun 2024 08:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F3B16D9D9;
+	Fri, 21 Jun 2024 08:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718958081; cv=none; b=uvR69YPPPOthDPfPWxtY+NiN/Bj6sxTf/wqtojvFGN1tvUSgwnuhZnG9rDXU9iMVbJ9FyMOnS5+ibEX5C7y5XQNribDwRf9xLmqhdi+8pimTsWaQVUTgdUP6uLRHWVc72U6PYhe7EQgD+LBE2e8hvZwnS5UHT3I8vxvt+hTyOdU=
+	t=1718959956; cv=none; b=VYhrKAtLV61m9VEnA8AEtHTldLnUUNYw+NbgaOocUOE+Mbm/FB3Dh3tNChsKwPeh0M67Rk9Nk86s04gwnXj8KJCwNNrEsawV/Wo39FlpDc6iz5PHv/I9ywunKbXvU4M76gix+1KleVTZQoLpTFOoYQQg+jYY/EePwB5WSH5mVLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718958081; c=relaxed/simple;
-	bh=QMtf0T6uDNCP6ThgxIUGFi47LfMO2/ulDirJ4mXjisY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UHkfZjYs+MKj7nwMqD2vGeW2c3pbILR8EAr3bE83VLXzpSd9z6/XdkVyHOjTDvDFI5UfFi1wVCp33Dtf6Qgtl4mFl67nKMjqUIDrVNfoZ/KppQ8QlxYiFOkQaXIiF3LKApsfB6MJfTKUavDgkslqkflDjjai0sk63OaAxIRFl8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VZFGUieu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9536C4AF08;
-	Fri, 21 Jun 2024 08:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718958080;
-	bh=QMtf0T6uDNCP6ThgxIUGFi47LfMO2/ulDirJ4mXjisY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VZFGUieuixjnwWRarKrkMmWzTsHwOPQHkDnxJwsAOSI5Jhnj99ryVH33FrLocz8Vn
-	 ajhhezpNAxlr4qrsLKoW8egu3wGklMisIPIGR7fvy4gfhGh2kxFSubfki8EmLTGeqC
-	 FyNF6c+n9pHbcHgwI9omP7yG8Dbu5r7NL+bHQnZpXGWmAiNXQIhI61MO4uI4v+LAfB
-	 xgTleMqki5tjcafqHOsHci8B6Shewb4T8SEsWCMvgeQoX2/IGg/+pD/hxyZbRFdj/5
-	 60fqXFWW8FllRMXbMhWzg2/S3kF8EDze2ZQgoDbnj5FdlGcCcVmJHaUnZsK3Nklji7
-	 ujcmBQOVYa8Nw==
-Date: Fri, 21 Jun 2024 09:21:14 +0100
-From: Lee Jones <lee@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: lkp@intel.com, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Vinod Koul <vkoul@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [RFC] Patch review challenges
-Message-ID: <20240621082114.GH1318296@google.com>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
- <ZnRUSaHJhz7XLcKa@matsya>
- <20240620170522.GU3029315@google.com>
- <ZnUnFeum1Z2ahm9M@matsya>
- <ebddd644-b9b1-4a87-a2e7-dcf255f4184d@web.de>
- <20240621075123.GG1318296@google.com>
- <302ce128-a0ef-41b4-9808-210a83bc6a48@web.de>
+	s=arc-20240116; t=1718959956; c=relaxed/simple;
+	bh=XUPgZRc7Ta7oH6EIynHqMqYwufey9HztEnlLZxu2Awg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FV4aTRppspwnPSC6rbvce4coCSFEFRuNcML5aQhi/lTJ2siqYwG65LtF8xU6kzYCMdcb+1VwL/6Uzz8mAohIcP0MuTehFM1t8wMKudu7zb917T7E2uaWlE8sbXmlsdXc7z/R7oNYjmeSVPyNzs1yVR2oGuLmOdwhAi9YNTTSlp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZaUs2T40; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45L8qCKE118153;
+	Fri, 21 Jun 2024 03:52:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1718959932;
+	bh=rN5v7uY3PMeSoDtnJhh+lfEw9upw15azmYDqHH25tlc=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=ZaUs2T40xblbdrl2+6VOwYPMZQ0ZarbL+O6qzXg//4X2m6ywSlP4KSHght68NyFku
+	 eUW1My81+ynUel0VYiAnq0Ew8+8gZoAPu1Z81IDzEqZ9/ccHtvLa7iAOAx+aRRaMPc
+	 yy1vkcXIx720cC6GCR1Ki3SzUbf4THQgyy0pnQ2w=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45L8qCJJ066492
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 21 Jun 2024 03:52:12 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 21
+ Jun 2024 03:52:11 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 21 Jun 2024 03:52:11 -0500
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be forged))
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45L8q6BR044615;
+	Fri, 21 Jun 2024 03:52:06 -0500
+Message-ID: <02462e7e-bd55-2374-10e2-240e9d94c5db@ti.com>
+Date: Fri, 21 Jun 2024 14:22:05 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <302ce128-a0ef-41b4-9808-210a83bc6a48@web.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v13 03/13] media: v4l2-jpeg: Export reference quantization
+ and huffman tables
+Content-Language: en-US
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
+        Markus Elfring
+	<Markus.Elfring@web.de>
+References: <20240607131900.3535250-1-devarsht@ti.com>
+ <20240607132831.3551333-1-devarsht@ti.com>
+ <59866428-342b-4ba4-a7c7-2df1477aa7e6@xs4all.nl>
+ <e948cea7-d5c7-a7e6-d921-ad7c2f93cd5a@ti.com>
+ <904289bb-96a0-4a0d-9046-96acd8843b98@xs4all.nl>
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <904289bb-96a0-4a0d-9046-96acd8843b98@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Fri, 21 Jun 2024, Markus Elfring wrote:
+Hi Sebastian,
 
-> > The issue is one of communication and the way reviews are conducted.
-> >
-> > Reviewing other people's work is challenging and requires a certain
-> > skill-set, of which _excellent_ communication skills are non-negotiable.
+On 20/06/24 12:32, Hans Verkuil wrote:
+> On 19/06/2024 16:19, Devarsh Thakkar wrote:
+[..]
+> I've reviewed v14 3/6, so Sebastian when Sebastian posts a new PR I can process
+> it.
 > 
-> Patch feedback and change tolerance can vary also according to involved communities.
-
-Agreed.
-
-For this community, I suggest you build your skills for a while longer.
-
-> > Why not concentrate on more complex submissions for a while and grow
-> > your repertoire of common review points,
+> Ignore any reviews by Markus Elfring, he's a troll.
 > 
-> Further collateral evolution can be considered there depending on
-> corresponding development resources.
-> 
-> > rather than repeating the same few over and over?
-> 
-> Some factors are probably known also according to corresponding statistics.
-> Several contributors are stumbling on recurring improvement possibilities
-> in published information.
 
-Right, this will always be true, however the few you've picked up on
-are not important enough to keep reiterating.  By doing so, you're
-receiving undesirable attention.
+Just wanted to check if we are good w.r.t V14 [1] and it's possible for you to
+create a PR with V14 as discussed above?
 
-> > Reading other, more experienced maintainer's reviews would also be a good use
-> > of your time.
-> 
-> I am trying to influence adjustments in desirable directions for a while.
+[1]: https://lore.kernel.org/all/20240618193651.2771478-1-devarsht@ti.com/
 
-Never stop trying to improve.
-
-
-These are only my opinions of course.  Take the advice or leave it.
-
-There's no need to reply to this.
-
--- 
-Lee Jones [李琼斯]
+Regards
+Devarsh
 
