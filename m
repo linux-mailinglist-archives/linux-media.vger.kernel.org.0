@@ -1,168 +1,122 @@
-Return-Path: <linux-media+bounces-13965-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13966-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95571913350
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 13:20:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AC3913409
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 14:49:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 244C31F2320D
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 11:20:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B052B210B4
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 12:49:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF0E315442A;
-	Sat, 22 Jun 2024 11:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16B1616EB6F;
+	Sat, 22 Jun 2024 12:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r2VL2iC0"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MuMWq+Td"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD49F14D6E0
-	for <linux-media@vger.kernel.org>; Sat, 22 Jun 2024 11:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9CE15217E
+	for <linux-media@vger.kernel.org>; Sat, 22 Jun 2024 12:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719055242; cv=none; b=LekPAAf4JHd1f22j0EBgNmCBhjrsjchxu0tih5FnZa7HnbMp7wjXCsNUyQrS7NAUQP0465MkN1x2QdNKezVTYzmKBHHdkQg6WT8p8guKAADmfPyy6yj1hcducqLrdwwn7AAAUnGHM7WYzY4sdbEwwRMT/iHLcQNwsVLumqBnnBE=
+	t=1719060563; cv=none; b=H7NcTp+UP+T9wWL3TNzdIxzmJB4EFItepUGfMrje1EEVafG1SXcD+IiOlJSmZ5IgdhBjAm3Q2kvmHba5ngDlBCO0zVloov0wl05gj3Y6B799LHb4E1kqAwQSRMPvjVvw4NhXKUfqP1HrbdTX1rbSt09XEX8pJkzZg7F/hHHwk3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719055242; c=relaxed/simple;
-	bh=6OweLc4eBvs/JJvGZrwlp8hNSSJPNRIvBHl6/QSlhA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UAJo3DqJjzPOXcEh8f2OaaNONDhYZitnoXTruVVOM5JJGgAE6bWvaPwKD3zu8Bf9ilK/wVOFaan6GP2fpvWdm8o2mUD4+sV3iYwK3RMdqDXsKVLKKRkZVKKXktPQbwfCBqg/dJxxzECbu1mcR/zN30edqM1hkB6/iY1Bvt7NA/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r2VL2iC0; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6fe118805dso46729966b.3
-        for <linux-media@vger.kernel.org>; Sat, 22 Jun 2024 04:20:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719055238; x=1719660038; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=72431nl2SzDcS3jDBD6K/aeYHATt9J2PsD5YXQmzkR8=;
-        b=r2VL2iC0f1dR8gNn5BuQBo+5g1eXLevTV9msSsayXkxRezFx4VNqEqKNjLtiHGpyvu
-         AmTTFKCgvCn5V9MHIP1PmabX0HhbtO63oMzWYQ5VYkHK/AJcbsCdJo0GPwxujPe1m4xB
-         oTK+HEN2laicocILNjga2rRxFPLTiFzDOTpHA0d3AoyqsXxM39raj33tIHGvvnNpVHj+
-         Jbg7X0RTvRVJoLI7uUiUmpuvuCpgkd+gPuobi9hCMBqPw2K0AUOMKkIH/Y7i/OZdxqik
-         nhxKe9/t7s6prPmCF2D7d/qucxZ2B90CKsRB50ifhLZjiJ1N9nr7FfLzP2oH66VNc+FP
-         xyQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719055238; x=1719660038;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=72431nl2SzDcS3jDBD6K/aeYHATt9J2PsD5YXQmzkR8=;
-        b=XAlOizRZqBjqz9HEvlJkws1eQ3X/+guT43L8ti03kD2PDH29vyfyB+MpqUfHGlttB0
-         pd8j8HcEC51j5RPhDGJJJtnc+SWCLhx3glcpHUYDvpNp4Cq4cd6KxbHlSfFLWn6aVYKV
-         3lu+cQpeTTZPliHy2EKEsMy721HochoU6PnZSQShulkaM1kraMYGznawhacXJiaKx5gP
-         4R2Qt/TX+NWST2KOzUr4cfy50O2LDG3Hv+ZWdb2GORtLmNOr6NrLkxMJEdbh9xQIbIp9
-         Q2Wu4iY42gE8iNmE6QQmiASlZdilKTeXeQqcLcKV5UZLoUS0bsYBN1EgtzIzNi3a5sQb
-         rTLQ==
-X-Gm-Message-State: AOJu0Yz/6hBr0/y6ARgK58tA8X0VC2Uf48/NxT1wPMP3KwTHZclmKgyd
-	UT4XefG/nnSHvwjUeCJPTG0poqsXmSiZgyJ53KEOqcVaSC/sy+wMyRPrpEtez1o=
-X-Google-Smtp-Source: AGHT+IFnkN8a7raSH73gXKwC6s4jpempe+oDE2AIgwSkj4jFfdgTskKwT+iexeGZeZ0CFWRMPu9nPA==
-X-Received: by 2002:a17:906:2e94:b0:a6f:e47d:a965 with SMTP id a640c23a62f3a-a6fe47dab12mr62240466b.41.1719055237199;
-        Sat, 22 Jun 2024 04:20:37 -0700 (PDT)
-Received: from [192.168.128.35] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf428b15sm184204966b.9.2024.06.22.04.20.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Jun 2024 04:20:36 -0700 (PDT)
-Message-ID: <b9deca88-8e1a-4017-a0fc-6a77672d684d@linaro.org>
-Date: Sat, 22 Jun 2024 13:20:34 +0200
+	s=arc-20240116; t=1719060563; c=relaxed/simple;
+	bh=yVaz8YkYuJdwqelrnG7+gZaR+ik/Hx9ape+zXJQkwRM=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dOqPAy2je0iuJQbz7nMf4uJI1qm8lpYkKgdG/Zu59ig41nRr5GOO1cw6GpYzNRfc6SUGiZmieRG0wODej0g5mR7YuKJ7HUwwSVXlZO36QdgSV0TMnTHOT8y8BeV4r3Y7rkZJdDT1jHa/uB4dRw2wxA/Xzk9Uehu50SZ6+5BKmmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MuMWq+Td; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1719060560;
+	bh=yVaz8YkYuJdwqelrnG7+gZaR+ik/Hx9ape+zXJQkwRM=;
+	h=Date:From:To:Subject:From;
+	b=MuMWq+Tdrh0tql/TBMPB6miKhRXUFYBd1d7AZxvVoLHN5KogJhtPe4IGva6hrUZVF
+	 4ZhHNzo12SpdAAwzMmfef3WsSDauoDg1I22lNKho9vF/L6AiJpIUxkSBDy/8EHg5Al
+	 GakpjjfoDZmJrF68WKS6l86jdVeOQxUQShS9Gf0foNwcHqma3gSukRK9dFi4ExxbOi
+	 XaKt7/EgI6f08V+dgzdlA2CBc5BwFY6ERz86J5LjxyPrYIOgLcf4x9He83VprnYzlL
+	 2K01BLv5iYb4bUB7zrwSS3QIUE1UbybgbraPTzNsZlFTiL4pGvbDlMJNbLjdBpl02r
+	 QlVEXp0VdI6YQ==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C924C3782163
+	for <linux-media@vger.kernel.org>; Sat, 22 Jun 2024 12:49:19 +0000 (UTC)
+Date: Sat, 22 Jun 2024 14:49:18 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.11] Imagination E5010 JPEG encoder
+Message-ID: <20240622124918.nmgqehtrunci4i6s@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.2.2
- two-phase MIPI CSI-2 DPHY init
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, gchan9527@gmail.com,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- Bjorn Andersson <andersson@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240621-b4-sc7180-camss-v1-0-14937929f30e@gmail.com>
- <20240621-b4-sc7180-camss-v1-3-14937929f30e@gmail.com>
- <cd9b5612-1160-4284-be7f-4efbcbbbe346@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <cd9b5612-1160-4284-be7f-4efbcbbbe346@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 
-On 21.06.2024 1:25 PM, Bryan O'Donoghue wrote:
-> On 21/06/2024 10:40, George Chan via B4 Relay wrote:
->> From: George Chan <gchan9527@gmail.com>
->>
->> Add a PHY configuration sequence for the sc7180 which uses a Qualcomm
->> Gen 2 version 1.2.2 CSI-2 PHY.
->>
->> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
->> mode. This configuration supports two-phase D-PHY mode.
->>
->> Signed-off-by: George Chan <gchan9527@gmail.com>
->> ---
->>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 120 +++++++++++++++++++++
->>   1 file changed, 120 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> index df7e93a5a4f6..181bb7f7c300 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> @@ -348,6 +348,121 @@ csiphy_reg_t lane_regs_sm8250[5][20] = {
->>       },
->>   };
->>   +/* GEN2 1.2.2 2PH */
-> 
-> This is the init sequence for 1_2_1 not 1_2_2
-> 
-> https://review.lineageos.org/c/LineageOS/android_kernel_xiaomi_sm8250/+/311931/10/techpack/camera/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_2_1_hwreg.h
-> 
-> https://review.lineageos.org/c/LineageOS/android_kernel_xiaomi_sm8250/+/311931/10/techpack/camera/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_2_2_hwreg.h
+Hey Hans & Mauro,
 
-FWIW 1.2.2 seems to be the desired one: [1]
+please pull.
 
-Konrad
+The following changes since commit 6aa082910445aec6b1dc652a69c5178a555d8ca5:
 
-[1] https://git.codelinaro.org/clo/la/kernel/msm-4.14/-/blob/UC.UM.1.0.r1-02500-sa8155.0/arch/arm64/boot/dts/qcom/atoll-camera.dtsi#L22
+   media: chips-media: wave5: support Wave515 decoder (2024-06-21 10:15:21 +0200)
+
+are available in the Git repository at:
+
+   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.11-e5010-jpeg-encoder_2
+
+for you to fetch changes up to 0f32af528cb0971a2917c0fe16a58fc672dde904:
+
+   media: verisilicon : Use exported tables from v4l2-jpeg for hantro codec (2024-06-22 10:53:59 +0200)
+
+----------------------------------------------------------------
+E5010 JPEG encoder
+
+----------------------------------------------------------------
+Devarsh Thakkar (6):
+       media: dt-bindings: Add Imagination E5010 JPEG Encoder
+       media: imagination: Add E5010 JPEG Encoder driver
+       media: v4l2-jpeg: Export reference quantization and huffman tables
+       media: Documentation: Document v4l2-jpeg helper functions
+       media: imagination: Use exported tables from v4l2-jpeg core
+       media: verisilicon : Use exported tables from v4l2-jpeg for hantro codec
+
+  .../bindings/media/img,e5010-jpeg-enc.yaml         |   75 +
+  Documentation/driver-api/media/v4l2-core.rst       |    1 +
+  Documentation/driver-api/media/v4l2-jpeg.rst       |   10 +
+  MAINTAINERS                                        |    7 +
+  drivers/media/platform/Kconfig                     |    1 +
+  drivers/media/platform/Makefile                    |    1 +
+  drivers/media/platform/imagination/Kconfig         |   13 +
+  drivers/media/platform/imagination/Makefile        |    3 +
+  .../media/platform/imagination/e5010-core-regs.h   |  585 +++++++
+  .../media/platform/imagination/e5010-jpeg-enc-hw.c |  267 ++++
+  .../media/platform/imagination/e5010-jpeg-enc-hw.h |   42 +
+  .../media/platform/imagination/e5010-jpeg-enc.c    | 1632 ++++++++++++++++++++
+  .../media/platform/imagination/e5010-jpeg-enc.h    |  168 ++
+  .../media/platform/imagination/e5010-mmu-regs.h    |  311 ++++
+  drivers/media/platform/verisilicon/Kconfig         |    1 +
+  drivers/media/platform/verisilicon/hantro_jpeg.c   |  129 +-
+  drivers/media/v4l2-core/v4l2-jpeg.c                |  116 ++
+  include/media/v4l2-jpeg.h                          |   32 +
+  18 files changed, 3278 insertions(+), 116 deletions(-)
+  create mode 100644 Documentation/devicetree/bindings/media/img,e5010-jpeg-enc.yaml
+  create mode 100644 Documentation/driver-api/media/v4l2-jpeg.rst
+  create mode 100644 drivers/media/platform/imagination/Kconfig
+  create mode 100644 drivers/media/platform/imagination/Makefile
+  create mode 100644 drivers/media/platform/imagination/e5010-core-regs.h
+  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.c
+  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc-hw.h
+  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.c
+  create mode 100644 drivers/media/platform/imagination/e5010-jpeg-enc.h
+  create mode 100644 drivers/media/platform/imagination/e5010-mmu-regs.h
 
