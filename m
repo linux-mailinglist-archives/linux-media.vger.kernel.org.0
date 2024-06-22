@@ -1,158 +1,162 @@
-Return-Path: <linux-media+bounces-13963-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13964-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0C59132FF
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 12:24:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE8491334A
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 13:18:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69C0C1C212CD
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 10:24:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 397CD1F22F4B
+	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 11:18:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C2414E2C2;
-	Sat, 22 Jun 2024 10:24:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FF4614D2B3;
+	Sat, 22 Jun 2024 11:18:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="QRazcajb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nN+a9oHT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED86114B947
-	for <linux-media@vger.kernel.org>; Sat, 22 Jun 2024 10:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C76314D70B
+	for <linux-media@vger.kernel.org>; Sat, 22 Jun 2024 11:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719051846; cv=none; b=aLRccEheiWuVkPgvaNyU1cNCCjRl13eIRsiIwLqQ8rqCwi5meUHD5vE12ZZr86h6vX3eJML0Jc/DpAQf9rucSgxZl83qak1mPP8wFLDNCqkfSVdwcO+TF07kmnFejXJb8W58rQF+gjwjyOdc1nukQW8DGhb6VIBWGElUCUVA3K8=
+	t=1719055091; cv=none; b=fw0elp+XI1c28B56VDhi/7GOSS8YiO4ZJ5QdH4skzJqZ7nhcIaeg+yMv1OdcaMEuPdAGd+BOSil0nl8q9Cg7AzOrwLYet2UBNbLzFWxu/sb/5Qut9ik/khYY2OLx8KEh+akU7lXnpMsmOekcGtOvIpprreQg8+Eewbo7svXSTdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719051846; c=relaxed/simple;
-	bh=vdrMTNC24Ig50fh59nR9fXg93EmS+Dr8E0a+ATsVKyk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FktMLN7O+08HU/NuW8wwSi/y63/YcEc5d2U4NE2I7E4n2UUrV/1ZWFsTqt8CTVatYCW0UigLc455OuaDNGgq2HF9qJn9dWw7DlRRVkn2HgNmCtkds+Nm0JwGWIRsRgAL46EBfoaornTq55JyfHUgJcaVlnro24mNvf44iLk8p0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=QRazcajb; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 85fd3e5a308111ef8da6557f11777fc4-20240622
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=0fzUt45MrMqbhQMl8Gn07LjHhsuv8Ddxhoxq1w6fqRU=;
-	b=QRazcajbTPBD1x4FVDPKYyi2DAL8zdfqbR747nGgSAIHn5DWCoH0WiuV1lESwrVX74Ol/irj+jPS7vRcMO5hZegT5A7tdJCLXTBHcNHQ9gKQli7ElyH7moygevxKrTFsJbiUv0dnaWj+xgd1uYEag0KPH1qwel64CXMKCiPeqEA=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.39,REQID:d0e99d37-c55d-4014-97cd-833ff700f68e,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:393d96e,CLOUDID:67216685-4f93-4875-95e7-8c66ea833d57,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 85fd3e5a308111ef8da6557f11777fc4-20240622
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
-	(envelope-from <irui.wang@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 2060078934; Sat, 22 Jun 2024 18:23:52 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 22 Jun 2024 18:23:50 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 22 Jun 2024 18:23:49 +0800
-From: Irui Wang <irui.wang@mediatek.com>
-To: <linux-firmware@kernel.org>
-CC: <linux-mediatek@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<irui.wang@mediatek.com>, <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH] linux-firmware: mediatek: Update MT8173 VPU firmware to v1.2.0
-Date: Sat, 22 Jun 2024 18:23:47 +0800
-Message-ID: <20240622102347.7004-2-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240622102347.7004-1-irui.wang@mediatek.com>
-References: <20240622102347.7004-1-irui.wang@mediatek.com>
+	s=arc-20240116; t=1719055091; c=relaxed/simple;
+	bh=OVGsGcULAd+tm0Vg7GHlWNp6LFLAHZM/qfneNJMZlxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SKaHumQpcF4PfG2caXdfOwwBan42MHKkLm1JCZoPoRkntrDZ36ZFu6LMSw/xP/xry3Bct5lYb6pRJ0R09LapkYXf/PvzCqnLLYJV/nqQ728i63g16o/wpsXUutS6ausz4Z3XKWHVnbQbxgnA4XsvTn9Hrl8prGW/UJ5jn6NQB28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nN+a9oHT; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57d044aa5beso3106551a12.2
+        for <linux-media@vger.kernel.org>; Sat, 22 Jun 2024 04:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719055088; x=1719659888; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=6gw8DfMPxQlCfKy+ZVvAQOOA7tVUV5IG3EFW3SPyUVE=;
+        b=nN+a9oHTofXVRBtSMd5Od6aVoUgcp/z/Sw2bjgqe9eWfygHP6Bsrl4Gak+wuFGE405
+         HL0/Fo5Bi6Q0icnGk/qodIChNTLzT2vpsFeuWfVjmonHhoRBhuHtEC8kXyAdRnLOEeej
+         iLrVfNWPkE14OFb7ct6xcnMAW3GRyMEAnj9yKbyg4Adkn7N1kBbo5vElIGtgc9UI+OZ/
+         3rGqPF9pCmIESgdaZS0lbIX8XycOxqnIfA0G4MB56ffuY0V0dj+KHKhfrOTw0KE90wGh
+         TvTFkJj9SWGpNT1Siv9izB+NNH6tO/OtITAwXO5U047zlmgvbZZmUP+gMImvKNA5Bi9U
+         077Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719055088; x=1719659888;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6gw8DfMPxQlCfKy+ZVvAQOOA7tVUV5IG3EFW3SPyUVE=;
+        b=W7X81PGR8ZlpQ4EFE6/ngTg7HO5wNFVBR2xwfJKbK/XB+5QHnfZgpqKL863VRvUeqO
+         E/MnWk+ecAiJ14/29ItsMDsEvHMRHTO69NtKUNwywG+eUbiitxeWqjsRenExQZ00jgOJ
+         o3f7suTPOl1tImwTdy8f8xRKe8oN7BWGhRrXm5wxQB5qDu6HEJG0UuebqUHJ4Xqbc85F
+         3kNc5qMpQ8zT0Vsbp6yxTvAmNPldT/tMdx0LAh6J4b2gur3HjPyOneIo9TQsOvoKPUoR
+         tqZUZl6l9xAh7d1r0ICvF2B0yUR8F6zmhe6rzZWxREPj5yEZpb6xdaPDtvk8dpEDPUv8
+         izKQ==
+X-Gm-Message-State: AOJu0Yy5mDBl+1mEhAEKxiry4qKdosQ/m3OgaZZr1kwCDC+BF519Xsq+
+	Kb9T7vDBE9fRRMRiwgdUngXug373sHI8Je8LCEEUGcKOBfNmQuVM6pUQl90hMMY=
+X-Google-Smtp-Source: AGHT+IEGl09yCfUVjE+wkwdBqE2TH1nQo3iaXzRoYMg4XBas3g3QfYdOFkUtr5VyAYAg0iHfHQmJtw==
+X-Received: by 2002:a50:d699:0:b0:579:ca97:da1b with SMTP id 4fb4d7f45d1cf-57d07e0d427mr6300172a12.6.1719055088268;
+        Sat, 22 Jun 2024 04:18:08 -0700 (PDT)
+Received: from [192.168.128.35] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d3048b93asm2253205a12.56.2024.06.22.04.18.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Jun 2024 04:18:07 -0700 (PDT)
+Message-ID: <3660e37e-2716-4d9f-a9cf-b69568d4e77c@linaro.org>
+Date: Sat, 22 Jun 2024 13:18:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--1.669000-8.000000
-X-TMASE-MatchedRID: wYKjk3ae4OLuHXE92Wk6HBn0UD4GU5IqSjyMfjCRfaPfUZT83lbkEDtJ
-	rqfEN3+5Z71U+LGak4oDsZVQkxRZovWzx4I556JgL9hNDj2bBwd9LQinZ4QefJOK2Na/r7MIF70
-	JBot7Y8/3FLeZXNZS4CiM3WUt6LtFp1ZPf4GFkIzfTc81a+kOdGBbFccaCtlC3vTPUohQJLlQOh
-	VbxuDcqo0sb82d9qK0E5gwvIyfLggxWfhuF2AQwQBKCPb31CFrHP4+GiOUtS56/Rg9M3zrxAGqr
-	7/5oYKxS7Rtx98AtcQ=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--1.669000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 6B481A3084A40AF9988749B39C7AA47F348243FDB4EEF4E2C507B6CD4BF03BE62000:8
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] media: qcom: camss: Add sc7180 resources
+To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ Bjorn Andersson <andersson@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240621-b4-sc7180-camss-v1-0-14937929f30e@gmail.com>
+ <20240621-b4-sc7180-camss-v1-5-14937929f30e@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
+ BB/OmIWU6X+LZW6P88ZmHe+KeyABLMP5s1tJNK1j4ntT7mECcWZDzafPWF4F6m4WJOG27kTJ
+ HGWdmtO+RvadOVi6CoUDqALsmfS3MUG5Pj2Ne9+0jRg4hEnB92AyF9rW2G3qisFcwPgvatt7
+ TXD5E38mLyOPOUyXNj9XpDbt1hNwKQfiidmPh5e7VNAWRnW1iCMMoKqzM1Anzq7e5Afyeifz
+ zRcQPLaqrPjnKqZGL2BKQSZDh6NkI5ZLRhhHQf61fkWcUpTp1oDC6jWVfT7hwRVIQLrrNj9G
+ MpPzrlN4YuAqKeIer1FMt8cq64ifgTzxHzXsMcUdclzq2LTk2RXaPl6Jg/IXWqUClJHbamSk
+ t1bfif3SnmhA6TiNvEpDKPiT3IDs42THU6ygslrBxyROQPWLI9IL1y8S6RtEh8H+NZQWZNzm
+ UQ3imZirlPjxZtvz1BtnnBWS06e7x/UEAguj7VHCuymVgpl2Za17d1jj81YN5Rp5L9GXxkV1
+ aUEwONM3eCI3qcYm5JNc5X+JthZOWsbIPSC1Rhxz3JmWIwP1udr5E3oNRe9u2LIEq+wH/toH
+ kpPDhTeMkvt4KfE5m5ercid9+ZXAqoaYLUL4HCEw+HW0DXcKDwARAQABzShLb25yYWQgRHli
+ Y2lvIDxrb25yYWQuZHliY2lvQGxpbmFyby5vcmc+wsGOBBMBCAA4FiEEU24if9oCL2zdAAQV
+ R4cBcg5dfFgFAmQ5bqwCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQR4cBcg5dfFjO
+ BQ//YQV6fkbqQCceYebGg6TiisWCy8LG77zV7DB0VMIWJv7Km7Sz0QQrHQVzhEr3trNenZrf
+ yy+o2tQOF2biICzbLM8oyQPY8B///KJTWI2khoB8IJSJq3kNG68NjPg2vkP6CMltC/X3ohAo
+ xL2UgwN5vj74QnlNneOjc0vGbtA7zURNhTz5P/YuTudCqcAbxJkbqZM4WymjQhe0XgwHLkiH
+ 5LHSZ31MRKp/+4Kqs4DTXMctc7vFhtUdmatAExDKw8oEz5NbskKbW+qHjW1XUcUIrxRr667V
+ GWH6MkVceT9ZBrtLoSzMLYaQXvi3sSAup0qiJiBYszc/VOu3RbIpNLRcXN3KYuxdQAptacTE
+ mA+5+4Y4DfC3rUSun+hWLDeac9z9jjHm5rE998OqZnOU9aztbd6zQG5VL6EKgsVXAZD4D3RP
+ x1NaAjdA3MD06eyvbOWiA5NSzIcC8UIQvgx09xm7dThCuQYJR4Yxjd+9JPJHI6apzNZpDGvQ
+ BBZzvwxV6L1CojUEpnilmMG1ZOTstktWpNzw3G2Gis0XihDUef0MWVsQYJAl0wfiv/0By+XK
+ mm2zRR+l/dnzxnlbgJ5pO0imC2w0TVxLkAp0eo0LHw619finad2u6UPQAkZ4oj++iIGrJkt5
+ Lkn2XgB+IW8ESflz6nDY3b5KQRF8Z6XLP0+IEdLOOARkOW7yEgorBgEEAZdVAQUBAQdAwmUx
+ xrbSCx2ksDxz7rFFGX1KmTkdRtcgC6F3NfuNYkYDAQgHwsF2BBgBCAAgFiEEU24if9oCL2zd
+ AAQVR4cBcg5dfFgFAmQ5bvICGwwACgkQR4cBcg5dfFju1Q//Xta1ShwL0MLSC1KL1lXGXeRM
+ 8arzfyiB5wJ9tb9U/nZvhhdfilEDLe0jKJY0RJErbdRHsalwQCrtq/1ewQpMpsRxXzAjgfRN
+ jc4tgxRWmI+aVTzSRpywNahzZBT695hMz81cVZJoZzaV0KaMTlSnBkrviPz1nIGHYCHJxF9r
+ cIu0GSIyUjZ/7xslxdvjpLth16H27JCWDzDqIQMtg61063gNyEyWgt1qRSaK14JIH/DoYRfn
+ jfFQSC8bffFjat7BQGFz4ZpRavkMUFuDirn5Tf28oc5ebe2cIHp4/kajTx/7JOxWZ80U70mA
+ cBgEeYSrYYnX+UJsSxpzLc/0sT1eRJDEhI4XIQM4ClIzpsCIN5HnVF76UQXh3a9zpwh3dk8i
+ bhN/URmCOTH+LHNJYN/MxY8wuukq877DWB7k86pBs5IDLAXmW8v3gIDWyIcgYqb2v8QO2Mqx
+ YMqL7UZxVLul4/JbllsQB8F/fNI8AfttmAQL9cwo6C8yDTXKdho920W4WUR9k8NT/OBqWSyk
+ bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
+ nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
+ izWDgYvmBE8=
+In-Reply-To: <20240621-b4-sc7180-camss-v1-5-14937929f30e@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-[h264 decoder]
-check if the h264 decoder instance allocation is successful before use.
+On 21.06.2024 11:40 AM, George Chan via B4 Relay wrote:
+> From: George Chan <gchan9527@gmail.com>
+> 
+> This commit describes the hardware layout for the sc7180 for the
+> following hardware blocks:
+> 
+> - 2 x VFE
+> - 1 x VFE Lite
+> - 2 x CSID
+> - 1 x CSID Lite
+> - 4 x CSI PHY
+> 
+> Signed-off-by: George Chan <gchan9527@gmail.com>
+> ---
 
-Release Version: 1.2.0
+[...]
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
- mediatek/mt8173/vpu_d.bin | Bin 2977184 -> 2977184 bytes
- mediatek/mt8173/vpu_p.bin | Bin 131380 -> 131380 bytes
- 2 files changed, 0 insertions(+), 0 deletions(-)
+>  		if (ret) {
+> -			dev_err(dev, "clock enable failed: %d\n", ret);
+> +			dev_err(dev, "clock enable failed: %s %d\n", clock[i].name, ret);
 
-diff --git a/mediatek/mt8173/vpu_d.bin b/mediatek/mt8173/vpu_d.bin
-index a9e832a1db1908a1b91da72cf64746d56283c4c9..20382f3f148c3db18e4184692620f6edb819053c 100644
-GIT binary patch
-delta 200
-zcmWN=w+R9P002PVH|Lyl&WIa)Z72Lh7Ovq4HsUZY;~m`V_X%FU?@@R?UmkJvjHAGW
-zp-EGw&6qW3-hxF-maSN|X5EHOTej`kwP)XfLr0FCICbXSg-chi-MDq<-h;<)9Gz~*
-EKf@6|9RL6T
+This is a good change, but should be separate
 
-delta 200
-zcmWN=w+R9P002PVH|Lyl&R}WzwVm)2S-6HH*oecpjCXLa-zRwazDMEZe0{{xGmZii
-zh9*s!He=SDc?%XTS+-);nspmCZP~VC*PeX`4jnmm;?$XQ7cO17cH`Eadk-GJadf&J
-E|H$7yB>(^b
 
-diff --git a/mediatek/mt8173/vpu_p.bin b/mediatek/mt8173/vpu_p.bin
-index d753236ec0791d8ba1ba16d01d0dacc64e6189b0..e5bbb7337f72df7c9647258aea47097da8a289c1 100644
-GIT binary patch
-delta 858
-zcmYL{eQZln7{<@jb=@hu?(VcxHtVb!BqS4p5KBdoQXgZ<_`_I4&G!}(5?`m?SbdW_
-zyNUQ`IJt(<Wwje5WJD?=F(26$5jLY)f@ETnu`j0xf4zB6&hxzQ?>Q$LqR|kI+;pSA
-zA>y8pDN38?%pKG>Z0?g`S4O1~=G$6(>B>BP>Iy5Zy&b$3Q&096nHJgAcz+&B)KLR#
-z5LC+twoJ0cc^7TvNBCuai!)~@uk?X9vs22B`KpJA+{*0|aD*#1)jT-GL}hi_U<oSK
-zbAz5kvzVj8-WrMV_MW(Vm_IO+<N!oguGC2&ah*9IcEveJ&TD3~(t_(To>5xV*r799
-z6K~=9_dI&3y0@;SZjdp>N;^0qN?FL4Jknx>r|<fhY9=yiTr8QUxWc(ad1a;+Lgawg
-zB{k_ujTXY3s(;Aq?cgk$LWYwz_i+DA{i46B+v@L~bbbkuH`R@nOr%`TZ7b4Cb(0X_
-z$$_lL1J3L+(!n>@W~3ghU8uJVW2E8f&;}rC<N^21uxZ`N@WG?aw&1SP1Bv?c^m%%L
-z{+lhLSyIraFhzRFKL|MCnm}e+I)zJ!W>B0Q*|SH_$U#}VZG|5AD>GUs3e1RT6D4d%
-z#Hf+53^Y?@%bbc?`#b`9|2kv5j7}3g22DqKlE~cHXUBUJyjrmXOTdh)4y+YIjgCPj
-zmH&89qk0S~fM(5+g$079I168ZLc^bpIcDtD!nr8NdhKT}#-i77xbVn|e&g+Aq_3)B
-zc!zGSoneE}dxJP2%pU~db2NYBfx-l3B|pnc3O$zJv{cqyA>6=j?L`Q4MM<kbD|Q=Q
-z75ECQHeMgbd=aRYU4`YscSjX69Eml*bA>YJOHO1Ei2flL!Ck1rPH{IijHzOHei(}s
-z!4yc$`k!u17*4TMV;G<CM!R?vKg5^|$It}4F^W%MsYx7PKZR$a>_3edY=-v?z9fx{
-oW=fqrCjMd%Kkf(VoB!P1ZDG^vb!7d0xRupdm&mxG8o_P902Cu8NB{r;
+Generally this looks quite in line with [1], although I wasn't able to find
+the matching clock rates
 
-delta 823
-zcmYLHTS!z<6g_Lajd!v;<F#>`%$!n&6bi-?3Mw1P9#d9Yf(Sh@YkJ$ApZqDfj)qhA
-zl52A%{800BlcWsIOBR$x_#=h+F%nUlW<n2&j3#__rlh_Wd$adid#!WY{d~KhZ@uHh
-zr?yt-k_8O<-B&tM)OKXtg7_|5ERj9O8m`~W($aHHe8c^+Tcygyi2}n<t1>d-f~d@!
-zEJU^9n>?DvjnGj(M1!=6-lMW(h*o$&97)mAc~8wWv4m*600gPXDcsaDL)fgWm?}bz
-za&^kRf4OWgj}Nti42%)W)6r%&Xss1*g2;|;IzkVvB#Uf^O?)>kYANU#)Vk;?CG(+d
-zb!)v;7WwAN<~Q=7)9(=_6F+M%A<=rEz4-kcj#x;?7QwizIN(**O&6|-A#!_64oG88
-z$Z5(+*RE~#eMR$!G@cMkpntwFNb@wGc1YuyE}oxB?3r{V^~OjfOFP)m_IkP)Xwu!l
-zBMw~92oGH979$>r!w~o!mzJgFX#lZ^^{Ooz<Dw)AeRP;cO#Ep}YBG-$wzQGQ#ks?!
-znr#uJ0c)=2omtaIc;s=YS62x*fqMOhfbHNDSQxTH98)LEaQ&<F3=4(~aOw6q_@Y>v
-zdR08$8IYlt*s&Fo-f71kKvL}qsNl_iIl_8V0?L8MYHA`jFf%2I_zYz0yOXe*!(p{H
-z89wByvs17Tqk3uzo|*7T|FRTuyQ=GBgEHP?Kpl`#%qX(UaE9?eDTBxU_&fFHM~qg`
-zYFd=<HvTajHmfOq+{OX*r5|e<#Fit31Nvw=z5$!{S7))FMXDxMVh7_bsf5iQx%3AW
-z!?L4~5(@}e{gjH5T33maY<5ln=}bH`fK6i9EO;YY{{s#N;9xg(1n?0(YU4TlVls8-
-z(FOGAdoN&{fwfyM;RS=!m(dMQ&%T1sQHz@v2t%}6lO1EUihYpr^}WuoMmgiIhQyh-
-P+gXEsk(k?RP<H$`@2?=S
+Konrad
 
--- 
-2.25.1
-
+[1] https://git.codelinaro.org/clo/la/kernel/msm-4.14/-/blob/UC.UM.1.0.r1-02500-sa8155.0/arch/arm64/boot/dts/qcom/atoll-camera.dtsi
 
