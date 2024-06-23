@@ -1,227 +1,186 @@
-Return-Path: <linux-media+bounces-13977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6CA913948
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 11:34:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7EB913984
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 12:23:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2E531C215A7
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 09:34:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E452EB21FEA
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 10:23:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D96D081AC7;
-	Sun, 23 Jun 2024 09:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B53F7E0F2;
+	Sun, 23 Jun 2024 10:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nvlk/TgM"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="cFt9unkR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9BF7D405;
-	Sun, 23 Jun 2024 09:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719135214; cv=none; b=rs9Crf7jcv0xhcZbozwRxkautisktSq024zPmyyqXq+DsUciarqiPd56OFlTHIwg4Olo+1j5UYXTFNQINtiPfiCHVat4kT38ZvBt+loQjr9zAmItmnE+fgP/ePoM1a1hj+GtpXk7LQFK68feuuMh2s6YORK+lqUYj/Jmozr3rX0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719135214; c=relaxed/simple;
-	bh=JdGQjQ8ugHuD7lfotcDPVss8wiDxrM/eB79Z6QArE3g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kvtGPI4lQ/sMbTpmoEe5DB+lCw2eLSTDZHdpgEoHWXmqWoTskIlSKmtLoYI7g0aSCg/HQI8Kf+ITUWXLEQNvLyRStCn+qKfZn0a9si2tuOW7hYYYcv0XoMH3Pc5I+kgZU5esrFM9YppKTN5HrfaiUAd0/S2Dyc69GSiPhbBSHRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nvlk/TgM; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2eaea28868dso43641301fa.3;
-        Sun, 23 Jun 2024 02:33:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719135210; x=1719740010; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AjZoaS2Am0A8j/9rhUaTOpBI3VQYzkae19fmYTVfhu4=;
-        b=Nvlk/TgMN120L24fIVIN2JwVg9B+QlbCMHJyaSJ2laoxL0gHKEpYW4zac1TJeCASmK
-         UoOBq0iTS845aeQRYf2NuSSo1Hb8+OjOAtdAmuZ+l1+7pw5ld2tTgqkGcE/F9LUW+tZC
-         cBUm6hldqlhC7KNUZb+RK7ZsaxDeHqiGG9t7SDqZHEDJvVFMYK5raMufJgoa2221tPQw
-         DtgMDILZO7uiS9dBqmJwY10Bxe7qdTUVMQCIR+Ta5Rv+Q49jykOxsyP//Bc80HP5w30h
-         Cl1hIrTNOM9wNZhlRkP1v6IqHOyxY//hlzqOCjh59IjBBA7llu2rhRFEsxACIdlHO5Yz
-         gc3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719135210; x=1719740010;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AjZoaS2Am0A8j/9rhUaTOpBI3VQYzkae19fmYTVfhu4=;
-        b=iwprEZyBAJ2xHZFsAVEzTDrK4KPAERH+VE5yA3UbF75e9DbpmzUnJkQY6roJYON3Io
-         +skYNmxRTL/46veNl8a/OfRsif1uOylEtvY6HSqBBljiZ9q8ASw8sX+Bscq5HRLSV63+
-         BsUObzfl9nH5CrKSGRdDfXql0T04DXBw9qyNu4hujuX00dMhK0LHAtd5oswqfPc3MwTh
-         X6CmATq3ln75sLbEkSl7kU3FZ2Ch7glQoAWjhASCfryNlQk5bf8vctc36rQxT5WiSmlO
-         BKaZZo+SOnp+Whbm2ZBVamsD/vEeBNXtV5K/8Z4T659QzQgLh9anqFuQ/aG6os0Ew0eL
-         eRrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXMK1/eMmKlmMR2yHOpfjjhNdbxMpj3fLmXHt27e0n7hN0fci2cYOVlB5NaNeS19RADai4lDsHW++Xigyox0eGM+ep3oaEHgeB/mJ8qcGGViMLdTQCe3EVgBw6OtEdM/k2CCaMzRCSWFJ/EPO6446JWCOMvJRvWZtCdKP/MG00301ZaTqhn
-X-Gm-Message-State: AOJu0YyPG3Bt+FiZRlvscPX09veJLyifjK52oCi46AhSxO1NSNxo2+Wl
-	pAKIcF2GeXs5GmIYnu/mIOjPhG3BAYRvlFd0Xx3jk19eVghcYbI=
-X-Google-Smtp-Source: AGHT+IH6KUI2bioFkoMZdiCXVbMS6OWNo1xhcCBiJkbNjUI36kuWQR3a8SDuPSHNgleWUhg85nvxmA==
-X-Received: by 2002:a2e:3518:0:b0:2ec:57b4:1c6f with SMTP id 38308e7fff4ca-2ec5b31d1a2mr12159971fa.34.1719135210188;
-        Sun, 23 Jun 2024 02:33:30 -0700 (PDT)
-Received: from ?IPV6:2a02:810b:f40:4600:ffa8:3dda:1e1c:17ff? ([2a02:810b:f40:4600:ffa8:3dda:1e1c:17ff])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a724adc5dd4sm48127666b.129.2024.06.23.02.33.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Jun 2024 02:33:29 -0700 (PDT)
-Message-ID: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
-Date: Sun, 23 Jun 2024 11:33:28 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C8863D
+	for <linux-media@vger.kernel.org>; Sun, 23 Jun 2024 10:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719138178; cv=pass; b=DiACDPPzqTLQPF+lj1qgkpLPHZUGVuaJshAYshiy2PBsf+HNilgxW78IzpCCU4sdJUQ9qigvhnMtaBpA5I/M7ZTVByjWBkRuZXIHjypZGyo9eeDuKV/qPR++FUW1AYJsD9sz0n4vv9+Kx49cqKfuVbf0aFCguWfQNjxXdDBDhe4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719138178; c=relaxed/simple;
+	bh=ijomAiHz3bFkAb8KYPsmyVKcHnhhf7dFaI1B24AXjTU=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gscpzY/qhTv8gxl+OjQtWSd5MDIdDSj4UxUqDM9ynzMBd39BFKGnCLenOtw3gol0nDuRL7MtnO1YQDbg2tUKfRs6Y9k+Q0K6ifg8+TpwNxLyybeq8AvX7bnplUbJI6cGoxJT5eTCkzf7s9v7AO+H65PCU7IuKZrnZ3R3ustjBTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=cFt9unkR; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4W6RxS47XRzySt
+	for <linux-media@vger.kernel.org>; Sun, 23 Jun 2024 13:22:52 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1719138172;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=DDutMOUpsMaLM4SfTCg9pcIJdbR2ZYGgP3fleCSrIDQ=;
+	b=cFt9unkRv5N+AlXUjeLurvFLR4uRjOZgpfetV2TU8QPVcTC5pFSWg2jqe0GMWwF54ZWQZ3
+	ikc8b7ASAKoWdCpu9rSqIVU0miRPZFGVJzCknnGK1LtJPmsuJT+b8EOMHDBUxPE/rVISfC
+	c5NB20lXkUEr7mjpCHP1B1eWsyHh8yA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1719138172;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=DDutMOUpsMaLM4SfTCg9pcIJdbR2ZYGgP3fleCSrIDQ=;
+	b=Qe51vem++3JckkSntGqsOzhYngFB5A0u+7XyNqUlXa4KuRDMRfY/VYAEpptbIPxjLgIpQw
+	stPf4pys9yEnjZr6BBXkii0wRpTSr0hGmhA7pi6Xcd1bwW41kL6EdJePlEN2NtLGnCRDkG
+	1utzZxi09rdDdk0dwixgom+tqTjMykY=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1719138172; a=rsa-sha256; cv=none;
+	b=uHy+m6oN561GYn4SWZbWczjMTIJU4bbZOdacyAE/DP24YcOg12g0TGAPB0tyD1f5igFWUF
+	uMD65vIcrezwDmM1kFgXUFFLFwXj7FxRgdJO/lgw0XDSV+rd/TolCCNzXPRlzqpBdF6PJ7
+	rTUxswMqVx2DVjogUKiQIyIMzpX0a3o=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 42ABD634C94
+	for <linux-media@vger.kernel.org>; Sun, 23 Jun 2024 13:22:50 +0300 (EEST)
+Date: Sun, 23 Jun 2024 10:22:50 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.11] New drivers
+Message-ID: <Znf3erGgLvqxG6Ug@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] media: rockchip: Introduce the rkvdec2 driver
-To: Detlev Casanova <detlev.casanova@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
- Andy Yan <andy.yan@rock-chips.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-References: <20240620142532.406564-1-detlev.casanova@collabora.com>
- <20240620142532.406564-3-detlev.casanova@collabora.com>
-Content-Language: en-US
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <20240620142532.406564-3-detlev.casanova@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Detlev,
+Hi Hans, Mauro,
 
-Am 20.06.24 um 16:19 schrieb Detlev Casanova:
-> This driver supports the second generation of the Rockchip Video
-> decoder, also known as vdpu34x.
-> It is currently only used on the RK3588(s) SoC.
->
-> There are 2 decoders on the RK3588 SoC that can work in pair to decode
-> 8K video at 30 FPS but currently, only using one core at a time is
-> supported.
->
-> Scheduling requests between the two cores will be implemented later.
->
-> The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
-> currently only supports H264.
->
-> The driver is based on rkvdec and they may share some code in the
-> future.
-> The decision to make a different driver is mainly because rkvdec2 has
-> more features and can work with multiple cores.
->
-> The registers are mapped in a struct in RAM using bitfields. It is IO
-> copied to the HW when all values are configured.
-> The decision to use such a struct instead of writing buffers one by one
-> is based on the following reasons:
->   - Rockchip cores are known to misbehave when registers are not written
->     in address order,
->   - Those cores also need the software to write all registers, even if
->     they are written their default values or are not related to the task
->     (this core will not start decoding some H264 frames if some VP9
->     registers are not written to 0)
->   - In the future, to support multiple cores, the scheduler could be
->     optimized by storing the precomputed registers values and copy them
->     to the HW as soos as a core becomes available.
->
-> This makes the code more readable and may bring performance improvements
-> in future features.
->
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->   drivers/staging/media/Kconfig                |    1 +
->   drivers/staging/media/Makefile               |    1 +
->   drivers/staging/media/rkvdec2/Kconfig        |   15 +
->   drivers/staging/media/rkvdec2/Makefile       |    3 +
->   drivers/staging/media/rkvdec2/TODO           |    9 +
->   drivers/staging/media/rkvdec2/rkvdec2-h264.c |  739 +++++++++++
->   drivers/staging/media/rkvdec2/rkvdec2-regs.h |  345 +++++
->   drivers/staging/media/rkvdec2/rkvdec2.c      | 1253 ++++++++++++++++++
->   drivers/staging/media/rkvdec2/rkvdec2.h      |  130 ++
->   9 files changed, 2496 insertions(+)
->   create mode 100644 drivers/staging/media/rkvdec2/Kconfig
->   create mode 100644 drivers/staging/media/rkvdec2/Makefile
->   create mode 100644 drivers/staging/media/rkvdec2/TODO
->   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
->   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
->   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
->   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
-...
-> +static inline void rkvdec2_memcpy_toio(void __iomem *dst, void *src, size_t len)
-> +{
-> +#ifdef CONFIG_ARM64
-> +	__iowrite32_copy(dst, src, len);
-> +#elif defined(CONFIG_ARM)
-I guess that can get an "#else" since memcpy_toio exists for all archs.
-> +	memcpy_toio(dst, src, len);
-> +#endif
-> +}
-> +
-...
-> +	/* Set timeout threshold */
-> +	if (pixels < RKVDEC2_1080P_PIXELS)
-> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_1080p;
-> +	else if (pixels < RKVDEC2_4K_PIXELS)
-> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_4K;
-> +	else if (pixels < RKVDEC2_8K_PIXELS)
-> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
-> +
+Here's a bunch of patches, mostly new drivers: RPi PiSP BE, GC05A2 and
+GC08A3. Also ipu6 documentation fix and MAINTAINERS change are included.
 
-Did you test if it works with anything > 8K? If so, you propably want to 
-make the check above
+Please pull.
 
-+	else
-+		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
 
-Otherwise the timeout may not be set/contain invalid values from any former stream.
+The following changes since commit 7fc65b78b465b8511a503491e7c3116d46dc6c72:
 
-...
+  media: platform: mtk-mdp3: Add support for MT8188 MDP3 components (2024-06-20 11:47:48 +0200)
 
-> +
-> +static const struct rkvdec2_coded_fmt_desc rkvdec2_coded_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> +		.frmsize = {
-> +			.min_width = 16,
-> +			.max_width =  65520,
-> +			.step_width = 16,
-> +			.min_height = 16,
-> +			.max_height =  65520,
-> +			.step_height = 16,
-> +		},
-> +		.ctrls = &rkvdec2_h264_ctrls,
-> +		.ops = &rkvdec2_h264_fmt_ops,
-> +		.num_decoded_fmts = ARRAY_SIZE(rkvdec2_h264_decoded_fmts),
-> +		.decoded_fmts = rkvdec2_h264_decoded_fmts,
-> +		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
-> +	},
-> +};
-> +
-Note, that this is also given to userspace (VIDIOC_ENUM_FRAMESIZES) and 
-this is already incorrect in the old rkvdec driver (and hantro): From 
-userspace perspective we do not have a restriction in 
-step_width/step_width, as we are aligning any given width/height to HW 
-requirements in the driver - what we should give to userspace is 
-fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS; fsize->stepwise.min_height = 
-1; fsize->stepwise.min_width = 1; fsize->stepwise.max_height = 65520; 
-fsize->stepwise.max_width = 65520; I guess this new driver should be an 
-opportunity to fix that and distinguish between internal and external 
-frame size requirements and the .vidioc_enum_framesizes callback should 
-adapted accordingly. Regards, Alex
+are available in the Git repository at:
 
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.11-3-signed
+
+for you to fetch changes up to 25698102a2785b65aebf74b227c31e6f9825655d:
+
+  MAINTAINERS: delete email for Anton Sviridenko (2024-06-23 12:14:44 +0300)
+
+----------------------------------------------------------------
+V4L2 patches for 6.11
+
+----------------------------------------------------------------
+Jacopo Mondi (7):
+      media: uapi: pixfmt-luma: Document MIPI CSI-2 packing
+      media: uapi: Add a pixel format for BGR48 and RGB48
+      media: uapi: Add Raspberry Pi PiSP Back End uAPI
+      media: uapi: Add meta pixel format for PiSP BE config
+      media: uapi: Add PiSP Compressed RAW Bayer formats
+      media: dt-bindings: Add bindings for Raspberry Pi PiSP Back End
+      media: admin-guide: Document the Raspberry Pi PiSP BE
+
+Naushir Patuck (1):
+      media: raspberrypi: Add support for PiSP BE
+
+Samuel Wein (1):
+      media: Documentation: ipu6: Fix examples in ipu6-isys admin-guide
+
+Wolfram Sang (1):
+      MAINTAINERS: delete email for Anton Sviridenko
+
+Zhi Mao (4):
+      media: dt-bindings: i2c: add GalaxyCore GC08A3 image sensor
+      media: i2c: Add GC08A3 image sensor driver
+      media: dt-bindings: i2c: add GalaxyCore GC05A2 image sensor
+      media: i2c: Add GC05A2 image sensor driver
+
+ Documentation/admin-guide/media/ipu6-isys.rst      |   14 +-
+ .../admin-guide/media/raspberrypi-pisp-be.dot      |   20 +
+ .../admin-guide/media/raspberrypi-pisp-be.rst      |  109 ++
+ Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
+ .../bindings/media/i2c/galaxycore,gc05a2.yaml      |  112 ++
+ .../bindings/media/i2c/galaxycore,gc08a3.yaml      |  112 ++
+ .../bindings/media/raspberrypi,pispbe.yaml         |   63 +
+ .../userspace-api/media/v4l/meta-formats.rst       |    1 +
+ .../userspace-api/media/v4l/metafmt-pisp-be.rst    |   56 +
+ .../userspace-api/media/v4l/pixfmt-bayer.rst       |    1 +
+ .../userspace-api/media/v4l/pixfmt-rgb.rst         |   54 +
+ .../media/v4l/pixfmt-srggb8-pisp-comp.rst          |   74 +
+ .../userspace-api/media/v4l/pixfmt-yuv-luma.rst    |    4 +
+ MAINTAINERS                                        |   25 +-
+ drivers/media/i2c/Kconfig                          |   20 +
+ drivers/media/i2c/Makefile                         |    2 +
+ drivers/media/i2c/gc05a2.c                         | 1359 +++++++++++++++
+ drivers/media/i2c/gc08a3.c                         | 1339 +++++++++++++++
+ drivers/media/platform/Kconfig                     |    1 +
+ drivers/media/platform/Makefile                    |    1 +
+ drivers/media/platform/raspberrypi/Kconfig         |    5 +
+ drivers/media/platform/raspberrypi/Makefile        |    3 +
+ drivers/media/platform/raspberrypi/pisp_be/Kconfig |   12 +
+ .../media/platform/raspberrypi/pisp_be/Makefile    |    6 +
+ .../media/platform/raspberrypi/pisp_be/pisp_be.c   | 1809 ++++++++++++++++++++
+ .../platform/raspberrypi/pisp_be/pisp_be_formats.h |  519 ++++++
+ drivers/media/v4l2-core/v4l2-common.c              |    2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c               |   13 +
+ .../uapi/linux/media/raspberrypi/pisp_be_config.h  |  927 ++++++++++
+ include/uapi/linux/media/raspberrypi/pisp_common.h |  199 +++
+ include/uapi/linux/videodev2.h                     |   17 +
+ 31 files changed, 6871 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc05a2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-srggb8-pisp-comp.rst
+ create mode 100644 drivers/media/i2c/gc05a2.c
+ create mode 100644 drivers/media/i2c/gc08a3.c
+ create mode 100644 drivers/media/platform/raspberrypi/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_be_config.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_common.h
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
