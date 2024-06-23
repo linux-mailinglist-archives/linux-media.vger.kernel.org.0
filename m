@@ -1,97 +1,77 @@
-Return-Path: <linux-media+bounces-13974-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13975-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D33491352E
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 18:47:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 543909138F5
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 10:12:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FFB01C212C6
-	for <lists+linux-media@lfdr.de>; Sat, 22 Jun 2024 16:47:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 98252B215EA
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 08:12:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56F5A8F77;
-	Sat, 22 Jun 2024 16:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D42246A032;
+	Sun, 23 Jun 2024 08:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Q0XmDJfn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bgIam4C5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC195C8C7;
-	Sat, 22 Jun 2024 16:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719074858; cv=pass; b=OjKx6oO6fDq5Od0LDgz177H8ZZFWTuYVKr8NHjmMhc/lKkTqwdrFA8pParMhASbW62X6CmYoyOu6gm25y8Y7VpZVDsX+n/kS0JJJtJLwHF5gIJUza8JJOMeiglI888B3Msd2TLn/ZsEA88tXZ+GUMKYbdsZ+LQa97pqRZUh5NXc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719074858; c=relaxed/simple;
-	bh=j4FT13T3zrdSrzx3vsBMF2frCNHV9masxl6ek/pcNFk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822BE4CDEC
+	for <linux-media@vger.kernel.org>; Sun, 23 Jun 2024 08:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719130364; cv=none; b=RbrXn0XDL6DABZZr8VG8HCRU8FvXx2Jpx6qrqdX67jqq5eFszu3KPVL2FqAb6NNuOiHNUF9FhQStQ8+P6ff0cv78OMcf4mKjSIrzNmi3tmZVzzew5010esRK1zdecsEznjrF2aVadzT52UyuafUPkTUWNMcldCjyCdb26pVnzKU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719130364; c=relaxed/simple;
+	bh=DGl9u7M6rd9r25tcH/Ru03Skgt8jRHyWzGWYkxpmGF0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eRZPFfkVQeNpEuCJeJwaqggFKpW9hbGHVoYVR+ATWxjVikxQBISuxWq3RH6Jp4rEFtQbQ5rl/Wub5TMvBRSv6009Nd6Hy6kEjRLOhvdt08iwODOG40Yh1aPBi3VME20Y1z5Tk/sohGIqLeNTcdZh4xKpXwRGmHtuoEItCjiZr2k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Q0XmDJfn; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4W60Wp1bRFz49QhT;
-	Sat, 22 Jun 2024 19:47:34 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1719074854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KtY3MCLf5pNxADYjBpQpzMi8fGwEWgS1XE+bkxux7QY=;
-	b=Q0XmDJfnXoC8D0TKLHyFFJaOagp/eOypqY9cVoQWVOCFgenIioUIR8gnaS2A6aR80eGBN3
-	QLwNM25Hpck3EAVyhPrOmTTtG53jVaesbdHbTEzKp9KqbzTo20XR58Kq8Jvc52V3W/SjZa
-	ME4xEOUIrLpKq8hagaMWnHCATxe0Bd80G+AGxpRCZ3jFzPoNnL0777016beS5acxw8IEvN
-	2QI/fGs1Zq9cNbjSkrdhlaUDm0UFRxs7Cor853FzbbITNLytoihuvuJ55/wqx66Oym0H0X
-	k+0E36ETJqVP2uANhBduZ1BnSgipaNbQkNbXWHhkvGQY/5sffGDtRjJtcK8O0Q==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1719074854; a=rsa-sha256;
-	cv=none;
-	b=LkltzSYW8k6HdFVKFTzAru7qFQtZ3v10TdAXz+fx8HqjsQUbcwe4AhpV13KrVyRD/rXh8V
-	BRnar4wGidq6x9F0LaxE2x79gaG5F1pwParN5Xr1NQuZ58bqagcePMmYxgJYdctPb1x3u2
-	GfHIpfs9F2iZMrvVWHJdJPj9KVASzA7RE50KD+mY1GutBWuAdeLLAyUv2btnEFsfYW59t1
-	7relf3tMD+nuQqcPGFKT9N/JEaZTxb45N00bOATPOxEoYpkaPvfrHBf4OjvfsE7ViCPWti
-	X7s2arOjRl6d+S+IxINmvtOmSVc5kkhKUO6m6aQiCf/hSmH1KXPV4wGGffqRdA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1719074854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KtY3MCLf5pNxADYjBpQpzMi8fGwEWgS1XE+bkxux7QY=;
-	b=TroOFEahvi+/X/8aA/A5pBuW+vG1EEg2Yr+8S5dJ4hJ0PzuXwEDPggKMr1QVri7DwlTBWE
-	40i4JvCVwg/8/FwITCvStmjUR7izHh0Wehz2tP86lG5M0DthZNY6OAREpkRMhhQnLp795J
-	G6biACkDZqRRu4Yd++qyf6ehxKbO29p4TazIMzoe1RZyVYXiklHo3B+Gy4U5+UIEteDiyV
-	1njpz+W7KW8AiOCvDYXxjw8rEkF0JhxiJ6Dj5/S6HowGDj8MC+6tVxXe6guAYyy8x9J1VB
-	zBqeWQ3/8pPJ/D/gT8QFOUrJMcTZeXo3xFzQi4SlTrNu/VdvMKj36Sk4UvAJBQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8EA66634C93;
-	Sat, 22 Jun 2024 19:47:33 +0300 (EEST)
-Date: Sat, 22 Jun 2024 16:47:33 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8MLe8W6XAnf73Ao8iswsKYxo8xhrow0ab2yj9eJvxLlbMvdnFyGksryI7+BMmzXl40FIagj4ZhHI5GIj2LI4MBhMY2PdmjmsWfrDtlJuVXnU8H25wuwrvDtw8YKkjAKxLwWjtXPBjhMo2OsL0lw1k5ZjGZ+C0iTwV56mlrCFtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bgIam4C5; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719130362; x=1750666362;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DGl9u7M6rd9r25tcH/Ru03Skgt8jRHyWzGWYkxpmGF0=;
+  b=bgIam4C5ewzjGRsvjN3hgtqBEJIwVsRyezE0K4Ot66PdaXoVcv4IevDg
+   KinoZdhE2GE2iZn94KPWV7C9tJJeemDOdeebEy69Myr3S79LG/bBxli52
+   5r3b2ItR+5mVes/ga7UuunQpjiQevEn1Q0Uma/jbxn7/7rrGSAVvzS9OJ
+   2JL9VbgcVZt5V3CRUcUPCOzBue/Qt7XCYIAjAijO9pezQg5KG9UAPrrDt
+   eysPV+XMHJFFovcvRp1vQNO3uyRR3o5EW7Am7yP5F4yodyNHje4MfoQye
+   dNsbrjZxUX7t8tmoclB63Lu79IDNfdaZcwlFZ+CX0XOfuYTzm/Yh8cWfA
+   A==;
+X-CSE-ConnectionGUID: bfUtDWlwTlu3H7sSN5iGGg==
+X-CSE-MsgGUID: CllkrkXUSMaJW8LQqCgRYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11111"; a="19020940"
+X-IronPort-AV: E=Sophos;i="6.08,259,1712646000"; 
+   d="scan'208";a="19020940"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 01:12:41 -0700
+X-CSE-ConnectionGUID: 959FXCilR3aAEvRTTb2lRA==
+X-CSE-MsgGUID: rreRH0n5Q3qbMubUgG/KMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,259,1712646000"; 
+   d="scan'208";a="47455853"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 01:12:40 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E971C11FA94;
+	Sun, 23 Jun 2024 11:12:37 +0300 (EEST)
+Date: Sun, 23 Jun 2024 08:12:37 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Brandon Cheo Fusi <fusibrandon13@gmail.com>
+Cc: linux-media@vger.kernel.org,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 4/8] media: v4l2-subdev: Refactor warnings in
- v4l2_subdev_link_validate()
-Message-ID: <ZncAJRoydaWoxGRj@valkosipuli.retiisi.eu>
-References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
- <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 v4l-utils] common: Use posix_memalign for allocating
+ userptr buffers
+Message-ID: <ZnfY9agvkpGsFRpz@kekkonen.localdomain>
+References: <20240622065743.385831-1-fusibrandon13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -100,62 +80,58 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240619012356.22685-5-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20240622065743.385831-1-fusibrandon13@gmail.com>
 
-Hi Laurent,
+Hi Brandon,
 
-Thanks for the patch.
-
-On Wed, Jun 19, 2024 at 04:23:52AM +0300, Laurent Pinchart wrote:
-> The v4l2_subdev_link_validate() function prints a one-time warning if it
-> gets called on a link whose source or sink is not a subdev. As links get
-> validated in the context of their sink, a call to the helper when the
-> link's sink is not a subdev indicates that the driver has set its
-> .link_validate() handler to v4l2_subdev_link_validate() on a non-subdev
-> entity, which is a clear driver bug. On the other hand, the link's
-> source not being a subdev indicates that the helper is used for a subdev
-> connected to a video output device, which is a lesser issue, if only
-> because this is currently common practice.
+On Sat, Jun 22, 2024 at 07:57:43AM +0100, Brandon Cheo Fusi wrote:
+> When dealing with a userptr pointing to a buffer in userspace,
+> videobuf2 swaps the corresponding physical pages with other pages
+> so we have a contiguous area of memory for DMA. This only works if
+> the userptr is page aligned.
 > 
-> There are no drivers left in the kernel that use
-> v4l2_subdev_link_validate() in a context where it may get called on a
-> non-subdev sink. Replace the pr_warn_once() with a WARN_ON() in this
-> case to make sure that new offenders won't be introduced.
+> The current way of allocating user buffers using malloc only
+> guarantees alignment up to `alignof(max_align_t)`, which is usually
+> 16. So replace malloc with posix_memalign to ensure the returned
+> pointer is on a page boundary.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Brandon Cheo Fusi <fusibrandon13@gmail.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
+>  utils/common/v4l-helpers.h | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 4f71199bf592..2d5e39c79620 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1451,11 +1451,15 @@ int v4l2_subdev_link_validate(struct media_link *link)
->  	bool states_locked;
->  	int ret;
+> diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
+> index cf0e92d..4104b53 100644
+> --- a/utils/common/v4l-helpers.h
+> +++ b/utils/common/v4l-helpers.h
+> @@ -1656,15 +1656,16 @@ static inline int v4l_queue_alloc_bufs(struct v4l_fd *f,
+>  		struct v4l_queue *q, unsigned from)
+>  {
+>  	unsigned b, p;
+> +	void *m;
+> +	int ret;
 >  
-> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
-> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
-> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
-> -			     "sink" : "source",
-> +	/*
-> +	 * Links are validated in the context of the sink entity. Usage of this
-> +	 * helper on a sink that is not a subdev is a clear driver bug.
-> +	 */
-> +	if (WARN_ON(!is_media_entity_v4l2_subdev(link->sink->entity)))
-> +		return -EINVAL;
-
-WARN*() is nowadays deprecated. Could you continue to use pr_warn_once()
-for this (or dev_warn_one())?
-
-> +
-> +	if (!is_media_entity_v4l2_subdev(link->source->entity)) {
-> +		pr_warn_once("source of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
->  			     link->source->entity->name, link->source->index,
->  			     link->sink->entity->name, link->sink->index);
+>  	if (q->memory != V4L2_MEMORY_USERPTR)
 >  		return 0;
+>  	for (b = from; b < v4l_queue_g_buffers(q); b++) {
+>  		for (p = 0; p < v4l_queue_g_num_planes(q); p++) {
+> -			void *m = malloc(v4l_queue_g_length(q, p));
+
+Please continue declaring m and ret here. They're not used outside the loop
+(and should not be).
+
+> -
+> -			if (m == NULL)
+> -				return errno;
+> +			ret = posix_memalign(&m, getpagesize(), v4l_queue_g_length(q, p));
+
+Over 80 characters per line for no apparent reason.
+
+> +			if (ret)
+> +				return ret;
+>  			v4l_queue_s_userptr(q, b, p, m);
+>  		}
+>  	}
 
 -- 
 Kind regards,
