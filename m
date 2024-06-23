@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-14001-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14004-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BBD913F31
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 01:24:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3964A913F33
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 01:24:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E3B61F21160
-	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 23:24:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9982281951
+	for <lists+linux-media@lfdr.de>; Sun, 23 Jun 2024 23:24:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27E6E18A934;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6865718A955;
 	Sun, 23 Jun 2024 23:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UtEAYUtH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rUe8V2b3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B81185E79;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B22186296;
 	Sun, 23 Jun 2024 23:22:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719184976; cv=none; b=unUXm4jscJ/jRQT9l8azxwyAir+rr0A4mBd5CFSdbfKT71A7XQRqIJ3eEkbADZWxFU6waZFAkIAmNPvJNe3X5m3pHjbv2tUS9/Ywb1bB44fgSQ6up1hqjx9PCQmDnoyicBdeAkFEdF4qjiD64MzX5EQYjEoTUHpHK7/B7xTlodY=
+	t=1719184976; cv=none; b=MT/5TWdFJdJf5mHXKIwTqVTFECp9IMx7rul+VtqHbvvt9eU4/VY2FS5Cgdv3DfRj9/yBjKCdKOwDk1MqtNWufjoEg12QaFI2otbgm26vb79vxDbZ1y6bUT0O1tEzm5STGf4Q2P+WSr1jwAear6uT7uh1P0/d5wuopUfNvy7VFso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1719184976; c=relaxed/simple;
-	bh=uxZoWyiS5m1gdIZqkbwAMcPfbU2bzkn3jcszmCTrfeE=;
+	bh=rOgR1WW/xbL4EEwa12yEe1zcnoAEtvtUA085CcCmHOY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fnaQLU4XIMqK/p6uqo1yvalK2aLzlByK8DsuWqPBSU0Z0NLe4SmWDzuKFJoKqkit39t/WV9ifLPsHC/JShwL+XvtQaBvrlpzXsmaybvXlcHilBfyFKpv1Ai38KmejsaDG3kAh3IKTJwgRaxyWdwr4rVrpIKcvxwe3Ijp3NIaFoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UtEAYUtH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5A1CEC4AF17;
+	 In-Reply-To:To:Cc; b=c2UqXTziI2HTLPYTw2zDWAeTAZQaVnoDRRjeXtYZc9GtTAv0/5yIEzvfULkqsIlAj4fCX/Ubc736UY/qn28L8odHDgrwDF8EQWGD/AIp73faNYIIIpYqK76eiJzMD56Bbtwer8CnCk7kDQQ5Q/iVrQ9S3nRy/cSZbUqe8TL0FUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rUe8V2b3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 67B3EC4AF48;
 	Sun, 23 Jun 2024 23:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1719184976;
-	bh=uxZoWyiS5m1gdIZqkbwAMcPfbU2bzkn3jcszmCTrfeE=;
+	bh=rOgR1WW/xbL4EEwa12yEe1zcnoAEtvtUA085CcCmHOY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UtEAYUtHZQrrtBIoO7EoxAkE6dlxm34h73jrexUzWWgsrWQxC6ef6MtIIhFi1xBLv
-	 UVWoyWU9NOBIJa4TAChVXGaS73KASlifsFAuqB1g4IPe+b2L+pPDwFTqADw/19iPic
-	 4j47KbYorwj6C61UoJF/4lfaztmKfz9YYS5sC2x82RvZtw5p8AjY8QcF1GLfaO597B
-	 JJIZslXjuXXmvtee8HOLCvQAvAGVf2fPd/ouWFeC1o7AhYUjRCbzE2xE2wEpFmbfeT
-	 bIZctqvRL5oLzvF4WCrFOblBXOevDmK9q5fcXOBxxrJL43TZphkQossgcmyJfV7OlP
-	 oZPtuPSYwy8fA==
+	b=rUe8V2b3Gqo+eOQyt0maQvzm9SZBdKbLBlcYn/1UsVf7VYIASIRjqz8MAKO/wNP6C
+	 x2lHGxm3ObhKiD92F+j19HZ5q1FD7LeBux7JVzWyJozL1PLkYlcZJi09zMP037rFih
+	 DpLGPz3wnGa7N5RFsmlEyCxvgOpuOsC2QNCPiAfgy7ZxiUlmo7FUxWw0PZ93kWwcFF
+	 rMmztbqS4ks5HCwJaQGphRGUUQewPtT5HwHPbPubsKQXB1FdFINxvpS9+kLRNS6hTf
+	 hNP6GOhdJcMTt2q6AMRQb+qlr42pU1TSQSUyAyyf3ofwP4yNNcEAvDx7T4RN5/K5vl
+	 3dpDwTyaEpnkw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51FA3C30658;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DAE7C30659;
 	Sun, 23 Jun 2024 23:22:56 +0000 (UTC)
 From: George Chan via B4 Relay <devnull+gchan9527.gmail.com@kernel.org>
-Date: Mon, 24 Jun 2024 07:22:44 +0800
-Subject: [PATCH v2 5/8] Add debug log info to camss_enable_clocks function
+Date: Mon, 24 Jun 2024 07:22:45 +0800
+Subject: [PATCH v2 6/8] Add debug log info to msm_csid_subdev_init function
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240624-b4-sc7180-camss-v2-5-0dfecdc50073@gmail.com>
+Message-Id: <20240624-b4-sc7180-camss-v2-6-0dfecdc50073@gmail.com>
 References: <20240624-b4-sc7180-camss-v2-0-0dfecdc50073@gmail.com>
 In-Reply-To: <20240624-b4-sc7180-camss-v2-0-0dfecdc50073@gmail.com>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
@@ -69,11 +69,11 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  George Chan <gchan9527@gmail.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719184974; l=811;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719184974; l=892;
  i=gchan9527@gmail.com; s=20240621; h=from:subject:message-id;
- bh=6aIAhDdR6ba+wStFSXsVTf8OUMR91nQ2Q2sdegpU84I=;
- b=nVTVcI2zBFK7DgJRrC8BySXVYzj3UDol6nS+rZRiLKHFSruoRZAaoPj/RVDpwaaZjiSJ8UH13
- R+aGtDssKe2CEuw3x9gprS7qtANiic5xi8BKZXDNpjHPc9BCfBim+/G
+ bh=xalkNP77MBkGfMNCvE+EDKlSV1hYrIaNytEu+tgrW+s=;
+ b=DhNwZ3i0n2A6g2xn04mAHFVW0aP5PSgdJNKSdD6r8n7PdY51bQlsdfAHt0/VTvjyyOGrFvgk5
+ uUUNtXfX8LJDriZKfAHFJuTMZBWqB+oFnKpt1uCkzKvd9nzn0D+PPp+
 X-Developer-Key: i=gchan9527@gmail.com; a=ed25519;
  pk=Ac2fkTqgUBlj2sns9hRIWJTYhWHO1BsmHbdBb5UpUUY=
 X-Endpoint-Received: by B4 Relay for gchan9527@gmail.com/20240621 with
@@ -83,26 +83,29 @@ Reply-To: gchan9527@gmail.com
 
 From: George Chan <gchan9527@gmail.com>
 
-Print out missing clock's name when doing camss_enable_clocks().
+Print out missing clock's name when doing msm_csid_subdev_init().
 
 Signed-off-by: George Chan <gchan9527@gmail.com>
 ---
- drivers/media/platform/qcom/camss/camss.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/camss/camss-csid.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 86ba80c47188..d50f98565531 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1467,7 +1467,7 @@ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
- 	for (i = 0; i < nclocks; i++) {
- 		ret = clk_prepare_enable(clock[i].clk);
- 		if (ret) {
--			dev_err(dev, "clock enable failed: %d\n", ret);
-+			dev_err(dev, "clock enable failed: %s %d\n", clock[i].name, ret);
- 			goto error;
- 		}
- 	}
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index eb27d69e89a1..02162bf9dbc0 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -628,8 +628,10 @@ int msm_csid_subdev_init(struct camss *camss, struct csid_device *csid,
+ 		struct camss_clock *clock = &csid->clock[i];
+ 
+ 		clock->clk = devm_clk_get(dev, res->clock[i]);
+-		if (IS_ERR(clock->clk))
++		if (IS_ERR(clock->clk)) {
++			dev_err(dev, "missing clk %s", res->clock[i]);
+ 			return PTR_ERR(clock->clk);
++		}
+ 
+ 		clock->name = res->clock[i];
+ 
 
 -- 
 2.34.1
