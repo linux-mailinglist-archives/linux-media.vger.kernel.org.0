@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-14034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14035-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636C69146C1
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 11:55:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7C79146C2
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 11:55:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FD10286E07
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 09:55:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86DD41F24041
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 09:55:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A55313328E;
-	Mon, 24 Jun 2024 09:55:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20161135A51;
+	Mon, 24 Jun 2024 09:55:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L2n0HL91"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BugPHSgH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7E112E1F6
-	for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 09:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016C6134407
+	for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 09:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719222920; cv=none; b=ORbGF3nUddS8U5Cz5vNdzQVc7i9WrCbnzntlpI3RrlIxm3eUJJEtJDtskdbu7mOZAf6r9K+02ojMVuAr/hoIOc8KPExlVv02n9O4/SVNrUrcJG4qo/5lsRRJIOAaOdtZ4/zn8DqZaxn4cw1K+bFIRdMqwqqw9ffXPD5DwExjmo0=
+	t=1719222927; cv=none; b=EZS8WimBHvZmfTPTAR3X4JGIj4WrCEMgn1D4y4BvjimlHqaFTdx33yl6b8ItuZxco72JGK6HMTlLCS2LxjAG8aX8rZgFnKogT6TPj2GaBJLKLelt4okvVjNR3OdqzFJeM2UqfH6vzfLsXr7A3CE0Y9yCU4vuZkx4MIhSCHiFBhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719222920; c=relaxed/simple;
-	bh=pFFsiyTMsJFwoweK6WIj5SyTkZYwx2mrHFXvTDZ5x3k=;
+	s=arc-20240116; t=1719222927; c=relaxed/simple;
+	bh=05XRxdK5KSF9/nWjTvS2qW0gk3XjqLPSY4/AihOYYlQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fgBeXwIO6yJW0USApYiXtN1K4mRZZLwzyKqlFPyN+GU/PZFESr3JOq5cpTGUOS/C5QUJacvV8kW4KBuMD7mxXt2/hRB3oAkts5sIt30ONr53Dw8ABkDnVx/Ay7ypNb1cljLwlExdjkdXhtsOxz1Bd4M6bkPIegDEDQQ1wHayDIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L2n0HL91; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version; b=B/w8Sv2ZeY2toBAZjhHAY1KbVUgrF2khEqhV4l8eTakvyuvpeSCID1RVGrkciU1jYf+5mMp1RXIXr200DD35D7DZRqs0g1RtjD/FSq7kPYDWSHDF4zh9Xn69rA5PKoQmGfw6qCsJeRZmt5Y4n0OMWNjfpyQjaQ6pLOPBk99GfIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BugPHSgH; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4247f36f689so28724655e9.1
-        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 02:55:18 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-421757d217aso45134735e9.3
+        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 02:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719222917; x=1719827717; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1719222924; x=1719827724; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i1+ccEk4s+CNZ58f0ojOOCaFbBcXQLr9fD7KFZ9QweU=;
-        b=L2n0HL91qSVb24crI1ng0nAMssm5rdhfkQxMI5/+tJxneARslZtuVVqqfp2m70j1w4
-         lh/yxMhdPJdD8GEmRV1xF68vBLNGv7tfKh9o1+jvQpv6sK8yDF1m4D9JGfLEMXXdBGmA
-         mq9KYoxYq5dCmJDK5GPevnUx1Ny2UOlvWkQV5ZWgIGg9Yz890HwE+IidQykfr4HN8rIV
-         2G337kggarHtB9sjKmJ06mZ0JPGaI/kPExxb3RHuC125I2a1/vlFUQXCQw1Ub0Mv3nLp
-         bj9CVLJ3UZi55fljbW5RUdbyM0XiW6BB40DMwNGY8fhV1b0cVImYrUY6n4WVPDwXdZvD
-         f1VQ==
+        bh=NuKH1L6SOVF9s069qwn3whS+iN8IefC7VE5uaYSL6oQ=;
+        b=BugPHSgHlheYg0AHM7yujzhWoyRAu65tXPq4N1c5lleTR2km6WZKy8i4UadWcfCikA
+         b6ykorgu7NHS1Lc3QihvWoSj7aCUK6t8+AVJBLnjTYf6AXJT4WnhcqZsEscIjoryX9bb
+         b07SB5YZ/hBc7n3wNTz/95q8kC6DNryaZZFButOzxT9TncdbN5JFh0g39XOg7fq4A7Ez
+         afxp+4kWWsMyNxLBju3CEVVOyoxGBaUEpAJH8osTyWlJ4UJmbPwfmfUnyWcYWfXCF1iw
+         usjJHpkv7EoFKb8HvOaCdk4e+iMc6Or/GxxRUXinBDMniKisDASqBG/AQ4CMIJdTxQyD
+         1XQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719222917; x=1719827717;
+        d=1e100.net; s=20230601; t=1719222924; x=1719827724;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=i1+ccEk4s+CNZ58f0ojOOCaFbBcXQLr9fD7KFZ9QweU=;
-        b=VRPb17+Y9t3AZnNsCuV6Xzvty0iC3UBxyNaOWfnXWFQazo5NT8UbcdQvhDGvGx3XMC
-         8z+Ksv6Dt7DOui45zY9ZJKEXAa+jjaHqre7E+XTltFyM5yXYATdCYEAADDEHybIZKLYV
-         4ckVHK79AzbWcBr7p/7DVqDqIem6WpdjU1ON1UxMqBT3Ri9SwhaHXz8Xn4pVWnTYOSED
-         J3Uf4mjBh5aaAY0baoH3Fi31u1pQd3QRpub0C6yEkmdJWIQFBeWSorbu5dFzyiHIVULv
-         Yos2T46ZtX3wccbNTQ9/+b6DOqD3WP2T73k7nPBn2Won0Clq1qP71wT5aofIOg1W/Ohk
-         Vj9Q==
-X-Gm-Message-State: AOJu0YzEbwg0tqjwpiHvvoP0hXURKw33Nd6h1Fn3GCqv7YY4BE3n6bA5
-	XV0qDjYZCyWALb+FoZQLlD6Uq223oGwMSRv49xShZQb9WTVqmD7omkMfj7U=
-X-Google-Smtp-Source: AGHT+IGX96ADMzIxzr/Dw3X01RT3His87CPRoaxzLrXLZgvZHXcJy20hTg2pPzrUI9KpH5Ok1Vo8kA==
-X-Received: by 2002:a05:600c:26d4:b0:422:aca:f887 with SMTP id 5b1f17b1804b1-4248b9cf993mr34928885e9.28.1719222916723;
-        Mon, 24 Jun 2024 02:55:16 -0700 (PDT)
+        bh=NuKH1L6SOVF9s069qwn3whS+iN8IefC7VE5uaYSL6oQ=;
+        b=ICl6toAHwrdJ6Yqx0QXtmgpc2ds/5+4bpc+rG2V31iI3xYBON0Tr6CorHgo7/MxPuU
+         9x5Mcy9gMdVeg5aL8b12CaoNHX2HfngSvwNiprJbM+Eo4lIPRtWKidbOe4gZecqjMlmH
+         JAeBlaHSmM1ZYQo9Vz5ry02CHfA+zDZsAur5wqvH/gq2ZmzCAIigzyEYXnmDFgDgAsMc
+         Bbpn5EKfGTC+6apJ43OtsizWiz5Kv5qzp0U3Js+3EEcf6nj6rJM6ZtoW0ihutf3xUCCi
+         VdxU/m8ocJG0284O8zM3KY0olKW5N6iwvu0FJvr09KLhHmBJF/ZGZPn1wkk1L79zgBTW
+         z7kg==
+X-Gm-Message-State: AOJu0Yz0tuRRLjYkdMTyThTR/DCpjrVDxHHHmIUMllMT7/Lpyxcm45q7
+	Rd3CLUflBqCq5tL9Gs2g5/vwQaQee9+TRq+qZZykUZfa6gxPUKbxEdeDvsA=
+X-Google-Smtp-Source: AGHT+IGXWU5ZgAY5idFL6bKvQQxVMKxJ03kKoDBrWrlI9wZaiRjokFUYyxYM4AYRO7a+fkSGHMkI2A==
+X-Received: by 2002:a05:600c:4f92:b0:424:9612:f738 with SMTP id 5b1f17b1804b1-4249612fb0dmr9225455e9.28.1719222923944;
+        Mon, 24 Jun 2024 02:55:23 -0700 (PDT)
 Received: from localhost.localdomain ([105.163.2.38])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b5ca0sm128258475e9.24.2024.06.24.02.55.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b5ca0sm128258475e9.24.2024.06.24.02.55.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 02:55:16 -0700 (PDT)
+        Mon, 24 Jun 2024 02:55:23 -0700 (PDT)
 From: Dorcas Anono Litunya <anonolitunya@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: anonolitunya@gmail.com,
 	jaffe1@gmail.com,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 02/10] media: Documentation: vivid.rst: drop "Video, VBI and RDS Looping"
-Date: Mon, 24 Jun 2024 12:52:54 +0300
-Message-Id: <20240624095300.745567-3-anonolitunya@gmail.com>
+Subject: [PATCH 03/10] media: Documentation: vivid.rst: add supports_requests
+Date: Mon, 24 Jun 2024 12:52:55 +0300
+Message-Id: <20240624095300.745567-4-anonolitunya@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240624095300.745567-1-anonolitunya@gmail.com>
 References: <20240624095300.745567-1-anonolitunya@gmail.com>
@@ -87,71 +87,33 @@ Content-Transfer-Encoding: 8bit
 
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Drop the "Video, VBI and RDS Looping" section, instead moving the
-Video/VBI info to section "Video and Sliced VBI looping" and the
-RDS info to section "Radio & RDS Looping".
+The module option supports_requests was not documented, add it.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- Documentation/admin-guide/media/vivid.rst | 32 ++++++++++++-----------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+ Documentation/admin-guide/media/vivid.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/Documentation/admin-guide/media/vivid.rst b/Documentation/admin-guide/media/vivid.rst
-index 04de7b69c817..d7d5a01f4e59 100644
+index d7d5a01f4e59..917b57225939 100644
 --- a/Documentation/admin-guide/media/vivid.rst
 +++ b/Documentation/admin-guide/media/vivid.rst
-@@ -1130,26 +1130,19 @@ Metadata Capture Controls
+@@ -302,6 +302,15 @@ all configurable using the following module options:
+ 		- 0: forbid hints
+ 		- 1: allow hints
  
-         if set, then the generated metadata stream contains Source Clock information.
- 
--Video, VBI and RDS Looping
----------------------------
- 
--The vivid driver supports looping of video output to video input, VBI output
--to VBI input and RDS output to RDS input. For video/VBI looping this emulates
--as if a cable was hooked up between the output and input connector. So video
--and VBI looping is only supported between S-Video and HDMI inputs and outputs.
--VBI is only valid for S-Video as it makes no sense for HDMI.
-+Video and Sliced VBI Looping
-+----------------------------
- 
--Since radio is wireless this looping always happens if the radio receiver
--frequency is close to the radio transmitter frequency. In that case the radio
--transmitter will 'override' the emulated radio stations.
-+The vivid driver supports looping of video output to video input, and VBI
-+output to VBI input. For video/VBI looping this emulates as if a cable was
-+hooked up between the output and input connector. So video and VBI looping
-+is only supported between S-Video and HDMI inputs and outputs.
-+VBI is only valid for S-Video as it makes no sense for HDMI.
- 
- Looping is currently supported only between devices created by the same
- vivid driver instance.
- 
--
--Video and Sliced VBI looping
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
- The way to enable video/VBI looping is currently fairly crude. A 'Loop Video'
- control is available in the "Vivid" control class of the video
- capture and VBI capture devices. When checked the video looping will be enabled.
-@@ -1198,7 +1191,16 @@ and WSS (50 Hz formats) VBI data is looped. Teletext VBI data is not looped.
- 
- 
- Radio & RDS Looping
--~~~~~~~~~~~~~~~~~~~
-+-------------------
++- supports_requests:
 +
-+The vivid driver supports looping of RDS output to RDS input.
++	specifies if the device should support the Request API. There are
++	three possible values, default is 1:
 +
-+Since radio is wireless this looping always happens if the radio receiver
-+frequency is close to the radio transmitter frequency. In that case the radio
-+transmitter will 'override' the emulated radio stations.
++		- 0: no request
++		- 1: supports requests
++		- 2: requires requests
 +
-+RDS looping is currently supported only between devices created by the same
-+vivid driver instance.
- 
- As mentioned in the "Radio Receiver" section, the radio receiver emulates
- stations at regular frequency intervals. Depending on the frequency of the
+ Taken together, all these module options allow you to precisely customize
+ the driver behavior and test your application with all sorts of permutations.
+ It is also very suitable to emulate hardware that is not yet available, e.g.
 -- 
 2.34.1
 
