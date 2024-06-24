@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-14033-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14034-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332389146C0
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 11:55:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 636C69146C1
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 11:55:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55E8E1C22502
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 09:55:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FD10286E07
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 09:55:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE0C13665B;
-	Mon, 24 Jun 2024 09:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A55313328E;
+	Mon, 24 Jun 2024 09:55:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eiCSqxHW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L2n0HL91"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD47212E1F6
-	for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 09:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7E112E1F6
+	for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 09:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719222914; cv=none; b=r9gfTkyPlmI71w836aR9bY320jrzCsqHntdqJDqP1UKCGflbNAwf2Zg3MXMXddYzOkQuNobRynuU1YM9H3Bf+0zV1LL9bIM5bSuQDYvUuemcTDNauhcJn3m5keW8vRy51xhp0JYn0mS3w5R4h4Wirxr4pgYAeM+pgUpemZc6Jnw=
+	t=1719222920; cv=none; b=ORbGF3nUddS8U5Cz5vNdzQVc7i9WrCbnzntlpI3RrlIxm3eUJJEtJDtskdbu7mOZAf6r9K+02ojMVuAr/hoIOc8KPExlVv02n9O4/SVNrUrcJG4qo/5lsRRJIOAaOdtZ4/zn8DqZaxn4cw1K+bFIRdMqwqqw9ffXPD5DwExjmo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719222914; c=relaxed/simple;
-	bh=VSFBbg9fQfHgCcEb0q8PTXYqQmPK8UhIVmlSWR7Jaws=;
+	s=arc-20240116; t=1719222920; c=relaxed/simple;
+	bh=pFFsiyTMsJFwoweK6WIj5SyTkZYwx2mrHFXvTDZ5x3k=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=F/LGYCuBCCk7LJAnuzuE6Pxk2ReLHyy4ItLLKN/45wyp80h7kMBTUgv8+ATy+Kdv1e5QfTQ5W8xRu/MsKeKh9fLvnjBmSKPHt2oejqxf3cpCdptAC0VZnVb8RtbwDp+UjSGYLk2NG9DakNfnq8WrBgTnu3krtzzhsWheoBxe3ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eiCSqxHW; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=fgBeXwIO6yJW0USApYiXtN1K4mRZZLwzyKqlFPyN+GU/PZFESr3JOq5cpTGUOS/C5QUJacvV8kW4KBuMD7mxXt2/hRB3oAkts5sIt30ONr53Dw8ABkDnVx/Ay7ypNb1cljLwlExdjkdXhtsOxz1Bd4M6bkPIegDEDQQ1wHayDIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L2n0HL91; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-424720e73e1so33458015e9.1
-        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 02:55:12 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4247f36f689so28724655e9.1
+        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 02:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719222911; x=1719827711; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1719222917; x=1719827717; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PWv9lGW8ZISyKh5uccQb58M33+vfoTS4drgAEK8mR0w=;
-        b=eiCSqxHWg+w4sMKw2U4koTVwCK69ChGxgzwCWmeOSxxMggFiw5+c9vhJkz7VMSRE87
-         l8agsVsoHrgRZebIyvEWLILpR7lqxY2834rC2oCD62zbaNoLdj2pQSb/7dvK0rubeMMg
-         g9DnkgPcKK1d++VDUAu3IVd4bP+CHuWzFGWGeGFjSwarHPU1bpo0zvNimExnqJer1iuq
-         kXROsvCQ1MInfb7f652P7T8tBYuBZcA8B3AGiuouAQsjTky21TBQibuFj67ISNOBNHxj
-         htuDSkwP7mY4JoyL4fnhIaNnD2B1e+K1jp7O1iVT4QpZNViKhhTQb+DFyhH7JOR1mMgo
-         yKKA==
+        bh=i1+ccEk4s+CNZ58f0ojOOCaFbBcXQLr9fD7KFZ9QweU=;
+        b=L2n0HL91qSVb24crI1ng0nAMssm5rdhfkQxMI5/+tJxneARslZtuVVqqfp2m70j1w4
+         lh/yxMhdPJdD8GEmRV1xF68vBLNGv7tfKh9o1+jvQpv6sK8yDF1m4D9JGfLEMXXdBGmA
+         mq9KYoxYq5dCmJDK5GPevnUx1Ny2UOlvWkQV5ZWgIGg9Yz890HwE+IidQykfr4HN8rIV
+         2G337kggarHtB9sjKmJ06mZ0JPGaI/kPExxb3RHuC125I2a1/vlFUQXCQw1Ub0Mv3nLp
+         bj9CVLJ3UZi55fljbW5RUdbyM0XiW6BB40DMwNGY8fhV1b0cVImYrUY6n4WVPDwXdZvD
+         f1VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719222911; x=1719827711;
+        d=1e100.net; s=20230601; t=1719222917; x=1719827717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PWv9lGW8ZISyKh5uccQb58M33+vfoTS4drgAEK8mR0w=;
-        b=ljxkmRhcy00WqLbcIzh1HuL1LU0IurvGZGfQ4W5n0kDr62v9B7hd6xJvrKeRfo3nzh
-         IVBqY2Hao2tnkVw/yoWqPFD3awGVB1IcHMa3ZU7WY9AJyywMmQUhRRlWeebCGqpMbksx
-         OgZVe+lUvqSR0lGx+IjuYMGWB9e8kmxfQo8XNvbpuQxNdGKMwLvXP6I5MG/h4+MbNlV3
-         EwzmpeCGLvlNPkluXnA/kMq8Q1N7k/FRZmk84ZLYWm2GuiaUKlDk0EPphl4ldEFXpZFs
-         H6FLRRt2x6cc7FA96CD8V4s0qnbOJ/WSRM39WfKMK2qvxRKrv83RM+roEB6cl2I6NBzV
-         og3g==
-X-Gm-Message-State: AOJu0YzQwE9vSMIDG0SpF0v05dPavFO5yoQRfB6KZLeAYphtSj31BzZu
-	dQQ0svcNXfzgKS+DHyZ7IsZfmbAlH7glcN2JLGS/B4FU/BEuKcBc63cNAjQ=
-X-Google-Smtp-Source: AGHT+IFhocGizDs8pem8Gyg52bywIZ6yklgfHSgtdswF/opR933pCkUxbL7RBeUU3E13v8qSo6/UVw==
-X-Received: by 2002:a5d:6a42:0:b0:366:d5ea:6098 with SMTP id ffacd0b85a97d-366e94d86b8mr2615041f8f.3.1719222910591;
-        Mon, 24 Jun 2024 02:55:10 -0700 (PDT)
+        bh=i1+ccEk4s+CNZ58f0ojOOCaFbBcXQLr9fD7KFZ9QweU=;
+        b=VRPb17+Y9t3AZnNsCuV6Xzvty0iC3UBxyNaOWfnXWFQazo5NT8UbcdQvhDGvGx3XMC
+         8z+Ksv6Dt7DOui45zY9ZJKEXAa+jjaHqre7E+XTltFyM5yXYATdCYEAADDEHybIZKLYV
+         4ckVHK79AzbWcBr7p/7DVqDqIem6WpdjU1ON1UxMqBT3Ri9SwhaHXz8Xn4pVWnTYOSED
+         J3Uf4mjBh5aaAY0baoH3Fi31u1pQd3QRpub0C6yEkmdJWIQFBeWSorbu5dFzyiHIVULv
+         Yos2T46ZtX3wccbNTQ9/+b6DOqD3WP2T73k7nPBn2Won0Clq1qP71wT5aofIOg1W/Ohk
+         Vj9Q==
+X-Gm-Message-State: AOJu0YzEbwg0tqjwpiHvvoP0hXURKw33Nd6h1Fn3GCqv7YY4BE3n6bA5
+	XV0qDjYZCyWALb+FoZQLlD6Uq223oGwMSRv49xShZQb9WTVqmD7omkMfj7U=
+X-Google-Smtp-Source: AGHT+IGX96ADMzIxzr/Dw3X01RT3His87CPRoaxzLrXLZgvZHXcJy20hTg2pPzrUI9KpH5Ok1Vo8kA==
+X-Received: by 2002:a05:600c:26d4:b0:422:aca:f887 with SMTP id 5b1f17b1804b1-4248b9cf993mr34928885e9.28.1719222916723;
+        Mon, 24 Jun 2024 02:55:16 -0700 (PDT)
 Received: from localhost.localdomain ([105.163.2.38])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b5ca0sm128258475e9.24.2024.06.24.02.55.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b5ca0sm128258475e9.24.2024.06.24.02.55.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jun 2024 02:55:10 -0700 (PDT)
+        Mon, 24 Jun 2024 02:55:16 -0700 (PDT)
 From: Dorcas Anono Litunya <anonolitunya@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: anonolitunya@gmail.com,
 	jaffe1@gmail.com,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 01/10] media: Documentation: vivid.rst: fix confusing section refs
-Date: Mon, 24 Jun 2024 12:52:53 +0300
-Message-Id: <20240624095300.745567-2-anonolitunya@gmail.com>
+Subject: [PATCH 02/10] media: Documentation: vivid.rst: drop "Video, VBI and RDS Looping"
+Date: Mon, 24 Jun 2024 12:52:54 +0300
+Message-Id: <20240624095300.745567-3-anonolitunya@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240624095300.745567-1-anonolitunya@gmail.com>
 References: <20240624095300.745567-1-anonolitunya@gmail.com>
@@ -87,99 +87,71 @@ Content-Transfer-Encoding: 8bit
 
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-The documentation contained several instances of "section X"
-references, which no longer map to whatever X was.
-
-Replace these by the section titles.
-
-Also fix a single confusing typo in the "Radio & RDS Looping" section:
-"are regular frequency intervals" -> "at regular frequency intervals"
+Drop the "Video, VBI and RDS Looping" section, instead moving the
+Video/VBI info to section "Video and Sliced VBI looping" and the
+RDS info to section "Radio & RDS Looping".
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- Documentation/admin-guide/media/vivid.rst | 41 ++++++++++++-----------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ Documentation/admin-guide/media/vivid.rst | 32 ++++++++++++-----------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
 diff --git a/Documentation/admin-guide/media/vivid.rst b/Documentation/admin-guide/media/vivid.rst
-index b6f658c0997e..04de7b69c817 100644
+index 04de7b69c817..d7d5a01f4e59 100644
 --- a/Documentation/admin-guide/media/vivid.rst
 +++ b/Documentation/admin-guide/media/vivid.rst
-@@ -313,10 +313,10 @@ Video Capture
+@@ -1130,26 +1130,19 @@ Metadata Capture Controls
  
- This is probably the most frequently used feature. The video capture device
- can be configured by using the module options num_inputs, input_types and
--ccs_cap_mode (see section 1 for more detailed information), but by default
--four inputs are configured: a webcam, a TV tuner, an S-Video and an HDMI
--input, one input for each input type. Those are described in more detail
--below.
-+ccs_cap_mode (see "Configuring the driver" for more detailed information),
-+but by default four inputs are configured: a webcam, a TV tuner, an S-Video
-+and an HDMI input, one input for each input type. Those are described in more
-+detail below.
+         if set, then the generated metadata stream contains Source Clock information.
  
- Special attention has been given to the rate at which new frames become
- available. The jitter will be around 1 jiffie (that depends on the HZ
-@@ -434,10 +434,10 @@ Video Output
- ------------
+-Video, VBI and RDS Looping
+---------------------------
  
- The video output device can be configured by using the module options
--num_outputs, output_types and ccs_out_mode (see section 1 for more detailed
--information), but by default two outputs are configured: an S-Video and an
--HDMI input, one output for each output type. Those are described in more detail
--below.
-+num_outputs, output_types and ccs_out_mode (see "Configuring the driver"
-+for more detailed information), but by default two outputs are configured:
-+an S-Video and an HDMI input, one output for each output type. Those are
-+described in more detail below.
+-The vivid driver supports looping of video output to video input, VBI output
+-to VBI input and RDS output to RDS input. For video/VBI looping this emulates
+-as if a cable was hooked up between the output and input connector. So video
+-and VBI looping is only supported between S-Video and HDMI inputs and outputs.
+-VBI is only valid for S-Video as it makes no sense for HDMI.
++Video and Sliced VBI Looping
++----------------------------
  
- Like with video capture the framerate is also exact in the long term.
+-Since radio is wireless this looping always happens if the radio receiver
+-frequency is close to the radio transmitter frequency. In that case the radio
+-transmitter will 'override' the emulated radio stations.
++The vivid driver supports looping of video output to video input, and VBI
++output to VBI input. For video/VBI looping this emulates as if a cable was
++hooked up between the output and input connector. So video and VBI looping
++is only supported between S-Video and HDMI inputs and outputs.
++VBI is only valid for S-Video as it makes no sense for HDMI.
  
-@@ -1200,15 +1200,15 @@ and WSS (50 Hz formats) VBI data is looped. Teletext VBI data is not looped.
+ Looping is currently supported only between devices created by the same
+ vivid driver instance.
+ 
+-
+-Video and Sliced VBI looping
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+ The way to enable video/VBI looping is currently fairly crude. A 'Loop Video'
+ control is available in the "Vivid" control class of the video
+ capture and VBI capture devices. When checked the video looping will be enabled.
+@@ -1198,7 +1191,16 @@ and WSS (50 Hz formats) VBI data is looped. Teletext VBI data is not looped.
+ 
+ 
  Radio & RDS Looping
- ~~~~~~~~~~~~~~~~~~~
+-~~~~~~~~~~~~~~~~~~~
++-------------------
++
++The vivid driver supports looping of RDS output to RDS input.
++
++Since radio is wireless this looping always happens if the radio receiver
++frequency is close to the radio transmitter frequency. In that case the radio
++transmitter will 'override' the emulated radio stations.
++
++RDS looping is currently supported only between devices created by the same
++vivid driver instance.
  
--As mentioned in section 6 the radio receiver emulates stations are regular
--frequency intervals. Depending on the frequency of the radio receiver a
--signal strength value is calculated (this is returned by VIDIOC_G_TUNER).
--However, it will also look at the frequency set by the radio transmitter and
--if that results in a higher signal strength than the settings of the radio
--transmitter will be used as if it was a valid station. This also includes
--the RDS data (if any) that the transmitter 'transmits'. This is received
--faithfully on the receiver side. Note that when the driver is loaded the
--frequencies of the radio receiver and transmitter are not identical, so
-+As mentioned in the "Radio Receiver" section, the radio receiver emulates
-+stations at regular frequency intervals. Depending on the frequency of the
-+radio receiver a signal strength value is calculated (this is returned by
-+VIDIOC_G_TUNER). However, it will also look at the frequency set by the radio
-+transmitter and if that results in a higher signal strength than the settings
-+of the radio transmitter will be used as if it was a valid station. This also
-+includes the RDS data (if any) that the transmitter 'transmits'. This is
-+received faithfully on the receiver side. Note that when the driver is loaded
-+the frequencies of the radio receiver and transmitter are not identical, so
- initially no looping takes place.
- 
- 
-@@ -1218,8 +1218,8 @@ Cropping, Composing, Scaling
- This driver supports cropping, composing and scaling in any combination. Normally
- which features are supported can be selected through the Vivid controls,
- but it is also possible to hardcode it when the module is loaded through the
--ccs_cap_mode and ccs_out_mode module options. See section 1 on the details of
--these module options.
-+ccs_cap_mode and ccs_out_mode module options. See "Configuring the driver" on
-+the details of these module options.
- 
- This allows you to test your application for all these variations.
- 
-@@ -1260,7 +1260,8 @@ is set, then the alpha component is only used for the color red and set to
- 
- The driver has to be configured to support the multiplanar formats. By default
- the driver instances are single-planar. This can be changed by setting the
--multiplanar module option, see section 1 for more details on that option.
-+multiplanar module option, see "Configuring the driver" for more details on that
-+option.
- 
- If the driver instance is using the multiplanar formats/API, then the first
- single planar format (YUYV) and the multiplanar NV16M and NV61M formats the
+ As mentioned in the "Radio Receiver" section, the radio receiver emulates
+ stations at regular frequency intervals. Depending on the frequency of the
 -- 
 2.34.1
 
