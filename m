@@ -1,115 +1,121 @@
-Return-Path: <linux-media+bounces-14070-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14071-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E18915147
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 17:03:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EB0915231
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 17:26:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6488A285163
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 15:03:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 43424B2600F
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 15:26:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22FA19B3E2;
-	Mon, 24 Jun 2024 15:03:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B242C19B59D;
+	Mon, 24 Jun 2024 15:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZOUgyQWA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VijO23Xe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4CF1DFD1;
-	Mon, 24 Jun 2024 15:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0668143743;
+	Mon, 24 Jun 2024 15:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719241403; cv=none; b=AdMS9AOq2lMvz9EMjxw5UdKiaMViSaXwyOrzUFazBoV/hNDM//TGiyBB3yQ7EfORQrm5KgHD3G63nfXBPi85AL47DMuC/UZe8Qrc4LEHvXWpPpeBJm7TE/kH0dyGAIFM8rkCHzXXaxlgjdaE6D9wxr5xEQursNMGWtOVNmffKHI=
+	t=1719242775; cv=none; b=UiPjM+wat4oH1xmiJLJaYhVg56Ysl8SuXg2yt6I8oLuycte1KXJiTcXEzdPX9+yWgcZGBeQ7qU0g9Cyd60PTPWOEMvasmZ69NrbAMQsgi4erMF8vgd5NSiqzro6EJnjOgY0hOBcEejRUykZou4XsChTFTmPNIsIR6fINGbusT9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719241403; c=relaxed/simple;
-	bh=B8JMyvMWFHz61nSn2gsE6oSBp9URmvYN5iI30R/r1T4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P738pdoyAx9YYlQ6o6jfgzxNfMXPBXixu1R/qckW5KBpaxdTTjZmEOqnU5Eji+GHvG51LoGSkqjROt1Zb0v1f4ttREI8EWFHaWYGEORuwN/9IljvbOmtJoXRJCFJxcFdRAoztqQm+nJICkA5b2zwTDKX3pL8p5zZaAbkYhZNxDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZOUgyQWA; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52ce09b76e0so1444905e87.0;
-        Mon, 24 Jun 2024 08:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719241400; x=1719846200; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B8JMyvMWFHz61nSn2gsE6oSBp9URmvYN5iI30R/r1T4=;
-        b=ZOUgyQWAdJ7bcDjAztdI0ofJJvTnCukXoetsM/JNvnyPzRHxxaIYCD0tMcQMCQlyad
-         YqOysd7Fz6P/OE5nZ6c1WNNJhXBDyJy11X7aQ2gfgYorrcGxV8wlyw4Ceblkx3Yfi9+X
-         XRyf+i82XdqcMY1ChnZacHsqvUbWjjMsXy/Jl6ZHksu3ZP7jv6DRJ0puHWL8AjtFIFY6
-         XPjzbr1U+9r08WJQJekhqQyQ4toCC7twKe2UQ7gmFaelSw7/gSmVcDgeLXMLHLFlOO0j
-         s2PDGQff1V5/nTVNrWq2ZPmLVy5KzhM7oangDS8Odcy6ZEqWcnhwQ53s3p4XZxcx5NtU
-         yiAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719241400; x=1719846200;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=B8JMyvMWFHz61nSn2gsE6oSBp9URmvYN5iI30R/r1T4=;
-        b=Zu/pGwe9xOdpAWjEiCkccK1YCZCNEdH73rDM/v1biRfGQHBkQAKBrpQkV/0+AOMoso
-         rq4Al5Q6Rv5G0URGjSzPa9PnsqWSramebaqBCon2xwbbVluGmDH/4ct3H0SIZtYCbOmb
-         22HJRbnGA5d6EmnoaIIS2yt67+lzkXa4bjAdt6/ud93TKNrqI+JGaXD/s2fYGiFnUyV9
-         4AX/Brxe1xMCrXRNxUgH1Pi0wprTbiPfVj6Qq1Mis4NF51n/KfFpzvhwOtiuO7YkVmp5
-         3jweWJb2OArO93pKL9oMiF0h3116mudNjKsQe+cExLy20gQ7zgLuj1etve8BbiJe7OU6
-         1LOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7F8Fi50RPP/YcAnDBEHkPi3d+48Ocz+dKSiON0hxVonK5KuA8mSUmniBQkp6fOf3SkfL9NakbBCyAsjx/690eVlGXxc8qwyBCtGFyqB4Gxjesw5fUqqbzqzf5AFeevBQGDMKN46mu37TIhzXEVzRGzBYpyPxU9NKzHrEOnaqRWK0fFfJekvmNgNi5UUNKLSDKeM2nSMW7BrCrE8IY4yumY6qAmQ==
-X-Gm-Message-State: AOJu0YxNKpIFnverLt2FAWU450seVXz+nsrFBE1rfuigGJKbY83WKmjZ
-	q3EjXowtzE3l+p0HfWSyCqTJuBR5f82+vR5YnbjaxAwHMs/L2sa3x9rEQaXc3h+bGUR9qvx5/H6
-	FIXETBO8tXFUESs/1EMKesZRv1uU=
-X-Google-Smtp-Source: AGHT+IGqfNPcAOIVjP63+QUUs0vjEMIhNqbBTC8yUZQsIbF7fBla7dK4hdC7TYVqp6tIqXdyqsHsFxxmquuTJDKpl4A=
-X-Received: by 2002:a19:9118:0:b0:52c:81ba:aeba with SMTP id
- 2adb3069b0e04-52cdf344b79mr1667460e87.14.1719241399821; Mon, 24 Jun 2024
- 08:03:19 -0700 (PDT)
+	s=arc-20240116; t=1719242775; c=relaxed/simple;
+	bh=isSO8zhhTRh50IY8MzHYeg7mqSDdC0WjmZifBVHz8uA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uZcXoZ/27Xv5kcTmQ0UyIFJ5QxuroTFQ3erPOxH2CDN6GbDEH3GJxS9HRny1VyGz9ydHw/JhUiTLkUHdbfrv8Ul01MVhdZi7gwQdXjOigQK8hzM0EkquE5z6tpZW5Q2o4wgzRTp4WNH2T1VbbCQKIPyYjpb8f7CSlPAncFQADeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VijO23Xe; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719242773; x=1750778773;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=isSO8zhhTRh50IY8MzHYeg7mqSDdC0WjmZifBVHz8uA=;
+  b=VijO23XeQdHuqBk/bOxGnDNS5fJ30MTMnISas4Nf9ThVoPHzlLQr+KYh
+   /MS29T+wtySyvg32GHcVT7UgbUVU0pECdSQNcRnIJNM3+Bp6GSS12IQN0
+   3/RIOfUcHbdjFl/MjeFxXgEWQcy2tKqhsyAqvrrtClwT6GKAua4U7Al0P
+   +SCNLnMR1o6PTkQ3QZFM79bGeVUOyky96i0ukmHl5/YXC3Z0218S5sVfW
+   G5bRcuSIMLp6hvYPPkorovfJDnWu95wODHXNgO4gaKyMaoYJIOmqKzyjg
+   /KNxFgjksXW49su6SmTZEH42JZzcsJP/9cYZNtFeXaUMft0hGUkRRjvIg
+   w==;
+X-CSE-ConnectionGUID: AXM3aFJJSNCWlIoH+6jZ5g==
+X-CSE-MsgGUID: D81VaETdStux1FGGe1bZrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="33761068"
+X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
+   d="scan'208";a="33761068"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 08:26:12 -0700
+X-CSE-ConnectionGUID: LYvArBnUSNK9f8uZoAK7xg==
+X-CSE-MsgGUID: fnlpJt5WR3+nJBl3QPMjtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,262,1712646000"; 
+   d="scan'208";a="43418208"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 24 Jun 2024 08:26:10 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sLla3-000DQe-2H;
+	Mon, 24 Jun 2024 15:26:07 +0000
+Date: Mon, 24 Jun 2024 23:25:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: dt-bindings: Add description of OmniVision
+ OG01A1B image sensor
+Message-ID: <202406242352.HSKkjAv2-lkp@intel.com>
+References: <20240620124745.1265011-2-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com> <4d2f4a52-826e-44be-b242-55b50708692d@linaro.org>
-In-Reply-To: <4d2f4a52-826e-44be-b242-55b50708692d@linaro.org>
-From: george chan <gchan9527@gmail.com>
-Date: Mon, 24 Jun 2024 23:03:07 +0800
-Message-ID: <CADgMGSt2sRecrrYrG3t4RtgGn8QJzr1N+iRSWFKQVPgA6Pk8tw@mail.gmail.com>
-Subject: Re: [PATCH RFT v3 0/5] Add sc7180 camss subsys support
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240620124745.1265011-2-vladimir.zapolskiy@linaro.org>
 
-On Mon, Jun 24, 2024 at 9:50=E2=80=AFPM Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 24/06/2024 13:13, George Chan via B4 Relay wrote:
-> > - Add RFT tag to all patches, since no tested-by at all.
->
-> Have you not tested this updated series ?
->
-> ---
-> bod
+Hi Vladimir,
 
-Do you wanna add my tested-by too? It just feels weird to add my
-tested-by that way.
+kernel test robot noticed the following build warnings:
 
-Tested:
-Linus tree 5f583a3162ffd9f7999af76b8ab634ce2dac9f90 +
-20240522154659.510-1-quic_grosikop@quicinc.com with mine patches
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/master krzk-dt/for-next robh/for-next linus/master v6.10-rc5 next-20240621]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Not test:
-linux-next + 20240522154659.510-1-quic_grosikop@quicinc.com + mine
+url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Zapolskiy/media-dt-bindings-Add-description-of-OmniVision-OG01A1B-image-sensor/20240624-161554
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240620124745.1265011-2-vladimir.zapolskiy%40linaro.org
+patch subject: [PATCH 1/3] media: dt-bindings: Add description of OmniVision OG01A1B image sensor
+reproduce: (https://download.01.org/0day-ci/archive/20240624/202406242352.HSKkjAv2-lkp@intel.com/reproduce)
 
-Just for reference, last month i pushed grosikop's patch with mine to below=
-:
-https://github.com/99degree/linux/tree/camss-working
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406242352.HSKkjAv2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
+   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/og01a1b.yaml
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
