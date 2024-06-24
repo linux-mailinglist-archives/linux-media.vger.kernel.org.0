@@ -1,235 +1,132 @@
-Return-Path: <linux-media+bounces-14030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31CB91469C
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 11:45:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0557C9146BD
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 11:54:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 250E8B23806
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 09:45:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35BC91C222B4
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 09:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46A08136649;
-	Mon, 24 Jun 2024 09:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D92132811;
+	Mon, 24 Jun 2024 09:54:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="ZTUz0eUc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8fN++gc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from KOR01-SL2-obe.outbound.protection.outlook.com (mail-sl2kor01on2134.outbound.protection.outlook.com [40.107.129.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4521C12F592;
-	Mon, 24 Jun 2024 09:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.129.134
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719222334; cv=fail; b=qk3LbRjUnFdn3hjdTZ0DZS/d8L0m3qdJXssyS4XgmMjIpAM00IYVylv9ovvQtkcrsCaKuVMx6VCm10YfcpIcVOdxsvATbPfxfzMh0H6k3fm4ZgUlGHeFJgx3fQfaZa4tVg+SuHxDmBbGg/VnqI8WezLDEhcOUVfb112V6UtIUtc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719222334; c=relaxed/simple;
-	bh=ZgotzJO92Z22mdbKmj4F9RRDf9BoGK2aS2Ucf8+CPCg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Z1jWpK4Qc5CA0pEZG52/mu2lOObKp5x0SviuTixqFIgEu5FfrIruPZtr6foC8EI9xlKJRVYcv4qkTshqHFAkW8LRIDdylSmCxxE3QIIxw6VXINkK4fA4sglQjBMNQaP/Z+O0EhcccfB6I7Xjr11Y92Yu1b9gKqRVrkUNvKmK4jg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=ZTUz0eUc; arc=fail smtp.client-ip=40.107.129.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j8jRhwoqvaMIOElm94D+RjU/MkcttFsx9ACU2UOOBzsiO6yqhNOrMLgVV59ohx8M0SOSLysIOvQrDXnfjqGlgUb9itSiVfQR2FDM+8lPH5w6fsueDNaHhObnPFB4NfulHtKWWQtjk0R+lEfB0yFGmpkLxRLDOtt2+UwuW7g9afpMat6Lbb2pKsqri3udwZLt2B7SOiFm1BcRue9QV1IuGOmoYPt/wxSt7mTe5CDTx634PIAHZcz2z9ia9AuASveuhK0pRKGwby+ReUdPe35AQ2b7fpZ81O6/S/sw5YvRiAfY5wRLqUFAOY+x5FNgI3ENVvnG6nHJM/PDDEo+XfFvSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MfuKPZcv8Es39N9dVwZoeSvF9UKTj+ARW4vMHuWkoWQ=;
- b=HQ872p4vdC6+dVY0Haw/Kblb/53HcL9rb5fDNL7aDoi9eYqR3EkR6Ylt8dyvy+kMc7Nqd5Kzs4EbHYO5u5yoRCrTklw6No0nOE/7C7qT48n4m7I3OPU/lNOKKYoEfFq8JmSRzxEsM5IIiYBVo8RTZ83C3+r7a//fwrGKtjmSxgbVYrNl0WUagB3zNs0l5gDW2JY2wFQ+kcfAIXaD3j5ZzfH+z9GhW4ztW5G+MszBlbPkfX1gSp4yG7PnCBYvgbJdCxv3i+7Ud+NiTjYjcyVa07MYmoR+XIPTuAUAi0/zB5yRoOryUcTMjt4mvLWwC2mHtq6+4DG1VnCY90tcOmCK0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MfuKPZcv8Es39N9dVwZoeSvF9UKTj+ARW4vMHuWkoWQ=;
- b=ZTUz0eUcQKVkeENBrMvTkeI6BtfjfVYOnEbmbdPknaTT524Vqs2paTiPGyMIFW+oUi0rJecVdwcGMlD+5ulCeiygMU4dAguzmbmCiU85AE2bOWAQTLSqDM4dxhyjLbY400qoY3GaX8AG7GZ+WZfJBrMKUkvpINl6y7IlsusED7o=
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
- PS2P216MB1347.KORP216.PROD.OUTLOOK.COM (2603:1096:301:98::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7698.28; Mon, 24 Jun 2024 09:45:27 +0000
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::9e3d:ee20:8cc7:3c07]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::9e3d:ee20:8cc7:3c07%4]) with mapi id 15.20.7698.025; Mon, 24 Jun 2024
- 09:45:27 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: [PATCH v3 1/3] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE
- condition
-Thread-Topic: [PATCH v3 1/3] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE
- condition
-Thread-Index: AQHatj2seCPelzsMQkiZPcoLgTurKbHWfqVQ
-Date: Mon, 24 Jun 2024 09:45:27 +0000
-Message-ID:
- <SL2P216MB1246EAAFD8C5B220CDBD385BFBD42@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-References: <20240604051120.9441-1-nas.chung@chipsnmedia.com>
-In-Reply-To: <20240604051120.9441-1-nas.chung@chipsnmedia.com>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SL2P216MB1246:EE_|PS2P216MB1347:EE_
-x-ms-office365-filtering-correlation-id: 056cd345-3513-4040-a653-08dc943260fd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230037|376011|1800799021|366013|38070700015;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?yX1/EPsLQdVZwmkdDTBtH827q0fVJkxVgHh5Vc99kXth5+MgEwFuu/iIsllP?=
- =?us-ascii?Q?vmFs3KfBPCikpVoNhXRLjAqvVipAqoMQsvgj6czH8m2/lXcl1U+czd+uqITo?=
- =?us-ascii?Q?bREbC0gkdXnZ/wvElHXXU1h8fU8lH178tBLN2AwLBj6dwVwN59qt5j1uSa3J?=
- =?us-ascii?Q?AejerI5EmCOcXCx7CfuPbJaMI3NBgrZpcRwwiqCat8IAXzCaUmMu15FeKsjE?=
- =?us-ascii?Q?wncrN1y/Wq+CGKsoazHTINQwPfjPPsCS6JDhE7bjkK2hBFGm3VAIp8ys1fPy?=
- =?us-ascii?Q?6g3iAcQmZZGcdYVaJ/2N4xYDoc5kfPWHMYlwSqGDs3nE9Pu6Fb9FvsGG/c5n?=
- =?us-ascii?Q?IkCkMADRwhN7yRSyIR+oxteGP+Dw0bthSAt2cSJ2ZJDhyDX5RFgfYsMYQjnV?=
- =?us-ascii?Q?W7LMDXR6xs2Z4x/CjrtKIpRPz4ih5VCJHPL0bgcu5fyVpEVEQ6VqKuuh7Bin?=
- =?us-ascii?Q?MqmV8RRAFEAQPNYFLu2/82//ZKtTayaml8BJGI4LPT9N6u+TyeNYOanxVYl8?=
- =?us-ascii?Q?QqTIy9hbgy7AnrEIkHZD9HiNF9E8G5FbeE46YPr9RgEQK1Ks3Z8HzD8R3D4c?=
- =?us-ascii?Q?un3PAwMXoQ4gv6Bs5ex+ciZ92/z2HyxoY/ZG2KNSmqeGj7VOxd73/CZA3f4U?=
- =?us-ascii?Q?3dzw34DjbKOybjjD1BgQCMZumYV0E4lLbHji57hx4puPnupxJCyisalaW/ps?=
- =?us-ascii?Q?d7x67wmvvH0t6/2UKfvgPtBUGz+LwMwg4imLMe6TUV8NCQEOoLDt7F7s0+nu?=
- =?us-ascii?Q?VkWokOP1M3DCI/2qUb8/svExurG6+bQ9JkGGX/iyKXSXsrQ6jHzgOD8IycKM?=
- =?us-ascii?Q?VUJgsoCUp4VwDDdA81TZeTdEmuR0RkQKcfULOduYQqYcYPiw313K3pSGK9rP?=
- =?us-ascii?Q?8zXp3EC1GVrURaw+S09vLXCEajT/VnvxF7oM0Ol4OvYLNosmdC2Lu9Qdey8T?=
- =?us-ascii?Q?cyTpOdFB5DWG2yw6ts7ctxR9E2CukwFr2Mp8W7Hp2Tvw+Bj/LMHzbjsuj0gT?=
- =?us-ascii?Q?bPA4lXOP262DjTU1tYfPs2eH1YafIqd3kbTXfjffXPe/JUNhhP3P/ZwCfl2O?=
- =?us-ascii?Q?0NezlMVj4BsOedWaYOEmFQzqe+v6o+nuyahsJsG3XJlWqn9ZezOxcECHbnm3?=
- =?us-ascii?Q?r0guY82JDka5Isq+0gb6dCaQUGPUnx+KrX/pS0WX6rjUmhzHZBHl63K49JYc?=
- =?us-ascii?Q?ZeKbP7zN1tnuzgOJG4R14DMhGKhEslR/I63dBgsVRzUnQUypgWJfRl8Sj+J0?=
- =?us-ascii?Q?6fpH2hjiMYoL3IjRkWbWRG12agKvLlE2sVAtS2mt7uYtvvIUragCVW+ZNIqf?=
- =?us-ascii?Q?l5YZWV011WU5WwjLwWB6EeGcR4eKQfLMbWi3qmrzuGjcH7R8YLx9BHCsDmf0?=
- =?us-ascii?Q?In3nk7I=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230037)(376011)(1800799021)(366013)(38070700015);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?NSjAr+zYfzN6CGMnQEStkYBIskuNE+Qf3Zd7/M60D0hfcQ2RSbMHXUSm0OPs?=
- =?us-ascii?Q?yLC7eyjBgpHord8o+rR1fOo0epm2JvDFvhiQV7CI4iVKUieSCiESMcoA3D1m?=
- =?us-ascii?Q?VKN6jmWU/Qd4ez+Yg4+yX3jxr9CaHOC/sH6ycV/NsT6lud6xuPvEh03Z90Yk?=
- =?us-ascii?Q?d20fkAxomdrCdba+j9MfeDfZZQDj8znmxGQImhI+UOCBf5vbOq7inBXIfz/E?=
- =?us-ascii?Q?SfNwIaRGBQ9qDMr9lOd47JCmQ7HuAmbEWDHN6u7s+W8rg+CK7nYzTfCY1PJD?=
- =?us-ascii?Q?dFGEhY/W6yN0X86vxkMQi2pybswoDqq35hHLzG6C8iMF+a5OtZXwECrSmzjw?=
- =?us-ascii?Q?/OdU2X6Ry+GPc03VTCQUVN1eZeysIbkcl6PoTqiY69ql2h8jQpxkgpYavnya?=
- =?us-ascii?Q?QK/zUGXqWf5FDmPi3VaovWBTHLd8oYfHe6yABX0QfZmSv5N60bTFL2DQpodQ?=
- =?us-ascii?Q?isPO/WflLviMZ3eguvPqBRyk+vLQ0Q3ipMGIMqULX05xqEbeF4GPLa4gNmI/?=
- =?us-ascii?Q?4XZRvmdV+uvLo5kwE19Mq8MvL9hgm5gm2hnuvbcgNp/1tZ1RIynyA4wvnfBI?=
- =?us-ascii?Q?yQAeIPjR/tWJb3t1hG+DvyLGcgUW9Mt51ETN3IPhDE1Vww25161JUCoPJvHI?=
- =?us-ascii?Q?m/hp/hdRKd/pqCti+BOF7RRVmFZbzfI1QYZ+X/U32MBs0tkSxVr1WIOaW3Bu?=
- =?us-ascii?Q?uHH9LBo1TuNCTlFT0lEBnqXsUDBh47BFU8a/QIdCPszXi4O0EdZOcM0vGbt3?=
- =?us-ascii?Q?dByHJTAxqfl0b7roWpqU0qmG5nUTERPT7EO+PaPXwJzeDnWPfJlAqMQYDf1v?=
- =?us-ascii?Q?S+WEjAt/4gSRSlvMRs/IKUTN5kX1LF0IFEqzwOxLEwrfTP7rx/XMaCtg1G2a?=
- =?us-ascii?Q?hCWuwDPnH4sScw8zrQlLjH7uFk69XeAGJLGOFsobnOcZaryVOpC9Q+pAD567?=
- =?us-ascii?Q?mtCNFFJ7S6xN7k3+IZ7v7gfHarGJQLJ/QXfgTPxgyWrmCpSH5PpTS63hdabv?=
- =?us-ascii?Q?Vgm9F+8j+qzlyWT5GNezVcJ6jfBt0v22cKj4Vs+u00Sv39qR6Qe8NHU56G88?=
- =?us-ascii?Q?znQzEWjpwsOaf0DsvUHuaezypp/uGsJ/VB8ZALi1m2JFoQDbcMgZLmD7WWrC?=
- =?us-ascii?Q?pSFxRae8Cm7FG5Uso5lB8C+fGS9E2FpxLLgYZp33+qxbZzBDDhqyEGZPDBzP?=
- =?us-ascii?Q?U4daEszyu6UNevSe7+Zk5xF3iv9vw+MFcBUnUIMbM2Gppv8BrEUbBvivzSt9?=
- =?us-ascii?Q?Hq7bnF4g+yJsIos2gjv0wgXoLWA1b/+lR8nRGQcivZn/jO36zac8oTQQE3Nj?=
- =?us-ascii?Q?akNQQ2WtdiEEk0XJmJeuLSmBEtzVUiA4v0k+JIAuXHtefLSr0IbSR8BKOX17?=
- =?us-ascii?Q?/fbBub7m0UehnfoOoTlD3gbLxvs1ZRAbeJYQMfgkUEbVaQ9LwywhlfGJ3is0?=
- =?us-ascii?Q?ONe+v9YexsHNIl+cTlFRWmNQWLz2a5o3nSbu8nJaUwgHc3511/ppKbYW/Z11?=
- =?us-ascii?Q?yw8mQ/EDHXmcWzU2ZBrFIZ2hG90IeSqsG69KXAsdBI0LOuoaM3nvr36TlFg2?=
- =?us-ascii?Q?uBSUhtVtGQSU3Z40QiTIZ+cWRS1UqzR3A2lgtbiw?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3802612E1F6
+	for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 09:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719222877; cv=none; b=VlXMOE/fnd1BFNnVaz5y1M2gS1yNYGaAXmrUQ8k1S56hLCt/Ct+qkef5N1ayZ4ORJ1azgH4L2sLoP3jop9vJx5k96dzt5Z5sI5TYdWFXfp8uiIUos+2QgGO1QtJQZBGxKvG2kZyqLG0kT9EIVihvzQkVc44UpYJUD3oO6JlNNkY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719222877; c=relaxed/simple;
+	bh=Lr5yF3QaL0y7SMSGlclyfoFjJEBmOuBw8Lz7UKRBFxY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PzRc/ac4gi0lIdqzD9nqIiIlkkDnF9FuA6k9U+1r99WoetFCKsu430uweRO3+aAgemjJL2ja3jhicYGoj3201vYXsAWA/Z5Bvo2SaKW7DQSsS/DhB344bUnRkd95UupuutskOmqgrN3AFm82rJzY63tKlfWRius+yyvTImspuc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E8fN++gc; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-421cd1e5f93so31328895e9.0
+        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 02:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719222874; x=1719827674; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pht3IvVhY+Nj6zHJhE+MfolZZKBRDqmhD2Saz3i11CA=;
+        b=E8fN++gcYYB6zcSMjUf68Z9pIoPCaxh6eu/Ncx/Rfn1Tf4GE7aSkbOEFvo8lb45bLo
+         26ZWkvqhlDDy1G+ic9+fOHkZX3Xy/A+TYnT5DLuYSTTshEQ7FVeeduNXvhFX62hzo8UG
+         BmjNtvMWGUBaiZSolaTiiFPUUEI6zBaUt5RcQW+jKnJsGxmQCf4YizL/JoCnwBAlUV85
+         oCKe211x/yuZsO4U1glvkWavZbiNQdaAHK8DAoYrHqk4UsnbZR7RzTDwnzN7h4MD6DbO
+         i9J2Sbea3lPr9tFV/wX0P0RrkwRMLabbXJh9Ub3ckeEPAquCTy92J2EwYORsvFL7uGRA
+         hMQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719222874; x=1719827674;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pht3IvVhY+Nj6zHJhE+MfolZZKBRDqmhD2Saz3i11CA=;
+        b=xA+M/OxKjHxVOum3Z9mZQKGS1WBZc6wINIHfFytxxKvDrPi9VaGXMY4eh7HPhggnHm
+         eT9qzboUBSlImfi6ADGR6gijdtTivgM486xzG36ifRnhMOjpD6LtrXNCRvToWpAce5lr
+         FgAVzh6p0h3eIjvSUL0PtA7qUX+OT5sI02QDupftFzFE38dGXuHdavUea5FqBlE4yGhn
+         L6DMBQES6lKEVqIA+oO8DXRcb2oQHP+RtLRD3CINpLvqqQlo33l8rAdR4uaowTUrnMve
+         7AnSK/iyp3XxibFkT1VLvebys4aDIQiwmzxULCi5LuJxy5m1+1kCfCV/qFyqHJyBTjq6
+         4SHg==
+X-Gm-Message-State: AOJu0Yyr/Ei47ddju7stm30oSHxOV4U4AwatyUbYIbnN38HkF89nQX9A
+	Cdk9VUwZrp51tCzuH1+Dl7z4NJJktqeINT4MDiPwBTbj6SKgCG41a6UBz0k=
+X-Google-Smtp-Source: AGHT+IEz27bnjwX8uKVBVk8I1Mo9jVeGOGJOrW6hITsGuRBpjzdK6R3hdUnBg6Wt/5HtPKQrH1dUDQ==
+X-Received: by 2002:a05:600c:1d24:b0:424:917e:f394 with SMTP id 5b1f17b1804b1-424917ef3dbmr18809475e9.31.1719222873905;
+        Mon, 24 Jun 2024 02:54:33 -0700 (PDT)
+Received: from localhost.localdomain ([105.163.2.38])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424817b5ca0sm128258475e9.24.2024.06.24.02.54.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 02:54:33 -0700 (PDT)
+From: Dorcas Anono Litunya <anonolitunya@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: anonolitunya@gmail.com,
+	jaffe1@gmail.com
+Subject: [PATCH 00/10] Add loopback support across multiple vivid instances 
+Date: Mon, 24 Jun 2024 12:52:51 +0300
+Message-Id: <20240624095300.745567-1-anonolitunya@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 056cd345-3513-4040-a653-08dc943260fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2024 09:45:27.5847
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JGR0Le5BCZeMzK6z4FWIBNseAyrrNvSgZbRFClKgMveipXuo+mJqW5y1+snhClzF6t3U3BXFGb1SvvwMCDsKWPsC1sK4RXKGGPem2R0WL3M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS2P216MB1347
+Content-Transfer-Encoding: 8bit
 
-Hi, Hans.
+Hello,
 
-Gentle ping on this patch series.
+This series sets up loopback support for video, sliced VBI data and
+HDMI CEC across multiple instances in the vivid test driver. It also
+updates documentation to reflect changes made.
 
-To recap, the previous feedback included
-- Adding a comment after "V4L2_BUF_TYPE_META_OUTPUT	   =3D 14,"
-- Fixing a build warning in the venus/vdec.c code
-- Removing V4L2_BUF_TYPE_VIDEO_OVERLAY in V4L2_TYPE_IS_OUTPUT()
+The first 7 patches do not implement the actual work but are necessary for
+setting up the next changes. They address documentation issues,
+fix a g_edid bug, resolve a vivid crash when no outputs are configured,
+and add the instance number to the video input and output enumerations.
 
-I have addressed these points in the latest version of the patch series.
+The 8th patch adds the controls and infrastructure needed to enable
+loopback across multiple instances.
+The 9th patch enables the video looping code and CEC support.
+The 10th update documentation to reflect all changes made.
 
-Thanks.
-Nas.
+Dorcas Anono Litunya (3):
+  media: Documentation: vivid.rst: Remove documentation for Capture
+    Overlay
+  media: vivid: Add 'Is Connected To' menu controls
+  documentation: media: vivid: Update documentation on vivid loopback
+    support
 
->-----Original Message-----
->From: Nas Chung <nas.chung@chipsnmedia.com>
->Sent: Tuesday, June 4, 2024 2:11 PM
->To: mchehab@kernel.org; hverkuil@xs4all.nl; bryan.odonoghue@linaro.org;
->linux-media@vger.kernel.org
->Cc: linux-kernel@vger.kernel.org; Nas Chung <nas.chung@chipsnmedia.com>;
->Michael Tretter <m.tretter@pengutronix.de>
->Subject: [PATCH v3 1/3] media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE
->condition
->
->Explicitly compare a buffer type only with valid buffer types,
->to avoid matching a buffer type outside of the valid buffer type set.
->
->Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
->Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
->---
->v3
->- Address Han's feedback
->
->v2
->- Improve commit message
->- Add V4L2_TYPE_IS_VALID(type) macro
->
-> include/uapi/linux/videodev2.h | 10 +++++++++-
-> 1 file changed, 9 insertions(+), 1 deletion(-)
->
->diff --git a/include/uapi/linux/videodev2.h
->b/include/uapi/linux/videodev2.h
->index fe6b67e83751..51da63173a98 100644
->--- a/include/uapi/linux/videodev2.h
->+++ b/include/uapi/linux/videodev2.h
->@@ -153,10 +153,17 @@ enum v4l2_buf_type {
-> 	V4L2_BUF_TYPE_SDR_OUTPUT           =3D 12,
-> 	V4L2_BUF_TYPE_META_CAPTURE         =3D 13,
-> 	V4L2_BUF_TYPE_META_OUTPUT	   =3D 14,
->+	/*  V4L2_TYPE_IS_VALID and V4L2_TYPE_IS_OUTPUT must
->+	 *  be updated if a new type is added.
->+	 */
-> 	/* Deprecated, do not use */
-> 	V4L2_BUF_TYPE_PRIVATE              =3D 0x80,
-> };
->
->+#define V4L2_TYPE_IS_VALID(type)		\
->+	((type) >=3D V4L2_BUF_TYPE_VIDEO_CAPTURE	\
->+	 && (type) <=3D V4L2_BUF_TYPE_META_OUTPUT)
->+
-> #define V4L2_TYPE_IS_MULTIPLANAR(type)			\
-> 	((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE	\
-> 	 || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
->@@ -171,7 +178,8 @@ enum v4l2_buf_type {
-> 	 || (type) =3D=3D V4L2_BUF_TYPE_SDR_OUTPUT			\
-> 	 || (type) =3D=3D V4L2_BUF_TYPE_META_OUTPUT)
->
->-#define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
->+#define V4L2_TYPE_IS_CAPTURE(type)	\
->+	(V4L2_TYPE_IS_VALID(type) && !V4L2_TYPE_IS_OUTPUT(type))
->
-> enum v4l2_tuner_type {
-> 	V4L2_TUNER_RADIO	     =3D 1,
->--
->2.25.1
+Hans Verkuil (7):
+  media: Documentation: vivid.rst: fix confusing section refs
+  media: Documentation: vivid.rst: drop "Video, VBI and RDS Looping"
+  media: Documentation: vivid.rst: add supports_requests
+  media: vivid: vidioc_g_edid: do not change the original input EDID
+  media: vivid: don't set HDMI TX controls if there are no HDMI outputs
+  media: vivid: add instance number to input/output names
+  media: vivid: loopback based on 'Connected To' controls
+
+ Documentation/admin-guide/media/vivid.rst     | 185 +++++--------
+ drivers/media/test-drivers/vivid/vivid-cec.c  |  88 ++++--
+ drivers/media/test-drivers/vivid/vivid-core.c | 250 ++++++++++++++---
+ drivers/media/test-drivers/vivid/vivid-core.h | 125 ++++++++-
+ .../media/test-drivers/vivid/vivid-ctrls.c    | 262 ++++++++++--------
+ .../test-drivers/vivid/vivid-kthread-cap.c    |  86 +++---
+ .../media/test-drivers/vivid/vivid-vbi-cap.c  |   5 +-
+ .../media/test-drivers/vivid/vivid-vid-cap.c  | 115 +++++---
+ .../media/test-drivers/vivid/vivid-vid-cap.h  |   2 +
+ .../test-drivers/vivid/vivid-vid-common.c     | 134 ++++++---
+ .../test-drivers/vivid/vivid-vid-common.h     |   5 +-
+ .../media/test-drivers/vivid/vivid-vid-out.c  |  25 +-
+ 12 files changed, 859 insertions(+), 423 deletions(-)
+
+-- 
+2.34.1
 
 
