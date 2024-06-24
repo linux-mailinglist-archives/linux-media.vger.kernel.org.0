@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-14017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6F1914177
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 06:55:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D445A91417B
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 06:55:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD6A41F21AC9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 04:55:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 107A81C21B6F
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 04:55:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D586134B6;
-	Mon, 24 Jun 2024 04:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8A713FEE;
+	Mon, 24 Jun 2024 04:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRhT2+pV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V7+kq5QT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF567DDDC;
-	Mon, 24 Jun 2024 04:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372031798C;
+	Mon, 24 Jun 2024 04:55:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719204912; cv=none; b=f/MaPnIogJGrQ/ITOFyIlhaV0voA8q3DQFyfHWcLY9yVdKRqc/+3OU8jCbGoe6yKCZ+xRDEyOxoeyMYs8xhJWBINKvaE0AY6pQ6bbtyIPD1iJixzQ/cyqPvDyGdHaPQRbkMyKh9hZBHn3/Zn6rN4znU2evuU/KS+2kjFAEyOHfM=
+	t=1719204935; cv=none; b=cGW69PXaDZREBFmHQwu7BMtHIXxs8CtNXfEZ4k2mQvuyrHlnaqNGHsihPTJXVB2snf7mV5WGAtMd+83xoUyUQ4QtQ879bBm+PThUmXzD3h13kL5x0ZfTkktQ2/vW0AEkivdIeQXmlzp/tWEkD7BQfrmSxWzDH4tqotkRDPT915M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719204912; c=relaxed/simple;
-	bh=uJy6WStVcRMvNXS3X5ZyjQuEMu8Tg7pDfMxnQJ9ulv0=;
+	s=arc-20240116; t=1719204935; c=relaxed/simple;
+	bh=ulGhaE4WsEbqeyqjxg6ZOGKwxyLW4aHDco+BY/vV0Co=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WuvvOtcY2VfRwjGEJYxjxEda1hKkvEaDjmGXHKgOj8Od6BpeWEDXAygZ66Q2HlPYDazQPn8ClzwHcvhXEPiGkmSVcV71nus6ofgCrHC3NXgPoy8p8oVF78SP3OLh3U7SfAn8BVwAmBjL/gr0cXad13g4Z5HQbLb+7bCzja5QOTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRhT2+pV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE938C2BBFC;
-	Mon, 24 Jun 2024 04:55:06 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=NzeZMJ3K7AB3Ssjy4QpPp+TyzRgrUI5n+TY71aslxogc4wGiouLNBlJi55vLIfRNJknDN7CKmUtDHLxx2Hp4bioyc60X/yMew6zr7zLWhDkmhmow/+K/TFEdLpVOVs2wYwSHDuiSzbrt/jWHtpH9qW9JkC1d2ALbfyOobenqZDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7+kq5QT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBB61C2BBFC;
+	Mon, 24 Jun 2024 04:55:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719204912;
-	bh=uJy6WStVcRMvNXS3X5ZyjQuEMu8Tg7pDfMxnQJ9ulv0=;
+	s=k20201202; t=1719204934;
+	bh=ulGhaE4WsEbqeyqjxg6ZOGKwxyLW4aHDco+BY/vV0Co=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IRhT2+pVvFDRvjFHkLTMI8L8DKAUQLogm2W1G55s9GZsVWiUi+zGImUNtBVmGvnAL
-	 Dv1DwrymDw+4XEJh9yHxp6nJBylGSpqhmTmr59bQp8gvAeqaOpptBAmlm7T7Iyspm9
-	 +yOMHih+5jzpc1R//BqLhk6q9+qtycIQoOcUkDyLCkinFmTCxToyhSe4K1E82j2gkz
-	 xZLLM5TenoPRzk+Sq3Q0P86HX+kR4ppTZsz6wUVXwhd+Vagr4OdEmq6vJxncezRY74
-	 lgnhLbR5jTlrlaEZaC5blh8X3Tu5/0V9u/LzoM7dHJMMRaUk5bDlgpZbhRyRExn4o/
-	 cjulA8p4jXQkg==
-Message-ID: <3660f7e6-2f51-4200-947b-a03cbdb761ea@kernel.org>
-Date: Mon, 24 Jun 2024 06:55:04 +0200
+	b=V7+kq5QTUI3xuVNoZJvt8oOEdIBKn1qM9ww6h8VyUz/HyJ/YijLYRC82hysBTh5F1
+	 dmc0AHubQFixVkmEtdPQ9/8Kq5dXcZfrt+3wkvitxKmieI4K8KfSRS7X0+ZjM1myvv
+	 WGmhSKgN52xfHhPtLuxsWndWfaMKUik5DFqC1Qrs9tARHdUCKNDo8Rb8HWAx6rGnfs
+	 Kxq1YrQeMHZ1KVpph9Jygnsr/y0fToyW6uVtSXCBV+EjaoYT9FSqs045Dw7OoRv5wA
+	 qRLxUHYj+PDDwO2VHlezQG7kgpAnTnJAYU2FHPSxgowQ73r6pBMxqpNvswMrNrd9DP
+	 PFZnmpYGHezTw==
+Message-ID: <8befd6d9-2e4b-416c-9326-db234e1b894b@kernel.org>
+Date: Mon, 24 Jun 2024 06:55:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/8] Add qcom,sc7180-camss
+Subject: Re: [PATCH RFT v2 8/8] Add support for sc7180 camss subsys
 To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
  Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -62,7 +62,7 @@ To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240624-b4-sc7180-camss-v2-0-0dfecdc50073@gmail.com>
- <20240624-b4-sc7180-camss-v2-1-0dfecdc50073@gmail.com>
+ <20240624-b4-sc7180-camss-v2-8-0dfecdc50073@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,26 +108,21 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240624-b4-sc7180-camss-v2-1-0dfecdc50073@gmail.com>
+In-Reply-To: <20240624-b4-sc7180-camss-v2-8-0dfecdc50073@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 24/06/2024 01:22, George Chan via B4 Relay wrote:
 > From: George Chan <gchan9527@gmail.com>
 > 
-> Add bindings for qcom,sc7180-camss in order to support the camera
-> subsystem for sm7125 as found in the Xiaomi Redmi 9 Pro cellphone.
+> Introduce camss subsys support to sc7180 family soc.
 
-<form letter>
-This is a friendly reminder during the review process.
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-</form letter>
 
 Best regards,
 Krzysztof
