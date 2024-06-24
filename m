@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-14016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A945914173
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 06:54:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6F1914177
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 06:55:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA0661C21CD0
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 04:54:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD6A41F21AC9
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 04:55:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E10D134B6;
-	Mon, 24 Jun 2024 04:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D586134B6;
+	Mon, 24 Jun 2024 04:55:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V/oDft5C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRhT2+pV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF861DDDC;
-	Mon, 24 Jun 2024 04:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF567DDDC;
+	Mon, 24 Jun 2024 04:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719204859; cv=none; b=dH33/gDlTacNFjmyIm9KxB18XpSgByzCqecRa62ce95vLJSL4mfTH2izbLUN0+2+Ny2r0wPIps+Vl+uq5umWuQETuXeFaYWNizyQfpYpqEzRLbrVRfXk7K76GoRw2yJfToU5jin67zXyJiHIvOjyaNEOiAJCot4ltxuif2GNxdo=
+	t=1719204912; cv=none; b=f/MaPnIogJGrQ/ITOFyIlhaV0voA8q3DQFyfHWcLY9yVdKRqc/+3OU8jCbGoe6yKCZ+xRDEyOxoeyMYs8xhJWBINKvaE0AY6pQ6bbtyIPD1iJixzQ/cyqPvDyGdHaPQRbkMyKh9hZBHn3/Zn6rN4znU2evuU/KS+2kjFAEyOHfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719204859; c=relaxed/simple;
-	bh=+KhE1nin1+J6mV81PIS1zCV9B7Y6T+LW+8GmzP/ct7c=;
+	s=arc-20240116; t=1719204912; c=relaxed/simple;
+	bh=uJy6WStVcRMvNXS3X5ZyjQuEMu8Tg7pDfMxnQJ9ulv0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pdIyMZ+W81q0sk/kvxQGgfH/Re6csCklbOZlHOHHOmW5LEiVghI3TAe5kQx9m7K2L+RdGkI06dhsnVlfQU9puCe5lmYZrwE5Je+sxaMzgHJ2kcnRDK2i4eX+9G7XI7C1DGdY56BWGi/sdWQLdBJfolV2Dn6dX6wxHErKKvux7Z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V/oDft5C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53946C2BBFC;
-	Mon, 24 Jun 2024 04:54:14 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=WuvvOtcY2VfRwjGEJYxjxEda1hKkvEaDjmGXHKgOj8Od6BpeWEDXAygZ66Q2HlPYDazQPn8ClzwHcvhXEPiGkmSVcV71nus6ofgCrHC3NXgPoy8p8oVF78SP3OLh3U7SfAn8BVwAmBjL/gr0cXad13g4Z5HQbLb+7bCzja5QOTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRhT2+pV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE938C2BBFC;
+	Mon, 24 Jun 2024 04:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719204859;
-	bh=+KhE1nin1+J6mV81PIS1zCV9B7Y6T+LW+8GmzP/ct7c=;
+	s=k20201202; t=1719204912;
+	bh=uJy6WStVcRMvNXS3X5ZyjQuEMu8Tg7pDfMxnQJ9ulv0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=V/oDft5CQrOwoCVxH63Kh/3H7Hda7UWqHloI3qCINlhsJpdqzdur53PKo3lBJhs7g
-	 mS4KGJ2jSJKLnrrEIfWMakNGvcSkgGaeudAKdJxUyZ4A7N80F63mdjirNvfwouJph5
-	 zFWT3ZX9DDf78RSv1apPzbfajeVIjo9lxdL8YvKAqM+3uLMDm77o3xyKDDGq/u1DCC
-	 vhLUxmRGTjHUsQnZIi+Zs0ZXc3Xe/Hgixk7amSUIKOQhwecqk6Dqo67+NwLo3Xqoec
-	 edm0+tkRt9Wzxz3nB2t8pOWS5Rp/JZqrasfkCJIjni+ebnV6zR/OiXftfAR83HWMrM
-	 bYTGum1weHaBA==
-Message-ID: <1c96444f-996a-431f-a8e9-28512bcc4431@kernel.org>
-Date: Mon, 24 Jun 2024 06:54:12 +0200
+	b=IRhT2+pVvFDRvjFHkLTMI8L8DKAUQLogm2W1G55s9GZsVWiUi+zGImUNtBVmGvnAL
+	 Dv1DwrymDw+4XEJh9yHxp6nJBylGSpqhmTmr59bQp8gvAeqaOpptBAmlm7T7Iyspm9
+	 +yOMHih+5jzpc1R//BqLhk6q9+qtycIQoOcUkDyLCkinFmTCxToyhSe4K1E82j2gkz
+	 xZLLM5TenoPRzk+Sq3Q0P86HX+kR4ppTZsz6wUVXwhd+Vagr4OdEmq6vJxncezRY74
+	 lgnhLbR5jTlrlaEZaC5blh8X3Tu5/0V9u/LzoM7dHJMMRaUk5bDlgpZbhRyRExn4o/
+	 cjulA8p4jXQkg==
+Message-ID: <3660f7e6-2f51-4200-947b-a03cbdb761ea@kernel.org>
+Date: Mon, 24 Jun 2024 06:55:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] Add sc7180 camss subsys support
+Subject: Re: [PATCH v2 1/8] Add qcom,sc7180-camss
 To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
  Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
@@ -62,6 +62,7 @@ To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240624-b4-sc7180-camss-v2-0-0dfecdc50073@gmail.com>
+ <20240624-b4-sc7180-camss-v2-1-0dfecdc50073@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,40 +108,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240624-b4-sc7180-camss-v2-0-0dfecdc50073@gmail.com>
+In-Reply-To: <20240624-b4-sc7180-camss-v2-1-0dfecdc50073@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 24/06/2024 01:22, George Chan via B4 Relay wrote:
-> SM7125 is the SoC found in the Xiaomi Redmi Note 9 Pro(joyeuse) cellphone.
-> This series adds support to bring up the CSIPHY, CSID, VFE/RDI interfaces.
+> From: George Chan <gchan9527@gmail.com>
 > 
-> Since SM7125 is a low-speed variant of SC7180, SC7180 testers please
-> take a look and have a test as well.
-> 
-> sc7180 provides
-> 
-> - 2 x VFE
-> - 1 x VFE Lite
-> - 2 x CSID
-> - 1 x CSID Lite
-> - 4 x CSI PHY
-> 
-> The sc7180-camss binding should be comaptible with sdm845 yaml.
-> I've copied a new yaml from sdm845-camss.yaml, strip all _src clk and
-> put new maintainer information. If this is not desirable then i can add binding to
-> existing sdm845 yaml instead.
-> 
-> In addition, a bootable tree of sm7125/joyeuse is availble at:
-> https://github.com/99degree/linux/tree/camss
->   
-> 
-> Signed-off-by: George Chan <gchan9527@gmail.com>
-> ---
-> Changes in v2:
-> - Revised dt-binding as stated by krzk
+> Add bindings for qcom,sc7180-camss in order to support the camera
+> subsystem for sm7125 as found in the Xiaomi Redmi 9 Pro cellphone.
 
-What changed exactly? That's too vague.
+<form letter>
+This is a friendly reminder during the review process.
+
+It seems my or other reviewer's previous comments were not fully
+addressed. Maybe the feedback got lost between the quotes, maybe you
+just forgot to apply it. Please go back to the previous discussion and
+either implement all requested changes or keep discussing them.
+
+Thank you.
+</form letter>
 
 Best regards,
 Krzysztof
