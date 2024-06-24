@@ -1,156 +1,137 @@
-Return-Path: <linux-media+bounces-14020-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14021-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C238C914468
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 10:17:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7327B914482
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 10:19:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 25D31B21D44
-	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 08:17:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1B5C1F23805
+	for <lists+linux-media@lfdr.de>; Mon, 24 Jun 2024 08:19:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D48E34D5A2;
-	Mon, 24 Jun 2024 08:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A7664C637;
+	Mon, 24 Jun 2024 08:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pzH1uAQF"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eyAGgcL3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4163C4F201
-	for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 08:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9495339E
+	for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 08:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719217010; cv=none; b=QOdutTJpIYlEKcMypEChLGj/FcEfM/ezC3OVTWi6+Lx0f1aEM+64esRGtoTDdVV82ZbRe/xAyGL0NNSbWE4dmgJ44VjLGFB9CYwRPXs55MrX8C6i7k4gGrcmB1H67CMUtqlNSh0bsC/PamLNCSzQfAmt+AGU3TPMvcfEMBjaavY=
+	t=1719217154; cv=none; b=tVRVFAEEAJPI0ALWjuXHe4iQsdVc0laOG2T7tOcB4TUDm7m4RBHPNvPRCduhtSWyZHyevqLX/1KGgPpQIhUKG1vJyB8edx1jUZWzS6UGhqIceBQ+74N8m4HgIXsBlkjONsUILBgPRsvaqjV/WjZG072bkG0aMBuRBrcw98o//kQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719217010; c=relaxed/simple;
-	bh=hFRLAB3p7iRVqvgg60dGABp7FuRqhy6ia9zfd+8UKr0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=k4eRWSIeAyOEsEfy7JWOBqBHIkGL1vn8aB1ADToMH+yYv43fDlQ21fPNsxV5x0ngNTX/Ta1L0nDyt+8pWTAAwklrSq8WfBNTuGOIF0Z4X5M2foq6qLr47vXUoRTC/xEPta3TduLn/mysb+frj9Xj9ACMit1eCBkEf4vrnQEnTGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pzH1uAQF; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1719217154; c=relaxed/simple;
+	bh=hrcbm/Drjw9ypN+HcZfxd5WVucStMi5y/7ez75gjaJM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AyGevO3uCsvoTMHKh2FYn+nnZAbnp3Dcfq86k7hfZdPe9/Oo6aWIkEQ+bnr5PN7s+0U5qxW0pWbxcOBP9tVqXWNwMY8fURsMnbKCnBueOvS1ud0OaAo2hPe3+VX5SY28c29aQ1a8bR1SOmK2hE33PnIBf12zIkw8/Jid+M824M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eyAGgcL3; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3632a6437d7so2291872f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 01:16:47 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52cdd03d6aaso1869109e87.0
+        for <linux-media@vger.kernel.org>; Mon, 24 Jun 2024 01:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719217006; x=1719821806; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tXrTSK6bVTTPMRrTWn1jiwS0BgSLK4DHIpn4IueFd94=;
-        b=pzH1uAQFUtJ1OavgSxqLDhZPCGY1YU8XFh+/SB8cNrAQUabSPl23i1qMy3IrdxW1/z
-         Ep9zAS4tu5T2ci+/ofTWM3BI3CNQVBYuR5Zx9W4M/0sxpft+yob6bzJbaKTzVm5hpi/k
-         k+Wdbg8WKSwnTmfJGkK5b0cwe0wNyjM8+9LGSy+OBMwLzH9R6rWR5TsPR7nJ8wIZ3Qjr
-         oyMC7sNUUhPtk46c4r/C1xSxi3GYW/EHas53azdNFkKGLqrVm8K2VNJz//bAveXSOurj
-         orRwjRCusi5puf/3BThtuV8txmjQyAvaTqsgpUrC0KyAhLxCDRTSd2jxu1oDGG97jsms
-         oseQ==
+        d=linaro.org; s=google; t=1719217150; x=1719821950; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jwPwL72m8s93kw/p7VxOEDDmYj0qJsAuA8dl81m3PQc=;
+        b=eyAGgcL3XkMNNMzbIdTO77oSFJndYkR1jhwj751TAxnHHQY0P4I8GDr6DWb+vXojF+
+         tAPdH+W50rezV2u79ZVrZAA2IMCZyxSoiDj/4nGWNAqrmRMvhkhz9lL1m9CpAjek0C4G
+         XRURr4UTrQycQZo1x8Jzcz8/x65tiIKmAfTwwqMZya39JDy9sgxugJ7DkeWzXojJRvCl
+         zXVW2Noq5aDcNv+iuGclzyOVksybTd/QaFY5w0KJgLZ1e42StNZ+F83VPvWZXzRMaqqX
+         HjjPP9QY5W8UeNPrFIXQVzxE3gc3x2bT1XlVU5VqDMOGZmtPttvvzyFCOK8ohrNDnd4S
+         rwEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719217006; x=1719821806;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=tXrTSK6bVTTPMRrTWn1jiwS0BgSLK4DHIpn4IueFd94=;
-        b=hAFGFSgk9enGTB9uuTS3uWKkLEi6tQip47zhUUyV1NjsUAyVUxU417O8KQUBmM1bz8
-         k53yG3OnvQi02qNVqNllZ9aVLKjFFqM/LPV/wXKJIcSF39kzGiGwNPv2E+HMowGnTN1A
-         pNb5bR3pjiYUTzIXl4aNobU8ebIVE5K1pihiSUZNH+E8KySP3Oq4hsedMNdBFIcVYNx3
-         ON86CLEJgeOpBOfW0VgXg25v9krZQqIt8Dgfzxr2IB+28HYD/5U3SZ48i6VqgYx1LQHM
-         xaOpMy1twgHg9nhul88xmksWd9dOvfli15pIPMkV96F7wo/5MJA2AKQ370Rpp1oeBTYX
-         JIDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGoo3BfqZsm66PwVg1gJpoVsrM+17SFTMfDfgcyQIAX9z9s/1VVsL+vpRJ6lQJyC8m0yY6MVtbBiAC9ZWJxSeMuGHJBsNNGaiKiPc=
-X-Gm-Message-State: AOJu0Yzrfv3EDwfd5o1KIb23E533smAq8L5Pdd6VtYfk8JOlJGUDaInp
-	+NKX0jW66iF2TepBD0/ewciB8+j5yIwkjB8/jSAbC40nsvvv9Nf+XlCSyxmF34M=
-X-Google-Smtp-Source: AGHT+IEo+12j/9T1nVgqzN9xgRI7usrHUa83kh+pyoH5xJqWRauCSS3MRB/w6TAmFp7e97EFCmj/bw==
-X-Received: by 2002:adf:eac8:0:b0:363:337a:3e0 with SMTP id ffacd0b85a97d-366e325ba0cmr4438059f8f.1.1719217005218;
-        Mon, 24 Jun 2024 01:16:45 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:cf01:774b:55fd:ab74? ([2a01:e0a:982:cbb0:cf01:774b:55fd:ab74])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4247d0c54e4sm167163005e9.23.2024.06.24.01.16.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Jun 2024 01:16:44 -0700 (PDT)
-Message-ID: <344a7c55-fee2-482b-88dd-4827422f7ed0@linaro.org>
-Date: Mon, 24 Jun 2024 10:16:43 +0200
+        d=1e100.net; s=20230601; t=1719217150; x=1719821950;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jwPwL72m8s93kw/p7VxOEDDmYj0qJsAuA8dl81m3PQc=;
+        b=EBvD+wStivbVmNEVn7xlEwwIFcW8ANZqeohlbimZKJGb+/mjpd/7uTtwC4mRrtXJ18
+         R9ntwHrf/++Ui504Ja2QD5QJWpHkDaog+TXF20xJLf3MiDJdBLD3vTH/cF7Pt8XnmAYp
+         TQclPwgUWl24vx1Taqr+miaolEEL6ZX+682F7+KQfu6dIGsfn+/6ol17yvO5OkWTULAO
+         7AJtyGyRfFhBQJtDiQSQ6iWQsl9/Z+H1S9J0yXYKcYclkwWUowtmW8pYbNbpnubMJ6oj
+         sRDP6E8o4VtAbWGXK6d6agLpNAMGXsTAMJL+0lMH3I7bQaGtuHYaGGgavOtzHVvxuWNx
+         ZATA==
+X-Forwarded-Encrypted: i=1; AJvYcCVeItBfiNZNHRxBvnhluLT/3/xRM8Huy7t/rzUSLwdLZARHZTACAmv3kNJmy/260nUhyg7aEgpAh6DkeenEGhNhSIlIBaqXo+cX/po=
+X-Gm-Message-State: AOJu0Yz1b8Xdd57qCh+c/P3EOmkgjNHmaNiXwEpdELNszhPdm4fh+Qoq
+	7ZcjTJOap8kgVvYvEL6i5w+qdtVxQ2cfcJTZyjTaKM6Dm8Qr20ap4jThCS39Pv0=
+X-Google-Smtp-Source: AGHT+IHpL6UH6p0b9w60yb/Nc8u8gfZQbm7Xx++lCO0XJ1GqYWCIG1rZ3OamjznZPFHcsOt+MHvVSQ==
+X-Received: by 2002:a05:6512:78f:b0:52b:bf8e:ffea with SMTP id 2adb3069b0e04-52ce064f62dmr2413777e87.40.1719217150488;
+        Mon, 24 Jun 2024 01:19:10 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52cd63bcef1sm923572e87.72.2024.06.24.01.19.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 01:19:10 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 24 Jun 2024 11:19:09 +0300
+Subject: [PATCH] MAINTAINERS: CC dri-devel list on Qualcomm FastRPC patches
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 1/2] dt-bindings: media: amlogic,gx-vdec: add the GXLX SoC
- family and update GXL
-To: Christian Hewitt <christianshewitt@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20240604051533.3312944-1-christianshewitt@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240604051533.3312944-1-christianshewitt@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20240624-fastrpc-ml-v1-1-5dad89dce78f@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAPwreWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDMyMT3bTE4pKigmTd3BxdI5Nk8xTT5DTTVPMkJaCGgqLUtMwKsGHRsbW
+ 1AHdoaQFcAAAA
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Amol Maheshwari <amahesh@qti.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Bjorn Andersson <andersson@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1140;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=hrcbm/Drjw9ypN+HcZfxd5WVucStMi5y/7ez75gjaJM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmeSv9zpf8H4BgKPlJxOg47IlU6qKet0Gdiy2mb
+ lK54d+wY2SJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZnkr/QAKCRCLPIo+Aiko
+ 1dokB/9wFHH32XcKFs1rHJdH5p1yiMiZrguW0qbo3/I8qIMjE2YUjFNtbRxgC+rk2TUs6uP6WM6
+ YEzuOuCRLhsffQOueT6cNgwHDNALL63lxA6n6sfbctfqzqNr5homT+myfqRZCGkPo1BBtGBPHKJ
+ Pr0Pr5QbXvvEvbJXk4ePerGK3kvMg9RbIE05Hah/c8eYVny9s7Q2NvOfuBQhVF/d0Jl8SxM6xfa
+ 5PZYnOPJPLEKZ/+O6+8y4U3QsK6aC6k0NzFUirbmtJKknqcmmLb5YiuSwbkpgMuhkwHcKwe4q3a
+ l1w+2aJKlNAHjiDSOfSPwcluCidivsn5WvRA/Aa5MLxfp7GY
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-Dear media maintainers,
+FastRPC is a way to offload method invocation to the DSPs on Qualcomm
+platforms. As the driver uses dma-bufs, add dri-devel mailing list to
+the MAINTAINERS's entry, so that DRM maintainers are notified about the
+uAPI changes. This follows the usual practice established by the "DMA
+BUFFER SHARING FRAMEWORK" entry in the file.
 
-On 04/06/2024 07:15, Christian Hewitt wrote:
-> The GXLX SoC is a GXL variant that omits VP9 codec support. Also add S905W
-> and S905Y as GXL chips and sort the GXL comment.
-> 
-> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
-> ---
->   Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> index 55930f6107c9..47dce75aeae6 100644
-> --- a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
-> @@ -31,7 +31,8 @@ properties:
->         - items:
->             - enum:
->                 - amlogic,gxbb-vdec # GXBB (S905)
-> -              - amlogic,gxl-vdec # GXL (S905X, S905D)
-> +              - amlogic,gxl-vdec # GXL (S905D, S905W, S905X, S905Y)
-> +              - amlogic,gxlx-vdec # GXLX (S905L)
->                 - amlogic,gxm-vdec # GXM (S912)
->             - const: amlogic,gx-vdec
->         - enum:
+Suggested-by: Bjorn Andersson <andersson@kernel.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Gentle ping, could this patchset be part of v6.11 ?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f45881e982d2..26d628c677a8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18621,6 +18621,7 @@ QUALCOMM FASTRPC DRIVER
+ M:	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+ M:	Amol Maheshwari <amahesh@qti.qualcomm.com>
+ L:	linux-arm-msm@vger.kernel.org
++L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+ F:	drivers/misc/fastrpc.c
 
-Thanks,
-Neil
+---
+base-commit: 2102cb0d050d34d50b9642a3a50861787527e922
+change-id: 20240624-fastrpc-ml-24c7d5cf5e7b
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
