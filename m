@@ -1,1825 +1,315 @@
-Return-Path: <linux-media+bounces-14099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14100-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D2F91658A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 12:50:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C02A89165B2
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 13:03:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1A36B21F4B
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 10:50:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D4891F24036
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 11:03:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6DBF14A4D1;
-	Tue, 25 Jun 2024 10:50:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8200D14AD17;
+	Tue, 25 Jun 2024 11:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="SipEt023"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="eq8VWKG8";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="HQBeBENp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148C61311A3
-	for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 10:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719312648; cv=none; b=nxuTu4GA5UUiJ2wUYsvNkR2HtjDZpAc5Fivrqn1zmkhUtClZBGE0Mbn6bhhuKowJdVXZIabz7DNvM0QRoRMkaBaZMhUfX3aqB6qFs/Aq9PAqqq/W+NCjtGZ1/27twK5fxP9KscbK+Q8OFq5bi3veccMRekGMZ4BsClBlwLfTtDw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719312648; c=relaxed/simple;
-	bh=P45HywBZ0jMc7+j97NIGDCIXn3SHrfbP4pMDq5uHJ00=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WLKtF681mkPTHTcLp683UGjaWxNMrTNjRQsr5ILdieUFxR19PrK7hHjuqdKm8GPpRvyI/HmMLyudZ5nQebqjg87rws2i4tofcir+LV6TrgUghxDYcl2YgeZM605uATimGcfh9IWGMvX4QvfVNGfa5YIUWCeNXT806PdxPFcVHsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=SipEt023; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-63036fa87dbso42854437b3.1
-        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 03:50:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271F81095B;
+	Tue, 25 Jun 2024 11:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.61.82.184
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719313375; cv=fail; b=k9uqB3s8Odj6jI1pxBvYZjBN8EABCalHNl2uUgGybosUcmAI3A4RuGnUEVQ2PS+UEH2i6pfKAfw+astsO/8pLMcY6BXPknXtEAEOjQOewuzNBNbEqPcFTG4pKIWeSfwaFAVNCJamaPkfB9XQFPe3fqpiYX6d2mI4yXcMnXnIAYc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719313375; c=relaxed/simple;
+	bh=pWMBkTK0JZDEZhx3RiuIr9wK/V2Oxmsx3ho7hoZWJ1c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qkDE7mNdla4eOV2JMMIDweoj33BiB8wFIPOt6wlGNo6xa4iPDL+LD9OVDLBb5I7JBj799JcNbBfAP+MWANENXrOG3uxV1EN/4q6sq6mS9gtEqrxv6OURoZIHFywC2W02YmDBbNFFN362f+bN6okLNt4KGqG/oxU6Xzk+4xSyHy4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=eq8VWKG8; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=HQBeBENp; arc=fail smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 715b706c32e211ef99dc3f8fac2c3230-20240625
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=pWMBkTK0JZDEZhx3RiuIr9wK/V2Oxmsx3ho7hoZWJ1c=;
+	b=eq8VWKG8o6SKvF1JZWaIQSU/8lqP2fRifsJu0oqYfUHwVoEzOqjSHl60XZSK01u/7H7XmwEW71ngQOO/dKuz5qPC/jRFbeO76BbLmDEIHT+BmFovMPgvQUMW1ZltVJYY1RiWD4Q4uW0fIrHnuqOXH/vJCVga5NJzeBJAixhSTg0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.39,REQID:1835891d-25f4-48e9-ab70-6e86b5d5c794,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:393d96e,CLOUDID:e1910045-4544-4d06-b2b2-d7e12813c598,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 715b706c32e211ef99dc3f8fac2c3230-20240625
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 2147056098; Tue, 25 Jun 2024 19:02:41 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 25 Jun 2024 19:02:39 +0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 25 Jun 2024 19:02:39 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kB2H/GXQ4BonQzxa/KqkpzPaJBzOtIQ2Api/CRwWSVVFqPlZlILKvv0F1RPuwRgd8q1410FowNsp+1OE3y9CQt9OdvmDVxPHqE65jEigS4JY1/oGqxKmIwwfd/vbKgrDp4sR5Lsx2qRlEfDIvxaPpeVrWJr8AxXWdNhdFnZ6JPKw8iwgVTpYdVyDZhqBhWgWOKiH+dgRgkf4Y89QUoCNM9i5lhaJZAZY7ZUy6l3jV1IPolpfmFMOYwcSB1IyREnamfBRJS6m0Y8TqSbqdEUHu7vLKqllEME9jOgE2iVouPpm4MOmNe4EiaMY2De7ATPbPOITw5u0FlyRin5zAMFZ1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pWMBkTK0JZDEZhx3RiuIr9wK/V2Oxmsx3ho7hoZWJ1c=;
+ b=bVLFFFzjnk94+M8At2JZUj0v7qZz/pt6Q3HrrIF/gTlxIlWIpSMDTFqHnMC6k3iXHggwq+FCOAyPRSRBiMi0wuG9x3203Zmmb4ZXL61OYfxHJz55TYqyOg7HXwSjvv1MO0Q0FFTba25ElTVE8AneEjEigzMWLJnidc9kCRtTz9SPBdJEKx7nJ6pZMR6nwdxkeXwWcB/xRrVzYJR553bDcfDXAN56N8dmdUlb/MfTZdN3oHHINDiZ0OChn6xSqRX5+WXdjKFZP4jqgHjtOCjklWKTHKoCt+x2xlytEewBogHMq/1/4DvWh6dRFNK6NEJ3BGevHeaIaf5UqP5/3zT9hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1719312643; x=1719917443; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rlbsQ9+a1t6/xZaEY707iWL+5qeQ8pnR9n4YC3NVQEQ=;
-        b=SipEt023LRpo78pDMlhjWdSK2is+2DBFR4C3quo7+6sruTckQmcTLEyJ1mLePVLYWB
-         uPoRAKDcTHQiCFyO4BdJDtatFON9YTiILpDlLnRBpG5sh2zBZ3B1/QBplC8KT4D0EB45
-         wx3B56yUyBLJe1+MqpuwmyhtDxGsObJSbHb3TOtyH3j0qdS2nezMrQY6K7gIZFktK/uA
-         J3Q43iJV/45V0N3F58iSi3WR0qL65eeTFLcp8rZRerhgk+bA4VTjzH8awRDAeryR7gB/
-         MsQm99fv+4co9NwXAPi900y8dZRWWXCYhhRRZR3e3mfcW0sLrAngGuZ9ktPXJgaoEz5u
-         qIDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719312643; x=1719917443;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rlbsQ9+a1t6/xZaEY707iWL+5qeQ8pnR9n4YC3NVQEQ=;
-        b=jZWN3y2P1GGyJitB0fk1E3UdBauwbgNlm3KaFxSjR6HYeAWbedcuYGlo2M+Ayi8DlA
-         FdlTzu8dPavssCzLLf5Y0N0LVU7orHFpebLX7zVeNLP3ISIAC3geDwmZZrEkIUsIvpgZ
-         q0yNphnG6As+8QPOcgX5kJ2yxLyBro0UmB78DKKvM+C49uggsp2qu4uvPOxpfGsZI4J8
-         duqJBBwUDzLj2HsKs2Jnd+rUv1zWrVqrzTaPwHkIm/xoFzBWI+FwSbmPDrETFbhXM8Qy
-         rZmYLnKHQEHSfiBUEL6ztu6uwaXE8IkBZNzlorxwTVZAa8poj0AyQxDQsRjrACPCTo5J
-         dgkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXs7V3dsBmydRbX361rJE1V8/0UGx7z5Fv33CMPh/Zef9I4xDPZ1sV1UL0J35H9rfkQ/MujtjnEovSC6/YyVV8hlF7rUL8af9DmHxU=
-X-Gm-Message-State: AOJu0YzJemrrcXpk6pDI68PdFmxDXrNHL9gUeKtU3UbV7vXDS992F0s8
-	bsGO4ahiq3rjj9PSKP4n/oZpgmAxp/czbJbv4bqpcm35jFjZPC6aBVkVI/6xbA6+KdFiAOeqBOn
-	iUn69xxlqHUa7D071AFLTuMHsRJTgYAD/DcIEfA==
-X-Google-Smtp-Source: AGHT+IH3350gZJySM7f4X4CPIVi+2ALJgxEniJsOPFS5sM2Me7m/eLyN4AqBNgU6pNdcC9AWQJWIcnDvuMLJB5qWDBs=
-X-Received: by 2002:a05:690c:6d08:b0:643:9ee0:25e0 with SMTP id
- 00721157ae682-6462f48f80amr25460697b3.22.1719312642661; Tue, 25 Jun 2024
- 03:50:42 -0700 (PDT)
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pWMBkTK0JZDEZhx3RiuIr9wK/V2Oxmsx3ho7hoZWJ1c=;
+ b=HQBeBENpR+rANJdgQL6wONaOUwllnNo4sUnrpL/zg3hQUrDszeyjCGWro5GOnBSWw5WpMhKJMrwEhfGKeAn0VFeh2NrrgqwAz6+pcSrsiCWkLS/V5xyGLFWh/7ryDxXfbSbFgbXDs/I0WlUeRaRGlzlzkQOwyFb54tR+7YR+nns=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by JH0PR03MB8603.apcprd03.prod.outlook.com (2603:1096:990:9c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.29; Tue, 25 Jun
+ 2024 11:02:37 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6%5]) with mapi id 15.20.7698.025; Tue, 25 Jun 2024
+ 11:02:36 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "robh+dt@kernel.org" <robh+dt@kernel.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "christian.koenig@amd.com"
+	<christian.koenig@amd.com>, =?utf-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?=
+	<Yong.Wu@mediatek.com>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "mripard@kernel.org" <mripard@kernel.org>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"jstultz@google.com" <jstultz@google.com>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+	=?utf-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?=
+	<Jianjiao.Zeng@mediatek.com>, "willy@infradead.org" <willy@infradead.org>,
+	=?utf-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
+	"quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>, "pavel@ucw.cz"
+	<pavel@ucw.cz>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"contact@emersion.fr" <contact@emersion.fr>, "logang@deltatee.com"
+	<logang@deltatee.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+	"jkardatzke@google.com" <jkardatzke@google.com>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+	"tjmercier@google.com" <tjmercier@google.com>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "joakim.bech@linaro.org"
+	<joakim.bech@linaro.org>, "ppaalanen@gmail.com" <ppaalanen@gmail.com>,
+	"angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>,
+	=?utf-8?B?WW91bGluIFBlaSAo6KO05Y+L5p6XKQ==?= <youlin.pei@mediatek.com>
+Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
+Thread-Topic: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
+Thread-Index: AQHaxufGtXYlJ2nIzkCmfICpDUjhvbHYUI0A
+Date: Tue, 25 Jun 2024 11:02:36 +0000
+Message-ID: <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
+References: <20240515112308.10171-1-yong.wu@mediatek.com>
+	 <20240515112308.10171-3-yong.wu@mediatek.com>
+	 <98721904-003d-4d0d-8cfe-1cecdd59ce01@amd.com>
+	 <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
+	 <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
+In-Reply-To: <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|JH0PR03MB8603:EE_
+x-ms-office365-filtering-correlation-id: 97e74071-d224-44cd-4f48-08dc95065281
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230037|7416011|376011|1800799021|366013|38070700015;
+x-microsoft-antispam-message-info: =?utf-8?B?cTlRR2lScDdaQzFpbXBCUitXSnU0ZWxPV0dHU05kR1BvNEs2UzhKSFRyVngx?=
+ =?utf-8?B?Zmx2Mmt4UnVqbnRPSWpjdzFmdE14YmtxUjlPeUQ4cnlWKzk4bzNUQzlTSDlR?=
+ =?utf-8?B?UXJURDgvOUkzRnRxSlNZQmp0V0lrckQzT1FPb0gvbWM4c3NKODVrMnhhVjFO?=
+ =?utf-8?B?SlI0djBFeTJwRFVBWk94Sno4WHBKQTluZ21pWVBBTUpZV3lRcXo1Yk9FUGww?=
+ =?utf-8?B?UWpqUUdGK2lHQ1Y2VHFxMzE5SnFkR0xFclJ5dW4rcmFKTGNGT05YVDZwdW5E?=
+ =?utf-8?B?SHBHY0RoczA1bzhOblltUVVOVFBGd3pwNTd1RGhrSjNUcHJGa1NCWDdKeGZS?=
+ =?utf-8?B?V1pDaGY5QVE1cFgvVzdRSkpKQUdhMkxJVDFmb3NXUVBKUHhTeVhMcHJBdWQv?=
+ =?utf-8?B?QkFXWVlPUFNOMVI3WFJuV2xyTTJaT1R6c1NxS2l0VHA4YU5Idi9sVWpmMkZO?=
+ =?utf-8?B?UzNUMVFidnNDaFdlTk41Q08yWHZtSkZHU29Id2NYZmJFeXZkTEY2c0ZWTFQ5?=
+ =?utf-8?B?ellWSG5uSkFIUUV0S0JKQk5iZjVIZ3gxQWV5ZWlicStFbmYraG1ac1loNVRr?=
+ =?utf-8?B?ZUUvKzN1M09iRzlHMUN0OUlZYXdHQWdmYXJJUDBub3RRTC93dC9EL1lReHEr?=
+ =?utf-8?B?cS9vWE9MMml2cHZWVlV4S2FZQW50ZnlqcUt6SERHdDlxZHUzL1R0TllTRjhX?=
+ =?utf-8?B?YmhCcUlwMFgrMFVyWDNkaWpYSmVUV1ZNOVE1ZGEzL2VUOHZDNENZNEN2dWZi?=
+ =?utf-8?B?aHZGK0gyVFIyckZaWVpVUDhVVnFlUGFiY2F5YWRtdWRTRitxTmtXZzN2V2dn?=
+ =?utf-8?B?T1pzaGdGZlNxWDQ2MVhNdkdBQVFhcldnZENJbUxRREN2bUoxa3kzQStyVFFZ?=
+ =?utf-8?B?bVhyWUMyQTE5TjhwbDNMdnhlaVkxNFl0MWJQTnZvdEcxbzVuSndSYzczY2oy?=
+ =?utf-8?B?S1g2dzYvVUc1d3MvaE85WXQxc2thb1JYZ1Q5MERHQ1VwYmJHK3pEU1Fwdmdn?=
+ =?utf-8?B?UVh3b01DRE94V1RXeGlvc0hGMWdFUkxNR0pHZnZBMTFuNzZZUmErRUM3eTF1?=
+ =?utf-8?B?UHdMaUVxYlhXSkJYN2RhbUdZZ05NMWhyMm5KRlFWMDFnc0RYOEFMdmUxVFdS?=
+ =?utf-8?B?cCt0YWd3OTRRMUx5MllSTDYzdDQ4bDNpMXNjWnhHd2FKOFNDVDFlSy9MVlpj?=
+ =?utf-8?B?Q3FnV3hzWFFkMytZeDFFZk9rZnRlRk9kcE9HL09XeE9XTzZyUDlkUGNFWEEy?=
+ =?utf-8?B?T3VGVHZ6Q0lHOE5CNjVmdWphRVFzcGx4dUxtdEh5Nmx0WElyTml3RkZNUm5s?=
+ =?utf-8?B?MFIwQ0dTRXkrdVBrVjluaFE0bm9WWWU4MXArS25IaGRlVnVOc05ZNjAwQTdm?=
+ =?utf-8?B?MWRYdEFNZnk2TDdZTkYxU2UyR2ZsZ3FOL3cvTjVrQUlTL1BTVVE4QUtXZitp?=
+ =?utf-8?B?NFlnMU1oeEJQM2lGWC9iK0xZamVBazVqdG5HWEtMY3VLcFAyYkNMTnVDWXd4?=
+ =?utf-8?B?ZzN1anFTcmFHSTAzSmw2SGUxVFRuRFVqT0dGZkd6UUV0RjR4dlhRWHY4Tm04?=
+ =?utf-8?B?MTB5S1dtbGRMdUs5T1l0N3VuZHBVOG83a252cEtGbTJKSWMwUXBiY0hwZFVX?=
+ =?utf-8?B?YVE0Rm42NXlHWmhZTW1oTkxwaHhNamxNYVl1anoyQ2M1bTlraTlFMlIxMnAw?=
+ =?utf-8?B?LzA1cEQ1c20yMENXNEJYRnFhZVBxdWY5d1g1bE5uV2h2a3puUmRtMEx4Q0FW?=
+ =?utf-8?B?b1NqYlppSFdaODZ0STEyT2x6MlRQc3kvV25UVDM0ek1jenhvcHdiaDE1S1o3?=
+ =?utf-8?Q?BHdIlVUHZIQxzGsnEcdoDATp9qlb9fFgteErY=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR03MB7682.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(7416011)(376011)(1800799021)(366013)(38070700015);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?c0hIZ1ZQRGt1ek9qb21NbmpaSUlweVBXWFhQTDA4Y3Q2bVc3M1BwZUZmY0oy?=
+ =?utf-8?B?R2YxWXVnczlvMVlmMmw0QnZVNGd5dm5lbmdwTjhocWU3TFZMa2szQytzVjA2?=
+ =?utf-8?B?YU0zUXhkVmpIN1BOUFU2b3JKVGtwemV0bUFiUjFMK0pua2NPMVpxNWpFa3lT?=
+ =?utf-8?B?Ly9VTzN6Y3NRbXpFTFNlSExXdVlLZDdnRlhmQStVZEROZ1JFTzRpUXFlOWtJ?=
+ =?utf-8?B?L0EvTkRML2k2d2p5RVVNTUR2ZE1yM3dnMUtMV3NMdVVpaThac01sVjkvclZ2?=
+ =?utf-8?B?YnFXdUVNWTlFNmRGZ0RxWXRsWkxtUDA5eEcwNWpFYXBLNDNkSENNcjJERGcy?=
+ =?utf-8?B?UXZobnBGWGZGTk0yd3dQTE1oOWpBRFZDNjRPK25DYitvNGRsVncwNkpMWjRr?=
+ =?utf-8?B?SVJrcW5vU1JSb0crYVA2cFFkcUw1ZDBsNnd0WVpsbWVQenlndk9qeGRWUUVk?=
+ =?utf-8?B?ZzYrZXNkSEJzYVY4L2dWZUdQSTFrb3FlNXpyUm5WM0lWQzdQMjdCcldSK0Vn?=
+ =?utf-8?B?cCs2Z2cvSHA2Z0NHZlRIM01HUVJMaUxDQ1lTVkpoZmRJNDk3LzJYSU05d01t?=
+ =?utf-8?B?bnJsSWtkbGpESGZuNXBERWxhdmk2WE0xWklMTzFuRVg4Y3N0dVllN2hUZ1hC?=
+ =?utf-8?B?U3Y5eFZKSkx3Y2Z3cCtiNlloSEQvMWFmK1hiRmRTME1weE5ONG9qQ0o2TWRQ?=
+ =?utf-8?B?bWNYK2wrTE1LZEYrWnd0TXFYN1kweW85Rnkwems0U1lZMTZ5OGFVRnlWU2N2?=
+ =?utf-8?B?YnR3QUVHZzAxbTFQVm1MZmlDeUU4ZjQySUdiNmsvcmw5azVOcVVRZ0svZkZ5?=
+ =?utf-8?B?Znhpc1RZakJObTM5NFdYWDBUelo2d3orRTJUckc2SWJ2ekdreS81U1NNVjJr?=
+ =?utf-8?B?SlJSMHVLcXhpR1o1czMvV2NEbGY0UnRscVpiS3ZGakFVUk4wOUNyc2RHTVJx?=
+ =?utf-8?B?NkhMNWpaQ3ZCOU04TGJqelB1WjNSR2t3L0dwcXVhcXkvUTNqajhrU3lQMEVj?=
+ =?utf-8?B?bzdpbWtsUVdEeXVhdFN5M295NDlRN3ZNakpaeHFOaTEvY1BOQy9ZZDd3U2xq?=
+ =?utf-8?B?SVdFekJ1Z3hMc3FqZnlDTEtSWWphaGRPWUxHbFA3Q1Rwb0UvZW5tVWVxMHlo?=
+ =?utf-8?B?VEF3VjJtNG8xVUhVSm9GOFUzeG5DSnFhQWQ3N3NWb3hOaWNjWjNPU1lBelgw?=
+ =?utf-8?B?REQvVGJGU1MyVTFSV2xqT0NvK1ZpRnh1aVZZL2VlU2J6aXIwTHhENUpDUE85?=
+ =?utf-8?B?Y1BYaHZvcUI3ZFJMaTN5NjNzWmY4Ykpmd0w0ZS9Vb1ZJRVNYWWloWHpPSXRj?=
+ =?utf-8?B?dmVvVm5GMkhKdkVTQndPWTAvYjhpQUdDczdROGpxY0ZiZXBXNERHdlJxdGhT?=
+ =?utf-8?B?cDBVTEdWYlo4MUsxdnBheXhXT251L2JWblBicjZNdlpMejRvS2JaRjBzdWQ1?=
+ =?utf-8?B?SnZXaWswL1oxM0hQUXl0cjJBUWtUbGNLUHJweG1oYUpReTZxV3hrNTFFdGZK?=
+ =?utf-8?B?dXB1U3B0VXhpZlR5QTZhRERHUVZhWkJydXMxQWV6RVBEYURiNXhPTmpCbkxx?=
+ =?utf-8?B?M25HQVZwQXNQb2R6MG5tWDVjM1Y0cGJlQWJFZkdJV2Y0d3ExOFVxbEdRSWlw?=
+ =?utf-8?B?c1Q3SFY3RWZBdFF4cU1JS2V1alo1R3VmOEJqdFRsblFFNWExVWdHc3FGNk1D?=
+ =?utf-8?B?cFhsQ3YvaElDTFdMdWJVUGk0RjJBanZibVB3NnlDdlROWlFhWUNSU3BOWnhK?=
+ =?utf-8?B?YTEyMjdkekRpZzJSZ250c3poNnhkT2VKdWZvcURQMUNvMVZ6UlRFenJTVnkx?=
+ =?utf-8?B?YmtXRnUyZjUxZkdnTC9XRGVQZ214Um50a1VuZjczOXJ0ZUZURkE3TDdUK09W?=
+ =?utf-8?B?M2ZaWHBTRzZvNFpzVVAwYzVMRDQ0V1hqczBSbHprOVUrSmFrVENPVHljQlpQ?=
+ =?utf-8?B?d2tCUXBENlZBcS9WNlJWdXBvOHowVWpZWjE3Q0k3MnlWT3ZSU2VUNDZRamNi?=
+ =?utf-8?B?Rm1NdlZGWEVwSHEzaGFZRENxaU83Zi9RelI5WWh3YnhTRVo4OHlqVUhlc2F6?=
+ =?utf-8?B?dkVwa3MyTUliNEYvUlI2Y3hZQndqUjZoN1BvSUI2MUdlTmhFZHQvYW1aVm5V?=
+ =?utf-8?B?dmdqK05SRVFscXczN29PSWhXL2xhVWJTZnhPbXR0RGZUaVdjUUVoMjlka2dJ?=
+ =?utf-8?B?c0E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <501BE1303B9C094B996CF1CE6A9FBEA4@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531080707.34568-1-jacopo.mondi@ideasonboard.com>
- <20240531080707.34568-8-jacopo.mondi@ideasonboard.com> <1d946407-935c-44b1-8a24-50346d942bd3@xs4all.nl>
- <rhwd2js4e4wmnzw4qaxgxfzlkffugi2eglavgx3tmn66oek6ez@5xew3lk6geaw>
-In-Reply-To: <rhwd2js4e4wmnzw4qaxgxfzlkffugi2eglavgx3tmn66oek6ez@5xew3lk6geaw>
-From: Naushir Patuck <naush@raspberrypi.com>
-Date: Tue, 25 Jun 2024 11:50:08 +0100
-Message-ID: <CAEmqJPqVJQwT05KO5NNNU+yDpf9uRgcpDu5G6KzYZYAitCa6HQ@mail.gmail.com>
-Subject: Re: [PATCH v9 7/8] media: raspberrypi: Add support for PiSP BE
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, David Plowman <david.plowman@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97e74071-d224-44cd-4f48-08dc95065281
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2024 11:02:36.5941
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /CJffdx6G+bPlEw3D/oh5SJKF+khEzylyf8WXbD4yDwT9atFPA4mGHbbSqbrLC6sj3ezbJc+vWRRb1X6cFrZmvoVAIyQ09o14zpeEJSUDmk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR03MB8603
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--23.148400-8.000000
+X-TMASE-MatchedRID: TmlY9+XBoTkOwH4pD14DsPHkpkyUphL9t3r4XgTRDHeFjYT64fkpaaWz
+	WoIRiV9DM/Se/q/gEyf5MiS7M8c1eGmXMi7Ntyo2RLYH80czGtfVBDonH99+VmHZ+cd7VyKXHOW
+	W/Rp/isqkezmFj1qaDD6KDKqSBiRZ4MG9jJywnBUSEYfcJF0pRdJ178I1tpklze5MPJBEaTTi0n
+	VT9rWZ+S/ZfM5oj2c5hmFEOYeR2DKQqMvYg6LYsItbv1rdjkQ6yeUl7aCTy8hrMbakJN8Oedzuz
+	yvdSEu2ezwGvx6xji0agCCNzTrLEPBUGlJBh5pXFYJUGv4DL3wu7Xu+fl4ygRae5J4l8aLzJDkG
+	kQuDnwNuCqm9GoQdiRFIHsQDg8oi2HzzjwqZ3wIDSdxA8LlApfy9bLgnh4Ap1VTshZ4BQIv8/L2
+	o6LnOl/1TKBjmzrURsjNhHj6oBIPC5N8cNUn/Xlz+axQLnAVBvgdLSTYd46jagsZM0qVv1ycL9g
+	83vYg4GBQG4ecYGn2Rk6XtYogiatLvsKjhs0ldVnRXm1iHN1bEQdG7H66TyOk/y0w7JiZo
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--23.148400-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	CED28E86FDDE1AACD1C973F1087D84373E7BFC8E8DF4125DDD719862A72EC6892000:8
 
-Hi Jacopo,
-
-On Tue, 25 Jun 2024 at 11:02, Jacopo Mondi
-<jacopo.mondi@ideasonboard.com> wrote:
->
-> Hi Hans
->
->  + one question for Naush
->
-> On Mon, Jun 24, 2024 at 04:13:26PM GMT, Hans Verkuil wrote:
-> > On 31/05/2024 10:07, Jacopo Mondi wrote:
-> > > From: Naushir Patuck <naush@raspberrypi.com>
-> > >
-> > > Add support for the Raspberry Pi PiSP Back End.
-> > >
-> > > The driver has been upported from the Raspberry Pi kernel at revision
-> > > f74893f8a0c2 ("drivers: media: pisp_be: Update seqeuence numbers of the
-> > > buffers").
-> > >
-> > > The ISP documentation is available at:
-> > > https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
-> > >
-> > > Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
-> > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > Signed-off-by: Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > ---
-> > >  MAINTAINERS                                   |    1 +
-> > >  drivers/media/platform/Kconfig                |    1 +
-> > >  drivers/media/platform/Makefile               |    1 +
-> > >  drivers/media/platform/raspberrypi/Kconfig    |    5 +
-> > >  drivers/media/platform/raspberrypi/Makefile   |    3 +
-> > >  .../platform/raspberrypi/pisp_be/Kconfig      |   12 +
-> > >  .../platform/raspberrypi/pisp_be/Makefile     |    6 +
-> > >  .../platform/raspberrypi/pisp_be/pisp_be.c    | 1809 +++++++++++++++++
-> > >  .../raspberrypi/pisp_be/pisp_be_formats.h     |  519 +++++
-> > >  9 files changed, 2357 insertions(+)
-> > >  create mode 100644 drivers/media/platform/raspberrypi/Kconfig
-> > >  create mode 100644 drivers/media/platform/raspberrypi/Makefile
-> > >  create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Kconfig
-> > >  create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Makefile
-> > >  create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> > >  create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
-> > >
-> >
-> > <snip>
-> >
-> > > +static int pispbe_node_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
-> > > +                              unsigned int *nplanes, unsigned int sizes[],
-> > > +                              struct device *alloc_devs[])
-> > > +{
-> > > +   struct pispbe_node *node = vb2_get_drv_priv(q);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> >
-> > This is wrong for VIDIOC_CREATE_BUFS:
-> >
-> > the standard check is:
-> >
-> >         if (*nplanes)
-> >                 return sizes[0] < size ? -EINVAL : 0;
-> >
-> > (where 'size' is the actual minimum size of the plane).
-> >
-> > But here 'sizes[0]' is updated to 'size', and that makes it impossible
-> > to let userspace specify a larger buffer.
-> >
-> > Now, v4l2-compliance should have failed on this code, but I am beginning
-> > to suspect that there is a bug in v4l2-compliance. It's not the first time
-> > I'm reviewing a driver that makes this mistake, but v4l2-compliance passes.
-> >
-> > I'll dig into that on Wednesday.
-> >
-> > In the meantime this code needs to be updated.
->
-> I have reimplemented the function as
->
-> static int pispbe_node_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
->                                    unsigned int *nplanes, unsigned int sizes[],
->                                    struct device *alloc_devs[])
-> {
->         struct pispbe_node *node = vb2_get_drv_priv(q);
->         struct pispbe_dev *pispbe = node->pispbe;
->         unsigned int num_planes = NODE_IS_MPLANE(node) ?
->                                   node->format.fmt.pix_mp.num_planes : 1;
->
->         if (*nplanes) {
->                 if (*nplanes != num_planes)
->                         return -EINVAL;
->
->                 for (unsigned int i = 0; i < *nplanes; i++) {
->                         unsigned int size = NODE_IS_MPLANE(node) ?
->                                 node->format.fmt.pix_mp.plane_fmt[i].sizeimage :
->                                 node->format.fmt.meta.buffersize;
->
->                         if (sizes[i] != size)
->                                 return -EINVAL;
->                 }
->
->                 return 0;
->         }
->
->         *nplanes = num_planes;
->         for (unsigned int i = 0; i < *nplanes; i++) {
->                 unsigned int size = NODE_IS_MPLANE(node) ?
->                                 node->format.fmt.pix_mp.plane_fmt[i].sizeimage :
->                                 node->format.fmt.meta.buffersize;
->                 sizes[i] = size;
->         }
->
->         dev_dbg(pispbe->dev,
->                 "Image (or metadata) size %u, nbuffers %u for node %s\n",
->                 sizes[0], *nbuffers, NODE_NAME(node));
->
->         return 0;
-> }
->
-> Naush: I have dropped
->
->                 /*
->                  * Limit the config node buffer count to the number of internal
->                  * buffers allocated.
->                  */
->                 if (node->id == CONFIG_NODE)
->                         *nbuffers = min_t(unsigned int, *nbuffers,
->                                           PISP_BE_NUM_CONFIG_BUFFERS);
->
-> with:
->
-> /* Maximum number of config buffers possible */
-> #define PISP_BE_NUM_CONFIG_BUFFERS VB2_MAX_FRAME
->
-> as it is my understanding the vb2 core already limits num_buffers to
-> VB2_MAX_FRAME in vb2_core_queue_init() and it is not clear to me why
-> the above only applies to CONFIG_NODE. Are you ok with this ?
-
-This looks fine to me.
-
-We do this specifically for the config node because we allocate a set
-of shadow config buffers during probe (the number of shadow buffers
-being PISP_BE_NUM_CONFIG_BUFFERS).
-
-Regards,
-Naush
-
->
-> Thanks
->   j
->
->
-> >
-> > > +   *nplanes = 1;
-> > > +   if (NODE_IS_MPLANE(node)) {
-> > > +           *nplanes = node->format.fmt.pix_mp.num_planes;
-> > > +           for (unsigned int i = 0; i < *nplanes; i++) {
-> > > +                   unsigned int size =
-> > > +                           node->format.fmt.pix_mp.plane_fmt[i].sizeimage;
-> > > +
-> > > +                   if (sizes[i] && sizes[i] < size) {
-> > > +                           dev_dbg(pispbe->dev, "%s: size %u < %u\n",
-> > > +                                   __func__, sizes[i], size);
-> > > +                           return -EINVAL;
-> > > +                   }
-> > > +                   sizes[i] = size;
-> > > +           }
-> > > +   } else if (NODE_IS_META(node)) {
-> > > +           sizes[0] = node->format.fmt.meta.buffersize;
-> > > +           /*
-> > > +            * Limit the config node buffer count to the number of internal
-> > > +            * buffers allocated.
-> > > +            */
-> > > +           if (node->id == CONFIG_NODE)
-> > > +                   *nbuffers = min_t(unsigned int, *nbuffers,
-> > > +                                     PISP_BE_NUM_CONFIG_BUFFERS);
-> > > +   }
-> > > +
-> > > +   dev_dbg(pispbe->dev,
-> > > +           "Image (or metadata) size %u, nbuffers %u for node %s\n",
-> > > +           sizes[0], *nbuffers, NODE_NAME(node));
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_buffer_prepare(struct vb2_buffer *vb)
-> > > +{
-> > > +   struct pispbe_node *node = vb2_get_drv_priv(vb->vb2_queue);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   unsigned int num_planes = NODE_IS_MPLANE(node) ?
-> > > +                             node->format.fmt.pix_mp.num_planes : 1;
-> > > +
-> > > +   for (unsigned int i = 0; i < num_planes; i++) {
-> > > +           unsigned long size = NODE_IS_MPLANE(node) ?
-> > > +                           node->format.fmt.pix_mp.plane_fmt[i].sizeimage :
-> > > +                           node->format.fmt.meta.buffersize;
-> > > +
-> > > +           if (vb2_plane_size(vb, i) < size) {
-> > > +                   dev_dbg(pispbe->dev,
-> > > +                           "data will not fit into plane %d (%lu < %lu)\n",
-> > > +                           i, vb2_plane_size(vb, i), size);
-> > > +                   return -EINVAL;
-> > > +           }
-> > > +
-> > > +           vb2_set_plane_payload(vb, i, size);
-> > > +   }
-> > > +
-> > > +   if (node->id == CONFIG_NODE) {
-> > > +           void *dst = &node->pispbe->config[vb->index];
-> > > +           void *src = vb2_plane_vaddr(vb, 0);
-> > > +
-> > > +           memcpy(dst, src, sizeof(struct pisp_be_tiles_config));
-> > > +
-> > > +           return pisp_be_validate_config(pispbe, dst);
-> > > +   }
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static void pispbe_node_buffer_queue(struct vb2_buffer *buf)
-> > > +{
-> > > +   struct vb2_v4l2_buffer *vbuf =
-> > > +           container_of(buf, struct vb2_v4l2_buffer, vb2_buf);
-> > > +   struct pispbe_buffer *buffer =
-> > > +           container_of(vbuf, struct pispbe_buffer, vb);
-> > > +   struct pispbe_node *node = vb2_get_drv_priv(buf->vb2_queue);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   unsigned long flags;
-> > > +
-> > > +   dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
-> > > +   spin_lock_irqsave(&node->ready_lock, flags);
-> > > +   list_add_tail(&buffer->ready_list, &node->ready_queue);
-> > > +   spin_unlock_irqrestore(&node->ready_lock, flags);
-> > > +
-> > > +   /*
-> > > +    * Every time we add a buffer, check if there's now some work for the hw
-> > > +    * to do.
-> > > +    */
-> > > +   pispbe_schedule(pispbe, false);
-> > > +}
-> > > +
-> > > +static int pispbe_node_start_streaming(struct vb2_queue *q, unsigned int count)
-> > > +{
-> > > +   struct pispbe_node *node = vb2_get_drv_priv(q);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   unsigned long flags;
-> > > +   int ret;
-> > > +
-> > > +   ret = pm_runtime_resume_and_get(pispbe->dev);
-> > > +   if (ret < 0)
-> > > +           return ret;
-> >
-> > start_streaming must return all queued buffers to state VB2_BUF_STATE_QUEUED on error.
-> >
-> > > +
-> > > +   spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > > +   node->pispbe->streaming_map |=  BIT(node->id);
-> > > +   node->pispbe->sequence = 0;
-> > > +   spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > +
-> > > +   dev_dbg(pispbe->dev, "%s: for node %s (count %u)\n",
-> > > +           __func__, NODE_NAME(node), count);
-> > > +   dev_dbg(pispbe->dev, "Nodes streaming now 0x%x\n",
-> > > +           node->pispbe->streaming_map);
-> > > +
-> > > +   /* Maybe we're ready to run. */
-> > > +   pispbe_schedule(pispbe, false);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static void pispbe_node_stop_streaming(struct vb2_queue *q)
-> > > +{
-> > > +   struct pispbe_node *node = vb2_get_drv_priv(q);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   struct pispbe_buffer *buf;
-> > > +   unsigned long flags;
-> > > +
-> > > +   /*
-> > > +    * Now this is a bit awkward. In a simple M2M device we could just wait
-> > > +    * for all queued jobs to complete, but here there's a risk that a
-> > > +    * partial set of buffers was queued and cannot be run. For now, just
-> > > +    * cancel all buffers stuck in the "ready queue", then wait for any
-> > > +    * running job.
-> > > +    *
-> > > +    * This may return buffers out of order.
-> > > +    */
-> > > +   dev_dbg(pispbe->dev, "%s: for node %s\n", __func__, NODE_NAME(node));
-> > > +   spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > > +   do {
-> > > +           unsigned long flags1;
-> > > +
-> > > +           spin_lock_irqsave(&node->ready_lock, flags1);
-> > > +           buf = list_first_entry_or_null(&node->ready_queue,
-> > > +                                          struct pispbe_buffer,
-> > > +                                          ready_list);
-> > > +           if (buf) {
-> > > +                   list_del(&buf->ready_list);
-> > > +                   vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> > > +           }
-> > > +           spin_unlock_irqrestore(&node->ready_lock, flags1);
-> > > +   } while (buf);
-> > > +   spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > +
-> > > +   vb2_wait_for_all_buffers(&node->queue);
-> > > +
-> > > +   spin_lock_irqsave(&pispbe->hw_lock, flags);
-> > > +   pispbe->streaming_map &= ~BIT(node->id);
-> > > +   spin_unlock_irqrestore(&pispbe->hw_lock, flags);
-> > > +
-> > > +   pm_runtime_mark_last_busy(pispbe->dev);
-> > > +   pm_runtime_put_autosuspend(pispbe->dev);
-> > > +
-> > > +   dev_dbg(pispbe->dev, "Nodes streaming now 0x%x\n",
-> > > +           pispbe->streaming_map);
-> > > +}
-> > > +
-> > > +static const struct vb2_ops pispbe_node_queue_ops = {
-> > > +   .queue_setup = pispbe_node_queue_setup,
-> > > +   .buf_prepare = pispbe_node_buffer_prepare,
-> > > +   .buf_queue = pispbe_node_buffer_queue,
-> > > +   .start_streaming = pispbe_node_start_streaming,
-> > > +   .stop_streaming = pispbe_node_stop_streaming,
-> > > +};
-> > > +
-> > > +static const struct v4l2_file_operations pispbe_fops = {
-> > > +   .owner          = THIS_MODULE,
-> > > +   .open           = v4l2_fh_open,
-> > > +   .release        = vb2_fop_release,
-> > > +   .poll           = vb2_fop_poll,
-> > > +   .unlocked_ioctl = video_ioctl2,
-> > > +   .mmap           = vb2_fop_mmap
-> > > +};
-> > > +
-> > > +static int pispbe_node_querycap(struct file *file, void *priv,
-> > > +                           struct v4l2_capability *cap)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   strscpy(cap->driver, PISPBE_NAME, sizeof(cap->driver));
-> > > +   strscpy(cap->card, PISPBE_NAME, sizeof(cap->card));
-> > > +   snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
-> > > +            dev_name(pispbe->dev));
-> >
-> > This should be prefilled for you by the core.
-> >
-> > > +
-> > > +   cap->capabilities = V4L2_CAP_VIDEO_CAPTURE_MPLANE |
-> > > +                       V4L2_CAP_VIDEO_OUTPUT_MPLANE |
-> > > +                       V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS |
-> > > +                       V4L2_CAP_META_OUTPUT;
-> > > +   cap->device_caps = node->vfd.device_caps;
-> >
-> > device_caps and capabilities should also be set for you.
-> >
-> > > +
-> > > +   dev_dbg(pispbe->dev, "Caps for node %s: %x and %x (dev %x)\n",
-> > > +           NODE_NAME(node), cap->capabilities, cap->device_caps,
-> > > +           node->vfd.device_caps);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_g_fmt_vid_cap(struct file *file, void *priv,
-> > > +                                struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   if (!NODE_IS_CAPTURE(node) || NODE_IS_META(node)) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "Cannot get capture fmt for output node %s\n",
-> > > +                   NODE_NAME(node));
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   *f = node->format;
-> > > +   dev_dbg(pispbe->dev, "Get capture format for node %s\n",
-> > > +           NODE_NAME(node));
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_g_fmt_vid_out(struct file *file, void *priv,
-> > > +                                struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   if (NODE_IS_CAPTURE(node) || NODE_IS_META(node)) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "Cannot get capture fmt for output node %s\n",
-> > > +                    NODE_NAME(node));
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   *f = node->format;
-> > > +   dev_dbg(pispbe->dev, "Get output format for node %s\n",
-> > > +           NODE_NAME(node));
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_g_fmt_meta_out(struct file *file, void *priv,
-> > > +                                 struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   if (!NODE_IS_META(node) || NODE_IS_CAPTURE(node)) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "Cannot get capture fmt for meta output node %s\n",
-> > > +                   NODE_NAME(node));
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   *f = node->format;
-> > > +   dev_dbg(pispbe->dev, "Get output format for meta node %s\n",
-> > > +           NODE_NAME(node));
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static const struct pisp_be_format *pispbe_find_fmt(unsigned int fourcc)
-> > > +{
-> > > +   for (unsigned int i = 0; i < ARRAY_SIZE(supported_formats); i++) {
-> > > +           if (supported_formats[i].fourcc == fourcc)
-> > > +                   return &supported_formats[i];
-> > > +   }
-> > > +
-> > > +   return NULL;
-> > > +}
-> > > +
-> > > +static void pispbe_set_plane_params(struct v4l2_format *f,
-> > > +                               const struct pisp_be_format *fmt)
-> > > +{
-> > > +   unsigned int nplanes = f->fmt.pix_mp.num_planes;
-> > > +   unsigned int total_plane_factor = 0;
-> > > +
-> > > +   for (unsigned int i = 0; i < PISPBE_MAX_PLANES; i++)
-> > > +           total_plane_factor += fmt->plane_factor[i];
-> > > +
-> > > +   for (unsigned int i = 0; i < nplanes; i++) {
-> > > +           struct v4l2_plane_pix_format *p = &f->fmt.pix_mp.plane_fmt[i];
-> > > +           unsigned int bpl, plane_size;
-> > > +
-> > > +           bpl = (f->fmt.pix_mp.width * fmt->bit_depth) >> 3;
-> > > +           bpl = ALIGN(max(p->bytesperline, bpl), fmt->align);
-> > > +
-> > > +           plane_size = bpl * f->fmt.pix_mp.height *
-> > > +                 (nplanes > 1 ? fmt->plane_factor[i] : total_plane_factor);
-> > > +           /*
-> > > +            * The shift is to divide out the plane_factor fixed point
-> > > +            * scaling of 8.
-> > > +            */
-> > > +           plane_size = max(p->sizeimage, plane_size >> 3);
-> > > +
-> > > +           p->bytesperline = bpl;
-> > > +           p->sizeimage = plane_size;
-> > > +   }
-> > > +}
-> > > +
-> > > +static void pispbe_try_format(struct v4l2_format *f, struct pispbe_node *node)
-> > > +{
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   u32 pixfmt = f->fmt.pix_mp.pixelformat;
-> > > +   const struct pisp_be_format *fmt;
-> > > +   bool is_rgb;
-> > > +
-> > > +   dev_dbg(pispbe->dev,
-> > > +           "%s: [%s] req %ux%u %p4cc, planes %d\n",
-> > > +           __func__, NODE_NAME(node), f->fmt.pix_mp.width,
-> > > +           f->fmt.pix_mp.height, &pixfmt,
-> > > +           f->fmt.pix_mp.num_planes);
-> > > +
-> > > +   fmt = pispbe_find_fmt(pixfmt);
-> > > +   if (!fmt) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "%s: [%s] Format not found, defaulting to YUV420\n",
-> > > +                   __func__, NODE_NAME(node));
-> > > +           fmt = pispbe_find_fmt(V4L2_PIX_FMT_YUV420);
-> > > +   }
-> > > +
-> > > +   f->fmt.pix_mp.pixelformat = fmt->fourcc;
-> > > +   f->fmt.pix_mp.num_planes = fmt->num_planes;
-> > > +   f->fmt.pix_mp.field = V4L2_FIELD_NONE;
-> > > +   f->fmt.pix_mp.width = max(min(f->fmt.pix_mp.width, 65536u),
-> > > +                             PISP_BACK_END_MIN_TILE_WIDTH);
-> > > +   f->fmt.pix_mp.height = max(min(f->fmt.pix_mp.height, 65536u),
-> > > +                              PISP_BACK_END_MIN_TILE_HEIGHT);
-> > > +
-> > > +   /*
-> > > +    * Fill in the actual colour space when the requested one was
-> > > +    * not supported. This also catches the case when the "default"
-> > > +    * colour space was requested (as that's never in the mask).
-> > > +    */
-> > > +   if (!(V4L2_COLORSPACE_MASK(f->fmt.pix_mp.colorspace) &
-> > > +       fmt->colorspace_mask))
-> > > +           f->fmt.pix_mp.colorspace = fmt->colorspace_default;
-> > > +
-> > > +   /* In all cases, we only support the defaults for these: */
-> > > +   f->fmt.pix_mp.ycbcr_enc =
-> > > +           V4L2_MAP_YCBCR_ENC_DEFAULT(f->fmt.pix_mp.colorspace);
-> > > +   f->fmt.pix_mp.xfer_func =
-> > > +           V4L2_MAP_XFER_FUNC_DEFAULT(f->fmt.pix_mp.colorspace);
-> > > +
-> > > +   is_rgb = f->fmt.pix_mp.colorspace == V4L2_COLORSPACE_SRGB;
-> > > +   f->fmt.pix_mp.quantization =
-> > > +           V4L2_MAP_QUANTIZATION_DEFAULT(is_rgb, f->fmt.pix_mp.colorspace,
-> > > +                                         f->fmt.pix_mp.ycbcr_enc);
-> > > +
-> > > +   /* Set plane size and bytes/line for each plane. */
-> > > +   pispbe_set_plane_params(f, fmt);
-> > > +
-> > > +   for (unsigned int i = 0; i < f->fmt.pix_mp.num_planes; i++) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "%s: [%s] calc plane %d, %ux%u, depth %u, bpl %u size %u\n",
-> > > +                   __func__, NODE_NAME(node), i, f->fmt.pix_mp.width,
-> > > +                   f->fmt.pix_mp.height, fmt->bit_depth,
-> > > +                   f->fmt.pix_mp.plane_fmt[i].bytesperline,
-> > > +                   f->fmt.pix_mp.plane_fmt[i].sizeimage);
-> > > +   }
-> > > +}
-> > > +
-> > > +static int pispbe_node_try_fmt_vid_cap(struct file *file, void *priv,
-> > > +                                  struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   if (!NODE_IS_CAPTURE(node) || NODE_IS_META(node)) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "Cannot set capture fmt for output node %s\n",
-> > > +                   NODE_NAME(node));
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   pispbe_try_format(f, node);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_try_fmt_vid_out(struct file *file, void *priv,
-> > > +                                  struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   if (!NODE_IS_OUTPUT(node) || NODE_IS_META(node)) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "Cannot set capture fmt for output node %s\n",
-> > > +                   NODE_NAME(node));
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   pispbe_try_format(f, node);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_try_fmt_meta_out(struct file *file, void *priv,
-> > > +                                   struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   if (!NODE_IS_META(node) || NODE_IS_CAPTURE(node)) {
-> > > +           dev_dbg(pispbe->dev,
-> > > +                   "Cannot set capture fmt for meta output node %s\n",
-> > > +                   NODE_NAME(node));
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   f->fmt.meta.dataformat = V4L2_META_FMT_RPI_BE_CFG;
-> > > +   f->fmt.meta.buffersize = sizeof(struct pisp_be_tiles_config);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_s_fmt_vid_cap(struct file *file, void *priv,
-> > > +                                struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   int ret;
-> > > +
-> > > +   ret = pispbe_node_try_fmt_vid_cap(file, priv, f);
-> > > +   if (ret < 0)
-> > > +           return ret;
-> >
-> > This is missing a busy check:
-> >
-> >         if (vb2_is_busy(vb2_queue))
-> >                 return -EBUSY;
-> >
-> > Same for the other s_fmt functions.
-> >
-> > > +
-> > > +   node->format = *f;
-> > > +   node->pisp_format = pispbe_find_fmt(f->fmt.pix_mp.pixelformat);
-> > > +
-> > > +   dev_dbg(pispbe->dev, "Set capture format for node %s to %p4cc\n",
-> > > +           NODE_NAME(node), &f->fmt.pix_mp.pixelformat);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_s_fmt_vid_out(struct file *file, void *priv,
-> > > +                                struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   int ret;
-> > > +
-> > > +   ret = pispbe_node_try_fmt_vid_out(file, priv, f);
-> > > +   if (ret < 0)
-> > > +           return ret;
-> > > +
-> > > +   node->format = *f;
-> > > +   node->pisp_format = pispbe_find_fmt(f->fmt.pix_mp.pixelformat);
-> > > +
-> > > +   dev_dbg(pispbe->dev, "Set output format for node %s to %p4cc\n",
-> > > +           NODE_NAME(node), &f->fmt.pix_mp.pixelformat);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_s_fmt_meta_out(struct file *file, void *priv,
-> > > +                                 struct v4l2_format *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +   int ret;
-> > > +
-> > > +   ret = pispbe_node_try_fmt_meta_out(file, priv, f);
-> > > +   if (ret < 0)
-> > > +           return ret;
-> > > +
-> > > +   node->format = *f;
-> > > +   node->pisp_format = &meta_out_supported_formats[0];
-> > > +
-> > > +   dev_dbg(pispbe->dev, "Set output format for meta node %s to %p4cc\n",
-> > > +           NODE_NAME(node), &f->fmt.meta.dataformat);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_enum_fmt(struct file *file, void  *priv,
-> > > +                           struct v4l2_fmtdesc *f)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +
-> > > +   if (f->type != node->queue.type)
-> > > +           return -EINVAL;
-> > > +
-> > > +   if (NODE_IS_META(node)) {
-> > > +           if (f->index)
-> > > +                   return -EINVAL;
-> > > +
-> > > +           f->pixelformat = V4L2_META_FMT_RPI_BE_CFG;
-> > > +           f->flags = 0;
-> > > +           return 0;
-> > > +   }
-> > > +
-> > > +   if (f->index >= ARRAY_SIZE(supported_formats))
-> > > +           return -EINVAL;
-> > > +
-> > > +   f->pixelformat = supported_formats[f->index].fourcc;
-> > > +   f->flags = 0;
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_enum_framesizes(struct file *file, void *priv,
-> > > +                             struct v4l2_frmsizeenum *fsize)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   if (NODE_IS_META(node) || fsize->index)
-> > > +           return -EINVAL;
-> > > +
-> > > +   if (!pispbe_find_fmt(fsize->pixel_format)) {
-> > > +           dev_dbg(pispbe->dev, "Invalid pixel code: %x\n",
-> > > +                   fsize->pixel_format);
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> > > +   fsize->stepwise.min_width = 32;
-> > > +   fsize->stepwise.max_width = 65535;
-> > > +   fsize->stepwise.step_width = 2;
-> > > +
-> > > +   fsize->stepwise.min_height = 32;
-> > > +   fsize->stepwise.max_height = 65535;
-> > > +   fsize->stepwise.step_height = 2;
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_node_streamon(struct file *file, void *priv,
-> > > +                           enum v4l2_buf_type type)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +   struct pispbe_dev *pispbe = node->pispbe;
-> > > +
-> > > +   dev_dbg(pispbe->dev, "Stream on for node %s\n", NODE_NAME(node));
-> > > +
-> > > +   INIT_LIST_HEAD(&node->ready_queue);
-> >
-> > Dubious: there is almost never a need to override streamon.
-> >
-> > I would expect this to be initialized wherever pispbe_node is initialized.
-> > And after streamoff (or really stop_streaming) ready_queue should be empty.
-> >
-> > A possible reason for this is that if start_streaming returns an error,
-> > then the current code doesn't drain ready_queue. But if that is done correctly,
-> > then this INIT_LIST_HEAD should not be needed here.
-> >
-> > > +
-> > > +   return vb2_streamon(&node->queue, type);
-> > > +}
-> > > +
-> > > +static int pispbe_node_streamoff(struct file *file, void *priv,
-> > > +                            enum v4l2_buf_type type)
-> > > +{
-> > > +   struct pispbe_node *node = video_drvdata(file);
-> > > +
-> > > +   return vb2_streamoff(&node->queue, type);
-> > > +}
-> > > +
-> > > +static const struct v4l2_ioctl_ops pispbe_node_ioctl_ops = {
-> > > +   .vidioc_querycap = pispbe_node_querycap,
-> > > +   .vidioc_g_fmt_vid_cap_mplane = pispbe_node_g_fmt_vid_cap,
-> > > +   .vidioc_g_fmt_vid_out_mplane = pispbe_node_g_fmt_vid_out,
-> > > +   .vidioc_g_fmt_meta_out = pispbe_node_g_fmt_meta_out,
-> > > +   .vidioc_try_fmt_vid_cap_mplane = pispbe_node_try_fmt_vid_cap,
-> > > +   .vidioc_try_fmt_vid_out_mplane = pispbe_node_try_fmt_vid_out,
-> > > +   .vidioc_try_fmt_meta_out = pispbe_node_try_fmt_meta_out,
-> > > +   .vidioc_s_fmt_vid_cap_mplane = pispbe_node_s_fmt_vid_cap,
-> > > +   .vidioc_s_fmt_vid_out_mplane = pispbe_node_s_fmt_vid_out,
-> > > +   .vidioc_s_fmt_meta_out = pispbe_node_s_fmt_meta_out,
-> > > +   .vidioc_enum_fmt_vid_cap = pispbe_node_enum_fmt,
-> > > +   .vidioc_enum_fmt_vid_out = pispbe_node_enum_fmt,
-> > > +   .vidioc_enum_fmt_meta_out = pispbe_node_enum_fmt,
-> > > +   .vidioc_enum_framesizes = pispbe_enum_framesizes,
-> > > +   .vidioc_create_bufs = vb2_ioctl_create_bufs,
-> > > +   .vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> > > +   .vidioc_querybuf = vb2_ioctl_querybuf,
-> > > +   .vidioc_qbuf = vb2_ioctl_qbuf,
-> > > +   .vidioc_dqbuf = vb2_ioctl_dqbuf,
-> > > +   .vidioc_expbuf = vb2_ioctl_expbuf,
-> > > +   .vidioc_reqbufs = vb2_ioctl_reqbufs,
-> > > +   .vidioc_streamon = pispbe_node_streamon,
-> > > +   .vidioc_streamoff = pispbe_node_streamoff,
-> >
-> > Can't this be vb2_ioctl_streamoff? And after fixing the streamon/start_streaming
-> > issue, you can do the same for vb2_ioctl_streamon.
-> >
-> > > +};
-> > > +
-> > > +static const struct video_device pispbe_videodev = {
-> > > +   .name = PISPBE_NAME,
-> > > +   .vfl_dir = VFL_DIR_M2M, /* gets overwritten */
-> > > +   .fops = &pispbe_fops,
-> > > +   .ioctl_ops = &pispbe_node_ioctl_ops,
-> > > +   .minor = -1,
-> > > +   .release = video_device_release_empty,
-> > > +};
-> > > +
-> > > +static void pispbe_node_def_fmt(struct pispbe_node *node)
-> > > +{
-> > > +   if (NODE_IS_META(node) && NODE_IS_OUTPUT(node)) {
-> > > +           /* Config node */
-> > > +           struct v4l2_format *f = &node->format;
-> > > +
-> > > +           f->fmt.meta.dataformat = V4L2_META_FMT_RPI_BE_CFG;
-> > > +           f->fmt.meta.buffersize = sizeof(struct pisp_be_tiles_config);
-> > > +           f->type = node->buf_type;
-> > > +   } else {
-> > > +           struct v4l2_format f = {
-> > > +                   .fmt.pix_mp.pixelformat = V4L2_PIX_FMT_YUV420,
-> > > +                   .fmt.pix_mp.width = 1920,
-> > > +                   .fmt.pix_mp.height = 1080,
-> > > +                   .type = node->buf_type,
-> > > +           };
-> > > +           pispbe_try_format(&f, node);
-> > > +           node->format = f;
-> > > +   }
-> > > +
-> > > +   node->pisp_format = pispbe_find_fmt(node->format.fmt.pix_mp.pixelformat);
-> > > +}
-> > > +
-> > > +/*
-> > > + * Initialise a struct pispbe_node and register it as /dev/video<N>
-> > > + * to represent one of the PiSP Back End's input or output streams.
-> > > + */
-> > > +static int pispbe_init_node(struct pispbe_dev *pispbe, unsigned int id)
-> > > +{
-> > > +   bool output = NODE_DESC_IS_OUTPUT(&node_desc[id]);
-> > > +   struct pispbe_node *node = &pispbe->node[id];
-> > > +   struct media_entity *entity = &node->vfd.entity;
-> > > +   struct video_device *vdev = &node->vfd;
-> > > +   struct vb2_queue *q = &node->queue;
-> > > +   int ret;
-> > > +
-> > > +   node->id = id;
-> > > +   node->pispbe = pispbe;
-> > > +   node->buf_type = node_desc[id].buf_type;
-> > > +
-> > > +   mutex_init(&node->node_lock);
-> > > +   mutex_init(&node->queue_lock);
-> > > +   INIT_LIST_HEAD(&node->ready_queue);
-> > > +   spin_lock_init(&node->ready_lock);
-> > > +
-> > > +   node->format.type = node->buf_type;
-> > > +   pispbe_node_def_fmt(node);
-> > > +
-> > > +   q->type = node->buf_type;
-> > > +   q->io_modes = VB2_MMAP | VB2_DMABUF;
-> > > +   q->mem_ops = &vb2_dma_contig_memops;
-> > > +   q->drv_priv = node;
-> > > +   q->ops = &pispbe_node_queue_ops;
-> > > +   q->buf_struct_size = sizeof(struct pispbe_buffer);
-> > > +   q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> > > +   q->dev = pispbe->dev;
-> > > +   /* get V4L2 to handle node->queue locking */
-> > > +   q->lock = &node->queue_lock;
-> > > +
-> > > +   ret = vb2_queue_init(q);
-> > > +   if (ret < 0) {
-> > > +           dev_err(pispbe->dev, "vb2_queue_init failed\n");
-> > > +           goto err_mutex_destroy;
-> > > +   }
-> > > +
-> > > +   *vdev = pispbe_videodev; /* default initialization */
-> > > +   strscpy(vdev->name, node_desc[id].ent_name, sizeof(vdev->name));
-> > > +   vdev->v4l2_dev = &pispbe->v4l2_dev;
-> > > +   vdev->vfl_dir = output ? VFL_DIR_TX : VFL_DIR_RX;
-> > > +   /* get V4L2 to serialise our ioctls */
-> > > +   vdev->lock = &node->node_lock;
-> > > +   vdev->queue = &node->queue;
-> > > +   vdev->device_caps = V4L2_CAP_STREAMING | node_desc[id].caps;
-> > > +
-> > > +   node->pad.flags = output ? MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
-> > > +   ret = media_entity_pads_init(entity, 1, &node->pad);
-> > > +   if (ret) {
-> > > +           dev_err(pispbe->dev,
-> > > +                   "Failed to register media pads for %s device node\n",
-> > > +                   NODE_NAME(node));
-> > > +           goto err_unregister_queue;
-> > > +   }
-> > > +
-> > > +   ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
-> > > +   if (ret) {
-> > > +           dev_err(pispbe->dev,
-> > > +                   "Failed to register video %s device node\n",
-> > > +                   NODE_NAME(node));
-> > > +           goto err_unregister_queue;
-> > > +   }
-> > > +   video_set_drvdata(vdev, node);
-> > > +
-> > > +   if (output)
-> > > +           ret = media_create_pad_link(entity, 0, &pispbe->sd.entity,
-> > > +                                       id, MEDIA_LNK_FL_IMMUTABLE |
-> > > +                                       MEDIA_LNK_FL_ENABLED);
-> > > +   else
-> > > +           ret = media_create_pad_link(&pispbe->sd.entity, id, entity,
-> > > +                                       0, MEDIA_LNK_FL_IMMUTABLE |
-> > > +                                       MEDIA_LNK_FL_ENABLED);
-> > > +   if (ret)
-> > > +           goto err_unregister_video_dev;
-> > > +
-> > > +   dev_dbg(pispbe->dev, "%s device node registered as /dev/video%d\n",
-> > > +           NODE_NAME(node), node->vfd.num);
-> > > +
-> > > +   return 0;
-> > > +
-> > > +err_unregister_video_dev:
-> > > +   video_unregister_device(&node->vfd);
-> > > +err_unregister_queue:
-> > > +   vb2_queue_release(&node->queue);
-> > > +err_mutex_destroy:
-> > > +   mutex_destroy(&node->node_lock);
-> > > +   mutex_destroy(&node->queue_lock);
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +static const struct v4l2_subdev_pad_ops pispbe_pad_ops = {
-> > > +   .link_validate = v4l2_subdev_link_validate_default,
-> > > +};
-> > > +
-> > > +static const struct v4l2_subdev_ops pispbe_sd_ops = {
-> > > +   .pad = &pispbe_pad_ops,
-> > > +};
-> > > +
-> > > +static int pispbe_init_subdev(struct pispbe_dev *pispbe)
-> > > +{
-> > > +   struct v4l2_subdev *sd = &pispbe->sd;
-> > > +   int ret;
-> > > +
-> > > +   v4l2_subdev_init(sd, &pispbe_sd_ops);
-> > > +   sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
-> > > +   sd->owner = THIS_MODULE;
-> > > +   sd->dev = pispbe->dev;
-> > > +   strscpy(sd->name, PISPBE_NAME, sizeof(sd->name));
-> > > +
-> > > +   for (unsigned int i = 0; i < PISPBE_NUM_NODES; i++)
-> > > +           pispbe->pad[i].flags =
-> > > +                   NODE_DESC_IS_OUTPUT(&node_desc[i]) ?
-> > > +                   MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
-> > > +
-> > > +   ret = media_entity_pads_init(&sd->entity, PISPBE_NUM_NODES,
-> > > +                                pispbe->pad);
-> > > +   if (ret)
-> > > +           goto error;
-> > > +
-> > > +   ret = v4l2_device_register_subdev(&pispbe->v4l2_dev, sd);
-> > > +   if (ret)
-> > > +           goto error;
-> > > +
-> > > +   return 0;
-> > > +
-> > > +error:
-> > > +   media_entity_cleanup(&sd->entity);
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +static int pispbe_init_devices(struct pispbe_dev *pispbe)
-> > > +{
-> > > +   struct v4l2_device *v4l2_dev;
-> > > +   struct media_device *mdev;
-> > > +   unsigned int num_regist;
-> > > +   int ret;
-> > > +
-> > > +   /* Register v4l2_device and media_device */
-> > > +   mdev = &pispbe->mdev;
-> > > +   mdev->hw_revision = pispbe->hw_version;
-> > > +   mdev->dev = pispbe->dev;
-> > > +   strscpy(mdev->model, PISPBE_NAME, sizeof(mdev->model));
-> > > +   media_device_init(mdev);
-> > > +
-> > > +   v4l2_dev = &pispbe->v4l2_dev;
-> > > +   v4l2_dev->mdev = &pispbe->mdev;
-> > > +   strscpy(v4l2_dev->name, PISPBE_NAME, sizeof(v4l2_dev->name));
-> > > +
-> > > +   ret = v4l2_device_register(pispbe->dev, v4l2_dev);
-> > > +   if (ret)
-> > > +           goto err_media_dev_cleanup;
-> > > +
-> > > +   /* Register the PISPBE subdevice. */
-> > > +   ret = pispbe_init_subdev(pispbe);
-> > > +   if (ret)
-> > > +           goto err_unregister_v4l2;
-> > > +
-> > > +   /* Create device video nodes */
-> > > +   for (num_regist = 0; num_regist < PISPBE_NUM_NODES; num_regist++) {
-> > > +           ret = pispbe_init_node(pispbe, num_regist);
-> > > +           if (ret)
-> > > +                   goto err_unregister_nodes;
-> > > +   }
-> > > +
-> > > +   ret = media_device_register(mdev);
-> > > +   if (ret)
-> > > +           goto err_unregister_nodes;
-> > > +
-> > > +   pispbe->config =
-> > > +           dma_alloc_coherent(pispbe->dev,
-> > > +                              sizeof(struct pisp_be_tiles_config) *
-> > > +                                   PISP_BE_NUM_CONFIG_BUFFERS,
-> > > +                              &pispbe->config_dma_addr, GFP_KERNEL);
-> > > +   if (!pispbe->config) {
-> > > +           dev_err(pispbe->dev, "Unable to allocate cached config buffers.\n");
-> > > +           ret = -ENOMEM;
-> > > +           goto err_unregister_mdev;
-> > > +   }
-> > > +
-> > > +   return 0;
-> > > +
-> > > +err_unregister_mdev:
-> > > +   media_device_unregister(mdev);
-> > > +err_unregister_nodes:
-> > > +   while (num_regist-- > 0) {
-> > > +           video_unregister_device(&pispbe->node[num_regist].vfd);
-> > > +           vb2_queue_release(&pispbe->node[num_regist].queue);
-> > > +   }
-> > > +   v4l2_device_unregister_subdev(&pispbe->sd);
-> > > +   media_entity_cleanup(&pispbe->sd.entity);
-> > > +err_unregister_v4l2:
-> > > +   v4l2_device_unregister(v4l2_dev);
-> > > +err_media_dev_cleanup:
-> > > +   media_device_cleanup(mdev);
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +static void pispbe_destroy_devices(struct pispbe_dev *pispbe)
-> > > +{
-> > > +   if (pispbe->config) {
-> > > +           dma_free_coherent(pispbe->dev,
-> > > +                             sizeof(struct pisp_be_tiles_config) *
-> > > +                                   PISP_BE_NUM_CONFIG_BUFFERS,
-> > > +                             pispbe->config,
-> > > +                             pispbe->config_dma_addr);
-> > > +   }
-> > > +
-> > > +   dev_dbg(pispbe->dev, "Unregister from media controller\n");
-> > > +
-> > > +   v4l2_device_unregister_subdev(&pispbe->sd);
-> > > +   media_entity_cleanup(&pispbe->sd.entity);
-> > > +   media_device_unregister(&pispbe->mdev);
-> > > +
-> > > +   for (int i = PISPBE_NUM_NODES - 1; i >= 0; i--) {
-> > > +           video_unregister_device(&pispbe->node[i].vfd);
-> > > +           vb2_queue_release(&pispbe->node[i].queue);
-> > > +           mutex_destroy(&pispbe->node[i].node_lock);
-> > > +           mutex_destroy(&pispbe->node[i].queue_lock);
-> > > +   }
-> > > +
-> > > +   media_device_cleanup(&pispbe->mdev);
-> > > +   v4l2_device_unregister(&pispbe->v4l2_dev);
-> > > +}
-> > > +
-> > > +static int pispbe_runtime_suspend(struct device *dev)
-> > > +{
-> > > +   struct pispbe_dev *pispbe = dev_get_drvdata(dev);
-> > > +
-> > > +   clk_disable_unprepare(pispbe->clk);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_runtime_resume(struct device *dev)
-> > > +{
-> > > +   struct pispbe_dev *pispbe = dev_get_drvdata(dev);
-> > > +   int ret;
-> > > +
-> > > +   ret = clk_prepare_enable(pispbe->clk);
-> > > +   if (ret) {
-> > > +           dev_err(dev, "Unable to enable clock\n");
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   dev_dbg(dev, "%s: Enabled clock, rate=%lu\n",
-> > > +           __func__, clk_get_rate(pispbe->clk));
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static int pispbe_hw_init(struct pispbe_dev *pispbe)
-> > > +{
-> > > +   u32 u;
-> > > +
-> > > +   /* Check the HW is present and has a known version */
-> > > +   u = pispbe_rd(pispbe, PISP_BE_VERSION_REG);
-> > > +   dev_dbg(pispbe->dev, "pispbe_probe: HW version:  0x%08x", u);
-> > > +   pispbe->hw_version = u;
-> > > +   if ((u & ~PISP_BE_VERSION_MINOR_BITS) != PISP_BE_VERSION_2712)
-> > > +           return -ENODEV;
-> > > +
-> > > +   /* Clear leftover interrupts */
-> > > +   pispbe_wr(pispbe, PISP_BE_INTERRUPT_STATUS_REG, 0xFFFFFFFFu);
-> > > +   u = pispbe_rd(pispbe, PISP_BE_BATCH_STATUS_REG);
-> > > +   dev_dbg(pispbe->dev, "pispbe_probe: BatchStatus: 0x%08x", u);
-> > > +
-> > > +   pispbe->done = (uint8_t)u;
-> > > +   pispbe->started = (uint8_t)(u >> 8);
-> > > +   u = pispbe_rd(pispbe, PISP_BE_STATUS_REG);
-> > > +   dev_dbg(pispbe->dev, "pispbe_probe: Status:      0x%08x", u);
-> > > +
-> > > +   if (u != 0 || pispbe->done != pispbe->started) {
-> > > +           dev_err(pispbe->dev, "pispbe_probe: HW is stuck or busy\n");
-> > > +           return -EBUSY;
-> > > +   }
-> > > +
-> > > +   /*
-> > > +    * AXI QOS=0, CACHE=4'b0010, PROT=3'b011
-> > > +    * Also set "chicken bits" 22:20 which enable sub-64-byte bursts
-> > > +    * and AXI AWID/BID variability (on versions which support this).
-> > > +    */
-> > > +   pispbe_wr(pispbe, PISP_BE_AXI_REG, 0x32703200u);
-> > > +
-> > > +   /* Enable both interrupt flags */
-> > > +   pispbe_wr(pispbe, PISP_BE_INTERRUPT_EN_REG, 0x00000003u);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +/* Probe the ISP-BE hardware block, as a single platform device. */
-> > > +static int pispbe_probe(struct platform_device *pdev)
-> > > +{
-> > > +   struct pispbe_dev *pispbe;
-> > > +   int ret;
-> > > +
-> > > +   pispbe = devm_kzalloc(&pdev->dev, sizeof(*pispbe), GFP_KERNEL);
-> > > +   if (!pispbe)
-> > > +           return -ENOMEM;
-> > > +
-> > > +   dev_set_drvdata(&pdev->dev, pispbe);
-> > > +   pispbe->dev = &pdev->dev;
-> > > +   platform_set_drvdata(pdev, pispbe);
-> > > +
-> > > +   pispbe->be_reg_base = devm_platform_ioremap_resource(pdev, 0);
-> > > +   if (IS_ERR(pispbe->be_reg_base)) {
-> > > +           dev_err(&pdev->dev, "Failed to get ISP-BE registers address\n");
-> > > +           return PTR_ERR(pispbe->be_reg_base);
-> > > +   }
-> > > +
-> > > +   pispbe->irq = platform_get_irq(pdev, 0);
-> > > +   if (pispbe->irq <= 0) {
-> > > +           dev_err(&pdev->dev, "No IRQ resource\n");
-> > > +           return -EINVAL;
-> > > +   }
-> > > +
-> > > +   ret = devm_request_irq(&pdev->dev, pispbe->irq, pispbe_isr, 0,
-> > > +                          PISPBE_NAME, pispbe);
-> > > +   if (ret) {
-> > > +           dev_err(&pdev->dev, "Unable to request interrupt\n");
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   ret = dma_set_mask_and_coherent(pispbe->dev, DMA_BIT_MASK(36));
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   pispbe->clk = devm_clk_get(&pdev->dev, NULL);
-> > > +   if (IS_ERR(pispbe->clk))
-> > > +           return dev_err_probe(&pdev->dev, PTR_ERR(pispbe->clk),
-> > > +                                "Failed to get clock");
-> > > +
-> > > +   /* Hardware initialisation */
-> > > +   pm_runtime_set_autosuspend_delay(pispbe->dev, 200);
-> > > +   pm_runtime_use_autosuspend(pispbe->dev);
-> > > +   pm_runtime_enable(pispbe->dev);
-> > > +
-> > > +   ret = pispbe_runtime_resume(pispbe->dev);
-> > > +   if (ret)
-> > > +           goto pm_runtime_disable_err;
-> > > +
-> > > +   pispbe->hw_busy = false;
-> > > +   spin_lock_init(&pispbe->hw_lock);
-> > > +   ret = pispbe_hw_init(pispbe);
-> > > +   if (ret)
-> > > +           goto pm_runtime_suspend_err;
-> > > +
-> > > +   ret = pispbe_init_devices(pispbe);
-> > > +   if (ret)
-> > > +           goto disable_devs_err;
-> > > +
-> > > +   pm_runtime_mark_last_busy(pispbe->dev);
-> > > +   pm_runtime_put_autosuspend(pispbe->dev);
-> > > +
-> > > +   return 0;
-> > > +
-> > > +disable_devs_err:
-> > > +   pispbe_destroy_devices(pispbe);
-> > > +pm_runtime_suspend_err:
-> > > +   pispbe_runtime_suspend(pispbe->dev);
-> > > +pm_runtime_disable_err:
-> > > +   pm_runtime_dont_use_autosuspend(pispbe->dev);
-> > > +   pm_runtime_disable(pispbe->dev);
-> > > +
-> > > +   return ret;
-> > > +}
-> > > +
-> > > +static int pispbe_remove(struct platform_device *pdev)
-> > > +{
-> > > +   struct pispbe_dev *pispbe = platform_get_drvdata(pdev);
-> > > +
-> > > +   pispbe_destroy_devices(pispbe);
-> > > +
-> > > +   pispbe_runtime_suspend(pispbe->dev);
-> > > +   pm_runtime_dont_use_autosuspend(pispbe->dev);
-> > > +   pm_runtime_disable(pispbe->dev);
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static const struct dev_pm_ops pispbe_pm_ops = {
-> > > +   SET_RUNTIME_PM_OPS(pispbe_runtime_suspend, pispbe_runtime_resume, NULL)
-> > > +};
-> > > +
-> > > +static const struct of_device_id pispbe_of_match[] = {
-> > > +   {
-> > > +           .compatible = "raspberrypi,pispbe",
-> > > +   },
-> > > +   { /* sentinel */ },
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, pispbe_of_match);
-> > > +
-> > > +static struct platform_driver pispbe_pdrv = {
-> > > +   .probe          = pispbe_probe,
-> > > +   .remove         = pispbe_remove,
-> > > +   .driver         = {
-> > > +           .name   = PISPBE_NAME,
-> > > +           .of_match_table = pispbe_of_match,
-> > > +           .pm = &pispbe_pm_ops,
-> > > +   },
-> > > +};
-> > > +
-> > > +module_platform_driver(pispbe_pdrv);
-> > > +
-> > > +MODULE_DESCRIPTION("PiSP Back End driver");
-> > > +MODULE_AUTHOR("David Plowman <david.plowman@raspberrypi.com>");
-> > > +MODULE_AUTHOR("Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>");
-> > > +MODULE_LICENSE("GPL");
-> > > diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h b/drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
-> > > new file mode 100644
-> > > index 000000000000..b5cb7b8c7531
-> > > --- /dev/null
-> > > +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
-> > > @@ -0,0 +1,519 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +/*
-> > > + * PiSP Back End driver image format definitions.
-> > > + *
-> > > + * Copyright (c) 2021-2024 Raspberry Pi Ltd
-> > > + */
-> > > +
-> > > +#ifndef _PISP_BE_FORMATS_
-> > > +#define _PISP_BE_FORMATS_
-> > > +
-> > > +#include <linux/bits.h>
-> > > +#include <linux/videodev2.h>
-> > > +
-> > > +#define PISPBE_MAX_PLANES  3
-> > > +#define P3(x)                      ((x) * 8)
-> > > +
-> > > +struct pisp_be_format {
-> > > +   unsigned int fourcc;
-> > > +   unsigned int align;
-> > > +   unsigned int bit_depth;
-> > > +   /* 0P3 factor for plane sizing */
-> > > +   unsigned int plane_factor[PISPBE_MAX_PLANES];
-> > > +   unsigned int num_planes;
-> > > +   unsigned int colorspace_mask;
-> > > +   enum v4l2_colorspace colorspace_default;
-> > > +};
-> > > +
-> > > +#define V4L2_COLORSPACE_MASK(colorspace) BIT(colorspace)
-> > > +
-> > > +#define V4L2_COLORSPACE_MASK_JPEG  \
-> > > +   V4L2_COLORSPACE_MASK(V4L2_COLORSPACE_JPEG)
-> > > +#define V4L2_COLORSPACE_MASK_SMPTE170M     \
-> > > +   V4L2_COLORSPACE_MASK(V4L2_COLORSPACE_SMPTE170M)
-> > > +#define V4L2_COLORSPACE_MASK_REC709        \
-> > > +   V4L2_COLORSPACE_MASK(V4L2_COLORSPACE_REC709)
-> > > +#define V4L2_COLORSPACE_MASK_SRGB  \
-> > > +   V4L2_COLORSPACE_MASK(V4L2_COLORSPACE_SRGB)
-> > > +#define V4L2_COLORSPACE_MASK_RAW   \
-> > > +   V4L2_COLORSPACE_MASK(V4L2_COLORSPACE_RAW)
-> > > +
-> > > +/*
-> > > + * All three colour spaces SRGB, SMPTE170M and REC709 are fundamentally sRGB
-> > > + * underneath (as near as makes no difference to us), just with different YCbCr
-> > > + * encodings. Therefore the ISP can generate sRGB on its main output and any of
-> > > + * the others on its low resolution output. Applications should, when using both
-> > > + * outputs, program the colour spaces on them to be the same, matching whatever
-> > > + * is requested for the low resolution output, even if the main output is
-> > > + * producing an RGB format. In turn this requires us to allow all these colour
-> > > + * spaces for every YUV/RGB output format.
-> > > + */
-> > > +#define V4L2_COLORSPACE_MASK_ALL_SRGB (V4L2_COLORSPACE_MASK_JPEG   | \
-> > > +                                  V4L2_COLORSPACE_MASK_SRGB        | \
-> > > +                                  V4L2_COLORSPACE_MASK_SMPTE170M   | \
-> > > +                                  V4L2_COLORSPACE_MASK_REC709)
-> > > +
-> > > +static const struct pisp_be_format supported_formats[] = {
-> > > +   /* Single plane YUV formats */
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YUV420,
-> > > +           /* 128 alignment to ensure U/V planes are 64 byte aligned. */
-> > > +           .align              = 128,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.25), P3(0.25) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YVU420,
-> > > +           /* 128 alignment to ensure U/V planes are 64 byte aligned. */
-> > > +           .align              = 128,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.25), P3(0.25) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_NV12,
-> > > +           .align              = 32,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.5) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_NV21,
-> > > +           .align              = 32,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.5) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YUYV,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 16,
-> > > +           .plane_factor       = { P3(1) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_UYVY,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 16,
-> > > +           .plane_factor       = { P3(1) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YVYU,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 16,
-> > > +           .plane_factor       = { P3(1) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_VYUY,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 16,
-> > > +           .plane_factor       = { P3(1) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   /* Multiplane YUV formats */
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YUV420M,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.25), P3(0.25) },
-> > > +           .num_planes         = 3,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_NV12M,
-> > > +           .align              = 32,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.5) },
-> > > +           .num_planes         = 2,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_NV21M,
-> > > +           .align              = 32,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.5) },
-> > > +           .num_planes         = 2,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YVU420M,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.25), P3(0.25) },
-> > > +           .num_planes         = 3,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YUV422M,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.5), P3(0.5) },
-> > > +           .num_planes         = 3,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YVU422M,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(0.5), P3(0.5) },
-> > > +           .num_planes         = 3,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YUV444M,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(1), P3(1) },
-> > > +           .num_planes         = 3,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_YVU444M,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 8,
-> > > +           .plane_factor       = { P3(1), P3(1), P3(1) },
-> > > +           .num_planes         = 3,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SMPTE170M,
-> > > +   },
-> > > +   /* RGB formats */
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_RGB24,
-> > > +           .align              = 32,
-> > > +           .bit_depth          = 24,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SRGB,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_BGR24,
-> > > +           .align              = 32,
-> > > +           .bit_depth          = 24,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SRGB,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_XBGR32,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SRGB,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_RGBX32,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SRGB,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_RGB48,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 48,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SRGB,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_BGR48,
-> > > +           .align              = 64,
-> > > +           .bit_depth          = 48,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_ALL_SRGB,
-> > > +           .colorspace_default = V4L2_COLORSPACE_SRGB,
-> > > +   },
-> > > +   /* Bayer formats - 8-bit */
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SRGGB8,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SBGGR8,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGRBG8,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGBRG8,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   /* Bayer formats - 16-bit */
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SRGGB16,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SBGGR16,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGRBG16,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGBRG16,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           /* Bayer formats unpacked to 16bpp */
-> > > +           /* 10 bit */
-> > > +           .fourcc             = V4L2_PIX_FMT_SRGGB10,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SBGGR10,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGRBG10,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGBRG10,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           /* 12 bit */
-> > > +           .fourcc             = V4L2_PIX_FMT_SRGGB12,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SBGGR12,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGRBG12,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGBRG12,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           /* 14 bit */
-> > > +           .fourcc             = V4L2_PIX_FMT_SRGGB14,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SBGGR14,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGRBG14,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_SGBRG14,
-> > > +           .bit_depth          = 16,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   /* Bayer formats - 16-bit PiSP Compressed */
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_PISP_COMP1_BGGR,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_PISP_COMP1_RGGB,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_PISP_COMP1_GRBG,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc             = V4L2_PIX_FMT_PISP_COMP1_GBRG,
-> > > +           .bit_depth          = 8,
-> > > +           .align              = 32,
-> > > +           .plane_factor       = { P3(1.0) },
-> > > +           .num_planes         = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   /* Greyscale Formats */
-> > > +   {
-> > > +           .fourcc         = V4L2_PIX_FMT_GREY,
-> > > +           .bit_depth      = 8,
-> > > +           .align          = 32,
-> > > +           .num_planes     = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc         = V4L2_PIX_FMT_Y16,
-> > > +           .bit_depth      = 16,
-> > > +           .align          = 32,
-> > > +           .plane_factor   = { P3(1.0) },
-> > > +           .num_planes     = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +   {
-> > > +           .fourcc         = V4L2_PIX_FMT_PISP_COMP1_MONO,
-> > > +           .bit_depth      = 8,
-> > > +           .align          = 32,
-> > > +           .plane_factor   = { P3(1.0) },
-> > > +           .num_planes     = 1,
-> > > +           .colorspace_mask    = V4L2_COLORSPACE_MASK_RAW,
-> > > +           .colorspace_default = V4L2_COLORSPACE_RAW,
-> > > +   },
-> > > +};
-> > > +
-> > > +static const struct pisp_be_format meta_out_supported_formats[] = {
-> > > +   /* Configuration buffer format. */
-> > > +   {
-> > > +           .fourcc             = V4L2_META_FMT_RPI_BE_CFG,
-> > > +   },
-> > > +};
-> > > +
-> > > +#endif /* _PISP_BE_FORMATS_ */
-> >
-> > Regards,
-> >
-> >       Hans
+SGkgQ2hyaXN0aWFuLA0KDQpPbiBUdWUsIDIwMjQtMDUtMjEgYXQgMjA6MzYgKzAyMDAsIENocmlz
+dGlhbiBLw7ZuaWcgd3JvdGU6DQo+IEFtIDIwLjA1LjI0IHVtIDA5OjU4IHNjaHJpZWIgWW9uZyBX
+dSAo5ZC05YuHKToNCj4gPiBPbiBUaHUsIDIwMjQtMDUtMTYgYXQgMTA6MTcgKzAyMDAsIENocmlz
+dGlhbiBLw7ZuaWcgd3JvdGU6DQo+ID4gPiAgIAkNCj4gPiA+IEV4dGVybmFsIGVtYWlsIDogUGxl
+YXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzDQo+ID4gPiB1bnRpbA0K
+PiA+ID4geW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gPiA+
+ICAgQW0gMTUuMDUuMjQgdW0gMTM6MjMgc2NocmllYiBZb25nIFd1Og0KPiA+ID4gPiBJbnRyb2R1
+Y2UgYSBGTEFHIGZvciB0aGUgcmVzdHJpY3RlZCBtZW1vcnkgd2hpY2ggbWVhbnMgdGhlDQo+ID4g
+PiA+IG1lbW9yeQ0KPiA+ID4gDQo+ID4gPiBpcw0KPiA+ID4gPiBwcm90ZWN0ZWQgYnkgVEVFIG9y
+IGh5cGVydmlzb3IsIHRoZW4gaXQncyBpbmFjY2Vzc2lhYmxlIGZvcg0KPiA+ID4gPiBrZXJuZWwu
+DQo+ID4gPiA+IA0KPiA+ID4gPiBDdXJyZW50bHkgd2UgZG9uJ3QgdXNlIHNnX2RtYV91bm1hcmtf
+cmVzdHJpY3RlZCwgdGh1cyB0aGlzDQo+ID4gPiANCj4gPiA+IGludGVyZmFjZQ0KPiA+ID4gPiBo
+YXMgbm90IGJlZW4gYWRkZWQuDQo+ID4gPiANCj4gPiA+IFdoeSBzaG91bGQgdGhhdCBiZSBwYXJ0
+IG9mIHRoZSBzY2F0dGVybGlzdD8gSXQgZG9lc24ndCBzZWVtIHRvDQo+ID4gPiBhZmZlY3QNCj4g
+PiA+IGFueSBvZiBpdCdzIGZ1bmN0aW9uYWxpdHkuDQo+ID4gPiANCj4gPiA+IEFzIGZhciBhcyBJ
+IGNhbiBzZWUgdGhlIHNjYXR0ZXJsaXN0IHNob3VsZG4ndCBiZSB0aGUgdHJhbnNwb3J0IG9mDQo+
+ID4gPiB0aGlzDQo+ID4gPiBraW5kIG9mIGluZm9ybWF0aW9uLg0KPiA+IA0KPiA+IFRoYW5rcyBm
+b3IgdGhlIHJldmlldy4gSSB3aWxsIHJlbW92ZSB0aGlzLg0KPiA+IA0KPiA+IEluIG91ciB1c2Vy
+IHNjZW5hcmlvLCBEUk0gd2lsbCBpbXBvcnQgdGhlc2UgYnVmZmVycyBhbmQgY2hlY2sgaWYNCj4g
+PiB0aGlzDQo+ID4gaXMgYSByZXN0cmljdGVkIGJ1ZmZlci4gSWYgeWVzLCBpdCB3aWxsIHVzZSBz
+ZWN1cmUgR0NFIHRha2VzIG92ZXIuDQo+ID4gDQo+ID4gSWYgdGhpcyBqdWRnbWVudCBpcyBub3Qg
+c3VpdGFibGUgdG8gYmUgcGxhY2VkIGluIHNjYXR0ZXJsaXN0LiBJDQo+ID4gZG9uJ3QNCj4gPiBr
+bm93IGlmIGl0IGlzIG9rIHRvIGxpbWl0IHRoaXMgaW5zaWRlIGRtYS1idWYuIEFkZGluZyBzdWNo
+IGFuDQo+ID4gaW50ZXJmYWNlOg0KPiA+IA0KPiA+IHN0YXRpYyBib29sIGRtYV9idWZfaXNfcmVz
+dHJpY3RlZChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQ0KPiA+IHsNCj4gPiAJcmV0dXJuICFzdHJu
+Y21wKGRtYWJ1Zi0+ZXhwX25hbWUsICJyZXN0cmljdGVkIiwgMTApOw0KPiA+IH0NCj4gDQo+IE5v
+LCB1c3VhbGx5IHN0dWZmIGxpa2UgdGhhdCBkb2Vzbid0IGJlbG9uZyBpbnRvIERNQSBidWYgZWl0
+aGVyLg0KPiANCj4gUXVlc3Rpb24gaGVyZSByZWFsbHkgaXMgd2hvIGNvbnRyb2xzIHRoZSBzZWN1
+cml0eSBzdGF0dXMgb2YgdGhlDQo+IG1lbW9yeSANCj4gYmFja2luZyB0aGUgYnVmZmVyPw0KPiAN
+Cj4gSW4gb3RoZXIgd29yZHMgd2hvIHRlbGxzIHRoZSBleHBvcnRlciB0aGF0IGl0IHNob3VsZCBh
+bGxvY2F0ZSBhbmQNCj4gZmlsbCBhIA0KPiBidWZmZXIgd2l0aCBlbmNyeXB0ZWQgZGF0YT8NCj4g
+DQo+IElmIHRoYXQgaXMgdXNlcnNwYWNlIHRoZW4gdGhhdCBpcyBwYXJ0IG9mIHRoZSBmb3JtYXQg
+aW5mb3JtYXRpb24gYW5kDQo+IGl0IA0KPiBpcyBhbHNvIHVzZXJzcGFjZSB3aG8gc2hvdWxkIHRl
+bGwgdGhlIGltcG9ydGVyIHRoYXQgaXQgbmVlZHMgdG8gd29yayANCj4gd2l0aCBlbmNyeXB0ZWQg
+ZGF0YS4NCj4gDQo+IFRoZSBrZXJuZWwgaXMgaW50ZW50aW9uYWxseSBub3QgaW52b2x2ZWQgaW4g
+c3R1ZmYgbGlrZSB0aGF0Lg0KPiANCg0KSGVyZSBpcyB0aGUgZXhwZWN0ZWQgcHJvdGVjdGVkIGNv
+bnRlbnQgYnVmZmVyIGZsb3cgaW4gRFJNOg0KMSkgdXNlcnNwYWNlIGFsbG9jYXRlcyBhIGRtYS1i
+dWYgRkQgZnJvbSB0aGUgInJlc3RyaWN0ZWRfbXRrX2NtYSIgYnkNCkRNQV9IRUFQX0lPQ1RMX0FM
+TE9DLg0KMikgdXNlcnNwYWNlIGltcG9ydHMgdGhhdCBkbWEtYnVmIGludG8gdGhlIGRldmljZSB1
+c2luZyBwcmltZSBmb3IgdGhlDQpkcm1fZmlsZS4NCjMpIHVzZXJzcGFjZSB1c2VzIHRoZSBhbHJl
+YWR5IGltcGxlbWVudGVkIGRyaXZlciBpbXBvcnQgY29kZSBmb3IgdGhlDQpzcGVjaWFsIGNhc2Vz
+IG9mIHByb3RlY3RlZCBjb250ZW50IGJ1ZmZlci4NCg0KSW4gdGhlIHN0ZXAgMyksIHdlIG5lZWQg
+dG8gdmVyaWZ5IHRoZSBkbWEtYnVmIGlzIGFsbG9jYXRlZCBmcm9tDQoicmVzdHJpY3RlZF9tdGtf
+Y21hIiwgYnV0IHRoZXJlIGlzIG5vIHdheSB0byBwYXNzIHRoZSBzZWN1cmUgZmxhZyBvcg0KcHJp
+dmF0ZSBkYXRhIGZyb20gdXNlcnNwYWNlIHRvIHRoZSBpbXBvcnQgaW50ZXJmYWNlIGluIERSTSBk
+cml2ZXIuDQoNClNvIEkgY2FuIG9ubHkgdmVyaWZ5IGl0IGxpa2UgdGhpcyBub3c6DQpzdHJ1Y3Qg
+ZHJtX2dlbV9vYmplY3QgKm10a19nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBkcm1f
+ZGV2aWNlDQoJKmRldiwgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoLCBzdHJ1Y3Qg
+c2dfdGFibGUgKnNnKQ0Kew0KICAgIHN0cnVjdCBtdGtfZ2VtX29iaiAqbXRrX2dlbTsNCg0KICAg
+IC8qIGNoZWNrIGlmIHRoZSBlbnRyaWVzIGluIHRoZSBzZ190YWJsZSBhcmUgY29udGlndW91cyAq
+Lw0KICAgIGlmIChkcm1fcHJpbWVfZ2V0X2NvbnRpZ3VvdXNfc2l6ZShzZykgPCBhdHRhY2gtPmRt
+YWJ1Zi0+c2l6ZSkgew0KICAgICAgICBEUk1fRVJST1IoInNnX3RhYmxlIGlzIG5vdCBjb250aWd1
+b3VzIik7DQogICAgICAgIHJldHVybiBFUlJfUFRSKC1FSU5WQUwpOw0KICAgIH0NCiAgICBtdGtf
+Z2VtID0gbXRrX2dlbV9pbml0KGRldiwgYXR0YWNoLT5kbWFidWYtPnNpemUpOw0KICAgIGlmIChJ
+U19FUlIobXRrX2dlbSkpDQogICAgICAgIHJldHVybiBFUlJfQ0FTVChtdGtfZ2VtKTsNCg0KKyAg
+IG10a19nZW0tPnNlY3VyZSA9ICghc3RybmNtcChhdHRhY2gtPmRtYWJ1Zi0+ZXhwX25hbWUsICJy
+ZXN0cmljdGVkIiwNCjEwKSk7DQogICAgbXRrX2dlbS0+ZG1hX2FkZHIgPSBzZ19kbWFfYWRkcmVz
+cyhzZy0+c2dsKTsNCiAgICBtdGtfZ2VtLT5zaXplID0gYXR0YWNoLT5kbWFidWYtPnNpemU7DQog
+ICAgbXRrX2dlbS0+c2cgPSBzZzsNCg0KICAgIHJldHVybiAmbXRrX2dlbS0+YmFzZTsNCn0NCg0K
+SSB0aGluayBJIGhhdmUgdGhlIHNhbWUgcHJvYmxlbSBhcyB0aGUgRUNDX0ZMQUcgbWVudGlvbiBp
+bjoNCg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAyNDA1MTUtZG1hLWJ1
+Zi1lY2MtaGVhcC12MS0wLTU0Y2JiZDA0OTUxMUBrZXJuZWwub3JnLw0KDQpJIHRoaW5rIGl0IHdv
+dWxkIGJlIGJldHRlciB0byBoYXZlIHRoZSB1c2VyIGNvbmZpZ3VyYWJsZSBwcml2YXRlDQppbmZv
+cm1hdGlvbiBpbiBkbWEtYnVmLCBzbyBhbGwgdGhlIGRyaXZlcnMgd2hvIGhhdmUgdGhlIHNhbWUN
+CnJlcXVpcmVtZW50IGNhbiBnZXQgdGhlaXIgcHJpdmF0ZSBpbmZvcm1hdGlvbiBmcm9tIGRtYS1i
+dWYgZGlyZWN0bHkgYW5kDQpubyBuZWVkIHRvIGNoYW5nZSBvciBhZGQgdGhlIGludGVyZmFjZS4N
+Cg0KV2hhdCdzIHlvdXIgb3BpbmlvbiBpbiB0aGlzIHBvaW50Pw0KDQpSZWdhcmRzLA0KSmFzb24t
+SkguTGluDQoNCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0K
 
