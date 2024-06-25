@@ -1,288 +1,153 @@
-Return-Path: <linux-media+bounces-14114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95764916E92
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 18:57:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0455E916E97
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 18:57:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4971B281860
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 16:57:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AF651F229AD
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 16:57:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7168717624A;
-	Tue, 25 Jun 2024 16:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40907176256;
+	Tue, 25 Jun 2024 16:57:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PaEjRFyx"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gXDzwZtS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFAF16C696;
-	Tue, 25 Jun 2024 16:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CAE16C696
+	for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 16:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719334619; cv=none; b=SGXOqmRQGgGMEpk9a1UxfbH3ejfG+r+25oD8be/BdHwti2ixVUOI4tQnSbWnHLEfuE/hS9V1S/QYOFMY+NkpIK03FrZJZSpBtXJ9R7WDREIYx+Frq54w7g9/l7h+QiY5sB0wn5uc3PlzmGIGX9HI+zi3jXFNZhtN7m0TyYYOGTs=
+	t=1719334638; cv=none; b=irlfXgKhBk2o8jbluncEITUNyOkOXNGegg1B8IfqsLymun4R0l9wmFgASiNfplUf4YyxMm6M6mQl71HTS7mogjnMn1S5Ah2U0rO77y9Q6OTEUKO4wUDbLOYRtbagZSIIRRHQERjhtG3laYcEHaWjOT8143JoRyjhY8l9eG0/8Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719334619; c=relaxed/simple;
-	bh=J7aUssdG+d+SSneJjCzjAIvna71yISDKfeg2F6cDG5I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g0E0QBVnUjJS6dPk9iw4tRBN5GakjIKocqg1pvxYzGJetROgNTIdJSXzGVAJivtp+mwYiigGs7GHsOMqhWL82PEQ8ff3jU07cU9TSN2W0en22uOKXWgb+T8VIdFQTY7AQ3dJCqE8XX7ZbfQK1IyLolJa5i9WdoQtBKilb3LkjM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PaEjRFyx; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1719334615;
-	bh=J7aUssdG+d+SSneJjCzjAIvna71yISDKfeg2F6cDG5I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PaEjRFyx/ENwXiPBxuhCmUBAQvT4N1kdNZ/T3YWSGawBczsJTgGOkpHNIgYvPdEMQ
-	 u7Q6yqTFzUSrhoJ+guzDr/SF8P6RnwAqSfuADoTh8inpNRJNcfcRr7jT47tnCHo9ln
-	 V641SbYDnkuWIJq1TpqPzmKiZAW+poAS+CFo6a+9XuDNAYewwb/uLFZU/Gvy4d3eoT
-	 RNAnMZ55eEspJedCuPCGRwVV/roTSL7ZA6SydLffUn9fR1fhwmBo57oQVK9+167SKV
-	 fXNxpRFLhzECX7Z8GtSaOEP3e1YxQRfbXTitapA4QW+mWhgTWJXqpDf4koFABmO+d8
-	 Kp5pJvS2wuDGw==
-Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: detlev)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E299B378107C;
-	Tue, 25 Jun 2024 16:56:51 +0000 (UTC)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>,
- Andy Yan <andy.yan@rock-chips.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 2/4] media: rockchip: Introduce the rkvdec2 driver
-Date: Tue, 25 Jun 2024 12:56:24 -0400
-Message-ID: <3815203.kQq0lBPeGt@arisu>
-Organization: Collabora
-In-Reply-To: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
-References:
- <20240620142532.406564-1-detlev.casanova@collabora.com>
- <20240620142532.406564-3-detlev.casanova@collabora.com>
- <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
+	s=arc-20240116; t=1719334638; c=relaxed/simple;
+	bh=ViXV1kPswix0J35HLiKFDe8jBpLL6y3ypB12PwwOk8k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ysy+39kMDvg5G9/z2Od4vftrHsh0OsAKfKUf2wHorlGOUv4UtKyQFRWSp8FQpIemKSYQyW3kJe4BNCq63WWyw+fO9JFzzJzmFsHiOVtqUpHeKueSULAnWmjYWY/62LoaugM3G3N1Yd5tnFl3SzevaedXdVGvCle2tdQ6NggsS3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gXDzwZtS; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a7252bfe773so312099466b.1
+        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 09:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719334635; x=1719939435; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xth4dCILpG8dE7FnnQ4D4p9NybR2xmH7T6YVVVI9ib4=;
+        b=gXDzwZtSG/ssbXuSbeGWzLWDz63XCYjjNif0PPyO8Tt36dkN2MKeJSvAU4Tih+ltl/
+         eUbjNpBFazR5/7no/uWINfAltrnbzbcZDfdP+wddmJmJwXI+mjtpDqJ873coTHOVjvPX
+         H8QX6oyJyC7S0jmSQruEK8Ox+KznF6sCnljGcmFw/TKy4WiZH4bPa1U97NQEs4qEXeI2
+         v3JBvSITZBlt7PWOcdADOdKwdLhcfuC6OOAkguzy2QPuRbGJ3l9K/cuf1aA2ASuM0ax+
+         HyevrcCG6PuD+9BfbFYdOyejC4R7uz2/F8jB2qfuvriYhNGv0rmo8x3KJaK2v4W1L4j3
+         VRhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719334635; x=1719939435;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xth4dCILpG8dE7FnnQ4D4p9NybR2xmH7T6YVVVI9ib4=;
+        b=esINbI8uoHThh5leZUcONYjyHcP1qJBKh60YVZ1osmFtV31XJQzhWDSP9tZ6Y/z2Uv
+         hjK9/RJ/NbET1pfQPu3X6lY4sa33DMaVn2Fbf8ig6Jp1idhfGzV/oJd7eYx2w7m6GBbp
+         yu/VEm4M9ib/eXVr2KjYwXQA+HHhv1oaAUdGZRUeubGtSX6J/9U9eqiPkTUAxh4sTiz/
+         18+ARuIPzlsSqPULIvLmzDDAWSV3DnIjFR9LT4OjfIkuOmhsi3EWAFB6GF3Z3Z4JRmwX
+         Fp5wdvYaYlvY0n/PGL754NASEdV7L5vmsaDvJM6LBp2CI1Vr+qhpgPux5iVldrTipBc9
+         YXmw==
+X-Forwarded-Encrypted: i=1; AJvYcCXRs5s0W9svtZjmK2sxt8+9YkT2gBiIItVkJWK3VqqfmpNYVe6K7JJR9a0LKK88HQleB/r43O1g4As6sqYL+4QG/j8TFXHcmwimHmA=
+X-Gm-Message-State: AOJu0YwhCBPU3sq/wqf9mhPdX34wAHSYfsFBRhstu0O5ruXvoZ82oD9b
+	h/j1RYKQkAKtbevLFCdiDue0YJllHVKdqhBq8X+UJvD00u6egB0zIORGgquFN6A=
+X-Google-Smtp-Source: AGHT+IH9nN9J/VVPyTaK93YPTsCr4iprjddEnQX2J9iS6Etxp73p+h0eYh/uLJv0ibb5oGnozoqqIw==
+X-Received: by 2002:a17:907:118c:b0:a6f:e50c:334e with SMTP id a640c23a62f3a-a7245ccdd60mr401113466b.23.1719334635183;
+        Tue, 25 Jun 2024 09:57:15 -0700 (PDT)
+Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7247895dddsm312129366b.108.2024.06.25.09.57.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jun 2024 09:57:14 -0700 (PDT)
+Message-ID: <a06505c7-fd8e-4135-94d3-d05d9b4dc90d@linaro.org>
+Date: Tue, 25 Jun 2024 18:57:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3570016.iIbC2pHGDl";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v3 0/5] Add sc7180 camss subsys support
+To: george chan <gchan9527@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
+ <4d2f4a52-826e-44be-b242-55b50708692d@linaro.org>
+ <CADgMGSt2sRecrrYrG3t4RtgGn8QJzr1N+iRSWFKQVPgA6Pk8tw@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <CADgMGSt2sRecrrYrG3t4RtgGn8QJzr1N+iRSWFKQVPgA6Pk8tw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---nextPart3570016.iIbC2pHGDl
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
-Date: Tue, 25 Jun 2024 12:56:24 -0400
-Message-ID: <3815203.kQq0lBPeGt@arisu>
-Organization: Collabora
-In-Reply-To: <c7882f94-e2cb-4023-a53e-87ebc8fa3460@gmail.com>
-MIME-Version: 1.0
-
-Hi Alex,
-
-On Sunday, June 23, 2024 5:33:28 A.M. EDT you wrote:
-> Hi Detlev,
+On 24.06.2024 5:03 PM, george chan wrote:
+> On Mon, Jun 24, 2024 at 9:50 PM Bryan O'Donoghue
+> <bryan.odonoghue@linaro.org> wrote:
+>>
+>> On 24/06/2024 13:13, George Chan via B4 Relay wrote:
+>>> - Add RFT tag to all patches, since no tested-by at all.
+>>
+>> Have you not tested this updated series ?
+>>
+>> ---
+>> bod
 > 
-> Am 20.06.24 um 16:19 schrieb Detlev Casanova:
-> > This driver supports the second generation of the Rockchip Video
-> > decoder, also known as vdpu34x.
-> > It is currently only used on the RK3588(s) SoC.
-> > 
-> > There are 2 decoders on the RK3588 SoC that can work in pair to decode
-> > 8K video at 30 FPS but currently, only using one core at a time is
-> > supported.
-> > 
-> > Scheduling requests between the two cores will be implemented later.
-> > 
-> > The core supports H264, HEVC, VP9 and AVS2 decoding but this driver
-> > currently only supports H264.
-> > 
-> > The driver is based on rkvdec and they may share some code in the
-> > future.
-> > The decision to make a different driver is mainly because rkvdec2 has
-> > more features and can work with multiple cores.
-> > 
-> > The registers are mapped in a struct in RAM using bitfields. It is IO
-> > copied to the HW when all values are configured.
-> > The decision to use such a struct instead of writing buffers one by one
-> > 
-> > is based on the following reasons:
-> >   - Rockchip cores are known to misbehave when registers are not written
-> >   
-> >     in address order,
-> >   
-> >   - Those cores also need the software to write all registers, even if
-> >   
-> >     they are written their default values or are not related to the task
-> >     (this core will not start decoding some H264 frames if some VP9
-> >     registers are not written to 0)
-> >   
-> >   - In the future, to support multiple cores, the scheduler could be
-> >   
-> >     optimized by storing the precomputed registers values and copy them
-> >     to the HW as soos as a core becomes available.
-> > 
-> > This makes the code more readable and may bring performance improvements
-> > in future features.
-> > 
-> > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> > ---
-> > 
-> >   drivers/staging/media/Kconfig                |    1 +
-> >   drivers/staging/media/Makefile               |    1 +
-> >   drivers/staging/media/rkvdec2/Kconfig        |   15 +
-> >   drivers/staging/media/rkvdec2/Makefile       |    3 +
-> >   drivers/staging/media/rkvdec2/TODO           |    9 +
-> >   drivers/staging/media/rkvdec2/rkvdec2-h264.c |  739 +++++++++++
-> >   drivers/staging/media/rkvdec2/rkvdec2-regs.h |  345 +++++
-> >   drivers/staging/media/rkvdec2/rkvdec2.c      | 1253 ++++++++++++++++++
-> >   drivers/staging/media/rkvdec2/rkvdec2.h      |  130 ++
-> >   9 files changed, 2496 insertions(+)
-> >   create mode 100644 drivers/staging/media/rkvdec2/Kconfig
-> >   create mode 100644 drivers/staging/media/rkvdec2/Makefile
-> >   create mode 100644 drivers/staging/media/rkvdec2/TODO
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-h264.c
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2-regs.h
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.c
-> >   create mode 100644 drivers/staging/media/rkvdec2/rkvdec2.h
-> 
-> ...
-> 
-> > +static inline void rkvdec2_memcpy_toio(void __iomem *dst, void *src,
-> > size_t len) +{
-> > +#ifdef CONFIG_ARM64
-> > +	__iowrite32_copy(dst, src, len);
-> > +#elif defined(CONFIG_ARM)
-> 
-> I guess that can get an "#else" since memcpy_toio exists for all archs.
-> 
-> > +	memcpy_toio(dst, src, len);
-> > +#endif
-> > +}
-> > +
-> 
-> ...
-> 
-> > +	/* Set timeout threshold */
-> > +	if (pixels < RKVDEC2_1080P_PIXELS)
-> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_1080p;
-> > +	else if (pixels < RKVDEC2_4K_PIXELS)
-> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_4K;
-> > +	else if (pixels < RKVDEC2_8K_PIXELS)
-> > +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
-> > +
-> 
-> Did you test if it works with anything > 8K? If so, you propably want to
-> make the check above
-> 
-> +	else
-> +		regs->common.timeout_threshold = RKVDEC2_TIMEOUT_8K;
-> 
-> Otherwise the timeout may not be set/contain invalid values from any former
-> stream.
+> Do you wanna add my tested-by too? It just feels weird to add my
+> tested-by that way.
 
-That's right, but it would be set to 0 because of the memset. 
-RKVDEC2_TIMEOUT_8K might not be enough for bigger frame sizes, so I'll set it 
-to the maximum value (0xffffffff) when frames are bigger than 8K and also adapt 
-the watchdog time: RKVDEC2_TIMEOUT_8K is around 100 ms, but 0xffffffff is arnoud 
-5.3 seconds (reg032/axi_clock_freq)
+"RFT" means "I didn't actually test this" or "please provide more testing",
+not "there have not been tested-by's from others"
 
-I'll do more tests with this as well.
-
-> ...
-> 
-> > +
-> > +static const struct rkvdec2_coded_fmt_desc rkvdec2_coded_fmts[] = {
-> > +	{
-> > +		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-> > +		.frmsize = {
-> > +			.min_width = 16,
-> > +			.max_width =  65520,
-> > +			.step_width = 16,
-> > +			.min_height = 16,
-> > +			.max_height =  65520,
-> > +			.step_height = 16,
-> > +		},
-> > +		.ctrls = &rkvdec2_h264_ctrls,
-> > +		.ops = &rkvdec2_h264_fmt_ops,
-> > +		.num_decoded_fmts = 
-ARRAY_SIZE(rkvdec2_h264_decoded_fmts),
-> > +		.decoded_fmts = rkvdec2_h264_decoded_fmts,
-> > +		.subsystem_flags = 
-VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
-> > +	},
-> > +};
-> > +
-> 
-> Note, that this is also given to userspace (VIDIOC_ENUM_FRAMESIZES) and
-> this is already incorrect in the old rkvdec driver (and hantro): From
-> userspace perspective we do not have a restriction in
-> step_width/step_width, as we are aligning any given width/height to HW
-> requirements in the driver - what we should give to userspace is
-> fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS; fsize->stepwise.min_height =
-> 1; fsize->stepwise.min_width = 1; fsize->stepwise.max_height = 65520;
-> fsize->stepwise.max_width = 65520; 
-
-Is fsize->stepwise.min_height = 1; and fsize->stepwise.min_width = 1 correct ?
-Or do you mean fsize->stepwise.step_height = 1; and fsize->stepwise.setp_width 
-= 1 ? 
-
-It would give this instead:
-
-.frmsize = {
-	.min_width = 16,
-	.max_width =  65520,
-	.step_width = 1,
-	.min_height = 16,
-	.max_height =  65520,
-	.step_height = 1,
-},
-
-and .vidioc_enum_framesizes sets fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-
-> I guess this new driver should be an
-> opportunity to fix that and distinguish between internal and external
-> frame size requirements and the .vidioc_enum_framesizes callback should
-> adapted accordingly. Regards, Alex
-
-Detlev.
---nextPart3570016.iIbC2pHGDl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmZ69rgACgkQ5EFKUk4x
-7bajeggAmSBRiILCUDDpGbIjXBxb00RYdK6MgtbGJuQfBDgf3F0t1eYIpRNodLjn
-HLcauJWna1LSOjVdzemEWqrbzXMNaT2w1YyN3emSxO4IRZ7SLlM9ZvoNoELtE9Bu
-Lww+nu1qxDwuieFRQLIRRoySMHWfN2b+mjDTJEFmfSrXis+izpqthQsAt1Pqm8FV
-kugdGZNqtqx5fUPuYXkn2zorpPcSXFL58vqUZ9yhYRKoVvdz+X+bkfNvg6vMIW91
-kq0isaB9YHSX5+P1mAn8fU2utGNrv15F4ZgQChLnKVVCjfT0IO++t12dh7ff19hl
-1br0WjEsuhJ/UwmcVWhqp3S1NG5MoA==
-=4M84
------END PGP SIGNATURE-----
-
---nextPart3570016.iIbC2pHGDl--
-
-
-
+Konrad
 
