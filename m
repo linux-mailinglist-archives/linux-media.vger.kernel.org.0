@@ -1,55 +1,36 @@
-Return-Path: <linux-media+bounces-14090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14091-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A46A91607A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 09:54:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E49D91607D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 09:56:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 610C0B23ABC
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 07:54:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF1091F21147
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 07:56:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 280B61474A7;
-	Tue, 25 Jun 2024 07:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XUjkRK7O"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B32AB146D59;
+	Tue, 25 Jun 2024 07:56:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E95514658B;
-	Tue, 25 Jun 2024 07:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEC3144312
+	for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 07:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719302063; cv=none; b=KmAV2oh7iaSzyxbnYyI3Uu/t3bqAtn8+bpYIwSRs94Jx9iRSd9qtz0r6JbPiEe/CJ41HS64RZ2xMR0bDw/6LhCtn+dssVZNS/Vd1a/V2tMiJoNaHZ5x7facljVgQ+DS0tahlmaGE8BRBDd+SVsu/9YQbAhWxfrHl0JYXWIiw1+k=
+	t=1719302187; cv=none; b=CxMxiOubf2/dtVwk9RbcdobG9v5pTKstcYfay9PDSkRb848g6rv+I/ZhqRtgrYAX42t3qcXIOJuPQRc+/0/GkIQmOO7Ard5Xlt6B0gmzEhjUdMxxsUKbw7BP0PpyoDupcYu3L28exCA3JbxL6PuoUCTWOvMU+4f11dv5PvQuDv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719302063; c=relaxed/simple;
-	bh=aEWUyBiIms/R2ZqZcS3Y9so+FK0oU689ticcF05QkBU=;
+	s=arc-20240116; t=1719302187; c=relaxed/simple;
+	bh=LUAhSbxLbO2XzA17QdFkuR+oSpe6woVBN74dxt4bcAw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N9fSuhscAxdvWKSmkPVcXRPCe6ugJ+OdguEjOdVM792lKOSr8nTAC6ud3yuGowo6/GElPbRfEg/pi1/jKnqUGAxjA0ezWdnt1fy9E1kJjl+NVdQ7gOtuMTxmxrRjC2IfpqdEb4a3SLLnSTEyLXo2J9Hp7hev7Zk9nIEINl+piJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XUjkRK7O; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1719302059;
-	bh=aEWUyBiIms/R2ZqZcS3Y9so+FK0oU689ticcF05QkBU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XUjkRK7OKxM5lDxCS5a25HILVjwu/HwdZI0/fkaGQxoA2L8YT7cjw7XBKaNI+hiTx
-	 UFdhTYEUBkDNwdSvDze+mN7QxGyUxBn8bqd4OJ/o1KjjHOjghL3RfX58z5ANgtB04o
-	 C0J7v54Sy3nLy2U/5TFup1kezthSUJGRd9/J6ayzoYmi2pGRG6CjfM1SICrtNZilDs
-	 uVFSLS6JRfVI8wM40mCRC6Y0UzbDn7wgW2s5oL90ch8xNe6bTD9HHdIHz1Yz74LIQn
-	 2KX0RKcBTHod9nFKlByYg4CAeUXgIFou+SXYBKJCpVXPh+EEfBn4KBY70a7AAdQfFn
-	 jWA14Gr1q0hwQ==
-Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 27C943782180;
-	Tue, 25 Jun 2024 07:54:19 +0000 (UTC)
-Message-ID: <94d58f00-ef6a-4454-b028-bc3b7dcd927d@collabora.com>
-Date: Tue, 25 Jun 2024 09:54:18 +0200
+	 In-Reply-To:Content-Type; b=VDySnywkqyN6KVcvqRjZ9BRYot8wTonkY6hXTxgc0J8QIKkNa8S95Y0bh9bv3MWwBUbiLA9FbVb2BvqIU9XDymxv4CfoPiXbkurvuOVEgh0FJl7Fc3HY7GjXK2M+S+DKUjMIgAQN6SHpnaE9T34tAhfePzIoLf1xZ/D1dptJJ1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03529C32781;
+	Tue, 25 Jun 2024 07:56:25 +0000 (UTC)
+Message-ID: <0aae5a22-9c4f-45ce-ba34-2ddab250aac9@xs4all.nl>
+Date: Tue, 25 Jun 2024 09:56:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,364 +38,122 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] media: i2c: max96717: add test pattern ctrl
-To: Tommaso Merciai <tomm.merciai@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linuxfancy@googlegroups.com, sakari.ailus@linux.intel.com,
- laurent.pinchart@ideasonboard.com, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240617145958.1819069-1-tomm.merciai@gmail.com>
- <20240617145958.1819069-2-tomm.merciai@gmail.com>
-Content-Language: en-US
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <20240617145958.1819069-2-tomm.merciai@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 00/10] Add loopback support across multiple vivid
+ instances
+To: Dorcas Anono Litunya <anonolitunya@gmail.com>, linux-media@vger.kernel.org
+Cc: jaffe1@gmail.com
+References: <20240624095300.745567-1-anonolitunya@gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240624095300.745567-1-anonolitunya@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Tommaso,
+Hi Dorcas,
 
-Thanks for your patch.
-
-I tested it on my setup and can capture frames. Here's a link to an 
-example: https://pasteboard.co/j8yHuE4YdYDV.jpg.
-
-I had some trouble with link validation because my sensor doesn't 
-support the RGB format. Once we have internal pad support, we won't need 
-to worry about the serializer creating an incompatible video stream for 
-the sensor.
-
-In the future, it would be great if we could support the serializer 
-without needing a connected sensor. This way, we can use it as a pattern 
-generator with this patch. However, not all GMSL2 serializers work this 
-way. For example, the MAX9295A can't generate an internal PCLK and 
-relies on the sensor to provide the video stream.
-
-Overall, this patch is very useful as it lets us receive a pattern from 
-the serializer, which helps validate the GMSL2 connection.
-
-It also handles issues related to generator timing, bits per pixel 
-(bpp), and tunnel mode that users might encounter.
-
-On 6/17/24 4:59 PM, Tommaso Merciai wrote:
-> Add v4l2 test pattern control.
+On 24/06/2024 11:52, Dorcas Anono Litunya wrote:
+> Hello,
 > 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> ---
->   drivers/media/i2c/max96717.c | 210 ++++++++++++++++++++++++++++++++---
->   1 file changed, 194 insertions(+), 16 deletions(-)
+> This series sets up loopback support for video, sliced VBI data and
+> HDMI CEC across multiple instances in the vivid test driver. It also
+> updates documentation to reflect changes made.
 > 
-> diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
-> index 949306485873..c263bbca7318 100644
-> --- a/drivers/media/i2c/max96717.c
-> +++ b/drivers/media/i2c/max96717.c
-> @@ -16,6 +16,7 @@
->   #include <linux/regmap.h>
->   
->   #include <media/v4l2-cci.h>
-> +#include <media/v4l2-ctrls.h>
->   #include <media/v4l2-fwnode.h>
->   #include <media/v4l2-subdev.h>
->   
-> @@ -36,11 +37,37 @@
->   #define MAX96717_DEV_ID  CCI_REG8(0xd)
->   #define MAX96717_DEV_REV CCI_REG8(0xe)
->   #define MAX96717_DEV_REV_MASK GENMASK(3, 0)
-> +#define MAX96717_IO_CHK0 CCI_REG8(0x24f)
-In MAX96717 datasheet this register is named VTX1.
-Can you also move these definitions to the VTX section?
-> +#define MAX96717_PATTERN_CLK_FREQ GENMASK(3, 1)
->   
->   /* VID_TX Z */
-> +#define MAX96717_VIDEO_TX0 CCI_REG8(0x110)
-> +#define MAX96717_VIDEO_AUTO_BPP BIT(3)
->   #define MAX96717_VIDEO_TX2 CCI_REG8(0x112)
->   #define MAX96717_VIDEO_PCLKDET BIT(7)
->   
-> +/* VRX_PATGEN_0 */
-For serializer these registers are named VTX_Z instead of VRX.
+> The first 7 patches do not implement the actual work but are necessary for
+> setting up the next changes. They address documentation issues,
+> fix a g_edid bug, resolve a vivid crash when no outputs are configured,
+> and add the instance number to the video input and output enumerations.
+> 
+> The 8th patch adds the controls and infrastructure needed to enable
+> loopback across multiple instances.
+> The 9th patch enables the video looping code and CEC support.
+> The 10th update documentation to reflect all changes made.
 
-> +#define MAX96717_PATGEN_0              CCI_REG8(0x24e)
-#define MAX96717_VTX_0              CCI_REG8(0x24e)
-> +#define MAX96717_PATGEN_1              CCI_REG8(0x26b)
-Can you keep this define ordered by address?
-> +#define MAX96717_PATGEN_MODE           GENMASK(1, 0)
-> +#define MAX96717_PATGEN_VS_DLY         CCI_REG24(0x250)
-#define MAX96717_VTX_VS_DLY
-> +#define MAX96717_PATGEN_VS_HIGH        CCI_REG24(0x253)
-> +#define MAX96717_PATGEN_VS_LOW         CCI_REG24(0x256)
-> +#define MAX96717_PATGEN_V2H            CCI_REG24(0x259)
-> +#define MAX96717_PATGEN_HS_HIGH        CCI_REG16(0x25c)
-> +#define MAX96717_PATGEN_HS_LOW         CCI_REG16(0x25e)
-> +#define MAX96717_PATGEN_HS_CNT         CCI_REG16(0x260)
-> +#define MAX96717_PATGEN_V2D            CCI_REG24(0x262)
-> +#define MAX96717_PATGEN_DE_HIGH        CCI_REG16(0x265)
-> +#define MAX96717_PATGEN_DE_LOW         CCI_REG16(0x267)
-> +#define MAX96717_PATGEN_DE_CNT         CCI_REG16(0x269)
-> +#define MAX96717_PATGEN_GRAD_INC       CCI_REG8(0x26c)
-> +#define MAX96717_PATGEN_CHKB_COLOR_A   CCI_REG24(0x26d)
-> +#define MAX96717_PATGEN_CHKB_COLOR_B   CCI_REG24(0x270)
-> +#define MAX96717_PATGEN_CHKB_RPT_CNT_A CCI_REG8(0x273)
-> +#define MAX96717_PATGEN_CHKB_RPT_CNT_B CCI_REG8(0x274)
-> +#define MAX96717_PATGEN_CHKB_ALT       CCI_REG8(0x275)
-> +
->   /* GPIO */
->   #define MAX96717_NUM_GPIO         11
->   #define MAX96717_GPIO_REG_A(gpio) CCI_REG8(0x2be + (gpio) * 3)
-> @@ -82,6 +109,12 @@
->   /* MISC */
->   #define PIO_SLEW_1 CCI_REG8(0x570)
->   
-> +enum max96717_vpg_mode {
-> +	MAX96717_VPG_DISABLED = 0,
-> +	MAX96717_VPG_CHECKERBOARD = 1,
-> +	MAX96717_VPG_GRADIENT = 2,
-> +};
-> +
->   struct max96717_priv {
->   	struct i2c_client		  *client;
->   	struct regmap			  *regmap;
-> @@ -89,6 +122,7 @@ struct max96717_priv {
->   	struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
->   	struct v4l2_subdev                sd;
->   	struct media_pad                  pads[MAX96717_PORTS];
-> +	struct v4l2_ctrl_handler          ctrl_handler;
->   	struct v4l2_async_notifier        notifier;
->   	struct v4l2_subdev                *source_sd;
->   	u16                               source_sd_pad;
-> @@ -96,6 +130,7 @@ struct max96717_priv {
->   	u8                                pll_predef_index;
->   	struct clk_hw                     clk_hw;
->   	struct gpio_chip                  gpio_chip;
-> +	enum max96717_vpg_mode            pattern;
->   };
->   
->   static inline struct max96717_priv *sd_to_max96717(struct v4l2_subdev *sd)
-> @@ -131,6 +166,115 @@ static inline int max96717_start_csi(struct max96717_priv *priv, bool start)
->   			       start ? MAX96717_START_PORT_B : 0, NULL);
->   }
->   
-> +static int max96717_apply_patgen_timing(struct max96717_priv *priv,
-> +					struct v4l2_subdev_state *state)
-> +{
-> +	struct v4l2_mbus_framefmt *fmt =
-> +		v4l2_subdev_state_get_format(state, MAX96717_PAD_SOURCE);
-> +	const u32 h_active = fmt->width;
-> +	const u32 h_fp = 88;
-> +	const u32 h_sw = 44;
-> +	const u32 h_bp = 148;
-> +	u32 h_tot;
-> +	const u32 v_active = fmt->height;
-> +	const u32 v_fp = 4;
-> +	const u32 v_sw = 5;
-> +	const u32 v_bp = 36;
-> +	u32 v_tot;
-> +	int ret = 0;
-> +
-> +	h_tot = h_active + h_fp + h_sw + h_bp;
-> +	v_tot = v_active + v_fp + v_sw + v_bp;
-> +
-> +	/* 75 Mhz pixel clock */
-> +	cci_update_bits(priv->regmap, MAX96717_IO_CHK0,
-> +			MAX96717_PATTERN_CLK_FREQ, 0xa, &ret);
-> +
-> +	dev_info(&priv->client->dev, "height: %d width: %d\n", fmt->height,
-> +		 fmt->width);
-> +
-> +	cci_write(priv->regmap, MAX96717_PATGEN_VS_DLY, 0, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_VS_HIGH, v_sw * h_tot, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_VS_LOW,
-> +		  (v_active + v_fp + v_bp) * h_tot, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_HS_HIGH, h_sw, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_HS_LOW, h_active + h_fp + h_bp,
-> +		  &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_V2D,
-> +		  h_tot * (v_sw + v_bp) + (h_sw + h_bp), &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_HS_CNT, v_tot, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_DE_HIGH, h_active, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_DE_LOW, h_fp + h_sw + h_bp,
-> +		  &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_DE_CNT, v_active, &ret);
-> +	/* B G R */
-> +	cci_write(priv->regmap, MAX96717_PATGEN_CHKB_COLOR_A, 0xfecc00, &ret);
-> +	/* B G R */
-> +	cci_write(priv->regmap, MAX96717_PATGEN_CHKB_COLOR_B, 0x006aa7, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_CHKB_RPT_CNT_A, 0x3c, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_CHKB_RPT_CNT_B, 0x3c, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_CHKB_ALT, 0x3c, &ret);
-> +	cci_write(priv->regmap, MAX96717_PATGEN_GRAD_INC, 0x10, &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int max96717_apply_patgen(struct max96717_priv *priv,
-> +				 struct v4l2_subdev_state *state)
-> +{
-> +	unsigned int val;
-> +	int ret = 0;
-> +
-> +	if (priv->pattern)
-> +		ret = max96717_apply_patgen_timing(priv, state);
-> +
-> +	cci_write(priv->regmap, MAX96717_PATGEN_0, priv->pattern ? 0xfb : 0,
-> +		  &ret);
-> +
-> +	val = FIELD_PREP(MAX96717_PATGEN_MODE, priv->pattern);
-> +	cci_update_bits(priv->regmap, MAX96717_PATGEN_1, MAX96717_PATGEN_MODE,
-> +			val, &ret);
-> +	return ret;
-> +}
-> +
-> +static int max96717_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct max96717_priv *priv =
-> +		container_of(ctrl->handler, struct max96717_priv, ctrl_handler);
-> +	int ret;
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_TEST_PATTERN:
-> +		if (priv->enabled_source_streams)
-> +			return -EBUSY;
-> +		priv->pattern = ctrl->val;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Use bpp from bpp register */
-> +	ret = cci_update_bits(priv->regmap, MAX96717_VIDEO_TX0,
-> +			      MAX96717_VIDEO_AUTO_BPP,
-> +			      priv->pattern ? 0 : MAX96717_VIDEO_AUTO_BPP,
-> +			      NULL);
-> +
-> +	/* Pattern generator doesn't work with tunnel mode */
-Can you add a comment saying that the deserializer should manage the link in
-pixel mode as well.
-> +	return cci_update_bits(priv->regmap, MAX96717_MIPI_RX_EXT11,
-> +			       MAX96717_TUN_MODE,
-> +			       priv->pattern ? 0 : MAX96717_TUN_MODE, &ret);
-> +}
-> +
-> +static const char * const max96717_test_pattern[] = {
-> +	"Disabled",
-> +	"Checkerboard",
-> +	"Gradient"
-> +};
-> +
-> +static const struct v4l2_ctrl_ops max96717_ctrl_ops = {
-> +	.s_ctrl = max96717_s_ctrl,
-> +};
-> +
->   static int max96717_gpiochip_get(struct gpio_chip *gpiochip,
->   				 unsigned int offset)
->   {
-> @@ -352,20 +496,28 @@ static int max96717_enable_streams(struct v4l2_subdev *sd,
->   	u64 sink_streams;
->   	int ret;
->   
-> -	sink_streams = v4l2_subdev_state_xlate_streams(state,
-> -						       MAX96717_PAD_SOURCE,
-> -						       MAX96717_PAD_SINK,
-> -						       &streams_mask);
-> -
->   	if (!priv->enabled_source_streams)
->   		max96717_start_csi(priv, true);
->   
-> -	ret = v4l2_subdev_enable_streams(priv->source_sd, priv->source_sd_pad,
-> -					 sink_streams);
-> -	if (ret) {
-> -		dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
-> -			sink_streams);
-> +	ret = max96717_apply_patgen(priv, state);
-> +	if (ret)
->   		goto stop_csi;
-> +
-> +	if (!priv->pattern) {
-> +		sink_streams =
-> +			v4l2_subdev_state_xlate_streams(state,
-> +							MAX96717_PAD_SOURCE,
-> +							MAX96717_PAD_SINK,
-> +							&streams_mask);
-> +
-> +		ret = v4l2_subdev_enable_streams(priv->source_sd,
-> +						 priv->source_sd_pad,
-> +						 sink_streams);
-> +		if (ret) {
-> +			dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
-> +				sink_streams);
-> +			goto stop_csi;
-> +		}
->   	}
->   
->   	priv->enabled_source_streams |= streams_mask;
-> @@ -394,13 +546,23 @@ static int max96717_disable_streams(struct v4l2_subdev *sd,
->   	if (!priv->enabled_source_streams)
->   		max96717_start_csi(priv, false);
->   
-> -	sink_streams = v4l2_subdev_state_xlate_streams(state,
-> -						       MAX96717_PAD_SOURCE,
-> -						       MAX96717_PAD_SINK,
-> -						       &streams_mask);
-> +	if (!priv->pattern) {
-> +		int ret;
-> +
-> +		sink_streams =
-> +			v4l2_subdev_state_xlate_streams(state,
-> +							MAX96717_PAD_SOURCE,
-> +							MAX96717_PAD_SINK,
-> +							&streams_mask);
->   
-> -	return v4l2_subdev_disable_streams(priv->source_sd, priv->source_sd_pad,
-> -					   sink_streams);
-> +		ret = v4l2_subdev_disable_streams(priv->source_sd,
-> +						  priv->source_sd_pad,
-> +						  sink_streams);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
->   }
->   
->   static const struct v4l2_subdev_pad_ops max96717_pad_ops = {
-> @@ -513,6 +675,19 @@ static int max96717_subdev_init(struct max96717_priv *priv)
->   	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96717_subdev_ops);
->   	priv->sd.internal_ops = &max96717_internal_ops;
->   
-> +	v4l2_ctrl_handler_init(&priv->ctrl_handler, 1);
-> +	priv->sd.ctrl_handler = &priv->ctrl_handler;
-> +
-> +	v4l2_ctrl_new_std_menu_items(&priv->ctrl_handler,
-> +				     &max96717_ctrl_ops,
-> +				     V4L2_CID_TEST_PATTERN,
-> +				     ARRAY_SIZE(max96717_test_pattern) - 1,
-> +				     0, 0, max96717_test_pattern);
-> +	if (priv->ctrl_handler.error) {
-> +		ret = priv->ctrl_handler.error;
-> +		goto err_free_ctrl;
-> +	}
-> +
->   	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
->   	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
->   	priv->sd.entity.ops = &max96717_entity_ops;
-> @@ -552,6 +727,8 @@ static int max96717_subdev_init(struct max96717_priv *priv)
->   	v4l2_subdev_cleanup(&priv->sd);
->   err_entity_cleanup:
->   	media_entity_cleanup(&priv->sd.entity);
-> +err_free_ctrl:
-> +	v4l2_ctrl_handler_free(&priv->ctrl_handler);
->   
->   	return ret;
->   }
-> @@ -563,6 +740,7 @@ static void max96717_subdev_uninit(struct max96717_priv *priv)
->   	v4l2_async_nf_cleanup(&priv->notifier);
->   	v4l2_subdev_cleanup(&priv->sd);
->   	media_entity_cleanup(&priv->sd.entity);
-> +	v4l2_ctrl_handler_free(&priv->ctrl_handler);
->   }
->   
->   struct max96717_pll_predef_freq {
+Thank you very much for all your work on this during your Outreachy internship!
 
-Regards,
-Julien
+It was a lot more complex than we initially anticipated, so I am very
+pleased to see this patch series. It's a really nice improvement to
+the vivid driver, making the emulation of S-Video and HDMI much more
+realistic.
+
+It was a pleasure for me and Johan to mentor you.
+
+Thank you!
+
+	Hans
+
+> 
+> Dorcas Anono Litunya (3):
+>   media: Documentation: vivid.rst: Remove documentation for Capture
+>     Overlay
+>   media: vivid: Add 'Is Connected To' menu controls
+>   documentation: media: vivid: Update documentation on vivid loopback
+>     support
+> 
+> Hans Verkuil (7):
+>   media: Documentation: vivid.rst: fix confusing section refs
+>   media: Documentation: vivid.rst: drop "Video, VBI and RDS Looping"
+>   media: Documentation: vivid.rst: add supports_requests
+>   media: vivid: vidioc_g_edid: do not change the original input EDID
+>   media: vivid: don't set HDMI TX controls if there are no HDMI outputs
+>   media: vivid: add instance number to input/output names
+>   media: vivid: loopback based on 'Connected To' controls
+> 
+>  Documentation/admin-guide/media/vivid.rst     | 185 +++++--------
+>  drivers/media/test-drivers/vivid/vivid-cec.c  |  88 ++++--
+>  drivers/media/test-drivers/vivid/vivid-core.c | 250 ++++++++++++++---
+>  drivers/media/test-drivers/vivid/vivid-core.h | 125 ++++++++-
+>  .../media/test-drivers/vivid/vivid-ctrls.c    | 262 ++++++++++--------
+>  .../test-drivers/vivid/vivid-kthread-cap.c    |  86 +++---
+>  .../media/test-drivers/vivid/vivid-vbi-cap.c  |   5 +-
+>  .../media/test-drivers/vivid/vivid-vid-cap.c  | 115 +++++---
+>  .../media/test-drivers/vivid/vivid-vid-cap.h  |   2 +
+>  .../test-drivers/vivid/vivid-vid-common.c     | 134 ++++++---
+>  .../test-drivers/vivid/vivid-vid-common.h     |   5 +-
+>  .../media/test-drivers/vivid/vivid-vid-out.c  |  25 +-
+>  12 files changed, 859 insertions(+), 423 deletions(-)
+> 
+
 
