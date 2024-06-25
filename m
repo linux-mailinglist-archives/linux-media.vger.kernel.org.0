@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-14137-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14138-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2795F9174B9
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 01:32:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 088A39174BE
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 01:33:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20BA5B21CCE
-	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 23:32:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7D1C283051
+	for <lists+linux-media@lfdr.de>; Tue, 25 Jun 2024 23:33:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199BF17F4FA;
-	Tue, 25 Jun 2024 23:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9480314AD20;
+	Tue, 25 Jun 2024 23:33:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z78FBswI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wqe0p4IP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C511A16D4C8
-	for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 23:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886F11487C0
+	for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 23:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719358335; cv=none; b=t+m1QzL8x6cCMKyJYqVhw9txWWpG7RdM65XAcoLASgGffDNs2/x5pvLCEMYbSl4yXyPDD4AlA4xdhoRE6WSyhb7CbblXykjXcoSXL/B7/xboA8YE7aWwfB42HPluAssw158OZCKeKiMG6yfWff7Y0swHE8GxR23WVhZXBPlZO/w=
+	t=1719358418; cv=none; b=TYc721Nu4sJAaBkOPvaeom5Ro8qB8zsBEnhZlf5HNarPUBCcTXgPaqF6mXdlRp7eYbFhF6SmGXFenT9qEAk9/oqrPk0rhEU5B5sCdC45UYoLBz/STEyZhO4pu1qDNKLgBRKYPj/zxuoCCV/fHHR2DI9O9Wznp2nqsc/zSaLb5t8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719358335; c=relaxed/simple;
-	bh=Jl+AYBC6QROVejlC4xoA8yOgyqVkmVO3/fE4Rt05vPc=;
+	s=arc-20240116; t=1719358418; c=relaxed/simple;
+	bh=FI8eUaDFu/zwqz9DJp2crsHcZnGTTPmeP/vL/b3wFjQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F2NZ24FYNmuMGJ7FoR+6yzmsgnNRVi9j5ONYcvYAAvPeTw3cGm9Tsu5Lt7xgM8Tb/jX8guVgWCGyW/fW32pCKfX9COvHSuIQxfiZo5LnXnkYI2GXKi8nUVHaN8480AEAsp++3L2mJ5ZCdqmXEKai4fomeU/tmCuDPxuOi5/ClVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z78FBswI; arc=none smtp.client-ip=209.85.128.65
+	 In-Reply-To:Content-Type; b=S2nr05MFuuNdej+uFm7wJZ7Q7lVMUz6DRmoK+jB7M+R8FQYLl9gB4Z0tKZnahGp3eEAmBUeMeFbxskLt1c8jja9TSwnBTbXbHhtJReJkVU+m3oxAfVrCMV5QEWlYtqa2XHeMxlBHiwb3KX13S0T49OT/9QCuAQ/2Gu8kUmw/XHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Wqe0p4IP; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-421eab59723so45384155e9.3
-        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 16:32:13 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4217d451f69so52124975e9.0
+        for <linux-media@vger.kernel.org>; Tue, 25 Jun 2024 16:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719358332; x=1719963132; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1719358415; x=1719963215; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lbrH75vzXbeWZnJxQfr9eSE4laznv43BbrI6ljKq96w=;
-        b=z78FBswIShba4B7nlwBTgKgXkqb5Sp/fmpkU9Nkma/yI459LOxtVZA8NA7KdvV9j/B
-         e8iMq9uK9wPvO7GBdGC5gG7hAcC5gAE919gNTv5Gl0yWpV6d+LwiLDywwOD4lP9ZvQb1
-         OlCbQjpOFHtL0wU0UyjSBmXHAo5CWm8zZuSYXxJBapK+20AECStNz6zmlusHhJU3GJL1
-         DE+DpFdJ5nDOX/0wzUttvBjjeu6BwkNqoeg04T3VWhBI5CABKciBDnT3dH+JxLpGA4Ze
-         2LGXpt5/Dv5heIL9SF5x2sZxttxCrNWuMQCgLnlqz3i34hR9gH3YGS9uiz4EHMjvdIJd
-         BWjQ==
+        bh=6Opwcw7VLCQZgGe8FSyQVMYscWh3VCg4kBZbjrQC8nk=;
+        b=Wqe0p4IPqSb8Ja4MdcN4LgLLJmQuSmiHODq+9L1YdNwwj8PYT1jnA2EKHMrI9CwKi8
+         dgPvoPGCMOkHnfTgTtQFpp+w+0hxoHas+H+DPgNNBMIMCTulJA0JJnE11VH9Ha7sOIcQ
+         jurkZO0O+9OGNOb7nzJVcVUqQsuJG93QRaqmGgpYYWe03Og6E+XjzfmKfxZ3xHUlHExn
+         zBpVvcCG1N7v4UslvVF3bUEA3S0cNrhu0KiC4VlSY6Rw4LehKnrq6pF7+3CNa7cPFzuN
+         4M/u5x96qAEoRP/UUoDRjZGyovObkd6lWFNoVl2w0oatUNBHyXNuA64a0bfexVP45bbs
+         9mvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719358332; x=1719963132;
+        d=1e100.net; s=20230601; t=1719358415; x=1719963215;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lbrH75vzXbeWZnJxQfr9eSE4laznv43BbrI6ljKq96w=;
-        b=pGuJb+neZffMws5/fbiyVZRnGeIUM85o/HLWjvwJyRdvC2GagBTBivZd0H4osGTuCt
-         Q5MCMgVChcjn6X/kV5c78i+116mVNLzkkBu1nJ+5Da4+MmzVqNV5ZBk34PovOS+EUfka
-         laDNphlEVO0YBZ1RH2DinuaX14FFulJYUp6xclwPf6BO4+7zGOyi5H/eZIQRxH1kk+pL
-         ujojTRrxekaZEOWkDtqfnn+s+YEeWOZK//t47FBgL+PNUvCdHNJ3vzefIy4F0xGaJ4uC
-         MXR3sVwfhNlNHoxd/E4TPqDdbNfFkc0sEA3UpJwze5uzIhSYVbga+ovte4+uhiQefRKV
-         xtsw==
-X-Gm-Message-State: AOJu0YwPESkqvDMQg8k/cntieZmk/3bCtBRO38/IFu8LD74qjzrJHXd2
-	d8ieZlLb4G1Nz1G5G9eJ2I4d2uru8Ou6L45lvfKVglBry/666WMfJRHdYSrK4uk=
-X-Google-Smtp-Source: AGHT+IFfrVFH4dS5PTYGfls490EP0Nu3bFddns6indKs0gUPwj1+1d3DDgayra4rO4Gwf6H0Dvau8A==
-X-Received: by 2002:a5d:6487:0:b0:366:e64f:b787 with SMTP id ffacd0b85a97d-366e64fb8a9mr9522455f8f.8.1719358332136;
-        Tue, 25 Jun 2024 16:32:12 -0700 (PDT)
+        bh=6Opwcw7VLCQZgGe8FSyQVMYscWh3VCg4kBZbjrQC8nk=;
+        b=IYZoHavKNdpQgHSejelz6NL3LhM8a5sA/1VNEkX1KDv2Kwza3wYEfRd0ma33y0Xjc4
+         I/80j72WRRMgVC6iMRprRkWaKWmV4jnrp5UBxqPfReQQEy5u/D9pGMl825nqAM9f9W9T
+         2GfHHrmsquRg1co31kmSk1zMOWfPWTZKPNfsphVo8TsedrZfPE8bAe9w/AdKv91jFGFq
+         S3jPOWeVc7UeI4bDRJbf4u7k64V8bn1rFQWsN+DxGGhBCdd3rF+e7wH7mQQOQHFF6od+
+         tlEerEaBUAU4gaI7Kwq/cI46CWxY6AjM22DM0dPXaMyIP3jm59HiZ2grl1SdqnhCKLyx
+         CrwA==
+X-Gm-Message-State: AOJu0YzP0xBjYSsYLtZugLqBks4bR11G9GYC+egoVk4XYXTamDvYEeZN
+	ZQt7FanV1MrdtgY+ADpD5oEnB1PkPs405t5LTpxrZ20h3+H+qx3QdmPUv5Lj0LI=
+X-Google-Smtp-Source: AGHT+IFAxAnH1S3nzfdk6CbSDoIT9ih3OBbf4y1Msoor49NuRYZvR265y7WIQbcL04xfeRakzSfkGw==
+X-Received: by 2002:a5d:640e:0:b0:362:52d8:6788 with SMTP id ffacd0b85a97d-366e9465a16mr5839347f8f.2.1719358414867;
+        Tue, 25 Jun 2024 16:33:34 -0700 (PDT)
 Received: from [192.168.0.16] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36647e7eb4fsm14143043f8f.18.2024.06.25.16.32.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-366389b8597sm14101891f8f.36.2024.06.25.16.33.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jun 2024 16:32:11 -0700 (PDT)
-Message-ID: <3e55d482-2732-46cb-906f-62f0e722b7a5@linaro.org>
-Date: Wed, 26 Jun 2024 00:32:42 +0100
+        Tue, 25 Jun 2024 16:33:34 -0700 (PDT)
+Message-ID: <a167c931-576a-4055-9eb0-38e919884401@linaro.org>
+Date: Wed, 26 Jun 2024 00:34:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT v3 1/5] dt-bindings: media: camss: Add
- qcom,sc7180-camss
+Subject: Re: [PATCH RFT v3 2/5] media: camss: csiphy-3ph: Add Gen2 v1.2.2
+ two-phase MIPI CSI-2 DPHY init
 To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
  Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -87,45 +87,24 @@ To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
- <20240624-b4-sc7180-camss-v3-1-89ece6471431@gmail.com>
+ <20240624-b4-sc7180-camss-v3-2-89ece6471431@gmail.com>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240624-b4-sc7180-camss-v3-1-89ece6471431@gmail.com>
+In-Reply-To: <20240624-b4-sc7180-camss-v3-2-89ece6471431@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 24/06/2024 13:13, George Chan via B4 Relay wrote:
 > From: George Chan <gchan9527@gmail.com>
 > 
-> Add bindings for qcom,sc7180-camss in order to support the camera
-> subsystem for sm7125 as found in the Xiaomi Redmi 9 Pro cellphone.
+> Add a PHY configuration sequence for the sc7180 which uses a Qualcomm
+> Gen 2 version 1.2.2 CSI-2 PHY.
+> 
+> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+> mode. This configuration supports two-phase D-PHY mode.
 > 
 > Signed-off-by: George Chan <gchan9527@gmail.com>
-> ---
->   .../bindings/media/qcom,sc7180-camss.yaml          | 328 +++++++++++++++++++++
->   1 file changed, 328 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-camss.yaml
-> new file mode 100644
-> index 000000000000..58ffa4944857
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-camss.yaml
-> @@ -0,0 +1,328 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/qcom,sc7180-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Camera SubSystem
-> +
-> +maintainers:
-> +  - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-
-Please add yourself here.
-
-Other than that
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
 
