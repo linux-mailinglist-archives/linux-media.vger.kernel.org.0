@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-14189-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14190-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59874918712
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 18:14:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A137918790
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 18:38:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 895D31C23596
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 16:14:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2721A1F21D2D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 16:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A460C190050;
-	Wed, 26 Jun 2024 16:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18B1718FC9E;
+	Wed, 26 Jun 2024 16:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Da3Nlcy7"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="e9NxQsmh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF596186E38;
-	Wed, 26 Jun 2024 16:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E71818F2F9;
+	Wed, 26 Jun 2024 16:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719418394; cv=none; b=f5cBUoE8GkHvS/6mrHrr5UH7MbnUlcSdw5iZppNPjkneH3cw84fWSyoHBVx36Mds/8oD3WxFn4BCYmBywP5kFH/lBwuO+YZpFuZz4liMcqfMD6eL7K/mJNxc0cHItbuR0EsyuToYAq6iVMzY+zJXQFD1A/FKuB1ovzOmZJq/RuE=
+	t=1719419886; cv=none; b=bUv90Xvj4gxyjkOrWlFhuIKLIZT+J9LMRwwTr9Huam9ZZZeGTSWS9QmJTCSS4JZyG0ljplDp7suf8A9oyq5OM/2BJFwEcd7nfJ6WP8+WKi4EZLObtL3kLKXxSkMWYlVCUMDjtgI4WKhVUlKsQYRKLWw5UaAl+MzR6nC+O8TMqlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719418394; c=relaxed/simple;
-	bh=cqv8wMsZGMicMGelqOIAueCpYEuxWW3/ddi8n7JgvTI=;
+	s=arc-20240116; t=1719419886; c=relaxed/simple;
+	bh=quDgZOW6YvheFb7yHwFy1dLNIq03jS6xr5TWbu53Ok0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=RS/dxmHdYl19P8curDb7hBf3FqE0HmxywAUr7gs8pOD/dCMW8xzSyyNYoElN8VE3ZQ/kdX7O82otUIpAbKoDxQgIS7RDiT2WYfYtToyyIKFbINHFIIhV0GGkzDGfpSEy9KsHrNkJLKdZ6t1/ptuRCyqpEazHMBXIzcs5THAB+dU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Da3Nlcy7; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=TFvcWyCBwSzGIllYfVchSLLb0cSUj1+imtb60v315OEB0lJhyDFttNIsjcx3WFNk5W8RRKgVm4YDavMpKLr1XdplwRz7B+z/wleKeY7d4B/sKL94gtRbl6jxPiTGMjGEvkrKiDzQQbzUFgLVEtXrrNMvEmgSAPBegBOj6P7lQ40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=e9NxQsmh; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45QAfUNu018095;
-	Wed, 26 Jun 2024 16:13:08 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45QAfPi0023204;
+	Wed, 26 Jun 2024 16:37:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OCee+xk48e8TmS+YyR/KGRCV69PaDy104CZaVduY+Sk=; b=Da3Nlcy7uWMuYl9Y
-	jnpQN2JcD0C9K789jAn1JIOdfR/Ld+SaNwMOti72yNQuX7+sXnSo2kXITgOYb1dN
-	D05tWWxi23EIxP6U9fIcEXaXWaBiITXGQbTcr0wCcC2LHUMzS89u5Ca7GWYjoCT1
-	0CzFym4qPFbJOknvgA6751N+ixXmZoRadMrtSXv5F8azbaHttbLytozRge94fc6A
-	7T1MOyshVc4ZSZY/97sCsA8zwsoAN1hc9tL0+hAYJ2yz2gVGAXpxbDwLGZvTs/y5
-	oAuMjQsgFG1jMW/kL7uFSTIl/cND5Q4A8YgYnkLPv2IOnb1Fx07Nb1cmOaFO9nxh
-	m91TSA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywppv9tnk-1
+	EeQVUKZnUwKoGoDNJ2FAjvUYnjPiyCIqsv16t1D3psI=; b=e9NxQsmh0yKvL+HD
+	8mWSoY5rsvRq3mgU9VZhg17Fu4PBjQ2+yEpbFvdRThH1Inmo18nkRpWeOod4Aqu+
+	lyF7lqKtKonxkSKAmkuZAHLMyuTvLM9Rvh4IaXiDyEgxGsVnL1cT1ZrePthSyZNX
+	dtVORKoTxEmAropQ/j+ErkI6P6Qyb1QAA++lHpsApdqT4nem/Zm3QYyBznEgEwhY
+	zM+8xeFoCQHHTwvtp8nQ1YeleF+7P3TtIret0mBbVnpeIWR0+kETLtlJPq8S8/fY
+	mikuiNBeEeQX4UyQsKAoXl92tjKXvpGfZVeJNUlXGCQXoCKr66rZBQud8fpzYyXT
+	gPTAJA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywpu19p5t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Jun 2024 16:13:08 +0000 (GMT)
+	Wed, 26 Jun 2024 16:37:55 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45QGD7Yr004184
+	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45QGbsAt004988
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Jun 2024 16:13:07 GMT
+	Wed, 26 Jun 2024 16:37:54 GMT
 Received: from [10.48.244.230] (10.49.16.6) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 26 Jun
- 2024 09:13:06 -0700
-Message-ID: <4f44ace3-c940-4952-8ef4-b4d220bba9d1@quicinc.com>
-Date: Wed, 26 Jun 2024 09:13:06 -0700
+ 2024 09:37:53 -0700
+Message-ID: <be4544a3-ac67-4d4c-b00b-0e2e47a7522a@quicinc.com>
+Date: Wed, 26 Jun 2024 09:37:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,56 +65,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: ti: add missing MODULE_DESCRIPTION() macros
+Subject: Re: [PATCH] media: atomisp: add missing MODULE_DESCRIPTION() macros
 Content-Language: en-US
-To: Benoit Parrot <bparrot@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>
-References: <20240609-md-drivers-media-platform-ti-vpe-v1-1-b9e6a85f2a10@quicinc.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+References: <20240610-md-drivers-staging-media-atomisp-i2c-v1-1-c7b63464fae5@quicinc.com>
 From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <20240609-md-drivers-media-platform-ti-vpe-v1-1-b9e6a85f2a10@quicinc.com>
+In-Reply-To: <20240610-md-drivers-staging-media-atomisp-i2c-v1-1-c7b63464fae5@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: W-DWlZfnvw7scx1Q3PguZrpQlxHW_WTS
-X-Proofpoint-ORIG-GUID: W-DWlZfnvw7scx1Q3PguZrpQlxHW_WTS
+X-Proofpoint-GUID: rJ-s3Ke3Q4OKJORi2gQRNgnrVPlDxD72
+X-Proofpoint-ORIG-GUID: rJ-s3Ke3Q4OKJORi2gQRNgnrVPlDxD72
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-26_07,2024-06-25_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 mlxlogscore=999 mlxscore=0 adultscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
- definitions=main-2406260118
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ clxscore=1011 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2406260122
 
-On 6/9/2024 2:32 PM, Jeff Johnson wrote:
+On 6/10/2024 5:34 PM, Jeff Johnson wrote:
 > make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/ti/vpe/ti-vpdma.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-mt9m114.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.o
 > 
 > Add the missing invocations of the MODULE_DESCRIPTION() macro.
 > 
 > Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 > ---
->  drivers/media/platform/ti/vpe/vpdma.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c | 1 +
+>  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c          | 1 +
+>  2 files changed, 2 insertions(+)
 > 
-> diff --git a/drivers/media/platform/ti/vpe/vpdma.c b/drivers/media/platform/ti/vpe/vpdma.c
-> index f8998a8ad371..da90d7f03f82 100644
-> --- a/drivers/media/platform/ti/vpe/vpdma.c
-> +++ b/drivers/media/platform/ti/vpe/vpdma.c
-> @@ -1173,4 +1173,5 @@ EXPORT_SYMBOL(vpdma_create);
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
+> index 7a20d918a9d5..3499353f8ea5 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
+> @@ -207,4 +207,5 @@ module_init(init_msrlisthelper);
+>  module_exit(exit_msrlisthelper);
 >  
->  MODULE_AUTHOR("Texas Instruments Inc.");
->  MODULE_FIRMWARE(VPDMA_FIRMWARE);
-> +MODULE_DESCRIPTION("TI VPDMA helper library");
->  MODULE_LICENSE("GPL v2");
+>  MODULE_AUTHOR("Jukka Kaartinen <jukka.o.kaartinen@intel.com>");
+> +MODULE_DESCRIPTION("Helper library to load, parse and apply large register lists");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> index 23b1001c2a55..918ea4fa9f6b 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
+> @@ -1614,4 +1614,5 @@ static struct i2c_driver mt9m114_driver = {
+>  module_i2c_driver(mt9m114_driver);
+>  
+>  MODULE_AUTHOR("Shuguang Gong <Shuguang.gong@intel.com>");
+> +MODULE_DESCRIPTION("Aptina mt9m114 sensor support module");
+>  MODULE_LICENSE("GPL");
 > 
 > ---
-> base-commit: 19ca0d8a433ff37018f9429f7e7739e9f3d3d2b4
-> change-id: 20240609-md-drivers-media-platform-ti-vpe-2ebb82b6182d
+> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+> change-id: 20240610-md-drivers-staging-media-atomisp-i2c-18a7a4f883eb
+> 
 
 Following up to see if anything else is needed from me. Hoping to see this in
 linux-next so I can remove it from my tracking spreadsheet :)
