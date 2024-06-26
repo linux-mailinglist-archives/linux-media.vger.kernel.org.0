@@ -1,111 +1,144 @@
-Return-Path: <linux-media+bounces-14147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14148-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74E3917861
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 07:53:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB9E9178A4
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 08:12:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F97CB211F2
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 05:53:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E62712887D7
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 06:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B196C14A61E;
-	Wed, 26 Jun 2024 05:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD5914D6E0;
+	Wed, 26 Jun 2024 06:12:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jO3dM9OH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aiOiJMXO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73F3139D04;
-	Wed, 26 Jun 2024 05:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C7D14AD0A;
+	Wed, 26 Jun 2024 06:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719381217; cv=none; b=WUpOqA9eML26AZ6q/d2TJLQ+0/bx1DLt1nqcnF983Zl1TZlsHy6xfWUqsY1QXdyNO/Q0f/H3Brdh2jpoYMJTeAVswWIKR+88iN+eEemdWkun5w6PWo8LWj+j+S2uhL6uE7KGRDZK9b7AGQ8S5+eMurUGek+9oZ+HZVjg73+uEWI=
+	t=1719382327; cv=none; b=PNnsxVMhyRzxo79pYddhNPPgSx+TRfEl8+ia67J4iuijECRUr+QtjeHcVa0qXZwixiquClv6mxhOWzoOcs3scHZ+7xRtkGx0Mpw2FTe2SezvfTaMkW8+Sp3P8lnH0X+j/NWowb6u6EDYa5PEwSvx2Usw/8ppjfCwU4cEyAxX2+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719381217; c=relaxed/simple;
-	bh=2eqYX6NhdiyqdjHPiiUGrwk+CG0WCsqPh/C3Idf8R8o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FR8UN2VwsRl9thfxizYi9x/9N3mcIWEusWBx7xKAH4Cf2m1lqV8Pw5Gn4Ce1LzOrI5nTMCgOYIwVq+zv9aJ7OaBv69vpUbp7ExQ+oA6KC3W9GpemoWvSfmqJrlP+SNR+omJKzmJh8NLUa04pnc1BhSJMkPLnVEBNK5hm9s5gJw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jO3dM9OH; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e72224c395so72319931fa.3;
-        Tue, 25 Jun 2024 22:53:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719381214; x=1719986014; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2eqYX6NhdiyqdjHPiiUGrwk+CG0WCsqPh/C3Idf8R8o=;
-        b=jO3dM9OHzUs/GH7YmKAD3zQ42dgaLhJaPzmcVd/Qt8F2VbwMfAc6DsYQLtaiFlH/aY
-         u3Tj9e/BZj30hbiGWvuvo5ytksTEOWRge+rh7Zsz0cjyZ2fgWZGKz+L0oNfKPHrxOGB1
-         tlVnSnGf/xm2COxvYOxpfMlkWXeCPDnT82N1yqweBcpEj9UN3Dzue0/Cvf40LsZd5OBB
-         3Uo0TrVayCxNZg5jxbPnOZ3wKWXH5kYJpV3IWvtcvvs8u9dBwIckUOwyQ3tvmv1vnHXS
-         Gaawksbp6SIL2BVAZwf48ydih1k1YFi9qPZD4FR/FfBe6/Q6Zn2Kpzw4pGOk7zrs8ILr
-         Tyig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719381214; x=1719986014;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2eqYX6NhdiyqdjHPiiUGrwk+CG0WCsqPh/C3Idf8R8o=;
-        b=FH9AytEiQvPWMIeO9ebpnP98kctY/gur5EZOGImcdSOauG7V3EzQeY+YgsVR2hzRat
-         bZD2KbNL4cfDygAnvhEFYXR/Z3lgNjoHTPtlFDt8EVcPVm1z9/eagj5ew/ruJAMeI5oq
-         oln+CGmYHkPhacf5Q3SjCe9hJqQ27qJ/bZAQUCjWKAyil704c7r8d6xNd2KA0xJq+9YN
-         iWeRVFD8GHEpeSYLYdyWiiWrxIhVtFinxlIV9f5wASwlUvyv7oPGsbskWECAhHdIHewW
-         qvhK8VTTxYmjdc9jMR+E9IiWxZOFJHNTs0U153Cy/CrKkopReu6PcehxYvfJfbt3aMF3
-         j6Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+R6BGNh6dgfV9LeL5yU5oRkAodFRaIMkkUax3oRdMgtmRoH/QLDqy1oTaXRzk0l807HtuB9YZVwPJYabocSoLbQ/Z3LuTQ/C76hyXsCxL0MeBrD71CduP0gCyJYAl1L+Lci268TzTUshDlWD6KkVL9m2KyzxoJ5VPmH5xeruuHvy2G94PDjD3QCn9nSEDj11JqaL+19F8EAY8hsmmmZSFwFhbcw==
-X-Gm-Message-State: AOJu0YziAldgmRA9BNwlg5vh3NlbaAp8mSiWcqWXToPlqhfC4jYqPDq5
-	xy1qaU9hrK2KpQ7Rze0DOFkwwvZYxtG84uf46PK6u0zCd2Xp2PbBdDPQ/W9g6/tjM9/WES0dCh6
-	stv9s+Jt2VKuHQGBCQti2P1+wFp7vOoEW
-X-Google-Smtp-Source: AGHT+IFjxZUOSZ1H7PzO3t2CC3FKDkQhNUCYP/lk+uJlpN7MB1c4o7RrJEqr3G4tTaRz3cXxFz6C9JCtiVSX+yfixIQ=
-X-Received: by 2002:a05:651c:19a2:b0:2ec:616e:1c92 with SMTP id
- 38308e7fff4ca-2ec616e1e74mr54226391fa.2.1719381213744; Tue, 25 Jun 2024
- 22:53:33 -0700 (PDT)
+	s=arc-20240116; t=1719382327; c=relaxed/simple;
+	bh=TEpUzYShIjUmk1kIWkGB3eApbSunAH5iCDB+R3P0KXg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XtAihgAK1T9Xq/6uNiDAmCQYAXOkJP1VgC0wYmLfY9dzeGxY5KvxKZ89OB6A70dA2QemK1sx454n5KW0V+WbzAlJrBqKsEItB3K1FYdD7Qf44C1i1YCXHDfKJdycjQf+8svLikEHVuQVcAcrCHfeVvtxVzG2QZj9c+TcPE325Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aiOiJMXO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE3A7C2BD10;
+	Wed, 26 Jun 2024 06:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719382326;
+	bh=TEpUzYShIjUmk1kIWkGB3eApbSunAH5iCDB+R3P0KXg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aiOiJMXOhuSYEegtcpJaex5ffafDan2DMkYL3PDRjG3apTLhNTKKYgcAGbdkkSi+G
+	 DVg0UPgCGEVt2n+0K1r5Nmp0DYcFfvLJt5wX7LI97UIOFVXPd5v0BNiCmmd5qh4bjE
+	 tvHZ/1BhE7mBSVh37EMuW6bltwwB51BCGV3UO0Ej5KzSvSqP+H8b+NqNTDV4Gn9J1z
+	 VmFF1+QYDlheZ2VNFQ6LGyoscohfPQjQE3/7k6VKT0lKuoQufMI6yYqneRqPAl5t6b
+	 GdZvspiOXMZ8c7jvfviVDPBpN5co/BpsIVOAwtXNDSp4f+55dUU9pva5cFg0+ppxQf
+	 SDuIdgJxhxbMg==
+Message-ID: <c33dde93-2c3a-4a00-93ee-e4de303c9057@kernel.org>
+Date: Wed, 26 Jun 2024 08:11:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v3 1/5] dt-bindings: media: camss: Add
+ qcom,sc7180-camss
+To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
- <20240624-b4-sc7180-camss-v3-5-89ece6471431@gmail.com> <47997e61-26e5-4643-ac69-17db09be9bb1@linaro.org>
- <6a8b1bd1-8413-41f7-8889-7f4d42ce0d6d@linaro.org>
-In-Reply-To: <6a8b1bd1-8413-41f7-8889-7f4d42ce0d6d@linaro.org>
-From: george chan <gchan9527@gmail.com>
-Date: Wed, 26 Jun 2024 13:53:20 +0800
-Message-ID: <CADgMGSt0NiJAHSneYS8AXvDqKHsscvxW50tdxAYYOofpEgeofA@mail.gmail.com>
-Subject: Re: [PATCH RFT v3 5/5] arm64: dts: qcom: sc7180: camss: Add CAMSS
- block definition
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240624-b4-sc7180-camss-v3-1-89ece6471431@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240624-b4-sc7180-camss-v3-1-89ece6471431@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 26, 2024 at 7:52=E2=80=AFAM Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 26/06/2024 00:49, Bryan O'Donoghue wrote:
-> > Where is the CCI and sensor stuff - could you post a link to your
-> > working kernel tree in your next cover letter ?
->
-> Found it
->
-> https://github.com/torvalds/linux/commit/441ebc3a8948e03a1115dc6710e9519a=
-2594d0ae#diff-4b55839d42d3ffb773ac6d1babc9aa66dc2b9b11b346caea5d2d3ffb6ee90=
-0e5
->
-> ---
-> bod
-Ah, i found that camss branch is overridden by clean patches on the
-last commit, let me re-add the camera board dts too.
+On 24/06/2024 14:13, George Chan via B4 Relay wrote:
+> From: George Chan <gchan9527@gmail.com>
+> 
+> Add bindings for qcom,sc7180-camss in order to support the camera
+> subsystem for sm7125 as found in the Xiaomi Redmi 9 Pro cellphone.
+
+
+...
+
+> +
+> +required:
+> +  - clock-names
+> +  - clocks
+> +  - compatible
+
+Nothing improved here.
+
+I asked you at v2 to go through all comments and respond to each of them
+or implement each of them.
+
+BTW, I asked for subject to keep only one, first "media" prefix:
+	"Subject: just one media (first). "
+but you kept the second "media".
+
+
+Best regards,
+Krzysztof
+
 
