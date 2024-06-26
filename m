@@ -1,204 +1,199 @@
-Return-Path: <linux-media+bounces-14178-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14179-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C08B91833A
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 15:50:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8499186BD
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 18:06:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C22121F2195F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 13:50:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40FF01F21441
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 16:06:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8397418C347;
-	Wed, 26 Jun 2024 13:47:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4F8C18FC7F;
+	Wed, 26 Jun 2024 16:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOY4waer"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MJV8yx9Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EEF18A930;
-	Wed, 26 Jun 2024 13:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC2D18EFC0
+	for <linux-media@vger.kernel.org>; Wed, 26 Jun 2024 16:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719409631; cv=none; b=Nskh2wVHuRaa1O99Cj8Bm2HLncELHf9gg0S5cO2MFcWf+DJ5QWmj/ztOFLWN1l4l8ciQuY7JXlYUnYmvGsl9VASxHIctID9OA+uMiG7uHw6UjU2l3IUGF2WJ8DgYPPmgYVbEt7mGVws101olWQ31yrKIwXWeBs9anrWNFpZ5xZQ=
+	t=1719417724; cv=none; b=SZ++zdTbE7aRW87V640wy6Z0dR0ZNxWVoHOx81gyOWh9PxBJMx2Ycf2KPWM/zb4IE2QALzVoAScDn5SOPyM+AQLtpDvhbm679IXN8RR1FScnx+UyUaZV+HaWYXlfjwj0GRXQden1eOY53EbhdIqbMxbDntxK4ifhl+RTFRF/acs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719409631; c=relaxed/simple;
-	bh=rSsKiSc4dFI2tkoNlNTsDyIXyV57SbU85aojGhTzijM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IS4L1n5z0jO+9GfrS7x+Wa7lw9lsHTpb7S7XR6iot1aDA3Q/HIzX6bPm7ic4H1lEeodrZx5zyLFW1dNryAiVtf55rvRX5jPFj7iSinw5tyogS/a9X9ONHknpaPUWhGO0UTfRYhifi03+RetQSmuhRGjU94nZlVpb/H9+yiDS4CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MOY4waer; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a6fdd947967so486955566b.2;
-        Wed, 26 Jun 2024 06:47:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719409628; x=1720014428; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RFl4a85rkCgH8ys4lWAdMJzDTuxnq6IRXeCuLnaU+Ko=;
-        b=MOY4waermEgQGuDE/Z8Y91XE2m4Ji5CPK4kC3p6Mnk2ayoMVI/SG65zt2wESlXtPfK
-         4KJ4dT4BFUpOpaqoqBlWyqtgZYxrT3/8odwLGRYevviDiMv3u7BAjD7RUzEyHt9YuKK5
-         PyXWs1hBKTH9vAuyEruOFF3/bHxu4fYyxjQDfEfEbzdkQ1G1fYGeJy8RNL/IUF816Hlz
-         8DMRrZjLvgY8p/ZJnJ4NUBnKKINfgZR8Qli/2ZiwTeDwklD+CYaVSCNTrIH/Mr/WvXQT
-         tZTWS4RHhJLwZZeQ+AJs86bufZTrzfKtVErT6dvxHXJQuZs4VFxORPXmfXFmDK01rV/i
-         kc/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719409628; x=1720014428;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFl4a85rkCgH8ys4lWAdMJzDTuxnq6IRXeCuLnaU+Ko=;
-        b=Jnt35k//YwAVGuzHfZh8oJyhuoIesVL/tvbkqP0HEX8lnlYYeSrhRkx8Uz47TFmy3n
-         kCT2mmAk4/sMf1DMa4O0lGbfA5wwhDqD0FSCglggbXAzCO/UDnPedWOvbZbwqM9rlzPJ
-         EfqLAFhs3FbD6bisISS2jTTIhysCDFhbNfrzoRpxygkCR3Hkf9pk/kVmDJlPXjttsPCF
-         i0SQiGcf/K449qks1Sv77AJGFXWueLdGytrZ2igq43eECxIdhgw0XnBXOX2yUAglLdst
-         w5sme/tI2ApZ+uPfUfQoA7CirHzA7Xhh98WOwH1alnItst7faEuWNPTcgRtVFJKLS7Y6
-         aaFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVoYWzSe3SpUqdUjR/pFPb+AQ8AeNv6+vEvMb/FqwD1Jj/8rWL2+IT4AJtujG9kDovVVffMBBtAWAWjdodOZON+2mpYJo4c29u3bAG3cRyAzBtEtQt3KFN8KHk5I20ToPonF0rVhgBRe6YEhUnFfy2/nY8fUZooUev6k9iSU2y/8BMAKNNFWs245rr/OZlHApRW3vR2BDOI4CgWpWCAcVX2RCN6StbQPQiVQNx0upsDi6wXGX1JFHRRe/rAjEihGgNy7pJRWrtxIPs9FTb25FK90L8e+kYWWDzptlkH6AE3o+U1SPJzGLYfFB4QFHQNG5DA0OYjE/Yk1t3OLy5peSrFpj3DZN/YUVKM7ne8IrVCKunUcT8Fv2sewFa5Nl0f/pH5RrwFLCw5cLR5rD9iAdkkckIboLLpMrTNgT4eC1KmyG+g4wjBPGXju9FeykxzWr/gHQ3pi3eeJdldectuPPLgZFNve5eWRnnYzvUUmT73ZT9koxqV0yjXMkxAx6fpF+DgPiZuVQ==
-X-Gm-Message-State: AOJu0YxHsN5weWDKj5nJu5tI3DNP8gz9E11kO3w4rW4xJSJWUBRqFnQM
-	7RKQEuGE3D6RX391dTfXUL4lQ/V4+llJST0mSkd2z4Fl9tEMsB6m
-X-Google-Smtp-Source: AGHT+IGD5mGfND6mvQHeN5VakSdcpLJO5iAUu9YTrHEpvfoG3vNqvyJwqGy3yIJ4e8gaM2b8isOyjg==
-X-Received: by 2002:a17:907:c01a:b0:a72:8c5e:f3d with SMTP id a640c23a62f3a-a728c5e112amr201037566b.49.1719409628168;
-        Wed, 26 Jun 2024 06:47:08 -0700 (PDT)
-Received: from [192.168.42.3] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7244cbce5bsm425759166b.79.2024.06.26.06.47.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 06:47:07 -0700 (PDT)
-Message-ID: <09bdd7e5-75ca-42d5-8e59-a8ec05da89c7@gmail.com>
-Date: Wed, 26 Jun 2024 14:47:13 +0100
+	s=arc-20240116; t=1719417724; c=relaxed/simple;
+	bh=XjQX8JlKTVklzl9zQCBuisUq/7yxWKoFBC00G+YyO0s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tr6ncxqFBGMJWeF2w7XPNPJeTMevheQkgWB/laQcVEIPCg21Am7GM171P6DDFpXiffu2uOcSqrDj2Q/P19lULIwz5a2LDSr2AFUHftr8EPRrx2bUxXkKOBkeFCX/Ke8vMoiddvM8mGwS0y6LVrH+CYWOksnuYCT9pEL33YbgpTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MJV8yx9Z; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EA0D73E;
+	Wed, 26 Jun 2024 18:01:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719417697;
+	bh=XjQX8JlKTVklzl9zQCBuisUq/7yxWKoFBC00G+YyO0s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MJV8yx9ZNeeQ717ydQMKtgKBLdwt87IOHTFdHSjTlyz9Y713/McXVh3SIDEOavx8V
+	 tKwvY+7N6pUMugQcfLT32ZgrnOJHrXKPggU3K6dqsbGoj7ktSVPx+D/CvLW3TCwX/a
+	 AFKJUUJWkaEdH2XmYekY1vo6vpwRzE7F5Jq697kc=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v10 0/8]  media: raspberrypi: Add support for PiSP Back End
+Date: Wed, 26 Jun 2024 18:01:35 +0200
+Message-ID: <20240626160144.87871-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v13 11/13] net: add SO_DEVMEM_DONTNEED setsockopt
- to release RX frags
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240625024721.2140656-1-almasrymina@google.com>
- <20240625024721.2140656-12-almasrymina@google.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240625024721.2140656-12-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/25/24 03:47, Mina Almasry wrote:
-> Add an interface for the user to notify the kernel that it is done
-> reading the devmem dmabuf frags returned as cmsg. The kernel will
-> drop the reference on the frags to make them available for reuse.
+v9->v10:
+- Make the only uAPI field of type 'int' an '__u32' as suggested by Hans
+- Rework the vb2 queue_setup() operation to correctly handle the CREATE_BUFS
+  ioctl
 
-The sock_devmem_dontneed loop is a bit crude, but that can
-be handled by follow up patches.
+  Report from the latest v4l2-compliance:
+  Grand Total for pispbe device /dev/media1: 392, Succeeded: 392, Failed: 0, Warnings: 0
 
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+CI pipeline: https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1210895
+Branch: https://gitlab.freedesktop.org/linux-media/users/jmondi/-/commits/pispbe/media-staging/be-upstream-v10
 
-> diff --git a/net/core/sock.c b/net/core/sock.c
-> index 9abc4fe259535..040c66ac26244 100644
-> --- a/net/core/sock.c
-> +++ b/net/core/sock.c
-...
->   
-> +#ifdef CONFIG_PAGE_POOL
-> +static noinline_for_stack int
-> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
-> +{
-> +	unsigned int num_tokens, i, j, k, netmem_num = 0;
-> +	struct dmabuf_token *tokens;
-> +	netmem_ref netmems[16];
-> +	int ret = 0;
-> +
-> +	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
-> +		return -EBADF;
-> +
-> +	if (optlen % sizeof(struct dmabuf_token) ||
-> +	    optlen > sizeof(*tokens) * 128)
-> +		return -EINVAL;
-> +
-> +	tokens = kvmalloc_array(128, sizeof(*tokens), GFP_KERNEL);
-> +	if (!tokens)
-> +		return -ENOMEM;
-> +
-> +	num_tokens = optlen / sizeof(struct dmabuf_token);
-> +	if (copy_from_sockptr(tokens, optval, optlen)) {
-> +		kvfree(tokens);
-> +		return -EFAULT;
-> +	}
-> +
-> +	xa_lock_bh(&sk->sk_user_frags);
-> +	for (i = 0; i < num_tokens; i++) {
-> +		for (j = 0; j < tokens[i].token_count; j++) {
-> +			netmem_ref netmem = (__force netmem_ref)__xa_erase(
-> +				&sk->sk_user_frags, tokens[i].token_start + j);
-> +
-> +			if (netmem &&
-> +			    !WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
-> +				netmems[netmem_num++] = netmem;
-> +				if (netmem_num == ARRAY_SIZE(netmems)) {
-> +					xa_unlock_bh(&sk->sk_user_frags);
-> +					for (k = 0; k < netmem_num; k++)
-> +						WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
-> +					netmem_num = 0;
-> +					xa_lock_bh(&sk->sk_user_frags);
-> +				}
-> +				ret++;
-> +			}
-> +		}
-> +	}
-> +
-> +	xa_unlock_bh(&sk->sk_user_frags);
-> +	for (k = 0; k < netmem_num; k++)
-> +		WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
-> +
-> +	kvfree(tokens);
-> +	return ret;
-> +}
-> +#endif
+v8->v9:
+- Remove reference to multiple contexts from the admin guide as suggested by
+  Nick
+- Fix the compressed RAW format description as suggested by Nick
 
--- 
-Pavel Begunkov
+v7->v8:
+- Remove multiple-contexts and remove `struct pispbe_node_group`
+- Address Sakari's style comments
+- Remove CONFIG_PM dependency
+
+v6->v7:
+- Introduce uAPI headers earlier in the series to document them
+- kernel-doc uAPI types in pisp_be_config.h
+- Link pisp_be_config.h kernel documentation in metafmt documentation
+
+v5->v6:
+- minor updates
+  If no further comments, I think the series is ready to be collected (for
+  v6.11)
+
+v5->v6:
+- Rebase on recent media_stage master branch
+  - Remove Y12 and Y14 formats as they have upstreamed already
+- Squash in patch from Naush from
+  https://github.com/raspberrypi/linux/pull/6140
+
+v4->v5:
+- Address Sakari's style comments on the driver
+- Add Naush's tags
+
+v3->v4:
+- Rename the compressed RAW formats and change the page title
+- Minor fixes to the RGB48 documentation
+- Remove the clock name from bindings and driver
+
+v2->v3:
+- Expand documentation of RGB48 formats
+- Add back to the bindings the 'aclk' clock-names property
+  - Explicitly get the clock by name in the driver
+- minor fixes
+
+v1->v2:
+- Add Y12P and Y14P formats to yuv-luma.rst instead of documenting them
+  separately
+- Fix typos in formats and documentation
+- Adjust bindings as suggested during review
+- Fix admin-guide with an up-to-media media graph (remove the HOG node)
+- Add a patch to the driver to safely clean-up the video devices buffer queues
+  in case of errors
+  https://github.com/raspberrypi/linux/commit/9fcfb8ee070ecc2ca9b4fcf4629c4545f9cf178e
+
+Add support for the Raspberry Pi PiSP Back End memory-2-memory ISP.
+Documentation available at:
+https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
+
+The PiSP Back End is the memory-2-memory ISP found on Raspberry Pi 5. In
+conjunction with the PiSP Front End, for which a driver is expected to
+hit mainline in the next weeks, it implements the Raspberry Pi 5 camera
+system.
+
+The ISP is fully supported in the Raspberry Pi libcamera version and once
+patches for the PiSP Front End will hit mainline the support will land in
+mainline libcamera as well.
+
+Patch based on media-stage master branch.
+
+Jacopo Mondi (7):
+  media: uapi: pixfmt-luma: Document MIPI CSI-2 packing
+  media: uapi: Add a pixel format for BGR48 and RGB48
+  media: uapi: Add Raspberry Pi PiSP Back End uAPI
+  media: uapi: Add meta pixel format for PiSP BE config
+  media: uapi: Add PiSP Compressed RAW Bayer formats
+  media: dt-bindings: Add bindings for Raspberry Pi PiSP Back End
+  media: admin-guide: Document the Raspberry Pi PiSP BE
+
+Naushir Patuck (1):
+  media: raspberrypi: Add support for PiSP BE
+
+ .../admin-guide/media/raspberrypi-pisp-be.dot |   20 +
+ .../admin-guide/media/raspberrypi-pisp-be.rst |  109 +
+ .../admin-guide/media/v4l-drivers.rst         |    1 +
+ .../bindings/media/raspberrypi,pispbe.yaml    |   63 +
+ .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+ .../media/v4l/metafmt-pisp-be.rst             |   56 +
+ .../userspace-api/media/v4l/pixfmt-bayer.rst  |    1 +
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    |   54 +
+ .../media/v4l/pixfmt-srggb8-pisp-comp.rst     |   74 +
+ .../media/v4l/pixfmt-yuv-luma.rst             |    4 +
+ MAINTAINERS                                   |    9 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/raspberrypi/Kconfig    |    5 +
+ drivers/media/platform/raspberrypi/Makefile   |    3 +
+ .../platform/raspberrypi/pisp_be/Kconfig      |   12 +
+ .../platform/raspberrypi/pisp_be/Makefile     |    6 +
+ .../platform/raspberrypi/pisp_be/pisp_be.c    | 1810 +++++++++++++++++
+ .../raspberrypi/pisp_be/pisp_be_formats.h     |  519 +++++
+ drivers/media/v4l2-core/v4l2-common.c         |    2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   13 +
+ .../linux/media/raspberrypi/pisp_be_config.h  |  927 +++++++++
+ .../linux/media/raspberrypi/pisp_common.h     |  199 ++
+ include/uapi/linux/videodev2.h                |   17 +
+ 24 files changed, 3907 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.dot
+ create mode 100644 Documentation/admin-guide/media/raspberrypi-pisp-be.rst
+ create mode 100644 Documentation/devicetree/bindings/media/raspberrypi,pispbe.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-pisp-be.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-srggb8-pisp-comp.rst
+ create mode 100644 drivers/media/platform/raspberrypi/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Kconfig
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/Makefile
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+ create mode 100644 drivers/media/platform/raspberrypi/pisp_be/pisp_be_formats.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_be_config.h
+ create mode 100644 include/uapi/linux/media/raspberrypi/pisp_common.h
+
+--
+2.45.2
+
 
