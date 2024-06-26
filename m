@@ -1,135 +1,121 @@
-Return-Path: <linux-media+bounces-14194-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14195-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D68D9189EC
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 19:16:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F1B918A4C
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 19:46:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F9111C22CB8
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 17:16:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 019562820DE
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 17:46:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4F918FDDC;
-	Wed, 26 Jun 2024 17:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A222919007A;
+	Wed, 26 Jun 2024 17:46:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UoYJ4F5v"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="K7rO6ztX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0945E16F0DC;
-	Wed, 26 Jun 2024 17:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A34218FDBF;
+	Wed, 26 Jun 2024 17:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719422154; cv=none; b=WvM/0RTZeIS97PFCukqOjT6OLQeKqnNX5cRVOcElD6zxBTZ3MYrhUuujHr0lTsocgrJeVMgywnJa3f6zMB++UV7s/G0BsXcLhvQnyhyH8i9+dFzNNBXjiOonRAoi+eKMrY8lCZD3dGB0Uv4dDSCEar9TIkS0DApJ2ffQrNpnBHs=
+	t=1719423972; cv=none; b=GczYcb5YYQaOvxIM+3RCJWi29y8oFG9vwL4jIKLhqNmZJzux+iaToR0H5RXHmanxs+fo5Y6Fh+XR2lmO9Ob0Fov3l83kpaw8WkPYj+bOwPyuqX6aVEUMsVXcNOdyh1HhSqTLcOG11J9dZzkdUXd6/sXJ/PHD8ltW6dfW8GXvgzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719422154; c=relaxed/simple;
-	bh=KFeMYf0yXCblwTWoR2tyu0Q3uNiNDyWPSL3bCRQW11c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=mHp6/W5vonrnUJiCtvrJ9sVC7fADqdJcsx/O4rLye+irGDzGBBWToF/mXfNpgN5RIiX539ihlLc1J1iFrSreuCdz9P/U5lnxXU1RlXKo19ZVdQDqhIc6SpVCPr/QktN+Kn0OkxFfI2TEklqu2S1k2K8PmpvMrZYFHWJSA2tKTKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UoYJ4F5v; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45QAg4LC025153;
-	Wed, 26 Jun 2024 17:15:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=fzDlqpudN0m8ccLoLjmKvZ
-	jR/yGpFYqoSRyzyV4xtvM=; b=UoYJ4F5vN0yd4wqXHBOFqZfX+1Rhj84Yhjs8rU
-	M5yhD2Du176QZyMMHbB4IiNfJZReGnSZqji48gu4JFtf9VEjaujpwvMnx2pjmKQv
-	evs1WvlmUy/f7WG837Fk0Z+iUYXqriqjQaQ47PTTk+sC72kUdvGRXZgnI5zUgfJY
-	xhMhSQX/V/nnkWV0gVa/QHZ1pc6dUf40QcTDG7YfwdvtaBSmorH8Mujlo/1KSoPa
-	bvDbk3degHnR7gAPU++uM5YDMcuj30CkoC+4kCPFFbtWVQn/mKEWg9xaCLjIJR/C
-	uarFHUX39GevrTZSUFIeLTsMZIaAYfBnTa4w+VDGbJb5vzug==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ywp6yt7b6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Jun 2024 17:15:46 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45QHFiWl009815
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 26 Jun 2024 17:15:44 GMT
-Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 26 Jun
- 2024 10:15:44 -0700
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Date: Wed, 26 Jun 2024 10:15:43 -0700
-Subject: [PATCH v2] media: videobuf2: add missing MODULE_DESCRIPTION()
- macro
+	s=arc-20240116; t=1719423972; c=relaxed/simple;
+	bh=v0Vh4kAkmKCJro2vJe6FJUdsNe+J9F0n0qvBZYaqEMY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Pq2FrvaLJl03I8ax2tBrPdbw7Xiso2Rg1eQszWwmiVDjJ5mLSfvjN+nIVoBtKzBapQ1+Jvfrq3ViUXFNZ+QHRolf++xXjzp3Nn/+UiLsVird8Hh8Gcwo6OkKdlHZ2BIdTCt+l8mVW16VlaLhPyGA+rapkMNl9zldMt92e55GTCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=K7rO6ztX; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1719423968;
+	bh=v0Vh4kAkmKCJro2vJe6FJUdsNe+J9F0n0qvBZYaqEMY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=K7rO6ztXaBSACwy14eiHwe4hrwfzRq5yJy1iqhmvYCDKsiBoSHGcpTQfoZL32bfGs
+	 AlaBzTi8sk2IF8OyyAL8Wd6xq24K6CzLDz+/ozJ4gSKYCAhgkAcHqQsrwShLb93nzT
+	 /GgSMJnyEMBpAbpQ39/oULIfSMlGdNv3J+S/oqCZGaNfTgSLDIPIZhrXjnWjQKtDUx
+	 5QWDM2KjxIus5KQEbw4+dUpDHXBHU65TSQvHg5cVpLOjNq41x9l2qoxQgPM3O85R2d
+	 hTrPMYsJUXUNUoURTASSdK1rvxDARVMd/1VZLbCu5MiGMEwfEPmYwUA9qb0ambYCCc
+	 7vwcdDloLSu+A==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5CF0A37810CD;
+	Wed, 26 Jun 2024 17:46:06 +0000 (UTC)
+Message-ID: <f04e25bf3c09c55049775e8f012cb653cb4682ba.camel@collabora.com>
+Subject: Re: [PATCH v7 6/6] arm64: dts: rockchip: Add VPU121 support for
+ RK3588
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>, sebastian.reichel@collabora.com
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, 
+ ezequiel@vanguardiasur.com.ar, frattaroli.nicolas@gmail.com,
+ heiko@sntech.de,  kernel@collabora.com, krzk+dt@kernel.org,
+ linkmauve@linkmauve.fr,  linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+ p.zabel@pengutronix.de, robh@kernel.org,  sigmaris@gmail.com,
+ detlev.casanova@collabora.com
+Date: Wed, 26 Jun 2024 13:46:03 -0400
+In-Reply-To: <20240621092234.280171-1-liujianfeng1994@gmail.com>
+References: <20240618183816.77597-7-sebastian.reichel@collabora.com>
+	 <20240621092234.280171-1-liujianfeng1994@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240626-md-drivers-media-common-videobuf2-v2-1-6b2ea3d07353@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAL5MfGYC/5WOSw6CMBRFt0I69hla+Ygj92EY9POQl9hWW2gwh
- L1b2IHDk9x77l1ZxEAY2a1YWcBEkbzLIE4F06N0TwQymZkoRVU2XIA1YAIlDBEsGpKgvbXeQSK
- DXs2DALwMqr42bVN2gmXPO+BAy7Hx6DMrGRFUkE6Pu/lFbl7Ayjhh2OMjxcmH7/Eo8b30z3jiw
- KFqRC0Vb8VguvtnJk1On3OU9du2/QDlppqp8wAAAA==
-To: Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski
-	<m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>,
-        Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: b4 0.14.0
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: zCwOKPLLEKjmBbMlzoY8rEj7KcKrM8JI
-X-Proofpoint-ORIG-GUID: zCwOKPLLEKjmBbMlzoY8rEj7KcKrM8JI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-26_08,2024-06-25_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
- phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- clxscore=1015 lowpriorityscore=0 spamscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2406260127
 
-With ARCH=x86, make allmodconfig && make W=1 C=1 reports:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
+Hi Jianfeng,
 
-Add the missing invocation of the MODULE_DESCRIPTION() macro.
+Le vendredi 21 juin 2024 =C3=A0 17:22 +0800, Jianfeng Liu a =C3=A9crit=C2=
+=A0:
+> Hi Sebastian,
+>=20
+> Detlev is working on rkvdec2 and gstreamer can't deal with two h264
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
-Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
----
-While doing these cleanups, in most cases I've taken the descriptions
-directly from code comments, Kconfig descriptions, or git logs, but in
-this case I didn't see a nice concise description so I invented this
-one. Please suggest a replacement if this isn't an appropriate
-description.
----
-Changes in v2:
-- Updated description per Tomasz and added the Acked-by tag
-- Link to v1: https://lore.kernel.org/r/20240612-md-drivers-media-common-videobuf2-v1-1-4625ab172fd9@quicinc.com
----
- drivers/media/common/videobuf2/videobuf2-dvb.c | 1 +
- 1 file changed, 1 insertion(+)
+Just to clarify, since you are right that it won't work well with GStreamer=
+. It
+does work with multiple decoders (it exposes them all), it is simply that i=
+t
+will randomly pick one when decoding, and it may not pick the best one.
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dvb.c b/drivers/media/common/videobuf2/videobuf2-dvb.c
-index 8c15bcd07eef..a5d69bc75769 100644
---- a/drivers/media/common/videobuf2/videobuf2-dvb.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dvb.c
-@@ -19,6 +19,7 @@
- /* ------------------------------------------------------------------ */
- 
- MODULE_AUTHOR("Gerd Knorr <kraxel@bytesex.org> [SuSE Labs]");
-+MODULE_DESCRIPTION("Videobuf2 helpers library for simple DVB cards");
- MODULE_LICENSE("GPL");
- 
- /* ------------------------------------------------------------------ */
+> stateless decoders. So it's better to disable h264 decoding feature of
+> this vpu121, just like what we have done for rk3399. If your multicore
+> patch can handle the jpeg enc node at fdb50000 with other VEPU121 nodes
+> properly, we can just use compatible string "rockchip,rk3399-vpu" instead
+> of "rockchip,rk3568-vpu".
 
----
-base-commit: 55027e689933ba2e64f3d245fb1ff185b3e7fc81
-change-id: 20240612-md-drivers-media-common-videobuf2-e3fb58676092
+In the long term, I'd like to stop having to do "like downstream" and expos=
+e
+them all. I believe the fix is fairly straightforward in GStreamer. We need=
+ to
+expose in the generated element the width/height ranges, and for H.264 the
+supported profiles and level. With that, we at least won't randomly fail at
+decoding 4K, and it should be good enough.
 
+For RK3588, which is a new SoC, its not a problem to upstream something tha=
+t
+does not work with existing userspace. It would only be a regression if we =
+where
+to enable VDPU121 on RK3399, as now updating linux would cause bugs with
+existing userspace.
+
+For users, it would be best if we get this sorted out in GStreamer by the t=
+ime
+we have a second decoder. Note that I have some vacation coming up this mon=
+th,
+so there might be extra delays. Yet, its logical to merge this (the "worst"
+decoder) first, since then randomly picking a better one won't be a regress=
+ion.
+
+Nicolas
 
