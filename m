@@ -1,55 +1,74 @@
-Return-Path: <linux-media+bounces-14176-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14177-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9051D9180E5
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 14:22:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC3A9182E4
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 15:43:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47514282BC8
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 12:22:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 215941C21CD8
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 13:43:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF83181BAA;
-	Wed, 26 Jun 2024 12:22:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 402BB185E7B;
+	Wed, 26 Jun 2024 13:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="h2C9SLJH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqyNICxT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591C213D89B;
-	Wed, 26 Jun 2024 12:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA0C18412F;
+	Wed, 26 Jun 2024 13:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719404545; cv=none; b=eUSY22r2GQQcTFNyIXKEskA3CHIFpcyZxEiWoMzhzCKuJQ+i1dBH4J/fJdq4fk92v0SXw4E9Zt7RClhY+rM8LPjJr8inSSrH26FZJFvxslU3COcdmWUqs9FsGhFDjSO3Yas+tRQExqXJyYGk8RNg80yFQMtMIJhhdhdh372A/w0=
+	t=1719409346; cv=none; b=CbtbzpGcMB6j/cNSujC8Sz99Vpzociu4rJPW9H8Ssj4XqOKMamfgP6coOUwOk1t7RA+Zkctlh5RUakPZbsrNYGqGRkYHdhnkYLzgNe2unSOJ5Lhzm4CBDHIGOVubrZl6jKj6rz5bk8mUeUcZuhFdjLzLdr8wx5Vs9aunEv7hp04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719404545; c=relaxed/simple;
-	bh=4gqb6RUV9FtRsFLGLj5xiIJHjnN/nEoE7x+LdmuRdXI=;
+	s=arc-20240116; t=1719409346; c=relaxed/simple;
+	bh=D6DrSixvJMhLJsy7OBcG0oar56V4B7uTvyItqNhYmNU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NbZYh5JzBLKxLfyJlei67+/WjI1n+aqeSC9QwqEIA42vYIfUMgJMzkzeJw8xTDtiyjAXIPSgxvGY8Ly0B8UjMxNvroCq83KGQN1puyxjuO/PJjA+NmBDGnMBre7CbeDWlv1C26nLs+xCvIQEXgkpAAbel9kfOVShBv+1gwF4s0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=h2C9SLJH; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1719404541;
-	bh=4gqb6RUV9FtRsFLGLj5xiIJHjnN/nEoE7x+LdmuRdXI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h2C9SLJHO8i/nTWz2ClEullVShnsHLY3q9PKP03eH+08DwvwmGkOTk8I0Dwjw3vIQ
-	 84M5mTvw0GvNxVdXhXr2dY0ebJtbzfatUzvOJTwehFAPynOGYK8RLv1lL0nXA+/gCp
-	 qtJWuMM6SP39fHzYnVBmzwulR/5gBZMwvJE5tTY/zxmup0UNZxV/XbTGIcGLEB5m3r
-	 DwarYtj20JcuNiN78PPkUchrKe2ogkbtxkouZyK/BUxgaTg8c6oaWcaxHsLFGl9BJM
-	 43FPTgrdberdnS5GoX9jSgmHYfQu7soO4d/ha94ykmaOBaH6eBBa8Q/kCVpSG2uvkg
-	 gzKWKWm37hyHA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 1E339378202E;
-	Wed, 26 Jun 2024 12:22:21 +0000 (UTC)
-Message-ID: <1268bc19-bcd8-4101-8683-3ddeab278250@collabora.com>
-Date: Wed, 26 Jun 2024 14:22:20 +0200
+	 In-Reply-To:Content-Type; b=LqPPd2vInyzGGgW516zTd9WefAKZlQKBhxA9BlLHqoqk/kuUGHoNmEvbYzb05jLqeNHFf7wkYy6jPApvpY5fFywkVOoxKrwfoyK887pP5xdGFyEWihIqBjdN4jSzzajNTB8I+eoPAzCCpSIKmRRB8IqNZPqtfuQIT0of98VDfRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QqyNICxT; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57d1679ee83so331754a12.2;
+        Wed, 26 Jun 2024 06:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719409343; x=1720014143; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+FdmqDIycq2mg5V0lsvCxzsdDO8aUqmZjoj0FE/lExQ=;
+        b=QqyNICxTpcHzL4hO/3SyrJqQqJ37KVaM2hX5WUpc+w9K2rPcBp3As4qzlbg91eOfFB
+         an+hjPA6I/2YL9d53K6FHqp312LlKo+w8IxR1kpkrDoF/4DpZbtZR6SkMarCs+ysbhQo
+         Pt7WGrEh848ZXvR1TQhkreHNRJ/4OB6xkbK0sfBtjgn79vpblF2P3yQr0IIBdVP8CspZ
+         zRV5REH/bfq4VzBWB93AVgnzN1Kcpr8wzAtdyEdz7LRg1XD17m0dQMtOTDT1DFc1eFxI
+         Q1bZkV4DDAD23+vux+VZ4CPMGVbBe5kZpmXcIcmMBFt91j23QHDazjyG78S0e2ijbpCM
+         YcHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719409343; x=1720014143;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+FdmqDIycq2mg5V0lsvCxzsdDO8aUqmZjoj0FE/lExQ=;
+        b=DKkFEiRFA8rl3tQ8aDR8eRivEGU6v7djP2F9mVHytWALLTOfeMIADxjpzBuCIPbSkb
+         N0qm0FS2E5h9lQ5HxB7/MdCPbhDtcd5bEoU5EnDRBswcojgDY6eQsUXZtQuyBQcTE1xa
+         peZf7l7jD/GkV74nHD4AWwNYLrp3yrp9mm5Z97A9C8uzeSQ0Mh82I0fW9dsnfTfeVimr
+         oRDvjqwgoHlKL16XeN3cYrFbg71AnunsyvSko8Sdw3/zc5Y6+X6asUYlasa0kBOXLmMJ
+         LFlsc8Px+qEDQbzZdyr9b5qEIv7PoE1BeVxUPsGWkKHtf5RDb2MlzoYfMrnb92nq2nA9
+         h3jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUstwAnh26W/mxm3bNzYY++a6OaFWhWS/Sx7qORkEJxOGlbUEnTnniMIABFx16/aj4qRzlq6l2tU2rzNdWdDfwH/90OBO9pyfxpV1VS2x6zeaBe+U3XeXvdTI+6VACHNGjnQKwZbLRqshIF9BHXbuQutjfWvz4ScJ0UrmNxsLGbQm2nSoU11zgyeDtgiaZzqeAo5NFtNN8i1Ks2zBgOM/VAbX/ovIuGfP6CR2G83Xs4g/3Esalo8VG9snyXGBj6uBFRKibuBnN3CDPmaRmzdyLRimYMl3GErmeghLK5UI4SDiUVIPtYTDu1TnBLBhds+z4Xkb5adUTr20P9JXl8XJbNt9d9lhw2Zo6zyJep6d9Vpf1zwvKeJu4fURf+/Cv8EmNFAWypgX9pJcIEUQLmhNMOedJXRNt3pwPj/Cd08ecWEBy6KPM1EZJQZEPQbrDb7Oy4kC9H364OBGDUrDChSxpR0rIYmpjE3CSLaoFqETFxmuUpuf804eZ8pjdKXr9QdSt8eRmEFg==
+X-Gm-Message-State: AOJu0Ywcsq6hPgKSVc8CWw8eIYKISqZRzRhxVBq9Fio6fzT2SNrrhdCZ
+	ZAtGe2zXnLmqArBAi6kVO9I2SPXirn7hviOnp8vyc38L2J2z8rEZ
+X-Google-Smtp-Source: AGHT+IGSGpl/VlVQhxEFYrK07OrwK0X9sCyxv8xjTYoLcqAK5RzUy2KJrXSwjqhZzrye8okazO8J4A==
+X-Received: by 2002:a17:906:c096:b0:a6f:86fd:72b8 with SMTP id a640c23a62f3a-a715f97972bmr751303866b.42.1719409343065;
+        Wed, 26 Jun 2024 06:42:23 -0700 (PDT)
+Received: from [192.168.42.3] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6fcf48b24asm619850066b.57.2024.06.26.06.42.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 06:42:22 -0700 (PDT)
+Message-ID: <6524676c-fbc0-4ea0-b320-f605d34da007@gmail.com>
+Date: Wed, 26 Jun 2024 14:42:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,342 +76,82 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] media: mediatek: jpeg: support 34bits
-To: Jianhua Lin <jianhua.lin@mediatek.com>, daniel.almeida@collabora.com,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240625125611.29145-1-jianhua.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH net-next v13 10/13] tcp: RX path for devmem TCP
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240625024721.2140656-1-almasrymina@google.com>
+ <20240625024721.2140656-11-almasrymina@google.com>
 Content-Language: en-US
-In-Reply-To: <20240625125611.29145-1-jianhua.lin@mediatek.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240625024721.2140656-11-almasrymina@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Il 25/06/24 14:56, Jianhua Lin ha scritto:
-> the iommu HW supported 34bits iova space(16GB),
-> but mediatek jpeg enc/dec driver still is 32bit,
-> then need to set the bit32/bit33 iova to jpeg HW.
+On 6/25/24 03:47, Mina Almasry wrote:
+> In tcp_recvmsg_locked(), detect if the skb being received by the user
+> is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVMEM
+> flag - pass it to tcp_recvmsg_devmem() for custom handling.
 > 
-> Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
-> ---
-> Changes compared with v1:
-> - used of_property_read_bool instead.
-> - used the ternary operator instead.
-> - added comment to explain the multiplier.
-> - cleaned up coding style warning max line length.
+> tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> buffer, and returns a cmsg to the user indicating the number of bytes
+> returned in the linear buffer.
 > 
->   .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 10 +++-
->   .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  2 +
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 59 +++++++++++++++----
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |  1 +
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |  8 +++
->   .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 45 ++++++++++++--
->   .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  | 11 +++-
->   7 files changed, 117 insertions(+), 19 deletions(-)
+> tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> and returns to the user a cmsg_devmem indicating the location of the
+> data in the dmabuf device memory. cmsg_devmem contains this information:
 > 
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index ac48658e2de4..5e3053f99dda 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1030,6 +1030,7 @@ static void mtk_jpeg_dec_device_run(void *priv)
->   	spin_lock_irqsave(&jpeg->hw_lock, flags);
->   	mtk_jpeg_dec_reset(jpeg->reg_base);
->   	mtk_jpeg_dec_set_config(jpeg->reg_base,
-> +				jpeg->support_34bit,
->   				&jpeg_src_buf->dec_param,
->   				jpeg_src_buf->bs_size,
->   				&bs,
-> @@ -1317,6 +1318,11 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
->   		return -EINVAL;
->   	}
->   
-> +	if (of_property_read_bool(pdev->dev.of_node, "mediatek,34bits"))
+> 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
+> 2. the size of the frag. 'frag_size'.
+> 3. an opaque token 'frag_token' to return to the kernel when the buffer
+> is to be released.
+> 
+> The pages awaiting freeing are stored in the newly added
+> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
+> This reference is dropped once the userspace indicates that it is
+> done reading this page.  All pages are released when the socket is
+> destroyed.
 
-This is per-SoC, and if one SoC supports 34-bits, it always does: this means that
-you don't need this property.
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
-Add it to mtk8195_jpegdec_drvdata and mtk8195_jpegenc_drvdata.
-
-> +		jpeg->support_34bit = true;
-> +
-> +	dev_info(&pdev->dev, "use 34bits: %d", jpeg->support_34bit);
-
-Also, this print is not necessary; if you really really want it (but I don't see
-the sense of that), please use dev_dbg().
-
-> +
->   	if (!jpeg->variant->multi_core) {
->   		ret = mtk_jpeg_single_core_init(pdev, jpeg);
->   		if (ret) {
-> @@ -1564,7 +1570,8 @@ static irqreturn_t mtk_jpeg_enc_done(struct mtk_jpeg_dev *jpeg)
->   	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
->   	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
->   
-> -	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base);
-> +	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base,
-> +			ctx->jpeg->support_34bit);
-
-jpeg->variant->support_34bits
-
->   	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, result_size);
->   
->   	buf_state = VB2_BUF_STATE_DONE;
-> @@ -1764,6 +1771,7 @@ static void mtk_jpegdec_worker(struct work_struct *work)
->   	ctx->total_frame_num++;
->   	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
->   	mtk_jpeg_dec_set_config(comp_jpeg[hw_id]->reg_base,
-> +				jpeg->support_34bit,
->   				&jpeg_src_buf->dec_param,
->   				jpeg_src_buf->bs_size,
->   				&bs,
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> index 8ba6e757e11a..42f9af8d2e2a 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> @@ -209,6 +209,7 @@ struct mtk_jpegdec_comp_dev {
->    * @reg_decbase:	jpg decode register base addr
->    * @dec_hw_dev:	jpg decode hardware device
->    * @hw_index:		jpg hw index
-> + * @support_34bit:	flag to check if support dma_address 34bit
->    */
->   struct mtk_jpeg_dev {
->   	struct mutex		lock;
-> @@ -231,6 +232,7 @@ struct mtk_jpeg_dev {
->   	void __iomem *reg_decbase[MTK_JPEGDEC_HW_MAX];
->   	struct mtk_jpegdec_comp_dev *dec_hw_dev[MTK_JPEGDEC_HW_MAX];
->   	atomic_t hw_index;
-> +	bool support_34bit;
->   };
->   
->   /**
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> index 4a6ee211e18f..931eb99c44b7 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-> @@ -270,7 +270,7 @@ void mtk_jpeg_dec_reset(void __iomem *base)
->   EXPORT_SYMBOL_GPL(mtk_jpeg_dec_reset);
->   
->   static void mtk_jpeg_dec_set_brz_factor(void __iomem *base, u8 yscale_w,
-> -					u8 yscale_h, u8 uvscale_w, u8 uvscale_h)
-> +				u8 yscale_h, u8 uvscale_w, u8 uvscale_h)
-
-I suppose this was accidental....
-
->   {
->   	u32 val;
->   
-> @@ -279,23 +279,43 @@ static void mtk_jpeg_dec_set_brz_factor(void __iomem *base, u8 yscale_w,
->   	writel(val, base + JPGDEC_REG_BRZ_FACTOR);
->   }
->   
-> -static void mtk_jpeg_dec_set_dst_bank0(void __iomem *base, u32 addr_y,
-> -				       u32 addr_u, u32 addr_v)
-> +static void mtk_jpeg_dec_set_dst_bank0(void __iomem *base, bool support_34bit,
-> +		dma_addr_t addr_y, dma_addr_t addr_u, dma_addr_t addr_v)
->   {
-> +	u32 val;
-> +
->   	mtk_jpeg_verify_align(addr_y, 16, JPGDEC_REG_DEST_ADDR0_Y);
->   	writel(addr_y, base + JPGDEC_REG_DEST_ADDR0_Y);
->   	mtk_jpeg_verify_align(addr_u, 16, JPGDEC_REG_DEST_ADDR0_U);
->   	writel(addr_u, base + JPGDEC_REG_DEST_ADDR0_U);
->   	mtk_jpeg_verify_align(addr_v, 16, JPGDEC_REG_DEST_ADDR0_V);
->   	writel(addr_v, base + JPGDEC_REG_DEST_ADDR0_V);
-> +	if (support_34bit) {
-> +		val = upper_32_bits(addr_y) & 0x3;
-
-So you want the first 2 bits of the upper 32 bits of addr_y?
-
-#define DESCRIPTION_OF_THOSE_TWO_BITS	GENMASK(1, 0)
-
-u32 upper;
-
-upper = upper_32_bits(addr_y);
-writel(FIELD_PREP(DESCRIPTION_OF_THOSE_TWO_BITS, upper), ...... etc)
-
-> +		writel(val, base + JPGDEC_REG_DEST_ADDR0_Y_EXT);
-> +		val = upper_32_bits(addr_u) & 0x3;
-> +		writel(val, base + JPGDEC_REG_DEST_ADDR0_U_EXT);
-> +		val = upper_32_bits(addr_v) & 0x3;
-> +		writel(val, base + JPGDEC_REG_DEST_ADDR0_V_EXT);
-> +	}
->   }
->   
-> -static void mtk_jpeg_dec_set_dst_bank1(void __iomem *base, u32 addr_y,
-> -				       u32 addr_u, u32 addr_v)
-> +static void mtk_jpeg_dec_set_dst_bank1(void __iomem *base, bool support_34bit,
-> +		dma_addr_t addr_y, dma_addr_t addr_u, dma_addr_t addr_v)
->   {
-> +	u32 val;
-> +
->   	writel(addr_y, base + JPGDEC_REG_DEST_ADDR1_Y);
->   	writel(addr_u, base + JPGDEC_REG_DEST_ADDR1_U);
->   	writel(addr_v, base + JPGDEC_REG_DEST_ADDR1_V);
-> +	if (support_34bit) {
-> +		val = upper_32_bits(addr_y) & 0x3;
-
-same here
-
-> +		writel(val, base + JPGDEC_REG_DEST_ADDR1_Y_EXT);
-> +		val = upper_32_bits(addr_u) & 0x3;
-> +		writel(val, base + JPGDEC_REG_DEST_ADDR1_U_EXT);
-> +		val = upper_32_bits(addr_v) & 0x3;
-> +		writel(val, base + JPGDEC_REG_DEST_ADDR1_V_EXT);
-> +	}
->   }
->   
->   static void mtk_jpeg_dec_set_mem_stride(void __iomem *base, u32 stride_y,
-> @@ -322,18 +342,31 @@ static void mtk_jpeg_dec_set_dec_mode(void __iomem *base, u32 mode)
->   	writel(mode & 0x03, base + JPGDEC_REG_OPERATION_MODE);
->   }
->   
-> -static void mtk_jpeg_dec_set_bs_write_ptr(void __iomem *base, u32 ptr)
-> +static void mtk_jpeg_dec_set_bs_write_ptr(void __iomem *base,
-> +				bool support_34bit, dma_addr_t ptr)
->   {
-> +	u32 val;
-> +
->   	mtk_jpeg_verify_align(ptr, 16, JPGDEC_REG_FILE_BRP);
->   	writel(ptr, base + JPGDEC_REG_FILE_BRP);
-> +	if (support_34bit) {
-> +		val = upper_32_bits(ptr) & 0x3;
-
-and same here
-
-> +		writel(val, base + JPGDEC_REG_FILE_BRP_EXT);
-> +	}
->   }
->   
-> -static void mtk_jpeg_dec_set_bs_info(void __iomem *base, u32 addr, u32 size,
-> -				     u32 bitstream_size)
-> +static void mtk_jpeg_dec_set_bs_info(void __iomem *base, bool support_34bit,
-> +		dma_addr_t addr, u32 size, u32 bitstream_size)
->   {
-> +	u32 val;
-> +
->   	mtk_jpeg_verify_align(addr, 16, JPGDEC_REG_FILE_ADDR);
->   	mtk_jpeg_verify_align(size, 128, JPGDEC_REG_FILE_TOTAL_SIZE);
->   	writel(addr, base + JPGDEC_REG_FILE_ADDR);
-> +	if (support_34bit) {
-> +		val = upper_32_bits(addr) & 0x3;
-
-ditto
-
-> +		writel(val, base + JPGDEC_REG_FILE_ADDR_EXT);
-> +	}
->   	writel(size, base + JPGDEC_REG_FILE_TOTAL_SIZE);
->   	writel(bitstream_size, base + JPGDEC_REG_BIT_STREAM_SIZE);
->   }
-> @@ -404,6 +437,7 @@ static void mtk_jpeg_dec_set_sampling_factor(void __iomem *base, u32 comp_num,
->   }
->   
->   void mtk_jpeg_dec_set_config(void __iomem *base,
-> +			     bool support_34bits,
->   			     struct mtk_jpeg_dec_param *cfg,
->   			     u32 bitstream_size,
->   			     struct mtk_jpeg_bs *bs,
-> @@ -413,8 +447,9 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
->   	mtk_jpeg_dec_set_dec_mode(base, 0);
->   	mtk_jpeg_dec_set_comp0_du(base, cfg->unit_num);
->   	mtk_jpeg_dec_set_total_mcu(base, cfg->total_mcu);
-> -	mtk_jpeg_dec_set_bs_info(base, bs->str_addr, bs->size, bitstream_size);
-> -	mtk_jpeg_dec_set_bs_write_ptr(base, bs->end_addr);
-> +	mtk_jpeg_dec_set_bs_info(base, support_34bits, bs->str_addr,
-> +				       bs->size, bitstream_size);
-> +	mtk_jpeg_dec_set_bs_write_ptr(base, support_34bits, bs->end_addr);
->   	mtk_jpeg_dec_set_du_membership(base, cfg->membership, 1,
->   				       (cfg->comp_num == 1) ? 1 : 0);
->   	mtk_jpeg_dec_set_comp_id(base, cfg->comp_id[0], cfg->comp_id[1],
-> @@ -432,9 +467,9 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
->   				    cfg->mem_stride[1]);
->   	mtk_jpeg_dec_set_img_stride(base, cfg->img_stride[0],
->   				    cfg->img_stride[1]);
-> -	mtk_jpeg_dec_set_dst_bank0(base, fb->plane_addr[0],
-> +	mtk_jpeg_dec_set_dst_bank0(base, support_34bits, fb->plane_addr[0],
->   				   fb->plane_addr[1], fb->plane_addr[2]);
-> -	mtk_jpeg_dec_set_dst_bank1(base, 0, 0, 0);
-> +	mtk_jpeg_dec_set_dst_bank1(base, support_34bits, 0, 0, 0);
->   	mtk_jpeg_dec_set_dma_group(base, cfg->dma_mcu, cfg->dma_group,
->   				   cfg->dma_last_mcu);
->   	mtk_jpeg_dec_set_pause_mcu_idx(base, cfg->total_mcu);
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-> index 8c31c6b12417..2948c9c300a4 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-> @@ -71,6 +71,7 @@ int mtk_jpeg_dec_fill_param(struct mtk_jpeg_dec_param *param);
->   u32 mtk_jpeg_dec_get_int_status(void __iomem *dec_reg_base);
->   u32 mtk_jpeg_dec_enum_result(u32 irq_result);
->   void mtk_jpeg_dec_set_config(void __iomem *base,
-> +			     bool support_34bits,
->   			     struct mtk_jpeg_dec_param *cfg,
->   			     u32 bitstream_size,
->   			     struct mtk_jpeg_bs *bs,
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-> index 27b7711ca341..e94f52de7c69 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-> @@ -46,5 +46,13 @@
->   #define JPGDEC_REG_INTERRUPT_STATUS	0x0274
->   #define JPGDEC_REG_STATUS		0x0278
->   #define JPGDEC_REG_BIT_STREAM_SIZE	0x0344
-> +#define JPGDEC_REG_DEST_ADDR0_Y_EXT	0x0360
-> +#define JPGDEC_REG_DEST_ADDR0_U_EXT	0x0364
-> +#define JPGDEC_REG_DEST_ADDR0_V_EXT	0x0368
-> +#define JPGDEC_REG_DEST_ADDR1_Y_EXT	0x036c
-> +#define JPGDEC_REG_DEST_ADDR1_U_EXT	0x0370
-> +#define JPGDEC_REG_DEST_ADDR1_V_EXT	0x0374
-> +#define JPGDEC_REG_FILE_ADDR_EXT	0x0378
-> +#define JPGDEC_REG_FILE_BRP_EXT		0x037c
->   
->   #endif /* _MTK_JPEG_REG_H */
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> index f8fa3b841ccf..0c654afd987e 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-> @@ -62,9 +62,15 @@ void mtk_jpeg_enc_reset(void __iomem *base)
->   }
->   EXPORT_SYMBOL_GPL(mtk_jpeg_enc_reset);
->   
-> -u32 mtk_jpeg_enc_get_file_size(void __iomem *base)
-> +u32 mtk_jpeg_enc_get_file_size(void __iomem *base, bool support_34bit)
->   {
-> -	return readl(base + JPEG_ENC_DMA_ADDR0) -
-> +	/*
-> +	 * The dma addr0 to be shifted left by 2 bits
-> +	 * for support greater than 4G address.
-> +	 */
-> +	u32 value = (support_34bit) ? 4 : 1;
-
-u8 shift = support_34bits ? 2 : 0
-return (readl(base + JPEG_ENC_DMA_ADDR0) << shift) - readl.......
-
-> +
-> +	return readl(base + JPEG_ENC_DMA_ADDR0) * value -
->   	       readl(base + JPEG_ENC_DST_ADDR0);
->   }
->   EXPORT_SYMBOL_GPL(mtk_jpeg_enc_get_file_size);
-> @@ -75,6 +81,13 @@ void mtk_jpeg_enc_start(void __iomem *base)
->   
->   	value = readl(base + JPEG_ENC_CTRL);
->   	value |= JPEG_ENC_CTRL_INT_EN_BIT | JPEG_ENC_CTRL_ENABLE_BIT;
-> +	/*
-> +	 * Enable hw auto padding for height is not 16 alignment,
-> +	 * to ensure decoder downscales is correct.
-> +	 */
-
-This is not part of the 34-bits support, is it?!
-Goes to a different commit.
-
-> +	value |= JPEG_ENC_CTRL_RDMA_PADDING_EN;
-> +	value |= JPEG_ENC_CTRL_RDMA_RIGHT_PADDING_EN;
-> +	value &= ~JPEG_ENC_CTRL_RDMA_PADDING_0_EN;
->   	writel(value, base + JPEG_ENC_CTRL);
->   }
->   EXPORT_SYMBOL_GPL(mtk_jpeg_enc_start);
-
-Regards,
-Angelo
-
+-- 
+Pavel Begunkov
 
