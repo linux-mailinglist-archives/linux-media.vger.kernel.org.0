@@ -1,138 +1,99 @@
-Return-Path: <linux-media+bounces-14145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14146-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C71B917857
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 07:50:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AD691785A
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 07:50:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D9BB1C21DF4
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 05:50:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5877F1C2214E
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 05:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFFD14A61B;
-	Wed, 26 Jun 2024 05:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22D4C147C76;
+	Wed, 26 Jun 2024 05:50:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gowTIA0W"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RtO5HvUJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D1714B957;
-	Wed, 26 Jun 2024 05:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A3F1442FF;
+	Wed, 26 Jun 2024 05:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719380999; cv=none; b=eUbriafvv85cX0Ni98UUlkXmZKKvGb89bDVYUQnKMVbROVGdg5xviRltgLNoIhL/mSCOf0JeOZxVy/9pZgwl6WaokYmM21bVfn6o4LjvrP8SRr0vR9PtMtYtpwOBsLNXeKLbUs+2wnPsAv5NYdPFWyW11vefY6SsUx1yqSZ7W6c=
+	t=1719381050; cv=none; b=qMhNyVX8ks1zmCIgoYW4d4NZWldCrAWw4JlYxl+2oPZCOx1w9N1x15t2hIZx70jxEKPFfg4pxgYIbDRzKFcmgRuVV2Y8N1Mq+8v40aF92rtoE3KG2RAnW+fuIypQS+MecRHS4ZzWFQyELmQdX0KKvyu4cxslWuI9P17sY4CsDCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719380999; c=relaxed/simple;
-	bh=v5K9W0GO9PpzxtYq7caERQlS2z7z7pdua1mzI8qQKIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c/lMmE4ukCqZrBgMnLT0+5C6plcSCcZg4vWEMGGwqIGvE3NzvmItlB3WSc0BknhkbEsBq5557wcYXja0DAKWyTHphoRvVEXArSvPlgDeOpJ4gg/T086wksVGEJYlYWt2vqKaVMhs33HRoXBFZOBVF/+vpAffg8oxzPzlscsw5gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gowTIA0W; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ec50a5e230so46345271fa.0;
-        Tue, 25 Jun 2024 22:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719380996; x=1719985796; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v5K9W0GO9PpzxtYq7caERQlS2z7z7pdua1mzI8qQKIg=;
-        b=gowTIA0WVyMYoRD4Lndnyyfwe1yyPFnQ5xMqu856aE5cUzDskO84Ib2EMrYmpoFV4+
-         nlGNIMP6wHs4X1teK9AJ/Qm4nQIyRxQ8Eds5/hEFaawM0AjwFBs5Kvg0pOxCFS2rVRya
-         CUPsBBobIve8i0Yos++CWCWIbYIUPJoVjVs0ze1mj8H8ErumqKZowy9xIzYQstOxitLO
-         VxdVuGtvoFAyEf49uOYLeOs3eFYHhq4P1b4shPb6lmg9UJe6z9XEZDbKqyWNVrQF28L1
-         uLS5rA4kmhA+qvkU+VEbtCHOFBYFC9ydh61u+uOZyr6N6SUqTu7ig+K5OC2XM1pgzvG4
-         hspA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719380996; x=1719985796;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v5K9W0GO9PpzxtYq7caERQlS2z7z7pdua1mzI8qQKIg=;
-        b=FHQlQItxBDFwThmb4EZdMnbcTCfiv9VPeqY380Go7Gxw8fqzNw9szxFmtqPFzFI2Nv
-         MNZNzyFyIQBtJCf+bduTuqSe4/6fb/mB1t2pm4Oa2S1xIPQCrfXeO7ddHiMYdpKvy//f
-         +A39fnhy+ruvGArYJPJ1kPL0CZg+AWbzbVmFaLJtEfO6TyKmHhIfS2J6fR6g7rNsRoRg
-         h6EjxLPH6j8C36ExuEJCZDV8zrzFgrE+6bgov8/qCvQLUrhmyVzLkaDq7K0c2GQ+8XLs
-         Qfm5c96QNmvcM5hsoiA3SKlf+cvfXph15r8/vD9WhTAIg3q8XuDGdNCSZXJ2WgH4RbQ2
-         Xo2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXSTc2TwOdRLl/mwdnJ1KIf8ltpjFFFMw0AYFonjp79hTa0VoH/mPulNzGkrrNoFvpdb9lko/9h7AtAz89EHUjQ/9sX+4pBdUZRxAnvA7e4pg5z6WUtVGikw3B6uBf8dAHjynK8U+N4oooceAWl1ME2m1I2ADToSe6KZ4uibapxypHcIwkiCzSB0VjlojfH7RNH8/1j0feAhRS6sUwJ+lhvnC+yNw==
-X-Gm-Message-State: AOJu0YycfRzdUzJnDBI/yBb+2WGLhzywnL/GOrorFa0RHhE3GQhuL7sl
-	vZZpD5zjQomUuBZVf9JV1W9i8ayB4oiTDd1TLRUA7nmSReAK6Dq7Qg1cC0TVCQoyv28VyxqDbdL
-	5uKuNp7BHTyE85SD3EjtOMliU7bl0wx/m
-X-Google-Smtp-Source: AGHT+IHqPmoNHc/D6CitRQRrrwA72PsfsO3G0YCKPJaaFQm8Pb0gFDwLXSmWJ6pDvgH5ty5s6ZH5XOcaJ8l9Q9r4Q+A=
-X-Received: by 2002:a05:651c:158:b0:2ec:55b5:ed51 with SMTP id
- 38308e7fff4ca-2ec5b269428mr53995721fa.9.1719380995389; Tue, 25 Jun 2024
- 22:49:55 -0700 (PDT)
+	s=arc-20240116; t=1719381050; c=relaxed/simple;
+	bh=AXInGYRcUsJzwnqpJM101fxleop3yD6bL3+KTD3lMQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TASyu0Dbiy7eO3RKtzc42QiQ6pXbUKhB2L7SVn2yMjeJCG0LLBqN8zCc4HHAc4QZOhfwUuaakIeYbpNeyx7XvWHCW6sxOvc/EM7hIBUVc+LEeymwY1cWS8Ng7OWLk8y49g5LGYygK5znlbljaYwJANyxm4fD8RQdd12C7oVl5qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RtO5HvUJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A2622C5;
+	Wed, 26 Jun 2024 07:50:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719381023;
+	bh=AXInGYRcUsJzwnqpJM101fxleop3yD6bL3+KTD3lMQ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RtO5HvUJ4EpI46ZiCYME3afpziBsPpnHW68t7mC8qUhgeAtdCsyznCQ14ZY8fp9tF
+	 KLpfCkxGh9lMjQxuL3nR0KFleRIerv2P7LxIYlpFjRLeET6ybJK4i6o7aVYJoLVJks
+	 eVBNa68okMaQlwX/Mj3S28AWI7eiq5xu7S4ILoK4=
+Date: Wed, 26 Jun 2024 08:50:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH 2/8] media: sun4i_csi: Implement link validate for
+ sun4i_csi subdev
+Message-ID: <20240626055025.GA8704@pendragon.ideasonboard.com>
+References: <20240619012356.22685-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20240619012356.22685-3-laurent.pinchart+renesas@ideasonboard.com>
+ <Znb_X42wK_UoMUNR@valkosipuli.retiisi.eu>
+ <20240625210928.GA29726@pendragon.ideasonboard.com>
+ <Zns7YKMVa0tvOI24@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
- <4d2f4a52-826e-44be-b242-55b50708692d@linaro.org> <CADgMGSt2sRecrrYrG3t4RtgGn8QJzr1N+iRSWFKQVPgA6Pk8tw@mail.gmail.com>
- <a06505c7-fd8e-4135-94d3-d05d9b4dc90d@linaro.org> <74215bff-933b-4d11-be2f-c1d5b5788f9e@linaro.org>
-In-Reply-To: <74215bff-933b-4d11-be2f-c1d5b5788f9e@linaro.org>
-From: george chan <gchan9527@gmail.com>
-Date: Wed, 26 Jun 2024 13:49:42 +0800
-Message-ID: <CADgMGStpV1XZCKavw8pgW+ReTCaDZ+_52367HvWOGHLPfb0pYw@mail.gmail.com>
-Subject: Re: [PATCH RFT v3 0/5] Add sc7180 camss subsys support
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Zns7YKMVa0tvOI24@valkosipuli.retiisi.eu>
 
-On Wed, Jun 26, 2024 at 7:44=E2=80=AFAM Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 25/06/2024 17:57, Konrad Dybcio wrote:
-> > On 24.06.2024 5:03 PM, george chan wrote:
-> >> On Mon, Jun 24, 2024 at 9:50=E2=80=AFPM Bryan O'Donoghue
-> >> <bryan.odonoghue@linaro.org> wrote:
-> >>>
-> >>> On 24/06/2024 13:13, George Chan via B4 Relay wrote:
-> >>>> - Add RFT tag to all patches, since no tested-by at all.
-> >>>
-> >>> Have you not tested this updated series ?
-> >>>
-> >>> ---
-> >>> bod
-> >>
-> >> Do you wanna add my tested-by too? It just feels weird to add my
-> >> tested-by that way.
-> >
-> > "RFT" means "I didn't actually test this" or "please provide more testi=
-ng",
-> > not "there have not been tested-by's from others"
-> >
-> > Konrad
->
-> Exactly, RFT says to me "someone else needs to add testing here".
->
+On Tue, Jun 25, 2024 at 09:49:20PM +0000, Sakari Ailus wrote:
+> On Wed, Jun 26, 2024 at 12:09:28AM +0300, Laurent Pinchart wrote:
+> > On Sat, Jun 22, 2024 at 04:44:15PM +0000, Sakari Ailus wrote:
+> > > On Wed, Jun 19, 2024 at 04:23:50AM +0300, Laurent Pinchart wrote:
+> > > > The sun4i_csi driver doesn't implement link validation for the subdev it
+> > > > registers, leaving the link between the subdev and its source
+> > > > unvalidated. Fix it, using the v4l2_subdev_link_validate() helper.
+> > > > 
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > 
+> > > This looks like a bugfix. Shouldn't this be backported?
+> > 
+> > I'll add
+> > 
+> > Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
+> 
+> Please also:
+> 
+> Cc: stable@vger.kernel.org
 
-gotcha.
+Done.
 
-> In your next drop with the changes and RBs please drop RFT - unless you
-> want someone else to test it for you.
->
+-- 
+Regards,
 
-If the test result on sm7125 is convincing then I have no problem.
-
-> I don't think that's required right now since the set seems
-> straight-forward enough and TBH the bit of 7180 hardware I have sits in
-> a box unopened and will likely stay that way for the next few months at
-> least.
->
-> I think your example video is proof enough the thing works ;)
-Nice to hear.
->
-> ---
-> bod
+Laurent Pinchart
 
