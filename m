@@ -1,114 +1,122 @@
-Return-Path: <linux-media+bounces-14211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6508919A69
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 00:08:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D22919B7E
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 01:59:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41AC1B23289
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 22:08:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF95C1F23CF9
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 23:59:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D310194125;
-	Wed, 26 Jun 2024 22:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15DE1946B2;
+	Wed, 26 Jun 2024 23:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Azand2s9"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KcRPMiBK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E9B18FC9D;
-	Wed, 26 Jun 2024 22:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9AB194131;
+	Wed, 26 Jun 2024 23:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719439706; cv=none; b=on0tWNEyBQtEtz+DaP8sfJaqaDDuXUzSQatzn8eA+1DBZkVc2Qq+ateQd9Azv43SjM/OMlyBUVf2fgMJM7rnVbU8fl5xGrSOCp+T0bMS7hbwzeLot6kvqprEimfB3dtegpR+YUDVoHpu4PQCLBtCF8pSPM1qf5pAYueFcRXX1XA=
+	t=1719446364; cv=none; b=uRmH3LVSuzUffavL4vp71Q2EchK5XUadz+UksdlLKA3CelTM0z7090je/BTI7BsZEUYI+/96NCA9ET+HIIStlU98vBRFCcSVkNN1t+oi/74cjyMCPQ3HCreypsiw8oTIi1iDd1YwTEDnqIjlGLcKvlwzy7Lq70QRCwaDMW0ilg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719439706; c=relaxed/simple;
-	bh=5d7H9/borh2oqA2du5mHYiDRGDELCSRd3Xk3e6IKGpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RY8dfRrQK/38MpWf+P58rr1ijKJISkpc0xIzVZ2iMZGiWFQH6FJ1qvQshMJmH0jhKpblSEXphGzvsywsj9oSCw0CyunSxwIU1Ep9puVywXw8z79inzN1bsj91LuvG80M6IzIaCWq80fIKIqAvHhbktwEbmvi59V9c+v2KkndlXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Azand2s9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFCDC116B1;
-	Wed, 26 Jun 2024 22:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719439705;
-	bh=5d7H9/borh2oqA2du5mHYiDRGDELCSRd3Xk3e6IKGpk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Azand2s9PJ5hpj1pJhfR2k36lgYX4q5EVbYEyRHHreykGtMrk+xW0MQHsApc0A76v
-	 R1ziYuRsJSA+U/KWvr5SnBpOp8/FKkRiM6PI0nOu1ho2WTtUmR6G5sIpL6x7taOS74
-	 BKU7UERaSnhVXfErVlfARVzsOmJFhRxiu5ZNmdcpweU0PcrGPzi9VXvWtjUYhKPfz4
-	 PU9tdlZOctUnOe/hbtETyla9PYMBK4jPfl5YaFALjxIDPqvgUbpKhQGLjYAm+LNu/A
-	 FcxJ5FSoDrgKEIR6AfIX7N+H0c4Zxj7PfzVnZeblZVvSM942WHMP2TU9Mpm39Qb57l
-	 1EyKxF3wvDs6w==
-Date: Wed, 26 Jun 2024 15:08:22 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, Ivan
- Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
- =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
- Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
-Subject: Re: [PATCH net-next v14 13/13] selftests: add ncdevmem, netcat for
- devmem TCP
-Message-ID: <20240626150822.742eaf6a@kernel.org>
-In-Reply-To: <20240625195407.1922912-14-almasrymina@google.com>
-References: <20240625195407.1922912-1-almasrymina@google.com>
-	<20240625195407.1922912-14-almasrymina@google.com>
+	s=arc-20240116; t=1719446364; c=relaxed/simple;
+	bh=DxLRCAVICbLwOm0878hwUG6U+CN6JJNqa9c+zYlLcBE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R+NRn5kTmI1PYZqUKs29pfwt69OR9xrNc9FPg5de8NmlZeuaJWNwjfFEVNxWEA9LtVmRZrBxCqwzyUwAB6l9ZF6xuwKkId5oIGyddUG4JUJUS+4MNdMSDKiS0nSJXF9rMmOOL+7pE0dh1KptFsVBRBVrQ++eFZigVDYhZ/HDDUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KcRPMiBK; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=sgYM6lwzKouyTUa3YEQEjqMk2OfmUlxgF+rIcH1SYZM=; b=KcRPMiBKWGM78GYlWUEYrBeFrC
+	R2sBZDqHBl8Uc9OjNooyz9R/DD5sFND5vFZ0FZ2cegVHmjV012zR4UQ5R8U5fAlwUgdWUtjOPeEsp
+	6BdLeMq5wZmxrzzxWw0+lHOBqakZ3twyE86faPYQ4vQkrO0ZePwXDYpgJutZOogz9kRgVnv6uvq6A
+	CQE/NRBBHiuVi8K9XTIE8/XA9Xyru/CcR8RRkWOlvG0haatWlWxaMHgS/Kbl2TLIeFP6FnjIEZwzx
+	+eysRmr+6KSraILfaY9n1Qn+gMh2H+Ldnv2gfuahHiC0qbGMfd8qQ7IMUuD4gjjrf9Kr3o7UV1eCE
+	2yxRvryg==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sMcXp-00000008ghU-3Zaf;
+	Wed, 26 Jun 2024 23:59:21 +0000
+Message-ID: <f7cf6002-239e-459f-a8ec-75cc0406fcc9@infradead.org>
+Date: Wed, 26 Jun 2024 16:59:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 09/13] Documentation: core-api: Add math.h macros and
+ functions
+To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+ gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+ adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ corbet@lwn.net, broonie@kernel.org, linux-doc@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+ nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
+References: <20240607131900.3535250-1-devarsht@ti.com>
+ <20240607133120.3556488-1-devarsht@ti.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240607133120.3556488-1-devarsht@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 25 Jun 2024 19:54:01 +0000 Mina Almasry wrote:
-> +CFLAGS += -I../../../net/ynl/generated/
-> +CFLAGS += -I../../../net/ynl/lib/
+
+
+On 6/7/24 6:31 AM, Devarsh Thakkar wrote:
+> Add documentation for rounding, scaling, absolute value and 32-bit division
+> related macros and functions exported by math.h header file.
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+> V13: No change
+> V12: Add Reviewed-by
+> V11: Fix title for math function header
+> V10: Patch introduced
+> V1->V9 (No change)
+>  Documentation/core-api/kernel-api.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> index ae92a2571388..7de494e76fa6 100644
+> --- a/Documentation/core-api/kernel-api.rst
+> +++ b/Documentation/core-api/kernel-api.rst
+> @@ -185,6 +185,12 @@ Division Functions
+>  .. kernel-doc:: lib/math/gcd.c
+>     :export:
+>  
+> +Rounding, absolute value, division and 32-bit scaling functions
+> +---------------------------------------------------------------
 > +
-> +LDLIBS += ../../../net/ynl/lib/ynl.a ../../../net/ynl/generated/protos.a
+> +.. kernel-doc:: include/linux/math.h
+> +   :internal:
+> +
+>  UUID/GUID
+>  ---------
+>  
 
-Not as easy as this.. Please add this commit to your series:
-https://github.com/kuba-moo/linux/commit/c130e8cc7208be544ec4f6f3627f1d36875d8c47
-
-And here's an example of how you then use ynl.mk to code gen and build
-for desired families (note the ordering of variables vs includes,
-I remember that part was quite inflexible..):
-https://github.com/kuba-moo/linux/commit/5d357f97ccd0248ca6136c5e11ca3eadf5091bb3
-
-Feel free to repost as soon as you got it fixed.
 -- 
-pw-bot: cr
+~Randy
 
