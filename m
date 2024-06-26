@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-14158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14159-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EAE917B78
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 10:56:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CAD917B85
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 10:58:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79F5328A869
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 08:56:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B6961C20F6B
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 08:58:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7C421684A2;
-	Wed, 26 Jun 2024 08:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02BDE16A92B;
+	Wed, 26 Jun 2024 08:58:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsPOgRhX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgzEonKB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44272160796;
-	Wed, 26 Jun 2024 08:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574C916848F;
+	Wed, 26 Jun 2024 08:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719392181; cv=none; b=aFAU1a2v+NTU7DdlXQoQGIZ3ueyiue6k//1SSU5hSm/fUutn/NsvI45uKG0AVTQ8zJ1ywPfOWQr1ifozEkJ5BWaKCdxey/Cgo9eWJ+3q0tYR/Jz5NT4Azf7IQ/zRae+lvb/KxCUdd2VdKkO2pFhdIDXp1ERbNmhz67V2k33/Sis=
+	t=1719392284; cv=none; b=SczsjTZ3PiLZK6mvJI4/uvKEStqW/qDU0eBvJgWDmdO5cutqDptoyhAkcZVlWfgKJvtoqWm1tT+Q5FNN++lcy7Gx8dHa3dANb7f5UiJJRU2ek0fZCfsHDoAdwZtu9lu6lAFBDVk3euVdCL6KNB2QuWipxX02T27u/G5ufDt/AeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719392181; c=relaxed/simple;
-	bh=dSZbs4zl9ukhLuBXIUZ9GsWq2bMBg11lt49KZjjyyjA=;
+	s=arc-20240116; t=1719392284; c=relaxed/simple;
+	bh=xeQk6x5ca5M7IliVsswbqNYZBgEZSqfG4ZSqPCmqeOo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n+fpXelKC0J6x/x6nj9t5r819VabzTSTXUph9QdKOCGEiL8Ime3qyqXK9RR9/NYkJrNShDFD5UgEXsKoA9BaOHpFuBaMKVBZtwFhVfaL6B2DO1IaL4jLc9e+mXFtOCt0g+B3PTAoqbGHfnXjJ/qvIfmP+3L2MvX4q00sucdEYfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsPOgRhX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5898AC32789;
-	Wed, 26 Jun 2024 08:56:16 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=EBYDOkvZcfWHpXRj+eu+DrHnHm7g9PZEOfDoagPN91HN0ezo3KziE4DHVBUmDZmr3rmpJDZq0XWhrxnRcZnQDOcd1QML13mZzMTwfcp4dVnduDpabi7h5QZZZouo5xfZq97TK4FMoO9q1pxnn5Ca1sY/a4hmwOxAz0pQ7sr0+E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgzEonKB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A8DEC2BD10;
+	Wed, 26 Jun 2024 08:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719392180;
-	bh=dSZbs4zl9ukhLuBXIUZ9GsWq2bMBg11lt49KZjjyyjA=;
+	s=k20201202; t=1719392283;
+	bh=xeQk6x5ca5M7IliVsswbqNYZBgEZSqfG4ZSqPCmqeOo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jsPOgRhXHiD9mGVaoH5XlYtvv+BcDiBmP6LRl9/Il3PaVOr9styPKZgklBQd9k4FZ
-	 o0vOzY8OLWmZU7pZfvPRb1EoGPTt+n2m5Pd+5NRgAEyT8mKS6X4EziOXGYN+fjAKin
-	 aNTmB96FUb/I2zJ0rWTXFhN+E8xOf+EUyP2pVFRXFo+rqgv6/NQS5tcr+WYuwXkEUh
-	 UwTi5touIgq4OyOOJw0TGIbrS2BzaY6vIzZDMF+3Cb0rvJYNpLiLQciYOCH6ZRr/kk
-	 7DE7rn3EYekF8FBwynnHMTiMkY9PsxKm57IcCl0flmbj8A4GqVPfjP7zWwc6kHPRlM
-	 0Ciku1p2S+VLA==
-Message-ID: <b66486dc-a1ee-48f8-85ec-f5bb53b50b08@kernel.org>
-Date: Wed, 26 Jun 2024 10:56:13 +0200
+	b=dgzEonKBxtGaurPODJq5G1y7M+ZqC9HPQ/YXFIriZ1qW5EeNswfKajsHqOAcGmz4b
+	 0jGwzPSykW7hkhExQgi2Ue9PhRaHJCzUaRrReXR00AT7Aq0cDV+m8+XbkOvWVOe76g
+	 KmXCUcbg9V/vw1uIrnOroxxgSM4ADx6yfbrQbUTdy6QOeEZdZlwUvD/Cv8ShLb6LyT
+	 zX12zBsistobYF3BTmiCHNZbf49SKXtz1XCTMxA3GV9nLTz8pPZkwAh9LKmcVQi31i
+	 Ud8XcNrB732H+2+nQwUI1aHuPD+cW7nEEG4Oq+H9WBQ5+V3utWnCQATLsXHjZNzjpi
+	 c1ip3meIEOWrg==
+Message-ID: <a7306019-9f19-4619-875f-e6b71add5607@kernel.org>
+Date: Wed, 26 Jun 2024 10:57:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,8 +68,9 @@ References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
  <CADgMGSvN=uAW7z1dpETGVRewzDG=K2MAtzOkhK7xAcskU_oeZg@mail.gmail.com>
  <0a35f0bd-ceec-487f-b9fd-ae9698b74048@kernel.org>
  <CADgMGSt9Hu5Ciq=ndMTaVK23Y_ixTVtTuSfy4hJkJooFH2uv9Q@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <CADgMGSv+x2Z9FsWTHW0auttvpdfNDnOPxiJhXnUaW3yQczN_Ag@mail.gmail.com>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -113,36 +114,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <CADgMGSt9Hu5Ciq=ndMTaVK23Y_ixTVtTuSfy4hJkJooFH2uv9Q@mail.gmail.com>
+In-Reply-To: <CADgMGSv+x2Z9FsWTHW0auttvpdfNDnOPxiJhXnUaW3yQczN_Ag@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 26/06/2024 10:17, george chan wrote:
-> On Wed, Jun 26, 2024 at 3:15 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->> Keep the list in "required:" in the same order as the list in "properties:".
-> 
-> ok gotcha
-> 
->>>> BTW, I asked for subject to keep only one, first "media" prefix:
->>>>         "Subject: just one media (first). "
->>>> but you kept the second "media".
->>>
->>> Sorry I can't get it. Could you choose one?
->>>
->>> _ORIGINAL_
->>> dt-bindings: media: camss: Add qcom,sc7180-camss
+On 26/06/2024 10:38, george chan wrote:
+> On Wed, Jun 26, 2024 at 4:17 PM george chan <gchan9527@gmail.com> wrote:
 >>
->> No, original was different. Go back to your first posting. I asked to
->> remove one media and keep only one - the first. I did not ask to
->> re-shuffle the prefixes.
-> Yes, let me sum it up
-> 
-> v1 title is w.r.t
-> https://patchwork.kernel.org/project/linux-arm-msm/patch/20240222-b4-camss-sc8280xp-v6-1-0e0e6a2f8962@linaro.org/
-> then extra "camss" pre-fix keyword and "binding" post-fix is not needed.
+>> On Wed, Jun 26, 2024 at 3:15 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>> Keep the list in "required:" in the same order as the list in "properties:".
+>>
+>> ok gotcha
+> btw, i checked  "required:" and "properties:" are aligned, both of
 
-Where did I write anything about camss? I already said it twice that I
-meant "media".
+No, they are not.
+
+Which is the first entry in "properties"?
+
+Which is the first entry in "required"?
+
+Please stop wasting reviewers time by disagreeing on every little piece
+of this. The feedback was quite clear but somehow you do not read it and
+respond with some inaccurate statements.
 
 Best regards,
 Krzysztof
