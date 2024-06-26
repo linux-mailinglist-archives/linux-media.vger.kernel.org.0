@@ -1,144 +1,92 @@
-Return-Path: <linux-media+bounces-14174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14175-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2940918010
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 13:44:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B8A91806A
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 14:01:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 29E22B24CCE
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 11:44:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBB681C24163
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 12:01:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D3517FAB7;
-	Wed, 26 Jun 2024 11:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5403C180A70;
+	Wed, 26 Jun 2024 12:01:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UeHviech"
+	dkim=pass (4096-bit key) header.d=m4com.de header.i=@m4com.de header.b="UDcqxJBW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgw1.m4com.de (mgw1.m4com.de [159.69.93.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5D02AF1A;
-	Wed, 26 Jun 2024 11:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8A015A856
+	for <linux-media@vger.kernel.org>; Wed, 26 Jun 2024 12:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.93.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719402279; cv=none; b=s6LrIuNAmJuMJtCA+y3FA2l2UJO26cjqmE9JjUxmFSrSURWk7AwjEKvhvKy0e7oAqD1zX3tfW7y6j6vHXhGSjINsebm1+DQMuBCX5yU+H8lA4zGwH/jshZsqgbl/TDAiOjuxLalOuB/RTpqsHEgXBAw4h1EKBojIApSHMDIAQZw=
+	t=1719403268; cv=none; b=thVnPQ2X1dGTarpMzDgTn4nkvEIRrn70eLp6TD9oc+mBe5Qhp+BUxIfZA7uwZMtluGy1YdDAXRuy6JdgCwjlpWVyZbux8maNQl+K3KDPsFRY8Jtjl1brLYw0GuCNYB/jEB0xlpNPNgnZGoAhWuqI/8HSLmH/H3vIKXkLIKvTZXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719402279; c=relaxed/simple;
-	bh=dzNm7Rn3JRCxyqhjENNnXuRr934pB7hRPY6HGqV4r1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZtM6KS7b5F4um79RdiejtAu0oM5SrG6giIhmtH9DHLvznNuZRz8Cnb7SX83rlekgWAOOqpQduvHh4WL6hSQXCsLsO0eq63h8KrFc4a1UTg5iQQci2wCgsV3xk5Iz98n5iNA7aIMEPOywkwYpUaIP+oEBfmEBUCP0uaBYcRR0YUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UeHviech; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 130DDC2BD10;
-	Wed, 26 Jun 2024 11:44:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719402279;
-	bh=dzNm7Rn3JRCxyqhjENNnXuRr934pB7hRPY6HGqV4r1M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UeHviechy7sw3OLIO+wKjq54i3STME0WDyr/Q5w+Omo0kLJHyxyI76XLqIs/+A4lO
-	 flcj5o1BMw5ycLIUpls8OdnBY7hYKeNTwwnqljSBKMUR/8uuAYwYLRTb1TlzJVV74h
-	 5oWHh7CPtsN5GcKMGWYof0WTRO27hVuLLO96bP4cPAkyp3Px9tuOBuugGL6TxkHUUk
-	 Ho2pYbvXd0Wjk7KdkLYqU5+foUtxIpBZsPPmYnhFfGcc76rkQb5a2J+urrkwkWZi2x
-	 Fv3cnGVeZQ/GfQM2fGQGSy7YSf3KGAIO5tKYyC0dAVq3UqaxBtcdKzyI8YYqc/IQJY
-	 FOvE0kU1W1NJQ==
-Date: Wed, 26 Jun 2024 12:44:34 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] dt-bindings: media: renesas,vin: Add Gen4 family
- fallback
-Message-ID: <20240626-unnatural-ember-26ae8895c008@spud>
-References: <20240624144108.1771189-1-niklas.soderlund+renesas@ragnatech.se>
- <20240624144108.1771189-2-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1719403268; c=relaxed/simple;
+	bh=7lx9HOY7qYwqjQLiuaIGQKf7xLqEM5ioTXfBlmph8cA=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=dtnjqRNJgiu9wG2p5OvlRWBnltDVdVMatTpYgR9tUwSEhd5kw3Jk5pOhz3esMjMm9Q6c9ivEsKoWdpnFElMJji/tRs7t2Hf5Ya/feQn3GuSAsmCLaUs3AviTnha4gK7ObGtg+L5LqPH3Se0SAZjSRuY8yxKCncpzm5B2pQeLVIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m4com.de; spf=pass smtp.mailfrom=m4com.de; dkim=pass (4096-bit key) header.d=m4com.de header.i=@m4com.de header.b=UDcqxJBW; arc=none smtp.client-ip=159.69.93.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m4com.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m4com.de
+Received: from mgw1 (localhost.localdomain [127.0.0.1])
+	by mgw1.m4com.de (Proxmox) with ESMTP id 7D24920009B3
+	for <linux-media@vger.kernel.org>; Wed, 26 Jun 2024 14:01:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=m4com.de; h=cc
+	:content-transfer-encoding:content-type:content-type:date:from
+	:from:message-id:mime-version:reply-to:subject:subject:to:to; s=
+	m4com.de; bh=rC/NN+ESX0kaMematWhtLJuj0KwIP34QpmP3/E4dnPI=; b=UDc
+	qxJBW8bGmNSFIxwJqC9c5UzJh4GCMSPe3xQeLTxIf3M5i0h2x+WeI/h/zSbagNRm
+	O0LCct2k1f99EWUiJaTr9thf/MSZMLdsw84DsTUHhfsupUML1HRVW8NOHDMuPdNX
+	VaEUiubJgfK5L1yaeLVVJu/hH9fvlVLPtuwrJFeOadg7HruPEJVNovMA7G87dhjC
+	2kHye9q+e/5XgKH9gtqF/pOyaxfs0dU6kWhyBX/ToE4QmQiBkgbAnBpLh3gzITyE
+	8+sMPQjiwKfFWROPAxNidA8sj66mSxWbKvJ6ScIZJbE3pf+brgC4rRhHJ7bH9pqF
+	8B/GQOvehpUnex0iJXzeuVs+43938X+ynYIljHs/dQW3pqIG85AHry8EiXekNd4W
+	zcK8vfw1zCIHNzkoagO4CEMVDs3uHrnsXvkJIlRbucMnFoMFf7zFsrq5JB8sy8IZ
+	HKZannguQcWEJGfM9JIAnrTg8JQJyKBttkCvn5A86RODnnwIrBIumA8suP/VwZBS
+	Hi/C5ppGPP2Keq36M66ROx5dZHaTgUFIXI/tKpnsMcf8qg7poRZV+Tbk+LyJ1vpf
+	uQKOlR4DTosSOFa61GiQFDHTKtUmNy4ClngpZLO0HPI3wHKdBLbqX/JN9NZCgKoI
+	8U6gvMOL//nmtF7zZXsKMiJ0lRbSDD5pHwT+8PbA=
+Message-ID: <905f8c62-2dde-47d1-b8ce-8e9e35f40322@m4com.de>
+Date: Wed, 26 Jun 2024 14:00:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+5WDzK+KTKIbfy3G"
-Content-Disposition: inline
-In-Reply-To: <20240624144108.1771189-2-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+To: linux-media@vger.kernel.org
+Content-Language: en-US
+From: Marko Lukat <mlukat@m4com.de>
+Subject: [PATCH] libdvbv5: dvbv3 stats fallback in dvb-fe.c uses wrong value
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
---+5WDzK+KTKIbfy3G
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+having been tasked with getting some old-style devices (it930x based) to 
+work in one of our products, I couldn't figure out why tools like 
+dvbv5-zap kept showing nonsensical error block count values (UCB). Turns 
+out that the v3 fallback code uses the SNR value instead when storing 
+the UCB value.
 
-On Mon, Jun 24, 2024 at 04:41:04PM +0200, Niklas S=F6derlund wrote:
-> The two Gen4 SoCs released (V4H and V4M) that have a video capture
-> pipeline the VIN IP are very similar.
->=20
-> The datasheet for the two SoCs have small nuances around the Pre-Clip
-> registers ELPrC and EPPrC in three use-cases, interlaced images,
-> embedded data and RAW8 input. On V4H the values written to the registers
-> are based on odd numbers while on V4M they are even numbers, values are
-> based on the input image size. No board that uses these SoCs which also
-> have the external peripherals to test these nuances exists. Most likely
-> this is an issue in the datasheet.
->=20
-> Before adding bindings for V4M add a family compatible fallback for
-> Gen4. That way the driver only needs to be updated once for Gen4, and we
-> still have the option to fix any problems in the driver if any testable
-> differences between the two SoCs is found.
->=20
-> There are already DTS files using the renesas,vin-r8a779g0 compatible
-> which needs to be updated to not produce a warning for DTS checks. And
-> the driver will need to kept compatible with renesas,vin-r8a779g0, but
-> for new Gen4 SoCs such as V4M we can avoid this.
->=20
-> Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
+> diff --git a/lib/libdvbv5/dvb-fe.c b/lib/libdvbv5/dvb-fe.c
+> index 7848fcda..4ff9eee0 100644
+> --- a/lib/libdvbv5/dvb-fe.c
+> +++ b/lib/libdvbv5/dvb-fe.c
+> @@ -1520,7 +1520,7 @@ dvbv3_fallback:
+>                 scale = FE_SCALE_NOT_AVAILABLE;
+>         else
+>                 scale = FE_SCALE_COUNTER;
+> -       dvb_fe_store_stats(parms, DTV_STAT_ERROR_BLOCK_COUNT, scale, 0, snr);
+> +       dvb_fe_store_stats(parms, DTV_STAT_ERROR_BLOCK_COUNT, scale, 0, ucb);
+>  
+>         if (parms->p.verbose > 1) {
+>                 dvb_log(_("Status: "));
 
-Same caveat here. Using the g model as a fallback is, as we already
-discussed, an option too and would be less disruptive.
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+HTH,
+Marko
 
-> ---
-> * Changes since v3
-> - New in v4.
-> ---
->  Documentation/devicetree/bindings/media/renesas,vin.yaml | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/D=
-ocumentation/devicetree/bindings/media/renesas,vin.yaml
-> index 5539d0f8e74d..c3ef4fde7baf 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -53,7 +53,10 @@ properties:
->                - renesas,vin-r8a77990 # R-Car E3
->                - renesas,vin-r8a77995 # R-Car D3
->                - renesas,vin-r8a779a0 # R-Car V3U
-> +      - items:
-> +          - enum:
->                - renesas,vin-r8a779g0 # R-Car V4H
-> +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
-> =20
->    reg:
->      maxItems: 1
-> --=20
-> 2.45.2
->=20
-
---+5WDzK+KTKIbfy3G
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZnv/IgAKCRB4tDGHoIJi
-0t7nAQDOClGCy1uCBRM4t/go/LUXp8oN5wMy4e6ytGrGno3KCwEAlYHFYRUobJ3N
-IErC4mTjJM4DsZBki9s7Pg+CmGqxFQo=
-=l03l
------END PGP SIGNATURE-----
-
---+5WDzK+KTKIbfy3G--
 
