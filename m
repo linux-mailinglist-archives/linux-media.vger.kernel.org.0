@@ -1,126 +1,187 @@
-Return-Path: <linux-media+bounces-14154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AED917AB3
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 10:18:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0AF917AFE
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 10:30:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64708287F42
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 08:18:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 502451C23115
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 08:30:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8A2616193C;
-	Wed, 26 Jun 2024 08:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2089168493;
+	Wed, 26 Jun 2024 08:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/OG3MNd"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="dud3sBF2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B27E1D699;
-	Wed, 26 Jun 2024 08:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E36F166305
+	for <linux-media@vger.kernel.org>; Wed, 26 Jun 2024 08:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719389892; cv=none; b=DY08/uboWMC11iS96cpZOfh/ID2Rh0B/ddNo3dcNO9HtWyDgM3T41fZ9HVaVzbstoe5y852EGh6mhzBGvAI5A0wqP5WqHUR3tJs1zaKpii96VLtdsjEujf36eNIM/xeaOLVaS3dAzwiT3FvGScSWxF3nVEtHC9wEUKUa3WGf4/o=
+	t=1719390608; cv=none; b=CbxOBeWvoIS3BkM69jGgLMDv0n85OmXht62JhighWX4o8yr16hwccGtXlNsoSXRvW+I1uTLgIWbSvV0PPK5MlBx16M4xmdwNYQuyBhzbIhIRkq3efOPU1KCwH9+oVxvZvKAiSXc7YNsJlOG2S7klOWcdsJTDnGio4wUSSwnxNos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719389892; c=relaxed/simple;
-	bh=AvoSHU99a8vMa0GC5pTkxSbP0Ew1+aZz/FGdJf6Wu9w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CIJHxJL1y4oU0vKZFl0sV6Kqk3xPHUk3eOysegpbbu91JMxNhoXu+uBAwcSQSEOYHb3NXAh3s1AXdCfuXZUzRAPQnyQnnX6x29oGJgrJo6+NAeAb9PlVsuVoL7Iu2Qu1wrJWjw/rxnHKZb91G8skvpNblmQiyjq+B47mfsdF5zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/OG3MNd; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eaa89464a3so73313651fa.3;
-        Wed, 26 Jun 2024 01:18:10 -0700 (PDT)
+	s=arc-20240116; t=1719390608; c=relaxed/simple;
+	bh=QeqkQtniBpxvd+UitRjWWYVFy5iXjPy7xv5fji8+3L8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DwdgWmjsXBfiImJSrN40/5McV2jmT16M9yOGMOLeXQyhwB6d9SYNOqJaCOdMovdY579XcukeiIbnye7vLyrNKTJQ2PL+dDFdkzjWcZq3sQ5OlIXN+x1vLDVk67jYG4sX99Q4+uJMZX6ylILZdGyl5buB1orsq8Zmkro+Tp1f/0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=dud3sBF2; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52cdcd26d61so4589352e87.2
+        for <linux-media@vger.kernel.org>; Wed, 26 Jun 2024 01:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719389889; x=1719994689; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N15q/WNT6ob47bnVTbvIGkqXwMXEwhLb/EHETRB7CUY=;
-        b=N/OG3MNdS09CQynMMpPYC+uP6RYKMdJ6YvKHlfhniIGnF2nysYwIUY8uggPQWXWi5u
-         mLdcgZf35lq4GMSzjzelN8U4N0eGWArqMdpxZ4CeOACpD+N8AfVsa0O9NT1wxUm0pYEJ
-         1NSXqABLyRERtTL+vp97ykGdLWtjvsH+nLbikD9+Sh1EDQFYRYY6t7Oxj+zExWG3UL3e
-         UL+cRtz7PTeT5F3M1t4wX0TVqhyamoKd3CeHz77n+u+0U3daEvdmS2rojbwENLQqdWg4
-         vNL2e/KZJDpqVtgbXOYhQm1zC9jmmiCYG6S4UUwP7uCsXxijvg0WDPAF9bZbcrVS5i73
-         /6Kg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1719390603; x=1719995403; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yyQdICgaO84yFawHrHyVyr2QToU/+XJGR839rOrXaR0=;
+        b=dud3sBF2tVPRThcYciFuClucski/fMejwvP58nN7PA2C4550Bo1BWAmdARVLHwVjwE
+         iG/VckS1SBkJmwhbUhUdrTvAXJa+qUkiUvwTUbwY7JDSg6nlUbhVGjV0lzJQfSBsWl7t
+         AJbsBQHNfkMxtODpUfkOdbbmC5LdHOE2YbM/1zX9IQm+GjXcAzEnR1Z7KPWP516s9y35
+         SWqG/skTT6LKFroJwByr0mw4jxtc5bvFQL2GWGqMKF6U4LBQLf7fwKM9+PjfzENn0O9+
+         m1wQXj+ZuAtRrWRqMYubFa0aj+njwlJO76nffH00lHmh2ntyx6AAOpjQdprKcvep0tCW
+         AKhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719389889; x=1719994689;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N15q/WNT6ob47bnVTbvIGkqXwMXEwhLb/EHETRB7CUY=;
-        b=SlFsqA+P/5yYm73pC6zcjHZ895juHcRcbM+gWgyt+SankwHOfGZfzJP675k28WxgDU
-         7XuePP2LRE2/zgRwuJzWYrAfD/Zwfs5mgVXE43chl94UzsJ5NHjgeiAmC4uJvzLoyc+3
-         6TRRdOdR//PnxBhxq/5VlHJ4MD4XebopVgfbQiOnbBYbXmBO/Gs/atXVkVu+rJnUZKuj
-         kxul/eAEsrZzcbwpH7CvBIt9XY9XcIBaZHNvkyWxf0uKIZ3mdoVSNa1dNh5c/IinURy7
-         4Ah5MhNNNHkBe7uhjJizfrBdJ9LKuP/RTatZvKEjw0J2rt9a5dXgtxeSd1EttXWnzD22
-         GoUg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwhLuatGGATqCMjDd9ceSljEQQKUaKq4P5UNP8wrqVuZBMD+Gab3mP+MmpeZFKUMc2RJSgpI206QXxEM+dBMRCu2Qj1Xd1ZTacmWNSwjrrQ+YMP88/2K8AXkSmU+yBeRYpQTuoK4d7Ea3qWrLza2REEpr3FXusdePxToA/05OzWAyZ53KMPpT5UANnqx7hOjCel1KHpgMpughCCtFTDwNfqm3Lfw==
-X-Gm-Message-State: AOJu0YxqpOvtRQ973CsK0Kor79Wyk/EA487iCHUkpPsYbKoPh79daGXf
-	sl1xPTTT6p3tGTGrX6+nwsSmMGCtqdJldITvonCRdcerW0ZxfKzkCbQ0a6ikgihSpoy9i1PUtbm
-	9/F2GNiT3I3vd+0Jsk1loN349fx4=
-X-Google-Smtp-Source: AGHT+IGrMzFsxLqCWpEHWfyt6b10dYrOfGyfsiaHCujHuLFEa6ZRzFkUvBuBJdgFSbHy5HHYXI31qwFsh+TAP1vy7uw=
-X-Received: by 2002:a2e:9cc8:0:b0:2ec:3fb8:6a91 with SMTP id
- 38308e7fff4ca-2ec5797a562mr67610491fa.19.1719389888403; Wed, 26 Jun 2024
- 01:18:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719390603; x=1719995403;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yyQdICgaO84yFawHrHyVyr2QToU/+XJGR839rOrXaR0=;
+        b=YWtKeZYWlCVo85k8d/88K6P1bAtl+h9Uz2+Zcq9A27F/b9ErrBf4sYuhNrXWoNbF70
+         8ES6xNnCOFqrrD5fBeVQKSDnqwKZN/TwZSMMr4H37Mund4cSREfNLrCzLf418HoEe9ZK
+         WX/a3eeFuRojV78KrFaj/ejVK2G8tW5Y3ULTAD81/mfMM3FqaojAz5buphJbyXsR7Ph9
+         mEi9EW300mdedWRQoGRtCmuO8k59SKGr31z+FUny27coSjYYHq1pOQ42p++U4+NRob0I
+         Bap3tUbajo1HrYclChY8j8Uv30Yiuz3vI2avN1KfUmaP0A3etfWwwbxh421rEpg/Slnq
+         5UQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTRZNUm/cjn0nGhqBfLKbtMHMp5fJF/XTUy7g5Dj5yt7oAHrTgBHoMaN6p/grVdxglL8hhpFxO2AhtzQ/5+sjBYpbi5sWxMpul2n8=
+X-Gm-Message-State: AOJu0Yx9LX+zfX4xUtTsxtQEhBYm9OXCjmqiwaTrFVcEEIRNfncGmOJY
+	nwY4yJPAoQYSl9HuuRcnmsnCBGM4MQChZvxGCzndjr5geWJkez3rYa3nt9vvcgU=
+X-Google-Smtp-Source: AGHT+IEca5cJU5ZW212x9C2okoEwkWZvRgPivrrUuJX0Y9+4JhwZuZye4d1Yr/SDCtFZrF/eM34AgA==
+X-Received: by 2002:a05:6512:607:b0:52c:d84b:93b2 with SMTP id 2adb3069b0e04-52ce18341f9mr5698467e87.15.1719390603394;
+        Wed, 26 Jun 2024 01:30:03 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-424c84245f0sm16687705e9.33.2024.06.26.01.30.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jun 2024 01:30:03 -0700 (PDT)
+Message-ID: <79811fff-4fdf-4121-9cea-6ed7e1329dad@baylibre.com>
+Date: Wed, 26 Jun 2024 10:30:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
- <20240624-b4-sc7180-camss-v3-1-89ece6471431@gmail.com> <c33dde93-2c3a-4a00-93ee-e4de303c9057@kernel.org>
- <CADgMGSvN=uAW7z1dpETGVRewzDG=K2MAtzOkhK7xAcskU_oeZg@mail.gmail.com> <0a35f0bd-ceec-487f-b9fd-ae9698b74048@kernel.org>
-In-Reply-To: <0a35f0bd-ceec-487f-b9fd-ae9698b74048@kernel.org>
-From: george chan <gchan9527@gmail.com>
-Date: Wed, 26 Jun 2024 16:17:56 +0800
-Message-ID: <CADgMGSt9Hu5Ciq=ndMTaVK23Y_ixTVtTuSfy4hJkJooFH2uv9Q@mail.gmail.com>
-Subject: Re: [PATCH RFT v3 1/5] dt-bindings: media: camss: Add qcom,sc7180-camss
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 03/16] dt-bindings: mfd: mediatek: Add codec property
+ for MT6357 PMIC
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240226-audio-i350-v6-0-f754ec1a7634@baylibre.com>
+ <20240226-audio-i350-v6-3-f754ec1a7634@baylibre.com>
+ <cd190d35-1658-43d8-9606-5e73257bbf3a@linaro.org>
+ <95bab90f-b196-4e79-bb88-7fd534cca721@baylibre.com>
+ <5c9ab5bf-95f2-4195-8797-335010223aac@kernel.org>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <5c9ab5bf-95f2-4195-8797-335010223aac@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 26, 2024 at 3:15=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
-> Keep the list in "required:" in the same order as the list in "properties=
-:".
 
-ok gotcha
 
-> >> BTW, I asked for subject to keep only one, first "media" prefix:
-> >>         "Subject: just one media (first). "
-> >> but you kept the second "media".
-> >
-> > Sorry I can't get it. Could you choose one?
-> >
-> > _ORIGINAL_
-> > dt-bindings: media: camss: Add qcom,sc7180-camss
->
-> No, original was different. Go back to your first posting. I asked to
-> remove one media and keep only one - the first. I did not ask to
-> re-shuffle the prefixes.
-Yes, let me sum it up
+On 25/06/2024 15:44, Krzysztof Kozlowski wrote:
+> On 25/06/2024 11:23, Alexandre Mergnat wrote:
+>>
+>>
+>> On 21/06/2024 17:00, Krzysztof Kozlowski wrote:
+>>> On 19/06/2024 16:46, Alexandre Mergnat wrote:
+>>>> Add the audio codec sub-device. This sub-device is used to set the
+>>>> optional voltage values according to the hardware.
+>>>> The properties are:
+>>>>     - Setup of microphone bias voltage.
+>>>>     - Setup of the speaker pin pull-down.
+>>>>
+>>>> Also, add the audio power supply property which is dedicated for
+>>>> the audio codec sub-device.
+>>>>
+>>>> Signed-off-by: Alexandre Mergnat<amergnat@baylibre.com>
+>>>> ---
+>>>>    .../devicetree/bindings/mfd/mediatek,mt6357.yaml   | 33 ++++++++++++++++++++++
+>>>>    1 file changed, 33 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>> index 37423c2e0fdf..d95307393e75 100644
+>>>> --- a/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>> +++ b/Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml
+>>>> @@ -37,6 +37,32 @@ properties:
+>>>>      "#interrupt-cells":
+>>>>        const: 2
+>>>>    
+>>>> +  vaud28-supply:
+>>>> +    description: 2.8 volt supply phandle for the audio codec
+>>>> +
+>>>> +  audio-codec:
+>>>> +    type: object
+>>> Still not much improved. You do not have any resources there, so these
+>>> should go to the parent node.
+>>
+>> Hi Krzysztof,
+>>
+>> vaud28-supply seems to be a mistake that I forward port.
+>> In the V4, AFAII, your feedback [1] suggested me to move the vaud28-supply from the "audio-codec"
+>> sub-node to the parent node, which for me is the "pmic" (mfd), because the property is considered as
+>> power-supply.
+>>
+>>       pwrap {
+>>           pmic {
+>>               ...
+>>               audio-codec {
+>>                   ...
+>>
+>> Hardware side, vaud28-supply is the output of PMIC-regulator subsystem, and AVDD28 is the input of
+>> PMIC-audio-codec subsystem. Then:
+>> - The property name is wrong and must be change to AVDD28, which is a consumer (power input), not a
+>> power-supply. => description: 2.8 volt power input for microphones (AU_VIN0, AU_VIN1, AU_VIN2)
+>> - IMHO, move this property to the next parent (pwrap) isn't consistent. It should be moved back to
+>> Documentation/devicetree/bindings/mfd/mediatek,mt6357.yaml (Done in the V4) into audio-codec
+>> substystem, beside mediatek,micbias0-microvolt
+> 
+> I don't understand why do we talk again about supply. My comment was not
+> under the supply.
 
-v1 title is w.r.t
-https://patchwork.kernel.org/project/linux-arm-msm/patch/20240222-b4-camss-=
-sc8280xp-v6-1-0e0e6a2f8962@linaro.org/
-then extra "camss" pre-fix keyword and "binding" post-fix is not needed.
-v2 wrongly remove all prefixes and correctly removed post-fix
-v3 added correct prefix, removed redundancy "camss" prefixes but
-changelog still refer to old sc8280xp style
+Because your word are:
+"
+And now you should see how odd it looks. Supplies are part of entire
+chip, not subblock, even if they supply dedicated domain within that chip.
 
-The title now should be fine. So I will modify the changelog only.
+That's why I asked to put it in the parent node.
+"
 
-So there are 2 todo items as above. Other than above, all review items
-are addressed. Plz confirm.
+My bad, I forgot to link you the old message in my previous answer [1]
+
+[1] https://lore.kernel.org/all/6d21da37-8be7-467c-8878-d57af0b0201b@kernel.org/#t
+
+-- 
+Regards,
+Alexandre
 
