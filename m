@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-14144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C99F917844
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 07:46:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C71B917857
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 07:50:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFD9E1C227A9
-	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 05:46:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D9BB1C21DF4
+	for <lists+linux-media@lfdr.de>; Wed, 26 Jun 2024 05:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E86149DF7;
-	Wed, 26 Jun 2024 05:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFFFD14A61B;
+	Wed, 26 Jun 2024 05:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hUEBLhv4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gowTIA0W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246B6A48;
-	Wed, 26 Jun 2024 05:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D1714B957;
+	Wed, 26 Jun 2024 05:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719380784; cv=none; b=XgphRYeE+d2/QML7Yvh2Xza0e12YL9VLHJuGIFwS8co0zymG+uyQFez7yvJT2tgNuVBVc8bXQ2b/V0aWEQ+3MQO4Qjy2iP5BjesOa/WE4mbZCMhFN0FLBpCCU7SwHRt/hbgZySS9y9SCDdMzJCfw2F2+bHRhJXFBIae8GTWV0w8=
+	t=1719380999; cv=none; b=eUbriafvv85cX0Ni98UUlkXmZKKvGb89bDVYUQnKMVbROVGdg5xviRltgLNoIhL/mSCOf0JeOZxVy/9pZgwl6WaokYmM21bVfn6o4LjvrP8SRr0vR9PtMtYtpwOBsLNXeKLbUs+2wnPsAv5NYdPFWyW11vefY6SsUx1yqSZ7W6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719380784; c=relaxed/simple;
-	bh=QWXrZWXXTVJTd9LZgMr466gJ/DYBUPEheTAJm7xvudc=;
+	s=arc-20240116; t=1719380999; c=relaxed/simple;
+	bh=v5K9W0GO9PpzxtYq7caERQlS2z7z7pdua1mzI8qQKIg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e/GLJ0s5g0PqirhP181CJZO6KcItyEaBF+GUZAf7yoDFyNYKehGqUM0vtr/aj3xWdXHcEa45qSgyGiPGRoa18T8PItImhdX3NSpPe+5f+1Y3q50J09bN0eWSBUkxCZhk2bdbbAbMhf3XKc3ypwxcJYtGb+6Shdhc44oseUmWXl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hUEBLhv4; arc=none smtp.client-ip=209.85.208.169
+	 To:Cc:Content-Type; b=c/lMmE4ukCqZrBgMnLT0+5C6plcSCcZg4vWEMGGwqIGvE3NzvmItlB3WSc0BknhkbEsBq5557wcYXja0DAKWyTHphoRvVEXArSvPlgDeOpJ4gg/T086wksVGEJYlYWt2vqKaVMhs33HRoXBFZOBVF/+vpAffg8oxzPzlscsw5gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gowTIA0W; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ec4eefbaf1so53863311fa.1;
-        Tue, 25 Jun 2024 22:46:22 -0700 (PDT)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ec50a5e230so46345271fa.0;
+        Tue, 25 Jun 2024 22:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719380781; x=1719985581; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1719380996; x=1719985796; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QSB3BTIzSPzX7DCyduN3KYVksS6dE06yAl0SpQD8nwg=;
-        b=hUEBLhv4OaMA1nV7CMWc6JL2S3IVthyuggJ+T1ikgd687YmIgGPPnbCcLc4kIZDCJE
-         beKvwA8eip/ifsEZq1X+iPuE2AB4TvKb7W1bsZw7RlW9sKBaO+smIt9pvQqEdgnPglKS
-         2xCaGhV4z+nTulkdGROTT5NaqvieZ6HWihvqlZi2ZV39tJjul7qCCHUr6TDJPB2QbNWE
-         +neyPy9rMyrjK0WSbbAXHXpgwonbnUPU7ovqjU32YyGPEO3WRJLoa7yYHi+SY0tzGyCT
-         0hdEnz2us4KggKE8EUDk8/kqMhYSuPnHvdMk2zZIkSC97GbJiMOCggM9b0XCX+hhhdzT
-         orGQ==
+        bh=v5K9W0GO9PpzxtYq7caERQlS2z7z7pdua1mzI8qQKIg=;
+        b=gowTIA0WVyMYoRD4Lndnyyfwe1yyPFnQ5xMqu856aE5cUzDskO84Ib2EMrYmpoFV4+
+         nlGNIMP6wHs4X1teK9AJ/Qm4nQIyRxQ8Eds5/hEFaawM0AjwFBs5Kvg0pOxCFS2rVRya
+         CUPsBBobIve8i0Yos++CWCWIbYIUPJoVjVs0ze1mj8H8ErumqKZowy9xIzYQstOxitLO
+         VxdVuGtvoFAyEf49uOYLeOs3eFYHhq4P1b4shPb6lmg9UJe6z9XEZDbKqyWNVrQF28L1
+         uLS5rA4kmhA+qvkU+VEbtCHOFBYFC9ydh61u+uOZyr6N6SUqTu7ig+K5OC2XM1pgzvG4
+         hspA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719380781; x=1719985581;
+        d=1e100.net; s=20230601; t=1719380996; x=1719985796;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QSB3BTIzSPzX7DCyduN3KYVksS6dE06yAl0SpQD8nwg=;
-        b=gHi23wxlWJEO76k5jVX0USs9oOo3NfcZ38FU9XCGDFF1qah42Ul8jAjzVbsoBB0SIp
-         C65InBpeimsfxgnPHu3Vf2S0gkrDxGSV+MV/jIOCtDpV7I0jT1KC91lGtbRjM0lIJ34+
-         PpYJ5+ruIuuj50V5YTA2FhMexzqwMT1nyLRPw9yH4r7R6nlDk1dyqAWVe7FtamhVlqtN
-         qHOSKic35QirqX8wlD7bwDd435Xij7Nxbw4DEqMftYGspXgAfg5oy2m6wE+poB3/MVAU
-         NTndyq623/AFe/DxtI64hTQ/G9klpcbo5/0AB54ReGSR4cpV7UhAI1MATMh3BwpRMvWk
-         xJog==
-X-Forwarded-Encrypted: i=1; AJvYcCXGw2rwLIgBmqgPrv5TAxH9/+459gzAl3454Lf7AfNIqSlrRoK44CbM4sS3u2QsqhGB0hOdn428MoSJmOeDdlk9eiYkHI1x43UTPP2KCVmWPGjbwnZ46Rkm1rg+61+ufUzV/E1jvKiiHf0hVRw8ULwcbDD0VS58H/CbqYJSbYi5hrctyfgHbRgmDNX8NGk88fWREphy6iC+FOmWHnqDeVvJ3lXdZQ==
-X-Gm-Message-State: AOJu0YzvB6zGM8psrdcnbH/cy40oTnGrFxuA1babwEffnCYZ0FxmJ/kE
-	lL6zOwhN78aZukuxg3RHb5qvdK6Om1xYDqOzrZTeRAHJMYCI28uoZVkN0RbmuVbfqFa//ebs5q1
-	sg+G/QdcNIcdtBlMe9xeeYIdTTCs=
-X-Google-Smtp-Source: AGHT+IFpWX0NPzvu65s1n+ek73NwrFfQFyjSECjKUTt714nna469hEmm05axgbn+rQ3sHDqAkDQPMlbu41qjw7daXd4=
-X-Received: by 2002:a2e:9b55:0:b0:2eb:d9a3:2071 with SMTP id
- 38308e7fff4ca-2ec5b3e358dmr53538951fa.50.1719380780963; Tue, 25 Jun 2024
- 22:46:20 -0700 (PDT)
+        bh=v5K9W0GO9PpzxtYq7caERQlS2z7z7pdua1mzI8qQKIg=;
+        b=FHQlQItxBDFwThmb4EZdMnbcTCfiv9VPeqY380Go7Gxw8fqzNw9szxFmtqPFzFI2Nv
+         MNZNzyFyIQBtJCf+bduTuqSe4/6fb/mB1t2pm4Oa2S1xIPQCrfXeO7ddHiMYdpKvy//f
+         +A39fnhy+ruvGArYJPJ1kPL0CZg+AWbzbVmFaLJtEfO6TyKmHhIfS2J6fR6g7rNsRoRg
+         h6EjxLPH6j8C36ExuEJCZDV8zrzFgrE+6bgov8/qCvQLUrhmyVzLkaDq7K0c2GQ+8XLs
+         Qfm5c96QNmvcM5hsoiA3SKlf+cvfXph15r8/vD9WhTAIg3q8XuDGdNCSZXJ2WgH4RbQ2
+         Xo2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXSTc2TwOdRLl/mwdnJ1KIf8ltpjFFFMw0AYFonjp79hTa0VoH/mPulNzGkrrNoFvpdb9lko/9h7AtAz89EHUjQ/9sX+4pBdUZRxAnvA7e4pg5z6WUtVGikw3B6uBf8dAHjynK8U+N4oooceAWl1ME2m1I2ADToSe6KZ4uibapxypHcIwkiCzSB0VjlojfH7RNH8/1j0feAhRS6sUwJ+lhvnC+yNw==
+X-Gm-Message-State: AOJu0YycfRzdUzJnDBI/yBb+2WGLhzywnL/GOrorFa0RHhE3GQhuL7sl
+	vZZpD5zjQomUuBZVf9JV1W9i8ayB4oiTDd1TLRUA7nmSReAK6Dq7Qg1cC0TVCQoyv28VyxqDbdL
+	5uKuNp7BHTyE85SD3EjtOMliU7bl0wx/m
+X-Google-Smtp-Source: AGHT+IHqPmoNHc/D6CitRQRrrwA72PsfsO3G0YCKPJaaFQm8Pb0gFDwLXSmWJ6pDvgH5ty5s6ZH5XOcaJ8l9Q9r4Q+A=
+X-Received: by 2002:a05:651c:158:b0:2ec:55b5:ed51 with SMTP id
+ 38308e7fff4ca-2ec5b269428mr53995721fa.9.1719380995389; Tue, 25 Jun 2024
+ 22:49:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,63 +72,67 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
- <20240624-b4-sc7180-camss-v3-1-89ece6471431@gmail.com> <3e55d482-2732-46cb-906f-62f0e722b7a5@linaro.org>
-In-Reply-To: <3e55d482-2732-46cb-906f-62f0e722b7a5@linaro.org>
+ <4d2f4a52-826e-44be-b242-55b50708692d@linaro.org> <CADgMGSt2sRecrrYrG3t4RtgGn8QJzr1N+iRSWFKQVPgA6Pk8tw@mail.gmail.com>
+ <a06505c7-fd8e-4135-94d3-d05d9b4dc90d@linaro.org> <74215bff-933b-4d11-be2f-c1d5b5788f9e@linaro.org>
+In-Reply-To: <74215bff-933b-4d11-be2f-c1d5b5788f9e@linaro.org>
 From: george chan <gchan9527@gmail.com>
-Date: Wed, 26 Jun 2024 13:46:07 +0800
-Message-ID: <CADgMGSv6-J3re9w2wqTdxd=y-t=APVP4MA72h+0J8M6gzd=wPQ@mail.gmail.com>
-Subject: Re: [PATCH RFT v3 1/5] dt-bindings: media: camss: Add qcom,sc7180-camss
+Date: Wed, 26 Jun 2024 13:49:42 +0800
+Message-ID: <CADgMGStpV1XZCKavw8pgW+ReTCaDZ+_52367HvWOGHLPfb0pYw@mail.gmail.com>
+Subject: Re: [PATCH RFT v3 0/5] Add sc7180 camss subsys support
 To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 26, 2024 at 7:32=E2=80=AFAM Bryan O'Donoghue
+On Wed, Jun 26, 2024 at 7:44=E2=80=AFAM Bryan O'Donoghue
 <bryan.odonoghue@linaro.org> wrote:
 >
-> On 24/06/2024 13:13, George Chan via B4 Relay wrote:
-> > From: George Chan <gchan9527@gmail.com>
+> On 25/06/2024 17:57, Konrad Dybcio wrote:
+> > On 24.06.2024 5:03 PM, george chan wrote:
+> >> On Mon, Jun 24, 2024 at 9:50=E2=80=AFPM Bryan O'Donoghue
+> >> <bryan.odonoghue@linaro.org> wrote:
+> >>>
+> >>> On 24/06/2024 13:13, George Chan via B4 Relay wrote:
+> >>>> - Add RFT tag to all patches, since no tested-by at all.
+> >>>
+> >>> Have you not tested this updated series ?
+> >>>
+> >>> ---
+> >>> bod
+> >>
+> >> Do you wanna add my tested-by too? It just feels weird to add my
+> >> tested-by that way.
 > >
-> > Add bindings for qcom,sc7180-camss in order to support the camera
-> > subsystem for sm7125 as found in the Xiaomi Redmi 9 Pro cellphone.
+> > "RFT" means "I didn't actually test this" or "please provide more testi=
+ng",
+> > not "there have not been tested-by's from others"
 > >
-> > Signed-off-by: George Chan <gchan9527@gmail.com>
-> > ---
-> >   .../bindings/media/qcom,sc7180-camss.yaml          | 328 ++++++++++++=
-+++++++++
-> >   1 file changed, 328 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-camss.=
-yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-camss.yaml
-> > new file mode 100644
-> > index 000000000000..58ffa4944857
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-camss.yaml
-> > @@ -0,0 +1,328 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/qcom,sc7180-camss.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Qualcomm Camera SubSystem
-> > +
-> > +maintainers:
-> > +  - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> > Konrad
 >
-> Please add yourself here.
+> Exactly, RFT says to me "someone else needs to add testing here".
 >
-> Other than that
->
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Would you please be the maintainer afterward? I foresee that there
-will be difficulties maintaining it my side in the long run.
+gotcha.
+
+> In your next drop with the changes and RBs please drop RFT - unless you
+> want someone else to test it for you.
+>
+
+If the test result on sm7125 is convincing then I have no problem.
+
+> I don't think that's required right now since the set seems
+> straight-forward enough and TBH the bit of 7180 hardware I have sits in
+> a box unopened and will likely stay that way for the next few months at
+> least.
+>
+> I think your example video is proof enough the thing works ;)
+Nice to hear.
+>
+> ---
+> bod
 
