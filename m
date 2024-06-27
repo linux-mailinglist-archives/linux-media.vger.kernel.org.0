@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-14219-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14220-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E4E919F93
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 08:51:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CE5919F98
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 08:52:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C168EB23D12
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 06:51:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCBE81F22DF6
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 06:52:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70D7C446D2;
-	Thu, 27 Jun 2024 06:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89F713FBA5;
+	Thu, 27 Jun 2024 06:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmW4qZS+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tPK8kltT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80F620323
-	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 06:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73E93D3A9
+	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 06:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719471070; cv=none; b=jLMiAF3OYgLvsQ1yfMIzLW0CWhOGqSwfP6GEnY30wT8Fi+dmZgJb5bl2fBLq3yZqrypJAuxq8/KMEXsc9J9UkjOvjhGVa0h4Oi+hgXoWJQfVjQB206/uSjCRWBfhEuOwnc+KPcsrBhSIJAAuUzGVHp7dyVKyIjOxsG7dp6hk0Lo=
+	t=1719471171; cv=none; b=bv+aXCSAjgPfzpQ0AKJIEzkDo2R52dFTwwX574OOOn7zZKC2D+PCTZxqMgeCtVJYvYPk9B2EiHoJ6skv13kqUPq9Ji0zo2NiToOkiSnOQLPvarRqR2hKiPtfZv4dJoXTZQKzoyXlGJZsM/FERylNCJVFBdmptp82vUjA0+ngDas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719471070; c=relaxed/simple;
-	bh=b4+i8rEQU3LvsAnHwIGojMEM/jjR42eEcGMs3ZHMsgQ=;
+	s=arc-20240116; t=1719471171; c=relaxed/simple;
+	bh=g1+4Dn3TABxPNYoG2FfngX7PnDFlJEznAygoQ55Xboc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=qoHcXnGMq1TLElkxhs7+E2WuhhOJ75pnRrWnu3TxknL94/Qc8Q4ePqHxHXKnie4PWOQNmrvaImNRLWVllf2cTfoWHbgz3h+dxIUHjGsAPUaDZkzZ1/GDWXtzMf08kau6R4ib1SGcGn3k3pREuNK2M3BW2fz4RmHWlfd2+IKaA9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmW4qZS+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D86C4AF0A;
-	Thu, 27 Jun 2024 06:51:09 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=LN8TRtCwFbvgADZtbp2vOxd5CJlLg1gjLRy0cELV49ZwVxDRgWtfsacy9teslinjgIVtV2zrtGJjo8A5LcJjfiL/HdjrhmBDDkheShd4GUCuBM7Fyva3Zw1Yh8/6Ti2M7YlVxcpq821yAnejh4ybjXlqcz30nmNapcdWTdenHMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tPK8kltT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63750C2BBFC;
+	Thu, 27 Jun 2024 06:52:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719471070;
-	bh=b4+i8rEQU3LvsAnHwIGojMEM/jjR42eEcGMs3ZHMsgQ=;
+	s=k20201202; t=1719471170;
+	bh=g1+4Dn3TABxPNYoG2FfngX7PnDFlJEznAygoQ55Xboc=;
 	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=fmW4qZS+qYKhBZLX8sjZ3dX5AsLVBa885NFuIgu2vHO/u+XUjq4sCogScgYibgfAn
-	 VwNBzFcvV2hwKk4fugU2hSVhPqzgVtsh66q0YMA5fm7PnDjro6GwFOkoIt5HqzbPV3
-	 JCtaj+Yes5qoR6+utJKG6pt0QlRxWptbhqypjVqem7RkRNq+Vj2PuC06WCCe/ZN99l
-	 ONodg0VOI4s7eOUpBlzEzzi7GVvZj+QK82Ys6Ac7lip9ljiWZbBNySlNJcfVkfMKB2
-	 H4bIkeNedowFY8C1zO9WnzUswcyEGBJUbmt3gr8lw+PXrS3i9BlkbjoW52YDCimW/o
-	 HCyLlrlyrz1gA==
-Message-ID: <881f8764-17ed-4fc4-9c65-02c7b3495bb2@kernel.org>
-Date: Thu, 27 Jun 2024 08:51:07 +0200
+	b=tPK8kltT8fglCf5o1gECSjoFaKS7otuBMKIapmN3r5gVKemyyA1nmT4svOAjxIFju
+	 Njv4TCwzdipPVzHHrz4J8VnCVqbL8Zbl2q3g8zDyVNuWSN+xIVZubSsdGUi3Ah5/Ea
+	 6e4+EOrlr6ORGfj/gLFS4QvTc7yRhNmxJGkcRupzvaCvIpsmY61lcKRsvUFaIjOpN/
+	 faK5zmRtjW1mSi6K/xIhp0TeWDf5IJj8lS6v6Jo6nkTyjLtkndz774oE0J6ziMl9SH
+	 c4sO8qRd8elly/mqcoSzm5o8qgNVbUioDvKjrQTP/2q6+5BtoUu6P50rvuUxxkbkPu
+	 lWPViQ9d+nypA==
+Message-ID: <308624fd-f62f-47fe-a615-69df0a8d270d@kernel.org>
+Date: Thu, 27 Jun 2024 08:52:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -107,27 +107,132 @@ Content-Transfer-Encoding: 7bit
 On 26/06/2024 23:15, Spencer Hill wrote:
 > Add bindings for Sony IMX728.
 > 
+> Signed-off-by: Spencer Hill <shill@d3engineering.com>
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+Since this was not tested, limited review follows:
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline), work on fork of kernel
-(don't, instead use mainline) or you ignore some maintainers (really
-don't). Just use b4 and everything should be fine, although remember
-about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+> ---
+>  .../bindings/media/i2c/sony,imx728.yaml       | 78 +++++++++++++++++++
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time, thus I will skip this patch entirely till you follow
-the process allowing the patch to be tested.
+Bindings are before users.
 
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
+>  MAINTAINERS                                   |  9 +++
+>  2 files changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> new file mode 100644
+> index 000000000000..613042ab5abe
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> @@ -0,0 +1,78 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx728.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony IMX728 Camera Sensor
+> +
+> +maintainers:
+> +  - Spencer Hill <shill@d3engineering.com>
+> +
+> +description: |-
+
+Do not need '|-' unless you need to preserve formatting.
+
+> +  Sony IMX728 camera sensor.
+
+That's duplicating title. Say something more about hardware or just drop.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - sony,imx728
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: inck
+> +
+> +  xclr-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Specifier for the GPIO connected to the XCLR (System Reset) pin.
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: ../video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        clock-frequency = <400000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@1a {
+> +            compatible = "sony,imx728";
+> +            reg = <0x1a>;
+> +
+> +            clocks = <&fixed_clock>;
+> +            clock-names = "inck";
+> +
+> +            xclr-gpios = <&gpio4 17 GPIO_ACTIVE_LOW>;
+> +
+> +            port {
+> +                camera1: endpoint {
+> +                    remote-endpoint = <&vin1a_ep>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ef6be9d95143..34fde35eb0bd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20589,6 +20589,15 @@ T:     git git://linuxtv.org/media_tree.git
+>  F:     Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+>  F:     drivers/media/i2c/imx415.c
+> 
+> +SONY IMX728 SENSOR DRIVER
+> +M:     Spencer Hill <shill@d3engineering.com>
+> +L:     linux-media@vger.kernel.org
+> +S:     Maintained
+> +T:     git git://linuxtv.org/media_tree.git
+
+Drop this T:. You do not maintain that git tree so it is already covered
+by subsystem entry.
+
+> +F:     Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> +F:     drivers/media/i2c/imx728.c
+
+.[ch] or *
+
+
 
 Best regards,
 Krzysztof
