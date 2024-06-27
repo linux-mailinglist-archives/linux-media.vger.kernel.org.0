@@ -1,401 +1,194 @@
-Return-Path: <linux-media+bounces-14268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14269-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D33A91AC4A
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 18:10:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2375391ACDD
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 18:31:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E24B3286230
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 16:10:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5EA728B457
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 16:31:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31AB19938A;
-	Thu, 27 Jun 2024 16:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82512199EB2;
+	Thu, 27 Jun 2024 16:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="y8vXpSMU"
+	dkim=pass (1024-bit key) header.d=d3engineering.com header.i=@d3engineering.com header.b="FjAL9cF/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2109.outbound.protection.outlook.com [40.107.243.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785B619924A;
-	Thu, 27 Jun 2024 16:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719504650; cv=none; b=Wd4L9oXTCXH7VPQJ7ghGfCpWv1U2UfkpjN30D7XevviCMexdJ418jWAHFcl4xFUnO8z/TDOLOdtOLJ7fAl2EqRYh+lQ96d25f8F2ZkvQBEu1wAaiSDq4xgUlolhXbiypkVCU55hA4YNftM/GdB9VwdNP3P6EuJ/Vdlfx24UPm0k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719504650; c=relaxed/simple;
-	bh=X6QmD1JxxogP74nyXsz6XxrMBoDNFr2uNZ9gr8RhGeY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fbiu6h1BDSvIO/ylWiJ87yIiCB/pyl0QjgMzQ5HxW1hvvywoaedhFTap212u7mPm8UPNbGQX6VW2EdOmUsEYh1Gn7TR1CGnQXJBnQ8HkfBloWfc1FlBn8eJ/vg6EavXkqcr3S/RNH2Iotgr5M0gZ8XwceEYGLsiXxJHQeyWQcB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=y8vXpSMU; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1719504646;
-	bh=X6QmD1JxxogP74nyXsz6XxrMBoDNFr2uNZ9gr8RhGeY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=y8vXpSMUD6IJewotVuTjE4+F4MdtdN2nv84qiT1MISfbDlkCeypAZ0y84LWesd9/Q
-	 6kUt/0RSgWba6S807slRi9iuxAsJOLPohiU0Tpu+4h72vHwAKTK5nz7szbJ/iTGhUj
-	 C9NoUze3J3uRsYb/flHU40xBk0ojYkWFFILcsXlMoM2tWw0oWjXuLksrOdevGG/K2h
-	 +ac5PJ3w/5IIZL81aaBXRZV5ByIKL2G+G0kVqbGw93wJss7OSg41a+D+E8pkWGar/j
-	 tUOHfZaPu/twtzKqhTwzdavCBj00HhHhp0zBWO3uiSlZdsE51lQQ5f5fH2Vjl2ePGc
-	 ZbuPnfSrhg2AQ==
-Received: from [100.74.67.65] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4102B37821DE;
-	Thu, 27 Jun 2024 16:10:46 +0000 (UTC)
-Message-ID: <4558c82f-8779-4523-b94f-26989bf2969d@collabora.com>
-Date: Thu, 27 Jun 2024 18:10:45 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F6F199E9B
+	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 16:31:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.109
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719505874; cv=fail; b=pDs4RmvIBtJm4lQzy0hqZtklpJy2Z9/7YeejA9JQ0HC8+PztJ/w4zS85gU6mrEiZ19i5AOMQQOPf9V/WIK7fgtqDnWfqArkFzSMvaLPuueIwZdPaD4LZ49yJh2pAIsuxze6huLMNEPfK0FFg6URhmmNPoSxEzKE1mwa/41tdhvc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719505874; c=relaxed/simple;
+	bh=Lfh8p74G7RFKD2NcJbE1ityiIWvqBvme67zdJfZ2Zv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=mSU79sDwivCuZQkXWiUWZVB/SRdRbcoO9Baa5MGmglHnQ/gFrWGMQBCUK0JFM+RMg71VtcoybCchlMgOxOLds3JGsJcJrSEHoFDM8JzlF4T4Q/TEcxqulrZhZ8yh5Koib1AkXPOzt12RY9D2DMzrzTBCuhtWvKGwBbRliI8XiCw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=d3engineering.com; spf=pass smtp.mailfrom=d3engineering.com; dkim=pass (1024-bit key) header.d=d3engineering.com header.i=@d3engineering.com header.b=FjAL9cF/; arc=fail smtp.client-ip=40.107.243.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=d3engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d3engineering.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EakL1GzFg6zGnoxeEv2mES5Pe4b8O47mLaeLu3mnqb/rQ3XU8h3miYZjVFI7Lg1HL8O0pOmrVNWDiGGYMNd6b7FKSb3GySZ/AvY4kq3Fx4VAaZFgxvm9T/BBy9JBrnSYJSWYK4d5OIx8ioo85ryipw8EvrBokWVS4Wr1jlML49Bc4LSSyaNuekVlIhc4W1vv8nC5GbO5eNuusbeDanHtim0cqz0/17wobLyiW0GMfZzQqeAXSI4CpnsrAHXcfhwx4tsshYZKk3GPOUqV3T0iCpJlmlkUjGr/bmADwEa1Y4xxRNvQ4UB+rsBTJbVrG5+xOf0JQkyqK7G+IHwifaCZCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Lfh8p74G7RFKD2NcJbE1ityiIWvqBvme67zdJfZ2Zv8=;
+ b=RUQHbLM0JbIhK+Wsc8/hOMI9uG2dpQ5jy9VaEBJY/UfX6LLEMOICq2NQiwVe9jM2yQJ1FjykxUvfWwIvLQ1F58atKnpH8kM9ooAJdAJgOKn7/RVG4Enp0ZB2FCraiwIKSv/QfbxEiFblk4R5tMjCpbDBSxXP23gB2eUKLcU9rD2K615uqvtr3ROhK9/NYNvWVBlTRcSLMtMu/F1mBQBOvEidrnMHwpdvz2NliVUzsg1hY+RZtnljjBCs/MRq8R7rAWjjE1jNrlbml/ehuIL3w7sI4whaRr1sHeE1SHpM2cbKEZqetR9es5S3FnRn1gALF2QX5UQNhvfw5173T9XEGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=d3engineering.com; dmarc=pass action=none
+ header.from=d3engineering.com; dkim=pass header.d=d3engineering.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d3engineering.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Lfh8p74G7RFKD2NcJbE1ityiIWvqBvme67zdJfZ2Zv8=;
+ b=FjAL9cF/HswSRCBJIbD1/zVijQDObhBy1/EON4fWF4d5uFJVNKEBx8AbZlMqzPUtPqIC/m1l4XIiyO+V6kX6faVfWpaXC0GWfc6Edf9kU499MN5PX9CRTgdgRGf5r5te116S7ozd+M9OCJUB3pg3DT3pht2qxUale0sWIMFxjl8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=d3engineering.com;
+Received: from CO6PR14MB4385.namprd14.prod.outlook.com (2603:10b6:5:34c::9) by
+ BY5PR14MB3940.namprd14.prod.outlook.com (2603:10b6:a03:212::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.21; Thu, 27 Jun
+ 2024 16:31:09 +0000
+Received: from CO6PR14MB4385.namprd14.prod.outlook.com
+ ([fe80::14b7:fa74:423b:6864]) by CO6PR14MB4385.namprd14.prod.outlook.com
+ ([fe80::14b7:fa74:423b:6864%4]) with mapi id 15.20.7719.014; Thu, 27 Jun 2024
+ 16:31:08 +0000
+Date: Thu, 27 Jun 2024 12:30:59 -0400
+From: Spencer Hill <shill@d3engineering.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 2/2] media: dt-bindings: Add Sony IMX728
+Message-ID: <Zn2Tw2Qf/Wf8MNLL@D3418SH-L.d3.local>
+References: <20240626211529.2068473-1-shill@d3engineering.com>
+ <20240626211529.2068473-3-shill@d3engineering.com>
+ <881f8764-17ed-4fc4-9c65-02c7b3495bb2@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <881f8764-17ed-4fc4-9c65-02c7b3495bb2@kernel.org>
+X-ClientProxiedBy: CH0PR03CA0283.namprd03.prod.outlook.com
+ (2603:10b6:610:e6::18) To CO6PR14MB4385.namprd14.prod.outlook.com
+ (2603:10b6:5:34c::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] media: i2c: max96717: add test pattern ctrl
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: linuxfancy@googlegroups.com, sakari.ailus@linux.intel.com,
- michael.roeder@avnet.eu, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240627151806.3999400-1-tomm.merciai@gmail.com>
- <20240627151806.3999400-2-tomm.merciai@gmail.com>
-Content-Language: en-US
-From: Julien Massot <julien.massot@collabora.com>
-In-Reply-To: <20240627151806.3999400-2-tomm.merciai@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR14MB4385:EE_|BY5PR14MB3940:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f8dc1c8-7eb2-4667-859c-08dc96c68ca3
+Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?uWEjFQH21RIpLiVsl7ajPI3RMOlCopJ0oHoiUMYqjxmGrMH8nBCcNAD4VKaJ?=
+ =?us-ascii?Q?8fU1nBWoXRSmWkQc3rkPt+EzH1Hbep7tp4GKR7AM0mw1XGibZLIetged6Ogv?=
+ =?us-ascii?Q?KYdN8jRhXoT7r4CXFyUMQDjginJlNu+9yd+2tQ9NQH9V+BGJObTRDOk3h9Mh?=
+ =?us-ascii?Q?DbgjMkaghWDD3rL7ijeiIMf/WpLgLy6SPxbfhQc5vT8sffnpwtc94xp9ePH0?=
+ =?us-ascii?Q?2SlxYAUeB/cuhOGTcGfGtIzsoHa4z0fcnFdN5kkzfccd4XShnNFgvhj67Du2?=
+ =?us-ascii?Q?FyIoEcZG8AA+VZP9WWaCKl5e9xJenxz77vb/4CBnd7mJEf/77uTP+9NPpIzz?=
+ =?us-ascii?Q?Inh1U/x6E90zaNZzFDBWKmSt0GKD2LmnXCygs22YbDsjtbjNo6PR3OfhQsiK?=
+ =?us-ascii?Q?CH5Dc6qcE/eYCWztloBbsUWpHlTHakOntMH4mFIc4ETRos5sNfH58YtqYD+a?=
+ =?us-ascii?Q?XgeGWOCGLzKuUMFVCaF6iOgzxfZzeyGPW9yltBiWl9scWO2PF8F3u6gPzCIm?=
+ =?us-ascii?Q?+TgHg8Evt3sNO1lYmvTYt81AKGvOxld5uoUrq8U50vuw+k/qnwA8KY25J/R1?=
+ =?us-ascii?Q?ppS5gHjDHtV000ca/74X815vbZmAHauU68nviC4zmjWlAu06sgTWYN/pbKc1?=
+ =?us-ascii?Q?6AJFDL3rDrn7dkpA+GLDwQ3d6JNHDVuxuqgsRIoReBTno4qLNx+qJKJ2se/G?=
+ =?us-ascii?Q?NTf343AAICUIUvkcYJQ2v+gidtYKurqZEpFxfoO5Gas5ixCQjciWwpOMPjH1?=
+ =?us-ascii?Q?08YKiRP7JYg/QQe1mknqrP0yrSYqDHUm/RKGp6+2STlyBhK6zpqlrLdD4wpN?=
+ =?us-ascii?Q?+MEvOBazQa+kLngtN5xZaOaUEeH0x1zPuk3Lg6YGz36xFgYDp/OrdnXkmp0W?=
+ =?us-ascii?Q?6CW5NguVSDu1Q485UjYHY0bXAmONK81ymH1HkIu6KZRvgkgZOspolExABPhQ?=
+ =?us-ascii?Q?mgwKAfOpb395VFTOsdXCSOVOm6ebfI+iEFcZarQD52FprEufxidOEDXYIffm?=
+ =?us-ascii?Q?XsAHfxuIE3UHLzYgaiackj9R8WdxVizF3vOv/HKgbyeFLNZ8DYSmcUWbRU1r?=
+ =?us-ascii?Q?uf8PA0DHc0lHzOo7uBIucaJSgpUzb1VFJ5EC3PYNll6wnp4zEximWrX+G87l?=
+ =?us-ascii?Q?Mzy3ok9bbUML+rdWn7i4TPU9jZcmJNxBofSrjU9LS1SBOkpnWwFEkzZomYN6?=
+ =?us-ascii?Q?rlZxZatAuOdqe6ctb7sH33WrGCddp7FyTHj9WbnBZ1vRfKm35yvQiaFoGgKE?=
+ =?us-ascii?Q?VCzk7ziMHB3V53FNE3/us7biMYjYm2rc704JS7afBxjcg9oKTBgPRIO2IkrT?=
+ =?us-ascii?Q?U3uGyLJVUBPgjEg3hzxYR8PVH8VSZN9VJSzubBtagpwMGQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR14MB4385.namprd14.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jGjIQvLHsgnqXJuIx7szt4IXQZp6heFrFk7UIjpe099NoXuiDzyTyaQrSJsO?=
+ =?us-ascii?Q?qZfpb+otVyGj4ZBMOtCAzS0ryHFO+TAmaz1tSy+6FUnIIS0YZpKxiuqbNR7y?=
+ =?us-ascii?Q?5NUURoRkYYFl/4Y9I9NMBvbY998Vit8yggqUzHUHRrJZVzF6bQuhX/mbt9i3?=
+ =?us-ascii?Q?QR+wpaTqa7/jKaDZUk1mf9G9/nYeD2cn0XkgtqiCOm37cmlM347g9S9gcqXb?=
+ =?us-ascii?Q?2d8wcoMAw2LUyu8yBhr/Y4fSP+ny5RNJNaFY6dPHEl0tLsjduZD/uVaTnJYh?=
+ =?us-ascii?Q?KEs8zzO3KRma9xposV3610yhyGk8W6bE+YJXzsj1T0VzGa6oRtiURWeGvaKS?=
+ =?us-ascii?Q?u0uv7mFlxeoXrIvyS6To3q6qLb00OdYd8kttjSlHwAz8Abgn+pDmvbOdB+s+?=
+ =?us-ascii?Q?+FDr7e38evM3bq6D61xKgbK7l6O94wPO8uEdm1IUWo3wCPd1JWaDvRYTnBCa?=
+ =?us-ascii?Q?lgJYkz4XRU/1txcK9QhrhuUKBQe8lcwJguRHqJsn1LbFiGBt8d0crPueWQGs?=
+ =?us-ascii?Q?yMSMwPPaeb4rg9VRPpoweKTNhFqAh9ngjHAEb7ABiX17KJvRuCFpVP9HAxGj?=
+ =?us-ascii?Q?dx7q3+HH7at6sktAYvoGz3Wd5Z5XCShJLXKT1OJIxQA0CDA+25I7LO7OFGoC?=
+ =?us-ascii?Q?kWywcm/sogT286Kz+xn9yUlS4NSNgnMGmLTxImp9QzqO8fOSdF7PQ0mR06QN?=
+ =?us-ascii?Q?a6K5um9zJjnlXJ7UOomTlra15Db1tK144zrRwkMH/WWDw2Eixg9lEHLR4vPV?=
+ =?us-ascii?Q?Rro0nrb8c+0pPfo0zCp6rq//LdLGvJofzxyGOBObGn9tSOvAS6iedqtV38cD?=
+ =?us-ascii?Q?Y0W9MS1yM4I59tZzp5TrQTmRM09gpj6xzPP0pu//2ckA3JhsaLdcgJkFzIwZ?=
+ =?us-ascii?Q?7Fe/Ex30jahn6l+QaJY99i+SOnLNuoGk+8XXXYozoKM7eFE1zJ9muPCCZThb?=
+ =?us-ascii?Q?0Qj7kdURj0e5Oi9gIPMpxwPvUkaFOjT2rm2iE4vo/o6Kb4tHyRlFB2dlRBmi?=
+ =?us-ascii?Q?ej5ATTjckIh6SE9K9IPPHeqeTrQNGl3CnyMvtO9cLryvIwlbvCjzAZ+aTukB?=
+ =?us-ascii?Q?VNQvHyikqwKJBs1OH3CQKXsPAkIY7fKvdsF7RogLL33CKvXVjhIOktC8wGzs?=
+ =?us-ascii?Q?nVjAKlyfLrth4ghjbJItQDu38L5j3zJClYK1DZEIAAy7JkJDQHonyM7WGvLF?=
+ =?us-ascii?Q?vX9UANTjQU/cTey1Uw5VpshBI7LlMFFEf9wb0jvyE4URAtX5u2z7t7PmbzxB?=
+ =?us-ascii?Q?Sphgso5du9E/my0drSSu4WMLfzKNK45tfQWGUqthzSKi+xGsSYpffaBzhuuH?=
+ =?us-ascii?Q?1DgOIHHbgRsJTq7sKHfgCxpmCGoJdA9FHUTCPNpdIUwPVQaOxmy00+JIbXRQ?=
+ =?us-ascii?Q?sVy6pRes/jCoNJGNqzo1HPTbSJFbm1fftWGQdB42/qUJ9+/6NB3VKdzu54Pe?=
+ =?us-ascii?Q?9ld6m/IbHo29QkmmOXLlAsketsiIxRxBTb8qI0S6UwSJcGldoHKVbRLbGnyM?=
+ =?us-ascii?Q?MS9XEvzmPtDF1fEN7lKa8qlvqPCNWmqXrDo2Qos530BgEgOmMBKTh8eYeAxY?=
+ =?us-ascii?Q?C1L+Bn46UszbqV+5M0hQcmlGqGdFeQRnf+FAei3oMn5kJe4rLpaE8Jkg2qPu?=
+ =?us-ascii?Q?lQ=3D=3D?=
+X-OriginatorOrg: d3engineering.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f8dc1c8-7eb2-4667-859c-08dc96c68ca3
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR14MB4385.namprd14.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 16:31:08.8634
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b7153db5-3376-478b-b601-92ce9bc0d3bc
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8UAObCtUL9yuK6Bhju6y0hzFqTLhNv2MGX78HMx+8R8RaaaUbjCc7rwv8CWPrtRUpjsp5DvELTZrrWnaUrcGqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR14MB3940
 
-Hi Tommaso,
+On Thu, Jun 27, 2024 at 08:51:07AM +0200, Krzysztof Kozlowski wrote:
+> On 26/06/2024 23:15, Spencer Hill wrote:
+> > Add bindings for Sony IMX728.
+> >
+>
+> <form letter>
+> Please use scripts/get_maintainers.pl to get a list of necessary people
+> and lists to CC. It might happen, that command when run on an older
+> kernel, gives you outdated entries. Therefore please be sure you base
+> your patches on recent Linux kernel.
+>
+> Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+> people, so fix your workflow. Tools might also fail if you work on some
+> ancient tree (don't, instead use mainline), work on fork of kernel
+> (don't, instead use mainline) or you ignore some maintainers (really
+> don't). Just use b4 and everything should be fine, although remember
+> about `b4 prep --auto-to-cc` if you added new patches to the patchset.
+>
+> You missed at least devicetree list (maybe more), so this won't be
+> tested by automated tooling. Performing review on untested code might be
+> a waste of time, thus I will skip this patch entirely till you follow
+> the process allowing the patch to be tested.
+>
+> Please kindly resend and include all necessary To/Cc entries.
+> </form letter>
+>
+> Best regards,
+> Krzysztof
+>
 
-On 6/27/24 5:18 PM, Tommaso Merciai wrote:
-> Add v4l2 test pattern control.
-> 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+I will be sure to use b4 to send out the patch to the correct people
+after I make the modifications based on the other feedback I've
+received.
 
-Thanks for your patch,
-Just tested again on MAX96717F.
-
-Reviewed-by: Julien Massot <julien.massot@collabora.com>
-Tested-by: Julien Massot <julien.massot@collabora.com>
-
-> ---
-> Changes since v1:
->   - Rename and move pattern regs under VTX section as suggested by JMassot
->   - Fix VTX regs order
->   - Add comment saying that the deserializer should manage the link in
->     pixel mode as suggested by JMassot
-> 
->   drivers/media/i2c/max96717.c | 213 ++++++++++++++++++++++++++++++++---
->   1 file changed, 197 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
-> index 949306485873..859a439b64d9 100644
-> --- a/drivers/media/i2c/max96717.c
-> +++ b/drivers/media/i2c/max96717.c
-> @@ -16,6 +16,7 @@
->   #include <linux/regmap.h>
->   
->   #include <media/v4l2-cci.h>
-> +#include <media/v4l2-ctrls.h>
->   #include <media/v4l2-fwnode.h>
->   #include <media/v4l2-subdev.h>
->   
-> @@ -38,9 +39,35 @@
->   #define MAX96717_DEV_REV_MASK GENMASK(3, 0)
->   
->   /* VID_TX Z */
-> +#define MAX96717_VIDEO_TX0 CCI_REG8(0x110)
-> +#define MAX96717_VIDEO_AUTO_BPP BIT(3)
->   #define MAX96717_VIDEO_TX2 CCI_REG8(0x112)
->   #define MAX96717_VIDEO_PCLKDET BIT(7)
->   
-> +/* VTX_Z */
-> +#define MAX96717_VTX0                  CCI_REG8(0x24e)
-> +#define MAX96717_VTX1                  CCI_REG8(0x24f)
-> +#define MAX96717_PATTERN_CLK_FREQ      GENMASK(3, 1)
-> +#define MAX96717_VTX_VS_DLY            CCI_REG24(0x250)
-> +#define MAX96717_VTX_VS_HIGH           CCI_REG24(0x253)
-> +#define MAX96717_VTX_VS_LOW            CCI_REG24(0x256)
-> +#define MAX96717_VTX_V2H               CCI_REG24(0x259)
-> +#define MAX96717_VTX_HS_HIGH           CCI_REG16(0x25c)
-> +#define MAX96717_VTX_HS_LOW            CCI_REG16(0x25e)
-> +#define MAX96717_VTX_HS_CNT            CCI_REG16(0x260)
-> +#define MAX96717_VTX_V2D               CCI_REG24(0x262)
-> +#define MAX96717_VTX_DE_HIGH           CCI_REG16(0x265)
-> +#define MAX96717_VTX_DE_LOW            CCI_REG16(0x267)
-> +#define MAX96717_VTX_DE_CNT            CCI_REG16(0x269)
-> +#define MAX96717_VTX29                 CCI_REG8(0x26b)
-> +#define MAX96717_VTX_MODE              GENMASK(1, 0)
-> +#define MAX96717_VTX_GRAD_INC          CCI_REG8(0x26c)
-> +#define MAX96717_VTX_CHKB_COLOR_A      CCI_REG24(0x26d)
-> +#define MAX96717_VTX_CHKB_COLOR_B      CCI_REG24(0x270)
-> +#define MAX96717_VTX_CHKB_RPT_CNT_A    CCI_REG8(0x273)
-> +#define MAX96717_VTX_CHKB_RPT_CNT_B    CCI_REG8(0x274)
-> +#define MAX96717_VTX_CHKB_ALT          CCI_REG8(0x275)
-> +
->   /* GPIO */
->   #define MAX96717_NUM_GPIO         11
->   #define MAX96717_GPIO_REG_A(gpio) CCI_REG8(0x2be + (gpio) * 3)
-> @@ -82,6 +109,12 @@
->   /* MISC */
->   #define PIO_SLEW_1 CCI_REG8(0x570)
->   
-> +enum max96717_vpg_mode {
-> +	MAX96717_VPG_DISABLED = 0,
-> +	MAX96717_VPG_CHECKERBOARD = 1,
-> +	MAX96717_VPG_GRADIENT = 2,
-> +};
-> +
->   struct max96717_priv {
->   	struct i2c_client		  *client;
->   	struct regmap			  *regmap;
-> @@ -89,6 +122,7 @@ struct max96717_priv {
->   	struct v4l2_mbus_config_mipi_csi2 mipi_csi2;
->   	struct v4l2_subdev                sd;
->   	struct media_pad                  pads[MAX96717_PORTS];
-> +	struct v4l2_ctrl_handler          ctrl_handler;
->   	struct v4l2_async_notifier        notifier;
->   	struct v4l2_subdev                *source_sd;
->   	u16                               source_sd_pad;
-> @@ -96,6 +130,7 @@ struct max96717_priv {
->   	u8                                pll_predef_index;
->   	struct clk_hw                     clk_hw;
->   	struct gpio_chip                  gpio_chip;
-> +	enum max96717_vpg_mode            pattern;
->   };
->   
->   static inline struct max96717_priv *sd_to_max96717(struct v4l2_subdev *sd)
-> @@ -131,6 +166,118 @@ static inline int max96717_start_csi(struct max96717_priv *priv, bool start)
->   			       start ? MAX96717_START_PORT_B : 0, NULL);
->   }
->   
-> +static int max96717_apply_patgen_timing(struct max96717_priv *priv,
-> +					struct v4l2_subdev_state *state)
-> +{
-> +	struct v4l2_mbus_framefmt *fmt =
-> +		v4l2_subdev_state_get_format(state, MAX96717_PAD_SOURCE);
-> +	const u32 h_active = fmt->width;
-> +	const u32 h_fp = 88;
-> +	const u32 h_sw = 44;
-> +	const u32 h_bp = 148;
-> +	u32 h_tot;
-> +	const u32 v_active = fmt->height;
-> +	const u32 v_fp = 4;
-> +	const u32 v_sw = 5;
-> +	const u32 v_bp = 36;
-> +	u32 v_tot;
-> +	int ret = 0;
-> +
-> +	h_tot = h_active + h_fp + h_sw + h_bp;
-> +	v_tot = v_active + v_fp + v_sw + v_bp;
-> +
-> +	/* 75 Mhz pixel clock */
-> +	cci_update_bits(priv->regmap, MAX96717_VTX1,
-> +			MAX96717_PATTERN_CLK_FREQ, 0xa, &ret);
-> +
-> +	dev_info(&priv->client->dev, "height: %d width: %d\n", fmt->height,
-> +		 fmt->width);
-> +
-> +	cci_write(priv->regmap, MAX96717_VTX_VS_DLY, 0, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_VS_HIGH, v_sw * h_tot, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_VS_LOW,
-> +		  (v_active + v_fp + v_bp) * h_tot, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_HS_HIGH, h_sw, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_HS_LOW, h_active + h_fp + h_bp,
-> +		  &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_V2D,
-> +		  h_tot * (v_sw + v_bp) + (h_sw + h_bp), &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_HS_CNT, v_tot, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_DE_HIGH, h_active, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_DE_LOW, h_fp + h_sw + h_bp,
-> +		  &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_DE_CNT, v_active, &ret);
-> +	/* B G R */
-> +	cci_write(priv->regmap, MAX96717_VTX_CHKB_COLOR_A, 0xfecc00, &ret);
-> +	/* B G R */
-> +	cci_write(priv->regmap, MAX96717_VTX_CHKB_COLOR_B, 0x006aa7, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_CHKB_RPT_CNT_A, 0x3c, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_CHKB_RPT_CNT_B, 0x3c, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_CHKB_ALT, 0x3c, &ret);
-> +	cci_write(priv->regmap, MAX96717_VTX_GRAD_INC, 0x10, &ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int max96717_apply_patgen(struct max96717_priv *priv,
-> +				 struct v4l2_subdev_state *state)
-> +{
-> +	unsigned int val;
-> +	int ret = 0;
-> +
-> +	if (priv->pattern)
-> +		ret = max96717_apply_patgen_timing(priv, state);
-> +
-> +	cci_write(priv->regmap, MAX96717_VTX0, priv->pattern ? 0xfb : 0,
-> +		  &ret);
-> +
-> +	val = FIELD_PREP(MAX96717_VTX_MODE, priv->pattern);
-> +	cci_update_bits(priv->regmap, MAX96717_VTX29, MAX96717_VTX_MODE,
-> +			val, &ret);
-> +	return ret;
-> +}
-> +
-> +static int max96717_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct max96717_priv *priv =
-> +		container_of(ctrl->handler, struct max96717_priv, ctrl_handler);
-> +	int ret;
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_TEST_PATTERN:
-> +		if (priv->enabled_source_streams)
-> +			return -EBUSY;
-> +		priv->pattern = ctrl->val;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Use bpp from bpp register */
-> +	ret = cci_update_bits(priv->regmap, MAX96717_VIDEO_TX0,
-> +			      MAX96717_VIDEO_AUTO_BPP,
-> +			      priv->pattern ? 0 : MAX96717_VIDEO_AUTO_BPP,
-> +			      NULL);
-> +
-> +	/*
-> +	 * Pattern generator doesn't work with tunnel mode.
-> +	 * Needs RGB color format and deserializer tunnel mode must be disabled.
-> +	 */
-> +	return cci_update_bits(priv->regmap, MAX96717_MIPI_RX_EXT11,
-> +			       MAX96717_TUN_MODE,
-> +			       priv->pattern ? 0 : MAX96717_TUN_MODE, &ret);
-> +}
-> +
-> +static const char * const max96717_test_pattern[] = {
-> +	"Disabled",
-> +	"Checkerboard",
-> +	"Gradient"
-> +};
-> +
-> +static const struct v4l2_ctrl_ops max96717_ctrl_ops = {
-> +	.s_ctrl = max96717_s_ctrl,
-> +};
-> +
->   static int max96717_gpiochip_get(struct gpio_chip *gpiochip,
->   				 unsigned int offset)
->   {
-> @@ -352,20 +499,28 @@ static int max96717_enable_streams(struct v4l2_subdev *sd,
->   	u64 sink_streams;
->   	int ret;
->   
-> -	sink_streams = v4l2_subdev_state_xlate_streams(state,
-> -						       MAX96717_PAD_SOURCE,
-> -						       MAX96717_PAD_SINK,
-> -						       &streams_mask);
-> -
->   	if (!priv->enabled_source_streams)
->   		max96717_start_csi(priv, true);
->   
-> -	ret = v4l2_subdev_enable_streams(priv->source_sd, priv->source_sd_pad,
-> -					 sink_streams);
-> -	if (ret) {
-> -		dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
-> -			sink_streams);
-> +	ret = max96717_apply_patgen(priv, state);
-> +	if (ret)
->   		goto stop_csi;
-> +
-> +	if (!priv->pattern) {
-> +		sink_streams =
-> +			v4l2_subdev_state_xlate_streams(state,
-> +							MAX96717_PAD_SOURCE,
-> +							MAX96717_PAD_SINK,
-> +							&streams_mask);
-> +
-> +		ret = v4l2_subdev_enable_streams(priv->source_sd,
-> +						 priv->source_sd_pad,
-> +						 sink_streams);
-> +		if (ret) {
-> +			dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
-> +				sink_streams);
-> +			goto stop_csi;
-> +		}
->   	}
->   
->   	priv->enabled_source_streams |= streams_mask;
-> @@ -394,13 +549,23 @@ static int max96717_disable_streams(struct v4l2_subdev *sd,
->   	if (!priv->enabled_source_streams)
->   		max96717_start_csi(priv, false);
->   
-> -	sink_streams = v4l2_subdev_state_xlate_streams(state,
-> -						       MAX96717_PAD_SOURCE,
-> -						       MAX96717_PAD_SINK,
-> -						       &streams_mask);
-> +	if (!priv->pattern) {
-> +		int ret;
-> +
-> +		sink_streams =
-> +			v4l2_subdev_state_xlate_streams(state,
-> +							MAX96717_PAD_SOURCE,
-> +							MAX96717_PAD_SINK,
-> +							&streams_mask);
->   
-> -	return v4l2_subdev_disable_streams(priv->source_sd, priv->source_sd_pad,
-> -					   sink_streams);
-> +		ret = v4l2_subdev_disable_streams(priv->source_sd,
-> +						  priv->source_sd_pad,
-> +						  sink_streams);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
->   }
->   
->   static const struct v4l2_subdev_pad_ops max96717_pad_ops = {
-> @@ -513,6 +678,19 @@ static int max96717_subdev_init(struct max96717_priv *priv)
->   	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96717_subdev_ops);
->   	priv->sd.internal_ops = &max96717_internal_ops;
->   
-> +	v4l2_ctrl_handler_init(&priv->ctrl_handler, 1);
-> +	priv->sd.ctrl_handler = &priv->ctrl_handler;
-> +
-> +	v4l2_ctrl_new_std_menu_items(&priv->ctrl_handler,
-> +				     &max96717_ctrl_ops,
-> +				     V4L2_CID_TEST_PATTERN,
-> +				     ARRAY_SIZE(max96717_test_pattern) - 1,
-> +				     0, 0, max96717_test_pattern);
-> +	if (priv->ctrl_handler.error) {
-> +		ret = priv->ctrl_handler.error;
-> +		goto err_free_ctrl;
-> +	}
-> +
->   	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
->   	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
->   	priv->sd.entity.ops = &max96717_entity_ops;
-> @@ -552,6 +730,8 @@ static int max96717_subdev_init(struct max96717_priv *priv)
->   	v4l2_subdev_cleanup(&priv->sd);
->   err_entity_cleanup:
->   	media_entity_cleanup(&priv->sd.entity);
-> +err_free_ctrl:
-> +	v4l2_ctrl_handler_free(&priv->ctrl_handler);
->   
->   	return ret;
->   }
-> @@ -563,6 +743,7 @@ static void max96717_subdev_uninit(struct max96717_priv *priv)
->   	v4l2_async_nf_cleanup(&priv->notifier);
->   	v4l2_subdev_cleanup(&priv->sd);
->   	media_entity_cleanup(&priv->sd.entity);
-> +	v4l2_ctrl_handler_free(&priv->ctrl_handler);
->   }
->   
->   struct max96717_pll_predef_freq {
-
--- 
-Julien
+Thanks,
+Spencer
+Please be aware that this email includes email addresses outside of the org=
+anization.
 
