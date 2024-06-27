@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-14229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14230-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C804E91A032
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 09:16:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B60C791A054
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 09:23:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B9521F20EF0
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 07:16:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7353C28217B
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 07:23:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AF8B46B83;
-	Thu, 27 Jun 2024 07:16:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2539B4D8B9;
+	Thu, 27 Jun 2024 07:22:59 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360DC2F41
-	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 07:16:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A454C602
+	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 07:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719472562; cv=none; b=n1xUujAE93l4tDh099c/qPTuZrZeUKcr9xIczd9azuGIobHpRINuYWJ87Gl1CcCK4cLL2yQEUs3rZuHcFRS933jkiDKmmPcgjrxtaGJ1D/UwYNofjgdg0Z1bcrGvY8HRdi9OpEpf7Qq0Cu0qG2GGhRoSPGFE7kbidt/3ERrrLlw=
+	t=1719472978; cv=none; b=dxXE0lwX8qvbVwfM8Sd0b7LFTeMphco4N5Za2briTlDYTcRXr+pQP7NtlwmeXgmWIa3snnpeChAIjFtzf+pGLvmC9WKnx8nWm5lj3uzm/JQXVOas4MexNo0p0ou83e40edOPoZgE/HOJ4ENsrg4uFCrF5JF6j1yW0YYen7BOhBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719472562; c=relaxed/simple;
-	bh=Gp5Tfnbf/xqoosC4hkxJ1JPUqhzT371GF3Lh2zbbhxs=;
+	s=arc-20240116; t=1719472978; c=relaxed/simple;
+	bh=PJt6g6E+oTyjAIhVoFyd3kfCTDERjSJqoATRQhEfEGU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B3R5NsAOgV87uXBCSojSi6n1LmhiFWRsL0cGZyYE9mPkSRzp3v0sKvECoYBfgIGv11Mk7UC8Ife1UyR6QMpv8X28VG3khw48morjKIbqAL4n0P/qKrCJ3iQKPd9diTMzgxEKgsns0QYbKTRhnfzo1Q/4fxOLhWUVum4vJKQz4I8=
+	 In-Reply-To:Content-Type; b=CczegWSM9JhCaBQZ4xIH2YZKnfRRNYPn0edtNPsq86dt4BzsVoC/uCeCS7WnWgfVxCq7vIH+hMpqIaZOzxLve1MZkPhetAXdgyOIU8dHJNG8nqEjw6t1B9EpgMAL2LVN1T13a0xykgF66ggK0WhN52hKlAUPWeW6Se/vY/o4WAc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13759C2BBFC;
-	Thu, 27 Jun 2024 07:16:00 +0000 (UTC)
-Message-ID: <9dc4268c-86ef-4188-97a2-3dbe7f76f8ae@xs4all.nl>
-Date: Thu, 27 Jun 2024 09:15:59 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB1EC2BBFC;
+	Thu, 27 Jun 2024 07:22:57 +0000 (UTC)
+Message-ID: <c2a2f743-dd9d-4030-804f-8de81fe4d1a4@xs4all.nl>
+Date: Thu, 27 Jun 2024 09:22:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,14 +38,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/26] Revert "[media] media: fix media devnode
- ioctl/syscall and unregister race"
+Subject: Re: [PATCH v4 10/26] media: mc: Clear minor number reservation at
+ unregistration time
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
 References: <20240610100530.1107771-1-sakari.ailus@linux.intel.com>
- <20240610100530.1107771-2-sakari.ailus@linux.intel.com>
- <82710537-76e0-4715-b000-cf9df9cadfe8@xs4all.nl>
- <Zn0O6bEcStV86Fnb@kekkonen.localdomain>
+ <20240610100530.1107771-11-sakari.ailus@linux.intel.com>
+ <32455d69-1bb0-4318-a2b6-92335ed0b7cc@xs4all.nl>
+ <Zn0NezVBinBib84r@kekkonen.localdomain>
+ <Zn0QeZ_qNqx9uFnD@kekkonen.localdomain>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -91,59 +92,34 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <Zn0O6bEcStV86Fnb@kekkonen.localdomain>
+In-Reply-To: <Zn0QeZ_qNqx9uFnD@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/06/2024 09:04, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Thu, Jun 27, 2024 at 08:53:22AM +0200, Hans Verkuil wrote:
->> On 10/06/2024 12:05, Sakari Ailus wrote:
->>> This reverts commit 6f0dd24a084a ("[media] media: fix media devnode
->>> ioctl/syscall and unregister race"). The commit was part of an original
->>> patchset to avoid crashes when an unregistering device is in use.
+On 27/06/2024 09:10, Sakari Ailus wrote:
+> On Thu, Jun 27, 2024 at 06:58:03AM +0000, Sakari Ailus wrote:
+>> Hi Hans,
 >>
->> Reverting all these old commits and then adding back some of the code that
->> was removed is IMHO a bad idea.
+>> On Thu, Jun 27, 2024 at 08:43:47AM +0200, Hans Verkuil wrote:
+>>> On 10/06/2024 12:05, Sakari Ailus wrote:
+>>>> Clear the media device's minor number reservation at unregister time as
+>>>> there's no need to keep it reserved for longer. This makes it possible to
+>>>> reserve the same minor right after unregistration.
+>>>
+>>> Have you tested this?
 >>
->> I took patches 1-8 and just folded them all together, and the end result
->> was *much* easier to review. And the resulting patch can be cleaned up a
->> bit as there are some unnecessary changes included (e.g. a cec change).
->>
->> With all the reverts and then reinstating code I also have little confidence
->> in the quality of the code if you have to do a git bisect later and you
->> end up in the middle of patches 1-8: it is far better to just do a single
->> patch. Effectively it is embedding devnode in media_device, so just do
->> that.
+>> By unbinding and re-binding a device while file handles to the old Media
+>> device one are still around.
 > 
-> The reverts shouldn't really need a review as we're just reverting to an
-> earlier state of affairs in MC codebase. As you probably noticed, over the
-> first 8 patches there is little more than reverts while the rest are fixes
-> (as well as some preparation for what follows). So from review point of
-> view I do prefer the current state of the first 8 patches.
+> Also in MC we don't have an array indexed by minor numbers of Media
+> devices, as we have for V4L2 device nodes.
 > 
-> I'd like to have Laurent's opinion on this, too.
+> How is it for CEC?
 > 
 
-Just try folding patches 1-8 together. The end result is far, far easier
-to understand.
-
-In addition, those reverts also change things like cec, which I really
-don't like.
-
-And if there are fixes, should those be done first?
-
-Basically what I want to see in this patch series is:
-
-- first fix any existing bugs in the existing code: those can
-  also go in right now, no need to wait for the whole series to
-  be approved. E.g. patch 10/26 is a good example of that.
-- then (TBD) have a single patch that embeds the devnode,
-- then add the new lifetime features.
-
-Right now it is an unholy mix of bug fixes, reverts, reinstatements,
-and new features, and it is hard to see what is what.
+It doesn't have such an array either. I think that's V4L2 specific, and I wonder
+if it is really needed. That code is very old, so it wouldn't surprise me if it
+can be removed.
 
 Regards,
 
