@@ -1,150 +1,146 @@
-Return-Path: <linux-media+bounces-14263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583C491A971
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 16:44:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B50891A9B0
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 16:49:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8501D1C21B2A
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 14:44:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A74D1F2248A
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 14:49:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E427197A61;
-	Thu, 27 Jun 2024 14:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BDCA198828;
+	Thu, 27 Jun 2024 14:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Yg+iMzSC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HSydrgDm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5270197555
-	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 14:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E607DDA6
+	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 14:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719499445; cv=none; b=o5DFEK7EB0bGpzC/7bctnksjFTNlOyRqC9uVfztCdqEL0IBjEQt/9JnkEi5ke6SRGbFKIOqQaacHV9ZswwT587zzJKMwciChzKwN1iWh3Ch04k/VoPW9Gya056m/I25vSnUYZuuy5hZlUD6k3rIzdtO5vWr5w0p+7fdQ5qZk40Q=
+	t=1719499595; cv=none; b=HQls9zj1I/ueK0iFSU8H7IJqq9PcNf5dflSnO72ux/TQXelV4ohWSJ0tX2iznJSF5XFTDShKMpv2H76nysPUAffEziDxtX0gMOSiOuW0DWP0lJFnEqzJHa4sNgk4yETXioU8sKSbelTDXygZeaYunDr3bF9mGjJbJIbACe+CsG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719499445; c=relaxed/simple;
-	bh=jmzPXdDCCAC/MKtSC/hAbXxVF+hdQgPtGYYUSJ9qKFU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=goGdzD72+bVxC9unPg49rNldUuybavB9tRMRaPCACgEadoKC8aWGQ/q3uNd0XahSzsw7VtUoKS25hIjVdiP/+Ii4NEfnUXVPjYx2YjCTORkniXPa1KO+PyvmG2EK+6LufsuFc0PbTcI7T3dEaVXpxWQNySzIYVNlv40IIE9Cdn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Yg+iMzSC; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4450292a50bso16221111cf.1
-        for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 07:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1719499442; x=1720104242; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ungb+QGWCHhRG8/rC+kh3S1uqFOhchzwGwHvUTFe9mI=;
-        b=Yg+iMzSCQwSuq/W6BjVD2gwAHIAwfNwcmsSELjpQjOuSpOFVTweUr0kLJtDiltlR2b
-         WEKhPzj5iyIkDZHqcMTH2m0ofqgIjeshYJIkYrc6tr75irN9XX1YZBMcalVjCvb7zIL8
-         KS6QiQwnizzW6CKrGgNNv5+hGg+5RM5AwV42atnRdrqMeLHy7EATRp/aXd+cg+JrLDQI
-         73BNGs8l/bp7Qz9cVdwmIgozao1/Sg5I8JOB6oFkwIHcPkHMh+F46J+WWpuNlvxLo4dX
-         1+D9iI8tUW5/lhDVxNj/gn399Mk+ZVAgDdJHzP69wPU2rXBS3AqKBfCxRXjQjRmz0Edu
-         otLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719499442; x=1720104242;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ungb+QGWCHhRG8/rC+kh3S1uqFOhchzwGwHvUTFe9mI=;
-        b=sely03GqJpCmeWF57pekgekxgjXwxum7iNZGPXojIkKP/es/Vj2w5QdnQJgEjCa6nd
-         XHj1EXsuVfNZtmMKY+A5JzAN3qnSwwlqWFZ6gRa5eAh8VwdUM4hI5iPcjeB35gcoEHks
-         zuI7gX3Ul1Yiimkh4Zfu3ZAd9BhJ7rkF8rITFNPWj0yVUtmlldK+fd9+JKtpiTZn+h83
-         Z7bHTkRRj2iKUDb0k5vH9w0QocgT5bG3OHzzEio63ksJbcsreAQiwcYz/7/WzF1a+1FK
-         UuzdWe0r9YIYwbkzJk6t4Ylrol6vigM+waJxyTqiKit4ipG3Sn4/J5jglZn2woqD+iig
-         wo9w==
-X-Gm-Message-State: AOJu0YyAWPbyM9zf/TNpqweLS/90cX1twAxuLc0L4FRXIc8PXAKUi1Oc
-	3tZKGPAEieBfzsqN0IFEqBo3044E7M038G31lIxJuZfpM/wMSOu+Eq9+MYDPn1AsZbgza/YpS/3
-	GqshCtFFYIiawfK5jl2/iOtfy3/H3zzHj+ZnEqA==
-X-Google-Smtp-Source: AGHT+IEzpRLuh4RpN/sl06JTcBFKKiVbQeGnTJtLTlMiSpKny6rCOuR+cbjRxc9nwSvbQMGKa5D5omUc/nEewH4WD6g=
-X-Received: by 2002:ac8:5e10:0:b0:441:3ce:f012 with SMTP id
- d75a77b69052e-444d9214f5emr149992101cf.46.1719499442687; Thu, 27 Jun 2024
- 07:44:02 -0700 (PDT)
+	s=arc-20240116; t=1719499595; c=relaxed/simple;
+	bh=zkd0HzB7vBLf6E+PXdGoiGAghmMgIDOiipCNpWLQq00=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sqcprwhvdqLHKzQ+9v69JkIDa8ie6DOILI9QzNbz9Kdizj/+qmy+oJfn9TFRdaucyX+UZnU2k+FOMgE1l02oMi9q2HfckbCNmrKnwfBNE5lqC5fJq2jzLtEZY8ON/oPpPf11fMfeUzxQowGRsgh4Vz+uARau7XtA8tqCodPbhvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HSydrgDm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi [91.158.144.210])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F0922C5;
+	Thu, 27 Jun 2024 16:46:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719499569;
+	bh=zkd0HzB7vBLf6E+PXdGoiGAghmMgIDOiipCNpWLQq00=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HSydrgDmHhiZlA1htltLfMoqbB8txXsfAx7VAQ8FmYJEO3xrRmjfMBSPYvYK26Lqc
+	 iShOA3fSBbwIi5G3n7HsPHAZiVUrX0T9tFoETKxzz1au4rBl3HHKbup4J5nabgtO5G
+	 ZeENpBwTDzm6pczziQ7X7ejhBj44UF5z2oi+0o1w=
+Message-ID: <6a8d947a-0fba-4b70-a119-eecb7bf75c74@ideasonboard.com>
+Date: Thu, 27 Jun 2024 17:46:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240627143059.300796-1-jacopo.mondi@ideasonboard.com> <20240627143059.300796-3-jacopo.mondi@ideasonboard.com>
-In-Reply-To: <20240627143059.300796-3-jacopo.mondi@ideasonboard.com>
-From: David Plowman <david.plowman@raspberrypi.com>
-Date: Thu, 27 Jun 2024 15:43:51 +0100
-Message-ID: <CAHW6GYK3ZPwdYcsC1oHH-YSS26_4K0HqJLFq6zAGauNTQ7zcQQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: uapi: pisp_common: Add 32 bpp format test
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Sakari Ailus <sakari.ailus@iki.fi>, Naushir Patuck <naush@raspberrypi.com>, 
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: uapi: pisp_be_config: Drop BIT() from uAPI
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sakari Ailus <sakari.ailus@iki.fi>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ David Plowman <david.plowman@raspberrypi.com>,
+ Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20240627143059.300796-1-jacopo.mondi@ideasonboard.com>
+ <20240627143059.300796-2-jacopo.mondi@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240627143059.300796-2-jacopo.mondi@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jacopo
-
-Yes, that looks right. The 32bpp format was a slightly later addition,
-and so might have slipped through the net previously.
-
-On Thu, 27 Jun 2024 at 15:31, Jacopo Mondi
-<jacopo.mondi@ideasonboard.com> wrote:
->
-> Add definition and test for 32-bits image formats to the pisp_common.h
+On 27/06/2024 17:30, Jacopo Mondi wrote:
+> The pisp_be_config.h uAPI header file contains a bit-field definition
+> that uses the BIT() helper macro.
+> 
+> As the BIT() identifier is not defined in userspace, drop it from the
 > uAPI header.
->
+> 
+> Fixes: c6c49bac8770 ("media: uapi: Add Raspberry Pi PiSP Back End uAPI")
 > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Acked-by: David Plowman <david.plowman@raspberrypi.com>
-
-Thanks!
-David
-
->
 > ---
-> RPi: I found not traces of this in your BSP pisp_types.h header but
-> these identifiers are used by libpisp and are part of the pisp_types.h
-> header shipped with the library.
->
-> https://github.com/raspberrypi/libpisp/blob/main/src/libpisp/backend/backend_prepare.cpp#L374
-> https://github.com/raspberrypi/libpisp/blob/main/src/libpisp/common/pisp_types.h#L137
->
-> in mainline, pisp_types.h has been absorbed by pisp_common.h so I'm
-> adding it here (only PISP_IMAGE_FORMAT_bpp_32, as it's the only one used
-> by libpisp).
->
-> Could you ack/nack this patch please ?
-> ---
-> ---
->  include/uapi/linux/media/raspberrypi/pisp_common.h | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/include/uapi/linux/media/raspberrypi/pisp_common.h b/include/uapi/linux/media/raspberrypi/pisp_common.h
-> index b2522e29c976..031fdaa4da69 100644
-> --- a/include/uapi/linux/media/raspberrypi/pisp_common.h
-> +++ b/include/uapi/linux/media/raspberrypi/pisp_common.h
-> @@ -72,6 +72,8 @@ enum pisp_image_format {
->         PISP_IMAGE_FORMAT_SHIFT_8 = 0x00080000,
->         PISP_IMAGE_FORMAT_SHIFT_MASK = 0x000f0000,
->
-> +       PISP_IMAGE_FORMAT_BPP_32                 = 0x00100000,
-> +
->         PISP_IMAGE_FORMAT_UNCOMPRESSED = 0x00000000,
->         PISP_IMAGE_FORMAT_COMPRESSION_MODE_1 = 0x01000000,
->         PISP_IMAGE_FORMAT_COMPRESSION_MODE_2 = 0x02000000,
-> @@ -134,6 +136,7 @@ enum pisp_image_format {
->          PISP_IMAGE_FORMAT_PLANARITY_PLANAR)
->  #define PISP_IMAGE_FORMAT_wallpaper(fmt)                                       \
->         ((fmt) & PISP_IMAGE_FORMAT_WALLPAPER_ROLL)
-> +#define PISP_IMAGE_FORMAT_bpp_32(fmt) ((fmt) & PISP_IMAGE_FORMAT_BPP_32)
->  #define PISP_IMAGE_FORMAT_HOG(fmt)                                             \
->         ((fmt) &                                                               \
->          (PISP_IMAGE_FORMAT_HOG_SIGNED | PISP_IMAGE_FORMAT_HOG_UNSIGNED))
-> --
-> 2.45.2
->
+>   include/uapi/linux/media/raspberrypi/pisp_be_config.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/uapi/linux/media/raspberrypi/pisp_be_config.h b/include/uapi/linux/media/raspberrypi/pisp_be_config.h
+> index 1684ae068d4f..18e313613a50 100644
+> --- a/include/uapi/linux/media/raspberrypi/pisp_be_config.h
+> +++ b/include/uapi/linux/media/raspberrypi/pisp_be_config.h
+> @@ -146,7 +146,7 @@ struct pisp_be_dpc_config {
+>    */
+>   struct pisp_be_geq_config {
+>   	__u16 offset;
+> -#define PISP_BE_GEQ_SHARPER BIT(15)
+> +#define PISP_BE_GEQ_SHARPER (1 << 15)
+>   #define PISP_BE_GEQ_SLOPE ((1 << 10) - 1)
+>   	/* top bit is the "sharper" flag, slope value is bottom 10 bits */
+>   	__u16 slope_sharper;
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
 
