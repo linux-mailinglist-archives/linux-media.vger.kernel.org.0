@@ -1,64 +1,65 @@
-Return-Path: <linux-media+bounces-14247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255BA91A783
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 15:12:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EF291A77C
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 15:12:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4F7A282600
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 13:12:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75D721F25128
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 13:12:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3074D187344;
-	Thu, 27 Jun 2024 13:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD19518C338;
+	Thu, 27 Jun 2024 13:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="cC+QLSKb"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DrHwsbBg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF63018A924;
-	Thu, 27 Jun 2024 13:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EB7188CB9;
+	Thu, 27 Jun 2024 13:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719493849; cv=none; b=dWU807EfR+KcjbMevAmyXSKKTHsKGKVVHsIpDAPe58Yd5QQmS2rFDu9scUrkaNZ8BaBsQxw1dwWb+UB5X+btmWkA+3Sbd4/f24UDsKdUuI/DIahBxnXknAdEbPBZpIZ1AwT13VBjhPy8F8hhOGzAsTe04UR/uE1SWdnqTo1SyOs=
+	t=1719493848; cv=none; b=qoBA5UzFd7ksVapN3j+em+bZ77m+0/759mKPaQlkgdXwd1up4MIRQa0QAud0h5x45qBEk2UFIMMnS+nYbBVAqcjq+0cI56h8ze4SZZkTba37f6xDaw51GvoFz3xiiejNC2GoYj+ohIPm2KEeWFinm05PzFWTktR08aZAHmcBnxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719493849; c=relaxed/simple;
-	bh=mOPOzpOxDm8At4aQJ1DhFOiUZ8dOL9TTrKSHJfLLFC4=;
+	s=arc-20240116; t=1719493848; c=relaxed/simple;
+	bh=24D3XNVBK9Dmv+4yYpQCrJXrk43bw9jFtHr0iPUMswk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=D17BmHzJ2C+NCfAjZAaf4sj5wjVHhCaxZFL1+3WHhW1yag3jx5d/jPGlp+LCAuLlk/ZkOFZFQQ0A3kXOyuaDFWT+RgqTdKY1b8rukLwHDpUK0meuqvCGksuCMvqkWng1t4fspcN/os3cZAqLSvs1s6Ub7MkQV0fyOzyDfvR092Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=cC+QLSKb; arc=none smtp.client-ip=198.47.23.248
+	 In-Reply-To:To:CC; b=L0fQuQmG3JWyA41kSVfjt5oQT6W9SfqTWZxxbUQCtQDSMor9FFM97jU3GBX4mSxz3FKaw0aZHp5MU9IstKtwXM3h9l0kdyNMijhrgVRSJuBnLYG/AxcCyiD9431zIpqMu2xY4Et0F+IvvaiIfWFnOZAsVUPAu2ytibqPjx8Ihr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=DrHwsbBg; arc=none smtp.client-ip=198.47.19.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45RDAQAa110206;
-	Thu, 27 Jun 2024 08:10:26 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45RDASMT117441;
+	Thu, 27 Jun 2024 08:10:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1719493826;
-	bh=0j+pRnYIz0YmwJf02oM8YeGAX8XHeGu62s1LydGmz+4=;
+	s=ti-com-17Q1; t=1719493828;
+	bh=SKvlDdGZFIbN30XgC3XarKQ1FX7j3zWjtGxbHfAaf9A=;
 	h=From:Date:Subject:References:In-Reply-To:To:CC;
-	b=cC+QLSKbV+3xODMuBtA1LrYRMlYoGhxRIiqHyyp4gCEXmC0jSU0IJqTJzK8L1/anB
-	 WdKGOvFdZJi/B06wAXzrRClEfD8fEt1CPw80KMtPJP9hBRDaHDx0TiJYmyaVxSMCfL
-	 8N6JSD6PuxFpJIGXkYj/gZoASkMvKugmz9OqnvbQ=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45RDAQhN109079
+	b=DrHwsbBgSqtXTyATAhVSca5v8CFXfwBcbPhthIw9NZkMnSUkC853wO0MQKR9sNkTS
+	 j0bhSlXz0dX775YJcbCmARglxjmiNHpJaWnwmEE5HwKGYHRvIV3yhRlcwACxjsihPA
+	 i+5iowqgRYwyaifgxsKlXr9Rel5TJwaQ034xyhf4=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45RDASCw095631
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 27 Jun 2024 08:10:26 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 27 Jun 2024 08:10:28 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 27
- Jun 2024 08:10:26 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2024 08:10:27 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 27 Jun 2024 08:10:26 -0500
+ Frontend Transport; Thu, 27 Jun 2024 08:10:27 -0500
 Received: from localhost (jluthra.dhcp.ti.com [172.24.227.116])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45RDAPI4038401;
-	Thu, 27 Jun 2024 08:10:25 -0500
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45RDAQUq072036;
+	Thu, 27 Jun 2024 08:10:27 -0500
 From: Jai Luthra <j-luthra@ti.com>
-Date: Thu, 27 Jun 2024 18:39:56 +0530
-Subject: [PATCH v2 01/13] media: cadence: csi2rx: Support runtime PM
+Date: Thu, 27 Jun 2024 18:39:57 +0530
+Subject: [PATCH v2 02/13] dt-bindings: media: ti,j721e-csi2rx-shim: Support
+ 32 dma chans
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240627-multistream-v2-1-6ae96c54c1c3@ti.com>
+Message-ID: <20240627-multistream-v2-2-6ae96c54c1c3@ti.com>
 References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
 In-Reply-To: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -95,144 +96,101 @@ CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<laurent.pinchart@ideasonboard.com>,
         Jai Luthra <j-luthra@ti.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3486; i=j-luthra@ti.com;
- h=from:subject:message-id; bh=tXWucuzl8lsBqZDdK9Xa9QSqspro1tIHfpB88oP8kVY=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBmfWSyY1mUjV+r0gi6AEE+mDxcG80C11C3v0iz/
- cFcoADbdBOJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZn1ksgAKCRBD3pH5JJpx
- RYRuD/49QcTVhDjFDpCmcBH5UqIClgaCNj0YOlSbreynilOmz4jN+fTtPsE9r7LMq08JnZyy0OY
- BejyBq0Mr4nEgfDNpOpNyXlMwYxB89x71ffzYB0tgY32GyA+q4t6Ns70qvw8z/0z9hbqDZ1cDkS
- BOymj+4jLhIRdSyMNFGSXjvvAx0G4DGiITP6q9dYSnIJrIndKMbKjP18kYQcxRHTOgHWVxidBEZ
- YWd6itX3zXJyLD4454WlhxDMiVtexjbyHuDebuvkEEC0uLgQEHBo2Yf4lhi1vJXVTeEC/yTf46n
- 4Gxt7rVrgrnDiCOl1wQYruwwmI3BMzQyfTW34tjrI4pYJZKgF0zQLk3PWy4yr3he6C7m4Gm3uNh
- ZinpLXcCDJ+vCTNxp8+jbRlp3Oserw9Cfv6VFE7PIowfZEfTUfgCA1xJ+gkEfT7cIvvhYiyekUF
- et5A+xMQLxrrq0hpRlLOi0MI4NjbNCtKZCaMuMoDl9UPKkm47iyfwLcdzUx/oH9NfssgIKji/L6
- u8VMn3N0k7xlaHGFPM5lPxjrHlN4OppgWi9CyNvml8kZMIh8M3/ourQFQwo8lB2l+w76WRAHzYk
- APzzTeW3qApchd2r1GmcZRYDcs+A/Hu08PRdwYpjDRCkvh4y94BnvcT7GmhIapM8jubcBVw/xGR
- X6GiHuvREUBL5iA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2357; i=j-luthra@ti.com;
+ h=from:subject:message-id; bh=24D3XNVBK9Dmv+4yYpQCrJXrk43bw9jFtHr0iPUMswk=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBmfWSzv7MySL0FTesXdooSEM5hPyLoCARKft5Ze
+ 8R/DF6JzmmJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZn1kswAKCRBD3pH5JJpx
+ RbzKD/4vbD5acj/hG7LS+2Zg+E3I8TtCFax3iAE4aelwhzRiQkl/qJZ6zWLWjI96hnLifePXnNM
+ GP/QV0m8AROv1M4DYOfxDZODwKuPmdnpdNwyxXfK8fAoXiPSYH73D3i3s+yq70TsLaJwYSFeP06
+ Gyfp//a25HnI0apZSLI4swe3qsg44IVzPAbFWIfzePOVJ/tHMr5NWXkBWjOLGoYfELEjgnBfthQ
+ APVro4n99mytxDDyMjYkvd5hL8zsvWiA0qjPz72H07lWCURKqx2HjeRfzJpH3+eH2KJfSvBEE3d
+ 52NyOmViipLh5BPczHytQhVLd4gdpLAnCkzqkHqZCmGWj72xRbA5zI22RCk8dTSoIsTS5V/8Fu7
+ VLhbPV6HXYjIF1o7kGvvsI0fC3qD/pDsxFUTF6J6JFwUwu4geTnnWx7+OUJM+6IURiwFMwkU9jg
+ bww2sWImNFP82u7ligtO1JvXlo0Y8HHtQ4130WMsqQ+IViJgHl9yY+w5tvcTlXf+oXdPWPw1Fzq
+ 1Y9iNZdj8qV0V0NQu40vZPiE7UBB0kSIia4uwC6UQj8+iD1chpOZRrwK4lon6mLqBOrTmd5w9CI
+ oyraAcE7aZ2dp+45h3SPDkp2PtHjvNxzsyNbMhsSl85jlRJbCD0iP2RF1v0UloozC3CFyZEs8n4
+ uXZXtztGH7z+HAQ==
 X-Developer-Key: i=j-luthra@ti.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-From: Jayshri Pawar <jpawar@cadence.com>
+The CSI2RX SHIM IP can support a maximum of 32x DMA channels.
 
-Use runtime power management hooks to save power when CSI-RX is not in
-use. Also stop/start any in-progress streams, which might happen during
-a system suspend/resume cycle.
+These can be used to split incoming "streams" of data on the CSI-RX
+port, distinguished by MIPI Virtual Channel (or Data Type), into
+different locations in memory (/dev/videoX nodes).
 
-Signed-off-by: Jayshri Pawar <jpawar@cadence.com>
-Co-developed-by: Jai Luthra <j-luthra@ti.com>
+Actual number of DMA channels reserved is different for each SoC
+integrating this IP, but a maximum of 32x channels are always available
+in this IP's register space, so set minimum as 1 and maximum as 32.
+
+Link: https://www.ti.com/lit/pdf/spruiv7
 Signed-off-by: Jai Luthra <j-luthra@ti.com>
 ---
- drivers/media/platform/cadence/cdns-csi2rx.c | 43 +++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
+ .../bindings/media/ti,j721e-csi2rx-shim.yaml       | 39 ++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index 6f7d27a48eff..751eadbe61ef 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -366,6 +366,12 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
- 	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
- 	int ret = 0;
+diff --git a/Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml b/Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml
+index f762fdc05e4d..0e00533c7b68 100644
+--- a/Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml
++++ b/Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml
+@@ -20,11 +20,44 @@ properties:
+     const: ti,j721e-csi2rx-shim
  
-+	if (enable) {
-+		ret = pm_runtime_resume_and_get(csi2rx->dev);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	mutex_lock(&csi2rx->lock);
+   dmas:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 32
  
- 	if (enable) {
-@@ -375,8 +381,10 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
- 		 */
- 		if (!csi2rx->count) {
- 			ret = csi2rx_start(csi2rx);
--			if (ret)
-+			if (ret) {
-+				pm_runtime_put(csi2rx->dev);
- 				goto out;
-+			}
- 		}
+   dma-names:
++    minItems: 1
+     items:
+       - const: rx0
++      - const: rx1
++      - const: rx2
++      - const: rx3
++      - const: rx4
++      - const: rx5
++      - const: rx6
++      - const: rx7
++      - const: rx8
++      - const: rx9
++      - const: rx10
++      - const: rx11
++      - const: rx12
++      - const: rx13
++      - const: rx14
++      - const: rx15
++      - const: rx16
++      - const: rx17
++      - const: rx18
++      - const: rx19
++      - const: rx20
++      - const: rx21
++      - const: rx22
++      - const: rx23
++      - const: rx24
++      - const: rx25
++      - const: rx26
++      - const: rx27
++      - const: rx28
++      - const: rx29
++      - const: rx30
++      - const: rx31
  
- 		csi2rx->count++;
-@@ -388,6 +396,8 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
- 		 */
- 		if (!csi2rx->count)
- 			csi2rx_stop(csi2rx);
-+
-+		pm_runtime_put(csi2rx->dev);
- 	}
+   reg:
+     maxItems: 1
+@@ -62,8 +95,8 @@ examples:
  
- out:
-@@ -661,6 +671,29 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
- 	return ret;
- }
- 
-+static int csi2rx_suspend(struct device *dev)
-+{
-+	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-+
-+	mutex_lock(&csi2rx->lock);
-+	if (csi2rx->count)
-+		csi2rx_stop(csi2rx);
-+	mutex_unlock(&csi2rx->lock);
-+
-+	return 0;
-+}
-+
-+static int csi2rx_resume(struct device *dev)
-+{
-+	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-+
-+	mutex_lock(&csi2rx->lock);
-+	if (csi2rx->count)
-+		csi2rx_start(csi2rx);
-+	mutex_unlock(&csi2rx->lock);
-+	return 0;
-+}
-+
- static int csi2rx_probe(struct platform_device *pdev)
- {
- 	struct csi2rx_priv *csi2rx;
-@@ -707,6 +740,7 @@ static int csi2rx_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_cleanup;
- 
-+	pm_runtime_enable(csi2rx->dev);
- 	ret = v4l2_async_register_subdev(&csi2rx->subdev);
- 	if (ret < 0)
- 		goto err_free_state;
-@@ -721,6 +755,7 @@ static int csi2rx_probe(struct platform_device *pdev)
- 
- err_free_state:
- 	v4l2_subdev_cleanup(&csi2rx->subdev);
-+	pm_runtime_disable(csi2rx->dev);
- err_cleanup:
- 	v4l2_async_nf_unregister(&csi2rx->notifier);
- 	v4l2_async_nf_cleanup(&csi2rx->notifier);
-@@ -739,9 +774,14 @@ static void csi2rx_remove(struct platform_device *pdev)
- 	v4l2_async_unregister_subdev(&csi2rx->subdev);
- 	v4l2_subdev_cleanup(&csi2rx->subdev);
- 	media_entity_cleanup(&csi2rx->subdev.entity);
-+	pm_runtime_disable(csi2rx->dev);
- 	kfree(csi2rx);
- }
- 
-+static const struct dev_pm_ops csi2rx_pm_ops = {
-+	SET_RUNTIME_PM_OPS(csi2rx_suspend, csi2rx_resume, NULL)
-+};
-+
- static const struct of_device_id csi2rx_of_table[] = {
- 	{ .compatible = "starfive,jh7110-csi2rx" },
- 	{ .compatible = "cdns,csi2rx" },
-@@ -756,6 +796,7 @@ static struct platform_driver csi2rx_driver = {
- 	.driver	= {
- 		.name		= "cdns-csi2rx",
- 		.of_match_table	= csi2rx_of_table,
-+		.pm		= &csi2rx_pm_ops,
- 	},
- };
- module_platform_driver(csi2rx_driver);
+     ti_csi2rx0: ticsi2rx@4500000 {
+         compatible = "ti,j721e-csi2rx-shim";
+-        dmas = <&main_udmap 0x4940>;
+-        dma-names = "rx0";
++        dmas = <&main_udmap 0x4940>, <&main_udmap 0x4941>;
++        dma-names = "rx0", "rx1";
+         reg = <0x4500000 0x1000>;
+         power-domains = <&k3_pds 26 TI_SCI_PD_EXCLUSIVE>;
+         #address-cells = <1>;
 
 -- 
 2.43.0
