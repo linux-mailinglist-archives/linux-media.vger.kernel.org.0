@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-14222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A63919F9C
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 08:54:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F1A919F9E
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 08:54:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 810251C21CE4
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 06:54:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 131CAB221CB
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 06:54:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E58E3F9D5;
-	Thu, 27 Jun 2024 06:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C6C73FB96;
+	Thu, 27 Jun 2024 06:54:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ve69CAHI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c76mccZZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D69020323
-	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 06:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD8B3D982
+	for <linux-media@vger.kernel.org>; Thu, 27 Jun 2024 06:54:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719471240; cv=none; b=EGID09J/JxSc8Hzb4bDkVredcDNE+BdJm6iPEYB4/+WQBHeg+2Q4qreLPE4LLFK6M2N7JhZIy9OvE+MYmBa6l/wBk8HfPpSDZ/vW0zg2TVLcXysdyf4NQSW+LwxysfIY2Ev7gHgvCsljXrg6HdVH1yYqnbwEp/gf4nuqA/kTkUE=
+	t=1719471278; cv=none; b=BZ3pDHdOczaMBDHUIcA2m9DK7KSyGVueA7uqVayA0GEBAMguxWoFIYr0WbE4eeApV2Qk1q0FCjwZE0imZCBaGSm00YOh/PMW/VpJJz5L9nJm0kun/gJkPQpwMo5YkWlHfxG6jaE4PWZ+FZpZnGVOdrP3dlZDiAz6v24wZoTPocA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719471240; c=relaxed/simple;
-	bh=X4Ca/0Q82pI18wprZNDkPyijteh+IGSak5O9Gx4j5Fc=;
+	s=arc-20240116; t=1719471278; c=relaxed/simple;
+	bh=q4QRqA8tbmai9fybhHtIZ1G8l4VgfB6mLs5XLQU74+Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KrwdDpNCobh2DYCCPrzq1Q9EedHMESS3BFCJDOtEXa1sxDj7toqroE+SdzCzHRM8JGOn6H4E38w50l8I43JA/H7rT7NW0lFSMj4XpHcocfwrUG8Y31DGO7GFtmmik2d4Uln1lA09Acd8FOh2jly0Outf0paaHCMQbsvqniKE+kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ve69CAHI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD9BC2BBFC;
-	Thu, 27 Jun 2024 06:53:56 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=fOpRuYCFcn27DBJXJn7tm7yNtOrObLqfjHaJxWG+PmegzTU+q9u0E0r7vTrHb49FSYc5HiP6s59t4tNaX5MyuIdERsFrfpyM2qzIE9iDQFYEJdQY47PP33jbjDPELUnYySVjLBH6zsH9YCM+hR0gZPSgZT3G4jqHaxwsaJXO63o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c76mccZZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 203DFC2BBFC;
+	Thu, 27 Jun 2024 06:54:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719471240;
-	bh=X4Ca/0Q82pI18wprZNDkPyijteh+IGSak5O9Gx4j5Fc=;
+	s=k20201202; t=1719471278;
+	bh=q4QRqA8tbmai9fybhHtIZ1G8l4VgfB6mLs5XLQU74+Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ve69CAHIqYcwliToUrB1W3IXDZ9UuJO4/YMYTs65+9o09rFCPGbaAk2r61m8c+mmD
-	 FHNc+Fj5DgDsKeb+QnXEcOTiyNfa+y/YG8PFRbl/9NCLb6G9FrbseTkzaniyPYRbBc
-	 n6DLE/3VJzuDoXces600+LtIpB+R1Q6gIv+6QI+3QzTcWI2DKQgnz6/71pcv1R6ua4
-	 DkeoqpYEv6sk7XV+NuAcVtJiELU1yNSG8/T0uZM2WLp91eP6giWSkZ4XqAuu/ImusY
-	 eBUPOVJRtDlbzDRh1EkczAHnTS1onrBIHttHorUnXsItv3PaHuqKgnUdrMWMyQ5yri
-	 dMwPsHDOJ8Cig==
-Message-ID: <5c2f2f1f-37f6-46a5-ab65-0e9372091468@kernel.org>
-Date: Thu, 27 Jun 2024 08:53:54 +0200
+	b=c76mccZZbRRKq06g9uGhXyjbMrCQrOrx6O09sn+a7HTyWacgAr+8W3yQAOker1OQh
+	 bx+dLe5VSkyIyk5wagnuQLNGcsrom4wgJQX4C/5gGddhNfp3LOLHit9qUcI8lH44aP
+	 1S/rXyaz7gtrMdzKxtTG1emRxun3FOIFyYwZsThGiJhRgjmujWnpgWbwyN681uN+f3
+	 vdTtEQqJnxeAyBS3PpFOYk7Y5r/whQU8LIgLWqATOEYMRzbEKuuvUNewyV5rEVWGlm
+	 RdTlG4Thnm5pJW2N+2XD+p4oNqryaDPUzw9I6FTIU8EWyWwUWt9hbP1aj2LrdZDg78
+	 rSKKeCB1tLwfA==
+Message-ID: <9f361d23-93a1-4d5e-9f7c-60518e3b93e8@kernel.org>
+Date: Thu, 27 Jun 2024 08:54:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,9 +53,8 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v10 6/8] media: dt-bindings: Add bindings for Raspberry Pi
  PiSP Back End
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Rob Herring <robh@kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- David Plowman <david.plowman@raspberrypi.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: David Plowman <david.plowman@raspberrypi.com>,
  Naushir Patuck <naush@raspberrypi.com>,
  Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -63,11 +62,9 @@ Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>
 References: <20240626160144.87871-1-jacopo.mondi@ideasonboard.com>
  <20240626160144.87871-7-jacopo.mondi@ideasonboard.com>
- <CAL_JsqKe1UHEBuwxXRg1tB-1StJ6C2_ixEbmQCR+e_Zmkcrjig@mail.gmail.com>
- <arxitdywhgsfxlebvnhbb6ehdoyaux5z4urwbj5oa63tnkvwbs@fuch3t3zafxz>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,35 +110,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <arxitdywhgsfxlebvnhbb6ehdoyaux5z4urwbj5oa63tnkvwbs@fuch3t3zafxz>
+In-Reply-To: <20240626160144.87871-7-jacopo.mondi@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 26/06/2024 19:56, Jacopo Mondi wrote:
-> Hi Rob
+On 26/06/2024 18:01, Jacopo Mondi wrote:
+> Add bindings for the Raspberry Pi PiSP Back End memory-to-memory image
+> signal processor.
 > 
-> On Wed, Jun 26, 2024 at 11:49:59AM GMT, Rob Herring wrote:
->> On Wed, Jun 26, 2024 at 10:02 AM Jacopo Mondi
->> <jacopo.mondi@ideasonboard.com> wrote:
->>>
->>> Add bindings for the Raspberry Pi PiSP Back End memory-to-memory image
->>> signal processor.
->>>
->>> Datasheet:
->>> https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>> Reviewed-by: Rob Herring <robh@kernel.org>
->>
->> Sigh. Use get_maintainers.pl and send to the right lists/people so
->> that automated tests run.
+> Datasheet:
+> https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf
 > 
-> Ah ups sorry, I dropped the dt list after this had been reviewed a
-> long time ago. I'll add it back
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Naushir Patuck <naush@raspberrypi.com>
+> ---
 
-You already received exactly the same feedback for other patchset.
+Since there will be a resend (this was not test):
 
-No, you must CC all lists for automation to work.
+A nit, subject: drop second/last, redundant "bindings for". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
 Best regards,
 Krzysztof
