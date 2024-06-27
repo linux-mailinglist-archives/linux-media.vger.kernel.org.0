@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-14242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14247-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C5591A777
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 15:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255BA91A783
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 15:12:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90751282AD9
-	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 13:11:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4F7A282600
+	for <lists+linux-media@lfdr.de>; Thu, 27 Jun 2024 13:12:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 079701891D8;
-	Thu, 27 Jun 2024 13:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3074D187344;
+	Thu, 27 Jun 2024 13:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ebmsRCjZ"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="cC+QLSKb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C855C18755A;
-	Thu, 27 Jun 2024 13:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF63018A924;
+	Thu, 27 Jun 2024 13:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719493843; cv=none; b=eMIQxSWpz1IEVQ01ZhNqYOp/Wosw1vETy09vguX/yNwvHBS8gaNtloAuQ77loPt7v1EbsQq5mxxBKALRFECBQUEfADSMPmhCfy8oELuext0O7/8gg92OIA3W0mMFEBB9qmpgPXUbxnOLGaByJR7hAcNOBeCJlZ5oJya9q6X5BI4=
+	t=1719493849; cv=none; b=dWU807EfR+KcjbMevAmyXSKKTHsKGKVVHsIpDAPe58Yd5QQmS2rFDu9scUrkaNZ8BaBsQxw1dwWb+UB5X+btmWkA+3Sbd4/f24UDsKdUuI/DIahBxnXknAdEbPBZpIZ1AwT13VBjhPy8F8hhOGzAsTe04UR/uE1SWdnqTo1SyOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719493843; c=relaxed/simple;
-	bh=d/dE21M/qcT0o8h8zEfeZGZ5ojzXnFzZ3wcWijq5zVI=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=NTNOI5mwDuC1+8kfMVrtc/BZoN79VQJNPgaoPQfTUdoeaAuYvfnEz4z2wMY7CAYjAEnOB94YzgbGPNpsGKZH8cirDV9sJdVeDAn/QT8Y49mVZXmldGtAiQU2Nd6yXoXHL6Opu5RbkFrBPAeiIvRHxTPViYvzyqxN8KNnx7JwrbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ebmsRCjZ; arc=none smtp.client-ip=198.47.23.249
+	s=arc-20240116; t=1719493849; c=relaxed/simple;
+	bh=mOPOzpOxDm8At4aQJ1DhFOiUZ8dOL9TTrKSHJfLLFC4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=D17BmHzJ2C+NCfAjZAaf4sj5wjVHhCaxZFL1+3WHhW1yag3jx5d/jPGlp+LCAuLlk/ZkOFZFQQ0A3kXOyuaDFWT+RgqTdKY1b8rukLwHDpUK0meuqvCGksuCMvqkWng1t4fspcN/os3cZAqLSvs1s6Ub7MkQV0fyOzyDfvR092Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=cC+QLSKb; arc=none smtp.client-ip=198.47.23.248
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45RDAPF2024313;
-	Thu, 27 Jun 2024 08:10:25 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45RDAQAa110206;
+	Thu, 27 Jun 2024 08:10:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1719493825;
-	bh=nVLO8Lf5+Q64obBl7khRpJS2urQEzLuDJd3WPiVC3F0=;
-	h=From:Subject:Date:To:CC;
-	b=ebmsRCjZUceRDkLxKyxirmg1PpGMg3TgY3W7TEQaHKYZpCE8QsjSenegMlSz3RSGz
-	 Ka6ESTs47I/z3HuD4OHJqugINWLJDWx+h6Ulj6R0En8eACn43cCZXQ083hVoq5aHuM
-	 Vv9A1f45bFHk5ncoFkMxEmyEQscWyEJmcAJsve3o=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45RDAPas095606
+	s=ti-com-17Q1; t=1719493826;
+	bh=0j+pRnYIz0YmwJf02oM8YeGAX8XHeGu62s1LydGmz+4=;
+	h=From:Date:Subject:References:In-Reply-To:To:CC;
+	b=cC+QLSKbV+3xODMuBtA1LrYRMlYoGhxRIiqHyyp4gCEXmC0jSU0IJqTJzK8L1/anB
+	 WdKGOvFdZJi/B06wAXzrRClEfD8fEt1CPw80KMtPJP9hBRDaHDx0TiJYmyaVxSMCfL
+	 8N6JSD6PuxFpJIGXkYj/gZoASkMvKugmz9OqnvbQ=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45RDAQhN109079
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 27 Jun 2024 08:10:25 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 27 Jun 2024 08:10:26 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 27
- Jun 2024 08:10:24 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2024 08:10:26 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 27 Jun 2024 08:10:24 -0500
+ Frontend Transport; Thu, 27 Jun 2024 08:10:26 -0500
 Received: from localhost (jluthra.dhcp.ti.com [172.24.227.116])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45RDANCV038366;
-	Thu, 27 Jun 2024 08:10:24 -0500
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45RDAPI4038401;
+	Thu, 27 Jun 2024 08:10:25 -0500
 From: Jai Luthra <j-luthra@ti.com>
-Subject: [PATCH v2 00/13] media: cadence,ti: CSI2RX Multistream Support
-Date: Thu, 27 Jun 2024 18:39:55 +0530
-Message-ID: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
+Date: Thu, 27 Jun 2024 18:39:56 +0530
+Subject: [PATCH v2 01/13] media: cadence: csi2rx: Support runtime PM
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,9 +67,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKNkfWYC/1XMQQ6CMBCF4auQWVvTDgTUlfcwLFqYyiSWkrYSD
- endrSQuXP6Ted8GkQJThEu1QaCVI/u5BB4qGCY930nwWBpQYiMRlXDPR+KYAmknrDG6tZaaTtd
- QFksgy69du/Wlp/Low3vHV/W9/hz8c1YlpFCnuqPxrFoic018HLyDPuf8ARvOHdyjAAAA
+Message-ID: <20240627-multistream-v2-1-6ae96c54c1c3@ti.com>
+References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
+In-Reply-To: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Mauro Carvalho Chehab
 	<mchehab@kernel.org>,
@@ -95,91 +95,146 @@ CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<laurent.pinchart@ideasonboard.com>,
         Jai Luthra <j-luthra@ti.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2975; i=j-luthra@ti.com;
- h=from:subject:message-id; bh=d/dE21M/qcT0o8h8zEfeZGZ5ojzXnFzZ3wcWijq5zVI=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBmfWSoPPOF7nOAMBe6Fb/GXTXvDTTdG5qRGFNjq
- qbewBRU+7eJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZn1kqAAKCRBD3pH5JJpx
- RfWUD/9X2ur34ScgVPkX4LGhKz9/padjTrJdTzYTtyto094E5RgyhuM8iyeZ6hKNq8WmYWOSzQD
- u7oh41cSPIGVh0xN+HlXstraajV58EvkVCvEfZHD8TvZI0czJS9yuQhjyLL1o95vefrTLRcwIaE
- FEsn8R4YklRX9567Y8D9/DJ4paG6nAh0CTETTDtWgXuDeT95powE6J9yRCNgLlixy0fjkOeJf/c
- CLUB9CMJUuja/2UkoVNV7CM0QisXrd0g+T73DsBBVhYMbvm0oK2a09wNKpM0z1jCVEBcxBFyq+N
- DWrRdiDTkbGGFnRQWsCdSIg2tQlbyMkAiOL027d+LZW4+0K1vGwdJ4Sf+sBgiGvidlZPTCOCOs6
- 77WwT7q25IdzmK4tPqmSgQTN1DJ3z7AFVA4qojf1OUyq9wDWinvfvzSvtPZu0xH1z1GnONAaNWv
- H55iIxsSAvarRuYRAQMwXdIkye/jYd/GtyRUnzKcWNQLmj1yfAhhw65ehVBdraxDls0FEXBcthK
- RO0w02XvdSXpZIiXoAiBjMCfU5U+EuzhkGjHicrgMmsdRpl2rlBEqVIhuYSv/GlI7qgfTKh3OR8
- FMqHqTT9nxnBinfiPI4NqZ3M6qTkSoTkuPfd/dbUF8KgY0Bq4cqvKz6+6Puq0tfzwUbBvxxv4R6
- FzNi3sUrTlpCPrQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3486; i=j-luthra@ti.com;
+ h=from:subject:message-id; bh=tXWucuzl8lsBqZDdK9Xa9QSqspro1tIHfpB88oP8kVY=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBmfWSyY1mUjV+r0gi6AEE+mDxcG80C11C3v0iz/
+ cFcoADbdBOJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZn1ksgAKCRBD3pH5JJpx
+ RYRuD/49QcTVhDjFDpCmcBH5UqIClgaCNj0YOlSbreynilOmz4jN+fTtPsE9r7LMq08JnZyy0OY
+ BejyBq0Mr4nEgfDNpOpNyXlMwYxB89x71ffzYB0tgY32GyA+q4t6Ns70qvw8z/0z9hbqDZ1cDkS
+ BOymj+4jLhIRdSyMNFGSXjvvAx0G4DGiITP6q9dYSnIJrIndKMbKjP18kYQcxRHTOgHWVxidBEZ
+ YWd6itX3zXJyLD4454WlhxDMiVtexjbyHuDebuvkEEC0uLgQEHBo2Yf4lhi1vJXVTeEC/yTf46n
+ 4Gxt7rVrgrnDiCOl1wQYruwwmI3BMzQyfTW34tjrI4pYJZKgF0zQLk3PWy4yr3he6C7m4Gm3uNh
+ ZinpLXcCDJ+vCTNxp8+jbRlp3Oserw9Cfv6VFE7PIowfZEfTUfgCA1xJ+gkEfT7cIvvhYiyekUF
+ et5A+xMQLxrrq0hpRlLOi0MI4NjbNCtKZCaMuMoDl9UPKkm47iyfwLcdzUx/oH9NfssgIKji/L6
+ u8VMn3N0k7xlaHGFPM5lPxjrHlN4OppgWi9CyNvml8kZMIh8M3/ourQFQwo8lB2l+w76WRAHzYk
+ APzzTeW3qApchd2r1GmcZRYDcs+A/Hu08PRdwYpjDRCkvh4y94BnvcT7GmhIapM8jubcBVw/xGR
+ X6GiHuvREUBL5iA==
 X-Developer-Key: i=j-luthra@ti.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-This series adds multi-stream support for Cadence CSI2RX and TI CSI2RX
-Shim drivers.
+From: Jayshri Pawar <jpawar@cadence.com>
 
-PATCH 1:	Runtime Power Management for Cadence CSI2RX
-PATCH 2-7:	Support multiple DMA contexts/video nodes in TI CSI2RX
-PATCH 8-9:	Use get_frame_desc to propagate virtual channel information
-		across Cadence and TI CSI-RX subdevs
-PATCH 10-12:	Use new multi-stream APIs across the drivers to support
-		multiplexed cameras from sources like UB960 (FPDLink)
-PATCH 13:	Optimize stream on by submitting all queued buffers to DMA
+Use runtime power management hooks to save power when CSI-RX is not in
+use. Also stop/start any in-progress streams, which might happen during
+a system suspend/resume cycle.
 
-This applies on top of today's linux-next (next-20240626)
-(also tested rebase with media_stage.git master)
-
+Signed-off-by: Jayshri Pawar <jpawar@cadence.com>
+Co-developed-by: Jai Luthra <j-luthra@ti.com>
 Signed-off-by: Jai Luthra <j-luthra@ti.com>
 ---
-Changes in v2:
+ drivers/media/platform/cadence/cdns-csi2rx.c | 43 +++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
 
-- Change the multi-camera capture architecture to be similar to that of
-  Tomi's RPi5 FE series, where the driver will wait for userspace to
-  start streaming on all "actively routed" video nodes before starting
-  streaming on the source. This simplifies things a lot from the HW
-  perspective, which might run into deadlocks due to a shared FIFO
-  between multiple DMA channels.
+diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+index 6f7d27a48eff..751eadbe61ef 100644
+--- a/drivers/media/platform/cadence/cdns-csi2rx.c
++++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+@@ -366,6 +366,12 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
+ 	int ret = 0;
+ 
++	if (enable) {
++		ret = pm_runtime_resume_and_get(csi2rx->dev);
++		if (ret < 0)
++			return ret;
++	}
++
+ 	mutex_lock(&csi2rx->lock);
+ 
+ 	if (enable) {
+@@ -375,8 +381,10 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+ 		 */
+ 		if (!csi2rx->count) {
+ 			ret = csi2rx_start(csi2rx);
+-			if (ret)
++			if (ret) {
++				pm_runtime_put(csi2rx->dev);
+ 				goto out;
++			}
+ 		}
+ 
+ 		csi2rx->count++;
+@@ -388,6 +396,8 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+ 		 */
+ 		if (!csi2rx->count)
+ 			csi2rx_stop(csi2rx);
++
++		pm_runtime_put(csi2rx->dev);
+ 	}
+ 
+ out:
+@@ -661,6 +671,29 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
+ 	return ret;
+ }
+ 
++static int csi2rx_suspend(struct device *dev)
++{
++	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
++
++	mutex_lock(&csi2rx->lock);
++	if (csi2rx->count)
++		csi2rx_stop(csi2rx);
++	mutex_unlock(&csi2rx->lock);
++
++	return 0;
++}
++
++static int csi2rx_resume(struct device *dev)
++{
++	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
++
++	mutex_lock(&csi2rx->lock);
++	if (csi2rx->count)
++		csi2rx_start(csi2rx);
++	mutex_unlock(&csi2rx->lock);
++	return 0;
++}
++
+ static int csi2rx_probe(struct platform_device *pdev)
+ {
+ 	struct csi2rx_priv *csi2rx;
+@@ -707,6 +740,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_cleanup;
+ 
++	pm_runtime_enable(csi2rx->dev);
+ 	ret = v4l2_async_register_subdev(&csi2rx->subdev);
+ 	if (ret < 0)
+ 		goto err_free_state;
+@@ -721,6 +755,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+ 
+ err_free_state:
+ 	v4l2_subdev_cleanup(&csi2rx->subdev);
++	pm_runtime_disable(csi2rx->dev);
+ err_cleanup:
+ 	v4l2_async_nf_unregister(&csi2rx->notifier);
+ 	v4l2_async_nf_cleanup(&csi2rx->notifier);
+@@ -739,9 +774,14 @@ static void csi2rx_remove(struct platform_device *pdev)
+ 	v4l2_async_unregister_subdev(&csi2rx->subdev);
+ 	v4l2_subdev_cleanup(&csi2rx->subdev);
+ 	media_entity_cleanup(&csi2rx->subdev.entity);
++	pm_runtime_disable(csi2rx->dev);
+ 	kfree(csi2rx);
+ }
+ 
++static const struct dev_pm_ops csi2rx_pm_ops = {
++	SET_RUNTIME_PM_OPS(csi2rx_suspend, csi2rx_resume, NULL)
++};
++
+ static const struct of_device_id csi2rx_of_table[] = {
+ 	{ .compatible = "starfive,jh7110-csi2rx" },
+ 	{ .compatible = "cdns,csi2rx" },
+@@ -756,6 +796,7 @@ static struct platform_driver csi2rx_driver = {
+ 	.driver	= {
+ 		.name		= "cdns-csi2rx",
+ 		.of_match_table	= csi2rx_of_table,
++		.pm		= &csi2rx_pm_ops,
+ 	},
+ };
+ module_platform_driver(csi2rx_driver);
 
-- Drop a few fixes that were posted separately and are already merged
-- Fix dtschema warnings reported by Rob on [02/13]
-- Fix warnings for uninitialized `used_vc` variable in cdns-csi2rx.c
-- Return -EBUSY if someone updates routes for j721e-csi2rx subdev while
-  streaming
-- Only allow single-streams to be routed to the source pads (linked to
-  video nodes) of the j721e-csi2rx device
-- Squash the patches marked "SQUASH" in the v1 RFC series
-
-- Link to RFC (v1):
-  https://lore.kernel.org/r/20240222-multistream-v1-0-1837ed916eeb@ti.com
-
----
-Jai Luthra (8):
-      dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
-      media: ti: j721e-csi2rx: separate out device and context
-      media: ti: j721e-csi2rx: add a subdev for the core device
-      media: ti: j721e-csi2rx: add support for processing virtual channels
-      media: cadence: csi2rx: Use new enable stream APIs
-      media: cadence: csi2rx: Enable multi-stream support
-      media: ti: j721e-csi2rx: add multistream support
-      media: ti: j721e-csi2rx: Submit all available buffers
-
-Jayshri Pawar (1):
-      media: cadence: csi2rx: Support runtime PM
-
-Pratyush Yadav (4):
-      media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
-      media: ti: j721e-csi2rx: allocate DMA channel based on context index
-      media: ti: j721e-csi2rx: get number of contexts from device tree
-      media: cadence: csi2rx: add get_frame_desc wrapper
-
- .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  39 +-
- drivers/media/platform/cadence/cdns-csi2rx.c       | 440 +++++++++--
- .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 879 ++++++++++++++++-----
- 3 files changed, 1071 insertions(+), 287 deletions(-)
----
-base-commit: df9574a57d02b265322e77fb8628d4d33641dda9
-change-id: 20240221-multistream-fbba6ffe47a3
-
-Best regards,
 -- 
-Jai Luthra <j-luthra@ti.com>
+2.43.0
 
 
