@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-14304-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14305-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559FD91B6C6
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 08:12:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D58F91B6F8
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 08:24:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A2EBB218CB
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 06:12:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20DA61C232E4
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 06:24:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DED1487B1;
-	Fri, 28 Jun 2024 06:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 281D4548EE;
+	Fri, 28 Jun 2024 06:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="mR0cifh7";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="nytYzce6"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="e0TZUn0I";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="AoXWg/0A"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068021CF8A
-	for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 06:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC32855C29
+	for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 06:24:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719555128; cv=none; b=mISgPAX1eEgg5Vf1Q42ZQ6dTnMurgSrnDsOxh1NvFKKIQA43sQ/m+oo4Y8mCwoz4BIQrWq5+wRajlDuXS6hPW5NU182H/gxuSWRWRnwGmwJke8YWrNr7ZLdWa1YJObFeKwcWcEGcpaysMnzGpfPmnIJfmTmL3o/FILBJjnca8kc=
+	t=1719555860; cv=none; b=BuOdBmGvv7wUe+WWupQxbLaFZnpnzadjjw8G6hFKAqjWhBtiiSDMNwVZoEOm/M/rMXhlxWlnvN/WZWh9y6ZXObkuYl5PnOTOPA5hfwthtg1EwdK8yvYMfgGySzEljWX7BrzBGcEMvqdVYmy5dk2Zhrfz71c8OfPa4bNG79Wbhts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719555128; c=relaxed/simple;
-	bh=TLhzuP1XM65Ek+M0eIyzDoIatacL+Tt65nsA2BcdHyw=;
+	s=arc-20240116; t=1719555860; c=relaxed/simple;
+	bh=WNBFbkofjDyWet9n62JuW28B/p7mnZFRNdIkrNHdTbY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mNHhDL6msCszkVmh3BN1UuDYTr0/hIpznuS/152hD8G+oA+IRNxaOVK/ApwyLXUU6iBSAg9umk2ZK358tFjb5zfd9qNRru1mSshJcQi5bv8jNimuXci9MueKON5KvjDdohXB+FQNh61OrqFbxKUO0VFtI7nEemTPH7ei4dkKKt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=mR0cifh7; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=nytYzce6 reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+	 MIME-Version:Content-Type; b=LypT/J2FUBAbPE9QtyXBqBBcnycmlO2E98JfSaWOIlqS75vt5mg6E64L4O1LsQ1/EpUE1112p/ZYiBuGqQMF9OqCz6C70d92wNcs5dlySutqNEgcj8zNOyli5GsrdKEuviJc9L5Mssh4CuqUniRJT+6JzobyihONIr5EYFN+rBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=e0TZUn0I; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=AoXWg/0A reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1719555124; x=1751091124;
+  t=1719555856; x=1751091856;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=zitbaLICi65z0aqjj1UWwMEmVAlxFUlT4rG1XyogLXU=;
-  b=mR0cifh7gQNTPyyZ775zbK610t87ydWKQwQETOvHK3Iv6NhryUnb5Q5/
-   QKOSZ9Wpq44JP/Be9+dgEfEeEB5ILqsYp5DM/zSqY/9+kKTV017XNAEwY
-   iNgfN5N/VewCWF7sF1ZMEfGBu22xnkuR1yDaZABSd7A5ojZeLojlMIgjY
-   rzM902ttSKPVgd3wQxewUa/Jw199Gu9Io22pgktkM81eKrBJXaSds2FG3
-   4xSpsCip0XX6TCXxq27JNrdP/UIMpkgRJi2kkodZJKZLTLCBieMdeMSlC
-   CwDKZd5hh7GtrOWzZVXALDeTJXLZeQUb2DHyg3ZLgH7fft2UsLxN0x6mm
-   Q==;
-X-CSE-ConnectionGUID: CAlrTdlJRKC2LtY7/F0nfQ==
-X-CSE-MsgGUID: jU4a8uwPTM+/C2ueWvpidw==
+  bh=rtlBiisdVMMOO1L3wvwbgsSKau9YdSxDE49jWDiG04Y=;
+  b=e0TZUn0It6VOKpZrtN77P6xw/2rMJlU65gn7SQ96wdHdEc+mApoIDqyd
+   YKgchsT0eN+x8Xqi92ArQULk5YgaBiDInpMho5yge3yhOm48DcUyX8/TQ
+   HDj67fff+JE3O69JlOPjUNkmRQGp3P3AhGFti2dPzVdSIR9MBfPD88Wiy
+   T6w+4THlO+ST0Mo7tJ9yvZi4TuUUi1Ke6z8PsdxXlAX3Qo/E3P3XlF7+8
+   Wrz3bz/GLSWOvgDejTr6fW5BVVrnclAug3RPBuoOOu3vc9pj3UzMBDcHC
+   M7yZjC6Ut1soK/BUQsSysauH4iCcpEGVa7xO+4memxoF3AKNFjMqZ9RxR
+   w==;
+X-CSE-ConnectionGUID: kyEQpuawTBiu1qirALraXw==
+X-CSE-MsgGUID: 8qTuKb7sSlyfDlrB4LtHjg==
 X-IronPort-AV: E=Sophos;i="6.09,168,1716242400"; 
-   d="scan'208";a="37636540"
+   d="scan'208";a="37636780"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 28 Jun 2024 08:12:01 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E9ED4170E70;
-	Fri, 28 Jun 2024 08:11:56 +0200 (CEST)
+  by mx1.tq-group.com with ESMTP; 28 Jun 2024 08:24:13 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 26D11170EF1;
+	Fri, 28 Jun 2024 08:24:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1719555117;
+	s=dkim; t=1719555849;
 	h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=zitbaLICi65z0aqjj1UWwMEmVAlxFUlT4rG1XyogLXU=;
-	b=nytYzce6V48sNYLr90gtgESBqlcTZFFacbVmbEqb1InTCCGlz1mk1JSLgfTBznp4/IKeYm
-	JukTswSNdNpsaNeWQphZDp9sd4qfnghmzjCRZfqIv7Ttb9Eb/pA2Nb6lrAP683RMjVzg/b
-	HHt97y50pzaJevrfPQ3GkCShFKh5hHj4TCG9qW1XDg0TI8CQmw3fsFwuMuznfE86LwsW58
-	jB3/m0047u+wn9LA6fLkYpBqDmv/+PrzQGb3ihs07Rd3BXPvq4Qq1tt4BuEY8K9ty/fp/c
-	iq0qT8yE8KA+PhES0Mym0al7IliImtWRR8pus9lM+h7dQIRb8OtzZsHcRcxD4g==
+	bh=rtlBiisdVMMOO1L3wvwbgsSKau9YdSxDE49jWDiG04Y=;
+	b=AoXWg/0AOOU4siIL3JXnzxs2Z8My4WZGanC+n/uBBLlcX0Hm4YValA3xJ6qHR8BqbHdLpX
+	z9IHSTCJX6+VlqaZoPGrE0BA9182MqDi6vTAqzUmSiyIRAmw1mY9aIzmvOq0uWZmg6/rEB
+	KgpENNk+FLpREkimepI8U6v0/sqpMDEl4pYhbtzv7ACumRxoMfMKE53k6cW+/7dCOdmTWh
+	Q1OQ0VbY9FURgwXxFJGQJ1qoiO7brqWIMB7jmAEbd7kkrUu1tLhNx2uRgOBgArPHGGQJdk
+	X+9P4c1EhRfZdijsfX0fGaR0AeGD73ViD2wM5g6L8WxxCwSEcG1M86EUwWhPLg==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Spencer Hill <shill@d3engineering.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, shill@d3engineering.com
-Subject: Re: [PATCH 2/2] media: dt-bindings: Add Sony IMX728
-Date: Fri, 28 Jun 2024 08:11:59 +0200
-Message-ID: <2867459.Y6S9NjorxK@steina-w>
+Subject: Re: [PATCH 1/2] media: i2c: Add driver for Sony IMX728
+Date: Fri, 28 Jun 2024 08:24:11 +0200
+Message-ID: <2701531.q0ZmV6gNhb@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <Zn2icWuizo0WMvxc@D3418SH-L.d3.local>
-References: <20240626211529.2068473-1-shill@d3engineering.com> <2981208.VdNmn5OnKV@steina-w> <Zn2icWuizo0WMvxc@D3418SH-L.d3.local>
+In-Reply-To: <Zn2xyPB3rDvSqssS@D3418SH-L.d3.local>
+References: <20240626211529.2068473-1-shill@d3engineering.com> <2688825.Isy0gbHreE@steina-w> <Zn2xyPB3rDvSqssS@D3418SH-L.d3.local>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,187 +84,459 @@ X-Last-TLS-Session-Version: TLSv1.3
 
 Hi,
 
-I noticed you missed at least DT bindings maintainer in Cc.
-Please use scripts/get_maintainer.pl to get the To/Cc list.
-
-Am Donnerstag, 27. Juni 2024, 19:33:37 CEST schrieb Spencer Hill:
-> On Thu, Jun 27, 2024 at 03:38:03PM +0200, Alexander Stein wrote:
+Am Donnerstag, 27. Juni 2024, 20:39:04 CEST schrieb Spencer Hill:
+> On Thu, Jun 27, 2024 at 04:03:36PM +0200, Alexander Stein wrote:
 > > Hi Spencer,
 > >
 > > thanks for the patch.
 > >
-> > Am Mittwoch, 26. Juni 2024, 23:15:29 CEST schrieb Spencer Hill:
-> > > Add bindings for Sony IMX728.
+> > Just having a glimpse and giving some feedback.
+> >
+> > Am Mittwoch, 26. Juni 2024, 23:15:28 CEST schrieb Spencer Hill:
+> > > Add a driver for the Sony IMX728 image sensor.
 > > >
 > > > Signed-off-by: Spencer Hill <shill@d3engineering.com>
 > > > ---
-> > >  .../bindings/media/i2c/sony,imx728.yaml       | 78 +++++++++++++++++=
+> > >  drivers/media/i2c/Kconfig  |   11 +
+> > >  drivers/media/i2c/Makefile |    1 +
+> > >  drivers/media/i2c/imx728.c | 1167 ++++++++++++
+> > >  drivers/media/i2c/imx728.h | 3458 ++++++++++++++++++++++++++++++++++=
 ++
-> > >  MAINTAINERS                                   |  9 +++
-> > >  2 files changed, 87 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,=
-imx728.yaml
+> > >  4 files changed, 4637 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/imx728.c
+> > >  create mode 100644 drivers/media/i2c/imx728.h
 > > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx728.=
-yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index c6d3ee472d81..46b6463c558a 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -233,6 +233,17 @@ config VIDEO_IMX415
+> > >           To compile this driver as a module, choose M here: the
+> > >           module will be called imx415.
+> > >
+> > > +config VIDEO_IMX728
+> > > +       tristate "Sony IMX728 sensor support"
+> > > +       depends on OF_GPIO
+> > > +       select V4L2_CCI_I2C
+> > > +       help
+> > > +         This is a Video4Linux2 sensor driver for the Sony
+> > > +         IMX728 camera.
+> > > +
+> > > +         To compile this driver as a module, choose M here: the
+> > > +         module will be called imx728.
+> > > +
+> > >  config VIDEO_MAX9271_LIB
+> > >         tristate
+> > >
+> > > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > > index dfbe6448b549..1188420ee1b4 100644
+> > > --- a/drivers/media/i2c/Makefile
+> > > +++ b/drivers/media/i2c/Makefile
+> > > @@ -56,6 +56,7 @@ obj-$(CONFIG_VIDEO_IMX335) +=3D imx335.o
+> > >  obj-$(CONFIG_VIDEO_IMX355) +=3D imx355.o
+> > >  obj-$(CONFIG_VIDEO_IMX412) +=3D imx412.o
+> > >  obj-$(CONFIG_VIDEO_IMX415) +=3D imx415.o
+> > > +obj-$(CONFIG_VIDEO_IMX728) +=3D imx728.o
+> > >  obj-$(CONFIG_VIDEO_IR_I2C) +=3D ir-kbd-i2c.o
+> > >  obj-$(CONFIG_VIDEO_ISL7998X) +=3D isl7998x.o
+> > >  obj-$(CONFIG_VIDEO_KS0127) +=3D ks0127.o
+> > > diff --git a/drivers/media/i2c/imx728.c b/drivers/media/i2c/imx728.c
 > > > new file mode 100644
-> > > index 000000000000..613042ab5abe
+> > > index 000000000000..b23359133a22
 > > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
-> > > @@ -0,0 +1,78 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx728.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +++ b/drivers/media/i2c/imx728.c
+> > > @@ -0,0 +1,1167 @@
+> [snip]
+> > > +{
+> > > +       int ret;
 > > > +
-> > > +title: Sony IMX728 Camera Sensor
+> > > +       ret =3D regmap_multi_reg_write(imx728->regmap, regs, nr_regs);
+> > > +       if (ret < 0)
+> > > +               dev_err(imx728->dev,
+> > > +                       "%s: failed to write reg table (%d)!\n", __fu=
+nc__, ret);
+> > > +       return ret;
+> > > +}
 > > > +
-> > > +maintainers:
-> > > +  - Spencer Hill <shill@d3engineering.com>
+> > > +static int imx728_wait_for_state(struct imx728 *imx728, enum imx728_=
+sensor_state state)
+> > > +{
+> > > +       int ret, i;
+> > > +       u32 val;
 > > > +
-> > > +description: |-
-> > > +  Sony IMX728 camera sensor.
+> > > +       for (i =3D 0; i < 50; i++) {
+> > > +               ret =3D imx728_read(imx728, 0x2CAC, &val, 1);
 > >
-> > Are there some more information? Like max resolution, image format, bpp=
-, framerate, etc.
+> > Please add proper register defines using CCI_REG* macros.
 > >
 >=20
-> I will add some more descriptive information about the sensor. Should
-> information that is only relevant to the driver be included here? Or
-> should I just describe the sensor? For example, the sensor supports a
-> significant number of different modes, however only a single one is
-> implemented in the driver at the moment, should I list the possible
-> modes, or just the supported ones?
+> Is using those macros in place in these functions OK?
 
-Bindings are independent from implementations, DT bindings maintainer will
-tell you ;-)
+List the registers on top of file, see for example imx415.c or imx290.c
 
-Take a look at Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-to get an idea.
+>=20
+> > > +               if (ret =3D=3D 0 && val =3D=3D state) {
+> > > +                       dev_info(imx728->dev, "%s: Enter state %u\n",=
+ __func__, val);
+> > > +                       return 0;
+> > > +               }
+> > > +               usleep_range(1000, 10000);
+> > > +       }
+> > > +
+> > > +       return -EBUSY;
+> > > +}
+> > > +
+> > > +static void imx728_init_formats(struct v4l2_subdev_state *state)
+> > > +{
+> > > +       struct v4l2_mbus_framefmt *format;
+> > > +
+> > > +       format =3D v4l2_subdev_state_get_format(state, 0, 0);
+> > > +       format->code =3D imx728_mbus_formats[0];
+> > > +       format->width =3D imx728_framesizes[0].width;
+> > > +       format->height =3D imx728_framesizes[0].height;
+> > > +       format->field =3D V4L2_FIELD_NONE;
+> > > +       format->colorspace =3D V4L2_COLORSPACE_SMPTE170M;
+> >
+> > Are you sure about this colorspace? I would have expected
+> > V4L2_COLORSPACE_RAW, but I don't know any details on this hardware.
+> >
+> > Also set ycbcr_enc, quantization and xfer_func.
+> >
+>=20
+> V4L2_COLORSPACE_RAW is probably more correct.
+> I am not sure what would be correct for the ycbcr_enc, similar drivers
+> seem to use V4L2_YCBCR_ENC_601, would that be correct here?
 
+AFAICS V4L2_MAP_YCBCR_ENC_DEFAULT() converts V4L2_COLORSPACE_RAW to
+V4L2_YCBCR_ENC_601, so yes this seems correct. For the others use
+V4L2_XFER_FUNC_NONE and V4L2_QUANTIZATION_DEFAULT.
+
+> > > +}
 > > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - sony,imx728
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +
-> > > +  clock-names:
-> > > +    const: inck
+> > > +static int _imx728_set_routing(struct v4l2_subdev *sd,
+> > > +                              struct v4l2_subdev_state *state)
 > >
-> > Are there any restrictions about frequency? Like a specific set of
-> > frequencies?
+> > Why this special variant with a underscore? Just move the code
+> > into imx728_set_routing.
 > >
 >=20
-> The sensor must be between 18MHz and 30MHz, I will add this to the
-> description.
+> I will put this into the other function.
 >=20
+> [snip]
 > > > +
-> > > +  xclr-gpios:
-> >
-> > reset-gpios, see sony.imx290.yaml
-> >
->=20
-> I will rename this here and in the driver.
->=20
-> > > +    maxItems: 1
-> > > +    description:
-> > > +      Specifier for the GPIO connected to the XCLR (System Reset) pi=
-n.
-> >
-> > No voltage supplies?
-> >
->=20
-> I will add these.
->=20
+> > > +static int imx728_powerup_to_standby(struct imx728 *imx728)
+> > > +{
+> > > +       int ret;
 > > > +
-> > > +  port:
-> > > +    $ref: /schemas/graph.yaml#/properties/port
-> > > +    additionalProperties: false
+> > > +       dev_info(imx728->dev, "powerup -> standby...");
 > > > +
-> > > +    properties:
-> > > +      endpoint:
-> > > +        $ref: ../video-interfaces.yaml#
-> > > +        unevaluatedProperties: false
+> > > +       ret =3D imx728_reset(imx728);
+> > > +       if (ret) {
+> > > +               dev_err(imx728->dev, "Error resetting: %i", ret);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       ret =3D imx728_wait_for_state(imx728, IMX728_SENSOR_STATE_SLE=
+EP);
+> > > +       if (ret < 0) {
+> > > +               dev_err(imx728->dev, "Could not transition to Sleep s=
+tate!");
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       ret =3D imx728_write(imx728, 0x1B20, imx728->clk_rate / 10000=
+00, 1);
+> > > +       if (ret < 0) {
+> > > +               dev_err(imx728->dev, "Couldn't write INCK frequency!"=
+);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       ret =3D imx728_write(imx728, 0x1B1C, 0x1, 1);
+> > > +       if (ret < 0) {
+> > > +               dev_err(imx728->dev, "Couldn't write INCK frequency!"=
+);
 > >
-> > Which data-lane configuration is allowed? 4 lanes only? or 2 lanes?
+> > Error message doesn't seem to match. This is a fixed write, independent=
+ from any frequency.
+> >
+>=20
+> This write is the enable flag for the configured INCK frequency. By
+> default the sensor ignores the user configured frequency until this is
+> set.
+
+Okay, I see. But if you use a sequence of cci_write() calls you can instead
+raise an error message on call site, see imx290_set_clock() for that.
+
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       ret =3D imx728_write(imx728, 0x1B05, 0xFF, 1);
+> > > +       if (ret < 0) {
+> > > +               dev_err(imx728->dev, "Couldn't write to CK_SLEEP!");
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       ret =3D imx728_wait_for_state(imx728, IMX728_SENSOR_STATE_STA=
+NDBY);
+> > > +       if (ret < 0) {
+> > > +               dev_err(imx728->dev, "Couldn't transition from Sleep =
+to Standby state!");
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       ret =3D imx728_write(imx728, 0xFFFF, IMX728_REMAP_MODE_STANDB=
+Y, 1);
+> > > +       if (ret < 0) {
+> > > +               dev_err(imx728->dev, "Couldn't write regmap mode!");
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+
+> [snip]
+
+> > > diff --git a/drivers/media/i2c/imx728.h b/drivers/media/i2c/imx728.h
+> > > new file mode 100644
+> > > index 000000000000..6f320214b780
+> > > --- /dev/null
+> > > +++ b/drivers/media/i2c/imx728.h
+> >
+> > There is only a single user of this header, move this into the c file.
+> >
+>=20
+> I will combine these two files.
+>=20
+> > > @@ -0,0 +1,3458 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Sony IMX728 CMOS Image Sensor Driver
+> > > + *
+> > > + * Copyright (c) 2024 Define Design Deploy Corp
+> > > + */
+> > > +
+> > > +#include <linux/types.h>
+> > > +
+> > > +#define IMX728_OUT_WIDTH               3840
+> > > +#define IMX728_OUT_HEIGHT              2160
+> > > +
+> > > +#define IMX728_FRAMERATE_MAX           30
+> > > +#define IMX728_FRAMERATE_DEFAULT       30
+> > > +#define IMX728_FRAMERATE_MIN           10
+> > > +
+> > > +#define IMX728_PIXEL_RATE              225504000
+> > > +#define IMX728_LINK_FREQ               800000000
+> > > +
+> > > +#define IMX728_EXPOSURE_DEFAULT                10000
+> > > +
+> > > +#define IMX728_PM_IDLE_TIMEOUT         1000
+> > > +
+> > > +
+> > > +#define IMX728_REG_CTRL_POINT_X(i) (0xA198 + (i) * 8)
+> > > +#define IMX728_REG_CTRL_POINT_Y(i) (IMX728_REG_CTRL_POINT_X(i) + 4)
+> > > +
+> > > +enum imx728_sensor_state {
+> > > +       IMX728_SENSOR_STATE_SLEEP               =3D 0x02,
+> > > +       IMX728_SENSOR_STATE_STANDBY             =3D 0x04,
+> > > +       IMX728_SENSOR_STATE_STREAMING           =3D 0x10,
+> > > +       IMX728_SENSOR_STATE_SAFE                =3D 0x20,
+> > > +};
+> > > +
+> > > +
+> > > +enum imx728_remap_mode_id {
+> > > +       IMX728_REMAP_MODE_STANDBY =3D 0x00,
+> > > +       IMX728_REMAP_MODE_STANDBY_PIXEL_SHADING_COMPENSATION =3D 0x01,
+> > > +       IMX728_REMAP_MODE_STANDBY_SPOT_PIXEL_COMPENSATION =3D 0x02,
+> > > +       IMX728_REMAP_MODE_STREAMING =3D 0x04,
+> > > +       IMX728_REMAP_MODE_STREAMING_PIXEL_SHADING_COMPENSATION =3D 0x=
+05,
+> > > +       IMX728_REMAP_MODE_STREAMING_SPOT_PIXEL_COMPENSATION =3D 0x06,
+> > > +       IMX728_REMAP_MODE_SLEEP =3D 0x20,
+> > > +};
+> > > +
+> > > +enum imx728_drive_mode {
+> > > +       IMX728_MODE_3856x2176_45_4LANE_RAW10 =3D 0x01,
+> > > +       IMX728_MODE_3856x2176_45_4LANE_RAW12 =3D 0x02,
+> > > +       IMX728_MODE_3856x2176_45_4LANE_RAW16 =3D 0x03,
+> > > +       IMX728_MODE_3856x2176_45_4LANE_RAW20 =3D 0x04,
+> > > +       IMX728_MODE_3856x2176_45_4LANE_RAW12_HDR =3D 0x05,
+> > > +       IMX728_MODE_3856x2176_40_4LANE_RAW10 =3D 0x11,
+> > > +       IMX728_MODE_3856x2176_40_4LANE_RAW12 =3D 0x12,
+> > > +       IMX728_MODE_3856x2176_40_4LANE_RAW16 =3D 0x13,
+> > > +       IMX728_MODE_3856x2176_40_4LANE_RAW20 =3D 0x14,
+> > > +       IMX728_MODE_3856x2176_40_4LANE_RAW12_HDR =3D 0x16,
+> > > +};
+> > > +
+> > > +enum imx728_awbmode {
+> > > +       IMX728_AWBMODE_ATW =3D 0,
+> > > +       IMX728_AWBMODE_ALL_PULL_IN =3D 1,
+> > > +       IMX728_AWBMODE_USER_PRESET =3D 2,
+> > > +       IMX728_AWBMODE_FULL_MWB =3D 3,
+> > > +       IMX728_AWBMODE_HOLD =3D 4,
+> > > +};
+> > > +
+> > > +enum imx728_img_raw_mode {
+> > > +       IMX728_IMG_MODE_LINEAR =3D 0x0,
+> > > +       IMX728_IMG_MODE_LI =3D 0x1,
+> > > +       IMX728_IMG_MODE_HDR =3D 0x2,
+> > > +       IMX728_IMG_MODE_LI_HDR =3D 0x3,
+> > > +};
+> > > +
+> > > +enum imx728_aemode {
+> > > +       IMX728_AEMODE_AE_AUTO  =3D 0,
+> > > +       IMX728_AEMODE_AE_HOLD  =3D 1,
+> > > +       IMX728_AEMODE_SCALE_ME =3D 2,
+> > > +       IMX728_AEMODE_FULL_ME  =3D 3,
+> > > +};
+> > > +
+> > > +enum imx728_fme_shtval_unit {
+> > > +       IMX728_FME_SHTVAL_UNIT_LINES            =3D 1,
+> > > +       IMX728_FME_SHTVAL_UNIT_MICROSECONDS     =3D 3,
+> > > +       IMX728_FME_SHTVAL_UNIT_FRAMES           =3D 4,
+> > > +};
+> > > +
+> > > +enum imx728_linear_raw_sel {
+> > > +       IMX728_RAW_SEL_SP1H =3D 0x0,
+> > > +       IMX728_RAW_SEL_SP1L =3D 0x1,
+> > > +       IMX728_RAW_SEL_SP1EC =3D 0x2,
+> > > +       IMX728_RAW_SEL_SP2 =3D 0x3,
+> > > +       IMX728_RAW_SEL_SP1VS =3D 0x4
+> > > +};
+> > > +
+> > > +enum imx728_binn_avg {
+> > > +       IMX728_BINN_SIMPLE_AVG,
+> > > +       IMX728_BINN_WEIGHTED_AVG,
+> > > +};
+> > > +
+> > > +struct imx728_ctrl {
+> > > +       struct v4l2_ctrl_handler handler;
+> > > +       struct v4l2_ctrl *wdr;
+> > > +       struct v4l2_ctrl *exposure;
+> > > +       struct v4l2_ctrl *again;
+> > > +       struct v4l2_ctrl *h_flip;
+> > > +       struct v4l2_ctrl *v_flip;
+> > > +       struct v4l2_ctrl *pg_mode;
+> > > +       struct v4l2_ctrl *pixel_rate;
+> > > +       struct v4l2_ctrl *link_freq;
+> > > +};
+> > > +
+> > > +struct imx728_ctrl_point {
+> >
+> > What does ctrl_point mean? What is x and y?
+> >
+>=20
+> Control points are used internally by the sensor to adjust how the HDR
+> data from the sensor is compressed into the output bit depth. The values
+> used were provided by Sony.
+>=20
+> > > +       int x, y;
+> > > +};
+> > > +
+> > > +/*
+> > > + * struct imx728 - imx728 device structure
+> > > + * @dev: Device handle
+> > > + * @clk: Pointer to imx728 clock
+> > > + * @client: Pointer to I2C client
+> > > + * @regmap: Pointer to regmap structure
+> > > + * @xclr_gpio: Pointer to XCLR gpio
+> > > + * @subdev: V4L2 subdevice structure
+> > > + * @format: V4L2 media bus frame format structure
+> > > + *             (width and height are in sync with the compose rect)
+> > > + * @pad: Media pad structure
+> > > + * @ctrl: imx728 control structure
+> > > + * @clk_rate: Frequency of imx728 clock
+> > > + * @lock: Mutex structure for V4L2 ctrl handler
+> > > + * @streaming: Flag to store streaming on/off status
+> > > + */
+> > > +struct imx728 {
+> > > +       struct device *dev;
+> > > +
+> > > +       struct clk *clk;
+> > > +       struct i2c_client *client;
+> > > +       struct regmap *regmap;
+> > > +       struct gpio_desc *xclr_gpio;
+> > > +
+> > > +       struct v4l2_subdev subdev;
+> > > +       struct v4l2_mbus_framefmt format;
+> > > +       struct media_pad pad;
+> > > +
+> > > +       struct imx728_ctrl ctrl;
+> > > +
+> > > +       unsigned long clk_rate;
+> > > +       u32 fps;
+> > > +
+> > > +       struct mutex lock;
+> > > +       bool streaming;
+> > > +};
+> > > +
+> > > +static const struct v4l2_area imx728_framesizes[] =3D {
+> > > +       {
+> > > +               .width =3D IMX728_OUT_WIDTH,
+> > > +               .height =3D IMX728_OUT_HEIGHT,
+> > > +       },
+> >
+> > Are you sure this is the only supported resolution? I would prefer using
+> > actual numbers here.
+> >
+>=20
+> This is not the only supported resolution by the sensor, however it is
+> the only resolution that I have a configuration for at the moment. I
+> will remove the defines and switch to actual numbers to make supporting
+> other resolutions easier in the future.
+
+Nice, thanks.
+
+Best regards,
+Alexander
+
+> > > +};
+> > > +
+> > > +static const u32 imx728_mbus_formats[] =3D {
+> > > +       MEDIA_BUS_FMT_SRGGB10_1X10,
+> > > +};
+> > > +
+> > > +static const s64 imx728_link_freq_menu[] =3D {
+> > > +       IMX728_LINK_FREQ,
+> > > +};
+> > > +
+> > > +static const struct regmap_config imx728_regmap_config =3D {
+> > > +       .reg_bits =3D 16,
+> > > +       .val_bits =3D 8,
+> > > +};
+> > > +
+> > > +static const char *const imx728_ctrl_pg_qmenu[] =3D {
+> > > +       "Disabled",
+> > > +       "Horizontal Color Bars",
+> > > +       "Vertical Color Bars",
+> > > +};
+> > > +
+> > > +static struct imx728_ctrl_point imx728_hdr_20bit[] =3D {
+> > > +       {0, 0},
+> > > +       {1566 >> 4, 938},
+> > > +       {105740 >> 4, 1863},
+> > > +       {387380 >> 4, 2396},
+> > > +       {3818601 >> 4, 3251},
+> > > +       {16777215 >> 4, 4095},
+> > > +       {-1, -1}
+> > > +};
+> > > +
+> > > +static const struct reg_sequence imx728_3840x2160[] =3D {
+> >
+> > Please use struct cci_reg_sequence.
 > >
 > > Best regards,
 > > Alexander
 > >
 >=20
-> The sensor supports both 4 and 2 lane modes, though only 4 is
-> implemented at the moment.
-
-Again, driver implementation doesn't matter here. If the hardware (!)
-supports both modes, then list it here accordingly.
-
-Thanks and best regards,
-Alexander
-
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - port
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    i2c {
-> > > +        clock-frequency =3D <400000>;
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <0>;
-> > > +
-> > > +        camera@1a {
-> > > +            compatible =3D "sony,imx728";
-> > > +            reg =3D <0x1a>;
-> > > +
-> > > +            clocks =3D <&fixed_clock>;
-> > > +            clock-names =3D "inck";
-> > > +
-> > > +            xclr-gpios =3D <&gpio4 17 GPIO_ACTIVE_LOW>;
-> > > +
-> > > +            port {
-> > > +                camera1: endpoint {
-> > > +                    remote-endpoint =3D <&vin1a_ep>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index ef6be9d95143..34fde35eb0bd 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -20589,6 +20589,15 @@ T:     git git://linuxtv.org/media_tree.git
-> > >  F:     Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-> > >  F:     drivers/media/i2c/imx415.c
-> > >
-> > > +SONY IMX728 SENSOR DRIVER
-> > > +M:     Spencer Hill <shill@d3engineering.com>
-> > > +L:     linux-media@vger.kernel.org
-> > > +S:     Maintained
-> > > +T:     git git://linuxtv.org/media_tree.git
-> > > +F:     Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
-> > > +F:     drivers/media/i2c/imx728.c
-> > > +F:     drivers/media/i2c/imx728.h
-> > > +
-> > >  SONY MEMORYSTICK SUBSYSTEM
-> > >  M:     Maxim Levitsky <maximlevitsky@gmail.com>
-> > >  M:     Alex Dubov <oakad@yahoo.com>
+> I will change this.
+>=20
+> > > +       {0xFFFF, 0x00, 1000},
+> > > +       {0x1749, 0x01},
+> > > +       {0x174B, 0x01},
+> > > [snip]
+> > > +};
 > > > --
 > > > 2.40.1
 > > >
