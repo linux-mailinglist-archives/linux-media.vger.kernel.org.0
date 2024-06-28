@@ -1,88 +1,106 @@
-Return-Path: <linux-media+bounces-14329-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14330-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B3891BD67
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 13:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3CF91BDBE
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 13:47:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F219283F12
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 11:29:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA6862855AD
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 11:47:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D0A156984;
-	Fri, 28 Jun 2024 11:29:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A69B158847;
+	Fri, 28 Jun 2024 11:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKSsS2Y9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CjyvdVta"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7695D152179;
-	Fri, 28 Jun 2024 11:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E1B157472;
+	Fri, 28 Jun 2024 11:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719574163; cv=none; b=Wpo02WGydzhIvMqRyhxWhr3tdQ+tc/LR52Tv9cvaCqAHQ8+haPuKmQ2jDOldAzyUdm4nLpKDGiDUWTagB2nn1h7a7YLCMVFsJJ7Zt8hAH8usDtYuhQkiQlw8pd72nFrWaeQ179ir+LoXH0m2IduHV6haDovudF/4olaTHiGLhXg=
+	t=1719575227; cv=none; b=f1X12X/MJQcKlBmTbyAQiy6cbA9PGSui+MPJdvYNkfIruBq6wm50IsU52oSIQuKwKQYdX3m6u718/AM3zfS2x82sZgr8S221kdXrl0TQop+n7Co5cLS64ye2ylrBBeAsPZgunAfsXcftMxyHWjlA0noDgMMDGayUXH70W+a6D9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719574163; c=relaxed/simple;
-	bh=k0zq4I2xpIIHUPwrd+noMDLx1nxxe1on/uPa8q9W890=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kTaA818V65IHXUHqwktGGEceXrc53Itm93wo8mJNE5POQhgFBMkBU5ufq+w3aS1am/4vxU9251+fGetEUaV3fNUPmmIIIZ8KycqJRUicNG0CImHR+wS7CnAAelS4WtSo3zS70OIrC38LknKy6TAxYNrQlgU5c7JWUFmlK4ZmbWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKSsS2Y9; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1719575227; c=relaxed/simple;
+	bh=czMNSkgtrYS6a97xP9P4R+sgPizg3/VzEdwbwePXD/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RV8zUTNsQQzuF8OUOU+PNTIhig84V9/N3ykLm7JMJsmr3+623Q1zC8fC6YlB6oE4hRbqJvU+fRLqr5pj2Ss8uVjTPO8g4RnaXT1LxOEJh0LXZKKgf6VadhsoREyrYUh5USVJBKbkqSXZgXp0U90Uitzz/4wYgD89Qq52E9aRlDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CjyvdVta; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3629c517da9so423143f8f.2;
-        Fri, 28 Jun 2024 04:29:21 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52cd717ec07so647976e87.0;
+        Fri, 28 Jun 2024 04:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719574160; x=1720178960; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1719575224; x=1720180024; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VwHyv+/nheDOEQqvCDypmg/zh1UxDN8rLzkHFy0r5dk=;
-        b=nKSsS2Y9hyTym2ulGQNvdGhOc1mrC8sjdB55Gi3wkzV0CwRxDJNKhMXAwmtFeCDg6R
-         gCxfOqBwJgtQE8CIaJw9hRRzUHJMUjsUSWox/f4DfXztlBVpgbwZrMMPvDUtVGlDtZHs
-         5CgSwbh09MIBuOxgY9VjlGLRxdvbD/ey4WhoaUNfwxo1yGFeH1u7oKEtZxID9GmrTT56
-         Q2gTd4JTJraRI/hfC9zMrucooEZ1FTs0vf/FHsEi4jBvk6Gs0y5NZvjFLZFWk3b7pmyZ
-         mBq3BeISpP8q1WLkGHUEyLKcKdFgNAkvLqbUutru8el45hNYT9gMV7waHYXGxY2FO01Q
-         RoEA==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=My0FAeINliQSvzugi5EfMpP7k63NjksaUuGOywpYmGM=;
+        b=CjyvdVtaIUlohJfZPv2R1yt+1LTVRzXD7qgpq7eycub7DNDAMzkyrKHdz5hIkqnKwu
+         oignD4qfR3jzb3LIq1Q4B1qGG2oLNuo5ZHXuFtN8V2Fa1pVPuzKo4M6sBKUSx6o6jy1D
+         x+WeKZewFmj4DxQh9OShvc8SmFc/AVt+z+VdzVMfoWoP2GxNq9+n/Tp+ITybgL0bDgY6
+         EtpuJEfDDZZsMLmLO0UA+/emeE/h1mxeOmbwpy+AU/u3qWDWkf53LnhYSzCl8JN4JmA5
+         vMTivZsmmB1MT9TXb3XCEmen92unJQhmLAVA8EfxBJyA9x8zmUyAZX/EHDB8Wlelexgd
+         zI6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719574160; x=1720178960;
+        d=1e100.net; s=20230601; t=1719575224; x=1720180024;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VwHyv+/nheDOEQqvCDypmg/zh1UxDN8rLzkHFy0r5dk=;
-        b=OWaPHIMCH5OjdZ+nUNNOOx1m0IeHUj8Lhoy8td+yOUh5UG/2D8ZpBmDITlxbxAuthe
-         fyu1BqSLnnVFtxrVdZy1XHB/VHHUMzmNxY5FpF8BTl87CX5HARZ4D7gJOtriGyf1oz7y
-         uf1D3AMRw93vfrPsX0038M2TGGu+yFZH0jXvXR7YZdvtkHp2ymBDq2cHEQ+6eiMpP44Y
-         7L8OJ/zYceZgnfIQctu1bQtRPtVV5t43rr0IMQU47x1vChGSte6ebHDmL6VpvKDl9u3W
-         2+KrdvKV8ox77ATTicaaAGkNt+RfB/0OyV7SIUUye6YzVLCEHwjmjq8HE0W1katvJtrf
-         18GA==
-X-Forwarded-Encrypted: i=1; AJvYcCXun0fzgY5gtGvEu7y9EEvTBOBf5JCOd5Kh2hkmi2T4ex90vGy/jILFURXeT2wcvfElDdKLjsej7vDwbarJv3QcYxXNul+X+wMvMAtfXWgJzXq5BwgZah+u7Eh47K3wwwMHLY2w56IiIf0OxH7fAkNg75jK3FzoXMOHKieTSLAsMawh6Jyu
-X-Gm-Message-State: AOJu0Yy1L7AM+mT6rDvCmB0KP9Qyxkk2aT7Ph4APT13kQB9y6CGyA/zq
-	e7mJvr6GMrXYyGYI7GEOuaDPasxKEyQneIAVZE2EQveEIIsifipZ/3Xyqg==
-X-Google-Smtp-Source: AGHT+IHSIPxiCQZHyj0KQ1gk5pY4ojyWZH16385yV/UYI3N9XukgmcAnac3lAWtu5FDl9Cb+4IKZ9g==
-X-Received: by 2002:adf:f450:0:b0:360:9a40:3dd8 with SMTP id ffacd0b85a97d-366e96567cemr12944422f8f.65.1719574159201;
-        Fri, 28 Jun 2024 04:29:19 -0700 (PDT)
+        bh=My0FAeINliQSvzugi5EfMpP7k63NjksaUuGOywpYmGM=;
+        b=Oa3fFDZJTo011obWGArFFxsNykwDy6fbaffhjrK5W4Wk3DUt6k4qmEBEed6OjG5Fu7
+         JlPXrDE5pKH6llurkTGHd7JxMxVtEHxaG22aQe3Gkn2X/Ic3g0ut83/LrxnxfKLeXXzW
+         CJIGVukCPbJN6OgzdsGlBppeGeUTYTow3e3XGC1fGHPeVn5BB0N6vVkh3pykCjSqWw7v
+         Qj1xn3BL7P3O3WxdQkCZz6Ce1lo7LIqueeUeP0s2hSY6LBpG+3gudFJOT/X6k6G7KBGE
+         UHpOzUhuKaggOOUB3Uy3NyfbYMBDzZE7LkPRo+6ZIauPNKNqUOyGc0MbEUPlR39bDmGo
+         YnCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVIfSU3WI1BNhs8/79Gx+8WicBTy3LJiL8IFM5pXIAfi+8OHc3WIh1/QC7YaGcO5IC34JVmYi9G7HFTnDxJEwIDaw3UOY3nxSfYqOe/VZiwujqldBejo4QUQuPNYl6BAXrVoCHWUSgWfGCqEP+ZIEu0hWUIelyC2AbOGIzjmjrUiVnJ4eVc
+X-Gm-Message-State: AOJu0YxaQI7qnWkH5ZIYiYheEtpEyiF2R+C57t6Qup9NEXp7lYiMNTqq
+	sE2JiB48SPwqD8mZzEJiae7yjvELrWcsbjXIvbbDQo/LUpi+0X3W
+X-Google-Smtp-Source: AGHT+IHht87bUeU/cT7mhZ3k2JhCQvDU1hvJs6iM66ZXK88UerJBYM+ie7/gOngzZlfzA+2zqtsxiA==
+X-Received: by 2002:a05:6512:3e27:b0:52e:751a:a177 with SMTP id 2adb3069b0e04-52e751aa337mr2630048e87.54.1719575223334;
+        Fri, 28 Jun 2024 04:47:03 -0700 (PDT)
 Received: from orome (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b09a828sm31184325e9.37.2024.06.28.04.29.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256af55aeasm31527565e9.17.2024.06.28.04.47.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 04:29:18 -0700 (PDT)
-Date: Fri, 28 Jun 2024 13:29:17 +0200
+        Fri, 28 Jun 2024 04:47:02 -0700 (PDT)
+Date: Fri, 28 Jun 2024 13:47:01 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
-To: John Stultz <jstultz@google.com>, Maxime Ripard <mripard@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Mattijs Korpershoek <mkorpershoek@baylibre.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
- related-flags
-Message-ID: <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
- <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
- <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
- <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
+To: "mripard@kernel.org" <mripard@kernel.org>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Jason-JH Lin =?utf-8?B?KOael+edv+elpSk=?= <Jason-JH.Lin@mediatek.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+	"quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>, 
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>, "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "jkardatzke@google.com" <jkardatzke@google.com>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "joakim.bech@linaro.org" <joakim.bech@linaro.org>, 
+	Youlin Pei =?utf-8?B?KOijtOWPi+aelyk=?= <youlin.pei@mediatek.com>, "logang@deltatee.com" <logang@deltatee.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	Kuohong Wang =?utf-8?B?KOeOi+Wci+m0uyk=?= <kuohong.wang@mediatek.com>, 
+	Jianjiao Zeng =?utf-8?B?KOabvuWBpeWnoyk=?= <Jianjiao.Zeng@mediatek.com>, "contact@emersion.fr" <contact@emersion.fr>, 
+	"benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "willy@infradead.org" <willy@infradead.org>, 
+	"pavel@ucw.cz" <pavel@ucw.cz>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+	"Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"tjmercier@google.com" <tjmercier@google.com>, "jstultz@google.com" <jstultz@google.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "robin.murphy@arm.com" <robin.murphy@arm.com>, 
+	Yong Wu =?utf-8?B?KOWQtOWLhyk=?= <Yong.Wu@mediatek.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"ppaalanen@gmail.com" <ppaalanen@gmail.com>
+Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
+Message-ID: <w3xcvakoytubud6dw4wxr6ntbe6uvfrldihnd26vai6uyyto6j@vcq7gizxolag>
+References: <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
+ <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
+ <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
+ <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
+ <98c11bad7f40bcc79ed7a2039ddb3a46f99908f5.camel@mediatek.com>
+ <75dc1136-7751-4772-9fa7-dd9124684cd2@amd.com>
+ <ZnxWWtdShekGSUif@phenom.ffwll.local>
+ <ae73a0203d6acf2878c9e3ae2d7554816b9c66ad.camel@mediatek.com>
+ <5739abdb-0234-412a-9f25-49219411bbc6@amd.com>
+ <20240627-impetuous-aboriginal-cougar-cdcbbf@houat>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,125 +108,147 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kapzi2mpfibvyjib"
+	protocol="application/pgp-signature"; boundary="k36s42wxenrclcox"
 Content-Disposition: inline
-In-Reply-To: <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
+In-Reply-To: <20240627-impetuous-aboriginal-cougar-cdcbbf@houat>
 
 
---kapzi2mpfibvyjib
+--k36s42wxenrclcox
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
-> On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
-> > On Thu, May 16, 2024 at 3:56=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch>=
- wrote:
-> > > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> > > > But it makes me a little nervous to add a new generic allocation fl=
-ag
-> > > > for a feature most hardware doesn't support (yet, at least). So it's
-> > > > hard to weigh how common the actual usage will be across all the
-> > > > heaps.
+On Thu, Jun 27, 2024 at 04:40:02PM GMT, mripard@kernel.org wrote:
+> On Thu, Jun 27, 2024 at 08:57:40AM GMT, Christian K=C3=B6nig wrote:
+> > Am 27.06.24 um 05:21 schrieb Jason-JH Lin (=E6=9E=97=E7=9D=BF=E7=A5=A5):
+> > >=20
+> > > On Wed, 2024-06-26 at 19:56 +0200, Daniel Vetter wrote:
+> > > >   > External email : Please do not click links or open attachments
+> > > until
+> > > > you have verified the sender or the content.
+> > > >  On Wed, Jun 26, 2024 at 12:49:02PM +0200, Christian K=C3=B6nig wro=
+te:
+> > > > > Am 26.06.24 um 10:05 schrieb Jason-JH Lin (=E6=9E=97=E7=9D=BF=E7=
+=A5=A5):
+> > > > > > > > I think I have the same problem as the ECC_FLAG mention in:
+> > > > > > > > > > > https://lore.kernel.org/linux-media/20240515-dma-buf-=
+ecc-heap-v1-0-54cbbd049511@kernel.org/
+> > > > > > > > > > I think it would be better to have the user configurable
+> > > > private
+> > > > > > > > information in dma-buf, so all the drivers who have the same
+> > > > > > > > requirement can get their private information from dma-buf
+> > > > directly
+> > > > > > > > and
+> > > > > > > > no need to change or add the interface.
+> > > > > > > > > > What's your opinion in this point?
+> > > > > > >  > Well of hand I don't see the need for that.
+> > > > > > > > What happens if you get a non-secure buffer imported in your
+> > > > secure
+> > > > > > > device?
+> > > > > > > > > We use the same mediatek-drm driver for secure and
+> > > non-secure
+> > > > buffer.
+> > > > > > If non-secure buffer imported to mediatek-drm driver, it's go to
+> > > > the
+> > > > > > normal flow with normal hardware settings.
+> > > > > > > > > We use different configurations to make hardware have
+> > > different
+> > > > > > permission to access the buffer it should access.
+> > > > > > > > > So if we can't get the information of "the buffer is
+> > > allocated
+> > > > from
+> > > > > > restricted_mtk_cma" when importing the buffer into the driver, =
+we
+> > > > won't
+> > > > > > be able to configure the hardware correctly.
+> > > > > > > Why can't you get this information from userspace?
+> > > > > Same reason amd and i915/xe also pass this around internally in t=
+he
+> > > > kernel, it's just that for those gpus the render and kms node are t=
+he
+> > > > same
+> > > > driver so this is easy.
 > > > >
-> > > > I apologize as my worry is mostly born out of seeing vendors really
-> > > > push opaque feature flags in their old ion heaps, so in providing a
-> > > > flags argument, it was mostly intended as an escape hatch for
-> > > > obviously common attributes. So having the first be something that
-> > > > seems reasonable, but isn't actually that common makes me fret some.
-> > > >
-> > > > So again, not an objection, just something for folks to stew on to
-> > > > make sure this is really the right approach.
-> > >
-> > > Another good reason to go with full heap names instead of opaque flag=
-s on
-> > > existing heaps is that with the former we can use symlinks in sysfs to
-> > > specify heaps, with the latter we need a new idea. We haven't yet got=
-ten
-> > > around to implement this anywhere, but it's been in the dma-buf/heap =
-todo
-> > > since forever, and I like it as a design approach. So would be a good=
- idea
-> > > to not toss it. With that display would have symlinks to cma-ecc and =
-cma,
-> > > and rendering maybe cma-ecc, shmem, cma heaps (in priority order) for=
- a
-> > > SoC where the display needs contig memory for scanout.
 > >=20
-> > So indeed that is a good point to keep in mind, but I also think it
-> > might re-inforce the choice of having ECC as a flag here.
+> > The reason I ask is that encryption here looks just like another parame=
+ter
+> > for the buffer, e.g. like format, stride, tilling etc..
 > >=20
-> > Since my understanding of the sysfs symlinks to heaps idea is about
-> > being able to figure out a common heap from a collection of devices,
-> > it's really about the ability for the driver to access the type of
-> > memory. If ECC is just an attribute of the type of memory (as in this
-> > patch series), it being on or off won't necessarily affect
-> > compatibility of the buffer with the device.  Similarly "uncached"
-> > seems more of an attribute of memory type and not a type itself.
-> > Hardware that can access non-contiguous "system" buffers can access
-> > uncached system buffers.
+> > So instead of this during buffer import:
+> >=20
+> > mtk_gem->secure =3D (!strncmp(attach->dmabuf->exp_name, "restricted", 1=
+0));
+> > mtk_gem->dma_addr =3D sg_dma_address(sg->sgl);
+> > mtk_gem->size =3D attach->dmabuf->size;
+> > mtk_gem->sg =3D sg;
+> >=20
+> > You can trivially say during use hey this buffer is encrypted.
+> >=20
+> > At least that's my 10 mile high view, maybe I'm missing some extensive =
+key
+> > exchange or something like that.
 >=20
-> Yeah, but in graphics there's a wide band where "shit performance" is
-> defacto "not useable (as intended at least)".
+> That doesn't work in all cases, unfortunately.
 >=20
-> So if we limit the symlink idea to just making sure zero-copy access is
-> possible, then we might not actually solve the real world problem we need
-> to solve. And so the symlinks become somewhat useless, and we need to
-> somewhere encode which flags you need to use with each symlink.
->=20
-> But I also see the argument that there's a bit a combinatorial explosion
-> possible. So I guess the question is where we want to handle it ...
+> If you're doing secure video playback, the firmware is typically in
+> charge of the frame decryption/decoding, and you'd get dma-buf back that
+> aren't accessible by the CPU (or at least, not at the execution level
+> Linux runs with).
 
-Sorry for jumping into this discussion so late. But are we really
-concerned about this combinatorial explosion in practice? It may be
-theoretically possible to create any combination of these, but do we
-expect more than a couple of heaps to exist in any given system?
+Can you clarify which firmware you're talking about? Is this secure
+firmware, or firmware running on the video decoding hardware?
 
-Would it perhaps make more sense to let a platform override the heap
-name to make it more easily identifiable? Maybe this is a naive
-assumption, but aren't userspace applications and drivers not primarily
-interested in the "type" of heap rather than whatever specific flags
-have been set for it?
+> So nobody can map that buffer, and the firmware driver is the one who
+> knows that this buffer cannot be accessed by anyone. Putting this on the
+> userspace to know would be pretty weird, and wouldn't solve the case
+> where the kernel would try to map it.
 
-For example, if an applications wants to use a protected buffer, the
-application doesn't (and shouldn't need to) care about whether the heap
-for that buffer supports ECC or is backed by CMA. All it really needs to
-know is that it's the system's "protected" heap.
+Doesn't userspace need to know from the start whether it's trying to do
+secure playback or not? Typically this involves more than just the
+decoding part. You'd typically set up things like HDCP as part of the
+process, so userspace probably already does know that the buffers being
+passed around are protected.
 
-This rather than try to represent every possible combination we
-basically make this a "configuration" issue. System designers need to
-settle on whatever combination of flags work for all the desired use-
-cases and then we expose that combination as a named heap.
+Also, the kernel shouldn't really be mapping these buffers unless
+explicitly told to. In most cases you also wouldn't want the kernel to
+map these kinds of buffers, right? Are there any specific cases where
+you expect the kernel to need to map these?
 
-One problem that this doesn't solve is that we still don't have a way of
-retrieving these flags in drivers which may need them. Perhaps one way
-to address this would be to add in-kernel APIs to allocate from a heap.
-That way a DRM/KMS driver (for example) could find a named heap,
-allocate from it and implicitly store flags about the heap/buffer. Or
-maybe we could add in-kernel API to retrieve flags, which would be a bit
-better than having to expose them to userspace.
+I've been looking at this on the Tegra side recently and the way it
+works on these chips is that you basically get an opaque carveout region
+that has been locked down by secure firmware or early bootloaders, so
+only certain hardware blocks can access it. We can allocate from that
+carveout and then pass the buffers around.
+
+It may be possible to use these protected carveout regions exclusively
+=66rom the DRM/KMS driver and share them with multimedia engines via DMA-
+BUF, but I've also been looking into perhaps using DMA-BUF heaps to
+expose the carveout, which would make this a bit more flexible and allow
+either userspace to allocate the buffers or have multiple kernel drivers
+share the carveout via the DMA-BUF heap. Though the latter would require
+that there be in-kernel APIs for heaps, so not too sure about that yet.
 
 Thierry
 
---kapzi2mpfibvyjib
+--k36s42wxenrclcox
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZ+nooACgkQ3SOs138+
-s6E98RAAv7+i/7uJg+tq6+f8CJRlZOqAtn8prnuvk6eIf4H6fKxsN81OpDd288mJ
-Xq9XkIUEjLpb/ZGcXZXqQn8lO9d5/Q8aSuFOPNmDJwNdV/XXs+gNkf9lEvs61oPa
-lO3xPqP2BN7AZKwF6iVCUQ2pLcIFGbhVtJNcLkNNh0GtdH76bpHubTMGL+RoPtm6
-e1ktKqwr4Z0ur56l00LBy+OQ3A38tTIMq/5XLfESeAOQbqx7gszLJOYzvh58tAS5
-EYH/1c09cLk82EGjb0xb8IWvDhWn8RzCNeyX2F+gpfJsYHIWO9R/ygk+lBiMXgHx
-8Ynhlb7gL7fmO0M+vx63IkvPD6YSxlqAkLU+IDs7GMzRBrwh8NPcgkfWTXRu4vYf
-3r5Ere84xSZpat+ijjGDnckkMN4QeMXLn8wj0ZuaP26kjSX6R7gTKBINxm3LsivH
-gGI4Ab2FlVU5dGrHmewZt79+dAiWBd6y6ks6MVVBdzSNp9DCALKMDU2yZqh+fieA
-+FCuIknJvPSZFr57m89YBZ2VqgoW+SHiaUabiscvldcW8DE/1QLNa54NN/1oLaJ3
-GCH34Xrl9BzuuD9Ph7Og7AoU7Y4nrB0NxgHWeMtpGTZqGvafMMZ9doVxBkHfT3z3
-rfQFVdZn2sWNqJFdLwzfR9O8UmF0w/rOxi9mwriAeGVXmUjUB/I=
-=6/gO
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZ+orEACgkQ3SOs138+
+s6HPJQ//TcMbu25fcrdPU4jThmu9Smiei9RSdfWPxaxKf2AUTc0QgF26JYL81nBL
+6bgeUO8EopK9ixc6TmW9RoTz0M4hR998qzO5/3tWLKPThTp+o7O7Eg/nNf3KLfos
+DIylq7s1biNys3T9fcfkF+qopGslyKol0YGoC0PV1JlkSY2usukXK3ZudGFGXLVF
+P7ajoJNxLWbIyAmDXzrU6JrSVmskz8AuxObLuy7yBVWXEV9BkIzqpxjCB910Vhex
+sklgow0u0/vc9IuFwSyQZeoGGq05oGT+8ECu3MaFe1alM0dFwGMn4s3AFl7xzzea
+sDUwIN7JKTRncAHFgUrxyQQlCvhvqc9YeUSNw+92u9P6w8FPM7Fd0+cnBaG1xDeY
+R01u4oK8MvFqBIjTel3Y635pMyeF7w41id1lB+RR8NaDlpPIx1v+2Zo6ZL1qkc6s
+4TwxBahB5UXwX++uervCeqbCamsX9nd8T/bfrODXTvKLgE4izgfkljh+a6LgQvoh
+Gb8NvMc8sVzlq3GDH9nsua1UtcGsp2z7X2xWxu5HhXopWFu7nxMu8qGb5zpIVcT2
+wKcaqjvG2mJumA2EWF6u17It1970AF7xzJQqrQBKN8mSRTnbm8Y7cT95fOunTin4
+Dn3iTuQGQ8DLJDwnpv4ahQ5RYRIEuuJxtQi4J6k1ayy8XeO9lw8=
+=bMCi
 -----END PGP SIGNATURE-----
 
---kapzi2mpfibvyjib--
+--k36s42wxenrclcox--
 
