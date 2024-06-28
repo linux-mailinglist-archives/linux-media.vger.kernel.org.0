@@ -1,160 +1,121 @@
-Return-Path: <linux-media+bounces-14318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14319-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C3A91BBAC
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 11:40:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A8A91BBBB
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 11:42:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02D591F20583
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 09:40:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 050701C20159
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 09:42:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60499154C1E;
-	Fri, 28 Jun 2024 09:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0DE7155386;
+	Fri, 28 Jun 2024 09:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="QTjSEDDE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kqnCYgHL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30877154425;
-	Fri, 28 Jun 2024 09:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820D2154BE8
+	for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 09:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719567587; cv=none; b=NT1wdblry8GNFc8X3uCohMcOyJVXOc1txqO8R+QnRfJ96RgSUGHRXJQNMsZ4lrSo9qIMMbt6pivtGG4/BCn84qp7Kk7HlBTOp67tjLtKqHALZqaojd6j3xBOyqjloM29HmVWJlKevSrUe6wwPBm2TbWBTiFOxhNBOdxM5GR3sQk=
+	t=1719567693; cv=none; b=FGDp7qwO6HHs07cwhru36eMzBb+hDxAkXJd3MgsbYg+Kyc4f/hek2TI29Rr6MGx1QGwbDKJYgUlipvJ9v0kc6KkoU9iT9eNCXzgXk7IFPAHnFdzpXMur9tQW7QS5zud0lm0h53+V6CuPlfQ1KPI2jljcFJ7CMXOeLMLr1QAM7rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719567587; c=relaxed/simple;
-	bh=t6PurMvqR/fpUYh7hBSPTO+ukCOVSRpbo/q/jCMS4Go=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtGsicBjET5VhOZTpxIjPtj3jviLppqy3Iy88fObvIAxkqv1J5M5tW0l584h97p0NA4DrFZpH8t5Z5Mts/XKAMPWzNO3zaj6yEbkXQ4wE6p2YySw6odOYUtbXsAqypL4Mz5vWF8c+N/rIeymwapTMaqU0eiqg6LuKghO0LoHFto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=QTjSEDDE; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45S9dX9o041607;
-	Fri, 28 Jun 2024 04:39:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1719567573;
-	bh=bSIQdKBiysCVr4wDlIxYANPg+PoACdNWhot1vosao3w=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=QTjSEDDEXnbUc6S3gHpXFiRvIHEpMu/RJ9Rmf+WBI1GbLA3ZkU7i8OH4scCwKZNxL
-	 O4MHMZH+g3s2T8K+S6cQf5ZOFWKZMLfSn2sIcILEgmDihdo8a8+f3beeMVTYqIDm2t
-	 /cFBfHMmbwFye1o0bYL8Tz+If2zzavZgW0TeTKjQ=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45S9dXgM014967
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 28 Jun 2024 04:39:33 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 28
- Jun 2024 04:39:32 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 28 Jun 2024 04:39:33 -0500
-Received: from localhost (jluthra.dhcp.ti.com [172.24.227.116])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45S9dWfW096898;
-	Fri, 28 Jun 2024 04:39:32 -0500
-Date: Fri, 28 Jun 2024 15:09:31 +0530
-From: Jai Luthra <j-luthra@ti.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-CC: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans
- Verkuil <hverkuil-cisco@xs4all.nl>,
-        Vaishnav Achath <vaishnav.a@ti.com>,
-        Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Aradhya
- Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
-        Jack Zhu
-	<jack.zhu@starfivetech.com>,
-        Julien Massot <julien.massot@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: =?utf-8?B?5Zue5aSN?= =?utf-8?Q?=3A?= [PATCH v2 01/13] media:
- cadence: csi2rx: Support runtime PM
-Message-ID: <5nlxmwidnplo3xkahdev7o4hl45lxouirixexjhwx5ttgvuqcz@ctcjbgmr2man>
-References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
- <20240627-multistream-v2-1-6ae96c54c1c3@ti.com>
- <c0e3623b-0af6-4bdc-8eb0-9072df1311de@ideasonboard.com>
- <ZQ0PR01MB1302B36DDCE078AF2D16E935F2D02@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+	s=arc-20240116; t=1719567693; c=relaxed/simple;
+	bh=tVEgmpllYVknMfJoknc4RL0kqVdAzaKIv/+L42tFl3M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QRlpih5/7pldoEgZT787v6EuxO9v+ukDgIvIgCCjZgszVSezU8y1mYdqYAOP+gpjXH/lCEA7VOQJv/QbvM1KKz0ebI+v7uC4A7YdxaaVL4gKrAAGOklvCgS/8cHwE2j1HvHi/rFPcM6Yn7HTrx3qHqC383zxuxUaWpKuSj72TwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kqnCYgHL; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-36743a79dceso951622f8f.0
+        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 02:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719567690; x=1720172490; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tVEgmpllYVknMfJoknc4RL0kqVdAzaKIv/+L42tFl3M=;
+        b=kqnCYgHLtrA+wfcXS5LIzuLl073kIzp+5DLtUsQMKBuejxoJfkdQhIOe8KuhcCMAds
+         j58QpBqzWC9GfzobhI2zgiBrUVi//xEGZP3jz9PaQ8g6Zp0Nq+4CpIIYRcR9vz63K0OX
+         HI4g5SSgBGhnc7HmUuT4JbfVvpWiIqC4arj2n6sJVo1bS1oNrQV50bE21V7xH8W0/TVW
+         PcuwOXu344SeIUsmeaP1Pj39fAMReYMpzf/9SCAa2LT8BwURxdX/bIdIhQpI53Yanb/E
+         WHZsfhgvzUIQlNh8p9b2LNYFr8DZGOrsLeQOf3cEeDXAuHE9JfpGdexF/3vzovNQhBDl
+         Pk1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719567690; x=1720172490;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tVEgmpllYVknMfJoknc4RL0kqVdAzaKIv/+L42tFl3M=;
+        b=k9WbLpgXc5YzRzg6pERqOY7L7D0TgwmpoOiyrIMu53JwbNnzzEgCZ9KrpgjNWyJ9Z+
+         05evPsHK5Hj6MivYIL+ZNDXcBQZW22tSYb5F0xmnMSGjNhJ1jl48ogLCj/ZaUBpbpbin
+         5vUzB/sG9lnFiXX1JtuH7bQJJBzFLDjdccq4vByT2k9i9oGfY29KfPcwSopQ8DztmG10
+         LSEAVUtEXbR/IKKeVi8KItse844rgMiMR7h6My9vbNuc2dwkXD8dzbvwoWyUBwAtMqxm
+         YyacdS45MzOD65F3M1DFdtI5D+jMzRrr9Jp5cThRFixJcnl6+Xr/Je9oRnKkI1jntq+R
+         s1XQ==
+X-Gm-Message-State: AOJu0YzEsHTL+KqvorMbkV4znLIAwCyFVuan/eAtasdbyJPJrYjuFeWL
+	VeAfJcJ6w3n3Ge77UdDORvo0XKyReHwSHp7tgTbxMWOEDLZKgHZatqjV0Cr0wG4=
+X-Google-Smtp-Source: AGHT+IHbI/TgEs3+bVgph0HaYhgOP7yCzLVzQ4yGSROGza3QUnuTQHGw7yvZ+TECrn6gMliVeuqtEA==
+X-Received: by 2002:a5d:410c:0:b0:362:70f6:697d with SMTP id ffacd0b85a97d-36760a7e2ffmr1001841f8f.16.1719567689950;
+        Fri, 28 Jun 2024 02:41:29 -0700 (PDT)
+Received: from [192.168.0.3] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fba2dsm1716761f8f.73.2024.06.28.02.41.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jun 2024 02:41:29 -0700 (PDT)
+Message-ID: <25c3e788-1551-4779-9178-393d2a26e147@linaro.org>
+Date: Fri, 28 Jun 2024 10:41:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZQ0PR01MB1302B36DDCE078AF2D16E935F2D02@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v3 2/5] media: camss: csiphy-3ph: Add Gen2 v1.2.2
+ two-phase MIPI CSI-2 DPHY init
+To: gchan9527@gmail.com, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240624-b4-sc7180-camss-v3-0-89ece6471431@gmail.com>
+ <20240624-b4-sc7180-camss-v3-2-89ece6471431@gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240624-b4-sc7180-camss-v3-2-89ece6471431@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Changhuang,
+On 24/06/2024 13:13, George Chan via B4 Relay wrote:
+> +/* GEN2 1.2.2 2PH */
+> +struct
+> +csiphy_reg_t lane_regs_sc7180[5][23] = {
 
-On Jun 28, 2024 at 08:45:06 +0000, Changhuang Liang wrote:
-> Hi Tomi,
-> 
-> [...]
-> > > +static int csi2rx_suspend(struct device *dev) {
-> > > +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-> > > +
-> > > +	mutex_lock(&csi2rx->lock);
-> > > +	if (csi2rx->count)
-> > > +		csi2rx_stop(csi2rx);
-> > > +	mutex_unlock(&csi2rx->lock);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int csi2rx_resume(struct device *dev) {
-> > > +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-> > > +
-> > > +	mutex_lock(&csi2rx->lock);
-> > > +	if (csi2rx->count)
-> > > +		csi2rx_start(csi2rx);
-> > > +	mutex_unlock(&csi2rx->lock);
-> > > +	return 0;
-> > > +}
-> > > +
-> > 
-> > I don't think this looks correct. Afaik the runtime suspend/resume is not called
-> > on system suspend/resume. You could change the SET_RUNTIME_PM_OPS to
-> > use the same callbacks for runtime and system suspend, but I think that's a
-> > bad idea. Runtime suspend is not supposed to turn off the streaming. The
-> > driver is supposed to turn off the streaming, then call runtime_put, which
-> > would result in runtime suspend callback getting called.
-> > 
-> 
-> I implemented system suspend/resume based on this patch, I feel good about it.
-> 
-> https://lore.kernel.org/all/20240326031237.25331-1-changhuang.liang@starfivetech.com/
+Small nit
 
-Thanks for carrying this patch in your series.
+static const struct
+csiphy_reg_t
 
-I think Tomi's point still holds - only the system suspend hook should 
-try to stop/start the CSI2RX device.
+not
 
-Runtime PM hooks are usually only called when there are no users, so no 
-active streams.
+struct
+csiphy_reg_t
 
-> 
-> Regards,
-> Changhuang
+e.g.
 
--- 
-Thanks,
-Jai
+/* GEN2 1.0 2PH */
+static const struct
+csiphy_lane_regs lane_regs_sdm845
 
-GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
+---
+bod
 
