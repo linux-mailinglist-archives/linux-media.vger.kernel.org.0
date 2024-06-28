@@ -1,181 +1,297 @@
-Return-Path: <linux-media+bounces-14303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14304-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E6191B6B3
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 08:05:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 559FD91B6C6
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 08:12:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A005A1C22280
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 06:05:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8A2EBB218CB
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 06:12:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D38C055887;
-	Fri, 28 Jun 2024 06:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DED1487B1;
+	Fri, 28 Jun 2024 06:12:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9wZy2zx"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="mR0cifh7";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="nytYzce6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349D84D131;
-	Fri, 28 Jun 2024 06:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068021CF8A
+	for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 06:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719554715; cv=none; b=lZWUN8WR5cefxOItfPCGUk26dRERzfxdoCKl8VzunOug9KXdLdNqdRVB1BXQB5KifwzmbEOKIrRtcUqA5/SjyevD8H/pLjNnGTzrdkXOmlYwJeH5QTnD1UfNFjh842Hxoo8QdW8KUuTWj6VShohD64oscMg1IsOPeo6rlK4Wqmk=
+	t=1719555128; cv=none; b=mISgPAX1eEgg5Vf1Q42ZQ6dTnMurgSrnDsOxh1NvFKKIQA43sQ/m+oo4Y8mCwoz4BIQrWq5+wRajlDuXS6hPW5NU182H/gxuSWRWRnwGmwJke8YWrNr7ZLdWa1YJObFeKwcWcEGcpaysMnzGpfPmnIJfmTmL3o/FILBJjnca8kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719554715; c=relaxed/simple;
-	bh=Ml7yiCc6B6Q2lb4ESoCfB21M9mzM7wrU0gwo3FO2VwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZtJep8Znquk5QaYvsqIecSegrQoaUyLO+E2qFmC2V5eMSkYzdcsXT+wtvOdlbVCdv52Dsg5x7JURtM2Lm3poqsdU9F95QBJHwGkLhQS9mS3flbvpVHdbj/Co4dvQ4TkrP7cURYJJBhXMZIrt+obsv3jfi4BkKIEUl02zRNgMfus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9wZy2zx; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719554713; x=1751090713;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ml7yiCc6B6Q2lb4ESoCfB21M9mzM7wrU0gwo3FO2VwQ=;
-  b=K9wZy2zx9JH/W7kMt81PCuoCVF0hUq6rRrf078EIwlzsO9v0dy+qn1w4
-   /eP/TiIg0nWsfOHnjpc1eI80fxLJMhPQzyG+s8p4DNYBIvnh3B+l9DgZ7
-   3gCUdoKCBJpc5PzvI+S4rfcshuzaLNL+czLOYQbGZdY+4t52o9Bmb+wl8
-   dbKOoLbtujeex06BAhEBoyK6cBUFK3Z0j4WyDzwv0W2ueXdSIut7kD72A
-   XECeA+bV7mg0usq8s6qt3yfUFMA1PDYriKehrvK//DAUrzMZ8nq6IStRx
-   evcHwhdOM7f/T/TxaaA/W/CHYplISubGrPbkvnVGi8eXExMuGCQd8rcoU
+	s=arc-20240116; t=1719555128; c=relaxed/simple;
+	bh=TLhzuP1XM65Ek+M0eIyzDoIatacL+Tt65nsA2BcdHyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mNHhDL6msCszkVmh3BN1UuDYTr0/hIpznuS/152hD8G+oA+IRNxaOVK/ApwyLXUU6iBSAg9umk2ZK358tFjb5zfd9qNRru1mSshJcQi5bv8jNimuXci9MueKON5KvjDdohXB+FQNh61OrqFbxKUO0VFtI7nEemTPH7ei4dkKKt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=mR0cifh7; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=nytYzce6 reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1719555124; x=1751091124;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zitbaLICi65z0aqjj1UWwMEmVAlxFUlT4rG1XyogLXU=;
+  b=mR0cifh7gQNTPyyZ775zbK610t87ydWKQwQETOvHK3Iv6NhryUnb5Q5/
+   QKOSZ9Wpq44JP/Be9+dgEfEeEB5ILqsYp5DM/zSqY/9+kKTV017XNAEwY
+   iNgfN5N/VewCWF7sF1ZMEfGBu22xnkuR1yDaZABSd7A5ojZeLojlMIgjY
+   rzM902ttSKPVgd3wQxewUa/Jw199Gu9Io22pgktkM81eKrBJXaSds2FG3
+   4xSpsCip0XX6TCXxq27JNrdP/UIMpkgRJi2kkodZJKZLTLCBieMdeMSlC
+   CwDKZd5hh7GtrOWzZVXALDeTJXLZeQUb2DHyg3ZLgH7fft2UsLxN0x6mm
    Q==;
-X-CSE-ConnectionGUID: qsf8V5WATESHr3Ns+jBSdg==
-X-CSE-MsgGUID: +Crt0v+mQdqR8WQTF1Z9zw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="39240989"
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="39240989"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 23:05:12 -0700
-X-CSE-ConnectionGUID: cc/TEU9lRMecm42fe/RaAQ==
-X-CSE-MsgGUID: 4PV93ZqaQZaKQQnzgOrDFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="45043857"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jun 2024 23:05:08 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sN4jJ-000Gri-2J;
-	Fri, 28 Jun 2024 06:05:05 +0000
-Date: Fri, 28 Jun 2024 14:04:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Daniel Ferguson <danielf@os.amperecomputing.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Len Brown <lenb@kernel.org>, Shengwei Luo <luoshengwei@huawei.com>,
-	Shiju Jose <shiju.jose@huawei.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Tony Luck <tony.luck@intel.com>, linux-acpi@vger.kernel.org,
-	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 1/2] RAS: ACPI: APEI: add conditional compilation to ARM
- error report functions
-Message-ID: <202406281337.j4rbN9nr-lkp@intel.com>
-References: <95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab+huawei@kernel.org>
+X-CSE-ConnectionGUID: CAlrTdlJRKC2LtY7/F0nfQ==
+X-CSE-MsgGUID: jU4a8uwPTM+/C2ueWvpidw==
+X-IronPort-AV: E=Sophos;i="6.09,168,1716242400"; 
+   d="scan'208";a="37636540"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 28 Jun 2024 08:12:01 +0200
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E9ED4170E70;
+	Fri, 28 Jun 2024 08:11:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1719555117;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=zitbaLICi65z0aqjj1UWwMEmVAlxFUlT4rG1XyogLXU=;
+	b=nytYzce6V48sNYLr90gtgESBqlcTZFFacbVmbEqb1InTCCGlz1mk1JSLgfTBznp4/IKeYm
+	JukTswSNdNpsaNeWQphZDp9sd4qfnghmzjCRZfqIv7Ttb9Eb/pA2Nb6lrAP683RMjVzg/b
+	HHt97y50pzaJevrfPQ3GkCShFKh5hHj4TCG9qW1XDg0TI8CQmw3fsFwuMuznfE86LwsW58
+	jB3/m0047u+wn9LA6fLkYpBqDmv/+PrzQGb3ihs07Rd3BXPvq4Qq1tt4BuEY8K9ty/fp/c
+	iq0qT8yE8KA+PhES0Mym0al7IliImtWRR8pus9lM+h7dQIRb8OtzZsHcRcxD4g==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Spencer Hill <shill@d3engineering.com>
+Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, shill@d3engineering.com
+Subject: Re: [PATCH 2/2] media: dt-bindings: Add Sony IMX728
+Date: Fri, 28 Jun 2024 08:11:59 +0200
+Message-ID: <2867459.Y6S9NjorxK@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <Zn2icWuizo0WMvxc@D3418SH-L.d3.local>
+References: <20240626211529.2068473-1-shill@d3engineering.com> <2981208.VdNmn5OnKV@steina-w> <Zn2icWuizo0WMvxc@D3418SH-L.d3.local>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Mauro,
+Hi,
 
-kernel test robot noticed the following build errors:
+I noticed you missed at least DT bindings maintainer in Cc.
+Please use scripts/get_maintainer.pl to get the To/Cc list.
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.10-rc5 next-20240627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Am Donnerstag, 27. Juni 2024, 19:33:37 CEST schrieb Spencer Hill:
+> On Thu, Jun 27, 2024 at 03:38:03PM +0200, Alexander Stein wrote:
+> > Hi Spencer,
+> >
+> > thanks for the patch.
+> >
+> > Am Mittwoch, 26. Juni 2024, 23:15:29 CEST schrieb Spencer Hill:
+> > > Add bindings for Sony IMX728.
+> > >
+> > > Signed-off-by: Spencer Hill <shill@d3engineering.com>
+> > > ---
+> > >  .../bindings/media/i2c/sony,imx728.yaml       | 78 +++++++++++++++++=
+++
+> > >  MAINTAINERS                                   |  9 +++
+> > >  2 files changed, 87 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,=
+imx728.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx728.=
+yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> > > new file mode 100644
+> > > index 000000000000..613042ab5abe
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> > > @@ -0,0 +1,78 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/sony,imx728.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Sony IMX728 Camera Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Spencer Hill <shill@d3engineering.com>
+> > > +
+> > > +description: |-
+> > > +  Sony IMX728 camera sensor.
+> >
+> > Are there some more information? Like max resolution, image format, bpp=
+, framerate, etc.
+> >
+>=20
+> I will add some more descriptive information about the sensor. Should
+> information that is only relevant to the driver be included here? Or
+> should I just describe the sensor? For example, the sensor supports a
+> significant number of different modes, however only a single one is
+> implemented in the driver at the moment, should I list the possible
+> modes, or just the supported ones?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/RAS-ACPI-APEI-add-conditional-compilation-to-ARM-error-report-functions/20240627-225843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab%2Bhuawei%40kernel.org
-patch subject: [PATCH 1/2] RAS: ACPI: APEI: add conditional compilation to ARM error report functions
-config: x86_64-randconfig-161-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281337.j4rbN9nr-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281337.j4rbN9nr-lkp@intel.com/reproduce)
+Bindings are independent from implementations, DT bindings maintainer will
+tell you ;-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281337.j4rbN9nr-lkp@intel.com/
+Take a look at Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+to get an idea.
 
-All errors (new ones prefixed by >>):
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - sony,imx728
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    const: inck
+> >
+> > Are there any restrictions about frequency? Like a specific set of
+> > frequencies?
+> >
+>=20
+> The sensor must be between 18MHz and 30MHz, I will add this to the
+> description.
+>=20
+> > > +
+> > > +  xclr-gpios:
+> >
+> > reset-gpios, see sony.imx290.yaml
+> >
+>=20
+> I will rename this here and in the driver.
+>=20
+> > > +    maxItems: 1
+> > > +    description:
+> > > +      Specifier for the GPIO connected to the XCLR (System Reset) pi=
+n.
+> >
+> > No voltage supplies?
+> >
+>=20
+> I will add these.
+>=20
+> > > +
+> > > +  port:
+> > > +    $ref: /schemas/graph.yaml#/properties/port
+> > > +    additionalProperties: false
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        $ref: ../video-interfaces.yaml#
+> > > +        unevaluatedProperties: false
+> >
+> > Which data-lane configuration is allowed? 4 lanes only? or 2 lanes?
+> >
+> > Best regards,
+> > Alexander
+> >
+>=20
+> The sensor supports both 4 and 2 lane modes, though only 4 is
+> implemented at the moment.
 
->> drivers/acpi/apei/ghes.c:575:9: error: use of undeclared identifier 'queued'
-     575 |         return queued;
-         |                ^
-   1 error generated.
+Again, driver implementation doesn't matter here. If the hardware (!)
+supports both modes, then list it here accordingly.
+
+Thanks and best regards,
+Alexander
+
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - port
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    i2c {
+> > > +        clock-frequency =3D <400000>;
+> > > +        #address-cells =3D <1>;
+> > > +        #size-cells =3D <0>;
+> > > +
+> > > +        camera@1a {
+> > > +            compatible =3D "sony,imx728";
+> > > +            reg =3D <0x1a>;
+> > > +
+> > > +            clocks =3D <&fixed_clock>;
+> > > +            clock-names =3D "inck";
+> > > +
+> > > +            xclr-gpios =3D <&gpio4 17 GPIO_ACTIVE_LOW>;
+> > > +
+> > > +            port {
+> > > +                camera1: endpoint {
+> > > +                    remote-endpoint =3D <&vin1a_ep>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index ef6be9d95143..34fde35eb0bd 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -20589,6 +20589,15 @@ T:     git git://linuxtv.org/media_tree.git
+> > >  F:     Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+> > >  F:     drivers/media/i2c/imx415.c
+> > >
+> > > +SONY IMX728 SENSOR DRIVER
+> > > +M:     Spencer Hill <shill@d3engineering.com>
+> > > +L:     linux-media@vger.kernel.org
+> > > +S:     Maintained
+> > > +T:     git git://linuxtv.org/media_tree.git
+> > > +F:     Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> > > +F:     drivers/media/i2c/imx728.c
+> > > +F:     drivers/media/i2c/imx728.h
+> > > +
+> > >  SONY MEMORYSTICK SUBSYSTEM
+> > >  M:     Maxim Levitsky <maximlevitsky@gmail.com>
+> > >  M:     Alex Dubov <oakad@yahoo.com>
+> > > --
+> > > 2.40.1
+> > >
+> > > Please be aware that this email includes email addresses outside of t=
+he organization.
+> > >
+> > >
+> >
+> >
+> > --
+> > TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+> > Amtsgericht M=FCnchen, HRB 105018
+> > Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+> > http://www.tq-group.com/
+> >
+> >
+> Please be aware that this email includes email addresses outside of the o=
+rganization.
+>=20
+>=20
 
 
-vim +/queued +575 drivers/acpi/apei/ghes.c
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-7f17b4a121d0d5 James Morse     2020-05-01  530  
-a70297d2213253 Shuai Xue       2023-12-18  531  static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
-a70297d2213253 Shuai Xue       2023-12-18  532  				     int sev, bool sync)
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  533  {
-4a485d7f807462 Daniel Ferguson 2024-06-27  534  #if defined(CONFIG_ARM) || defined (CONFIG_ARM64)
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  535  	struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
-a70297d2213253 Shuai Xue       2023-12-18  536  	int flags = sync ? MF_ACTION_REQUIRED : 0;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  537  	bool queued = false;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  538  	int sec_sev, i;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  539  	char *p;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  540  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  541  	log_arm_hw_error(err);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  542  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  543  	sec_sev = ghes_severity(gdata->error_severity);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  544  	if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
-7f17b4a121d0d5 James Morse     2020-05-01  545  		return false;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  546  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  547  	p = (char *)(err + 1);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  548  	for (i = 0; i < err->err_info_num; i++) {
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  549  		struct cper_arm_err_info *err_info = (struct cper_arm_err_info *)p;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  550  		bool is_cache = (err_info->type == CPER_ARM_CACHE_ERROR);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  551  		bool has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  552  		const char *error_type = "unknown error";
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  553  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  554  		/*
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  555  		 * The field (err_info->error_info & BIT(26)) is fixed to set to
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  556  		 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  557  		 * firmware won't mix corrected errors in an uncorrected section,
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  558  		 * and don't filter out 'corrected' error here.
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  559  		 */
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  560  		if (is_cache && has_pa) {
-a70297d2213253 Shuai Xue       2023-12-18  561  			queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  562  			p += err_info->length;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  563  			continue;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  564  		}
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  565  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  566  		if (err_info->type < ARRAY_SIZE(cper_proc_error_type_strs))
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  567  			error_type = cper_proc_error_type_strs[err_info->type];
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  568  
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  569  		pr_warn_ratelimited(FW_WARN GHES_PFX
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  570  				    "Unhandled processor error type: %s\n",
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  571  				    error_type);
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  572  		p += err_info->length;
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  573  	}
-4a485d7f807462 Daniel Ferguson 2024-06-27  574  #endif
-ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11 @575  	return queued;
-cf870c70a19444 Naveen N. Rao   2013-07-10  576  }
-cf870c70a19444 Naveen N. Rao   2013-07-10  577  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
