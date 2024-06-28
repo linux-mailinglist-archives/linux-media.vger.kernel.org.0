@@ -1,336 +1,326 @@
-Return-Path: <linux-media+bounces-14368-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14369-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C07A91C75B
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 22:34:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA2291C7F4
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 23:17:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE8C21C24027
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 20:34:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83214B23C98
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 21:17:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2175A78C7A;
-	Fri, 28 Jun 2024 20:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B76747D3F4;
+	Fri, 28 Jun 2024 21:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="gPPBUvHk"
+	dkim=pass (1024-bit key) header.d=d3engineering.com header.i=@d3engineering.com header.b="JIaZUMqx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2110.outbound.protection.outlook.com [40.107.102.110])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B1F6F312
-	for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 20:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719606848; cv=none; b=TifaTtnTRGHBp8eVkwHFlVHR+ARsrs76SfBFxdPO5HfnJxe6CgoQqgxblNknxjfjhbA0ei9hxP565aFUu/aW05lMYgJEsq3evh4ufE12dXD6R/yH73/pCmOcbydoEyND/0DkdfOPHC3IUmj5t3P7CvERJXKFdJjbHj8MGkre/as=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719606848; c=relaxed/simple;
-	bh=2qb3DVoFmPgqJVJVFbazIMr2/xAfktbtudsO9MB9QMc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ozVVXpSGTfIxQcpxvUl5SPBq5CwTUmMrW3jAtLgfuP0jeKfid/860PVLpC7BJ3mG+P7JIfwbMW4i5g4QV5DuR+jxpyOSNU2cCZGbvaDDphCB5jE+1cgRHI/SEC9n6ejQ9TWJ8RcRoMv+YP3DeU7gayDy5foU1hMzIRkD/VoKV1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=gPPBUvHk; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6ad8243dba8so5816176d6.3
-        for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 13:34:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1719606846; x=1720211646; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qYPfqbEMN6sw16M9it9ilQpXO99tYg8BSEm27C5utMc=;
-        b=gPPBUvHkh6lcq1Vs5lkFMw96UsmE4BFwpoAVneKm3GgGZJTxxuyPj9FUu+RJFZDNaW
-         9YpnRxmsTpBoFn/y0jxelfywRV32R4DCB5OLkh6cR8HwAga3VTCl1ODURimLt1nK8Uor
-         oBoSb0qR1k97bU0qBaUFl7TXPC3daIXvrWQcueqJ0kHVF/uihDse5Wu85e+yLwP4VrR6
-         JCJGIXRBAq3yi/nfw4UHBueAO1L1e2sOAG446Qjv8vLi7efruz2Fw0rzjTu1K+WYv+Gk
-         VxO+qO6eS1YEgWuM3D4G4zc6aDhkFSURthPA0KU0f+VH6LF24ib/maSSZbZRAW5f5FJJ
-         KsFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719606846; x=1720211646;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qYPfqbEMN6sw16M9it9ilQpXO99tYg8BSEm27C5utMc=;
-        b=l4Qu+6D9fcqiVUA/MQD+CkeoOlZWoW1OsQ2Pym8xmD+qgVPMzlStPDboAfYfOOoO54
-         v0/DMsIvcWG6qS+mpbsX/FiL77N15pTZFJohkRRzyrmdzLbfWOdetjF+L4oOJO1L2eer
-         nlfST/vwCHwGN0aZ8Rk9W1y6k/nV69b3p47I2NBFKqGy/d4038FAHM/kmPVr6VplVQGf
-         j26D7KmBuaVaOODBi14CWGNPf8sqcz8mZidtr6GAi9WANdFhzDBlzXGGTcxJB1iHJhbA
-         TcO3Ii4f4Byb2V6jPk10q7TwfkeGASaEGf1/CQSx2tmurWV/DRn0UaHou1GVWe5gHIt5
-         CDeA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEUrZQOiPaPbVg4cJEj1cuz9GC1ZMYsm0DH48DhhqOMpdZ3kpiN5+pOIfJfBrBZ+jgIgJoHTk5jMqa5aw4rTXRvLtTcr74Cew/36E=
-X-Gm-Message-State: AOJu0YyNJQSD2St1S3psIbPLVbCTXuPzk3qeSWvvEk2Tl39GKBu49qSy
-	4kxwWSQpKXJQgLxWY2jl/tedf78sWpDazHNVpnzNMzxd8zjv/Ah110yJUpcNUbQ=
-X-Google-Smtp-Source: AGHT+IFFEvoaMcKgm5m3TuxTsgOgeGElh1NuxRFHPcJq6Y2G5kPP9VT4kQ/uAp+UHGZaUN6CP8rP/Q==
-X-Received: by 2002:a05:6214:4c05:b0:6b5:9fa:3224 with SMTP id 6a1803df08f44-6b54099a199mr179430376d6.13.1719606845881;
-        Fri, 28 Jun 2024 13:34:05 -0700 (PDT)
-Received: from nicolas-tpx395.mtl.collabora.ca (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b59e36849csm10929706d6.4.2024.06.28.13.34.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 13:34:05 -0700 (PDT)
-Message-ID: <32f2d748c6926f57be032c60cecfdc790ea2c1c0.camel@ndufresne.ca>
-Subject: Re: [PATCH v5 2/9] scatterlist: Add a flag for the restricted memory
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Thierry Reding <thierry.reding@gmail.com>, "mripard@kernel.org"
-	 <mripard@kernel.org>
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Jason-JH
- Lin =?UTF-8?Q?=28=E6=9E=97=E7=9D=BF=E7=A5=A5=29?=
- <Jason-JH.Lin@mediatek.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
- "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "sumit.semwal@linaro.org"
- <sumit.semwal@linaro.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "jkardatzke@google.com" <jkardatzke@google.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "joakim.bech@linaro.org" <joakim.bech@linaro.org>, Youlin Pei
- =?UTF-8?Q?=28=E8=A3=B4=E5=8F=8B=E6=9E=97=29?= <youlin.pei@mediatek.com>,
- "logang@deltatee.com" <logang@deltatee.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Kuohong Wang =?UTF-8?Q?=28=E7=8E=8B=E5=9C=8B=E9=B4=BB=29?=
- <kuohong.wang@mediatek.com>, Jianjiao Zeng
- =?UTF-8?Q?=28=E6=9B=BE=E5=81=A5=E5=A7=A3=29?= <Jianjiao.Zeng@mediatek.com>,
- "contact@emersion.fr" <contact@emersion.fr>, 
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "willy@infradead.org" <willy@infradead.org>,  "pavel@ucw.cz"
- <pavel@ucw.cz>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>,  "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "tjmercier@google.com"
- <tjmercier@google.com>,  "jstultz@google.com" <jstultz@google.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "robin.murphy@arm.com"
- <robin.murphy@arm.com>, Yong Wu =?UTF-8?Q?=28=E5=90=B4=E5=8B=87=29?=
- <Yong.Wu@mediatek.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "ppaalanen@gmail.com" <ppaalanen@gmail.com>
-Date: Fri, 28 Jun 2024 16:34:03 -0400
-In-Reply-To: <72dx7gqentafhwqnfjmosemm35vfl3blqrfiu5skm3cj33eqqu@vj7kmbllgehk>
-References: <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
-	 <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
-	 <98c11bad7f40bcc79ed7a2039ddb3a46f99908f5.camel@mediatek.com>
-	 <75dc1136-7751-4772-9fa7-dd9124684cd2@amd.com>
-	 <ZnxWWtdShekGSUif@phenom.ffwll.local>
-	 <ae73a0203d6acf2878c9e3ae2d7554816b9c66ad.camel@mediatek.com>
-	 <5739abdb-0234-412a-9f25-49219411bbc6@amd.com>
-	 <20240627-impetuous-aboriginal-cougar-cdcbbf@houat>
-	 <w3xcvakoytubud6dw4wxr6ntbe6uvfrldihnd26vai6uyyto6j@vcq7gizxolag>
-	 <20240628-hypnotic-kagu-of-hurricane-5fbc82@houat>
-	 <72dx7gqentafhwqnfjmosemm35vfl3blqrfiu5skm3cj33eqqu@vj7kmbllgehk>
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2718B1C6A4;
+	Fri, 28 Jun 2024 21:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.110
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719609436; cv=fail; b=dQjgxMhBKZWEyyBLwWuL/5kOnyG6X0n5rTdr1bMFslGbWJk2/UQsvHXM0DnHyLMfaLoI1NRgKhAt72L4u8uqVeYtjb2zgRxIxJPNI31/XKw2aUxahodI5dQpv7nKyshPodZi3lifNQHcYe/sd7zO/AS5HwHoPaOvVew7wbg8nMw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719609436; c=relaxed/simple;
+	bh=PNNkJGRHkHBDalXz9ix2gkNWTTWQ53dGil4+Ou4eGCE=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=FenvShy+0LUZJ3+zwW76fRueza966yyhJA5haf9YffvsqtK32O+qmhREaCVXruR4oOZkT7FEQQpszwnLQQ0IB+MN7p2yzXfumeUMW5ufAZGvEb6p3kGfnD+KhCvS8/GGt6PnU/rT6SYGnJbzBXXcYhEXByFc+I3fXaZGGcKyTfQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=d3engineering.com; spf=pass smtp.mailfrom=d3engineering.com; dkim=pass (1024-bit key) header.d=d3engineering.com header.i=@d3engineering.com header.b=JIaZUMqx; arc=fail smtp.client-ip=40.107.102.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=d3engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d3engineering.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NKc1ZxbOeDpzi/D2N4/CdzAcwF4bhVT75D0YeqbbIAUGlf7fEuN/n9leDbtLAmldTCBAMsMp/6HWDTLvbV39s6FTsMaVeoyFqtsvWHiFMVdBON7peUmDiDVpmewB90GhcFX4Bb/ly0P8D46RODMdCvNaU3+ieZ1THdc9ewEteBYANlcilko/tSjsnXHBR4+g+RB4Wp7aL1EIxahJawUgYKpIwmxB6mL9/VVPmEecjjpTaOj7foQ7IIsvL73XLUtZRSIH6xErRdISxfKOYpSqnD6daxOXPZet/46iMFGFkLrIB+QKsz7Uz9uEZrokmC4LsygvruqYo5TR24RQP9YKPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/vVB26Yzb3uqClPsjxAFCoiHytQlJ9Jpf+WJCOHCU+4=;
+ b=GtV/KxnsQs2Tbeyt0oovCf0NSKH1UmEKyqVjlWhruiUoOf5ipgh+vEw/nIhXbJpQJuI2l+EHf5FIQeUNPZkHujBm8ovhVsqg8qNUWTg/Blm6O/ItxsFWFETiaEp8w3sh2PADOsuonmxl34A0fcrDPM/epES5htkYTnfqxaYo57b6PvQ5aQL6/f8k/tmHlsdZlaKxrJMaB7lNBu0drlAP+Wty27+B8l6py4O9aEUKzHvpKxnijzCyacb/3kzvY8zvK9vMOsJKhteLIiCZWxFHbchJUcH9gAG0oFTb1Pu1oG/cGzMiXSEEkg5PzZf73xzFwHTsFyjKU/+oBAGkW9A8KQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=d3engineering.com; dmarc=pass action=none
+ header.from=d3engineering.com; dkim=pass header.d=d3engineering.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d3engineering.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/vVB26Yzb3uqClPsjxAFCoiHytQlJ9Jpf+WJCOHCU+4=;
+ b=JIaZUMqxYO3fcotm/zVtgDEbT8Z3QAyX0ddDLwbeu1LcEJWoHelGDGdidmpZOB1qY4O+tGoepHDNoTMAMxqwTS6swEVVNcBTzwxeifUuHkOlvRtCR5w5/RM0Tu5ihHnG4aY9kTADMow69kcAIN+i6V+GC7F0l/RICU3bDBOuGHk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=d3engineering.com;
+Received: from CO6PR14MB4385.namprd14.prod.outlook.com (2603:10b6:5:34c::9) by
+ BN8PR14MB3314.namprd14.prod.outlook.com (2603:10b6:408:78::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7741.8; Fri, 28 Jun 2024 21:17:11 +0000
+Received: from CO6PR14MB4385.namprd14.prod.outlook.com
+ ([fe80::14b7:fa74:423b:6864]) by CO6PR14MB4385.namprd14.prod.outlook.com
+ ([fe80::14b7:fa74:423b:6864%4]) with mapi id 15.20.7719.014; Fri, 28 Jun 2024
+ 21:17:11 +0000
+From: Spencer Hill <shill@d3engineering.com>
+Subject: [PATCH v2 0/2] media: i2c: Add driver for Sony IMX728
+Date: Fri, 28 Jun 2024 17:16:59 -0400
+Message-Id: <20240628-imx728-driver-v2-0-80efa6774286@d3engineering.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+X-B4-Tracking: v=1; b=H4sIAEsof2YC/03OywqDMBCF4VeRWXckjrfYVd+jdBHMqAMmlkkRQ
+ Xz3hq66/Bbn55yQWIUT3IsTlHdJssUMuhUwLi7OjOKzgQw1pqMeJRw9WfQqOys66wfTjm7y5CF
+ v3sqTHL/e85U96Rbwsyi7/0pHVdXSUJLpbNPXWGFaZF0fvuY4S+R8Kc7luAW4ri9MeQ8DogAAA
+ A==
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Spencer Hill <shill@d3engineering.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1719609428; l=4812;
+ i=shill@d3engineering.com; s=20240628; h=from:subject:message-id;
+ bh=DMtS2ZFuhnys6Y8E7NT67n2teu8l89J04bVyrbHfp9Y=;
+ b=QPhWwVh6A5VTWkKjRmdPtAKeSWrGKS9Ha1/xwgEcwj5mGoKfevwCLnvNRvyBytHN4WlCgQl4j
+ zNzRTt7d/KTBB0jwEZ8LERxRso6HG83yXnhf/jfLVp6tr9mZ3fu8+ZI
+X-Developer-Key: i=shill@d3engineering.com; a=ed25519;
+ pk=WiUnCaWmHh41mktqx3wOb/1u4lviNHgPHRL6fwkHnsY=
+X-ClientProxiedBy: MN2PR11CA0027.namprd11.prod.outlook.com
+ (2603:10b6:208:23b::32) To CO6PR14MB4385.namprd14.prod.outlook.com
+ (2603:10b6:5:34c::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR14MB4385:EE_|BN8PR14MB3314:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8a9d829-e1be-4878-4588-08dc97b7ac8c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|52116014|1800799024|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UmFaRUNmbUZ2a080R2pWN1hEMGtGWTJ5WG9vYVNvMlVJemJoWDhpaVRzRXNi?=
+ =?utf-8?B?SVo3dkZEWHlHQ2tKR2VpbG85SjlwWnI1ZG5GdXB0YmVmODJTMGd5U09MRU51?=
+ =?utf-8?B?UjlucnNkYkNwNnhOK0p3VzdPZGJNRmMyOTZlTld2b2g5cTBzRnZVQllBZUUy?=
+ =?utf-8?B?RXlLbmlHelBRSkdDZ2J3MW9FcDh4OU1meEI2K05iNFN6UVRPZWhHVWFOL3M2?=
+ =?utf-8?B?MW9yTTdQNS9EbXRabXJUem9vUnFGaDB2Mm9vbEpmMFQveUthSVBnT3RqS1dw?=
+ =?utf-8?B?RDkrS09ZWHJlSG5KVDNvcysxMUY0RXpmMWxHSGJDSW15YkZxZ2Y1ZHh5QUg0?=
+ =?utf-8?B?eVhDd1ZOcFhISFdRSFJXSVQrbjNGNzFIKy9GTFYrbmxGOXhYUkZ3RUw0enNU?=
+ =?utf-8?B?RldGWXVSVFVGREVnN04xeFM5ZjBQbElGL2JxUjRsaDdMM0t5a1M4bGdFV2tu?=
+ =?utf-8?B?elJyZ2JhdW5na2x4aWdkL1hSU2hQNzhqaDN6ZmVLb200dGZHN09rcmJIT2Fs?=
+ =?utf-8?B?aUoySGdPNk9CL2RJTjhjMUt3WlEvQzVCSUxRUjlMS3B1U2xPL2tKeE5qa0Zz?=
+ =?utf-8?B?WWowU1RLbUs3Q0JhUkNCb3I5NlRqOU0vMkdtY0d4Kzk3ZHhJQzV6aGExSTNO?=
+ =?utf-8?B?R21vQnNGN2RvcU5mdTEyVWFRaU1hbHRWZDNIVFlUQWYxNjdCNmwrTGJESnVj?=
+ =?utf-8?B?ZzgwcHdSYk5pNU04a0tQR2QyZFdhVGc2MmlSMFRWdEZBNVNGK3oxWnNJaGIv?=
+ =?utf-8?B?UWErT3k5Q2ZyQzkxbnV4UmZoZzIyLytZYnVBT21PNi95Y3hML1ZHUm1LZ0VI?=
+ =?utf-8?B?MXpDRVEzYStmK2tma01QVUYrZlM0Vktob0FlaXYyY3pON2hURG1EME0yNUVy?=
+ =?utf-8?B?My9yV0p6R2ZYY29EbXRkMzQrZGRZeG5UYTFTWExEZzIzR2E2c3RiYlFUUjR0?=
+ =?utf-8?B?YnozQUlxWm43N0c0YTNnTmMxcFp1eEorWlFlR2lvZDZycVVFeXFmMkJGcU9E?=
+ =?utf-8?B?WEpJWDBzNll4QnhZWUxlN3JnNkg2UU41Wkc2em1sL0lma0tpQlY0cVYvN1Mz?=
+ =?utf-8?B?cVQrSUZ0S3RRZFhVSk1CbGZGUkx5VFVhQmZpV05wdFZVTndGODdMeThBYnVW?=
+ =?utf-8?B?ZGJqaGphQlRuYlF0OUJuRkE4dWR5cEgxL2ZyOG5yR3ZGdkhYWjVVNE1YRUx0?=
+ =?utf-8?B?Y3JaQzhid3lYNDBnd0pDTXgyaS8yT0lINnNBQ2NGQzFGZ3RodDRFWDZuSElr?=
+ =?utf-8?B?Q3dmbmFybjRLRHlsbmQxeU5Fak9XVm9KMXFUb2xpSDdvTTR4bWlSazAybk1G?=
+ =?utf-8?B?bktEd1RwWEFEUVdlWTA2WkxVVVdiVDgrM0NJckxWeVhtejNFQ3UzZkpKcURR?=
+ =?utf-8?B?OTR2OENjdnFFMStIUTl0UFZiR3ppL0tOMXhvWS9paFN4dldRUWJmaE5iVHRT?=
+ =?utf-8?B?NHNnQU1UNkFqaW9sQ0l3UUZHSXNvbVVFcVV6eERvRUtzUDZqZERPVE5oaXRH?=
+ =?utf-8?B?WDBZUUQ1UmpWZENhelNSL1J5aFROT0IvUFg2OU1rR1Fwam9qVFpBbXU0QUVh?=
+ =?utf-8?B?TzNWd3FNanpjbDIrQ3hkZThidWduUDg2aVE5Q2JucW11ZUtFZ2wzTTZFYUhE?=
+ =?utf-8?B?ZVpiRndyZlFrZURrdWYzVHNpMEcrY0orSXJxNjBVREgxTUMvZHVUOVZGYzR2?=
+ =?utf-8?B?UEJzVlBoVENNUnBWVmVWUHNkeURDaVJzTmtURjNPTERXNkswNGRXOE5Fb29I?=
+ =?utf-8?B?YTdmWTBqOEhWSFFoc0lLYW1taTluN1lEVE1NbGF0SkJqMkowN1pNWnBwWGty?=
+ =?utf-8?B?WnBOYWZWUFlNaUFJYVZrTG5KUDdDRFhteEZadzF0bmo5QzRjODY0L2tFbUt1?=
+ =?utf-8?B?OXNoVUNZZ2FaUS9HbUZsWm9haFQ4WkNBd1owRzI2dXEzR0FoMDBKTEdVL2oy?=
+ =?utf-8?Q?dPQODu47bfY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR14MB4385.namprd14.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(52116014)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L3RnMEIzMDNtNmQ0NktOV3NDZWFCam1WY3lGWEhJSVBwZFFSSkt2Yjg2ZHpS?=
+ =?utf-8?B?ZUNOakdpNnRXWlRiQVBPYW1VdkFSbDJwUE9tOUVOREpMdmJEcmx5OWViNm9n?=
+ =?utf-8?B?dlkwZ2ZzMlk2VEozVU5WaFRXeEhyLy81WlRHNCtwZFdiNkl3Ry8zWjdDcnVQ?=
+ =?utf-8?B?cThlTlVVdXhVemFVc2NxMFVRS0dTWTdBdUZZcVg0MVV2NUZtajZRSXdjQ1l0?=
+ =?utf-8?B?cTJIcE92K0tockM5aXJQMXdzU2UzaEtaSDNCVmVyTDhzUlBJVTlySjA3NVh1?=
+ =?utf-8?B?QlRzbTF4bnpQU2I1WC9NVEw3RDg5NGRMd3E0TDlRU2daUTRUbjUrNkNqaVcx?=
+ =?utf-8?B?OEpoK3cvdXRhTUwzODZML3RvZUZTbFhWR3gwNThUZkxlOXhmR0NXOWhZbTVt?=
+ =?utf-8?B?V24xUmg1aTdIb0YreUs4WFlsZHdnbzNrRnNTNUNtUFh6MVRDVGRDMFZ4NUpX?=
+ =?utf-8?B?dysySm12bFptU3JWVDdGS2JIeTZKSFp4VHFKZ0hialhzTUcraTRJUDcxeE9L?=
+ =?utf-8?B?dTZNL3UrQXFLQzc2Sk1VY01IblFXek1iR3pSVVVqVTR3NlZ4OUZINXZ6bzNC?=
+ =?utf-8?B?Z0xkNHoyR0hoVlQzQThyMlZTdHdCdXV5ZVFVcUMyOWdpaUpYd3VBWFBNMlU4?=
+ =?utf-8?B?NU1WUDVIZnh2QXVWQ0NyMWkvQ2ZncmtwNXRTL3Vra3YwVTJDUEtaY3R6TE9E?=
+ =?utf-8?B?V0l5YmFoNGlENlFFU1B2bVZGYlBCR29wKy9LdzVvV3dlN3BNb0xFaTRWVHlS?=
+ =?utf-8?B?N1dWazArT0JNUi9qUUhqektjU3FVMFJNRTErSjVhcEh5SDVuMGd6bS9jZDdn?=
+ =?utf-8?B?QVNzMENGZmVXZFMvTWR6WWM3MUFXd1haWXpPOEJ3UGVHNlNLcjluK2RKUmpl?=
+ =?utf-8?B?TktCdlNkQmZ3NVp6L0xuVk9pZlAyNVd0WlZzQllIeExjcFMvaSt3YnZTOWNS?=
+ =?utf-8?B?NmRJbXVOSTZOdXFoY1hpNVZsdlNRUGdhWURockhrUXZ3MmlUT2ppTWl1aVRm?=
+ =?utf-8?B?TzMwdkd2a05HNWRHbGN4YmV1Qk9CWkFCSHNvQTNSU1EzQWNhUk9nRlNHTG9v?=
+ =?utf-8?B?Z29WZ3VTTzhCV0JqMEFySlBWWHpEeTR0UWlqU1BUanZQWnRCQkNWcGxqTnhW?=
+ =?utf-8?B?MDhBVElER0ZpU3J3bHZPcXZoZndWbjJ2bitDMW1vbWJ3MVZWMWxXbFhZT3ly?=
+ =?utf-8?B?bGRwQjhELzBhWUhjQVE1blhGTm1QRXFNQzU3UFFheVg3K3pUQU15cWl1UUJq?=
+ =?utf-8?B?Q1RobjZDWXdQUjAvd3Uvby85V0xBZXMxWE1QZmVXdmlDYjN3empXUG9jb2xz?=
+ =?utf-8?B?WUEvbmJ5SmhoeGxXUGgvNFhNUCtNaXJLSnM4TnVDeW5zUkVNejY2SlZKQ2VZ?=
+ =?utf-8?B?NXdJQy8ySENYazNKRmJidjhqNnIraXJnUFMvVW5UbitSVEJ1cUNSOG9HU2li?=
+ =?utf-8?B?SllHbjh2TzA0YytJMmdma1pvR1JtZ2IzejZ5b2dWSFR0d2pPUk1YWGFocnJy?=
+ =?utf-8?B?OEl5ckh3U1p1ZGcrRFhCQ1ZHZEFQZHdzOGJDNEJ5Q1RtSVdrY1FPUGdFSUVG?=
+ =?utf-8?B?bVBKMUU1VjRQOU9IaDFUR0ZwaEQwWURqc0k0WmF2QUU5UnM2d28zMHAreUtF?=
+ =?utf-8?B?dkNleHkwalVVWUloTit0TlhPQVZpUmJzUnVJSFE2UCt2RnNUcGpna0lWUnB0?=
+ =?utf-8?B?cGJlMlhGc0J0b2traWxFaXJ5MUVVVGRGaE5kS1hwakM0a3ZwN3hmd2pZRFdu?=
+ =?utf-8?B?RjlmYkJDaG53cEdDVnNvd0U4S1ppMEF6NDNSSkpHTEpjZjg0YVg5R0tybXNL?=
+ =?utf-8?B?V3NhZlVzVmFUb0RIbU9XOENCZENYbGlJQlJISkRjdGI1dmYxSG9RcXp0Ukxx?=
+ =?utf-8?B?Z0FTUjhRekVseENyQTdXdkZFaW83Y3owQVg5YzcxakhwMFhhRG5oclBMQWZV?=
+ =?utf-8?B?d2FlNk9IYjhQUkVkYWxxUDlEMDBXK1NjWFRyOFdGbUd2dUlTbll5M2RtYUtW?=
+ =?utf-8?B?YXAyVDNzVTNnT1JuUnhYVUNiRHFhd2VCcDN0VHZ1RmVUME1KSldhck4vVkxx?=
+ =?utf-8?B?S2I4aitEYzN1THprK08wRm1HTmx3ODZWdTB0MUhVTHZxcGNrZmhNNzd2cUp0?=
+ =?utf-8?B?NmM4dlliRWxUZVR3c1kvT01VZjlqb2RnV2s0Q0dlWnBoNEpkR1NFYUM0WDRx?=
+ =?utf-8?B?T1E9PQ==?=
+X-OriginatorOrg: d3engineering.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8a9d829-e1be-4878-4588-08dc97b7ac8c
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR14MB4385.namprd14.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2024 21:17:11.1099
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b7153db5-3376-478b-b601-92ce9bc0d3bc
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FrqxU9f8aXTA0EM8VRZ8GGFVVDlI8YBMPAHeDgCOHidJ9Wj59ZkqzlabJJxBmjVFQu2Dvo4MqGEVmflH9tJR+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR14MB3314
 
-Hi Thierry,
+Add a v4l2 sensor driver for Sony IMX728
 
-Le vendredi 28 juin 2024 =C3=A0 16:11 +0200, Thierry Reding a =C3=A9crit=C2=
-=A0:
-> On Fri, Jun 28, 2024 at 03:21:51PM GMT, mripard@kernel.org wrote:
-> > On Fri, Jun 28, 2024 at 01:47:01PM GMT, Thierry Reding wrote:
-> > > On Thu, Jun 27, 2024 at 04:40:02PM GMT, mripard@kernel.org wrote:
-> > > > On Thu, Jun 27, 2024 at 08:57:40AM GMT, Christian K=C3=B6nig wrote:
-> > > > > Am 27.06.24 um 05:21 schrieb Jason-JH Lin (=E6=9E=97=E7=9D=BF=E7=
-=A5=A5):
-> > > > > >=20
-> > > > > > On Wed, 2024-06-26 at 19:56 +0200, Daniel Vetter wrote:
-> > > > > > >   > External email : Please do not click links or open attach=
-ments
-> > > > > > until
-> > > > > > > you have verified the sender or the content.
-> > > > > > >  On Wed, Jun 26, 2024 at 12:49:02PM +0200, Christian K=C3=B6n=
-ig wrote:
-> > > > > > > > Am 26.06.24 um 10:05 schrieb Jason-JH Lin (=E6=9E=97=E7=9D=
-=BF=E7=A5=A5):
-> > > > > > > > > > > I think I have the same problem as the ECC_FLAG menti=
-on in:
-> > > > > > > > > > > > > > https://lore.kernel.org/linux-media/20240515-dm=
-a-buf-ecc-heap-v1-0-54cbbd049511@kernel.org/
-> > > > > > > > > > > > > I think it would be better to have the user confi=
-gurable
-> > > > > > > private
-> > > > > > > > > > > information in dma-buf, so all the drivers who have t=
-he same
-> > > > > > > > > > > requirement can get their private information from dm=
-a-buf
-> > > > > > > directly
-> > > > > > > > > > > and
-> > > > > > > > > > > no need to change or add the interface.
-> > > > > > > > > > > > > What's your opinion in this point?
-> > > > > > > > > >  > Well of hand I don't see the need for that.
-> > > > > > > > > > > What happens if you get a non-secure buffer imported =
-in your
-> > > > > > > secure
-> > > > > > > > > > device?
-> > > > > > > > > > > > We use the same mediatek-drm driver for secure and
-> > > > > > non-secure
-> > > > > > > buffer.
-> > > > > > > > > If non-secure buffer imported to mediatek-drm driver, it'=
-s go to
-> > > > > > > the
-> > > > > > > > > normal flow with normal hardware settings.
-> > > > > > > > > > > > We use different configurations to make hardware ha=
-ve
-> > > > > > different
-> > > > > > > > > permission to access the buffer it should access.
-> > > > > > > > > > > > So if we can't get the information of "the buffer i=
-s
-> > > > > > allocated
-> > > > > > > from
-> > > > > > > > > restricted_mtk_cma" when importing the buffer into the dr=
-iver, we
-> > > > > > > won't
-> > > > > > > > > be able to configure the hardware correctly.
-> > > > > > > > > > Why can't you get this information from userspace?
-> > > > > > > > Same reason amd and i915/xe also pass this around internall=
-y in the
-> > > > > > > kernel, it's just that for those gpus the render and kms node=
- are the
-> > > > > > > same
-> > > > > > > driver so this is easy.
-> > > > > > >=20
-> > > > >=20
-> > > > > The reason I ask is that encryption here looks just like another =
-parameter
-> > > > > for the buffer, e.g. like format, stride, tilling etc..
-> > > > >=20
-> > > > > So instead of this during buffer import:
-> > > > >=20
-> > > > > mtk_gem->secure =3D (!strncmp(attach->dmabuf->exp_name, "restrict=
-ed", 10));
-> > > > > mtk_gem->dma_addr =3D sg_dma_address(sg->sgl);
-> > > > > mtk_gem->size =3D attach->dmabuf->size;
-> > > > > mtk_gem->sg =3D sg;
-> > > > >=20
-> > > > > You can trivially say during use hey this buffer is encrypted.
-> > > > >=20
-> > > > > At least that's my 10 mile high view, maybe I'm missing some exte=
-nsive key
-> > > > > exchange or something like that.
-> > > >=20
-> > > > That doesn't work in all cases, unfortunately.
-> > > >=20
-> > > > If you're doing secure video playback, the firmware is typically in
-> > > > charge of the frame decryption/decoding, and you'd get dma-buf back=
- that
-> > > > aren't accessible by the CPU (or at least, not at the execution lev=
-el
-> > > > Linux runs with).
-> > >=20
-> > > Can you clarify which firmware you're talking about? Is this secure
-> > > firmware, or firmware running on the video decoding hardware?
-> >=20
-> > Secure firmware
->=20
-> Ah... interesting. So you actually need to interop with that firmware in
-> order to start decryption/decoding. That's quite different from how this
-> works on Tegra. Well, maybe not entirely. For Tegra there is firmware
-> that runs on the hardware decoder and which has access to the keys, so
-> in that way I guess it's similar to your use-case, except the firmware
-> runs on a different chip.
+v1->v2:
+ * Elaborate on device details in dt-bindings.
+ * Add links and voltage supplies to dt-bindings.
+ * Re-order so that dt-bindings are applied first.
+ * Move pattern gen config into v4l2_ctrls.
+ * Switch to using CCI functions to access the sensor.
+ * Merge header into c file.
+ * Move verbose prints to dev_dbg.
+ * Add missing v4l2 format params.
+ * Added support for software reset if no hardware one is available.
+ * Move register constants into defines, these are vague as Sony
+   requested that I not use register names from the datasheet.
 
-That is something interesting for the linux-media discussions too. So in on=
-e
-case, you have a seperate TF-A in the secure firmware following the CDM
-specification, and it gives you back a restricted bitstream buffer. You the=
-n
-don't need any CDM specific session/key information into the CODEC driver.
+v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
 
-But in the case of Tegra, it would mean the CODEC driver is not agnostic to=
- the
-CDM, so we can expect (if this endup as a V4L2 driver) some controls for
-Widewine, Playready and other CDM ? (adding explicit CDM API in the kernel =
-is a
-hot potato imho, I myself would try and stay away from that at all cost, an=
-d
-focus on restricted storage feature only).
+Compliance test for device /dev/v4l-subdev4:
 
-Nicolas
+Driver Info:
+        Driver version   : 6.1.80
+        Capabilities     : 0x00000002
+                Streams Support
 
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
 
-> > > > So nobody can map that buffer, and the firmware driver is the one w=
-ho
-> > > > knows that this buffer cannot be accessed by anyone. Putting this o=
-n the
-> > > > userspace to know would be pretty weird, and wouldn't solve the cas=
-e
-> > > > where the kernel would try to map it.
-> > >=20
-> > > Doesn't userspace need to know from the start whether it's trying to =
-do
-> > > secure playback or not?
-> >=20
-> > It does, but it won't know the capabilities of the buffer it gets back
-> > from the secure firmware.
->=20
-> I think that's kind of the point. Does it really have to know the
-> capabilities? Isn't it enough to know that it's got some sort of
-> protected buffer back and then use it more or less blindly? I mean
-> these are things that have to be tightly coupled no matter what, so
-> how much point is there in trying to validate what you get?
->=20
-> > > Typically this involves more than just the decoding part. You'd
-> > > typically set up things like HDCP as part of the process, so userspac=
-e
-> > > probably already does know that the buffers being passed around are
-> > > protected.
-> > >=20
-> > > Also, the kernel shouldn't really be mapping these buffers unless
-> > > explicitly told to. In most cases you also wouldn't want the kernel t=
-o
-> > > map these kinds of buffers, right? Are there any specific cases where
-> > > you expect the kernel to need to map these?
-> > >=20
-> > > I've been looking at this on the Tegra side recently and the way it
-> > > works on these chips is that you basically get an opaque carveout reg=
-ion
-> > > that has been locked down by secure firmware or early bootloaders, so
-> > > only certain hardware blocks can access it. We can allocate from that
-> > > carveout and then pass the buffers around.
-> >=20
-> > So you allocate both the input and output buffers (and from different
-> > regions) from the application, and pass both to the secure firmware?
-> >=20
-> > Yeah, I guess that would work then.
->=20
-> It doesn't really matter who allocates the buffers. It could be the
-> application allocating the scanout buffer from a DRM/KMS device and the
-> input buffer from the multimedia decoder. Or it could be the application
-> allocating both buffers from different DMA-BUF heaps. In the end it
-> shouldn't really matter where they are coming from. It's effectively up
-> to the application to pass the right buffers into the right IOCTLs.
->=20
-> > > It may be possible to use these protected carveout regions exclusivel=
-y
-> > > from the DRM/KMS driver and share them with multimedia engines via DM=
-A-
-> > > BUF, but I've also been looking into perhaps using DMA-BUF heaps to
-> > > expose the carveout, which would make this a bit more flexible and al=
-low
-> > > either userspace to allocate the buffers or have multiple kernel driv=
-ers
-> > > share the carveout via the DMA-BUF heap. Though the latter would requ=
-ire
-> > > that there be in-kernel APIs for heaps, so not too sure about that ye=
-t.
-> >=20
-> > What would be the advantage of using a heap compared to having all thes=
-e
-> > devices in DT use the reserved-memory property and point to that
-> > carveout? It should already work today.
->=20
-> You can't just have all of these point to a common reserved-memory node
-> because there can be multiple concurrent users. You could have multiple
-> protected streams running at the same time. DMA-BUF heaps allows us to
-> expose a central provider for the protected memory so that allocations
-> can be properly arbitrated.
->=20
-> Thierry
+Allow for multiple opens:
+        test second /dev/v4l-subdev4 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
 
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev4: 43, Succeeded: 43, Failed: 0, Warnings: =
+0
+
+Spencer Hill (2):
+  media: i2c: Add driver for Sony IMX728
+  media: dt-bindings: Add Sony IMX728
+
+ .../bindings/media/i2c/sony,imx728.yaml       |   78 +
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/imx728.c                    | 1167 ++++++
+ drivers/media/i2c/imx728.h                    | 3458 +++++++++++++++++
+ 6 files changed, 4724 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx728=
+.yaml
+ create mode 100644 drivers/media/i2c/imx728.c
+ create mode 100644 drivers/media/i2c/imx728.h
+
+--
+2.40.1
+
+---
+Spencer Hill (2):
+      media: dt-bindings: Add Sony IMX728
+      media: i2c: Add driver for Sony IMX728
+
+ .../devicetree/bindings/media/i2c/sony,imx728.yaml |  119 +
+ MAINTAINERS                                        |    7 +
+ drivers/media/i2c/Kconfig                          |   11 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/imx728.c                         | 4660 ++++++++++++++++=
+++++
+ 5 files changed, 4798 insertions(+)
+---
+base-commit: 8771b7f31b7fff91a998e6afdb60650d4bac59a5
+change-id: 20240627-imx728-driver-a8d905cafd2d
+
+Best regards,
+--
+Spencer Hill <shill@d3engineering.com>
+
+Please be aware that this email includes email addresses outside of the org=
+anization.
 
