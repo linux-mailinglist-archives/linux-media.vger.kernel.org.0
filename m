@@ -1,201 +1,173 @@
-Return-Path: <linux-media+bounces-14311-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14312-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749B991B9CF
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 10:27:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CD591BA4D
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 10:45:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9010A1C21017
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 08:27:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D94F61F22F6C
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 08:45:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BAB9148FED;
-	Fri, 28 Jun 2024 08:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oHxR7q2x"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 052DA14D2AB;
+	Fri, 28 Jun 2024 08:45:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2111.outbound.protection.partner.outlook.cn [139.219.146.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14481465BD;
-	Fri, 28 Jun 2024 08:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719563226; cv=none; b=q2hv2oq7F5xeRdFn8KrMzeDpnwv5m27cGGfx0Hkmz2CQhFg0IRRrUQpHoTGvjkSTKia+c+WzqHQjDD6DSFzjWdkixiMTXtArMvdtArAlPZFg2ndTThP1a7kIqUtB7qp3tIyoD2+BS6D8jIfzUTDtF55FJfBDjuyrqNuBu1NpFSU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719563226; c=relaxed/simple;
-	bh=59p4KEMdnS50S6X1eh3nJBtNIR/Z6CqrjzwatLZ7jiA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PntSEU/7+wJs12IuC+abKw7B/ylc+ve2kFzS4f+xmt44/dPD6NC3vi6KLRg8umQCUitz2Y+3azxJTtLGhQ7FeVwpEcNqMqGNBF4XW2PjQvlMEE70epESbHUwjq6J9fFu9KfL1nD7/e69JVjsE671iIfFh91gfBb/dZXqmpssSaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oHxR7q2x; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi [91.158.144.210])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF31B674;
-	Fri, 28 Jun 2024 10:26:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719563198;
-	bh=59p4KEMdnS50S6X1eh3nJBtNIR/Z6CqrjzwatLZ7jiA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oHxR7q2xVnETgRsAdULCEbEFvwtdNF834kYPMFKjqFBR/HVKRNVpSRocXUODuaPBm
-	 phlk0Hejaj3P16G0hBGThOLf8SPDM6cyi2a97UhSqdKId77qIuaK+tyPtNZg4CmHXk
-	 elZ78v//YCXPcg7ZcjoM8IneaKOJzLhVjeEWNPg8=
-Message-ID: <99fda0f2-57e9-4b37-a848-b7781f3b1dd7@ideasonboard.com>
-Date: Fri, 28 Jun 2024 11:26:59 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5A214B952;
+	Fri, 28 Jun 2024 08:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.111
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719564322; cv=fail; b=K3aOcs81fBJ6uu7IoZUUwAgaPWZRW025dNDf2oRXuqYJUze8a1H8qE2Qtcebdp8VUEuh+3EGaNpGQkZyd1oLIR8t/wZRJdvem4TZL9ry7q6G18Rwfz1VA0zTwA4fExwTtJBsDDmVfN38YbNspuYFh/7YwOKlNIxb9WER4uQcsTY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719564322; c=relaxed/simple;
+	bh=P3MmHcoRBQbcAgZj1Ie3wy0WxVKEH5GLU3z2PYtfisU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Ju1IvpFWOgsg8QCrBicVRvYKysvM6AJQV96v8t3V5wkHbMOl2908IKVh6Oc+9TIpFnKYGR15zrHEOEEAo8tVvbD8fSWDyedd06HP+vEB29Oz1/6+x4YClA9twm5YD0AgVknDEpgQK0wQ0qRtPeQdkYjTyYr9GW3gvQMKbMMlPfo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=As76DsCdyNwwNX5ZPyWXjr7lvGQMd6pOgY1CpG24jGwQ/X6bPbj+Jz7GIGAfs6FEMO7ZqgEktgc8vnUTOLQkuoXPyUsoniNCgVhAcvHqs9+t3Xcj6KA2+mozUcAu5331WqIwKE8MV+CElQsrOJtvCOokA7yx3UQvL652o/4M3NQMwEnC30M9DGya0eFmhmcW5ogrbpjIRzxDszk6+SHiGd/nWpnf17ZLz6DPGipDwmY4yKQomgampHowsZCRA5bxp3dguGmK5Hqpy8x9PaILuB2UPUG81aKClXt4r4bvzjnswUjGQSsBmk++NC9ZmRSITnPyuRFc5lnGyRvai4z8tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P3MmHcoRBQbcAgZj1Ie3wy0WxVKEH5GLU3z2PYtfisU=;
+ b=eRQVlpoLfmxrP/QZzpoTrw54VDzUVNW9g0BhYJ9RsHU6G8NTDxOTNZflfKpA8uyb0IiYgfP+eGRIMA5F81OXyi16d4phtCeVCbeBozCbB7LaVk0AsRTmsGgzeRn6T6U1wprIGYOgl+3cC0PkTbMekRGWHw40ePmEcbuEcVcPd/Sw7Cjos2zB2yMXLtLBLBMrPorqnFYcWQEDnwKsvbI3YKRGbIOc34EoE1DCps/LpsKNhDy9G0lfAXq+xLE+3rS3XS2QE3X+U7fjLOxEYeVcX7gg+Bl/u3fVB91MwhKU8a9i11r8/LS5ARJ4w37H0sXM0rvH5WKPqdK0H23GaiS9gQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB0968.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:c::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.32; Fri, 28 Jun
+ 2024 08:45:06 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::4d66:ac5e:3903:cdf5]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::4d66:ac5e:3903:cdf5%4])
+ with mapi id 15.20.7698.033; Fri, 28 Jun 2024 08:45:06 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jai Luthra
+	<j-luthra@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Vaishnav Achath <vaishnav.a@ti.com>, Maxime Ripard <mripard@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh
+ Thakkar <devarsht@ti.com>, Jack Zhu <jack.zhu@starfivetech.com>, Julien
+ Massot <julien.massot@collabora.com>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>
+Subject:
+ =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjIgMDEvMTNdIG1lZGlhOiBjYWRlbmNlOiBjc2ky?=
+ =?utf-8?Q?rx:_Support_runtime_PM?=
+Thread-Topic: [PATCH v2 01/13] media: cadence: csi2rx: Support runtime PM
+Thread-Index: AQHayJNptuXJ2qsJik29H2g7jEFGsbHc1VcAgAAHZLA=
+Date: Fri, 28 Jun 2024 08:45:06 +0000
+Message-ID:
+ <ZQ0PR01MB1302B36DDCE078AF2D16E935F2D02@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
+ <20240627-multistream-v2-1-6ae96c54c1c3@ti.com>
+ <c0e3623b-0af6-4bdc-8eb0-9072df1311de@ideasonboard.com>
+In-Reply-To: <c0e3623b-0af6-4bdc-8eb0-9072df1311de@ideasonboard.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB0968:EE_
+x-ms-office365-filtering-correlation-id: 2ef34b68-7d3d-4f93-48b8-08dc974e9c33
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|41320700013|7416014|921020|38070700018;
+x-microsoft-antispam-message-info:
+ 7Z6YhR+NyuAekdAR+DnnmafG10Fmm78YDhKTuBUM3djgwG1au41/HMYXrLIQCh2OvMJU8Vz5Zre2wXSztaB8YzautijWSC81RyOXOell1YkWuSdg08AN9qSKnGXTzJFqbsrUemvDiU7wDyVc4ACCmEGt8NiEN4orwM6sK270qPVmoGelaVFtL8rSSJ7SVteM98rqHImQZa9RLCP/9HS0+UFDmdDcyaoad9n4vLquIxc1Hlt/41endnwe30GFcbKrH0OgCXOvI93Hu6mV0Z3KKaVm1u4J5sPs7hka6OijTZy3QDX3sdH3yorgvCj8AssovWz6Jo0Xss7bPu15bzczvHiG9YKQfNkR7kK0UsTCviDfb3C1xWfxhVsQYshS6HacW2n3FrJOUh+Ix6azeqRjWj7e5F+D2GX2jEiXNmsvr+Ybc0qaLJmsmwLNKxTaU859dIuPnHk8hTz9588ig8tY5V8SCCizMI0xRHcxzxFw5TGv08jWn+xY5WybJCfMBSJVz5xF6DLEI/J7TTiT047VQX5uYWe8UOAsWf2etXtsTv3CTBAPtFmDDAhJc316PMevuZVWQ+qGHtrfjY8OATQNauXTna0tC+/W36zZTBbqkCVAG0xE2E5XF8iqDSWEuxpBa3eutSVnRbqGqkAcrsR2zA==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(41320700013)(7416014)(921020)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?RUNWVG9zaERtUnNhMzNZeTdPWEUwT0FYcEl2TXRtOUZMTWVwUEpRM0hQcGxw?=
+ =?utf-8?B?RDNxTXNJb2RVREJiSVpIL24yamdldE1QQUNaL1JhRnlBdWVrTGpDUkVydEps?=
+ =?utf-8?B?NmFRbDRDUkl2YzJSU1JIQ0NrczZFT1o2S0hUUDhiRGg4Vk1GL29adk1jbndo?=
+ =?utf-8?B?OVdGNTc4WkZsdFB1WWFpR0FrSnM2UGhNWUxLVVJ1ZU5nMHp3R09yMzluaERM?=
+ =?utf-8?B?YlhxWnNCKzFmdkdxcjJYM1U3VjlkNmhjbENqWVV3YzBIZktueTFiUm5LZWxq?=
+ =?utf-8?B?c1pBSkNrZzdWRFkzd2FHRVZzU2E1NmdSS3FucCtVazJLSlRTZmNUcyt1RWtl?=
+ =?utf-8?B?VDY3VmxENmZoN1lGWVFKakt1VXFzcjVFNWg2Z2pMTVczbXhvUnNCZDZPbllL?=
+ =?utf-8?B?MURUY3F2QUhrMTk0b1FybzRYVlNnMEl6cytHWCtEbzdKV2o0RU94QWNqOTRv?=
+ =?utf-8?B?ZGl2cnZyc0g5dkVqaHJDVUQ5eWtEZ3BiNmlBQW43N3IxSmdzV3dpSUxWbUUy?=
+ =?utf-8?B?aWtKQXppMXprV2hKMjNDUGkxNVNCWlBVQ1FCVHZIVEZOb2xHck0xZk04S0I1?=
+ =?utf-8?B?VE9kc1AwSWNpR21KMUhaWnMxV3FnVXFvSEhadHl2Y1J2YU1jUEgvN0dTYzhK?=
+ =?utf-8?B?a1RnWVViNUludG1NekVIWXIyeFJCaWNKOTZZblVraXZNQ0d2SmM4N1RJY0s2?=
+ =?utf-8?B?NC9sYWxHS25YWm52bFpyWENkaUoyQkptaVNIb1ZEVnUxTTVhMForT0RJUnF0?=
+ =?utf-8?B?QXFraW9CWHd1d0dxNERkbzRodWl1eE5VZmpWWXpVOFUxMVNUbWZMU2U1Qk42?=
+ =?utf-8?B?UnpMN2tydW9zaUExVTdqS2dkcFdXbWI5ell1YmhOVmtPaFFaTEtqUmVva1o3?=
+ =?utf-8?B?MkJsOVk2bEN6aU1VU2dWTjM1YUlJckRaTVp1anZiUFU0MXlkRmJtamh4SDEv?=
+ =?utf-8?B?SDgxRmU1TDY1UXF3dWRGUzBIRDlpZzJlKzhySTVlTVVjN0pITXBheDdMTUpD?=
+ =?utf-8?B?eTc2MGo3RTB2YlI1bThaMWNSZ2ZxR2IwM05BTmkyRndidGhDV25vaGhqM2VX?=
+ =?utf-8?B?eCtidkJwVWZNNklQSlBrdS95emRjT2lDb2ZxazhJdnp6aDBaeURRMlNLeWJT?=
+ =?utf-8?B?UnhHV0U0SWQ3V1VhWk1hY1doTVlpdnE5WGQ5YWt4RDdxNDd6K0hTb1BBdSts?=
+ =?utf-8?B?WVZRWGN4ZVptS3F2YThncVhoOS9UbHBySWdCK3RmVTdGS2Npa3BuVEFQSGd2?=
+ =?utf-8?B?TlRmRkZuZFBtelN0M0VSa3EzMllST1NqZ0RWOFhZQ3hIb1kvZVcxNFdlQVdu?=
+ =?utf-8?B?eUIxS3RIdFFSbjBSQjhLeTJra3lsZVlOWHFXQnZJNXNQU1FWbHdjdVhLR21E?=
+ =?utf-8?B?bnJHWFh3ZHEydTZYZ0dlVXBSdy9STlQ5VzR4d2tVMFRoamVKVG1WR2tLTHVZ?=
+ =?utf-8?B?NkpNeWlQaVNOZXFXM01LS1BaTEZRVFNOQndkb0NPNGJTbUx2QW5ZemNwS1p5?=
+ =?utf-8?B?SmVqM1ZEd0VCd2dlNDhUbzRuU2NXYUxnakZiekx2L0RYd1g3dUxyYXZtK0NK?=
+ =?utf-8?B?RiswQTlmSmJ5b3B3ckh3cGVGc1VvTkV1S3l5UUk3OGZXUnNHcVl6WVpKMjZD?=
+ =?utf-8?B?NHJOVHRUWE5HK2lBYW95T1oyVzZreTg0M0hQekZRVVhNNXQ1bldMZGlNQTcz?=
+ =?utf-8?B?RFlPb0RTY3RmdUtPR2tsTVN5SEVVMGgxRUNnVE9vZStmM2ViZURpWnJPUlRD?=
+ =?utf-8?B?UjU3KzdnMVBabmVtMXBYTFpzMStGLzFFOCtmNngrc1MzcnJUeTVkWGhwR28z?=
+ =?utf-8?B?UWZ4Vkd5S1NFY2g1em91NEtiM0h2cnNuSDFIbU1qL0MyYXVIZVRvUXVjR1h1?=
+ =?utf-8?B?bFNxWFdXSTZzQUQ1NkJTbUlQSlBmdStONmVWWU9FaVQxcXJXeGlreXZEVVR6?=
+ =?utf-8?B?QnZSczIvdHN6OXFZa1VoRXZEVTBTTVRERTRpdEtoUU15Q21USWpiMWpnREN6?=
+ =?utf-8?B?S0lNMmNXeEd1VnRWMGJqV2h1MTlQMkFSd2w4ZThtc2lZSTJINWx3MEswQzZX?=
+ =?utf-8?B?alJYbk9oUWxvdVNhd3FjMzRRU0JSN0lneXE5TWhJdkVYa1d3RzBTR05KMHVK?=
+ =?utf-8?B?clRheGQva2pqbmx3LzM2UXZiaDJZa3BSUDllTHJHNlJBWlM1ek5FYkIrTno0?=
+ =?utf-8?B?RVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/13] media: cadence,ti: CSI2RX Multistream Support
-To: Jai Luthra <j-luthra@ti.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Vignesh Raghavendra <vigneshr@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>,
- Julien Massot <julien.massot@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Vaishnav Achath
- <vaishnav.a@ti.com>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ef34b68-7d3d-4f93-48b8-08dc974e9c33
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2024 08:45:06.3449
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 90F4Ag3h1UD901u99Jgdbs1nOajy/RPTciP++MpP+1mbwcoArwnWc0fvtCdpinN2tlpqfLynKDdc/zI6DczeHm/YxMjEr/PJQLeIV5VRKE4+7dDZYGc8n8WtIfWZUhFH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB0968
 
-Hi Jai,
-
-On 27/06/2024 16:09, Jai Luthra wrote:
-> This series adds multi-stream support for Cadence CSI2RX and TI CSI2RX
-> Shim drivers.
-> 
-> PATCH 1:	Runtime Power Management for Cadence CSI2RX
-> PATCH 2-7:	Support multiple DMA contexts/video nodes in TI CSI2RX
-> PATCH 8-9:	Use get_frame_desc to propagate virtual channel information
-> 		across Cadence and TI CSI-RX subdevs
-> PATCH 10-12:	Use new multi-stream APIs across the drivers to support
-> 		multiplexed cameras from sources like UB960 (FPDLink)
-> PATCH 13:	Optimize stream on by submitting all queued buffers to DMA
-> 
-> This applies on top of today's linux-next (next-20240626)
-> (also tested rebase with media_stage.git master)
-> 
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> ---
-> Changes in v2:
-> 
-> - Change the multi-camera capture architecture to be similar to that of
->    Tomi's RPi5 FE series, where the driver will wait for userspace to
->    start streaming on all "actively routed" video nodes before starting
->    streaming on the source. This simplifies things a lot from the HW
->    perspective, which might run into deadlocks due to a shared FIFO
->    between multiple DMA channels.
-> 
-> - Drop a few fixes that were posted separately and are already merged
-> - Fix dtschema warnings reported by Rob on [02/13]
-> - Fix warnings for uninitialized `used_vc` variable in cdns-csi2rx.c
-> - Return -EBUSY if someone updates routes for j721e-csi2rx subdev while
->    streaming
-> - Only allow single-streams to be routed to the source pads (linked to
->    video nodes) of the j721e-csi2rx device
-> - Squash the patches marked "SQUASH" in the v1 RFC series
-> 
-> - Link to RFC (v1):
->    https://lore.kernel.org/r/20240222-multistream-v1-0-1837ed916eeb@ti.com
-> 
-> ---
-> Jai Luthra (8):
->        dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
->        media: ti: j721e-csi2rx: separate out device and context
->        media: ti: j721e-csi2rx: add a subdev for the core device
->        media: ti: j721e-csi2rx: add support for processing virtual channels
->        media: cadence: csi2rx: Use new enable stream APIs
->        media: cadence: csi2rx: Enable multi-stream support
->        media: ti: j721e-csi2rx: add multistream support
->        media: ti: j721e-csi2rx: Submit all available buffers
-> 
-> Jayshri Pawar (1):
->        media: cadence: csi2rx: Support runtime PM
-> 
-> Pratyush Yadav (4):
->        media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
->        media: ti: j721e-csi2rx: allocate DMA channel based on context index
->        media: ti: j721e-csi2rx: get number of contexts from device tree
->        media: cadence: csi2rx: add get_frame_desc wrapper
-> 
->   .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  39 +-
->   drivers/media/platform/cadence/cdns-csi2rx.c       | 440 +++++++++--
->   .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 879 ++++++++++++++++-----
->   3 files changed, 1071 insertions(+), 287 deletions(-)
-> ---
-> base-commit: df9574a57d02b265322e77fb8628d4d33641dda9
-> change-id: 20240221-multistream-fbba6ffe47a3
-
-You have based this series on top of your private branch. Don't do that. 
-Base on top of a kernel tag, or a commonly known tree (linux-media-stage 
-for example), and preferably mention the base in the cover letter.
-
-Your private branch contains e.g. dtsos needed for testing. If you have 
-such a branch, you should point to it in the cover letter as it's 
-valuable for reviewers/testers.
-
-Only base on top of a private branch if your patches compile-time depend 
-on something from there, and in that case point to the branch and 
-mention this dependency clearly in the cover letter.
-
-  Tomi
-
+SGkgVG9taSwNCg0KWy4uLl0NCj4gPiArc3RhdGljIGludCBjc2kycnhfc3VzcGVuZChzdHJ1Y3Qg
+ZGV2aWNlICpkZXYpIHsNCj4gPiArCXN0cnVjdCBjc2kycnhfcHJpdiAqY3NpMnJ4ID0gZGV2X2dl
+dF9kcnZkYXRhKGRldik7DQo+ID4gKw0KPiA+ICsJbXV0ZXhfbG9jaygmY3NpMnJ4LT5sb2NrKTsN
+Cj4gPiArCWlmIChjc2kycngtPmNvdW50KQ0KPiA+ICsJCWNzaTJyeF9zdG9wKGNzaTJyeCk7DQo+
+ID4gKwltdXRleF91bmxvY2soJmNzaTJyeC0+bG9jayk7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7
+DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyBpbnQgY3NpMnJ4X3Jlc3VtZShzdHJ1Y3QgZGV2
+aWNlICpkZXYpIHsNCj4gPiArCXN0cnVjdCBjc2kycnhfcHJpdiAqY3NpMnJ4ID0gZGV2X2dldF9k
+cnZkYXRhKGRldik7DQo+ID4gKw0KPiA+ICsJbXV0ZXhfbG9jaygmY3NpMnJ4LT5sb2NrKTsNCj4g
+PiArCWlmIChjc2kycngtPmNvdW50KQ0KPiA+ICsJCWNzaTJyeF9zdGFydChjc2kycngpOw0KPiA+
+ICsJbXV0ZXhfdW5sb2NrKCZjc2kycngtPmxvY2spOw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30N
+Cj4gPiArDQo+IA0KPiBJIGRvbid0IHRoaW5rIHRoaXMgbG9va3MgY29ycmVjdC4gQWZhaWsgdGhl
+IHJ1bnRpbWUgc3VzcGVuZC9yZXN1bWUgaXMgbm90IGNhbGxlZA0KPiBvbiBzeXN0ZW0gc3VzcGVu
+ZC9yZXN1bWUuIFlvdSBjb3VsZCBjaGFuZ2UgdGhlIFNFVF9SVU5USU1FX1BNX09QUyB0bw0KPiB1
+c2UgdGhlIHNhbWUgY2FsbGJhY2tzIGZvciBydW50aW1lIGFuZCBzeXN0ZW0gc3VzcGVuZCwgYnV0
+IEkgdGhpbmsgdGhhdCdzIGENCj4gYmFkIGlkZWEuIFJ1bnRpbWUgc3VzcGVuZCBpcyBub3Qgc3Vw
+cG9zZWQgdG8gdHVybiBvZmYgdGhlIHN0cmVhbWluZy4gVGhlDQo+IGRyaXZlciBpcyBzdXBwb3Nl
+ZCB0byB0dXJuIG9mZiB0aGUgc3RyZWFtaW5nLCB0aGVuIGNhbGwgcnVudGltZV9wdXQsIHdoaWNo
+DQo+IHdvdWxkIHJlc3VsdCBpbiBydW50aW1lIHN1c3BlbmQgY2FsbGJhY2sgZ2V0dGluZyBjYWxs
+ZWQuDQo+IA0KDQpJIGltcGxlbWVudGVkIHN5c3RlbSBzdXNwZW5kL3Jlc3VtZSBiYXNlZCBvbiB0
+aGlzIHBhdGNoLCBJIGZlZWwgZ29vZCBhYm91dCBpdC4NCg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvYWxsLzIwMjQwMzI2MDMxMjM3LjI1MzMxLTEtY2hhbmdodWFuZy5saWFuZ0BzdGFyZml2ZXRl
+Y2guY29tLw0KDQpSZWdhcmRzLA0KQ2hhbmdodWFuZw0K
 
