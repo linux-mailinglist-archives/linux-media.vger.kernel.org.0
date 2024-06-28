@@ -1,237 +1,223 @@
-Return-Path: <linux-media+bounces-14337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14338-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B0491BEB9
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 14:38:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D75C91BF3A
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 15:08:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A61DC1F224F1
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 12:38:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D5041F243AF
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 13:08:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1965315886A;
-	Fri, 28 Jun 2024 12:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53D471BE843;
+	Fri, 28 Jun 2024 13:08:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fZXyErKp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BQhvLOzd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC492154433;
-	Fri, 28 Jun 2024 12:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60A5194C67;
+	Fri, 28 Jun 2024 13:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719578304; cv=none; b=vFMZ8im8N4p3fRR/8NCilXZujpspSqThaOG1sxn5sw89SduKwojantndA9zgm6V1E+v6bAYjHYP1fvxnpp5Y26lqnWXD/hU7ZZsG29WeMyTjpTmrxcWhiunBQnOarTOO5DINC47xN0lZjtcFZhqtDmdvHRhCC35MjmlN9gEOe1Q=
+	t=1719580129; cv=none; b=VlTFLVhnxUKFmGyPXaH9aw/dOsVQHz/HAPvaWAhQLU0tIJiY77g2eRWx9wwWDgJJGR1LJRoAPEVfB8CI9C7lNmRhPtq9ngU2WlMoahR7Xlcr7MHMnei+qm4yu+E1GVzpx6YvEpClEQjIi2K3ZTV/wbHltBMjPY2PeFNQMV8BQcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719578304; c=relaxed/simple;
-	bh=/y8mMKKrHG9A1ANX63ZvHeKjPDpFlD2tQhWeTVeD3UM=;
+	s=arc-20240116; t=1719580129; c=relaxed/simple;
+	bh=O/aBFslEXfrhEnPLAQUllJnOitVfX9x7Hsz9OFt1hX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Br8WNB2XahnjuMzwLP/0wLbfNao4pUTsHoZiwuTT6r3gFaqz0vP+m7no272Efu+4ROK0h3YisDcDwHVonKObnJ3uPerbTMfTHKT0G3umOjCZfvtnQ1kmGd5NPBQWIPU5wXNRfAUkQbBjLPl7LvorNQb8qC0tqKL3VkJZ+nfacpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fZXyErKp; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42573d3f7e4so1316975e9.0;
-        Fri, 28 Jun 2024 05:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719578301; x=1720183101; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UkB9FJLP2us4SWIDZi7Xked72Jv5/nb/0qDRVeIMogM=;
-        b=fZXyErKpZgDGDXE5rEQWDl9+Rziyq8KX/SOHoK6pzGsymfevWHSFNeaaw1j//u3/Ab
-         HEFb09yVzuPgLK6MkVJCTVrZXWC8Dr+dcGfsHGEk+HwYe9+Cs8rpLpucIIOTXbSGo9Y8
-         Bffp7EKtMa+oM7+nf4MYEMI20c6ug2OKnjHA4mtvY2RFf4zDEQ64KCetoTIwxh4IZfXH
-         jV9lzPHIqCQ2Lr8ynaYguAidYFosmvik50US6r5Nrqg14+6ukvtOemOe9lGvg7DMV7Fa
-         rm8KlFBI36VVfBBOgR3nwWJ/VMrfD4iT0LirRJbUwqdhArIWGxPmNvAlINAcaBaLT9Ys
-         Sobw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719578301; x=1720183101;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UkB9FJLP2us4SWIDZi7Xked72Jv5/nb/0qDRVeIMogM=;
-        b=nwM/nq21IxRwHpiDILtm0CvLLxIBB2c315HG8DCiShczS0FUA7kWBIsijW251QLtVH
-         h6H5WVzhj7KTR4X8THhjasv5g+4diRGbLSXOs8vOBvVIF/dfzEK7eHn74EqwkXuzrUVp
-         bfp3DoFpphoE5ZEkR91CiKKIS5XLxWKJL3eN+vg9DL8o2zPBxshyFGNoTvKAryddQlL2
-         4bJael1mRCadKOmLZRBFq01NC3W865zSRO+BDr0ceGpI8YW9fHqAoZxJGIVv5/RQbJaz
-         8gALclNwpPvnb+TAMpUZjNgsKvVpagO8FrrohUvpgS7dadvsnQ0KwW7cUbErUJfw5Www
-         d8kA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7/60ps89vpYVd6GS0HNoll8pmVgV0wnsnUIeySrLB3KfE5/vcbnHsCRsNPx2a9ZMmw0OFyBDoOMZN51jSPHqlsHYbmmp0zJ6jawQd4y7c5Ed9V+f/3v3dRqY1ktk0zhwiWMeYCDkItqUxFAn2NM9VCzfhAdO4YU6vz07caz9iTbCEl+kc
-X-Gm-Message-State: AOJu0Yxox2l9LWqaUo00yS2TYKfpEZlvibjRuJUCVR1gki7Y+ym5nKVt
-	1x9bUFukLe7yZr+gTLeusX3/xPM57IAT0S/jI8ffAYpXt6FLCByr
-X-Google-Smtp-Source: AGHT+IGKPig1mllBhdyoWDfOAICdvFqpjzxk+CF0oztCa+Z2hIe/+Ak7GWhb6YuhdCYfjXEa57wE4g==
-X-Received: by 2002:adf:fd4b:0:b0:367:2ae1:9c4d with SMTP id ffacd0b85a97d-3672ae19d30mr5464759f8f.29.1719578300608;
-        Fri, 28 Jun 2024 05:38:20 -0700 (PDT)
-Received: from orome (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fc4c9sm2197872f8f.86.2024.06.28.05.38.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 05:38:20 -0700 (PDT)
-Date: Fri, 28 Jun 2024 14:38:18 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Yong Wu <yong.wu@mediatek.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, christian.koenig@amd.com, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, tjmercier@google.com, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Robin Murphy <robin.murphy@arm.com>, Vijayanand Jitta <quic_vjitta@quicinc.com>, 
-	Joakim Bech <joakim.bech@linaro.org>, Jeffrey Kardatzke <jkardatzke@google.com>, 
-	Pavel Machek <pavel@ucw.cz>, Simon Ser <contact@emersion.fr>, 
-	Pekka Paalanen <ppaalanen@gmail.com>, willy@infradead.org, Logan Gunthorpe <logang@deltatee.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, jianjiao.zeng@mediatek.com, kuohong.wang@mediatek.com, 
-	youlin.pei@mediatek.com
-Subject: Re: [PATCH v5 7/9] dma-buf: heaps: restricted_heap: Add MediaTek
- restricted heap and heap_init
-Message-ID: <pmweipswfysn3sjwf7jphwcjkt36s5d2o5ox6e63btqiyj7taj@kti5j36ttfbc>
-References: <20240515112308.10171-1-yong.wu@mediatek.com>
- <20240515112308.10171-8-yong.wu@mediatek.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IANQGUiVdEahlkxcDaVP2nGW8ZnEYNk0fsDgPSNKrlvoA3hPmWHvzQ7L7bqWuFkq0KwVOriYRGbHQ49++2tjdExwYHd6LLUOUeQJ0uDVatIycdMFAiXkKkOphfPGkzPY0DBahp0hSOk45E/V9DD63w0nB7uc2dfKLfwZKF8EWwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BQhvLOzd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010D3C116B1;
+	Fri, 28 Jun 2024 13:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719580129;
+	bh=O/aBFslEXfrhEnPLAQUllJnOitVfX9x7Hsz9OFt1hX0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BQhvLOzdZhNlJM42b0AyIzoqJxiqefiq428eKmo4AychyOlTFQ0pQAbFphUmHT1hq
+	 s9b9fULacP4tgraPTA+5e13wAqKuWDUJ7dLSr0Lwd0rUsd6j52bOIhxMJbcENfm4i/
+	 bM3F/cde6cafbq4/CIZZ4doKoxuLixKEMPZup4iKQW8c/xIVbsiA0CdaaWNQVacPV6
+	 2ErQCzyNTpYo+OuiT6jC8N8AKV8lYsWHup6EAP2P1eCw30v8OzZvelayJgsiUSfRM5
+	 iV21adQUiBH1BtcXx1EDowlbd6cvoimEaSOB8zzwskIIScmewPhzLArkOpvTZS6tau
+	 cohkXxBaaArDg==
+Date: Fri, 28 Jun 2024 15:08:46 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: John Stultz <jstultz@google.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
+ related-flags
+Message-ID: <20240628-resilient-resolute-rook-0fc531@houat>
+References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
+ <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
+ <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
+ <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
+ <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
+ <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5z4oex5oy2lm7v2z"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aklav4ucjv2rektt"
 Content-Disposition: inline
-In-Reply-To: <20240515112308.10171-8-yong.wu@mediatek.com>
+In-Reply-To: <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
 
 
---5z4oex5oy2lm7v2z
-Content-Type: text/plain; charset=us-ascii
+--aklav4ucjv2rektt
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 15, 2024 at 07:23:06PM GMT, Yong Wu wrote:
-> Add a MediaTek restricted heap which uses TEE service call to restrict
-> buffer. Currently this restricted heap is NULL, Prepare for the later
-> patch. Mainly there are two changes:
-> a) Add a heap_init ops since TEE probe late than restricted heap, thus
->    initialize the heap when we require the buffer the first time.
-> b) Add a priv_data for each heap, like the special data used by MTK
->    (such as "TEE session") can be placed in priv_data.
+Hi,
+
+On Fri, Jun 28, 2024 at 01:29:17PM GMT, Thierry Reding wrote:
+> On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
+> > On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
+> > > On Thu, May 16, 2024 at 3:56=E2=80=AFAM Daniel Vetter <daniel@ffwll.c=
+h> wrote:
+> > > > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
+> > > > > But it makes me a little nervous to add a new generic allocation =
+flag
+> > > > > for a feature most hardware doesn't support (yet, at least). So i=
+t's
+> > > > > hard to weigh how common the actual usage will be across all the
+> > > > > heaps.
+> > > > >
+> > > > > I apologize as my worry is mostly born out of seeing vendors real=
+ly
+> > > > > push opaque feature flags in their old ion heaps, so in providing=
+ a
+> > > > > flags argument, it was mostly intended as an escape hatch for
+> > > > > obviously common attributes. So having the first be something that
+> > > > > seems reasonable, but isn't actually that common makes me fret so=
+me.
+> > > > >
+> > > > > So again, not an objection, just something for folks to stew on to
+> > > > > make sure this is really the right approach.
+> > > >
+> > > > Another good reason to go with full heap names instead of opaque fl=
+ags on
+> > > > existing heaps is that with the former we can use symlinks in sysfs=
+ to
+> > > > specify heaps, with the latter we need a new idea. We haven't yet g=
+otten
+> > > > around to implement this anywhere, but it's been in the dma-buf/hea=
+p todo
+> > > > since forever, and I like it as a design approach. So would be a go=
+od idea
+> > > > to not toss it. With that display would have symlinks to cma-ecc an=
+d cma,
+> > > > and rendering maybe cma-ecc, shmem, cma heaps (in priority order) f=
+or a
+> > > > SoC where the display needs contig memory for scanout.
+> > >=20
+> > > So indeed that is a good point to keep in mind, but I also think it
+> > > might re-inforce the choice of having ECC as a flag here.
+> > >=20
+> > > Since my understanding of the sysfs symlinks to heaps idea is about
+> > > being able to figure out a common heap from a collection of devices,
+> > > it's really about the ability for the driver to access the type of
+> > > memory. If ECC is just an attribute of the type of memory (as in this
+> > > patch series), it being on or off won't necessarily affect
+> > > compatibility of the buffer with the device.  Similarly "uncached"
+> > > seems more of an attribute of memory type and not a type itself.
+> > > Hardware that can access non-contiguous "system" buffers can access
+> > > uncached system buffers.
+> >=20
+> > Yeah, but in graphics there's a wide band where "shit performance" is
+> > defacto "not useable (as intended at least)".
+> >=20
+> > So if we limit the symlink idea to just making sure zero-copy access is
+> > possible, then we might not actually solve the real world problem we ne=
+ed
+> > to solve. And so the symlinks become somewhat useless, and we need to
+> > somewhere encode which flags you need to use with each symlink.
+> >=20
+> > But I also see the argument that there's a bit a combinatorial explosion
+> > possible. So I guess the question is where we want to handle it ...
 >=20
-> Currently our heap depends on CMA which could only be bool, thus
-> depend on "TEE=3Dy".
->=20
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->  drivers/dma-buf/heaps/Kconfig               |   7 ++
->  drivers/dma-buf/heaps/Makefile              |   1 +
->  drivers/dma-buf/heaps/restricted_heap.c     |  11 ++
->  drivers/dma-buf/heaps/restricted_heap.h     |   2 +
->  drivers/dma-buf/heaps/restricted_heap_mtk.c | 115 ++++++++++++++++++++
->  5 files changed, 136 insertions(+)
->  create mode 100644 drivers/dma-buf/heaps/restricted_heap_mtk.c
->=20
-> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> index e54506f480ea..84f748fb2856 100644
-> --- a/drivers/dma-buf/heaps/Kconfig
-> +++ b/drivers/dma-buf/heaps/Kconfig
-> @@ -21,3 +21,10 @@ config DMABUF_HEAPS_RESTRICTED
->  	  heap is to manage buffers that are inaccessible to the kernel and use=
-r space.
->  	  There may be several ways to restrict it, for example it may be encry=
-pted or
->  	  protected by a TEE or hypervisor. If in doubt, say N.
-> +
-> +config DMABUF_HEAPS_RESTRICTED_MTK
-> +	bool "MediaTek DMA-BUF Restricted Heap"
-> +	depends on DMABUF_HEAPS_RESTRICTED && TEE=3Dy
-> +	help
-> +	  Enable restricted dma-buf heaps for MediaTek platform. This heap is b=
-acked by
-> +	  TEE client interfaces. If in doubt, say N.
-> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makef=
-ile
-> index a2437c1817e2..0028aa9d875f 100644
-> --- a/drivers/dma-buf/heaps/Makefile
-> +++ b/drivers/dma-buf/heaps/Makefile
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_DMABUF_HEAPS_CMA)		+=3D cma_heap.o
->  obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED)	+=3D restricted_heap.o
-> +obj-$(CONFIG_DMABUF_HEAPS_RESTRICTED_MTK)	+=3D restricted_heap_mtk.o
->  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+=3D system_heap.o
-> diff --git a/drivers/dma-buf/heaps/restricted_heap.c b/drivers/dma-buf/he=
-aps/restricted_heap.c
-> index 4e45d46a6467..8bc8a5e3f969 100644
-> --- a/drivers/dma-buf/heaps/restricted_heap.c
-> +++ b/drivers/dma-buf/heaps/restricted_heap.c
-> @@ -151,11 +151,22 @@ restricted_heap_allocate(struct dma_heap *heap, uns=
-igned long size,
->  			 unsigned long fd_flags, unsigned long heap_flags)
->  {
->  	struct restricted_heap *rheap =3D dma_heap_get_drvdata(heap);
-> +	const struct restricted_heap_ops *ops =3D rheap->ops;
->  	struct restricted_buffer *restricted_buf;
->  	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->  	struct dma_buf *dmabuf;
->  	int ret;
-> =20
-> +	/*
-> +	 * In some implements, TEE is required to protect buffer. However TEE p=
-robe
-> +	 * may be late, Thus heap_init is performed when the first buffer is re=
-quested.
-> +	 */
-> +	if (ops->heap_init) {
-> +		ret =3D ops->heap_init(rheap);
-> +		if (ret)
-> +			return ERR_PTR(ret);
-> +	}
+> Sorry for jumping into this discussion so late. But are we really
+> concerned about this combinatorial explosion in practice? It may be
+> theoretically possible to create any combination of these, but do we
+> expect more than a couple of heaps to exist in any given system?
 
-I wonder if we should make this parameterized rather than the default.
-Perhaps we can add a "init_on_demand" (or whatever other name) flag to
-struct restricted_heap_ops and then call this from heap initialization
-if possible and defer initialization depending on the restricted heap
-provider?
+I don't worry too much about the number of heaps available in a given
+system, it would indeed be fairly low.
 
-> +
->  	restricted_buf =3D kzalloc(sizeof(*restricted_buf), GFP_KERNEL);
->  	if (!restricted_buf)
->  		return ERR_PTR(-ENOMEM);
-> diff --git a/drivers/dma-buf/heaps/restricted_heap.h b/drivers/dma-buf/he=
-aps/restricted_heap.h
-> index 6d9599a4a34e..2a33a1c7a48b 100644
-> --- a/drivers/dma-buf/heaps/restricted_heap.h
-> +++ b/drivers/dma-buf/heaps/restricted_heap.h
-> @@ -19,6 +19,8 @@ struct restricted_heap {
->  	const char		*name;
-> =20
->  	const struct restricted_heap_ops *ops;
-> +
-> +	void			*priv_data;
+My concern is about the semantics combinatorial explosion. So far, the
+name has carried what semantics we were supposed to get from the buffer
+we allocate from that heap.
 
-Honestly, I would just get rid of any of this extra padding/indentation
-in these structures. There's really no benefit to this, except maybe if
-you *really* like things to be aligned, in which case the above is now
-probably worse than if you didn't try to align in the first place.
+The more variations and concepts we'll have, the more heap names we'll
+need, and with confusing names since we wouldn't be able to change the
+names of the heaps we already have.
 
-Thierry
+> Would it perhaps make more sense to let a platform override the heap
+> name to make it more easily identifiable? Maybe this is a naive
+> assumption, but aren't userspace applications and drivers not primarily
+> interested in the "type" of heap rather than whatever specific flags
+> have been set for it?
 
---5z4oex5oy2lm7v2z
+I guess it depends on what you call the type of a heap. Where we
+allocate the memory from, sure, an application won't care about that.
+How the buffer behaves on the other end is definitely something
+applications are going to be interested in though.
+
+And if we allow any platform to change a given heap name, then a generic
+application won't be able to support that without some kind of
+platform-specific configuration.
+
+> For example, if an applications wants to use a protected buffer, the
+> application doesn't (and shouldn't need to) care about whether the heap
+> for that buffer supports ECC or is backed by CMA. All it really needs to
+> know is that it's the system's "protected" heap.
+
+I mean... "protected" very much means backed by CMA already, it's pretty
+much the only thing we document, and we call it as such in Kconfig.
+
+But yeah, I agree that being backed by CMA is probably not what an
+application cares about (and we even have might some discussions about
+that), but if the ECC protection comes at a performance cost then it
+will very much care about it. Or if it comes with caches enabled or not.
+
+> This rather than try to represent every possible combination we
+> basically make this a "configuration" issue. System designers need to
+> settle on whatever combination of flags work for all the desired use-
+> cases and then we expose that combination as a named heap.
+
+This just pushes the problem down to applications, and carry the flags
+mentioned earlier in the heap name. So the same information, but harder
+to process or discover for an application.
+
+> One problem that this doesn't solve is that we still don't have a way of
+> retrieving these flags in drivers which may need them.
+
+I'm not sure drivers should actually need to allocate from heaps, but we
+could do it just like I suggested we'd do it for applications: we add a
+new function that allows to discover what a given heap capabilities are.
+And then we just have to iterate and choose the best suited for our
+needs.
+
+Maxime
+
+--aklav4ucjv2rektt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZ+rroACgkQ3SOs138+
-s6EB/hAAlquMNwNzbko/vJ18thfHMMKEC/LnnxyK/L6hWo7sf3oV1B8fuUN/r+A5
-qzDZZmYdzjgCrR7bY/80cCOUVhJz1/y+eiQXSyBoG/5UM7SDPSSnRHCDYxGk8PUs
-6Tl7I1KmB994jWeX3qBUs8jM1EQym+2aYPevhR9E7bmKUfdGaaeBOwOv85Ku0rC9
-DhnQfteSJx9jRhnMzQE+ADzjqtnVhR4oSmfpugMPXV/WkVhJ81fMLDr6O3YAfFMy
-59NfXGreJN+yG/9FmuF6aIsesBcH8loA6UyM+RIv7eubHAZCCzAbXrHvdBg3neGN
-F2lRw/QN3PYdXAayYTDTw1619gN9oABCreu1TMJEPZmxypM8T89h17rSl06wUjxe
-tgFwkbvdsYQzpYBT54Jugie8+HCkQAxItrb2uFHI4zHKcg4OuvrlQP4ZLpA2qh4q
-2DK34GYRim44TCdKhL+R3LWAGVEIbzdnIUFt69k44rwj0qwTXaFofMQhDC/zS8Z6
-H1g4Ls4sNl7iPhnwfxtphdhvtw33ofgAqKtffPYlJKzSR+T08vOTENLDWIWf62NZ
-5R0I+LJ8DHBzZKprzeBkA7KL4mlctZKGEaf/d3G2cPoWBoCdBkRDOi+XTFtiVHKa
-kuNAR3Rsd/TbSDZYGcozLxD+mGBgZclxEO8kyHNENQR+xvetWiY=
-=oI/a
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZn613QAKCRDj7w1vZxhR
+xYMzAP9dgioI8HY72Rg1/06cgP7C/9nqV2DIO+/GP/sWV0wxSgEA1OIr44+4QM8r
+5QGSEyAfi7yOTBEB+QlJqdPGv5f2pAQ=
+=Pd1A
 -----END PGP SIGNATURE-----
 
---5z4oex5oy2lm7v2z--
+--aklav4ucjv2rektt--
 
