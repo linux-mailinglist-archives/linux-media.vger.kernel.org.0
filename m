@@ -1,106 +1,185 @@
-Return-Path: <linux-media+bounces-14300-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14301-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EB091B4C6
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 03:51:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B4591B5CD
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 06:47:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D04A22840CC
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 01:51:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 337031F23572
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 04:47:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B5171429B;
-	Fri, 28 Jun 2024 01:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDF993C08A;
+	Fri, 28 Jun 2024 04:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7htaq3d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CBA14267
-	for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 01:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA1D22612;
+	Fri, 28 Jun 2024 04:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719539482; cv=none; b=k6jS/lwkbzA9Q9Mxxt48j9nlaIOalgb5bmxp+rKUVsTRY67f+VHGV+WX9pBBLnJ/M3o1WU2GJiTKlpOsA5svWpf07tcZi7jcxT3UCmxFQc+cl7K79dS+4H1BM9bnbocJQk0rN2NWOWhEPmKRPqkvmz2z7mgYxmC7whUczECBO3E=
+	t=1719550029; cv=none; b=YP7d5JrOApMI0sJBtsSadsmiFEHCWR8TV3LwSnd1Fh9bl0O0grKhZOH0Ti9iVDRHOoMtoDsQ/F/bn3Jt2GF+ovX4UI7YIM/4MhuiUTUtCPRcE4YtrJlxR7UTaAMLlzN4x5BWeTJPoVcLqhtj7uwjr54JTj7RcMRcjM+lyWU1Qy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719539482; c=relaxed/simple;
-	bh=UTC9u4dTcJ2ISRooLMtm3CiqulpTOj/wI/9IIhbcWxk=;
-	h=Date:From:To:Subject:Message-Id; b=iK1Q3vltvYX09r8QwwIto0OIre+2/RoVlusyTmf1kpZKvV+Wc4PuCUOefKrAnPuooayCOeqE7JKpl1au5Du/8eZuyk4PVwpDglY9nDU9N9zbIu+OzaFOpTXc7jmd8xa6dz5WIpHhI8JJaFxsYF/J9ESWJaUKGhg+/VFqZVQFC8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C1DC2BBFC
-	for <linux-media@vger.kernel.org>; Fri, 28 Jun 2024 01:51:21 +0000 (UTC)
-Date: Fri, 28 Jun 2024 03:51:19 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240628015121.C0C1DC2BBFC@smtp.kernel.org>
+	s=arc-20240116; t=1719550029; c=relaxed/simple;
+	bh=hhSOyJfbZRZhIjSoV5AnADdHQZS1XJORgVzByzcsybE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=StXbEOL/QT75t4LuaPmBypJx4+OEBjXkC7uqhgWGpdtuMWbZsQUQdX/HXOISjEsjpvl+RvnKhMZG7O2gmMsi1mu6xL1fYiCTIhdgKldx5plqYme7ETgmzwtsWur+o/An72bS8duVFRhIBn09Bux7j9RbSnlvt/ikWBMqhD//VKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7htaq3d; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719550027; x=1751086027;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hhSOyJfbZRZhIjSoV5AnADdHQZS1XJORgVzByzcsybE=;
+  b=F7htaq3d082niNVfoeAVgjzk0fchFSd5q0HH2QaP+r5kJ6kW2gDjfRpR
+   uO0e97xg+WR0ICipk9A6KFvSwsYHasaC+DOKgR29kt133mgnL3CIqRink
+   q3CeTa//4CavZWEL8Gu4Gw9SiFvs+EUZ2m2+dO9TJ8A/BYUkSgvhiqVkl
+   1JsBWQ7LKq7dqoEfwnJvVclUdFmEFjBK4SYBd9IjYjTDQv3md9p/JatvV
+   X4we4RthwqdNK96glJK7EiS9h1XozrqCjYVAu8r6YZWcuewUb53QFwpKF
+   46856jRG1B+4OHlqUN7gtbhLN6qzYBoRv+J3iRGsQjtsOnzfj3dS+cajD
+   g==;
+X-CSE-ConnectionGUID: gbLliY+eSru6S8c9WWLaxA==
+X-CSE-MsgGUID: FyPUZP6CTZWOT6W681WI0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16537255"
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
+   d="scan'208";a="16537255"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 21:47:06 -0700
+X-CSE-ConnectionGUID: cCW7NoNoRpib26TeZ6KruA==
+X-CSE-MsgGUID: hLb0L9vtSdmkdnpJYFiLHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
+   d="scan'208";a="45254075"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 27 Jun 2024 21:47:02 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sN3Vj-000Gnw-2k;
+	Fri, 28 Jun 2024 04:46:59 +0000
+Date: Fri, 28 Jun 2024 12:46:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Daniel Ferguson <danielf@os.amperecomputing.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Len Brown <lenb@kernel.org>, Shengwei Luo <luoshengwei@huawei.com>,
+	Shiju Jose <shiju.jose@huawei.com>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Tony Luck <tony.luck@intel.com>, linux-acpi@vger.kernel.org,
+	linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 1/2] RAS: ACPI: APEI: add conditional compilation to ARM
+ error report functions
+Message-ID: <202406281232.xTKmzO76-lkp@intel.com>
+References: <95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab+huawei@kernel.org>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Mauro,
 
-Results of the daily build of media_tree:
+kernel test robot noticed the following build errors:
 
-date:			Fri Jun 28 03:00:14 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	57dd8f2f77bc85374fc06962110cad0259a1a495
-v4l-utils git hash:	dd7e77c6ce3d123377fda037907c08d004bb2e50
-edid-decode git hash:	5d66c548e93acac1ab09675aa424912a4be879a8
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8660-g2dd6476c
-sparse version:		v0.5.0-8660-g2dd6476c
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: be24540c169ec3016775f81d1a36b4133e96c7df
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.10-rc5 next-20240627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/RAS-ACPI-APEI-add-conditional-compilation-to-ARM-error-report-functions/20240627-225843
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/95baa46a5e1c88f08e328dbbfbbd01602e092234.1719471257.git.mchehab%2Bhuawei%40kernel.org
+patch subject: [PATCH 1/2] RAS: ACPI: APEI: add conditional compilation to ARM error report functions
+config: x86_64-buildonly-randconfig-003-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281232.xTKmzO76-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281232.xTKmzO76-lkp@intel.com/reproduce)
 
-date:			Fri Jun 28 03:14:11 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406281232.xTKmzO76-lkp@intel.com/
 
-date:			Fri Jun 28 03:50:17 CEST 2024
+All error/warnings (new ones prefixed by >>):
 
-Detailed results are available here:
+   drivers/acpi/apei/ghes.c: In function 'ghes_handle_arm_hw_error':
+>> drivers/acpi/apei/ghes.c:575:16: error: 'queued' undeclared (first use in this function)
+     575 |         return queued;
+         |                ^~~~~~
+   drivers/acpi/apei/ghes.c:575:16: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/acpi/apei/ghes.c:576:1: warning: control reaches end of non-void function [-Wreturn-type]
+     576 | }
+         | ^
 
-https://hverkuil.home.xs4all.nl/logs/Friday.log
 
-Detailed regression test results are available here:
+vim +/queued +575 drivers/acpi/apei/ghes.c
 
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
+7f17b4a121d0d5 James Morse     2020-05-01  530  
+a70297d2213253 Shuai Xue       2023-12-18  531  static bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
+a70297d2213253 Shuai Xue       2023-12-18  532  				     int sev, bool sync)
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  533  {
+4a485d7f807462 Daniel Ferguson 2024-06-27  534  #if defined(CONFIG_ARM) || defined (CONFIG_ARM64)
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  535  	struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
+a70297d2213253 Shuai Xue       2023-12-18  536  	int flags = sync ? MF_ACTION_REQUIRED : 0;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  537  	bool queued = false;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  538  	int sec_sev, i;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  539  	char *p;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  540  
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  541  	log_arm_hw_error(err);
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  542  
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  543  	sec_sev = ghes_severity(gdata->error_severity);
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  544  	if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
+7f17b4a121d0d5 James Morse     2020-05-01  545  		return false;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  546  
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  547  	p = (char *)(err + 1);
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  548  	for (i = 0; i < err->err_info_num; i++) {
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  549  		struct cper_arm_err_info *err_info = (struct cper_arm_err_info *)p;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  550  		bool is_cache = (err_info->type == CPER_ARM_CACHE_ERROR);
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  551  		bool has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  552  		const char *error_type = "unknown error";
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  553  
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  554  		/*
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  555  		 * The field (err_info->error_info & BIT(26)) is fixed to set to
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  556  		 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  557  		 * firmware won't mix corrected errors in an uncorrected section,
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  558  		 * and don't filter out 'corrected' error here.
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  559  		 */
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  560  		if (is_cache && has_pa) {
+a70297d2213253 Shuai Xue       2023-12-18  561  			queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  562  			p += err_info->length;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  563  			continue;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  564  		}
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  565  
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  566  		if (err_info->type < ARRAY_SIZE(cper_proc_error_type_strs))
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  567  			error_type = cper_proc_error_type_strs[err_info->type];
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  568  
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  569  		pr_warn_ratelimited(FW_WARN GHES_PFX
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  570  				    "Unhandled processor error type: %s\n",
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  571  				    error_type);
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  572  		p += err_info->length;
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11  573  	}
+4a485d7f807462 Daniel Ferguson 2024-06-27  574  #endif
+ccb5ecdc2ddeaf Xiaofei Tan     2021-06-11 @575  	return queued;
+cf870c70a19444 Naveen N. Rao   2013-07-10 @576  }
+cf870c70a19444 Naveen N. Rao   2013-07-10  577  
 
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
