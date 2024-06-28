@@ -1,196 +1,249 @@
-Return-Path: <linux-media+bounces-14321-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14320-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D52691BBF3
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 11:53:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5E091BBEF
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 11:53:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E466B21C23
-	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 09:53:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAE492870A5
+	for <lists+linux-media@lfdr.de>; Fri, 28 Jun 2024 09:53:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18DD7154448;
-	Fri, 28 Jun 2024 09:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E228E153812;
+	Fri, 28 Jun 2024 09:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MigDMdci"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gJDz6xUH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41601487EB;
-	Fri, 28 Jun 2024 09:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7613E1487EB;
+	Fri, 28 Jun 2024 09:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719568395; cv=none; b=kjgbp6+qv41Q0pWWJK+NnFLcfMxpxPolHLO5fOtP537oSg53R5dkl0U0AljAm6NYwUc+Wvg7gyv2w5qHwmaqZR9TyBQaE+DfcExiIMGaxmHAHpzIE4KPiO48/I4xaFkk88ZzrpN/we+4kA5AFcAcBkC3txWRlzrzOnfl+lZUYs4=
+	t=1719568392; cv=none; b=c5R4GMavhqpfbf95uTj9BHaql+n4vx1Mi+xmunXM/c6C0eTRWSVilW46xrLo6LiSlHA+acpkEE7z6aSzYzjf56EMV8JtAnH+lPUuOOHdlfLd5qqDZP52fZ4cOruqMA5H+Y5LylRUDVCQF5S76DTnD3K4iAFrKS4K9mTyLmHBOpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719568395; c=relaxed/simple;
-	bh=42lpn0gsgP3WHsGwcnPSpiBlf1XrAVONaMmX2JlfO0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EEEXSKH2ilrWX2PXlIoeDEC4+r8VuhZOQgZqOUsq036ou6Tcus1QHq/5gKpMDMFO99pf18I5X+hynPHCVzOUIyKmTLVkqkPF9uARCVm2TzYSKkKXkKe2I6u6DiO5jV0oRa6Qqk8mzhiGm7adnxmlWo9yB3+fW9E0zQBN+1ypSso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MigDMdci; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719568394; x=1751104394;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=42lpn0gsgP3WHsGwcnPSpiBlf1XrAVONaMmX2JlfO0w=;
-  b=MigDMdciueyNgNKKw/0+7F3HF+vD+9Gs1KlvNXNVknRiQjPdF/ibBgSO
-   6rebnx3tqrIsBqQNcqQuoYcDu9PftHW1T8CbocsdD+NcwP3KuPFaodIr7
-   Zc+ctCc+pua3/SvXXc2VxE31zGAtSJLDOP8hK8Jyzyhqa3DSOBNhz1pIL
-   qVmJhPdKRm7g1sWTyfxJEf2t3Sw8iH1x5t1QWIy/H9NSY7BosIilXvT57
-   B4OpkBeu/coBG0+YGjxppFW9N+cv5+Au7WzkhgKeXcLzZ4KE+z53SujtW
-   m82nBLgc7FgD8B2O8C1WSZQ2+jcYM9dD20YTDs+XmIyq+JTEQjDTY7caP
-   Q==;
-X-CSE-ConnectionGUID: HLqjqv+HQ9eIZ78ADDl7Ow==
-X-CSE-MsgGUID: v4AauS4PTcmeG49C5tKFAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16482504"
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="16482504"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 02:53:13 -0700
-X-CSE-ConnectionGUID: 2mcIUEDRSHm0axZST7dXNQ==
-X-CSE-MsgGUID: UD1R3oihQIyw27l1d6rduQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,168,1716274800"; 
-   d="scan'208";a="45342508"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Jun 2024 02:53:07 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sN8Hw-000Gxi-25;
-	Fri, 28 Jun 2024 09:53:04 +0000
-Date: Fri, 28 Jun 2024 17:52:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Shengwei Luo <luoshengwei@huawei.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Daniel Ferguson <danielf@os.amperecomputing.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	James Morse <james.morse@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Len Brown <lenb@kernel.org>, Shiju Jose <shiju.jose@huawei.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Tyler Baicar <tbaicar@codeaurora.org>,
-	Will Deacon <will@kernel.org>, Xie XiuQi <xiexiuqi@huawei.com>,
-	linux-acpi@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jason Tian <jason@os.amperecomputing.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 2/2] RAS: Report all ARM processor CPER information to
- userspace
-Message-ID: <202406281751.Wuf4JcIZ-lkp@intel.com>
-References: <eed2c4a4fbbb71226ca1944bc7e319bfa9f8aec0.1719471257.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1719568392; c=relaxed/simple;
+	bh=+Q4s71xDIUCrUgdMHBSsVZ+Mql8XdR9LMez2/smfRdM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eh5TPnadjE9ymigB2h5Kyb96D4f30O/WsqAH1HamT2MbFaGH/W5Y0CUav6rLt/E1Zjw4JpZnQiQ7xDRXzOHDDs5YYqiTDzlmyH2AwYWKTB4rdLwhFXkUZ5fYm71GLmErhHTfM49wDoZrcR6aYDCVgY7lyBoTDPTE8fo1+Quf/A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gJDz6xUH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-144-210.elisa-laajakaista.fi [91.158.144.210])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 272FC735;
+	Fri, 28 Jun 2024 11:52:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719568364;
+	bh=+Q4s71xDIUCrUgdMHBSsVZ+Mql8XdR9LMez2/smfRdM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gJDz6xUHcwF9B1g2mZ5WLQiAYCL+9m34WJtH/5izC+JJCKkPA0r/zntkxk2jeENqv
+	 +JlRD6PO5xQxQRFTvwfD4OE1tZSy0taMORbxQ+mB08eKRdX9pQdQVwurVJ4sCMkoKv
+	 HytH9z/4ERUt8HsHXAzP/MfE4liYxQWQ6+fsqg6A=
+Message-ID: <5e4905d1-27dc-4466-994c-389c2df8f2e8@ideasonboard.com>
+Date: Fri, 28 Jun 2024 12:53:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eed2c4a4fbbb71226ca1944bc7e319bfa9f8aec0.1719471257.git.mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/13] media: cadence,ti: CSI2RX Multistream Support
+To: Jai Luthra <j-luthra@ti.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Vignesh Raghavendra <vigneshr@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>,
+ Julien Massot <julien.massot@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Vaishnav Achath
+ <vaishnav.a@ti.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
+ <99fda0f2-57e9-4b37-a848-b7781f3b1dd7@ideasonboard.com>
+ <kge5gelwwiukrupotdjiaj6rr2yxplumnhh5q4jjak3nyp35td@ctwvefoevxzx>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <kge5gelwwiukrupotdjiaj6rr2yxplumnhh5q4jjak3nyp35td@ctwvefoevxzx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mauro,
+On 28/06/2024 12:35, Jai Luthra wrote:
+> Hi Tomi,
+> 
+> On Jun 28, 2024 at 11:26:59 +0300, Tomi Valkeinen wrote:
+>> Hi Jai,
+>>
+>> On 27/06/2024 16:09, Jai Luthra wrote:
+>>> This series adds multi-stream support for Cadence CSI2RX and TI CSI2RX
+>>> Shim drivers.
+>>>
+>>> PATCH 1:	Runtime Power Management for Cadence CSI2RX
+>>> PATCH 2-7:	Support multiple DMA contexts/video nodes in TI CSI2RX
+>>> PATCH 8-9:	Use get_frame_desc to propagate virtual channel information
+>>> 		across Cadence and TI CSI-RX subdevs
+>>> PATCH 10-12:	Use new multi-stream APIs across the drivers to support
+>>> 		multiplexed cameras from sources like UB960 (FPDLink)
+>>> PATCH 13:	Optimize stream on by submitting all queued buffers to DMA
+>>>
+>>> This applies on top of today's linux-next (next-20240626)
+> 
+> This series is based on top of next-20240626
+> 
+>>> (also tested rebase with media_stage.git master)
+>>>
+>>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+>>> ---
+>>> Changes in v2:
+>>>
+>>> - Change the multi-camera capture architecture to be similar to that of
+>>>     Tomi's RPi5 FE series, where the driver will wait for userspace to
+>>>     start streaming on all "actively routed" video nodes before starting
+>>>     streaming on the source. This simplifies things a lot from the HW
+>>>     perspective, which might run into deadlocks due to a shared FIFO
+>>>     between multiple DMA channels.
+>>>
+>>> - Drop a few fixes that were posted separately and are already merged
+>>> - Fix dtschema warnings reported by Rob on [02/13]
+>>> - Fix warnings for uninitialized `used_vc` variable in cdns-csi2rx.c
+>>> - Return -EBUSY if someone updates routes for j721e-csi2rx subdev while
+>>>     streaming
+>>> - Only allow single-streams to be routed to the source pads (linked to
+>>>     video nodes) of the j721e-csi2rx device
+>>> - Squash the patches marked "SQUASH" in the v1 RFC series
+>>>
+>>> - Link to RFC (v1):
+>>>     https://lore.kernel.org/r/20240222-multistream-v1-0-1837ed916eeb@ti.com
+>>>
+>>> ---
+>>> Jai Luthra (8):
+>>>         dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+>>>         media: ti: j721e-csi2rx: separate out device and context
+>>>         media: ti: j721e-csi2rx: add a subdev for the core device
+>>>         media: ti: j721e-csi2rx: add support for processing virtual channels
+>>>         media: cadence: csi2rx: Use new enable stream APIs
+>>>         media: cadence: csi2rx: Enable multi-stream support
+>>>         media: ti: j721e-csi2rx: add multistream support
+>>>         media: ti: j721e-csi2rx: Submit all available buffers
+>>>
+>>> Jayshri Pawar (1):
+>>>         media: cadence: csi2rx: Support runtime PM
+>>>
+>>> Pratyush Yadav (4):
+>>>         media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+>>>         media: ti: j721e-csi2rx: allocate DMA channel based on context index
+>>>         media: ti: j721e-csi2rx: get number of contexts from device tree
+>>>         media: cadence: csi2rx: add get_frame_desc wrapper
+>>>
+>>>    .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  39 +-
+>>>    drivers/media/platform/cadence/cdns-csi2rx.c       | 440 +++++++++--
+>>>    .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 879 ++++++++++++++++-----
+>>>    3 files changed, 1071 insertions(+), 287 deletions(-)
+>>> ---
+>>> base-commit: df9574a57d02b265322e77fb8628d4d33641dda9
+>>> change-id: 20240221-multistream-fbba6ffe47a3
+>>
+>> You have based this series on top of your private branch. Don't do that.
+>> Base on top of a kernel tag, or a commonly known tree (linux-media-stage for
+>> example), and preferably mention the base in the cover letter.
+> 
+> The base commit SHA populated by b4 is the same as next-20240626 as
+> mentioned above
 
-kernel test robot noticed the following build errors:
+Ah, right, my bad. I took your branch 
+https://github.com/jailuthra/linux/commits/b4/multistream/, and assumed 
+it's the one you used to send these patches. In that branch these 
+patches are not based on linux-next.
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.10-rc5 next-20240627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> https://gitlab.com/linux-kernel/linux-next/-/commits/df9574a57d02b265322e77fb8628d4d33641dda9
+> 
+> I chose to not use media-stage as the base, but this series applies
+> cleanly (and compiles) on top of that as well.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/RAS-ACPI-APEI-add-conditional-compilation-to-ARM-error-report-functions/20240627-225843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/eed2c4a4fbbb71226ca1944bc7e319bfa9f8aec0.1719471257.git.mchehab%2Bhuawei%40kernel.org
-patch subject: [PATCH 2/2] RAS: Report all ARM processor CPER information to userspace
-config: arm64-randconfig-003-20240628 (https://download.01.org/0day-ci/archive/20240628/202406281751.Wuf4JcIZ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406281751.Wuf4JcIZ-lkp@intel.com/reproduce)
+I'd still recommend media-stage, as that's where these patches would be 
+merged (or just linux-media). linux-next is good for testing, but I 
+wouldn't normally base patches on top of that, or at last send patches 
+based on that.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406281751.Wuf4JcIZ-lkp@intel.com/
+>> Your private branch contains e.g. dtsos needed for testing. If you have such
+>> a branch, you should point to it in the cover letter as it's valuable for
+>> reviewers/testers.
+> 
+> Ah my bad, I missed mentioning my github branch that can be used for
+> testing the content of this series. It contains some DTSOs and defconfig
+> updates, along with support for FPDLink/V3Link sensors.
+> 
+> https://github.com/jailuthra/linux/commits/b4/multistream/
 
-All errors (new ones prefixed by >>):
+Jfyi, I've tested this with am62a and arducam's fpdlink board with 
+imx219 sensors, and works fine for me.
 
-   In file included from drivers/ras/ras.c:46:
-   In file included from include/ras/ras_event.h:12:
-   In file included from include/linux/pci.h:1650:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/ras/ras.c:73:10: error: incompatible pointer types assigning to 'u8 *' (aka 'unsigned char *') from 'struct cper_arm_ctx_info *' [-Werror,-Wincompatible-pointer-types]
-      73 |         ctx_err = ctx_info;
-         |                 ^ ~~~~~~~~
-   1 warning and 1 error generated.
+I only tested with pixel streams, I'd like to also add all the patches 
+needed for embedded data and test that (I think all of those have been 
+posted to the lists), but I don't think I'll have time for that right now.
 
+  Tomi
 
-vim +73 drivers/ras/ras.c
+>> Only base on top of a private branch if your patches compile-time depend on
+>> something from there, and in that case point to the branch and mention this
+>> dependency clearly in the cover letter.
+> 
+> Makes sense, will take extra care to mention the dependencies and base
+> branch from next version.
+> 
+>>
+>>   Tomi
+>>
+> 
 
-    54	
-    55	void log_arm_hw_error(struct cper_sec_proc_arm *err, const u8 sev)
-    56	{
-    57	#if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
-    58		struct cper_arm_err_info *err_info;
-    59		struct cper_arm_ctx_info *ctx_info;
-    60		u8 *ven_err_data;
-    61		u32 ctx_len = 0;
-    62		int n, sz, cpu;
-    63		s32 vsei_len;
-    64		u32 pei_len;
-    65		u8 *pei_err;
-    66		u8 *ctx_err;
-    67	
-    68		pei_len = sizeof(struct cper_arm_err_info) * err->err_info_num;
-    69		pei_err = (u8 *)err + sizeof(struct cper_sec_proc_arm);
-    70	
-    71		err_info = (struct cper_arm_err_info *)(err + 1);
-    72		ctx_info = (struct cper_arm_ctx_info *)(err_info + err->err_info_num);
-  > 73		ctx_err = ctx_info;
-    74		for (n = 0; n < err->context_info_num; n++) {
-    75			sz = sizeof(struct cper_arm_ctx_info) + ctx_info->size;
-    76			ctx_info = (struct cper_arm_ctx_info *)((long)ctx_info + sz);
-    77			ctx_len += sz;
-    78		}
-    79	
-    80		vsei_len = err->section_length - (sizeof(struct cper_sec_proc_arm) +
-    81						  pei_len + ctx_len);
-    82		if (vsei_len < 0) {
-    83			pr_warn(FW_BUG
-    84				"section length: %d\n", err->section_length);
-    85			pr_warn(FW_BUG
-    86				"section length is too small\n");
-    87			pr_warn(FW_BUG
-    88				"firmware-generated error record is incorrect\n");
-    89			vsei_len = 0;
-    90		}
-    91		ven_err_data = (u8 *)ctx_info;
-    92	
-    93		cpu = GET_LOGICAL_INDEX(err->mpidr);
-    94		/* when return value is invalid, set cpu index to -1 */
-    95		if (cpu < 0)
-    96			cpu = -1;
-    97	
-    98		trace_arm_event(err, pei_err, pei_len, ctx_err, ctx_len,
-    99				ven_err_data, (u32)vsei_len, sev, cpu);
-   100	#endif
-   101	}
-   102	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
