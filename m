@@ -1,175 +1,331 @@
-Return-Path: <linux-media+bounces-14392-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14393-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15AC391CD09
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 15:11:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A13591CD2E
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 15:32:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 60714B222AB
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 13:11:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E51111F2223A
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 13:32:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57C580614;
-	Sat, 29 Jun 2024 13:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4518A7BB01;
+	Sat, 29 Jun 2024 13:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lUgoBi7P"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Iqtu/UZC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED167AE5D
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 13:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86E61879
+	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 13:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719666650; cv=none; b=kU2oBE3XOZS9WiKPl2UGG67INXA6/uzRt/BN3lv2JZd9iGssNZtUYuJkwEliD7N8dVw1UZW6mx9Ia7WxFU45IYegE0xxAmlcGt5m1CVbmBuWFDVyk9GrJ9oYT46+qb1DUIhJObbMCKE1dQXEB+UwUPnPoV/X9xWWliG3mLRTIxs=
+	t=1719667940; cv=none; b=OAdT9jO6ybp2b2XaghP8SUeNEPuF+HaJWuggueZI4oIsqsgIivjLQPt4LZ0dHXND/CHLSv7WVC4BiwEBz44IUu6Flm1hwBygUxMlqz3Gz/qZu67I5g7xvugxzMiLHKzWjQguZzlJGn4GMCBDl49ByKWOIqajz0LtJnjTp8l46wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719666650; c=relaxed/simple;
-	bh=Zc9sO0I5Bw+ymeOBrEoIlWnptOfQfEsWBo61k8+NyvY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nLIuISVeXax/kHXxAKbI501AGXxVav8y5K+rncO5370EcEzRt4aMxI7AOqmEcF/giF6XRqOnLLKDEly1VH/JLL493ArC9Y8yYV8TRLWFxV2IWzldQ0RqiDL5n/7czwIVOrr7htt3cuMrZosG51zZ4ZgadfXyyHoiUqwFsceUEPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lUgoBi7P; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a725282b926so155872166b.0
-        for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 06:10:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719666646; x=1720271446; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=NYxUnwUSohZuqH5Y3Oi4aiVD5zcwYSgn+PulSvwJzXQ=;
-        b=lUgoBi7PZyZazKChLZOIhAWtoTXHWBvK73zEYmwhjyKyO/agvUBakL8OP2/pvnA4dd
-         aa/xzcqwxt4nHtIkuYTBNBbJ7jhdOLJJy1c37EeyApPs9zEw1CJxgBgkDtBXWw9yNxAs
-         G6oBbxhi/HqWMnSqs4t2id9i/0ZCa7lrCFz4I/HYd32APBMnUTS7uYywk1B2NyXuFKVu
-         ONm6Fxbx6Wkx/8MitNmzYK2jD0CF1aXF6bmBs2RGBF6HV6IXWTgVSbToouFnJxWzAlHz
-         5RJLVz2FALnnz/4gjOc3lOotpgiHqt8N9675edo998KAfsthvl7PcqEfDFwHlL+EieFr
-         nzgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719666646; x=1720271446;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NYxUnwUSohZuqH5Y3Oi4aiVD5zcwYSgn+PulSvwJzXQ=;
-        b=lV0Tqf11i9jMO7LuKXrfYKqcOKeXPl3+XHZ8SpnPLeIXpKT/noH2FHbo0mgRIEzd7k
-         1AUUA496p1AjbqtztCQkftfgpGWaXR+W0P0NMy1LtT/n+acdcMW6xXiAn+XGrTUfPODR
-         Lg5fft01xXzWYtrXz/Wixr+JuMExZB7mXDheJRwLNKZgbgkmGA4i2UiLyQ5EV12HxrCi
-         ukTJlyC6WjXUL5oVMdcCx7NucJRKIa5O90T9+xZ0+XluQzioJVwzgpoZXGI9H8++ovG1
-         6CGtSud9V3uU3xO3FwhNtHodXeAEhy29ZoBiBpXtq2qcJuvNgF4Qmg42IWoM432v66oj
-         bSdA==
-X-Forwarded-Encrypted: i=1; AJvYcCUkLcERQ8V5uI4g1Cv6SfuMT+u5e2Z/wcSBCUmXUS5ue40A4he+wmn5lWvlU3U/nGntoKzSbOsMrKz94nBI7cr5LBRedCaeIlWwzE4=
-X-Gm-Message-State: AOJu0YyimcKN6rXebVizCjuNiEgxsny7EYaOTY6ny6CGfQntJA0Wvyx3
-	0L0yMWlkFc2KU+QEKh1dNU41clcVfbUBQjRYHk0tM4HTcJ/2QdHxndfkvZB5g0U=
-X-Google-Smtp-Source: AGHT+IF+d1chV2WaX+/TeZL5Zwzjo9i5T/U6DacLXmVqnZmlmiiqw31CXiOO6ryly0BzFkD1Mv1m5Q==
-X-Received: by 2002:a17:907:728e:b0:a6f:9b06:6b42 with SMTP id a640c23a62f3a-a75142d855bmr67725466b.5.1719666645529;
-        Sat, 29 Jun 2024 06:10:45 -0700 (PDT)
-Received: from [192.168.215.29] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab0b56a0sm163117866b.199.2024.06.29.06.10.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 29 Jun 2024 06:10:45 -0700 (PDT)
-Message-ID: <a35aacc5-a9d6-4a8e-b016-c23236413871@linaro.org>
-Date: Sat, 29 Jun 2024 15:10:41 +0200
+	s=arc-20240116; t=1719667940; c=relaxed/simple;
+	bh=teOKkgUEkbeS8XHoxU7yqKcjqE+Te3XBcFpEXzLm5Ow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQzEapnz743Xf/TYj8CB/lfCiSHLTt7fxyAb3QxK76vAcTMpxWvWT57TrlEbHSzbb/FtnZDUu6NwIzP00VCVbuz9LEAVwqlnvcFAlYgGZMRRDVzoPyZq2uw1uxZ9pjVBp8U/of5YT7IbyuOjySsEKEQqSlusWd2MULVQmqfPi9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Iqtu/UZC; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 801724B0;
+	Sat, 29 Jun 2024 15:31:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719667905;
+	bh=teOKkgUEkbeS8XHoxU7yqKcjqE+Te3XBcFpEXzLm5Ow=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Iqtu/UZCvdaLPzefha9Wwu24T6JWVeqxthRkAP30QD+moSAksZJYWWmAKuffvdUri
+	 aUywR4A2pAv/l9g2Y1dEKt0fq5vrwR6PurmqJ4TPpjn+g/G0T0c2KRG4FODRYKkC9o
+	 prDi/xAsyE2/qXz0XzURS+LDL1K83ddLy8ic0y6Y=
+Date: Sat, 29 Jun 2024 16:31:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH 4/7] media: rkisp1: Copy the parameters buffer
+Message-ID: <20240629133149.GE30900@pendragon.ideasonboard.com>
+References: <20240621145406.119088-1-jacopo.mondi@ideasonboard.com>
+ <20240621145406.119088-5-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] arm64: dts: qcom: sc7280: Add IMX577 camera sensor
-To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
- Hariram Purushothaman <hariramp@quicinc.com>,
- cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>,
- Loic Poulain <loic.poulain@linaro.org>, Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, Hariram Purushothaman
- <quic_hariramp@quicinc.com>, Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
-References: <20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com>
- <20240629-camss_first_post_linux_next-v1-3-bc798edabc3a@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
- BB/OmIWU6X+LZW6P88ZmHe+KeyABLMP5s1tJNK1j4ntT7mECcWZDzafPWF4F6m4WJOG27kTJ
- HGWdmtO+RvadOVi6CoUDqALsmfS3MUG5Pj2Ne9+0jRg4hEnB92AyF9rW2G3qisFcwPgvatt7
- TXD5E38mLyOPOUyXNj9XpDbt1hNwKQfiidmPh5e7VNAWRnW1iCMMoKqzM1Anzq7e5Afyeifz
- zRcQPLaqrPjnKqZGL2BKQSZDh6NkI5ZLRhhHQf61fkWcUpTp1oDC6jWVfT7hwRVIQLrrNj9G
- MpPzrlN4YuAqKeIer1FMt8cq64ifgTzxHzXsMcUdclzq2LTk2RXaPl6Jg/IXWqUClJHbamSk
- t1bfif3SnmhA6TiNvEpDKPiT3IDs42THU6ygslrBxyROQPWLI9IL1y8S6RtEh8H+NZQWZNzm
- UQ3imZirlPjxZtvz1BtnnBWS06e7x/UEAguj7VHCuymVgpl2Za17d1jj81YN5Rp5L9GXxkV1
- aUEwONM3eCI3qcYm5JNc5X+JthZOWsbIPSC1Rhxz3JmWIwP1udr5E3oNRe9u2LIEq+wH/toH
- kpPDhTeMkvt4KfE5m5ercid9+ZXAqoaYLUL4HCEw+HW0DXcKDwARAQABzShLb25yYWQgRHli
- Y2lvIDxrb25yYWQuZHliY2lvQGxpbmFyby5vcmc+wsGOBBMBCAA4FiEEU24if9oCL2zdAAQV
- R4cBcg5dfFgFAmQ5bqwCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQR4cBcg5dfFjO
- BQ//YQV6fkbqQCceYebGg6TiisWCy8LG77zV7DB0VMIWJv7Km7Sz0QQrHQVzhEr3trNenZrf
- yy+o2tQOF2biICzbLM8oyQPY8B///KJTWI2khoB8IJSJq3kNG68NjPg2vkP6CMltC/X3ohAo
- xL2UgwN5vj74QnlNneOjc0vGbtA7zURNhTz5P/YuTudCqcAbxJkbqZM4WymjQhe0XgwHLkiH
- 5LHSZ31MRKp/+4Kqs4DTXMctc7vFhtUdmatAExDKw8oEz5NbskKbW+qHjW1XUcUIrxRr667V
- GWH6MkVceT9ZBrtLoSzMLYaQXvi3sSAup0qiJiBYszc/VOu3RbIpNLRcXN3KYuxdQAptacTE
- mA+5+4Y4DfC3rUSun+hWLDeac9z9jjHm5rE998OqZnOU9aztbd6zQG5VL6EKgsVXAZD4D3RP
- x1NaAjdA3MD06eyvbOWiA5NSzIcC8UIQvgx09xm7dThCuQYJR4Yxjd+9JPJHI6apzNZpDGvQ
- BBZzvwxV6L1CojUEpnilmMG1ZOTstktWpNzw3G2Gis0XihDUef0MWVsQYJAl0wfiv/0By+XK
- mm2zRR+l/dnzxnlbgJ5pO0imC2w0TVxLkAp0eo0LHw619finad2u6UPQAkZ4oj++iIGrJkt5
- Lkn2XgB+IW8ESflz6nDY3b5KQRF8Z6XLP0+IEdLOOARkOW7yEgorBgEEAZdVAQUBAQdAwmUx
- xrbSCx2ksDxz7rFFGX1KmTkdRtcgC6F3NfuNYkYDAQgHwsF2BBgBCAAgFiEEU24if9oCL2zd
- AAQVR4cBcg5dfFgFAmQ5bvICGwwACgkQR4cBcg5dfFju1Q//Xta1ShwL0MLSC1KL1lXGXeRM
- 8arzfyiB5wJ9tb9U/nZvhhdfilEDLe0jKJY0RJErbdRHsalwQCrtq/1ewQpMpsRxXzAjgfRN
- jc4tgxRWmI+aVTzSRpywNahzZBT695hMz81cVZJoZzaV0KaMTlSnBkrviPz1nIGHYCHJxF9r
- cIu0GSIyUjZ/7xslxdvjpLth16H27JCWDzDqIQMtg61063gNyEyWgt1qRSaK14JIH/DoYRfn
- jfFQSC8bffFjat7BQGFz4ZpRavkMUFuDirn5Tf28oc5ebe2cIHp4/kajTx/7JOxWZ80U70mA
- cBgEeYSrYYnX+UJsSxpzLc/0sT1eRJDEhI4XIQM4ClIzpsCIN5HnVF76UQXh3a9zpwh3dk8i
- bhN/URmCOTH+LHNJYN/MxY8wuukq877DWB7k86pBs5IDLAXmW8v3gIDWyIcgYqb2v8QO2Mqx
- YMqL7UZxVLul4/JbllsQB8F/fNI8AfttmAQL9cwo6C8yDTXKdho920W4WUR9k8NT/OBqWSyk
- bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
- nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
- izWDgYvmBE8=
-In-Reply-To: <20240629-camss_first_post_linux_next-v1-3-bc798edabc3a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240621145406.119088-5-jacopo.mondi@ideasonboard.com>
 
-On 28.06.2024 8:32 PM, Vikram Sharma wrote:
-> Add support for IMX577 camera sensor for SC7280 SoC.
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Fri, Jun 21, 2024 at 04:54:02PM +0200, Jacopo Mondi wrote:
+> The ISP parameters buffers are queued by userspace to the params video
+> device and appended by the driver to the list of available ones for
+
+s/ones/buffers/
+
+> later consumption.
 > 
-> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
-> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> As the parameters buffer is mapped in the userspace process memory,
+> applications have access to the buffer content after the buffer has
+
+s/content/contents/
+
+> been queued.
+> 
+> To prevent userspace from modifying the content of the parameters buffer
+
+s/content/contents/
+
+> after it has been queued to the video device, add to 'struct
+> rkisp1_params_buffer' a scratch buffer where to copy the parameters.
+> 
+> Allocate the scratch buffer in the vb2 buf_init() operation and copy the
+> buffer content in the buf_prepare() operation. Release the scratch
+
+s/Release/Free/
+
+> buffer in the newly introduced buf_cleanup() operation handler.
+> 
+> Modify the ISP configuration function to access the ISP configuration
+> from the cached copy of the parameters buffer instead of using the
+> userspace-mapped one.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 +
+>  .../platform/rockchip/rkisp1/rkisp1-params.c  | 76 ++++++++++++++-----
+>  2 files changed, 57 insertions(+), 21 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index 9ac251fec262..1c99ee09a11a 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -5167,6 +5167,39 @@ cci3_sleep: cci3-sleep-state {
->  				bias-pull-down;
->  			};
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index a615bbb0255e..cdc7cc64ebd5 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -250,10 +250,12 @@ struct rkisp1_buffer {
+>   *
+>   * @vb:		vb2 buffer
+>   * @queue:	entry of the buffer in the queue
+> + * @cfg:	scratch buffer used for caching the ISP configuration parameters
+>   */
+>  struct rkisp1_params_buffer {
+>  	struct vb2_v4l2_buffer vb;
+>  	struct list_head queue;
+> +	struct rkisp1_params_cfg *cfg;
+>  };
+
+You can add
+
+static inline struct rkisp1_params_buffer *
+to_rkisp1_params_buffer(struct vb2_v4l2_buffer *vbuf)
+{
+	return container_of(vbuf, struct rkisp1_params_buffer, vb);
+}
+
+and use it below.
+
 >  
-> +			cam2_default: cam2-default {
-> +				rst {
-> +					pins = "gpio78"; /*cam3*/
-
-You can drop these comments.. the node name and label suggest this is
-cam*2* anyway
-
-> +					function = "gpio";
-> +					drive-strength = <2>;
-> +					bias-disable;
-> +				};
+>  /*
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> index 2844e55bc4f2..c081b41d6212 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> @@ -5,6 +5,8 @@
+>   * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
+>   */
+>  
+> +#include <linux/string.h>
 > +
-> +				mclk {
-> +					pins = "gpio67"; /*cam3*/
-> +					function = "cam_mclk";
-> +					drive-strength = <2>; /*RB5 was 16 and i changed to 2 here*/
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-ioctl.h>
+> @@ -1501,18 +1503,14 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
+>  	}
+>  }
+>  
+> -static bool rkisp1_params_get_buffer(struct rkisp1_params *params,
+> -				     struct rkisp1_params_buffer **buf,
+> -				     struct rkisp1_params_cfg **cfg)
+> +static struct rkisp1_params_buffer *
+> +rkisp1_params_get_buffer(struct rkisp1_params *params)
+>  {
+>  	if (list_empty(&params->params))
+> -		return false;
+> +		return NULL;
+>  
+> -	*buf = list_first_entry(&params->params, struct rkisp1_params_buffer,
+> +	return list_first_entry(&params->params, struct rkisp1_params_buffer,
+>  				queue);
+> -	*cfg = vb2_plane_vaddr(&(*buf)->vb.vb2_buf, 0);
+> -
+> -	return true;
 
-/* why? */
+There's a nice helper you can use:
 
-Konrad
+	return list_first_entry_or_null(&params->params,
+					struct rkisp1_params_buffer, queue);
+
+You could possibly even use that directly below and drop this function.
+Up to you.
+
+>  }
+>  
+>  static void rkisp1_params_complete_buffer(struct rkisp1_params *params,
+> @@ -1528,17 +1526,17 @@ static void rkisp1_params_complete_buffer(struct rkisp1_params *params,
+>  void rkisp1_params_isr(struct rkisp1_device *rkisp1)
+>  {
+>  	struct rkisp1_params *params = &rkisp1->params;
+> -	struct rkisp1_params_cfg *new_params;
+>  	struct rkisp1_params_buffer *cur_buf;
+>  
+>  	spin_lock(&params->config_lock);
+>  
+> -	if (!rkisp1_params_get_buffer(params, &cur_buf, &new_params))
+> +	cur_buf = rkisp1_params_get_buffer(params);
+> +	if (!cur_buf)
+>  		goto unlock;
+>  
+> -	rkisp1_isp_isr_other_config(params, new_params);
+> -	rkisp1_isp_isr_lsc_config(params, new_params);
+> -	rkisp1_isp_isr_meas_config(params, new_params);
+> +	rkisp1_isp_isr_other_config(params, cur_buf->cfg);
+> +	rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
+> +	rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
+>  
+>  	/* update shadow register immediately */
+>  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
+> @@ -1604,7 +1602,6 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
+>  				 enum v4l2_ycbcr_encoding ycbcr_encoding)
+>  {
+>  	struct rkisp1_cif_isp_hst_config hst = rkisp1_hst_params_default_config;
+> -	struct rkisp1_params_cfg *new_params;
+>  	struct rkisp1_params_buffer *cur_buf;
+>  
+>  	params->quantization = quantization;
+> @@ -1634,11 +1631,12 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
+>  
+>  	/* apply the first buffer if there is one already */
+>  
+> -	if (!rkisp1_params_get_buffer(params, &cur_buf, &new_params))
+> +	cur_buf = rkisp1_params_get_buffer(params);
+> +	if (!cur_buf)
+>  		goto unlock;
+>  
+> -	rkisp1_isp_isr_other_config(params, new_params);
+> -	rkisp1_isp_isr_meas_config(params, new_params);
+> +	rkisp1_isp_isr_other_config(params, cur_buf->cfg);
+> +	rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
+>  
+>  	/* update shadow register immediately */
+>  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
+> @@ -1650,7 +1648,6 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
+>  
+>  void rkisp1_params_post_configure(struct rkisp1_params *params)
+>  {
+> -	struct rkisp1_params_cfg *new_params;
+>  	struct rkisp1_params_buffer *cur_buf;
+>  
+>  	spin_lock_irq(&params->config_lock);
+> @@ -1663,11 +1660,11 @@ void rkisp1_params_post_configure(struct rkisp1_params *params)
+>  	 * ordering doesn't affect other ISP versions negatively, do so
+>  	 * unconditionally.
+>  	 */
+> -
+> -	if (!rkisp1_params_get_buffer(params, &cur_buf, &new_params))
+> +	cur_buf = rkisp1_params_get_buffer(params);
+> +	if (!cur_buf)
+>  		goto unlock;
+>  
+> -	rkisp1_isp_isr_lsc_config(params, new_params);
+> +	rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
+>  
+>  	/* update shadow register immediately */
+>  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
+> @@ -1819,6 +1816,29 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
+>  	return 0;
+>  }
+>  
+> +static int rkisp1_params_vb2_buf_init(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct rkisp1_params_buffer *params_buf =
+> +		container_of(vbuf, struct rkisp1_params_buffer, vb);
+> +
+> +	params_buf->cfg = kvmalloc(sizeof(*params_buf->cfg), GFP_KERNEL);
+> +	if (!params_buf->cfg)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+> +static void rkisp1_params_vb2_buf_cleanup(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct rkisp1_params_buffer *params_buf =
+> +		container_of(vbuf, struct rkisp1_params_buffer, vb);
+> +
+> +	kvfree(params_buf->cfg);
+> +	params_buf->cfg = NULL;
+> +}
+> +
+>  static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
+>  {
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> @@ -1834,11 +1854,23 @@ static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
+>  
+>  static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
+>  {
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct rkisp1_params_buffer *params_buf =
+> +		container_of(vbuf, struct rkisp1_params_buffer, vb);
+> +	struct rkisp1_params_cfg *cfg =
+> +		vb2_plane_vaddr(&params_buf->vb.vb2_buf, 0);
+> +
+>  	if (vb2_plane_size(vb, 0) < sizeof(struct rkisp1_params_cfg))
+>  		return -EINVAL;
+>  
+>  	vb2_set_plane_payload(vb, 0, sizeof(struct rkisp1_params_cfg));
+>  
+> +	/*
+> +	 * Copy the parameters buffer to the internal scratch buffer to avoid
+> +	 * userspace modifying the buffer content while the driver processes it.
+> +	 */
+> +	memcpy(params_buf->cfg, cfg, sizeof(*cfg));
+
+You need a copy_from_user() (and include uaccess.h).
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1863,6 +1895,8 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
+>  
+>  static const struct vb2_ops rkisp1_params_vb2_ops = {
+>  	.queue_setup = rkisp1_params_vb2_queue_setup,
+> +	.buf_init = rkisp1_params_vb2_buf_init,
+> +	.buf_cleanup = rkisp1_params_vb2_buf_cleanup,
+>  	.wait_prepare = vb2_ops_wait_prepare,
+>  	.wait_finish = vb2_ops_wait_finish,
+>  	.buf_queue = rkisp1_params_vb2_buf_queue,
+
+-- 
+Regards,
+
+Laurent Pinchart
 
