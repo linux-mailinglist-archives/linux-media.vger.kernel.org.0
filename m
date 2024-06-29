@@ -1,64 +1,58 @@
-Return-Path: <linux-media+bounces-14389-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBC991CCB7
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 14:33:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2FA91CCC5
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 14:43:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8B881C21170
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 12:33:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68C661C21032
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 12:43:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24A7C79B87;
-	Sat, 29 Jun 2024 12:33:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 744D47A158;
+	Sat, 29 Jun 2024 12:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SesPk52c"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZSS77ixF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E927947F4A
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 12:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534C92574B
+	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 12:42:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719664430; cv=none; b=hLSJ1cuBqLwAuEiZbwYTVg2kUOYdv0X1ZTjD5xQ1DqK2vMZKj4V3XtqdJvWgr9c14mi10m899vQQJdCU5yrvgy3awf3h/GeNesVl7EfBJmxfJu35vJDV85+SOs6yLMVosvGJhnQTdT/3m6gchZsvxMSAC27WV3hXb3bNg5igdEw=
+	t=1719664980; cv=none; b=c4TydifcA+hwHGQEDhR/YGw82QaGtVrnuEWKcU1LPkUC9rY73Gi+hogAu9v1FA42+OztaQoRBVcYnAElC+eFii7+OXa9Fq0cB06XdHfcUVD3Bv+Pas4ooFqH5Y7ABa4Zy71YiwA39WFovJMfpRb+C73OAW15Z8RjGQXU2dVN610=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719664430; c=relaxed/simple;
-	bh=6tk1oHG8igYvM+ii8Mq4R8f1YExGx6Fl5iZWh84F1u8=;
+	s=arc-20240116; t=1719664980; c=relaxed/simple;
+	bh=dKA0wsx4RDuMO8TNRkQGls9SPpUgzr7FVyBLwVBS5lE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oppjN3Pe4cYR9zKqXjYZG3xiTLddtY2awx0xNLQONggrN9gmFxaONhjmBSOdz6ijysqolqC++YDsBd/gDcHjPRA5CDjIS09sXl0RTT9wUpzvGti9XGd6ML88DWjwphnyq3P/HKyiXTpk6hA2JUJZi6GGkk8q3COHtHW5mXHkVOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SesPk52c; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=GJCBm19Tetn94EUiaSckhPnqkPA9ENKquCnBSqXPCW2arMRgQqJT1GvMPE2r/r5RhbRp3zlnlArr78P9pVZU82uLmH4g/h+pLwxU7mVlf8Qk+Ape7P78+p18Kx7RMdblM/8pShh+oxkIFfxm34xWKTY58S0PIt/8u8V7VDQQ0LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZSS77ixF; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43DAB890;
-	Sat, 29 Jun 2024 14:33:21 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9334D890;
+	Sat, 29 Jun 2024 14:42:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719664401;
-	bh=6tk1oHG8igYvM+ii8Mq4R8f1YExGx6Fl5iZWh84F1u8=;
+	s=mail; t=1719664952;
+	bh=dKA0wsx4RDuMO8TNRkQGls9SPpUgzr7FVyBLwVBS5lE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SesPk52cPOQjdTaJ175T4VgJZ60oE9nqZ+uy/1qAvqEFFQYqxUDX8sW6donBJJ8Gz
-	 g44pzgV3clTDXRgxEnDoYMJHTqyZD4uCHpvNsY4esC/3Ri32ZVGvOUuSahM0fNCRgO
-	 4FRSsnKChvZRXeOmtZPPNJalBqXGPnnDeCZggrsY=
-Date: Sat, 29 Jun 2024 15:33:24 +0300
+	b=ZSS77ixF0nfUCJfLlZ4AMhixDuP2lOVa2YBcfSd7FKZYDADyzILMwsdxjMQAII2oC
+	 aHvZA6oJT81Bt+gB4dck+yHC/NF+PI22Dgv2ilsso20c/v4MtsRX3d0nT7FE7KCvsv
+	 wm0NbMXfSk7pN14KUT7qMwUsUmVmMLmXUZFj3qjo=
+Date: Sat, 29 Jun 2024 15:42:36 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH 2/7] uapi: videodev2: Add V4L2_META_FMT_RK_ISP1_EXT_PARAMS
-Message-ID: <20240629123324.GC30900@pendragon.ideasonboard.com>
-References: <20240621145406.119088-1-jacopo.mondi@ideasonboard.com>
- <20240621145406.119088-3-jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Subject: Re: [PATCH] media: i2c: ccs: Fix link frequency control range update
+Message-ID: <20240629124236.GA5869@pendragon.ideasonboard.com>
+References: <20240628212603.5870-1-laurent.pinchart@ideasonboard.com>
+ <Zn_MKWM-5vIKXnyR@valkosipuli.retiisi.eu>
+ <20240629105222.GX30900@pendragon.ideasonboard.com>
+ <Zn_xM9CnR_iRklz3@valkosipuli.retiisi.eu>
+ <20240629115204.GA30900@pendragon.ideasonboard.com>
+ <Zn_26ybRP2dyvlwv@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,179 +61,119 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240621145406.119088-3-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zn_26ybRP2dyvlwv@valkosipuli.retiisi.eu>
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Fri, Jun 21, 2024 at 04:54:00PM +0200, Jacopo Mondi wrote:
-> Add a new format definition for the RkISP1 extensible parameters
-> format and document it.
+On Sat, Jun 29, 2024 at 11:58:35AM +0000, Sakari Ailus wrote:
+> On Sat, Jun 29, 2024 at 02:52:04PM +0300, Laurent Pinchart wrote:
+> > On Sat, Jun 29, 2024 at 11:34:11AM +0000, Sakari Ailus wrote:
+> > > On Sat, Jun 29, 2024 at 01:52:22PM +0300, Laurent Pinchart wrote:
+> > > > On Sat, Jun 29, 2024 at 08:56:09AM +0000, Sakari Ailus wrote:
+> > > > > On Sat, Jun 29, 2024 at 12:26:03AM +0300, Laurent Pinchart wrote:
+> > > > > > When updating the link frequency control range in response to a format
+> > > > > > change, the minimum value passed to the __v4l2_ctrl_modify_range()
+> > > > > > function is hardcoded to 0, while there's no guarantee that the first
+> > > > > > link frequency in the menu is valid for the selected format. Fix it by
+> > > > > > getting using the index of the first bit set in the valid link
+> > > > > > frequencies mask.
+> > > > > 
+> > > > > Is this a problem? The bitmask does tell which ones are valid, doesn't it?
+> > > > 
+> > > > I noticed that the new range wasn't applied in my sensor driver when the
+> > > > minimum was set to 0 and the mask didn't include that bit. However,
+> > > > that's because I had the default value wrong, which caused
+> > > > __v4l2_ctrl_modify_range() to error out. I thought the same applied to
+> > > > the minimum, but that doesn't seem to be the case. Isn't it still
+> > > > clearer to set the correct minimum, given that it is already computed
+> > > > anyway, to be used as a default value ?
+> > > 
+> > > I guess from user space point of view this could be helpful, yes. I'm fine
+> > > with changing this.
+> > 
+> > Another option would be for the control framework to adjust the minimum
+> > and maximum based on the mask.
 > 
-> Document the usage of the new format in the rkisp1 admin guide.
+> I wonder what Hans (now cc'd) thinks. I think it's actually a good idea,
+> given that the minimum and maximum could change dynamically anyway.
 
-In the previous version you explained the rationale in the
-documentation. I think it's useful to capture it in the commit message.
+Let's wait for comments before deciding what to do with this patch.
 
-----
-The rkisp1 driver stores ISP configuration parameters in the fixed
-rkisp1_params_cfg structure. As the members of the structure are part of
-the userspace API, the structure layout is immutable and cannot be
-extended further. Introducing new parameters or modifying the existing
-ones would change the buffer layout and cause breakages in existing
-applications.
-
-The allow for future extensions to the ISP parameters, introduce a new
-extensible parameters format, with a new format 4CC. Document usage of
-the new format in the rkisp1 admin guide.
-----
-
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  Documentation/admin-guide/media/rkisp1.rst    | 11 +++-
->  .../media/v4l/metafmt-rkisp1.rst              | 57 ++++++++++++++++---
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/videodev2.h                |  1 +
->  4 files changed, 59 insertions(+), 11 deletions(-)
+> > > > > The minimum value will also be zero after control initialisation before
+> > > > > this function gets called. This should be also taken into account.
+> > > > > 
+> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > > ---
+> > > > > > I noticed this issue in the CCS driver while working on a different
+> > > > > > sensor driver. I haven't tested this patch.
+> > > > > > ---
+> > > > > >  drivers/media/i2c/ccs/ccs-core.c | 12 ++++++++----
+> > > > > >  1 file changed, 8 insertions(+), 4 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> > > > > > index e1ae0f9fad43..5257dc4912ae 100644
+> > > > > > --- a/drivers/media/i2c/ccs/ccs-core.c
+> > > > > > +++ b/drivers/media/i2c/ccs/ccs-core.c
+> > > > > > @@ -2143,6 +2143,7 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
+> > > > > >  		*old_csi_format = sensor->csi_format;
+> > > > > >  	unsigned long *valid_link_freqs;
+> > > > > >  	u32 code = fmt->format.code;
+> > > > > > +	unsigned int min, max;
+> > > > > >  	unsigned int i;
+> > > > > >  	int rval;
+> > > > > >  
+> > > > > > @@ -2179,10 +2180,13 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
+> > > > > >  		&sensor->valid_link_freqs[sensor->csi_format->compressed
+> > > > > >  					  - sensor->compressed_min_bpp];
+> > > > > >  
+> > > > > > -	__v4l2_ctrl_modify_range(
+> > > > > > -		sensor->link_freq, 0,
+> > > > > > -		__fls(*valid_link_freqs), ~*valid_link_freqs,
+> > > > > > -		__ffs(*valid_link_freqs));
+> > > > > > +	min = __ffs(*valid_link_freqs);
+> > > > > > +	man = __fls(*valid_link_freqs);
+> > > > > > +
+> > > > > > +	ret = __v4l2_ctrl_modify_range(sensor->link_freq, min, max,
+> > > > > > +				       ~*valid_link_freqs, min);
+> > > > > 
+> > > > > As this doesn't effect any actual change the applying of which could fail,
+> > > > > you'd have to have an issue with the argument values themselves. I wouldn't
+> > > > > add a check here. Although if you do, the sensor configuration should be
+> > > > > returned to the state before the call which would probably be worth a new
+> > > > > patch.
+> > > > 
+> > > > The lack of a similar check caused my driver to silently keep the
+> > > > current range, and it took me a while to debug that. I however agree
+> > > > that, if the arguments are right, the check isn't needed. Maybe it can
+> > > > be dropped, as the arguments are correct.
+> > > 
+> > > Alternatively there should be a dev_warn(), too, that this is a driver bug.
+> > 
+> > Do you think we should add the warning to the __v4l2_ctrl_modify_range()
+> > function, or are there use cases where it could fail during normal
+> > operation ?
 > 
-> diff --git a/Documentation/admin-guide/media/rkisp1.rst b/Documentation/admin-guide/media/rkisp1.rst
-> index 6f14d9561fa5..2fc2939b0040 100644
-> --- a/Documentation/admin-guide/media/rkisp1.rst
-> +++ b/Documentation/admin-guide/media/rkisp1.rst
-> @@ -114,11 +114,18 @@ to be applied to the hardware during a video stream, allowing userspace
->  to dynamically modify values such as black level, cross talk corrections
->  and others.
->  
-> -The buffer format is defined by struct :c:type:`rkisp1_params_cfg`, and
-> -userspace should set
-> +The ISP driver supports two different parameters configuration methods, the
-> +`fixed parameters format` or the `extensible parameters format`.
-> +
-> +When using the `fixed parameters` method the buffer format is defined by struct
-> +:c:type:`rkisp1_params_cfg`, and userspace should set
->  :ref:`V4L2_META_FMT_RK_ISP1_PARAMS <v4l2-meta-fmt-rk-isp1-params>` as the
->  dataformat.
->  
-> +When using the fixed parameters method the buffer format is defined by struct
+> If modifying the range results in changing the control value, then this
+> results in (on I²C devices) an I²C write that can fail.
 
-s/fixed parameters/`extensible parameters`/
+Good point.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> The CCS driver writes the configuration to the sensor when streaming starts
+> so there's no actual write operation resulting from this.
 
-> +:c:type:`rkisp1_ext_params_cfg`, and userspace should set
-> +:ref:`V4L2_META_FMT_RK_ISP1_EXT_PARAMS <v4l2-meta-fmt-rk-isp1-ext-params>` as
-> +the dataformat.
->  
->  Capturing Video Frames Example
->  ==============================
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst b/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-> index fa04f00bcd2e..4e3f4ea9e1c8 100644
-> --- a/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-> @@ -1,28 +1,67 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -.. _v4l2-meta-fmt-rk-isp1-params:
-> -
->  .. _v4l2-meta-fmt-rk-isp1-stat-3a:
->  
-> -*****************************************************************************
-> -V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s')
-> -*****************************************************************************
-> +************************************************************************************************************************
-> +V4L2_META_FMT_RK_ISP1_PARAMS ('rk1p'), V4L2_META_FMT_RK_ISP1_STAT_3A ('rk1s'), V4L2_META_FMT_RK_ISP1_EXT_PARAMS ('rk1e')
-> +************************************************************************************************************************
->  
-> +========================
->  Configuration parameters
->  ========================
->  
-> -The configuration parameters are passed to the
-> +The configuration of the RkISP1 ISP is performed by userspace by providing
-> +parameters for the ISP to the driver using the :c:type:`v4l2_meta_format`
-> +interface.
-> +
-> +There are two methods that allow to configure the ISP, the `fixed parameters`
-> +configuration format and the `extensible parameters` configuration
-> +format.
-> +
-> +.. _v4l2-meta-fmt-rk-isp1-params:
-> +
-> +Fixed parameters configuration format
-> +=====================================
-> +
-> +When using the fixed configuration format, parameters are passed to the
->  :ref:`rkisp1_params <rkisp1_params>` metadata output video node, using
-> -the :c:type:`v4l2_meta_format` interface. The buffer contains
-> -a single instance of the C structure :c:type:`rkisp1_params_cfg` defined in
-> -``rkisp1-config.h``. So the structure can be obtained from the buffer by:
-> +the `V4L2_META_FMT_RK_ISP1_PARAMS` meta format.
-> +
-> +The buffer contains a single instance of the C structure
-> +:c:type:`rkisp1_params_cfg` defined in ``rkisp1-config.h``. So the structure can
-> +be obtained from the buffer by:
->  
->  .. code-block:: c
->  
->  	struct rkisp1_params_cfg *params = (struct rkisp1_params_cfg*) buffer;
->  
-> +This method supports a subset of the ISP features only, new applications should
-> +use the extensible parameters method.
-> +
-> +.. _v4l2-meta-fmt-rk-isp1-ext-params:
-> +
-> +Extensible parameters configuration format
-> +==========================================
-> +
-> +When using the extensible configuration format, parameters are passed to the
-> +:ref:`rkisp1_params <rkisp1_params>` metadata output video node, using
-> +the `V4L2_META_FMT_RK_ISP1_EXT_PARAMS` meta format.
-> +
-> +The buffer contains a single instance of the C structure
-> +:c:type:`rkisp1_ext_params_cfg` defined in ``rkisp1-config.h``. The
-> +:c:type:`rkisp1_ext_params_cfg` structure is designed to allow userspace to
-> +populate the data buffer with only the configuration data for the ISP blocks it
-> +intends to configure. The extensible parameters format design allows developers
-> +to define new block types to support new configuration parameters, and defines a
-> +versioning scheme so that it can be extended and versioned without breaking
-> +compatibility with existing applications.
-> +
-> +For these reasons, this configuration method if preferred over the `fixed
-> +parameters` format alternative.
-> +
->  .. rkisp1_stat_buffer
->  
-> +===========================
->  3A and histogram statistics
->  ===========================
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 4c76d17b4629..aefdc1efd24b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1456,6 +1456,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
->  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
->  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
-> +	case V4L2_META_FMT_RK_ISP1_EXT_PARAMS:	descr = "Rockchip ISP1 Ext 3A Params"; break;
->  	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index fe6b67e83751..7c2a303c6f59 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -840,6 +840,7 @@ struct v4l2_pix_format {
->  /* Vendor specific - used for RK_ISP1 camera sub-system */
->  #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
->  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
-> +#define V4L2_META_FMT_RK_ISP1_EXT_PARAMS	v4l2_fourcc('R', 'K', '1', 'E') /* Rockchip ISP1 3a Extensible Parameters */
->  
->  #ifdef __KERNEL__
->  /*
+I think all sensor drivers should do the same, it's not a legit use case
+to change the link frequency during streaming, it shouldn't be
+programmed from the .set_fmt() handler. Of course, the return value of
+__v4l2_ctrl_modify_range() should still be checked in paths where
+runtime updates are allowed (I'm thinking about updates to the vertical
+blanking and exposure controls).
+
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > >  
+> > > > > >  	return ccs_pll_update(sensor);
+> > > > > >  }
+> > > > > > 
+> > > > > > base-commit: afcd48134c58d6af45fb3fdb648f1260b20f2326
 
 -- 
 Regards,
