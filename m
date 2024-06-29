@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-14393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14394-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A13591CD2E
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 15:32:28 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A55C91CD7B
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 15:53:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E51111F2223A
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 13:32:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C6F9B21973
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 13:53:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4518A7BB01;
-	Sat, 29 Jun 2024 13:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3808175E;
+	Sat, 29 Jun 2024 13:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Iqtu/UZC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kvaGtFOo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86E61879
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 13:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AB24AEF7
+	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 13:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719667940; cv=none; b=OAdT9jO6ybp2b2XaghP8SUeNEPuF+HaJWuggueZI4oIsqsgIivjLQPt4LZ0dHXND/CHLSv7WVC4BiwEBz44IUu6Flm1hwBygUxMlqz3Gz/qZu67I5g7xvugxzMiLHKzWjQguZzlJGn4GMCBDl49ByKWOIqajz0LtJnjTp8l46wc=
+	t=1719669216; cv=none; b=SU0MmdW8Qn2xavzJ3EaTufAysM7sgpKDdBLLT/VAm2pdIHf6o/hLAemFr6gNklXT2UpyNtLwpYZxxik/w6uvY1gQYJMzzOoJCJg0/Nb57oqIBgaKvXE7I55nWX/ZoA7HMlQQbwzaA0VzOcJvLpaDF2OKCHFlofb85rgeeN8CZ/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719667940; c=relaxed/simple;
-	bh=teOKkgUEkbeS8XHoxU7yqKcjqE+Te3XBcFpEXzLm5Ow=;
+	s=arc-20240116; t=1719669216; c=relaxed/simple;
+	bh=NQR85bRlNqRzo+V17B26ubeNmIfcWxXArJd0+sCUnAo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AQzEapnz743Xf/TYj8CB/lfCiSHLTt7fxyAb3QxK76vAcTMpxWvWT57TrlEbHSzbb/FtnZDUu6NwIzP00VCVbuz9LEAVwqlnvcFAlYgGZMRRDVzoPyZq2uw1uxZ9pjVBp8U/of5YT7IbyuOjySsEKEQqSlusWd2MULVQmqfPi9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Iqtu/UZC; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uc759AOk//btjsoYfw7WbBO3ChVkQFYb9WnjlXZdK7dLf3zFmPcDL0gjWAHFOGmxuMYrzkBDA9qcPg8YoX42oO9VmO0zCBMlRU3GVWgkZLGjh4HkjCc/W463zXMtxBJmJJLnqotwGkL5OwlQFJJhKpcjHGToTu6+LE/MNiJmlXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kvaGtFOo; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 801724B0;
-	Sat, 29 Jun 2024 15:31:45 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 659F84B0;
+	Sat, 29 Jun 2024 15:53:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719667905;
-	bh=teOKkgUEkbeS8XHoxU7yqKcjqE+Te3XBcFpEXzLm5Ow=;
+	s=mail; t=1719669186;
+	bh=NQR85bRlNqRzo+V17B26ubeNmIfcWxXArJd0+sCUnAo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Iqtu/UZCvdaLPzefha9Wwu24T6JWVeqxthRkAP30QD+moSAksZJYWWmAKuffvdUri
-	 aUywR4A2pAv/l9g2Y1dEKt0fq5vrwR6PurmqJ4TPpjn+g/G0T0c2KRG4FODRYKkC9o
-	 prDi/xAsyE2/qXz0XzURS+LDL1K83ddLy8ic0y6Y=
-Date: Sat, 29 Jun 2024 16:31:49 +0300
+	b=kvaGtFOobvz/FYOVZPD3I7zhxe0lO/Tx2Tq/oOALy9hNLLiG58Aa2JgyWUvwDvW0Y
+	 TJ7PcnkOx+S2YM5GGcUswZmCb0jILMobJGC1fhhZqXV8AK3wd2m7iCPYKcQGmw1gjL
+	 r+yQBNGd0lnmW8E0Ggb8B9DzpMcBYvBjjbVtN/Q0=
+Date: Sat, 29 Jun 2024 16:53:10 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
@@ -55,10 +55,10 @@ Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
 	Dafna Hirschfeld <dafna@fastmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH 4/7] media: rkisp1: Copy the parameters buffer
-Message-ID: <20240629133149.GE30900@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 5/7] media: rkisp1: Cache the currently active format
+Message-ID: <20240629135310.GF30900@pendragon.ideasonboard.com>
 References: <20240621145406.119088-1-jacopo.mondi@ideasonboard.com>
- <20240621145406.119088-5-jacopo.mondi@ideasonboard.com>
+ <20240621145406.119088-6-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,262 +67,221 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240621145406.119088-5-jacopo.mondi@ideasonboard.com>
+In-Reply-To: <20240621145406.119088-6-jacopo.mondi@ideasonboard.com>
 
 Hi Jacopo,
 
 Thank you for the patch.
 
-On Fri, Jun 21, 2024 at 04:54:02PM +0200, Jacopo Mondi wrote:
-> The ISP parameters buffers are queued by userspace to the params video
-> device and appended by the driver to the list of available ones for
-
-s/ones/buffers/
-
-> later consumption.
+On Fri, Jun 21, 2024 at 04:54:03PM +0200, Jacopo Mondi wrote:
+> The rkisp1-params driver assumes the data buffer format is the only
+> currently supported "fixed" one. The usage of the "fixed" format is
+> assumed when allocating memory for the scratch buffers and when
+> initializing the vb2 queue.
 > 
-> As the parameters buffer is mapped in the userspace process memory,
-> applications have access to the buffer content after the buffer has
-
-s/content/contents/
-
-> been queued.
+> In order to prepare to support the "extensible" format beside the
+> existing "fixed" one, add support in the driver for both formats by
+> caching a pointer to the active one in the driver structure and use it
+> in the vb2 queue operations and subdev pad operations implementations.
 > 
-> To prevent userspace from modifying the content of the parameters buffer
-
-s/content/contents/
-
-> after it has been queued to the video device, add to 'struct
-> rkisp1_params_buffer' a scratch buffer where to copy the parameters.
+> Do not yet allow userspace to select between the two formats as the
+> support for the "extensible" format parsing will be introduced in a later
+> patch in the series.
 > 
-> Allocate the scratch buffer in the vb2 buf_init() operation and copy the
-> buffer content in the buf_prepare() operation. Release the scratch
-
-s/Release/Free/
-
-> buffer in the newly introduced buf_cleanup() operation handler.
-> 
-> Modify the ISP configuration function to access the ISP configuration
-> from the cached copy of the parameters buffer instead of using the
-> userspace-mapped one.
+> While at it, document the un-documented ycbcr_encoding field of
+> struct rkisp1_params_ops.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  2 +
->  .../platform/rockchip/rkisp1/rkisp1-params.c  | 76 ++++++++++++++-----
->  2 files changed, 57 insertions(+), 21 deletions(-)
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  8 ++-
+>  .../platform/rockchip/rkisp1/rkisp1-params.c  | 62 ++++++++++++-------
+>  2 files changed, 43 insertions(+), 27 deletions(-)
 > 
 > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index a615bbb0255e..cdc7cc64ebd5 100644
+> index cdc7cc64ebd5..ccd2065351b4 100644
 > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
 > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -250,10 +250,12 @@ struct rkisp1_buffer {
->   *
->   * @vb:		vb2 buffer
->   * @queue:	entry of the buffer in the queue
-> + * @cfg:	scratch buffer used for caching the ISP configuration parameters
->   */
+> @@ -255,7 +255,7 @@ struct rkisp1_buffer {
 >  struct rkisp1_params_buffer {
 >  	struct vb2_v4l2_buffer vb;
 >  	struct list_head queue;
-> +	struct rkisp1_params_cfg *cfg;
+> -	struct rkisp1_params_cfg *cfg;
+> +	void *cfg;
 >  };
-
-You can add
-
-static inline struct rkisp1_params_buffer *
-to_rkisp1_params_buffer(struct vb2_v4l2_buffer *vbuf)
-{
-	return container_of(vbuf, struct rkisp1_params_buffer, vb);
-}
-
-and use it below.
-
 >  
 >  /*
+> @@ -386,8 +386,9 @@ struct rkisp1_params_ops {
+>   * @ops:		pointer to the variant-specific operations
+>   * @config_lock:	locks the buffer list 'params'
+>   * @params:		queue of rkisp1_buffer
+> - * @vdev_fmt:		v4l2_format of the metadata format
+> + * @metafmt		the currently enabled metadata format
+>   * @quantization:	the quantization configured on the isp's src pad
+> + * @ycbcr_encoding	the YCbCr encoding
+>   * @raw_type:		the bayer pattern on the isp video sink pad
+>   */
+>  struct rkisp1_params {
+> @@ -397,7 +398,8 @@ struct rkisp1_params {
+>  
+>  	spinlock_t config_lock; /* locks the buffers list 'params' */
+>  	struct list_head params;
+> -	struct v4l2_format vdev_fmt;
+> +
+> +	const struct v4l2_meta_format *metafmt;
+>  
+>  	enum v4l2_quantization quantization;
+>  	enum v4l2_ycbcr_encoding ycbcr_encoding;
 > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> index 2844e55bc4f2..c081b41d6212 100644
+> index c081b41d6212..e38d2da994f5 100644
 > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
 > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> @@ -5,6 +5,8 @@
->   * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
->   */
+> @@ -35,6 +35,22 @@
+>  #define RKISP1_ISP_CC_COEFF(n) \
+>  			(RKISP1_CIF_ISP_CC_COEFF_0 + (n) * 4)
 >  
-> +#include <linux/string.h>
+> +enum rkisp1_params_formats {
+> +	RKISP1_PARAMS_FIXED,
+> +	RKISP1_PARAMS_EXTENSIBLE,
+> +};
 > +
->  #include <media/v4l2-common.h>
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-ioctl.h>
-> @@ -1501,18 +1503,14 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
->  	}
->  }
->  
-> -static bool rkisp1_params_get_buffer(struct rkisp1_params *params,
-> -				     struct rkisp1_params_buffer **buf,
-> -				     struct rkisp1_params_cfg **cfg)
-> +static struct rkisp1_params_buffer *
-> +rkisp1_params_get_buffer(struct rkisp1_params *params)
+> +static const struct v4l2_meta_format rkisp1_params_formats[] = {
+> +	[RKISP1_PARAMS_FIXED] = {
+> +		.dataformat = V4L2_META_FMT_RK_ISP1_PARAMS,
+> +		.buffersize = sizeof(struct rkisp1_params_cfg),
+> +	},
+> +	[RKISP1_PARAMS_EXTENSIBLE] = {
+> +		.dataformat = V4L2_META_FMT_RK_ISP1_EXT_PARAMS,
+> +		.buffersize = sizeof(struct rkisp1_ext_params_cfg),
+> +	},
+> +};
+> +
+>  static inline void
+>  rkisp1_param_set_bits(struct rkisp1_params *params, u32 reg, u32 bit_mask)
 >  {
->  	if (list_empty(&params->params))
-> -		return false;
-> +		return NULL;
->  
-> -	*buf = list_first_entry(&params->params, struct rkisp1_params_buffer,
-> +	return list_first_entry(&params->params, struct rkisp1_params_buffer,
->  				queue);
-> -	*cfg = vb2_plane_vaddr(&(*buf)->vb.vb2_buf, 0);
-> -
-> -	return true;
-
-There's a nice helper you can use:
-
-	return list_first_entry_or_null(&params->params,
-					struct rkisp1_params_buffer, queue);
-
-You could possibly even use that directly below and drop this function.
-Up to you.
-
->  }
->  
->  static void rkisp1_params_complete_buffer(struct rkisp1_params *params,
-> @@ -1528,17 +1526,17 @@ static void rkisp1_params_complete_buffer(struct rkisp1_params *params,
->  void rkisp1_params_isr(struct rkisp1_device *rkisp1)
->  {
->  	struct rkisp1_params *params = &rkisp1->params;
-> -	struct rkisp1_params_cfg *new_params;
->  	struct rkisp1_params_buffer *cur_buf;
->  
->  	spin_lock(&params->config_lock);
->  
-> -	if (!rkisp1_params_get_buffer(params, &cur_buf, &new_params))
-> +	cur_buf = rkisp1_params_get_buffer(params);
-> +	if (!cur_buf)
->  		goto unlock;
->  
-> -	rkisp1_isp_isr_other_config(params, new_params);
-> -	rkisp1_isp_isr_lsc_config(params, new_params);
-> -	rkisp1_isp_isr_meas_config(params, new_params);
-> +	rkisp1_isp_isr_other_config(params, cur_buf->cfg);
-> +	rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
-> +	rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
->  
->  	/* update shadow register immediately */
->  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> @@ -1604,7 +1602,6 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
->  				 enum v4l2_ycbcr_encoding ycbcr_encoding)
->  {
->  	struct rkisp1_cif_isp_hst_config hst = rkisp1_hst_params_default_config;
-> -	struct rkisp1_params_cfg *new_params;
->  	struct rkisp1_params_buffer *cur_buf;
->  
->  	params->quantization = quantization;
-> @@ -1634,11 +1631,12 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
->  
->  	/* apply the first buffer if there is one already */
->  
-> -	if (!rkisp1_params_get_buffer(params, &cur_buf, &new_params))
-> +	cur_buf = rkisp1_params_get_buffer(params);
-> +	if (!cur_buf)
->  		goto unlock;
->  
-> -	rkisp1_isp_isr_other_config(params, new_params);
-> -	rkisp1_isp_isr_meas_config(params, new_params);
-> +	rkisp1_isp_isr_other_config(params, cur_buf->cfg);
-> +	rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
->  
->  	/* update shadow register immediately */
->  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> @@ -1650,7 +1648,6 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
->  
->  void rkisp1_params_post_configure(struct rkisp1_params *params)
->  {
-> -	struct rkisp1_params_cfg *new_params;
->  	struct rkisp1_params_buffer *cur_buf;
->  
->  	spin_lock_irq(&params->config_lock);
-> @@ -1663,11 +1660,11 @@ void rkisp1_params_post_configure(struct rkisp1_params *params)
->  	 * ordering doesn't affect other ISP versions negatively, do so
->  	 * unconditionally.
->  	 */
-> -
-> -	if (!rkisp1_params_get_buffer(params, &cur_buf, &new_params))
-> +	cur_buf = rkisp1_params_get_buffer(params);
-> +	if (!cur_buf)
->  		goto unlock;
->  
-> -	rkisp1_isp_isr_lsc_config(params, new_params);
-> +	rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
->  
->  	/* update shadow register immediately */
->  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> @@ -1819,6 +1816,29 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
->  	return 0;
->  }
->  
-> +static int rkisp1_params_vb2_buf_init(struct vb2_buffer *vb)
-> +{
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct rkisp1_params_buffer *params_buf =
-> +		container_of(vbuf, struct rkisp1_params_buffer, vb);
-> +
-> +	params_buf->cfg = kvmalloc(sizeof(*params_buf->cfg), GFP_KERNEL);
-> +	if (!params_buf->cfg)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> +
-> +static void rkisp1_params_vb2_buf_cleanup(struct vb2_buffer *vb)
-> +{
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct rkisp1_params_buffer *params_buf =
-> +		container_of(vbuf, struct rkisp1_params_buffer, vb);
-> +
-> +	kvfree(params_buf->cfg);
-> +	params_buf->cfg = NULL;
-> +}
-> +
->  static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
->  {
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> @@ -1834,11 +1854,23 @@ static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
->  
->  static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
->  {
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct rkisp1_params_buffer *params_buf =
-> +		container_of(vbuf, struct rkisp1_params_buffer, vb);
-> +	struct rkisp1_params_cfg *cfg =
-> +		vb2_plane_vaddr(&params_buf->vb.vb2_buf, 0);
-> +
->  	if (vb2_plane_size(vb, 0) < sizeof(struct rkisp1_params_cfg))
+> @@ -1745,7 +1761,7 @@ static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
+>  	if (f->index > 0 || f->type != video->queue->type)
 >  		return -EINVAL;
 >  
->  	vb2_set_plane_payload(vb, 0, sizeof(struct rkisp1_params_cfg));
+> -	f->pixelformat = params->vdev_fmt.fmt.meta.dataformat;
+> +	f->pixelformat = params->metafmt->dataformat;
 >  
-> +	/*
-> +	 * Copy the parameters buffer to the internal scratch buffer to avoid
-> +	 * userspace modifying the buffer content while the driver processes it.
-> +	 */
-> +	memcpy(params_buf->cfg, cfg, sizeof(*cfg));
-
-You need a copy_from_user() (and include uaccess.h).
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
 >  	return 0;
 >  }
+> @@ -1761,8 +1777,8 @@ static int rkisp1_params_g_fmt_meta_out(struct file *file, void *fh,
+>  		return -EINVAL;
 >  
-> @@ -1863,6 +1895,8 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
+>  	memset(meta, 0, sizeof(*meta));
+> -	meta->dataformat = params->vdev_fmt.fmt.meta.dataformat;
+> -	meta->buffersize = params->vdev_fmt.fmt.meta.buffersize;
+> +	meta->dataformat = params->metafmt->dataformat;
+> +	meta->buffersize = params->metafmt->buffersize;
 >  
->  static const struct vb2_ops rkisp1_params_vb2_ops = {
->  	.queue_setup = rkisp1_params_vb2_queue_setup,
-> +	.buf_init = rkisp1_params_vb2_buf_init,
-> +	.buf_cleanup = rkisp1_params_vb2_buf_cleanup,
->  	.wait_prepare = vb2_ops_wait_prepare,
->  	.wait_finish = vb2_ops_wait_finish,
->  	.buf_queue = rkisp1_params_vb2_buf_queue,
+>  	return 0;
+>  }
+> @@ -1805,13 +1821,15 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
+>  					 unsigned int sizes[],
+>  					 struct device *alloc_devs[])
+>  {
+> +	struct rkisp1_params *params = vq->drv_priv;
+> +
+>  	*num_buffers = clamp_t(u32, *num_buffers,
+>  			       RKISP1_ISP_PARAMS_REQ_BUFS_MIN,
+>  			       RKISP1_ISP_PARAMS_REQ_BUFS_MAX);
+>  
+>  	*num_planes = 1;
+>  
+> -	sizes[0] = sizeof(struct rkisp1_params_cfg);
+> +	sizes[0] = params->metafmt->buffersize;
+>  
+>  	return 0;
+>  }
+> @@ -1821,8 +1839,10 @@ static int rkisp1_params_vb2_buf_init(struct vb2_buffer *vb)
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>  	struct rkisp1_params_buffer *params_buf =
+>  		container_of(vbuf, struct rkisp1_params_buffer, vb);
+> +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
+>  
+> -	params_buf->cfg = kvmalloc(sizeof(*params_buf->cfg), GFP_KERNEL);
+> +	params_buf->cfg = kvmalloc(params->metafmt->buffersize,
+> +				   GFP_KERNEL);
+>  	if (!params_buf->cfg)
+>  		return -ENOMEM;
+>  
+> @@ -1857,19 +1877,19 @@ static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>  	struct rkisp1_params_buffer *params_buf =
+>  		container_of(vbuf, struct rkisp1_params_buffer, vb);
+> -	struct rkisp1_params_cfg *cfg =
+> -		vb2_plane_vaddr(&params_buf->vb.vb2_buf, 0);
+> +	void *cfg = vb2_plane_vaddr(&params_buf->vb.vb2_buf, 0);
+> +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
+>  
+> -	if (vb2_plane_size(vb, 0) < sizeof(struct rkisp1_params_cfg))
+> +	if (vb2_plane_size(vb, 0) < params->metafmt->buffersize)
+>  		return -EINVAL;
+>  
+> -	vb2_set_plane_payload(vb, 0, sizeof(struct rkisp1_params_cfg));
+> +	vb2_set_plane_payload(vb, 0, params->metafmt->buffersize);
+
+I think you should drop this line. The plane payload is stored in
+bytesused, which is set by userspace for output devices. It shouldn't be
+overwritten by the driver.
+
+Instead, you should check that the payload is big enough. For fixed
+formats, that means checking it is >= sizeof(struct rkisp1_params_cfg)
+(or params->metafmt->buffersize, as the two are the same). For
+extensible formats, I would check that the payload is large enough to
+store the parameters buffer header.
+
+>  
+>  	/*
+>  	 * Copy the parameters buffer to the internal scratch buffer to avoid
+>  	 * userspace modifying the buffer content while the driver processes it.
+>  	 */
+> -	memcpy(params_buf->cfg, cfg, sizeof(*cfg));
+> +	memcpy(params_buf->cfg, cfg, params->metafmt->buffersize);
+
+And here I would copy vb2_get_plane_payload(vb, 0) bytes only.
+
+>  
+>  	return 0;
+>  }
+> @@ -1932,19 +1952,6 @@ static int rkisp1_params_init_vb2_queue(struct vb2_queue *q,
+>  	return vb2_queue_init(q);
+>  }
+>  
+> -static void rkisp1_init_params(struct rkisp1_params *params)
+> -{
+> -	params->vdev_fmt.fmt.meta.dataformat =
+> -		V4L2_META_FMT_RK_ISP1_PARAMS;
+> -	params->vdev_fmt.fmt.meta.buffersize =
+> -		sizeof(struct rkisp1_params_cfg);
+> -
+> -	if (params->rkisp1->info->isp_ver == RKISP1_V12)
+> -		params->ops = &rkisp1_v12_params_ops;
+> -	else
+> -		params->ops = &rkisp1_v10_params_ops;
+> -}
+> -
+>  int rkisp1_params_register(struct rkisp1_device *rkisp1)
+>  {
+>  	struct rkisp1_params *params = &rkisp1->params;
+> @@ -1973,7 +1980,14 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
+>  	vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_META_OUTPUT;
+>  	vdev->vfl_dir = VFL_DIR_TX;
+>  	rkisp1_params_init_vb2_queue(vdev->queue, params);
+> -	rkisp1_init_params(params);
+> +
+> +	params->metafmt = &rkisp1_params_formats[RKISP1_PARAMS_FIXED];
+> +
+> +	if (params->rkisp1->info->isp_ver == RKISP1_V12)
+> +		params->ops = &rkisp1_v12_params_ops;
+> +	else
+> +		params->ops = &rkisp1_v10_params_ops;
+> +
+>  	video_set_drvdata(vdev, params);
+>  
+>  	node->pad.flags = MEDIA_PAD_FL_SOURCE;
 
 -- 
 Regards,
