@@ -1,106 +1,112 @@
-Return-Path: <linux-media+bounces-14374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14375-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA0E91CA14
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 03:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6981691CB9D
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 10:23:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 42C671F226EF
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 01:46:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 120631F226D0
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 08:23:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46BD5469D;
-	Sat, 29 Jun 2024 01:45:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF5B639FF2;
+	Sat, 29 Jun 2024 08:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="7OYeSst2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F24184F
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 01:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FCB2AD38;
+	Sat, 29 Jun 2024 08:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719625556; cv=none; b=uOXCkagPI50g3NXP6k5xDHtWwGeV1tGHUXM/K/38sMyMlxNiIW6X/laLRrO1GkSEs+7PFkbb3sHeICYHKiOM/lb5jUpZiZG+JF8phdzAjRJGrFZyr7teGYbk0b/glaOEtAlBHPTe/zoMH2ySphSFu6KjkulKhgVnAX9ejykSmuI=
+	t=1719649368; cv=none; b=TpVR+X7o/GNiIMwceEqueSH7FzZ5W5vinrK7QXfirR9a9NK+fir7tVv9EPjc9SvEsvtMGmMfA6d0G2IwkJ4H/AbgIeXxCV3koBk5euIUGrd7w3YF/Cy64mempOpl+YL8c2OU3+duzO1z7M6l5exV1RJ5q5Ez4rAznDMW1dV5O/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719625556; c=relaxed/simple;
-	bh=75bRlV+EFxqzga3HwU19WxEM3QgyigE9REZX+YI0GwE=;
-	h=Date:From:To:Subject:Message-Id; b=IfGMuTVgikKXWXKTJeBG0Ks1FAXfzTewkBTMfmxh7fVnqv7HZFXVvCIyzBcuv7zWlWjQRbL7PL1+YMHckPHqKMzPOvYVvwgMc8B/7ZftdDjwTKfqrpH7ZKYaRQBnXM3gunMi1VDll3c8genJOY3xF6O4Gshrx+wAL1QU5VhbOMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B215C116B1
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 01:45:55 +0000 (UTC)
-Date: Sat, 29 Jun 2024 03:45:54 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20240629014556.1B215C116B1@smtp.kernel.org>
+	s=arc-20240116; t=1719649368; c=relaxed/simple;
+	bh=FHKzh/Kr8vmSuI5zyQKcUxH/uadsHSfsj4Vf0FgJiUk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FgAGJnjMHAH8YFPszjmG7GvRpU3uLMFYjQwibw1QRwjB7xOFWu/uHeSQKHruxSLjQkjsSHF7kupltdS0RrOzLxe6iQNCYU6Wk+06osMeUtIEBSK7C3KDgOaVa70P5uRZ4QMCLWixoTYrTrW/EHQNc0Z3mQNDAuMcUCjB+4cD8yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=7OYeSst2; arc=none smtp.client-ip=128.199.32.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lucaweiss.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
+	t=1719649363; bh=FHKzh/Kr8vmSuI5zyQKcUxH/uadsHSfsj4Vf0FgJiUk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=7OYeSst2GC9T+UK9Uap/Y07wy9fcsIK5ydPiu5IrDxVsbfvl5mzlU24pRGBcCHEUq
+	 0DJ6jDPtDgrdM2gEkS2HVQU7/xvh2fHuvoEkRhPKq4qwJxzipbFJDsN+J1Zf50Rzn6
+	 OalsITB6xnz7hRYRgNaU4QRt2gKzhkied12a/H7I=
+From: Luca Weiss <luca@lucaweiss.eu>
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, Vikram Sharma <quic_vikramsa@quicinc.com>,
+ Hariram Purushothaman <quic_hariramp@quicinc.com>
+Subject: Re: [PATCH 5/6] i2c: Enable IMX577 camera sensor for qcm6490
+Date: Sat, 29 Jun 2024 10:22:40 +0200
+Message-ID: <2902343.mvXUDI8C0e@g550jk>
+In-Reply-To:
+ <20240629-camss_first_post_linux_next-v1-5-bc798edabc3a@quicinc.com>
+References:
+ <20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com>
+ <20240629-camss_first_post_linux_next-v1-5-bc798edabc3a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On Freitag, 28. Juni 2024 20:32:39 MESZ Vikram Sharma wrote:
+> This change enables IMX577 sensor driver for qcm6490.
+> 
+> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>  drivers/i2c/busses/i2c-qcom-cci.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/i2c/busses/i2c-qcom-cci.c b/drivers/i2c/busses/i2c-qcom-cci.c
+> index 414882c57d7f..10e6df566ae3 100644
+> --- a/drivers/i2c/busses/i2c-qcom-cci.c
+> +++ b/drivers/i2c/busses/i2c-qcom-cci.c
+> @@ -817,6 +817,7 @@ static const struct of_device_id cci_dt_match[] = {
+>  	 * Do not add any new ones unless they introduce a new config
+>  	 */
+>  	{ .compatible = "qcom,msm8916-cci", .data = &cci_v1_data},
+> +	{ .compatible = "qcom,sc7280-cci", .data = &cci_v2_data},
 
-Results of the daily build of media_tree:
+Please read the comment above qcom,msm8916-cci.
 
-date:			Sat Jun 29 03:00:33 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	f5306b757cb78aeec45e03ee52ec038c6423ad7a
-v4l-utils git hash:	a0fd7261492d3ffeb33a3ad2e25e3642a23e01a2
-edid-decode git hash:	5d66c548e93acac1ab09675aa424912a4be879a8
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8660-g2dd6476c
-sparse version:		v0.5.0-8660-g2dd6476c
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: be24540c169ec3016775f81d1a36b4133e96c7df
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+And sc7280.dtsi already uses
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-acpi.config: OK
-no-pm-sleep.config: OK
-no-pm.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+  compatible = "qcom,sc7280-cci", "qcom,msm8996-cci";
 
-date:			Sat Jun 29 03:14:24 CEST 2024
-virtme-64: ERRORS: Final Summary: 3243, Succeeded: 3240, Failed: 3, Warnings: 0
-virtme-32: ERRORS: Final Summary: 3546, Succeeded: 3543, Failed: 3, Warnings: 0
+So qcom,msm8996-cci with the same match data (cci_v2_data) gets used, so
+just drop this patch.
 
-date:			Sat Jun 29 03:44:49 CEST 2024
+Regards
+Luca
 
-Detailed results are available here:
+>  	{ .compatible = "qcom,sdm845-cci", .data = &cci_v2_data},
+>  	{ .compatible = "qcom,sm8250-cci", .data = &cci_v2_data},
+>  	{ .compatible = "qcom,sm8450-cci", .data = &cci_v2_data},
+> 
+> 
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
 
-Detailed regression test results are available here:
 
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
 
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
