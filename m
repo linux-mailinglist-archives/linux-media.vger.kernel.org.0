@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-14401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D7591CDD1
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 17:21:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9DA91CDDA
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 17:24:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CBC61C21108
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 15:21:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70B80281EFD
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 15:24:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C83082D9F;
-	Sat, 29 Jun 2024 15:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA11E84D14;
+	Sat, 29 Jun 2024 15:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QTIZC7fS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gYwYR8Is"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C60101F7;
-	Sat, 29 Jun 2024 15:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26221DFE8;
+	Sat, 29 Jun 2024 15:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719674500; cv=none; b=pLh/EhVWuQOwNSxfbzQs1oKN4slhMPLAoqqt+ZRvhvoojgQqrwSXVmm2al2s7p/bM/rkj5YTRD9n8plSG0fgu/DrqeWhx7+cXSDAK35EwmmU9wvZRqQlOCiGtCEWZXHESDBJYJRagMuJcbTgR06T6eWIUlufQ8wON+inNXdo9Qg=
+	t=1719674680; cv=none; b=eFim54L+M+kh8V6psU0xV5XgUeb09v3S82RZUy3LCHdGzpWAhqXfCfPbW9yumlVjdahb/cZbcrZQFMXDZNnI9mctLyQriPlxE9RFU1xhXpbEOr5tikzraZv7c48paBmvnMo/6rtKmOQ5gOVnTcabUfQVL0JNGAJgOWn8CjO47Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719674500; c=relaxed/simple;
-	bh=+1LY2hE0UWesC4ENfK5ieRsNOz0lBImrlhwmZ5/QHxQ=;
+	s=arc-20240116; t=1719674680; c=relaxed/simple;
+	bh=SxQtLWqniHij4t9+JrvcjuGN8JB1x44zDf8lbhD9A/M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IByMX6b96cmpriX8rcWD5WkIbpzkJm61mxkrikHaRiY2f0e1NZiKKLsNfZi8UjrUuaX3UBjouui8c/RLR151oo3KZSesl6DDPjLdgWlUFWLWMLI8Cs+Bp8c7jB+Cq0Gs/weYqKeMhEp9tZONxFqNZ4JP1cS1Xz7uPOFH/u1jedQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QTIZC7fS; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=tfX1jzqHyQJ0t448nWLgQZCYW8dbZA2jUEZYB13K6rEAs8VRWUQkuA1OOYBCVthX/pOCiXhW6QFg1UyWYCMzCfU9cfe5H4TyMxho6xVUeFjRmkeiasvgi5vhU+eNPTw7Ed3itjalLgIWUWDNFpE407SoKEasqZBJ4ULakCRibRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gYwYR8Is; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A017D4B0;
-	Sat, 29 Jun 2024 17:21:01 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D55D34B0;
+	Sat, 29 Jun 2024 17:24:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719674462;
-	bh=+1LY2hE0UWesC4ENfK5ieRsNOz0lBImrlhwmZ5/QHxQ=;
+	s=mail; t=1719674642;
+	bh=SxQtLWqniHij4t9+JrvcjuGN8JB1x44zDf8lbhD9A/M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QTIZC7fSxPM9i2t64Ihln1wCt4l+uR2znemAbHZ1PAhR2VrDMSTr1EzYhwn1c40Zk
-	 a+PHdgQ8umXDhzo63aLrkXw8YexkPz4Yu5NHLdPgR7jVokN0cXnwpm169EDFAKE5oe
-	 e4RwlonFY/cgMJOYhyYUzTwUZo2wccQLxv3vZ/Do=
-Date: Sat, 29 Jun 2024 18:21:05 +0300
+	b=gYwYR8IsjgDABKTUMln9ixyZgq6/WbFEKqGM4s7YggyF4bxZP9BBJXzcLlO2gG8Df
+	 JM7fkEOEv0VcS2/tXXsVt/CyTJyKMkKONA9cM8DkNxV1MT32k7yO+naAFCbtziHD0L
+	 atnclx9qsGQYrEFFtFfdfrO9rkrbqMHu2publFwM=
+Date: Sat, 29 Jun 2024 18:24:04 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Dan Scally <dan.scally@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -51,7 +51,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
 	sakari.ailus@iki.fi
 Subject: Re: [PATCH v5 05/16] media: mali-c55: Add Mali-C55 ISP driver
-Message-ID: <20240629152105.GK30900@pendragon.ideasonboard.com>
+Message-ID: <20240629152404.GL30900@pendragon.ideasonboard.com>
 References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
  <20240529152858.183799-6-dan.scally@ideasonboard.com>
  <20240530001507.GG10586@pendragon.ideasonboard.com>
@@ -59,7 +59,7 @@ References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
  <8016bc19-674f-498e-967e-27a28b26ea1e@ideasonboard.com>
  <3e3eb0d4-bce9-4354-9ed2-9d32e4d1a113@ideasonboard.com>
  <20240620152325.GF30640@pendragon.ideasonboard.com>
- <0b3d9216-1a77-4e2e-b5b8-6b7a3205feaf@ideasonboard.com>
+ <ec6f5e64-cb43-4740-95ff-cbada084a60f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,11 +69,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0b3d9216-1a77-4e2e-b5b8-6b7a3205feaf@ideasonboard.com>
+In-Reply-To: <ec6f5e64-cb43-4740-95ff-cbada084a60f@ideasonboard.com>
 
 Hi Dan,
 
-On Fri, Jun 21, 2024 at 11:42:59AM +0100, Daniel Scally wrote:
+On Fri, Jun 21, 2024 at 10:28:56AM +0100, Daniel Scally wrote:
 > On 20/06/2024 16:23, Laurent Pinchart wrote:
 > > On Thu, Jun 20, 2024 at 03:49:23PM +0100, Daniel Scally wrote:
 > >> On 20/06/2024 15:33, Dan Scally wrote:
@@ -800,35 +800,7 @@ On Fri, Jun 21, 2024 at 11:42:59AM +0100, Daniel Scally wrote:
 > >>> If we want to use the cycling...is it guaranteed that vb2 buffers will always be queued in order?
 > > 
 > > In which order ?
-> 
-> vb2_buffer.index order...
-
-No that's not guaranteed.
-
-> the ISP cycles through writing to the addresses (called "banks") you give 
-> it automatically, so if we're initially queued 4 buffers and write their addresses to banks 0-3, the 
-> ISP would expect to just keep writing to those addresses cyclically in that order. The problem is I 
-> don't think that there's necessarily a guarantee that when a buffer that was returned to userspace 
-> and processed is re-queued to the driver that it is queued in the order it was allocated, right? So 
-> we'd need to keep track of which bank was currently being written to and when a buffer is queued, 
-> populate its address to bankN+1 or N+2...or wrap around to 0.
-
-Correct, buffer addresses would be set in banks based on the order in
-which buffers are queued.
-
-> Or perhaps we could just use two banks instead of one and alternate them, and that would at least 
-> provide the shadowing functionality in the event that the Pong config wasn't fitted?
-
-I think that could be a good first step.
-
-For devices with two config spaces we're probably fine with a single
-bank (I haven't checked in details though), but if you have a single
-config space and operate the ISP inline, then things will be racy.
-
-Maybe we can simply start by erroring out at probe time if the ISP is
-inline and has a single config space, with a comment that explains what
-would need to be implemented to support that configuration.
-
+> >
 > >>>> I'll mostly skip buffer handling in this review, I need to first
 > >>>> understand how the hardware operates to make an informed opinion.
 > >>>>
@@ -965,11 +937,7 @@ would need to be implemented to support that configuration.
 > > on one pipeline until you get the first buffer on the other pipeline
 > > (assuming you can synchronize them by sequence number). That will be
 > > more work, and can introduce latency.
-> 
-> Alright, that makes sense. I'll move to this method then...probably
-> drawing on the IPU6 isys code since Sakari mentioned it worked that
-> way already.
-> 
+> >
 > >>>>>> +    if (mali_c55->pipe.start_count == 1) {
 > >>>>>> +        ret = mali_c55_isp_start_stream(isp);
 > >>>>>> +        if (ret)
@@ -1085,25 +1053,7 @@ would need to be implemented to support that configuration.
 > > that's set, you should honour it (and of course adjust it to a
 > > reasonable [min, max] range as well as align it based on hardware
 > > constraints).
-> 
-> That seems pretty weird...the bytes per pixel is a fixed value
-> dependent on the format,
-
-Correct.
-
-> if the stride is changed from (bpp * width)
-> then the width of the image won't match what was requested, so we
-> couldn't honour both things at the same time. How is that supposed to
-> work? Or am I misunderstanding something?
-
-The width of the image won't change. What will change is the amount of
-padding at the end of the line. While the ISP may not have specific
-restrictions, other hardware blocks that would consume the frames may
-have different constraints. For instance a display controller may
-require all lines to be multiples of 32 bytes. If that constraint isn't
-met by the image width, padding must be added at the end of each line,
-and that's what the configurable stride is for.
-
+> >
 > >>>>>> +    pix_mp->plane_fmt[0].sizeimage = info->bpp[0] * pix_mp->width
 > >>>>>> +                       * pix_mp->height;
 > >>>> 
@@ -1176,7 +1126,19 @@ and that's what the configurable stride is for.
 > > contents, so you would need to write them at stream on time anyway. I
 > > think it's best to move all the hardware configuration at stream on
 > > time.
-> >
+> 
+> They won't be lost, because they're not written to the hardware here, only to the registers buffer 
+> we allocate in mali_c55_init_context(). They're automatically written to the hardware at stream on 
+> time when the config is DMAd over, so unless I'm missing something this is safe as an 
+> operation...though possibly the confusion makes them worth moving anyway.
+
+Aahhhh I thought this was writing to the hardware. We really need
+separate functions for hardware write and context writes.
+
+Still, I think configuring the hardware at stream on time is the best
+option. It will simplify the format operations and make the code
+clearer.
+
 > >>>>>> +
 > >>>>>> +    if (info->mem_planes > 1) {
 > >>>>>> +        mali_c55_write(mali_c55,
