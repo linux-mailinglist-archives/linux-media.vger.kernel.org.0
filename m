@@ -1,106 +1,161 @@
-Return-Path: <linux-media+bounces-14384-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14385-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DBD91CC92
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 13:47:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A11291CC95
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 13:52:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 313932831C8
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 11:47:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 944861C21189
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 11:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A35084D8C2;
-	Sat, 29 Jun 2024 11:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D5536D1D7;
+	Sat, 29 Jun 2024 11:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EwzKO1zA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEE420B35
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 11:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E1E3B28F
+	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 11:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719661647; cv=none; b=Mi9L1kRZE3BbL3tKyCRpVPiM/58W9xdOlqXMrOYFN3ss/umVuQlTGUPizNe7xfhoh+kRymmpK7KGi4hrmue35FxPZPOoMA4LA4ESt0dCqDYyRB8v3bjLsD8/qZbglcYu8XiTLuzKdaQqYdXLNpgLKqA/pW9RpAbslY3VLvXwqIM=
+	t=1719661949; cv=none; b=HnJiuO2H4Ymk3bZq9btYISOpak/z1ZkcrZvWoT90ImHhxwfCqddWL0fg2t2J9YIfcy5jjfE0J9EaGolmfpJhv/58UwD5JKlednZN0x4Hlzhi9s/Yu1WDS1aRcwUKZK8pTz2a+mIKLRQ2KYnxnCZn1/hVNnb7+G7Tof96sAeVU5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719661647; c=relaxed/simple;
-	bh=810WVt4qtL5UobtGKaK+mCY3jNbyJA6nyunyfK788hs=;
-	h=Date:From:To:Subject:Message-Id; b=t51tzlfjMBxxKvFwp7Vl/r8a9SQ7P+AcEa7Qq7g/Z1au5b5JXpwuboe+TAcWWvX1A2aCCG9uYhXystX7/lTrfMUOit5IfNDR01Ol9K7y23jI8ORg1VzFJYxwcArWqBqcLU57LDZB59ALfsFLvdwnsfDwBxrS0b+L8UZZZHSQL4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C248CC2BD10
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 11:47:26 +0000 (UTC)
-Date: Sat, 29 Jun 2024 13:47:24 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240629114726.C248CC2BD10@smtp.kernel.org>
+	s=arc-20240116; t=1719661949; c=relaxed/simple;
+	bh=HlaLwayBwDk0muNEa/0ZKFj20s9oWejMM+yqw5SBeXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mRjG6M8NfCMtn8cEnPo8XeEVJLhUSCq3Zf02Bvr+D83G68/eirjO7SUs/gQes1PKCn599/QPORkd9lS+smJJwKCOvqmsRJX7wC2ttbByH0P7nTVF5FxVlFJKKEsSRjDZ6NYlHYF3kpzndJyEpjkQyh2hW94DNq8vL+7AacRwOcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EwzKO1zA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8283C4B0;
+	Sat, 29 Jun 2024 13:52:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1719661920;
+	bh=HlaLwayBwDk0muNEa/0ZKFj20s9oWejMM+yqw5SBeXU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EwzKO1zA2fAPJbflOml3a1a2WCu7jpYbB0rCSQmlkp7dyyNRVLO/ilaVI/lKI916Y
+	 aoxqz+cmufsZUKX+W/d0RltrVc3RN6JgsTZEdF2XGQq7X6olLBFTcq6zCqAHfKi/Q+
+	 eDcJfjv6JCcSwWTbMK4bp2/JtEpmcbQJbK487q9k=
+Date: Sat, 29 Jun 2024 14:52:04 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: ccs: Fix link frequency control range update
+Message-ID: <20240629115204.GA30900@pendragon.ideasonboard.com>
+References: <20240628212603.5870-1-laurent.pinchart@ideasonboard.com>
+ <Zn_MKWM-5vIKXnyR@valkosipuli.retiisi.eu>
+ <20240629105222.GX30900@pendragon.ideasonboard.com>
+ <Zn_xM9CnR_iRklz3@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Zn_xM9CnR_iRklz3@valkosipuli.retiisi.eu>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On Sat, Jun 29, 2024 at 11:34:11AM +0000, Sakari Ailus wrote:
+> On Sat, Jun 29, 2024 at 01:52:22PM +0300, Laurent Pinchart wrote:
+> > On Sat, Jun 29, 2024 at 08:56:09AM +0000, Sakari Ailus wrote:
+> > > Hi Laurent,
+> > > 
+> > > Thanks for the patch.
+> > > 
+> > > On Sat, Jun 29, 2024 at 12:26:03AM +0300, Laurent Pinchart wrote:
+> > > > When updating the link frequency control range in response to a format
+> > > > change, the minimum value passed to the __v4l2_ctrl_modify_range()
+> > > > function is hardcoded to 0, while there's no guarantee that the first
+> > > > link frequency in the menu is valid for the selected format. Fix it by
+> > > > getting using the index of the first bit set in the valid link
+> > > > frequencies mask.
+> > > 
+> > > Is this a problem? The bitmask does tell which ones are valid, doesn't it?
+> > 
+> > I noticed that the new range wasn't applied in my sensor driver when the
+> > minimum was set to 0 and the mask didn't include that bit. However,
+> > that's because I had the default value wrong, which caused
+> > __v4l2_ctrl_modify_range() to error out. I thought the same applied to
+> > the minimum, but that doesn't seem to be the case. Isn't it still
+> > clearer to set the correct minimum, given that it is already computed
+> > anyway, to be used as a default value ?
+> 
+> I guess from user space point of view this could be helpful, yes. I'm fine
+> with changing this.
 
-Results of the daily build of media_tree:
+Another option would be for the control framework to adjust the minimum
+and maximum based on the mask.
 
-date:			Sat Jun 29 12:23:50 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	8e04a24ba5ddfb43fa29028ee31bb35c133e665c
-v4l-utils git hash:	a0fd7261492d3ffeb33a3ad2e25e3642a23e01a2
-edid-decode git hash:	5d66c548e93acac1ab09675aa424912a4be879a8
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8660-g2dd6476c
-sparse version:		v0.5.0-8660-g2dd6476c
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+> > > The minimum value will also be zero after control initialisation before
+> > > this function gets called. This should be also taken into account.
+> > > 
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > ---
+> > > > I noticed this issue in the CCS driver while working on a different
+> > > > sensor driver. I haven't tested this patch.
+> > > > ---
+> > > >  drivers/media/i2c/ccs/ccs-core.c | 12 ++++++++----
+> > > >  1 file changed, 8 insertions(+), 4 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> > > > index e1ae0f9fad43..5257dc4912ae 100644
+> > > > --- a/drivers/media/i2c/ccs/ccs-core.c
+> > > > +++ b/drivers/media/i2c/ccs/ccs-core.c
+> > > > @@ -2143,6 +2143,7 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
+> > > >  		*old_csi_format = sensor->csi_format;
+> > > >  	unsigned long *valid_link_freqs;
+> > > >  	u32 code = fmt->format.code;
+> > > > +	unsigned int min, max;
+> > > >  	unsigned int i;
+> > > >  	int rval;
+> > > >  
+> > > > @@ -2179,10 +2180,13 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
+> > > >  		&sensor->valid_link_freqs[sensor->csi_format->compressed
+> > > >  					  - sensor->compressed_min_bpp];
+> > > >  
+> > > > -	__v4l2_ctrl_modify_range(
+> > > > -		sensor->link_freq, 0,
+> > > > -		__fls(*valid_link_freqs), ~*valid_link_freqs,
+> > > > -		__ffs(*valid_link_freqs));
+> > > > +	min = __ffs(*valid_link_freqs);
+> > > > +	man = __fls(*valid_link_freqs);
+> > > > +
+> > > > +	ret = __v4l2_ctrl_modify_range(sensor->link_freq, min, max,
+> > > > +				       ~*valid_link_freqs, min);
+> > > 
+> > > As this doesn't effect any actual change the applying of which could fail,
+> > > you'd have to have an issue with the argument values themselves. I wouldn't
+> > > add a check here. Although if you do, the sensor configuration should be
+> > > returned to the state before the call which would probably be worth a new
+> > > patch.
+> > 
+> > The lack of a similar check caused my driver to silently keep the
+> > current range, and it took me a while to debug that. I however agree
+> > that, if the arguments are right, the check isn't needed. Maybe it can
+> > be dropped, as the arguments are correct.
+> 
+> Alternatively there should be a dev_warn(), too, that this is a driver bug.
 
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-no-of.config: OK
-no-debug-fs.config: OK
-no-acpi.config: OK
-no-pm-sleep.config: OK
-no-pm.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+Do you think we should add the warning to the __v4l2_ctrl_modify_range()
+function, or are there use cases where it could fail during normal
+operation ?
 
-date:			Sat Jun 29 13:05:39 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > >  
+> > > >  	return ccs_pll_update(sensor);
+> > > >  }
+> > > > 
+> > > > base-commit: afcd48134c58d6af45fb3fdb648f1260b20f2326
 
-date:			Sat Jun 29 13:46:18 CEST 2024
+-- 
+Regards,
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Laurent Pinchart
 
