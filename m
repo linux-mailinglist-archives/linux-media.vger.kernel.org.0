@@ -1,58 +1,64 @@
-Return-Path: <linux-media+bounces-14390-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14391-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2FA91CCC5
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 14:43:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F5D91CCC6
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 14:45:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68C661C21032
-	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 12:43:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 86E6A1F21F5D
+	for <lists+linux-media@lfdr.de>; Sat, 29 Jun 2024 12:45:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 744D47A158;
-	Sat, 29 Jun 2024 12:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECFEF7C6EB;
+	Sat, 29 Jun 2024 12:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZSS77ixF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="syteQlNu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534C92574B
-	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 12:42:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93572574B
+	for <linux-media@vger.kernel.org>; Sat, 29 Jun 2024 12:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719664980; cv=none; b=c4TydifcA+hwHGQEDhR/YGw82QaGtVrnuEWKcU1LPkUC9rY73Gi+hogAu9v1FA42+OztaQoRBVcYnAElC+eFii7+OXa9Fq0cB06XdHfcUVD3Bv+Pas4ooFqH5Y7ABa4Zy71YiwA39WFovJMfpRb+C73OAW15Z8RjGQXU2dVN610=
+	t=1719665099; cv=none; b=t5ccuzadHEX6+TKn5vF4OQHj5F9M6SqgGYIkfYsdPdtQn9T8mhWPjVk04naWeab1SV7Yt1brnF2m7bQDxR9cp2KLHEC2ZmLB2KtWNylftCOrAAjiZn4Yv9lcdvNZdPtwt81vPR9drn1Pf+O/8dwDr+1HxKvXj276SW6p/1oXIpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719664980; c=relaxed/simple;
-	bh=dKA0wsx4RDuMO8TNRkQGls9SPpUgzr7FVyBLwVBS5lE=;
+	s=arc-20240116; t=1719665099; c=relaxed/simple;
+	bh=6tNxoXX8R5H7wo0y4SROtw5URsGzJaAPXKEvQ+X0QpU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GJCBm19Tetn94EUiaSckhPnqkPA9ENKquCnBSqXPCW2arMRgQqJT1GvMPE2r/r5RhbRp3zlnlArr78P9pVZU82uLmH4g/h+pLwxU7mVlf8Qk+Ape7P78+p18Kx7RMdblM/8pShh+oxkIFfxm34xWKTY58S0PIt/8u8V7VDQQ0LA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZSS77ixF; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=qvlpMudpDXvd/Q+vqC1zpkCJTYyY7PjadaTgUa3qKnsWKO69szsgx+pePogkR4CgxRQOaufleORPtUDRu5Blrwt4zv1nN9HPohtjM59Spn9DtvEPuCNXwyGQ39m0hF46IvEkI55YWtH9HCXAn7PiJfYFRehM0pmxsbLbc6WwB6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=syteQlNu; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9334D890;
-	Sat, 29 Jun 2024 14:42:32 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4011890;
+	Sat, 29 Jun 2024 14:44:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719664952;
-	bh=dKA0wsx4RDuMO8TNRkQGls9SPpUgzr7FVyBLwVBS5lE=;
+	s=mail; t=1719665069;
+	bh=6tNxoXX8R5H7wo0y4SROtw5URsGzJaAPXKEvQ+X0QpU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZSS77ixF0nfUCJfLlZ4AMhixDuP2lOVa2YBcfSd7FKZYDADyzILMwsdxjMQAII2oC
-	 aHvZA6oJT81Bt+gB4dck+yHC/NF+PI22Dgv2ilsso20c/v4MtsRX3d0nT7FE7KCvsv
-	 wm0NbMXfSk7pN14KUT7qMwUsUmVmMLmXUZFj3qjo=
-Date: Sat, 29 Jun 2024 15:42:36 +0300
+	b=syteQlNudVUVw4N3lqNnX5pa9NrfkWonL+Q1lg6PbmwQfhD//kIPAc+dQm1XXvgDg
+	 NtShJU+c09VW5EFUHWgUMdXSBAXE7NDCcJf3H86EVQYHfEUJbLpt0BxUWKEqS3Hvjj
+	 o10uR/NzPQatlg9egypKw0XI4769+CNGJ1MbldGc=
+Date: Sat, 29 Jun 2024 15:44:33 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH] media: i2c: ccs: Fix link frequency control range update
-Message-ID: <20240629124236.GA5869@pendragon.ideasonboard.com>
-References: <20240628212603.5870-1-laurent.pinchart@ideasonboard.com>
- <Zn_MKWM-5vIKXnyR@valkosipuli.retiisi.eu>
- <20240629105222.GX30900@pendragon.ideasonboard.com>
- <Zn_xM9CnR_iRklz3@valkosipuli.retiisi.eu>
- <20240629115204.GA30900@pendragon.ideasonboard.com>
- <Zn_26ybRP2dyvlwv@valkosipuli.retiisi.eu>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH 3/7] media: rkisp1: Add struct rkisp1_params_buffer
+Message-ID: <20240629124433.GD30900@pendragon.ideasonboard.com>
+References: <20240621145406.119088-1-jacopo.mondi@ideasonboard.com>
+ <20240621145406.119088-4-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,119 +67,148 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zn_26ybRP2dyvlwv@valkosipuli.retiisi.eu>
+In-Reply-To: <20240621145406.119088-4-jacopo.mondi@ideasonboard.com>
 
-On Sat, Jun 29, 2024 at 11:58:35AM +0000, Sakari Ailus wrote:
-> On Sat, Jun 29, 2024 at 02:52:04PM +0300, Laurent Pinchart wrote:
-> > On Sat, Jun 29, 2024 at 11:34:11AM +0000, Sakari Ailus wrote:
-> > > On Sat, Jun 29, 2024 at 01:52:22PM +0300, Laurent Pinchart wrote:
-> > > > On Sat, Jun 29, 2024 at 08:56:09AM +0000, Sakari Ailus wrote:
-> > > > > On Sat, Jun 29, 2024 at 12:26:03AM +0300, Laurent Pinchart wrote:
-> > > > > > When updating the link frequency control range in response to a format
-> > > > > > change, the minimum value passed to the __v4l2_ctrl_modify_range()
-> > > > > > function is hardcoded to 0, while there's no guarantee that the first
-> > > > > > link frequency in the menu is valid for the selected format. Fix it by
-> > > > > > getting using the index of the first bit set in the valid link
-> > > > > > frequencies mask.
-> > > > > 
-> > > > > Is this a problem? The bitmask does tell which ones are valid, doesn't it?
-> > > > 
-> > > > I noticed that the new range wasn't applied in my sensor driver when the
-> > > > minimum was set to 0 and the mask didn't include that bit. However,
-> > > > that's because I had the default value wrong, which caused
-> > > > __v4l2_ctrl_modify_range() to error out. I thought the same applied to
-> > > > the minimum, but that doesn't seem to be the case. Isn't it still
-> > > > clearer to set the correct minimum, given that it is already computed
-> > > > anyway, to be used as a default value ?
-> > > 
-> > > I guess from user space point of view this could be helpful, yes. I'm fine
-> > > with changing this.
-> > 
-> > Another option would be for the control framework to adjust the minimum
-> > and maximum based on the mask.
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Fri, Jun 21, 2024 at 04:54:01PM +0200, Jacopo Mondi wrote:
+> Create the 'struct rkisp1_params_buffer' type that wraps a
+> vb2_v4l2_buffer to prepare to hold a copy of the parameters buffer that
+> will be used to cache the user-provided configuration buffer in the
+> following patches.
 > 
-> I wonder what Hans (now cc'd) thinks. I think it's actually a good idea,
-> given that the minimum and maximum could change dynamically anyway.
-
-Let's wait for comments before deciding what to do with this patch.
-
-> > > > > The minimum value will also be zero after control initialisation before
-> > > > > this function gets called. This should be also taken into account.
-> > > > > 
-> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > ---
-> > > > > > I noticed this issue in the CCS driver while working on a different
-> > > > > > sensor driver. I haven't tested this patch.
-> > > > > > ---
-> > > > > >  drivers/media/i2c/ccs/ccs-core.c | 12 ++++++++----
-> > > > > >  1 file changed, 8 insertions(+), 4 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > > > > > index e1ae0f9fad43..5257dc4912ae 100644
-> > > > > > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > > > > > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > > > > > @@ -2143,6 +2143,7 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
-> > > > > >  		*old_csi_format = sensor->csi_format;
-> > > > > >  	unsigned long *valid_link_freqs;
-> > > > > >  	u32 code = fmt->format.code;
-> > > > > > +	unsigned int min, max;
-> > > > > >  	unsigned int i;
-> > > > > >  	int rval;
-> > > > > >  
-> > > > > > @@ -2179,10 +2180,13 @@ static int ccs_set_format_source(struct v4l2_subdev *subdev,
-> > > > > >  		&sensor->valid_link_freqs[sensor->csi_format->compressed
-> > > > > >  					  - sensor->compressed_min_bpp];
-> > > > > >  
-> > > > > > -	__v4l2_ctrl_modify_range(
-> > > > > > -		sensor->link_freq, 0,
-> > > > > > -		__fls(*valid_link_freqs), ~*valid_link_freqs,
-> > > > > > -		__ffs(*valid_link_freqs));
-> > > > > > +	min = __ffs(*valid_link_freqs);
-> > > > > > +	man = __fls(*valid_link_freqs);
-> > > > > > +
-> > > > > > +	ret = __v4l2_ctrl_modify_range(sensor->link_freq, min, max,
-> > > > > > +				       ~*valid_link_freqs, min);
-> > > > > 
-> > > > > As this doesn't effect any actual change the applying of which could fail,
-> > > > > you'd have to have an issue with the argument values themselves. I wouldn't
-> > > > > add a check here. Although if you do, the sensor configuration should be
-> > > > > returned to the state before the call which would probably be worth a new
-> > > > > patch.
-> > > > 
-> > > > The lack of a similar check caused my driver to silently keep the
-> > > > current range, and it took me a while to debug that. I however agree
-> > > > that, if the arguments are right, the check isn't needed. Maybe it can
-> > > > be dropped, as the arguments are correct.
-> > > 
-> > > Alternatively there should be a dev_warn(), too, that this is a driver bug.
-> > 
-> > Do you think we should add the warning to the __v4l2_ctrl_modify_range()
-> > function, or are there use cases where it could fail during normal
-> > operation ?
+> Replace usage of 'struct rkisp1_buffer' with 'struct
+> rkisp1_params_buffer' in rkisp1-params.c to prepare for that.
 > 
-> If modifying the range results in changing the control value, then this
-> results in (on I²C devices) an I²C write that can fail.
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-Good point.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> The CCS driver writes the configuration to the sensor when streaming starts
-> so there's no actual write operation resulting from this.
-
-I think all sensor drivers should do the same, it's not a legit use case
-to change the link frequency during streaming, it shouldn't be
-programmed from the .set_fmt() handler. Of course, the return value of
-__v4l2_ctrl_modify_range() should still be checked in paths where
-runtime updates are allowed (I'm thinking about updates to the vertical
-blanking and exposure controls).
-
-> > > > > > +	if (ret)
-> > > > > > +		return ret;
-> > > > > >  
-> > > > > >  	return ccs_pll_update(sensor);
-> > > > > >  }
-> > > > > > 
-> > > > > > base-commit: afcd48134c58d6af45fb3fdb648f1260b20f2326
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  | 14 ++++++++++++-
+>  .../platform/rockchip/rkisp1/rkisp1-params.c  | 21 ++++++++++---------
+>  2 files changed, 24 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 26573f6ae575..a615bbb0255e 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -232,7 +232,7 @@ struct rkisp1_vdev_node {
+>  
+>  /*
+>   * struct rkisp1_buffer - A container for the vb2 buffers used by the video devices:
+> - *			  params, stats, mainpath, selfpath
+> + *			  stats, mainpath, selfpath
+>   *
+>   * @vb:		vb2 buffer
+>   * @queue:	entry of the buffer in the queue
+> @@ -244,6 +244,18 @@ struct rkisp1_buffer {
+>  	dma_addr_t buff_addr[VIDEO_MAX_PLANES];
+>  };
+>  
+> +/*
+> + * struct rkisp1_params_buffer - A container for the vb2 buffers used by the
+> + *				 params video device
+> + *
+> + * @vb:		vb2 buffer
+> + * @queue:	entry of the buffer in the queue
+> + */
+> +struct rkisp1_params_buffer {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head queue;
+> +};
+> +
+>  /*
+>   * struct rkisp1_dummy_buffer - A buffer to write the next frame to in case
+>   *				there are no vb2 buffers available.
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> index 173d1ea41874..2844e55bc4f2 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> @@ -1502,20 +1502,21 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
+>  }
+>  
+>  static bool rkisp1_params_get_buffer(struct rkisp1_params *params,
+> -				     struct rkisp1_buffer **buf,
+> +				     struct rkisp1_params_buffer **buf,
+>  				     struct rkisp1_params_cfg **cfg)
+>  {
+>  	if (list_empty(&params->params))
+>  		return false;
+>  
+> -	*buf = list_first_entry(&params->params, struct rkisp1_buffer, queue);
+> +	*buf = list_first_entry(&params->params, struct rkisp1_params_buffer,
+> +				queue);
+>  	*cfg = vb2_plane_vaddr(&(*buf)->vb.vb2_buf, 0);
+>  
+>  	return true;
+>  }
+>  
+>  static void rkisp1_params_complete_buffer(struct rkisp1_params *params,
+> -					  struct rkisp1_buffer *buf,
+> +					  struct rkisp1_params_buffer *buf,
+>  					  unsigned int frame_sequence)
+>  {
+>  	list_del(&buf->queue);
+> @@ -1528,7 +1529,7 @@ void rkisp1_params_isr(struct rkisp1_device *rkisp1)
+>  {
+>  	struct rkisp1_params *params = &rkisp1->params;
+>  	struct rkisp1_params_cfg *new_params;
+> -	struct rkisp1_buffer *cur_buf;
+> +	struct rkisp1_params_buffer *cur_buf;
+>  
+>  	spin_lock(&params->config_lock);
+>  
+> @@ -1604,7 +1605,7 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
+>  {
+>  	struct rkisp1_cif_isp_hst_config hst = rkisp1_hst_params_default_config;
+>  	struct rkisp1_params_cfg *new_params;
+> -	struct rkisp1_buffer *cur_buf;
+> +	struct rkisp1_params_buffer *cur_buf;
+>  
+>  	params->quantization = quantization;
+>  	params->ycbcr_encoding = ycbcr_encoding;
+> @@ -1650,7 +1651,7 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
+>  void rkisp1_params_post_configure(struct rkisp1_params *params)
+>  {
+>  	struct rkisp1_params_cfg *new_params;
+> -	struct rkisp1_buffer *cur_buf;
+> +	struct rkisp1_params_buffer *cur_buf;
+>  
+>  	spin_lock_irq(&params->config_lock);
+>  
+> @@ -1821,8 +1822,8 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
+>  static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
+>  {
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> -	struct rkisp1_buffer *params_buf =
+> -		container_of(vbuf, struct rkisp1_buffer, vb);
+> +	struct rkisp1_params_buffer *params_buf =
+> +		container_of(vbuf, struct rkisp1_params_buffer, vb);
+>  	struct vb2_queue *vq = vb->vb2_queue;
+>  	struct rkisp1_params *params = vq->drv_priv;
+>  
+> @@ -1844,7 +1845,7 @@ static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
+>  static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
+>  {
+>  	struct rkisp1_params *params = vq->drv_priv;
+> -	struct rkisp1_buffer *buf;
+> +	struct rkisp1_params_buffer *buf;
+>  	LIST_HEAD(tmp_list);
+>  
+>  	/*
+> @@ -1890,7 +1891,7 @@ static int rkisp1_params_init_vb2_queue(struct vb2_queue *q,
+>  	q->drv_priv = params;
+>  	q->ops = &rkisp1_params_vb2_ops;
+>  	q->mem_ops = &vb2_vmalloc_memops;
+> -	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+> +	q->buf_struct_size = sizeof(struct rkisp1_params_buffer);
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>  	q->lock = &node->vlock;
+>  
 
 -- 
 Regards,
