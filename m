@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-14411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6137791D081
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 10:24:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA62891D0AC
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 10:50:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC0BDB21128
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 08:24:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4988D1F21638
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 08:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8713912C475;
-	Sun, 30 Jun 2024 08:24:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 915DF12C552;
+	Sun, 30 Jun 2024 08:50:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D7D127E37
-	for <linux-media@vger.kernel.org>; Sun, 30 Jun 2024 08:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A011EA80
+	for <linux-media@vger.kernel.org>; Sun, 30 Jun 2024 08:50:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719735857; cv=none; b=naB8O0/ED8NhlQFiyfCXDytyNvAPewHvXudDT92YMGGaKdttz/1CN4BSE1vF38ivL8Xm/MYwFXRzUYAvMJcpHDgN0MZmzyJ2fQwShYtMT7B5Msc9GptixZGdoRHOeViwILzS85akblqCLzZdf2p8oGrelCP+yV1+v0rmX8eflH8=
+	t=1719737438; cv=none; b=EoUQUkYb2aWojOh/wpbkw3+amr3fnxehbK2/EKvWnCEj7ElDSQmazv5H8l47jPfHJ+Ud5Lkj+PBWw6+UVPSpKCt+SF+zMEn4M7hn+FDDbGlunUdVQILJ3udt/HYICnC4Ml67u/KVrIT340eSXH1qf4O+7u8GxBTsQHx781VwPjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719735857; c=relaxed/simple;
-	bh=xmjPDbSJpyC8wb7mfADZWGXOMrRmKI145PVDf5IZ1/0=;
+	s=arc-20240116; t=1719737438; c=relaxed/simple;
+	bh=1Wg4i0x3/8YDJuMNxrr9P7NdD/iRsUwjvZcmnm/ioXo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=C560kwzZVzPmgiJBzdm/aChE8eR4F0Z77QwnOeTrjEuaEg6apb0BUrGvaSNEwMSPjDeJp35DRQ/tI1c+Oq4OlTHNu1oALcEeAlPrHCtsAmlVdibNFUEMRYdNP1UfS5srU4G/HIZvlrCSW+zqIj7P4qEukEgM3G88yX8u/l2gDho=
+	 In-Reply-To:Content-Type; b=YqGTbah70ad6Vr349AlbSu2vwtNnfHQe9qAnP95oiLEwwMrFFV1Vf5qckLgFFQVtHVZHIi/WtzV0OmDeR9C53lQYuRz/lXNLwvuVVusbmxoTEhhaQGSEi0PfEymLF/LL5KHF7boNRen5I5Hkm66lMfQUjfI6fp2eS0LvFp914iA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3196CC2BD10;
-	Sun, 30 Jun 2024 08:24:16 +0000 (UTC)
-Message-ID: <7eb4a07b-950b-4ded-ad0c-43da19c5caf4@xs4all.nl>
-Date: Sun, 30 Jun 2024 10:24:14 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F063BC2BD10;
+	Sun, 30 Jun 2024 08:50:36 +0000 (UTC)
+Message-ID: <2b52a504-c3b5-47cb-a962-c2bfa9063999@xs4all.nl>
+Date: Sun, 30 Jun 2024 10:50:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,9 +38,10 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] v4l-utils: fix formats under ppc/mips64
+Subject: Re: [PATCH 2/2] v4l-utils: fix compilation with 64-bit time_t
 To: Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
 References: <20240610212316.136612-1-rosenp@gmail.com>
+ <20240610212316.136612-2-rosenp@gmail.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -86,283 +87,251 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20240610212316.136612-1-rosenp@gmail.com>
+In-Reply-To: <20240610212316.136612-2-rosenp@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Rosen,
 
+Apologies, I hadn't seen this patch, it was filed in my spam folder for some reason.
+
 On 10/06/2024 23:23, Rosen Penev wrote:
-> By default, these platforms use long instead of long long for __u64.
-> __SANE_USERSPACE_TYPES__ fixes -Wformat warnings.
-
-I think this needs a more extensive commit message.
-
-See e.g. https://lists.openembedded.org/g/openembedded-core/message/46881
-(found after googling for __SANE_USERSPACE_TYPES__).
-
+> musl since version 1.2.0 uses 64-bit time_t even on 32-bit. Cast to
+> 64-bit for compatibility.
 > 
 > Signed-off-by: Rosen Penev <rosenp@gmail.com>
 > ---
->  contrib/xc3028-firmware/firmware-tool.c | 2 ++
->  include/linux/compiler.h                | 1 +
->  utils/cec-compliance/cec-compliance.h   | 2 ++
->  utils/cec-ctl/cec-ctl.cpp               | 2 ++
->  utils/cec-ctl/cec-ctl.h                 | 2 ++
->  utils/cec-ctl/cec-pin.cpp               | 2 ++
->  utils/cec-follower/cec-processing.cpp   | 2 ++
->  utils/common/v4l2-info.h                | 2 ++
->  utils/cx18-ctl/cx18-ctl.c               | 2 ++
->  utils/ivtv-ctl/ivtv-ctl.c               | 2 ++
->  utils/keytable/keytable.c               | 2 ++
->  utils/media-ctl/media-ctl.c             | 2 ++
->  utils/v4l2-compliance/v4l2-compliance.h | 2 ++
->  utils/v4l2-ctl/v4l2-ctl-common.cpp      | 2 ++
->  utils/v4l2-ctl/v4l2-ctl-streaming.cpp   | 2 ++
->  utils/v4l2-ctl/v4l2-ctl.cpp             | 2 ++
->  utils/v4l2-ctl/v4l2-ctl.h               | 2 ++
->  utils/v4l2-dbg/v4l2-dbg.cpp             | 2 ++
->  18 files changed, 35 insertions(+)
+>  utils/cec-compliance/cec-compliance.cpp   |  3 ++-
+>  utils/cec-compliance/cec-test-adapter.cpp |  5 +++--
+>  utils/cec-ctl/cec-ctl.cpp                 | 19 ++++++++++---------
+>  utils/cec-follower/cec-follower.cpp       |  3 ++-
+>  utils/cec-follower/cec-processing.cpp     |  3 ++-
+>  utils/keytable/keytable.c                 |  1 +
+>  utils/libv4l2util/v4l2_driver.c           |  7 ++++---
+>  utils/v4l2-tracer/retrace.cpp             |  2 +-
+>  8 files changed, 25 insertions(+), 18 deletions(-)
 > 
-> diff --git a/contrib/xc3028-firmware/firmware-tool.c b/contrib/xc3028-firmware/firmware-tool.c
-> index 5dd205e0..6bcb3237 100644
-> --- a/contrib/xc3028-firmware/firmware-tool.c
-> +++ b/contrib/xc3028-firmware/firmware-tool.c
-> @@ -29,6 +29,8 @@
->  #include <string.h>
->  #include <unistd.h>
+> diff --git a/utils/cec-compliance/cec-compliance.cpp b/utils/cec-compliance/cec-compliance.cpp
+> index 8075e1d6..df633a33 100644
+> --- a/utils/cec-compliance/cec-compliance.cpp
+> +++ b/utils/cec-compliance/cec-compliance.cpp
+> @@ -3,6 +3,7 @@
+>   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
 >  
-> +#include "linux/compiler.h"
-> +
->  #include <asm/byteorder.h>
->  #include <asm/types.h>
+> +#include <cinttypes>
+>  #include <sstream>
 >  
-> diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-> index 379629be..5a6326f8 100644
-> --- a/include/linux/compiler.h
-> +++ b/include/linux/compiler.h
-> @@ -1,6 +1,7 @@
->  #ifndef __linux_compiler_h
->  #define __linux_compiler_h
->  
-> +#define __SANE_USERSPACE_TYPES__
+>  #include <fcntl.h>
+> @@ -279,7 +280,7 @@ static std::string ts2s(__u64 ts)
+>  	t = res.tv_sec;
+>  	s = ctime(&t);
+>  	s = s.substr(0, s.length() - 6);
+> -	sprintf(buf, "%03lu", res.tv_usec / 1000);
+> +	sprintf(buf, "%03" PRIu64, (uint64_t)res.tv_usec / 1000);
 
-This needs a comment as well.
+This doesn't make sense: why is res.tv_usec cast to a uint64_t?
+Is that field really a 64 bit value under musl? But in any case, tv_usec is
+limited to 999999, so if it is a 64 bit value under musl, then just cast it
+to unsigned long and leave the %03lu as-is.
+
+The commit log is certainly insufficient since a lot of the changes in this
+patch have nothing to do with time_t but with tv_n/usec.
+
+Why use PRIu64? That's not explained in the commit log either. I had to look
+that up, as I've never seen it used before.
+
+As I understand it, musl doesn't support %llu in some cases? Looking at:
+
+https://github.com/cloudius-systems/musl/blob/master/include/inttypes.h
+
+it appears that PRIu64 can either be lu or llu. lu is used if UINTPTR_MAX == UINT64_MAX.
+
+But if that is needed, then I expect to see a single patch converting every
+%lld and %llu in v4l-utils to use PRId/u64. Here it is only done for some
+time-related code.
+
+Please don't mix changing to PRId/u64 with these time changes. If you believe
+that is needed, then do that as a final patch for all of v4l-utils. But the
+commit log should be very clear explaining why it is needed.
 
 Regards,
 
 	Hans
 
->  #define __user
+>  	return s + "." + buf;
+>  }
 >  
->  #endif
-> diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
-> index aae72842..d5bd1d0a 100644
-> --- a/utils/cec-compliance/cec-compliance.h
-> +++ b/utils/cec-compliance/cec-compliance.h
-> @@ -8,6 +8,8 @@
->  #ifndef _CEC_COMPLIANCE_H_
->  #define _CEC_COMPLIANCE_H_
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/cec-funcs.h>
->  #include "cec-htng-funcs.h"
->  
-> diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
-> index 8848a49d..69aeb8cd 100644
-> --- a/utils/cec-ctl/cec-ctl.cpp
-> +++ b/utils/cec-ctl/cec-ctl.cpp
-> @@ -20,6 +20,8 @@
->  #include <sys/time.h>
->  #include <unistd.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/cec-funcs.h>
->  #include "cec-htng-funcs.h"
->  #include "cec-log.h"
-> diff --git a/utils/cec-ctl/cec-ctl.h b/utils/cec-ctl/cec-ctl.h
-> index 2c82bedc..e0692c31 100644
-> --- a/utils/cec-ctl/cec-ctl.h
-> +++ b/utils/cec-ctl/cec-ctl.h
-> @@ -6,6 +6,8 @@
->  #ifndef _CEC_CTL_H_
->  #define _CEC_CTL_H_
->  
-> +#include "linux/compiler.h"
-> +
->  #include <cec-info.h>
->  
->  // cec-ctl.cpp
-> diff --git a/utils/cec-ctl/cec-pin.cpp b/utils/cec-ctl/cec-pin.cpp
-> index f3500555..0cdc19f7 100644
-> --- a/utils/cec-ctl/cec-pin.cpp
-> +++ b/utils/cec-ctl/cec-pin.cpp
-> @@ -3,6 +3,8 @@
->   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+> diff --git a/utils/cec-compliance/cec-test-adapter.cpp b/utils/cec-compliance/cec-test-adapter.cpp
+> index 08c856af..7a80d17b 100644
+> --- a/utils/cec-compliance/cec-test-adapter.cpp
+> +++ b/utils/cec-compliance/cec-test-adapter.cpp
+> @@ -4,6 +4,7 @@
 >   */
 >  
-> +#include "linux/compiler.h"
-> +
+>  #include <cerrno>
+> +#include <cinttypes>
+>  #include <ctime>
 >  #include <string>
 >  
->  #include <linux/cec.h>
-> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-> index 14ee211b..3b5c3ce5 100644
-> --- a/utils/cec-follower/cec-processing.cpp
-> +++ b/utils/cec-follower/cec-processing.cpp
-> @@ -3,6 +3,8 @@
+> @@ -1276,9 +1277,9 @@ static int testLostMsgs(struct node *node)
+>  			printf("\t\tReceived messages: %d of which %d were CEC_MSG_CEC_VERSION\n",
+>  			       pending_rx_msgs, pending_rx_cec_version_msgs);
+>  		if (pending_quick_msgs < pending_msgs)
+> -			printf("\t\tReceived %d messages immediately, and %d over %ld seconds\n",
+> +			printf("\t\tReceived %d messages immediately, and %d over %" PRIu64 " seconds\n",
+>  			       pending_quick_msgs, pending_msgs - pending_quick_msgs,
+> -			       time(nullptr) - start);
+> +			       (uint64_t)time(nullptr) - start);
+>  	}
+>  	print_sfts(sft[1][1], "SFTs for repeating messages (>= 7)");
+>  	print_sfts(sft[1][0], "SFTs for repeating remote messages (>= 7)");
+> diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
+> index 69aeb8cd..a2ffcb2b 100644
+> --- a/utils/cec-ctl/cec-ctl.cpp
+> +++ b/utils/cec-ctl/cec-ctl.cpp
+> @@ -6,6 +6,7 @@
+>  #include <algorithm>
+>  #include <cctype>
+>  #include <cerrno>
+> +#include <cinttypes>
+>  #include <cstring>
+>  #include <ctime>
+>  #include <map>
+> @@ -416,7 +417,7 @@ std::string ts2s(__u64 ts)
+>  		strftime(buf, sizeof(buf), "%a %b %e %T.000000", &tm);
+>  	}
+>  	secs = last_secs + t - last_t;
+> -	sprintf(buf + 14, "%02u:%02u.%06lu", secs / 60, secs % 60, res.tv_usec);
+> +	sprintf(buf + 14, "%02u:%02u.%06d", secs / 60, secs % 60, (int)res.tv_usec);
+>  	return buf;
+>  }
+>  
+> @@ -944,10 +945,10 @@ static void monitor(const struct node &node, __u32 monitor_time, const char *sto
+>  		}
+>  		fprintf(fstore, "# cec-ctl --store-pin\n");
+>  		fprintf(fstore, "# version %d\n", CEC_CTL_VERSION);
+> -		fprintf(fstore, "# start_monotonic %lu.%09lu\n",
+> -			start_monotonic.tv_sec, start_monotonic.tv_nsec);
+> -		fprintf(fstore, "# start_timeofday %lu.%06lu\n",
+> -			start_timeofday.tv_sec, start_timeofday.tv_usec);
+> +		fprintf(fstore, "# start_monotonic %" PRIu64 ".%09" PRIu64 "\n",
+> +			(uint64_t)start_monotonic.tv_sec, (uint64_t)start_monotonic.tv_nsec);
+> +		fprintf(fstore, "# start_timeofday %" PRIu64 ".%06" PRIu64 "\n",
+> +			(uint64_t)start_timeofday.tv_sec, (uint64_t)start_timeofday.tv_usec);
+>  		fprintf(fstore, "# log_addr_mask 0x%04x\n", node.log_addr_mask);
+>  		fprintf(fstore, "# phys_addr %x.%x.%x.%x\n",
+>  			cec_phys_addr_exp(node.phys_addr));
+> @@ -986,10 +987,10 @@ static void monitor(const struct node &node, __u32 monitor_time, const char *sto
+>  			 */
+>  			clock_gettime(CLOCK_MONOTONIC, &start_monotonic);
+>  			gettimeofday(&start_timeofday, nullptr);
+> -			fprintf(fstore, "# start_monotonic %lu.%09lu\n",
+> -				start_monotonic.tv_sec, start_monotonic.tv_nsec);
+> -			fprintf(fstore, "# start_timeofday %lu.%06lu\n",
+> -				start_timeofday.tv_sec, start_timeofday.tv_usec);
+> +			fprintf(fstore, "# start_monotonic %" PRIu64 ".%09" PRIu64 "\n",
+> +				(uint64_t)start_monotonic.tv_sec, (uint64_t)start_monotonic.tv_nsec);
+> +			fprintf(fstore, "# start_timeofday %" PRIu64 ".%06" PRIu64 "\n",
+> +				(uint64_t)start_timeofday.tv_sec, (uint64_t)start_timeofday.tv_usec);
+>  			fflush(fstore);
+>  			start_minute = now;
+>  		}
+> diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
+> index a7481aea..9b29e3c6 100644
+> --- a/utils/cec-follower/cec-follower.cpp
+> +++ b/utils/cec-follower/cec-follower.cpp
+> @@ -3,6 +3,7 @@
 >   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
 >   */
 >  
-> +#include "linux/compiler.h"
-> +
+> +#include <cinttypes>
+>  #include <cstring>
+>  #include <ctime>
+>  #include <sstream>
+> @@ -354,7 +355,7 @@ void print_timers(struct node *node)
+>  			printf("source: %s, ", source.c_str());
+>  			if (t.recording_seq)
+>  				printf("rec-seq: 0x%x, ", t.recording_seq);
+> -			printf("needs: %ld %s\n", t.duration, "MB."); /* 1MB per second. */
+> +			printf("needs: %" PRIu64 " %s\n", (uint64_t)t.duration, "MB."); /* 1MB per second. */
+>  		}
+>  		printf("Total media space available for recording: ");
+>  		if (node->state.media_space_available >= 0)
+> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+> index 3b5c3ce5..cc38f143 100644
+> --- a/utils/cec-follower/cec-processing.cpp
+> +++ b/utils/cec-follower/cec-processing.cpp
+> @@ -6,6 +6,7 @@
+>  #include "linux/compiler.h"
+>  
 >  #include <cerrno>
+> +#include <cinttypes>
 >  #include <ctime>
 >  #include <string>
-> diff --git a/utils/common/v4l2-info.h b/utils/common/v4l2-info.h
-> index ac227971..eeb7bc6b 100644
-> --- a/utils/common/v4l2-info.h
-> +++ b/utils/common/v4l2-info.h
-> @@ -8,6 +8,8 @@
 >  
->  #include <string>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <linux/v4l2-subdev.h>
->  
-> diff --git a/utils/cx18-ctl/cx18-ctl.c b/utils/cx18-ctl/cx18-ctl.c
-> index 8586f72d..7c13b1a3 100644
-> --- a/utils/cx18-ctl/cx18-ctl.c
-> +++ b/utils/cx18-ctl/cx18-ctl.c
-> @@ -34,6 +34,8 @@
->  #include <sys/time.h>
->  #include <math.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <v4l-getsubopt.h>
->  
-> diff --git a/utils/ivtv-ctl/ivtv-ctl.c b/utils/ivtv-ctl/ivtv-ctl.c
-> index b42b3489..bf36f40b 100644
-> --- a/utils/ivtv-ctl/ivtv-ctl.c
-> +++ b/utils/ivtv-ctl/ivtv-ctl.c
-> @@ -34,6 +34,8 @@
->  #include <sys/time.h>
->  #include <math.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <v4l-getsubopt.h>
+> @@ -74,7 +75,7 @@ static std::string ts2s(__u64 ts, bool wallclock)
+>  	t = res.tv_sec;
+>  	s = ctime(&t);
+>  	s = s.substr(0, s.length() - 6);
+> -	sprintf(buf, "%03lu", res.tv_usec / 1000);
+> +	sprintf(buf, "%03" PRIu64, (uint64_t)res.tv_usec / 1000);
+>  	return s + "." + buf;
+>  }
 >  
 > diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-> index b6474d5c..a726921a 100644
+> index a726921a..ba7c7c4d 100644
 > --- a/utils/keytable/keytable.c
 > +++ b/utils/keytable/keytable.c
-> @@ -12,6 +12,8 @@
->     GNU General Public License for more details.
->   */
+> @@ -214,6 +214,7 @@ static enum sysfs_protocols parse_sysfs_protocol(const char *name, bool all_allo
+>  	return SYSFS_INVALID;
+>  }
 >  
-> +#include "linux/compiler.h"
-> +
->  #include <ctype.h>
+> +__attribute__((format(printf, 3, 0)))
+>  static void write_sysfs_protocols(enum sysfs_protocols protocols, FILE *fp, const char *fmt)
+>  {
+>  	const struct protocol_map_entry *pme;
+> diff --git a/utils/libv4l2util/v4l2_driver.c b/utils/libv4l2util/v4l2_driver.c
+> index 6b6366fa..5cd63fac 100644
+> --- a/utils/libv4l2util/v4l2_driver.c
+> +++ b/utils/libv4l2util/v4l2_driver.c
+> @@ -15,6 +15,7 @@
+>  #include <assert.h>
 >  #include <errno.h>
 >  #include <fcntl.h>
-> diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
-> index 1a9e393a..b180185f 100644
-> --- a/utils/media-ctl/media-ctl.c
-> +++ b/utils/media-ctl/media-ctl.c
-> @@ -34,6 +34,8 @@
+> +#include <inttypes.h>
+>  #include <stdio.h>
+>  #include <stdlib.h>
 >  #include <string.h>
->  #include <unistd.h>
+> @@ -174,13 +175,13 @@ static void prt_buf_info(char *name,struct v4l2_buffer *p)
+>  {
+>  	struct v4l2_timecode *tc=&p->timecode;
 >  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  #include <linux/types.h>
->  #include <linux/v4l2-mediabus.h>
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-> index 3517bd07..2c2b2158 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.h
-> +++ b/utils/v4l2-compliance/v4l2-compliance.h
-> @@ -26,6 +26,8 @@
->  #include <string>
->  #include <cstdint>
+> -	printf ("%s: %02ld:%02d:%02d.%08ld index=%d, type=%s, "
+> +	printf ("%s: %02" PRIu64 ":%02d:%02d.%08" PRIu64 " index=%d, type=%s, "
+>  		"bytesused=%d, flags=0x%08x, "
+>  		"field=%s, sequence=%d, memory=%s, offset=0x%08x, length=%d\n",
+> -		name, (p->timestamp.tv_sec/3600),
+> +		name, (uint64_t)(p->timestamp.tv_sec/3600),
+>  		(int)(p->timestamp.tv_sec/60)%60,
+>  		(int)(p->timestamp.tv_sec%60),
+> -		p->timestamp.tv_usec,
+> +		(uint64_t)p->timestamp.tv_usec,
+>  		p->index,
+>  		prt_names(p->type,v4l2_type_names),
+>  		p->bytesused,p->flags,
+> diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
+> index 60d64d8b..010936c0 100644
+> --- a/utils/v4l2-tracer/retrace.cpp
+> +++ b/utils/v4l2-tracer/retrace.cpp
+> @@ -72,7 +72,7 @@ void retrace_mmap(json_object *mmap_obj, bool is_mmap64)
+>  	                           (long) buf_address_retrace_pointer);
 >  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <linux/v4l2-subdev.h>
->  #include <linux/media.h>
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> index 1f9cd0fb..ea120eb8 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> @@ -9,6 +9,8 @@
->  #include <sys/stat.h>
->  #include <sys/sysmacros.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  
->  #include "v4l2-ctl.h"
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> index 13bc057d..7af62ec8 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> @@ -3,6 +3,8 @@
->  #include <netdb.h>
->  #include <sys/types.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  
->  #include "compiler.h"
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-> index a64fa514..d8a6c617 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-> @@ -27,6 +27,8 @@
->  #include <getopt.h>
->  #include <sys/epoll.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  
->  #include "v4l2-ctl.h"
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-> index a1911e80..fd1bd24a 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.h
-> +++ b/utils/v4l2-ctl/v4l2-ctl.h
-> @@ -1,6 +1,8 @@
->  #ifndef _V4L2_CTL_H
->  #define _V4L2_CTL_H
->  
-> +#include "linux/compiler.h"
-> +
->  #include <cstdint>
->  #include <linux/videodev2.h>
->  #include <linux/v4l2-subdev.h>
-> diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
-> index bd08b4cf..1b0d278a 100644
-> --- a/utils/v4l2-dbg/v4l2-dbg.cpp
-> +++ b/utils/v4l2-dbg/v4l2-dbg.cpp
-> @@ -31,6 +31,8 @@
->  #include <sys/klog.h>
->  #endif
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <v4l-getsubopt.h>
->  
+>  	if (is_verbose() || (errno != 0)) {
+> -		fprintf(stderr, "fd: %d, offset: %ld, ", fd_retrace, off);
+> +		fprintf(stderr, "fd: %d, offset: %lld, ", fd_retrace, (long long)off);
+>  		if (is_mmap64)
+>  			perror("mmap64");
+>  		else
 
 
