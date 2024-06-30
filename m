@@ -1,308 +1,368 @@
-Return-Path: <linux-media+bounces-14410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14411-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643B691D080
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 10:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6137791D081
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 10:24:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D3D6DB21167
-	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 08:17:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC0BDB21128
+	for <lists+linux-media@lfdr.de>; Sun, 30 Jun 2024 08:24:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C4DD41C92;
-	Sun, 30 Jun 2024 08:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8713912C475;
+	Sun, 30 Jun 2024 08:24:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5BE3EA9B
-	for <linux-media@vger.kernel.org>; Sun, 30 Jun 2024 08:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719735470; cv=fail; b=GfnYuwI2uhuxH3ULlnEWjimHucU7kQxsn7hOojodLBjIm+POzMBS32B4H0bp9hDk1pQ7ByTiABZe3QNUZdxf7U7o/+EvzRmnleKDDwoETzrAflrTIDJguGgnOZq+L9od/dYWisbthB3ZUqKk4cOyNALop7mWyOqrNIb1ndN/gMU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719735470; c=relaxed/simple;
-	bh=/1DBYX9WNTZ2Fs0AIR2RQFpMgo7biYsZxwfuzvOD958=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=todUJSk+GU0qY2JcKLlp4WygdFyJWQIiPsH3j98HmN5WCsO61WoINRz1CPfmxrwVy1iYkFLiCRGgnC+ZpWwJ+cOSilLG3BhysVFbd2Kxw1RbMZu03T4Cc/+OyI6rP8WxOuh9LUfzqj2mI9eCy6R+pAwPTwYFYuZGCr+XV32QSHw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=fail smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45U8HkHk028047;
-	Sun, 30 Jun 2024 01:17:46 -0700
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4033em008a-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 30 Jun 2024 01:17:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lXN81eQ4jX8+xab78OEILOGXgfWyUly4mH4+Fwxtyno8XJKqM/+nf7GXOtZtebzdWMqLvp5d6nvdLDZEXaFkQ2K3HLBnEPA2+z8pIbXwaSLOl9Z1XxCuRYAdh7ry5envA0k82dMkrvu6et8wMfOxT8H9/5bVHQCVVy6JtzNGIrmvExJQsI2dmJRXitGlz2CE0FRV5EmmfMN5X2GacIujD9BhUCB2pfV23DdZgnmUMisK7iRZ9lBEsp5JMD0o2AVkvBu33/Tkw6srytywM50r1gFxIWuXFlnSkBM6f3vBkBCeAGF6Scn2xZxUuwXLRkG5xUjr5yFHIBx4KW/iopRV0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vmwkuhqCvrJIkPu3OUDn3As7pX6jgJNENPlZWamNjiM=;
- b=Vx8lyaizkRIUQjOY/egZNoRbIAEZMbeYH2uT1UTSPfthfI51hfY2M7/+m3FkzbPs19ZyTFq4jPqVHZxDVvicCDgPP6SVX4ic4+HddH7mDWk30wjzogmt3fSylouYFpvjBBJ3+pfZqbikEK0Jtjqd4JpSD84oLc4aEuc+iMDERsk4T/0xOBvnvN1UKnpOZsFPyCAH/GIHvN6a3OjRC+/RUjR8yUoiV+1gE3ZjVUhIR3V15LzMMCFhktMVT1buTzRVujapppz0JHtZDbrXsV5Ke5ofxszaI96Y8AG96+2XnqOEKaLwSicnDJXtOFZsITYMWCK+FCI9Lg886J5Nj2INdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from IA1PR11MB6417.namprd11.prod.outlook.com (2603:10b6:208:3ab::13)
- by CH3PR11MB7914.namprd11.prod.outlook.com (2603:10b6:610:12c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.28; Sun, 30 Jun
- 2024 08:17:39 +0000
-Received: from IA1PR11MB6417.namprd11.prod.outlook.com
- ([fe80::fe57:61ca:7119:ccf7]) by IA1PR11MB6417.namprd11.prod.outlook.com
- ([fe80::fe57:61ca:7119:ccf7%5]) with mapi id 15.20.7719.028; Sun, 30 Jun 2024
- 08:17:36 +0000
-From: "Yan, Haixiao (CN)" <Haixiao.Yan.CN@windriver.com>
-To: Rosen Penev <rosenp@gmail.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: [WARNING][v4l-utils] do_package_qa: QA Issue:
- /usr/bin/cec-compliance uses 32-bit api 'time'
-Thread-Topic: [WARNING][v4l-utils] do_package_qa: QA Issue:
- /usr/bin/cec-compliance uses 32-bit api 'time'
-Thread-Index: AdrKD4jFSlbV7Eq1QmyIh8WcM4/ufQAtPAjQ
-Date: Sun, 30 Jun 2024 08:17:36 +0000
-Message-ID: 
- <IA1PR11MB6417BE9A56F60EFA578773F9DFD22@IA1PR11MB6417.namprd11.prod.outlook.com>
-References: 
- <IA1PR11MB641773FE706ED51D1031CD0BDFD12@IA1PR11MB6417.namprd11.prod.outlook.com>
-In-Reply-To: 
- <IA1PR11MB641773FE706ED51D1031CD0BDFD12@IA1PR11MB6417.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6417:EE_|CH3PR11MB7914:EE_
-x-ms-office365-filtering-correlation-id: f20fc01f-35fe-4b89-6e23-08dc98dd19b9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?rtgNpakcs1ue840+A7kJbbmrxr0eZrWSvfpmSi8P9CJxGyEiVDxnHHqMG1Gy?=
- =?us-ascii?Q?88eopJs/jFcr5mZaJagLctYazGO3O8kNWfbfAtUpDbOJUK13AumtPYE+lVxi?=
- =?us-ascii?Q?pU9uKkz9bbiUfHGPq/PyX/eIKpDb3e5cO5d6cN4OBcmDByf615KG4VgCV/IH?=
- =?us-ascii?Q?BuP1kgp9iUNWd63Na8vklZ0Z5dnttupjBGMq+upW1j+6Esp4YGGqwkx5PdNp?=
- =?us-ascii?Q?IaAw4AEJ9rSq/Mw9EIaUdIaZYpS35YcIkocjH9vr41kYZ6j0cV+XE+W6JCQ2?=
- =?us-ascii?Q?bY2RXbUJXIXh3TISvOlDcelHdilsLWrXfAkCbXPMQTt/ULyKr8vCQlAMTH6m?=
- =?us-ascii?Q?DxlIrXRpBplLwu0HPuVWn4t6+7qfGJAn+R34PvZDD8Gt3MdUt3luMVdcy1sV?=
- =?us-ascii?Q?il8B4myiZXXi3pA/teu793kl4yz/zOQtlUX5oY8CNhhKTg6+da6XgjpyM9r2?=
- =?us-ascii?Q?zDaaseYM2UqL+aPSzOzItzWgutYcFe7bB7+SqhNrctxj93nf/qHlQVHxyuyf?=
- =?us-ascii?Q?2GfYvSFwjaDQGkxWKT28I5vHFj/eHJo2zDQB0O3DUtixVJSvW2ioJaKuy3sr?=
- =?us-ascii?Q?iqSJRjahC31sE3puN3yhv7B7w4Knbpntzmk1Cxb8aurToYYvM+LBA83qvB/D?=
- =?us-ascii?Q?MT1mlUnzUQ+o9XRSzGcC6+DAvsr1ZvCe5mp2X7gxo+XbEza980rDnevsYGVZ?=
- =?us-ascii?Q?2d9HPLOoClSqa2UZQaxfADyvqC70FqAaI2CZOt8kZYCBIqI+PxpZ+t/XRRZl?=
- =?us-ascii?Q?NhNZuBlCCA7TeO89+MPraIiVsVHa9rFkVtlPwoSaKR4z3H8dgjq7uF365FqU?=
- =?us-ascii?Q?N1KzgPXooLZj//H1cExpk8Q5bYKzvqNFWOuiPtoVTjg9mBA3WwZQTteDlJwb?=
- =?us-ascii?Q?cdmFPGa1tkElp/iIfwJMqRzlAP1f7Wzo62iDzf1ggvP+vrs924BwcPbo3ebt?=
- =?us-ascii?Q?i19l640adWyif51Ufnx3yAdQyoCZmNsXptPpY6xpI/zskHkk1SwA9c8Sg/5z?=
- =?us-ascii?Q?vV6AA+BHv1wd9ru9RIBBYdABRg5qJn0NVxab9LzPyG8FYU55gqGzEHDdm2SK?=
- =?us-ascii?Q?F0OVJLySGKQR372mNQOEdL1FcijhoDSbbDLrtypdsjIXrAxMMNjrdKK9oxYm?=
- =?us-ascii?Q?NVkfavmczVxuOy/MtLwO7gkO19CrnrfPL5wF10R8wZCBUK3vBht2dF+XpHYF?=
- =?us-ascii?Q?kxqh/i1afkItEKBTFRyD7scNHZkj2ADDxXRGMrXs9TvJfP+0aweEhkWbtrgc?=
- =?us-ascii?Q?W9mcu2PPKJ/FbQN6TxsrR14ApLFVBW4d5pO7uHDzwMGFZ1WrTkltgzr7U4s8?=
- =?us-ascii?Q?Alfvet8rg0CEgEtniAydfvC0fKrm8/yHT0nCXgvQaBPh+JrF3ot3vQa411pU?=
- =?us-ascii?Q?Rj+YNhTgNgbqyyaC7IwCJMwaa1rcKZehkBF3/2RbjQLky8I5Xg=3D=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6417.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?/k6D0pRFUxykOkR09DS7A5SlsaBSQb52RU9+F17suf/Z8+s+opCcqIFI+nUR?=
- =?us-ascii?Q?drI0a56G6ZKh90rAaU8aTv4qd6jMh0HeuFxTceUknja7LC7ynCYciSamxksa?=
- =?us-ascii?Q?PZC7+x6zY74gA8fiz+6HlNx7eHsf95UMjzeMHjMpViJ6FK2GxkHZceadrJeE?=
- =?us-ascii?Q?/hF3SninecO8JZxHAkDPDMOIIAUlCWWNGwPHAs6k5tZGlT6AnYB2J7S10jw5?=
- =?us-ascii?Q?Q5V+JzsEWqvYfsHnA2Ww2V3Pzh2zQG3ADpzerwRoCwu2vusaS173RVeYF8FM?=
- =?us-ascii?Q?dqUN9LVEV4Ku/TzKc77EUpk4js5spm2I4irXjiBL3czf6BRSlit7Y4drRaKe?=
- =?us-ascii?Q?WjdZeR/yFQEzDmAxIssEa0SWwBmAUNCN4nll8oR6f6Gs+9t7l2nu9VVBOtnm?=
- =?us-ascii?Q?h4V8dMsn47DrLhDkSuwL8sUEYM98bT3ZpWgEDAoamOSR1oqS2w3G390bBPri?=
- =?us-ascii?Q?8YSK0J1abrIYTLD1sZ9aH85WXK7NsG9IzHHnF6hnF8ovluyOEEOjpxzWOvnm?=
- =?us-ascii?Q?RuhPJFVPPKTIPyHA2va4lOs4QxxQ2n0WpKXCbBfW0SMR7tT+MU7dAHS0OP8X?=
- =?us-ascii?Q?71fTGDZGf8w04NIsfL/bQGZmJ3pM8OeVaNxcq35SZEEMmKtmek7ZwUcrq4ND?=
- =?us-ascii?Q?vS95aIGYu7M5QqY+CEn6Plgn582kWcjIpyvCsRZO6ErzlRvRKOOMcTbaP8ir?=
- =?us-ascii?Q?ChOfAXKNhOvHU4LcvYOUOrX9ek3Juz0+LS3+Nq/u20xxfc4A8TcVny59cnIf?=
- =?us-ascii?Q?LtN+gqX7nzYA2P0oqAUNOaZITPDxXp7452+xBtEHWt+VeGtCfGW17wQUa0pE?=
- =?us-ascii?Q?49OhHc3gXvrf+FqYaLjzjFOiQw8g48dn8EA+85V25yp4xVBnk4Sydt3zKMsT?=
- =?us-ascii?Q?hcITHH9i2VOtGj3ZNt6WfgRbJl/OIMNQ+lUf/I8o53UwEAb3RDvyZ3nWdC7O?=
- =?us-ascii?Q?VYL9yjG3ssC5C/UzO4VOHVKq+SZFxW8cXq6Pysyna0CeAKgsf76EtboPVVRN?=
- =?us-ascii?Q?crmZutZvmG3srp5xwJJq8lGCCb/SHf8eqVWLLE1CDFdujvCaEcQWK9Dp/kVB?=
- =?us-ascii?Q?g60PwCFGCUt2FS306viU1s+4nzotJ95NNixeyAXkbirmO+WoKPbpIXKB1kQ1?=
- =?us-ascii?Q?KdcWlB8NNobOXYBRc3s7+L0wa7rbKdukM1t+gpcgfOBw4+MSAdzu2VE9HWe2?=
- =?us-ascii?Q?tqKYWLrOPe9+htibq3wOVJHW80wFwIYulnBuvIUnnPpexSjz0Ep51L7o/nVT?=
- =?us-ascii?Q?FBcoUnC5DtknQdHrrhEQdT14kRO9ahqXh9nxrbCmOM9I7RzqCTBG5VMJaUKM?=
- =?us-ascii?Q?mQYbNuRRSDtyooRQJH0Qln4floYSN8W4M7jGxLN3UvBZ1wIa2aIzvrfumR4o?=
- =?us-ascii?Q?c0ZXYBkX3lf2HyYXw2LRBgpIWBWUvzobBK14nCXfMPnu6v7s39O6ntlZec0I?=
- =?us-ascii?Q?w3VWnGaRpIJISLcf/38NDlM/2fLQp8yg3S06A6oOgf1SedZqD9F5Ts5Pr4cD?=
- =?us-ascii?Q?c2x1OJOo1lr6Gmy0YmDltBMvKh/YyIDyDzjwm1rkPZmyh17AZeNYrN4WGo4y?=
- =?us-ascii?Q?ach9S7ZMSXdzNT88dE+RL1LH/ip/9KTfCxgsf+o1OIo9nzcNBGRYpY4iG0GT?=
- =?us-ascii?Q?JQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D7D127E37
+	for <linux-media@vger.kernel.org>; Sun, 30 Jun 2024 08:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719735857; cv=none; b=naB8O0/ED8NhlQFiyfCXDytyNvAPewHvXudDT92YMGGaKdttz/1CN4BSE1vF38ivL8Xm/MYwFXRzUYAvMJcpHDgN0MZmzyJ2fQwShYtMT7B5Msc9GptixZGdoRHOeViwILzS85akblqCLzZdf2p8oGrelCP+yV1+v0rmX8eflH8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719735857; c=relaxed/simple;
+	bh=xmjPDbSJpyC8wb7mfADZWGXOMrRmKI145PVDf5IZ1/0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=C560kwzZVzPmgiJBzdm/aChE8eR4F0Z77QwnOeTrjEuaEg6apb0BUrGvaSNEwMSPjDeJp35DRQ/tI1c+Oq4OlTHNu1oALcEeAlPrHCtsAmlVdibNFUEMRYdNP1UfS5srU4G/HIZvlrCSW+zqIj7P4qEukEgM3G88yX8u/l2gDho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3196CC2BD10;
+	Sun, 30 Jun 2024 08:24:16 +0000 (UTC)
+Message-ID: <7eb4a07b-950b-4ded-ad0c-43da19c5caf4@xs4all.nl>
+Date: Sun, 30 Jun 2024 10:24:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6417.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f20fc01f-35fe-4b89-6e23-08dc98dd19b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2024 08:17:36.6001
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kLADe8xRonrRIKxChREXNpknOvf3S3plG1+r5s7RF/c+xJjyqcO3kclKZkibrYzwjMHDcjAIkfDR7Zf8HDUqbeb4oApKLkXh74bdxBIvHAk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7914
-X-Proofpoint-GUID: DIALhCoZwTAljpk6401PwWlC42Rj0Ud4
-X-Proofpoint-ORIG-GUID: DIALhCoZwTAljpk6401PwWlC42Rj0Ud4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-30_06,2024-06-28_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 suspectscore=0 clxscore=1011 spamscore=0 malwarescore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.21.0-2406140001 definitions=main-2406300064
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] v4l-utils: fix formats under ppc/mips64
+To: Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
+References: <20240610212316.136612-1-rosenp@gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240610212316.136612-1-rosenp@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Ronsen,
+Hi Rosen,
 
-Is this issue related to your commit?
-v4l-utils: fix compilation with 64-bit time_t
+On 10/06/2024 23:23, Rosen Penev wrote:
+> By default, these platforms use long instead of long long for __u64.
+> __SANE_USERSPACE_TYPES__ fixes -Wformat warnings.
 
------Original Message-----
-From: Yan, Haixiao (CN)=20
-Sent: Saturday, June 29, 2024 6:32 PM
-To: linux-media@vger.kernel.org
-Subject: [WARNING][v4l-utils] do_package_qa: QA Issue: /usr/bin/cec-complia=
-nce uses 32-bit api 'time'
+I think this needs a more extensive commit message.
 
-Hi,
+See e.g. https://lists.openembedded.org/g/openembedded-core/message/46881
+(found after googling for __SANE_USERSPACE_TYPES__).
 
-On Yocto, when building 32-bit lib for v4l-utils, met the QA warning issue.
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  contrib/xc3028-firmware/firmware-tool.c | 2 ++
+>  include/linux/compiler.h                | 1 +
+>  utils/cec-compliance/cec-compliance.h   | 2 ++
+>  utils/cec-ctl/cec-ctl.cpp               | 2 ++
+>  utils/cec-ctl/cec-ctl.h                 | 2 ++
+>  utils/cec-ctl/cec-pin.cpp               | 2 ++
+>  utils/cec-follower/cec-processing.cpp   | 2 ++
+>  utils/common/v4l2-info.h                | 2 ++
+>  utils/cx18-ctl/cx18-ctl.c               | 2 ++
+>  utils/ivtv-ctl/ivtv-ctl.c               | 2 ++
+>  utils/keytable/keytable.c               | 2 ++
+>  utils/media-ctl/media-ctl.c             | 2 ++
+>  utils/v4l2-compliance/v4l2-compliance.h | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl-common.cpp      | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl-streaming.cpp   | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl.cpp             | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl.h               | 2 ++
+>  utils/v4l2-dbg/v4l2-dbg.cpp             | 2 ++
+>  18 files changed, 35 insertions(+)
+> 
+> diff --git a/contrib/xc3028-firmware/firmware-tool.c b/contrib/xc3028-firmware/firmware-tool.c
+> index 5dd205e0..6bcb3237 100644
+> --- a/contrib/xc3028-firmware/firmware-tool.c
+> +++ b/contrib/xc3028-firmware/firmware-tool.c
+> @@ -29,6 +29,8 @@
+>  #include <string.h>
+>  #include <unistd.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <asm/byteorder.h>
+>  #include <asm/types.h>
+>  
+> diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+> index 379629be..5a6326f8 100644
+> --- a/include/linux/compiler.h
+> +++ b/include/linux/compiler.h
+> @@ -1,6 +1,7 @@
+>  #ifndef __linux_compiler_h
+>  #define __linux_compiler_h
+>  
+> +#define __SANE_USERSPACE_TYPES__
 
-WARNING: lib32-v4l-utils-1.26.1+git-r0 do_package_qa: QA Issue: /usr/bin/ir=
--keytable uses 32-bit api 'ioc
-tl'                                                                        =
-                             =20
-/usr/bin/ir-keytable uses 32-bit api 'stat64'                              =
-                             =20
-Suppress with INSANE_SKIP =3D "32bit-time"                                 =
-                               =20
-/usr/bin/media-ctl uses 32-bit api 'ioctl'                                 =
-                             =20
-/usr/bin/media-ctl uses 32-bit api 'stat64'                                =
-                             =20
-Suppress with INSANE_SKIP =3D "32bit-time"                                 =
-                               =20
-/usr/bin/rds-ctl uses 32-bit api 'ioctl'                                   =
-                             =20
-/usr/bin/rds-ctl uses 32-bit api 'ctime'                                   =
-                             =20
-Suppress with INSANE_SKIP =3D "32bit-time"                                 =
-                               =20
-/usr/bin/v4l2-ctl uses 32-bit api 'select'                                 =
-                             =20
-/usr/bin/v4l2-ctl uses 32-bit api 'fstat64'                                =
-                             =20
-/usr/bin/v4l2-ctl uses 32-bit api 'clock_gettime'                          =
-                             =20
-/usr/bin/v4l2-ctl uses 32-bit api 'ioctl'                                  =
-                             =20
-/usr/bin/v4l2-ctl uses 32-bit api 'nanosleep'                              =
-                             =20
-/usr/bin/v4l2-ctl uses 32-bit api 'fcntl64'                                =
-                             =20
-/usr/bin/v4l2-ctl uses 32-bit api 'stat64'                                 =
-                             =20
-Suppress with INSANE_SKIP =3D "32bit-time"                                 =
-                               =20
-/usr/bin/v4l2-compliance uses 32-bit api 'select'                          =
-                             =20
-/usr/bin/v4l2-compliance uses 32-bit api 'fstat64'
-/usr/bin/v4l2-compliance uses 32-bit api 'clock_gettime'
-/usr/bin/v4l2-compliance uses 32-bit api 'ioctl'
-/usr/bin/v4l2-compliance uses 32-bit api 'fcntl64'
-/usr/bin/v4l2-compliance uses 32-bit api 'stat64'
-Suppress with INSANE_SKIP =3D "32bit-time"                                 =
-                               =20
-/usr/bin/v4l2-compliance uses 32-bit api 'select'                          =
-                             =20
-/usr/bin/v4l2-compliance uses 32-bit api 'fstat64'
-/usr/bin/v4l2-compliance uses 32-bit api 'clock_gettime'
-/usr/bin/v4l2-compliance uses 32-bit api 'ioctl'
-/usr/bin/v4l2-compliance uses 32-bit api 'fcntl64'
-/usr/bin/v4l2-compliance uses 32-bit api 'stat64'
-Suppress with INSANE_SKIP =3D "32bit-time"
-/usr/bin/v4l2-sysfs-path uses 32-bit api 'fstat64'
-Suppress with INSANE_SKIP =3D "32bit-time"
-/usr/bin/decode_tm6000 uses 32-bit api 'ioctl'
-/usr/bin/decode_tm6000 uses 32-bit api 'select'
-Suppress with INSANE_SKIP =3D "32bit-time"
-/usr/bin/cec-compliance uses 32-bit api 'ctime'
-/usr/bin/cec-compliance uses 32-bit api 'localtime'
-/usr/bin/cec-compliance uses 32-bit api 'clock_gettime'
-/usr/bin/cec-compliance uses 32-bit api 'ioctl'
-/usr/bin/cec-compliance uses 32-bit api 'gettimeofday'
-/usr/bin/cec-compliance uses 32-bit api 'fcntl64'
-/usr/bin/cec-compliance uses 32-bit api 'time'
-/usr/bin/cec-compliance uses 32-bit api 'select'
-Suppress with INSANE_SKIP =3D "32bit-time"                                 =
-                               =20
-/usr/bin/cec-compliance uses 32-bit api 'ctime'                            =
-                             =20
-/usr/bin/cec-compliance uses 32-bit api 'localtime'                        =
-                             =20
-/usr/bin/cec-compliance uses 32-bit api 'clock_gettime'                    =
-                             =20
-/usr/bin/cec-compliance uses 32-bit api 'ioctl'                            =
-                             =20
-/usr/bin/cec-compliance uses 32-bit api 'gettimeofday'                     =
-                             =20
-/usr/bin/cec-compliance uses 32-bit api 'fcntl64'                          =
-                             =20
-/usr/bin/cec-compliance uses 32-bit api 'time'                             =
-                             =20
-/usr/bin/cec-compliance uses 32-bit api 'select'                           =
-                             =20
-Suppress with INSANE_SKIP =3D "32bit-time"                                 =
-                               =20
+This needs a comment as well.
 
-After investigating,
-meta-openembedded/meta-oe/recipes-multimedia/v4l2apps/v4l-utils_1.26.1.bb
-#v4l2 explicitly sets _FILE_OFFSET_BITS=3D32 to get access to #both 32 and =
-64 bit file APIs.  But it does not handle the time side?
-#Needs further investigation
-GLIBC_64BIT_TIME_FLAGS =3D ""
+Regards,
 
-GLIBC_64BIT_TIME_FLAGS =3D " -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64" wh=
-ich defined in oe-core/meta/conf/distro/include/time64.inc was reset, so re=
-sult in this QA issue.
-=20
-when comment GLIBC_64BIT_TIME_FLAGS =3D "" , there is build error.
-/build-v4l/tmp-glibc/work/core2-32-wrsmllib32-linux/lib32-v4l-utils/1.26.1+=
-git/lib32-recipe-sysroot/usr/include/features-time64.h:26:5: error: #error =
-    "_TIME_BITS=3D64 is allowed only with _FILE_OFFSET_BITS=3D64"
-26 | #   error "_TIME_BITS=3D64 is allowed only with _FILE_OFFSET_BITS=3D64=
-"
+	Hans
 
-the build error is caused by v4l-utils meson.build:
-v4l2_wrapper_args =3D [
-    # As the library needs to provide both 32-bit and 64-bit versions
-    # of file operations, disable transparent large file support (fixes
-    # 'Error: symbol `open64/mmap64' is already defined' compile failure
-    # otherwise)
-    '-U_FILE_OFFSET_BITS',
-    '-D_FILE_OFFSET_BITS=3D32',
-    '-D_LARGEFILE64_SOURCE',
-]
+>  #define __user
+>  
+>  #endif
+> diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
+> index aae72842..d5bd1d0a 100644
+> --- a/utils/cec-compliance/cec-compliance.h
+> +++ b/utils/cec-compliance/cec-compliance.h
+> @@ -8,6 +8,8 @@
+>  #ifndef _CEC_COMPLIANCE_H_
+>  #define _CEC_COMPLIANCE_H_
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/cec-funcs.h>
+>  #include "cec-htng-funcs.h"
+>  
+> diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
+> index 8848a49d..69aeb8cd 100644
+> --- a/utils/cec-ctl/cec-ctl.cpp
+> +++ b/utils/cec-ctl/cec-ctl.cpp
+> @@ -20,6 +20,8 @@
+>  #include <sys/time.h>
+>  #include <unistd.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/cec-funcs.h>
+>  #include "cec-htng-funcs.h"
+>  #include "cec-log.h"
+> diff --git a/utils/cec-ctl/cec-ctl.h b/utils/cec-ctl/cec-ctl.h
+> index 2c82bedc..e0692c31 100644
+> --- a/utils/cec-ctl/cec-ctl.h
+> +++ b/utils/cec-ctl/cec-ctl.h
+> @@ -6,6 +6,8 @@
+>  #ifndef _CEC_CTL_H_
+>  #define _CEC_CTL_H_
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <cec-info.h>
+>  
+>  // cec-ctl.cpp
+> diff --git a/utils/cec-ctl/cec-pin.cpp b/utils/cec-ctl/cec-pin.cpp
+> index f3500555..0cdc19f7 100644
+> --- a/utils/cec-ctl/cec-pin.cpp
+> +++ b/utils/cec-ctl/cec-pin.cpp
+> @@ -3,6 +3,8 @@
+>   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <string>
+>  
+>  #include <linux/cec.h>
+> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+> index 14ee211b..3b5c3ce5 100644
+> --- a/utils/cec-follower/cec-processing.cpp
+> +++ b/utils/cec-follower/cec-processing.cpp
+> @@ -3,6 +3,8 @@
+>   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <cerrno>
+>  #include <ctime>
+>  #include <string>
+> diff --git a/utils/common/v4l2-info.h b/utils/common/v4l2-info.h
+> index ac227971..eeb7bc6b 100644
+> --- a/utils/common/v4l2-info.h
+> +++ b/utils/common/v4l2-info.h
+> @@ -8,6 +8,8 @@
+>  
+>  #include <string>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <linux/v4l2-subdev.h>
+>  
+> diff --git a/utils/cx18-ctl/cx18-ctl.c b/utils/cx18-ctl/cx18-ctl.c
+> index 8586f72d..7c13b1a3 100644
+> --- a/utils/cx18-ctl/cx18-ctl.c
+> +++ b/utils/cx18-ctl/cx18-ctl.c
+> @@ -34,6 +34,8 @@
+>  #include <sys/time.h>
+>  #include <math.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <v4l-getsubopt.h>
+>  
+> diff --git a/utils/ivtv-ctl/ivtv-ctl.c b/utils/ivtv-ctl/ivtv-ctl.c
+> index b42b3489..bf36f40b 100644
+> --- a/utils/ivtv-ctl/ivtv-ctl.c
+> +++ b/utils/ivtv-ctl/ivtv-ctl.c
+> @@ -34,6 +34,8 @@
+>  #include <sys/time.h>
+>  #include <math.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <v4l-getsubopt.h>
+>  
+> diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+> index b6474d5c..a726921a 100644
+> --- a/utils/keytable/keytable.c
+> +++ b/utils/keytable/keytable.c
+> @@ -12,6 +12,8 @@
+>     GNU General Public License for more details.
+>   */
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <ctype.h>
+>  #include <errno.h>
+>  #include <fcntl.h>
+> diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
+> index 1a9e393a..b180185f 100644
+> --- a/utils/media-ctl/media-ctl.c
+> +++ b/utils/media-ctl/media-ctl.c
+> @@ -34,6 +34,8 @@
+>  #include <string.h>
+>  #include <unistd.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  #include <linux/types.h>
+>  #include <linux/v4l2-mediabus.h>
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+> index 3517bd07..2c2b2158 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.h
+> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+> @@ -26,6 +26,8 @@
+>  #include <string>
+>  #include <cstdint>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <linux/v4l2-subdev.h>
+>  #include <linux/media.h>
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> index 1f9cd0fb..ea120eb8 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> @@ -9,6 +9,8 @@
+>  #include <sys/stat.h>
+>  #include <sys/sysmacros.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  
+>  #include "v4l2-ctl.h"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> index 13bc057d..7af62ec8 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> @@ -3,6 +3,8 @@
+>  #include <netdb.h>
+>  #include <sys/types.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  
+>  #include "compiler.h"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+> index a64fa514..d8a6c617 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+> @@ -27,6 +27,8 @@
+>  #include <getopt.h>
+>  #include <sys/epoll.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  
+>  #include "v4l2-ctl.h"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+> index a1911e80..fd1bd24a 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.h
+> +++ b/utils/v4l2-ctl/v4l2-ctl.h
+> @@ -1,6 +1,8 @@
+>  #ifndef _V4L2_CTL_H
+>  #define _V4L2_CTL_H
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <cstdint>
+>  #include <linux/videodev2.h>
+>  #include <linux/v4l2-subdev.h>
+> diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
+> index bd08b4cf..1b0d278a 100644
+> --- a/utils/v4l2-dbg/v4l2-dbg.cpp
+> +++ b/utils/v4l2-dbg/v4l2-dbg.cpp
+> @@ -31,6 +31,8 @@
+>  #include <sys/klog.h>
+>  #endif
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <v4l-getsubopt.h>
+>  
 
-D_FILE_OFFSET_BITS was reset to 32 during compile.
-
-Is there a solution for this?
-
-Thanks,
-Haixiao
 
