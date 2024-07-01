@@ -1,747 +1,2458 @@
-Return-Path: <linux-media+bounces-14475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0501F91E37F
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 17:12:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C3E91E5C2
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 18:50:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84BA61F227A2
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 15:12:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FBE51C20DBA
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 16:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1D4616C86D;
-	Mon,  1 Jul 2024 15:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98ABC16DECB;
+	Mon,  1 Jul 2024 16:49:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W08jRvtP"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="r7oXEhVf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE8528F1;
-	Mon,  1 Jul 2024 15:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23FB16DEB1
+	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 16:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719846747; cv=none; b=hCmYDCf4qBiFtWrfAjz16AGY3YACl6qBqaKYxojCQFxJJgnz8jdjX7XSPeEf+PPMYzwZR+TWbgEL4NyVBonmOBxDdHWcEUhwkcOseyKAnU23UhcVcB/6Ug2DVWCc3Nn02aD8k50gtExlrmHBugs627T/G1tdbxvP+1QrznMa0iY=
+	t=1719852583; cv=none; b=QB23Gd6WJLn+VIEzqmoTBzqvjftP3ToDlyAWG2rgPir22sWR37gSXYnwj5LqREeXllkAr2YuT8+UvK20/iO5eSVWGH8WDpxeQd+fkCu/WZ/rtTHvhFX1kyQgwabzvabfUeeRu0vjqclmYxGnNFt5LUmSe7Vxc0TqVhRj4M4gXBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719846747; c=relaxed/simple;
-	bh=1ZIGOmC8lG5hTPZRDfcPjGuwtIGFS+qwD+pN7NGKaRU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eP3d3bw8vTauh8H9A3ZQsYKn1xPMx/IfdOEKJHBdr7be7Nn1qWhKsqSX5aWPqbtbRGqGtl8/RNWd21DHIRRzwS4n37vfafJ2LHOoMKreO9l/cVjyQCAQ4S7/qDc6j3+RTr92l1wCU0DlQnTY6TnjkI3FUT48MiuH5kZgUeVxBbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=W08jRvtP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F0B563D;
-	Mon,  1 Jul 2024 17:11:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719846710;
-	bh=1ZIGOmC8lG5hTPZRDfcPjGuwtIGFS+qwD+pN7NGKaRU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W08jRvtPKSORktaJeBeyc4KFoKl0ufCuL5KtXK+VD9GHrHYx9PJVxGvKtEIeIseQh
-	 PKzBgqdhRzjBUsQPaUikhDumn4nMtAIACHYYGLWUJddrAyAzGhPzhS5500Qemg96Qk
-	 O/SqvU4GfMszLpHLGZZZ12PlUNkBWnIJsyiPRvy4=
-Message-ID: <8554a3aa-59c3-4ad8-8443-7ad38794afd7@ideasonboard.com>
-Date: Mon, 1 Jul 2024 16:12:12 +0100
+	s=arc-20240116; t=1719852583; c=relaxed/simple;
+	bh=910Qsd52+gO2y08+9HwHcynVfLEquH2+0o7Od/Dak/A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mbJZZOiCyFvh+dOo4hwA4tP+GCL3Lw1EW86iu2qaqCv1Gnyghpy7X4BPXE4Ris+i6KxypdVOwJQtxQ2yrUwxyuXuTOUyHPgpXlzGbninLxXSAVEw0gZzHWegSnVAQLC8O7HOXJhrH+dfTLnPpsu/49u1rwi/BDBgdAhi0igTlHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=r7oXEhVf; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e036eabc97dso1971703276.3
+        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2024 09:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1719852578; x=1720457378; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+wFrUwo7RjCElxbc8/WL2hSQ4iO6cHewWSQFIemsdmM=;
+        b=r7oXEhVf5u/IYERslc7ptjH3vjlG2k2gC3xfAkHlI6dVWte8ouZnZX5YWgqRi7zkAe
+         N6Hqs1BoRBnd2lOKahRUunrWwP7ik2dckO1xla18rabtoEODMsb+WlCz+l+eNjItlcPB
+         niCBSstFzGL9/BzFh9iIQ6xxHmVivjGwIv3HM/Dg1ndpY6Wj2Jlq5dz5ExPm2xobQ0Nf
+         /dLkCZzBGU+TntJ/bwwgemfpfFX3VEHpq2gmAzNLFHn3rGe8zbEl8yPs9UkjYYOGiNQr
+         8TdAL+HxkyfgPFPrsaz+f+0EcNlXhv0hg2BIz8YoCndLuL7sxygFngqWobT0nq6qStyP
+         vw8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719852578; x=1720457378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+wFrUwo7RjCElxbc8/WL2hSQ4iO6cHewWSQFIemsdmM=;
+        b=Z4kMmevrH9TrzOWXV3OIh1b3jDBWLv6+5ac6KqNhfuLhWu+O0VwXLFtgSgvRI1m2FJ
+         O+kODl/iCY3B4RFM/+r2LBN4XjoJS7FRsY7nIXVNQiO8j+QcLFzHQIyvDFaXx0G42JJ7
+         aGOkSnOymRC3v19KbxuG1dzOlFQJMe3gKbjCPzidbZjIJ7gDU8fiQMh3P5QeDpFAQArp
+         bRyaUaFHjjGnl92/Mct2gDHd3gWe6tsv4ik4g4pb/oGaRuv9oBLslK6rwCQ/RmJOuyeN
+         2W5UQEZGiYzfocSJaKQHkgEKJ9AjTyj4q5lzWqnFQxwnWicMNRFmxd5P6/vyi8aFyzaI
+         60ZQ==
+X-Gm-Message-State: AOJu0YyKduM44DIU7Iu7KRCqdP5V7e4CUV2Nw6xRl8LrNG5G3hUzvSBq
+	Zk3Qk8FdAc7dYFGgAblnKFsFZ1h50eAaVvzoMbQiAabMDH7CLUWUio5vzNb2hQbAe9WkotiJ9P+
+	Akl8eY8TSIbzGzNxquwTTUY8zL1XUZ3uHr2Fo9A==
+X-Google-Smtp-Source: AGHT+IFqn5zJe1CvaipuNaLtxv2NtWi7w0I7SKOWW15RIoQJx30bo+NjvybFqkndW8PHcO7PjiGiIrZzg5cIaltha4Q=
+X-Received: by 2002:a25:d3ca:0:b0:e02:b652:7c36 with SMTP id
+ 3f1490d57ef6-e0384562578mr3450448276.25.1719852577373; Mon, 01 Jul 2024
+ 09:49:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/16] media: platform: Add mali-c55 3a stats devnode
+References: <20240630141802.15830-1-laurent.pinchart@ideasonboard.com> <20240630141802.15830-3-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20240630141802.15830-3-laurent.pinchart@ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 1 Jul 2024 17:49:20 +0100
+Message-ID: <CAPY8ntBU2Gr=NAE60kgUgNkHa=Eqs3r06FgsM=dQBJRg8tQ9=g@mail.gmail.com>
+Subject: Re: [PATCH/RFC v1 2/9] media: i2c: Add a driver for the onsemi AR0144
+ camera sensor
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
- sakari.ailus@iki.fi
-References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
- <20240529152858.183799-11-dan.scally@ideasonboard.com>
- <20240616211946.GD7378@pendragon.ideasonboard.com>
- <655c2e5e-c56a-45d1-ab51-498ef9c26a19@ideasonboard.com>
- <20240629150415.GI30900@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- xsFNBGLydlEBEADa5O2s0AbUguprfvXOQun/0a8y2Vk6BqkQALgeD6KnXSWwaoCULp18etYW
- B31bfgrdphXQ5kUQibB0ADK8DERB4wrzrUb5CMxLBFE7mQty+v5NsP0OFNK9XTaAOcmD+Ove
- eIjYvqurAaro91jrRVrS1gBRxIFqyPgNvwwL+alMZhn3/2jU2uvBmuRrgnc/e9cHKiuT3Dtq
- MHGPKL2m+plk+7tjMoQFfexoQ1JKugHAjxAhJfrkXh6uS6rc01bYCyo7ybzg53m1HLFJdNGX
- sUKR+dQpBs3SY4s66tc1sREJqdYyTsSZf80HjIeJjU/hRunRo4NjRIJwhvnK1GyjOvvuCKVU
- RWpY8dNjNu5OeAfdrlvFJOxIE9M8JuYCQTMULqd1NuzbpFMjc9524U3Cngs589T7qUMPb1H1
- NTA81LmtJ6Y+IV5/kiTUANflpzBwhu18Ok7kGyCq2a2jsOcVmk8gZNs04gyjuj8JziYwwLbf
- vzABwpFVcS8aR+nHIZV1HtOzyw8CsL8OySc3K9y+Y0NRpziMRvutrppzgyMb9V+N31mK9Mxl
- 1YkgaTl4ciNWpdfUe0yxH03OCuHi3922qhPLF4XX5LN+NaVw5Xz2o3eeWklXdouxwV7QlN33
- u4+u2FWzKxDqO6WLQGjxPE0mVB4Gh5Pa1Vb0ct9Ctg0qElvtGQARAQABzShEYW4gU2NhbGx5
- IDxkYW4uc2NhbGx5QGlkZWFzb25ib2FyZC5jb20+wsGNBBMBCAA3FiEEsdtt8OWP7+8SNfQe
- kiQuh/L+GMQFAmLydlIFCQWjmoACGwMECwkIBwUVCAkKCwUWAgMBAAAKCRCSJC6H8v4YxDI2
- EAC2Gz0iyaXJkPInyshrREEWbo0CA6v5KKf3I/HlMPqkZ48bmGoYm4mEQGFWZJAT3K4ir8bg
- cEfs9V54gpbrZvdwS4abXbUK4WjKwEs8HK3XJv1WXUN2bsz5oEJWZUImh9gD3naiLLI9QMMm
- w/aZkT+NbN5/2KvChRWhdcha7+2Te4foOY66nIM+pw2FZM6zIkInLLUik2zXOhaZtqdeJZQi
- HSPU9xu7TRYN4cvdZAnSpG7gQqmLm5/uGZN1/sB3kHTustQtSXKMaIcD/DMNI3JN/t+RJVS7
- c0Jh/ThzTmhHyhxx3DRnDIy7kwMI4CFvmhkVC2uNs9kWsj1DuX5kt8513mvfw2OcX9UnNKmZ
- nhNCuF6DxVrL8wjOPuIpiEj3V+K7DFF1Cxw1/yrLs8dYdYh8T8vCY2CHBMsqpESROnTazboh
- AiQ2xMN1cyXtX11Qwqm5U3sykpLbx2BcmUUUEAKNsM//Zn81QXKG8vOx0ZdMfnzsCaCzt8f6
- 9dcDBBI3tJ0BI9ByiocqUoL6759LM8qm18x3FYlxvuOs4wSGPfRVaA4yh0pgI+ModVC2Pu3y
- ejE/IxeatGqJHh6Y+iJzskdi27uFkRixl7YJZvPJAbEn7kzSi98u/5ReEA8Qhc8KO/B7wprj
- xjNMZNYd0Eth8+WkixHYj752NT5qshKJXcyUU87BTQRi8nZSARAAx0BJayh1Fhwbf4zoY56x
- xHEpT6DwdTAYAetd3yiKClLVJadYxOpuqyWa1bdfQWPb+h4MeXbWw/53PBgn7gI2EA7ebIRC
- PJJhAIkeym7hHZoxqDQTGDJjxFEL11qF+U3rhWiL2Zt0Pl+zFq0eWYYVNiXjsIS4FI2+4m16
- tPbDWZFJnSZ828VGtRDQdhXfx3zyVX21lVx1bX4/OZvIET7sVUufkE4hrbqrrufre7wsjD1t
- 8MQKSapVrr1RltpzPpScdoxknOSBRwOvpp57pJJe5A0L7+WxJ+vQoQXj0j+5tmIWOAV1qBQp
- hyoyUk9JpPfntk2EKnZHWaApFp5TcL6c5LhUvV7F6XwOjGPuGlZQCWXee9dr7zym8iR3irWT
- +49bIh5PMlqSLXJDYbuyFQHFxoiNdVvvf7etvGfqFYVMPVjipqfEQ38ST2nkzx+KBICz7uwj
- JwLBdTXzGFKHQNckGMl7F5QdO/35An/QcxBnHVMXqaSd12tkJmoRVWduwuuoFfkTY5mUV3uX
- xGj3iVCK4V+ezOYA7c2YolfRCNMTza6vcK/P4tDjjsyBBZrCCzhBvd4VVsnnlZhVaIxoky4K
- aL+AP+zcQrUZmXmgZjXOLryGnsaeoVrIFyrU6ly90s1y3KLoPsDaTBMtnOdwxPmo1xisH8oL
- a/VRgpFBfojLPxMAEQEAAcLBfAQYAQgAJhYhBLHbbfDlj+/vEjX0HpIkLofy/hjEBQJi8nZT
- BQkFo5qAAhsMAAoJEJIkLofy/hjEXPcQAMIPNqiWiz/HKu9W4QIf1OMUpKn3YkVIj3p3gvfM
- Res4fGX94Ji599uLNrPoxKyaytC4R6BTxVriTJjWK8mbo9jZIRM4vkwkZZ2bu98EweSucxbp
- vjESsvMXGgxniqV/RQ/3T7LABYRoIUutARYq58p5HwSP0frF0fdFHYdTa2g7MYZl1ur2JzOC
- FHRpGadlNzKDE3fEdoMobxHB3Lm6FDml5GyBAA8+dQYVI0oDwJ3gpZPZ0J5Vx9RbqXe8RDuR
- du90hvCJkq7/tzSQ0GeD3BwXb9/R/A4dVXhaDd91Q1qQXidI+2jwhx8iqiYxbT+DoAUkQRQy
- xBtoCM1CxH7u45URUgD//fxYr3D4B1SlonA6vdaEdHZOGwECnDpTxecENMbz/Bx7qfrmd901
- D+N9SjIwrbVhhSyUXYnSUb8F+9g2RDY42Sk7GcYxIeON4VzKqWM7hpkXZ47pkK0YodO+dRKM
- yMcoUWrTK0Uz6UzUGKoJVbxmSW/EJLEGoI5p3NWxWtScEVv8mO49gqQdrRIOheZycDmHnItt
- 9Qjv00uFhEwv2YfiyGk6iGF2W40s2pH2t6oeuGgmiZ7g6d0MEK8Ql/4zPItvr1c1rpwpXUC1
- u1kQWgtnNjFHX3KiYdqjcZeRBiry1X0zY+4Y24wUU0KsEewJwjhmCKAsju1RpdlPg2kC
-In-Reply-To: <20240629150415.GI30900@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi Laurent
 
-On 29/06/2024 16:04, Laurent Pinchart wrote:
-> Hi Dan,
+I have a couple of these modules, so I'll try to give this driver a
+test in the next few days.
+
+A couple of observations as I was reading through.
+
+On Sun, 30 Jun 2024 at 15:18, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> On Thu, Jun 20, 2024 at 04:10:01PM +0100, Daniel Scally wrote:
->> On 16/06/2024 22:19, Laurent Pinchart wrote:
->>> On Wed, May 29, 2024 at 04:28:52PM +0100, Daniel Scally wrote:
->>>> Add a new code file to govern the 3a statistics capture node.
->>>>
->>>> Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
->>>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->>>> ---
->>>> Changes in v5:
->>>>
->>>> 	- New patch
->>>>
->>>>    drivers/media/platform/arm/mali-c55/Makefile  |   3 +-
->>>>    .../platform/arm/mali-c55/mali-c55-common.h   |  28 ++
->>>>    .../platform/arm/mali-c55/mali-c55-core.c     |  15 +
->>>>    .../platform/arm/mali-c55/mali-c55-isp.c      |   1 +
->>>>    .../arm/mali-c55/mali-c55-registers.h         |   3 +
->>>>    .../platform/arm/mali-c55/mali-c55-stats.c    | 350 ++++++++++++++++++
->>>>    6 files changed, 399 insertions(+), 1 deletion(-)
->>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-stats.c
->>>>
->>>> diff --git a/drivers/media/platform/arm/mali-c55/Makefile b/drivers/media/platform/arm/mali-c55/Makefile
->>>> index 77dcb2fbf0f4..cd5a64bf0c62 100644
->>>> --- a/drivers/media/platform/arm/mali-c55/Makefile
->>>> +++ b/drivers/media/platform/arm/mali-c55/Makefile
->>>> @@ -4,6 +4,7 @@ mali-c55-y := mali-c55-capture.o \
->>>>    	      mali-c55-core.o \
->>>>    	      mali-c55-isp.o \
->>>>    	      mali-c55-tpg.o \
->>>> -	      mali-c55-resizer.o
->>>> +	      mali-c55-resizer.o \
->>>> +	      mali-c55-stats.o
->>>>    
->>>>    obj-$(CONFIG_VIDEO_MALI_C55) += mali-c55.o
->>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-common.h b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
->>>> index 2d0c4d152beb..44119e04009b 100644
->>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-common.h
->>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
->>>> @@ -79,6 +79,7 @@ enum mali_c55_isp_pads {
->>>>    	MALI_C55_ISP_PAD_SINK_VIDEO,
->>>>    	MALI_C55_ISP_PAD_SOURCE,
->>>>    	MALI_C55_ISP_PAD_SOURCE_BYPASS,
->>>> +	MALI_C55_ISP_PAD_SOURCE_3A,
->>> Functions and structures are named with a "stats" suffix, let's call
->>> this MALI_C55_ISP_PAD_SOURCE_STATS.
->>>
->>>>    	MALI_C55_ISP_NUM_PADS,
->>>>    };
->>>>    
->>>> @@ -194,6 +195,28 @@ struct mali_c55_cap_dev {
->>>>    	bool streaming;
->>>>    };
->>>>    
->>>> +struct mali_c55_stats_buf {
->>>> +	struct vb2_v4l2_buffer vb;
->>>> +	spinlock_t lock;
->>> All locks require a comment to document what they protect. Same below.
->>>
->>>> +	unsigned int segments_remaining;
->>>> +	struct list_head queue;
->>>> +	bool failed;
->>>> +};
->>>> +
->>>> +struct mali_c55_stats {
->>>> +	struct mali_c55 *mali_c55;
->>>> +	struct video_device vdev;
->>>> +	struct dma_chan *channel;
->>>> +	struct vb2_queue queue;
->>>> +	struct media_pad pad;
->>>> +	struct mutex lock;
->>>> +
->>>> +	struct {
->>>> +		spinlock_t lock;
->>>> +		struct list_head queue;
->>>> +	} buffers;
->>>> +};
->>>> +
->>>>    enum mali_c55_config_spaces {
->>>>    	MALI_C55_CONFIG_PING,
->>>>    	MALI_C55_CONFIG_PONG,
->>>> @@ -224,6 +247,7 @@ struct mali_c55 {
->>>>    	struct mali_c55_isp isp;
->>>>    	struct mali_c55_resizer resizers[MALI_C55_NUM_RZRS];
->>>>    	struct mali_c55_cap_dev cap_devs[MALI_C55_NUM_CAP_DEVS];
->>>> +	struct mali_c55_stats stats;
->>>>    
->>>>    	struct list_head contexts;
->>>>    	enum mali_c55_config_spaces next_config;
->>>> @@ -245,6 +269,8 @@ int mali_c55_register_resizers(struct mali_c55 *mali_c55);
->>>>    void mali_c55_unregister_resizers(struct mali_c55 *mali_c55);
->>>>    int mali_c55_register_capture_devs(struct mali_c55 *mali_c55);
->>>>    void mali_c55_unregister_capture_devs(struct mali_c55 *mali_c55);
->>>> +int mali_c55_register_stats(struct mali_c55 *mali_c55);
->>>> +void mali_c55_unregister_stats(struct mali_c55 *mali_c55);
->>>>    struct mali_c55_ctx *mali_c55_get_active_context(struct mali_c55 *mali_c55);
->>>>    void mali_c55_set_plane_done(struct mali_c55_cap_dev *cap_dev,
->>>>    			     enum mali_c55_planes plane);
->>>> @@ -262,5 +288,7 @@ mali_c55_isp_fmt_next(const struct mali_c55_isp_fmt *fmt);
->>>>    bool mali_c55_isp_is_format_supported(unsigned int mbus_code);
->>>>    #define for_each_mali_isp_fmt(fmt)\
->>>>    	for ((fmt) = NULL; ((fmt) = mali_c55_isp_fmt_next((fmt)));)
->>>> +void mali_c55_stats_fill_buffer(struct mali_c55 *mali_c55,
->>>> +				enum mali_c55_config_spaces cfg_space);
->>>>    
->>>>    #endif /* _MALI_C55_COMMON_H */
->>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
->>>> index 50caf5ee7474..9ea70010876c 100644
->>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
->>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
->>>> @@ -337,6 +337,16 @@ static int mali_c55_create_links(struct mali_c55 *mali_c55)
->>>>    		}
->>>>    	}
->>>>    
->>>> +	ret = media_create_pad_link(&mali_c55->isp.sd.entity,
->>>> +			MALI_C55_ISP_PAD_SOURCE_3A,
->>>> +			&mali_c55->stats.vdev.entity, 0,
->>>> +			MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE);
->>>> +	if (ret) {
->>>> +		dev_err(mali_c55->dev,
->>>> +			"failed to link ISP and 3a stats node\n");
->>> s/3a stats/stats/
->>>
->>>> +		goto err_remove_links;
->>>> +	}
->>>> +
->>>>    	return 0;
->>>>    
->>>>    err_remove_links:
->>>> @@ -350,6 +360,7 @@ static void mali_c55_unregister_entities(struct mali_c55 *mali_c55)
->>>>    	mali_c55_unregister_isp(mali_c55);
->>>>    	mali_c55_unregister_resizers(mali_c55);
->>>>    	mali_c55_unregister_capture_devs(mali_c55);
->>>> +	mali_c55_unregister_stats(mali_c55);
->>>>    }
->>>>    
->>>>    static int mali_c55_register_entities(struct mali_c55 *mali_c55)
->>>> @@ -372,6 +383,10 @@ static int mali_c55_register_entities(struct mali_c55 *mali_c55)
->>>>    	if (ret)
->>>>    		goto err_unregister_entities;
->>>>    
->>>> +	ret = mali_c55_register_stats(mali_c55);
->>>> +	if (ret)
->>>> +		goto err_unregister_entities;
->>>> +
->>>>    	ret = mali_c55_create_links(mali_c55);
->>>>    	if (ret)
->>>>    		goto err_unregister_entities;
->>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
->>>> index ea8b7b866e7a..94876fba3353 100644
->>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
->>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
->>>> @@ -564,6 +564,7 @@ int mali_c55_register_isp(struct mali_c55 *mali_c55)
->>>>    	isp->pads[MALI_C55_ISP_PAD_SINK_VIDEO].flags = MEDIA_PAD_FL_SINK;
->>>>    	isp->pads[MALI_C55_ISP_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
->>>>    	isp->pads[MALI_C55_ISP_PAD_SOURCE_BYPASS].flags = MEDIA_PAD_FL_SOURCE;
->>>> +	isp->pads[MALI_C55_ISP_PAD_SOURCE_3A].flags = MEDIA_PAD_FL_SOURCE;
->>>>    
->>>>    	ret = media_entity_pads_init(&sd->entity, MALI_C55_ISP_NUM_PADS,
->>>>    				     isp->pads);
->>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
->>>> index cb27abde2aa5..eb3719245ec3 100644
->>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
->>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
->>>> @@ -68,6 +68,9 @@
->>>>    #define MALI_C55_VC_START(v)				((v) & 0xffff)
->>>>    #define MALI_C55_VC_SIZE(v)				(((v) & 0xffff) << 16)
->>>>    
->>>> +#define MALI_C55_REG_1024BIN_HIST			0x054a8
->>>> +#define MALI_C55_1024BIN_HIST_SIZE			4096
->>>> +
->>>>    /* Ping/Pong Configuration Space */
->>>>    #define MALI_C55_REG_BASE_ADDR				0x18e88
->>>>    #define MALI_C55_REG_BYPASS_0				0x18eac
->>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-stats.c b/drivers/media/platform/arm/mali-c55/mali-c55-stats.c
->>>> new file mode 100644
->>>> index 000000000000..aa40480ed814
->>>> --- /dev/null
->>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-stats.c
->>>> @@ -0,0 +1,350 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +/*
->>>> + * ARM Mali-C55 ISP Driver - 3A Statistics capture device
->>>> + *
->>>> + * Copyright (C) 2023 Ideas on Board Oy
->>>> + */
->>>> +
->>>> +#include <linux/dmaengine.h>
->>>> +#include <linux/media/arm/mali-c55-config.h>
->>>> +#include <linux/spinlock.h>
->>> You're missing some headers here, for
->>>
->>> container_of()
->>> dev_err()
->>> list_*()
->>> mutex_init()
->>> strscpy()
->>> strscpy()
->>>
->>>> +
->>>> +#include <media/media-entity.h>
->>>> +#include <media/v4l2-dev.h>
->>>> +#include <media/v4l2-event.h>
->>>> +#include <media/v4l2-fh.h>
->>>> +#include <media/v4l2-ioctl.h>
->>>> +#include <media/videobuf2-core.h>
->>>> +#include <media/videobuf2-dma-contig.h>
->>>> +
->>>> +#include "mali-c55-common.h"
->>>> +#include "mali-c55-registers.h"
->>>> +
->>>> +static unsigned int metering_space_addrs[] = {
->>> const
->>>
->>>> +	[MALI_C55_CONFIG_PING] = 0x095AC,
->>>> +	[MALI_C55_CONFIG_PONG] = 0x2156C,
->>> Lower-case hex constants.
->>>
->>>> +};
->>>> +
->>>> +static int mali_c55_stats_enum_fmt_meta_cap(struct file *file, void *fh,
->>>> +					    struct v4l2_fmtdesc *f)
->>>> +{
->>>> +	if (f->index || f->type != V4L2_BUF_TYPE_META_CAPTURE)
->>>> +		return -EINVAL;
->>>> +
->>>> +	f->pixelformat = V4L2_META_FMT_MALI_C55_3A_STATS;
->>> The format could be called V4L2_META_FMT_MALI_C55_STATS. While most
->>> statistics are related to one of the 3A algorithms, I think it would be
->>> better to name this generically. It's name bikeshedding only of course.
->>>
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int mali_c55_stats_g_fmt_meta_cap(struct file *file, void *fh,
->>>> +					 struct v4l2_format *f)
->>>> +{
->>>> +	static const struct v4l2_meta_format mfmt = {
->>>> +		.dataformat = V4L2_META_FMT_MALI_C55_3A_STATS,
->>>> +		.buffersize = sizeof(struct mali_c55_stats_buffer)
->>>> +	};
->>>> +
->>>> +	if (f->type != V4L2_BUF_TYPE_META_CAPTURE)
->>>> +		return -EINVAL;
->>>> +
->>>> +	f->fmt.meta = mfmt;
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int mali_c55_stats_querycap(struct file *file,
->>>> +				   void *priv, struct v4l2_capability *cap)
->>>> +{
->>>> +	strscpy(cap->driver, MALI_C55_DRIVER_NAME, sizeof(cap->driver));
->>>> +	strscpy(cap->card, "ARM Mali-C55 ISP", sizeof(cap->card));
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static const struct v4l2_ioctl_ops mali_c55_stats_v4l2_ioctl_ops = {
->>>> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
->>>> +	.vidioc_querybuf = vb2_ioctl_querybuf,
->>>> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
->>>> +	.vidioc_qbuf = vb2_ioctl_qbuf,
->>>> +	.vidioc_expbuf = vb2_ioctl_expbuf,
->>>> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
->>>> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
->>>> +	.vidioc_streamon = vb2_ioctl_streamon,
->>>> +	.vidioc_streamoff = vb2_ioctl_streamoff,
->>>> +	.vidioc_enum_fmt_meta_cap = mali_c55_stats_enum_fmt_meta_cap,
->>>> +	.vidioc_g_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
->>>> +	.vidioc_s_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
->>>> +	.vidioc_try_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
->>>> +	.vidioc_querycap = mali_c55_stats_querycap,
->>>> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
->>>> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
->>>> +};
->>>> +
->>>> +static const struct v4l2_file_operations mali_c55_stats_v4l2_fops = {
->>>> +	.owner = THIS_MODULE,
->>>> +	.unlocked_ioctl = video_ioctl2,
->>>> +	.open = v4l2_fh_open,
->>>> +	.release = vb2_fop_release,
->>>> +	.poll = vb2_fop_poll,
->>>> +	.mmap = vb2_fop_mmap,
->>>> +};
->>>> +
->>>> +static int
->>>> +mali_c55_stats_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
->>>> +			   unsigned int *num_planes, unsigned int sizes[],
->>>> +			   struct device *alloc_devs[])
->>>> +{
->>>> +	struct mali_c55_stats *stats = vb2_get_drv_priv(q);
->>>> +
->>>> +	if (*num_planes && *num_planes > 1)
->>>> +		return -EINVAL;
->>>> +
->>>> +	if (sizes[0] && sizes[0] != sizeof(struct mali_c55_stats_buffer))
->>>> +		return -EINVAL;
->>>> +
->>>> +	*num_planes = 1;
->>>> +	sizes[0] = sizeof(struct mali_c55_stats_buffer);
->>>> +
->>>> +	if (stats->channel)
->>>> +		alloc_devs[0] = stats->channel->device->dev;
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static void mali_c55_stats_buf_queue(struct vb2_buffer *vb)
->>>> +{
->>>> +	struct mali_c55_stats *stats = vb2_get_drv_priv(vb->vb2_queue);
->>>> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->>>> +	struct mali_c55_stats_buf *buf = container_of(vbuf,
->>>> +						struct mali_c55_stats_buf, vb);
->>>> +
->>>> +	vb2_set_plane_payload(vb, 0, sizeof(struct mali_c55_stats_buffer));
->>>> +	buf->segments_remaining = 2;
->>>> +	buf->failed = false;
->>>> +
->>>> +	spin_lock(&stats->buffers.lock);
->>> Isn't the DMA completion handler run from IRQ context ? If so you'll
->>> need to use spin_lock_irq() here and in the other function that are
->>> not called with interrupts disabled.
->> They're run in the bottom half of the interrupt handler; I'm under the
->> impression that that means the interrupts aren't disabled, and it's
->> safe to do...is that mistaken?
-> I'm talking about the DMA completion handler, called by the DMA engine
-> subsystem, not the IRQs of the C55 itself.
+> The AR0144 is a 1/4" 1MP CMOS camera sensor from onsemi. The driver
+> supports both the monochrome and color versions, and both the parallel
+> and MIPI CSI-2 interfaces. Due to limitations of the test platform, only
+> the CSI-2 output has been tested.
+>
+> The driver supports 8-, 10- and 12-bit output formats, analog crop and
+> binning/skipping. It exposes controls that cover the usual use cases for
+> camera sensors.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  MAINTAINERS                |    1 +
+>  drivers/media/i2c/Kconfig  |   11 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/ar0144.c | 1826 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1839 insertions(+)
+>  create mode 100644 drivers/media/i2c/ar0144.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8e591445bec4..fff7554805dd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1642,6 +1642,7 @@ M:        Laurent Pinchart <laurent.pinchart@ideaso=
+nboard.com>
+>  L:     linux-media@vger.kernel.org
+>  S:     Maintained
+>  F:     Documentation/devicetree/bindings/media/i2c/onnn,ar0144.yaml
+> +F:     drivers/media/i2c/ar0144.c
+>
+>  AR0521 ON SEMICONDUCTOR CAMERA SENSOR DRIVER
+>  M:     Krzysztof Ha=C5=82asa <khalasa@piap.pl>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index d37944e667f3..122cfea07853 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -51,6 +51,17 @@ config VIDEO_ALVIUM_CSI2
+>           To compile this driver as a module, choose M here: the
+>           module will be called alvium-csi2.
+>
+> +config VIDEO_AR0144
+> +       tristate "onsemi AR0144 sensor support"
+> +       select V4L2_CCI_I2C
+> +       select VIDEO_CCS_PLL
+> +       help
+> +         This is a Video4Linux2 sensor driver for the onsemi AR0144 came=
+ra
+> +         sensor.
+> +
+> +         To compile this driver as a module, choose M here: the
+> +         module will be called ar0144.
+> +
+>  config VIDEO_AR0521
+>         tristate "ON Semiconductor AR0521 sensor support"
+>         help
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 3ca63cec3441..c21b8df0d50c 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -19,6 +19,7 @@ obj-$(CONFIG_VIDEO_AK7375) +=3D ak7375.o
+>  obj-$(CONFIG_VIDEO_AK881X) +=3D ak881x.o
+>  obj-$(CONFIG_VIDEO_ALVIUM_CSI2) +=3D alvium-csi2.o
+>  obj-$(CONFIG_VIDEO_APTINA_PLL) +=3D aptina-pll.o
+> +obj-$(CONFIG_VIDEO_AR0144) +=3D ar0144.o
+>  obj-$(CONFIG_VIDEO_AR0521) +=3D ar0521.o
+>  obj-$(CONFIG_VIDEO_BT819) +=3D bt819.o
+>  obj-$(CONFIG_VIDEO_BT856) +=3D bt856.o
+> diff --git a/drivers/media/i2c/ar0144.c b/drivers/media/i2c/ar0144.c
+> new file mode 100644
+> index 000000000000..b0e738a28de6
+> --- /dev/null
+> +++ b/drivers/media/i2c/ar0144.c
+> @@ -0,0 +1,1826 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2024 Ideas on Board Oy
+> + * Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> + */
+> +
+> +/*
+> + * Possible improvements:
+> + *
+> + * - Use grouped parameter hold to update controls atomically
+> + * - Expose debug information through debugfs (FRAME_COUNT, FRAME_STATUS=
+, ...)
+> + * - Make MIPI D-PHY timings configurable
+> + * - Support the parallel interface
+> + * - Expose additional controls (in particular the temperature sensor an=
+d the
+> + *   on-chip black level correction)
+> + */
+> +
+> +#include <linux/bitops.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/errno.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/ktime.h>
+> +#include <linux/log2.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/property.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/types.h>
+> +#include <linux/v4l2-mediabus.h>
+> +
+> +#include <media/mipi-csi2.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#include "ccs-pll.h"
+> +
+> +#define AR0144_CHIP_VERSION_REG                                        C=
+CI_REG16(0x3000)
+> +#define                AR0144_CHIP_VERSION                              =
+       0x0356
+> +#define AR0144_Y_ADDR_START                                    CCI_REG16=
+(0x3002)
+> +#define AR0144_X_ADDR_START                                    CCI_REG16=
+(0x3004)
+> +#define AR0144_Y_ADDR_END                                      CCI_REG16=
+(0x3006)
+> +#define AR0144_X_ADDR_END                                      CCI_REG16=
+(0x3008)
+> +#define AR0144_FRAME_LENGTH_LINES                              CCI_REG16=
+(0x300a)
+> +#define                AR0144_MIN_FRAME_LENGTH_LINES                    =
+       29
+> +#define                AR0144_MAX_FRAME_LENGTH_LINES                    =
+       65535
+> +#define AR0144_LINE_LENGTH_PCK                                 CCI_REG16=
+(0x300c)
+> +#define                AR0144_MIN_LINE_LENGTH_PCK                       =
+       1488
+> +#define                AR0144_MAX_LINE_LENGTH_PCK                       =
+       65534
+> +#define AR0144_REVISION_NUMBER                                 CCI_REG16=
+(0x300e)
+> +#define                AR0144_REVISION_NUMBER_CREV(n)                   =
+       (((n) >> 12) & 0xf)
+> +#define                AR0144_REVISION_NUMBER_SILICON(n)                =
+       (((n) >> 4) & 0xf)
+> +#define                AR0144_REVISION_NUMBER_OTPM(n)                   =
+       (((n) >> 0) & 0xf)
+> +#define AR0144_LOCK_CONTROL                                    CCI_REG16=
+(0x3010)
+> +#define                AR0144_LOCK_CONTROL_VALUE                        =
+       0xbeef
+> +#define AR0144_COARSE_INTEGRATION_TIME                         CCI_REG16=
+(0x3012)
+> +#define AR0144_FINE_INTEGRATION_TIME                           CCI_REG16=
+(0x3014)
+> +#define AR0144_COARSE_INTEGRATION_TIME_CB                      CCI_REG16=
+(0x3016)
+> +#define AR0144_FINE_INTEGRATION_TIME_CB                                C=
+CI_REG16(0x3018)
+> +#define AR0144_RESET_REGISTER                                  CCI_REG16=
+(0x301a)
+> +#define                AR0144_GROUPED_PARAMETER_HOLD                    =
+       BIT(15)
+> +#define                AR0144_SMIA_SERIALIZER_DIS                       =
+       BIT(12)
+> +#define                AR0144_FORCED_PLL_ON                             =
+       BIT(11)
+> +#define                AR0144_RESTART_BAD                               =
+       BIT(10)
+> +#define                AR0144_MASK_BAD                                  =
+       BIT(9)
+> +#define                AR0144_GPI_EN                                    =
+       BIT(8)
+> +#define                AR0144_PARALLEL_EN                               =
+       BIT(7)
+> +#define                AR0144_DRIVE_PINS                                =
+       BIT(6)
+> +#define                AR0144_LOCK_REG                                  =
+       BIT(3)
+> +#define                AR0144_STREAM                                    =
+       BIT(2)
+> +#define                AR0144_RESTART                                   =
+       BIT(1)
+> +#define                AR0144_RESET                                     =
+       BIT(0)
+> +#define AR0144_MODE_SELECT                                     CCI_REG8(=
+0x301c)
+> +#define                AR0144_MODE_STREAM                               =
+       BIT(0)
+> +#define AR0144_IMAGE_ORIENTATION                               CCI_REG8(=
+0x301d)
+> +#define                AR0144_ORIENTATION_VERT_FLIP                     =
+       BIT(1)
+> +#define                AR0144_ORIENTATION_HORIZ_MIRROR                  =
+       BIT(0)
+> +#define AR0144_DATA_PEDESTAL                                   CCI_REG16=
+(0x301e)
+> +#define AR0144_SOFTWARE_RESET                                  CCI_REG8(=
+0x3021)
+> +#define AR0144_GROUPED_PARAMETER_HOLD_                         CCI_REG8(=
+0x3022)
+> +#define AR0144_MASK_CORRUPTED_FRAMES                           CCI_REG8(=
+0x3023)
+> +#define AR0144_PIXEL_ORDER                                     CCI_REG8(=
+0x3024)
+> +#define AR0144_GPI_STATUS                                      CCI_REG16=
+(0x3026)
+> +#define                AR0144_TRIGGER                                   =
+       BIT(2)
+> +#define                AR0144_OUTPUT_ENABLE_N                           =
+       BIT(1)
+> +#define                AR0144_SADDR                                     =
+       BIT(0)
+> +#define AR0144_ROW_SPEED                                       CCI_REG16=
+(0x3028)
+> +#define                AR0144_ROW_SPEED_HALF_CLK                        =
+       BIT(4)
+> +#define AR0144_VT_PIX_CLK_DIV                                  CCI_REG16=
+(0x302a)
+> +#define AR0144_VT_SYS_CLK_DIV                                  CCI_REG16=
+(0x302c)
+> +#define AR0144_PRE_PLL_CLK_DIV                                 CCI_REG16=
+(0x302e)
+> +#define AR0144_PLL_MULTIPLIER                                  CCI_REG16=
+(0x3030)
+> +#define AR0144_CTX_CONTROL_REG                                 CCI_REG16=
+(0x3034)
+> +#define AR0144_OP_PIX_CLK_DIV                                  CCI_REG16=
+(0x3036)
+> +#define AR0144_OP_SYS_CLK_DIV                                  CCI_REG16=
+(0x3038)
+> +#define AR0144_FRAME_COUNT                                     CCI_REG16=
+(0x303a)
+> +#define AR0144_FRAME_STATUS                                    CCI_REG16=
+(0x303c)
+> +#define                AR0144_PLL_LOCKED                                =
+       BIT(3)
+> +#define                AR0144_FRAME_START_DURING_GPH                    =
+       BIT(2)
+> +#define                AR0144_STANDBY_STATUS                            =
+       BIT(1)
+> +#define                AR0144_FRAMESYNC                                 =
+       BIT(0)
+> +#define AR0144_LINE_LENGTH_PCK_CB                              CCI_REG16=
+(0x303e)
+> +#define AR0144_READ_MODE                                       CCI_REG16=
+(0x3040)
+> +#define                AR0144_VERT_FLIP                                 =
+       BIT(15)
+> +#define                AR0144_HORIZ_MIRROR                              =
+       BIT(14)
+> +#define                AR0144_READ_MODE_COL_BIN                         =
+       BIT(13)
+> +#define                AR0144_READ_MODE_ROW_BIN                         =
+       BIT(12)
+> +#define                AR0144_READ_MODE_COL_BIN_CB                      =
+       BIT(11)
+> +#define                AR0144_READ_MODE_ROW_BIN_CB                      =
+       BIT(10)
+> +#define                AR0144_READ_MODE_COL_SF_BIN_EN                   =
+       BIT(9)
+> +#define                AR0144_READ_MODE_COL_SF_BIN_EN_CB                =
+       BIT(8)
+> +#define                AR0144_READ_MODE_COL_SF_BIN_MONO_EN              =
+       BIT(7)
+> +#define                AR0144_READ_MODE_COL_SF_BIN_MONO_EN_CB           =
+       BIT(6)
+> +#define                AR0144_READ_MODE_COL_SUM                         =
+       BIT(5)
+> +#define AR0144_EXTRA_DELAY                                     CCI_REG16=
+(0x3042)
+> +#define AR0144_GREEN1_GAIN                                     CCI_REG16=
+(0x3056)
+> +#define AR0144_BLUE_GAIN                                       CCI_REG16=
+(0x3058)
+> +#define AR0144_RED_GAIN                                                C=
+CI_REG16(0x305a)
+> +#define AR0144_GREEN2_GAIN                                     CCI_REG16=
+(0x305c)
+> +#define AR0144_GLOBAL_GAIN                                     CCI_REG16=
+(0x305e)
+> +#define AR0144_ANALOG_GAIN                                     CCI_REG16=
+(0x3060)
+> +#define                AR0144_COARSE_GAIN_CB(n)                         =
+       ((n) << 12)
+> +#define                AR0144_FINE_GAIN_CB(n)                           =
+       ((n) << 8)
+> +#define                AR0144_COARSE_GAIN(n)                            =
+       ((n) << 4)
+> +#define                AR0144_FINE_GAIN(n)                              =
+       ((n) << 0)
+> +#define AR0144_SMIA_TEST                                       CCI_REG16=
+(0x3064)
+> +#define                AR0144_EMBEDDED_DATA                             =
+       BIT(8)
+> +#define                AR0144_STATS_EN                                  =
+       BIT(7)
+> +#define AR0144_CTX_WR_DATA_REG                                 CCI_REG16=
+(0x3066)
+> +#define AR0144_CTX_RD_DATA_REG                                 CCI_REG16=
+(0x3068)
+> +#define AR0144_DATAPATH_SELECT                                 CCI_REG16=
+(0x306e)
+> +#define                AR0144_SLEW_RATE_CTRL_PARALLEL(n)                =
+       (((n) & 7) << 13)
+> +#define                AR0144_SLEW_RATE_CTRL_PARALLEL_MASK              =
+       GENMASK(15, 13)
+> +#define                AR0144_SLEW_RATE_CTRL_PIXCLK(n)                  =
+       (((n) & 7) << 10)
+> +#define                AR0144_SLOW_RATE_CTRL_PIXCLK_MASK                =
+       GENMASK(12, 10)
+> +#define                AR0144_SPECIAL_LINE_VALID_NORMAL                 =
+       (0U << 0)
+> +#define                AR0144_SPECIAL_LINE_VALID_CONTINUOUS             =
+       (1U << 0)
+> +#define                AR0144_SPECIAL_LINE_VALID_CONTINUOUS_XOR         =
+       (2U << 0)
+> +#define AR0144_TEST_PATTERN_MODE                               CCI_REG16=
+(0x3070)
+> +#define                AR0144_TEST_PATTERN_NONE                         =
+       0
+> +#define                AR0144_TEST_PATTERN_SOLID                        =
+       1
+> +#define                AR0144_TEST_PATTERN_BARS                         =
+       2
+> +#define                AR0144_TEST_PATTERN_BARS_FADE                    =
+       3
+> +#define                AR0144_TEST_PATTERN_WALKING_1S                   =
+       256
+> +#define AR0144_TEST_DATA_RED                                   CCI_REG16=
+(0x3072)
+> +#define AR0144_TEST_DATA_GREENR                                        C=
+CI_REG16(0x3074)
+> +#define AR0144_TEST_DATA_BLUE                                  CCI_REG16=
+(0x3076)
+> +#define AR0144_TEST_DATA_GREENB                                        C=
+CI_REG16(0x3078)
+> +#define AR0144_OPERATION_MODE_CTRL                             CCI_REG16=
+(0x3082)
+> +#define AR0144_OPERATION_MODE_CTRL_CB                          CCI_REG16=
+(0x3084)
+> +#define AR0144_SEQ_DATA_PORT                                   CCI_REG16=
+(0x3086)
+> +#define AR0144_SEQ_CTRL_PORT                                   CCI_REG16=
+(0x3088)
+> +#define                AR0144_SEQUENCER_STOPPED                         =
+       BIT(15)
+> +#define                AR0144_AUTO_INC_ON_READ                          =
+       BIT(14)
+> +#define                AR0144_ACCESS_ADDRESS(n)                         =
+       ((n) & 0x3ff)
+> +#define AR0144_X_ADDR_START_CB                                 CCI_REG16=
+(0x308a)
+> +#define AR0144_Y_ADDR_START_CB                                 CCI_REG16=
+(0x308c)
+> +#define AR0144_X_ADDR_END_CB                                   CCI_REG16=
+(0x308e)
+> +#define AR0144_Y_ADDR_END_CB                                   CCI_REG16=
+(0x3090)
+> +#define AR0144_X_EVEN_INC                                      CCI_REG16=
+(0x30a0)
+> +#define AR0144_X_ODD_INC                                       CCI_REG16=
+(0x30a2)
+> +#define                AR0144_X_ODD_INC_SKIP(n)                         =
+       (((n) << 1) - 1)
+> +#define AR0144_Y_EVEN_INC                                      CCI_REG16=
+(0x30a4)
+> +#define AR0144_Y_ODD_INC                                       CCI_REG16=
+(0x30a6)
+> +#define                AR0144_Y_ODD_INC_SKIP(n)                         =
+       (((n) << 1) - 1)
+> +#define AR0144_Y_ODD_INC_CB                                    CCI_REG16=
+(0x30a8)
+> +#define AR0144_FRAME_LINE_LENGTH_CB                            CCI_REG16=
+(0x30aa)
+> +#define AR0144_X_ODD_INC_CB                                    CCI_REG16=
+(0x30ae)
+> +#define AR0144_DIGITAL_TEST                                    CCI_REG16=
+(0x30b0)
+> +#define                AR0144_PLL_COMPLETE_BYPASS                       =
+       BIT(14)
+> +#define                AR0144_PIXCLK_ON                                 =
+       BIT(8)
+> +#define                AR0144_MONO_CHROME_OPERATION                     =
+       BIT(7)
+> +#define AR0144_TEMPSENS_DATA_REG                               CCI_REG16=
+(0x30b2)
+> +#define AR0144_TEMPSENS_CTRL_REG                               CCI_REG16=
+(0x30b4)
+> +#define                AR0144_RETRIGGER_THRESHOLD(n)                    =
+       ((n) << 6)
+> +#define                AR0144_RETRIGGER_THRESHOLD_MASK                  =
+       GENMASK(15, 6)
+> +#define                AR0144_TEMP_CLEAR_VALUE                          =
+       BIT(5)
+> +#define                AR0144_TEMP_START_CONVERSION                     =
+       BIT(4)
+> +#define                AR0144_TEMPSENS_POWER_ON                         =
+       BIT(0)
+> +#define AR0144_GREEN1_GAIN_CB                                  CCI_REG16=
+(0x30bc)
+> +#define AR0144_BLUE_GAIN_CB                                    CCI_REG16=
+(0x30be)
+> +#define AR0144_RED_GAIN_CB                                     CCI_REG16=
+(0x30c0)
+> +#define AR0144_GREEN2_GAIN_CB                                  CCI_REG16=
+(0x30c2)
+> +#define AR0144_GLOBAL_GAIN_CB                                  CCI_REG16=
+(0x30c4)
+> +#define AR0144_TEMPSENS_CALIB1                                 CCI_REG16=
+(0x30c6)
+> +#define AR0144_TEMPSENS_CALIB2                                 CCI_REG16=
+(0x30c8)
+> +#define AR0144_GRR_CONTROL1                                    CCI_REG16=
+(0x30ce)
+> +#define AR0144_NOISE_PEDESTAL                                  CCI_REG16=
+(0x30fe)
+> +#define AR0144_AECTRLREG                                       CCI_REG16=
+(0x3100)
+> +#define                AR0144_MIN_ANA_GAIN(n)                           =
+       ((n) << 5)
+> +#define                AR0144_MIN_ANA_GAIN_MASK                         =
+       GENMASK(6, 5)
+> +#define                AR0144_AUTO_DG_EN                                =
+       BIT(4)
+> +#define                AR0144_AUTO_AG_EN                                =
+       BIT(1)
+> +#define                AR0144_AE_ENABLE                                 =
+       BIT(0)
+> +#define AR0144_AE_LUMA_TARGET_REG                              CCI_REG16=
+(0x3102)
+> +#define AR0144_AE_MIN_EV_STEP_REG                              CCI_REG16=
+(0x3108)
+> +#define AR0144_AE_MAX_EV_STEP_REG                              CCI_REG16=
+(0x310a)
+> +#define AR0144_AE_DAMP_OFFSET_REG                              CCI_REG16=
+(0x310c)
+> +#define AR0144_AE_DAMP_GAIN_REG                                        C=
+CI_REG16(0x310e)
+> +#define AR0144_AE_DAMP_MAX_REG                                 CCI_REG16=
+(0x3110)
+> +#define AR0144_AE_MAX_EXPOSURE_REG                             CCI_REG16=
+(0x311c)
+> +#define AR0144_AE_MIN_EXPOSURE_REG                             CCI_REG16=
+(0x311e)
+> +#define AR0144_AE_COARSE_INTEGRATION_TIME                      CCI_REG16=
+(0x3164)
+> +#define AR0144_DELTA_DK_CONTROL                                        C=
+CI_REG16(0x3180)
+> +#define                AR0144_DELTA_DK_SUB_EN                           =
+       BIT(15)
+> +#define                AR0144_DELTA_DK_EVERY_FRAME                      =
+       BIT(14)
+> +#define                AR0144_DELTA_DK_RECALC                           =
+       BIT(13)
+> +#define                AR0144_DELTA_DK_GRADIENT_REMOVAL                 =
+       BIT(10)
+> +#define AR0144_DATA_FORMAT_BITS                                        C=
+CI_REG16(0x31ac)
+> +#define                AR0144_DATA_FORMAT_IN(n)                         =
+       ((n) << 8)
+> +#define                AR0144_DATA_FORMAT_OUT(n)                        =
+       ((n) << 0)
+> +#define AR0144_SERIAL_FORMAT                                   CCI_REG16=
+(0x31ae)
+> +#define                AR0144_NUM_LANES(n)                              =
+       (n)
+> +#define                AR0144_NUM_LANES_MASK                            =
+       GENMASK(1, 0)
+> +#define AR0144_FRAME_PREAMBLE                                  CCI_REG16=
+(0x31b0)
+> +#define AR0144_LINE_PREAMBLE                                   CCI_REG16=
+(0x31b2)
+> +#define AR0144_MIPI_TIMING_0                                   CCI_REG16=
+(0x31b4)
+> +#define                AR0144_T_HS_PREPARE(n)                           =
+       ((n) << 12)
+> +#define                AR0144_T_HS_ZERO(n)                              =
+       ((n) << 8)
+> +#define                AR0144_T_HS_TRAIL(n)                             =
+       ((n) << 4)
+> +#define                AR0144_T_CLK_TRAIL(n)                            =
+       ((n) << 0)
+> +#define AR0144_MIPI_TIMING_1                                   CCI_REG16=
+(0x31b6)
+> +#define                AR0144_T_CLK_PREPARE(n)                          =
+       ((n) << 12)
+> +#define                AR0144_T_HS_EXIT(n)                              =
+       ((n) << 6)
+> +#define                AR0144_T_CLK_ZERO(n)                             =
+       ((n) << 0)
+> +#define AR0144_MIPI_TIMING_2                                   CCI_REG16=
+(0x31b8)
+> +#define                AR0144_T_BGAP(n)                                 =
+       ((n) << 12)
+> +#define                AR0144_T_CLK_PRE(n)                              =
+       ((n) << 6)
+> +#define                AR0144_T_CLK_POST(n)                             =
+       ((n) << 0)
+> +#define AR0144_MIPI_TIMING_3                                   CCI_REG16=
+(0x31ba)
+> +#define                AR0144_T_LPX(n)                                  =
+       ((n) << 7)
+> +#define                AR0144_T_WAKE_UP(n)                              =
+       ((n) << 0)
+> +#define AR0144_MIPI_TIMING_4                                   CCI_REG16=
+(0x31bc)
+> +#define                AR0144_CONT_TX_CLK                               =
+       BIT(15)
+> +#define                AR0144_HEAVY_LP_LOAD                             =
+       BIT(14)
+> +#define                AR0144_T_INIT(n)                                 =
+       ((n) << 0)
+> +#define AR0144_SERIAL_CONFIG_STATUS                            CCI_REG16=
+(0x31be)
+> +#define AR0144_SERIAL_CONTROL_STATUS                           CCI_REG16=
+(0x31c6)
+> +#define                AR0144_FRAMER_TEST_MODE                          =
+       BIT(7)
+> +#define AR0144_SERIAL_CRC_0                                    CCI_REG16=
+(0x31c8)
+> +#define AR0144_COMPANDING                                      CCI_REG16=
+(0x31d0)
+> +#define                AR0144_COMPAND_EN                                =
+       BIT(0)
+> +#define AR0144_STAT_FRAME_ID                                   CCI_REG16=
+(0x31d2)
+> +#define AR0144_I2C_WRT_CHEKCSUM                                        C=
+CI_REG16(0x31d6)
+> +#define AR0144_SERIAL_TEST                                     CCI_REG16=
+(0x31d8)
+> +#define                AR0144_TEST_LANE_EN(n)                           =
+       ((n) << 8)
+> +#define                AR0144_TEST_LANE_EN_MASK                         =
+       GENMASK(11, 8)
+> +#define                AR0144_TEST_MODE_LP00                            =
+       (0 << 4)
+> +#define                AR0144_TEST_MODE_LP11                            =
+       (1 << 4)
+> +#define                AR0144_TEST_MODE_HS0                             =
+       (2 << 4)
+> +#define                AR0144_TEST_MODE_HS1                             =
+       (3 << 4)
+> +#define                AR0144_TEST_MODE_SQUARE_HALF                     =
+       (4 << 4)
+> +#define                AR0144_TEST_MODE_SQUARE_FULL                     =
+       (5 << 4)
+> +#define                AR0144_TEST_MODE_SQUARE_LP                       =
+       (6 << 4)
+> +#define                AR0144_TEST_MODE_PRBS31                          =
+       (7 << 4)
+> +#define                AR0144_TEST_MODE_PRBS9                           =
+       (8 << 4)
+> +#define                AR0144_TEST_MODE_MASK                            =
+       GENMASK(7, 0)
+> +#define AR0144_PIX_DEF_1D                                      CCI_REG16=
+(0x31e0)
+> +#define                AR0144_PIX_DEF_1D_DDC_EN                         =
+       BIT(3)
+> +#define                AR0144_PIX_DEF_CORRECTION_MODE                   =
+       BIT(1)
+> +#define                AR0144_PIX_DEF_ENABLE                            =
+       BIT(0)
+> +#define AR0144_HORIZONTAL_CURSOR_POSITION                      CCI_REG16=
+(0x31e8)
+> +#define AR0144_VERTICAL_CURSOR_POSITION                                C=
+CI_REG16(0x31ea)
+> +#define AR0144_HORIZONTAL_CURSOR_WIDTH                         CCI_REG16=
+(0x31ec)
+> +#define AR0144_VERTICAL_CURSOR_WIDTH                           CCI_REG16=
+(0x31ee)
+> +#define AR0144_CCI_IDS                                         CCI_REG16=
+(0x31fc)
+> +#define AR0144_CUSTOMER_REV                                    CCI_REG16=
+(0x31fe)
+> +#define                AR0144_CUSTOMER_REV_CRA(n)                       =
+       (((n) & GENMASK(9, 7)) >> 7)
+> +#define                AR0144_CUSTOMER_REV_CFA(n)                       =
+       (((n) & GENMASK(6, 4)) >> 4)
+> +#define                AR0144_CUSTOMER_REV_CFA_COLOR                    =
+       1
+> +#define                AR0144_CUSTOMER_REV_CFA_MONO                     =
+       2
+> +#define AR0144_LED_FLASH_CONTROL                               CCI_REG16=
+(0x3270)
+> +#define                AR0144_LED_FLASH_EN                              =
+       BIT(8)
+> +#define                AR0144_LED_DELAY(n)                              =
+       ((n) << 0)
+> +#define                AR0144_LED_DELAY_MASK                            =
+       GENMASK(7, 0)
+> +#define AR0144_MIPI_TEST_CNTRL                                 CCI_REG16=
+(0x3338)
+> +#define AR0144_MIPI_COMPRESS_8_DATA_TYPE                       CCI_REG16=
+(0x333a)
+> +#define AR0144_MIPI_COMPRESS_7_DATA_TYPE                       CCI_REG16=
+(0x333c)
+> +#define AR0144_MIPI_COMPRESS_6_DATA_TYPE                       CCI_REG16=
+(0x333e)
+> +#define AR0144_MIPI_JPEG_PN9_DATA_TYPE                         CCI_REG16=
+(0x3340)
+> +#define AR0144_MIPI_CNTRL                                      CCI_REG16=
+(0x3354)
+> +#define                AR0144_CHAN_NUM(n)                               =
+       ((n) << 6)
+> +#define                AR0144_DATA_TYPE_XMIT(n)                         =
+       ((n) << 0)
+> +#define AR0144_MIPI_TEST_PATTERN_CNTRL                         CCI_REG16=
+(0x3356)
+> +#define AR0144_MIPI_TEST_PATTERN_STATUS                                C=
+CI_REG16(0x3358)
+> +#define AR0144_DIGITAL_CTRL_1                                  CCI_REG16=
+(0x3786)
+> +#define                AR0144_LSB_ALIGN_PARA_OUT                        =
+       BIT(5)
+> +#define                AR0144_USE_1FRAME_SYNCED                         =
+       BIT(4)
+> +#define                AR0144_PLL_TEST_MODE                             =
+       BIT(3)
+> +#define                AR0144_DRIVE_PIX_CLK                             =
+       BIT(0)
+> +
+> +#define AR0144_MIN_CSI2_LINK_FREQ              150000000U
+> +#define AR0144_MAX_CSI2_LINK_FREQ              384000000U
+> +
+> +/*
+> + * The pixel array contains 1300x820 optically transparent pixels, with =
+6 dummy
+> + * pixels on each side that can't be read out. The active size is 1288x8=
+08.
+> + */
+> +#define AR0144_PIXEL_ARRAY_WIDTH               1300U
+> +#define AR0144_PIXEL_ARRAY_HEIGHT              820U
+> +#define AR0144_PIXEL_ARRAY_ACTIVE_LEFT         6U
+> +#define AR0144_PIXEL_ARRAY_ACTIVE_TOP          6U
+> +#define AR0144_PIXEL_ARRAY_ACTIVE_WIDTH                1288U
+> +#define AR0144_PIXEL_ARRAY_ACTIVE_HEIGHT       808U
+> +
+> +/*
+> + * Documentation indicates minimum horizontal and vertical blanking of 2=
+08
+> + * pixels and 27 lines respectively, which matches the default values fo=
+r the
+> + * LINE_LENGTH_PCK and FRAME_LENGTH_LINES registers. Out-of-tree drivers=
+ are
+> + * known to successfully use 22 or 25 lines of vertical blanking. This i=
+s
+> + * likely related to the fact that the total number of rows per frame is=
+ equal
+> + * to FRAME_LENGTH_LINES plus a 5 lines overhead, as indicated in at lea=
+st one
+> + * place in the documentation.
+> + */
+> +#define AR0144_MIN_HBLANK                      208U
+> +#define AR0144_MIN_VBLANK                      27U
+> +
+> +#define AR0144_FRAME_LENGTH_OVERHEAD           5U
+> +
+> +/* The minimum values are not documented, pick reasonable minimums. */
+> +#define AR0144_MIN_WIDTH                       32U
+> +#define AR0144_MIN_HEIGHT                      32U
+> +#define AR0144_DEF_WIDTH                       1280U
+> +#define AR0144_DEF_HEIGHT                      800U
+> +
+> +#define AR0144_NUM_SUPPLIES                    3
+> +
+> +struct ar0144_model {
+> +       bool mono;
+> +};
+> +
+> +struct ar0144_format_info {
+> +       u32 colour;
+> +       u32 mono;
+> +       u16 bpp;
+> +       u16 dt;
+> +};
+> +
+> +static const struct ar0144_model ar0144_model_color =3D {
+> +       .mono =3D false,
+> +};
+> +
+> +static const struct ar0144_model ar0144_model_mono =3D {
+> +       .mono =3D true,
+> +};
+> +
+> +static const struct ar0144_format_info ar0144_formats[] =3D {
+> +       {
+> +               .colour =3D MEDIA_BUS_FMT_SGRBG12_1X12,
+> +               .mono =3D MEDIA_BUS_FMT_Y12_1X12,
+> +               .bpp =3D 12,
+> +               .dt =3D MIPI_CSI2_DT_RAW12,
+> +       }, {
+> +               .colour =3D MEDIA_BUS_FMT_SGRBG10_1X10,
+> +               .mono =3D MEDIA_BUS_FMT_Y10_1X10,
+> +               .bpp =3D 10,
+> +               .dt =3D MIPI_CSI2_DT_RAW10,
+> +       }, {
+> +               .colour =3D MEDIA_BUS_FMT_SGRBG8_1X8,
+> +               .mono =3D MEDIA_BUS_FMT_Y8_1X8,
+> +               .bpp =3D 8,
+> +               .dt =3D MIPI_CSI2_DT_RAW8,
+> +       },
+> +};
+> +
+> +struct ar0144 {
+> +       struct device *dev;
+> +
+> +       struct regmap *regmap;
+> +       struct clk *clk;
+> +       struct gpio_desc *reset;
+> +       struct regulator_bulk_data supplies[AR0144_NUM_SUPPLIES];
+> +
+> +       ktime_t off_time;
+> +
+> +       struct ccs_pll pll;
+> +
+> +       struct v4l2_fwnode_endpoint bus_cfg;
+> +       u64 valid_link_freqs[ARRAY_SIZE(ar0144_formats)];
+> +       u32 valid_formats;
+> +
+> +       struct v4l2_subdev sd;
+> +       struct media_pad pad;
+> +
+> +       const struct ar0144_model *model;
+> +
+> +       struct v4l2_ctrl_handler ctrls;
+> +       struct v4l2_ctrl *pixel_rate;
+> +       struct v4l2_ctrl *link_freq;
+> +       struct v4l2_ctrl *hblank;
+> +       struct v4l2_ctrl *vblank;
+> +       struct v4l2_ctrl *exposure;
+> +       struct v4l2_ctrl *test_data[4];
+> +       struct {
+> +               struct v4l2_ctrl *hflip;
+> +               struct v4l2_ctrl *vflip;
+> +       };
+> +};
+> +
+> +static inline struct ar0144 *to_ar0144(struct v4l2_subdev *sd)
+> +{
+> +       return container_of(sd, struct ar0144, sd);
+> +}
+> +
+> +static u32 ar0144_format_code(struct ar0144 *sensor,
+> +                             const struct ar0144_format_info *info)
+> +{
+> +       return sensor->model->mono ? info->mono : info->colour;
+> +}
+> +
+> +static const struct ar0144_format_info *
+> +ar0144_format_info(struct ar0144 *sensor, u32 code, bool use_def)
+> +{
+> +       const struct ar0144_format_info *def =3D NULL;
+> +       unsigned int i;
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(ar0144_formats); ++i) {
+> +               const struct ar0144_format_info *info =3D &ar0144_formats=
+[i];
+> +               u32 info_code =3D ar0144_format_code(sensor, info);
+> +
+> +               if (!(sensor->valid_formats & BIT(i)))
+> +                       continue;
+> +
+> +               if (info_code =3D=3D code)
+> +                       return info;
+> +
+> +               if (!def)
+> +                       def =3D info;
+> +       }
+> +
+> +       return use_def ? def : NULL;
+> +}
+> +
+> +/* ---------------------------------------------------------------------=
+--------
+> + * Hardware configuration
+> + */
+> +
+> +static int ar0144_configure_pll(struct ar0144 *sensor)
+> +{
+> +       int ret =3D 0;
+> +
+> +       cci_write(sensor->regmap, AR0144_PRE_PLL_CLK_DIV,
+> +                 sensor->pll.vt_fr.pre_pll_clk_div, &ret);
+> +       cci_write(sensor->regmap, AR0144_PLL_MULTIPLIER,
+> +                 sensor->pll.vt_fr.pll_multiplier, &ret);
+> +       cci_write(sensor->regmap, AR0144_VT_PIX_CLK_DIV,
+> +                 sensor->pll.vt_bk.pix_clk_div, &ret);
+> +       cci_write(sensor->regmap, AR0144_VT_SYS_CLK_DIV,
+> +                 sensor->pll.vt_bk.sys_clk_div, &ret);
+> +       cci_write(sensor->regmap, AR0144_OP_PIX_CLK_DIV,
+> +                 sensor->pll.op_bk.pix_clk_div, &ret);
+> +       cci_write(sensor->regmap, AR0144_OP_SYS_CLK_DIV,
+> +                 sensor->pll.op_bk.sys_clk_div, &ret);
+> +
+> +       /* Wait 1ms for the PLL to lock. */
+> +       fsleep(1000);
+> +
+> +       return ret;
+> +}
+> +
+> +static int ar0144_configure_mipi(struct ar0144 *sensor,
+> +                                const struct ar0144_format_info *info)
+> +{
+> +       unsigned int num_lanes =3D sensor->bus_cfg.bus.mipi_csi2.num_data=
+_lanes;
+> +       bool cont_clk =3D !(sensor->bus_cfg.bus.mipi_csi2.flags &
+> +                         V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK);
+> +       int ret =3D 0;
+> +
+> +       cci_write(sensor->regmap, AR0144_SERIAL_FORMAT, num_lanes | 0x020=
+0,
+> +                 &ret);
+> +
+> +       cci_write(sensor->regmap, AR0144_MIPI_CNTRL,
+> +                 AR0144_CHAN_NUM(0) | AR0144_DATA_TYPE_XMIT(info->dt), &=
+ret);
+> +
+> +       cci_write(sensor->regmap, AR0144_MIPI_TIMING_0,
+> +                 AR0144_T_HS_PREPARE(2) | AR0144_T_HS_ZERO(6) |
+> +                 AR0144_T_HS_TRAIL(6) | AR0144_T_CLK_TRAIL(5), &ret);
+> +       cci_write(sensor->regmap, AR0144_MIPI_TIMING_1,
+> +                 AR0144_T_CLK_PREPARE(1) | AR0144_T_HS_EXIT(4) |
+> +                 AR0144_T_CLK_ZERO(14), &ret);
+> +       cci_write(sensor->regmap, AR0144_MIPI_TIMING_2,
+> +                 AR0144_T_BGAP(2) | AR0144_T_CLK_PRE(1) | AR0144_T_CLK_P=
+OST(7),
+> +                 &ret);
+> +       cci_write(sensor->regmap, AR0144_MIPI_TIMING_3,
+> +                 AR0144_T_LPX(2) | AR0144_T_WAKE_UP(5), &ret);
+> +       cci_write(sensor->regmap, AR0144_MIPI_TIMING_4,
+> +                 AR0144_T_INIT(4) | cont_clk ? AR0144_CONT_TX_CLK : 0,
+
+Does changing to non-continuous clock require HBLANK to be increased
+to provide enough time for the transitions? I hit that on OV9281/9282.
+
+> +                 &ret);
+> +
+> +       return ret;
+> +}
+> +
+> +static int ar0144_start_streaming(struct ar0144 *sensor,
+> +                                 const struct v4l2_subdev_state *state)
+> +{
+> +       const struct v4l2_mbus_framefmt *format;
+> +       const struct ar0144_format_info *info;
+> +       const struct v4l2_rect *crop;
+> +       unsigned int bin_x, bin_y;
+> +       int ret =3D 0;
+> +       u16 val;
+> +
+> +       format =3D v4l2_subdev_state_get_format(state, 0);
+> +       crop =3D v4l2_subdev_state_get_crop(state, 0);
+> +       info =3D ar0144_format_info(sensor, format->code, true);
+> +
+> +       ret =3D ar0144_configure_pll(sensor);
+> +       if (ret)
+> +               return ret;
+> +
+> +       cci_write(sensor->regmap, AR0144_DIGITAL_TEST,
+> +                 (sensor->model->mono ? AR0144_MONO_CHROME_OPERATION : 0=
+) |
+> +                 0x0038, &ret);
+> +
+> +       cci_write(sensor->regmap, AR0144_DATA_FORMAT_BITS,
+> +                 AR0144_DATA_FORMAT_IN(info->bpp) |
+> +                 AR0144_DATA_FORMAT_OUT(info->bpp), &ret);
+> +
+> +       /* Analog crop rectangle, binning/skipping. */
+> +       cci_write(sensor->regmap, AR0144_X_ADDR_START, crop->left, &ret);
+> +       cci_write(sensor->regmap, AR0144_Y_ADDR_START, crop->top, &ret);
+> +       cci_write(sensor->regmap, AR0144_X_ADDR_END,
+> +                 crop->left + crop->width - 1, &ret);
+> +       cci_write(sensor->regmap, AR0144_Y_ADDR_END,
+> +                 crop->top + crop->height - 1, &ret);
+> +
+> +       bin_x =3D crop->width / format->width;
+> +       bin_y =3D crop->height / format->height;
+> +
+> +       cci_write(sensor->regmap, AR0144_X_ODD_INC, (bin_x << 1) - 1, &re=
+t);
+> +       cci_write(sensor->regmap, AR0144_Y_ODD_INC, (bin_y << 1) - 1, &re=
+t);
+
+Your commit text claims support for binning and skipping. From my
+reading of the datasheet, this is enabling skipping only. Binning
+needs to be enabled through 0x3040 (which also sets H/V flips).
+(The registers for a 640x400 mode we were given by OnSemi was
+certainly setting 0x3040 to 0x0c00)
+
+> +
+> +       /*
+> +        * Enable generation of embedded statistics, required for the on-=
+chip
+> +        * auto-exposure. There is no downside in enabling it uncondition=
+ally.
+> +        */
+> +       cci_write(sensor->regmap, AR0144_SMIA_TEST, AR0144_STATS_EN | 0x1=
+802,
+> +                 &ret);
+> +
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret =3D __v4l2_ctrl_handler_setup(&sensor->ctrls);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret =3D ar0144_configure_mipi(sensor, info);
+> +
+> +       /*
+> +        * We're all set, start streaming. Mask bad frames and keep read-=
+only
+> +        * registers locked.
+> +        */
+> +       val =3D AR0144_MASK_BAD | AR0144_LOCK_REG | AR0144_STREAM | 0x201=
+0;
+> +       cci_write(sensor->regmap, AR0144_RESET_REGISTER, val, &ret);
+> +
+> +       return ret;
+> +}
+> +
+> +#define ar0144_read_poll_timeout(sensor, addr, val, cond, sleep_us, time=
+out_us) \
+> +({ \
+> +       int __ret, __err; \
+> +       __ret =3D read_poll_timeout(cci_read, __err, __err || (cond), sle=
+ep_us, \
+> +                                 timeout_us, false, (sensor)->regmap, ad=
+dr, \
+> +                                 &(val), NULL); \
+> +       __ret ? : __err; \
+> +})
+> +
+> +static int ar0144_stop_streaming(struct ar0144 *sensor)
+> +{
+> +       u16 reset_bits =3D AR0144_MASK_BAD | AR0144_LOCK_REG | 0x2010;
+> +       int ret;
+> +       u64 val;
+> +
+> +       /*
+> +        * Initiate the transition to standby by clearing the STREAM bit.=
+ Don't
+> +        * clear the bits that affect the output interface yet.
+> +        */
+> +       ret =3D cci_write(sensor->regmap, AR0144_RESET_REGISTER, reset_bi=
+ts, NULL);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret =3D ar0144_read_poll_timeout(sensor, AR0144_FRAME_STATUS, val=
+,
+> +                                      val & AR0144_STANDBY_STATUS, 2000,
+> +                                      2000000);
+> +       if (ret)
+> +               dev_warn(sensor->dev, "%s while trying to enter standby (=
+%d)\n",
+> +                        ret =3D=3D -ETIMEDOUT ? "timeout" : "error", ret=
+);
+> +
+> +       /* Standby state reached, disable the output interface. */
+> +       val |=3D AR0144_SMIA_SERIALIZER_DIS;
+> +       val &=3D ~(AR0144_PARALLEL_EN | AR0144_DRIVE_PINS);
+> +
+> +       return cci_write(sensor->regmap, AR0144_RESET_REGISTER, reset_bit=
+s, NULL);
+> +}
+> +
+> +/* ---------------------------------------------------------------------=
+--------
+> + * PLL
+> + */
+> +
+> +static int ar0144_pll_calculate(struct ar0144 *sensor, struct ccs_pll *p=
+ll,
+> +                               unsigned int link_freq, unsigned int bpp)
+> +{
+> +       struct ccs_pll_limits limits =3D {
+> +               .min_ext_clk_freq_hz =3D 6000000,
+> +               .max_ext_clk_freq_hz =3D 48000000,
+> +
+> +               .vt_fr =3D {
+> +                       .min_pre_pll_clk_div =3D 1,
+> +                       .max_pre_pll_clk_div =3D 63,
+> +                       .min_pll_ip_clk_freq_hz =3D 1000000,      /* min_=
+pll_op_clk_freq_hz / max_pll_multiplier */
+> +                       .max_pll_ip_clk_freq_hz =3D 24000000,     /* max_=
+pll_op_clk_freq_hz / min_pll_multiplier */
+> +                       .min_pll_multiplier =3D 32,
+> +                       .max_pll_multiplier =3D 384,
+> +                       .min_pll_op_clk_freq_hz =3D 384000000,
+> +                       .max_pll_op_clk_freq_hz =3D 768000000,
+> +               },
+> +               .vt_bk =3D {
+> +                       .min_sys_clk_div =3D 1,
+> +                       .max_sys_clk_div =3D 16,
+> +                       .min_pix_clk_div =3D 4,
+> +                       .max_pix_clk_div =3D 16,
+> +                       .min_pix_clk_freq_hz =3D 6000000,         /* No d=
+ocumented limit */
+> +                       .max_pix_clk_freq_hz =3D 74250000,
+> +               },
+> +               .op_bk =3D {
+> +                       .min_sys_clk_div =3D 1,
+> +                       .max_sys_clk_div =3D 16,
+> +                       .min_pix_clk_div =3D 8,
+> +                       .max_pix_clk_div =3D 12,
+> +                       .min_pix_clk_freq_hz =3D 6000000,         /* No d=
+ocumented limit */
+> +                       .max_pix_clk_freq_hz =3D 74250000,
+> +               },
+> +
+> +               .min_line_length_pck_bin =3D 1200 + AR0144_MIN_HBLANK,   =
+ /* To be checked */
+> +               .min_line_length_pck =3D 1200 + AR0144_MIN_HBLANK,
+> +       };
+> +       unsigned int num_lanes =3D sensor->bus_cfg.bus.mipi_csi2.num_data=
+_lanes;
+> +       int ret;
+> +
+> +       /*
+> +        * The OP pixel clock limits depends on the number of lanes, whic=
+h the
+> +        * PLL calculator doesn't take into account despite specifying th=
+e
+> +        * CCS_PLL_FLAG_LANE_SPEED_MODEL flag. Adjust them manually.
+> +        */
+> +       limits.op_bk.min_pix_clk_freq_hz /=3D num_lanes;
+> +       limits.op_bk.max_pix_clk_freq_hz /=3D num_lanes;
+> +
+> +       /*
+> +        * There are no documented constraints on the sys clock frequency=
+, for
+> +        * either branch. Recover them based on the PLL output clock freq=
+uency
+> +        * and sys_clk_div limits on one hand, and the pix clock frequenc=
+y and
+> +        * the pix_clk_div limits on the other hand.
+> +        */
+> +       limits.vt_bk.min_sys_clk_freq_hz =3D
+> +               max(limits.vt_fr.min_pll_op_clk_freq_hz / limits.vt_bk.ma=
+x_sys_clk_div,
+> +                   limits.vt_bk.min_pix_clk_freq_hz * limits.vt_bk.min_p=
+ix_clk_div);
+> +       limits.vt_bk.max_sys_clk_freq_hz =3D
+> +               min(limits.vt_fr.max_pll_op_clk_freq_hz / limits.vt_bk.mi=
+n_sys_clk_div,
+> +                   limits.vt_bk.max_pix_clk_freq_hz * limits.vt_bk.max_p=
+ix_clk_div);
+> +
+> +       limits.op_bk.min_sys_clk_freq_hz =3D
+> +               max(limits.vt_fr.min_pll_op_clk_freq_hz / limits.op_bk.ma=
+x_sys_clk_div,
+> +                   limits.op_bk.min_pix_clk_freq_hz * limits.op_bk.min_p=
+ix_clk_div);
+> +       limits.op_bk.max_sys_clk_freq_hz =3D
+> +               min(limits.vt_fr.max_pll_op_clk_freq_hz / limits.op_bk.mi=
+n_sys_clk_div,
+> +                   limits.op_bk.max_pix_clk_freq_hz * limits.op_bk.max_p=
+ix_clk_div);
+> +
+> +       memset(pll, 0, sizeof(*pll));
+> +
+> +       pll->bus_type =3D CCS_PLL_BUS_TYPE_CSI2_DPHY;
+> +       pll->op_lanes =3D num_lanes;
+> +       pll->vt_lanes =3D 1;
+> +       pll->csi2.lanes =3D num_lanes;
+> +       /*
+> +        * As the sensor doesn't support FIFO derating, binning doesn't
+> +        * influence the PLL configuration. Hardcode the binning factors.
+> +        */
+> +       pll->binning_horizontal =3D 1;
+> +       pll->binning_vertical =3D 1;
+> +       pll->scale_m =3D 1;
+> +       pll->scale_n =3D 1;
+> +       pll->bits_per_pixel =3D bpp;
+> +       pll->flags =3D CCS_PLL_FLAG_LANE_SPEED_MODEL;
+> +       pll->link_freq =3D link_freq;
+> +       pll->ext_clk_freq_hz =3D clk_get_rate(sensor->clk);
+> +
+> +       ret =3D ccs_pll_calculate(sensor->dev, &limits, pll);
+> +       if (ret)
+> +               return ret;
+> +
+> +       /*
+> +        * The sensor ignores the LSB of the PLL multiplier. If the multi=
+plier
+> +        * is an odd value, as a workaround to avoid precision loss, mult=
+iply
+> +        * both the pre-divider and the multiplier by 2 if this doesn't b=
+ring
+> +        * them beyond their maximum values. This doesn't necessarily gua=
+rantee
+> +        * optimum PLL parameters. Ideally the PLL calculator should hand=
+le
+> +        * this constraint.
+> +        */
+> +       if ((pll->vt_fr.pll_multiplier & 1) &&
+> +           pll->vt_fr.pll_multiplier * 2 <=3D limits.vt_fr.max_pll_multi=
+plier &&
+> +           pll->vt_fr.pre_pll_clk_div * 2 <=3D limits.vt_fr.max_pre_pll_=
+clk_div) {
+> +               pll->vt_fr.pll_multiplier *=3D 2;
+> +               pll->vt_fr.pre_pll_clk_div *=3D 2;
+> +       }
+> +
+> +       if (pll->vt_fr.pll_multiplier & 1)
+> +               dev_warn(sensor->dev,
+> +                        "Odd PLL multiplier, link frequency %u will not =
+be exact\n",
+> +                        pll->link_freq);
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_pll_update(struct ar0144 *sensor,
+> +                            const struct ar0144_format_info *info)
+> +{
+> +       u64 link_freq;
+> +       int ret;
+> +
+> +       link_freq =3D sensor->bus_cfg.link_frequencies[sensor->link_freq-=
+>val];
+> +       ret =3D ar0144_pll_calculate(sensor, &sensor->pll, link_freq, inf=
+o->bpp);
+> +       if (ret) {
+> +               dev_err(sensor->dev, "PLL calculations failed: %d\n", ret=
+);
+> +               return ret;
+> +       }
+> +
+> +       __v4l2_ctrl_s_ctrl_int64(sensor->pixel_rate,
+> +                                sensor->pll.pixel_rate_pixel_array);
+> +
+> +       return 0;
+> +}
+> +
+> +/* ---------------------------------------------------------------------=
+--------
+> + * V4L2 controls
+> + */
+> +
+> +static const char * const ar0144_test_pattern_menu[] =3D {
+> +       "Disabled",
+> +       "Solid color",
+> +       "Full Color Bars",
+> +       "Fade to Gray Color Bars",
+> +       "Walking 1",
+> +};
+> +
+> +static const u32 ar0144_test_pattern_values[] =3D {
+> +       AR0144_TEST_PATTERN_NONE,
+> +       AR0144_TEST_PATTERN_SOLID,
+> +       AR0144_TEST_PATTERN_BARS,
+> +       AR0144_TEST_PATTERN_BARS_FADE,
+> +       AR0144_TEST_PATTERN_WALKING_1S,
+> +};
+> +
+> +static void ar0144_update_link_freqs(struct ar0144 *sensor,
+> +                                    const struct ar0144_format_info *inf=
+o)
+> +{
+> +       u64 valid_link_freqs;
+> +       unsigned int index;
+> +       unsigned int min;
+> +       unsigned int max;
+> +
+> +       index =3D info - ar0144_formats;
+> +       valid_link_freqs =3D sensor->valid_link_freqs[index];
+> +
+> +       min =3D __ffs(valid_link_freqs);
+> +       max =3D __fls(valid_link_freqs);
+> +
+> +       __v4l2_ctrl_modify_range(sensor->link_freq, min, max, ~valid_link=
+_freqs,
+> +                                min);
+> +}
+> +
+> +static int ar0144_update_exposure(struct ar0144 *sensor,
+> +                                 const struct v4l2_rect *crop)
+> +{
+> +       unsigned int max;
+> +
+> +       /* The coarse integration time is limited to FRAME_LENGTH_LINES -=
+ 1. */
+> +       max =3D crop->height + sensor->vblank->val - 1
+> +           - AR0144_FRAME_LENGTH_OVERHEAD;
+> +       return __v4l2_ctrl_modify_range(sensor->exposure, 1, max, 1, max)=
+;
+> +}
+> +
+> +static void ar0144_update_blanking(struct ar0144 *sensor,
+> +                                  const struct v4l2_subdev_state *state)
+> +{
+> +       const struct v4l2_rect *crop;
+> +       unsigned int min;
+> +       unsigned int max;
+> +
+> +       crop =3D v4l2_subdev_state_get_crop(state, 0);
+> +
+> +       /*
+> +        * Horizontally, the line length (in pixel clocks), programmed in=
+ the
+> +        * LINE_LENGTH_PCK register, is equal to the sum of the crop widt=
+h and
+> +        * the horizontal blanking. The sensor has lower and upper bounds=
+ for
+> +        * the LINE_LENGTH_PCK value, as well as a lower bound for the
+> +        * horizontal blanking.
+> +        */
+> +       min =3D max_t(int, AR0144_MIN_LINE_LENGTH_PCK - crop->width,
+> +                   AR0144_MIN_HBLANK);
+> +       max =3D AR0144_MAX_LINE_LENGTH_PCK - crop->width;
+> +       __v4l2_ctrl_modify_range(sensor->hblank, min, max, 2, min);
+> +
+> +       /*
+> +        * Vertically, the situation is more complicated. The frame lengt=
+h (in
+> +        * lines) is equal to the FRAME_LENGTH_LINES register value plus =
+5
+> +        * lines of overhead. This needs to be taken into account for the
+> +        * VBLANK calculation.
+> +        */
+> +       min =3D max_t(int, AR0144_MIN_FRAME_LENGTH_LINES - crop->height +
+> +                   AR0144_FRAME_LENGTH_OVERHEAD, AR0144_MIN_VBLANK);
+> +       max =3D AR0144_MAX_FRAME_LENGTH_LINES - crop->height
+> +           + AR0144_FRAME_LENGTH_OVERHEAD;
+> +       __v4l2_ctrl_modify_range(sensor->vblank, min, max, 1, min);
+> +
+> +       ar0144_update_exposure(sensor, crop);
+> +}
+> +
+> +static int ar0144_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +       struct ar0144 *sensor =3D container_of(ctrl->handler, struct ar01=
+44, ctrls);
+> +       const struct v4l2_subdev_state *state;
+> +       const struct v4l2_mbus_framefmt *format;
+> +       const struct ar0144_format_info *info;
+> +       const struct v4l2_rect *crop;
+> +       int ret =3D 0;
+> +
+> +       /*
+> +        * Return immediately for controls that don't need to be applied =
+to the
+> +        * device.
+> +        */
+> +       if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
+> +               return 0;
+> +
+> +       /*
+> +        * First process controls that update other parts of the device
+> +        * configuration.
+> +        */
+> +       state =3D v4l2_subdev_get_locked_active_state(&sensor->sd);
+> +       format =3D v4l2_subdev_state_get_format(state, 0);
+> +       info =3D ar0144_format_info(sensor, format->code, true);
+> +       crop =3D v4l2_subdev_state_get_crop(state, 0);
+> +
+> +       switch (ctrl->id) {
+> +       case V4L2_CID_VBLANK:
+> +               ret =3D ar0144_update_exposure(sensor, crop);
+> +               break;
+> +
+> +       case V4L2_CID_LINK_FREQ:
+> +               if (v4l2_subdev_is_streaming(&sensor->sd))
+> +                       return -EBUSY;
+
+Is this potentially better achieved by grabbing the control ta start_stream=
+ing?
+
+> +
+> +               ret =3D ar0144_pll_update(sensor, info);
+> +               break;
+> +
+> +       default:
+> +               break;
+> +       }
+> +
+> +       if (ret)
+> +               return ret;
+> +
+> +       /*
+> +        * Apply controls to the hardware. If power is down, they control=
+s will
+> +        * be applied when starting streaming.
+> +        */
+> +       if (!pm_runtime_get_if_in_use(sensor->dev))
+> +               return 0;
+> +
+> +       switch (ctrl->id) {
+> +       case V4L2_CID_ANALOGUE_GAIN:
+> +               cci_write(sensor->regmap, AR0144_ANALOG_GAIN, ctrl->val, =
+&ret);
+> +               break;
+> +
+> +       case V4L2_CID_DIGITAL_GAIN:
+> +               cci_write(sensor->regmap, AR0144_GLOBAL_GAIN, ctrl->val, =
+&ret);
+> +               break;
+> +
+> +       case V4L2_CID_EXPOSURE:
+> +               cci_write(sensor->regmap, AR0144_COARSE_INTEGRATION_TIME,
+> +                         ctrl->val, &ret);
+> +               break;
+> +
+> +       case V4L2_CID_HBLANK:
+> +               cci_write(sensor->regmap, AR0144_LINE_LENGTH_PCK,
+> +                         crop->width + ctrl->val, &ret);
+> +               break;
+> +
+> +       case V4L2_CID_VBLANK:
+> +               cci_write(sensor->regmap, AR0144_FRAME_LENGTH_LINES,
+> +                         crop->height + ctrl->val - AR0144_FRAME_LENGTH_=
+OVERHEAD,
+> +                         &ret);
+> +               break;
+> +
+> +       case V4L2_CID_TEST_PATTERN:
+> +               cci_write(sensor->regmap, AR0144_TEST_PATTERN_MODE,
+> +                         ar0144_test_pattern_values[ctrl->val], &ret);
+> +
+> +               /*
+> +                * Register 0x3044 is not documented, but mentioned in th=
+e test
+> +                * pattern configuration. Bits [5:4] should be set to 0 t=
+o
+> +                * avoid clipping pixel values to 0xf70.
+> +                */
+> +               cci_write(sensor->regmap, CCI_REG16(0x3044),
+> +                         ctrl->val ? 0x0400 : 0x0410, &ret);
+> +               break;
+> +
+> +       case V4L2_CID_TEST_PATTERN_RED:
+> +       case V4L2_CID_TEST_PATTERN_GREENR:
+> +       case V4L2_CID_TEST_PATTERN_BLUE:
+> +       case V4L2_CID_TEST_PATTERN_GREENB:
+> +               cci_write(sensor->regmap, AR0144_GROUPED_PARAMETER_HOLD_,
+> +                         1, &ret);
+> +
+> +               cci_write(sensor->regmap, AR0144_TEST_DATA_RED,
+> +                         sensor->test_data[0]->val, &ret);
+> +               cci_write(sensor->regmap, AR0144_TEST_DATA_GREENR,
+> +                         sensor->test_data[1]->val, &ret);
+> +               cci_write(sensor->regmap, AR0144_TEST_DATA_BLUE,
+> +                         sensor->test_data[2]->val, &ret);
+> +               cci_write(sensor->regmap, AR0144_TEST_DATA_GREENB,
+> +                         sensor->test_data[3]->val, &ret);
+> +
+> +               cci_write(sensor->regmap, AR0144_GROUPED_PARAMETER_HOLD_,
+> +                         0, &ret);
+> +               break;
+> +
+> +       case V4L2_CID_HFLIP:
+> +       case V4L2_CID_VFLIP:
+> +       {
+> +               u16 reg =3D 0;
+> +
+> +               if (sensor->hflip->val)
+> +                       reg |=3D AR0144_ORIENTATION_HORIZ_MIRROR;
+> +               if (sensor->vflip->val)
+> +                       reg |=3D AR0144_ORIENTATION_VERT_FLIP;
+> +
+> +               cci_write(sensor->regmap, AR0144_IMAGE_ORIENTATION, reg, =
+&ret);
+> +               break;
+> +       }
+> +
+> +       case V4L2_CID_EXPOSURE_AUTO:
+> +               cci_write(sensor->regmap, AR0144_AECTRLREG,
+> +                         ctrl->val =3D=3D V4L2_EXPOSURE_AUTO ?
+> +                         AR0144_AUTO_AG_EN | AR0144_AE_ENABLE : 0, &ret)=
+;
+> +               break;
+> +
+> +       case V4L2_CID_LINK_FREQ:
+> +               break;
+> +
+> +       default:
+> +               ret =3D -EINVAL;
+> +               break;
+> +       }
+> +
+> +       pm_runtime_mark_last_busy(sensor->dev);
+> +       pm_runtime_put_autosuspend(sensor->dev);
+> +
+> +       return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops ar0144_ctrl_ops =3D {
+> +       .s_ctrl =3D ar0144_s_ctrl,
+> +};
+> +
+> +static int ar0144_init_ctrls(struct ar0144 *sensor)
+> +{
+> +       static const u32 test_pattern_ctrls[] =3D {
+> +               V4L2_CID_TEST_PATTERN_RED,
+> +               V4L2_CID_TEST_PATTERN_GREENR,
+> +               V4L2_CID_TEST_PATTERN_BLUE,
+> +               V4L2_CID_TEST_PATTERN_GREENB,
+> +       };
+> +       struct v4l2_fwnode_device_properties props;
+> +       unsigned int i;
+> +       int ret;
+> +
+> +       ret =3D v4l2_fwnode_device_parse(sensor->dev, &props);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       v4l2_ctrl_handler_init(&sensor->ctrls, 17);
+> +
+> +       v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ar0144_ctrl_ops,
+> +                                       &props);
+> +
+> +       /*
+> +        * Set the link frequency, pixel rate, horizontal blanking and ve=
+rtical
+> +        * blanking and exposure to hardcoded values. They will be update=
+d by
+> +        * ar0144_update_link_freqs(), ar0144_pll_update() and
+> +        * ar0144_update_blanking().
+> +        */
+> +       sensor->pixel_rate =3D
+> +               v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl_ops,
+> +                                 V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1, 1);
+> +       sensor->link_freq =3D
+> +               v4l2_ctrl_new_int_menu(&sensor->ctrls, &ar0144_ctrl_ops,
+> +                                      V4L2_CID_LINK_FREQ,
+> +                                      sensor->bus_cfg.nr_of_link_frequen=
+cies - 1, 0,
+> +                                      sensor->bus_cfg.link_frequencies);
+> +
+> +       sensor->hblank =3D v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl=
+_ops,
+> +                                          V4L2_CID_HBLANK, AR0144_MIN_HB=
+LANK,
+> +                                          AR0144_MIN_HBLANK, 2, AR0144_M=
+IN_HBLANK);
+> +       sensor->vblank =3D v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl=
+_ops,
+> +                                          V4L2_CID_VBLANK, AR0144_MIN_VB=
+LANK,
+> +                                          AR0144_MIN_VBLANK, 1, AR0144_M=
+IN_VBLANK);
+> +
+> +       sensor->exposure =3D v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ct=
+rl_ops,
+> +                                            V4L2_CID_EXPOSURE, 1,
+> +                                            AR0144_MAX_FRAME_LENGTH_LINE=
+S - 1,
+> +                                            1, 16);
+> +
+> +       /*
+> +        * The sensor analogue gain is split in an exponential coarse gai=
+n and
+> +        * a fine gain. The minimum recommended gain is 1.6842, which map=
+s to a
+> +        * gain code of 13. Set the minimum to 0 to expose the whole rang=
+e of
+> +        * possible values, and the default to the recommended minimum.
+> +        */
+> +       v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl_ops,
+> +                         V4L2_CID_ANALOGUE_GAIN, 0, 79, 1, 13);
+> +
+> +       v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl_ops,
+> +                         V4L2_CID_DIGITAL_GAIN, 0, 0x7ff, 1, 0x080);
+> +
+> +       v4l2_ctrl_new_std_menu(&sensor->ctrls, &ar0144_ctrl_ops,
+> +                              V4L2_CID_EXPOSURE_AUTO, V4L2_EXPOSURE_MANU=
+AL,
+> +                              ~(BIT(V4L2_EXPOSURE_AUTO) | BIT(V4L2_EXPOS=
+URE_MANUAL)),
+> +                              V4L2_EXPOSURE_MANUAL);
+> +
+> +       v4l2_ctrl_new_std_menu_items(&sensor->ctrls, &ar0144_ctrl_ops,
+> +                                    V4L2_CID_TEST_PATTERN,
+> +                                    ARRAY_SIZE(ar0144_test_pattern_menu)=
+ - 1,
+> +                                    0, 0, ar0144_test_pattern_menu);
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(test_pattern_ctrls); ++i)
+> +               sensor->test_data[i] =3D
+> +                       v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl_op=
+s,
+> +                                         test_pattern_ctrls[i], 0, 4095,=
+ 1, 0);
+> +
+> +       sensor->hflip =3D v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl_=
+ops,
+> +                                         V4L2_CID_HFLIP, 0, 1, 1, 0);
+> +       sensor->vflip =3D v4l2_ctrl_new_std(&sensor->ctrls, &ar0144_ctrl_=
+ops,
+> +                                         V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +
+> +       if (sensor->ctrls.error) {
+> +               ret =3D sensor->ctrls.error;
+> +               v4l2_ctrl_handler_free(&sensor->ctrls);
+> +               return ret;
+> +       }
+> +
+> +       v4l2_ctrl_cluster(4, sensor->test_data);
+> +       v4l2_ctrl_cluster(2, &sensor->hflip);
+> +
+> +       sensor->sd.ctrl_handler =3D &sensor->ctrls;
+> +
+> +       return 0;
+> +}
+> +
+> +/* ---------------------------------------------------------------------=
+--------
+> + * V4L2 subdev operations
+> + */
+> +
+> +static int ar0144_enum_mbus_code(struct v4l2_subdev *sd,
+> +                                struct v4l2_subdev_state *state,
+> +                                struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +       unsigned int index =3D 0;
+> +       unsigned int i;
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(ar0144_formats); ++i) {
+> +               const struct ar0144_format_info *info =3D &ar0144_formats=
+[i];
+> +
+> +               if (!(sensor->valid_formats & BIT(i)))
+> +                       continue;
+> +
+> +               if (code->index =3D=3D index) {
+> +                       code->code =3D ar0144_format_code(sensor, info);
+> +                       return 0;
+> +               }
+> +
+> +               index++;
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> +
+> +static int ar0144_enum_frame_size(struct v4l2_subdev *sd,
+> +                                 struct v4l2_subdev_state *state,
+> +                                 struct v4l2_subdev_frame_size_enum *fse=
+)
+> +{
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +       const struct ar0144_format_info *info;
+> +       const struct v4l2_rect *crop;
+> +
+> +       info =3D ar0144_format_info(sensor, fse->code, false);
+> +       if (!info)
+> +               return -EINVAL;
+> +
+> +       /*
+> +        * Enumerate binning/skipping. Supported factors are powers of tw=
+o from
+> +        * /1 to /16.
+> +        */
+> +
+> +       if (fse->index >=3D 5)
+> +               return -EINVAL;
+> +
+> +       crop =3D v4l2_subdev_state_get_crop(state, fse->pad);
+> +
+> +       fse->min_width =3D crop->width / (1 << fse->index);
+> +       fse->max_width =3D fse->min_width;
+> +       fse->min_height =3D crop->height / (1 << fse->index);
+> +       fse->max_height =3D fse->min_height;
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_set_fmt(struct v4l2_subdev *sd,
+> +                         struct v4l2_subdev_state *state,
+> +                         struct v4l2_subdev_format *format)
+> +{
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +       const struct ar0144_format_info *info;
+> +       struct v4l2_mbus_framefmt *fmt;
+> +       const struct v4l2_rect *crop;
+> +       unsigned int bin_x, bin_y;
+> +
+> +       if (v4l2_subdev_is_streaming(sd) &&
+> +           format->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE)
+> +               return -EBUSY;
+> +
+> +       fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> +       crop =3D v4l2_subdev_state_get_crop(state, format->pad);
+> +
+> +       info =3D ar0144_format_info(sensor, format->format.code, true);
+> +       fmt->code =3D ar0144_format_code(sensor, info);
+> +
+> +       /*
+> +        * The output size results from the binning/skipping applied to t=
+he
+> +        * crop rectangle. The x/y increments must be powers of 2. Clamp =
+the
+> +        * width/height first, to avoid both divisions by 0 and the undef=
+ined
+> +        * behaviour of roundup_pow_of_two(0).
+> +        */
+> +       fmt->width =3D clamp(format->format.width, 1U, crop->width);
+> +       fmt->height =3D clamp(format->format.height, 1U, crop->height);
+> +       bin_x =3D clamp(roundup_pow_of_two(crop->width / fmt->width), 1, =
+16);
+> +       bin_y =3D clamp(roundup_pow_of_two(crop->height / fmt->height), 1=
+, 16);
+> +       fmt->width =3D crop->width / bin_x;
+> +       fmt->height =3D crop->height / bin_y;
+> +
+> +       format->format =3D *fmt;
+> +
+> +       if (format->which !=3D V4L2_SUBDEV_FORMAT_ACTIVE)
+> +               return 0;
+> +
+> +       ar0144_update_link_freqs(sensor, info);
+> +       ar0144_pll_update(sensor, info);
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_get_selection(struct v4l2_subdev *sd,
+> +                               struct v4l2_subdev_state *state,
+> +                               struct v4l2_subdev_selection *sel)
+> +{
+> +       switch (sel->target) {
+> +       case V4L2_SEL_TGT_CROP:
+> +               sel->r =3D *v4l2_subdev_state_get_crop(state, sel->pad);
+> +               break;
+> +
+> +       case V4L2_SEL_TGT_CROP_DEFAULT:
+> +               sel->r.left =3D (AR0144_PIXEL_ARRAY_ACTIVE_WIDTH - AR0144=
+_DEF_WIDTH) / 2;
+> +               sel->r.top =3D (AR0144_PIXEL_ARRAY_ACTIVE_HEIGHT - AR0144=
+_DEF_HEIGHT) / 2;
+> +               sel->r.width =3D AR0144_DEF_WIDTH;
+> +               sel->r.height =3D AR0144_DEF_HEIGHT;
+> +               break;
+> +
+> +       case V4L2_SEL_TGT_CROP_BOUNDS:
+> +               sel->r.left =3D 0;
+> +               sel->r.top =3D 0;
+> +               sel->r.width =3D AR0144_PIXEL_ARRAY_ACTIVE_WIDTH;
+> +               sel->r.height =3D AR0144_PIXEL_ARRAY_ACTIVE_HEIGHT;
+> +               break;
+> +
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_set_selection(struct v4l2_subdev *sd,
+> +                               struct v4l2_subdev_state *state,
+> +                               struct v4l2_subdev_selection *sel)
+> +{
+> +       struct v4l2_mbus_framefmt *fmt;
+> +       struct v4l2_rect *crop;
+> +
+> +       if (v4l2_subdev_is_streaming(sd) &&
+> +           sel->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE)
+> +               return -EBUSY;
+> +
+> +       if (sel->target !=3D V4L2_SEL_TGT_CROP)
+> +               return -EINVAL;
+> +
+> +       crop =3D v4l2_subdev_state_get_crop(state, 0);
+> +       fmt =3D v4l2_subdev_state_get_format(state, 0);
+> +
+> +       crop->left =3D min_t(unsigned int, ALIGN(sel->r.left, 2),
+> +                          AR0144_PIXEL_ARRAY_ACTIVE_WIDTH - AR0144_MIN_W=
+IDTH);
+> +       crop->top =3D min_t(unsigned int, ALIGN(sel->r.top, 2),
+> +                       AR0144_PIXEL_ARRAY_ACTIVE_HEIGHT - AR0144_MIN_HEI=
+GHT);
+> +       crop->width =3D clamp(sel->r.width, AR0144_MIN_WIDTH,
+> +                           AR0144_PIXEL_ARRAY_ACTIVE_WIDTH - crop->left)=
+;
+> +       crop->height =3D clamp(sel->r.height, AR0144_MIN_HEIGHT,
+> +                            AR0144_PIXEL_ARRAY_ACTIVE_HEIGHT - crop->top=
+);
+> +
+> +       sel->r =3D *crop;
+> +
+> +       fmt->width =3D crop->width;
+> +       fmt->height =3D crop->height;
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_get_frame_desc(struct v4l2_subdev *sd, unsigned int pa=
+d,
+> +                                struct v4l2_mbus_frame_desc *fd)
+> +{
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +       const struct ar0144_format_info *info;
+> +       const struct v4l2_mbus_framefmt *fmt;
+> +       struct v4l2_subdev_state *state;
+> +       u32 code;
+> +
+> +       state =3D v4l2_subdev_lock_and_get_active_state(sd);
+> +       fmt =3D v4l2_subdev_state_get_format(state, 0);
+> +       code =3D fmt->code;
+> +       v4l2_subdev_unlock_state(state);
+> +
+> +       info =3D ar0144_format_info(sensor, code, true);
+> +
+> +       fd->type =3D V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> +       fd->num_entries =3D 1;
+> +
+> +       fd->entry[0].pixelcode =3D code;
+> +       fd->entry[0].stream =3D 0;
+> +       fd->entry[0].bus.csi2.vc =3D 0;
+> +       fd->entry[0].bus.csi2.dt =3D info->dt;
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_get_mbus_config(struct v4l2_subdev *sd, unsigned int p=
+ad,
+> +                                 struct v4l2_mbus_config *cfg)
+> +{
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +
+> +       cfg->type =3D sensor->bus_cfg.bus_type;
+> +
+> +       switch (sensor->bus_cfg.bus_type) {
+> +       case V4L2_MBUS_CSI2_DPHY:
+> +       default:
+> +               cfg->bus.mipi_csi2 =3D sensor->bus_cfg.bus.mipi_csi2;
+> +               break;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_enable_streams(struct v4l2_subdev *sd,
+> +                                struct v4l2_subdev_state *state, u32 pad=
+,
+> +                                u64 streams_mask)
+> +{
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +       int ret;
+> +
+> +       ret =3D pm_runtime_resume_and_get(sensor->dev);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       ret =3D ar0144_start_streaming(sensor, state);
+> +       if (ret) {
+> +               dev_err(sensor->dev, "Failed to start streaming: %d\n",
+> +                       ret);
+> +               pm_runtime_put_sync(sensor->dev);
+> +               return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_disable_streams(struct v4l2_subdev *sd,
+> +                                 struct v4l2_subdev_state *state, u32 pa=
+d,
+> +                                 u64 streams_mask)
+> +{
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +
+> +       ar0144_stop_streaming(sensor);
+> +       pm_runtime_mark_last_busy(sensor->dev);
+> +       pm_runtime_put_autosuspend(sensor->dev);
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_entity_init_state(struct v4l2_subdev *sd,
+> +               struct v4l2_subdev_state *state)
+> +{
+> +       const struct ar0144_format_info *info;
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +       struct v4l2_mbus_framefmt *fmt;
+> +       struct v4l2_rect *crop;
+> +
+> +       info =3D ar0144_format_info(sensor, 0, true);
+> +
+> +       fmt =3D v4l2_subdev_state_get_format(state, 0);
+> +       fmt->width =3D AR0144_DEF_WIDTH;
+> +       fmt->height =3D AR0144_DEF_HEIGHT;
+> +       fmt->code =3D ar0144_format_code(sensor, info);
+> +       fmt->field =3D V4L2_FIELD_NONE;
+> +       fmt->colorspace =3D V4L2_COLORSPACE_RAW;
+> +       fmt->ycbcr_enc =3D V4L2_YCBCR_ENC_601;
+> +       fmt->quantization =3D V4L2_QUANTIZATION_FULL_RANGE;
+> +       fmt->xfer_func =3D V4L2_XFER_FUNC_NONE;
+> +
+> +       crop =3D v4l2_subdev_state_get_crop(state, 0);
+> +       crop->left =3D 4;
+> +       crop->top =3D 4;
+> +       crop->width =3D AR0144_DEF_WIDTH;
+> +       crop->height =3D AR0144_DEF_HEIGHT;
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_pad_ops ar0144_subdev_pad_ops =3D {
+> +       .enum_mbus_code =3D ar0144_enum_mbus_code,
+> +       .enum_frame_size =3D ar0144_enum_frame_size,
+> +       .get_fmt =3D v4l2_subdev_get_fmt,
+> +       .set_fmt =3D ar0144_set_fmt,
+> +       .get_selection =3D ar0144_get_selection,
+> +       .set_selection =3D ar0144_set_selection,
+> +       .get_frame_desc =3D ar0144_get_frame_desc,
+> +       .get_mbus_config =3D ar0144_get_mbus_config,
+> +       .enable_streams =3D ar0144_enable_streams,
+> +       .disable_streams =3D ar0144_disable_streams,
+> +};
+> +
+> +static const struct v4l2_subdev_ops ar0144_subdev_ops =3D {
+> +       .pad =3D &ar0144_subdev_pad_ops,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops ar0144_subdev_internal_ops =
+=3D {
+> +       .init_state =3D ar0144_entity_init_state,
+> +};
+> +
+> +static const struct media_entity_operations ar0144_entity_ops =3D {
+> +       .get_fwnode_pad =3D v4l2_subdev_get_fwnode_pad_1_to_1,
+> +};
+> +
+> +static int ar0144_init_subdev(struct ar0144 *sensor)
+> +{
+> +       struct i2c_client *client =3D to_i2c_client(sensor->dev);
+> +       struct v4l2_subdev *sd =3D &sensor->sd;
+> +       const struct v4l2_mbus_framefmt *format;
+> +       const struct ar0144_format_info *info;
+> +       struct v4l2_subdev_state *state;
+> +       int ret;
+> +
+> +       v4l2_i2c_subdev_init(sd, client, &ar0144_subdev_ops);
+> +
+> +       sd->flags |=3D V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +       sd->internal_ops =3D &ar0144_subdev_internal_ops;
+> +       sd->entity.function =3D MEDIA_ENT_F_CAM_SENSOR;
+> +       sd->entity.ops =3D &ar0144_entity_ops;
+> +
+> +       sensor->pad.flags =3D MEDIA_PAD_FL_SOURCE;
+> +
+> +       ret =3D media_entity_pads_init(&sd->entity, 1, &sensor->pad);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret =3D ar0144_init_ctrls(sensor);
+> +       if (ret)
+> +               goto err_entity;
+> +
+> +       sensor->sd.state_lock =3D sensor->ctrls.lock;
+> +       ret =3D v4l2_subdev_init_finalize(&sensor->sd);
+> +       if (ret)
+> +               goto err_ctrls;
+> +
+> +       /*
+> +        * Update the link frequency, PLL configuration (including the pi=
+xel
+> +        * rate) and blanking controls.
+> +        */
+> +       state =3D v4l2_subdev_lock_and_get_active_state(sd);
+> +       format =3D v4l2_subdev_state_get_format(state, 0);
+> +       info =3D ar0144_format_info(sensor, format->code, true);
+> +
+> +       ar0144_update_link_freqs(sensor, info);
+> +       ar0144_pll_update(sensor, info);
+> +       ar0144_update_blanking(sensor, state);
+> +
+> +       v4l2_subdev_unlock_state(state);
+> +
+> +       return 0;
+> +
+> +err_ctrls:
+> +       v4l2_ctrl_handler_free(&sensor->ctrls);
+> +err_entity:
+> +       media_entity_cleanup(&sd->entity);
+> +       return ret;
+> +}
+> +
+> +static void ar0144_cleanup_subdev(struct ar0144 *sensor)
+> +{
+> +       v4l2_subdev_cleanup(&sensor->sd);
+> +       v4l2_ctrl_handler_free(&sensor->ctrls);
+> +       media_entity_cleanup(&sensor->sd.entity);
+> +}
+> +
+> +/* ---------------------------------------------------------------------=
+--------
+> + * Power management
+> + */
+> +
+> +static int ar0144_power_on(struct ar0144 *sensor)
+> +{
+> +       u64 reset_delay;
+> +       long rate;
+> +       int ret;
+> +
+> +       /*
+> +        * The sensor must be powered off for at least 100ms before being
+> +        * powered on again.
+> +        */
+> +       if (sensor->off_time) {
+> +               u64 off_duration;
+> +
+> +               off_duration =3D ktime_us_delta(ktime_get_boottime(),
+> +                                             sensor->off_time);
+> +               if (off_duration < 100000)
+> +                       fsleep(100000 - off_duration);
+> +       }
+> +
+> +       ret =3D regulator_bulk_enable(ARRAY_SIZE(sensor->supplies),
+> +                                   sensor->supplies);
+> +       if (ret) {
+> +               dev_err(sensor->dev, "Failed to enable regulators\n");
+> +               return ret;
+> +       }
+> +
+> +       ret =3D clk_prepare_enable(sensor->clk);
+> +       if (ret) {
+> +               regulator_bulk_disable(ARRAY_SIZE(sensor->supplies),
+> +                                      sensor->supplies);
+> +               dev_err(sensor->dev, "Failed to enable clock\n");
+> +               return ret;
+> +       }
+> +
+> +       /*
+> +        * The internal initialization time after hard reset is 160000 EX=
+TCLK
+> +        * cycles.
+> +        */
+> +       rate =3D clk_get_rate(sensor->clk);
+> +       reset_delay =3D DIV_ROUND_UP_ULL(160000ULL * USEC_PER_SEC, rate);
+> +
+> +       if (sensor->reset) {
+> +               gpiod_set_value_cansleep(sensor->reset, 1);
+> +               fsleep(1000);
+> +               gpiod_set_value_cansleep(sensor->reset, 0);
+> +       } else {
+> +               cci_write(sensor->regmap, AR0144_RESET_REGISTER, AR0144_R=
+ESET,
+> +                         NULL);
+> +       }
+> +
+> +       fsleep(reset_delay);
+> +
+> +       return 0;
+> +}
+> +
+> +static void ar0144_power_off(struct ar0144 *sensor)
+> +{
+> +       regulator_bulk_disable(ARRAY_SIZE(sensor->supplies), sensor->supp=
+lies);
+> +       sensor->off_time =3D ktime_get_boottime();
+> +
+> +       clk_disable_unprepare(sensor->clk);
+> +       gpiod_set_value_cansleep(sensor->reset, 1);
+> +}
+> +
+> +static int ar0144_runtime_resume(struct device *dev)
+> +{
+> +       struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +
+> +       return ar0144_power_on(sensor);
+> +}
+> +
+> +static int ar0144_runtime_suspend(struct device *dev)
+> +{
+> +       struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +
+> +       ar0144_power_off(sensor);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct dev_pm_ops ar0144_pm_ops =3D {
+> +       RUNTIME_PM_OPS(ar0144_runtime_suspend, ar0144_runtime_resume, NUL=
+L)
+> +};
+> +
+> +/* ---------------------------------------------------------------------=
+--------
+> + * Probe & remove
+> + */
+> +
+> +static int ar0144_identify_device(struct ar0144 *sensor)
+> +{
+> +       const struct ar0144_model *model;
+> +       u64 customer_rev;
+> +       u64 chip_id;
+> +       int ret =3D 0;
+> +
+> +       cci_read(sensor->regmap, AR0144_CHIP_VERSION_REG, &chip_id, &ret)=
+;
+> +       cci_read(sensor->regmap, AR0144_CUSTOMER_REV, &customer_rev, &ret=
+);
+> +
+> +       if (ret) {
+> +               dev_err(sensor->dev, "Failed to read chip ID: %d\n", ret)=
+;
+> +               return ret;
+> +       }
+> +
+> +       if (chip_id !=3D AR0144_CHIP_VERSION) {
+
+The mono modules we received from OnSemi had register 0x3000 set to
+0x1356, with the colour ones being 0x0356. It was a few years back,
+but I'm fairly certain they were production modules rather than
+engineering samples.
+The register reference also says it can be made read/write (why?!), so
+can we guarantee this value?
+
+> +               dev_err(sensor->dev,
+> +                       "Wrong chip version 0x%04x (expected 0x%04x)\n",
+> +                       (u32)chip_id, AR0144_CHIP_VERSION);
+> +               return -ENODEV;
+> +       }
+> +
+> +       switch (AR0144_CUSTOMER_REV_CFA(customer_rev)) {
+
+I can't find AR0144_CUSTOMER_REV (0x31fe) in the register reference.
+A register with "CUSTOMER" in the name implies that it is a customer
+specific register, so can we rely on it 100% that all AR0144 modules
+will contain the CFA in the manner you've implemented?
 
 
-Ah! I follow you now sorry. Hm, that's an interesting thought...I think for the PL330 the answer is 
-no; the interrupt handler wakes a thread that runs the callbacks for any DMA transfers that are 
-completed...I don't know that that's a design rule we can rely on though so possibly it's better to 
-be safe. Is there a disadvantage to using spin_lock_irq() outside of IRQ context?
+Those were the main comments. I may come back with more once I've tried it =
+out.
 
+  Dave
+
+> +       default:
+> +               dev_warn(sensor->dev,
+> +                        "Unknown CFA %u, defaulting to color\n",
+> +                        (u32)AR0144_CUSTOMER_REV_CFA(customer_rev));
+> +               fallthrough;
+> +       case AR0144_CUSTOMER_REV_CFA_COLOR:
+> +               model =3D &ar0144_model_color;
+> +               break;
+> +       case AR0144_CUSTOMER_REV_CFA_MONO:
+> +               model =3D &ar0144_model_mono;
+> +               break;
+> +       }
+> +
+> +       if (sensor->model !=3D model)
+> +               dev_warn(sensor->dev,
+> +                        "Customer rev CFA doesn't match compatible strin=
+g\n");
+
+Seeing as the CFA can be determined via registers, do we need to be
+able to set it via the compatible string?
+
+> +
+> +       sensor->model =3D model;
+
+You've now totally ignored the value requested via the compatible
+string, which does make it redundant. An invalid CFA in registers has
+fallen through and been set to colour, so there's no way to force
+mono.
+I'm happy to have a way of forcing the CFA, but this doesn't achieve it.
+
+> +
+> +       if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG) || IS_ENABLED(DEBUG)) {
+> +               cci_read(sensor->regmap, AR0144_REVISION_NUMBER, &chip_id=
+, NULL);
+> +               dev_dbg(sensor->dev,
+> +                       "Sensor detected, CFA %s, CRA %u, OTPM r%u, silic=
+on r%u, CREV r%u\n",
+> +                       sensor->model->mono ? "mono" : "color",
+> +                       (u32)AR0144_CUSTOMER_REV_CRA(customer_rev),
+> +                       (u32)AR0144_REVISION_NUMBER_OTPM(chip_id),
+> +                       (u32)AR0144_REVISION_NUMBER_SILICON(chip_id),
+> +                       (u32)AR0144_REVISION_NUMBER_CREV(chip_id));
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int ar0144_parse_dt(struct ar0144 *sensor)
+> +{
+> +       struct v4l2_fwnode_endpoint *ep =3D &sensor->bus_cfg;
+> +       struct fwnode_handle *endpoint;
+> +       u64 valid_link_freqs =3D 0;
+> +       unsigned int nlanes;
+> +       unsigned int i, j;
+> +       int ret;
+> +
+> +       endpoint =3D fwnode_graph_get_next_endpoint(dev_fwnode(sensor->de=
+v), NULL);
+> +       if (!endpoint) {
+> +               dev_err(sensor->dev, "Endpoint node not found\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       ep->bus_type =3D V4L2_MBUS_UNKNOWN;
+> +       ret =3D v4l2_fwnode_endpoint_alloc_parse(endpoint, ep);
+> +       fwnode_handle_put(endpoint);
+> +       if (ret) {
+> +               dev_err(sensor->dev, "Parsing endpoint node failed\n");
+> +               goto error;
+> +       }
+> +
+> +       switch (ep->bus_type) {
+> +       case V4L2_MBUS_CSI2_DPHY:
+> +               /* Validate the number of data lanes. */
+> +               nlanes =3D ep->bus.mipi_csi2.num_data_lanes;
+> +               if (nlanes !=3D 1 && nlanes !=3D 2) {
+> +                       dev_err(sensor->dev, "Invalid data lanes: %d\n", =
+nlanes);
+> +                       ret =3D -EINVAL;
+> +                       goto error;
+> +               }
+> +               break;
+> +
+> +       default:
+> +               dev_err(sensor->dev, "Unsupported bus type %u\n", ep->bus=
+_type);
+> +               goto error;
+> +       }
+> +
+> +       /* Get and validate the link frequencies. */
+> +       if (!ep->nr_of_link_frequencies) {
+> +               dev_err(sensor->dev, "link-frequency property not found i=
+n DT\n");
+> +               ret =3D -EINVAL;
+> +               goto error;
+> +       }
+> +
+> +       if (ep->nr_of_link_frequencies > 64) {
+> +               dev_err(sensor->dev, "Too many link-frequency entries\n")=
+;
+> +               ret =3D -EINVAL;
+> +               goto error;
+> +       }
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(ar0144_formats); ++i) {
+> +               const struct ar0144_format_info *info =3D &ar0144_formats=
+[i];
+> +
+> +               for (j =3D 0; j < ep->nr_of_link_frequencies; ++j) {
+> +                       u64 freq =3D ep->link_frequencies[j];
+> +                       struct ccs_pll pll;
+> +
+> +                       ret =3D ar0144_pll_calculate(sensor, &pll, freq,
+> +                                                  info->bpp);
+> +                       if (ret)
+> +                               continue;
+> +
+> +                       sensor->valid_link_freqs[i] |=3D BIT(j);
+> +                       valid_link_freqs |=3D BIT(j);
+> +               }
+> +
+> +               if (!sensor->valid_link_freqs[i]) {
+> +                       dev_warn(sensor->dev,
+> +                                "No valid link frequency for %u bpp\n",
+> +                                info->bpp);
+> +                       continue;
+> +               }
+> +
+> +               sensor->valid_formats |=3D BIT(i);
+> +       }
+> +
+> +       if (!sensor->valid_formats) {
+> +               dev_err(sensor->dev,
+> +                       "No valid link frequency found for any format\n")=
+;
+> +               ret =3D -EINVAL;
+> +               goto error;
+> +       }
+> +
+> +       for (i =3D 0; i < ep->nr_of_link_frequencies; ++i) {
+> +               if (!(valid_link_freqs & BIT(i)))
+> +                       dev_warn(sensor->dev,
+> +                                "Link frequency %llu not valid for any f=
+ormat\n",
+> +                                ep->link_frequencies[i]);
+> +       }
+> +
+> +       dev_dbg(sensor->dev, "Using %u data lanes and %u link frequencies=
+\n",
+> +               nlanes, ep->nr_of_link_frequencies);
+> +
+> +       return 0;
+> +
+> +error:
+> +       v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+> +       return ret;
+> +}
+> +
+> +static const char * const ar0144_supply_name[AR0144_NUM_SUPPLIES] =3D {
+> +       "vaa",
+> +       "vdd_io",
+> +       "vdd",
+> +};
+> +
+> +static int ar0144_probe(struct i2c_client *client)
+> +{
+> +       struct device *dev =3D &client->dev;
+> +       struct ar0144 *sensor;
+> +       unsigned int i;
+> +       int ret;
+> +
+> +       sensor =3D devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+> +       if (!sensor)
+> +               return -ENOMEM;
+> +
+> +       sensor->dev =3D dev;
+> +       sensor->model =3D device_get_match_data(sensor->dev);
+> +
+> +       /* Acquire resources. */
+> +       sensor->regmap =3D devm_cci_regmap_init_i2c(client, 16);
+> +       if (IS_ERR(sensor->regmap))
+> +               return dev_err_probe(dev, PTR_ERR(sensor->regmap),
+> +                                    "Unable to initialize I2C\n");
+> +
+> +       sensor->clk =3D devm_clk_get(dev, NULL);
+> +       if (IS_ERR(sensor->clk))
+> +               return dev_err_probe(dev, PTR_ERR(sensor->clk),
+> +                                    "Cannot get clock\n");
+> +
+> +       sensor->reset =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT=
+_HIGH);
+> +       if (IS_ERR(sensor->reset))
+> +               return dev_err_probe(dev, PTR_ERR(sensor->reset),
+> +                                    "Cannot get reset gpio\n");
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(sensor->supplies); i++)
+> +               sensor->supplies[i].supply =3D ar0144_supply_name[i];
+> +
+> +       ret =3D devm_regulator_bulk_get(dev, ARRAY_SIZE(sensor->supplies)=
+,
+> +                                     sensor->supplies);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "Cannot get supplies\n");
+> +
+> +       /* Parse the DT properties. */
+> +       ret =3D ar0144_parse_dt(sensor);
+> +       if (ret)
+> +               return ret;
+> +
+> +       /*
+> +        * Enable power management. The driver supports runtime PM, but n=
+eeds to
+> +        * work when runtime PM is disabled in the kernel. To that end, p=
+ower
+> +        * the sensor on manually here, identify it, and fully initialize=
+ it.
+> +        */
+> +       ret =3D ar0144_power_on(sensor);
+> +       if (ret < 0) {
+> +               dev_err_probe(dev, ret, "Could not power on the device\n"=
+);
+> +               goto err_dt;
+> +       }
+> +
+> +       ret =3D ar0144_identify_device(sensor);
+> +       if (ret)
+> +               goto err_power;
+> +
+> +       /*
+> +        * Enable runtime PM with autosuspend. As the device has been pow=
+ered
+> +        * manually, mark it as active, and increase the usage count with=
+out
+> +        * resuming the device.
+> +        */
+> +       pm_runtime_set_active(dev);
+> +       pm_runtime_get_noresume(dev);
+> +       pm_runtime_enable(dev);
+> +       pm_runtime_set_autosuspend_delay(dev, 1000);
+> +       pm_runtime_use_autosuspend(dev);
+> +
+> +       /* Initialize and register the subdev. */
+> +       ret =3D ar0144_init_subdev(sensor);
+> +       if (ret) {
+> +               dev_err(dev, "Subdev initialization error %d\n", ret);
+> +               goto err_pm;
+> +       }
+> +
+> +       ret =3D v4l2_async_register_subdev_sensor(&sensor->sd);
+> +       if (ret) {
+> +               dev_err(dev, "Could not register V4L2 subdevice\n");
+> +               goto err_subdev;
+> +       }
+> +
+> +       /*
+> +        * Decrease the PM usage count. The device will get suspended aft=
+er the
+> +        * autosuspend delay, turning the power off.
+> +        */
+> +       pm_runtime_mark_last_busy(dev);
+> +       pm_runtime_put_autosuspend(dev);
+> +
+> +       return 0;
+> +
+> +err_subdev:
+> +       ar0144_cleanup_subdev(sensor);
+> +err_pm:
+> +       pm_runtime_disable(dev);
+> +       pm_runtime_put_noidle(dev);
+> +err_power:
+> +       ar0144_power_off(sensor);
+> +err_dt:
+> +       v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+> +       return ret;
+> +}
+> +
+> +static void ar0144_remove(struct i2c_client *client)
+> +{
+> +       struct v4l2_subdev *sd =3D i2c_get_clientdata(client);
+> +       struct ar0144 *sensor =3D to_ar0144(sd);
+> +
+> +       v4l2_async_unregister_subdev(&sensor->sd);
+> +       ar0144_cleanup_subdev(sensor);
+> +       v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+> +
+> +       /*
+> +        * Disable runtime PM. In case runtime PM is disabled in the kern=
+el,
+> +        * make sure to turn power off manually.
+> +        */
+> +       pm_runtime_disable(sensor->dev);
+> +       if (!pm_runtime_status_suspended(sensor->dev))
+> +               ar0144_power_off(sensor);
+> +       pm_runtime_set_suspended(sensor->dev);
+> +}
+> +
+> +static const struct of_device_id ar0144_of_match[] =3D {
+> +       { .compatible =3D "onnn,ar0144c", &ar0144_model_color },
+> +       { .compatible =3D "onnn,ar0144m", &ar0144_model_mono },
+> +       { /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ar0144_of_match);
+> +
+> +static struct i2c_driver ar0144_i2c_driver =3D {
+> +       .driver =3D {
+> +               .name =3D "ar0144",
+> +               .of_match_table =3D ar0144_of_match,
+> +               .pm =3D pm_ptr(&ar0144_pm_ops),
+> +       },
+> +       .probe =3D ar0144_probe,
+> +       .remove =3D ar0144_remove,
+> +};
+> +
+> +module_i2c_driver(ar0144_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("onsemi AR0144 Camera Sensor Driver");
+> +MODULE_LICENSE("GPL");
+> --
+> Regards,
 >
->>>> +	list_add_tail(&buf->queue, &stats->buffers.queue);
->>>> +	spin_unlock(&stats->buffers.lock);
->>>> +}
->>>> +
->>>> +static void mali_c55_stats_stop_streaming(struct vb2_queue *q)
->>>> +{
->>>> +	struct mali_c55_stats *stats = vb2_get_drv_priv(q);
->>>> +	struct mali_c55_stats_buf *buf, *tmp;
->>>> +
->>>> +	spin_lock(&stats->buffers.lock);
->>>> +
->>>> +	list_for_each_entry_safe(buf, tmp, &stats->buffers.queue, queue) {
->>>> +		list_del(&buf->queue);
->>>> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>>> +	}
->>>> +
->>>> +	spin_unlock(&stats->buffers.lock);
->>>> +}
->>>> +
->>>> +static const struct vb2_ops mali_c55_stats_vb2_ops = {
->>>> +	.queue_setup = mali_c55_stats_queue_setup,
->>>> +	.buf_queue = mali_c55_stats_buf_queue,
->>>> +	.wait_prepare = vb2_ops_wait_prepare,
->>>> +	.wait_finish = vb2_ops_wait_finish,
->>>> +	.stop_streaming = mali_c55_stats_stop_streaming,
->>>> +};
->>>> +
->>>> +static void
->>>> +mali_c55_stats_metering_complete(void *param,
->>>> +				 const struct dmaengine_result *result)
->>>> +{
->>>> +	struct mali_c55_stats_buf *buf = param;
->>>> +
->>>> +	spin_lock(&buf->lock);
->>> I wonder if this is needed. Can the DMA engine call the completion
->>> handlers of two sequential DMA transfers in parallel ?
->> The DMA engine that's on the system we have can't...I wasn't sure
->> whether that was generically true.
-> I think it is, but please double-check.
+> Laurent Pinchart
 >
->>>> +
->>>> +	if (buf->failed)
->>>> +		goto out_unlock;
->>>> +
->>>> +	buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
->>>> +
->>>> +	if (result->result != DMA_TRANS_NOERROR) {
->>>> +		buf->failed = true;
->>>> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>> This will possibly return the buffer to userspace after the first DMA
->>> transfer. Userspace could then requeue the buffer to the kernel before
->>> the completion of the second DMA transfer. That will cause trouble. I
->>> think you should instead do something like
->>>
->>> 	spin_lock(&buf->lock);
->>>
->>> 	if (result->result != DMA_TRANS_NOERROR)
->>> 		buf->failed = true;
->>>
->>> 	if (!--buf->segments_remaining) {
->>> 		buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
->>> 		vb2_buffer_done(&buf->vb.vb2_buf, buf->failed ?
->>> 				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
->>> 	}
->>>
->>> 	spin_unlock(&buf->lock);
->>>
->>> The
->>>
->>> 	buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
->>>
->>> line could also be moved to mali_c55_stats_fill_buffer(), which would
->>> make sure the timestamp is filled in case of DMA submission failures.
->> Okedokey
->>
->>>> +		goto out_unlock;
->>>> +	}
->>>> +
->>>> +	if (!--buf->segments_remaining)
->>>> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
->>>> +
->>>> +out_unlock:
->>>> +	spin_unlock(&buf->lock);
->>>> +}
->>>> +
->>>> +static int mali_c55_stats_dma_xfer(struct mali_c55_stats *stats, dma_addr_t src,
->>>> +				   dma_addr_t dst,
->>>> +				   struct mali_c55_stats_buf *buf,
->>>> +				   size_t length,
->>>> +				   void (*callback)(void *, const struct dmaengine_result *result))
->>> The same callback is used for both invocations of this function, you can
->>> drop the parameter and hardcode it below.
->> Yeah, not even sure now why I had a parameter.
->>
->>>> +{
->>>> +	struct dma_async_tx_descriptor *tx;
->>>> +	dma_cookie_t cookie;
->>>> +
->>>> +	tx = dmaengine_prep_dma_memcpy(stats->channel, dst, src, length, 0);
->>>> +	if (!tx) {
->>>> +		dev_err(stats->mali_c55->dev, "failed to prep stats DMA\n");
->>>> +		return -EIO;
->>>> +	}
->>>> +
->>>> +	tx->callback_result = callback;
->>>> +	tx->callback_param = buf;
->>>> +
->>>> +	cookie = dmaengine_submit(tx);
->>>> +	if (dma_submit_error(cookie)) {
->>>> +		dev_err(stats->mali_c55->dev, "failed to submit stats DMA\n");
->>>> +		return -EIO;
->>>> +	}
->>>> +
->>>> +	dma_async_issue_pending(stats->channel);
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +void mali_c55_stats_fill_buffer(struct mali_c55 *mali_c55,
->>>> +				enum mali_c55_config_spaces cfg_space)
->>>> +{
->>>> +	struct mali_c55_ctx *ctx = mali_c55_get_active_context(mali_c55);
->>>> +	struct mali_c55_stats *stats = &mali_c55->stats;
->>>> +	struct mali_c55_stats_buf *buf = NULL;
->>>> +	dma_addr_t src, dst;
->>>> +	int ret;
->>>> +
->>>> +	spin_lock(&stats->buffers.lock);
->>>> +	if (!list_empty(&stats->buffers.queue)) {
->>>> +		buf = list_first_entry(&stats->buffers.queue,
->>>> +				       struct mali_c55_stats_buf, queue);
->>>> +		list_del(&buf->queue);
->>>> +	}
->>>> +	spin_unlock(&stats->buffers.lock);
->>>> +
->>>> +	if (!buf)
->>>> +		return;
->>>> +
->>>> +	buf->vb.sequence = mali_c55->isp.frame_sequence;
->>>> +
->>>> +	/*
->>>> +	 * There are infact two noncontiguous sections of the ISP's
->>> s/infact/in fact/
->>>
->>>> +	 * memory space that hold statistics for 3a algorithms to use. A
->>> s/use. A/use: a/
->>>
->>>> +	 * section in each config space and a global section holding
->>>> +	 * histograms which is double buffered and so holds data for the
->>>> +	 * last frame. We need to read both.
->>>> +	 */
->>>> +	src = ctx->base + MALI_C55_REG_1024BIN_HIST;
->>>> +	dst = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
->>>> +
->>>> +	ret = mali_c55_stats_dma_xfer(stats, src, dst, buf,
->>>> +				      MALI_C55_1024BIN_HIST_SIZE,
->>>> +				      mali_c55_stats_metering_complete);
->>>> +	if (ret)
->>>> +		goto err_fail_buffer;
->>>> +
->>>> +	src = ctx->base + metering_space_addrs[cfg_space];
->>>> +	dst += MALI_C55_1024BIN_HIST_SIZE;
->>>> +
->>>> +	ret = mali_c55_stats_dma_xfer(
->>>> +		stats, src, dst, buf,
->>>> +		sizeof(struct mali_c55_stats_buffer) - MALI_C55_1024BIN_HIST_SIZE,
->>>> +		mali_c55_stats_metering_complete);
->>>> +	if (ret) {
->>>> +		dmaengine_terminate_sync(stats->channel);
->>>> +		goto err_fail_buffer;
->>>> +	}
->>> I think you will need to terminate DMA transfers at stream off time.
->>>
->>>> +
->>>> +	return;
->>>> +
->>>> +err_fail_buffer:
->>>> +	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>>> +}
->>>> +
->>>> +void mali_c55_unregister_stats(struct mali_c55 *mali_c55)
->>>> +{
->>>> +	struct mali_c55_stats *stats = &mali_c55->stats;
->>>> +
->>>> +	if (!video_is_registered(&stats->vdev))
->>>> +		return;
->>>> +
->>>> +	vb2_video_unregister_device(&stats->vdev);
->>>> +	media_entity_cleanup(&stats->vdev.entity);
->>>> +	dma_release_channel(stats->channel);
->>>> +	mutex_destroy(&stats->lock);
->>>> +}
->>>> +
->>>> +int mali_c55_register_stats(struct mali_c55 *mali_c55)
->>>> +{
->>>> +	struct mali_c55_stats *stats = &mali_c55->stats;
->>>> +	struct video_device *vdev = &stats->vdev;
->>>> +	struct vb2_queue *vb2q = &stats->queue;
->>>> +	dma_cap_mask_t mask;
->>>> +	int ret;
->>>> +
->>>> +	mutex_init(&stats->lock);
->>>> +	INIT_LIST_HEAD(&stats->buffers.queue);
->>>> +
->>>> +	dma_cap_zero(mask);
->>>> +	dma_cap_set(DMA_MEMCPY, mask);
->>>> +
->>>> +	stats->channel = dma_request_channel(mask, 0, NULL);
->>> Do we need a CPU fallback in case no DMA is available ?
->> Yes, actually.
->>
->>> I'm still very curious to know how long it takes to perform the DMA
->>> transfer, compared to copying the data with the CPU, and especially
->>> compared to the frame duration.
->> On my list of things to test and report :)
-> Looking forward to it :-)
 >
->>>> +	if (!stats->channel) {
->>>> +		ret = -ENODEV;
->>>> +		goto err_destroy_mutex;
->>>> +	}
->>>> +
->>>> +	stats->pad.flags = MEDIA_PAD_FL_SINK;
->>>> +	ret = media_entity_pads_init(&stats->vdev.entity, 1, &stats->pad);
->>>> +	if (ret)
->>>> +		goto err_release_dma_channel;
->>>> +
->>>> +	vb2q->type = V4L2_BUF_TYPE_META_CAPTURE;
->>>> +	vb2q->io_modes = VB2_MMAP | VB2_DMABUF;
->>>> +	vb2q->drv_priv = stats;
->>>> +	vb2q->mem_ops = &vb2_dma_contig_memops;
->>>> +	vb2q->ops = &mali_c55_stats_vb2_ops;
->>>> +	vb2q->buf_struct_size = sizeof(struct mali_c55_stats_buf);
->>>> +	vb2q->min_queued_buffers = 1;
->>>> +	vb2q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->>>> +	vb2q->lock = &stats->lock;
->>>> +	vb2q->dev = mali_c55->dev;
->>> That's not the right device. The device that performs the DMA operation
->>> is the DMA engine, and that's what you need to pass to vb2. Otherwise
->>> the DMA address returned by vb2_dma_contig_plane_dma_addr() will be
->>> mapped to the ISP device, not the DMA engine. In practice, if neither
->>> are behind an IOMMU, things will likely work, but when that's not the
->>> case, run into problems.
->>>
->>>> +
->>>> +	ret = vb2_queue_init(vb2q);
->>>> +	if (ret) {
->>>> +		dev_err(mali_c55->dev, "stats vb2 queue init failed\n");
->>>> +		goto err_cleanup_entity;
->>>> +	}
->>>> +
->>>> +	strscpy(stats->vdev.name, "mali-c55 3a stats", sizeof(stats->vdev.name));
->>> s/3a //
->>>
->>>> +	vdev->release = video_device_release_empty;
->>> That's never right. You should refcount the data structures to ensure
->>> proper lifetime management.
->>>
->>>> +	vdev->fops = &mali_c55_stats_v4l2_fops;
->>>> +	vdev->ioctl_ops = &mali_c55_stats_v4l2_ioctl_ops;
->>>> +	vdev->lock = &stats->lock;
->>>> +	vdev->v4l2_dev = &mali_c55->v4l2_dev;
->>>> +	vdev->queue = &stats->queue;
->>>> +	vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
->>>> +	vdev->vfl_dir = VFL_DIR_RX;
->>>> +	video_set_drvdata(vdev, stats);
->>>> +
->>>> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->>>> +	if (ret) {
->>>> +		dev_err(mali_c55->dev,
->>>> +			"failed to register stats video device\n");
->>>> +		goto err_release_vb2q;
->>>> +	}
->>>> +
->>>> +	stats->mali_c55 = mali_c55;
->>>> +
->>>> +	return 0;
->>>> +
->>>> +err_release_vb2q:
->>>> +	vb2_queue_release(vb2q);
->>>> +err_cleanup_entity:
->>>> +	media_entity_cleanup(&stats->vdev.entity);
->>>> +err_release_dma_channel:
->>>> +	dma_release_channel(stats->channel);
->>>> +err_destroy_mutex:
->>>> +	mutex_destroy(&stats->lock);
->>>> +
->>>> +	return ret;
->>>> +}
 
