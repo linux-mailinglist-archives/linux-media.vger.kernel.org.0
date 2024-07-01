@@ -1,181 +1,161 @@
-Return-Path: <linux-media+bounces-14484-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14485-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495D991E5ED
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 18:53:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E69A91E7DC
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 20:40:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04EE3284210
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 16:53:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E0F23B2342B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 18:40:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618EF16DEA8;
-	Mon,  1 Jul 2024 16:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B721916F298;
+	Mon,  1 Jul 2024 18:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Am9lqe9P"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fwdLyA/i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9C816DEDB
-	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 16:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352C216F29A
+	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 18:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719852774; cv=none; b=pnbT9y+dlTe/XVbAWyRpMYy855rmMf/q3r0sg6pnH2VsiTVM6PbBJBRKlEk9fC7NfdTHmgH5/q4dGv5wdRR1FVAw4IW5fVL39G0s6mcOiThO33SKvdpST9xi7SYCJfdi5iHXi0p0jjfNePsFIkefoXcUPLdEz6vUnEb8ehZSBaY=
+	t=1719859112; cv=none; b=Vk4YoF2qZXaVvv+7y7O+saxctTFxGYGleCXs94Bym4bEqKvwpWPxDqOIC6V3cPyqUlyRT0tgczXwBNqhCYO2Wyfc5fqf1e0Y6Uf1b05SivvgkvR5fFIodMY4DULPoQmRPv/4O2eoCma8uCQWh7j/Ywujdw4cIzFnLGy7lXbY5tM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719852774; c=relaxed/simple;
-	bh=Ip/OJy0wI3HQUgt5KEBBdx7B2ncYmREmqXxuR6vtWJY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aI/RsNGHfFtdKFWRHt49oYM07uTgrXNWvsdtZ+29nFHz8PBimL6f+VI8p8urIi4Y3CcBaYgeJcT8hSYsSgW3ChqGiIl1WlPdZnjy9mtBCfjgHpQMZFNlfIapBtXauYJQSuEQpFnBRMpK5dvQCFaZnqGuWIdhla5nyrLvZhuPrZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Am9lqe9P; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A0B1BBE;
-	Mon,  1 Jul 2024 18:52:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719852738;
-	bh=Ip/OJy0wI3HQUgt5KEBBdx7B2ncYmREmqXxuR6vtWJY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Am9lqe9PGKYfPXcSK5W2PzC7Eur36hN2pM59rXGhQ2XaPon5n96hZABTYAgdX5H6D
-	 MmT4LAj++qhxtkusLy6Mjyct4yGoyMJLHr7oXuJ0hVUlSh38loVsx67oCS7Hkn7BhH
-	 O0yTWgroRoygEe2Jyd4hprF69btyCAJqXoEGZ+Sw=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [PATCH v3 7/7] media: rkisp1: Implement s_fmt/try_fmt
-Date: Mon,  1 Jul 2024 18:52:21 +0200
-Message-ID: <20240701165222.205510-8-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240701165222.205510-1-jacopo.mondi@ideasonboard.com>
-References: <20240701165222.205510-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1719859112; c=relaxed/simple;
+	bh=Q5DNZJkle1fuxyMGLV0LWFww4L4pTjWDcEYU/W0hd8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZtbWe7k3PFE/h/J2zhNXQAVgDM+9f2prLA/Kqg5aO4a7Bg8FqzyanG9xUz7Bo6Or2uEeiA1BmJ7kuBQ0Gf6hctsd8gSibNMeAe4ZRDIESLmddXo/715mR4X3FwtWYbphXrdUGkt7WcZ88pI3tc7ppfrkshCI0rLtNw5ZVAEeRDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fwdLyA/i; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52db11b1d31so4758341e87.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2024 11:38:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1719859108; x=1720463908; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xP26RievRLgoMdQuIRbJbPKYmkTq23GGTz7uClqgRXw=;
+        b=fwdLyA/iHnDGUsQ2bJXdt9QcnmrdaMubyZnIKnbyeowy1xTS3j8ZIYlFbmslyqZMp+
+         H67HJ2bJHGHqX5VQ/lX3ssWBvtVpvNNrxKoepzN6Aogwe8crMF7Tpmjfgkj/agobKBkP
+         7uBo19YiS4t2wWHHRtxOnxiEg6lEhwj273cFrMxxLx3cwlvevb6Wj+w0lrTYB+2+dA8r
+         ZUqqlLe5DwsMqeOHdQT3sghsAMtZkGg9K5xDO3vtL01Id8zprOR/tVWyfoW0kwCLDBrm
+         UWr8qx01+Df0rMJltaH0HbofmahBP+fUcohVbMitwQGfmCxxV8r+sVclEqHSGHBNCLA/
+         zYdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719859108; x=1720463908;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xP26RievRLgoMdQuIRbJbPKYmkTq23GGTz7uClqgRXw=;
+        b=WrQ5anISShYCoCHW4wPZ0Hi/eU2L5YDXGWC5f8UhNmqHAUn/jDG1Td1r8VyG9uO+Nt
+         K+bYKxW6VQR1fGlHmZqGyPFAl0E26aFtvMERfUrwTmESOuMZg2DSwiMZL4dRRwOdM+Lf
+         9Zrj8VeumJv+Boku7yIZbCw5C9M8sJJucxwwF2I2GM7SBMGg1VsM9BjPQiXs++r24EC7
+         Er5zdS9LZxIgViuZAy3g0SmUyDXIBfY+SFWQ2a980Y+GT1MUwyTr8+6DRX61Uo/YA2Ps
+         nPtlrdzAJyY2jJzbrc6Q0UPdnjD133NWKlC4+9bv9iSL2hjvqLJaWZ2nBjKa0SdnG4Xx
+         swbw==
+X-Forwarded-Encrypted: i=1; AJvYcCWX9i3i8g/v5x0rQEeeDsvdm9Y2Ezj9O1bcBshWgy6Hf2bcgDlWRExyhuqGtjdu0x8aDgMjxu/8KwG3czdawIotT7PXS14qCl/nU/U=
+X-Gm-Message-State: AOJu0YxJWUrlGJz3t81CYgfI/UX+Io0MbtMvnCl/mDF7V4KGn0Eedetd
+	VzjYvPENGUHsGLSc7HKvE/lgeiv2n09G13AsP1CynalSEEINp2tfb45R9CEhuhA=
+X-Google-Smtp-Source: AGHT+IFRqsXEzTxzzMdgk4SiVapL0WO66+w+Yg4eXPAj4F/TWh4MZqDqfszVl6/jbUBXlWx+Q4x6eA==
+X-Received: by 2002:a05:6512:3baa:b0:52c:d943:300f with SMTP id 2adb3069b0e04-52e8268b961mr4075257e87.38.1719859108356;
+        Mon, 01 Jul 2024 11:38:28 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyybrhy-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52e7ab0bb88sm1474303e87.56.2024.07.01.11.38.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 11:38:27 -0700 (PDT)
+Date: Mon, 1 Jul 2024 21:38:26 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>, 
+	Hariram Purushothaman <hariramp@quicinc.com>, cros-qcom-dts-watchers@chromium.org, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Loic Poulain <loic.poulain@linaro.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	Hariram Purushothaman <quic_hariramp@quicinc.com>, Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+Subject: Re: [PATCH 3/6] arm64: dts: qcom: sc7280: Add IMX577 camera sensor
+Message-ID: <uuchyzhj67gjcsj4ijlrefopuhtflenbyb6wjyjkvjg7evavku@6i4z3ac76fwa>
+References: <20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com>
+ <20240629-camss_first_post_linux_next-v1-3-bc798edabc3a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240629-camss_first_post_linux_next-v1-3-bc798edabc3a@quicinc.com>
 
-Implement in the rkisp1 driver support for the s_fmt and try_fmt
-operation to allow userspace to select between the extensible
-and the fixed parameters formats.
+On Sat, Jun 29, 2024 at 12:02:37AM GMT, Vikram Sharma wrote:
+> Add support for IMX577 camera sensor for SC7280 SoC.
 
-Implement enum_mbus_code to enumerate the fixed and the extensible
-formats and disallow changing the data format while the queue is busy.
+Note, the subject and commit description do not match patch contents.
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../platform/rockchip/rkisp1/rkisp1-params.c  | 58 ++++++++++++++++---
- 1 file changed, 50 insertions(+), 8 deletions(-)
+> 
+> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index 9ac251fec262..1c99ee09a11a 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -5167,6 +5167,39 @@ cci3_sleep: cci3-sleep-state {
+>  				bias-pull-down;
+>  			};
+>  
+> +			cam2_default: cam2-default {
+> +				rst {
+> +					pins = "gpio78"; /*cam3*/
+> +					function = "gpio";
+> +					drive-strength = <2>;
+> +					bias-disable;
+> +				};
+> +
+> +				mclk {
+> +					pins = "gpio67"; /*cam3*/
+> +					function = "cam_mclk";
+> +					drive-strength = <2>; /*RB5 was 16 and i changed to 2 here*/
+> +					bias-disable;
+> +				};
+> +			};
+> +
+> +			cam2_suspend: cam2-suspend {
+> +				rst {
+> +					pins = "gpio78"; /*cam3*/
+> +					function = "gpio";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +					output-low;
+> +				};
+> +
+> +				mclk {
+> +					pins = "gpio67"; /*cam3*/
+> +					function = "cam_mclk";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +			};
+> +
+>  			dp_hot_plug_det: dp-hot-plug-det-state {
+>  				pins = "gpio47";
+>  				function = "dp_hot";
+> 
+> -- 
+> 2.25.1
+> 
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index d3752be7506d..e9df86943a28 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -54,6 +54,17 @@ static const struct v4l2_meta_format rkisp1_params_formats[] = {
- 	},
- };
- 
-+static const struct v4l2_meta_format *
-+rkisp1_params_get_format_info(u32 dataformat)
-+{
-+	for (unsigned int i = 0; i < ARRAY_SIZE(rkisp1_params_formats); i++) {
-+		if (rkisp1_params_formats[i].dataformat == dataformat)
-+			return &rkisp1_params_formats[i];
-+	}
-+
-+	return &rkisp1_params_formats[RKISP1_PARAMS_FIXED];
-+}
-+
- static inline void
- rkisp1_param_set_bits(struct rkisp1_params *params, u32 reg, u32 bit_mask)
- {
-@@ -2232,12 +2243,12 @@ static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
- 					   struct v4l2_fmtdesc *f)
- {
- 	struct video_device *video = video_devdata(file);
--	struct rkisp1_params *params = video_get_drvdata(video);
- 
--	if (f->index > 0 || f->type != video->queue->type)
-+	if (f->index >= ARRAY_SIZE(rkisp1_params_formats) ||
-+	    f->type != video->queue->type)
- 		return -EINVAL;
- 
--	f->pixelformat = params->metafmt->dataformat;
-+	f->pixelformat = rkisp1_params_formats[f->index].dataformat;
- 
- 	return 0;
- }
-@@ -2252,9 +2263,40 @@ static int rkisp1_params_g_fmt_meta_out(struct file *file, void *fh,
- 	if (f->type != video->queue->type)
- 		return -EINVAL;
- 
--	memset(meta, 0, sizeof(*meta));
--	meta->dataformat = params->metafmt->dataformat;
--	meta->buffersize = params->metafmt->buffersize;
-+	*meta = *params->metafmt;
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_try_fmt_meta_out(struct file *file, void *fh,
-+					  struct v4l2_format *f)
-+{
-+	struct video_device *video = video_devdata(file);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	*meta = *rkisp1_params_get_format_info(meta->dataformat);
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_s_fmt_meta_out(struct file *file, void *fh,
-+					struct v4l2_format *f)
-+{
-+	struct video_device *video = video_devdata(file);
-+	struct rkisp1_params *params = video_get_drvdata(video);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	if (vb2_is_busy(video->queue))
-+		return -EBUSY;
-+
-+	params->metafmt = rkisp1_params_get_format_info(meta->dataformat);
-+	*meta = *params->metafmt;
- 
- 	return 0;
- }
-@@ -2284,8 +2326,8 @@ static const struct v4l2_ioctl_ops rkisp1_params_ioctl = {
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
- 	.vidioc_enum_fmt_meta_out = rkisp1_params_enum_fmt_meta_out,
- 	.vidioc_g_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
--	.vidioc_s_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
--	.vidioc_try_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
-+	.vidioc_s_fmt_meta_out = rkisp1_params_s_fmt_meta_out,
-+	.vidioc_try_fmt_meta_out = rkisp1_params_try_fmt_meta_out,
- 	.vidioc_querycap = rkisp1_params_querycap,
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
- 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
 -- 
-2.45.2
-
+With best wishes
+Dmitry
 
