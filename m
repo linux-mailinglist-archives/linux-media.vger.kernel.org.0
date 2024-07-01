@@ -1,106 +1,248 @@
-Return-Path: <linux-media+bounces-14431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14432-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8102E91D5E5
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 03:51:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C945091D61A
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 04:32:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B39A91C20DC6
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 01:51:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F88A2818C6
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 02:32:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CDA16FD3;
-	Mon,  1 Jul 2024 01:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3680CBA20;
+	Mon,  1 Jul 2024 02:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="SHIUNvZK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010035.outbound.protection.outlook.com [52.101.229.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EADC2D6
-	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 01:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719798703; cv=none; b=Ve3+El9cTxRj0X7gZArDcAHCOJJLa4Sr36VODvX2zJTVkH9b7dXBaSF8TTFt7FX8zSjyOgOibhzakT0QiCrXqGtHW0Ak5sJSaKyILJ5g+c3Jj39z8f6GsydZgP5rQVYb+hKBPn+irRcjVL66ebg9g1r162VZIU7JtXrSaBgFzcg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719798703; c=relaxed/simple;
-	bh=dYchIza9K4UGDUsmfzPnNRCnCEcWXcX4XW1kJxUihVg=;
-	h=Date:From:To:Subject:Message-Id; b=Gk+YBNgxCbRM+C4CWQLu7svI2bSsRgOQK9/SkX1pJVIzxCu8/m6SJmO35zI5nISV1jgeR7lQsgmnT/fMy9JrlkBEEt0bYqh1fzr+L6pKbFln/T9w5LEz64GbQGmzxXfrZCRGStbBAWpv0ovHtaLJhwm2OEPcqzwdEQhpsAv+zEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68515C2BD10
-	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 01:51:42 +0000 (UTC)
-Date: Mon, 01 Jul 2024 03:51:40 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240701015142.68515C2BD10@smtp.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5518F66
+	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 02:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719801119; cv=fail; b=KCmWA0IPB/tUa3WVFgL9bb6FuK2wPwGNrc2TTXR8GgYPcjfutLrP8i/rp9j2H/rZpeqYIkkT5O50afnBFuwocNPvkyZmC6EXnPCZa6g2Q8i+TUH48r4EQ9AOu5qvskp40wlAl5AnA5Xq4lqSTIDl+jOIaIva1+vFNEoIVlQxiPQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719801119; c=relaxed/simple;
+	bh=WpN5OpvPcZxFgJIPNJkYarVfSzhHCqtr68jRDa14KsA=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=Da1ZgO744pp7TWzSNtQsGQS/X+q3u1grn/xDMMCI5e8PqVFXCzxwKvwTfy+hMNphDPBsIigFhFfolWGbUtooz3cUl8zN/cym8XyhHJ2bfX6lBi92S//O6hncajR+n0P7DM9pdqJRkxjcHkcOgxqKYzY0WBA2LaRG/XAtjisVMsA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=SHIUNvZK; arc=fail smtp.client-ip=52.101.229.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k9//PhuyOVsfUveHpJU9sjXRQzIA2I3SFNC8PTs0ClK+EWX6XcqL+0kojaXC788w2JdFLdR3MNFl7jKnfeTDJua4TyN4r3v8q7UgP1r4q9MzK1082WRb+GEIb13jWIH3td0g11JMm4v6MfM1VGak16S8V69p0uVT8xXOxrQPg7Yg0Ws9rQDza/f8I98KNVpBK0CduR9PeATV5RqDpkWOPL+d5iaEnIq0vDf3O/oPkjus3EMBDaziEkVVVGDSMqjTitvtdCon6MCit6tJEoX7nXvA9EG/ysTPsd8F2NSvMnwEIeJjTHOgisddC8BAvnvPhU2r8lDVer5fFbBbjtps1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qV7PjlsWYTahbsZsDmk0ph0ehvdaNiqfPLOEhFN+JJM=;
+ b=cn+DQAXA2bFpbe89X8I6tQ1pqakkyskGo9ADnBcC7cBgwQzOtVxhDgBVJOYniQNb0xBmzYo6b+dIh3lsIODu23TzroyQ35IMFJt17a1qrMpQV7iPa8i/KK46+e34mZoT+hA61w4r7lKZlm1uYTLENh5gOtodIjO0HSq4hJ7yXZaWVO8/6E+QvlqF77Lw+73aSA5mbtNZPhthNPwX7KQB+XF5/eLsBM4sTWJLc1/7txPn+ebny+0US8JcK8rc1DTHL05+Hy5erkIcKJxfZ3MYksMqx6fA9C7d/iq1Rtn/Jr+hXOE8kkL7uOAQeAFip+ZgmPtj598JbMi+MkbyYCKMgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qV7PjlsWYTahbsZsDmk0ph0ehvdaNiqfPLOEhFN+JJM=;
+ b=SHIUNvZK9+PQk1GNiXfasaUzP5BRRF4CJlV2G8madXo9vhj4vBVFj2euhtVk8iPikvFVT/pkbpYjvzdXTXvDdAno+kfW5Re6R+ZSfWS7OJ6ryWU6Mp6HTbA9mzP2qftrZd+JesUnpxLwLt9xsynjD/h9R3d9eQIQ6e/91Bh7L8w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB9627.jpnprd01.prod.outlook.com
+ (2603:1096:400:193::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.32; Mon, 1 Jul
+ 2024 02:31:51 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7719.029; Mon, 1 Jul 2024
+ 02:31:50 +0000
+Message-ID: <87cynx971l.wl-kuninori.morimoto.gx@renesas.com>
+To: "Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	coresight@lists.linaro.org, dri-devel@lists.fre,
+	edesktop.org@web.codeaurora.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v5 0/7] use for_each_endpoint_of_node()
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 1 Jul 2024 02:31:50 +0000
+X-ClientProxiedBy: TYCP301CA0064.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7d::16) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB9627:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8283c964-46d7-4ad7-4611-08dc9975f692
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?J9NtbYa/nrhZkleh6g5OKhA5LTb7p+LoH7VQBSNAJTEzCRCsUWjgtL07Dwrh?=
+ =?us-ascii?Q?3FQ5dDokaFJKIDrl+LNAJp1s1BtI8VaOUms767uP8U+wg1qoulAONKXE6JZb?=
+ =?us-ascii?Q?ky44sVshUKJMnRFxz/qxdH7uiEA3r0JTGcEScbWcr+wpugb/Uvs5kZNutAiT?=
+ =?us-ascii?Q?fVb6wD/1gT1XZm58FcFj5wwnYmfwpfTeIx5amBitKO3H/43TXuB7UOiFUPFh?=
+ =?us-ascii?Q?sThJ0BSBNgF/wTre6R/+k1NrQwk3lR+a6Hx7Oxzy1XWe7ZjReQ8PGh8fV3tZ?=
+ =?us-ascii?Q?rC4hCv9a8RHDYegUpMBd8Zbs9qBb+dC+aOKJQ322DvY1KU5a+j1gu5qEoKGq?=
+ =?us-ascii?Q?29+PYnkMxuD0MGxpsP+r2ZS34mUJwblCBbUSb2+a8FLW//3tJppVu4p2qlun?=
+ =?us-ascii?Q?HOm8zf5PX2AAlEu7MXWCO7hD0cdbTM+CPTDiEadtCa6DB7OR8SetTlmYoYP6?=
+ =?us-ascii?Q?P5VPCofDeEVhzPebKYu6Jz1EWM/ye9E/Jja9i+hC8BQ79pu8TLGUz/eDtsTL?=
+ =?us-ascii?Q?DXjFUlbVO2BRnpSo2axfkFnhU9ZrvqAY91905wlzHR9FA62I80cRkSUA/d7n?=
+ =?us-ascii?Q?e47JvQnU1gjCAlj2Jb0If6tZw84Wks9mZJPzELnF90QC6d1bYYqvBDEry5d9?=
+ =?us-ascii?Q?mFPywG11WbB49zXN275sWlWnwEtGw/IMBrV9idz0qchlKeb3Wer0Abt+gbXv?=
+ =?us-ascii?Q?eV7G2CcgMYRtBJYfF0Jb3YkOho6sNmB4qQD9jzKytxnNr2dOhBgtv2yLA5i5?=
+ =?us-ascii?Q?zknVNLkibNbZsIRU2KWZcIOMQBX7mKr7p9a/qwugkpVS1UXuS0ZjgRqhwa8y?=
+ =?us-ascii?Q?Xs+n3nexoXzVHCr/IqyJBEekowaWnDrSdLrAwJiAHGdfYEKdzZOi5DUJ5Veg?=
+ =?us-ascii?Q?5Woct223ygVLX0BfMrWe7hgVgIWu6oEe6qVg3vmvKbINZOKxBb1e2So0Zic4?=
+ =?us-ascii?Q?luyzqW4Auk8CyiFX6WnmUwj4E0CZlxOV/Sy6dGrlEbvOLRQyO+vEWAFVpkxO?=
+ =?us-ascii?Q?waqCwOhU+MbqKcyB5xLGLUj/M/HoAbJuLnkSR1cPjFpGUddgrHuHskJcDd1F?=
+ =?us-ascii?Q?S7Hp7NButXQBqiG439m8+luXV8hJ5NDsNVAVKt1JQui1cn771XeptcyiDVEv?=
+ =?us-ascii?Q?i2jZz6LK/O/evED4tqupi2X86QRFsVyBbOqOttj+ZOYtCozEXUvm0Clv4h2G?=
+ =?us-ascii?Q?tJV6lZiPoZIMLnPfbLnKx2XNZQbGNdQKAiFunYDueXJHTXxsmxTefmZCZdjD?=
+ =?us-ascii?Q?C5RGOp4pLrOFdQay4F81LByFdQH65mRyJrDrf8vxqJhppF7x6vdGIpi2IviK?=
+ =?us-ascii?Q?03Nr6Jlk6/q2yb5v6oKI1W/4qIjSA4/DBydTkyjoYG5PzaS1aIAAtJ3PhoTA?=
+ =?us-ascii?Q?YvK5DGbSgf0P7QjE3zmW23hRoDZ7?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2PretOlwuy6uHVx+9gxqxlcjqy6i4r37E0iFmlavwIXAKFC4bRunUXiPfq0C?=
+ =?us-ascii?Q?uFcN5NF3TRjRzetQ9coqyqAPToNcxJLUs7rhARR+WCWAPv1aU1fVjhjQ5S/G?=
+ =?us-ascii?Q?7US4sBsha1zDTLw26bZjtuySdPI1rvOrUUDC/LCVIjOG8a7fGNPLpUP2Mu5H?=
+ =?us-ascii?Q?LW9FlO7VMtDHUjUUjwyQSCn4L+lZaWQfpE5Vkir812MfMS3k0cgcKzlFNOIF?=
+ =?us-ascii?Q?Lvhi+Yuo/Y7VAJYSo0DbcfgBUs2cy/3mJL8uuHWWDluIM8kaIblE4prh69Cl?=
+ =?us-ascii?Q?5nlKpFEpGdin2uJAH9cHwRgRjxcNCXtcsT+8YNbrd7QPnk3kxE1T1RvaEYeY?=
+ =?us-ascii?Q?BCAnCsgH6LREvdK4ukhZfr893VJFNhQpuEQpHC8I9Otj0FULXYlKVEI/39kQ?=
+ =?us-ascii?Q?IXxt0HI/LI3D2ekHxk2yAdhq8TqDR7q1nKqoNilxcmcB7rVgcgb63HtaSnjp?=
+ =?us-ascii?Q?kU7LJA3I0QxD065tIjU2LVMWHo1/0msj8sgfsvxlVIDB4s8Z5xq1fY0t3+xl?=
+ =?us-ascii?Q?OfCVn0LmDMG4ZapIFizPVaNQxL29/zdmylTTZIGt+XSbL3CXeIdxBIh6CX4z?=
+ =?us-ascii?Q?GUpxnvMbQhvVkT3qF+9ctv/phoLV1VIBO33je8OunqP50nrKFFyG2Y5EAgcG?=
+ =?us-ascii?Q?5Pwle//EJGwP/9cAFSR1sKG/KlKCho6J1yjMZxAJrnCZpSgWEcyzopWn6xBs?=
+ =?us-ascii?Q?SyJ471oqXKZFCbiHsOPMmI2SBRIKYG1BTtaZfjKcn2uwR8Ql7a+xJAPD6Yqo?=
+ =?us-ascii?Q?Hc4e2aH5zokh8cY/JdHpo+5+kO4GINTopY1e5N+oHizHogiI92JjEygEvNnE?=
+ =?us-ascii?Q?wYl8eCMy2uo3Ui9eA0cGhO+Mp/Ezkl3bEZ4JV0eTxgA5SDNjyZc5JpMtWkQX?=
+ =?us-ascii?Q?9h5OFuC32b2yIl7Pszs3kw1G1vUoO1trvdhCLkcORi3vXCLk+BBy5Dz7Wz1B?=
+ =?us-ascii?Q?yZif29HRt7mjtU9o6aVxX0NL7RSbI4z9ltV1vPSgKym2FXX7OE9mGr+O+x4y?=
+ =?us-ascii?Q?YHL+H/kF2YCznjmFz0qXpxWwVNJVHyHwlFjNJ5H4wzhi80dHRhk6JwhdSNYo?=
+ =?us-ascii?Q?ZDh+4c/Ue3lMupNP/QF0l2YMo0ZUG6yRxBdfNINnK/Zb9Ro1sv4mTws7Lf5f?=
+ =?us-ascii?Q?I4nuHo6UtA4L/WqV6h/uDr79pYNqzQzi8cp7cI+4bxRpuG6sUmXCiODEc9hI?=
+ =?us-ascii?Q?Ygvczu4TlAShDXMXKHY0W2UV2soPZ5OMD9FAbhfIeTpMvdtveslPg/NPHI7w?=
+ =?us-ascii?Q?esh4Zyeb/igYI3mUoNUKdzy6P5fJrrROcDbZETyGeMnY4OZSdquc342BH3lG?=
+ =?us-ascii?Q?XeLFQS+Dz7CeP1hRDmXbyGO0JZPAJtOZgMTdoIaGVo9Jo/ALEFn8KwC1qZYz?=
+ =?us-ascii?Q?CGG7hN1oCsun03SOeg13um4hSEsRFBcW0/ji3jH1HwgVULnVhk1NUIfnG5gE?=
+ =?us-ascii?Q?taQWejbgmgBnZT8fwlaiwye3PLtx+D1EDbcl2oUGI4uCPY59lqTeoC9JGql8?=
+ =?us-ascii?Q?2cAtHwy5iuErMaIivMh70oKlZdGn9MGN177twyxcuLNzmSGqs0RNQlzc7Jnd?=
+ =?us-ascii?Q?G+kvbDqqEEWLu3q6JYhMIGdyPZeZJN9Y5JwerOb0BrHLkpNI7UYGdhhiiRWZ?=
+ =?us-ascii?Q?yGCqKT5pcrVqDaCQ6i4pviM=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8283c964-46d7-4ad7-4611-08dc9975f692
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2024 02:31:50.7975
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BC9+TZ4DnecPZd4m6/XYYGgbdCc4R5ChKAmZq0YEISzhTnO6g96NsRHBnznI80Vj1zpCorST2gsUAQkLbPBAo+BNwe1uNKj7SN8DqHiV5NCdAD2Lasej4EbvKu09taQF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9627
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
 
-Results of the daily build of media_tree:
+Hi Maarten, Maxime, Thomas	(for [1/7][2/7])
+   Suzuki			(for [3/7])
+   Mauro, Lad			(for [4/7][5/7][6/7][7/7])
 
-date:			Mon Jul  1 03:00:12 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	a0157b5aa34eb43ec4c5510f9c260bbb03be937e
-v4l-utils git hash:	a0fd7261492d3ffeb33a3ad2e25e3642a23e01a2
-edid-decode git hash:	5d66c548e93acac1ab09675aa424912a4be879a8
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8660-g2dd6476c
-sparse version:		v0.5.0-8660-g2dd6476c
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+2 weeks past, but nothing happened. This is v5 patch-set
+(Basically same as v4, but rebased to next-20240628).
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-acpi.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+We already have for_each_endpoint_of_node(), but some drivers are
+not using it. This patch-set replace it.
 
-date:			Mon Jul  1 03:14:17 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+[o] done
+[*] this patch-set
 
-date:			Mon Jul  1 03:50:35 CEST 2024
+	[o] tidyup of_graph_get_endpoint_count()
+(A)	[o] replace endpoint func - use endpoint_by_regs()
+	[*] replace endpoint func - use for_each()
+	[ ] add new port function
+	[ ] add new endpoint function
 
-Detailed results are available here:
+I noticed that my posted 1 patch on (A) was not yet included on
+linus/master (= [1/7]). I have included it.
 
-https://hverkuil.home.xs4all.nl/logs/Monday.log
+Dan is indicating it needs _scoped() macro, but it is new new feature.
+So I think we want to have separate this patch-set and _scoped() patch-set.
+I asked it to ML/Maintainer but no responce, so v4 doesn't include it.
+It will be handled by other patch-set in the future.
 
-Detailed regression test results are available here:
 
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-32-dmesg.log
+v4 -> v5
+	- rebase on linux-next 2024-06-28
 
-Full logs are available here:
+v3 -> v4
+	- fixup ret handling
 
-https://hverkuil.home.xs4all.nl/logs/Monday.tar.bz2
+v2 -> v3
+	- don't initialize pointer.
+	- add Reviewed-by / Acked-by
+	- include not-yet applied missing patch
 
-The Media Infrastructure API from this daily build is here:
+v1 -> v2
+	- fixup TI patch
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+Link: https://lore.kernel.org/r/8734sf6mgn.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87cyrauf0x.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87le3soy08.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87v82q4yg0.wl-kuninori.morimoto.gx@renesas.com
+
+Kuninori Morimoto (7):
+  gpu: drm: replace of_graph_get_next_endpoint()
+  gpu: drm: use for_each_endpoint_of_node()
+  hwtracing: use for_each_endpoint_of_node()
+  media: platform: microchip: use for_each_endpoint_of_node()
+  media: platform: ti: use for_each_endpoint_of_node()
+  media: platform: xilinx: use for_each_endpoint_of_node()
+  staging: media: atmel: use for_each_endpoint_of_node()
+
+ drivers/gpu/drm/drm_of.c                      |  4 +++-
+ drivers/gpu/drm/omapdrm/dss/base.c            |  3 +--
+ .../drm/panel/panel-raspberrypi-touchscreen.c |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+ .../hwtracing/coresight/coresight-platform.c  |  4 ++--
+ .../microchip/microchip-sama5d2-isc.c         | 21 +++++++------------
+ .../microchip/microchip-sama7g5-isc.c         | 21 +++++++------------
+ .../media/platform/ti/am437x/am437x-vpfe.c    | 12 +++++------
+ .../media/platform/ti/davinci/vpif_capture.c  | 14 ++++++-------
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  9 ++------
+ .../deprecated/atmel/atmel-sama5d2-isc.c      | 10 +++------
+ .../deprecated/atmel/atmel-sama7g5-isc.c      | 10 +++------
+ 12 files changed, 44 insertions(+), 68 deletions(-)
+
+-- 
+2.43.0
+
 
