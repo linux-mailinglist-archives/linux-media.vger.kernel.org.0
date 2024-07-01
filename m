@@ -1,76 +1,36 @@
-Return-Path: <linux-media+bounces-14462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F0291DB94
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 11:36:32 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A987091DBBD
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 11:49:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 18E67B21B71
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 09:36:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FC7DB22432
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 09:49:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995CF126F02;
-	Mon,  1 Jul 2024 09:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LyqOYvRj"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD00E126F02;
+	Mon,  1 Jul 2024 09:49:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3160F86AE9
-	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 09:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E7A2C859
+	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 09:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719826569; cv=none; b=nJpBARle+WtPn5kklBUxSXiuKZP/gPHpJM7mUQAJ1Q3YlFx98bswv31O8ke44wjAKO+2TNR4+xFZvCWpcux/tftbbt+FpqIcD/sFV/wDnpeAguljBYolXNruic7VErMqQ4Zt5U50AgZRyZJ+hmcJjNReSRHa9F+ieBRHblrouv0=
+	t=1719827373; cv=none; b=tVxXIae7xoBwEZqYegu0pF1PAyb9VvIYZeHZWNupQcIAcg7iBMKBAsJSYyBdHnD2/6hlzjIlWPN3FPOo1UeyAXX1j3rrBK1zrLpkNCuyLpImjy+PJOjlK6/GSsBqJY0TT3zcWr8jfRXx4fl3LfcarpTkUc6hBWWVYbrvlZa8CRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719826569; c=relaxed/simple;
-	bh=tY0jDUiKDP/NA4C8P00UMFT9mW6KP80g8OnUL7jr5mg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dNIHKG9PkRIXBmTmR9bEAPYGOu39cvkfM7Rx5oM4tgQE7abuN11E3l3jrFoG0RlC8s/zKhStmSKBkJK2zRpevxS3o3fzG7trcQ1ymIydX+V8QibEYfxDHMhW0EAby/3MpDUO8scUmbN/dEsfluglyNIxTvuLU/FRsQnfJz7WE4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LyqOYvRj; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52e743307a2so3169057e87.0
-        for <linux-media@vger.kernel.org>; Mon, 01 Jul 2024 02:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719826565; x=1720431365; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=umaxw1Y4QWvbs+IDfNlNYZEXrx+s0jE7sWK8LLWjE0k=;
-        b=LyqOYvRjnC4gvq0hWKRk3mQ3fwyXNwjoPqoB7IsagEuhwu74unS8Ag02jL1QIRCBOA
-         GrFFruVqmc/dE/jMN+g5kV+b9Gk9RCH1uz+pz7l6iMhKfnWXwbyugHyVkYo86sPbKmxt
-         7E2TpO+YPokM9g9+N3ZFwtNLyyWGXskK0S1EC1T++mKoSHC1IGzazdv9z01sCSyOLPGK
-         K7dWZ5h3WTKIsOnljB5FGY+CQYm+HPTOYfl9LmMqCG4m1sr6BpO2qSYgZ7bU1cBLEtIM
-         bgXaQXoOU9vOZM7eMM3GcYDYh1ZcO4fefcc8AFk1yJfbwf7A3IyCWbFRlhy+ERXjwNod
-         /qKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719826565; x=1720431365;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=umaxw1Y4QWvbs+IDfNlNYZEXrx+s0jE7sWK8LLWjE0k=;
-        b=jjn5O61Cy8jhV/WDtA9gyRreUmi05f43qDvX80gRcpDg1ayeDtf1Pb49+IYcsRJDuL
-         /yznY+4eBghdj8O8BZJNP1Psa8noluC48QQE2marhqLcrdTcC85YwhIwZf0b6U+Lkvgv
-         nt4e2M/OikTYlZkE3gw+btCr9QDb0bgVJHMP8GIUuMCPsQdWW8xFDQ1v2HhCyGZLeAht
-         CgZtzkyvS/XyV//lJQ02bTNg9b3CjEfZn5tcF+NM6592SimgAUoTtOH6vi55ERgbG20C
-         BpYUgbSaf00osteIrzK8Y2zZimWe0aHf6Kla+4OEkL9jygfsYdoUTnx7PHRNbC1P22N6
-         M4dA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCvNSuZ7d8EHlaslPTxVCwAg7hf5o2n3yp2077JkehZ2+kg0DMMP/DsOUEJKN4dl6OstRCMOYx55bNK8eGSXjZR+r7c3etaB7Ap+8=
-X-Gm-Message-State: AOJu0YzY4JmFY8BsbmrnxzJE7P7FYwnHsgYOvkNoDbw/lZuYRK5bXBiL
-	mqxUkstmOsBaWFScl8d/FNrNuoKrOA7Lexpb6+Xvp6isFHL030lWNMgPhIN7q1vcjSAJJfQZZLC
-	h
-X-Google-Smtp-Source: AGHT+IGhh02dUWD3pu4eKVgTusl/xKoK7lHj0jG9AB/Y5RJf8e/uPTru3uksObZxoH7cIkfw3SY/4A==
-X-Received: by 2002:a05:6512:2813:b0:52d:215b:9028 with SMTP id 2adb3069b0e04-52e82747e92mr4002791e87.60.1719826565248;
-        Mon, 01 Jul 2024 02:36:05 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a103d0dsm9526058f8f.104.2024.07.01.02.36.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 02:36:04 -0700 (PDT)
-Message-ID: <a6530511-8195-48da-9796-df207a15ae2d@linaro.org>
-Date: Mon, 1 Jul 2024 11:36:03 +0200
+	s=arc-20240116; t=1719827373; c=relaxed/simple;
+	bh=M5jlQm+nXhJNffkrlTY1OLLdNGw9Dy9TPy6Yn6zyaS4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=SkQ45qgrjf23UP9s1Vnd0W+21wp+t9UiXbfMvoRk64Dw45K/nQIwKQWLz81lbTHyTsXk7JcbgSYwq3SJvM5J5PzSIcuBk/WODZyOMsw59Q62kSl4sNALpOgQfDZjnfTrt2JvfTXIx6S26QFOcS0MpsqK3HVaCFqe+iI8ut37DQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4676FC116B1;
+	Mon,  1 Jul 2024 09:49:32 +0000 (UTC)
+Message-ID: <59d86208-16bb-4f42-a302-81f015776894@xs4all.nl>
+Date: Mon, 1 Jul 2024 11:49:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,198 +38,337 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add Sony IMX728
-To: Spencer Hill <shill@d3engineering.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20240628-imx728-driver-v2-0-80efa6774286@d3engineering.com>
- <20240628-imx728-driver-v2-1-80efa6774286@d3engineering.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240628-imx728-driver-v2-1-80efa6774286@d3engineering.com>
+Subject: Re: [SPAM] [PATCH 4/4] v4l-utils: fix formats under ppc/mips64
+To: Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
+References: <20240630224440.5912-1-rosenp@gmail.com>
+ <20240630224440.5912-4-rosenp@gmail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240630224440.5912-4-rosenp@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/06/2024 23:17, Spencer Hill wrote:
-> Add bindings for Sony IMX728.
+On 01/07/2024 00:44, Rosen Penev wrote:
+> Unlike libc, kernel headers use long long for 64-bit types. The
+> exception is ppc64 and mips64, unless __SANE_USERSPACE_TYPES__ is
+> defined.
 > 
-> Signed-off-by: Spencer Hill <shill@d3engineering.com>
-
-
-> +
-> +  clocks:
-> +    description: Clock frequency from 18 to 30MHz
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: inck
-
-clock-names do not seem that useful - name is pretty obvious. Drop.
-
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Specifier for the GPIO connected to the XCLR (System Reset) pin.
-> +
-> +  avdd-supply:
-> +    description: Analog power supply (3.3V)
-> +
-> +  dvdd-supply:
-> +    description: Digital core power supply (1.1V)
-> +
-> +  ovdd-supply:
-> +    description: Digital I/O power supply (1.8V)
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: ../video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            oneOf:
-> +              - items:
-> +                - const: 1
-> +                - const: 2
-> +              - items:
-> +                - const: 1
-> +                - const: 2
-> +                - const: 3
-> +                - const: 4
-> +          link-frequencies: true
-
-Drop, not needed.
-
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        clock-frequency = <400000>;
-
-Drop
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera@1a {
-> +            compatible = "sony,imx728";
-> +            reg = <0x1a>;
-> +
-> +            clocks = <&fixed_clock>;
-> +            clock-names = "inck";
-> +
-> +            reset-gpios = <&gpio4 17 GPIO_ACTIVE_LOW>;
-> +
-> +            avdd-supply = <&camera_vdda_3v3>;
-> +            dvdd-supply = <&camera_vddd_1v1>;
-> +            ovdd-supply = <&camera_vddo_1v8>;
-> +
-> +            port {
-> +                camera1: endpoint {
-> +                    remote-endpoint = <&csi2_phy0>;
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <800000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ef6be9d95143..a2811249ac8c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20589,6 +20589,13 @@ T:     git git://linuxtv.org/media_tree.git
->  F:     Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
->  F:     drivers/media/i2c/imx415.c
+> Define in compiler.h and include before kernel headers are included so
+> that wrong __u64 and __s64 definitions to not get used.
 > 
-> +SONY IMX728 SENSOR DRIVER
-> +M:     Spencer Hill <shill@d3engineering.com>
-> +L:     linux-media@vger.kernel.org
-> +S:     Maintained
-> +F:     Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
-> +F:     drivers/media/i2c/imx728.c
+> Fixes -Wformat warnings about llu being used instead of lu.
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  contrib/xc3028-firmware/firmware-tool.c | 2 ++
+>  include/linux/compiler.h                | 1 +
+>  utils/cec-compliance/cec-compliance.h   | 2 ++
+>  utils/cec-ctl/cec-ctl.cpp               | 2 ++
+>  utils/cec-ctl/cec-ctl.h                 | 2 ++
+>  utils/cec-ctl/cec-pin.cpp               | 2 ++
+>  utils/cec-follower/cec-processing.cpp   | 2 ++
+>  utils/common/v4l2-info.h                | 2 ++
+>  utils/cx18-ctl/cx18-ctl.c               | 2 ++
+>  utils/ivtv-ctl/ivtv-ctl.c               | 2 ++
+>  utils/keytable/keytable.c               | 2 ++
+>  utils/media-ctl/media-ctl.c             | 2 ++
+>  utils/v4l2-compliance/v4l2-compliance.h | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl-common.cpp      | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl-streaming.cpp   | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl.cpp             | 2 ++
+>  utils/v4l2-ctl/v4l2-ctl.h               | 2 ++
+>  utils/v4l2-dbg/v4l2-dbg.cpp             | 2 ++
+>  18 files changed, 35 insertions(+)
+> 
+> diff --git a/contrib/xc3028-firmware/firmware-tool.c b/contrib/xc3028-firmware/firmware-tool.c
+> index 5dd205e0..6bcb3237 100644
+> --- a/contrib/xc3028-firmware/firmware-tool.c
+> +++ b/contrib/xc3028-firmware/firmware-tool.c
+> @@ -29,6 +29,8 @@
+>  #include <string.h>
+>  #include <unistd.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <asm/byteorder.h>
+>  #include <asm/types.h>
+>  
+> diff --git a/include/linux/compiler.h b/include/linux/compiler.h
+> index 379629be..5a6326f8 100644
+> --- a/include/linux/compiler.h
+> +++ b/include/linux/compiler.h
+> @@ -1,6 +1,7 @@
+>  #ifndef __linux_compiler_h
+>  #define __linux_compiler_h
+>  
+> +#define __SANE_USERSPACE_TYPES__
 
-There is no such file. Patches must be bisectable.
+Please add a comment before this define, explaining why it is needed.
 
-Best regards,
-Krzysztof
+Basically the same as what you wrote in the commit log.
+
+But this is in the wrong header: it should go into include/compiler.h.
+The linux/compiler.h header was used in just a single test application,
+and in fact it is no longer needed and has been effectively obsolete for
+quite a long time. I just removed it from v4l-utils.
+
+Regards,
+
+	Hans
+
+>  #define __user
+>  
+>  #endif
+> diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
+> index aae72842..d5bd1d0a 100644
+> --- a/utils/cec-compliance/cec-compliance.h
+> +++ b/utils/cec-compliance/cec-compliance.h
+> @@ -8,6 +8,8 @@
+>  #ifndef _CEC_COMPLIANCE_H_
+>  #define _CEC_COMPLIANCE_H_
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/cec-funcs.h>
+>  #include "cec-htng-funcs.h"
+>  
+> diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
+> index fb38320d..a2ffcb2b 100644
+> --- a/utils/cec-ctl/cec-ctl.cpp
+> +++ b/utils/cec-ctl/cec-ctl.cpp
+> @@ -21,6 +21,8 @@
+>  #include <sys/time.h>
+>  #include <unistd.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/cec-funcs.h>
+>  #include "cec-htng-funcs.h"
+>  #include "cec-log.h"
+> diff --git a/utils/cec-ctl/cec-ctl.h b/utils/cec-ctl/cec-ctl.h
+> index 2c82bedc..e0692c31 100644
+> --- a/utils/cec-ctl/cec-ctl.h
+> +++ b/utils/cec-ctl/cec-ctl.h
+> @@ -6,6 +6,8 @@
+>  #ifndef _CEC_CTL_H_
+>  #define _CEC_CTL_H_
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <cec-info.h>
+>  
+>  // cec-ctl.cpp
+> diff --git a/utils/cec-ctl/cec-pin.cpp b/utils/cec-ctl/cec-pin.cpp
+> index f3500555..0cdc19f7 100644
+> --- a/utils/cec-ctl/cec-pin.cpp
+> +++ b/utils/cec-ctl/cec-pin.cpp
+> @@ -3,6 +3,8 @@
+>   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <string>
+>  
+>  #include <linux/cec.h>
+> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+> index 20c6165c..cc38f143 100644
+> --- a/utils/cec-follower/cec-processing.cpp
+> +++ b/utils/cec-follower/cec-processing.cpp
+> @@ -3,6 +3,8 @@
+>   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <cerrno>
+>  #include <cinttypes>
+>  #include <ctime>
+> diff --git a/utils/common/v4l2-info.h b/utils/common/v4l2-info.h
+> index ac227971..eeb7bc6b 100644
+> --- a/utils/common/v4l2-info.h
+> +++ b/utils/common/v4l2-info.h
+> @@ -8,6 +8,8 @@
+>  
+>  #include <string>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <linux/v4l2-subdev.h>
+>  
+> diff --git a/utils/cx18-ctl/cx18-ctl.c b/utils/cx18-ctl/cx18-ctl.c
+> index 8586f72d..7c13b1a3 100644
+> --- a/utils/cx18-ctl/cx18-ctl.c
+> +++ b/utils/cx18-ctl/cx18-ctl.c
+> @@ -34,6 +34,8 @@
+>  #include <sys/time.h>
+>  #include <math.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <v4l-getsubopt.h>
+>  
+> diff --git a/utils/ivtv-ctl/ivtv-ctl.c b/utils/ivtv-ctl/ivtv-ctl.c
+> index b42b3489..bf36f40b 100644
+> --- a/utils/ivtv-ctl/ivtv-ctl.c
+> +++ b/utils/ivtv-ctl/ivtv-ctl.c
+> @@ -34,6 +34,8 @@
+>  #include <sys/time.h>
+>  #include <math.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <v4l-getsubopt.h>
+>  
+> diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+> index 538f4ef3..ba7c7c4d 100644
+> --- a/utils/keytable/keytable.c
+> +++ b/utils/keytable/keytable.c
+> @@ -12,6 +12,8 @@
+>     GNU General Public License for more details.
+>   */
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <ctype.h>
+>  #include <errno.h>
+>  #include <fcntl.h>
+> diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
+> index 33df0880..f91c1cfa 100644
+> --- a/utils/media-ctl/media-ctl.c
+> +++ b/utils/media-ctl/media-ctl.c
+> @@ -34,6 +34,8 @@
+>  #include <string.h>
+>  #include <unistd.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  #include <linux/types.h>
+>  #include <linux/v4l2-mediabus.h>
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+> index 3517bd07..2c2b2158 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.h
+> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+> @@ -26,6 +26,8 @@
+>  #include <string>
+>  #include <cstdint>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <linux/v4l2-subdev.h>
+>  #include <linux/media.h>
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> index 1f9cd0fb..ea120eb8 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> @@ -9,6 +9,8 @@
+>  #include <sys/stat.h>
+>  #include <sys/sysmacros.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  
+>  #include "v4l2-ctl.h"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> index 13bc057d..7af62ec8 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> @@ -3,6 +3,8 @@
+>  #include <netdb.h>
+>  #include <sys/types.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  
+>  #include "compiler.h"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+> index a64fa514..d8a6c617 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+> @@ -27,6 +27,8 @@
+>  #include <getopt.h>
+>  #include <sys/epoll.h>
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/media.h>
+>  
+>  #include "v4l2-ctl.h"
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+> index a1911e80..fd1bd24a 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.h
+> +++ b/utils/v4l2-ctl/v4l2-ctl.h
+> @@ -1,6 +1,8 @@
+>  #ifndef _V4L2_CTL_H
+>  #define _V4L2_CTL_H
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <cstdint>
+>  #include <linux/videodev2.h>
+>  #include <linux/v4l2-subdev.h>
+> diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
+> index bd08b4cf..1b0d278a 100644
+> --- a/utils/v4l2-dbg/v4l2-dbg.cpp
+> +++ b/utils/v4l2-dbg/v4l2-dbg.cpp
+> @@ -31,6 +31,8 @@
+>  #include <sys/klog.h>
+>  #endif
+>  
+> +#include "linux/compiler.h"
+> +
+>  #include <linux/videodev2.h>
+>  #include <v4l-getsubopt.h>
+>  
 
 
