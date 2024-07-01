@@ -1,374 +1,171 @@
-Return-Path: <linux-media+bounces-14463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A987091DBBD
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 11:49:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B399C91DC49
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 12:22:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FC7DB22432
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 09:49:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EA4F282948
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 10:22:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD00E126F02;
-	Mon,  1 Jul 2024 09:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D2501465B1;
+	Mon,  1 Jul 2024 10:20:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E7A2C859
-	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 09:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6ABF5A0F5
+	for <linux-media@vger.kernel.org>; Mon,  1 Jul 2024 10:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719827373; cv=none; b=tVxXIae7xoBwEZqYegu0pF1PAyb9VvIYZeHZWNupQcIAcg7iBMKBAsJSYyBdHnD2/6hlzjIlWPN3FPOo1UeyAXX1j3rrBK1zrLpkNCuyLpImjy+PJOjlK6/GSsBqJY0TT3zcWr8jfRXx4fl3LfcarpTkUc6hBWWVYbrvlZa8CRw=
+	t=1719829257; cv=none; b=O45JxWkfs1/MCZUJScP0vNdOmYHrlBnseOFkX7X3WsLu+rqEX/e+CEj89r8sn+qDKVK38Da4tjNeaouFSU849AvM9/Fo3g0MSi5YAQGA3yQy+oV1x7YGLnKSwOij5yWD/bwIC9sVwI90JkvrrWGKBFjoeUQTTcWK1Tkl1ljK6z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719827373; c=relaxed/simple;
-	bh=M5jlQm+nXhJNffkrlTY1OLLdNGw9Dy9TPy6Yn6zyaS4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=SkQ45qgrjf23UP9s1Vnd0W+21wp+t9UiXbfMvoRk64Dw45K/nQIwKQWLz81lbTHyTsXk7JcbgSYwq3SJvM5J5PzSIcuBk/WODZyOMsw59Q62kSl4sNALpOgQfDZjnfTrt2JvfTXIx6S26QFOcS0MpsqK3HVaCFqe+iI8ut37DQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4676FC116B1;
-	Mon,  1 Jul 2024 09:49:32 +0000 (UTC)
-Message-ID: <59d86208-16bb-4f42-a302-81f015776894@xs4all.nl>
-Date: Mon, 1 Jul 2024 11:49:30 +0200
+	s=arc-20240116; t=1719829257; c=relaxed/simple;
+	bh=QreW4TCRdBdZdC+Z7gNuhayILa0uqBw8qJ0I/DWh03c=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=tZG9B6hSRKn84xWueg5ovmxVWYsU+krWAVrQLhuuQPQhQ5KDNLScpaeovjsS8aUIDGAsAwj5ig26D6shEWjb8sSoVj+N3aCN6Lw7m9Z5r9y6zy0IWk1vxQOaWF6l0a3x7Ahrs/PFOa2mIHBEg4ZDKHTpLEeQhx0dEvPUtmvw5+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sODqj-0005XT-0k;
+	Mon, 01 Jul 2024 10:01:29 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sODqi-0063Kj-0Y;
+	Mon, 01 Jul 2024 10:01:29 +0000
+Date: Mon, 1 Jul 2024 10:01:28 +0000 (UTC)
+From: Jenkins Builder Robot  <jenkins@linuxtv.org>
+To: mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <538818423.1.1719828088957@builder.linuxtv.org>
+Subject: Build failed in Jenkins: v4l-utils #558
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [SPAM] [PATCH 4/4] v4l-utils: fix formats under ppc/mips64
-To: Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
-References: <20240630224440.5912-1-rosenp@gmail.com>
- <20240630224440.5912-4-rosenp@gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240630224440.5912-4-rosenp@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: v4l-utils
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 
-On 01/07/2024 00:44, Rosen Penev wrote:
-> Unlike libc, kernel headers use long long for 64-bit types. The
-> exception is ppc64 and mips64, unless __SANE_USERSPACE_TYPES__ is
-> defined.
-> 
-> Define in compiler.h and include before kernel headers are included so
-> that wrong __u64 and __s64 definitions to not get used.
-> 
-> Fixes -Wformat warnings about llu being used instead of lu.
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  contrib/xc3028-firmware/firmware-tool.c | 2 ++
->  include/linux/compiler.h                | 1 +
->  utils/cec-compliance/cec-compliance.h   | 2 ++
->  utils/cec-ctl/cec-ctl.cpp               | 2 ++
->  utils/cec-ctl/cec-ctl.h                 | 2 ++
->  utils/cec-ctl/cec-pin.cpp               | 2 ++
->  utils/cec-follower/cec-processing.cpp   | 2 ++
->  utils/common/v4l2-info.h                | 2 ++
->  utils/cx18-ctl/cx18-ctl.c               | 2 ++
->  utils/ivtv-ctl/ivtv-ctl.c               | 2 ++
->  utils/keytable/keytable.c               | 2 ++
->  utils/media-ctl/media-ctl.c             | 2 ++
->  utils/v4l2-compliance/v4l2-compliance.h | 2 ++
->  utils/v4l2-ctl/v4l2-ctl-common.cpp      | 2 ++
->  utils/v4l2-ctl/v4l2-ctl-streaming.cpp   | 2 ++
->  utils/v4l2-ctl/v4l2-ctl.cpp             | 2 ++
->  utils/v4l2-ctl/v4l2-ctl.h               | 2 ++
->  utils/v4l2-dbg/v4l2-dbg.cpp             | 2 ++
->  18 files changed, 35 insertions(+)
-> 
-> diff --git a/contrib/xc3028-firmware/firmware-tool.c b/contrib/xc3028-firmware/firmware-tool.c
-> index 5dd205e0..6bcb3237 100644
-> --- a/contrib/xc3028-firmware/firmware-tool.c
-> +++ b/contrib/xc3028-firmware/firmware-tool.c
-> @@ -29,6 +29,8 @@
->  #include <string.h>
->  #include <unistd.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <asm/byteorder.h>
->  #include <asm/types.h>
->  
-> diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-> index 379629be..5a6326f8 100644
-> --- a/include/linux/compiler.h
-> +++ b/include/linux/compiler.h
-> @@ -1,6 +1,7 @@
->  #ifndef __linux_compiler_h
->  #define __linux_compiler_h
->  
-> +#define __SANE_USERSPACE_TYPES__
+See <https://builder.linuxtv.org/job/v4l-utils/558/display/redirect?page=changes>
 
-Please add a comment before this define, explaining why it is needed.
+Changes:
 
-Basically the same as what you wrote in the commit log.
+[Hans Verkuil] v4l-utils: sync with latest kernel
 
-But this is in the wrong header: it should go into include/compiler.h.
-The linux/compiler.h header was used in just a single test application,
-and in fact it is no longer needed and has been effectively obsolete for
-quite a long time. I just removed it from v4l-utils.
 
-Regards,
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave0 in workspace <https://builder.linuxtv.org/job/v4l-utils/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/v4l-utils/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/v4l-utils.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/v4l-utils.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/v4l-utils.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 0ec2d6d7d8d82d7fe295cc1ef326790c33584842 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 0ec2d6d7d8d82d7fe295cc1ef326790c33584842 # timeout=10
+Commit message: "v4l-utils: sync with latest kernel"
+ > git rev-list --no-walk a0fd7261492d3ffeb33a3ad2e25e3642a23e01a2 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 0ec2d6d7d8d82d7fe295cc1ef326790c33584842^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/v4l-utils.git'
+[GitCheckoutListener] Found previous build 'v4l-utils #557' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'a0fd726'
+[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
+[GitCheckoutListener] -> Using head commit '0ec2d6d' as starting point
+[GitCheckoutListener] -> Recorded one new commit
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@7aba9e48'
+[v4l-utils] $ /bin/sh -xe /tmp/jenkins16165868415824339050.sh
++ rm -rf build
++ meson setup build
+The Meson build system
+Version: 1.0.1
+Source dir: <https://builder.linuxtv.org/job/v4l-utils/ws/>
+Build dir: <https://builder.linuxtv.org/job/v4l-utils/ws/build>
+Build type: native build
+Project name: v4l-utils
+Project version: 1.27.0
+C compiler for the host machine: ccache cc (gcc 12.2.0 "cc (Debian 12.2.0-14) 12.2.0")
+C linker for the host machine: cc ld.bfd 2.40
+C++ compiler for the host machine: ccache c++ (gcc 12.2.0 "c++ (Debian 12.2.0-14) 12.2.0")
+C++ linker for the host machine: c++ ld.bfd 2.40
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Compiler for C supports link arguments -m32: NO 
+Compiler for C supports arguments -fvisibility=hidden: YES 
+Compiler for C supports function attribute visibility:default: YES 
+Program bash found: YES (/usr/bin/bash)
+Program clang found: NO
+Program doxygen found: YES (/usr/bin/doxygen)
+Program grep found: YES (/usr/bin/grep)
+Program perl found: YES (/usr/bin/perl)
+Found pkg-config: /usr/bin/pkg-config (1.8.1)
+Run-time dependency alsa found: YES 1.2.8
+Run-time dependency gl found: YES 1.2
+Run-time dependency glu found: YES 9.0.2
+Found CMake: /usr/bin/cmake (3.25.1)
+Run-time dependency json-c found: NO (tried pkgconfig and cmake)
+Library dl found: YES
+Library elf found: YES
+Library m found: YES
+Library rt found: YES
+qmake found: NO found 'QMake version 3.1\nUsing Qt version 5.15.8 in /usr/lib/x86_64-linux-gnu' but need ['>= 6', '< 7']
+Run-time dependency qt6 (modules: Core, Core5Compat, Gui, Widgets) found: NO (tried pkgconfig and config-tool)
+Run-time dependency qt5 (modules: Core, Gui, Widgets) found: YES 5.15.8 (pkg-config)
+Run-time dependency qt5 (modules: OpenGL) found: YES 5.15.8 (pkg-config)
+Run-time dependency libbpf found: YES 1.1.0
+Run-time dependency sdl2 found: YES 2.26.5
+Run-time dependency sdl2_image found: YES 2.6.3
+Run-time dependency threads found: YES
+Run-time dependency x11 found: YES 1.8.4
+Run-time dependency xmlrpc found: NO (tried pkgconfig and cmake)
+Checking for function "fork" : YES 
+Has header "linux/i2c-dev.h" : YES 
+Checking for function "klogctl" : YES 
+Checking for function "secure_getenv" : YES 
+Checking for function "__secure_getenv" : NO 
+Has header "sys/klog.h" : YES 
+Header "execinfo.h" has symbol "backtrace" : YES 
+Checking for function "argp_parse" : YES 
+Checking for function "strerrorname_np" : YES 
+Run-time dependency iconv found: YES
+Has header "gconv.h" : YES 
+Library JIS found: YES
+Library JISX0213 found: YES
+Run-time dependency libjpeg found: YES 2.1.5
+Run-time dependency systemd found: YES 252
+Run-time dependency libudev found: YES 252
+Run-time dependency udev found: YES 252
+Program git found: YES (/usr/bin/git)
+Program msgfmt found: YES (/usr/bin/msgfmt)
+Program msginit found: YES (/usr/bin/msginit)
+Program msgmerge found: YES (/usr/bin/msgmerge)
+Program xgettext found: YES (/usr/bin/xgettext)
+Configuring libdvb-version.h using configuration
+Configuring cec-gen-dummy.stamp with command
 
-	Hans
+utils/keytable/rc_keymaps/meson.build:1:0: ERROR: File mygica_utv3.toml does not exist.
 
->  #define __user
->  
->  #endif
-> diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
-> index aae72842..d5bd1d0a 100644
-> --- a/utils/cec-compliance/cec-compliance.h
-> +++ b/utils/cec-compliance/cec-compliance.h
-> @@ -8,6 +8,8 @@
->  #ifndef _CEC_COMPLIANCE_H_
->  #define _CEC_COMPLIANCE_H_
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/cec-funcs.h>
->  #include "cec-htng-funcs.h"
->  
-> diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
-> index fb38320d..a2ffcb2b 100644
-> --- a/utils/cec-ctl/cec-ctl.cpp
-> +++ b/utils/cec-ctl/cec-ctl.cpp
-> @@ -21,6 +21,8 @@
->  #include <sys/time.h>
->  #include <unistd.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/cec-funcs.h>
->  #include "cec-htng-funcs.h"
->  #include "cec-log.h"
-> diff --git a/utils/cec-ctl/cec-ctl.h b/utils/cec-ctl/cec-ctl.h
-> index 2c82bedc..e0692c31 100644
-> --- a/utils/cec-ctl/cec-ctl.h
-> +++ b/utils/cec-ctl/cec-ctl.h
-> @@ -6,6 +6,8 @@
->  #ifndef _CEC_CTL_H_
->  #define _CEC_CTL_H_
->  
-> +#include "linux/compiler.h"
-> +
->  #include <cec-info.h>
->  
->  // cec-ctl.cpp
-> diff --git a/utils/cec-ctl/cec-pin.cpp b/utils/cec-ctl/cec-pin.cpp
-> index f3500555..0cdc19f7 100644
-> --- a/utils/cec-ctl/cec-pin.cpp
-> +++ b/utils/cec-ctl/cec-pin.cpp
-> @@ -3,6 +3,8 @@
->   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> +#include "linux/compiler.h"
-> +
->  #include <string>
->  
->  #include <linux/cec.h>
-> diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-> index 20c6165c..cc38f143 100644
-> --- a/utils/cec-follower/cec-processing.cpp
-> +++ b/utils/cec-follower/cec-processing.cpp
-> @@ -3,6 +3,8 @@
->   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> +#include "linux/compiler.h"
-> +
->  #include <cerrno>
->  #include <cinttypes>
->  #include <ctime>
-> diff --git a/utils/common/v4l2-info.h b/utils/common/v4l2-info.h
-> index ac227971..eeb7bc6b 100644
-> --- a/utils/common/v4l2-info.h
-> +++ b/utils/common/v4l2-info.h
-> @@ -8,6 +8,8 @@
->  
->  #include <string>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <linux/v4l2-subdev.h>
->  
-> diff --git a/utils/cx18-ctl/cx18-ctl.c b/utils/cx18-ctl/cx18-ctl.c
-> index 8586f72d..7c13b1a3 100644
-> --- a/utils/cx18-ctl/cx18-ctl.c
-> +++ b/utils/cx18-ctl/cx18-ctl.c
-> @@ -34,6 +34,8 @@
->  #include <sys/time.h>
->  #include <math.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <v4l-getsubopt.h>
->  
-> diff --git a/utils/ivtv-ctl/ivtv-ctl.c b/utils/ivtv-ctl/ivtv-ctl.c
-> index b42b3489..bf36f40b 100644
-> --- a/utils/ivtv-ctl/ivtv-ctl.c
-> +++ b/utils/ivtv-ctl/ivtv-ctl.c
-> @@ -34,6 +34,8 @@
->  #include <sys/time.h>
->  #include <math.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <v4l-getsubopt.h>
->  
-> diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-> index 538f4ef3..ba7c7c4d 100644
-> --- a/utils/keytable/keytable.c
-> +++ b/utils/keytable/keytable.c
-> @@ -12,6 +12,8 @@
->     GNU General Public License for more details.
->   */
->  
-> +#include "linux/compiler.h"
-> +
->  #include <ctype.h>
->  #include <errno.h>
->  #include <fcntl.h>
-> diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
-> index 33df0880..f91c1cfa 100644
-> --- a/utils/media-ctl/media-ctl.c
-> +++ b/utils/media-ctl/media-ctl.c
-> @@ -34,6 +34,8 @@
->  #include <string.h>
->  #include <unistd.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  #include <linux/types.h>
->  #include <linux/v4l2-mediabus.h>
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-> index 3517bd07..2c2b2158 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.h
-> +++ b/utils/v4l2-compliance/v4l2-compliance.h
-> @@ -26,6 +26,8 @@
->  #include <string>
->  #include <cstdint>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <linux/v4l2-subdev.h>
->  #include <linux/media.h>
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> index 1f9cd0fb..ea120eb8 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
-> @@ -9,6 +9,8 @@
->  #include <sys/stat.h>
->  #include <sys/sysmacros.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  
->  #include "v4l2-ctl.h"
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> index 13bc057d..7af62ec8 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> @@ -3,6 +3,8 @@
->  #include <netdb.h>
->  #include <sys/types.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  
->  #include "compiler.h"
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-> index a64fa514..d8a6c617 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-> @@ -27,6 +27,8 @@
->  #include <getopt.h>
->  #include <sys/epoll.h>
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/media.h>
->  
->  #include "v4l2-ctl.h"
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-> index a1911e80..fd1bd24a 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.h
-> +++ b/utils/v4l2-ctl/v4l2-ctl.h
-> @@ -1,6 +1,8 @@
->  #ifndef _V4L2_CTL_H
->  #define _V4L2_CTL_H
->  
-> +#include "linux/compiler.h"
-> +
->  #include <cstdint>
->  #include <linux/videodev2.h>
->  #include <linux/v4l2-subdev.h>
-> diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
-> index bd08b4cf..1b0d278a 100644
-> --- a/utils/v4l2-dbg/v4l2-dbg.cpp
-> +++ b/utils/v4l2-dbg/v4l2-dbg.cpp
-> @@ -31,6 +31,8 @@
->  #include <sys/klog.h>
->  #endif
->  
-> +#include "linux/compiler.h"
-> +
->  #include <linux/videodev2.h>
->  #include <v4l-getsubopt.h>
->  
-
+A full log can be found at <https://builder.linuxtv.org/job/v4l-utils/ws/build/meson-logs/meson-log.txt>
+Build step 'Execute shell' marked build as failure
 
