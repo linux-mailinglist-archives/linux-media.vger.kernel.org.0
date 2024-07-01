@@ -1,74 +1,48 @@
-Return-Path: <linux-media+bounces-14449-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14450-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2B791DA33
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 10:41:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF38D91DACC
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 10:59:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FC751C21401
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 08:41:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D16C71C221AA
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 08:59:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9349476;
-	Mon,  1 Jul 2024 08:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A45712BEBE;
+	Mon,  1 Jul 2024 08:58:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FATPpAIu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h6ZW0/KM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EDE82D89;
-	Mon,  1 Jul 2024 08:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8424A82D70;
+	Mon,  1 Jul 2024 08:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719823272; cv=none; b=HIyGUmz+TVbR8dkG15aXRmI7hDKTT1dDMJWzbDtg7+jgwFA1pDcikenxTqoYvYqUp7VZ9Y4hMXVmUCJjALr7ZUzAEj35scwzQYExTqp7sZYrmQ1BABVk+aaRoLBuJXC8oHyNWEq0rqJf37Z6Jk03GD3w9Bo/RpbYwUDwnOvdOu4=
+	t=1719824304; cv=none; b=SvmYwkoZbCdPxFhRNm09KcKowsXBJzhEySkOilRDWovj0x6xKu9tm0ndLbHlnJACHAwzsn7VQZ5yqnt84bTq/Hp2GEAoyKfz3co3QpUCOMXTOBHRViMFoRULN+rH/NBI7lYr8VXdvI26PsQ9jrC/vea4yMjQ7T3rCs/aCW9KgC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719823272; c=relaxed/simple;
-	bh=iOIsNftd+AUOPQ+Acsg6REjaYC+90eaaV8L3VB0Yp1M=;
+	s=arc-20240116; t=1719824304; c=relaxed/simple;
+	bh=7+cfx/00RQCvZrZuSrvwvg9g3ZH0q8lQ1rTw1bQFDTs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WQ74Ga8snxOQuq88xfPGoudQCTWPS2N/ZTtJdQMFfo+Tbd4fL5CF39QfiWTddW1TXy2OTp0QPuUYCbmHMd+lhFErLoTi+bo8PRFMhi6vBCVVI88qKYudyMMAZinpoxyD4oBzYAJqoknCIu5/fEN4HaQm0DPkYPkz0TNCf0oUlr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FATPpAIu; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-424a3ccd0c0so20086135e9.1;
-        Mon, 01 Jul 2024 01:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719823268; x=1720428068; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AMt7mTb63MOoRef5KMAR+OLG9LjGQCs3Iv9eQzbOgVY=;
-        b=FATPpAIuS8kQHdSUKSMeEgjfl3nX18w3aK8SqE/cFFCzfryepebTqzrE5Rgv3/cuad
-         Rako7lr7T5MrMptiYetareEX0Q44gPabOdHIoReOXCn5vkq1ibf3j0z7Wd+Us9edg6Ux
-         2mXC/gfPzQWR8P4e0wfIv5EpHIGU7oGirGrqAuFP2TCxdFjVU0Bjh8rQ2/I+0SLkI+iJ
-         3GhxdMvCztUopMjB8oxzJ3PUzoqh5QO4FlOrfmgKkYOCLk6wyLDU4Kv7nBpXsaDjnXCu
-         58XCwqS9EaWiqlyh9ABBaMe06JCYCrT5Qv2n7vCPme1FXuywIfvVLE6mGm+i8rHD7A/v
-         Bn4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719823268; x=1720428068;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AMt7mTb63MOoRef5KMAR+OLG9LjGQCs3Iv9eQzbOgVY=;
-        b=w6eOZ2v6yWZZunq1cWhzcweWFrEE9gP5NwRrefsAQDD2WhoxW+uQNrsnqgl5ZmMLLt
-         /vMIj+QkM+n9HR2FRGsIJSQCrKqpDaJnbzsWZrPhIr0VwPdpT4ZAVIzTjqYWJgktxUq4
-         +LGVFtyjk8wpzBPMeNGsu7788OFjDCYyoShXGroFBSwiFFl839QcqYCAjdV93tJ8W3c/
-         f0S0oh0UPdvunXNrAe7cYG0vWgQmE309YVLjhvMvitWv/Km/GgnsA0qNWHEH916kUFGo
-         6RD2v+t7KczX0wohs7adPrYnqGh+/icDRyH4TVTNlzkc68eI1Fu6RbJvEfoKV/o63ryu
-         /rVA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPXMvzP5xE9VA24KOQNYiKS8u4T2flkmgOqlyD7L47oLux63qaTFm4LzwrYECRTv2rF26gj81zH+LBfJb5v1gM7JTqRElQxpCQomoPqKAJfmWjX4qoOk//4SLc8GAhmdwSuYVIxsXAxEM/QmSvd77A3c/WyV1u8LgWqsYOI19RHGmarrVs
-X-Gm-Message-State: AOJu0YzwehtFt0x54C023w6iLcHi3euHHH52a8HEE4peksPVkwIqodCL
-	y59BIHAVL2swm3XOTFX9fyJyPBvQ5K0BteU4plEb9GHDaJSw1HFZ
-X-Google-Smtp-Source: AGHT+IFVkP4vxt28218+k2V48TYQocy8Fz5i69HcPxCmln5LU4tWH1iaovbS/2p5BgnSrenoOSY/NQ==
-X-Received: by 2002:a05:600c:6a8d:b0:425:77b4:366d with SMTP id 5b1f17b1804b1-4257a02f3f6mr32722375e9.11.1719823267873;
-        Mon, 01 Jul 2024 01:41:07 -0700 (PDT)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b09a94csm141988335e9.33.2024.07.01.01.41.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 01:41:07 -0700 (PDT)
-Message-ID: <dbcd9a16-4e4b-42c8-ba7f-d6c1dfd9dccb@gmail.com>
-Date: Mon, 1 Jul 2024 10:41:04 +0200
+	 In-Reply-To:Content-Type; b=NHQ40yIdSVpJhsC0HuHZsYqhbRmdMx766o5fSCpyZUnYnD6faeGY/uFdFOKBoOvr+iYJ3yLUZ46CD7LfNVUp0m9AEXO8DP/wP2GgQLeUVCkSndV1j15KRT4ONJl0ghyUV52gj2HvUuM8lDehw7tx/3FJTl6Dy39h+Uo+77qBBqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h6ZW0/KM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7978C116B1;
+	Mon,  1 Jul 2024 08:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719824304;
+	bh=7+cfx/00RQCvZrZuSrvwvg9g3ZH0q8lQ1rTw1bQFDTs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h6ZW0/KMR+I9IpoxExW+H6RrJOc6saAFY//y02zRUiUGB/jFuL7Kgj4v7351rQzcc
+	 7cofmFchgpMy5BK8qtosqB6wQ2/7eh46SOk28GWJ+dERmwRlwfjYHj2As4Ox7v8ut6
+	 ANYyfF3SkPs1Wj3X5s835ukf9KgjmIXNttKZWdqhiYeT4cAXlgYfeUYJ8cP31GpjGc
+	 r108TWGrOIQj6AX1pHVY4YaVcPfX9ecIfOIq6wsweTtRNHggtSXXxxCzuyXdEXXvEJ
+	 StqeZtUvkqHUn6oysj7UL0A1+eU1A0mjK8Y1B4i9sKrQ5WWQmD6noP2OYeYSLHPiWL
+	 cTYa5ebo9o9Og==
+Message-ID: <087e7f29-1fa8-4bc2-bb3d-acb941432381@kernel.org>
+Date: Mon, 1 Jul 2024 10:58:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,92 +50,503 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 2/9] scatterlist: Add a flag for
- the restricted memory
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>
-Cc: "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "jkardatzke@google.com" <jkardatzke@google.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
- =?UTF-8?B?WW91bGluIFBlaSAo6KO05Y+L5p6XKQ==?= <youlin.pei@mediatek.com>,
- "logang@deltatee.com" <logang@deltatee.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
- =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?=
- <Jianjiao.Zeng@mediatek.com>, "contact@emersion.fr" <contact@emersion.fr>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "willy@infradead.org" <willy@infradead.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "jstultz@google.com" <jstultz@google.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ppaalanen@gmail.com" <ppaalanen@gmail.com>
-References: <20240515112308.10171-1-yong.wu@mediatek.com>
- <20240515112308.10171-3-yong.wu@mediatek.com>
- <98721904-003d-4d0d-8cfe-1cecdd59ce01@amd.com>
- <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
- <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
- <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
- <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
- <98c11bad7f40bcc79ed7a2039ddb3a46f99908f5.camel@mediatek.com>
- <75dc1136-7751-4772-9fa7-dd9124684cd2@amd.com>
- <ZnxWWtdShekGSUif@phenom.ffwll.local>
- <ae73a0203d6acf2878c9e3ae2d7554816b9c66ad.camel@mediatek.com>
- <5739abdb-0234-412a-9f25-49219411bbc6@amd.com>
- <183f2ae09c2dbcf687e69cd13a9d258fd24fd80c.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/6] media: dt-bindings: media: camss: Add
+ qcom,sc7280-camss binding
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Andi Shyti <andi.shyti@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, Suresh Vankadara <quic_svankada@quicinc.com>,
+ Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+References: <20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com>
+ <20240629-camss_first_post_linux_next-v1-1-bc798edabc3a@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <183f2ae09c2dbcf687e69cd13a9d258fd24fd80c.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240629-camss_first_post_linux_next-v1-1-bc798edabc3a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Am 28.06.24 um 22:16 schrieb Nicolas Dufresne:
-> [SNIP]
->>>>> Why can't you get this information from userspace?
->>>> Same reason amd and i915/xe also pass this around internally in the
->>>> kernel, it's just that for those gpus the render and kms node are the
->>>> same
->>>> driver so this is easy.
->>>>
->> The reason I ask is that encryption here looks just like another
->> parameter for the buffer, e.g. like format, stride, tilling etc..
-> I'm mostly a reader of the thread here, but I'd like to avoid basic mistakes.
-> The buffer in question are "protected", meaning that the CPU HW does not have
-> access to the underlying pages (or zone in the case of Meditatek).
->
-> This is different from encrypted buffers, which don't need this level of
-> protection, as without the security key to decrypt them, their content is close
-> to random data.
+On 28/06/2024 20:32, Vikram Sharma wrote:
+> Add bindings for qcom,sc7280-camss in order to support the camera
+> subsystem for sc7280.
+> 
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>  .../bindings/media/qcom,sc7280-camss.yaml          | 477 +++++++++++++++++++++
+>  1 file changed, 477 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+> new file mode 100644
+> index 000000000000..588c6fb50e2f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+> @@ -0,0 +1,477 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Technologies, Inc. SC7280 CAMSS ISP
 
-Thanks for that clarification, this difference was absolutely not obvious.
+We write only "Qualcomm", drop "Technologies, Inc.".
 
-In that case having a separate heap for this memory is indeed the 
-easiest approach.
+> +
+> +maintainers:
+> +  - Azam Sadiq Pasha Kapatrala Syed <akapatra@quicinc.com>
+> +  - Hariram Purushothaman <hariramp@quicinc.com>
+> +
+> +description: |
 
-My question is still what would happen if the CPU tries to access this 
-protected buffer? Or does the CPU not even have an address to do that?
+Do not need '|' unless you need to preserve formatting.
 
-Just out of curiosity, I mean the exporting heap should then somehow 
-reject any attempt to mmap() or vmap() the buffer content.
+> +  The CAMSS IP is a CSI decoder and ISP present on
+> +  Qualcomm Technologies, Inc. platforms.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,sc7280-camss
+> +
+> +  clocks:
+> +    minItems: 41
 
-Thanks,
-Christian.
+
+Drop
+
+> +    maxItems: 41
+> +
+> +  clock-names:
+> +    items:
+> +
+
+
+Drop blank line
+
+> +      - const: cam_hf_axi
+> +      - const: slow_ahb_src
+> +      - const: cpas_ahb
+> +      - const: camnoc_axi_src
+> +      - const: camnoc_axi
+
+Which file did you use as template? Isn't this supposed to be reversed?
+
+BTW, you *must* work on latest tree. Do not take some ancient code and
+use as template. It's really waste of time to point the same issues over
+and over again.
+
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy0_timer_src
+> +      - const: csiphy1
+> +      - const: csiphy1_timer
+> +      - const: csiphy1_timer_src
+> +      - const: csiphy2
+> +      - const: csiphy2_timer
+> +      - const: csiphy2_timer_src
+> +      - const: csiphy3
+> +      - const: csiphy3_timer
+> +      - const: csiphy3_timer_src
+> +      - const: csiphy4
+> +      - const: csiphy4_timer
+> +      - const: csiphy4_timer_src
+> +      - const: vfe0_csid
+> +      - const: vfe0_cphy_rx
+> +      - const: vfe0
+> +      - const: vfe0_axi
+> +      - const: csiphy_rx_src
+> +      - const: vfe1_csid
+> +      - const: vfe1_cphy_rx
+> +      - const: vfe1
+> +      - const: vfe1_axi
+> +      - const: vfe2_csid
+> +      - const: vfe2_cphy_rx
+> +      - const: vfe2
+> +      - const: vfe2_axi
+> +      - const: vfe0_lite_csid
+> +      - const: vfe0_lite_cphy_rx
+
+Why these are reversed comparing to other bindings? Srsly, from which
+file did you take it?
+
+> +      - const: vfe0_lite
+> +      - const: vfe1_lite_csid
+> +      - const: vfe1_lite_cphy_rx
+> +      - const: vfe1_lite
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +
+> +  interrupts:
+> +    minItems: 15
+
+Drop
+
+> +    maxItems: 15
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  interconnects:
+> +    minItems: 2
+
+Drop
+
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: cam_ahb
+> +      - const: cam_hf_0
+
+Drop "cam_" prefix in both. Actually everywhere...
+
+
+> +
+> +  power-domains:
+> +    items:
+> +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: Titan GDSC - Titan ISP Block, Global Distributed Switch Controller.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@4:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@5:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +  reg:
+> +    minItems: 10
+
+Drop
+
+> +    maxItems: 10
+> +
+> +  reg-names:
+> +    items:
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+
+Which file did you use as template for these?
+
+> +
+> +required:
+> +  - clock-names
+> +  - clocks
+> +  - compatible
+> +  - interconnects
+> +  - interconnect-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - iommus
+> +  - power-domains
+> +  - reg
+> +  - reg-names
+> +
+> +additionalProperties: false
+
+Missing blank line
+
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,camcc-sc7280.h>
+> +    #include <dt-bindings/interconnect/qcom,sc7280.h>
+> +    #include <dt-bindings/clock/qcom,gcc-sc7280.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+
+These should be in alphabetical order, not random.
+
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        camss: camss@acaf000 {
+> +            compatible = "qcom,sc7280-camss";
+> +            reg = <0x0 0x0acaf000 0x0 0x5200>,
+> +                <0x0 0x0acb6000 0x0 0x5200>,
+> +                <0x0 0x0acbd000 0x0 0x5200>,
+> +                <0x0 0x0acc4000 0x0 0x5000>,
+> +                <0x0 0x0accb000 0x0 0x5000>,
+> +                <0x0 0x0ace0000 0x0 0x2000>,
+> +                <0x0 0x0ace2000 0x0 0x2000>,
+> +                <0x0 0x0ace4000 0x0 0x2000>,
+> +                <0x0 0x0ace6000 0x0 0x2000>,
+> +                <0x0 0x0ace8000 0x0 0x2000>;
+> +
+> +            reg-names = "vfe0",
+> +                "vfe1",
+> +                "vfe2",
+
+Misaligned.
+
+> +                "vfe_lite0",
+> +                "vfe_lite1",
+> +                "csiphy0",
+> +                "csiphy1",
+> +                "csiphy2",
+> +                "csiphy3",
+> +                "csiphy4";
+> +
+> +            interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+
+Misaligned.
+
+> +                <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 640 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 641 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+> +                <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
+> +
+> +            interrupt-names = "csiphy0",
+> +                "csiphy1",
+> +                "csiphy2",
+
+Misaligned.
+
+> +                "csiphy3",
+> +                "csiphy4",
+> +                "csid0",
+> +                "csid1",
+> +                "csid2",
+> +                "csid_lite0",
+> +                "csid_lite1",
+> +                "vfe0",
+> +                "vfe1",
+> +                "vfe2",
+> +                "vfe_lite0",
+> +                "vfe_lite1";
+
+
+Best regards,
+Krzysztof
+
 
