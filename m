@@ -1,48 +1,74 @@
-Return-Path: <linux-media+bounces-14448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1969391DA18
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 10:37:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2B791DA33
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 10:41:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7176AB2148B
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 08:37:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FC751C21401
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jul 2024 08:41:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C775B82C6B;
-	Mon,  1 Jul 2024 08:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9349476;
+	Mon,  1 Jul 2024 08:41:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nAdPvKxK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FATPpAIu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8B32C6BB;
-	Mon,  1 Jul 2024 08:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EDE82D89;
+	Mon,  1 Jul 2024 08:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719823039; cv=none; b=S7ob+bLvyIS7aG58JC+YCghPL5bPRw/JvrZZ8sG1OpLLzaiE8/pfdfhmmcl/6Oi+i+/NmZzKaOzykFtwkoJA+PQ3yMexfzbx1ma3AQFvp9gC/Jk636elweCWmIAzwf0otuafVBCz4LiKSvKYtOMgHiZtQFMGaRqYNKeVUIrw5MA=
+	t=1719823272; cv=none; b=HIyGUmz+TVbR8dkG15aXRmI7hDKTT1dDMJWzbDtg7+jgwFA1pDcikenxTqoYvYqUp7VZ9Y4hMXVmUCJjALr7ZUzAEj35scwzQYExTqp7sZYrmQ1BABVk+aaRoLBuJXC8oHyNWEq0rqJf37Z6Jk03GD3w9Bo/RpbYwUDwnOvdOu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719823039; c=relaxed/simple;
-	bh=YbJRSajkIaSYm/SKl3LzQoSRLkMfrZX4OrCEnVo0fVM=;
+	s=arc-20240116; t=1719823272; c=relaxed/simple;
+	bh=iOIsNftd+AUOPQ+Acsg6REjaYC+90eaaV8L3VB0Yp1M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B7B1jj8yi4k6eeivOWcmBLWi7xDOnN94zq1bRRHZ6vWN4pMM8tqUzo8c/C8eq+BQ1kg47gf1bNJJqETOHXhzMeWbFK+BRHqiewrYiWsTg4QH+ofaL0f3N2VrBcUiAgrZzhuYZcX9TPUr19J8UaMpWk3mxvcZiwmmV7YLVsP3ua8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nAdPvKxK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A9E6C116B1;
-	Mon,  1 Jul 2024 08:37:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719823038;
-	bh=YbJRSajkIaSYm/SKl3LzQoSRLkMfrZX4OrCEnVo0fVM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nAdPvKxKupwIdKkZI4NcY/8gg0BxN/Ag+y8PI1umYxF7qfvxwPCP3rhz8dGL/ezru
-	 Xsf3UsKpOgjPGkt2M6Ou9CytdAF9a0achnn9KaP+ed4dUkF1U44fURc6BweT99ZBwV
-	 0F7g71SuAD1IrVxNB3ttCqGT/56V6alJKuGsluilqQEBRo2RJfb/mfs4psuI1pVBj0
-	 PPQ+/mB9Ul3NMgnvfvW5/hE1nHyLkWnpcBHJVfJl4ZcYYWU46Ntap/F+duPV692jq6
-	 ox/cDQKCcLbdqg/Lo7S3x+oaVJLig+SogQqdV2YymHkDMU7thMeAaN0OVy8+bdb+7A
-	 nA/EjKj2xmmSw==
-Message-ID: <04420f8e-ecd9-4487-bbbb-d623fc3f7a1c@kernel.org>
-Date: Mon, 1 Jul 2024 10:37:13 +0200
+	 In-Reply-To:Content-Type; b=WQ74Ga8snxOQuq88xfPGoudQCTWPS2N/ZTtJdQMFfo+Tbd4fL5CF39QfiWTddW1TXy2OTp0QPuUYCbmHMd+lhFErLoTi+bo8PRFMhi6vBCVVI88qKYudyMMAZinpoxyD4oBzYAJqoknCIu5/fEN4HaQm0DPkYPkz0TNCf0oUlr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FATPpAIu; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-424a3ccd0c0so20086135e9.1;
+        Mon, 01 Jul 2024 01:41:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719823268; x=1720428068; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AMt7mTb63MOoRef5KMAR+OLG9LjGQCs3Iv9eQzbOgVY=;
+        b=FATPpAIuS8kQHdSUKSMeEgjfl3nX18w3aK8SqE/cFFCzfryepebTqzrE5Rgv3/cuad
+         Rako7lr7T5MrMptiYetareEX0Q44gPabOdHIoReOXCn5vkq1ibf3j0z7Wd+Us9edg6Ux
+         2mXC/gfPzQWR8P4e0wfIv5EpHIGU7oGirGrqAuFP2TCxdFjVU0Bjh8rQ2/I+0SLkI+iJ
+         3GhxdMvCztUopMjB8oxzJ3PUzoqh5QO4FlOrfmgKkYOCLk6wyLDU4Kv7nBpXsaDjnXCu
+         58XCwqS9EaWiqlyh9ABBaMe06JCYCrT5Qv2n7vCPme1FXuywIfvVLE6mGm+i8rHD7A/v
+         Bn4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719823268; x=1720428068;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AMt7mTb63MOoRef5KMAR+OLG9LjGQCs3Iv9eQzbOgVY=;
+        b=w6eOZ2v6yWZZunq1cWhzcweWFrEE9gP5NwRrefsAQDD2WhoxW+uQNrsnqgl5ZmMLLt
+         /vMIj+QkM+n9HR2FRGsIJSQCrKqpDaJnbzsWZrPhIr0VwPdpT4ZAVIzTjqYWJgktxUq4
+         +LGVFtyjk8wpzBPMeNGsu7788OFjDCYyoShXGroFBSwiFFl839QcqYCAjdV93tJ8W3c/
+         f0S0oh0UPdvunXNrAe7cYG0vWgQmE309YVLjhvMvitWv/Km/GgnsA0qNWHEH916kUFGo
+         6RD2v+t7KczX0wohs7adPrYnqGh+/icDRyH4TVTNlzkc68eI1Fu6RbJvEfoKV/o63ryu
+         /rVA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPXMvzP5xE9VA24KOQNYiKS8u4T2flkmgOqlyD7L47oLux63qaTFm4LzwrYECRTv2rF26gj81zH+LBfJb5v1gM7JTqRElQxpCQomoPqKAJfmWjX4qoOk//4SLc8GAhmdwSuYVIxsXAxEM/QmSvd77A3c/WyV1u8LgWqsYOI19RHGmarrVs
+X-Gm-Message-State: AOJu0YzwehtFt0x54C023w6iLcHi3euHHH52a8HEE4peksPVkwIqodCL
+	y59BIHAVL2swm3XOTFX9fyJyPBvQ5K0BteU4plEb9GHDaJSw1HFZ
+X-Google-Smtp-Source: AGHT+IFVkP4vxt28218+k2V48TYQocy8Fz5i69HcPxCmln5LU4tWH1iaovbS/2p5BgnSrenoOSY/NQ==
+X-Received: by 2002:a05:600c:6a8d:b0:425:77b4:366d with SMTP id 5b1f17b1804b1-4257a02f3f6mr32722375e9.11.1719823267873;
+        Mon, 01 Jul 2024 01:41:07 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b09a94csm141988335e9.33.2024.07.01.01.41.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jul 2024 01:41:07 -0700 (PDT)
+Message-ID: <dbcd9a16-4e4b-42c8-ba7f-d6c1dfd9dccb@gmail.com>
+Date: Mon, 1 Jul 2024 10:41:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,129 +76,92 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH/RFC v1 1/9] media: dt-bindings: media: i2c: Add AR0144
- camera sensor
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20240630141802.15830-1-laurent.pinchart@ideasonboard.com>
- <20240630141802.15830-2-laurent.pinchart@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v5 2/9] scatterlist: Add a flag for
+ the restricted memory
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>
+Cc: "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "jkardatzke@google.com" <jkardatzke@google.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
+ =?UTF-8?B?WW91bGluIFBlaSAo6KO05Y+L5p6XKQ==?= <youlin.pei@mediatek.com>,
+ "logang@deltatee.com" <logang@deltatee.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= <kuohong.wang@mediatek.com>,
+ =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?=
+ <Jianjiao.Zeng@mediatek.com>, "contact@emersion.fr" <contact@emersion.fr>,
+ "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "willy@infradead.org" <willy@infradead.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "tjmercier@google.com" <tjmercier@google.com>,
+ "jstultz@google.com" <jstultz@google.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "ppaalanen@gmail.com" <ppaalanen@gmail.com>
+References: <20240515112308.10171-1-yong.wu@mediatek.com>
+ <20240515112308.10171-3-yong.wu@mediatek.com>
+ <98721904-003d-4d0d-8cfe-1cecdd59ce01@amd.com>
+ <779ce30a657754ff945ebd32b66e1c644635e84d.camel@mediatek.com>
+ <cef8f87d-edab-41d8-8b95-f3fc39ad7f74@amd.com>
+ <1050c44512374031d1349b5dced228d0efc3fbde.camel@mediatek.com>
+ <3104b765-5666-44e4-8788-f1b1b296fe17@amd.com>
+ <98c11bad7f40bcc79ed7a2039ddb3a46f99908f5.camel@mediatek.com>
+ <75dc1136-7751-4772-9fa7-dd9124684cd2@amd.com>
+ <ZnxWWtdShekGSUif@phenom.ffwll.local>
+ <ae73a0203d6acf2878c9e3ae2d7554816b9c66ad.camel@mediatek.com>
+ <5739abdb-0234-412a-9f25-49219411bbc6@amd.com>
+ <183f2ae09c2dbcf687e69cd13a9d258fd24fd80c.camel@ndufresne.ca>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240630141802.15830-2-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <183f2ae09c2dbcf687e69cd13a9d258fd24fd80c.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 30/06/2024 16:17, Laurent Pinchart wrote:
-> Add device tree binding for the onsemi AR0144 CMOS camera sensor. The
-> binding supports both the monochrome and color sensor versions.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../bindings/media/i2c/onnn,ar0144.yaml       | 166 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 172 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,ar0144.yaml
-> 
+Am 28.06.24 um 22:16 schrieb Nicolas Dufresne:
+> [SNIP]
+>>>>> Why can't you get this information from userspace?
+>>>> Same reason amd and i915/xe also pass this around internally in the
+>>>> kernel, it's just that for those gpus the render and kms node are the
+>>>> same
+>>>> driver so this is easy.
+>>>>
+>> The reason I ask is that encryption here looks just like another
+>> parameter for the buffer, e.g. like format, stride, tilling etc..
+> I'm mostly a reader of the thread here, but I'd like to avoid basic mistakes.
+> The buffer in question are "protected", meaning that the CPU HW does not have
+> access to the underlying pages (or zone in the case of Meditatek).
+>
+> This is different from encrypted buffers, which don't need this level of
+> protection, as without the security key to decrypt them, their content is close
+> to random data.
 
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - onnn,ar0144c  # Color version
-> +      - onnn,ar0144m  # Monochrome version
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: extclk
+Thanks for that clarification, this difference was absolutely not obvious.
 
-This seems redundant. Drop clock-names.
+In that case having a separate heap for this memory is indeed the 
+easiest approach.
 
+My question is still what would happen if the CPU tries to access this 
+protected buffer? Or does the CPU not even have an address to do that?
 
-> +
-> +  vaa-supply:
-> +    description:
-> +      Supply for the VAA and VAA_PIX analog power rails (2.8V).
-> +
-> +  vdd-supply:
-> +    description:
-> +      Supply for the VDD and VDD_PHY digital power rails (1.2V).
-> +
-> +  vdd_io-supply:
+Just out of curiosity, I mean the exporting heap should then somehow 
+reject any attempt to mmap() or vmap() the buffer content.
 
-No underscores.
-
-> +    description:
-> +      Supply for the VDD_IO digital I/O power rail (1.8V or 2.8V).
-> +
-> +  reset-gpios:
-> +    description: Reset GPIO, active low.
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +    description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-
-
-Best regards,
-Krzysztof
-
+Thanks,
+Christian.
 
