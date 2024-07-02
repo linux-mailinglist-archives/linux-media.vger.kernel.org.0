@@ -1,236 +1,197 @@
-Return-Path: <linux-media+bounces-14500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F5491EFC2
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 09:13:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 596C991F01D
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 09:28:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30D0D1F22A9E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 07:13:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1340B283C23
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 07:28:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3800F12FB3C;
-	Tue,  2 Jul 2024 07:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA5CF1448DD;
+	Tue,  2 Jul 2024 07:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cFN+hWzM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cwz3eHPF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2075.outbound.protection.outlook.com [40.107.223.75])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F41372;
-	Tue,  2 Jul 2024 07:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719904427; cv=fail; b=inZT0h6gUbz8me8nBeysQSlh9grbHoatqTar+5EyFxTm9SXAjH9Ci5lHb0Py9GA39RUBf+MbCD3GQEdAOxrslGzH8RC4eOhXVLOR/G+dBJRMlZpnVRT6JnOeQjP0aLwvqCj9ZRZxAng2aKZD+rpFMIIasRmPjNKLBeYdsArL+Yc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719904427; c=relaxed/simple;
-	bh=D1Toc1BhUb1sW0aZ6lyLd8ruCtvsMjIAS10a4RCphp0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NRuXHppZlpLZdAncxPkbwij3aoY24E+JYlzYffnqlgTvQzcNtlTjkpmziHdyJUgB7OSGPq67IFpXZddusRQWOGOzYcJl+FnUp72dvhNZPjN3n4tReNPM0kdOekxEaxLsISNGndMXuwixt95Jj5JLihH9OPpKaDjGLS96geZrAiI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cFN+hWzM; arc=fail smtp.client-ip=40.107.223.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mVodtl0vRhgEoh+JjFBsDc6BrNsGnnq1yBbYOn497QmZ1SewAphbOb+FowhSEbDsoqTlpJuMx/Iam0eWbLk2hfrkHYgH9QZ4lB6/auRNegsAhltP4yDfWCztqRIhxPQzUu8wB4CmM0l6GNo4j2wUXfcID7OCH0wXIw67GVWvMHgYPcKNP8cwCA+YL65l3zbmpDAzaTbl4G0fc5zPPFps1nsDIBPR2QO85MrpMXeF6N6mXOaKsRfIDzvpwawJgC5IbyBvnXO+kHwqrAf6LcySoVOW6LkmBkCBIYPl9BFXpuTRQT3UkPpEzIIaZfdiFcV6OEkL3nTHg+zoA0yPsNFP2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8LUDaiKG7j/5IBW3BfnNj6QTlwClXzkhrvc8DQG5zhM=;
- b=S8s0GzuStUUlBL3Z2YlWzXNlMVNMaPX+J9RWXOyeSwuNsyXp3SUJT8eFQ0i1Chw2pUXZsxPNTFLnsHmm73PUxu3HDpzEug7R8jMJvYPhlIqJXOaxAplJhqTz1pMrmXTZeJr3gip8JW7aMAEhbNQx9kxNkeqTHZIhL6nYqtuzBy9sE5EmPaGb0/M830XUAdRbMhpIYHRmrjTzJrRJh5n105hxIABGCVpQJb3UkeVxcJLmsc8DHWEH/CUIX1YitE9MGlATD5wUBWFbBLm+LVn6WZOxa3iuUBdUyCjC44bQyCkt/RscJPNHBdroDZEccf1cuJ3XzU0tzRst8QAgqLOujg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8LUDaiKG7j/5IBW3BfnNj6QTlwClXzkhrvc8DQG5zhM=;
- b=cFN+hWzMGvHKYWvnMJdrVNOhtmyaoUx6KXaLFkHZivU/rqy/VR2hXFyuOsThhLtpKpC27AuZ2bLnr614C3NwnoLgNVx8O9yoeKDrtV2K17dMyYBAcIDF3j6QduQ47o/X30EQJa1GiYdJZciu2dimf0pXL5foelGJqxjBAZIQgrE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB7708.namprd12.prod.outlook.com (2603:10b6:930:87::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.33; Tue, 2 Jul
- 2024 07:13:42 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.7719.028; Tue, 2 Jul 2024
- 07:13:41 +0000
-Message-ID: <e0f384b0-6913-4224-a3ea-bdae784f5dab@amd.com>
-Date: Tue, 2 Jul 2024 09:13:35 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: Remove unnecessary kmalloc() cast
-To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Thorsten Blum <thorsten.blum@toblux.com>, jack@suse.cz,
- surenb@google.com, linux-kernel@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240630011215.42525-1-thorsten.blum@toblux.com>
- <20240701232634.0bddb542ddea123b48dcabdf@linux-foundation.org>
- <20240702064017.GA24838@lst.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20240702064017.GA24838@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0155.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ba::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803D313D614
+	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 07:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719905317; cv=none; b=kEtYqTf9mZR8nlKXPs8ODe0u92rIE55XZ9aqX9rRzyyFjh9t9N4iqEjANSb/ZPh1c3bsxpxbA2ozhXZdKtrYrJebNLHDPn8TlYNmX8uWRcjJizhVHdHg5N20IGfohN/K7grHgs3t6YQdYOuJyAh8HURNH/2XDu9jyYeHJIG4oUI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719905317; c=relaxed/simple;
+	bh=cVVWy8Jspw87K1baTOVGIZ/g9AHYNQIQlHIB/VyDCQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S7GTXCH/+H72I+vOKBHnXGT9Ll09sgRM4lRgVCdcPfu/QNoh8B9Jh4h7g79n1pEfZMkl2ZBMStNdfi/m9dEARegCQkbJYVTSPJvGy3JPU/8c4TxPQt4wv+gj28i7F1vNZnouzwVObQzpQdzxHzWt7vmwavKuU2M1DCk0C7H/yik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cwz3eHPF; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719905315; x=1751441315;
+  h=date:from:to:cc:subject:message-id;
+  bh=cVVWy8Jspw87K1baTOVGIZ/g9AHYNQIQlHIB/VyDCQQ=;
+  b=Cwz3eHPFTWc+oeyk3MLibU5JJaZk2FdJH3qFZAevVKikyVdXS/20iyQg
+   UaWONgEvlI+0ZT64UWa0Rwy8UdEKC+zmPg+txyRkrHRJoUomElA7A7nR7
+   P9SRVA2tya9UsqV+9RiIStaF5u8sTGppSIEmOJhZWPdIO+wPGzWEmmVYU
+   amdxAoIvb13MYTjyBNKn77p7YRZ+0tx8GE8CDHPt3xMEmDKFXM9DeCPNh
+   777BQdEoorjK6mifq3dCWC8jckQJWZVM8njVCdMCKq0AZpET3+0tTi36V
+   1m2ILuZ7HA2cAXYt/B0X/ebTnWbN5R/i830B72W2I93X0erd2P9gzajZn
+   g==;
+X-CSE-ConnectionGUID: Tyqr25xkSpiKhnPMOORWCg==
+X-CSE-MsgGUID: hso5d2pbT0KWCUl//U+Pww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11120"; a="20932523"
+X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
+   d="scan'208";a="20932523"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 00:28:35 -0700
+X-CSE-ConnectionGUID: Ke5CceJRS/KJttffzmPsFg==
+X-CSE-MsgGUID: B6IxS5AZT2OlWfQdM6EPWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
+   d="scan'208";a="45769389"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 02 Jul 2024 00:28:35 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sOXwF-000NrY-1J;
+	Tue, 02 Jul 2024 07:28:31 +0000
+Date: Tue, 02 Jul 2024 15:28:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ a0157b5aa34eb43ec4c5510f9c260bbb03be937e
+Message-ID: <202407021527.scMdGFvJ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7708:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5cb5a221-ac92-4c5b-8943-08dc9a668082
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UGpWalRWNnQ4a3gya1BqK2dxY2RJZlZtV0M5RkJwYnk1djlzZGIrQmNtWkN0?=
- =?utf-8?B?MzVpTnJTVXNzYUZJVkFFTjF0OXBwMTFrOCsyTzg1bFJyUDUvTUpxT2pNc1Iy?=
- =?utf-8?B?dzN0d09BZ0JkT3ZLRU9JaVNPQlRkbG1nNmJGZnAvb2RPN1BPQnpVV200bG1K?=
- =?utf-8?B?bTVyS0J0UkhWVG5vOVkzZ0RrVjArZzEwdUd3RWV1TEhFYmQ0SlhPNmltVXVK?=
- =?utf-8?B?ejYwamx2N1luWitTYVJTMEptOGtBblFuSmpHOFRIZGRmamNlVlZKaW9tZWpP?=
- =?utf-8?B?WXdReS9LTGo1N05heWV5U3dFekY5TjVRSDZ0M0ZCNzlZb3Fzd1BBZ0kvcWFF?=
- =?utf-8?B?VnJnYzRSTUdrY3p5VHRaQWJYQ1c5VVlpZFU4c1Q1aGNaaFREaHB5UkoyZmc1?=
- =?utf-8?B?Q1RQWEU2MXVyV3VDVUdySHV2aXQ4RG5Ndm1pNlZOOUExek5nQnpwVUtrdTAw?=
- =?utf-8?B?NTRUMVY5VW8rYzFOSlI1RWhZN1k5NzdpbGtVUnlhc3p6QjhOQlFnSCtqUlh5?=
- =?utf-8?B?eFJKaGFmSXdzaDZyTXFOYjlNQU8wUGtxSHE0cUJjZFRCSmVlQmZMZWYwSnR6?=
- =?utf-8?B?VDFQdkdSOHBzUnh1ZndrMmQ1SnQ1ZXVFWFFRUGpTdTQxeHQwVXZURGpZZElw?=
- =?utf-8?B?Uld3dFZ1WlRlSXFzT1ljcHRJT1NlZ0ZDZm5PMko4ME44VWxwWHdSWkdiU3hh?=
- =?utf-8?B?S2FxNG0xOEJVWVJwNTcxWUV5UFpUV1I3ZGZ0WWxEZjJjVHZCSnY3S2taVmVE?=
- =?utf-8?B?Y2IrYm1lMjhaNjdHZHorUFBFckJmKzhqeFE0WXRDVm5mUXVvRThveWptbWRK?=
- =?utf-8?B?V2ZkUnZYK0dIQmxzQkxoM1lzeFQyQWNwRjA2Nkg2NWdNZ0kyRitFdU1Lcm1j?=
- =?utf-8?B?MDg3N3VyZk52a0RCU1ozd2dNa2IrNnZyS3ZWOWkrWSswOHNQOC9IYTFkV3Uv?=
- =?utf-8?B?NkNta3dDZWVVcjI1aU01SEI5WjBvQ2xrVmpvYTEwdks1Und0a3ptOTZvNFlF?=
- =?utf-8?B?b3BORFI0aHljdDhmSGd3TGVQaG5NNkZRVzUxUWlKekQwWnY4VEt4N0ZVWU9o?=
- =?utf-8?B?VCtKTktic3Z4SS9HVGNTb25kdjN2VlZUTmI5U0g4RUYxTGpudlFON09RU2tJ?=
- =?utf-8?B?Q05KYjFUOWJTZTR4NExxWHlNSVZjNEoyc1VhTmZUYVFIYzIwMEpiMVFVbUFq?=
- =?utf-8?B?M0RHeTh5emhFUTlPdEt5MTZ3T0tjNzJqY2x3WlpickpjSHpMNGN5UndRMGRu?=
- =?utf-8?B?eTRZU05KdnA1T2tpS0YwUXFFYXVBWkFycXhhazlXZ0lCZ1NGQTNUUEdDZjg1?=
- =?utf-8?B?MFRMeUpWMHBPdWJwV2hiOVNYbEYvYmtTZ2orNTFtU0ZmeXBGMmVtamM0azhT?=
- =?utf-8?B?S0VncXBtbW1Gd3pIay8zcWYwdjZaM3dTM2RCWFVrVlVsN1A3OG9nL2hpbXlo?=
- =?utf-8?B?bEN2Ky9JT3JWL3dudkFhWnVrNXNXTnNLbnYwa3M2cjdScEEvSnhzelp6OFR6?=
- =?utf-8?B?TjRnb2RqSDFRNTBka1IwR2xEam5BekYxRlpZRVNtUExkeVdJaTE1MmE4WXd3?=
- =?utf-8?B?ZitRaEhoUWpXeFNYcVltZjE2V3ZWTUdlZHZVZG5ZSW5EQWh2K2ozN0g0c1FW?=
- =?utf-8?B?WUZDZWRNQVFhazZmNjB5YWxzNjUvY01Vb0ZpTUkwZTlwN01lWUUrZWJtcnZx?=
- =?utf-8?B?QVh6c09CYWFSd1BLYzFlVjRhZEkxQlI4L0RnT21xNWE5ZWlCSlRZVzRlQWdW?=
- =?utf-8?B?SGFmTWxZbWdLWFRzZFpUQU1RV0I4TVM4eUxMV05ac0RZKytmekhCTSs5eE16?=
- =?utf-8?B?Y2RhYWlpeWg4VXg0MHVqZz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QlBYSDdBcmVrak56RWFqakljRGhTdC9jeTJUUjRWMFpiQjVzb3ZBRkZDaFZR?=
- =?utf-8?B?WncvR1cwUWNhS2o3ZUN1ZDZ6ZC9SVm1IQWRvWDd1NGZ2Q1NOU0k0U045WFRH?=
- =?utf-8?B?UUduaWNXNC9QNGlvTkF3cGhtY0w1aFpuazhZNHRKcnErUHlzZHBVbE1Jc0Jr?=
- =?utf-8?B?UFB5WVNDV3JPcW81ZWJFdFJyVEl6ZTJLRmxxQkYrSnJra1QyRjlwRzJrd2dj?=
- =?utf-8?B?a0cvM2tDYzgrZnRwZzRSUzIvRUp6TjBRRFJqWDR2WC93ek9SMUtqZnV0K3Nv?=
- =?utf-8?B?eHpiVjNMcjZ5VlNRWDQ2d054bWI1WHdCcWRNUlpFQ3IwSXZlMyt2WlZSdkdU?=
- =?utf-8?B?bnJ0eW1MUHc4ODcva1VKUkc2VW5Ob1VjRU1VNXpWMTk3bnpFS0JVemtKNjQ1?=
- =?utf-8?B?M3M1d21yK2FFZTdPVEdsMEg3d25EUHNUUmNMaEJYMERaU1I1cGswdEd6dmlj?=
- =?utf-8?B?M3hKR0RoNHh6TVFqZDk1ZUhvSHlVRVJlQzZuM2pSbkJMVGdaeCtaRjJnZWlE?=
- =?utf-8?B?eTVTT01kcndLR21pRmQ0b0gyaXdDNXUvUENMSmNOL2JDOWRvSmxHRVlmUEtX?=
- =?utf-8?B?Uzl0aHU2cTZlclZLNXJCMURDU093ck9qYXc0Skhsc0I1NnVpaGF5VkxUZG1C?=
- =?utf-8?B?cGRPQjBaVGV3MHh3TmQ3bjVkT1ZySWxDdFFUcEdRbzFickordHV1cDNhbHF5?=
- =?utf-8?B?ZkRTSzJVUEJLMEp2WGpGWjJRS1V3bVFDcDlINTErZmExVmVWVGZRN1labnB3?=
- =?utf-8?B?VVo4Y0ZvTzhmTkRCL21ROFY1aVVsUys0NVdLb1NZRWNRVS9vWnFmL1I1YTd5?=
- =?utf-8?B?VmMxU3NPQWJBcVNSRlhaTXVSa2Z0UzJxN2VOeUluMU02Znd0T0JSM0NVdndh?=
- =?utf-8?B?WnhadUZrNUcxTkNoQTBuc3RFYWl4UFlLVkxkaUNuYWUwQVl4ZUFBaFdmbXN2?=
- =?utf-8?B?YUgwS2Q4a0czNzc1MzdsdFlkbEhmMDNSN091VERET1h1VDIzdHBXNG1rblZr?=
- =?utf-8?B?NkwrKzZNK2cvb3F2Sk44ejVHRWVxZUNIdHpQeDJXUms3Vk12VjM4UHBWaDhU?=
- =?utf-8?B?LzI3bUQ0RG1JTy81bVRHVXp3ZlV1K3VBUTBMVEdyS1cxNEtDWDlpUmkxalN0?=
- =?utf-8?B?TlZvTmVkMlV2c1RnNmszM0pNQnRrQU9YNENyZjNMM0ZwczcrRFBZT3hYY3pQ?=
- =?utf-8?B?KzVCeW1relNLS0kyRDQvVEZweTd1eEE3bDRyeEpjTlUvY2M0dkRwQjJOR2tN?=
- =?utf-8?B?emNwQ2JQbHJNaVVJNUQ5ejd4YUJaTmdzMGN4NlFwaTJFREl3QkNsdkZqZmJI?=
- =?utf-8?B?TFU2YWlKWm1Ga3FJSllrY1lYTkdGTEVPMlR1bkJYUmRtSXJqbE01M3ArSnRr?=
- =?utf-8?B?VStwRWtrcTN4SG55VU8vcFZ6b1JWcVljYnJjVjZCeXdEQkJ0OHR4Q0VnQ1NF?=
- =?utf-8?B?RVBpV1N5bmpjdTM4NGRPcnBOWjNtclhzbHhYOFd4c21nSVAxWjJhRnlrdGZl?=
- =?utf-8?B?b0ZLSXlIcGdJRkJQZ3hqaHpEajlKTEhCc2NjRE45K20rczNPL21zdm5rekNR?=
- =?utf-8?B?a1NmSk5VSkJzcTExNWNreGdUUXZVOURpMVRRVU91ZyttMyszZzd5aGRUZyt2?=
- =?utf-8?B?NTBCcTFUVWFXd2hxZTJ4VnlYcFFadDlYeFpsN2tXeVhlZWNTVGFkVENtYlky?=
- =?utf-8?B?Mk85dkpaSXJFZGxLMDRsYU5PQkd0RWNabkpDOGJRbWE0YkZvL0p5WnV6a0dU?=
- =?utf-8?B?WFNUc3FTYnZVSDlqclJpN1kyRXFRVW1Tc2J6TFdCTE4vSk9YUEgwLzZBU1dw?=
- =?utf-8?B?MHhSd1FpU0h5bTBOY3AvWFJCdDA0S1M3N2szT1FPVUZHaElua1VkWEdhYkxu?=
- =?utf-8?B?LzI0VHN6RXF2N09vb21lMXFKQ3M5VGx0ZTZCTWlSVXZaQlMyb2kyMlZNUVBR?=
- =?utf-8?B?YnllcEV6WmRSSWxPRGxKYllrVHd1UXVzZ3dsVTVMZUV2ODRKTkpTdEh1T1hJ?=
- =?utf-8?B?MzVrWGtMa0ptY0xWSHRSQ0R2SW8zZVRnYzM2bUFsQ2k1akZmNWNtbGFGUm1p?=
- =?utf-8?B?aG5kWnhINENCemJVVnR3dXFBZmFQZkxnckZFcFZhbWk4NEozbERETlE4VUpq?=
- =?utf-8?Q?wnigScyQFqC+ujfrgJMjZ3uTE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cb5a221-ac92-4c5b-8943-08dc9a668082
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2024 07:13:41.4279
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Urgvvs61714O5auQ4WSMBxcvnGj0PrWiogVHKKot6lZLvosytHza3xB+p+t+nQbd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7708
 
-Am 02.07.24 um 08:40 schrieb Christoph Hellwig:
-> On Mon, Jul 01, 2024 at 11:26:34PM -0700, Andrew Morton wrote:
->> No, I do think the cast is useful:
->>
->> 	struct page *page = dma_fence_chain_alloc();
->>
->> will presently generate a warning.  We want this.  Your change will
->> remove that useful warning.
->>
->>
->> Unrelatedly: there is no earthly reason why this is implemented as a
->> macro.  A static inline function would be so much better.  Why do we
->> keep doing this.
-> Agreed with all of the above.  Adding the dmabuf maintainers.
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: a0157b5aa34eb43ec4c5510f9c260bbb03be937e  media: venus: fix use after free in vdec_close
 
-Thanks for adding me and I have to ask to be added on DMA-buf patches 
-when initially sending them out.
+elapsed time: 2708m
 
-First of all: Yes that cast is intentionally there and yes that is 
-intentionally a define and not an inline function.
+configs tested: 104
+configs skipped: 2
 
-See this patch here which changed that:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-commit 2c321f3f70bc284510598f712b702ce8d60c4d14
-Author: Suren Baghdasaryan <surenb@google.com>
-Date:   Sun Apr 14 19:07:31 2024 -0700
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                               defconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240702   gcc-13.2.0
+arc                   randconfig-002-20240702   gcc-13.2.0
+arc                           tb10x_defconfig   gcc-13.2.0
+arm                               allnoconfig   clang-19
+arm                                 defconfig   clang-14
+arm                       multi_v4t_defconfig   clang-19
+arm                       omap2plus_defconfig   gcc-13.2.0
+arm                   randconfig-001-20240702   gcc-13.2.0
+arm                   randconfig-002-20240702   gcc-13.2.0
+arm                   randconfig-003-20240702   gcc-13.2.0
+arm                   randconfig-004-20240702   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240702   gcc-13.2.0
+arm64                 randconfig-002-20240702   clang-19
+arm64                 randconfig-003-20240702   gcc-13.2.0
+arm64                 randconfig-004-20240702   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240702   gcc-13.2.0
+csky                  randconfig-002-20240702   gcc-13.2.0
+hexagon                           allnoconfig   clang-19
+hexagon                             defconfig   clang-19
+hexagon               randconfig-001-20240702   clang-19
+hexagon               randconfig-002-20240702   clang-19
+i386         buildonly-randconfig-001-20240630   clang-18
+i386         buildonly-randconfig-002-20240630   clang-18
+i386         buildonly-randconfig-003-20240630   clang-18
+i386         buildonly-randconfig-004-20240630   gcc-7
+i386         buildonly-randconfig-005-20240630   clang-18
+i386         buildonly-randconfig-006-20240630   gcc-13
+i386                  randconfig-001-20240630   gcc-13
+i386                  randconfig-002-20240630   gcc-13
+i386                  randconfig-003-20240630   clang-18
+i386                  randconfig-004-20240630   gcc-13
+i386                  randconfig-005-20240630   clang-18
+i386                  randconfig-006-20240630   clang-18
+i386                  randconfig-011-20240630   gcc-13
+i386                  randconfig-012-20240630   clang-18
+i386                  randconfig-013-20240630   gcc-8
+i386                  randconfig-014-20240630   gcc-8
+i386                  randconfig-015-20240630   gcc-10
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch             randconfig-001-20240702   gcc-13.2.0
+loongarch             randconfig-002-20240702   gcc-13.2.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                                defconfig   gcc-13.2.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                  cavium_octeon_defconfig   gcc-13.2.0
+mips                           ip32_defconfig   clang-19
+mips                     loongson2k_defconfig   gcc-13.2.0
+mips                      maltasmvp_defconfig   gcc-13.2.0
+mips                      pic32mzda_defconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                 randconfig-001-20240702   gcc-13.2.0
+nios2                 randconfig-002-20240702   gcc-13.2.0
+openrisc                          allnoconfig   gcc-13.2.0
+openrisc                            defconfig   gcc-13.2.0
+parisc                            allnoconfig   gcc-13.2.0
+parisc                              defconfig   gcc-13.2.0
+parisc                randconfig-001-20240702   gcc-13.2.0
+parisc                randconfig-002-20240702   gcc-13.2.0
+powerpc                           allnoconfig   gcc-13.2.0
+powerpc                       ebony_defconfig   clang-19
+powerpc                   motionpro_defconfig   clang-17
+powerpc               randconfig-001-20240702   gcc-13.2.0
+powerpc               randconfig-002-20240702   clang-16
+powerpc               randconfig-003-20240702   gcc-13.2.0
+powerpc64             randconfig-001-20240702   clang-19
+powerpc64             randconfig-002-20240702   gcc-13.2.0
+powerpc64             randconfig-003-20240702   clang-19
+riscv                             allnoconfig   gcc-13.2.0
+riscv                               defconfig   clang-19
+riscv             nommu_k210_sdcard_defconfig   gcc-13.2.0
+riscv                    nommu_virt_defconfig   clang-19
+riscv                 randconfig-001-20240702   gcc-13.2.0
+riscv                 randconfig-002-20240702   gcc-13.2.0
+s390                              allnoconfig   clang-19
+s390                  randconfig-001-20240702   clang-19
+s390                  randconfig-002-20240702   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-13.2.0
+sh                          kfr2r09_defconfig   gcc-13.2.0
+sh                          r7780mp_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240702   gcc-13.2.0
+sh                    randconfig-002-20240702   gcc-13.2.0
+sh                        sh7763rdp_defconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-13.2.0
+sparc64               randconfig-001-20240702   gcc-13.2.0
+sparc64               randconfig-002-20240702   gcc-13.2.0
+um                                allnoconfig   clang-17
+um                    randconfig-001-20240702   gcc-8
+um                    randconfig-002-20240702   gcc-13
+x86_64                           alldefconfig   gcc-13
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                randconfig-001-20240702   gcc-13.2.0
+xtensa                randconfig-002-20240702   gcc-13.2.0
+xtensa                    xip_kc705_defconfig   gcc-13.2.0
 
-     mm: change inlined allocation helpers to account at the call site
-
-     Main goal of memory allocation profiling patchset is to provide 
-accounting
-     that is cheap enough to run in production.  To achieve that we inject
-     counters using codetags at the allocation call sites to account 
-every time
-     allocation is made.  This injection allows us to perform accounting
-     efficiently because injected counters are immediately available as 
-opposed
-     to the alternative methods, such as using _RET_IP_, which would require
-     counter lookup and appropriate locking that makes accounting much more
-     expensive.  This method requires all allocation functions to inject
-     separate counters at their call sites so that their callers can be
-     individually accounted.  Counter injection is implemented by allocation
-     hooks which should wrap all allocation functions.
-
-     Inlined functions which perform allocations but do not use allocation
-     hooks are directly charged for the allocations they perform.  In most
-     cases these functions are just specialized allocation wrappers used 
-from
-     multiple places to allocate objects of a specific type.  It would 
-be more
-     useful to do the accounting at their call sites instead. Instrument 
-these
-     helpers to do accounting at the call site.  Simple inlined allocation
-     wrappers are converted directly into macros.  More complex 
-allocators or
-     allocators with documentation are converted into _noprof versions and
-     allocation hooks are added.  This allows memory allocation profiling
-     mechanism to charge allocations to the callers of these functions.
-
-Regards,
-Christian.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
