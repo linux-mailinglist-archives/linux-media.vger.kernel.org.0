@@ -1,219 +1,232 @@
-Return-Path: <linux-media+bounces-14544-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14545-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A3692424F
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 17:25:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D923892430B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 18:01:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 878231F24A66
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 15:25:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F71728A0FA
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 16:01:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102D81BC068;
-	Tue,  2 Jul 2024 15:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kEkbHH/X";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ITaMGUSc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3CC1BC098;
+	Tue,  2 Jul 2024 16:01:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486761AD9E7;
-	Tue,  2 Jul 2024 15:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A2D1BB6BC
+	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 16:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719933937; cv=none; b=qFhGJxrsimjSVcupi/i2uUl3KOtmBokWE7CaubfYxG9Yj7qdrYTvRWBRAQLGn3/7MA+6jw9F6VASJPXQUvneIuYwW6AGHNWvcYzL7qAs2DDwh7Hy/8akiGkL8x/tm2ZMQuiR4b0An7Z7A9K/ZuwjtN89jv91yT76r7LmsSWUIJM=
+	t=1719936104; cv=none; b=i8+PjTtx8BT/xjQ7jOShI1mTWqF1LHdK6OosvMBw8W99UgjgkXY/xyXbvFsiA5wTcsQl8eNWtOwjO923xUiCV79+k+Viya9h47yP/Ko/SQAD1QTFHXCnk8bq4nDzh4KMArQpaRh/ouEBJ7GolWA7C52VgC7BROPdXyacRJ6RtCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719933937; c=relaxed/simple;
-	bh=yRg+8F091FuUES+JYKaVyH2G6lgo5Hr0AeAjnDuBU74=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=NrygjBQt21fiUZGQlq0tNCGsHpwtpaKc3OvR6wr7fkJtQk7qcV2Aa+axJX1dx6U39HVVK8JFlbLt1IEFDIzQTY8E44qjrEMtFhHfHHWxWcrp/jqXTGi3MT3gUkY2FcmjXOdODvCVObUKbBfhH9+8xw+cHXp1/XjNhafvnpss2U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kEkbHH/X; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ITaMGUSc; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 48F9413804AD;
-	Tue,  2 Jul 2024 11:25:33 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 02 Jul 2024 11:25:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1719933933; x=1720020333; bh=//A1hzQZrR
-	Fs+Jf7FIQ+nCDerLffGWLM2hRD5dKs7d4=; b=kEkbHH/XWCSn06of/wqt97JCcJ
-	d63/Ez6gIB61Do7L3zzyqlwIy1tVZClPACYGlmn2ihv8WrN2RKGIuE/YWSDyC5X3
-	NyOBG9hCHKcF6B3d0U6ABCoD0ABGEWQ4onpwFrpFKgwhkPriO5tL2mLgWIzO/S5V
-	BK65nyq5m/J6OOYIDUMu7j60fcabWeGzEZ/nBnJlg794+Dt+QugkelVT9hEEp7Sw
-	Fb6pognCnQ28sK53xdF4VE9qsQQ0GWTJbnxxBqYdwtuQTnzrL2C+BkxLIGKS77ML
-	e992b6+4qaUoXXMBF0AqrVDeY8pVe53x+UuXMFbiYP/7AuoX43hHfXvDlb/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1719933933; x=1720020333; bh=//A1hzQZrRFs+Jf7FIQ+nCDerLff
-	GWLM2hRD5dKs7d4=; b=ITaMGUScvo3efaios+nmJ+l2HFnt+Ouk1xOR9SCejBQX
-	X+nMNacgNPtPKVi4irj4dEYmGrr8FNITbhQUvWqAYQQPILNRrWJVHQULFVvNoLM7
-	rTdtpiL1WJQ2qMf+/vYV45qnUD9+xhUBPDPwmPbuPForpfbAg5MR7IWuf4lWJOgu
-	ZjcC9O6LcbgYKxFqEkJjij/TmMxzFEnaFEMin+DhBtFLzdFURKTy10k+bo8qqvn6
-	Y6zNLEL+rF6C87PnO3yUyXaOLtKKo2b6FHT7E7qU6piIjRurUT67VkufhxxxVfli
-	WkgrL30i15fkwtNeO2lCJCtYhLxBOKJhGEzhWh11AQ==
-X-ME-Sender: <xms:7BuEZttoIOu3FgcnRTCwlUY9enW-fWdSGJA21XR6uYg7nZNfEvYT4A>
-    <xme:7BuEZmeD2xZcTgq_x095S6hIFE_CXNZyvUj2JjppPZHG2X6yvowIK7ZB0ttBhCkdS
-    mKq1RK7-XDTo4l4GAg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgdekiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:7BuEZgzV2V9m7yHeP1-CY_1ToL-7saFDkeYbauhzrcIdP0hWxpdECQ>
-    <xmx:7BuEZkPqG5nj4biEtgHDOMbrIFpZ-CZs4LyXyDGqrlwrKeiI3XmUng>
-    <xmx:7BuEZt-0YpFxDaNOoYfGLVTo6xVdfiYwpii7nZD9L9GApKzNrmdlDg>
-    <xmx:7BuEZkX5ATZdeALUPYBN_7NUDUsZodxq3UocvaVEljBw0ouzzUeugQ>
-    <xmx:7RuEZhWiOkzLt1hDorcP0Kt54ntgBJmUM8iMCFrY5Nkd-AbR7KPNeG0_>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A1149B60092; Tue,  2 Jul 2024 11:25:32 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
+	s=arc-20240116; t=1719936104; c=relaxed/simple;
+	bh=yBz2VxunumbGuvH25wU4rJavxlofif3Af5P+Fr0JJag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a/PFSLyD9BQcIn0Khk+/cWHYcSNNdr6sCqpeH7wby7UK/lcNpCNGVc1kKwH9iOmLwEE6tYblJGWSUnA2+8KlLcTaGLl9OXUGBGmP6HRmyz3MXicJC0/pIKwt8uXijhL8j+hrMdS0TfBap2RbU996VwJrVIX9MTK/NWqFYh50U3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1504C116B1;
+	Tue,  2 Jul 2024 16:01:42 +0000 (UTC)
+Message-ID: <6750a726-d02f-4da8-83ae-6badedcf35f7@xs4all.nl>
+Date: Tue, 2 Jul 2024 18:01:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <35691b55-436c-4c52-b241-f0c5326227cb@app.fastmail.com>
-In-Reply-To: <20240628003253.1694510-11-almasrymina@google.com>
-References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-11-almasrymina@google.com>
-Date: Tue, 02 Jul 2024 17:25:11 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Mina Almasry" <almasrymina@google.com>, Netdev <netdev@vger.kernel.org>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S . Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>,
- "Donald Hunter" <donald.hunter@gmail.com>,
- "Jonathan Corbet" <corbet@lwn.net>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
- "Matt Turner" <mattst88@gmail.com>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Helge Deller" <deller@gmx.de>, "Andreas Larsson" <andreas@gaisler.com>,
- "Jesper Dangaard Brouer" <hawk@kernel.org>,
- "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>,
- "Andrii Nakryiko" <andrii@kernel.org>,
- "Martin KaFai Lau" <martin.lau@linux.dev>,
- "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>,
- "John Fastabend" <john.fastabend@gmail.com>,
- "KP Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@fomichev.me>,
- "Hao Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>,
- "Steffen Klassert" <steffen.klassert@secunet.com>,
- "Herbert Xu" <herbert@gondor.apana.org.au>,
- "David Ahern" <dsahern@kernel.org>,
- "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
- shuah <shuah@kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Bagas Sanjaya" <bagasdotme@gmail.com>,
- "Christoph Hellwig" <hch@infradead.org>,
- "Nikolay Aleksandrov" <razor@blackwall.org>,
- "Pavel Begunkov" <asml.silence@gmail.com>, "David Wei" <dw@davidwei.uk>,
- "Jason Gunthorpe" <jgg@ziepe.ca>,
- "Yunsheng Lin" <linyunsheng@huawei.com>,
- "Shailend Chand" <shailend@google.com>,
- "Harshitha Ramamurthy" <hramamurthy@google.com>,
- "Shakeel Butt" <shakeel.butt@linux.dev>,
- "Jeroen de Borst" <jeroendb@google.com>,
- "Praveen Kaligineedi" <pkaligineedi@google.com>,
- "Willem de Bruijn" <willemb@google.com>,
- "Kaiyuan Zhang" <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v15 10/14] tcp: RX path for devmem TCP
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: tc358743 EDID / hotplug bug?
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-media@vger.kernel.org
+References: <20240628-stoic-bettong-of-fortitude-e25611@houat>
+ <f780e747-0159-48d5-aef9-2ed324feeae2@xs4all.nl>
+ <20240702-certain-lion-of-focus-692c12@houat>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20240702-certain-lion-of-focus-692c12@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 28, 2024, at 02:32, Mina Almasry wrote:
-> --- a/arch/alpha/include/uapi/asm/socket.h
-> +++ b/arch/alpha/include/uapi/asm/socket.h
-> @@ -140,6 +140,11 @@
->  #define SO_PASSPIDFD		76
->  #define SO_PEERPIDFD		77
+On 02/07/2024 16:22, Maxime Ripard wrote:
+> Hi,
 > 
-> +#define SO_DEVMEM_LINEAR	78
-> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
-> +#define SO_DEVMEM_DMABUF	79
-> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+> On Mon, Jul 01, 2024 at 10:29:55AM GMT, Hans Verkuil wrote:
+>> Hi Maxime,
+>>
+>> On 28/06/2024 10:50, Maxime Ripard wrote:
+>>> Hi Hans,
+>>>
+>>> I've been playing with the unicam driver and the TC358743 HDMI -> CSI
+>>> bridge recently.
+>>>
+>>> The program I was testing it with had a (arguably suboptimal) pattern
+>>> where it would (in a non-blocking way):
+>>>
+>>> In a loop:
+>>>   - set EDID
+>>>   - In a loop:
+>>>     - call query_dv_timings
+>>>     - if we have a timing matching the mode we expect:
+>>>       - break the loop
+>>>
+>>>   - Call s_dv_timings
+>>>   - Call s_fmt
+>>>   - Call reqbufs
+>>>   - Query and Queue all requested buffers
+>>>   - Call streamon
+>>>   - In a loop:
+>>>     - Dequeue the events
+>>>     - If there's a resolution change:
+>>>       - Call streamoff
+>>>       - Call reqbufs with 0 buffers to clear all buffers
+>>>       - Restart the entire sequence
+>>>     - Dequeue a buffer
+>>>     - Queue it again
+>>>
+>>> This works mostly fine, but when trying to capture the boot of a device
+>>> connected on the other end, I'm always getting at some point an
+>>> resolution change event in the very first iteration.
+>>>
+>>> The event itself looks fine: there's no remaining events at any point,
+>>> the sequence is correct, etc. However, this puts the s_edid call super
+>>> close to streamoff and the next s_edid call.
+>>>
+>>> And it looks like the tc358743 driver doesn't like that very much and
+>>> the HPD pin ends up in the wrong state on the next iteration: both the
+>>> driver itself and the device at the other reports the hotplug pin as
+>>> being low, and thus, not connected.
+>>>
+>>> I'm not entirely sure what is the reason, but I suspect a race in:
+>>> https://elixir.bootlin.com/linux/v6.9.3/source/drivers/media/i2c/tc358743.c#L403
+>>>
+>>> Possibly due to the 100ms delay?
+>>>
+>>> I've attached a kernel log with debug logs from both v4l2 and the driver
+>>> enabled.
 
-Something is still wrong with the number assignment:
+The relevant part is here:
 
-> --- a/arch/mips/include/uapi/asm/socket.h
-> +++ b/arch/mips/include/uapi/asm/socket.h
-> @@ -151,6 +151,11 @@
->  #define SO_PASSPIDFD		76
->  #define SO_PEERPIDFD		77
+[  149.457319] Starting new Test
+[  149.460387] tc358743 10-000f: tc358743_s_edid, pad 0, start block 0, blocks 2
+[  149.460396] tc358743 10-000f: tc358743_disable_edid:
+
+HPD is pulled low here.
+
+[  149.486259] tc358743 10-000f: tc358743_enable_edid:
+[  149.486268] tc358743 10-000f: tc358743_enable_interrupts: cable connected = 1
+
+Here the delayed work is started.
+
+[  149.488760] video0: VIDIOC_S_EDID
+[  149.495353] tc358743 10-000f: tc358743_query_dv_timings: 1280x720p60.00 (1650x750)
+
+But here the tc358743 accepts a query_dv_timings call, even though the source
+should have stopped transmitting because the HPD went low.
+
+[  149.502929] video0: VIDIOC_QUERY_DV_TIMINGS
+
+...
+
+[  149.555039] Starting new Test
+
+And the new test started within 100 ms of the previous test, so we never saw the
+tc358743_delayed_work_enable_hotplug call that pulls the HPD high.
+
+[  149.558153] tc358743 10-000f: tc358743_s_edid, pad 0, start block 0, blocks 2
+[  149.558163] tc358743 10-000f: tc358743_disable_edid:
+
+HPD is pulled low here.
+
+[  149.584032] tc358743 10-000f: tc358743_enable_edid:
+[  149.584041] tc358743 10-000f: tc358743_enable_interrupts: cable connected = 1
+[  149.586526] video0: VIDIOC_S_EDID
+[  149.587052] tc358743 10-000f: tc358743_get_detected_timings: no valid signal
+[  149.587057] video0: VIDIOC_QUERY_DV_TIMINGS: error -67
+[  149.687340] tc358743 10-000f: tc358743_delayed_work_enable_hotplug:
+
+HPD is pulled high here (about 100 ms later).
+
+I think the solution might be ensure that tc358743_get_detected_timings()
+returns -ENOLINK if the HPD is low. So add:
+
+	if (!(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0))
+		return -ENOLINK;
+
+Regards,
+
+	Hans
+
+>>
+>> You forgot to attach the logs :-)
 > 
-> +#define SO_DEVMEM_LINEAR	78
-> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
-> +#define SO_DEVMEM_DMABUF	79
-> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-> +
->  #if !defined(__KERNEL__)
+> Of course I did :)
 > 
->  #if __BITS_PER_LONG == 64
-
-so alpha and mips use the same numbering system as
-the generic version for existing numbers
-
-> diff --git a/arch/parisc/include/uapi/asm/socket.h 
-> b/arch/parisc/include/uapi/asm/socket.h
-> index be264c2b1a117..2b817efd45444 100644
-> --- a/arch/parisc/include/uapi/asm/socket.h
-> +++ b/arch/parisc/include/uapi/asm/socket.h
-> @@ -132,6 +132,11 @@
->  #define SO_PASSPIDFD		0x404A
->  #define SO_PEERPIDFD		0x404B
+> It should be attached this time
 > 
-> +#define SO_DEVMEM_LINEAR	78
-> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
-> +#define SO_DEVMEM_DMABUF	79
-> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
-
-parisc uses a different number, but you start using the
-generic version here. This is probably fine but needs 
-a comment.
-
-> index 8ce8a39a1e5f0..25a2f5255f523 100644
-> --- a/include/uapi/asm-generic/socket.h
-> +++ b/include/uapi/asm-generic/socket.h
-> @@ -135,6 +135,11 @@
->  #define SO_PASSPIDFD		76
->  #define SO_PEERPIDFD		77
+>> I don't off-hand see a race condition.
 > 
-> +#define SO_DEVMEM_LINEAR	98
-> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
-> +#define SO_DEVMEM_DMABUF	99
-> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+> Yeah, me neither. The code looked sane to me, hence that mail.
+> 
+>> But there is an important thing to remember: the HPD is only pulled
+>> high if the 5V line from the source is also high. I.e., if no source
+>> is detected, then the HPD remains low.
+>>
+>> I don't think you state what the source device is, but make sure it
+>> has 5V high. If it is low, or it toggles the 5V for some reason, then
+>> that might be related to the problem. But without logs it is hard to
+>> tell.
+> 
+> It's a RaspberryPi. I was looking at the register and it doesn't detect
+> HPD being high, but I'll try to see if I can find a testpoint to read
+> the level.
+> 
+> Maxime
 
-These on the other hand look like a typo: did you
-mean number 78 and 79 instead of 98 and 99?
-
-Alternatively, you could continue with number 87,
-which is the next unused number on sparc, and have
-the same numbers on all architectures?
-
-     Arnd
 
