@@ -1,124 +1,154 @@
-Return-Path: <linux-media+bounces-14528-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14529-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344AA923E99
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 15:15:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF03E923EAA
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 15:17:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF4A51F250FD
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 13:15:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AA7FB22098
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 13:17:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B504A19DF78;
-	Tue,  2 Jul 2024 13:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E37B61B47C0;
+	Tue,  2 Jul 2024 13:17:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P2e3SWN+"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="scwfPmS1";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="OGwEOZ8T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C27119DF82
-	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 13:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AE41B47B0;
+	Tue,  2 Jul 2024 13:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719926082; cv=none; b=XpBZRQek0MaKUZS7rHJ5b0zis8w7Jjzi75EJPWmNlfNaOI47ESG3Q1BShV7cEigZYQp9tlgz3Z5DWz5OwcImTM5cBogFMeZwUkwjFHBzr40dVQ+r6MibrR8SePfO+KJ1TdzlpSn2DCtMuo0bNgOgNaY7AhVCDpt7uYl81I2Dvyk=
+	t=1719926251; cv=none; b=U24dKV4B8swIZSDK5yT/ff2vhj+5zffKgSN1RxKmmEQnRD82j5UaFtOZTB2+KY0W+3c6D+HYFhxRm8Rvedo2DuucRhAq7EAd80ou61GMYZopBD/j5hcshhoYTt15ig1MyXlsiQnvtOjpB0LjCtqNRSoaaqvZ008vkO1wQGYSnKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719926082; c=relaxed/simple;
-	bh=qcbSk1txeKGjtUgrI5TEa2OFa9eUbMFBvTxpismD3E0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FPgHDJNXH3Mf/sXIM1cWRz0eozcKt/omjZlPwSSgC+FN/i2c9G8eUMwI5TahwLh6nowsgI2k1nKvgKylnQon4xxJ1sPiBGLr7QTi5JUfyPU2/JC61S5D0PV4vTb9Q7f2JSIoynDBysTaJe4oXXBSRCKuIIO0WIIbyCcuJXslFIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P2e3SWN+; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57d119fddd9so21831a12.1
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 06:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719926078; x=1720530878; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qcbSk1txeKGjtUgrI5TEa2OFa9eUbMFBvTxpismD3E0=;
-        b=P2e3SWN+yseDMp90p9VEzZHdkGUJX9Ld0Lj6dP8ekUsLe8WFMUvAkLLe78MDS5i4EN
-         tR404H/0eeBkXwqz6cEs0wa8kKW0z3UTY4UZ/Z2VHDf9iA94POb9ISGx+gxT15YkEzv/
-         WmZ3qHVASbx8qKTwDFYpM8WY0IUd7M0XZYIHHxmOLGp3HsBz1gJM+bvXXvIKLLEq51UY
-         UK2jscCD6GaFo29bpNziVw68wgEtOjjhlNCcjACm1kB3mVAzPq17QH7ewZq15jN4VR3Q
-         SxTV1baqz7uqrV15hW4+z0toLL/X1R4jw8Cgsc0bmvj2xTdgtrRgIRz5fH/9T2GwHcum
-         MWFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719926078; x=1720530878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qcbSk1txeKGjtUgrI5TEa2OFa9eUbMFBvTxpismD3E0=;
-        b=Ej2Z6R9O2cxNnw2oBL1k1uBkvVzrB/f3+ELZThPz2TKtX/DEBmvWi9de2f7pSzlu1x
-         sDBrnf6rPpFAhUMb2aaNXJ2KDJGLL1kOZGRCybK3e9u1fq80eYh7s4cImnsSyGodKsDq
-         X8NKX2ky4CP9mUAiYUvHl49GrumHEnpy7ViCtV5sqD1YB+HmWvTKHmTgPOItuJkokuM4
-         /teX4tXk+az7FsGKjA9FBxPReoIzJ7QZX2UY2dJn7whis01Urqg0NpdLAgfw9qeg5t4d
-         iS2916MNQ/mF92YuX3XNJE7qRSQLg/qdFji+VxqwkE0KjrpFHfXNDZp7JB1yxXIRuian
-         azRA==
-X-Forwarded-Encrypted: i=1; AJvYcCVsU0hjxiTFSQrhN59Yp0syOY24S0CkD0CxtmXwBNRVnnp2EEtDrKdA+gLnsB17w0tgHapf/aTXUgcg5w6BSDwZybKWPoNHKdWsXSk=
-X-Gm-Message-State: AOJu0YyHWWuYxnqDlD9/DdZfH3wcadL/amTHtfwcwG0qY9ErcqbtD1Yb
-	be5N1O6sgakwTEIbu+YSgLvG3xVT99jSmRl8gM+ODQgbXhc9mDqhXBUUQqPvMJbel17A0pWhiem
-	wSRVEX+OWX/fHZpFHI+oWTzi1RjXOaHtzZjtI
-X-Google-Smtp-Source: AGHT+IERKkCVpVomNRYr8KNFI5e5JCBWRQ7HMLMgDv1aOW++vU+Fu31VZ6RrRqWEtIXBu1Sq7l+LYKSRxYEU9Pq/83U=
-X-Received: by 2002:a50:9308:0:b0:57d:32ff:73ef with SMTP id
- 4fb4d7f45d1cf-5872f79a720mr634350a12.6.1719926077342; Tue, 02 Jul 2024
- 06:14:37 -0700 (PDT)
+	s=arc-20240116; t=1719926251; c=relaxed/simple;
+	bh=09ay23XCwOzUyA7BLTEjSvUFpkRNBr4tnF64rIfEiG8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OZUzvwdwfP6fsTrFeQfmSatUBRm9Rx4wBjYyr3cWQs2d7ONpUblDKdWzAbM32GR388/Dd8hFu0IGzYHGTNUV5bOMRAxJr5+oN5aIgLJZiUc8wb0zelHeoJdh1/MFY/wIs0mwpcuwPoLfGZYCbDnI5VR+6j+UcPlV+BuYWBy3lps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=scwfPmS1; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=OGwEOZ8T; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1719926241; bh=09ay23XCwOzUyA7BLTEjSvUFpkRNBr4tnF64rIfEiG8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=scwfPmS1HpLhSZWeaqB3jphFpv3gfVWFQriE7QQJoO/M2dMDX2Ryirh2bkZZKzdKA
+	 1BpAZ/YJsx51Kk2daHgWVs7MxYBdSLVTM97U7M1cT+KDhPujucn8ST0lMqLXWKD3jk
+	 5TAVTg0KzsAn20+T5SZD6sCozjZ1gYt1WGKiYw/oSKkiRD7XOt52Ejwn7SkrbKfa1A
+	 XwICjFZF76nfq/VSJeJsLTRAUEn739BzA1xC+k0n+0Hgwb0zsKX06XMT/smyxmHEph
+	 DPWM50DO9MFgdOZucqt2XKfSCnMtuhoJa1sP1I2NTzIgz7ecQIbYAkQyC/8ZYrPdMC
+	 OE86gHhdy9TNw==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id A9E7E10029F; Tue,  2 Jul 2024 14:17:21 +0100 (BST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1719926240; bh=09ay23XCwOzUyA7BLTEjSvUFpkRNBr4tnF64rIfEiG8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OGwEOZ8ThNX8/q6cQJ/AU/d209gMXox6qx2NdfMeHTJiyMLyijGzgbLDyYQh71UdQ
+	 5+uuGVW5Zfo78Bz/hbcjVp/mKU6IZWRLiaLh6/xJNGUUb9UDrkGUnGX8YeqWCc96oq
+	 iujbczd4Y3lg6/M5wvXcmKTLM7URjKnbYeT1i+B9ErmL2HdDqDXFbJb/abpjukEGVo
+	 3kbFZvikiHSt6FP8aK1J4l5iGuOBrxRzANq4K2/oG251kaIfvY0GeobBglYm/FZOc1
+	 WFH1GWwOvvRRPiNRHbWqgR0b6SZ5bAh5dbCQydIhRouNwMcr6AZEugfh6gsEHu86zh
+	 4E0/KEPzac4BQ==
+Received: from localhost.localdomain (bigcore.local [IPv6:2a02:8011:d000:212:bc3c:1b4a:a6fa:362f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gofer.mess.org (Postfix) with ESMTPSA id 04DD3100074;
+	Tue,  2 Jul 2024 14:17:20 +0100 (BST)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] media: rc: remove unused tx_resolution field
+Date: Tue,  2 Jul 2024 14:17:02 +0100
+Message-ID: <20240702131705.1073761-1-sean@mess.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240628003253.1694510-1-almasrymina@google.com> <20240628003253.1694510-9-almasrymina@google.com>
-In-Reply-To: <20240628003253.1694510-9-almasrymina@google.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 2 Jul 2024 15:14:22 +0200
-Message-ID: <CANn89iJ1ys-eNyM3BGQ1PuLKsbo+Kcj78wfoAtaFPygQdYawkg@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 08/14] net: support non paged skb frags
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 28, 2024 at 2:33=E2=80=AFAM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> Make skb_frag_page() fail in the case where the frag is not backed
-> by a page, and fix its relevant callers to handle this case.
->
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->
+The tx_resolution field is never read. In theory you can imagine this
+field being useful for detecting whether the transmitter has the
+resolution for the message you are trying to send, but I am not aware of
+any hardware where this could be an issue.
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+Just remove.
+
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/ene_ir.c      | 3 ---
+ drivers/media/rc/ite-cir.c     | 1 -
+ drivers/media/rc/rc-loopback.c | 1 -
+ include/media/rc-core.h        | 2 --
+ 4 files changed, 7 deletions(-)
+
+diff --git a/drivers/media/rc/ene_ir.c b/drivers/media/rc/ene_ir.c
+index 11ee21a7db8f0..67722e2e47ff7 100644
+--- a/drivers/media/rc/ene_ir.c
++++ b/drivers/media/rc/ene_ir.c
+@@ -451,9 +451,6 @@ static void ene_rx_setup(struct ene_device *dev)
+ 		dev->rdev->max_timeout = 200000;
+ 	}
+ 
+-	if (dev->hw_learning_and_tx_capable)
+-		dev->rdev->tx_resolution = sample_period;
+-
+ 	if (dev->rdev->timeout > dev->rdev->max_timeout)
+ 		dev->rdev->timeout = dev->rdev->max_timeout;
+ 	if (dev->rdev->timeout < dev->rdev->min_timeout)
+diff --git a/drivers/media/rc/ite-cir.c b/drivers/media/rc/ite-cir.c
+index fcfadd7ea31cf..2bacecb022623 100644
+--- a/drivers/media/rc/ite-cir.c
++++ b/drivers/media/rc/ite-cir.c
+@@ -1380,7 +1380,6 @@ static int ite_probe(struct pnp_dev *pdev, const struct pnp_device_id
+ 	rdev->timeout = IR_DEFAULT_TIMEOUT;
+ 	rdev->max_timeout = 10 * IR_DEFAULT_TIMEOUT;
+ 	rdev->rx_resolution = ITE_BAUDRATE_DIVISOR * sample_period / 1000;
+-	rdev->tx_resolution = ITE_BAUDRATE_DIVISOR * sample_period / 1000;
+ 
+ 	/* set up transmitter related values */
+ 	rdev->tx_ir = ite_tx_ir;
+diff --git a/drivers/media/rc/rc-loopback.c b/drivers/media/rc/rc-loopback.c
+index b356041c5c00e..8288366f891fc 100644
+--- a/drivers/media/rc/rc-loopback.c
++++ b/drivers/media/rc/rc-loopback.c
+@@ -230,7 +230,6 @@ static int __init loop_init(void)
+ 	rc->min_timeout		= 1;
+ 	rc->max_timeout		= IR_MAX_TIMEOUT;
+ 	rc->rx_resolution	= 1;
+-	rc->tx_resolution	= 1;
+ 	rc->s_tx_mask		= loop_set_tx_mask;
+ 	rc->s_tx_carrier	= loop_set_tx_carrier;
+ 	rc->s_tx_duty_cycle	= loop_set_tx_duty_cycle;
+diff --git a/include/media/rc-core.h b/include/media/rc-core.h
+index 803349599c272..d095908073ef9 100644
+--- a/include/media/rc-core.h
++++ b/include/media/rc-core.h
+@@ -127,7 +127,6 @@ struct lirc_fh {
+  * @min_timeout: minimum timeout supported by device
+  * @max_timeout: maximum timeout supported by device
+  * @rx_resolution : resolution (in us) of input sampler
+- * @tx_resolution: resolution (in us) of output sampler
+  * @lirc_dev: lirc device
+  * @lirc_cdev: lirc char cdev
+  * @gap_start: start time for gap after timeout if non-zero
+@@ -194,7 +193,6 @@ struct rc_dev {
+ 	u32				min_timeout;
+ 	u32				max_timeout;
+ 	u32				rx_resolution;
+-	u32				tx_resolution;
+ #ifdef CONFIG_LIRC
+ 	struct device			lirc_dev;
+ 	struct cdev			lirc_cdev;
+-- 
+2.45.2
+
 
