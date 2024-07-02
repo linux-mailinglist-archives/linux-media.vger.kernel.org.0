@@ -1,203 +1,130 @@
-Return-Path: <linux-media+bounces-14520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DF2923A86
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 11:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BF1923B57
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 12:26:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C34AF281E27
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 09:47:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22EAF281072
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 10:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45CD915667C;
-	Tue,  2 Jul 2024 09:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 979B315884B;
+	Tue,  2 Jul 2024 10:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G0Nf/pOH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD2513D8BA;
-	Tue,  2 Jul 2024 09:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA54154449
+	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 10:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719913657; cv=none; b=Wk9pODF8eonUhhNx/3KEMdDjrOCZppkslYf8kjx9gvXMYKnfLS7+jzDimZcQWU3QIElvKtM3OpYeBKATshtjcblXJADeyJhdMy3S5VVv0iC3MwMIoC7Rxo2rul8jOwL37cRmevBylBC7ABh97ClXA2jPzvpWsop/DnyQCtYhvfc=
+	t=1719915973; cv=none; b=UllLabswm+QpXXDafqN43cCM4Huq+cVcxVnKDExdA9IIGNQnmQXAl9M6q/XrSdbTTv7Cs3TBKAAvOyrKAgAMuuU+9YaahtYwlfLfs7Hm8A6GBvSb32A91DIvhYC1C0tVd+0VvFgDFmge4jcgPcup76a2CuwB/+fpG84ZM3K0hSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719913657; c=relaxed/simple;
-	bh=U0kd/5cQuS9v7tslaaRyOJbZvEk2TvS+cpTPjNEAPt4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l60t6gNWiBcRYgSH7xhsz+ri0eJu9VIzqJ/GQ8pJH/kHvFuGgtRBs7JyVSy1mnp0HtPD5EZBIjQS2KkKsMT5R0cMTnEL6x2uQXsdpBCTTe/7dJyBqFYVMFzmwaV21k+ReuoGzNyodWv2uR+CgcKlbgsUx47fKc88Kdp1eLhkVQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.09,178,1716217200"; 
-   d="scan'208";a="213970994"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2024 18:47:35 +0900
-Received: from localhost.localdomain (unknown [10.226.93.72])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id DB42D400C75F;
-	Tue,  2 Jul 2024 18:47:28 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH 9/9] arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
-Date: Tue,  2 Jul 2024 10:46:19 +0100
-Message-ID: <20240702094630.41485-10-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240702094630.41485-1-biju.das.jz@bp.renesas.com>
-References: <20240702094630.41485-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1719915973; c=relaxed/simple;
+	bh=jhVT3y9GKmIBnK1dqRP3K4Wy5O9w+BRrhXm25CLuD+4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cf1H9GbGnZusVHl2RitfSP9EUeOZ8FRihBzL1ZSyvsm2rHdAlKqk3YhfUn1OCVr3CAbwCymjaOpV8OYkkqvyKZVy5kCoXPZBNwxyWXeuRLgSFS7xMrfRAcZ5LyD/8KriJCM4jLf7hHMDgNaYM1EHMH3IBBn9jvdgdEBbLIUM3hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G0Nf/pOH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1719915970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Afxrw0OtXDgCAzsHOEseMCwOgRoPKBguITR/IGA/CcQ=;
+	b=G0Nf/pOHMM5GF+iZPAU7H1Lnbh/KM3rkJ5aZM1nvUi35TuRrhArE4TnfdQTQVg1nl5Yn8G
+	Ef3gBT+0FzwtIlVzY5SAZcjTERhqfzlMNAQmP1Y5C/x59rnWxvjfXEgGBgCmzdhRVeursn
+	/qI9O1/pKrkZKdREvuTRLl2UjvzQNB0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-689-zUH-FM3zO1a-GkfTAVQ_Aw-1; Tue, 02 Jul 2024 06:26:09 -0400
+X-MC-Unique: zUH-FM3zO1a-GkfTAVQ_Aw-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-57d3f1d20adso1327744a12.0
+        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 03:26:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719915968; x=1720520768;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Afxrw0OtXDgCAzsHOEseMCwOgRoPKBguITR/IGA/CcQ=;
+        b=B1h1am1nE0q6Lg2m7CTxxjCB0qEGrg0CWQ8OfZn3LOrP80Fvl2aLXKZaq5lcpwP/kz
+         PdHZIPI02MsGiVDDzIfh16Ui5aUjQXJOQdQ+wvoeFYrGv1R82nh8m1DKznj3r5YQVNpN
+         UR0gUaBK88krvI/GnHhds8J3/dSTyCo8wGxX1D/RKP6Al5BzkWZn0qd2XKMFm/PPankg
+         lE+QnAc7h0nDQ0e+AVWMs4Dfn0mxReeLLaQHnDVziLBxxpvOLd4glknwVl0A0LgGQjKg
+         eAoIPIJ3V/huiR/tZH4J5uh2mFRJgcUut0QGYbmdIOFaJBcLMWJ6jP3LmZDA+v8vnp0u
+         uLKw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9/U+/DNotqd7jV5ylw2eMKZKdFkopTeLvIeG+SRBjMcC6jDkLorMqYZGZxUZiSM4OjDRFlCpov58bZMfCIaYDkiuf3CByFq6KeZU=
+X-Gm-Message-State: AOJu0YzSCu6iQ2fuFDXSGp29eiVMbIQXh/oWH+qBS1oyUOrMJhJQ6w7h
+	ZmwsWKTaDBIs/M8qxAL3L+9VUODYB+9EySbFNK4B30ZQQvr6A0S5xOReT3ulrhCqqyShMC2qtrQ
+	mR/ogWGzDCeGKUW8bpBBK054+9WpSvsLsfNB6M535sFfmXblih0im3mqGm1CZ
+X-Received: by 2002:a05:6402:2710:b0:57c:9eef:e54 with SMTP id 4fb4d7f45d1cf-58780645f20mr6771446a12.5.1719915967875;
+        Tue, 02 Jul 2024 03:26:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFXQrxIK5Zv1oZ5wXcLlzx+4FACIgThy3UCNoAwLWS0yZtgZn3DpFkgN2IfgMW3Qm+k9p0y0w==
+X-Received: by 2002:a05:6402:2710:b0:57c:9eef:e54 with SMTP id 4fb4d7f45d1cf-58780645f20mr6771422a12.5.1719915967526;
+        Tue, 02 Jul 2024 03:26:07 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5861324f08esm5413910a12.27.2024.07.02.03.26.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jul 2024 03:26:06 -0700 (PDT)
+Message-ID: <674a5ff3-a5d7-41ec-b113-e091019bfcfb@redhat.com>
+Date: Tue, 2 Jul 2024 12:26:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] media: atomisp: Prefix firmware paths with
+ "intel/ipu/"
+To: Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tsuchiya Yuto
+ <kitakar@gmail.com>, Yury Luneff <yury.lunev@gmail.com>,
+ Nable <nable.maininbox@googlemail.com>, andrey.i.trufanov@gmail.com,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20240603132057.255917-1-hdegoede@redhat.com>
+ <20240603132057.255917-3-hdegoede@redhat.com>
+ <Zl4bIoxczvKt03bF@smile.fi.intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Zl4bIoxczvKt03bF@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Enable DU and link with the HDMI add-on board connected with
-the parallel connector on RZ/G2UL SMARC EVK.
+Hi Andy,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 111 ++++++++++++++++++
- 1 file changed, 111 insertions(+)
+thank you for the reviews.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-index 8e0107df2d46..dda37cf4d3fd 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts
-@@ -35,4 +35,115 @@
- / {
- 	model = "Renesas SMARC EVK based on r9a07g043u11";
- 	compatible = "renesas,smarc-evk", "renesas,r9a07g043u11", "renesas,r9a07g043";
-+
-+	hdmi-out {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		port {
-+			hdmi_con_out: endpoint {
-+				remote-endpoint = <&adv7513_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&du {
-+	pinctrl-0 = <&du_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+
-+	ports {
-+		port@1 {
-+			du_out_rgb: endpoint {
-+				remote-endpoint = <&adv7513_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&i2c1 {
-+	adv7513: adv7513@39 {
-+		compatible = "adi,adv7513";
-+		reg = <0x39>;
-+
-+		adi,input-depth = <8>;
-+		adi,input-colorspace = "rgb";
-+		adi,input-clock = "1x";
-+
-+		avdd-supply = <&reg_1p8v>;
-+		dvdd-supply = <&reg_1p8v>;
-+		pvdd-supply = <&reg_1p8v>;
-+		dvdd-3v-supply = <&reg_3p3v>;
-+		bgvdd-supply = <&reg_1p8v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				adv7513_in: endpoint {
-+					remote-endpoint = <&du_out_rgb>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+
-+				adv7513_out: endpoint {
-+					remote-endpoint = <&hdmi_con_out>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&pinctrl {
-+	du_pins: du {
-+		data {
-+			pinmux = <RZG2L_PORT_PINMUX(11, 2, 6)>,
-+				 <RZG2L_PORT_PINMUX(13, 1, 6)>,
-+				 <RZG2L_PORT_PINMUX(13, 0, 6)>,
-+				 <RZG2L_PORT_PINMUX(13, 4, 6)>,
-+				 <RZG2L_PORT_PINMUX(13, 3, 6)>,
-+				 <RZG2L_PORT_PINMUX(12, 1, 6)>,
-+				 <RZG2L_PORT_PINMUX(13, 2, 6)>,
-+				 <RZG2L_PORT_PINMUX(14, 0, 6)>,
-+				 <RZG2L_PORT_PINMUX(14, 2, 6)>,
-+				 <RZG2L_PORT_PINMUX(14, 1, 6)>,
-+				 <RZG2L_PORT_PINMUX(16, 0, 6)>,
-+				 <RZG2L_PORT_PINMUX(15, 0, 6)>,
-+				 <RZG2L_PORT_PINMUX(16, 1, 6)>,
-+				 <RZG2L_PORT_PINMUX(15, 1, 6)>,
-+				 <RZG2L_PORT_PINMUX(15, 3, 6)>,
-+				 <RZG2L_PORT_PINMUX(18, 0, 6)>,
-+				 <RZG2L_PORT_PINMUX(15, 2, 6)>,
-+				 <RZG2L_PORT_PINMUX(17, 0, 6)>,
-+				 <RZG2L_PORT_PINMUX(17, 2, 6)>,
-+				 <RZG2L_PORT_PINMUX(17, 1, 6)>,
-+				 <RZG2L_PORT_PINMUX(18, 1, 6)>,
-+				 <RZG2L_PORT_PINMUX(18, 2, 6)>,
-+				 <RZG2L_PORT_PINMUX(17, 3, 6)>,
-+				 <RZG2L_PORT_PINMUX(18, 3, 6)>;
-+			drive-strength = <2>;
-+		};
-+
-+		sync {
-+			pinmux = <RZG2L_PORT_PINMUX(11, 0, 6)>, /* HSYNC */
-+				 <RZG2L_PORT_PINMUX(12, 0, 6)>; /* VSYNC */
-+			drive-strength = <2>;
-+		};
-+
-+		de {
-+			pinmux = <RZG2L_PORT_PINMUX(11, 1, 6)>; /* DE */
-+			drive-strength = <2>;
-+		};
-+
-+		clk {
-+			pinmux = <RZG2L_PORT_PINMUX(11, 3, 6)>; /* CLK */
-+		};
-+	};
- };
--- 
-2.43.0
+On 6/3/24 9:36 PM, Andy Shevchenko wrote:
+> On Mon, Jun 03, 2024 at 03:20:55PM +0200, Hans de Goede wrote:
+>> The atomisp firmwares have been added to upstream linux-firmware
+>> under intel/ipu/ add this prefix to the firmware name passed
+>> to request_firmware().
+>>
+>> Fall back to the old location if this fails to avoid breaking existing
+>> setups.
+> 
+> ...
+> 
+>> +	/* Fallback to old fw_path with "intel/ipu/" prefix */
+>> +	if (rc)
+>> +		rc = request_firmware(&fw, strrchr(fw_path, '/') + 1, isp->dev);
+> 
+> Perhaps kbasename() ?
+
+Ack, changed while merging the patch.
+
+Regards,
+
+Hans
 
 
