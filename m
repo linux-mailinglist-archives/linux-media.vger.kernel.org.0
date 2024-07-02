@@ -1,755 +1,236 @@
-Return-Path: <linux-media+bounces-14499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1728891EFA3
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 09:00:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F5491EFC2
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 09:13:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C6C11C21B7F
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 07:00:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30D0D1F22A9E
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 07:13:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F9B736120;
-	Tue,  2 Jul 2024 07:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3800F12FB3C;
+	Tue,  2 Jul 2024 07:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hrds1Emw"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cFN+hWzM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2075.outbound.protection.outlook.com [40.107.223.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED7D12F386;
-	Tue,  2 Jul 2024 07:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719903637; cv=none; b=hz3Mt5V7xJ6VRPVljt6cFdSKnlhn72Wd223jXxFAjrBeIpT3LTqd5A+SUGW/cdb11hnRpSsGcv2M+nLFLvQSc21eYiv1is+lWyeFTYQ7uC86wobcA6vRabjlWa1u8j4HcmPK+P18B017eYEvXLsE7moTpWVwJuwaapdsj6zsJ+A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719903637; c=relaxed/simple;
-	bh=zFekFlfrKjDIEWBN+VS0eIH9Y2OZZyieyUr0kKQq0tE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=qXt1WJgYURqidJYZOYKw3jte5hJ0DoqM/9ocXoXWD6D8TUgwkyZYTyMTYY0ojlQBqYgoSeK61qOZ3vmC+VMH7NdfpR+KuV0+T+ZPnY2WPa99s7kuNNHVrXNwRL3QSP7I7QSzhtWTm5EnJnLY8I0iI+6g8BMpFJ7Y7ugAUPkZ9jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hrds1Emw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B41E844;
-	Tue,  2 Jul 2024 09:00:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1719903605;
-	bh=zFekFlfrKjDIEWBN+VS0eIH9Y2OZZyieyUr0kKQq0tE=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=hrds1EmwaUqKDpv9wZZzkef1GfeoOT0Z1U31MdpbeJK4BVNL15o1u8YAfiiW2gH2j
-	 MuX5FV8lX+IUkTUuX9u1uBrSDObtTA8vUul7gaeZC6r3qo2uNXKBS3HhBNJFjcjF2b
-	 8eDEfkP3FhmxgFGjhFRO8v+AYY1R8g7Gqu0khzRY=
-Message-ID: <4c9d9677-c68c-44da-8c11-27ae27ae6b88@ideasonboard.com>
-Date: Tue, 2 Jul 2024 08:00:27 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F41372;
+	Tue,  2 Jul 2024 07:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719904427; cv=fail; b=inZT0h6gUbz8me8nBeysQSlh9grbHoatqTar+5EyFxTm9SXAjH9Ci5lHb0Py9GA39RUBf+MbCD3GQEdAOxrslGzH8RC4eOhXVLOR/G+dBJRMlZpnVRT6JnOeQjP0aLwvqCj9ZRZxAng2aKZD+rpFMIIasRmPjNKLBeYdsArL+Yc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719904427; c=relaxed/simple;
+	bh=D1Toc1BhUb1sW0aZ6lyLd8ruCtvsMjIAS10a4RCphp0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=NRuXHppZlpLZdAncxPkbwij3aoY24E+JYlzYffnqlgTvQzcNtlTjkpmziHdyJUgB7OSGPq67IFpXZddusRQWOGOzYcJl+FnUp72dvhNZPjN3n4tReNPM0kdOekxEaxLsISNGndMXuwixt95Jj5JLihH9OPpKaDjGLS96geZrAiI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cFN+hWzM; arc=fail smtp.client-ip=40.107.223.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mVodtl0vRhgEoh+JjFBsDc6BrNsGnnq1yBbYOn497QmZ1SewAphbOb+FowhSEbDsoqTlpJuMx/Iam0eWbLk2hfrkHYgH9QZ4lB6/auRNegsAhltP4yDfWCztqRIhxPQzUu8wB4CmM0l6GNo4j2wUXfcID7OCH0wXIw67GVWvMHgYPcKNP8cwCA+YL65l3zbmpDAzaTbl4G0fc5zPPFps1nsDIBPR2QO85MrpMXeF6N6mXOaKsRfIDzvpwawJgC5IbyBvnXO+kHwqrAf6LcySoVOW6LkmBkCBIYPl9BFXpuTRQT3UkPpEzIIaZfdiFcV6OEkL3nTHg+zoA0yPsNFP2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8LUDaiKG7j/5IBW3BfnNj6QTlwClXzkhrvc8DQG5zhM=;
+ b=S8s0GzuStUUlBL3Z2YlWzXNlMVNMaPX+J9RWXOyeSwuNsyXp3SUJT8eFQ0i1Chw2pUXZsxPNTFLnsHmm73PUxu3HDpzEug7R8jMJvYPhlIqJXOaxAplJhqTz1pMrmXTZeJr3gip8JW7aMAEhbNQx9kxNkeqTHZIhL6nYqtuzBy9sE5EmPaGb0/M830XUAdRbMhpIYHRmrjTzJrRJh5n105hxIABGCVpQJb3UkeVxcJLmsc8DHWEH/CUIX1YitE9MGlATD5wUBWFbBLm+LVn6WZOxa3iuUBdUyCjC44bQyCkt/RscJPNHBdroDZEccf1cuJ3XzU0tzRst8QAgqLOujg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8LUDaiKG7j/5IBW3BfnNj6QTlwClXzkhrvc8DQG5zhM=;
+ b=cFN+hWzMGvHKYWvnMJdrVNOhtmyaoUx6KXaLFkHZivU/rqy/VR2hXFyuOsThhLtpKpC27AuZ2bLnr614C3NwnoLgNVx8O9yoeKDrtV2K17dMyYBAcIDF3j6QduQ47o/X30EQJa1GiYdJZciu2dimf0pXL5foelGJqxjBAZIQgrE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB7708.namprd12.prod.outlook.com (2603:10b6:930:87::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.33; Tue, 2 Jul
+ 2024 07:13:42 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.7719.028; Tue, 2 Jul 2024
+ 07:13:41 +0000
+Message-ID: <e0f384b0-6913-4224-a3ea-bdae784f5dab@amd.com>
+Date: Tue, 2 Jul 2024 09:13:35 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: Remove unnecessary kmalloc() cast
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Thorsten Blum <thorsten.blum@toblux.com>, jack@suse.cz,
+ surenb@google.com, linux-kernel@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20240630011215.42525-1-thorsten.blum@toblux.com>
+ <20240701232634.0bddb542ddea123b48dcabdf@linux-foundation.org>
+ <20240702064017.GA24838@lst.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240702064017.GA24838@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0155.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ba::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 10/16] media: platform: Add mali-c55 3a stats devnode
-From: Dan Scally <dan.scally@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
- sakari.ailus@iki.fi
-References: <20240529152858.183799-1-dan.scally@ideasonboard.com>
- <20240529152858.183799-11-dan.scally@ideasonboard.com>
- <20240616211946.GD7378@pendragon.ideasonboard.com>
- <655c2e5e-c56a-45d1-ab51-498ef9c26a19@ideasonboard.com>
- <20240629150415.GI30900@pendragon.ideasonboard.com>
- <8554a3aa-59c3-4ad8-8443-7ad38794afd7@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <8554a3aa-59c3-4ad8-8443-7ad38794afd7@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7708:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5cb5a221-ac92-4c5b-8943-08dc9a668082
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UGpWalRWNnQ4a3gya1BqK2dxY2RJZlZtV0M5RkJwYnk1djlzZGIrQmNtWkN0?=
+ =?utf-8?B?MzVpTnJTVXNzYUZJVkFFTjF0OXBwMTFrOCsyTzg1bFJyUDUvTUpxT2pNc1Iy?=
+ =?utf-8?B?dzN0d09BZ0JkT3ZLRU9JaVNPQlRkbG1nNmJGZnAvb2RPN1BPQnpVV200bG1K?=
+ =?utf-8?B?bTVyS0J0UkhWVG5vOVkzZ0RrVjArZzEwdUd3RWV1TEhFYmQ0SlhPNmltVXVK?=
+ =?utf-8?B?ejYwamx2N1luWitTYVJTMEptOGtBblFuSmpHOFRIZGRmamNlVlZKaW9tZWpP?=
+ =?utf-8?B?WXdReS9LTGo1N05heWV5U3dFekY5TjVRSDZ0M0ZCNzlZb3Fzd1BBZ0kvcWFF?=
+ =?utf-8?B?VnJnYzRSTUdrY3p5VHRaQWJYQ1c5VVlpZFU4c1Q1aGNaaFREaHB5UkoyZmc1?=
+ =?utf-8?B?Q1RQWEU2MXVyV3VDVUdySHV2aXQ4RG5Ndm1pNlZOOUExek5nQnpwVUtrdTAw?=
+ =?utf-8?B?NTRUMVY5VW8rYzFOSlI1RWhZN1k5NzdpbGtVUnlhc3p6QjhOQlFnSCtqUlh5?=
+ =?utf-8?B?eFJKaGFmSXdzaDZyTXFOYjlNQU8wUGtxSHE0cUJjZFRCSmVlQmZMZWYwSnR6?=
+ =?utf-8?B?VDFQdkdSOHBzUnh1ZndrMmQ1SnQ1ZXVFWFFRUGpTdTQxeHQwVXZURGpZZElw?=
+ =?utf-8?B?Uld3dFZ1WlRlSXFzT1ljcHRJT1NlZ0ZDZm5PMko4ME44VWxwWHdSWkdiU3hh?=
+ =?utf-8?B?S2FxNG0xOEJVWVJwNTcxWUV5UFpUV1I3ZGZ0WWxEZjJjVHZCSnY3S2taVmVE?=
+ =?utf-8?B?Y2IrYm1lMjhaNjdHZHorUFBFckJmKzhqeFE0WXRDVm5mUXVvRThveWptbWRK?=
+ =?utf-8?B?V2ZkUnZYK0dIQmxzQkxoM1lzeFQyQWNwRjA2Nkg2NWdNZ0kyRitFdU1Lcm1j?=
+ =?utf-8?B?MDg3N3VyZk52a0RCU1ozd2dNa2IrNnZyS3ZWOWkrWSswOHNQOC9IYTFkV3Uv?=
+ =?utf-8?B?NkNta3dDZWVVcjI1aU01SEI5WjBvQ2xrVmpvYTEwdks1Und0a3ptOTZvNFlF?=
+ =?utf-8?B?b3BORFI0aHljdDhmSGd3TGVQaG5NNkZRVzUxUWlKekQwWnY4VEt4N0ZVWU9o?=
+ =?utf-8?B?VCtKTktic3Z4SS9HVGNTb25kdjN2VlZUTmI5U0g4RUYxTGpudlFON09RU2tJ?=
+ =?utf-8?B?Q05KYjFUOWJTZTR4NExxWHlNSVZjNEoyc1VhTmZUYVFIYzIwMEpiMVFVbUFq?=
+ =?utf-8?B?M0RHeTh5emhFUTlPdEt5MTZ3T0tjNzJqY2x3WlpickpjSHpMNGN5UndRMGRu?=
+ =?utf-8?B?eTRZU05KdnA1T2tpS0YwUXFFYXVBWkFycXhhazlXZ0lCZ1NGQTNUUEdDZjg1?=
+ =?utf-8?B?MFRMeUpWMHBPdWJwV2hiOVNYbEYvYmtTZ2orNTFtU0ZmeXBGMmVtamM0azhT?=
+ =?utf-8?B?S0VncXBtbW1Gd3pIay8zcWYwdjZaM3dTM2RCWFVrVlVsN1A3OG9nL2hpbXlo?=
+ =?utf-8?B?bEN2Ky9JT3JWL3dudkFhWnVrNXNXTnNLbnYwa3M2cjdScEEvSnhzelp6OFR6?=
+ =?utf-8?B?TjRnb2RqSDFRNTBka1IwR2xEam5BekYxRlpZRVNtUExkeVdJaTE1MmE4WXd3?=
+ =?utf-8?B?ZitRaEhoUWpXeFNYcVltZjE2V3ZWTUdlZHZVZG5ZSW5EQWh2K2ozN0g0c1FW?=
+ =?utf-8?B?WUZDZWRNQVFhazZmNjB5YWxzNjUvY01Vb0ZpTUkwZTlwN01lWUUrZWJtcnZx?=
+ =?utf-8?B?QVh6c09CYWFSd1BLYzFlVjRhZEkxQlI4L0RnT21xNWE5ZWlCSlRZVzRlQWdW?=
+ =?utf-8?B?SGFmTWxZbWdLWFRzZFpUQU1RV0I4TVM4eUxMV05ac0RZKytmekhCTSs5eE16?=
+ =?utf-8?B?Y2RhYWlpeWg4VXg0MHVqZz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QlBYSDdBcmVrak56RWFqakljRGhTdC9jeTJUUjRWMFpiQjVzb3ZBRkZDaFZR?=
+ =?utf-8?B?WncvR1cwUWNhS2o3ZUN1ZDZ6ZC9SVm1IQWRvWDd1NGZ2Q1NOU0k0U045WFRH?=
+ =?utf-8?B?UUduaWNXNC9QNGlvTkF3cGhtY0w1aFpuazhZNHRKcnErUHlzZHBVbE1Jc0Jr?=
+ =?utf-8?B?UFB5WVNDV3JPcW81ZWJFdFJyVEl6ZTJLRmxxQkYrSnJra1QyRjlwRzJrd2dj?=
+ =?utf-8?B?a0cvM2tDYzgrZnRwZzRSUzIvRUp6TjBRRFJqWDR2WC93ek9SMUtqZnV0K3Nv?=
+ =?utf-8?B?eHpiVjNMcjZ5VlNRWDQ2d054bWI1WHdCcWRNUlpFQ3IwSXZlMyt2WlZSdkdU?=
+ =?utf-8?B?bnJ0eW1MUHc4ODcva1VKUkc2VW5Ob1VjRU1VNXpWMTk3bnpFS0JVemtKNjQ1?=
+ =?utf-8?B?M3M1d21yK2FFZTdPVEdsMEg3d25EUHNUUmNMaEJYMERaU1I1cGswdEd6dmlj?=
+ =?utf-8?B?M3hKR0RoNHh6TVFqZDk1ZUhvSHlVRVJlQzZuM2pSbkJMVGdaeCtaRjJnZWlE?=
+ =?utf-8?B?eTVTT01kcndLR21pRmQ0b0gyaXdDNXUvUENMSmNOL2JDOWRvSmxHRVlmUEtX?=
+ =?utf-8?B?Uzl0aHU2cTZlclZLNXJCMURDU093ck9qYXc0Skhsc0I1NnVpaGF5VkxUZG1C?=
+ =?utf-8?B?cGRPQjBaVGV3MHh3TmQ3bjVkT1ZySWxDdFFUcEdRbzFickordHV1cDNhbHF5?=
+ =?utf-8?B?ZkRTSzJVUEJLMEp2WGpGWjJRS1V3bVFDcDlINTErZmExVmVWVGZRN1labnB3?=
+ =?utf-8?B?VVo4Y0ZvTzhmTkRCL21ROFY1aVVsUys0NVdLb1NZRWNRVS9vWnFmL1I1YTd5?=
+ =?utf-8?B?VmMxU3NPQWJBcVNSRlhaTXVSa2Z0UzJxN2VOeUluMU02Znd0T0JSM0NVdndh?=
+ =?utf-8?B?WnhadUZrNUcxTkNoQTBuc3RFYWl4UFlLVkxkaUNuYWUwQVl4ZUFBaFdmbXN2?=
+ =?utf-8?B?YUgwS2Q4a0czNzc1MzdsdFlkbEhmMDNSN091VERET1h1VDIzdHBXNG1rblZr?=
+ =?utf-8?B?NkwrKzZNK2cvb3F2Sk44ejVHRWVxZUNIdHpQeDJXUms3Vk12VjM4UHBWaDhU?=
+ =?utf-8?B?LzI3bUQ0RG1JTy81bVRHVXp3ZlV1K3VBUTBMVEdyS1cxNEtDWDlpUmkxalN0?=
+ =?utf-8?B?TlZvTmVkMlV2c1RnNmszM0pNQnRrQU9YNENyZjNMM0ZwczcrRFBZT3hYY3pQ?=
+ =?utf-8?B?KzVCeW1relNLS0kyRDQvVEZweTd1eEE3bDRyeEpjTlUvY2M0dkRwQjJOR2tN?=
+ =?utf-8?B?emNwQ2JQbHJNaVVJNUQ5ejd4YUJaTmdzMGN4NlFwaTJFREl3QkNsdkZqZmJI?=
+ =?utf-8?B?TFU2YWlKWm1Ga3FJSllrY1lYTkdGTEVPMlR1bkJYUmRtSXJqbE01M3ArSnRr?=
+ =?utf-8?B?VStwRWtrcTN4SG55VU8vcFZ6b1JWcVljYnJjVjZCeXdEQkJ0OHR4Q0VnQ1NF?=
+ =?utf-8?B?RVBpV1N5bmpjdTM4NGRPcnBOWjNtclhzbHhYOFd4c21nSVAxWjJhRnlrdGZl?=
+ =?utf-8?B?b0ZLSXlIcGdJRkJQZ3hqaHpEajlKTEhCc2NjRE45K20rczNPL21zdm5rekNR?=
+ =?utf-8?B?a1NmSk5VSkJzcTExNWNreGdUUXZVOURpMVRRVU91ZyttMyszZzd5aGRUZyt2?=
+ =?utf-8?B?NTBCcTFUVWFXd2hxZTJ4VnlYcFFadDlYeFpsN2tXeVhlZWNTVGFkVENtYlky?=
+ =?utf-8?B?Mk85dkpaSXJFZGxLMDRsYU5PQkd0RWNabkpDOGJRbWE0YkZvL0p5WnV6a0dU?=
+ =?utf-8?B?WFNUc3FTYnZVSDlqclJpN1kyRXFRVW1Tc2J6TFdCTE4vSk9YUEgwLzZBU1dw?=
+ =?utf-8?B?MHhSd1FpU0h5bTBOY3AvWFJCdDA0S1M3N2szT1FPVUZHaElua1VkWEdhYkxu?=
+ =?utf-8?B?LzI0VHN6RXF2N09vb21lMXFKQ3M5VGx0ZTZCTWlSVXZaQlMyb2kyMlZNUVBR?=
+ =?utf-8?B?YnllcEV6WmRSSWxPRGxKYllrVHd1UXVzZ3dsVTVMZUV2ODRKTkpTdEh1T1hJ?=
+ =?utf-8?B?MzVrWGtMa0ptY0xWSHRSQ0R2SW8zZVRnYzM2bUFsQ2k1akZmNWNtbGFGUm1p?=
+ =?utf-8?B?aG5kWnhINENCemJVVnR3dXFBZmFQZkxnckZFcFZhbWk4NEozbERETlE4VUpq?=
+ =?utf-8?Q?wnigScyQFqC+ujfrgJMjZ3uTE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cb5a221-ac92-4c5b-8943-08dc9a668082
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2024 07:13:41.4279
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Urgvvs61714O5auQ4WSMBxcvnGj0PrWiogVHKKot6lZLvosytHza3xB+p+t+nQbd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7708
 
-Morning Laurent
-
-On 01/07/2024 16:12, Dan Scally wrote:
-> Hi Laurent
->
-> On 29/06/2024 16:04, Laurent Pinchart wrote:
->> Hi Dan,
+Am 02.07.24 um 08:40 schrieb Christoph Hellwig:
+> On Mon, Jul 01, 2024 at 11:26:34PM -0700, Andrew Morton wrote:
+>> No, I do think the cast is useful:
 >>
->> On Thu, Jun 20, 2024 at 04:10:01PM +0100, Daniel Scally wrote:
->>> On 16/06/2024 22:19, Laurent Pinchart wrote:
->>>> On Wed, May 29, 2024 at 04:28:52PM +0100, Daniel Scally wrote:
->>>>> Add a new code file to govern the 3a statistics capture node.
->>>>>
->>>>> Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
->>>>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->>>>> ---
->>>>> Changes in v5:
->>>>>
->>>>>     - New patch
->>>>>
->>>>>    drivers/media/platform/arm/mali-c55/Makefile  |   3 +-
->>>>>    .../platform/arm/mali-c55/mali-c55-common.h   |  28 ++
->>>>>    .../platform/arm/mali-c55/mali-c55-core.c     |  15 +
->>>>>    .../platform/arm/mali-c55/mali-c55-isp.c      |   1 +
->>>>>    .../arm/mali-c55/mali-c55-registers.h         |   3 +
->>>>>    .../platform/arm/mali-c55/mali-c55-stats.c    | 350 ++++++++++++++++++
->>>>>    6 files changed, 399 insertions(+), 1 deletion(-)
->>>>>    create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-stats.c
->>>>>
->>>>> diff --git a/drivers/media/platform/arm/mali-c55/Makefile 
->>>>> b/drivers/media/platform/arm/mali-c55/Makefile
->>>>> index 77dcb2fbf0f4..cd5a64bf0c62 100644
->>>>> --- a/drivers/media/platform/arm/mali-c55/Makefile
->>>>> +++ b/drivers/media/platform/arm/mali-c55/Makefile
->>>>> @@ -4,6 +4,7 @@ mali-c55-y := mali-c55-capture.o \
->>>>>              mali-c55-core.o \
->>>>>              mali-c55-isp.o \
->>>>>              mali-c55-tpg.o \
->>>>> -          mali-c55-resizer.o
->>>>> +          mali-c55-resizer.o \
->>>>> +          mali-c55-stats.o
->>>>>       obj-$(CONFIG_VIDEO_MALI_C55) += mali-c55.o
->>>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-common.h 
->>>>> b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
->>>>> index 2d0c4d152beb..44119e04009b 100644
->>>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-common.h
->>>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
->>>>> @@ -79,6 +79,7 @@ enum mali_c55_isp_pads {
->>>>>        MALI_C55_ISP_PAD_SINK_VIDEO,
->>>>>        MALI_C55_ISP_PAD_SOURCE,
->>>>>        MALI_C55_ISP_PAD_SOURCE_BYPASS,
->>>>> +    MALI_C55_ISP_PAD_SOURCE_3A,
->>>> Functions and structures are named with a "stats" suffix, let's call
->>>> this MALI_C55_ISP_PAD_SOURCE_STATS.
->>>>
->>>>>        MALI_C55_ISP_NUM_PADS,
->>>>>    };
->>>>>    @@ -194,6 +195,28 @@ struct mali_c55_cap_dev {
->>>>>        bool streaming;
->>>>>    };
->>>>>    +struct mali_c55_stats_buf {
->>>>> +    struct vb2_v4l2_buffer vb;
->>>>> +    spinlock_t lock;
->>>> All locks require a comment to document what they protect. Same below.
->>>>
->>>>> +    unsigned int segments_remaining;
->>>>> +    struct list_head queue;
->>>>> +    bool failed;
->>>>> +};
->>>>> +
->>>>> +struct mali_c55_stats {
->>>>> +    struct mali_c55 *mali_c55;
->>>>> +    struct video_device vdev;
->>>>> +    struct dma_chan *channel;
->>>>> +    struct vb2_queue queue;
->>>>> +    struct media_pad pad;
->>>>> +    struct mutex lock;
->>>>> +
->>>>> +    struct {
->>>>> +        spinlock_t lock;
->>>>> +        struct list_head queue;
->>>>> +    } buffers;
->>>>> +};
->>>>> +
->>>>>    enum mali_c55_config_spaces {
->>>>>        MALI_C55_CONFIG_PING,
->>>>>        MALI_C55_CONFIG_PONG,
->>>>> @@ -224,6 +247,7 @@ struct mali_c55 {
->>>>>        struct mali_c55_isp isp;
->>>>>        struct mali_c55_resizer resizers[MALI_C55_NUM_RZRS];
->>>>>        struct mali_c55_cap_dev cap_devs[MALI_C55_NUM_CAP_DEVS];
->>>>> +    struct mali_c55_stats stats;
->>>>>           struct list_head contexts;
->>>>>        enum mali_c55_config_spaces next_config;
->>>>> @@ -245,6 +269,8 @@ int mali_c55_register_resizers(struct mali_c55 *mali_c55);
->>>>>    void mali_c55_unregister_resizers(struct mali_c55 *mali_c55);
->>>>>    int mali_c55_register_capture_devs(struct mali_c55 *mali_c55);
->>>>>    void mali_c55_unregister_capture_devs(struct mali_c55 *mali_c55);
->>>>> +int mali_c55_register_stats(struct mali_c55 *mali_c55);
->>>>> +void mali_c55_unregister_stats(struct mali_c55 *mali_c55);
->>>>>    struct mali_c55_ctx *mali_c55_get_active_context(struct mali_c55 *mali_c55);
->>>>>    void mali_c55_set_plane_done(struct mali_c55_cap_dev *cap_dev,
->>>>>                     enum mali_c55_planes plane);
->>>>> @@ -262,5 +288,7 @@ mali_c55_isp_fmt_next(const struct mali_c55_isp_fmt *fmt);
->>>>>    bool mali_c55_isp_is_format_supported(unsigned int mbus_code);
->>>>>    #define for_each_mali_isp_fmt(fmt)\
->>>>>        for ((fmt) = NULL; ((fmt) = mali_c55_isp_fmt_next((fmt)));)
->>>>> +void mali_c55_stats_fill_buffer(struct mali_c55 *mali_c55,
->>>>> +                enum mali_c55_config_spaces cfg_space);
->>>>>       #endif /* _MALI_C55_COMMON_H */
->>>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c 
->>>>> b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
->>>>> index 50caf5ee7474..9ea70010876c 100644
->>>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
->>>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
->>>>> @@ -337,6 +337,16 @@ static int mali_c55_create_links(struct mali_c55 *mali_c55)
->>>>>            }
->>>>>        }
->>>>>    +    ret = media_create_pad_link(&mali_c55->isp.sd.entity,
->>>>> +            MALI_C55_ISP_PAD_SOURCE_3A,
->>>>> +            &mali_c55->stats.vdev.entity, 0,
->>>>> +            MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE);
->>>>> +    if (ret) {
->>>>> +        dev_err(mali_c55->dev,
->>>>> +            "failed to link ISP and 3a stats node\n");
->>>> s/3a stats/stats/
->>>>
->>>>> +        goto err_remove_links;
->>>>> +    }
->>>>> +
->>>>>        return 0;
->>>>>       err_remove_links:
->>>>> @@ -350,6 +360,7 @@ static void mali_c55_unregister_entities(struct mali_c55 *mali_c55)
->>>>>        mali_c55_unregister_isp(mali_c55);
->>>>>        mali_c55_unregister_resizers(mali_c55);
->>>>>        mali_c55_unregister_capture_devs(mali_c55);
->>>>> +    mali_c55_unregister_stats(mali_c55);
->>>>>    }
->>>>>       static int mali_c55_register_entities(struct mali_c55 *mali_c55)
->>>>> @@ -372,6 +383,10 @@ static int mali_c55_register_entities(struct mali_c55 *mali_c55)
->>>>>        if (ret)
->>>>>            goto err_unregister_entities;
->>>>>    +    ret = mali_c55_register_stats(mali_c55);
->>>>> +    if (ret)
->>>>> +        goto err_unregister_entities;
->>>>> +
->>>>>        ret = mali_c55_create_links(mali_c55);
->>>>>        if (ret)
->>>>>            goto err_unregister_entities;
->>>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c 
->>>>> b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
->>>>> index ea8b7b866e7a..94876fba3353 100644
->>>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
->>>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
->>>>> @@ -564,6 +564,7 @@ int mali_c55_register_isp(struct mali_c55 *mali_c55)
->>>>>        isp->pads[MALI_C55_ISP_PAD_SINK_VIDEO].flags = MEDIA_PAD_FL_SINK;
->>>>>        isp->pads[MALI_C55_ISP_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
->>>>>        isp->pads[MALI_C55_ISP_PAD_SOURCE_BYPASS].flags = MEDIA_PAD_FL_SOURCE;
->>>>> +    isp->pads[MALI_C55_ISP_PAD_SOURCE_3A].flags = MEDIA_PAD_FL_SOURCE;
->>>>>           ret = media_entity_pads_init(&sd->entity, MALI_C55_ISP_NUM_PADS,
->>>>>                         isp->pads);
->>>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h 
->>>>> b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
->>>>> index cb27abde2aa5..eb3719245ec3 100644
->>>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
->>>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
->>>>> @@ -68,6 +68,9 @@
->>>>>    #define MALI_C55_VC_START(v)                ((v) & 0xffff)
->>>>>    #define MALI_C55_VC_SIZE(v)                (((v) & 0xffff) << 16)
->>>>>    +#define MALI_C55_REG_1024BIN_HIST            0x054a8
->>>>> +#define MALI_C55_1024BIN_HIST_SIZE            4096
->>>>> +
->>>>>    /* Ping/Pong Configuration Space */
->>>>>    #define MALI_C55_REG_BASE_ADDR                0x18e88
->>>>>    #define MALI_C55_REG_BYPASS_0                0x18eac
->>>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-stats.c 
->>>>> b/drivers/media/platform/arm/mali-c55/mali-c55-stats.c
->>>>> new file mode 100644
->>>>> index 000000000000..aa40480ed814
->>>>> --- /dev/null
->>>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-stats.c
->>>>> @@ -0,0 +1,350 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0
->>>>> +/*
->>>>> + * ARM Mali-C55 ISP Driver - 3A Statistics capture device
->>>>> + *
->>>>> + * Copyright (C) 2023 Ideas on Board Oy
->>>>> + */
->>>>> +
->>>>> +#include <linux/dmaengine.h>
->>>>> +#include <linux/media/arm/mali-c55-config.h>
->>>>> +#include <linux/spinlock.h>
->>>> You're missing some headers here, for
->>>>
->>>> container_of()
->>>> dev_err()
->>>> list_*()
->>>> mutex_init()
->>>> strscpy()
->>>> strscpy()
->>>>
->>>>> +
->>>>> +#include <media/media-entity.h>
->>>>> +#include <media/v4l2-dev.h>
->>>>> +#include <media/v4l2-event.h>
->>>>> +#include <media/v4l2-fh.h>
->>>>> +#include <media/v4l2-ioctl.h>
->>>>> +#include <media/videobuf2-core.h>
->>>>> +#include <media/videobuf2-dma-contig.h>
->>>>> +
->>>>> +#include "mali-c55-common.h"
->>>>> +#include "mali-c55-registers.h"
->>>>> +
->>>>> +static unsigned int metering_space_addrs[] = {
->>>> const
->>>>
->>>>> +    [MALI_C55_CONFIG_PING] = 0x095AC,
->>>>> +    [MALI_C55_CONFIG_PONG] = 0x2156C,
->>>> Lower-case hex constants.
->>>>
->>>>> +};
->>>>> +
->>>>> +static int mali_c55_stats_enum_fmt_meta_cap(struct file *file, void *fh,
->>>>> +                        struct v4l2_fmtdesc *f)
->>>>> +{
->>>>> +    if (f->index || f->type != V4L2_BUF_TYPE_META_CAPTURE)
->>>>> +        return -EINVAL;
->>>>> +
->>>>> +    f->pixelformat = V4L2_META_FMT_MALI_C55_3A_STATS;
->>>> The format could be called V4L2_META_FMT_MALI_C55_STATS. While most
->>>> statistics are related to one of the 3A algorithms, I think it would be
->>>> better to name this generically. It's name bikeshedding only of course.
->>>>
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static int mali_c55_stats_g_fmt_meta_cap(struct file *file, void *fh,
->>>>> +                     struct v4l2_format *f)
->>>>> +{
->>>>> +    static const struct v4l2_meta_format mfmt = {
->>>>> +        .dataformat = V4L2_META_FMT_MALI_C55_3A_STATS,
->>>>> +        .buffersize = sizeof(struct mali_c55_stats_buffer)
->>>>> +    };
->>>>> +
->>>>> +    if (f->type != V4L2_BUF_TYPE_META_CAPTURE)
->>>>> +        return -EINVAL;
->>>>> +
->>>>> +    f->fmt.meta = mfmt;
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static int mali_c55_stats_querycap(struct file *file,
->>>>> +                   void *priv, struct v4l2_capability *cap)
->>>>> +{
->>>>> +    strscpy(cap->driver, MALI_C55_DRIVER_NAME, sizeof(cap->driver));
->>>>> +    strscpy(cap->card, "ARM Mali-C55 ISP", sizeof(cap->card));
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static const struct v4l2_ioctl_ops mali_c55_stats_v4l2_ioctl_ops = {
->>>>> +    .vidioc_reqbufs = vb2_ioctl_reqbufs,
->>>>> +    .vidioc_querybuf = vb2_ioctl_querybuf,
->>>>> +    .vidioc_create_bufs = vb2_ioctl_create_bufs,
->>>>> +    .vidioc_qbuf = vb2_ioctl_qbuf,
->>>>> +    .vidioc_expbuf = vb2_ioctl_expbuf,
->>>>> +    .vidioc_dqbuf = vb2_ioctl_dqbuf,
->>>>> +    .vidioc_prepare_buf = vb2_ioctl_prepare_buf,
->>>>> +    .vidioc_streamon = vb2_ioctl_streamon,
->>>>> +    .vidioc_streamoff = vb2_ioctl_streamoff,
->>>>> +    .vidioc_enum_fmt_meta_cap = mali_c55_stats_enum_fmt_meta_cap,
->>>>> +    .vidioc_g_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
->>>>> +    .vidioc_s_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
->>>>> +    .vidioc_try_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
->>>>> +    .vidioc_querycap = mali_c55_stats_querycap,
->>>>> +    .vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
->>>>> +    .vidioc_unsubscribe_event = v4l2_event_unsubscribe,
->>>>> +};
->>>>> +
->>>>> +static const struct v4l2_file_operations mali_c55_stats_v4l2_fops = {
->>>>> +    .owner = THIS_MODULE,
->>>>> +    .unlocked_ioctl = video_ioctl2,
->>>>> +    .open = v4l2_fh_open,
->>>>> +    .release = vb2_fop_release,
->>>>> +    .poll = vb2_fop_poll,
->>>>> +    .mmap = vb2_fop_mmap,
->>>>> +};
->>>>> +
->>>>> +static int
->>>>> +mali_c55_stats_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
->>>>> +               unsigned int *num_planes, unsigned int sizes[],
->>>>> +               struct device *alloc_devs[])
->>>>> +{
->>>>> +    struct mali_c55_stats *stats = vb2_get_drv_priv(q);
->>>>> +
->>>>> +    if (*num_planes && *num_planes > 1)
->>>>> +        return -EINVAL;
->>>>> +
->>>>> +    if (sizes[0] && sizes[0] != sizeof(struct mali_c55_stats_buffer))
->>>>> +        return -EINVAL;
->>>>> +
->>>>> +    *num_planes = 1;
->>>>> +    sizes[0] = sizeof(struct mali_c55_stats_buffer);
->>>>> +
->>>>> +    if (stats->channel)
->>>>> +        alloc_devs[0] = stats->channel->device->dev;
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static void mali_c55_stats_buf_queue(struct vb2_buffer *vb)
->>>>> +{
->>>>> +    struct mali_c55_stats *stats = vb2_get_drv_priv(vb->vb2_queue);
->>>>> +    struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->>>>> +    struct mali_c55_stats_buf *buf = container_of(vbuf,
->>>>> +                        struct mali_c55_stats_buf, vb);
->>>>> +
->>>>> +    vb2_set_plane_payload(vb, 0, sizeof(struct mali_c55_stats_buffer));
->>>>> +    buf->segments_remaining = 2;
->>>>> +    buf->failed = false;
->>>>> +
->>>>> +    spin_lock(&stats->buffers.lock);
->>>> Isn't the DMA completion handler run from IRQ context ? If so you'll
->>>> need to use spin_lock_irq() here and in the other function that are
->>>> not called with interrupts disabled.
->>> They're run in the bottom half of the interrupt handler; I'm under the
->>> impression that that means the interrupts aren't disabled, and it's
->>> safe to do...is that mistaken?
->> I'm talking about the DMA completion handler, called by the DMA engine
->> subsystem, not the IRQs of the C55 itself.
->
->
-> Ah! I follow you now sorry. Hm, that's an interesting thought...I think for the PL330 the answer 
-> is no; the interrupt handler wakes a thread that runs the callbacks for any DMA transfers that are 
-> completed...I don't know that that's a design rule we can rely on though so possibly it's better 
-> to be safe. Is there a disadvantage to using spin_lock_irq() outside of IRQ context?
-
-
-Actually I think from [1] that the answer is they're not run from interrupt context, the page says 
-"Note that callbacks will always be invoked from the DMA engine's tasklet, never from interrupt 
-context".
-
-
-[1] Documentation/driver-api/dmaengine/client.rst
-
->
+>> 	struct page *page = dma_fence_chain_alloc();
 >>
->>>>> + list_add_tail(&buf->queue, &stats->buffers.queue);
->>>>> +    spin_unlock(&stats->buffers.lock);
->>>>> +}
->>>>> +
->>>>> +static void mali_c55_stats_stop_streaming(struct vb2_queue *q)
->>>>> +{
->>>>> +    struct mali_c55_stats *stats = vb2_get_drv_priv(q);
->>>>> +    struct mali_c55_stats_buf *buf, *tmp;
->>>>> +
->>>>> +    spin_lock(&stats->buffers.lock);
->>>>> +
->>>>> +    list_for_each_entry_safe(buf, tmp, &stats->buffers.queue, queue) {
->>>>> +        list_del(&buf->queue);
->>>>> +        vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>>>> +    }
->>>>> +
->>>>> +    spin_unlock(&stats->buffers.lock);
->>>>> +}
->>>>> +
->>>>> +static const struct vb2_ops mali_c55_stats_vb2_ops = {
->>>>> +    .queue_setup = mali_c55_stats_queue_setup,
->>>>> +    .buf_queue = mali_c55_stats_buf_queue,
->>>>> +    .wait_prepare = vb2_ops_wait_prepare,
->>>>> +    .wait_finish = vb2_ops_wait_finish,
->>>>> +    .stop_streaming = mali_c55_stats_stop_streaming,
->>>>> +};
->>>>> +
->>>>> +static void
->>>>> +mali_c55_stats_metering_complete(void *param,
->>>>> +                 const struct dmaengine_result *result)
->>>>> +{
->>>>> +    struct mali_c55_stats_buf *buf = param;
->>>>> +
->>>>> +    spin_lock(&buf->lock);
->>>> I wonder if this is needed. Can the DMA engine call the completion
->>>> handlers of two sequential DMA transfers in parallel ?
->>> The DMA engine that's on the system we have can't...I wasn't sure
->>> whether that was generically true.
->> I think it is, but please double-check.
+>> will presently generate a warning.  We want this.  Your change will
+>> remove that useful warning.
 >>
->>>>> +
->>>>> +    if (buf->failed)
->>>>> +        goto out_unlock;
->>>>> +
->>>>> +    buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
->>>>> +
->>>>> +    if (result->result != DMA_TRANS_NOERROR) {
->>>>> +        buf->failed = true;
->>>>> +        vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>>> This will possibly return the buffer to userspace after the first DMA
->>>> transfer. Userspace could then requeue the buffer to the kernel before
->>>> the completion of the second DMA transfer. That will cause trouble. I
->>>> think you should instead do something like
->>>>
->>>>     spin_lock(&buf->lock);
->>>>
->>>>     if (result->result != DMA_TRANS_NOERROR)
->>>>         buf->failed = true;
->>>>
->>>>     if (!--buf->segments_remaining) {
->>>>         buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
->>>>         vb2_buffer_done(&buf->vb.vb2_buf, buf->failed ?
->>>>                 VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
->>>>     }
->>>>
->>>>     spin_unlock(&buf->lock);
->>>>
->>>> The
->>>>
->>>>     buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
->>>>
->>>> line could also be moved to mali_c55_stats_fill_buffer(), which would
->>>> make sure the timestamp is filled in case of DMA submission failures.
->>> Okedokey
->>>
->>>>> +        goto out_unlock;
->>>>> +    }
->>>>> +
->>>>> +    if (!--buf->segments_remaining)
->>>>> +        vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
->>>>> +
->>>>> +out_unlock:
->>>>> +    spin_unlock(&buf->lock);
->>>>> +}
->>>>> +
->>>>> +static int mali_c55_stats_dma_xfer(struct mali_c55_stats *stats, dma_addr_t src,
->>>>> +                   dma_addr_t dst,
->>>>> +                   struct mali_c55_stats_buf *buf,
->>>>> +                   size_t length,
->>>>> +                   void (*callback)(void *, const struct dmaengine_result *result))
->>>> The same callback is used for both invocations of this function, you can
->>>> drop the parameter and hardcode it below.
->>> Yeah, not even sure now why I had a parameter.
->>>
->>>>> +{
->>>>> +    struct dma_async_tx_descriptor *tx;
->>>>> +    dma_cookie_t cookie;
->>>>> +
->>>>> +    tx = dmaengine_prep_dma_memcpy(stats->channel, dst, src, length, 0);
->>>>> +    if (!tx) {
->>>>> +        dev_err(stats->mali_c55->dev, "failed to prep stats DMA\n");
->>>>> +        return -EIO;
->>>>> +    }
->>>>> +
->>>>> +    tx->callback_result = callback;
->>>>> +    tx->callback_param = buf;
->>>>> +
->>>>> +    cookie = dmaengine_submit(tx);
->>>>> +    if (dma_submit_error(cookie)) {
->>>>> +        dev_err(stats->mali_c55->dev, "failed to submit stats DMA\n");
->>>>> +        return -EIO;
->>>>> +    }
->>>>> +
->>>>> +    dma_async_issue_pending(stats->channel);
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +void mali_c55_stats_fill_buffer(struct mali_c55 *mali_c55,
->>>>> +                enum mali_c55_config_spaces cfg_space)
->>>>> +{
->>>>> +    struct mali_c55_ctx *ctx = mali_c55_get_active_context(mali_c55);
->>>>> +    struct mali_c55_stats *stats = &mali_c55->stats;
->>>>> +    struct mali_c55_stats_buf *buf = NULL;
->>>>> +    dma_addr_t src, dst;
->>>>> +    int ret;
->>>>> +
->>>>> +    spin_lock(&stats->buffers.lock);
->>>>> +    if (!list_empty(&stats->buffers.queue)) {
->>>>> +        buf = list_first_entry(&stats->buffers.queue,
->>>>> +                       struct mali_c55_stats_buf, queue);
->>>>> +        list_del(&buf->queue);
->>>>> +    }
->>>>> +    spin_unlock(&stats->buffers.lock);
->>>>> +
->>>>> +    if (!buf)
->>>>> +        return;
->>>>> +
->>>>> +    buf->vb.sequence = mali_c55->isp.frame_sequence;
->>>>> +
->>>>> +    /*
->>>>> +     * There are infact two noncontiguous sections of the ISP's
->>>> s/infact/in fact/
->>>>
->>>>> +     * memory space that hold statistics for 3a algorithms to use. A
->>>> s/use. A/use: a/
->>>>
->>>>> +     * section in each config space and a global section holding
->>>>> +     * histograms which is double buffered and so holds data for the
->>>>> +     * last frame. We need to read both.
->>>>> +     */
->>>>> +    src = ctx->base + MALI_C55_REG_1024BIN_HIST;
->>>>> +    dst = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
->>>>> +
->>>>> +    ret = mali_c55_stats_dma_xfer(stats, src, dst, buf,
->>>>> +                      MALI_C55_1024BIN_HIST_SIZE,
->>>>> +                      mali_c55_stats_metering_complete);
->>>>> +    if (ret)
->>>>> +        goto err_fail_buffer;
->>>>> +
->>>>> +    src = ctx->base + metering_space_addrs[cfg_space];
->>>>> +    dst += MALI_C55_1024BIN_HIST_SIZE;
->>>>> +
->>>>> +    ret = mali_c55_stats_dma_xfer(
->>>>> +        stats, src, dst, buf,
->>>>> +        sizeof(struct mali_c55_stats_buffer) - MALI_C55_1024BIN_HIST_SIZE,
->>>>> +        mali_c55_stats_metering_complete);
->>>>> +    if (ret) {
->>>>> +        dmaengine_terminate_sync(stats->channel);
->>>>> +        goto err_fail_buffer;
->>>>> +    }
->>>> I think you will need to terminate DMA transfers at stream off time.
->>>>
->>>>> +
->>>>> +    return;
->>>>> +
->>>>> +err_fail_buffer:
->>>>> +    vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
->>>>> +}
->>>>> +
->>>>> +void mali_c55_unregister_stats(struct mali_c55 *mali_c55)
->>>>> +{
->>>>> +    struct mali_c55_stats *stats = &mali_c55->stats;
->>>>> +
->>>>> +    if (!video_is_registered(&stats->vdev))
->>>>> +        return;
->>>>> +
->>>>> +    vb2_video_unregister_device(&stats->vdev);
->>>>> +    media_entity_cleanup(&stats->vdev.entity);
->>>>> +    dma_release_channel(stats->channel);
->>>>> +    mutex_destroy(&stats->lock);
->>>>> +}
->>>>> +
->>>>> +int mali_c55_register_stats(struct mali_c55 *mali_c55)
->>>>> +{
->>>>> +    struct mali_c55_stats *stats = &mali_c55->stats;
->>>>> +    struct video_device *vdev = &stats->vdev;
->>>>> +    struct vb2_queue *vb2q = &stats->queue;
->>>>> +    dma_cap_mask_t mask;
->>>>> +    int ret;
->>>>> +
->>>>> +    mutex_init(&stats->lock);
->>>>> +    INIT_LIST_HEAD(&stats->buffers.queue);
->>>>> +
->>>>> +    dma_cap_zero(mask);
->>>>> +    dma_cap_set(DMA_MEMCPY, mask);
->>>>> +
->>>>> +    stats->channel = dma_request_channel(mask, 0, NULL);
->>>> Do we need a CPU fallback in case no DMA is available ?
->>> Yes, actually.
->>>
->>>> I'm still very curious to know how long it takes to perform the DMA
->>>> transfer, compared to copying the data with the CPU, and especially
->>>> compared to the frame duration.
->>> On my list of things to test and report :)
->> Looking forward to it :-)
 >>
->>>>> +    if (!stats->channel) {
->>>>> +        ret = -ENODEV;
->>>>> +        goto err_destroy_mutex;
->>>>> +    }
->>>>> +
->>>>> +    stats->pad.flags = MEDIA_PAD_FL_SINK;
->>>>> +    ret = media_entity_pads_init(&stats->vdev.entity, 1, &stats->pad);
->>>>> +    if (ret)
->>>>> +        goto err_release_dma_channel;
->>>>> +
->>>>> +    vb2q->type = V4L2_BUF_TYPE_META_CAPTURE;
->>>>> +    vb2q->io_modes = VB2_MMAP | VB2_DMABUF;
->>>>> +    vb2q->drv_priv = stats;
->>>>> +    vb2q->mem_ops = &vb2_dma_contig_memops;
->>>>> +    vb2q->ops = &mali_c55_stats_vb2_ops;
->>>>> +    vb2q->buf_struct_size = sizeof(struct mali_c55_stats_buf);
->>>>> +    vb2q->min_queued_buffers = 1;
->>>>> +    vb2q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->>>>> +    vb2q->lock = &stats->lock;
->>>>> +    vb2q->dev = mali_c55->dev;
->>>> That's not the right device. The device that performs the DMA operation
->>>> is the DMA engine, and that's what you need to pass to vb2. Otherwise
->>>> the DMA address returned by vb2_dma_contig_plane_dma_addr() will be
->>>> mapped to the ISP device, not the DMA engine. In practice, if neither
->>>> are behind an IOMMU, things will likely work, but when that's not the
->>>> case, run into problems.
->>>>
->>>>> +
->>>>> +    ret = vb2_queue_init(vb2q);
->>>>> +    if (ret) {
->>>>> +        dev_err(mali_c55->dev, "stats vb2 queue init failed\n");
->>>>> +        goto err_cleanup_entity;
->>>>> +    }
->>>>> +
->>>>> +    strscpy(stats->vdev.name, "mali-c55 3a stats", sizeof(stats->vdev.name));
->>>> s/3a //
->>>>
->>>>> +    vdev->release = video_device_release_empty;
->>>> That's never right. You should refcount the data structures to ensure
->>>> proper lifetime management.
->>>>
->>>>> +    vdev->fops = &mali_c55_stats_v4l2_fops;
->>>>> +    vdev->ioctl_ops = &mali_c55_stats_v4l2_ioctl_ops;
->>>>> +    vdev->lock = &stats->lock;
->>>>> +    vdev->v4l2_dev = &mali_c55->v4l2_dev;
->>>>> +    vdev->queue = &stats->queue;
->>>>> +    vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
->>>>> +    vdev->vfl_dir = VFL_DIR_RX;
->>>>> +    video_set_drvdata(vdev, stats);
->>>>> +
->>>>> +    ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->>>>> +    if (ret) {
->>>>> +        dev_err(mali_c55->dev,
->>>>> +            "failed to register stats video device\n");
->>>>> +        goto err_release_vb2q;
->>>>> +    }
->>>>> +
->>>>> +    stats->mali_c55 = mali_c55;
->>>>> +
->>>>> +    return 0;
->>>>> +
->>>>> +err_release_vb2q:
->>>>> +    vb2_queue_release(vb2q);
->>>>> +err_cleanup_entity:
->>>>> +    media_entity_cleanup(&stats->vdev.entity);
->>>>> +err_release_dma_channel:
->>>>> +    dma_release_channel(stats->channel);
->>>>> +err_destroy_mutex:
->>>>> +    mutex_destroy(&stats->lock);
->>>>> +
->>>>> +    return ret;
->>>>> +}
+>> Unrelatedly: there is no earthly reason why this is implemented as a
+>> macro.  A static inline function would be so much better.  Why do we
+>> keep doing this.
+> Agreed with all of the above.  Adding the dmabuf maintainers.
+
+Thanks for adding me and I have to ask to be added on DMA-buf patches 
+when initially sending them out.
+
+First of all: Yes that cast is intentionally there and yes that is 
+intentionally a define and not an inline function.
+
+See this patch here which changed that:
+
+commit 2c321f3f70bc284510598f712b702ce8d60c4d14
+Author: Suren Baghdasaryan <surenb@google.com>
+Date:   Sun Apr 14 19:07:31 2024 -0700
+
+     mm: change inlined allocation helpers to account at the call site
+
+     Main goal of memory allocation profiling patchset is to provide 
+accounting
+     that is cheap enough to run in production.  To achieve that we inject
+     counters using codetags at the allocation call sites to account 
+every time
+     allocation is made.  This injection allows us to perform accounting
+     efficiently because injected counters are immediately available as 
+opposed
+     to the alternative methods, such as using _RET_IP_, which would require
+     counter lookup and appropriate locking that makes accounting much more
+     expensive.  This method requires all allocation functions to inject
+     separate counters at their call sites so that their callers can be
+     individually accounted.  Counter injection is implemented by allocation
+     hooks which should wrap all allocation functions.
+
+     Inlined functions which perform allocations but do not use allocation
+     hooks are directly charged for the allocations they perform.  In most
+     cases these functions are just specialized allocation wrappers used 
+from
+     multiple places to allocate objects of a specific type.  It would 
+be more
+     useful to do the accounting at their call sites instead. Instrument 
+these
+     helpers to do accounting at the call site.  Simple inlined allocation
+     wrappers are converted directly into macros.  More complex 
+allocators or
+     allocators with documentation are converted into _noprof versions and
+     allocation hooks are added.  This allows memory allocation profiling
+     mechanism to charge allocations to the callers of these functions.
+
+Regards,
+Christian.
 
