@@ -1,107 +1,189 @@
-Return-Path: <linux-media+bounces-14546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14547-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0E59246AE
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 19:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6402924713
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 20:12:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C72571F25886
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 17:51:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 294A11F22C82
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 18:12:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7EF71BF325;
-	Tue,  2 Jul 2024 17:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1932B1C6894;
+	Tue,  2 Jul 2024 18:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cA6ofpDk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9E01BE234;
-	Tue,  2 Jul 2024 17:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984DB2F4A
+	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 18:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719942688; cv=none; b=rnex/RjxGscCtAimzpXeuaYr0S/mY1etvRD6pRbx84oV+8zH0xmfYVX5/Mw5EDZnGIPuSwsgA4IRrBkUpi2UVWzXIlBFao4S17a+m5m4ZB6xNJAtJmXbvuG8hzG1rPFpzxZNz8rjLa1okXM4SQVdY6X6hV4XtE+1bTSjvGJLZi0=
+	t=1719943918; cv=none; b=Fy0JtgNM2UNHj/S/VVVEgxnjqav4bjkVooqYkJfzspk1ywM8Q15JekW2IgeY3ACWmofJFjg/yBy/L3XW4g3XKoD2ZLknKaiJW+sSa3L7S+nRJPEQ5EsMSpgQw/2jECQzIt0W1I1zxLldaQ/YnBBKNY5U0zCgWKhS/X4FxqT2Ixw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719942688; c=relaxed/simple;
-	bh=H+U1EYcxPs8vYHE+bBElJ5nD7JX1Ny122D1CoXoM0nE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fDACJpzpRn23zsJy5KaOV0/BtRc3dkbSHFyVkzwrNcIo0XR1lgw3xTwXv/h5amWVsPhmzWOj9eMB2Lr3F4pI4r52tSiJPlZEWr2xC80C/EI/oC6Kv7BaEsw2BxLJajn/zCLutdqfWagdCNU3xFGLIlk0Ygj7udhmDQo85nTQzWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from ljl-virtual-machine.localdomain (unknown [106.58.225.219])
-	by APP-01 (Coremail) with SMTP id qwCowABnR0zvPYRmR0g9AQ--.968S2;
-	Wed, 03 Jul 2024 01:51:06 +0800 (CST)
-From: Junlin Li <make24@iscas.ac.cn>
-To: mchehab@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	tzimmermann@suse.de,
-	wsa+renesas@sang-engineering.com,
-	hkallweit1@gmail.com,
-	robh@kernel.org,
-	crope@iki.fi
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Junlin Li <make24@iscas.ac.cn>
-Subject: [PATCH] drivers: media: dvb-frontends/rtl2830: fix an out-of-bounds write error
-Date: Wed,  3 Jul 2024 01:50:23 +0800
-Message-Id: <20240702175023.3921-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1719943918; c=relaxed/simple;
+	bh=ppNdLftGFidPsoC9xkJKJCnwtg1oxBxbelcgU0oRIZc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=qVpkzLXtxSoFvRhEAEUmnlfjOScWmFU+ybGQDzpO7eONem7EPU7WIDh7tEL1WunNcCZsoy6WhIeqzioa+GJVmc5pzAkTYXUtVA7uNwaLvBHfYs/xgLdUMwQs2ovZpbUpJfoOSx3IsWcNTrDgo/H0zT0KEpguKuMBIrmy6nVedl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cA6ofpDk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1719943915;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7niLs/oLL4wN0v4lpWgFBHE66+tB200/5grYPxx8sBo=;
+	b=cA6ofpDkdOy1sG6KQWpBSxzsGhyD+aR3JYVnZKqwG7TGLCr+4rn4pYwKqhi3/WopPS0JYQ
+	CaADVFoHSrpWu4lRrlja0RoXXJFbOg5akg/PjqioZeYKPUbr+KOZ1KsezwvqOmfdDysFoY
+	qeS8jyM6iYU4awCXpIZ2FwsqtRgKdAA=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-572-jVPKLZg3Mly7BZ1M7EMsmg-1; Tue, 02 Jul 2024 14:11:54 -0400
+X-MC-Unique: jVPKLZg3Mly7BZ1M7EMsmg-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2ee7a53e7cfso4698791fa.2
+        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 11:11:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719943912; x=1720548712;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7niLs/oLL4wN0v4lpWgFBHE66+tB200/5grYPxx8sBo=;
+        b=va+d/NQEHPurBedEZIQyDxnBE8DhhrGpQsRw14j6HC8w9KnAs67Y7NkEnZKF48/QTY
+         AQsjZ+/b0WZprm0rblNke9TbSRm0XsnV5Aq+97KF0DaYSHki/53xFFm5hGDCgKY9veh+
+         BL4Chqptym04zfQfKAnXuxxGMRGNVO2eHA2kxkF9tfAuAjJPRHVFdFwwDQoUZLtVPv+B
+         g0Ar31tO0l/wMY6yoZJggnDGVYPuPrloxFtF0FNDmMWN9YO6fmlJJgnug+xBc11wve8n
+         IuYJuWS8PWKTnJRBYcK5fyZP5g/KZZ7SetKQIScdPdZaW8aXZe/DlUoDNlz2vTKFBSzn
+         DaoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXe5kkeje5+WMKUmUbS9vnnRvRmieOlwK2NdtYHYKRSA0ki8HzIIkiC9YHFukG0uWXZY+s3XfFxswfDk82weJ97jJ1a2ZWGsViocSc=
+X-Gm-Message-State: AOJu0YzHN3rGaGL6tSlkHiCGKBQ3NWwvQSL2k2o65/dYQetTGF2edovm
+	SOvG9x8F/rwQyfQeQ+t5tUvy4zb9wIMIvTPvtEl06QOf3h4SRShYRkaVI9i6V/9kBK81IIj1cV2
+	Lar9Xt/JBMogHMO4zLTGUt6+YFjOBq2M3JgivDkvyXBjf9HgHGF67xIW1dFgp
+X-Received: by 2002:a05:651c:198b:b0:2ec:4487:6a8f with SMTP id 38308e7fff4ca-2ee5e6ba645mr72345781fa.37.1719943912570;
+        Tue, 02 Jul 2024 11:11:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGCkmx0jbTUeMJDmVb0PBgl2zEOoHmEL7kOxFJCEDIto0dL/XYhi53y6yVbRtI4FMhq27ViRA==
+X-Received: by 2002:a05:651c:198b:b0:2ec:4487:6a8f with SMTP id 38308e7fff4ca-2ee5e6ba645mr72345671fa.37.1719943912135;
+        Tue, 02 Jul 2024 11:11:52 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:e7a9:b143:57e6:261b? (2001-1c00-2a07-3a01-e7a9-b143-57e6-261b.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:e7a9:b143:57e6:261b])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58615038a86sm5970374a12.95.2024.07.02.11.11.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jul 2024 11:11:51 -0700 (PDT)
+Message-ID: <43245a4b-1e5a-4d27-876b-853a67b0ad28@redhat.com>
+Date: Tue, 2 Jul 2024 20:11:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABnR0zvPYRmR0g9AQ--.968S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XrWkAryrWw4xur4rGrW3ZFb_yoWkJwc_G3
-	4SqrsxXFyjqF1Yya1Y9w45ZrWq9rW7XwsYgF15t3y3tFW5ZFy8KFyqg3ZFyFy8WFy7Wrn8
-	AFnxGF1Sk3W29jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb3kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
-	Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
-	WxJr1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
-	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
-	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
-	648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
-	VFxhVjvjDU0xZFpf9x0JUQZ23UUUUU=
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] media: atomisp: Changes for 6.10-1
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
+ "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Ensure index in rtl2830_pid_filter
-does not exceed 31 to prevent out-of-bounds access.
-dev->filters is a 32-bit value,
-so set_bit and clear_bit functions should only
-operate on indices from 0 to 31.
-If index is 32, it will attempt to access a non-existent 33rd bit,
-leading to out-of-bounds access.
-Change the boundary check
-from index > 32 to index >= 32 to resolve this issue.
+Hi Mauro, Hans,
 
-Fixes: df70ddad81b4 ("[media] rtl2830: implement PID filter")
-Signed-off-by: Junlin Li <make24@iscas.ac.cn>
----
- drivers/media/dvb-frontends/rtl2830.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Here is a first round of atomisp changes for 6.11.
 
-diff --git a/drivers/media/dvb-frontends/rtl2830.c b/drivers/media/dvb-frontends/rtl2830.c
-index 30d10fe4b33e..320aa2bf99d4 100644
---- a/drivers/media/dvb-frontends/rtl2830.c
-+++ b/drivers/media/dvb-frontends/rtl2830.c
-@@ -609,7 +609,7 @@ static int rtl2830_pid_filter(struct dvb_frontend *fe, u8 index, u16 pid, int on
- 		index, pid, onoff);
- 
- 	/* skip invalid PIDs (0x2000) */
--	if (pid > 0x1fff || index > 32)
-+	if (pid > 0x1fff || index >= 32)
- 		return 0;
- 
- 	if (onoff)
--- 
-2.34.1
+Highlights:
+- Update driver for the atomisp firmware now being available in linux-firmware
+- Couple of cleanups from Andy Shevchenko
+- Bunch of spelling fixes
+
+Regards,
+
+Hans
+
+
+The following changes since commit a0157b5aa34eb43ec4c5510f9c260bbb03be937e:
+
+  media: venus: fix use after free in vdec_close (2024-06-30 11:22:44 +0200)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.11-1
+
+for you to fetch changes up to 841c19674e180f58b3dd34f991672cce09dfaf39:
+
+  media: atomisp: Fix spelling mistakes in sh_css_sp.c (2024-07-02 12:39:37 +0200)
+
+----------------------------------------------------------------
+atomisp staging driver changes for 6.11-1
+
+Highlights:
+- Update driver for the atomisp firmware now being available in linux-firmware
+- Couple of cleanups from Andy Shevchenko
+- Bunch of spelling fixes
+
+----------------------------------------------------------------
+Andy Shevchenko (3):
+      media: atomisp: Clean up unused macros from math_support.h
+      media: atomisp: Replace COMPILATION_ERROR_IF() by static_assert()
+      media: atomisp: Remove unused GPIO related defines and APIs
+
+Colin Ian King (1):
+      media: atomisp: Fix spelling mistake "pipline" -> "pipeline"
+
+Hans de Goede (5):
+      media: atomisp: Remove unused mipicsi_flag module parameter
+      media: atomisp: Remove firmware_name module parameter
+      media: atomisp: Prefix firmware paths with "intel/ipu/"
+      media: atomisp: Update TODO
+      media: atomisp: csi2-bridge: Add DMI quirk for OV5693 on Xiaomi Mipad2
+
+Roshan Khatri (5):
+      media: atomisp: Fix spelling mistake in sh_css_internal.h
+      media: atomisp: Fix spelling mistake in ia_css_eed1_8.host.c
+      media: atomisp: Fix spelling mistake in hmm_bo.c
+      media: atomisp: Fix spelling mistake in ia_css_debug.c
+      media: atomisp: Fix spelling mistakes in sh_css_sp.c
+
+ drivers/staging/media/atomisp/TODO                 |  31 +-----
+ drivers/staging/media/atomisp/pci/atomisp_common.h |   1 -
+ .../media/atomisp/pci/atomisp_csi2_bridge.c        |  14 +++
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c  |   2 +-
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  37 +++----
+ .../base/circbuf/interface/ia_css_circbuf_comm.h   |   6 ++
+ .../pci/camera/util/interface/ia_css_util.h        |  11 ---
+ .../media/atomisp/pci/camera/util/src/util.c       |  25 +++--
+ .../staging/media/atomisp/pci/gpio_block_defs.h    |  17 ----
+ .../atomisp/pci/hive_isp_css_common/gpio_global.h  |  23 -----
+ .../pci/hive_isp_css_common/host/gpio_local.h      |  21 ----
+ .../pci/hive_isp_css_common/host/gpio_private.h    |   9 +-
+ .../pci/hive_isp_css_include/assert_support.h      |  23 -----
+ .../media/atomisp/pci/hive_isp_css_include/gpio.h  |  46 ---------
+ .../pci/hive_isp_css_include/host/gpio_public.h    |  46 ---------
+ .../pci/hive_isp_css_include/math_support.h        | 110 +--------------------
+ .../pci/hive_isp_css_include/type_support.h        |   5 +-
+ drivers/staging/media/atomisp/pci/hmm/hmm_bo.c     |   4 +-
+ drivers/staging/media/atomisp/pci/ia_css_3a.h      |   5 +
+ drivers/staging/media/atomisp/pci/ia_css_dvs.h     |   4 +
+ .../staging/media/atomisp/pci/ia_css_metadata.h    |   4 +
+ drivers/staging/media/atomisp/pci/ia_css_types.h   |   2 +
+ .../pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c    |   2 +-
+ .../pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c |   6 +-
+ .../media/atomisp/pci/runtime/binary/src/binary.c  |   2 -
+ .../atomisp/pci/runtime/debug/src/ia_css_debug.c   |   4 +-
+ .../runtime/spctrl/interface/ia_css_spctrl_comm.h  |   4 +
+ drivers/staging/media/atomisp/pci/sh_css.c         |  48 +--------
+ drivers/staging/media/atomisp/pci/sh_css_frac.h    |   4 +-
+ .../staging/media/atomisp/pci/sh_css_internal.h    |  19 +++-
+ drivers/staging/media/atomisp/pci/sh_css_sp.c      |  24 ++---
+ 31 files changed, 118 insertions(+), 441 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_local.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/gpio.h
+ delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/gpio_public.h
 
 
