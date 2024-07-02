@@ -1,198 +1,158 @@
-Return-Path: <linux-media+bounces-14511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015D992391E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 11:06:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3B7923A37
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 11:34:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 626A1B24FF0
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 09:06:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E9071F231A0
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 09:34:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E631514E3;
-	Tue,  2 Jul 2024 09:06:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24EEA155A39;
+	Tue,  2 Jul 2024 09:34:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="NpHIw/vI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bjx6ImGF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZBQTEMyM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F97A14F111;
-	Tue,  2 Jul 2024 09:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205AE1534E1;
+	Tue,  2 Jul 2024 09:34:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719911179; cv=none; b=l5HTY7UdnhYRGkzhG6QhJN9ljlcTbWTQ+6bDxEKM9Cg9s4APg8mjk0JzIXxXiNk52mXE2QeAXMx9frWIvv4AcjnMgeRC4dpSBj2QJqRVG0B1gD9lbAV6XQ62wE1ItdF5PN0+DhVc8ag6QUU26Q+73yTa5keLnWDBxUrdIwR7QAA=
+	t=1719912846; cv=none; b=aK+U8WYOuJ7GtRYCq5S4o+VurZ6BZGjzkExImn6D5EO++L/O4sgwUTwC4Qb/aNWTyd3NfajRaVX1p1bs0nkqZJrzFRWaSaXHjCUEDJ+fC+vf/I9bQz0TZcpYQUTUw7N0cABvlNzek2vmYHwXbxPlf5BrI72L6mW0PzOSrT1Xwsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719911179; c=relaxed/simple;
-	bh=yT2dU406UigV/1rd2Qpji/wju03N3iYdlfmnLKqMHCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ssKznDyu+c5seVylqEy0x8TPEL10pojvTKORmbBH0GUllrzib+GHfglrk4qhjdiPzm0ocHfZeKsXjMTH3jpJX1Wr3j2xSzkyi3lwZFcsuHG8msVWsLld/lZ8apsiqRjUpnKrI4+Q8kZhOykoies+ZSiKfNzRDWGMqmLUl9TGEE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=NpHIw/vI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bjx6ImGF; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 4E1BD138053D;
-	Tue,  2 Jul 2024 05:06:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 02 Jul 2024 05:06:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1719911174;
-	 x=1719997574; bh=3YWozVWx8MlebHOnbd6VGG/h5yBrUd/5xxmH3DK6qxg=; b=
-	NpHIw/vIfYD0/psaKVqJEHpoE3BBf6r5Ln9m8A+3mZfGEVfmsnKF+zQtT5yU4wE3
-	9qAQ0OM4adID7dNLKArhgiypPBNTduU82vOvDP7Ri3FXDm5USOC54799GBC2dzxk
-	IEo098b667dQp6WxF52QcwdMsXTgxanU3u0rKH04rTAMbxxeLpd8uugckKtDeom8
-	w8IoyTLaffdHZtVzoIacBDOM17aRLmgtwT74o3dlI917KWNMGVEXkeFdswmbwD57
-	gcbIFO06yqglhq02gy0XhuN3moZj5yToAEDZ5CAwzrXUlEpnQbT9wfpux/cZ3npa
-	gR69Oz+Acd2OVJnuBjmY8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1719911174; x=
-	1719997574; bh=3YWozVWx8MlebHOnbd6VGG/h5yBrUd/5xxmH3DK6qxg=; b=B
-	jx6ImGFFucudZg5EeazFsFAlN5v4A88LqSi8hH9Fd/bPUxPvh33L+L6N56WCTWBj
-	Vey8p0D0b8x/yZ4GuOH6Lp0IYeMaO5VMWZowF2gavRbHOEU7tj9n1TcO2bljrHur
-	1lG3hqdXJudhQf37UZdJ/2g58ioUj+1Zd77xRvoFkKjbPrBSXGoe7B4EhJ8s4fIP
-	M9uNTPvVxfY8phXvuXWDtZEGuXszmIuXBIpkrDyTDtEjZGwJx0XZqbuBFYhijSFt
-	zcSdoq7y4tulGYJ/ZNdDay6yGtmXAytU0cwe/77PV7AedPAISonya20Ss6XztK/P
-	YFSQZzP39kNkIi2c8+08A==
-X-ME-Sender: <xms:BcODZh8OiKAeLYhUZUvuz8KDvfz3yQdj_DL5I1SLikwBRKf5USCaZg>
-    <xme:BcODZlv5J8Vs1r_Ag4tZnx7NvGc7WDKfRqcQ1MVbRbv_gTsZSpFzvKs5jtM3KURc8
-    -k4eJ9qfp4wn4NSiQQ>
-X-ME-Received: <xmr:BcODZvBFUZ3J2h9W8svSQJHCWHBQkacDaAa9iAjddg5K-yF8WckEn5qQshcvEzygw0xs7cJoXl20d6dQoMzCYRY_jniAq74>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgddutdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheppfhikhhl
-    rghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvg
-    hsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepfefhleelhfff
-    jefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvleeinecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghr
-    lhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:BcODZlfTk96t2ZKElvqmRMf-8IF20gwpjBw_25Xj1iXrgrYrZS-J_A>
-    <xmx:BcODZmPqSBctXOd5_j89vNyGeExlWAcY6zrHxHFxpPCnMSrxi0f2ZA>
-    <xmx:BcODZnlay9pAZ-nnDkAoN3QWt52kDupEZMJq0BUdbpfpUvJxzuCT9w>
-    <xmx:BcODZgvNB6Rx0O9MzOar4y0WcRqDGZPwQibMAe15tRxmcWsQuiXE_A>
-    <xmx:BsODZnHbmmDhI7J4vJoYETIonWdE74MIC1sh-e3Ka4s87STcnmBkCTEl>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Jul 2024 05:06:13 -0400 (EDT)
-Date: Tue, 2 Jul 2024 11:06:10 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] dt-bindings: media: renesas,vin: Add Gen4 family
- fallback
-Message-ID: <20240702090610.GA2984619@ragnatech.se>
-References: <20240624144108.1771189-1-niklas.soderlund+renesas@ragnatech.se>
- <20240624144108.1771189-2-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdUrEf9KFKCawY_XPu0WuJwaE+Se21jx-d4X_Ef+f2S36Q@mail.gmail.com>
+	s=arc-20240116; t=1719912846; c=relaxed/simple;
+	bh=OHn1ckY1ViIAHvmeaBhl4RVsY7dCnn6nSLzEnFbY7H4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZW/ZWAE8PWBDV7xBcy8wXiZnJUzv/DbGcknm/KLOtczYwYvt2GXZkbuToscH4e1X/la4o8fBdjbVywjk57Rr7CqRIe/KFvWreN07S7xPpPalQhFkTUU2Zo2rr+FI+7EKk0lvxHcqPLucJIHwHgL6RZ0r2DNcnaXDbAXVPy23WV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZBQTEMyM; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7021f23d699so534806a34.3;
+        Tue, 02 Jul 2024 02:34:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719912844; x=1720517644; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cWXvodTV40xpsQgD046diOP7NF2BEo3aGKT0Hy04vKs=;
+        b=ZBQTEMyMDKJbU7hV744Uytoc4LJt9baatO8fqoptKJc9Z6ro2IBfYXw7pgCyEjNVka
+         mQMYMgImdC78+P7u+yYC3VST6hxf3lUHmjA5Ro9iZ6MXzFz7rZmfjNoSQL2OcptYJ2Ra
+         m345jFhs+hq4sYbJlbDD13fdtYotW0j4Ikiwyshse+segDtvTmSJDVfP49YT4eX1ka8a
+         uRB/VehcZ7UFbpaWhvzQTmvKlLjMfiksmK+4AGW3AmATmJY962ZoEC01yl5U4F+rJpWb
+         WI1Lnm975IkRObQjQCT9XdKkysfd6wgwhYoZF2gY22Kf1imTKSuNbW1BtjrOfBJRJ1dm
+         zS+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719912844; x=1720517644;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cWXvodTV40xpsQgD046diOP7NF2BEo3aGKT0Hy04vKs=;
+        b=FMwbeWHAQLjLb1vH4tMak+t6Cb/IfZTUh4W+YH/h3baoGw7wiBN3U/NNief9mfwFab
+         bcEvJo8NdLa7aMrHSd8GS26JeV3aqK2clyMjfNUwFqfPLz0GlOCJs9eiq6imrAOM/2UL
+         pjw6W7naqQmwQ09zKOwcXW48VCUxuIPapghNZxc8QtuNMjWsLJcGPH4NkqN36q/UUNpO
+         wohXuF+kj6GVs6oZH1/O9BNZoIRfWX6JCqYDDyvSrZ+cU7Pn8sFjgNAwHfWpko0OMA1s
+         kmB/wkjzxDMvsPoLAZxBVx5C3Cb3f1gKVx+qnP05qyeLnBABUd8o8b15Mk3DM0DfkvsK
+         5hxg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYuE2OThn+wRxZcttJaMU2LGuhuLsNf7hgO96g7843Q7e/QJqBVzdF3UnVtb0pInbhr1gCmJNYVAfQPJXw+mAXES49dfH5pGPO6VG+k38zEf+Kz8+LRpMtc//pQPgjpwDwmJW9fY4Ub4juKQTgT4vifcjcIpOWJFfX7Vvb/zSFhQ2cQrajr2ElHWRluwQ4uW2118Jt8Z5Qu1cNk0SyCs4WiHMIpH1PTPiQFaf/1VvpZ9pLMq/u9awn72PIqZthT5/wc/jplKmY/9oQqpEFVNrKmFz1UWVw3KPxzREmRQjraLNZYJpkF8NOjXFXrTYUhvr9piGwCWy8DK0dGVYCsf9SjgR4ZA0FoN7apwC+HJl4YmRM2QlMv3npTpowXJJ1fkLq+t8LTqqfCRskCOUF56mPwVD6TqVFYtWZKtgTRipJn84yYmv0XjYJTqq3b1HZYXl01y8+DhDXDPFLsEcuSAZJxs1im0xAuTQlVla1RA==
+X-Gm-Message-State: AOJu0YxGHUwcH6dyWfY+L6ZATyv8il+kySKOUoA1Fesao4R5WCL8JVBl
+	l+qs9paJIkBuDdraXFZIses39FBPR/+cn7wixwFlAd0dw45okRCKzNoMYAA5w3SmxTJrp1ayET+
+	IcFGpvnWL4Lb1bG3iF0gNu7lGCQQ=
+X-Google-Smtp-Source: AGHT+IEDzJCkSxic9thzD1A+qXwSy94/OFeuEZqEmxDLENKBg+0OkSwbEdt7g8VxaiGVVFbl4hnPJFDds9/ibJSVDwQ=
+X-Received: by 2002:a05:6870:56ab:b0:254:aae8:d822 with SMTP id
+ 586e51a60fabf-25db3432ec4mr7759858fac.26.1719912844128; Tue, 02 Jul 2024
+ 02:34:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUrEf9KFKCawY_XPu0WuJwaE+Se21jx-d4X_Ef+f2S36Q@mail.gmail.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-3-almasrymina@google.com> <m27ce9cris.fsf@gmail.com> <CAHS8izNM8TjJ1DU+7gzq-0kH=tVeM6j-QsaKk=2FHNDF6RLwnA@mail.gmail.com>
+In-Reply-To: <CAHS8izNM8TjJ1DU+7gzq-0kH=tVeM6j-QsaKk=2FHNDF6RLwnA@mail.gmail.com>
+From: Donald Hunter <donald.hunter@gmail.com>
+Date: Tue, 2 Jul 2024 10:33:52 +0100
+Message-ID: <CAD4GDZznS=0xG+ms6bLKSwQFNTqxSqi8fdoNM97ymwcnqX3yhg@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 02/14] net: netdev netlink api to bind
+ dma-buf to a net device
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
-
-Thanks for your review.
-
-On 2024-07-02 09:52:08 +0200, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Mon, Jun 24, 2024 at 4:43 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > The two Gen4 SoCs released (V4H and V4M) that have a video capture
-> > pipeline the VIN IP are very similar.
+On Mon, 1 Jul 2024 at 20:05, Mina Almasry <almasrymina@google.com> wrote:
+>
+> On Fri, Jun 28, 2024 at 3:10=E2=80=AFAM Donald Hunter <donald.hunter@gmai=
+l.com> wrote:
 > >
-> > The datasheet for the two SoCs have small nuances around the Pre-Clip
-> > registers ELPrC and EPPrC in three use-cases, interlaced images,
-> > embedded data and RAW8 input. On V4H the values written to the registers
-> > are based on odd numbers while on V4M they are even numbers, values are
-> > based on the input image size. No board that uses these SoCs which also
-> > have the external peripherals to test these nuances exists. Most likely
-> > this is an issue in the datasheet.
+> > Mina Almasry <almasrymina@google.com> writes:
+> > > +  -
+> > > +    name: bind-dmabuf
+> > > +    attributes:
+> > > +      -
+> > > +        name: ifindex
+> > > +        doc: netdev ifindex to bind the dma-buf to.
 > >
-> > Before adding bindings for V4M add a family compatible fallback for
-> > Gen4. That way the driver only needs to be updated once for Gen4, and we
-> > still have the option to fix any problems in the driver if any testable
-> > differences between the two SoCs is found.
+> > Minor nit:
 > >
-> > There are already DTS files using the renesas,vin-r8a779g0 compatible
-> > which needs to be updated to not produce a warning for DTS checks. And
-> > the driver will need to kept compatible with renesas,vin-r8a779g0, but
-> > for new Gen4 SoCs such as V4M we can avoid this.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> > * Changes since v3
-> > - New in v4.
-> 
-> Thanks for your patch!
-> 
-> > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > @@ -53,7 +53,10 @@ properties:
-> >                - renesas,vin-r8a77990 # R-Car E3
-> >                - renesas,vin-r8a77995 # R-Car D3
-> >                - renesas,vin-r8a779a0 # R-Car V3U
-> 
-> I think R-Car V3U should be moved below, too, as it's the first
-> member of the R-Car Gen4 family, despite the name.
+> > The series uses a mix of dmabuf and dma-buf but the doc additions
+> > (devmem.rst) consistently uses dmabuf. I think it would be helpful to b=
+e
+> > consistent here and say 'devmem dmabuf' in the docstring to highlight
+> > whos dmabuf it is and keep the generated netdev docs in alignment.
+>
+> To be honest, even the dmabuf docs mixes 'dma-buf' and 'dmabuf', to my ey=
+e:
+>
+> https://docs.kernel.org/driver-api/dma-buf.html
+>
+> I can edit these docs I'm adding so these are consistent.
+>
+> But on 'devmem dmabuf', not sure to be honest. Technically all dmabufs
+> are supported, even non-devmem ones. I'm not sure non-devmem dmabufs
+> are common at all, the only example I can think of is udmabuf whose
+> primary user is qemu and testing, so it's somewhat implied that the
+> dmabuf is devmem, and even if it isn't, it would be supported. I
+> prefer to keep the docs saying just 'dmabuf' as technically all are
+> supported. Maybe I should add a note about this somewhere in the
+> dedicated docs.
 
-I was a bit conflicted about if I should do this and opted to for the 
-least intrusive change. But the change seems to have landed on a good 
-note, I will do a new version that covers V3U as well.
+That's a fair point. If you could mention it in the docs, that would be gre=
+at.
 
-> 
-> > +      - items:
-> > +          - enum:
-> >                - renesas,vin-r8a779g0 # R-Car V4H
-> > +          - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
-> 
-> If all differences in the pipeline can be devised from the topology
-> in DT:
-
-It can.
-
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Thanks!
-
-> 
-> >
-> >    reg:
-> >      maxItems: 1
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
--- 
-Kind Regards,
-Niklas Söderlund
+Thanks,
+Donald.
 
