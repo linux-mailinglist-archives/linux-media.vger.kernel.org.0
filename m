@@ -1,129 +1,120 @@
-Return-Path: <linux-media+bounces-14542-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14543-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78F89241CB
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 17:03:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9BF924217
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 17:16:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D966B1C22117
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 15:03:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A57728931D
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 15:16:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45CDA1BD030;
-	Tue,  2 Jul 2024 15:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0309B1BBBD9;
+	Tue,  2 Jul 2024 15:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1l+sF5v"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SZbEu/VZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBE21BBBE8;
-	Tue,  2 Jul 2024 15:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FF21BB6A5
+	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 15:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719932501; cv=none; b=n0nr6lXgjtUEhOTmWFvx4u8ktOvEupkNYnouFkmMNE251lkFEf74sjZtwGMnexUB/IAkjtnaE7DwDcktEu+gcrBGZgCyxap0w2OP8CfGljcdOaDUW533kE9m3uQkNvuaL8Eq/kRdWkeRYApe9Pu0sT+H+DRqfIBg8QEVMG/B0Rk=
+	t=1719933336; cv=none; b=TcrK0+6m1q19jNhfnnJxyt0PptcU8aTSIoiJuyp094LjCdmFWeAdxJl9Rdkbs6CMO3ASIxYNUs13eQ/kx5goVV+vDasFhi9YRG+pJALxYiq7f1MpJsfDg0caMxFeVH4EPQOSlvFqUYHgJX2rbKwbsw6r+fa5yvY50pD6mKl9Qzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719932501; c=relaxed/simple;
-	bh=XRv0Jj0wSf/Xw/UCNj6I2liywlijdK3noFOcZeRx+GY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C7BYt11I40pH6n+HAAQgV2JTkfXVLkfhFAl83YH5vfOu+4Xu1OkSXZooczR8Jb5ZwmGwiHv8oLfm6plpWmWTkCNRbUkob8QZskm0w75RQTdXUV/nsE6vX/JFS9cSEul/h3XlTMeXjJIiUcgGxFqafnFsf9tMT88LegYn1mUdgxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1l+sF5v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 760F1C116B1;
-	Tue,  2 Jul 2024 15:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719932501;
-	bh=XRv0Jj0wSf/Xw/UCNj6I2liywlijdK3noFOcZeRx+GY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Y1l+sF5vaK3pY9zYDbbnpP0vQfqx+XNhuWj653YSKFbYdBXNOV/ftO16gbdQoazqL
-	 LUWf2KzfSkHw0T87dMjo/Em+x6Q9iDx0Nrz8+jvKyuAjR2se+kuwWl4QjKPb//Jona
-	 Jxk0LfBVnFfuAOkE5W97K2Cz5tDY6k5DxY3Bu4I4pSXZVFMn5+TrpKB1SY+JRpxtWu
-	 QngxJdUryQcvrXp1HlL16YO5zqgyfjL/nvLP80wGTDyDw0UfM8w6iOX0pW2WvWu4tT
-	 NYGazDLXb4T6j5KifSlY0ytv3nJC4qyzUUUlx0gie8hQPGqIrb1z2wmXoQ8wZt0/Dh
-	 HkvtAcgP6igaw==
-Message-ID: <ec94eb1b-6c1a-48dc-8c3a-068cbe032044@kernel.org>
-Date: Tue, 2 Jul 2024 09:01:37 -0600
+	s=arc-20240116; t=1719933336; c=relaxed/simple;
+	bh=7xkuEo06poUvZl7/TJP1HQiPecOFXIyvKsS9JY0m35E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DpZ8ZXMfWpUDHOmw566c9gQotPaqXvPbE3+NLvZhW79Ik/WAp4cIgrE20CqR3lqGA82+hzv+kBI4Odc2/7mbPKEwu3ifvNZfIX34Fgr+21UL1cD2YtgkEDQevZL0ge4dw0stpnmkrWb3aZu6RhpQQIkI9oKJofrTsCjXw5+3xdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SZbEu/VZ; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-64789495923so38221487b3.0
+        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 08:15:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1719933334; x=1720538134; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cNWhwi3BuKwIDlYJ+Eok6lmEciKDFhWO/KDN1iS7pU8=;
+        b=SZbEu/VZbaoF00WnZDPy29RDbBtku+4zR10fxiYlV7XZWgbTasGtM2FCaXV/9Uyjq8
+         pPa66Z1tivn+nqRZ2QqDD4bRskwEYFVqJHo0rv5pf8rGCeqsxQw2Zu9Sg0JDqQBFdGeL
+         PyV0teWIe3tSzfhuF1aFqXPG/w3bEf9xu5irU2NXm1u7mLzDZ3EE9TCxAhxE7r+pirq6
+         EwETQn8lbXJrz8e7+MHpv2eYSy1HQP7HoTayqGUUTpPp6WXwxixkXiQaMCG/YrlRWtMl
+         wWGXd/N3sXDQYkA6rfju2a7+MdsilUxDjmk0PCOmuC6DPO3ZlGhsP8CWxciqylE2zjtg
+         aN2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719933334; x=1720538134;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cNWhwi3BuKwIDlYJ+Eok6lmEciKDFhWO/KDN1iS7pU8=;
+        b=wzbdEDgtgQIM2ry/lYzOena6iO+ajSW8zX5+lJ67qH/6OawXXjB5Tm7AOqjMZZGni6
+         /+08RFM9aPQW5eIybBGM0azhMenfEeLgCoIYyOgkgNymvym90jKp+aHlBKXgPAJAVrCJ
+         Vj8asYE8hapv0TdlgrE7w0T537N2Rvy/FMx03jnkLc4vw1axNUS1yYSqll074gl2buyZ
+         r/S1NIOI+SzcvXkHe9KvR5ugI6rRrRReUKSoz4htT6CO/x1IozR/dCZwQJTDkcEse+V9
+         1uoSKcUZJurf12nJlz30GZbNJSrekgioWU5dQkOamIW3MxO9DHR+CZmLVu7WshYCI0rG
+         b1VA==
+X-Forwarded-Encrypted: i=1; AJvYcCWKzFFvq6owNJNiZ2FMzry5cgoYzo0p3eOsYxf3kTOVkreEuXkBz2iQpFNqGK0adAAfZx3zLfaUJ0uEYamkgtNBM2CJJFD4MmxYYTA=
+X-Gm-Message-State: AOJu0YzUv8wc2Tzug7FQ0bnyyKcPxhylbjCKgQ/Iurgrz0eV8nMwrBKe
+	31cm1jCer0ZDAn4wifkwJ12ASYB5WrIpd1hjtGwd/Q3JSStATIaTHaWqKKUVEK83kjHXuRPShQU
+	KH10XmHOiq5kteTgibjsoT+AV5tlttWAOezzg
+X-Google-Smtp-Source: AGHT+IG2EeoEjGrNJPimBuxzgEbGPnYMmLCli/IQeFkWY+JfiCJPJ3fhsOk218T1gggIpWBX9AKMu5hfbJ1J9S3AKQI=
+X-Received: by 2002:a81:ae17:0:b0:650:9799:41d2 with SMTP id
+ 00721157ae682-6509799460cmr10823267b3.30.1719933333549; Tue, 02 Jul 2024
+ 08:15:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v15 11/14] net: add SO_DEVMEM_DONTNEED setsockopt
- to release RX frags
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-12-almasrymina@google.com>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <20240628003253.1694510-12-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240630011215.42525-1-thorsten.blum@toblux.com>
+ <20240701232634.0bddb542ddea123b48dcabdf@linux-foundation.org>
+ <20240702064017.GA24838@lst.de> <e0f384b0-6913-4224-a3ea-bdae784f5dab@amd.com>
+ <20240702003357.6bfd1d918c56d536bb664c37@linux-foundation.org>
+In-Reply-To: <20240702003357.6bfd1d918c56d536bb664c37@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 2 Jul 2024 15:15:19 +0000
+Message-ID: <CAJuCfpFCiUfpa45rG74zd-KoQcaA2fwgUw86iSF2CDiFrXCOdA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Remove unnecessary kmalloc() cast
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Christoph Hellwig <hch@lst.de>, Thorsten Blum <thorsten.blum@toblux.com>, jack@suse.cz, 
+	linux-kernel@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/27/24 6:32 PM, Mina Almasry wrote:
-> @@ -1049,6 +1050,62 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_PAGE_POOL
-> +static noinline_for_stack int
-> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
-> +{
-> +	unsigned int num_tokens, i, j, k, netmem_num = 0;
-> +	struct dmabuf_token *tokens;
-> +	netmem_ref netmems[16];
-> +	int ret = 0;
-> +
-> +	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
-> +		return -EBADF;
-> +
-> +	if (optlen % sizeof(struct dmabuf_token) ||
-> +	    optlen > sizeof(*tokens) * 128)
-> +		return -EINVAL;
-> +
-> +	tokens = kvmalloc_array(128, sizeof(*tokens), GFP_KERNEL);
+On Tue, Jul 2, 2024 at 7:34=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
+>
+> On Tue, 2 Jul 2024 09:13:35 +0200 Christian K=C3=B6nig <christian.koenig@=
+amd.com> wrote:
+>
+> > yes that is
+> > intentionally a define and not an inline function.
+> >
+> > See this patch here which changed that:
+> >
+> > commit 2c321f3f70bc284510598f712b702ce8d60c4d14
+> > Author: Suren Baghdasaryan <surenb@google.com>
+> > Date:   Sun Apr 14 19:07:31 2024 -0700
+> >
+> >      mm: change inlined allocation helpers to account at the call site
+>
+> Dang, yes, that was a regrettable change.  But hardly the end of the
+> world.  I do think each such alteration should have included a comment
+> to prevent people from going and cleaning them up.
 
-The '128' should be a named macro with a comment on why that value.
+Sorry I missed this discussion. Yes, the definition was intentional
+and I will add comments for all the cases which were changed this way.
+Thanks,
+Suren.
 
+>
+>
 
