@@ -1,120 +1,219 @@
-Return-Path: <linux-media+bounces-14543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9BF924217
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 17:16:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A3692424F
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 17:25:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A57728931D
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 15:16:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 878231F24A66
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 15:25:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0309B1BBBD9;
-	Tue,  2 Jul 2024 15:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102D81BC068;
+	Tue,  2 Jul 2024 15:25:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SZbEu/VZ"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kEkbHH/X";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ITaMGUSc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FF21BB6A5
-	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 15:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486761AD9E7;
+	Tue,  2 Jul 2024 15:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719933336; cv=none; b=TcrK0+6m1q19jNhfnnJxyt0PptcU8aTSIoiJuyp094LjCdmFWeAdxJl9Rdkbs6CMO3ASIxYNUs13eQ/kx5goVV+vDasFhi9YRG+pJALxYiq7f1MpJsfDg0caMxFeVH4EPQOSlvFqUYHgJX2rbKwbsw6r+fa5yvY50pD6mKl9Qzw=
+	t=1719933937; cv=none; b=qFhGJxrsimjSVcupi/i2uUl3KOtmBokWE7CaubfYxG9Yj7qdrYTvRWBRAQLGn3/7MA+6jw9F6VASJPXQUvneIuYwW6AGHNWvcYzL7qAs2DDwh7Hy/8akiGkL8x/tm2ZMQuiR4b0An7Z7A9K/ZuwjtN89jv91yT76r7LmsSWUIJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719933336; c=relaxed/simple;
-	bh=7xkuEo06poUvZl7/TJP1HQiPecOFXIyvKsS9JY0m35E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DpZ8ZXMfWpUDHOmw566c9gQotPaqXvPbE3+NLvZhW79Ik/WAp4cIgrE20CqR3lqGA82+hzv+kBI4Odc2/7mbPKEwu3ifvNZfIX34Fgr+21UL1cD2YtgkEDQevZL0ge4dw0stpnmkrWb3aZu6RhpQQIkI9oKJofrTsCjXw5+3xdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SZbEu/VZ; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-64789495923so38221487b3.0
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 08:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1719933334; x=1720538134; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cNWhwi3BuKwIDlYJ+Eok6lmEciKDFhWO/KDN1iS7pU8=;
-        b=SZbEu/VZbaoF00WnZDPy29RDbBtku+4zR10fxiYlV7XZWgbTasGtM2FCaXV/9Uyjq8
-         pPa66Z1tivn+nqRZ2QqDD4bRskwEYFVqJHo0rv5pf8rGCeqsxQw2Zu9Sg0JDqQBFdGeL
-         PyV0teWIe3tSzfhuF1aFqXPG/w3bEf9xu5irU2NXm1u7mLzDZ3EE9TCxAhxE7r+pirq6
-         EwETQn8lbXJrz8e7+MHpv2eYSy1HQP7HoTayqGUUTpPp6WXwxixkXiQaMCG/YrlRWtMl
-         wWGXd/N3sXDQYkA6rfju2a7+MdsilUxDjmk0PCOmuC6DPO3ZlGhsP8CWxciqylE2zjtg
-         aN2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719933334; x=1720538134;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cNWhwi3BuKwIDlYJ+Eok6lmEciKDFhWO/KDN1iS7pU8=;
-        b=wzbdEDgtgQIM2ry/lYzOena6iO+ajSW8zX5+lJ67qH/6OawXXjB5Tm7AOqjMZZGni6
-         /+08RFM9aPQW5eIybBGM0azhMenfEeLgCoIYyOgkgNymvym90jKp+aHlBKXgPAJAVrCJ
-         Vj8asYE8hapv0TdlgrE7w0T537N2Rvy/FMx03jnkLc4vw1axNUS1yYSqll074gl2buyZ
-         r/S1NIOI+SzcvXkHe9KvR5ugI6rRrRReUKSoz4htT6CO/x1IozR/dCZwQJTDkcEse+V9
-         1uoSKcUZJurf12nJlz30GZbNJSrekgioWU5dQkOamIW3MxO9DHR+CZmLVu7WshYCI0rG
-         b1VA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKzFFvq6owNJNiZ2FMzry5cgoYzo0p3eOsYxf3kTOVkreEuXkBz2iQpFNqGK0adAAfZx3zLfaUJ0uEYamkgtNBM2CJJFD4MmxYYTA=
-X-Gm-Message-State: AOJu0YzUv8wc2Tzug7FQ0bnyyKcPxhylbjCKgQ/Iurgrz0eV8nMwrBKe
-	31cm1jCer0ZDAn4wifkwJ12ASYB5WrIpd1hjtGwd/Q3JSStATIaTHaWqKKUVEK83kjHXuRPShQU
-	KH10XmHOiq5kteTgibjsoT+AV5tlttWAOezzg
-X-Google-Smtp-Source: AGHT+IG2EeoEjGrNJPimBuxzgEbGPnYMmLCli/IQeFkWY+JfiCJPJ3fhsOk218T1gggIpWBX9AKMu5hfbJ1J9S3AKQI=
-X-Received: by 2002:a81:ae17:0:b0:650:9799:41d2 with SMTP id
- 00721157ae682-6509799460cmr10823267b3.30.1719933333549; Tue, 02 Jul 2024
- 08:15:33 -0700 (PDT)
+	s=arc-20240116; t=1719933937; c=relaxed/simple;
+	bh=yRg+8F091FuUES+JYKaVyH2G6lgo5Hr0AeAjnDuBU74=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=NrygjBQt21fiUZGQlq0tNCGsHpwtpaKc3OvR6wr7fkJtQk7qcV2Aa+axJX1dx6U39HVVK8JFlbLt1IEFDIzQTY8E44qjrEMtFhHfHHWxWcrp/jqXTGi3MT3gUkY2FcmjXOdODvCVObUKbBfhH9+8xw+cHXp1/XjNhafvnpss2U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kEkbHH/X; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ITaMGUSc; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 48F9413804AD;
+	Tue,  2 Jul 2024 11:25:33 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 02 Jul 2024 11:25:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1719933933; x=1720020333; bh=//A1hzQZrR
+	Fs+Jf7FIQ+nCDerLffGWLM2hRD5dKs7d4=; b=kEkbHH/XWCSn06of/wqt97JCcJ
+	d63/Ez6gIB61Do7L3zzyqlwIy1tVZClPACYGlmn2ihv8WrN2RKGIuE/YWSDyC5X3
+	NyOBG9hCHKcF6B3d0U6ABCoD0ABGEWQ4onpwFrpFKgwhkPriO5tL2mLgWIzO/S5V
+	BK65nyq5m/J6OOYIDUMu7j60fcabWeGzEZ/nBnJlg794+Dt+QugkelVT9hEEp7Sw
+	Fb6pognCnQ28sK53xdF4VE9qsQQ0GWTJbnxxBqYdwtuQTnzrL2C+BkxLIGKS77ML
+	e992b6+4qaUoXXMBF0AqrVDeY8pVe53x+UuXMFbiYP/7AuoX43hHfXvDlb/g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1719933933; x=1720020333; bh=//A1hzQZrRFs+Jf7FIQ+nCDerLff
+	GWLM2hRD5dKs7d4=; b=ITaMGUScvo3efaios+nmJ+l2HFnt+Ouk1xOR9SCejBQX
+	X+nMNacgNPtPKVi4irj4dEYmGrr8FNITbhQUvWqAYQQPILNRrWJVHQULFVvNoLM7
+	rTdtpiL1WJQ2qMf+/vYV45qnUD9+xhUBPDPwmPbuPForpfbAg5MR7IWuf4lWJOgu
+	ZjcC9O6LcbgYKxFqEkJjij/TmMxzFEnaFEMin+DhBtFLzdFURKTy10k+bo8qqvn6
+	Y6zNLEL+rF6C87PnO3yUyXaOLtKKo2b6FHT7E7qU6piIjRurUT67VkufhxxxVfli
+	WkgrL30i15fkwtNeO2lCJCtYhLxBOKJhGEzhWh11AQ==
+X-ME-Sender: <xms:7BuEZttoIOu3FgcnRTCwlUY9enW-fWdSGJA21XR6uYg7nZNfEvYT4A>
+    <xme:7BuEZmeD2xZcTgq_x095S6hIFE_CXNZyvUj2JjppPZHG2X6yvowIK7ZB0ttBhCkdS
+    mKq1RK7-XDTo4l4GAg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudehgdekiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:7BuEZgzV2V9m7yHeP1-CY_1ToL-7saFDkeYbauhzrcIdP0hWxpdECQ>
+    <xmx:7BuEZkPqG5nj4biEtgHDOMbrIFpZ-CZs4LyXyDGqrlwrKeiI3XmUng>
+    <xmx:7BuEZt-0YpFxDaNOoYfGLVTo6xVdfiYwpii7nZD9L9GApKzNrmdlDg>
+    <xmx:7BuEZkX5ATZdeALUPYBN_7NUDUsZodxq3UocvaVEljBw0ouzzUeugQ>
+    <xmx:7RuEZhWiOkzLt1hDorcP0Kt54ntgBJmUM8iMCFrY5Nkd-AbR7KPNeG0_>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A1149B60092; Tue,  2 Jul 2024 11:25:32 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240630011215.42525-1-thorsten.blum@toblux.com>
- <20240701232634.0bddb542ddea123b48dcabdf@linux-foundation.org>
- <20240702064017.GA24838@lst.de> <e0f384b0-6913-4224-a3ea-bdae784f5dab@amd.com>
- <20240702003357.6bfd1d918c56d536bb664c37@linux-foundation.org>
-In-Reply-To: <20240702003357.6bfd1d918c56d536bb664c37@linux-foundation.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 2 Jul 2024 15:15:19 +0000
-Message-ID: <CAJuCfpFCiUfpa45rG74zd-KoQcaA2fwgUw86iSF2CDiFrXCOdA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Remove unnecessary kmalloc() cast
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Christoph Hellwig <hch@lst.de>, Thorsten Blum <thorsten.blum@toblux.com>, jack@suse.cz, 
-	linux-kernel@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <35691b55-436c-4c52-b241-f0c5326227cb@app.fastmail.com>
+In-Reply-To: <20240628003253.1694510-11-almasrymina@google.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-11-almasrymina@google.com>
+Date: Tue, 02 Jul 2024 17:25:11 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mina Almasry" <almasrymina@google.com>, Netdev <netdev@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>,
+ "Donald Hunter" <donald.hunter@gmail.com>,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Helge Deller" <deller@gmx.de>, "Andreas Larsson" <andreas@gaisler.com>,
+ "Jesper Dangaard Brouer" <hawk@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "KP Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@fomichev.me>,
+ "Hao Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>,
+ "Steffen Klassert" <steffen.klassert@secunet.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "David Ahern" <dsahern@kernel.org>,
+ "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
+ shuah <shuah@kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Christoph Hellwig" <hch@infradead.org>,
+ "Nikolay Aleksandrov" <razor@blackwall.org>,
+ "Pavel Begunkov" <asml.silence@gmail.com>, "David Wei" <dw@davidwei.uk>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>,
+ "Yunsheng Lin" <linyunsheng@huawei.com>,
+ "Shailend Chand" <shailend@google.com>,
+ "Harshitha Ramamurthy" <hramamurthy@google.com>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>,
+ "Jeroen de Borst" <jeroendb@google.com>,
+ "Praveen Kaligineedi" <pkaligineedi@google.com>,
+ "Willem de Bruijn" <willemb@google.com>,
+ "Kaiyuan Zhang" <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v15 10/14] tcp: RX path for devmem TCP
+Content-Type: text/plain
 
-On Tue, Jul 2, 2024 at 7:34=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Tue, 2 Jul 2024 09:13:35 +0200 Christian K=C3=B6nig <christian.koenig@=
-amd.com> wrote:
->
-> > yes that is
-> > intentionally a define and not an inline function.
-> >
-> > See this patch here which changed that:
-> >
-> > commit 2c321f3f70bc284510598f712b702ce8d60c4d14
-> > Author: Suren Baghdasaryan <surenb@google.com>
-> > Date:   Sun Apr 14 19:07:31 2024 -0700
-> >
-> >      mm: change inlined allocation helpers to account at the call site
->
-> Dang, yes, that was a regrettable change.  But hardly the end of the
-> world.  I do think each such alteration should have included a comment
-> to prevent people from going and cleaning them up.
+On Fri, Jun 28, 2024, at 02:32, Mina Almasry wrote:
+> --- a/arch/alpha/include/uapi/asm/socket.h
+> +++ b/arch/alpha/include/uapi/asm/socket.h
+> @@ -140,6 +140,11 @@
+>  #define SO_PASSPIDFD		76
+>  #define SO_PEERPIDFD		77
+> 
+> +#define SO_DEVMEM_LINEAR	78
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	79
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
 
-Sorry I missed this discussion. Yes, the definition was intentional
-and I will add comments for all the cases which were changed this way.
-Thanks,
-Suren.
+Something is still wrong with the number assignment:
 
->
->
+> --- a/arch/mips/include/uapi/asm/socket.h
+> +++ b/arch/mips/include/uapi/asm/socket.h
+> @@ -151,6 +151,11 @@
+>  #define SO_PASSPIDFD		76
+>  #define SO_PEERPIDFD		77
+> 
+> +#define SO_DEVMEM_LINEAR	78
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	79
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+> +
+>  #if !defined(__KERNEL__)
+> 
+>  #if __BITS_PER_LONG == 64
+
+so alpha and mips use the same numbering system as
+the generic version for existing numbers
+
+> diff --git a/arch/parisc/include/uapi/asm/socket.h 
+> b/arch/parisc/include/uapi/asm/socket.h
+> index be264c2b1a117..2b817efd45444 100644
+> --- a/arch/parisc/include/uapi/asm/socket.h
+> +++ b/arch/parisc/include/uapi/asm/socket.h
+> @@ -132,6 +132,11 @@
+>  #define SO_PASSPIDFD		0x404A
+>  #define SO_PEERPIDFD		0x404B
+> 
+> +#define SO_DEVMEM_LINEAR	78
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	79
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+
+parisc uses a different number, but you start using the
+generic version here. This is probably fine but needs 
+a comment.
+
+> index 8ce8a39a1e5f0..25a2f5255f523 100644
+> --- a/include/uapi/asm-generic/socket.h
+> +++ b/include/uapi/asm-generic/socket.h
+> @@ -135,6 +135,11 @@
+>  #define SO_PASSPIDFD		76
+>  #define SO_PEERPIDFD		77
+> 
+> +#define SO_DEVMEM_LINEAR	98
+> +#define SCM_DEVMEM_LINEAR	SO_DEVMEM_LINEAR
+> +#define SO_DEVMEM_DMABUF	99
+> +#define SCM_DEVMEM_DMABUF	SO_DEVMEM_DMABUF
+
+These on the other hand look like a typo: did you
+mean number 78 and 79 instead of 98 and 99?
+
+Alternatively, you could continue with number 87,
+which is the next unused number on sparc, and have
+the same numbers on all architectures?
+
+     Arnd
 
