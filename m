@@ -1,196 +1,199 @@
-Return-Path: <linux-media+bounces-14548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14549-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3882292471A
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 20:13:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D11924724
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 20:15:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A9EDB25B9E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 18:13:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CC0E1F23D73
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 18:15:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D17D1C6890;
-	Tue,  2 Jul 2024 18:13:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCE471CB312;
+	Tue,  2 Jul 2024 18:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ywc6Kuid"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OId6xSvb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE9A1BA898
-	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 18:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709251DFE3
+	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 18:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719943997; cv=none; b=PhwnCnfgORp8IfKkVPJyYdjHwFXOmQHPbf0Lb3/8Tdo/kS5TNXMHkv3udjRol+4O4bsVElJdWQysfY/GICE0KCFZhwQ2OJQD7b445fLj6fZjoOsPmoGuyiHEuKeh9zTG2h2GJJS6ulI0p4X/yfcMrR23gyHdKUtTTP/y6fKTqII=
+	t=1719944111; cv=none; b=T3QlfK1oYM2vpj+M8b1Vw/WK2PBqkP2g9IYVFX2ESdkAQlhlmjAccSES86FZCuDfp/otNH8B13/R2fB77M9vN617EAjSKFV6MKUbqzj3BjQvjpxMpbYxJN0xYpcM7KyiMurT8bIc1EaNwB8hmrLZqOzU2N916oIzzGzpDPXtK4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719943997; c=relaxed/simple;
-	bh=dZ5A4K4s+8L22Q59UD/QvrgILE4DRA3ni7S7WDd7nDQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UkohZuwFY+7MozaZo8GzYL4u0U5Pf8yDAyuOy716ov8Od+9etxl3/cHQaH557pXotJ3Jk3/BrrXhnI5QnpTt4RwfBC4VA0AQxTMLuP77uiU7d0u3JNxZk/sryF4K7R4VLU0RCuLjqwErAmpWKF2nnumfOY51NWMYRtjdgjonbdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ywc6Kuid; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719943994;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Smma+lOxNkJ2sjLtPIjHaCfcrzFcgWURK91IfYkiyKs=;
-	b=Ywc6Kuid3whLZ9g1CiC7HXGHCLtlVOt4KEQWEOJgPOIKNs+Zj/Q4Y/49vh+s3IzeP0yX2y
-	Tg93BOnb46hnx1YTUHQ9QmpGUsBnpSA9EcY1QeNv7VfdfuQjHwnf+FP4zKh8tkV/0yWvkA
-	2j9IqQn+EFeiQ01OCCyEvZ2lSv2671A=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-486-68K1R0_pOKeYCSPfeDHzIA-1; Tue, 02 Jul 2024 14:12:47 -0400
-X-MC-Unique: 68K1R0_pOKeYCSPfeDHzIA-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-57d4769a15bso1270051a12.1
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 11:12:40 -0700 (PDT)
+	s=arc-20240116; t=1719944111; c=relaxed/simple;
+	bh=0CMjZNAv1nBlCPOqB5DYQ1PD8oGveRJ0LZf9zKKTpi8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iweEl0n5THdC0ao1oJOVFaq2WeRi6X1coGnJts8WGDaO52dJ8rcLfcvSKX2w26BGnwvc4fhIFR6pGQSt/yaIfQCEi/pxICNQhxKZBLB1vRWDoVfw7VQCf0cB87Dk/Sduo7tCoPJPauWUEA+h0H0/Zk/RUdmDp6ZQlmSqX5nHUhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OId6xSvb; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-79c0bc8092dso378868885a.2
+        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 11:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1719944108; x=1720548908; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3jfhmwJ2ZaitPnbChce0yHI1r7AowuVw/8E/XjQzADk=;
+        b=OId6xSvbiTDYJSJaSbC2v23KBA2j3vhMYwcnrnwrrQTl+w4PNtJbVmtlIDJzQs8bD/
+         +YhisCsjMkO06aSHPkRv+ntZmvGwNxCg7d+K5/tPDnBSYy9CZ0AwBmVOB7UTgHoH3Kns
+         pZ1kgMl8RYFenVTQFIiMZUrugonxeJmmHXfd/iZRsv0XhVhqd4EX2RHEYVGaFqd7rzHv
+         mnwjftoL0GtZn5x3JKsl4DSC7OZjKMDKqScnpylJr+j+tVDEf8Ooa1k57KhcF+IvL+d7
+         kAtITI7ekJHdUIsNkK9WL2K90fUdFMpnJ3bCkYA792EsYO3k765cUnwqr5odbYKrD05n
+         bcVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719943956; x=1720548756;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Smma+lOxNkJ2sjLtPIjHaCfcrzFcgWURK91IfYkiyKs=;
-        b=FejB+P+Sl1KxykQp4pgotschhNO9AsY2gyJt7/DTOjvimmeLZLc6b0rfnDUzDRXeFS
-         hxq/M/GQ0iw0UYTDbhO2suHMHQ0FUjrQcDHlL4ux9AbpZy+V/oy7O9AMDNBHgK+xUDMn
-         LPEIoviw7Q5oaLAUfP8Oh238hkGCRkvVMh6PGsZmbrIu5MGI0fMBXxR9AVb9o1/kyL9h
-         stXqmg3V/FokEooze8SlffDesY8Ry1/XUcfK+9T+ADrvQ4B2WHZgs9zH8p1NfjEibqsm
-         i73gMPtWUvqE3FS7Cb+g6QKlYkm7cyuydQzVW0gXIYK2Q6NZe7xQ5zKGhsulYOVK9u1J
-         TJYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUDkzleaEkxabo+q00Ut2tvQOKHnd/7L98FHcQSum6/qRUC9EGcQTHG3c+E9p+Ym0RHiVS7+lBkTRym0+4zqv14CV2L5CR5S5afZgg=
-X-Gm-Message-State: AOJu0YzitgUYJDWYPXxQduMpB2gz1vHKvZ+QyQL4GdT5jNQYQeqNJMCt
-	JlCmcMPKM7oO+yl10DL2mD0He3nMUsuHRzD/9czinjTo719+n3GtQ4sXDX8i2eSBfvX+mTiCgde
-	9H85FINWZz5FiZS7nwI611FI66Ny3aYqv8qdo6o8J8CjWNHt6k+Y/IuPUSzL09Nh+9rRF
-X-Received: by 2002:a17:906:4fc3:b0:a75:4723:b3b3 with SMTP id a640c23a62f3a-a754723b43fmr159155966b.44.1719943956175;
-        Tue, 02 Jul 2024 11:12:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFKG8sHrBThte5IKIBR9OazUD/PriuYdyoTDPiLGQBNmGvws+HBNC4quv4/Et80AnwbM71zvw==
-X-Received: by 2002:a17:906:4fc3:b0:a75:4723:b3b3 with SMTP id a640c23a62f3a-a754723b43fmr159154866b.44.1719943955716;
-        Tue, 02 Jul 2024 11:12:35 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:2a07:3a01:e7a9:b143:57e6:261b? (2001-1c00-2a07-3a01-e7a9-b143-57e6-261b.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:e7a9:b143:57e6:261b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf1d201sm435898066b.9.2024.07.02.11.12.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jul 2024 11:12:35 -0700 (PDT)
-Message-ID: <198f10eb-d1f1-474b-8a4e-2b2236fff8b2@redhat.com>
-Date: Tue, 2 Jul 2024 20:12:34 +0200
+        d=1e100.net; s=20230601; t=1719944108; x=1720548908;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3jfhmwJ2ZaitPnbChce0yHI1r7AowuVw/8E/XjQzADk=;
+        b=U6xgCewaAUm4REc1TrpIIE6edCE+nOTHFFhb67H2F90hfb0D8WE7FyPJN/1UUGU0Kq
+         wdKeM8sZo73hwOxN3fkYMwEyx0OMklmtCUAQNHZ0xYtEmOTeZpzsfLy+ryuycceoNTJ7
+         4j3mSSGGYyqZHEXDZGuM9J47IQmPmj9F9S7ioNI0ViM7/B7xA4u881PieBLc/GE3JH2+
+         E5yR93WeuKwHPEfQ0HU9fllgmNJA9Yhgc9YYjo/pDcgbn3T9qJvLcafLq0B4WCLAc1dU
+         IedzkZvYShYFUQ71OI4KI5w9HAxhsxkiP5T1nfze/X7B2gMcj+AMVZsW9KYH1dls3boy
+         q9YA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHbvWWxDoUHrHAMW8Nr+D3yqP7de1nLjG7Wk0TL+0GD4QVtMWlT2quSUrc7jeWd+162mdMCcO0sgXA4TZzCS8l8sQ0YeD+ZfDWx/w=
+X-Gm-Message-State: AOJu0YxbDpW/l3G6uoQjkU2Y7pZKcEkGlIfaQzPZSWaLxy+aBJQSSwRi
+	Rdzg6E7oSM4xh0jcq2xhEHugJUslMvj9W8OdYBraexb00yZk5OVPDHCzCMprVJu66CC88PeLgu/
+	0RwEPTGJkuj5xby04G3Gcq6pAUyo6FX0u1Ifn
+X-Google-Smtp-Source: AGHT+IFmyhMURbw09NuTqgYr3jOM6q8xc9WTxYBf4c7zqxp++C39G8nCnNJajyD2MlYoocDGcyD9JLOGWT3xUoIcMjk=
+X-Received: by 2002:a05:6214:1d2f:b0:6b5:a4f6:514 with SMTP id
+ 6a1803df08f44-6b5b70caff8mr117075946d6.35.1719944108107; Tue, 02 Jul 2024
+ 11:15:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] media: atomisp: Changes for 6.10-1
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>,
- "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
-References: <43245a4b-1e5a-4d27-876b-853a67b0ad28@redhat.com>
-Content-Language: en-US
-In-Reply-To: <43245a4b-1e5a-4d27-876b-853a67b0ad28@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-11-almasrymina@google.com> <35691b55-436c-4c52-b241-f0c5326227cb@app.fastmail.com>
+In-Reply-To: <35691b55-436c-4c52-b241-f0c5326227cb@app.fastmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 2 Jul 2024 11:14:53 -0700
+Message-ID: <CAHS8izN+wiY8rNDhK7XdF-9L=PdHGMSj7uHKkyCDsW8_6M76SQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 10/14] tcp: RX path for devmem TCP
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	Linux-Arch <linux-arch@vger.kernel.org>, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, shuah <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Note the Subject is wrong, this is for 6.11, not 6.10 ...
+On Tue, Jul 2, 2024 at 8:25=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Fri, Jun 28, 2024, at 02:32, Mina Almasry wrote:
+> > --- a/arch/alpha/include/uapi/asm/socket.h
+> > +++ b/arch/alpha/include/uapi/asm/socket.h
+> > @@ -140,6 +140,11 @@
+> >  #define SO_PASSPIDFD         76
+> >  #define SO_PEERPIDFD         77
+> >
+> > +#define SO_DEVMEM_LINEAR     78
+> > +#define SCM_DEVMEM_LINEAR    SO_DEVMEM_LINEAR
+> > +#define SO_DEVMEM_DMABUF     79
+> > +#define SCM_DEVMEM_DMABUF    SO_DEVMEM_DMABUF
+>
+> Something is still wrong with the number assignment:
+>
+> > --- a/arch/mips/include/uapi/asm/socket.h
+> > +++ b/arch/mips/include/uapi/asm/socket.h
+> > @@ -151,6 +151,11 @@
+> >  #define SO_PASSPIDFD         76
+> >  #define SO_PEERPIDFD         77
+> >
+> > +#define SO_DEVMEM_LINEAR     78
+> > +#define SCM_DEVMEM_LINEAR    SO_DEVMEM_LINEAR
+> > +#define SO_DEVMEM_DMABUF     79
+> > +#define SCM_DEVMEM_DMABUF    SO_DEVMEM_DMABUF
+> > +
+> >  #if !defined(__KERNEL__)
+> >
+> >  #if __BITS_PER_LONG =3D=3D 64
+>
+> so alpha and mips use the same numbering system as
+> the generic version for existing numbers
+>
+> > diff --git a/arch/parisc/include/uapi/asm/socket.h
+> > b/arch/parisc/include/uapi/asm/socket.h
+> > index be264c2b1a117..2b817efd45444 100644
+> > --- a/arch/parisc/include/uapi/asm/socket.h
+> > +++ b/arch/parisc/include/uapi/asm/socket.h
+> > @@ -132,6 +132,11 @@
+> >  #define SO_PASSPIDFD         0x404A
+> >  #define SO_PEERPIDFD         0x404B
+> >
+> > +#define SO_DEVMEM_LINEAR     78
+> > +#define SCM_DEVMEM_LINEAR    SO_DEVMEM_LINEAR
+> > +#define SO_DEVMEM_DMABUF     79
+> > +#define SCM_DEVMEM_DMABUF    SO_DEVMEM_DMABUF
+>
+> parisc uses a different number, but you start using the
+> generic version here. This is probably fine but needs
+> a comment.
+>
+> > index 8ce8a39a1e5f0..25a2f5255f523 100644
+> > --- a/include/uapi/asm-generic/socket.h
+> > +++ b/include/uapi/asm-generic/socket.h
+> > @@ -135,6 +135,11 @@
+> >  #define SO_PASSPIDFD         76
+> >  #define SO_PEERPIDFD         77
+> >
+> > +#define SO_DEVMEM_LINEAR     98
+> > +#define SCM_DEVMEM_LINEAR    SO_DEVMEM_LINEAR
+> > +#define SO_DEVMEM_DMABUF     99
+> > +#define SCM_DEVMEM_DMABUF    SO_DEVMEM_DMABUF
+>
+> These on the other hand look like a typo: did you
+> mean number 78 and 79 instead of 98 and 99?
+>
 
-On 7/2/24 8:11 PM, Hans de Goede wrote:
-> Hi Mauro, Hans,
-> 
-> Here is a first round of atomisp changes for 6.11.
-> 
-> Highlights:
-> - Update driver for the atomisp firmware now being available in linux-firmware
-> - Couple of cleanups from Andy Shevchenko
-> - Bunch of spelling fixes
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> The following changes since commit a0157b5aa34eb43ec4c5510f9c260bbb03be937e:
-> 
->   media: venus: fix use after free in vdec_close (2024-06-30 11:22:44 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.11-1
-> 
-> for you to fetch changes up to 841c19674e180f58b3dd34f991672cce09dfaf39:
-> 
->   media: atomisp: Fix spelling mistakes in sh_css_sp.c (2024-07-02 12:39:37 +0200)
-> 
-> ----------------------------------------------------------------
-> atomisp staging driver changes for 6.11-1
-> 
-> Highlights:
-> - Update driver for the atomisp firmware now being available in linux-firmware
-> - Couple of cleanups from Andy Shevchenko
-> - Bunch of spelling fixes
-> 
-> ----------------------------------------------------------------
-> Andy Shevchenko (3):
->       media: atomisp: Clean up unused macros from math_support.h
->       media: atomisp: Replace COMPILATION_ERROR_IF() by static_assert()
->       media: atomisp: Remove unused GPIO related defines and APIs
-> 
-> Colin Ian King (1):
->       media: atomisp: Fix spelling mistake "pipline" -> "pipeline"
-> 
-> Hans de Goede (5):
->       media: atomisp: Remove unused mipicsi_flag module parameter
->       media: atomisp: Remove firmware_name module parameter
->       media: atomisp: Prefix firmware paths with "intel/ipu/"
->       media: atomisp: Update TODO
->       media: atomisp: csi2-bridge: Add DMI quirk for OV5693 on Xiaomi Mipad2
-> 
-> Roshan Khatri (5):
->       media: atomisp: Fix spelling mistake in sh_css_internal.h
->       media: atomisp: Fix spelling mistake in ia_css_eed1_8.host.c
->       media: atomisp: Fix spelling mistake in hmm_bo.c
->       media: atomisp: Fix spelling mistake in ia_css_debug.c
->       media: atomisp: Fix spelling mistakes in sh_css_sp.c
-> 
->  drivers/staging/media/atomisp/TODO                 |  31 +-----
->  drivers/staging/media/atomisp/pci/atomisp_common.h |   1 -
->  .../media/atomisp/pci/atomisp_csi2_bridge.c        |  14 +++
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c  |   2 +-
->  drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  37 +++----
->  .../base/circbuf/interface/ia_css_circbuf_comm.h   |   6 ++
->  .../pci/camera/util/interface/ia_css_util.h        |  11 ---
->  .../media/atomisp/pci/camera/util/src/util.c       |  25 +++--
->  .../staging/media/atomisp/pci/gpio_block_defs.h    |  17 ----
->  .../atomisp/pci/hive_isp_css_common/gpio_global.h  |  23 -----
->  .../pci/hive_isp_css_common/host/gpio_local.h      |  21 ----
->  .../pci/hive_isp_css_common/host/gpio_private.h    |   9 +-
->  .../pci/hive_isp_css_include/assert_support.h      |  23 -----
->  .../media/atomisp/pci/hive_isp_css_include/gpio.h  |  46 ---------
->  .../pci/hive_isp_css_include/host/gpio_public.h    |  46 ---------
->  .../pci/hive_isp_css_include/math_support.h        | 110 +--------------------
->  .../pci/hive_isp_css_include/type_support.h        |   5 +-
->  drivers/staging/media/atomisp/pci/hmm/hmm_bo.c     |   4 +-
->  drivers/staging/media/atomisp/pci/ia_css_3a.h      |   5 +
->  drivers/staging/media/atomisp/pci/ia_css_dvs.h     |   4 +
->  .../staging/media/atomisp/pci/ia_css_metadata.h    |   4 +
->  drivers/staging/media/atomisp/pci/ia_css_types.h   |   2 +
->  .../pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c    |   2 +-
->  .../pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c |   6 +-
->  .../media/atomisp/pci/runtime/binary/src/binary.c  |   2 -
->  .../atomisp/pci/runtime/debug/src/ia_css_debug.c   |   4 +-
->  .../runtime/spctrl/interface/ia_css_spctrl_comm.h  |   4 +
->  drivers/staging/media/atomisp/pci/sh_css.c         |  48 +--------
->  drivers/staging/media/atomisp/pci/sh_css_frac.h    |   4 +-
->  .../staging/media/atomisp/pci/sh_css_internal.h    |  19 +++-
->  drivers/staging/media/atomisp/pci/sh_css_sp.c      |  24 ++---
->  31 files changed, 118 insertions(+), 441 deletions(-)
->  delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_local.h
->  delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/gpio.h
->  delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/gpio_public.h
+Ooops, I think this is a typo or error indeed. I will fix.
 
+> Alternatively, you could continue with number 87,
+> which is the next unused number on sparc, and have
+> the same numbers on all architectures?
+>
+
+I don't know enough about the tradeoffs of either approach to be
+honest, so I'll do what you prefer. I think I'll just fix the ones in
+asm-generic/socket.h since that is what we aligned on from previous
+iterations I believe, unless you tell me to do differently.
+
+--=20
+Thanks,
+Mina
 
