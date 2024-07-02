@@ -1,155 +1,215 @@
-Return-Path: <linux-media+bounces-14526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14527-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA60923BC5
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 12:48:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9EF923C0D
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 13:08:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54BF01C23F89
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 10:48:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 834B62822C0
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jul 2024 11:08:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B79C1591E0;
-	Tue,  2 Jul 2024 10:48:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E97015921D;
+	Tue,  2 Jul 2024 11:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lsya2XoA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a+THmIy3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DC351004
-	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 10:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E19158D60
+	for <linux-media@vger.kernel.org>; Tue,  2 Jul 2024 11:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719917289; cv=none; b=Pt9ET+FyORfLTv+Z9LsEShfYldQsI9ldRTWEhHYdVFA0O/7LrgMokWQ1npWLWoqWeJ7aZaf4J8Px7eFoWKSYnLuY7jgY3NDFPAWTh2VlFbCT3zYuPZUtEqTZjYFjaM9aXs4NUlaOTh5nljeUoVprA2C1BEdj+wsFxcMqlmEyFJs=
+	t=1719918501; cv=none; b=q1Ks0FdHu4dF74RBzJ0D2kkw12JzLzWyM7fTSuF99/ZxIfavLdL0RNOacvZoGkga6QsabY+Mvff8QKGa0rRd9CYEuGWYGQSPSNbHgEJqcRqTCZjqaJzpWVTXkv1vSIj2aa7X0ya1C08GHUuuYuWpDDBRv+dGIKV6FERdPyVbOQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719917289; c=relaxed/simple;
-	bh=lmx62mmNzlzKSDmqFAsrE6aHOd8QVU/K+YKTTXWRB5g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=katYiVjzBkaM1JHX1ixobAc84ik0uJiJrsAe2aQePpsw5wEF++NGqBqIMgHtmetnO8rhLFrMmdOr1+r8PIcwNo5ITsrrm4Px0YRy+GkrR6qOFl5/u9wYM77PJvJ2lT7OA9Jj58x1Azrcbe4/Z1s6xgyLQzUaKQFHV7rTmDTmq/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Lsya2XoA; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1719918501; c=relaxed/simple;
+	bh=p2iigvvbcXhuQKdsm3wAClwa/WozdQxNJgLpmemUIpI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AwKL+5gTxfB1PCAlhzOnrRjH0Z446oiqp56PZtcjnk3uMtgLd3eSaA/AU4sBIrKLc8V6bdc4mojDL0PagiGz9nH2aU37E1bwRsx6bJl6FG5WSncZlTuHAzZQ1vTS6D8Cbr3DOrg8obmMWgMlKkrK+K7iJ+T2z5sb5R3BndhJUrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a+THmIy3; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1719917287;
+	s=mimecast20190719; t=1719918499;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddUEaynzSPdLAUSnF0X54jX92vwScTAP/nJccagtVuQ=;
-	b=Lsya2XoAEarfhPdFErFEJYU5YpyP+rzOocN6sjixB6KqCXM6KXLFxePEKliiuKY4g1+zZZ
-	7JLqyhlh/DFmGtCka05bEjU17wyzmx26vNyppZhVDIPdyw8/3BAsC1jLpHkrqaISo9AkOn
-	J2ZC3SHtbgc3mMTv3a4gGPHBIuvZs4s=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=yLXwC7q0adn0kB7P9GTh9OjXrMCR2dcYkc/lqgAiV5o=;
+	b=a+THmIy3beA68rmXvNpDSjyMni0fL5kLGVdV7UTB+eWF6pselScgTeAxUzGKGyAyJuaUcY
+	jc9geiWbHsmhfxgyeHi8SND39w2TS0ZVLFMAU6tRqZr65l+XVi+bfBuwFgxHs/xxNRCEKr
+	EaPIkMBP8f8f9IYtH6vF/0ryba9z2xw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-388-pJ0zwMiYOWqvY5mmXk29Ig-1; Tue, 02 Jul 2024 06:48:05 -0400
-X-MC-Unique: pJ0zwMiYOWqvY5mmXk29Ig-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a729da8fbf1so642814566b.1
-        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 03:48:05 -0700 (PDT)
+ us-mta-413-lSktplEhPzWmRvVANnRGgQ-1; Tue, 02 Jul 2024 07:08:17 -0400
+X-MC-Unique: lSktplEhPzWmRvVANnRGgQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4257e8a0af9so1737275e9.2
+        for <linux-media@vger.kernel.org>; Tue, 02 Jul 2024 04:08:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719917284; x=1720522084;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1719918496; x=1720523296;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ddUEaynzSPdLAUSnF0X54jX92vwScTAP/nJccagtVuQ=;
-        b=xTGDAKrBXxvL/tmuiPGcTxTQ6NZX6UNaeeCTrAbzy6N0DM0FA6SJ3hnWLDZkO5Mu/E
-         6cnQgduLdmaZe6uNM70s2rdUjFYpCP2ptos0ve5rA9ZsiU4F31nUcUM7iO0pKyZh8x70
-         u/EvJkymQsnClL9wDT22YGolBQKcuhNqClsuwXVhLU/QH83GBhORXKPFcO/UNA1eFDK4
-         kx7N4ng5l+xX9Dy7y7izOsHfIvxvy3NHmre7aFSuCfUNFblUpRiVv1kxuWZ4c4SA02UU
-         A7HsxWjR217P+kZ1F6rnjYf45cx1C7EQFrCY5AZSV/BQlvTvjYqBnBQorRmDY6I24NsA
-         wl3g==
-X-Gm-Message-State: AOJu0YzNJj1B+V2trf5KKMzfnJYkJOoj3rlDyQeHRG8DhtG8edCj6yDu
-	ZHHganz+9ddDCnsFy0lm5OptgVQd5UZzDqmvan27x7fmKv/01woHPAtVZ2txTxH9YPOxLvWVFwa
-	U99G1FBGUA/Tficqas4BPNG20ZTY5+vq1rTii8BbZdI7UAV4QTSNfYTlTNZb4
-X-Received: by 2002:a17:907:3da9:b0:a75:21d3:1f4d with SMTP id a640c23a62f3a-a7521d3206dmr548042466b.31.1719917284255;
-        Tue, 02 Jul 2024 03:48:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEE9MGT5mfjPY4ZOeg9i4J0MDWtNu/bF0+BnklR5EGx7o+JjjoMwvIos8X+tp+XXuVLWJRdfQ==
-X-Received: by 2002:a17:907:3da9:b0:a75:21d3:1f4d with SMTP id a640c23a62f3a-a7521d3206dmr547931666b.31.1719917254270;
-        Tue, 02 Jul 2024 03:47:34 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58614d507d2sm5446929a12.64.2024.07.02.03.47.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jul 2024 03:47:33 -0700 (PDT)
-Message-ID: <bc52402d-8ebe-4096-9a8e-94fac8747bd7@redhat.com>
-Date: Tue, 2 Jul 2024 12:47:33 +0200
+        bh=yLXwC7q0adn0kB7P9GTh9OjXrMCR2dcYkc/lqgAiV5o=;
+        b=wi+UG3UU7k7nKjIFWWU45zXs5gzIz4FfKta1CeRGnE/SUTRTxdmOclvNR2Hjdtnk3P
+         Ybh9iDQyZssOTjMHDtsXBn5XgyYOnp4KWs2Ujg9z0jgWs8YKFJ78fTBY4B+ssxcUIJmb
+         /neDz+8Lf71FwkLwkxP/GpM/RE2CaFTvAWWgCQsq3pQg7qWGai8X54nZIyzxvzoBeQax
+         /LEBu2HkevGU6UlnI7wsZTSnsLXgZra6O4TWsinWIgKpLklznJf9Ax7pRXA3CLRySDab
+         K+7D6xN1Tq2ui+oFeOsDzDbHEpTXtlLdmUIlIhkY4HJOwnpc3Y9BCH15eK9uuKk51+JB
+         hQcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnN+xt+JZ7YfhbLcVfenNe8R2Uce9qbR+W0absTvF77e7/C1qbUByTQsRB6ZngejGQlVnTq2vSFY0tY0Tn/f4ewSFQZ/G2ghyBej4=
+X-Gm-Message-State: AOJu0YzTGE+Lp6ZeteMi7Y2CzYV/P+9gqs93HsAJrtcNLqtckR+tvMse
+	dSeBQfi36KUEDC7x7ZLgsQESsPfCWuEvuidg+yBK1Zh2DW5j1j1M6K5Mq095e2Obim/gUzYeLWN
+	eUeuWRqtgWWvhG3IETbelOS1cOFgKLeJxSpr73BsMTrbbP3lmSjQdCYu6adA/
+X-Received: by 2002:a05:600c:19c9:b0:424:a74b:32d3 with SMTP id 5b1f17b1804b1-4257a010c08mr62104375e9.0.1719918496677;
+        Tue, 02 Jul 2024 04:08:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEKqrIbcrzbaQKWKLXTl4pIVJyKi2r/i/19ZzeCV+kPU4ZooLecdwzZnhxEombaOdJJRY43eg==
+X-Received: by 2002:a05:600c:19c9:b0:424:a74b:32d3 with SMTP id 5b1f17b1804b1-4257a010c08mr62104055e9.0.1719918496277;
+        Tue, 02 Jul 2024 04:08:16 -0700 (PDT)
+Received: from gerbillo.redhat.com ([2a0d:3341:b0a6:6710:872d:b0f7:af0b:a62f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b097bd6sm196621575e9.30.2024.07.02.04.08.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jul 2024 04:08:15 -0700 (PDT)
+Message-ID: <29c65e23b88002eef6b2a8c272357fa2b2a661b6.camel@redhat.com>
+Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to
+ netdevice
+From: Paolo Abeni <pabeni@redhat.com>
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>,  Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,  Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
+ Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>,  Shakeel Butt
+ <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn
+ <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Date: Tue, 02 Jul 2024 13:08:11 +0200
+In-Reply-To: <20240628003253.1694510-4-almasrymina@google.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
+	 <20240628003253.1694510-4-almasrymina@google.com>
+Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: add missing MODULE_DESCRIPTION() macros
-To: Jeff Johnson <quic_jjohnson@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20240610-md-drivers-staging-media-atomisp-i2c-v1-1-c7b63464fae5@quicinc.com>
- <be4544a3-ac67-4d4c-b00b-0e2e47a7522a@quicinc.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <be4544a3-ac67-4d4c-b00b-0e2e47a7522a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Jeff,
+On Fri, 2024-06-28 at 00:32 +0000, Mina Almasry wrote:
+> +int net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_f=
+d,
+> +			   struct net_devmem_dmabuf_binding **out)
+> +{
+> +	struct net_devmem_dmabuf_binding *binding;
+> +	static u32 id_alloc_next;
+> +	struct scatterlist *sg;
+> +	struct dma_buf *dmabuf;
+> +	unsigned int sg_idx, i;
+> +	unsigned long virtual;
+> +	int err;
+> +
+> +	dmabuf =3D dma_buf_get(dmabuf_fd);
+> +	if (IS_ERR(dmabuf))
+> +		return -EBADFD;
+> +
+> +	binding =3D kzalloc_node(sizeof(*binding), GFP_KERNEL,
+> +			       dev_to_node(&dev->dev));
+> +	if (!binding) {
+> +		err =3D -ENOMEM;
+> +		goto err_put_dmabuf;
+> +	}
+> +
+> +	binding->dev =3D dev;
+> +
+> +	err =3D xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
+> +			      binding, xa_limit_32b, &id_alloc_next,
+> +			      GFP_KERNEL);
+> +	if (err < 0)
+> +		goto err_free_binding;
+> +
+> +	xa_init_flags(&binding->bound_rxq_list, XA_FLAGS_ALLOC);
+> +
+> +	refcount_set(&binding->ref, 1);
+> +
+> +	binding->dmabuf =3D dmabuf;
+> +
+> +	binding->attachment =3D dma_buf_attach(binding->dmabuf, dev->dev.parent=
+);
+> +	if (IS_ERR(binding->attachment)) {
+> +		err =3D PTR_ERR(binding->attachment);
+> +		goto err_free_id;
+> +	}
+> +
+> +	binding->sgt =3D
+> +		dma_buf_map_attachment(binding->attachment, DMA_FROM_DEVICE);
+> +	if (IS_ERR(binding->sgt)) {
+> +		err =3D PTR_ERR(binding->sgt);
+> +		goto err_detach;
+> +	}
+> +
+> +	/* For simplicity we expect to make PAGE_SIZE allocations, but the
+> +	 * binding can be much more flexible than that. We may be able to
+> +	 * allocate MTU sized chunks here. Leave that for future work...
+> +	 */
+> +	binding->chunk_pool =3D
+> +		gen_pool_create(PAGE_SHIFT, dev_to_node(&dev->dev));
+> +	if (!binding->chunk_pool) {
+> +		err =3D -ENOMEM;
+> +		goto err_unmap;
+> +	}
+> +
+> +	virtual =3D 0;
+> +	for_each_sgtable_dma_sg(binding->sgt, sg, sg_idx) {
+> +		dma_addr_t dma_addr =3D sg_dma_address(sg);
+> +		struct dmabuf_genpool_chunk_owner *owner;
+> +		size_t len =3D sg_dma_len(sg);
+> +		struct net_iov *niov;
+> +
+> +		owner =3D kzalloc_node(sizeof(*owner), GFP_KERNEL,
+> +				     dev_to_node(&dev->dev));
 
-On 6/26/24 6:37 PM, Jeff Johnson wrote:
-> On 6/10/2024 5:34 PM, Jeff Johnson wrote:
->> make allmodconfig && make W=1 C=1 reports:
->> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-mt9m114.o
->> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.o
->>
->> Add the missing invocations of the MODULE_DESCRIPTION() macro.
->>
->> Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
->> ---
->>  drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c | 1 +
->>  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c          | 1 +
->>  2 files changed, 2 insertions(+)
->>
->> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
->> index 7a20d918a9d5..3499353f8ea5 100644
->> --- a/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
->> +++ b/drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.c
->> @@ -207,4 +207,5 @@ module_init(init_msrlisthelper);
->>  module_exit(exit_msrlisthelper);
->>  
->>  MODULE_AUTHOR("Jukka Kaartinen <jukka.o.kaartinen@intel.com>");
->> +MODULE_DESCRIPTION("Helper library to load, parse and apply large register lists");
->>  MODULE_LICENSE("GPL");
->> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->> index 23b1001c2a55..918ea4fa9f6b 100644
->> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
->> @@ -1614,4 +1614,5 @@ static struct i2c_driver mt9m114_driver = {
->>  module_i2c_driver(mt9m114_driver);
->>  
->>  MODULE_AUTHOR("Shuguang Gong <Shuguang.gong@intel.com>");
->> +MODULE_DESCRIPTION("Aptina mt9m114 sensor support module");
->>  MODULE_LICENSE("GPL");
->>
->> ---
->> base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
->> change-id: 20240610-md-drivers-staging-media-atomisp-i2c-18a7a4f883eb
->>
-> 
-> Following up to see if anything else is needed from me. Hoping to see this in
-> linux-next so I can remove it from my tracking spreadsheet :)
+I'm sorry for not catching this earlier, but it looks like the above
+allocation lacks a NULL check.
 
-This has already been merged in media-staging (the media's tree for-next)
-by Hans Verkuil:
+Thanks,
 
-https://git.linuxtv.org/media_stage.git/log/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-
-Regards,
-
-Hans
-
-
+Paolo
 
 
