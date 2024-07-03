@@ -1,121 +1,99 @@
-Return-Path: <linux-media+bounces-14582-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14583-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8A2925EBA
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 13:39:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5697A925F7C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 14:01:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB53A1F27717
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 11:39:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A16D1F25866
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 12:01:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1165717332B;
-	Wed,  3 Jul 2024 11:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="qi9zy9Ze"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F236155A30;
+	Wed,  3 Jul 2024 11:59:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9917D61FE7;
-	Wed,  3 Jul 2024 11:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E440173348;
+	Wed,  3 Jul 2024 11:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720006534; cv=none; b=MafUuF/RrZI5p3rxYQmIc37eKHFimAD8AK6bwC5FxqnRep7hUp2vyrFTxMrZdYMoDgDs0iSQFveyV2WgWq51/2K3piE3rINbIJZ8TsInw6nUxkLE6L/CvVo3fVvuqt2+SQGd3GH8jrHzjaCdiwZsGEeTJ3o2WM+9Tgvn95Dfmwk=
+	t=1720007961; cv=none; b=ImHSVraRQcivg9VwW4M+CS4VY0THNzSEMelUsTKwmqh22de1HvIaEiWUTzkAvvG3LbF8kUuz7lXzgdXpk7LPkSB3tDm6H0pacPaV98H9nfEBpcxLOmq1fRPtmbWBX8NrkARC/Ju/Y+owuDF6xI5LOlK8qwIxCUst+dHiWqBgsP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720006534; c=relaxed/simple;
-	bh=bJWg1rRruMPh0S46XG5+CR3ZR1oWqGv969BJsrIHKxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QLPzCE2g+f3zQL7O4kILDww4tieF1txKCcrv8NdXINxh97nUFsrIc9+UZ7do8lYbTfodtEJwl6kiwWzYFRy0Syulfa3R+yHDub5Ty3J571p/fFfLGMfUcoo7jryHcvJwK/NHVoWqfF8wudGczATMHUTkWJf4R9BrgWaHBzzzYWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=qi9zy9Ze; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1720006529;
-	bh=bJWg1rRruMPh0S46XG5+CR3ZR1oWqGv969BJsrIHKxE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qi9zy9Zes/ClqzyvfCnf4Li0fHcpxxr3Zw6QmiPAbcig71kV4GGxVF8um12eK+r1j
-	 s4i1/4ZM0ae35iYh8VksHbEXsUd7gzhShVpHbCRUPWwr5tfjc0teWw+yYy0kdU0n/+
-	 6/xN/FKUBId02cJTXv/o9IhLTglbTRZ3LCQmTnBxheT3ymFAWlKGuWTyFuincbJtZJ
-	 pDrEMUhovvpGx/asc7WyQrIZp5nwVczgGrZtQFkBcaW2228UF8SLKrJOZE7znDpzjE
-	 6S3rsGTFBCpVQW/6ROk+sKbiFRnDHBf4/2hkMr7ELXJWDv9kq93NdzpDWxnS1EhO1A
-	 vlMYOZI5FGzDA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4WDd4d2WPfz4xbg;
-	Wed,  3 Jul 2024 21:35:28 +1000 (AEST)
-Date: Wed, 3 Jul 2024 21:35:27 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Linux Media Mailing List
- <linux-media@vger.kernel.org>
-Subject: Re: linux-next: Signed-off-by missing for commit in the
- v4l-dvb-next tree
-Message-ID: <20240703213527.221bfe5a@canb.auug.org.au>
-In-Reply-To: <b47f96bb-b1a5-48a1-8002-1cee351bdb3f@xs4all.nl>
-References: <20240703163317.55618738@canb.auug.org.au>
-	<b47f96bb-b1a5-48a1-8002-1cee351bdb3f@xs4all.nl>
+	s=arc-20240116; t=1720007961; c=relaxed/simple;
+	bh=Je7wS9RpqxSacD0i2REqoriVrEW8W9Ly+p/tTqcEIE0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=MqcIsuXgechAjgM7KgQpsgTKdPEkBrp4WDlH6/OqheYEKiYH4okBGj55IFtK0V14ag/wnmN3tx3U3M2zo9QGqAOKMVDeFDYDzJsMHbv/m+BUG9FZoy9DA5rUTrLXO7FZdKbQ8YHLzVo2vIH8Iz9qOqKK9JqVu0nQ/eYQeXpD/kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33501C2BD10;
+	Wed,  3 Jul 2024 11:59:18 +0000 (UTC)
+Message-ID: <2dea6faf-53f6-461a-809b-ec572357ad07@xs4all.nl>
+Date: Wed, 3 Jul 2024 13:59:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ZRgYOvDDw1HzjEV4Ra8K3CA";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Hugues Fruchet <hugues.fruchet@st.com>, Linux Stable
+ <stable@vger.kernel.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Linux Kernel <linux-kernel@vger.kernel.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] media: stm32: dcmipp: correct error handling in,
+ dcmipp_create_subdevs
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---Sig_/ZRgYOvDDw1HzjEV4Ra8K3CA
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Alain Volmat <alain.volmat@foss.st.com>
 
-Hi Hans,
+Correct error handling within the dcmipp_create_subdevs by properly
+decrementing the i counter when releasing the subdevs.
 
-On Wed, 3 Jul 2024 11:17:47 +0200 Hans Verkuil <hverkuil-cisco@xs4all.nl> w=
-rote:
->
-> My mistake. I discovered that git revert doesn't run the commit-msg hook.
+Fixes: 28e0f3772296 ("media: stm32-dcmipp: STM32 DCMIPP camera interface driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+[hverkuil: correct the indices: it's [i], not [i - 1].]
+---
+The original patch would cause a crash due to the incorrect indices in the
+statement after the while. Since 'i' can now become 0, so i - 1 would be a
+negative index access, which was obviously not the intention.
 
-Interesting to know.
+I reverted the patch once I noticed this (better to hang in an infinite
+loop than to crash), but I want to get a proper fix in. Rather than
+waiting for that, I decided to just take the original patch from Alain, with
+just the indices fixed.
+---
+ drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Anyway, I installed a pre-push hook to double check this before I push to
-> our tree, so hopefully this won't happen again.
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+index 4acc3b90d03a..7f771ea49b78 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+@@ -202,8 +202,8 @@ static int dcmipp_create_subdevs(struct dcmipp_device *dcmipp)
+ 	return 0;
 
-Nice idea.
+ err_init_entity:
+-	while (i > 0)
+-		dcmipp->pipe_cfg->ents[i - 1].release(dcmipp->entity[i - 1]);
++	while (i-- > 0)
++		dcmipp->pipe_cfg->ents[i].release(dcmipp->entity[i]);
+ 	return ret;
+ }
 
-> Question: does this have to be fixed? That would require a rebase, I thin=
-k,
-> which makes some media developers unhappy. Or can this be left as-is for =
-one
-> time?
+-- 
+2.43.0
 
-A one off probably doesn't matter (especially such a small patch).
-
-I have to admit though, it looks like this revert *introduces* an
-infinite loop i.e. what decrements i?
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/ZRgYOvDDw1HzjEV4Ra8K3CA
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaFN38ACgkQAVBC80lX
-0Gy4wAf+Lh4ydMr5TTW4OFaNlcbvZJoyDcVGkgVo1QPlUxYkp0ozZ0jij1e534NA
-Pf4aUjm6JspcpZ4UIQA4AkpfdCU1APi5LImiarkFBrj0pAeiE1sYKJXOjKht2Naw
-0iNs/9Z34QZvH9E4avqPNfw+tP/wSmwGwdzFcKOaqw5RrJReAhbFJIT5YweuSPoE
-CWGvnKTtq1jIWhzgn7FccQc2F58npraK8Y+J4MSm8J6lFn9MVgFBwxC/aq3vShjN
-PaHvEvsL9SL3KBEvSsKw3B0Ede9mtZMJUznWjcvSRQondXlDlsOsaz0MbNsIBFUa
-KlBucrXc59Ij0RBeEBc2/mqWW3K7AQ==
-=M4GX
------END PGP SIGNATURE-----
-
---Sig_/ZRgYOvDDw1HzjEV4Ra8K3CA--
 
