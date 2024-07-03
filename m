@@ -1,181 +1,165 @@
-Return-Path: <linux-media+bounces-14602-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14603-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E106F9265C0
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 18:12:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489A192668E
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 18:57:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2033E1C20F08
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 16:12:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1CB12839DE
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 16:57:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C7CE1849C9;
-	Wed,  3 Jul 2024 16:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE330185088;
+	Wed,  3 Jul 2024 16:57:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O1EjCLvt"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vQZE0GZb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7F7184130
-	for <linux-media@vger.kernel.org>; Wed,  3 Jul 2024 16:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76DA1836D0
+	for <linux-media@vger.kernel.org>; Wed,  3 Jul 2024 16:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720023084; cv=none; b=UuHLVQ6nXLU/1IWaicOO+cYXnZrysVnAuF1wI4dF8vDNhwtuOE/VdR9JwyD5qdtSRYwEabyT5NAy//YXeIKUTlpe6z6fwTMIz99wuImyfoRttPnEWP30BLFtD0Zk2ztjCwwNijFYAlHLoYvLSAOgXDngzoz8XzBRbdUhVVFdH1I=
+	t=1720025821; cv=none; b=lKJkvWOHMWQcVRo9/mmhLLVTAjpkgaJrandk83rekN9FX/GcITfF8RZolYXg9rFK3rq23rMT7UJp7lDvzrUzUEWo2pO51U+Axc41TlHnHK5ZtSJXHF1s9TEqDaBvyLy78Ci5yRg1KkSCYFGT5vOSY88UUCd2YsIWGdk46U+0unc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720023084; c=relaxed/simple;
-	bh=b+WhLo7CXeHyiu9Fhk6EyixdO4NIbyDEDhcArwv0T6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EcbL5bS/WhchSXTRhJCDoSmGPt/WoJ89EJ+nsP7VhuEO2GpdM2c0nE7LeXdK5PKIsFEE3Vassl9FXmzajZKIvDp1VUTzY6VOuorjH6fXkH12B1UsuXa/+rxO/3xc1w3JoAYb+omjPy/EukCe4aO+VIBiXJDGJ00AgreUpHPpDaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O1EjCLvt; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07570D49;
-	Wed,  3 Jul 2024 18:10:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720023044;
-	bh=b+WhLo7CXeHyiu9Fhk6EyixdO4NIbyDEDhcArwv0T6k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O1EjCLvt8yks2UIpkVJvT+lWiTz3yOq97/a3BanZE5GOCYaWT9/OBQAXuk7y8Fz9b
-	 uVx4tP4VGKDcYqAucv/bmt4M5yTOXo0v9gGQbiCipEC0CfSKApWXk36gS3dy0t9hxw
-	 pwDHL66+ujJ87hb+KK80syCcUVdHljFvn6nGXoxY=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [PATCH v5 7/7] media: rkisp1: Implement s_fmt/try_fmt
-Date: Wed,  3 Jul 2024 18:10:46 +0200
-Message-ID: <20240703161048.247124-8-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240703161048.247124-1-jacopo.mondi@ideasonboard.com>
-References: <20240703161048.247124-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1720025821; c=relaxed/simple;
+	bh=teX37XgyvV7Ru/Jak1UKwFMmY5CaQcTdzWuf15lXc+M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=awejk/r6ppBXJuTKHlAJQ/2CDGbqV7Q1UuAYcRagD4xVqVp9vWbPpImpTY1MWuBHH7D5TiaAzZqOEWOkpZLoaQ5E/50iK13th4E5XPKfTjprayBejcNhBPBuFrAlhjoNrd8CkXc0+86oOAr0xvyEYin2MpG4YUMNOykl7T6eLB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vQZE0GZb; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b2c6291038so7752716d6.0
+        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2024 09:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1720025817; x=1720630617; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZrJD6ayDYRlKNRvFck9p1oXm/3SuBonkBJdf4YKQA4Q=;
+        b=vQZE0GZb7fexqOcBdhRYPWAj0P4ObfKnMLiFFpPLEmD/xufEEl++ynxXqybA5aFUSP
+         kr4/XxCNQcPnfcgi0L32zq+/yxC1t2hvvqdx4xBe3HjZ/smRNixqDs2/WXoVZZknAM3L
+         WJTWnsdzRIBK1WMafbT/G283v09bfBV5zsJ+Zq7/hpfvn3r4DpBL+Ahyw9K4t4EFW5V+
+         RwrUTmV9adUhP0NdR4wl8WLp9xxDxHRU7XGmRZIUSdGYmt/9H4AxO+XwJgn6V1uIOuq2
+         RShRkje5Pjmx9VEP1HnD6OSPcHC+R/7+CLuAJEfwNsy5Pioa232pVhNz7kyzRLGaMgf1
+         jw9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720025817; x=1720630617;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZrJD6ayDYRlKNRvFck9p1oXm/3SuBonkBJdf4YKQA4Q=;
+        b=Kp+VsI36f5gRYjta/hpnClRk4VguOIpsqCHrWQPL0YKR0LuZ6A/jLiP9RNGoxLSFjf
+         w6Ges4Q3YD6Vmw9xZUxMT6Z/kr4PjLcZncCgZUaGHZy05xOGmtiQnDNSYpjoCuzGUQW2
+         ijk88bbPX3uaQj44BJC7OhtxMKz6FWvaSKUEthTEoVmnS+MVohIh819t3rVOWtJ2MYtw
+         iQ9MYnY1zVf6CXVeE/Vb2/e898X8+3ZdE7vRkqUXxPfDnMEaAfBZnObqi6onvRIoPWn3
+         2Z86iK022IKNVgSOW9anm7LL1ffVyuD1WiRK5KNBt1MYnnhNco6qlkCpCLHSOKEqQNDd
+         15ow==
+X-Forwarded-Encrypted: i=1; AJvYcCXlkTBHNNcWnLnRsER7wu9h5wW3GaRYyictj0//tLPqv7D12eXI7CHkTy2aIabwVV9DKB8luJJOgnT57cmDJiHGdG3+xP5FFmfUZEU=
+X-Gm-Message-State: AOJu0YxpwQMvGfBHv4++q7ksWQXsLTQjGrtqRySjrPfq3eSRktkO2VGi
+	NC6Qkmk0m8WPTMa762ZPF/5/3VR3bk7st5pTjj75QE1vPVNeEvIrHWzua8+Ja8AFmdIjK0wk9Vs
+	atUthABlK5ynOOJUdUM5HiMm7d1kgBrfnntha
+X-Google-Smtp-Source: AGHT+IHa/cTtQMTpCl1GUnThR28S74I0bK2ol+291xiVaR+Vs/Jxc9vIdy+MzRrhMch0GbY9JMd0YjCsO1EcciUeO1w=
+X-Received: by 2002:a05:6214:20e2:b0:6b5:198e:353d with SMTP id
+ 6a1803df08f44-6b5e18b18f4mr30603556d6.10.1720025817412; Wed, 03 Jul 2024
+ 09:56:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-4-almasrymina@google.com> <20240702180908.0eccf78f@kernel.org>
+In-Reply-To: <20240702180908.0eccf78f@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 3 Jul 2024 09:56:45 -0700
+Message-ID: <CAHS8izOCuNZWfZR_jecFOMu2XGqcYUkuVf38wRqBvoE9tmGzoQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to netdevice
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Implement in the rkisp1 driver support for the s_fmt and try_fmt
-operation to allow userspace to select between the extensible
-and the fixed parameters formats.
+On Tue, Jul 2, 2024 at 6:09=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
+>
+> On Fri, 28 Jun 2024 00:32:40 +0000 Mina Almasry wrote:
+> > +     if (binding->list.next)
+> > +             list_del(&binding->list);
+> > +
+> > +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+>
+> nit: s/bound_rxq_list/bound_rxqs/ ? it's not a list
+>
+> > +             if (rxq->mp_params.mp_priv =3D=3D binding) {
+> > +                     /* We hold the rtnl_lock while binding/unbinding
+> > +                      * dma-buf, so we can't race with another thread =
+that
+> > +                      * is also modifying this value. However, the pag=
+e_pool
+> > +                      * may read this config while it's creating its
+> > +                      * rx-queues. WRITE_ONCE() here to match the
+> > +                      * READ_ONCE() in the page_pool.
+> > +                      */
+> > +                     WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+>
+> Is this really sufficient in terms of locking? @binding is not
+> RCU-protected and neither is the reader guaranteed to be in
+> an RCU critical section. Actually the "reader" tries to take a ref
+> and use this struct so it's not even a pure reader.
+>
+> Let's add a lock or use one of the existing locks
+>
 
-Implement enum_mbus_code to enumerate the fixed and the extensible
-formats and disallow changing the data format while the queue is busy.
+Can we just use rtnl_lock() for this synchronization? It seems it's
+already locked everywhere that access mp_params.mp_priv, so the
+WRITE/READ_ONCE are actually superfluous. Both the dmabuf bind/unbind
+already lock rtnl_lock, and the only other place that access
+mp_params.mp_priv is page_pool_init(). I think it's reasonable to
+assume rtnl_lock is also held during page_pool_init, no? AFAICT it
+would be very weird for some code path to be reconfiguring the driver
+page_pools without holding rtnl_lock?
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../platform/rockchip/rkisp1/rkisp1-params.c  | 58 ++++++++++++++++---
- 1 file changed, 50 insertions(+), 8 deletions(-)
+What I wanna do here is delete the incorrect comment, remove the
+READ/WRITE_ONCE, and maybe add a DEBUG_NET_WARN_ON(!rtnl_is_locked())
+in mp_dmabuf_devmem_init() but probably that is too defensive.
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index 3ef410337aa2..ea1ad92d2b21 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -75,6 +75,17 @@ static const struct v4l2_meta_format rkisp1_params_formats[] = {
- 	},
- };
- 
-+static const struct v4l2_meta_format *
-+rkisp1_params_get_format_info(u32 dataformat)
-+{
-+	for (unsigned int i = 0; i < ARRAY_SIZE(rkisp1_params_formats); i++) {
-+		if (rkisp1_params_formats[i].dataformat == dataformat)
-+			return &rkisp1_params_formats[i];
-+	}
-+
-+	return &rkisp1_params_formats[RKISP1_PARAMS_FIXED];
-+}
-+
- static inline void
- rkisp1_param_set_bits(struct rkisp1_params *params, u32 reg, u32 bit_mask)
- {
-@@ -2233,12 +2244,12 @@ static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
- 					   struct v4l2_fmtdesc *f)
- {
- 	struct video_device *video = video_devdata(file);
--	struct rkisp1_params *params = video_get_drvdata(video);
- 
--	if (f->index > 0 || f->type != video->queue->type)
-+	if (f->index >= ARRAY_SIZE(rkisp1_params_formats) ||
-+	    f->type != video->queue->type)
- 		return -EINVAL;
- 
--	f->pixelformat = params->metafmt->dataformat;
-+	f->pixelformat = rkisp1_params_formats[f->index].dataformat;
- 
- 	return 0;
- }
-@@ -2253,9 +2264,40 @@ static int rkisp1_params_g_fmt_meta_out(struct file *file, void *fh,
- 	if (f->type != video->queue->type)
- 		return -EINVAL;
- 
--	memset(meta, 0, sizeof(*meta));
--	meta->dataformat = params->metafmt->dataformat;
--	meta->buffersize = params->metafmt->buffersize;
-+	*meta = *params->metafmt;
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_try_fmt_meta_out(struct file *file, void *fh,
-+					  struct v4l2_format *f)
-+{
-+	struct video_device *video = video_devdata(file);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	*meta = *rkisp1_params_get_format_info(meta->dataformat);
-+
-+	return 0;
-+}
-+
-+static int rkisp1_params_s_fmt_meta_out(struct file *file, void *fh,
-+					struct v4l2_format *f)
-+{
-+	struct video_device *video = video_devdata(file);
-+	struct rkisp1_params *params = video_get_drvdata(video);
-+	struct v4l2_meta_format *meta = &f->fmt.meta;
-+
-+	if (f->type != video->queue->type)
-+		return -EINVAL;
-+
-+	if (vb2_is_busy(video->queue))
-+		return -EBUSY;
-+
-+	params->metafmt = rkisp1_params_get_format_info(meta->dataformat);
-+	*meta = *params->metafmt;
- 
- 	return 0;
- }
-@@ -2285,8 +2327,8 @@ static const struct v4l2_ioctl_ops rkisp1_params_ioctl = {
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
- 	.vidioc_enum_fmt_meta_out = rkisp1_params_enum_fmt_meta_out,
- 	.vidioc_g_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
--	.vidioc_s_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
--	.vidioc_try_fmt_meta_out = rkisp1_params_g_fmt_meta_out,
-+	.vidioc_s_fmt_meta_out = rkisp1_params_s_fmt_meta_out,
-+	.vidioc_try_fmt_meta_out = rkisp1_params_try_fmt_meta_out,
- 	.vidioc_querycap = rkisp1_params_querycap,
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
- 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
--- 
-2.45.2
+Will apply the other comments, thanks.
 
+--=20
+Thanks,
+Mina
 
