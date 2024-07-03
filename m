@@ -1,131 +1,129 @@
-Return-Path: <linux-media+bounces-14605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83473926761
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 19:45:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E43926833
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 20:31:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16661B20C5C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 17:45:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B8981C2461A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 18:31:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBD591862BE;
-	Wed,  3 Jul 2024 17:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD0611891A0;
+	Wed,  3 Jul 2024 18:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pfX2WZcY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2b4SjCO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A101C68D
-	for <linux-media@vger.kernel.org>; Wed,  3 Jul 2024 17:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A3B5FEED;
+	Wed,  3 Jul 2024 18:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720028738; cv=none; b=B4DAU6KRWCrupVqM0PQhLcLhs3Dnktr/BXxJ6ybIHIEx6oHqlY6a686De10pGtbkmXVaEXtuh11oVLXpv4N7IMGEQ0yQPn+tHoiCjPubrcBIDxdm+a3mW2K5s5ZJp/wxhldmEbzyiqe2fD5n5jdYoV/wpji6FdZe/NFbJB4IJJg=
+	t=1720031471; cv=none; b=gZRUbwCxleJQSqljueUQSr8t+y24hU+elUu2+wfE0ComuBIUZf145ea748rQXyIRU5cxaic8kzORmlBp4VRw1u2YS54pf7d9ZgwW428Esi7NBrTbpHTIN+YQ2nvy4nBcb0c/eO8uBMcuh+qmkRxQJ497CnkkuT1Qh4KCTPZS7+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720028738; c=relaxed/simple;
-	bh=ZFx/AckbAn6Lg2bbrC5Gs3Kyo9xcbmBm8MnNgPXHVZ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JSI3j83zZojnXgiteLwCEvDmwVyN0SNCynKaIEnciy83e9AAs/oeRMbOTdssewwh7Yxx/37tJSjdn3qqPLSJuy9MkG6XlP2h5HbKFKiTxJcUivnggsdfjgEOrd/DMJ64PdxkZ1mMo42FsxSWq9Qx9FoiScMzch0dcGDbfW55e9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pfX2WZcY; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-64b417e1511so51862417b3.3
-        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2024 10:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720028736; x=1720633536; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GhxR4AnmOLb2e8qgt4elcn3tmPYz1HfQBknaKkg9ViY=;
-        b=pfX2WZcYWJxW8EgUYeR4iqpcFNMNlk2PI1rHa3mDFv12nL0Z4Hmjhj8bLu8y5zU59V
-         jsjXr6CgtAiXyNT5r/U2nj1ASKZ0BKqoP3MB5nP2UwN5EAVncegani8pyuOt2Y3HFue5
-         66gZ3L9qTBwJZ0vO8jlKqCzyN315Yky/gBTOsT3lf6mXv/PED2CWMyQKMgSSoDvtbKqZ
-         XduELPVoftWrGyFVUPfOZao1XpLQ9DmZ4QlickrZ1M3jdO5FqXqeRv6YyXP0aMtADNUb
-         SxsMs5m/4WqPJwzRVUM9+BnjWtXeeGQjEKl6KeHVkcNIJgRg7AFy7eb9czZP8//Xb6Hd
-         zVXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720028736; x=1720633536;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GhxR4AnmOLb2e8qgt4elcn3tmPYz1HfQBknaKkg9ViY=;
-        b=U4mpVDDYxAS/+KFRMQ58ZNwFY1kEF73xRK2Oka3VB5d+asRKMAgDan6PTPwYBlEYvR
-         PkEvl0/VQNRqWQQ5jzYJwUr7vccUOTVuendotgzvrPSxJKDCUZH0/0jLKKutz0jek34D
-         hlQ2FZqsYzoOYddZJ3RcHqxvpt1QsDCsxqCxsySGEVMWxnACXaA/GgBkEkp1yPPXX3OX
-         BEbJCAn6IV8wm1VLrWUPlWDOGRkQcaRPQSGHe2nZbJ9aTyvHr3oLJtAP0ozNaL3lYkzi
-         hv2MKXXcWHZYfgF+EIR6o+BBld0fmXqHDYs109G2hGYkN106QtRBJUMngZdqLFXd1pDz
-         vJDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXGqj/s77C1LvTDueiuvrER+xIWwIfh2eSZmQJyJ6T0Eqa8e86IgGV4X4T+2wDI1yTayqGVEanz19o+1IIIdem+oyLSNtYhw1gy7zw=
-X-Gm-Message-State: AOJu0Yybwt6GE4ESpk3UwzIw2aVcz9HZKxZJRwYwSre5kWfDpxB9Dfw7
-	MEylkbECwYUjOf4btXBBig7xFDg9jm5OpJ2c74zI8G03Db3qJkRuejue31dL0Lt1r7FKWeHIjZy
-	UTfOggbpYTO/oCCUl6zBYgnJsY8+mwq9EeKPN
-X-Google-Smtp-Source: AGHT+IGhOytUB8CaG/gAFJEC68exEInJu4ze08dBFswC7EHqqNiHxCYGfnPatnT8gPM2A0u1TbA00DVz/5EvCS/GRV4=
-X-Received: by 2002:a81:7c54:0:b0:646:25c7:178e with SMTP id
- 00721157ae682-64c7123c013mr127129437b3.5.1720028735529; Wed, 03 Jul 2024
- 10:45:35 -0700 (PDT)
+	s=arc-20240116; t=1720031471; c=relaxed/simple;
+	bh=Mv6mqBHDiM3rqFh3B+/o0KLetPfZfBn8uV4dFhO0sVc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Gv/wyqiUacUf7iGaAPrFmOQcQ8hOYt0jHM0t/v7Xp3BsFcI2j8PbNmfnzFec/C8q4PI+OsJ58i7JHwsL5qjaFG5o+HGmpLNEx4+0Jw9crOsknpEgBN+UQixOyxBnAOrm2n09MrlLVpi1c3iqSkVsrvPN+5SFCUu2IX0fSW0vLvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2b4SjCO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E514C2BD10;
+	Wed,  3 Jul 2024 18:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720031470;
+	bh=Mv6mqBHDiM3rqFh3B+/o0KLetPfZfBn8uV4dFhO0sVc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q2b4SjCOlyBR4b/A3cmxrRvK0ldKPKPA/5Ju8X3w1MZKrzDVOjm9dFDbkuHNXVTjV
+	 Yc1e0yhldj7plTo3apSg+jVo6STh8apoZk6wpDfN0MqfhsFyigTWNB9g2DX4j2jS4b
+	 +w8JA7QKiAncIv+0WG92BVz3xe8SwulYg9HPOlqQm6UjlUb3YkYr+TjunG3SDVCbcB
+	 sB9aAIY80O1Db9Z1a1S1h+eAsTQNk+2QlMSIpNIoEBjXnifANuXwfRYiD0tmztUbty
+	 viYAY7ZzuNIMsS4G6hLdlW+IpND3TTcBhbU/XLJe3wOZj+bdJP08UkDGbYMOx4a12C
+	 iLv3UkwECWtkA==
+Date: Wed, 3 Jul 2024 11:31:07 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Donald
+ Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+ <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
+ Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to
+ netdevice
+Message-ID: <20240703113107.11ed8a18@kernel.org>
+In-Reply-To: <CAHS8izOCuNZWfZR_jecFOMu2XGqcYUkuVf38wRqBvoE9tmGzoQ@mail.gmail.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
+	<20240628003253.1694510-4-almasrymina@google.com>
+	<20240702180908.0eccf78f@kernel.org>
+	<CAHS8izOCuNZWfZR_jecFOMu2XGqcYUkuVf38wRqBvoE9tmGzoQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240630011215.42525-1-thorsten.blum@toblux.com>
- <20240701232634.0bddb542ddea123b48dcabdf@linux-foundation.org>
- <20240702064017.GA24838@lst.de> <e0f384b0-6913-4224-a3ea-bdae784f5dab@amd.com>
- <20240702003357.6bfd1d918c56d536bb664c37@linux-foundation.org> <CAJuCfpFCiUfpa45rG74zd-KoQcaA2fwgUw86iSF2CDiFrXCOdA@mail.gmail.com>
-In-Reply-To: <CAJuCfpFCiUfpa45rG74zd-KoQcaA2fwgUw86iSF2CDiFrXCOdA@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 3 Jul 2024 10:45:21 -0700
-Message-ID: <CAJuCfpHJPtduJwOyxTFT9RVmWZCcWULWhUN4ZPEt6earHp=MXA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Remove unnecessary kmalloc() cast
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Christoph Hellwig <hch@lst.de>, Thorsten Blum <thorsten.blum@toblux.com>, jack@suse.cz, 
-	linux-kernel@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 2, 2024 at 8:15=E2=80=AFAM Suren Baghdasaryan <surenb@google.co=
-m> wrote:
->
-> On Tue, Jul 2, 2024 at 7:34=E2=80=AFAM Andrew Morton <akpm@linux-foundati=
-on.org> wrote:
+On Wed, 3 Jul 2024 09:56:45 -0700 Mina Almasry wrote:
+> > Is this really sufficient in terms of locking? @binding is not
+> > RCU-protected and neither is the reader guaranteed to be in
+> > an RCU critical section. Actually the "reader" tries to take a ref
+> > and use this struct so it's not even a pure reader.
 > >
-> > On Tue, 2 Jul 2024 09:13:35 +0200 Christian K=C3=B6nig <christian.koeni=
-g@amd.com> wrote:
-> >
-> > > yes that is
-> > > intentionally a define and not an inline function.
-> > >
-> > > See this patch here which changed that:
-> > >
-> > > commit 2c321f3f70bc284510598f712b702ce8d60c4d14
-> > > Author: Suren Baghdasaryan <surenb@google.com>
-> > > Date:   Sun Apr 14 19:07:31 2024 -0700
-> > >
-> > >      mm: change inlined allocation helpers to account at the call sit=
-e
-> >
-> > Dang, yes, that was a regrettable change.  But hardly the end of the
-> > world.  I do think each such alteration should have included a comment
-> > to prevent people from going and cleaning them up.
->
-> Sorry I missed this discussion. Yes, the definition was intentional
-> and I will add comments for all the cases which were changed this way.
+> > Let's add a lock or use one of the existing locks
+> 
+> Can we just use rtnl_lock() for this synchronization? It seems it's
+> already locked everywhere that access mp_params.mp_priv, so the
+> WRITE/READ_ONCE are actually superfluous. Both the dmabuf bind/unbind
+> already lock rtnl_lock, and the only other place that access
+> mp_params.mp_priv is page_pool_init(). I think it's reasonable to
+> assume rtnl_lock is also held during page_pool_init, no? AFAICT it
+> would be very weird for some code path to be reconfiguring the driver
+> page_pools without holding rtnl_lock?
+> 
+> What I wanna do here is delete the incorrect comment, remove the
+> READ/WRITE_ONCE, and maybe add a DEBUG_NET_WARN_ON(!rtnl_is_locked())
+> in mp_dmabuf_devmem_init() but probably that is too defensive.
 
-Posted https://lore.kernel.org/all/20240703174225.3891393-1-surenb@google.c=
-om/
-adding clarifying comments.
-Thanks,
-Suren.
+The only concern I have is driver error recovery paths. They may be
+async and may happen outside of rtnl_lock. Same situation we have
+with the queue <> NAPI <> IRQ mapping helpers. queue <> NAPI <> IRQ
+helpers require rtnl_lock today, and Intel recently had a number of
+fixes because that complicates their error recovery paths.
 
-> Thanks,
-> Suren.
->
-> >
-> >
+But I guess any locking here will take non-trivial amount of analysis.
+Let's go with rtnl_lock, that's fine.
 
