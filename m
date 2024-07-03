@@ -1,81 +1,114 @@
-Return-Path: <linux-media+bounces-14572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14573-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13CE92564F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 11:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8154D9256FC
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 11:39:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D424285F52
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 09:18:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B753283BF1
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 09:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA31413D89A;
-	Wed,  3 Jul 2024 09:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED72413D60F;
+	Wed,  3 Jul 2024 09:39:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-sh.amlogic.com (unknown [58.32.228.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8193313D61B;
-	Wed,  3 Jul 2024 09:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DAC1369AD;
+	Wed,  3 Jul 2024 09:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.32.228.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719998270; cv=none; b=emTVW2TGqxYEX0DN1mo9Ebbz1/gz0zxlWGSBTigRHqCz6wgmwGN3Rz7IWKkMNLZvFbv/epDhSYi+1+UQ2Tj2KWduHDv0itPeFPvIrvT9QAHvwv7OLBh5PJpqs02eVGUC0kOtw5RtQRENfooKtmf6VgaBVk5ZcKxw5QNxlC/ZHLw=
+	t=1719999547; cv=none; b=XNRhb/fTAHO/lDPuw6/SPE6PXMFwsanA3d+17nd3u1U4CNfKpiPKBrzB9leFltVpdVaa0WgOV9wUkKpE19ulFCy5nsFtZfUnxVXQJF2OJPcd3606VNTNn1tFAEGDiw4d1Fs3EEn9hM5DT+A/k1TxSJnn6YgtyBL8xYexUMbrEnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719998270; c=relaxed/simple;
-	bh=wT4lT4qeBdUZ9vjM++wAyGqTN4xndGVKQLyZVo3pJkc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gH+Bsl99bpByh67YbZ3LHgmKaWsUh71agsXDAjM7bhgY1fd5kvygzjZEL5aoWQTNzNftm8pjl3JGyQ8VyTrTLI8aYrKOpbGeEAFk7GNpdAkIeIkIOqPm6pF7xu+bF9+kmuGpFTqtLMEHfLAc2mspLih5l8ea11qj/5iFA5rTzVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 061C0C32781;
-	Wed,  3 Jul 2024 09:17:48 +0000 (UTC)
-Message-ID: <b47f96bb-b1a5-48a1-8002-1cee351bdb3f@xs4all.nl>
-Date: Wed, 3 Jul 2024 11:17:47 +0200
+	s=arc-20240116; t=1719999547; c=relaxed/simple;
+	bh=o3d/OdEP4D4DDZPtnB5R7j0B3c85BtRfkViu9ZiJipw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W6qpcDLhHmqOi32CC10/PyHEf5XMfau5hc+PUPdU/7WCFLxZkp30ztvsbF4LQeNeIVTHk/4Il1s1KJiNdGCPuFdOkQW963OFmMje3FoHKCOA6Tm5urON3EFgDkxzVn/oBV1QFGfao8BHoh1nUkEyy7eauprwbKb2e3Nc0MVMx7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amlogic.com; spf=pass smtp.mailfrom=amlogic.com; arc=none smtp.client-ip=58.32.228.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amlogic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amlogic.com
+Received: from droid10-sz.amlogic.com (10.28.11.69) by mail-sh.amlogic.com
+ (10.18.11.5) with Microsoft SMTP Server id 15.1.2507.6; Wed, 3 Jul 2024
+ 17:39:00 +0800
+From: zelong dong <zelong.dong@amlogic.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>, Sean Young <sean@mess.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jerome Brunet
+	<jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, "Martin
+ Blumenstingl" <martin.blumenstingl@googlemail.com>
+CC: <linux-media@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<kelvin.zhang@amlogic.com>, Zelong Dong <zelong.dong@amlogic.com>
+Subject: [PATCH] media: rc: meson-ir: support PM suspend/resume
+Date: Wed, 3 Jul 2024 17:38:58 +0800
+Message-ID: <20240703093858.12655-1-zelong.dong@amlogic.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: Signed-off-by missing for commit in the v4l-dvb-next
- tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20240703163317.55618738@canb.auug.org.au>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240703163317.55618738@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi Stephen,
+From: Zelong Dong <zelong.dong@amlogic.com>
 
-On 03/07/2024 08:33, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Commit
-> 
->   57dd8f2f77bc ("Revert "media: stm32: dcmipp: correct error handling in dcmipp_create_subdevs"")
-> 
-> is missing a Signed-off-by from its author and committer.
-> 
-> Reverts are commits as well.
-> 
+IR Controller could be used and updated by other processor
+while kernel has been suspended.
+Reinitialize IR Controller just in case while kernel is resuming.
 
-My mistake. I discovered that git revert doesn't run the commit-msg hook.
+Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
+---
+ drivers/media/rc/meson-ir.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Anyway, I installed a pre-push hook to double check this before I push to
-our tree, so hopefully this won't happen again.
+diff --git a/drivers/media/rc/meson-ir.c b/drivers/media/rc/meson-ir.c
+index 5303e6da5809..9cdb45821ecc 100644
+--- a/drivers/media/rc/meson-ir.c
++++ b/drivers/media/rc/meson-ir.c
+@@ -567,6 +567,32 @@ static void meson_ir_shutdown(struct platform_device *pdev)
+ 	spin_unlock_irqrestore(&ir->lock, flags);
+ }
+ 
++static __maybe_unused int meson_ir_resume(struct device *dev)
++{
++	struct meson_ir *ir = dev_get_drvdata(dev);
++
++	if (ir->param->support_hw_decoder)
++		meson_ir_hw_decoder_init(ir->rc, &ir->rc->enabled_protocols);
++	else
++		meson_ir_sw_decoder_init(ir->rc);
++
++	return 0;
++}
++
++static __maybe_unused int meson_ir_suspend(struct device *dev)
++{
++	struct meson_ir *ir = dev_get_drvdata(dev);
++	unsigned long flags;
++
++	spin_lock_irqsave(&ir->lock, flags);
++	regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_ENABLE, 0);
++	spin_unlock_irqrestore(&ir->lock, flags);
++
++	return 0;
++}
++
++static SIMPLE_DEV_PM_OPS(meson_ir_pm_ops, meson_ir_suspend, meson_ir_resume);
++
+ static const struct meson_ir_param meson6_ir_param = {
+ 	.support_hw_decoder = false,
+ 	.max_register = IR_DEC_REG1,
+@@ -607,6 +633,7 @@ static struct platform_driver meson_ir_driver = {
+ 	.driver = {
+ 		.name		= DRIVER_NAME,
+ 		.of_match_table	= meson_ir_match,
++		.pm = pm_ptr(&meson_ir_pm_ops),
+ 	},
+ };
+ 
+-- 
+2.35.1
 
-Question: does this have to be fixed? That would require a rebase, I think,
-which makes some media developers unhappy. Or can this be left as-is for one
-time?
-
-Regards,
-
-	Hans
 
