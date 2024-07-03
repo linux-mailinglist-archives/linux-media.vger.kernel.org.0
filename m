@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-14609-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14610-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD02926A82
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 23:41:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB65E926AEE
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 23:52:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 34FF8B242FB
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 21:41:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 982A3281247
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 21:52:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C95194A48;
-	Wed,  3 Jul 2024 21:40:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8436A19AA5A;
+	Wed,  3 Jul 2024 21:50:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SqplQn4Z"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ey7gQ4Rq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF52F19415E;
-	Wed,  3 Jul 2024 21:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E4C1993BD;
+	Wed,  3 Jul 2024 21:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720042824; cv=none; b=R0o3VEfZc3keInBeAbeFkEc2fLL/Fcg6bLvnpUN4n46M2ulnPTDhfB+hPSahoanAz+ITxfGnjW3c8Fum/zvQ5yvde/bHCMP/+KVPu0yQMJbBd1DlbWGnX+8uFz5n4Bc0kalNV5SXNlpgnERM2EtBfB/qU6FvEQi24bda984hycs=
+	t=1720043420; cv=none; b=n0rBcUbnQAPv8TFBAw9XOncVMsakbhOMNQLEkHOyax8a/yAOkbx+852GeYuk9UnAO4KQR/95yXkqwyS8M1fHoKWp32t6rZXDkEm+s86W59KBs5kiIEzWo0H5a0+JR+f0++D2rJ9DngnMedmUMSnktcA00nXJIel8bucA+Ct1ifs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720042824; c=relaxed/simple;
+	s=arc-20240116; t=1720043420; c=relaxed/simple;
 	bh=o3oqYZ25Plp3bcJ0WYt+zTcdouvcUbkiIOie+gsnCrs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kEIP8i+7z3xrmcmHfuTkVqnUMIZcD98t6+ZAVg0Dx1ytHH9NkXwKYJQoxvl/OhUh6OD13FrIKJiLrG5SB0fjnEEmGazS+EE2/nrDuW6QVw3r+aMaspyssMYqX/lq63yprX6zTTcB2lpMV3wWeq610Hf9Ln/nR17XrOH9L0O4Gjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SqplQn4Z; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=EOXCrDSZfYUaWBwfpPBYJMKbbOlS4neu4ENJo30raILCSgXX5Fn6tL0dcc75AeliYKJJs6PSYaSq1qsnH1DgEPADoh4TLQi3vb7C6YTc7MTxemUDjd9hwwEBPu0vjgjvN1uSQ3XvZW4M3s9jI3CAPdCHbzqW2abL88g2oh7JZ+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ey7gQ4Rq; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0368D3E6;
-	Wed,  3 Jul 2024 23:39:49 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68EA93E6;
+	Wed,  3 Jul 2024 23:49:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720042790;
+	s=mail; t=1720043386;
 	bh=o3oqYZ25Plp3bcJ0WYt+zTcdouvcUbkiIOie+gsnCrs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SqplQn4ZZVKiZ1Tl2r4xR4odkcPoFHpiQhKhFzmUR9jAR+NDaarkQF/5o1ScVeSqf
-	 1xy+i1ag1X0XFFW9viJvP9a271ysYbB7qnwPZBwxb8xDQFLUtiTXmUVnechNAskOby
-	 SXXfNciLNRY/G7Z6HDx12OGcMG3Bew1Hfk8zl1Ig=
-Date: Thu, 4 Jul 2024 00:39:56 +0300
+	b=Ey7gQ4RqByQG6AA1GEo9zFO+rQPuzxlp5IGmOOMW6L5c1tf8bibOdQfnQFVEt6x2B
+	 Fc8L7J7IzlCLcrbBwdtDWSx733PyqcM1hi9HG8rPlvC4mp/ZiHJVtibx5JSbsfbVvZ
+	 YzAmGi+B0c7vjJxzXgDTjGweAPVOXEiY6yubIE5Y=
+Date: Thu, 4 Jul 2024 00:49:53 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -52,7 +52,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Subject: Re: [PATCH/RFC v1 2/9] media: i2c: Add a driver for the onsemi
  AR0144 camera sensor
-Message-ID: <20240703213956.GA16755@pendragon.ideasonboard.com>
+Message-ID: <20240703214953.GB16755@pendragon.ideasonboard.com>
 References: <20240630141802.15830-1-laurent.pinchart@ideasonboard.com>
  <20240630141802.15830-3-laurent.pinchart@ideasonboard.com>
  <CAPY8ntBU2Gr=NAE60kgUgNkHa=Eqs3r06FgsM=dQBJRg8tQ9=g@mail.gmail.com>
