@@ -1,55 +1,74 @@
-Return-Path: <linux-media+bounces-14590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14591-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0F592634A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 16:22:57 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2774D926372
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 16:30:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ED24C1C2034C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 14:22:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C096B23DD5
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jul 2024 14:30:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B0917B50C;
-	Wed,  3 Jul 2024 14:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B33117BB16;
+	Wed,  3 Jul 2024 14:30:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="gS9lErmN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OME98eeL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B8017965E;
-	Wed,  3 Jul 2024 14:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6297245945
+	for <linux-media@vger.kernel.org>; Wed,  3 Jul 2024 14:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720016569; cv=none; b=Cb9RliE8vro+kD170LSsHg7UHfixaI8rTTSiNGwdmvmUD/KryzS8XldF2nSazun77hN/8ajFKsTF9D87xG3XpJzgmzjx+zEa5DVLenlN+zIA1KdGis0Rg18m65N3dwHJqQn3G/F8KyZKjAF+spf+fge+mi8HZycZQfKiRHZGtXo=
+	t=1720017014; cv=none; b=PCQLZj6RL0asvI7dgCbBDUL42je7LIVVInOVVLD9p0uls3j2a+9HQWph160EkSldSiXXCRXOKpNtVRFgc7Usxm0I1Xt6qPj8Aa6c/TUk56Vg3/RILYXM2T/R7OZYjBgwVzTDJjt1WW9odWEt911Q6qbXOL9D95mMYf/er1kRtDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720016569; c=relaxed/simple;
-	bh=T4yKvc+lELzYxYMsH81tgHi+E5UPTZWagiGiUK6QmX8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=k5tL2YAAEytcqR16jBAMkDeh6cULN28lLmgiDWNnsxuZr+yQd7JD6QFtVs7Qfuzp/uqpCFBiukD729oWzxndXDCjhAT8zDWy4twsgKgWZyAyIsIuk3ZpK1l9DHQRJEQ7mUsybOgi9GwlHmfHP6uGrMclDCMDiER0MVRyJxlfjRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=gS9lErmN; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1720016532; x=1720621332; i=markus.elfring@web.de;
-	bh=c5lTrDrm1hXARYh2GRtk5/VrYRUhLUaho/B5U9nuKNA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=gS9lErmNl5vam2RQWajiqIHwn5LvqfFI56M/NAfvGJbbpQU1GOZ5fs9FBYHJ3lyR
-	 EVZrtz1DIrHVM3nU4YO6RE2Y7x2e755Yy4PKtEobECQbILq90ImSNbuZCk3zqpfyu
-	 RUv/mu18/giUs0ZfHUIa6cc2LY7Y2XM1ecowvs/b6dxYRxWAyNKYXU0TF+IXdLFXN
-	 t6dbMLfm1JxqD0ItcaFVqDjNqIYFrNGnU8PteBo9NWpEaSE7y150aDut5lUDky9UO
-	 ZsaYrg0NvorFAuSk4spEfoPp6ZuTNJmWhK4+FE8WEUEjiyNLQNmSIWbyGqh98P7KU
-	 H3HsIn54KwrYhtUU7w==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MdfCN-1rpg7Z1p7B-00otu0; Wed, 03
- Jul 2024 16:22:12 +0200
-Message-ID: <20e989df-0a63-4a07-b164-f213405d62b3@web.de>
-Date: Wed, 3 Jul 2024 16:21:57 +0200
+	s=arc-20240116; t=1720017014; c=relaxed/simple;
+	bh=703hhRSpknmH8TbKJyDrP7eger1IOJLJ7Yp6gEEIU5E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HFExLU5bKEiWkakc+baSPJha0yY8QVxTLeaCqvkUAONPENqQhu1KwEHckQnVNNB4NDAzch0l2R57sYfZFh8uifW322JzjQrNd4rLJC5knUNbrKnTgNTPAtPNPSKLppbq4EQaw73UjtbPTor9Jjpu5iHB451ZkK0bhrcrPJ02wJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OME98eeL; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4256aee6e4dso39699385e9.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Jul 2024 07:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720017011; x=1720621811; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5uMdQw5W+def7pihp9EhrnCgDBaY8Iz8fouuXaSiQ08=;
+        b=OME98eeLhuWzT/j9kMrnOj2s71aM9YvTM3YlSVGVokKT8ss6JAAzCaJyJyX0ADTU+a
+         cn3Rcir7LQfU/I3xiKj7GJNNzX+4w9yyouK7ZCGUFa9cZMTKSmz9l3zfEbubv9WzTAxP
+         sRjym+eQ5SbCWBATdDTYXoSeKnJJclg8ckTxj+3B660VK8F4HSBl/EA637IMnoZFQhZN
+         PdTBd2ioRpJH0jCpljp+egCvtnK3zcimEThyx/MHU5ypV9BPRXLsUqKEoO+nokqUnTD8
+         XkQTPZaHkNZuYR58EoMYPY39urwT+snt+/0BsS8Y82OZA8HdfFMHs17/IXESRvS+Qcw7
+         KjRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720017011; x=1720621811;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5uMdQw5W+def7pihp9EhrnCgDBaY8Iz8fouuXaSiQ08=;
+        b=bP4YA+KzM8934aLBRB5MU8GavJXfEjwkVb3XtOiKOF7dLiTurMau9U2B8fIrkphsoY
+         CS1zsSF9KHyJS0OXM7CA6KLGI2I4EkF2heonVdMk6y0oJXsqn7X8b8YWps6pKGkrc/P8
+         78mBpNzhnxyZRRQBOifAVFfEJfCgRv322UTvqwGaGCxITbOi0TFFLUGG1HDms6Ch0LDP
+         WlEc02jvmF5wiV7MHfjtcmWY+IrukOWfR3Ktax5ijUqqZD9NaACDuyiQ+e8vEtnph1Qh
+         k6UB0/AuTV9rmT77k17BSra6tg4iQcmpN0CgM1Of0NISNMP0Nm8A977XvDKuIiOjOdJ3
+         MXYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJNcGvtXQHM2ijRhN1JRj/qerOcUTxDmkCXli2OQt05SJGTCttpqW82bgpIJtLrXUwqdRfQjNYO2Tq7HhlQpLqR1fjd0KYCFuzxqc=
+X-Gm-Message-State: AOJu0Yxeg0hAshVThLuzutHKr+4tQDc7KYrQNHf7BCVZ7eFJM7UMVpYM
+	mIaedpR54S3wtNa8Ryf6WnaeKYOnr2O+UszBtZ/MRUFbWEqGzPn58E9OnQOszg4=
+X-Google-Smtp-Source: AGHT+IFMA3j+9ZoVQ1XUOszmpt90crPyACidhPK2ftUVLUgtC81roKmr7IVwuI6zp4tDlyFz7yqSlw==
+X-Received: by 2002:a5d:6d83:0:b0:367:89e7:72a2 with SMTP id ffacd0b85a97d-36789e773b2mr3889568f8f.22.1720017010701;
+        Wed, 03 Jul 2024 07:30:10 -0700 (PDT)
+Received: from [192.168.0.3] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0fc4c9sm16033873f8f.86.2024.07.03.07.30.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jul 2024 07:30:10 -0700 (PDT)
+Message-ID: <49b2504f-e5ab-4ea9-aefb-bc9c7f71f5fc@linaro.org>
+Date: Wed, 3 Jul 2024 15:30:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,68 +76,54 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Junlin Li <make24@iscas.ac.cn>, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240702175023.3921-1-make24@iscas.ac.cn>
-Subject: Re: [PATCH] drivers: media: dvb-frontends/rtl2830: fix an
- out-of-bounds write error
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240702175023.3921-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:EoluFemJE7z7gOT0PW5yGSaUvKc7zIT6Nwvg7Mzwt2EVM+EpL44
- QXmEbT/ymdcqnp4zolFzN1/ugkzO4CPc9ZnKga7zp4c4D0OvtjJMMd1q9exeKCJvQWKjtnt
- WljoNs0e52U+VlBrG/u5WtHZi936iMWhpU6pDqfP/B45pp0top74x2h5Po1wjF9NY0+beaV
- fjKBhIn/dLqYZB48g0fzg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OuVp94A9e5Q=;ZLsMdpoS4/jKg+kBdB3ynJpdNhq
- q8mwd6McDAAOLmo1yoI1HRYOMPCeLOhvaFBXqtOUzv75yFFaHBPUz9Awj4lGZLlGOC2Q89K1x
- PODOlRFumlqQIUF+AC5AqJoDz3ca5azTf7ZIQTCz63kVivQIUcsizbbxENmh+f7PqDaE3aPXO
- WKf6fi/kjT4psu+esjwYMI6yNyKrcjJiShAsrAPxWGzMdWmVdxOH04rEp+zCbidyrLO2GDYMP
- wgGXVafHecnFOQMlnk4+IpuI9ILFlXrFR61UiUHODDVSwe/z487fHlwr8HbMex1Udw0mlfbER
- JzINidaFwTB1UfqJFPyWpeTfhFYLEu5Wjj40GYNxdFIjT1TKnzti4JrMXG/ddiu8yEpPSucCC
- JS2k2CRd4BoV0yGnDZOUdanKGF1yIPgvd0mh4ysJ8/9Lv/HqoayJL6o7acScb/l5I1/KW2iPt
- L4lyOvn79kUZsJm2YlRvrcagCTNl/Ioa1AEyYUWrN9Lnb1mBtUWF8fVick3UZ5/26A8vIywR5
- K+2vUq4vfGNgaCI0bDP+CO43Z+4c1LivjrEV1zweHqPriCfpmpAkMakav2kGeTQM7m5I57meE
- ZI//98fblCbYAPrE68juynDd588hw3TLdj9E8jSd1tW5q7/9ZLWdqHOQpACp+FMCkjV2Sv2hm
- scdUSfgXJLRhMNgW+VRzIAvSQ3lForVQKdXYINRdGEc79zNWabtZ6iidDB4rIyKn9ZDpEV/IG
- PW8hHutX/YO10M7KM7tAit+t86Z+/8J9Y2j2miPd/842zuU5Gf+OPDkJHzaG2zD8S4DgyBL9E
- jwCvUb2c6krlLknzdy4aMQSOW1U5+v8woDwHaEe0jucEM=
+Subject: Re: Failure to stop CAMSS stream (sc8280xp)
+To: Johan Hovold <johan@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <ZoVNHOTI0PKMNt4_@hovoldconsulting.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <ZoVNHOTI0PKMNt4_@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Ensure index in rtl2830_pid_filter
-> does not exceed 31 to prevent out-of-bounds access.
-=E2=80=A6
+On 03/07/2024 14:07, Johan Hovold wrote:
+> Is this a known issue with CAMSS or is something missing in the sc8280xp
+> integration?
 
-Please adjust the word wrapping.
-You may occasionally put more than 51 characters into text lines
-of such a change description.
+A known issue on my end, I also want to root cause intermittent sensor 
+startup failure, before switching on the sensor upstream for more common 
+use.
 
 
-=E2=80=A6
-> Signed-off-by: Junlin Li <make24@iscas.ac.cn>
+> I'm using the following (squashed) devicetree patch from Bryan to enable
+> the camera (everything else is upstream):
+> 
+> 	https://github.com/jhovold/linux/commit/85b41b8d0efd418509df548592f95b43b9663409
+> 
+> The issue was there with 6.9 as well so it's not a (recent) regression.
+> 
+> Probing the camera sometimes, but infrequently, also fails with:
+> 
+> 	qcom-camss ac5a000.camss: Failed to power up pipeline: -13
 
-I find it interesting that another personal name is presented here.
+Yes this. If you recall on the pm8010 I had mentioned to you about a 
+wait-time to startup the regulator - thinking it was the regulator 
+causing this error.
 
-* How many contributors (besides the names =E2=80=9CHaoxiang Li=E2=80=9D a=
-nd =E2=80=9CMa Ke=E2=80=9D)
-  are connected with such an email address so far?
+More likely the GPIO reset polarity or delay needs to be tweaked in the 
+sensor driver.
 
-* How will requirements be resolved better for the Developer's Certificate=
- of Origin?
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/submitting-patches.rst?h=3Dv6.10-rc6#n398
+> and I'm seeing the following warning on every boot:
+> 
+> 	i2c-qcom-cci ac4c000.cci: Found 19200000 cci clk rate while 37500000 was expected
 
+That's hanging around for quite a long time 19.2 MHz is a perfectly 
+valid clock, useless error message.
 
-Would you like to omit the text =E2=80=9Cdrivers: =E2=80=9D from the subsy=
-stem specification?
-
-Regards,
-Markus
+---
+bod
 
