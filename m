@@ -1,491 +1,790 @@
-Return-Path: <linux-media+bounces-14621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7769270FA
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 09:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BBB92711B
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 10:00:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CEE471C21C8B
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 07:55:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95D771C2326F
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 08:00:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B555C1A38D6;
-	Thu,  4 Jul 2024 07:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3A481A3BD0;
+	Thu,  4 Jul 2024 07:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBrvef3M"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MfzOFnYs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C2BFC02;
-	Thu,  4 Jul 2024 07:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055651A2FA6;
+	Thu,  4 Jul 2024 07:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720079720; cv=none; b=e+pUzEAwJ9fQK22TgVQHb53AVq4CnnO2YCXSE7V9dYR39zgZo+pJT8nQENfxSdvfrc4TguTjgBeFlba/xjx5rbxKVqU99/bNOibraQz3/dO0TA5wIuyI/l44E9bF6HIwpE+oV6l0jrGfmW7R5sSqpX/tTu6pqqig1zj2Eprw7nc=
+	t=1720079992; cv=none; b=d7AJEsE804spjUpbI7QbgoBgOHZan/U0jp+0hZW+ERqLbfwuozeXw/oCTz8nRqrAlHgjBE7HLtkd5AfJN+S8NWGUEBZ9pgqAf8vvlzAbSZYcyuJ/0BnwBqKAc2Gqwg5WvPm6mtZR5/71CPxdgr10yMd+d49LO/f2ODZXbO4W2cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720079720; c=relaxed/simple;
-	bh=VFF+HeeWXNjRwQLfKhg4IAkGpnqgW/GHtEvlIQ9T+f0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tPQOjhE9JG4UMuZ18AYDf3eNnpjOTLk0t2nXVM6kCfrg6r8/v5HSiZEiXyDqUHjAq8E/MXkJ1LnnOZA1Qbah2EZZFuWlGe0byLsgZESJ2VOz+x+qQrO8SoaaTJSvlIqkqF2o6bqirKJCigdhf9LZ7NmcPV2ujshKaP+n6VX3vYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBrvef3M; arc=none smtp.client-ip=209.85.167.169
+	s=arc-20240116; t=1720079992; c=relaxed/simple;
+	bh=oLZ/ak927SSUjjhaGI/hPHr9hPFMvIpxieTv7jRF8eU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JC6X8qvSLraBFj4B7IbNgT55nXQ8IqkDv16GsDpBrFFcWH9YmHw2CK8gyt8NsfNxTGSV1nJzeVvZgSJ+9K0iOQpcTpPm54LH4FQMrby2HABLTCtCYr8nNvVb+vtMoFSM2uEJ2FE0l4t5vhj8iymtjbh2JQh3ToyqEEozoffoW/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfzOFnYs; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3d55ed47cc6so232656b6e.2;
-        Thu, 04 Jul 2024 00:55:18 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a77af4cd570so19745566b.1;
+        Thu, 04 Jul 2024 00:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720079717; x=1720684517; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ta1uMwhlM6Hnrl7VtiRoXXUn0L8NwQA3nKU9EyK86OU=;
-        b=BBrvef3Mi/swDfX3A3L2Wv+gqyRq2hzYVg7zhf4ulwvyk53pVtfmWmXr5pMBOQNJnE
-         LjhLYDi8caAHrv82QGxHV9bwN/A1foWb9BTV1XpiIrvG8832z5f/2BdCfPpi1s/vVEHF
-         iyIjSy7Xi9ksYTPFdkxZXKurvez5yjblhvRrF8rYx/RtVQn1TJE+rr2BKjHhR8v4h3pg
-         qug+Q3U3YC6YJOltSPgorQYEKS1AiJUsvE1WHgmg+bhfEhGZKNW4zTQvH7HCROhi8b5E
-         +d6JWVHCffT52yttdjwi7ePriV5cywu2dRvcm7/Mm92+yGk7nPptDWvPYuNKUQ6PKN3C
-         mhEQ==
+        d=gmail.com; s=20230601; t=1720079988; x=1720684788; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oLZ/ak927SSUjjhaGI/hPHr9hPFMvIpxieTv7jRF8eU=;
+        b=MfzOFnYsGBUok3r+KlDukatKKv3IeiN8m0QxDzc8U8PP4PdCvoqUr9WOaBEh2TXt3J
+         ZlgpqOwxA81ilAHaxU6GivA7IsQRj14Q/K52vJroYV+ed7dNeK7oWs1wOGfEa0qRa+Re
+         /YwIE83BToaC1GKZWjXq+AKmuvYMwuXivRdl9lYfn5lRdMKqslu4GFj3gf3rYzq/MHen
+         sswYlOxnzG4v8guanESIYxVZdqS4YlTL/IuepJmLysj+3UYvM6yLpqlvka/I44gFOAFn
+         PPNJRM2Xp1HyilRsojQCddwr95HOHNxXORdi+QlrkeSzF9G2uta2zhOAddGUacyWmqRa
+         BZaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720079717; x=1720684517;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ta1uMwhlM6Hnrl7VtiRoXXUn0L8NwQA3nKU9EyK86OU=;
-        b=o9VdWl/PLCv73Iv2xEMADm9to5Ss9maI0umG0FIbuQ7KgRqAK8x8c7BtNtUJJQFd9q
-         DD+K9ukYdR29fdkFvCiytBk0SqrVhIepOhkeRp8TIXxdzMsyCmF0I5yaqmk76+W1rKE8
-         2NAVHQUjyPgy2i5v0gD5sD8DbbKj/wi75J31SlO2OtsjvjQVQXI7KkjHI5w9oST3rljD
-         0Sl1W/n7ujCQKDxtP4ajXNCL5o0Cac8Be1Z6L/ZdafQ7irXSWD2WSYh2qLo7Wa4agrrB
-         WlW1PgczJ8avXrLcxlqqACXkmyAXUqx85B8oyQeCG5suo05h3wOLNeRNwLkCgjJGqDo3
-         hEKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBy8G9fwq9qsC9/thYgM+gOCGFq14tpdw5vD+wLvaLp+Q/GWS5Wn4vLhyClrI/J1itaCeSJgcSnZHGXABQ+r3mAMBjbn6acQyu49cztjL5SV3J6VuDh+gLl8WvgYOU/Ysn4YuvgRK/pTY=
-X-Gm-Message-State: AOJu0YwF6TsCWYVjMfSZt5WhpIL5mgPtdTKhlwS4I9XTb6Chx7FXjlM5
-	1j82ObDWk1sxbbCtM6L8sO1O5V3rfwKxDVUibDZzIFFAW32gv8GkOHSwFh1o
-X-Google-Smtp-Source: AGHT+IGku++d3RzoNy4tQT5GTrJWke0DhhzkNoX2AVhpma4OyFVzwXVxRSOR0wzdUXIb80uXI8Zjqg==
-X-Received: by 2002:a05:6808:4cc:b0:3d2:2b43:1804 with SMTP id 5614622812f47-3d914c5e901mr813473b6e.19.1720079717211;
-        Thu, 04 Jul 2024 00:55:17 -0700 (PDT)
-Received: from JammyHuang-PC.aspeed.com ([118.99.208.177])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-708029582fasm11634646b3a.88.2024.07.04.00.55.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 00:55:16 -0700 (PDT)
-From: Jammy Huang <orbit.huang@gmail.com>
-X-Google-Original-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: eajames@linux.ibm.com,
-	mchehab@kernel.org,
-	joel@jms.id.au,
-	andrew@aj.id.au,
-	linux-media@vger.kernel.org,
-	openbmc@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Cc: Jammy Huang <jammy_huang@aspeedtech.com>
-Subject: [PATCH] media: aspeed: Add additional input type, GFX, to capture
-Date: Thu,  4 Jul 2024 15:55:10 +0800
-Message-Id: <20240704075510.27034-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1720079988; x=1720684788;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oLZ/ak927SSUjjhaGI/hPHr9hPFMvIpxieTv7jRF8eU=;
+        b=MFpTyVpgoqklFknSxDWwK+H6Xoi6BRowO00/TE7t/1eDgYQ16Oe2XXx7TeRK3tBC23
+         XUfo/Qbe38sPaDzh8D3PCJ1K6bvKi4IH6jIiOJDf6+t8sr5RChb6A+Nk3FzgToGH3Uuo
+         J4zGhiVK7Lbo4w6QAQ8Fwe+Oe+T7Sp/Ll8B4bdI2kQfWn3DOEKdTye1qth+6dSNwrqn/
+         b/AstoxNdrx4Z6VoclD4eLgbCu8iWWYTcXCYgMDShAqpbATnyurB9mGob+WmTOw1nnTn
+         GYJhm3LzBtry6u+LGztozhbjafFEbl4f9DW6RQosBw5FwwijIuuQXgW1fPC56BdC/nYP
+         XATQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV10Lj0Hszm9wAPYezXc6cSBu963GhVTFWSLRWCcgs/qULs1SOJiJW9wve/ngcdtxB/aQSOjEovdeE2Ykq4PamnD3qaNw4D9tXXVQn5gVuk50Y2OsJhmVONZ3VxkHblqo81sa7MrIuX6wvgykh45pxHgO4hGaH1gWP2j8HU2KBb4tOazl3Sx/vUereaZEX4B+WkTEdXF2rCiePNi3iezeStepfgm33UiImv3jF/abM44FETr66Wh0iVVPBfgLDfdb0RXq/ftksi8m4sm0S1eBl6wZ/gPkRaaq3vx5v1CE4x+0lHWtV41tTa3BmH375aa/7z5rZ1HjBik5LwpZZPi1s3yRwqpJE0z2xxwXixQ5RV9U9za0E1dKCnKIgqnTLG7ArnU/ZDp0k/Sv9/CRHdIX/rWqg8gloM6vj2jUdrUdZkjK2DopBktwvUDcjym2ffuqIio0P5h3UO/lCxsHypUaExAdlw+n1TLpMFgPi5LA==
+X-Gm-Message-State: AOJu0YzZ3Lcz+oQnAbtSOufl5NfcU27V4gDQhfSdn6tYsfiU7Vx/vn/L
+	MeyKHZAMmXDybZy8qSmYTB4pGpRLpZ4pYnl0BS07cPKeXNGUmM2h7ar93NVa2Y1LpcaZWBWK62M
+	RoSEJlotqDLL9K4zC0IFUX8L+MKM=
+X-Google-Smtp-Source: AGHT+IFS60NocSDG44ogboX83wWYyK9MwfkCXBOlOHZ8IxTiKNVc2V9atUousex2RbBX5G5a+Q3ZZhDfilUeg1HGI20=
+X-Received: by 2002:a05:6402:354b:b0:57d:3df:f881 with SMTP id
+ 4fb4d7f45d1cf-58e5994de19mr987388a12.3.1720079987992; Thu, 04 Jul 2024
+ 00:59:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240628003253.1694510-1-almasrymina@google.com> <20240628003253.1694510-15-almasrymina@google.com>
+In-Reply-To: <20240628003253.1694510-15-almasrymina@google.com>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Thu, 4 Jul 2024 16:59:36 +0900
+Message-ID: <CAMArcTX04Ds5L6zMi0wXRepFUm+L1gKHPbj2i3VEG2P=xO2zZg@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 14/14] selftests: add ncdevmem, netcat for
+ devmem TCP
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ASPEED BMC IC has 2 different display engines.
-1. VGA on PCIe
-2. SoC Display(GFX)
+On Fri, Jun 28, 2024 at 9:38=E2=80=AFAM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
 
-By default, video engine(VE) will capture video from VGA. This patch
-adds an option to caputre video from GFX with standard ioctl,
-vidioc_s_input.
+Hi Mina,
+Thank you so much for this work!
 
-An enum, aspeed_video_input, is added for this purpose.
-enum aspeed_video_input {
-	VIDEO_INPUT_VGA = 0,
-	VIDEO_INPUT_GFX,
-	VIDEO_INPUT_MAX
-};
+> ncdevmem is a devmem TCP netcat. It works similarly to netcat, but it
+> sends and receives data using the devmem TCP APIs. It uses udmabuf as
+> the dmabuf provider. It is compatible with a regular netcat running on
+> a peer, or a ncdevmem running on a peer.
+>
+> In addition to normal netcat support, ncdevmem has a validation mode,
+> where it sends a specific pattern and validates this pattern on the
+> receiver side to ensure data integrity.
+>
+> Suggested-by: Stanislav Fomichev <sdf@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>
+> ---
+> v15:
+> - Fix linking against libynl. (Jakub)
+>
+> v9: https://lore.kernel.org/netdev/20240403002053.2376017-15-almasrymina@=
+google.com/
+> - Remove unused nic_pci_addr entry (Cong).
+>
+> v6:
+> - Updated to bind 8 queues.
+> - Added RSS configuration.
+> - Added some more tests for the netlink API.
+>
+> Changes in v1:
+> - Many more general cleanups (Willem).
+> - Removed driver reset (Jakub).
+> - Removed hardcoded if index (Paolo).
+>
+> RFC v2:
+> - General cleanups (Willem).
+>
+> ---
+> tools/testing/selftests/net/.gitignore | 1 +
+> tools/testing/selftests/net/Makefile | 9 +
+> tools/testing/selftests/net/ncdevmem.c | 542 +++++++++++++++++++++++++
+> 3 files changed, 552 insertions(+)
+> create mode 100644 tools/testing/selftests/net/ncdevmem.c
+>
+> diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selft=
+ests/net/.gitignore
+> index 666ab7d9390b1..fe770903118c5 100644
+> --- a/tools/testing/selftests/net/.gitignore
+> +++ b/tools/testing/selftests/net/.gitignore
+> @@ -17,6 +17,7 @@ ipv6_flowlabel
+> ipv6_flowlabel_mgr
+> log.txt
+> msg_zerocopy
+> +ncdevmem
+> nettest
+> psock_fanout
+> psock_snd
+> diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftes=
+ts/net/Makefile
+> index bc3925200637c..39420a6e86b7f 100644
+> --- a/tools/testing/selftests/net/Makefile
+> +++ b/tools/testing/selftests/net/Makefile
+> @@ -95,6 +95,11 @@ TEST_PROGS +=3D fq_band_pktlimit.sh
+> TEST_PROGS +=3D vlan_hw_filter.sh
+> TEST_PROGS +=3D bpf_offload.py
+>
+> +# YNL files, must be before "include ..lib.mk"
+> +EXTRA_CLEAN +=3D $(OUTPUT)/libynl.a
+> +YNL_GEN_FILES :=3D ncdevmem
+> +TEST_GEN_FILES +=3D $(YNL_GEN_FILES)
+> +
+> TEST_FILES :=3D settings
+> TEST_FILES +=3D in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_=
+veth.sh
+>
+> @@ -104,6 +109,10 @@ TEST_INCLUDES :=3D forwarding/lib.sh
+>
+> include ../lib.mk
+>
+> +# YNL build
+> +YNL_GENS :=3D netdev
+> +include ynl.mk
+> +
+> $(OUTPUT)/epoll_busy_poll: LDLIBS +=3D -lcap
+> $(OUTPUT)/reuseport_bpf_numa: LDLIBS +=3D -lnuma
+> $(OUTPUT)/tcp_mmap: LDLIBS +=3D -lpthread -lcrypto
+> diff --git a/tools/testing/selftests/net/ncdevmem.c b/tools/testing/selft=
+ests/net/ncdevmem.c
+> new file mode 100644
+> index 0000000000000..e00255e54f77b
+> --- /dev/null
+> +++ b/tools/testing/selftests/net/ncdevmem.c
+> @@ -0,0 +1,542 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define _GNU_SOURCE
+> +#define __EXPORTED_HEADERS__
+> +
+> +#include <linux/uio.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <unistd.h>
+> +#include <stdbool.h>
+> +#include <string.h>
+> +#include <errno.h>
+> +#define __iovec_defined
+> +#include <fcntl.h>
+> +#include <malloc.h>
+> +#include <error.h>
+> +
+> +#include <arpa/inet.h>
+> +#include <sys/socket.h>
+> +#include <sys/mman.h>
+> +#include <sys/ioctl.h>
+> +#include <sys/syscall.h>
+> +
+> +#include <linux/memfd.h>
+> +#include <linux/if.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/udmabuf.h>
+> +#include <libmnl/libmnl.h>
+> +#include <linux/types.h>
+> +#include <linux/netlink.h>
+> +#include <linux/genetlink.h>
+> +#include <linux/netdev.h>
+> +#include <time.h>
+> +
+> +#include "netdev-user.h"
+> +#include <ynl.h>
+> +
+> +#define PAGE_SHIFT 12
+> +#define TEST_PREFIX "ncdevmem"
+> +#define NUM_PAGES 16000
+> +
+> +#ifndef MSG_SOCK_DEVMEM
+> +#define MSG_SOCK_DEVMEM 0x2000000
+> +#endif
+> +
+> +/*
+> + * tcpdevmem netcat. Works similarly to netcat but does device memory TC=
+P
+> + * instead of regular TCP. Uses udmabuf to mock a dmabuf provider.
+> + *
+> + * Usage:
+> + *
+> + * On server:
+> + * ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -=
+l \
+> + * -p 5201 -v 7
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- drivers/media/platform/aspeed/aspeed-video.c | 177 ++++++++++++++++---
- include/uapi/linux/aspeed-video.h            |   7 +
- 2 files changed, 158 insertions(+), 26 deletions(-)
+The 'n' option disappeared, please remove it.
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index fc6050e3be0d..da5bf512a8ab 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -25,6 +25,8 @@
- #include <linux/workqueue.h>
- #include <linux/debugfs.h>
- #include <linux/ktime.h>
-+#include <linux/regmap.h>
-+#include <linux/mfd/syscon.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-dev.h>
- #include <media/v4l2-device.h>
-@@ -203,6 +205,25 @@
- #define VE_MEM_RESTRICT_START		0x310
- #define VE_MEM_RESTRICT_END		0x314
- 
-+// SCU's registers
-+#define SCU_MISC_CTRL			0xC0
-+#define  SCU_DPLL_SOURCE		BIT(20)
-+
-+// GFX's registers
-+#define GFX_CTRL			0x60
-+#define  GFX_CTRL_ENABLE		BIT(0)
-+#define  GFX_CTRL_FMT			GENMASK(9, 7)
-+
-+#define GFX_H_DISPLAY			0x70
-+#define  GFX_H_DISPLAY_DE		GENMASK(28, 16)
-+#define  GFX_H_DISPLAY_TOTAL		GENMASK(12, 0)
-+
-+#define GFX_V_DISPLAY			0x78
-+#define  GFX_V_DISPLAY_DE		GENMASK(27, 16)
-+#define  GFX_V_DISPLAY_TOTAL		GENMASK(11, 0)
-+
-+#define GFX_DISPLAY_ADDR		0x80
-+
- /*
-  * VIDEO_MODE_DETECT_DONE:	a flag raised if signal lock
-  * VIDEO_RES_CHANGE:		a flag raised if res_change work on-going
-@@ -273,6 +294,7 @@ struct aspeed_video_perf {
-  * yuv420:		a flag raised if JPEG subsampling is 420
-  * format:		holds the video format
-  * hq_mode:		a flag raised if HQ is enabled. Only for VIDEO_FMT_ASPEED
-+ * input:		holds the video input
-  * frame_rate:		holds the frame_rate
-  * jpeg_quality:	holds jpeq's quality (0~11)
-  * jpeg_hq_quality:	holds hq's quality (1~12) only if hq_mode enabled
-@@ -298,6 +320,8 @@ struct aspeed_video {
- 	struct video_device vdev;
- 	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
- 
-+	struct regmap *scu;
-+	struct regmap *gfx;
- 	u32 jpeg_mode;
- 	u32 comp_size_read;
- 
-@@ -316,6 +340,7 @@ struct aspeed_video {
- 	bool yuv420;
- 	enum aspeed_video_format format;
- 	bool hq_mode;
-+	enum aspeed_video_input input;
- 	unsigned int frame_rate;
- 	unsigned int jpeg_quality;
- 	unsigned int jpeg_hq_quality;
-@@ -485,6 +510,7 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
- 
- static const char * const format_str[] = {"Standard JPEG",
- 	"Aspeed JPEG"};
-+static const char * const input_str[] = {"VGA", "BMC GFX"};
- 
- static unsigned int debug;
- 
-@@ -609,6 +635,14 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
- 		aspeed_video_free_buf(video, &video->bcd);
- 	}
- 
-+	if (video->input == VIDEO_INPUT_GFX) {
-+		u32 val;
-+
-+		// update input buffer address as gfx's
-+		regmap_read(video->gfx, GFX_DISPLAY_ADDR, &val);
-+		aspeed_video_write(video, VE_TGS_0, val);
-+	}
-+
- 	spin_lock_irqsave(&video->lock, flags);
- 	buf = list_first_entry_or_null(&video->buffers,
- 				       struct aspeed_video_buffer, link);
-@@ -1026,9 +1060,23 @@ static void aspeed_video_get_timings(struct aspeed_video *v,
- 	}
- }
- 
-+static void aspeed_video_get_resolution_gfx(struct aspeed_video *video,
-+					    struct v4l2_bt_timings *det)
-+{
-+	u32 h_val, v_val;
-+
-+	regmap_read(video->gfx, GFX_H_DISPLAY, &h_val);
-+	regmap_read(video->gfx, GFX_V_DISPLAY, &v_val);
-+
-+	det->width = FIELD_GET(GFX_H_DISPLAY_DE, h_val) + 1;
-+	det->height = FIELD_GET(GFX_V_DISPLAY_DE, v_val) + 1;
-+	video->v4l2_input_status = 0;
-+}
-+
- #define res_check(v) test_and_clear_bit(VIDEO_MODE_DETECT_DONE, &(v)->flags)
- 
--static void aspeed_video_get_resolution(struct aspeed_video *video)
-+static void aspeed_video_get_resolution_vga(struct aspeed_video *video,
-+					    struct v4l2_bt_timings *det)
- {
- 	bool invalid_resolution = true;
- 	int rc;
-@@ -1036,7 +1084,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	u32 mds;
- 	u32 src_lr_edge;
- 	u32 src_tb_edge;
--	struct v4l2_bt_timings *det = &video->detected_timings;
- 
- 	det->width = MIN_WIDTH;
- 	det->height = MIN_HEIGHT;
-@@ -1113,14 +1160,20 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 
- 	aspeed_video_get_timings(video, det);
- 
--	/*
--	 * Enable mode-detect watchdog, resolution-change watchdog and
--	 * automatic compression after frame capture.
--	 */
-+	/* Enable mode-detect watchdog, resolution-change watchdog */
- 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
- 			    VE_INTERRUPT_MODE_DETECT_WD);
--	aspeed_video_update(video, VE_SEQ_CTRL, 0,
--			    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
-+	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_EN_WATCHDOG);
-+}
-+
-+static void aspeed_video_get_resolution(struct aspeed_video *video)
-+{
-+	struct v4l2_bt_timings *det = &video->detected_timings;
-+
-+	if (video->input == VIDEO_INPUT_GFX)
-+		aspeed_video_get_resolution_gfx(video, det);
-+	else
-+		aspeed_video_get_resolution_vga(video, det);
- 
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "Got resolution: %dx%d\n",
- 		 det->width, det->height);
-@@ -1156,7 +1209,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
- 
- 	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
--	if (size < DIRECT_FETCH_THRESHOLD) {
-+	if (video->input == VIDEO_INPUT_VGA && size < DIRECT_FETCH_THRESHOLD) {
- 		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Sync Mode\n");
- 		aspeed_video_write(video, VE_TGS_0,
- 				   FIELD_PREP(VE_TGS_FIRST,
-@@ -1171,10 +1224,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
- 				    VE_CTRL_INT_DE);
- 	} else {
-+		u32 ctrl, val, bpp;
-+
- 		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
-+		ctrl = VE_CTRL_DIRECT_FETCH;
-+		if (video->input == VIDEO_INPUT_GFX) {
-+			regmap_read(video->gfx, GFX_CTRL, &val);
-+			bpp = FIELD_GET(GFX_CTRL_FMT, val) ? 32 : 16;
-+			if (bpp == 16)
-+				ctrl |= VE_CTRL_INT_DE;
-+			aspeed_video_write(video, VE_TGS_1, act->width * (bpp >> 3));
-+		}
- 		aspeed_video_update(video, VE_CTRL,
- 				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
--				    VE_CTRL_DIRECT_FETCH);
-+				    ctrl);
- 	}
- 
- 	size *= 4;
-@@ -1207,6 +1270,22 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 		aspeed_video_free_buf(video, &video->srcs[0]);
- }
- 
-+/*
-+ * Update relative parameters when timing changed.
-+ *
-+ * @video: the struct of aspeed_video
-+ * @timings: the new timings
-+ */
-+static void aspeed_video_update_timings(struct aspeed_video *video, struct v4l2_bt_timings *timings)
-+{
-+	video->active_timings = *timings;
-+	aspeed_video_set_resolution(video);
-+
-+	video->pix_fmt.width = timings->width;
-+	video->pix_fmt.height = timings->height;
-+	video->pix_fmt.sizeimage = video->max_compressed_size;
-+}
-+
- static void aspeed_video_update_regs(struct aspeed_video *video)
- {
- 	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
-@@ -1219,6 +1298,8 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 	u32 ctrl = 0;
- 	u32 seq_ctrl = 0;
- 
-+	v4l2_dbg(1, debug, &video->v4l2_dev, "input(%s)\n",
-+		 input_str[video->input]);
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
- 		 video->frame_rate);
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
-@@ -1234,6 +1315,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 	else
- 		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
- 
-+	if (video->input == VIDEO_INPUT_VGA)
-+		ctrl |= VE_CTRL_AUTO_OR_CURSOR;
-+
- 	if (video->frame_rate)
- 		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
- 
-@@ -1252,7 +1336,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 	aspeed_video_update(video, VE_SEQ_CTRL,
- 			    video->jpeg_mode | VE_SEQ_CTRL_YUV420,
- 			    seq_ctrl);
--	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
-+	aspeed_video_update(video, VE_CTRL,
-+			    VE_CTRL_FRC | VE_CTRL_AUTO_OR_CURSOR |
-+			    VE_CTRL_SOURCE, ctrl);
- 	aspeed_video_update(video, VE_COMP_CTRL,
- 			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR |
- 			    VE_COMP_CTRL_EN_HQ | VE_COMP_CTRL_HQ_DCT_LUM |
-@@ -1280,6 +1366,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
- 	aspeed_video_write(video, VE_JPEG_ADDR, video->jpeg.dma);
- 
- 	/* Set control registers */
-+	aspeed_video_write(video, VE_SEQ_CTRL, VE_SEQ_CTRL_AUTO_COMP);
- 	aspeed_video_write(video, VE_CTRL, ctrl);
- 	aspeed_video_write(video, VE_COMP_CTRL, VE_COMP_CTRL_RSVD);
- 
-@@ -1311,12 +1398,7 @@ static void aspeed_video_start(struct aspeed_video *video)
- 	aspeed_video_get_resolution(video);
- 
- 	/* Set timings since the device is being opened for the first time */
--	video->active_timings = video->detected_timings;
--	aspeed_video_set_resolution(video);
--
--	video->pix_fmt.width = video->active_timings.width;
--	video->pix_fmt.height = video->active_timings.height;
--	video->pix_fmt.sizeimage = video->max_compressed_size;
-+	aspeed_video_update_timings(video, &video->detected_timings);
- }
- 
- static void aspeed_video_stop(struct aspeed_video *video)
-@@ -1414,15 +1496,44 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
- 
- static int aspeed_video_get_input(struct file *file, void *fh, unsigned int *i)
- {
--	*i = 0;
-+	struct aspeed_video *video = video_drvdata(file);
-+
-+	*i = video->input;
- 
- 	return 0;
- }
- 
- static int aspeed_video_set_input(struct file *file, void *fh, unsigned int i)
- {
--	if (i)
-+	struct aspeed_video *video = video_drvdata(file);
-+
-+	if (i >= VIDEO_INPUT_MAX)
-+		return -EINVAL;
-+
-+	if (IS_ERR(video->scu)) {
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: scu isn't ready for input-control\n", __func__);
-+		return -EINVAL;
-+	}
-+
-+	if (IS_ERR(video->gfx) && i == VIDEO_INPUT_GFX) {
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: gfx isn't ready for GFX input\n", __func__);
- 		return -EINVAL;
-+	}
-+
-+	video->input = i;
-+
-+	// modify dpll source per current input
-+	if (video->input == VIDEO_INPUT_VGA)
-+		regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, 0);
-+	else
-+		regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, SCU_DPLL_SOURCE);
-+
-+	aspeed_video_update_regs(video);
-+
-+	// update signal status
-+	aspeed_video_get_resolution(video);
-+	if (!video->v4l2_input_status)
-+		aspeed_video_update_timings(video, &video->detected_timings);
- 
- 	return 0;
- }
-@@ -1527,13 +1638,7 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
- 	if (vb2_is_busy(&video->queue))
- 		return -EBUSY;
- 
--	video->active_timings = timings->bt;
--
--	aspeed_video_set_resolution(video);
--
--	video->pix_fmt.width = timings->bt.width;
--	video->pix_fmt.height = timings->bt.height;
--	video->pix_fmt.sizeimage = video->max_compressed_size;
-+	aspeed_video_update_timings(video, &timings->bt);
- 
- 	timings->type = V4L2_DV_BT_656_1120;
- 
-@@ -1911,6 +2016,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 	val08 = aspeed_video_read(v, VE_CTRL);
- 	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
- 		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "Input", input_str[v->input]);
- 		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
- 			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
- 	} else {
-@@ -2070,12 +2176,31 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
- 	return 0;
- }
- 
-+// Get regmap without checking res, such as clk/reset, that could lead to conflict.
-+static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
-+{
-+	struct device_node *syscon_np;
-+	struct regmap *regmap;
-+
-+	syscon_np = of_parse_phandle(np, property, 0);
-+	if (!syscon_np)
-+		return ERR_PTR(-ENODEV);
-+
-+	regmap = device_node_to_regmap(syscon_np);
-+	of_node_put(syscon_np);
-+
-+	return regmap;
-+}
-+
- static int aspeed_video_init(struct aspeed_video *video)
- {
- 	int irq;
- 	int rc;
- 	struct device *dev = video->dev;
- 
-+	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
-+	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
-+
- 	irq = irq_of_parse_and_map(dev->of_node, 0);
- 	if (!irq) {
- 		dev_err(dev, "Unable to find IRQ\n");
-diff --git a/include/uapi/linux/aspeed-video.h b/include/uapi/linux/aspeed-video.h
-index 6586a65548c4..44173be4c8dd 100644
---- a/include/uapi/linux/aspeed-video.h
-+++ b/include/uapi/linux/aspeed-video.h
-@@ -8,6 +8,13 @@
- 
- #include <linux/v4l2-controls.h>
- 
-+// enum for aspeed video's v4l2 s_input
-+enum aspeed_video_input {
-+	VIDEO_INPUT_VGA = 0,
-+	VIDEO_INPUT_GFX,
-+	VIDEO_INPUT_MAX
-+};
-+
- #define V4L2_CID_ASPEED_HQ_MODE			(V4L2_CID_USER_ASPEED_BASE  + 1)
- #define V4L2_CID_ASPEED_HQ_JPEG_QUALITY		(V4L2_CID_USER_ASPEED_BASE  + 2)
- 
 
-base-commit: e9d22f7a6655941fc8b2b942ed354ec780936b3e
--- 
-2.25.1
+> + *
+> + * On client:
+> + * yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
+> + * tr \\n \\0 | \
+> + * head -c 5G | \
+> + * nc <server IP> 5201 -p 5201
+> + *
+> + * Note this is compatible with regular netcat. i.e. the sender or recei=
+ver can
+> + * be replaced with regular netcat to test the RX or TX path in isolatio=
+n.
+> + */
+> +
+> +static char *server_ip =3D "192.168.1.4";
+> +static char *client_ip =3D "192.168.1.2";
+> +static char *port =3D "5201";
+> +static size_t do_validation;
+> +static int start_queue =3D 8;
+> +static int num_queues =3D 8;
+> +static char *ifname =3D "eth1";
+> +static unsigned int ifindex =3D 3;
+> +static unsigned int iterations;
+> +static unsigned int dmabuf_id;
+> +
+> +void print_bytes(void *ptr, size_t size)
+> +{
+> + unsigned char *p =3D ptr;
+> + int i;
+> +
+> + for (i =3D 0; i < size; i++)
+> + printf("%02hhX ", p[i]);
+> + printf("\n");
+> +}
+> +
+> +void print_nonzero_bytes(void *ptr, size_t size)
+> +{
+> + unsigned char *p =3D ptr;
+> + unsigned int i;
+> +
+> + for (i =3D 0; i < size; i++)
+> + putchar(p[i]);
+> + printf("\n");
+> +}
+> +
+> +void validate_buffer(void *line, size_t size)
+> +{
+> + static unsigned char seed =3D 1;
+> + unsigned char *ptr =3D line;
+> + int errors =3D 0;
+> + size_t i;
+> +
+> + for (i =3D 0; i < size; i++) {
+> + if (ptr[i] !=3D seed) {
+> + fprintf(stderr,
+> + "Failed validation: expected=3D%u, actual=3D%u, index=3D%lu\n",
+> + seed, ptr[i], i);
+> + errors++;
+> + if (errors > 20)
+> + error(1, 0, "validation failed.");
+> + }
+> + seed++;
+> + if (seed =3D=3D do_validation)
+> + seed =3D 0;
+> + }
+> +
+> + fprintf(stdout, "Validated buffer\n");
+> +}
+> +
+> +static void reset_flow_steering(void)
+> +{
+> + char command[256];
+> +
+> + memset(command, 0, sizeof(command));
+> + snprintf(command, sizeof(command), "sudo ethtool -K %s ntuple off",
+> + "eth1");
 
+I think we use ifname instead of "eth1".
+
+> + system(command);
+> +
+> + memset(command, 0, sizeof(command));
+> + snprintf(command, sizeof(command), "sudo ethtool -K %s ntuple on",
+> + "eth1");
+
+Please use ifname instead of "eth1" too.
+
+> + system(command);
+> +}
+> +
+> +static void configure_rss(void)
+> +{
+> + char command[256];
+> +
+> + memset(command, 0, sizeof(command));
+> + snprintf(command, sizeof(command), "sudo ethtool -X %s equal %d",
+> + ifname, start_queue);
+> + system(command);
+> +}
+> +
+> +static void configure_flow_steering(void)
+> +{
+> + char command[256];
+> +
+> + memset(command, 0, sizeof(command));
+> + snprintf(command, sizeof(command),
+> + "sudo ethtool -N %s flow-type tcp4 src-ip %s dst-ip %s src-port %s dst-=
+port %s queue %d",
+> + ifname, client_ip, server_ip, port, port, start_queue);
+> + system(command);
+> +}
+> +
+> +static int bind_rx_queue(unsigned int ifindex, unsigned int dmabuf_fd,
+> + struct netdev_queue_dmabuf *queues,
+> + unsigned int n_queue_index, struct ynl_sock **ys)
+> +{
+> + struct netdev_bind_rx_req *req =3D NULL;
+> + struct netdev_bind_rx_rsp *rsp =3D NULL;
+> + struct ynl_error yerr;
+> +
+> + *ys =3D ynl_sock_create(&ynl_netdev_family, &yerr);
+> + if (!*ys) {
+> + fprintf(stderr, "YNL: %s\n", yerr.msg);
+> + return -1;
+> + }
+> +
+> + req =3D netdev_bind_rx_req_alloc();
+> + netdev_bind_rx_req_set_ifindex(req, ifindex);
+> + netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
+> + __netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
+> +
+> + rsp =3D netdev_bind_rx(*ys, req);
+> + if (!rsp) {
+> + perror("netdev_bind_rx");
+> + goto err_close;
+> + }
+> +
+> + if (!rsp->_present.dmabuf_id) {
+> + perror("dmabuf_id not present");
+> + goto err_close;
+> + }
+> +
+> + printf("got dmabuf id=3D%d\n", rsp->dmabuf_id);
+> + dmabuf_id =3D rsp->dmabuf_id;
+> +
+> + netdev_bind_rx_req_free(req);
+> + netdev_bind_rx_rsp_free(rsp);
+> +
+> + return 0;
+> +
+> +err_close:
+> + fprintf(stderr, "YNL failed: %s\n", (*ys)->err.msg);
+> + netdev_bind_rx_req_free(req);
+> + ynl_sock_destroy(*ys);
+> + return -1;
+> +}
+> +
+> +static void create_udmabuf(int *devfd, int *memfd, int *buf, size_t dmab=
+uf_size)
+> +{
+> + struct udmabuf_create create;
+> + int ret;
+> +
+> + *devfd =3D open("/dev/udmabuf", O_RDWR);
+> + if (*devfd < 0) {
+> + error(70, 0,
+> + "%s: [skip,no-udmabuf: Unable to access DMA buffer device file]\n",
+> + TEST_PREFIX);
+> + }
+> +
+> + *memfd =3D memfd_create("udmabuf-test", MFD_ALLOW_SEALING);
+> + if (*memfd < 0)
+> + error(70, 0, "%s: [skip,no-memfd]\n", TEST_PREFIX);
+> +
+> + /* Required for udmabuf */
+> + ret =3D fcntl(*memfd, F_ADD_SEALS, F_SEAL_SHRINK);
+> + if (ret < 0)
+> + error(73, 0, "%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
+> +
+> + ret =3D ftruncate(*memfd, dmabuf_size);
+> + if (ret =3D=3D -1)
+> + error(74, 0, "%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
+> +
+> + memset(&create, 0, sizeof(create));
+> +
+> + create.memfd =3D *memfd;
+> + create.offset =3D 0;
+> + create.size =3D dmabuf_size;
+> + *buf =3D ioctl(*devfd, UDMABUF_CREATE, &create);
+> + if (*buf < 0)
+> + error(75, 0, "%s: [FAIL, create udmabuf]\n", TEST_PREFIX);
+> +}
+> +
+> +int do_server(void)
+> +{
+> + char ctrl_data[sizeof(int) * 20000];
+> + struct netdev_queue_dmabuf *queues;
+> + size_t non_page_aligned_frags =3D 0;
+> + struct sockaddr_in client_addr;
+> + struct sockaddr_in server_sin;
+> + size_t page_aligned_frags =3D 0;
+> + int devfd, memfd, buf, ret;
+> + size_t total_received =3D 0;
+> + socklen_t client_addr_len;
+> + bool is_devmem =3D false;
+> + char *buf_mem =3D NULL;
+> + struct ynl_sock *ys;
+> + size_t dmabuf_size;
+> + char iobuf[819200];
+> + char buffer[256];
+> + int socket_fd;
+> + int client_fd;
+> + size_t i =3D 0;
+> + int opt =3D 1;
+> +
+> + dmabuf_size =3D getpagesize() * NUM_PAGES;
+> +
+> + create_udmabuf(&devfd, &memfd, &buf, dmabuf_size);
+> +
+> + reset_flow_steering();
+> +
+> + /* Configure RSS to divert all traffic from our devmem queues */
+> + configure_rss();
+> +
+> + /* Flow steer our devmem flows to start_queue */
+> + configure_flow_steering();
+> +
+> + sleep(1);
+> +
+> + queues =3D malloc(sizeof(*queues) * num_queues);
+> +
+> + for (i =3D 0; i < num_queues; i++) {
+> + queues[i]._present.type =3D 1;
+> + queues[i]._present.idx =3D 1;
+> + queues[i].type =3D NETDEV_QUEUE_TYPE_RX;
+> + queues[i].idx =3D start_queue + i;
+> + }
+> +
+> + if (bind_rx_queue(ifindex, buf, queues, num_queues, &ys))
+> + error(1, 0, "Failed to bind\n");
+> +
+> + buf_mem =3D mmap(NULL, dmabuf_size, PROT_READ | PROT_WRITE, MAP_SHARED,
+> + buf, 0);
+> + if (buf_mem =3D=3D MAP_FAILED)
+> + error(1, 0, "mmap()");
+> +
+> + server_sin.sin_family =3D AF_INET;
+> + server_sin.sin_port =3D htons(atoi(port));
+> +
+> + ret =3D inet_pton(server_sin.sin_family, server_ip, &server_sin.sin_add=
+r);
+> + if (socket < 0)
+> + error(79, 0, "%s: [FAIL, create socket]\n", TEST_PREFIX);
+> +
+> + socket_fd =3D socket(server_sin.sin_family, SOCK_STREAM, 0);
+> + if (socket < 0)
+> + error(errno, errno, "%s: [FAIL, create socket]\n", TEST_PREFIX);
+> +
+> + ret =3D setsockopt(socket_fd, SOL_SOCKET, SO_REUSEPORT, &opt,
+> + sizeof(opt));
+> + if (ret)
+> + error(errno, errno, "%s: [FAIL, set sock opt]\n", TEST_PREFIX);
+> +
+> + ret =3D setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &opt,
+> + sizeof(opt));
+> + if (ret)
+> + error(errno, errno, "%s: [FAIL, set sock opt]\n", TEST_PREFIX);
+> +
+> + printf("binding to address %s:%d\n", server_ip,
+> + ntohs(server_sin.sin_port));
+> +
+> + ret =3D bind(socket_fd, &server_sin, sizeof(server_sin));
+> + if (ret)
+> + error(errno, errno, "%s: [FAIL, bind]\n", TEST_PREFIX);
+> +
+> + ret =3D listen(socket_fd, 1);
+> + if (ret)
+> + error(errno, errno, "%s: [FAIL, listen]\n", TEST_PREFIX);
+> +
+> + client_addr_len =3D sizeof(client_addr);
+> +
+> + inet_ntop(server_sin.sin_family, &server_sin.sin_addr, buffer,
+> + sizeof(buffer));
+> + printf("Waiting or connection on %s:%d\n", buffer,
+> + ntohs(server_sin.sin_port));
+> + client_fd =3D accept(socket_fd, &client_addr, &client_addr_len);
+> +
+> + inet_ntop(client_addr.sin_family, &client_addr.sin_addr, buffer,
+> + sizeof(buffer));
+> + printf("Got connection from %s:%d\n", buffer,
+> + ntohs(client_addr.sin_port));
+> +
+> + while (1) {
+> + struct iovec iov =3D { .iov_base =3D iobuf,
+> + .iov_len =3D sizeof(iobuf) };
+> + struct dmabuf_cmsg *dmabuf_cmsg =3D NULL;
+> + struct dma_buf_sync sync =3D { 0 };
+> + struct cmsghdr *cm =3D NULL;
+> + struct msghdr msg =3D { 0 };
+> + struct dmabuf_token token;
+> + ssize_t ret;
+> +
+> + is_devmem =3D false;
+> + printf("\n\n");
+> +
+> + msg.msg_iov =3D &iov;
+> + msg.msg_iovlen =3D 1;
+> + msg.msg_control =3D ctrl_data;
+> + msg.msg_controllen =3D sizeof(ctrl_data);
+> + ret =3D recvmsg(client_fd, &msg, MSG_SOCK_DEVMEM);
+> + printf("recvmsg ret=3D%ld\n", ret);
+> + if (ret < 0 && (errno =3D=3D EAGAIN || errno =3D=3D EWOULDBLOCK))
+> + continue;
+> + if (ret < 0) {
+> + perror("recvmsg");
+> + continue;
+> + }
+> + if (ret =3D=3D 0) {
+> + printf("client exited\n");
+> + goto cleanup;
+> + }
+> +
+> + i++;
+> + for (cm =3D CMSG_FIRSTHDR(&msg); cm; cm =3D CMSG_NXTHDR(&msg, cm)) {
+> + if (cm->cmsg_level !=3D SOL_SOCKET ||
+> + (cm->cmsg_type !=3D SCM_DEVMEM_DMABUF &&
+> + cm->cmsg_type !=3D SCM_DEVMEM_LINEAR)) {
+> + fprintf(stdout, "skipping non-devmem cmsg\n");
+> + continue;
+> + }
+> +
+> + dmabuf_cmsg =3D (struct dmabuf_cmsg *)CMSG_DATA(cm);
+> + is_devmem =3D true;
+> +
+> + if (cm->cmsg_type =3D=3D SCM_DEVMEM_LINEAR) {
+> + /* TODO: process data copied from skb's linear
+> + * buffer.
+> + */
+> + fprintf(stdout,
+> + "SCM_DEVMEM_LINEAR. dmabuf_cmsg->frag_size=3D%u\n",
+> + dmabuf_cmsg->frag_size);
+> +
+> + continue;
+> + }
+> +
+> + token.token_start =3D dmabuf_cmsg->frag_token;
+> + token.token_count =3D 1;
+> +
+> + total_received +=3D dmabuf_cmsg->frag_size;
+> + printf("received frag_page=3D%llu, in_page_offset=3D%llu, frag_offset=
+=3D%llu, frag_size=3D%u, token=3D%u, total_received=3D%lu, dmabuf_id=3D%u\n=
+",
+> + dmabuf_cmsg->frag_offset >> PAGE_SHIFT,
+> + dmabuf_cmsg->frag_offset % getpagesize(),
+> + dmabuf_cmsg->frag_offset, dmabuf_cmsg->frag_size,
+> + dmabuf_cmsg->frag_token, total_received,
+> + dmabuf_cmsg->dmabuf_id);
+> +
+> + if (dmabuf_cmsg->dmabuf_id !=3D dmabuf_id)
+> + error(1, 0,
+> + "received on wrong dmabuf_id: flow steering error\n");
+> +
+> + if (dmabuf_cmsg->frag_size % getpagesize())
+> + non_page_aligned_frags++;
+> + else
+> + page_aligned_frags++;
+> +
+> + sync.flags =3D DMA_BUF_SYNC_READ | DMA_BUF_SYNC_START;
+> + ioctl(buf, DMA_BUF_IOCTL_SYNC, &sync);
+> +
+> + if (do_validation)
+> + validate_buffer(
+> + ((unsigned char *)buf_mem) +
+> + dmabuf_cmsg->frag_offset,
+> + dmabuf_cmsg->frag_size);
+> + else
+> + print_nonzero_bytes(
+> + ((unsigned char *)buf_mem) +
+> + dmabuf_cmsg->frag_offset,
+> + dmabuf_cmsg->frag_size);
+> +
+> + sync.flags =3D DMA_BUF_SYNC_READ | DMA_BUF_SYNC_END;
+> + ioctl(buf, DMA_BUF_IOCTL_SYNC, &sync);
+> +
+> + ret =3D setsockopt(client_fd, SOL_SOCKET,
+> + SO_DEVMEM_DONTNEED, &token,
+> + sizeof(token));
+> + if (ret !=3D 1)
+> + error(1, 0,
+> + "SO_DEVMEM_DONTNEED not enough tokens");
+> + }
+> + if (!is_devmem)
+> + error(1, 0, "flow steering error\n");
+> +
+> + printf("total_received=3D%lu\n", total_received);
+> + }
+> +
+> + fprintf(stdout, "%s: ok\n", TEST_PREFIX);
+> +
+> + fprintf(stdout, "page_aligned_frags=3D%lu, non_page_aligned_frags=3D%lu=
+\n",
+> + page_aligned_frags, non_page_aligned_frags);
+> +
+> + fprintf(stdout, "page_aligned_frags=3D%lu, non_page_aligned_frags=3D%lu=
+\n",
+> + page_aligned_frags, non_page_aligned_frags);
+> +
+> +cleanup:
+> +
+> + munmap(buf_mem, dmabuf_size);
+> + close(client_fd);
+> + close(socket_fd);
+> + close(buf);
+> + close(memfd);
+> + close(devfd);
+> + ynl_sock_destroy(ys);
+> +
+> + return 0;
+> +}
+> +
+> +void run_devmem_tests(void)
+> +{
+> + struct netdev_queue_dmabuf *queues;
+> + int devfd, memfd, buf;
+> + struct ynl_sock *ys;
+> + size_t dmabuf_size;
+> + size_t i =3D 0;
+> +
+> + dmabuf_size =3D getpagesize() * NUM_PAGES;
+> +
+> + create_udmabuf(&devfd, &memfd, &buf, dmabuf_size);
+> +
+> + /* Configure RSS to divert all traffic from our devmem queues */
+> + configure_rss();
+> +
+> + sleep(1);
+> +
+> + queues =3D malloc(sizeof(*queues) * num_queues);
+> +
+> + for (i =3D 0; i < num_queues; i++) {
+> + queues[i]._present.type =3D 1;
+> + queues[i]._present.idx =3D 1;
+> + queues[i].type =3D NETDEV_QUEUE_TYPE_RX;
+> + queues[i].idx =3D start_queue + i;
+> + }
+> +
+> + if (bind_rx_queue(ifindex, buf, queues, num_queues, &ys))
+> + error(1, 0, "Failed to bind\n");
+> +
+> + /* Closing the netlink socket does an implicit unbind */
+> + ynl_sock_destroy(ys);
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> + int is_server =3D 0, opt;
+> +
+> + while ((opt =3D getopt(argc, argv, "ls:c:p:v:q:f:n:i:d:")) !=3D -1) {
+
+I think 't' option should be added here.
+
+> + switch (opt) {
+> + case 'l':
+> + is_server =3D 1;
+> + break;
+> + case 's':
+> + server_ip =3D optarg;
+> + break;
+> + case 'c':
+> + client_ip =3D optarg;
+> + break;
+> + case 'p':
+> + port =3D optarg;
+> + break;
+> + case 'v':
+> + do_validation =3D atoll(optarg);
+> + break;
+> + case 'q':
+> + num_queues =3D atoi(optarg);
+> + break;
+> + case 't':
+> + start_queue =3D atoi(optarg);
+> + break;
+> + case 'f':
+> + ifname =3D optarg;
+> + break;
+> + case 'd':
+> + ifindex =3D atoi(optarg);
+
+How about using if_nametoindex() instead of 'd' option?
+
+> + break;
+> + case 'i':
+> + iterations =3D atoll(optarg);
+
+I couldn't find a use of this variable.
+
+> + break;
+> + case '?':
+> + printf("unknown option: %c\n", optopt);
+> + break;
+> + }
+> + }
+> +
+> + for (; optind < argc; optind++)
+> + printf("extra arguments: %s\n", argv[optind]);
+> +
+> + run_devmem_tests();
+> +
+> + if (is_server)
+> + return do_server();
+> +
+> + return 0;
+> +}
+> --
+> 2.45.2.803.g4e1b14247a-goog
+>
+>
+
+Thanks a lot!
+Taehee Yoo
 
