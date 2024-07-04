@@ -1,332 +1,554 @@
-Return-Path: <linux-media+bounces-14633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14634-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0A39275E6
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 14:25:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8402927676
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 14:54:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8EF0A1C23143
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 12:25:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FAC9281C3C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 12:54:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE331AE860;
-	Thu,  4 Jul 2024 12:24:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 077B31AE0BC;
+	Thu,  4 Jul 2024 12:53:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j7Fe/FvY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lhOU+PmQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913194C76;
-	Thu,  4 Jul 2024 12:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55DD26289
+	for <linux-media@vger.kernel.org>; Thu,  4 Jul 2024 12:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720095892; cv=none; b=hXsbYb/rRlvuMLOwEz744+EA/f5XxQmYUc4ecnK5gCZOd1HwEnsklart+GtVao1wxXX4fLhn5GO/WrJ72/J1Wiz1sm8hNBf5eEU5+rizHaUUKni8amCHxecMRmuJhoRgKQwIbHB/tQN6SZs5oUSV4v8cQl24ZpqMjU1kwDu7uDw=
+	t=1720097635; cv=none; b=MmskmFH/w75yawRtNFRxbmn7/zcqpdhz1By3ww6kyde+1QzHpoLe0IJBAIJI/VuiyyQZJBGEP5pi5/j2HJkSIfoVKvJ/397LKftLIlyHLqXo0gg+AxOQHg6VjVzlpH3iTdBgyqu3ot8NdnKe/HbgRjPvpnkwwNF4Avo/DzmrQf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720095892; c=relaxed/simple;
-	bh=3b40u6v5Fy9XpFfO4zO7dcgm2QhDnwRA7H1kJYZa6KA=;
+	s=arc-20240116; t=1720097635; c=relaxed/simple;
+	bh=ay7lmimbP/vEt4iAC7x+PfVavKZ5hZbQdGAmkUe3oOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PXmchNSH3gThXNs6zFy3GZv2SoQfkSujZSN3blOmykNMG3cX9FNRO1Br8XmYcfh0Mhp9qJgfGWc/uJuispMwcAQkyKjpOO8OGETyDaBED2IzvGC+D3twwo7RLGlBjHhyykJLRN0Q4WsIOCyLD+qO6sh2EzB/N2byVC1ll7a0cco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j7Fe/FvY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B81C7C4AF07;
-	Thu,  4 Jul 2024 12:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720095892;
-	bh=3b40u6v5Fy9XpFfO4zO7dcgm2QhDnwRA7H1kJYZa6KA=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZdWS+DuWlmo4jCQYedgANCsS6ykJBtdtmASRIq6/IPeBy5Th+C8hqjNV8dDSWAbW5LViigfETEDsfo5E1u0+Ss2fkNmYzRPv4pwFgtTo0x2oLVs21nl1C/uklkq7+oCR18igpZbok2HN1ilCx126tdNTNw8Jtk/jQojPsFAbV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lhOU+PmQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C80FA63D;
+	Thu,  4 Jul 2024 14:53:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1720097601;
+	bh=ay7lmimbP/vEt4iAC7x+PfVavKZ5hZbQdGAmkUe3oOY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j7Fe/FvY0DkICipoXNHJvqk1H7Z1fodo2GSY1Dyf6Ej53sR+86873wcmFiHOZSAAw
-	 obEdQoiZS8eBs4bY259a78GTsT7RksDGZsjVU9vO8BTjWVHpSVDOxNCBXvb1SFOc+i
-	 FZAVhBKzekCJZVyqn3CFSeZHGeyozeCgxLHN/C7JN6sQ0dcv7o160RDur20/2uh/xI
-	 PDbYjrAUkB+0bweOUOT0nPR9CYsE0IkIs3z0UdxPJY785rFCZnRsHpxcRMQEXgLnnz
-	 lwV+WRvlAzMvaxOjr1pS8Y1MtHS9m1pkmjaWtHMbu4TI4JTMWbKcqNzTAxjhm3GN6G
-	 HvHOeTN4CNtLQ==
-Date: Thu, 4 Jul 2024 14:24:49 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: John Stultz <jstultz@google.com>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/8] dma-buf: heaps: Support carved-out heaps and ECC
- related-flags
-Message-ID: <20240704-therapeutic-maroon-coucal-f61a63@houat>
-References: <20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org>
- <CANDhNCoOKwtpstFE2VDcUvzdXUWkZ-Zx+fz6xrdPWTyciVXMXQ@mail.gmail.com>
- <ZkXmWwmdPsqAo7VU@phenom.ffwll.local>
- <CANDhNCo5hSC-sLwdkBi3e-Ja-MzdqcGGbn-4G3XNYwCzZUwscw@mail.gmail.com>
- <ZkyOOwpM57HIiO3v@phenom.ffwll.local>
- <qy7aczeu6kumv5utemoevi7omp5ryq55zmgzxh5hrz5orf2osp@wypg66awof4n>
- <20240628-resilient-resolute-rook-0fc531@houat>
- <3e37rhrcqogix5obsu2gq7jar7bcoamx4bbd376az5z3zdkwvm@jstirwdl5efm>
+	b=lhOU+PmQj1pSpIuQD5ovxsl78cTmhXEL/NveUPYcKb4Ti64mdkrH8ueV0ZmZ89v2f
+	 PghYOpcb0AJlmKIBEUsdcyHFOkK01v3BHDSXylxdIUhWxZGGZ8YOjlD8Dj//lR6gYO
+	 E23QthdPe0WX52PVTxO/SH1dA8lU5r+4+gfuMN+c=
+Date: Thu, 4 Jul 2024 15:53:29 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v1 5/5] media: rkisp1: Add support for the companding
+ block
+Message-ID: <20240704125329.GD10099@pendragon.ideasonboard.com>
+References: <20240703222533.1662-1-laurent.pinchart@ideasonboard.com>
+ <20240703222533.1662-6-laurent.pinchart@ideasonboard.com>
+ <pqjankalgfcfxyiz57vkx3stgvjeiaxiqs4evkhmedzutkaosm@wpiub5jo3hv4>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cjxzfvvdyt3vz7rd"
-Content-Disposition: inline
-In-Reply-To: <3e37rhrcqogix5obsu2gq7jar7bcoamx4bbd376az5z3zdkwvm@jstirwdl5efm>
-
-
---cjxzfvvdyt3vz7rd
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <pqjankalgfcfxyiz57vkx3stgvjeiaxiqs4evkhmedzutkaosm@wpiub5jo3hv4>
 
-On Fri, Jun 28, 2024 at 04:42:35PM GMT, Thierry Reding wrote:
-> On Fri, Jun 28, 2024 at 03:08:46PM GMT, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Fri, Jun 28, 2024 at 01:29:17PM GMT, Thierry Reding wrote:
-> > > On Tue, May 21, 2024 at 02:06:19PM GMT, Daniel Vetter wrote:
-> > > > On Thu, May 16, 2024 at 09:51:35AM -0700, John Stultz wrote:
-> > > > > On Thu, May 16, 2024 at 3:56=E2=80=AFAM Daniel Vetter <daniel@ffw=
-ll.ch> wrote:
-> > > > > > On Wed, May 15, 2024 at 11:42:58AM -0700, John Stultz wrote:
-> > > > > > > But it makes me a little nervous to add a new generic allocat=
-ion flag
-> > > > > > > for a feature most hardware doesn't support (yet, at least). =
-So it's
-> > > > > > > hard to weigh how common the actual usage will be across all =
-the
-> > > > > > > heaps.
-> > > > > > >
-> > > > > > > I apologize as my worry is mostly born out of seeing vendors =
-really
-> > > > > > > push opaque feature flags in their old ion heaps, so in provi=
-ding a
-> > > > > > > flags argument, it was mostly intended as an escape hatch for
-> > > > > > > obviously common attributes. So having the first be something=
- that
-> > > > > > > seems reasonable, but isn't actually that common makes me fre=
-t some.
-> > > > > > >
-> > > > > > > So again, not an objection, just something for folks to stew =
-on to
-> > > > > > > make sure this is really the right approach.
-> > > > > >
-> > > > > > Another good reason to go with full heap names instead of opaqu=
-e flags on
-> > > > > > existing heaps is that with the former we can use symlinks in s=
-ysfs to
-> > > > > > specify heaps, with the latter we need a new idea. We haven't y=
-et gotten
-> > > > > > around to implement this anywhere, but it's been in the dma-buf=
-/heap todo
-> > > > > > since forever, and I like it as a design approach. So would be =
-a good idea
-> > > > > > to not toss it. With that display would have symlinks to cma-ec=
-c and cma,
-> > > > > > and rendering maybe cma-ecc, shmem, cma heaps (in priority orde=
-r) for a
-> > > > > > SoC where the display needs contig memory for scanout.
-> > > > >=20
-> > > > > So indeed that is a good point to keep in mind, but I also think =
-it
-> > > > > might re-inforce the choice of having ECC as a flag here.
-> > > > >=20
-> > > > > Since my understanding of the sysfs symlinks to heaps idea is abo=
-ut
-> > > > > being able to figure out a common heap from a collection of devic=
-es,
-> > > > > it's really about the ability for the driver to access the type of
-> > > > > memory. If ECC is just an attribute of the type of memory (as in =
-this
-> > > > > patch series), it being on or off won't necessarily affect
-> > > > > compatibility of the buffer with the device.  Similarly "uncached"
-> > > > > seems more of an attribute of memory type and not a type itself.
-> > > > > Hardware that can access non-contiguous "system" buffers can acce=
-ss
-> > > > > uncached system buffers.
-> > > >=20
-> > > > Yeah, but in graphics there's a wide band where "shit performance" =
-is
-> > > > defacto "not useable (as intended at least)".
-> > > >=20
-> > > > So if we limit the symlink idea to just making sure zero-copy acces=
-s is
-> > > > possible, then we might not actually solve the real world problem w=
-e need
-> > > > to solve. And so the symlinks become somewhat useless, and we need =
-to
-> > > > somewhere encode which flags you need to use with each symlink.
-> > > >=20
-> > > > But I also see the argument that there's a bit a combinatorial expl=
-osion
-> > > > possible. So I guess the question is where we want to handle it ...
-> > >=20
-> > > Sorry for jumping into this discussion so late. But are we really
-> > > concerned about this combinatorial explosion in practice? It may be
-> > > theoretically possible to create any combination of these, but do we
-> > > expect more than a couple of heaps to exist in any given system?
-> >=20
-> > I don't worry too much about the number of heaps available in a given
-> > system, it would indeed be fairly low.
-> >=20
-> > My concern is about the semantics combinatorial explosion. So far, the
-> > name has carried what semantics we were supposed to get from the buffer
-> > we allocate from that heap.
-> >=20
-> > The more variations and concepts we'll have, the more heap names we'll
-> > need, and with confusing names since we wouldn't be able to change the
-> > names of the heaps we already have.
->=20
-> What I was trying to say is that none of this matters if we make these
-> names opaque. If these names are contextual for the given system it
-> doesn't matter what the exact capabilities are. It only matters that
-> their purpose is known and that's what applications will be interested
-> in.
+On Thu, Jul 04, 2024 at 12:40:42PM +0200, Jacopo Mondi wrote:
+> Hi Laurent
+> On Thu, Jul 04, 2024 at 01:25:33AM GMT, Laurent Pinchart wrote:
+> > From: Paul Elder <paul.elder@ideasonboard.com>
+> >
+> > Add support to the rkisp1 driver for the companding block that exists on
+> > the i.MX8MP version of the ISP. This requires usage of the new
+> > extensible parameters format, and showcases how the format allows for
+> > extensions without breaking backward compatibility.
+> >
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v0:
+> >
+> > - Drop RKISP1_EXT_PARAM_BUFFER_V2
+> > - Use common structure for compression and expansion curves
+> > - Rename config fields in rkisp1_ext_params_*_config to just config
+> > - Mention block type in structures documentation
+> > - Constify arguments
+> > - Replace __uxx types with uxx
+> > - Use rkisp1_bls_swap_regs() helper in rkisp1_compand_bls_config()
+> > - Use generic feature handling mechanism
+> > ---
+> >  .../platform/rockchip/rkisp1/rkisp1-params.c  | 166 ++++++++++++++++++
+> >  include/uapi/linux/rkisp1-config.h            |  85 ++++++++-
+> >  2 files changed, 250 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > index bac9d4972493..5865d53be9c8 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > @@ -57,6 +57,8 @@ union rkisp1_ext_params_config {
+> >  	struct rkisp1_ext_params_hst_config hst;
+> >  	struct rkisp1_ext_params_aec_config aec;
+> >  	struct rkisp1_ext_params_afc_config afc;
+> > +	struct rkisp1_ext_params_compand_bls_config compand_bls;
+> > +	struct rkisp1_ext_params_compand_curve_config compand_curve;
+> >  };
+> >
+> >  enum rkisp1_params_formats {
+> > @@ -1258,6 +1260,92 @@ rkisp1_dpf_strength_config(struct rkisp1_params *params,
+> >  	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_DPF_STRENGTH_R, arg->r);
+> >  }
+> >
+> > +static void rkisp1_compand_write_px_curve(struct rkisp1_params *params,
+> > +					  unsigned int addr, const u8 *px_curve)
+> > +{
+> > +	size_t i, j;
+> > +	u32 val;
+> > +
+> > +	/*
+> > +	 * The compand curve is specified as a piecewise linear function with
+> > +	 * 64 points. X coordinates are stored as a log2 of the displacement
+> > +	 * from the previous point, in 5 bits, with 6 values per register. The
+> > +	 * last register stores 4 values.
+> > +	 */
+> > +	for (i = 0; i < 10; i++) {
+> > +		val = 0;
+> > +		for (j = 0; j < 6; j++)
+> 
+> This loops up to (9 * 6 + 5 = 59) and writes registers up to PX9
+> This should probably be i < 11 or <= 10 as the companding PX curve has
+> 64 points and 10 registers.
+> 
+> Also, to make sure, I would define the number of PX() registers
+> entries instead of using the crude '10' and '6' values
+> 
+> > +			val |= ((px_curve[i * 6 + j] & 0x1f) << (j * 5));
+> 
+> Can't you just assign val without initializing it to 0 first and
+> or-ing it later ?
 
-If the names are opaque, and we don't publish what the exact
-capabilities are, how can an application figure out which heap to use in
-the first place?
+I'm not sure to see what you mean here.
 
-> > > Would it perhaps make more sense to let a platform override the heap
-> > > name to make it more easily identifiable? Maybe this is a naive
-> > > assumption, but aren't userspace applications and drivers not primari=
-ly
-> > > interested in the "type" of heap rather than whatever specific flags
-> > > have been set for it?
-> >=20
-> > I guess it depends on what you call the type of a heap. Where we
-> > allocate the memory from, sure, an application won't care about that.
-> > How the buffer behaves on the other end is definitely something
-> > applications are going to be interested in though.
->=20
-> Most of these heaps will be very specific, I would assume.
+> Also, once you make the external loop go up to 11, the last two
+> iterations will out-of-bound access px[64] and px[65] (px is declared
+> of size "RKISP1_CIF_ISP_COMPAND_MAX_SAMPLES 64").
+> 
+> So this probably needs a check:
+> 
+>                 if (i == 10 && j > 3)
+>                         break;
+> 
+> before accessing px_curve[], or maybe declare the for loop as
+> 
+> 		for (j = 0; j < (i == 10 ? 4 : 6); j++)
+> 
+> > +		rkisp1_write(params->rkisp1, addr + (i * 4), val);
+> 
+> Then the parameteric macros
+> RKISP1_CIF_ISP_COMPAND_EXPAND_PX_N(n)
+> RKISP1_CIF_ISP_COMPAND_COMPRESS_PX_N(n)
+> 
+> are unused if not for the base address. Should you remove them and
+> only declare the base address value ?
 
-We don't have any specific heap upstream at the moment, only generic
-ones.
+I think it's useful to document what's available in terms of register
+macros, even if not everything is used.
 
-> For example a heap that is meant to be protected for protected video
-> decoding is both going to be created in such a way as to allow that
-> use-case (i.e. it doesn't make sense for it to be uncached, for
-> example) and it's also not going to be useful for any other use-case
-> (i.e. there's no reason to use that heap for GPU jobs or networking,
-> or whatever).
+> > +	}
+> > +
+> > +	val = 0;
+> > +	for (j = 0; j < 4; j++)
+> > +		val |= ((px_curve[60 + j] & 0x1f) << (j * 5));
+> 
+> ...
+> 
+> ok, I should maybe read the whole function before commenting. I left
+> the above comments there in case you want to unify the loop.
 
-Right. But also, libcamera has started to use dma-heaps to allocate
-dma-capable buffers and do software processing on it before sending it
-to some hardware controller.
+I'll try to rework the code.
 
-Caches are critical here, and getting a non-cacheable buffer would be
-a clear regression.
+> > +	rkisp1_write(params->rkisp1, addr + (i * 4), val);
+> > +}
+> > +
+> > +static void
+> > +rkisp1_compand_write_curve_mem(struct rkisp1_params *params,
+> > +			       unsigned int reg_addr, unsigned int reg_data,
+> > +			       size_t num_samples, const u32 *curve)
+> 
+> isn't the number of samples fixed to
+> RKISP1_CIF_ISP_COMPAND_MAX_SAMPLES ?
 
-How can it know which heap to allocate from on a given platform?
+A previous version of the patch had two macros for the expand and
+compress curves. Now that it's unified, I can drop the argument.
 
-Similarly with the ECC support we started that discussion with. ECC will
-introduce a significant performance cost. How can a generic application,
-such as a compositor, will know which heap to allocate from without:
+> > +{
+> > +	size_t i;
+> 
+> why a size and not an unsigned int ?
 
-a) Trying to bundle up a list of heaps for each platform it might or
-   might not run
+The patch is originally from Paul, I don't know. I'll switch to unsigned
+int as size_t is 64-bit on 64-bit platforms, which is overkill.
 
-b) and handling the name difference between BSPs and mainline.
+> > +
+> > +	for (i = 0; i < num_samples; i++) {
+> > +		rkisp1_write(params->rkisp1, reg_addr, i);
+> > +		rkisp1_write(params->rkisp1, reg_data, curve[i]);
+> > +	}
+> > +}
+> > +
+> > +static void
+> > +rkisp1_compand_bls_config(struct rkisp1_params *params,
+> > +			  const struct rkisp1_cif_isp_compand_bls_config *arg)
+> > +{
+> > +	static const u32 regs[] = {
+> > +		RKISP1_CIF_ISP_COMPAND_BLS_A_FIXED,
+> > +		RKISP1_CIF_ISP_COMPAND_BLS_B_FIXED,
+> > +		RKISP1_CIF_ISP_COMPAND_BLS_C_FIXED,
+> > +		RKISP1_CIF_ISP_COMPAND_BLS_D_FIXED,
+> > +	};
+> > +	u32 swapped[4];
+> > +
+> > +	rkisp1_bls_swap_regs(params->raw_type, regs, swapped);
+> > +
+> > +	rkisp1_write(params->rkisp1, swapped[0], arg->r);
+> > +	rkisp1_write(params->rkisp1, swapped[1], arg->gr);
+> > +	rkisp1_write(params->rkisp1, swapped[2], arg->gb);
+> > +	rkisp1_write(params->rkisp1, swapped[3], arg->b);
+> > +}
+> > +
+> > +static void
+> > +rkisp1_compand_expand_config(struct rkisp1_params *params,
+> > +			     const struct rkisp1_cif_isp_compand_curve_config *arg)
+> > +{
+> > +	rkisp1_compand_write_px_curve(params, RKISP1_CIF_ISP_COMPAND_EXPAND_PX_N(0),
+> > +				      arg->px);
+> > +	rkisp1_compand_write_curve_mem(params, RKISP1_CIF_ISP_COMPAND_EXPAND_Y_ADDR,
+> > +				       RKISP1_CIF_ISP_COMPAND_EXPAND_Y_WRITE_DATA,
+> > +				       ARRAY_SIZE(arg->y), arg->y);
+> > +	rkisp1_compand_write_curve_mem(params, RKISP1_CIF_ISP_COMPAND_EXPAND_X_ADDR,
+> > +				       RKISP1_CIF_ISP_COMPAND_EXPAND_X_WRITE_DATA,
+> > +				       ARRAY_SIZE(arg->x), arg->x);
+> 
+> As the header reports
+> 
+>  * @x: Compand curve x-values. The functionality of these parameters are
+>  *     unknown to do a lack of hardware documentation, but these are left here
+> 
+>  is it safe to write them ?
 
-If some hardware-specific applications / middleware want to take a
-shortcut and use the name, that's fine. But we need to find a way for
-generic applications to discover which heap is best suited for their
-needs without the name.
+Yes. They don't seem to have an effect, but they're written.
 
-> > And if we allow any platform to change a given heap name, then a generic
-> > application won't be able to support that without some kind of
-> > platform-specific configuration.
->=20
-> We could still standardize on common use-cases so that applications
-> would know what heaps to allocate from. But there's also no need to
-> arbitrarily restrict this. For example there could be cases that are
-> very specific to a particular platform and which just doesn't exist
-> anywhere else. Platform designers could then still use this mechanism to
-> define that very particular heap and have a very specialized userspace
-> application use that heap for their purpose.
+> > +}
+> > +
+> > +static void
+> > +rkisp1_compand_compress_config(struct rkisp1_params *params,
+> > +			       const struct rkisp1_cif_isp_compand_curve_config *arg)
+> > +{
+> > +	rkisp1_compand_write_px_curve(params, RKISP1_CIF_ISP_COMPAND_COMPRESS_PX_N(0),
+> > +				      arg->px);
+> > +	rkisp1_compand_write_curve_mem(params, RKISP1_CIF_ISP_COMPAND_COMPRESS_Y_ADDR,
+> > +				       RKISP1_CIF_ISP_COMPAND_COMPRESS_Y_WRITE_DATA,
+> > +				       ARRAY_SIZE(arg->y), arg->y);
+> > +	rkisp1_compand_write_curve_mem(params, RKISP1_CIF_ISP_COMPAND_COMPRESS_X_ADDR,
+> > +				       RKISP1_CIF_ISP_COMPAND_COMPRESS_X_WRITE_DATA,
+> > +				       ARRAY_SIZE(arg->x), arg->x);
+> > +}
+> > +
+> >  static void
+> >  rkisp1_isp_isr_other_config(struct rkisp1_params *params,
+> >  			    const struct rkisp1_params_cfg *new_params)
+> > @@ -1844,6 +1932,66 @@ rkisp1_ext_params_afcm(struct rkisp1_params *params,
+> >  				      RKISP1_CIF_ISP_AFM_ENA);
+> >  }
+> >
+> > +static void rkisp1_ext_params_compand_bls(struct rkisp1_params *params,
+> +					  const union rkisp1_ext_params_config *block)
+> 
+> nit: I presume going over 80-cols here is intentional
 
-We could just add a different capabitily flag to make sure those would
-get ignored.
+I think so :-)
 
-> > > For example, if an applications wants to use a protected buffer, the
-> > > application doesn't (and shouldn't need to) care about whether the he=
-ap
-> > > for that buffer supports ECC or is backed by CMA. All it really needs=
- to
-> > > know is that it's the system's "protected" heap.
-> >=20
-> > I mean... "protected" very much means backed by CMA already, it's pretty
-> > much the only thing we document, and we call it as such in Kconfig.
->=20
-> Well, CMA is really just an implementation detail, right? It doesn't
-> make sense to advertise that to anything outside the kernel. Maybe it's
-> an interesting fact that buffers allocated from these heaps will be
-> physically contiguous?
+> > +{
+> > +	const struct rkisp1_ext_params_compand_bls_config *bls =
+> > +		&block->compand_bls;
+> > +
+> > +	if (bls->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
+> > +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_COMPAND_CTRL,
+> > +					RKISP1_CIF_ISP_COMPAND_CTRL_BLS_ENABLE);
+> > +		return;
+> > +	}
+> > +
+> > +	rkisp1_compand_bls_config(params, &bls->config);
+> > +
+> > +	if (!(params->enabled_blocks &
+> > +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS)))
+> > +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_COMPAND_CTRL,
+> > +				      RKISP1_CIF_ISP_COMPAND_CTRL_BLS_ENABLE);
+> > +}
+> > +
+> > +static void rkisp1_ext_params_compand_expand(struct rkisp1_params *params,
+> > +					     const union rkisp1_ext_params_config *block)
+> > +{
+> > +	const struct rkisp1_ext_params_compand_curve_config *curve =
+> > +		&block->compand_curve;
+> > +
+> > +	if (curve->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
+> > +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_COMPAND_CTRL,
+> > +					RKISP1_CIF_ISP_COMPAND_CTRL_EXPAND_ENABLE);
+> > +		return;
+> > +	}
+> > +
+> > +	rkisp1_compand_expand_config(params, &curve->config);
+> > +
+> > +	if (!(params->enabled_blocks &
+> > +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND)))
+> > +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_COMPAND_CTRL,
+> > +				      RKISP1_CIF_ISP_COMPAND_CTRL_EXPAND_ENABLE);
+> > +}
+> > +
+> > +static void rkisp1_ext_params_compand_compress(struct rkisp1_params *params,
+> > +					       const union rkisp1_ext_params_config *block)
+> > +{
+> > +	const struct rkisp1_ext_params_compand_curve_config *curve =
+> > +		&block->compand_curve;
+> > +
+> > +	if (curve->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
+> > +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_COMPAND_CTRL,
+> > +					RKISP1_CIF_ISP_COMPAND_CTRL_COMPRESS_ENABLE);
+> > +		return;
+> > +	}
+> > +
+> > +	rkisp1_compand_compress_config(params, &curve->config);
+> > +
+> > +	if (!(params->enabled_blocks &
+> > +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS)))
+> > +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_COMPAND_CTRL,
+> > +				      RKISP1_CIF_ISP_COMPAND_CTRL_COMPRESS_ENABLE);
+> > +}
+> > +
+> >  typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
+> >  			     const union rkisp1_ext_params_config *config);
+> >
+> > @@ -1939,6 +2087,24 @@ static const struct rkisp1_ext_params_handler {
+> >  		.handler	= rkisp1_ext_params_afcm,
+> >  		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+> >  	},
+> > +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS] = {
+> > +		.size		= sizeof(struct rkisp1_ext_params_compand_bls_config),
+> > +		.handler	= rkisp1_ext_params_compand_bls,
+> > +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+> > +		.features	= RKISP1_FEATURE_COMPAND,
+> > +	},
+> > +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND] = {
+> > +		.size		= sizeof(struct rkisp1_ext_params_compand_curve_config),
+> > +		.handler	= rkisp1_ext_params_compand_expand,
+> > +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+> > +		.features	= RKISP1_FEATURE_COMPAND,
+> > +	},
+> > +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS] = {
+> > +		.size		= sizeof(struct rkisp1_ext_params_compand_curve_config),
+> > +		.handler	= rkisp1_ext_params_compand_compress,
+> > +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+> > +		.features	= RKISP1_FEATURE_COMPAND,
+> > +	},
+> >  };
+> >
+> >  static void rkisp1_ext_params_config(struct rkisp1_params *params,
+> > diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> > index 00b09c92cca7..dd962df53af5 100644
+> > --- a/include/uapi/linux/rkisp1-config.h
+> > +++ b/include/uapi/linux/rkisp1-config.h
+> > @@ -164,6 +164,11 @@
+> >  #define RKISP1_CIF_ISP_DPF_MAX_NLF_COEFFS      17
+> >  #define RKISP1_CIF_ISP_DPF_MAX_SPATIAL_COEFFS  6
+> >
+> > +/*
+> > + * Compand
+> > + */
+> > +#define RKISP1_CIF_ISP_COMPAND_MAX_SAMPLES	64
+> > +
+> >  /*
+> >   * Measurement types
+> >   */
+> > @@ -851,6 +856,39 @@ struct rkisp1_params_cfg {
+> >  	struct rkisp1_cif_isp_isp_other_cfg others;
+> >  };
+> >
+> > +/**
+> > + * struct rkisp1_cif_isp_compand_bls_config - Rockchip ISP1 Companding parameters (BLS)
+> > + * @r: Fixed subtraction value for Bayer pattern R
+> > + * @gr: Fixed subtraction value for Bayer pattern Gr
+> > + * @gb: Fixed subtraction value for Bayer pattern Gb
+> > + * @b: Fixed subtraction value for Bayer pattern B
+> > + *
+> > + * The values will be subtracted from the sensor values. Note that unlike the
+> > + * dedicated BLS block, the BLS values in the compander are 20-bit unsigned.
+> 
+> I presume it's not worth mentioning this feature is only supported on
+> specific platforms, right ?
 
-CMA itself might be an implementation detail, but it's still right there
-in the name on ARM.
+We could, but we don't do so for the BLS block. I don't mind either way.
+I think it's fairly clear from the driver code, and I would expect
+people who want to use this driver to have to read the driver code
+anyway.
 
-And being able to get physically contiguous buffers is critical on
-platforms without an IOMMU.
+> > + */
+> > +struct rkisp1_cif_isp_compand_bls_config {
+> > +	__u32 r;
+> > +	__u32 gr;
+> > +	__u32 gb;
+> > +	__u32 b;
+> > +};
+> > +
+> > +/**
+> > + * struct rkisp1_cif_isp_compand_curve_config - Rockchip ISP1 Companding
+> > + * parameters (expand and compression curves)
+> 
+> Here and below: multi-line comments are aligned differently in the
+> rest of the file
 
-> In the majority of cases that's probably not even something that
-> matters because we get a DMA-BUF anyway and we can map that any way we
-> want.
->
-> Irrespective of that, physically contigous buffers could be allocated in
-> any number of ways, CMA is just a convenient implementation of one such
-> allocator.
->=20
-> > But yeah, I agree that being backed by CMA is probably not what an
-> > application cares about (and we even have might some discussions about
-> > that), but if the ECC protection comes at a performance cost then it
-> > will very much care about it. Or if it comes with caches enabled or not.
->=20
-> True, no doubt about that. However, I'm saying there may be advantages
-> in hiding all of this from applications. Let's say we're trying to
-> implement video decoding. We can create a special "protected-video" heap
-> that is specifically designed to allocate encrypted/protected scanout
-> buffers from.
->=20
-> When you design that system, you would most certainly not enable ECC
-> protection on that heap because it leads to bad performance. You would
-> also want to make sure that all of the buffers in that heap are cached
-> and whatever other optimizations your chip may provide.
->=20
-> Your application doesn't have to care about this, though, because it can
-> simply look for a heap named "protected-video" and allocate buffers from
-> it.
+We have a mix of all kinds of alignment styles :-( If someone wants to
+clean things up, I'll ack a patch.
 
-I mean, I disagree. Or rather, in an environment where you have a system
-architect, and the application is targeted for a particular system only,
-and where "protected-video" means whatever the team decided in general,
-yeah, that works.
+> * struct rkisp1_cif_isp_compand_curve_config - Rockchip ISP1 Companding
+> *                                              parameters (expand and compression curves)
 
-So, in a BSP or Android, that works fine.
+It would need to be
 
-On a mainline based system, with generic stacks like libcamera, it just
-doesn't fly anymore.
+ * struct rkisp0_cif_isp_compand_curve_config - Rockchip ISP1 Companding
+ *                                              parameters (expand and
+ *                                              compression curves)
 
-Let's use the two heaps we currently support: their name isn't stable
-across architectures, nobody ever documented the set of attributes that
-particular heap has, and since it's not documented, good luck trying to
-avoid regressions.
+which starts looking ridiculous :-)
 
-So, today, with a very limited number of heaps and no vendor involvement
-so far, the "let's just use the name" policy doesn't work already.
+> > + * @px: Compand curve x-values. Each value stores the distance from the
+> > + *      previous x-value, expressed as log2 of the distance on 5 bits.
+> > + * @x: Compand curve x-values. The functionality of these parameters are
+> > + *     unknown to do a lack of hardware documentation, but these are left here
+> 
+> s/unknown to/unknown due to/
+> 
+> > + *     for future compatibility purposes.
+> 
+> Also, the documentation of struct members in the existing code doesn't
+> use '.' at the end (not totally true, some do, so up to you)
 
-Maxime
+I've added one because it's a multi-sentence comment.
 
---cjxzfvvdyt3vz7rd
-Content-Type: application/pgp-signature; name="signature.asc"
+> > + * @y: Compand curve y-values
+> > + */
+> > +struct rkisp1_cif_isp_compand_curve_config {
+> > +	__u8 px[RKISP1_CIF_ISP_COMPAND_MAX_SAMPLES];
+> > +	__u32 x[RKISP1_CIF_ISP_COMPAND_MAX_SAMPLES];
+> > +	__u32 y[RKISP1_CIF_ISP_COMPAND_MAX_SAMPLES];
+> > +};
+> > +
+> >  /*---------- PART2: Measurement Statistics ------------*/
+> >
+> >  /**
+> > @@ -1018,6 +1056,9 @@ struct rkisp1_stat_buffer {
+> >   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS: Histogram statistics
+> >   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS: Auto exposure statistics
+> >   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS: Auto-focus statistics
+> > + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS: BLS in the compand block
+> > + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND: Companding expand curve
+> > + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS: Compandding compress curve
+> 
+> s/Compandding/Companding/
+> 
+> >   */
+> >  enum rkisp1_ext_params_block_type {
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
+> > @@ -1037,6 +1078,9 @@ enum rkisp1_ext_params_block_type {
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS,
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS,
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS,
+> > +	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS,
+> > +	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND,
+> > +	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS,
+> >  };
+> >
+> >  /**
+> > @@ -1384,6 +1428,42 @@ struct rkisp1_ext_params_afc_config {
+> >  	struct rkisp1_cif_isp_afc_config config;
+> >  } __attribute__((aligned(8)));
+> >
+> > +/**
+> > + * struct rkisp1_ext_params_compand_bls_config - RkISP1 extensible params
+> > + * Compand BLS config
+> 
+> Here and in other places 'Compand' is spelled with capital 'C'. Is it
+> intentional ?
 
------BEGIN PGP SIGNATURE-----
+I think Paul matched the documentation of other blocks, that write e.g.
+'Histogram'.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZoaUkAAKCRDj7w1vZxhR
-xXADAQCgqah3v2QYITrpPKh5bzDxBC1BhjxqRAsqI12N+CX4AgD8DJw0bMiupQN+
-a6V6YFBeSup3/JhldqCEsMkeHmT7Pw4=
-=Zj5I
------END PGP SIGNATURE-----
+> > + *
+> > + * RkISP1 extensible parameters Companding configuration block (black level
+> > + * subtraction). Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS`.
+> > + *
+> > + * @header: The RkISP1 extensible parameters header, see
+> > + *	    :c:type:`rkisp1_ext_params_block_header`
+> > + * @config: Companding BLS configuration, see
+> > + *	    :c:type:`rkisp1_cif_isp_compand_bls_config`
+> > + */
+> > +struct rkisp1_ext_params_compand_bls_config {
+> > +	struct rkisp1_ext_params_block_header header;
+> > +	struct rkisp1_cif_isp_compand_bls_config config;
+> > +} __attribute__((aligned(8)));
+> > +
+> > +/**
+> > + * struct rkisp1_ext_params_compand_curve_config - RkISP1 extensible params
+> > + * Compand curve config
+> > + *
+> > + * RkISP1 extensible parameters Companding configuration block (expand and
+> > + * compression curves). Identified by
+> > + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND`or
+> > + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS`.
+> > + *
+> > + * @header: The RkISP1 extensible parameters header, see
+> > + *	    :c:type:`rkisp1_ext_params_block_header`
+> > + * @config: Companding curve configuration, see
+> > + *	    :c:type:`rkisp1_cif_isp_compand_curve_config`
+> > + */
+> > +struct rkisp1_ext_params_compand_curve_config {
+> > +	struct rkisp1_ext_params_block_header header;
+> > +	struct rkisp1_cif_isp_compand_curve_config config;
+> > +} __attribute__((aligned(8)));
+> > +
+> >  #define RKISP1_EXT_PARAMS_MAX_SIZE					\
+> >  	(sizeof(struct rkisp1_ext_params_bls_config)			+\
+> >  	sizeof(struct rkisp1_ext_params_dpcc_config)			+\
+> > @@ -1401,7 +1481,10 @@ struct rkisp1_ext_params_afc_config {
+> >  	sizeof(struct rkisp1_ext_params_awb_meas_config)		+\
+> >  	sizeof(struct rkisp1_ext_params_hst_config)			+\
+> >  	sizeof(struct rkisp1_ext_params_aec_config)			+\
+> > -	sizeof(struct rkisp1_ext_params_afc_config))
+> > +	sizeof(struct rkisp1_ext_params_afc_config)			+\
+> > +	sizeof(struct rkisp1_ext_params_compand_bls_config)		+\
+> > +	sizeof(struct rkisp1_ext_params_compand_curve_config)		+\
+> > +	sizeof(struct rkisp1_ext_params_compand_curve_config))
+> 
+> Do we need a comment to say why there are two entries of the same
+> type or not ?
 
---cjxzfvvdyt3vz7rd--
+I'll add one.
+
+> >
+> >  /**
+> >   * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters version
+
+-- 
+Regards,
+
+Laurent Pinchart
 
