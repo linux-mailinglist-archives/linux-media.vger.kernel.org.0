@@ -1,106 +1,190 @@
-Return-Path: <linux-media+bounces-14617-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14618-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B35B926D39
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 03:51:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 185C692702A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 09:02:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D63581F2274A
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 01:51:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5513B23797
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 07:02:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 167A1DDA9;
-	Thu,  4 Jul 2024 01:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CA381A0AED;
+	Thu,  4 Jul 2024 07:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gpg3nJdH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B644E2581
-	for <linux-media@vger.kernel.org>; Thu,  4 Jul 2024 01:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C3E146A70;
+	Thu,  4 Jul 2024 07:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720057870; cv=none; b=pciJCTuhBUFCXDal/bMdbpfY/6kPNP53+OlqnZyLpSrYLg0qylt3Ddq8Tyy0IyiAsPW732fdUMVPDtSOiOC6LFHl3HcEu6SfXCf7YQmWWr51MSaH0WIpb5ov2bKty/Mxt8v80vsGQ1BpqB6nMUCLFIq3Dwo2kZ04bialHhDnlNs=
+	t=1720076525; cv=none; b=p5daZf8R8cbWIH48rkVueGwNHOU7RPV4WM/tBsrfKeVLW3U2PiUYjylUdd3TiGzgeG5h8/yj55GPG9TMhnUwH7aAlySZ98hx09bskWpCmYPR3H3LbjjwDYEDzk3q9DmKqWWGjUYNbyRF2eE1IHFSD/RyQxj+uqsk8KAnzHj//DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720057870; c=relaxed/simple;
-	bh=CA1YiTfYruWayZg9FuPw8BtbIyZBkH2N8q9LPLy9qoY=;
-	h=Date:From:To:Subject:Message-Id; b=dDeD5qDMHf0zPZuexCkD6BAUfebW5TPwT6JEtO6f8dVlKMsXvOGlLVdCPUV4IMld0W7fbmZzQtRJKREDQ6OLUCcLpm+13dbqjdQb3LA8+fq/jrab8YXijeMsUPtqog7pJ0BKCVbIqrghQJbb/lsiJ/AvzoUnVCsfZ/+nQC/zLtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECCD1C2BD10
-	for <linux-media@vger.kernel.org>; Thu,  4 Jul 2024 01:51:09 +0000 (UTC)
-Date: Thu, 04 Jul 2024 03:51:08 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240704015109.ECCD1C2BD10@smtp.kernel.org>
+	s=arc-20240116; t=1720076525; c=relaxed/simple;
+	bh=nyWNxViiwALsERwQ9nojUZ5qQSyykv/r8vPqJF9JqL0=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=k1p7bI3JU0QNZYTRtWstyC/4WMfHPR3AS52uWRZGysfABOL072ZsgRutDLjdEJtchyoqzvuqdSoLH4i64QS0XvqQnMQwpMEwHKwFiARiPtEoIlUcmJe9ZOcsLp2eHRpsuu8gRj2hZ/UqMR2lDY+JdMvUZtg9rFkn8+fmQf7Gbgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gpg3nJdH; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720076524; x=1751612524;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=nyWNxViiwALsERwQ9nojUZ5qQSyykv/r8vPqJF9JqL0=;
+  b=Gpg3nJdHBADn6TwuAFlqFW0f0zbbiobbUILs8k7qRxX7ZCQ0zlv8/pgX
+   njO5WqEMDgtnGo1esloc8evjI4rnZ2ND0B1msKYiFqAKsH0/E/p3Ecl3I
+   W14PT9fAIYZN0RvW5ilDEH86dvgUWZZwzivvR2lzEl47bIbuVfqk8Gkdh
+   pNN0vtlbgEHFxcXEn/7LIu1kuxWup4mHUYm46LpUXsotswspiFajLYUk7
+   K/C9TkZYK3THlPJtBoSSx0UeF6qs9sZeN6RewQjCMSZ7iHrwL8RmwRcEA
+   6XM9EZgXbhBAOgJm8PxWFjbqen3oDgRQ3BiISQmX/q6YK46C87BRMvtPD
+   w==;
+X-CSE-ConnectionGUID: QJkerVuXSrmNtsSqEzxGXA==
+X-CSE-MsgGUID: K8FJGRouTt26hwHEMOxVaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="27953962"
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
+   d="scan'208";a="27953962"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 00:02:03 -0700
+X-CSE-ConnectionGUID: 0iFJ5pprS0a1eYhTS3kPPg==
+X-CSE-MsgGUID: WflacbwXTkKXRJH6ZAxpLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
+   d="scan'208";a="51462679"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
+  by orviesa005.jf.intel.com with ESMTP; 04 Jul 2024 00:02:00 -0700
+Subject: Re: [PATCH v1 3/3] staging: media: ipu3: Stop streaming in inverse
+ order of starting
+To: Max Staudt <mstaudt@chromium.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Ricardo Ribalda <ribalda@chromium.org>
+References: <20240620145820.3910239-1-mstaudt@chromium.org>
+ <20240620145820.3910239-4-mstaudt@chromium.org>
+From: Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <e6ff8ad5-933d-fbbb-0c4b-ae19c65e8439@linux.intel.com>
+Date: Thu, 4 Jul 2024 15:03:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20240620145820.3910239-4-mstaudt@chromium.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Max,
 
-Results of the daily build of media_tree:
+Thanks for your patch.
 
-date:			Thu Jul  4 03:00:13 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	a7351f0d3668b449fdc2cfd90403b1cb1f03ed6d
-v4l-utils git hash:	8387e367383787e5d61b42503d99ebd5138cafb6
-edid-decode git hash:	6f117a8f8c0e76e85f599a8b05c21c5f51c5c3c1
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8660-g2dd6476c
-sparse version:		v0.5.0-8660-g2dd6476c
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+On 6/20/24 10:45 PM, Max Staudt wrote:
+> imgu_vb2_stop_streaming() did not order shutdown items in the inverse
+> order and count of what imgu_vb2_start_streaming() does. Consequently,
+> v6.7's new WARN_ON in call_s_stream() started screaming because it was
+> called multiple times on the entire pipe, yet it should only be called
+> when the pipe is interrupted by any first node being taken offline.
+> 
+> This reorders streamoff to be the inverse of streamon, and uses
+> analogous conditions to decide when and how often to call additional
+> teardown functions.
+> 
+> v4l2_subdev_call(s_stream, 0) remains outside the streaming_lock,
+> analogously to imgu_vb2_start_streaming().
+> 
+> Signed-off-by: Max Staudt <mstaudt@chromium.org>
+> ---
+>  drivers/staging/media/ipu3/ipu3-v4l2.c | 36 +++++++++++++++++++++-----
+>  1 file changed, 29 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> index 3ff390b04e1a..e7aee7e3db5b 100644
+> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> @@ -535,29 +535,51 @@ static void imgu_vb2_stop_streaming(struct vb2_queue *vq)
+>  		container_of(vq, struct imgu_video_device, vbq);
+>  	int r;
+>  	unsigned int pipe;
+> +	bool stop_streaming = false;
+>  
+> +	/* Verify that the node had been setup with imgu_v4l2_node_setup() */
+>  	WARN_ON(!node->enabled);
+>  
+>  	pipe = node->pipe;
+>  	dev_dbg(dev, "Try to stream off node [%u][%u]", pipe, node->id);
+> -	imgu_pipe = &imgu->imgu_pipe[pipe];
+> -	r = v4l2_subdev_call(&imgu_pipe->imgu_sd.subdev, video, s_stream, 0);
+> -	if (r)
+> -		dev_err(&imgu->pci_dev->dev,
+> -			"failed to stop subdev streaming\n");
 
-linux-git-arm: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-acpi.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+I guess the subdev streams API can help us on this, but current fix
+looks fine for me.
 
-date:			Thu Jul  4 03:13:58 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+>  
+> +	/*
+> +	 * When the first node of a streaming setup is stopped, the entire
+> +	 * pipeline needs to stop before individual nodes are disabled.
+> +	 * Perform the inverse of the initial setup.
+> +	 *
+> +	 * Part 1 - s_stream on the entire pipeline
 
-date:			Thu Jul  4 03:50:05 CEST 2024
+stream on or off? it is a little confusing.
 
-Detailed results are available here:
+> +	 */
+>  	mutex_lock(&imgu->streaming_lock);
+> -	/* Was this the first node with streaming disabled? */
+>  	if (imgu->streaming) {
+>  		/* Yes, really stop streaming now */
+>  		dev_dbg(dev, "IMGU streaming is ready to stop");
+>  		r = imgu_s_stream(imgu, false);
+>  		if (!r)
+>  			imgu->streaming = false;
+> +		stop_streaming = true;
+>  	}
+> -
+>  	mutex_unlock(&imgu->streaming_lock);
+>  
+> +	/* Part 2 - s_stream on subdevs
+> +	 *
+> +	 * If we call s_stream multiple times, Linux v6.7's call_s_stream()
+> +	 * WARNs and aborts. Thus, disable all pipes at once, and only once.
+> +	 */
+> +	if (stop_streaming) {
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
+> +		for_each_set_bit(pipe, imgu->css.enabled_pipes,
+> +				 IMGU_MAX_PIPE_NUM) {
+> +			imgu_pipe = &imgu->imgu_pipe[pipe];
+> +
+> +			r = v4l2_subdev_call(&imgu_pipe->imgu_sd.subdev,
+> +					     video, s_stream, 0);
+> +			if (r)
+> +				dev_err(&imgu->pci_dev->dev,
+> +					"failed to stop subdev streaming\n");
+> +		}
 
-Detailed regression test results are available here:
+Is it possible to move this loop into 'if (imgu->streaming)' above?
 
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+> +	}
+> +
+> +	/* Part 3 - individual node teardown */
+>  	video_device_pipeline_stop(&node->vdev);
+>  	imgu_return_all_buffers(imgu, node, VB2_BUF_STATE_ERROR);
+>  }
+> 
 
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+-- 
+Best regards,
+Bingbu Cao
 
