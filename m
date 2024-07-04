@@ -1,87 +1,87 @@
-Return-Path: <linux-media+bounces-14656-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14657-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2616D927AFC
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 18:17:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F27D927AFF
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 18:17:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99CA21F23A3A
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 16:17:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7095F1C222D6
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jul 2024 16:17:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7E681B3F0C;
-	Thu,  4 Jul 2024 16:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818261B29D9;
+	Thu,  4 Jul 2024 16:16:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="LYoZ+V9q";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="f+5qSZ3v"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JtwdvLR8";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iX1e+gto"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
+Received: from fout8-smtp.messagingengine.com (fout8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F1E1B373C;
-	Thu,  4 Jul 2024 16:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431C01B3F04;
+	Thu,  4 Jul 2024 16:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720109804; cv=none; b=UtVTKdG6slAU3VOHiUbh/JyxqqfuVuGJpgvRZtORyi0x/lRfYUutM4BWgV2c7DIZHObTyK8NtU8oLVLr9BSugNiGqipUeOv2EMvfUFaKR9H2OJlp5lWq7H5mV2mzmA4ZY/qtEHKpeju89hl5lRFYksgtbOle3q+UEn2wN+shnZU=
+	t=1720109805; cv=none; b=mOQAWAk7palRUsf2/ZkHjIYsbDUrNPV8eU0aTeltJcYkFjNZ3uLqCSK6bFEYbhNszRJIhBsQks66xZGeRuSdIYf8vZfALK7r2zYwnYxEwH3+dh7nVYhKW7EP9cD50JL5uPhFuawwTAh3rvqAzUKNmiNb6GSpnNyu9NHcgHYx0fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720109804; c=relaxed/simple;
-	bh=HLqF6RXPscYgdCNOg7qm0Hy0bsUBHyPtRIuM3hYQjUQ=;
+	s=arc-20240116; t=1720109805; c=relaxed/simple;
+	bh=kWo1jRjPiC0mUdlHnAlE8L8/74EMsJZXyj5GEnyLxi8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QjQ+ML3XWsnRDYIRkPKel/zARvmNvmzrzeQ5nKw9fdP8kzlcTJQ9vp9nBwnkIk9+07RQi3Dv2AXJKFOipq3ro/jot1iyijij7XmI5eoxYmA8zY+sVGSl6ROizGAR+xzhVW45ev+lfU3ARX4cRmhtfxyNQnTo+moMhObyjUpoPt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=LYoZ+V9q; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=f+5qSZ3v; arc=none smtp.client-ip=103.168.172.156
+	 MIME-Version:Content-Type; b=fB8mlHn0Xa1bgllcdgKJYi3SMZvPMOTSAfWKPQL3cnWIg/8Y/pi21Fn/oUeiCGB6BLDf5WXc+pyXdVdmH+Ix9eiGZvjEkx7mKZiLXR27GIdHNB9LaeiZaSxg8L0iONScLuHDIG2wdqcXp2HGfioqPCicpDUgfjpI3feMhOxWelE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JtwdvLR8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iX1e+gto; arc=none smtp.client-ip=103.168.172.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 82DFE114027F;
-	Thu,  4 Jul 2024 12:16:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 04 Jul 2024 12:16:41 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 656831380292;
+	Thu,  4 Jul 2024 12:16:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 04 Jul 2024 12:16:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1720109801;
-	 x=1720196201; bh=CIpEg4bkVBN7ZqyKZdIeIRR/b6UXDbg6dx4JYnDd83g=; b=
-	LYoZ+V9qq7ZAcbyyVkcY8n48I/AIgdQAX/E0/4sOEjPACFYxRg66YUuZlLrrwTzR
-	SF+aZqWSVmkJXgUB5rKmgPLmTbccWyRzbC4XyBDp6szlcomFFb6wjRA0sk7A2PCa
-	C54DfB1244QtOJB1r9lhnQTdW+jFSGTQmc9WJmntlToPntsMdYbYDFcD+p0a8kRd
-	9T6F/PR4Th6SVNwcCNPSSOL1QauxUZzdVpeIXT1z+X+eEbu6QlR12/fNi3ztc9qy
-	qq/Ws04T0aGPxs32RWbxfwKh9KYB9kuW4ZXODxJjui8PUl4uvu9TTna1zIQEg0H7
-	p5ODaUDH1g/CZPhrKsW4qA==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1720109803;
+	 x=1720196203; bh=m6IOAfjzm94rlTQz2x18itLJBm6Rpvf2gXJpRiTrB/8=; b=
+	JtwdvLR8DI05TeIENX+KttXvJc2XMcq1jvry8irmIizY3jy4N2roCAkhCV7hkYk8
+	ZYRpsErlIEkz6LL8c6ZcfqpDKuArh6+18ZyxE6Y3jc+bPOiJcfsPTwzDpw+V73J/
+	lEJfdmEapagBySHKoKsKhgAwPwzWrSVf87yYQ5V0jLci3DkNFhZf9X9+SIjATZY1
+	ShOmqUGBJrQtCxQAOJeSIs+/Zg7jDQy2B3wC+tyzJQcWvi1Gpj6xzI4nt9LihcOX
+	qbsq5zgM6NF6uZrPxmcFa4pYfiShgjJwK4eUweLdWxI9sZsTpwcLSr7uJ4SAkbMg
+	/rmadtGWYiG9RUgPN7nm8Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720109801; x=
-	1720196201; bh=CIpEg4bkVBN7ZqyKZdIeIRR/b6UXDbg6dx4JYnDd83g=; b=f
-	+5qSZ3vdOKpO/IONjfetbuddLUHBXg49gkOHo1onDifpL+yz78EAHxEg4Mc6x+oO
-	NkNRTa6LPnFcXAh/gbtqBpH59R79HoM0jFCpEVcwXmZCpTk441JLR0BATz6foTYV
-	EHg9fwDboQRLz+hHFdA/3sv2NZRN/0i6FjAi5hrKkNofsMxxIQqdtrWuoTzV22F0
-	gbRyGfrlOropVPtR+dL7kjVSiOiMIwm1oxTAa/P1pzzX/qYba701t/OdkS1ELLrM
-	T6vdSrEBAkSn6NP4Ww/000BH3z8Yl/cG6OpLW0WlVWOCouZtv2iu2Fg4pbp6ClJu
-	ytpB47yRgaqZbH6R15MLg==
-X-ME-Sender: <xms:6cqGZocj170KyEkiWJQ3ge--Mjq8UzN4C3_Bhs88SAiKb7LV_ufluQ>
-    <xme:6cqGZqOG7zhQ5Fi5jFHzkWn4zYDJy2KTfq8EfH98h_RKycz0hP0gABG2eRdyKBvuc
-    LC9x0KcFzasUvAFbG8>
-X-ME-Received: <xmr:6cqGZpgdl-DGeub8g8w5cEC0Aq33znZDePLM82MGB5aNg3jjlHMqjE15vo9lUdB8bczpkDNhkaqgaSCfz-EuKoLIfQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelgdeliecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720109803; x=
+	1720196203; bh=m6IOAfjzm94rlTQz2x18itLJBm6Rpvf2gXJpRiTrB/8=; b=i
+	X1e+gtoHdxxqj+i42h0tSmJUd6btkOA/kojKOOVwi4MfqoKsJc7cpb+UTFUzMZ2g
+	mjRERCIlJqsiIyubZKgK/uqLCezc5kR2nn1WbO68JEjO/ulfcR8B3MNScrraPZIa
+	1uhN8aMrv1C7QWfqgmAoukw45QZWuO7yJwPRt5CR+GhfGf8VPL6eHGtJDCUqtYY0
+	bfRzQh6jnJs5p46vJsWNzM6lmy+gj+vkObWgRsiyBxN/UWiS8Si5TME0BPig6E0a
+	/v64jnhkTe8duwagKtNG0kZa5Ervpw+fpzEQ3LqSgYCb1gNqz7zSwLVPTTl3U1CB
+	fn/puZSMrylV3kSKVs9ag==
+X-ME-Sender: <xms:68qGZqj3KSq5xG1AU-ecBhkdvwnRs7cYhds2ItywTjnv8xnmarz-Vw>
+    <xme:68qGZrB-Ne8QRvFfNKOm_cp2GA4_mtrMfYWbxD1D0c099Y2dBPJKWeF6O6u_GsKQS
+    I5gJbZQhBhHvME-QGo>
+X-ME-Received: <xmr:68qGZiFpOUstTuHfACynhBIP1AiM1NaTkNmb2md7ot4Nd1ssGp-95yFmPZ6eg94EI8rTjVdY4MmlrmR3GMSTnQjAwg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudelgdeljecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheppfhikhhl
     rghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvg
     hsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeu
     tdefhfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghr
+    fuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghr
     lhhunhgusehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:6cqGZt-V8cEmsmuVqeHUR7SkShtWrxb1YugSmCEbAZMtBJL25Rowzg>
-    <xmx:6cqGZkvuWmgSnRbfMVlTWUInS0Ej9MtCZe7xvwhy4OZ_Zn1Paf9Kvg>
-    <xmx:6cqGZkF02VgrmKd1IiJ9uQna0gFh3UXaDgnXMF4KcJ97AQsrCu5biw>
-    <xmx:6cqGZjN3ki91MDdReFyrOsrOQHQVkvwp2FEDrKFXJBn7-P-z4gQjnw>
-    <xmx:6cqGZlmpVd-PdABmEIq9FU3jazIYcFmYYbuvY7fQ-_ae9DTJc8pDLKtF>
+X-ME-Proxy: <xmx:68qGZjTVNGkRciJfGZfNjGdnS9mWaztTX8wEPoV4_cGtLGzMEpq0NA>
+    <xmx:68qGZnxDPyPObQGAQPLM2-jHaTb2ze2JTkU_B4708w6E99regmc1kg>
+    <xmx:68qGZh7Axxdh-ZZoTplDLkYXJHFqLE9YrnCmfs_fl0fjX13IEdJqQg>
+    <xmx:68qGZkxS7Sj_kb8UgzFiK4P14GmnRUisIorCnSRJ48VAwLHP4RmQLg>
+    <xmx:68qGZl4WZiWR-Tlb2t79_jMee6ZNlitElMW9E64PziaDFuC_dp3DI5oR>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Jul 2024 12:16:40 -0400 (EDT)
+ 4 Jul 2024 12:16:42 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -92,10 +92,11 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v5 4/6] media: rcar-vin: Add family compatible for R-Car Gen4 family
-Date: Thu,  4 Jul 2024 18:16:18 +0200
-Message-ID: <20240704161620.1425409-5-niklas.soderlund+renesas@ragnatech.se>
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v5 5/6] dt-bindings: media: renesas,vin: Add binding for V4M
+Date: Thu,  4 Jul 2024 18:16:19 +0200
+Message-ID: <20240704161620.1425409-6-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
@@ -108,77 +109,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add the Gen4 family compatible. This will be used instead of a SoC
-specific compatible for the new Gen4 SoC V4M. Two Gen4 boards (V3U and
-V4H) have already been added prior and their bindings need to be kept
-for backward compatibility.
+Document support for the VIN module in the Renesas V4M (r8a779h0) SoC.
+This device is compatible with the VIN module on the other Gen4 SoCs.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-* Changes since v4
-- Extend to cover V3U as well, which despite the name is the first Gen4
-  board.
-
 * Changes since v3
-- Reworked to deal with a Gen4 family compatible instead of a V4M SoC
-  specific one.
-- Dropped review tags.
-
-* Changes since v2
-- Extend commit message to explain why SoC specific compatibles are use
-  in the driver instead of adding a new Gen4 fallback to cover both V4H
-  and V4M.
-- Add review tags.
-
-* Changes since v1
-- Create a shared Gen4 info structure.
+- State in commit message that device is compatible with the other Gen4
+  device.
 ---
- .../platform/renesas/rcar-vin/rcar-core.c     | 21 ++++++++-----------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ Documentation/devicetree/bindings/media/renesas,vin.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 809c3a38cc4a..695d884a22d1 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -1274,16 +1274,7 @@ static const struct rvin_info rcar_info_r8a77995 = {
- 	.scaler = rvin_scaler_gen3,
- };
+diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+index aa16f1528f2d..cf54176f4fbd 100644
+--- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+@@ -56,6 +56,7 @@ properties:
+           - enum:
+               - renesas,vin-r8a779a0 # R-Car V3U
+               - renesas,vin-r8a779g0 # R-Car V4H
++              - renesas,vin-r8a779h0 # R-Car V4M
+           - const: renesas,rcar-gen4-vin # Generic R-Car Gen4
  
--static const struct rvin_info rcar_info_r8a779a0 = {
--	.model = RCAR_GEN3,
--	.use_mc = true,
--	.use_isp = true,
--	.nv12 = true,
--	.max_width = 4096,
--	.max_height = 4096,
--};
--
--static const struct rvin_info rcar_info_r8a779g0 = {
-+static const struct rvin_info rcar_info_gen4 = {
- 	.model = RCAR_GEN3,
- 	.use_mc = true,
- 	.use_isp = true,
-@@ -1354,12 +1345,18 @@ static const struct of_device_id rvin_of_id_table[] = {
- 		.data = &rcar_info_r8a77995,
- 	},
- 	{
-+		/* Keep to be compatible with old DTS files. */
- 		.compatible = "renesas,vin-r8a779a0",
--		.data = &rcar_info_r8a779a0,
-+		.data = &rcar_info_gen4,
- 	},
- 	{
-+		/* Keep to be compatible with old DTS files. */
- 		.compatible = "renesas,vin-r8a779g0",
--		.data = &rcar_info_r8a779g0,
-+		.data = &rcar_info_gen4,
-+	},
-+	{
-+		.compatible = "renesas,rcar-gen4-vin",
-+		.data = &rcar_info_gen4,
- 	},
- 	{ /* Sentinel */ },
- };
+   reg:
 -- 
 2.45.2
 
