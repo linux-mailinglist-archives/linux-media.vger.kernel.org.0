@@ -1,133 +1,249 @@
-Return-Path: <linux-media+bounces-14679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00CB92872C
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 12:54:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F724928751
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 12:58:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66DBBB26159
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 10:54:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A3DD31C21E52
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 10:58:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADDED14A089;
-	Fri,  5 Jul 2024 10:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9CF5149C6A;
+	Fri,  5 Jul 2024 10:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iw1/5p2I"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D6KHtm3b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96814149C4C;
-	Fri,  5 Jul 2024 10:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723A5148853
+	for <linux-media@vger.kernel.org>; Fri,  5 Jul 2024 10:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720176838; cv=none; b=itIBRGAR8gm6Q2tAplriVX4fQJiCZZn9mklDmLmVb4Bm7rgOGo9M+YnVcfvckWoHmv4MzScnQW+/MGbLwxRQzorIEQ+kpbUYcZOp/mG8OLhs0P/k8sMxKWloK69jjetMb7KYiTJTNPDNl9A6nSRZh7STWnCGx+gkPxHLjPwecI0=
+	t=1720176987; cv=none; b=qklIT/cvog5VW7+yESZh6968ra+uJA5XMicHJJBZIU8slEIjlsv/6N8ZtRxgHtBFj5ytMplSYl6Rbbq8KmcbdybwrfMTVdAIMHZ+AEwKRx4cr3o7/9ZdkQwEOd+LVaaTxazkCzZcCaWQCfhzTvpSbj4OcoXbNvqvoZFSP4XpC8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720176838; c=relaxed/simple;
-	bh=h8amntPUINJ7ndWXMfQwJ7tYIS4cbpNBwFmbAlOVLNo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E1/5KOr6wn7aDokr1M0YwUBXStKCnrigjYHq1D6MBb4WeZUIFf5Uegb/BBP599SgYxvA8wK3lrQBzvaGTXbr2h6ZGHifSCIcr0RHc25yDGLHoD6CLSVxUrh4/cY8Ri2jAH4m1l9Wzficc5CsqH1VGiIofZE0+f/aW1G7EQqCyOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iw1/5p2I; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a77c1658c68so143254766b.0;
-        Fri, 05 Jul 2024 03:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720176835; x=1720781635; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2edS2LEKf5d0A6h9VUUP+SZtkoTxowHJvKZBJd1SGM8=;
-        b=iw1/5p2Ilwxuf+inv/oshXDFcPJN/QAoFtZ4SFAlf1CecMzw9wws7LzATKRWubKYQc
-         ZtxovVohOp+PfPlFoE4Bk2M8D8W4o+6mHCOndJz72VJU3h6pxtVJ6QLlv3wBnVdUWk39
-         JExR5Ph8cS4RxPi0pO572l4pE2t4fGy7Pe/ybJ/ZjvWSw/3Mei8EX6BWq93J65EPYqc7
-         SOfqgxBtKM0GfrrsiN8Cy7GMxqGavOXMxMV0gPRwkao2MBl76WtUqmStIpVKPdwSPeLy
-         MuJocYg/tmZXK05avwbERhWL1szA1vGpMNl+Wdxl9PAft8LL1SNrSbsMdURlOTdwJrQf
-         xSlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720176835; x=1720781635;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2edS2LEKf5d0A6h9VUUP+SZtkoTxowHJvKZBJd1SGM8=;
-        b=K5j6VjLKxdxkN/vhVZN3X4fi/GgPaRso58qmiyODUMi5sF5rFj3QBhVNRwIyyC8jeP
-         JvTOMXAwLaeiib92lUbwRJBLWubs+AkT8ko+rCUJcH9FtL8OgvXKNG1bVsrkKzgEWpI7
-         /rhzucMCDfwuJqLz7WytUesIlPBS1sczBKT6PcQv6Woy/UXzG/fg3RVkWOmbJWcD15eR
-         k73W4nQYlCy2TmxyUNXR1LVqqnmBXHoXhm+y90Wxe1e7K3PTr8bc9y4eP1GTI5rD8djh
-         KZq4XzH4s+JgQG0eQfujEH2xhvUclLQOnKVTUmNUK+ar8YurK4hemOrJmlMcWQqBZUPc
-         mFrg==
-X-Forwarded-Encrypted: i=1; AJvYcCViLdTbn5sTRlkGPGJeRLRGhffm2IMKcZ4v7ag7HFuV0nugdvXvcURES8Sfh6xuPn/nrVm+5riC969g1fAUMwf8JsmEgQ0cB/iC06fD
-X-Gm-Message-State: AOJu0YwFytLj/1Z2oIfYAdrAy8N+5r3+cFIyrKO/LqwULq1ySHAzDWwt
-	d9ieIIxeuxQ1m1QfCBGks4Pk20gUErfYntoKHUWQqyLSAb0w9mZL
-X-Google-Smtp-Source: AGHT+IFNadRWExPXJOjTZFQdg1XUcFavNP1PZv9lisUfWi5s8BwuWjtUkGEoRVk6N/cXxuEcu5nsqg==
-X-Received: by 2002:a17:907:7212:b0:a77:cf9d:f497 with SMTP id a640c23a62f3a-a77cf9df678mr94136966b.40.1720176834510;
-        Fri, 05 Jul 2024 03:53:54 -0700 (PDT)
-Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf1bbcbsm670756266b.36.2024.07.05.03.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jul 2024 03:53:53 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Fri, 05 Jul 2024 12:53:51 +0200
-Subject: [PATCH 2/2] media: platform: allegro-dvt: Constify struct
- regmap_config
+	s=arc-20240116; t=1720176987; c=relaxed/simple;
+	bh=5B14zJncoK8nH09nPQeN40KUOozDs4kVBXmjA3fVpaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f/04qg5yhG1nGgHVOM31SKQVXENWoT7RZJXip5tt7Dej2ojbBpMRQgcp2+uQ5GW9zzSSdVeLcf8Ate5fG6uuk+79c6JN61azdIf90Qa1UU2MaDn4HkhNJq68NJ/QG5VKYCK2zrl6X6STm8iinJcTw71EGME/wTDPUZebt7dJC7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D6KHtm3b; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5D494CC;
+	Fri,  5 Jul 2024 12:55:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1720176953;
+	bh=5B14zJncoK8nH09nPQeN40KUOozDs4kVBXmjA3fVpaA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D6KHtm3bmOGDAidaa4zPie9yLV5+U0UHfOZbIyXjEUyLmBCMuFtaDuC9rnCjtaCVa
+	 t7ip60Tdu+ZcQUDR3jOHiATXH7Le7d9mdMB146jAo1Izr0VwyzGlB3CuyhTNURsjos
+	 TIGM8z96ebED8T4vXdk0bjsNGIj4gvopOV0wjfJM=
+Date: Fri, 5 Jul 2024 19:56:14 +0900
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v5 5/7] media: rkisp1: Cache the currently active format
+Message-ID: <ZofRTqbsyGKZr7OV@pyrite.rasen.tech>
+References: <20240703161048.247124-1-jacopo.mondi@ideasonboard.com>
+ <20240703161048.247124-6-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240705-media-const-regmap_config-v1-2-56881442bb30@gmail.com>
-References: <20240705-media-const-regmap_config-v1-0-56881442bb30@gmail.com>
-In-Reply-To: <20240705-media-const-regmap_config-v1-0-56881442bb30@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Michael Tretter <m.tretter@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720176831; l=1155;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=h8amntPUINJ7ndWXMfQwJ7tYIS4cbpNBwFmbAlOVLNo=;
- b=QmbtnTbOj36TmBEN7pxDdt2/WouV1j5ixxup9G5vfW7yb9rzWGrxI7XvvFciYYFozMqoZY4gs
- S5ShXkCt6xpD+ndtyTVgLaRBk4KkNQL1l7ZDgxvsqrP/9EZiqqxwleV
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240703161048.247124-6-jacopo.mondi@ideasonboard.com>
 
-`allegro_regmap_config` and `allegro_sram_config` are not modified and
-can be declared as const to move their data to a read-only section.
+On Wed, Jul 03, 2024 at 06:10:44PM +0200, Jacopo Mondi wrote:
+> The rkisp1-params driver assumes the data buffer format is the only
+> currently supported "fixed" one. The usage of the "fixed" format is
+> assumed when allocating memory for the scratch buffers and when
+> initializing the vb2 queue.
+> 
+> In order to prepare to support the "extensible" format beside the
+> existing "fixed" one, add support in the driver for both formats by
+> caching a pointer to the active one in the driver structure and use it
+> in the vb2 queue operations and subdev pad operations implementations.
+> 
+> Do not yet allow userspace to select between the two formats as the
+> support for the "extensible" format parsing will be introduced in a later
+> patch in the series.
+> 
+> While at it, document the un-documented ycbcr_encoding field of
+> struct rkisp1_params_ops.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
----
- drivers/media/platform/allegro-dvt/allegro-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
-diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
-index da61f9beb6b4..1a19fef62e81 100644
---- a/drivers/media/platform/allegro-dvt/allegro-core.c
-+++ b/drivers/media/platform/allegro-dvt/allegro-core.c
-@@ -179,7 +179,7 @@ struct allegro_dev {
- 	struct list_head channels;
- };
- 
--static struct regmap_config allegro_regmap_config = {
-+static const struct regmap_config allegro_regmap_config = {
- 	.name = "regmap",
- 	.reg_bits = 32,
- 	.val_bits = 32,
-@@ -188,7 +188,7 @@ static struct regmap_config allegro_regmap_config = {
- 	.cache_type = REGCACHE_NONE,
- };
- 
--static struct regmap_config allegro_sram_config = {
-+static const struct regmap_config allegro_sram_config = {
- 	.name = "sram",
- 	.reg_bits = 32,
- 	.val_bits = 32,
-
--- 
-2.40.1
-
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  8 +--
+>  .../platform/rockchip/rkisp1/rkisp1-params.c  | 52 ++++++++++++-------
+>  2 files changed, 38 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 8d520c5c71c3..43cc727a628d 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -255,7 +255,7 @@ struct rkisp1_buffer {
+>  struct rkisp1_params_buffer {
+>  	struct vb2_v4l2_buffer vb;
+>  	struct list_head queue;
+> -	struct rkisp1_params_cfg *cfg;
+> +	void *cfg;
+>  };
+>  
+>  static inline struct rkisp1_params_buffer *
+> @@ -392,8 +392,9 @@ struct rkisp1_params_ops {
+>   * @ops:		pointer to the variant-specific operations
+>   * @config_lock:	locks the buffer list 'params'
+>   * @params:		queue of rkisp1_buffer
+> - * @vdev_fmt:		v4l2_format of the metadata format
+> + * @metafmt		the currently enabled metadata format
+>   * @quantization:	the quantization configured on the isp's src pad
+> + * @ycbcr_encoding	the YCbCr encoding
+>   * @raw_type:		the bayer pattern on the isp video sink pad
+>   */
+>  struct rkisp1_params {
+> @@ -403,7 +404,8 @@ struct rkisp1_params {
+>  
+>  	spinlock_t config_lock; /* locks the buffers list 'params' */
+>  	struct list_head params;
+> -	struct v4l2_format vdev_fmt;
+> +
+> +	const struct v4l2_meta_format *metafmt;
+>  
+>  	enum v4l2_quantization quantization;
+>  	enum v4l2_ycbcr_encoding ycbcr_encoding;
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> index e333cda21fdd..45c4b1bcee63 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> @@ -35,6 +35,22 @@
+>  #define RKISP1_ISP_CC_COEFF(n) \
+>  			(RKISP1_CIF_ISP_CC_COEFF_0 + (n) * 4)
+>  
+> +enum rkisp1_params_formats {
+> +	RKISP1_PARAMS_FIXED,
+> +	RKISP1_PARAMS_EXTENSIBLE,
+> +};
+> +
+> +static const struct v4l2_meta_format rkisp1_params_formats[] = {
+> +	[RKISP1_PARAMS_FIXED] = {
+> +		.dataformat = V4L2_META_FMT_RK_ISP1_PARAMS,
+> +		.buffersize = sizeof(struct rkisp1_params_cfg),
+> +	},
+> +	[RKISP1_PARAMS_EXTENSIBLE] = {
+> +		.dataformat = V4L2_META_FMT_RK_ISP1_EXT_PARAMS,
+> +		.buffersize = sizeof(struct rkisp1_ext_params_cfg),
+> +	},
+> +};
+> +
+>  static inline void
+>  rkisp1_param_set_bits(struct rkisp1_params *params, u32 reg, u32 bit_mask)
+>  {
+> @@ -1738,7 +1754,7 @@ static int rkisp1_params_enum_fmt_meta_out(struct file *file, void *priv,
+>  	if (f->index > 0 || f->type != video->queue->type)
+>  		return -EINVAL;
+>  
+> -	f->pixelformat = params->vdev_fmt.fmt.meta.dataformat;
+> +	f->pixelformat = params->metafmt->dataformat;
+>  
+>  	return 0;
+>  }
+> @@ -1754,8 +1770,8 @@ static int rkisp1_params_g_fmt_meta_out(struct file *file, void *fh,
+>  		return -EINVAL;
+>  
+>  	memset(meta, 0, sizeof(*meta));
+> -	meta->dataformat = params->vdev_fmt.fmt.meta.dataformat;
+> -	meta->buffersize = params->vdev_fmt.fmt.meta.buffersize;
+> +	meta->dataformat = params->metafmt->dataformat;
+> +	meta->buffersize = params->metafmt->buffersize;
+>  
+>  	return 0;
+>  }
+> @@ -1798,13 +1814,15 @@ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
+>  					 unsigned int sizes[],
+>  					 struct device *alloc_devs[])
+>  {
+> +	struct rkisp1_params *params = vq->drv_priv;
+> +
+>  	*num_buffers = clamp_t(u32, *num_buffers,
+>  			       RKISP1_ISP_PARAMS_REQ_BUFS_MIN,
+>  			       RKISP1_ISP_PARAMS_REQ_BUFS_MAX);
+>  
+>  	*num_planes = 1;
+>  
+> -	sizes[0] = sizeof(struct rkisp1_params_cfg);
+> +	sizes[0] = params->metafmt->buffersize;
+>  
+>  	return 0;
+>  }
+> @@ -1813,8 +1831,10 @@ static int rkisp1_params_vb2_buf_init(struct vb2_buffer *vb)
+>  {
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>  	struct rkisp1_params_buffer *params_buf = to_rkisp1_params_buffer(vbuf);
+> +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
+>  
+> -	params_buf->cfg = kvmalloc(sizeof(*params_buf->cfg), GFP_KERNEL);
+> +	params_buf->cfg = kvmalloc(params->metafmt->buffersize,
+> +				   GFP_KERNEL);
+>  	if (!params_buf->cfg)
+>  		return -ENOMEM;
+>  
+> @@ -1919,19 +1939,6 @@ static int rkisp1_params_init_vb2_queue(struct vb2_queue *q,
+>  	return vb2_queue_init(q);
+>  }
+>  
+> -static void rkisp1_init_params(struct rkisp1_params *params)
+> -{
+> -	params->vdev_fmt.fmt.meta.dataformat =
+> -		V4L2_META_FMT_RK_ISP1_PARAMS;
+> -	params->vdev_fmt.fmt.meta.buffersize =
+> -		sizeof(struct rkisp1_params_cfg);
+> -
+> -	if (params->rkisp1->info->isp_ver == RKISP1_V12)
+> -		params->ops = &rkisp1_v12_params_ops;
+> -	else
+> -		params->ops = &rkisp1_v10_params_ops;
+> -}
+> -
+>  int rkisp1_params_register(struct rkisp1_device *rkisp1)
+>  {
+>  	struct rkisp1_params *params = &rkisp1->params;
+> @@ -1960,7 +1967,14 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1)
+>  	vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_META_OUTPUT;
+>  	vdev->vfl_dir = VFL_DIR_TX;
+>  	rkisp1_params_init_vb2_queue(vdev->queue, params);
+> -	rkisp1_init_params(params);
+> +
+> +	params->metafmt = &rkisp1_params_formats[RKISP1_PARAMS_FIXED];
+> +
+> +	if (params->rkisp1->info->isp_ver == RKISP1_V12)
+> +		params->ops = &rkisp1_v12_params_ops;
+> +	else
+> +		params->ops = &rkisp1_v10_params_ops;
+> +
+>  	video_set_drvdata(vdev, params);
+>  
+>  	node->pad.flags = MEDIA_PAD_FL_SOURCE;
+> -- 
+> 2.45.2
+> 
 
