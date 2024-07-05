@@ -1,195 +1,157 @@
-Return-Path: <linux-media+bounces-14674-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14675-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C0E928534
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 11:35:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE58928690
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 12:17:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8BA1286C02
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 09:35:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB62128750A
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 10:17:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE801474CB;
-	Fri,  5 Jul 2024 09:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A205914901C;
+	Fri,  5 Jul 2024 10:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="adsGhKVp"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="bnyhiSE+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6F8146A8D
-	for <linux-media@vger.kernel.org>; Fri,  5 Jul 2024 09:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2DA148FE4;
+	Fri,  5 Jul 2024 10:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720172142; cv=none; b=nqppiUGBtZTd4d15x9rzG97yp5XsgIwilKHblMM2Z5heb7ocfjdqpx/4rjx8Lof6OuIeWXMR2tS4rMx3AkRpzsVm1EHyVBsfTyXT21TttzhzkwyHpfLROiWJBLbVecw0eW4KKty2tQ1n3lq5gh/HkGYjXvRxoW0eF09VCxcyuIg=
+	t=1720174609; cv=none; b=jo0c2qEjNsD5FWWjACGr/YQNP2P66z8tNu4bNOpuey7pD8Fc3RRW1Aykbdvt4zCvk8mXuUvXuTIz22Y2Cxm9WTaO78cOLDcnK9jEu+q8E7yjlxK0aSyfpcNTN6xAT4i5D977+GY40bJ2lwcmqpQwDdovvnpKf+WrbBPK9tqASNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720172142; c=relaxed/simple;
-	bh=Em2aKYy3Oa1sxSVaR3TmaoDOdqW2oPw+brnPviGu67A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pWfdKhqM3uNx+z1+Vhn8Af77aiffXV6Bda9Vm9vcDFDPmycyFp6ChEww/jmjYHUUTOZMULd1bsRMwOnknPae/MKW6DkdniA8woceBg2zruXYiDly1qO5+0kLJV20kKiV4jXEqQtYilagGMaI7KkfbtWBwubDJMEoH4OFR9iLX7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=adsGhKVp; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a724958f118so171315766b.0
-        for <linux-media@vger.kernel.org>; Fri, 05 Jul 2024 02:35:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720172139; x=1720776939; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=euAXj9/Zbt00wQcV3hScVKSy3ue4FmA12Ai4cuOhm7U=;
-        b=adsGhKVpWD3IrLFez17W8HzMG5+M0WKXUsQ5XQrMsZwe3MN4oWCDIppAIBP2ysripn
-         vImKgi18UrfWod+gI7d0ykhlJk2ah2CA1oLv4/WiCPlN2hyUwU7zV3512cOVOfnzTRWC
-         cVOdLT0vhUSUXdBAPsNHiZOFcxbyqqpXFJyojDaYEMy63FyxVb/vN26bWZvfELxtMglW
-         KTf55mXFVAzYCPCMvunLafBUA2E3Hrw/TGiFSUeNsY5ImjTvXn3OSplHpQFuWUHdvQid
-         6QPgirKkIkxlhgV2YK1O4dMWDMYY7JSJ2fbkmflPsArRc22QZKsFKSm3KIHrUhCTAO7e
-         LqQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720172139; x=1720776939;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=euAXj9/Zbt00wQcV3hScVKSy3ue4FmA12Ai4cuOhm7U=;
-        b=h1U6itkqbGurrTLxum4ZfzQsqMfyh5kvQjuog3QB0ZABXViodWVqSnKlYrTyFAmlSb
-         ffXDkF7f0XyuDzL9FFe3YSb6aDHxoaML7qs2BoN6wE/w3JCeQLNbw3Km1jluXYTfCpWm
-         xjMlACdjnZxSuFC3RW0yrrC3zmwGCKFlw+6XGzmtMyDolW37rYWEfexgcsk405CQ/raN
-         fFNlJz9ChI7/71bHHf4jq66obuMMz+ieQ76JOhvPmfSteNghFMN6HepLyalGD8ptSzfV
-         zTzF7s/jgs/pT41PTWMRnc5Sp+fJL6/NRkqouSIsb/MCJGpEk2OWF0uk6d1yytFGiiNh
-         TkkA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGiZnDulNB9d26WK3ZY2rOWGrqtRCLn9cRwT3uoXMzRYvteOMGteyEnlRwSuuyhjshOcwvddQv34mCggTVnZQa7SSj3kZ+JCiGC/4=
-X-Gm-Message-State: AOJu0Yz7/HitXapvLjzylMFAefxjkpBUbXfu7wv+8DWTVojyb5IHNZdI
-	NM6GSxzLBIeqWfcp4Du+csDxLqFbOEO74SMU41MmTEWQpq2+9sUwky2GqupIw/Isva29AhiOtCR
-	9G2QPcp+oYOC2K1e6q09vnpF7jCI2gt7jZeXYxQ==
-X-Google-Smtp-Source: AGHT+IGJ8iQG2g8TrtDd3sj0/x1DvXY35ku2dMQviXNSW15txgM1PC4YZj/0UcvfS0C7PajOhp6AWzvAGJwxJW/rsBM=
-X-Received: by 2002:a17:906:578b:b0:a72:b803:a1ac with SMTP id
- a640c23a62f3a-a77ba70a6f6mr243833466b.56.1720172138772; Fri, 05 Jul 2024
- 02:35:38 -0700 (PDT)
+	s=arc-20240116; t=1720174609; c=relaxed/simple;
+	bh=N/EOLPBboZay1gD4O1r9B+Fx9evNmEYapQpBDMYSqrQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/3cgMahyZW873Ls8iGaLIm1pnE9hYa9OY2Q9uo3V6c7OVH2U3rQcAqYXgDcpiAJ9wSWW5IQvy9wg/+UC4SL4zVg19Q42JG6ER4vHJFWH9rrF5HVJVk3uRE2cm0j84fFZ44jvEUQyDN9Z/YsO7y1SOUnFBQer5EnQwByfFuSBzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=bnyhiSE+; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4658DGY1003029;
+	Fri, 5 Jul 2024 12:16:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=selector1; bh=AU9ya2EmjL7f6PRwR8NRDfqo
+	EmUnZunGxzD7XLPBGBs=; b=bnyhiSE+QYmF3tQt695vMdn0f6fkli3DP/ivuOW+
+	o24J4TNDbRkA27LLFyQovbrXoWXdgTtQ4a6n+N7AbQy1kFRMCKI3R+Rco0dyOnIe
+	aypdVsO96BdW/Qsa7Va25jAwd8rQJuyGor/0/+FDJzz/WYibEuESvF5+3a6nHiT7
+	mE8u/s5Py7DZEVpWVMuJrUXP+qL7zvH8pENOJVf5HA+ZXCCA589mk3qxn5yq+Ifi
+	Gh7B63/uw8f086sEyJFUVW2ojol6+a0wtJAkdLbHHZWAD9UzuNle+w/zml4Iaz0s
+	kmGJCQsL2uzQOPpu8U5WrzFMccwcO10JvwrfQDmOHTMiww==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 405u9suwqa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Jul 2024 12:16:27 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A47ED40049;
+	Fri,  5 Jul 2024 12:16:22 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id AE37B220B41;
+	Fri,  5 Jul 2024 12:15:49 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Fri, 5 Jul
+ 2024 12:15:49 +0200
+Date: Fri, 5 Jul 2024 12:15:44 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC: Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hugues Fruchet
+	<hugues.fruchet@st.com>,
+        Linux Stable <stable@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com"
+	<linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: stm32: dcmipp: correct error handling in,
+ dcmipp_create_subdevs
+Message-ID: <20240705101544.GA3926404@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hugues Fruchet <hugues.fruchet@st.com>,
+	Linux Stable <stable@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Linux Kernel <linux-kernel@vger.kernel.org>
+References: <2dea6faf-53f6-461a-809b-ec572357ad07@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704-add-mtk-isp-3-0-support-v5-0-bfccccc5ec21@baylibre.com>
- <20240704-add-mtk-isp-3-0-support-v5-1-bfccccc5ec21@baylibre.com>
- <20240704-catcall-stubbly-9258b056e42e@spud> <CAEHHSvb6Y8g_KCmu0bK__EP2TyPhf8i-ctMNfOGdyMUUGoKQVw@mail.gmail.com>
- <20240705-riding-overtime-642faba3dbbf@wendy>
-In-Reply-To: <20240705-riding-overtime-642faba3dbbf@wendy>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 5 Jul 2024 11:35:27 +0200
-Message-ID: <CAEHHSvZad9sSo+ubKdgwvdzjVz7mf9gqL551J+n831q+uoJOSA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] dt-bindings: media: add mediatek ISP3.0 sensor interface
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Conor Dooley <conor@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Andy Hsieh <andy.hsieh@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Louis Kuo <louis.kuo@mediatek.com>, Phi-Bang Nguyen <pnguyen@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <2dea6faf-53f6-461a-809b-ec572357ad07@xs4all.nl>
+X-Disclaimer: ce message est personnel / this message is private
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-05_06,2024-07-03_01,2024-05-17_01
 
-Le ven. 5 juil. 2024 =C3=A0 11:24, Conor Dooley
-<conor.dooley@microchip.com> a =C3=A9crit :
->
-> On Fri, Jul 05, 2024 at 09:50:59AM +0200, Julien Stephan wrote:
-> > Le jeu. 4 juil. 2024 =C3=A0 18:27, Conor Dooley <conor@kernel.org> a =
-=C3=A9crit :
-> > >
-> > > On Thu, Jul 04, 2024 at 03:36:40PM +0200, Julien Stephan wrote:
-> > > > From: Louis Kuo <louis.kuo@mediatek.com>
-> > > >
-> > > > This adds the bindings, for the mediatek ISP3.0 SENINF module embed=
-ded in
-> > > > some Mediatek SoC, such as the mt8365
-> > > >
-> > > > Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> > > > Signed-off-by: Phi-Bang Nguyen <pnguyen@baylibre.com>
-> > > > Link: https://lore.kernel.org/r/20230807094940.329165-2-jstephan@ba=
-ylibre.com
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > >
-> > > I'm really confused by the link tag here. At first glance this looked
-> > > like you were sending out something that had been applied by Laurent,
-> > > given the Link, Rb and SoB from him. Why does he have a SoB on this
-> > > patch? What did Phi-Bang Nguyen do with this patch, and should they h=
-ave
-> > > a Co-developed-by tag?
-> >
-> > I was not using b4 for the previous revisions of this series, so maybe
-> > I messed something up here :(
->
-> b4 am has an option to add a link to a patch you apply from the mailing
-> list (-l, --add-link) but you should not be using that as a contributor.
-> In this case, that link provides no value and is just confusing.
->
-> > About Phi-Bang, this series has been in our internal tree for a long
-> > time, and Phi-Bang has his SoB on it, so I kept it.
-> >
-> > About Laurent's tags, they were already on v4. But maybe it was an
-> > error ? Should I remove them?
->
-> They were also on v1. Did Laurent write part of these bindings, and
-> should he have a Co-developed-by?
->
+Hi Hans,
 
-Got it! I understood where I messed up :)
-I'll remove the link and add the Co-developed-by tag of Laurent
+On Wed, Jul 03, 2024 at 01:59:16PM +0200, Hans Verkuil wrote:
+> From: Alain Volmat <alain.volmat@foss.st.com>
+> 
+> Correct error handling within the dcmipp_create_subdevs by properly
+> decrementing the i counter when releasing the subdevs.
+> 
+> Fixes: 28e0f3772296 ("media: stm32-dcmipp: STM32 DCMIPP camera interface driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> [hverkuil: correct the indices: it's [i], not [i - 1].]
+> ---
+> The original patch would cause a crash due to the incorrect indices in the
+> statement after the while. Since 'i' can now become 0, so i - 1 would be a
+> negative index access, which was obviously not the intention.
+> 
+> I reverted the patch once I noticed this (better to hang in an infinite
+> loop than to crash), but I want to get a proper fix in. Rather than
+> waiting for that, I decided to just take the original patch from Alain, with
+> just the indices fixed.
 
-> > > > +additionalProperties: false
-> > > > +
-> > > > +if:
-> > > > +  properties:
-> > > > +    compatible:
-> > > > +      contains:
-> > > > +        const: mediatek,mt8365-seninf
-> > >
-> > > The binding supports only a single compatible, why is this complexity
-> > > required? I don't see other devices being added in this series.
-> >
-> > Right. The idea is that the number of PHYs depends on the SoC. In the
-> > previous revision of the series,
-> > the number of PHYs was not fixed, and Krzysztof asked me to fix it by
-> > SoC. So I wanted to make it clear
-> > that the number of PHYs depends on SoC but maybe I don't need that
-> > complexity for that?
-> >
-> > Is something like the following enough? And if complexity is added
-> > later if some other SoC are added?
->
-> Yes, that looks reasonable to me. Adding conditional stuff can be done
-> iff another soc re-uses the binding.
+sorry for the delay and this error within the patch.
 
-Will do in the next series.
-Thank you for your  feedback on this!
+Thanks a lot Hans and Sakari for noticing it and fixing it.
 
-Cheers
-Julien
->
-> Thanks,
-> Conor.
->
-> >     phys:
-> >       minItems: 2
-> >       maxItems: 2
-> >       description:
-> >         phandle to the PHYs connected to CSI0/A, CSI1, CSI0B
-> >
-> >     phy-names:
-> >       description:
-> >         list of PHYs names
-> >       minItems: 2
-> >       maxItems: 2
-> >       items:
-> >         type: string
-> >         enum:
-> >           - csi0
-> >           - csi1
-> >           - csi0b
-> >       uniqueItems: true
+Alain
+
+> ---
+>  drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> index 4acc3b90d03a..7f771ea49b78 100644
+> --- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> @@ -202,8 +202,8 @@ static int dcmipp_create_subdevs(struct dcmipp_device *dcmipp)
+>  	return 0;
+> 
+>  err_init_entity:
+> -	while (i > 0)
+> -		dcmipp->pipe_cfg->ents[i - 1].release(dcmipp->entity[i - 1]);
+> +	while (i-- > 0)
+> +		dcmipp->pipe_cfg->ents[i].release(dcmipp->entity[i]);
+>  	return ret;
+>  }
+> 
+> -- 
+> 2.43.0
+> 
 
