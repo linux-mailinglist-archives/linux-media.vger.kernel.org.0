@@ -1,75 +1,76 @@
-Return-Path: <linux-media+bounces-14678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14679-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A6292872A
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 12:54:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E00CB92872C
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 12:54:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C26DB284F24
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 10:54:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66DBBB26159
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jul 2024 10:54:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C70149C5E;
-	Fri,  5 Jul 2024 10:53:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADDED14A089;
+	Fri,  5 Jul 2024 10:53:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KCZluO5A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iw1/5p2I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0489414830F;
-	Fri,  5 Jul 2024 10:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96814149C4C;
+	Fri,  5 Jul 2024 10:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720176836; cv=none; b=J8SzQUn0rreRu/WefHlHjXK8JWCYR0v/5EbAyWxEEvM1uF3SNg7Nqq0mcNDOD1UnHkbCCd2pkiQ5mdkqRAnD9F9R5acbK5HJw+TWA0jLTzmN8QStk7VoJAOapFnCRXJwGuym2RielhjChyvMv/oI4K0abvuCjx3K5eijunjl8qs=
+	t=1720176838; cv=none; b=itIBRGAR8gm6Q2tAplriVX4fQJiCZZn9mklDmLmVb4Bm7rgOGo9M+YnVcfvckWoHmv4MzScnQW+/MGbLwxRQzorIEQ+kpbUYcZOp/mG8OLhs0P/k8sMxKWloK69jjetMb7KYiTJTNPDNl9A6nSRZh7STWnCGx+gkPxHLjPwecI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720176836; c=relaxed/simple;
-	bh=2stfKDi4zdLvWSg/XyKFLqH4vN1cPEdc4pHKpXnEJco=;
+	s=arc-20240116; t=1720176838; c=relaxed/simple;
+	bh=h8amntPUINJ7ndWXMfQwJ7tYIS4cbpNBwFmbAlOVLNo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TRvdNZS59nOnYb1LVmQ+Vr8YFkyt8M8drl584kFJ0ArBrG+kHQF5pk6FazT5bSmYX+UVWKmRNQfxS0Nvq6cvZ/mE/DNBjqqpfNluaVAefL532kVMYORsfGw/vZF5e4kAu42soC/LSNveCKqXiTrWOiWHQwcnYpsZuHd2+t2TbVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KCZluO5A; arc=none smtp.client-ip=209.85.208.42
+	 In-Reply-To:To:Cc; b=E1/5KOr6wn7aDokr1M0YwUBXStKCnrigjYHq1D6MBb4WeZUIFf5Uegb/BBP599SgYxvA8wK3lrQBzvaGTXbr2h6ZGHifSCIcr0RHc25yDGLHoD6CLSVxUrh4/cY8Ri2jAH4m1l9Wzficc5CsqH1VGiIofZE0+f/aW1G7EQqCyOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iw1/5p2I; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-57cbc2a2496so1866405a12.0;
-        Fri, 05 Jul 2024 03:53:54 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a77c1658c68so143254766b.0;
+        Fri, 05 Jul 2024 03:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720176833; x=1720781633; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720176835; x=1720781635; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fa49I3iE1wQ4SthXXa3RTe18/oZxwxjdSbyZ7Or2N3o=;
-        b=KCZluO5AAkj1CudQ0s2CxYdLG8gfS00mX0y0GNwGCPAU4FCC3yXCcot/+NqtyHepBm
-         YJJL4Duo8EOdv6G8XqF6guOlPATkPB8oXppTP4niXhcFU6+erP9Vd05KsOpH/4dAl9Sh
-         R3gGxn0EbBfdiIOziuMxxlwy5y21c0eCpju371Ao64j7R88tSP2Od9LHvMPL86ot6zLJ
-         AUyy1eV2yo7T82GCJRHPZrJuYbLeoX8PvObQJbIf2xE0Dq+2xEz4BCcYljLcMcHKPXEz
-         xeoxNtQZ15m45LBV6EGLwuggVpZHK9E/eDvqBQ4y8LXwm2YNW5kQkBW1e4ggrPGp0Wdn
-         +zvg==
+        bh=2edS2LEKf5d0A6h9VUUP+SZtkoTxowHJvKZBJd1SGM8=;
+        b=iw1/5p2Ilwxuf+inv/oshXDFcPJN/QAoFtZ4SFAlf1CecMzw9wws7LzATKRWubKYQc
+         ZtxovVohOp+PfPlFoE4Bk2M8D8W4o+6mHCOndJz72VJU3h6pxtVJ6QLlv3wBnVdUWk39
+         JExR5Ph8cS4RxPi0pO572l4pE2t4fGy7Pe/ybJ/ZjvWSw/3Mei8EX6BWq93J65EPYqc7
+         SOfqgxBtKM0GfrrsiN8Cy7GMxqGavOXMxMV0gPRwkao2MBl76WtUqmStIpVKPdwSPeLy
+         MuJocYg/tmZXK05avwbERhWL1szA1vGpMNl+Wdxl9PAft8LL1SNrSbsMdURlOTdwJrQf
+         xSlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720176833; x=1720781633;
+        d=1e100.net; s=20230601; t=1720176835; x=1720781635;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fa49I3iE1wQ4SthXXa3RTe18/oZxwxjdSbyZ7Or2N3o=;
-        b=EyC9N3BceivqSTyXuKm/H/+6QPx6mAvlbQ1Pq6TKLu/O2PsWTmtQAM83X0Q/2V/0wz
-         O2aRSvsbC5XgJXiujlRURJZd1aYpeNXSqbZ7v8a+P2B0Qj0KT74RKfeuakQyPNlF2WFf
-         ugsk+4058HK2DU6So+LOXe4q8gx6IFgkLNaY7tx4PlCJ0TSwfrycnTWEirpZ4MbdVqm2
-         CX6hUGrmldVSmE99ghcDw/t2onGF9ZEDL19iM+CW3znJjVKGNI9ScqAWHl0E4H4GpLQi
-         xgC/JXBXjMwlqdrYKJuWqkFuz0pYyeYGvWQxQMPLld070fzMnljRe5XXcY2kWH+N1/BC
-         JM3g==
-X-Forwarded-Encrypted: i=1; AJvYcCXGjs2Oqf6jO+Lxd2aT5l9TM0+GH8gDOtELN9pdLEyxn5VTEBBsBo9sV8vDUXbkQc3Yd7oapLEhChWYylhWIgTkgelEjrSoLrM/SP+I
-X-Gm-Message-State: AOJu0Yy6ihREpq6XiM2Sbuf4iD4y2CluX03bquU+QRu0jVdTT77LtO3C
-	AsyrtVRXMrmAbFOF/PqdeJaOSHez1U+yxGHkvcna6eIF9OxIzSGHuDSi7i5i
-X-Google-Smtp-Source: AGHT+IE0Or0HaCZJV2Sl7bbJ0tkXljV6cpf/PiySAqOIlOMK9IhOLdcrJLAgeFlczk3qarrFehBhBA==
-X-Received: by 2002:a17:906:1b51:b0:a77:c13c:2170 with SMTP id a640c23a62f3a-a77c13c2275mr198373266b.77.1720176833221;
-        Fri, 05 Jul 2024 03:53:53 -0700 (PDT)
+        bh=2edS2LEKf5d0A6h9VUUP+SZtkoTxowHJvKZBJd1SGM8=;
+        b=K5j6VjLKxdxkN/vhVZN3X4fi/GgPaRso58qmiyODUMi5sF5rFj3QBhVNRwIyyC8jeP
+         JvTOMXAwLaeiib92lUbwRJBLWubs+AkT8ko+rCUJcH9FtL8OgvXKNG1bVsrkKzgEWpI7
+         /rhzucMCDfwuJqLz7WytUesIlPBS1sczBKT6PcQv6Woy/UXzG/fg3RVkWOmbJWcD15eR
+         k73W4nQYlCy2TmxyUNXR1LVqqnmBXHoXhm+y90Wxe1e7K3PTr8bc9y4eP1GTI5rD8djh
+         KZq4XzH4s+JgQG0eQfujEH2xhvUclLQOnKVTUmNUK+ar8YurK4hemOrJmlMcWQqBZUPc
+         mFrg==
+X-Forwarded-Encrypted: i=1; AJvYcCViLdTbn5sTRlkGPGJeRLRGhffm2IMKcZ4v7ag7HFuV0nugdvXvcURES8Sfh6xuPn/nrVm+5riC969g1fAUMwf8JsmEgQ0cB/iC06fD
+X-Gm-Message-State: AOJu0YwFytLj/1Z2oIfYAdrAy8N+5r3+cFIyrKO/LqwULq1ySHAzDWwt
+	d9ieIIxeuxQ1m1QfCBGks4Pk20gUErfYntoKHUWQqyLSAb0w9mZL
+X-Google-Smtp-Source: AGHT+IFNadRWExPXJOjTZFQdg1XUcFavNP1PZv9lisUfWi5s8BwuWjtUkGEoRVk6N/cXxuEcu5nsqg==
+X-Received: by 2002:a17:907:7212:b0:a77:cf9d:f497 with SMTP id a640c23a62f3a-a77cf9df678mr94136966b.40.1720176834510;
+        Fri, 05 Jul 2024 03:53:54 -0700 (PDT)
 Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf1bbcbsm670756266b.36.2024.07.05.03.53.52
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf1bbcbsm670756266b.36.2024.07.05.03.53.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jul 2024 03:53:52 -0700 (PDT)
+        Fri, 05 Jul 2024 03:53:53 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Fri, 05 Jul 2024 12:53:50 +0200
-Subject: [PATCH 1/2] media: i2c: tvp5150: Constify struct regmap_config
+Date: Fri, 05 Jul 2024 12:53:51 +0200
+Subject: [PATCH 2/2] media: platform: allegro-dvt: Constify struct
+ regmap_config
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,7 +79,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240705-media-const-regmap_config-v1-1-56881442bb30@gmail.com>
+Message-Id: <20240705-media-const-regmap_config-v1-2-56881442bb30@gmail.com>
 References: <20240705-media-const-regmap_config-v1-0-56881442bb30@gmail.com>
 In-Reply-To: <20240705-media-const-regmap_config-v1-0-56881442bb30@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -87,35 +88,44 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720176831; l=781;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720176831; l=1155;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=2stfKDi4zdLvWSg/XyKFLqH4vN1cPEdc4pHKpXnEJco=;
- b=c2fFWb7PWWA26Ukmz3bsWMhGOG+jrdensjvPrqXq3Coyl526WnuMF9wAqUZJuQbF4JIjDBjpj
- bb/KcjY4sKHANs7Ulf/gVjTQfrej+SAF3DhRkyP76d2jIwzjk/wlJ7C
+ bh=h8amntPUINJ7ndWXMfQwJ7tYIS4cbpNBwFmbAlOVLNo=;
+ b=QmbtnTbOj36TmBEN7pxDdt2/WouV1j5ixxup9G5vfW7yb9rzWGrxI7XvvFciYYFozMqoZY4gs
+ S5ShXkCt6xpD+ndtyTVgLaRBk4KkNQL1l7ZDgxvsqrP/9EZiqqxwleV
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-`tvp5150_config` is not modified and can be declared as const to
-move its data to a read-only section.
+`allegro_regmap_config` and `allegro_sram_config` are not modified and
+can be declared as const to move their data to a read-only section.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
- drivers/media/i2c/tvp5150.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/allegro-dvt/allegro-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index 64b91aa3c82a..3205ecd60281 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -1812,7 +1812,7 @@ static const struct regmap_access_table tvp5150_readable_table = {
- 	.n_yes_ranges = ARRAY_SIZE(tvp5150_readable_ranges),
+diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+index da61f9beb6b4..1a19fef62e81 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-core.c
++++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+@@ -179,7 +179,7 @@ struct allegro_dev {
+ 	struct list_head channels;
  };
  
--static struct regmap_config tvp5150_config = {
-+static const struct regmap_config tvp5150_config = {
- 	.reg_bits = 8,
- 	.val_bits = 8,
- 	.max_register = 0xff,
+-static struct regmap_config allegro_regmap_config = {
++static const struct regmap_config allegro_regmap_config = {
+ 	.name = "regmap",
+ 	.reg_bits = 32,
+ 	.val_bits = 32,
+@@ -188,7 +188,7 @@ static struct regmap_config allegro_regmap_config = {
+ 	.cache_type = REGCACHE_NONE,
+ };
+ 
+-static struct regmap_config allegro_sram_config = {
++static const struct regmap_config allegro_sram_config = {
+ 	.name = "sram",
+ 	.reg_bits = 32,
+ 	.val_bits = 32,
 
 -- 
 2.40.1
