@@ -1,836 +1,529 @@
-Return-Path: <linux-media+bounces-14688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14689-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89582929383
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jul 2024 14:18:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE7B929A71
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 03:05:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D827EB219AA
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jul 2024 12:18:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE7FE1C20A79
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 01:05:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3305A7D07D;
-	Sat,  6 Jul 2024 12:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="W5Boj+Eq"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50621EDB;
+	Mon,  8 Jul 2024 01:05:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02968433AB
-	for <linux-media@vger.kernel.org>; Sat,  6 Jul 2024 12:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720268311; cv=pass; b=qtLQUDKDYZToDhsbazhQ3F+6KI4TVmYYXZyRtRo9nnoIR/vJFyG7TKWdcxrQuzcGn20XnDOC4VGll1QPK2fuUFCL/r21sbegE13z4sIwUJbPyjTVBTRMoG8X4FVmktIgmkJawZOTvw5VAPI6lBXCHgH7ZkTk6qIUxnaFlC6i4yY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720268311; c=relaxed/simple;
-	bh=orQbWzuQsiI8rSYKVJhAGMb1CvCsCELyt5h/TijPhuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nphna0zsIywEqTwujbClwRd+sSMeSsG55Z0A6RDGeN4CfRR0Sp1rFCiICqpdS41tHMpCr4rROwZRV6nylbqVWsY0v9Vby9sZSFDN16UiIFnsNwDnqYnq7JMcVBX97lcVoyb+9Jqtn/XV1bowANRKehdbrsXQywWgaJ0LxfmPX+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=W5Boj+Eq; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WGTtk4FTMz49Q5h;
-	Sat,  6 Jul 2024 15:18:22 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1720268303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IS/2LTqe8U0cYLYjYYJuYLiFApHXJolQZkSb760HFck=;
-	b=W5Boj+Eq1snjiDQSDU/sybk07wvlYl/9g2pJ2yTQ4tiGS/JB2O+ZYxhpWhdxExJHf/5XWa
-	zRjbe54HPV6RMNxLL+IMJ4Sts8ddXtDUg3WpkAZIpTEFmsjI3Vf0Y/wT17mUUPBjTNQgtN
-	U99fkjDUKzJE1NlvZLS7KnBXqwcPietx0UiWHd8hH3olYAN8k9aRhHz8eRve0YfzbaNVcb
-	Vkt/SMHWshua+W6NBPRgeisHgjYozwcJip0AieX9WXnh755s4d/UWpV4rwm0gc5tpC9FKC
-	2R8bW2SZ7d5lEI5a0qvX+nn8LEkx+9STa/WhuuVtyySGMS3s9z99jbzfLrt5Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1720268303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IS/2LTqe8U0cYLYjYYJuYLiFApHXJolQZkSb760HFck=;
-	b=P5Oj3+Q6XsoWI4QEWGOUkPPqkQB6xi9yEIMRRV+SqYGB6M+nTCNqLF53w+H2o7kMhxWPAy
-	snfeUZyZRSMk8lPPJd4AvjXT/J9FsNErinegftABllR+pTBeCiyXBCqDnXw9YdrO9U67Xk
-	+t2i3fpsNs56VnHpEWbRVYbHQMuqVzWOERKSILxOhbsVCFRuhJg4Sqyc/RREv1xCDFC7KF
-	sQsxFvQud+6D+eJZ9Spw3YLYk0rN0d4LfWZ2q+okFtu3/OzyCN3J85tWJIfYIDc3EpFGzO
-	6UYLlN6s5Mlf0ZeCirzK5MvZXNYcZ8cPNM/GqIOmdhM1lsaME5qIrB9afrMcnw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1720268303; a=rsa-sha256;
-	cv=none;
-	b=WYigZNYLqbEnIOORiChDJeOOiVfLOudtA7YFon6+wzjvm1NnHHrUrxOKgfBhe+KjuS6+Mn
-	srkkkqOcML48w1ubTNsmUM+lA9SkKiezDHe1imYvPkIuz1epFi14ZJdKhCONS8aq+Ma5tY
-	0cj9t8gYhyu3WD5LvOmWZLzd10ag4rknHvQj11GAB3YiSE3CMgMOmgOyODRH/x5pgBy7kO
-	rM7Np9AeI6wMvcSIFn3e4GMClM/EcBvtVtgOkaLm3zSINaFAzJzGI2YwOkvlVy9Z5JJvte
-	sZLMRiE8D3XgMfisg6HToI9s3vV4pFS9xa1rzn0ymP+/JtF4JkIKpYdVupD2uw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 48118634C93;
-	Sat,  6 Jul 2024 15:18:22 +0300 (EEST)
-Date: Sat, 6 Jul 2024 12:18:22 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v5 6/7] media: rkisp1: Implement extensible params support
-Message-ID: <Zok2Dren177xsYEr@valkosipuli.retiisi.eu>
-References: <20240703161048.247124-1-jacopo.mondi@ideasonboard.com>
- <20240703161048.247124-7-jacopo.mondi@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8638365;
+	Mon,  8 Jul 2024 01:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720400708; cv=none; b=Ocjzyb4gYKBVuQfhLkMD6ZL+C+AqWxLwyY/c88Q/GT318qIzThx6fITmmBL8oAQoMds1kYwQYDhNMtWp3AYBx3GKYHkjAnWGdr1x+qgof362DiZYbg327JCk0nqDHyN1aNtPTukmKWVDJOl+ZP9pQQckYoN5sYV6qTiYhhYKGQA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720400708; c=relaxed/simple;
+	bh=nadROCNWCSGNpP2psx2C5aggRwjnZw6OLxT40FVmKW8=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pu6pTD7tGOn5c/dUeZhot4r0YyRwR0k0e44QxLoJtJKOXeKOMDK2fuWpZvV8Y5RwDdIbQWWbp0NJ1VfjVUIUwYZk+eJ+XYq5Y/XAlwRSTSxdAmdZOPteh9Cxe8oZc0+TT9TrSNAzY+FvBnbZ6us7EG4XLCbrQGoJIoKgs/LYgh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 8 Jul
+ 2024 08:59:53 +0800
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX02.aspeed.com
+ (192.168.0.25) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 8 Jul
+ 2024 08:59:54 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Mon, 8 Jul 2024 08:59:52 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+	<andrew@aj.id.au>, <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] media: aspeed: Allow to capture from SoC display (GFX)
+Date: Mon, 8 Jul 2024 08:59:52 +0800
+Message-ID: <20240708005952.481727-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240703161048.247124-7-jacopo.mondi@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: Fail (TWMBX02.aspeed.com: domain of jammy_huang@aspeedtech.com
+ does not designate 192.168.10.10 as permitted sender)
+ receiver=TWMBX02.aspeed.com; client-ip=192.168.10.10;
+ helo=twmbx02.aspeed.com;
 
-Hi Jacopo,
+ASPEED BMC IC has 2 different display engines. Please find AST2600's
+datasheet to get detailed information.
 
-On Wed, Jul 03, 2024 at 06:10:45PM +0200, Jacopo Mondi wrote:
-> Implement support in rkisp1-params for the extensible configuration
-> parameters format.
-> 
-> Create a list of handlers for each ISP block that wraps the existing
-> configuration functions and handles the ISP block enablement.
-> 
-> Parse the configuration parameters buffer in rkisp1_ext_params_config
-> and filter the enable blocks by group, to allow setting the 'other'
-> groups separately from the 'lsc' group to support the pre/post-configure
-> operations.
-> 
-> Implement parameter buffer validation for the extensible format at
-> .buf_prepare() time.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |   3 +
->  .../platform/rockchip/rkisp1/rkisp1-params.c  | 602 +++++++++++++++++-
->  2 files changed, 591 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index 43cc727a628d..2f4bf7e97927 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -396,6 +396,7 @@ struct rkisp1_params_ops {
->   * @quantization:	the quantization configured on the isp's src pad
->   * @ycbcr_encoding	the YCbCr encoding
->   * @raw_type:		the bayer pattern on the isp video sink pad
-> + * @enabled_blocks:	bitmask of enabled ISP blocks
->   */
->  struct rkisp1_params {
->  	struct rkisp1_vdev_node vnode;
-> @@ -410,6 +411,8 @@ struct rkisp1_params {
->  	enum v4l2_quantization quantization;
->  	enum v4l2_ycbcr_encoding ycbcr_encoding;
->  	enum rkisp1_fmt_raw_pat_type raw_type;
-> +
-> +	u32 enabled_blocks;
->  };
->  
->  /*
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> index 45c4b1bcee63..3ef410337aa2 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> @@ -35,6 +35,30 @@
->  #define RKISP1_ISP_CC_COEFF(n) \
->  			(RKISP1_CIF_ISP_CC_COEFF_0 + (n) * 4)
->  
-> +#define RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS	BIT(0)
-> +#define RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC	BIT(1)
-> +
-> +union rkisp1_ext_params_config {
-> +	struct rkisp1_ext_params_block_header header;
-> +	struct rkisp1_ext_params_bls_config bls;
-> +	struct rkisp1_ext_params_dpcc_config dpcc;
-> +	struct rkisp1_ext_params_sdg_config sdg;
-> +	struct rkisp1_ext_params_lsc_config lsc;
-> +	struct rkisp1_ext_params_awb_gain_config awbg;
-> +	struct rkisp1_ext_params_flt_config flt;
-> +	struct rkisp1_ext_params_bdm_config bdm;
-> +	struct rkisp1_ext_params_ctk_config ctk;
-> +	struct rkisp1_ext_params_goc_config goc;
-> +	struct rkisp1_ext_params_dpf_config dpf;
-> +	struct rkisp1_ext_params_dpf_strength_config dpfs;
-> +	struct rkisp1_ext_params_cproc_config cproc;
-> +	struct rkisp1_ext_params_ie_config ie;
-> +	struct rkisp1_ext_params_awb_meas_config awbm;
-> +	struct rkisp1_ext_params_hst_config hst;
-> +	struct rkisp1_ext_params_aec_config aec;
-> +	struct rkisp1_ext_params_afc_config afc;
-> +};
-> +
->  enum rkisp1_params_formats {
->  	RKISP1_PARAMS_FIXED,
->  	RKISP1_PARAMS_EXTENSIBLE,
-> @@ -1519,6 +1543,451 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
->  	}
->  }
->  
-> +/*------------------------------------------------------------------------------
-> + * Extensible parameters format handling
-> + */
-> +
-> +static void
-> +rkisp1_ext_params_bls(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_bls_config *bls = &block->bls;
-> +
-> +	if (bls->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_BLS_CTRL,
-> +					RKISP1_CIF_ISP_BLS_ENA);
-> +		return;
-> +	}
-> +
-> +	rkisp1_bls_config(params, &bls->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_BLS_CTRL,
-> +				      RKISP1_CIF_ISP_BLS_ENA);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_dpcc(struct rkisp1_params *params,
-> +		       const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_dpcc_config *dpcc = &block->dpcc;
-> +
-> +	if (dpcc->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DPCC_MODE,
-> +					RKISP1_CIF_ISP_DPCC_MODE_DPCC_ENABLE);
-> +		return;
-> +	}
-> +
-> +	rkisp1_dpcc_config(params, &dpcc->config);
-> +
-> +	if (!(params->enabled_blocks &
-> +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_DPCC_MODE,
-> +				      RKISP1_CIF_ISP_DPCC_MODE_DPCC_ENABLE);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_sdg(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_sdg_config *sdg = &block->sdg;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CTRL,
-> +					RKISP1_CIF_ISP_CTRL_ISP_GAMMA_IN_ENA);
-> +		return;
-> +	}
-> +
-> +	rkisp1_sdg_config(params, &sdg->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> +				      RKISP1_CIF_ISP_CTRL_ISP_GAMMA_IN_ENA);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_lsc(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_lsc_config *lsc = &block->lsc;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_LSC_CTRL,
-> +					RKISP1_CIF_ISP_LSC_CTRL_ENA);
-> +		return;
-> +	}
-> +
-> +	rkisp1_lsc_config(params, &lsc->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_LSC_CTRL,
-> +				      RKISP1_CIF_ISP_LSC_CTRL_ENA);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_awbg(struct rkisp1_params *params,
-> +		       const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_awb_gain_config *awbg = &block->awbg;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CTRL,
-> +					RKISP1_CIF_ISP_CTRL_ISP_AWB_ENA);
-> +		return;
-> +	}
-> +
-> +	params->ops->awb_gain_config(params, &awbg->config);
-> +
-> +	if (!(params->enabled_blocks &
-> +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> +				      RKISP1_CIF_ISP_CTRL_ISP_AWB_ENA);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_flt(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_flt_config *flt = &block->flt;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_FILT_MODE,
-> +					RKISP1_CIF_ISP_FLT_ENA);
-> +		return;
-> +	}
-> +
-> +	rkisp1_flt_config(params, &flt->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_FILT_MODE,
-> +				      RKISP1_CIF_ISP_FLT_ENA);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_bdm(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_bdm_config *bdm = &block->bdm;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DEMOSAIC,
-> +					RKISP1_CIF_ISP_DEMOSAIC_BYPASS);
-> +		return;
-> +	}
-> +
-> +	rkisp1_bdm_config(params, &bdm->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_DEMOSAIC,
-> +				      RKISP1_CIF_ISP_DEMOSAIC_BYPASS);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_ctk(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_ctk_config *ctk = &block->ctk;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_ctk_enable(params, false);
-> +		return;
-> +	}
-> +
-> +	rkisp1_ctk_config(params, &ctk->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK)))
-> +		rkisp1_ctk_enable(params, true);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_goc(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_goc_config *goc = &block->goc;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CTRL,
-> +					RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
-> +		return;
-> +	}
-> +
-> +	params->ops->goc_config(params, &goc->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> +				      RKISP1_CIF_ISP_CTRL_ISP_GAMMA_OUT_ENA);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_dpf(struct rkisp1_params *params,
-> +		      const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_dpf_config *dpf = &block->dpf;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_DPF_MODE,
-> +					RKISP1_CIF_ISP_DPF_MODE_EN);
-> +		return;
-> +	}
-> +
-> +	rkisp1_dpf_config(params, &dpf->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_DPF_MODE,
-> +				      RKISP1_CIF_ISP_DPF_MODE_EN);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_dpfs(struct rkisp1_params *params,
-> +		       const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_dpf_strength_config *dpfs = &block->dpfs;
-> +
-> +	rkisp1_dpf_strength_config(params, &dpfs->config);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_cproc(struct rkisp1_params *params,
-> +			const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_cproc_config *cproc = &block->cproc;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_C_PROC_CTRL,
-> +					RKISP1_CIF_C_PROC_CTR_ENABLE);
-> +		return;
-> +	}
-> +
-> +	rkisp1_cproc_config(params, &cproc->config);
-> +
-> +	if (!(params->enabled_blocks &
-> +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_C_PROC_CTRL,
-> +				      RKISP1_CIF_C_PROC_CTR_ENABLE);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_ie(struct rkisp1_params *params,
-> +		     const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_ie_config *ie = &block->ie;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_ie_enable(params, false);
-> +		return;
-> +	}
-> +
-> +	rkisp1_ie_config(params, &ie->config);
-> +
-> +	if (!(params->enabled_blocks & BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_IE)))
-> +		rkisp1_ie_enable(params, true);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_awbm(struct rkisp1_params *params,
-> +		       const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_awb_meas_config *awbm = &block->awbm;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		params->ops->awb_meas_enable(params, &awbm->config,
-> +					     false);
-> +		return;
-> +	}
-> +
-> +	params->ops->awb_meas_config(params, &awbm->config);
-> +
-> +	if (!(params->enabled_blocks &
-> +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS)))
-> +		params->ops->awb_meas_enable(params, &awbm->config,
-> +					     true);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_hstm(struct rkisp1_params *params,
-> +		       const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_hst_config *hst = &block->hst;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		params->ops->hst_enable(params, &hst->config, false);
-> +		return;
-> +	}
-> +
-> +	params->ops->hst_config(params, &hst->config);
-> +
-> +	if (!(params->enabled_blocks &
-> +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS)))
-> +		params->ops->hst_enable(params, &hst->config, true);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_aecm(struct rkisp1_params *params,
-> +		       const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_aec_config *aec = &block->aec;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_EXP_CTRL,
-> +					RKISP1_CIF_ISP_EXP_ENA);
-> +		return;
-> +	}
-> +
-> +	params->ops->aec_config(params, &aec->config);
-> +
-> +	if (!(params->enabled_blocks &
-> +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_EXP_CTRL,
-> +				      RKISP1_CIF_ISP_EXP_ENA);
-> +}
-> +
-> +static void
-> +rkisp1_ext_params_afcm(struct rkisp1_params *params,
-> +		       const union rkisp1_ext_params_config *block)
-> +{
-> +	const struct rkisp1_ext_params_afc_config *afc = &block->afc;
-> +
-> +	if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE) {
-> +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_AFM_CTRL,
-> +					RKISP1_CIF_ISP_AFM_ENA);
-> +		return;
-> +	}
-> +
-> +	params->ops->afm_config(params, &afc->config);
-> +
-> +	if (!(params->enabled_blocks &
-> +	      BIT(RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS)))
-> +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_AFM_CTRL,
-> +				      RKISP1_CIF_ISP_AFM_ENA);
-> +}
-> +
-> +typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
-> +			     const union rkisp1_ext_params_config *config);
-> +
-> +static const struct rkisp1_ext_params_handler {
-> +	size_t size;
-> +	rkisp1_block_handler handler;
-> +	unsigned int group;
-> +} rkisp1_ext_params_handlers[] = {
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_bls_config),
-> +		.handler	= rkisp1_ext_params_bls,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_dpcc_config),
-> +		.handler	= rkisp1_ext_params_dpcc,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_sdg_config),
-> +		.handler	= rkisp1_ext_params_sdg,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_awb_gain_config),
-> +		.handler	= rkisp1_ext_params_awbg,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_flt_config),
-> +		.handler	= rkisp1_ext_params_flt,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_bdm_config),
-> +		.handler	= rkisp1_ext_params_bdm,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_ctk_config),
-> +		.handler	= rkisp1_ext_params_ctk,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_goc_config),
-> +		.handler	= rkisp1_ext_params_goc,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_dpf_config),
-> +		.handler	= rkisp1_ext_params_dpf,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_dpf_strength_config),
-> +		.handler	= rkisp1_ext_params_dpfs,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_cproc_config),
-> +		.handler	= rkisp1_ext_params_cproc,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_IE] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_ie_config),
-> +		.handler	= rkisp1_ext_params_ie,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_lsc_config),
-> +		.handler	= rkisp1_ext_params_lsc,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_awb_meas_config),
-> +		.handler	= rkisp1_ext_params_awbm,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_hst_config),
-> +		.handler	= rkisp1_ext_params_hstm,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_aec_config),
-> +		.handler	= rkisp1_ext_params_aecm,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS] = {
-> +		.size		= sizeof(struct rkisp1_ext_params_afc_config),
-> +		.handler	= rkisp1_ext_params_afcm,
-> +		.group		= RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
-> +	},
-> +};
-> +
-> +static void rkisp1_ext_params_config(struct rkisp1_params *params,
-> +				     struct rkisp1_ext_params_cfg *cfg,
-> +				     u32 block_group_mask)
-> +{
-> +	size_t block_offset = 0;
-> +
-> +	if (WARN_ON(!cfg))
-> +		return;
-> +
-> +	/* Walk the list of parameter blocks and process them. */
-> +	while (block_offset < cfg->data_size) {
-> +		const struct rkisp1_ext_params_handler *block_handler;
-> +		const union rkisp1_ext_params_config *block;
-> +
-> +		block = (const union rkisp1_ext_params_config *)
-> +			&cfg->data[block_offset];
+1. VGA on PCIe
+2. SoC Display (GFX)
 
-In validation, you only check that if full headers exist, then headers are
-fine. But here you don't perform that check, meaning you may have partial
-headers here only. Either check here, too, or check that there's no more
-data after the last block during validation.
+By default, video engine (VE) will capture video from VGA. This patch
+adds an option to capture video from GFX with standard ioctl,
+vidioc_s_input.
 
-> +		block_offset += block->header.size;
-> +
-> +		/* Make sure the block is in the list of groups to configure. */
-> +		block_handler = &rkisp1_ext_params_handlers[block->header.type];
-> +		if (!(block_handler->group & block_group_mask))
-> +			continue;
-> +
-> +		block_handler->handler(params, block);
-> +
-> +		if (block->header.enable == RKISP1_EXT_PARAMS_BLOCK_DISABLE)
-> +			params->enabled_blocks &= ~BIT(block->header.type);
-> +		else
-> +			params->enabled_blocks |= BIT(block->header.type);
-> +	}
-> +}
-> +
->  static void rkisp1_params_complete_buffer(struct rkisp1_params *params,
->  					  struct rkisp1_params_buffer *buf,
->  					  unsigned int frame_sequence)
-> @@ -1541,9 +2010,15 @@ void rkisp1_params_isr(struct rkisp1_device *rkisp1)
->  	if (!cur_buf)
->  		goto unlock;
->  
-> -	rkisp1_isp_isr_other_config(params, cur_buf->cfg);
-> -	rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
-> -	rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
-> +	if (params->metafmt->dataformat == V4L2_META_FMT_RK_ISP1_PARAMS) {
-> +		rkisp1_isp_isr_other_config(params, cur_buf->cfg);
-> +		rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
-> +		rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
-> +	} else {
-> +		rkisp1_ext_params_config(params, cur_buf->cfg,
-> +					 RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS |
-> +					 RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC);
-> +	}
->  
->  	/* update shadow register immediately */
->  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> @@ -1643,8 +2118,13 @@ void rkisp1_params_pre_configure(struct rkisp1_params *params,
->  	if (!cur_buf)
->  		goto unlock;
->  
-> -	rkisp1_isp_isr_other_config(params, cur_buf->cfg);
-> -	rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
-> +	if (params->metafmt->dataformat == V4L2_META_FMT_RK_ISP1_PARAMS) {
-> +		rkisp1_isp_isr_other_config(params, cur_buf->cfg);
-> +		rkisp1_isp_isr_meas_config(params, cur_buf->cfg);
-> +	} else {
-> +		rkisp1_ext_params_config(params, cur_buf->cfg,
-> +					 RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS);
-> +	}
->  
->  	/* update shadow register immediately */
->  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> @@ -1673,7 +2153,11 @@ void rkisp1_params_post_configure(struct rkisp1_params *params)
->  	if (!cur_buf)
->  		goto unlock;
->  
-> -	rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
-> +	if (params->metafmt->dataformat == V4L2_META_FMT_RK_ISP1_PARAMS)
-> +		rkisp1_isp_isr_lsc_config(params, cur_buf->cfg);
-> +	else
-> +		rkisp1_ext_params_config(params, cur_buf->cfg,
-> +					 RKISP1_EXT_PARAMS_BLOCK_GROUP_LSC);
->  
->  	/* update shadow register immediately */
->  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> @@ -1862,25 +2346,114 @@ static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
->  	spin_unlock_irq(&params->config_lock);
->  }
->  
-> -static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
-> +static int rkisp1_params_prepare_ext_params(struct rkisp1_params *params,
-> +					    struct vb2_buffer *vb)
->  {
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  	struct rkisp1_params_buffer *params_buf = to_rkisp1_params_buffer(vbuf);
-> -	struct rkisp1_params_cfg *cfg =
-> -		vb2_plane_vaddr(&params_buf->vb.vb2_buf, 0);
-> +	size_t header_size = offsetof(struct rkisp1_ext_params_cfg, data);
-> +	struct rkisp1_ext_params_cfg *cfg = params_buf->cfg;
-> +	size_t payload_size = vb2_get_plane_payload(vb, 0);
-> +	struct rkisp1_ext_params_cfg *usr_cfg =
-> +		vb2_plane_vaddr(&vbuf->vb2_buf, 0);
-> +	size_t block_offset = 0;
-> +	size_t cfg_size;
->  
-> -	if (vb2_get_plane_payload(vb, 0) != sizeof(*cfg))
-> +	/*
-> +	 * Validate the buffer payload size before copying the parameters.
-> +	 * The payload has to be smaller than the destination buffer size and
-> +	 * larger than the header size.
-> +	 */
-> +	if (payload_size > params->metafmt->buffersize) {
-> +		dev_dbg(params->rkisp1->dev,
-> +			"Too large buffer payload size %lu\n", payload_size);
->  		return -EINVAL;
-> +	}
-> +
-> +	if (payload_size < header_size) {
-> +		dev_dbg(params->rkisp1->dev,
-> +			"Buffer payload %lu smaller than header size %lu\n",
-> +			payload_size, header_size);
-> +		return -EINVAL;
-> +	}
->  
->  	/*
-> -	 * Copy the parameters buffer to the internal scratch buffer to avoid
-> -	 * userspace modifying the buffer content while the driver processes it.
-> +	 * Copy the parameters buffer to the internal scratch buffer to
-> +	 * avoid userspace modifying the buffer content while the driver
-> +	 * processes it.
->  	 */
-> -	memcpy(params_buf->cfg, cfg, sizeof(*cfg));
-> +	memcpy(cfg, usr_cfg, payload_size);
-> +
-> +	/* Validate the size reported in the parameters buffer header. */
-> +	cfg_size = header_size + cfg->data_size;
-> +	if (cfg_size != payload_size) {
-> +		dev_dbg(params->rkisp1->dev,
-> +			"Data size %lu larger than buffer payload size %lu\n",
-> +			cfg_size, payload_size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Walk the list of parameter blocks and validate them. */
-> +	cfg_size = cfg->data_size;
-> +	while (cfg_size >= sizeof(struct rkisp1_ext_params_block_header)) {
-> +		const struct rkisp1_ext_params_block_header *block;
-> +		const struct rkisp1_ext_params_handler *handler;
-> +
-> +		block = (const struct rkisp1_ext_params_block_header *)
-> +			&cfg->data[block_offset];
-> +
-> +		if (block->type >= ARRAY_SIZE(rkisp1_ext_params_handlers)) {
-> +			dev_dbg(params->rkisp1->dev,
-> +				"Invalid parameters block type\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (block->size > cfg_size) {
-> +			dev_dbg(params->rkisp1->dev,
-> +				"Premature end of parameters data\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		handler = &rkisp1_ext_params_handlers[block->type];
-> +		if (block->size != handler->size) {
-> +			dev_dbg(params->rkisp1->dev,
-> +				"Invalid parameters block size\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		block_offset += block->size;
-> +		cfg_size -= block->size;
-> +	}
->  
->  	return 0;
->  }
->  
-> +static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
-> +{
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct rkisp1_params_buffer *params_buf = to_rkisp1_params_buffer(vbuf);
-> +	struct rkisp1_ext_params_cfg *cfg = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
-> +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
-> +	size_t payload = vb2_get_plane_payload(vb, 0);
-> +
-> +	/* Only validate the plane payload size for fixed parameters format. */
-> +	if (params->metafmt->dataformat == V4L2_META_FMT_RK_ISP1_PARAMS) {
-> +		if (payload != sizeof(struct rkisp1_params_cfg))
-> +			return -EINVAL;
-> +
-> +		/*
-> +		 * Copy the parameters buffer to the internal scratch buffer to
-> +		 * avoid userspace modifying the buffer content while the driver
-> +		 * processes it.
-> +		 */
-> +		memcpy(params_buf->cfg, cfg, payload);
-> +
-> +		return 0;
-> +	}
-> +
-> +	return rkisp1_params_prepare_ext_params(params, vb);
-> +}
-> +
->  static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
->  {
->  	struct rkisp1_params *params = vq->drv_priv;
-> @@ -1898,6 +2471,8 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
->  
->  	list_for_each_entry(buf, &tmp_list, queue)
->  		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> +
-> +	params->enabled_blocks = 0;
->  }
->  
->  static const struct vb2_ops rkisp1_params_vb2_ops = {
-> @@ -1909,7 +2484,6 @@ static const struct vb2_ops rkisp1_params_vb2_ops = {
->  	.buf_queue = rkisp1_params_vb2_buf_queue,
->  	.buf_prepare = rkisp1_params_vb2_buf_prepare,
->  	.stop_streaming = rkisp1_params_vb2_stop_streaming,
-> -
->  };
->  
->  static const struct v4l2_file_operations rkisp1_params_fops = {
+An enum, aspeed_video_input, is added for this purpose.
+enum aspeed_video_input {
+	VIDEO_INPUT_VGA = 0,
+	VIDEO_INPUT_GFX,
+	VIDEO_INPUT_MAX
+};
 
+To test this feature, you will need to enable GFX first. Please refer to
+ASPEED's SDK_User_Guide, 6.3.x Soc Display driver, for more information.
+In your application, you will need to use v4l2 ioctl, VIDIOC_S_INPUT, as
+below to select before start streaming.
+
+int rc;
+struct v4l2_input input;
+
+input.index = VIDEO_INPUT_GFX;
+rc = ioctl(fd, VIDIOC_S_INPUT, &input);
+if (rc < 0)
+{
+	...
+}
+
+Link: https://github.com/AspeedTech-BMC/openbmc/releases
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+ drivers/media/platform/aspeed/aspeed-video.c | 189 ++++++++++++++++---
+ include/uapi/linux/aspeed-video.h            |   7 +
+ 2 files changed, 170 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+index fc6050e3be0d..79dbec113f3f 100644
+--- a/drivers/media/platform/aspeed/aspeed-video.c
++++ b/drivers/media/platform/aspeed/aspeed-video.c
+@@ -25,6 +25,8 @@
+ #include <linux/workqueue.h>
+ #include <linux/debugfs.h>
+ #include <linux/ktime.h>
++#include <linux/regmap.h>
++#include <linux/mfd/syscon.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-device.h>
+@@ -203,6 +205,25 @@
+ #define VE_MEM_RESTRICT_START		0x310
+ #define VE_MEM_RESTRICT_END		0x314
+ 
++/* SCU's registers */
++#define SCU_MISC_CTRL			0xC0
++#define  SCU_DPLL_SOURCE		BIT(20)
++
++/* GFX's registers */
++#define GFX_CTRL			0x60
++#define  GFX_CTRL_ENABLE		BIT(0)
++#define  GFX_CTRL_FMT			GENMASK(9, 7)
++
++#define GFX_H_DISPLAY			0x70
++#define  GFX_H_DISPLAY_DE		GENMASK(28, 16)
++#define  GFX_H_DISPLAY_TOTAL		GENMASK(12, 0)
++
++#define GFX_V_DISPLAY			0x78
++#define  GFX_V_DISPLAY_DE		GENMASK(27, 16)
++#define  GFX_V_DISPLAY_TOTAL		GENMASK(11, 0)
++
++#define GFX_DISPLAY_ADDR		0x80
++
+ /*
+  * VIDEO_MODE_DETECT_DONE:	a flag raised if signal lock
+  * VIDEO_RES_CHANGE:		a flag raised if res_change work on-going
+@@ -262,6 +283,7 @@ struct aspeed_video_perf {
+ /*
+  * struct aspeed_video - driver data
+  *
++ * version:		holds the version of aspeed SoC
+  * res_work:		holds the delayed_work for res-detection if unlock
+  * buffers:		holds the list of buffer queued from user
+  * flags:		holds the state of video
+@@ -273,6 +295,7 @@ struct aspeed_video_perf {
+  * yuv420:		a flag raised if JPEG subsampling is 420
+  * format:		holds the video format
+  * hq_mode:		a flag raised if HQ is enabled. Only for VIDEO_FMT_ASPEED
++ * input:		holds the video input
+  * frame_rate:		holds the frame_rate
+  * jpeg_quality:	holds jpeq's quality (0~11)
+  * jpeg_hq_quality:	holds hq's quality (1~12) only if hq_mode enabled
+@@ -298,6 +321,9 @@ struct aspeed_video {
+ 	struct video_device vdev;
+ 	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
+ 
++	struct regmap *scu;
++	struct regmap *gfx;
++	u32 version;
+ 	u32 jpeg_mode;
+ 	u32 comp_size_read;
+ 
+@@ -316,6 +342,7 @@ struct aspeed_video {
+ 	bool yuv420;
+ 	enum aspeed_video_format format;
+ 	bool hq_mode;
++	enum aspeed_video_input input;
+ 	unsigned int frame_rate;
+ 	unsigned int jpeg_quality;
+ 	unsigned int jpeg_hq_quality;
+@@ -331,21 +358,25 @@ struct aspeed_video {
+ #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+ 
+ struct aspeed_video_config {
++	u32 version;
+ 	u32 jpeg_mode;
+ 	u32 comp_size_read;
+ };
+ 
+ static const struct aspeed_video_config ast2400_config = {
++	.version = 4,
+ 	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
+ 	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+ };
+ 
+ static const struct aspeed_video_config ast2500_config = {
++	.version = 5,
+ 	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+ 	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+ };
+ 
+ static const struct aspeed_video_config ast2600_config = {
++	.version = 6,
+ 	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+ 	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
+ };
+@@ -485,6 +516,7 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
+ 
+ static const char * const format_str[] = {"Standard JPEG",
+ 	"Aspeed JPEG"};
++static const char * const input_str[] = {"VGA", "BMC GFX"};
+ 
+ static unsigned int debug;
+ 
+@@ -609,6 +641,14 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+ 		aspeed_video_free_buf(video, &video->bcd);
+ 	}
+ 
++	if (video->input == VIDEO_INPUT_GFX) {
++		u32 val;
++
++		// update input buffer address as gfx's
++		regmap_read(video->gfx, GFX_DISPLAY_ADDR, &val);
++		aspeed_video_write(video, VE_TGS_0, val);
++	}
++
+ 	spin_lock_irqsave(&video->lock, flags);
+ 	buf = list_first_entry_or_null(&video->buffers,
+ 				       struct aspeed_video_buffer, link);
+@@ -1026,9 +1066,23 @@ static void aspeed_video_get_timings(struct aspeed_video *v,
+ 	}
+ }
+ 
++static void aspeed_video_get_resolution_gfx(struct aspeed_video *video,
++					    struct v4l2_bt_timings *det)
++{
++	u32 h_val, v_val;
++
++	regmap_read(video->gfx, GFX_H_DISPLAY, &h_val);
++	regmap_read(video->gfx, GFX_V_DISPLAY, &v_val);
++
++	det->width = FIELD_GET(GFX_H_DISPLAY_DE, h_val) + 1;
++	det->height = FIELD_GET(GFX_V_DISPLAY_DE, v_val) + 1;
++	video->v4l2_input_status = 0;
++}
++
+ #define res_check(v) test_and_clear_bit(VIDEO_MODE_DETECT_DONE, &(v)->flags)
+ 
+-static void aspeed_video_get_resolution(struct aspeed_video *video)
++static void aspeed_video_get_resolution_vga(struct aspeed_video *video,
++					    struct v4l2_bt_timings *det)
+ {
+ 	bool invalid_resolution = true;
+ 	int rc;
+@@ -1036,7 +1090,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 	u32 mds;
+ 	u32 src_lr_edge;
+ 	u32 src_tb_edge;
+-	struct v4l2_bt_timings *det = &video->detected_timings;
+ 
+ 	det->width = MIN_WIDTH;
+ 	det->height = MIN_HEIGHT;
+@@ -1113,14 +1166,20 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 
+ 	aspeed_video_get_timings(video, det);
+ 
+-	/*
+-	 * Enable mode-detect watchdog, resolution-change watchdog and
+-	 * automatic compression after frame capture.
+-	 */
++	/* Enable mode-detect watchdog, resolution-change watchdog */
+ 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
+ 			    VE_INTERRUPT_MODE_DETECT_WD);
+-	aspeed_video_update(video, VE_SEQ_CTRL, 0,
+-			    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
++	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_EN_WATCHDOG);
++}
++
++static void aspeed_video_get_resolution(struct aspeed_video *video)
++{
++	struct v4l2_bt_timings *det = &video->detected_timings;
++
++	if (video->input == VIDEO_INPUT_GFX)
++		aspeed_video_get_resolution_gfx(video, det);
++	else
++		aspeed_video_get_resolution_vga(video, det);
+ 
+ 	v4l2_dbg(1, debug, &video->v4l2_dev, "Got resolution: %dx%d\n",
+ 		 det->width, det->height);
+@@ -1156,7 +1215,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+ 	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
+ 
+ 	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
+-	if (size < DIRECT_FETCH_THRESHOLD) {
++	if (video->input == VIDEO_INPUT_VGA && size < DIRECT_FETCH_THRESHOLD) {
+ 		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Sync Mode\n");
+ 		aspeed_video_write(video, VE_TGS_0,
+ 				   FIELD_PREP(VE_TGS_FIRST,
+@@ -1171,10 +1230,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+ 				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
+ 				    VE_CTRL_INT_DE);
+ 	} else {
++		u32 ctrl, val, bpp;
++
+ 		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
++		ctrl = VE_CTRL_DIRECT_FETCH;
++		if (video->input == VIDEO_INPUT_GFX) {
++			regmap_read(video->gfx, GFX_CTRL, &val);
++			bpp = FIELD_GET(GFX_CTRL_FMT, val) ? 32 : 16;
++			if (bpp == 16)
++				ctrl |= VE_CTRL_INT_DE;
++			aspeed_video_write(video, VE_TGS_1, act->width * (bpp >> 3));
++		}
+ 		aspeed_video_update(video, VE_CTRL,
+ 				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
+-				    VE_CTRL_DIRECT_FETCH);
++				    ctrl);
+ 	}
+ 
+ 	size *= 4;
+@@ -1207,6 +1276,22 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+ 		aspeed_video_free_buf(video, &video->srcs[0]);
+ }
+ 
++/*
++ * Update relative parameters when timing changed.
++ *
++ * @video: the struct of aspeed_video
++ * @timings: the new timings
++ */
++static void aspeed_video_update_timings(struct aspeed_video *video, struct v4l2_bt_timings *timings)
++{
++	video->active_timings = *timings;
++	aspeed_video_set_resolution(video);
++
++	video->pix_fmt.width = timings->width;
++	video->pix_fmt.height = timings->height;
++	video->pix_fmt.sizeimage = video->max_compressed_size;
++}
++
+ static void aspeed_video_update_regs(struct aspeed_video *video)
+ {
+ 	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
+@@ -1219,6 +1304,8 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+ 	u32 ctrl = 0;
+ 	u32 seq_ctrl = 0;
+ 
++	v4l2_dbg(1, debug, &video->v4l2_dev, "input(%s)\n",
++		 input_str[video->input]);
+ 	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
+ 		 video->frame_rate);
+ 	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
+@@ -1234,6 +1321,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+ 	else
+ 		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
+ 
++	if (video->input == VIDEO_INPUT_VGA)
++		ctrl |= VE_CTRL_AUTO_OR_CURSOR;
++
+ 	if (video->frame_rate)
+ 		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
+ 
+@@ -1252,7 +1342,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+ 	aspeed_video_update(video, VE_SEQ_CTRL,
+ 			    video->jpeg_mode | VE_SEQ_CTRL_YUV420,
+ 			    seq_ctrl);
+-	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
++	aspeed_video_update(video, VE_CTRL,
++			    VE_CTRL_FRC | VE_CTRL_AUTO_OR_CURSOR |
++			    VE_CTRL_SOURCE, ctrl);
+ 	aspeed_video_update(video, VE_COMP_CTRL,
+ 			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR |
+ 			    VE_COMP_CTRL_EN_HQ | VE_COMP_CTRL_HQ_DCT_LUM |
+@@ -1280,6 +1372,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
+ 	aspeed_video_write(video, VE_JPEG_ADDR, video->jpeg.dma);
+ 
+ 	/* Set control registers */
++	aspeed_video_write(video, VE_SEQ_CTRL, VE_SEQ_CTRL_AUTO_COMP);
+ 	aspeed_video_write(video, VE_CTRL, ctrl);
+ 	aspeed_video_write(video, VE_COMP_CTRL, VE_COMP_CTRL_RSVD);
+ 
+@@ -1311,12 +1404,7 @@ static void aspeed_video_start(struct aspeed_video *video)
+ 	aspeed_video_get_resolution(video);
+ 
+ 	/* Set timings since the device is being opened for the first time */
+-	video->active_timings = video->detected_timings;
+-	aspeed_video_set_resolution(video);
+-
+-	video->pix_fmt.width = video->active_timings.width;
+-	video->pix_fmt.height = video->active_timings.height;
+-	video->pix_fmt.sizeimage = video->max_compressed_size;
++	aspeed_video_update_timings(video, &video->detected_timings);
+ }
+ 
+ static void aspeed_video_stop(struct aspeed_video *video)
+@@ -1414,16 +1502,47 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
+ 
+ static int aspeed_video_get_input(struct file *file, void *fh, unsigned int *i)
+ {
+-	*i = 0;
++	struct aspeed_video *video = video_drvdata(file);
++
++	*i = video->input;
+ 
+ 	return 0;
+ }
+ 
+ static int aspeed_video_set_input(struct file *file, void *fh, unsigned int i)
+ {
+-	if (i)
++	struct aspeed_video *video = video_drvdata(file);
++
++	if (i >= VIDEO_INPUT_MAX)
+ 		return -EINVAL;
+ 
++	if (IS_ERR(video->scu)) {
++		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: scu isn't ready for input-control\n", __func__);
++		return -EINVAL;
++	}
++
++	if (IS_ERR(video->gfx) && i == VIDEO_INPUT_GFX) {
++		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: gfx isn't ready for GFX input\n", __func__);
++		return -EINVAL;
++	}
++
++	video->input = i;
++
++	if (video->version == 6) {
++		/* modify dpll source per current input */
++		if (video->input == VIDEO_INPUT_VGA)
++			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, 0);
++		else
++			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, SCU_DPLL_SOURCE);
++	}
++
++	aspeed_video_update_regs(video);
++
++	/* update signal status */
++	aspeed_video_get_resolution(video);
++	if (!video->v4l2_input_status)
++		aspeed_video_update_timings(video, &video->detected_timings);
++
+ 	return 0;
+ }
+ 
+@@ -1527,13 +1646,7 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
+ 	if (vb2_is_busy(&video->queue))
+ 		return -EBUSY;
+ 
+-	video->active_timings = timings->bt;
+-
+-	aspeed_video_set_resolution(video);
+-
+-	video->pix_fmt.width = timings->bt.width;
+-	video->pix_fmt.height = timings->bt.height;
+-	video->pix_fmt.sizeimage = video->max_compressed_size;
++	aspeed_video_update_timings(video, &timings->bt);
+ 
+ 	timings->type = V4L2_DV_BT_656_1120;
+ 
+@@ -1911,6 +2024,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+ 	val08 = aspeed_video_read(v, VE_CTRL);
+ 	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
+ 		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
++		seq_printf(s, "  %-20s:\t%s\n", "Input", input_str[v->input]);
+ 		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
+ 			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
+ 	} else {
+@@ -2070,12 +2184,34 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+ 	return 0;
+ }
+ 
++/*
++ * Get regmap without checking res, such as clk/reset, that could lead to
++ * conflict.
++ */
++static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
++{
++	struct device_node *syscon_np;
++	struct regmap *regmap;
++
++	syscon_np = of_parse_phandle(np, property, 0);
++	if (!syscon_np)
++		return ERR_PTR(-ENODEV);
++
++	regmap = device_node_to_regmap(syscon_np);
++	of_node_put(syscon_np);
++
++	return regmap;
++}
++
+ static int aspeed_video_init(struct aspeed_video *video)
+ {
+ 	int irq;
+ 	int rc;
+ 	struct device *dev = video->dev;
+ 
++	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
++	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
++
+ 	irq = irq_of_parse_and_map(dev->of_node, 0);
+ 	if (!irq) {
+ 		dev_err(dev, "Unable to find IRQ\n");
+@@ -2167,6 +2303,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
+ 	if (!config)
+ 		return -ENODEV;
+ 
++	video->version = config->version;
+ 	video->jpeg_mode = config->jpeg_mode;
+ 	video->comp_size_read = config->comp_size_read;
+ 
+diff --git a/include/uapi/linux/aspeed-video.h b/include/uapi/linux/aspeed-video.h
+index 6586a65548c4..15168e8c931e 100644
+--- a/include/uapi/linux/aspeed-video.h
++++ b/include/uapi/linux/aspeed-video.h
+@@ -8,6 +8,13 @@
+ 
+ #include <linux/v4l2-controls.h>
+ 
++/* aspeed video's input types */
++enum aspeed_video_input {
++	VIDEO_INPUT_VGA = 0,
++	VIDEO_INPUT_GFX,
++	VIDEO_INPUT_MAX
++};
++
+ #define V4L2_CID_ASPEED_HQ_MODE			(V4L2_CID_USER_ASPEED_BASE  + 1)
+ #define V4L2_CID_ASPEED_HQ_JPEG_QUALITY		(V4L2_CID_USER_ASPEED_BASE  + 2)
+ 
+
+base-commit: e9d22f7a6655941fc8b2b942ed354ec780936b3e
 -- 
-Kind regards,
+2.25.1
 
-Sakari Ailus
 
