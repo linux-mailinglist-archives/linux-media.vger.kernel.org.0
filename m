@@ -1,61 +1,62 @@
-Return-Path: <linux-media+bounces-14692-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14693-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A76929E45
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 10:25:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D7F929E62
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 10:39:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAAA81F2139B
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 08:25:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54DC32830C3
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 08:39:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28EC3FB1B;
-	Mon,  8 Jul 2024 08:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52DCB3BB25;
+	Mon,  8 Jul 2024 08:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZPe8A1e7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QU0g9lKY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5154B2F50A
-	for <linux-media@vger.kernel.org>; Mon,  8 Jul 2024 08:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC702033A
+	for <linux-media@vger.kernel.org>; Mon,  8 Jul 2024 08:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720427145; cv=none; b=eUU/c9c/6Ik5baKvGTo0TmlYqXdgcSAyRf89W3jTsZUgLZcFoWAXru/O8Uf7rKjMUqqmgxTbRWQ8qs0C8nRqDiDumQrx3tVrfaH0CDPvW/b6HYSVBGaYduBn1sPsDVFxY+mrSH4t9MILv+OK3RMzFy3j89K+XwNkLbN+G51ApmU=
+	t=1720427970; cv=none; b=hyFyRqJJJo2xN2Z1BEeE1xGF0KYPUcyaw1Ec3iCmE/HvIWP3GN7Zel52A6NULOXO5YyNSrLcOSqxzMPYt9oqJb86SDOdAEvlu/zbThulGwairjWU3j+Swk+RZFWlJJXCzq6LTsYPzU1NyJ5Qlxe/v+ffNF7aSfyW8jr0vOLcnaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720427145; c=relaxed/simple;
-	bh=ou2yWNsSDZZAckh4TySGqv9DAKeXtDtrpfUpvCswNPI=;
+	s=arc-20240116; t=1720427970; c=relaxed/simple;
+	bh=KOhakoqiQPkE3CIeXoqtSJ3p0/eQN1XFVgi+xjv1xLw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsdieGAULJk/4oasWT90HRWteYTq37MKUx885efZo9UCWXrwcEO/T/NedjqnjQOw1HUPx+6WWuNYFrOQjZn7KE2bGLB5idTjR2wS1QNyFDYlziTnQhEpvA/0CD9eF8BT+zv0H5HYZjqmcmXJc70R2a0LvwLk5oPUz83HLNvFiwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZPe8A1e7; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=d2BAmXckwnqPcwd/B7HtW4y3eQP8GjSmwkRU+BgkYhU341tIqbElKSTwPSlACnw5YlGZED7hVKGDqLucqIO3HmAa3j/4ObWnY8LuYlQu+ZuBRqEVvA3YjaLIKGuI3dqd2eOld/O7+upeq/5ddQQLP7DulWbi2JIW/pgKZ7d6MO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QU0g9lKY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (mob-5-90-59-142.net.vodafone.it [5.90.59.142])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F1E58D0;
-	Mon,  8 Jul 2024 10:25:07 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82D66471;
+	Mon,  8 Jul 2024 10:38:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720427107;
-	bh=ou2yWNsSDZZAckh4TySGqv9DAKeXtDtrpfUpvCswNPI=;
+	s=mail; t=1720427933;
+	bh=KOhakoqiQPkE3CIeXoqtSJ3p0/eQN1XFVgi+xjv1xLw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZPe8A1e72gCkTi+f8WOzBhlhr4UuCT5WwIYJpaBGpUM7jeZ5Thyhuz6jlwc4scMf2
-	 UEZCgewNBcQWWfWkYI3yNOg8w/9HHmGnRjX2IMhNpTz8/Uq10dfEgLZH1fnY1k0Iz4
-	 ppnnTberHtJNbuO3Hd4ym7tKNnjW1r8mZ7sTlZns=
-Date: Mon, 8 Jul 2024 10:25:34 +0200
+	b=QU0g9lKYGlbJRHzIL0Sw02YERCZ365ZX2labz0N7MjnH3E0M19evgSoFceJ3gk8eY
+	 X/AKtVTlte1bJmwHGwJM9SAW4ZSBf1MR19IUtwC7jl2hHA2tbX+Jf3Fpk2gp4Z1tSz
+	 6k1XvPqYjm1k1+wecPeeJkl6vZ4t+p4dpvJmK7Lc=
+Date: Mon, 8 Jul 2024 10:39:21 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Paul Elder <paul.elder@ideasonboard.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
+To: Paul Elder <paul.elder@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@iki.fi>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
 	Kieran Bingham <kieran.bingham@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>, 
 	Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v5 6/7] media: rkisp1: Implement extensible params support
-Message-ID: <n7s4p7a6v2ucyoybyyyvvnvfclqcnkkqz2fjpkdzsc6dg72yca@fqyo4lzt6rtr>
-References: <20240703161048.247124-1-jacopo.mondi@ideasonboard.com>
- <20240703161048.247124-7-jacopo.mondi@ideasonboard.com>
- <Zok2Dren177xsYEr@valkosipuli.retiisi.eu>
+Subject: Re: [PATCH v5.2 6/7] media: rkisp1: Implement extensible params
+ support
+Message-ID: <yqscufhtkmkdc3i62w3q3ipstmz54qegii7wpia74ylbgi2wvm@d634anvh5mrk>
+References: <20240703161048.247124-7-jacopo.mondi@ideasonboard.com>
+ <20240704095611.3035-1-laurent.pinchart@ideasonboard.com>
+ <ZofXONsj7LU4CuTS@pyrite.rasen.tech>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,15 +65,14 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Zok2Dren177xsYEr@valkosipuli.retiisi.eu>
+In-Reply-To: <ZofXONsj7LU4CuTS@pyrite.rasen.tech>
 
-Hi Sakari,
-  thanks for review
+Hi Paul
 
-On Sat, Jul 06, 2024 at 12:18:22PM GMT, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Wed, Jul 03, 2024 at 06:10:45PM +0200, Jacopo Mondi wrote:
+On Fri, Jul 05, 2024 at 08:21:28PM GMT, Paul Elder wrote:
+> On Thu, Jul 04, 2024 at 12:56:11PM +0300, Laurent Pinchart wrote:
+> > From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >
 > > Implement support in rkisp1-params for the extensible configuration
 > > parameters format.
 > >
@@ -88,16 +88,30 @@ On Sat, Jul 06, 2024 at 12:18:22PM GMT, Sakari Ailus wrote:
 > > .buf_prepare() time.
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> > Changes since v5.1:
+> >
+> > - Fix incorrect debug message
+> > - Avoid rewrapping comments unnecessarily
+> >
+> > Changes since v5:
+> >
+> > - Use correct struct type for cfg in rkisp1_params_vb2_buf_prepare()
+> > - Replace sizeof(type) with sizeof(var)
+> > - Refactor rkisp1_params_vb2_buf_prepare() to reduce indentation
 > > ---
 > >  .../platform/rockchip/rkisp1/rkisp1-common.h  |   3 +
-> >  .../platform/rockchip/rkisp1/rkisp1-params.c  | 602 +++++++++++++++++-
-> >  2 files changed, 591 insertions(+), 14 deletions(-)
+> >  .../platform/rockchip/rkisp1/rkisp1-params.c  | 598 +++++++++++++++++-
+> >  2 files changed, 589 insertions(+), 12 deletions(-)
 > >
 > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > index 43cc727a628d..2f4bf7e97927 100644
+> > index b4369bbccea3..c1689c0fa05a 100644
 > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
 > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > @@ -396,6 +396,7 @@ struct rkisp1_params_ops {
+> > @@ -401,6 +401,7 @@ struct rkisp1_params_ops {
 > >   * @quantization:	the quantization configured on the isp's src pad
 > >   * @ycbcr_encoding	the YCbCr encoding
 > >   * @raw_type:		the bayer pattern on the isp video sink pad
@@ -105,7 +119,7 @@ On Sat, Jul 06, 2024 at 12:18:22PM GMT, Sakari Ailus wrote:
 > >   */
 > >  struct rkisp1_params {
 > >  	struct rkisp1_vdev_node vnode;
-> > @@ -410,6 +411,8 @@ struct rkisp1_params {
+> > @@ -415,6 +416,8 @@ struct rkisp1_params {
 > >  	enum v4l2_quantization quantization;
 > >  	enum v4l2_ycbcr_encoding ycbcr_encoding;
 > >  	enum rkisp1_fmt_raw_pat_type raw_type;
@@ -115,7 +129,7 @@ On Sat, Jul 06, 2024 at 12:18:22PM GMT, Sakari Ailus wrote:
 > >
 > >  /*
 > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-> > index 45c4b1bcee63..3ef410337aa2 100644
+> > index 45c4b1bcee63..c216aec4252f 100644
 > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
 > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
 > > @@ -35,6 +35,30 @@
@@ -146,6 +160,14 @@ On Sat, Jul 06, 2024 at 12:18:22PM GMT, Sakari Ailus wrote:
 > > +	struct rkisp1_ext_params_afc_config afc;
 > > +};
 > > +
+>
+> I was wondering if this would cause uapi breakages if a bigger one was
+> added in the future but I see that based on how this is used it should
+> be fine.
+>
+
+Please note this is in the driver .c file and not part of the uAPI
+
 > >  enum rkisp1_params_formats {
 > >  	RKISP1_PARAMS_FIXED,
 > >  	RKISP1_PARAMS_EXTENSIBLE,
@@ -582,40 +604,23 @@ On Sat, Jul 06, 2024 at 12:18:22PM GMT, Sakari Ailus wrote:
 > > +
 > > +		block = (const union rkisp1_ext_params_config *)
 > > +			&cfg->data[block_offset];
->
-> In validation, you only check that if full headers exist, then headers are
-> fine. But here you don't perform that check, meaning you may have partial
-> headers here only. Either check here, too, or check that there's no more
-> data after the last block during validation.
-
-My preference would be for checking during validation that there is
-no data after the last valid header.
-
-I think:
-
-@@ -2438,6 +2438,12 @@ static int rkisp1_params_prepare_ext_params(struct rkisp1_params *params,
-                cfg_size -= block->size;
-        }
-
-+       if (cfg_size) {
-+               dev_dbg(params->rkisp1->dev,
-+                       "Unexpected data after the parameters buffer end\n");
-+               return -EINVAL;
-+       }
-+
-        return 0;
- }
-
-would do ?
-
-Thanks
-   j
-
->
 > > +		block_offset += block->header.size;
 > > +
 > > +		/* Make sure the block is in the list of groups to configure. */
 > > +		block_handler = &rkisp1_ext_params_handlers[block->header.type];
+>
+> Doesn't block->header.type come from userspace...? What if it's past the
+> array size...?
+>
+> Oh it's validated below in rkisp1_params_prepare_ext_params ok.
+>
+>
+> Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+>
+
+Thanks
+  j
+
 > > +		if (!(block_handler->group & block_group_mask))
 > > +			continue;
 > > +
@@ -679,7 +684,7 @@ Thanks
 > >
 > >  	/* update shadow register immediately */
 > >  	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
-> > @@ -1862,25 +2346,114 @@ static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
+> > @@ -1862,21 +2346,110 @@ static void rkisp1_params_vb2_buf_queue(struct vb2_buffer *vb)
 > >  	spin_unlock_irq(&params->config_lock);
 > >  }
 > >
@@ -701,14 +706,14 @@ Thanks
 > >
 > > -	if (vb2_get_plane_payload(vb, 0) != sizeof(*cfg))
 > > +	/*
-> > +	 * Validate the buffer payload size before copying the parameters.
-> > +	 * The payload has to be smaller than the destination buffer size and
-> > +	 * larger than the header size.
+> > +	 * Validate the buffer payload size before copying the parameters. The
+> > +	 * payload has to be smaller than the destination buffer size and larger
+> > +	 * than the header size.
 > > +	 */
 > > +	if (payload_size > params->metafmt->buffersize) {
 > > +		dev_dbg(params->rkisp1->dev,
 > > +			"Too large buffer payload size %lu\n", payload_size);
-> >  		return -EINVAL;
+> > +		return -EINVAL;
 > > +	}
 > > +
 > > +	if (payload_size < header_size) {
@@ -717,22 +722,18 @@ Thanks
 > > +			payload_size, header_size);
 > > +		return -EINVAL;
 > > +	}
-> >
-> >  	/*
-> > -	 * Copy the parameters buffer to the internal scratch buffer to avoid
-> > -	 * userspace modifying the buffer content while the driver processes it.
-> > +	 * Copy the parameters buffer to the internal scratch buffer to
-> > +	 * avoid userspace modifying the buffer content while the driver
-> > +	 * processes it.
-> >  	 */
-> > -	memcpy(params_buf->cfg, cfg, sizeof(*cfg));
+> > +
+> > +	/*
+> > +	 * Copy the parameters buffer to the internal scratch buffer to avoid
+> > +	 * userspace modifying the buffer content while the driver processes it.
+> > +	 */
 > > +	memcpy(cfg, usr_cfg, payload_size);
 > > +
 > > +	/* Validate the size reported in the parameters buffer header. */
 > > +	cfg_size = header_size + cfg->data_size;
 > > +	if (cfg_size != payload_size) {
 > > +		dev_dbg(params->rkisp1->dev,
-> > +			"Data size %lu larger than buffer payload size %lu\n",
+> > +			"Data size %lu different than buffer payload size %lu\n",
 > > +			cfg_size, payload_size);
 > > +		return -EINVAL;
 > > +	}
@@ -768,39 +769,37 @@ Thanks
 > > +		block_offset += block->size;
 > > +		cfg_size -= block->size;
 > > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
+> > +{
+> > +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
+> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > +	struct rkisp1_params_buffer *params_buf = to_rkisp1_params_buffer(vbuf);
+> > +	struct rkisp1_params_cfg *cfg = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
+> > +	size_t payload = vb2_get_plane_payload(vb, 0);
+> > +
+> > +	if (params->metafmt->dataformat == V4L2_META_FMT_RK_ISP1_EXT_PARAMS)
+> > +		return rkisp1_params_prepare_ext_params(params, vb);
+> > +
+> > +	/*
+> > +	 * For the fixed parameters format the payload size must be exactly the
+> > +	 * size of the parameters structure.
+> > +	 */
+> > +	if (payload != sizeof(*cfg))
+> >  		return -EINVAL;
+> >
+> >  	/*
+> >  	 * Copy the parameters buffer to the internal scratch buffer to avoid
+> >  	 * userspace modifying the buffer content while the driver processes it.
+> >  	 */
+> > -	memcpy(params_buf->cfg, cfg, sizeof(*cfg));
+> > +	memcpy(params_buf->cfg, cfg, payload);
 > >
 > >  	return 0;
 > >  }
-> >
-> > +static int rkisp1_params_vb2_buf_prepare(struct vb2_buffer *vb)
-> > +{
-> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > +	struct rkisp1_params_buffer *params_buf = to_rkisp1_params_buffer(vbuf);
-> > +	struct rkisp1_ext_params_cfg *cfg = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
-> > +	struct rkisp1_params *params = vb->vb2_queue->drv_priv;
-> > +	size_t payload = vb2_get_plane_payload(vb, 0);
-> > +
-> > +	/* Only validate the plane payload size for fixed parameters format. */
-> > +	if (params->metafmt->dataformat == V4L2_META_FMT_RK_ISP1_PARAMS) {
-> > +		if (payload != sizeof(struct rkisp1_params_cfg))
-> > +			return -EINVAL;
-> > +
-> > +		/*
-> > +		 * Copy the parameters buffer to the internal scratch buffer to
-> > +		 * avoid userspace modifying the buffer content while the driver
-> > +		 * processes it.
-> > +		 */
-> > +		memcpy(params_buf->cfg, cfg, payload);
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	return rkisp1_params_prepare_ext_params(params, vb);
-> > +}
-> > +
-> >  static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
-> >  {
-> >  	struct rkisp1_params *params = vq->drv_priv;
 > > @@ -1898,6 +2471,8 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
 > >
 > >  	list_for_each_entry(buf, &tmp_list, queue)
@@ -819,8 +818,4 @@ Thanks
 > >
 > >  static const struct v4l2_file_operations rkisp1_params_fops = {
 >
-> --
-> Kind regards,
->
-> Sakari Ailus
 
