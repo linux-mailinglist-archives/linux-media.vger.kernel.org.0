@@ -1,86 +1,50 @@
-Return-Path: <linux-media+bounces-14694-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14695-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A48D929F70
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 11:44:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F80892A02F
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 12:29:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB899B27C61
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 09:44:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BCE11C21804
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jul 2024 10:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F97A78C92;
-	Mon,  8 Jul 2024 09:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7745B78286;
+	Mon,  8 Jul 2024 10:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QuIACxNe"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QSKzHKWH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA2678B4E
-	for <linux-media@vger.kernel.org>; Mon,  8 Jul 2024 09:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720431727; cv=pass; b=Hy+jV+e+feVD0/01p6yKHsLTNhCy07fa0pX8aNnYKW5lB4norqn1pf0jwQwRGGyNPUx1Pyx+y+JVDbBCqCxI4Y6cr5YR3EYn66iDjAV7GVdshwOTKiqLVxJq4GCEpjPT08psdcncbi7pM72UCikJkcbdp/sxYCBwgGgMXow/bHA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720431727; c=relaxed/simple;
-	bh=s4vt3OhyrCQGydwOlg+hW/zNBbk1h21TuM1MVFzJPwU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H/8xGQNmZ1RvcGveD5pDj9jF9M60d/W6NL49J+wdTveh8kLEcitw9ccTbPBubTwEbyXnuJQENN4CowLt/b+Ix4v5DVlc2fdsIA1BHsIQe/MdLbQZ4bhRjOia7HSnxRQaHR49j1T+SZDI3gafl2eE/vvgro4Cjv9RLovgx9M1xpY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QuIACxNe; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WHfKJ1VpXz49Q3G;
-	Mon,  8 Jul 2024 12:41:56 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1720431716;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6lEjLuu/78LQJ5Bqv6D8KPxkyUa9y/Bd9QNVmJdOZao=;
-	b=QuIACxNe83gHHVjIeKRO4T7WVZoy9d7JPixFjuQ9aZh2ccO+P0A0Ra15SSE6qocr/xjAFu
-	l4FaG3AOm67BQk6JRacxYdY924URcpJ5bGu7niEnDRqn8GSGp+NSGmU5PXPIgjQ/tXmo03
-	D4w9IftL3bCmF41Bnp1F8jHkxGKFhhaQLLKg8HfsyVTjKDg147ykb821Chwm2wOW2+fOfn
-	J1RXSkW9hj59WeenpLcH2K3MH0fV94rrFeBhDcdjaIKl/G4Lrps/34IQLbRYYiGf76KD5d
-	aBc8VHJSmh9Eg/JL5ceFiyBKVoLH7qTHtindMuWzF3JrkoqEtMshZ8Zrr+9V1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1720431716;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6lEjLuu/78LQJ5Bqv6D8KPxkyUa9y/Bd9QNVmJdOZao=;
-	b=TTaWVgnNHdkgTmAfMo2K9P/vsU5pm+jYHe86VXy1yCkkyfMdkjSURulleY9hMMM2T6oe3e
-	xZqax4JXeUMUSCanBGtwKP4mJXznTIyMTBkw8fDte7//nr0IoqoaMkVczceFFcx0eQ25RD
-	qPjWl0ucWwpU4zlJIvrgdc4XciB55h30pJRf/L1EfFWQgU05apuO2d5HgmZNOlu5crx7dB
-	id5NwploZjoTCg28n/m+a9f6hJEV4WNkR+m9YJqh30fux+aHFyH+aWMCEKD9ZtkTZJMgp6
-	dUwZw7emX0L69TVN7NAbgmrzxFHG5ciHyYtZgltfSllwHWwdztAYLlQL2L3/uQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1720431716; a=rsa-sha256;
-	cv=none;
-	b=hiA9K9eUwvvlB+2/tc/3k3GVIEKIP8pmaUBkMLSOD+rX89AiIueLKdvRIgBisgedm3GAGI
-	dpiPgXNjhev16rLwhwv4Oftt/U1H4HNq+EPziIf4PjONxJ3+JwRsicw0Fd320+MgkNuv2Y
-	uXxRhZjSlO24M99+/asVq3K/wGo7/aj60x54m59k9a4gwkgyXqDi/Xp/VSxMoq4vONlKq/
-	skyuVBiLeQA51lB6PcOpfdNOmOLZwoWmbhdadtjRmYOHIjLEKk9FH/5GoV3J8153vJ9Xzh
-	PnnPUifLra5PCRUHK36szpO23b+VYxYvVEp9Xnk5MOAlTEXwu0uRpjsN3D+Lrw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5107D634C93;
-	Mon,  8 Jul 2024 12:41:54 +0300 (EEST)
-Date: Mon, 8 Jul 2024 09:41:54 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6CB7581F
+	for <linux-media@vger.kernel.org>; Mon,  8 Jul 2024 10:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720434503; cv=none; b=nwvErcK3eXz3EKB21PfiJ8mA3Or4IGLS1MnsbjqNzxJehnjOK0NowkJ+d07Ye1xjxQkQAir+2fPbr/UURr/NfSrUQgzBDCSiFLicyYnPxg9NyYyvj+2dHlstBDZ4cUml6gWHLXexh7k5omw6FBs846NUH/losWB1pSIusg0qRxQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720434503; c=relaxed/simple;
+	bh=bW0HhvJ6fjIVZGMwESxXbWyXwStxLT4Eh5m7lEBuMmk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fpaR3+tigNShL9WpqrQLwlO4pmhRfdRtxwjS2IXzBmtypMeMHzUiI5hzDcuuVzRImeNSwpVjLYY5jJ4dzOaxgEpX/DM/sn7wgOd378KbsyJdTJ2JScDqwvg1mRi4xS6Ho/jg5L/CtatAkrhze5u2gYNlrtgTvjt9NQJxv2IvNlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QSKzHKWH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-59-142.net.vodafone.it [5.90.59.142])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2ABD64C9;
+	Mon,  8 Jul 2024 12:27:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1720434468;
+	bh=bW0HhvJ6fjIVZGMwESxXbWyXwStxLT4Eh5m7lEBuMmk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QSKzHKWHiY+Um0qRabiLRt+o5j/Ln6tmtoXZR24T0MP0NRIESsCHT8UCQN60Lgxs0
+	 Frig0a7bgfJXqyGLHw5cTtXCrDiEwdZYOh6yTFZ9KRr/o6fdtSN3TtY4xJAa1fupR6
+	 sEgw+VJFa5NYnTUUAEd80GtvEB5hCDnqd/L5R+LY=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Stefan Klug <stefan.klug@ideasonboard.com>,
 	Paul Elder <paul.elder@ideasonboard.com>,
@@ -90,72 +54,107 @@ Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
 	Dafna Hirschfeld <dafna@fastmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v5 6/7] media: rkisp1: Implement extensible params support
-Message-ID: <Zou0YlPN6tWD2nWv@valkosipuli.retiisi.eu>
-References: <20240703161048.247124-1-jacopo.mondi@ideasonboard.com>
- <20240703161048.247124-7-jacopo.mondi@ideasonboard.com>
- <Zok2Dren177xsYEr@valkosipuli.retiisi.eu>
- <n7s4p7a6v2ucyoybyyyvvnvfclqcnkkqz2fjpkdzsc6dg72yca@fqyo4lzt6rtr>
+Subject: [PATCH v6 0/7] media: rkisp1: Implement support for extensible parameters
+Date: Mon,  8 Jul 2024 12:27:51 +0200
+Message-ID: <20240708102759.53297-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <n7s4p7a6v2ucyoybyyyvvnvfclqcnkkqz2fjpkdzsc6dg72yca@fqyo4lzt6rtr>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,  
+v5->v6:
+- Collect [v5.2 6/7] from Laurent
+- Collect Paul's tags
+- Add extra validation for unexpected data after the payload end as
+  suggested by Sakari
 
-On Mon, Jul 08, 2024 at 10:25:34AM +0200, Jacopo Mondi wrote:
-> > > +static void rkisp1_ext_params_config(struct rkisp1_params *params,
-> > > +				     struct rkisp1_ext_params_cfg *cfg,
-> > > +				     u32 block_group_mask)
-> > > +{
-> > > +	size_t block_offset = 0;
-> > > +
-> > > +	if (WARN_ON(!cfg))
-> > > +		return;
-> > > +
-> > > +	/* Walk the list of parameter blocks and process them. */
-> > > +	while (block_offset < cfg->data_size) {
-> > > +		const struct rkisp1_ext_params_handler *block_handler;
-> > > +		const union rkisp1_ext_params_config *block;
-> > > +
-> > > +		block = (const union rkisp1_ext_params_config *)
-> > > +			&cfg->data[block_offset];
-> >
-> > In validation, you only check that if full headers exist, then headers are
-> > fine. But here you don't perform that check, meaning you may have partial
-> > headers here only. Either check here, too, or check that there's no more
-> > data after the last block during validation.
-> 
-> My preference would be for checking during validation that there is
-> no data after the last valid header.
-> 
-> I think:
-> 
-> @@ -2438,6 +2438,12 @@ static int rkisp1_params_prepare_ext_params(struct rkisp1_params *params,
->                 cfg_size -= block->size;
->         }
-> 
-> +       if (cfg_size) {
-> +               dev_dbg(params->rkisp1->dev,
-> +                       "Unexpected data after the parameters buffer end\n");
-> +               return -EINVAL;
-> +       }
-> +
->         return 0;
->  }
-> 
-> would do ?
+v4->v5:
+- Refine validation of the ext params buffer following Laurent's suggestion
+- perform memcpy of the parameters buffer after sizes validation
 
-I believe it would. I also think it's better to address this during the
-validation.
+v3->v4:
+- Introduce 'union rkisp1_ext_params_config' to avoid casts in the block
+  handlers
 
--- 
-Kind regards,
+v2->v3:
+- Address Laurent's comments on the uAPI:
+  - rename $block_config with  just 'config'
+  - reduce header size
+  - rename a few fields/blocks
 
-Sakari Ailus
+- Address Laurent's comment on the params node:
+  - Use the plane payload for memcpy() and buffer validation
+  - drop buf_out_validate() and use buf_prepare() only
+  - validate the total buffer size against the buffer payload
+  - use const pointers where possible
+
+v1->v2:
+- re-order patches to introduce parameters buffer caching for the existing
+  "fixed" format before introducing the "extensible" format
+- align all structures to 64-bit boundaries in the uAPI
+- remove NO_CHANGE enablement state and cache a bitmask of enabled blocks
+- address review comments in documentation
+
+The VeriSilicon ISP8000 IP, supported through the rkisp1 driver in the Linux
+kernel, is integrated in several SoCs from different vendors. Different
+revisions of the IP differ in the number of supported features and in the
+register space location assigned to specific ISP blocks.
+
+The current configuration parameters format, defined in
+include/uapi/linux/rkisp1-config.h is realized by a C structure (struct
+rkisp1_params_cfg) which wraps other structures that allows to configure
+specific ISP blocks. The layout of the parameters buffer is part of the Linux
+kernel uAPI and can hardly be extended or modified to adapt it to different
+revisions of the same IP.
+
+This series proposes the introduction of a new parameters format for the RkISP1
+(without dropping support for the existing one) which is designed with the goals
+of being:
+
+1) versioned: can be changed without breaking existing applications
+2) extensible: new blocks and parameters can be added without breaking the uABI
+
+To do so, a new 'struct rkisp1_ext_params_cfg' type is introduced. It wraps an
+header and a data buffer, which userspace fills with configuration blocks
+for each ISP block it intends to configure. The parameters buffer is thus of
+different effective sizes, depending on the number of blocks userspace intends
+to configure.
+
+The kernel driver parses the data block and decides, based on the versioning
+number and the platform it operates on, how to handle each block.
+
+The parameters format is very similar to the parameters format implemented
+in the in-review Mali C55 ISP driver [1]
+
+CI pipeline [2]
+
+[1] https://lore.kernel.org/linux-media/20240529152858.183799-15-dan.scally@ideasonboard.com/
+[2] https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1219454
+
+
+Jacopo Mondi (7):
+  uapi: rkisp1-config: Add extensible parameters format
+  uapi: videodev2: Add V4L2_META_FMT_RK_ISP1_EXT_PARAMS
+  media: rkisp1: Add struct rkisp1_params_buffer
+  media: rkisp1: Copy the parameters buffer
+  media: rkisp1: Cache the currently active format
+  media: rkisp1: Implement extensible params support
+  media: rkisp1: Implement s_fmt/try_fmt
+
+ Documentation/admin-guide/media/rkisp1.rst    |  11 +-
+ .../media/v4l/metafmt-rkisp1.rst              |  57 +-
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  31 +-
+ .../platform/rockchip/rkisp1/rkisp1-params.c  | 768 ++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/rkisp1-config.h            | 489 +++++++++++
+ include/uapi/linux/videodev2.h                |   1 +
+ 7 files changed, 1289 insertions(+), 69 deletions(-)
+
+--
+2.45.2
+
 
