@@ -1,191 +1,178 @@
-Return-Path: <linux-media+bounces-14746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3DF92B6A7
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 13:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7690092B91B
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 14:14:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A2EE1F237DE
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 11:16:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02A301F22DE2
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 12:14:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D842C159583;
-	Tue,  9 Jul 2024 11:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WLwlrZRf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F88E15887F;
+	Tue,  9 Jul 2024 12:13:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2137.outbound.protection.partner.outlook.cn [139.219.17.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597D3158A2F
-	for <linux-media@vger.kernel.org>; Tue,  9 Jul 2024 11:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720523720; cv=none; b=MDpdrnOYdwpVvzXrysuZcvlhZMNCiMcGPmtJDDWkr7TVmHqziavlgLxLUriCwbaS0qZrwB0XViyKl+MLqyzhdOnP+dp+M10Bsu7nc4tDMgwtRItbNXGDwoOQ2LPMS8RrZuRN/9fPkZNGa9j5GtwDWhD1Al8QUmB8z7cszuc/rB8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720523720; c=relaxed/simple;
-	bh=cfcx6G8p3T8pC/pq4nZ7H1nIBaEARkP7ojw1BAnGFG0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R1ulkZEEPIGEmaIwW1WaiMz4tdh8GyVN5fUZSl7tWXmS4wylvdTADQaOdDa13gAeA25KLvfKHyZWienpbgDyRur9EaTVqkbXTy/QGcDEMnGrC2WfITBRFkCWcZIKmDi1ay14Pj6XoDjqsVi6MKpGl0G24lP0irmPbwn5+Pw7iUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WLwlrZRf; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-64b101294c0so46302467b3.1
-        for <linux-media@vger.kernel.org>; Tue, 09 Jul 2024 04:15:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720523716; x=1721128516; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GlQ34hWtefyEDU5dsZPE3mnjpMGOHGSvbEad+DgwTis=;
-        b=WLwlrZRfXU4/nkeYYua6LJKjOR9j4k+LedhjrmnEGz4M/+dV19iIxybeISAeA8qJoK
-         P6jcZmhyq9kePrlntRFttCA4scxKtfd+nFnsTs2NrZVWybHVQw72WMRI6cLL1A0Csipm
-         DT8JvrgdEVM6MWBzIypKAM4r/1M/2Jh2d2bpgBcChRHJSm0EgYUv4LKoacc95mn5egx3
-         PWFXILVWfQy38jrebqaxMoBCDRUB24V4OXnP+SJ6NYrlt7zvzOl6j2kfldwlWOsFTEwL
-         2hft1E0HJSMb1GMeLhYTM2VndH5DFHWGganGRdIy+3BSiH0OSc0QTAb9/I5XYmyexh3F
-         tUpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720523716; x=1721128516;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GlQ34hWtefyEDU5dsZPE3mnjpMGOHGSvbEad+DgwTis=;
-        b=t5X0V0jMN4nzY325VFr/3EpBAMfBJctu2W1sa7ehmkzcxUQAT6Gex3YjP20+Icyw6F
-         cBREvvLwEepSmTdSqrLplLdgcsWps0TfPmqqxyL+GVS1rPEMc97QEZXLzgWK8Nn1XYlA
-         K8o0hjJ0Qh9y0ldu0MqojoGlxrRTciAGn1+Q7lTD2TFmflivQDwQ4a9KpE5zI99lMS40
-         nWbDruZmfm7yizZ+tWvdP/4pE60xrw+x6Y+krYiSFXCLYQ1tAmSVhuNVP5f+zreN23zk
-         L9Zc1hO0GPQtbkJXgOj8TG1z4ndA1RpjLpqz7a00VzHhA4X8KnHrllnE3FMV6Uk2IDNT
-         GJ5A==
-X-Forwarded-Encrypted: i=1; AJvYcCVcUPD8oo+3UEImOpWFDUCF0RVCVbb1qFOfh0UI1wpw+TtxToNWKaFWLP2TiojBLugDR0K2r1wOzrXuzbKx8sinl37m/nS6su/89FM=
-X-Gm-Message-State: AOJu0Yyq2JdT4biWzGGNpivFkDdkkT3+IdN4Y7Ms1NUC7DtxVQ6gpcvx
-	n26jgXP4WM3D26D7BdUe+FfKKrEELg9uiwtbOWZz06RpsRzm5BryenSujDNpC+wa8xifGamhwQM
-	4/R2GFZQUsQ1KcF+sPFpyA0QAbbAQCWHREUYZRw==
-X-Google-Smtp-Source: AGHT+IEgeYpQ++Ei1107Pb2oobiMNHnFYl3Xkll12Nu66YXrsXqO+F2PEVXSr3dncViJMvsjSPSuVJafM5bdiPbCO3c=
-X-Received: by 2002:a81:9142:0:b0:643:9333:9836 with SMTP id
- 00721157ae682-658f09c9102mr24651797b3.38.1720523716323; Tue, 09 Jul 2024
- 04:15:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D5D13C3C9;
+	Tue,  9 Jul 2024 12:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.137
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720527235; cv=fail; b=odhDp92IDIATf2cYhT68AEmfuwVlMfMDvOogKxUwO+YuzKjrMwuwlSUV5SEjlO0yau38Gq/2DdKCm1PAUpgDbENvadEBJ3gMRtJ5kr2627zrwEsQLW0ol+ixsgyps1FaPoNbUkzA1PMSUKeZW1H7uIZAZdO5ZavlnKM/quHgitE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720527235; c=relaxed/simple;
+	bh=YXVf4i/sN9NU5gh6kvXcYEZKgS+BTdiwt8q4OM1BUc8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jXbnKluBiDG/GyJit+wJmJD0BGU7FTHaFHNhWqXeWZcKJEVHvOzelNmH+OOBt1eeSBZ6nwNpGUOKNhmVS2ilqkMBtund9Br05IftgzWhVHZK7cSzTqoTih7/nPbMPlq2Ds/HDrkYexezP78QX6Py2FqbCc88Zb+d9t0eH/fuUNQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P6vObatM8uIQh5TmBD38iST38A+WkouQOFm+c0J6z2Aow7nVP2E8vdNugiySHbMaSLuYMLSS74dBSrY+tR4SFphjSw2Ncbi0qZ546VI8+lWTGUc40NiWt7QbNMSvTggakKl2uwN4tURO0vCa3tHba++bMHsBnEs12NYJ5ZfsRRrN1eNM0TzdI1ocpwIPkFJYQbl52/R4NaNp1a5/QgA0owJVYzmehFwSsjqe64VfsQ8JQXIKXkKdMDU2nxdIRA+t2hjPjfY00ZYVtSkDTG2amvWEFHbLnsAlCashfNJ4FuwctnOlu+L8A/Oyp2Y4aupUZ3sPFZj0J5WvsKbG25v9jA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+7QPFBE9U0w7r8drB9DKAoS+4PQ5oP4sBCYlmsaH0hA=;
+ b=URaSewCn4A26Zr0RiNzv3RVZ8wLO8iBdOaVi38fYyKoBLHFG/JAWZ8wGi/bPrtbs6C4NlR/7aHEN73yzgmxSMwlCFDBA/OE7jnRRtQ3T5SH5iBI/D7J8rWU0hHMxSFMUci06LwQyU6MySmHY9LNQNZ6mOPBSC4qypC/HjW4sQ2KMIj6IGPAJh4EtdP31KIGLdRjiCmHUquZ+o77Iw1K/mA+lya8B3UlpepS/Qm6bU32jf847kHPYfEYJONgw3cWsGWC86SWLM7sV8a+vdyq0GR/+DKEJa37kPlrgtTqF9Dk0WcxWkmw5+PdgFlJYugTFyqgm3ZSCqAyjhQUmraEh/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1271.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:18::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.37; Tue, 9 Jul
+ 2024 08:38:35 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
+ with mapi id 15.20.7741.033; Tue, 9 Jul 2024 08:38:35 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>
+Cc: Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v5 03/14] media: videodev2.h, v4l2-ioctl: Add StarFive ISP meta buffer format
+Date: Tue,  9 Jul 2024 01:38:13 -0700
+Message-Id: <20240709083824.430473-4-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZQ0PR01CA0031.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:2::16) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240624044809.17751-1-quic_jkona@quicinc.com> <jgokew5qc5oxjlxvmawgkzfve4eov2shfz2ke5l4nisnidetko@ylcp4iesj3mg>
-In-Reply-To: <jgokew5qc5oxjlxvmawgkzfve4eov2shfz2ke5l4nisnidetko@ylcp4iesj3mg>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 9 Jul 2024 13:14:40 +0200
-Message-ID: <CAPDyKFqjw6i_fbgQQ_BaSgGN6FMtJShh1g-qZxOxGw4+JZM-oA@mail.gmail.com>
-Subject: Re: [PATCH V7 0/5] Add control for switching back and forth to HW control
-To: Bjorn Andersson <andersson@kernel.org>, Jagadeesh Kona <quic_jkona@quicinc.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
-	Len Brown <len.brown@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Abel Vesa <abel.vesa@linaro.org>, 
-	linux-pm@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>, 
-	Satya Priya Kakitapalli <quic_skakitap@quicinc.com>, Imran Shaik <quic_imrashai@quicinc.com>, 
-	Ajit Pandey <quic_ajipan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1271:EE_
+X-MS-Office365-Filtering-Correlation-Id: e98e7261-49af-4425-c8a2-08dc9ff285c6
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|41320700013|366016|52116014|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	3zeAzqPTbg8RNZZH6UOHa3x+OnTlCep5HB17CCiKG4kyDatL3N3yq6PI1zb3NZQ5HhX5oIm9yFexk/hJammyqZ32LUJL+rnv+CnXyBhSn7IbTyC6ZYrRemRoYFfJ5ll+2dLtl0wb7znJ85KSn4Z96mHqialhxnzOUNOpA+MAh0iNryZFlaWTM+MsqLHbyhyijbVF+l7ECPiCnpLTLomNw0l+3sOqqtsSyMzVU9cqmY6WAfFSEMZGDS8OlV/JxXrXSMfYtyJBpO0Cey9fnFEt1Yz2ZznfOzD4xsWPh0clEjsENf7bUdFG5XmsVAXARYxU3/KygEqzuSC/M2MyG+pJbln4lqqLT42mfgW732hp5RBDspYEqHrF13swlEZWSZAExoMnk0+QixTksUewVdeqx/p3/S3cjnTeka43e6nrMMLENvNVCoTDFEM/kRExnhr6plEmO4AGWJoQYspxknqTeQ+XRIQnWwN5d9PuNn6xle315iGdrH1sH0wKnVChhCTFOAta/7hEU0yv0seJ3dqsWmFS12j0Qp5ly1gQoxCcBKd3Ju5JGaPp2htysL/o98jD6TMzjv+Jg7peUTdTD9gdsgtKliybUq3GXYEXOOJwJEDD/hQJzAO5v4dcVdr3zqrb
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(41320700013)(366016)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SsdPeC37s9Mg9lqPQwM5fOKx6+AOjgY1ONfdZeTY6GrddXZo2o6blvWqR6F4?=
+ =?us-ascii?Q?qyDK+7Kl9XeqOO7lgXJWC76P0JMXYUdXWXKagjJNEFbRaQ9Kn2zDDUrSsgai?=
+ =?us-ascii?Q?2/I41HQu9tq076kVUGrwr0yJtXdncRqK8kH+5CSD5KfG0gwFVuqL57BnGjkr?=
+ =?us-ascii?Q?P0lL+MGMBdAgAy6bb/XsPoCoX8eh+ClZSIsmUshHSST3Dlh5mxuqhavS9wYC?=
+ =?us-ascii?Q?BY8t6Vm1x/IsBLTWMO/+VKxYqfL9IDtDIKZnNX97B68/wUysCLTm/+BasG70?=
+ =?us-ascii?Q?NK/pfrkAuKfCdV3cj1hCGmlFegzyDcfFRfj6/iS22rQCCdPKAWiCpbMAg3sG?=
+ =?us-ascii?Q?Gr9WC60eNBu2SMBaDzdtIjiCUAugA+B3bzyxqRpZajdO+y60J46gAHz22dTZ?=
+ =?us-ascii?Q?JDICdf/TPN5ZeGgqeIHN6oyvDPP1uR24LaA0G/zQRo8r5Tj0OOyn/Ivt7EE3?=
+ =?us-ascii?Q?BUN28Cc6ReuVFVcHeqrJM2cYuVm64nGnVb1RCMQELmefWUB6T9a0nhvD0L+i?=
+ =?us-ascii?Q?GZ7mHQOwuiox0Sgju12qTpve7r+Vt6CmFe2C2bCRPSIu7pQY3C+06YX/gjy+?=
+ =?us-ascii?Q?gW7i0ntfR/LCz1zspkNftNAewinHy+8jTXsZ7NlkKQH0dZA/QQsb96krz0AM?=
+ =?us-ascii?Q?c1IJv2xQjydJ/dMwUj08hZiqlIdhObOvkCUraLiaPhQR6cUeYtTc9S0Rk1Gn?=
+ =?us-ascii?Q?HGbmrVXHgb3BRhxIWZuw4GbMai6lalr2suBk4gXF2j+KqAi0sP8+mMFzGfG6?=
+ =?us-ascii?Q?1FoLXPkXeKIl3kAsnH0ARGsm9akvt5TFL9m0ALaaRl/y5FIlu56pH1GAS9gC?=
+ =?us-ascii?Q?mA1U4C8dc31fhN83G0drAs7t642L2SqK00gZqgeoj5dPWa//L3oXeikBtkSs?=
+ =?us-ascii?Q?ULj555ukSntVcaxQitFkfKlVLqHRLJvqCJZbOyrmgAScmUrIh2BlmbAF9U4c?=
+ =?us-ascii?Q?NtICHG5V1X9eXl23tui+72dzFsqPXWCcQKhrkMrn7VwcUY8jl+BlwEKcaJzJ?=
+ =?us-ascii?Q?5cHJGlj6lex9xyAMTRczj0lewp+7y+FHFBaMfKFPUGrHL60C3TIAxif9A2Z0?=
+ =?us-ascii?Q?dX85X1ihfWuhgK4rdjNKcRaEQrW/i4ObQV3/SBBBDHS8hkYVKVjAA86h3AJB?=
+ =?us-ascii?Q?C3ftPCEFUmQwWAE2N2/zsnHTbIerKC/GZf1uIJ+WTJKKTrkrL3ES1gca/DSF?=
+ =?us-ascii?Q?ZONusxJHGi6DEW0+94EJTSsqwAZ9xdf3rb/iCiog5U1NpWA6G3LLNtwEHFMq?=
+ =?us-ascii?Q?owILuYiN0JOd42gk+VAO22XE57N25/CcqPIrhhbOrbFlpaecvGPGcAZajuW4?=
+ =?us-ascii?Q?ChmlE3SgNdQDZysgfFhY9xJ8cXIhzv/4R+3ANBYrdvQy6aAqoJkbte2PtQkA?=
+ =?us-ascii?Q?kUB5kePeWnoNyBNFONfemehve9KD8da7NQyfUFlcauhnxa8B8oWKbn9VzdDy?=
+ =?us-ascii?Q?kiZRC7d1Naww4NwoLzkvkNPHUS3zKvthrn9UcQYwm/BUM8uzv08iHAMP6Z/v?=
+ =?us-ascii?Q?dfQblaadVah195E9o19dLi5sZusnkmk2ELioQga0NiN0UVO56Ft39GsF+pFU?=
+ =?us-ascii?Q?NGBKv1cyF2mId+N5u2E11QO/B3TITFdmaZrqnIN0kHQmrqf4hBvNYao819vW?=
+ =?us-ascii?Q?ZdRt3KYJeMU9mz1fCnlxIcs=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e98e7261-49af-4425-c8a2-08dc9ff285c6
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2024 08:38:35.6296
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5KRyTcXmWzV3ZGc3QKrD/p292/y3Sn5eddM9Rea7JuGpAD+Mu5Zacsxp6w2/5NEiaPmisOLp56Upd5XOYLbv1rLNyngQgJLlKszhb+dh1BWhxDrdznNV5aThw+bY3WXS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1271
 
-On Wed, 3 Jul 2024 at 05:11, Bjorn Andersson <andersson@kernel.org> wrote:
->
-> On Mon, Jun 24, 2024 at 10:18:04AM GMT, Jagadeesh Kona wrote:
-> > This series adds support for dev_pm_genpd_set_hwmode() and dev_pm_genpd_get_hwmode() APIs
-> > and support in gdsc genpd provider drivers to register respective callbacks and a venus
-> > consumer driver example using above API to switch the power domain(GDSC) to HW/SW modes
-> > dynamically at runtime.
-> >
->
-> Ulf, I discussed the concerns I had with Taniya and I think this looks
-> good. Please pick the gdsc/clock patches through the pmdomain tree.
->
-> Regards,
-> Bjorn
+Add the StarFive ISP specific metadata format
+V4L2_META_FMT_STF_ISP_PARAMS & V4L2_META_FMT_STF_ISP_STAT_3A for 3A.
 
-The series applied for next, thanks!
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
+ include/uapi/linux/videodev2.h       | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-Kind regards
-Uffe
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 4c76d17b4629..8770bfb31c5c 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1456,6 +1456,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+ 	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
+ 	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
++	case V4L2_META_FMT_STF_ISP_PARAMS:	descr = "StarFive ISP 3A Parameters"; break;
++	case V4L2_META_FMT_STF_ISP_STAT_3A:	descr = "StarFive ISP 3A Statistics"; break;
+ 	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index fe6b67e83751..cfcbfe9bf973 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -841,6 +841,10 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 3A Parameters */
+ #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
+ 
++/* Vendor specific - used for StarFive JH7110 ISP camera sub-system */
++#define V4L2_META_FMT_STF_ISP_PARAMS	v4l2_fourcc('S', 'T', 'F', 'P') /* StarFive ISP 3A Parameters */
++#define V4L2_META_FMT_STF_ISP_STAT_3A	v4l2_fourcc('S', 'T', 'F', 'S') /* StarFive ISP 3A Statistics */
++
+ #ifdef __KERNEL__
+ /*
+  * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
+-- 
+2.25.1
 
-
->
-> > Changes in V7:
-> > - [PATCH 3/5]: Updated the comment description in gdsc_set_hwmode as per V6 review comments
-> > - Added R-By tags received on V6
-> > - Link to V6: https://lore.kernel.org/all/20240619141413.7983-1-quic_jkona@quicinc.com/
-> >
-> > Changes in V6:
-> > - [PATCH 3/5]: Added details for 1usec delay in gdsc_set_hwmode()
-> > - [PATCH 4/5]: Updated commit text
-> > - Added R-By and T-By tags received on V5 RESEND
-> > - Link to V5 RESEND: https://lore.kernel.org/all/20240413152013.22307-1-quic_jkona@quicinc.com/
-> > - Link to V5: https://lore.kernel.org/all/20240315111046.22136-1-quic_jkona@quicinc.com/
-> >
-> > Changes in V5:
-> > - Updated 1st patch as per V4 review comments to synchronize the initial HW mode state by
-> >   invoking ->get_hwmode_dev()callback in genpd_add_device()
-> > - With above change, SW cached hwmode will contain correct value initially, and it will be
-> >   updated everytime mode is changed in set_hwmode, hence updated dev_pm_genpd_get_hwmode()
-> >   to just return SW cached hwmode in 1st patch
-> > - Updated commit text for 1st, 3rd, 4th and 5th patches
-> > - Updated 3rd and 5th patches as per review comments received on V4 series
-> > - Added R-By tags received in older series to 1st and 2nd patches
-> > - Link to V4: https://lore.kernel.org/all/20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org/
-> >
-> > Changes in V4:
-> >  - Re-worded 1st patch commit message, as per Bjorn's suggestion, and added
-> >    Dmitry's R-b tag
-> >  - Added Bjorn's and Dmitry's R-b tags to the 2nd patch
-> >  - Re-worded 3rd patch commit message, to better explain the HW_CTRL_TRIGGER flag.
-> >  - Added mode transition delay when setting mode for GDSC
-> >  - Added status polling if GDSSC is enabled when transitioning from HW to SW
-> >  - Re-worded 4th patch commit message to better explain why the
-> >    HW_CTRL_TRIGGER needs to be used instead
-> >  - Drop changes to SC7180, SDM845 and SM8550 video CC drivers, as only
-> >    SC7280 and SM8250 have been tested so far. More platforms (with v6 venus)
-> >    will be added eventually.
-> >  - Call genpd set_hwmode API only for v6 and dropped the vcodec_pmdomains_hwctrl.
-> >  - Re-worded 5th patch commit message accordingly.
-> >  - Link to V3: https://lore.kernel.org/lkml/20230823114528.3677667-1-abel.vesa@linaro.org/
-> >
-> > Changes in V3:
-> >  - 5th patch has been squashed in the 4th one
-> >  - Link to V2: https://lore.kernel.org/lkml/20230816145741.1472721-1-abel.vesa@linaro.org/
-> >
-> > Changes in V2:
-> >  - patch for printing domain HW-managed mode in the summary
-> >  - patch that adds one consumer (venus)
-> >  - patch for gdsc with new (different) flag
-> >  - patch for videocc GDSC provider to update flags
-> >  - Link to V1: https://lore.kernel.org/all/20230628105652.1670316-1-abel.vesa@linaro.org/
-> >
-> > Abel Vesa (1):
-> >   PM: domains: Add the domain HW-managed mode to the summary
-> >
-> > Jagadeesh Kona (3):
-> >   clk: qcom: gdsc: Add set and get hwmode callbacks to switch GDSC mode
-> >   clk: qcom: videocc: Use HW_CTRL_TRIGGER for SM8250, SC7280 vcodec
-> >     GDSC's
-> >   venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on
-> >     V6
-> >
-> > Ulf Hansson (1):
-> >   PM: domains: Allow devices attached to genpd to be managed by HW
-> >
-> >  drivers/clk/qcom/gdsc.c                       | 41 ++++++++++
-> >  drivers/clk/qcom/gdsc.h                       |  1 +
-> >  drivers/clk/qcom/videocc-sc7280.c             |  2 +-
-> >  drivers/clk/qcom/videocc-sm8250.c             |  4 +-
-> >  .../media/platform/qcom/venus/pm_helpers.c    | 39 ++++++----
-> >  drivers/pmdomain/core.c                       | 78 ++++++++++++++++++-
-> >  include/linux/pm_domain.h                     | 17 ++++
-> >  7 files changed, 161 insertions(+), 21 deletions(-)
-> >
-> > --
-> > 2.43.0
-> >
 
