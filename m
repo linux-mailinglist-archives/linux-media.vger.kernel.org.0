@@ -1,199 +1,159 @@
-Return-Path: <linux-media+bounces-14795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD4792C23C
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 19:20:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEBB92C2C0
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 19:44:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BEACB24A9C
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 17:18:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82932283862
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 17:44:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5829E15B116;
-	Tue,  9 Jul 2024 17:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E0B180034;
+	Tue,  9 Jul 2024 17:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ewCWYayD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5685F1B86CA;
-	Tue,  9 Jul 2024 17:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623E317B03A
+	for <linux-media@vger.kernel.org>; Tue,  9 Jul 2024 17:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720545504; cv=none; b=Co9KcPkD9Csx+jcrVY+zErm1RcGKWHmYxqMiF77np1rvIgq1cD9E9jZd64moCYsi/lRp0uk4tB16Y3cLPW9GlnDJWp0K0nLF58ItMC57zkjOsB75ccYYgXXiPs3lx3XuA6OtZL4dXrvmw/BQeX3/tOY0DcViTdk+bQO95LWOAfg=
+	t=1720547075; cv=none; b=cjnBEMx8Nip4aI7y6z+cw3GiCjKQD3ggN5p3s/68eqLhcoFs2TThnJ6pIisLHk+KcSh/TlfoCKqkVOi6dXP9KJWED0C8ahyLL38h+8jTauBHzRV06Ks340ZCr73Ag3ueApIAn0xfN5d17LdNmbmh8ag3VQzPvJ3s6n3Cp8pey/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720545504; c=relaxed/simple;
-	bh=dDYjlvdOukoB51Fv46MKa71KJ52MdbQvPCavAdr9N+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kiXLLwBCoDyKmfxt3m/jiKYLCPBqgN5BWceoJZLrnrlYiF97O7bfO14doa2Il3z+UU2PnyI85j9JMKE86ElL3K8snltLD5T+R4d+kR7ZSOkXx4C3Q2Yi+9bJLW38xU6hDPLSwfC8T2Pd+6doq/xH4bkHLmx3RvUcsXsppaRxaX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 921F01063;
-	Tue,  9 Jul 2024 10:18:45 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E37CF3F766;
-	Tue,  9 Jul 2024 10:18:15 -0700 (PDT)
-Date: Tue, 9 Jul 2024 18:18:09 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sebastian.fricke@collabora.com, andriy.shevchenko@linux.intel.com,
-	jani.nikula@intel.com, jirislaby@kernel.org, corbet@lwn.net,
-	broonie@kernel.org, rdunlap@infradead.org,
-	linux-doc@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
-	j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
-	p-mantena@ti.com, vijayp@ti.com, andi.shyti@linux.intel.com,
-	nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
-Subject: Re: [PATCH 1/6] math.h: Add macros for rounding to closest value
-Message-ID: <Zo1w0Z57Y0NlcK6m@e133380.arm.com>
-References: <20240708155943.2314427-1-devarsht@ti.com>
- <20240708155943.2314427-2-devarsht@ti.com>
+	s=arc-20240116; t=1720547075; c=relaxed/simple;
+	bh=aAZTQ+YpAmM8VeJ2gdCT0fdALP/HckVt+0zF9zwIYKM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cKtX3f4ZMMvxAdXAvDfVFgKQkPVHkhF9v3nbRLiNlujIvUIr7Iay0wgOaBKEfx5PVmhRm2KC795fJCAb1GBI/LHoJi8Bh7SGDdhHD7qTB4u4pKKTkvWZOOeQBaQBUfcTLIHMRldrUQKwLcFNm1geV2pY+zh5/3Qw1330pEvpkQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ewCWYayD; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6b5f2ac0fb9so23990576d6.2
+        for <linux-media@vger.kernel.org>; Tue, 09 Jul 2024 10:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1720547071; x=1721151871; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aAZTQ+YpAmM8VeJ2gdCT0fdALP/HckVt+0zF9zwIYKM=;
+        b=ewCWYayDHVUQdeU7eo2bk/WEAaCcmScYF5VGMzYJUNAEQIDrbdFRnBatWQWtFxwVeN
+         dbU9TtoCuHjCskHM7K6E3cikXg840iI3fIc1GdPIjyEmdqsOorJb9au7N62m6+cL1V06
+         das8EpWHOh5cWQCzX2BzZRLDb+qFqumYiZWj2rJLiIx39U5/FJoyBQ0Fsv2tMon6l9r8
+         e9tDwkMGjXGga07LvbQGEIK5lDW6EU8IX8I2ma5niR0188M3D0Y0hswlzKoW6OF0C+Jg
+         qVUOuYrfQbb5lsxNwOG1C3loL+HLND7P+o+dAPoWt9cq6+QcyHCN40Wsb8AQdRbdKnQp
+         Uztw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720547071; x=1721151871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aAZTQ+YpAmM8VeJ2gdCT0fdALP/HckVt+0zF9zwIYKM=;
+        b=LmSMIDqVjFsLiSo4Y1xggcEjXSjNtr/5zi4XcGR0gTgKfiSts0lHvWC2mZXHjYtgga
+         9hGgTArbJF8B7x1UzrRtCQwiehSK7ZFxmLv6OAkqIVhdfGZHfnIS3RaTfupYa9j0sLzK
+         dEOG2uGyjwXEAcMlEg9YYmsvXG9TB9dYAQiRG5hbyNfpUFbD7qPGzPoVQW4bpepJssrc
+         Fa1PBOxzfdy/iIQuJzVSJdF6VeTpqiahqhzkpCulhk9EquSlQrcq+/PbygxXVMApUyzN
+         frLvDf3+D3wD74bpBoJ+492Hu+G8UwwGSBmZjK77EYlLUcsRimVbb7JPWMuH1JMRhDXZ
+         vYng==
+X-Forwarded-Encrypted: i=1; AJvYcCWZQxbrumGq2tfxrxL2QN/pxp1YxPWeRo/MiWz+G7KJiv7lMWy8mUYlt6EIW1AV3oVsOaB2+7u47j6dZFPlJVGPX9cRHvVXnIv7iiw=
+X-Gm-Message-State: AOJu0YyHG5vbw/ZTm6Wk8kzLBLB67dMuPfQkmfmVUItQJy13ShUEKEzJ
+	UiI2DBDcedg8v7k+krmS3bVO9EF1AMjTyC4Nuy8WtIHA0RzihqxP8t6mE/eHvRi/au0hTd0bGs/
+	hOTgFY+H7X8Sa4ts9LWSSuJuVeLWpvbAeKJvJ
+X-Google-Smtp-Source: AGHT+IH16U57va8G1AYAXy2voaQ3uaav9TjEwbgydjk5ADdt1gmfzeqqJI7aDLdE+wjZ6VeQ0SWzZOZUCWRm4uKL9HM=
+X-Received: by 2002:a05:6214:c23:b0:6b5:752e:a33a with SMTP id
+ 6a1803df08f44-6b61c212bf8mr38578236d6.57.1720547071067; Tue, 09 Jul 2024
+ 10:44:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240708155943.2314427-2-devarsht@ti.com>
+References: <20240628003253.1694510-1-almasrymina@google.com>
+ <20240628003253.1694510-4-almasrymina@google.com> <CAMArcTUqqxam+BPwGExOFOLVi3t=dwA-5sSagKC5dndv07GDLQ@mail.gmail.com>
+ <CAHS8izNS5jZjPfc-sARbHV7mzqzH+UhHfAtCTKRRTfSAdhY4Cw@mail.gmail.com> <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
+In-Reply-To: <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 9 Jul 2024 10:44:16 -0700
+Message-ID: <CAHS8izNgaqC--GGE2xd85QB=utUnOHmioCsDd1TNxJWKemaD_g@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to netdevice
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 08, 2024 at 09:29:38PM +0530, Devarsh Thakkar wrote:
-> Add below rounding related macros:
-> 
-> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round up in case two nearest values are
-> possible.
-> 
-> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
-> power of 2, with a preference to round down in case two nearest values are
-> possible.
-> 
-> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
-> generally be used only when y is not multiple of 2 as otherwise
-> round_closest* macros should be used which are much faster.
-> 
-> Examples:
->  * round_closest_up(17, 4) = 16
->  * round_closest_up(15, 4) = 16
->  * round_closest_up(14, 4) = 16
->  * round_closest_down(17, 4) = 16
->  * round_closest_down(15, 4) = 16
->  * round_closest_down(14, 4) = 12
->  * roundclosest(21, 5) = 20
->  * roundclosest(19, 5) = 20
->  * roundclosest(17, 5) = 15
-> 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
-> which uses similar macro locally and which is updated in further patch
-> in the series to use this generic macro instead along with other drivers
-> having similar requirements.
-> 
-> Link: https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
-> ---
->  include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
-> 
-> diff --git a/include/linux/math.h b/include/linux/math.h
-> index dd4152711de7..79e3dfda77fc 100644
-> --- a/include/linux/math.h
-> +++ b/include/linux/math.h
-> @@ -34,6 +34,52 @@
->   */
->  #define round_down(x, y) ((x) & ~__round_mask(x, y))
->  
-> +/**
-> + * round_closest_up - round closest to be multiple of specified value (which is
-> + *                    power of 2) with preference to rounding up
-> + * @x: the value to round
-> + * @y: multiple to round closest to (must be a power of 2)
-> + *
-> + * Rounds @x to closest multiple of @y (which must be a power of 2).
-> + * The value can be either rounded up or rounded down depending upon rounded
-> + * value's closeness to the specified value. If there are two closest possible
-> + * values, i.e. the difference between the specified value and it's rounded up
-> + * and rounded down values is same then preference is given to rounded up
-> + * value.
-> + *
-> + * To perform arbitrary rounding to closest value (not multiple of 2), use
-> + * roundclosest().
-> + *
-> + * Examples:
-> + * * round_closest_up(17, 4) = 16
-> + * * round_closest_up(15, 4) = 16
-> + * * round_closest_up(14, 4) = 16
-> + */
-> +#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
-> +
-> +/**
-> + * round_closest_down - round closest to be multiple of specified value (which
-> + *			is power of 2) with preference to rounding down
-> + * @x: the value to round
-> + * @y: multiple to round closest to (must be a power of 2)
-> + *
-> + * Rounds @x to closest multiple of @y (which must be a power of 2).
-> + * The value can be either rounded up or rounded down depending upon rounded
-> + * value's closeness to the specified value. If there are two closest possible
-> + * values, i.e. the difference between the specified value and it's rounded up
-> + * and rounded down values is same then preference is given to rounded up
-> + * value.
-> + *
-> + * To perform arbitrary rounding to closest value (not multiple of 2), use
-> + * roundclosest().
-> + *
-> + * Examples:
-> + * * round_closest_down(17, 4) = 16
-> + * * round_closest_down(15, 4) = 16
-> + * * round_closest_down(14, 4) = 12
-> + */
-> +#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
-> +
+On Tue, Jul 9, 2024 at 8:37=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wrot=
+e:
+>
+...
+> And I found another bug.
+>
+> [ 236.625141] BUG: KASAN: slab-use-after-free in
+> net_devmem_unbind_dmabuf+0x364/0x440
+...
+> Reproducer:
+> ./ncdevmem -f <interface name> -l -p 5201 -v 7 -t 0 -q 2 &
+> sleep 10
+> modprobe -rv bnxt_en
+> killall ncdevmem
+>
+> I think it's a devmemTCP core bug so this issue would be reproduced
+> with other drivers.
+>
 
-Naming aside, is there an actual use case for having both roundclosest()
-and round_closest_up() today?
+Thanks again for testing Taehee. I haven't looked into reproducing yet
+but the issue seems obvious from the repro and the trace. What happens
+is that when we bind an rxq we add it to bound_rxq_list, and then when
+we unbind we access the rxq in the list, without checking if it's
+still alive. With your sequence, the rxq is freed before the unbind
+happens, I think, so we hit a use-after-free.
 
-(i.e., is there any potential caller that would actually care about the
-rounding direction for borderline cases?)
+The fix, I think, should be simple, we need to remember to remove the
+rxq from bound_rxq_list as it is deallocated so there is no access
+after free.
 
->  #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
->  
->  #define DIV_ROUND_DOWN_ULL(ll, d) \
-> @@ -77,6 +123,23 @@
->  }							\
->  )
->  
-> +/**
-> + * roundclosest - round to nearest multiple
-> + * @x: the value to round
-> + * @y: multiple to round nearest to
-> + *
-> + * Rounds @x to nearest multiple of @y.
-> + * The rounded value can be greater than or less than @x depending
-> + * upon it's nearness to @x. If @y will always be a power of 2, consider
-> + * using the faster round_closest_up() or round_closest_down().
-> + *
-> + * Examples:
-> + * * roundclosest(21, 5) = 20
-> + * * roundclosest(19, 5) = 20
-> + * * roundclosest(17, 5) = 15
-> + */
-> +#define roundclosest(x, y) rounddown((x) + (y) / 2, (y))
+Btw, I have all the rest of the feedback addressed (including netlink
+introspection) and I was in the process of rebasing and build-testing
+a new version, to try to get in before net-next closes if at all
+possible. I don't think I'll be able to fix this particular issue in
+time, but I should be able to submit a fix targeting the net tree
+during the merged window, if that's OK. If folks feel this issue is
+blocking, please let me know so I don't send another version before
+net-next reopens.
 
-Won't this go wrong if (x) + (y) / 2 overflows?  This may happen even in
-some cases where the correctly rounded value would be in range.
-
-The existing rounddown() already leaves something to be desired IIUC: if
-given a negative dividend, it looks like it actually rounds up, at least
-on some arches.  But maybe people don't use it that way very often.
-Perhaps I'm missing something.
-
-[...]
-
-Cheers
----Dave
+--=20
+Thanks,
+Mina
 
