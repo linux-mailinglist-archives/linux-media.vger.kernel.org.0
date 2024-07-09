@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-14784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFEED92BF4E
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 18:12:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EB892BF63
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 18:14:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E42B31C22E37
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 16:12:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 928B4B284E1
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 16:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F1871A3BB8;
-	Tue,  9 Jul 2024 16:07:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98AD61A4F2D;
+	Tue,  9 Jul 2024 16:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Fz2vdARB"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="i2+ovGrO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC6A1A38D0;
-	Tue,  9 Jul 2024 16:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375741A3BB9;
+	Tue,  9 Jul 2024 16:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720541265; cv=none; b=PigPAfMgeMtu7jDUP/zhz0vCMk8g60fQe7cHBCFC0xwnh/njxVDuVRUBGpO3hlaOTwH/w5URUuvwQMr0LCvwyUujqQivUYu6rW1Jz+TPPEwJsEQIQNHa77loJ7N9ViSEMX7aFfaoijkINslJ+CKMa3LDD8KwvUy2Re6fGUvELcg=
+	t=1720541285; cv=none; b=uJ5Pro5X6jrFteKS+DeedAoOcXDBZ350xQxEcTbWoQ9l1f7ZIbLjrnGUcGZZfgmJQPNuF4mSKyAhOc6wNmi0R9u6ztafx5cFQopwcMHTwqpVBixAAtlOMacd4P2hg1vDkvbuYZ/LnTP4ZhBLjzdimide6JyBYg7HuzvFAHUil4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720541265; c=relaxed/simple;
-	bh=DlqobUcut3ksDz5AgS/CK46aLhXZ1lhUUg/qbSYu03A=;
+	s=arc-20240116; t=1720541285; c=relaxed/simple;
+	bh=xVW8/qvnuPdIVCOpQSuenkAMlxtnRDwmb4a7EKLiTrc=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nPMHQIn2WvJy9D7csSzNu7nvHGyoOSU/VlE6t6a6i79A6ltnsTqS+aa6EiD5cmd7Ei5yO/0lVPdhY8bjFDWdKGFN+rfM8U13ppeg+jg+5qrOMEpH4zWs/Cj3IPuNsG/STLKB7j7V/oDt9MKKlfYk4r6awFDRHrMFKAFIYr40+Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Fz2vdARB; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=mqk0PVcGC2MyxBSh94SDHnF3qh9Y4qZ9HrOVANTCJUc/wOJ45hXHC6uZR0eBntqlRKxZB4VTM9u5ylpIsVeFlngq4Q8QzKCugqMtmRfQei5MsECG+BZwG3VAilGo9KgiMRq5JOaoR0OZlP4IULdZASAFqkMJRD5O5GiXErXlRgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=i2+ovGrO; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4698HAW0026708;
-	Tue, 9 Jul 2024 16:07:40 GMT
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 469DAKnT021766;
+	Tue, 9 Jul 2024 16:07:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Cw5OnyRvyQUZeSwlYWh+6gtO
-	CUNy16Yvfrrhm0tT/ZE=; b=Fz2vdARBP3hkCtruaOq/J32SerBi/Az0K8GzTHU1
-	Gi26q6pDwOlb/AiOp9+2wQLqvgcK11gkK6FQmQksDpXhiNOmEeqJIsKeqM4O6tm7
-	Bjvnjv3J02psHGv78kpP1DgNdtw7oHNM2o3udVBwCBLwosOJgW6m99yJqFFFGEpe
-	aJAIh36C8xpu/MM0N3fgMqzmyr56cDustjtl62M3fFWJyU0bI7QMHnZqEpfgBsJF
-	RTaY0vfHbjmX51NXXlxcXjxUA6ZJw2vfaTbqqiDzGrQMM4UsuFw5Jx/h2CC7Ntgq
-	WeqKYqRuAtaIo/sKRHTs6FEsvfE7gFdPZkDhC5GKIcH9cw==
+	:references:subject:to; s=qcppdkim1; bh=k9Ze9ydIvjqBydy8fZDyB0uR
+	UlHyGNy4/68RlumKHLQ=; b=i2+ovGrOs1372JXmNHcFAG4j78BGPgc3gq3DtE5W
+	/alwq3/YiXayMx+i/eKM4LF03Hre4eTuXNGuzR0FHWCNcEeW2pF62TgwlVjPlxOV
+	O6WqA7o4dLAdtAMp8lW/+rv9WrZw9wXtap/d6yE4gpZ6CMxGzRZdJdtmOiRqYcSb
+	L9XgUKnHX9VzA2deM3vdP4U3oAnJqSnkGBuDYnID6tJSjU/jKHmSsZaa0pg+Oy08
+	HBmqSX2LroPWPdvTtaSeJr8TFfd3b0HpdPYyTvdWsQKI6cqRTmJv6bhdwUnEI9R+
+	rRZNF/DwBCtE4itmZ22FS0IlY3oy7D6R/RcXpDJMxT/EAw==
 Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4091jdh78v-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 406we8xufw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 09 Jul 2024 16:07:39 +0000 (GMT)
+	Tue, 09 Jul 2024 16:07:43 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 469G7dD2032063
+	by NASANPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 469G7gU8032103
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 9 Jul 2024 16:07:39 GMT
+	Tue, 9 Jul 2024 16:07:42 GMT
 Received: from hu-depengs-sha.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 9 Jul 2024 09:07:33 -0700
+ 15.2.1544.9; Tue, 9 Jul 2024 09:07:36 -0700
 From: Depeng Shao <quic_depengs@quicinc.com>
 To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -62,10 +62,10 @@ To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
 CC: <quic_eberman@quicinc.com>, <quic_depengs@quicinc.com>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>
-Subject: [PATCH 06/13] media: qcom: camss: csiphy-3ph: Use an offset variable to find common control regs
-Date: Tue, 9 Jul 2024 21:36:49 +0530
-Message-ID: <20240709160656.31146-7-quic_depengs@quicinc.com>
+        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
+Subject: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss binding
+Date: Tue, 9 Jul 2024 21:36:50 +0530
+Message-ID: <20240709160656.31146-8-quic_depengs@quicinc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240709160656.31146-1-quic_depengs@quicinc.com>
 References: <20240709160656.31146-1-quic_depengs@quicinc.com>
@@ -80,204 +80,579 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: OByNESckAr_We86snourALCf025MAvXy
-X-Proofpoint-ORIG-GUID: OByNESckAr_We86snourALCf025MAvXy
+X-Proofpoint-ORIG-GUID: YTS4JiofOcD_6hb9vDM9UmqLWP6hRBwE
+X-Proofpoint-GUID: YTS4JiofOcD_6hb9vDM9UmqLWP6hRBwE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-07-09_05,2024-07-09_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 spamscore=0 malwarescore=0 mlxlogscore=999
- mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1015 impostorscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 mlxlogscore=999 malwarescore=0 mlxscore=0 clxscore=1015
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2406140001
  definitions=main-2407090106
 
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Add bindings for qcom,sm8550-camss in order to support the camera
+subsystem for sm8550
 
-New versions of the CSIPHY locate the control registers at offset 0x1000
-not offset 0x800.
-
-Provide a variable to base an offset from for the purposes of redirecting
-the base offset for the new PHY regs layout.
-
-The existing setup bases from 0x800, the new from 0x1000 with some of the
-'EXT' registers dropped but the lower-order lane config regs at offset 0x00
-and up the same as before.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
+Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
 Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
 ---
- .../qcom/camss/camss-csiphy-3ph-1-0.c         | 68 ++++++++++++-------
- 1 file changed, 44 insertions(+), 24 deletions(-)
+ .../bindings/media/qcom,sm8550-camss.yaml     | 545 ++++++++++++++++++
+ 1 file changed, 545 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index 93782ebfe0ea..1219a25ec55b 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -42,11 +42,11 @@
- #define CSIPHY_3PH_LNn_CSI_LANE_CTRL15(n)	(0x03c + 0x100 * (n))
- #define CSIPHY_3PH_LNn_CSI_LANE_CTRL15_SWI_SOT_SYMBOL	0xb8
- 
--#define CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(n)	(0x800 + 0x4 * (n))
-+#define CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(offset, n)	(offset + 0x4 * (n))
- #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE	BIT(7)
- #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_COMMON_PWRDN_B	BIT(0)
- #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID	BIT(1)
--#define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(n)	(0x8b0 + 0x4 * (n))
-+#define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(offset, n)	((offset + 0xb0) + 0x4 * (n))
- 
- #define CSIPHY_DEFAULT_PARAMS		0
- #define CSIPHY_LANE_ENABLE		1
-@@ -66,6 +66,7 @@ struct csiphy_lane_regs {
- struct csiphy_device_regs {
- 	const struct csiphy_lane_regs *lane_regs;
- 	int lane_array_size;
-+	u32 offset;
- };
- 
- /* GEN2 1.0 2PH */
-@@ -326,19 +327,20 @@ csiphy_lane_regs lane_regs_sm8250[] = {
- static void csiphy_hw_version_read(struct csiphy_device *csiphy,
- 				   struct device *dev)
- {
-+	struct csiphy_device_regs *regs = csiphy->data;
- 	u32 hw_version;
- 
--	writel(CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID,
--	       csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(6));
-+	writel(CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID, csiphy->base +
-+	       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 6));
- 
- 	hw_version = readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(12));
-+				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 12));
- 	hw_version |= readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(13)) << 8;
-+				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 13)) << 8;
- 	hw_version |= readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(14)) << 16;
-+				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 14)) << 16;
- 	hw_version |= readl_relaxed(csiphy->base +
--				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(15)) << 24;
-+				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 15)) << 24;
- 
- 	dev_dbg(dev, "CSIPHY 3PH HW Version = 0x%08x\n", hw_version);
- }
-@@ -349,31 +351,39 @@ static void csiphy_hw_version_read(struct csiphy_device *csiphy,
-  */
- static void csiphy_reset(struct csiphy_device *csiphy)
- {
--	writel_relaxed(0x1, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(0));
-+	struct csiphy_device_regs *regs = csiphy->data;
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
+new file mode 100644
+index 000000000000..d002b0ff119e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
+@@ -0,0 +1,545 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +
-+	writel_relaxed(0x1, csiphy->base +
-+		      CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 0));
- 	usleep_range(5000, 8000);
--	writel_relaxed(0x0, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(0));
-+	writel_relaxed(0x0, csiphy->base +
-+		       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 0));
- }
- 
- static irqreturn_t csiphy_isr(int irq, void *dev)
- {
- 	struct csiphy_device *csiphy = dev;
-+	struct csiphy_device_regs *regs = csiphy->data;
- 	int i;
- 
- 	for (i = 0; i < 11; i++) {
- 		int c = i + 22;
- 		u8 val = readl_relaxed(csiphy->base +
--				       CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(i));
-+				       CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, i));
- 
- 		writel_relaxed(val, csiphy->base +
--				    CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(c));
-+			       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, c));
- 	}
- 
--	writel_relaxed(0x1, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(10));
--	writel_relaxed(0x0, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(10));
-+	writel_relaxed(0x1, csiphy->base +
-+		       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 10));
-+	writel_relaxed(0x0, csiphy->base +
-+		       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 10));
- 
--	for (i = 22; i < 33; i++)
-+	for (i = 22; i < 33; i++) {
- 		writel_relaxed(0x0, csiphy->base +
--				    CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(i));
-+			       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, i));
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -528,6 +538,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 				s64 link_freq, u8 lane_mask)
- {
- 	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-+	struct csiphy_device_regs *regs = csiphy->data;
- 	u8 settle_cnt;
- 	u8 val;
- 	int i;
-@@ -538,16 +549,20 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 	for (i = 0; i < c->num_data; i++)
- 		val |= BIT(c->data[i].pos * 2);
- 
--	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(5));
-+	writel_relaxed(val, csiphy->base +
-+		       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 5));
- 
- 	val = CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_COMMON_PWRDN_B;
--	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(6));
-+	writel_relaxed(val, csiphy->base +
-+		       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 6));
- 
- 	val = 0x02;
--	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(7));
-+	writel_relaxed(val, csiphy->base +
-+		       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 7));
- 
- 	val = 0x00;
--	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(0));
-+	writel_relaxed(val, csiphy->base +
-+		       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 0));
- 
- 	if (csiphy_is_gen2(csiphy->camss->res->version))
- 		csiphy_gen2_config_lanes(csiphy, settle_cnt);
-@@ -555,18 +570,22 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 		csiphy_gen1_config_lanes(csiphy, cfg, settle_cnt);
- 
- 	/* IRQ_MASK registers - disable all interrupts */
--	for (i = 11; i < 22; i++)
--		writel_relaxed(0, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(i));
-+	for (i = 11; i < 22; i++) {
-+		writel_relaxed(0, csiphy->base +
-+			       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, i));
-+	}
- }
- 
- static void csiphy_lanes_disable(struct csiphy_device *csiphy,
- 				 struct csiphy_config *cfg)
- {
-+	struct csiphy_device_regs *regs = csiphy->data;
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/qcom,sm8550-camss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	writel_relaxed(0, csiphy->base +
--			  CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(5));
-+			  CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 5));
- 
- 	writel_relaxed(0, csiphy->base +
--			  CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(6));
-+			  CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 6));
- }
- 
- static int csiphy_init(struct csiphy_device *csiphy)
-@@ -579,6 +598,7 @@ static int csiphy_init(struct csiphy_device *csiphy)
- 		return -ENOMEM;
- 
- 	csiphy->data = regs;
-+	regs->offset = 0x800;
- 
- 	switch (csiphy->camss->res->version) {
- 	case CAMSS_845:
++title: Qualcomm SM8550 Camera Subsystem (CAMSS)
++
++maintainers:
++  - Depeng Shao <quic_depengs@quicinc.com>
++
++description: |
++  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
++
++properties:
++  compatible:
++    const: qcom,sm8550-camss
++
++  clocks:
++    minItems: 47
++    maxItems: 47
++
++  clock-names:
++    items:
++      - const: cam_ahb_clk
++      - const: cam_hf_axi
++      - const: cam_sf_axi
++      - const: camnoc_axi
++      - const: camnoc_axi_src
++      - const: core_ahb
++      - const: cpas_ahb
++      - const: slow_ahb_src
++      - const: csiphy0
++      - const: csiphy0_timer
++      - const: csiphy1
++      - const: csiphy1_timer
++      - const: csiphy2
++      - const: csiphy2_timer
++      - const: csiphy3
++      - const: csiphy3_timer
++      - const: csiphy4
++      - const: csiphy4_timer
++      - const: csiphy5
++      - const: csiphy5_timer
++      - const: csiphy6
++      - const: csiphy6_timer
++      - const: csiphy7
++      - const: csiphy7_timer
++      - const: csid_src
++      - const: csid
++      - const: csiphy_rx
++      - const: vfe0_fast_ahb
++      - const: vfe0_src
++      - const: vfe0
++      - const: cpas_vfe0
++      - const: vfe1_fast_ahb
++      - const: vfe1_src
++      - const: vfe1
++      - const: cpas_vfe2
++      - const: vfe2_fast_ahb
++      - const: vfe2_src
++      - const: vfe2
++      - const: cpas_vfe1
++      - const: vfe_lite_ahb
++      - const: vfe_lite_csid_src
++      - const: vfe_lite
++      - const: vfe_lite_cphy_rx
++      - const: vfe_lite_csid
++      - const: cpas_ife_lite
++      - const: cpas_fast_ahb_clk
++      - const: fast_ahb_src
++
++  interrupts:
++    minItems: 18
++    maxItems: 18
++
++  interrupt-names:
++    items:
++      - const: csiphy0
++      - const: csiphy1
++      - const: csiphy2
++      - const: csiphy3
++      - const: csiphy4
++      - const: csiphy5
++      - const: csiphy6
++      - const: csiphy7
++      - const: csid0
++      - const: csid1
++      - const: csid2
++      - const: csid_lite0
++      - const: csid_lite1
++      - const: vfe0
++      - const: vfe1
++      - const: vfe2
++      - const: vfe_lite0
++      - const: vfe_lite1
++
++  iommus:
++    maxItems: 1
++
++  interconnects:
++    minItems: 4
++    maxItems: 4
++
++  interconnect-names:
++    items:
++      - const: cam_ahb
++      - const: cam_hf_0_mnoc
++      - const: cam_sf_0_mnoc
++      - const: cam_sf_icp_mnoc
++
++  power-domains:
++    items:
++      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
++      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
++      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
++      - description: Titan GDSC - Titan ISP Block, Global Distributed Switch Controller.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    description:
++      CSI input ports.
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port for receiving CSI data.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port for receiving CSI data.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++      port@2:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port for receiving CSI data.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++      port@3:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port for receiving CSI data.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++      port@4:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port for receiving CSI data.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++      port@5:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Input port for receiving CSI data.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - clock-lanes
++              - data-lanes
++
++  reg:
++    minItems: 19
++    maxItems: 19
++
++  reg-names:
++    items:
++      - const: csiphy0
++      - const: csiphy1
++      - const: csiphy2
++      - const: csiphy3
++      - const: csiphy4
++      - const: csiphy5
++      - const: csiphy6
++      - const: csiphy7
++      - const: csid0
++      - const: csid1
++      - const: csid2
++      - const: csid_lite0
++      - const: csid_lite1
++      - const: csid_top
++      - const: vfe0
++      - const: vfe1
++      - const: vfe2
++      - const: vfe_lite0
++      - const: vfe_lite1
++
++  vdda-phy-supply:
++    description:
++      Phandle to a regulator supply to PHY core block.
++
++  vdda-pll-supply:
++    description:
++      Phandle to 1.2V regulator supply to PHY refclk pll block.
++
++required:
++  - clock-names
++  - clocks
++  - compatible
++  - interconnects
++  - interconnect-names
++  - interrupts
++  - interrupt-names
++  - iommus
++  - power-domains
++  - reg
++  - reg-names
++  - vdda-phy-supply
++  - vdda-pll-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,sm8550-camcc.h>
++    #include <dt-bindings/clock/qcom,sm8550-gcc.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/clock/qcom,rpmh.h>
++    #include <dt-bindings/interconnect/qcom,sm8550-rpmh.h>
++
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        camss: camss@ace4000 {
++            compatible = "qcom,sm8550-camss";
++
++            reg = <0 0x0ace4000 0 0x2000>,
++                  <0 0x0ace6000 0 0x2000>,
++                  <0 0x0ace8000 0 0x2000>,
++                  <0 0x0acea000 0 0x2000>,
++                  <0 0x0acec000 0 0x2000>,
++                  <0 0x0acee000 0 0x2000>,
++                  <0 0x0acf0000 0 0x2000>,
++                  <0 0x0acf2000 0 0x2000>,
++                  <0 0x0acb7000 0 0xd00>,
++                  <0 0x0acb9000 0 0xd00>,
++                  <0 0x0acbb000 0 0xd00>,
++                  <0 0x0acca000 0 0xa00>,
++                  <0 0x0acce000 0 0xa00>,
++                  <0 0x0acb6000 0 0x1000>,
++                  <0 0x0ac62000 0 0xf000>,
++                  <0 0x0ac71000 0 0xf000>,
++                  <0 0x0ac80000 0 0xf000>,
++                  <0 0x0acca000 0 0x2800>,
++                  <0 0x0acce000 0 0x2800>;
++            reg-names = "csiphy0",
++                    "csiphy1",
++                    "csiphy2",
++                    "csiphy3",
++                    "csiphy4",
++                    "csiphy5",
++                    "csiphy6",
++                    "csiphy7",
++                    "csid0",
++                    "csid1",
++                    "csid2",
++                    "csid_lite0",
++                    "csid_lite1",
++                    "csid_top",
++                    "vfe0",
++                    "vfe1",
++                    "vfe2",
++                    "vfe_lite0",
++                    "vfe_lite1";
++
++            vdda-phy-supply = <&vreg_l1e_0p88>;
++            vdda-pll-supply = <&vreg_l3e_1p2>;
++
++            interrupts = <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 278 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 277 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 431 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 605 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 688 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 606 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>;
++
++            interrupt-names = "csiphy0",
++                    "csiphy1",
++                    "csiphy2",
++                    "csiphy3",
++                    "csiphy4",
++                    "csiphy5",
++                    "csiphy6",
++                    "csiphy7",
++                    "csid0",
++                    "csid1",
++                    "csid2",
++                    "csid_lite0",
++                    "csid_lite1",
++                    "vfe0",
++                    "vfe1",
++                    "vfe2",
++                    "vfe_lite0",
++                    "vfe_lite1";
++
++            power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
++                    <&camcc CAM_CC_IFE_1_GDSC>,
++                    <&camcc CAM_CC_IFE_2_GDSC>,
++                    <&camcc CAM_CC_TITAN_TOP_GDSC>;
++
++            clocks = <&gcc GCC_CAMERA_AHB_CLK>,
++                 <&gcc GCC_CAMERA_HF_AXI_CLK>,
++                 <&gcc GCC_CAMERA_SF_AXI_CLK>,
++                 <&camcc CAM_CC_CAMNOC_AXI_CLK>,
++                 <&camcc CAM_CC_CAMNOC_AXI_CLK_SRC>,
++                 <&camcc CAM_CC_CORE_AHB_CLK>,
++                 <&camcc CAM_CC_CPAS_AHB_CLK>,
++                 <&camcc CAM_CC_SLOW_AHB_CLK_SRC>,
++                 <&camcc CAM_CC_CSIPHY0_CLK>,
++                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSIPHY1_CLK>,
++                 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSIPHY2_CLK>,
++                 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSIPHY3_CLK>,
++                 <&camcc CAM_CC_CSI3PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSIPHY4_CLK>,
++                 <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSIPHY5_CLK>,
++                 <&camcc CAM_CC_CSI5PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSIPHY6_CLK>,
++                 <&camcc CAM_CC_CSI6PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSIPHY7_CLK>,
++                 <&camcc CAM_CC_CSI7PHYTIMER_CLK>,
++                 <&camcc CAM_CC_CSID_CLK_SRC>,
++                 <&camcc CAM_CC_CSID_CLK>,
++                 <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
++                 <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
++                 <&camcc CAM_CC_IFE_0_CLK_SRC>,
++                 <&camcc CAM_CC_IFE_0_CLK>,
++                 <&camcc CAM_CC_CPAS_IFE_0_CLK>,
++                 <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
++                 <&camcc CAM_CC_IFE_1_CLK_SRC>,
++                 <&camcc CAM_CC_IFE_1_CLK>,
++                 <&camcc CAM_CC_CPAS_IFE_1_CLK>,
++                 <&camcc CAM_CC_IFE_2_FAST_AHB_CLK>,
++                 <&camcc CAM_CC_IFE_2_CLK_SRC>,
++                 <&camcc CAM_CC_IFE_2_CLK>,
++                 <&camcc CAM_CC_CPAS_IFE_2_CLK>,
++                 <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
++                 <&camcc CAM_CC_IFE_LITE_CSID_CLK_SRC>,
++                 <&camcc CAM_CC_IFE_LITE_CSID_CLK>,
++                 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
++                 <&camcc CAM_CC_IFE_LITE_CLK>,
++                 <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
++                 <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
++                 <&camcc CAM_CC_FAST_AHB_CLK_SRC>;
++
++            clock-names = "cam_ahb_clk",
++                      "cam_hf_axi",
++                      "cam_sf_axi",
++                      "camnoc_axi",
++                      "camnoc_axi_src",
++                      "core_ahb",
++                      "cpas_ahb",
++                      "slow_ahb_src",
++                      "csiphy0",
++                      "csiphy0_timer",
++                      "csiphy1",
++                      "csiphy1_timer",
++                      "csiphy2",
++                      "csiphy2_timer",
++                      "csiphy3",
++                      "csiphy3_timer",
++                      "csiphy4",
++                      "csiphy4_timer",
++                      "csiphy5",
++                      "csiphy5_timer",
++                      "csiphy6",
++                      "csiphy6_timer",
++                      "csiphy7",
++                      "csiphy7_timer",
++                      "csid_src",
++                      "csid",
++                      "csiphy_rx",
++                      "vfe0_fast_ahb",
++                      "vfe0_src",
++                      "vfe0",
++                      "cpas_vfe0",
++                      "vfe1_fast_ahb",
++                      "vfe1_src",
++                      "vfe1",
++                      "cpas_vfe1",
++                      "vfe2_fast_ahb",
++                      "vfe2_src",
++                      "vfe2",
++                      "cpas_vfe2",
++                      "vfe_lite_ahb",
++                      "vfe_lite_csid_src",
++                      "vfe_lite_csid",
++                      "vfe_lite_cphy_rx",
++                      "vfe_lite",
++                      "cpas_ife_lite",
++                      "cpas_fast_ahb_clk",
++                      "fast_ahb_src";
++
++            iommus = <&apps_smmu 0x800 0x20>;
++
++            interconnects =
++                    <&gem_noc         MASTER_APPSS_PROC          0 &config_noc SLAVE_CAMERA_CFG  0>,
++                    <&mmss_noc        MASTER_CAMNOC_HF           0 &mc_virt SLAVE_EBI1           0>,
++                    <&mmss_noc        MASTER_CAMNOC_SF           0 &mc_virt SLAVE_EBI1           0>,
++                    <&mmss_noc        MASTER_CAMNOC_ICP          0 &mc_virt SLAVE_EBI1           0>;
++            interconnect-names =
++                    "cam_ahb",
++                    "cam_hf_0_mnoc",
++                    "cam_sf_0_mnoc",
++                    "cam_sf_icp_mnoc";
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    csiphy_ep0: endpoint@0 {
++                        reg = <0>;
++                        clock-lanes = <7>;
++                        data-lanes = <0 1>;
++                        remote-endpoint = <&sensor_ep>;
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.34.1
 
