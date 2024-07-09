@@ -1,109 +1,1397 @@
-Return-Path: <linux-media+bounces-14748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14750-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A7192B998
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 14:36:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F8692BB13
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 15:29:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF8E21F2313F
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 12:36:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A5D81C21D17
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 13:29:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08D6D1591EE;
-	Tue,  9 Jul 2024 12:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F55015F3FF;
+	Tue,  9 Jul 2024 13:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kuss.ms header.i=friendscout@kuss.ms header.b="GSlqCTi4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q67MtIV6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975E8155A53
-	for <linux-media@vger.kernel.org>; Tue,  9 Jul 2024 12:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF8A158D83;
+	Tue,  9 Jul 2024 13:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720528572; cv=none; b=R2Sw3vbe4cPCJeVng93dcIb7Ffa2GG307vcVUrt1TbtuH3nE+cB9pL3/lwYOFwumkGbSUxsa3Ucre/v2NQZq48TiX0iMUDL2YyA2EwRB6f8LVg93kNSB+hKprqebq+KI0FJzkzbn48NxdQbb7b6rv3553+M+UK79VmPqh1wFUHw=
+	t=1720531761; cv=none; b=XfY2VGqDuxh9WVRcDjqX0PKlhjFUoYL6qzK+57wzIfwhA12VlHz6Zvkv3nMfAwRtyD0HN7RsFX8NKPQruNDlWmIE7JXa+ke4iSo3YmZsSBYtbAGPs05mXGvwsU3wzsYCr3ABZu2XA9fkg3WY3CFKR54UeeVGni5oy7vuejOfBzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720528572; c=relaxed/simple;
-	bh=+KUvTkoBvwVYTCqxYhmKbqzJ26ebhdnhNDmhvdxCv8c=;
-	h=MIME-Version:Message-ID:From:To:Subject:Content-Type:Date; b=M4s+hMlQvxl/x6FVxPfVEkLv1/sZJAG4DaEhtgnDIr4sk+6OX3497KXJ+ZxiAZsh33lvnQjn5t9VIf+mP1sGxxuxYkojDXr7byn154N6J7M5683oSlEpO+3UEkXAVMUBrt9NtNLLurp5ToyWhCAws+M1/gHAtsxeWaJDv8LWwEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kuss.ms; spf=pass smtp.mailfrom=kuss.ms; dkim=pass (2048-bit key) header.d=kuss.ms header.i=friendscout@kuss.ms header.b=GSlqCTi4; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kuss.ms
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kuss.ms
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kuss.ms;
-	s=s29768273; t=1720528565; x=1721133365; i=friendscout@kuss.ms;
-	bh=+KUvTkoBvwVYTCqxYhmKbqzJ26ebhdnhNDmhvdxCv8c=;
-	h=X-UI-Sender-Class:MIME-Version:Message-ID:From:To:Subject:
-	 Content-Type:Date:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=GSlqCTi4IqprT7SIl39KeabugU8Q1y6b6bmhtSBwwOTPl3h1JWV+8iVPdJmyEMPq
-	 Gearh9Krq7b593hxn5MA6WB8kzoXTgZAlHj8PN/JA8u+I58TZflg7mrjrRHESvMmj
-	 ++RAo82YCeUr5S03z4zpHxEw9eXB1tN7MIpaj2R7KqzcLQXPsr0A2sK9HitH4ZHwp
-	 hAcD5cTUDpY1uS8pyd2ahPN1mfC5GWWOmJEktpxZb0pLLlOgvxIg3xi+WnyXWtXMc
-	 enCRlMvMuwpaXZay3EiHhkw+T2qEK+iFG/+nvbb83XqEiM9deABesjvaAOhhlL+t6
-	 gTYQfSgoOxiNT5d55g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [178.251.90.190] ([178.251.90.190]) by web-mail.web.de
- (3c-app-webde-bs19.server.lan [172.19.170.19]) (via HTTP); Tue, 9 Jul 2024
- 14:36:04 +0200
+	s=arc-20240116; t=1720531761; c=relaxed/simple;
+	bh=O0YN6truP3F4rd5vsBrlOnEsL77h3xr+/J5ixRkW32Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MrNvdynRFKcmrOBj2F+Ycc3c1Fp98TQCw//2E/c87f9V+v/0ccsEzXye9haPkpKs8ZAnyGjne9lngF3DRx+JZpS+GLD03c6pjWlliM/vJ2e3vSQ1RoRPtsLuCD1rXyuHSTlCB2eoxnkO3e783C3liKS/Jaj+HN6KPhR2mOxMUWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=q67MtIV6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD2291471;
+	Tue,  9 Jul 2024 15:28:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1720531723;
+	bh=O0YN6truP3F4rd5vsBrlOnEsL77h3xr+/J5ixRkW32Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=q67MtIV61QS2cFHNrMvR4/3ujrhhWiG+VHUzeeYR6C+u9yZ369u2deJeidWmxpKRS
+	 s9Ocyii1Yb5rcIppKRkGi1kf6qm4LzJkys9wEinr/kyQ1I79SZ8glsau4ZV8XBcKoj
+	 KQUJZJBZ6mEqPLanhVvqnqSr6uI2FGGMctjkUxqM=
+From: Daniel Scally <dan.scally@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: jacopo.mondi@ideasonboard.com,
+	nayden.kanchev@arm.com,
+	robh+dt@kernel.org,
+	mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	jerome.forissier@linaro.org,
+	kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	sakari.ailus@iki.fi,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Subject: [PATCH v6 00/18] Add Arm Mali-C55 Image Signal Processor Driver
+Date: Tue,  9 Jul 2024 14:28:48 +0100
+Message-Id: <20240709132906.3198927-1-dan.scally@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <trinity-b60ffddb-ebbc-4aff-a86c-e4b2d74f3d63-1720528564959@3c-app-webde-bs19>
-From: Christoph Lauer <friendscout@kuss.ms>
-To: linux-media@vger.kernel.org
-Subject: [BUG] media: platform: coda: camera Dometic CAM58IP causes CODA
- PIC_RUN timeout
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 9 Jul 2024 14:36:04 +0200
-Importance: normal
-Sensitivity: Normal
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-X-Provags-ID: V03:K1:RW4WpPnImRCce75BNWEy5iNowSZ+szP04PLhmR9WkF9pPonaIiWuhFiQaIsY1rhK+9M5i
- 5kV2y4lrnBPn5joon8OKYJ0N/l/P5ozCPzxdtA69+ufpgBHkPZ1sv02oU1PxSw51Ua/rhKlgM6bN
- xZMpMoYR7pWIl1dBvm5aJIERCZ9+ofe+i2UAYNGFdExfi4RG2go8SnaWLKl3LQtv4U+mDMxlX6BG
- UxsXwjV9oMKbBmVQ8YKk5VhFAUOhXbs4sjqpc1f+6BKBSZflhkpj4sn2o1r8c1DlvXBxO4/mil8l
- to=
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:hhds7HiDt+g=;M5tz0LUc4LcwF7vQUlTXVbu1wwB
- 9/p15XZOaN6xx8LLdWN7OD43HO+6YhQWSV1Rvj0blL4VU3Q7GuSvEHQQTME6wLDxkKl/uD4P4
- 8+TRyiG+bdat/U1pagiOn6kpO3teO+Io1KGiY8eh76ukaCfpYiLplDGkVDQCmDNMmHHoWO0Ma
- 2nv/Ro2CBWxkBE9puPICbvGt0gZlEHu5Jq/7C5gYUUoxl7heVhIhf9VPQtezbXUB0+SOFi+nn
- rKY/uVdQ7fH++uT3aHf5Mm1Ul+UHy6gGp1tLSXE49X1zayFUpFLVlN00IVjU2VVdtfkxPyWhJ
- SiNJ+vM4d8+OMyVk3LvFBjuRxq2fIw0eRpVxRX1wHyMP87Qcij7XPBq/4F28FibJVoRerf0CE
- 8rQf4szOwdG1KWjZJi/p8i09GoC17Al8tiCuey9bHt7gEbuUl8PyOMrURXipuMJTWydjaJAsF
- gO7upwHuSeHKqlHMvAB+Xpm9nTh2NYbxo+DzAddCwNQ5HPj1awGOVoMiJIT56otFQy7swYMPN
- 0ww1hxAcAuF+fyYY5BCkKLiQp9VkumS3fzkwuNZo9x0RJTZinOAcVWZ+9JnNI0AFsmG7fI9Ql
- yv51vJ7A1iJ3OlPUqIBbsDkK1OG0M1cWaANnD9/LVyEM7ysB63uQZI6I7j60AIDX8XvSgANHc
- KfnyuRMY5pS/qYn/NTGELWxtYTncM+uF5Y7nTMe5CxjHnUqDJfBCAL96MwrJi78=
+Content-Transfer-Encoding: 8bit
 
-Hi,
-I am working on a Phytec i=2EMX6 DL and I am trying to get the IP camera D=
-ometic CAM58IP up and running on a coda-configured Phytec kernel (5=2E15=2E=
-102)=2E The connection can be established, but the stream doesn=E2=80=99t p=
-lay, and dmesg shows this timeout message every ~2s:
+Hello all
 
-[ 1029=2E344642] coda 2040000=2Evpu: CODA PIC_RUN
-=C2=A0
-I can successfully play streams from other IP cameras on the mx6 device=2E
-I can successfully play the Dometic stream with VLC media player or with g=
-streamer on a desktop system (not using CODA)=2E
-=C2=A0
-I have already applied patch =E2=80=9E[PATCH] media: coda: avoid starvatio=
-n on well-compressed data=E2=80=9C from Benjamin Bara for testing, the resu=
-lt was the same=2E
-=C2=A0
-Any help would be appreciated=2E
-=C2=A0
-Config summary:
-HW: Phytec i=2Emx6 DualLite with CODA960
-Kernel: 5=2E15=2E102-phytec
-Gstreamer: 1=2E20=2E7
-CODA Firmware version: 3=2E1=2E1
+This patchset introduces a driver for Arm's Mali-C55 Image Signal Processor.
+The driver uses the V4L2 / media controller API and implements both of the ISP's
+capture pipelines allowing a range of output formats plus downscaling and
+cropping. The capture pipelines are named "Full resolution" and "Downscale" and
+so abbreviated FR and DS throughout the driver.
+
+The driver exposes 4 V4L2 subdevices:
+
+- mali-c55 isp: input data formatting
+- mali-c55 tpg: test pattern generator (modeled as a camera sensor entity)
+- mali-c55 resizer fr: downscale / crop and format setting for the FR pipe
+- mali-c55 resizer ds: downscale / crop and format setting for the DS pipe
+
+Along with 4 V4L2 Video devices:
+
+- mali-c55 fr: Capture device for the full resolution pipe
+- mali-c55 ds: Capture device for the downscale pipe
+- mali-c55 3a stats: Capture device for statistics to support 3A algorithms
+- mali-c55 3a params: Output device for parameter buffers to configure the ISP
+
+Support is implemented in the parameters video device code for many of the ISP'S
+hardware blocks, but not yet all of them. The buffer format is (as far as I am
+aware anyway) a novel design that we intend to be extensible so that support for
+the C55's remaining hardware blocks can be added later.
+
+Patches 1, 4, 5, 6 and 7 have already had versions 1-4 on the mailing list...I
+decided to post the additional work on the driver as extra patches rather than
+merge them all into the existing series as it's already a lot of code to review
+and I hoped that that might make it a little easier...if I'm wrong and that's
+not liked I can just squash them into a much smaller series.
+
+The rest of this message comprises the v4l2-compliance report for the driver.
+The tool reports a single failure and two warnings, but they're all from the
+imx415 driver (with which I'm testing the code)
+
+v4l2-compliance 1.27.0-5220, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 8387e3673837 2024-07-01 11:09:32
+
+Compliance test for mali-c55 device /dev/media0:
+
+Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+
+Required ioctls:
+	test MEDIA_IOC_DEVICE_INFO: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/media0 open: OK
+	test MEDIA_IOC_DEVICE_INFO: OK
+	test for unlimited opens: OK
+
+Media Controller ioctls:
+	test MEDIA_IOC_G_TOPOLOGY: OK
+	Entities: 10 Interfaces: 10 Pads: 18 Links: 20
+	test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+	test MEDIA_IOC_SETUP_LINK: OK
+
+Total for mali-c55 device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/video0:
+
+Driver Info:
+	Driver name      : mali-c55
+	Card type        : ARM Mali-C55 ISP
+	Bus info         : platform:60400000.isp
+	Driver version   : 6.9.0
+	Capabilities     : 0xa4201000
+		Video Capture Multiplanar
+		I/O MC
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x24201000
+		Video Capture Multiplanar
+		I/O MC
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x03000012
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000010 (16)
+	Name             : mali-c55 fr
+	Function         : V4L2 I/O
+	Pad 0x01000011   : 0: Sink
+	  Link 0x02000026: from remote pad 0x100000b of entity 'mali-c55 resizer fr' (Video Scaler): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/video1:
+
+Driver Info:
+	Driver name      : mali-c55
+	Card type        : ARM Mali-C55 ISP
+	Bus info         : platform:60400000.isp
+	Driver version   : 6.9.0
+	Capabilities     : 0xa4201000
+		Video Capture Multiplanar
+		I/O MC
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x24201000
+		Video Capture Multiplanar
+		I/O MC
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x03000016
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000014 (20)
+	Name             : mali-c55 ds
+	Function         : V4L2 I/O
+	Pad 0x01000015   : 0: Sink
+	  Link 0x0200002a: from remote pad 0x100000f of entity 'mali-c55 resizer ds' (Video Scaler): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/video1: 48, Succeeded: 48, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/video2:
+
+Driver Info:
+	Driver name      : mali-c55
+	Card type        : ARM Mali-C55 ISP
+	Bus info         : platform:60400000.isp
+	Driver version   : 6.9.0
+	Capabilities     : 0x8c200000
+		Metadata Output
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x0c200000
+		Metadata Output
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x0300001a
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000018 (24)
+	Name             : mali-c55 3a params
+	Function         : V4L2 I/O
+	Pad 0x01000019   : 0: Source
+	  Link 0x0200002e: to remote pad 0x1000008 of entity 'mali-c55 isp' (Image Signal Processor): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video2 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/video2: 48, Succeeded: 48, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/video3:
+
+Driver Info:
+	Driver name      : mali-c55
+	Card type        : ARM Mali-C55 ISP
+	Bus info         : platform:60400000.isp
+	Driver version   : 6.9.0
+	Capabilities     : 0x84a00000
+		Metadata Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04a00000
+		Metadata Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x0300001e
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x0000001c (28)
+	Name             : mali-c55 3a stats
+	Function         : V4L2 I/O
+	Pad 0x0100001d   : 0: Sink
+	  Link 0x0200002c: from remote pad 0x1000007 of entity 'mali-c55 isp' (Image Signal Processor): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video3 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/video3: 48, Succeeded: 48, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/v4l-subdev0:
+
+Driver Info:
+	Driver version   : 6.9.0
+	Capabilities     : 0x00000000
+	Client Capabilities: 0x0000000000000003
+streams interval-uses-which Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x03000039
+	Type             : V4L Sub-Device
+Entity Info:
+	ID               : 0x00000001 (1)
+	Name             : mali-c55 tpg
+	Function         : Camera Sensor
+	Pad 0x01000002   : 0: Source
+	  Link 0x02000020: to remote pad 0x1000004 of entity 'mali-c55 isp' (Image Signal Processor): Data
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev0 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 0):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 6 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/v4l-subdev0: 53, Succeeded: 53, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/v4l-subdev1:
+
+Driver Info:
+	Driver version   : 6.9.0
+	Capabilities     : 0x00000000
+	Client Capabilities: 0x0000000000000003
+streams interval-uses-which Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x0300003b
+	Type             : V4L Sub-Device
+Entity Info:
+	ID               : 0x00000003 (3)
+	Name             : mali-c55 isp
+	Function         : Image Signal Processor
+	Pad 0x01000004   : 0: Sink, Must Connect
+	  Link 0x02000020: from remote pad 0x1000002 of entity 'mali-c55 tpg' (Camera Sensor): Data
+	  Link 0x02000033: from remote pad 0x1000032 of entity 'lte-csi2-rx' (Video Interface Bridge): Data, Enabled
+	Pad 0x01000005   : 1: Source
+	  Link 0x02000022: to remote pad 0x100000a of entity 'mali-c55 resizer fr' (Video Scaler): Data, Enabled, Immutable
+	  Link 0x02000028: to remote pad 0x100000e of entity 'mali-c55 resizer ds' (Video Scaler): Data, Enabled, Immutable
+	Pad 0x01000006   : 2: Source
+	  Link 0x02000024: to remote pad 0x100000c of entity 'mali-c55 resizer fr' (Video Scaler): Data, Enabled, Immutable
+	Pad 0x01000007   : 3: Source
+	  Link 0x0200002c: to remote pad 0x100001d of entity 'mali-c55 3a stats' (V4L2 I/O): Data, Enabled
+	Pad 0x01000008   : 4: Sink
+	  Link 0x0200002e: from remote pad 0x1000019 of entity 'mali-c55 3a params' (V4L2 I/O): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev1 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device ioctls (Sink Pad 0):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 1):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 2):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 3):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Sink Pad 4):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/v4l-subdev1: 81, Succeeded: 81, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/v4l-subdev2:
+
+Driver Info:
+	Driver version   : 6.9.0
+	Capabilities     : 0x00000002
+		Streams Support
+	Client Capabilities: 0x0000000000000003
+streams interval-uses-which Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x0300003d
+	Type             : V4L Sub-Device
+Entity Info:
+	ID               : 0x00000009 (9)
+	Name             : mali-c55 resizer fr
+	Function         : Video Scaler
+	Pad 0x0100000a   : 0: Sink
+	  Link 0x02000022: from remote pad 0x1000005 of entity 'mali-c55 isp' (Image Signal Processor): Data, Enabled, Immutable
+	Pad 0x0100000b   : 1: Source
+	  Link 0x02000026: to remote pad 0x1000011 of entity 'mali-c55 fr' (V4L2 I/O): Data, Enabled
+	Pad 0x0100000c   : 2: Sink
+	  Link 0x02000024: from remote pad 0x1000006 of entity 'mali-c55 isp' (Image Signal Processor): Data, Enabled, Immutable
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev2 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device routing ioctls:
+	test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+	test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+
+Sub-Device ioctls (Sink Pad 0):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 1):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Sink Pad 2):
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/v4l-subdev2: 62, Succeeded: 62, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/v4l-subdev3:
+
+Driver Info:
+	Driver version   : 6.9.0
+	Capabilities     : 0x00000002
+		Streams Support
+	Client Capabilities: 0x0000000000000003
+streams interval-uses-which Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x0300003f
+	Type             : V4L Sub-Device
+Entity Info:
+	ID               : 0x0000000d (13)
+	Name             : mali-c55 resizer ds
+	Function         : Video Scaler
+	Pad 0x0100000e   : 0: Sink
+	  Link 0x02000028: from remote pad 0x1000005 of entity 'mali-c55 isp' (Image Signal Processor): Data, Enabled, Immutable
+	Pad 0x0100000f   : 1: Source
+	  Link 0x0200002a: to remote pad 0x1000015 of entity 'mali-c55 ds' (V4L2 I/O): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev3 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device routing ioctls:
+	test Try VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+	test Active VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: OK
+
+Sub-Device ioctls (Sink Pad 0):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 1):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/v4l-subdev3: 62, Succeeded: 62, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/v4l-subdev4:
+
+Driver Info:
+	Driver version   : 6.9.0
+	Capabilities     : 0x00000000
+	Client Capabilities: 0x0000000000000003
+streams interval-uses-which Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x03000041
+	Type             : V4L Sub-Device
+Entity Info:
+	ID               : 0x00000030 (48)
+	Name             : lte-csi2-rx
+	Function         : Video Interface Bridge
+	Pad 0x01000031   : 0: Sink, Must Connect
+	  Link 0x02000037: from remote pad 0x1000036 of entity 'imx415 1-001a' (Camera Sensor): Data, Enabled, Immutable
+	Pad 0x01000032   : 1: Source, Must Connect
+	  Link 0x02000033: to remote pad 0x1000004 of entity 'mali-c55 isp' (Image Signal Processor): Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev4 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device ioctls (Sink Pad 0):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK (Not Supported)
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 1):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK (Not Supported)
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/v4l-subdev4: 60, Succeeded: 60, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for mali-c55 device /dev/v4l-subdev5:
+
+Driver Info:
+	Driver version   : 6.9.0
+	Capabilities     : 0x00000000
+	Client Capabilities: 0x0000000000000003
+streams interval-uses-which Media Driver Info:
+	Driver name      : mali-c55
+	Model            : ARM Mali-C55 ISP
+	Serial           : 
+	Bus info         : platform:60400000.isp
+	Media version    : 6.9.0
+	Hardware revision: 0x01d982d6 (31032022)
+	Driver version   : 6.9.0
+Interface Info:
+	ID               : 0x03000043
+	Type             : V4L Sub-Device
+Entity Info:
+	ID               : 0x00000035 (53)
+	Name             : imx415 1-001a
+	Function         : Camera Sensor
+	Pad 0x01000036   : 0: Source
+	  Link 0x02000037: to remote pad 0x1000031 of entity 'lte-csi2-rx' (Video Interface Bridge): Data, Enabled, Immutable
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev5 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Sub-Device ioctls (Source Pad 0):
+	Try Stream 0
+	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Try VIDIOC_SUBDEV_G/S_FMT: OK
+		warn: ../utils/v4l2-compliance/v4l2-test-subdevs.cpp(566): VIDIOC_SUBDEV_G_SELECTION is supported for target 0 but not VIDIOC_SUBDEV_S_SELECTION
+	test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	Active Stream 0
+	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+	test Active VIDIOC_SUBDEV_G/S_FMT: OK
+		warn: ../utils/v4l2-compliance/v4l2-test-subdevs.cpp(566): VIDIOC_SUBDEV_G_SELECTION is supported for target 0 but not VIDIOC_SUBDEV_S_SELECTION
+	test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK
+	test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+		fail: ../utils/v4l2-compliance/v4l2-test-controls.cpp(1108): subscribe event for control 'User Controls' failed
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 14 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for mali-c55 device /dev/v4l-subdev5: 53, Succeeded: 52, Failed: 1, Warnings: 2
+
+Grand Total for mali-c55 device /dev/media0: 571, Succeeded: 570, Failed: 1, Warnings: 2
+
+
+Thanks
+Dan
+
+Daniel Scally (17):
+  media: mc-entity: Record number of video devices in a pipeline
+  media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60 format code
+  media: uapi: Add 20-bit bayer formats
+  media: v4l2-common: Add RAW16 format info
+  media: v4l2-common: Add RAW14 format info
+  dt-bindings: media: Add bindings for ARM mali-c55
+  media: mali-c55: Add Mali-C55 ISP driver
+  media: Documentation: Add Mali-C55 ISP Documentation
+  MAINTAINERS: Add entry for mali-c55 driver
+  media: Add MALI_C55_3A_STATS meta format
+  media: uapi: Add 3a stats buffer for mali-c55
+  media: platform: Add mali-c55 3a stats devnode
+  media: platform: Fill stats buffer on ISP_START
+  Documentation: mali-c55: Add Statistics documentation
+  media: uapi: Add parameters structs to mali-c55-config.h
+  media: platform: Add mali-c55 parameters video node
+  Documentation: mali-c55: Document the mali-c55 parameter setting
+
+Jacopo Mondi (1):
+  media: mali-c55: Add image formats for Mali-C55 parameters buffer
+
+ .../admin-guide/media/mali-c55-graph.dot      |   19 +
+ Documentation/admin-guide/media/mali-c55.rst  |  413 +++++++
+ .../admin-guide/media/v4l-drivers.rst         |    1 +
+ .../bindings/media/arm,mali-c55.yaml          |   66 +
+ .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+ .../media/v4l/metafmt-arm-mali-c55.rst        |   89 ++
+ .../media/v4l/subdev-formats.rst              |  420 ++++++-
+ MAINTAINERS                                   |   13 +
+ drivers/media/mc/mc-entity.c                  |    5 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/arm/Kconfig            |    5 +
+ drivers/media/platform/arm/Makefile           |    2 +
+ drivers/media/platform/arm/mali-c55/Kconfig   |   17 +
+ drivers/media/platform/arm/mali-c55/Makefile  |   11 +
+ .../platform/arm/mali-c55/mali-c55-capture.c  |  961 +++++++++++++++
+ .../platform/arm/mali-c55/mali-c55-common.h   |  296 +++++
+ .../platform/arm/mali-c55/mali-c55-core.c     |  949 ++++++++++++++
+ .../platform/arm/mali-c55/mali-c55-isp.c      |  561 +++++++++
+ .../platform/arm/mali-c55/mali-c55-params.c   |  671 ++++++++++
+ .../arm/mali-c55/mali-c55-registers.h         |  444 +++++++
+ .../platform/arm/mali-c55/mali-c55-resizer.c  | 1096 +++++++++++++++++
+ .../platform/arm/mali-c55/mali-c55-stats.c    |  373 ++++++
+ .../platform/arm/mali-c55/mali-c55-tpg.c      |  438 +++++++
+ drivers/media/v4l2-core/v4l2-common.c         |    8 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+ include/media/media-entity.h                  |    2 +
+ include/uapi/linux/media-bus-format.h         |    9 +-
+ .../uapi/linux/media/arm/mali-c55-config.h    |  945 ++++++++++++++
+ include/uapi/linux/videodev2.h                |    3 +
+ 30 files changed, 7818 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/mali-c55-graph.dot
+ create mode 100644 Documentation/admin-guide/media/mali-c55.rst
+ create mode 100644 Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+ create mode 100644 drivers/media/platform/arm/Kconfig
+ create mode 100644 drivers/media/platform/arm/Makefile
+ create mode 100644 drivers/media/platform/arm/mali-c55/Kconfig
+ create mode 100644 drivers/media/platform/arm/mali-c55/Makefile
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-capture.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-common.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-core.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-params.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-stats.c
+ create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
+ create mode 100644 include/uapi/linux/media/arm/mali-c55-config.h
+
+-- 
+2.34.1
 
 
