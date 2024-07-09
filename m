@@ -1,73 +1,85 @@
-Return-Path: <linux-media+bounces-14715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14722-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E6F92AD3A
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 02:44:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC75A92AE6A
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 05:06:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08179282430
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 00:44:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7458DB20AA6
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 03:06:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3007D29413;
-	Tue,  9 Jul 2024 00:44:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28C6543AD5;
+	Tue,  9 Jul 2024 03:06:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b="mnQId6Xx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lEBslGGV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1122.securemx.jp [210.130.202.130])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9724A05;
-	Tue,  9 Jul 2024 00:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B108A47;
+	Tue,  9 Jul 2024 03:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720485887; cv=none; b=ma6iUziaqHKZYICrpMZ/7nKtxtNR6bZjLVNUb2aY5nD7w3HLUKmArMyiDrqAgggBVxAUHpxMzS7ysq3xACLXRoAt/B6OQxcWPK1gyVWpVNh0baC6nBeMBlf7zhJMOAUtbhTPLrlHspf50a3YchItE7csgG99J2I5eQErcvNKqHU=
+	t=1720494383; cv=none; b=OS1NRkkJUb9JAEjGA2DMHUafLiRsJO0izD7paMT22sBRdaIGUvsc3tIS0RbL8fFtuyrAuQdpRwR66LfPRyQMbK9zVkJJhehvFiijwhBTcm1EqLXvivMO9fKFDhiypV6M9/c8aTESwO007o8D6wWFSCAl93Kc5FKnnEh8YMeYltM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720485887; c=relaxed/simple;
-	bh=e1dzAiBXQhbVLezx3qDYjhlathF5T/E1TJvwyCTSHl8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=d1F698p9flQRDCiJI8mh3yLISYHr7TX8o7OkRzElHZyewVFo826o4nZ/3LTAX2C70hfxmX4K8kHFfkCD+gnPkD5si4bgWRsql7TXP3WTH3TP5fQ6UPQcU0tnbyIOoVOrS9JKRqgJWQdDQy9am/ht83neZJGVQSsSioySvpFb3sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b=mnQId6Xx; arc=none smtp.client-ip=210.130.202.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1122) id 4690FGhA2337246; Tue, 9 Jul 2024 09:15:16 +0900
-DKIM-Signature: v=1;a=rsa-sha256;c=relaxed/simple;d=toshiba.co.jp;h=From:To:Cc
-	:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding;i=yuji2.ishikawa@toshiba.co.jp;s=key2.smx;t=
-	1720484084;x=1721693684;bh=e1dzAiBXQhbVLezx3qDYjhlathF5T/E1TJvwyCTSHl8=;b=mnQ
-	Id6XxWHtvudM4ICe1B99n9nk/F/zlkvsjZ2hxIVIsvf0HvQa4mFKKd78ukwTqttz9w7cHvG7B2U72
-	QEUWLcNwaZXon8tt5bJ6QxGIsvee8Gqt+sJ5HObQ5Q9EsEdw8LcLIYb3dSvIEZ7znRMBZxA/NZOgp
-	BhhvDUEevO7HulaF4r+aopVwrZeLKBP31VmetqyieB4iiq5xtvIpbkBdQhmVl97ci0fW/TYPnfZDV
-	NZUY0XT2yeGQx6O6JL9b+GvsnTLqvVQs5Pio9EgC24ho/1q92LToJZWktEfsWU0+xESEh7Rhc1Mvv
-	2XWPkbIFqEXq4hZRzlXz5ycyV3Ep32w==;
-Received: by mo-csw.securemx.jp (mx-mo-csw1122) id 4690Eigc3581316; Tue, 9 Jul 2024 09:14:44 +0900
-X-Iguazu-Qid: 2rWgcwEFXkFHW1EwRr
-X-Iguazu-QSIG: v=2; s=0; t=1720484083; q=2rWgcwEFXkFHW1EwRr; m=RC9L+gHFs2stttK5pKGR6z1upsS3B/TWlkYHLZqw76M=
-Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
-	by relay.securemx.jp (mx-mr1121) id 4690EgBh130368
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 9 Jul 2024 09:14:43 +0900
-X-SA-MID: 26358990
-From: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 6/6] MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-Date: Tue,  9 Jul 2024 09:08:48 +0900
-X-TSB-HOP2: ON
-Message-Id: <20240709000848.1108788-7-yuji2.ishikawa@toshiba.co.jp>
+	s=arc-20240116; t=1720494383; c=relaxed/simple;
+	bh=d3srkMsg2KdxDzO3xlTrmynajVoZFXikx+M2zbMSD4o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CEc1OeGG6DfENhtHDdtbBjRuRHOVFrbDzdneJkS0PLteGcgQQeSCw4CS/x+c/khuRas7zNlZaLJoNky8fVDj15kxsVOS6BsGrwITR1SMtDS07L6fOCXHmApS96swol8gtwnjVBXyxQ02YhUXwaGSybaUeLmeKoMVWuFSRlOlCUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lEBslGGV; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5c670e5469aso1035592eaf.1;
+        Mon, 08 Jul 2024 20:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720494381; x=1721099181; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Iooajm32+cbim4jJ3gpk2rpzqQgy6Cf493SBECgZQk=;
+        b=lEBslGGVgaFXl7XA1sGVWdzo8zV/ttxTFcNhH9rB5BL0KLVB9VtDDHSIvy1R0W75lQ
+         ueCOZWc1Idld8JzLSIrK2KM/o+oS7iUNW65rthH59j9ZQxwCUhXvy5Ecvngf6JXn0dqc
+         BpQbLFycqXwddjWwrq7fZBs+cm5LVd9lIReLQLiZ0sAwDulwn3Gn7b36EpR4B/YDBfPK
+         De1XvTxrr1jgqEA6SywwhJuDbr1iNB6b+vz6HszuuUFdz74fSmd6HD4uedcdYo+JRoHD
+         TV+8ZmWiu7eV9drKwbKBoUTeS6JQUm7gm9Tt7tiPsGimjMHnvMmIqkzSZAsF3sW0aaZ+
+         ugdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720494381; x=1721099181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Iooajm32+cbim4jJ3gpk2rpzqQgy6Cf493SBECgZQk=;
+        b=ZRRmHrwsO0BTxwLBdt6KxiYhR2fcMAzDejrh9YPVH059qroDQl+DEmGK6wK8R4F0l7
+         agkLHjfxN60qzw3nxRoQ+rph3xqVaveeX9pW/sI8WrkO7WzTd5etrldSMVeBZFcvVz6H
+         LH0RDArCpPXhShyHRVzn6Gn9rQIuLz5Y9b6khuC+laj3UtHtoTYxS1ndgHd3qNf3QjAI
+         WG3nuTW60izbIMz9q5Uevl4lxtdC9ZpoYwCs1feMRf4GfU3YiEKVNWSG5puxW5/6C0ko
+         EbJKlj4cYXRgUoU7A0Cu7zXU5MnPmMfUTY1fueeeHjQN0vqVp+0xmaCe733IuoVlzCPz
+         iTgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUzKD38dVQfbBJZRZGlcfIzQr1jHHs+KLR0Jfyv2A0q0bXtXn+N/BDmPz9mGjXwePIxX8ySgkwaGxHJio/kR8nRMYOl6dEI6rWb5jDBmy9rrEK7iPQbk3m4DKEF8QAkcrgdko7IOU9hpENdHGBtv0hIC2n51fkDDLQ40nKToWuseGwYW7g=
+X-Gm-Message-State: AOJu0YwjlOuLPd8e4xZb/olEpnNUlgkSn2RQCMDBmvHW1kTvzc/Bo/ST
+	2uuwZ1fTLW5rPpJCVDstqb4MtY9hYa62UPRa4n38mzIwrFXI2p77
+X-Google-Smtp-Source: AGHT+IEhHD+qwVHMhVIw9k8OzWe7UeTC/D40buUHZnfJUnXTtABu7BgCLngwzZXKIHWNK6QAsyWgyw==
+X-Received: by 2002:a4a:b0ce:0:b0:5c6:6f69:7e7b with SMTP id 006d021491bc7-5c68e13ddefmr1381600eaf.3.1720494381220;
+        Mon, 08 Jul 2024 20:06:21 -0700 (PDT)
+Received: from shiv-machina.. (c-73-169-52-138.hsd1.co.comcast.net. [73.169.52.138])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c68cd9a919sm187717eaf.28.2024.07.08.20.06.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jul 2024 20:06:20 -0700 (PDT)
+From: Shivani Gupta <shivani07g@gmail.com>
+To: laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org
+Cc: Shivani Gupta <shivani07g@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	javier.carrasco.cruz@gmail.com
+Subject: [PATCH] usb: xhci: Fix compiler warning in xhci.c
+Date: Tue,  9 Jul 2024 03:06:04 +0000
+Message-Id: <20240709030604.1347546-1-shivani07g@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240709000848.1108788-1-yuji2.ishikawa@toshiba.co.jp>
-References: <20240709000848.1108788-1-yuji2.ishikawa@toshiba.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,71 +88,31 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added entries for visconti Video Input Interface driver, including;
-* device tree bindings
-* source files
-* documentation files
+Fixes the following compiler warnings by changing the comment syntax
+from "/**" to "/*" in the specified comments:
 
-Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+drivers/usb/host/xhci.c:1369: warning: Function parameter or struct member
+'desc' not described in 'xhci_get_endpoint_index'
+
+Signed-off-by: Shivani Gupta <shivani07g@gmail.com>
 ---
-Changelog v2:
-- no change
+ drivers/usb/host/xhci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changelog v3:
-- added entry for driver API documentation
-
-Changelog v4:
-- added entry for header file
-
-Changelog v5:
-- no change
-
-Changelog v6:
-- update path to VIIF driver source files
-
-Changelog v7:
-- no change
-
-Changelog v8:
-- rename bindings description file
-
-Changelog v9:
-- no change
-
-Changelog v10:
-- add a separate entry of VIIF driver
-
-Changelog v11:
-- no change
-
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3c4fdf74a3..f051f4ab34 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22734,6 +22734,17 @@ F:	Documentation/devicetree/bindings/media/i2c/tc358743.txt
- F:	drivers/media/i2c/tc358743*
- F:	include/media/i2c/tc358743.h
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 37eb37b0affa..67168661aa52 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1355,7 +1355,7 @@ static void xhci_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
+ 		usb_hcd_unmap_urb_for_dma(hcd, urb);
+ }
  
-+TOSHIBA VISCONTI VIIF DRIVER
-+M:	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-+M:	Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/media/visconti-viif.*
-+F:	Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
-+F:	Documentation/userspace-api/media/v4l/metafmt-visconti-viif.rst
-+F:	drivers/media/platform/toshiba/visconti/
-+F:	include/uapi/linux/visconti_viif.h
-+
- TOSHIBA WMI HOTKEYS DRIVER
- M:	Azael Avalos <coproscefalo@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
+-/**
++/*
+  * xhci_get_endpoint_index - Used for passing endpoint bitmasks between the core and
+  * HCDs.  Find the index for an endpoint given its descriptor.  Use the return
+  * value to right shift 1 for the bitmask.
 -- 
-2.25.1
-
+2.34.1
 
 
