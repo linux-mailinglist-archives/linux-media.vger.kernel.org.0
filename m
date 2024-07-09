@@ -1,52 +1,54 @@
-Return-Path: <linux-media+bounces-14720-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E5392ADE7
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 03:44:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F6792AD6F
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 02:57:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C3A41C20FAC
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 01:44:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4CEFB213FE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 00:56:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 136AB39FD8;
-	Tue,  9 Jul 2024 01:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FABC2B9DA;
+	Tue,  9 Jul 2024 00:56:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b="eSG2f345"
+	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b="PIoj5GCY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1800.securemx.jp [210.130.202.159])
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1121.securemx.jp [210.130.202.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E90D30358;
-	Tue,  9 Jul 2024 01:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690FB2629D;
+	Tue,  9 Jul 2024 00:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720489475; cv=none; b=ix/GBJnrsEVS0REYj8nzjaCFwnVLbVNAm3QGLxI52Shb1tgY4yFR4gl4e7crQskJm/Me4ppa1lOo1FTE9fqfKYKI84C/8DeCPGvc2z0tqwOS0ZN4ymLSVLibifiTHI7vkENlbVns/wNyQoqXNhfO41GJqsirSFeRcQlqsBjiFz4=
+	t=1720486608; cv=none; b=RB2RCsgid5IY0bungbdAld7IiQES4hnAtj4IbvRTS4WqeFeYpoWjeyBL3N56MvbhBam65oLx8qTqzJsFJBf7XjGZ67mBk6R63972vqa1HitWdofumbxqLHb1CT7JSunJu/DxSN9KCk4cjGOXQ+ZvtQGwvP16y8Q2D853NpkbXkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720489475; c=relaxed/simple;
-	bh=Q83xjEUL1NZQogk0y4QQ08YEUB6zaP79T5+pa0Z7kD4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=InfdFXO3++uKVyJHA2J8uM22Li0PmVlct/7y5CB77aygCPgVhzT5a1/OhBSP2X+OFAGvR4FyM+KwHvwPhJVVyCES07MpBTbpKdwbjev2m+/eFOLx0Z0VAqCp2KA/3OJcU9pbloJVGFz4aA+mTEonl45ZDF+i7dmNZdnr8Yw5YPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b=eSG2f345; arc=none smtp.client-ip=210.130.202.159
+	s=arc-20240116; t=1720486608; c=relaxed/simple;
+	bh=k54OwyzEI9CQ5Jv14pCG4WNSPzFTk/etUxtTuHqboYs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=FYEZJbZGklmy2sTNIangAC5XzjjbnWMIE81C7Hm9vMb8NQjbX7q1TLiLp1K4FVBjpCFg5xoKqVps2QBF6/mhM+ZrSvWcKW0My5wHLkCDKZQzF12P30U7SS3x8KHln4KNT5CBidMl7qtdt2MELnpfLxISYgcem70byR+5NKLJQ5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b=PIoj5GCY; arc=none smtp.client-ip=210.130.202.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1800) id 4690FGEw742851; Tue, 9 Jul 2024 09:15:16 +0900
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1121) id 4690FHsx2760176; Tue, 9 Jul 2024 09:15:17 +0900
 DKIM-Signature: v=1;a=rsa-sha256;c=relaxed/simple;d=toshiba.co.jp;h=From:To:Cc
-	:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;i=
-	yuji2.ishikawa@toshiba.co.jp;s=key2.smx;t=1720484072;x=1721693672;bh=Q83xjEUL
-	1NZQogk0y4QQ08YEUB6zaP79T5+pa0Z7kD4=;b=eSG2f345loBhjWhmXLwuUF6I3Yjh9Mifl06+mg
-	JBLHrfMbKxt6piXScXdncrXttgE8qEBgOCD7FKLvzmULYX3rx9jw4onnpGgPZTxxASkbezQQv4Cbl
-	jQkh0LsamyLf2Dt1KUbdeOsIegkIMzUDDJK7+J3Cb6MID8q1mb23PAuxU3HK0F9inkBH6/NbTbSv8
-	YTv5g5bwwh2ayJMsg4esq8bLSprG9ZLA+bpROMLuJMjO+bKsN2EqHAtLWQgD7goQ2DTLTBxAxnYdj
-	AWdaLOWm86cM/qlbzuftc8F2ezKk3bXk+EHjd+yV69TL5UdhKsAiMQhy4FgFwrNnFWv+rC0zQ==;
-Received: by mo-csw.securemx.jp (mx-mo-csw1800) id 4690ETtW1605432; Tue, 9 Jul 2024 09:14:30 +0900
-X-Iguazu-Qid: 2yAaT64FYgJTTafAum
-X-Iguazu-QSIG: v=2; s=0; t=1720484069; q=2yAaT64FYgJTTafAum; m=jQG016lu/7vjGIW8QL8mHidGAmurOhAtj8fW3xeXfy4=
+	:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding;i=yuji2.ishikawa@toshiba.co.jp;s=key2.smx;t=
+	1720484070;x=1721693670;bh=k54OwyzEI9CQ5Jv14pCG4WNSPzFTk/etUxtTuHqboYs=;b=PIo
+	j5GCYVAWegKFzfdu+8mc0Woklf8y/NZlUoEL6KziyRW3EHJRGymM+LjSNJbUjwK0vIbr2hyxe4ZM+
+	LVLwSNWMKqH1IMeL+iSSP6OPPK/zfuYNKvPYdHWXcWvSCZcEmW7C60l+Ci5Pbd32Ey6bih5s73U2A
+	gUx90z7rauWGLokxDNylPQSz0IUvmvrme+CxqDaK81WiY3eSVkPmlQ4T6PmeL4dDvXL2J7yaVVPtr
+	GMd/UUPTH+Fs4rjmPKAXHS/RWJRbC6EY8/2Pvd6/yZY6EJ+iu2jymJDmWbzb7S8/ATqdG1VeBr6wg
+	QVj0zOODgQW0lNjwTdRCgSEeinLbhDQ==;
+Received: by mo-csw.securemx.jp (mx-mo-csw1122) id 4690ET8C3580465; Tue, 9 Jul 2024 09:14:29 +0900
+X-Iguazu-Qid: 2rWgDT56m9icomVPkt
+X-Iguazu-QSIG: v=2; s=0; t=1720484069; q=2rWgDT56m9icomVPkt; m=HHO3hzq3McyvrP3CuDTwfOPyk7CLTqRpdO7D0e7XGNQ=
 Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
-	by relay.securemx.jp (mx-mr1801) id 4690ERZY2534880
+	by relay.securemx.jp (mx-mr1120) id 4690ERNe950929
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Tue, 9 Jul 2024 09:14:27 +0900
-X-SA-MID: 26358967
+X-SA-MID: 26358968
 From: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 To: Hans Verkuil <hverkuil@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -58,12 +60,15 @@ To: Hans Verkuil <hverkuil@xs4all.nl>,
         Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
         Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 0/6] Add Toshiba Visconti Video Input Interface driver
-Date: Tue,  9 Jul 2024 09:08:42 +0900
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v11 1/6] dt-bindings: media: platform: visconti: Add Toshiba Visconti Video Input Interface
+Date: Tue,  9 Jul 2024 09:08:43 +0900
 X-TSB-HOP2: ON
-Message-Id: <20240709000848.1108788-1-yuji2.ishikawa@toshiba.co.jp>
+Message-Id: <20240709000848.1108788-2-yuji2.ishikawa@toshiba.co.jp>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240709000848.1108788-1-yuji2.ishikawa@toshiba.co.jp>
+References: <20240709000848.1108788-1-yuji2.ishikawa@toshiba.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,164 +77,178 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series is the Video Input Interface driver
-for Toshiba's ARM SoC, Visconti.
-This provides DT binding documentation,
-device driver, documentation and MAINTAINER files.
+Adds the Device Tree binding documentation that allows to describe
+the Video Input Interface found in Toshiba Visconti SoCs.
 
-A visconti VIIF driver instance exposes
-1 media control device file, 3 video device files for capture
-and 2 video device files for controlling image signal processor.
-Detailed HW/SW are described in documentation directory.
-The VIIF hardware has CSI2 receiver,
-image signal processor and DMAC inside.
-The subdevice for image signal processor provides
-vendor specific V4L2 controls.
-
-The device driver depends on two other drivers under development;
-clock framework driver and IOMMU driver.
-Corresponding features will be added later.
-
-Best regards,
-Yuji
-
+Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
 Changelog v2:
-- Resend v1 because a patch exceeds size limit.
+- no change
 
 Changelog v3:
-- Add documentation to describe SW and HW
-- Adapted to media control framework
-- Introduced ISP subdevice, capture device
-- Remove private IOCTLs and add vendor specific V4L2 controls
-- Change function name avoiding camelcase and uppercase letters
+- no change
 
 Changelog v4:
-- Split patches because a patch exceeds size limit
-- fix dt-bindings document
-- stop specifying ID numbers for driver instance explicitly at device tree
-- use pm_runtime to trigger initialization of HW
-  along with open/close of device files.
-- add a entry for a header file at MAINTAINERS file
+- fix style problems at the v3 patch
+- remove "index" member
+- update example
 
 Changelog v5:
-- Fix coding style problem in viif.c (patch 2/6)
+- no change
 
 Changelog v6:
-- add register definition of BUS-IF and MPU in dt-bindings
-- add CSI2RX subdevice (separeted from ISP subdevice)
-- change directory layout (moved to media/platform/toshiba/visconti)
-- change source file layout (removed hwd_xxxx.c)
-- pointer to userland memory is removed from uAPI parameters
-- change register access (from struct style to macro style)
-- remove unused macros
+- add register definition of BUS-IF and MPU
 
 Changelog v7:
-- remove redundant "bindings" from header and description text
-- fix multiline text of "description"
-- change "compatible" to "visconti5-viif"
+- remove trailing "bindings" from commit header message
+- remove trailing "Device Tree Bindings" from title
+- fix text wrapping of description
+- change compatible to visconti5-viif
 - explicitly define allowed properties for port::endpoint
-- remove unused variables
-- update kerneldoc comments
-- update references to headers
 
 Changelog v8:
-- rename bindings description file
-- remove/simplify items in bindings
-- update operations around v4l2_async_notifier
-- use v4l2_async_connection instead of v4l2_async_subdev
-- use dev_err_probe()
-- better error handling at probe
-- remove redundant mutex
-- add V4L2_CTRL_TYPE_VISCONTI_ISP constant
+- Suggestion from Krzysztof Kozlowski
+  - rename bindings description file
+  - use block style array instead of inline style
+  - remove clock-lane (as it is fixed at position 0)
+  - update sample node's name
+  - use lowercase hex for literals
+- Suggestion from Laurent Pinchart
+  - update description message port::description
+  - remove port::endpoint::bus-type as it is fixed to <4>
+  - remove port::endpoint::clock-lanes from example
+  - add port::endpoint::data-lanes to required parameters list
+  - fix sequence of data-lanes: <1 2 3 4> because current driver does not support data reordering
+  - update port::endpoint::data-lanes::description
+  - remove redundant type definition for port::endpoint::data-lanes
 
 Changelog v9:
-- dictionary ordering of dt-bindings properties
-- applied sparce checker
-- call div64_u64 for 64bit division
-- rebase to media_staging tree
-- fix warning for cast between ptr and dma_addr_t
+- place "required" after "properties"
+- dictionary ordering of properties
 
 Changelog v10:
-- add an independent entry in MAINTAINERS
-- add paddings to uAPI structs
-- use parameter buffer to control ISP (instead of vendor specific controls)
+- no change
 
 Changelog v11:
-- stop merging sensor's controls and capture device's
-- fix strange indents at initializations
-- remove feature VB2_USERPTR from viif_params and viif_stats
-- fix usage in the document
+- no change
 
-Yuji Ishikawa (6):
-  dt-bindings: media: platform: visconti: Add Toshiba Visconti Video
-    Input Interface
-  media: videodev2.h: add visconti viif meta buffer format
-  media: platform: visconti: Add Toshiba Visconti Video Input Interface
-    driver
-  media: platform: visconti: add streaming interface for ISP parameters
-    and status
-  documentation: media: add documentation for Toshiba Visconti Video
-    Input Interface driver
-  MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-
- .../admin-guide/media/v4l-drivers.rst         |    1 +
- .../admin-guide/media/visconti-viif.dot       |   18 +
- .../admin-guide/media/visconti-viif.rst       |  255 +++
- .../media/toshiba,visconti5-viif.yaml         |  105 +
- .../userspace-api/media/v4l/meta-formats.rst  |    1 +
- .../media/v4l/metafmt-visconti-viif.rst       |   48 +
- MAINTAINERS                                   |   11 +
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/toshiba/Kconfig        |    6 +
- drivers/media/platform/toshiba/Makefile       |    2 +
- .../media/platform/toshiba/visconti/Kconfig   |   19 +
- .../media/platform/toshiba/visconti/Makefile  |    8 +
- .../media/platform/toshiba/visconti/viif.c    |  651 ++++++
- .../media/platform/toshiba/visconti/viif.h    |  393 ++++
- .../platform/toshiba/visconti/viif_capture.c  | 1431 ++++++++++++
- .../platform/toshiba/visconti/viif_capture.h  |   21 +
- .../platform/toshiba/visconti/viif_common.c   |  239 ++
- .../platform/toshiba/visconti/viif_common.h   |   42 +
- .../platform/toshiba/visconti/viif_csi2rx.c   |  657 ++++++
- .../platform/toshiba/visconti/viif_csi2rx.h   |   24 +
- .../toshiba/visconti/viif_csi2rx_regs.h       |  102 +
- .../platform/toshiba/visconti/viif_isp.c      | 1190 ++++++++++
- .../platform/toshiba/visconti/viif_isp.h      |   24 +
- .../platform/toshiba/visconti/viif_params.c   | 2020 +++++++++++++++++
- .../platform/toshiba/visconti/viif_params.h   |   19 +
- .../platform/toshiba/visconti/viif_regs.h     |  721 ++++++
- .../platform/toshiba/visconti/viif_stats.c    |  336 +++
- .../platform/toshiba/visconti/viif_stats.h    |   14 +
- include/uapi/linux/videodev2.h                |    4 +
- include/uapi/linux/visconti_viif.h            | 1921 ++++++++++++++++
- 31 files changed, 10285 insertions(+)
- create mode 100644 Documentation/admin-guide/media/visconti-viif.dot
- create mode 100644 Documentation/admin-guide/media/visconti-viif.rst
+ .../media/toshiba,visconti5-viif.yaml         | 105 ++++++++++++++++++
+ 1 file changed, 105 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
- create mode 100644 Documentation/userspace-api/media/v4l/metafmt-visconti-viif.rst
- create mode 100644 drivers/media/platform/toshiba/Kconfig
- create mode 100644 drivers/media/platform/toshiba/Makefile
- create mode 100644 drivers/media/platform/toshiba/visconti/Kconfig
- create mode 100644 drivers/media/platform/toshiba/visconti/Makefile
- create mode 100644 drivers/media/platform/toshiba/visconti/viif.c
- create mode 100644 drivers/media/platform/toshiba/visconti/viif.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_capture.c
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_capture.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_common.c
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_common.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx.c
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_csi2rx_regs.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_isp.c
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_isp.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_params.c
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_params.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_regs.h
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_stats.c
- create mode 100644 drivers/media/platform/toshiba/visconti/viif_stats.h
- create mode 100644 include/uapi/linux/visconti_viif.h
 
+diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+new file mode 100644
+index 0000000000..97e8bda427
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+@@ -0,0 +1,105 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/toshiba,visconti5-viif.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Toshiba Visconti5 SoC Video Input Interface
++
++maintainers:
++  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
++
++description: |-
++  Toshiba Visconti5 SoC Video Input Interface (VIIF) receives MIPI CSI2 video
++  stream, processes the stream with image signal processors (L1ISP, L2ISP),
++  then stores pictures to main memory.
++
++properties:
++  compatible:
++    const: toshiba,visconti5-viif
++
++  reg:
++    items:
++      - description: Registers for capture control
++      - description: Registers for CSI2 receiver control
++      - description: Registers for bus interface unit control
++      - description: Registers for Memory Protection Unit
++
++  interrupts:
++    items:
++      - description: Sync Interrupt
++      - description: Status (Error) Interrupt
++      - description: CSI2 Receiver Interrupt
++      - description: L1ISP Interrupt
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    unevaluatedProperties: false
++    description: CSI-2 input port, with a single endpoint connected to the CSI-2 transmitter.
++
++    properties:
++      endpoint:
++        $ref: video-interfaces.yaml#
++        additionalProperties: false
++
++        properties:
++          data-lanes:
++            description: VIIF supports 1, 2, 3 or 4 data lanes
++            minItems: 1
++            items:
++              - const: 1
++              - const: 2
++              - const: 3
++              - const: 4
++
++          clock-noncontinuous: true
++          link-frequencies: true
++          remote-endpoint: true
++
++        required:
++          - clock-noncontinuous
++          - data-lanes
++          - link-frequencies
++          - remote-endpoint
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        video@1c000000 {
++            compatible = "toshiba,visconti5-viif";
++            reg = <0 0x1c000000 0 0x6000>,
++                  <0 0x1c008000 0 0x400>,
++                  <0 0x1c00e000 0 0x1000>,
++                  <0 0x2417a000 0 0x1000>;
++            interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
++
++            port {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                csi_in0: endpoint {
++                    clock-noncontinuous;
++                    data-lanes = <1 2>;
++                    link-frequencies = /bits/ 64 <456000000>;
++                    remote-endpoint = <&imx219_out0>;
++                };
++            };
++        };
++    };
 -- 
 2.25.1
 
