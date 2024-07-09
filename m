@@ -1,151 +1,135 @@
-Return-Path: <linux-media+bounces-14792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DC692BF87
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 18:18:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A87AE92C1A9
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 19:05:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6ED53288AF0
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 16:18:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8881428B87E
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 17:05:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 208E519DF48;
-	Tue,  9 Jul 2024 16:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF74E1B47BC;
+	Tue,  9 Jul 2024 16:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPjq8vya"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QjCRkdR4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E2C158A36;
-	Tue,  9 Jul 2024 16:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE121B47AB
+	for <linux-media@vger.kernel.org>; Tue,  9 Jul 2024 16:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720541873; cv=none; b=cDYfY+pY6zwNZDDUWRJCS9HfWrP3Eg77tugm/by2tv1VeoFrA2S5nILTAgF1Z8xBrj7X68+hQ51+a7kEAMrszMaq+vCtY3GYrkAmPN985BvTcOe9Cpv60MgG/2EQzI5ARIPi0FBJPs90DanGWcRqRZ9r50JR69upKT8XK6NINco=
+	t=1720542957; cv=none; b=NFaUz82lMZjRA1Sed1SCF8/ZQIj58Hzz36GyIsGwiKhfnmUaI3aDDGdxska/RemcMw4ViPh2dqDyJTAEMraU9nE/4bmYJf/3/N+RuwZ8FZr5dWM23EHb1EVHi/9uuLZQReSjErfj+C8xJx6smURjTZAEU9h5j+6DgyaG0P3OC0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720541873; c=relaxed/simple;
-	bh=TamJKovQUEkt3niIxAxyUtA7ak5N59S2pM5XNNELtW8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tHqRsN0cskmWwd/Lu2jbciK8WwDZuJ85DXVUouWiJO3G/1yT39z0GJ2pjvDm1JmrcjwenBco7HbtOEaI0/TMhJhhWHjdCCnwHpR2bjiLwA3tC2umlUsAS8pU8P5+7qfz0jy64IttDyRWDgWZNRoDjZgx0uWCuUSMCkOFmtvoeDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPjq8vya; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720541872; x=1752077872;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=TamJKovQUEkt3niIxAxyUtA7ak5N59S2pM5XNNELtW8=;
-  b=KPjq8vyaTKXoIS7MrmvYA9UikQxWxSq+DVsB1SWkNnVjYZK/prthVYCp
-   zYkvOaQw8Q1Kuck5Zjp9rTz48FM9f6yEO99NG4c3USwb1o1cqtZOIE0xf
-   hmMwsvrK7u20AMR0EVDNcRYOmItW6KbAl8hmOrXc2FyILEI3GTd3pMfPo
-   Tx54mS1U2CI/5Q5eOnauztnERWOWNArfSoQa3gspiHLxdRl4+5nr+LA8h
-   BZRaA5SVH6yyyC7RVn6MKfabeUWTdYGnX9b9NlpnS7lbNSD5tB7mdoaBp
-   j9V/ofoidRKioQCQ9/QG6Wh2TdOG/tXJFSW236aLJS3QABMqetFdFO3jp
-   Q==;
-X-CSE-ConnectionGUID: sJ6lhNzcTbOZuT1BurEX3g==
-X-CSE-MsgGUID: DKdo2jo7Stat8JOLIN9NtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="28971255"
-X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="28971255"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 09:17:51 -0700
-X-CSE-ConnectionGUID: 4BkvPTidQY6Z03JB80wrOQ==
-X-CSE-MsgGUID: X5teJpiRSRKh9Pg/QDXp0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="47989294"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 09:17:49 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2293711F811;
-	Tue,  9 Jul 2024 19:17:45 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1sRDXF-00Fd1R-0A;
-	Tue, 09 Jul 2024 19:17:45 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Greg KH <greg@kroah.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: [PATCH 1/1] media: raspberrypi: Switch to remove_new
-Date: Tue,  9 Jul 2024 19:17:35 +0300
-Message-Id: <20240709161735.3724913-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240709163715.3bcd6ab3@canb.auug.org.au>
+	s=arc-20240116; t=1720542957; c=relaxed/simple;
+	bh=PePAGbhMUNOE0V833DZkBuDOtd4qtBDONsf9+SAawk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=szvURP1BUHYW2NnjRMTAOVehxjAKWUnAlAdSo0gNcWbKD2R0GLtnThELNz54UKuU6JwPrYE1n/rXW3FY3uTpiaF96OCXTL5x0EYzKK+02745G0N2TxqtpIDvlPCzlLNFFo4GQE+HmotAZpxq6rhEpgHEfnxPfZkbSVub6fElIWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QjCRkdR4; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a77dc08db60so473601766b.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jul 2024 09:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1720542953; x=1721147753; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PePAGbhMUNOE0V833DZkBuDOtd4qtBDONsf9+SAawk4=;
+        b=QjCRkdR4TsJQzTtTmrJhcAXyZJwxaxUyef6mviMOJZz/NN8dIYAEBxIawRAjGK6xQu
+         VNcFbOO+fN9L0obm9WDDv3dd3abogUHdYWRIg7ZVHQeXv2iKBCFySxVvyg82e1HT09f3
+         sHvkMECW4lCE9vRmp6tdxKPfeGlJNOLDF5vbfjb61ai3qBk39+8aZ22Et1alhQ+GmcK4
+         OSwVQ6Knnz1B70XbDp+DwM4HntGLeGqO1NFOdqutq7sQ75DqhZWJC9rG0Bf48L/Be/i1
+         rNZpRDh5EUv1czr8HXK3d+Uu+YK35Y+raMkhJxCS559Joy5/y/bepNbPGv0SfuWOp+tW
+         ecaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720542953; x=1721147753;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PePAGbhMUNOE0V833DZkBuDOtd4qtBDONsf9+SAawk4=;
+        b=Je/ft59/k4L+xKR/V5oBjOo0mCGvQ5ZaKwXJrkm2fgutipYSVGMyyuEd/xwfylvOhh
+         Ria/KvBrXTWc8Yv4QV9ZkAZl64S1NzhhQm2N2YzEkJrhHYc36X7L0h4FiD7SvuIu1ci2
+         ZHJngKk1vkCYD98zLKueMw+OFGgh12YKNHnOeF7SrE4gQRhf3HKz3Wr++0BTL2WF6MC5
+         PCboEEnb9tYHGgSq/0eqpvrn53/+/Isu0pmEIiQg4P/xn8wrlzwMEC21S+v4EYdj8kdG
+         oNEDAHW5z4q2NXTIKg23u0NGY35URnVHYSWyLLpqBVcoZCduys1n0/K+i2yhRp1jmVLY
+         4zMg==
+X-Gm-Message-State: AOJu0Yw0AbTUKJHvGjYMnMwwHbYiwMc/4iKP9b1Dn0aRN+ERjGeyz/hG
+	+L4Qh5/xRO+y/Vlteq79VflsVWvwn06IC0lsz7Bp9w8Ld97BFmrOWnmEgzr8cRk=
+X-Google-Smtp-Source: AGHT+IHG9sM381M4u9R6ru+Q2K7lC5oxBE2d7vRqLXAPPx0tdjk+KxL1mJvjO39ifs+Mw2YGUzrc6w==
+X-Received: by 2002:a17:906:9982:b0:a6f:b0d0:1beb with SMTP id a640c23a62f3a-a780b6b1c63mr238978966b.24.1720542953030;
+        Tue, 09 Jul 2024 09:35:53 -0700 (PDT)
+Received: from localhost (p200300f65f217d00930e0db224f9e8ed.dip0.t-ipconnect.de. [2003:f6:5f21:7d00:930e:db2:24f9:e8ed])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a780a855e24sm90830266b.177.2024.07.09.09.35.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jul 2024 09:35:52 -0700 (PDT)
+Date: Tue, 9 Jul 2024 18:35:51 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Greg KH <greg@kroah.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, David Plowman <david.plowman@raspberrypi.com>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, Nick Hollinghurst <nick.hollinghurst@raspberrypi.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: [PATCH 1/1] media: raspberrypi: Switch to remove_new
+Message-ID: <be4j2t3vjdgstmps4i5m47rcwgc7kkbqut4gzxs5wmdvl6qxiy@zhjub5ptwqm6>
 References: <20240709163715.3bcd6ab3@canb.auug.org.au>
+ <20240709161735.3724913-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="taw6qsx5tso52cco"
+Content-Disposition: inline
+In-Reply-To: <20240709161735.3724913-1-sakari.ailus@linux.intel.com>
 
-From: Stephen Rothwell <sfr@canb.auug.org.au>
 
-The remove callback's return value is about to change from int to void,
-this is done by commit 0edb555a65d1 ("platform: Make
-platform_driver::remove() return void"). Prepare for merging the patch by
-switching the PiSP driver from remove to remove_new callback.
+--taw6qsx5tso52cco
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 12187bd5d4f8 ("media: raspberrypi: Add support for PiSP BE")
-Co-developed-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Acked-by: Naushir Patuck <naush@raspberrypi.com>
-Acked-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-Hi folks,
+Hello,
 
-This patch improves the original 'linux-next: build failure after merge of
-the driver-core tree' patch. I kept the acks, hopefully that's fine.
+On Tue, Jul 09, 2024 at 07:17:35PM +0300, Sakari Ailus wrote:
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+>=20
+> The remove callback's return value is about to change from int to void,
+> this is done by commit 0edb555a65d1 ("platform: Make
+> platform_driver::remove() return void"). Prepare for merging the patch by
+> switching the PiSP driver from remove to remove_new callback.
+>=20
+> Fixes: 12187bd5d4f8 ("media: raspberrypi: Add support for PiSP BE")
+> Co-developed-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Acked-by: Naushir Patuck <naush@raspberrypi.com>
+> Acked-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
- drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
 
-diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-index e74df5b116dc..65ff2382cffe 100644
---- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-+++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-@@ -1756,7 +1756,7 @@ static int pispbe_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int pispbe_remove(struct platform_device *pdev)
-+static void pispbe_remove(struct platform_device *pdev)
- {
- 	struct pispbe_dev *pispbe = platform_get_drvdata(pdev);
- 
-@@ -1765,8 +1765,6 @@ static int pispbe_remove(struct platform_device *pdev)
- 	pispbe_runtime_suspend(pispbe->dev);
- 	pm_runtime_dont_use_autosuspend(pispbe->dev);
- 	pm_runtime_disable(pispbe->dev);
--
--	return 0;
- }
- 
- static const struct dev_pm_ops pispbe_pm_ops = {
-@@ -1783,7 +1781,7 @@ MODULE_DEVICE_TABLE(of, pispbe_of_match);
- 
- static struct platform_driver pispbe_pdrv = {
- 	.probe		= pispbe_probe,
--	.remove		= pispbe_remove,
-+	.remove_new	= pispbe_remove,
- 	.driver		= {
- 		.name	= PISPBE_NAME,
- 		.of_match_table = pispbe_of_match,
--- 
-2.39.2
+Thanks and best regards
+Uwe
 
+--taw6qsx5tso52cco
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmaNZuQACgkQj4D7WH0S
+/k73dQf+L8wl6JY3B32JKuxz5QOwwZFx824XGARH0QVZLQxQl0ieVxMi4VyHz5fU
+gl8E9vbjMcm3Hc1XHMBWLbgAKfKsx8+zfO8Op85WMj+XFZKnOwqEMztf3HUPrmTG
+xKEQxO281+LYAzRok3P2YNhQAKQlzBEINfIfnQF4228xiMsrUtvSrSa91pM3Z/hc
+2sBnFUJOFxgkNUl8Cf2VNp6HqD9vbShPuhgbKFPUqbs9aUoGxKIdDxii88aG+DSY
+27z1WwCva5AOpzwgl+rSxqRI82aFe7f5uZZtZBclgeJrtXXZwqF94clg4SDnOkxO
+5/f3KbxN/FvNGPQxglDIhMTFC7K34Q==
+=KSGa
+-----END PGP SIGNATURE-----
+
+--taw6qsx5tso52cco--
 
