@@ -1,67 +1,63 @@
-Return-Path: <linux-media+bounces-14767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14768-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAA892BB3A
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 15:31:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC29F92BBE4
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 15:52:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7E2D287062
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 13:30:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 606BC1F22217
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 13:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1869216C42C;
-	Tue,  9 Jul 2024 13:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MKOYaR+k"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A587B187571;
+	Tue,  9 Jul 2024 13:52:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024A615B98F;
-	Tue,  9 Jul 2024 13:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E57CD18A920;
+	Tue,  9 Jul 2024 13:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720531793; cv=none; b=aChlKlHrM47kGZyz9RD/F8upJtvU3tfU++7KVqpPLiF+4mIQ7RfihMU+urT6VOQyb80LO72zZRztcjAcCAJMc3UAtDWNl77Rc97JKqiojOiuUA/wlhlc/yJRxUs73f3RZu/pTMuU68wcZWxxyDL6M4gOTNXDhSZkex4mSyCEct8=
+	t=1720533130; cv=none; b=kXZWuW40XQjX98glUQdlvD7ieqqI+EwOuHqGxCKDvU0xDazLkLIwLm/t2YSDupsRgmW5U7M7Nx3oD0G92fd8F5tHw4jOW9JLstAso4dEcLaSwUvoFPyAQU49W1m68Ss7/9aG6QRKDwMH9N9Z427zkE/AEZvgqvIfUFmuaIFhRoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720531793; c=relaxed/simple;
-	bh=yg/8cIPMRs0igzP0OGd7T154XiQtXaJ7RvGgQhA2amw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NnKiM6arahlbjg+qiYy+bqVBzlSUOjTRaChsnPjm3QEOARcxYIhSoaahuLWaBO4/WsbMXuwMo9CocVpBr59kzSaPk3qs6nQ/zr3xrzcjNoFKgTkfm9XfMobdCNEKIvHUXbH0MC9Dr8I693AygYa+hK8g97wDZgsLI3SgrOoGi0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MKOYaR+k; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 893631471;
-	Tue,  9 Jul 2024 15:28:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720531736;
-	bh=yg/8cIPMRs0igzP0OGd7T154XiQtXaJ7RvGgQhA2amw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MKOYaR+kTpGeqZjSW/axuOxwiyv3XkfcVYkSfSjdGsgoAC0ZHgpDlG+E82CWciflV
-	 3XdRqAYJYMVo+QeocUf+5MJpAMawhDG6zLFoqH9mDvyR5QeA4ZMIn8YJ+Oss1qlRJ1
-	 RBozWk98Q76gyZxz76BRsImz/z2JE3cGYE0TKZmU=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-To: linux-media@vger.kernel.org,
+	s=arc-20240116; t=1720533130; c=relaxed/simple;
+	bh=8rewHxcmqYhfVpubhNLA7SsGqC/hBasB9s/0SBJtcSM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Km9ahqct8sPhlHmx5I/7R6ir9lzAAFHEv0V/eS/AiVRrToK9bkQXIf06BiK3Xi7959AU+Q3YpfGh3JbH4bx3BIaWImwPBDbXPNX5V6Qzyp06om6aCBtRoH2uYZmCY9A7GlDqfEnSdNkOLt4+GzhNn2AIA8gcNaOHSwefvocMI/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.09,195,1716217200"; 
+   d="scan'208";a="210808011"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 09 Jul 2024 22:52:01 +0900
+Received: from localhost.localdomain (unknown [10.226.92.130])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 53C2443BC48B;
+	Tue,  9 Jul 2024 22:51:55 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com,
-	robh+dt@kernel.org,
-	mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	jerome.forissier@linaro.org,
-	kieran.bingham@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com,
-	sakari.ailus@iki.fi,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH v6 18/18] Documentation: mali-c55: Document the mali-c55 parameter setting
-Date: Tue,  9 Jul 2024 14:29:06 +0100
-Message-Id: <20240709132906.3198927-19-dan.scally@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240709132906.3198927-1-dan.scally@ideasonboard.com>
-References: <20240709132906.3198927-1-dan.scally@ideasonboard.com>
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v2 0/9] Add support for RZ/G2UL Display Unit
+Date: Tue,  9 Jul 2024 14:51:38 +0100
+Message-ID: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,136 +66,46 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the mali-c55 parameter setting by expanding the relevant
-pages in both admin-guide/ and userspace-api/.
+This patch series aims to add support for RZ/G2UL DU.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
----
- Documentation/admin-guide/media/mali-c55.rst  | 19 +++++-
- .../media/v4l/metafmt-arm-mali-c55.rst        | 66 ++++++++++++++++++-
- 2 files changed, 80 insertions(+), 5 deletions(-)
+The LCD controller is composed of Frame Compression Processor (FCPVD),
+Video Signal Processor (VSPD), and Display Unit (DU).
 
-diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation/admin-guide/media/mali-c55.rst
-index 7eaeac63ddf7..dbed5179d5f8 100644
---- a/Documentation/admin-guide/media/mali-c55.rst
-+++ b/Documentation/admin-guide/media/mali-c55.rst
-@@ -387,9 +387,24 @@ the processing flow the statistics can be drawn from::
-                        +-------------+   |    +-------------+
-                                          +-->  AWB-1
- 
--At present all statistics are drawn from the 0th tap point for each algorithm;
-+By default all statistics are drawn from the 0th tap point for each algorithm;
- I.E. AEXP statistics from AEXP-0 (A), AWB statistics from AWB-0 and AF
--statistics from AF-0. In the future this will be configurable.
-+statistics from AF-0. This is configurable for AEXP and AWB statsistics through
-+programming the ISP's parameters.
-+
-+.. _mali-c55-3a-params:
-+
-+Programming ISP Parameters
-+==========================
-+
-+The ISP can be programmed with various parameters from userspace to apply to the
-+hardware before and during video stream. This allows userspace to dynamically
-+change values such as black level, white balance and lens shading gains and so
-+on.
-+
-+The buffer format and how to populate it are described by the
-+:ref:`V4L2_META_FMT_MALI_C55_PARAMS <v4l2-meta-fmt-mali-c55-params>` format,
-+which should be set as the data format for the `mali-c55 3a params` video node.
- 
- References
- ==========
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-index 186e0deb9ece..c0948b41fb0c 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-@@ -1,10 +1,11 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _v4l2-meta-fmt-mali-c55-params:
- .. _v4l2-meta-fmt-mali-c55-3a-stats:
- 
--*************************************
--V4L2_META_FMT_MALI_C55_STATS ('C55S')
--*************************************
-+*****************************************************************************
-+V4L2_META_FMT_MALI_C55_STATS ('C55S'), V4L2_META_FMT_MALI_C55_PARAMS ('C55P')
-+*****************************************************************************
- 
- 3A Statistics
- =============
-@@ -23,6 +24,65 @@ of the C structure :c:type:`mali_c55_stats_buffer` defined in
- 
- For details of the statistics see :c:type:`mali_c55_stats_buffer`.
- 
-+Configuration Parameters
-+========================
-+
-+The configuration parameters are passed to the
-+:ref:`mali-c55 3a params <mali-c55-3a-params>` metadata output video node, using
-+the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-+sub-structs for each configurable area of the ISP, parameters for the Mali-C55
-+are defined as distinct structs or "blocks" which may be added to the data
-+member of :c:type:`mali_c55_params_buffer`. Userspace is responsible for
-+populating the data member with the blocks that need to be configured by the driver, but
-+need not populate it with **all** the blocks, or indeed with any at all if there
-+are no configuration changes to make. Populated blocks **must** be consecutive
-+in the buffer. To assist both userspace and the driver in identifying the
-+blocks each block-specific struct embeds
-+:c:type:`mali_c55_params_block_header` as its first member and userspace
-+must populate the type member with a value from
-+:c:type:`mali_c55_param_block_type`. Once the blocks have been populated
-+into the data buffer, the combined size of all populated blocks shall be set in
-+the total_size member of :c:type:`mali_c55_params_buffer`. For example:
-+
-+.. code-block:: c
-+
-+	struct mali_c55_params_buffer *params =
-+		(struct mali_c55_params_buffer *)buffer;
-+
-+	params->version = MALI_C55_PARAM_BUFFER_V1;
-+	params->total_size = 0;
-+
-+	void *data = (void *)params->data;
-+
-+	struct mali_c55_params_awb_gains *gains =
-+		(struct mali_c55_params_awb_gains *)data;
-+
-+	gains->header.type = MALI_C55_PARAM_BLOCK_AWB_GAINS;
-+	gains->header.enabled = true;
-+	gains->header.size = sizeof(struct mali_c55_params_awb_gains);
-+
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+
-+	data += sizeof(struct mali_c55_params_awb_gains);
-+	params->total_size += sizeof(struct mali_c55_params_awb_gains);
-+
-+	struct mali_c55_params_sensor_off_preshading *blc =
-+		(struct mali_c55_params_sensor_off_preshading *)data;
-+
-+	blc->header.type = MALI_C55_PARAM_BLOCK_SENSOR_OFFS;
-+	blc->header.enabled = true;
-+	blc->header.size = sizeof(struct mali_c55_params_sensor_off_preshading);
-+
-+	blc->chan00 = 51200;
-+	blc->chan01 = 51200;
-+	blc->chan10 = 51200;
-+	blc->chan11 = 51200;
-+
-+	params->total_size += sizeof(struct mali_c55_params_sensor_off_preshading);
-+
- Arm Mali-C55 uAPI data types
- ============================
- 
+The output of LCDC is connected display parallel interface (DPI) and
+supports a maximum resolution of WXGA along with 2 RPFs to support the
+blending of two picture layers and raster operations (ROPs)
+
+It is similar to LCDC IP on RZ/G2L SoCs, but does not have DSI interface.
+
+v1->v2:
+ * Updated cover letter header "DU IP->Display Unit".
+ * Updated commit description related to non ABI breakage for patch#3.
+ * Added Ack from Conor for binding patches.
+
+Biju Das (9):
+  media: dt-bindings: media: renesas,vsp1: Document RZ/G2UL VSPD
+    bindings
+  media: dt-bindings: media: renesas,fcp: Document RZ/G2UL FCPVD
+    bindings
+  dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
+  clk: renesas: r9a07g043: Add LCDC clock and reset entries
+  drm: renesas: rz-du: Add RZ/G2UL DU Support
+  arm64: dts: renesas: r9a07g043u: Add vspd node
+  arm64: dts: renesas: r9a07g043u: Add fcpvd node
+  arm64: dts: renesas: r9a07g043u: Add DU node
+  arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
+
+ .../bindings/display/renesas,rzg2l-du.yaml    |  32 ++++-
+ .../bindings/media/renesas,fcp.yaml           |   2 +
+ .../bindings/media/renesas,vsp1.yaml          |   1 +
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |  49 ++++++++
+ .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 111 ++++++++++++++++++
+ drivers/clk/renesas/r9a07g043-cpg.c           |  12 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |   9 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  11 ++
+ 8 files changed, 223 insertions(+), 4 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
 
