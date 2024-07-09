@@ -1,111 +1,191 @@
-Return-Path: <linux-media+bounces-14744-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14746-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E8092B5D9
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 12:50:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3DF92B6A7
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 13:16:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0436285542
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 10:50:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A2EE1F237DE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jul 2024 11:16:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 763B215746B;
-	Tue,  9 Jul 2024 10:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D842C159583;
+	Tue,  9 Jul 2024 11:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSH2BskH"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WLwlrZRf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647CA14290;
-	Tue,  9 Jul 2024 10:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597D3158A2F
+	for <linux-media@vger.kernel.org>; Tue,  9 Jul 2024 11:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720522207; cv=none; b=uYI6SD4VK3YVfSZQ7W4R1ImsqLPEOxrXe0zJMeB8yd/APq2S76HOuyN2PAA10VpKmBtlG3Mjha3bs6h6ueISDcfvnWVdOuvD/Bkvo/WlNtzzAJKH4IVMrZPWIKTnkehZgTc2Ag33a0jNgA0nLY0GNfwLZE2sWBtPltCS9OYmPkY=
+	t=1720523720; cv=none; b=MDpdrnOYdwpVvzXrysuZcvlhZMNCiMcGPmtJDDWkr7TVmHqziavlgLxLUriCwbaS0qZrwB0XViyKl+MLqyzhdOnP+dp+M10Bsu7nc4tDMgwtRItbNXGDwoOQ2LPMS8RrZuRN/9fPkZNGa9j5GtwDWhD1Al8QUmB8z7cszuc/rB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720522207; c=relaxed/simple;
-	bh=cfkQROxpQ3ODJ6mApydadNz5RDmrNUOliBwpjxyf0m4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=A+hyJXyBdNi4ySvtEWyQ2Ja4mIu2rF4Dx2v2f5Brltz6slX+5YUAPOoaOKEd0bekKcCqV5NGhEHGG2lavoZe4qZjdNvryOlLhNU7Qpsz0VJnaOha6tu3Vc+y1uFNFTgdDS/9kRaWj2uSFpaXomDDvR1U1/pDW6gB4fc50YDpm0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSH2BskH; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42573d3f7e4so34001195e9.0;
-        Tue, 09 Jul 2024 03:50:06 -0700 (PDT)
+	s=arc-20240116; t=1720523720; c=relaxed/simple;
+	bh=cfcx6G8p3T8pC/pq4nZ7H1nIBaEARkP7ojw1BAnGFG0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R1ulkZEEPIGEmaIwW1WaiMz4tdh8GyVN5fUZSl7tWXmS4wylvdTADQaOdDa13gAeA25KLvfKHyZWienpbgDyRur9EaTVqkbXTy/QGcDEMnGrC2WfITBRFkCWcZIKmDi1ay14Pj6XoDjqsVi6MKpGl0G24lP0irmPbwn5+Pw7iUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WLwlrZRf; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-64b101294c0so46302467b3.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jul 2024 04:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720522205; x=1721127005; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o7NZxGqNGmbidCE7D7qtZyKAE80sPf8YO3V55ixCNY0=;
-        b=MSH2BskHsIE+fNx6/jRdE/LPiyhhU3eNh4f/7XLWGiHNTqbD2Md0s6TBZqkl6g3xF7
-         PnAGmlklu3oqRGZGMM35PN6Ddd3JDK2iBJki2Ic3Wxsu2wqnflQUnfq3P62rUllKpgNU
-         RYCxb/EaRBf1GjNeiSwulbMBtcs5Qjg5/xFMe5HW/1gNOb49kH7EkwCSvv9nYsvrRMmQ
-         xWO7brwHnWdNfROGdzX4NydECeo2GmG0Ss5Kpw9FL3r8XK8CpIusW0ZwwS/VjYRyEckU
-         b3Qf2zUzmMdLWVN1VMTnS0ildTAvsxBkGaKDBGW/fJnOrd2QTCgIdlAZ9HRXkb1ToqJ5
-         3HGQ==
+        d=linaro.org; s=google; t=1720523716; x=1721128516; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GlQ34hWtefyEDU5dsZPE3mnjpMGOHGSvbEad+DgwTis=;
+        b=WLwlrZRfXU4/nkeYYua6LJKjOR9j4k+LedhjrmnEGz4M/+dV19iIxybeISAeA8qJoK
+         P6jcZmhyq9kePrlntRFttCA4scxKtfd+nFnsTs2NrZVWybHVQw72WMRI6cLL1A0Csipm
+         DT8JvrgdEVM6MWBzIypKAM4r/1M/2Jh2d2bpgBcChRHJSm0EgYUv4LKoacc95mn5egx3
+         PWFXILVWfQy38jrebqaxMoBCDRUB24V4OXnP+SJ6NYrlt7zvzOl6j2kfldwlWOsFTEwL
+         2hft1E0HJSMb1GMeLhYTM2VndH5DFHWGganGRdIy+3BSiH0OSc0QTAb9/I5XYmyexh3F
+         tUpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720522205; x=1721127005;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1720523716; x=1721128516;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o7NZxGqNGmbidCE7D7qtZyKAE80sPf8YO3V55ixCNY0=;
-        b=GGmzbZWkvFud6IieA5Zbx4yriaMG79A9m6tNafcghmo2L07R/wIFfm5vhNGr4UumlM
-         atCwWBFY27J95k3PsDiGtIN4Feyq5TSfXE8VI8byB25J8l8m0q3Snf5Edsg/jGODS0sI
-         j+s0vjuahG3ixakfhOG9X0MlQ4agf1kcutdjoqp1Zbets6zcI+EsLgips9e3sW0/w1bP
-         o1IJ1SVbBJHqoHPJeZmJ+b9hlQ0v0ak6djZRXRR55iv4tzvGITZ2M47iEB1/6QQOaIzX
-         aRTJQwg3AxSYUmqZknUgVoc7DdlUuqOsZZBtWmyXxl+WFY9jMqdmvKb3EIvddgJRjjci
-         ugfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNzgFiofhHWnZDRnPJGXPWFYuiKaO/iVmlHaOaZad8kfFBaOR3IAt5ReB3oaO8gXpssub6jSSJOdEFEkZ6JH+1yi7iPgzra0RnuJeyK5LGpk6OwKUUZ6p90tyijiwCtVN3+EMKggq1bz8=
-X-Gm-Message-State: AOJu0YwYAPqeDn85RY3YGIukX2MnIRS21iFuwP7sq87C7XEJLDkrEnid
-	RhAdqNb1kzcj6ux49TSBJRz2QaqlycH4xL7wGmsQxYtDqgdgmEVF45JYeA==
-X-Google-Smtp-Source: AGHT+IGW8y63IoUfQbNtYMROoq79X9Z5OSDL5E8FvO2qE/CK2lZ/epocGDaa+hTSOmot6x3ePsFB2g==
-X-Received: by 2002:adf:a78a:0:b0:364:3ba5:c5af with SMTP id ffacd0b85a97d-367ceadc875mr1715790f8f.61.1720522204250;
-        Tue, 09 Jul 2024 03:50:04 -0700 (PDT)
-Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfab6d3sm2157496f8f.112.2024.07.09.03.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jul 2024 03:50:03 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Zhi Mao <zhi.mao@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] media: i2c: GC08A3: Fix spelling mistake "STRAEMING_REG" -> "STREAMING_REG"
-Date: Tue,  9 Jul 2024 11:50:03 +0100
-Message-Id: <20240709105003.168142-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        bh=GlQ34hWtefyEDU5dsZPE3mnjpMGOHGSvbEad+DgwTis=;
+        b=t5X0V0jMN4nzY325VFr/3EpBAMfBJctu2W1sa7ehmkzcxUQAT6Gex3YjP20+Icyw6F
+         cBREvvLwEepSmTdSqrLplLdgcsWps0TfPmqqxyL+GVS1rPEMc97QEZXLzgWK8Nn1XYlA
+         K8o0hjJ0Qh9y0ldu0MqojoGlxrRTciAGn1+Q7lTD2TFmflivQDwQ4a9KpE5zI99lMS40
+         nWbDruZmfm7yizZ+tWvdP/4pE60xrw+x6Y+krYiSFXCLYQ1tAmSVhuNVP5f+zreN23zk
+         L9Zc1hO0GPQtbkJXgOj8TG1z4ndA1RpjLpqz7a00VzHhA4X8KnHrllnE3FMV6Uk2IDNT
+         GJ5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVcUPD8oo+3UEImOpWFDUCF0RVCVbb1qFOfh0UI1wpw+TtxToNWKaFWLP2TiojBLugDR0K2r1wOzrXuzbKx8sinl37m/nS6su/89FM=
+X-Gm-Message-State: AOJu0Yyq2JdT4biWzGGNpivFkDdkkT3+IdN4Y7Ms1NUC7DtxVQ6gpcvx
+	n26jgXP4WM3D26D7BdUe+FfKKrEELg9uiwtbOWZz06RpsRzm5BryenSujDNpC+wa8xifGamhwQM
+	4/R2GFZQUsQ1KcF+sPFpyA0QAbbAQCWHREUYZRw==
+X-Google-Smtp-Source: AGHT+IEgeYpQ++Ei1107Pb2oobiMNHnFYl3Xkll12Nu66YXrsXqO+F2PEVXSr3dncViJMvsjSPSuVJafM5bdiPbCO3c=
+X-Received: by 2002:a81:9142:0:b0:643:9333:9836 with SMTP id
+ 00721157ae682-658f09c9102mr24651797b3.38.1720523716323; Tue, 09 Jul 2024
+ 04:15:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20240624044809.17751-1-quic_jkona@quicinc.com> <jgokew5qc5oxjlxvmawgkzfve4eov2shfz2ke5l4nisnidetko@ylcp4iesj3mg>
+In-Reply-To: <jgokew5qc5oxjlxvmawgkzfve4eov2shfz2ke5l4nisnidetko@ylcp4iesj3mg>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 9 Jul 2024 13:14:40 +0200
+Message-ID: <CAPDyKFqjw6i_fbgQQ_BaSgGN6FMtJShh1g-qZxOxGw4+JZM-oA@mail.gmail.com>
+Subject: Re: [PATCH V7 0/5] Add control for switching back and forth to HW control
+To: Bjorn Andersson <andersson@kernel.org>, Jagadeesh Kona <quic_jkona@quicinc.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	Len Brown <len.brown@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Abel Vesa <abel.vesa@linaro.org>, 
+	linux-pm@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>, 
+	Satya Priya Kakitapalli <quic_skakitap@quicinc.com>, Imran Shaik <quic_imrashai@quicinc.com>, 
+	Ajit Pandey <quic_ajipan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 
-There is a spelling mistake in a dev_err message. Fix it.
+On Wed, 3 Jul 2024 at 05:11, Bjorn Andersson <andersson@kernel.org> wrote:
+>
+> On Mon, Jun 24, 2024 at 10:18:04AM GMT, Jagadeesh Kona wrote:
+> > This series adds support for dev_pm_genpd_set_hwmode() and dev_pm_genpd_get_hwmode() APIs
+> > and support in gdsc genpd provider drivers to register respective callbacks and a venus
+> > consumer driver example using above API to switch the power domain(GDSC) to HW/SW modes
+> > dynamically at runtime.
+> >
+>
+> Ulf, I discussed the concerns I had with Taniya and I think this looks
+> good. Please pick the gdsc/clock patches through the pmdomain tree.
+>
+> Regards,
+> Bjorn
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/i2c/gc08a3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The series applied for next, thanks!
 
-diff --git a/drivers/media/i2c/gc08a3.c b/drivers/media/i2c/gc08a3.c
-index 7680d807e7a5..84de5cff958d 100644
---- a/drivers/media/i2c/gc08a3.c
-+++ b/drivers/media/i2c/gc08a3.c
-@@ -948,7 +948,7 @@ static int gc08a3_start_streaming(struct gc08a3 *gc08a3)
- 
- 	ret = cci_write(gc08a3->regmap, GC08A3_STREAMING_REG, 1, NULL);
- 	if (ret < 0) {
--		dev_err(gc08a3->dev, "write STRAEMING_REG failed: %d\n", ret);
-+		dev_err(gc08a3->dev, "write STREAMING_REG failed: %d\n", ret);
- 		goto err_rpm_put;
- 	}
- 
--- 
-2.39.2
+Kind regards
+Uffe
 
+
+>
+> > Changes in V7:
+> > - [PATCH 3/5]: Updated the comment description in gdsc_set_hwmode as per V6 review comments
+> > - Added R-By tags received on V6
+> > - Link to V6: https://lore.kernel.org/all/20240619141413.7983-1-quic_jkona@quicinc.com/
+> >
+> > Changes in V6:
+> > - [PATCH 3/5]: Added details for 1usec delay in gdsc_set_hwmode()
+> > - [PATCH 4/5]: Updated commit text
+> > - Added R-By and T-By tags received on V5 RESEND
+> > - Link to V5 RESEND: https://lore.kernel.org/all/20240413152013.22307-1-quic_jkona@quicinc.com/
+> > - Link to V5: https://lore.kernel.org/all/20240315111046.22136-1-quic_jkona@quicinc.com/
+> >
+> > Changes in V5:
+> > - Updated 1st patch as per V4 review comments to synchronize the initial HW mode state by
+> >   invoking ->get_hwmode_dev()callback in genpd_add_device()
+> > - With above change, SW cached hwmode will contain correct value initially, and it will be
+> >   updated everytime mode is changed in set_hwmode, hence updated dev_pm_genpd_get_hwmode()
+> >   to just return SW cached hwmode in 1st patch
+> > - Updated commit text for 1st, 3rd, 4th and 5th patches
+> > - Updated 3rd and 5th patches as per review comments received on V4 series
+> > - Added R-By tags received in older series to 1st and 2nd patches
+> > - Link to V4: https://lore.kernel.org/all/20240122-gdsc-hwctrl-v4-0-9061e8a7aa07@linaro.org/
+> >
+> > Changes in V4:
+> >  - Re-worded 1st patch commit message, as per Bjorn's suggestion, and added
+> >    Dmitry's R-b tag
+> >  - Added Bjorn's and Dmitry's R-b tags to the 2nd patch
+> >  - Re-worded 3rd patch commit message, to better explain the HW_CTRL_TRIGGER flag.
+> >  - Added mode transition delay when setting mode for GDSC
+> >  - Added status polling if GDSSC is enabled when transitioning from HW to SW
+> >  - Re-worded 4th patch commit message to better explain why the
+> >    HW_CTRL_TRIGGER needs to be used instead
+> >  - Drop changes to SC7180, SDM845 and SM8550 video CC drivers, as only
+> >    SC7280 and SM8250 have been tested so far. More platforms (with v6 venus)
+> >    will be added eventually.
+> >  - Call genpd set_hwmode API only for v6 and dropped the vcodec_pmdomains_hwctrl.
+> >  - Re-worded 5th patch commit message accordingly.
+> >  - Link to V3: https://lore.kernel.org/lkml/20230823114528.3677667-1-abel.vesa@linaro.org/
+> >
+> > Changes in V3:
+> >  - 5th patch has been squashed in the 4th one
+> >  - Link to V2: https://lore.kernel.org/lkml/20230816145741.1472721-1-abel.vesa@linaro.org/
+> >
+> > Changes in V2:
+> >  - patch for printing domain HW-managed mode in the summary
+> >  - patch that adds one consumer (venus)
+> >  - patch for gdsc with new (different) flag
+> >  - patch for videocc GDSC provider to update flags
+> >  - Link to V1: https://lore.kernel.org/all/20230628105652.1670316-1-abel.vesa@linaro.org/
+> >
+> > Abel Vesa (1):
+> >   PM: domains: Add the domain HW-managed mode to the summary
+> >
+> > Jagadeesh Kona (3):
+> >   clk: qcom: gdsc: Add set and get hwmode callbacks to switch GDSC mode
+> >   clk: qcom: videocc: Use HW_CTRL_TRIGGER for SM8250, SC7280 vcodec
+> >     GDSC's
+> >   venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on
+> >     V6
+> >
+> > Ulf Hansson (1):
+> >   PM: domains: Allow devices attached to genpd to be managed by HW
+> >
+> >  drivers/clk/qcom/gdsc.c                       | 41 ++++++++++
+> >  drivers/clk/qcom/gdsc.h                       |  1 +
+> >  drivers/clk/qcom/videocc-sc7280.c             |  2 +-
+> >  drivers/clk/qcom/videocc-sm8250.c             |  4 +-
+> >  .../media/platform/qcom/venus/pm_helpers.c    | 39 ++++++----
+> >  drivers/pmdomain/core.c                       | 78 ++++++++++++++++++-
+> >  include/linux/pm_domain.h                     | 17 ++++
+> >  7 files changed, 161 insertions(+), 21 deletions(-)
+> >
+> > --
+> > 2.43.0
+> >
 
