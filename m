@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-14835-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A5D92D046
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:11:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 533C792D03C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:10:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C608B24EA7
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:09:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E25FF2836C9
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:10:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22DD190676;
-	Wed, 10 Jul 2024 11:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77B5318FC93;
+	Wed, 10 Jul 2024 11:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/Xe+T9F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ojNvR54z"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D5819048C;
-	Wed, 10 Jul 2024 11:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC65417FD;
+	Wed, 10 Jul 2024 11:09:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720609730; cv=none; b=QLbPnDLw5JHfrW945TXStwhKZFqH+Wz/o+dXHCOB/03d77kL/7QNRChzRb2s8xfOAj9bsHLYQ//ENtX7TX1GPyf16i0WagDgUk/TEzvbt47PhkemsHu5KoHfE2nHBLlnAKbIYrzeQnmXBoGdy5Ct3U83d8ZhPlmCQwoaZ3HfQBc=
+	t=1720609796; cv=none; b=DVPhjfyjklgGL6bBCwAGyBC253VA9myKrkf/PUos0jRhT+yF5Z/ivbbCyPFHEDUejUWz7NXAa1EYjYm+EXrLJXRIl9SjJMfn/i2Ocpa0PTqojnpTfCqsxXpHF68QiYVgAGrsAkb3rBbFmE0yra9ZAD63ZynNwxqGL07ILkIqUFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720609730; c=relaxed/simple;
-	bh=63/n+sg/NTzv92plEkDhlWcotwSPCPx4HRsm4hAX+LQ=;
+	s=arc-20240116; t=1720609796; c=relaxed/simple;
+	bh=1CT3iKKMlOGrekEfAXeEzm3icuoAE70XVGeEXl1PFZk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zl+pysWG7Kzq8G2LV3E9CqEEiAVSjUE3SOIFxUOvW77RrHKk/8zWLp5e2HqtHL2MruIhk25Iwe61j4qMxdofY3n6VKkw0IFgvnyKiwuEFLLdbWRmHfn+uZuErxAY0hJlNFYZI8tlaYbzosj4GZezj+T4iMiHtd5uZloeAtLmLrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/Xe+T9F; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4CBEC32781;
-	Wed, 10 Jul 2024 11:08:46 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=cktXMSBwmq51K2Ivb6WIJ9Ne7XXYAQtsO7nibBV0w6mMP2zEWVIBsXTDC04sbdDeaWcGZkg1eE2I8WYtaV0VxPFUULtqg6rgteT1UyTErIl3uGG87ZGmYEXx5MS30bBJC7PK4Ar5KZBQLdW4Nf6k6EbmnEZQf4BkNzeeVQEfucw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ojNvR54z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5E4C32781;
+	Wed, 10 Jul 2024 11:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720609729;
-	bh=63/n+sg/NTzv92plEkDhlWcotwSPCPx4HRsm4hAX+LQ=;
+	s=k20201202; t=1720609796;
+	bh=1CT3iKKMlOGrekEfAXeEzm3icuoAE70XVGeEXl1PFZk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=G/Xe+T9F/sss+paR8S/7um4peTEP9D5SV5fYLmpcJEaCL6Esogt4RilpExM5KXazB
-	 aJQFBcDI1xoT+HVZSimfd/2lyZ7jBnse0oTywJwzu7fe0048EpZ7uPq6nB30bMiK1i
-	 kICo474Cj4inKwOqhISGmOtPWTd4SDjqFHq5W0cc2oyB6gAhSrh5tA1AYQZ6yFlDgt
-	 yjisuLCYvgKbrXDJ+LQvtb3u6kZqaQNgeXDqwov65q47TB8zYmavgDRoEldPeJ9bmL
-	 P3pD3tPP6UOXFRCLFWP0jmHJnStMSC2IOnvyD6lHf1dJOIUppGs9ofpJj0RNMRY3X+
-	 NfRMs62cYw3cw==
-Message-ID: <55e850dd-1b45-4bad-a11f-f645cca07f2a@kernel.org>
-Date: Wed, 10 Jul 2024 13:08:45 +0200
+	b=ojNvR54zGNXeySLrVsWmZWRdKi2nERMczdcUqlmxJ1MQgaoxTl9nt1yYf8UR+6ZVs
+	 FBkKURT4zv9LLMx1jSw5oHtFvyO97OMK0j4ATZ2tgV7PMOVzPR4yf+PRKhJ7y186Y9
+	 r7+k/hwck+jE98JyfqqOxRq1+VmEpBt6AkTGwsRPeeIFmA0BdPnGiX8CUzhum2I6my
+	 U/tUrVcVJZVmbZFN5UFlhZb2Y6GXpbkrW8HIQaJBk3wP8Iw+QC+rbj6OzU/CrL+u56
+	 VPVcxwLdUb3nv6zUUBqZ/NhhEQtKfYH7DAmp4HDm75QnWt5Ykz4gdszp6Pwd61xJxy
+	 TUhyHXagOj2ow==
+Message-ID: <e1b298df-05da-4881-a628-149a8a625544@kernel.org>
+Date: Wed, 10 Jul 2024 13:09:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 00/13] media: qcom: camss: Add sm8550 support
+Subject: Re: [PATCH 08/13] media: qcom: camss: csiphy-3ph: Add Gen2 v1.2
+ two-phase MIPI CSI-2 DPHY init
 To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
@@ -58,6 +59,7 @@ Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, kernel@quicinc.com
 References: <20240709160656.31146-1-quic_depengs@quicinc.com>
+ <20240709160656.31146-9-quic_depengs@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,26 +105,38 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240709160656.31146-1-quic_depengs@quicinc.com>
+In-Reply-To: <20240709160656.31146-9-quic_depengs@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/07/2024 18:06, Depeng Shao wrote:
-> V3:
-> - Rebased the change based on below change which will be merged firstly.
->   "Move camss version related defs in to resources"
-> Link: https://lore.kernel.org/all/20240522154659.510-1-quic_grosikop@quicinc.com/
-> - Rebased the change based on Bryan's csiphy optimization change and add
-> these changes into this series, so that the new csiphy-3ph driver don't
-> need to add duplicate code. This has got Bryan's permission to add his
-> patches into this series.
-> - Refactor some changes based on the comments to move the random code to
-> patches where they are used.
-> - Remove the vfe780 irq function since it isn't doing the actual work.
-> - Add dt-binding for sm8550 camss driver.
-> Link to V2: https://lore.kernel.org/all/20240320141136.26827-1-quic_depengs@quicinc.com/
+> Add a PHY configuration sequence for the SM8550 which uses a Qualcomm
+> Gen 2 version 1.2 CSI-2 PHY.
+> 
+> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+> mode. This configuration supports two-phase D-PHY mode.
+> 
+> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+> ---
+>  .../qcom/camss/camss-csiphy-3ph-1-0.c         | 105 ++++++++++++++++++
+>  1 file changed, 105 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 1219a25ec55b..b6d5a27b94a6 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -324,6 +324,111 @@ csiphy_lane_regs lane_regs_sm8250[] = {
+>  	{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>  };
+>  
+> +/* GEN2 1.2 2PH */
+> +static const struct
+> +csiphy_lane_regs lane_regs_sm8550[] = {
 
-I asked for reference to upstream DTS - where can I find the DTS patches?
+This should sparkle warnings.
+
+There is no user of it. You must organize your patches in logical junks.
+Adding piece of structure without users is not a logical chunk.
 
 Best regards,
 Krzysztof
