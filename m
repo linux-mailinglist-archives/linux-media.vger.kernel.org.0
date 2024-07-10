@@ -1,597 +1,227 @@
-Return-Path: <linux-media+bounces-14841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14842-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128D192D0AC
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:29:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5869392D0D3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:39:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3AA421C21539
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:29:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4433B24A21
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:39:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4D3F19047E;
-	Wed, 10 Jul 2024 11:28:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF515191473;
+	Wed, 10 Jul 2024 11:39:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f3QQZFCn"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1qUQcv8M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2053.outbound.protection.outlook.com [40.107.236.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7988C190461
-	for <linux-media@vger.kernel.org>; Wed, 10 Jul 2024 11:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720610934; cv=none; b=IlemwCLJ2c/zc6e18Y3RRDv+Y7U8xvo93aWFqhM61aFyKZotoni7Psz3k+G6O6NfOKhBAVBMV/GqDuVc8M3HXFG9WWeDHdRWiQ2hvJHsBRPyKV7nh94+GxtU8CXajRG2CsqMNCj+Jev+2picwF5zRZTq10MxVpq9YMPF4bhzUnA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720610934; c=relaxed/simple;
-	bh=jC8sFFxh2HZP4GpwkHA70JHUlZk7lwqmcxdFCLYspSU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ujYzXJRabNtodAROWENe1FzUi+ien2/cCWqB0B3pp1G2tTQ9oQ+Dos0GXu5yS1mbmEw3JPL49HaY8U19WTiKtFlQTaUHAAP9KetfcEF6OSuEHMyQ/3j5+150zMS632iAne4eKOMAU8UCB09PNXGy8lB0uq5L61HRvEdCaa6Jyeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f3QQZFCn; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52e98087e32so6945388e87.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2024 04:28:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720610930; x=1721215730; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8X7ZnHVe8aqgJa5xXFsKUduHjXaBCjoQplSoNcumXZ8=;
-        b=f3QQZFCnAksuUsVluWKGGU5/1fRg+VuOZAhFNnBldGduGLvKRbDytzzhGjb1JxL8ws
-         OouYL0rZ2YH8jMN743f7LSiCt0WGtkB+BW5mBwmcJuxBHvraCs7m10NOOJcUGb6BY/LB
-         JbQzrufAD2AQHG009hV2RtRxlf0EQnnwMXwJAe0P/AWSwiHx1cGDgQGTQkGhmkYlWFIS
-         Dh9uNIU21SIrnHLdSwrSysPC8tHzjtcN3CXvPManmPiWC0fD6qkb/YvZWjmLJcuTMYov
-         ndYhkL3vsF2Jo9kY66MNfzfsSU+oNT5ImmGFF7DItjWtihxmyfa7XaYAqFD8SntLqrNk
-         7LPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720610930; x=1721215730;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8X7ZnHVe8aqgJa5xXFsKUduHjXaBCjoQplSoNcumXZ8=;
-        b=Ygm94kZptfpNA/Omr+fqgPIu+ejGGQKdHhDo1FjtywX+35Yb+dmkPHpg1GjdqOUg+8
-         hczF6iZ1Y2IFbt1q/NwAqGkEeQF+VTAJ+klY2M7/0Xhmyoy4oMqPYH5jRbbfmiwAtsdL
-         1aNF3j+Fxodl+YX5kBMHidJV5nm/sHBg9PyWgj6MaPONEiDMyCjhNbo30pI5Q4FUaVIo
-         JV/RIKHVETOMj89OqoP/mhNLjdndoeVshfKMkIrMV6eklkn+fW6wKwwNTuL81sjpp9Ta
-         jOwq25Kd3rl8koBuFwvRCoVwHaUNfJvwAxDj0teu5toCpTUFGs0tM0PpT2G3xAMMKg/k
-         ER1g==
-X-Forwarded-Encrypted: i=1; AJvYcCVoVHuE54fZOEuNvekB9X2VZc3+sjgMnJ4yAwcb+zVa7T8cmthe/8C6/nNn81Aksq0tD4SquRbTVstOJkWdopypfHUZgp80WU29/AM=
-X-Gm-Message-State: AOJu0Yz2RZFou/c1U1uXx24QgsCzpwwCYQ8M6goA6vmJvMPhfIgb9AJ9
-	5qMw4cwy6CT/F93gSb4OrLkFMGlkaa2cAudAP+lo2ilvvAqOnWBJNo7ITwAKNpk=
-X-Google-Smtp-Source: AGHT+IHSxjJwTJfe3HezVlJgcMYSgiups3hGQZuDRqvidbhhkCQ1OpPMsAlt397udvYySuCMSPSb5A==
-X-Received: by 2002:a05:6512:39c7:b0:52c:d8c7:49ce with SMTP id 2adb3069b0e04-52eb9991682mr3960976e87.22.1720610929618;
-        Wed, 10 Jul 2024 04:28:49 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266f6e0b6bsm77946875e9.3.2024.07.10.04.28.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jul 2024 04:28:49 -0700 (PDT)
-Message-ID: <e118f980-e10f-450c-8270-76602cc50b27@linaro.org>
-Date: Wed, 10 Jul 2024 12:28:47 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835A019066C;
+	Wed, 10 Jul 2024 11:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720611550; cv=fail; b=met69sYS+dhpix5ibqDxLP12lGSbXat8GooRBJqTYnGRPukGEi6ZBNIuucM62K6YKkk8BqIw5qHvkTte2emq7bSlFzLfz4FgkKVVMlgi+oTPrA/UsYMohlZf5eo/JsrRa60WN+Oa5VHPmTsZttwc3LQ26sWu43BeQOG9pTnA1wY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720611550; c=relaxed/simple;
+	bh=k5T3WV3BmaX4NkDhkngbHKYUN2oWjuthbhkW5GUqpHY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=H40jGoCYUNtTP0tdh6Mriix3mKPu8XTdHMg1bebCF+muS6nn4TuM46O+2jxK+LFxMLIDjdJdROTpYk8NKY3x9HvicvIZZ+JU5a3RXCIIbnIsCt3Fo1JUOfx88dAb1viCAbHzVwtrAEEv/cLHk9FnKPnuajS6d5PUaqR0OCWTZiU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1qUQcv8M; arc=fail smtp.client-ip=40.107.236.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U4DUmbcld0/ufhwF5WlBf/XLx+hq6MCG97GwiqlXdS7jUQNx6DrYphAEYfESR7hBDS39ji/iqJgni+umg80/a6tvkxBFjrQ7JHk1QSX24fKYuey+RC6ZUZE0PA9BmRCwBSChMIA/8wTEW9b0irWSpMOq6wWq4fUj2H7eg39PGKbe+W2FzoSJN/nFVqBy4g4kb00ep2nB5pwiMcquBCtITvDydK1aUq+uCGkWYMLeIKUhc9R4ds3rbJmLYeDdg8r3iiXkcJgu0dONA2xakAKON03Agl9e5Byv8yyoGj/Yr9fhhYprEvXP2GhsCTozA06ZIsq0sBwgmQSTUUih1RAb5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RfuQRcuIxLzAxfvzWzqzfyV6HuP/jRUUHy+iznS4luo=;
+ b=kH9OKxiWsBVbiUuyUPb4un/O7iYLVb5DPT1Q04x7zDzSlLzJ1B5skKKqKjg76KrdaucenpQclA8SmE8PyshOceheu6AefxaxTCWLFaut74TlP1qUsXSAYMKklnco9H1LouDQkUQGoD3RWhNdQfklyTyJIVFnF6Y6KvmRxTCLMVQDzANhVrTb3wjfA57rGZsrcGh6gSjsrIJpXnp1sDpgdo7Ivp+wuiNhbmH3s8pWO4pJYyBMZaLm0/57NCGSTyyL/OkTArdeVal/FDb+ZHUNhHnNr0nSBidT/BHyUUZpoCySDFBmLugHduja2m5snqW3x/rZ5/o0iVLI1w+C7ltuvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RfuQRcuIxLzAxfvzWzqzfyV6HuP/jRUUHy+iznS4luo=;
+ b=1qUQcv8MSFOhI+Iy/CKKXxGdq8cGzLnA7S4pI3AsSYu5KAFf6Mxswq0suP+cPvte9oLDKZmwNRDouq3ie24kKC8flDpB1u5QyJ+xllpBa0DPM3J+gb7euMvIDq+Jrg8ENFZjc6Nr/E414nmjbLwYDe7WRmeuQi/IAKDbLXiUzSc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
+ by CH3PR12MB9196.namprd12.prod.outlook.com (2603:10b6:610:197::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.21; Wed, 10 Jul
+ 2024 11:39:03 +0000
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062%3]) with mapi id 15.20.7741.027; Wed, 10 Jul 2024
+ 11:39:03 +0000
+Message-ID: <03f7e2ad-fd5c-4da7-a14c-34c2c158c513@amd.com>
+Date: Wed, 10 Jul 2024 13:38:56 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm: Add might_fault to drm_modeset_lock priming
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240710093120.732208-1-daniel.vetter@ffwll.ch>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240710093120.732208-1-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0132.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::12) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] media: qcom: camss: Add CSID Gen3 support for
- SM8550
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com,
- Yongsheng Li <quic_yon@quicinc.com>
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-10-quic_depengs@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240709160656.31146-10-quic_depengs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|CH3PR12MB9196:EE_
+X-MS-Office365-Filtering-Correlation-Id: 551be219-4c24-4d18-754c-08dca0d4e637
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Ry9IeFZjSlRaak9vUWR0eWV2UzBJc1BJSkRMd3hEWTZTTHAwRHdvSDFlNEZx?=
+ =?utf-8?B?dk94eEh5OE1CU0dmNWp4dVF2VlVzMFlydS81M2Jyb25qVmxLVWxMdkpGaFdj?=
+ =?utf-8?B?dGMrTWZBbEI2ck5yQnpyOFFJRmJwSjAzWVJ6aS9xUjZGa1JIY3FjRHN4QVdW?=
+ =?utf-8?B?SFNYcEx3OWNXNXdQaFhqbHdoYzM5U2ZBYko0bzhqL3cwdmZPcFhNTGFPSVho?=
+ =?utf-8?B?ZC9zRUNTYzBiM3FIRUJJOU9VTGhZUzZ0RXVoWXlxcEplUFhYVjR4UmUwcWhX?=
+ =?utf-8?B?UzdoNUI4OEw5UXhOd1R1cUZVRENMd0dhSE44SVhZN1ArcDM3RDlFYzZtYlZS?=
+ =?utf-8?B?SDRwaXY5azRuYjlMbFYwOTV1bWJTTFpoUlM0bEcrQ3NUVUg0ZXFjeVhoZFJD?=
+ =?utf-8?B?dlRuT2xhZ05Vc01rbU9pWG9hWDJEZDg0RzN3TzZ0WSt3NVE1cmQya2xKZERN?=
+ =?utf-8?B?dXhvck15SUM0dUF4RjFZWkFBaHdxZTBQQm5UeTFsS0tBT05zTGt1NjlFYkdn?=
+ =?utf-8?B?cmFQV0xjczRuRW94bGFTbW1XTi9zeHZWTklZNmIzYUNUdCtJeE9sSitMaXVV?=
+ =?utf-8?B?ZzhwU3ZEUUx0WnkzUC9NN3FBelR5c25oNXZKejdtWjFjQ1JsK292eFpDK1Vl?=
+ =?utf-8?B?TndXbEJtNXEyRHR5c0Fsby9JSFZ2eGhLckR5OGI3bzlTNnYvaHAxbHc0RTBD?=
+ =?utf-8?B?S2NwUzVlRnlGNFdzTFRxY0M5S1E0azhZNXRibElZL2hVKzlYQ1VUenFOeWFP?=
+ =?utf-8?B?UlJ1UTNtcmNxMFVKN2VOcU1oSU94RzI5K0M4clcxZmNBZTBRaXV1OXdOYmlq?=
+ =?utf-8?B?aUdZcGI2ZjRMVnFES0gvMlBSQm93ejAxblJYZVRMRzl5eXpVczdHN0I2eFlT?=
+ =?utf-8?B?RVhIZ1crMTB4M1QwV2RMS05xbFFlVmZYQ2lKOWkwcm5jM0lCbitLM1QwZDdE?=
+ =?utf-8?B?MEtzUGtsQ3JDTTdxRHRLRzlaYXc3QnVsSjk2RDBmMjRtaDBsZjlEOHBtVWk2?=
+ =?utf-8?B?MnhyS0RVREpIWjVtVnF0Q2s2UTRpTjJBRUlJcWFhY1lNbDRWcnRGVUdrRlVr?=
+ =?utf-8?B?U3JobDFLLzBmV1JmNnV0MXlQYjhxdE9BSEIraXAyMXBsc2xzR2plVjAxb014?=
+ =?utf-8?B?K3VvQTE1MEFYaGZKYURjU0I4VHJHc1M2SjJzVTNnOHVWMXltR1RlYWpJc0Uz?=
+ =?utf-8?B?eWJFdVBiVUE0S2xTS2lGOTQ0aVF2UlVCT0VZSW1MVWR3VEcwRVExd1pBUDQ1?=
+ =?utf-8?B?VTdjVFA3MHNZTXNMMVlOOVA4RFdvKytpRGRIMUlOdVcrVUo1UFpqeExPVWJQ?=
+ =?utf-8?B?SERlZWUwYUNDWXBldnM0Y1Q4NG52cC9oWUQ0S294RkZJQUhGTGdtMmVqSUNC?=
+ =?utf-8?B?Y2I1L1dVZFZvbC94L2dYcVVQSUh3NDU1M0RlZG1aWEJ6NHE5WWpKbWtNNVZH?=
+ =?utf-8?B?WjVnMERVRHBKcnhNMnM1NURjalNkck14dENUdktBMTF6bXU0SEtKTjQyODEv?=
+ =?utf-8?B?L0svNEQwc0dmMUNpcWNVWjdxV1lGQnVvTEQ5UTU0Tm0rVjlVTVdqWWdtS0dZ?=
+ =?utf-8?B?bWtud2IrbkJNbU43cDJvRlFvazEzOEFoQ05sNFB1L28xN1QwK1o5dDRvTEJC?=
+ =?utf-8?B?SVI0cXJWU3pHYldCYU9DblpUSGxDSDVhZXdhYVpBN0dyZFVKQlFLUDlSekxM?=
+ =?utf-8?B?cnRPd01zdUt6cUpFeUxvWXp6SHpnSXBZNnU4Y2pwNW4zZGQ3aERLd0hRVDg0?=
+ =?utf-8?Q?614vC8rlYNKhu0KeI0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB5673.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?c2djLzdXQzh1Z0FkcEZRNXFyVExoVno0azdNYXZEZzQyd2ZDQmJFakdXZWZJ?=
+ =?utf-8?B?UEJjRG8xS3FoU2NURDJPQThBVS95cjljNklRVlQ1Y1RuNGwvYjY3elZydlFk?=
+ =?utf-8?B?b0Y4bzVLY2Nya2JrczlBUUczZElrUDVXQmpPalI0Smo1K0tyczlzZnhJVUhD?=
+ =?utf-8?B?L1l6UDQ0MlE4ajBlOURjNVpDM0NjaEE2a1kwQ1I0bnFMTklLdm1admdBSVJw?=
+ =?utf-8?B?VkROU2cxSzVmYWxtTEdOd0NRd1BtY2hlUzlYQk5BTUkxUmFsYWFxOHluamhX?=
+ =?utf-8?B?MmxtdVVaSC9OQzdoazAzNGhidlE3TUpnZ1VzRVdtZnhxbjFKMlYxWFdJdmw3?=
+ =?utf-8?B?dUtkc1o2b3FLN2dUV3pld3M2RHpRdzdCenpiOFRaQ0kycWFxQ2RNeG1VOUg3?=
+ =?utf-8?B?OHplNjVxT2RkdXhKaytmODhsM3p5T0ViNk42NVh2djF5NGd6Z0xHeU9SNlVZ?=
+ =?utf-8?B?ZXZ3Z0VOcFV3YllyeTg2RkdzWWlPUHAyUkl6bm5GN1dkcEJnSlNxa05SSlJT?=
+ =?utf-8?B?T2ltY21wd2d4bW1tQmlwZzJiU1dhenB2RDhVaUlueVgrTlp6bnJzZG5mODZY?=
+ =?utf-8?B?S2IvRjZtU3lkVXZ3WGoxZ3ZrUkp0a2hiOEFHMWtPZm5sWFI4MitnckhXS29P?=
+ =?utf-8?B?eFJ5YUp3enpBQ2QyS0ZyTjBFdmVFQmNCdVN3cVhFY0Qyc3BYaG4zMXY5MWNn?=
+ =?utf-8?B?ekZXVjRjOFJOV3d3L3dYdVNJbEVmMFhjN3dvM3FBb3d5TnZDenQxYjhiS3Bh?=
+ =?utf-8?B?VUxwVkRHdTc2dk80QXNyY3ZES0RCOUNRYXN5NHMxTXovVkVhOVhzSmNWak1O?=
+ =?utf-8?B?V0RFL0dEbGFjU1Rjb1RrNFVSZDExVCthUDFhUFB4cDNPd1o2U2xZMHZ4N2x1?=
+ =?utf-8?B?V0ozTEJybytLcU5iUVhlTnFrdlVZT1JQUS9kL21haTBqY0FjY05oNlJEb3FP?=
+ =?utf-8?B?Q0daWXpmcHp3L1VIUVZUaVFCNTFKaUJyeURuQzlQb3c1aXM3S2V5OW5wQUV6?=
+ =?utf-8?B?QXlmMkk2TTE4QjQ1UTl1UGdweG5ybFRRUlhnYllCU2V3c2h5WWZCenFDQXZh?=
+ =?utf-8?B?TklIOTZYU00xQ21qNVJ6MmRGMm02cWFDOHlkSjFpZ0dhVzZHQ3pJVHo4dGMy?=
+ =?utf-8?B?VTR0RXdPUU1UZFdRTWttYlZOM0FFZ0lGVXVPSkNIYnN3YVIzRUNZUHpSanlH?=
+ =?utf-8?B?SEQwSUFUUi95TUNqSWlhVlBRWElRM1hwbDUyeHZRUmVsd3l3bmF1OWJYRHRa?=
+ =?utf-8?B?cU1XTFRCTjFRaHZ5aXVldjZSY3ZQVDRvb2xRMXVHVnY3RnVNTXJ4RWVGMG9k?=
+ =?utf-8?B?cjRpNmZhZkFhL1JrUUdRN1NrWlZMYWxHa0ErcGliNkRmcDdPcTZOVjNoaWk1?=
+ =?utf-8?B?VjFCVkxYWFRkcjRNajdmWmJ6b1FnNjdRQXhFT2RsUmx6UXRVaXVjbUJLYnhG?=
+ =?utf-8?B?cHlwZlhUdVl0OEhPRmRCY1RqVVBrSlhPeU5PTnVoQklLYTVWN1I4TXBIc0tU?=
+ =?utf-8?B?aE1jVm0vNW1OcDFmVUo2NS92dGhFL2FxdnRrSlhFNGo0NmJNKzRaekVUV3U2?=
+ =?utf-8?B?Q0F1NzJ4anI5WEwvZk9GNlpmcVYrTTJkRmNVNGc3WWhXMkNDQ0ljcWlnaUFv?=
+ =?utf-8?B?RjEyaEhzRWtyOTZDYTVhaWY3eU1lMzJQM2Nhc2gvQVorNEtFVkk3T2tCVHcw?=
+ =?utf-8?B?UFpJeVlSS2xVNE1rd2U5UUJXamVwWE5HVHNtK3RUY2dGVmx0bmxHWUR6c1ll?=
+ =?utf-8?B?SW5wV3c5WldKVFdJLzk0R3QvMXFkTkxFQ05FbEtXYXlmVVIySXFDUEg1TjlF?=
+ =?utf-8?B?ZWoyVUticU9qS0JYM1VUZnFnQnFKc1UvTGtJcTZ5ckFqV3dyUmMxWWY0eTRq?=
+ =?utf-8?B?eEhMNU5kcWhsYUNlTEZCZ0t0MklQQUxtdlVHOGhCTkUzRUs1a1VVcGs1ZnBG?=
+ =?utf-8?B?eWcxTjh2STBSempLOUo2dnd4eVJnb0RONkNLQkh5cWplUFVKaGRLZUVWVG11?=
+ =?utf-8?B?dHRIR1lkVDN2MnVyUU9TRnVPbFV4VXVrSWdab3pIZVBhVzVCdHF2aU53R1JZ?=
+ =?utf-8?B?SGZkeXdYL1hOYWRaZHduTTBkYkFBUitFTGtBREVEaWdPOEhiQzBZMm5qTGYr?=
+ =?utf-8?Q?Sp67dEcaQGiMeyr1cBWULYJe0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 551be219-4c24-4d18-754c-08dca0d4e637
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2024 11:39:03.7400
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hlhzq8AvSXhM8NAsoN6CcILGqAkqzcTYJHEVlJgyqdSY9I9sbSkJ+WxzBFVD1l1t
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9196
 
-On 09/07/2024 17:06, Depeng Shao wrote:
-> The CSID in SM8550 is gen3, it has new register offset and new
-> functionality. The buf done irq,register update and reset are
-> moved to CSID gen3. And CSID gen3 has a new register block which
-> is named as CSID top, it controls the output of CSID, since the
-> CSID can connect to Sensor Front End (SFE) or original VFE, the
-> register in top block is used to control the HW connection.
-> 
-> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+Am 10.07.24 um 11:31 schrieb Daniel Vetter:
+> We already teach lockdep that dma_resv nests within drm_modeset_lock,
+> but there's a lot more: All drm kms ioctl rely on being able to
+> put/get_user while holding modeset locks, so we really need a
+> might_fault in there too to complete the picture. Add it.
+
+Mhm, lockdep should be able to deduce that when there might be faults 
+under the dma_resv lock there might also be faults under the 
+drm_modeset_lock.
+
+>
+> Motivated by a syzbot report that blew up on bcachefs doing an
+> unconditional console_lock way deep in the locking hierarchy, and
+> lockdep only noticing the depency loop in a drm ioctl instead of much
+> earlier. This annotation will make sure such issues have a much harder
+> time escaping.
+>
+> References: https://lore.kernel.org/dri-devel/00000000000073db8b061cd43496@google.com/
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+
+On the other hand pointing it out explicitly doesn't hurts us at all, so 
+Reviewed-by: Christian König <christian.koenig@amd.com>.
+
+Regards,
+Christian.
+
 > ---
->   drivers/media/platform/qcom/camss/Makefile    |   1 +
->   .../platform/qcom/camss/camss-csid-gen3.c     | 445 ++++++++++++++++++
->   .../platform/qcom/camss/camss-csid-gen3.h     |  26 +
->   .../media/platform/qcom/camss/camss-csid.h    |   2 +
->   4 files changed, 474 insertions(+)
->   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.c
->   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.h
-> 
-> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-> index e636968a1126..c336e4c1a399 100644
-> --- a/drivers/media/platform/qcom/camss/Makefile
-> +++ b/drivers/media/platform/qcom/camss/Makefile
-> @@ -7,6 +7,7 @@ qcom-camss-objs += \
->   		camss-csid-4-1.o \
->   		camss-csid-4-7.o \
->   		camss-csid-gen2.o \
-> +		camss-csid-gen3.o \
->   		camss-csiphy-2ph-1-0.o \
->   		camss-csiphy-3ph-1-0.o \
->   		camss-csiphy.o \
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-> new file mode 100644
-> index 000000000000..17fd7c5499de
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-> @@ -0,0 +1,445 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * camss-csid-gen3.c
-> + *
-> + * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module
-> + *
-> + * Copyright (c) 2024 Qualcomm Technologies, Inc.
-> + */
-> +#include <linux/completion.h>
-> +#include <linux/delay.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/of.h>
+>   drivers/gpu/drm/drm_mode_config.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index 568972258222..37d2e0a4ef4b 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -456,6 +456,8 @@ int drmm_mode_config_init(struct drm_device *dev)
+>   		if (ret == -EDEADLK)
+>   			ret = drm_modeset_backoff(&modeset_ctx);
+>   
+> +		might_fault();
 > +
-> +#include "camss.h"
-> +#include "camss-csid.h"
-> +#include "camss-csid-gen3.h"
-> +
-> +
-> +#define CSID_TOP_IO_PATH_CFG0(csid)	(0x4 * (csid))
-> +#define		OUTPUT_IFE_EN 0x100
-> +#define		INTERNAL_CSID 1
-> +
-> +#define CSID_HW_VERSION		0x0
-> +#define		HW_VERSION_STEPPING	0
-> +#define		HW_VERSION_REVISION	16
-> +#define		HW_VERSION_GENERATION	28
-> +
-> +#define CSID_RST_CFG	0xC
-> +#define		RST_MODE		0
-> +#define		RST_LOCATION	4
-> +
-> +#define CSID_RST_CMD	0x10
-> +#define		SELECT_HW_RST	0
-> +#define		SELECT_SW_RST	1
-> +#define		SELECT_IRQ_RST	2
-> +
-> +#define CSID_CSI2_RX_IRQ_STATUS	0x9C
-> +#define	CSID_CSI2_RX_IRQ_MASK	0xA0
-> +#define CSID_CSI2_RX_IRQ_CLEAR	0xA4
-> +#define CSID_CSI2_RX_IRQ_SET	0xA8
-> +
-> +#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)		(0xEC + 0x10 * (rdi))
-> +#define CSID_CSI2_RDIN_IRQ_MASK(rdi)		(0xF0 + 0x10 * (rdi))
-> +#define   CSID_CSI2_RDIN_INFO_FIFO_FULL 2
-> +#define   CSID_CSI2_RDIN_INFO_CAMIF_EOF 3
-> +#define   CSID_CSI2_RDIN_INFO_CAMIF_SOF 4
-> +#define   CSID_CSI2_RDIN_INFO_INPUT_EOF 9
-> +#define   CSID_CSI2_RDIN_INFO_INPUT_SOF 12
-> +#define   CSID_CSI2_RDIN_ERROR_REC_FRAME_DROP 18
-> +#define   CSID_CSI2_RDIN_ERROR_REC_OVERFLOW_IRQ 19
-> +#define   CSID_CSI2_RDIN_ERROR_REC_CCIF_VIOLATION 20
-> +#define   CSID_CSI2_RDIN_EPOCH0 21
-> +#define   CSID_CSI2_RDIN_EPOCH1 22
-> +#define   CSID_CSI2_RDIN_RUP_DONE 23
-> +#define   CSID_CSI2_RDIN_CCIF_VIOLATION 29
-> +
-> +#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)		(0xF4 + 0x10 * (rdi))
-> +#define CSID_CSI2_RDIN_IRQ_SET(rdi)			(0xF8 + 0x10 * (rdi))
-> +
-> +#define CSID_TOP_IRQ_STATUS	0x7C
-> +#define		TOP_IRQ_STATUS_RESET_DONE 0
-> +#define CSID_TOP_IRQ_MASK	0x80
-> +#define CSID_TOP_IRQ_CLEAR	0x84
-> +#define CSID_TOP_IRQ_SET	0x88
-> +#define CSID_IRQ_CMD		0x14
-> +#define		IRQ_CMD_CLEAR	0
-> +#define		IRQ_CMD_SET	4
-> +
-> +#define CSID_BUF_DONE_IRQ_STATUS	0x8C
-> +#define		BUF_DONE_IRQ_STATUS_RDI_OFFSET (csid_is_lite(csid) ? 0x1 : 0xE)
-> +#define CSID_BUF_DONE_IRQ_MASK	0x90
-> +#define CSID_BUF_DONE_IRQ_CLEAR	0x94
-> +#define CSID_BUF_DONE_IRQ_SET	0x98
-> +
-> +#define CSID_CSI2_RX_CFG0	0x200
-> +#define		CSI2_RX_CFG0_NUM_ACTIVE_LANES	0
-> +#define		CSI2_RX_CFG0_DL0_INPUT_SEL	4
-> +#define		CSI2_RX_CFG0_DL1_INPUT_SEL	8
-> +#define		CSI2_RX_CFG0_DL2_INPUT_SEL	12
-> +#define		CSI2_RX_CFG0_DL3_INPUT_SEL	16
-> +#define		CSI2_RX_CFG0_PHY_NUM_SEL	20
-> +#define			CSI2_RX_CFG0_PHY_SEL_BASE_IDX 1
-> +#define		CSI2_RX_CFG0_PHY_TYPE_SEL	24
-> +#define		CSI2_RX_CFG0_TPG_MUX_EN		27
-> +#define		CSI2_RX_CFG0_TPG_NUM_SEL	28
-> +
-> +#define CSID_CSI2_RX_CFG1	0x204
-> +#define		CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN		0
-> +#define		CSI2_RX_CFG1_DE_SCRAMBLE_EN			1
-> +#define		CSI2_RX_CFG1_VC_MODE				2
-> +#define		CSI2_RX_CFG1_COMPLETE_STREAM_EN			4
-> +#define		CSI2_RX_CFG1_COMPLETE_STREAM_FRAME_TIMING	5
-> +#define		CSI2_RX_CFG1_MISR_EN				6
-> +#define		CSI2_RX_CFG1_PHY_BIST_EN			7
-> +#define		CSI2_RX_CFG1_EPD_MODE				8
-> +#define		CSI2_RX_CFG1_EOTP_EN				9
-> +#define		CSI2_RX_CFG1_DYN_SWITCH_EN			10
-> +#define		CSI2_RX_CFG1_RUP_AUP_LATCH_DIS		11
-> +
-> +#define CSID_CSI2_RX_CAPTURE_CTRL	0x208
-> +#define		CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_EN	0
-> +#define		CSI2_RX_CAPTURE_CTRL_SHORT_PKT_CAPTURE_EN	1
-> +#define		CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_EN	3
-> +#define		CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_DT		4
-> +#define		CSI2_RX_CAPTURE_CTRL_LONG_PKT_CAPTURE_VC		10
-> +#define		CSI2_RX_CAPTURE_CTRL_SHORT_PKT_CAPTURE_VC	15
-> +#define		CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_DT		20
-> +#define		CSI2_RX_CAPTURE_CTRL_CPHY_PKT_CAPTURE_VC		26
-> +
-> +#define CSID_RDI_CFG0(rdi)			(0x500 + 0x100 * (rdi))
-> +#define		RDI_CFG0_VFR_EN				0
-> +#define		RDI_CFG0_FRAME_ID_DEC_EN	1
-> +#define		RDI_CFG0_RETIME_DIS			5
-> +#define		RDI_CFG0_TIMESTAMP_EN		6
-> +#define		RDI_CFG0_TIMESTAMP_STB_SEL	8
-> +#define		RDI_CFG0_DECODE_FORMAT		12
-> +#define		RDI_CFG0_DT					16
-> +#define		RDI_CFG0_VC					22
-> +#define		RDI_CFG0_DT_ID				27
-> +#define		RDI_CFG0_EN					31
-> +
-> +#define CSID_RDI_CFG1(rdi)			(0x510 + 0x100 * (rdi))
-> +#define		RDI_CFG1_BYTE_CNTR_EN	2
-> +#define		RDI_CFG1_DROP_H_EN	5
-> +#define		RDI_CFG1_DROP_V_EN	6
-> +#define		RDI_CFG1_CROP_H_EN	7
-> +#define		RDI_CFG1_CROP_V_EN	8
-> +#define		RDI_CFG1_MISR_EN	9
-> +#define		RDI_CFG1_PIX_STORE  10
-> +#define		RDI_CFG1_PLAIN_ALIGNMENT	11
-> +#define		RDI_CFG1_PLAIN_FORMAT	12
-> +#define		RDI_CFG1_EARLY_EOF_EN	14
-> +#define		RDI_CFG1_PACKING_FORMAT	15
-> +
-> +#define CSID_RDI_CTRL(rdi)			(0x504 + 0x100 * (rdi))
-> +#define		RDI_CTRL_START_CMD		0
-> +#define		RDI_CTRL_START_MODE		2
-> +
-> +#define CSID_RDI_EPOCH_IRQ_CFG(rdi) (0x52C + 0x100 * (rdi))
-> +
-> +#define CSID_RDI_FRM_DROP_PATTERN(rdi)			(0x540 + 0x100 * (rdi))
-> +#define CSID_RDI_FRM_DROP_PERIOD(rdi)			(0x544 + 0x100 * (rdi))
-> +#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)		(0x548 + 0x100 * (rdi))
-> +#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)		(0x54C + 0x100 * (rdi))
-> +#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)		(0x558 + 0x100 * (rdi))
-> +#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)		(0x55C + 0x100 * (rdi))
-> +#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)		(0x560 + 0x100 * (rdi))
-> +#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)		(0x564 + 0x100 * (rdi))
-> +
-> +#define CSID_RDI_RPP_HCROP(rdi)                 (0x550 + 0x100 * (rdi))
-> +#define CSID_RDI_RPP_VCROP(rdi)                 (0x554 + 0x100 * (rdi))
-> +
-> +#define CSID_RDI_ERROR_RECOVERY_CFG0(rdi)       (0x514 + 0x100 * (rdi))
-> +
-> +#define CSID_REG_UPDATE_CMD		0x18
-> +static inline int reg_update_rdi(struct csid_device *csid, int n)
-> +{
-> +	return BIT(n + 4) + BIT(20 + n);
-> +}
-> +
-> +#define	    REG_UPDATE_RDI		reg_update_rdi
-> +
-> +static void __csid_configure_rx(struct csid_device *csid,
-> +				struct csid_phy_config *phy, int vc)
-> +{
-> +	int val;
-> +
-> +	val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
-> +	val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
-> +	val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << CSI2_RX_CFG0_PHY_NUM_SEL;
-> +
-> +	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
-> +
-> +	val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
-> +	if (vc > 3)
-> +		val |= 1 << CSI2_RX_CFG1_VC_MODE;
+>   		ww_acquire_init(&resv_ctx, &reservation_ww_class);
+>   		ret = dma_resv_lock(&resv, &resv_ctx);
+>   		if (ret == -EDEADLK)
 
-I realise downstream does these shifts but, I think in upstream we 
-should just define a BIT(x)
-
-#define CSI2_RX_CFG1_VC_MODE BIT(2)
-
-val |= CSI2_RX_CFG1_VC_MODE;
-
-> +	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
-> +}
-> +
-> +static void __csid_ctrl_rdi(struct csid_device *csid, int enable, u8 rdi)
-> +{
-> +	int val;
-> +
-> +	if (enable)
-> +		val = 1 << RDI_CTRL_START_CMD;
-> +	else
-> +		val = 0 << RDI_CTRL_START_CMD;
-
-Here is an example of how the bit shifting is weird
-
-(0 << anything) is still zero
-
-> +	writel_relaxed(val, csid->base + CSID_RDI_CTRL(rdi));
-> +}
-> +
-> +static void __csid_configure_top(struct csid_device *csid)
-> +{
-> +	u32 val;
-> +
-> +	/* CSID "top" is a new function in Titan780.
-> +	 * CSID can connect to VFE & SFE(Sensor Front End).
-> +	 * This connection is ontrolled by CSID "top".
-> +	 * Only enable VFE path in current driver.
-> +	 */
-> +	if (csid->top_base) {
-
-When is csid->top_base NULL ?
-
-Its required in your yaml.
-
-> +		val = OUTPUT_IFE_EN | INTERNAL_CSID;
-> +		writel_relaxed(val, csid->top_base + CSID_TOP_IO_PATH_CFG0(csid->id));
-> +	}
-> +}
-> +
-> +static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 vc)
-> +{
-> +	u32 val;
-> +	u8 lane_cnt = csid->phy.lane_cnt;
-> +	/* Source pads matching RDI channels on hardware. Pad 1 -> RDI0, Pad 2 -> RDI1, etc. */
-> +	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
-> +	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
-> +								   csid->res->formats->nformats,
-> +								   input_format->code);
-> +
-> +	if (!lane_cnt)
-> +		lane_cnt = 4;
-> +
-> +	/*
-> +	 * DT_ID is a two bit bitfield that is concatenated with
-> +	 * the four least significant bits of the five bit VC
-> +	 * bitfield to generate an internal CID value.
-> +	 *
-> +	 * CSID_RDI_CFG0(vc)
-> +	 * DT_ID : 28:27
-> +	 * VC    : 26:22
-> +	 * DT    : 21:16
-> +	 *
-> +	 * CID   : VC 3:0 << 2 | DT_ID 1:0
-> +	 */
-> +	u8 dt_id = vc & 0x03;
-> +
-> +	val = 1 << RDI_CFG0_TIMESTAMP_EN;
-> +	val |= 2 << RDI_CFG0_TIMESTAMP_STB_SEL;
-> +	/* note: for non-RDI path, this should be format->decode_format */
-> +	val |= DECODE_FORMAT_PAYLOAD_ONLY << RDI_CFG0_DECODE_FORMAT;
-> +	val |= vc << RDI_CFG0_VC;
-> +	val |= format->data_type << RDI_CFG0_DT;
-> +	val |= dt_id << RDI_CFG0_DT_ID;
-> +
-> +	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
-> +
-> +	val = 1 << RDI_CFG1_PACKING_FORMAT;
-> +	val |= 1 << RDI_CFG1_PIX_STORE;
-> +	val |= 1 << RDI_CFG1_DROP_H_EN;
-> +	val |= 1 << RDI_CFG1_DROP_V_EN;
-> +	val |= 1 << RDI_CFG1_CROP_H_EN;
-> +	val |= 1 << RDI_CFG1_CROP_V_EN;
-> +	val |= RDI_CFG1_EARLY_EOF_EN;
-> +
-> +	writel_relaxed(val, csid->base + CSID_RDI_CFG1(vc));
-> +
-> +	val = 0;
-> +	writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
-> +
-> +	val = 1;
-> +	writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
-> +
-> +	val = 0;
-> +	writel_relaxed(val, csid->base + CSID_RDI_CTRL(vc));
-> +
-> +	val = readl_relaxed(csid->base + CSID_RDI_CFG0(vc));
-> +	val |=  enable << RDI_CFG0_EN;
-> +	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
-> +}
-> +
-> +static void csid_configure_stream(struct csid_device *csid, u8 enable)
-> +{
-> +	u8 i;
-> +
-> +	/* Loop through all enabled VCs and configure stream for each */
-> +	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
-> +		if (csid->phy.en_vc & BIT(i)) {
-> +			/* Configure CSID "top" */
-> +			__csid_configure_top(csid);
-> +			__csid_configure_rdi_stream(csid, enable, i);
-> +			__csid_configure_rx(csid, &csid->phy, i);
-> +			__csid_ctrl_rdi(csid, enable, i);
-> +		}
-> +}
-
-I really like this breakdown
-> +
-> +static int csid_configure_testgen_pattern(struct csid_device *csid, s32 val)
-> +{
-> +	if (val > 0 && val <= csid->testgen.nmodes)
-> +		csid->testgen.mode = val;
-
-Surely you should just set the val parameter directly ?
-
-Also why is this a signed integer and how does it get assigned a 
-negative value which we need to mitigate against here ?
-
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * csid_hw_version - CSID hardware version query
-> + * @csid: CSID device
-> + *
-> + * Return HW version or error
-> + */
-> +static u32 csid_hw_version(struct csid_device *csid)
-> +{
-> +	u32 hw_version;
-> +	u32 hw_gen;
-> +	u32 hw_rev;
-> +	u32 hw_step;
-> +
-> +	hw_version = readl_relaxed(csid->base + CSID_HW_VERSION);
-> +	hw_gen = (hw_version >> HW_VERSION_GENERATION) & 0xF;
-> +	hw_rev = (hw_version >> HW_VERSION_REVISION) & 0xFFF;
-> +	hw_step = (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
-> +	dev_info(csid->camss->dev, "CSID HW Version = %u.%u.%u\n",
-> +		hw_gen, hw_rev, hw_step);
-> +
-> +	return hw_version;
-> +}
-> +
-> +/*
-> + * csid_isr - CSID module interrupt service routine
-> + * @irq: Interrupt line
-> + * @dev: CSID device
-> + *
-> + * Return IRQ_HANDLED on success
-> + */
-> +static irqreturn_t csid_isr(int irq, void *dev)
-> +{
-> +	struct csid_device *csid = dev;
-> +	u32 val, buf_done_val;
-> +	u8 reset_done;
-> +	int i;
-> +
-> +	val = readl_relaxed(csid->base + CSID_TOP_IRQ_STATUS);
-> +	writel_relaxed(val, csid->base + CSID_TOP_IRQ_CLEAR);
-> +	reset_done = val & BIT(TOP_IRQ_STATUS_RESET_DONE);
-> +
-> +	val = readl_relaxed(csid->base + CSID_CSI2_RX_IRQ_STATUS);
-> +	writel_relaxed(val, csid->base + CSID_CSI2_RX_IRQ_CLEAR);
-> +
-> +	buf_done_val = readl_relaxed(csid->base + CSID_BUF_DONE_IRQ_STATUS);
-> +	writel_relaxed(buf_done_val, csid->base + CSID_BUF_DONE_IRQ_CLEAR);
-> +
-> +	/* Read and clear IRQ status for each enabled RDI channel */
-> +	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
-> +		if (csid->phy.en_vc & BIT(i)) {
-> +			val = readl_relaxed(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
-> +			writel_relaxed(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
-> +		}
-> +
-> +	val = 1 << IRQ_CMD_CLEAR;
-> +	writel_relaxed(val, csid->base + CSID_IRQ_CMD);
-> +
-> +	if (reset_done)
-> +		complete(&csid->reset_complete);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +/*
-> + * csid_reset - Trigger reset on CSID module and wait to complete
-> + * @csid: CSID device
-> + *
-> + * Return 0 on success or a negative error code otherwise
-> + */
-> +static int csid_reset(struct csid_device *csid)
-> +{
-> +	unsigned long time;
-> +	u32 val;
-> +	int i;
-> +
-> +	reinit_completion(&csid->reset_complete);
-> +
-> +	writel_relaxed(1, csid->base + CSID_TOP_IRQ_CLEAR);
-> +	writel_relaxed(1, csid->base + CSID_IRQ_CMD);
-> +	writel_relaxed(1, csid->base + CSID_TOP_IRQ_MASK);
-> +
-> +	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
-> +		if (csid->phy.en_vc & BIT(i)) {
-> +			writel_relaxed(BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i),
-> +						csid->base + CSID_BUF_DONE_IRQ_CLEAR);
-> +			writel_relaxed(0x1 << IRQ_CMD_CLEAR, csid->base + CSID_IRQ_CMD);
-> +			writel_relaxed(BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i),
-> +						csid->base + CSID_BUF_DONE_IRQ_MASK);
-> +		}
-> +
-> +	/* preserve registers */
-> +	val = (0x1 << RST_LOCATION) | (0x1 << RST_MODE);
-> +	writel_relaxed(val, csid->base + CSID_RST_CFG);
-> +
-> +	val = (0x1 << SELECT_HW_RST) | (0x1 << SELECT_IRQ_RST);
-> +	writel_relaxed(val, csid->base + CSID_RST_CMD);
-> +
-> +	time = wait_for_completion_timeout(&csid->reset_complete,
-> +					   msecs_to_jiffies(CSID_RESET_TIMEOUT_MS));
-> +	if (!time) {
-> +		dev_err(csid->camss->dev, "CSID reset timeout\n");
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
-> +			     unsigned int match_format_idx, u32 match_code)
-> +{
-> +	switch (sink_code) {
-> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +	{
-> +		u32 src_code[] = {
-> +			MEDIA_BUS_FMT_SBGGR10_1X10,
-> +			MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
-> +		};
-> +
-> +		return csid_find_code(src_code, ARRAY_SIZE(src_code),
-> +				      match_format_idx, match_code);
-> +	}
-> +	case MEDIA_BUS_FMT_Y10_1X10:
-> +	{
-> +		u32 src_code[] = {
-> +			MEDIA_BUS_FMT_Y10_1X10,
-> +			MEDIA_BUS_FMT_Y10_2X8_PADHI_LE,
-> +		};
-> +
-> +		return csid_find_code(src_code, ARRAY_SIZE(src_code),
-> +				      match_format_idx, match_code);
-> +	}
-> +	default:
-> +		if (match_format_idx > 0)
-> +			return 0;
-> +
-> +		return sink_code;
-> +	}
-> +}
-
-Same code as in gen2.
-
-You could move the gen2 version of this into camss-csid.c and just reuse 
-in both.
-
----
-bod
 
