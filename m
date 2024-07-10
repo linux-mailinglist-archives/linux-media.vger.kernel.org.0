@@ -1,148 +1,241 @@
-Return-Path: <linux-media+bounces-14850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A4692D198
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 14:30:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C7892D1C4
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 14:40:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D10D2B23E4E
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 12:30:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 893D61F24F36
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 12:40:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4621A1922C1;
-	Wed, 10 Jul 2024 12:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 114661922C1;
+	Wed, 10 Jul 2024 12:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mlWtW8hR"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WKpldAj2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2046.outbound.protection.outlook.com [40.107.220.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E7B1E4AF;
-	Wed, 10 Jul 2024 12:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720614611; cv=none; b=qmQtng371Fb8ch4sLuaAtm9nFYdBfW0nccVriVtT0pBPqj/JRxM7KOEk2Zr+p0Dscoo4ZUegMyLPWOsYSjTJe+NgqI2s3cOlojMHGsi8ny9pCp5jgqdieHcbUcEKzyIScS+wJ0qj3ozhM0C6i+snbixGnRZ7V1uJhvp+zida+7s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720614611; c=relaxed/simple;
-	bh=Q26aL892K0l+LyyYgM0jUhvcj2Dc0Hq5zyGMegKD5TM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c7zqdZuEMhu0eGw6h0VOtZcPyT6sz5TetvayBX546Bbkj62j6Fkg22gHtBUlKZOsC8VB353orv+bIW6Ms95LmnhPPbpA1XSYyRV1Z0ss2I4MxEI6eWdqs3aNQl4lMBmPg1XFGvA2uvXvbbre+s+wJ1z01m4c3bT3dt6mHDinpBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mlWtW8hR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAA09C32782;
-	Wed, 10 Jul 2024 12:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720614611;
-	bh=Q26aL892K0l+LyyYgM0jUhvcj2Dc0Hq5zyGMegKD5TM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mlWtW8hRbQSvovcDiDXBskauLgXt0Y+GVyBEaV5okO9Dd5yTMYt1Ef8J7qSIt8EYZ
-	 Xfz3BWd67AO20WHpAHPO3T2DzYfnbiSMJvzxEkZ6Zk4yBlD/51h5wxSba3CU76fwt4
-	 TjvB+2IkLUzAdOisWKzGIW+e7BSxX1hZN1RGjxSoiXm70RbCJKNCLJOdnY0zUHfhHb
-	 epapw73s6Tv42UKocsLMhbfIOI9R5rT1z1+YmI1TEeG+Ih9ej9AasskIrFVXfOMW3W
-	 1AvQ6OqiU45L1hkyfDq7gnJIpXUi/JH7tr8mexnZbG+GbJYOOaItrzXtFpsJguVRKB
-	 DGNACBVMjjbRw==
-Message-ID: <d72ec08a-bd5c-482b-8af9-3fc923820d25@kernel.org>
-Date: Wed, 10 Jul 2024 14:30:02 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B382519066D;
+	Wed, 10 Jul 2024 12:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720615216; cv=fail; b=m7LPhK7fOtX0/19vEc+OcPzr2o+tO7uzm/FHTYj2mfXfSY2PphblCHwJFhwjCDT+FWmobBJYDAou0twvS6lROT8OnBwg8kVcQ8TtubnRP8fLzrvxXj248DKPYk2B7MwK2nSl2ms+dFDinjXBRCWNirb6Z+DQrYsH/w/gYOgVaXg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720615216; c=relaxed/simple;
+	bh=pt7/nJxTLtc2tsR6x+SNCQy/r5XNqkZMPmsYqDCnBhI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DL87cTRtqkuTTjbJd7MMMCtwBTZeFseJAO7tvRtL46eE4Xci0JjzHzP+VpE4lPKLQLsAuOEo4NdAlsXG1Je4ImMi1kR2rzvkxYqIIpW04rgPAdSTIXMu/RcoW4dAZlule0I/pokZdRtJacsJGmbufWP6eC+g7wnPqRVGNVb0nPA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WKpldAj2; arc=fail smtp.client-ip=40.107.220.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PSZBeV7rJ2FcN+oeAlfUhXI3klCxDBngdiIFxmwwFyDvCIzkMNOSBWkS9Ll3hUhO4UOnS8JJ74LFbKKDg8KqPAahZrP6UDp20Mf1QON6wAz63DTaBkEcrdOVRtAphQp6yaki4pZSqqD/9zJY3O9ecS/BbGmqK+/cWGgOCdXZoVcZYtQ/8kf9n+9EnOASKgcskAAEJ/zakWqOTxAJkxND3RMmhURi5a+HqqX5YBvoJL5Y8Dzov8wsC3+hvE+rPo4YZVdtRkbDq/iz1c287rGGlo+Jnxy6pbcDLOf57QPDd0y0eu9VQTbY1lSoUXkrRYXcAeuL0JVDzIVbru2kNaC+zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S+tKHYOpa87rpMnKL8Ekyv5YF4kSCkXUs9ZxXK/CQx0=;
+ b=MFzSfyYO2NZIF5Ww1aQpWV4bVQV4pgRh5nhXaUgihSzrftTHw8EsyoJTkiAX9/NPw5HMSsL6s4x03O7boQricloOnNpzzrcTNZUi4NCSILng4Dk/g4SDCKAcve/lt6guQddQkxL66drgyqJBfqsQqbPIS1RzuSF78QqYEljdoeFW6KxWcnXBWY/IS1UeW4KZvDEZDnucSbBnizKBsnyIiKfZN+5BPpp9AC9YcmrQvUlTkF1thKFCa+6y62mPVzXOTXL0tvEIKe6EnPStVmsGlrFw1NYtGQeg4Q/wYa4gEphpNXeBPqUytpLczlleKrCB9j4bRQuZOevNOPof///1PA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S+tKHYOpa87rpMnKL8Ekyv5YF4kSCkXUs9ZxXK/CQx0=;
+ b=WKpldAj25Ik736R9suBChss+JlNx3e94vcWiZUjh8+ZEHlby+Ag1YV/NLegOJpK4jdKh8xrfobkyRQ1XQVR2jqWlVGxxrl36li4ywmNXiZ/GVUED2/5rITFqHAMN8Q/A+sJhqBc2MkcfxMwPB59EJgVQSQ10vzlotx68twLlopk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
+ by BL1PR12MB5994.namprd12.prod.outlook.com (2603:10b6:208:39a::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Wed, 10 Jul
+ 2024 12:40:11 +0000
+Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
+ ([fe80::ec7a:dd71:9d6c:3062%3]) with mapi id 15.20.7741.027; Wed, 10 Jul 2024
+ 12:40:11 +0000
+Message-ID: <cf3ff1b9-2934-47bd-93c7-5ea55d10c82f@amd.com>
+Date: Wed, 10 Jul 2024 14:40:04 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm: Add might_fault to drm_modeset_lock priming
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240710093120.732208-1-daniel.vetter@ffwll.ch>
+ <03f7e2ad-fd5c-4da7-a14c-34c2c158c513@amd.com>
+ <CAKMK7uFvCr2qcHun06LC-ON3GBqj8=mCpPGHuAOh9BEyr60fiQ@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAKMK7uFvCr2qcHun06LC-ON3GBqj8=mCpPGHuAOh9BEyr60fiQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0220.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ac::15) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 00/13] media: qcom: camss: Add sm8550 support
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <55e850dd-1b45-4bad-a11f-f645cca07f2a@kernel.org>
- <d8d6574a-2823-4955-898d-d6637e40946e@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <d8d6574a-2823-4955-898d-d6637e40946e@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|BL1PR12MB5994:EE_
+X-MS-Office365-Filtering-Correlation-Id: b41dac6c-d480-44f9-b034-08dca0dd7007
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UVBJbWlCUys1dzhqOEFIdnhjU0VudDJYaXNTWUlBeElhaXFnTzNQNXJiaUly?=
+ =?utf-8?B?dXhUSUYvR3RSaThjLzBkUEZTSFpjWEgxODZTTzh3Q3lyREE3Q2JCU1JLNUEr?=
+ =?utf-8?B?Sm1oYzlROU1wMUtBTXB2WEZHSVlOdklVRU55ZVVYYkZBc1krYkttTkFoNk1h?=
+ =?utf-8?B?WnEzQmVQb01MdUJhZU95R29EbUNCenBLR2dySGlYcU9ONENjVndibXlYQlNi?=
+ =?utf-8?B?bUFaLzhYcVZsS1lka3RSNFlwNmZHbnBHZFZrQ1g3VU0xckh2S1c2eHBOWWxB?=
+ =?utf-8?B?aVdJZ0xGTUhFQ2QraWpXNDVZKy9zSzRCYzFzUTVFUGxDdlIxeTQ5azRkVHc0?=
+ =?utf-8?B?WW9pREhqcHp6WUJPeUZTaFM3YzZlUThoWnk0a0huS3MwRmtMUlBTektkQlJR?=
+ =?utf-8?B?T3B2bmRUS2tOMHIyNW8xTFlSbFd6RGdCWnExMlNqa2VhNkw5ZFEzZWdBNzVF?=
+ =?utf-8?B?VWxQVmwxZDZDK01FSTZubkVuRWVyY2s2aVZjMlFHaThlVjkzYURZZldUSWJV?=
+ =?utf-8?B?L2NKcHBvaFAvZlpZcVl3VUFjSUxNV3lyU3BxUi9JWVYrTG8vYzVPTmRFeVVQ?=
+ =?utf-8?B?QjdQT241cUtFNFdwTkszRUVCdEgrN1FZSStUaFRZaDdOa0ZYSy9uV3hjTk5j?=
+ =?utf-8?B?Qy84UXBncnEvSEczQlowSnhhWUR5bi93aU9jSkEwK3JhM29tVUJTdkN3eVU3?=
+ =?utf-8?B?NXU4cGdzRzR0aTdqMGJBMEFHQjFhZHdoNUpRY0tvYUd1R1I2bXp6K3BLOGsv?=
+ =?utf-8?B?cmtYR0tRbWVZMTRWMks0cjVjWWpCS1pEMTlBalMvenp6LzB2bHFWU3NwS2xp?=
+ =?utf-8?B?eFdLVVhFTW9JK1V2Z1NPdjJ2b2ZlR2xGSUNWblR2V2V4b0lRR2xRM2lCS3Zy?=
+ =?utf-8?B?WXZUMTd0WWozYkpmU0tTWFhzRWFDVGx6cldsdUxsVUY1cFhGU1kwVVEzZ21u?=
+ =?utf-8?B?cU11TnJ0WmxJN2p3WUJLejVRY2YzY1hma0FDajlKa0NxN2lUVVZERFpzenUz?=
+ =?utf-8?B?WlNLOVRoZ2FxckpYVllWa3Q1aEdxS0JLaElSVWJuOWZmMk4vaDNkZkowUnUz?=
+ =?utf-8?B?ZDJuNy9ZNHpvSENuSjBLRG52YSt0SUE3aUxyOHpoS0w1UE9qNERUWEpIWWJ3?=
+ =?utf-8?B?VXd6a2NyZkJjOFhBcko4QUVrT1hUZ0JHQzhhU205Y1U2SWdsUWxoeVNPbm9C?=
+ =?utf-8?B?a21YeSt6R1VWa1hweXk3N25QTTQwWDFxRElQcGZOWUVWMThqejQwcDI3UzJh?=
+ =?utf-8?B?ZG81SUowVUg2aXcxc3FIaWordnh5cU5nSGhQZ3hpQiswOHVIYk9zRFhTK1BP?=
+ =?utf-8?B?cDc4bWFrOEtBME9zVENqQ0JQM011aExnbVkwaG9zbHJFbDVVVlc1aWQyNFhi?=
+ =?utf-8?B?UWk3VWxzTDNSYXlReldzTWc2V1Jnb1d6NUZoZG9VOHJhWlpnekR3eG9la2N2?=
+ =?utf-8?B?UjdQUFV4eFQ2eS9xRWt3USt4WkNzaFg0dUFNem9iS21ZZXZyTlJpWXlheUdp?=
+ =?utf-8?B?dTR4Q2ZpZDM5Ti9aSjN2UXY1eUtxc09kbm5RYWY0WUJpZ0ZLSmk2UkR6TExY?=
+ =?utf-8?B?MDlPRHpNN3RxaDlFNytNRkRxbi9xSytrRXdOajlTU1JmUFU1SjVUcDJvZ2Fi?=
+ =?utf-8?B?cGpxZno4T2RXVEhQWlRNTzF6OGpBc0oxTlZnejFjcm1LdWRBZlpNVWlZVXdV?=
+ =?utf-8?B?ZStUS2g1elBYeFNZVmVteHkyWGlERkhFQ1NLYWMybVAyOUNoQ3FjY3h3Tld1?=
+ =?utf-8?Q?09aqy5BGNTpj6FubZ4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR12MB5673.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RGxHbnNwdlRVamtpYnVKR1VGa3RVcUQxZWtOaWxWYWNraUY5aU5KbEZOWTR5?=
+ =?utf-8?B?TlI4bHVEYk1VOHRQTm5NTlVTVFFOMnM3R1I5a1dSNEQwOHlyemtFb2RiaU9k?=
+ =?utf-8?B?RXpIMEkrMDU4NlVwWHFJcXBpVS9Ca2hKc2JrWUtHODltQ01HTW9hVm0xRVJv?=
+ =?utf-8?B?TFZxNkZrRVVDK2s5aXNPcjVOa2Z5UStkRXZrRkhiaUlwNHNPaGNvYzJpcVRT?=
+ =?utf-8?B?cXVnM2swZDE2V3lpNHNjYWVSZ3FoTXVaVkhPUi9rNjlZb3cwSlZZZ3NJNTlB?=
+ =?utf-8?B?YUxZS2lzL1JkbnpnVSt6d3VHb01UQi8zWXVkak12TTZxNzRHZzNhUFpvVy9M?=
+ =?utf-8?B?UUEwbmNzd1BzM1lYenNOb05kaUpxajBWaGFTd2Ziajl4bHhFNXgwQUMrSVVq?=
+ =?utf-8?B?bnBZZFQ1MmNPcFQ1Y0RWS29KQStQOWU2Zm5jbXk2YWxaWVRSRmovNHBrM2lj?=
+ =?utf-8?B?WHZzcFVxNUYrNGtFS01uc2xFdGZHNUVpcUtVTE5BMm52N3NISUovWnkvdHp3?=
+ =?utf-8?B?em1KQkZGQ3RUVDh4Vzh5QlVkYmZrdFpOR3lkOFpXOGlDMHE0eDhMbVkrOFh2?=
+ =?utf-8?B?QndYei9JekNVQXBVYnVuT0pkNE1lRm1MMlFHbkMvcVAwaTNZa2NqbWFhTUZO?=
+ =?utf-8?B?QWN1S1FrcFZ6TWlmbENYVFBGWTREVWFpTTdrQXdpK21PcmZyaFJnYVlIQmI2?=
+ =?utf-8?B?S1c3dVc0OE4zcE8zalpEcktwOURrT2VGRFhpZHBGRlhSSXB6L2pPQ1V5blFT?=
+ =?utf-8?B?OWhmV210NUduL0FxRGZibkJBV2p3czhKc0dHNUxoSHo1MkxYcW8yeW5JWS9X?=
+ =?utf-8?B?dGErS0ViZ3pnclQwZ2ZxUkV2eVRhUWlUT3dvYUFlVEl6WkZoRElTOTFSWXdF?=
+ =?utf-8?B?RUgvWlYyMkM1dWVKd1h5ZldISGRiM1hUK0x1eGZqdk9WbVFFWmIyR2k0Qzk3?=
+ =?utf-8?B?QmRvSzNVL2J2Wk5HNWhpck93N3dnZmRpT2hGaHBjVG43Qk1SNGdMTlFZMWtr?=
+ =?utf-8?B?V0IvSTh6YmdRd0FqMDk0eER3YkpoRDRFQnV3MXdMOEcrMGgwZ0ZMakc5blJO?=
+ =?utf-8?B?bXJteFVVeUQ1b0Zmblg5TUluWWQwTmEwTzBMdkVXQUVrUUY5RVQrTFhQUnp6?=
+ =?utf-8?B?N1lWMHl3OVdZZFQxY0pEaDI3dWZRUUo0anNDdHdBTmFvV2lZRHNtbFJaQVhC?=
+ =?utf-8?B?S0RNRk1kcDErd2Y5RGRWMUZkbmViVDNCR1lhTC8yN0hWRmg1elowMnJPY3Vz?=
+ =?utf-8?B?R05uVzhnaU9RQlpKUFZ2NmlYdlhzVDBQa2x6RUx0cjc3OVBHdDJob00zSUxU?=
+ =?utf-8?B?dms1cWpHQ3c1bFZZUEdxU1RONURtRGduTUdGd0pqUmxoemdCQnFHZEhTT05S?=
+ =?utf-8?B?bnZPTGFzb21wR0hReHRqMHV5cTZSclBGZ2Y0cUVJNkd1YzlNSUl4Z2RJQjFJ?=
+ =?utf-8?B?RHl3aXlWTWJGZW9jN1p0NmNHSlVaZG9DenRuSzBjZnhoR1g4dVFZdnFHRDFH?=
+ =?utf-8?B?TG8veGJBTE92VUcrRWJzU2JJQ0tvV1g0NlVhMGlmNHBOZ2NnV2hTYXdNbjVi?=
+ =?utf-8?B?b3Q2TmVOaXovbUg4aDlQSUsreDZEN3FOL3dFN1NSNkVNQWZ2N01xRmtYbXBD?=
+ =?utf-8?B?QjBlbFdKbkwrYXptbDUrQ2lLb0Vmd3pzd2d4S0szR3hmQiszUVV1UW12enlJ?=
+ =?utf-8?B?V0RYNE96MmdmMVpFWmNYOHk3ZmJtdVdhcG5Wa3lCSzhhVWZJTjZFQzZPaEh4?=
+ =?utf-8?B?SDdLVmRtdkRiUzVGRnRwOThTQ0wyWXBZMGlmdnhiOVhIWmY3Wk9SOWhuelAz?=
+ =?utf-8?B?aVUzWitjUVRCZjhKUGsyTm0xaHdsUWdOSDROVEVoSHJmbHVkY3JZejhLWSsw?=
+ =?utf-8?B?clB2OUw4UEVhZlFpVXkrRFhhZ3I1SmllS0I2S0VWbThYQTFaQmxIMmZoUzJx?=
+ =?utf-8?B?aVBER3ZvRFVNSWU4UVdxMk1JZmc1eDh4azVLTGtHbFVGRFBiTTZCSVRiZVFv?=
+ =?utf-8?B?NklBQXVUc2Q5b0VDV25tTHpwZ3pTNmcxSjlEMXFuUkd0REhiOWQxbThWdlVD?=
+ =?utf-8?B?WWMyZFBwQUNpbXJvd1pUNWlKNm5HZGhJREpOTEZZK2V5anFIcGN0NUQyUlZR?=
+ =?utf-8?Q?ZCLQAFtLLX6Hx/5v2f+ZWMvvK?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b41dac6c-d480-44f9-b034-08dca0dd7007
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2024 12:40:11.1548
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xQmWEJnFEdt4e2urs/82xb8z6ntgXI4M608HTCGhYnfIuTXiL0VUZblKRaYUvOOV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5994
 
-On 10/07/2024 13:27, Depeng Shao wrote:
-> 
-> 
-> On 7/10/2024 7:08 PM, Krzysztof Kozlowski wrote:
->> On 09/07/2024 18:06, Depeng Shao wrote:
->>> V3:
->>> - Rebased the change based on below change which will be merged firstly.
->>>    "Move camss version related defs in to resources"
->>> Link: https://lore.kernel.org/all/20240522154659.510-1-quic_grosikop@quicinc.com/
->>> - Rebased the change based on Bryan's csiphy optimization change and add
->>> these changes into this series, so that the new csiphy-3ph driver don't
->>> need to add duplicate code. This has got Bryan's permission to add his
->>> patches into this series.
->>> - Refactor some changes based on the comments to move the random code to
->>> patches where they are used.
->>> - Remove the vfe780 irq function since it isn't doing the actual work.
->>> - Add dt-binding for sm8550 camss driver.
->>> Link to V2: https://lore.kernel.org/all/20240320141136.26827-1-quic_depengs@quicinc.com/
->>
->> I asked for reference to upstream DTS - where can I find the DTS patches?
->>
->> Best regards,
->> Krzysztof
->>
-> 
-> Hi Krzysztof,
-> 
-> Sorry for that, I thought add the dt-binding is also fine, since I saw 
-> other patches also do like this. Will add add the DTS in next patch set.
+Am 10.07.24 um 13:58 schrieb Daniel Vetter:
+> On Wed, 10 Jul 2024 at 13:39, Christian König <christian.koenig@amd.com> wrote:
+>> Am 10.07.24 um 11:31 schrieb Daniel Vetter:
+>>> We already teach lockdep that dma_resv nests within drm_modeset_lock,
+>>> but there's a lot more: All drm kms ioctl rely on being able to
+>>> put/get_user while holding modeset locks, so we really need a
+>>> might_fault in there too to complete the picture. Add it.
+>> Mhm, lockdep should be able to deduce that when there might be faults
+>> under the dma_resv lock there might also be faults under the
+>> drm_modeset_lock.
+> You're not allowed to take a fault under dma_resv, because drivers
+> might need to take that lock to handle faults. So unfortunately in our
+> combined lockdep priming, there really seems to be no chain yet that
+> teaches about faults possibly happening while holding
+> drm_modeset_lock.
 
-DTS should not be part of this patchset, but sent separately.  It's
-enough if you post a lore link to it.
+Ah, of course! You are right, it was just the other way around.
 
-Best regards,
-Krzysztof
+Thanks,
+Christian.
+
+> -Sima
+>
+>>> Motivated by a syzbot report that blew up on bcachefs doing an
+>>> unconditional console_lock way deep in the locking hierarchy, and
+>>> lockdep only noticing the depency loop in a drm ioctl instead of much
+>>> earlier. This annotation will make sure such issues have a much harder
+>>> time escaping.
+>>>
+>>> References: https://lore.kernel.org/dri-devel/00000000000073db8b061cd43496@google.com/
+>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>>> Cc: "Christian König" <christian.koenig@amd.com>
+>>> Cc: linux-media@vger.kernel.org
+>>> Cc: linaro-mm-sig@lists.linaro.org
+>> On the other hand pointing it out explicitly doesn't hurts us at all, so
+>> Reviewed-by: Christian König <christian.koenig@amd.com>.
+>>
+>> Regards,
+>> Christian.
+>>
+>>> ---
+>>>    drivers/gpu/drm/drm_mode_config.c | 2 ++
+>>>    1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+>>> index 568972258222..37d2e0a4ef4b 100644
+>>> --- a/drivers/gpu/drm/drm_mode_config.c
+>>> +++ b/drivers/gpu/drm/drm_mode_config.c
+>>> @@ -456,6 +456,8 @@ int drmm_mode_config_init(struct drm_device *dev)
+>>>                if (ret == -EDEADLK)
+>>>                        ret = drm_modeset_backoff(&modeset_ctx);
+>>>
+>>> +             might_fault();
+>>> +
+>>>                ww_acquire_init(&resv_ctx, &reservation_ww_class);
+>>>                ret = dma_resv_lock(&resv, &resv_ctx);
+>>>                if (ret == -EDEADLK)
+>
 
 
