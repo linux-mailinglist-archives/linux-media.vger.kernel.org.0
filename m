@@ -1,48 +1,63 @@
-Return-Path: <linux-media+bounces-14839-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB8392D09C
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:22:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B248692D0A7
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:27:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8461CB23954
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:22:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C7A828194A
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:27:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A890190468;
-	Wed, 10 Jul 2024 11:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2410819047D;
+	Wed, 10 Jul 2024 11:27:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LpPyYv8E"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SEihtFgq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0F718C161;
-	Wed, 10 Jul 2024 11:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E10D18FC9E;
+	Wed, 10 Jul 2024 11:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720610553; cv=none; b=ihyWsadePSPKlAJuRxRHRegj+/Zp78aIuqihUHU2+g1t4+upcweHVUyinUwPuq2etTsya2Gl5b60TV1/OlBOfpeT7ofpCWnVb8rSjb5oovsUqAsSBdD9AfLP+adW5KkG2EKVbDHnU5fQ7DS+7iFZY+w1omUa02oTEaiDqao3Yqs=
+	t=1720610857; cv=none; b=X4M4kuNGoMhNhRDYCYvU5DLhKUyZqzqHoH0WT1YesIqSo1TBHV91gkQ1uepHlsp6nABbJPNA3kW0HwJJ9ST2c8S0O0oYRPHEveh3zdsfCBGt4GmuY9SenF6DinnhS6AlHjledYBd0E/uIYUnjtVbgcQ7jShGRsFHQOXwiy6qmQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720610553; c=relaxed/simple;
-	bh=ETthEb4ZpmioHYKkC6wD1w+aCTOXSFdSiS5EUTzL4Dk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PVUq7FVca2dLRW2Iu91t62EwBlSg08b1kWvnPIXtvMmBMw4UQsdxVqjiVuwx6wMd2rIxVkcgYyHl/JAD3G9PG5UmxNfbpd3b3Avf/vMNNTTQAlXaT0KelwFBb7MW82TTpLST/SW8fcw8zqCtBKsxIvo3tU9NRs10lAZmBfZlMvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LpPyYv8E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1193DC32781;
-	Wed, 10 Jul 2024 11:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720610553;
-	bh=ETthEb4ZpmioHYKkC6wD1w+aCTOXSFdSiS5EUTzL4Dk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LpPyYv8EJE3s7K7KeSWOaS3mdt/z3h9QpXvJKZ2l91l8IVrKlyJA8H+k45kf0QYDx
-	 tMq2TYwqozC1d9KZj73LkeHGEbNjkvX2t+H/igvT/rjuqGukCAwWJjgQfpqLZSJpkc
-	 2wojqhp1CbLtItZ+B8OeYN3UWm9o21NExjbVH6LA+JIasZCAU9C9EEANm443Kz9cqB
-	 n0n1h3Vr6PGpt/bBRBfpRIeHBVzEZPGITwn6L6EUnHhmTVo9oWFPdPPuNI9ylKTSxV
-	 UcvLF/gK7BTk3edh8+yhfs0fcya06+tQaJq94UgT/3jZPoj1FJ1Pn0KAiZxrtZC2oA
-	 LmnM835o1SXVQ==
-Message-ID: <d0f8b72d-4355-43cd-a5f9-c44aab8147e5@kernel.org>
-Date: Wed, 10 Jul 2024 13:22:28 +0200
+	s=arc-20240116; t=1720610857; c=relaxed/simple;
+	bh=7HW65aC46Fy441/fbPOqQ+AlcVAiKyLPoMZ44HnLOGE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Nzz6mT+M+pNy4s0+UndDutONaPOeHTz1HGRbY/80ZQBMGR1Lv3dicGcZ63N797ZkkNV3oTd8AwWHFmYAXhIpiYC2R4eHgBkvwRJCA2hXf8IwVwRJkha5IaQ51QrxHJFIXpXjuL2hfhx9FYvjNEkcEU57Cl4ltSJUxVrjijF/EQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SEihtFgq; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46A3F7AY003892;
+	Wed, 10 Jul 2024 11:27:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	PpxodBtotGvIpVffqv8CzX155NnEOCfhisxhAlwWL4k=; b=SEihtFgqjonp2fYX
+	7uYkm7u6bAiGw3Yu/u9ylDF3qHDnZbI3HJ/AcfU51Q6HHugw+1L30QmSYaZFyB21
+	S+H/sS1cuR156jauMITwSjNx5j8KVyQSH2d04hX9YEWvh3YavLSqH9t2ZMaCVV6G
+	/MwY2f16yiAjQzPPhymH2Q16oF10CY7Wnmczve1Rsk/2R6BpdUzCvIOTmZezug1z
+	iPhM7D6JqKla6iXuaHEyo++gLoD+RFSpzZIK81eP3yl6cdeXN9u3nhyHPuCiJZTr
+	ocEjooBdvB8lJVYy4IzuX4168NlIm/8S9fSSe914ZDl1ysy6sGhH/2pDGRkWltEh
+	ObVzjw==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 408w0rc0sa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jul 2024 11:27:31 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46ABRUWk018382
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jul 2024 11:27:30 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 10 Jul
+ 2024 04:27:25 -0700
+Message-ID: <d8d6574a-2823-4955-898d-d6637e40946e@quicinc.com>
+Date: Wed, 10 Jul 2024 19:27:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,107 +65,65 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/13] media: qcom: camss: Add support for VFE hardware
- version Titan 780
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com,
- Yongsheng Li <quic_yon@quicinc.com>
+Subject: Re: [PATCH V3 00/13] media: qcom: camss: Add sm8550 support
+To: Krzysztof Kozlowski <krzk@kernel.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>
+CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
 References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-11-quic_depengs@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <55e850dd-1b45-4bad-a11f-f645cca07f2a@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240709160656.31146-11-quic_depengs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <55e850dd-1b45-4bad-a11f-f645cca07f2a@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: HcG7iWEXqcvhA-xRNuhRGOMjkGkJtyWz
+X-Proofpoint-GUID: HcG7iWEXqcvhA-xRNuhRGOMjkGkJtyWz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-07-10_06,2024-07-10_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=963
+ phishscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2406140001 definitions=main-2407100079
 
-On 09/07/2024 18:06, Depeng Shao wrote:
-> Add support for VFE found on SM8550 (Titan 780). This implementation is
-> based on the titan 480 implementation. It supports the normal and lite
-> VFE.
+
+
+On 7/10/2024 7:08 PM, Krzysztof Kozlowski wrote:
+> On 09/07/2024 18:06, Depeng Shao wrote:
+>> V3:
+>> - Rebased the change based on below change which will be merged firstly.
+>>    "Move camss version related defs in to resources"
+>> Link: https://lore.kernel.org/all/20240522154659.510-1-quic_grosikop@quicinc.com/
+>> - Rebased the change based on Bryan's csiphy optimization change and add
+>> these changes into this series, so that the new csiphy-3ph driver don't
+>> need to add duplicate code. This has got Bryan's permission to add his
+>> patches into this series.
+>> - Refactor some changes based on the comments to move the random code to
+>> patches where they are used.
+>> - Remove the vfe780 irq function since it isn't doing the actual work.
+>> - Add dt-binding for sm8550 camss driver.
+>> Link to V2: https://lore.kernel.org/all/20240320141136.26827-1-quic_depengs@quicinc.com/
 > 
-> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-> ---
+> I asked for reference to upstream DTS - where can I find the DTS patches?
+> 
+> Best regards,
+> Krzysztof
+> 
 
+Hi Krzysztof,
 
-...
+Sorry for that, I thought add the dt-binding is also fine, since I saw 
+other patches also do like this. Will add add the DTS in next patch set.
 
-> +
-> +static const struct camss_video_ops vfe_video_ops_780 = {
-> +	.queue_buffer = vfe_queue_buffer,
-> +	.flush_buffers = vfe_flush_buffers,
-> +};
-> +
-> +static void vfe_subdev_init(struct device *dev, struct vfe_device *vfe)
-> +{
-> +	vfe->video_ops = vfe_video_ops_780;
-> +}
-> +
-> +const struct vfe_hw_ops vfe_ops_780 = {
-
-I guess another warning...
-
-> +	.global_reset = NULL,
-> +	.hw_version = vfe_hw_version,
-> +	.isr = vfe_isr,
-> +	.pm_domain_off = vfe_pm_domain_off,
-> +	.pm_domain_on = vfe_pm_domain_on,
-> +	.subdev_init = vfe_subdev_init,
-> +	.vfe_disable = vfe_disable,
-> +	.vfe_enable = vfe_enable,
-> +	.vfe_halt = vfe_halt,
-> +	.vfe_wm_stop = vfe_wm_stop,
-> +};
-
-Best regards,
-Krzysztof
-
+Thanks,
+Depeng
 
