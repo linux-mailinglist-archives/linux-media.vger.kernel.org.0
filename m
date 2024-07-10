@@ -1,106 +1,154 @@
-Return-Path: <linux-media+bounces-14883-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14884-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48DF92DC61
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 01:09:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302D692DC79
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 01:17:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E257280C94
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 23:09:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6EA0B21286
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 23:17:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B986156993;
-	Wed, 10 Jul 2024 23:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91A1D1534FB;
+	Wed, 10 Jul 2024 23:17:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kzkvWggb"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="uRUsS3Oc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C0C14BFA2;
-	Wed, 10 Jul 2024 23:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCEC14A0AD
+	for <linux-media@vger.kernel.org>; Wed, 10 Jul 2024 23:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720652955; cv=none; b=ik5hp8Ffopx28IAtikMpKmvoGjzIFlJDW9d9w4ALH5NerVlO6j7IPxjHKpuIoieMaqT1wyRPhP+8lUgS6rnKivVnA+DCkdpCaVwgSjp1O4f3UiLVWrzu31OtKKQWgwMeKPhExy4u/SLQNiu8MlAzyoecXAmEbF+wH5GtwT9uz2s=
+	t=1720653421; cv=none; b=tq362crGmVZdfhdR3KvumSIaHHoyj1pmJj39JyjxBx4OhoEvfvTdKN5CziQMG8muq3sa9GQnzptkUOU1/xmZ7AC5pGFOGIg0bFrGCGI5L/bCbX+2qVbKEbq9GIOIpp2+gaq6kQUAXjjh2Af059TDSXQpFn5sXGjwN0bX7PZxVLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720652955; c=relaxed/simple;
-	bh=iJc/bf8te2V4HIoUt6truxqDC2AFjane+tEtVaHMpDY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JGcNY8lPZLEKSON7opmVk2hdjj2NaMHJtwghS+LHqmYx9KHF9vWHhAHC6Mdrhi0uz4S8bXfsNzgqzkSfIJ/ISXkrZH9qJW0+x/LW83+VTkfXOto1PCb31TLwstK72quFiT9eNpFNGppKij/6cI6xlSEkw5nVS6tBqMDudshmv4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kzkvWggb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 214FEC4AF09;
-	Wed, 10 Jul 2024 23:09:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720652955;
-	bh=iJc/bf8te2V4HIoUt6truxqDC2AFjane+tEtVaHMpDY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kzkvWggbyqNQ25bBkRuzsc7yRc5uuJeLcyoqJ7BH3XhNJARf1iN49ojgIgAJ3GUVb
-	 1sxWUQe3AA0ggfN7mskBEmkZkHHj7gac+IUx9GCGZ6tgmsYafqkRvYZQ9g2TwsCCBc
-	 4fvvVf/Vnv0b/D41kVfp7Y944+js1nX+e3fzah1A6EOOmUsIawWd/SKgE72SMTxAEV
-	 i87wg7Zs8ynt1PmPGp7fkh8ggrGJoqXrZCcxN055x4ZnAzOcaTtEXmIkeW6Z+yvNCx
-	 BjBcnsFFU4hC9eEJcEWS81EjCe7Czl1kjK5gx4UBlXgZ1Ix/CSJtiKI9NpVWN51OEb
-	 cmvez/ieukZiQ==
-From: Kees Cook <kees@kernel.org>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Cc: Kees Cook <kees@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: venus: hfi_cmds: struct hfi_session_release_buffer_pkt: Add __counted_by annotation
-Date: Wed, 10 Jul 2024 16:09:13 -0700
-Message-Id: <20240710230914.3156277-2-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240710230728.work.977-kees@kernel.org>
-References: <20240710230728.work.977-kees@kernel.org>
+	s=arc-20240116; t=1720653421; c=relaxed/simple;
+	bh=sC+v9/yANl9hLQYeBgjFHxA+lkxPKYW5RPrkbjfI/zE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aO+mLxtF9sJSeA18bWPXxHXBI8Nyz9g7GEaG6wrncTodEnUbAcxw/A7ycPfDU4QB1zvHiXLbPAFAyYmlAYvTyOUYEBWHfccxeoAXqgDDRjg2EYAa+ZzoUAYk0DJGj4iTEr7gitJJdrwiM91Anbme3H7IfjTVWTw66Us1H6RhwlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=uRUsS3Oc; arc=none smtp.client-ip=35.89.44.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+Received: from eig-obgw-5007a.ext.cloudfilter.net ([10.0.29.141])
+	by cmsmtp with ESMTPS
+	id RcXWs4D1fVpzpRgYPsRrCh; Wed, 10 Jul 2024 23:16:53 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id RgYOsll0VLUYtRgYOsvIxS; Wed, 10 Jul 2024 23:16:52 +0000
+X-Authority-Analysis: v=2.4 cv=M8dLKTws c=1 sm=1 tr=0 ts=668f1664
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=frY+GlAHrI6frpeK1MvySw==:17
+ a=IkcTkHD0fZMA:10 a=4kmOji7k6h8A:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8
+ a=mQTSY71ofxE6tXbfK60A:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=AX4VtRHSQCF7dAnD2xsWmA+IklZiBVIQGTjA3CNugNA=; b=uRUsS3Oc2b9NPpqrHgj/SWUpdR
+	ViqpY9movygUdVcpKD/LNIdGBlz+1xNNThF6GfeBaXyDYpI2ono3NYcSAa8qI7oVrPUIulbE8fI45
+	kV2VpjraNnHZwV9/EeIC1Pz5Y5vWsdGcHGajcunj09RABZyYZ+OgY9FxNHmuF+f5wNjOHnchKjZS4
+	JvuUuA/KiX84KwxhAzy5tZxe7Bne7cCDgyKRNvmgPDbZIb3P6AHePemKNjrvbn2gZgNmYNvn9lYlT
+	tplq8f5JW+XgSlzC53qwXUP0Xf3dAnygPyl7iKdyvcAe/cnAgoGJPIQDKVS840kh4vw37kppo5V/S
+	tmodMN3A==;
+Received: from [201.172.173.139] (port=54868 helo=[192.168.15.4])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1sRgYN-004Cic-22;
+	Wed, 10 Jul 2024 18:16:51 -0500
+Message-ID: <4193c6b4-164e-4c65-bd8b-cf392b1a865f@embeddedor.com>
+Date: Wed, 10 Jul 2024 17:16:49 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1278; i=kees@kernel.org; h=from:subject; bh=iJc/bf8te2V4HIoUt6truxqDC2AFjane+tEtVaHMpDY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBmjxSZUawcA9Ew7IpbCfivm2IRppHC3x5DpA7ZX H5tgKkNgMGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZo8UmQAKCRCJcvTf3G3A Jq+FEACCCc+lCg8Q5cP7rKh6vLWy0J5PTf6zKb7XBrrU3GuPjXsCH5LD7ugkdRRrDQhX+bQ+6Jw 2omDkASy0fmKm30Pv8LFrK64HdQZaOUVuhLsf9iCSmY/bPiVKjycqNq+JD3a/QsbmBxVxYddqju VD+zSxn2ZYkJ/cweO3g5c15VFm8jSe0zErw7wy6hX7YPvXhoth9DqA59zrUM/Wi8VhiDY2Wl64T T7BZsLn8SaDntoVrJKi03adr7A3bMpK95J19BvEgx+L8CQme2Q35jppbE1FJ38WYKH3fgfKFcFt 65K4spkwsxXKeeNXRxO2fvmsgW9Nisq/3hcezwuiOk16ZHLPE6S5r9qa45gUNqSxMXfqc3u4VaZ NHrjOe52IGNolMbQErfkFpxAdVGSTmiTFvvKmlsF2wzZv346MmCXQyp74qx0f9p4K7SyDx/202A uM+5F+jUQsrqY4z0TKmZaWtWPXg5b11ot25DLCcltlYJ1WpKmjFOxT5o30z9gKv8jFA9O+dVrx5 vBux7ANwfQOaCmtvlvBLimsg+yrpA/rFjR/BsnJY5Vxr87s6FlMQy9Ho2Npsv2/B45ieWIoMWVU WN1WyiuKU5uX4TQHmLtVq6Nj5DYPpWvsSltg6c3a2+Hjnv3zwdKiXlCe0ZA0TRLsHSUefGLYzfv z1CAA4/gYxcrozw==
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: venus: hfi_cmds: struct
+ hfi_session_release_buffer_pkt: Replace 1-element array with flexible array
+To: Kees Cook <kees@kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240710230728.work.977-kees@kernel.org>
+ <20240710230914.3156277-1-kees@kernel.org>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20240710230914.3156277-1-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 201.172.173.139
+X-Source-L: No
+X-Exim-ID: 1sRgYN-004Cic-22
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.15.4]) [201.172.173.139]:54868
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 4
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfNY45M6RJibk2aiIaE/1t78eVbLek5RAT7CMOJJpZpliB4p7uG5m6sEHkq8pu2b0K/tGlFAprnagEIQGQtb5Zbq41shyk5fhOFK/t2dB+nd1r8EEfSgF
+ nAZhnBDRfRWi2SGoAAaa7uBEBOYZURFEBaiKp7FIFsDdTNY97FYoXpzd1ri3AkjlDfIRAaBmWxcveAWeNPvU6GjFuSPV2nIDWEs44mP3W3SxjMVRKswTOcj2
 
-The only direct user of struct hfi_session_release_buffer_pkt is
-pkt_session_unset_buffers() which sets "num_buffers" before using it
-as a loop counter for accessing "buffer_info". Add the __counted_by
-annotation to reflect the relationship.
 
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-hardening@vger.kernel.org
----
- drivers/media/platform/qcom/venus/hfi_cmds.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-index 42825f07939d..1adf2d2ae5f2 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.h
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-@@ -227,7 +227,7 @@ struct hfi_session_release_buffer_pkt {
- 	u32 extradata_size;
- 	u32 response_req;
- 	u32 num_buffers;
--	u32 buffer_info[];
-+	u32 buffer_info[] __counted_by(num_buffers);
- };
- 
- struct hfi_session_release_resources_pkt {
--- 
-2.34.1
+On 10/07/24 17:09, Kees Cook wrote:
+> Replace the deprecated[1] use of a 1-element array in
+> struct hfi_session_release_buffer_pkt with a modern flexible array.
+> 
+> No binary differences are present after this conversion.
+> 
+> Link: https://github.com/KSPP/linux/issues/79 [1]
+> Signed-off-by: Kees Cook <kees@kernel.org>
+> ---
+> Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+> Cc: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: linux-hardening@vger.kernel.org
 
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+
+Thanks
+--
+Gustavo
+
+> ---
+>   drivers/media/platform/qcom/venus/hfi_cmds.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
+> index 20acd412ee7b..42825f07939d 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
+> @@ -227,7 +227,7 @@ struct hfi_session_release_buffer_pkt {
+>   	u32 extradata_size;
+>   	u32 response_req;
+>   	u32 num_buffers;
+> -	u32 buffer_info[1];
+> +	u32 buffer_info[];
+>   };
+>   
+>   struct hfi_session_release_resources_pkt {
 
