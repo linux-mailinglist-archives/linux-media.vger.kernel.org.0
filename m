@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-14838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F4C92D093
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:21:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB8392D09C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 13:22:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBA9E1C21B66
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:21:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8461CB23954
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:22:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2918190464;
-	Wed, 10 Jul 2024 11:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A890190468;
+	Wed, 10 Jul 2024 11:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LteFCTlU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LpPyYv8E"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427FF17FD;
-	Wed, 10 Jul 2024 11:21:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0F718C161;
+	Wed, 10 Jul 2024 11:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720610464; cv=none; b=rjV3wSxV4wX+m7ZCdh2/Dhu3iE8TyV0q0AvadMgNyRrf8Ro8pZPfoBOdm9pQRzfyvvIZQV9HDVEXI0AS03eQ6xq/EeI8/LAwL/kT0mhG+rn0BVrOK1SMtJvtEecDgE9QaxDEdyCC9kBvbm6RjbfwniYPTPdR4cdrG84VMvHuyOg=
+	t=1720610553; cv=none; b=ihyWsadePSPKlAJuRxRHRegj+/Zp78aIuqihUHU2+g1t4+upcweHVUyinUwPuq2etTsya2Gl5b60TV1/OlBOfpeT7ofpCWnVb8rSjb5oovsUqAsSBdD9AfLP+adW5KkG2EKVbDHnU5fQ7DS+7iFZY+w1omUa02oTEaiDqao3Yqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720610464; c=relaxed/simple;
-	bh=jC5btTHR9c/NrnI1tFbOOloD12GbHubUsqPdEGt6lWY=;
+	s=arc-20240116; t=1720610553; c=relaxed/simple;
+	bh=ETthEb4ZpmioHYKkC6wD1w+aCTOXSFdSiS5EUTzL4Dk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WWIJTc54c5XBlXK98NypTR96IT/LciYotujLYE8wa641FgZAYjHfszw7MO/k2drd6GesH/JZ2LbOI/+NNQt3JD8i/eoIbIThtArnj8Qhwq/JRCia2JieU0ZT56Z9shaBQQUcHEFSRoULiwU4iZyOZXyrKXm3B5CMRdtfrgyUJWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LteFCTlU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919FCC32781;
-	Wed, 10 Jul 2024 11:20:59 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=PVUq7FVca2dLRW2Iu91t62EwBlSg08b1kWvnPIXtvMmBMw4UQsdxVqjiVuwx6wMd2rIxVkcgYyHl/JAD3G9PG5UmxNfbpd3b3Avf/vMNNTTQAlXaT0KelwFBb7MW82TTpLST/SW8fcw8zqCtBKsxIvo3tU9NRs10lAZmBfZlMvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LpPyYv8E; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1193DC32781;
+	Wed, 10 Jul 2024 11:22:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720610462;
-	bh=jC5btTHR9c/NrnI1tFbOOloD12GbHubUsqPdEGt6lWY=;
+	s=k20201202; t=1720610553;
+	bh=ETthEb4ZpmioHYKkC6wD1w+aCTOXSFdSiS5EUTzL4Dk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LteFCTlU60wKj5Q/o+m4a+DhhU1yBIPABWEb1W+KR3Inb73KqLzmAffiTS94AWorc
-	 kfsLnZpO5M+VDJcjj5J88Jujbp+xFAn+DNwaBgopGvgQ0hTMJbgbi5b2IScPcC2Evd
-	 4YQJ+9icpsW0qEcGZcV7qeeVl6zI8Tg0mIrHNXCUakO71AfsXJcfvjQMBU6TyZYpXU
-	 qvZHTcKJu+jJzae/29NcLpRlAukVJjRDleXpRnev2gvmL2OrLQpROlgWswQ+FNO+vK
-	 0u4kYyoIH40VeeGjwtn2iC25lCfQ/BcW96lxMRfg7z3tc/Xpc1uaVzNrOVXVhno92T
-	 sPT7R72TmGvVg==
-Message-ID: <1da50dd1-b170-4775-94fc-19a10b7f9c47@kernel.org>
-Date: Wed, 10 Jul 2024 13:20:57 +0200
+	b=LpPyYv8EJE3s7K7KeSWOaS3mdt/z3h9QpXvJKZ2l91l8IVrKlyJA8H+k45kf0QYDx
+	 tMq2TYwqozC1d9KZj73LkeHGEbNjkvX2t+H/igvT/rjuqGukCAwWJjgQfpqLZSJpkc
+	 2wojqhp1CbLtItZ+B8OeYN3UWm9o21NExjbVH6LA+JIasZCAU9C9EEANm443Kz9cqB
+	 n0n1h3Vr6PGpt/bBRBfpRIeHBVzEZPGITwn6L6EUnHhmTVo9oWFPdPPuNI9ylKTSxV
+	 UcvLF/gK7BTk3edh8+yhfs0fcya06+tQaJq94UgT/3jZPoj1FJ1Pn0KAiZxrtZC2oA
+	 LmnM835o1SXVQ==
+Message-ID: <d0f8b72d-4355-43cd-a5f9-c44aab8147e5@kernel.org>
+Date: Wed, 10 Jul 2024 13:22:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] media: qcom: camss: Add CSID Gen3 support for
- SM8550
+Subject: Re: [PATCH 10/13] media: qcom: camss: Add support for VFE hardware
+ version Titan 780
 To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
@@ -60,7 +60,7 @@ Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, kernel@quicinc.com,
  Yongsheng Li <quic_yon@quicinc.com>
 References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-10-quic_depengs@quicinc.com>
+ <20240709160656.31146-11-quic_depengs@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,202 +106,49 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240709160656.31146-10-quic_depengs@quicinc.com>
+In-Reply-To: <20240709160656.31146-11-quic_depengs@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/07/2024 18:06, Depeng Shao wrote:
-> The CSID in SM8550 is gen3, it has new register offset and new
-> functionality. The buf done irq,register update and reset are
-> moved to CSID gen3. And CSID gen3 has a new register block which
-> is named as CSID top, it controls the output of CSID, since the
-> CSID can connect to Sensor Front End (SFE) or original VFE, the
-> register in top block is used to control the HW connection.
+> Add support for VFE found on SM8550 (Titan 780). This implementation is
+> based on the titan 480 implementation. It supports the normal and lite
+> VFE.
 > 
 > Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
 > Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
 > Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
 > ---
->  drivers/media/platform/qcom/camss/Makefile    |   1 +
->  .../platform/qcom/camss/camss-csid-gen3.c     | 445 ++++++++++++++++++
->  .../platform/qcom/camss/camss-csid-gen3.h     |  26 +
->  .../media/platform/qcom/camss/camss-csid.h    |   2 +
->  4 files changed, 474 insertions(+)
->  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.c
->  create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.h
-> 
-> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-> index e636968a1126..c336e4c1a399 100644
-> --- a/drivers/media/platform/qcom/camss/Makefile
-> +++ b/drivers/media/platform/qcom/camss/Makefile
-> @@ -7,6 +7,7 @@ qcom-camss-objs += \
->  		camss-csid-4-1.o \
->  		camss-csid-4-7.o \
->  		camss-csid-gen2.o \
-> +		camss-csid-gen3.o \
->  		camss-csiphy-2ph-1-0.o \
->  		camss-csiphy-3ph-1-0.o \
->  		camss-csiphy.o \
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-> new file mode 100644
-> index 000000000000..17fd7c5499de
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
-> @@ -0,0 +1,445 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * camss-csid-gen3.c
-> + *
-> + * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module
-> + *
-> + * Copyright (c) 2024 Qualcomm Technologies, Inc.
-> + */
-> +#include <linux/completion.h>
-> +#include <linux/delay.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/of.h>
-> +
-> +#include "camss.h"
-> +#include "camss-csid.h"
-> +#include "camss-csid-gen3.h"
-> +
-> +
-> +#define CSID_TOP_IO_PATH_CFG0(csid)	(0x4 * (csid))
-> +#define		OUTPUT_IFE_EN 0x100
-> +#define		INTERNAL_CSID 1
-> +
-> +#define CSID_HW_VERSION		0x0
-> +#define		HW_VERSION_STEPPING	0
-> +#define		HW_VERSION_REVISION	16
-> +#define		HW_VERSION_GENERATION	28
-> +
-> +#define CSID_RST_CFG	0xC
-> +#define		RST_MODE		0
-> +#define		RST_LOCATION	4
-> +
-> +#define CSID_RST_CMD	0x10
-> +#define		SELECT_HW_RST	0
-> +#define		SELECT_SW_RST	1
-> +#define		SELECT_IRQ_RST	2
-> +
-> +#define CSID_CSI2_RX_IRQ_STATUS	0x9C
-> +#define	CSID_CSI2_RX_IRQ_MASK	0xA0
-> +#define CSID_CSI2_RX_IRQ_CLEAR	0xA4
-> +#define CSID_CSI2_RX_IRQ_SET	0xA8
-> +
-> +#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)		(0xEC + 0x10 * (rdi))
-> +#define CSID_CSI2_RDIN_IRQ_MASK(rdi)		(0xF0 + 0x10 * (rdi))
-> +#define   CSID_CSI2_RDIN_INFO_FIFO_FULL 2
-
-That's a random set of indentations.
-
-> +#define   CSID_CSI2_RDIN_INFO_CAMIF_EOF 3
-> +#define   CSID_CSI2_RDIN_INFO_CAMIF_SOF 4
-> +#define   CSID_CSI2_RDIN_INFO_INPUT_EOF 9
-> +#define   CSID_CSI2_RDIN_INFO_INPUT_SOF 12
 
 
 ...
 
 > +
-> +	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
-> +
-> +	val = 1 << RDI_CFG1_PACKING_FORMAT;
-> +	val |= 1 << RDI_CFG1_PIX_STORE;
-> +	val |= 1 << RDI_CFG1_DROP_H_EN;
-> +	val |= 1 << RDI_CFG1_DROP_V_EN;
-> +	val |= 1 << RDI_CFG1_CROP_H_EN;
-> +	val |= 1 << RDI_CFG1_CROP_V_EN;
-> +	val |= RDI_CFG1_EARLY_EOF_EN;
-> +
-> +	writel_relaxed(val, csid->base + CSID_RDI_CFG1(vc));
-> +
-> +	val = 0;
-> +	writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(vc));
-> +
-> +	val = 1;
-> +	writel_relaxed(val, csid->base + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(vc));
-> +
-> +	val = 0;
-> +	writel_relaxed(val, csid->base + CSID_RDI_CTRL(vc));
-> +
-> +	val = readl_relaxed(csid->base + CSID_RDI_CFG0(vc));
-> +	val |=  enable << RDI_CFG0_EN;
-> +	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
-> +}
-> +
-
-such patterns and...
-
-> + */
-> +static int csid_reset(struct csid_device *csid)
-> +{
-> +	unsigned long time;
-> +	u32 val;
-> +	int i;
-> +
-> +	reinit_completion(&csid->reset_complete);
-> +
-> +	writel_relaxed(1, csid->base + CSID_TOP_IRQ_CLEAR);
-> +	writel_relaxed(1, csid->base + CSID_IRQ_CMD);
-> +	writel_relaxed(1, csid->base + CSID_TOP_IRQ_MASK);
-> +
-> +	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
-> +		if (csid->phy.en_vc & BIT(i)) {
-> +			writel_relaxed(BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i),
-> +						csid->base + CSID_BUF_DONE_IRQ_CLEAR);
-> +			writel_relaxed(0x1 << IRQ_CMD_CLEAR, csid->base + CSID_IRQ_CMD);
-> +			writel_relaxed(BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i),
-> +						csid->base + CSID_BUF_DONE_IRQ_MASK);
-> +		}
-> +
-> +	/* preserve registers */
-> +	val = (0x1 << RST_LOCATION) | (0x1 << RST_MODE);
-> +	writel_relaxed(val, csid->base + CSID_RST_CFG);
-
-... here - using everywhere relaxed here is odd and looks racy. These
-looks like some strict sequences.
-
-
-> +
-> +	val = (0x1 << SELECT_HW_RST) | (0x1 << SELECT_IRQ_RST);
-> +	writel_relaxed(val, csid->base + CSID_RST_CMD);
-> +
-> +	time = wait_for_completion_timeout(&csid->reset_complete,
-> +					   msecs_to_jiffies(CSID_RESET_TIMEOUT_MS));
-> +	if (!time) {
-> +		dev_err(csid->camss->dev, "CSID reset timeout\n");
-> +		return -EIO;
-> +	}
-> +
-
-
-> +
-> +static void csid_subdev_init(struct csid_device *csid)
-> +{
-> +	csid->testgen.modes = csid_testgen_modes;
-> +	csid->testgen.nmodes = CSID_PAYLOAD_MODE_NUM_SUPPORTED_GEN2;
-> +}
-> +
-> +const struct csid_hw_ops csid_ops_gen3 = {
-
-Isn't there a warning here?
-
-> +	.configure_stream = csid_configure_stream,
-> +	.configure_testgen_pattern = csid_configure_testgen_pattern,
-> +	.hw_version = csid_hw_version,
-> +	.isr = csid_isr,
-> +	.reset = csid_reset,
-> +	.src_pad_code = csid_src_pad_code,
-> +	.subdev_init = csid_subdev_init,
+> +static const struct camss_video_ops vfe_video_ops_780 = {
+> +	.queue_buffer = vfe_queue_buffer,
+> +	.flush_buffers = vfe_flush_buffers,
 > +};
+> +
+> +static void vfe_subdev_init(struct device *dev, struct vfe_device *vfe)
+> +{
+> +	vfe->video_ops = vfe_video_ops_780;
+> +}
+> +
+> +const struct vfe_hw_ops vfe_ops_780 = {
 
-Your patchset does not apply at all. Tried v6.9, v6.10, next. I see some
-dependency above, but that means no one can test it and no one can apply it.
+I guess another warning...
 
-Fix the warnings, I cannot verify it but I am sure you have them.
+> +	.global_reset = NULL,
+> +	.hw_version = vfe_hw_version,
+> +	.isr = vfe_isr,
+> +	.pm_domain_off = vfe_pm_domain_off,
+> +	.pm_domain_on = vfe_pm_domain_on,
+> +	.subdev_init = vfe_subdev_init,
+> +	.vfe_disable = vfe_disable,
+> +	.vfe_enable = vfe_enable,
+> +	.vfe_halt = vfe_halt,
+> +	.vfe_wm_stop = vfe_wm_stop,
+> +};
 
 Best regards,
 Krzysztof
