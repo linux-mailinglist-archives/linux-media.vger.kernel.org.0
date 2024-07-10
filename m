@@ -1,155 +1,261 @@
-Return-Path: <linux-media+bounces-14826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0D092CE49
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:37:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E359692CE77
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 11:45:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 535EEB226EA
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 09:37:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52523B26CAF
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jul 2024 09:45:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA85518FA23;
-	Wed, 10 Jul 2024 09:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 644CC18FA2E;
+	Wed, 10 Jul 2024 09:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jjcaJevg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p+lEzOo6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C854112C544
-	for <linux-media@vger.kernel.org>; Wed, 10 Jul 2024 09:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA35618EFF9;
+	Wed, 10 Jul 2024 09:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720604233; cv=none; b=XdI8fyQ1NuugZ4lVxl2UGgrKZ0eeNMaHxPZmheF0xhXbFH6mMfHOgdqCLm1VKbGuYMSzfo/DEHfsXKHr05N6ZPpTiXY7FHmSfDpIFE/tRrxB/KnxTvelTvxaclLlLN6Un5Ie6fGCSibwfi1b0Ft8/GH6TWfJHatbswHz1nJuiqg=
+	t=1720604701; cv=none; b=cFQ+oOcPe0YaSUUAZ93sSxU7RJCMYgN8zmjTBzEaq4F604lN4CSwIL74XEVl1bczNE3yNhCtUTLOnPCRYeqzOLQbw8Mzcn6ZOfqgHUXKcrD43jM7Q1z0TYmKbibBfWIuYLGaLFaD6udvhGaxgk0EnSOJYhUxL8OhjZS+PRLWVik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720604233; c=relaxed/simple;
-	bh=8F2BZEtelH1YRhA6Wm+t9HzdIBcJwq9KxRLQvz5mRlg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BH4938sI50tWLE0kVpgOojp3e4iBVAKM3GCf5Bw9NByajOPjmZmYv6TgxPeOpMPcJXthhV7gN7c69ukUjiv22jxkJ5CTbKJ1ZqiIgq5NQSz98p5DLtO9/8WMtebMgqL9EN5zynDoNoTsdvAybQIjCis15RjUWVFvnot53SSwPaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jjcaJevg; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3678aa359b7so380482f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jul 2024 02:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720604229; x=1721209029; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wqG1DgtHgtqvEXnRo9X5KIub1iOd484zwbLW/LaRBKk=;
-        b=jjcaJevgdRJF343hGETTd5gfrCMOpfbz+6M9Qb74VvGUlp9WbybHUvNGyTJgTyQoyi
-         BZAZ1uCWX2pNTaN8lBetaqYBQWjWVKW8VPzDPMHv4aoI4QSjiAHUcLL+FkFbxDOaWLSO
-         BHObrQ1UH8Bx+KnJ9OdD27JXZ3dwVAZU7G2EccGvN7I6sS4Hmi1vTIgLtqEj1KK8mCpK
-         IjvI+wUYwwlFjv3t3h5Yh+11rhLt/5PvWGgmK6rlzc1HWCK0EAyfN/Ac9F1N9ubhqc5t
-         axKSgmViSrM5myfGbNXIxSlFsPZpBdG8m2HeP6ygKw7FvEorV7W7DPDUZpLtyzdEyiaN
-         iI/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720604229; x=1721209029;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wqG1DgtHgtqvEXnRo9X5KIub1iOd484zwbLW/LaRBKk=;
-        b=BNxK4i8Kss1rd0EkdmF7GjnGnh4EXzVAd9b8qGoBkZw14SgB68mu6aiLRtm4tedZ8u
-         N7RTPFj2678CMyHNe/d5j2E8erL3eYvZe9dRsrbznmAZ2oPZKf5cRUAxTKtPpBTXInYQ
-         rUagxjCirhq3Iwo6aUFvRIox2W98PJ8msAWPZUcQiXmq7pdzK6qqgGuBGundl32dgPij
-         5xFkl4lW0vxcO+7lRp8gXblSNLplSiKHWNtaGMs9HxxFK0i2BFD5aO7FXUagFYWCkFE9
-         MORndA1/im0YV8HqdXqMczlaoUYpt7icGs9UlsZUG4E8RlefK2H0hAfvpVbiFwmloumZ
-         7zKA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ0uozAhWEFznzbhB212tuJ5rzfpHH0q5oKx34VeDum6ov4P+nUMKJL106d6x2HeQ+o5+BnIl+Gp838T8dEeWZ3pwBz/+0ztNGyvE=
-X-Gm-Message-State: AOJu0YwTP5/kZ58hyWaLmDlPEgSN+Qj9vnqkJKKDax9Tb7hipl5tZvaO
-	0GHcbAvdg0BnJtOrfIymo5ZfgkbTyW8rQcunXVdcAF0UajBqAaCzrpkLn5L2qZE=
-X-Google-Smtp-Source: AGHT+IFAmsCV4oH91zKAd7jsHk7D1dhHBkbxQE+hkYJu7LpCPPsYKSAOfJDfcIyrxi1pbm7pbOdaaQ==
-X-Received: by 2002:a5d:548b:0:b0:362:23d5:3928 with SMTP id ffacd0b85a97d-367d2b534c3mr4052608f8f.17.1720604229014;
-        Wed, 10 Jul 2024 02:37:09 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-367cdfab815sm4782884f8f.110.2024.07.10.02.37.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jul 2024 02:37:08 -0700 (PDT)
-Message-ID: <01f6c25a-5803-4986-b754-0a3661d435b0@linaro.org>
-Date: Wed, 10 Jul 2024 10:37:07 +0100
+	s=arc-20240116; t=1720604701; c=relaxed/simple;
+	bh=zuLdMcepRN/UScnbC+ohCbrPF8wsnjY0QJ2444VG8H8=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=qnO083nKskAa3DWZvH4hWxD/fiJmaDDWg8xJA+kek8eiAeBkEQHVF3eTCYyzfjfV4C3B5CeW1HTI522921JtFSuFOAWJqapuo9E6dgyMM1ngFmvK6tEQgEOOWYlw5KamOtFwfaFYV1GRAbGodJz02pWTnq4PZiJPew7R1lsBDU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p+lEzOo6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC3C68D0;
+	Wed, 10 Jul 2024 11:44:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1720604665;
+	bh=zuLdMcepRN/UScnbC+ohCbrPF8wsnjY0QJ2444VG8H8=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=p+lEzOo62HQ6J/Y3IvNkDQmKEkhNbO8vMvPFuvzKIhis9SACWy9Bl9ZgbV6eOFM7M
+	 NKIUEoIY7Rk4rVuTxXhSsLwb+qyuBGGodfIHcQ+bKTi3XDkDScOD4NkQVTDPRk8O3r
+	 FKbZD9r/OlgTpbN62Zmf75tfWTsSOyHWLzddr2uw=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com,
- Yongsheng Li <quic_yon@quicinc.com>
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-8-quic_depengs@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240709160656.31146-8-quic_depengs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240710044633.81372-3-umang.jain@ideasonboard.com>
+References: <20240710044633.81372-1-umang.jain@ideasonboard.com> <20240710044633.81372-3-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH 2/2] media: imx335: Support vertical flip
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Alexander Shiyan <eagle.alexander923@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, open list <linux-kernel@vger.kernel.org>, Umang Jain <umang.jain@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Date: Wed, 10 Jul 2024 10:44:54 +0100
+Message-ID: <172060469478.392292.6825899092646846962@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On 09/07/2024 17:06, Depeng Shao wrote:
-> Add bindings for qcom,sm8550-camss in order to support the camera
-> subsystem for sm8550
-> 
-> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+Quoting Umang Jain (2024-07-10 05:46:32)
+> Support vertical flip by setting REG_VREVERSE.
+> Additional registers also needs to be set per mode, according
+> to the readout direction (normal/inverted) as mentioned in the
+> data sheet.
+>=20
+> Since the register IMX335_REG_AREA3_ST_ADR_1 is based on the
+> flip (and is set via vflip related registers), it has been
+> moved out of the 2592x1944 mode regs.
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
-
-Hey Depeng,
-
-Thank you for your submission, looks good. I have a few comments below.
-
-> +  clock-names:
-> +    items:
-> +      - const: cam_ahb_clk
-> +      - const: cam_hf_axi
-> +      - const: cam_sf_axi
-> +      - const: camnoc_axi
-> +      - const: camnoc_axi_src
-
-These "_src" clocks are almost certainly not necessary. The CAMCC should 
-have camnoc_axi_src as the parent clock of camnoc_axi, so you don't need 
-ot list the "_src" clock.
-
-Please go through this list in your yaml, dts and .c code and remove.
-
-There may be an exception where a _src clock is required but my 
-expectation is that all of those _src clocks can be removed.
-
-
-> +  power-domains:
-> +    items:
-> +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
-> +      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
-> +      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
-> +      - description: Titan GDSC - Titan ISP Block, Global Distributed Switch Controller.
-
-Please name these power-domains in the next iteration of the series.
-
-The dependency on the ordering of the power-domains is a bug which new 
-SoC submissions won't be replicating.
-
-https://lore.kernel.org/linux-arm-msm/fcdb072d-6099-4423-b4b5-21e9052b82cc@linaro.org/
-
+>  drivers/media/i2c/imx335.c | 71 ++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 69 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> index 6c1e61b6696b..cd150606a8a9 100644
+> --- a/drivers/media/i2c/imx335.c
+> +++ b/drivers/media/i2c/imx335.c
+> @@ -56,6 +56,9 @@
+>  #define IMX335_AGAIN_STEP              1
+>  #define IMX335_AGAIN_DEFAULT           0
+> =20
+> +/* Vertical flip */
+> +#define IMX335_REG_VREVERSE            CCI_REG8(0x304f)
 > +
-> +            interconnects =
-> +                    <&gem_noc         MASTER_APPSS_PROC          0 &config_noc SLAVE_CAMERA_CFG  0>,
-> +                    <&mmss_noc        MASTER_CAMNOC_HF           0 &mc_virt SLAVE_EBI1           0>,
-> +                    <&mmss_noc        MASTER_CAMNOC_SF           0 &mc_virt SLAVE_EBI1           0>,
-> +                    <&mmss_noc        MASTER_CAMNOC_ICP          0 &mc_virt SLAVE_EBI1           0>;
+>  #define IMX335_REG_TPG_TESTCLKEN       CCI_REG8(0x3148)
+> =20
+>  #define IMX335_REG_INCLKSEL1           CCI_REG16_LE(0x314c)
+> @@ -155,6 +158,8 @@ static const char * const imx335_supply_name[] =3D {
+>   * @vblank_max: Maximum vertical blanking in lines
+>   * @pclk: Sensor pixel clock
+>   * @reg_list: Register list for sensor mode
+> + * @vflip_normal: Register list vflip (normal readout)
+> + * @vflip_inverted: Register list vflip (inverted readout)
+>   */
+>  struct imx335_mode {
+>         u32 width;
+> @@ -166,6 +171,8 @@ struct imx335_mode {
+>         u32 vblank_max;
+>         u64 pclk;
+>         struct imx335_reg_list reg_list;
+> +       struct imx335_reg_list vflip_normal;
+> +       struct imx335_reg_list vflip_inverted;
+>  };
+> =20
+>  /**
+> @@ -183,6 +190,7 @@ struct imx335_mode {
+>   * @pclk_ctrl: Pointer to pixel clock control
+>   * @hblank_ctrl: Pointer to horizontal blanking control
+>   * @vblank_ctrl: Pointer to vertical blanking control
+> + * @vflip: Pointer to vertical flip control
+>   * @exp_ctrl: Pointer to exposure control
+>   * @again_ctrl: Pointer to analog gain control
+>   * @vblank: Vertical blanking in lines
+> @@ -207,6 +215,7 @@ struct imx335 {
+>         struct v4l2_ctrl *pclk_ctrl;
+>         struct v4l2_ctrl *hblank_ctrl;
+>         struct v4l2_ctrl *vblank_ctrl;
+> +       struct v4l2_ctrl *vflip;
+>         struct {
+>                 struct v4l2_ctrl *exp_ctrl;
+>                 struct v4l2_ctrl *again_ctrl;
+> @@ -259,7 +268,6 @@ static const struct cci_reg_sequence mode_2592x1944_r=
+egs[] =3D {
+>         { IMX335_REG_HTRIMMING_START, 48 },
+>         { IMX335_REG_HNUM, 2592 },
+>         { IMX335_REG_Y_OUT_SIZE, 1944 },
+> -       { IMX335_REG_AREA3_ST_ADR_1, 176 },
+>         { IMX335_REG_AREA3_WIDTH_1, 3928 },
+>         { IMX335_REG_OPB_SIZE_V, 0 },
+>         { IMX335_REG_XVS_XHS_DRV, 0x00 },
+> @@ -333,6 +341,26 @@ static const struct cci_reg_sequence mode_2592x1944_=
+regs[] =3D {
+>         { CCI_REG8(0x3a00), 0x00 },
+>  };
+> =20
+> +static const struct cci_reg_sequence mode_2592x1944_vflip_normal[] =3D {
+> +       { IMX335_REG_AREA3_ST_ADR_1, 176 },
+> +
+> +       /* Undocumented V-Flip related registers on Page 55 of datasheet.=
+ */
+> +       { CCI_REG8(0x3081), 0x02, },
+> +       { CCI_REG8(0x3083), 0x02, },
+> +       { CCI_REG16_LE(0x30b6), 0x00 },
+> +       { CCI_REG16_LE(0x3116), 0x08 },
+> +};
+> +
+> +static const struct cci_reg_sequence mode_2592x1944_vflip_inverted[] =3D=
+ {
+> +       { IMX335_REG_AREA3_ST_ADR_1, 4112 },
+> +
+> +       /* Undocumented V-Flip related registers on Page 55 of datasheet.=
+ */
+> +       { CCI_REG8(0x3081), 0xfe, },
+> +       { CCI_REG8(0x3083), 0xfe, },
+> +       { CCI_REG16_LE(0x30b6), 0x1fa },
+> +       { CCI_REG16_LE(0x3116), 0x002 },
 
-This tabbing looks weird, do none of the checking tools complain about it ?
+A little more awkward than the usual flip controls, but I think we do
+need to track what the datasheet gives us for now unless we can get more
+information from Sony or do some reverse engineering here which isn't
+really worth the effort at the moment.
 
-See:
-Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
 
----
-bod
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+> +};
+> +
+>  static const struct cci_reg_sequence raw10_framefmt_regs[] =3D {
+>         { IMX335_REG_ADBIT, 0x00 },
+>         { IMX335_REG_MDBIT, 0x00 },
+> @@ -419,6 +447,14 @@ static const struct imx335_mode supported_mode =3D {
+>                 .num_of_regs =3D ARRAY_SIZE(mode_2592x1944_regs),
+>                 .regs =3D mode_2592x1944_regs,
+>         },
+> +       .vflip_normal =3D {
+> +               .num_of_regs =3D ARRAY_SIZE(mode_2592x1944_vflip_normal),
+> +               .regs =3D mode_2592x1944_vflip_normal,
+> +       },
+> +       .vflip_inverted =3D {
+> +               .num_of_regs =3D ARRAY_SIZE(mode_2592x1944_vflip_inverted=
+),
+> +               .regs =3D mode_2592x1944_vflip_inverted,
+> +       },
+>  };
+> =20
+>  /**
+> @@ -492,6 +528,26 @@ static int imx335_update_exp_gain(struct imx335 *imx=
+335, u32 exposure, u32 gain)
+>         return ret;
+>  }
+> =20
+> +static int imx335_update_vertical_flip(struct imx335 *imx335, u32 vflip)
+> +{
+> +       int ret =3D 0;
+> +
+> +       if (vflip)
+> +               cci_multi_reg_write(imx335->cci,
+> +                                   imx335->cur_mode->vflip_inverted.regs,
+> +                                   imx335->cur_mode->vflip_inverted.num_=
+of_regs,
+> +                                   &ret);
+> +       else
+> +               cci_multi_reg_write(imx335->cci,
+> +                                   imx335->cur_mode->vflip_normal.regs,
+> +                                   imx335->cur_mode->vflip_normal.num_of=
+_regs,
+> +                                   &ret);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return cci_write(imx335->cci, IMX335_REG_VREVERSE, vflip, NULL);
+> +}
+> +
+>  static int imx335_update_test_pattern(struct imx335 *imx335, u32 pattern=
+_index)
+>  {
+>         int ret =3D 0;
+> @@ -584,6 +640,10 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
+> =20
+>                 ret =3D imx335_update_exp_gain(imx335, exposure, analog_g=
+ain);
+> =20
+> +               break;
+> +       case V4L2_CID_VFLIP:
+> +               ret =3D imx335_update_vertical_flip(imx335, ctrl->val);
+> +
+>                 break;
+>         case V4L2_CID_TEST_PATTERN:
+>                 ret =3D imx335_update_test_pattern(imx335, ctrl->val);
+> @@ -1167,7 +1227,7 @@ static int imx335_init_controls(struct imx335 *imx3=
+35)
+>                 return ret;
+> =20
+>         /* v4l2_fwnode_device_properties can add two more controls */
+> -       ret =3D v4l2_ctrl_handler_init(ctrl_hdlr, 9);
+> +       ret =3D v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+>         if (ret)
+>                 return ret;
+> =20
+> @@ -1202,6 +1262,13 @@ static int imx335_init_controls(struct imx335 *imx=
+335)
+> =20
+>         v4l2_ctrl_cluster(2, &imx335->exp_ctrl);
+> =20
+> +       imx335->vflip =3D v4l2_ctrl_new_std(ctrl_hdlr,
+> +                                         &imx335_ctrl_ops,
+> +                                         V4L2_CID_VFLIP,
+> +                                         0, 1, 1, 0);
+> +       if (imx335->vflip)
+> +               imx335->vflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> +
+>         imx335->vblank_ctrl =3D v4l2_ctrl_new_std(ctrl_hdlr,
+>                                                 &imx335_ctrl_ops,
+>                                                 V4L2_CID_VBLANK,
+> --=20
+> 2.45.0
+>
 
