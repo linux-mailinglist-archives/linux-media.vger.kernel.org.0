@@ -1,85 +1,88 @@
-Return-Path: <linux-media+bounces-14917-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14918-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7517292E727
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 13:39:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 791CC92E73A
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 13:41:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A4301C21968
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 11:39:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 303D6280DFC
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 11:41:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB54315532E;
-	Thu, 11 Jul 2024 11:39:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB819158DBF;
+	Thu, 11 Jul 2024 11:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KV00Pdwy"
+	dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b="htmRoY79"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11021074.outbound.protection.outlook.com [52.101.70.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3382837169;
-	Thu, 11 Jul 2024 11:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7336E37169;
+	Thu, 11 Jul 2024 11:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.74
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720697961; cv=fail; b=C4OI13m1WiuwnmrXDgrlBJZTjqm0rf0gA+dCm8esm/PfgMqFPZMKRF4eZVSG3fyWAVdL+W5gUb1fhCFTrYqS1ge6mb7TdUOgoPgoajHCs0BvHM/VxYw3QLRgpoF6YOXxNxVjwUsJs3WiK0oPKSwnuo/AhLlmJ1GaiiTKCGFsP34=
+	t=1720698088; cv=fail; b=OeqrYAGcXMPuGEtuV/aLhARl/yVF22g4u2iVsO5/FFXY4wCzjeHFEr2xd3KR1jYP/PWCa7ZbBVfiUf5YsBSFAvLHl7vZ/FaCwbaohq6wyuJ9XfsgSbaE3jBYA/HColYS7WizF78hoBSrMos+dTxAEb+t4I5grPVMkHiLSX/oyuY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720697961; c=relaxed/simple;
-	bh=0Uidxmb5aA6IwXK7mqsliNo5OC0bMAZTDWu4OcIheWc=;
+	s=arc-20240116; t=1720698088; c=relaxed/simple;
+	bh=RabkEaVhJWxH8bxR2esFJD4iQotVcvsjjttFFR6dR+M=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Rj9QtFFEw2E7MfWNWwfSkbE89X5+0XLtdvYosD56NtdyOpNaHunPa3P+CkfgRSzXPkBbBiMHLK6+Tkslqc3NMMqgO4lUBnCQn5vEz7oYBbxCIiY4DMWRIuSjJ0wefPWDmxcOq0vLiw62pQBBm0iXo5Jtf8xRebl/BtjXnNwCthI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KV00Pdwy; arc=fail smtp.client-ip=40.107.236.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	 Content-Type:MIME-Version; b=CxKTxhXbRV1hOPEEAkXF0fyDfTF+jbSMk4t3vIU+Ee6f9nwzhruOkTISiKhQie6lFZLRKx0KVx7DNKKQdmhH3aHXcPLH9E3XaZ+VayP0JmHD7KKiXCWeUajOz60tBqN4sOWF9f0ocBAbUBRC/lENkgClCNHt2r7JzcWfZiyZb5c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de; spf=pass smtp.mailfrom=cherry.de; dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b=htmRoY79; arc=fail smtp.client-ip=52.101.70.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherry.de
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eftzP9zgk6L3LasyEMc2XoUzFgHstzGHDOb+vI3OAEOB+3Lnie833PhqgPbbLCkiKoPFHnb1yWo+X7AWMb2CRzJfeKzeCPWm9lmY0PHEBw6xEFIvAdRkUF5nSTQx/J88wujDrT/aBD44TdeQfHdmvPxaexyghCa+wcr+WH14+o520J4XyAdz7UClwMUv8+RQEFFd+4tCeLSNV8CT3GjZhpu+1/UpN3jE3UjAMR2825vhoLAud/GdJeUG/mg/yR59rc3ZlSZ/GMnZLWohLx2Q3ntunTgYVgduFn0ys/iayffSH8iqGyoZdA1zlXfuTlnHdpqHLIb35DKgpdhsTvdGaw==
+ b=N9wZyhdukFGSp1+Ru4P5DXmSUQM9GG1v6FH5kaR9U+D17EBfB2ikb6lvVbEMkVwoBJQVH5cIc4pO9ArDnZElfdyHlf+MEs8NLrtGFS6ppmRKjYecVJ7AlWNK3VWoXJxBEsLixQgeRtFK7JGw+JSIYi2YiQqRnByArHYXKRlocoZnmJp2iRxLpRumKVfYILNlWudBbM58moPJgzKt/C5o6nSD7uzybWr/nZ1ntP+QAXz8n2PaC0Ux6GP3dOkVFmIxPDwTsNraAGu6vm00JEIh+nniNJmFTPaAsIEExTkBI7JRz43JtBqe2ss/skxDUuG/zaZJK/36a+bxIju3kPCEbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T0ud/Tzo1a5/EbF7EtEvf1klVUf6J1AWP11+lz6RpJc=;
- b=ii4QFe2O4FKqlYIOqp+q1ERvkdp3VnqGc4K5lqv5W3WLprYNJbmhFW12JgCElb2jjS7FZyMh3ymxhZ40z6DzzdrX+4oLQ8DWkd3WjLbv+NiiIyhvS9Lz6GT3XG00B9hoNCLBTpambMJywjg/9m3tBr7i8xWmWfUYOENd4l9ENjbSg2GEP76AGj1Ty5paOVqVXdI1LOM2OK/ZiVmPUGySI0wZa+Y02ufrNiphwGGIT4o3qOQuBoj/pmvZxs/ethOFXH6DeVILfo+lS2YOgDk+A3E1PjIXKY+naF7vVPMenYFGKM4jENeGhEjsBZclrE+XJ8q8r70NOwXXiRFbBhCYPA==
+ bh=Jaj+mHWrHsJ0QBdhVTGVm0zMXmiWLnPWm9GYy2yXsBM=;
+ b=niO60urxnng1P0jv3I7v/QNF834urhYgx67Aw2qUt29thU5CEBLet0kUXbycy+AxgWSfVic6lXEWIK/e9qY9oyWo8c3OMb653LAUkJdvjlQo+hmlWHdLKP9O7Yl56YdChsuL49Gf96G+ej3/0xlzX8hqxUDoEKYcPhV7UOKWRSXxtx+dib8Dw9qNfEmBRMlG8aq1yKbl1QB5XwCopT8cwaLR3wBZ9074MUDnzDBbk5V1g1EyVrR/xMLyfqf/YD23ClzZDbHySp7QXTdPauODix3vdvi98SwAoI5gSjDDFy0MT1qn3A38uPwwZ5kbSYZ1LBDe/ahMAtGxkmS4XBv26w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T0ud/Tzo1a5/EbF7EtEvf1klVUf6J1AWP11+lz6RpJc=;
- b=KV00PdwyoPgstK9/F1z22yapYXZP+FjIKETwh/SFb+ar0pEeIq1ppaO9NBiR0V6l0LMMPZCjhX2+3oCGL6bMgG/E0z4DQ6LMuvJFS403E5gt9uf8FIGRO/vbCiMM24sW0ghKGIIPeM0FelQiBGqmRYLN5MGY8BeLa8unvXtr/6E=
+ bh=Jaj+mHWrHsJ0QBdhVTGVm0zMXmiWLnPWm9GYy2yXsBM=;
+ b=htmRoY79mlTPQgiSBzuceeLeJEHfPZWwG5bwb/6FCWQDs73n65WfvSrwUUbOu1dZQjbW9QHCPk52A7w6kRLaSKeuXHRgf2/WMjfMCv3pclOMh/cxIswD5yVVXulON6mNNbcuCs9iQeE/Qo+4Q/16KmXZLA92ZK31gCI1Z8JZg1E=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYYPR12MB8750.namprd12.prod.outlook.com (2603:10b6:930:be::18) with
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from PAXPR04MB8912.eurprd04.prod.outlook.com (2603:10a6:102:20f::22)
+ by AS1PR04MB9285.eurprd04.prod.outlook.com (2603:10a6:20b:4df::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.20; Thu, 11 Jul
- 2024 11:39:14 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7762.020; Thu, 11 Jul 2024
- 11:39:13 +0000
-Message-ID: <63189ac3-7725-4ad7-966a-4ca679a25d12@amd.com>
-Date: Thu, 11 Jul 2024 13:39:05 +0200
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
+ 2024 11:41:20 +0000
+Received: from PAXPR04MB8912.eurprd04.prod.outlook.com
+ ([fe80::7a71:bd84:cbb9:add8]) by PAXPR04MB8912.eurprd04.prod.outlook.com
+ ([fe80::7a71:bd84:cbb9:add8%4]) with mapi id 15.20.7762.020; Thu, 11 Jul 2024
+ 11:41:20 +0000
+Message-ID: <1051b88e-d6af-4361-a4de-95a28ddfad69@cherry.de>
+Date: Thu, 11 Jul 2024 13:41:18 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE
- framework
-To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-References: <20240711074221.459589-1-link@vivo.com>
- <20240711074221.459589-2-link@vivo.com>
- <5ccbe705-883c-4651-9e66-6b452c414c74@amd.com>
- <a95dece8-b530-4add-a664-ebab81f8b5d5@vivo.com>
+Subject: Re: [PATCH 2/2] media: ov5675: Elongate reset to first transaction
+ minimum gap
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+ Jacopo Mondi <jacopo@jmondi.org>
+Cc: Johan Hovold <johan@kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dave.stevenson@raspberrypi.com
+References: <20240711-linux-next-ov5675-v1-0-69e9b6c62c16@linaro.org>
+ <20240711-linux-next-ov5675-v1-2-69e9b6c62c16@linaro.org>
+ <fcd0db64-6104-47a6-a482-6aa3eec702bc@cherry.de>
+ <aa20591f-3939-4776-9025-b8d7159f4c63@linaro.org>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <a95dece8-b530-4add-a664-ebab81f8b5d5@vivo.com>
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <aa20591f-3939-4776-9025-b8d7159f4c63@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0040.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c7::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-ClientProxiedBy: VI1PR08CA0221.eurprd08.prod.outlook.com
+ (2603:10a6:802:15::30) To PAXPR04MB8912.eurprd04.prod.outlook.com
+ (2603:10a6:102:20f::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,958 +90,272 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8750:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0acf1042-1cf6-4321-d2a0-08dca19e164e
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8912:EE_|AS1PR04MB9285:EE_
+X-MS-Office365-Filtering-Correlation-Id: 183104d8-7680-490e-7245-08dca19e61fb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|921020;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VXZnZi9aek5VTEZhanN4UW9mdVVzZTF2MnB2ejdOa2lEeEpvWG4zbDJnd2gy?=
- =?utf-8?B?QzZ4T1h6T0VaMG9SNVNCODQrdk1pSUNKSUdydVZqanFKbDdZM0JLMjhQRTNj?=
- =?utf-8?B?OVNnR3VuTjUrMkh1eVV3ZmFOOExEbHFJQ01abWx2VzlQNnhXbHZLTmRMQnZG?=
- =?utf-8?B?cnVGQ0RWTERzOW9nNUhUbjF6TVhyTEFtYTQvMkV4SVFCMXJuTzg3WlZUNlAx?=
- =?utf-8?B?dDR0NDhmMXl2cUE3bkRROEVjUC9pMTArbHZkNkJPbXNqWmk0OGJlMW5Cc3Ix?=
- =?utf-8?B?aFl2UFgxd2ZuK29kYlI0V3JQcEVHZXNaOTYvdHNkdzB4bVdQM1pWbjlJREkr?=
- =?utf-8?B?QVY2VGEyUXl3MHBlV2k1RnJPSitjS3VoSktqNTh4bUxFdWYvb1NzZXc1U2Jw?=
- =?utf-8?B?RUpQSTNLMFhyTmFyenBjamd6OUtnRlFzRFNNenFUMmVRT1lCTEVNZHp5LzRr?=
- =?utf-8?B?WnR1WGJlbXpwWkdXN0U1akU3SGVvZWc2bHBVTmoycmFRNDFnN3hjVjZBWmY1?=
- =?utf-8?B?Qi9NTGRLVEVld2s1UFdmL0ZOOC9McUpidlV2L1EveW55cDA1S2M2SnZLNms4?=
- =?utf-8?B?ajNYa2ZFTzd6cnczOVp6QzVucllsM1VWaXdkcTM3SkNwRit1QUR4YjJSa0tB?=
- =?utf-8?B?b3ZNNXFJcXZ0djVUSFQ0YUtRaytjVVRleWxEa1UyYUdvVElicTlnL3FSN0tJ?=
- =?utf-8?B?UkM5TnZFUUhPRFNUMHYxTEJpTWJwZ29Cc2I5TGZRY2luT0dId1pzNk1xZkhC?=
- =?utf-8?B?K2NxS1FVN21kUHFvTnBjTmd2eVd1SnNFRThkb0pEd0FySWUvWG12UTI5MDFZ?=
- =?utf-8?B?bEMyd0owNXRkYUN3Tm5xbFVjbHRmWWV2amUwS2J0ckZhQ1Q4TUoyNmYzZWVk?=
- =?utf-8?B?SXlOUm9IZmt3emVrR1VubzNpUmIvRk1YeUhLeS9NdFEyeUVmbVY1eEgrUW9F?=
- =?utf-8?B?ZlBvTUdrdXVvUmVZZWZ6YldYSlRhelJOMEVUaHNaSFhqb1p0emlORDVKV2ZC?=
- =?utf-8?B?ZVZJa2NRMnZKa0wvMldjV3pVWk05QXRFVmJKcmd6WEdCdDRBTXRoVUNSdFNB?=
- =?utf-8?B?SGVER1NNY0ZKV1AyYTRkSWRvbkxkbWN1U0p5b2hFL05VZGh3dTk0RFRoSUtU?=
- =?utf-8?B?RFh0c3FNWk01bEx6c21QUDF0cDBJNzVGRU1FZ3RnOG1TY3ZZNi9iL2IranNG?=
- =?utf-8?B?Smw0UEwrQnMwYk5OTW93ZU1LLzhtM24wbkJ0RU1WSGk1aEViREdzbE1zVm1Y?=
- =?utf-8?B?enhldCtSWXJ4NUtkYkZIYWRqSjBCRWxnZXVKbkxLMTFra2NvaHdESWxxZjh1?=
- =?utf-8?B?U2V0YWxpaWhpcHcrVkJtZVhXZ203MWNnYXU5OHFxanlOcjZNYm05RjU2UGo5?=
- =?utf-8?B?MHpobVRpZ0tGZFplVmIyQVBzZ2l3USsxOU40NmFCY0U5Nk4waXhQT2xZNGZo?=
- =?utf-8?B?dlg5di9OMFZESnFwdSs4WEdybnBZTzc2TkVGSHNVZkMvNDdvRUY1SFRYekVM?=
- =?utf-8?B?eUIvVXp4eDh2Q0h1Szk5N2xXNlllUzdrNzhlcW5DbFFFTkdmNWZWendDQVdp?=
- =?utf-8?B?cnRvV1BCSkNEWXdWZGpkZzNsTDNOZEQzWmtLNXVrNjY5bkJVMnRZRm5EbnhG?=
- =?utf-8?B?SU1LaGU4Rk5FRUtGaGdCZ2k4REN6cytjTkRxMXFleDVaQXdiblExRjVZWThK?=
- =?utf-8?B?SmtaRWZya3RjNlVMU09oTVhiOE8vNkpMeURZQS82RjVSMDBjYkpEQktUQ2xR?=
- =?utf-8?B?TmxYazRXTk5aUnJIWWxxaXNrSHpIR1ZIZEFrWVVyMlgvVDJqcXRXaXBiMkVn?=
- =?utf-8?B?aTQ4SkNzNFl3S3BhMGdzdz09?=
+	=?utf-8?B?TG1KY0FYRHFqSkJQd0RtOGV4QkNrcWo2Qy84K2xRdzhQTk4yUkg2M29NaVZN?=
+ =?utf-8?B?SjExYlJjWVcrdlN0TjhXRCs0YW1JMlRPRzZybnhFcWZncU1MRTVYbGpMVUR4?=
+ =?utf-8?B?UHlDN2pIQXJoTmRTWmgvL0E5bE5VUEtnc3ZtTG1iWHE2Q0N2SUJ1MFBLZzJ4?=
+ =?utf-8?B?ZlJ0b2lBMk52ZnBxMWJ6OTBpNFI4dk1IQjBnK2szMkRxR0NQLzRQdHNOaHdz?=
+ =?utf-8?B?V2lXOHJNK0lIOHNlRlYxL0lQMlc5U2JDbWl6NFZ6Z3Q5Wm5LcU1kb1dBdSs5?=
+ =?utf-8?B?eFlPN0x4WnFWMkxKb24xNW1ybnNxUzRteWhaemVQc2J0alRkRHExdU1jWGpk?=
+ =?utf-8?B?WXVyem05UndHenN5OTZRTzNaZEs4UWVyU0tsT1psMktNcW9QSkdHQ0UwenVT?=
+ =?utf-8?B?Q2EvUUxvclo5MTQ3YXBXcXBnMWU2TzU1VWFzS1VBbnVvekZkTi9XUlJrZFlJ?=
+ =?utf-8?B?RTN6VjRUZHpFMXNFSzROeGFqbFFVQ2N1MWpUOTRDTDZGWi8vTXdlQlNMamVD?=
+ =?utf-8?B?NlJoNDlzblFTaHh6WGJGdmVGcWYzS3lWM2hCVldPdVNwYlg3Y29abGYyR2pL?=
+ =?utf-8?B?TGtseG1HV1BlMnU5Rml6WTBWQUJ5UTdEczdaUXZRTVZIMFlkWjBEWERQQis2?=
+ =?utf-8?B?d0RQV29HWE5ySStaeHJmODFjbmVPRTNkVFNxdi9IekZWUXdRaldLTVlpVC9u?=
+ =?utf-8?B?blNDMmFiVVRVRkRCSUpWTW1PbTd4MkFrQWhVL0NZRnhvdm50KzVMSHNLN3Br?=
+ =?utf-8?B?Q29yOTBwZ1RKNm1ENEI4MHc4NUJPcDhTcStQQTZsWGwyUHZEU2ptejlaZFdp?=
+ =?utf-8?B?Y1JENGsybk5mNEk0UmFYbHVvdjRXdS85KzRmUGlBQnYyTWk1dEt5dUNoZEJM?=
+ =?utf-8?B?TVhKb1dGd2FDMXhySmRvNm1OVy9Sbk5hWmZwQzNpOGpxSjI2TVNXb0wrM2lM?=
+ =?utf-8?B?VEhpQVJnck5OYTRrVGVVWWNxUFhBWTR2N3VoNEpvUzVldGM5ZXN2Y3hiTXVZ?=
+ =?utf-8?B?U1daMk0wSEJpaDRNbjNSczBYbzdzWGZURGVZZmZUMk5lL2s0Nmw3SERSaGNy?=
+ =?utf-8?B?Qi9QcmlKUlVZakVvQk9HZ1ZzaDhZdFRYZGhIY1ZpWjdqaVFoc3ViRzd6WC9H?=
+ =?utf-8?B?SmJGNHR0RXlmZFpaNTJNYzhFNEVJUlBXeW9PZ1RtMVl1UXVaQ1NXUTl6TFNl?=
+ =?utf-8?B?bG9mUnpKQmJ2NmtkQlRSZ2NsN0h2UlE0VDJhSTFOS0hKQzNFL3F2b3hnRmlw?=
+ =?utf-8?B?dG9PbG1LcW5NL0RoOVVEd2ljaXdhbnNvR0ZGRDJybENwZktlekliNkJsbzFK?=
+ =?utf-8?B?ZXk0YzBTaU1BVDc1UDB1c2tpZzFzd3BKdDJ3bDNEUG9kMlF4U1B0TFc0bkFC?=
+ =?utf-8?B?YmRmUnkzRVBzRUpwMzIxTnBlcHRwVC9uZjB0VDQ4MHRYWStqSzVFNnMrOGlx?=
+ =?utf-8?B?VmFYUHlrMXltTkVSdUgvd09yUEM1YnlvdTJkOGJRVVNkUWlJQkw1Q21FaC8y?=
+ =?utf-8?B?OU9Cd2J3a2JqMWVGTFJ1Z3YwT2tuODFRY056UXNBUjk4aGlvdGo3TWF0ZnBW?=
+ =?utf-8?B?N3gvbDQ0WmlnTjU1Nmxnd0tUMWNONDRPMXJBclNRWk5GaE1kTlJXRnhOL0tu?=
+ =?utf-8?B?UnFMWXJlM3NwNk1JK1NIR1cxQThud0RBQ04rUVpNeGp1Q2N4RHg2cEthMThQ?=
+ =?utf-8?B?bnhQN3VOTEl1VFdhTjJQVE1WRkI1YVhYMkJnK3VqZHdYZlA0MVRvVTRWOWpQ?=
+ =?utf-8?B?MVRyM1cwWUlGeWFnT04yUHBKWVNzSm5rTVNnd1VwUVY0R1dKOU9sNE5jZXFs?=
+ =?utf-8?B?TFZzVlFVVE5yREliSnJTZz09?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8912.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K3RkMEJOQVFwYnl0VHJNQm1EYXVVZUFXcnlFZWNTZWgzZlhNcmZZVEQ5aFo1?=
- =?utf-8?B?aXZ1NHIxUUxMTDdwOHcvYTdSb011S3Q5RnhkelNFMjlNMm1WMHgxL1BZalRJ?=
- =?utf-8?B?KzhpN3FpekJlaGNMM2hHRHJTWFFmcUVLbGQxRGN3M1Fxa2ZFVW9iSys2SDQz?=
- =?utf-8?B?MHpPR0wvM0tBVDF3SUJya1RLb0NkeGhzL0NpckZ3SGowV3pzNDMwWERhT0Ny?=
- =?utf-8?B?OFdHTHMxRlVJK2FDQlVvQ2FPNldNeWlXYkxZeUcwL3ExRkdaWDN2MkpKdmZa?=
- =?utf-8?B?aEtTd1FZWVVOZWVoYUhqZ3liRUtxcXYxZnJWY0Zaa2crdmFDMFh0OW5NUjBC?=
- =?utf-8?B?aDVZNU9QRmdCeTBWY3k0NndxVGt6amZIK3RTNGJPSUpvUDFYNEgwTDdEOHE2?=
- =?utf-8?B?ODV0OGdQY1owejJmRERFZlhDRVErN3VBa2k1eDZZVHZKUEd6VzJkQlVZMmlj?=
- =?utf-8?B?a1JEZ0dyRVh6S0ZkUTV2MVh3VjRUWnVRazVlSk5DbVJZMVBzZmxVWVE1d2J4?=
- =?utf-8?B?akluVUpNNG5LVGQ0bnFMVm03U3BwaEFGeUFYaW10ODNhTjNUQWhydFFxeFp6?=
- =?utf-8?B?cGxpOUVMNkQ0NUVUSjA1dTVHUnZvRTVvYWpPN3kzZjJadzlVNHdId1oveXNL?=
- =?utf-8?B?N3RDQSt0RTZhdmFJN096SHJQU2kvbndDSlRpejZISGY4YVRqcHZIc09paGM1?=
- =?utf-8?B?YmhGbERhZXdkOFRhS1ZmYlhDZkNsWmUzeEFFSm1HaVEvNVc4TU1ucW9PRmpi?=
- =?utf-8?B?Wk8yTHR1VUVIUVh0U1VvamJvaHZSbG51T1BBaWorZVJQNGdEaVBEV2dkZk1r?=
- =?utf-8?B?SDZNcjFWWS9vanZwTlFhUzNpenE0ZWxFQlVhdzBnM3pTZThrQUxZTGU4d25W?=
- =?utf-8?B?dDhlWGhuVGEyUUUrTUJDOCtodm14UFNsc1JaZVV5U2RqTTVmMGdLb1dnK3hV?=
- =?utf-8?B?UW4yNW5zaHNSRGJQYnJXczR6TE9PWnVEVmRyMG1QWUR6QzdySklkaGlLTjg5?=
- =?utf-8?B?dUt0bER6RmVJRkhnaDBjcTdaWE1DSm9jYTU2eW80aU5DVkg5amJlYmdxQ0Jl?=
- =?utf-8?B?Z1h5WkhBRitnRlJHK01vcjErYk9VaU9xUzNETDlWanp1SnRCYnlDdXdiUUdK?=
- =?utf-8?B?bXBjSHhzRkZLTkJwRm5TUEY0TDRreUNBSVFUUUZFQVAyWFdrN29RMVVyN0ky?=
- =?utf-8?B?S25heHEzbzQyUEV6bVVHQmQ3ekNySmo2eTFDY1pyc1BkbDFPRkxCc1pleFFa?=
- =?utf-8?B?NzdiUUtLQThWY3B2RmRwRDUyWk9wSHk5Q3pvMS9mc01LZHhDcnIwTklodkVn?=
- =?utf-8?B?aFJ6RE5EVmx0Z25EK045Yis0bVJhb2I5Mm1paEx5MERyQm1TWkZDdXJhN2Uw?=
- =?utf-8?B?RXZGUUhRL0VkZ0E1dnUyNGMxY1BXOUk4SEpiM2FRZlE4R3MybTEzNTdSeElX?=
- =?utf-8?B?Nk00QVRXL3FhUXB3blVLMWlkVFl5OUhudDNzejEyWU9xTG5JM1BZc2pLMmpC?=
- =?utf-8?B?Zm4va1FyZFZWWVBsSkY5RTFYQjB3M2VqblZ1dzl3L0JWSVQ3UkFCNjF6OXFX?=
- =?utf-8?B?TWwvMkRCUDRiNW5vQWt2M1BiNFNGWUNSbmM5cmZ1NjFMUWRmZEZLbzR6b1k0?=
- =?utf-8?B?SmI1NEt2SU44NXdxelNPOUE4dGxXUm1RUjlqNjlML2lVV3dkN3JQdWRVaE1E?=
- =?utf-8?B?eUEzRnVZczY5cTVSUytUMUxWY1NSV3UwYTFDVFVCc3l3TWJkVkY2ckdiM211?=
- =?utf-8?B?SzZ4VHdkSngzWlllTGVseEkzMjBXYkVpS2lxV1lSb0J2WFlPTTR4UmdhQjA1?=
- =?utf-8?B?K1JnRVUwMTE5Q0dHMkFnN0NVcU9neHp4ZXZ5ZjdBOU0xcVNldU9nRnp3TzRt?=
- =?utf-8?B?eURpalFKdldBZy9Ua1p0OFE3UUZtdDV1cnl1RWcwSnN2cnVrYk9LQ0ZlbTdi?=
- =?utf-8?B?NXdJMVhLeGl3d0Vmcy9uamw3L05qbzF5amQ5YUJLcVdFYkhaZXRKMy82N3Ew?=
- =?utf-8?B?anY5ZkZPWFIveUNsV0NFelQ1ekwvVGtpZGpCWGZIVFFWK3ZYMGdtSE5zQ1Iw?=
- =?utf-8?B?V1A5aWFTMnVNYkhTRnNWMnFWNFhhQ3p1QzljZ2RVQWxwbERGd0sxbi9kUWd4?=
- =?utf-8?Q?P3+Xv/NXQzCxtWhCWTaazk5tF?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0acf1042-1cf6-4321-d2a0-08dca19e164e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+	=?utf-8?B?UlBGdGpOYStyNytUSlF3blczWDdlR1FjQlNyUElhVkJYRndTOXpWeGp6WGdY?=
+ =?utf-8?B?VVNQTTNRQmpnb25ya3JGMTd0NFRkdkhmWkp4bTJlWG9BL1NtdmFBUjJoRnNp?=
+ =?utf-8?B?SzlUYkhUMW1vYktyUWVpa1Fsdnh5M1B6bjhka2pRRndHQ0RHV3QyVFpYUTlx?=
+ =?utf-8?B?dkxYYWZtdnVGVVJMdGhaNndSMWduMzNWYVRZSVUrUExkck14RGtaWU42TjZn?=
+ =?utf-8?B?TXkwendaV3V3YkpKYVJ6WTUyV0kySzcxUlNWelduajVXMWgzL0RlR3FCSHMz?=
+ =?utf-8?B?Q0Y1UWpCQjZWcFVoN2dSNTI3S2VNQ09ZQkpRdkVJNjFxWWFCZzBQWVdVTXZO?=
+ =?utf-8?B?UmFFd1JiMVB1UTNFZ2tjMGJLUitxVmkwSVlBV01XSlQ3Qk9PUnFMNmpyaGIr?=
+ =?utf-8?B?RGgwL0RsYmM1MTFuaTdNcWtZSTBWZHZJUmp2K0c5cExKcGdYL2tlRkVrcXhP?=
+ =?utf-8?B?VEhUSEltSWRYcHc4RGF1MjJhZ0kxWHhVMXJhR3ZadFpXZ3cyY3k3NEdwZlda?=
+ =?utf-8?B?dFZhVk9MQUpQUUZxcWE5b250dU0zNjNhcTY0UHBZTy96OTZUcUlhU3JES0V3?=
+ =?utf-8?B?RTJRbkxtUEE3VGQ0VjdBMlFlNnViRDFLU3d3YVhTU2NRdjY1dU5FMEZQSlR5?=
+ =?utf-8?B?N2xqdm02ZTZtY2hZSlZIK1NFektaZjZ3Nm41Q2NGbW1kU0xBNk1xODFlTTNP?=
+ =?utf-8?B?Z09IR3dSVFNGVTVqRGhoWUVLajZTenlrN3VzeVEzR0xkYWgzaGxyZTlRVk84?=
+ =?utf-8?B?dytZOWhwTVQzSGV5S2szbmZpbTFFNHZoZTlLZDhKd0JRM2MzL1psZGVybUN5?=
+ =?utf-8?B?VWRQcm9OSS8vU0Vmb0tLUmRSUjcwbURSNjhJWVFHeFVjbUdNQWZJajlTOUQx?=
+ =?utf-8?B?bXRTUjRwQW9wTmc5UTBWeW1ZRjJBT0Q1aHRMM3B1aFkrOWhMRmZUUWtqZFMw?=
+ =?utf-8?B?NThsOVhqUXFHOW9LN2dyTHZGQWlkMXg0TnZtT2NBdTc2d0dLaE9ncGFOYm5L?=
+ =?utf-8?B?UW9XbFE2S3BmMFQ4Nk0wYVByUEZHNkdsalQzQ2R4OTZnUVpBWmgvcWxrcVNy?=
+ =?utf-8?B?ajlVT3YzZUdCMU4zci9zYzdCbHpsQlJDM0Q4WHFLZDN2NVZacG9vbjhreEV1?=
+ =?utf-8?B?TWVwTlIwNWpDR0tORmxTSnpBNXVhV2ptVFBGUXpsRllqZmE4VjdKOGwxM3Bi?=
+ =?utf-8?B?NXpWUUpTRUExeWk2OFJ0TDRPOVVkWUtodldoV0txUk0vQnlZU0p5b0pBNDBw?=
+ =?utf-8?B?Y1dVVmNuZVVZa1UvVnY3ZkwySU0ycjEzWFRpRWZzc0JSRnlYZTRBRFhIemtN?=
+ =?utf-8?B?ajNRejdvdWZ1L1pGWUIwY2JLZlNZZS9MTS9vd1Jkem5sWEI4bzVNVTRkWUhO?=
+ =?utf-8?B?bFFBZlg2Z2ZhMkVhVk9NWjdGc3VVamxsdkRzMjhIa2RPWElycG9qOTBLKzI3?=
+ =?utf-8?B?RzNuS0FPb1BDbnhrcFN5cjVFRHNIWG1vczlBUzl0eXp1amhHS0tiZ1cxcGZI?=
+ =?utf-8?B?WXBCcWFGK1k4aFhSZXNqUHpLeXYvRnRIdVFnaElmd2RKODNXNjhma01INWhB?=
+ =?utf-8?B?NnlxZ0luYk1sOUlRYmpYektBK2xwYTM3M2FGMDRiQ0JLUUxFUUQ1TlZFTzFu?=
+ =?utf-8?B?MDZPSk5rSFozTlMvQ3o1K3I4Z21UenFpQTRBZHZNQ1oyMWFWZUlNbzg1akNo?=
+ =?utf-8?B?VWF0aDB4UjBQdlVKdDQzMlhkMFRwdHMvbXRLbTh3N2JDS01SNHFabUZoVFlo?=
+ =?utf-8?B?c1VrZm5pR1hudGZXcCtrSzdOL015YlBwME1sSVVOSTJPT3lvMklYT25uTFNP?=
+ =?utf-8?B?NU9WaVB2QWNIZEYxNGxWUjZEd3NjOXZOdy9DVG4yU2ZkVGN2UFpyeGc5d3Mv?=
+ =?utf-8?B?RVZUTnBIUDNGelhHNFlCRmZrSGhET0JrMm9nQUFQSUxOSHk0bGtYNVFSaXc5?=
+ =?utf-8?B?Y0cvZ0ZGL0N2WXpkNWNvdTlhZVVaMUZmTnJaaENtTW1WYXljaVlleVBmZUpv?=
+ =?utf-8?B?ZURBelBQSlhKV01ubWRWTjFsUlluclZJdHVDQmRienB3ODgzN1hIa1RrcGhZ?=
+ =?utf-8?B?MytDUm45WHFOYmVLYU1IQ25vODErN2xTZWJrT2ZZSys2Qld1WlpPVmlvSE9u?=
+ =?utf-8?B?SHNDZFEyVmQrOFJxbmVZdHJmNDIwcnJUWEI2LzBOdWVFam9YSjNtLzlqNGQv?=
+ =?utf-8?B?N3c9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 183104d8-7680-490e-7245-08dca19e61fb
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8912.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 11:39:13.5150
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 11:41:20.1854
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eRX2sqYVn5sl7wUBYtCOnjDwlObwnlALETxcIFBkwyTDGxSG/7nCrTzjwkPWSgRw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8750
+X-MS-Exchange-CrossTenant-UserPrincipalName: EHaX87TLRXIKmXykpvqawiiVDI1G9xRJEyA0kYkEoxKVJQ8zc60xK33WT1SSLQv/pmNKYRJ1uIcsteVfNB+gZmq8aFt+dSNZgoI9uUguUpI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9285
 
-Am 11.07.24 um 11:18 schrieb Huan Yang:
-> Hi Christian,
->
-> Thanks for your reply.
->
-> 在 2024/7/11 17:00, Christian König 写道:
->> Am 11.07.24 um 09:42 schrieb Huan Yang:
->>> Some user may need load file into dma-buf, current
->>> way is:
->>>    1. allocate a dma-buf, get dma-buf fd
->>>    2. mmap dma-buf fd into vaddr
->>>    3. read(file_fd, vaddr, fsz)
->>> This is too heavy if fsz reached to GB.
+Hi Bryan and Dave,
+
+On 7/11/24 1:22 PM, Bryan O'Donoghue wrote:
+> On 11/07/2024 11:40, Quentin Schulz wrote:
+>> Hi Bryan,
 >>
->> You need to describe a bit more why that is to heavy. I can only 
->> assume you need to save memory bandwidth and avoid the extra copy 
->> with the CPU.
->
-> Sorry for the oversimplified explanation. But, yes, you're right, we 
-> want to avoid this.
->
-> As we are dealing with embedded devices, the available memory and 
-> computing power for users are usually limited.(The maximum available 
-> memory is currently
->
-> 24GB, typically ranging from 8-12GB. )
->
-> Also, the CPU computing power is also usually in short supply, due to 
-> limited battery capacity and limited heat dissipation capabilities.
->
-> So, we hope to avoid ineffective paths as much as possible.
->
->>
->>> This patch implement a feature called DMA_HEAP_IOCTL_ALLOC_READ_FILE.
->>> User need to offer a file_fd which you want to load into dma-buf, then,
->>> it promise if you got a dma-buf fd, it will contains the file content.
->>
->> Interesting idea, that has at least more potential than trying to 
->> enable direct I/O on mmap()ed DMA-bufs.
->>
->> The approach with the new IOCTL might not work because it is a very 
->> specialized use case.
->
-> Thank you for your advice. maybe the "read file" behavior can be 
-> attached to an existing allocation?
-
-The point is there are already system calls to do something like that.
-
-See copy_file_range() 
-(https://man7.org/linux/man-pages/man2/copy_file_range.2.html) and 
-send_file() (https://man7.org/linux/man-pages/man2/sendfile.2.html).
-
-What we probably could do is to internally optimize those.
-
-> I am currently creating a new ioctl to remind the user that memory is 
-> being allocated and read, and I am also unsure
->
-> whether it is appropriate to add additional parameters to the existing 
-> allocate behavior.
->
-> Please, give me more suggestion. Thanks.
->
->>
->> But IIRC there was a copy_file_range callback in the file_operations 
->> structure you could use for that. I'm just not sure when and how 
->> that's used with the copy_file_range() system call.
->
-> Sorry, I'm not familiar with this, but I will look into it. However, 
-> this type of callback function is not currently implemented when 
-> exporting
->
-> the dma_buf file, which means that I need to implement the callback 
-> for it?
-
-If I'm not completely mistaken the copy_file_range, splice_read and 
-splice_write callbacks on the struct file_operations 
-(https://elixir.bootlin.com/linux/v6.10-rc7/source/include/linux/fs.h#L1999).
-
-Can be used to implement what you want to do.
-
-Regards,
-Christian.
-
->
->>
->> Regards,
->> Christian.
->>
+>> On 7/11/24 12:20 PM, Bryan O'Donoghue wrote:
+>>> The ov5675 specification says that the gap between XSHUTDN deassert 
+>>> and the
+>>> first I2C transaction should be a minimum of 8192 XVCLK cycles.
 >>>
->>> Notice, file_fd depends on user how to open this file. So, both buffer
->>> I/O and Direct I/O is supported.
+>>> Right now we use a usleep_rage() that gives a sleep time of between 
+>>> about
+>>> 430 and 860 microseconds.
 >>>
->>> Signed-off-by: Huan Yang <link@vivo.com>
+>>> On the Lenovo X13s we have observed that in about 1/20 cases the current
+>>> timing is too tight and we start transacting before the ov5675's reset
+>>> cycle completes, leading to I2C bus transaction failures.
+>>>
+>>> The reset racing is sometimes triggered at initial chip probe but, more
+>>> usually on a subsequent power-off/power-on cycle e.g.
+>>>
+>>> [   71.451662] ov5675 24-0010: failed to write reg 0x0103. error = -5
+>>> [   71.451686] ov5675 24-0010: failed to set plls
+>>>
+>>> The current quiescence period we have is too tight, doubling the minimum
+>>> appears to fix the issue observed on X13s.
+>>>
+>>> Fixes: 49d9ad719e89 ("media: ov5675: add device-tree support and 
+>>> support runtime PM")
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 >>> ---
->>>   drivers/dma-buf/dma-heap.c    | 525 
->>> +++++++++++++++++++++++++++++++++-
->>>   include/linux/dma-heap.h      |  57 +++-
->>>   include/uapi/linux/dma-heap.h |  32 +++
->>>   3 files changed, 611 insertions(+), 3 deletions(-)
+>>>   drivers/media/i2c/ov5675.c | 9 +++++++--
+>>>   1 file changed, 7 insertions(+), 2 deletions(-)
 >>>
->>> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
->>> index 2298ca5e112e..abe17281adb8 100644
->>> --- a/drivers/dma-buf/dma-heap.c
->>> +++ b/drivers/dma-buf/dma-heap.c
->>> @@ -15,9 +15,11 @@
->>>   #include <linux/list.h>
->>>   #include <linux/slab.h>
->>>   #include <linux/nospec.h>
->>> +#include <linux/highmem.h>
->>>   #include <linux/uaccess.h>
->>>   #include <linux/syscalls.h>
->>>   #include <linux/dma-heap.h>
->>> +#include <linux/vmalloc.h>
->>>   #include <uapi/linux/dma-heap.h>
->>>     #define DEVNAME "dma_heap"
->>> @@ -43,12 +45,462 @@ struct dma_heap {
->>>       struct cdev heap_cdev;
->>>   };
->>>   +/**
->>> + * struct dma_heap_file - wrap the file, read task for dma_heap 
->>> allocate use.
->>> + * @file:        file to read from.
->>> + *
->>> + * @cred:        kthread use, user cred copy to use for the read.
->>> + *
->>> + * @max_batch:        maximum batch size to read, if collect match 
->>> batch,
->>> + *            trigger read, default 128MB, must below file size.
->>> + *
->>> + * @fsz:        file size.
->>> + *
->>> + * @direct:        use direct IO?
->>> + */
->>> +struct dma_heap_file {
->>> +    struct file *file;
->>> +    struct cred *cred;
->>> +    size_t max_batch;
->>> +    size_t fsz;
->>> +    bool direct;
->>> +};
->>> +
->>> +/**
->>> + * struct dma_heap_file_work - represents a dma_heap file read real 
->>> work.
->>> + * @vaddr:        contigous virtual address alloc by vmap, file 
->>> read need.
->>> + *
->>> + * @start_size:        file read start offset, same to 
->>> @dma_heap_file_task->roffset.
->>> + *
->>> + * @need_size:        file read need size, same to 
->>> @dma_heap_file_task->rsize.
->>> + *
->>> + * @heap_file:        file wrapper.
->>> + *
->>> + * @list:        child node of @dma_heap_file_control->works.
->>> + *
->>> + * @refp:        same @dma_heap_file_task->ref, if end of read, put 
->>> ref.
->>> + *
->>> + * @failp:        if any work io failed, set it true, pointp 
->>> @dma_heap_file_task->fail.
->>> + */
->>> +struct dma_heap_file_work {
->>> +    void *vaddr;
->>> +    ssize_t start_size;
->>> +    ssize_t need_size;
->>> +    struct dma_heap_file *heap_file;
->>> +    struct list_head list;
->>> +    atomic_t *refp;
->>> +    bool *failp;
->>> +};
->>> +
->>> +/**
->>> + * struct dma_heap_file_task - represents a dma_heap file read process
->>> + * @ref:        current file work counter, if zero, allocate and read
->>> + *            done.
->>> + *
->>> + * @roffset:        last read offset, current prepared work' begin 
->>> file
->>> + *            start offset.
->>> + *
->>> + * @rsize:        current allocated page size use to read, if reach 
->>> rbatch,
->>> + *            trigger commit.
->>> + *
->>> + * @rbatch:        current prepared work's batch, below 
->>> @dma_heap_file's
->>> + *            batch.
->>> + *
->>> + * @heap_file:        current dma_heap_file
->>> + *
->>> + * @parray:        used for vmap, size is @dma_heap_file's batch's 
->>> number
->>> + *            pages.(this is maximum). Due to single thread file read,
->>> + *            one page array reuse each work prepare is OK.
->>> + *            Each index in parray is PAGE_SIZE.(vmap need)
->>> + *
->>> + * @pindex:        current allocated page filled in @parray's index.
->>> + *
->>> + * @fail:        any work failed when file read?
->>> + *
->>> + * dma_heap_file_task is the production of file read, will prepare 
->>> each work
->>> + * during allocate dma_buf pages, if match current batch, then 
->>> trigger commit
->>> + * and prepare next work. After all batch queued, user going on 
->>> prepare dma_buf
->>> + * and so on, but before return dma_buf fd, need to wait file read 
->>> end and
->>> + * check read result.
->>> + */
->>> +struct dma_heap_file_task {
->>> +    atomic_t ref;
->>> +    size_t roffset;
->>> +    size_t rsize;
->>> +    size_t rbatch;
->>> +    struct dma_heap_file *heap_file;
->>> +    struct page **parray;
->>> +    unsigned int pindex;
->>> +    bool fail;
->>> +};
->>> +
->>> +/**
->>> + * struct dma_heap_file_control - global control of dma_heap file 
->>> read.
->>> + * @works:        @dma_heap_file_work's list head.
->>> + *
->>> + * @lock:        only lock for @works.
->>> + *
->>> + * @threadwq:        wait queue for @work_thread, if commit work, 
->>> @work_thread
->>> + *            wakeup and read this work's file contains.
->>> + *
->>> + * @workwq:        used for main thread wait for file read end, if 
->>> allocation
->>> + *            end before file read. @dma_heap_file_task ref effect 
->>> this.
->>> + *
->>> + * @work_thread:    file read kthread. the dma_heap_file_task 
->>> work's consumer.
->>> + *
->>> + * @heap_fwork_cachep:    @dma_heap_file_work's cachep, it's 
->>> alloc/free frequently.
->>> + *
->>> + * @nr_work:        global number of how many work committed.
->>> + */
->>> +struct dma_heap_file_control {
->>> +    struct list_head works;
->>> +    spinlock_t lock;
->>> +    wait_queue_head_t threadwq;
->>> +    wait_queue_head_t workwq;
->>> +    struct task_struct *work_thread;
->>> +    struct kmem_cache *heap_fwork_cachep;
->>> +    atomic_t nr_work;
->>> +};
->>> +
->>> +static struct dma_heap_file_control *heap_fctl;
->>>   static LIST_HEAD(heap_list);
->>>   static DEFINE_MUTEX(heap_list_lock);
->>>   static dev_t dma_heap_devt;
->>>   static struct class *dma_heap_class;
->>>   static DEFINE_XARRAY_ALLOC(dma_heap_minors);
->>>   +/**
->>> + * map_pages_to_vaddr - map each scatter page into contiguous 
->>> virtual address.
->>> + * @heap_ftask:        prepared and need to commit's work.
->>> + *
->>> + * Cached pages need to trigger file read, this function map each 
->>> scatter page
->>> + * into contiguous virtual address, so that file read can easy use.
->>> + * Now that we get vaddr page, cached pages can return to original 
->>> user, so we
->>> + * will not effect dma-buf export even if file read not end.
->>> + */
->>> +static void *map_pages_to_vaddr(struct dma_heap_file_task *heap_ftask)
->>> +{
->>> +    return vmap(heap_ftask->parray, heap_ftask->pindex, VM_MAP,
->>> +            PAGE_KERNEL);
->>> +}
->>> +
->>> +bool dma_heap_prepare_file_read(struct dma_heap_file_task *heap_ftask,
->>> +                struct page *page)
->>> +{
->>> +    struct page **array = heap_ftask->parray;
->>> +    int index = heap_ftask->pindex;
->>> +    int num = compound_nr(page), i;
->>> +    unsigned long sz = page_size(page);
->>> +
->>> +    heap_ftask->rsize += sz;
->>> +    for (i = 0; i < num; ++i)
->>> +        array[index++] = &page[i];
->>> +    heap_ftask->pindex = index;
->>> +
->>> +    return heap_ftask->rsize >= heap_ftask->rbatch;
->>> +}
->>> +
->>> +static struct dma_heap_file_work *
->>> +init_file_work(struct dma_heap_file_task *heap_ftask)
->>> +{
->>> +    struct dma_heap_file_work *heap_fwork;
->>> +    struct dma_heap_file *heap_file = heap_ftask->heap_file;
->>> +
->>> +    if (READ_ONCE(heap_ftask->fail))
->>> +        return NULL;
->>> +
->>> +    heap_fwork = kmem_cache_alloc(heap_fctl->heap_fwork_cachep, 
->>> GFP_KERNEL);
->>> +    if (unlikely(!heap_fwork))
->>> +        return NULL;
->>> +
->>> +    heap_fwork->vaddr = map_pages_to_vaddr(heap_ftask);
->>> +    if (unlikely(!heap_fwork->vaddr)) {
->>> +        kmem_cache_free(heap_fctl->heap_fwork_cachep, heap_fwork);
->>> +        return NULL;
->>> +    }
->>> +
->>> +    heap_fwork->heap_file = heap_file;
->>> +    heap_fwork->start_size = heap_ftask->roffset;
->>> +    heap_fwork->need_size = heap_ftask->rsize;
->>> +    heap_fwork->refp = &heap_ftask->ref;
->>> +    heap_fwork->failp = &heap_ftask->fail;
->>> +    atomic_inc(&heap_ftask->ref);
->>> +    return heap_fwork;
->>> +}
->>> +
->>> +static void destroy_file_work(struct dma_heap_file_work *heap_fwork)
->>> +{
->>> +    vunmap(heap_fwork->vaddr);
->>> +    atomic_dec(heap_fwork->refp);
->>> +    wake_up(&heap_fctl->workwq);
->>> +
->>> +    kmem_cache_free(heap_fctl->heap_fwork_cachep, heap_fwork);
->>> +}
->>> +
->>> +int dma_heap_submit_file_read(struct dma_heap_file_task *heap_ftask)
->>> +{
->>> +    struct dma_heap_file_work *heap_fwork = 
->>> init_file_work(heap_ftask);
->>> +    struct page *last = NULL;
->>> +    struct dma_heap_file *heap_file = heap_ftask->heap_file;
->>> +    size_t start = heap_ftask->roffset;
->>> +    struct file *file = heap_file->file;
->>> +    size_t fsz = heap_file->fsz;
->>> +
->>> +    if (unlikely(!heap_fwork))
->>> +        return -ENOMEM;
->>> +
->>> +    /**
->>> +     * If file size is not page aligned, direct io can't process 
->>> the tail.
->>> +     * So, if reach to tail, remain the last page use buffer read.
+>>> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+>>> index 92bd35133a5d..0498f8f3064d 100644
+>>> --- a/drivers/media/i2c/ov5675.c
+>>> +++ b/drivers/media/i2c/ov5675.c
+>>> @@ -1018,8 +1018,13 @@ static int ov5675_power_on(struct device *dev)
+>>>       gpiod_set_value_cansleep(ov5675->reset_gpio, 0);
+>>> -    /* 8192 xvclk cycles prior to the first SCCB transation */
+>>> -    usleep_range(delay_us, delay_us * 2);
+>>> +    /* The spec calls for a minimum delay of 8192 XVCLK cycles prior to
+>>> +     * transacting on the I2C bus, which translates to about 430
+>>> +     * microseconds at 19.2 MHz.
+>>> +     * Testing shows the range 8192 - 16384 cycles to be unreliable.
+>>> +     * Grant a more liberal 2x -3x clock cycle grace time.
 >>> +     */
->>> +    if (heap_file->direct && start + heap_ftask->rsize > fsz) {
->>> +        heap_fwork->need_size -= PAGE_SIZE;
->>> +        last = heap_ftask->parray[heap_ftask->pindex - 1];
->>> +    }
->>> +
->>> +    spin_lock(&heap_fctl->lock);
->>> +    list_add_tail(&heap_fwork->list, &heap_fctl->works);
->>> +    spin_unlock(&heap_fctl->lock);
->>> +    atomic_inc(&heap_fctl->nr_work);
->>> +
->>> +    wake_up(&heap_fctl->threadwq);
->>> +
->>> +    if (last) {
->>> +        char *buf, *pathp;
->>> +        ssize_t err;
->>> +        void *buffer;
->>> +
->>> +        buf = kmalloc(PATH_MAX, GFP_KERNEL);
->>> +        if (unlikely(!buf))
->>> +            return -ENOMEM;
->>> +
->>> +        start = PAGE_ALIGN_DOWN(fsz);
->>> +
->>> +        pathp = file_path(file, buf, PATH_MAX);
->>> +        if (IS_ERR(pathp)) {
->>> +            kfree(buf);
->>> +            return PTR_ERR(pathp);
->>> +        }
->>> +
->>> +        buffer = kmap_local_page(last); // use page's kaddr.
->>> +        err = kernel_read_file_from_path(pathp, start, &buffer,
->>> +                         fsz - start, &fsz,
->>> +                         READING_POLICY);
->>> +        kunmap_local(buffer);
->>> +        kfree(buf);
->>> +        if (err < 0) {
->>> +            pr_err("failed to use buffer kernel_read_file %s, 
->>> err=%ld, [%ld, %ld], f_sz=%ld\n",
->>> +                   pathp, err, start, fsz, fsz);
->>> +
->>> +            return err;
->>> +        }
->>> +    }
->>> +
->>> +    heap_ftask->roffset += heap_ftask->rsize;
->>> +    heap_ftask->rsize = 0;
->>> +    heap_ftask->pindex = 0;
->>> +    heap_ftask->rbatch = min_t(size_t,
->>> +                   PAGE_ALIGN(fsz) - heap_ftask->roffset,
->>> +                   heap_ftask->rbatch);
->>> +    return 0;
->>> +}
->>> +
->>> +bool dma_heap_wait_for_file_read(struct dma_heap_file_task 
->>> *heap_ftask)
->>> +{
->>> +    wait_event_freezable(heap_fctl->workwq,
->>> +                 atomic_read(&heap_ftask->ref) == 0);
->>> +    return heap_ftask->fail;
->>> +}
->>> +
->>> +bool dma_heap_destroy_file_read(struct dma_heap_file_task *heap_ftask)
->>> +{
->>> +    bool fail;
->>> +
->>> +    dma_heap_wait_for_file_read(heap_ftask);
->>> +    fail = heap_ftask->fail;
->>> +    kvfree(heap_ftask->parray);
->>> +    kfree(heap_ftask);
->>> +    return fail;
->>> +}
->>> +
->>> +struct dma_heap_file_task *
->>> +dma_heap_declare_file_read(struct dma_heap_file *heap_file)
->>> +{
->>> +    struct dma_heap_file_task *heap_ftask =
->>> +        kzalloc(sizeof(*heap_ftask), GFP_KERNEL);
->>> +    if (unlikely(!heap_ftask))
->>> +        return NULL;
->>> +
->>> +    /**
->>> +     * Batch is the maximum size which we prepare work will meet.
->>> +     * So, direct alloc this number's page array is OK.
->>> +     */
->>> +    heap_ftask->parray = kvmalloc_array(heap_file->max_batch >> 
->>> PAGE_SHIFT,
->>> +                        sizeof(struct page *), GFP_KERNEL);
->>> +    if (unlikely(!heap_ftask->parray))
->>> +        goto put;
->>> +
->>> +    heap_ftask->heap_file = heap_file;
->>> +    heap_ftask->rbatch = heap_file->max_batch;
->>> +    return heap_ftask;
->>> +put:
->>> +    kfree(heap_ftask);
->>> +    return NULL;
->>> +}
->>> +
->>> +static void __work_this_io(struct dma_heap_file_work *heap_fwork)
->>> +{
->>> +    struct dma_heap_file *heap_file = heap_fwork->heap_file;
->>> +    struct file *file = heap_file->file;
->>> +    ssize_t start = heap_fwork->start_size;
->>> +    ssize_t size = heap_fwork->need_size;
->>> +    void *buffer = heap_fwork->vaddr;
->>> +    const struct cred *old_cred;
->>> +    ssize_t err;
->>> +
->>> +    // use real task's cred to read this file.
->>> +    old_cred = override_creds(heap_file->cred);
->>> +    err = kernel_read_file(file, start, &buffer, size, 
->>> &heap_file->fsz,
->>> +                   READING_POLICY);
->>> +    if (err < 0) {
->>> +        pr_err("use kernel_read_file, err=%ld, [%ld, %ld], 
->>> f_sz=%ld\n",
->>> +               err, start, (start + size), heap_file->fsz);
->>> +        WRITE_ONCE(*heap_fwork->failp, true);
->>> +    }
->>> +    // recovery to my cred.
->>> +    revert_creds(old_cred);
->>> +}
->>> +
->>> +static int dma_heap_file_control_thread(void *data)
->>> +{
->>> +    struct dma_heap_file_control *heap_fctl =
->>> +        (struct dma_heap_file_control *)data;
->>> +    struct dma_heap_file_work *worker, *tmp;
->>> +    int nr_work;
->>> +
->>> +    LIST_HEAD(pages);
->>> +    LIST_HEAD(workers);
->>> +
->>> +    while (true) {
->>> +        wait_event_freezable(heap_fctl->threadwq,
->>> +                     atomic_read(&heap_fctl->nr_work) > 0);
->>> +recheck:
->>> +        spin_lock(&heap_fctl->lock);
->>> +        list_splice_init(&heap_fctl->works, &workers);
->>> +        spin_unlock(&heap_fctl->lock);
->>> +
->>> +        if (unlikely(kthread_should_stop())) {
->>> +            list_for_each_entry_safe(worker, tmp, &workers, list) {
->>> +                list_del(&worker->list);
->>> +                destroy_file_work(worker);
->>> +            }
->>> +            break;
->>> +        }
->>> +
->>> +        nr_work = 0;
->>> +        list_for_each_entry_safe(worker, tmp, &workers, list) {
->>> +            ++nr_work;
->>> +            list_del(&worker->list);
->>> +            __work_this_io(worker);
->>> +
->>> +            destroy_file_work(worker);
->>> +        }
->>> +        atomic_sub(nr_work, &heap_fctl->nr_work);
->>> +
->>> +        if (atomic_read(&heap_fctl->nr_work) > 0)
->>> +            goto recheck;
->>> +    }
->>> +    return 0;
->>> +}
->>> +
->>> +size_t dma_heap_file_size(struct dma_heap_file *heap_file)
->>> +{
->>> +    return heap_file->fsz;
->>> +}
->>> +
->>> +static int prepare_dma_heap_file(struct dma_heap_file *heap_file, 
->>> int file_fd,
->>> +                 size_t batch)
->>> +{
->>> +    struct file *file;
->>> +    size_t fsz;
->>> +    int ret;
->>> +
->>> +    file = fget(file_fd);
->>> +    if (!file)
->>> +        return -EINVAL;
->>> +
->>> +    fsz = i_size_read(file_inode(file));
->>> +    if (fsz < batch) {
->>> +        ret = -EINVAL;
->>> +        goto err;
->>> +    }
->>> +
->>> +    /**
->>> +     * Selinux block our read, but actually we are reading the 
->>> stand-in
->>> +     * for this file.
->>> +     * So save current's cred and when going to read, override 
->>> mine, and
->>> +     * end of read, revert.
->>> +     */
->>> +    heap_file->cred = prepare_kernel_cred(current);
->>> +    if (unlikely(!heap_file->cred)) {
->>> +        ret = -ENOMEM;
->>> +        goto err;
->>> +    }
->>> +
->>> +    heap_file->file = file;
->>> +    heap_file->max_batch = batch;
->>> +    heap_file->fsz = fsz;
->>> +
->>> +    heap_file->direct = file->f_flags & O_DIRECT;
->>> +
->>> +#define DMA_HEAP_SUGGEST_DIRECT_IO_SIZE (1UL << 30)
->>> +    if (!heap_file->direct && fsz >= DMA_HEAP_SUGGEST_DIRECT_IO_SIZE)
->>> +        pr_warn("alloc read file better to use O_DIRECT to read 
->>> larget file\n");
->>> +
->>> +    return 0;
->>> +
->>> +err:
->>> +    fput(file);
->>> +    return ret;
->>> +}
->>> +
->>> +static void destroy_dma_heap_file(struct dma_heap_file *heap_file)
->>> +{
->>> +    fput(heap_file->file);
->>> +    put_cred(heap_file->cred);
->>> +}
->>> +
->>> +static int dma_heap_buffer_alloc_read_file(struct dma_heap *heap, 
->>> int file_fd,
->>> +                       size_t batch, unsigned int fd_flags,
->>> +                       unsigned int heap_flags)
->>> +{
->>> +    struct dma_buf *dmabuf;
->>> +    int fd;
->>> +    struct dma_heap_file heap_file;
->>> +
->>> +    fd = prepare_dma_heap_file(&heap_file, file_fd, batch);
->>> +    if (fd)
->>> +        goto error_file;
->>> +
->>> +    dmabuf = heap->ops->allocate_read_file(heap, &heap_file, fd_flags,
->>> +                           heap_flags);
->>> +    if (IS_ERR(dmabuf)) {
->>> +        fd = PTR_ERR(dmabuf);
->>> +        goto error;
->>> +    }
->>> +
->>> +    fd = dma_buf_fd(dmabuf, fd_flags);
->>> +    if (fd < 0) {
->>> +        dma_buf_put(dmabuf);
->>> +        /* just return, as put will call release and that will free */
->>> +    }
->>> +
->>> +error:
->>> +    destroy_dma_heap_file(&heap_file);
->>> +error_file:
->>> +    return fd;
->>> +}
->>> +
->>>   static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
->>>                    u32 fd_flags,
->>>                    u64 heap_flags)
->>> @@ -93,6 +545,38 @@ static int dma_heap_open(struct inode *inode, 
->>> struct file *file)
->>>       return 0;
->>>   }
->>>   +static long dma_heap_ioctl_allocate_read_file(struct file *file, 
->>> void *data)
->>> +{
->>> +    struct dma_heap_allocation_file_data *heap_allocation_file = data;
->>> +    struct dma_heap *heap = file->private_data;
->>> +    int fd;
->>> +
->>> +    if (heap_allocation_file->fd || !heap_allocation_file->file_fd)
->>> +        return -EINVAL;
->>> +
->>> +    if (heap_allocation_file->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
->>> +        return -EINVAL;
->>> +
->>> +    if (heap_allocation_file->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
->>> +        return -EINVAL;
->>> +
->>> +    if (!heap->ops->allocate_read_file)
->>> +        return -EINVAL;
->>> +
->>> +    fd = dma_heap_buffer_alloc_read_file(
->>> +        heap, heap_allocation_file->file_fd,
->>> +        heap_allocation_file->batch ?
->>> +            PAGE_ALIGN(heap_allocation_file->batch) :
->>> +            DEFAULT_ADI_BATCH,
->>> +        heap_allocation_file->fd_flags,
->>> +        heap_allocation_file->heap_flags);
->>> +    if (fd < 0)
->>> +        return fd;
->>> +
->>> +    heap_allocation_file->fd = fd;
->>> +    return 0;
->>> +}
->>> +
->>>   static long dma_heap_ioctl_allocate(struct file *file, void *data)
->>>   {
->>>       struct dma_heap_allocation_data *heap_allocation = data;
->>> @@ -121,6 +605,7 @@ static long dma_heap_ioctl_allocate(struct file 
->>> *file, void *data)
->>>     static unsigned int dma_heap_ioctl_cmds[] = {
->>>       DMA_HEAP_IOCTL_ALLOC,
->>> +    DMA_HEAP_IOCTL_ALLOC_AND_READ,
->>>   };
->>>     static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
->>> @@ -170,6 +655,9 @@ static long dma_heap_ioctl(struct file *file, 
->>> unsigned int ucmd,
->>>       case DMA_HEAP_IOCTL_ALLOC:
->>>           ret = dma_heap_ioctl_allocate(file, kdata);
->>>           break;
->>> +    case DMA_HEAP_IOCTL_ALLOC_AND_READ:
->>> +        ret = dma_heap_ioctl_allocate_read_file(file, kdata);
->>> +        break;
->>>       default:
->>>           ret = -ENOTTY;
->>>           goto err;
->>> @@ -316,11 +804,44 @@ static int dma_heap_init(void)
->>>         dma_heap_class = class_create(DEVNAME);
->>>       if (IS_ERR(dma_heap_class)) {
->>> -        unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS);
->>> -        return PTR_ERR(dma_heap_class);
->>> +        ret = PTR_ERR(dma_heap_class);
->>> +        goto fail_class;
->>>       }
->>>       dma_heap_class->devnode = dma_heap_devnode;
->>>   +    heap_fctl = kzalloc(sizeof(*heap_fctl), GFP_KERNEL);
->>> +    if (unlikely(!heap_fctl)) {
->>> +        ret =  -ENOMEM;
->>> +        goto fail_alloc;
->>> +    }
->>> +
->>> +    INIT_LIST_HEAD(&heap_fctl->works);
->>> +    init_waitqueue_head(&heap_fctl->threadwq);
->>> +    init_waitqueue_head(&heap_fctl->workwq);
->>> +
->>> +    heap_fctl->work_thread = kthread_run(dma_heap_file_control_thread,
->>> +                         heap_fctl, "heap_fwork_t");
->>> +    if (IS_ERR(heap_fctl->work_thread)) {
->>> +        ret = -ENOMEM;
->>> +        goto fail_thread;
->>> +    }
->>> +
->>> +    heap_fctl->heap_fwork_cachep = KMEM_CACHE(dma_heap_file_work, 0);
->>> +    if (unlikely(!heap_fctl->heap_fwork_cachep)) {
->>> +        ret = -ENOMEM;
->>> +        goto fail_cache;
->>> +    }
->>> +
->>>       return 0;
->>> +
->>> +fail_cache:
->>> +    kthread_stop(heap_fctl->work_thread);
->>> +fail_thread:
->>> +    kfree(heap_fctl);
->>> +fail_alloc:
->>> +    class_destroy(dma_heap_class);
->>> +fail_class:
->>> +    unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS);
->>> +    return ret;
->>>   }
->>>   subsys_initcall(dma_heap_init);
->>> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
->>> index 064bad725061..9c25383f816c 100644
->>> --- a/include/linux/dma-heap.h
->>> +++ b/include/linux/dma-heap.h
->>> @@ -12,12 +12,17 @@
->>>   #include <linux/cdev.h>
->>>   #include <linux/types.h>
->>>   +#define DEFAULT_ADI_BATCH (128 << 20)
->>> +
->>>   struct dma_heap;
->>> +struct dma_heap_file_task;
->>> +struct dma_heap_file;
->>>     /**
->>>    * struct dma_heap_ops - ops to operate on a given heap
->>>    * @allocate:        allocate dmabuf and return struct dma_buf ptr
->>> - *
->>> + * @allocate_read_file: allocate dmabuf and read file, then return 
->>> struct
->>> + * dma_buf ptr.
->>>    * allocate returns dmabuf on success, ERR_PTR(-errno) on error.
->>>    */
->>>   struct dma_heap_ops {
->>> @@ -25,6 +30,11 @@ struct dma_heap_ops {
->>>                       unsigned long len,
->>>                       u32 fd_flags,
->>>                       u64 heap_flags);
->>> +
->>> +    struct dma_buf *(*allocate_read_file)(struct dma_heap *heap,
->>> +                          struct dma_heap_file *heap_file,
->>> +                          u32 fd_flags,
->>> +                          u64 heap_flags);
->>>   };
->>>     /**
->>> @@ -65,4 +75,49 @@ const char *dma_heap_get_name(struct dma_heap 
->>> *heap);
->>>    */
->>>   struct dma_heap *dma_heap_add(const struct dma_heap_export_info 
->>> *exp_info);
->>>   +/**
->>> + * dma_heap_destroy_file_read - waits for a file read to complete 
->>> then destroy it
->>> + * Returns: true if the file read failed, false otherwise
->>> + */
->>> +bool dma_heap_destroy_file_read(struct dma_heap_file_task 
->>> *heap_ftask);
->>> +
->>> +/**
->>> + * dma_heap_wait_for_file_read - waits for a file read to complete
->>> + * Returns: true if the file read failed, false otherwise
->>> + */
->>> +bool dma_heap_wait_for_file_read(struct dma_heap_file_task 
->>> *heap_ftask);
->>> +
->>> +/**
->>> + * dma_heap_alloc_file_read - Declare a task to read file when 
->>> allocate pages.
->>> + * @heap_file:        target file to read
->>> + *
->>> + * Return NULL if failed, otherwise return a struct pointer.
->>> + */
->>> +struct dma_heap_file_task *
->>> +dma_heap_declare_file_read(struct dma_heap_file *heap_file);
->>> +
->>> +/**
->>> + * dma_heap_prepare_file_read - cache each allocated page until we 
->>> meet this batch.
->>> + * @heap_ftask:        prepared and need to commit's work.
->>> + * @page:        current allocated page. don't care which order.
->>> + *
->>> + * Returns true if reach to batch, false so go on prepare.
->>> + */
->>> +bool dma_heap_prepare_file_read(struct dma_heap_file_task *heap_ftask,
->>> +                struct page *page);
->>> +
->>> +/**
->>> + * dma_heap_commit_file_read -  prepare collect enough memory, 
->>> going to trigger IO
->>> + * @heap_ftask:            info that current IO needs
->>> + *
->>> + * This commit will also check if reach to tail read.
->>> + * For direct I/O submissions, it is necessary to pay attention to 
->>> file reads
->>> + * that are not page-aligned. For the unaligned portion of the 
->>> read, buffer IO
->>> + * needs to be triggered.
->>> + * Returns:
->>> + *   0 if all right, -errno if something wrong
->>> + */
->>> +int dma_heap_submit_file_read(struct dma_heap_file_task *heap_ftask);
->>> +size_t dma_heap_file_size(struct dma_heap_file *heap_file);
->>> +
->>>   #endif /* _DMA_HEAPS_H */
->>> diff --git a/include/uapi/linux/dma-heap.h 
->>> b/include/uapi/linux/dma-heap.h
->>> index a4cf716a49fa..8c20e8b74eed 100644
->>> --- a/include/uapi/linux/dma-heap.h
->>> +++ b/include/uapi/linux/dma-heap.h
->>> @@ -39,6 +39,27 @@ struct dma_heap_allocation_data {
->>>       __u64 heap_flags;
->>>   };
->>>   +/**
->>> + * struct dma_heap_allocation_file_data - metadata passed from 
->>> userspace for
->>> + *                                      allocations and read file
->>> + * @fd:            will be populated with a fd which provides the
->>> + *            handle to the allocated dma-buf
->>> + * @file_fd:        file descriptor to read from(suggested to use 
->>> O_DIRECT open file)
->>> + * @batch:        how many memory alloced then file read(bytes), 
->>> default 128MB
->>> + *            will auto aligned to PAGE_SIZE
->>> + * @fd_flags:        file descriptor flags used when allocating
->>> + * @heap_flags:        flags passed to heap
->>> + *
->>> + * Provided by userspace as an argument to the ioctl
->>> + */
->>> +struct dma_heap_allocation_file_data {
->>> +    __u32 fd;
->>> +    __u32 file_fd;
->>> +    __u32 batch;
->>> +    __u32 fd_flags;
->>> +    __u64 heap_flags;
->>> +};
->>> +
->>>   #define DMA_HEAP_IOC_MAGIC        'H'
->>>     /**
->>> @@ -50,4 +71,15 @@ struct dma_heap_allocation_data {
->>>   #define DMA_HEAP_IOCTL_ALLOC    _IOWR(DMA_HEAP_IOC_MAGIC, 0x0,\
->>>                         struct dma_heap_allocation_data)
->>>   +/**
->>> + * DOC: DMA_HEAP_IOCTL_ALLOC_AND_READ - allocate memory from pool 
->>> and both
->>> + *                    read file when allocate memory.
->>> + *
->>> + * Takes a dma_heap_allocation_file_data struct and returns it with 
->>> the fd field
->>> + * populated with the dmabuf handle of the allocation. When return, 
->>> the dma-buf
->>> + * content is read from file.
->>> + */
->>> +#define DMA_HEAP_IOCTL_ALLOC_AND_READ \
->>> +    _IOWR(DMA_HEAP_IOC_MAGIC, 0x1, struct 
->>> dma_heap_allocation_file_data)
->>> +
->>>   #endif /* _UAPI_LINUX_DMABUF_POOL_H */
+>>> +    usleep_range(delay_us * 2, delay_us * 3);
 >>
+>> Would it make sense to have power_off have the same logic? We do a 
+>> usleep_range of those same values currently, so keeping them in sync 
+>> seems to make sense to me.
+> 
+> I have no evidence to suggest there's a problem on the shutdown path, 
+> that's why I left the quiescence period as-is there.
+> 
+>> Also, I'm wondering if it isn't an issue with the gpio not being high 
+>> right after gpoiod_set_value_cansleep() returns, i.e. the time it 
+>> actually takes for the HW to reach the IO level that means "high" for 
+>> the camera. And that this increased sleep is just a way to mitigate that?
+> 
+> No, that's not what I found.
+> 
+> I tried changing
+> 
+>          usleep_range(2000, 2200);
+> 
+> to
+>          usleep_range(200000, 220000);
+> 
+> but could still elicit the I2C transaction failure. If the time it took 
+> for the GPIO to hit logical 1 were the issue then multiplying the reset 
+> time by 100 would certainly account for that.
+> 
+> // BOD set the chip into reset
+>          gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
+> 
+> // BOD apply power
+>          ret = regulator_bulk_enable(OV5675_NUM_SUPPLIES, 
+> ov5675->supplies);
+>          if (ret) {
+>                  clk_disable_unprepare(ov5675->xvclk);
+>                  return ret;
+>          }
+> 
+>          /* Reset pulse should be at least 2ms and reset gpio released 
+> only once
+>           * regulators are stable.
+>           */
+> 
+> // BOD spec specifies 2 milliseconds here not a count of XVCLKs
+>          usleep_range(2000, 2200);
+> 
+>          gpiod_set_value_cansleep(ov5675->reset_gpio, 0);
+> 
 
+I meant to say this gpiod_set_value_cansleep(), which is logical LOW and 
+not HIGH, brain not braining today sorry. But the question remains the same.
+
+> // BOD spec calls for a _minimum_ of 8192 XVCLK cycles before I2C
+>          /* 8192 xvclk cycles prior to the first SCCB transation */
+>          usleep_range(delay_us, delay_us * 2);
+> 
+> The issue is initiating an I2C transaction too early _after_ reset 
+> completion not the duration of that reset.
+> 
+> As I stated in the cover letter, I tried a longer reset duration, a 
+> higher drive-strength on the GPIO as well as I didn't put in my cover 
+> letter, inverting the logic of the GPIO reset, which unsurprisingly 
+> didn't work.
+> 
+> No matter how long we hold the chip in reset, unless we give more grace 
+> time _subsequent_ to the reset before initiating an I2C transaction, we 
+> will encounter transaction failures.
+> 
+> This is a fairly common and logical fault if you think about it.
+> 
+> XVCLK is providing a clock to the ov5675 core to "do stuff" whatever 
+> that stuff is. Bring up an internal firmware, lock a fundamental PLL - 
+> whatever.
+> 
+> If we start an I2C transaction before the hypothetical internal core has 
+> booted up then - meh no bueno we'll get no transaction response.
+> 
+> That's the error - speaking too soon.
+> 
+
+Yeah, that's what I meant sorry.
+
+> A little like myself in the mornings, cranky before I've had my coffee 
+> and unresponsive.
+> 
+> ;)
+> 
+>> With this patch we essentially postpone the power_on by another 430ms 
+>> making it almost a full second before we can start using the camera. 
+>> That's quite a lot I think? We don't have a usecase right now that 
+>> requires this to be blazing fast (and we anyway would need at the very 
+>> least 430ms), so take this remark as what it is, a remark.
+> 
+> Not a full second, a millisecond.
+> 
+> 8/10ths of 1 millisecond instead of 4/10ths of one millisecond.
+> 
+> 19.2MHz is 52.083333333333 nanoseconds per clock
+> 
+> 52.083333333333 * 8192 => 426666 nanoseconds => 0.426666 milliseconds or 
+> 426.6 microseconds
+> 
+> So our post reset quiesence minimum @ 19.2MHz moves from 426.6 
+> microseconds to 853.
+> 
+>> The change looks fine to me even though it feels like a band-aid patch.
+> 
+> I mean it's not a second - if you feel very strongly that 426 
+> milliseconds * 2 is wrong, I guess I could add some more complex logic 
+> however I like this simple fix for backporting.
+> 
+
+Somehow I read microsecond, translated this to ms and then translated it 
+again to millisecond. Don't ask :)
+
+So, maybe this is all too complex for something that could be as simple 
+as 8192 XVCLK cycles for 6MHz as Dave suggested I believe. And have some 
+wiggle room added in case we ever support 6MHz and it has the same issue 
+as you encountered with 19.2MHz (or whatever was that rate you were 
+running the camera at). 1/6MHz * 8192 * 2 ~= 2.7ms if I'm not mistaken. 
+So maybe go with that with a comment just above to justify why we are 
+doing this with hardcoded values?
+
+But ok, almost meaningless time increase in the grand scheme of things, 
+so fine with me :)
+
+Cheers,
+Quentin
 
