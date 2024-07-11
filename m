@@ -1,237 +1,261 @@
-Return-Path: <linux-media+bounces-14937-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14938-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30DB92EE6D
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 20:10:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C787A92EEFC
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 20:35:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D13E2848D7
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 18:10:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D31F2822BA
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 18:35:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E293A16F904;
-	Thu, 11 Jul 2024 18:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBC5C16EB44;
+	Thu, 11 Jul 2024 18:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Kcv5hf2X"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aLqSaHR2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2071.outbound.protection.outlook.com [40.107.100.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3529116F8E0
-	for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 18:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720721181; cv=none; b=G9O1q4Hhsh5SXK/KQb4pbo4RJJCZjeuVBgPfbnCnU1pzcK+U4cDdTsYlqJZcux0cMVdw9P7aVlOjTtWQEFR3Fragg5oxycI7X2/R08LJWrlN/xJRD1rydTktMrxbhLvEegRTTsyK2cfImS09aGMvjv16ADVg1SsZwaulq2dl+xA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720721181; c=relaxed/simple;
-	bh=gFG7bWWKXvaRsOu0x+oSTssCyfH2PUKSwfOd/c3z4As=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sVVnjLbsJIGfA+fBTpvaXajgsQZdMxZ0qOtj9H7D4kRRVxKr0mnJHZfmvmSuJJXX1ma+6456U0T49iAC3nchbk+fs1N4VFKXtkZQFN1neSC5Y9HsiL/IhIKYgDZ6rl9qs5XT6xPbXLlQongFqqfjaCDE65GoJXJUeNMnTMbTF3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Kcv5hf2X; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dfdb6122992so1119991276.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 11:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1720721177; x=1721325977; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lXKEOscG0VMMrtZere3+7d0XI5uCYwTcT+IzK28hY6E=;
-        b=Kcv5hf2XNEUPeQhoS/brUVI8+CO+lbl8SrU+z1dQqqJN9YhAlfR51aCDMZwdSKHnbh
-         4KuwH+yjhcorCAslbqSKHlY6Ru7/tHao6ztVsGZu/Ws6bIVyMGG0kGY8OKPYg08YCtcH
-         LZqSne/N4mzvoVQj6CYNVOcJVhNyBAKlbl/xv3MtZy8aRWW68Ud4ZDOddYozOIn4Edju
-         1IsQ06YYX/A/FdIOY0Z2HQvEugy5YOVuSgHUt8z3yl44lopguDrCI3detqwkRadIkt+w
-         fjHFEBgKbbkSsEfpiTRqrQijUMtzRyzXa2BMS3FSgGrPY/KQhOfUk0+4qGzstVuu8mtS
-         VHAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720721177; x=1721325977;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lXKEOscG0VMMrtZere3+7d0XI5uCYwTcT+IzK28hY6E=;
-        b=vG/RLJe7DWAVzv5IMsIKejifTnM/7E/c6Mnd7MX0db0UlkPAGLmc2AAV/G5IpwOVyl
-         g8MametzCAfA+XtfN3cQMXW5dAMDNFjx0WS2Np68R0vIKQaF6O/3QONDUTJrNUx4rL6M
-         C3RWLzNP2b0kfNK22kgyUyLtaU3kxmuCA4+71TQJXeC/uH5f5MqBBMPG4EMB/pQH7dyL
-         kxjUqvEd2xGL0tF5ygpCVPBgcnL4cK4Shr+wOkPPuODglME5Mrsbb0fL1RDPi8AdWPHz
-         rsjTJwh9sL+tMshLUcQIN91CmxH77c6L3jVL4dEJDoajUrlSUezYEMdkhoCBQ1XXPObj
-         s+tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzBZkO6Rko6bp5iOYYhEs/YhUR/O7fU1TQSolAc1pidLFQcSU9NJqNJCG/mI32s8Sv6/Ryi+/aRqeyZd/nNmL+FxacHQivtKDvf6o=
-X-Gm-Message-State: AOJu0YxXaX9crXRHRgK45YuqR00+lblydpjhNg0optMKhDwe2pTqLQ03
-	xIxO65Yhk/G2dsUc8eGFUPOJxSiD9+sCkXDwSBBZinXG9OkIeCxWLrSviOwIXOZUl9QKYcQAlB/
-	NOWgIYboecqS5f52mN5fxNOeC5x6o38s5zTvumA==
-X-Google-Smtp-Source: AGHT+IH33Is+IrdBeix0CoCErKBf5qaiFmD2OHGWO9zmXp9sy2jVTULmnXu3TuSgmYQoSvGvVvSHRcW/E5pEohIaEhY=
-X-Received: by 2002:a0d:f942:0:b0:647:7782:421a with SMTP id
- 00721157ae682-658f0dc5e12mr96986787b3.45.1720721177082; Thu, 11 Jul 2024
- 11:06:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F4554657;
+	Thu, 11 Jul 2024 18:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720722935; cv=fail; b=k/8KdOeGmBPWm8TMONUaheeBmR3QqcpbyP1FTlk5TzT1CE3Q2B35V0Pq3OP3C/bCHlJiOAITlx/gJHWplB9du3qCcUSKi9kwLBqaNUwZu1K3M504+YxjXKCZ+OgjVwq8vIMnx9mBYi2lCorlKWtLBL3raeH2BeD8P9P1A1KiFfc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720722935; c=relaxed/simple;
+	bh=xmcNSETvlB6lMnYHfj3R5xKZoxYPzefEjbDtx41k4bM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CsbgIvHp6Ga230nGEOmzSBi3EFN11aG4IbtCYvH8n8zxfZo5x+880kPffl1b5JIu59qtJnVv4sRMpCoV9OWZDIhoTaOgblKRMgqsXryQnr2KrEepdTWWIzymUOOd+1oHg0OVmlyHHgMiyTdZNDx32DsON6w8PXMOU9EqYHLBibE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aLqSaHR2; arc=fail smtp.client-ip=40.107.100.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FRRUOAvbTn8BqgGCrXFYPnyXa5uDo/xoijx961R10y4aberRmNIv9Gze9BDpJ4ojOS6ZfwOgZn4SwzY+B6Ki5+91Xox7SzxSG4Onu3VA6zM8AEM+Qtl7kHhZFj0w2Shd2I+31eC0BtjvbnrKBQZgpz5kw+GbGPQPNZD2XsE8HfWCYgpAmogbm+QDALvJtclvuWszMKwsgZe9sy0tO9kvKWTYeVkOqIJcAuULJmoclIgijzAamu5bJHjNSxkUhaeaS2+w/v57R1Ci0EC2OYWGM+h5KQcoKZT0M+7CcIh9jkvATUkOWX40iccJyoS/LGeCJRszRKk/Ce23eqqzf9J++A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/2aTVP5HqZEYukCPHiP+CDzDDZm8/MsCjqfI9zyspRY=;
+ b=zDOie5fllopjwztU8TLzTgYWV+iM0XXJkgUcOL9c29yGzhNyCOI7iW756k3zR+KUou02OomHEdSN2Mule8PZ/JLDJGd8ut3NxKGc0BOGe6rW9EVPTqXYiQ8+S2yMgOuW4RDbm2LqdKlgYyM7Lqar3SN0rqiLX9W4YAT2P5Q4StM5yjVIQADdzte4j722x57Uepp9m0fJsP1YHs+Q8Bxt6XduLH+ZbaLbf9UPW0ux5cTNuFTpWFIY5vPZ3+zZ6peix8BARoQAW4h0gq8/g1Oef7CWMOs2UleqFCG8FneXpidl2zd1lMag4vTQDvhgqEoGhzWlfjKNl7QHxSQGlB9TPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/2aTVP5HqZEYukCPHiP+CDzDDZm8/MsCjqfI9zyspRY=;
+ b=aLqSaHR2qNzbQMrIJex9xjeVXVoGQl2m2pEstSVkK55C6JYA8XIsPhqyDNYQMLLFmfwc9ThRKD/JaZWf7IR5/AiuWIh2xfVonHYm6aqUJiBVHfxLLhfu2jDhFrETa6jvRk+xOgYTPssmbPFug3hoNIg7X+SaWrcV9A13T7gRbdvC3qsvp7s/h/qTDvzK3tgxgiivD9mUBq5e74zUhx/otic0q32SCTS7ypJgLROz0xhl/PY250RYBoalcnyG4/yhwez5XDuf4EZ9jeQgERgi+A+S87MTFJ+qipEZzdUa4Wj4gYo3+W1OITZ9F3hPbkuUXuyfDM12V+7AzT51j87zug==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by SA3PR12MB7997.namprd12.prod.outlook.com (2603:10b6:806:307::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
+ 2024 18:35:28 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07%2]) with mapi id 15.20.7762.016; Thu, 11 Jul 2024
+ 18:35:28 +0000
+Message-ID: <0be43301-9df7-4b7f-9932-b820841712e3@nvidia.com>
+Date: Thu, 11 Jul 2024 11:34:32 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v16 12/13] selftests: add ncdevmem, netcat for
+ devmem TCP
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Stanislav Fomichev <sdf@google.com>
+References: <20240710001749.1388631-1-almasrymina@google.com>
+ <20240710001749.1388631-13-almasrymina@google.com>
+ <4b0479b0-1e0f-43db-8333-26b7a1fd791c@nvidia.com>
+ <CAHS8izOc4gZUP-aS747OVf3uyn8KAyfeBcYDx2CQc-L9RnvrXA@mail.gmail.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <CAHS8izOc4gZUP-aS747OVf3uyn8KAyfeBcYDx2CQc-L9RnvrXA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0175.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::30) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240711-linux-next-ov5675-v2-1-d0ea6ac2e6e9@linaro.org>
-In-Reply-To: <20240711-linux-next-ov5675-v2-1-d0ea6ac2e6e9@linaro.org>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 11 Jul 2024 19:05:59 +0100
-Message-ID: <CAPY8ntBvJFDtUKxQkzmnitCH5+uAijswwHmyvc0O=SKGpUSbjg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: ov5675: Fix power on/off delay timings
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Johan Hovold <johan@kernel.org>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4130:EE_|SA3PR12MB7997:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e110b21-7099-4809-57c6-08dca1d83c9b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RTdoWE9Qdmo2ZWxoZWcrdkxMd1VIWVkwV2JGNnZ0UTVxTFBlR3ZCcnFNMWps?=
+ =?utf-8?B?Mk9XNnZuWCtTRksyUzFuUUJWT0F2bDI0ZTNud2JEa1dNdjN1UENNSlpEL0VJ?=
+ =?utf-8?B?a0sxZ0RucVFIMmtUTFhQekNQSHNTckZtUFNWSjYwN1IySGV1UnVXYkY5NXF4?=
+ =?utf-8?B?eis2Q1J5WStxVDFzQXRJRmNFTHR5M1kwL1owYnIzK095ZUx3SEJrekxJTUpL?=
+ =?utf-8?B?cStTMExqY0RnTnZCQnlySnp2QUdYUVltUHY4WnMrSlRjN25YYW0xanpuOE00?=
+ =?utf-8?B?Ym5tWFFJZUJQbmZIdzZJd2x3TVgxWVJoNGtpeVA0WXFKcU9CYVlnWCtxY1Ay?=
+ =?utf-8?B?c0kxMTBBQ2ErTDZ3UVFkcDFXWVQyRjdjRE9kT0lWUldCd3VyUGx5LzZueTdu?=
+ =?utf-8?B?VHNaaExCU0VleVE3WGtIUkNrSHA2MzNrNWk5NnMzc1l3blowQ212SHpjVE1X?=
+ =?utf-8?B?Q0FkNGZscGlSZXVaT3FPak1wSjZKWnYzNm03dkRjOHA5Yno4MGt6c3VQWGdI?=
+ =?utf-8?B?dkg5bWhzKzVzdkkyMFRleGFEOHVoS2xCN2JlR2VNUEE2YWNvM1JsWXlHdEFG?=
+ =?utf-8?B?UkRYdEltNnM2eE9VR0crYWJObkRIWHNhRjdCQXNGRUJZTGJmd0lWbU1XK3N3?=
+ =?utf-8?B?M2NwSnd2dHlqWThSaGFGMUhkMnd6MlVvb1Y1czZ5UTZOOGk3dE50YjQxTmxa?=
+ =?utf-8?B?SkFJNndicXhoUS8zeDNCVDRGdENMa2dGYkFqUGY1SUpaM2hRTk10S2djNjZy?=
+ =?utf-8?B?ZkdJc3hxT0d3L0hWRHl6a0dtNjdhejNGRVNFMTE4aGFvZ3Q3OW1SOEJPaTRU?=
+ =?utf-8?B?UlR3RE85N3U3Ump1Ui96dERLM2VBam9CNjBwS2pVWVZqMnpJYjdsWUFvVUxD?=
+ =?utf-8?B?TFJaeURPb3ZMUTdUZU1YUnVBZGptT0tJdW1kdE9rTUJPajdEK2t0THVrRjJq?=
+ =?utf-8?B?WDRrbVhZSW1ka2N1cUtDQWw4L2c5ak9pK1A1WFRwZVJRc2xYUVpqcU9aSDMz?=
+ =?utf-8?B?K0Y3ZjVSK3V2ZjBNcXUxa2IxcFRpNVI0bVFNR1hYS0lTZWlmb0ttTkRPakFj?=
+ =?utf-8?B?L0N5Uzl1ZVhDaEJPcHNrT3JFRm1nRmJFS1lPbmE4OEY5aXBuZFZQQzROY3M5?=
+ =?utf-8?B?STAwSW5pT0NtZjRRamJwS2QzUjhCcHI5MnBmS0d0cUNnMi9kOFZlZ3F4akFN?=
+ =?utf-8?B?OGpnMkFJKzdaWmxISkF5dXllTVFNWUtLU3doSUFCalU2bkpPZXRSMDVjbUFp?=
+ =?utf-8?B?YkJkTWF0Q3EvNk9ma1JVQm5jdnluTkFCNGc5SFdLb2k5OEcwb2tYT01FaHZC?=
+ =?utf-8?B?a0NyVVkwR3MycEw0YTNDdzhnTDhxaGJLR0wvSUQwUHY5bUROd2JubjgxU093?=
+ =?utf-8?B?ODVaYnhEOVdhZjRjY3lqSDdQaUVsM1I1M1F2UjgwaGMzZ0NuU0l1VlBKeG02?=
+ =?utf-8?B?TUF4QmJvTi9GQmxzOFFnVXdVbmpFU1lZOXY4Q0VCU1UxVXllZTNkT2FSeTQz?=
+ =?utf-8?B?ZTBNa0Q5bFV6MEpyaFhRaEgzdzFlZ0VFNmd0WVpiUm82RFlQYXM5QTQrV1VS?=
+ =?utf-8?B?SmRDVmc5dFNXbG1xOU9xdlJOYmF6M2tHVHlJdlFGUk1NeTBLM3JkLzhhRWZ4?=
+ =?utf-8?B?Qm0xZUVIaUE1QXlLcFU3RGdqTjFuUjBGMmJoclFzSTBmOE9jNzFxQmpiMGxG?=
+ =?utf-8?B?ZElTUUg1Z0ErK3MyWUkxUnJLcDl6N3N3aDMzR01SZjFkQnoyZ1dMdFdYaVVP?=
+ =?utf-8?B?YXVJcWYvUlVWeG1kcXQwaXVrV3BhMlIvUlRvbXN2OThNKzB0SERGWXp0WWhS?=
+ =?utf-8?Q?6SukEokheH7eSmtNehzvPrabUKcxEPaQlF0dc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZW8zVUppOWkrM0JvQXNvR0xFMG9NRkZZa29hT21oanRRMDJNenBuR1ptcCtD?=
+ =?utf-8?B?TzcxeWhSZGFMeG54aCt4Z1Z3MWd4c1l3ckFSRS95cTRrK1RBYVB0UGRQaGdD?=
+ =?utf-8?B?UlRCZHMyYXJnV3VuVmk2Z0NpN2I0MEtpa1Buak5QeVRnNEU5eURvM3dLYmV6?=
+ =?utf-8?B?Q1VHVExkYmZEb1VEblJLSXlUVzBDMjJYQ25zUWNvaUlwTWRHOXd6WlFzazRk?=
+ =?utf-8?B?VnJtTTJSRkpncGhWOHZjbDM3MHR6VWRkOTJPNkhIYkZ3QlJKeHVCdDJDUlV3?=
+ =?utf-8?B?RVU2Y0M3Tjg1SzNnMmsvT3NodDFEakdBL2lOdkFiQXRzYjRnT1MrcnpjN1kr?=
+ =?utf-8?B?bncxY3VEN0RHaFc0Vm11NnJpdWZ5djQzZnRuMHN6TTZpQ214YjJid3EzR0NQ?=
+ =?utf-8?B?cXY4bjFlS2pVdVdLRURVcmFQNWcwRnk1bUJJTWtPcEFoTVNpZVBsQTZhQ01L?=
+ =?utf-8?B?SjVWbC9iRDNDYW41dEFpMG9DTEFlOUJHK2t3M1hOd0NvWHYxMEhiWDd1WXls?=
+ =?utf-8?B?NjNnWTUyRFd4QldsSjRERStOZHFmVDhScWo5a1Z4cTFzSm1ZZUh3L3krSFNj?=
+ =?utf-8?B?RElETlBQUVRaNDFBanovcmsrTXJUUlBwSU5tZzBSYjZDOUVNSTlDUUh6SHJT?=
+ =?utf-8?B?Ujd0ZUNnazQycERhZ1lHL1QvUmJWQWlpVGhaU1FUclNLbGlkVjFIQTQxZkpl?=
+ =?utf-8?B?UEFQbU1wSkVwRHdNbmJGWk9qMUpsRFdYUE1zTld2K1hNZWdxMExpN0wzOXpK?=
+ =?utf-8?B?QUtJb0FITkw1cmIwRklvVTdhN294Z1I0RnVWYTJOcVdZZmxWeGI3WldFUXFk?=
+ =?utf-8?B?dmlTRFlvbUFZZFI4eGl4bHByclBCdkZ2Q0RabUR3dTR6clpHblBUWFFlb0Fl?=
+ =?utf-8?B?SEhBK2YvTGkyTS9OVS9tVzA0MzJ4amlUMUlVR3lIclA5cWs4WlRhKzlPcGV4?=
+ =?utf-8?B?U1NjbVVRc0tCWUdPcjlldVV3V09wNG9NT05EaTFmeEsxTGFMbjBkZjFpaU91?=
+ =?utf-8?B?bjZXTjJSK3FWUCs1Ny8xcVR2N2NXeFlzUUdPUHNYZm0xcDVYZSt2MG9scUZ2?=
+ =?utf-8?B?dDdYeEp1TXZjNVpoTk0zeVFtbmx2V09yNnoxMDZHeml5cDllNGlTTmFDalR6?=
+ =?utf-8?B?SStBTEtia1VORVROTk43Y1pSSFhPM2ZJaDNNdUpOSUs2TmFZMVJDSGRIdmZB?=
+ =?utf-8?B?OHlOTzZXZEFMMWs5TWJhb3ZwOUtDdHRIN3JxaXZYUmh6RHNDRGZWNU9LdGxF?=
+ =?utf-8?B?U1B4dUpxL2EvdUEzWDVGY3FSM00vanZLNEczM2creTY5U1IvMFdaeGcwMERs?=
+ =?utf-8?B?ZHZQRTVIblNGOHRhbjQ3VmVVNHZNa1FzY0dSVWs2dklWZTJIbFRZZ0RCbDh5?=
+ =?utf-8?B?Wmw4QWxvSEZkM1ZuQ0xjeHNidmZEdXJ4VUdPYVIxN3U3NXNqai9pTUtkRTFr?=
+ =?utf-8?B?bHZaZlVHSTRna3lRMWFxb3FIRUdIRFZZYWYvWU1qRUZnbGRTdlRwaUcwRFYz?=
+ =?utf-8?B?Vno1RklBcmhPSDVOSDViVDJveXI3YWJxVlhCcFdGa1gwemhrK2Ryb1pYR1gy?=
+ =?utf-8?B?dHNEa1F0Yzk2eVNSOFJFK3NqcnYycDliQlAzZ1N1a21YdWY1UjRJK1Rwc0xo?=
+ =?utf-8?B?U21SMmh2VzJUOHY5NDdSWElCUVpCRFN0NG02cUlZR2VOZGpFN0NBMHNyTUF4?=
+ =?utf-8?B?bDhWaTBsYjVzY2dVbGFNNjd0Y0NzWmFXc3dEZG53OWdTMlhjMVY1UW5IbWp6?=
+ =?utf-8?B?TnJPdHM5U0lzTTh3ckRCNFlCZ0RDVE5wR2pGWDBwUnBZMG1VNUxtcWNjcVRn?=
+ =?utf-8?B?NWlhUUxNOHdBR2Z2c016bGoxd0xrTmdERmxtY0RBNVhISFhUNm1WcTcwOFZy?=
+ =?utf-8?B?MFBDamE2L1h3YVA0VnY5UU5lN2lFc3hyYjVKMkMrV3ZWQkhtS0JGdVJ5d2tU?=
+ =?utf-8?B?Q1hZVXlNanAzcDlrTm9PSVhBaFE1WStHS29yNmgvMWduYnZUYWxKK1FsKzVZ?=
+ =?utf-8?B?OXY0MzNWRDlMRGRwZlk4aGhMLzJtR0dOMFpDZytvM295V1I4eHBQcVVKUmlq?=
+ =?utf-8?B?TVJXQjQwWTJwRWJFVFV0Z2QyMUtFK1ZEaGIvN1RJVStvSlNCakl2Y0pNVGxw?=
+ =?utf-8?B?TkU3R1l5NUxScTRaWXBVTEtiTUp2VEFYOWNKV1gwRUpWMGdiMUcyMGNWeTRI?=
+ =?utf-8?B?SkE9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e110b21-7099-4809-57c6-08dca1d83c9b
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 18:35:28.2807
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JS5zr7wGl/ysgVSy/CiOlTb7Eh7xhql/9CYf3kYn11Kb7lF0YjuEZyCoAVA/yghpzJ6u/V34ovDSe41lB/5ijg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7997
 
-Hi Bryan
+On 7/11/24 8:28 AM, Mina Almasry wrote:
+> On Wed, Jul 10, 2024 at 5:44 PM John Hubbard <jhubbard@nvidia.com> wrote:
+>>
+>> On 7/9/24 5:17 PM, Mina Almasry wrote:
+>> ...
+>>> diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
+>>> index bc3925200637c..39420a6e86b7f 100644
+>>> --- a/tools/testing/selftests/net/Makefile
+>>> +++ b/tools/testing/selftests/net/Makefile
+>>> @@ -95,6 +95,11 @@ TEST_PROGS += fq_band_pktlimit.sh
+>>>    TEST_PROGS += vlan_hw_filter.sh
+>>>    TEST_PROGS += bpf_offload.py
+>>>
+>>> +# YNL files, must be before "include ..lib.mk"
+>>> +EXTRA_CLEAN += $(OUTPUT)/libynl.a
+>>> +YNL_GEN_FILES := ncdevmem
+>>> +TEST_GEN_FILES += $(YNL_GEN_FILES)
+>>> +
+>>>    TEST_FILES := settings
+>>>    TEST_FILES += in_netns.sh lib.sh net_helper.sh setup_loopback.sh setup_veth.sh
+>>>
+>>> @@ -104,6 +109,10 @@ TEST_INCLUDES := forwarding/lib.sh
+>>>
+>>>    include ../lib.mk
+>>>
+>>> +# YNL build
+>>> +YNL_GENS := netdev
+>>> +include ynl.mk
+>>
+>> This seems to be missing a rule to generate ynl.mk, right?
+>>
+> 
+> Hi John,
+> 
+> tools/testing/selftests/net/ynl.mk was merged as part of this patch a
+> few days ago:
+> 
+> https://patchwork.kernel.org/project/netdevbpf/patch/20240628003253.1694510-14-almasrymina@google.com/
+> 
+> Is it not working for you by any chance?
+> 
 
-On Thu, 11 Jul 2024 at 15:38, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> The ov5675 specification says that the gap between XSHUTDN deassert and the
-> first I2C transaction should be a minimum of 8192 XVCLK cycles.
->
-> Right now we use a usleep_rage() that gives a sleep time of between about
-> 430 and 860 microseconds.
->
-> On the Lenovo X13s we have observed that in about 1/20 cases the current
-> timing is too tight and we start transacting before the ov5675's reset
-> cycle completes, leading to I2C bus transaction failures.
->
-> The reset racing is sometimes triggered at initial chip probe but, more
-> usually on a subsequent power-off/power-on cycle e.g.
->
-> [   71.451662] ov5675 24-0010: failed to write reg 0x0103. error = -5
-> [   71.451686] ov5675 24-0010: failed to set plls
->
-> The current quiescence period we have is too tight. Instead of expressing
-> the post reset delay in terms of the current XVCLK this patch converts the
-> power-on and power-off delays to the maximum theoretical delay @ 6 MHz with
-> an additional buffer.
->
-> 1.365 milliseconds on the power-on path is 1.5 milliseconds with grace.
-> 853 microseconds on the power-off path is 900 microseconds with grace.
+Aha, I'm just not using the right tree, then. Thanks for clearing that up.
 
-I think you've got the decimal point in the wrong place for power off.
+I was attempting this against mainline Linux, just for a quick look at the
+selftests part, and that Doesn't Work. :)
 
-The comment you've removed in the power off path says
-/* 512 xvclk cycles after the last SCCB transation or MIPI frame end */
+thanks,
+-- 
+John Hubbard
+NVIDIA
 
-512 clocks at 6MHz I make 85.3usecs.
-
-I'm happy to be corrected if I've blundered on my maths though.
-
-  Dave
-
->
-> Fixes: 49d9ad719e89 ("media: ov5675: add device-tree support and support runtime PM")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
-> v2:
-> - Drop patch to read and act on reported XVCLK
-> - Use worst-case timings + a reasonable grace period in-lieu of previous
->   xvclk calculations on power-on and power-off.
-> - Link to v1: https://lore.kernel.org/r/20240711-linux-next-ov5675-v1-0-69e9b6c62c16@linaro.org
->
-> v1:
-> One long running saga for me on the Lenovo X13s is the occasional failure
-> to either probe or subsequently bring-up the ov5675 main RGB sensor on the
-> laptop.
->
-> Initially I suspected the PMIC for this part as the PMIC is using a new
-> interface on an I2C bus instead of an SPMI bus. In particular I thought
-> perhaps the I2C write to PMIC had completed but the regulator output hadn't
-> become stable from the perspective of the SoC. This however doesn't appear
-> to be the case - I can introduce a delay of milliseconds on the PMIC path
-> without resolving the sensor reset problem.
->
-> Secondly I thought about reset pin polarity or drive-strength but, again
-> playing about with both didn't yield decent results.
->
-> I also played with the duration of reset to no avail.
->
-> The error manifested as an I2C write timeout to the sensor which indicated
-> that the chip likely hadn't come out reset. An intermittent fault appearing
-> in perhaps 1/10 or 1/20 reset cycles.
->
-> Looking at the expression of the reset we see that there is a minimum time
-> expressed in XVCLK cycles between reset completion and first I2C
-> transaction to the sensor. The specification calls out the minimum delay @
-> 8192 XVCLK cycles and the ov5675 driver meets that timing almost exactly.
->
-> A little too exactly - testing finally showed that we were too racy with
-> respect to the minimum quiescence between reset completion and first
-> command to the chip.
->
-> Fixing this error I choose to base the fix again on the number of clocks
-> but to also support any clock rate the chip could support by moving away
-> from a define to reading and using the XVCLK.
->
-> True enough only 19.2 MHz is currently supported but for the hypothetical
-> case where some other frequency is supported in the future, I wanted the
-> fix introduced in this series to still hold.
->
-> Hence this series:
->
-> 1. Allows for any clock rate to be used in the valid range for the reset.
-> 2. Elongates the post-reset period based on clock cycles which can now
-> vary.
->
-> Patch #2 can still be backported to stable irrespective of patch #1.
-> ---
->  drivers/media/i2c/ov5675.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-> index 3641911bc73f..547d6fab816a 100644
-> --- a/drivers/media/i2c/ov5675.c
-> +++ b/drivers/media/i2c/ov5675.c
-> @@ -972,12 +972,10 @@ static int ov5675_set_stream(struct v4l2_subdev *sd, int enable)
->
->  static int ov5675_power_off(struct device *dev)
->  {
-> -       /* 512 xvclk cycles after the last SCCB transation or MIPI frame end */
-> -       u32 delay_us = DIV_ROUND_UP(512, OV5675_XVCLK_19_2 / 1000 / 1000);
->         struct v4l2_subdev *sd = dev_get_drvdata(dev);
->         struct ov5675 *ov5675 = to_ov5675(sd);
->
-> -       usleep_range(delay_us, delay_us * 2);
-> +       usleep_range(900, 1000);
->
->         clk_disable_unprepare(ov5675->xvclk);
->         gpiod_set_value_cansleep(ov5675->reset_gpio, 1);
-> @@ -988,7 +986,6 @@ static int ov5675_power_off(struct device *dev)
->
->  static int ov5675_power_on(struct device *dev)
->  {
-> -       u32 delay_us = DIV_ROUND_UP(8192, OV5675_XVCLK_19_2 / 1000 / 1000);
->         struct v4l2_subdev *sd = dev_get_drvdata(dev);
->         struct ov5675 *ov5675 = to_ov5675(sd);
->         int ret;
-> @@ -1014,8 +1011,11 @@ static int ov5675_power_on(struct device *dev)
->
->         gpiod_set_value_cansleep(ov5675->reset_gpio, 0);
->
-> -       /* 8192 xvclk cycles prior to the first SCCB transation */
-> -       usleep_range(delay_us, delay_us * 2);
-> +       /* Worst case quiesence gap is 1.365 milliseconds @ 6MHz XVCLK
-> +        * Add an additional threshold grace period to ensure reset
-> +        * completion before initiating our first I2C transaction.
-> +        */
-> +       usleep_range(1500, 1600);
->
->         return 0;
->  }
->
-> ---
-> base-commit: 523b23f0bee3014a7a752c9bb9f5c54f0eddae88
-> change-id: 20240710-linux-next-ov5675-60b0e83c73f1
->
-> Best regards,
-> --
-> Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->
->
 
