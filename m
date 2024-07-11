@@ -1,369 +1,351 @@
-Return-Path: <linux-media+bounces-14931-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14932-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D177992E989
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 15:30:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF0092EAB4
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 16:26:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0201A1C22A40
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 13:30:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 809451F23169
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 14:26:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD0015F404;
-	Thu, 11 Jul 2024 13:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3DFF166319;
+	Thu, 11 Jul 2024 14:26:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BW2Gixus"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sKjanpUR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2084.outbound.protection.outlook.com [40.107.244.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A8E155740;
-	Thu, 11 Jul 2024 13:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720704629; cv=none; b=etXaPEzDJLhYVPQWNaEJ/fILJyeiNxob3Qsdqcj+ZGQiP2UdjkwIzBW+XYnRGT6uxV8nOm3DVJDyRjSVndvMoGkqcxj5YsjkrznAe/tws8Oxs/ikjEd0Clz/5sraNwagPjZYubIHMV4c6UUHPejMWLlUoo3n8oS9TF/axF2AEHk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720704629; c=relaxed/simple;
-	bh=zBXnTupX6agqwu5I9JJwoTmnjOAq7HGv/adp9P0UmDU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=jKZFyScI3nhsJRsREvlZk5F7kex9PBl1dsvBJtBk44lFqWzyXQZH79b0dUlSuYET9vgdQFAKbdoUeToDvLOvhW4Hl7eusbGSfgRY6S08S7gfmgC2Dhag+PPoeknQ4nLMcYC1qoez7Vk5sbxn46T/HkblWYYJePFMSXOKyTYrL3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BW2Gixus; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46B4mjOs014557;
-	Thu, 11 Jul 2024 13:30:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Nn0IROJi4/TTuRWprP42UxnXjxXaTcfE4/Beqv+jUxU=; b=BW2Gixuse4A5NyLi
-	L6j9WqnWwLdxnFaJRWT9IRjE+pRQRuLiA1diOYrwOfx4yeziYEZgPb7FHFbPPYhE
-	6FDJpNfkxjdcRNbZGjRw9n3yAc5xnfMInIC2INkXfSSnLyLgD4+37/jIJGtjpuhl
-	mREDPqNUm1L9NQUa2hfdendUqIbDdr6o2HoGedcl/DlxXGEPVTUDmtfd8A9x9fJc
-	S5hFgElbS79tB10Au6+QKWlbXr+ZuXi2rRN4ZNOvcxwLG5VuWoyGU+D3tQF0zWzQ
-	20Qeg8o5mzua2P4VSDmMHTQrts7VnKQziKaDFXv3Y3WmU9tqvsbM+49uRUPrvgnm
-	ZwI1ww==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 409kdtmakw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jul 2024 13:30:03 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46BDU16d014095
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jul 2024 13:30:01 GMT
-Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Jul
- 2024 06:29:55 -0700
-Message-ID: <b73f1117-580b-46cf-8c56-9e78974b6e45@quicinc.com>
-Date: Thu, 11 Jul 2024 21:29:53 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0753115AD99;
+	Thu, 11 Jul 2024 14:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720707974; cv=fail; b=Dd9XiQzVVR1s/3MwTbW2N6wDZ1GKnz9nMFeSznoY634MkOQJLoOu1QxwE3kEXmWMCRg1BE2F3fN4Fy6IanGddNLQYzqBR70MHTLeU4NXi/jE3RlDeXPnnNnCc8tKJn+a2waEVsyBYgPl/uhOqdImyKWmur7EYKzvkmOe4/k2d/U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720707974; c=relaxed/simple;
+	bh=dy6MeuoBnZlgWZz8fKiZq7J+Lr3vxbxFj46e4I3SQRI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=IlLYcnuxiy5Fp1iRQQPhTchIvW+hohJilm/SlVPiDTFYpvXWVLYuIrXDEV+ZjFSQybRzbZuwRMOQbgoZmxZkRIEIG4achp5OqEU371cedA/bIF6dyN/p3kxFm14U58aJEIwHKcO6NPSQE3wJPPE/kecPtbMbvvvlWBdCWLGcfjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sKjanpUR; arc=fail smtp.client-ip=40.107.244.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HYs/EY74wVmW8rgXwlaV8gN1dDs4USHriMKORHVebu346rulPKT7cBcs9K7VRUHrN0AcYDpCkdpcLZYO4MlGraW1+WfX4PaouwUDK9yzcdHA4rk6ofyj3MKfuZxH/wRI9FaNLffU/4R8UlCBsLxF4Zya965zfeVfCcKsY2NsC+kpS7AxieGTpKix4uow9ErQMgjpmNbElzO/N8BENgXchgM/Lob59hds+46pk5hofVqTAVJ3b3WaIeBXtBUDn0xfyh0WaSXdRDbuv4nyWGrj+w108aGkeO9rSGH2GhD2fRlYTqtfDdTsrLboFYs0ZVNlLkcceLq7/CGew8+scFdC9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wrVg6JN1rAI05l1tlksbH/6OV5Rn44XwFKcJMyLxl64=;
+ b=U+hVTt5xhHRwgWXqMtVtRGqoWxLPQSVFDOpBhi9lgxD6A7EwbFXm6TU+33SJJxoEL1X8YXzOzqn+Tvku2chp6bQ/E+gVCF70cAkbpX81pdBMUKgfcG+h9w8vAHYedB5przs4x2NVeDX1ewtWr4Flto6Lrq2uhkFL4AkgWEFDXHzekLWWwvtBTdWAZKXi6YLE3uh5ye2xirSLw8NjUk/5srCL2j0qUebPyMWzpEcSWQb/nnoLFAMFqrUHH+i+JDKrTjyDOj0+amnxKt9jSJz7+FlUXyAMxsw7ILUz//FVC/rXvXQdMQrxx49fq1a+gzhDfBXIlpUwZdA4jLPeUnl1ng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wrVg6JN1rAI05l1tlksbH/6OV5Rn44XwFKcJMyLxl64=;
+ b=sKjanpURwhteP5ZH4uY86CUI4repa1P8M/dR5bLjxKy36VHuFxJJPUnEPsTagwQGogwNJw2dEDeIaRi93KEWwB4eSi3v8BqjUpo8B7FDQmyU1kge3RSTn8pyDFusy3zRHw5ncb3Z+X9qcsXxL0soa5JKB2oKRLfRjcJjA65J1hc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS0PR12MB8525.namprd12.prod.outlook.com (2603:10b6:8:159::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.35; Thu, 11 Jul
+ 2024 14:26:09 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7762.020; Thu, 11 Jul 2024
+ 14:26:09 +0000
+Message-ID: <63237086-223f-44fb-90a0-076a5f56dfdc@amd.com>
+Date: Thu, 11 Jul 2024 16:25:59 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Support direct I/O read and write for memory
+ allocated by dmabuf
+To: "T.J. Mercier" <tjmercier@google.com>, Lei Liu <liulei.rjpt@vivo.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Andrei Vagin <avagin@google.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, Daniel Vetter <daniel@ffwll.ch>,
+ "Vetter, Daniel" <daniel.vetter@intel.com>, opensource.kernel@vivo.com,
+ quic_sukadev@quicinc.com, quic_cgoldswo@quicinc.com,
+ Akilesh Kailash <akailash@google.com>
+References: <20240710135757.25786-1-liulei.rjpt@vivo.com>
+ <5e5ee5d3-8a57-478a-9ce7-b40cab60b67d@amd.com>
+ <d70cf558-cf34-4909-a33e-58e3a10bbc0c@vivo.com>
+ <0393cf47-3fa2-4e32-8b3d-d5d5bdece298@amd.com>
+ <e8bfe5ed-130a-4f32-a95a-01477cdd98ca@vivo.com>
+ <CABdmKX26f+6m9Gh34Lb+rb2yQB--wSKP3GXRRri6Nxp3Hwxavg@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CABdmKX26f+6m9Gh34Lb+rb2yQB--wSKP3GXRRri6Nxp3Hwxavg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0324.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:eb::14) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/13] media: qcom: camss: Add support for VFE hardware
- version Titan 780
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>
-CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>,
-        Yongsheng Li
-	<quic_yon@quicinc.com>
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-11-quic_depengs@quicinc.com>
- <7bc37232-4502-423b-ada6-e11dc518a0cc@linaro.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <7bc37232-4502-423b-ada6-e11dc518a0cc@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: btU7Q9rlNMgD8LGhQecmJ1c1ihMeO0XG
-X-Proofpoint-GUID: btU7Q9rlNMgD8LGhQecmJ1c1ihMeO0XG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-11_09,2024-07-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
- impostorscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- adultscore=0 suspectscore=0 phishscore=0 bulkscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407110096
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8525:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6afa3e9f-9cab-4dce-1c21-08dca1b56833
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Qm1zVlErbitRa2NxZ05XbTF1T3Y3SFZaM0lZMHgvRVAvNDhYT0FDUm5yNWtH?=
+ =?utf-8?B?UmJ4TjZoYkw2YUo5cEdGZzM4Z00xTnpBSFJxMVhMSklDT3EwM1BxM1BLTThR?=
+ =?utf-8?B?S0l6T0JBV1NPTVBPRzQvWEJWTGRLYXRlM3FIRkRqRmJsdU9tdkUwZ1hTUm13?=
+ =?utf-8?B?VUdkOEJ0eE05cStCRWgwWjg2Q2FHZlF4OSt2THhBR0tIeEVXelp5bllma3Nr?=
+ =?utf-8?B?bUpnUXZVRFJoSEdBRjkzRWdpR0Z0QW41REx1SVVtTXorNDBXaE1hUERhQmhD?=
+ =?utf-8?B?djBXMnNtUXF3WGFySGVhYU4zRi9hdEEwL0tSZlB3U2l4TE9xeTlCMUcwT2Zu?=
+ =?utf-8?B?dStOK0s3US9zSUVHK3RGamQ0a3plc0owKzVFMjNKMmlLYUZSZXlaMjdlVE1p?=
+ =?utf-8?B?MUlVM002NDdkVFFkdnBKS1AzclM5YjZqcktnS0RDRy9CY29CRDI0WlJXQWt4?=
+ =?utf-8?B?bkR4OEdJQ0NTb3JXK2ZwTVhsUkhkcXlCQS8yMlNiZUtOMHRsOFJUUFF4aXZa?=
+ =?utf-8?B?czhPelUxdU8xdnpPVEVFaitVOE01TTlRVEJXNWYvK2xUalkvQmtRcHBEYlgx?=
+ =?utf-8?B?bWc2VFJ2OE12SDNWM0FrNHM1Vm1QRldVT3l4czQyaDFWL2JRNWxzTkFmOFJP?=
+ =?utf-8?B?SHZpMkx0Z2lIZWJYOHJaaHBPMmNIRWZCNGdzcnEvU3p1N01zdG9EcjlsOWNG?=
+ =?utf-8?B?Z2IxTUxDZldzeEZBT0JXa0ZBSWs3MkJvV2pvZTU0WmZrUlV6dUxSOHNOckFx?=
+ =?utf-8?B?dERvb2NPdmFPT29jNTZtWTdmNmZ0Q09sVjhNVGJ0a2N4VFBLM21HRkRwdnhu?=
+ =?utf-8?B?L0FrMGFGWnZWWFBBNFBFMnl2TkJZbmNHLy9SVVRrWkFZcS9pOFRQNjhQZ3Zq?=
+ =?utf-8?B?d0QzME4wNjg3TkRCZUkva3k2djVkZE82eDZyZk1LYUozTDNPM1NLcU5sVloz?=
+ =?utf-8?B?emMyMXJpSVdkL0JJS3FvaDNERjhoNXVXTGVldE5xM1N5MWpOTGt5RUd3YWlm?=
+ =?utf-8?B?OVNYS0NLMVNLaFl2OEFRNUJrWGJNZkhndHVIUTBrOVpNMGxnTWhxek9ubVFV?=
+ =?utf-8?B?NWpIYWw4YzhqU3lpSEMvWW5zVlk5K05uUzVra01aUFdPajZIVmlCaEh0dzBT?=
+ =?utf-8?B?eVZEMkhxYlBWZEk1RUpIMlEzczc4djI2Z1pzcVZ1cVFWWEc3LzlQNGp1SHdF?=
+ =?utf-8?B?ak9ubW1mVnF5TmR6cDNVTHJ6N0p6Z2p3MTVYb3FUYXZOMHZsYWpTM1I0OHJv?=
+ =?utf-8?B?SHRuUzZSbWZDRjVMRmFFYk1LM08yeTRRRkFTTmJ4ZDNBRHRiYUYzOXpXYld4?=
+ =?utf-8?B?dk9HMzlTYW1iS2tORjRqTkdscWN1cTBDNjRnVXc4WGc0bWgzbStPWTY3SkM3?=
+ =?utf-8?B?ZUlKZXMvNXFyZ3hhQU9BRURqUnQrRnZIMVZ3YzlIWWxlZXlGcUM1dEpBb255?=
+ =?utf-8?B?VHg3cXlOZjMreTQwMXgxNFE3azM4cUpSdlkrWmRvSDNHbG5NYSs1UG9PeDcw?=
+ =?utf-8?B?dXozYWdnWEhNbkVvdWNRazM3eTBzdVNnc0Q0L24zaVRLdXo1YVhzQW5EeG1V?=
+ =?utf-8?B?OVFkc01sYTBMRlZIQjRsek9xQjNjM1dMaENodFkyZFVKLzM3S3V2YnlGRGda?=
+ =?utf-8?B?N2d3VGZyTFF2Y1BqeFlkRUdEdjRUMHYzQmVYN08xTzByT0F3bXB1ZE0vUit1?=
+ =?utf-8?B?QmRURkxCSTc1U3BFUWdVT3U5RmZoSHlPNjhhaXVSZUloTHNPOEVWQzkvOUVx?=
+ =?utf-8?B?WG5SWUhCMmpMV3JnMUZtcGhubEJKMWY4cTBvTDIwdWd5NnVIQW01UmtFbDV4?=
+ =?utf-8?B?UTZEenVNSUc5Q1BWcXFXZz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VmJwNFdnT0Mvam5RTE9NMkxWZkpBa2hkbVk5bjZOejNDa2NDazZHWUlUN1RM?=
+ =?utf-8?B?UXRxVlJ1Zll6VlhFVzNXTTNsL2NFQkdrcmJsZkZjbS95b2EyUERKQndpNW1S?=
+ =?utf-8?B?YUttWFFXSGlrT0tFVE5rSkI3d1FWZmwzQlE0eWQ5VWp6V0hMZVVMRWF6L1Bu?=
+ =?utf-8?B?cW8wT3k1UUIxS0Izc1VoWmRmcmtiVXV1Q3RuVFEzOVl4SHJFbHhLd2RtbUNX?=
+ =?utf-8?B?d2x0QTZIODlFbDVqYys2N2oyZysvQnUzditIM0lDS2NPUWVPVzhXUG12bXlo?=
+ =?utf-8?B?TGtKS0lwOThKc2lNSjJPOTVXMndnWG1PRlVSTVRwbVc3YXRFMDZDNkw4cmpv?=
+ =?utf-8?B?Zk91UTZsakZGcmhEbVVVWWNabmF6TktSSGxremlnbEoxM2N6UHhObVl4Rk81?=
+ =?utf-8?B?Ky9XZFBseEVaOHVVelVOQjlSUkszR1lFN1dwS2U1RVZ6MjlLSDZ5T1g4TUg3?=
+ =?utf-8?B?ZDJ3UnU1cFRoWXZkZmVldnF6dnFZcytBYlJsQnNyTEF4bXR3UHJFU2lOUlBI?=
+ =?utf-8?B?OFBtK2ZBMVcxUzJMTVlFRDBvL0gydTk2SFVjWXBpQXgzdkx4dTQzNzJrZDE1?=
+ =?utf-8?B?S1NhNndTRkxLamU2SEpvSytVRHFGQVZTb1ZPSXEwNllnZWZGMUloNHp5emcz?=
+ =?utf-8?B?eHdRWlJNU1Q3a3FPTEt3K1BQS2tPbis5WlpLNk9scWh1d3dyQWQzUEZiSUlC?=
+ =?utf-8?B?cStGekVsNXVEcThCNitTQVpyRzBNZ1dRd1JKeHdSOFZBRUF5Qzg2UzdHT0Q5?=
+ =?utf-8?B?RTVIM1I3cFhqU0lUNFJQRitmeEFnU0ZXa2hncVJDQkpVdm5nYkpoYXl2RlY4?=
+ =?utf-8?B?eXU0Sm43dC81ZFVSUmpaZ1hJN3dWZjA1WXl2eVN5WkhnNjRPOEsySnRaVER6?=
+ =?utf-8?B?REdVRlZWaGlVWXNaQ0Ywa1VYaXAzTlByVmxXamcyM01oVEgrcms1cmRlYTBy?=
+ =?utf-8?B?cGx3bWpuZVBHYUpHL2dEMjdqZ1k1T0FiVEhZZVp5U3RkckVpSDJCeEkxbnBl?=
+ =?utf-8?B?NmowRVRQbEZETkxIbHFVdFVhRGZrcjJqNmRTOGRSN2ZmczE5SHJXZmkyLzZo?=
+ =?utf-8?B?eTMvSWhxU2NNYitOeUpXeDFpOXhqamttKzBYbElaNTc5Y0w5QUxYL3kxanQ2?=
+ =?utf-8?B?aThtdW4veGVHa3RqZWI3MG9DYmxFU0JhM2JOb2hwblBQSHNiZlRIZVBYbE1Y?=
+ =?utf-8?B?Y2tmMU82MmsxT2IyTGgwN2JoMmQvNXJNVWhLWEVpMlFsb2hzdU1NK2ZtMlZH?=
+ =?utf-8?B?NDZIRE9NdmN3bVU5bk5OWFpnVmVramlkU1VWN1Mvd3d4RVFoMXVzdVUxS1pU?=
+ =?utf-8?B?MFpwRW42ZTZWMW56T05LNERXYnZ1RWdwQ1NNUVFMazR5QkF1MFBGZjQ4UXJD?=
+ =?utf-8?B?RlFtWEszSHFjcWMyVG9GZkhWSnNwSjFqRnZoR0w1Y2RBR3BHaXlKRTB1TlpP?=
+ =?utf-8?B?aFowTXZGMzlwMWMxNGZlVjZRNDlhS012Wnh2eEZMc2JFRXVla3lkZFRnUzJk?=
+ =?utf-8?B?YTV4ajkxdGNvUjcvUDhRS1JHNFRRdFkzZ0pSV2UzN2FSREdnMERZdXloajI2?=
+ =?utf-8?B?SkJ3YjM3Kzg4ZThPa3JhaXRGaGhQeGZtWkxDc3p0Ti8zaFhHb2o5T3ZRdEV3?=
+ =?utf-8?B?S1BOeU9TK29Ya1dhQU9iRWNyQ0FmRm9veHoyZ29rSFV3dzB5Vk9kcWlIVTFk?=
+ =?utf-8?B?Q0JicURDQzBDdFpvOEpHdHdhZEhITWJOcmozMjhkWHk1cmcwcGhQTXI5aS9r?=
+ =?utf-8?B?V2ZKb3N6MmhBUUQ0bVB0SWNwNXpSbi9GWnBwUUFVdFdHWjd4c21Yd25ieVNI?=
+ =?utf-8?B?Z0xieXNZV3pBV2svYnlmOGh1blVZSkRwR2poeVBTc1J3TWc2dEVGV0xnM1dy?=
+ =?utf-8?B?MllDUGcwUndoV1pmY3hKTTZTcHJHeTAzeW9mK3crcUhMclVPeEpHb1NJK3ZZ?=
+ =?utf-8?B?Nk02bjVMS25Dc1VGWWt3ZEg2Mkt6eFlBc1F6dmprV0l2MHRML3FQVlorRTVX?=
+ =?utf-8?B?SnBlenFaZ3lVQlNhVmpiZnBOYWY1dk82ZEp1QmUySWF2WXRoMHZMdDhxalZ1?=
+ =?utf-8?B?bVd0eTcrRjdBc2ttK1JTWlROaUJOcjVRU1hNWi9xUTE1U0tHQUhiZjZnNVV6?=
+ =?utf-8?Q?JzYVFHb6MVlalcsCdvxpsGZnU?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6afa3e9f-9cab-4dce-1c21-08dca1b56833
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 14:26:09.2434
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZGHH1HE1d8iFLz8xXvc97vEp9kKRXBe/F1DUZheoADpSnvGnBkoHn295h0sjN2pp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8525
 
-Hi Bryan,
+Am 10.07.24 um 18:34 schrieb T.J. Mercier:
+> On Wed, Jul 10, 2024 at 8:08 AM Lei Liu <liulei.rjpt@vivo.com> wrote:
+>> on 2024/7/10 22:48, Christian König wrote:
+>>> Am 10.07.24 um 16:35 schrieb Lei Liu:
+>>>> on 2024/7/10 22:14, Christian König wrote:
+>>>>> Am 10.07.24 um 15:57 schrieb Lei Liu:
+>>>>>> Use vm_insert_page to establish a mapping for the memory allocated
+>>>>>> by dmabuf, thus supporting direct I/O read and write; and fix the
+>>>>>> issue of incorrect memory statistics after mapping dmabuf memory.
+>>>>> Well big NAK to that! Direct I/O is intentionally disabled on DMA-bufs.
+>>>> Hello! Could you explain why direct_io is disabled on DMABUF? Is
+>>>> there any historical reason for this?
+>>> It's basically one of the most fundamental design decision of DMA-Buf.
+>>> The attachment/map/fence model DMA-buf uses is not really compatible
+>>> with direct I/O on the underlying pages.
+>> Thank you! Is there any related documentation on this? I would like to
+>> understand and learn more about the fundamental reasons for the lack of
+>> support.
+> Hi Lei and Christian,
+>
+> This is now the third request I've seen from three different companies
+> who are interested in this,
 
+Yeah, completely agree. This is a re-occurring pattern :)
 
-On 7/10/2024 7:47 PM, Bryan O'Donoghue wrote:
-> On 09/07/2024 17:06, Depeng Shao wrote:
->> Add support for VFE found on SM8550 (Titan 780). This implementation is
->> based on the titan 480 implementation. It supports the normal and lite
->> VFE.
+Maybe we should document the preferred solution for that.
+
+> but the others are not for reasons of read
+> performance that you mention in the commit message on your first
+> patch. Someone else at Google ran a comparison between a normal read()
+> and a direct I/O read() into a preallocated user buffer and found that
+> with large readahead (16 MB) the throughput can actually be slightly
+> higher than direct I/O. If you have concerns about read performance,
+> have you tried increasing the readahead size?
+>
+> The other motivation is to load a gajillion byte file from disk into a
+> dmabuf without evicting the entire contents of pagecache while doing
+> so. Something like this (which does not currently work because read()
+> tries to GUP on the dmabuf memory as you mention):
+>
+> static int dmabuf_heap_alloc(int heap_fd, size_t len)
+> {
+>      struct dma_heap_allocation_data data = {
+>          .len = len,
+>          .fd = 0,
+>          .fd_flags = O_RDWR | O_CLOEXEC,
+>          .heap_flags = 0,
+>      };
+>      int ret = ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &data);
+>      if (ret < 0)
+>          return ret;
+>      return data.fd;
+> }
+>
+> int main(int, char **argv)
+> {
+>          const char *file_path = argv[1];
+>          printf("File: %s\n", file_path);
+>          int file_fd = open(file_path, O_RDONLY | O_DIRECT);
+>
+>          struct stat st;
+>          stat(file_path, &st);
+>          ssize_t file_size = st.st_size;
+>          ssize_t aligned_size = (file_size + 4095) & ~4095;
+>
+>          printf("File size: %zd Aligned size: %zd\n", file_size, aligned_size);
+>          int heap_fd = open("/dev/dma_heap/system", O_RDONLY);
+>          int dmabuf_fd = dmabuf_heap_alloc(heap_fd, aligned_size);
+>
+>          void *vm = mmap(nullptr, aligned_size, PROT_READ | PROT_WRITE,
+> MAP_SHARED, dmabuf_fd, 0);
+>          printf("VM at 0x%lx\n", (unsigned long)vm);
+>
+>          dma_buf_sync sync_flags { DMA_BUF_SYNC_START |
+> DMA_BUF_SYNC_READ | DMA_BUF_SYNC_WRITE };
+>          ioctl(dmabuf_fd, DMA_BUF_IOCTL_SYNC, &sync_flags);
+>
+>          ssize_t rc = read(file_fd, vm, file_size);
+>          printf("Read: %zd %s\n", rc, rc < 0 ? strerror(errno) : "");
+>
+>          sync_flags.flags = DMA_BUF_SYNC_END | DMA_BUF_SYNC_READ |
+> DMA_BUF_SYNC_WRITE;
+>          ioctl(dmabuf_fd, DMA_BUF_IOCTL_SYNC, &sync_flags);
+> }
+>
+> Or replace the mmap() + read() with sendfile().
+
+Or copy_file_range(). That's pretty much exactly what I suggested on the 
+other mail thread around that topic as well.
+
+> So I would also like to see the above code (or something else similar)
+> be able to work and I understand some of the reasons why it currently
+> does not, but I don't understand why we should actively prevent this
+> type of behavior entirely.
+
++1
+
+Regards,
+Christian.
+
+>
+> Best,
+> T.J.
+>
+>
+>
+>
+>
+>
+>
+>
+>>>>> We already discussed enforcing that in the DMA-buf framework and
+>>>>> this patch probably means that we should really do that.
+>>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>> Thank you for your response. With the application of AI large model
+>>>> edgeification, we urgently need support for direct_io on DMABUF to
+>>>> read some very large files. Do you have any new solutions or plans
+>>>> for this?
+>>> We have seen similar projects over the years and all of those turned
+>>> out to be complete shipwrecks.
+>>>
+>>> There is currently a patch set under discussion to give the network
+>>> subsystem DMA-buf support. If you are interest in network direct I/O
+>>> that could help.
+>> Is there a related introduction link for this patch?
 >>
->> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
->> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
->> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/camss/Makefile    |   1 +
->>   .../media/platform/qcom/camss/camss-vfe-780.c | 404 ++++++++++++++++++
->>   2 files changed, 405 insertions(+)
->>   create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-780.c
+>>> Additional to that a lot of GPU drivers support userptr usages, e.g.
+>>> to import malloced memory into the GPU driver. You can then also do
+>>> direct I/O on that malloced memory and the kernel will enforce correct
+>>> handling with the GPU driver through MMU notifiers.
+>>>
+>>> But as far as I know a general DMA-buf based solution isn't possible.
+>> 1.The reason we need to use DMABUF memory here is that we need to share
+>> memory between the CPU and APU. Currently, only DMABUF memory is
+>> suitable for this purpose. Additionally, we need to read very large files.
 >>
->> diff --git a/drivers/media/platform/qcom/camss/Makefile 
->> b/drivers/media/platform/qcom/camss/Makefile
->> index c336e4c1a399..a83b7a8dcef7 100644
->> --- a/drivers/media/platform/qcom/camss/Makefile
->> +++ b/drivers/media/platform/qcom/camss/Makefile
->> @@ -17,6 +17,7 @@ qcom-camss-objs += \
->>           camss-vfe-4-8.o \
->>           camss-vfe-17x.o \
->>           camss-vfe-480.o \
->> +        camss-vfe-780.o \
->>           camss-vfe-gen1.o \
->>           camss-vfe.o \
->>           camss-video.o \
->> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-780.c 
->> b/drivers/media/platform/qcom/camss/camss-vfe-780.c
->> new file mode 100644
->> index 000000000000..abef2d5b9c2e
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/camss/camss-vfe-780.c
->> @@ -0,0 +1,404 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * camss-vfe-780.c
+>> 2. Are there any other solutions for this? Also, do you have any plans
+>> to support direct_io for DMABUF memory in the future?
+>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>> Regards,
+>>>> Lei Liu.
+>>>>
+>>>>>> Lei Liu (2):
+>>>>>>     mm: dmabuf_direct_io: Support direct_io for memory allocated by
+>>>>>> dmabuf
+>>>>>>     mm: dmabuf_direct_io: Fix memory statistics error for dmabuf
+>>>>>> allocated
+>>>>>>       memory with direct_io support
+>>>>>>
+>>>>>>    drivers/dma-buf/heaps/system_heap.c |  5 +++--
+>>>>>>    fs/proc/task_mmu.c                  |  8 +++++++-
+>>>>>>    include/linux/mm.h                  |  1 +
+>>>>>>    mm/memory.c                         | 15 ++++++++++-----
+>>>>>>    mm/rmap.c                           |  9 +++++----
+>>>>>>    5 files changed, 26 insertions(+), 12 deletions(-)
+>>>>>>
 
->> +
->> +static u32 vfe_hw_version(struct vfe_device *vfe)
->> +{
->> +    u32 hw_version = readl_relaxed(vfe->base + VFE_HW_VERSION);
->> +
->> +    u32 gen = (hw_version >> 28) & 0xF;
->> +    u32 rev = (hw_version >> 16) & 0xFFF;
->> +    u32 step = hw_version & 0xFFFF;
->> +
->> +    dev_info(vfe->camss->dev, "VFE HW Version = %u.%u.%u\n", gen, 
->> rev, step);
->> +
->> +    return hw_version;
->> +}
-> 
-> This could be functionally decomposed into vfe_hw_version_v2() or 
-> similar and exported by camss-vfe.c
-> 
->> +
-
-Yes, same with below comments, I will try to figure out which functions 
-can be moved to common files.
-
-
->> +
->> +/*
->> + * vfe_isr - VFE module interrupt handler
->> + * @irq: Interrupt line
->> + * @dev: VFE device
->> + *
->> + * Return IRQ_HANDLED on success
->> + */
->> +static irqreturn_t vfe_isr(int irq, void *dev)
->> +{
->> +    /* Buf Done has beem moved to CSID in Titan 780.
->> +     * Disable VFE related IRQ.
->> +     * Clear the contents of this function.
->> +     * Return IRQ_HANDLED.
->> +     */
->> +    return IRQ_HANDLED;
->> +}
-> 
-> What's the point of this ISR at all if it never fires and just returns 
-> done ?
-> 
-> Since it takes no action - it can't do anything useful and therefore if 
-> it ever did fire, would fire ad infinitum.
-> 
-> Please drop
-Sure, will drop it.
-
-
->> +
->> +static int vfe_get_output(struct vfe_line *line)
->> +{
->> +    struct vfe_device *vfe = to_vfe(line);
->> +    struct vfe_output *output;
->> +    unsigned long flags;
->> +
->> +    spin_lock_irqsave(&vfe->output_lock, flags);
->> +
->> +    output = &line->output;
->> +    if (output->state > VFE_OUTPUT_RESERVED) {
->> +        dev_err(vfe->camss->dev, "Output is running\n");
->> +        goto error;
->> +    }
->> +
->> +    output->wm_num = 1;
->> +
->> +    /* Correspondence between VFE line number and WM number.
->> +     * line 0 -> RDI 0, line 1 -> RDI1, line 2 -> RDI2, line 3 -> 
->> PIX/RDI3
->> +     * Note this 1:1 mapping will not work for PIX streams.
->> +     */
->> +    output->wm_idx[0] = line->id;
->> +    vfe->wm_output_map[line->id] = line->id;
->> +
->> +    output->drop_update_idx = 0;
->> +
->> +    spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +
->> +    return 0;
->> +
->> +error:
->> +    spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +    output->state = VFE_OUTPUT_OFF;
->> +
->> +    return -EINVAL;
->> +}
-> 
-> This is copy/paste from vfe480 and should be functionally decomposed 
-> into a common function in camss-vfe.
-Sure, the flow of some functions are same with other platform, and don't 
-read/write registers, this can be moved to a common file and reused by 
-all platform.
-I will think about this.
-
->> +
->> +static int vfe_enable_output(struct vfe_line *line)
->> +{
->> +    struct vfe_device *vfe = to_vfe(line);
->> +    struct vfe_output *output = &line->output;
->> +    unsigned long flags;
->> +    unsigned int i;
->> +
->> +    spin_lock_irqsave(&vfe->output_lock, flags);
->> +
->> +    vfe_reg_update_clear(vfe, line->id);
->> +
->> +    if (output->state > VFE_OUTPUT_RESERVED) {
->> +        dev_err(vfe->camss->dev, "Output is not in reserved state %d\n",
->> +            output->state);
->> +        spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +        return -EINVAL;
->> +    }
->> +
->> +    WARN_ON(output->gen2.active_num);
->> +
->> +    output->state = VFE_OUTPUT_ON;
->> +
->> +    output->sequence = 0;
->> +
->> +    vfe_wm_start(vfe, output->wm_idx[0], line);
->> +
->> +    for (i = 0; i < MAX_VFE_ACT_BUF; i++) {
->> +        output->buf[i] = vfe_buf_get_pending(output);
->> +        if (!output->buf[i])
->> +            break;
->> +        output->gen2.active_num++;
->> +        vfe_wm_update(vfe, output->wm_idx[0], 
->> output->buf[i]->addr[0], line);
->> +
->> +        vfe_reg_update(vfe, line->id);
-> 
-> I see this differs from vfe480 in that vfe_reg_update(vfe, line-id); is 
-> done on each iteration of this loop whereas in 480 it is done directly 
-> after the loop, seems to me this would be a valid fix for 480 too 
-> leading to my next comment
-> 
-
-Yes, vfe-480 also need this.
-
->> +    }
->> +
->> +    spin_unlock_irqrestore(&vfe->output_lock, flags);
->> +
->> +    return 0;
->> +}
-> 
-> This function is so similar across different SoCs with very minor 
-> differences that instead of copy/pasting and very slightly tweaking, we 
-> should be functionally decomposing and using a flag of some kind to 
-> differentaite between wait_reg_update logic in 480 and not in 780.
-> 
-> Again I think we should functionally decompose into camss-vfe.c and use 
-> a flag to branch the logic for the very slight logical difference 
-> between the two
-> 
-> vfe-480.c
-> 
->          output->sequence = 0;
->          output->wait_reg_update = 0;
->          reinit_completion(&output->reg_update);
-> 
-> As a result your fix for line->id would be useful across SoCs instead of 
-> isolated to vfe 780.
-> 
-
-Yes, some functions are same code flow, and don't read/write register, 
-this can be moved to a common file and reused by all platform.
-I will think about this.
-
->> +
->> +/*
->> + * vfe_enable - Enable streaming on VFE line
->> + * @line: VFE line
->> + *
->> + * Return 0 on success or a negative error code otherwise
->> + */
->> +static int vfe_enable(struct vfe_line *line)
->> +{
->> +    struct vfe_device *vfe = to_vfe(line);
->> +    int ret;
->> +
->> +    mutex_lock(&vfe->stream_lock);
->> +
->> +    vfe->stream_count++;
->> +
->> +    mutex_unlock(&vfe->stream_lock);
->> +
->> +    ret = vfe_get_output(line);
->> +    if (ret < 0)
->> +        goto error_get_output;
->> +
->> +    ret = vfe_enable_output(line);
->> +    if (ret < 0)
->> +        goto error_enable_output;
->> +
->> +    vfe->was_streaming = 1;
->> +
->> +    return 0;
->> +
->> +error_enable_output:
->> +    vfe_put_output(line);
->> +
->> +error_get_output:
->> +    mutex_lock(&vfe->stream_lock);
->> +
->> +    vfe->stream_count--;
->> +
->> +    mutex_unlock(&vfe->stream_lock);
->> +
->> +    return ret;
->> +}
-> 
-> Same thesis on functional decomposition - this should be moved to 
-> camss-vfe.c and made common - its only a minor difference betwen the 
-> required logic on different SoCs so there's not a compelling reason to 
-> have largely identical functions living in difference .c files in the 
-> same driver.
-> 
-
-Sure, I will check which functions can be moved to camss-vfe.c.
-
-Thanks,
-Depeng
 
