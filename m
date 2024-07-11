@@ -1,146 +1,175 @@
-Return-Path: <linux-media+bounces-14912-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14913-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D2F92E656
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 13:22:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB38392E660
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 13:23:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BD52BB25FD4
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 11:22:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DED261C20EEC
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 11:23:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0B2816D336;
-	Thu, 11 Jul 2024 11:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F85815EFC8;
+	Thu, 11 Jul 2024 11:17:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="S7stCx4U"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="B06IgxEG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B086715E5CC;
-	Thu, 11 Jul 2024 11:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A240415ECE3
+	for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 11:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720696470; cv=none; b=WgtNfA05EDLfrv87q3m5deq45F2UsG1kfE+j5KQ0SNAiG0vigaQSr+hYdeQmbOdLH4ejdLW4QI2ztGneW90NpabDYxTH4KPx1vUya5WB72Qn9Vas/0PDYa/NC0OLYPFPtMWx6WbIZ2GepjgEtg0dqK4r5hertdaTHRVJ5BdT9rU=
+	t=1720696657; cv=none; b=LChaHBs97urJkjJ5K3+/Zs0nrSTY3IB7CkpGq4by3YmtaZ8l0mqE5AZtA4m+hcwzYlMnM0CkoyVjpu8bmlM0lEbkhwcxW2c+IgetZKocQQgA+ttYJRaHZ75ljFGQalbzNu8NlOR/fNV9lMaBcKaVsrGHsyn87VDMEz+jEtB7N4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720696470; c=relaxed/simple;
-	bh=ojExgSxv7HK1T6Of78y0TLEr332VUmoqzlLiLXM0IJY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qYBAYIcK8Zj2wsvWn19O9HMLkZq3f2pbx5pFeMwNEhHU2ChEtjLSL/gzdzH4Hbiagcw3z52/aZvXJW9luGVfIM+z4qwUY9Bf/NGTxBbrdhdJYONy7IG0MOxfkjkZhyE+qPZW173tGD3uiX7CrxjyJlfJWwWxqkCFtMit+fgKRc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=S7stCx4U; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46B4mo0X011655;
-	Thu, 11 Jul 2024 11:14:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MpkcDIuzdPc4JQfo1GuwWE0pqv1GLcWVFeXFcswOLx0=; b=S7stCx4U2p/Qa7gZ
-	gBnMujhWMSGkNdo+T4StMZ72EU4ixY93ovjIFVvZ1DbRetipl+I7HdYlGrsnD2EB
-	jQZRjK6o3Vh4EPX0sYi3p/gNKuIMQYvXF96NZAEw82HtOwFidBHWNQ/FXaTqfqr+
-	eY1x7bA7CVdjmwNl7ayyLt//NVjmcQbQQGtpUotsV33m3o7Zb+mbIiG8lRxO9ewN
-	SQx83oWXNNtxuW2oeLajY1AaP9SxX8MvmRArnYlieI/kL7lKDsmHLepGvaPlJN3n
-	Q7s7JhkI5zWdEvXyMlQ7vbC7Bxj+vX3LYNA3XI4UvgxtSxq3dAIz/gpb0Il2oD7m
-	To+nBA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 406wgwv5up-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jul 2024 11:14:23 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 46BBEME5017097
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 11 Jul 2024 11:14:22 GMT
-Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 11 Jul
- 2024 04:14:16 -0700
-Message-ID: <0324e8e8-2ad4-4ce6-9616-3038b8e02ff9@quicinc.com>
-Date: Thu, 11 Jul 2024 19:14:13 +0800
+	s=arc-20240116; t=1720696657; c=relaxed/simple;
+	bh=CzNGwp1PuzFuHmmTM7q0S5AokMPLB2jgiNIv2Uzt3HY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bfAKATQwgxa2FSIoZ29HiOQNZzW3bVmM+F/PB6j3PD6ClEuIefcTEjAWQNqSEp5PX2Av6eklB+jsx8TjOwtd4Qu259Jm2dKf5SaONwXqTrdMTX206a2mg7cbtj/QazU5uNSEJwVHlVPQhBpjxTuxUSnLy6IaGn+6QEV0qyJL0W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=B06IgxEG; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dff1ccdc17bso799188276.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 04:17:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1720696653; x=1721301453; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R1zmd0HPKxOmhaqEKIrh/TgnCaQO/FR7LQG086botM4=;
+        b=B06IgxEGaHfzi3HlWFlv9g57vXPwu7PO/T2aNMA6cbsepEnZuAfEAIOzvtZnJvdCt/
+         XNnGy8s8UuR/yvt7ZoRf6Cw7HTKDyyYysmzv+WV6UPtKq727UcZabgYIuyRYFrOcYWvq
+         FuC2L3ix56/snYBeWyC9rdKHmSuoOdn3nXcD64EBeZMB6XgOIv/EgFF68UidINIgmm2r
+         YGITLZaxPjW5gfS9vHzMjbhe6oreIktcs28ICrLX4FplgIH15sDOr8smYQ3GJAntB+3S
+         ALvzcWBBhiuxQOiQyFsWjiIV3fIZfTMvlO1zcUJTdiPX14Nd8WxoQEK2rhJaUcwTWDnU
+         t+lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720696653; x=1721301453;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R1zmd0HPKxOmhaqEKIrh/TgnCaQO/FR7LQG086botM4=;
+        b=A5NZd3hwBAkYtYgTp5cNPVioJ/XkJ7Ws2Bdt7BinpeXUUahCIzsCt1vfyLXD66mkGR
+         93Jg9PN9LK3xaM8eY1F9pvzR70MOdqcrfHZcx9A2sIc67RcY96PYywnC3FMh1oskWC8+
+         MQc+lYAkgdKGAqFy1GRHomehEumXmRFU67/ym4NU0to6ufMfWuBf73i17IXiGrptxcHD
+         2MFdsNoW55raduVhdCk5arU4dZdYL2e+TWLl9ABpl6uRlvF6LnoNR/nb2v1d1RLoPceG
+         BsslaM5ECckup6fQU6pp/XeSHvifIDhW25kvzd+lTU9hnzqaeJG3h1RV8bSjsvwhHpqP
+         IdRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWuK70PLiK6eBMM9C/u0roCC8dhlQ2cPanYyGqoAaWfef2soHPwp3iE180nFAQfHnGIL30dOto8tAToYpLhpdHC7XpjVqk4raZtWVU=
+X-Gm-Message-State: AOJu0YyDZkxz/eLsjUbpKfYrunKuwEIekiMR/+Ex7OJ77U29JBHwgoCf
+	Sn2csdsA0tfLKDJMmhhUbvMUIYwxQsPfaXvZlZ+7msQf3G5hiImPy9Ddp813zddOf1a/5YQ3H0c
+	NCF/qIxce9V/1/hoojd4X2tZR/suriUSGxb6QQw==
+X-Google-Smtp-Source: AGHT+IH3tdn0yvOB8pPf7hxX2Siz8NJrmXulk0bwYCb2Ai6XsU4vhUAuro8LrAJOTY2NKs2RmQhZ9xOGyo3pDA1hfng=
+X-Received: by 2002:a25:aa30:0:b0:dc7:497e:cddf with SMTP id
+ 3f1490d57ef6-e041b07d3d5mr8910061276.33.1720696653579; Thu, 11 Jul 2024
+ 04:17:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 00/13] media: qcom: camss: Add sm8550 support
-To: Krzysztof Kozlowski <krzk@kernel.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>
-CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <55e850dd-1b45-4bad-a11f-f645cca07f2a@kernel.org>
- <d8d6574a-2823-4955-898d-d6637e40946e@quicinc.com>
- <d72ec08a-bd5c-482b-8af9-3fc923820d25@kernel.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <d72ec08a-bd5c-482b-8af9-3fc923820d25@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -CdDd2WTXGQH3GY0bfTBXA0OT1tWhIUC
-X-Proofpoint-ORIG-GUID: -CdDd2WTXGQH3GY0bfTBXA0OT1tWhIUC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-11_06,2024-07-11_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=981 mlxscore=0
- adultscore=0 malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2406140001 definitions=main-2407110079
+References: <20240711-linux-next-ov5675-v1-0-69e9b6c62c16@linaro.org>
+ <20240711-linux-next-ov5675-v1-2-69e9b6c62c16@linaro.org> <fcd0db64-6104-47a6-a482-6aa3eec702bc@cherry.de>
+In-Reply-To: <fcd0db64-6104-47a6-a482-6aa3eec702bc@cherry.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 11 Jul 2024 12:17:16 +0100
+Message-ID: <CAPY8ntAgjnA2NFRG_qaDnHvzWVX_VJ8ONCVvuJhPQgvSxwD0Uw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: ov5675: Elongate reset to first transaction
+ minimum gap
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
+	Jacopo Mondi <jacopo@jmondi.org>, Johan Hovold <johan@kernel.org>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Quentin and Bryan
 
-Hi Krzysztof,
+On Thu, 11 Jul 2024 at 11:40, Quentin Schulz <quentin.schulz@cherry.de> wrote:
+>
+> Hi Bryan,
+>
+> On 7/11/24 12:20 PM, Bryan O'Donoghue wrote:
+> > The ov5675 specification says that the gap between XSHUTDN deassert and the
+> > first I2C transaction should be a minimum of 8192 XVCLK cycles.
+> >
+> > Right now we use a usleep_rage() that gives a sleep time of between about
+> > 430 and 860 microseconds.
+> >
+> > On the Lenovo X13s we have observed that in about 1/20 cases the current
+> > timing is too tight and we start transacting before the ov5675's reset
+> > cycle completes, leading to I2C bus transaction failures.
+> >
+> > The reset racing is sometimes triggered at initial chip probe but, more
+> > usually on a subsequent power-off/power-on cycle e.g.
+> >
+> > [   71.451662] ov5675 24-0010: failed to write reg 0x0103. error = -5
+> > [   71.451686] ov5675 24-0010: failed to set plls
+> >
+> > The current quiescence period we have is too tight, doubling the minimum
+> > appears to fix the issue observed on X13s.
+> >
+> > Fixes: 49d9ad719e89 ("media: ov5675: add device-tree support and support runtime PM")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> > ---
+> >   drivers/media/i2c/ov5675.c | 9 +++++++--
+> >   1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+> > index 92bd35133a5d..0498f8f3064d 100644
+> > --- a/drivers/media/i2c/ov5675.c
+> > +++ b/drivers/media/i2c/ov5675.c
+> > @@ -1018,8 +1018,13 @@ static int ov5675_power_on(struct device *dev)
+> >
+> >       gpiod_set_value_cansleep(ov5675->reset_gpio, 0);
+> >
+> > -     /* 8192 xvclk cycles prior to the first SCCB transation */
+> > -     usleep_range(delay_us, delay_us * 2);
+> > +     /* The spec calls for a minimum delay of 8192 XVCLK cycles prior to
+> > +      * transacting on the I2C bus, which translates to about 430
+> > +      * microseconds at 19.2 MHz.
+> > +      * Testing shows the range 8192 - 16384 cycles to be unreliable.
+> > +      * Grant a more liberal 2x -3x clock cycle grace time.
+> > +      */
+> > +     usleep_range(delay_us * 2, delay_us * 3);
+> >
+>
+> Would it make sense to have power_off have the same logic? We do a
+> usleep_range of those same values currently, so keeping them in sync
+> seems to make sense to me.
+>
+> Also, I'm wondering if it isn't an issue with the gpio not being high
+> right after gpoiod_set_value_cansleep() returns, i.e. the time it
+> actually takes for the HW to reach the IO level that means "high" for
+> the camera. And that this increased sleep is just a way to mitigate that?
+>
+> With this patch we essentially postpone the power_on by another 430ms
+> making it almost a full second before we can start using the camera.
+> That's quite a lot I think? We don't have a usecase right now that
+> requires this to be blazing fast (and we anyway would need at the very
+> least 430ms), so take this remark as what it is, a remark.
 
-On 7/10/2024 8:30 PM, Krzysztof Kozlowski wrote:
-> On 10/07/2024 13:27, Depeng Shao wrote:
->>
->>
->> On 7/10/2024 7:08 PM, Krzysztof Kozlowski wrote:
->>> On 09/07/2024 18:06, Depeng Shao wrote:
->>>> V3:
->>>> - Rebased the change based on below change which will be merged firstly.
->>>>     "Move camss version related defs in to resources"
->>>> Link: https://lore.kernel.org/all/20240522154659.510-1-quic_grosikop@quicinc.com/
->>>> - Rebased the change based on Bryan's csiphy optimization change and add
->>>> these changes into this series, so that the new csiphy-3ph driver don't
->>>> need to add duplicate code. This has got Bryan's permission to add his
->>>> patches into this series.
->>>> - Refactor some changes based on the comments to move the random code to
->>>> patches where they are used.
->>>> - Remove the vfe780 irq function since it isn't doing the actual work.
->>>> - Add dt-binding for sm8550 camss driver.
->>>> Link to V2: https://lore.kernel.org/all/20240320141136.26827-1-quic_depengs@quicinc.com/
->>>
->>> I asked for reference to upstream DTS - where can I find the DTS patches?
->>>
->>> Best regards,
->>> Krzysztof
->>>
->>
->> Hi Krzysztof,
->>
->> Sorry for that, I thought add the dt-binding is also fine, since I saw
->> other patches also do like this. Will add add the DTS in next patch set.
-> 
-> DTS should not be part of this patchset, but sent separately.  It's
-> enough if you post a lore link to it.
-> 
+I think you've misread 430 usec as 430 msec.
 
-Thanks for the explanation, I will post the link in new version series.
+I was looking at the series and trying to decide whether it's worth
+going to the effort of computing the time at all when even on the
+slowest 6MHz XVCLK we're sub 1.5ms for the required delay.
+At the max XVLCK of 24MHz you could save 1ms. I know of very few use
+cases that would suffer for a 1ms delay.
 
-> Best regards,
-> Krzysztof
-> 
+I know we all like to be precise, but it sounds like the precision
+actually causes grief in this situation.
 
-Thanks,
-Depeng
+  Dave
+
+>
+> The change looks fine to me even though it feels like a band-aid patch.
+>
+> Cheers,
+> Quentin
+>
 
