@@ -1,804 +1,935 @@
-Return-Path: <linux-media+bounces-14900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14901-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911BB92E221
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 10:27:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E61C192E2E9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 11:00:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 993771C22A83
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 08:27:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 56FBDB250BC
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 09:00:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7DF91514E3;
-	Thu, 11 Jul 2024 08:26:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC0BF15531B;
+	Thu, 11 Jul 2024 09:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="veWVJumW"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pFv+TKe4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2070.outbound.protection.outlook.com [40.107.95.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D75150992;
-	Thu, 11 Jul 2024 08:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720686410; cv=none; b=Wsq2Zvm03ziTASzLgnhorQU7Doer4w04xbJ40TrLFvA7/9HL22uMhhNsUwwwfZBlCArqMdpqhfGS1wV4mPEpuUme6wWeWUARhT62qhQrBCivFzF7WPExmvFzB+n9nXXjZIrF6cafCaWgM2C+/9VirzT4zyLhAmdlqI+YB6iHjSA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720686410; c=relaxed/simple;
-	bh=sgVKP8/+OjgAI0R+nskWq0d+4E0VE1fAQKoMkK5UcxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wai6ZVk+KGmJvMgtmGVxErlhrz6BazgQxEr3TielO257cv5Jrq+uZJhuOjiUGSAjtFyvhZkXIVBQguyZT0v1A8lbxz43GgufPeU518mavC/XZ8jBJcTe6KyxmM5iFHI8lg6ed3hPiuyvWkuAKtIGbNFMjOB2BP5hEQZOVnWzeu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=veWVJumW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:1a17:446:28fc:78dd])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A674D49;
-	Thu, 11 Jul 2024 10:26:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720686366;
-	bh=sgVKP8/+OjgAI0R+nskWq0d+4E0VE1fAQKoMkK5UcxQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=veWVJumWumNBN4HWE+EagOC9SVRTofxOTcJx7LaX81W6sg3MqDObnLnraJS5+kZs7
-	 uWHumC4A9rw9o20yRAqubCJbhA1D1zle9aAIguz7JRhrt2nmJzAd12dKOIzlIwFpo4
-	 et/nm+44QeCgh7H6dijSwod0GGggmYm5A5Mq4rH0=
-Date: Thu, 11 Jul 2024 10:26:37 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Mingjia Zhang <mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, 
-	Keith Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdg==?= =?utf-8?Q?5?= 08/14]
- staging: media: starfive: Add for StarFive ISP 3A SC
-Message-ID: <b45mnwf4p4ygrvukzdmrvbffndmqg5fncyepg2yxize7wq3a75@v6doupiawwnt>
-References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-9-changhuang.liang@starfivetech.com>
- <hxv4l4t32a7il5zv2wk7btydlk6qokyborevbnrajpwziaalva@lly6nfkts2no>
- <ZQ0PR01MB13024CFE2FCCF4D39E3FAEDEF2A52@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D666914F9E4;
+	Thu, 11 Jul 2024 09:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720688415; cv=fail; b=BND6t1M5cB3FpRt49eP4E29ymHhmEfBfRlbitHpFVjRh4vdn17lmWIXR7qsJwGp3ClAVZVcl/tCBzR9F4IIlHI+Nbeas5888LxQaaU5EfLpvgHAEyGF5+ZO3G8u3cBkesSpglBR3GIhvS+m4MpsIdSA/RcyaMeMrCp44eTo09e8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720688415; c=relaxed/simple;
+	bh=+2b+WNl36DLICU/N9FwpX5EfDwzsj6qbDdn13uGBX/s=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=SKJe2OzFSjDWu0fRtpFkzmmch5ZSV6MDzBslTF0SiuEOfCG36dH8pskShduAVK4h76II6yCcSA2mS8UkNCOtPSfROAbrZFx8nQ3Eo3OVioJUXIGUMaoYUX1Pxy9y4irOHcpla110kQRLvQusOFsSKfCRr2BFbjDRG++tWo3bMpM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pFv+TKe4; arc=fail smtp.client-ip=40.107.95.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VV8jxv6xfTNR6Z93/wTsWtWVBx1O0urTzhT/H00OGatoFU4NIoIr7Bn40gnaUB0CHj52zr4pxJ4S3IvMfUhNLxBdAqTIEPoyor1LwETq4J8zQXq4jLe5uGvraGrg9Z6NlFk79swrRyJK0zqAB8vhFTEU+LDRK05KvxMfThYw7AUkmRqvLrgmomPs5DkQ8+N/KU/vW9m//8E2bIM2dWw0xqmWW6t1U8jszm4Q0qnqd0ws7xJGAH2V8YHaddl98NCnR+ZlW/6I76AGAOjSFrgrQ3gl8Jq3Vi+CE4jELXh8zMOE79pHMBe/ptbBMN3F0v69XmTe4bXesktvoXkL6LUK5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=blFVDfr8B8MmfAC81fA4E8IZ5GIeOr7KonJ++Tl6iTM=;
+ b=EVadGlMbPNSntEmLtkdEpZW93JT2ZSFlmhS8tgLfpBqfydFvhKNLa4gXfy+MZ1GkLLUnZJwXxtB5lmTMM1oE0knWolbYhnu4bdicdlflROOP7RuWl6iM6upkc2uZ5SbGjphJHLWDD8eVUeliowXGm3bu/IllJllr2slCNKsxMHz/0Wer603pq2IA8OU4QG/lf+c7ZiQCPGjBYw8Il4uDm2rT2ndYz+pu6HcDwOQsILMy5e4D6168qa+edrQtUOchC04B2rS+4YX6v9O3mpEdmiW7oBMcibCNTKM9VhsNcqcmDq8MRqWFv6WAhSLtnQaTloInGgNksqtn2COMwnDJYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=blFVDfr8B8MmfAC81fA4E8IZ5GIeOr7KonJ++Tl6iTM=;
+ b=pFv+TKe4pVVfF4I38UXpuJMHr13xcHsQgyXdg8joKqbBKpnbUFEzNSNfYNeMs/u6eCC/f9REPJ6yZ2I60xznRyE7HLftSdomLnqLy8SwFo7Tkr6bF8wHCDottXZH7S8RfTCngja2uhT2v7+awBsZbiY9zX3uC5C42K3hgB5az3E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY5PR12MB6384.namprd12.prod.outlook.com (2603:10b6:930:3c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.20; Thu, 11 Jul
+ 2024 09:00:08 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.7762.020; Thu, 11 Jul 2024
+ 09:00:08 +0000
+Message-ID: <5ccbe705-883c-4651-9e66-6b452c414c74@amd.com>
+Date: Thu, 11 Jul 2024 11:00:02 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE
+ framework
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+Cc: opensource.kernel@vivo.com
+References: <20240711074221.459589-1-link@vivo.com>
+ <20240711074221.459589-2-link@vivo.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20240711074221.459589-2-link@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0215.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ac::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZQ0PR01MB13024CFE2FCCF4D39E3FAEDEF2A52@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6384:EE_
+X-MS-Office365-Filtering-Correlation-Id: ebc475f4-6cec-44eb-31a3-08dca187dd17
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?amtsY3hFdmMxTU9PU243RklxbHRBaFo2Ymk3N1Z6R0xxaWZleC80VjdEMFVZ?=
+ =?utf-8?B?MEYvUzFzVi9DUVp6ellkZXp5ckdQbHdESmE1MXJQSDZGRktOMVVMTXZsbjE4?=
+ =?utf-8?B?ODkzcVlPNTMycmtPbkhjSTM0S2F0WFk0M0VudE5IUU84VzUrbXBxWk9MUnoz?=
+ =?utf-8?B?MHlGb29WMXp0SjdubUV0ci92NWJ5Y1d6bkY4VnVmL0E1VnhXSzhPYThENGRp?=
+ =?utf-8?B?bDloZWttblhWbFkzTmhGODVOUGpybktjbkprc3VCTjMxVkJUNWF3Q2xocEY3?=
+ =?utf-8?B?STlvckgzVDFGWEpaVEN6SSsxY09OeFhZVWNDaEdsT1BodDdFc09pVm5LUEFt?=
+ =?utf-8?B?MUNORVR2WXQ3ZE9oUmhFS21za1c1S1lITlRocDU3Vnd6WGoyc0ZCOTJ1Rnlj?=
+ =?utf-8?B?ZHcrZ3QxdUdTWUhudTk3NE5oYit0bXJvMHNHcnlUNTVYNTZGRUFVcjNRKzVr?=
+ =?utf-8?B?VzREUTlBSjlFNmJKb2ozOEVWbVZmbmV0OEZIZTVWTHdNMkdCUVVuVjV5cFlW?=
+ =?utf-8?B?enFJR01KcCtrcVh0QmpINkVPNk15UlRYcE5UMldJQ0dmNFZJMmY0MFhrSWVM?=
+ =?utf-8?B?Y3RBUTcxSmVtNDkyUlhKSmM2Q1dUbFJZNk9vZlVuRDhoYVZPbGZvUGV2MDl0?=
+ =?utf-8?B?Q2lxb2ZjK05zSmt6UEE4ZU9pQ3dGK05nQUJSdEg1QkZmNlRZbXVQN2s1TUsv?=
+ =?utf-8?B?T240ajR0d1Z1dnI3Z2ppMkVsTHlNa3Y2aDFlTFRFZ2pJUlhJSE5NY1VCNlNE?=
+ =?utf-8?B?YjR6alkwcldPUklzdktrUXloNjhSekpKcm4zcllIVjRYN2FMcjBSQkxLRUQ3?=
+ =?utf-8?B?NkwxYlBycWdUNlFMYmpXK0RZc2VLNDExZ0ovN3N0bzVLdEV1NlFYVTIwS2Iy?=
+ =?utf-8?B?WkdYc0FyN3VMTWRwZ2ptQnV3STRlS1NKRVI5TTZybXJ5RDNJNy8xOVM4Zmxp?=
+ =?utf-8?B?K0hsVTJ0THI5SmJNbXJ2QVNxVStaQTJCOS9WRThqZXBEc2FjOU5FN0M5YWNH?=
+ =?utf-8?B?dlZIOEJydk93ekkxRDZ6QTQ3SFhnQmM2Zk01d3BPMU52V2NlRkYwTXQrWHBy?=
+ =?utf-8?B?enBkYm5reVQzb1hrK011VUFHOUhZbS9VSkY2ME5SNnU1WWpKcmx3SjRjYWRJ?=
+ =?utf-8?B?SUtCc09pcXZrWHVLeDZ0VUFWUjVucjBEa2VBYUJYZnJQL3BLd0g1K1lxR1lT?=
+ =?utf-8?B?ZTAyaCtJN2pOZmpjLzRnSXA1U3BLeW4zR2ttakhEUm1OTytRTmo0SEMzSCs3?=
+ =?utf-8?B?OHJWd0VHdEVtRzFtY2RMbWluMEx4Zkp6citWdjJtclY4a0MzeGp5VXZmTkMr?=
+ =?utf-8?B?TXc5ZzVBbldPOWFuNERnUWw4Sk1kVHJmT25rWHFEQ3I5WjgySXRsdDBxLzFE?=
+ =?utf-8?B?em9pUytiQ3ViNlBGYVQyT0VvSDVjYVdKSnlEY2NJWTYydmVDM1hsUjdpL2sy?=
+ =?utf-8?B?NitXNWxIaGJGS0lBdU1aOFRGOWRBU3o3WVBKUjRYakVsZVpDVkpPSzVSUFJy?=
+ =?utf-8?B?YnMydXM5MTA2ckNzUDFPeUowak5VbzFOUmcyOGc1aE5JVmg0S0dvREg3VHB4?=
+ =?utf-8?B?ZStZNWtlM1FFUWttWVpJZVFpSDlxTk1FSHVsSHZVZC9EYUFkdmhxbUgrZkFu?=
+ =?utf-8?B?WFJ3dStZVXRZenpLOWE0a2JVZmh1NkVJaFFWc2tqMFQ3VGVRSFdJNU9LeXBh?=
+ =?utf-8?B?Y3BNaDRrbkJXNnFGS3dqZEVlZng5Q05lV2hMbTVxQ0I3R0lyK0F4REZsakxK?=
+ =?utf-8?B?eU15NGtXbWowSHljVXBZZis0QWFlVExZSkI2UzI0N1NCeTVWODgyMDkzSDdX?=
+ =?utf-8?B?R1k3UjdBSzcxRituREludHkzNE9zTVdJV1JMaWdCR2F5NnA3RGZPUjRNYkxZ?=
+ =?utf-8?Q?ithTIJhQFFNxH?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bmtMNGR1OC81ZHpQdXlEN0kvb09ZTDBUWis0bTNBd3M2Qzg0N1gzVDBCakE1?=
+ =?utf-8?B?YjVIRk05ZkN1U1NGSnZZM2RMalhMaUhwRVg4S2pIK3p3M0FFaXZlT0FzSFFO?=
+ =?utf-8?B?cUNpalJQZU1sS3JENThqSjgxZWVXWVYweEtFbjl3SHhuZzl0Q3RnV3N5aVhT?=
+ =?utf-8?B?SlR3K2RuSElkbTRMMlpPOW5MV041cFU0d2V0MDZhdmE3aERqaW8vcjZyOUVr?=
+ =?utf-8?B?alVNdC9uMFg4Mi9oK2N1eHpVdEVWT3FLMk9wcUNUeE1SUWd3eE54V0k5cWRE?=
+ =?utf-8?B?a0thM2dJc1BVU3lkU0dnVng3UEVZRlFNWGovcDI0ZjVjZVpnaVdXMVduUitC?=
+ =?utf-8?B?Tk1LdG9BY1BzNDVHajkrNWk0UnNoWU5KKzFxR1EzZWwvSHdhM1dnS3RyZTI0?=
+ =?utf-8?B?bHRrV0pOMUNsNjFzbllIdmtpdFFSdWJydFBPL2pEUlRrLzFyQlE5c29TeWhp?=
+ =?utf-8?B?dGp0M2s5ZCs1ZE9ycUVIdzhJZDhqanVzRGdJZjVNaHhiRUdNZ0NLT09CMFV0?=
+ =?utf-8?B?NU1yMTBpOWxleEpjQWhwZUw1QkRTTHpjaGM3WWc0NGgvWkZLQ1I0b0RMdDBh?=
+ =?utf-8?B?U0tmNFRtVjVaaGR1RVcwMVFUY0c1dHB3MkZISGpKUFZpVmdwcFV5TTZVQnF4?=
+ =?utf-8?B?SUxCdERLRzhLWSt2SisxalRJeHR4RXhzQlhtS0J0b0ZsZS9PV3huc3cyamJD?=
+ =?utf-8?B?aEpOWUhQR1YxVVVHeFJYT3hCdkJ5VjJ4U3U3UFhiYS9wc3ZvdFRRYWdMd3JW?=
+ =?utf-8?B?MDkwcnhvNVI4UzkyWHBReGZKMVU0N3ZPYVAxQTlIdmt6cDdqMkQxblVidW9o?=
+ =?utf-8?B?OFVWOVluY2ZNY2F0ZnpkeFlIL2ZXYWM0QTN0eTBlMG4wYkNMdmphdnJ5Mm50?=
+ =?utf-8?B?Z202b21OeVlXendaUEFnc0tHRG5JSG5HU1E1Sk8xN3pWM3FncVozV2NJenRU?=
+ =?utf-8?B?QkVDVEJlTnQwRXlCRU5aVGtzT0RuR0FHam1UVUZPVzNBWGw5dGJtMGh4bTM2?=
+ =?utf-8?B?OCtsMzR6eWtxVmRvb1RLYThkK1AvS0NKR1ZOV0paZXhuN2Z2MHJBV3puSjFa?=
+ =?utf-8?B?UW0vb0djWmpUdVZIMDFSeG85d2lvNnUyT0M0dmpGdE55Vml5MGdTQ2FXQ2Nw?=
+ =?utf-8?B?TWNwNmQzRGlJKzVTYnJCUER6cWpUTTlZWGdLTXpaZjZwS1IrK0ZhSCs1SndG?=
+ =?utf-8?B?eEJkYzlyS2NUL2tLekVGUC9XTDdNdFVEeTRvZld2cVhGNDE3RkRteGhWa0xs?=
+ =?utf-8?B?cEJwbVFWMEhkMFZUNk5UUFRZUS9abCtDZ3YxRnl3RlhHTVhoT21NSGpJbVY1?=
+ =?utf-8?B?VnN5WTJoTHVuRGsyZFZLZ3RKYWtxb2k5cUZSUnB5SWd4cGl3clV4TEVNSzVk?=
+ =?utf-8?B?cjFRdVJuZGdGQnRTZ2JoU1o0emNEM2w2ejVmelVjWEZhTklRZ3ZQM3RBaU5l?=
+ =?utf-8?B?czk3YlJqVmVqVVBTWDdUaGZlTHBJRml4SG5Mb1VjMDNPZitwcEdISGExZ1B2?=
+ =?utf-8?B?NzhBZWVIWjZZYW1oTnE5YkNJQWZhVnVZaG92ZWdXbS9yZysxdHR6cUZFZ3dv?=
+ =?utf-8?B?cWZ6N2QxcUpiK3g3cE9Wa25MZzhWb0lwNEZSU0ZZck5odElRSzFrLzIraC9v?=
+ =?utf-8?B?ZHc0MExEanlTTjFIK1doRFZsRHZFakV6MDFKQ3VpZE9tTERDMFpXU1RtSjNr?=
+ =?utf-8?B?cDdlVWxLN0N3WklReFp5ZmJTaVZMNjFpVEpwTWd5TDJVQWpvdlpLU0FlTVJH?=
+ =?utf-8?B?WDZ4SDhuV2pmTjh4QUFra1gvSEJtZFh5K0FFYlloZC9MN2ZMYTQ5NW1qN09P?=
+ =?utf-8?B?K29MQlpzMFdaL3VPNFJLUUV0L1NKR1FMS2VMQ1FRR3FRM3hEMzN3U3BaUUx4?=
+ =?utf-8?B?MkNReFhLVHVDV3VjVzM1TlRENlpYU1pHVHBxUXF1S21XSWNwUjNSWXU0aFY0?=
+ =?utf-8?B?Unh0OCtZM3UzdXFlaWE0TkdjOThyMUl6bnRlQWdHUWhkZ2ZXaFMvNlpuRVI5?=
+ =?utf-8?B?ZXlJQy9TWkIxYzRobmtBMWNwbDNzV1BNRmxqN1hqOFVyUm02ZDJ5dTVyeVQx?=
+ =?utf-8?B?MHdoa1BXMnJWVmtSTVYzSGgzSUFYb0d5R0ZGTG5vSUFnamNiRjQ2dGRpNk1o?=
+ =?utf-8?Q?Znz+qxPHx+zf6Q/tG9xSmZye1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebc475f4-6cec-44eb-31a3-08dca187dd17
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2024 09:00:08.4468
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: slw+bFVczxc64jQsW/M83MDQJwb4kv2CB1FWPhnZCQbtShX2gicz0J6TQ3hszHRP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6384
 
-Hi Changhuang
+Am 11.07.24 um 09:42 schrieb Huan Yang:
+> Some user may need load file into dma-buf, current
+> way is:
+>    1. allocate a dma-buf, get dma-buf fd
+>    2. mmap dma-buf fd into vaddr
+>    3. read(file_fd, vaddr, fsz)
+> This is too heavy if fsz reached to GB.
 
-On Thu, Jul 11, 2024 at 06:48:21AM GMT, Changhuang Liang wrote:
-> Hi Jacopo
->
-> Thanks for your comments.
->
-> > Hi Changhuang
-> >
-> > On Tue, Jul 09, 2024 at 01:38:18AM GMT, Changhuang Liang wrote:
-> > > Register ISP 3A "capture_scd" video device to receive statistics
-> > > collection data.
-> > >
-> > > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> > > ---
-> > >  .../staging/media/starfive/camss/stf-buffer.h |   1 +
-> > >  .../staging/media/starfive/camss/stf-camss.c  |  15 ++
-> > >  .../media/starfive/camss/stf-capture.c        |  21 ++-
-> > >  .../media/starfive/camss/stf-isp-hw-ops.c     |  66 ++++++++
-> > >  .../staging/media/starfive/camss/stf-isp.h    |  23 +++
-> > >  .../staging/media/starfive/camss/stf-video.c  | 146
-> > +++++++++++++++++-
-> > >  .../staging/media/starfive/camss/stf-video.h  |   1 +
-> > >  7 files changed, 264 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/media/starfive/camss/stf-buffer.h
-> > > b/drivers/staging/media/starfive/camss/stf-buffer.h
-> > > index 9d1670fb05ed..727d00617448 100644
-> > > --- a/drivers/staging/media/starfive/camss/stf-buffer.h
-> > > +++ b/drivers/staging/media/starfive/camss/stf-buffer.h
-> > > @@ -23,6 +23,7 @@ enum stf_v_state {
-> > >  struct stfcamss_buffer {
-> > >  	struct vb2_v4l2_buffer vb;
-> > >  	dma_addr_t addr[2];
-> > > +	void *vaddr;
-> > >  	struct list_head queue;
-> > >  };
-> > >
-> > > diff --git a/drivers/staging/media/starfive/camss/stf-camss.c
-> > > b/drivers/staging/media/starfive/camss/stf-camss.c
-> > > index fecd3e67c7a1..fafa3ce2f6da 100644
-> > > --- a/drivers/staging/media/starfive/camss/stf-camss.c
-> > > +++ b/drivers/staging/media/starfive/camss/stf-camss.c
-> > > @@ -8,6 +8,7 @@
-> > >   *
-> > >   * Author: Jack Zhu <jack.zhu@starfivetech.com>
-> > >   * Author: Changhuang Liang <changhuang.liang@starfivetech.com>
-> > > + * Author: Keith Zhao <keith.zhao@starfivetech.com>
-> > >   *
-> > >   */
-> > >  #include <linux/module.h>
-> > > @@ -126,6 +127,7 @@ static int stfcamss_of_parse_ports(struct stfcamss
-> > > *stfcamss)  static int stfcamss_register_devs(struct stfcamss
-> > > *stfcamss)  {
-> > >  	struct stf_capture *cap_yuv =
-> > &stfcamss->captures[STF_CAPTURE_YUV];
-> > > +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
-> > >  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
-> > >  	int ret;
-> > >
-> > > @@ -150,8 +152,18 @@ static int stfcamss_register_devs(struct stfcamss
-> > > *stfcamss)
-> > >
-> > >  	cap_yuv->video.source_subdev = &isp_dev->subdev;
-> > >
-> > > +	ret = media_create_pad_link(&isp_dev->subdev.entity,
-> > STF_ISP_PAD_SRC_SCD,
-> > > +				    &cap_scd->video.vdev.entity, 0, 0);
-> > > +	if (ret)
-> > > +		goto err_rm_links0;
-> >
-> > or just 'err_rm_links'
-> >
->
-> Agreed.
->
-> > > +
-> > > +	cap_scd->video.source_subdev = &isp_dev->subdev;
-> > > +
-> > >  	return ret;
-> >
-> > here you can return 0
-> >
->
-> Okay.
->
-> > >
-> > > +err_rm_links0:
-> > > +	media_entity_remove_links(&isp_dev->subdev.entity);
-> > > +	media_entity_remove_links(&cap_yuv->video.vdev.entity);
-> > >  err_cap_unregister:
-> > >  	stf_capture_unregister(stfcamss);
-> > >  err_isp_unregister:
-> > > @@ -163,10 +175,12 @@ static int stfcamss_register_devs(struct
-> > > stfcamss *stfcamss)  static void stfcamss_unregister_devs(struct
-> > > stfcamss *stfcamss)  {
-> > >  	struct stf_capture *cap_yuv =
-> > &stfcamss->captures[STF_CAPTURE_YUV];
-> > > +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
-> > >  	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
-> > >
-> > >  	media_entity_remove_links(&isp_dev->subdev.entity);
-> > >  	media_entity_remove_links(&cap_yuv->video.vdev.entity);
-> > > +	media_entity_remove_links(&cap_scd->video.vdev.entity);
-> > >
-> > >  	stf_isp_unregister(&stfcamss->isp_dev);
-> > >  	stf_capture_unregister(stfcamss);
-> > > @@ -436,5 +450,6 @@ module_platform_driver(stfcamss_driver);
-> > >
-> > >  MODULE_AUTHOR("Jack Zhu <jack.zhu@starfivetech.com>");
-> > > MODULE_AUTHOR("Changhuang Liang
-> > <changhuang.liang@starfivetech.com>");
-> > > +MODULE_AUTHOR("Keith Zhao <keith.zhao@starfivetech.com>");
-> > >  MODULE_DESCRIPTION("StarFive Camera Subsystem driver");
-> > > MODULE_LICENSE("GPL"); diff --git
-> > > a/drivers/staging/media/starfive/camss/stf-capture.c
-> > > b/drivers/staging/media/starfive/camss/stf-capture.c
-> > > index 75f6ef405e61..328b8c6e351d 100644
-> > > --- a/drivers/staging/media/starfive/camss/stf-capture.c
-> > > +++ b/drivers/staging/media/starfive/camss/stf-capture.c
-> > > @@ -12,6 +12,7 @@
-> > >  static const char * const stf_cap_names[] = {
-> > >  	"capture_raw",
-> > >  	"capture_yuv",
-> > > +	"capture_scd",
-> > >  };
-> > >
-> > >  static const struct stfcamss_format_info stf_wr_fmts[] = { @@ -55,6
-> > > +56,14 @@ static const struct stfcamss_format_info stf_isp_fmts[] = {
-> > >  	},
-> > >  };
-> > >
-> > > +/* 3A Statistics Collection Data */
-> > > +static const struct stfcamss_format_info stf_isp_scd_fmts[] = {
-> > > +	{
-> > > +		.code = MEDIA_BUS_FMT_METADATA_FIXED,
-> > > +		.pixelformat = V4L2_META_FMT_STF_ISP_STAT_3A,
-> > > +	},
-> > > +};
-> > > +
-> > >  static inline struct stf_capture *to_stf_capture(struct
-> > > stfcamss_video *video)  {
-> > >  	return container_of(video, struct stf_capture, video); @@ -84,6
-> > > +93,8 @@ static void stf_init_addrs(struct stfcamss_video *video)
-> > >  		stf_set_raw_addr(video->stfcamss, addr0);
-> > >  	else if (cap->type == STF_CAPTURE_YUV)
-> > >  		stf_set_yuv_addr(video->stfcamss, addr0, addr1);
-> > > +	else
-> > > +		stf_set_scd_addr(video->stfcamss, addr0, addr1, TYPE_AWB);
-> > >  }
-> > >
-> > >  static void stf_cap_s_cfg(struct stfcamss_video *video) @@ -227,18
-> > > +238,24 @@ static void stf_capture_init(struct stfcamss *stfcamss, struct
-> > stf_capture *cap)
-> > >  	INIT_LIST_HEAD(&cap->buffers.ready_bufs);
-> > >  	spin_lock_init(&cap->buffers.lock);
-> > >
-> > > -	cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> > >  	cap->video.stfcamss = stfcamss;
-> > >  	cap->video.bpl_alignment = 16 * 8;
-> > >
-> > >  	if (cap->type == STF_CAPTURE_RAW) {
-> > > +		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> > >  		cap->video.formats = stf_wr_fmts;
-> > >  		cap->video.nformats = ARRAY_SIZE(stf_wr_fmts);
-> > >  		cap->video.bpl_alignment = 8;
-> > >  	} else if (cap->type == STF_CAPTURE_YUV) {
-> > > +		cap->video.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> > >  		cap->video.formats = stf_isp_fmts;
-> > >  		cap->video.nformats = ARRAY_SIZE(stf_isp_fmts);
-> > >  		cap->video.bpl_alignment = 1;
-> > > +	} else {
-> > > +		cap->video.type = V4L2_BUF_TYPE_META_CAPTURE;
-> > > +		cap->video.formats = stf_isp_scd_fmts;
-> > > +		cap->video.nformats = ARRAY_SIZE(stf_isp_scd_fmts);
-> > > +		cap->video.bpl_alignment = 16 * 8;
-> > >  	}
-> > >  }
-> > >
-> > > @@ -362,9 +379,11 @@ void stf_capture_unregister(struct stfcamss
-> > > *stfcamss)  {
-> > >  	struct stf_capture *cap_raw =
-> > &stfcamss->captures[STF_CAPTURE_RAW];
-> > >  	struct stf_capture *cap_yuv =
-> > &stfcamss->captures[STF_CAPTURE_YUV];
-> > > +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
-> > >
-> > >  	stf_capture_unregister_one(cap_raw);
-> > >  	stf_capture_unregister_one(cap_yuv);
-> > > +	stf_capture_unregister_one(cap_scd);
-> > >  }
-> > >
-> > >  int stf_capture_register(struct stfcamss *stfcamss, diff --git
-> > > a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-> > > b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-> > > index 6b3966ca18bf..3b18d09f2cc6 100644
-> > > --- a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-> > > +++ b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
-> > > @@ -451,11 +451,57 @@ void stf_set_yuv_addr(struct stfcamss *stfcamss,
-> > >  	stf_isp_reg_write(stfcamss, ISP_REG_UV_PLANE_START_ADDR,
-> > uv_addr);
-> > > }
-> > >
-> > > +static enum stf_isp_type_scd stf_isp_get_scd_type(struct stfcamss
-> > > +*stfcamss) {
-> > > +	int val;
-> > > +
-> > > +	val = stf_isp_reg_read(stfcamss, ISP_REG_SC_CFG_1);
-> > > +	return (enum stf_isp_type_scd)(val & ISP_SC_SEL_MASK) >> 30; }
-> >
-> > So far used by a single caller, could be inlined
-> >
->
-> Okay.
->
-> > > +
-> > > +void stf_set_scd_addr(struct stfcamss *stfcamss,
-> > > +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
-> > > +		      enum stf_isp_type_scd type_scd) {
-> > > +	stf_isp_reg_set_bit(stfcamss, ISP_REG_SC_CFG_1, ISP_SC_SEL_MASK,
-> > > +			    SEL_TYPE(type_scd));
-> > > +	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
-> > > +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr); }
-> > > +
-> > > +static void stf_isp_fill_yhist(struct stfcamss *stfcamss, void
-> > > +*vaddr) {
-> > > +	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer *)vaddr;
-> > > +	u32 reg_addr = ISP_REG_YHIST_ACC_0;
-> > > +	u32 i;
-> > > +
-> > > +	for (i = 0; i < 64; i++, reg_addr += 4)
-> > > +		sc->y_histogram[i] = stf_isp_reg_read(stfcamss, reg_addr);
-> >
-> > If you have a contigous memory space to read, could memcpy_fromio() help
-> > instead of going through 64 reads ?
-> >
->
-> I will try this function.
->
-> > > +}
-> > > +
-> > > +static void stf_isp_fill_flag(struct stfcamss *stfcamss, void *vaddr,
-> > > +			      enum stf_isp_type_scd *type_scd) {
-> > > +	struct jh7110_isp_sc_buffer *sc = (struct jh7110_isp_sc_buffer
-> > > +*)vaddr;
-> > > +
-> > > +	*type_scd = stf_isp_get_scd_type(stfcamss);
-> > > +	if (*type_scd == TYPE_AWB) {
-> > > +		sc->flag = JH7110_ISP_SC_FLAG_AWB;
-> > > +		*type_scd = TYPE_OECF;
-> > > +	} else {
-> > > +		sc->flag = JH7110_ISP_SC_FLAG_AE_AF;
-> > > +		*type_scd = TYPE_AWB;
-> >
-> > Is this correct ? Why are you overwriting the value read from HW that
-> > indicates AE/AF stats with AWB ones ?
->
-> The AWB frame and AE/AF frames will alternate, so the current frame indicates the AE/AF,
-> then set AWB type just for next AWB frame.
->
+You need to describe a bit more why that is to heavy. I can only assume 
+you need to save memory bandwidth and avoid the extra copy with the CPU.
 
-Ah! Shouldn't it be userspace configuring which type of statistics it
-wants to receive instead of the driver alternating the two ?
+> This patch implement a feature called DMA_HEAP_IOCTL_ALLOC_READ_FILE.
+> User need to offer a file_fd which you want to load into dma-buf, then,
+> it promise if you got a dma-buf fd, it will contains the file content.
 
-> >
-> > > +	}
-> > > +}
-> > > +
-> > >  irqreturn_t stf_line_irq_handler(int irq, void *priv)  {
-> > >  	struct stfcamss *stfcamss = priv;
-> > >  	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
-> > > +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
-> > >  	struct stfcamss_buffer *change_buf;
-> > > +	enum stf_isp_type_scd type_scd;
-> > > +	u32 value;
-> > >  	u32 status;
-> > >
-> > >  	status = stf_isp_reg_read(stfcamss, ISP_REG_ISP_CTRL_0); @@ -467,6
-> > > +513,17 @@ irqreturn_t stf_line_irq_handler(int irq, void *priv)
-> > >  					stf_set_yuv_addr(stfcamss, change_buf->addr[0],
-> > >  							 change_buf->addr[1]);
-> > >  			}
-> > > +
-> > > +			value = stf_isp_reg_read(stfcamss,
-> > ISP_REG_CSI_MODULE_CFG);
-> > > +			if (value & CSI_SC_EN) {
-> > > +				change_buf = stf_change_buffer(&cap_scd->buffers);
-> > > +				if (change_buf) {
-> > > +					stf_isp_fill_flag(stfcamss, change_buf->vaddr,
-> > > +							  &type_scd);
-> > > +					stf_set_scd_addr(stfcamss, change_buf->addr[0],
-> > > +							 change_buf->addr[1], type_scd);
-> >
-> > Sorry if I'm un-familiar with the HW but this seems to be the line-interrupt.
-> > Are you swapping buffers every line or it's just that you have a single line irq
-> > for the stats ?
-> >
+Interesting idea, that has at least more potential than trying to enable 
+direct I/O on mmap()ed DMA-bufs.
+
+The approach with the new IOCTL might not work because it is a very 
+specialized use case.
+
+But IIRC there was a copy_file_range callback in the file_operations 
+structure you could use for that. I'm just not sure when and how that's 
+used with the copy_file_range() system call.
+
+Regards,
+Christian.
+
 >
-> Every frame triggers a line-interrupt, and we will swap buffers in it.
+> Notice, file_fd depends on user how to open this file. So, both buffer
+> I/O and Direct I/O is supported.
 >
-
-ah, frames completion triggers a line-interrupt ?
-
-> > > +				}
-> > > +			}
-> > >  		}
-> > >
-> > >  		stf_isp_reg_set_bit(stfcamss, ISP_REG_CSIINTS, @@ -485,6 +542,7
-> > @@
-> > > irqreturn_t stf_isp_irq_handler(int irq, void *priv)  {
-> > >  	struct stfcamss *stfcamss = priv;
-> > >  	struct stf_capture *cap = &stfcamss->captures[STF_CAPTURE_YUV];
-> > > +	struct stf_capture *cap_scd = &stfcamss->captures[STF_CAPTURE_SCD];
-> > >  	struct stfcamss_buffer *ready_buf;
-> > >  	u32 status;
-> > >
-> > > @@ -496,6 +554,14 @@ irqreturn_t stf_isp_irq_handler(int irq, void *priv)
-> > >  				vb2_buffer_done(&ready_buf->vb.vb2_buf,
-> > VB2_BUF_STATE_DONE);
-> > >  		}
-> > >
-> > > +		if (status & ISPC_SC) {
-> > > +			ready_buf = stf_buf_done(&cap_scd->buffers);
-> > > +			if (ready_buf) {
-> > > +				stf_isp_fill_yhist(stfcamss, ready_buf->vaddr);
-> > > +				vb2_buffer_done(&ready_buf->vb.vb2_buf,
-> > VB2_BUF_STATE_DONE);
-> > > +			}
-> > > +		}
-> > > +
-> > >  		stf_isp_reg_write(stfcamss, ISP_REG_ISP_CTRL_0,
-> > >  				  (status & ~ISPC_INT_ALL_MASK) |
-> > >  				  ISPC_ISP | ISPC_CSI | ISPC_SC); diff --git
-> > > a/drivers/staging/media/starfive/camss/stf-isp.h
-> > > b/drivers/staging/media/starfive/camss/stf-isp.h
-> > > index fcda0502e3b0..0af7b367e57a 100644
-> > > --- a/drivers/staging/media/starfive/camss/stf-isp.h
-> > > +++ b/drivers/staging/media/starfive/camss/stf-isp.h
-> > > @@ -10,6 +10,7 @@
-> > >  #ifndef STF_ISP_H
-> > >  #define STF_ISP_H
-> > >
-> > > +#include <linux/jh7110-isp.h>
-> > >  #include <media/v4l2-subdev.h>
-> > >
-> > >  #include "stf-video.h"
-> > > @@ -107,6 +108,12 @@
-> > >  #define Y_COOR(y)				((y) << 16)
-> > >  #define X_COOR(x)				((x) << 0)
-> > >
-> > > +#define ISP_REG_SCD_CFG_0			0x098
-> > > +
-> > > +#define ISP_REG_SC_CFG_1			0x0bc
-> > > +#define ISP_SC_SEL_MASK				GENMASK(31, 30)
-> > > +#define SEL_TYPE(n)				((n) << 30)
-> > > +
-> > >  #define ISP_REG_LCCF_CFG_2			0x0e0
-> > >  #define ISP_REG_LCCF_CFG_3			0x0e4
-> > >  #define ISP_REG_LCCF_CFG_4			0x0e8
-> > > @@ -305,6 +312,10 @@
-> > >  #define DNRM_F(n)				((n) << 16)
-> > >  #define CCM_M_DAT(n)				((n) << 0)
-> > >
-> > > +#define ISP_REG_YHIST_CFG_4			0xcd8
-> > > +
-> > > +#define ISP_REG_YHIST_ACC_0			0xd00
-> > > +
-> > >  #define ISP_REG_GAMMA_VAL0			0xe00
-> > >  #define ISP_REG_GAMMA_VAL1			0xe04
-> > >  #define ISP_REG_GAMMA_VAL2			0xe08
-> > > @@ -389,6 +400,15 @@
-> > >  #define IMAGE_MAX_WIDTH				1920
-> > >  #define IMAGE_MAX_HEIGH				1080
-> > >
-> > > +#define ISP_YHIST_BUFFER_SIZE			(64 * sizeof(__u32))
-> >
-> > Should this be in the uAPI header as it is useful to userspace as well ?
-> >
-> > you could:
-> >
-> > struct jh7110_isp_sc_buffer {
-> > 	__u8 y_histogram[ISP_YHIST_BUFFER_SIZE];
-> > 	__u32 reserv0[33];
-> > 	__u32 bright_sc[4096];
-> > 	__u32 reserv1[96];
-> > 	__u32 ae_hist_y[128];
-> > 	__u32 reserv2[511];
-> > 	__u16 flag;
-> > };
-> >
-> > ofc if the size is made part of the uAPI you need a more proper name such as
-> > JH7110_ISP_YHIST_SIZE
-> >
+> Signed-off-by: Huan Yang <link@vivo.com>
+> ---
+>   drivers/dma-buf/dma-heap.c    | 525 +++++++++++++++++++++++++++++++++-
+>   include/linux/dma-heap.h      |  57 +++-
+>   include/uapi/linux/dma-heap.h |  32 +++
+>   3 files changed, 611 insertions(+), 3 deletions(-)
 >
-> OK, I will try this.
->
-> > > +
-> > > +enum stf_isp_type_scd {
-> > > +	TYPE_DEC = 0,
-> > > +	TYPE_OBC,
-> > > +	TYPE_OECF,
-> > > +	TYPE_AWB,
-> > > +};
-> > > +
-> > >  /* pad id for media framework */
-> > >  enum stf_isp_pad_id {
-> > >  	STF_ISP_PAD_SINK = 0,
-> > > @@ -429,5 +449,8 @@ int stf_isp_unregister(struct stf_isp_dev
-> > > *isp_dev);
-> > >
-> > >  void stf_set_yuv_addr(struct stfcamss *stfcamss,
-> > >  		      dma_addr_t y_addr, dma_addr_t uv_addr);
-> > > +void stf_set_scd_addr(struct stfcamss *stfcamss,
-> > > +		      dma_addr_t yhist_addr, dma_addr_t scd_addr,
-> > > +		      enum stf_isp_type_scd type_scd);
-> > >
-> > >  #endif /* STF_ISP_H */
-> > > diff --git a/drivers/staging/media/starfive/camss/stf-video.c
-> > > b/drivers/staging/media/starfive/camss/stf-video.c
-> > > index 989b5e82bae9..2203605ec9c7 100644
-> > > --- a/drivers/staging/media/starfive/camss/stf-video.c
-> > > +++ b/drivers/staging/media/starfive/camss/stf-video.c
-> > > @@ -125,6 +125,14 @@ static int stf_video_init_format(struct
-> > stfcamss_video *video)
-> > >  	return 0;
-> > >  }
-> > >
-> > > +static int stf_video_scd_init_format(struct stfcamss_video *video)
-> >
-> > Make it void if it can't fail (see below)
-> >
->
-> OK.
->
-> > > +{
-> > > +	video->active_fmt.fmt.meta.dataformat =
-> > video->formats[0].pixelformat;
-> > > +	video->active_fmt.fmt.meta.buffersize = sizeof(struct
-> > > +jh7110_isp_sc_buffer);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >  /* -----------------------------------------------------------------------------
-> > >   * Video queue operations
-> > >   */
-> > > @@ -330,6 +338,78 @@ static const struct vb2_ops stf_video_vb2_q_ops =
-> > {
-> > >  	.stop_streaming  = video_stop_streaming,  };
-> > >
-> > > +static int video_scd_queue_setup(struct vb2_queue *q,
-> > > +				 unsigned int *num_buffers,
-> > > +				 unsigned int *num_planes,
-> > > +				 unsigned int sizes[],
-> > > +				 struct device *alloc_devs[])
-> > > +{
-> > > +	if (*num_planes)
-> > > +		return sizes[0] < sizeof(struct jh7110_isp_sc_buffer) ? -EINVAL :
-> > > +0;
-> > > +
-> > > +	*num_planes = 1;
-> > > +	sizes[0] = sizeof(struct jh7110_isp_sc_buffer);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int video_scd_buf_init(struct vb2_buffer *vb) {
-> > > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > > +	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
-> > > +	dma_addr_t *paddr;
-> > > +
-> > > +	paddr = vb2_plane_cookie(vb, 0);
-> > > +	buffer->addr[0] = *paddr;
-> > > +	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
-> >
-> > Interesting, I don't see many users of vb2_plane_cookie() in mainline and I'm
-> > not sure what this gives you as you use it to program the following registers:
-> >
-> > 	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_0, scd_addr);
-> > 	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_4, yhist_addr);
-> >
->
-> We set the value for ISP hardware, then ISP will transfer the statistics to the buffer.
-> when the stf_isp_irq_handler interrupt is triggered, indicates that the buffer fill is
-> complete.
->
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 2298ca5e112e..abe17281adb8 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -15,9 +15,11 @@
+>   #include <linux/list.h>
+>   #include <linux/slab.h>
+>   #include <linux/nospec.h>
+> +#include <linux/highmem.h>
+>   #include <linux/uaccess.h>
+>   #include <linux/syscalls.h>
+>   #include <linux/dma-heap.h>
+> +#include <linux/vmalloc.h>
+>   #include <uapi/linux/dma-heap.h>
+>   
+>   #define DEVNAME "dma_heap"
+> @@ -43,12 +45,462 @@ struct dma_heap {
+>   	struct cdev heap_cdev;
+>   };
+>   
+> +/**
+> + * struct dma_heap_file - wrap the file, read task for dma_heap allocate use.
+> + * @file:		file to read from.
+> + *
+> + * @cred:		kthread use, user cred copy to use for the read.
+> + *
+> + * @max_batch:		maximum batch size to read, if collect match batch,
+> + *			trigger read, default 128MB, must below file size.
+> + *
+> + * @fsz:		file size.
+> + *
+> + * @direct:		use direct IO?
+> + */
+> +struct dma_heap_file {
+> +	struct file *file;
+> +	struct cred *cred;
+> +	size_t max_batch;
+> +	size_t fsz;
+> +	bool direct;
+> +};
+> +
+> +/**
+> + * struct dma_heap_file_work - represents a dma_heap file read real work.
+> + * @vaddr:		contigous virtual address alloc by vmap, file read need.
+> + *
+> + * @start_size:		file read start offset, same to @dma_heap_file_task->roffset.
+> + *
+> + * @need_size:		file read need size, same to @dma_heap_file_task->rsize.
+> + *
+> + * @heap_file:		file wrapper.
+> + *
+> + * @list:		child node of @dma_heap_file_control->works.
+> + *
+> + * @refp:		same @dma_heap_file_task->ref, if end of read, put ref.
+> + *
+> + * @failp:		if any work io failed, set it true, pointp @dma_heap_file_task->fail.
+> + */
+> +struct dma_heap_file_work {
+> +	void *vaddr;
+> +	ssize_t start_size;
+> +	ssize_t need_size;
+> +	struct dma_heap_file *heap_file;
+> +	struct list_head list;
+> +	atomic_t *refp;
+> +	bool *failp;
+> +};
+> +
+> +/**
+> + * struct dma_heap_file_task - represents a dma_heap file read process
+> + * @ref:		current file work counter, if zero, allocate and read
+> + *			done.
+> + *
+> + * @roffset:		last read offset, current prepared work' begin file
+> + *			start offset.
+> + *
+> + * @rsize:		current allocated page size use to read, if reach rbatch,
+> + *			trigger commit.
+> + *
+> + * @rbatch:		current prepared work's batch, below @dma_heap_file's
+> + *			batch.
+> + *
+> + * @heap_file:		current dma_heap_file
+> + *
+> + * @parray:		used for vmap, size is @dma_heap_file's batch's number
+> + *			pages.(this is maximum). Due to single thread file read,
+> + *			one page array reuse each work prepare is OK.
+> + *			Each index in parray is PAGE_SIZE.(vmap need)
+> + *
+> + * @pindex:		current allocated page filled in @parray's index.
+> + *
+> + * @fail:		any work failed when file read?
+> + *
+> + * dma_heap_file_task is the production of file read, will prepare each work
+> + * during allocate dma_buf pages, if match current batch, then trigger commit
+> + * and prepare next work. After all batch queued, user going on prepare dma_buf
+> + * and so on, but before return dma_buf fd, need to wait file read end and
+> + * check read result.
+> + */
+> +struct dma_heap_file_task {
+> +	atomic_t ref;
+> +	size_t roffset;
+> +	size_t rsize;
+> +	size_t rbatch;
+> +	struct dma_heap_file *heap_file;
+> +	struct page **parray;
+> +	unsigned int pindex;
+> +	bool fail;
+> +};
+> +
+> +/**
+> + * struct dma_heap_file_control - global control of dma_heap file read.
+> + * @works:		@dma_heap_file_work's list head.
+> + *
+> + * @lock:		only lock for @works.
+> + *
+> + * @threadwq:		wait queue for @work_thread, if commit work, @work_thread
+> + *			wakeup and read this work's file contains.
+> + *
+> + * @workwq:		used for main thread wait for file read end, if allocation
+> + *			end before file read. @dma_heap_file_task ref effect this.
+> + *
+> + * @work_thread:	file read kthread. the dma_heap_file_task work's consumer.
+> + *
+> + * @heap_fwork_cachep:	@dma_heap_file_work's cachep, it's alloc/free frequently.
+> + *
+> + * @nr_work:		global number of how many work committed.
+> + */
+> +struct dma_heap_file_control {
+> +	struct list_head works;
+> +	spinlock_t lock;
+> +	wait_queue_head_t threadwq;
+> +	wait_queue_head_t workwq;
+> +	struct task_struct *work_thread;
+> +	struct kmem_cache *heap_fwork_cachep;
+> +	atomic_t nr_work;
+> +};
+> +
+> +static struct dma_heap_file_control *heap_fctl;
+>   static LIST_HEAD(heap_list);
+>   static DEFINE_MUTEX(heap_list_lock);
+>   static dev_t dma_heap_devt;
+>   static struct class *dma_heap_class;
+>   static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+>   
+> +/**
+> + * map_pages_to_vaddr - map each scatter page into contiguous virtual address.
+> + * @heap_ftask:		prepared and need to commit's work.
+> + *
+> + * Cached pages need to trigger file read, this function map each scatter page
+> + * into contiguous virtual address, so that file read can easy use.
+> + * Now that we get vaddr page, cached pages can return to original user, so we
+> + * will not effect dma-buf export even if file read not end.
+> + */
+> +static void *map_pages_to_vaddr(struct dma_heap_file_task *heap_ftask)
+> +{
+> +	return vmap(heap_ftask->parray, heap_ftask->pindex, VM_MAP,
+> +		    PAGE_KERNEL);
+> +}
+> +
+> +bool dma_heap_prepare_file_read(struct dma_heap_file_task *heap_ftask,
+> +				struct page *page)
+> +{
+> +	struct page **array = heap_ftask->parray;
+> +	int index = heap_ftask->pindex;
+> +	int num = compound_nr(page), i;
+> +	unsigned long sz = page_size(page);
+> +
+> +	heap_ftask->rsize += sz;
+> +	for (i = 0; i < num; ++i)
+> +		array[index++] = &page[i];
+> +	heap_ftask->pindex = index;
+> +
+> +	return heap_ftask->rsize >= heap_ftask->rbatch;
+> +}
+> +
+> +static struct dma_heap_file_work *
+> +init_file_work(struct dma_heap_file_task *heap_ftask)
+> +{
+> +	struct dma_heap_file_work *heap_fwork;
+> +	struct dma_heap_file *heap_file = heap_ftask->heap_file;
+> +
+> +	if (READ_ONCE(heap_ftask->fail))
+> +		return NULL;
+> +
+> +	heap_fwork = kmem_cache_alloc(heap_fctl->heap_fwork_cachep, GFP_KERNEL);
+> +	if (unlikely(!heap_fwork))
+> +		return NULL;
+> +
+> +	heap_fwork->vaddr = map_pages_to_vaddr(heap_ftask);
+> +	if (unlikely(!heap_fwork->vaddr)) {
+> +		kmem_cache_free(heap_fctl->heap_fwork_cachep, heap_fwork);
+> +		return NULL;
+> +	}
+> +
+> +	heap_fwork->heap_file = heap_file;
+> +	heap_fwork->start_size = heap_ftask->roffset;
+> +	heap_fwork->need_size = heap_ftask->rsize;
+> +	heap_fwork->refp = &heap_ftask->ref;
+> +	heap_fwork->failp = &heap_ftask->fail;
+> +	atomic_inc(&heap_ftask->ref);
+> +	return heap_fwork;
+> +}
+> +
+> +static void destroy_file_work(struct dma_heap_file_work *heap_fwork)
+> +{
+> +	vunmap(heap_fwork->vaddr);
+> +	atomic_dec(heap_fwork->refp);
+> +	wake_up(&heap_fctl->workwq);
+> +
+> +	kmem_cache_free(heap_fctl->heap_fwork_cachep, heap_fwork);
+> +}
+> +
+> +int dma_heap_submit_file_read(struct dma_heap_file_task *heap_ftask)
+> +{
+> +	struct dma_heap_file_work *heap_fwork = init_file_work(heap_ftask);
+> +	struct page *last = NULL;
+> +	struct dma_heap_file *heap_file = heap_ftask->heap_file;
+> +	size_t start = heap_ftask->roffset;
+> +	struct file *file = heap_file->file;
+> +	size_t fsz = heap_file->fsz;
+> +
+> +	if (unlikely(!heap_fwork))
+> +		return -ENOMEM;
+> +
+> +	/**
+> +	 * If file size is not page aligned, direct io can't process the tail.
+> +	 * So, if reach to tail, remain the last page use buffer read.
+> +	 */
+> +	if (heap_file->direct && start + heap_ftask->rsize > fsz) {
+> +		heap_fwork->need_size -= PAGE_SIZE;
+> +		last = heap_ftask->parray[heap_ftask->pindex - 1];
+> +	}
+> +
+> +	spin_lock(&heap_fctl->lock);
+> +	list_add_tail(&heap_fwork->list, &heap_fctl->works);
+> +	spin_unlock(&heap_fctl->lock);
+> +	atomic_inc(&heap_fctl->nr_work);
+> +
+> +	wake_up(&heap_fctl->threadwq);
+> +
+> +	if (last) {
+> +		char *buf, *pathp;
+> +		ssize_t err;
+> +		void *buffer;
+> +
+> +		buf = kmalloc(PATH_MAX, GFP_KERNEL);
+> +		if (unlikely(!buf))
+> +			return -ENOMEM;
+> +
+> +		start = PAGE_ALIGN_DOWN(fsz);
+> +
+> +		pathp = file_path(file, buf, PATH_MAX);
+> +		if (IS_ERR(pathp)) {
+> +			kfree(buf);
+> +			return PTR_ERR(pathp);
+> +		}
+> +
+> +		buffer = kmap_local_page(last); // use page's kaddr.
+> +		err = kernel_read_file_from_path(pathp, start, &buffer,
+> +						 fsz - start, &fsz,
+> +						 READING_POLICY);
+> +		kunmap_local(buffer);
+> +		kfree(buf);
+> +		if (err < 0) {
+> +			pr_err("failed to use buffer kernel_read_file %s, err=%ld, [%ld, %ld], f_sz=%ld\n",
+> +			       pathp, err, start, fsz, fsz);
+> +
+> +			return err;
+> +		}
+> +	}
+> +
+> +	heap_ftask->roffset += heap_ftask->rsize;
+> +	heap_ftask->rsize = 0;
+> +	heap_ftask->pindex = 0;
+> +	heap_ftask->rbatch = min_t(size_t,
+> +				   PAGE_ALIGN(fsz) - heap_ftask->roffset,
+> +				   heap_ftask->rbatch);
+> +	return 0;
+> +}
+> +
+> +bool dma_heap_wait_for_file_read(struct dma_heap_file_task *heap_ftask)
+> +{
+> +	wait_event_freezable(heap_fctl->workwq,
+> +			     atomic_read(&heap_ftask->ref) == 0);
+> +	return heap_ftask->fail;
+> +}
+> +
+> +bool dma_heap_destroy_file_read(struct dma_heap_file_task *heap_ftask)
+> +{
+> +	bool fail;
+> +
+> +	dma_heap_wait_for_file_read(heap_ftask);
+> +	fail = heap_ftask->fail;
+> +	kvfree(heap_ftask->parray);
+> +	kfree(heap_ftask);
+> +	return fail;
+> +}
+> +
+> +struct dma_heap_file_task *
+> +dma_heap_declare_file_read(struct dma_heap_file *heap_file)
+> +{
+> +	struct dma_heap_file_task *heap_ftask =
+> +		kzalloc(sizeof(*heap_ftask), GFP_KERNEL);
+> +	if (unlikely(!heap_ftask))
+> +		return NULL;
+> +
+> +	/**
+> +	 * Batch is the maximum size which we prepare work will meet.
+> +	 * So, direct alloc this number's page array is OK.
+> +	 */
+> +	heap_ftask->parray = kvmalloc_array(heap_file->max_batch >> PAGE_SHIFT,
+> +					    sizeof(struct page *), GFP_KERNEL);
+> +	if (unlikely(!heap_ftask->parray))
+> +		goto put;
+> +
+> +	heap_ftask->heap_file = heap_file;
+> +	heap_ftask->rbatch = heap_file->max_batch;
+> +	return heap_ftask;
+> +put:
+> +	kfree(heap_ftask);
+> +	return NULL;
+> +}
+> +
+> +static void __work_this_io(struct dma_heap_file_work *heap_fwork)
+> +{
+> +	struct dma_heap_file *heap_file = heap_fwork->heap_file;
+> +	struct file *file = heap_file->file;
+> +	ssize_t start = heap_fwork->start_size;
+> +	ssize_t size = heap_fwork->need_size;
+> +	void *buffer = heap_fwork->vaddr;
+> +	const struct cred *old_cred;
+> +	ssize_t err;
+> +
+> +	// use real task's cred to read this file.
+> +	old_cred = override_creds(heap_file->cred);
+> +	err = kernel_read_file(file, start, &buffer, size, &heap_file->fsz,
+> +			       READING_POLICY);
+> +	if (err < 0) {
+> +		pr_err("use kernel_read_file, err=%ld, [%ld, %ld], f_sz=%ld\n",
+> +		       err, start, (start + size), heap_file->fsz);
+> +		WRITE_ONCE(*heap_fwork->failp, true);
+> +	}
+> +	// recovery to my cred.
+> +	revert_creds(old_cred);
+> +}
+> +
+> +static int dma_heap_file_control_thread(void *data)
+> +{
+> +	struct dma_heap_file_control *heap_fctl =
+> +		(struct dma_heap_file_control *)data;
+> +	struct dma_heap_file_work *worker, *tmp;
+> +	int nr_work;
+> +
+> +	LIST_HEAD(pages);
+> +	LIST_HEAD(workers);
+> +
+> +	while (true) {
+> +		wait_event_freezable(heap_fctl->threadwq,
+> +				     atomic_read(&heap_fctl->nr_work) > 0);
+> +recheck:
+> +		spin_lock(&heap_fctl->lock);
+> +		list_splice_init(&heap_fctl->works, &workers);
+> +		spin_unlock(&heap_fctl->lock);
+> +
+> +		if (unlikely(kthread_should_stop())) {
+> +			list_for_each_entry_safe(worker, tmp, &workers, list) {
+> +				list_del(&worker->list);
+> +				destroy_file_work(worker);
+> +			}
+> +			break;
+> +		}
+> +
+> +		nr_work = 0;
+> +		list_for_each_entry_safe(worker, tmp, &workers, list) {
+> +			++nr_work;
+> +			list_del(&worker->list);
+> +			__work_this_io(worker);
+> +
+> +			destroy_file_work(worker);
+> +		}
+> +		atomic_sub(nr_work, &heap_fctl->nr_work);
+> +
+> +		if (atomic_read(&heap_fctl->nr_work) > 0)
+> +			goto recheck;
+> +	}
+> +	return 0;
+> +}
+> +
+> +size_t dma_heap_file_size(struct dma_heap_file *heap_file)
+> +{
+> +	return heap_file->fsz;
+> +}
+> +
+> +static int prepare_dma_heap_file(struct dma_heap_file *heap_file, int file_fd,
+> +				 size_t batch)
+> +{
+> +	struct file *file;
+> +	size_t fsz;
+> +	int ret;
+> +
+> +	file = fget(file_fd);
+> +	if (!file)
+> +		return -EINVAL;
+> +
+> +	fsz = i_size_read(file_inode(file));
+> +	if (fsz < batch) {
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	/**
+> +	 * Selinux block our read, but actually we are reading the stand-in
+> +	 * for this file.
+> +	 * So save current's cred and when going to read, override mine, and
+> +	 * end of read, revert.
+> +	 */
+> +	heap_file->cred = prepare_kernel_cred(current);
+> +	if (unlikely(!heap_file->cred)) {
+> +		ret = -ENOMEM;
+> +		goto err;
+> +	}
+> +
+> +	heap_file->file = file;
+> +	heap_file->max_batch = batch;
+> +	heap_file->fsz = fsz;
+> +
+> +	heap_file->direct = file->f_flags & O_DIRECT;
+> +
+> +#define DMA_HEAP_SUGGEST_DIRECT_IO_SIZE (1UL << 30)
+> +	if (!heap_file->direct && fsz >= DMA_HEAP_SUGGEST_DIRECT_IO_SIZE)
+> +		pr_warn("alloc read file better to use O_DIRECT to read larget file\n");
+> +
+> +	return 0;
+> +
+> +err:
+> +	fput(file);
+> +	return ret;
+> +}
+> +
+> +static void destroy_dma_heap_file(struct dma_heap_file *heap_file)
+> +{
+> +	fput(heap_file->file);
+> +	put_cred(heap_file->cred);
+> +}
+> +
+> +static int dma_heap_buffer_alloc_read_file(struct dma_heap *heap, int file_fd,
+> +					   size_t batch, unsigned int fd_flags,
+> +					   unsigned int heap_flags)
+> +{
+> +	struct dma_buf *dmabuf;
+> +	int fd;
+> +	struct dma_heap_file heap_file;
+> +
+> +	fd = prepare_dma_heap_file(&heap_file, file_fd, batch);
+> +	if (fd)
+> +		goto error_file;
+> +
+> +	dmabuf = heap->ops->allocate_read_file(heap, &heap_file, fd_flags,
+> +					       heap_flags);
+> +	if (IS_ERR(dmabuf)) {
+> +		fd = PTR_ERR(dmabuf);
+> +		goto error;
+> +	}
+> +
+> +	fd = dma_buf_fd(dmabuf, fd_flags);
+> +	if (fd < 0) {
+> +		dma_buf_put(dmabuf);
+> +		/* just return, as put will call release and that will free */
+> +	}
+> +
+> +error:
+> +	destroy_dma_heap_file(&heap_file);
+> +error_file:
+> +	return fd;
+> +}
+> +
+>   static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+>   				 u32 fd_flags,
+>   				 u64 heap_flags)
+> @@ -93,6 +545,38 @@ static int dma_heap_open(struct inode *inode, struct file *file)
+>   	return 0;
+>   }
+>   
+> +static long dma_heap_ioctl_allocate_read_file(struct file *file, void *data)
+> +{
+> +	struct dma_heap_allocation_file_data *heap_allocation_file = data;
+> +	struct dma_heap *heap = file->private_data;
+> +	int fd;
+> +
+> +	if (heap_allocation_file->fd || !heap_allocation_file->file_fd)
+> +		return -EINVAL;
+> +
+> +	if (heap_allocation_file->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+> +		return -EINVAL;
+> +
+> +	if (heap_allocation_file->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+> +		return -EINVAL;
+> +
+> +	if (!heap->ops->allocate_read_file)
+> +		return -EINVAL;
+> +
+> +	fd = dma_heap_buffer_alloc_read_file(
+> +		heap, heap_allocation_file->file_fd,
+> +		heap_allocation_file->batch ?
+> +			PAGE_ALIGN(heap_allocation_file->batch) :
+> +			DEFAULT_ADI_BATCH,
+> +		heap_allocation_file->fd_flags,
+> +		heap_allocation_file->heap_flags);
+> +	if (fd < 0)
+> +		return fd;
+> +
+> +	heap_allocation_file->fd = fd;
+> +	return 0;
+> +}
+> +
+>   static long dma_heap_ioctl_allocate(struct file *file, void *data)
+>   {
+>   	struct dma_heap_allocation_data *heap_allocation = data;
+> @@ -121,6 +605,7 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
+>   
+>   static unsigned int dma_heap_ioctl_cmds[] = {
+>   	DMA_HEAP_IOCTL_ALLOC,
+> +	DMA_HEAP_IOCTL_ALLOC_AND_READ,
+>   };
+>   
+>   static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+> @@ -170,6 +655,9 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+>   	case DMA_HEAP_IOCTL_ALLOC:
+>   		ret = dma_heap_ioctl_allocate(file, kdata);
+>   		break;
+> +	case DMA_HEAP_IOCTL_ALLOC_AND_READ:
+> +		ret = dma_heap_ioctl_allocate_read_file(file, kdata);
+> +		break;
+>   	default:
+>   		ret = -ENOTTY;
+>   		goto err;
+> @@ -316,11 +804,44 @@ static int dma_heap_init(void)
+>   
+>   	dma_heap_class = class_create(DEVNAME);
+>   	if (IS_ERR(dma_heap_class)) {
+> -		unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS);
+> -		return PTR_ERR(dma_heap_class);
+> +		ret = PTR_ERR(dma_heap_class);
+> +		goto fail_class;
+>   	}
+>   	dma_heap_class->devnode = dma_heap_devnode;
+>   
+> +	heap_fctl = kzalloc(sizeof(*heap_fctl), GFP_KERNEL);
+> +	if (unlikely(!heap_fctl)) {
+> +		ret =  -ENOMEM;
+> +		goto fail_alloc;
+> +	}
+> +
+> +	INIT_LIST_HEAD(&heap_fctl->works);
+> +	init_waitqueue_head(&heap_fctl->threadwq);
+> +	init_waitqueue_head(&heap_fctl->workwq);
+> +
+> +	heap_fctl->work_thread = kthread_run(dma_heap_file_control_thread,
+> +					     heap_fctl, "heap_fwork_t");
+> +	if (IS_ERR(heap_fctl->work_thread)) {
+> +		ret = -ENOMEM;
+> +		goto fail_thread;
+> +	}
+> +
+> +	heap_fctl->heap_fwork_cachep = KMEM_CACHE(dma_heap_file_work, 0);
+> +	if (unlikely(!heap_fctl->heap_fwork_cachep)) {
+> +		ret = -ENOMEM;
+> +		goto fail_cache;
+> +	}
+> +
+>   	return 0;
+> +
+> +fail_cache:
+> +	kthread_stop(heap_fctl->work_thread);
+> +fail_thread:
+> +	kfree(heap_fctl);
+> +fail_alloc:
+> +	class_destroy(dma_heap_class);
+> +fail_class:
+> +	unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS);
+> +	return ret;
+>   }
+>   subsys_initcall(dma_heap_init);
+> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+> index 064bad725061..9c25383f816c 100644
+> --- a/include/linux/dma-heap.h
+> +++ b/include/linux/dma-heap.h
+> @@ -12,12 +12,17 @@
+>   #include <linux/cdev.h>
+>   #include <linux/types.h>
+>   
+> +#define DEFAULT_ADI_BATCH (128 << 20)
+> +
+>   struct dma_heap;
+> +struct dma_heap_file_task;
+> +struct dma_heap_file;
+>   
+>   /**
+>    * struct dma_heap_ops - ops to operate on a given heap
+>    * @allocate:		allocate dmabuf and return struct dma_buf ptr
+> - *
+> + * @allocate_read_file: allocate dmabuf and read file, then return struct
+> + * dma_buf ptr.
+>    * allocate returns dmabuf on success, ERR_PTR(-errno) on error.
+>    */
+>   struct dma_heap_ops {
+> @@ -25,6 +30,11 @@ struct dma_heap_ops {
+>   				    unsigned long len,
+>   				    u32 fd_flags,
+>   				    u64 heap_flags);
+> +
+> +	struct dma_buf *(*allocate_read_file)(struct dma_heap *heap,
+> +					      struct dma_heap_file *heap_file,
+> +					      u32 fd_flags,
+> +					      u64 heap_flags);
+>   };
+>   
+>   /**
+> @@ -65,4 +75,49 @@ const char *dma_heap_get_name(struct dma_heap *heap);
+>    */
+>   struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
+>   
+> +/**
+> + * dma_heap_destroy_file_read - waits for a file read to complete then destroy it
+> + * Returns: true if the file read failed, false otherwise
+> + */
+> +bool dma_heap_destroy_file_read(struct dma_heap_file_task *heap_ftask);
+> +
+> +/**
+> + * dma_heap_wait_for_file_read - waits for a file read to complete
+> + * Returns: true if the file read failed, false otherwise
+> + */
+> +bool dma_heap_wait_for_file_read(struct dma_heap_file_task *heap_ftask);
+> +
+> +/**
+> + * dma_heap_alloc_file_read - Declare a task to read file when allocate pages.
+> + * @heap_file:		target file to read
+> + *
+> + * Return NULL if failed, otherwise return a struct pointer.
+> + */
+> +struct dma_heap_file_task *
+> +dma_heap_declare_file_read(struct dma_heap_file *heap_file);
+> +
+> +/**
+> + * dma_heap_prepare_file_read - cache each allocated page until we meet this batch.
+> + * @heap_ftask:		prepared and need to commit's work.
+> + * @page:		current allocated page. don't care which order.
+> + *
+> + * Returns true if reach to batch, false so go on prepare.
+> + */
+> +bool dma_heap_prepare_file_read(struct dma_heap_file_task *heap_ftask,
+> +				struct page *page);
+> +
+> +/**
+> + * dma_heap_commit_file_read -  prepare collect enough memory, going to trigger IO
+> + * @heap_ftask:			info that current IO needs
+> + *
+> + * This commit will also check if reach to tail read.
+> + * For direct I/O submissions, it is necessary to pay attention to file reads
+> + * that are not page-aligned. For the unaligned portion of the read, buffer IO
+> + * needs to be triggered.
+> + * Returns:
+> + *   0 if all right, -errno if something wrong
+> + */
+> +int dma_heap_submit_file_read(struct dma_heap_file_task *heap_ftask);
+> +size_t dma_heap_file_size(struct dma_heap_file *heap_file);
+> +
+>   #endif /* _DMA_HEAPS_H */
+> diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
+> index a4cf716a49fa..8c20e8b74eed 100644
+> --- a/include/uapi/linux/dma-heap.h
+> +++ b/include/uapi/linux/dma-heap.h
+> @@ -39,6 +39,27 @@ struct dma_heap_allocation_data {
+>   	__u64 heap_flags;
+>   };
+>   
+> +/**
+> + * struct dma_heap_allocation_file_data - metadata passed from userspace for
+> + *                                      allocations and read file
+> + * @fd:			will be populated with a fd which provides the
+> + *			handle to the allocated dma-buf
+> + * @file_fd:		file descriptor to read from(suggested to use O_DIRECT open file)
+> + * @batch:		how many memory alloced then file read(bytes), default 128MB
+> + *			will auto aligned to PAGE_SIZE
+> + * @fd_flags:		file descriptor flags used when allocating
+> + * @heap_flags:		flags passed to heap
+> + *
+> + * Provided by userspace as an argument to the ioctl
+> + */
+> +struct dma_heap_allocation_file_data {
+> +	__u32 fd;
+> +	__u32 file_fd;
+> +	__u32 batch;
+> +	__u32 fd_flags;
+> +	__u64 heap_flags;
+> +};
+> +
+>   #define DMA_HEAP_IOC_MAGIC		'H'
+>   
+>   /**
+> @@ -50,4 +71,15 @@ struct dma_heap_allocation_data {
+>   #define DMA_HEAP_IOCTL_ALLOC	_IOWR(DMA_HEAP_IOC_MAGIC, 0x0,\
+>   				      struct dma_heap_allocation_data)
+>   
+> +/**
+> + * DOC: DMA_HEAP_IOCTL_ALLOC_AND_READ - allocate memory from pool and both
+> + *					read file when allocate memory.
+> + *
+> + * Takes a dma_heap_allocation_file_data struct and returns it with the fd field
+> + * populated with the dmabuf handle of the allocation. When return, the dma-buf
+> + * content is read from file.
+> + */
+> +#define DMA_HEAP_IOCTL_ALLOC_AND_READ \
+> +	_IOWR(DMA_HEAP_IOC_MAGIC, 0x1, struct dma_heap_allocation_file_data)
+> +
+>   #endif /* _UAPI_LINUX_DMABUF_POOL_H */
 
-So I take this as
-
-	paddr = vb2_plane_cookie(vb, 0);
-	buffer->addr[0] = *paddr;
-	buffer->addr[1] = buffer->addr[0] + ISP_YHIST_BUFFER_SIZE;
-
-        stf_set_scd_addr(stfcamss, change_buf->addr[0],
-                         change_buf->addr[1], type_scd);
-
-Makes the ISP transfer data directly to the memory areas in addr[0]
-and addr[1] (which explains why struct jh7110_isp_sc_buffer is packed,
-as it has to match the HW registers layout)
-
-If this is the case, why are you then manually copying the histograms
-and the flags to vaddr ?
-
-                ready_buf = stf_buf_done(&cap_scd->buffers);
-                if (ready_buf) {
-                        stf_isp_fill_yhist(stfcamss, ready_buf->vaddr);
-                        vb2_buffer_done(&ready_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-                }
-
-                change_buf = stf_change_buffer(&cap_scd->buffers);
-                if (change_buf) {
-                        stf_isp_fill_flag(stfcamss, change_buf->vaddr,
-                                          &type_scd);
-
-If I read vb2_dc_alloc_coherent() right 'cookie' == 'vaddr'
-
-static int vb2_dc_alloc_coherent(struct vb2_dc_buf *buf)
-{
-	struct vb2_queue *q = buf->vb->vb2_queue;
-
-	buf->cookie = dma_alloc_attrs(buf->dev,
-				      buf->size,
-				      &buf->dma_addr,
-				      GFP_KERNEL | q->gfp_flags,
-				      buf->attrs);
-	if (!buf->cookie)
-		return -ENOMEM;
-
-	if (q->dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING)
-		return 0;
-
-	buf->vaddr = buf->cookie;
-	return 0;
-}
-
-Could you verify what you get by printing out 'paddr' and 'vaddr' in
-video_scd_buf_init() ?
-
-
-> >
-> > > +	buffer->vaddr = vb2_plane_vaddr(vb, 0);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int video_scd_buf_prepare(struct vb2_buffer *vb) {
-> > > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > > +
-> > > +	if (sizeof(struct jh7110_isp_sc_buffer) > vb2_plane_size(vb, 0))
-> > > +		return -EINVAL;
-> > > +
-> > > +	vb2_set_plane_payload(vb, 0, sizeof(struct jh7110_isp_sc_buffer));
-> > > +
-> > > +	vbuf->field = V4L2_FIELD_NONE;
-> >
-> > is this necessary ?
-> >
->
-> Will drop it.
->
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int video_scd_start_streaming(struct vb2_queue *q, unsigned
-> > > +int count) {
-> > > +	struct stfcamss_video *video = vb2_get_drv_priv(q);
-> > > +
-> > > +	video->ops->start_streaming(video);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void video_scd_stop_streaming(struct vb2_queue *q) {
-> > > +	struct stfcamss_video *video = vb2_get_drv_priv(q);
-> > > +
-> > > +	video->ops->stop_streaming(video);
-> > > +
-> > > +	video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR); }
-> > > +
-> > > +static const struct vb2_ops stf_video_scd_vb2_q_ops = {
-> > > +	.queue_setup     = video_scd_queue_setup,
-> > > +	.wait_prepare    = vb2_ops_wait_prepare,
-> > > +	.wait_finish     = vb2_ops_wait_finish,
-> > > +	.buf_init        = video_scd_buf_init,
-> > > +	.buf_prepare     = video_scd_buf_prepare,
-> > > +	.buf_queue       = video_buf_queue,
-> > > +	.start_streaming = video_scd_start_streaming,
-> > > +	.stop_streaming  = video_scd_stop_streaming, };
-> > > +
-> > >  /* -----------------------------------------------------------------------------
-> > >   * V4L2 ioctls
-> > >   */
-> > > @@ -448,6 +528,37 @@ static const struct v4l2_ioctl_ops stf_vid_ioctl_ops
-> > = {
-> > >  	.vidioc_streamoff               = vb2_ioctl_streamoff,
-> > >  };
-> > >
-> > > +static int video_scd_g_fmt(struct file *file, void *fh, struct
-> > > +v4l2_format *f) {
-> > > +	struct stfcamss_video *video = video_drvdata(file);
-> > > +	struct v4l2_meta_format *meta = &f->fmt.meta;
-> > > +
-> > > +	if (f->type != video->type)
-> > > +		return -EINVAL;
-> > > +
-> > > +	meta->dataformat = video->active_fmt.fmt.meta.dataformat;
-> > > +	meta->buffersize = video->active_fmt.fmt.meta.buffersize;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct v4l2_ioctl_ops stf_vid_scd_ioctl_ops = {
-> > > +	.vidioc_querycap                = video_querycap,
-> > > +	.vidioc_enum_fmt_meta_cap       = video_enum_fmt,
-> > > +	.vidioc_g_fmt_meta_cap          = video_scd_g_fmt,
-> > > +	.vidioc_s_fmt_meta_cap          = video_scd_g_fmt,
-> > > +	.vidioc_try_fmt_meta_cap        = video_scd_g_fmt,
-> > > +	.vidioc_reqbufs                 = vb2_ioctl_reqbufs,
-> > > +	.vidioc_querybuf                = vb2_ioctl_querybuf,
-> > > +	.vidioc_qbuf                    = vb2_ioctl_qbuf,
-> > > +	.vidioc_expbuf                  = vb2_ioctl_expbuf,
-> > > +	.vidioc_dqbuf                   = vb2_ioctl_dqbuf,
-> > > +	.vidioc_create_bufs             = vb2_ioctl_create_bufs,
-> > > +	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
-> > > +	.vidioc_streamon                = vb2_ioctl_streamon,
-> > > +	.vidioc_streamoff               = vb2_ioctl_streamoff,
-> > > +};
-> > > +
-> > >  /* -----------------------------------------------------------------------------
-> > >   * V4L2 file operations
-> > >   */
-> > > @@ -473,6 +584,9 @@ static int stf_link_validate(struct media_link *link)
-> > >  	struct stfcamss_video *video = video_get_drvdata(vdev);
-> > >  	int ret;
-> > >
-> > > +	if (video->type == V4L2_BUF_TYPE_META_CAPTURE)
-> > > +		return 0;
-> > > +
-> > >  	ret = stf_video_check_format(video);
-> > >
-> > >  	return ret;
-> > > @@ -506,7 +620,11 @@ int stf_video_register(struct stfcamss_video
-> > *video,
-> > >  	q = &video->vb2_q;
-> > >  	q->drv_priv = video;
-> > >  	q->mem_ops = &vb2_dma_contig_memops;
-> > > -	q->ops = &stf_video_vb2_q_ops;
-> > > +
-> > > +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> > > +		q->ops = &stf_video_vb2_q_ops;
-> > > +	else
-> > > +		q->ops = &stf_video_scd_vb2_q_ops;
-> > >  	q->type = video->type;
-> > >  	q->io_modes = VB2_DMABUF | VB2_MMAP;
-> > >  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> > > @@ -529,16 +647,28 @@ int stf_video_register(struct stfcamss_video
-> > *video,
-> > >  		goto err_mutex_destroy;
-> > >  	}
-> > >
-> > > -	ret = stf_video_init_format(video);
-> > > -	if (ret < 0) {
-> > > -		dev_err(video->stfcamss->dev,
-> > > -			"Failed to init format: %d\n", ret);
-> > > -		goto err_media_cleanup;
-> > > +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
-> > > +		ret = stf_video_init_format(video);
-> >
-> > I don't think this can fail
-> >
->
-> This already exists, and I probably will not change it here.
->
-
-No problem! Maybe something for later when de-staging the driver.
-
-Thanks
-  j
-
-> > > +		if (ret < 0) {
-> > > +			dev_err(video->stfcamss->dev,
-> > > +				"Failed to init format: %d\n", ret);
-> > > +			goto err_media_cleanup;
-> > > +		}
-> > > +		vdev->ioctl_ops = &stf_vid_ioctl_ops;
-> > > +		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE;
-> > > +	} else {
-> > > +		ret = stf_video_scd_init_format(video);
-> >
-> > This can't fail as noted above
-> >
->
-> I will change this return void.
->
-> > > +		if (ret < 0) {
-> > > +			dev_err(video->stfcamss->dev,
-> > > +				"Failed to init format: %d\n", ret);
-> > > +			goto err_media_cleanup;
-> > > +		}
-> > > +		vdev->ioctl_ops = &stf_vid_scd_ioctl_ops;
-> > > +		vdev->device_caps = V4L2_CAP_META_CAPTURE;
-> > >  	}
-> > >
-> > >  	vdev->fops = &stf_vid_fops;
-> > > -	vdev->ioctl_ops = &stf_vid_ioctl_ops;
-> > > -	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE |
-> > V4L2_CAP_STREAMING;
-> > > +	vdev->device_caps |= V4L2_CAP_STREAMING;
-> > >  	vdev->entity.ops = &stf_media_ops;
-> > >  	vdev->vfl_dir = VFL_DIR_RX;
-> > >  	vdev->release = stf_video_release;
-> > > diff --git a/drivers/staging/media/starfive/camss/stf-video.h
-> > > b/drivers/staging/media/starfive/camss/stf-video.h
-> > > index 59799b65cbe5..53a1cf4e59b7 100644
-> > > --- a/drivers/staging/media/starfive/camss/stf-video.h
-> > > +++ b/drivers/staging/media/starfive/camss/stf-video.h
-> > > @@ -37,6 +37,7 @@ enum stf_v_line_id {  enum stf_capture_type {
-> > >  	STF_CAPTURE_RAW = 0,
-> > >  	STF_CAPTURE_YUV,
-> > > +	STF_CAPTURE_SCD,
-> > >  	STF_CAPTURE_NUM,
-> > >  };
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> > >
->
-> Regards,
-> Changhuang
->
 
