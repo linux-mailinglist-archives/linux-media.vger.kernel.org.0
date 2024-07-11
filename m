@@ -1,74 +1,76 @@
-Return-Path: <linux-media+bounces-14904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14903-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6236B92E458
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 12:20:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1D492E456
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 12:20:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 865511C2186E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 10:20:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA7D41C220DD
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 10:20:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A132158DA2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3164E158D98;
 	Thu, 11 Jul 2024 10:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ut13nFWH"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="spJ3uAlD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA61F14F9E5
-	for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 10:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0811586D5
+	for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 10:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720693205; cv=none; b=CVurK24mS67E9ugXPw/qT/QvDaB1tM/weAE0nHMhJ5Nr4sadEBfST7fEkX7kP/TXOffrTSaNDf8ThAywWnUj3keppwk3GlN8sP2c5leRKc4F7+fgyEgYRP6+S9NaewqKUHj2mNH2AJhaZNlYFi5IB7HN+cdAirKrgC5RYDitCz0=
+	t=1720693205; cv=none; b=eR16p8Z+Hg9+ym60T+8ecmjoMpEVRjODDVYOZIlJeliQ2svW++gHojGMPG3BwRu3Wy6iPfmbcukDi2KA/mBRUC8Qp7tIULbSh8mTkT1XMFOM1Vt89RpSpE5Q3hoQ+9XppDX4UpE1DvVjmxc7UfyflAuzzq4rnher763ByoMIOf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1720693205; c=relaxed/simple;
-	bh=Te0Lw1oxuPXepV/5h7IQuALOgj6ZhURsQxOt9/IHXPc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iX5rz8nf2NAL1qQeGAQXRGv0nkjPu8yfnh5qx3GCSgcy1Jsdr5A52UbP4DLaOvWJg2FTrKbMOQ5cwBwEFGbwFk7P2wVtBhTLBQCl/Vn2Mm8rmGV1Jr+Ko8sT8ZYcxUPN0csIEF7zx91LlgMEQhn6hlmLGYuTF9c92Badc1Q04Rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ut13nFWH; arc=none smtp.client-ip=209.85.128.43
+	bh=ZDIWCtJoTPpqgSB2DOYJ2lRtvYa0iBWUcVLT0ATuLSA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=UbsBerCyNZUM7Kveq+gYUI+IAcjUzHDkYpgs+olacYHbI6XdwuDUuG6XOHEkIj6q7oY2FQXtgAX+tRH1DU6TaqGNoMxzXMECAjx81m2i0vbkDeewiSUe33Tz+iXT5LNe2VjqVrdwXgx6O2KQdyn7RL1H6V0w5k8HXqJAcNjEEtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=spJ3uAlD; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42797289c8bso5100275e9.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 03:20:02 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eea7e2b0e6so7798671fa.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 03:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720693201; x=1721298001; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NpEPOR+4bYifIxXAHWhUoDP3ysZA8Zm0c8+Ht0LO1TA=;
-        b=ut13nFWHV2SFSwyKg8eMtIyLnzLTRCi947pSOL7+KHsC5u2iDwVmceEU/6JlRjuJDe
-         7BY5tGwCaMt8xF4Q3jkblU/PGGIplgIMi6tQ8GoB9f4eb+L3aUc1Ohx+LvgTfaJeo0OQ
-         owuJ4zVqr/RUbYqoCpgnWL4Qf+OOHnVfnh1j4ZpNuUcSfPTqLfohIYsMwCunWl1BmG9P
-         PuNCHOpi8JHYFC6I0gwtLHX06L53lZgIrVZg3jDpQjLaihUuP5vwYy8w4sJ8u8ECqJB3
-         o0G5jOnxryXXYzY5iQvstsKlkUFCJAuQoullZpLhnn61XhJ4cRj9/q/UydjaV9yF7mXq
-         cLuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720693201; x=1721298001;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1720693202; x=1721298002; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NpEPOR+4bYifIxXAHWhUoDP3ysZA8Zm0c8+Ht0LO1TA=;
-        b=fUGnix+mi2kcex3wFIh+4DJO+mSvrhBskGupNNpkDG3iSiUGGdWAQ7Cfvatg/Hr2UA
-         qAaTZKkvbo87eYMVy4/XI6QMTf0m790lXazqJTJpNskV84vYFg5fKn5DYOWvFuUXEXQh
-         S1rWvdTDNBDfiZCnfnNlJDxaUhOiJTfpn2LQqle8LCTws4Up12YAkaU9U4+z4IBwxIM+
-         rF5FwP7b86//dYIX91FGStBnu1I8dahUZw2DPhRn2kh1TxfYxrSwUT+gnt68nx/ziOWd
-         DJcz8owpyfyoGzZrf6HoJcIDvGLbOjsMce4kw40Kjm28txVvy8Ve2WkOc6zpuouHBVsQ
-         GhLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVfzlVkaY9BVO46Bm/CNkgZzbidnxlQJldYhiGG6Pt/+xj0wzaTsI+xRjVgqdllvnM7Nxz0/KogFyC4mkEkQrhQtpO5vbFcT99rfF4=
-X-Gm-Message-State: AOJu0YyZVW+M5tJgQG1Ioawo31GDKJWS2q7GHx9xoBP/H/IkHgVDCQRZ
-	Bns5a6gGWLMJpdGigUq2y2ezH1bkPXr3W3FpKN+kjED1zg7o7DTPAWFqo/lNShc=
-X-Google-Smtp-Source: AGHT+IHhAvNQpxxxtu0l2TiI7e2EheLMZqNQ9j5p+6ozwhs2ZYLmXamkgwEmDJBnpLYODpEJcUMVEQ==
-X-Received: by 2002:a7b:cd1a:0:b0:426:4f47:6037 with SMTP id 5b1f17b1804b1-426707d7914mr50144105e9.19.1720693201030;
-        Thu, 11 Jul 2024 03:20:01 -0700 (PDT)
+        bh=koV68SqPyU3UAlRmC6Mum6YXdK1Ua2t3zfx/aiRtqyk=;
+        b=spJ3uAlDKfr4M9oYlQNSaHYLMZHB1Xdc2AsvIOPgiWfFng/4huu1LUDwVE+K1cjlKK
+         W/WCVh7wHg7X7sIjrh/nWz4HulHYzEIDDNFbmB10jSsqjUUr7r+vxQNqX0MithqC32Ni
+         oebS6IHrRh74MEFwt9GpG/h4hzgphXGB9MSYpKqbMMUxsnOty72r0MBspUhr0vCSYjQN
+         TifUQlqEK+JDlrsg2eenKk5uAG/ibIFPLqut244ZK4dHKqA+nOJ34gaHTYNMocXGW0xB
+         f8d/T/85HR6vyr/6+pnIw9KIufZzuYN5IjORhuxysqc4UmO7SMy/gW6P3JHGkw2I+Qch
+         iKqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720693202; x=1721298002;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=koV68SqPyU3UAlRmC6Mum6YXdK1Ua2t3zfx/aiRtqyk=;
+        b=RZ3+yWq5ozK0wplT8wAlusIZE5UOq72Hvqh77XOSFqkvkBT7LzKrq4pPZRPG8dG1a0
+         /hsLjjRIYUhshjq7nkDlW1M8z1/OCm/JwsPPUk1J89WO+1vWH3P0crQgW9z2H2Qn2t7j
+         biQXrGNk6Ssi+CfLW5jFdY05tmDHFDvi4azbt/1+PKR0xlBQnKKWzorwUK5hhPsEjrsc
+         wEWtDBQQMTKr1J8FA2gpAn0kAHo1x42j/p64WZU6OAdRte8M8Yhlva3XTNYMbg92Nrxe
+         7Iu2RySrn75GFhmg42tDtLOwbYu2o+3mDCdDPBZ40WQQNo1ADOlNt06Bl011AkdY48Aj
+         BCsA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3mBmmpdSO9aGoDbaQyscYoSz3UUN1KvcTzI+/eqj6o2Nt/TLaArG88XizslKu37VNBIcncCPmoaQjMnZ57yC5UhjSBa5VxTcgCGs=
+X-Gm-Message-State: AOJu0YyMc+6QNxq7jAIbX2wRc1B0HxQcmaO0LibFOV3//OrEBTkzYsYo
+	LqBrsVdg5Suafbp/Pa4SKj0MmIJT+qrsW6iQa34OHRraEiF3niJvJpO0HLZZ0SI=
+X-Google-Smtp-Source: AGHT+IG4lGOEP0ObrRCkbO66rKar4kb9gm5MrDgJ4yrSwAmZ7O8Q6KboQB+IJXQ95N9D6jwYagmyoA==
+X-Received: by 2002:a05:6512:3b8c:b0:52c:6461:e913 with SMTP id 2adb3069b0e04-52eb999623amr5603923e87.16.1720693202115;
+        Thu, 11 Jul 2024 03:20:02 -0700 (PDT)
 Received: from [127.0.1.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266e861339sm125270025e9.12.2024.07.11.03.20.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266e861339sm125270025e9.12.2024.07.11.03.20.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 03:20:00 -0700 (PDT)
+        Thu, 11 Jul 2024 03:20:01 -0700 (PDT)
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 0/2] media: ov5675: Fixup ov5675 reset failures
-Date: Thu, 11 Jul 2024 11:20:00 +0100
-Message-Id: <20240711-linux-next-ov5675-v1-0-69e9b6c62c16@linaro.org>
+Date: Thu, 11 Jul 2024 11:20:01 +0100
+Subject: [PATCH 1/2] media: ov5675: Derive delay cycles from the clock rate
+ reported
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,9 +79,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANCxj2YC/x3MSwqAMAwA0atI1gZStVa8irjwEzUgVVqVgvTuF
- pdvMfOCZyfsoc1ecPyIl8MmqDyDaRvsyihzMhRUVGQU4S72Dmg5XHg8ujYaaxqJm3Iy5aIgdaf
- jRcL/7PoYP2HfoWBjAAAA
+Message-Id: <20240711-linux-next-ov5675-v1-1-69e9b6c62c16@linaro.org>
+References: <20240711-linux-next-ov5675-v1-0-69e9b6c62c16@linaro.org>
+In-Reply-To: <20240711-linux-next-ov5675-v1-0-69e9b6c62c16@linaro.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
@@ -87,68 +89,100 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 Cc: Johan Hovold <johan@kernel.org>, 
  Kieran Bingham <kieran.bingham@ideasonboard.com>, 
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, stable@vger.kernel.org
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 X-Mailer: b4 0.15-dev-13183
 
-One long running saga for me on the Lenovo X13s is the occasional failure
-to either probe or subsequently bring-up the ov5675 main RGB sensor on the
-laptop.
+The ov5675 driver expresses its reset delays in terms of XVCLK cycles as
+per the ov5675 specification. XVCLK can be anything in the range of 6 MHz
+to 24 MHz inclusive.
 
-Initially I suspected the PMIC for this part as the PMIC is using a new
-interface on an I2C bus instead of an SPMI bus. In particular I thought
-perhaps the I2C write to PMIC had completed but the regulator output hadn't
-become stable from the perspective of the SoC. This however doesn't appear
-to be the case - I can introduce a delay of milliseconds on the PMIC path
-without resolving the sensor reset problem.
+Upstream we use 19.2 MHz however, since the delays are calculated in terms
+of clock cycles as opposed to fixed intervals it makes sense to facilitate
+any potential clock we might support.
 
-Secondly I thought about reset pin polarity or drive-strength but, again
-playing about with both didn't yield decent results.
-
-I also played with the duration of reset to no avail.
-
-The error manifested as an I2C write timeout to the sensor which indicated
-that the chip likely hadn't come out reset. An intermittent fault appearing
-in perhaps 1/10 or 1/20 reset cycles.
-
-Looking at the expression of the reset we see that there is a minimum time
-expressed in XVCLK cycles between reset completion and first I2C
-transaction to the sensor. The specification calls out the minimum delay @
-8192 XVCLK cycles and the ov5675 driver meets that timing almost exactly.
-
-A little too exactly - testing finally showed that we were too racy with
-respect to the minimum quiescence between reset completion and first
-command to the chip.
-
-Fixing this error I choose to base the fix again on the number of clocks
-but to also support any clock rate the chip could support by moving away
-from a define to reading and using the XVCLK.
-
-True enough only 19.2 MHz is currently supported but for the hypothetical
-case where some other frequency is supported in the future, I wanted the
-fix introduced in this series to still hold.
-
-Hence this series:
-
-1. Allows for any clock rate to be used in the valid range for the reset.
-2. Elongates the post-reset period based on clock cycles which can now
-vary.
-
-Patch #2 can still be backported to stable irrespective of patch #1.
+Do so by reading the XVCLK rate and using the returned rate instead of
+operating from a static definition.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
-Bryan O'Donoghue (2):
-      media: ov5675: Derive delay cycles from the clock rate reported
-      media: ov5675: Elongate reset to first transaction minimum gap
+ drivers/media/i2c/ov5675.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
- drivers/media/i2c/ov5675.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
----
-base-commit: 523b23f0bee3014a7a752c9bb9f5c54f0eddae88
-change-id: 20240710-linux-next-ov5675-60b0e83c73f1
+diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+index 3641911bc73f..92bd35133a5d 100644
+--- a/drivers/media/i2c/ov5675.c
++++ b/drivers/media/i2c/ov5675.c
+@@ -497,6 +497,7 @@ struct ov5675 {
+ 	struct media_pad pad;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 	struct clk *xvclk;
++	u32 xvclk_rate;
+ 	struct gpio_desc *reset_gpio;
+ 	struct regulator_bulk_data supplies[OV5675_NUM_SUPPLIES];
+ 
+@@ -973,10 +974,11 @@ static int ov5675_set_stream(struct v4l2_subdev *sd, int enable)
+ static int ov5675_power_off(struct device *dev)
+ {
+ 	/* 512 xvclk cycles after the last SCCB transation or MIPI frame end */
+-	u32 delay_us = DIV_ROUND_UP(512, OV5675_XVCLK_19_2 / 1000 / 1000);
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct ov5675 *ov5675 = to_ov5675(sd);
++	u32 delay_us;
+ 
++	delay_us = DIV_ROUND_UP(512, ov5675->xvclk_rate / 1000 / 1000);
+ 	usleep_range(delay_us, delay_us * 2);
+ 
+ 	clk_disable_unprepare(ov5675->xvclk);
+@@ -988,11 +990,13 @@ static int ov5675_power_off(struct device *dev)
+ 
+ static int ov5675_power_on(struct device *dev)
+ {
+-	u32 delay_us = DIV_ROUND_UP(8192, OV5675_XVCLK_19_2 / 1000 / 1000);
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct ov5675 *ov5675 = to_ov5675(sd);
++	u32 delay_us;
+ 	int ret;
+ 
++	delay_us = DIV_ROUND_UP(8192, ov5675->xvclk_rate / 1000 / 1000);
++
+ 	ret = clk_prepare_enable(ov5675->xvclk);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to enable xvclk: %d\n", ret);
+@@ -1178,7 +1182,6 @@ static int ov5675_get_hwcfg(struct ov5675 *ov5675, struct device *dev)
+ 	struct v4l2_fwnode_endpoint bus_cfg = {
+ 		.bus_type = V4L2_MBUS_CSI2_DPHY
+ 	};
+-	u32 xvclk_rate;
+ 	int ret;
+ 	unsigned int i, j;
+ 
+@@ -1192,10 +1195,10 @@ static int ov5675_get_hwcfg(struct ov5675 *ov5675, struct device *dev)
+ 				     PTR_ERR(ov5675->xvclk));
+ 
+ 	if (ov5675->xvclk) {
+-		xvclk_rate = clk_get_rate(ov5675->xvclk);
++		ov5675->xvclk_rate = clk_get_rate(ov5675->xvclk);
+ 	} else {
+ 		ret = fwnode_property_read_u32(fwnode, "clock-frequency",
+-					       &xvclk_rate);
++					       &ov5675->xvclk_rate);
+ 
+ 		if (ret) {
+ 			dev_err(dev, "can't get clock frequency");
+@@ -1203,9 +1206,9 @@ static int ov5675_get_hwcfg(struct ov5675 *ov5675, struct device *dev)
+ 		}
+ 	}
+ 
+-	if (xvclk_rate != OV5675_XVCLK_19_2) {
++	if (ov5675->xvclk_rate != OV5675_XVCLK_19_2) {
+ 		dev_err(dev, "external clock rate %u is unsupported",
+-			xvclk_rate);
++			ov5675->xvclk_rate);
+ 		return -EINVAL;
+ 	}
+ 
 
-Best regards,
 -- 
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+2.45.2
 
 
