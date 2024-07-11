@@ -1,340 +1,154 @@
-Return-Path: <linux-media+bounces-14906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14904-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5785092E45E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 12:21:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6236B92E458
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 12:20:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13347284D8B
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 10:21:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 865511C2186E
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jul 2024 10:20:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B90515AAD9;
-	Thu, 11 Jul 2024 10:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A132158DA2;
+	Thu, 11 Jul 2024 10:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="E8sjN5hE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ut13nFWH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8340315885D
-	for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 10:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA61F14F9E5
+	for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 10:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720693213; cv=none; b=Gzr/hEGUWROXEgAtEj+xPjgqLZe+eWyWjjfBzPicBeLGim4hOk4OXzACPuKGkgy4iUdTwby36rmjn75SIsvGvwVK0ohUAQtmjwbIcuXMDdNx3Q+MgdaG2wqAG7IyDiiwSZQrNV/s39aAJLy/2t5BFZnLPkwe1Y8ELMYiaAXlsvs=
+	t=1720693205; cv=none; b=CVurK24mS67E9ugXPw/qT/QvDaB1tM/weAE0nHMhJ5Nr4sadEBfST7fEkX7kP/TXOffrTSaNDf8ThAywWnUj3keppwk3GlN8sP2c5leRKc4F7+fgyEgYRP6+S9NaewqKUHj2mNH2AJhaZNlYFi5IB7HN+cdAirKrgC5RYDitCz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720693213; c=relaxed/simple;
-	bh=ia3wSdShWzabjtDv3342ycjfQe9yOGzqDVhoscZXAc4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UilMlxjsZOUTi5aYDSGTlRspQczVUlenYKeccIU8e3WpK0RlR8LuTs8G9hyOa1fcv5mNgZYB5v4hSoP6MK/JL4w/zh3GZ7IGUvaaG/NFel6K8EaHAjxqP5obgjmend1bHdDaKV/OBAJEuEBg7VP6xwB6RUup+IZi6jo0g0fC8ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=E8sjN5hE; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-58b0dddab8cso1290885a12.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 03:20:11 -0700 (PDT)
+	s=arc-20240116; t=1720693205; c=relaxed/simple;
+	bh=Te0Lw1oxuPXepV/5h7IQuALOgj6ZhURsQxOt9/IHXPc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iX5rz8nf2NAL1qQeGAQXRGv0nkjPu8yfnh5qx3GCSgcy1Jsdr5A52UbP4DLaOvWJg2FTrKbMOQ5cwBwEFGbwFk7P2wVtBhTLBQCl/Vn2Mm8rmGV1Jr+Ko8sT8ZYcxUPN0csIEF7zx91LlgMEQhn6hlmLGYuTF9c92Badc1Q04Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ut13nFWH; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42797289c8bso5100275e9.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 03:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1720693209; x=1721298009; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q4pKxsdxjVBHn5/3r7YaaRkxW/WuW1rZwIMp/JW62Xo=;
-        b=E8sjN5hE8vPe+6dEAGFmZkarqijHX43KiBfdFJO06e7jx4tSmYUwfUJw/uKyDZsABI
-         ytLVcpvtLzSSOl6j89xExWLVZIQK6k1Iev0POimzZQn27WnFfQ6w7Hs3L/9O15aoJVFE
-         ShGbR9Y+EDKVyplkhBkQyLkl10Pqo/M1e8F5I=
+        d=linaro.org; s=google; t=1720693201; x=1721298001; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NpEPOR+4bYifIxXAHWhUoDP3ysZA8Zm0c8+Ht0LO1TA=;
+        b=ut13nFWHV2SFSwyKg8eMtIyLnzLTRCi947pSOL7+KHsC5u2iDwVmceEU/6JlRjuJDe
+         7BY5tGwCaMt8xF4Q3jkblU/PGGIplgIMi6tQ8GoB9f4eb+L3aUc1Ohx+LvgTfaJeo0OQ
+         owuJ4zVqr/RUbYqoCpgnWL4Qf+OOHnVfnh1j4ZpNuUcSfPTqLfohIYsMwCunWl1BmG9P
+         PuNCHOpi8JHYFC6I0gwtLHX06L53lZgIrVZg3jDpQjLaihUuP5vwYy8w4sJ8u8ECqJB3
+         o0G5jOnxryXXYzY5iQvstsKlkUFCJAuQoullZpLhnn61XhJ4cRj9/q/UydjaV9yF7mXq
+         cLuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720693209; x=1721298009;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q4pKxsdxjVBHn5/3r7YaaRkxW/WuW1rZwIMp/JW62Xo=;
-        b=CXwXVOek+zEZ1XUml3eCgnUI6tODyODf61lSVHEOnF3uECMLJJsZIrSq3zNC+YvEOh
-         ECOJ3wbak/gqrJQvvEKUZuIiXG9Y3iYwlgnj50YnOLdr0I/q+gaNpwbJb0rS9U/95rRC
-         tbQhtkhLik+V+u8ejc59nbmDtogiwbX8k6LzFKSLZDaS7+ESY+8Mcq7rKtHvY58Ttr3o
-         HOxFrMo+XkZ3voh73gsvIJrs1o/PXUIiKBAEQhS12MlIrlme3Ba5IcVwbv6P4mm4NsiI
-         wV0F+VqyYsilCAi5KpyWdMCy3dyKYBWqnHaHhFV46rdyMJf3R9LosYohm+A6QgtlMxi6
-         D+ew==
-X-Forwarded-Encrypted: i=1; AJvYcCU18MgyiohgdjcfqH4g7nRM8TnuN/PHbVCMAezFs1skzHxFRKyvFWC6EVWv1jCLchV17ie2lpW/Q1VeYqqY6XYF3CXxUdUdZWZhRUY=
-X-Gm-Message-State: AOJu0YwU4cJKJNvGPOf00KxC/BwEut0Fzk3KnlFEtnllrVsdct8+NT0C
-	yPawRss7QOEeQR1A5eevdpk1AT0Gu0Nckvb+IiorEEVbeit9Y/6Qv0BE2UjzcVrCIgsFXIcLJ7u
-	lRw==
-X-Google-Smtp-Source: AGHT+IGTg4Rr6JNTKoUqgLRHlaUOPCYm9pvIfTqdq0eEL2/Pv0vdz+m+zh4pFZk8aY+Af4yR5GnavA==
-X-Received: by 2002:a05:6402:231a:b0:58d:c542:2500 with SMTP id 4fb4d7f45d1cf-594baf87753mr4012250a12.10.1720693209264;
-        Thu, 11 Jul 2024 03:20:09 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-594bd459af1sm3299084a12.59.2024.07.11.03.20.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 03:20:07 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-58b966b4166so932815a12.1
-        for <linux-media@vger.kernel.org>; Thu, 11 Jul 2024 03:20:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUBxePMFrotxdkagGdan+zVkm8bNX+jDl9gOw6NY0YtjpZggvvisUfSow+wamaEu7SRVYtSGQU8LzIVEtkS0ZxxAyFIPDVszj9VxHo=
-X-Received: by 2002:a17:907:608d:b0:a6e:f7ee:b1fa with SMTP id
- a640c23a62f3a-a780b89cbb7mr555703466b.72.1720693206473; Thu, 11 Jul 2024
- 03:20:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720693201; x=1721298001;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NpEPOR+4bYifIxXAHWhUoDP3ysZA8Zm0c8+Ht0LO1TA=;
+        b=fUGnix+mi2kcex3wFIh+4DJO+mSvrhBskGupNNpkDG3iSiUGGdWAQ7Cfvatg/Hr2UA
+         qAaTZKkvbo87eYMVy4/XI6QMTf0m790lXazqJTJpNskV84vYFg5fKn5DYOWvFuUXEXQh
+         S1rWvdTDNBDfiZCnfnNlJDxaUhOiJTfpn2LQqle8LCTws4Up12YAkaU9U4+z4IBwxIM+
+         rF5FwP7b86//dYIX91FGStBnu1I8dahUZw2DPhRn2kh1TxfYxrSwUT+gnt68nx/ziOWd
+         DJcz8owpyfyoGzZrf6HoJcIDvGLbOjsMce4kw40Kjm28txVvy8Ve2WkOc6zpuouHBVsQ
+         GhLw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfzlVkaY9BVO46Bm/CNkgZzbidnxlQJldYhiGG6Pt/+xj0wzaTsI+xRjVgqdllvnM7Nxz0/KogFyC4mkEkQrhQtpO5vbFcT99rfF4=
+X-Gm-Message-State: AOJu0YyZVW+M5tJgQG1Ioawo31GDKJWS2q7GHx9xoBP/H/IkHgVDCQRZ
+	Bns5a6gGWLMJpdGigUq2y2ezH1bkPXr3W3FpKN+kjED1zg7o7DTPAWFqo/lNShc=
+X-Google-Smtp-Source: AGHT+IHhAvNQpxxxtu0l2TiI7e2EheLMZqNQ9j5p+6ozwhs2ZYLmXamkgwEmDJBnpLYODpEJcUMVEQ==
+X-Received: by 2002:a7b:cd1a:0:b0:426:4f47:6037 with SMTP id 5b1f17b1804b1-426707d7914mr50144105e9.19.1720693201030;
+        Thu, 11 Jul 2024 03:20:01 -0700 (PDT)
+Received: from [127.0.1.1] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4266e861339sm125270025e9.12.2024.07.11.03.20.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jul 2024 03:20:00 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/2] media: ov5675: Fixup ov5675 reset failures
+Date: Thu, 11 Jul 2024 11:20:00 +0100
+Message-Id: <20240711-linux-next-ov5675-v1-0-69e9b6c62c16@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240618073004.3420436-1-tao.jiang_2@nxp.com> <CAAFQd5B_RTHsMwMdD59RAAyFne_0Ok_A4ExdkVOgi=G6-UGfRQ@mail.gmail.com>
- <036bf0d7f657cae444d20ea6d279b47e3bf0164e.camel@ndufresne.ca>
- <CAAFQd5DfbqOkZzPfCNRMGeMgv2NfM6WENWXeLUNsuMgkzeBQKw@mail.gmail.com> <443d109f-c817-4f47-9368-ff8b09a9a49e@xs4all.nl>
-In-Reply-To: <443d109f-c817-4f47-9368-ff8b09a9a49e@xs4all.nl>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Thu, 11 Jul 2024 19:19:39 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Am5jBev5P1HmsdeHoJfROZat3bi1W=UsN7wpVqw-XUQQ@mail.gmail.com>
-Message-ID: <CAAFQd5Am5jBev5P1HmsdeHoJfROZat3bi1W=UsN7wpVqw-XUQQ@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: sync caches for dmabuf memory
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, m.szyprowski@samsung.com, 
-	TaoJiang <tao.jiang_2@nxp.com>, mchehab@kernel.org, shawnguo@kernel.org, 
-	robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com, 
-	eagle.zhou@nxp.com, ming.qian@oss.nxp.com, imx@lists.linux.dev, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	sumit.semwal@linaro.org, christian.koenig@amd.com, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	Ming Qian <ming.qian@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANCxj2YC/x3MSwqAMAwA0atI1gZStVa8irjwEzUgVVqVgvTuF
+ pdvMfOCZyfsoc1ecPyIl8MmqDyDaRvsyihzMhRUVGQU4S72Dmg5XHg8ujYaaxqJm3Iy5aIgdaf
+ jRcL/7PoYP2HfoWBjAAAA
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>
+Cc: Johan Hovold <johan@kernel.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, stable@vger.kernel.org
+X-Mailer: b4 0.15-dev-13183
 
-On Thu, Jun 20, 2024 at 3:52=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4all=
-.nl> wrote:
->
-> On 19/06/2024 06:19, Tomasz Figa wrote:
-> > On Wed, Jun 19, 2024 at 1:24=E2=80=AFAM Nicolas Dufresne <nicolas@ndufr=
-esne.ca> wrote:
-> >>
-> >> Le mardi 18 juin 2024 =C3=A0 16:47 +0900, Tomasz Figa a =C3=A9crit :
-> >>> Hi TaoJiang,
-> >>>
-> >>> On Tue, Jun 18, 2024 at 4:30=E2=80=AFPM TaoJiang <tao.jiang_2@nxp.com=
-> wrote:
-> >>>>
-> >>>> From: Ming Qian <ming.qian@nxp.com>
-> >>>>
-> >>>> When the memory type is VB2_MEMORY_DMABUF, the v4l2 device can't kno=
-w
-> >>>> whether the dma buffer is coherent or synchronized.
-> >>>>
-> >>>> The videobuf2-core will skip cache syncs as it think the DMA exporte=
-r
-> >>>> should take care of cache syncs
-> >>>>
-> >>>> But in fact it's likely that the client doesn't
-> >>>> synchronize the dma buf before qbuf() or after dqbuf(). and it's
-> >>>> difficult to find this type of error directly.
-> >>>>
-> >>>> I think it's helpful that videobuf2-core can call
-> >>>> dma_buf_end_cpu_access() and dma_buf_begin_cpu_access() to handle th=
-e
-> >>>> cache syncs.
-> >>>>
-> >>>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> >>>> Signed-off-by: TaoJiang <tao.jiang_2@nxp.com>
-> >>>> ---
-> >>>>  .../media/common/videobuf2/videobuf2-core.c   | 22 ++++++++++++++++=
-+++
-> >>>>  1 file changed, 22 insertions(+)
-> >>>>
-> >>>
-> >>> Sorry, that patch is incorrect. I believe you're misunderstanding the
-> >>> way DMA-buf buffers should be managed in the userspace. It's the
-> >>> userspace responsibility to call the DMA_BUF_IOCTL_SYNC ioctl [1] to
-> >>> signal start and end of CPU access to the kernel and imply necessary
-> >>> cache synchronization.
-> >>>
-> >>> [1] https://docs.kernel.org/driver-api/dma-buf.html#dma-buffer-ioctls
-> >>>
-> >>> So, really sorry, but it's a NAK.
-> >>
-> >>
-> >>
-> >> This patch *could* make sense if it was inside UVC Driver as an exampl=
-e, as this
-> >> driver can import dmabuf, to CPU memcpy, and does omits the required s=
-ync calls
-> >> (unless that got added recently, I can easily have missed it).
-> >
-> > Yeah, currently V4L2 drivers don't call the in-kernel
-> > dma_buf_{begin,end}_cpu_access() when they need to access the buffers
-> > from the CPU, while my quick grep [1] reveals that we have 68 files
-> > retrieving plane vaddr by calling vb2_plane_vaddr() (not necessarily a
-> > 100% guarantee of CPU access being done, but rather likely so).
-> >
-> > I also repeated the same thing with VB2_DMABUF [2] and tried to
-> > attribute both lists to specific drivers (by retaining the path until
-> > the first - or _ [3]; which seemed to be relatively accurate), leading
-> > to the following drivers that claim support for DMABUF while also
-> > retrieving plane vaddr (without proper synchronization - no drivers
-> > currently call any begin/end CPU access):
-> >
-> >  i2c/video
-> >  pci/bt8xx/bttv
-> >  pci/cobalt/cobalt
-> >  pci/cx18/cx18
-> >  pci/tw5864/tw5864
-> >  pci/tw686x/tw686x
-> >  platform/allegro
-> >  platform/amphion/vpu
-> >  platform/chips
-> >  platform/intel/pxa
-> >  platform/marvell/mcam
-> >  platform/mediatek/jpeg/mtk
-> >  platform/mediatek/vcodec/decoder/mtk
-> >  platform/mediatek/vcodec/encoder/mtk
-> >  platform/nuvoton/npcm
-> >  platform/nvidia/tegra
-> >  platform/nxp/imx
-> >  platform/renesas/rcar
-> >  platform/renesas/vsp1/vsp1
-> >  platform/rockchip/rkisp1/rkisp1
-> >  platform/samsung/exynos4
-> >  platform/samsung/s5p
-> >  platform/st/sti/delta/delta
-> >  platform/st/sti/hva/hva
-> >  platform/verisilicon/hantro
-> >  usb/au0828/au0828
-> >  usb/cx231xx/cx231xx
-> >  usb/dvb
-> >  usb/em28xx/em28xx
-> >  usb/gspca/gspca.c
-> >  usb/hackrf/hackrf.c
-> >  usb/stk1160/stk1160
-> >  usb/uvc/uvc
-> >
-> > which means we potentially have ~30 drivers which likely don't handle
-> > imported DMABUFs correctly (there is still a chance that DMABUF is
-> > advertised for one queue, while vaddr is used for another).
-> >
-> > I think we have two options:
-> > 1) add vb2_{begin/end}_cpu_access() helpers, carefully audit each
-> > driver and add calls to those
->
-> I actually started on that 9 (!) years ago:
->
-> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=3Dvb2-cpu-access
->
-> If memory serves, the main problem was that there were some drivers where
-> it wasn't clear what should be done. In the end I never continued this
-> work since nobody complained about it.
->
-> This patch series adds vb2_plane_begin/end_cpu_access() functions,
-> replaces all calls to vb2_plane_vaddr() in drivers to the new functions,
-> and at the end removes vb2_plane_vaddr() altogether.
->
-> > 2) take a heavy gun approach and just call vb2_begin_cpu_access()
-> > whenever vb2_plane_vaddr() is called and then vb2_end_cpu_access()
-> > whenever vb2_buffer_done() is called (if begin was called before).
-> >
-> > The latter has the disadvantage of drivers not having control over the
-> > timing of the cache sync, so could end up with less than optimal
-> > performance. Also there could be some more complex cases, where the
-> > driver needs to mix DMA and CPU accesses to the buffer, so the fixed
-> > sequence just wouldn't work for them. (But then they just wouldn't
-> > work today either.)
-> >
-> > Hans, Marek, do you have any thoughts? (I'd personally just go with 2
-> > and if any driver in the future needs something else, they could call
-> > begin/end CPU access manually.)
->
-> I prefer 1. If nothing else, that makes it easy to identify drivers
-> that do such things.
->
-> But perhaps a mix is possible: if a VB2 flag is set by the driver, then
-> approach 2 is used. That might help with the drivers where it isn't clear
-> what they should do. Although perhaps this can all be done in the driver
-> itself: instead of vb2_plane_vaddr they call vb2_begin_cpu_access for the
-> whole buffer, and at buffer_done time they call vb2_end_cpu_access. Shoul=
-d
-> work just as well for the very few drivers that need this.
+One long running saga for me on the Lenovo X13s is the occasional failure
+to either probe or subsequently bring-up the ov5675 main RGB sensor on the
+laptop.
 
-That's a good point. I guess we don't really need to dig so much into
-those drivers in this case. Just mechanically do the same for all of
-them (+/- maybe checking for some obvious corner cases which don't
-need the extra calls). Let me see if I can give it a stab.
+Initially I suspected the PMIC for this part as the PMIC is using a new
+interface on an I2C bus instead of an SPMI bus. In particular I thought
+perhaps the I2C write to PMIC had completed but the regulator output hadn't
+become stable from the perspective of the SoC. This however doesn't appear
+to be the case - I can introduce a delay of milliseconds on the PMIC path
+without resolving the sensor reset problem.
 
-Best,
-Tomasz
+Secondly I thought about reset pin polarity or drive-strength but, again
+playing about with both didn't yield decent results.
 
->
-> Regards,
->
->         Hans
->
-> >
-> > [1] git grep vb2_plane_vaddr | cut -d":" -f 1 | sort | uniq
-> > [2] git grep VB2_DMABUF | cut -d":" -f 1 | sort | uniq
-> > [3] by running [1] and [2] through | cut -d"-" -f 1 | cut -d"_" -f 1 | =
-uniq
-> >
-> > Best,
-> > Tomasz
-> >
-> >>
-> >> But generally speaking, bracketing all driver with CPU access synchron=
-ization
-> >> does not make sense indeed, so I second the rejection.
-> >>
-> >> Nicolas
-> >>
-> >>>
-> >>> Best regards,
-> >>> Tomasz
-> >>>
-> >>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drive=
-rs/media/common/videobuf2/videobuf2-core.c
-> >>>> index 358f1fe42975..4734ff9cf3ce 100644
-> >>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> >>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> >>>> @@ -340,6 +340,17 @@ static void __vb2_buf_mem_prepare(struct vb2_bu=
-ffer *vb)
-> >>>>         vb->synced =3D 1;
-> >>>>         for (plane =3D 0; plane < vb->num_planes; ++plane)
-> >>>>                 call_void_memop(vb, prepare, vb->planes[plane].mem_p=
-riv);
-> >>>> +
-> >>>> +       if (vb->memory !=3D VB2_MEMORY_DMABUF)
-> >>>> +               return;
-> >>>> +       for (plane =3D 0; plane < vb->num_planes; ++plane) {
-> >>>> +               struct dma_buf *dbuf =3D vb->planes[plane].dbuf;
-> >>>> +
-> >>>> +               if (!dbuf)
-> >>>> +                       continue;
-> >>>> +
-> >>>> +               dma_buf_end_cpu_access(dbuf, vb->vb2_queue->dma_dir)=
-;
-> >>>> +       }
-> >>>>  }
-> >>>>
-> >>>>  /*
-> >>>> @@ -356,6 +367,17 @@ static void __vb2_buf_mem_finish(struct vb2_buf=
-fer *vb)
-> >>>>         vb->synced =3D 0;
-> >>>>         for (plane =3D 0; plane < vb->num_planes; ++plane)
-> >>>>                 call_void_memop(vb, finish, vb->planes[plane].mem_pr=
-iv);
-> >>>> +
-> >>>> +       if (vb->memory !=3D VB2_MEMORY_DMABUF)
-> >>>> +               return;
-> >>>> +       for (plane =3D 0; plane < vb->num_planes; ++plane) {
-> >>>> +               struct dma_buf *dbuf =3D vb->planes[plane].dbuf;
-> >>>> +
-> >>>> +               if (!dbuf)
-> >>>> +                       continue;
-> >>>> +
-> >>>> +               dma_buf_begin_cpu_access(dbuf, vb->vb2_queue->dma_di=
-r);
-> >>>> +       }
-> >>>>  }
-> >>>>
-> >>>>  /*
-> >>>> --
-> >>>> 2.43.0-rc1
-> >>>>
-> >>
-> >
->
+I also played with the duration of reset to no avail.
+
+The error manifested as an I2C write timeout to the sensor which indicated
+that the chip likely hadn't come out reset. An intermittent fault appearing
+in perhaps 1/10 or 1/20 reset cycles.
+
+Looking at the expression of the reset we see that there is a minimum time
+expressed in XVCLK cycles between reset completion and first I2C
+transaction to the sensor. The specification calls out the minimum delay @
+8192 XVCLK cycles and the ov5675 driver meets that timing almost exactly.
+
+A little too exactly - testing finally showed that we were too racy with
+respect to the minimum quiescence between reset completion and first
+command to the chip.
+
+Fixing this error I choose to base the fix again on the number of clocks
+but to also support any clock rate the chip could support by moving away
+from a define to reading and using the XVCLK.
+
+True enough only 19.2 MHz is currently supported but for the hypothetical
+case where some other frequency is supported in the future, I wanted the
+fix introduced in this series to still hold.
+
+Hence this series:
+
+1. Allows for any clock rate to be used in the valid range for the reset.
+2. Elongates the post-reset period based on clock cycles which can now
+vary.
+
+Patch #2 can still be backported to stable irrespective of patch #1.
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (2):
+      media: ov5675: Derive delay cycles from the clock rate reported
+      media: ov5675: Elongate reset to first transaction minimum gap
+
+ drivers/media/i2c/ov5675.c | 26 +++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 9 deletions(-)
+---
+base-commit: 523b23f0bee3014a7a752c9bb9f5c54f0eddae88
+change-id: 20240710-linux-next-ov5675-60b0e83c73f1
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
 
