@@ -1,1229 +1,473 @@
-Return-Path: <linux-media+bounces-14952-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14953-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C7792F687
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 09:52:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8430992F73D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 10:52:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78B45B21DA3
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 07:52:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E69228390E
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 08:52:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20060140384;
-	Fri, 12 Jul 2024 07:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="W0c3HrsX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0589142645;
+	Fri, 12 Jul 2024 08:52:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2053.outbound.protection.outlook.com [40.107.215.53])
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2097.outbound.protection.partner.outlook.cn [139.219.146.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F9E13E020;
-	Fri, 12 Jul 2024 07:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1962C85C56;
+	Fri, 12 Jul 2024 08:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.97
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720770763; cv=fail; b=g8/OpTxYokOUe6c6whxvhS2bqSEyP2uc6elD1RHRGczT+ZSrFIL6etOzz91xKmPOS9rBE/WUiEgqbF3+QvN3KZ6Cza37LtyAu61Fyw5jbiW20TcNt270f1ZJVLYjWMBy+k78O6SZ0U1sUeCpb+I7MGlDW+c9iQQTjGmtg5QYCDg=
+	t=1720774366; cv=fail; b=FbyiJ1awq9CcNArjMnLLXH4AE4X7YEQ8+KYWfnvynFmpuW5TjDBGmc6y6r6JK8Z0WOUpaKknOYtFfnJ2NFsCDNrFfGIQ3eJb90UqDlnrbEKo5FAhzY2r6KZPFPrcFaGVHohf1OoQfRyhRADb3+TZECbTC2DfYgDpKgbpiG4Xbqo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720770763; c=relaxed/simple;
-	bh=zk8+XBApewj/mjqmXDCUrRpEgbwWCi5hwYvWNMMJZpI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=gLQuxfKaTbMY0MECP1o1AzZ63hnxm5qqmC8pq80xeqgJoTtVgK/+Zi4NeURyGYKjarr6AZWivLlan9vIBnOuzX5XQNSf9In6+NJvz7Jt/Iu9lcc1he6UlLbzFh5s6EuPyWjvp/tyNZuiwxOgyzny6K2eEG9VKLnlVOZo66ZmJ6o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=W0c3HrsX; arc=fail smtp.client-ip=40.107.215.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n/jy/y40kJsu1/rW2WBVTyzkM6n4RcyDK3n8HFX7Mn/rnLZdXC5ppS6u2mkjoOOo4Em9vDBGiUmg27Ba6kGPQ69Jq1cyu7F5wvPtcuSiRmz0BU0Tys8Rv7YQVZb7eYptZX2a+fUMVVqN4U7ZzVZ/5HLvDoHZFvfgnEwlMByKvUtlxgdwiCFAxzncAnONlxu20FCw89BHdFGEmiUaWaXoBjzU31b5m6PW7BlgZSUYKeaj0esAwdCJFBq17A9G2dRCehju2atex25/EVrQglduFrzI5GOLOoj9FC0knwfQHgEYAV03Hiv4wzQYa2RX++OYhCqaQJfb4eZXdra5qdIIIQ==
+	s=arc-20240116; t=1720774366; c=relaxed/simple;
+	bh=3ewajqiRPa9RfC4IVmZx9xImA4nA6IVCHk/3WycRbIk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=J1HZOs5TSNAj7YTOCKYS1/LyeZ0o0Fz4aTpbnrsiE+36B9xYNtAujI2AARqvi0O2F6bF8m14E/qLRfwS7jLgE/y1xoYeZSI6TNJw4shXJDjxxFTK2iJfYGcJamW8RPtuWxlMNnljVs7+RDLr6pTiDSMwVTSkr/pd0RW7kb1YIao=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FohEdJWcLKlA77iyFstWAOGv2lCYbw64ppMcTcZh3uuAa6MrvP6qpyVodqhOSqA4/PxoWhzdicYfeqbio9mvzkbNOse6O0+ykgTmdw2ah+BVmFldHctUcU38+Va4Go1dqzhwijUhL0hg5GSf4iO4S0Y2dLk79iBTtptzzJmg0hhhGjqmfjSb9W3RsW6eec8MyRHmbUjWhhPA1zEBH7rLg0HpCmw4AUo80F9f7rQ0FfwzsC5b1XH1Oe7aO7lF16zNewwt03hZ3MiTrtLkQvqsrfs5xAXnOTBMEaEKr95BSe/z3WoDFwxcorV8XCQDOlDrfdPaFS0xR6pbC/KVMyWwTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
+ s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mj99UE8kkkOCHIB9QG/b9J99DVUpr4vfMZiBktcIVnQ=;
- b=G1TxdZJ0oupghpl+GXLYSsmwUwl1ss8yg2Azhpb1f3AiN740g9HEeaFZL3GQXZDNMXmmCt56Mbx3qnLLofjyraGV/rMEEFjOHnABJ5I7y7+TkcmMT8U7+2uKnP4bCayeTo+R+jf1DUA1fFkWsrz7//7silcnLxqsPvEPkGQdvLxhTwyJyvqreVL6kLd72jU9LxNvjyCgeVMGo9k3ChGppi+n2quW7ysZVZgyEVHuytX/Q9ak5+OFE+GIdycFGJ8EpeszGFk6ux1nNFZSFNG4BWCasXEgXXhOzLHnuxCeM71zNxukk3fCPcX1D5adGsp0QVxO+XLP8Uj+Qgk5Pk27cQ==
+ bh=3ewajqiRPa9RfC4IVmZx9xImA4nA6IVCHk/3WycRbIk=;
+ b=m1SN0/kTtKjwHH8CgEUbNw/xWXc4Q9+R+hLdydaYbbh0rE0u2H5FdQcqDO89P0E8C3QFIRXX3ZfTQPVY2CepM4uq5KIt+UwVhmlHCuq/5f5f8yxz9hvJgj/nJkTdXL9XI//VEa6Qm5/WkB8vXI09cHuAUVS1/VXblGuCCQ2XQj/EFuGXlNkhhWlju4Wx3jcqPfQJP/lj+zekiN5WUDDH9i1ILC+h664NMYnbeBNBuelDm7jsYN6kFxgt8vBMqQk+wzyvnZOxPeNkhU+XDmUIF3YcVZ15ndRXQaBi7afb2pviUBgW6+jLKFgAT6aSIhyeLEGqJTNX/rVXcCrXCHHebQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mj99UE8kkkOCHIB9QG/b9J99DVUpr4vfMZiBktcIVnQ=;
- b=W0c3HrsXvMRRqBkdj+4+D6xIoBvMGPiwwFhz0Xu3G4RHhIA/+/NHUqZ9cs/jr/Y+bxGxpdC1ZPFIybaujGsUe4w+JepF2pKMdxHg3kkKqlN7ePnJ2l2yfzPkJRERkIAzRB5OU9xJOZPhbgJFyABUbEcfeFesjZjHP5LVnX/0Bv3be3Yn5PVsbJorr2brmPZCxpzfZinunBn8eWM4cBqMf3R6B5DwGR2lRStFY2EusoLxL1LxIvBOi0v3hc7zySgnN/ccjrZZDSMxwDy5LqibNMJUc3al/J0XKnprwsKFCPP+G6QMuVkYsyZS+VyNmGSTTNtmqRlSG4XOt8jiDgAxsw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by PUZPR06MB5796.apcprd06.prod.outlook.com (2603:1096:301:f0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.23; Fri, 12 Jul
- 2024 07:52:32 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7741.030; Fri, 12 Jul 2024
- 07:52:32 +0000
-Message-ID: <54d2d0c0-a620-450d-9d16-6d106ab62414@vivo.com>
-Date: Fri, 12 Jul 2024 15:52:27 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE
- framework
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-References: <20240711074221.459589-1-link@vivo.com>
- <20240711074221.459589-2-link@vivo.com>
- <5ccbe705-883c-4651-9e66-6b452c414c74@amd.com>
- <a95dece8-b530-4add-a664-ebab81f8b5d5@vivo.com>
- <63189ac3-7725-4ad7-966a-4ca679a25d12@amd.com>
- <72cfdad2-ba33-4b90-acfa-7e50b8d9ec51@vivo.com>
- <ea841c1c-fd7f-4958-add1-d3e96f68a11b@vivo.com>
- <df605c4a-56a4-44cb-9b7c-d466f9cc80ae@amd.com>
- <80426e64-d334-4e61-8870-a3da08705f9d@vivo.com>
- <6d18c552-37e0-4566-8b63-b0095239bad9@amd.com>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <6d18c552-37e0-4566-8b63-b0095239bad9@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0031.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::11) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1158.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.41; Fri, 12 Jul
+ 2024 08:36:21 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
+ with mapi id 15.20.7741.033; Fri, 12 Jul 2024 08:36:21 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois
+	<jeanmichel.hautbois@ideasonboard.com>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
+	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
+	<mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, Keith
+ Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>
+Subject:
+ =?utf-8?B?5Zue5aSNOiDlm57lpI06IFtQQVRDSCB2NSAwOC8xNF0gc3RhZ2luZzogbWVk?=
+ =?utf-8?Q?ia:_starfive:_Add_for_StarFive_ISP_3A_SC?=
+Thread-Topic:
+ =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjUgMDgvMTRdIHN0YWdpbmc6IG1lZGlhOiBzdGFy?=
+ =?utf-8?Q?five:_Add_for_StarFive_ISP_3A_SC?=
+Thread-Index: AQHa0dtmioQnCKEIuk25yDdxPISYvbHv3NgAgAE2dfCAACETgIABjL3A
+Date: Fri, 12 Jul 2024 08:36:21 +0000
+Message-ID:
+ <ZQ0PR01MB1302A295EC18E19578026E0BF2A62@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-9-changhuang.liang@starfivetech.com>
+ <hxv4l4t32a7il5zv2wk7btydlk6qokyborevbnrajpwziaalva@lly6nfkts2no>
+ <ZQ0PR01MB13024CFE2FCCF4D39E3FAEDEF2A52@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <b45mnwf4p4ygrvukzdmrvbffndmqg5fncyepg2yxize7wq3a75@v6doupiawwnt>
+In-Reply-To: <b45mnwf4p4ygrvukzdmrvbffndmqg5fncyepg2yxize7wq3a75@v6doupiawwnt>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1158:EE_
+x-ms-office365-filtering-correlation-id: 85ebcb46-212c-4f4b-fb56-08dca24db518
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|41320700013|366016|7416014|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ uPt2P0lYtdbGWNtv2OdFu56ZRspEXJBQKGU6ISTNUM5QNnY08ZBMU8Yy8LmQ3+Tlh3ez9s0Efn/c480rxRJ+GU0csxE79VArqCnCIcZjS/Cp/sX3kw7OshyiEpfM8Daro0/WL8A7S/uId+OHOz8Til3nYD76WKrHitht6uj5D8bZ38fHFVuE2RLRhHsOPXyCwJ538YoFd+vug0C9w7or9vfSpl1eIqewY9NQd8hoSmYAR3AZzz52DuhcmUtRPmA7a+E5xQJEA0AOksdLdFBCl8foZvZ6sdpBBBFudlKMTInDgFQaHq41Q93oW1y47+yl/8z7jRwI1+GmpsCaJiaTOm1+z8lrv8/bCxejpE+CUFeYaAks0DLyoDW3965UX2yjsxuHfxOj8x/XwD4ivnjASjUej8K1KuPAkERXLJ93xw7W1pYy1C1/O5yA5or9evIaNLtSkUMEtMhggYBc7P03rf5/hVSaP8I5zBE53wPDdvopXIdO56WehdW43Nh4g0PmcCvVX2Fxecsboi0TrZkeTZzO1S0Ye41eO8QvWMLjWECzOBk9kO9vltDLE+3hDSwQ/p6refv+l6lIe7Jl/iCR5kFBstqxMoQt6X2QAtyr+gOmHDXOkVjso2n94Ev8mGVN
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(41320700013)(366016)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?NkQ2QUQxb0JZOWhROTJpVjltbnFwZGRYQlhDZ1lWWmo4aTlmWjNld1NaZCsx?=
+ =?utf-8?B?Wk9TY1pDbWpRekwxdGlOZW9TRzh2RC9qOVZYNUJ2d01HUFZYbGNnVXA4TlBp?=
+ =?utf-8?B?R0FHYVhYaDgya3M3dkRyM0tyZWpOdHJ6MmIxd0l5U3dzVko0TCtPNmNnNDRT?=
+ =?utf-8?B?S0pZa2gzNXRyVFN6b28zbDdGUTFhODVZRVVjckk0Z2dmSUJ1K25BSWpUL2V5?=
+ =?utf-8?B?TU9zYTlMelY2NGNkTm9iLzlUVUtjY3VnMENHTU1kZGhjZmJFT0xmUm5hMFR4?=
+ =?utf-8?B?SnBsem5oQVJvWmJEcVhDblJ6Z3lLUHlrMkJJdmNaVlJrSGRFdytlNlZyMEpX?=
+ =?utf-8?B?VXAwMmVIbCtKZHNTeHcvWkFQWkdiTDdqM3RyMG1ad3RNSEdwWWtQM2kvZWtN?=
+ =?utf-8?B?aHQ1UTdQcE53cDkyUGF3MEVFOWFwWmlZa3h4RzZ3SlVMSGdFakF3QnQ0TGRS?=
+ =?utf-8?B?OVNCWWxXdzFxZGEwZit4UGlyd1NCK3ExRU53eUpmZ0JiZ2YzVnU5Ny8xVGgy?=
+ =?utf-8?B?ZThBRi9mTGh2ZnNnWDVmcnRYQ3hDdnRnOGVIdCtCamNreWZJelMrR2JzWmk1?=
+ =?utf-8?B?SXdJMFRxcjVmSkVCSVJiUzF5U25McWs2djlnVlIxMjE3S1NDbnR3OXphZjNJ?=
+ =?utf-8?B?TzJ2dWxpOW15bkRHb1hwN1VNSjQ4Ylk3bzlQTFRDNnhJNVkwLzRUbUVkZ3Nt?=
+ =?utf-8?B?ejlBUVFqMnlFSUtVL2x6Z3VMNjZNaEUyRVBiNXE2Wmozai9RVzdCSDd5TTVB?=
+ =?utf-8?B?eGFFZ0Q3Q2Fkb2piZWNTVlpjUnJrcDJQUFRnVnBWU1lnRUpGSUJnRkh5M2pm?=
+ =?utf-8?B?YjUyWUh6czlvMSt4NnhNTkNNWE5vUmY0SXZCMUdLNUNzUVZiQVJweW11R2Vk?=
+ =?utf-8?B?cFlBTk82TCtQT3huSFB5WWpZbDlrbzFaa2QzeFIxd01vVUUvUDV6cVROYmtk?=
+ =?utf-8?B?T2lvR3VpdVRsRU9vbUZxVHJ1S2ZaTm8wdnIwMU45bERUbzdvNDF6WFgyMFMr?=
+ =?utf-8?B?ZUIrZHY4TEhWd05KckNaT0tneVczQWplZVo5V3FJZVRFNi84QkRoLzR5YkRH?=
+ =?utf-8?B?NEZqcGgzeEFOVWJMa3VtbTgxaU5ZcStaWTdkSXlqSDRWRmVhbnNpRTVrL3lh?=
+ =?utf-8?B?RFkrQm5FaHEvMUdVUThWaC9hemVYYkZJWlh1czFueDNObU1qTW9wZ0pvUnRN?=
+ =?utf-8?B?ZDZwSVZyVnB1blpDcjJPZXhYRnlweUZZT01JQk1EUU9yOHFQSCtLanNhMm1u?=
+ =?utf-8?B?VlJuTS9sd1JndkFja0NjbjZkb1hwbkNwS0lhWWNjM3pwZEVTN05yQ0I2MWYx?=
+ =?utf-8?B?d2wxUi9wd2NERjI3UGtnY0NPVnVhcURjTmdKeTNzSmg4azljWjhoS3d1bTlX?=
+ =?utf-8?B?OUNBN0VmaHFHdU9FSFpPWjk3bmo2dG53RFF2cElOZ0JTeUtuYkw2Wi95OFBo?=
+ =?utf-8?B?N2cwSWFCaElSOGY2WnM3blJWL0lVa3ArclM0aTd4N2p5NXlITzFQL3Zpbjcr?=
+ =?utf-8?B?VnI5QllYZCsraEdoUWswdkJPdEJBNldFRjUrZVVwZDZJUWZ1RW0ydG5OZlFR?=
+ =?utf-8?B?WG4xcTQwWTJKaU9kMll3VHc5K2JwV0dmdWg1aWRDVEE5NFJNd0czdEE3R3BO?=
+ =?utf-8?B?a3JwY0E3TUU2aGdFQ3l0N1NOTEpSd2gxUkxvUXdyUll1ZXQwUGpiSFdCMWtr?=
+ =?utf-8?B?VnBZSFRzT3JpUm5Ed1F4ZHB0bDBBTHM0NWJkZFA5RU9NVFVVV1hJNVRadWw4?=
+ =?utf-8?B?Q0JDRm9HdlNHckN3SWNRUWZqNHJ1Z3liVWJyOWJ1TnJLRlRobjBRTFlpMHBy?=
+ =?utf-8?B?c0ozSHd3eWd6akp6dGtqM09mb0s1ak9VVE5hbE8xajVSSDZ0WGh4UUoxdnM1?=
+ =?utf-8?B?WWpENmUwdTZXam9GU0w3Y3ZzWkNHTko1UzVBVmhnempWUytWdW92SnBwUFE2?=
+ =?utf-8?B?dDZZSWIwRm1OMmxJaGNFQTZ5ckZmYXlFTy82T1FkTEpXQU1GdER6aTM1V3Bo?=
+ =?utf-8?B?NnpwQ3haWTNBVkFwYWxEcFVSWEFpRjBGSTNFWndnRjllZUhqY1QzVUdJakps?=
+ =?utf-8?B?NXFtYnpIS2tRL1NNdCtMNnlzTDB0Rkd1aUhoVW1DZlB6YkxQZXZMZlNLUWF6?=
+ =?utf-8?B?dkloSE5reDRkTFF5d3lib2Y4bGRXdGY1Rk1QcWRsLzJBbmUxR0cydkdCQmQ1?=
+ =?utf-8?B?M3c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|PUZPR06MB5796:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c24c022-0c63-48ff-10fa-08dca24795c9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Rkt4RS9QSTNhWkJWRk41YWE2UC9MSEhIdjRsWVNkTGFIR1ROanBPWUQyVW5p?=
- =?utf-8?B?UEttZjFlTFdudHRsbDUvakRXMmdydHlFT2hrWTRUemxzSUJDUlZicXdYTUxJ?=
- =?utf-8?B?dmVQaGI1cHVPTm9RdmlzM2RlSnQ5WVRrRHNOVlZ5K3FQdDY1d1hUY1lPeTFr?=
- =?utf-8?B?K01ja2kzMjMvd0x4K0JwTFJyUlZhdmt0YzdORVFsbEI4ZXgvZmpwM3FNTlpZ?=
- =?utf-8?B?bGtUUXR2TnY0SFZHcHFIZUZBZU1iejEvVFMwRlArM2NrdGhUaG5LWGJ4VStD?=
- =?utf-8?B?S2pTOHNEaVlwRnV3OXRmTmFHcVpDU280Q1hpVEw1WHEwRGJ2OFRSMXl4Qlh3?=
- =?utf-8?B?dTUyUVYrV0hRVmdHazZkNTF2OG5VK2dIRGxDUDl1MHgyZE96UHVMbnJ2aktx?=
- =?utf-8?B?dEVsMktHTGw0aVNkbHRxYmY0eXRGN3lkQmU0Wi90d29DUitPcFVJWjd5b1RR?=
- =?utf-8?B?MnBualIwODNMUkxOK3ZzMVRSQ0tjYkVjQkcvMnpxbjlsUXlhNGhKRC8xY0pU?=
- =?utf-8?B?TDd1V3kvNVZza0VZOWI0VHFUTEFKYm03eDFKTU0zeHIvSHZPZVVYY3F4bnNh?=
- =?utf-8?B?QlQyZ1dWclVyRDBWOTRyc3p5MENacU1IWGk2ZFRmcXFJQkQ2ZE1ONUdadjM3?=
- =?utf-8?B?ZkhwbWo1cmpSNnlrN1ZjR05QenRWTkhncHFLbDRpVDJFMlFWWWlvb3RMcW43?=
- =?utf-8?B?L1UzYjZ2aitqR2NsZkIrZnY2S0Q4VWQzRy9EeTZNMjR1VzJvQ3JUN3BSbkg1?=
- =?utf-8?B?bFdqK2lzVUI2WmRza2lja0JUdU9qdE9DWnNTNXhmZjhNbGticFY2NzI0UHA3?=
- =?utf-8?B?OEdYSGJ4Z2k5aDdhQ1JqOCtMemQxUW5mNXE0TUVyMmdndlIzaTc5bmVYV25N?=
- =?utf-8?B?M1Q5TzlMcHBEOWUwSC9KYVpOdlkzYzRtOFc3cW11elFURDA4QkVSQXhlVWpP?=
- =?utf-8?B?V3B0WjdGSjFIUmNNL3Y5SkVHRmpvd0VhbWN3bFZvTUpFcjJPSngxZ1pQaTNr?=
- =?utf-8?B?Q0dYWHlNUWhLTVlqV2lPRWgrVHYvRVh3SUpJN2RaWTczNHZxajNCYnRoWEF4?=
- =?utf-8?B?MWR3dVExejBndkZmS1UvWkpSM1RxeG1DUEhBVkUzRlRab2wxU0ZKcklqRjBO?=
- =?utf-8?B?bGtXQXJHK0tqTnVsemE1WmUydHlleUg5bGJLaGhrdnNESFNtQXNpMDdWK1VH?=
- =?utf-8?B?a2FoNyt3aU1uZkpaNTZ4R3pWd09iMHdHc3dTaXZFczQvaG5vT0VtcVhEMVI0?=
- =?utf-8?B?dnZFd1hNcm9mU0ZlQUY4TGlJY0kvbXVPblYvQ1haRzhYeks3eUlra0ZFYzdQ?=
- =?utf-8?B?em9zMU1jeVN1N0JOTmJpM09qV0NSVURrc0IwNEdxTjA5dkdYYXBMclZ1am1Z?=
- =?utf-8?B?a0dGYkZ4dUh2QmdtRUcvN3g1OWlVN1NjdWVCN1A4UUZqMStKbis5VkxFSEZn?=
- =?utf-8?B?MzlvOXdKQjVnbjIxUDdhbS9zbmc2N2hXUGJwQTJyeFA4SXExaXE0S1h6SlQ1?=
- =?utf-8?B?VXd4RWFoSk8vSkplSjZTQm4wV0QyRngrN2phbk1kNlBFUVRtTnRjbXRFeTdB?=
- =?utf-8?B?ZFVZaWRIQUJkcmFoRmpTdTMwMjU5c3RXTWMwSlZnT1JjSWsvajRjMGFnVlha?=
- =?utf-8?B?T2dJcUhkSkVNa2F6ZXZtSElGZVRxZk51RWNFVHBxeDlJK3c1SnVhRzdkNXNx?=
- =?utf-8?B?OE9aSEZNa0pFZzRXdGxsbWdDbzZkMTE0T00yNGdTZEFtNTRRU2VkUjBOT0JV?=
- =?utf-8?B?V1kyZ0FKQ0p0UjFHRldTT1hnMDhBMnFZUWlZZGNjRSt4eGNtNCs5SDZ0eTls?=
- =?utf-8?B?RGkrVTNyQzF5UmVuZ3ZEQm5JRG9SbUJGYkNpTGNKS0dqTEZjajRZRlZNSzhz?=
- =?utf-8?Q?5Yztg2RaO5+G/?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NFErdTljcXNicUhTTnprUFh5dzlEL2l0QmxmL0lNUjVIWVZWRWpWMitHZDha?=
- =?utf-8?B?L3FjaVg3YWwyWVhiRXpyWXRmWlVCc0Jvd05hYjJKUzdlTStTOFJPT1dYdU1h?=
- =?utf-8?B?dHhQZm5pOU5yUzRTUi9scUFnSGtidnpRb2VRVGg1TXgzRzJtV3FOakovNk9G?=
- =?utf-8?B?anBROFRvWXVLS3lSY3hidHp6cDgwb2lPN3JaZkhIU3h2MW9jQ2tuNGZPMkJx?=
- =?utf-8?B?Y2NYcWJkSkhNRjE2SmpJOUs4MTBBRnlyTGJJSjdIOThDK2JtRFRaTW5CZ21G?=
- =?utf-8?B?Q00wc2hiR2Y4NUM4Z25tclFpWmYwTGhUYS9EZjJnbnpGai9naThMQi81VXhj?=
- =?utf-8?B?bjNncy9ZMjhadm9kMzY1ZGJRc3IyY1FMbW9MRWVCS0VVTy9IMThMeWZoVlBS?=
- =?utf-8?B?VmVlWU51dEhkdjIzbEQ3eUdBNlJtcjZEWndyRlB2dEVKaFE2NlVxTGRlSFRl?=
- =?utf-8?B?WjFNbE1YT3hzZUdvUjF1eis1b3YveHJmSWxyMTExV1JGQ0szbUVtd29HMm1r?=
- =?utf-8?B?ckdxb0VFaWhPZy95bndSUzBxdzVVTDZiRGNGc3k3OGgrU05uSGU2NnAzRVRa?=
- =?utf-8?B?MDIvcGtUbVc5NGVXcUFnVUtVaFNXOHowMWpPbkFhUytad0lubWgwVkJwUmdR?=
- =?utf-8?B?ZUs2N0lrWWJCcm0wSXIxNmh2NUU4RmFGSXZVTk01NU9MZ1JqNXU0R3NBWXpQ?=
- =?utf-8?B?UGlxekV0NWNJOHJBK1JQalMrWGc4QlQvUUl5ODBmYUgvSVFMeVlhd3BnbVpD?=
- =?utf-8?B?NlJ2UW5BV2w2T0gxWGZtQlBSZ240QlNGbTZOMjJwbEt6blZsU3VTenM3Q1Ri?=
- =?utf-8?B?endaT1dUR3liRC9SOWZSaTU5amw2eFRnem1pa2ZMNDBDWEpTRjI5ZUUySFNG?=
- =?utf-8?B?TWM2UE81a2NMSEFkaFhJQndKMkQ3cTZNT3RnbGJUeXg5MU84WUg3NHU3S2k0?=
- =?utf-8?B?ZDIzM2VpZEE5eHhVUWJWeGkremFUWmtjUVFxQ0NoalVZam5CRjY3VWxEQTNO?=
- =?utf-8?B?S2hqNkZ5d25OQWwrekhYWUdwR0tORmo1ZVR1Wms1dVo5Y0Z6RVltOU5GWWoy?=
- =?utf-8?B?NDdEVVhobHBOUW90MTlpeENUeHZidXVueVdQWXpCVHJDUzdERWVRc2Zkc3hw?=
- =?utf-8?B?Y21ML2RpdktJNEdPa0Q4TkFETG11T3RGdEV5U2lQdGRXdjgrbDhReFJ5OUlr?=
- =?utf-8?B?dXF2OU5Lb0c1cDF1VzlyUnFvK0hpbUFPbmdBRURZcDdVRmVUVVdURjlJSWJQ?=
- =?utf-8?B?RlpxSG5mTWtiTWdBMHIzK25BQUgxR2ovM0VwdE1uMit5V0ZHMFpxK2lkekFB?=
- =?utf-8?B?S1JielVyOGhsTHQzeTVvWkluY3dtbTZ4M2I5WldUZ2tGVlRKbDlKUFM0c1gv?=
- =?utf-8?B?QjF1cDlIWExZR1hRcTdoVmMrOVZpOXJwcndSYjJSZHo5YzJWUDBJNi8vMklJ?=
- =?utf-8?B?VXBlRkwwanRZS1d1Y3E4YVhBVUl6Q2ZWMm5kMDJuTmFxZHVZVmhCRUlETnls?=
- =?utf-8?B?K0IvSjFZaGxKU2ZCNGZiTkJObVZEVDR1M1RQeVZub0tnc2dWN1BYNk1DS1RI?=
- =?utf-8?B?RjliMEIvVkNIRlpSVlpETklFUEtlTVc3d1cxanF2TU04d2lhQ2pOdWxZUWR6?=
- =?utf-8?B?bVFReE5QaEMvb2NkcWRac0k4dEFuaTh0a3hvUklRNkdBZXY3a2Q1dmpzU1dM?=
- =?utf-8?B?ZDl2UVZUU2tUNVNtdk5Wd0FTekNQTlM1dGFpTk9Ibm16bllPTG1Ua0hIaSty?=
- =?utf-8?B?Y3dYVTdPNnhTWVRIYVRiMGxrYkllUXFRRk9wNjNQVG5xVk1ZSHZqVVRCOFhz?=
- =?utf-8?B?elBWVTM5ZlYydW1FVllTZGhNQ3p0ZGUyZENueG9QZGwwcE02RTZ0NjVyQVFv?=
- =?utf-8?B?NUhpZGpWWG1KVUVrWmsrMlF4NE1GK3RsRnJhWHBnMWtLa09IRkFTNXJON3U0?=
- =?utf-8?B?V2oxcms4akJFb3hyVXhLY2xESXZPUEh3d2NMS0IwbGhReWd5RWh4YzNNQWxI?=
- =?utf-8?B?VWxuei9OMENWamVsanZYdFNhTHkwQ3U0OXA1Y2dmWHVzUC82NTBCMmQvY1Ns?=
- =?utf-8?B?T3hpczlJb0JCaU5iK1BXVEN0L3BlMU9qVTdRMWZaam9FeG5sTll6WU4zVjdZ?=
- =?utf-8?Q?+0gjaWwWoqp7jZtGtodxKPdJh?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c24c022-0c63-48ff-10fa-08dca24795c9
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
+X-OriginatorOrg: starfivetech.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2024 07:52:32.0156
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85ebcb46-212c-4f4b-fb56-08dca24db518
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2024 08:36:21.3672
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hVMhsjTiFTiLTYUj7RjzLcPfc+IBlaWiruxRKLKPMyhoOq5ftpJ+w9Cjq41tZBmfPk60aAlfkSmz2ju028u/9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5796
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wrBl/aD5+XMnavZhLby1gWWkh3QI1q1hFvJA2NodaTts4lwx+QWRT26/g5emRiOQHY6RhQH/EXA7L7rnD+Ddd+7niZV14ys71Bl9TYVv1SiIJmrdLCLNmc2o4/N//KEQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1158
 
-
-在 2024/7/12 15:41, Christian König 写道:
-> Am 12.07.24 um 09:29 schrieb Huan Yang:
->> Hi Christian,
->>
->> 在 2024/7/12 15:10, Christian König 写道:
->>> Am 12.07.24 um 04:14 schrieb Huan Yang:
->>>> 在 2024/7/12 9:59, Huan Yang 写道:
->>>>> Hi Christian,
->>>>>
->>>>> 在 2024/7/11 19:39, Christian König 写道:
->>>>>> Am 11.07.24 um 11:18 schrieb Huan Yang:
->>>>>>> Hi Christian,
->>>>>>>
->>>>>>> Thanks for your reply.
->>>>>>>
->>>>>>> 在 2024/7/11 17:00, Christian König 写道:
->>>>>>>> Am 11.07.24 um 09:42 schrieb Huan Yang:
->>>>>>>>> Some user may need load file into dma-buf, current
->>>>>>>>> way is:
->>>>>>>>>    1. allocate a dma-buf, get dma-buf fd
->>>>>>>>>    2. mmap dma-buf fd into vaddr
->>>>>>>>>    3. read(file_fd, vaddr, fsz)
->>>>>>>>> This is too heavy if fsz reached to GB.
->>>>>>>>
->>>>>>>> You need to describe a bit more why that is to heavy. I can 
->>>>>>>> only assume you need to save memory bandwidth and avoid the 
->>>>>>>> extra copy with the CPU.
->>>>>>>
->>>>>>> Sorry for the oversimplified explanation. But, yes, you're 
->>>>>>> right, we want to avoid this.
->>>>>>>
->>>>>>> As we are dealing with embedded devices, the available memory 
->>>>>>> and computing power for users are usually limited.(The maximum 
->>>>>>> available memory is currently
->>>>>>>
->>>>>>> 24GB, typically ranging from 8-12GB. )
->>>>>>>
->>>>>>> Also, the CPU computing power is also usually in short supply, 
->>>>>>> due to limited battery capacity and limited heat dissipation 
->>>>>>> capabilities.
->>>>>>>
->>>>>>> So, we hope to avoid ineffective paths as much as possible.
->>>>>>>
->>>>>>>>
->>>>>>>>> This patch implement a feature called 
->>>>>>>>> DMA_HEAP_IOCTL_ALLOC_READ_FILE.
->>>>>>>>> User need to offer a file_fd which you want to load into 
->>>>>>>>> dma-buf, then,
->>>>>>>>> it promise if you got a dma-buf fd, it will contains the file 
->>>>>>>>> content.
->>>>>>>>
->>>>>>>> Interesting idea, that has at least more potential than trying 
->>>>>>>> to enable direct I/O on mmap()ed DMA-bufs.
->>>>>>>>
->>>>>>>> The approach with the new IOCTL might not work because it is a 
->>>>>>>> very specialized use case.
->>>>>>>
->>>>>>> Thank you for your advice. maybe the "read file" behavior can be 
->>>>>>> attached to an existing allocation?
->>>>>>
->>>>>> The point is there are already system calls to do something like 
->>>>>> that.
->>>>>>
->>>>>> See copy_file_range() 
->>>>>> (https://man7.org/linux/man-pages/man2/copy_file_range.2.html) 
->>>>>> and send_file() 
->>>>>> (https://man7.org/linux/man-pages/man2/sendfile.2.html).
->>>>>
->>>>> That's helpfull to learn it, thanks.
->>>>>
->>>>> In terms of only DMA-BUF supporting direct I/O, 
->>>>> copy_file_range/send_file may help to achieve this functionality.
->>>>>
->>>>> However, my patchset also aims to achieve parallel copying of file 
->>>>> contents while allocating the DMA-BUF, which is something that the 
->>>>> current set of calls may not be able to accomplish.
->>>
->>> And exactly that is a no-go. Use the existing IOCTLs and system 
->>> calls instead they should have similar performance when done right.
->>
->> Get it, but In my testing process, even without memory pressure, it 
->> takes about 60ms to allocate a 3GB DMA-BUF. When there is significant 
->> memory pressure, the allocation time for a 3GB
->
-> Well exactly that doesn't make sense. Even if you read the content of 
-> the DMA-buf from a file you still need to allocate it first.
-
-Yes, need allocate first, but in kernelspace, no need to wait all memory 
-allocated done and then trigger file load.
-
-This patchset use `batch` to done(default 128MB), ever 128MB allocated, 
-vmap and get vaddr, then trigger this vaddr load file's target pos content.
-
->
-> So the question is why should reading and allocating it at the same 
-> time be better in any way?
-
-Memory pressure will trigger reclaim, it must to wait.(ms) Asume I 
-already allocated 512MB(need 3G) without enter slowpath,
-
-Even I need to enter slowpath to allocated remain memory, the already 
-allocated memory is using load file content.(Save time compare to 
-allocated done and read)
-
-The time difference between them can be expressed by the formula:
-
-1. Allocate dmabuf time + file load time -- for original
-
-2. first prepare batch time + Max(file load time, allocate remain 
-dma-buf time) + latest batch prepare time -- for new
-
-  When the file reaches the gigabyte level, the significant difference 
-between the two can be clearly observed.
-
->
-> Regards,
-> Christian.
->
->>
->>
->> DMA-BUF can increase to 300ms-1s. (The above test times can also 
->> demonstrate the difference.)
->>
->> But, talk is cheap, I agree to research use existing way to 
->> implements it and give a test.
->>
->> I'll show this if I done .
->>
->> Thanks for your suggestions.
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> You can see cover-letter, here are the normal test and this IOCTL's 
->>>> compare in memory pressure, even if buffered I/O in this ioctl can 
->>>> have 50% improve by  parallel.
->>>>
->>>> dd a 3GB file for test, 12G RAM phone, UFS4.0, stressapptest 4G 
->>>> memory pressure.
->>>>
->>>> 1. original
->>>> ```shel
->>>> # create a model file
->>>> dd if=/dev/zero of=./model.txt bs=1M count=3072
->>>> # drop page cache
->>>> echo 3 > /proc/sys/vm/drop_caches
->>>> ./dmabuf-heap-file-read mtk_mm-uncached normal
->>>>
->>>>> result is total cost 13087213847ns
->>>>
->>>> ```
->>>>
->>>> 2.DMA_HEAP_IOCTL_ALLOC_AND_READ O_DIRECT
->>>> ```shel
->>>> # create a model file
->>>> dd if=/dev/zero of=./model.txt bs=1M count=3072
->>>> # drop page cache
->>>> echo 3 > /proc/sys/vm/drop_caches
->>>> ./dmabuf-heap-file-read mtk_mm-uncached direct_io
->>>>
->>>>> result is total cost 2902386846ns
->>>>
->>>> # use direct_io_check can check the content if is same to file.
->>>> ```
->>>>
->>>> 3. DMA_HEAP_IOCTL_ALLOC_AND_READ BUFFER I/O
->>>> ```shel
->>>> # create a model file
->>>> dd if=/dev/zero of=./model.txt bs=1M count=3072
->>>> # drop page cache
->>>> echo 3 > /proc/sys/vm/drop_caches
->>>> ./dmabuf-heap-file-read mtk_mm-uncached normal_io
->>>>
->>>>> result is total cost 5735579385ns
->>>>
->>>> ```
->>>>
->>>>>
->>>>> Perhaps simply returning the DMA-BUF file descriptor and then 
->>>>> implementing copy_file_range, while populating the memory and 
->>>>> content during the copy process, could achieve this? At present, 
->>>>> it seems that it will be quite complex - We need to ensure that 
->>>>> only the returned DMA-BUF file descriptor will fail in case of 
->>>>> memory not fill, like mmap, vmap, attach, and so on.
->>>>>
->>>>>>
->>>>>> What we probably could do is to internally optimize those.
->>>>>>
->>>>>>> I am currently creating a new ioctl to remind the user that 
->>>>>>> memory is being allocated and read, and I am also unsure
->>>>>>>
->>>>>>> whether it is appropriate to add additional parameters to the 
->>>>>>> existing allocate behavior.
->>>>>>>
->>>>>>> Please, give me more suggestion. Thanks.
->>>>>>>
->>>>>>>>
->>>>>>>> But IIRC there was a copy_file_range callback in the 
->>>>>>>> file_operations structure you could use for that. I'm just not 
->>>>>>>> sure when and how that's used with the copy_file_range() system 
->>>>>>>> call.
->>>>>>>
->>>>>>> Sorry, I'm not familiar with this, but I will look into it. 
->>>>>>> However, this type of callback function is not currently 
->>>>>>> implemented when exporting
->>>>>>>
->>>>>>> the dma_buf file, which means that I need to implement the 
->>>>>>> callback for it?
->>>>>>
->>>>>> If I'm not completely mistaken the copy_file_range, splice_read 
->>>>>> and splice_write callbacks on the struct file_operations 
->>>>>> (https://elixir.bootlin.com/linux/v6.10-rc7/source/include/linux/fs.h#L1999).
->>>>>>
->>>>>> Can be used to implement what you want to do.
->>>>> Yes.
->>>>>>
->>>>>> Regards,
->>>>>> Christian.
->>>>>>
->>>>>>>
->>>>>>>>
->>>>>>>> Regards,
->>>>>>>> Christian.
->>>>>>>>
->>>>>>>>>
->>>>>>>>> Notice, file_fd depends on user how to open this file. So, 
->>>>>>>>> both buffer
->>>>>>>>> I/O and Direct I/O is supported.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Huan Yang <link@vivo.com>
->>>>>>>>> ---
->>>>>>>>>   drivers/dma-buf/dma-heap.c    | 525 
->>>>>>>>> +++++++++++++++++++++++++++++++++-
->>>>>>>>>   include/linux/dma-heap.h      |  57 +++-
->>>>>>>>>   include/uapi/linux/dma-heap.h |  32 +++
->>>>>>>>>   3 files changed, 611 insertions(+), 3 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/dma-buf/dma-heap.c 
->>>>>>>>> b/drivers/dma-buf/dma-heap.c
->>>>>>>>> index 2298ca5e112e..abe17281adb8 100644
->>>>>>>>> --- a/drivers/dma-buf/dma-heap.c
->>>>>>>>> +++ b/drivers/dma-buf/dma-heap.c
->>>>>>>>> @@ -15,9 +15,11 @@
->>>>>>>>>   #include <linux/list.h>
->>>>>>>>>   #include <linux/slab.h>
->>>>>>>>>   #include <linux/nospec.h>
->>>>>>>>> +#include <linux/highmem.h>
->>>>>>>>>   #include <linux/uaccess.h>
->>>>>>>>>   #include <linux/syscalls.h>
->>>>>>>>>   #include <linux/dma-heap.h>
->>>>>>>>> +#include <linux/vmalloc.h>
->>>>>>>>>   #include <uapi/linux/dma-heap.h>
->>>>>>>>>     #define DEVNAME "dma_heap"
->>>>>>>>> @@ -43,12 +45,462 @@ struct dma_heap {
->>>>>>>>>       struct cdev heap_cdev;
->>>>>>>>>   };
->>>>>>>>>   +/**
->>>>>>>>> + * struct dma_heap_file - wrap the file, read task for 
->>>>>>>>> dma_heap allocate use.
->>>>>>>>> + * @file:        file to read from.
->>>>>>>>> + *
->>>>>>>>> + * @cred:        kthread use, user cred copy to use for the 
->>>>>>>>> read.
->>>>>>>>> + *
->>>>>>>>> + * @max_batch:        maximum batch size to read, if collect 
->>>>>>>>> match batch,
->>>>>>>>> + *            trigger read, default 128MB, must below file size.
->>>>>>>>> + *
->>>>>>>>> + * @fsz:        file size.
->>>>>>>>> + *
->>>>>>>>> + * @direct:        use direct IO?
->>>>>>>>> + */
->>>>>>>>> +struct dma_heap_file {
->>>>>>>>> +    struct file *file;
->>>>>>>>> +    struct cred *cred;
->>>>>>>>> +    size_t max_batch;
->>>>>>>>> +    size_t fsz;
->>>>>>>>> +    bool direct;
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * struct dma_heap_file_work - represents a dma_heap file 
->>>>>>>>> read real work.
->>>>>>>>> + * @vaddr:        contigous virtual address alloc by vmap, 
->>>>>>>>> file read need.
->>>>>>>>> + *
->>>>>>>>> + * @start_size:        file read start offset, same to 
->>>>>>>>> @dma_heap_file_task->roffset.
->>>>>>>>> + *
->>>>>>>>> + * @need_size:        file read need size, same to 
->>>>>>>>> @dma_heap_file_task->rsize.
->>>>>>>>> + *
->>>>>>>>> + * @heap_file:        file wrapper.
->>>>>>>>> + *
->>>>>>>>> + * @list:        child node of @dma_heap_file_control->works.
->>>>>>>>> + *
->>>>>>>>> + * @refp:        same @dma_heap_file_task->ref, if end of 
->>>>>>>>> read, put ref.
->>>>>>>>> + *
->>>>>>>>> + * @failp:        if any work io failed, set it true, pointp 
->>>>>>>>> @dma_heap_file_task->fail.
->>>>>>>>> + */
->>>>>>>>> +struct dma_heap_file_work {
->>>>>>>>> +    void *vaddr;
->>>>>>>>> +    ssize_t start_size;
->>>>>>>>> +    ssize_t need_size;
->>>>>>>>> +    struct dma_heap_file *heap_file;
->>>>>>>>> +    struct list_head list;
->>>>>>>>> +    atomic_t *refp;
->>>>>>>>> +    bool *failp;
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * struct dma_heap_file_task - represents a dma_heap file 
->>>>>>>>> read process
->>>>>>>>> + * @ref:        current file work counter, if zero, allocate 
->>>>>>>>> and read
->>>>>>>>> + *            done.
->>>>>>>>> + *
->>>>>>>>> + * @roffset:        last read offset, current prepared work' 
->>>>>>>>> begin file
->>>>>>>>> + *            start offset.
->>>>>>>>> + *
->>>>>>>>> + * @rsize:        current allocated page size use to read, if 
->>>>>>>>> reach rbatch,
->>>>>>>>> + *            trigger commit.
->>>>>>>>> + *
->>>>>>>>> + * @rbatch:        current prepared work's batch, below 
->>>>>>>>> @dma_heap_file's
->>>>>>>>> + *            batch.
->>>>>>>>> + *
->>>>>>>>> + * @heap_file:        current dma_heap_file
->>>>>>>>> + *
->>>>>>>>> + * @parray:        used for vmap, size is @dma_heap_file's 
->>>>>>>>> batch's number
->>>>>>>>> + *            pages.(this is maximum). Due to single thread 
->>>>>>>>> file read,
->>>>>>>>> + *            one page array reuse each work prepare is OK.
->>>>>>>>> + *            Each index in parray is PAGE_SIZE.(vmap need)
->>>>>>>>> + *
->>>>>>>>> + * @pindex:        current allocated page filled in @parray's 
->>>>>>>>> index.
->>>>>>>>> + *
->>>>>>>>> + * @fail:        any work failed when file read?
->>>>>>>>> + *
->>>>>>>>> + * dma_heap_file_task is the production of file read, will 
->>>>>>>>> prepare each work
->>>>>>>>> + * during allocate dma_buf pages, if match current batch, 
->>>>>>>>> then trigger commit
->>>>>>>>> + * and prepare next work. After all batch queued, user going 
->>>>>>>>> on prepare dma_buf
->>>>>>>>> + * and so on, but before return dma_buf fd, need to wait file 
->>>>>>>>> read end and
->>>>>>>>> + * check read result.
->>>>>>>>> + */
->>>>>>>>> +struct dma_heap_file_task {
->>>>>>>>> +    atomic_t ref;
->>>>>>>>> +    size_t roffset;
->>>>>>>>> +    size_t rsize;
->>>>>>>>> +    size_t rbatch;
->>>>>>>>> +    struct dma_heap_file *heap_file;
->>>>>>>>> +    struct page **parray;
->>>>>>>>> +    unsigned int pindex;
->>>>>>>>> +    bool fail;
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * struct dma_heap_file_control - global control of dma_heap 
->>>>>>>>> file read.
->>>>>>>>> + * @works:        @dma_heap_file_work's list head.
->>>>>>>>> + *
->>>>>>>>> + * @lock:        only lock for @works.
->>>>>>>>> + *
->>>>>>>>> + * @threadwq:        wait queue for @work_thread, if commit 
->>>>>>>>> work, @work_thread
->>>>>>>>> + *            wakeup and read this work's file contains.
->>>>>>>>> + *
->>>>>>>>> + * @workwq:        used for main thread wait for file read 
->>>>>>>>> end, if allocation
->>>>>>>>> + *            end before file read. @dma_heap_file_task ref 
->>>>>>>>> effect this.
->>>>>>>>> + *
->>>>>>>>> + * @work_thread:    file read kthread. the dma_heap_file_task 
->>>>>>>>> work's consumer.
->>>>>>>>> + *
->>>>>>>>> + * @heap_fwork_cachep:    @dma_heap_file_work's cachep, it's 
->>>>>>>>> alloc/free frequently.
->>>>>>>>> + *
->>>>>>>>> + * @nr_work:        global number of how many work committed.
->>>>>>>>> + */
->>>>>>>>> +struct dma_heap_file_control {
->>>>>>>>> +    struct list_head works;
->>>>>>>>> +    spinlock_t lock;
->>>>>>>>> +    wait_queue_head_t threadwq;
->>>>>>>>> +    wait_queue_head_t workwq;
->>>>>>>>> +    struct task_struct *work_thread;
->>>>>>>>> +    struct kmem_cache *heap_fwork_cachep;
->>>>>>>>> +    atomic_t nr_work;
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>> +static struct dma_heap_file_control *heap_fctl;
->>>>>>>>>   static LIST_HEAD(heap_list);
->>>>>>>>>   static DEFINE_MUTEX(heap_list_lock);
->>>>>>>>>   static dev_t dma_heap_devt;
->>>>>>>>>   static struct class *dma_heap_class;
->>>>>>>>>   static DEFINE_XARRAY_ALLOC(dma_heap_minors);
->>>>>>>>>   +/**
->>>>>>>>> + * map_pages_to_vaddr - map each scatter page into contiguous 
->>>>>>>>> virtual address.
->>>>>>>>> + * @heap_ftask:        prepared and need to commit's work.
->>>>>>>>> + *
->>>>>>>>> + * Cached pages need to trigger file read, this function map 
->>>>>>>>> each scatter page
->>>>>>>>> + * into contiguous virtual address, so that file read can 
->>>>>>>>> easy use.
->>>>>>>>> + * Now that we get vaddr page, cached pages can return to 
->>>>>>>>> original user, so we
->>>>>>>>> + * will not effect dma-buf export even if file read not end.
->>>>>>>>> + */
->>>>>>>>> +static void *map_pages_to_vaddr(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask)
->>>>>>>>> +{
->>>>>>>>> +    return vmap(heap_ftask->parray, heap_ftask->pindex, VM_MAP,
->>>>>>>>> +            PAGE_KERNEL);
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +bool dma_heap_prepare_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask,
->>>>>>>>> +                struct page *page)
->>>>>>>>> +{
->>>>>>>>> +    struct page **array = heap_ftask->parray;
->>>>>>>>> +    int index = heap_ftask->pindex;
->>>>>>>>> +    int num = compound_nr(page), i;
->>>>>>>>> +    unsigned long sz = page_size(page);
->>>>>>>>> +
->>>>>>>>> +    heap_ftask->rsize += sz;
->>>>>>>>> +    for (i = 0; i < num; ++i)
->>>>>>>>> +        array[index++] = &page[i];
->>>>>>>>> +    heap_ftask->pindex = index;
->>>>>>>>> +
->>>>>>>>> +    return heap_ftask->rsize >= heap_ftask->rbatch;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +static struct dma_heap_file_work *
->>>>>>>>> +init_file_work(struct dma_heap_file_task *heap_ftask)
->>>>>>>>> +{
->>>>>>>>> +    struct dma_heap_file_work *heap_fwork;
->>>>>>>>> +    struct dma_heap_file *heap_file = heap_ftask->heap_file;
->>>>>>>>> +
->>>>>>>>> +    if (READ_ONCE(heap_ftask->fail))
->>>>>>>>> +        return NULL;
->>>>>>>>> +
->>>>>>>>> +    heap_fwork = 
->>>>>>>>> kmem_cache_alloc(heap_fctl->heap_fwork_cachep, GFP_KERNEL);
->>>>>>>>> +    if (unlikely(!heap_fwork))
->>>>>>>>> +        return NULL;
->>>>>>>>> +
->>>>>>>>> +    heap_fwork->vaddr = map_pages_to_vaddr(heap_ftask);
->>>>>>>>> +    if (unlikely(!heap_fwork->vaddr)) {
->>>>>>>>> + kmem_cache_free(heap_fctl->heap_fwork_cachep, heap_fwork);
->>>>>>>>> +        return NULL;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    heap_fwork->heap_file = heap_file;
->>>>>>>>> +    heap_fwork->start_size = heap_ftask->roffset;
->>>>>>>>> +    heap_fwork->need_size = heap_ftask->rsize;
->>>>>>>>> +    heap_fwork->refp = &heap_ftask->ref;
->>>>>>>>> +    heap_fwork->failp = &heap_ftask->fail;
->>>>>>>>> +    atomic_inc(&heap_ftask->ref);
->>>>>>>>> +    return heap_fwork;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +static void destroy_file_work(struct dma_heap_file_work 
->>>>>>>>> *heap_fwork)
->>>>>>>>> +{
->>>>>>>>> +    vunmap(heap_fwork->vaddr);
->>>>>>>>> +    atomic_dec(heap_fwork->refp);
->>>>>>>>> +    wake_up(&heap_fctl->workwq);
->>>>>>>>> +
->>>>>>>>> + kmem_cache_free(heap_fctl->heap_fwork_cachep, heap_fwork);
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +int dma_heap_submit_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask)
->>>>>>>>> +{
->>>>>>>>> +    struct dma_heap_file_work *heap_fwork = 
->>>>>>>>> init_file_work(heap_ftask);
->>>>>>>>> +    struct page *last = NULL;
->>>>>>>>> +    struct dma_heap_file *heap_file = heap_ftask->heap_file;
->>>>>>>>> +    size_t start = heap_ftask->roffset;
->>>>>>>>> +    struct file *file = heap_file->file;
->>>>>>>>> +    size_t fsz = heap_file->fsz;
->>>>>>>>> +
->>>>>>>>> +    if (unlikely(!heap_fwork))
->>>>>>>>> +        return -ENOMEM;
->>>>>>>>> +
->>>>>>>>> +    /**
->>>>>>>>> +     * If file size is not page aligned, direct io can't 
->>>>>>>>> process the tail.
->>>>>>>>> +     * So, if reach to tail, remain the last page use buffer 
->>>>>>>>> read.
->>>>>>>>> +     */
->>>>>>>>> +    if (heap_file->direct && start + heap_ftask->rsize > fsz) {
->>>>>>>>> +        heap_fwork->need_size -= PAGE_SIZE;
->>>>>>>>> +        last = heap_ftask->parray[heap_ftask->pindex - 1];
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    spin_lock(&heap_fctl->lock);
->>>>>>>>> +    list_add_tail(&heap_fwork->list, &heap_fctl->works);
->>>>>>>>> +    spin_unlock(&heap_fctl->lock);
->>>>>>>>> +    atomic_inc(&heap_fctl->nr_work);
->>>>>>>>> +
->>>>>>>>> +    wake_up(&heap_fctl->threadwq);
->>>>>>>>> +
->>>>>>>>> +    if (last) {
->>>>>>>>> +        char *buf, *pathp;
->>>>>>>>> +        ssize_t err;
->>>>>>>>> +        void *buffer;
->>>>>>>>> +
->>>>>>>>> +        buf = kmalloc(PATH_MAX, GFP_KERNEL);
->>>>>>>>> +        if (unlikely(!buf))
->>>>>>>>> +            return -ENOMEM;
->>>>>>>>> +
->>>>>>>>> +        start = PAGE_ALIGN_DOWN(fsz);
->>>>>>>>> +
->>>>>>>>> +        pathp = file_path(file, buf, PATH_MAX);
->>>>>>>>> +        if (IS_ERR(pathp)) {
->>>>>>>>> +            kfree(buf);
->>>>>>>>> +            return PTR_ERR(pathp);
->>>>>>>>> +        }
->>>>>>>>> +
->>>>>>>>> +        buffer = kmap_local_page(last); // use page's kaddr.
->>>>>>>>> +        err = kernel_read_file_from_path(pathp, start, &buffer,
->>>>>>>>> +                         fsz - start, &fsz,
->>>>>>>>> +                         READING_POLICY);
->>>>>>>>> +        kunmap_local(buffer);
->>>>>>>>> +        kfree(buf);
->>>>>>>>> +        if (err < 0) {
->>>>>>>>> +            pr_err("failed to use buffer kernel_read_file %s, 
->>>>>>>>> err=%ld, [%ld, %ld], f_sz=%ld\n",
->>>>>>>>> +                   pathp, err, start, fsz, fsz);
->>>>>>>>> +
->>>>>>>>> +            return err;
->>>>>>>>> +        }
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    heap_ftask->roffset += heap_ftask->rsize;
->>>>>>>>> +    heap_ftask->rsize = 0;
->>>>>>>>> +    heap_ftask->pindex = 0;
->>>>>>>>> +    heap_ftask->rbatch = min_t(size_t,
->>>>>>>>> +                   PAGE_ALIGN(fsz) - heap_ftask->roffset,
->>>>>>>>> +                   heap_ftask->rbatch);
->>>>>>>>> +    return 0;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +bool dma_heap_wait_for_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask)
->>>>>>>>> +{
->>>>>>>>> +    wait_event_freezable(heap_fctl->workwq,
->>>>>>>>> + atomic_read(&heap_ftask->ref) == 0);
->>>>>>>>> +    return heap_ftask->fail;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +bool dma_heap_destroy_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask)
->>>>>>>>> +{
->>>>>>>>> +    bool fail;
->>>>>>>>> +
->>>>>>>>> +    dma_heap_wait_for_file_read(heap_ftask);
->>>>>>>>> +    fail = heap_ftask->fail;
->>>>>>>>> +    kvfree(heap_ftask->parray);
->>>>>>>>> +    kfree(heap_ftask);
->>>>>>>>> +    return fail;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +struct dma_heap_file_task *
->>>>>>>>> +dma_heap_declare_file_read(struct dma_heap_file *heap_file)
->>>>>>>>> +{
->>>>>>>>> +    struct dma_heap_file_task *heap_ftask =
->>>>>>>>> +        kzalloc(sizeof(*heap_ftask), GFP_KERNEL);
->>>>>>>>> +    if (unlikely(!heap_ftask))
->>>>>>>>> +        return NULL;
->>>>>>>>> +
->>>>>>>>> +    /**
->>>>>>>>> +     * Batch is the maximum size which we prepare work will 
->>>>>>>>> meet.
->>>>>>>>> +     * So, direct alloc this number's page array is OK.
->>>>>>>>> +     */
->>>>>>>>> +    heap_ftask->parray = kvmalloc_array(heap_file->max_batch 
->>>>>>>>> >> PAGE_SHIFT,
->>>>>>>>> +                        sizeof(struct page *), GFP_KERNEL);
->>>>>>>>> +    if (unlikely(!heap_ftask->parray))
->>>>>>>>> +        goto put;
->>>>>>>>> +
->>>>>>>>> +    heap_ftask->heap_file = heap_file;
->>>>>>>>> +    heap_ftask->rbatch = heap_file->max_batch;
->>>>>>>>> +    return heap_ftask;
->>>>>>>>> +put:
->>>>>>>>> +    kfree(heap_ftask);
->>>>>>>>> +    return NULL;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +static void __work_this_io(struct dma_heap_file_work 
->>>>>>>>> *heap_fwork)
->>>>>>>>> +{
->>>>>>>>> +    struct dma_heap_file *heap_file = heap_fwork->heap_file;
->>>>>>>>> +    struct file *file = heap_file->file;
->>>>>>>>> +    ssize_t start = heap_fwork->start_size;
->>>>>>>>> +    ssize_t size = heap_fwork->need_size;
->>>>>>>>> +    void *buffer = heap_fwork->vaddr;
->>>>>>>>> +    const struct cred *old_cred;
->>>>>>>>> +    ssize_t err;
->>>>>>>>> +
->>>>>>>>> +    // use real task's cred to read this file.
->>>>>>>>> +    old_cred = override_creds(heap_file->cred);
->>>>>>>>> +    err = kernel_read_file(file, start, &buffer, size, 
->>>>>>>>> &heap_file->fsz,
->>>>>>>>> +                   READING_POLICY);
->>>>>>>>> +    if (err < 0) {
->>>>>>>>> +        pr_err("use kernel_read_file, err=%ld, [%ld, %ld], 
->>>>>>>>> f_sz=%ld\n",
->>>>>>>>> +               err, start, (start + size), heap_file->fsz);
->>>>>>>>> +        WRITE_ONCE(*heap_fwork->failp, true);
->>>>>>>>> +    }
->>>>>>>>> +    // recovery to my cred.
->>>>>>>>> +    revert_creds(old_cred);
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +static int dma_heap_file_control_thread(void *data)
->>>>>>>>> +{
->>>>>>>>> +    struct dma_heap_file_control *heap_fctl =
->>>>>>>>> +        (struct dma_heap_file_control *)data;
->>>>>>>>> +    struct dma_heap_file_work *worker, *tmp;
->>>>>>>>> +    int nr_work;
->>>>>>>>> +
->>>>>>>>> +    LIST_HEAD(pages);
->>>>>>>>> +    LIST_HEAD(workers);
->>>>>>>>> +
->>>>>>>>> +    while (true) {
->>>>>>>>> + wait_event_freezable(heap_fctl->threadwq,
->>>>>>>>> + atomic_read(&heap_fctl->nr_work) > 0);
->>>>>>>>> +recheck:
->>>>>>>>> +        spin_lock(&heap_fctl->lock);
->>>>>>>>> + list_splice_init(&heap_fctl->works, &workers);
->>>>>>>>> +        spin_unlock(&heap_fctl->lock);
->>>>>>>>> +
->>>>>>>>> +        if (unlikely(kthread_should_stop())) {
->>>>>>>>> +            list_for_each_entry_safe(worker, tmp, &workers, 
->>>>>>>>> list) {
->>>>>>>>> +                list_del(&worker->list);
->>>>>>>>> +                destroy_file_work(worker);
->>>>>>>>> +            }
->>>>>>>>> +            break;
->>>>>>>>> +        }
->>>>>>>>> +
->>>>>>>>> +        nr_work = 0;
->>>>>>>>> +        list_for_each_entry_safe(worker, tmp, &workers, list) {
->>>>>>>>> +            ++nr_work;
->>>>>>>>> +            list_del(&worker->list);
->>>>>>>>> +            __work_this_io(worker);
->>>>>>>>> +
->>>>>>>>> +            destroy_file_work(worker);
->>>>>>>>> +        }
->>>>>>>>> +        atomic_sub(nr_work, &heap_fctl->nr_work);
->>>>>>>>> +
->>>>>>>>> +        if (atomic_read(&heap_fctl->nr_work) > 0)
->>>>>>>>> +            goto recheck;
->>>>>>>>> +    }
->>>>>>>>> +    return 0;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +size_t dma_heap_file_size(struct dma_heap_file *heap_file)
->>>>>>>>> +{
->>>>>>>>> +    return heap_file->fsz;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +static int prepare_dma_heap_file(struct dma_heap_file 
->>>>>>>>> *heap_file, int file_fd,
->>>>>>>>> +                 size_t batch)
->>>>>>>>> +{
->>>>>>>>> +    struct file *file;
->>>>>>>>> +    size_t fsz;
->>>>>>>>> +    int ret;
->>>>>>>>> +
->>>>>>>>> +    file = fget(file_fd);
->>>>>>>>> +    if (!file)
->>>>>>>>> +        return -EINVAL;
->>>>>>>>> +
->>>>>>>>> +    fsz = i_size_read(file_inode(file));
->>>>>>>>> +    if (fsz < batch) {
->>>>>>>>> +        ret = -EINVAL;
->>>>>>>>> +        goto err;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    /**
->>>>>>>>> +     * Selinux block our read, but actually we are reading 
->>>>>>>>> the stand-in
->>>>>>>>> +     * for this file.
->>>>>>>>> +     * So save current's cred and when going to read, 
->>>>>>>>> override mine, and
->>>>>>>>> +     * end of read, revert.
->>>>>>>>> +     */
->>>>>>>>> +    heap_file->cred = prepare_kernel_cred(current);
->>>>>>>>> +    if (unlikely(!heap_file->cred)) {
->>>>>>>>> +        ret = -ENOMEM;
->>>>>>>>> +        goto err;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    heap_file->file = file;
->>>>>>>>> +    heap_file->max_batch = batch;
->>>>>>>>> +    heap_file->fsz = fsz;
->>>>>>>>> +
->>>>>>>>> +    heap_file->direct = file->f_flags & O_DIRECT;
->>>>>>>>> +
->>>>>>>>> +#define DMA_HEAP_SUGGEST_DIRECT_IO_SIZE (1UL << 30)
->>>>>>>>> +    if (!heap_file->direct && fsz >= 
->>>>>>>>> DMA_HEAP_SUGGEST_DIRECT_IO_SIZE)
->>>>>>>>> +        pr_warn("alloc read file better to use O_DIRECT to 
->>>>>>>>> read larget file\n");
->>>>>>>>> +
->>>>>>>>> +    return 0;
->>>>>>>>> +
->>>>>>>>> +err:
->>>>>>>>> +    fput(file);
->>>>>>>>> +    return ret;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +static void destroy_dma_heap_file(struct dma_heap_file 
->>>>>>>>> *heap_file)
->>>>>>>>> +{
->>>>>>>>> +    fput(heap_file->file);
->>>>>>>>> +    put_cred(heap_file->cred);
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>> +static int dma_heap_buffer_alloc_read_file(struct dma_heap 
->>>>>>>>> *heap, int file_fd,
->>>>>>>>> +                       size_t batch, unsigned int fd_flags,
->>>>>>>>> +                       unsigned int heap_flags)
->>>>>>>>> +{
->>>>>>>>> +    struct dma_buf *dmabuf;
->>>>>>>>> +    int fd;
->>>>>>>>> +    struct dma_heap_file heap_file;
->>>>>>>>> +
->>>>>>>>> +    fd = prepare_dma_heap_file(&heap_file, file_fd, batch);
->>>>>>>>> +    if (fd)
->>>>>>>>> +        goto error_file;
->>>>>>>>> +
->>>>>>>>> +    dmabuf = heap->ops->allocate_read_file(heap, &heap_file, 
->>>>>>>>> fd_flags,
->>>>>>>>> +                           heap_flags);
->>>>>>>>> +    if (IS_ERR(dmabuf)) {
->>>>>>>>> +        fd = PTR_ERR(dmabuf);
->>>>>>>>> +        goto error;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    fd = dma_buf_fd(dmabuf, fd_flags);
->>>>>>>>> +    if (fd < 0) {
->>>>>>>>> +        dma_buf_put(dmabuf);
->>>>>>>>> +        /* just return, as put will call release and that 
->>>>>>>>> will free */
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +error:
->>>>>>>>> +    destroy_dma_heap_file(&heap_file);
->>>>>>>>> +error_file:
->>>>>>>>> +    return fd;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>>   static int dma_heap_buffer_alloc(struct dma_heap *heap, 
->>>>>>>>> size_t len,
->>>>>>>>>                    u32 fd_flags,
->>>>>>>>>                    u64 heap_flags)
->>>>>>>>> @@ -93,6 +545,38 @@ static int dma_heap_open(struct inode 
->>>>>>>>> *inode, struct file *file)
->>>>>>>>>       return 0;
->>>>>>>>>   }
->>>>>>>>>   +static long dma_heap_ioctl_allocate_read_file(struct file 
->>>>>>>>> *file, void *data)
->>>>>>>>> +{
->>>>>>>>> +    struct dma_heap_allocation_file_data 
->>>>>>>>> *heap_allocation_file = data;
->>>>>>>>> +    struct dma_heap *heap = file->private_data;
->>>>>>>>> +    int fd;
->>>>>>>>> +
->>>>>>>>> +    if (heap_allocation_file->fd || 
->>>>>>>>> !heap_allocation_file->file_fd)
->>>>>>>>> +        return -EINVAL;
->>>>>>>>> +
->>>>>>>>> +    if (heap_allocation_file->fd_flags & 
->>>>>>>>> ~DMA_HEAP_VALID_FD_FLAGS)
->>>>>>>>> +        return -EINVAL;
->>>>>>>>> +
->>>>>>>>> +    if (heap_allocation_file->heap_flags & 
->>>>>>>>> ~DMA_HEAP_VALID_HEAP_FLAGS)
->>>>>>>>> +        return -EINVAL;
->>>>>>>>> +
->>>>>>>>> +    if (!heap->ops->allocate_read_file)
->>>>>>>>> +        return -EINVAL;
->>>>>>>>> +
->>>>>>>>> +    fd = dma_heap_buffer_alloc_read_file(
->>>>>>>>> +        heap, heap_allocation_file->file_fd,
->>>>>>>>> +        heap_allocation_file->batch ?
->>>>>>>>> + PAGE_ALIGN(heap_allocation_file->batch) :
->>>>>>>>> +            DEFAULT_ADI_BATCH,
->>>>>>>>> +        heap_allocation_file->fd_flags,
->>>>>>>>> +        heap_allocation_file->heap_flags);
->>>>>>>>> +    if (fd < 0)
->>>>>>>>> +        return fd;
->>>>>>>>> +
->>>>>>>>> +    heap_allocation_file->fd = fd;
->>>>>>>>> +    return 0;
->>>>>>>>> +}
->>>>>>>>> +
->>>>>>>>>   static long dma_heap_ioctl_allocate(struct file *file, void 
->>>>>>>>> *data)
->>>>>>>>>   {
->>>>>>>>>       struct dma_heap_allocation_data *heap_allocation = data;
->>>>>>>>> @@ -121,6 +605,7 @@ static long dma_heap_ioctl_allocate(struct 
->>>>>>>>> file *file, void *data)
->>>>>>>>>     static unsigned int dma_heap_ioctl_cmds[] = {
->>>>>>>>>       DMA_HEAP_IOCTL_ALLOC,
->>>>>>>>> +    DMA_HEAP_IOCTL_ALLOC_AND_READ,
->>>>>>>>>   };
->>>>>>>>>     static long dma_heap_ioctl(struct file *file, unsigned int 
->>>>>>>>> ucmd,
->>>>>>>>> @@ -170,6 +655,9 @@ static long dma_heap_ioctl(struct file 
->>>>>>>>> *file, unsigned int ucmd,
->>>>>>>>>       case DMA_HEAP_IOCTL_ALLOC:
->>>>>>>>>           ret = dma_heap_ioctl_allocate(file, kdata);
->>>>>>>>>           break;
->>>>>>>>> +    case DMA_HEAP_IOCTL_ALLOC_AND_READ:
->>>>>>>>> +        ret = dma_heap_ioctl_allocate_read_file(file, kdata);
->>>>>>>>> +        break;
->>>>>>>>>       default:
->>>>>>>>>           ret = -ENOTTY;
->>>>>>>>>           goto err;
->>>>>>>>> @@ -316,11 +804,44 @@ static int dma_heap_init(void)
->>>>>>>>>         dma_heap_class = class_create(DEVNAME);
->>>>>>>>>       if (IS_ERR(dma_heap_class)) {
->>>>>>>>> -        unregister_chrdev_region(dma_heap_devt, 
->>>>>>>>> NUM_HEAP_MINORS);
->>>>>>>>> -        return PTR_ERR(dma_heap_class);
->>>>>>>>> +        ret = PTR_ERR(dma_heap_class);
->>>>>>>>> +        goto fail_class;
->>>>>>>>>       }
->>>>>>>>>       dma_heap_class->devnode = dma_heap_devnode;
->>>>>>>>>   +    heap_fctl = kzalloc(sizeof(*heap_fctl), GFP_KERNEL);
->>>>>>>>> +    if (unlikely(!heap_fctl)) {
->>>>>>>>> +        ret =  -ENOMEM;
->>>>>>>>> +        goto fail_alloc;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    INIT_LIST_HEAD(&heap_fctl->works);
->>>>>>>>> + init_waitqueue_head(&heap_fctl->threadwq);
->>>>>>>>> + init_waitqueue_head(&heap_fctl->workwq);
->>>>>>>>> +
->>>>>>>>> +    heap_fctl->work_thread = 
->>>>>>>>> kthread_run(dma_heap_file_control_thread,
->>>>>>>>> +                         heap_fctl, "heap_fwork_t");
->>>>>>>>> +    if (IS_ERR(heap_fctl->work_thread)) {
->>>>>>>>> +        ret = -ENOMEM;
->>>>>>>>> +        goto fail_thread;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    heap_fctl->heap_fwork_cachep = 
->>>>>>>>> KMEM_CACHE(dma_heap_file_work, 0);
->>>>>>>>> +    if (unlikely(!heap_fctl->heap_fwork_cachep)) {
->>>>>>>>> +        ret = -ENOMEM;
->>>>>>>>> +        goto fail_cache;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>>       return 0;
->>>>>>>>> +
->>>>>>>>> +fail_cache:
->>>>>>>>> +    kthread_stop(heap_fctl->work_thread);
->>>>>>>>> +fail_thread:
->>>>>>>>> +    kfree(heap_fctl);
->>>>>>>>> +fail_alloc:
->>>>>>>>> +    class_destroy(dma_heap_class);
->>>>>>>>> +fail_class:
->>>>>>>>> +    unregister_chrdev_region(dma_heap_devt, NUM_HEAP_MINORS);
->>>>>>>>> +    return ret;
->>>>>>>>>   }
->>>>>>>>>   subsys_initcall(dma_heap_init);
->>>>>>>>> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
->>>>>>>>> index 064bad725061..9c25383f816c 100644
->>>>>>>>> --- a/include/linux/dma-heap.h
->>>>>>>>> +++ b/include/linux/dma-heap.h
->>>>>>>>> @@ -12,12 +12,17 @@
->>>>>>>>>   #include <linux/cdev.h>
->>>>>>>>>   #include <linux/types.h>
->>>>>>>>>   +#define DEFAULT_ADI_BATCH (128 << 20)
->>>>>>>>> +
->>>>>>>>>   struct dma_heap;
->>>>>>>>> +struct dma_heap_file_task;
->>>>>>>>> +struct dma_heap_file;
->>>>>>>>>     /**
->>>>>>>>>    * struct dma_heap_ops - ops to operate on a given heap
->>>>>>>>>    * @allocate:        allocate dmabuf and return struct 
->>>>>>>>> dma_buf ptr
->>>>>>>>> - *
->>>>>>>>> + * @allocate_read_file: allocate dmabuf and read file, then 
->>>>>>>>> return struct
->>>>>>>>> + * dma_buf ptr.
->>>>>>>>>    * allocate returns dmabuf on success, ERR_PTR(-errno) on 
->>>>>>>>> error.
->>>>>>>>>    */
->>>>>>>>>   struct dma_heap_ops {
->>>>>>>>> @@ -25,6 +30,11 @@ struct dma_heap_ops {
->>>>>>>>>                       unsigned long len,
->>>>>>>>>                       u32 fd_flags,
->>>>>>>>>                       u64 heap_flags);
->>>>>>>>> +
->>>>>>>>> +    struct dma_buf *(*allocate_read_file)(struct dma_heap *heap,
->>>>>>>>> +                          struct dma_heap_file *heap_file,
->>>>>>>>> +                          u32 fd_flags,
->>>>>>>>> +                          u64 heap_flags);
->>>>>>>>>   };
->>>>>>>>>     /**
->>>>>>>>> @@ -65,4 +75,49 @@ const char *dma_heap_get_name(struct 
->>>>>>>>> dma_heap *heap);
->>>>>>>>>    */
->>>>>>>>>   struct dma_heap *dma_heap_add(const struct 
->>>>>>>>> dma_heap_export_info *exp_info);
->>>>>>>>>   +/**
->>>>>>>>> + * dma_heap_destroy_file_read - waits for a file read to 
->>>>>>>>> complete then destroy it
->>>>>>>>> + * Returns: true if the file read failed, false otherwise
->>>>>>>>> + */
->>>>>>>>> +bool dma_heap_destroy_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask);
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * dma_heap_wait_for_file_read - waits for a file read to 
->>>>>>>>> complete
->>>>>>>>> + * Returns: true if the file read failed, false otherwise
->>>>>>>>> + */
->>>>>>>>> +bool dma_heap_wait_for_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask);
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * dma_heap_alloc_file_read - Declare a task to read file 
->>>>>>>>> when allocate pages.
->>>>>>>>> + * @heap_file:        target file to read
->>>>>>>>> + *
->>>>>>>>> + * Return NULL if failed, otherwise return a struct pointer.
->>>>>>>>> + */
->>>>>>>>> +struct dma_heap_file_task *
->>>>>>>>> +dma_heap_declare_file_read(struct dma_heap_file *heap_file);
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * dma_heap_prepare_file_read - cache each allocated page 
->>>>>>>>> until we meet this batch.
->>>>>>>>> + * @heap_ftask:        prepared and need to commit's work.
->>>>>>>>> + * @page:        current allocated page. don't care which order.
->>>>>>>>> + *
->>>>>>>>> + * Returns true if reach to batch, false so go on prepare.
->>>>>>>>> + */
->>>>>>>>> +bool dma_heap_prepare_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask,
->>>>>>>>> +                struct page *page);
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * dma_heap_commit_file_read -  prepare collect enough 
->>>>>>>>> memory, going to trigger IO
->>>>>>>>> + * @heap_ftask:            info that current IO needs
->>>>>>>>> + *
->>>>>>>>> + * This commit will also check if reach to tail read.
->>>>>>>>> + * For direct I/O submissions, it is necessary to pay 
->>>>>>>>> attention to file reads
->>>>>>>>> + * that are not page-aligned. For the unaligned portion of 
->>>>>>>>> the read, buffer IO
->>>>>>>>> + * needs to be triggered.
->>>>>>>>> + * Returns:
->>>>>>>>> + *   0 if all right, -errno if something wrong
->>>>>>>>> + */
->>>>>>>>> +int dma_heap_submit_file_read(struct dma_heap_file_task 
->>>>>>>>> *heap_ftask);
->>>>>>>>> +size_t dma_heap_file_size(struct dma_heap_file *heap_file);
->>>>>>>>> +
->>>>>>>>>   #endif /* _DMA_HEAPS_H */
->>>>>>>>> diff --git a/include/uapi/linux/dma-heap.h 
->>>>>>>>> b/include/uapi/linux/dma-heap.h
->>>>>>>>> index a4cf716a49fa..8c20e8b74eed 100644
->>>>>>>>> --- a/include/uapi/linux/dma-heap.h
->>>>>>>>> +++ b/include/uapi/linux/dma-heap.h
->>>>>>>>> @@ -39,6 +39,27 @@ struct dma_heap_allocation_data {
->>>>>>>>>       __u64 heap_flags;
->>>>>>>>>   };
->>>>>>>>>   +/**
->>>>>>>>> + * struct dma_heap_allocation_file_data - metadata passed 
->>>>>>>>> from userspace for
->>>>>>>>> + * allocations and read file
->>>>>>>>> + * @fd:            will be populated with a fd which provides 
->>>>>>>>> the
->>>>>>>>> + *     ��      handle to the allocated dma-buf
->>>>>>>>> + * @file_fd:        file descriptor to read from(suggested to 
->>>>>>>>> use O_DIRECT open file)
->>>>>>>>> + * @batch:        how many memory alloced then file 
->>>>>>>>> read(bytes), default 128MB
->>>>>>>>> + *            will auto aligned to PAGE_SIZE
->>>>>>>>> + * @fd_flags:        file descriptor flags used when allocating
->>>>>>>>> + * @heap_flags:        flags passed to heap
->>>>>>>>> + *
->>>>>>>>> + * Provided by userspace as an argument to the ioctl
->>>>>>>>> + */
->>>>>>>>> +struct dma_heap_allocation_file_data {
->>>>>>>>> +    __u32 fd;
->>>>>>>>> +    __u32 file_fd;
->>>>>>>>> +    __u32 batch;
->>>>>>>>> +    __u32 fd_flags;
->>>>>>>>> +    __u64 heap_flags;
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>>   #define DMA_HEAP_IOC_MAGIC        'H'
->>>>>>>>>     /**
->>>>>>>>> @@ -50,4 +71,15 @@ struct dma_heap_allocation_data {
->>>>>>>>>   #define DMA_HEAP_IOCTL_ALLOC _IOWR(DMA_HEAP_IOC_MAGIC, 0x0,\
->>>>>>>>>                         struct dma_heap_allocation_data)
->>>>>>>>>   +/**
->>>>>>>>> + * DOC: DMA_HEAP_IOCTL_ALLOC_AND_READ - allocate memory from 
->>>>>>>>> pool and both
->>>>>>>>> + *                    read file when allocate memory.
->>>>>>>>> + *
->>>>>>>>> + * Takes a dma_heap_allocation_file_data struct and returns 
->>>>>>>>> it with the fd field
->>>>>>>>> + * populated with the dmabuf handle of the allocation. When 
->>>>>>>>> return, the dma-buf
->>>>>>>>> + * content is read from file.
->>>>>>>>> + */
->>>>>>>>> +#define DMA_HEAP_IOCTL_ALLOC_AND_READ \
->>>>>>>>> +    _IOWR(DMA_HEAP_IOC_MAGIC, 0x1, struct 
->>>>>>>>> dma_heap_allocation_file_data)
->>>>>>>>> +
->>>>>>>>>   #endif /* _UAPI_LINUX_DMABUF_POOL_H */
->>>>>>>>
->>>>>>
->>>
->
+SGksIEphY29wbw0KDQpbLi4uXQ0KPiA+ID4gPiArDQo+ID4gPiA+ICt2b2lkIHN0Zl9zZXRfc2Nk
+X2FkZHIoc3RydWN0IHN0ZmNhbXNzICpzdGZjYW1zcywNCj4gPiA+ID4gKwkJICAgICAgZG1hX2Fk
+ZHJfdCB5aGlzdF9hZGRyLCBkbWFfYWRkcl90IHNjZF9hZGRyLA0KPiA+ID4gPiArCQkgICAgICBl
+bnVtIHN0Zl9pc3BfdHlwZV9zY2QgdHlwZV9zY2QpIHsNCj4gPiA+ID4gKwlzdGZfaXNwX3JlZ19z
+ZXRfYml0KHN0ZmNhbXNzLCBJU1BfUkVHX1NDX0NGR18xLCBJU1BfU0NfU0VMX01BU0ssDQo+ID4g
+PiA+ICsJCQkgICAgU0VMX1RZUEUodHlwZV9zY2QpKTsNCj4gPiA+ID4gKwlzdGZfaXNwX3JlZ193
+cml0ZShzdGZjYW1zcywgSVNQX1JFR19TQ0RfQ0ZHXzAsIHNjZF9hZGRyKTsNCj4gPiA+ID4gKwlz
+dGZfaXNwX3JlZ193cml0ZShzdGZjYW1zcywgSVNQX1JFR19ZSElTVF9DRkdfNCwgeWhpc3RfYWRk
+cik7IH0NCj4gPiA+ID4gKw0KPiA+ID4gPiArc3RhdGljIHZvaWQgc3RmX2lzcF9maWxsX3loaXN0
+KHN0cnVjdCBzdGZjYW1zcyAqc3RmY2Ftc3MsIHZvaWQNCj4gPiA+ID4gKyp2YWRkcikgew0KPiA+
+ID4gPiArCXN0cnVjdCBqaDcxMTBfaXNwX3NjX2J1ZmZlciAqc2MgPSAoc3RydWN0IGpoNzExMF9p
+c3Bfc2NfYnVmZmVyDQo+ICopdmFkZHI7DQo+ID4gPiA+ICsJdTMyIHJlZ19hZGRyID0gSVNQX1JF
+R19ZSElTVF9BQ0NfMDsNCj4gPiA+ID4gKwl1MzIgaTsNCj4gPiA+ID4gKw0KPiA+ID4gPiArCWZv
+ciAoaSA9IDA7IGkgPCA2NDsgaSsrLCByZWdfYWRkciArPSA0KQ0KPiA+ID4gPiArCQlzYy0+eV9o
+aXN0b2dyYW1baV0gPSBzdGZfaXNwX3JlZ19yZWFkKHN0ZmNhbXNzLCByZWdfYWRkcik7DQo+ID4g
+Pg0KPiA+ID4gSWYgeW91IGhhdmUgYSBjb250aWdvdXMgbWVtb3J5IHNwYWNlIHRvIHJlYWQsIGNv
+dWxkIG1lbWNweV9mcm9taW8oKQ0KPiA+ID4gaGVscCBpbnN0ZWFkIG9mIGdvaW5nIHRocm91Z2gg
+NjQgcmVhZHMgPw0KPiA+ID4NCj4gPg0KPiA+IEkgd2lsbCB0cnkgdGhpcyBmdW5jdGlvbi4NCj4g
+Pg0KPiA+ID4gPiArfQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgdm9pZCBzdGZfaXNwX2Zp
+bGxfZmxhZyhzdHJ1Y3Qgc3RmY2Ftc3MgKnN0ZmNhbXNzLCB2b2lkICp2YWRkciwNCj4gPiA+ID4g
+KwkJCSAgICAgIGVudW0gc3RmX2lzcF90eXBlX3NjZCAqdHlwZV9zY2QpIHsNCj4gPiA+ID4gKwlz
+dHJ1Y3Qgamg3MTEwX2lzcF9zY19idWZmZXIgKnNjID0gKHN0cnVjdCBqaDcxMTBfaXNwX3NjX2J1
+ZmZlcg0KPiA+ID4gPiArKil2YWRkcjsNCj4gPiA+ID4gKw0KPiA+ID4gPiArCSp0eXBlX3NjZCA9
+IHN0Zl9pc3BfZ2V0X3NjZF90eXBlKHN0ZmNhbXNzKTsNCj4gPiA+ID4gKwlpZiAoKnR5cGVfc2Nk
+ID09IFRZUEVfQVdCKSB7DQo+ID4gPiA+ICsJCXNjLT5mbGFnID0gSkg3MTEwX0lTUF9TQ19GTEFH
+X0FXQjsNCj4gPiA+ID4gKwkJKnR5cGVfc2NkID0gVFlQRV9PRUNGOw0KPiA+ID4gPiArCX0gZWxz
+ZSB7DQo+ID4gPiA+ICsJCXNjLT5mbGFnID0gSkg3MTEwX0lTUF9TQ19GTEFHX0FFX0FGOw0KPiA+
+ID4gPiArCQkqdHlwZV9zY2QgPSBUWVBFX0FXQjsNCj4gPiA+DQo+ID4gPiBJcyB0aGlzIGNvcnJl
+Y3QgPyBXaHkgYXJlIHlvdSBvdmVyd3JpdGluZyB0aGUgdmFsdWUgcmVhZCBmcm9tIEhXDQo+ID4g
+PiB0aGF0IGluZGljYXRlcyBBRS9BRiBzdGF0cyB3aXRoIEFXQiBvbmVzID8NCj4gPg0KPiA+IFRo
+ZSBBV0IgZnJhbWUgYW5kIEFFL0FGIGZyYW1lcyB3aWxsIGFsdGVybmF0ZSwgc28gdGhlIGN1cnJl
+bnQgZnJhbWUNCj4gPiBpbmRpY2F0ZXMgdGhlIEFFL0FGLCB0aGVuIHNldCBBV0IgdHlwZSBqdXN0
+IGZvciBuZXh0IEFXQiBmcmFtZS4NCj4gPg0KPiANCj4gQWghIFNob3VsZG4ndCBpdCBiZSB1c2Vy
+c3BhY2UgY29uZmlndXJpbmcgd2hpY2ggdHlwZSBvZiBzdGF0aXN0aWNzIGl0IHdhbnRzIHRvDQo+
+IHJlY2VpdmUgaW5zdGVhZCBvZiB0aGUgZHJpdmVyIGFsdGVybmF0aW5nIHRoZSB0d28gPw0KPiAN
+Cg0KTm8sIHRoaXMgaXMgZGV0ZXJtaW5lZCBieSBoYXJkd2FyZSwgY2Fubm90IGJlIGNvbmZpZ3Vy
+ZWQgYnkgdXNlcnNwYWNlLg0KDQo+ID4gPg0KPiA+ID4gPiArCX0NCj4gPiA+ID4gK30NCj4gPiA+
+ID4gKw0KPiA+ID4gPiAgaXJxcmV0dXJuX3Qgc3RmX2xpbmVfaXJxX2hhbmRsZXIoaW50IGlycSwg
+dm9pZCAqcHJpdikgIHsNCj4gPiA+ID4gIAlzdHJ1Y3Qgc3RmY2Ftc3MgKnN0ZmNhbXNzID0gcHJp
+djsNCj4gPiA+ID4gIAlzdHJ1Y3Qgc3RmX2NhcHR1cmUgKmNhcCA9ICZzdGZjYW1zcy0+Y2FwdHVy
+ZXNbU1RGX0NBUFRVUkVfWVVWXTsNCj4gPiA+ID4gKwlzdHJ1Y3Qgc3RmX2NhcHR1cmUgKmNhcF9z
+Y2QgPQ0KPiA+ID4gPiArJnN0ZmNhbXNzLT5jYXB0dXJlc1tTVEZfQ0FQVFVSRV9TQ0RdOw0KPiA+
+ID4gPiAgCXN0cnVjdCBzdGZjYW1zc19idWZmZXIgKmNoYW5nZV9idWY7DQo+ID4gPiA+ICsJZW51
+bSBzdGZfaXNwX3R5cGVfc2NkIHR5cGVfc2NkOw0KPiA+ID4gPiArCXUzMiB2YWx1ZTsNCj4gPiA+
+ID4gIAl1MzIgc3RhdHVzOw0KPiA+ID4gPg0KPiA+ID4gPiAgCXN0YXR1cyA9IHN0Zl9pc3BfcmVn
+X3JlYWQoc3RmY2Ftc3MsIElTUF9SRUdfSVNQX0NUUkxfMCk7IEBADQo+ID4gPiA+IC00NjcsNg0K
+PiA+ID4gPiArNTEzLDE3IEBAIGlycXJldHVybl90IHN0Zl9saW5lX2lycV9oYW5kbGVyKGludCBp
+cnEsIHZvaWQgKnByaXYpDQo+ID4gPiA+ICAJCQkJCXN0Zl9zZXRfeXV2X2FkZHIoc3RmY2Ftc3Ms
+IGNoYW5nZV9idWYtPmFkZHJbMF0sDQo+ID4gPiA+ICAJCQkJCQkJIGNoYW5nZV9idWYtPmFkZHJb
+MV0pOw0KPiA+ID4gPiAgCQkJfQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsJCQl2YWx1ZSA9IHN0Zl9p
+c3BfcmVnX3JlYWQoc3RmY2Ftc3MsDQo+ID4gPiBJU1BfUkVHX0NTSV9NT0RVTEVfQ0ZHKTsNCj4g
+PiA+ID4gKwkJCWlmICh2YWx1ZSAmIENTSV9TQ19FTikgew0KPiA+ID4gPiArCQkJCWNoYW5nZV9i
+dWYgPSBzdGZfY2hhbmdlX2J1ZmZlcigmY2FwX3NjZC0+YnVmZmVycyk7DQo+ID4gPiA+ICsJCQkJ
+aWYgKGNoYW5nZV9idWYpIHsNCj4gPiA+ID4gKwkJCQkJc3RmX2lzcF9maWxsX2ZsYWcoc3RmY2Ft
+c3MsIGNoYW5nZV9idWYtPnZhZGRyLA0KPiA+ID4gPiArCQkJCQkJCSAgJnR5cGVfc2NkKTsNCj4g
+PiA+ID4gKwkJCQkJc3RmX3NldF9zY2RfYWRkcihzdGZjYW1zcywgY2hhbmdlX2J1Zi0+YWRkclsw
+XSwNCj4gPiA+ID4gKwkJCQkJCQkgY2hhbmdlX2J1Zi0+YWRkclsxXSwgdHlwZV9zY2QpOw0KPiA+
+ID4NCj4gPiA+IFNvcnJ5IGlmIEknbSB1bi1mYW1pbGlhciB3aXRoIHRoZSBIVyBidXQgdGhpcyBz
+ZWVtcyB0byBiZSB0aGUgbGluZS1pbnRlcnJ1cHQuDQo+ID4gPiBBcmUgeW91IHN3YXBwaW5nIGJ1
+ZmZlcnMgZXZlcnkgbGluZSBvciBpdCdzIGp1c3QgdGhhdCB5b3UgaGF2ZSBhDQo+ID4gPiBzaW5n
+bGUgbGluZSBpcnEgZm9yIHRoZSBzdGF0cyA/DQo+ID4gPg0KPiA+DQo+ID4gRXZlcnkgZnJhbWUg
+dHJpZ2dlcnMgYSBsaW5lLWludGVycnVwdCwgYW5kIHdlIHdpbGwgc3dhcCBidWZmZXJzIGluIGl0
+Lg0KPiA+DQo+IA0KPiBhaCwgZnJhbWVzIGNvbXBsZXRpb24gdHJpZ2dlcnMgYSBsaW5lLWludGVy
+cnVwdCA/DQo+IA0KDQpFdmVyeSBmcmFtZSB3aWxsIHRyaWdnZXIgbGluZS1pbnRlcnJ1cHQgYW5k
+IHN0Zl9pc3BfaXJxX2hhbmRsZXIuDQpXZSB1c2UgbGluZS1pbnRlcnJ1cHQgY2hhbmdpbmcgYnVm
+ZmVyLCB0aGUgc3RmX2lzcF9pcnFfaGFuZGxlciB3aWxsIGluZGljYXRlIHRoYXQNCmltYWdlIHRy
+YW5zZmVyIHRvIEREUiBpcyBjb21wbGV0ZS4NCg0KDQo+ID4gPiA+ICsJCQkJfQ0KPiA+ID4gPiAr
+CQkJfQ0KPiA+ID4gPiAgCQl9DQo+ID4gPiA+DQo+ID4gPiA+ICAJCXN0Zl9pc3BfcmVnX3NldF9i
+aXQoc3RmY2Ftc3MsIElTUF9SRUdfQ1NJSU5UUywgQEAgLTQ4NSw2DQo+ICs1NDIsNw0KPiA+ID4g
+QEANCj4gPiA+ID4gaXJxcmV0dXJuX3Qgc3RmX2lzcF9pcnFfaGFuZGxlcihpbnQgaXJxLCB2b2lk
+ICpwcml2KSAgew0KPiA+ID4gPiAgCXN0cnVjdCBzdGZjYW1zcyAqc3RmY2Ftc3MgPSBwcml2Ow0K
+PiA+ID4gPiAgCXN0cnVjdCBzdGZfY2FwdHVyZSAqY2FwID0gJnN0ZmNhbXNzLT5jYXB0dXJlc1tT
+VEZfQ0FQVFVSRV9ZVVZdOw0KPiA+ID4gPiArCXN0cnVjdCBzdGZfY2FwdHVyZSAqY2FwX3NjZCA9
+DQo+ID4gPiA+ICsmc3RmY2Ftc3MtPmNhcHR1cmVzW1NURl9DQVBUVVJFX1NDRF07DQo+ID4gPiA+
+ICAJc3RydWN0IHN0ZmNhbXNzX2J1ZmZlciAqcmVhZHlfYnVmOw0KPiA+ID4gPiAgCXUzMiBzdGF0
+dXM7DQo+ID4gPiA+DQo+ID4gPiA+IEBAIC00OTYsNiArNTU0LDE0IEBAIGlycXJldHVybl90IHN0
+Zl9pc3BfaXJxX2hhbmRsZXIoaW50IGlycSwgdm9pZCAqcHJpdikNCj4gPiA+ID4gIAkJCQl2YjJf
+YnVmZmVyX2RvbmUoJnJlYWR5X2J1Zi0+dmIudmIyX2J1ZiwNCj4gPiA+IFZCMl9CVUZfU1RBVEVf
+RE9ORSk7DQo+ID4gPiA+ICAJCX0NCj4gPiA+ID4NCj4gPiA+ID4gKwkJaWYgKHN0YXR1cyAmIElT
+UENfU0MpIHsNCj4gPiA+ID4gKwkJCXJlYWR5X2J1ZiA9IHN0Zl9idWZfZG9uZSgmY2FwX3NjZC0+
+YnVmZmVycyk7DQo+ID4gPiA+ICsJCQlpZiAocmVhZHlfYnVmKSB7DQo+ID4gPiA+ICsJCQkJc3Rm
+X2lzcF9maWxsX3loaXN0KHN0ZmNhbXNzLCByZWFkeV9idWYtPnZhZGRyKTsNCj4gPiA+ID4gKwkJ
+CQl2YjJfYnVmZmVyX2RvbmUoJnJlYWR5X2J1Zi0+dmIudmIyX2J1ZiwNCj4gPiA+IFZCMl9CVUZf
+U1RBVEVfRE9ORSk7DQo+ID4gPiA+ICsJCQl9DQo+ID4gPiA+ICsJCX0NCj4gPiA+ID4gKw0KPiA+
+ID4gPiAgCQlzdGZfaXNwX3JlZ193cml0ZShzdGZjYW1zcywgSVNQX1JFR19JU1BfQ1RSTF8wLA0K
+PiA+ID4gPiAgCQkJCSAgKHN0YXR1cyAmIH5JU1BDX0lOVF9BTExfTUFTSykgfA0KPiA+ID4gPiAg
+CQkJCSAgSVNQQ19JU1AgfCBJU1BDX0NTSSB8IElTUENfU0MpOyBkaWZmIC0tZ2l0DQo+ID4gPiA+
+IGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi1pc3AuaA0KPiA+ID4g
+PiBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9zdGFyZml2ZS9jYW1zcy9zdGYtaXNwLmgNCj4gPiA+
+ID4gaW5kZXggZmNkYTA1MDJlM2IwLi4wYWY3YjM2N2U1N2EgMTAwNjQ0DQo+ID4gPiA+IC0tLSBh
+L2RyaXZlcnMvc3RhZ2luZy9tZWRpYS9zdGFyZml2ZS9jYW1zcy9zdGYtaXNwLmgNCj4gPiA+ID4g
+KysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi1pc3AuaA0KPiA+
+ID4gPiBAQCAtMTAsNiArMTAsNyBAQA0KPiA+ID4gPiAgI2lmbmRlZiBTVEZfSVNQX0gNCj4gPiA+
+ID4gICNkZWZpbmUgU1RGX0lTUF9IDQo+ID4gPiA+DQo+ID4gPiA+ICsjaW5jbHVkZSA8bGludXgv
+amg3MTEwLWlzcC5oPg0KPiA+ID4gPiAgI2luY2x1ZGUgPG1lZGlhL3Y0bDItc3ViZGV2Lmg+DQo+
+ID4gPiA+DQo+ID4gPiA+ICAjaW5jbHVkZSAic3RmLXZpZGVvLmgiDQo+ID4gPiA+IEBAIC0xMDcs
+NiArMTA4LDEyIEBADQo+ID4gPiA+ICAjZGVmaW5lIFlfQ09PUih5KQkJCQkoKHkpIDw8IDE2KQ0K
+PiA+ID4gPiAgI2RlZmluZSBYX0NPT1IoeCkJCQkJKCh4KSA8PCAwKQ0KPiA+ID4gPg0KPiA+ID4g
+PiArI2RlZmluZSBJU1BfUkVHX1NDRF9DRkdfMAkJCTB4MDk4DQo+ID4gPiA+ICsNCj4gPiA+ID4g
+KyNkZWZpbmUgSVNQX1JFR19TQ19DRkdfMQkJCTB4MGJjDQo+ID4gPiA+ICsjZGVmaW5lIElTUF9T
+Q19TRUxfTUFTSwkJCQlHRU5NQVNLKDMxLCAzMCkNCj4gPiA+ID4gKyNkZWZpbmUgU0VMX1RZUEUo
+bikJCQkJKChuKSA8PCAzMCkNCj4gPiA+ID4gKw0KPiA+ID4gPiAgI2RlZmluZSBJU1BfUkVHX0xD
+Q0ZfQ0ZHXzIJCQkweDBlMA0KPiA+ID4gPiAgI2RlZmluZSBJU1BfUkVHX0xDQ0ZfQ0ZHXzMJCQkw
+eDBlNA0KPiA+ID4gPiAgI2RlZmluZSBJU1BfUkVHX0xDQ0ZfQ0ZHXzQJCQkweDBlOA0KPiA+ID4g
+PiBAQCAtMzA1LDYgKzMxMiwxMCBAQA0KPiA+ID4gPiAgI2RlZmluZSBETlJNX0YobikJCQkJKChu
+KSA8PCAxNikNCj4gPiA+ID4gICNkZWZpbmUgQ0NNX01fREFUKG4pCQkJCSgobikgPDwgMCkNCj4g
+PiA+ID4NCj4gPiA+ID4gKyNkZWZpbmUgSVNQX1JFR19ZSElTVF9DRkdfNAkJCTB4Y2Q4DQo+ID4g
+PiA+ICsNCj4gPiA+ID4gKyNkZWZpbmUgSVNQX1JFR19ZSElTVF9BQ0NfMAkJCTB4ZDAwDQo+ID4g
+PiA+ICsNCj4gPiA+ID4gICNkZWZpbmUgSVNQX1JFR19HQU1NQV9WQUwwCQkJMHhlMDANCj4gPiA+
+ID4gICNkZWZpbmUgSVNQX1JFR19HQU1NQV9WQUwxCQkJMHhlMDQNCj4gPiA+ID4gICNkZWZpbmUg
+SVNQX1JFR19HQU1NQV9WQUwyCQkJMHhlMDgNCj4gPiA+ID4gQEAgLTM4OSw2ICs0MDAsMTUgQEAN
+Cj4gPiA+ID4gICNkZWZpbmUgSU1BR0VfTUFYX1dJRFRICQkJCTE5MjANCj4gPiA+ID4gICNkZWZp
+bmUgSU1BR0VfTUFYX0hFSUdICQkJCTEwODANCj4gPiA+ID4NCj4gPiA+ID4gKyNkZWZpbmUgSVNQ
+X1lISVNUX0JVRkZFUl9TSVpFCQkJKDY0ICogc2l6ZW9mKF9fdTMyKSkNCj4gPiA+DQo+ID4gPiBT
+aG91bGQgdGhpcyBiZSBpbiB0aGUgdUFQSSBoZWFkZXIgYXMgaXQgaXMgdXNlZnVsIHRvIHVzZXJz
+cGFjZSBhcyB3ZWxsID8NCj4gPiA+DQo+ID4gPiB5b3UgY291bGQ6DQo+ID4gPg0KPiA+ID4gc3Ry
+dWN0IGpoNzExMF9pc3Bfc2NfYnVmZmVyIHsNCj4gPiA+IAlfX3U4IHlfaGlzdG9ncmFtW0lTUF9Z
+SElTVF9CVUZGRVJfU0laRV07DQo+ID4gPiAJX191MzIgcmVzZXJ2MFszM107DQo+ID4gPiAJX191
+MzIgYnJpZ2h0X3NjWzQwOTZdOw0KPiA+ID4gCV9fdTMyIHJlc2VydjFbOTZdOw0KPiA+ID4gCV9f
+dTMyIGFlX2hpc3RfeVsxMjhdOw0KPiA+ID4gCV9fdTMyIHJlc2VydjJbNTExXTsNCj4gPiA+IAlf
+X3UxNiBmbGFnOw0KPiA+ID4gfTsNCj4gPiA+DQo+ID4gPiBvZmMgaWYgdGhlIHNpemUgaXMgbWFk
+ZSBwYXJ0IG9mIHRoZSB1QVBJIHlvdSBuZWVkIGEgbW9yZSBwcm9wZXIgbmFtZQ0KPiA+ID4gc3Vj
+aCBhcyBKSDcxMTBfSVNQX1lISVNUX1NJWkUNCj4gPiA+DQo+ID4NCj4gPiBPSywgSSB3aWxsIHRy
+eSB0aGlzLg0KPiA+DQo+ID4gPiA+ICsNCj4gPiA+ID4gK2VudW0gc3RmX2lzcF90eXBlX3NjZCB7
+DQo+ID4gPiA+ICsJVFlQRV9ERUMgPSAwLA0KPiA+ID4gPiArCVRZUEVfT0JDLA0KPiA+ID4gPiAr
+CVRZUEVfT0VDRiwNCj4gPiA+ID4gKwlUWVBFX0FXQiwNCj4gPiA+ID4gK307DQo+ID4gPiA+ICsN
+Cj4gPiA+ID4gIC8qIHBhZCBpZCBmb3IgbWVkaWEgZnJhbWV3b3JrICovDQo+ID4gPiA+ICBlbnVt
+IHN0Zl9pc3BfcGFkX2lkIHsNCj4gPiA+ID4gIAlTVEZfSVNQX1BBRF9TSU5LID0gMCwNCj4gPiA+
+ID4gQEAgLTQyOSw1ICs0NDksOCBAQCBpbnQgc3RmX2lzcF91bnJlZ2lzdGVyKHN0cnVjdCBzdGZf
+aXNwX2Rldg0KPiA+ID4gPiAqaXNwX2Rldik7DQo+ID4gPiA+DQo+ID4gPiA+ICB2b2lkIHN0Zl9z
+ZXRfeXV2X2FkZHIoc3RydWN0IHN0ZmNhbXNzICpzdGZjYW1zcywNCj4gPiA+ID4gIAkJICAgICAg
+ZG1hX2FkZHJfdCB5X2FkZHIsIGRtYV9hZGRyX3QgdXZfYWRkcik7DQo+ID4gPiA+ICt2b2lkIHN0
+Zl9zZXRfc2NkX2FkZHIoc3RydWN0IHN0ZmNhbXNzICpzdGZjYW1zcywNCj4gPiA+ID4gKwkJICAg
+ICAgZG1hX2FkZHJfdCB5aGlzdF9hZGRyLCBkbWFfYWRkcl90IHNjZF9hZGRyLA0KPiA+ID4gPiAr
+CQkgICAgICBlbnVtIHN0Zl9pc3BfdHlwZV9zY2QgdHlwZV9zY2QpOw0KPiA+ID4gPg0KPiA+ID4g
+PiAgI2VuZGlmIC8qIFNURl9JU1BfSCAqLw0KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9z
+dGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi12aWRlby5jDQo+ID4gPiA+IGIvZHJpdmVy
+cy9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi12aWRlby5jDQo+ID4gPiA+IGluZGV4
+IDk4OWI1ZTgyYmFlOS4uMjIwMzYwNWVjOWM3IDEwMDY0NA0KPiA+ID4gPiAtLS0gYS9kcml2ZXJz
+L3N0YWdpbmcvbWVkaWEvc3RhcmZpdmUvY2Ftc3Mvc3RmLXZpZGVvLmMNCj4gPiA+ID4gKysrIGIv
+ZHJpdmVycy9zdGFnaW5nL21lZGlhL3N0YXJmaXZlL2NhbXNzL3N0Zi12aWRlby5jDQo+ID4gPiA+
+IEBAIC0xMjUsNiArMTI1LDE0IEBAIHN0YXRpYyBpbnQgc3RmX3ZpZGVvX2luaXRfZm9ybWF0KHN0
+cnVjdA0KPiA+ID4gc3RmY2Ftc3NfdmlkZW8gKnZpZGVvKQ0KPiA+ID4gPiAgCXJldHVybiAwOw0K
+PiA+ID4gPiAgfQ0KPiA+ID4gPg0KPiA+ID4gPiArc3RhdGljIGludCBzdGZfdmlkZW9fc2NkX2lu
+aXRfZm9ybWF0KHN0cnVjdCBzdGZjYW1zc192aWRlbw0KPiA+ID4gPiArKnZpZGVvKQ0KPiA+ID4N
+Cj4gPiA+IE1ha2UgaXQgdm9pZCBpZiBpdCBjYW4ndCBmYWlsIChzZWUgYmVsb3cpDQo+ID4gPg0K
+PiA+DQo+ID4gT0suDQo+ID4NCj4gPiA+ID4gK3sNCj4gPiA+ID4gKwl2aWRlby0+YWN0aXZlX2Zt
+dC5mbXQubWV0YS5kYXRhZm9ybWF0ID0NCj4gPiA+IHZpZGVvLT5mb3JtYXRzWzBdLnBpeGVsZm9y
+bWF0Ow0KPiA+ID4gPiArCXZpZGVvLT5hY3RpdmVfZm10LmZtdC5tZXRhLmJ1ZmZlcnNpemUgPSBz
+aXplb2Yoc3RydWN0DQo+ID4gPiA+ICtqaDcxMTBfaXNwX3NjX2J1ZmZlcik7DQo+ID4gPiA+ICsN
+Cj4gPiA+ID4gKwlyZXR1cm4gMDsNCj4gPiA+ID4gK30NCj4gPiA+ID4gKw0KPiA+ID4gPiAgLyog
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiA+ID4gICAqIFZpZGVvIHF1ZXVlIG9wZXJhdGlvbnMN
+Cj4gPiA+ID4gICAqLw0KPiA+ID4gPiBAQCAtMzMwLDYgKzMzOCw3OCBAQCBzdGF0aWMgY29uc3Qg
+c3RydWN0IHZiMl9vcHMNCj4gPiA+ID4gc3RmX3ZpZGVvX3ZiMl9xX29wcyA9DQo+ID4gPiB7DQo+
+ID4gPiA+ICAJLnN0b3Bfc3RyZWFtaW5nICA9IHZpZGVvX3N0b3Bfc3RyZWFtaW5nLCAgfTsNCj4g
+PiA+ID4NCj4gPiA+ID4gK3N0YXRpYyBpbnQgdmlkZW9fc2NkX3F1ZXVlX3NldHVwKHN0cnVjdCB2
+YjJfcXVldWUgKnEsDQo+ID4gPiA+ICsJCQkJIHVuc2lnbmVkIGludCAqbnVtX2J1ZmZlcnMsDQo+
+ID4gPiA+ICsJCQkJIHVuc2lnbmVkIGludCAqbnVtX3BsYW5lcywNCj4gPiA+ID4gKwkJCQkgdW5z
+aWduZWQgaW50IHNpemVzW10sDQo+ID4gPiA+ICsJCQkJIHN0cnVjdCBkZXZpY2UgKmFsbG9jX2Rl
+dnNbXSkgew0KPiA+ID4gPiArCWlmICgqbnVtX3BsYW5lcykNCj4gPiA+ID4gKwkJcmV0dXJuIHNp
+emVzWzBdIDwgc2l6ZW9mKHN0cnVjdCBqaDcxMTBfaXNwX3NjX2J1ZmZlcikgPyAtRUlOVkFMIDoN
+Cj4gPiA+ID4gKzA7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwkqbnVtX3BsYW5lcyA9IDE7DQo+ID4g
+PiA+ICsJc2l6ZXNbMF0gPSBzaXplb2Yoc3RydWN0IGpoNzExMF9pc3Bfc2NfYnVmZmVyKTsNCj4g
+PiA+ID4gKw0KPiA+ID4gPiArCXJldHVybiAwOw0KPiA+ID4gPiArfQ0KPiA+ID4gPiArDQo+ID4g
+PiA+ICtzdGF0aWMgaW50IHZpZGVvX3NjZF9idWZfaW5pdChzdHJ1Y3QgdmIyX2J1ZmZlciAqdmIp
+IHsNCj4gPiA+ID4gKwlzdHJ1Y3QgdmIyX3Y0bDJfYnVmZmVyICp2YnVmID0gdG9fdmIyX3Y0bDJf
+YnVmZmVyKHZiKTsNCj4gPiA+ID4gKwlzdHJ1Y3Qgc3RmY2Ftc3NfYnVmZmVyICpidWZmZXIgPSB0
+b19zdGZjYW1zc19idWZmZXIodmJ1Zik7DQo+ID4gPiA+ICsJZG1hX2FkZHJfdCAqcGFkZHI7DQo+
+ID4gPiA+ICsNCj4gPiA+ID4gKwlwYWRkciA9IHZiMl9wbGFuZV9jb29raWUodmIsIDApOw0KPiA+
+ID4gPiArCWJ1ZmZlci0+YWRkclswXSA9ICpwYWRkcjsNCj4gPiA+ID4gKwlidWZmZXItPmFkZHJb
+MV0gPSBidWZmZXItPmFkZHJbMF0gKyBJU1BfWUhJU1RfQlVGRkVSX1NJWkU7DQo+ID4gPg0KPiA+
+ID4gSW50ZXJlc3RpbmcsIEkgZG9uJ3Qgc2VlIG1hbnkgdXNlcnMgb2YgdmIyX3BsYW5lX2Nvb2tp
+ZSgpIGluDQo+ID4gPiBtYWlubGluZSBhbmQgSSdtIG5vdCBzdXJlIHdoYXQgdGhpcyBnaXZlcyB5
+b3UgYXMgeW91IHVzZSBpdCB0byBwcm9ncmFtIHRoZQ0KPiBmb2xsb3dpbmcgcmVnaXN0ZXJzOg0K
+PiA+ID4NCj4gPiA+IAlzdGZfaXNwX3JlZ193cml0ZShzdGZjYW1zcywgSVNQX1JFR19TQ0RfQ0ZH
+XzAsIHNjZF9hZGRyKTsNCj4gPiA+IAlzdGZfaXNwX3JlZ193cml0ZShzdGZjYW1zcywgSVNQX1JF
+R19ZSElTVF9DRkdfNCwgeWhpc3RfYWRkcik7DQo+ID4gPg0KPiA+DQo+ID4gV2Ugc2V0IHRoZSB2
+YWx1ZSBmb3IgSVNQIGhhcmR3YXJlLCB0aGVuIElTUCB3aWxsIHRyYW5zZmVyIHRoZSBzdGF0aXN0
+aWNzIHRvIHRoZQ0KPiBidWZmZXIuDQo+ID4gd2hlbiB0aGUgc3RmX2lzcF9pcnFfaGFuZGxlciBp
+bnRlcnJ1cHQgaXMgdHJpZ2dlcmVkLCBpbmRpY2F0ZXMgdGhhdA0KPiA+IHRoZSBidWZmZXIgZmls
+bCBpcyBjb21wbGV0ZS4NCj4gPg0KPiANCj4gU28gSSB0YWtlIHRoaXMgYXMNCj4gDQo+IAlwYWRk
+ciA9IHZiMl9wbGFuZV9jb29raWUodmIsIDApOw0KPiAJYnVmZmVyLT5hZGRyWzBdID0gKnBhZGRy
+Ow0KPiAJYnVmZmVyLT5hZGRyWzFdID0gYnVmZmVyLT5hZGRyWzBdICsgSVNQX1lISVNUX0JVRkZF
+Ul9TSVpFOw0KPiANCj4gICAgICAgICBzdGZfc2V0X3NjZF9hZGRyKHN0ZmNhbXNzLCBjaGFuZ2Vf
+YnVmLT5hZGRyWzBdLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgY2hhbmdlX2J1Zi0+YWRk
+clsxXSwgdHlwZV9zY2QpOw0KPiANCj4gTWFrZXMgdGhlIElTUCB0cmFuc2ZlciBkYXRhIGRpcmVj
+dGx5IHRvIHRoZSBtZW1vcnkgYXJlYXMgaW4gYWRkclswXSBhbmQgYWRkclsxXQ0KPiAod2hpY2gg
+ZXhwbGFpbnMgd2h5IHN0cnVjdCBqaDcxMTBfaXNwX3NjX2J1ZmZlciBpcyBwYWNrZWQsIGFzIGl0
+IGhhcyB0byBtYXRjaA0KPiB0aGUgSFcgcmVnaXN0ZXJzIGxheW91dCkNCj4gDQo+IElmIHRoaXMg
+aXMgdGhlIGNhc2UsIHdoeSBhcmUgeW91IHRoZW4gbWFudWFsbHkgY29weWluZyB0aGUgaGlzdG9n
+cmFtcyBhbmQgdGhlDQo+IGZsYWdzIHRvIHZhZGRyID8NCj4gDQoNClllcywgeW91ciBhcmUgcmln
+aHQuDQpCdXQgYWN0dWFsbHkgdGhlcmUgaXMgYSBwcm9ibGVtIHdpdGggb3VyIElTUCBSVEwuDQpX
+ZSBzZXQgdGhpcyB5aGlzdF9hZGRyIHRvIElTUCwgYnV0IGl0IGFjdHVhbGx5IG5vdCB3b3JrLg0K
+CXN0Zl9pc3BfcmVnX3dyaXRlKHN0ZmNhbXNzLCBJU1BfUkVHX1lISVNUX0NGR180LCB5aGlzdF9h
+ZGRyKTsNCm9yIEkgd2lsbCBkcm9wIHRoaXMgbGluZSBpbiBuZXh0IHZlcnNpb24uDQoNClNvLCBp
+biB0aGlzIHN0cnVjdHVyZQ0Kc3RydWN0IGpoNzExMF9pc3Bfc2NfYnVmZmVyIHsNCglfX3UzMiB5
+X2hpc3RvZ3JhbVs2NF07DQoJX191MzIgcmVzZXJ2MFszM107DQoJX191MzIgYnJpZ2h0X3NjWzQw
+OTZdOw0KCV9fdTMyIHJlc2VydjFbOTZdOw0KCV9fdTMyIGFlX2hpc3RfeVsxMjhdOw0KCV9fdTMy
+IHJlc2VydjJbNTExXTsNCglfX3UxNiBmbGFnOw0KfTsNCg0KT25seSANCg0KCV9fdTMyIHJlc2Vy
+djBbMzNdOw0KCV9fdTMyIGJyaWdodF9zY1s0MDk2XTsNCglfX3UzMiByZXNlcnYxWzk2XTsNCglf
+X3UzMiBhZV9oaXN0X3lbMTI4XTsNCglfX3UzMiByZXNlcnYyWzUxMV07DQoNCnRyYW5zZmVyIGJ5
+IElTUCBoYXJkd2FyZS4NCg0KSSBuZWVkIHRvIGZpbGwgDQoJX191MzIgeV9oaXN0b2dyYW1bNjRd
+Ow0KCV9fdTE2IGZsYWc7DQoNCmJ5IHZhZGRyLg0KDQpSZWdhcmRzLA0KQ2hhbmdodWFuZw0KDQo+
+ICAgICAgICAgICAgICAgICByZWFkeV9idWYgPSBzdGZfYnVmX2RvbmUoJmNhcF9zY2QtPmJ1ZmZl
+cnMpOw0KPiAgICAgICAgICAgICAgICAgaWYgKHJlYWR5X2J1Zikgew0KPiAgICAgICAgICAgICAg
+ICAgICAgICAgICBzdGZfaXNwX2ZpbGxfeWhpc3Qoc3RmY2Ftc3MsIHJlYWR5X2J1Zi0+dmFkZHIp
+Ow0KPiAgICAgICAgICAgICAgICAgICAgICAgICB2YjJfYnVmZmVyX2RvbmUoJnJlYWR5X2J1Zi0+
+dmIudmIyX2J1ZiwNCj4gVkIyX0JVRl9TVEFURV9ET05FKTsNCj4gICAgICAgICAgICAgICAgIH0N
+Cj4gDQo+ICAgICAgICAgICAgICAgICBjaGFuZ2VfYnVmID0gc3RmX2NoYW5nZV9idWZmZXIoJmNh
+cF9zY2QtPmJ1ZmZlcnMpOw0KPiAgICAgICAgICAgICAgICAgaWYgKGNoYW5nZV9idWYpIHsNCj4g
+ICAgICAgICAgICAgICAgICAgICAgICAgc3RmX2lzcF9maWxsX2ZsYWcoc3RmY2Ftc3MsIGNoYW5n
+ZV9idWYtPnZhZGRyLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAmdHlwZV9zY2QpOw0KPiANCj4gSWYgSSByZWFkIHZiMl9kY19hbGxvY19jb2hlcmVudCgpIHJp
+Z2h0ICdjb29raWUnID09ICd2YWRkcicNCj4gDQo+IHN0YXRpYyBpbnQgdmIyX2RjX2FsbG9jX2Nv
+aGVyZW50KHN0cnVjdCB2YjJfZGNfYnVmICpidWYpIHsNCj4gCXN0cnVjdCB2YjJfcXVldWUgKnEg
+PSBidWYtPnZiLT52YjJfcXVldWU7DQo+IA0KPiAJYnVmLT5jb29raWUgPSBkbWFfYWxsb2NfYXR0
+cnMoYnVmLT5kZXYsDQo+IAkJCQkgICAgICBidWYtPnNpemUsDQo+IAkJCQkgICAgICAmYnVmLT5k
+bWFfYWRkciwNCj4gCQkJCSAgICAgIEdGUF9LRVJORUwgfCBxLT5nZnBfZmxhZ3MsDQo+IAkJCQkg
+ICAgICBidWYtPmF0dHJzKTsNCj4gCWlmICghYnVmLT5jb29raWUpDQo+IAkJcmV0dXJuIC1FTk9N
+RU07DQo+IA0KPiAJaWYgKHEtPmRtYV9hdHRycyAmIERNQV9BVFRSX05PX0tFUk5FTF9NQVBQSU5H
+KQ0KPiAJCXJldHVybiAwOw0KPiANCj4gCWJ1Zi0+dmFkZHIgPSBidWYtPmNvb2tpZTsNCj4gCXJl
+dHVybiAwOw0KPiB9DQo+IA0KPiBDb3VsZCB5b3UgdmVyaWZ5IHdoYXQgeW91IGdldCBieSBwcmlu
+dGluZyBvdXQgJ3BhZGRyJyBhbmQgJ3ZhZGRyJyBpbg0KPiB2aWRlb19zY2RfYnVmX2luaXQoKSA/
+DQo+IA0KPiANCj4gPiA+DQo+ID4gPiA+ICsJYnVmZmVyLT52YWRkciA9IHZiMl9wbGFuZV92YWRk
+cih2YiwgMCk7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwlyZXR1cm4gMDsNCj4gPiA+ID4gK30NCj4g
+PiA+ID4gKw0KPiA+ID4gPiArc3RhdGljIGludCB2aWRlb19zY2RfYnVmX3ByZXBhcmUoc3RydWN0
+IHZiMl9idWZmZXIgKnZiKSB7DQo+ID4gPiA+ICsJc3RydWN0IHZiMl92NGwyX2J1ZmZlciAqdmJ1
+ZiA9IHRvX3ZiMl92NGwyX2J1ZmZlcih2Yik7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwlpZiAoc2l6
+ZW9mKHN0cnVjdCBqaDcxMTBfaXNwX3NjX2J1ZmZlcikgPiB2YjJfcGxhbmVfc2l6ZSh2YiwgMCkp
+DQo+ID4gPiA+ICsJCXJldHVybiAtRUlOVkFMOw0KPiA+ID4gPiArDQo+ID4gPiA+ICsJdmIyX3Nl
+dF9wbGFuZV9wYXlsb2FkKHZiLCAwLCBzaXplb2Yoc3RydWN0DQo+ID4gPiA+ICtqaDcxMTBfaXNw
+X3NjX2J1ZmZlcikpOw0KPiA+ID4gPiArDQo+ID4gPiA+ICsJdmJ1Zi0+ZmllbGQgPSBWNEwyX0ZJ
+RUxEX05PTkU7DQo+ID4gPg0KPiA+ID4gaXMgdGhpcyBuZWNlc3NhcnkgPw0KPiA+ID4NCj4gPg0K
+PiA+IFdpbGwgZHJvcCBpdC4NCj4gPg0KPiA+ID4gPiArDQo+ID4gPiA+ICsJcmV0dXJuIDA7DQo+
+ID4gPiA+ICt9DQo+ID4gPiA+ICsNCj4gPiA+ID4gK3N0YXRpYyBpbnQgdmlkZW9fc2NkX3N0YXJ0
+X3N0cmVhbWluZyhzdHJ1Y3QgdmIyX3F1ZXVlICpxLA0KPiA+ID4gPiArdW5zaWduZWQgaW50IGNv
+dW50KSB7DQo+ID4gPiA+ICsJc3RydWN0IHN0ZmNhbXNzX3ZpZGVvICp2aWRlbyA9IHZiMl9nZXRf
+ZHJ2X3ByaXYocSk7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwl2aWRlby0+b3BzLT5zdGFydF9zdHJl
+YW1pbmcodmlkZW8pOw0KPiA+ID4gPiArDQo+ID4gPiA+ICsJcmV0dXJuIDA7DQo+ID4gPiA+ICt9
+DQo+ID4gPiA+ICsNCj4gPiA+ID4gK3N0YXRpYyB2b2lkIHZpZGVvX3NjZF9zdG9wX3N0cmVhbWlu
+ZyhzdHJ1Y3QgdmIyX3F1ZXVlICpxKSB7DQo+ID4gPiA+ICsJc3RydWN0IHN0ZmNhbXNzX3ZpZGVv
+ICp2aWRlbyA9IHZiMl9nZXRfZHJ2X3ByaXYocSk7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwl2aWRl
+by0+b3BzLT5zdG9wX3N0cmVhbWluZyh2aWRlbyk7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwl2aWRl
+by0+b3BzLT5mbHVzaF9idWZmZXJzKHZpZGVvLCBWQjJfQlVGX1NUQVRFX0VSUk9SKTsgfQ0KPiA+
+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHZiMl9vcHMgc3RmX3ZpZGVvX3Nj
+ZF92YjJfcV9vcHMgPSB7DQo+ID4gPiA+ICsJLnF1ZXVlX3NldHVwICAgICA9IHZpZGVvX3NjZF9x
+dWV1ZV9zZXR1cCwNCj4gPiA+ID4gKwkud2FpdF9wcmVwYXJlICAgID0gdmIyX29wc193YWl0X3By
+ZXBhcmUsDQo+ID4gPiA+ICsJLndhaXRfZmluaXNoICAgICA9IHZiMl9vcHNfd2FpdF9maW5pc2gs
+DQo+ID4gPiA+ICsJLmJ1Zl9pbml0ICAgICAgICA9IHZpZGVvX3NjZF9idWZfaW5pdCwNCj4gPiA+
+ID4gKwkuYnVmX3ByZXBhcmUgICAgID0gdmlkZW9fc2NkX2J1Zl9wcmVwYXJlLA0KPiA+ID4gPiAr
+CS5idWZfcXVldWUgICAgICAgPSB2aWRlb19idWZfcXVldWUsDQo+ID4gPiA+ICsJLnN0YXJ0X3N0
+cmVhbWluZyA9IHZpZGVvX3NjZF9zdGFydF9zdHJlYW1pbmcsDQo+ID4gPiA+ICsJLnN0b3Bfc3Ry
+ZWFtaW5nICA9IHZpZGVvX3NjZF9zdG9wX3N0cmVhbWluZywgfTsNCj4gPiA+ID4gKw0KPiA+ID4g
+PiAgLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiA+ID4gICAqIFY0TDIgaW9jdGxzDQo+ID4g
+PiA+ICAgKi8NCj4gPiA+ID4gQEAgLTQ0OCw2ICs1MjgsMzcgQEAgc3RhdGljIGNvbnN0IHN0cnVj
+dCB2NGwyX2lvY3RsX29wcw0KPiA+ID4gPiBzdGZfdmlkX2lvY3RsX29wcw0KPiA+ID4gPSB7DQo+
+ID4gPiA+ICAJLnZpZGlvY19zdHJlYW1vZmYgICAgICAgICAgICAgICA9IHZiMl9pb2N0bF9zdHJl
+YW1vZmYsDQo+ID4gPiA+ICB9Ow0KPiA+ID4gPg0KPiA+ID4gPiArc3RhdGljIGludCB2aWRlb19z
+Y2RfZ19mbXQoc3RydWN0IGZpbGUgKmZpbGUsIHZvaWQgKmZoLCBzdHJ1Y3QNCj4gPiA+ID4gK3Y0
+bDJfZm9ybWF0ICpmKSB7DQo+ID4gPiA+ICsJc3RydWN0IHN0ZmNhbXNzX3ZpZGVvICp2aWRlbyA9
+IHZpZGVvX2RydmRhdGEoZmlsZSk7DQo+ID4gPiA+ICsJc3RydWN0IHY0bDJfbWV0YV9mb3JtYXQg
+Km1ldGEgPSAmZi0+Zm10Lm1ldGE7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwlpZiAoZi0+dHlwZSAh
+PSB2aWRlby0+dHlwZSkNCj4gPiA+ID4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gPiA+ICsNCj4g
+PiA+ID4gKwltZXRhLT5kYXRhZm9ybWF0ID0gdmlkZW8tPmFjdGl2ZV9mbXQuZm10Lm1ldGEuZGF0
+YWZvcm1hdDsNCj4gPiA+ID4gKwltZXRhLT5idWZmZXJzaXplID0gdmlkZW8tPmFjdGl2ZV9mbXQu
+Zm10Lm1ldGEuYnVmZmVyc2l6ZTsNCj4gPiA+ID4gKw0KPiA+ID4gPiArCXJldHVybiAwOw0KPiA+
+ID4gPiArfQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHY0bDJfaW9j
+dGxfb3BzIHN0Zl92aWRfc2NkX2lvY3RsX29wcyA9IHsNCj4gPiA+ID4gKwkudmlkaW9jX3F1ZXJ5
+Y2FwICAgICAgICAgICAgICAgID0gdmlkZW9fcXVlcnljYXAsDQo+ID4gPiA+ICsJLnZpZGlvY19l
+bnVtX2ZtdF9tZXRhX2NhcCAgICAgICA9IHZpZGVvX2VudW1fZm10LA0KPiA+ID4gPiArCS52aWRp
+b2NfZ19mbXRfbWV0YV9jYXAgICAgICAgICAgPSB2aWRlb19zY2RfZ19mbXQsDQo+ID4gPiA+ICsJ
+LnZpZGlvY19zX2ZtdF9tZXRhX2NhcCAgICAgICAgICA9IHZpZGVvX3NjZF9nX2ZtdCwNCj4gPiA+
+ID4gKwkudmlkaW9jX3RyeV9mbXRfbWV0YV9jYXAgICAgICAgID0gdmlkZW9fc2NkX2dfZm10LA0K
+PiA+ID4gPiArCS52aWRpb2NfcmVxYnVmcyAgICAgICAgICAgICAgICAgPSB2YjJfaW9jdGxfcmVx
+YnVmcywNCj4gPiA+ID4gKwkudmlkaW9jX3F1ZXJ5YnVmICAgICAgICAgICAgICAgID0gdmIyX2lv
+Y3RsX3F1ZXJ5YnVmLA0KPiA+ID4gPiArCS52aWRpb2NfcWJ1ZiAgICAgICAgICAgICAgICAgICAg
+PSB2YjJfaW9jdGxfcWJ1ZiwNCj4gPiA+ID4gKwkudmlkaW9jX2V4cGJ1ZiAgICAgICAgICAgICAg
+ICAgID0gdmIyX2lvY3RsX2V4cGJ1ZiwNCj4gPiA+ID4gKwkudmlkaW9jX2RxYnVmICAgICAgICAg
+ICAgICAgICAgID0gdmIyX2lvY3RsX2RxYnVmLA0KPiA+ID4gPiArCS52aWRpb2NfY3JlYXRlX2J1
+ZnMgICAgICAgICAgICAgPSB2YjJfaW9jdGxfY3JlYXRlX2J1ZnMsDQo+ID4gPiA+ICsJLnZpZGlv
+Y19wcmVwYXJlX2J1ZiAgICAgICAgICAgICA9IHZiMl9pb2N0bF9wcmVwYXJlX2J1ZiwNCj4gPiA+
+ID4gKwkudmlkaW9jX3N0cmVhbW9uICAgICAgICAgICAgICAgID0gdmIyX2lvY3RsX3N0cmVhbW9u
+LA0KPiA+ID4gPiArCS52aWRpb2Nfc3RyZWFtb2ZmICAgICAgICAgICAgICAgPSB2YjJfaW9jdGxf
+c3RyZWFtb2ZmLA0KPiA+ID4gPiArfTsNCj4gPiA+ID4gKw0KPiA+ID4gPiAgLyogLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NCj4gPiA+ID4gICAqIFY0TDIgZmlsZSBvcGVyYXRpb25zDQo+ID4gPiA+ICAg
+Ki8NCj4gPiA+ID4gQEAgLTQ3Myw2ICs1ODQsOSBAQCBzdGF0aWMgaW50IHN0Zl9saW5rX3ZhbGlk
+YXRlKHN0cnVjdCBtZWRpYV9saW5rICpsaW5rKQ0KPiA+ID4gPiAgCXN0cnVjdCBzdGZjYW1zc192
+aWRlbyAqdmlkZW8gPSB2aWRlb19nZXRfZHJ2ZGF0YSh2ZGV2KTsNCj4gPiA+ID4gIAlpbnQgcmV0
+Ow0KPiA+ID4gPg0KPiA+ID4gPiArCWlmICh2aWRlby0+dHlwZSA9PSBWNEwyX0JVRl9UWVBFX01F
+VEFfQ0FQVFVSRSkNCj4gPiA+ID4gKwkJcmV0dXJuIDA7DQo+ID4gPiA+ICsNCj4gPiA+ID4gIAly
+ZXQgPSBzdGZfdmlkZW9fY2hlY2tfZm9ybWF0KHZpZGVvKTsNCj4gPiA+ID4NCj4gPiA+ID4gIAly
+ZXR1cm4gcmV0Ow0KPiA+ID4gPiBAQCAtNTA2LDcgKzYyMCwxMSBAQCBpbnQgc3RmX3ZpZGVvX3Jl
+Z2lzdGVyKHN0cnVjdCBzdGZjYW1zc192aWRlbw0KPiA+ID4gKnZpZGVvLA0KPiA+ID4gPiAgCXEg
+PSAmdmlkZW8tPnZiMl9xOw0KPiA+ID4gPiAgCXEtPmRydl9wcml2ID0gdmlkZW87DQo+ID4gPiA+
+ICAJcS0+bWVtX29wcyA9ICZ2YjJfZG1hX2NvbnRpZ19tZW1vcHM7DQo+ID4gPiA+IC0JcS0+b3Bz
+ID0gJnN0Zl92aWRlb192YjJfcV9vcHM7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwlpZiAodmlkZW8t
+PnR5cGUgPT0gVjRMMl9CVUZfVFlQRV9WSURFT19DQVBUVVJFKQ0KPiA+ID4gPiArCQlxLT5vcHMg
+PSAmc3RmX3ZpZGVvX3ZiMl9xX29wczsNCj4gPiA+ID4gKwllbHNlDQo+ID4gPiA+ICsJCXEtPm9w
+cyA9ICZzdGZfdmlkZW9fc2NkX3ZiMl9xX29wczsNCj4gPiA+ID4gIAlxLT50eXBlID0gdmlkZW8t
+PnR5cGU7DQo+ID4gPiA+ICAJcS0+aW9fbW9kZXMgPSBWQjJfRE1BQlVGIHwgVkIyX01NQVA7DQo+
+ID4gPiA+ICAJcS0+dGltZXN0YW1wX2ZsYWdzID0gVjRMMl9CVUZfRkxBR19USU1FU1RBTVBfTU9O
+T1RPTklDOw0KPiA+ID4gPiBAQCAtNTI5LDE2ICs2NDcsMjggQEAgaW50IHN0Zl92aWRlb19yZWdp
+c3RlcihzdHJ1Y3Qgc3RmY2Ftc3NfdmlkZW8NCj4gPiA+ICp2aWRlbywNCj4gPiA+ID4gIAkJZ290
+byBlcnJfbXV0ZXhfZGVzdHJveTsNCj4gPiA+ID4gIAl9DQo+ID4gPiA+DQo+ID4gPiA+IC0JcmV0
+ID0gc3RmX3ZpZGVvX2luaXRfZm9ybWF0KHZpZGVvKTsNCj4gPiA+ID4gLQlpZiAocmV0IDwgMCkg
+ew0KPiA+ID4gPiAtCQlkZXZfZXJyKHZpZGVvLT5zdGZjYW1zcy0+ZGV2LA0KPiA+ID4gPiAtCQkJ
+IkZhaWxlZCB0byBpbml0IGZvcm1hdDogJWRcbiIsIHJldCk7DQo+ID4gPiA+IC0JCWdvdG8gZXJy
+X21lZGlhX2NsZWFudXA7DQo+ID4gPiA+ICsJaWYgKHZpZGVvLT50eXBlID09IFY0TDJfQlVGX1RZ
+UEVfVklERU9fQ0FQVFVSRSkgew0KPiA+ID4gPiArCQlyZXQgPSBzdGZfdmlkZW9faW5pdF9mb3Jt
+YXQodmlkZW8pOw0KPiA+ID4NCj4gPiA+IEkgZG9uJ3QgdGhpbmsgdGhpcyBjYW4gZmFpbA0KPiA+
+ID4NCj4gPg0KPiA+IFRoaXMgYWxyZWFkeSBleGlzdHMsIGFuZCBJIHByb2JhYmx5IHdpbGwgbm90
+IGNoYW5nZSBpdCBoZXJlLg0KPiA+DQo+IA0KPiBObyBwcm9ibGVtISBNYXliZSBzb21ldGhpbmcg
+Zm9yIGxhdGVyIHdoZW4gZGUtc3RhZ2luZyB0aGUgZHJpdmVyLg0KPiANCj4gVGhhbmtzDQo+ICAg
+ag0KPiA+ID4NCg==
 
