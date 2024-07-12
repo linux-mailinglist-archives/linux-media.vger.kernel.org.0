@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-14973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F6D92FCDA
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 16:48:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B365E92FD19
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 17:01:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A631D1F23DA5
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 14:48:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59ED9282899
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 15:01:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A619171E66;
-	Fri, 12 Jul 2024 14:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4600172BC8;
+	Fri, 12 Jul 2024 15:01:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uJIrXEon"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="umb0Tt+g"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E6416F856;
-	Fri, 12 Jul 2024 14:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EB117C6B;
+	Fri, 12 Jul 2024 15:01:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720795715; cv=none; b=XPlXV8/8kuC60AE7mFx7myViUgfAoCDIQdGXKUYqhLFQgu4+ZnD3YsoDRd0fPvyV2xrTF/TBCvKsATlQqBV9PIMbH6W0ebh0UrY1kOoS51ExW/XuInJ70zQIApsPmoppGMQUu9ARXVOd6nOcueJMOMDT62b/H401IC7fD4YT/y4=
+	t=1720796472; cv=none; b=QlKKV6mMtBWAhJfvUd0yIQpnx4/PbN2xhKgBxmxegAe112sRlac5v2F6qZjlYdWnrDplgdCbfCTMIUCR/7UnUNriQ5xvGIzB2y9Ol/uvh5cQwC/Q00e2UuWpRHxvP5nB3ZEuA9NVm9nHWdPYLzl7ksY7pS8eRJEpmMjps5D+jb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720795715; c=relaxed/simple;
-	bh=eWw2ywka2/Pc9MmMaHFRVvOvcIDfVZIapE0ULx/9rvw=;
+	s=arc-20240116; t=1720796472; c=relaxed/simple;
+	bh=TELIwwG/3h5x8yMKF9Rhltm3vOa0nmrPuSIsFx4fOl4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PaHxPDUCJRw6LlzAGKhffQok2V+8QPFAAIgqamTBRbVqQ4uO7W9bkCdYQOldoPDZwdr07ztI53W9P3N+IIAYsao54KOBe2euBWqGBklTpWW+WVNwNsSNBiUxDB0XRXUoeCaGiWxaqfsimQeHV4IDDavSju6xNIuUxo6psMf6sO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uJIrXEon; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q+koowrIC8+d8UECFREdBBTiDy7m7ywKzyBFdZMH7bSDhIiGrjwB/S6qz5OSicaYwNvr5y7TzJLzyZ1ZQfCqZlreee+tszg9dMNfR7MGgX3xYMO5iIzd62hUJ/l0hqL7DXr2IefWVljY51hr9CLUKktub5Nbn/VWwbgf8lbf9ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=umb0Tt+g; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (mob-5-90-56-63.net.vodafone.it [5.90.56.63])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25CBC735;
-	Fri, 12 Jul 2024 16:47:57 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86F9B7E3;
+	Fri, 12 Jul 2024 17:00:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1720795677;
-	bh=eWw2ywka2/Pc9MmMaHFRVvOvcIDfVZIapE0ULx/9rvw=;
+	s=mail; t=1720796433;
+	bh=TELIwwG/3h5x8yMKF9Rhltm3vOa0nmrPuSIsFx4fOl4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uJIrXEonRPhlMXgr7tAvvO3rzpiHq9Q6OO1uIce7LzBnecZvFZ78LnL8l6JKw89Nk
-	 +7Cx5WVvOQhYtvrGoKKWA6SI+bnHwv3Z6L9oS6vv7dyqU3TSzRz693vapTe0mAIVl2
-	 YflqwCdiuhRnlRX5dJiYc4Bl0kAwYI+PbLbvS0hw=
-Date: Fri, 12 Jul 2024 16:48:28 +0200
+	b=umb0Tt+gFjFgUggaku8u+sG6c75ZIEr1pkX32DIFdEOds/ULLoN0UHuy453SEPG1L
+	 JtC9UbOq5okLwgn2w/exZuTAFx80vAmXeenCVwAPPoZ4vLaYwfzKJnUe/fBH09sp+y
+	 Lcl6LSCX+9EM3F5iSdvgAjiouzkNizdbfZh4EXGc=
+Date: Fri, 12 Jul 2024 17:01:04 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Jai Luthra <j-luthra@ti.com>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
@@ -53,11 +53,11 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
 	Changhuang Liang <changhuang.liang@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>, 
 	Julien Massot <julien.massot@collabora.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 08/13] media: cadence: csi2rx: add get_frame_desc
- wrapper
-Message-ID: <4bufylsl7jladoygnd5pjnvy2wcacl6x6o7hdy6eilh2phcjxv@275gpkmavpm3>
+Subject: Re: [PATCH v2 09/13] media: ti: j721e-csi2rx: add support for
+ processing virtual channels
+Message-ID: <gn4p7imootxlidam6uddits5i7zwo5azzzb3h3wcobxquqpczs@2msb66c5hs4y>
 References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
- <20240627-multistream-v2-8-6ae96c54c1c3@ti.com>
+ <20240627-multistream-v2-9-6ae96c54c1c3@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,79 +66,123 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240627-multistream-v2-8-6ae96c54c1c3@ti.com>
+In-Reply-To: <20240627-multistream-v2-9-6ae96c54c1c3@ti.com>
 
 Hi Jai
 
-On Thu, Jun 27, 2024 at 06:40:03PM GMT, Jai Luthra wrote:
-> From: Pratyush Yadav <p.yadav@ti.com>
+On Thu, Jun 27, 2024 at 06:40:04PM GMT, Jai Luthra wrote:
+> Use get_frame_desc() to get the frame desc from the connected source,
+> and use the provided virtual channel instead of hardcoded one.
 >
-> J721E wrapper CSI2RX driver needs to get the frame descriptor from the
-> source to find out info about virtual channel. This driver itself does
-> not touch the routing or virtual channels in any way. So simply pass the
-> descriptor through from the source.
+> get_frame_desc() works per stream, but as we don't support multiple
+> streams yet, we will just always use stream 0. If the source doesn't
+> support get_frame_desc(), fall back to the previous method of always
+> capturing virtual channel 0.
 >
+> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
 > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
 > Signed-off-by: Jai Luthra <j-luthra@ti.com>
 > ---
->  drivers/media/platform/cadence/cdns-csi2rx.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 39 ++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
 >
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index 751eadbe61ef..b6054d62c799 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -135,6 +135,21 @@ static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
->  	return NULL;
->  }
->
-> +static int csi2rx_get_frame_desc_from_source(struct csi2rx_priv *csi2rx,
-> +					     struct v4l2_mbus_frame_desc *fd)
-> +{
-> +	struct media_pad *remote_pad;
-> +
-> +	remote_pad = media_entity_remote_source_pad_unique(&csi2rx->subdev.entity);
-> +	if (!remote_pad) {
-> +		dev_err(csi2rx->dev, "No remote pad found for sink\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	return v4l2_subdev_call(csi2rx->source_subdev, pad, get_frame_desc,
-> +				remote_pad->index, fd);
-> +}
-> +
->  static inline
->  struct csi2rx_priv *v4l2_subdev_to_csi2rx(struct v4l2_subdev *subdev)
->  {
-> @@ -466,10 +481,19 @@ static int csi2rx_init_state(struct v4l2_subdev *subdev,
->  	return csi2rx_set_fmt(subdev, state, &format);
->  }
->
-> +static int csi2rx_get_frame_desc(struct v4l2_subdev *subdev, unsigned int pad,
-> +				 struct v4l2_mbus_frame_desc *fd)
-> +{
-> +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-> +
-> +	return csi2rx_get_frame_desc_from_source(csi2rx, fd);
-> +}
-> +
->  static const struct v4l2_subdev_pad_ops csi2rx_pad_ops = {
->  	.enum_mbus_code	= csi2rx_enum_mbus_code,
->  	.get_fmt	= v4l2_subdev_get_fmt,
->  	.set_fmt	= csi2rx_set_fmt,
-> +	.get_frame_desc = csi2rx_get_frame_desc,
-
-The previous entries are indented with a tab
-
-With this fixed
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
+> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> index b4b4bb69c88a..c0916ca1a6f8 100644
+> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> @@ -29,6 +29,7 @@
+>  #define SHIM_DMACNTX_EN			BIT(31)
+>  #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
+>  #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
+> +#define SHIM_DMACNTX_VC			GENMASK(9, 6)
+>  #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
+>  #define SHIM_DMACNTX_YUV422_MODE_11	3
+>  #define SHIM_DMACNTX_SIZE_8		0
+> @@ -105,6 +106,8 @@ struct ti_csi2rx_ctx {
+>  	struct media_pad		pad;
+>  	u32				sequence;
+>  	u32				idx;
+> +	u32				vc;
+> +	u32				stream;
 >  };
 >
->  static const struct v4l2_subdev_video_ops csi2rx_video_ops = {
+>  struct ti_csi2rx_dev {
+> @@ -571,6 +574,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>  	}
+>
+>  	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
+> +	reg |= FIELD_PREP(SHIM_DMACNTX_VC, ctx->vc);
+>
+>  	writel(reg, csi->shim + SHIM_DMACNTX(ctx->idx));
+>
+> @@ -844,6 +848,33 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>  	}
+>  }
+>
+> +static int ti_csi2rx_get_vc(struct ti_csi2rx_ctx *ctx)
+> +{
+> +	struct ti_csi2rx_dev *csi = ctx->csi;
+> +	struct v4l2_mbus_frame_desc fd;
+> +	struct media_pad *pad;
+> +	int ret, i;
+> +
+> +	pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
+> +	if (!pad)
+> +		return -ENODEV;
+> +
+> +	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, pad->index,
+> +			       &fd);
+> +	if (ret)
+> +		return ret;
+
+Would it be better to fail at bound() time if the remote subdev
+doesn't support get_frame_desc ? you can use
+
+        if (!v4l2_subdev_has_op(subdev, pad, get_frame_desc)) {
+
+> +
+> +	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < fd.num_entries; i++) {
+
+        for (unsigned int i
+
+should num_entries be validated ?
+
+> +		if (ctx->stream == fd.entry[i].stream)
+> +			return fd.entry[i].bus.csi2.vc;
+> +	}
+> +
+> +	return -ENODEV;
+> +}
+> +
+>  static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  {
+>  	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
+> @@ -864,6 +895,14 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	if (ret)
+>  		goto err;
+>
+> +	ret = ti_csi2rx_get_vc(ctx);
+> +	if (ret == -ENOIOCTLCMD)
+> +		ctx->vc = 0;
+
+Ah, so you fallback to 0 in case the subdev doesn't support
+get_frame_desc. I'm not sure what would be better here maybe wait for
+other's opinions as well.
+
+Personally I would fail earlier to make sure subdev drivers are forced
+to impement get_frame_desc
+
+> +	else if (ret < 0)
+> +		goto err;
+> +	else
+> +		ctx->vc = ret;
+> +
+>  	ti_csi2rx_setup_shim(ctx);
+>
+>  	ctx->sequence = 0;
 >
 > --
 > 2.43.0
