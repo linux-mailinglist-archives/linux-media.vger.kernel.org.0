@@ -1,108 +1,106 @@
-Return-Path: <linux-media+bounces-14979-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14980-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DB79301A4
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 23:32:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2588C93031A
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 03:51:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7034AB220A9
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jul 2024 21:32:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AD9C1C223A0
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 01:51:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BAC44D8AD;
-	Fri, 12 Jul 2024 21:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ha+GnrHY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EAF011185;
+	Sat, 13 Jul 2024 01:51:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5957D1BDD5;
-	Fri, 12 Jul 2024 21:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA14C8FE
+	for <linux-media@vger.kernel.org>; Sat, 13 Jul 2024 01:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720819966; cv=none; b=LKKv1IOF1PJXAXrGfkrVkw48WAjfuE7ZvAa2A5MoI+WCptebRPnNVchFMWMPyRPeuBwg6oVXDT4G8ThYSc5/xp0EsSD2qC9kxfsm+LdfABIs1vjmjWvMe9+pQ8wwTj9jxHokmzdw+OyLxzZRQKQjmmuFqK5vyk9relF8uKwljis=
+	t=1720835475; cv=none; b=d+5B9F+DSSShtkeIKLrJ9cJTupnST6X1lJKTlYFGrw+GMp0CYeosTPxSBr9KFWpjwiHTEvYx8ZnWk4K3vU1Mp8yHsEmZaLCGdIqvenSZcZMrLK0i9zj646wxAUR761hbs7yAQ0vYFKRtX9MISP4+wGBBADqI+ztc9Hm+BrJPkwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720819966; c=relaxed/simple;
-	bh=4yV+Y+Isy4NlODiQmLxepE/5olCq+aVwhhCjsJEBfoc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KDuTbDAC/GCt0ezEhTJBTryAZUUK5ozk0vQnz6xIP96y1IbSB12vAp1W5fqpnXeqRZZYR14/ysW+nUzmZHB5I/Ik9XFtjXGd7WvAqoN+XfIJK2bF2ozQC5zWXU3kGRRDkXhIwfdng6w+xY46b2V/9JIBbIVEkmSytt3MyomteCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ha+GnrHY; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-78512d44a13so1696260a12.1;
-        Fri, 12 Jul 2024 14:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720819964; x=1721424764; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bdb8iLY8j3LfEYpNrsOtjdWoyeeoNEdGzwsVwa4WdIk=;
-        b=ha+GnrHYrS5qkAEPMi8VEjlOdxd8gV9T9y5hDTf18AfrcW/NVHOODpCj8agZGM7Sro
-         FnQOlI3J3ow/+r/lfzyxeBY6qWHrhRNaTQkmcvvWJrWWdxtr8o7PkVxbZEkjw9qfKPNj
-         rOy/1J5ZIr2E6FAOvMsTXmc88zdQ5sc5SwSOLt/n40MmXfSNL3BICWeUdJ6hMfOg298d
-         AM2pf8H1J+pmBY5fAQ7JxObS6Zh/BXVnWL8IdRjTcjCHbbH6isHccb7oMUSsvp5JqqDs
-         cZrXomGEA8/hgw66BsT5EmDY/w1CX3zTf8YExWKr3d+rIROEcH8ocxXmBOzNdvIsYPBr
-         Mdnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720819964; x=1721424764;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bdb8iLY8j3LfEYpNrsOtjdWoyeeoNEdGzwsVwa4WdIk=;
-        b=OlzCAXAB0+mrC/2hRtLs23sGHDjYNyiOo4+piRB38L1/eMRVtUwgoOu9oeBhiM+Kom
-         2sImpQD4z+IYNKbagE795WTEjA+58qo/ZvftqpnvUGCnOTBZoyEizqTkfkkVZebTNO9O
-         CZIvq+sPyaNXnf7C6x6yFSDd8nsMgKeXpGOSpJ5bf/TsjsGOEHwfmxYxeHTzHNDD6XCE
-         wEpsk7dPTw7hva59qfhrdUQb2EE3aOkX2ct3zHZzM8FIujFgbtkkgTZZooRvdabT0nXb
-         Qm0YITyG22BAZ+MxXXgs+h4ehHjDY+gtwanreg0ul9S/0zfBQN0fFR32MJQCKUiv71UV
-         jRAA==
-X-Forwarded-Encrypted: i=1; AJvYcCUT0i8wJqEbVRIms+3I149xXzv4xfoRZ2xf9EyDWm0YxjCE2QUzuW8uNJ4MRPnTOEuS9AHnqXdUEPmhSI2L+/Ikf/bDiMVvvCY2rEvc
-X-Gm-Message-State: AOJu0YwC0T7kT1fqeBSBiKu12ASPvvBl4YX17NjQFBeK9ruIOD+MT/C9
-	WFkSy04rDWezUb/Qevw2wnmPFNfgNSpKpniyYYsH9oCFYRnnHWTRgqIMnWmI4hA=
-X-Google-Smtp-Source: AGHT+IFyu37Mh3VjGkOV5stHrdrcwAkFDKg3F2UO3btSPW4wGqPztITaV3Xg/SVo0WV8/nAkgFOn9Q==
-X-Received: by 2002:a05:6a20:3941:b0:1be:d1bf:a371 with SMTP id adf61e73a8af0-1c2982430e4mr15656377637.33.1720819964483;
-        Fri, 12 Jul 2024 14:32:44 -0700 (PDT)
-Received: from lenovo.. ([2405:201:e000:8836:de69:176a:52b:96cc])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-70b54ec749esm5443239b3a.52.2024.07.12.14.32.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 14:32:44 -0700 (PDT)
-From: aditya-chari25 <adi25charis@gmail.com>
-To: laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	aditya-chari25 <adi25charis@gmail.com>
-Subject: [PATCH] Drivers: media: usb: uvc: added kernel log msg
-Date: Sat, 13 Jul 2024 03:02:22 +0530
-Message-Id: <20240712213222.43185-1-adi25charis@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1720835475; c=relaxed/simple;
+	bh=4YQkNzSluJ1jLIqzLuO9DxAeD74n3JyjTB+lL6em0D8=;
+	h=Date:From:To:Subject:Message-Id; b=RvBJoWADD8Qm67xfcRtrav98oIH+ahenGEM3HS+PdMFin34+pcRwZf/Mbd0cSmVvsUbhR3qS0gpNLvw5xCXyX+M8zrtEvynzqh3U56INV8l4lnVDDueZKnLBCckOP2+iNlvinzw18nDGS8PNsgE9ajbv5Fficn/MR5ebrfdHxHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0F2C32782
+	for <linux-media@vger.kernel.org>; Sat, 13 Jul 2024 01:51:14 +0000 (UTC)
+Date: Sat, 13 Jul 2024 03:51:13 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20240713015114.EE0F2C32782@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Added a kernel log msg using fn pr_info
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Signed-off-by: Aditya Chari S <adi25charis@gmail.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 1 +
- 1 file changed, 1 insertion(+)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 91a41aa3ced2..6e25c5d7d7c0 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2096,6 +2096,7 @@ static int uvc_probe(struct usb_interface *intf,
- 	int function;
- 	int ret;
- 
-+	pr_info("I changed uvcvideo driver in the Linux Kernel \n");
- 	/* Allocate memory for the device and initialize it. */
- 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
- 	if (dev == NULL)
--- 
-2.34.1
+date:			Sat Jul 13 03:00:16 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	68a72104cbcf38ad16500216e213fa4eb21c4be2
+v4l-utils git hash:	8387e367383787e5d61b42503d99ebd5138cafb6
+edid-decode git hash:	6f117a8f8c0e76e85f599a8b05c21c5f51c5c3c1
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8663-g95ed8682
+sparse version:		v0.5.0-8663-g95ed8682
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
+host hardware:		x86_64
+host os:		6.5.0-35-generic
 
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: OK
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Sat Jul 13 03:13:58 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+
+date:			Sat Jul 13 03:50:04 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
