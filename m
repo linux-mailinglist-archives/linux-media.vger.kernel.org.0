@@ -1,64 +1,74 @@
-Return-Path: <linux-media+bounces-14989-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14990-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9705930636
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 17:43:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A1393063D
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 17:50:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16D201C20CA2
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 15:43:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 373DB1F21C67
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 15:50:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 393DC13BAC3;
-	Sat, 13 Jul 2024 15:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7C5013B5BD;
+	Sat, 13 Jul 2024 15:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="To17i5pZ"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="rqiku9PL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE2E139D1E
-	for <linux-media@vger.kernel.org>; Sat, 13 Jul 2024 15:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6523E629E4;
+	Sat, 13 Jul 2024 15:50:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720885389; cv=none; b=vGvTYvceItZLGcM68qcPFqTBMA7Jhv9ArgT7mI5oncGUJPgOWHRdoo34UwebcleS46GNmK8I7oil3ar8qMddWe3bQumpaK349rznVVcVYTPc/OVWt4YtGBcvI8Wtxgofy3yo36WkBwBwhaDBp4gsy0LCeDfnwFwScfpy3A9FI1U=
+	t=1720885810; cv=none; b=t940IQczcGjQPN/lrze0+z0YVQQkYLdL6F3yMQ7/tGdqO+Tlan8pSH8DoQhsID6hgI3gUr1l8GnpKbHz2mw8JyCpWIIrPJ/O9pevWlfieO50nng5zvROQGzmRzBGD9SB2OrHtUsQGVnTOkQaKzJrRyEM3WAJrTGswKhWwnTVIJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720885389; c=relaxed/simple;
-	bh=HEc1KoxYYIGW0f3G7ayt/Mv1IZKt4p0KavnHqnHVlOg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=srnIaH/sMlcI1yY8MWIDLCT8IvEbLdSkKsFrrOfYFIDIJRiQy4FFcCWh/GTtM4rqfJsVDrbnBIM3ENtXV2lFqNrYXDp8my6Q1h4NRE9YcaehGYsfZDtyeHrBdZ0mcF547st9brBqubBe4PNsflz563LS80yK+av8IAiPARglFyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=To17i5pZ; arc=none smtp.client-ip=85.214.62.61
+	s=arc-20240116; t=1720885810; c=relaxed/simple;
+	bh=ym9kq30myjxMGzu6rRXn5NSy1q9t0pn9/4qyaF7Rerg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XfQ0Srdv5ArKMMcv9ukQ8erAqnwNDl4EroiyVyzMmxol6EbM+W2nHV2kxxNOHPxqXoJX4FPBQnXPlEGQfPbdqV+93OhsPYzMA8tuOjLZOWjqwkN1/83INW9+Rde5bQ4EwDaGWFwtdoD2REZoaEsCIvz3pTuFisNqAG0rrgXnN6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=rqiku9PL; arc=none smtp.client-ip=85.214.62.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 5874D887BF;
-	Sat, 13 Jul 2024 17:43:06 +0200 (CEST)
+	by phobos.denx.de (Postfix) with ESMTPSA id F1B8A884EA;
+	Sat, 13 Jul 2024 17:50:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1720885386;
-	bh=NV0PygndnXlbyLZp9hp02uWg0pHsWZxFuJG/yzxUuO8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=To17i5pZiuRyPvVfYKXetxZRZ843dCCp/Xcu99C5mo1FXyoE8Am6L2sYSH/opoCsg
-	 SQgxw2PE08SR6C4s72g2+wVCvD3gQECo3GKfWq+DZARTA/kKVXAKXKJ38SF5K0Yez4
-	 S0M70tzgi6r4vNQCgGdIKgson+db8btVXgkfX1vhViCgmUwA1DumJksxql1dieeGdW
-	 JSOIoasuzmydUyBTEd56WHKKmBJzQvwpPvw8tSvaRvtvs6it8CErJhQZdcT3TpukB6
-	 YB66+PktoxU5FIui6SlbopjT2hJ879B3dqg5FD5rp5CtOa14BcVGnmqWX5SWJeWxWW
-	 Rv8bskCEA/twg==
+	s=phobos-20191101; t=1720885806;
+	bh=cA2Q2MbVe9fskbOQDrWM2YYpTo6SJI1WDaOk84HRv6E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rqiku9PLrtGSmTxzkGlpWeUXVCdxPDgk2i7Hv6kkcYdDs1G9wBO4P5B7So0feFGLW
+	 kz6sLNG80uAr9KjwjNyDKejV/yeMNRs/kJSl3SsjokT8fdu0cdNBF3uUwc4p53g86z
+	 hWiZBad9VxlyCAI+FtCPlOsnXg0b68TGbeVH2xe6MDoVbh/oZqhRkyyjFF43Ih7h6S
+	 R/hBcgFBVtGHZ8hZ5j5GzagLLtm4MmUfGRNE3iWxPnff9/1tmeFUXgaG04bAKAyB6i
+	 WIobz/AAixPeEj+dFJ7V6YBLf3g/ee71B582rutt1bL07AT4rxwmRTg6G6EADdG12u
+	 J0nliiIJoQfyg==
 From: Marek Vasut <marex@denx.de>
 To: linux-media@vger.kernel.org
 Cc: Marek Vasut <marex@denx.de>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: [PATCH 3/3] media: i2c: isl7998x: Implement get_mbus_config
-Date: Sat, 13 Jul 2024 17:41:56 +0200
-Message-ID: <20240713154242.107903-3-marex@denx.de>
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 1/2] gpu: ipu-v3: vdic: Simplify ipu_vdi_setup()
+Date: Sat, 13 Jul 2024 17:48:01 +0200
+Message-ID: <20240713154934.109318-1-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240713154242.107903-1-marex@denx.de>
-References: <20240713154242.107903-1-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,50 +79,97 @@ Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
 X-Virus-Status: Clean
 
-This is used e.g. by imx6-mipi-csi2.c to determine the CSI2 lane count.
-Implement the callback in isl7998x driver so it can be used with i.MX6
-CSI2 receiver.
+The 'code' parameter only ever selects between YUV 4:2:0 and 4:2:2
+subsampling, turn it into boolean to select exactly that and update
+related code accordingly.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Helge Deller <deller@gmx.de>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Michael Tretter <m.tretter@pengutronix.de>
 Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org
 Cc: linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
 ---
- drivers/media/i2c/isl7998x.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/ipu-v3/ipu-vdi.c               | 14 +++-----------
+ drivers/staging/media/imx/imx-media-vdic.c |  3 +--
+ include/video/imx-ipu-v3.h                 |  2 +-
+ 3 files changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/i2c/isl7998x.c b/drivers/media/i2c/isl7998x.c
-index 7d2799e498520..560f4845b5e62 100644
---- a/drivers/media/i2c/isl7998x.c
-+++ b/drivers/media/i2c/isl7998x.c
-@@ -1045,6 +1045,17 @@ static int isl7998x_set_fmt(struct v4l2_subdev *sd,
- 	return 0;
+diff --git a/drivers/gpu/ipu-v3/ipu-vdi.c b/drivers/gpu/ipu-v3/ipu-vdi.c
+index a593b232b6d3e..4df2821977c0c 100644
+--- a/drivers/gpu/ipu-v3/ipu-vdi.c
++++ b/drivers/gpu/ipu-v3/ipu-vdi.c
+@@ -117,10 +117,10 @@ void ipu_vdi_set_motion(struct ipu_vdi *vdi, enum ipu_motion_sel motion_sel)
  }
+ EXPORT_SYMBOL_GPL(ipu_vdi_set_motion);
  
-+static int isl7998x_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-+				    struct v4l2_mbus_config *cfg)
-+{
-+	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
-+
-+	cfg->type = V4L2_MBUS_CSI2_DPHY;
-+	cfg->bus.mipi_csi2.num_data_lanes = isl7998x->nr_mipi_lanes;
-+
-+	return 0;
-+}
-+
- static int isl7998x_set_ctrl(struct v4l2_ctrl *ctrl)
+-void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres)
++void ipu_vdi_setup(struct ipu_vdi *vdi, bool yuv422not420, int xres, int yres)
  {
- 	struct isl7998x *isl7998x = container_of(ctrl->handler,
-@@ -1104,6 +1115,7 @@ static const struct v4l2_subdev_pad_ops isl7998x_subdev_pad_ops = {
- 	.enum_frame_size	= isl7998x_enum_frame_size,
- 	.get_fmt		= isl7998x_get_fmt,
- 	.set_fmt		= isl7998x_set_fmt,
-+	.get_mbus_config	= isl7998x_get_mbus_config,
- };
+ 	unsigned long flags;
+-	u32 pixel_fmt, reg;
++	u32 reg;
  
- static const struct v4l2_subdev_ops isl7998x_subdev_ops = {
+ 	spin_lock_irqsave(&vdi->lock, flags);
+ 
+@@ -131,16 +131,8 @@ void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres)
+ 	 * Full motion, only vertical filter is used.
+ 	 * Burst size is 4 accesses
+ 	 */
+-	if (code == MEDIA_BUS_FMT_UYVY8_2X8 ||
+-	    code == MEDIA_BUS_FMT_UYVY8_1X16 ||
+-	    code == MEDIA_BUS_FMT_YUYV8_2X8 ||
+-	    code == MEDIA_BUS_FMT_YUYV8_1X16)
+-		pixel_fmt = VDI_C_CH_422;
+-	else
+-		pixel_fmt = VDI_C_CH_420;
+-
+ 	reg = ipu_vdi_read(vdi, VDI_C);
+-	reg |= pixel_fmt;
++	reg |= yuv422not420 ? VDI_C_CH_422 : VDI_C_CH_420;
+ 	reg |= VDI_C_BURST_SIZE2_4;
+ 	reg |= VDI_C_BURST_SIZE1_4 | VDI_C_VWM1_CLR_2;
+ 	reg |= VDI_C_BURST_SIZE3_4 | VDI_C_VWM3_CLR_2;
+diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
+index 09da4103a8dbe..ea5b4ef3573de 100644
+--- a/drivers/staging/media/imx/imx-media-vdic.c
++++ b/drivers/staging/media/imx/imx-media-vdic.c
+@@ -376,8 +376,7 @@ static int vdic_start(struct vdic_priv *priv)
+ 	 * only supports 4:2:2 or 4:2:0, and this subdev will only
+ 	 * negotiate 4:2:2 at its sink pads.
+ 	 */
+-	ipu_vdi_setup(priv->vdi, MEDIA_BUS_FMT_UYVY8_2X8,
+-		      infmt->width, infmt->height);
++	ipu_vdi_setup(priv->vdi, true, infmt->width, infmt->height);
+ 	ipu_vdi_set_field_order(priv->vdi, V4L2_STD_UNKNOWN, infmt->field);
+ 	ipu_vdi_set_motion(priv->vdi, priv->motion);
+ 
+diff --git a/include/video/imx-ipu-v3.h b/include/video/imx-ipu-v3.h
+index c422a403c0990..75f435d024895 100644
+--- a/include/video/imx-ipu-v3.h
++++ b/include/video/imx-ipu-v3.h
+@@ -466,7 +466,7 @@ void ipu_ic_dump(struct ipu_ic *ic);
+ struct ipu_vdi;
+ void ipu_vdi_set_field_order(struct ipu_vdi *vdi, v4l2_std_id std, u32 field);
+ void ipu_vdi_set_motion(struct ipu_vdi *vdi, enum ipu_motion_sel motion_sel);
+-void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres);
++void ipu_vdi_setup(struct ipu_vdi *vdi, bool yuv422not420, int xres, int yres);
+ void ipu_vdi_unsetup(struct ipu_vdi *vdi);
+ int ipu_vdi_enable(struct ipu_vdi *vdi);
+ int ipu_vdi_disable(struct ipu_vdi *vdi);
 -- 
 2.43.0
 
