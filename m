@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-14988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-14989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4F3930637
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 17:43:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9705930636
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 17:43:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DDA7B21985
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16D201C20CA2
 	for <lists+linux-media@lfdr.de>; Sat, 13 Jul 2024 15:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6F613B7B3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 393DC13BAC3;
 	Sat, 13 Jul 2024 15:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="F0NlpOk6"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="To17i5pZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65DA1304B7
-	for <linux-media@vger.kernel.org>; Sat, 13 Jul 2024 15:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE2E139D1E
+	for <linux-media@vger.kernel.org>; Sat, 13 Jul 2024 15:43:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720885389; cv=none; b=dSWpDJQEEyQKn/W1jaDG0Pc2wbd6eSfPtXiFgZ07tPSHm2LykH6eYwGwCle1GObbuSuM/D0Qj2dHMojyiywXPpS8z/OzuZctk7v5UR8f7snlRJpU92GtF+YpRgbhZX1vOqSXADapL8PbCEaSeUQN9hVIuWOWqrHmMujOFCQBg0A=
+	t=1720885389; cv=none; b=vGvTYvceItZLGcM68qcPFqTBMA7Jhv9ArgT7mI5oncGUJPgOWHRdoo34UwebcleS46GNmK8I7oil3ar8qMddWe3bQumpaK349rznVVcVYTPc/OVWt4YtGBcvI8Wtxgofy3yo36WkBwBwhaDBp4gsy0LCeDfnwFwScfpy3A9FI1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1720885389; c=relaxed/simple;
-	bh=6gGlLxZiOTXf4cPMy6elRiz5RJKvypBSBuumW/7GlAM=;
+	bh=HEc1KoxYYIGW0f3G7ayt/Mv1IZKt4p0KavnHqnHVlOg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NKQwvYppLBN4oC63LawVM2QrX5+Q6npM2qs5CL4VEw59jjEhWHfk+Dgu5poonuuuRxBv6MsMROi2lzZjhvN2UNCraarJYkxJfGCCRyo99k8lsVVruuv7qx7RaELxBRzipvNoDDn4YAigWzQQhfLDCYCvoxZFZTGr9aX1aHugAos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=F0NlpOk6; arc=none smtp.client-ip=85.214.62.61
+	 MIME-Version; b=srnIaH/sMlcI1yY8MWIDLCT8IvEbLdSkKsFrrOfYFIDIJRiQy4FFcCWh/GTtM4rqfJsVDrbnBIM3ENtXV2lFqNrYXDp8my6Q1h4NRE9YcaehGYsfZDtyeHrBdZ0mcF547st9brBqubBe4PNsflz563LS80yK+av8IAiPARglFyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=To17i5pZ; arc=none smtp.client-ip=85.214.62.61
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 0EFAE886FF;
+	by phobos.denx.de (Postfix) with ESMTPSA id 5874D887BF;
 	Sat, 13 Jul 2024 17:43:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
 	s=phobos-20191101; t=1720885386;
-	bh=F2gMh1HMGizvLA3op2Ou6zfTSwsvNO4JdCatWbnbzTo=;
+	bh=NV0PygndnXlbyLZp9hp02uWg0pHsWZxFuJG/yzxUuO8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F0NlpOk6I/r57otAsMPecKrlWpSFLX6fwpfKcd/URJBKsrqFgK94/tg7gJnFYwxRa
-	 m0TaRQkA4f7Y5ZuVMD1l9HzITaABObbMA37U7TBKbD+rR+v63LIzlfxWHD57h0kZzJ
-	 pjgfm7dG4gOGkdNoChYHvTK30tvPetJ9GfZ8zEoJqV4xcxL01+OSVADp0gTPDLz6QC
-	 yqr2l3va2l/4P2tfbzJjCUX8/PKNtpXcPK5b0MaG+50g/rnikyCpEbqkrh6CEPimin
-	 d70fqKQWGQkpxeaGVBXRoecOcOQ/cefTiP5vdm4/BeacWQKlxVqAxWBV2pvhASINf+
-	 TUYz9jFttMnZg==
+	b=To17i5pZiuRyPvVfYKXetxZRZ843dCCp/Xcu99C5mo1FXyoE8Am6L2sYSH/opoCsg
+	 SQgxw2PE08SR6C4s72g2+wVCvD3gQECo3GKfWq+DZARTA/kKVXAKXKJ38SF5K0Yez4
+	 S0M70tzgi6r4vNQCgGdIKgson+db8btVXgkfX1vhViCgmUwA1DumJksxql1dieeGdW
+	 JSOIoasuzmydUyBTEd56WHKKmBJzQvwpPvw8tSvaRvtvs6it8CErJhQZdcT3TpukB6
+	 YB66+PktoxU5FIui6SlbopjT2hJ879B3dqg5FD5rp5CtOa14BcVGnmqWX5SWJeWxWW
+	 Rv8bskCEA/twg==
 From: Marek Vasut <marex@denx.de>
 To: linux-media@vger.kernel.org
 Cc: Marek Vasut <marex@denx.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Michael Tretter <m.tretter@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: [PATCH 2/3] media: i2c: isl7998x: Use 0xf page to program all four pages
-Date: Sat, 13 Jul 2024 17:41:55 +0200
-Message-ID: <20240713154242.107903-2-marex@denx.de>
+Subject: [PATCH 3/3] media: i2c: isl7998x: Implement get_mbus_config
+Date: Sat, 13 Jul 2024 17:41:56 +0200
+Message-ID: <20240713154242.107903-3-marex@denx.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240713154242.107903-1-marex@denx.de>
 References: <20240713154242.107903-1-marex@denx.de>
@@ -69,9 +69,9 @@ Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
 X-Virus-Status: Clean
 
-Use page 0xf to program the same value of SDT and short detection
-settings into all four pages 1..4 . This reduces the I2C traffic
-slightly.
+This is used e.g. by imx6-mipi-csi2.c to determine the CSI2 lane count.
+Implement the callback in isl7998x driver so it can be used with i.MX6
+CSI2 receiver.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -80,30 +80,39 @@ Cc: Michael Tretter <m.tretter@pengutronix.de>
 Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
 Cc: linux-media@vger.kernel.org
 ---
- drivers/media/i2c/isl7998x.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/media/i2c/isl7998x.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/media/i2c/isl7998x.c b/drivers/media/i2c/isl7998x.c
-index 5f8f11f7a2c1c..7d2799e498520 100644
+index 7d2799e498520..560f4845b5e62 100644
 --- a/drivers/media/i2c/isl7998x.c
 +++ b/drivers/media/i2c/isl7998x.c
-@@ -312,14 +312,8 @@
+@@ -1045,6 +1045,17 @@ static int isl7998x_set_fmt(struct v4l2_subdev *sd,
+ 	return 0;
+ }
  
- static const struct reg_sequence isl7998x_init_seq_1[] = {
- 	{ ISL7998X_REG_P0_SHORT_DIAG_IRQ_EN, 0xff },
--	{ ISL7998X_REG_PX_DEC_SDT(0x1), 0x07 },
--	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x1), 0x03 },
--	{ ISL7998X_REG_PX_DEC_SDT(0x2), 0x07 },
--	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x2), 0x03 },
--	{ ISL7998X_REG_PX_DEC_SDT(0x3), 0x07 },
--	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x3), 0x03 },
--	{ ISL7998X_REG_PX_DEC_SDT(0x4), 0x07 },
--	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0x4), 0x03 },
-+	{ ISL7998X_REG_PX_DEC_SDT(0xf), 0x07 },
-+	{ ISL7998X_REG_PX_DEC_SHORT_DET_CTL_1(0xf), 0x03 },
- 	{ ISL7998X_REG_P5_LI_ENGINE_CTL, 0x00 },
- 	{ ISL7998X_REG_P0_SW_RESET_CTL, 0x1f, 10 },
- 	{ ISL7998X_REG_P0_IO_BUFFER_CTL, 0x00 },
++static int isl7998x_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
++				    struct v4l2_mbus_config *cfg)
++{
++	struct isl7998x *isl7998x = sd_to_isl7998x(sd);
++
++	cfg->type = V4L2_MBUS_CSI2_DPHY;
++	cfg->bus.mipi_csi2.num_data_lanes = isl7998x->nr_mipi_lanes;
++
++	return 0;
++}
++
+ static int isl7998x_set_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct isl7998x *isl7998x = container_of(ctrl->handler,
+@@ -1104,6 +1115,7 @@ static const struct v4l2_subdev_pad_ops isl7998x_subdev_pad_ops = {
+ 	.enum_frame_size	= isl7998x_enum_frame_size,
+ 	.get_fmt		= isl7998x_get_fmt,
+ 	.set_fmt		= isl7998x_set_fmt,
++	.get_mbus_config	= isl7998x_get_mbus_config,
+ };
+ 
+ static const struct v4l2_subdev_ops isl7998x_subdev_ops = {
 -- 
 2.43.0
 
