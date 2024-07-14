@@ -1,96 +1,162 @@
-Return-Path: <linux-media+bounces-14999-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15000-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74421930BA4
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jul 2024 22:36:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0E2930C01
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 00:54:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F02761F22669
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jul 2024 20:36:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B823281719
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jul 2024 22:54:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A540513D244;
-	Sun, 14 Jul 2024 20:36:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF7F238DD7;
+	Sun, 14 Jul 2024 22:53:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="kVadHHB4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mLotulF6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E982B9A4
-	for <linux-media@vger.kernel.org>; Sun, 14 Jul 2024 20:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D29B38F86
+	for <linux-media@vger.kernel.org>; Sun, 14 Jul 2024 22:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720989377; cv=none; b=Qoa2XsHqvaioJ1F5PjAz8epZX0nHG7OcTpCU9mP/qadjdQyyyT+1oG/XkP1O4yn1BPhNgSog99z/a4LjmDQXk+V3zKT1r8RICxvEGnhTjIgRbMf22nZ8koV87AcKzMo2FbA1IO4slkCkiUNPBaxby2u5cOo03VIMiIUQsJI11vg=
+	t=1720997635; cv=none; b=iRc2T8dHlVCNOpMNVmW78Vggsu95vvg+OkF/Mh5L4wawtB41HRPl2qOkmdkYCu2k5jTs2oT4FHMGbTLf3tk/MRyXZdxLkq93+5O+JfTPSGcalKxttOCkDAfYUvzomREnwXvbSy8ywHauPGupumlBRoMQ4C5iYaOToccWY2Uj9V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720989377; c=relaxed/simple;
-	bh=Zp5UXedqcjkdYkMtI6qJ6mmJqj45T0b3xtc5VJfWkOA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E8h5Pr3DXY96r4gL34CBivoTCZ1UCpScM0v29OokI7P/ldRSdYKqU/TmVdIbbH+GtTS7QZVdiEycfKK94Ail08e083acMg3pTuFrH+j3bNwn2pMxN1pWtL0GMNyThJi84QabcmuyuEuVZoZ3UwrFXuu6S/DDatsE3d1SOtfkNi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=kVadHHB4; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
-Received: from gaggiata.pivistrello.it (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 70F4E1F9C8;
-	Sun, 14 Jul 2024 22:36:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1720989369;
-	bh=HPIYDHn7qSLtx0KuNir022tsAbx0ku/rj5uItbFtVeY=;
-	h=Received:From:To:Subject;
-	b=kVadHHB45BUQHAwAsyy8OD+s6gENVDloFnnnEExNqW0o9Jzz4loZa+FmszS9wPTg2
-	 d1C0yon5Wh84crtnrO4+Pi4a2TX6NPENNILcI7XBBX9J0+7nzDhdVFiV2XWCln6Pf3
-	 4zvWLqVwRwjmdbbrfq4Ua+fi3XLLrlO0Ia6T2YDl2sVCGXJJ1hoeDUrgH8UbDumyZH
-	 SBZu8N8d/01zyL0vM4T0feyZ+6Cx9Uea7yNgbVCbZmvrDZsTDMotpKEV2FxjsFcNjr
-	 OsVeXRiLg4lHqVVx85hPKMV46Wz4cVXZ7DoY8cxsJ44EZG1qduroFG4obqsn7953WW
-	 5bIHQRQnyhQwA==
-Received: by gaggiata.pivistrello.it (Postfix, from userid 1000)
-	id 0EEE67F9C5; Sun, 14 Jul 2024 22:36:09 +0200 (CEST)
-Date: Sun, 14 Jul 2024 22:36:08 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Marek Vasut <marex@denx.de>
-Cc: Francesco Dolcini <francesco@dolcini.it>, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH 3/3] media: i2c: isl7998x: Implement get_mbus_config
-Message-ID: <ZpQ2uET81UuSC4cJ@gaggiata.pivistrello.it>
-References: <20240713154242.107903-1-marex@denx.de>
- <20240713154242.107903-3-marex@denx.de>
- <20240714143357.GA9013@francesco-nb>
- <30dd244f-3f9b-479f-af07-aa473fd11896@denx.de>
+	s=arc-20240116; t=1720997635; c=relaxed/simple;
+	bh=ys1n5+ZFESe4r0ck3NYdHAwyXgdZq/cIcFI1NLRzeJQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=p5Y5sGYyrhF2udDMFO37GMDlY6IdcGTC+LP8X2fc7isv1EBQegzEXAGLjyGQApznC87jhdKFe4AWgewlO9JA9CPmDYbbCaF+Gnf4eqGe/AauMMGA9PqM1UsV75IIEu3E8+/As+3pfGfz3JeGm377B1RLD5WHVlbwxqJ6/xqcIbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mLotulF6; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ec61eeed8eso49054371fa.0
+        for <linux-media@vger.kernel.org>; Sun, 14 Jul 2024 15:53:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720997632; x=1721602432; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vSw6ICbIjXMbfWEuPsG2mS7dPjLtUBfPSwkxJ1RENbc=;
+        b=mLotulF67lpJEJT8EW5r201Ea5q1LIydOTSJU9ntoCxMWK5NeYEE5pUQSzFsBtkC4m
+         oRAb6ZRP2W7hC2C/xf0NXKMTQ0iHlYFW7fKfeDWlqRYtvuH/hfarNdoAF97OLDNeJt94
+         0Cbw3L6lZjzzSy6KK10L/dEoOjIVDC1z1MLf1hKsNlKgHHmKG05+PpXJfGdPr+aDfeGF
+         nrql0K9sHxaq4H4GUp+ALHLJt3f2IIZdgGMteZpw8Rcs+77U1nGikf7t1+kl6yQNQyjj
+         iVfc49MfVI8bk9VY5RJTt9TssQcI6bxlqjC15BI528HMcPqoJtoMHCvcMDhORb+t0sIL
+         G8bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720997632; x=1721602432;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vSw6ICbIjXMbfWEuPsG2mS7dPjLtUBfPSwkxJ1RENbc=;
+        b=JpJMX3ARiOAWWuJ8nBxzLZw/QgTr0I6rAtdD2BOqa7BzRwhU9QdK+10fSVRGT6EtIw
+         LrXU0utbIj+eHAbWaF2AHPwLPxqURNI5YOr6tyPSZI1DIVHPkjbegyoNNLMnA14GAmT1
+         Uca8RbPSJ59DsSgT4pJLCjKd1lPnin36EL2mgigMK/i7PCxeM9P8HYDIhqMzUJEjNtgm
+         zncBWR27GUKgrXojUbZzKyWk2hP4qu2tRT5UUG2lqPnPMHAcJ+6NdQAjjOJ/0PqbpD4w
+         yFoEaK/9RZCw3UFDSwuxONsRCKGHpzQDiCoVj2U5tLk5Bx/TR2yo0ifEM/blsf3byGrD
+         /J6Q==
+X-Gm-Message-State: AOJu0YxRDT1AdbiZIA5BhkKovLVUP2gLEkBEJX6D6BvqAi4osSwxW0Gg
+	kF1MJgUd9mFXcXYJqPTCp+UefMlqfujib/e9NujZl0+H9MqGX++eICj6W2DRvjs=
+X-Google-Smtp-Source: AGHT+IFFzYXnyaWp/sJbKfs+k/FzQVbblKsLFmcyHIJF9nrUmA5AXXCdjCLKSI2LbxePqTiJWX0jzg==
+X-Received: by 2002:a2e:9693:0:b0:2ec:6755:a0cf with SMTP id 38308e7fff4ca-2eeb31895b8mr109208351fa.32.1720997631587;
+        Sun, 14 Jul 2024 15:53:51 -0700 (PDT)
+Received: from [127.0.1.1] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4279dae34casm40632445e9.0.2024.07.14.15.53.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jul 2024 15:53:51 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/2] media: qcom: camss: Fix two CAMSS bugs found by
+ dogfooding with SoftISP
+Date: Sun, 14 Jul 2024 23:53:57 +0100
+Message-Id: <20240714-linux-next-24-07-13-camss-fixes-v1-0-8f8954bc8c85@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <30dd244f-3f9b-479f-af07-aa473fd11896@denx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAVXlGYC/x2MywqDMBBFf0Vm7UCMia9fKV2EONUBTUvGloD47
+ w7dXDj3wDlBKDMJTNUJmX4s/E4KTV1BXENaCHlWBmusM33T4sbpWzBROdA6ND3qF8Mugi8upBv
+ GIZqx88HPoJVPpr/QyON5XTc1lDBEcQAAAA==
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hansverk@cisco.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Milen Mitkov <quic_mmitkov@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
+ Johan Hovold <johan+linaro@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+X-Mailer: b4 0.15-dev-13183
 
-On Sun, Jul 14, 2024 at 05:37:10PM +0200, Marek Vasut wrote:
-> On 7/14/24 4:33 PM, Francesco Dolcini wrote:
-> > On Sat, Jul 13, 2024 at 05:41:56PM +0200, Marek Vasut wrote:
-> > > This is used e.g. by imx6-mipi-csi2.c to determine the CSI2 lane count.
-> > > Implement the callback in isl7998x driver so it can be used with i.MX6
-> > > CSI2 receiver.
-> > > 
-> > > Signed-off-by: Marek Vasut <marex@denx.de>
-> > 
-> > We had a similar need and we did send a similar patch for ov5640 [1],
-> > however it was rejected. I did not follow-up if anything changed that
-> > makes this patch not required, or maybe I am misunderstanding all of it?
-> > Any comment?
-> 
-> I am not sure what to make of that discussion, there was a lot of
-> discussion, but no conclusion or hint how to move forward . So, what now?
+Dogfooding with SoftISP has uncovered two bugs in this series which I'm
+posting fixes for.
 
-That discusion was very confusing to me, but given I know little on the
-topic I was hoping you could understand better than me ... 
+- The first error:
+  A simple race condition which to be honest I'm surprised I haven't found
+  earlier nor has anybody else. Simply stated the order we typically
+  end up loading CAMSS on boot has masked out the pm_runtime_enable() race
+  condition that has been present in CAMSS for a long time.
 
-BTW, I am not even sure this patch is about the same issue.
+  If you blacklist qcom-camss in modules.d and then modprobe after boot,
+  the race condition shows up easily.
 
-Francesco
+  Moving the pm_runtime_enable prior to subdevice registration fixes the
+  problem.
+
+The second error:
+  Nomenclature:
+    - CSIPHY: CSI Physical layer analogue to digital domain serialiser
+    - CSID: CSI Decoder
+    - VFE: Video Front End
+    - RDI: Raw Data Interface
+    - VC: Virtual Channel
+
+  In order to support streaming multiple virtual-channels on the same RDI a
+  V4L2 provided use_count variable is used to decide whether or not to actually
+  terminate streaming and release buffers for 'msm_vfe_rdiX'.
+
+  Unfortunately use_count indicates the number of times msm_vfe_rdiX has
+  been opened by user-space not the number of concurrent streams on
+  msm_vfe_rdiX.
+
+  Simply stated use_count and stream_count are two different things.
+
+  The silicon enabling code to select between VCs is valid but, a different
+  solution needs to be found to support _concurrent_ VC streams.
+
+  Right now the upstream use_count as-is is breaking the non concurrent VC
+  case and I don't believe there are upstream users of concurrent VCs on
+  CAMSS.
+
+  This series implements a revert for the invalid use_count check,
+  retaining the ability to select which VC is active on the RDI.
+
+  Dogfooding with libcamera's SoftISP in Hangouts, Zoom and multiple runs
+  of libcamera's "qcam" application is a very different test-case to the
+  simple capture of frames we previously did when validating the
+  'use_count' change.
+
+  A partial revert in expectation of a renewed push to fixup that
+  concurrent VC issue is included.
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (2):
+      media: qcom: camss: Remove use_count guard in stop_streaming
+      media: qcom: camss: Fix ordering of pm_runtime_enable
+
+ drivers/media/platform/qcom/camss/camss-video.c | 6 ------
+ drivers/media/platform/qcom/camss/camss.c       | 5 +++--
+ 2 files changed, 3 insertions(+), 8 deletions(-)
+---
+base-commit: c6ce8f9ab92edc9726996a0130bfc1c408132d47
+change-id: 20240713-linux-next-24-07-13-camss-fixes-fa98c0965a5d
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
 
