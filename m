@@ -1,102 +1,112 @@
-Return-Path: <linux-media+bounces-15027-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15028-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5995E931698
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 16:23:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE149316CE
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 16:32:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D14A1C21B57
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 14:23:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 921E51F22CB4
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 14:32:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A6B918EA6D;
-	Mon, 15 Jul 2024 14:23:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BF4618EFD0;
+	Mon, 15 Jul 2024 14:30:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Vm8f0bNN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ej0EsMbP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A151E89C;
-	Mon, 15 Jul 2024 14:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AAC18EA85
+	for <linux-media@vger.kernel.org>; Mon, 15 Jul 2024 14:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721053414; cv=none; b=BBMJFAaZjqIZqIRupBmOUlE8kIgHOdIA9mYmjvX0LZhnOfGXb4gtNaMTEqUtN8z8LpXDl/hujnSfKpzwl4aAzHLXjuTlx4SIamM9ncestUgnBT/wbAuTb3pu/3vMXAhAJA2R2g82n9cYUIaNGSuliPyvUEry85GzeGK52q0mCVM=
+	t=1721053854; cv=none; b=jqc1G+nVtT7mXT+hA7cJRwzf3kAyPKrhXVkLW1f1M0ct+OEelfUgUUdee9o8zEQiD/ceDdNJEO4SzDm1MVcC66ubAk4TssA6x96/+YDy1iGROIacvGbH7bT9qiuwM1c60pPgrPxGWekz0hleEX9HLvm1uxbAuGwHzSUs4/GLc+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721053414; c=relaxed/simple;
-	bh=8W/NbhbOtzlfo5nBCm9HhO+NCk0WKIFpF3ts5SLPFJY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=a6h7GE3QzLXptC01K4zNN386Xhpsa0FjaVhqG8O3vC6/4GAxHbGHQAjcUxgzeWGqlfEMqIAdHgqp7YWoBmQkiCckCEsZjHI0UJZYjQl3mYMS27EHYHp7+7Ac4YyYXI+TsVvEgetUIZcqupmDBkL8tArbO8CjufVWqyLTlVsb1jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Vm8f0bNN; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1721053385; x=1721658185; i=markus.elfring@web.de;
-	bh=8W/NbhbOtzlfo5nBCm9HhO+NCk0WKIFpF3ts5SLPFJY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Vm8f0bNNH/uH+JUYznMdwwmJaEDOPlHOKqUivQ42dHq53qqz+HWx0jqe1HGO8ow0
-	 wKzsAcDHN89s2ya/1w9tddaqU+LQmyToFb4cxArMOwWvq0yxUfv6Set9i236MkC/s
-	 vzf5WvMtto/hjUAKh9JG9nQ28AcPIm4RwDLEjhnVEuDcMfyvA92FNe81w4OLj9qOC
-	 5wZF+BAU/amD/MNMqIA5nHDY9y+e/+CH33e6/YIvItDME2G90ARxr0xU+dk2t0Ll1
-	 Zol9c0sow38k9skELR11H+Z37Mpw/iSvgZ3O8eG0E/DV3SOIt4iGlJUFex88lNlhP
-	 gwZ1DypQxOvWQRDOWg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.82.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MActe-1seKy91ilU-00AZo0; Mon, 15
- Jul 2024 16:23:05 +0200
-Message-ID: <3644b87d-d283-4539-aa61-263ca7a81249@web.de>
-Date: Mon, 15 Jul 2024 16:23:01 +0200
+	s=arc-20240116; t=1721053854; c=relaxed/simple;
+	bh=lfhIDgG8aIpnMofvE4K3NzvsrMT8nhGPAIApVMYn9Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uu7d7+CqvMrIbAaaxPtw3+UJNSO1sjE9YyR0cH4JVvQ1/9QiJU8/dnox61clvXqldWjOiwD/3Vbf6+9geT/QgqdoP9yjcZjXt6gvQWxA1AjtDd7bgIG+NKD00QUV0L6Rk9vU0VOg1TCQT3nmFdBU7XJuHRqOOf1///vxWnuRChg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ej0EsMbP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:72c3:346:a663:c82d])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9040A496;
+	Mon, 15 Jul 2024 16:30:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1721053814;
+	bh=lfhIDgG8aIpnMofvE4K3NzvsrMT8nhGPAIApVMYn9Jk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ej0EsMbPBn3tH8A2yvSWV7dz6QhNLmUGjP/1vdEp08kTiptsU7aI1ufcdPtJwJZPc
+	 CWtkDAaf6LDzxsQvd8I++Xl0aIpJKSkD0FS2hBeTeZqQhZDTxWMhQJMoBICAa/jvCL
+	 tmZsA/yOFz/oaXdpWMbO4N0f9WLTD6QZGL3ZC6Qk=
+Date: Mon, 15 Jul 2024 16:30:48 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Naushir Patuck <naush@raspberrypi.com>
+Cc: linux-media@vger.kernel.org, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH] media: pispbe: Protect against left-shift wrap in
+ V4L2_COLORSPACE_MASK()
+Message-ID: <t4zv56rnrprztgyjyjx3k3lzaitddky3c22bqslykq3qvxi7gi@jaafmm5uw6rs>
+References: <20240715102425.1244918-1-naush@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240712103000.16655-2-benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 1/2] media: videodev2: Add flags to unconditionnaly
- enumerate pixels formats
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240712103000.16655-2-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QfwYEWLVQ6kZx6KTIuE8fzL7Zjn6qY++jXuW43skhT6HeJrL9pT
- HrzaG5PzYShFRTcgkVoKMz4coboztN8K/zsPnJodLKrNMxR0aMv3lLFlfKA0GI79RzLkFmm
- qk/yuYfEZkTdvGoGxkIdZrzfAvzf9HUaIYokswkbAc6bE/KK2HoPDUKyctn2CEsmL8LqALB
- YV7fkjhhFBCMzEPAwFKGA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:SbuFEh6f8Ms=;vADHCL5fWBqHt+00OVZkSE0Y1nH
- 4ivCoRthhuJGr0uvXsL3w8U6jVaXp6qZqBXa+P0djltwj2akn59hQ1IPIfLdatMvr6Dr85DJE
- z0FacJoMLEJjTlL1UsRgaTwAUbxruEUrx8RjPxDVgASmpI9+7H/SWp9u939j73OtGlaut3/2F
- hv5Z+X9ki0CdO4gsMbpQjmm4yvewbEvOCQ3bvCPYosajRe7fQvFhZYFB3fSNiY6FiT0cI7TVV
- lR7uYssDKb66j8pVpLg1tbjdRmr8uvLTYlejJDF1FUZavqyfbqmGJZLc/SIpp6w73NRc6gN+4
- 10oSKv2PpE1K1AFWDjWK4eaWFKQZAQoezPk7O/Cm7szJlw/8XZ0B3kNbBA0oglJkHCFUUuocO
- thPHxQkVN5AazxvLgueaTehmeAy7PMdaOghsDTGOOsU13jjw4ohdeSrExlTpbxQml5P/qWbo4
- ouAPmDckx8fFuB624XgLHACoX2i6GH/ZY89d83dRlUm6JOo6V9DGr/YyWEYPthuoPPsZmoP0g
- M6tZBpjIzQSPOHHob2TcrHygdVewOInddL7b2OHuPNZni84bcUtFcgzUdkei1nbRhgcYTdsRu
- mTpZ2LvPCuU6fUqzne84dVp5Yj3i0XZwXjL8TepHWpt99NpicVC4+XsY3HODZg9f/OARuM0W7
- DtwCQNtA1YAGzvkOUPtc6AbnVfPsMXIPx7ETL6Y7WQRrS4iO+NE14wbCTEvhYuwg6f8VjLu52
- JYp1iZR4L2usRb6AHvlJanj76hoZvLC/cvFkNw6A4kxqv984wNmlnSTsOd8JA+IbIZateCDIU
- LFLREtSlSob4SjzJo8BeA0VA==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240715102425.1244918-1-naush@raspberrypi.com>
 
-> Add new flags to enumerate all pixels formats when calling VIDIOC_ENUM_F=
-MT ioctl.
-=E2=80=A6
+Hi Naush
 
-Will the word =E2=80=9Cunconditionally=E2=80=9D be more appropriate for th=
-e next summary phrase?
+On Mon, Jul 15, 2024 at 11:24:25AM GMT, Naushir Patuck wrote:
+> Ensure that the user requested colorspace value does not wrap when
+> using the V4L2_COLORSPACE_MASK() macro. If the requested colorspace
+> value >= BIT_PER_LONG, revert to the default colorspace for the given
+> format.
+>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 
-Regards,
-Markus
+Thanks for handling this
+
+> ---
+>  drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> index e74df5b116dc..bd5d77c691d3 100644
+> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
+> @@ -1124,8 +1124,9 @@ static void pispbe_try_format(struct v4l2_format *f, struct pispbe_node *node)
+>  	 * not supported. This also catches the case when the "default"
+>  	 * colour space was requested (as that's never in the mask).
+>  	 */
+> -	if (!(V4L2_COLORSPACE_MASK(f->fmt.pix_mp.colorspace) &
+> -	    fmt->colorspace_mask))
+> +	if (f->fmt.pix_mp.colorspace >= BITS_PER_LONG ||
+> +	    !(V4L2_COLORSPACE_MASK(f->fmt.pix_mp.colorspace) &
+> +	      fmt->colorspace_mask))
+>  		f->fmt.pix_mp.colorspace = fmt->colorspace_default;
+
+Isn't it better handled in the macro definition itself so that future
+usages of the V4L2_COLORSPACE_MASK() macro won't need to be protected
+like this one ?
+
+Would this silence the smatch warning ?
+
+-#define V4L2_COLORSPACE_MASK(colorspace) BIT(colorspace)
++#define V4L2_COLORSPACE_MASK(c)        BIT((c) < V4L2_COLORSPACE_LAST ? \
++                                           (c) : V4L2_COLORSPACE_LAST)
+
+
+>
+>  	/* In all cases, we only support the defaults for these: */
+> --
+> 2.34.1
+>
 
