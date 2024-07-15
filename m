@@ -1,167 +1,115 @@
-Return-Path: <linux-media+bounces-15008-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15009-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A54930E7C
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 09:12:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3538C930EB0
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 09:23:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 668CB1F21621
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 07:12:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 99FDCB2115B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 07:22:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA301836EA;
-	Mon, 15 Jul 2024 07:12:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF8B2184100;
+	Mon, 15 Jul 2024 07:22:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C33012E5B;
-	Mon, 15 Jul 2024 07:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A49C18309D
+	for <linux-media@vger.kernel.org>; Mon, 15 Jul 2024 07:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721027531; cv=none; b=IM8iRvxrDxW2u2fBiYQU2A1NyZ42iKSHGn0qoP35e279zRxUYo+E2a8UdRa003omu4aa3OHDhC8kSPfQxdYjVcZFdJHcix7GF66RvKwF+vaK/+ttsFkQprqoQwFsRl2af2TrIY0Lq7mwaoyTpyNIEd1W7owIIVOyMiKSI3gxlJw=
+	t=1721028174; cv=none; b=d4Y6JQPFGImU/wIV6/zMDXAoICyg2BPmEVAgcihf3pDDCiWPuP0kb2rZxjEQ2/wnCxL8Q+FPaMvJ587eAMjmhD6Ib4OWK7x3ZEARBspTyuDSpSqH+QcYSjDtAlfdK92ufFVBCSe1AYCuLKv0oQH0bgOHXMztwgWdWM9T1azrhe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721027531; c=relaxed/simple;
-	bh=XA/nJ9t/sh2ld8SuHqe2YK685mclcnGTmmAoudTHXgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LnU94R0mahx3i6Dnu2PGUOc3hXbn2Yd1mPkG6E/mRB8GIf84tfmZccunhbrcc+EvolEp3RoFNU8BItYskNWMeBR/2QFIqjwJp8YbP7ZblEixrvS0AvxdfQu/jvWd8iV6RyGjV0pTT26OQMtROO7Z/ar0GJnyzQjz9sILR4StKpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FDAEC4AF0A;
-	Mon, 15 Jul 2024 07:12:07 +0000 (UTC)
-Message-ID: <217374f8-bad7-4dab-8a39-2226ea974d7d@xs4all.nl>
-Date: Mon, 15 Jul 2024 09:12:05 +0200
+	s=arc-20240116; t=1721028174; c=relaxed/simple;
+	bh=FARnbudIaUt7KrYWBQh65GTt/J3QZlwmWaUOqulZeLo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RrBs7Cb5N089uSRBCTXtasiG1/051tWuY2SsMwgsO3vAQTj4AjNygNb4A7K8DK6dlPKNzMg8D/dAeiOCWNHi4wPso3UVKnrxdwrEMUmG1wgGr0V2udKCsxrSHxb4A6leJxSP4/OJWZrNmIRE2qn0aUX7DpJuVru7VKnc8MmoYp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sTG2u-0000Yf-2G;
+	Mon, 15 Jul 2024 07:22:52 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+	by slave0 with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sTG2q-000U56-2N;
+	Mon, 15 Jul 2024 07:22:51 +0000
+From: Jenkins <jenkins@linuxtv.org>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Cc: builder@linuxtv.org
+Subject: Re: [GIT PULL for v6.10-rc1] media updates (#101746)
+Date: Mon, 15 Jul 2024 07:22:46 +0000
+Message-Id: <20240715072246.115425-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240516080159.76e8b45d@sal.lan>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/14] staging: media: starfive: Add ISP params video
- device
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Mingjia Zhang <mingjia.zhang@mediatek.com>,
- Jack Zhu <jack.zhu@starfivetech.com>,
- Keith Zhao <keith.zhao@starfivetech.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-12-changhuang.liang@starfivetech.com>
- <kjrkmnmtw5rij6clxgtcfi525xydhy3njrp7vbjxs2wqjwvv72@3dertnkvlyie>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <kjrkmnmtw5rij6clxgtcfi525xydhy3njrp7vbjxs2wqjwvv72@3dertnkvlyie>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/07/2024 15:07, Jacopo Mondi wrote:
-> Hi Changhuang
-> 
->    + Hans for one question on the vb2 queue mem_ops to use.
-> 
-> On Tue, Jul 09, 2024 at 01:38:21AM GMT, Changhuang Liang wrote:
->> Add ISP params video device to write ISP parameters for 3A.
->>
->> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->> ---
->>  drivers/staging/media/starfive/camss/Makefile |   2 +
->>  .../staging/media/starfive/camss/stf-camss.c  |  23 +-
->>  .../staging/media/starfive/camss/stf-camss.h  |   3 +
->>  .../media/starfive/camss/stf-isp-params.c     | 240 ++++++++++++++++++
->>  .../staging/media/starfive/camss/stf-isp.h    |   4 +
->>  .../staging/media/starfive/camss/stf-output.c |  83 ++++++
->>  .../staging/media/starfive/camss/stf-output.h |  22 ++
->>  7 files changed, 376 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/staging/media/starfive/camss/stf-isp-params.c
->>  create mode 100644 drivers/staging/media/starfive/camss/stf-output.c
->>  create mode 100644 drivers/staging/media/starfive/camss/stf-output.h
->>
+From: builder@linuxtv.org
 
-<snip>
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20240516080159.76e8b45d@sal.lan/
+Build log: https://builder.linuxtv.org/job/patchwork/376452/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/20240516080159.76e8b45d@sal.lan
 
->> +int stf_isp_params_register(struct stfcamss_video *video,
->> +			    struct v4l2_device *v4l2_dev,
->> +			    const char *name)
->> +{
->> +	struct video_device *vdev = &video->vdev;
->> +	struct vb2_queue *q;
->> +	struct media_pad *pad = &video->pad;
->> +	int ret;
->> +
->> +	mutex_init(&video->q_lock);
->> +	mutex_init(&video->lock);
-> 
-> are two mutexes required for the vb2 queue and the video node ? I see,
-> in example, rkisp1-params.c uses a single one
-> 
->> +
->> +	q = &video->vb2_q;
->> +	q->drv_priv = video;
->> +	q->mem_ops = &vb2_dma_contig_memops;
-> 
-> Now, I might be wrong, but unless you need to allocate memory from a
-> DMA-capable area, you shouldn't need to use vb2_dma_contig_memops.
-> 
-> Looking at the next patches you apply configuration parameters to the
-> ISP by inspecting the user supplied parameters one by one, not by
-> transfering the whole parameters buffer to a memory area. Hans what do
-> you think ?
+gpg: Signature made Thu 16 May 2024 06:26:00 AM UTC
+gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: tofu+pgp
+gpg: depth: 0  valid:   1  signed:  20  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 1  valid:  20  signed: 124  trust: 18-, 0q, 0n, 0m, 2f, 0u
+gpg: depth: 2  valid:   1  signed:   4  trust: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: next trustdb check due at 2024-10-11
+gpg: Good signature from "Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
+gpg:                 aka "[jpeg image of size 3594]" [never]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mauro.chehab@intel.com>" [ultimate]
 
-Yes, if the data is not DMAed to the hardware, then use vb2_vmalloc_memops.
 
-Regards,
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0001-media-chips-media-wave5-Add-hrtimer-based-polling-su.patch doesn't apply:
+Applying patch patches/0001-media-chips-media-wave5-Add-hrtimer-based-polling-su.patch
+patching file drivers/media/platform/chips-media/wave5/wave5-helper.c
+Hunk #1 FAILED at 52.
+Hunk #2 FAILED at 71.
+2 out of 2 hunks FAILED -- rejects in file drivers/media/platform/chips-media/wave5/wave5-helper.c
+patching file drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+Hunk #1 FAILED at 1810.
+Hunk #2 succeeded at 1887 with fuzz 2 (offset 20 lines).
+1 out of 2 hunks FAILED -- rejects in file drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+patching file drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+Hunk #1 FAILED at 1554.
+Hunk #2 succeeded at 1740 with fuzz 2 (offset 11 lines).
+1 out of 2 hunks FAILED -- rejects in file drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+patching file drivers/media/platform/chips-media/wave5/wave5-vpu.c
+Hunk #1 succeeded at 31 with fuzz 2 (offset 5 lines).
+Hunk #2 succeeded at 94 with fuzz 2 (offset 51 lines).
+Hunk #3 FAILED at 51.
+Hunk #4 succeeded at 251 with fuzz 2 (offset 63 lines).
+Hunk #5 FAILED at 232.
+Hunk #6 succeeded at 335 with fuzz 2 (offset 56 lines).
+2 out of 6 hunks FAILED -- rejects in file drivers/media/platform/chips-media/wave5/wave5-vpu.c
+patching file drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+Hunk #1 FAILED at 756.
+1 out of 1 hunk FAILED -- rejects in file drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+Patch patches/0001-media-chips-media-wave5-Add-hrtimer-based-polling-su.patch does not apply (enforce with -f)
 
-	Hans
 
