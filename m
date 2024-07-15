@@ -1,112 +1,136 @@
-Return-Path: <linux-media+bounces-15028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE149316CE
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 16:32:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E33A9318E9
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 19:02:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 921E51F22CB4
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 14:32:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 14315B2184B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 17:02:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BF4618EFD0;
-	Mon, 15 Jul 2024 14:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB36446AF;
+	Mon, 15 Jul 2024 17:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ej0EsMbP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QtANOSOt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AAC18EA85
-	for <linux-media@vger.kernel.org>; Mon, 15 Jul 2024 14:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A40DDAD;
+	Mon, 15 Jul 2024 17:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721053854; cv=none; b=jqc1G+nVtT7mXT+hA7cJRwzf3kAyPKrhXVkLW1f1M0ct+OEelfUgUUdee9o8zEQiD/ceDdNJEO4SzDm1MVcC66ubAk4TssA6x96/+YDy1iGROIacvGbH7bT9qiuwM1c60pPgrPxGWekz0hleEX9HLvm1uxbAuGwHzSUs4/GLc+A=
+	t=1721062917; cv=none; b=Csf2g3il3/2e0lMQVHSrhws1a5E4Sgl6qYfGpRithF0u5wWa1j84+/1I5w4T9jB7Z3R/rAFxkYaxjo8sIyy9cAh7ifhpI1jNdbs57t1mG1vnllxDXfcvSzAe8Vx6qBroktPWI2sdD6TUHqCWJAsX+I1x+yMURyRREvO+ZweZevI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721053854; c=relaxed/simple;
-	bh=lfhIDgG8aIpnMofvE4K3NzvsrMT8nhGPAIApVMYn9Jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uu7d7+CqvMrIbAaaxPtw3+UJNSO1sjE9YyR0cH4JVvQ1/9QiJU8/dnox61clvXqldWjOiwD/3Vbf6+9geT/QgqdoP9yjcZjXt6gvQWxA1AjtDd7bgIG+NKD00QUV0L6Rk9vU0VOg1TCQT3nmFdBU7XJuHRqOOf1///vxWnuRChg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ej0EsMbP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:72c3:346:a663:c82d])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9040A496;
-	Mon, 15 Jul 2024 16:30:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1721053814;
-	bh=lfhIDgG8aIpnMofvE4K3NzvsrMT8nhGPAIApVMYn9Jk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ej0EsMbPBn3tH8A2yvSWV7dz6QhNLmUGjP/1vdEp08kTiptsU7aI1ufcdPtJwJZPc
-	 CWtkDAaf6LDzxsQvd8I++Xl0aIpJKSkD0FS2hBeTeZqQhZDTxWMhQJMoBICAa/jvCL
-	 tmZsA/yOFz/oaXdpWMbO4N0f9WLTD6QZGL3ZC6Qk=
-Date: Mon, 15 Jul 2024 16:30:48 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Naushir Patuck <naush@raspberrypi.com>
-Cc: linux-media@vger.kernel.org, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [PATCH] media: pispbe: Protect against left-shift wrap in
- V4L2_COLORSPACE_MASK()
-Message-ID: <t4zv56rnrprztgyjyjx3k3lzaitddky3c22bqslykq3qvxi7gi@jaafmm5uw6rs>
-References: <20240715102425.1244918-1-naush@raspberrypi.com>
+	s=arc-20240116; t=1721062917; c=relaxed/simple;
+	bh=u3OchkAmeGt+76z+GAeKhgdYSEsrTgpleGbH1qwhMfI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AE/LB4yZ1D5wfJt9aicpTODAGbFIFPRtrJ0hOZmfjT7pSAEfR5VossmFSCNFUcrE5m+pGBFs/RlAp7X6tXJlMFKu4/tErUBIFOB89M7m+cB5GKCoUhEH7CSrRytPjq66rQHefVFnM+yxrrKoYpOPEvACtpIUL2emb4vO0VjLRz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QtANOSOt; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1721062914;
+	bh=u3OchkAmeGt+76z+GAeKhgdYSEsrTgpleGbH1qwhMfI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=QtANOSOtuP9Cr3FesfSqzx0ICjN3DrvxMoU6LpBvZHbGrFnMdEWWYjCdQ7pYdcCOp
+	 zxXVpcAkNyUEhab9uP0ZuJgnQqlOproJ9+bdj4khwgItD584BnLg8TOXORJKSboijm
+	 U59yajjcrZHv6BZNaJcAQVUGvYGUA0RVNzG5r4DncRYjhQGG5vAHlJI3vPtpExtnsF
+	 Hu8a3+O1ElZ8fM565sZy98vgwf+qPDXUQxbl14KRMUvbaIGunVn3pbXAGP7ZAXiZu7
+	 72hUYP9AA7lHcKxp4dp3A/iAU4PktgkZf2VRNgJ3jzzr6LAUtbYTdGRmbb7xDGVGa1
+	 hS2ZuqW++DDHQ==
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3F6913780C13;
+	Mon, 15 Jul 2024 17:01:52 +0000 (UTC)
+Message-ID: <b2f5c00d5567a37129f691a89063c6196fbb142a.camel@collabora.com>
+Subject: Re: [RESEND PATCH v6 2/4] media: chips-media: wave5: Support
+ runtime suspend/resume
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Devarsh Thakkar <devarsht@ti.com>, "jackson.lee"
+	 <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org" <mchehab@kernel.org>, 
+ "sebastian.fricke@collabora.com"
+	 <sebastian.fricke@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,  Nas Chung
+ <nas.chung@chipsnmedia.com>, "lafley.kim" <lafley.kim@chipsnmedia.com>,
+ "b-brnich@ti.com" <b-brnich@ti.com>, "Luthra, Jai" <j-luthra@ti.com>,
+ Vibhore <vibhore@ti.com>,  Dhruva Gole <d-gole@ti.com>, Aradhya
+ <a-bhatia1@ti.com>, "Raghavendra, Vignesh" <vigneshr@ti.com>
+Date: Mon, 15 Jul 2024 13:01:49 -0400
+In-Reply-To: <147fddd4-0f73-0546-b73e-d8e2326bfb2a@ti.com>
+References: <20240617104818.221-1-jackson.lee@chipsnmedia.com>
+	 <20240617104818.221-3-jackson.lee@chipsnmedia.com>
+	 <6e6f767c-85e9-87f6-394f-440efcc0fd21@ti.com>
+	 <SE1P216MB13037621438C8CE6142A69A8EDCF2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <SE1P216MB130382374B76CD8BC9FFCFE5EDC82@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	 <881dcea1-a592-4506-083a-9d5f3c6a8781@ti.com>
+	 <b2f7552d37075538e22640f7b42838d29d3f8b3e.camel@collabora.com>
+	 <e901967f-59df-f4b0-de51-61e542c04161@ti.com>
+	 <07d56a690d5fed16082e73c5565b67777e31494a.camel@collabora.com>
+	 <147fddd4-0f73-0546-b73e-d8e2326bfb2a@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240715102425.1244918-1-naush@raspberrypi.com>
 
-Hi Naush
+Hi,
 
-On Mon, Jul 15, 2024 at 11:24:25AM GMT, Naushir Patuck wrote:
-> Ensure that the user requested colorspace value does not wrap when
-> using the V4L2_COLORSPACE_MASK() macro. If the requested colorspace
-> value >= BIT_PER_LONG, revert to the default colorspace for the given
-> format.
->
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+Le vendredi 21 juin 2024 =C3=A0 18:01 +0530, Devarsh Thakkar a =C3=A9crit=
+=C2=A0:
+> Hi Nicolas,
+>=20
+> On 20/06/24 23:02, Nicolas Dufresne wrote:
+> > Le jeudi 20 juin 2024 =C3=A0 19:50 +0530, Devarsh Thakkar a =C3=A9crit=
+=C2=A0:
+> [..]
+>  > Imagine that userspace is going gapless playback, if you have a lets s=
+ay
+> 30ms on
+> > forced suspend cycle due to close/open of the decoder instance, it won'=
+t
+> > actually endup gapless. The delay will ensure that we only suspend when=
+ needed.
+> >=20
+>=20
+> Shouldn't the applications doing gapless playback avoid frequent open/clo=
+se of
+> the decoder instance too as it will add up re-instantiation (initializing=
+ hw,
+> allocating buffers) and cleanup (de-initialization and freeing up of buff=
+ers)
+> delay for each open/close respectively ? Even in case of scenario where
+> resolution of next stream is different than previous, I guess the applica=
+tion
+> can still hold up the file handle and do the necessary setup (stream
+> off/stream on/REQBUFS etc) required for re-initialization ?
 
-Thanks for handling this
+I don't have a very strong opinion here, I usually try to avoid optimizing =
+for
+what userspace should do. Best would be to build your opinion on your own
+testing of existing userspace (perhaps not just GStreamer).
 
-> ---
->  drivers/media/platform/raspberrypi/pisp_be/pisp_be.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> index e74df5b116dc..bd5d77c691d3 100644
-> --- a/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> +++ b/drivers/media/platform/raspberrypi/pisp_be/pisp_be.c
-> @@ -1124,8 +1124,9 @@ static void pispbe_try_format(struct v4l2_format *f, struct pispbe_node *node)
->  	 * not supported. This also catches the case when the "default"
->  	 * colour space was requested (as that's never in the mask).
->  	 */
-> -	if (!(V4L2_COLORSPACE_MASK(f->fmt.pix_mp.colorspace) &
-> -	    fmt->colorspace_mask))
-> +	if (f->fmt.pix_mp.colorspace >= BITS_PER_LONG ||
-> +	    !(V4L2_COLORSPACE_MASK(f->fmt.pix_mp.colorspace) &
-> +	      fmt->colorspace_mask))
->  		f->fmt.pix_mp.colorspace = fmt->colorspace_default;
+I think if you have good reason to force suspend when the last instance is
+destroyed, please do so (e.g. stability issue, race conditions etc). So far=
+, I
+don't personally know what is the issue with leaving a small delay in order=
+ to
+avoid a suspend / resume cycle if one quickly close the last instance and o=
+pen
+the next one immediately. A comment would be nice, so no one fall in such a=
+ trap
+later.
 
-Isn't it better handled in the macro definition itself so that future
-usages of the V4L2_COLORSPACE_MASK() macro won't need to be protected
-like this one ?
-
-Would this silence the smatch warning ?
-
--#define V4L2_COLORSPACE_MASK(colorspace) BIT(colorspace)
-+#define V4L2_COLORSPACE_MASK(c)        BIT((c) < V4L2_COLORSPACE_LAST ? \
-+                                           (c) : V4L2_COLORSPACE_LAST)
-
-
->
->  	/* In all cases, we only support the defaults for these: */
-> --
-> 2.34.1
->
+Nicolas
 
