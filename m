@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-15012-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15013-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAD1930EFF
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 09:43:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F04CC930F06
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 09:46:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B5FE2813D6
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 07:43:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACC1C281684
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jul 2024 07:46:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 252BE172BA6;
-	Mon, 15 Jul 2024 07:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C405D184101;
+	Mon, 15 Jul 2024 07:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M/mrYbau"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A6HQwlIQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF2926AF5;
-	Mon, 15 Jul 2024 07:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276D46AB8;
+	Mon, 15 Jul 2024 07:46:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721029387; cv=none; b=b1Pn2KX9J4x7DHP6v8QFi00Ek8DcExfFjMFU3BzTRH85L93jiiYfX46a5oCVt8doe2C39GdOBW8ei1B8QM9e3pI6NeEGEvV3zi2QAcum3aNxpyfBxGDuML6ydQiiVXFMR5GIApY1U7563ZXs3XchQPdfQxaDFaByUimT54o+YRA=
+	t=1721029577; cv=none; b=d3sSSihWVUcnC9XhcI7jVwJSjvMzonEKWme9hORRBlkrcFHgnBobr1UhzNkhkhMroLFdn5WfduDpx80qclztT4zhsQD+CTfxmxV8mNT0EYraAqYj0OlcMTPhSOLlw3mRHpgMEnLicaVapTMDFyX8kQJ7X0GPCh8OjhwKjts7qkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721029387; c=relaxed/simple;
-	bh=HXPP361upzoSJxGqCN2TDn6x2KKVRGApcfg4NCZK+Zc=;
+	s=arc-20240116; t=1721029577; c=relaxed/simple;
+	bh=WpjJRtS73XPx4qErFEnKNQ2LIobUuQY0zJN+fVegBA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QATjfEH4edoIbI3jDxZ+7WEvnOUAR+Es6VRfP5EIJkCqAZ0L54yxfBZ0N8PgEYXkKTsgTxe8WSum/tW1pzWdaH3KEa8SSV0YZhAjiBZNKKFKQpEs0cpaxApXO6Qg14e9zPKz5zamTeq7zrmgPGWPH6URrz/J/+hsF5UFf2ybqvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M/mrYbau; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0397DC32782;
-	Mon, 15 Jul 2024 07:43:06 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=MUBszfkXZWh/OV8p2Ff2aoWeZo8ruKA/qaoyziPj7dOepMW01TuvoElJ1FxP4raMmsi94A+xihehjX/pmkNLd/F+OvsM9hIPOy9EqlCOp6pipZt6dG6M8rDpP65MFV9WAr90ALpgWpDutXcUNC70qv+TQmP7Jps3E7niXK5Q+Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A6HQwlIQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D38EC4AF11;
+	Mon, 15 Jul 2024 07:46:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721029387;
-	bh=HXPP361upzoSJxGqCN2TDn6x2KKVRGApcfg4NCZK+Zc=;
+	s=k20201202; t=1721029576;
+	bh=WpjJRtS73XPx4qErFEnKNQ2LIobUuQY0zJN+fVegBA8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M/mrYbau5rmqOp84l4FlZJNjHcg40VsjEe8S001kQ0pmvTOX44Y3Hyi18rqnjuKAF
-	 e5VLtAzvY0IsZrs9AH3QskcYuyBwc45Ti6b9oxrtnwRjqVMEFsoWWCsDCuIsvkKNyW
-	 G3K6vd4okL2Exj2IT2bpByNyOt6+jLt2SMSGtD1NcCKxS7q3cBL2FqfkmxfzPk/ad8
-	 4uB99HBJex0tlBxlDjHk7C1j1yN6JJw+FwQu6y/xIckUoUsVag1kI5TZKDjwh9Po5q
-	 md87KtZ3KLrRwiC1baKglON8OUb5w+Z4Pv0jhhRs+DCV5F0cvUIvUtMwWpacf4MMly
-	 OTlw+h65x/Kiw==
+	b=A6HQwlIQy1t6OE0ghLN1MJNM/jO7ymf+vCAVv3pL7qF2oPfE1mOvrMCGtASAmHWKy
+	 5W0BOiLtqK8QFEt5wiH70cTY4s+v9T9hm1227e/aKbHJjGAj3ADlXr0qLF4/vMUyta
+	 cFIdik7SBIy1W5gonUZMrB031s12HOlhAPJLAdMoHbgI4l5UK2kk2BySPUP7b/8unj
+	 4+7ecPZBDd/w8U7K7EJ4sAowuBLPCM8uO/Lrn8lphPSEPd7pNGIVnY4M0yRm0Tu51T
+	 rHEtAf+JL/sZx3/cfsEk6oomtEMBeLM3papl4/sZMJ/24cUwQ4c76+Jb9PdClEPtC0
+	 GjlF9ow2wTDGw==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1sTGMR-000000001Qr-3PA8;
-	Mon, 15 Jul 2024 09:43:03 +0200
-Date: Mon, 15 Jul 2024 09:43:03 +0200
+	id 1sTGPW-000000001TJ-0gQl;
+	Mon, 15 Jul 2024 09:46:14 +0200
+Date: Mon, 15 Jul 2024 09:46:14 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
@@ -57,11 +57,10 @@ Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
 	Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH 1/2] media: qcom: camss: Remove use_count guard in
- stop_streaming
-Message-ID: <ZpTTB9Gv1B06K2p4@hovoldconsulting.com>
+Subject: Re: [PATCH 2/2] media: qcom: camss: Fix ordering of pm_runtime_enable
+Message-ID: <ZpTTxk_7hBbFLTTp@hovoldconsulting.com>
 References: <20240714-linux-next-24-07-13-camss-fixes-v1-0-8f8954bc8c85@linaro.org>
- <20240714-linux-next-24-07-13-camss-fixes-v1-1-8f8954bc8c85@linaro.org>
+ <20240714-linux-next-24-07-13-camss-fixes-v1-2-8f8954bc8c85@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,70 +69,27 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240714-linux-next-24-07-13-camss-fixes-v1-1-8f8954bc8c85@linaro.org>
+In-Reply-To: <20240714-linux-next-24-07-13-camss-fixes-v1-2-8f8954bc8c85@linaro.org>
 
-On Sun, Jul 14, 2024 at 11:53:58PM +0100, Bryan O'Donoghue wrote:
-> The use_count check was introduced so that multiple concurrent Raw Data
-> Interfaces RDIs could be driven by different virtual channels VCs on the
-> CSIPHY input driving the video pipeline.
-> 
-> This is an invalid use of use_count though as use_count pertains to the
-> number of times a video entity has been opened by user-space not the number
-> of active streams.
-> 
-> If use_count and stream-on count don't agree then stop_streaming() will
-> break as is currently the case and has become apparent when using CAMSS
-> with libcamera's released softisp 0.3.
-> 
-> The use of use_count like this is a bit hacky and right now breaks regular
-> usage of CAMSS for a single stream case.
+On Sun, Jul 14, 2024 at 11:53:59PM +0100, Bryan O'Donoghue wrote:
+> pm_runtime_enable() should happen prior to vfe_get() since vfe_get() calls
+> pm_runtime_resume_and_get().
 
-Please be a bit more specific about how this manifest itself to the
-user. I see error message when stopping a stream (e.g. stopping qcam)
-and the stream cannot be restarted (e.g. qcam fails with -EBUSY).
+Again, please describe how this manifest itself to users. I see
+occasional:
 
-> One CAMSS specific way to handle multiple VCs on the same RDI might be:
-> 
-> - Reference count each pipeline enable for CSIPHY, CSID, VFE and RDIx.
-> - The video buffers are already associated with msm_vfeN_rdiX so
->   release video buffers when told to do so by stop_streaming.
-> - Only release the power-domains for the CSIPHY, CSID and VFE when
->   their internal refcounts drop.
-> 
-> Either way refusing to release video buffers based on use_count is
-> erroneous and should be reverted. The silicon enabling code for selecting
-> VCs is perfectly fine. Its a "known missing feature" that concurrent VCs
-> won't work with CAMSS right now.
-> 
-> Initial testing with this code didn't show an error but, SoftISP and "real"
-> usage with Google Hangouts breaks the upstream code pretty quickly, we need
-> to do a partial revert and take another pass at VCs.
+	qcom-camss ac5a000.camss: Failed to power up pipeline: -13
 
-Please include the error messages that users see so that people can find
-this patch, for example:
+on boot.
 
-[ 1265.509831] WARNING: CPU: 5 PID: 919 at drivers/media/common/videobuf2/videobuf2-core.c:2183 __vb2_queue_cancel+0x230/0x2c8 [videobuf2_common]
-...
-[ 1265.510630] Call trace:
-[ 1265.510636]  __vb2_queue_cancel+0x230/0x2c8 [videobuf2_common]
-[ 1265.510648]  vb2_core_streamoff+0x24/0xcc [videobuf2_common]
-[ 1265.510660]  vb2_ioctl_streamoff+0x5c/0xa8 [videobuf2_v4l2]
-[ 1265.510673]  v4l_streamoff+0x24/0x30 [videodev]
-[ 1265.510707]  __video_do_ioctl+0x190/0x3f4 [videodev]
-[ 1265.510732]  video_usercopy+0x304/0x8c4 [videodev]
-[ 1265.510757]  video_ioctl2+0x18/0x34 [videodev]
-[ 1265.510782]  v4l2_ioctl+0x40/0x60 [videodev]
-...
-[ 1265.510944] videobuf2_common: driver bug: stop_streaming operation is leaving buffer 0 in active state
-[ 1265.511175] videobuf2_common: driver bug: stop_streaming operation is leaving buffer 1 in active state
-[ 1265.511398] videobuf2_common: driver bug: stop_streaming operation is leaving buffer 2 in active state
- 
-> This commit partially reverts commit 89013969e232 ("media: camss: sm8250:
-> Pipeline starting and stopping for multiple virtual channels")
+> This is a basic race condition that doesn't show up for most users so is
+> not widely reported. If you blacklist qcom-camss in modules.d and then
+> subsequently modprobe the module post-boot it is possible to reliably show
+> this error up.
 > 
-> Fixes: 89013969e232 ("media: camss: sm8250: Pipeline starting and stopping for multiple virtual channels")
+> Fixes: 02afa816dbbf ("media: camss: Add basic runtime PM support")
 
-Looks like you're missing a CC stable tag here?
+Missing CC-stable here too.
 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
