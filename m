@@ -1,112 +1,108 @@
-Return-Path: <linux-media+bounces-15054-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15055-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CF69326AF
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 14:35:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E46932733
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 15:12:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9536DB22BFE
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 12:35:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF2EF281CC6
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 13:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6903019AA4B;
-	Tue, 16 Jul 2024 12:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1FC19ADBA;
+	Tue, 16 Jul 2024 13:11:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iBnq9x+V"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="DoyPtpSQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40ECC17C23D
-	for <linux-media@vger.kernel.org>; Tue, 16 Jul 2024 12:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721133347; cv=none; b=j1PgYYqBYSYGyh8hJRtV1F3RvmJuYTfukPa8GBZmGwOZ7zp1TmafuN/1LYhZMR9XAefUF/TzuA4DBJG0IZV4PZnCAy+eX8LISr9QQM05o03TyTy8q+kKzbOf/NEYwKTdWXlCtR6mz+ZFzstKj2NEFsbCMA08N3YFVgVbBwQbDTE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721133347; c=relaxed/simple;
-	bh=9JHkMz595q6kSIHJ0hWACE35JuRTzH2tICZiUsMPrhk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724A019AD59
+	for <linux-media@vger.kernel.org>; Tue, 16 Jul 2024 13:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721135515; cv=pass; b=U6ZSMlXFfarz8DnOhePMDVdxGlUmK4diZBgh33xrwF/qZd7Nef6TtuKMTmUKQS1FjLF/BssFqGKz+cboM7a2todXUNVhIcFFFwOE8yU1KKmX85TAIJFHMu/abVXWWZCMtj8P5iI8k44KqNXGCkUlfT3o6l5VpLCAuL9HdQjuArU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721135515; c=relaxed/simple;
+	bh=cPc4j6BABDYJ/W6zKaWj0Rolwwm2eKrwc4PDfe+uBmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GtFR9O9r8yt6SaE3xAaMQYQk3MKR2wQSwYdZtTpeCdmpT/0EHTyLLZI20mfxpp4Cez7SvIRJNij7CQdkX7FrUxksCRS21usDYn/ODRLZYAM2GW67HJ7uHhOKoeJNuKXeD72rZPkj+aaTgcX9VO/U8ml12tqZSD8NH1M4QULj+Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iBnq9x+V; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1721133344;
-	bh=9JHkMz595q6kSIHJ0hWACE35JuRTzH2tICZiUsMPrhk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iBnq9x+Vpham/3pB0VJw+Z8VW/sXJ44cLJoreUZBeCcPmliewhPaqugNNu8RZB4OL
-	 H44m0jm5LJW5nBP7IzHZ1zCrKaQilV7WUZLTC02Pk4/KiWYNye/wR3bgwVYzx17Plw
-	 TsMojOwioUDktJICX17w3RjTQeXhUL6+tGVAjHvx3zo8p6rPZWDGlA8KU0hUoMvpeu
-	 BM377anmMtVV8nIVytcI53p4kkmuZm9dIZqkxlYb906qKJ7Q4YquYflZzeHxoRmjsv
-	 X3nQZlqyVHr73aiVTBt47IIX4/s/JoHg5557Qx9nESWY4qEsah5CV6NtJOpuh3Ffgk
-	 QvmpLk+voUeEw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	 Content-Type:Content-Disposition:In-Reply-To; b=ChBNPgt/IcOpEItqD+1WQl2kzD0SKziLT9V6mwb9wpQOdVqFHKCUlZFBLvswMrAnZGlN2/i0xDxz9w8vMTcKZQ64B6qVMrtI4TKKGLyhpjQIbH/FXVrPm2bJZLHdGbT1jjmZmwUztA8kgHylT+Ve62DmpjrfIjbVUxxOhXSV8iY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=DoyPtpSQ; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4WNfbn4PhXzyNf;
+	Tue, 16 Jul 2024 16:11:49 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1721135510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H9SEfO+a5+4l63BXze6jT0f1LIaTtg2S/4uHs2LbxdU=;
+	b=DoyPtpSQ4RxEiC60se5L8ah7YmdE8G/63sRJX4Vz//pcvNd1XS89ZJjER0lMygOVurwDQi
+	5wmMAsbz568h3sy4/duCm7Zsy4gLUvrsl0AXvugU++CxJFchpdrj4pK9vNi9aAWhb3II0z
+	04eWW8IJ6UATTMSZwX+G+PLwWjzF/e8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1721135510;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H9SEfO+a5+4l63BXze6jT0f1LIaTtg2S/4uHs2LbxdU=;
+	b=FJRpMktaUbjpOaizeJcCs0U6yYApI0+zg14XkfA1MAc/EBgLyZWIajNfcCaFVWu1yr0081
+	S+WXrz9foY8MXeLhN0qtMPS4KrUWKF0eujuArIbuVb4P00Xz8nP1gcX35KsfWc/jSiFMNH
+	jXBVp7nzOiwbwpD7vtv1ec6ktAaUKCY=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1721135510; a=rsa-sha256; cv=none;
+	b=Kq6ddgFGvCaDd/lM/bSxg4dCTK0HNAd1BiDyj0E4TzJQ4g0KCYz93ardOPlwL31YifSoVl
+	Sk5vYNWV93GuTPZiZ5qm+z7/l+wfFenTv/4a2UnZxnfd5S27MC6QNfM740IECGTycxt5xW
+	RALh+Cd+/i8Vv6970oP19ehgrcb83oY=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4DBD73780EC6;
-	Tue, 16 Jul 2024 12:35:44 +0000 (UTC)
-Date: Tue, 16 Jul 2024 14:35:43 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DFCCB634C93;
+	Tue, 16 Jul 2024 16:11:45 +0300 (EEST)
+Date: Tue, 16 Jul 2024 13:11:45 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Hans Verkuil <hverkuil@xs4all.nl>
 Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCHv2] Documentation: media: add missing V4L2_BUF_CAP_ flags
-Message-ID: <20240716123543.rwfg5u4zexa6sigk@basti-XPS-13-9310>
-References: <47829e6f-4749-4259-abd3-6cb5b5713006@xs4all.nl>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [ANN] Request for Topics and registration for a Media Summit
+ September 16th
+Message-ID: <ZpZxkehjSa51Xbp3@valkosipuli.retiisi.eu>
+References: <ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl>
+ <Zn6lrdkjy7B1Y0YU@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <47829e6f-4749-4259-abd3-6cb5b5713006@xs4all.nl>
+In-Reply-To: <Zn6lrdkjy7B1Y0YU@valkosipuli.retiisi.eu>
 
-Hey Hans,
+Hi Hans,
 
-On 16.07.2024 14:28, Hans Verkuil wrote:
->The documentation for V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS and
->V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS was missing. Add this.
->
->Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+On Fri, Jun 28, 2024 at 11:59:42AM +0000, Sakari Ailus wrote:
+> I'd be happy to join, either in person (likely) or remotely otherwise. I'll
+> let you know once I have more information.
 
-LGTM :)
+I'll be attending in person.
 
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-
-Regards,
-Sebastian
-
->---
->Changes since v1:
->- Report what the maximum is if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS is not set
->---
-> Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst | 7 +++++++
-> 1 file changed, 7 insertions(+)
->
->diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->index bbc22dd76032..1df3ce1fe93e 100644
->--- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->+++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
->@@ -166,6 +166,13 @@ aborting or finishing any DMA in progress, an implicit
->         :ref:`V4L2_BUF_FLAG_NO_CACHE_INVALIDATE <V4L2-BUF-FLAG-NO-CACHE-INVALIDATE>`,
->         :ref:`V4L2_BUF_FLAG_NO_CACHE_CLEAN <V4L2-BUF-FLAG-NO-CACHE-CLEAN>` and
->         :ref:`V4L2_MEMORY_FLAG_NON_COHERENT <V4L2-MEMORY-FLAG-NON-COHERENT>`.
->+    * - ``V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS``
->+      - 0x00000080
->+      - If set, then the ``max_num_buffers`` field in ``struct v4l2_create_buffers``
->+        is valid. If not set, then the maximum is ``VIDEO_MAX_FRAME`` buffers.
->+    * - ``V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS``
->+      - 0x00000100
->+      - If set, then ``VIDIOC_REMOVE_BUFS`` is supported.
->
-> .. raw:: latex
->
->-- 
->2.43.0
->
+-- 
+Sakari Ailus
 
