@@ -1,127 +1,121 @@
-Return-Path: <linux-media+bounces-15056-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15057-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21DAD932780
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 15:30:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFB693284A
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 16:25:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFE08284DAE
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 13:30:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 24C4D1F233AA
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jul 2024 14:25:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A2919AD89;
-	Tue, 16 Jul 2024 13:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D7219D06A;
+	Tue, 16 Jul 2024 14:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UnYxXSv1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ITeDSib6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D7D19AD4F
-	for <linux-media@vger.kernel.org>; Tue, 16 Jul 2024 13:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF9619CD01;
+	Tue, 16 Jul 2024 14:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721136602; cv=none; b=sHpttMNvmC/yG3NL0KEV3DmpABMxVjoseP7x/a3xNgQYEg5xBcL3VHQueuQao7r76yWGu4+RFEzOn2fHzbUBhS2AhxBpf//CSqlyIbwanGIDtIZYbbvqE6xeGD94v5HnNbc8NenAX+xr6dQdheyy+cYVR4EdhqXqq0lHrBGLcGA=
+	t=1721139921; cv=none; b=UuLrPriGH7nTo4cFcnu5XKeDwV7hjYbhqHQcGID8y5DbReDCn5W1UEUDASw+pm/CBUDxoYDKOFLMCetvpgm5/dzCIxe4WJKUy41DUeW4lklb844pyPdRXI3yG+zgmfZPN/GdyEg9v2AORj9y3fDIOJcKlBUCd/FvvyEccx3+lxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721136602; c=relaxed/simple;
-	bh=8HYNgawfLv03Fo16wDlQSi8akNrj5qYOfYyy6GcDQyE=;
+	s=arc-20240116; t=1721139921; c=relaxed/simple;
+	bh=5Cs5/yuJS7C0LrLUUT7x3xOTTywKwe30zJ3Ar2z1pAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q9lYfmTiREUDd9fdpxIh9StjjTDvrnYTZAl30UvyQXi+rUuUCwbUJw8t6QS8b0Iv65b6Ng4xKH4mCrfupWfH1UUTYZb8a9bOr8xn51J9Ib7wgSHLhWXL+bK2cj0Ax3/dTWA116mEkDC9qUCElywGZ9sfXGLKchQbi0m1lTEeWdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UnYxXSv1; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5ce74defe42so1432842eaf.0
-        for <linux-media@vger.kernel.org>; Tue, 16 Jul 2024 06:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721136600; x=1721741400; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=X6kPITFPoONsrONfKI8fOyMFNRW5N14Zi9RiqD3y1RQ=;
-        b=UnYxXSv1PHAEo96a+sPND/WbF0IrM2ppdyw85OnXyQin10b6JUP/bjOZiXrUctAAU5
-         /0I7tE0wbXCDeq5IYgVIfEm+ePxDGQ9z+zTpdVu5vBTiC4bBXUau551xhatWbsdnRe79
-         3yjGNO20Th8ZckhbwvXT5SnvJ/VKQrl+OXG4QO7qH6xtXXhF4Xq0QaZ+QJZbwy3LPfbQ
-         VPt5NxwjWElB6eaHGdibulqF52Nc7UlgWHWSPp25f7xla/maRWAPApsw8dYQMnGOyB7I
-         +08Ue2M7YszIo6KsSd6ovVgVh1orsW9maxKkxmhy7cMhTUP1d+Cr4YDI0zzSM5wY9BAl
-         LVFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721136600; x=1721741400;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X6kPITFPoONsrONfKI8fOyMFNRW5N14Zi9RiqD3y1RQ=;
-        b=vPIanVkAQGlN2WatyY4gn+3ymGyeYDTzW9DNf5zbw1SoZT+5832WSlBJvySW7YvvGu
-         95oOuP1O1/iSb2kzJHgJoI5ZH4hWIdp5Y1paeA21jAxkWvPNCIndoNFKfazCNf9GygEt
-         Xrqj0l8CTv7IbkFnCsNjfL0VCSHxYOr0s5baP0dBF2mu8rh+R4WMwhxXXra3lICbiAXo
-         zYT+K7T/UozjQDz25ewfnUf9d3UPdUVnvMhwbqFPNGgOdD/x0QQN7BSpISwhmCWFLvHY
-         OGPEI8oVO6YBs3PFKVcJmYxfQ25uaNTbwdjUMbIpjty3Kpdl25Evhf0Vbc+CbSgHl3WI
-         xn7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX0dzQRfDtBerCN7RGevyYfmi7epU0xqwEizNQSgsX8/aAZfPKJVmTrkgNCJJiBl1EQdoqruzZOjAkztoDr/O9CFVk6a/xW83x7NHw=
-X-Gm-Message-State: AOJu0YxpXN5hR8MQiN5G03SgsJWSUX7uLPqwtQS56pzxE+1coHMlPI4O
-	RpIcWJSbxp4ZTqvUUKUmoF1a3OFCRtqFxH+ClzsEf3RFNssnLgXfL3O+ICY6GxA=
-X-Google-Smtp-Source: AGHT+IHAJzKTzIVB/fjO3bMu8ucV/36Iax5msM+XxaRxcJRhKHCsERhBvnA0iypsMo+N7w6fX136KA==
-X-Received: by 2002:a05:6870:214:b0:254:7f9f:3f21 with SMTP id 586e51a60fabf-260bddd8206mr1759131fac.27.1721136599907;
-        Tue, 16 Jul 2024 06:29:59 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:b5d2:9b28:de1e:aebb])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-26075137228sm1319564fac.22.2024.07.16.06.29.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jul 2024 06:29:59 -0700 (PDT)
-Date: Tue, 16 Jul 2024 08:29:57 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: pispbe: Protect against left-shift wrap in
- V4L2_COLORSPACE_MASK()
-Message-ID: <f6696dbd-0b1f-45df-823f-bc738d95ff48@suswa.mountain>
-References: <20240715102425.1244918-1-naush@raspberrypi.com>
- <t4zv56rnrprztgyjyjx3k3lzaitddky3c22bqslykq3qvxi7gi@jaafmm5uw6rs>
- <CAEmqJPrUbK-gpHfJG84iBeA_9WOJYLDoa4JaGjLvZYoq-nUgdg@mail.gmail.com>
- <74hch6w64p7yzn4wustd3btn7dglxxbuge3r6bapb6chbbddeu@vljc2qopn5kj>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XOZSjPv/TxkdEOt2NH7fS2I9jo/jbeMm5g5Evnjclbl+XHl9GzE9y8rbNlauq8lFaHw3RnMS7bMq1rcBV7Z5h1UdcHgrsdCav+5hVH+or/LrBp8Zas7HBZon9IvKV75q3v/tKAnOvHLQYIDwF1RY2KL7wcTjcb5bT0o5hl5OpNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ITeDSib6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:72c3:346:a663:c82d])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6A561083;
+	Tue, 16 Jul 2024 16:24:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1721139878;
+	bh=5Cs5/yuJS7C0LrLUUT7x3xOTTywKwe30zJ3Ar2z1pAI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ITeDSib61A2qyPWfdzpjJ95YKcGymC0431m931T25a959Xj9YNxsG/lxkx+A5E0PQ
+	 ec+o903d8HfEim32WY+cEczT3olZlGV3gQnm2O6LH+6+DNSD2DZdxpfFydv9OiVceL
+	 EMBQhUa6Aj6V6Zt7h+hQxeWvr1xkCDb7c49BB9wo=
+Date: Tue, 16 Jul 2024 16:25:12 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Mingjia Zhang <mingjia.zhang@mediatek.com>, Jack Zhu <jack.zhu@starfivetech.com>, 
+	Keith Zhao <keith.zhao@starfivetech.com>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0ggdjUgMDIvMTRdIG1lZGlhOiBEb2N1?=
+ =?utf-8?Q?mentation=3A?= Add description for StarFive ISP metadata formats
+Message-ID: <v7eqp5opis3q327xgjvda37zrba32jyyfo2ny6u6i2ixq3ks2n@bp725fbn6gka>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-3-changhuang.liang@starfivetech.com>
+ <dncfjg7e7a2i6xin7kuwnxifcjpdjxcwkfcudxnqczi4lhwac7@u7jjunr7zqc6>
+ <ZQ0PR01MB1302CB1DB67D3A36022B94B5F2A22@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <74hch6w64p7yzn4wustd3btn7dglxxbuge3r6bapb6chbbddeu@vljc2qopn5kj>
+In-Reply-To: <ZQ0PR01MB1302CB1DB67D3A36022B94B5F2A22@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 
-On Tue, Jul 16, 2024 at 10:48:20AM +0200, Jacopo Mondi wrote:
-> > I did consider this, but did not like the undesired behavior it would
-> > introduce.  With your suggested change above, we now switch the color
-> > space to an unsupported value (V4L2_COLORSPACE_DCI_P3, assuming we
-> > shift by V4L2_COLORSPACE_LAST - 1) if the user passed an invalid
-> > value.  Of course, this does subsequently get fixed when used in
-> > pispbe_try_format(), but not for the usage in pisp_be_formats.h.  In
-> > my original change, we revert to the default for the requested format
-> > instead.  Although, perhaps my test should be if
-> > (!v4l2_is_colorspace_valid(f->fmt.pix_mp.colorspace) ... instead.
-> 
-> Keep in mind the core 'sanitizes' the colorspace for you (see the
-> usage of v4l_sanitize_colorspace() in
-> drivers/media/v4l2-core/v4l2-ioctl.c) so a fix is need only to silence
-> smatch not to actually address any run-time issue.
-> 
+Hi Changhuang
 
-Ah.  That's true.  Let's just ignore this warning in that case...
+On Tue, Jul 16, 2024 at 12:31:31PM GMT, Changhuang Liang wrote:
+> Hi, Jacopo
+>
+> >
+> > Hi Changhuang
+> >
+> > On Tue, Jul 09, 2024 at 01:38:12AM GMT, Changhuang Liang wrote:
+> > > Add description for V4L2_META_FMT_STF_ISP_PARAMS and
+> > > V4L2_META_FMT_STF_ISP_STAT_3A meta data formats.
+> > >
+> > > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> >
+> > I get this warnings when compiling documentation
+> >
+>
+> Can you share the steps about compiling documentation?
+>
 
-Smatch would have an easier time parsing these if we passed p instead of
-arg to return ops->vidioc_try_fmt_vid_cap_mplane(file, fh, arg) in
-v4l_try_fmt().
+From `make help`
 
-	struct v4l2_format *p = arg;
+-------------------------------------------------------------------------------
+Documentation targets:
+ Linux kernel internal documentation in different formats from ReST:
+  htmldocs        - HTML
+  texinfodocs     - Texinfo
+  infodocs        - Info
+  latexdocs       - LaTeX
+  pdfdocs         - PDF
+  epubdocs        - EPUB
+  xmldocs         - XML
+  linkcheckdocs   - check for broken external links
+                    (will connect to external hosts)
+  refcheckdocs    - check for references to non-existing files under
+                    Documentation
+  cleandocs       - clean all generated files
 
-	v4l_sanitize_format(p);
+  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2
+  valid values for SPHINXDIRS are: PCI RCU accel accounting admin-guide arch block bpf cdrom core-api cpu-freq crypto dev-tools devicetree doc-guide driver-api fault-injection fb filesystems firmware-guide fpga gpu hid hwmon i2c iio infiniband input isdn kbuild kernel-hacking leds livepatch locking maintainer mhi misc-devices mm netlabel networking pcmcia peci power powerpc process riscv rust scheduler scsi security sound spi staging target tee timers tools trace translations usb userspace-api virt w1 watchdog wmi
+-------------------------------------------------------------------------------
 
-	return ops->vidioc_try_fmt_vid_cap_mplane(file, fh, arg);
+To compile, in example, the userspace documentation in html:
 
-I can just filter out that call to say that when v4l_try_fmt() calls
-ops->vidioc_try_fmt_vid_cap_mplane() "arg" variable is trusted data.
+`make $your-usual-args-here SPHINXDIRS="userspace-api" htmldocs`
 
-regards,
-dan carpenter
 
+> Regards,
+> Changhuang
 
