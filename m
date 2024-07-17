@@ -1,104 +1,109 @@
-Return-Path: <linux-media+bounces-15066-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15067-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CCC933821
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2024 09:41:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A570933830
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2024 09:46:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 35EF11C22603
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2024 07:41:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E834B1F22311
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jul 2024 07:46:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EC911BF53;
-	Wed, 17 Jul 2024 07:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41AAD1CAB1;
+	Wed, 17 Jul 2024 07:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EgAdG3v4"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="xRM83pVb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717EA156E4
-	for <linux-media@vger.kernel.org>; Wed, 17 Jul 2024 07:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743AC1BDD0
+	for <linux-media@vger.kernel.org>; Wed, 17 Jul 2024 07:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721202055; cv=none; b=b7kqHA9UEimebd9aZpRXiczVEdUfMYSUb8V434GeuldhBvTFtik/xStKC5tlEbO5vZ6YEOSITQmcgqnVAaquXPZvyjPA9iZfoFGlUiIIX0RAEnA7Z7eZy3ttsPnKZpBVp5v/wUvPlGvPTgUGkXbPJg+nRwiaYV7jp/CXAVPQqT8=
+	t=1721202382; cv=none; b=otKsa0zjusBkBad4I36bNx6tRfT8B/mG4+qkDlw38nqcScBQeebnZ0vKXfi7VEUP+2jB4WcWgP/QxzQPf8cs6hEf9L80Sw9fhJGSsil5+4TvIfe8kaTpCTj94FhGXAtZvwg1P9QFrXZ2a2giVnxOdt3jLUgYdKQVZSQp2eXG7yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721202055; c=relaxed/simple;
-	bh=STrcyBot0ToOTTEdCawvquzUA6pTHf+wkKpGd/rPzoY=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=dQ3mFbllj+BTlMIxrX/W5g0kT/xk6TSk0tvzc3kmII38AT8kDr75JfmWDh0Y/zo+qZvBl16j4OCaOWTyQJVPlbvyFBvrBo//zWI69Ae8EC9aox2sTxeyW6pevA+GWhvzf4lfek7P/P7F2cGmnjZoF7K801QnRWlocEHfhN5ZaFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EgAdG3v4; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721202053; x=1752738053;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=STrcyBot0ToOTTEdCawvquzUA6pTHf+wkKpGd/rPzoY=;
-  b=EgAdG3v40AUD+miHWmvTSmT9m5K5VvlO3PFA7OJfhWAmknZAX1dlITYx
-   pbvCiFABD4n510ZD1I8qbmWubT0t6pu3HPhygNqMzk4KmZvCh/OlvKSd3
-   eCmY3k4M0xBbY2ipL48lUNk7NQMgNvMjQud8nLdvOVwApgsR/LHsVHb9I
-   MYZKU1ZPFvJfTSGNhxi7qU2LdypoTzCgXO04fD/8TpKmUShu4rZI/vnHG
-   lnqFayHRxV1ZnyU0kQnBwpkmV3WXeUBJAAxT7XiUSazzjziVrY7DrHXlW
-   ItEvdsWqNtRHh+FffCM2Orhwu4nZz4Vt/buwHnc4x7zrwocbzKZ0bFtyh
-   A==;
-X-CSE-ConnectionGUID: dNFkyPS1Rs6m5RdJwHzHXw==
-X-CSE-MsgGUID: p0OKJkGYT3qX9B+bR82JPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="18641091"
-X-IronPort-AV: E=Sophos;i="6.09,214,1716274800"; 
-   d="scan'208";a="18641091"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 00:40:53 -0700
-X-CSE-ConnectionGUID: LQlWsfsRQfy9SRsWGjFgqA==
-X-CSE-MsgGUID: lIzc5MEnSgma8fxvoDBSaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,214,1716274800"; 
-   d="scan'208";a="50172097"
-Received: from icg-hal3.bj.intel.com ([172.16.127.200])
-  by orviesa010.jf.intel.com with ESMTP; 17 Jul 2024 00:40:52 -0700
-From: bingbu.cao@intel.com
-To: linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	hverkuil-cisco@xs4all.nl
-Subject: [PATCH] media: intel/ipu6: select AUXILIARY_BUS in Kconfig
-Date: Wed, 17 Jul 2024 15:40:50 +0800
-Message-Id: <20240717074050.4067898-1-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1721202382; c=relaxed/simple;
+	bh=+swvF9q1oda0Xrk8V5wZsSMehXwnD2cdhmIsHSNVJA8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c1n1Jjg9Ru1fNAIeGH5b+VeKYRT/x5R+ihjP9MONap0G4OegC9U+6ZZ/FUF4m5tAwgtEQh7XClwlevichSvLQQCtD20ePrdzd4Je33MaaiWa5zonEv4ycRh09kzKaumJ4U7llhg+gp1e8FTzIxKEd7qvqzs5Cx/wouHxefnulm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=xRM83pVb; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1721202372;
+	bh=+swvF9q1oda0Xrk8V5wZsSMehXwnD2cdhmIsHSNVJA8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=xRM83pVbCPvi2tVwx/x4yQW0zLqbwnXIPhdrFt1izeA4DM57MN3sRf3VMtHOTb+Pg
+	 os04v8AF2sTXfluElmTXVezp1p3fT6BiFyIf1Zaij/k242cERrdDnfVgCeXtTLWy0d
+	 R/+uDJWItsAipwAh9tEmdh98IEY/BJCm7wXcfffw+AwnnTFxl6JdrdJtCvURCfXqjB
+	 odv5hWfWwvGfh9NjBnq/m4X0TOcRGCmt8eXimBMR9FXQtjd9s+nQux2urxJKKSgBxl
+	 14OI96/rJlNOu+pI6TqwET5jP3kBEOXPN5D/XrWyWZnH1TRugyo0pD8OpmCimeAymL
+	 f1dEVD+QsZdGA==
+Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 99E7837806BF;
+	Wed, 17 Jul 2024 07:46:12 +0000 (UTC)
+Message-ID: <6e0d1086-e098-48c2-bb1b-65e7d1b5d614@collabora.com>
+Date: Wed, 17 Jul 2024 09:46:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2] Documentation: media: add missing V4L2_BUF_CAP_ flags
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+References: <47829e6f-4749-4259-abd3-6cb5b5713006@xs4all.nl>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <47829e6f-4749-4259-abd3-6cb5b5713006@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Bingbu Cao <bingbu.cao@intel.com>
 
-Intel IPU6 PCI driver need register its devices on auxiliary
-bus, so it needs to select the AUXILIARY_BUS in Kconfig.
+Le 16/07/2024 à 14:28, Hans Verkuil a écrit :
+> The documentation for V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS and
+> V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS was missing. Add this.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202407161833.7BEFXejx-lkp@intel.com/
-Fixes: c70281cc83d6 ("media: intel/ipu6: add Kconfig and Makefile")
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/media/pci/intel/ipu6/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-diff --git a/drivers/media/pci/intel/ipu6/Kconfig b/drivers/media/pci/intel/ipu6/Kconfig
-index 154343080c82..70f4c8b772a3 100644
---- a/drivers/media/pci/intel/ipu6/Kconfig
-+++ b/drivers/media/pci/intel/ipu6/Kconfig
-@@ -3,6 +3,7 @@ config VIDEO_INTEL_IPU6
- 	depends on ACPI || COMPILE_TEST
- 	depends on VIDEO_DEV
- 	depends on X86 && X86_64 && HAS_DMA
-+	select AUXILIARY_BUS
- 	select DMA_OPS
- 	select IOMMU_IOVA
- 	select VIDEO_V4L2_SUBDEV_API
--- 
-2.34.1
+Thanks for the patch.
+Regards,
+Benjamin
 
+>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> Changes since v1:
+> - Report what the maximum is if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS is not set
+> ---
+>   Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> index bbc22dd76032..1df3ce1fe93e 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> @@ -166,6 +166,13 @@ aborting or finishing any DMA in progress, an implicit
+>           :ref:`V4L2_BUF_FLAG_NO_CACHE_INVALIDATE <V4L2-BUF-FLAG-NO-CACHE-INVALIDATE>`,
+>           :ref:`V4L2_BUF_FLAG_NO_CACHE_CLEAN <V4L2-BUF-FLAG-NO-CACHE-CLEAN>` and
+>           :ref:`V4L2_MEMORY_FLAG_NON_COHERENT <V4L2-MEMORY-FLAG-NON-COHERENT>`.
+> +    * - ``V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS``
+> +      - 0x00000080
+> +      - If set, then the ``max_num_buffers`` field in ``struct v4l2_create_buffers``
+> +        is valid. If not set, then the maximum is ``VIDEO_MAX_FRAME`` buffers.
+> +    * - ``V4L2_BUF_CAP_SUPPORTS_REMOVE_BUFS``
+> +      - 0x00000100
+> +      - If set, then ``VIDIOC_REMOVE_BUFS`` is supported.
+>
+>   .. raw:: latex
+>
 
