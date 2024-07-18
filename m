@@ -1,220 +1,329 @@
-Return-Path: <linux-media+bounces-15117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5543934EAC
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 16:02:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D4C934F0F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 16:25:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20342B22DD5
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 14:02:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 47B4C1F21964
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 14:25:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1205E13F428;
-	Thu, 18 Jul 2024 14:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4335B1420DF;
+	Thu, 18 Jul 2024 14:24:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="b/x5RGLM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a2pzK2hw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02D72AEE3
-	for <linux-media@vger.kernel.org>; Thu, 18 Jul 2024 14:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7380513E8AE;
+	Thu, 18 Jul 2024 14:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721311347; cv=none; b=D7Bz66xRr0paEWrqgeMi3eGJ0iKNNYsLz7RTkx4dNoIo/gZtQ6kDN/GF+QScBzmk0lX4q5mkmv8fJalLQdGvlrhvrlTT1U2kSODk8sglWWiwwCuwfxBVqX62igyUX9UNqhotL81G3kojdhS0kudCjZC57kT4eVK8XScVNEXGBAQ=
+	t=1721312692; cv=none; b=E4qt1gdtziVm0jR2etL/hermmUCabCxgdWYjj17m+A3Q+Y7kLHyuOQXc4syY/inWBK/RC4HkSaMGgU4YVfO7VWdNaEMidiCI8WVts4jD629CugodvB6+S5T4b5RqdCuWl2Dakh7JLrRX5Z7etlQiqt21yVdUuVOuCGjtEp1z7Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721311347; c=relaxed/simple;
-	bh=uUBxsP5OwqRySuis+qvxmdP/RnC8PnPtj0vuQbpcC9s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JWR2Q507YO8zqyEWwE+JrqZk/gF0S0NtbpfY/CRYYIClYCn68SGHv1CLDaXil8VmNtUdjXR4tt8C3ndbB7HFOXWxp/6P1H1oGCSKxO1Y9qthU4KNDYchUDr6BfiXC+7fvfInzIbb3EHvkZE3ZbMMubyQz5GmQreyTY/1djGNCVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=b/x5RGLM; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-79f08b01ba6so27245385a.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jul 2024 07:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1721311345; x=1721916145; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VvKvPRO5NYjHhe01Oz3SoCj7a9pXNENI5vwSAmXcMLA=;
-        b=b/x5RGLM1xAK3l+KeLI4Moh9AICJCgmBy9PGlX3bzp7t/iQE1OMD6dHqobVBVizr7v
-         Tk45wuU2NP8nbR35xJL9GIflr1BBISAnvT8Fztz7NwK04UVMiIhYDOtWYzEIWbeagScw
-         jp78HRoTHkf5IctfimyfxglXOxUdwvNGuvdHSoShutfuAPbZgICPTlxCScwaakD0Fecd
-         2iJCCPGB7sP5ODgu9FEoubfrz4f2eEjiUxOVDhVLpvrunPu3ePjeMaAzqY4orSfPcOKD
-         D0fV7ZSfHSRiStCEB+H2qFKGPnlnhYApnMP8qxOJt0/4PeNPC/Un6QrpaEBYpsMjUQ3O
-         afBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721311345; x=1721916145;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VvKvPRO5NYjHhe01Oz3SoCj7a9pXNENI5vwSAmXcMLA=;
-        b=JKtR+1H+M8m9fQ+K9aVq8a8MntYu9mXwLWPN1kBB/RuM+TKKzvEHvgwbKd2oFHPrpc
-         d1zZ6rNQ5WRBTyn0roqw5366Q4uXaxycN8eatbEgg36XNlh+DvUbY1Xkme8F/IZHaPr8
-         hEMSq4QNNJ60dxh5lDhrcyJzAquupWnf4PxHCibsMrR3D5rI5zZu0uUHeev288pO6j4E
-         68Owjmp45beyDJnNpoJSlZKPJSff4aw3LvCcc4qDg+XtttTqOMr2q0EUMteViTTP3Rcj
-         78T6dnHWsoZIci3OKcsg7TdAsul/RDS4TezQw9mOvOLrs4/YD0vT5gHRrXM82/bp1FdQ
-         3DSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUni+M3VG9LlA6ISlEhR91eC2rvQOzSR1TknGJuT1EJB6XVzc7HrSCNGM/d2iT2z1voXCKe5igzSKajQINCwe4k2ldk9vIWjSaX4aQ=
-X-Gm-Message-State: AOJu0YyVFlkhT8MV9j95EwT3HfIMtWEbBFpczhWpWKSGk0MT1Q0XZaIT
-	isgWMiSMbYLQYJGTd59VF72GrvmIK4I9SiQ2HNwSB71IAnmSlkxLRIxgSB4HQK4=
-X-Google-Smtp-Source: AGHT+IF+MaGz30me8lQjxfHV5NL4PJcnPokd1cpxOn+VZpZUYaTF6SRxFRuCJ5GTPVt1tJdV24Cb+Q==
-X-Received: by 2002:a05:620a:2403:b0:79f:4c8:d873 with SMTP id af79cd13be357-7a193b42df6mr137027985a.28.1721311344709;
-        Thu, 18 Jul 2024 07:02:24 -0700 (PDT)
-Received: from nicolas-tpx395.lan ([2606:6d00:15:6720::7a9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a1938f73ddsm27753485a.63.2024.07.18.07.02.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 07:02:24 -0700 (PDT)
-Message-ID: <b454d93d607047c63663b3f003b3d3c23f07bac7.camel@ndufresne.ca>
-Subject: Re: [PATCH v4 1/2] media: videodev2: Add flags to unconditionnaly
- enumerate pixels formats
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Jacopo Mondi
-	 <jacopo.mondi@ideasonboard.com>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- hverkuil-cisco@xs4all.nl,  linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-Date: Thu, 18 Jul 2024 10:02:23 -0400
-In-Reply-To: <7113029e2e192d43523a1ea5dae041fb53ae5948.camel@ndufresne.ca>
-References: <20240717131430.159727-1-benjamin.gaignard@collabora.com>
-	 <20240717131430.159727-2-benjamin.gaignard@collabora.com>
-	 <2kbxr3hkjbcnaqescxmlcerziixg72icqpug6wa25eeggy2pnj@vqmxe4ojcwml>
-	 <dfc292f8-0014-4bf4-9429-31f729a176cd@collabora.com>
-	 <ok2a4ubzka6rhzyj2c5op73ij7pw35g6e75whc2jjget62fatx@zka2ewyt3kfv>
-	 <c8358d79bd51a9bfa5116b33ae5e7766b95d344d.camel@ndufresne.ca>
-	 <1faa7098-b108-480e-ae4b-ed25e0020e51@collabora.com>
-	 <7113029e2e192d43523a1ea5dae041fb53ae5948.camel@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
+	s=arc-20240116; t=1721312692; c=relaxed/simple;
+	bh=O7FXaGBiWPqHzYeOnlM/8Rm+nQSt/ekJVBYqHT0mREk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T7gIzWLE4S/GaXClyq6O+2RRTONY6cLrWbitDuuq2K/3pf0D224dXW7lg5WEJZvtMZh+vFkwvG7ii/Pqis4xRqle8RB2PonWzFSpgN3af56j8o3wUrnLXksED1uxo1WuBsMeVJqxTqbNqlnRR1TBu/fyNZPo2dCUSRNKx+BlB2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a2pzK2hw; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-91-158-41.net.vodafone.it [5.91.158.41])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB22CC85;
+	Thu, 18 Jul 2024 16:24:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1721312643;
+	bh=O7FXaGBiWPqHzYeOnlM/8Rm+nQSt/ekJVBYqHT0mREk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a2pzK2hw1lawaibwPlDda1KMZQH3Dt5nXUKomWlaXzoJudKaSNNs+zX1Uu5TaE74a
+	 HD2aahemjnkgBAF+P4v73gfziA+zDIgq4GRoSwt7G0nA8PgOgPbcgcCjGneOsHUBWR
+	 eQj5/uQjpmcAJJfiVAOUyMZwZyHJetAsc/Falqtw=
+Date: Thu, 18 Jul 2024 16:24:37 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Jack Zhu <jack.zhu@starfivetech.com>, Keith Zhao <keith.zhao@starfivetech.com>, 
+	Jayshri Pawar <jpawar@cadence.com>, Jai Luthra <j-luthra@ti.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
+Message-ID: <rpbe5ebzu7e536qrruseffklmtvfkp5bbenjtx7enipm6y5gbr@wsjvomihwmv6>
+References: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
+ <20240718032834.53876-2-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
 
-Le jeudi 18 juillet 2024 =C3=A0 09:56 -0400, Nicolas Dufresne a =C3=A9crit=
-=C2=A0:
-> Hi,
->=20
-> Le jeudi 18 juillet 2024 =C3=A0 09:04 +0200, Benjamin Gaignard a =C3=A9cr=
-it=C2=A0:
-> > Le 17/07/2024 =C3=A0 19:50, Nicolas Dufresne a =C3=A9crit=C2=A0:
-> > >=20
->=20
-> [...]
->=20
-> > > > > > > @@ -1569,6 +1569,7 @@ static int v4l_enum_fmt(const struct v4=
-l2_ioctl_ops *ops,
-> > > > > > >    	int ret =3D check_fmt(file, p->type);
-> > > > > > >    	u32 mbus_code;
-> > > > > > >    	u32 cap_mask;
-> > > > > > > +	u32 flags;
-> > > > > > >=20
-> > > > > > >    	if (ret)
-> > > > > > >    		return ret;
-> > > > > > > @@ -1578,8 +1579,10 @@ static int v4l_enum_fmt(const struct v=
-4l2_ioctl_ops *ops,
-> > > > > > >    		p->mbus_code =3D 0;
-> > > > > > >=20
-> > > > > > >    	mbus_code =3D p->mbus_code;
-> > > > > > > +	flags =3D p->flags & V4L2_FMT_FLAG_ENUM_ALL_FORMATS;
-> > > > > > >    	memset_after(p, 0, type);
-> > > > > > >    	p->mbus_code =3D mbus_code;
-> > > > > > > +	p->flags =3D flags;
-> > > > > > Won't this set V4L2_FMT_FLAG_ENUM_ALL_FORMATS (if present) in t=
-he
-> > > > > > flags returned to userspace ? Shouldn't be drivers to set
-> > > > > > V4L2_FMT_FLAG_ALL_FORMATS instead ?
-> > > > > memset_after zeroed flags field so we need this to send V4L2_FMT_=
-FLAG_ENUM_ALL_FORMATS
-> > > > > flag to drivers. Return it to userspace is a side effect but I do=
-n't that is problem
-> > > > > since it set it anyway.
-> > > > >=20
-> > > > Ok, if the expectation is that the flag is preserved through the io=
-ctl
-> > > > call, this is fine with me
-> > > I might be missing something other similar features are explicitly ad=
-vertised by
-> > > drivers. This way, the generic layer can keep or clear the flag based=
- of if its
-> > > supported. The fact the flag persist the ioctl() or not endup having =
-a useful
-> > > semantic.
-> > >=20
-> > > Could we do the same?
-> >=20
-> > It is the only flag set by userspace when calling the ioctl(), all othe=
-rs
-> > are set by the drivers.
-> > I can clean it from the ioctl() structure after driver call but that wo=
-n't change anything.
->=20
-> This does not answer my question. In other similar feature, we have an
-> **internal** flag set by drivers to tell the framework that such feature =
-is
-> abled. Using that, the framework can keep or remove that flag based on if=
- its
-> supported or not. This way, userspace have a clue if the driver do have t=
-his
-> support or if the returned result (in that case) is just a subset matchin=
-g the
-> configuration. We don't seem to have done the same level of effort here.
+Hello Changhuang
 
-For the reference, you actually use that semantic in GStreamer implementati=
-on,
-but the kernel code seems broken.
+On Wed, Jul 17, 2024 at 08:28:30PM GMT, Changhuang Liang wrote:
+> Use runtime power management hooks to save power when CSI-RX is not in
+> use.
+>
 
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7078/di=
-ffs#eb90d5495df2f085f163996014c748a36f143f76_516_527
+The driver does not depend on PM afaict and the IP can be integrated in
+different SoCs and not all of them might select PM.
 
->=20
-> Nicolas
->=20
-> >=20
-> > >=20
-> > > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > >=20
-> > > > > > >    	switch (p->type) {
-> > > > > > >    	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> > > > > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/li=
-nux/videodev2.h
-> > > > > > > index fe6b67e83751..b6a5da79ba21 100644
-> > > > > > > --- a/include/uapi/linux/videodev2.h
-> > > > > > > +++ b/include/uapi/linux/videodev2.h
-> > > > > > > @@ -886,6 +886,8 @@ struct v4l2_fmtdesc {
-> > > > > > >    #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR=
-_ENC
-> > > > > > >    #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-> > > > > > >    #define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
-> > > > > > > +#define V4L2_FMT_FLAG_ENUM_ALL_FORMATS		0x0400
-> > > > > > > +#define V4L2_FMT_FLAG_ALL_FORMATS		0x0800
-> > > > > > >=20
-> > > > > > >    	/* Frame Size and frame rate enumeration */
-> > > > > > >    /*
-> > > > > > > --
-> > > > > > > 2.43.0
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > _______________________________________________
-> > > > > > Kernel mailing list -- kernel@mailman.collabora.com
-> > > > > > To unsubscribe send an email to kernel-leave@mailman.collabora.=
-com
-> > > > > > This list is managed by https://mailman.collabora.com
-> > >=20
-> > _______________________________________________
-> > Kernel mailing list -- kernel@mailman.collabora.com
-> > To unsubscribe send an email to kernel-leave@mailman.collabora.com
-> > This list is managed by https://mailman.collabora.com
->=20
-> _______________________________________________
-> Kernel mailing list -- kernel@mailman.collabora.com
-> To unsubscribe send an email to kernel-leave@mailman.collabora.com
-> This list is managed by https://mailman.collabora.com
+Either make it depend on PM in Kconfig or manually enable the device during
+probe (see the many examples of drivers manually enabling the device
+in probe() then calling pm_runtime_set_active(), pm_runtime_enable()
+and pm_request_idle()).
 
+Also, you might want to consider autosuspend delay. Autosuspend delay
+avoids power cycling the interface by delaying suspend by a certain
+amout of time, in case it resumed immediately.
+
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> ---
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 121 ++++++++++++-------
+>  1 file changed, 80 insertions(+), 41 deletions(-)
+>
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 6f7d27a48eff..981819adbb3a 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -211,11 +211,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	u32 reg;
+>  	int ret;
+>
+> -	ret = clk_prepare_enable(csi2rx->p_clk);
+> -	if (ret)
+> -		return ret;
+> -
+> -	reset_control_deassert(csi2rx->p_rst);
+>  	csi2rx_reset(csi2rx);
+>
+>  	reg = csi2rx->num_lanes << 8;
+> @@ -253,7 +248,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  		if (ret) {
+>  			dev_err(csi2rx->dev,
+>  				"Failed to configure external DPHY: %d\n", ret);
+> -			goto err_disable_pclk;
+> +			return ret;
+>  		}
+>  	}
+>
+> @@ -268,11 +263,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	 * hence the reference counting.
+>  	 */
+>  	for (i = 0; i < csi2rx->max_streams; i++) {
+> -		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+> -		if (ret)
+> -			goto err_disable_pixclk;
+> -
+> -		reset_control_deassert(csi2rx->pixel_rst[i]);
+>
+>  		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF,
+>  		       csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+> @@ -288,34 +278,18 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+>  	}
+>
+> -	ret = clk_prepare_enable(csi2rx->sys_clk);
+> -	if (ret)
+> -		goto err_disable_pixclk;
+> -
+> -	reset_control_deassert(csi2rx->sys_rst);
+>
+>  	ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
+>  	if (ret)
+> -		goto err_disable_sysclk;
+> -
+> -	clk_disable_unprepare(csi2rx->p_clk);
+> +		goto err_phy_power_off;
+>
+>  	return 0;
+>
+> -err_disable_sysclk:
+> -	clk_disable_unprepare(csi2rx->sys_clk);
+> -err_disable_pixclk:
+> -	for (; i > 0; i--) {
+> -		reset_control_assert(csi2rx->pixel_rst[i - 1]);
+> -		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+> -	}
+> -
+> +err_phy_power_off:
+>  	if (csi2rx->dphy) {
+>  		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+>  		phy_power_off(csi2rx->dphy);
+>  	}
+> -err_disable_pclk:
+> -	clk_disable_unprepare(csi2rx->p_clk);
+>
+>  	return ret;
+>  }
+> @@ -326,10 +300,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  	u32 val;
+>  	int ret;
+>
+> -	clk_prepare_enable(csi2rx->p_clk);
+> -	reset_control_assert(csi2rx->sys_rst);
+> -	clk_disable_unprepare(csi2rx->sys_clk);
+> -
+>  	for (i = 0; i < csi2rx->max_streams; i++) {
+>  		writel(CSI2RX_STREAM_CTRL_STOP,
+>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+> @@ -342,14 +312,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  		if (ret)
+>  			dev_warn(csi2rx->dev,
+>  				 "Failed to stop streaming on pad%u\n", i);
+> -
+> -		reset_control_assert(csi2rx->pixel_rst[i]);
+> -		clk_disable_unprepare(csi2rx->pixel_clk[i]);
+>  	}
+>
+> -	reset_control_assert(csi2rx->p_rst);
+> -	clk_disable_unprepare(csi2rx->p_clk);
+> -
+>  	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
+>  		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
+>
+> @@ -374,9 +338,15 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>  		 * enable the whole controller.
+>  		 */
+>  		if (!csi2rx->count) {
+> +			ret = pm_runtime_resume_and_get(csi2rx->dev);
+> +			if (ret < 0)
+> +				goto out;
+> +
+>  			ret = csi2rx_start(csi2rx);
+> -			if (ret)
+> +			if (ret) {
+> +				pm_runtime_put(csi2rx->dev);
+>  				goto out;
+> +			}
+>  		}
+>
+>  		csi2rx->count++;
+> @@ -386,8 +356,10 @@ static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>  		/*
+>  		 * Let the last user turn off the lights.
+>  		 */
+> -		if (!csi2rx->count)
+> +		if (!csi2rx->count) {
+>  			csi2rx_stop(csi2rx);
+> +			pm_runtime_put(csi2rx->dev);
+> +		}
+>  	}
+>
+>  out:
+> @@ -707,6 +679,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_cleanup;
+>
+> +	pm_runtime_enable(csi2rx->dev);
+>  	ret = v4l2_async_register_subdev(&csi2rx->subdev);
+>  	if (ret < 0)
+>  		goto err_free_state;
+> @@ -721,6 +694,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>
+>  err_free_state:
+>  	v4l2_subdev_cleanup(&csi2rx->subdev);
+> +	pm_runtime_disable(csi2rx->dev);
+>  err_cleanup:
+>  	v4l2_async_nf_unregister(&csi2rx->notifier);
+>  	v4l2_async_nf_cleanup(&csi2rx->notifier);
+> @@ -739,9 +713,73 @@ static void csi2rx_remove(struct platform_device *pdev)
+>  	v4l2_async_unregister_subdev(&csi2rx->subdev);
+>  	v4l2_subdev_cleanup(&csi2rx->subdev);
+>  	media_entity_cleanup(&csi2rx->subdev.entity);
+> +	pm_runtime_disable(csi2rx->dev);
+>  	kfree(csi2rx);
+>  }
+>
+> +static int csi2rx_runtime_suspend(struct device *dev)
+> +{
+> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +
+> +	reset_control_assert(csi2rx->sys_rst);
+> +	clk_disable_unprepare(csi2rx->sys_clk);
+> +
+> +	for (i = 0; i < csi2rx->max_streams; i++) {
+> +		reset_control_assert(csi2rx->pixel_rst[i]);
+> +		clk_disable_unprepare(csi2rx->pixel_clk[i]);
+> +	}
+> +
+> +	reset_control_assert(csi2rx->p_rst);
+> +	clk_disable_unprepare(csi2rx->p_clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int csi2rx_runtime_resume(struct device *dev)
+> +{
+> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(csi2rx->p_clk);
+> +	if (ret)
+> +		return ret;
+> +
+> +	reset_control_deassert(csi2rx->p_rst);
+> +
+> +	for (i = 0; i < csi2rx->max_streams; i++) {
+> +		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+> +		if (ret)
+> +			goto err_disable_pixclk;
+> +
+> +		reset_control_deassert(csi2rx->pixel_rst[i]);
+> +	}
+> +
+> +	ret = clk_prepare_enable(csi2rx->sys_clk);
+> +	if (ret)
+> +		goto err_disable_pixclk;
+> +
+> +	reset_control_deassert(csi2rx->sys_rst);
+> +
+> +	return ret;
+
+You can return 0 here
+
+Thanks
+   j
+
+> +
+> +err_disable_pixclk:
+> +	for (; i > 0; i--) {
+> +		reset_control_assert(csi2rx->pixel_rst[i - 1]);
+> +		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+> +	}
+> +
+> +	reset_control_assert(csi2rx->p_rst);
+> +	clk_disable_unprepare(csi2rx->p_clk);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct dev_pm_ops csi2rx_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(csi2rx_runtime_suspend, csi2rx_runtime_resume, NULL)
+> +};
+> +
+>  static const struct of_device_id csi2rx_of_table[] = {
+>  	{ .compatible = "starfive,jh7110-csi2rx" },
+>  	{ .compatible = "cdns,csi2rx" },
+> @@ -756,6 +794,7 @@ static struct platform_driver csi2rx_driver = {
+>  	.driver	= {
+>  		.name		= "cdns-csi2rx",
+>  		.of_match_table	= csi2rx_of_table,
+> +		.pm		= &csi2rx_pm_ops,
+>  	},
+>  };
+>  module_platform_driver(csi2rx_driver);
+> --
+> 2.25.1
+>
+>
 
