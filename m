@@ -1,179 +1,193 @@
-Return-Path: <linux-media+bounces-15120-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0365C934F48
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 16:43:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B18934F6B
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 16:53:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C9DAB23F84
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 14:43:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA0101F211CF
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 14:53:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC89C142E78;
-	Thu, 18 Jul 2024 14:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30D02142E7C;
+	Thu, 18 Jul 2024 14:53:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iPcPg/tQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6TB+mcM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E68F1428F3;
-	Thu, 18 Jul 2024 14:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D3D13D62E;
+	Thu, 18 Jul 2024 14:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721313813; cv=none; b=qMor+tep4cnvq6Xa8bhKdkzRSBjlBCennqi8vHT0pCz9WEPw3uT01HElpjtvgkjqg3TffkRA17WOQ6KnkITHEcac6K9EaLT/oL/Bq4iwFsZgF8aj7mm3ZSv5Ez+oMZ0aCv/F0BVXsU/DUlDnWXEI0EdfOqVOMc1wPwfXcoCIoUU=
+	t=1721314429; cv=none; b=oseQYZ0zp/wL0dbrlPze4pRUMljvmXFa4cNZGZ6PnNydys6w/GaWMV/rPzzoJd+IM5f3kEnkqYWIk2IgHWXOhW9SapKjTHwv1gpLr7wExVLTQymLWQg2htNTQvWEt4HCIonSMlui8th0/L2HH4xPIllrwmGiBG8h2ESHo9HQQ7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721313813; c=relaxed/simple;
-	bh=bIz6pGrabOkWqeOOLGp/7zatmKtlgXevjscXxYUc558=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DxKn2X1LUyQ96ALhm9S37pgIPSnca0q+rixNhrritROB3bMoeq/Wywo7Gfl/dWjRDBXXLYvwDhzaypjvNFVCHbq2wQYPGRKOVfRC8/s10KTy0bMv5zxfvczLqfo7luVLagaY6sEs8/0q5qCJJpNTLFpLHq5snqHf53b/QMM9IdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iPcPg/tQ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1721313809;
-	bh=bIz6pGrabOkWqeOOLGp/7zatmKtlgXevjscXxYUc558=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iPcPg/tQUnEWa7RbgKJmKryGWhd2xYuzpU21/acce0c88+cjY8RKrPCAuO11NlBEo
-	 W1vHlpMjI9iq6pnFn8NXNwUKdNtkl/qTLgcwMPnLLeQgGUxbnyUZOvZhlDiEQuJI9F
-	 IXV1YcFsCtbt7tOLg1yRpOe5x6DMbsMvj+9vv3zyJHInNnIX7mJCtld73T4IcFzF3p
-	 e82XYcLNmHCCkBw6iDapviPylpMP0eEpGXkZaHkyLFE6ZvGEfn28ZDtCgVTrATksDP
-	 X3ST4Cft+EXMN7qpq1ISt19JrbVWCQgdvLKGAENb66kP2WENk+AwVQZGjPh2FhskAB
-	 0/2CFDIuoULWA==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6A7C83780029;
-	Thu, 18 Jul 2024 14:43:29 +0000 (UTC)
-Message-ID: <069a9e2b-f0bc-46a7-aaec-f30157e9be2d@collabora.com>
-Date: Thu, 18 Jul 2024 16:43:28 +0200
+	s=arc-20240116; t=1721314429; c=relaxed/simple;
+	bh=x4Sq0r9Afmc9hWmlRXatcvm/sP1GaimK+RX0qgkI+QI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SrPo461nGrO0GI4VzBk1t/cUrOwD7Yvh4bXQCSh88B/U6pEFIk2XitYjsP975JHaVMa/8Q41W0MP8h18qZtQOVwe4gYlGq75n2UNI8o/Y75TwaOEzBTqrD1nX2lcbkGm0iSWpzoOxM7cOzcZPD6v3s6UxLZ+0bLzcKcRimLjDYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6TB+mcM; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721314427; x=1752850427;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x4Sq0r9Afmc9hWmlRXatcvm/sP1GaimK+RX0qgkI+QI=;
+  b=I6TB+mcMbbT/1nRWf4DOFwu9M02SjouL85/Pa9hmY3gz55mKR/7cK6Kl
+   xi/hPn+2E7nMKd/kNuDGEsSzdREnt/9L2yMAPtnVSpnSjCsm6OKP78QjN
+   OTbHl3D5l6CMcKN0Nrz7JnRThngROUwsmIfRNs33e/sliiqaorcKmsMzE
+   LRB6exkuNZ+EMlBVb5bAP813GVk43y0kxUogt1cb78eWBjAgL+fUqQCE4
+   DbDWIJHzxvl0LT5mPTV4zD7YefQtjq2D3GQ584bTHZgiKWgLbZ8DjfAc2
+   n1923IZ06PujJwHgBRJW3ou2Q002MCtYLrvIOKYwFcTPxxGxcGFRdVNSb
+   w==;
+X-CSE-ConnectionGUID: Dd0H9+eGS3OK4BlpXgp51A==
+X-CSE-MsgGUID: vb9baTAETEK0lh0vqBV+wQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="18502718"
+X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
+   d="scan'208";a="18502718"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 07:53:46 -0700
+X-CSE-ConnectionGUID: BP7QLhkNRx+DrVJnvJXtBg==
+X-CSE-MsgGUID: rlPuAbT6QVmWq1X6wwK41g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
+   d="scan'208";a="55086854"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 18 Jul 2024 07:53:42 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sUSVo-000hLz-1A;
+	Thu, 18 Jul 2024 14:53:40 +0000
+Date: Thu, 18 Jul 2024 22:53:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Jayshri Pawar <jpawar@cadence.com>, Jai Luthra <j-luthra@ti.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
+Message-ID: <202407182235.kxDoVX8T-lkp@intel.com>
+References: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] media: videodev2: Add flags to unconditionnaly
- enumerate pixels formats
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-References: <20240717131430.159727-1-benjamin.gaignard@collabora.com>
- <20240717131430.159727-2-benjamin.gaignard@collabora.com>
- <2kbxr3hkjbcnaqescxmlcerziixg72icqpug6wa25eeggy2pnj@vqmxe4ojcwml>
- <dfc292f8-0014-4bf4-9429-31f729a176cd@collabora.com>
- <ok2a4ubzka6rhzyj2c5op73ij7pw35g6e75whc2jjget62fatx@zka2ewyt3kfv>
- <c8358d79bd51a9bfa5116b33ae5e7766b95d344d.camel@ndufresne.ca>
- <1faa7098-b108-480e-ae4b-ed25e0020e51@collabora.com>
- <7113029e2e192d43523a1ea5dae041fb53ae5948.camel@ndufresne.ca>
- <b454d93d607047c63663b3f003b3d3c23f07bac7.camel@ndufresne.ca>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <b454d93d607047c63663b3f003b3d3c23f07bac7.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240718032834.53876-2-changhuang.liang@starfivetech.com>
+
+Hi Changhuang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.10 next-20240718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Changhuang-Liang/media-cadence-csi2rx-Support-runtime-PM/20240718-131216
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240718032834.53876-2-changhuang.liang%40starfivetech.com
+patch subject: [PATCH v2 1/5] media: cadence: csi2rx: Support runtime PM
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20240718/202407182235.kxDoVX8T-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407182235.kxDoVX8T-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407182235.kxDoVX8T-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/cadence/cdns-csi2rx.c:739:12: warning: 'csi2rx_runtime_resume' defined but not used [-Wunused-function]
+     739 | static int csi2rx_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/cadence/cdns-csi2rx.c:720:12: warning: 'csi2rx_runtime_suspend' defined but not used [-Wunused-function]
+     720 | static int csi2rx_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
-Le 18/07/2024 à 16:02, Nicolas Dufresne a écrit :
-> Le jeudi 18 juillet 2024 à 09:56 -0400, Nicolas Dufresne a écrit :
->> Hi,
->>
->> Le jeudi 18 juillet 2024 à 09:04 +0200, Benjamin Gaignard a écrit :
->>> Le 17/07/2024 à 19:50, Nicolas Dufresne a écrit :
->> [...]
->>
->>>>>>>> @@ -1569,6 +1569,7 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->>>>>>>>     	int ret = check_fmt(file, p->type);
->>>>>>>>     	u32 mbus_code;
->>>>>>>>     	u32 cap_mask;
->>>>>>>> +	u32 flags;
->>>>>>>>
->>>>>>>>     	if (ret)
->>>>>>>>     		return ret;
->>>>>>>> @@ -1578,8 +1579,10 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->>>>>>>>     		p->mbus_code = 0;
->>>>>>>>
->>>>>>>>     	mbus_code = p->mbus_code;
->>>>>>>> +	flags = p->flags & V4L2_FMT_FLAG_ENUM_ALL_FORMATS;
->>>>>>>>     	memset_after(p, 0, type);
->>>>>>>>     	p->mbus_code = mbus_code;
->>>>>>>> +	p->flags = flags;
->>>>>>> Won't this set V4L2_FMT_FLAG_ENUM_ALL_FORMATS (if present) in the
->>>>>>> flags returned to userspace ? Shouldn't be drivers to set
->>>>>>> V4L2_FMT_FLAG_ALL_FORMATS instead ?
->>>>>> memset_after zeroed flags field so we need this to send V4L2_FMT_FLAG_ENUM_ALL_FORMATS
->>>>>> flag to drivers. Return it to userspace is a side effect but I don't that is problem
->>>>>> since it set it anyway.
->>>>>>
->>>>> Ok, if the expectation is that the flag is preserved through the ioctl
->>>>> call, this is fine with me
->>>> I might be missing something other similar features are explicitly advertised by
->>>> drivers. This way, the generic layer can keep or clear the flag based of if its
->>>> supported. The fact the flag persist the ioctl() or not endup having a useful
->>>> semantic.
->>>>
->>>> Could we do the same?
->>> It is the only flag set by userspace when calling the ioctl(), all others
->>> are set by the drivers.
->>> I can clean it from the ioctl() structure after driver call but that won't change anything.
->> This does not answer my question. In other similar feature, we have an
->> **internal** flag set by drivers to tell the framework that such feature is
->> abled. Using that, the framework can keep or remove that flag based on if its
->> supported or not. This way, userspace have a clue if the driver do have this
->> support or if the returned result (in that case) is just a subset matching the
->> configuration. We don't seem to have done the same level of effort here.
-> For the reference, you actually use that semantic in GStreamer implementation,
-> but the kernel code seems broken.
->
-> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7078/diffs#eb90d5495df2f085f163996014c748a36f143f76_516_527
+vim +/csi2rx_runtime_resume +739 drivers/media/platform/cadence/cdns-csi2rx.c
 
-device_caps u32 field is already almost fully used, only one 1 bit is free.
-I could use it but, for me, the capability to enumerate all the formats
-doesn't fit well in the existing list.
+   719	
+ > 720	static int csi2rx_runtime_suspend(struct device *dev)
+   721	{
+   722		struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+   723		unsigned int i;
+   724	
+   725		reset_control_assert(csi2rx->sys_rst);
+   726		clk_disable_unprepare(csi2rx->sys_clk);
+   727	
+   728		for (i = 0; i < csi2rx->max_streams; i++) {
+   729			reset_control_assert(csi2rx->pixel_rst[i]);
+   730			clk_disable_unprepare(csi2rx->pixel_clk[i]);
+   731		}
+   732	
+   733		reset_control_assert(csi2rx->p_rst);
+   734		clk_disable_unprepare(csi2rx->p_clk);
+   735	
+   736		return 0;
+   737	}
+   738	
+ > 739	static int csi2rx_runtime_resume(struct device *dev)
+   740	{
+   741		struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+   742		unsigned int i;
+   743		int ret;
+   744	
+   745		ret = clk_prepare_enable(csi2rx->p_clk);
+   746		if (ret)
+   747			return ret;
+   748	
+   749		reset_control_deassert(csi2rx->p_rst);
+   750	
+   751		for (i = 0; i < csi2rx->max_streams; i++) {
+   752			ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+   753			if (ret)
+   754				goto err_disable_pixclk;
+   755	
+   756			reset_control_deassert(csi2rx->pixel_rst[i]);
+   757		}
+   758	
+   759		ret = clk_prepare_enable(csi2rx->sys_clk);
+   760		if (ret)
+   761			goto err_disable_pixclk;
+   762	
+   763		reset_control_deassert(csi2rx->sys_rst);
+   764	
+   765		return ret;
+   766	
+   767	err_disable_pixclk:
+   768		for (; i > 0; i--) {
+   769			reset_control_assert(csi2rx->pixel_rst[i - 1]);
+   770			clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+   771		}
+   772	
+   773		reset_control_assert(csi2rx->p_rst);
+   774		clk_disable_unprepare(csi2rx->p_clk);
+   775	
+   776		return ret;
+   777	}
+   778	
 
-Benjamin
-
->
->> Nicolas
->>
->>>>> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>>
->>>>>>>>     	switch (p->type) {
->>>>>>>>     	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->>>>>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>>>>>>> index fe6b67e83751..b6a5da79ba21 100644
->>>>>>>> --- a/include/uapi/linux/videodev2.h
->>>>>>>> +++ b/include/uapi/linux/videodev2.h
->>>>>>>> @@ -886,6 +886,8 @@ struct v4l2_fmtdesc {
->>>>>>>>     #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
->>>>>>>>     #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
->>>>>>>>     #define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
->>>>>>>> +#define V4L2_FMT_FLAG_ENUM_ALL_FORMATS		0x0400
->>>>>>>> +#define V4L2_FMT_FLAG_ALL_FORMATS		0x0800
->>>>>>>>
->>>>>>>>     	/* Frame Size and frame rate enumeration */
->>>>>>>>     /*
->>>>>>>> --
->>>>>>>> 2.43.0
->>>>>>>>
->>>>>>>>
->>>>>>> _______________________________________________
->>>>>>> Kernel mailing list -- kernel@mailman.collabora.com
->>>>>>> To unsubscribe send an email to kernel-leave@mailman.collabora.com
->>>>>>> This list is managed by https://mailman.collabora.com
->>> _______________________________________________
->>> Kernel mailing list -- kernel@mailman.collabora.com
->>> To unsubscribe send an email to kernel-leave@mailman.collabora.com
->>> This list is managed by https://mailman.collabora.com
->> _______________________________________________
->> Kernel mailing list -- kernel@mailman.collabora.com
->> To unsubscribe send an email to kernel-leave@mailman.collabora.com
->> This list is managed by https://mailman.collabora.com
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
