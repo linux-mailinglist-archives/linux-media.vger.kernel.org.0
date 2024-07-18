@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-15112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15113-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B68934759
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 07:03:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE9393475B
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 07:03:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE7461F22E8E
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 05:03:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C03C91C217E0
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 05:03:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E255542045;
-	Thu, 18 Jul 2024 05:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07387481A7;
+	Thu, 18 Jul 2024 05:02:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2108.outbound.protection.partner.outlook.cn [139.219.146.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E949939FE4;
-	Thu, 18 Jul 2024 05:02:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D871C41C7F;
+	Thu, 18 Jul 2024 05:02:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.108
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721278974; cv=fail; b=P5wEQer5pxi0Oeia/EFVlHBHY4dEw/jG4G6n+/tZhxeS9SXA1+FbXK5wEXF0T6Jy4xNlLrPEjekAcfmOveCaljZtwRi7Xu03aNN/YxCkaxfUMvVZ6FQGiqb+wp61niigSKc6c+AjM58xsq5GyKqUVF54qjYkltSEo9GiACP2RKA=
+	t=1721278976; cv=fail; b=cObrTrN+08PyLodqvmK0iNXeXUcDnSBtlypaOGoAykn6kcn94/yhoEsbQ3F6+gysVNSMxxzdhsQ+xv1iaeR83CMWyVOyUMOuGpdBH5VkSZRQYBLkrNym+JtbghI7AGI818rLm/AN7LgkYlTh6JYwM7oFR0q0og6GkdR928oPuHI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721278974; c=relaxed/simple;
-	bh=2s1F7eZ8Q9lQopQGZP8ofOFFunuU+GbKf6rfeagap6c=;
+	s=arc-20240116; t=1721278976; c=relaxed/simple;
+	bh=3ALIIwaquQs4Ms4Lp4N9MuFsYbjraB6dnxG6CEfEyF4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cTRCqdAgQh0iWpS/fhbxKazAH+iUMKyMCZyx/+33mbW6Mp5cUNXd8k4Nqwvf8B8kfMZlMwByFGIabkqAU1VVLjgKNAJrjS+IQat/xSz9EhnL2jB+4dJ9axj9FtpdCCcbSfhbEyI1QsZFxxw46xcObA+egvvjZRaCVv5WPPR4U1I=
+	 Content-Type:MIME-Version; b=DQe3SrA0bva3DTgjry4qsXZzuhBK0CyL7NaGhzRk3CdV7QZvzBKkNyfUEvby3Nq4hO7J+GiV1U5R+KrWJW0HNoMP/Xb0kB3ofUnyxCQSaF54D1vnkEUdovXYYovc2aaGDsktwTQvILMnb1zMGgeBUbRX9CjOdktPw2a+ckKkFms=
 ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GODVCWjsyzJ66m4zhr5X0Fd3tARoai66g/Sr0eNIII6D9GBSpO/Zydf2iNT1s4JTeDYF1XdxwKn6WapXnVMkvdgCJX7zO4zxZ7oGpPdEJhqzdrBnkmw+5FHERCIX85YdMw5RPDDXDHsMdhVgq0vWB7V9dyYbi3L6/RFtwUXaq7hxlRJbFcFWHtB7kdouEFDb4XfEqhMjHOfFNSVSKh/07DkbK+ik+7IElE3u4gxW7mWeJUEdERQ/7YleLLytmZCw5wYniYTebgfF/bcp+mVvorxQuvHQTJ0E8ro9wB3XyDWGDv6o0xlnXwcFmZbqZiX1Prq2OxxOhoa99hdaKsPJNw==
+ b=oM5Z+qbRJrCnTrm/QU989AJyEIeZ3b8PvqCWBfoTWbZ37no6m4USshcDCmCmBbuvczxw4DF5pEJ7x1zTbuL4Ps3c6d+mDSFbtQD9ABXZgtgNbFPPdA1KMjUdYLuV+Xx0d/I/xuwE0Z6GxfAMNBBLKe59NT85rPM+O35vN3Kbtu4S3Wp29vxNLWkve7Z7pKJXOQ9yTIxI6FEVh3ns3ZEo3NZneO8FcneaLqhLZwKp6tvaZ8g4IqX4PuwMs76HvrDnGIO0ub+R/PJ6ZFW6cEK7eRd+AsfTnXyKCKQLJphXg/4oIgQ4tJRTtAC5ulTsZiOsK8N3DbM3y7mqbaZrQIzfbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rx1XDLmsNv+KjI1/LhlUqD/tXJ4Z7DH5SC9QgQ6CVRQ=;
- b=L+xsNg+Q8y/8in7YGd0XBXq0SW7NMkgQEtGGckoZzI/HlvghX40BoVuibhwSQvw33WO/nv89TB0xxDdGVDhzwxDv/WU2PXg7M/Ky9dtxw5O+kC+Gk3Q6euCYlqYVEkZxrFhy8hvgERAY+9l7fPJuUPtwb2GY9+W5T6KCWF1T96x/lMiuGNy7li46KCgM4t7B8oMV/5N2TUWVIqfDjULrZ6dvZfqHal/NFH3pJB1XNkGgxdzlFVqjge6ZLviAiLT2PWhC0PsJmp/cp13rcU4oygSjAGoQrqTQ269opr/XOX027XyEADzyVt7+5qblrUcDECu3sX1J3DOxPBNZtneWBQ==
+ bh=51NUMLFUOslcX5PgbS299VUsPDMwW+amx2sRqAl03fQ=;
+ b=EYa8I9l5oP50RqNgqXFgEH0t7lJtHCvfdBIJdPdwGilQ4R5zesNGStY5W5XTpc96CBHJ7pM+3wWHok+FclQ8lpo7ARza7YAMdME1G9mONXYNOnyPLNhFXZaG32RF3PKgQRsXFjlnyPON2vwyN7F/JDaPdc7DflUNLks1fcn93RBrdItuJ26e2oxsz/KkVdG3cs7v3a2qiK1qBEb4DINN4Zm4pNKoCYCNZMoMbSey4AjsV8mt9cI+LXJIl/Gj3NG/ozi7Dh3BmNzGeksd7O1gUPMMYOxDAHYVgSHerKP3N3J3sAcML7kxf11ZLjgsBwDc0adY5Q1ihaUTYT2zzlUdWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=starfivetech.com; dmarc=pass action=none
  header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
@@ -45,11 +45,11 @@ Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:1b::9) by ZQ0PR01MB1046.CHNPR01.prod.partner.outlook.cn
  (2406:e500:c550:e::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7741.36; Thu, 18 Jul
- 2024 03:28:45 +0000
+ 2024 03:28:47 +0000
 Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
  ([fe80::64c5:50d8:4f2c:59aa]) by
  ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%6])
- with mapi id 15.20.7741.044; Thu, 18 Jul 2024 03:28:45 +0000
+ with mapi id 15.20.7741.044; Thu, 18 Jul 2024 03:28:47 +0000
 From: Changhuang Liang <changhuang.liang@starfivetech.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -66,9 +66,9 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 3/5] staging: media: starfive: Extract the ISP stream on as a helper function
-Date: Wed, 17 Jul 2024 20:28:32 -0700
-Message-Id: <20240718032834.53876-4-changhuang.liang@starfivetech.com>
+Subject: [PATCH v2 5/5] staging: media: starfive: Add system PM support
+Date: Wed, 17 Jul 2024 20:28:34 -0700
+Message-Id: <20240718032834.53876-6-changhuang.liang@starfivetech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
 References: <20240718032834.53876-1-changhuang.liang@starfivetech.com>
@@ -85,123 +85,129 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1046:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d944c08-60ed-4d3f-433f-08dca6d9baa7
+X-MS-Office365-Filtering-Correlation-Id: 00fe384c-a902-4976-4716-08dca6d9bc1a
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|7416014|52116014|41320700013|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	Fw84wif0y3Iny0kibhuiY3CYkBzRzP8rdGDKu4rezGcaZh9OZjXKbLMhs77LqIkwEhrPYmHnTWWhjYgcV7YuBpg1F0k9Ta6GPH8f71rN9znScHGv5OD7GPoi2IHJAPYtGY+OwqaEyHvBsc+VB2BMq9lfYV36QRA/2red5+2HkJgYaNsaBBXX/DaNANamV+hAlnh5RR+TwdqiEOqXJteeM8HYnS2b9Ty2kPZNDhkclrmFPeL/kPLAS3F5nTE9emqIUTLMSCqADek0rsvaLy1vH8bSFUGXyaYkBLo1BnTgIN4M6n8bffZ32jScPDlPYo5HQ2L9QiU7FfAdo5bGZiwTN5MnnCNBqm60BEvT8ZV/CyQFG1cgGBAzd89CEyGgJx8OX7ElHZrGQB8566Mbjhj+q8gg/nHTPHB+JM2cuNprBD+OaUfg0L3q5y8yjpKSk/xvOaBw8J1J4y6AewstJRpUT2V4FC9SVndgehzjieaYMGTGB9WYhg7g2aQ72TRtIqqN5fLkRLuqxQ55YnlXYkmb3NTFfs+L0vnfsizk+JaCsdIBU+tPi6prTmKqYA+sgRImBJnzlmBVQqB+UCHsijJFcQHvvw1EaH4gLdlOc9lWDiOm6FLwPybOJSPL9ebro+cV
+	81rzuWjzaYgsvPdhEzC/RfB1iEE11XZKkurrP0Wsm9Wzo4Xj1EuW2H5opsraTBfncfvZjpX5Nyj5+8AmHzrG5SA8YZPo4gaLRR33QFCs1aZupqsGrp3xbvGOKcqx8TUN0qfj52GZmhMXGh6Ep/euaQpq+5RhCQ9yNlD6pAMblSmKpovlp1rp7wHNUpk14Xu/niK59eVph3KC2ru62f1g+W0GwwsW7ERgcYhEJ2l00WIjcz51b0Cdcz2x0eupE+FkyelV2FpnzxQsxrrQWPbj2coSvO/tfuPaB0qFPfngRolHD2FRNEjVW6FLZwAOWkW9Us2ZnQxensewbkmWH/Pu4kLBiovEiA4VOFsRD04aBQ1CN9/uqk8UVmM4hEHyq3oUkiiHqzSFOQWNXujV392Wn3blIriQNRlGTFja0nkdibxvdcAnc7jsiDE15heQVvbIqSpAvr6HcJU/1kuInV4BqPscFtieF9agwGdnDIkSP49l1eBWNgJG547bDAPkq3s97mYC062QZIz1f347UqgyKU9NwhcNgJGn6B+JwB3yptoZouob6qg4NoD71pwMmWAI7Uvm6XaAa3lBFBxk3Fx8Zit5OUmi2Juafg/Q5HME7P0SgAVDHa8gEHvzvoixv3aO
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(52116014)(41320700013)(366016)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?uygQNIOuFZ86SaRqpFwPiCOD/wAKjWflaUR0l4G5uS6aBPrvzeSihBAWQgbS?=
- =?us-ascii?Q?jiQhRIJjyU9cwNwAjHZ/a1Yym/fLMOPHBlbRbSLpu7EgA4gMs3MqOe0NYnI3?=
- =?us-ascii?Q?uyc/coh8XQFgWMfn0Vsd+8mvF86VZ2j/vYLT/8FU/WqpETSpgjQrlwLMwY/m?=
- =?us-ascii?Q?h65Rl9dUazsmO/GeuEmJ3Fs5OR/fitHDXsS15crhSU//FdehVqReLR9+VzYc?=
- =?us-ascii?Q?ea3z3SPpWSC0iWW74EqSmsRKc6X62hGmH/cs1FPYUXT0fC7W5Rx7wLCLLTCH?=
- =?us-ascii?Q?/Z1XGjlNf9mo59TXGqlVN8jK2R/U1FX2q+OyfSC118W7N0MzKQNRXpVL5Hln?=
- =?us-ascii?Q?V72c+oTGdMS60zbx3ikxT7BQ+49BFvsFXFg7saqOylfe7aGkz9Vwyhokm4C6?=
- =?us-ascii?Q?4VnJasze6LCrovGgqn967Kjl68MiQwOM916UfKwl3Z3U4fniF+0+JklnKkty?=
- =?us-ascii?Q?PPWeOM3w2lJWwZC/OvKcRPSOe7sEzSAsJY2sEUXfnw39J8MzJKj+a6pJLeQa?=
- =?us-ascii?Q?FM+dM45YIo0PentNJmJyY9D1/2Nn31xBcvPWcakopfNhOqnyg4yRFtCED8Be?=
- =?us-ascii?Q?uplcroqUPA3OG3EiZJ6DIv70s8QpncmRCcAT4dlaDTXAZXU4SpwRiM3pmj5R?=
- =?us-ascii?Q?Dqq5OEScJiDWcfR6rZo516V7nDZPcyBiFyOxTBmcp1xcW5ubga2ffArjTSh5?=
- =?us-ascii?Q?b1dUVSwpWk2DfNlQ286QT9lgzMW4S+fXMYqvAE6TGii+4+o/HBLRQYtr/U+N?=
- =?us-ascii?Q?z4U0kzdM64Pogrp3uMbelqLhAq8USBqYLZjYtVLdoijEL4scO1KY1KO9bXeG?=
- =?us-ascii?Q?6z+G+w/iZlKIx9Sa4d1o/fKhrn3iSmqsCp/GPzQL24lHvpLVbeoFE8jiMPT+?=
- =?us-ascii?Q?SDFSJ2jQI+J/yk+OZE67vOJ/TX1bUXOauaYkYeJy3fjb08n4ukFg78lqRnma?=
- =?us-ascii?Q?TOvSvY3n2OG+47kp/m4cJvWhdADfU+0la4zHlv/w5hPtH1D6zxvZJXyVOfba?=
- =?us-ascii?Q?L7p4KMVbaqQmrXH+5FnnnoqGf2TLVL94vEReoQsQ8H7mdTIGnBQ5w49Uh6C1?=
- =?us-ascii?Q?vG3XmA3lZfHBZ5heFLlSNIGrAV43mA1YRcCNsgDf4P4UQNWAUdYS0OqCxK7U?=
- =?us-ascii?Q?hwIgYpvDTEwgdpzTO2xzHPL8euL7VEJXwd4hib9pWgRbzYayZcak86dbjs/Y?=
- =?us-ascii?Q?TY6q8KfbnnxLWklRLBaJwdiKAVSBEyn8mjS1ut7geiPIozL5NfNSArEqSPxv?=
- =?us-ascii?Q?xLpf13zNr1Z3dTG3RzeG123/ewvTs2gTNzDiT1CPzVN29AIzUctL8BoQQD5N?=
- =?us-ascii?Q?BefhTJS84dlyX4r3uhhLDGVdKf2BLMlhIYvsnvhCP7GSs0YuhhwkbaZBkyq1?=
- =?us-ascii?Q?FjirNOy1SdFEWwk0J2xdN7sv9P7end2t+BSAeQRlt0+S5YDj0VJ1e6cOwQC/?=
- =?us-ascii?Q?6s20qYlIbl6bgQBB4c8B9tE1oD3qEzLCv2fhXaPfPPfIQhS+zGR9OwiXGEGH?=
- =?us-ascii?Q?tYn0ugpiVUDX1iq6o7RdogRgKQou+yTG0sk2e6g4fODCtMmBZ3ZgSHBhKTdD?=
- =?us-ascii?Q?GQx3OL4IW87diwoy4oVEsknn1edffnAvvnpP2zwWxHrTTmQOtACkWZqejUGv?=
- =?us-ascii?Q?SI6z2RWMivR+7SoczeZ8VfI=3D?=
+	=?us-ascii?Q?whqkQN7gAsT3TJ4u02KlUZy68hEDIsY2/+JxsmqX3gbtffwq8/WqC7DmGHPb?=
+ =?us-ascii?Q?3BmB3n2jU1ljqOlW1PLFcMW6WkYvvKPIH9wYxuQDVuO8HndJEBy06ZMXpeec?=
+ =?us-ascii?Q?mwqEcusfu9vWtMUvueK1OY+xyppVn41fsIL0n8Go7F+tOB5uQh0Uey+bkHhc?=
+ =?us-ascii?Q?PGucRXCbLt98QfCPOXcwuup2p8V6kwLgX+JPutNU00PdAQR5j3Mot646ohg8?=
+ =?us-ascii?Q?CrDZ+nuL1zyJ5waZQNcfaaokLE/23FGTJ93tRJJfZ1AoN1VsMqyGBQrrh74W?=
+ =?us-ascii?Q?ONZ9j5iXKcmB8K0EBcBtZ6n5wFSlGWzLM+TDENUvPGMd0fUsSgtxH4lL4Qot?=
+ =?us-ascii?Q?u5jYyvjYb9xGpcWw3Wu1fnqTWUxT3C0+b+jkfkBW/aBtz6uQpPu5LoCv5Clm?=
+ =?us-ascii?Q?Wd172Js1amBvKWxphUz+ixufYh6S7JJzFPofeULZvk2+1UL3VfCzBGN0guOf?=
+ =?us-ascii?Q?b45NtOITHByhj0w581YRjpE/7euPOfStPdO2TtE2zu51+oX+5pz5qxfYQgf+?=
+ =?us-ascii?Q?ET9nO6KBiDeup0klf7RKDyumHWI2cPACLWH6MLGRuBsaJHMHAtvuhqXvhoUw?=
+ =?us-ascii?Q?cbLx7GHNx4cmBYaUx4epDFHxI9eXvxJhg6vtgbFYxpWKBdyvVU49vpfozKNM?=
+ =?us-ascii?Q?ULuT7PM3w/p+NKabS5i9zJZ4UxDRUr0v+LSYPitwSIY7TStZ43Po08yBzd4a?=
+ =?us-ascii?Q?6QXwFM2ALuNbYVZMEoybRd5zRXbaOZAuKgfmdmvJAj0h85qL58m8ED9Fxx6F?=
+ =?us-ascii?Q?oA7aBL4ziduKFDcwll0OhqkFymUPxPTub2g+riH4NrlExpcisM5vKU5TvJF4?=
+ =?us-ascii?Q?uq00rTFFH46j9O/EpsMCZL2Is8B/7ldNO3roIX37co48FtMiLc6d+aTBOSs3?=
+ =?us-ascii?Q?GZi5MwdFIoKhHrln6A0Vqcd4yBi6rSF9UyJq5dY5gNHV9VhCylzxTER/W1iU?=
+ =?us-ascii?Q?qM3jvNABpIRydTkmhJQO7bMgznUWtrPVWu0/RHfRb69XSy9Qq25Q8MtzzWJ9?=
+ =?us-ascii?Q?M0ex3fBig71yBJTvlpA8DIsjhRz7mVgxcYDfsR2RyyaHhw2Gg7vc/TCVstPo?=
+ =?us-ascii?Q?XKE9nw7iRqg9q32iij2aNZ7im0wF/rIOl8sG+mUXAcj+cuvmCKPH5aLygXJp?=
+ =?us-ascii?Q?WqYCfrrd6yGbkV8fSgYGufqN3mAo4BM3U1ZPEdoHYdbcQ/fCeZzQ1ggNZTPN?=
+ =?us-ascii?Q?ynkF7/Kw23Ryo0DQeAUhUxqqdjC8to5m9NBxOREvWWjEuILRf7rcMhxfDpiR?=
+ =?us-ascii?Q?FE1kkjhos+JryDsOySUG5/vILinjehpddbIKFpvB/1ntGA2srBAgiWcGHRmm?=
+ =?us-ascii?Q?pN0WqYHhM3AdDHshrTUUMwbo2bgqG6domObPBnAXCu8xXO781OoHnhFJE8/c?=
+ =?us-ascii?Q?PH5SwFp1+6FAvW0WE/GzAAKZWc4wF1U8fvIUhhoJqZ+3q5E08/U4hjMby9Yt?=
+ =?us-ascii?Q?yrcGnbMlaRZgGFhroytIK5W4+fU7o4GQFkS/zVY77XZsPKhRiGD0Y1bz2WJU?=
+ =?us-ascii?Q?vwwuQtRYkUuXl26rjujtitTksnFRcmApDTKaqsAL8Z3QmipU6GnWP6fdseTc?=
+ =?us-ascii?Q?Lc9fvAEGYdI1UPN5S6cl+fIyOxuE1HH8LXBpfUlnFV+zaedd6db58r9Z6N/r?=
+ =?us-ascii?Q?8tsKHbJ60ZHFEBmc+Pr1FrI=3D?=
 X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d944c08-60ed-4d3f-433f-08dca6d9baa7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00fe384c-a902-4976-4716-08dca6d9bc1a
 X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2024 03:28:45.0350
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2024 03:28:47.4993
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fFkDnph6ZOVO+pEUzRQ3ARs1n5Ep0GPVNR7njxGHU5bGbr5biC1zW6+b/oUWPSY4LH57g3eLjJxwQUzcylDU0KVdVepenFNZcBFIwXeuBoejpX4U8mP888C7wmwjgIs/
+X-MS-Exchange-CrossTenant-UserPrincipalName: eTMJcpFQyHjwPh5ob1ouEaAME9wa6NN544I0QKOECbZArCdjwzxe8z0W6n+WID4caOcEoqmlLvOt/N/zgR2vwfkMtTTv34JCrG8bHhU6gMwmyG1wuMmVRE1A9aJXwthr
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1046
 
-Extract the ISP stream on as a helper function and open it, Let the
-other files can use it.
+This patch implements system suspend and system resume operation for
+StarFive Camera Subsystem. It supports hibernation during streaming
+and restarts streaming at system resume time.
 
 Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
- .../staging/media/starfive/camss/stf-isp.c    | 27 ++++++++++++-------
- .../staging/media/starfive/camss/stf-isp.h    |  2 ++
- 2 files changed, 19 insertions(+), 10 deletions(-)
+ .../staging/media/starfive/camss/stf-camss.c  | 49 +++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
-index 4e6e26736852..8c6388edf049 100644
---- a/drivers/staging/media/starfive/camss/stf-isp.c
-+++ b/drivers/staging/media/starfive/camss/stf-isp.c
-@@ -55,23 +55,30 @@ int stf_isp_init(struct stfcamss *stfcamss)
+diff --git a/drivers/staging/media/starfive/camss/stf-camss.c b/drivers/staging/media/starfive/camss/stf-camss.c
+index fecd3e67c7a1..8dcd35aef69d 100644
+--- a/drivers/staging/media/starfive/camss/stf-camss.c
++++ b/drivers/staging/media/starfive/camss/stf-camss.c
+@@ -416,10 +416,59 @@ static int __maybe_unused stfcamss_runtime_resume(struct device *dev)
  	return 0;
  }
  
--static int isp_set_stream(struct v4l2_subdev *sd, int enable)
-+void stf_isp_stream_on(struct stf_isp_dev *isp_dev,
-+		       struct v4l2_subdev_state *sd_state)
- {
--	struct stf_isp_dev *isp_dev = v4l2_get_subdevdata(sd);
--	struct v4l2_subdev_state *sd_state;
- 	struct v4l2_mbus_framefmt *fmt;
- 	struct v4l2_rect *crop;
- 
--	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
- 	fmt = v4l2_subdev_state_get_format(sd_state, STF_ISP_PAD_SINK);
- 	crop = v4l2_subdev_state_get_crop(sd_state, STF_ISP_PAD_SRC);
- 
--	if (enable) {
--		stf_isp_reset(isp_dev);
--		stf_isp_init_cfg(isp_dev);
--		stf_isp_settings(isp_dev, crop, fmt->code);
--		stf_isp_stream_set(isp_dev);
--	}
-+	stf_isp_reset(isp_dev);
-+	stf_isp_init_cfg(isp_dev);
-+	stf_isp_settings(isp_dev, crop, fmt->code);
-+	stf_isp_stream_set(isp_dev);
++static int __maybe_unused stfcamss_suspend(struct device *dev)
++{
++	struct stfcamss *stfcamss = dev_get_drvdata(dev);
++	struct stfcamss_video *video;
++	unsigned int i;
++
++	for (i = 0; i < STF_CAPTURE_NUM; ++i) {
++		video = &stfcamss->captures[i].video;
++		if (video->vb2_q.streaming) {
++			video->ops->stop_streaming(video);
++			video->ops->flush_buffers(video, VB2_BUF_STATE_ERROR);
++		}
++	}
++
++	return pm_runtime_force_suspend(dev);
 +}
 +
-+static int isp_set_stream(struct v4l2_subdev *sd, int enable)
++static int __maybe_unused stfcamss_resume(struct device *dev)
 +{
-+	struct stf_isp_dev *isp_dev = v4l2_get_subdevdata(sd);
++	struct stfcamss *stfcamss = dev_get_drvdata(dev);
++	struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
 +	struct v4l2_subdev_state *sd_state;
++	struct stfcamss_video *video;
++	unsigned int i;
++	int ret;
 +
-+	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
++	ret = pm_runtime_force_resume(dev);
++	if (ret < 0) {
++		dev_err(dev, "Failed to resume\n");
++		return ret;
++	}
 +
-+	if (enable)
++	sd_state = v4l2_subdev_lock_and_get_active_state(&isp_dev->subdev);
++
++	if (isp_dev->streaming)
 +		stf_isp_stream_on(isp_dev, sd_state);
++
++	v4l2_subdev_unlock_state(sd_state);
++
++	for (i = 0; i < STF_CAPTURE_NUM; ++i) {
++		video = &stfcamss->captures[i].video;
++		if (video->vb2_q.streaming)
++			video->ops->start_streaming(video);
++	}
++
++	return 0;
++}
++
+ static const struct dev_pm_ops stfcamss_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(stfcamss_runtime_suspend,
+ 			   stfcamss_runtime_resume,
+ 			   NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(stfcamss_suspend, stfcamss_resume)
+ };
  
- 	v4l2_subdev_call(isp_dev->source_subdev, video, s_stream, enable);
- 
-diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/staging/media/starfive/camss/stf-isp.h
-index 955cbb048363..1a3e8cf7859c 100644
---- a/drivers/staging/media/starfive/camss/stf-isp.h
-+++ b/drivers/staging/media/starfive/camss/stf-isp.h
-@@ -421,6 +421,8 @@ void stf_isp_init_cfg(struct stf_isp_dev *isp_dev);
- void stf_isp_settings(struct stf_isp_dev *isp_dev,
- 		      struct v4l2_rect *crop, u32 mcode);
- void stf_isp_stream_set(struct stf_isp_dev *isp_dev);
-+void stf_isp_stream_on(struct stf_isp_dev *isp_dev,
-+		       struct v4l2_subdev_state *sd_state);
- int stf_isp_init(struct stfcamss *stfcamss);
- int stf_isp_register(struct stf_isp_dev *isp_dev, struct v4l2_device *v4l2_dev);
- int stf_isp_unregister(struct stf_isp_dev *isp_dev);
+ static struct platform_driver stfcamss_driver = {
 -- 
 2.25.1
 
