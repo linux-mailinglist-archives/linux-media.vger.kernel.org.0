@@ -1,229 +1,109 @@
-Return-Path: <linux-media+bounces-15097-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15098-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542329345EA
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 03:51:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9C99345F8
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 04:02:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C775F1F2276F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 01:51:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8D63283059
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jul 2024 02:02:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC3941FB5;
-	Thu, 18 Jul 2024 01:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="bIo7lFlA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E601B86CA;
+	Thu, 18 Jul 2024 02:02:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2065.outbound.protection.outlook.com [40.107.117.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249A9139F;
-	Thu, 18 Jul 2024 01:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721267509; cv=fail; b=SN1llkrEotagx/QQDEVzb6PdW8gBMocbqcjjIQLZ5/yvsrMh1zrBl5tDD0ZsWh8GeRztqwKLs3wygWznLgM4Kp5elIbcj9wDRV+uTCdzN+Ulbn5AIgNXUYZrlay98orZjkz6dFxxvxNLJGuA3f6BTDzpIryA6O9DrDm8ULBxm9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721267509; c=relaxed/simple;
-	bh=ffDLRbkxwkuL0zy4zx2d6GO5nVrKB6ADTOtXYk4krtk=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JAdSL/CxCamI+yPfPNHuGFMXVjBeCOc1oM96yopD8mNe7rCJqtg1eoHtsG8aOz/9FLBbxQyEiR2UDEQkv9FrS+IhVBo0UGpqJeWOuT1zm6R6jxWLB6oUkkaP889uordwHWJFw2C5CoX4Adc2fvpozDTyAwSluCqFlUj+rw4mH0g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=bIo7lFlA; arc=fail smtp.client-ip=40.107.117.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XNn/EAqvAuQFy2wbXg6v+D7el16I1x0pKsl6IZSaNqMP3g9x49xPN0KfW6huVFLxW6fGBb+YnlPKTdVIMBKdFogtnVnZIj/tAIGGL2Cc6n1AtK9xenY3ppkj39w3ntKgL43fvXKbI5+OncNAUFuSFlcyUc5IMeOShz2cUeRIvoEqTQWS8b3Ul1Lmk8U+KAvEb+/p9S2gUdEYxe5gbLkNnCrUtreQ2bgtxuZUUGY907ehSet4v2N6h3+z5vnDWZp+KPOIONxaS87f78PHaxE9Wg3Hl9xK1IH0qGXYFEU4Qkj4Nn0mDi+Sbhlh9Ujk8mjHzkhAbUzmFRDuixtLO2QrlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZpL7g4xdX7luCR1v3OrmoiAGKG0lpxcIFChmNB8OgHg=;
- b=O0zPw6Ed4IUqqp1WQONA8s5G0OL3y2QikhkEmwmtIjvixnhDDPpxrn+GTXI+yB2LaZzqEvPd8wT0aMeuqSG0hkpHtz8mElh1xYcmRzk/EkNixleaTy8HhlG4ktGLQuZdVMqntkWhJithvlvulHl8PNHlZXHLWwVGz6aeseDMY9aQ/xJZn/CDsHc0+r0MQ2ImllE1LBUItOhzzUU+zfNC39W1oQb5hzKq8s+s1wyQzzdi67k5fybuWHll4HwNn4XbyIFg97Kn/05bhOHwB4agT8bL7AGLFkIaIrDBM+9ev+8j0yQco+aIT9lgOrRQwDfmBsxGUxxSMtmTQhyT3HDq6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZpL7g4xdX7luCR1v3OrmoiAGKG0lpxcIFChmNB8OgHg=;
- b=bIo7lFlAbdE4c2QnFjQP3xFFmjePqC+srKSqdXFCeJ8RRlZIdA0Qjf/lvGrNcFc8yLmFF/TDTInS8/d7QBHl5bf3aczWLR2kAKfiJNWJwNS0i3X4F2evUQI4WObtg5vS/eyAvD5wi6U+TpTl48QSk0PhUD6LpUpddmFasS431j/jKJ5pVNB9+Des3Eo9RlD4MQNVu41/Zb6meJHP5xFqnEGYUYWKBw0kWvxwA63YIEXxhQ3PjA1vTpdGFWulbzZd3TneT3bR7UbN1zgp/L7xV+PiMfgTIpgkbEVgjLwX3SV2+NKttJTuSf3gXn/KrEV9pKgxEaIFOysR5rUCwLZiuQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by TYUPR06MB6271.apcprd06.prod.outlook.com (2603:1096:400:352::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7762.29; Thu, 18 Jul
- 2024 01:51:43 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7762.027; Thu, 18 Jul 2024
- 01:51:43 +0000
-Message-ID: <7140a145-7dd5-43b0-8b2a-0fd12bb9e62d@vivo.com>
-Date: Thu, 18 Jul 2024 09:51:39 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-buf: heaps: DMA_HEAP_IOCTL_ALLOC_READ_FILE
- framework
-To: Christoph Hellwig <hch@infradead.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
-References: <20240711074221.459589-1-link@vivo.com>
- <20240711074221.459589-2-link@vivo.com>
- <5ccbe705-883c-4651-9e66-6b452c414c74@amd.com>
- <ZpTnzkdolpEwFbtu@phenom.ffwll.local>
- <99364176-a7f0-4a17-8889-75ff92d5694e@amd.com>
- <06713006-c5ce-4773-a1b3-ca3bea56ee45@vivo.com>
- <ZpY-CfcDdEhzWpxN@phenom.ffwll.local>
- <b18ad853-90e4-4ad7-b621-2ca8a8111708@vivo.com>
- <Zpff-8LmqK5AD-a8@phenom.ffwll.local> <Zpf5R7fRZZmEwVuR@infradead.org>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <Zpf5R7fRZZmEwVuR@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TY2PR06CA0030.apcprd06.prod.outlook.com
- (2603:1096:404:2e::18) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC54382
+	for <linux-media@vger.kernel.org>; Thu, 18 Jul 2024 02:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1721268144; cv=none; b=pes4YPWwP2oOnqs+74+79ZR0BPb6NHVdWWMK4X/eZ88XKgpIkiEfa4CDK3/K4KW2DCKMnjo9nLWatsoWbrVhfNrSCkQICOhausdvuTJ5bA46IZkxLcSs2Vd5mTTsKABHrmKk3cnxBlEHwedG4fbU2FrMkc1rwHYy+QmXlgQ/++E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1721268144; c=relaxed/simple;
+	bh=R5eFUomdjh6gE1ZzrmO9dL9L/JrDHhkmAtnts/G7hQQ=;
+	h=Date:From:To:Subject:Message-Id; b=gYuU9MkZykZgEu9bbrnb1NFl1nWgQ0Q2oRsYHMi6bJaOOi+CSHHfVO3XcStkVrDkGmkQBtCRW3Obl+T3R9oeZ7qm07bbn/y+YOte4drsOhByBDtIbZL1pWpCPAruzGwMZmMcdloUoGYgFdmC0vNbZ9/KCmWL23l0gG3KGa54xGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5715FC2BD10
+	for <linux-media@vger.kernel.org>; Thu, 18 Jul 2024 02:02:23 +0000 (UTC)
+Date: Thu, 18 Jul 2024 04:02:21 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240718020223.5715FC2BD10@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|TYUPR06MB6271:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79e3dc2a-1239-47a1-4546-08dca6cc2cad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|52116014|376014|1800799024|366016|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Qk5nRFEwKzdBOWZ4UzJaOE9SaG1BejFzN3NGRGZsNDZrcnZPbWxuQW90dmRl?=
- =?utf-8?B?OUpyUnVHaCt2enBuQjFPalc2eDk2cFJtMXdmMGtxeXU1dTNueitsKy96M1Q4?=
- =?utf-8?B?b2Y5dU9HdHpYQSt4RGZOdUVhT2krU3VzRWQvbjVUYk4vUE82bmxteHNYVmlh?=
- =?utf-8?B?NFdTdHAyeUVBK2pNL0w2M3p2clNnRTZnNzlpNXpjV01KQkFRRURUZlhJL2VH?=
- =?utf-8?B?UlpFbWdtc3lwcjcvQVVTc3AwNTJpZWlOaFVubUJ1VTNDb0UvclM5L3JJKy9T?=
- =?utf-8?B?R055TTVFOStlTVJ5QzZsTVlkMzJ6OE16MURZdnJwMjNUTko0eVRUQWhsNDlR?=
- =?utf-8?B?TE5sNWRPU1RKUnYwSHNkTDM4c1dickFxNjZ5aEhNdWhZS0UwLzkxMEc4YW1V?=
- =?utf-8?B?M2VBb2dJN0ZUdW9lNmlFb3VzVnJyZ2QwZ3dDZUlDeWR2WDdYZUJBTGZXR2tS?=
- =?utf-8?B?QnMwbm0xNkswbDhIcmhvZ0Q5QWh0OEJKYUVHbStqMjJCSGs4WllCTXJLSTJR?=
- =?utf-8?B?TmVtaEdrakZaRkV4aTRveUVpVVdOczNEOTJFSzIvQkRuMFJPbjgyR3l3ZGZ1?=
- =?utf-8?B?NThYdWpMSUFaaU5TODd2V2c2S2R5MmZjcXZEUVRGckYzOWlLRmlZblNPMXJS?=
- =?utf-8?B?OVJvSlM4dkRHanZsK200TzVsbEFFS0FuemRBRTBXU3JKWExoVGk2MFhWNDFx?=
- =?utf-8?B?K2g0RGtZVTI3UktUN1ZMaDE2dmRxZHZJZFFHeDEzakRFOU5iWHQ2eTM5eERJ?=
- =?utf-8?B?ZlZvcVhyYzJZQXBPSkI2ODJjMXZzdC9RdERzZWY4SVVVN3NKSXBabnRwbklv?=
- =?utf-8?B?YlcwdWR4RU93dm9ialRsWm1meU16T2pFNHZML21YQlVYZDNzY0ZwODdXVElQ?=
- =?utf-8?B?dk5Kekl6NFdQZFpYbitrckY3RUxJWW9HYW90MHdYc0dBemVnVGN3Zk5sUngv?=
- =?utf-8?B?MUVRdWNPeURTVTVIcVV0c0ZnaTI1M1lLdS95bHpIeDhYQVY2c0RLTzBkK0t1?=
- =?utf-8?B?djdqNVZXUkVWbzR0WXFJQi8wdWYrQkl6a0VBSTFzUjhiRFJleFFBdVNMeWFm?=
- =?utf-8?B?Sm5ORG94QW1oUUt3b2RQR0ZUUDFxT2tUMTdubStYZUlUWGZyS1VJN0UrSlVH?=
- =?utf-8?B?OFhVMDFSaEpQbWZwN0JwdEJiaFVoTWs1VTQzVWlFeDAvOVFiVDE4dU5EMjdx?=
- =?utf-8?B?ZVFYV2EzcnVzaTB0Z0VlUnVCM2FvMlJhMjlPQ0hkMm5mTW50S0ZnM2lvbVda?=
- =?utf-8?B?Zm0yaXJrak5aNlNRYnZWOHkvMnBFYnpuSUVra1hxL0IwVWl2ZW1lUjVNcS9C?=
- =?utf-8?B?R0JJTnlsTDRTZDZtNHloVHdoM2dydWQyYm4rS2RReVVRdUZvSlpzVUh1QlRM?=
- =?utf-8?B?ZDV4bDR4djR2RzhrbWpHcFI2SXRPOTdoZ0NpbWVqQjlxS0o2UXZhL2xpc3Fu?=
- =?utf-8?B?Y3RBVGgzMnRiQkRYOXpxZFBZUHd4Z1drTGRXQW53b2d4c2lVaHZnd3g1bGNL?=
- =?utf-8?B?cDN0OU9GTEs4SCtLQkozY3hjMTVTcUV3NHNhWk00TjM2VDgwZEMxMlJQNUxD?=
- =?utf-8?B?VW5Hb3Via09UWm5CZXR1L3NjWXF3bjVmRTRJb0xGUjNZVHhzd3o0UlJmRHNo?=
- =?utf-8?B?WWJSSElmTGlpS09sVk1yVjFGUElZZXZ0c2pqcmlBaW9lbUNFTU9hMlBONnE5?=
- =?utf-8?B?ZGljUklpT2NjclhtbzdUdFFhemVyUW1ZUWhaNnRNS3ZHckxscVdBazNpbEZX?=
- =?utf-8?B?MzVoR0V1TkF5V2F4QXhiTEJXM09FdDRLVGJRMk5jUDJuRkhvN2NZaUxWV2Q4?=
- =?utf-8?B?TDUwVGJQUzlnWkNlRTQzbHQ5OHVPbEEvU3g5dThXM09NMzh0bHNSN2hJMHJM?=
- =?utf-8?B?REFvT1JZMmpoV2FvbDdsaXJudVFRWmpzL3FTV2hSSkJCcFF4dFBTL3FuVDB4?=
- =?utf-8?Q?4BPzSb8tjH0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bjYzanlMNmk5cUgwUjVjcUQrUW8yaFFTT3RWKzFhVGc4N2diaGcxM0tYUjZ3?=
- =?utf-8?B?RndZczJmUnE0RjR0R2FPTUpjYm1ZRktnUzRUeURjOGxhenNPU1h5bnNWMVZh?=
- =?utf-8?B?Ky91VmdQTldhQUdveXF1cEVaa2ZIK0x4YzROeDRVVUxYR2RvNkV1RDBMREtE?=
- =?utf-8?B?bXptY0N2cFlEbmUwaUFleVNjK05MZWFERHFkaXRvUThCQUVzaUNXVWUrcXhi?=
- =?utf-8?B?azNlZFo2UUJZbUxqWlpaOWozMkk3RndPSWc1ak5MNnlIZWV6SXAwQ09MSUhz?=
- =?utf-8?B?clM5b2VxeXl5NjZqQXZZUE1kQUdpczV5eDJ0YkJDeFlRTm1IdFkxQ2dTa01p?=
- =?utf-8?B?RlFuTUovMEtZK1p2a0RFa2tGSXlndk8waFJNekREQytNVkJoODR3L0xWMjky?=
- =?utf-8?B?S2ZEQ09hTHlxMUtzbGQ4SnRqRTFYbG0vNTNrOExNVmI2aXNKblEvWkdadTdh?=
- =?utf-8?B?K0Q1NlJoQU9wcmZJbVJXV3VnV2FhOXZjS0V1dnFwUXJ3ajlrbWxqN0xETWsv?=
- =?utf-8?B?Qy8vdkI5Njh4ZEtpbXBkL2RaYU9qUjdrY1l4YWViMS9sS2FGZjBaZmtJRE9L?=
- =?utf-8?B?aGNlQTMzVWZUK3Y2aXBFK3Z1bFQ5ZWtnN1c3NnE3RlpEekxLb2RnbTRaL1BP?=
- =?utf-8?B?VGNkWHdTeXlOWWZ0Sk1rQzNZWWcvSEc5MzZCbXUya3M2T1RXRm5ER2hOcUdC?=
- =?utf-8?B?T1AvdkgwL1ljLzgydm5KdjNBUGNGSThoM2hMaXdBeDYrbCt5TW1LRm9sSjk2?=
- =?utf-8?B?VG1TM05oRGlxelh0TjJTQXpuTWJWSit6UDJEV0tYR0ZyYXBJYUdhcVhENGsv?=
- =?utf-8?B?SHVRNjJvNXBFZlhzb0pMZEhvNXkwSFgxMDdVSHAvRElLT1ZNcStYT3JvZkNt?=
- =?utf-8?B?RTA2VUhJcFFDb1BsdTZ5ZFFtQzIwMThRYlNxbnRUQXVuLzdkVjc3ckcreHVw?=
- =?utf-8?B?VnpWaDJBdmhiS3EwU3Q2RlFYQ2QrdTB4cmFVbG1Gd3JVRFVQV2xUc3psUi8y?=
- =?utf-8?B?TmlRd3ZZSzFwYXo3b2JTaHpoWDR5azZKc2E3Y0lnQkU0MEprL2E0ZG0xa01U?=
- =?utf-8?B?TUJQV3lIUjFuY0wwWlhVQ0gyN0QwMkxnRjR3cjhUYVVrWC92aVN6RlBQMWNr?=
- =?utf-8?B?aFp0Sm9POGV6UXZpNy8yMlZtS1Jmb3ludlBOSXRPUkNVRVVJLzYrd0JDUnJG?=
- =?utf-8?B?a0w0NXBlWElueVJ2ZDFibWh3YWhrN0E5UW5oSnlFUXJBcm1RV1lzZnJFeFhw?=
- =?utf-8?B?L1pucnZtcGU3SStHNkFEYjlmK3ZDVTlKNTc3MitCem5nNHMwWHdYZzlTM1hx?=
- =?utf-8?B?aktsN2dQaitGajlPMWJCbWkxSDFHRVRLWEtKY0JYL0draFd0cUFITElabVh0?=
- =?utf-8?B?QmxMZWZIZ1RQYUUzQ0t1Z3FoYkE3dXZubm9YMXRWSDhJNjBIN01aSjJiRk1o?=
- =?utf-8?B?RjlKR0dPa2Q1VGhkOFI3N3YyQithMm5pWWVWeXFGWVdScHE0TG9pSXRYK3l2?=
- =?utf-8?B?UUpwdWE2NUdXWkNSS3ZXQ3RmT3UwUVArRm5RaDIvUDZCWXVWZkNyWklsWkZp?=
- =?utf-8?B?YTVkZUtUL3BxNXdQN0JhRHZFMXE3RWg0RmtIK1M2RHd5QVhyWkNhSVV1L2tE?=
- =?utf-8?B?UHRyVUh3aXhjUy9qcFpCbUJFQXVJVFdMY241eXVyaTR0ck1rZHpTN1FORjNX?=
- =?utf-8?B?NUNYR0pXL2h3anNKS1JaREVLZlBGY1NHdGVxeFlYSnY3UkQ4MFNTWmU1YWJa?=
- =?utf-8?B?Q2VHVzhhQ2FsNGV2aG5hM1p6L3RubzJzaXV5N1AyV3dBQy9zM3p6Q0lobndF?=
- =?utf-8?B?dEdrVTlMT05vdG9DeGY5Znd0akpodkNOYkFvWVNZcWZZRFFwM2k3bmdJbmRQ?=
- =?utf-8?B?ZUorZG5MN2tHUWhtd2RrQmF5alV0NGt6QVcrSlZ2STJJakttSkttZ3E1TEYx?=
- =?utf-8?B?b3VUajFFSzNmUy94ZE41d0lUOVZBYnNhUStHZFRxSkZraWswRi9sRmRCSVpQ?=
- =?utf-8?B?RjBmR0Y1QjNOSXFsUEZkcm5OaEp0Ym8va2tBUTkzRnJ5dGdEYW9Fa1N2bXZ0?=
- =?utf-8?B?N204QkFjRVNDeGtNWUdLcmRSbTNNRHVjVTYvbGxjQS83aWpIdTFZQlpkTldU?=
- =?utf-8?Q?959M0bplvgwk8YP5w5EtZpQWn?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79e3dc2a-1239-47a1-4546-08dca6cc2cad
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2024 01:51:43.4375
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2GkIeZ2xh0SBptEBFZUO8aNsiEImc61nSOESAtFf+PkRba3loPYr208WsZYNRkrGkoiA4EXTSyBqSgQHhSL64w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR06MB6271
 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-在 2024/7/18 1:03, Christoph Hellwig 写道:
-> [Some people who received this message don't often get email from hch@infradead.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> On Wed, Jul 17, 2024 at 05:15:07PM +0200, Daniel Vetter wrote:
->> I'm talking about memfd, not dma-buf here. I think copy_file_range to
->> dma-buf is as architecturally unsound as allowing O_DIRECT on the dma-buf
->> mmap.
-> copy_file_range only work inside the same file system anyway, so
-> it is completely irrelevant here.
+Results of the daily build of media_tree:
 
-Yes, actually, if dma-buf want's to copy_file_range from a file, it need 
-change something in vfs_copy_file_range:
+date:			Thu Jul 18 03:11:29 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	68a72104cbcf38ad16500216e213fa4eb21c4be2
+v4l-utils git hash:	8818d305973ed39f745c8faefd3d78610f39e154
+edid-decode git hash:	6f117a8f8c0e76e85f599a8b05c21c5f51c5c3c1
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8664-g4f9e5df6
+sparse version:		v0.5.0-8664-g4f9e5df6
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
+host hardware:		x86_64
+host os:		6.5.0-35-generic
 
-1. in generic_file_rw_checks, dma-buf file is not a normal file, but 
-inode_out check it.  need bypass
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-debug-fs.config: OK
+no-pm-sleep.config: OK
+sparse: OK
+smatch: WARNINGS:
 
-2. file in and out need in the same file system which you point it. So, 
-need bypass it
+drivers/media/common/siano/smscoreapi.c:1172 smscore_load_firmware_from_file() error: we previously assumed 'loadfirmware_handler' could be null (see line 1150)
 
-3. if dma-buf above 2G, need bypass generic_write_check_limits's file 
-O_LARGEFILE check, it only allow copy range below 2G.
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
 
-I feel that the above limitations indicate that copy_file_range is not 
-really suitable for copying between different file systems or 
-unconventional file types.(both shmemfs and other's)
+date:			Thu Jul 18 03:25:10 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
 
-Perhaps enabling dma-buf to support copy_file_range is not a good idea? :)
+date:			Thu Jul 18 04:01:14 CEST 2024
 
->
-> What should work just fine is using sendfile (or splice if you like it
-> complicated) to write TO the dma buf.  That just iterates over the page
-OK, I'll research it also.
-> cache on the source file and calls ->write_iter from the page cache
-> pages.  Of course that requires that you actually implement
-> ->write_iter, but given that dmabufs support mmaping there I can't
-> see why you should not be able to write to it.
->
-> Reading FROM the dma buf in that fashion should also work if you provide
-> a ->read_iter wire up ->splice_read to copy_splice_read so that it
-> doesn't require any page cache.
->
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
