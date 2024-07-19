@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-15138-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15139-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5D393758E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 11:15:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1332F9375A1
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 11:21:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B84581F22F93
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 09:15:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 360E81C219AC
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 09:21:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B274D7E0E9;
-	Fri, 19 Jul 2024 09:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B53080C07;
+	Fri, 19 Jul 2024 09:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hUNIbulk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="thvWKqw7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A505B647;
-	Fri, 19 Jul 2024 09:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A5AB647;
+	Fri, 19 Jul 2024 09:21:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721380538; cv=none; b=SKYAzb+PHks1mkgF6FmCzvXShaDwazXUC/+67eM6ZIMWg601XZmkxyB7mIsgLz8gTWnqLsio4/tYOeyOKUQbQDkRbmp/FjrV67ISnUL7n7iRxPU0SjbkxSjlLj4TDQTzaTjOiTSlLAtr4d8DsdshmLZlY3G0Fl0HBDsb4uJendk=
+	t=1721380868; cv=none; b=QKiiW7/aPK4j9gitmO1eBSoS32HNHIi90Uq+54w1xgHzVRmJsR+aOE1CP2TrUHWi+7M0zmcflcyXft7gG04+MsO2P7lrccIJu77yYQevsqnzgtg/ltn8rZ0xi2smWOac4v0+PM5YFOEAbXo75HKZylU/dvv1/sSlQLOo+f4215c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721380538; c=relaxed/simple;
-	bh=34OZEPqMBiRGznwEInwn1lCcqR4ne6+8K+BLuKwz56c=;
+	s=arc-20240116; t=1721380868; c=relaxed/simple;
+	bh=TUwtBaovB0ctc/SyjPjs3WD9TA9YUejACXEuL0jp3kM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WsmOl2tFuNHCwqFeKKetZMKTQvKGHND/lG1cjMLusB9WDfpJ4GchMQRNeQjIQABhdcvUcJzby0AvZVol1hsEccfgszT3iR99WTTLAWhp1magaXuxeUwM/YrcnSFsizCVR0t1OOpLRDTSZAg7/wGYrPDeRcX5fTDMuaYdQFpsQkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hUNIbulk; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=qHb9lZyed7nAoO9FCH2XxXQIadhLdiDZwoVSg6eNmJgBdrCAaBWuX8d9MhKWDlhmRZFDOKsNUH2oIipOmhKp/dFfXZ2Ft022SCp0bQtK0YoMXOwxCuyCJWUUPpw98d6Mp46FK9Ies+QgMi9NBi47mR2vQmOzIGyuwUvp1czM0gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=thvWKqw7; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-157-149-128.elisa-laajakaista.fi [91.157.149.128])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F860471;
-	Fri, 19 Jul 2024 11:14:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B75AB471;
+	Fri, 19 Jul 2024 11:20:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1721380495;
-	bh=34OZEPqMBiRGznwEInwn1lCcqR4ne6+8K+BLuKwz56c=;
+	s=mail; t=1721380825;
+	bh=TUwtBaovB0ctc/SyjPjs3WD9TA9YUejACXEuL0jp3kM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hUNIbulkwzmNqKjCw+S6UUzhdBO0kVZBusUvNUBfDfDtyfj1cT5WfQkipACJWxog6
-	 OBnWYpu5ic6ZPL2eJEkUn3y4tSKUWGhEYiQofABENol0r4raZx+9vI98cgXN+Xu0eO
-	 bZIM7K9ojeDvK99rOS/5j07x1gzenJhdJgciCuks=
-Message-ID: <54b96a59-e897-4386-83fd-8431bbed6ba5@ideasonboard.com>
-Date: Fri, 19 Jul 2024 12:15:30 +0300
+	b=thvWKqw7M7qso28L4sePgqM0MHkqjaR3Away+d8J0YuiPVMUrKbVQbwvRrIG0qwMl
+	 a1GFEGq6cPjQhBmepwzsWMb16vpKug89nbs3aujg9vEBCsOjXVRKytCebOFHE349CT
+	 eLnRxN0SBd5GJcbI/NHm/oKz8ENnAFpnzo+Pc3KY=
+Message-ID: <eec51b7a-1ffa-44f5-a28a-9d4bd0dfabdd@ideasonboard.com>
+Date: Fri, 19 Jul 2024 12:21:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/13] media: cadence: csi2rx: Enable multi-stream
- support
+Subject: Re: [PATCH v2 09/13] media: ti: j721e-csi2rx: add support for
+ processing virtual channels
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Jai Luthra <j-luthra@ti.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -67,10 +67,8 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Julien Massot <julien.massot@collabora.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20240627-multistream-v2-0-6ae96c54c1c3@ti.com>
- <20240627-multistream-v2-11-6ae96c54c1c3@ti.com>
- <s6zyk5t3ry7hlz6xjf2wnsefpym3meughrzyzidvht3wvogzwi@54bcbdadlp4b>
- <3byg7obpmc5xfsnr4b3secs7d2cctvbfujudwp2zxyinlo75tn@77fkdjmagj7b>
- <njzoj4seict4trpjkhu25y23abtbqwujvn7vaabxuy4v2litd4@eyw7k4mq6fve>
+ <20240627-multistream-v2-9-6ae96c54c1c3@ti.com>
+ <gn4p7imootxlidam6uddits5i7zwo5azzzb3h3wcobxquqpczs@2msb66c5hs4y>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -116,172 +114,122 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <njzoj4seict4trpjkhu25y23abtbqwujvn7vaabxuy4v2litd4@eyw7k4mq6fve>
+In-Reply-To: <gn4p7imootxlidam6uddits5i7zwo5azzzb3h3wcobxquqpczs@2msb66c5hs4y>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 16/07/2024 12:55, Jacopo Mondi wrote:
+On 12/07/2024 18:01, Jacopo Mondi wrote:
 > Hi Jai
 > 
-> On Tue, Jul 16, 2024 at 03:04:55PM GMT, Jai Luthra wrote:
->> Hi Jacopo,
+> On Thu, Jun 27, 2024 at 06:40:04PM GMT, Jai Luthra wrote:
+>> Use get_frame_desc() to get the frame desc from the connected source,
+>> and use the provided virtual channel instead of hardcoded one.
 >>
->> Thanks for the review.
+>> get_frame_desc() works per stream, but as we don't support multiple
+>> streams yet, we will just always use stream 0. If the source doesn't
+>> support get_frame_desc(), fall back to the previous method of always
+>> capturing virtual channel 0.
 >>
->> On Jul 12, 2024 at 18:09:48 +0200, Jacopo Mondi wrote:
->>> Hi Jai
->>>
->>> On Thu, Jun 27, 2024 at 06:40:06PM GMT, Jai Luthra wrote:
->>>> Cadence CSI-2 bridge IP supports capturing multiple virtual "streams"
->>>> of data over the same physical interface using MIPI Virtual Channels.
->>>>
->>>> The V4L2 subdev APIs should reflect this capability and allow per-stream
->>>> routing and controls.
->>>>
->>>> While the hardware IP supports usecases where streams coming in the sink
->>>> pad can be broadcasted to multiple source pads, the driver will need
->>>> significant re-architecture to make that possible. The two users of this
->>>> IP in mainline linux are TI Shim and StarFive JH7110 CAMSS, and both
->>>> have only integrated the first source pad i.e stream0 of this IP. So for
->>>> now keep it simple and only allow 1-to-1 mapping of streams from sink to
->>>> source, without any broadcasting.
->>>>
->>>> With stream routing now supported in the driver, implement the
->>>> enable_stream and disable_stream hooks in place of the stream-unaware
->>>> s_stream hook.
->>>>
->>>> This allows consumer devices like a DMA bridge or ISP, to enable
->>>> particular streams on a source pad, which in turn can be used to enable
->>>> only particular streams on the CSI-TX device connected on the sink pad.
->>>>
->>>> Implement a fallback s_stream hook that internally calls enable_stream
->>>> on each source pad, for consumer drivers that don't use multi-stream
->>>> APIs to still work.
->>>>
->>>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
->>>> ---
->>>>   drivers/media/platform/cadence/cdns-csi2rx.c | 407 ++++++++++++++++++++-------
->>>>   1 file changed, 313 insertions(+), 94 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
->>>> index 2ec34fc9c524..b0c91a9c65e8 100644
->>>> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
->>>> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
->>>> @@ -90,6 +90,7 @@ struct csi2rx_priv {
->>>>   	struct reset_control		*pixel_rst[CSI2RX_STREAMS_MAX];
->>>>   	struct phy			*dphy;
->>>>
->>>> +	u32				vc_select[CSI2RX_STREAMS_MAX];
->>>>   	u8				lanes[CSI2RX_LANES_MAX];
->>>>   	u8				num_lanes;
->>>>   	u8				max_lanes;
->>>> @@ -179,27 +180,43 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
->>>>
->>>>   static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
->>>>   {
->>>> +	struct v4l2_ctrl_handler *handler = csi2rx->source_subdev->ctrl_handler;
->>>>   	union phy_configure_opts opts = { };
->>>>   	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
->>>> -	struct v4l2_subdev_format sd_fmt = {
->>>> -		.which	= V4L2_SUBDEV_FORMAT_ACTIVE,
->>>> -		.pad	= CSI2RX_PAD_SINK,
->>>> -	};
->>>> +	struct v4l2_mbus_framefmt *framefmt;
->>>> +	struct v4l2_subdev_state *state;
->>>>   	const struct csi2rx_fmt *fmt;
->>>>   	s64 link_freq;
->>>>   	int ret;
->>>>
->>>> -	ret = v4l2_subdev_call_state_active(&csi2rx->subdev, pad, get_fmt,
->>>> -					    &sd_fmt);
->>>> -	if (ret < 0)
->>>> -		return ret;
->>>> +	if (v4l2_ctrl_find(handler, V4L2_CID_LINK_FREQ)) {
->>>
->>> Do you need to do this by yourself ? afaict v4l2_get_link_freq()
->>> already checks if V4L2_CID_LINK_FREQ is available, and if not,
->>> fallsback to use PIXEL_RATE.
->>>
->>>> +		link_freq = v4l2_get_link_freq(handler, 0, 0);
->>>> +	} else {
->>>> +		state = v4l2_subdev_get_locked_active_state(&csi2rx->subdev);
->>>> +		framefmt = v4l2_subdev_state_get_format(state, CSI2RX_PAD_SINK,
->>>> +							0);
->>>> +
->>>> +		if (framefmt) {
->>>> +			fmt = csi2rx_get_fmt_by_code(framefmt->code);
->>>> +		} else {
->>>> +			dev_err(csi2rx->dev,
->>>> +				"Did not find active sink format\n");
->>>> +			return -EINVAL;
->>>
->>> Is this possibile ?
->>>
->>>> +		}
->>>>
->>>> -	fmt = csi2rx_get_fmt_by_code(sd_fmt.format.code);
->>>> +		link_freq = v4l2_get_link_freq(handler, fmt->bpp,
->>>> +					       2 * csi2rx->num_lanes);
->>>
->>> Do we want to allow falling back on PIXEL_RATE for multiplexed
->>> transmitters ? I presume this will give you invalid results anyway.
+>> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
+>> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+>> ---
+>>   .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 39 ++++++++++++++++++++++
+>>   1 file changed, 39 insertions(+)
 >>
->> This is mostly done to avoid breaking any single stream sensor that does
->> not have the LINK_FREQ control, and was working with this bridge before.
->> Thus the warning below for multi-format sources.
+>> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> index b4b4bb69c88a..c0916ca1a6f8 100644
+>> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> @@ -29,6 +29,7 @@
+>>   #define SHIM_DMACNTX_EN			BIT(31)
+>>   #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
+>>   #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
+>> +#define SHIM_DMACNTX_VC			GENMASK(9, 6)
+>>   #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
+>>   #define SHIM_DMACNTX_YUV422_MODE_11	3
+>>   #define SHIM_DMACNTX_SIZE_8		0
+>> @@ -105,6 +106,8 @@ struct ti_csi2rx_ctx {
+>>   	struct media_pad		pad;
+>>   	u32				sequence;
+>>   	u32				idx;
+>> +	u32				vc;
+>> +	u32				stream;
+>>   };
+>>
+>>   struct ti_csi2rx_dev {
+>> @@ -571,6 +574,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>>   	}
+>>
+>>   	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
+>> +	reg |= FIELD_PREP(SHIM_DMACNTX_VC, ctx->vc);
+>>
+>>   	writel(reg, csi->shim + SHIM_DMACNTX(ctx->idx));
+>>
+>> @@ -844,6 +848,33 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>>   	}
+>>   }
+>>
+>> +static int ti_csi2rx_get_vc(struct ti_csi2rx_ctx *ctx)
+>> +{
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>> +	struct v4l2_mbus_frame_desc fd;
+>> +	struct media_pad *pad;
+>> +	int ret, i;
+>> +
+>> +	pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
+>> +	if (!pad)
+>> +		return -ENODEV;
+>> +
+>> +	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, pad->index,
+>> +			       &fd);
+>> +	if (ret)
+>> +		return ret;
 > 
-> Is it possible to allow usage of PIXEL_LINK only for non-multiplexed
-> transmitters ?
+> Would it be better to fail at bound() time if the remote subdev
+> doesn't support get_frame_desc ? you can use
 > 
->>>
->>> I would simply call v4l2_get_link_freq(handler, 0, 0) to force the
->>> usage of LINK_FREQ which will become mandatory for transmitters
->>
->> Ah I did not know LINK_FREQ will be mandatory soon. Any threads I can
->> look at where this was discussed?
->>
+>          if (!v4l2_subdev_has_op(subdev, pad, get_frame_desc)) {
 > 
-> I meant mandatory for multiplexed transmitters, which will have to be
-> 'forced' to use LINK_FREQ as PIXEL_RATE doesn't make much sense for
-> them
+>> +
+>> +	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+>> +		return -EINVAL;
+>> +
+>> +	for (i = 0; i < fd.num_entries; i++) {
+> 
+>          for (unsigned int i
+> 
+> should num_entries be validated ?
+> 
+>> +		if (ctx->stream == fd.entry[i].stream)
+>> +			return fd.entry[i].bus.csi2.vc;
+>> +	}
+>> +
+>> +	return -ENODEV;
+>> +}
+>> +
+>>   static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>   {
+>>   	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
+>> @@ -864,6 +895,14 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>   	if (ret)
+>>   		goto err;
+>>
+>> +	ret = ti_csi2rx_get_vc(ctx);
+>> +	if (ret == -ENOIOCTLCMD)
+>> +		ctx->vc = 0;
+> 
+> Ah, so you fallback to 0 in case the subdev doesn't support
+> get_frame_desc. I'm not sure what would be better here maybe wait for
+> other's opinions as well.
+> 
+> Personally I would fail earlier to make sure subdev drivers are forced
+> to impement get_frame_desc
 
-In CAL driver's multiplexed streams patch I have:
+As this driver is already in upstream, with single-stream support, I 
+think requiring frame_desc could break currently working setups.
 
-> 	/*
-> 	 * v4l2_get_link_freq() uses V4L2_CID_LINK_FREQ first, and falls back
-> 	 * to V4L2_CID_PIXEL_RATE if V4L2_CID_LINK_FREQ is not available.
-> 	 *
-> 	 * With multistream input there is no single pixel rate, and thus we
-> 	 * cannot use V4L2_CID_PIXEL_RATE, so we pass 0 as the bpp which
-> 	 * causes v4l2_get_link_freq() to return an error if it falls back to
-> 	 * V4L2_CID_PIXEL_RATE.
-> 	 */
-> 
-> 	state = v4l2_subdev_get_locked_active_state(&phy->subdev);
-> 
-> 	if (state->routing.num_routes > 1) {
-> 		bpp = 0;
-> 	} else {
-> 		struct v4l2_subdev_route *route = &state->routing.routes[0];
-> 		const struct cal_format_info *fmtinfo;
-> 		struct v4l2_mbus_framefmt *fmt;
-> 
-> 		fmt = v4l2_subdev_state_get_format(state,
-> 			route->sink_pad, route->sink_stream);
-> 
-> 		fmtinfo = cal_format_by_code(fmt->code);
-> 		if (!fmtinfo)
-> 			return -EINVAL;
-> 
-> 		bpp = fmtinfo->bpp;
-> 	}
-> 
-> 	freq = v4l2_get_link_freq(phy->source->ctrl_handler, bpp, 2 * num_lanes);
-> 	if (freq < 0) {
-> 		phy_err(phy, "failed to get link freq for subdev '%s'\n",
-> 			phy->source->name);
-> 		return freq;
-> 	}
+I do a similar thing as above in CAL and RPi CFE drivers.
 
   Tomi
 
