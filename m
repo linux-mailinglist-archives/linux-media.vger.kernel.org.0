@@ -1,35 +1,36 @@
-Return-Path: <linux-media+bounces-15131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D835E9373F8
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 08:19:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CD393745A
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 09:25:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 649E1B224A4
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 06:19:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF42B1C21EDE
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 07:25:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9205E4084D;
-	Fri, 19 Jul 2024 06:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E7B4502BD;
+	Fri, 19 Jul 2024 07:25:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B92436127
-	for <linux-media@vger.kernel.org>; Fri, 19 Jul 2024 06:19:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27AE7446CF
+	for <linux-media@vger.kernel.org>; Fri, 19 Jul 2024 07:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721369954; cv=none; b=nhH6qJMKak5ze4jXRE6eTMWlEk8imZWdXfp52QyhU2XvpLImpVKrMqNJlIbTs1C64Zj0FVZU6bbnKpgDuEkuHT/7/AQsnb+isTeQLU45oeaWpE+fsPb4AMG7RsYPLpWY1nsfJFvQfd6saxK0S/Ei70FnFZ55e5IjgOe3X56NlLo=
+	t=1721373927; cv=none; b=DcVzg+hMnLzf7SmXgiIBSpWJtylyjFAsQm7dgKYqsqxNnHWwmvwtPh0mGTj5vqZjDrO414LH80cPuX1Vako9H2a5qhfv/TYYywGSWkjnHnPomUsNriMpIZQKvHYMYjYiDwkMAFsh7U5BJVgGFsRG1Dqg6FzXYelevYgyOJ6GlIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721369954; c=relaxed/simple;
-	bh=dulfE1ojKOMblngdTzrXKRN1FBwtLumb6rgjlj5CHSQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=EJ1lbdS3wxhKtpqQz5Uc1475vDX3BidV+MvIBgx8/+J9lyy66ocMRY4GdVHXIzzSZHCB7YpqQaHX/cYzaId45tiEKEJ65CtSMcIbzc/pSnhtz6FBynK5gREpvNMqS2lvCBbFJTSB08VBLAhSdrXq70WLVJ8Im2QwmUka77h+ReM=
+	s=arc-20240116; t=1721373927; c=relaxed/simple;
+	bh=eilpnwq2haUx75Djek+2Ve+fwAcKIImnqCoClkuh8ko=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=hJ4POmRaNmX5SVrMt2rW5oSL1gAIRWrGH2/DbBEJGfPpd9j0NcduIGY9GcOKiBGDO1JpaCxpW1Y3K5ACf9ZlmhJWqX8zLmA76+RMy8GPlQWQkbV12sBqLIx2g/IluWbftS4+01iQS2N85CAGw/EBNSBd7NIbTTXr5EQjRRlbT6w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F4CC32782;
-	Fri, 19 Jul 2024 06:19:12 +0000 (UTC)
-Message-ID: <13a4e596-1854-44b0-842a-8f19f17fce15@xs4all.nl>
-Date: Fri, 19 Jul 2024 08:19:11 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3070BC32782;
+	Fri, 19 Jul 2024 07:25:25 +0000 (UTC)
+Message-ID: <d44dffe8-0816-4a16-ad9f-578c2e481723@xs4all.nl>
+Date: Fri, 19 Jul 2024 09:25:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -37,12 +38,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] v4l-utils: fix potential crashing with 32-bit musl
+To: Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
+References: <20240702193343.5742-1-rosenp@gmail.com>
+ <20240702193343.5742-2-rosenp@gmail.com>
 Content-Language: en-US, nl
-To: Gregor Jasny <gjasny@googlemail.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Can you make a new v4l-utils release?
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -86,17 +87,73 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <20240702193343.5742-2-rosenp@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Gregor,
+Hi Rosen,
 
-The last v4l-utils release is over half a year ago, and Nicolas would like to
-have a new release that includes the new v4l2-tracer utility.
+On 02/07/2024 21:33, Rosen Penev wrote:
+> Under musl, if a format string has an integer followed by %s, a mismatch
+> between types can cause the second half of the integer to be interpreted
+> by %s.
+> 
+> Eg: printf("%d %s", 64bittype, string);
+> 
+> will crash, especially on 32-bit big endian.
+> 
+> The reason these are cast to __u64 is because time_t and suseconds_t
+> are 64-bit under musl, even on 32-bit platforms. __u64 helps avoid
+> any truncation issues that may or may not arise.
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  utils/cec-follower/cec-follower.cpp | 2 +-
+>  utils/libv4l2util/v4l2_driver.c     | 6 +++---
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
+> index a7481aea..67e0d92b 100644
+> --- a/utils/cec-follower/cec-follower.cpp
+> +++ b/utils/cec-follower/cec-follower.cpp
+> @@ -354,7 +354,7 @@ void print_timers(struct node *node)
+>  			printf("source: %s, ", source.c_str());
+>  			if (t.recording_seq)
+>  				printf("rec-seq: 0x%x, ", t.recording_seq);
+> -			printf("needs: %ld %s\n", t.duration, "MB."); /* 1MB per second. */
+> +			printf("needs: %llu %s\n", (__u64)t.duration, "MB."); /* 1MB per second. */
+>  		}
+>  		printf("Total media space available for recording: ");
+>  		if (node->state.media_space_available >= 0)
 
-Do you have time to prepare a new release?
+I will drop this change, but I will keep the next change.
 
-Much appreciated,
+I'll explain more in my review of 4/4.
+
+Regards,
 
 	Hans
+
+> diff --git a/utils/libv4l2util/v4l2_driver.c b/utils/libv4l2util/v4l2_driver.c
+> index 6b6366fa..51e97b61 100644
+> --- a/utils/libv4l2util/v4l2_driver.c
+> +++ b/utils/libv4l2util/v4l2_driver.c
+> @@ -174,13 +174,13 @@ static void prt_buf_info(char *name,struct v4l2_buffer *p)
+>  {
+>  	struct v4l2_timecode *tc=&p->timecode;
+>  
+> -	printf ("%s: %02ld:%02d:%02d.%08ld index=%d, type=%s, "
+> +	printf ("%s: %02llu:%02d:%02d.%08llu index=%d, type=%s, "
+>  		"bytesused=%d, flags=0x%08x, "
+>  		"field=%s, sequence=%d, memory=%s, offset=0x%08x, length=%d\n",
+> -		name, (p->timestamp.tv_sec/3600),
+> +		name, (__u64)(p->timestamp.tv_sec/3600),
+>  		(int)(p->timestamp.tv_sec/60)%60,
+>  		(int)(p->timestamp.tv_sec%60),
+> -		p->timestamp.tv_usec,
+> +		(__u64)p->timestamp.tv_usec,
+>  		p->index,
+>  		prt_names(p->type,v4l2_type_names),
+>  		p->bytesused,p->flags,
+
 
