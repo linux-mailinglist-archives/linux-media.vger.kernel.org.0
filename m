@@ -1,187 +1,137 @@
-Return-Path: <linux-media+bounces-15158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15159-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1E99378B3
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 15:47:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE6D9379F1
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 17:36:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E8781C21784
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 13:47:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D472B1F2188D
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 15:36:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD1E14388F;
-	Fri, 19 Jul 2024 13:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAAD31459FA;
+	Fri, 19 Jul 2024 15:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Jb9eS6xt"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="omhslDwU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECF78288F;
-	Fri, 19 Jul 2024 13:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A671384FA0
+	for <linux-media@vger.kernel.org>; Fri, 19 Jul 2024 15:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721396824; cv=none; b=hR/KPf0P9LrXTRXlePnD4yRqXxBrxf253ZHD7Xt7cd6+i+SZnhicF/Ufy87GT6D5jp40d5uzq99d9KUJkETU8BIdaJ7xgAQ4KLJSCCFVRbNOf9TmZlmgTrS8rJYXWou+DQkAwpKjeTt8lM3kE4m5edkUO6AlxXgPxP3TwFfIWfs=
+	t=1721403372; cv=none; b=Xk1pTy/kGUeqq1THW3KuAmJj4i0TF+yL7Gy3K4uRtBoU0ZQDCHI4p5y6BYaXrXCV3MJNRfuxWV/ngjlrwSu5zX7zAOZ66Imz/1PoCcpSYEs6KtaguzSM321I5zxRaMCDmehU2hI8tufcvZNz06NfrAwlfXzPZRp6X3YCQofXgss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721396824; c=relaxed/simple;
-	bh=IY4wRPdAXfQMvr8U6r2C6IT9buMDJ+CirgNK6vvN1WY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o89s89VUqrZSMTIsMIqI4S5mlIIzmNDENcN36Tjhyspyh3vh9v3W5xf2VSeEmWdcTlFroUo+FVNhhN5i+TKcJ+vnl8GpABsGwgibF4HBinsWf28uOsIH7ZrRtZXHC4GKGq2zMoCsUOe9yPIriJK2+SvqKTxNG++yp27WaWLUCyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Jb9eS6xt; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1721396821;
-	bh=IY4wRPdAXfQMvr8U6r2C6IT9buMDJ+CirgNK6vvN1WY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jb9eS6xtfEUzTHKktUKSl9Etx/t42vUhyd/bHDFPtS6K4EdWY1VF2jpzN4ThXQXe5
-	 YMMhp2pxgeF3zRpxLdiciAmIqYWgvH+qzRd02s9rkVbH57Qv6WaiwqcXuKkLGWp8gJ
-	 BU/SZIhp4Ptwf7KP7fXt2pGB0maBxF6mcl3JjQMd5aHYq6N8Ijb1eoP/ap/pv+mfnx
-	 ErGdi/bofU0iGJ1Lc09xtoFY29xxkL9144hnu/d1iPLLhv29fHDilrahFEScCyv3DF
-	 dr4NuFr/gf8dS//vtaZS0MJ860zb2TMaKf1Mhi0Y8/jdwtRyoVzzr9i9pEdDuUB8CQ
-	 3WX8lY05D/Syw==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 011FF3780520;
-	Fri, 19 Jul 2024 13:47:00 +0000 (UTC)
-Message-ID: <2eec786d-f2b6-4445-87f4-4b6d162a2d9a@collabora.com>
-Date: Fri, 19 Jul 2024 15:47:00 +0200
+	s=arc-20240116; t=1721403372; c=relaxed/simple;
+	bh=2/0klvuVGtgDS9abJE4lmmD+PAfbpXL+FKyhH3c98Sg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=g8we3o0pdulqRWq9gJF5zvRkSOE6E/vxB6pyjQHiLtG1KxmZiWBti/Ca+5+i8iD2SHCEgGADEZay3n2zG056liZWhrnkrTmOYK3sHOecXjonXTOu+kLacbns1whSb8b/p6ZWvNyqDFy6pAJzHt6gDvbQuyxpbVMMMoU5RZfNBKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=omhslDwU; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4494d41090bso8333921cf.3
+        for <linux-media@vger.kernel.org>; Fri, 19 Jul 2024 08:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1721403369; x=1722008169; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2/0klvuVGtgDS9abJE4lmmD+PAfbpXL+FKyhH3c98Sg=;
+        b=omhslDwUMpBEgOcZln436AtMrxjNgnRVLBtVC77F5XRBCoWutgcMBXu4MVDEOuFAaK
+         NZjy1pI5B5FVJ0BE/EjCPJBFOYtfUFdtyQRiayp4vwgGnYa4qeulYRisDY5P425gGxKD
+         e9WkKxawcpOPT0wvCCAPf/FlSSKIOMLr4t88SplPsarvEieSY4eQSNfdHswW+ft+rjEM
+         4vJVIhftR5VPBEsff7Mn0OveHn78Wq8seeO7DcAxgmUXj5kmCExwEPDwR67wK+2CpeyC
+         IHjNCFzvO7vp8sArDNyiMx6WALfxp+dmD3YY32HMIrLOBNuDk+MAC+uQt22Vd8S8xzZ1
+         vsKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721403369; x=1722008169;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2/0klvuVGtgDS9abJE4lmmD+PAfbpXL+FKyhH3c98Sg=;
+        b=tprDVoa1kZujjfaplBIAGTFf00d5TsR4jmak61RBavaMmJEeTlWfjLNJaOONSGFQpP
+         L4fSuZTT2p5w5ugKQuMaqVPRL/MzdgaHN45/HuzlhIQOsR14eUWdFn2QfhvF1Z54qdoU
+         lduEMc6QzcwUUmi984sZHXYMfqEnjytZqY1QNtDSHLSvfR4H5BbSENzxLzpBtXUC829g
+         exbjsuWEUZUEvjHl+PfJKtM3tqPEkgK3CBzdFj24vorNqLTCy7kUZ9lyJsXL+G5M80m/
+         PG6u6TjDl9ZEMLULk1OSdw8qgUIHmyv01f99OX0B/i7KC8GOBzDYO3R/NzluMGpbNmVI
+         gtRg==
+X-Gm-Message-State: AOJu0YwkiYYKoOCJkJ62l3ZzjJo1f4CmV5ZTDL9kbYnobUByVPcdy2Hv
+	ro93TRtvzfbafntP+qDyUwDXHRkLAtj3OwfiLrcNezetC1ty04ygo4FO60xZfwc=
+X-Google-Smtp-Source: AGHT+IHZp7BNDj9fxW/zyyX66aytU/LYHM1rzrFkUbWiel/Oy5IwtNqagwykSB1duU9OlITraqO8YQ==
+X-Received: by 2002:ac8:5d8b:0:b0:446:5d60:5cf3 with SMTP id d75a77b69052e-44fa52616d2mr2072161cf.6.1721403368697;
+        Fri, 19 Jul 2024 08:36:08 -0700 (PDT)
+Received: from nicolas-tpx395.lan ([2606:6d00:15:6720::7a9])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44f9cda3513sm8509791cf.66.2024.07.19.08.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jul 2024 08:36:08 -0700 (PDT)
+Message-ID: <dc423e4144e1c9ea32f6adbaa8319e38f1443896.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 0/2] Enumerate all pixels formats
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, kernel@collabora.com
+Date: Fri, 19 Jul 2024 11:36:07 -0400
+In-Reply-To: <2eec786d-f2b6-4445-87f4-4b6d162a2d9a@collabora.com>
+References: <20240717131430.159727-1-benjamin.gaignard@collabora.com>
+	 <07f62fbb-d1eb-41c3-86a8-13a082a8374f@xs4all.nl>
+	 <743e2589-c0df-461d-97d4-fafe78c334ea@collabora.com>
+	 <98f5cd5c-cb9c-45ca-a7c7-a546f525c393@xs4all.nl>
+	 <2eec786d-f2b6-4445-87f4-4b6d162a2d9a@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] Enumerate all pixels formats
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
- ezequiel@vanguardiasur.com.ar
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com
-References: <20240717131430.159727-1-benjamin.gaignard@collabora.com>
- <07f62fbb-d1eb-41c3-86a8-13a082a8374f@xs4all.nl>
- <743e2589-c0df-461d-97d4-fafe78c334ea@collabora.com>
- <98f5cd5c-cb9c-45ca-a7c7-a546f525c393@xs4all.nl>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <98f5cd5c-cb9c-45ca-a7c7-a546f525c393@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+Hi,
 
-Le 19/07/2024 à 15:37, Hans Verkuil a écrit :
-> On 19/07/2024 15:15, Benjamin Gaignard wrote:
->> Le 19/07/2024 à 14:57, Hans Verkuil a écrit :
->>> On 17/07/2024 15:14, Benjamin Gaignard wrote:
->>>> The goal of this series is to let userland applications enumerate
->>>> all the supported pixels formats of a stateless decoder without
->>>> setting all the possible codec-dependent control.
->>>> That offer a simplest solution for applications to discover
->>>> supported pixels formats and possibly let them doing smarter
->>>> choice between stateless decoders.
->>>>
->>>> An example of how it can be used in GStreamer to discover the
->>>> supported pixels formats for stateless decoder is available here:
->>>> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/v4l2codecs_enum_all_supported_formats?ref_type=heads
->>> So effectively specifying this flag makes ENUM_FMT also return
->>> formats that do not match the bit depth.
->>>
->>> So the AV1 (for example) compressed video uses e.g. 8 bit depth, but instead of just
->>> listing only 8 bit uncompressed pixelformats, you want to list them for any
->>> bit depth.
->>>
->>> But what is the point of that if the decoder can't decode 8 bit compressed to,
->>> say, 10 bit uncompressed video?
->> No decoder will do 8 bits to 10 bits (as far I knows).
->> The point is to be able to say that decoder could produce 10 bit frames without
->> setting a full sps/pps for each case (and for each supported codec).
->>
->>> I actually thought that this flag would just list all formats, independent
->>> of the output format (e.g. AV1, H264, etc.), but that does not appear to be
->>> the case? I.e., if capture pixelformat X is only available with AV1, will that still
->>> be listed if the output pixel is set to H264?
->>>
->>> I think you need to describe a real use-case here, and I am not convinced about
->>> the name of the flag either.
->> I may have miss something but yes the goal is to list all formats independently
->> of the output format.
->> When a SoC have multiple decoders for the same codec, knowing the supported formats
->> is key to select the better one.
->> Since I will have to do more iteration, feel free to provide a better name for the
->> flag(s). I'm always bad for naming this kind of thing.
-> That really needs to be clarified, since in patch 1/2 it says:
->
-> +   * If the ``V4L2_FMT_FLAG_ENUM_ALL_FORMATS`` flag is set the driver must enumerate
-> +     all the supported formats without taking care of codec-dependent controls
-> +     set on the ``OUTPUT`` queue. To indicate that the driver has take care of this
-> +     flag it must set ``V4L2_FMT_FLAG_ALL_FORMATS`` flag for each format while
-> +     enumerating.
->
-> Here it just talks about 'codec-dependent controls set on the ``OUTPUT`` queue', it
-> doesn't say anything about the compressed pixelformat set for the OUTPUT queue.
->
-> And patch 2/2 sets the ignore_depth_match boolean, suggesting also that it is
-> not listing all formats, but just ignoring a specific check.
->
-> But if you list all pixelformats without taking the OUTPUT pixelformat into
-> account, how do you know which pixelformat is valid for which codec?
->
-> Say that only MPEG support NV12 (just for the sake of argument), and that's
-> what you want to use, you have no way of knowing that NV12 is specific to MPEG,
-> you would have to try each codec and see if NV12 is supported for that codec.
->
-> I just don't see how this can be used in practice.
->
-> What exactly is the problem you want to solve? A real-life problem, not a theoretical
-> one :-)
+Le vendredi 19 juillet 2024 =C3=A0 15:47 +0200, Benjamin Gaignard a =C3=A9c=
+rit=C2=A0:
+> > What exactly is the problem you want to solve? A real-life problem, not=
+ a theoretical
+> > one :-)
+>=20
+> On real-life: on a board with 2 different stateless decoders being able t=
+o detect the
+> one which can decode 10 bits bitstreams without testing all codec-depende=
+nt controls.
 
-On real-life: on a board with 2 different stateless decoders being able to detect the
-one which can decode 10 bits bitstreams without testing all codec-dependent controls.
+That leans toward giving an answer for the selected bitstream format though=
+,
+since the same driver may do 10bit HEVC without 10bit AV1.
 
-Regards,
-Benjamin
+For the use case, both Chromium and GStreamer have a need to categorized
+decoders so that we avoid trying to use decoder that can't do that task. Mo=
+re
+platforms are getting multiple decoders, and we also need to take into acco=
+unt
+the available software decoders.
 
->
-> Regards,
->
-> 	Hans
->
->>
->>>> changes in version 4:
->>>> - Explicitly document that the new flags are targeting mem2mem devices.
->>>>
->>>> changes in version 3:
->>>> - Add a flag to inform userspace application that driver
->>>>     as take care of the flag.
->>>>
->>>> changes in version 2:
->>>> - Clarify documentation.
->>>> - Only keep V4L2_FMT_FLAG_ALL_FORMATS flag in ioctl.
->>>>
->>>> Benjamin
->>>>
->>>> Benjamin Gaignard (2):
->>>>     media: videodev2: Add flags to unconditionnaly enumerate pixels
->>>>       formats
->>> I.e.: it is not unconditionally, it still depends on the chosen codec.
->>>
->>> Regards,
->>>
->>>      Hans
->>>
->>>>     media: verisilicon: Use V4L2_FMT_FLAG_ENUM_ALL_FORMATS flag
->>>>
->>>>    .../media/v4l/dev-stateless-decoder.rst          |  6 ++++++
->>>>    .../userspace-api/media/v4l/vidioc-enum-fmt.rst  | 11 +++++++++++
->>>>    .../media/videodev2.h.rst.exceptions             |  2 ++
->>>>    drivers/media/platform/verisilicon/hantro_v4l2.c | 16 +++++++++++++---
->>>>    drivers/media/v4l2-core/v4l2-ioctl.c             |  3 +++
->>>>    include/uapi/linux/videodev2.h                   |  2 ++
->>>>    6 files changed, 37 insertions(+), 3 deletions(-)
->>>>
->
+Just looking at the codec specific profile is insufficient since we need tw=
+o
+conditions to be met.
+
+1. The driver must support 10bit for the specific CODEC (for most codec thi=
+s is
+profile visible)
+2. The produced 10bit color format must be supported by userspace
+
+In today's implementation, in order to test this, we'd need to simulate a 1=
+0bit
+header control, so that when enumerating the formats we get a list of 10bit
+(optionally 8bit too, since some decoder can downscale colors) and finally
+verify that these pixel formats are know by userspace. This is not impossib=
+le,
+but very tedious, this proposal we to try and make this easier.
+
+Nicolas
+
 
