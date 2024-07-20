@@ -1,63 +1,51 @@
-Return-Path: <linux-media+bounces-15199-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15201-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE08938098
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 12:02:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DA09380D4
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 12:51:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A9771F21DD2
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 10:02:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAFDE1C2124F
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 10:51:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD8F67E792;
-	Sat, 20 Jul 2024 10:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A2184D2C;
+	Sat, 20 Jul 2024 10:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UGqLdvc9"
+	dkim=pass (1024-bit key) header.d=yandex.com header.i=@yandex.com header.b="CuQhzWg7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0767929A2;
-	Sat, 20 Jul 2024 10:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0912030B;
+	Sat, 20 Jul 2024 10:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721469756; cv=none; b=pTPnASwKBqaA/Zu7PYphROZg+2RPHo9stTmhloArBWU9ynR+mWgwXFwGeq0VWHhsfZr2pRFzV8bFqfGxN5FhjXqYa4aDaRusvlP2Wq0RiGlfqZ1cGNlLe6J0RniZqcsuPhvNw8tluN4IAin7ufr5wQVeIngE6H7n2FYpgcaRU4w=
+	t=1721472707; cv=none; b=E7EGf/nzfG4s5i9DEKhKjgdwO3OONe8x5h8it2UBLp2OOytjkA5Fr0vSQFE51Zb4tdiHsiQiDbcVgZFstQiTfajP0ElVNSQn9v126Ma/h5SvLnNjhZES/cVXd4KjNfu+haWie9lHuPCHpmSxKRx3YPT3yigkYZZa1A9O6hBPgxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721469756; c=relaxed/simple;
-	bh=TdgC1DumvO3cTlhncpZT+dQdYCgP8kFCxJBqjpYwm7M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VwT3zwfzX3c1Anhfkk+s6aY/I7u75oxoN5HrA7bfMkk1eZB2IMfPqLOW8/AmN9T6Bc1IEzqLu3+svZVk6s4Elb9TSbPfEM7tU60dt7+yFCC4NOY+bkQWPjKLct8KAlwhdrawE2hqOxH/CvlLgHlb+eIxz5OKls/A5onYQT1fUYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UGqLdvc9; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 46KA22Cg066837;
-	Sat, 20 Jul 2024 05:02:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1721469722;
-	bh=6JTac/kdbI/faRkxndDnZRZM2W2p9sv96m2Wf45ymFs=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=UGqLdvc9md/tR3tkdYoeCFk4555ujsRcpxsB+PFQUSsI3h7+x3LQR8tkp4PWVf+Ex
-	 CdfVletzNWBvjJSayOrsg0/TY4v1DRz+2oe7TRR9HHgq7Y/qwGWDngedGWuclvrltU
-	 eCyi7zzgDOndNbyp5ZTvrjA9D6+qMZVXGTaiz6rU=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 46KA22Vn004145
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 20 Jul 2024 05:02:02 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 20
- Jul 2024 05:02:02 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 20 Jul 2024 05:02:02 -0500
-Received: from [10.249.130.181] ([10.249.130.181])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 46KA1qHA099904;
-	Sat, 20 Jul 2024 05:01:53 -0500
-Message-ID: <87e07706-03dc-42a2-b3fe-eaae24aa3c97@ti.com>
-Date: Sat, 20 Jul 2024 15:31:51 +0530
+	s=arc-20240116; t=1721472707; c=relaxed/simple;
+	bh=bjMYb4foP2Gd3ezZyUdM3Qw1b32Bs1ieql7ODvDwN+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ro6CCnCRVBZ+rU82Dll63HR3TmnNYQixZV0fAB9ZIGgYyukxQAySmTGQPS+Dwvkk1bye8IsxLi8piQLSG/4Ge9hL2dnzcR+4h9R+8jg/dTgJbZ7Dv7Oj6odmufWoUvrDjagDmbWRkptBNFZcUto6ewiMZWh630IWDKJDqSRA2cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.com; spf=pass smtp.mailfrom=yandex.com; dkim=pass (1024-bit key) header.d=yandex.com header.i=@yandex.com header.b=CuQhzWg7; arc=none smtp.client-ip=178.154.239.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.com
+Received: from mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:1115:0:640:1385:0])
+	by forward501b.mail.yandex.net (Yandex) with ESMTPS id 0529D610BD;
+	Sat, 20 Jul 2024 13:44:10 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 4iIPWxEGkGk0-FfI6ubyd;
+	Sat, 20 Jul 2024 13:44:08 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.com; s=mail;
+	t=1721472249; bh=d+h+UU22HqHfMDmo3Xu6T6q9MntFpOpEsMe8DGuLIhI=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=CuQhzWg7vpYy3l6oKNnNot63qdinAXTBN5weZju2M1Yax4M3Rlw9jz8zku/qyggQh
+	 1AIjT8NdTxfUxtbmiUhaMnAxIxJ18nNcTsfuZqsCtfyS5Nk3FBS0mQeO6yJeJg9lj9
+	 Zsz4IPUhYHrlsog45VQq/iiPrfNkNLuNa7X7b4x4=
+Authentication-Results: mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.com
+Message-ID: <c926b73e-9ee7-4c4f-9c06-761929425468@yandex.com>
+Date: Sat, 20 Jul 2024 12:44:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,154 +53,202 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] math.h: Add macros for rounding to closest value
-To: Nikolay Borisov <nik.borisov@suse.com>, <mchehab@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <sebastian.fricke@collabora.com>,
-        <andriy.shevchenko@linux.intel.com>, <jani.nikula@intel.com>,
-        <jirislaby@kernel.org>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <andi.shyti@linux.intel.com>, <nicolas@ndufresne.ca>,
-        <davidgow@google.com>, <dlatypov@google.com>
-References: <20240708155943.2314427-1-devarsht@ti.com>
- <20240708155943.2314427-2-devarsht@ti.com>
- <4bf68f34-8a68-458f-9db2-c05b1b6bb711@suse.com>
+Subject: Re: [PATCH v4 2/4] dt-bindings: media: Document bindings for HDMI RX
+ Controller
+To: Shreeya Patel <shreeya.patel@collabora.com>, heiko@sntech.de,
+ mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
+ p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
+ hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+References: <20240719124032.26852-1-shreeya.patel@collabora.com>
+ <20240719124032.26852-3-shreeya.patel@collabora.com>
 Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <4bf68f34-8a68-458f-9db2-c05b1b6bb711@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+From: Johan Jonker <jbx6244@yandex.com>
+In-Reply-To: <20240719124032.26852-3-shreeya.patel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Nikolay,
 
-Sorry for the delay.
 
-On 09/07/24 14:19, Nikolay Borisov wrote:
+On 7/19/24 14:40, Shreeya Patel wrote:
+> Document bindings for the Synopsys DesignWare HDMI RX Controller.
 > 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+> ---
 > 
-> On 8.07.24 г. 18:59 ч., Devarsh Thakkar wrote:
->> Add below rounding related macros:
->>
->> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
->> power of 2, with a preference to round up in case two nearest values are
->> possible.
->>
->> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
->> power of 2, with a preference to round down in case two nearest values
->> are
->> possible.
->>
->> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
->> generally be used only when y is not multiple of 2 as otherwise
->> round_closest* macros should be used which are much faster.
->>
->> Examples:
->>   * round_closest_up(17, 4) = 16
->>   * round_closest_up(15, 4) = 16
->>   * round_closest_up(14, 4) = 16
->>   * round_closest_down(17, 4) = 16
->>   * round_closest_down(15, 4) = 16
->>   * round_closest_down(14, 4) = 12
->>   * roundclosest(21, 5) = 20
->>   * roundclosest(19, 5) = 20
->>   * roundclosest(17, 5) = 15
->>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> ---
->> NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
->> which uses similar macro locally and which is updated in further patch
->> in the series to use this generic macro instead along with other drivers
->> having similar requirements.
->>
->> Link:
->> https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
->> ---
->>   include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 63 insertions(+)
->>
->> diff --git a/include/linux/math.h b/include/linux/math.h
->> index dd4152711de7..79e3dfda77fc 100644
->> --- a/include/linux/math.h
->> +++ b/include/linux/math.h
->> @@ -34,6 +34,52 @@
->>    */
->>   #define round_down(x, y) ((x) & ~__round_mask(x, y))
->>   +/**
->> + * round_closest_up - round closest to be multiple of specified value
->> (which is
->> + *                    power of 2) with preference to rounding up
->> + * @x: the value to round
->> + * @y: multiple to round closest to (must be a power of 2)
->> + *
->> + * Rounds @x to closest multiple of @y (which must be a power of 2).
->> + * The value can be either rounded up or rounded down depending upon
->> rounded
->> + * value's closeness to the specified value. If there are two closest
->> possible
->> + * values, i.e. the difference between the specified value and it's
->> rounded up
->> + * and rounded down values is same then preference is given to
->> rounded up
->> + * value.
->> + *
->> + * To perform arbitrary rounding to closest value (not multiple of
->> 2), use
->> + * roundclosest().
->> + *
->> + * Examples:
->> + * * round_closest_up(17, 4) = 16
->> + * * round_closest_up(15, 4) = 16
->> + * * round_closest_up(14, 4) = 16
->> + */
->> +#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
->> +
->> +/**
->> + * round_closest_down - round closest to be multiple of specified
->> value (which
->> + *            is power of 2) with preference to rounding down
->> + * @x: the value to round
->> + * @y: multiple to round closest to (must be a power of 2)
->> + *
->> + * Rounds @x to closest multiple of @y (which must be a power of 2).
->> + * The value can be either rounded up or rounded down depending upon
->> rounded
->> + * value's closeness to the specified value. If there are two closest
->> possible
->> + * values, i.e. the difference between the specified value and it's
->> rounded up
->> + * and rounded down values is same then preference is given to
->> rounded up
->> + * value.
->> + *
->> + * To perform arbitrary rounding to closest value (not multiple of
->> 2), use
->> + * roundclosest().
->> + *
->> + * Examples:
->> + * * round_closest_down(17, 4) = 16
->> + * * round_closest_down(15, 4) = 16
->> + * * round_closest_down(14, 4) = 12
->> + */
->> +#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
+> Changes in v4 :-
+>   - No change
 > 
-> This is already identical to the existing round_down, no ?
+> Changes in v3 :-
+>   - Rename hdmirx_cma to hdmi_receiver_cma
+>   - Add a Reviewed-by tag
 > 
+> Changes in v2 :-
+>   - Add a description for the hardware
+>   - Rename resets, vo1 grf and HPD properties
+>   - Add a proper description for grf and vo1-grf phandles
+>   - Rename the HDMI Input node name to hdmi-receiver
+>   - Improve the subject line
+>   - Include gpio header file in example to fix dt_binding_check failure
+> 
+>  .../bindings/media/snps,dw-hdmi-rx.yaml       | 132 ++++++++++++++++++
+>  1 file changed, 132 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+> new file mode 100644
+> index 000000000000..96ae1e2d2816
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+> @@ -0,0 +1,132 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Device Tree bindings for Synopsys DesignWare HDMI RX Controller
+> +
+> +---
+> +$id: http://devicetree.org/schemas/media/snps,dw-hdmi-rx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Synopsys DesignWare HDMI RX Controller
+> +
+> +maintainers:
+> +  - Shreeya Patel <shreeya.patel@collabora.com>
+> +
+> +description:
+> +  Synopsys DesignWare HDMI Input Controller preset on RK3588 SoCs
+> +  allowing devices to receive and decode high-resolution video streams
+> +  from external sources like media players, cameras, laptops, etc.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: rockchip,rk3588-hdmirx-ctrler
 
-Nopes both are different as described in the comments, round_down rounds
-down to next specified power of 2, but round_closest_down rounds to
-closest multiple of the specified power (which could be higher or lower)
-and if there are two closest multiples then it gives preference to lower
-value as shown in below examples :
- - round_closest_down(15, 4) = 16
- - round_down(15,4) = 12
- - round_closest_down(14, 4) = 12
- - round_closest_up(14, 4) = 16
+> +      - const: snps,dw-hdmi-rx
 
-Regards
-Devarsh
+1: Compatible strings must be SoC orientated.
+2: In Linux there's no priority in which string will probed first. 
+What's the point of having a fallback string when there's no common code, but instead only the first string is used?
+
++static const struct of_device_id hdmirx_id[] = {
++	{ .compatible = "rockchip,rk3588-hdmirx-ctrler" },
++	{ },
++};
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 3
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: cec
+> +      - const: hdmi
+> +      - const: dma
+> +
+> +  clocks:
+> +    maxItems: 7
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: audio
+> +      - const: cr_para
+> +      - const: pclk
+> +      - const: ref
+> +      - const: hclk_s_hdmirx
+> +      - const: hclk_vo1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 4
+> +
+> +  reset-names:
+> +    items:
+> +      - const: axi
+> +      - const: apb
+> +      - const: ref
+> +      - const: biu
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  hpd-gpios:
+> +    description: GPIO specifier for HPD.
+> +    maxItems: 1
+> +
+> +  rockchip,grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The phandle of the syscon node for the general register file
+> +      containing HDMIRX PHY status bits.
+> +
+> +  rockchip,vo1-grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The phandle of the syscon node for the Video Output GRF register
+> +      to enable EDID transfer through SDAIN and SCLIN.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +  - pinctrl-0
+> +  - hpd-gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/rk3588-power.h>
+> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
+> +    hdmi_receiver: hdmi-receiver@fdee0000 {
+> +      compatible = "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx";
+> +      reg = <0xfdee0000 0x6000>;
+> +      interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                   <GIC_SPI 436 IRQ_TYPE_LEVEL_HIGH 0>,
+> +                   <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH 0>;
+> +      interrupt-names = "cec", "hdmi", "dma";
+> +      clocks = <&cru ACLK_HDMIRX>,
+> +               <&cru CLK_HDMIRX_AUD>,
+> +               <&cru CLK_CR_PARA>,
+> +               <&cru PCLK_HDMIRX>,
+> +               <&cru CLK_HDMIRX_REF>,
+> +               <&cru PCLK_S_HDMIRX>,
+> +               <&cru HCLK_VO1>;
+> +      clock-names = "aclk",
+> +                    "audio",
+> +                    "cr_para",
+> +                    "pclk",
+> +                    "ref",
+> +                    "hclk_s_hdmirx",
+> +                    "hclk_vo1";
+> +      power-domains = <&power RK3588_PD_VO1>;
+> +      resets = <&cru SRST_A_HDMIRX>, <&cru SRST_P_HDMIRX>,
+> +               <&cru SRST_HDMIRX_REF>, <&cru SRST_A_HDMIRX_BIU>;
+> +      reset-names = "axi", "apb", "ref", "biu";
+> +      memory-region = <&hdmi_receiver_cma>;
+> +      pinctrl-0 = <&hdmim1_rx_cec &hdmim1_rx_hpdin &hdmim1_rx_scl &hdmim1_rx_sda &hdmirx_5v_detection>;
+> +      pinctrl-names = "default";
+> +      hpd-gpios = <&gpio1 22 GPIO_ACTIVE_LOW>;
+> +    };
 
