@@ -1,129 +1,109 @@
-Return-Path: <linux-media+bounces-15163-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15164-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15331937DBF
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 00:10:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 829FC937EA3
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 03:51:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E19CB217CC
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jul 2024 22:10:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3C141C2128A
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 01:51:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27EF12F34;
-	Fri, 19 Jul 2024 22:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCefEhJx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD7063A5;
+	Sat, 20 Jul 2024 01:51:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4ED148832;
-	Fri, 19 Jul 2024 22:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678058BFD
+	for <linux-media@vger.kernel.org>; Sat, 20 Jul 2024 01:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721427027; cv=none; b=qKxxRldtJ6S2uvx3PkVqXTKfzjjqBfbCZtzd1VmUYs6jKeMid7N20ZZ6tjk73m87Lqmv/jhsxY49iAWWqrtFJav46U6PO+XseYJ5bE7kdXz8aSySpzvG/5s6UkSjtyBD1U2xT1fVBcobBpvulE1nRue434ZwHUqWsv22x+0NhBA=
+	t=1721440294; cv=none; b=O79FSphJisc6/D/LSUFy+mmPpCef8VJUQplGb5/P01IjElbUtTKvQn+R+XEvDt7z49XrEUv42QyT2fYgvgRehaDIYu2qldpNzf5wNHJyKhPsT06Do1A/mKv1YvjsXZljcfFlXLiImcLH73FIbK9t8F6A3KZLC7CBekSc3hjxnDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721427027; c=relaxed/simple;
-	bh=V0c7nQInZQHViP4y2EWyTjZ7257Z/OpHVNmbSCyY7ZY=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=ep6D2Fh/Uop9YwfUQNDbrWIlLOBdbf/wjF8SXnBLFQujvNL/NAHvZgpcq/sYEHQjWR/71gMyJleSW4FEZ9spCKgsTEmbFqhRJ75CTGP8fICHkBYNSqzgKnK3X/cbQRnIbDSDUNtbmhfFN4zNmHZrLO7a9Dw336NRKpVfNsvUtnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZCefEhJx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 971E3C32782;
-	Fri, 19 Jul 2024 22:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721427027;
-	bh=V0c7nQInZQHViP4y2EWyTjZ7257Z/OpHVNmbSCyY7ZY=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=ZCefEhJxD0kJDQF5aFMBqtXgHQF4iEAJ4Q/a4iQMbM9zpxDeZ82frT8KnDMfOuBD/
-	 SLj8mUvaW4Mi0+vR7N4k/ogzdRkfpgGMy7D7MSadkG5tbin2bGmh3bT7+ZvAi3f8gW
-	 S090FuPqtelLDtxuycYBSSa97nF9akGChXYyAX5wC/zhvYvFpQuwXxAqjxnpQkEPgV
-	 rkXd/2P43VWn+/3GcfXHhP9l/UUZaojZbrB0QyX1b82s9jkONpc5ercshIM+3uqUz5
-	 snTa2//H9sHznlbEjrPODobZwxTSlb5s8LNGP7hct7cOwJYQqin5ZKKWBcchGFfndO
-	 OfdLGACRqzP+w==
-Date: Fri, 19 Jul 2024 16:10:23 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1721440294; c=relaxed/simple;
+	bh=y5aIXgg5GhpIvnDSiOQWY3QFWbTlJNQ73jj5lLa2J50=;
+	h=Date:From:To:Subject:Message-Id; b=jkqatSTR1bhMcs8UXvaY9radJ01XbJS7M8owNYq9xD7T3Ry4B8proGjaRtoufyc4emK68bFVeDfmOfMBpBpD2+wvRZGjcLg0rk4LjC0f3XPw2D5NDMcCrAo2M/nYmg5c6ftmrWWJBzYfsBh2ytDtZNNXxeq8loAHRQXmER/36WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AB1C32782
+	for <linux-media@vger.kernel.org>; Sat, 20 Jul 2024 01:51:33 +0000 (UTC)
+Date: Sat, 20 Jul 2024 03:51:31 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240720015133.94AB1C32782@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: kernel@collabora.com, mchehab@kernel.org, conor+dt@kernel.org, 
- linux-media@vger.kernel.org, nelson.costa@synopsys.com, 
- linux-arm-kernel@lists.infradead.org, heiko@sntech.de, 
- mturquette@baylibre.com, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, 
- linux-rockchip@lists.infradead.org, shawn.wen@rock-chips.com, 
- sboyd@kernel.org, Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- p.zabel@pengutronix.de, jose.abreu@synopsys.com, 
- linux-kernel@vger.kernel.org, krzk+dt@kernel.org, 
- devicetree@vger.kernel.org, nicolas.dufresne@collabora.com
-In-Reply-To: <20240719124032.26852-3-shreeya.patel@collabora.com>
-References: <20240719124032.26852-1-shreeya.patel@collabora.com>
- <20240719124032.26852-3-shreeya.patel@collabora.com>
-Message-Id: <172142702137.153951.8294803513682327237.robh@kernel.org>
-Subject: Re: [PATCH v4 2/4] dt-bindings: media: Document bindings for HDMI
- RX Controller
 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-On Fri, 19 Jul 2024 18:10:30 +0530, Shreeya Patel wrote:
-> Document bindings for the Synopsys DesignWare HDMI RX Controller.
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
-> ---
-> 
-> Changes in v4 :-
->   - No change
-> 
-> Changes in v3 :-
->   - Rename hdmirx_cma to hdmi_receiver_cma
->   - Add a Reviewed-by tag
-> 
-> Changes in v2 :-
->   - Add a description for the hardware
->   - Rename resets, vo1 grf and HPD properties
->   - Add a proper description for grf and vo1-grf phandles
->   - Rename the HDMI Input node name to hdmi-receiver
->   - Improve the subject line
->   - Include gpio header file in example to fix dt_binding_check failure
-> 
->  .../bindings/media/snps,dw-hdmi-rx.yaml       | 132 ++++++++++++++++++
->  1 file changed, 132 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
-> 
+Results of the daily build of media_tree:
 
-My bot found errors running 'make dt_binding_check' on your patch:
+date:			Sat Jul 20 03:00:21 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	68a72104cbcf38ad16500216e213fa4eb21c4be2
+v4l-utils git hash:	93463ab74dbe74e007b4db14505421735e89e932
+edid-decode git hash:	6f117a8f8c0e76e85f599a8b05c21c5f51c5c3c1
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8664-g4f9e5df6
+sparse version:		v0.5.0-8664-g4f9e5df6
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
+host hardware:		x86_64
+host os:		6.5.0-35-generic
 
-yamllint warnings/errors:
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-of.config: OK
+no-acpi.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: WARNINGS:
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.example.dts:53.38-39 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.lib:427: Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1430: dt_binding_check] Error 2
-make: *** [Makefile:240: __sub-make] Error 2
+drivers/media/common/siano/smscoreapi.c:1172 smscore_load_firmware_from_file() error: we previously assumed 'loadfirmware_handler' could be null (see line 1150)
 
-doc reference errors (make refcheckdocs):
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240719124032.26852-3-shreeya.patel@collabora.com
+date:			Sat Jul 20 03:14:10 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+date:			Sat Jul 20 03:50:24 CEST 2024
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Detailed results are available here:
 
-pip3 install dtschema --upgrade
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Detailed regression test results are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
