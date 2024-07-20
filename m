@@ -1,36 +1,63 @@
-Return-Path: <linux-media+bounces-15198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15199-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A12E93808B
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 11:53:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE08938098
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 12:02:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1FBA32824D4
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 09:53:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A9771F21DD2
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 10:02:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7767BB0A;
-	Sat, 20 Jul 2024 09:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD8F67E792;
+	Sat, 20 Jul 2024 10:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UGqLdvc9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D8C4CE09;
-	Sat, 20 Jul 2024 09:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0767929A2;
+	Sat, 20 Jul 2024 10:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721469227; cv=none; b=tkXJLWlH6RxPAtXcgQjvLRwV6LXnT8E+RGQktOr3dcbYdkLEuWm6SMhcHlqW+junXSk9vpoKbckQxnbX8YQb8vUPGSO++p4hfNqUFwtCUURcQT5RNsUt4D9JvlKD3m88/gOSe+TCjMwcEqeoKxftLdiDr465eAEW3M7dFYV8ifc=
+	t=1721469756; cv=none; b=pTPnASwKBqaA/Zu7PYphROZg+2RPHo9stTmhloArBWU9ynR+mWgwXFwGeq0VWHhsfZr2pRFzV8bFqfGxN5FhjXqYa4aDaRusvlP2Wq0RiGlfqZ1cGNlLe6J0RniZqcsuPhvNw8tluN4IAin7ufr5wQVeIngE6H7n2FYpgcaRU4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721469227; c=relaxed/simple;
-	bh=xhomw79Be/HCpaE2/rtrJWGC2ErE93REQWlELmL6Few=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jvbMeGrEiiuBm78OqT+QptZg9LgY3NYiqcvoCRmdd/tXr8e64Gxi/DYgQOCKBjI2iRQQlntUEg+hwHnhxqU8rL3UlC8dzil5hNG8k3QA2LBZBEu4Tb4TXjcVje/3u7tmwuyn1yYpOhj2V3Sxfjmf2T3ViZmRk23W6W8BOLPgHII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F29CAC2BD10;
-	Sat, 20 Jul 2024 09:53:39 +0000 (UTC)
-Message-ID: <a6a7a9c8-7406-4e69-a5cf-08cf06c7793d@xs4all.nl>
-Date: Sat, 20 Jul 2024 11:53:38 +0200
+	s=arc-20240116; t=1721469756; c=relaxed/simple;
+	bh=TdgC1DumvO3cTlhncpZT+dQdYCgP8kFCxJBqjpYwm7M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VwT3zwfzX3c1Anhfkk+s6aY/I7u75oxoN5HrA7bfMkk1eZB2IMfPqLOW8/AmN9T6Bc1IEzqLu3+svZVk6s4Elb9TSbPfEM7tU60dt7+yFCC4NOY+bkQWPjKLct8KAlwhdrawE2hqOxH/CvlLgHlb+eIxz5OKls/A5onYQT1fUYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UGqLdvc9; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 46KA22Cg066837;
+	Sat, 20 Jul 2024 05:02:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1721469722;
+	bh=6JTac/kdbI/faRkxndDnZRZM2W2p9sv96m2Wf45ymFs=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=UGqLdvc9md/tR3tkdYoeCFk4555ujsRcpxsB+PFQUSsI3h7+x3LQR8tkp4PWVf+Ex
+	 CdfVletzNWBvjJSayOrsg0/TY4v1DRz+2oe7TRR9HHgq7Y/qwGWDngedGWuclvrltU
+	 eCyi7zzgDOndNbyp5ZTvrjA9D6+qMZVXGTaiz6rU=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 46KA22Vn004145
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sat, 20 Jul 2024 05:02:02 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 20
+ Jul 2024 05:02:02 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sat, 20 Jul 2024 05:02:02 -0500
+Received: from [10.249.130.181] ([10.249.130.181])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 46KA1qHA099904;
+	Sat, 20 Jul 2024 05:01:53 -0500
+Message-ID: <87e07706-03dc-42a2-b3fe-eaae24aa3c97@ti.com>
+Date: Sat, 20 Jul 2024 15:31:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,199 +65,154 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 02/28] v4l2: handle restricted memory flags in queue
- setup
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Nathan Hebert <nhebert@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Brian Starkey
- <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240720071606.27930-1-yunfei.dong@mediatek.com>
- <20240720071606.27930-3-yunfei.dong@mediatek.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240720071606.27930-3-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/6] math.h: Add macros for rounding to closest value
+To: Nikolay Borisov <nik.borisov@suse.com>, <mchehab@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <sebastian.fricke@collabora.com>,
+        <andriy.shevchenko@linux.intel.com>, <jani.nikula@intel.com>,
+        <jirislaby@kernel.org>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <andi.shyti@linux.intel.com>, <nicolas@ndufresne.ca>,
+        <davidgow@google.com>, <dlatypov@google.com>
+References: <20240708155943.2314427-1-devarsht@ti.com>
+ <20240708155943.2314427-2-devarsht@ti.com>
+ <4bf68f34-8a68-458f-9db2-c05b1b6bb711@suse.com>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <4bf68f34-8a68-458f-9db2-c05b1b6bb711@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 20/07/2024 09:15, Yunfei Dong wrote:
-> From: Jeffrey Kardatzke <jkardatzke@google.com>
+Hi Nikolay,
+
+Sorry for the delay.
+
+On 09/07/24 14:19, Nikolay Borisov wrote:
 > 
-> Validates the restricted memory flags when setting up a queue and
-> ensures the queue has the proper capability.
 > 
-> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> [Yunfei: Change reviewer's comments]
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 29 +++++++++++++++++++
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 ++-
->  2 files changed, 32 insertions(+), 1 deletion(-)
+> On 8.07.24 г. 18:59 ч., Devarsh Thakkar wrote:
+>> Add below rounding related macros:
+>>
+>> round_closest_up(x, y) : Rounds x to closest multiple of y where y is a
+>> power of 2, with a preference to round up in case two nearest values are
+>> possible.
+>>
+>> round_closest_down(x, y) : Rounds x to closest multiple of y where y is a
+>> power of 2, with a preference to round down in case two nearest values
+>> are
+>> possible.
+>>
+>> roundclosest(x, y) : Rounds x to closest multiple of y, this macro should
+>> generally be used only when y is not multiple of 2 as otherwise
+>> round_closest* macros should be used which are much faster.
+>>
+>> Examples:
+>>   * round_closest_up(17, 4) = 16
+>>   * round_closest_up(15, 4) = 16
+>>   * round_closest_up(14, 4) = 16
+>>   * round_closest_down(17, 4) = 16
+>>   * round_closest_down(15, 4) = 16
+>>   * round_closest_down(14, 4) = 12
+>>   * roundclosest(21, 5) = 20
+>>   * roundclosest(19, 5) = 20
+>>   * roundclosest(17, 5) = 15
+>>
+>> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+>> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> ---
+>> NOTE: This patch is inspired from the Mentor Graphics IPU driver [1]
+>> which uses similar macro locally and which is updated in further patch
+>> in the series to use this generic macro instead along with other drivers
+>> having similar requirements.
+>>
+>> Link:
+>> https://elixir.bootlin.com/linux/v6.8.9/source/drivers/gpu/ipu-v3/ipu-image-convert.c#L480 [1]
+>> ---
+>>   include/linux/math.h | 63 ++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 63 insertions(+)
+>>
+>> diff --git a/include/linux/math.h b/include/linux/math.h
+>> index dd4152711de7..79e3dfda77fc 100644
+>> --- a/include/linux/math.h
+>> +++ b/include/linux/math.h
+>> @@ -34,6 +34,52 @@
+>>    */
+>>   #define round_down(x, y) ((x) & ~__round_mask(x, y))
+>>   +/**
+>> + * round_closest_up - round closest to be multiple of specified value
+>> (which is
+>> + *                    power of 2) with preference to rounding up
+>> + * @x: the value to round
+>> + * @y: multiple to round closest to (must be a power of 2)
+>> + *
+>> + * Rounds @x to closest multiple of @y (which must be a power of 2).
+>> + * The value can be either rounded up or rounded down depending upon
+>> rounded
+>> + * value's closeness to the specified value. If there are two closest
+>> possible
+>> + * values, i.e. the difference between the specified value and it's
+>> rounded up
+>> + * and rounded down values is same then preference is given to
+>> rounded up
+>> + * value.
+>> + *
+>> + * To perform arbitrary rounding to closest value (not multiple of
+>> 2), use
+>> + * roundclosest().
+>> + *
+>> + * Examples:
+>> + * * round_closest_up(17, 4) = 16
+>> + * * round_closest_up(15, 4) = 16
+>> + * * round_closest_up(14, 4) = 16
+>> + */
+>> +#define round_closest_up(x, y) round_down((x) + (y) / 2, (y))
+>> +
+>> +/**
+>> + * round_closest_down - round closest to be multiple of specified
+>> value (which
+>> + *            is power of 2) with preference to rounding down
+>> + * @x: the value to round
+>> + * @y: multiple to round closest to (must be a power of 2)
+>> + *
+>> + * Rounds @x to closest multiple of @y (which must be a power of 2).
+>> + * The value can be either rounded up or rounded down depending upon
+>> rounded
+>> + * value's closeness to the specified value. If there are two closest
+>> possible
+>> + * values, i.e. the difference between the specified value and it's
+>> rounded up
+>> + * and rounded down values is same then preference is given to
+>> rounded up
+>> + * value.
+>> + *
+>> + * To perform arbitrary rounding to closest value (not multiple of
+>> 2), use
+>> + * roundclosest().
+>> + *
+>> + * Examples:
+>> + * * round_closest_down(17, 4) = 16
+>> + * * round_closest_down(15, 4) = 16
+>> + * * round_closest_down(14, 4) = 12
+>> + */
+>> +#define round_closest_down(x, y) round_up((x) - (y) / 2, (y))
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 0217392fcc0d..44080121f37e 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -830,6 +830,23 @@ static bool verify_coherency_flags(struct vb2_queue *q, bool non_coherent_mem)
->  	return true;
->  }
->  
-> +static bool verify_restricted_mem_flags(struct vb2_queue *q, bool restricted_mem)
-> +{
-> +	if (restricted_mem != q->restricted_mem) {
-> +		dprintk(q, 1, "restricted memory model mismatch\n");
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static inline int restricted_mem_mismatch(bool restricted_mem, struct vb2_queue *q,
-> +					  enum vb2_memory memory)
-> +{
-> +	return restricted_mem && (!q->allow_restricted_mem || memory != VB2_MEMORY_DMABUF) ?
-> +	       -1 : 0;
-> +}
-> +
->  static int vb2_core_allocated_buffers_storage(struct vb2_queue *q)
->  {
->  	if (!q->bufs)
-> @@ -863,6 +880,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-> +	bool restricted_mem = flags & V4L2_MEMORY_FLAG_RESTRICTED;
->  	unsigned int i, first_index;
->  	int ret = 0;
->  
-> @@ -906,6 +924,9 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return 0;
->  	}
->  
-> +	if (restricted_mem_mismatch(restricted_mem, q, memory))
-> +		return -EINVAL;
-> +
->  	/*
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
-> @@ -923,6 +944,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	if (ret)
->  		return ret;
->  	set_queue_coherency(q, non_coherent_mem);
-> +	q->restricted_mem = restricted_mem;
->  
->  	/*
->  	 * Ask the driver how many buffers and planes per buffer it requires.
-> @@ -1031,6 +1053,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->  	unsigned int q_num_bufs = vb2_get_num_buffers(q);
-> +	bool restricted_mem = flags & V4L2_MEMORY_FLAG_RESTRICTED;
->  	bool no_previous_buffers = !q_num_bufs;
->  	int ret = 0;
->  
-> @@ -1039,6 +1062,9 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		return -ENOBUFS;
->  	}
->  
-> +	if (restricted_mem_mismatch(restricted_mem, q, memory))
-> +		return -EINVAL;
-> +
->  	if (no_previous_buffers) {
->  		if (q->waiting_in_dqbuf && *count) {
->  			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
-> @@ -1057,6 +1083,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return ret;
->  		q->waiting_for_buffers = !q->is_output;
->  		set_queue_coherency(q, non_coherent_mem);
-> +		q->restricted_mem = restricted_mem;
->  	} else {
->  		if (q->memory != memory) {
->  			dprintk(q, 1, "memory model mismatch\n");
-> @@ -1064,6 +1091,8 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		}
->  		if (!verify_coherency_flags(q, non_coherent_mem))
->  			return -EINVAL;
-> +		if (!verify_restricted_mem_flags(q, restricted_mem))
-> +			return -EINVAL;
->  	}
->  
->  	num_buffers = min(*count, q->max_num_buffers - q_num_bufs);
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 293f3d5f1c4e..9ee24e537e0c 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -682,7 +682,7 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
->  		*flags = 0;
+> This is already identical to the existing round_down, no ?
+> 
 
-Hmm, unless I am mistaken, this clears all flags. So if memory is DMABUF, then
-the V4L2_MEMORY_FLAG_RESTRICTED is just overwritten with 0. And that's what will
-be passed to vb2_core_reqbufs.
+Nopes both are different as described in the comments, round_down rounds
+down to next specified power of 2, but round_closest_down rounds to
+closest multiple of the specified power (which could be higher or lower)
+and if there are two closest multiples then it gives preference to lower
+value as shown in below examples :
+ - round_closest_down(15, 4) = 16
+ - round_down(15,4) = 12
+ - round_closest_down(14, 4) = 12
+ - round_closest_up(14, 4) = 16
 
-So how can this work? I'm not sure how you can have tested this.
-
-In any case, this function should change and do this instead:
-
-        /* Clear all unknown flags. */
-         *flags &= V4L2_MEMORY_FLAG_NON_COHERENT | V4L2_MEMORY_FLAG_RESTRICTED;
-
-        if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP)
-		*flags &= ~V4L2_MEMORY_FLAG_NON_COHERENT;
-
-I considered whether V4L2_MEMORY_FLAG_RESTRICTED should be cleared if memory
-wasn't DMABUF, but I don't think that is right: you want to see an error
-returned if you try such a combination.
-
->  	} else {
->  		/* Clear all unknown flags. */
-> -		*flags &= V4L2_MEMORY_FLAG_NON_COHERENT;
-> +		*flags &= V4L2_MEMORY_FLAG_NON_COHERENT | V4L2_MEMORY_FLAG_RESTRICTED;
->  	}
->  
->  	*caps |= V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
-> @@ -698,6 +698,8 @@ static void vb2_set_flags_and_caps(struct vb2_queue *q, u32 memory,
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
->  	if (q->supports_requests)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
-> +	if (q->allow_restricted_mem && q->io_modes & VB2_DMABUF)
-> +		*caps |= V4L2_BUF_CAP_SUPPORTS_RESTRICTED_MEM;
->  	if (max_num_bufs) {
->  		*max_num_bufs = q->max_num_buffers;
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
-
-What appears to be missing in this patch is what happens if you pass unrestricted
-memory to a queue that is configured for restricted memory: there does not appear
-to be a check for that. Or is that allowed? If so, that should be documented.
-
-And what happens if you pass a dmabuf for restricted memory to a queue that expects
-unrestricted memory? You want to get a nice error code for that (EACCES/EPERM, I
-never quite know which is the right one for that). That would apply to VIDIOC_QBUF
-and VIDIOC_PREPARE_BUF. This assumes you can easily query a dmabuf fd to see whether
-it is in restricted memory or not. I'm not sure if that is the case today.
-
-I also think that it would be useful to add a V4L2_BUF_FLAG_RESTRICTED_MEM flag
-that vb2 will return to userspace if the queue is configured for restricted memory.
-
-That will indicate to the application that the buffer indeed represents a buffer
-in restricted memory.
-
-Regards,
-
-	Hans
+Regards
+Devarsh
 
