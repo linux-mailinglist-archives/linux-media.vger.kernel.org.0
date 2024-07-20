@@ -1,64 +1,63 @@
-Return-Path: <linux-media+bounces-15190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15188-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290B8937FE0
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 10:01:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAAE6937FD5
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 09:56:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BA631C21308
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 08:00:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E6F6B210C7
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jul 2024 07:56:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 413C125601;
-	Sat, 20 Jul 2024 08:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A80E26ADE;
+	Sat, 20 Jul 2024 07:56:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="q3EmrTkw"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="L7eNxoBj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4928BE2;
-	Sat, 20 Jul 2024 08:00:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3DF2030B;
+	Sat, 20 Jul 2024 07:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721462451; cv=none; b=r0V3n6aWEx5Ofob+ju+R05qDK624z2VM6orM5mb0wQcWBKBwm2I3ZA65iIFAZn5c+5or+KAuAr6eGZF3WD+SmY+4NPX3Mq/dPOpfkqAIb0sd33gxntMBXE3smaZGLhZslEZm9AMcb8VxsVsu05xgayAVUhR4EmNNHm1WITjGGPk=
+	t=1721462191; cv=none; b=r9a9hYZIjG/ma2XlZPMsS0iclHL38Cwo7+beLp8nBPauWiisqFdYSRmWqOc4LZesPkpdvSZYwqxJ3Dz57PLlNv+QdqJV6WJCfxIfS/diqQ6uX/dQVXc7w8iyadmpiAlODgeHImNX+3vcdt6CT4OoeFEXJRbaGyZi91IOvKICuEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721462451; c=relaxed/simple;
-	bh=pq8xBK0+IqiGOJ3YhCMZptSa3Bj0C0JyHPXwo2Qrwys=;
+	s=arc-20240116; t=1721462191; c=relaxed/simple;
+	bh=YYHGfxiJvrAwDfY/TAn6sIl9oWYtEB9xaPkmwA5uv0M=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t8KhypSd4y74+SlsWWnkIYcjZJ6RAz4gO9BslQklAleJUrK9ozmYOa51pYx5Tp70cWWaIb7EbHnZAp+kd8rB52iSls3yeagZJtRTbzUup8zLq+VLZlgZ7sWuxxagXFNUxx4/yANeqzUYMZHc/1yKS2Ee5EtVKqPBft+LYoHZMHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=q3EmrTkw; arc=none smtp.client-ip=210.61.82.184
+	 MIME-Version:Content-Type; b=cHTcZ58ck38QUkmd2rJjg01xdT+b8sFdoMdxPH+r3T9Tue3kf+7j/EcqeYgMogRjGdZ9qhx5tRhdEz/qPXmAOs6IbK+km+KxUWRHYyxroDK59xktJk/FAXb1qHXEtObb3wOEgqqBfeNKKWN9O/tzJRYrZEXfXMccIbBSZib752Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=L7eNxoBj; arc=none smtp.client-ip=210.61.82.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 051999a8466811ef87684b57767b52b1-20240720
+X-UUID: 05fd99e6466811ef87684b57767b52b1-20240720
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=My2qHK1LZTlVJLyDFXRnOL28F6fqvoK2IyVdTbSQJKE=;
-	b=q3EmrTkwxU/JcWEA3TbQTY6DTWVg2Y04FLMXThvabJiZgsedBDG39qpgu5cK/qzifm5N0YTuD8IRfGE8KWjHbGr0CxJzFOwEun2P1J5LPZmILnmjdqu6TavEozgII/Txvc3UcWJMKvPqvRiGJJ7dy8ewbeE7GXBjMiNdxk7THiY=;
-X-CID-CACHE: Type:Local,Time:202407201558+08,HitQuantity:1
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=pokKjq0tVxevuS/zH2i+3zXDjegwd30AUFfqtEptA0Q=;
+	b=L7eNxoBjLPPloqRPoce1SOiJ3/Y5w0f28liHjFlI2bsJen/2iVK8bk7t7TKot22OUsdvXUOKnAKqoqujZfeyrfFRVufIBXVaF2qwF7d4Skvy8/nG5sNxDmwfXLvAkpE7nuomAhbptKai/cpQAVf4QJxQ+qcbU1posw7q8YFwJEk=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.40,REQID:d050331a-3c18-4fe7-8adc-919ecc0810a3,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-30
-X-CID-META: VersionHash:ba885a6,CLOUDID:15798545-a117-4f46-a956-71ffeac67bfa,B
+X-CID-O-INFO: VERSION:1.1.40,REQID:93453c59-f205-4181-8d81-622307224eca,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:ba885a6,CLOUDID:5a4cb4d1-436f-4604-ad9d-558fa44a3bbe,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:1,IP:nil,UR
 	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
 	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 051999a8466811ef87684b57767b52b1-20240720
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+X-UUID: 05fd99e6466811ef87684b57767b52b1-20240720
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
 	(envelope-from <yunfei.dong@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1241200868; Sat, 20 Jul 2024 15:16:44 +0800
+	with ESMTP id 375962715; Sat, 20 Jul 2024 15:16:46 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 20 Jul 2024 15:16:44 +0800
+ 15.2.1118.26; Sat, 20 Jul 2024 15:16:45 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 20 Jul 2024 15:16:42 +0800
+ 15.2.1118.26 via Frontend Transport; Sat, 20 Jul 2024 15:16:44 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Jeffrey Kardatzke <jkardatzke@google.com>,
 	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
@@ -81,9 +80,9 @@ CC: Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>, Hsin-Yi
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>,
 	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v7 24/28] media: mediatek: vcodec: support vp9 svp decoder for mt8188
-Date: Sat, 20 Jul 2024 15:16:02 +0800
-Message-ID: <20240720071606.27930-25-yunfei.dong@mediatek.com>
+Subject: [PATCH v7 25/28] media: mediatek: vcodec: remove vsi data from common interface
+Date: Sat, 20 Jul 2024 15:16:03 +0800
+Message-ID: <20240720071606.27930-26-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240720071606.27930-1-yunfei.dong@mediatek.com>
 References: <20240720071606.27930-1-yunfei.dong@mediatek.com>
@@ -97,236 +96,73 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-MTK: N
 
-From: Yilong Zhou <yilong.zhou@mediatek.com>
+Remove vsi related data from common interface to be compatible with
+the extend vsi with secure video playback change.
 
-Change vp9 driver to support secure video playback(svp) for
-mt8188. Need to map shared memory with optee interface and
-wait interrupt in optee-os.
-
-Signed-off-by: Yilong Zhou <yilong.zhou@mediatek.com>
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-[Yunfei: Fix the checkpatch warning]
 ---
- .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 101 +++++++++++-------
- 1 file changed, 65 insertions(+), 36 deletions(-)
+ .../decoder/vdec/vdec_h264_req_multi_if.c     | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-index eea709d93820..a16a6f858e2e 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-@@ -141,6 +141,7 @@ struct vdec_vp9_slice_frame_counts {
-  * @skip:	skip counts.
-  * @y_mode:	Y prediction mode counts.
-  * @filter:	interpolation filter counts.
-+ * @mv_joint:	motion vector joint counts.
-  * @sign:	motion vector sign counts.
-  * @classes:	motion vector class counts.
-  * @class0:	motion vector class0 bit counts.
-@@ -804,6 +805,9 @@ static void vdec_vp9_slice_setup_frame_ctx(struct vdec_vp9_slice_instance *insta
- 	error_resilient_mode = HDR_FLAG(ERROR_RESILIENT);
- 	reset_frame_context = uh->reset_frame_context;
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+index 25e4a5236dcc..f0ad54a87c8b 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+@@ -191,9 +191,9 @@ struct vdec_h264_slice_inst {
+ };
  
-+	if (instance->ctx->is_secure_playback)
-+		return;
-+
- 	/*
- 	 * according to "6.2 Uncompressed header syntax" in
- 	 * "VP9 Bitstream & Decoding Process Specification",
-@@ -818,8 +822,7 @@ static void vdec_vp9_slice_setup_frame_ctx(struct vdec_vp9_slice_instance *insta
- 		 * 2 resets just the context specified in the frame header
- 		 * 3 resets all contexts
- 		 */
--		if (key_frame || error_resilient_mode ||
--		    reset_frame_context == 3) {
-+		if (key_frame || error_resilient_mode || reset_frame_context == 3) {
- 			/* use default table */
- 			for (i = 0; i < 4; i++)
- 				instance->dirty[i] = 0;
-@@ -1042,6 +1045,9 @@ static void vdec_vp9_slice_setup_seg_buffer(struct vdec_vp9_slice_instance *inst
+ static int vdec_h264_slice_fill_decode_parameters(struct vdec_h264_slice_inst *inst,
+-						  struct vdec_h264_slice_share_info *share_info)
++						  struct vdec_h264_slice_share_info *share_info,
++						  struct vdec_h264_slice_lat_dec_param *slice_data)
  {
- 	struct vdec_vp9_slice_uncompressed_header *uh;
- 
-+	if (instance->ctx->is_secure_playback)
-+		return;
-+
- 	/* reset segment buffer */
- 	uh = &vsi->frame.uh;
- 	if (uh->frame_type == 0 ||
-@@ -1172,15 +1178,16 @@ static int vdec_vp9_slice_setup_lat(struct vdec_vp9_slice_instance *instance,
- 
- 	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[0]);
- 
--	/* setup prob/tile buffers for LAT */
--
--	ret = vdec_vp9_slice_setup_prob_buffer(instance, vsi);
--	if (ret)
--		goto err;
-+	if (!instance->ctx->is_secure_playback) {
-+		/* setup prob/tile buffers for LAT */
-+		ret = vdec_vp9_slice_setup_prob_buffer(instance, vsi);
-+		if (ret)
-+			goto err;
- 
--	ret = vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
--	if (ret)
--		goto err;
-+		ret = vdec_vp9_slice_setup_tile_buffer(instance, vsi, bs);
-+		if (ret)
-+			goto err;
-+	}
- 
- 	return 0;
- 
-@@ -1599,7 +1606,8 @@ static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance
- 		       pfc->seq, vsi->state.crc[4], vsi->state.crc[5],
- 		       vsi->state.crc[6], vsi->state.crc[7]);
- 
--	vdec_vp9_slice_update_prob(instance, vsi);
-+	if (!instance->ctx->is_secure_playback)
-+		vdec_vp9_slice_update_prob(instance, vsi);
- 
- 	instance->width = vsi->frame.uh.frame_width;
- 	instance->height = vsi->frame.uh.frame_height;
-@@ -1632,7 +1640,8 @@ static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
- 		return -EAGAIN;
- 	}
- 
--	vdec_vp9_slice_update_prob(instance, vsi);
-+	if (!instance->ctx->is_secure_playback)
-+		vdec_vp9_slice_update_prob(instance, vsi);
- 
- 	instance->width = vsi->frame.uh.frame_width;
- 	instance->height = vsi->frame.uh.frame_height;
-@@ -1665,7 +1674,6 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
- 	struct vb2_queue *vq;
- 	struct vdec_vp9_slice_reference *ref;
- 	int plane;
--	int size;
- 	int w;
- 	int h;
- 	int i;
-@@ -1673,12 +1681,14 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
- 	plane = instance->ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes;
- 	w = vsi->frame.uh.frame_width;
- 	h = vsi->frame.uh.frame_height;
--	size = ALIGN(w, 64) * ALIGN(h, 64);
-+
-+	vsi->fb.y.size = instance->ctx->picinfo.fb_sz[0];
-+	vsi->fb.c.size = instance->ctx->picinfo.fb_sz[1];
- 
- 	/* frame buffer */
- 	vsi->fb.y.dma_addr = fb->base_y.dma_addr;
- 	if (plane == 1)
--		vsi->fb.c.dma_addr = fb->base_y.dma_addr + size;
-+		vsi->fb.c.dma_addr = fb->base_y.dma_addr + vsi->fb.y.size;
- 	else
- 		vsi->fb.c.dma_addr = fb->base_c.dma_addr;
- 
-@@ -1694,8 +1704,15 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
+-	struct vdec_h264_slice_lat_dec_param *slice_param = &inst->vsi->h264_slice_params;
+ 	const struct v4l2_ctrl_h264_decode_params *dec_params;
+ 	const struct v4l2_ctrl_h264_scaling_matrix *src_matrix;
+ 	const struct v4l2_ctrl_h264_sps *sps;
+@@ -223,9 +223,9 @@ static int vdec_h264_slice_fill_decode_parameters(struct vdec_h264_slice_inst *i
  		return -EINVAL;
+ 	}
  
- 	/* update internal buffer's width/height */
--	instance->dpb[vb->index].width = w;
--	instance->dpb[vb->index].height = h;
-+	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
-+		struct vb2_buffer *buf = vb2_get_buffer(vq, i);
+-	mtk_vdec_h264_copy_sps_params(&slice_param->sps, sps);
+-	mtk_vdec_h264_copy_pps_params(&slice_param->pps, pps);
+-	mtk_vdec_h264_copy_scaling_matrix(&slice_param->scaling_matrix, src_matrix);
++	mtk_vdec_h264_copy_sps_params(&slice_data->sps, sps);
++	mtk_vdec_h264_copy_pps_params(&slice_data->pps, pps);
++	mtk_vdec_h264_copy_scaling_matrix(&slice_data->scaling_matrix, src_matrix);
+ 
+ 	memcpy(&share_info->sps, sps, sizeof(*sps));
+ 	memcpy(&share_info->dec_params, dec_params, sizeof(*dec_params));
+@@ -286,9 +286,6 @@ static int get_vdec_sig_decode_parameters(struct vdec_h264_slice_inst *inst)
+ 	mtk_vdec_h264_get_ref_list(b0_reflist, v4l2_b0_reflist, reflist_builder.num_valid);
+ 	mtk_vdec_h264_get_ref_list(b1_reflist, v4l2_b1_reflist, reflist_builder.num_valid);
+ 
+-	memcpy(&inst->vsi_ctx.h264_slice_params, slice_param,
+-	       sizeof(inst->vsi_ctx.h264_slice_params));
+-
+ 	return 0;
+ }
+ 
+@@ -676,7 +673,8 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+ 	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
+ 	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
+ 
+-	err = vdec_h264_slice_fill_decode_parameters(inst, share_info);
++	err = vdec_h264_slice_fill_decode_parameters(inst, share_info,
++						     &inst->vsi->h264_slice_params);
+ 	if (err)
+ 		goto err_free_fb_out;
+ 
+@@ -804,6 +802,9 @@ static int vdec_h264_slice_single_decode(void *h_vdec, struct mtk_vcodec_mem *bs
+ 	if (err)
+ 		goto err_free_fb_out;
+ 
++	memcpy(&inst->vsi_ctx.h264_slice_params, &inst->h264_slice_param,
++	       sizeof(inst->vsi_ctx.h264_slice_params));
 +
-+		if (vb == buf) {
-+			instance->dpb[i].width = w;
-+			instance->dpb[i].height = h;
-+			break;
-+		}
-+	}
- 
- 	/*
- 	 * get buffer's width/height from instance
-@@ -1717,7 +1734,7 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
- 				vb2_dma_contig_plane_dma_addr(vb, 0);
- 			if (plane == 1)
- 				vsi->ref[i].c.dma_addr =
--					vsi->ref[i].y.dma_addr + size;
-+					vsi->ref[i].y.dma_addr + vsi->fb.y.size;
- 			else
- 				vsi->ref[i].c.dma_addr =
- 					vb2_dma_contig_plane_dma_addr(vb, 1);
-@@ -1779,7 +1796,8 @@ static int vdec_vp9_slice_setup_core(struct vdec_vp9_slice_instance *instance,
- 	if (ret)
- 		goto err;
- 
--	vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[1]);
-+	if (!instance->ctx->is_secure_playback)
-+		vdec_vp9_slice_setup_seg_buffer(instance, vsi, &instance->seg[1]);
- 
- 	return 0;
- 
-@@ -1874,19 +1892,30 @@ static int vdec_vp9_slice_init(struct mtk_vcodec_dec_ctx *ctx)
- 		goto error_vsi;
- 	}
- 	instance->init_vsi = vsi;
--	instance->core_vsi = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
--						       (u32)vsi->core_vsi);
--	if (!instance->core_vsi) {
--		mtk_vdec_err(ctx, "failed to get VP9 core vsi\n");
--		ret = -EINVAL;
--		goto error_vsi;
--	}
- 
--	instance->irq = 1;
-+	if (ctx->is_secure_playback) {
-+		instance->core_vsi = mtk_vcodec_dec_get_shm_buffer_va(ctx->dev, MTK_VDEC_CORE,
-+								      OPTEE_DATA_INDEX);
-+		if (!instance->core_vsi) {
-+			mtk_vdec_err(ctx, "failed to get VP9 svp core vsi\n");
-+			ret = -EINVAL;
-+			goto error_vsi;
-+		}
-+		instance->irq = 0;
-+	} else {
-+		instance->core_vsi = mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
-+							       (u32)vsi->core_vsi);
-+		if (!instance->core_vsi) {
-+			mtk_vdec_err(ctx, "failed to get VP9 normal core vsi\n");
-+			ret = -EINVAL;
-+			goto error_vsi;
-+		}
-+		instance->irq = 1;
- 
--	ret = vdec_vp9_slice_init_default_frame_ctx(instance);
--	if (ret)
--		goto error_default_frame_ctx;
-+		ret = vdec_vp9_slice_init_default_frame_ctx(instance);
-+		if (ret)
-+			goto error_default_frame_ctx;
-+	}
- 
- 	ctx->drv_handle = instance;
- 
-@@ -2101,9 +2130,12 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 		       (unsigned long)pfc->vsi.trans.dma_addr,
- 		       (unsigned long)pfc->vsi.trans.dma_addr_end);
- 
--	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
--				       vsi->trans.dma_addr_end +
--				       ctx->msg_queue.wdma_addr.dma_addr);
-+	if (!instance->ctx->is_secure_playback) {
-+		vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
-+		mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
-+			       (unsigned long)pfc->vsi.trans.dma_addr_end);
-+	}
-+	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end);
- 	vdec_msg_queue_qbuf(&ctx->msg_queue.core_ctx, lat_buf);
- 
- 	return 0;
-@@ -2183,9 +2215,6 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 		goto err;
- 	}
- 
--	pfc->vsi.trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
--	mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
--		       (unsigned long)pfc->vsi.trans.dma_addr_end);
- 	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
- 	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
- 
+ 	buf = (unsigned char *)bs->va;
+ 	nal_start_idx = mtk_vdec_h264_find_start_code(buf, bs->size);
+ 	if (nal_start_idx < 0) {
 -- 
 2.18.0
 
