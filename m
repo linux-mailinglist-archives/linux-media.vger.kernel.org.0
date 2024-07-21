@@ -1,124 +1,177 @@
-Return-Path: <linux-media+bounces-15208-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15209-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26805938517
-	for <lists+linux-media@lfdr.de>; Sun, 21 Jul 2024 17:07:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C985393854E
+	for <lists+linux-media@lfdr.de>; Sun, 21 Jul 2024 17:39:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE8B81F2149D
-	for <lists+linux-media@lfdr.de>; Sun, 21 Jul 2024 15:07:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 870D22810E4
+	for <lists+linux-media@lfdr.de>; Sun, 21 Jul 2024 15:39:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58BEF16631A;
-	Sun, 21 Jul 2024 15:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23EF2167271;
+	Sun, 21 Jul 2024 15:39:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="srG5umnm"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DrdNj4Iy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF2D2C95;
-	Sun, 21 Jul 2024 15:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7E62907
+	for <linux-media@vger.kernel.org>; Sun, 21 Jul 2024 15:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721574434; cv=none; b=W+Uqd8E/AWIuz02WIlj4L7TyrG05Vdr2Ko6uQC5U7QUW8NXVjrkrqku1/T75YzlRTBX+m1B09K04AOIVKLxJSx3/ApX7fKpxjB2kNp8s5tj16Ow9hQG4K8cePQwDtz2Xo4XNKeQ4nwAFVtXQv4d2Bpi/ZMil3ib7rWLSCYtHcO4=
+	t=1721576339; cv=none; b=sJ0Nfat/z5Py8HfRzr+EPW6Ap8jyBVYjuuBgnbc5m6DH8YzAT/v6mS7Ojk/0tJC58+4AA8oQ75PbRawmGYm0O98zW/LWq1m6+8KLBEfpBnue/1d7TmERgZ6u1u7ztBnf2oGiHRRia6PPATXGmC4qQDv06ERHZsG6/x89h2FsrZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721574434; c=relaxed/simple;
-	bh=4RDVfMoZnl8W/03Rc62UPisRtfi7MpKvNbVSPt0+tFE=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=rDTiijt/7A1d8DQoVQI1CxLfMxtqtkAGxULcsKvmNjRxxvBjeeOSfMGq3h3vvaLHOflAsxJgegSFHkMnv87w0HVVrh9o6iZMjr63eVB7j9mUUjKSRbLoOsO3iPelesPXkd62DX219WHOfcnpKuwXfS2FMiFwfUeZORc+BRmObsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=srG5umnm; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1721574396; x=1722179196; i=markus.elfring@web.de;
-	bh=8e6xngCEuAfhhKLHCqt5i+i2Y9dCoP7b7yRLeyw9pj0=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=srG5umnm3ufPiBmYgOoAd7FiLEfhrND+tDIj90O2mEtyfKwgAv9c2Glc3m3l8GRk
-	 yRALk0jJL1+K59/MxDaOdbaxYvwdOc0L0WtQiMkDMtGNKr0wcDeKbTCr/0Jh+G3mJ
-	 +mpQk7uDhycp/sSoL0f8E/ghwzlYR/RBIY3fu/YrWqZfK4WyEkutrDKli6f1NT/hN
-	 EP1HUo/sW1KW3Amk+lHlOXkYVpYEZLARg5jRfYFvRLOEyRMHGZureHfG7Ly4K1rvV
-	 m/dhw9NRqQa9bHcjP8LtbqW4hSq03RQiSKlpzki6PLLnOEXSbAYXbwnJB5bDjRn5/
-	 JKEl32160N+e9+qiqA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N79NA-1sFFfE1RAi-00tMCf; Sun, 21
- Jul 2024 17:06:36 +0200
-Message-ID: <39542eb6-8616-468b-889e-d9e1db5bcac0@web.de>
-Date: Sun, 21 Jul 2024 17:06:24 +0200
+	s=arc-20240116; t=1721576339; c=relaxed/simple;
+	bh=Pr7O132SEouT6vs/viVJWv1ZAnadnppWHL83ixCCUJk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DH3RG6eyiOhKcMRJN2rnUEtROLxkdXbjKfJbFYXgiPaacl/5oosh2RdmvN2GWxJyscCQLSjEPbU0BjKfDQTAi5JDtN+Pi8orhds2SdZdkAMXczoWK4wnijhZ9ymqfoo/MuSDDnO75frciYOPNRAquYprxxzzew5bypCd+kPPB0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DrdNj4Iy; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721576336;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=h+WIUySG3X8s8gHCDhDyFH9aRpd0ZesC03oonoawAOs=;
+	b=DrdNj4IyEudjUk6A2nsy8OtiCXPtShu8VnA2INzw+CNGdRGZw9o3o5J30v3LGUcy/NuzsC
+	UKQm9z4pieqCR6HY2Zw9R7gweXQOc9QW5nHpEfsSx/4e1vVO4AirMdNEMr0cWcrXH4QqEH
+	WecRPDuCJdjTmZNwDsI1rGH11Wi6bgM=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-56-iq8vFZicMUmipSz6xp7ZzA-1; Sun,
+ 21 Jul 2024 11:38:49 -0400
+X-MC-Unique: iq8vFZicMUmipSz6xp7ZzA-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 319CC19560A2;
+	Sun, 21 Jul 2024 15:38:47 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.48])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1695B19560AE;
+	Sun, 21 Jul 2024 15:38:41 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH] media: atomisp: Fix streaming no longer working on BYT / ISP2400 devices
+Date: Sun, 21 Jul 2024 17:38:40 +0200
+Message-ID: <20240721153840.60617-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Dingxian Wen <shawn.wen@rock-chips.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Shreeya Patel <shreeya.patel@collabora.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Jose Abreu <Jose.Abreu@synopsys.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Nelson Costa <Nelson.Costa@synopsys.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240719124032.26852-5-shreeya.patel@collabora.com>
-Subject: Re: [PATCH v4 4/4] media: platform: synopsys: Add support for hdmi
- input driver
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240719124032.26852-5-shreeya.patel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Ak//860WhkOvUrec+vnPOWHPxhxWYIyxGq482NZFRI1G3Kaz2J3
- yfLQAIDLAZZoMvfEkQeeZ2UAJh6Ollel5osvUKJXbO8ar7yjmXYqiSwpEIeso5KgG7kUQNS
- rPGOvXpD2m9ughKG6wgKMN5YMJZx+RMT6oil6VyHb/5xrPiIXTtz0wgD/0JVk1tQM5wAZ2R
- WeMLhpihX8cZ5MAI5RJ/g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:VxIcW5ieMCU=;AGiTzqtD2DIn/PYq60IPFcVELrj
- 8zVMOpmg+5xhcleAN8Kr0lQC9AhE+tDegMYdoVvYY1M+FC7bpOoodcfMffkImWpohzXeSgQTd
- SgL2gxPPEibBmWh7CsHvDidwDIBEXE/imn0/Tglztb5UJxXHDpmsxQLtTRFUIr4MgHIeLW6us
- kMos34qP9WU1pIsa2J1J/uYYyj4mhQK+kmidKCcseYmdf1dSTVr/mHNPiLh1Absvtm7GMJm1m
- fl4/0vidzbzROR3/bCvhQlNgnypg5h3h6tCApE0dFslduErkNbZAXwGe20rmTsoqfYUZidiqY
- YSA0CDYUM6xDDOY6a6uo9g9HxVfSy+Qjn1xT06+veGFQo9NHKk2SHZXVqRfejxeQN7POcWO2I
- FWnMvUOOOQWe0sCAFwxpZIu3Au47E1f7ERkLd2TVpN4IgRoSeISWH3nM9D8E2XLwRqlv1O4En
- yHKpuSwpUV3Ie9KWTqDUNE+Rp8kQnAcCElkiLUmyoeTwz8K4SFmMHBrwB25qghWkT9TYh8fVn
- 2YjDYKcfP2CQzusOJ59kdlQ9AHNmjU3ZKPlTeyt6KfD84Lmc+5svdKCuNcEcO6XcogON3L762
- UG2bKp6KqSsilhg+i4J8KOviCA6U6oEaafZr05owVzL0TVnvIsfG5Kx3FS4E9D0JuZ9pcrS50
- NmW0hZjwF540rxeqQIQN0mWYT3aOHXr9a+7gtLmW1xeuQRyr0jExb5WNbjWfr/DnUYJvLQ4Na
- 6dglV1kM/ZACC/on2wPq9X07iiKM/vvBcm/dZIrZ+wJplkqDjU0SrXfsK4VLlsmMFiFnr5uGo
- BhHy6kQDu0WHF9JQv6JcfshQ==
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-=E2=80=A6
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> @@ -0,0 +1,2763 @@
-=E2=80=A6
-> +static void hdmirx_writel(struct snps_hdmirx_dev *hdmirx_dev, int reg, =
-u32 val)
-> +{
-=E2=80=A6
-> +	spin_lock_irqsave(&hdmirx_dev->rst_lock, lock_flags);
-> +	writel(val, hdmirx_dev->regs + reg);
-> +	spin_unlock_irqrestore(&hdmirx_dev->rst_lock, lock_flags);
-> +}
-=E2=80=A6
+Commit a0821ca14bb8 ("media: atomisp: Remove test pattern generator (TPG)
+support") broke BYT support because it removed a seemingly unused field
+from struct sh_css_sp_config and a seemingly unused value from enum
+ia_css_input_mode.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(spinlock_irqsave)(&hdmirx_dev->rst_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.10/source/include/linux/spinlock.h#L57=
-4
+But these are part of the ABI between the kernel and firmware on ISP2400
+and this part of the TPG support removal changes broke ISP2400 support.
 
-Regards,
-Markus
+ISP2401 support was not affected because on ISP2401 only a part of
+struct sh_css_sp_config is used.
+
+Restore the removed field and enum value to fix this.
+
+Fixes: a0821ca14bb8 ("media: atomisp: Remove test pattern generator (TPG) support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../media/atomisp/pci/ia_css_stream_public.h  |  8 ++++++--
+ .../media/atomisp/pci/sh_css_internal.h       | 19 ++++++++++++++++---
+ 2 files changed, 22 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+index 961c61288083..aad860e54d3a 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+@@ -27,12 +27,16 @@
+ #include "ia_css_prbs.h"
+ #include "ia_css_input_port.h"
+ 
+-/* Input modes, these enumerate all supported input modes.
+- *  Note that not all ISP modes support all input modes.
++/*
++ * Input modes, these enumerate all supported input modes.
++ * This enum is part of the atomisp firmware ABI and must
++ * NOT be changed!
++ * Note that not all ISP modes support all input modes.
+  */
+ enum ia_css_input_mode {
+ 	IA_CSS_INPUT_MODE_SENSOR, /** data from sensor */
+ 	IA_CSS_INPUT_MODE_FIFO,   /** data from input-fifo */
++	IA_CSS_INPUT_MODE_TPG,    /** data from test-pattern generator */
+ 	IA_CSS_INPUT_MODE_PRBS,   /** data from pseudo-random bit stream */
+ 	IA_CSS_INPUT_MODE_MEMORY, /** data from a frame in memory */
+ 	IA_CSS_INPUT_MODE_BUFFERED_SENSOR /** data is sent through mipi buffer */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+index a2d972ea3fa0..959e7f549641 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+@@ -344,7 +344,14 @@ struct sh_css_sp_input_formatter_set {
+ 
+ #define IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT (3)
+ 
+-/* SP configuration information */
++/*
++ * SP configuration information
++ *
++ * This struct is part of the atomisp firmware ABI and is directly copied
++ * to ISP DRAM by sh_css_store_sp_group_to_ddr()
++ *
++ * Do NOT change this struct's layout or remove seemingly unused fields!
++ */
+ struct sh_css_sp_config {
+ 	u8			no_isp_sync; /* Signal host immediately after start */
+ 	u8			enable_raw_pool_locking; /** Enable Raw Buffer Locking for HALv3 Support */
+@@ -354,6 +361,10 @@ struct sh_css_sp_config {
+ 	     host (true) or when they are passed to the preview/video pipe
+ 	     (false). */
+ 
++	 /*
++	  * Note the fields below are only used on the ISP2400 not on the ISP2401,
++	  * sh_css_store_sp_group_to_ddr() skip copying these when run on the ISP2401.
++	  */
+ 	struct {
+ 		u8					a_changed;
+ 		u8					b_changed;
+@@ -363,11 +374,13 @@ struct sh_css_sp_config {
+ 	} input_formatter;
+ 
+ 	sync_generator_cfg_t	sync_gen;
++	tpg_cfg_t		tpg;
+ 	prbs_cfg_t		prbs;
+ 	input_system_cfg_t	input_circuit;
+ 	u8			input_circuit_cfg_changed;
+-	u32		mipi_sizes_for_check[N_CSI_PORTS][IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT];
+-	u8                 enable_isys_event_queue;
++	u32			mipi_sizes_for_check[N_CSI_PORTS][IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT];
++	/* These last 2 fields are used on both the ISP2400 and the ISP2401 */
++	u8			enable_isys_event_queue;
+ 	u8			disable_cont_vf;
+ };
+ 
+-- 
+2.45.2
+
 
