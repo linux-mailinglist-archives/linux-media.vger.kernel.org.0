@@ -1,590 +1,972 @@
-Return-Path: <linux-media+bounces-15249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15250-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE5093907B
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 16:19:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3404093909E
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 16:27:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F1041F220FF
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 14:19:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 863A1B21568
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 14:27:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A807B16D4F5;
-	Mon, 22 Jul 2024 14:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 403C016D9DE;
+	Mon, 22 Jul 2024 14:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nk/pLr9w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE03BE5E;
-	Mon, 22 Jul 2024 14:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540231E507;
+	Mon, 22 Jul 2024 14:27:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721657974; cv=none; b=ddQEe9QfMRG6Aju1Tv7nfUTCXv15/Fzmb79INIFp4QUQ9mnER9K/MhbJJ2srdzlH/rGqwkT8r58MitafZjNgbe+dZcrVMIaKAu9qkRw5sJfMFah/dIIkr6cQeskWNAQs4rCkXkSqN1tiyBqYGKU53hIDS1oj2P7ltJeNBq/quJg=
+	t=1721658467; cv=none; b=se9nQK8gCv8iWOUSo4oRTxmp0D4WtvDaBwkxTr6yn6Nft9EukJ9U1CXcIjy6rWi4g5nIwdmrC5fxi7mNeNbZ4UNu8KRzdKxH7jXE+bUHZoYLru8jpEYBvIBqEbBH0scyKuSO0rTM0OhuLOh1Y2CdOPVnnxLgbD26Qpzt77cEsXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721657974; c=relaxed/simple;
-	bh=9fpukVFBoSrGWJZ8ym3bzs7UGegvKHi360U+irrCj5A=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=dTbWc9TX1n7eTKWWEsPGXQMHXw5JXfWBct64s2VDBHmHOkFL0saaAmlzeZOCWqFe2MFJEVySCr3fcmBcwjg+UjYpwaVXO2sxizKdMtaOWIQ9FIAI+LaJbSYdsxPcnHwbBHLV6InkMQs/oMKGry6UODCgS62IA8sBu8gkPerJqoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
-	by madrid.collaboradmins.com (Postfix) with ESMTP id 79E003780523;
-	Mon, 22 Jul 2024 14:19:27 +0000 (UTC)
-From: "Shreeya Patel" <shreeya.patel@collabora.com>
-In-Reply-To: <2044f205-60d1-40b3-a7d7-4be7526669a3@yandex.com>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-References: <20240719124032.26852-1-shreeya.patel@collabora.com>
- <20240719124032.26852-5-shreeya.patel@collabora.com> <2044f205-60d1-40b3-a7d7-4be7526669a3@yandex.com>
-Date: Mon, 22 Jul 2024 15:19:27 +0100
-Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com, shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, "Dmitry Osipenko" <dmitry.osipenko@collabora.com>
-To: "Johan Jonker" <jbx6244@yandex.com>
+	s=arc-20240116; t=1721658467; c=relaxed/simple;
+	bh=P7Y5HRks5CreNwAy3AkOti+CjzYJcZZBbeiwDfW5qBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uzheUrad3cp9MjSOvnkMo2m8MhJyfdx6EyoKHUl2CshFsf+LN3WDp8FeROvt/WY1NiCkDG85x563rhWO0HJvrh0bPkfeK6vsJXTddlGjA1dfRmXQNFCrAF26g84RZ4t4SUUpo/a0MwT+v8o6n501CQGjOKHV/XXiDJkfx9omSjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nk/pLr9w; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10D014CF;
+	Mon, 22 Jul 2024 16:27:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1721658421;
+	bh=P7Y5HRks5CreNwAy3AkOti+CjzYJcZZBbeiwDfW5qBE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nk/pLr9wkMqI9j1dv6keYeC22Ug/unOJiPlyJeP3W11vcTARy5LOWyU9LGK/JYOmE
+	 CLihEDDa8CiiRCib70Vbbv4GDeA5/tVFDI5eBkBPqM9o4bkWiW0Q6hlFLBQigm4CRW
+	 cP7yzvFnYjq4VY2C6Lut++5NYb7G/ihnK+nQwovo=
+Date: Mon, 22 Jul 2024 17:27:24 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Keith Zhao <keith.zhao@starfivetech.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v5 01/14] media: starfive: Add JH7110 ISP module
+ definitions
+Message-ID: <20240722142724.GG5732@pendragon.ideasonboard.com>
+References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-2-changhuang.liang@starfivetech.com>
+ <h52qw6ndset7h7rgbfs6jqbsweldgvc3ewforvzlhmacvmqzzl@u4ik6jeswswi>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <337fba-669e6a80-1-6e42ea80@161157687>
-Subject: =?utf-8?q?Re=3A?= [PATCH v4 4/4] =?utf-8?q?media=3A?=
- =?utf-8?q?_platform=3A?==?utf-8?q?_synopsys=3A?= Add support for hdmi input 
- driver
-User-Agent: SOGoMail 5.10.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <h52qw6ndset7h7rgbfs6jqbsweldgvc3ewforvzlhmacvmqzzl@u4ik6jeswswi>
 
-On Saturday, July 20, 2024 17:03 IST, Johan Jonker <jbx6244@yandex.com>=
- wrote:
-
-Hi Johan,
-
-Please see my response below.
-
->=20
->=20
-> On 7/19/24 14:40, Shreeya Patel wrote:
-> > Add initial support for the Synopsys DesignWare HDMI RX
-> > Controller Driver used by Rockchip RK3588. The driver
-> > supports:
-> >  - HDMI 1.4b and 2.0 modes (HDMI 4k@60Hz)
-> >  - RGB888, YUV422, YUV444 and YCC420 pixel formats
-> >  - CEC
-> >  - EDID configuration
-> >=20
-> > The hardware also has Audio and HDCP capabilities, but these are
-> > not yet supported by the driver.
-> >=20
-> > Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> > Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> > Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+On Wed, Jul 10, 2024 at 11:11:57AM +0200, Jacopo Mondi wrote:
+> On Tue, Jul 09, 2024 at 01:38:11AM GMT, Changhuang Liang wrote:
+> > Add JH7110 ISP module definitions for user space.
+> >
+> > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> > Signed-off-by: Zejian Su <zejian.su@starfivetech.com>
 > > ---
-> >=20
-> > Changes in v4 :-
-> >   - Create a separate config option for selecting the EDID
-> >     and enable it by default
-> >   - Improve the comment related to DV timings and move it
-> >     to the side of hdmirx=5Fget=5Fdetected=5Ftimings
-> >   - Add 100ms delay before pulling the HPD high
-> >   - Do not return the detected timings from VIDIOC=5FG=5FDV=5FTIMIN=
-GS
-> >   - Drop the bus info from hdmirx=5Fquerycap
-> >   - If *num=5Fplanes !=3D 0 then return 0 in hdmirx=5Fqueue=5Fsetup
-> >   - Set queue->min=5Fqueued=5Fbuffers to 1
-> >   - Drop q->allow=5Fcache=5Fhints =3D 0; as it's always 0 by defaul=
-t
-> >   - Add a comment for q->dma=5Fattrs =3D DMA=5FATTR=5FFORCE=5FCONTI=
-GUOUS;
-> >   - Drop .read =3D vb2=5Ffop=5Fread as it's not supported by driver
-> >   - Remove redundant edid=5Finit=5Fdata=5F600M
-> >   - Make HPD low when driver is loaded
-> >   - Add support for reading AVI Infoframe
-> >   - Remove msg=5Flen checks from hdmirx=5Fcec=5Ftransmit
-> >   - Add info about the CEC compliance test in the cover letter
-> >   - Add arbitration lost status
-> >   - Validate the physical address inside the EDID
-> >=20
-> > Changes in v3 :-
-> >   - Use v4l2-common helper functions
-> >=20
-> > Changes in v2 :-
-> >   - Fix checkpatch --strict warnings
-> >   - Rename resets, vo1-grf and HPD node names as per the DT changes
-> >=20
-> >  drivers/media/platform/Kconfig                |    1 +
-> >  drivers/media/platform/Makefile               |    1 +
-> >  drivers/media/platform/synopsys/Kconfig       |    3 +
-> >  drivers/media/platform/synopsys/Makefile      |    2 +
-> >  .../media/platform/synopsys/hdmirx/Kconfig    |   27 +
-> >  .../media/platform/synopsys/hdmirx/Makefile   |    4 +
-> >  .../platform/synopsys/hdmirx/snps=5Fhdmirx.c    | 2763 +++++++++++=
-++++++
-> >  .../platform/synopsys/hdmirx/snps=5Fhdmirx.h    |  394 +++
-> >  .../synopsys/hdmirx/snps=5Fhdmirx=5Fcec.c         |  285 ++
-> >  .../synopsys/hdmirx/snps=5Fhdmirx=5Fcec.h         |   44 +
-> >  10 files changed, 3524 insertions(+)
-> >  create mode 100644 drivers/media/platform/synopsys/Kconfig
-> >  create mode 100644 drivers/media/platform/synopsys/Makefile
-> >  create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
-> >  create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
-> >  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fh=
-dmirx.c
-> >  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fh=
-dmirx.h
-> >  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fh=
-dmirx=5Fcec.c
-> >  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps=5Fh=
-dmirx=5Fcec.h
-> >=20
-> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platfor=
-m/Kconfig
-> > index 85d2627776b6..9287faafdce5 100644
-> > --- a/drivers/media/platform/Kconfig
-> > +++ b/drivers/media/platform/Kconfig
-> > @@ -85,6 +85,7 @@ source "drivers/media/platform/rockchip/Kconfig"
-> >  source "drivers/media/platform/samsung/Kconfig"
-> >  source "drivers/media/platform/st/Kconfig"
-> >  source "drivers/media/platform/sunxi/Kconfig"
-> > +source "drivers/media/platform/synopsys/Kconfig"
-> >  source "drivers/media/platform/ti/Kconfig"
-> >  source "drivers/media/platform/verisilicon/Kconfig"
-> >  source "drivers/media/platform/via/Kconfig"
-> > diff --git a/drivers/media/platform/Makefile b/drivers/media/platfo=
-rm/Makefile
-> > index ace4e34483dd..6fd7db0541c7 100644
-> > --- a/drivers/media/platform/Makefile
-> > +++ b/drivers/media/platform/Makefile
-> > @@ -28,6 +28,7 @@ obj-y +=3D rockchip/
-> >  obj-y +=3D samsung/
-> >  obj-y +=3D st/
-> >  obj-y +=3D sunxi/
-> > +obj-y +=3D synopsys/
-> >  obj-y +=3D ti/
-> >  obj-y +=3D verisilicon/
-> >  obj-y +=3D via/
-> > diff --git a/drivers/media/platform/synopsys/Kconfig b/drivers/medi=
-a/platform/synopsys/Kconfig
+> >  MAINTAINERS                     |   1 +
+> >  include/uapi/linux/jh7110-isp.h | 739 ++++++++++++++++++++++++++++++++
+> 
+> With the recently merged support for the RaspberryPi PiSP BE we have
+> introduced include/uapi/linux/media/raspberry.
+> 
+> Would you consider placing this in
+> include/uapi/linux/media/startfive/ ?
+
+That sounds like a good idea.
+
+> >  2 files changed, 740 insertions(+)
+> >  create mode 100644 include/uapi/linux/jh7110-isp.h
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 507f04a80499..890604eb0d64 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -21305,6 +21305,7 @@ S:	Maintained
+> >  F:	Documentation/admin-guide/media/starfive_camss.rst
+> >  F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+> >  F:	drivers/staging/media/starfive/camss
+> > +F:	include/uapi/linux/jh7110-isp.h
+> >
+> >  STARFIVE CRYPTO DRIVER
+> >  M:	Jia Jie Ho <jiajie.ho@starfivetech.com>
+> > diff --git a/include/uapi/linux/jh7110-isp.h b/include/uapi/linux/jh7110-isp.h
 > > new file mode 100644
-> > index 000000000000..4fd521f78425
+> > index 000000000000..4939cd63e771
 > > --- /dev/null
-> > +++ b/drivers/media/platform/synopsys/Kconfig
-> > @@ -0,0 +1,3 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +++ b/include/uapi/linux/jh7110-isp.h
+> > @@ -0,0 +1,739 @@
+> > +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
+> > +/*
+> > + * jh7110-isp.h
+> > + *
+> > + * JH7110 ISP driver - user space header file.
+> > + *
+> > + * Copyright © 2023 StarFive Technology Co., Ltd.
+> > + *
+> > + * Author: Zejian Su <zejian.su@starfivetech.com>
+> > + *
+> > + */
 > > +
-> > +source "drivers/media/platform/synopsys/hdmirx/Kconfig"
-> > diff --git a/drivers/media/platform/synopsys/Makefile b/drivers/med=
-ia/platform/synopsys/Makefile
-> > new file mode 100644
-> > index 000000000000..3b12c574dd67
-> > --- /dev/null
-> > +++ b/drivers/media/platform/synopsys/Makefile
-> > @@ -0,0 +1,2 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +obj-y +=3D hdmirx/
-> > diff --git a/drivers/media/platform/synopsys/hdmirx/Kconfig b/drive=
-rs/media/platform/synopsys/hdmirx/Kconfig
-> > new file mode 100644
-> > index 000000000000..ab569e59300f
-> > --- /dev/null
-> > +++ b/drivers/media/platform/synopsys/hdmirx/Kconfig
-> > @@ -0,0 +1,27 @@
-> > +# SPDX-License-Identifier: GPL-2.0
+> > +#ifndef __JH7110_ISP_H_
+> > +#define __JH7110_ISP_H_
 > > +
-> > +config VIDEO=5FSYNOPSYS=5FHDMIRX
-> > +	tristate "Synopsys DesignWare HDMI Receiver driver"
-> > +	depends on VIDEO=5FDEV
-> > +	depends on ARCH=5FROCKCHIP
-> > +	select MEDIA=5FCONTROLLER
-> > +	select VIDEO=5FV4L2=5FSUBDEV=5FAPI
-> > +	select VIDEOBUF2=5FDMA=5FCONTIG
-> > +	select CEC=5FCORE
-> > +	select CEC=5FNOTIFIER
-> > +	select HDMI
-> > +	help
-> > +	  Support for Synopsys HDMI HDMI RX Controller.
-> > +	  This driver supports HDMI 2.0 version.
+> 
+> Do you need to include
+> 
+> #include <linux/types.h>
+> 
+> > +/**
+> 
+> Is this kernel-doc or a single * would do ?
+> 
+> > + * ISP Module Diagram
+> > + * ------------------
+> > + *
+> > + *  Raw  +-----+    +------+    +------+    +----+
+> > + *  ---->| OBC |--->| OECF |--->| LCCF |--->| WB |-----+
+> > + *       +-----+    +------+    +------+    +----+     |
+> > + *                                                     |
+> > + *  +--------------------------------------------------+
+> > + *  |
+> > + *  |    +-----+    +-----+    +-----+    +-----+
+> > + *  +--->| DBC |--->| CTC |--->| CFA |--->| CAR |------+
+> > + *       +-----+    +-----+    +-----+    +-----+      |
+> > + *                                                     |
+> > + *  +--------------------------------------------------+
+> > + *  |
+> > + *  |    +-----+    +--------+    +-----+    +------+
+> > + *  +--->| CCM |--->| GMARGB |--->| R2Y |--->| YCRV |--+
+> > + *       +-----+    +--------+    +-----+    +------+  |
+> > + *                                                     |
+> > + *  +--------------------------------------------------+
+> > + *  |
+> > + *  |    +-------+    +-------+    +-----+    +----+
+> > + *  +--->| SHARP |--->| DNYUV |--->| SAT |--->| SC |
+> > + *       +-------+    +-------+    +-----+    +----+
+> > + *
+
+The diagram is useful, thank you. A glossary would also be nice, maybe
+as
+
+ * - OBC: Optical Black Correction
+ * - OECF: Opto-Electric Conversion Function
+ * ...
+
+I think that would be easier to read than the comments above each macro
+below. Up to you.
+
+> > + */
 > > +
-> > +	  To compile this driver as a module, choose M here. The module
-> > +	  will be called synopsys=5Fhdmirx.
+> > +/* Auto White Balance */
+> > +#define JH7110_ISP_MODULE_WB_SETTING			(1U << 0)
+> > +/* Color Artifact Removal */
+> > +#define JH7110_ISP_MODULE_CAR_SETTING			(1U << 1)
+> > +/* Color Correction Matrix */
+> > +#define JH7110_ISP_MODULE_CCM_SETTING			(1U << 2)
+> > +/* Color Filter Arrays */
+> > +#define JH7110_ISP_MODULE_CFA_SETTING			(1U << 3)
+> > +/* Crosstalk Correction */
+> > +#define JH7110_ISP_MODULE_CTC_SETTING			(1U << 4)
+> > +/* Defect Bad Pixel Correction */
+> > +#define JH7110_ISP_MODULE_DBC_SETTING			(1U << 5)
+> > +/* Denoise YUV */
+> > +#define JH7110_ISP_MODULE_DNYUV_SETTING			(1U << 6)
+> > +/* RGB Gamma */
+> > +#define JH7110_ISP_MODULE_GMARGB_SETTING		(1U << 7)
+> > +/* Lens Correction Cosine Fourth */
+> > +#define JH7110_ISP_MODULE_LCCF_SETTING			(1U << 8)
+> > +/* Optical Black Correction */
+> > +#define JH7110_ISP_MODULE_OBC_SETTING			(1U << 9)
+> > +/* Opto-Electric Conversion Function */
+> > +#define JH7110_ISP_MODULE_OECF_SETTING			(1U << 10)
+> > +/* RGB To YUV */
+> > +#define JH7110_ISP_MODULE_R2Y_SETTING			(1U << 11)
+> > +/* Saturation */
+> > +#define JH7110_ISP_MODULE_SAT_SETTING			(1U << 12)
+> > +/* Sharpen */
+> > +#define JH7110_ISP_MODULE_SHARP_SETTING			(1U << 13)
+> > +/* Y Curve */
+> > +#define JH7110_ISP_MODULE_YCRV_SETTING			(1U << 14)
+> > +/* Statistics Collection */
+> > +#define JH7110_ISP_MODULE_SC_SETTING			(1U << 15)
+
+Unless there's a specific reason to keep the current order, maybe you
+could sort those macros in the same order as in the module diagram ?
+
 > > +
-> > +config HDMIRX=5FLOAD=5FDEFAULT=5FEDID
-> > +	bool "Load default EDID"
-> > +	depends on VIDEO=5FSYNOPSYS=5FHDMIRX
-> > +	default "y"
-> > +	help
-> > +	  Preload the default EDID (Extended Display Identification Data)=
-.
-> > +	  EDID contains information about the capabilities of the display=
-,
-> > +	  such as supported resolutions, refresh rates, and audio formats=
-.
-> > diff --git a/drivers/media/platform/synopsys/hdmirx/Makefile b/driv=
-ers/media/platform/synopsys/hdmirx/Makefile
-> > new file mode 100644
-> > index 000000000000..2fa2d9e25300
-> > --- /dev/null
-> > +++ b/drivers/media/platform/synopsys/hdmirx/Makefile
-> > @@ -0,0 +1,4 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +synopsys-hdmirx-objs :=3D snps=5Fhdmirx.o snps=5Fhdmirx=5Fcec.o
-> > +
-> > +obj-$(CONFIG=5FVIDEO=5FSYNOPSYS=5FHDMIRX) +=3D synopsys-hdmirx.o
-> > diff --git a/drivers/media/platform/synopsys/hdmirx/snps=5Fhdmirx.c=
- b/drivers/media/platform/synopsys/hdmirx/snps=5Fhdmirx.c
->=20
-> [..]
->=20
-> For FTRACE it is needed that all functions start with the same functi=
-on prefix.
->=20
-> > +static bool tx=5F5v=5Fpower=5Fpresent(struct snps=5Fhdmirx=5Fdev *=
-hdmirx=5Fdev)
->=20
-> > +static bool signal=5Fnot=5Flock(struct snps=5Fhdmirx=5Fdev *hdmirx=
-=5Fdev)
->=20
-> > +static bool port=5Fno=5Flink(struct snps=5Fhdmirx=5Fdev *hdmirx=5F=
-dev)
->=20
-> > +static int wait=5Freg=5Fbit=5Fstatus(struct snps=5Fhdmirx=5Fdev *h=
-dmirx=5Fdev, u32 reg,
-> > +			       u32 bit=5Fmask, u32 expect=5Fval, bool is=5Fgrf,
-> > +			       u32 ms)
->=20
-> > +static void return=5Fall=5Fbuffers(struct hdmirx=5Fstream *stream,
-> > +			       enum vb2=5Fbuffer=5Fstate state)
->=20
-> > +static void process=5Fsignal=5Fchange(struct snps=5Fhdmirx=5Fdev *=
-hdmirx=5Fdev)
->=20
-> > +static void avpunit=5F0=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fdev=
- *hdmirx=5Fdev,
-> > +				  int status, bool *handled)
->=20
-> > +static void avpunit=5F1=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fdev=
- *hdmirx=5Fdev,
-> > +				  int status, bool *handled)
->=20
-> > +static void mainunit=5F0=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fde=
-v *hdmirx=5Fdev,
-> > +				   int status, bool *handled)
->=20
-> > +static void mainunit=5F2=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fde=
-v *hdmirx=5Fdev,
-> > +				   int status, bool *handled)
->=20
-> > +static void pkt=5F2=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fdev *hd=
-mirx=5Fdev,
-> > +			      int status, bool *handled)
->=20
-> > +static void scdc=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fdev *hdmir=
-x=5Fdev,
-> > +			     int status, bool *handled)
->=20
-> > +static void dma=5Fidle=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fdev =
-*hdmirx=5Fdev,
-> > +				 bool *handled)
->=20
-> > +static void line=5Fflag=5Fint=5Fhandler(struct snps=5Fhdmirx=5Fdev=
- *hdmirx=5Fdev,
-> > +				  bool *handled)
->=20
-> [..]
->=20
-> > +static int hdmirx=5Fsetup=5Firq(struct snps=5Fhdmirx=5Fdev *hdmirx=
-=5Fdev,
-> > +			    struct platform=5Fdevice *pdev)
-> > +{
-> > +	struct device *dev =3D hdmirx=5Fdev->dev;
-> > +	int ret, irq;
-> > +
-> > +	irq =3D platform=5Fget=5Firq=5Fbyname(pdev, "hdmi");
-> > +	if (irq < 0) {
-> > +		dev=5Ferr=5Fprobe(dev, irq, "failed to get hdmi irq\n");
-> > +		return irq;
-> > +	}
-> > +
-> > +	irq=5Fset=5Fstatus=5Fflags(irq, IRQ=5FNOAUTOEN);
-> > +
-> > +	hdmirx=5Fdev->hdmi=5Firq =3D irq;
-> > +	ret =3D devm=5Frequest=5Firq(dev, irq, hdmirx=5Fhdmi=5Firq=5Fhand=
-ler, 0,
-> > +			       "rk=5Fhdmirx-hdmi", hdmirx=5Fdev);
-> > +	if (ret) {
-> > +		dev=5Ferr=5Fprobe(dev, ret, "failed to request hdmi irq\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	irq =3D platform=5Fget=5Firq=5Fbyname(pdev, "dma");
-> > +	if (irq < 0) {
-> > +		dev=5Ferr=5Fprobe(dev, irq, "failed to get dma irq\n");
-> > +		return irq;
-> > +	}
-> > +
-> > +	irq=5Fset=5Fstatus=5Fflags(irq, IRQ=5FNOAUTOEN);
-> > +
-> > +	hdmirx=5Fdev->dma=5Firq =3D irq;
-> > +	ret =3D devm=5Frequest=5Fthreaded=5Firq(dev, irq, NULL, hdmirx=5F=
-dma=5Firq=5Fhandler,
-> > +					IRQF=5FONESHOT, "rk=5Fhdmirx-dma",
-> > +					hdmirx=5Fdev);
-> > +	if (ret) {
-> > +		dev=5Ferr=5Fprobe(dev, ret, "failed to request dma irq\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	irq =3D gpiod=5Fto=5Firq(hdmirx=5Fdev->detect=5F5v=5Fgpio);
-> > +	if (irq < 0) {
-> > +		dev=5Ferr=5Fprobe(dev, irq, "failed to get hdmirx-5v irq\n");
-> > +		return irq;
-> > +	}
-> > +
-> > +	irq=5Fset=5Fstatus=5Fflags(irq, IRQ=5FNOAUTOEN);
-> > +
-> > +	hdmirx=5Fdev->det=5Firq =3D irq;
-> > +	ret =3D devm=5Frequest=5Firq(dev, irq, hdmirx=5F5v=5Fdet=5Firq=5F=
-handler,
-> > +			       IRQF=5FTRIGGER=5FFALLING | IRQF=5FTRIGGER=5FRISING,
-> > +			       "rk=5Fhdmirx-5v", hdmirx=5Fdev);
-> > +	if (ret) {
-> > +		dev=5Ferr=5Fprobe(dev, ret, "failed to request hdmirx-5v irq\n")=
-;
-> > +		return ret;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int hdmirx=5Fregister=5Fcec(struct snps=5Fhdmirx=5Fdev *hdm=
-irx=5Fdev,
-> > +			       struct platform=5Fdevice *pdev)
-> > +{
-> > +	struct device *dev =3D hdmirx=5Fdev->dev;
-> > +	struct hdmirx=5Fcec=5Fdata cec=5Fdata;
-> > +	int irq;
-> > +
-> > +	irq =3D platform=5Fget=5Firq=5Fbyname(pdev, "cec");
-> > +	if (irq < 0) {
-> > +		dev=5Ferr=5Fprobe(dev, irq, "failed to get cec irq\n");
-> > +		return irq;
-> > +	}
-> > +
-> > +	hdmirx=5Fdev->cec=5Fnotifier =3D cec=5Fnotifier=5Fconn=5Fregister=
-(dev, NULL, NULL);
-> > +	if (!hdmirx=5Fdev->cec=5Fnotifier)
-> > +		return -EINVAL;
-> > +
-> > +	cec=5Fdata.hdmirx =3D hdmirx=5Fdev;
-> > +	cec=5Fdata.dev =3D hdmirx=5Fdev->dev;
-> > +	cec=5Fdata.ops =3D &hdmirx=5Fcec=5Fops;
-> > +	cec=5Fdata.irq =3D irq;
-> > +
-> > +	hdmirx=5Fdev->cec =3D snps=5Fhdmirx=5Fcec=5Fregister(&cec=5Fdata)=
-;
-> > +	if (!hdmirx=5Fdev->cec) {
-> > +		cec=5Fnotifier=5Fconn=5Funregister(hdmirx=5Fdev->cec=5Fnotifier)=
-;
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int hdmirx=5Fprobe(struct platform=5Fdevice *pdev)
-> > +{
-> > +	struct snps=5Fhdmirx=5Fdev *hdmirx=5Fdev;
-> > +	struct device *dev =3D &pdev->dev;
-> > +	struct v4l2=5Fctrl=5Fhandler *hdl;
-> > +	struct hdmirx=5Fstream *stream;
-> > +	struct v4l2=5Fdevice *v4l2=5Fdev;
-> > +	int ret;
-> > +
-> > +	hdmirx=5Fdev =3D devm=5Fkzalloc(dev, sizeof(*hdmirx=5Fdev), GFP=5F=
-KERNEL);
-> > +	if (!hdmirx=5Fdev)
-> > +		return -ENOMEM;
-> > +
-> > +	ret =3D dma=5Fcoerce=5Fmask=5Fand=5Fcoherent(dev, DMA=5FBIT=5FMAS=
-K(32));
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	hdmirx=5Fdev->dev =3D dev;
-> > +	dev=5Fset=5Fdrvdata(dev, hdmirx=5Fdev);
-> > +
-> > +	ret =3D hdmirx=5Fparse=5Fdt(hdmirx=5Fdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D hdmirx=5Fsetup=5Firq(hdmirx=5Fdev, pdev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	hdmirx=5Fdev->regs =3D devm=5Fplatform=5Fioremap=5Fresource(pdev,=
- 0);
-> > +	if (IS=5FERR(hdmirx=5Fdev->regs))
-> > +		return dev=5Ferr=5Fprobe(dev, PTR=5FERR(hdmirx=5Fdev->regs),
-> > +				     "failed to remap regs resource\n");
-> > +
-> > +	mutex=5Finit(&hdmirx=5Fdev->stream=5Flock);
-> > +	mutex=5Finit(&hdmirx=5Fdev->work=5Flock);
-> > +	spin=5Flock=5Finit(&hdmirx=5Fdev->rst=5Flock);
-> > +
-> > +	init=5Fcompletion(&hdmirx=5Fdev->cr=5Fwrite=5Fdone);
-> > +	init=5Fcompletion(&hdmirx=5Fdev->timer=5Fbase=5Flock);
-> > +	init=5Fcompletion(&hdmirx=5Fdev->avi=5Fpkt=5Frcv);
-> > +
-> > +	INIT=5FWORK(&hdmirx=5Fdev->work=5Fwdt=5Fconfig, hdmirx=5Fwork=5Fw=
-dt=5Fconfig);
-> > +	INIT=5FDELAYED=5FWORK(&hdmirx=5Fdev->delayed=5Fwork=5Fhotplug,
-> > +			  hdmirx=5Fdelayed=5Fwork=5Fhotplug);
-> > +	INIT=5FDELAYED=5FWORK(&hdmirx=5Fdev->delayed=5Fwork=5Fres=5Fchang=
-e,
-> > +			  hdmirx=5Fdelayed=5Fwork=5Fres=5Fchange);
-> > +	INIT=5FDELAYED=5FWORK(&hdmirx=5Fdev->delayed=5Fwork=5Fheartbeat,
-> > +			  hdmirx=5Fdelayed=5Fwork=5Fheartbeat);
-> > +
-> > +	hdmirx=5Fdev->cur=5Ffmt=5Ffourcc =3D V4L2=5FPIX=5FFMT=5FBGR24;
-> > +	hdmirx=5Fdev->timings =3D cea640x480;
-> > +
-> > +	hdmirx=5Fenable(dev);
-> > +	hdmirx=5Finit(hdmirx=5Fdev);
-> > +
-> > +	v4l2=5Fdev =3D &hdmirx=5Fdev->v4l2=5Fdev;
-> > +	strscpy(v4l2=5Fdev->name, dev=5Fname(dev), sizeof(v4l2=5Fdev->nam=
-e));
-> > +
-> > +	hdl =3D &hdmirx=5Fdev->hdl;
-> > +	v4l2=5Fctrl=5Fhandler=5Finit(hdl, 1);
-> > +
-> > +	hdmirx=5Fdev->detect=5Ftx=5F5v=5Fctrl =3D v4l2=5Fctrl=5Fnew=5Fstd=
-(hdl, NULL,
-> > +							  V4L2=5FCID=5FDV=5FRX=5FPOWER=5FPRESENT,
-> > +							  0, 1, 0, 0);
-> > +
-> > +	hdmirx=5Fdev->rgb=5Frange =3D v4l2=5Fctrl=5Fnew=5Fstd=5Fmenu(hdl,=
- 0,
-> > +						       V4L2=5FCID=5FDV=5FRX=5FRGB=5FRANGE,
-> > +						       V4L2=5FDV=5FRGB=5FRANGE=5FFULL, 0,
-> > +						       V4L2=5FDV=5FRGB=5FRANGE=5FAUTO);
-> > +
-> > +	hdmirx=5Fdev->rgb=5Frange->flags |=3D V4L2=5FCTRL=5FFLAG=5FREAD=5F=
-ONLY;
-> > +
-> > +	if (hdl->error) {
-> > +		dev=5Ferr(dev, "v4l2 ctrl handler init failed\n");
-> > +		ret =3D hdl->error;
-> > +		goto err=5Fpm;
-> > +	}
-> > +	hdmirx=5Fdev->v4l2=5Fdev.ctrl=5Fhandler =3D hdl;
-> > +
-> > +	ret =3D v4l2=5Fdevice=5Fregister(dev, &hdmirx=5Fdev->v4l2=5Fdev);
-> > +	if (ret < 0) {
-> > +		dev=5Ferr(dev, "register v4l2 device failed\n");
-> > +		goto err=5Fhdl;
-> > +	}
-> > +
-> > +	stream =3D &hdmirx=5Fdev->stream;
-> > +	stream->hdmirx=5Fdev =3D hdmirx=5Fdev;
-> > +	ret =3D hdmirx=5Fregister=5Fstream=5Fvdev(stream);
-> > +	if (ret < 0) {
-> > +		dev=5Ferr(dev, "register video device failed\n");
-> > +		goto err=5Funreg=5Fv4l2=5Fdev;
-> > +	}
-> > +
-> > +	ret =3D hdmirx=5Fregister=5Fcec(hdmirx=5Fdev, pdev);
-> > +	if (ret)
-> > +		goto err=5Funreg=5Fvideo=5Fdev;
-> > +
-> > +	hdmirx=5Fload=5Fdefault=5Fedid(hdmirx=5Fdev);
-> > +
-> > +	hdmirx=5Fenable=5Firq(dev);
-> > +
-> > +	return 0;
-> > +
-> > +err=5Funreg=5Fvideo=5Fdev:
-> > +	video=5Funregister=5Fdevice(&hdmirx=5Fdev->stream.vdev);
-> > +err=5Funreg=5Fv4l2=5Fdev:
-> > +	v4l2=5Fdevice=5Funregister(&hdmirx=5Fdev->v4l2=5Fdev);
-> > +err=5Fhdl:
-> > +	v4l2=5Fctrl=5Fhandler=5Ffree(&hdmirx=5Fdev->hdl);
-> > +err=5Fpm:
-> > +	hdmirx=5Fdisable(dev);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void hdmirx=5Fremove(struct platform=5Fdevice *pdev)
-> > +{
-> > +	struct device *dev =3D &pdev->dev;
-> > +	struct snps=5Fhdmirx=5Fdev *hdmirx=5Fdev =3D dev=5Fget=5Fdrvdata(=
-dev);
-> > +
-> > +	snps=5Fhdmirx=5Fcec=5Funregister(hdmirx=5Fdev->cec);
-> > +	cec=5Fnotifier=5Fconn=5Funregister(hdmirx=5Fdev->cec=5Fnotifier);
-> > +
-> > +	hdmirx=5Fdisable=5Firq(dev);
-> > +
-> > +	video=5Funregister=5Fdevice(&hdmirx=5Fdev->stream.vdev);
-> > +	v4l2=5Fctrl=5Fhandler=5Ffree(&hdmirx=5Fdev->hdl);
-> > +	v4l2=5Fdevice=5Funregister(&hdmirx=5Fdev->v4l2=5Fdev);
-> > +
-> > +	hdmirx=5Fdisable(dev);
-> > +
-> > +	reset=5Fcontrol=5Fbulk=5Fassert(HDMIRX=5FNUM=5FRST, hdmirx=5Fdev-=
->resets);
-> > +
-> > +	of=5Freserved=5Fmem=5Fdevice=5Frelease(dev);
-> > +}
-> > +
-> > +static const struct of=5Fdevice=5Fid hdmirx=5Fid[] =3D {
-> > +	{ .compatible =3D "rockchip,rk3588-hdmirx-ctrler" },
-> > +	{ },
+> > +/**
+> > + * struct jh7110_isp_wb_gain - auto white balance gain
+> > + *
+> > + * @gain_r: gain value for red component.
+> > + * @gain_g: gain value for green component.
+> > + * @gain_b: gain value for blue component.
+
+I suppose the gains are expressed as fixed-point integers. This needs
+more details, what are the limits, and how many bits of integer and
+fractional parts are there ?
+
+Same comment for all the other values below.
+
+> > + */
+> > +struct jh7110_isp_wb_gain {
+> > +	__u16 gain_r;
+> > +	__u16 gain_g;
+> > +	__u16 gain_b;
 > > +};
-> > +MODULE=5FDEVICE=5FTABLE(of, hdmirx=5Fid);
 > > +
-> > +static struct platform=5Fdriver hdmirx=5Fdriver =3D {
-> > +	.probe =3D hdmirx=5Fprobe,
-> > +	.remove =3D hdmirx=5Fremove,
-> > +	.driver =3D {
-> > +		.name =3D "snps=5Fhdmirx",
-> > +		.of=5Fmatch=5Ftable =3D hdmirx=5Fid,
-> > +		.pm =3D &snps=5Fhdmirx=5Fpm=5Fops,
-> > +	}
+> > +/**
+> > + * struct jh7110_isp_wb_setting - Configuration used by auto white balance gain
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @gains: auto white balance gain setting.
+> > + */
+> > +struct jh7110_isp_wb_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_wb_gain gains;
 > > +};
-> > +module=5Fplatform=5Fdriver(hdmirx=5Fdriver);
 > > +
-> > +MODULE=5FDESCRIPTION("Rockchip HDMI Receiver Driver");
->=20
-> While the file is called snps=5Fhdmirx.c and the driver name is "snps=
-=5Fhdmirx" the module description calls it a Rockchip driver.
-> This patch serie somewhat hints at the use of multiple SoCs and possi=
-ble multiple brands then a more clear separation between common snps an=
-d Rockchip (rk3588) SoC specific is needed?
->=20
+> > +/**
+> > + * struct jh7110_isp_car_setting - Configuration used by color artifact removal
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + */
+> > +struct jh7110_isp_car_setting {
+> > +	__u32 enabled;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_ccm_smlow - Color correction matrix
+> > + *
+> > + * @ccm: color transform matrix with size 3 by 3.
+> > + * @offsets: the offsets of R, G, B after the transform by the ccm.
+> > + */
+> > +struct jh7110_isp_ccm_smlow {
+> > +	__s32 ccm[3][3];
+> > +	__s32 offsets[3];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_ccm_setting - Configuration used by color correction matrix
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @ccm_smlow: Color correction matrix.
+> > + */
+> > +struct jh7110_isp_ccm_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_ccm_smlow ccm_smlow;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_cfa_params - demosaic parameters
+> > + *
+> > + * @hv_width: detail smooth factor
+> > + * @cross_cov: Cross covariance weighting.
 
-This driver was originally developed by Rockchip, and we fixed a few is=
-sues
-and cleaned it up. As I said, the driver has only been tested on the Ro=
-ck5B so far,
-but we believe it could also work with the Synopsys IP on other SoCs in=
- the future.
-Hence, I renamed almost everything from rockchip to synopsys.
+This documentation doesn't tell how to use those paraemeters. This
+comment applies to many other parameters below. There are three main
+options to improve that:
 
-However, I missed changing the MODULE=5FDESCRIPTION here, and it should=
- be
-"Synopsys HDMI RX Controller Driver." I'll make the change in v5.
+- Expanding the documentation in this header file to clearly explain how
+  to compute the parameters values.
 
+- Providing an open userspace implementation of ISP algorithms that
+  showcase how to calculate the values.
 
-Thanks,
-Shreeya Patel
+- Providing detailed hardware documentation for the ISP. This is usually
+  not favoured by ISP vendors, and we are not pushing for this, but I
+  wanted to mention it for completeness.
 
-> Johan
->=20
-> > +MODULE=5FAUTHOR("Dingxian Wen <shawn.wen@rock-chips.com>");
-> > +MODULE=5FAUTHOR("Shreeya Patel <shreeya.patel@collabora.com>");
-> > +MODULE=5FLICENSE("GPL");
+If you would prefer the second option, any open-source camera framework
+would be acceptable, but in practice the only real option is likely
+libcamera.
 
+This does not mean that you have to open-source all your ISP control
+algorithms. Only the code needed to explain how ISP parameters are
+applied to the image and are computed is needed. Other parts, such as
+for instance AI-based computation of white balance gains, or complex AGC
+calculations, don't need to be open-source.
+
+The explain this requirement different and perhaps more clearly, the
+goal is to make sure that developers who have access to only open-source
+code (ISP kernel driver, this header, any open-source userspace code,
+...) will have enough information to configure and control the ISP.
+
+> > + */
+> > +struct jh7110_isp_cfa_params {
+> > +	__s32 hv_width;
+> > +	__s32 cross_cov;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_cfa_params - Configuration used by demosaic module
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @settings: demosaic parameters.
+> > + */
+> > +struct jh7110_isp_cfa_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_cfa_params settings;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_ctc_params - crosstalk remove parameters
+> > + *
+> > + * @saf_mode: smooth area filter mode.
+> > + * @daf_mode: detail area filter mode.
+> > + * @max_gt: the threshold for imbalance detection when pixel intensity is close to maximum.
+> 
+> You could easily make this < 80 cols (here and in other places).
+> 
+> I know there are different opinions on how strict on the 80 cols limit
+> we should be, so up to you.
+> 
+> > + * @min_gt: the threshold for imbalance detection when pixel intensity is close to 0.
+> > + */
+> > +struct jh7110_isp_ctc_params {
+> > +	__u8 saf_mode;
+> > +	__u8 daf_mode;
+> > +	__s32 max_gt;
+> > +	__s32 min_gt;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_ctc_params - Configuration used by crosstalk remove
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @settings: corsstalk remove parameters.
+> 
+> crosstalk
+> 
+> > + */
+> > +struct jh7110_isp_ctc_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_ctc_params settings;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_dbc_params - defect pixels correction parameters
+> > + *
+> > + * @bad_gt: bad pixel threshold for the green channel.
+> > + * @bad_xt: bad pixel threshold for the red and blue channels.
+> > + */
+> > +struct jh7110_isp_dbc_params {
+> > +	__s32 bad_gt;
+> > +	__s32 bad_xt;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_dbc_params - Configuration used by defect bad pixels correction
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @settings: defect pixels correction parameters.
+> > + */
+> > +struct jh7110_isp_dbc_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_dbc_params settings;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_dnyuv_params - yuv domain denoise parameters
+> > + *
+> > + * @y_sweight: ten coefficients of 7x7 spatial filter for Y channel.
+> > + * @y_curve: intensity difference (similarity) weight lookup table for Y channel.
+> > + * @uv_sweight: ten coefficients of 7x7 spatial filter for U and V channel.
+> > + * @uv_curve: intensity difference (similarity) weight lookup table for U and V channel.
+> > + */
+> > +struct jh7110_isp_dnyuv_params {
+> > +	__u8 y_sweight[10];
+> > +	__u16 y_curve[7];
+> > +	__u8 uv_sweight[10];
+> > +	__u16 uv_curve[7];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_dnyuv_params - Configuration used by yuv domain denoise
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @settings: yuv domain denoise parameters.
+> > + */
+> > +struct jh7110_isp_dnyuv_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_dnyuv_params settings;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_gmargb_point - RGB Gamma point
+> > + *
+> > + * @g_val: RGB gamma value.
+> > + * @sg_val: RGB gamma slope value.
+> > + */
+> > +struct jh7110_isp_gmargb_point {
+> > +	__u16 g_val;
+> > +	__u16 sg_val;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_gmargb_setting - Configuration used by RGB gamma
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @curve: RGB Gamma point table.
+> > + */
+> > +struct jh7110_isp_gmargb_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_gmargb_point curve[15];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_lccf_circle - len circle
+> 
+> lens ?
+> 
+> > + *
+> > + * @center_x: center X distance from capture window.
+> > + * @center_y: center Y distance from capture window.
+> > + * @radius: len circle radius.
+> 
+> here as well
+> 
+> > + */
+> > +struct jh7110_isp_lccf_circle {
+> > +	__s16 center_x;
+> > +	__s16 center_y;
+> > +	__u8 radius;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_lccf_curve_param - lens correction cosine fourth curve param
+> > + *
+> > + * @f1: F1 parameter.
+> > + * @f2: F2 parameter.
+> > + */
+> > +struct jh7110_isp_lccf_curve_param {
+> > +	__s16 f1;
+> > +	__s16 f2;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_lccf_setting - Configuration used by lens correction cosine fourth
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @circle: len circle.
+> > + * @r_param: lens correction cosine fourth curve param for Bayer pattern R.
+> > + * @gr_param: lens correction cosine fourth curve param for Bayer pattern Gr.
+> > + * @gb_param: lens correction cosine fourth curve param for Bayer pattern Gb.
+> > + * @b_param: lens correction cosine fourth curve param for Bayer pattern B.
+> > + */
+> > +struct jh7110_isp_lccf_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_lccf_circle circle;
+> > +	struct jh7110_isp_lccf_curve_param r_param;
+> > +	struct jh7110_isp_lccf_curve_param gr_param;
+> > +	struct jh7110_isp_lccf_curve_param gb_param;
+> > +	struct jh7110_isp_lccf_curve_param b_param;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_obc_win_size - optical black correction window size
+> > + *
+> > + * @width: window width.
+> > + * @height: window height.
+> > + */
+> > +struct jh7110_isp_obc_win_size {
+> > +	__u32 width;
+> > +	__u32 height;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_obc_gain - optical black correction symbol gain
+> > + *
+> > + * @tl_gain: gain at point A for symbol.
+> > + * @tr_gain: gain at point B for symbol.
+> > + * @bl_gain: gain at point C for symbol.
+> > + * @br_gain: gain at point D for symbol.
+> > + */
+> > +struct jh7110_isp_obc_gain {
+> > +	__u8 tl_gain;
+> > +	__u8 tr_gain;
+> > +	__u8 bl_gain;
+> > +	__u8 br_gain;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_obc_offset - optical black correction symbol offset
+> > + *
+> > + * @tl_offset: offset at point A for symbol.
+> > + * @tr_offset: offset at point B for symbol.
+> > + * @bl_offset: offset at point C for symbol.
+> > + * @br_offset: offset at point D for symbol.
+> > + */
+> > +struct jh7110_isp_obc_offset {
+> > +	__u8 tl_offset;
+> > +	__u8 tr_offset;
+> > +	__u8 bl_offset;
+> > +	__u8 br_offset;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_obc_setting - Configuration used by optical black correction
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @win_size: optical black correction window size.
+> > + * @gain: optical black correction symbol gain.
+> > + * @offset: optical black correction symbol offset.
+> > + */
+> > +struct jh7110_isp_obc_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_obc_win_size win_size;
+> > +	struct jh7110_isp_obc_gain gain[4];
+> > +	struct jh7110_isp_obc_offset offset[4];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_oecf_point - oecf curve
+> > + *
+> > + * @x: x coordinate.
+> > + * @y: y coordinate.
+> > + * @slope: the slope between this point and the next point.
+> > + */
+> > +struct jh7110_isp_oecf_point {
+> > +	__u16 x;
+> > +	__u16 y;
+> > +	__s16 slope;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_oecf_setting - Configuration used by opto-electric conversion function
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @r_curve: red pixel oecf curve.
+> > + * @gr_curve: green pixel oecf curve in GR line.
+> > + * @gb_curve: green pixel oecf curve in GB line.
+> > + * @b_curve: blue pixel oecf curve.
+> > + */
+> > +struct jh7110_isp_oecf_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_oecf_point r_curve[16];
+> > +	struct jh7110_isp_oecf_point gr_curve[16];
+> > +	struct jh7110_isp_oecf_point gb_curve[16];
+> > +	struct jh7110_isp_oecf_point b_curve[16];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_r2y_matrix - RGB to YUV color conversion matrix
+> > + *
+> > + * @m: The 3x3 color conversion matrix coefficient.
+> > + */
+> > +struct jh7110_isp_r2y_matrix {
+> > +	__s16 m[9];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_r2y_setting - Configuration used by RGB To YUV
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @matrix: RGB to YUV color conversion matrix.
+> > + */
+> > +struct jh7110_isp_r2y_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_r2y_matrix matrix;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sat_curve - Saturation curve
+> > + *
+> > + * @yi_min: the minimum input Y value.
+> > + * @yo_ir: the ratio of Y output range to input range.
+> > + * @yo_min: the minimum output Y value.
+> > + * @yo_max: the maximum output Y value.
+> > + */
+> > +struct jh7110_isp_sat_curve {
+> > +	__s16 yi_min;
+> > +	__s16 yo_ir;
+> > +	__s16 yo_min;
+> > +	__s16 yo_max;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sat_hue_info - Chroma Saturation Hue Factor
+> > + *
+> > + * @cos: COS hue factor.
+> > + * @sin: SIN hue factor.
+> > + */
+> > +struct jh7110_isp_sat_hue_info {
+> > +	__s16 cos;
+> > +	__s16 sin;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sat_info - Saturation information
+> > + *
+> > + * @gain_cmab: Chroma saturation magnitude amplification base for gain.
+> > + * @gain_cmmd: Chroma saturation magnitude amplification delta for gain.
+> > + * @threshold_cmb: Chroma saturation magnitude base threshold.
+> > + * @threshold_cmd: Chroma saturation magnitude delta threshold.
+> > + * @offset_u: Chroma saturation U offset.
+> > + * @offset_v: Chroma saturation V offset.
+> > + * @cmsf: Chroma saturation magnitude scaling factor.
+> > + */
+> > +struct jh7110_isp_sat_info {
+> > +	__s16 gain_cmab;
+> > +	__s16 gain_cmmd;
+> > +	__s16 threshold_cmb;
+> > +	__s16 threshold_cmd;
+> > +	__s16 offset_u;
+> > +	__s16 offset_v;
+> > +	__s16 cmsf;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sat_setting - Configuration used by Saturation
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @curve: Saturation curve.
+> > + * @hue_info: Chroma Saturation Hue Factor.
+> > + * @sat_info: Saturation information.s
+> 
+> informations.
+> 
+> > + */
+> > +struct jh7110_isp_sat_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_sat_curve curve;
+> > +	struct jh7110_isp_sat_hue_info hue_info;
+> > +	struct jh7110_isp_sat_info sat_info;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sharp_weight - Sharpe weight
+> > + *
+> > + * @weight: Sharpen filter weight.
+> > + * @recip_wei_sum: Sharpen amplification filter weight normalization factor.
+> > + */
+> > +struct jh7110_isp_sharp_weight {
+> > +	__u8 weight[15];
+> > +	__u32 recip_wei_sum;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sharp_strength - Sharpen strength
+> > + *
+> > + * @diff: Sharpen Edge amplification delta level.
+> > + * @f: Sharpen Edge amplification factor.
+> > + * @s: Sharpen Edge amplification factor slope.
+> > + */
+> > +struct jh7110_isp_sharp_strength {
+> > +	__s16 diff[4];
+> > +	__s16 f[3];
+> > +	__s32 s[3];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sharp_setting - Configuration used by Sharpen
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @weight: Sharpe weight.
+> > + * @strength: Sharpen strength.
+> > + * @pdirf: Positive Factor Multiplier.
+> > + * @ndirf: Negative Factor Multiplier.
+> > + */
+> > +struct jh7110_isp_sharp_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_sharp_weight weight;
+> > +	struct jh7110_isp_sharp_strength strength;
+> > +	__s8 pdirf;
+> > +	__s8 ndirf;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_ycrv_curve - Y Curve parameters table
+> > + *
+> > + * @y: Y curve L parameters value.
+> > + */
+> > +struct jh7110_isp_ycrv_curve {
+> > +	__s16 y[64];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_ycrv_setting - Configuration used by Y Curve
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @curve: Y Curve parameters table.
+> > + */
+> > +struct jh7110_isp_ycrv_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_ycrv_curve curve;
+> 
+> I am a bit failing in seeing the point of embedding the settings in a
+> dedicated structure when you have a single instance of the
+> configuration like this and in other instances. Isn't
+> 
+>         struct jh7110_isp_ycrv_setting {
+>                 __u32 enabled;
+>                 __s16 y[64];
+>         };
+> 
+> easier ? Or do you need a dedicated type for other reasons ?
+> 
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_config - statistics collection crop configure
+> > + *
+> > + * @h_start: Horizontal starting point for frame cropping.
+> > + * @v_start: Vertical starting point for frame cropping.
+> > + * @sw_width: Width of statistics collection sub-window.
+> > + * @sw_height: Height of statistics collection sub-window.
+> > + * @hperiod: Horizontal period.
+> > + * @hkeep: Horizontal keep.
+> > + * @vperiod: Vertical period.
+> > + * @vkeep: Vertical keep.
+> > + */
+> > +struct jh7110_isp_sc_config {
+> > +	__u16 h_start;
+> > +	__u16 v_start;
+> > +	__u8 sw_width;
+> > +	__u8 sw_height;
+> > +	__u8 hperiod;
+> > +	__u8 hkeep;
+> > +	__u8 vperiod;
+> > +	__u8 vkeep;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_af_config - statistics collection auto focus configure
+> > + *
+> > + * @es_hor_mode: Horizontal mode.
+> > + * @es_sum_mode: sum mode.
+> 
+> Other fields are documented with a capital letter -> "Sum mode."
+> 
+> > + * @hor_en: Horizontal enable.
+> > + * @ver_en: Vertical enable.
+> > + * @es_ver_thr: Vertical threshold.
+> > + * @es_hor_thr: Horizontal threshold.
+> > + */
+> > +struct jh7110_isp_sc_af_config {
+> > +	__u8 es_hor_mode;
+> > +	__u8 es_sum_mode;
+> > +	__u8 hor_en;
+> > +	__u8 ver_en;
+> > +	__u8 es_ver_thr;
+> > +	__u16 es_hor_thr;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_awb_ps - statistics collection auto white balance pixel sum
+> > + *
+> > + * @awb_ps_rl: Lower boundary of R value for pixel sum.
+> > + * @awb_ps_ru: Upper boundary of R value for pixel sum.
+> > + * @awb_ps_gl: Lower boundary of G value for pixel sum.
+> > + * @awb_ps_gu: Upper boundary of G value for pixel sum.
+> > + * @awb_ps_bl: Lower boundary of B value for pixel sum.
+> > + * @awb_ps_bu: Upper boundary of B value for pixel sum.
+> > + * @awb_ps_yl: Lower boundary of Y value for pixel sum.
+> > + * @awb_ps_yu: Upper boundary of Y value for pixel sum.
+> > + * @awb_ps_grl: Lower boundary of G/R ratio for pixel sum.
+> > + * @awb_ps_gru: Upper boundary of G/R ratio for pixel sum.
+> > + * @awb_ps_gbl: Lower boundary of G/B ratio for pixel sum.
+> > + * @awb_ps_gbu: Upper boundary of G/B ratio for pixel sum.
+> > + * @awb_ps_grbl: Lower boundary of (Gr/R + b/a * Gb/B) for pixel sum.
+> > + * @awb_ps_grbu: Upper boundary of (Gr/R + b/a * Gb/B) for pixel sum.
+> > + */
+> > +struct jh7110_isp_sc_awb_ps {
+> > +	__u8 awb_ps_rl;
+> > +	__u8 awb_ps_ru;
+> > +	__u8 awb_ps_gl;
+> > +	__u8 awb_ps_gu;
+> > +	__u8 awb_ps_bl;
+> > +	__u8 awb_ps_bu;
+> > +	__u8 awb_ps_yl;
+> > +	__u8 awb_ps_yu;
+> > +	__u16 awb_ps_grl;
+> > +	__u16 awb_ps_gru;
+> > +	__u16 awb_ps_gbl;
+> > +	__u16 awb_ps_gbu;
+> > +	__u16 awb_ps_grbl;
+> > +	__u16 awb_ps_grbu;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_awb_ws - statistics collection auto white balance weight sum
+> > + *
+> > + * @awb_ws_rl: Lower boundary of R value for weight sum.
+> > + * @awb_ws_ru: Upper boundary of R value for weight sum.
+> > + * @awb_ws_grl: Lower boundary of Gr value for weight sum.
+> > + * @awb_ws_gru: Upper boundary of Gr value for weight sum.
+> > + * @awb_ws_gbl: Lower boundary of Gb value for weight sum.
+> > + * @awb_ws_gbu: Upper boundary of Gb value for weight sum.
+> > + * @awb_ws_bl: Lower boundary of B value for weight sum.
+> > + * @awb_ws_bu: Upper boundary of B value for weight sum.
+> > + */
+> > +struct jh7110_isp_sc_awb_ws {
+> > +	__u8 awb_ws_rl;
+> > +	__u8 awb_ws_ru;
+> > +	__u8 awb_ws_grl;
+> > +	__u8 awb_ws_gru;
+> > +	__u8 awb_ws_gbl;
+> > +	__u8 awb_ws_gbu;
+> > +	__u8 awb_ws_bl;
+> > +	__u8 awb_ws_bu;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_awb_point - statistics collection auto white balance point
+> > + *
+> > + * @weight: Weighting value at point.
+> > + */
+> > +struct jh7110_isp_sc_awb_point {
+> > +	__u8 weight;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_awb_config - statistics collection auto white balance configure
+> > + *
+> > + * @ps_config: statistics collection auto white balance pixel sum.
+> 
+> nit: please be consistent with using capital letters or not in doc.
+> 
+> > + * @awb_ps_grb_ba: auto white balance b/a value.
+> > + * @sel: input mux for statistics collection auto white balance.
+> > + * @ws_config: statistics collection auto white balance weight sum.
+> > + * @awb_cw: Weighting value at 13x13 point.
+> > + * @pts: statistics collection auto white balance point.
+> > + */
+> > +struct jh7110_isp_sc_awb_config {
+> > +	struct jh7110_isp_sc_awb_ps ps_config;
+> > +	__u8 awb_ps_grb_ba;
+> > +	__u8 sel;
+> > +	struct jh7110_isp_sc_awb_ws ws_config;
+> > +	__u8 awb_cw[169];
+> > +	struct jh7110_isp_sc_awb_point pts[17];
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_setting - Configuration used by statistics collection
+> > + *
+> > + * @enabled: enabled setting flag.
+> > + * @crop_config: statistics collection crop configure.
+> > + * @af_config: statistics collection auto focus configure.
+> > + * @awb_config: statistics collection auto white balance configure.
+> > + */
+> > +struct jh7110_isp_sc_setting {
+> > +	__u32 enabled;
+> > +	struct jh7110_isp_sc_config crop_config;
+> > +	struct jh7110_isp_sc_af_config af_config;
+> > +	struct jh7110_isp_sc_awb_config awb_config;
+> > +};
+> > +
+> > +/**
+> > + * struct jh7110_isp_params_buffer - StarFive JH7110 ISP Parameters Meta Data
+> > + *
+> > + * @enable_setting: enabled setting module (JH7110_ISP_MODULE_* definitions).
+> > + * @wb_setting: Configuration used by auto white balance gain.
+> > + * @car_setting: Configuration used by color artifact removal.
+> > + * @ccm_setting: Configuration used by color correction matrix.
+> > + * @cfa_setting: Configuration used by demosaic module.
+> > + * @ctc_setting: Configuration used by crosstalk remove.
+> > + * @dbc_setting: Configuration used by defect bad pixels correction.
+> > + * @dnyuv_setting: Configuration used by yuv domain denoise.
+> > + * @gmargb_setting: Configuration used by RGB gamma.
+> > + * @lccf_setting: Configuration used by lens correction cosine fourth.
+> > + * @obc_setting: Configuration used by optical black compensation.
+> > + * @oecf_setting: Configuration used by opto-electric conversion function.
+> > + * @r2y_setting: Configuration used by RGB To YUV.
+> > + * @sat_setting: Configuration used by Saturation.
+> > + * @sharp_setting: Configuration used by Sharpen.
+> > + * @ycrv_setting: Configuration used by Y Curve.
+> > + * @sc_setting: Configuration used by statistics collection.
+> > + */
+> > +struct jh7110_isp_params_buffer {
+> > +	__u32 enable_setting;
+> > +	struct jh7110_isp_wb_setting wb_setting;
+> > +	struct jh7110_isp_car_setting car_setting;
+> > +	struct jh7110_isp_ccm_setting ccm_setting;
+> > +	struct jh7110_isp_cfa_setting cfa_setting;
+> > +	struct jh7110_isp_ctc_setting ctc_setting;
+> > +	struct jh7110_isp_dbc_setting dbc_setting;
+> > +	struct jh7110_isp_dnyuv_setting dnyuv_setting;
+> > +	struct jh7110_isp_gmargb_setting gmargb_setting;
+> > +	struct jh7110_isp_lccf_setting lccf_setting;
+> > +	struct jh7110_isp_obc_setting obc_setting;
+> > +	struct jh7110_isp_oecf_setting oecf_setting;
+> > +	struct jh7110_isp_r2y_setting r2y_setting;
+> > +	struct jh7110_isp_sat_setting sat_setting;
+> > +	struct jh7110_isp_sharp_setting sharp_setting;
+> > +	struct jh7110_isp_ycrv_setting ycrv_setting;
+> > +	struct jh7110_isp_sc_setting sc_setting;
+> > +};
+> > +
+> > +/**
+> > + * Statistics Collection Meta Data Flag
+> > + */
+> > +#define JH7110_ISP_SC_FLAG_AWB			0x0
+> > +#define JH7110_ISP_SC_FLAG_AE_AF		0xffff
+> > +
+> > +#pragma pack(1)
+> > +
+> > +/**
+> > + * struct jh7110_isp_sc_buffer - StarFive JH7110 ISP Statistics Collection Meta Data
+> > + *
+> > + * @y_histogram: Y histogram data for saturation control.
+> > + * @reserv0: reserve byte.
+> > + * @bright_sc: bright statistic. If flag is JH7110_ISP_SC_FLAG_AE_AF, This field is
+> 
+> s/bright statistics/brightness statistics/
+> 
+> no capital "T" after ,
+> 
+> > + *             saved auto exposure and auto focus. If flag is JH7110_ISP_SC_FLAG_AWB,
+> > + *             This field is saved auto white balance.
+> 
+> no capital "T" after ,
+> 
+> I would replace "this field is saved" which doesn't sound great in
+> English (not a native speaker though) with "this field stores".
+> 
+> > + * @reserv1: reserve byte.
+> > + * @ae_hist_y: Y histogram for auto exposure.
+> > + * @reserv2: reserve byte.
+> > + * @flag: Statistics Collection Meta Data Flag (JH7110_ISP_SC_FLAG_* definitions)
+> > + */
+> > +struct jh7110_isp_sc_buffer {
+> > +	__u32 y_histogram[64];
+> > +	__u32 reserv0[33];
+> > +	__u32 bright_sc[4096];
+> > +	__u32 reserv1[96];
+> > +	__u32 ae_hist_y[128];
+> > +	__u32 reserv2[511];
+> > +	__u16 flag;
+> > +};
+> > +
+> > +#pragma pack()
+> 
+> This structure is packed, is it populated directly from HW registers
+> with a memcpy or a DMA transfer ? I guess I'll find it out in the next
+> patches.
+> 
+> > +
+> > +#endif
+
+-- 
+Regards,
+
+Laurent Pinchart
 
