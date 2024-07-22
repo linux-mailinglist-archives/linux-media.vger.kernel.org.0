@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-15278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15279-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D656093964E
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 00:13:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18B0939657
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 00:15:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 663E0281F7A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 22:13:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBAB51C2189A
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 22:15:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73C3145945;
-	Mon, 22 Jul 2024 22:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A656482CA;
+	Mon, 22 Jul 2024 22:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j+TcV+7k"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kY6UxrE/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6653BBE2;
-	Mon, 22 Jul 2024 22:13:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F82745025;
+	Mon, 22 Jul 2024 22:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721686424; cv=none; b=SzyFGqXr1RJve8ywn00IZy8/5nFIy6h8A2683JO8RUu6LCYt2IJ4CxgJdFLASBsK5DHPpaTuVm38v9HSKuAjIZzWv51dpnNdfhD108aphbxMmjzGNIg4IVwqJbsfVDb7+l/yon4HgjtwW1BRbnMLUWYlAGQsrS7OuZwgR/1rCKQ=
+	t=1721686502; cv=none; b=FTsUC7tHQHVM8qht6uuj904DwCufxs15StuJmvJz/5pYMkCd71n4Y0F+bVDjiI+mDV09C/9GKNlsTRfTXdsGZdQaWt/3OWqr9qb3hKdICmxcGAdxx1re5SBNwILBvvkL4Gh9BV4BgLDQtHabVNroX7e41BhgftOmiUcsxbO/X2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721686424; c=relaxed/simple;
-	bh=BCB1DBuxTO4UnS31F0xngMS6oEAnPnicTe6hsy58WJc=;
+	s=arc-20240116; t=1721686502; c=relaxed/simple;
+	bh=znh1QIGYmvB/aC53MfJ9UM9CuX6s2b/DNV/U1E4VOJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KgMup8AJdw8lNc+8BkB26ea1W0L/GK8h+MSx+4UJ40hKWxlcJIw7Qsm95ppldKeXezbvhrYsITUtuY9cb911peGrv+F7DhNDMsSf/M1a6otuzs3Llop67u/4poeuF8ADUM2YhCs+2DA+K5oJlpSMLna+uKwvn86xV9w4TbTSdJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=j+TcV+7k; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=M+T7jLzv3Ktd7U7w7T6XtCvGK0BlXqNvKjQMFP9OwIwBrH6eBvOPASt/GkyDzi2NkT7RuZzq2+fYudm1hmWXi33It2PAa2V27uOsw6jK30a9rha9P3NMaPyTWUQHc1SxjdtmKJsB71q6uropKl1wP2AjsXZa8QN24OvZH5nBHCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kY6UxrE/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1575A4CD;
-	Tue, 23 Jul 2024 00:12:59 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DBCEC4CD;
+	Tue, 23 Jul 2024 00:14:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1721686379;
-	bh=BCB1DBuxTO4UnS31F0xngMS6oEAnPnicTe6hsy58WJc=;
+	s=mail; t=1721686458;
+	bh=znh1QIGYmvB/aC53MfJ9UM9CuX6s2b/DNV/U1E4VOJI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j+TcV+7krQJlqN/CvesW0piYpPwUK8xSpGrNE/5D+F0qfoSnT4VhziWcH2rOPytwE
-	 QxtdoT2nH/84RphgOsjtmQAwLhahtdga3bPCRCRDeM/6DElJQ11BymTl4SijVlvIBu
-	 Kg1Q0zm3/z0ONjd236f2j0MM5LC5V2OywZmh5c7I=
-Date: Tue, 23 Jul 2024 01:13:22 +0300
+	b=kY6UxrE/Sn9bj107+EB/JQth3kIm97JlyUAcNDkKQHHyVJtmyFON6SDE4Obh9rP+h
+	 Jql68JmhrOzBVM4gRedi4R8iKXG6A5AC22Gcx1K0Qmrdw/seuNet8w6WFasKKCf7+d
+	 zyR38olf/gHrkKeOGiYND+5LZHFrTYC6v2nQbVhc=
+Date: Tue, 23 Jul 2024 01:14:41 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Daniel Scally <dan.scally@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -50,10 +50,10 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
 	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
 	sakari.ailus@iki.fi
-Subject: Re: [PATCH v6 03/18] media: uapi: Add 20-bit bayer formats
-Message-ID: <20240722221322.GA32300@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v6 05/18] media: v4l2-common: Add RAW14 format info
+Message-ID: <20240722221441.GB32300@pendragon.ideasonboard.com>
 References: <20240709132906.3198927-1-dan.scally@ideasonboard.com>
- <20240709132906.3198927-4-dan.scally@ideasonboard.com>
+ <20240709132906.3198927-6-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,18 +62,16 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240709132906.3198927-4-dan.scally@ideasonboard.com>
+In-Reply-To: <20240709132906.3198927-6-dan.scally@ideasonboard.com>
 
 Hi Dan,
 
 Thank you for the patch.
 
-On Tue, Jul 09, 2024 at 02:28:51PM +0100, Daniel Scally wrote:
-> The Mali-C55 requires input data be in 20-bit format, MSB aligned.
-> Add some new media bus format macros to represent that input format.
+On Tue, Jul 09, 2024 at 02:28:53PM +0100, Daniel Scally wrote:
+> Add entries to v4l2_format_info describing the 14-bit bayer
+> formats so that they can be used in drivers.
 > 
-> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -81,565 +79,29 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
 > Changes in v6:
 > 
-> 	- Fixed the table formatting
-> 
-> Changes in v5:
-> 
 > 	- New patch
 > 
->  .../media/v4l/subdev-formats.rst              | 252 +++++++++++++++++-
->  include/uapi/linux/media-bus-format.h         |   6 +-
->  2 files changed, 255 insertions(+), 3 deletions(-)
+>  drivers/media/v4l2-core/v4l2-common.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index 5dbf8c9b18fb..ff328eb485e8 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -2664,7 +2664,7 @@ organization is given as an example for the first pixel only.
->      \tiny
->      \setlength{\tabcolsep}{2pt}
->  
-> -.. tabularcolumns:: |p{6.0cm}|p{0.7cm}|p{0.3cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
-> +.. tabularcolumns:: |p{6.0cm}|p{0.7cm}|p{0.3cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
->  
->  .. _v4l2-mbus-pixelcode-bayer:
->  
-> @@ -2677,10 +2677,14 @@ organization is given as an example for the first pixel only.
->      * - Identifier
->        - Code
->        -
-> -      - :cspan:`15` Data organization
-> +      - :cspan:`19` Data organization
->      * -
->        -
->        - Bit
-> +      - 19
-> +      - 18
-> +      - 17
-> +      - 16
->        - 15
->        - 14
->        - 13
-> @@ -2710,6 +2714,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`7`
->        - b\ :sub:`6`
->        - b\ :sub:`5`
-> @@ -2731,6 +2739,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`7`
->        - g\ :sub:`6`
->        - g\ :sub:`5`
-> @@ -2752,6 +2764,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`7`
->        - g\ :sub:`6`
->        - g\ :sub:`5`
-> @@ -2773,6 +2789,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - r\ :sub:`7`
->        - r\ :sub:`6`
->        - r\ :sub:`5`
-> @@ -2794,6 +2814,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`7`
->        - b\ :sub:`6`
->        - b\ :sub:`5`
-> @@ -2815,6 +2839,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`7`
->        - g\ :sub:`6`
->        - g\ :sub:`5`
-> @@ -2836,6 +2864,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`7`
->        - g\ :sub:`6`
->        - g\ :sub:`5`
-> @@ -2857,6 +2889,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - r\ :sub:`7`
->        - r\ :sub:`6`
->        - r\ :sub:`5`
-> @@ -2878,6 +2914,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`7`
->        - b\ :sub:`6`
->        - b\ :sub:`5`
-> @@ -2899,6 +2939,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`7`
->        - g\ :sub:`6`
->        - g\ :sub:`5`
-> @@ -2920,6 +2964,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`7`
->        - g\ :sub:`6`
->        - g\ :sub:`5`
-> @@ -2941,6 +2989,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - r\ :sub:`7`
->        - r\ :sub:`6`
->        - r\ :sub:`5`
-> @@ -2962,6 +3014,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - 0
->        - 0
->        - 0
-> @@ -2981,6 +3037,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`7`
->        - b\ :sub:`6`
->        - b\ :sub:`5`
-> @@ -3002,6 +3062,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`7`
->        - b\ :sub:`6`
->        - b\ :sub:`5`
-> @@ -3021,6 +3085,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - 0
->        - 0
->        - 0
-> @@ -3042,6 +3110,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`9`
->        - b\ :sub:`8`
->        - b\ :sub:`7`
-> @@ -3061,6 +3133,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`1`
->        - b\ :sub:`0`
->        - 0
-> @@ -3082,6 +3158,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`1`
->        - b\ :sub:`0`
->        - 0
-> @@ -3101,6 +3181,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`9`
->        - b\ :sub:`8`
->        - b\ :sub:`7`
-> @@ -3120,6 +3204,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`9`
->        - b\ :sub:`8`
->        - b\ :sub:`7`
-> @@ -3141,6 +3229,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`9`
->        - g\ :sub:`8`
->        - g\ :sub:`7`
-> @@ -3162,6 +3254,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`9`
->        - g\ :sub:`8`
->        - g\ :sub:`7`
-> @@ -3183,6 +3279,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - r\ :sub:`9`
->        - r\ :sub:`8`
->        - r\ :sub:`7`
-> @@ -3202,6 +3302,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`11`
->        - b\ :sub:`10`
->        - b\ :sub:`9`
-> @@ -3223,6 +3327,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`11`
->        - g\ :sub:`10`
->        - g\ :sub:`9`
-> @@ -3244,6 +3352,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`11`
->        - g\ :sub:`10`
->        - g\ :sub:`9`
-> @@ -3265,6 +3377,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - r\ :sub:`11`
->        - r\ :sub:`10`
->        - r\ :sub:`9`
-> @@ -3284,6 +3400,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`13`
->        - b\ :sub:`12`
->        - b\ :sub:`11`
-> @@ -3305,6 +3425,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`13`
->        - g\ :sub:`12`
->        - g\ :sub:`11`
-> @@ -3326,6 +3450,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`13`
->        - g\ :sub:`12`
->        - g\ :sub:`11`
-> @@ -3347,6 +3475,10 @@ organization is given as an example for the first pixel only.
->        -
->        -
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - r\ :sub:`13`
->        - r\ :sub:`12`
->        - r\ :sub:`11`
-> @@ -3366,6 +3498,10 @@ organization is given as an example for the first pixel only.
->        - MEDIA_BUS_FMT_SBGGR16_1X16
->        - 0x301d
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - b\ :sub:`15`
->        - b\ :sub:`14`
->        - b\ :sub:`13`
-> @@ -3387,6 +3523,10 @@ organization is given as an example for the first pixel only.
->        - MEDIA_BUS_FMT_SGBRG16_1X16
->        - 0x301e
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`15`
->        - g\ :sub:`14`
->        - g\ :sub:`13`
-> @@ -3408,6 +3548,10 @@ organization is given as an example for the first pixel only.
->        - MEDIA_BUS_FMT_SGRBG16_1X16
->        - 0x301f
->        -
-> +      -
-> +      -
-> +      -
-> +      -
->        - g\ :sub:`15`
->        - g\ :sub:`14`
->        - g\ :sub:`13`
-> @@ -3429,6 +3573,110 @@ organization is given as an example for the first pixel only.
->        - MEDIA_BUS_FMT_SRGGB16_1X16
->        - 0x3020
->        -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - r\ :sub:`15`
-> +      - r\ :sub:`14`
-> +      - r\ :sub:`13`
-> +      - r\ :sub:`12`
-> +      - r\ :sub:`11`
-> +      - r\ :sub:`10`
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-SBGGR20-1X20:
-> +
-> +      - MEDIA_BUS_FMT_SBGGR20_1X20
-> +      - 0x3021
-> +      -
-> +      - b\ :sub:`19`
-> +      - b\ :sub:`18`
-> +      - b\ :sub:`17`
-> +      - b\ :sub:`16`
-> +      - b\ :sub:`15`
-> +      - b\ :sub:`14`
-> +      - b\ :sub:`13`
-> +      - b\ :sub:`12`
-> +      - b\ :sub:`11`
-> +      - b\ :sub:`10`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-SGBRG20-1X20:
-> +
-> +      - MEDIA_BUS_FMT_SGBRG20_1X20
-> +      - 0x3022
-> +      -
-> +      - g\ :sub:`19`
-> +      - g\ :sub:`18`
-> +      - g\ :sub:`17`
-> +      - g\ :sub:`16`
-> +      - g\ :sub:`15`
-> +      - g\ :sub:`14`
-> +      - g\ :sub:`13`
-> +      - g\ :sub:`12`
-> +      - g\ :sub:`11`
-> +      - g\ :sub:`10`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-SGRBG20-1X20:
-> +
-> +      - MEDIA_BUS_FMT_SGRBG20_1X20
-> +      - 0x3023
-> +      -
-> +      - g\ :sub:`19`
-> +      - g\ :sub:`18`
-> +      - g\ :sub:`17`
-> +      - g\ :sub:`16`
-> +      - g\ :sub:`15`
-> +      - g\ :sub:`14`
-> +      - g\ :sub:`13`
-> +      - g\ :sub:`12`
-> +      - g\ :sub:`11`
-> +      - g\ :sub:`10`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-SRGGB20-1X20:
-> +
-> +      - MEDIA_BUS_FMT_SRGGB20_1X20
-> +      - 0x3024
-> +      -
-> +      - r\ :sub:`19`
-> +      - r\ :sub:`18`
-> +      - r\ :sub:`17`
-> +      - r\ :sub:`16`
->        - r\ :sub:`15`
->        - r\ :sub:`14`
->        - r\ :sub:`13`
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index 49be328d9a3b..b6acf8c8e383 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -122,7 +122,7 @@
->  #define MEDIA_BUS_FMT_YUV16_1X48		0x202a
->  #define MEDIA_BUS_FMT_UYYVYY16_0_5X48		0x202b
->  
-> -/* Bayer - next is	0x3021 */
-> +/* Bayer - next is	0x3025 */
->  #define MEDIA_BUS_FMT_SBGGR8_1X8		0x3001
->  #define MEDIA_BUS_FMT_SGBRG8_1X8		0x3013
->  #define MEDIA_BUS_FMT_SGRBG8_1X8		0x3002
-> @@ -155,6 +155,10 @@
->  #define MEDIA_BUS_FMT_SGBRG16_1X16		0x301e
->  #define MEDIA_BUS_FMT_SGRBG16_1X16		0x301f
->  #define MEDIA_BUS_FMT_SRGGB16_1X16		0x3020
-> +#define MEDIA_BUS_FMT_SBGGR20_1X20		0x3021
-> +#define MEDIA_BUS_FMT_SGBRG20_1X20		0x3022
-> +#define MEDIA_BUS_FMT_SGRBG20_1X20		0x3023
-> +#define MEDIA_BUS_FMT_SRGGB20_1X20		0x3024
->  
->  /* JPEG compressed formats - next is	0x4002 */
->  #define MEDIA_BUS_FMT_JPEG_1X8			0x4001
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index c5d5704af5ee..fe33221e6c02 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -331,6 +331,10 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_SGBRG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGRBG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SRGGB12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_SBGGR14,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_SGBRG14,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_SGRBG14,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_SRGGB14,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SBGGR16,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGBRG16,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGRBG16,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> -- 
+> 2.34.1
+> 
 
 -- 
 Regards,
