@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-15254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15255-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6D69390FE
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 16:51:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1D893910F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 16:54:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 697241F21AC3
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 14:51:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C19E01C2149E
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 14:54:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44B5116DC33;
-	Mon, 22 Jul 2024 14:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41AF16DEA6;
+	Mon, 22 Jul 2024 14:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Br6NEXRR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kQqaS/+8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD711F954;
-	Mon, 22 Jul 2024 14:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC9D16DC24;
+	Mon, 22 Jul 2024 14:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721659887; cv=none; b=u7A1MZePQlqwdQVflYgfduLgiNKuMznTqaHgzlmHq1PClO/r1PBee4hNN0khGivmsraNnWGxpTVik1/LHqCkr7GRy4Fj4XkROv61BlqcHJGrW8mE3jFkaxKp648UobpmhIw3ODVa5/yZ9WuKedGpEdPRuIDpFzpmJ/WjN2OnJJU=
+	t=1721660052; cv=none; b=ldR69oaVTjaF1DPFukpfpfVoXz9UdSzoOWMf+qfOKb0LX0DEDK3Dkz6Pn0sfCYmZ/ELBB0qej5z+Wdz/Xb6tQcORTKyZGUXwqUCNg9qgmlMWL9AeEkE+74cnmqB97KTe/Je5b8hJaq3dpt6TvZidFwFzM4qNvgsX2l+iMgeZGV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721659887; c=relaxed/simple;
-	bh=/9u/Enuc4T5xnskpqw9mL/WB/R6cSYXOFLCDURWM8kE=;
+	s=arc-20240116; t=1721660052; c=relaxed/simple;
+	bh=Q2FwSzFq/GospOq2XVZJT/X91cvp3/KwHa3ZoDG6VQA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iyy1GtI1PoMFuQszKDN1sQBdFjZxgA9wIBhhtv0Cb2O8chhqlSpE2vYUhJ8hVLPn/tMBZdhgspQEl4B3v5xFN/q9U8+/J+5FNTNaEW7y1BplqKYssWoT0seohDDpdAN9xg5K5cncX4Uno2TDJd8aJAB+l7tLaUlWn6e6x49DSU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Br6NEXRR; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=HCj8Z+/5S6+7p4UzKf7fkcIzWdPsxbz8cHtvRC+MUGLwHy+XPkVCco51nq/3iNBDqnJKGbeIz20FSmH71KHTM1Kjm90ft3XtYJoYJkI4A5zVxv3z52BitbfLvyahnn13uOTcw+BazR9rk+zZrq65lMwhHr6sAiLhBfyoQL4eLkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kQqaS/+8; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22A76D1F;
-	Mon, 22 Jul 2024 16:50:43 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B66E4CF;
+	Mon, 22 Jul 2024 16:53:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1721659843;
-	bh=/9u/Enuc4T5xnskpqw9mL/WB/R6cSYXOFLCDURWM8kE=;
+	s=mail; t=1721660007;
+	bh=Q2FwSzFq/GospOq2XVZJT/X91cvp3/KwHa3ZoDG6VQA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Br6NEXRRN9YpT96gKD65Cm0L1J21FHroLIz5eZ1HGOy69c5bZ4AiLMUlhMzYblvxH
-	 9sB1+w08KvkMgrDlYx5bFKCB/1Cq7dYjz9AfD8yFH75MqyAeGfb+zvadDZZ6fY0IXc
-	 VHsCJkWpJDYO4FY+DpX6lEWpr2xfl2rI/K6g1WR8=
-Date: Mon, 22 Jul 2024 17:51:06 +0300
+	b=kQqaS/+8TE1LWCzzAKNvyd+UdSsFV9nIe6hkrFQXddd/hgIJxWrF3qsC1Xdp79SE2
+	 ItGu+namZlkNJhw5L0PYJGvpSZoT6tzW8jlifTEjkDyUYEDoqLIdTssJWTvTKndsGY
+	 mGuzUHq96yNjhZIjyfp84g1HEnq3Fqlnqn26rBLw=
+Date: Mon, 22 Jul 2024 17:53:50 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Changhuang Liang <changhuang.liang@starfivetech.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,11 +56,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Keith Zhao <keith.zhao@starfivetech.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 04/14] staging: media: starfive: Add a params sink pad
- and a scd source pad for ISP
-Message-ID: <20240722145106.GJ13497@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v5 09/14] staging: media: starfive: Update ISP initialise
+ config for 3A
+Message-ID: <20240722145350.GK13497@pendragon.ideasonboard.com>
 References: <20240709083824.430473-1-changhuang.liang@starfivetech.com>
- <20240709083824.430473-5-changhuang.liang@starfivetech.com>
+ <20240709083824.430473-10-changhuang.liang@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,209 +69,116 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240709083824.430473-5-changhuang.liang@starfivetech.com>
+In-Reply-To: <20240709083824.430473-10-changhuang.liang@starfivetech.com>
 
-Hello Changhuang,
+Hi Changhuang,
 
 Thank you for the patch.
 
-On Tue, Jul 09, 2024 at 01:38:14AM -0700, Changhuang Liang wrote:
-> StarFive ISP can use params sink pad to transmit ISP parameters and use
-> scd source pad to capture statistics collection data.
+On Tue, Jul 09, 2024 at 01:38:19AM -0700, Changhuang Liang wrote:
+> Upadte ISP initialise for 3A statistics collection data.
 > 
 > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 > ---
->  .../staging/media/starfive/camss/stf-isp.c    | 77 +++++++++++++++++--
->  .../staging/media/starfive/camss/stf-isp.h    |  2 +
->  2 files changed, 71 insertions(+), 8 deletions(-)
+>  .../media/starfive/camss/stf-isp-hw-ops.c     | 23 +++++++++++++++++++
+>  .../staging/media/starfive/camss/stf-isp.h    | 21 +++++++++++++++++
+>  2 files changed, 44 insertions(+)
 > 
-> diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/staging/media/starfive/camss/stf-isp.c
-> index 4e6e26736852..0ebffd09842a 100644
-> --- a/drivers/staging/media/starfive/camss/stf-isp.c
-> +++ b/drivers/staging/media/starfive/camss/stf-isp.c
-> @@ -21,13 +21,23 @@ static const struct stf_isp_format isp_formats_sink[] = {
->  	{ MEDIA_BUS_FMT_SBGGR10_1X10, 10 },
->  };
->  
-> +static const struct stf_isp_format isp_formats_sink_params[] = {
-> +	{ MEDIA_BUS_FMT_METADATA_FIXED },
-> +};
-> +
->  static const struct stf_isp_format isp_formats_source[] = {
->  	{ MEDIA_BUS_FMT_YUYV8_1_5X8, 8 },
->  };
->  
-> +static const struct stf_isp_format isp_formats_source_scd[] = {
-> +	{ MEDIA_BUS_FMT_METADATA_FIXED },
-> +};
-> +
->  static const struct stf_isp_format_table isp_formats_st7110[] = {
->  	{ isp_formats_sink, ARRAY_SIZE(isp_formats_sink) },
-> +	{ isp_formats_sink_params, ARRAY_SIZE(isp_formats_sink_params) },
->  	{ isp_formats_source, ARRAY_SIZE(isp_formats_source) },
-> +	{ isp_formats_source_scd, ARRAY_SIZE(isp_formats_source_scd) },
->  };
->  
->  static const struct stf_isp_format *
-> @@ -93,13 +103,19 @@ static void isp_try_format(struct stf_isp_dev *isp_dev,
->  
->  	formats = &isp_dev->formats[pad];
->  
-> -	fmt->width = clamp_t(u32, fmt->width, STFCAMSS_FRAME_MIN_WIDTH,
-> -			     STFCAMSS_FRAME_MAX_WIDTH);
-> -	fmt->height = clamp_t(u32, fmt->height, STFCAMSS_FRAME_MIN_HEIGHT,
-> -			      STFCAMSS_FRAME_MAX_HEIGHT);
-> -	fmt->height &= ~0x1;
-> +	if (pad != STF_ISP_PAD_SRC_SCD && pad != STF_ISP_PAD_SINK_PARAMS) {
-> +		fmt->width = clamp_t(u32, fmt->width, STFCAMSS_FRAME_MIN_WIDTH,
-> +				     STFCAMSS_FRAME_MAX_WIDTH);
-> +		fmt->height = clamp_t(u32, fmt->height, STFCAMSS_FRAME_MIN_HEIGHT,
-> +				      STFCAMSS_FRAME_MAX_HEIGHT);
-> +		fmt->height &= ~0x1;
-> +		fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> +	} else {
-> +		fmt->width = 1;
-> +		fmt->height = 1;
-
-You should set fmt->colorspace here too. I think you can set it to 0.
-
-> +	}
-> +
->  	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
->  	fmt->flags = 0;
->  
->  	if (!stf_g_fmt_by_mcode(formats, fmt->code))
-> @@ -119,7 +135,7 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
->  
->  		formats = &isp_dev->formats[code->pad];
->  		code->code = formats->fmts[code->index].code;
-> -	} else {
-> +	} else if (code->pad == STF_ISP_PAD_SRC) {
->  		struct v4l2_mbus_framefmt *sink_fmt;
->  
->  		if (code->index >= ARRAY_SIZE(isp_formats_source))
-> @@ -131,6 +147,10 @@ static int isp_enum_mbus_code(struct v4l2_subdev *sd,
->  		code->code = sink_fmt->code;
->  		if (!code->code)
->  			return -EINVAL;
-> +	} else {
-> +		if (code->index > 0)
-> +			return -EINVAL;
-> +		code->code = MEDIA_BUS_FMT_METADATA_FIXED;
->  	}
->  	code->flags = 0;
->  
-> @@ -151,6 +171,9 @@ static int isp_set_format(struct v4l2_subdev *sd,
->  	isp_try_format(isp_dev, state, fmt->pad, &fmt->format);
->  	*format = fmt->format;
->  
-> +	if (fmt->pad == STF_ISP_PAD_SRC_SCD || fmt->pad == STF_ISP_PAD_SINK_PARAMS)
-> +		return 0;
-> +
->  	isp_dev->current_fmt = stf_g_fmt_by_mcode(&isp_dev->formats[fmt->pad],
->  						  fmt->format.code);
->  
-> @@ -202,6 +225,9 @@ static int isp_get_selection(struct v4l2_subdev *sd,
->  	struct v4l2_subdev_format fmt = { 0 };
->  	struct v4l2_rect *rect;
->  
-> +	if (sel->pad == STF_ISP_PAD_SRC_SCD || sel->pad == STF_ISP_PAD_SINK_PARAMS)
-> +		return -EINVAL;
-> +
->  	switch (sel->target) {
->  	case V4L2_SEL_TGT_CROP_BOUNDS:
->  		if (sel->pad == STF_ISP_PAD_SINK) {
-> @@ -239,6 +265,9 @@ static int isp_set_selection(struct v4l2_subdev *sd,
->  	struct stf_isp_dev *isp_dev = v4l2_get_subdevdata(sd);
->  	struct v4l2_rect *rect;
->  
-> +	if (sel->pad == STF_ISP_PAD_SRC_SCD || sel->pad == STF_ISP_PAD_SINK_PARAMS)
-> +		return -EINVAL;
-> +
->  	if (sel->target != V4L2_SEL_TGT_CROP)
->  		return -EINVAL;
->  
-> @@ -296,8 +325,38 @@ static int isp_init_formats(struct v4l2_subdev *sd,
-
-While at it, you could rename the function to isp_init_state().
-
->  			.height = 1080
->  		}
->  	};
-> +	struct v4l2_subdev_format format_params = {
-> +		.pad = STF_ISP_PAD_SINK_PARAMS,
-> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-
-That's not quite right, as the .init_state() handler is used to
-initialized both the TRY and ACTIVE states. As the "which" field is
-currently ignored through the driver the code should behave correctly
-(as far as I can tell), but you may want at some point to initialize the
-formats and selection rectangles directly in this function instead of
-calling isp_set_format().
-
-> +		.format = {
-> +			.code = MEDIA_BUS_FMT_METADATA_FIXED,
-> +			.width = 1,
-> +			.height = 1
-
-According to
-https://docs.kernel.org/userspace-api/media/v4l/subdev-formats.html#metadata-formats,
-width and height should be set to 0 for MEDIA_BUS_FMT_METADATA_FIXED.
-
-> +		}
-> +	};
-> +	struct v4l2_subdev_format format_scd = {
-> +		.pad = STF_ISP_PAD_SRC_SCD,
-> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-> +		.format = {
-> +			.code = MEDIA_BUS_FMT_METADATA_FIXED,
-> +			.width = 1,
-> +			.height = 1
-> +		}
-> +	};
-> +	int ret;
-> +
-> +	/* Init for STF_ISP_PAD_SINK and STF_ISP_PAD_SRC pad */
-> +	ret = isp_set_format(sd, sd_state, &format);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Init for STF_ISP_PAD_SINK_PARAMS pad */
-> +	ret = isp_set_format(sd, sd_state, &format_params);
-> +	if (ret < 0)
-> +		return ret;
->  
-> -	return isp_set_format(sd, sd_state, &format);
-> +	/* Init for STF_ISP_PAD_SRC_SCD pad */
-> +	return isp_set_format(sd, sd_state, &format_scd);
+> diff --git a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> index 3b18d09f2cc6..0bc5e36f952e 100644
+> --- a/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> +++ b/drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
+> @@ -300,6 +300,25 @@ static void stf_isp_config_sat(struct stfcamss *stfcamss)
+>  	stf_isp_reg_write(stfcamss, ISP_REG_YADJ1, YOMAX(0x3ff) | YOMIN(0x1));
 >  }
 >  
->  static const struct v4l2_subdev_video_ops isp_video_ops = {
-> @@ -338,7 +397,9 @@ int stf_isp_register(struct stf_isp_dev *isp_dev, struct v4l2_device *v4l2_dev)
->  	v4l2_set_subdevdata(sd, isp_dev);
+> +static void stf_isp_config_sc(struct stfcamss *stfcamss)
+> +{
+> +	stf_isp_reg_write(stfcamss, ISP_REG_SCD_CFG_1, AXI_ID(0));
+> +	stf_isp_reg_write(stfcamss, ISP_REG_SC_CFG_0, HSTART(0) | VSTART(0xc));
+> +	stf_isp_reg_write(stfcamss, ISP_REG_SC_CFG_1,
+> +			  SC_WIDTH(0x1d) | SC_HEIGHT(0x15) |
+> +			  AWB_PS_GRB_BA(0x10) | SEL_TYPE(0x3));
+
+There's lots of magic values here and below. A comment would be good.
+
+> +}
+> +
+> +static void stf_isp_config_yhist(struct stfcamss *stfcamss)
+> +{
+> +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_0, 0);
+> +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_1,
+> +			  YH_WIDTH(0x77f) | YH_HEIGHT(0x437));
+
+Does this hardcode the size of the histogram window to 1920x1080 ? It
+should be made configurable from userspace. Maybe that's handled in
+further patches in this series.
+
+> +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_2,
+> +			  YH_DEC_ETW(2) | YH_DEC_ETH(1));
+> +	stf_isp_reg_write(stfcamss, ISP_REG_YHIST_CFG_3, 0);
+> +}
+> +
+>  int stf_isp_reset(struct stf_isp_dev *isp_dev)
+>  {
+>  	stf_isp_reg_set_bit(isp_dev->stfcamss, ISP_REG_ISP_CTRL_0,
+> @@ -332,7 +351,11 @@ void stf_isp_init_cfg(struct stf_isp_dev *isp_dev)
+>  	stf_isp_config_sharpen(isp_dev->stfcamss);
+>  	stf_isp_config_dnyuv(isp_dev->stfcamss);
+>  	stf_isp_config_sat(isp_dev->stfcamss);
+> +	stf_isp_config_sc(isp_dev->stfcamss);
+> +	stf_isp_config_yhist(isp_dev->stfcamss);
 >  
->  	pads[STF_ISP_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> +	pads[STF_ISP_PAD_SINK_PARAMS].flags = MEDIA_PAD_FL_SINK;
->  	pads[STF_ISP_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
-> +	pads[STF_ISP_PAD_SRC_SCD].flags = MEDIA_PAD_FL_SOURCE;
->  
->  	sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
->  	sd->entity.ops = &isp_media_ops;
+> +	stf_isp_reg_write(isp_dev->stfcamss, ISP_REG_DUMP_CFG_1,
+> +			  DUMP_BURST_LEN(3) | DUMP_SD(0xb80));
+>  	stf_isp_reg_write(isp_dev->stfcamss, ISP_REG_CSI_MODULE_CFG,
+>  			  CSI_DUMP_EN | CSI_SC_EN | CSI_AWB_EN |
+>  			  CSI_LCCF_EN | CSI_OECF_EN | CSI_OBC_EN | CSI_DEC_EN);
 > diff --git a/drivers/staging/media/starfive/camss/stf-isp.h b/drivers/staging/media/starfive/camss/stf-isp.h
-> index 955cbb048363..bc7e7b0736fa 100644
+> index 0af7b367e57a..eca3ba1ade75 100644
 > --- a/drivers/staging/media/starfive/camss/stf-isp.h
 > +++ b/drivers/staging/media/starfive/camss/stf-isp.h
-> @@ -392,7 +392,9 @@
->  /* pad id for media framework */
->  enum stf_isp_pad_id {
->  	STF_ISP_PAD_SINK = 0,
-> +	STF_ISP_PAD_SINK_PARAMS,
->  	STF_ISP_PAD_SRC,
-> +	STF_ISP_PAD_SRC_SCD,
->  	STF_ISP_PAD_MAX
->  };
+> @@ -110,9 +110,19 @@
 >  
+>  #define ISP_REG_SCD_CFG_0			0x098
+>  
+> +#define ISP_REG_SCD_CFG_1			0x09c
+> +#define AXI_ID(n)				((n) << 24)
+> +
+> +#define ISP_REG_SC_CFG_0			0x0b8
+> +#define VSTART(n)				((n) << 16)
+> +#define HSTART(n)				((n) << 0)
+> +
+>  #define ISP_REG_SC_CFG_1			0x0bc
+>  #define ISP_SC_SEL_MASK				GENMASK(31, 30)
+>  #define SEL_TYPE(n)				((n) << 30)
+> +#define AWB_PS_GRB_BA(n)			((n) << 16)
+> +#define SC_HEIGHT(n)				((n) << 8)
+> +#define SC_WIDTH(n)				((n) << 0)
+>  
+>  #define ISP_REG_LCCF_CFG_2			0x0e0
+>  #define ISP_REG_LCCF_CFG_3			0x0e4
+> @@ -312,6 +322,17 @@
+>  #define DNRM_F(n)				((n) << 16)
+>  #define CCM_M_DAT(n)				((n) << 0)
+>  
+> +#define ISP_REG_YHIST_CFG_0			0xcc8
+> +
+> +#define ISP_REG_YHIST_CFG_1			0xccc
+> +#define YH_HEIGHT(n)				((n) << 16)
+> +#define YH_WIDTH(n)				((n) << 0)
+> +
+> +#define ISP_REG_YHIST_CFG_2			0xcd0
+> +#define YH_DEC_ETH(n)				((n) << 16)
+> +#define YH_DEC_ETW(n)				((n) << 0)
+> +
+> +#define ISP_REG_YHIST_CFG_3			0xcd4
+>  #define ISP_REG_YHIST_CFG_4			0xcd8
+>  
+>  #define ISP_REG_YHIST_ACC_0			0xd00
+> -- 
+> 2.25.1
+> 
 
 -- 
 Regards,
