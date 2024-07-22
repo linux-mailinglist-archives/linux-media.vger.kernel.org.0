@@ -1,181 +1,265 @@
-Return-Path: <linux-media+bounces-15247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15248-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56E2938FC4
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 15:17:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CD5939032
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 15:53:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FD491F21B28
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 13:17:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 379671F21C4F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 13:53:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3159216D4F1;
-	Mon, 22 Jul 2024 13:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OkpjCl7t"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8CED16DC0D;
+	Mon, 22 Jul 2024 13:53:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D1716938C
-	for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 13:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6607816D9BA;
+	Mon, 22 Jul 2024 13:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721654258; cv=none; b=dHitMVV746PgtZEs4lXVsq2YYAEXVmEHnJGHLvRjBQVArFgYvQKWNd8fQm/Gg1hLi1pJUH+uqUNpw79VY9o9CreIyvHB7N1Eg4OP+2rJtzXBnCiHRb2/NC3BV0kFIvgz+hSv0/VpnA8djj8CJrDfaiV8mQVxdD/80gk1Oi87h+I=
+	t=1721656387; cv=none; b=QEmnxMMzZEdc46gPZKX/d1I0sDsZFHKwb7exMLV73yJP9ZF7WgRl24sZ1+D395K96Im5fnPRFMLRKC/UR/DGH4r7zq/+A3xOR/LhEHl+KmXz/vL3qGNJvbu8E6V/XypoQJQoCPiq16Mw7OszdsutzOZZIYKc6xv/iGBjjwrfc+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721654258; c=relaxed/simple;
-	bh=X8Og4cRRjTFTAVcy3iYNTI7NPvrU8WWaBElWujRSza8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BjLzrMUH3vWGoOmxr/k9GQ+5C+bBATo1yTXfNSC9IWnVPZnFYt54KD2ql+2Pu43S0hnqs+msJxazOIDnqQ8sbnYumzLR4P5wWuQvEnow+9ZOm/LyBxcGdUQhzuCXsfivXT5DIEJ0QqGSjrfz/ujqscTOsF7djBgUmCKSa3xc2To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OkpjCl7t; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a797c62565aso401965166b.2
-        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 06:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1721654255; x=1722259055; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wTbGlt1EcdcYHcKZI4SFSpYHzZQnoTGlIL/NjhJzDtA=;
-        b=OkpjCl7tEiIUKcuOt1PvgphmDtFPmxytkd9lvCAA3Ht2W5CyD9wwjTmcubO/lMWQOc
-         iBUn32sYTYfrb3/E/JG9GVdxoa0tqQ8jTBSB7rmt6JRd8bggSg0XjBb9cdpydGzvfyRF
-         2PHYU7VcGnTVEgd8uVDyZN/PzYbsDp5UZ6bL8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721654255; x=1722259055;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wTbGlt1EcdcYHcKZI4SFSpYHzZQnoTGlIL/NjhJzDtA=;
-        b=XVK98wfr+mVgemUYmY+ce7QcSp5to1oBs0agqvAg1Swyn8NmILbfQcVQ7BM4f/9bId
-         yFXgWprcOZh3Q7IrEHD/Yy7UgpcjujMP2PdsPlcBPqzy5WhFSx7PIQUoG34UiovL6sv3
-         SsKSD4dpUwMzTrDC2+GoZ0motYEU7w72ro0My3dWWLjuT6ywCwsnMZpjSW/kXrbZRtba
-         yO10ErNmyItRtK/Q527DW5KoYAHtPADjb2YvG3yxKp7BROxXVXkE4bXWBuf51p0DOcq/
-         cQa7elBqMKTeKIlcsUKn0DPFde26Y50llLs/erLB7J17HSTWXqitf4w44nVt71c21esr
-         p4KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXse/5KbQMLuSANABrzt0NqciXfVHPcCeTe2yqqMpWI4Fs/NF+6Z3EBVL5q7x418ClIwOy/pRKTZr3WdJ2MACodDPuWOmGFUQ85DpI=
-X-Gm-Message-State: AOJu0Yz+0kYrRVaJvYXizw6tjVr8bdP8D9SsqgQhCnsA1JNRKpzViSeo
-	DoJb/eUdzBwGT7sQYYMmQJM4/xuoKU1ZyNeC83OWLLKhMkLNvgPmV9mSwpNzhSct8YFLGYnJAUA
-	0Tg==
-X-Google-Smtp-Source: AGHT+IEU6lUNPbHG6vcMQ3NMFluF+RJfW54wO07FWt1kT4YzKcbLgBh0ORJPMczuYUaxIvyHh9Fgxg==
-X-Received: by 2002:a17:906:b0c3:b0:a79:fb0e:55ab with SMTP id a640c23a62f3a-a7a01147953mr1205762466b.23.1721654255079;
-        Mon, 22 Jul 2024 06:17:35 -0700 (PDT)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7a3c91ef3fsm420539866b.182.2024.07.22.06.17.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jul 2024 06:17:33 -0700 (PDT)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a77e7a6cfa7so429649066b.1
-        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 06:17:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUoSuy/O+cStQ4w70thtKsM4xn4+1rJZ/eH2Pz3/nsRWjvNAeuEIIIRyK5BH1OQaw9h2olr5wvtmzP++UHbIfwEUsqRRcWA20v3iCU=
-X-Received: by 2002:a17:906:ce57:b0:a72:b055:3de0 with SMTP id
- a640c23a62f3a-a7a01116219mr1036992766b.6.1721654252644; Mon, 22 Jul 2024
- 06:17:32 -0700 (PDT)
+	s=arc-20240116; t=1721656387; c=relaxed/simple;
+	bh=AbDvZ72xd2iAiDvkGlFhknAmLdGYCkcPuPuNKN8J0Hw=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=rYk08T7u2ACSSjMNEgG32AXt7q0XLSTCnPLkdauct+9qJWbFNum5+SnSMOlxUrejdkEt8xIo+4Hlut6Lr+v3BZY1n+MErIS+Ucob1YSZ7XD6nHP+XBW4FZQBIkLaKCLDt5MwrHPTGRof0+6LqpZXipdb02GgGFuZQEfg13qpn6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id A9CC537811CD;
+	Mon, 22 Jul 2024 13:53:01 +0000 (UTC)
+From: "Shreeya Patel" <shreeya.patel@collabora.com>
+In-Reply-To: <c926b73e-9ee7-4c4f-9c06-761929425468@yandex.com>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240719124032.26852-1-shreeya.patel@collabora.com>
+ <20240719124032.26852-3-shreeya.patel@collabora.com> <c926b73e-9ee7-4c4f-9c06-761929425468@yandex.com>
+Date: Mon, 22 Jul 2024 14:53:01 +0100
+Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com, shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com, hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, kernel@collabora.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, "Dmitry Osipenko" <dmitry.osipenko@collabora.com>
+To: "Johan Jonker" <jbx6244@yandex.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240722-fix-filter-mapping-v2-1-7ed5bb6c1185@chromium.org> <20240722122211.GF5732@pendragon.ideasonboard.com>
-In-Reply-To: <20240722122211.GF5732@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 22 Jul 2024 15:17:17 +0200
-X-Gmail-Original-Message-ID: <CANiDSCs1nuvG1XF1XUAJVvkrbe_bVnvqyTR7gvHDdQ8k0M4pLA@mail.gmail.com>
-Message-ID: <CANiDSCs1nuvG1XF1XUAJVvkrbe_bVnvqyTR7gvHDdQ8k0M4pLA@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix custom control mapping probing
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	pmenzel@molgen.mpg.de, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <3328a8-669e6400-1-609f7800@94177214>
+Subject: =?utf-8?q?Re=3A?= [PATCH v4 2/4] =?utf-8?q?dt-bindings=3A?=
+ =?utf-8?q?_media=3A?= Document bindings for HDMI RX Controller
+User-Agent: SOGoMail 5.10.0
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 22 Jul 2024 at 14:22, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Mon, Jul 22, 2024 at 11:52:26AM +0000, Ricardo Ribalda wrote:
-> > Custom control mapping introduced a bug, where the filter function was
-> > applied to every single control.
-> >
-> > Fix it so it is only applied to the matching controls.
-> >
-> > The following dmesg errors during probe are now fixed:
-> >
-> > usb 1-5: Found UVC 1.00 device Integrated_Webcam_HD (0c45:670c)
-> > usb 1-5: Failed to query (GET_CUR) UVC control 2 on unit 2: -75 (exp. 1).
-> > usb 1-5: Failed to query (GET_CUR) UVC control 3 on unit 2: -75 (exp. 1).
-> > usb 1-5: Failed to query (GET_CUR) UVC control 6 on unit 2: -75 (exp. 1).
-> > usb 1-5: Failed to query (GET_CUR) UVC control 7 on unit 2: -75 (exp. 1).
-> > usb 1-5: Failed to query (GET_CUR) UVC control 8 on unit 2: -75 (exp. 1).
-> > usb 1-5: Failed to query (GET_CUR) UVC control 9 on unit 2: -75 (exp. 1).
-> > usb 1-5: Failed to query (GET_CUR) UVC control 10 on unit 2: -75 (exp. 1).
-> >
-> > Reported-by: Paul Menzen <pmenzel@molgen.mpg.de>
-> > Closes: https://lore.kernel.org/linux-media/518cd6b4-68a8-4895-b8fc-97d4dae1ddc4@molgen.mpg.de/T/#t
-> > Cc: stable@vger.kernel.org
-> > Fixes: 8f4362a8d42b ("media: uvcvideo: Allow custom control mapping")
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> I'll add
->
-> Tested-by: Paul Menzel <pmenzel@molgen.mpg.de>
->
-> from v1 and fix the reported-by tag.
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
+On Saturday, July 20, 2024 16:14 IST, Johan Jonker <jbx6244@yandex.com>=
+ wrote:
 
-Thanks :)
+Hi Johan,
 
+>=20
+>=20
+> On 7/19/24 14:40, Shreeya Patel wrote:
+> > Document bindings for the Synopsys DesignWare HDMI RX Controller.
+> >=20
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
 > > ---
-> > Paul, could you check if this fixes your issue, thanks!
-> > ---
-> > Changes in v2:
-> > - Replace !(A && B) with (!A || !B)
-> > - Add error message to commit message
-> > - Link to v1: https://lore.kernel.org/r/20240722-fix-filter-mapping-v1-1-07cc9c6bf4e3@chromium.org
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 8 +++++---
-> >  1 file changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 0136df5732ba..4fe26e82e3d1 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -2680,6 +2680,10 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
-> >       for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
-> >               const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
-> >
-> > +             if (!uvc_entity_match_guid(ctrl->entity, mapping->entity) ||
-> > +                 ctrl->info.selector != mapping->selector)
-> > +                     continue;
+> >=20
+> > Changes in v4 :-
+> >   - No change
+> >=20
+> > Changes in v3 :-
+> >   - Rename hdmirx=5Fcma to hdmi=5Freceiver=5Fcma
+> >   - Add a Reviewed-by tag
+> >=20
+> > Changes in v2 :-
+> >   - Add a description for the hardware
+> >   - Rename resets, vo1 grf and HPD properties
+> >   - Add a proper description for grf and vo1-grf phandles
+> >   - Rename the HDMI Input node name to hdmi-receiver
+> >   - Improve the subject line
+> >   - Include gpio header file in example to fix dt=5Fbinding=5Fcheck=
+ failure
+> >=20
+> >  .../bindings/media/snps,dw-hdmi-rx.yaml       | 132 ++++++++++++++=
+++++
+> >  1 file changed, 132 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/snps,dw=
+-hdmi-rx.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/snps,dw-hdmi-r=
+x.yaml b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+> > new file mode 100644
+> > index 000000000000..96ae1e2d2816
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+> > @@ -0,0 +1,132 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +# Device Tree bindings for Synopsys DesignWare HDMI RX Controller
 > > +
-> >               /* Let the device provide a custom mapping. */
-> >               if (mapping->filter_mapping) {
-> >                       mapping = mapping->filter_mapping(chain, ctrl);
-> > @@ -2687,9 +2691,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
-> >                               continue;
-> >               }
-> >
-> > -             if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
-> > -                 ctrl->info.selector == mapping->selector)
-> > -                     __uvc_ctrl_add_mapping(chain, ctrl, mapping);
-> > +             __uvc_ctrl_add_mapping(chain, ctrl, mapping);
-> >       }
-> >  }
-> >
-> >
-> > ---
-> > base-commit: 68a72104cbcf38ad16500216e213fa4eb21c4be2
-> > change-id: 20240722-fix-filter-mapping-18477dc69048
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> > +---
+> > +$id: http://devicetree.org/schemas/media/snps,dw-hdmi-rx.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Synopsys DesignWare HDMI RX Controller
+> > +
+> > +maintainers:
+> > +  - Shreeya Patel <shreeya.patel@collabora.com>
+> > +
+> > +description:
+> > +  Synopsys DesignWare HDMI Input Controller preset on RK3588 SoCs
+> > +  allowing devices to receive and decode high-resolution video str=
+eams
+> > +  from external sources like media players, cameras, laptops, etc.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - const: rockchip,rk3588-hdmirx-ctrler
+>=20
+> > +      - const: snps,dw-hdmi-rx
+>=20
+> 1: Compatible strings must be SoC orientated.
+> 2: In Linux there's no priority in which string will probed first.=20
+> What's the point of having a fallback string when there's no common c=
+ode, but instead only the first string is used?
+>=20
+> +static const struct of=5Fdevice=5Fid hdmirx=5Fid[] =3D {
+> +	{ .compatible =3D "rockchip,rk3588-hdmirx-ctrler" },
+> +	{ },
+> +};
+>=20
+
+We believe the HDMIRX driver can be used for the Synopsys IP on other S=
+oCs
+in the future, which is why we have added snps,dw-hdmi-rx as the fallba=
+ck compatible.
+Currently, we have tested the driver only on the RK3588 Rock5B, so we a=
+re using the
+rockchip,rk3588-hdmirx-ctrler compatible in the driver instead of the f=
+allback one.
 
 
+Thanks,
+Shreeya Patel
 
--- 
-Ricardo Ribalda
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 3
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: cec
+> > +      - const: hdmi
+> > +      - const: dma
+> > +
+> > +  clocks:
+> > +    maxItems: 7
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: aclk
+> > +      - const: audio
+> > +      - const: cr=5Fpara
+> > +      - const: pclk
+> > +      - const: ref
+> > +      - const: hclk=5Fs=5Fhdmirx
+> > +      - const: hclk=5Fvo1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 4
+> > +
+> > +  reset-names:
+> > +    items:
+> > +      - const: axi
+> > +      - const: apb
+> > +      - const: ref
+> > +      - const: biu
+> > +
+> > +  memory-region:
+> > +    maxItems: 1
+> > +
+> > +  hpd-gpios:
+> > +    description: GPIO specifier for HPD.
+> > +    maxItems: 1
+> > +
+> > +  rockchip,grf:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      The phandle of the syscon node for the general register file
+> > +      containing HDMIRX PHY status bits.
+> > +
+> > +  rockchip,vo1-grf:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      The phandle of the syscon node for the Video Output GRF regi=
+ster
+> > +      to enable EDID transfer through SDAIN and SCLIN.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - interrupt-names
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - resets
+> > +  - pinctrl-0
+> > +  - hpd-gpios
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/power/rk3588-power.h>
+> > +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
+> > +    hdmi=5Freceiver: hdmi-receiver@fdee0000 {
+> > +      compatible =3D "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdm=
+i-rx";
+> > +      reg =3D <0xfdee0000 0x6000>;
+> > +      interrupts =3D <GIC=5FSPI 177 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
+> > +                   <GIC=5FSPI 436 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>,
+> > +                   <GIC=5FSPI 179 IRQ=5FTYPE=5FLEVEL=5FHIGH 0>;
+> > +      interrupt-names =3D "cec", "hdmi", "dma";
+> > +      clocks =3D <&cru ACLK=5FHDMIRX>,
+> > +               <&cru CLK=5FHDMIRX=5FAUD>,
+> > +               <&cru CLK=5FCR=5FPARA>,
+> > +               <&cru PCLK=5FHDMIRX>,
+> > +               <&cru CLK=5FHDMIRX=5FREF>,
+> > +               <&cru PCLK=5FS=5FHDMIRX>,
+> > +               <&cru HCLK=5FVO1>;
+> > +      clock-names =3D "aclk",
+> > +                    "audio",
+> > +                    "cr=5Fpara",
+> > +                    "pclk",
+> > +                    "ref",
+> > +                    "hclk=5Fs=5Fhdmirx",
+> > +                    "hclk=5Fvo1";
+> > +      power-domains =3D <&power RK3588=5FPD=5FVO1>;
+> > +      resets =3D <&cru SRST=5FA=5FHDMIRX>, <&cru SRST=5FP=5FHDMIRX=
+>,
+> > +               <&cru SRST=5FHDMIRX=5FREF>, <&cru SRST=5FA=5FHDMIRX=
+=5FBIU>;
+> > +      reset-names =3D "axi", "apb", "ref", "biu";
+> > +      memory-region =3D <&hdmi=5Freceiver=5Fcma>;
+> > +      pinctrl-0 =3D <&hdmim1=5Frx=5Fcec &hdmim1=5Frx=5Fhpdin &hdmi=
+m1=5Frx=5Fscl &hdmim1=5Frx=5Fsda &hdmirx=5F5v=5Fdetection>;
+> > +      pinctrl-names =3D "default";
+> > +      hpd-gpios =3D <&gpio1 22 GPIO=5FACTIVE=5FLOW>;
+> > +    };
+
 
