@@ -1,119 +1,123 @@
-Return-Path: <linux-media+bounces-15232-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15233-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5080938AFA
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 10:16:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3B3938B3D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 10:28:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6E631C21454
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 08:16:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8DAF3B213B4
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 08:28:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 495D91662F1;
-	Mon, 22 Jul 2024 08:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CPklVXkK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03B691662EF;
+	Mon, 22 Jul 2024 08:28:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12985160873
-	for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 08:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A218B43169
+	for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 08:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721636159; cv=none; b=h+MRauMELgVQLz4mWxwDLYvKzmdz8S08wJm0A+FHQQFsb461ASpp/XV+fTRBs55lVCZhAUgGzxdWCvMFzXcA6N8JOhICBnQ+ZQY5lKf/2Zs8ZOwVvHrE1DJjHMLdofF/rz5fm1ftyGrERXDVdhSEuMdZpsJ7KwDR03aCL1hrwSk=
+	t=1721636898; cv=none; b=t7CA5xVrsXE0pZglxA+OZIhIUHCDPTYOjnRXTU/St0su9iKOpusI3T0ylTKjp75It6TGMFNt7oP8lcCRMwiU7apifp2bnxKWK8TIK6MzwhS0lde1wELmnmnFR3boJJuQM+JZrDlju1OpN9v8+hmIaT5/ZPd3zQ7Rph4iVbQLGE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721636159; c=relaxed/simple;
-	bh=/2+YuJPIcXqhODSP/RWPHTqk9XUdfUu5MmN5dANhmUU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wqt5yEldw0M2vz3g4rvhgqQqc7TKV1RoEZSHNPPaTNNpngxYO61FqDOI1fsW6+sEXr72rKNPexgXmO7+T3clBPywLu5uNn+5qSQHtLVptcGszJBbeHnP+DEoE6eLcekFXpny3HI1qXnuCr+G9KnKtOLpGO99hTpoanoFeKSwg3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CPklVXkK; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5a156557026so3146231a12.2
-        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 01:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1721636156; x=1722240956; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=exw+OqFC2fTiy9XVN6qgl4Zl3vrBp9o9yGgwUOr5R+g=;
-        b=CPklVXkKa1V9mcQqJDw40svAJv0xke9IJ4gBBmfcRLQRgX4zBtsUk8/wH11pTwKX7z
-         lZ2tD4+b6BPm9EbpqkcxTgsMTqgklP1gdHdbmlatNw9lvWvYn8psg1qh7XCjjAvgtGfn
-         Fe6Bt/X2AM172ZqBsasIumucNmmN8yCrGoBuM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721636156; x=1722240956;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=exw+OqFC2fTiy9XVN6qgl4Zl3vrBp9o9yGgwUOr5R+g=;
-        b=KYqX/RYh71FAk/2NZ/Au6TklFxCPau/3kACX6n3GDpj1eiLCRKitzsa6Dv8Z0Ympqp
-         kdtkMG789BHCDfXaZrwl1T8lsbLiYYDKEqaopvwy0H/29iZuiz1xD0UFP41ppyeQ2Boy
-         VothIjhEFgcbQOxVmgIs+ueS7p1FrGiLQqI6v0EW71YbmnYDNih3C9E9/vMsAsqWjpgx
-         FxzKViCu23kTXZJSY5cXtNM4JoARE4lEUm638zLgadq0nzdJcRVAubkQJtQvvThvoaf8
-         zzVq/YNpUel7wckgfsYTa5UdETYuVUeap/9zkTx8y+fc8/q14mWEAcJJwpzvulOSm3Kh
-         gH7w==
-X-Gm-Message-State: AOJu0YzBeP/DAgbT1LIN9BvsystXM70UXGVP4F3QvIb3J42kbFZveB1q
-	B9qBRzLqZCB2gOIDncpI6TN7pKE13peftYFu8AHNYF/nNkd81nuUs81RG6IbTSF5aNoYDl7hmo4
-	Vzw==
-X-Google-Smtp-Source: AGHT+IHwOPkYY9YEDVKr5LeyeZBvRvktvYDAj7Cyg47KjR8E83NDeiogNH67ptFzFRNhognNMZEEzg==
-X-Received: by 2002:a05:6402:34c9:b0:5a1:b42f:c93 with SMTP id 4fb4d7f45d1cf-5a478b78e72mr5031308a12.13.1721636155642;
-        Mon, 22 Jul 2024 01:15:55 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5a30c7d32bbsm5742715a12.89.2024.07.22.01.15.55
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jul 2024 01:15:55 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a77b550128dso407873666b.0
-        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 01:15:55 -0700 (PDT)
-X-Received: by 2002:a17:906:f58c:b0:a72:9001:ed73 with SMTP id
- a640c23a62f3a-a7a4c43833emr431011766b.50.1721636154850; Mon, 22 Jul 2024
- 01:15:54 -0700 (PDT)
+	s=arc-20240116; t=1721636898; c=relaxed/simple;
+	bh=JCGYfF3AHl5eHWraTFiThy/1Xb3aUsm9BZXS5KADu+U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EQ1y1YWzEYTxWI1hewexEusmqtLzLgu8+0WH8KOhMqH4m9CgjfWLn93KW0A4Yx+Mm/3gjkuLvv1IMoWSAFh91fFL78HKfTghP1K1X4C9gN9wdyjKpXVoHhsBfDdTCJ2wegUA2UW1p455fGaavZHHv8lQBnWUg99hwv+44sH0wwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DCA5C116B1;
+	Mon, 22 Jul 2024 08:28:17 +0000 (UTC)
+Message-ID: <d99db58e-876d-418d-b676-9b31637c254f@xs4all.nl>
+Date: Mon, 22 Jul 2024 10:28:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <qiDpaTpmUiihs32PnSJ5OBrVm201qlAyraYycyW8Fo72UIcSkWQ2FgQPnddO_56Euepf508o_SsViFu1cQiSHlgD06m2rdnoqQvEeLe7NZo=@brettrd.com>
-In-Reply-To: <qiDpaTpmUiihs32PnSJ5OBrVm201qlAyraYycyW8Fo72UIcSkWQ2FgQPnddO_56Euepf508o_SsViFu1cQiSHlgD06m2rdnoqQvEeLe7NZo=@brettrd.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 22 Jul 2024 10:15:43 +0200
-X-Gmail-Original-Message-ID: <CANiDSCv+Gh3E5TuJkxbqWnJ8fcM=WhJbh+hJjNbM=D2ZwSwf=Q@mail.gmail.com>
-Message-ID: <CANiDSCv+Gh3E5TuJkxbqWnJ8fcM=WhJbh+hJjNbM=D2ZwSwf=Q@mail.gmail.com>
-Subject: Re: new UVC thermal camera vid:pid and quirk
-To: BrettRD <brett@brettrd.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Can you make a new v4l-utils release?
+To: Gregor Jasny <gjasny@googlemail.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <13a4e596-1854-44b0-842a-8f19f17fce15@xs4all.nl>
+ <7de82157-adc9-4402-9e60-92aae885a776@googlemail.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <7de82157-adc9-4402-9e60-92aae885a776@googlemail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi BrettRD
+On 19/07/2024 23:19, Gregor Jasny wrote:
+> Hello Hans,
+> 
+> On 19.07.24 08:19, Hans Verkuil wrote:
+>> Hi Gregor,
+>>
+>> The last v4l-utils release is over half a year ago, and Nicolas would like to
+>> have a new release that includes the new v4l2-tracer utility.
+>>
+>> Do you have time to prepare a new release?
+> 
+> I released and tagged 1.28.0.
+> 
+> While preparing the updated Debian package I wondered if I could safely switch from Qt5 to Qt6. Do you see any blockers?
 
-Thanks for your report.
+Unfortunately, I just tested this and the colors are all wrong with Qt6.
 
-Do you want to give it a try at sending a patch for the device?
+Also, qvidcap dumps core, even with Qt5.
 
-It looks something like this:
-https://lore.kernel.org/linux-media/20221101-easycam-v3-1-2c9881a7a4f7@chromium.org/
+I'm looking that the core dump issue, but Qt6 support probably needs to be
+disabled until I have time to figure out what is going on with the colors.
 
-Make sure the vid:pids are alphabetically ordered.
+I'll keep you updated.
 
-Regards!
+Regards,
 
-On Fri, 19 Jul 2024 at 07:55, BrettRD <brett@brettrd.com> wrote:
->
-> Hello,
->
-> I have a device not listed among the UVC supported devices, '2bdf:0102 HIK Camera', It's sold as a "mini640" thermal camera.
->
-> It needs the quirk 'UVC_QUIRK_PROBE_MINMAX' before it runs happily under gstreamer using v4l2src, no errors for all reported resolutions.
->
-> Attached is the libusb output from it, and the v4l2_compliance report generated without the quirk applied. (with quirk=2 it reports no failures)
->
-> Thanks for a great driver and documentation
-> Brett
-
-
-
--- 
-Ricardo Ribalda
+	Hans
 
