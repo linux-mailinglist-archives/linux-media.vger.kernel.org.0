@@ -1,143 +1,155 @@
-Return-Path: <linux-media+bounces-15243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15244-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A22938E2D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 13:44:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44846938E7B
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 13:53:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 32EAC1F21D12
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 11:44:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00B12280D90
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jul 2024 11:53:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A64AF16D306;
-	Mon, 22 Jul 2024 11:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C41FC16D33D;
+	Mon, 22 Jul 2024 11:52:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fuos9wN1"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WfTmXDlh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7A617597;
-	Mon, 22 Jul 2024 11:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917D316D318
+	for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 11:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721648657; cv=none; b=tKytiFVPZUB2t63fgke7yHzwDvGK2vZQTLwJ7amkkOPAJqglQZXjOmneqkeiwCh584FAGWWiBYu6SPk29p0QyuL79EVvpJQccog+tRz/xhdVg/f3nMEjSRP+LokSgNYzEHZagXTocK+shMWbrejj/F5u7NyZEErT4ONjJUutrfs=
+	t=1721649153; cv=none; b=XnQ0VBKySMG/+KxIRPrAMV/09LAs15c/ehrDombzmZUGB2hz0YiUQe41PA4oM2WCcyTGHMnJoVQZDS9bJxG8PJI7z2ALtTm5x3WcKVZ6ZckzCs99unEHBbZJQBYrawr51soWZmFUkB4npkDZhIE1yBYSl+gA/pJmTsQ/aQmYX9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721648657; c=relaxed/simple;
-	bh=pPQlCbJfh8RvldYR2ao9QDdb0XigxOlzDalrLf12DjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jg7pBr2yA/42NmZtlbRVSFNWV9RgLdBfQccuwzKtcCrfKDcMs8lmt6E0TL9S/xpiH9sO4QvlN/AYbetHo44d03z3f6LBGUzdgtQit8dImlP5LkqsRHkG4pVjLIlIlrTJwfcQqFRoHs+PVcQnDgbVS0swVLmiChsbt4voqi/DHMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fuos9wN1; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 598852B3;
-	Mon, 22 Jul 2024 13:43:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1721648612;
-	bh=pPQlCbJfh8RvldYR2ao9QDdb0XigxOlzDalrLf12DjE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fuos9wN1+ff26XufeyqVnkTtBZ/ybrcBAmEPuynFs7VV+s8q5FrBUtlRPIgwgRtFx
-	 c/sx34m/mc4OlNUfUKuf+V7hMWcOjxWEwTFLadvWkZNzTaxnHz5qIH7LnZkH6OZAly
-	 ad4Q1phw2q+hYB0OZgKb9cHI6GlC/nviYHoPlmW8=
-Date: Mon, 22 Jul 2024 14:43:55 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pmenzel@molgen.mpg.de, stable@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Fix custom control mapping probing
-Message-ID: <20240722114355.GF13497@pendragon.ideasonboard.com>
-References: <20240722-fix-filter-mapping-v1-1-07cc9c6bf4e3@chromium.org>
- <20240722113836.GE13497@pendragon.ideasonboard.com>
- <CANiDSCsvoiUFPMDatH0OiENtscHYysiRJdCpxVCiK-WtQZS-DQ@mail.gmail.com>
+	s=arc-20240116; t=1721649153; c=relaxed/simple;
+	bh=QsXTXPHta5hqnSr3LHCTAZhJ1stEGXqeSCLWBUmyozw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WSxHvmfvHtiWysakMUYbFXljyUtKG7hfWr/zFtF1zXd8SXP2usq50//Wuzw3/yuD8Ipu9KQ6qp5MQcsOwOgV5pzJQYg24WAtGtZ3/TwYC5g9TXafDAuwjV1DR+ixyaZ41doB0GCfGq4TbnDVuc+FfKdqfDJvjJw6+MBcbmky8G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WfTmXDlh; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6b797234b09so34578456d6.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 04:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1721649150; x=1722253950; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XQYfbL9PFIw2vg4G+G5d59yXENQMiik/7/3n9CbSyT4=;
+        b=WfTmXDlhy59TsUQiHTpVUqswyT2yJCoGaRmlr8mBb2dBR/wIKsqavNs8RjBfREUE16
+         fJLhIcVrBFOaGg/yLehy4qHXXlFhAT0M87M+4vImdbElj0EyELYNPKjF+WdIZShEoPml
+         ZzzbOpJM8MCZxarVyh/HxNl9ykXGs5z8BnwzE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721649150; x=1722253950;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XQYfbL9PFIw2vg4G+G5d59yXENQMiik/7/3n9CbSyT4=;
+        b=kgCM9oQD9BvYyQHBgnSWphOMIw2jDyO2uYQM1R4b+PV+DyekO5TWaTQTeCrIvxymjj
+         coF8CM99vz50qU2JhfvTPzyaNpqiBDHbvqE6Cj4+LBzXUsVfXOxUccyNc5aZVHfJ0Juq
+         dLXpRgLjcCNUeLL9okBJttxMyo54dJeFDCOMmxzpfsg5Wv0iHsGlwU6pg5ok7ufS6Cna
+         n4mrAP4EI/avT1cNxXKQkWyQluq6HxgCMOgHdcIEwx77bcndv4CNpkh01jq4DMfMlrY6
+         qwPziV1H0qjknlldUs1H3q2cUgMFMpjqBmH2jIKy3ZCQxbxzp6s4ShaFqBbSCcvbFxjL
+         5bPg==
+X-Gm-Message-State: AOJu0YytJaMKqHXoKigZVlDwqRzY4MazTESpXz6WZW7cex7VY9GSYRI0
+	YdcfLWJ5o2XU3zTx0t6B6raUdxAjkma4rjxOKpLA4p45cNV4he/YIGeVCwmMZA==
+X-Google-Smtp-Source: AGHT+IHtBu5wz+9EWExK47KziP0oA/oIeohoyQXcWuVyU89lepQlMMboXK68AersAqjxj3D97IA/Gg==
+X-Received: by 2002:ad4:5042:0:b0:6b4:f979:1e03 with SMTP id 6a1803df08f44-6b79cd51d63mr238282386d6.25.1721649150341;
+        Mon, 22 Jul 2024 04:52:30 -0700 (PDT)
+Received: from denia.c.googlers.com (197.5.86.34.bc.googleusercontent.com. [34.86.5.197])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b96c8fe8d4sm13914726d6.17.2024.07.22.04.52.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 04:52:29 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 22 Jul 2024 11:52:26 +0000
+Subject: [PATCH v2] media: uvcvideo: Fix custom control mapping probing
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsvoiUFPMDatH0OiENtscHYysiRJdCpxVCiK-WtQZS-DQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240722-fix-filter-mapping-v2-1-7ed5bb6c1185@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAPlHnmYC/32NTQ6CMBCFr0JmbU1bGwquvIdhgWVoJxHaTJFoC
+ He3cgAXb/G9vJ8NMjJhhmu1AeNKmeJcQJ8qcKGfPQoaCoOW2kirtRjpXfRckMXUp0SzF6ox1g6
+ ubqVpoBQTY0kdo/eucKC8RP4cH6v6uX/nViWUkNa51tWP0eDl5gLHiV7TObKHbt/3L+Nivqq3A
+ AAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ pmenzel@molgen.mpg.de, stable@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Mon, Jul 22, 2024 at 01:41:14PM +0200, Ricardo Ribalda wrote:
-> On Mon, 22 Jul 2024 at 13:39, Laurent Pinchart wrote:
-> > On Mon, Jul 22, 2024 at 07:59:43AM +0000, Ricardo Ribalda wrote:
-> > > Custom control mapping introduced a bug, where the filter function was
-> > > applied to every single control.
-> > >
-> > > Fix it so it is only applied to the matching controls.
-> > >
-> > > Reported-by: Paul Menzen <pmenzel@molgen.mpg.de>
-> > > Closes: https://lore.kernel.org/linux-media/518cd6b4-68a8-4895-b8fc-97d4dae1ddc4@molgen.mpg.de/T/#t
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: 8f4362a8d42b ("media: uvcvideo: Allow custom control mapping")
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > > Paul, could you check if this fixes your issue, thanks!
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_ctrl.c | 8 +++++---
-> > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > index 0136df5732ba..06fede57bf36 100644
-> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > @@ -2680,6 +2680,10 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
-> > >       for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
-> > >               const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
-> > >
-> > > +             if (!(uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
-> > > +                 ctrl->info.selector == mapping->selector))
-> > > +                     continue;
-> >
-> > I have a slight preference for
-> >
-> >                 if (!uvc_entity_match_guid(ctrl->entity, mapping->entity) ||
-> >                     ctrl->info.selector != mapping->selector)
-> >                         continue;
-> >
-> > If that's fine with you, I can handle that when applying the patch.
-> 
-> That looks also good. I can send a v2 if you prefer. I would also add
-> the error messages to the commit message.
-> Let me know what do you prefer, I have time today
+Custom control mapping introduced a bug, where the filter function was
+applied to every single control.
 
-If you can send a v2 with an improved commit message that would be nice.
-I'll apply it right away.
+Fix it so it is only applied to the matching controls.
 
-> > This change means that the entity and selector test will use the
-> > original mapping, not the mapping returned by the filtering function. I
-> > think that's fine, both mappings should have the same entity and
-> > selector, only the menu mask is meant to change.
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > > +
-> > >               /* Let the device provide a custom mapping. */
-> > >               if (mapping->filter_mapping) {
-> > >                       mapping = mapping->filter_mapping(chain, ctrl);
-> > > @@ -2687,9 +2691,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
-> > >                               continue;
-> > >               }
-> > >
-> > > -             if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
-> > > -                 ctrl->info.selector == mapping->selector)
-> > > -                     __uvc_ctrl_add_mapping(chain, ctrl, mapping);
-> > > +             __uvc_ctrl_add_mapping(chain, ctrl, mapping);
-> > >       }
-> > >  }
-> > >
-> > >
-> > > ---
-> > > base-commit: 68a72104cbcf38ad16500216e213fa4eb21c4be2
-> > > change-id: 20240722-fix-filter-mapping-18477dc69048
+The following dmesg errors during probe are now fixed:
 
+usb 1-5: Found UVC 1.00 device Integrated_Webcam_HD (0c45:670c)
+usb 1-5: Failed to query (GET_CUR) UVC control 2 on unit 2: -75 (exp. 1).
+usb 1-5: Failed to query (GET_CUR) UVC control 3 on unit 2: -75 (exp. 1).
+usb 1-5: Failed to query (GET_CUR) UVC control 6 on unit 2: -75 (exp. 1).
+usb 1-5: Failed to query (GET_CUR) UVC control 7 on unit 2: -75 (exp. 1).
+usb 1-5: Failed to query (GET_CUR) UVC control 8 on unit 2: -75 (exp. 1).
+usb 1-5: Failed to query (GET_CUR) UVC control 9 on unit 2: -75 (exp. 1).
+usb 1-5: Failed to query (GET_CUR) UVC control 10 on unit 2: -75 (exp. 1).
+
+Reported-by: Paul Menzen <pmenzel@molgen.mpg.de>
+Closes: https://lore.kernel.org/linux-media/518cd6b4-68a8-4895-b8fc-97d4dae1ddc4@molgen.mpg.de/T/#t
+Cc: stable@vger.kernel.org
+Fixes: 8f4362a8d42b ("media: uvcvideo: Allow custom control mapping")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Paul, could you check if this fixes your issue, thanks!
+---
+Changes in v2:
+- Replace !(A && B) with (!A || !B)
+- Add error message to commit message
+- Link to v1: https://lore.kernel.org/r/20240722-fix-filter-mapping-v1-1-07cc9c6bf4e3@chromium.org
+---
+ drivers/media/usb/uvc/uvc_ctrl.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 0136df5732ba..4fe26e82e3d1 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -2680,6 +2680,10 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 	for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
+ 		const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
+ 
++		if (!uvc_entity_match_guid(ctrl->entity, mapping->entity) ||
++		    ctrl->info.selector != mapping->selector)
++			continue;
++
+ 		/* Let the device provide a custom mapping. */
+ 		if (mapping->filter_mapping) {
+ 			mapping = mapping->filter_mapping(chain, ctrl);
+@@ -2687,9 +2691,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
+ 				continue;
+ 		}
+ 
+-		if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
+-		    ctrl->info.selector == mapping->selector)
+-			__uvc_ctrl_add_mapping(chain, ctrl, mapping);
++		__uvc_ctrl_add_mapping(chain, ctrl, mapping);
+ 	}
+ }
+ 
+
+---
+base-commit: 68a72104cbcf38ad16500216e213fa4eb21c4be2
+change-id: 20240722-fix-filter-mapping-18477dc69048
+
+Best regards,
 -- 
-Regards,
+Ricardo Ribalda <ribalda@chromium.org>
 
-Laurent Pinchart
 
