@@ -1,51 +1,36 @@
-Return-Path: <linux-media+bounces-15290-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15291-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FA1939FBA
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 13:23:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FE693A1DE
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 15:46:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9BA41F230B4
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 11:23:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10AB3B22D8C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 13:45:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 092A414F9F5;
-	Tue, 23 Jul 2024 11:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.com header.i=@yandex.com header.b="W/8PeQ5/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFF40137C34;
+	Tue, 23 Jul 2024 13:45:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from forward502d.mail.yandex.net (forward502d.mail.yandex.net [178.154.239.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E90414A4DA;
-	Tue, 23 Jul 2024 11:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692B18F70
+	for <linux-media@vger.kernel.org>; Tue, 23 Jul 2024 13:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721733826; cv=none; b=it1BRgGKRkQM94Y4ucE+3PZTUQT5WwhNbKHsOCoI5iYivPotmva1mulkJH9azQPnwZ2A8UmI6oi7h45TRXKy0Cg7EI3Mh0vEeNdoQ3s+ogYlc+NkHcxKzdRs2X8AzP54obYtU4Utg4Yz8kii+MAiiQLvSHJAks0CcOCVdmnkidw=
+	t=1721742352; cv=none; b=o7BlC8vMGkJqXZbgUlHI1LJutS9IDt60nY/MkaRCcp1aOGOoSMgNyOYsn4R7aC1i1Ck1auFIU9mVeG8Wc0cthsvkbZAf4CODNaSsXagcjvtvNZv93TLzxuA9+MZRnAlZgi4qghFHdeA2fuNf3MlHPJIfszKRfTv2GTeAiuiwjtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721733826; c=relaxed/simple;
-	bh=jRVtQ3BZO3bshrzxX70rszHGyrGeLPc84CE6qsh3gmY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dWGHcpgJPYjNpB/CwJ/auagIsWlca5OdTwvF1+CWxdxYFzO3oAePoo0JA7LwJKwS249vJR2u4dz5JuIV5jS5iWJ1IWY968LmLGBNsA82rNNw85RiWR38Ypp5s2yIOxErGIMgMyo+FanIOzaQKmjCM0HMhwGHsv/aCVM4Ls6YUVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.com; spf=pass smtp.mailfrom=yandex.com; dkim=pass (1024-bit key) header.d=yandex.com header.i=@yandex.com header.b=W/8PeQ5/; arc=none smtp.client-ip=178.154.239.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.com
-Received: from mail-nwsmtp-smtp-production-main-19.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-19.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:3143:0:640:c03:0])
-	by forward502d.mail.yandex.net (Yandex) with ESMTPS id F22BA60D14;
-	Tue, 23 Jul 2024 14:16:04 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-19.klg.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id 0GMbHe8MjOs0-nTBoCZiH;
-	Tue, 23 Jul 2024 14:16:03 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.com; s=mail;
-	t=1721733364; bh=hQGEU3zHiGtuAg5lw6tLccN2NCx3M597KI1h6UY8wsY=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=W/8PeQ5/NHRTycx3bkf14tAeDHhPk9jgFLzaTpYIRKidfHMdRj0KPp4w+srrLWdgt
-	 jM+ZR4Dw66Yb7FtqPkbTsHQKly7s09YR+touruhtarMOPa0dc+961nqIWnFYkFbneo
-	 odca78tAeet0wCgaLUCALf6V3D9/nrlgJ5R3GtEc=
-Authentication-Results: mail-nwsmtp-smtp-production-main-19.klg.yp-c.yandex.net; dkim=pass header.i=@yandex.com
-Message-ID: <ae3f574a-256f-4ced-a371-a26255024750@yandex.com>
-Date: Tue, 23 Jul 2024 13:16:00 +0200
+	s=arc-20240116; t=1721742352; c=relaxed/simple;
+	bh=+CSUnUbzgTEme+eQh4R/7DBQnYCC0b9M7UM1kmU0I+U=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Hy4dMR1Q59bQmeBOdv1DyUHmViCvjc9MgRJHfJb4cA+U/N5lqjb/HaS7F/AvVjG07hQliJhIhqEjpCLBAFqqKwGDSOqC8OQlpGC9Y3KOLfy4Vnry72HdbWb7jysarj5Hrbf98xBZngQOxnyI2/XoQT6okDc5N1L+nnsSELcXyvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4532AC4AF0A;
+	Tue, 23 Jul 2024 13:45:51 +0000 (UTC)
+Message-ID: <1f64c683-5990-4847-9503-c31adf2e58cc@xs4all.nl>
+Date: Tue, 23 Jul 2024 15:45:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,241 +38,144 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dt-bindings: media: Document bindings for HDMI RX
- Controller
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: heiko@sntech.de, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl, kernel@collabora.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-References: <20240719124032.26852-1-shreeya.patel@collabora.com>
- <20240719124032.26852-3-shreeya.patel@collabora.com>
- <c926b73e-9ee7-4c4f-9c06-761929425468@yandex.com>
- <3328a8-669e6400-1-609f7800@94177214>
-Content-Language: en-US
-From: Johan Jonker <jbx6244@yandex.com>
-In-Reply-To: <3328a8-669e6400-1-609f7800@94177214>
+Subject: Re: Can you make a new v4l-utils release?
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Gregor Jasny <gjasny@googlemail.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <13a4e596-1854-44b0-842a-8f19f17fce15@xs4all.nl>
+ <7de82157-adc9-4402-9e60-92aae885a776@googlemail.com>
+ <d99db58e-876d-418d-b676-9b31637c254f@xs4all.nl>
+ <2f710c72-a5dc-4d30-aeb2-9f9d3e921d49@xs4all.nl>
+ <8c7f5c02-a725-4831-9ad8-d476f02bc529@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
+ BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
+ 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
+ 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
+ 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
+ +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
+ OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
+ 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
+ wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
+ qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
+ vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
+ 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
+ IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
+ KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
+ UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
+ c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
+ AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
+ Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
+ KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
+ gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
+ sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
+ UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <8c7f5c02-a725-4831-9ad8-d476f02bc529@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi Gregor,
 
-
-On 7/22/24 15:53, Shreeya Patel wrote:
-> On Saturday, July 20, 2024 16:14 IST, Johan Jonker <jbx6244@yandex.com> wrote:
+On 22/07/2024 12:16, Hans Verkuil wrote:
+> On 22/07/2024 11:16, Hans Verkuil wrote:
+>> On 22/07/2024 10:28, Hans Verkuil wrote:
+>>> On 19/07/2024 23:19, Gregor Jasny wrote:
+>>>> Hello Hans,
+>>>>
+>>>> On 19.07.24 08:19, Hans Verkuil wrote:
+>>>>> Hi Gregor,
+>>>>>
+>>>>> The last v4l-utils release is over half a year ago, and Nicolas would like to
+>>>>> have a new release that includes the new v4l2-tracer utility.
+>>>>>
+>>>>> Do you have time to prepare a new release?
+>>>>
+>>>> I released and tagged 1.28.0.
+>>>>
+>>>> While preparing the updated Debian package I wondered if I could safely switch from Qt5 to Qt6. Do you see any blockers?
+>>>
+>>> Unfortunately, I just tested this and the colors are all wrong with Qt6.
+>>>
+>>> Also, qvidcap dumps core, even with Qt5.
+>>
+>> This I just fixed in commit f09b2c091d90228547433f11f94015b9ecfeff13.
+>>
+>> I believe that this has always been wrong, it just surfaced for the first
+>> time due to other changes.
+>>
+>> Now that qvidcap works again I see that qvidcap produces the correct colors, but qv4l2
+>> doesn't (that's with Qt6, Qt5 is fine).
+>>
+>> I'll try to find out what the difference is, hopefully it is easy.
 > 
-> Hi Johan,
+> Another commit fixing a crash: 60e4ac8949f034120c1c1820f210c7f70a85f2d9
+> This too needs to be backported to the 1.28 branch.
+
+Sorry, that was the wrong commit SHA (I looked in the wrong tree).
+
+I now have a fix for Qt6 pushed (even though it is not perfect).
+
+So please port the following three commits to the 1.28 branch:
+
+f09b2c091d90 ("qvidcap: fix core dump")
+e268a7229866 ("qv4l2: fix crash when disabling openGL")
+69b3a7618cb5 ("qv4l2: always set m_haveFramebufferSRGB to false")
+
+With those committed you can make a new release that should work with
+Qt6.
+
+Apologies for not noticing before that Qt6 qv4l2 support was broken.
+
+Regards,
+
+	Hans
+
+> 
+> Still looking at the openGL issues in qv4l2.
+> 
+> Regards,
+> 
+> 	Hans
 > 
 >>
+>> Regards,
 >>
->> On 7/19/24 14:40, Shreeya Patel wrote:
->>> Document bindings for the Synopsys DesignWare HDMI RX Controller.
->>>
-
->>> Reviewed-by: Rob Herring <robh@kernel.org>
->>> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-
-Remove to trigger a new review.
-
->>> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
->>> ---
->>>
->>> Changes in v4 :-
->>>   - No change
->>>
->>> Changes in v3 :-
->>>   - Rename hdmirx_cma to hdmi_receiver_cma
->>>   - Add a Reviewed-by tag
->>>
->>> Changes in v2 :-
->>>   - Add a description for the hardware
->>>   - Rename resets, vo1 grf and HPD properties
->>>   - Add a proper description for grf and vo1-grf phandles
->>>   - Rename the HDMI Input node name to hdmi-receiver
->>>   - Improve the subject line
->>>   - Include gpio header file in example to fix dt_binding_check failure
->>>
->>>  .../bindings/media/snps,dw-hdmi-rx.yaml       | 132 ++++++++++++++++++
->>>  1 file changed, 132 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
->>> new file mode 100644
->>> index 000000000000..96ae1e2d2816
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
->>> @@ -0,0 +1,132 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +# Device Tree bindings for Synopsys DesignWare HDMI RX Controller
->>> +
->>> +---
->>> +$id: http://devicetree.org/schemas/media/snps,dw-hdmi-rx.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Synopsys DesignWare HDMI RX Controller
->>> +
->>> +maintainers:
->>> +  - Shreeya Patel <shreeya.patel@collabora.com>
->>> +
->>> +description:
->>> +  Synopsys DesignWare HDMI Input Controller preset on RK3588 SoCs
->>> +  allowing devices to receive and decode high-resolution video streams
->>> +  from external sources like media players, cameras, laptops, etc.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    items:
->>> +      - const: rockchip,rk3588-hdmirx-ctrler
+>> 	Hans
 >>
-
->>> +      - const: snps,dw-hdmi-rx
-
-remove
-
+>>>
+>>> I'm looking that the core dump issue, but Qt6 support probably needs to be
+>>> disabled until I have time to figure out what is going on with the colors.
+>>>
+>>> I'll keep you updated.
+>>>
+>>> Regards,
+>>>
+>>> 	Hans
+>>>
 >>
->> 1: Compatible strings must be SoC orientated.
->> 2: In Linux there's no priority in which string will probed first. 
->> What's the point of having a fallback string when there's no common code, but instead only the first string is used?
->>
->> +static const struct of_device_id hdmirx_id[] = {
->> +	{ .compatible = "rockchip,rk3588-hdmirx-ctrler" },
->> +	{ },
->> +};
 >>
 > 
 
-> We believe the HDMIRX driver can be used for the Synopsys IP on other SoCs
-> in the future, which is why we have added snps,dw-hdmi-rx as the fallback compatible.
-> Currently, we have tested the driver only on the RK3588 Rock5B, so we are using the
-> rockchip,rk3588-hdmirx-ctrler compatible in the driver instead of the fallback one.
-
-The rule that compatible strings (for internal SoC components) must be SoC orientated also applies to the fallback string. "snps,xxxx" does not refer to an independent SoC.
-Don't invent strings for devices that we don't know yet if it might or might not be compatible in the future.
-
-Johan
-
-> 
-> 
-> Thanks,
-> Shreeya Patel
-> 
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  interrupts:
->>> +    maxItems: 3
->>> +
->>> +  interrupt-names:
->>> +    items:
->>> +      - const: cec
->>> +      - const: hdmi
->>> +      - const: dma
->>> +
->>> +  clocks:
->>> +    maxItems: 7
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: aclk
->>> +      - const: audio
->>> +      - const: cr_para
->>> +      - const: pclk
->>> +      - const: ref
->>> +      - const: hclk_s_hdmirx
->>> +      - const: hclk_vo1
->>> +
->>> +  power-domains:
->>> +    maxItems: 1
->>> +
->>> +  resets:
->>> +    maxItems: 4
->>> +
->>> +  reset-names:
->>> +    items:
->>> +      - const: axi
->>> +      - const: apb
->>> +      - const: ref
->>> +      - const: biu
->>> +
->>> +  memory-region:
->>> +    maxItems: 1
->>> +
->>> +  hpd-gpios:
->>> +    description: GPIO specifier for HPD.
->>> +    maxItems: 1
->>> +
->>> +  rockchip,grf:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      The phandle of the syscon node for the general register file
->>> +      containing HDMIRX PHY status bits.
->>> +
->>> +  rockchip,vo1-grf:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      The phandle of the syscon node for the Video Output GRF register
->>> +      to enable EDID transfer through SDAIN and SCLIN.
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - interrupts
->>> +  - interrupt-names
->>> +  - clocks
->>> +  - clock-names
->>> +  - power-domains
->>> +  - resets
->>> +  - pinctrl-0
->>> +  - hpd-gpios
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
->>> +    #include <dt-bindings/gpio/gpio.h>
->>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>> +    #include <dt-bindings/power/rk3588-power.h>
->>> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
->>> +    hdmi_receiver: hdmi-receiver@fdee0000 {
-
->>> +      compatible = "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx";
-
-      compatible = "rockchip,rk3588-hdmirx-ctrler";
-
->>> +      reg = <0xfdee0000 0x6000>;
->>> +      interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH 0>,
->>> +                   <GIC_SPI 436 IRQ_TYPE_LEVEL_HIGH 0>,
->>> +                   <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH 0>;
->>> +      interrupt-names = "cec", "hdmi", "dma";
->>> +      clocks = <&cru ACLK_HDMIRX>,
->>> +               <&cru CLK_HDMIRX_AUD>,
->>> +               <&cru CLK_CR_PARA>,
->>> +               <&cru PCLK_HDMIRX>,
->>> +               <&cru CLK_HDMIRX_REF>,
->>> +               <&cru PCLK_S_HDMIRX>,
->>> +               <&cru HCLK_VO1>;
->>> +      clock-names = "aclk",
->>> +                    "audio",
->>> +                    "cr_para",
->>> +                    "pclk",
->>> +                    "ref",
->>> +                    "hclk_s_hdmirx",
->>> +                    "hclk_vo1";
->>> +      power-domains = <&power RK3588_PD_VO1>;
->>> +      resets = <&cru SRST_A_HDMIRX>, <&cru SRST_P_HDMIRX>,
->>> +               <&cru SRST_HDMIRX_REF>, <&cru SRST_A_HDMIRX_BIU>;
->>> +      reset-names = "axi", "apb", "ref", "biu";
->>> +      memory-region = <&hdmi_receiver_cma>;
->>> +      pinctrl-0 = <&hdmim1_rx_cec &hdmim1_rx_hpdin &hdmim1_rx_scl &hdmim1_rx_sda &hdmirx_5v_detection>;
->>> +      pinctrl-names = "default";
->>> +      hpd-gpios = <&gpio1 22 GPIO_ACTIVE_LOW>;
->>> +    };
-> 
 
