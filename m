@@ -1,109 +1,156 @@
-Return-Path: <linux-media+bounces-15282-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15283-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C02C93980F
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 03:51:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1E893981F
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 04:05:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E1821C20BDC
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 01:51:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2A94B21381
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 02:05:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DDC313AA2C;
-	Tue, 23 Jul 2024 01:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D79171386DF;
+	Tue, 23 Jul 2024 02:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FgIP0eiK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5A513A3F0
-	for <linux-media@vger.kernel.org>; Tue, 23 Jul 2024 01:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A50EC2
+	for <linux-media@vger.kernel.org>; Tue, 23 Jul 2024 02:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721699481; cv=none; b=mIgIpMwzZjI6y/+170gNhAh2dvEJfvBbbXbOBlV+26Opt6DSNmXv0qVHyWkD+qPyco8x56bIk85oYFwD9QS9yyUWZkDNHFGJKtofRZmmWYE4Y0tuzWcRL/94GdXQUTlaiGi75iFopQce+trCnrjI78qAy9Vd6al+PoHCKrvy6dI=
+	t=1721700325; cv=none; b=UjYkGuf4mI/PhaTtkqv5MwDoZ8GdWeYQvGRQat+gwisLSXoe8nn3rHH7gzMYKsS5JQbwLZe+WV0sSwjthVr/Nh4NoGoG+1zpy6n2WYGYKIOgARP4GplE8rFn85ZP8DwuWasrQ56sh90expFXgyPMZoiqTmt0zyC+8FzZQIPop/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721699481; c=relaxed/simple;
-	bh=SdwkbuYptAqAMezjX5nVXHNYWf8NxTqbLwXkx8F6hME=;
-	h=Date:From:To:Subject:Message-Id; b=A9WCeq6K4ZKFfV5XDAx1SGODOiI/yPCcRtudWpsL6nXieqm1qeooTR64hYyFkLK4D4E1PBoxUnRASv+OR/ZtL/mBC9jm4iwenj1q//WiJ6KmHHzJyE41G2C3fH696VNEw4GAawQmFZGhBAhW5IQDfCCouCPLmiwHjo8iyJtuxH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BC66C116B1
-	for <linux-media@vger.kernel.org>; Tue, 23 Jul 2024 01:51:20 +0000 (UTC)
-Date: Tue, 23 Jul 2024 03:51:19 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+	s=arc-20240116; t=1721700325; c=relaxed/simple;
+	bh=hWIwkj7U3mcpE5RXD0VU5qkBVOqezXGJgGj+Hym0ijU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Bv3X31gyY/6cImd9ZG1bUrKG2w96EGxW7Q0smgO5JxHGaZ7VkG0WGez7zDBxyHXpB4zrQJy0HgN0H/Ry3V8IyZvfYZfsb6qq7OnsoaGizjngWj0vc0ZmwwMnPgGjE8N52ewMmh3tbePjvh3WXhd6Pf23ayquBtWL5flxyNDGYN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FgIP0eiK; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3d91e390601so2734134b6e.1
+        for <linux-media@vger.kernel.org>; Mon, 22 Jul 2024 19:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721700323; x=1722305123; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TfqasJVK7wNSVI8UHpN8BBNBB7z8VsC4mZw4WMrcmjo=;
+        b=FgIP0eiKqpv3CFfdavlSwqJRggTdwW3mmHcOmhqHLeNMKOm4X34JMHTilGqhax0QRu
+         PnSnv2rnzOYEUfZ/G+5/CU1GDFGuSuw8aZxDIce6rHFeVBkHwZPHziQAPU/WRSh7bRp9
+         /HKN5K9/EspwGSA0Rg/Z9FICJ8zvVtRSrCDAuomFEf5N3ASn7oNW1WojghSHLMGaxbKE
+         MtoWntOcwhC9yNkBMPf5NsRX+viiK9WwEEhYUyTsN7tRnn3wHaAiX3I7e4LIqYLyaYG6
+         AFC49vbxEgSz/ReNZJzXkmArf7gUnfCWp2kU8J1iJ1FsVTGDrV+/QtevX5cjNgWkfgSV
+         P/hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721700323; x=1722305123;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TfqasJVK7wNSVI8UHpN8BBNBB7z8VsC4mZw4WMrcmjo=;
+        b=a2ho59F2FvBbpqiJZFqDYXyDua0X4yvh8Jvi9WK3AQrkQf+TZOgQqxEtD91aKjnsqO
+         XwAlhFSy/zt5izqFrkxLew7zWvFuxnQLvk/84OjrRVheOPV+7+iMxEyCaX9DFB/0b18V
+         VKp0M1+WFfcfpAW7r2zokxM7JImQ03K9ppA48oNpJKXGtRqCtJP2rwLGLM3QJrwVJctk
+         f3YPzVpPjTaFK3SZoarhJXEC+RnTFNFKlEqB1rxGfmvlOICpdh8jQry5oeYS1xrT0RRR
+         fLmdgZgzwYBhve423GXwxsNFJtaOLW4TxWdpSmDPZVABAHAKbXu5jQ35mbPlO2YK91W1
+         BPMg==
+X-Gm-Message-State: AOJu0YyljNRSyG2FBLeWXwctyHcWqKPJWnJwno6ukhA4eVw337sqHnvn
+	Tl9uIrQID73qzKnRmwYhECkylC7nmuL+mf9nW94TgRPlDq6bUxJlSnWL3A==
+X-Google-Smtp-Source: AGHT+IFofAaDY4hdVys3mFVe4p2/j8rpi61WN9auyIMI6qVO6kRYGM8Rs1zgrTQYdrDqx0JNbv0w6A==
+X-Received: by 2002:a05:6808:144a:b0:3da:a47a:99c6 with SMTP id 5614622812f47-3dafd0d171bmr1754317b6e.15.1721700322741;
+        Mon, 22 Jul 2024 19:05:22 -0700 (PDT)
+Received: from ryzen.lan ([2601:644:8200:dab8::a86])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70d2d316c84sm1946911b3a.81.2024.07.22.19.05.22
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jul 2024 19:05:22 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
 To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20240723015121.0BC66C116B1@smtp.kernel.org>
+Subject: [PATCH] v4l-utils: fix compilation with external intl
+Date: Mon, 22 Jul 2024 19:05:21 -0700
+Message-ID: <20240723020521.16953-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Currently there's an assumption that intl is provided by libc. This is
+not always the case, especially when deciding to use external Gettext.
 
-Results of the daily build of media_tree:
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ lib/libdvbv5/meson.build   | 1 +
+ meson.build                | 2 ++
+ utils/dvb/meson.build      | 1 +
+ utils/ir-ctl/meson.build   | 1 +
+ utils/keytable/meson.build | 1 +
+ 5 files changed, 6 insertions(+)
 
-date:			Tue Jul 23 03:00:19 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	68a72104cbcf38ad16500216e213fa4eb21c4be2
-v4l-utils git hash:	f09b2c091d90228547433f11f94015b9ecfeff13
-edid-decode git hash:	6f117a8f8c0e76e85f599a8b05c21c5f51c5c3c1
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8672-g8bc27a52
-sparse version:		v0.5.0-8672-g8bc27a52
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+diff --git a/lib/libdvbv5/meson.build b/lib/libdvbv5/meson.build
+index 0b92e404..8f5929fc 100644
+--- a/lib/libdvbv5/meson.build
++++ b/lib/libdvbv5/meson.build
+@@ -124,6 +124,7 @@ install_headers(libdvbv5_api, subdir: 'libdvbv5')
+ 
+ libdvbv5_deps = [
+     dep_iconv,
++    dep_intl,
+     dep_libm,
+     dep_librt,
+     dep_libudev,
+diff --git a/meson.build b/meson.build
+index 423876e1..d6c692f1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -202,6 +202,8 @@ size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, si
+     endif
+ endif
+ 
++dep_intl = dependency('intl')
++
+ have_gconv = cc.has_header('gconv.h', required : get_option('gconv'))
+ 
+ # Detect system gconv directory
+diff --git a/utils/dvb/meson.build b/utils/dvb/meson.build
+index 871f5a39..762028bd 100644
+--- a/utils/dvb/meson.build
++++ b/utils/dvb/meson.build
+@@ -1,5 +1,6 @@
+ dvb_common_deps =  [
+     dep_argp,
++    dep_intl,
+     dep_libdvbv5,
+     dep_libudev,
+     dep_threads,
+diff --git a/utils/ir-ctl/meson.build b/utils/ir-ctl/meson.build
+index 24d73a15..fd26a624 100644
+--- a/utils/ir-ctl/meson.build
++++ b/utils/ir-ctl/meson.build
+@@ -12,6 +12,7 @@ ir_ctl_sources = files(
+ 
+ ir_ctl_deps =  [
+     dep_argp,
++    dep_intl,
+ ]
+ 
+ ir_ctl = executable('ir-ctl',
+diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
+index 76ce329e..c02d4ea9 100644
+--- a/utils/keytable/meson.build
++++ b/utils/keytable/meson.build
+@@ -11,6 +11,7 @@ ir_keytable_sources = files(
+ 
+ ir_keytable_deps = [
+     dep_argp,
++    dep_intl,
+ ]
+ 
+ ir_keytable_system_dir = udevdir
+-- 
+2.45.2
 
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-acpi.config: OK
-no-pm.config: OK
-no-debug-fs.config: OK
-no-pm-sleep.config: OK
-sparse: OK
-smatch: WARNINGS:
-
-drivers/media/common/siano/smscoreapi.c:1172 smscore_load_firmware_from_file() error: we previously assumed 'loadfirmware_handler' could be null (see line 1150)
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Tue Jul 23 03:14:02 CEST 2024
-virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
-
-date:			Tue Jul 23 03:50:14 CEST 2024
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
