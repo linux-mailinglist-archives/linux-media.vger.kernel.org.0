@@ -1,140 +1,178 @@
-Return-Path: <linux-media+bounces-15302-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15303-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2843A93ADBB
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2024 10:06:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE04E93AE0E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2024 10:50:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93F631F22528
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2024 08:06:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0D821C21E1D
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2024 08:50:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAB0C130E4A;
-	Wed, 24 Jul 2024 08:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B02EB14C58A;
+	Wed, 24 Jul 2024 08:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2mKwvje"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g53VeXc4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248635336B;
-	Wed, 24 Jul 2024 08:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E05C4D8D1
+	for <linux-media@vger.kernel.org>; Wed, 24 Jul 2024 08:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721808388; cv=none; b=r0xmf/ziLOWhKfQgmr5IGCTj9irneGbl32z0a0ZI3vyqLrtwGBlezGqf1e94OxgoVQ5MJPFeFfQnpB28sz9M2Gou7a837yl5Vg9kKCnb20rGXXLw1W9gdHVnoTeDW0/cBIw98nlvoGiHXAPnS6fPuSOiS+wrIO6K5cztUUdqtg8=
+	t=1721811035; cv=none; b=IP17C/CdNaMC25hn19QnRy+tPjOY0Fd0m+/K7jzwvCvXuz4oeL+zqAkajucVvwbp5Tt/DxWp4Kr5RQvxERGQQxPzSblaiH1/vQAxXEm3ZJO66s4PH7tYrDEmMl6pfZnWu/1c/4OvBjLYMEgYB69pb8zhAUwCW/e85LKaMSkTJGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721808388; c=relaxed/simple;
-	bh=AKKM6ppMNxmC7UXJSSz3Ux9097zdWoX9DlJdSKA47D4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UL/Ho7V+QHrP1S+aTTutD93BWFf+XuVle5KmYybFIsrvCPpIUbcvb7cRY4tpA7K6fG2DMnyVCNzDIJSMFlEyqi0YNT2n9aL2K+3BCkllYDM/LDNmhLD5YtUExOrpFoyGAcrs6UfFRPHRK4jkKmO6EMuoCb5AZohgsQZtIL31BNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2mKwvje; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6486C32782;
-	Wed, 24 Jul 2024 08:06:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721808387;
-	bh=AKKM6ppMNxmC7UXJSSz3Ux9097zdWoX9DlJdSKA47D4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=T2mKwvje3zz3Tu+q9/weTIFmMsr4waWW4t+NKBRQiPZd6QZucUTu2hjyLDyChR/EK
-	 XutvMGcA54ehmZslh+rwuxlKFSFQF4BPD6yKnZrejsEJwk/EVaDSZjJbBmTHIj13Km
-	 TawreHGT/6YVXpVSEem3JavFS0j6012pl+qKx1LB62owOFpWCwUeKniNG+JtclOYWb
-	 Q8EJYCs2otMvvQeu71KqPsGxWMexoVxYMuPU1RgRLBXo/KuFwq8IZi2G85Di4cVTAl
-	 tD0futDU6Y/0UVcaYkG55sg+0pjkd5MjhaFE3RfULjlWM6Mqqv4XxlLAWi29PsygKd
-	 Cv/j9peV3ENOA==
-Message-ID: <119c9a56-ada7-42b2-a0c4-93038950f325@kernel.org>
-Date: Wed, 24 Jul 2024 10:06:16 +0200
+	s=arc-20240116; t=1721811035; c=relaxed/simple;
+	bh=wmZw8TCyDYBDT8uMoFLTpbxC32ZB0fKyIDPtmhtsEPY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gCGnQADGhMjND67SIuMa+knoPTgRwLf1+4eiPGqgRMfRc8XGmPVJiZqi/f4ZxXUEqXf6mNlfidNuaoEYTBmch/+V35oB5Dz/nlXfgkBmTXDDw/pq/omUjbP3YacTPe12sVv97ps3dohWZlEWJBAZGSWQ8anpmqPrW+XYYB6eXaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g53VeXc4; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from localhost.localdomain (unknown [IPv6:2001:b07:5d2e:52c9:24bf:30c5:c4f3:c9fe])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13C1D4CF;
+	Wed, 24 Jul 2024 10:49:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1721810986;
+	bh=wmZw8TCyDYBDT8uMoFLTpbxC32ZB0fKyIDPtmhtsEPY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=g53VeXc49ZrkV2krWbgxWzo3AMCztgfsea3OFbgxjgFLS9cyHEvZ2ZLGzC9L+JsEL
+	 H5kbyOQbHYl0btDow8QHWSrAKPXSgnb5ZI6f7h1HgWzK9gzRqtzF4JEy4eP223i9bP
+	 jD4dKEdoQMWD9StDsGae0vdrS8NighGD10sq/CMc=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: [PATCH v7 0/12] media: rkisp1: Extensible parameters and companding
+Date: Wed, 24 Jul 2024 10:49:51 +0200
+Message-ID: <20240724085004.82694-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/16] dt-bindings: mfd: mediatek: Add codec property
- for MT6357 PMIC
-To: Alexandre Mergnat <amergnat@baylibre.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Lee Jones <lee@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240226-audio-i350-v7-3-6518d953a141@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/07/2024 08:53, Alexandre Mergnat wrote:
-> Add the audio codec sub-device. This sub-device is used to set the
-> optional voltage values according to the hardware.
-> The properties are:
->   - Setup of microphone bias voltage.
->   - Setup of the speaker pin pull-down.
-> 
-> Also, add the audio power supply property which is dedicated for
-> the audio codec sub-device.
-> 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+v6->v7:
+- Collect [PATCH v2 0/5] media: rkisp1: Add support for the companding block
+- Fix GOC handling
+- Fix newly introduced errors in checkstyle and documentation reported by
+  https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1231492
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+v5->v6:
+- Collect [v5.2 6/7] from Laurent
+- Collect Paul's tags
+- Add extra validation for unexpected data after the payload end as
+  suggested by Sakari
 
-Best regards,
-Krzysztof
+v4->v5:
+- Refine validation of the ext params buffer following Laurent's suggestion
+- perform memcpy of the parameters buffer after sizes validation
+
+v3->v4:
+- Introduce 'union rkisp1_ext_params_config' to avoid casts in the block
+  handlers
+
+v2->v3:
+- Address Laurent's comments on the uAPI:
+  - rename $block_config with  just 'config'
+  - reduce header size
+  - rename a few fields/blocks
+
+- Address Laurent's comment on the params node:
+  - Use the plane payload for memcpy() and buffer validation
+  - drop buf_out_validate() and use buf_prepare() only
+  - validate the total buffer size against the buffer payload
+  - use const pointers where possible
+
+v1->v2:
+- re-order patches to introduce parameters buffer caching for the existing
+  "fixed" format before introducing the "extensible" format
+- align all structures to 64-bit boundaries in the uAPI
+- remove NO_CHANGE enablement state and cache a bitmask of enabled blocks
+- address review comments in documentation
+
+The VeriSilicon ISP8000 IP, supported through the rkisp1 driver in the Linux
+kernel, is integrated in several SoCs from different vendors. Different
+revisions of the IP differ in the number of supported features and in the
+register space location assigned to specific ISP blocks.
+
+The current configuration parameters format, defined in
+include/uapi/linux/rkisp1-config.h is realized by a C structure (struct
+rkisp1_params_cfg) which wraps other structures that allows to configure
+specific ISP blocks. The layout of the parameters buffer is part of the Linux
+kernel uAPI and can hardly be extended or modified to adapt it to different
+revisions of the same IP.
+
+This series proposes the introduction of a new parameters format for the RkISP1
+(without dropping support for the existing one) which is designed with the goals
+of being:
+
+1) versioned: can be changed without breaking existing applications
+2) extensible: new blocks and parameters can be added without breaking the uABI
+
+To do so, a new 'struct rkisp1_ext_params_cfg' type is introduced. It wraps an
+header and a data buffer, which userspace fills with configuration blocks
+for each ISP block it intends to configure. The parameters buffer is thus of
+different effective sizes, depending on the number of blocks userspace intends
+to configure.
+
+The kernel driver parses the data block and decides, based on the versioning
+number and the platform it operates on, how to handle each block.
+
+The parameters format is very similar to the parameters format implemented
+in the in-review Mali C55 ISP driver [1]
+
+CI pipeline [2]
+
+[1] https://lore.kernel.org/linux-media/20240529152858.183799-15-dan.scally@ideasonboard.com/
+[2] https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1231500
+
+Jacopo Mondi (7):
+  media: uapi: rkisp1-config: Add extensible params format
+  media: uapi: videodev2: Add V4L2_META_FMT_RK_ISP1_EXT_PARAMS
+  media: rkisp1: Add struct rkisp1_params_buffer
+  media: rkisp1: Copy the parameters buffer
+  media: rkisp1: Cache the currently active format
+  media: rkisp1: Implement extensible params support
+  media: rkisp1: Implement s_fmt/try_fmt
+
+Laurent Pinchart (2):
+  media: rkisp1: Add helper function to swap colour channels
+  media: rkisp1: Add features mask to extensible block handlers
+
+Paul Elder (3):
+  media: rkisp1: Add register definitions for the companding block
+  media: rkisp1: Add feature flags for BLS and compand
+  media: rkisp1: Add support for the companding block
+
+ Documentation/admin-guide/media/rkisp1.rst    |   11 +-
+ .../media/v4l/metafmt-rkisp1.rst              |   57 +-
+ .../platform/rockchip/rkisp1/rkisp1-common.c  |   14 +
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |   38 +-
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     |    9 +-
+ .../platform/rockchip/rkisp1/rkisp1-params.c  | 1016 +++++++++++++++--
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    |   23 +
+ .../platform/rockchip/rkisp1/rkisp1-stats.c   |   51 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ include/uapi/linux/rkisp1-config.h            |  576 ++++++++++
+ include/uapi/linux/videodev2.h                |    1 +
+ 11 files changed, 1640 insertions(+), 157 deletions(-)
+
+--
+2.45.2
 
 
