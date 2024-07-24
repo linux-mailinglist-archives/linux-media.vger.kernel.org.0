@@ -1,206 +1,178 @@
-Return-Path: <linux-media+bounces-15295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF26493A8DF
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 23:50:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C4E93AA2A
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2024 02:22:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24BF9B22184
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jul 2024 21:50:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DDCA284166
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jul 2024 00:22:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54ECB1474B7;
-	Tue, 23 Jul 2024 21:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABA9AA927;
+	Wed, 24 Jul 2024 00:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fyfp56ZR"
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="OvUyh11v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A090A146D4C
-	for <linux-media@vger.kernel.org>; Tue, 23 Jul 2024 21:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6D05695;
+	Wed, 24 Jul 2024 00:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721771391; cv=none; b=Hp4lgJCAOThq3R/WTaIrD4FAQcnKiZU7hsZEaNYCiG7UiJCIk3LeLk/4u+nZ4UgkKXsr+tnXFZm+AO7JMF6U2kmwhbQnpCJCmQ3Cmc0bn/rmgzR+7ZxDbtKrNTujq7Zmh42ESBS9YimBvxlcX1PTMVmLwWgroiFeY7KRJRwSb1k=
+	t=1721780524; cv=none; b=U3OKsyDFuMIEkeOQh7n0PYCioExEg6DKuLLsAvL2UqArkDjbFF9Spw3S6PYfDOsMBQLgKYKUcpfCI9vYemDCDcqg7vsVvOxhwOaGNA8z6sXvXXDiSacZeVwJlsHENQqjPeD49NepVT6NHqZ+KhkRoI5ypQxkpljBWH8blnIjd8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721771391; c=relaxed/simple;
-	bh=2SPyJdYRw87M7kH/eiezDyPqKNLNQ+jlKjgodNew6rA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sb/Qx8xJo7v/uiHosirHmR8T73RlTrEy0YiqYEmJ/bAEEl8b+I3/5HLYp0fscVXq1cVdD9yh01b1VmiFoAJkshljOoBdwh/w903/zsRpapJ1Iu9HYXYQ6fPoq9f9najd8JpHjXudCWmCq6vASOGlronMF7tP2QVGtJR/GnVbfLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Fyfp56ZR; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e08724b2a08so3600465276.1
-        for <linux-media@vger.kernel.org>; Tue, 23 Jul 2024 14:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721771388; x=1722376188; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yF33mP3g3PVeShTJgLfx3fwdjlEE8z1s+DJQDSjcr+Y=;
-        b=Fyfp56ZR1ESGsr5WcO9ANtOIhEqOM3JSjZfk33f5RdokqN6GS9KYDSotLO4rDc3quS
-         RjaSdEa0xexo57qp/8eaJFSf+zj5XZipWjYU5j75zimicvyKmO6rnpXwNNJR6lYmWmJk
-         SG8Xxr9K0V+ggX/45/VWRKhbVNl7RGpR5nqlxjZgEbAojfKUDkcdkYwfHCzinB3T4Wye
-         jU2Gr6XsGMiaC47jaEWYclfWUf4OEtEWFLohdXMcuV2HfjZSalRjbdEiMVf9YPTCh+7y
-         F4XQxmwOHpl+ni2pn+YZF4mTb/UoJS4vHc26G62cqtXWxBfuopA2MLJPu0kXOMGaDy+R
-         Ijxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721771388; x=1722376188;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yF33mP3g3PVeShTJgLfx3fwdjlEE8z1s+DJQDSjcr+Y=;
-        b=uKFGcrPG4vZ50WeopXrDKoGIK1PYdjFoSIz9ZwMz2S44IbePo/LwqG78ynVgEVEceN
-         XAACuGsinSXzWAvub/XyJXkstKGyivz0O8A8XjPPooPhpXruNBmMkh6f6P++LQE1LCzP
-         TE1UuyocXfH6C9ws15AwBM7uw51NALhPdAxK5XNjPqFM10ZYHdxhwiVQiGVmv7lTEZJN
-         KxMAohisFE6Dp6f/5VnxDNd3Mi/+lXxW4UrG1EZkE0MWW62WmVQYJkHj0P4LvustHIDQ
-         rMsAyMTqsMeR86IEaxkRI5xYoZ80jY+b/POuaSinGdbJI2K+Tq7sJmDR9ZzuW/o27gIw
-         fwUA==
-X-Forwarded-Encrypted: i=1; AJvYcCWqqYMEONAMtpmQKCuPKzuvfSsDZYSRRniz81LZt8iCmN8pvL9COuSg8wbYE8ucHQI/3Q8PTV2QE2ooZdK4pIXM9BCgrPJb5/o9mYg=
-X-Gm-Message-State: AOJu0YyNfyKtgBkfDopy64M9k9ZUiXyoIRjmJUMwGFI+Oeumxqez3UT/
-	aIUrQaxv8z4HGddJKOkHa5ppCOkxgRR5Il5MyJPFcXeuMS6d0IkDMhyGVXW1gjVcLSC83R61npG
-	ee7WWSaZgVHQqQ2LMnFngiAmWDjuEeCbGD8SR
-X-Google-Smtp-Source: AGHT+IH5JJRTlNbepSdsOAGPfU8tDz3MNG4de1Wtf/RZgU4beT2V9Y9SRFjNnPwNA1SLBZA82p/Z63pCaOnO/csApGk=
-X-Received: by 2002:a05:6902:1108:b0:e08:7607:bbf3 with SMTP id
- 3f1490d57ef6-e0b097d5744mr1316657276.34.1721771388342; Tue, 23 Jul 2024
- 14:49:48 -0700 (PDT)
+	s=arc-20240116; t=1721780524; c=relaxed/simple;
+	bh=dgd/OcEspbL0figukOqEGtV2NRHnQVoOgGT5jlBZo3w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EsBvqcCT5Q1MGDKtmR3m58S1QmW41ekxWyOnx2p5/iGllbtsZPB4FXCiHghBqaPYRtXqR45/bKJEBx7+xzC5WfD57OlQPwfL+kjieXxfUbPYO5vhtfO5IZld4op1Owrt7K+86sRQ7I8U7Rueg52Vnp2enWdidGR2BzlCp/pHk78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=OvUyh11v; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id DF5B087C80;
+	Wed, 24 Jul 2024 02:21:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1721780514;
+	bh=buFVoy2hJsNwGvBRNg4PlWZklo7fzyoTQ8popzjEw5w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OvUyh11v3eFPKAWFibYDozqWQbqEr0M831jpRfk3jTzz0TW4EW3eC9tFrn0QTt3RM
+	 DgLoRW2Wf0fk04gcXEUFSQB0HsdHVetV2FbXKkDxF7WCOz90SXIw22PtYZHm2unS43
+	 PcAJhocNYiGA9BGUs3Gw4ww8Q89x5Abmxok+F+dSIfHopjPqzL1zjl9pG1dj0fOG8h
+	 BNNRtURw3X1ZjhkNDft8cXa0Xp6rYoHryjcv33hIqbp4/66IcKfXX1b8WfTGj5WL4j
+	 uY1zaH0ubtG5suGZBlzp3au+bOMOA6AqnL47+j8rqZH5TB+6j932fWwIxPPeSmk3h+
+	 fC5OSHfau0tIA==
+From: Marek Vasut <marex@denx.de>
+To: linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 1/2] gpu: ipu-v3: vdic: Simplify ipu_vdi_setup()
+Date: Wed, 24 Jul 2024 02:19:37 +0200
+Message-ID: <20240724002044.112544-1-marex@denx.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240628003253.1694510-1-almasrymina@google.com>
- <20240628003253.1694510-4-almasrymina@google.com> <CAMArcTUqqxam+BPwGExOFOLVi3t=dwA-5sSagKC5dndv07GDLQ@mail.gmail.com>
- <CAHS8izNS5jZjPfc-sARbHV7mzqzH+UhHfAtCTKRRTfSAdhY4Cw@mail.gmail.com> <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
-In-Reply-To: <CAMArcTUdCxOBYGF3vpbq=eBvqZfnc44KBaQTN7H-wqdUxZdziw@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 23 Jul 2024 14:49:34 -0700
-Message-ID: <CAHS8izMTGgZ+4fOKegUDLqAoxrdVEb+nqjQEt8bP0WLBV=FfrQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 03/14] netdev: support binding dma-buf to netdevice
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Tue, Jul 9, 2024 at 8:37=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> wrot=
-e:
-...
-> Reproducer:
-> ./ncdevmem -f <interface name> -l -p 5201 -v 7 -t 0 -q 2 &
-> sleep 10
-> modprobe -rv bnxt_en
-> killall ncdevmem
->
-> I think it's a devmemTCP core bug so this issue would be reproduced
-> with other drivers.
+The 'code' parameter only ever selects between YUV 4:2:0 and 4:2:2
+subsampling, turn it into boolean to select exactly that and update
+related code accordingly.
 
-Sorry for the late reply. I was out at netdev.
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+--
+V2: No change
+---
+ drivers/gpu/ipu-v3/ipu-vdi.c               | 14 +++-----------
+ drivers/staging/media/imx/imx-media-vdic.c |  3 +--
+ include/video/imx-ipu-v3.h                 |  2 +-
+ 3 files changed, 5 insertions(+), 14 deletions(-)
 
-I'm also having trouble reproducing this, not because the bug doesn't
-exist, but quirks with my test setup that I need to figure out. AFAICT
-this diff should fix the issue. If you have time to confirm, let me
-know if it doesn't work for you. It should apply on top of v16:
-
-commit 795b8ff01906d ("fix for release issue")
-Author: Mina Almasry <almasrymina@google.com>
-Date:   Tue Jul 23 00:18:23 2024 +0000
-
-    fix for release issue
-
-    Change-Id: Ib45a0aa6cba2918db5f7ba535414ffa860911fa4
-
-
-
-diff --git a/include/net/devmem.h b/include/net/devmem.h
-index 51b25ba193c96..df52526bb516a 100644
---- a/include/net/devmem.h
-+++ b/include/net/devmem.h
-@@ -68,6 +68,9 @@ net_devmem_bind_dmabuf(struct net_device *dev,
-unsigned int dmabuf_fd);
- void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding);
- int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-                                    struct net_devmem_dmabuf_binding *bindi=
-ng);
-+
-+void dev_dmabuf_uninstall(struct net_device *dev);
-+
- struct net_iov *
- net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding);
- void net_devmem_free_dmabuf(struct net_iov *ppiov);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 5882ddc3f8592..7be084e4936e4 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -11320,6 +11320,7 @@ void unregister_netdevice_many_notify(struct
-list_head *head,
-                dev_tcx_uninstall(dev);
-                dev_xdp_uninstall(dev);
-                bpf_dev_bound_netdev_unregister(dev);
-+               dev_dmabuf_uninstall(dev);
-
-                netdev_offload_xstats_disable_all(dev);
-
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index e75057ecfa6de..227bcb1070ec0 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -362,4 +362,20 @@ bool mp_dmabuf_devmem_release_page(struct
-page_pool *pool, netmem_ref netmem)
-        return false;
+diff --git a/drivers/gpu/ipu-v3/ipu-vdi.c b/drivers/gpu/ipu-v3/ipu-vdi.c
+index a593b232b6d3e..4df2821977c0c 100644
+--- a/drivers/gpu/ipu-v3/ipu-vdi.c
++++ b/drivers/gpu/ipu-v3/ipu-vdi.c
+@@ -117,10 +117,10 @@ void ipu_vdi_set_motion(struct ipu_vdi *vdi, enum ipu_motion_sel motion_sel)
  }
+ EXPORT_SYMBOL_GPL(ipu_vdi_set_motion);
+ 
+-void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres)
++void ipu_vdi_setup(struct ipu_vdi *vdi, bool yuv422not420, int xres, int yres)
+ {
+ 	unsigned long flags;
+-	u32 pixel_fmt, reg;
++	u32 reg;
+ 
+ 	spin_lock_irqsave(&vdi->lock, flags);
+ 
+@@ -131,16 +131,8 @@ void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres)
+ 	 * Full motion, only vertical filter is used.
+ 	 * Burst size is 4 accesses
+ 	 */
+-	if (code == MEDIA_BUS_FMT_UYVY8_2X8 ||
+-	    code == MEDIA_BUS_FMT_UYVY8_1X16 ||
+-	    code == MEDIA_BUS_FMT_YUYV8_2X8 ||
+-	    code == MEDIA_BUS_FMT_YUYV8_1X16)
+-		pixel_fmt = VDI_C_CH_422;
+-	else
+-		pixel_fmt = VDI_C_CH_420;
+-
+ 	reg = ipu_vdi_read(vdi, VDI_C);
+-	reg |= pixel_fmt;
++	reg |= yuv422not420 ? VDI_C_CH_422 : VDI_C_CH_420;
+ 	reg |= VDI_C_BURST_SIZE2_4;
+ 	reg |= VDI_C_BURST_SIZE1_4 | VDI_C_VWM1_CLR_2;
+ 	reg |= VDI_C_BURST_SIZE3_4 | VDI_C_VWM3_CLR_2;
+diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
+index 09da4103a8dbe..ea5b4ef3573de 100644
+--- a/drivers/staging/media/imx/imx-media-vdic.c
++++ b/drivers/staging/media/imx/imx-media-vdic.c
+@@ -376,8 +376,7 @@ static int vdic_start(struct vdic_priv *priv)
+ 	 * only supports 4:2:2 or 4:2:0, and this subdev will only
+ 	 * negotiate 4:2:2 at its sink pads.
+ 	 */
+-	ipu_vdi_setup(priv->vdi, MEDIA_BUS_FMT_UYVY8_2X8,
+-		      infmt->width, infmt->height);
++	ipu_vdi_setup(priv->vdi, true, infmt->width, infmt->height);
+ 	ipu_vdi_set_field_order(priv->vdi, V4L2_STD_UNKNOWN, infmt->field);
+ 	ipu_vdi_set_motion(priv->vdi, priv->motion);
+ 
+diff --git a/include/video/imx-ipu-v3.h b/include/video/imx-ipu-v3.h
+index c422a403c0990..75f435d024895 100644
+--- a/include/video/imx-ipu-v3.h
++++ b/include/video/imx-ipu-v3.h
+@@ -466,7 +466,7 @@ void ipu_ic_dump(struct ipu_ic *ic);
+ struct ipu_vdi;
+ void ipu_vdi_set_field_order(struct ipu_vdi *vdi, v4l2_std_id std, u32 field);
+ void ipu_vdi_set_motion(struct ipu_vdi *vdi, enum ipu_motion_sel motion_sel);
+-void ipu_vdi_setup(struct ipu_vdi *vdi, u32 code, int xres, int yres);
++void ipu_vdi_setup(struct ipu_vdi *vdi, bool yuv422not420, int xres, int yres);
+ void ipu_vdi_unsetup(struct ipu_vdi *vdi);
+ int ipu_vdi_enable(struct ipu_vdi *vdi);
+ int ipu_vdi_disable(struct ipu_vdi *vdi);
+-- 
+2.43.0
 
-+void dev_dmabuf_uninstall(struct net_device *dev)
-+{
-+       unsigned int i, count =3D dev->num_rx_queues;
-+       struct net_devmem_dmabuf_binding *binding;
-+       struct netdev_rx_queue *rxq;
-+       unsigned long xa_idx;
-+
-+       for (i =3D 0; i < count; i++) {
-+               binding =3D dev->_rx[i].mp_params.mp_priv;
-+               if (binding)
-+                       xa_for_each(&binding->bound_rxqs, xa_idx, rxq)
-+                               if (rxq =3D=3D &dev->_rx[i])
-+                                       xa_erase(&binding->bound_rxqs, xa_i=
-dx);
-+       }
-+}
-+
- #endif
-
---=20
-Thanks,
-Mina
 
