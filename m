@@ -1,43 +1,39 @@
-Return-Path: <linux-media+bounces-15338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC1E93C116
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 13:46:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF4993C12E
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 13:54:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A7A51C21344
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 11:46:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 799A9283E09
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 11:54:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA9D119925B;
-	Thu, 25 Jul 2024 11:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2822C199258;
+	Thu, 25 Jul 2024 11:54:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6402A3C3C
-	for <linux-media@vger.kernel.org>; Thu, 25 Jul 2024 11:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D891741C4
+	for <linux-media@vger.kernel.org>; Thu, 25 Jul 2024 11:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721907997; cv=none; b=VVVymDq4L458yGWA9o2sGl/2cEyx7VPWJhg5FNI2ElzP+0oouPUdzfoiqzeIHGGy2LMf9OXx6e2BbdJIY/zIjmYPrrF2LUAtube1M9tcYp824B+JO5MHeBjxQEtFHH20e2QxCzBnc0tgKOhFMUB2kq/Q59uOcQt2QkoP2yjYbp4=
+	t=1721908450; cv=none; b=gJdwFLCSg8HHpK1VDWzcPACB3hV+BeQR3L5zxyjpo28AW1sM1bQI1MFi/62iDP9raMpqR3igTUkUqkTypVxcsC1KM4FtRKeUESmvHfJ6tfcZmWh2I2utfV1v1f5Cdbw6AfvCZhF2MQZ4QKbhmY4HqRdqbPL3Tl9ht2KgKinFUFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721907997; c=relaxed/simple;
-	bh=b4C6OY9hL/g4H0gAWij4QvT90IVQUZIeuVbpea4Uj2c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hor1RrmjeYbQFk9HR+CllEt1UP3TN485W2W/ihHMWXWbZN5xn+s5VZRrjLj4MSxgIIQ2gZ4NS6M8QxEgZrpy26McBBhWLJHfpwtR77wY1JTrVkVABLzCt54ifFnRwpMp/p/bkN6IhWwqxiJS4UMeBNCcZZZZPeNOlIZJIAsEK84=
+	s=arc-20240116; t=1721908450; c=relaxed/simple;
+	bh=HbfeVgiXN3zKSXCqnM2bVLTRjfMmbOBcobo0QRfy9OM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=JpXHnQ6ZvK/ubH4Q487T7/ir8JFVOGFj6rmP5q2velJH+2/sFMPRwnE0aXnl2TVjbcuWsl5cu0vNQCvVMcEG5offrKkX73lqvv13xNUoLNv8Kl83XKHvunwUzcrR5c8TfuTOr/jXZJ/W9z9Qi4q6GGj+qBcvbJSfJ2fMtRl0q/Q=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48B60C116B1;
-	Thu, 25 Jul 2024 11:46:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C93CFC116B1
+	for <linux-media@vger.kernel.org>; Thu, 25 Jul 2024 11:54:09 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 2/2] media: vivid: add <Vendor Command With ID> support
-Date: Thu, 25 Jul 2024 13:41:55 +0200
-Message-ID: <5d7644822cf1347c490b78114d01f76ffff63cf3.1721907715.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 0/2] v4l-utils: add support for CEC_MSG_FL_REPLY_VENDOR_ID
+Date: Thu, 25 Jul 2024 13:52:08 +0200
+Message-ID: <cover.1721908330.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1721907715.git.hverkuil-cisco@xs4all.nl>
-References: <cover.1721907715.git.hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -46,90 +42,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This makes it possible to test the new CEC_MSG_FL_REPLY_VENDOR_ID flag.
+This relies on the uAPI CEC changes from (1).
 
-The vivid driver will Feature Abort any messages that do not have
-exactly 1 payload byte. It ignores messages where the payload byte is
-even, and where it is odd it will reply with the payload byte incremented
-by 1. Basically a simple ping-pong command.
+It adds support for the new flag to cec-ctl and corresponding
+compliance tests to cec-compliance.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/test-drivers/vivid/vivid-cec.c | 48 ++++++++++++++++++--
- 1 file changed, 45 insertions(+), 3 deletions(-)
+Regards,
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-cec.c b/drivers/media/test-drivers/vivid/vivid-cec.c
-index 941ef4263214..356a988dd6a1 100644
---- a/drivers/media/test-drivers/vivid/vivid-cec.c
-+++ b/drivers/media/test-drivers/vivid/vivid-cec.c
-@@ -316,15 +316,16 @@ static int vivid_received(struct cec_adapter *adap, struct cec_msg *msg)
- 	struct vivid_dev *dev = cec_get_drvdata(adap);
- 	struct cec_msg reply;
- 	u8 dest = cec_msg_destination(msg);
--	u8 disp_ctl;
--	char osd[14];
- 
- 	if (cec_msg_is_broadcast(msg))
- 		dest = adap->log_addrs.log_addr[0];
- 	cec_msg_init(&reply, dest, cec_msg_initiator(msg));
- 
- 	switch (cec_msg_opcode(msg)) {
--	case CEC_MSG_SET_OSD_STRING:
-+	case CEC_MSG_SET_OSD_STRING: {
-+		u8 disp_ctl;
-+		char osd[14];
-+
- 		if (!cec_is_sink(adap))
- 			return -ENOMSG;
- 		cec_ops_set_osd_string(msg, &disp_ctl, osd);
-@@ -348,6 +349,47 @@ static int vivid_received(struct cec_adapter *adap, struct cec_msg *msg)
- 			break;
- 		}
- 		break;
-+	}
-+	case CEC_MSG_VENDOR_COMMAND_WITH_ID: {
-+		u32 vendor_id;
-+		u8 size;
-+		const u8 *vendor_cmd;
-+
-+		/*
-+		 * If we receive <Vendor Command With ID> with our vendor ID
-+		 * and with a payload of size 1, and the payload value is odd,
-+		 * then we reply with the same message, but with the payload
-+		 * byte incremented by 1.
-+		 *
-+		 * If the size is 1 and the payload value is even, then we
-+		 * ignore the message.
-+		 *
-+		 * The reason we reply to odd instead of even payload values
-+		 * is that it allows for testing of the corner case where the
-+		 * reply value is 0 (0xff + 1 % 256).
-+		 *
-+		 * For other sizes we Feature Abort.
-+		 *
-+		 * This is added for the specific purpose of testing the
-+		 * CEC_MSG_FL_REPLY_VENDOR_ID flag using vivid.
-+		 */
-+		cec_ops_vendor_command_with_id(msg, &vendor_id, &size, &vendor_cmd);
-+		if (vendor_id != adap->log_addrs.vendor_id)
-+			break;
-+		if (size == 1) {
-+			// Ignore even op values
-+			if (!(vendor_cmd[0] & 1))
-+				break;
-+			reply.len = msg->len;
-+			memcpy(reply.msg + 1, msg->msg + 1, msg->len - 1);
-+			reply.msg[msg->len - 1]++;
-+		} else {
-+			cec_msg_feature_abort(&reply, cec_msg_opcode(msg),
-+					      CEC_OP_ABORT_INVALID_OP);
-+		}
-+		cec_transmit_msg(adap, &reply, false);
-+		break;
-+	}
- 	default:
- 		return -ENOMSG;
- 	}
+	Hans
+
+(1): https://lore.kernel.org/linux-media/cover.1721907715.git.hverkuil-cisco@xs4all.nl/T/#m3dbb0e6242db004eb827d17012635be4cf83644f
+
+Hans Verkuil (2):
+  cec-ctl: add support for CEC_MSG_FL_REPLY_VENDOR_ID
+  cec-compliance: add tests for CEC_MSG_FL_REPLY_VENDOR_ID
+
+ utils/cec-compliance/cec-compliance.cpp   |  2 +
+ utils/cec-compliance/cec-compliance.h     |  2 +
+ utils/cec-compliance/cec-test-adapter.cpp | 90 ++++++++++++++++++++++-
+ utils/cec-ctl/cec-ctl.cpp                 |  9 ++-
+ utils/libcecutil/cec-info.cpp             |  2 +
+ utils/libcecutil/cec-parse.cpp            |  2 +-
+ 6 files changed, 103 insertions(+), 4 deletions(-)
+
 -- 
 2.43.0
 
