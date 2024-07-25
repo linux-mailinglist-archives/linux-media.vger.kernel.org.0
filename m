@@ -1,74 +1,76 @@
-Return-Path: <linux-media+bounces-15333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15334-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDB193BFEE
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 12:31:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F8D93BFF0
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 12:32:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4372E283B2C
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 10:31:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBED81C21677
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 10:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82F2B198E77;
-	Thu, 25 Jul 2024 10:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C64951990C1;
+	Thu, 25 Jul 2024 10:31:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ihfQW398"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OxtWLczz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ED513A3E6;
-	Thu, 25 Jul 2024 10:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59B41990A2;
+	Thu, 25 Jul 2024 10:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721903505; cv=none; b=Er2ZJJP4lQIVDZkwVXR2CsuTUPMUWfkApWetdYSKy2QBhfEoSfed2lUgh6M/ye5AdoRB65IUPrtCSkYRsbDTjb/FbEE7kWERR6u8NErEkSFHWIyWA8hlgdyqUlWYR9ZN8QcpjWUDCa1a/SLNdrIOLsrkY18GjOSXEBgtp3cuOX0=
+	t=1721903509; cv=none; b=kO/aJh0chxLt9s45q+3pCLvzVjzvtieFgVAhislq+GLehj1F4XY+2rSSc/MvrrBGEwbxuQCHj/GcGmIk/PFPJPb+2xf6diNi8NBdk9q1KWa7ETGm7GHjbTnu6SSooJwCjy5giLq+dHUgN9zB8GazO8jjBhLm8tbeD+/y4nS9kDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721903505; c=relaxed/simple;
-	bh=htIX0gNZEQ2pwJvqGxD+l3IATOPpwVwt2PCD5KSSKn4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NdCgfpHKlsf/UWn1aKbxnMCKRHt21JWueA0AZu+eH2Da6UioVJOnT7KhpjP6b/EorLKghbNqiTXmlUQjDK/2tjkx8D81pQ5vkdXFDvQEaapRr9HJaN0VT8RfSl2fZS6PSSTHWrGb+VmrznCEochPQRMjXmKS9ZkYpp0aLUALcSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ihfQW398; arc=none smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1721903509; c=relaxed/simple;
+	bh=wAda8xQPhY/5MLE9114YUL4s08mmQAnyb/WJmp3W3Q0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=B9Mb7mxAOoCl7TRV31A/7Gw7/G1CwgepUgyc5vlWrKi46cbptZs4EB6Q1cGUz+sm6he1/w7incmeACxeWL1mQTzf+jpnif6XKfw5t4z1Gn8FoTL1jvyBc8QvPLyDkp2M/e74glQeGRnlhU0ild+PfsjiIC+IArXsthjLDhw7OeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OxtWLczz; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5a2ffc34677so972145a12.2;
-        Thu, 25 Jul 2024 03:31:43 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7aa212c1c9so43765566b.2;
+        Thu, 25 Jul 2024 03:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721903502; x=1722508302; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W+agGw5RSx4JruLXCZ7PbUeM/c19vYS06rQLvWj4eOM=;
-        b=ihfQW398BG+dr5OH3F29rzyx+Hp5E07DSu9TtZ/8Q0simVwalmC+saJdcNwZBzl1NW
-         bWuWw6nx15me2GkrZGSXeGW05wZs00NVIt7eUrhIYP+h1BfxIh+0jMKyqh8x8ULiQlce
-         75ru41p60lyVpontnTrEbK5LqHIRDu/H0URu4VzNecAE++NyFNUh1N4q229+p0+hWopD
-         NPW2QDLNVXgAxj4M3VejViqoz7yWyvhzPoQRbMeX91Xy8m4bIE6lfdupWK/3QT0t7vNs
-         FlSUdRiyW/2d2my8hpk/VamhEPLxtl+aJ5BmLHeOAhEXgQA1whKPTKAn9Bk30R0EEXlU
-         T/+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721903502; x=1722508302;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1721903506; x=1722508306; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=W+agGw5RSx4JruLXCZ7PbUeM/c19vYS06rQLvWj4eOM=;
-        b=jzAa+6+SlkyCjYRa7hpOBKZ+Z7WCyOEj5y7MHQSQcxWxcwQbERaxyE7tSgxxY+GkFg
-         CmuTabo4E19AsCA990lBMknMPi1soJ7Ah9knUbSv8bApPt2MXy49GYGhWvpkE90pZIgG
-         BCky3m2QfE1PnYZoygb5Xf7h4cOzZOEcuV5AZZU3zeGRwhbe0eOGnYV375VvLFv+kY8w
-         PghlYpA2ZXTY9QBZcnjYlgVw6y0Oi8Hh6PrzA5yMnOOH2h3R/BVQjUOAdd1d43Hb7blc
-         rY3f24C+qJfif5bqXDU/E1mPajgSw3tYe/2f3tpZZHdSVGUjzdHraLf8IdKZWGMW13Z8
-         xwhg==
-X-Forwarded-Encrypted: i=1; AJvYcCXze995gvqLVzNN7uBnmcYMewGkWPWkKYCv9ijTtbHJLjIKsBftLpO6QL94bngX7gTuHEOAUUGpqB9s2BTlyqSoSD6kP3MdC6cxkOKRbDN5jtj2uDJs1wNgvOr49E/ybYudade6OfU1Meo=
-X-Gm-Message-State: AOJu0YweBSu2VSHWnePg7j22k54QexcutZ6q6b2w38DMloivh39dHcyq
-	+dp5tRP6T+dgW+ToQgqSI/sFdmxPevEDHtee6eu7oqkUk0emLnUK
-X-Google-Smtp-Source: AGHT+IGAu3zvUQHfsTC/UTH4WJiceuCvU2xMUjNKMn2kBRL9RuFZai32Qp0okX0mkrFdHSC/S11Q/A==
-X-Received: by 2002:a17:907:97d0:b0:a7a:ab1a:2d64 with SMTP id a640c23a62f3a-a7ac506f3a4mr176339666b.58.1721903501593;
-        Thu, 25 Jul 2024 03:31:41 -0700 (PDT)
+        bh=yOeiGXeuTWh9ihbymAzgAMoDAdspVLgp4kSjE/YSgxc=;
+        b=OxtWLczzu0yB5WEi3ZCDHwc/5M4H7BgNFOzu8woHIMoT0iQdX5ZTkdlgsVi0+kErwL
+         o+kehALI2oVPvZE15fFSMVskuY4e6NAFGskOxWDFJa1oWPDMWTXu5GXSkMoEMY5Xiqbo
+         TwGqvnKyTxfSIgh78HCorqAozGg6iykfgjGuUzO0EX48SY6F0SKcwRk0dqaxMht1q2iJ
+         CChCaVNphUmmXijnR5QJnEZlk4cyuEx0YAixRBG/q3d2OAL0TO9X2w+jlzjXEjHWcFK5
+         NPWMPcUx8QlrBOuXIbudf+/hu5l8x9DYSNexCs0LqoIBp8rgE1LMauXsUvkfg1KtkM5D
+         Tnqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721903506; x=1722508306;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yOeiGXeuTWh9ihbymAzgAMoDAdspVLgp4kSjE/YSgxc=;
+        b=vHu3Yk7j9g9sR0E73IXLYTLFD9xn2NUGZByguXeo3zJZk+gxrhf3umb4TBeyjphopC
+         lQrl4bAmExk6nv+z2ICQodgtBNXUO16+9bxt9OMs3M3j8PdQ4wPnkrr8xjaUlMEosv5L
+         gEEv4XwI1l7oRH3NIFAAme4URmQ8QEibnB4OM1F8DIXsCItS+asu6yW+p8ySJe3DB4FS
+         yIkSkqZcQKp6yBIa0fKv3QX3H+N3HT7O7xBeKBAUjLgGhSNtb+Vv7vVa9iuIUMoutPKd
+         A06AEdXEhX6aaXIUPezbZ6aFGrR5PxFQ4+dkHdHWbuU1dMnpIOw4ejRjXTSWQTQQKaNf
+         H5XA==
+X-Forwarded-Encrypted: i=1; AJvYcCXnd82TWeGzids9Z5gEBYvhWUggwGlGb0H21dUS/7KCpICNatxs6r79i9eR5IcIAfeftkehgbgK8pRHqldmbT7XxDUxKF5CSqjZIScvGQJ946zjq/MP2p/s87fU2WMU7aPwxgm+BfsJAvI=
+X-Gm-Message-State: AOJu0YzYStFEY/bR74DWgjDTvBvGLXIVWQRT9uOZnXuHriFON6RC2/na
+	XrIbWIAES4ARsYBqo0/afQWe1Nst/K/PPI8vdf/NdGZnBcwzWstC
+X-Google-Smtp-Source: AGHT+IE0/hpUdAcQx4dLRlMWzDI99oBJN7+P7fRlBEFw3PDOuVabqJfYozkGN3UY2efNKiho/QNr+Q==
+X-Received: by 2002:a17:907:2d0a:b0:a7a:a212:be48 with SMTP id a640c23a62f3a-a7ac5087e56mr177990766b.56.1721903503189;
+        Thu, 25 Jul 2024 03:31:43 -0700 (PDT)
 Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad903f1sm57280766b.152.2024.07.25.03.31.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad903f1sm57280766b.152.2024.07.25.03.31.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 03:31:41 -0700 (PDT)
+        Thu, 25 Jul 2024 03:31:42 -0700 (PDT)
 From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Subject: [PATCH 0/2] {ASoC,media}: constify snd_soc_component_driver struct
-Date: Thu, 25 Jul 2024 12:31:38 +0200
-Message-Id: <20240725-const_snd_soc_component_driver-v1-0-3d7ee08e129b@gmail.com>
+Date: Thu, 25 Jul 2024 12:31:39 +0200
+Subject: [PATCH 1/2] media: i2c: tda1997x: constify
+ snd_soc_component_driver struct
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,9 +79,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIopomYC/x3NwQqDMAyA4VeRnC24os7uVUSKttmWg4kkIgPx3
- Vc8fpf/P8FQCQ1e1QmKBxkJFzzqCtJ35g86ysXgG982T9+5JGx7NM7RJMUk6yaMvMesdKC6JfQ
- +zKFbQjtAiWyKb/rdg3G6rj8V+brQcAAAAA==
+Message-Id: <20240725-const_snd_soc_component_driver-v1-1-3d7ee08e129b@gmail.com>
+References: <20240725-const_snd_soc_component_driver-v1-0-3d7ee08e129b@gmail.com>
+In-Reply-To: <20240725-const_snd_soc_component_driver-v1-0-3d7ee08e129b@gmail.com>
 To: Tim Harvey <tharvey@gateworks.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -101,51 +103,41 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, 
  Javier Carrasco <javier.carrasco.cruz@gmail.com>
 X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721903500; l=1490;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1721903500; l=964;
  i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=htIX0gNZEQ2pwJvqGxD+l3IATOPpwVwt2PCD5KSSKn4=;
- b=vBDKmvKNwCIRMMTYycPXUCa0VMk1znrRDaTVxp1ewj0Yo659ha2gfmiErmmqJzC2lEeS99wV6
- S0Y8WTWXCEJB+QZG9JPwzy0tFzzO75Pecq8vABwhbjWvw6sKrkIMHfw
+ bh=wAda8xQPhY/5MLE9114YUL4s08mmQAnyb/WJmp3W3Q0=;
+ b=g+GwinB2Om+/QI19eL/QDvSqsxnmXjF9gdTgw9VQo6YTUwrcAxKL/wFe4IHNNaaiUzHHdXQ29
+ T8cWG+KHnUBDrYJ+zT75Qz2Wr485h9ieY+INwWbKf+ktYVDL378CLex
 X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
  pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-The `snd_soc_component_driver` struct is never modified after its
-declaration, and its only direct user
-`devm_snd_soc_register_component()` expects a constant value anyway.
+`tda1997x_codec_driver` is not modified after its declaration, and it
+is only passed to `devm_snd_soc_register_component()`, which expects
+a constant `snd_soc_component_driver`.
 
-Declare `snd_soc_component_driver` as const to move their declarations
-to read-only sections.
-
-Apart from a single case under media/, the affected drivers are members
-of the ASoC subsystem.
+Move `tda1997x_codec_driver` to a read-only section by declaring it
+const.
 
 Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
-Javier Carrasco (2):
-      media: i2c: tda1997x: constify snd_soc_component_driver struct
-      ASoC: constify snd_soc_component_driver struct
+ drivers/media/i2c/tda1997x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/media/i2c/tda1997x.c         | 2 +-
- sound/soc/au1x/dbdma2.c              | 2 +-
- sound/soc/au1x/dma.c                 | 2 +-
- sound/soc/bcm/cygnus-pcm.c           | 2 +-
- sound/soc/codecs/cpcap.c             | 2 +-
- sound/soc/codecs/cs43130.c           | 2 +-
- sound/soc/codecs/pcm186x.c           | 4 ++--
- sound/soc/codecs/pcm5102a.c          | 2 +-
- sound/soc/codecs/spdif_receiver.c    | 2 +-
- sound/soc/codecs/spdif_transmitter.c | 2 +-
- sound/soc/codecs/sti-sas.c           | 2 +-
- sound/soc/codecs/tas6424.c           | 2 +-
- sound/soc/stm/stm32_adfsdm.c         | 2 +-
- sound/soc/uniphier/evea.c            | 2 +-
- 14 files changed, 15 insertions(+), 15 deletions(-)
----
-base-commit: 864b1099d16fc7e332c3ad7823058c65f890486c
-change-id: 20240725-const_snd_soc_component_driver-b9629a95b948
+diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
+index 58ce8fec3041..3b7e5ff5b010 100644
+--- a/drivers/media/i2c/tda1997x.c
++++ b/drivers/media/i2c/tda1997x.c
+@@ -2514,7 +2514,7 @@ static void tda1997x_codec_remove(struct snd_soc_component *component)
+ {
+ }
+ 
+-static struct snd_soc_component_driver tda1997x_codec_driver = {
++static const struct snd_soc_component_driver tda1997x_codec_driver = {
+ 	.probe			= tda1997x_codec_probe,
+ 	.remove			= tda1997x_codec_remove,
+ 	.idle_bias_on		= 1,
 
-Best regards,
 -- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
+2.43.0
 
 
