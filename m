@@ -1,113 +1,152 @@
-Return-Path: <linux-media+bounces-15351-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0E893C94C
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 22:05:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FCE93CD90
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 07:25:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29E1428380E
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jul 2024 20:05:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0461E1C21991
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 05:25:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B500E6F2F8;
-	Thu, 25 Jul 2024 20:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC6F739AD5;
+	Fri, 26 Jul 2024 05:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="jsuB2HXQ"
+	dkim=pass (2048-bit key) header.d=brettrd.com header.i=@brettrd.com header.b="F1dzoOTc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFA52E639
-	for <linux-media@vger.kernel.org>; Thu, 25 Jul 2024 20:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975054204D
+	for <linux-media@vger.kernel.org>; Fri, 26 Jul 2024 05:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721937907; cv=none; b=AVSoKM7cBgojfxn6nFBhmyd0Ns9MNZog2QUM0sr+/GZzasppSVLcCreNR6l6HNewrvLLijhza6KIvqUR2tbJSuSOVL0/mXUqGM7KfS7wC+PDek4vrq1bFCCv7hEQdtJbZBg6K0SoYsoM6bH8KvZnyye3OXJhIPuaj2/Egx3o6uo=
+	t=1721971496; cv=none; b=ApHemTjv3uQNJkLzvSTm0iiMXB+ZbULOODX4CP9z6ZokMMldIgV8FOy5jxcNSm7lA6C3kwjYqOOB/eCKG5y/cI52RFxP93yRkLJqW1gq7o9oixwwXuE2OzNVj0lC7rHnf86tJ+VKHTLjwIdzsDwxGC25Ua+WSkWmlqakSheUoJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721937907; c=relaxed/simple;
-	bh=JaYzqBMyPF80jMTtCDTc1TwKrAdK04fSVIXOYRtltrg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uWHbxwf4VW633h2UHSBL+sFMsf72pvMfm7+e9F/n5UfTZEvy9xKIEfda69T2/a+PpnCuvtGW0Air6F0My7DmS2QkGSB5dfsDnV3sabHWd0hWK+odupC3k1sx4CTJ8w4kosQCaRbEhtJKvzC7LyxeEKSAHjliwHN3ImDpzYDBJT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=jsuB2HXQ; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-369f68f63b1so771563f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 25 Jul 2024 13:05:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1721937904; x=1722542704; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UnfU/RWRTkTpsac9tS8MQu9+biNvJM/HQlxJQ6JR/CQ=;
-        b=jsuB2HXQ3lHt/0O8oYsrwfVhUJndtDpqftkGJ0tLZy5XdALN98P7o3H//lLZ6EbZzN
-         EaWlz78EVl4USrDy9ys/X2ZzwBx99b2Gh6/rQBs1/rVUWtvvzf+6imzjxODayysC3F3l
-         nzdKnVm4FdS0RPyOTkwk9JrVCnWYx4FAf/PcYYNkIb0mViGQQcvCpmgJHat4ZekXLQms
-         W2CiwPy2p1lvgt50pYhnntg2gaimZd2g09kqbBxQv3S+LbydJQxXmamcoHfzQFOSKtfZ
-         UlgSEWaCCH7m5ohlMqOVO6o/1jq9n1ikRKM5j+sjiB5JrJLdhHqPyuxMV5QK9QwSVmB3
-         +3rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721937904; x=1722542704;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UnfU/RWRTkTpsac9tS8MQu9+biNvJM/HQlxJQ6JR/CQ=;
-        b=fKkyN8E8tdpJRGw7Gwd4bx9iS0OGAon1akuecenNyR0gmoL/+aH9jS6pzSQvYsWFlY
-         Ybnm6T+RhtVT93g/YAu+IfIDiziL+7CtfCq0FFaP9T+FZjWicOBrAZehdUpdMalg5qTI
-         r8vuimA/cClTUE10OPK2rFLOP9ENRRbFJCLuCdCZFEGit9q638Lci1Yj2XGiRVuHzSTM
-         c1wgVEqPi+Wyzi8ZlGoWYYmtdb9NhxAf4h12YgKTu3I+pCETYzsrYFgFaxdtXLKhhJMw
-         ThyxNnkCp9bSYWwIT0HqRUDONgI9b4cx6dbdV0QgingeuDPvifvozXRwqxZt+EgwklrF
-         KzyA==
-X-Gm-Message-State: AOJu0YxNLzPOjRNo1Es0Xjx6uWYLPLZ5JlgLA790AgWEVt5P+V9JW/xe
-	JnwwGFDDSqFD6shg5olspUvAYfHgY45wuRCDp7vl5yzKQMG1ssh+
-X-Google-Smtp-Source: AGHT+IFK+bThaia/e1N6vgjD33ZdiDq8bl3ade//0JShFdh9haZfeeYW21D1RdJrp5Ii8nc1C9YXsg==
-X-Received: by 2002:adf:ffc5:0:b0:368:7fc6:ee80 with SMTP id ffacd0b85a97d-36b36407041mr2196601f8f.42.1721937903756;
-        Thu, 25 Jul 2024 13:05:03 -0700 (PDT)
-Received: from [192.168.0.155] ([91.67.17.104])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ac64eb76f3sm1106148a12.72.2024.07.25.13.03.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jul 2024 13:04:25 -0700 (PDT)
-Message-ID: <6dda4a2b-e700-4639-8607-cf6d09c4427e@googlemail.com>
-Date: Thu, 25 Jul 2024 22:03:44 +0200
+	s=arc-20240116; t=1721971496; c=relaxed/simple;
+	bh=xXsGy4tbcO45kXAA9UCgPWxiDFrFycznyO0Z8VFPbVg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aHmr3SucVH24t06sWF33FjavHYpGKM9ciR2/v0LtdphEUdUwZNCxvc3vQN1cr2jauT91IAdEL7Jt1c4o1qC3XQVP/jzFFvAPGsFUg4V7QVS0mM/59vc4K9cRRdFkFsHYzSFsS5UUWoOMVUxP8DxpP4QFQy53znD2Qn6CHwyh7lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=brettrd.com; spf=pass smtp.mailfrom=brettrd.com; dkim=pass (2048-bit key) header.d=brettrd.com header.i=@brettrd.com header.b=F1dzoOTc; arc=none smtp.client-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=brettrd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brettrd.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=brettrd.com;
+	s=protonmail2; t=1721971485; x=1722230685;
+	bh=xXsGy4tbcO45kXAA9UCgPWxiDFrFycznyO0Z8VFPbVg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=F1dzoOTch9ECr4wHsFJynHY/MjBPCBxYbAFBnLe9WPA6zuMkMmpn4jUt/q/YKGAHT
+	 v2szvjMWsq4BzQ/JvsHLbsh+TwVjHDQGvVDz9iju+WXKQjiEs/JRZzm2FIm0DtZxfK
+	 UxpIPR6ypnvpFFaIx+JTqvW/kN8jPqh+LWFxWc+ClubEnChbLzV55f6uo5Opv7lJHx
+	 3txC3tdF7BkqNhnbUmsqNCl9j2gLcOMOwK4OyF5NxDrleskncK31IHyhvxZ2vn7nDT
+	 pS4oaqWjlYMwtpE0mS1f7BYSkTIx9yKxhxhqn+hXypjeR0fbqmvvP5zjQcN0YJLTeB
+	 494EeaJoH9Epg==
+Date: Fri, 26 Jul 2024 05:24:41 +0000
+To: Ricardo Ribalda <ribalda@chromium.org>
+From: BrettRD <brett@brettrd.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: new UVC thermal camera vid:pid and quirk
+Message-ID: <QZMkPVqtorkeIbj5BHOKAfQE7IJHh6Shg3K9xKeg4d6t4wPI7o94SkiH7znorWctNAqQ4Pr4jZhq6nPQjAk0GprUjcYqknpmVXwne8-H094=@brettrd.com>
+In-Reply-To: <CANiDSCv+Gh3E5TuJkxbqWnJ8fcM=WhJbh+hJjNbM=D2ZwSwf=Q@mail.gmail.com>
+References: <qiDpaTpmUiihs32PnSJ5OBrVm201qlAyraYycyW8Fo72UIcSkWQ2FgQPnddO_56Euepf508o_SsViFu1cQiSHlgD06m2rdnoqQvEeLe7NZo=@brettrd.com> <CANiDSCv+Gh3E5TuJkxbqWnJ8fcM=WhJbh+hJjNbM=D2ZwSwf=Q@mail.gmail.com>
+Feedback-ID: 43762550:user:proton
+X-Pm-Message-ID: 51da9e6ec5f0f3bccd95da8036cc32fc3ed0dcde
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Can you make a new v4l-utils release?
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>
-References: <13a4e596-1854-44b0-842a-8f19f17fce15@xs4all.nl>
- <7de82157-adc9-4402-9e60-92aae885a776@googlemail.com>
- <d99db58e-876d-418d-b676-9b31637c254f@xs4all.nl>
- <2f710c72-a5dc-4d30-aeb2-9f9d3e921d49@xs4all.nl>
- <8c7f5c02-a725-4831-9ad8-d476f02bc529@xs4all.nl>
- <1f64c683-5990-4847-9503-c31adf2e58cc@xs4all.nl>
-From: Gregor Jasny <gjasny@googlemail.com>
-In-Reply-To: <1f64c683-5990-4847-9503-c31adf2e58cc@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed;
+ boundary="b1_GL241rKmIqx0fHqVSoA0gZGLZ3AZlf6Y3QLisut7KtM"
 
-Hello,
+This is a multi-part message in MIME format.
 
-On 23.07.24 15:45, Hans Verkuil wrote:
-> I now have a fix for Qt6 pushed (even though it is not perfect).
-> 
-> So please port the following three commits to the 1.28 branch:
-> 
-> f09b2c091d90 ("qvidcap: fix core dump")
-> e268a7229866 ("qv4l2: fix crash when disabling openGL")
-> 69b3a7618cb5 ("qv4l2: always set m_haveFramebufferSRGB to false")
-> 
-> With those committed you can make a new release that should work with
-> Qt6.
+--b1_GL241rKmIqx0fHqVSoA0gZGLZ3AZlf6Y3QLisut7KtM
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for the quick fixes. I cherry-picked those and released 
-1.28.1. Once the Debian package has migrated to testing I'll try to 
-switch to Qt 6.
+Hi Ricardo,
 
-Thanks,
-Gregor
+On Monday, July 22nd, 2024 at 6:15 PM, Ricardo Ribalda <ribalda@chromium.or=
+g> wrote:
+>=20
+> Hi BrettRD
+>=20
+> Thanks for your report.
+>=20
+> Do you want to give it a try at sending a patch for the device?
+>=20
+> It looks something like this:
+> https://lore.kernel.org/linux-media/20221101-easycam-v3-1-2c9881a7a4f7@ch=
+romium.org/
+=20
+I'd love to, I'm still reading up on how to build modules under Debian
+A first attempt is attached, I'll send it standalone once I've tested it.
+
+> Make sure the vid:pids are alphabetically ordered.
+
+Thanks! I wouldn't have noticed that, the struct is inserted in vid:pid ord=
+er
+=20
+> Regards!
+>=20
+> On Fri, 19 Jul 2024 at 07:55, BrettRD brett@brettrd.com wrote:
+>=20
+> > Hello,
+> >=20
+> > I have a device not listed among the UVC supported devices, '2bdf:0102 =
+HIK Camera', It's sold as a "mini640" thermal camera.
+> >=20
+> > It needs the quirk 'UVC_QUIRK_PROBE_MINMAX' before it runs happily unde=
+r gstreamer using v4l2src, no errors for all reported resolutions.
+> >=20
+> > Attached is the libusb output from it, and the v4l2_compliance report g=
+enerated without the quirk applied. (with quirk=3D2 it reports no failures)
+> >=20
+> > Thanks for a great driver and documentation
+> > Brett
+>=20
+> --
+> Ricardo Ribalda
+
+Cheers,
+Brett
+--b1_GL241rKmIqx0fHqVSoA0gZGLZ3AZlf6Y3QLisut7KtM
+Content-Type: text/x-patch; name=0001-media-uvcvideo-Add-quirk-for-Mini640-Thermal-Camera.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=0001-media-uvcvideo-Add-quirk-for-Mini640-Thermal-Camera.patch
+
+RnJvbSAyYzYwMjk4MmM5OGY0OGYwNmVjOWM2MTA2NTA2ZjZlODEyMGVlODg3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBCcmV0dCBEb3duaW5nIDxicmV0dEBicmV0dHJkLmNvbT4KRGF0
+ZTogRnJpLCAyNiBKdWwgMjAyNCAxNToxNjoxMSArMTAwMApTdWJqZWN0OiBbUEFUQ0ggMS8xXSBt
+ZWRpYTogdXZjdmlkZW86IEFkZCBxdWlyayBmb3IgTWluaTY0MCBUaGVybWFsIENhbWVyYQoKVGhl
+IHRoZXJtYWwgY2FtZXJhICIyYmRmOjAxMDIgSElLIENhbWVyYSIgc29sZCBhcyBhICJNaW5pNjQw
+Igpsb25nLXdhdmUgaW5mcmFyZWQgY2FtZXJhIGNyYXNoZXMgQ2hlZXNlIGFuZCBlcnJvcnMgdW5k
+ZXIgZ3N0cmVhbWVyJ3MKdjRsMnNyYyBtaXNzaW5nIGJvdGggVFJZX0ZNVCBhbmQgVklESU9DX1Nf
+Rk1UCgpVc2luZyB0aGUgcXVpcmsgVVZDX1FVSVJLX1BST0JFX01JTk1BWCB5aWVsZHMgYSBjbGVh
+biB2NGwyLWNvbXBsaWFuY2UgcmVwb3J0CmFuZCBhbGxvd3Mgc3RyZWFtaW5nIGF0IGFsbCBzdXBw
+b3J0ZWQgcmVzb2x1dGlvbnMgdW5kZXIgZ3N0cmVhbWVyCgpTaWduZWQtb2ZmLWJ5OiBCcmV0dCBE
+b3duaW5nIDxicmV0dEBicmV0dHJkLmNvbT4KLS0tCiBkcml2ZXJzL21lZGlhL3VzYi91dmMvdXZj
+X2RyaXZlci5jIHwgOSArKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKykK
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3VzYi91dmMvdXZjX2RyaXZlci5jIGIvZHJpdmVy
+cy9tZWRpYS91c2IvdXZjL3V2Y19kcml2ZXIuYwppbmRleCBmMGZlYmRjMDhjMmQuLjU0MjBlNzRk
+ODY2NiAxMDA2NDQKLS0tIGEvZHJpdmVycy9tZWRpYS91c2IvdXZjL3V2Y19kcml2ZXIuYworKysg
+Yi9kcml2ZXJzL21lZGlhL3VzYi91dmMvdXZjX2RyaXZlci5jCkBAIC0yOTkxLDYgKzI5OTEsMTUg
+QEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfZGV2aWNlX2lkIHV2Y19pZHNbXSA9IHsKIAkgIC5i
+SW50ZXJmYWNlU3ViQ2xhc3MJPSAxLAogCSAgLmJJbnRlcmZhY2VQcm90b2NvbAk9IDAsCiAJICAu
+ZHJpdmVyX2luZm8JCT0gVVZDX0lORk9fUVVJUksoVVZDX1FVSVJLX0ZPUkNFX0JQUCkgfSwKKwkv
+KiBISUsgQ2FtZXJhIChNaW5pNjQwIFRoZXJtYWwgQ2FtZXJhKSAqLworCXsgLm1hdGNoX2ZsYWdz
+CQk9IFVTQl9ERVZJQ0VfSURfTUFUQ0hfREVWSUNFCisJCQkJfCBVU0JfREVWSUNFX0lEX01BVENI
+X0lOVF9JTkZPLAorCSAgLmlkVmVuZG9yCQk9IDB4MmJkZiwKKwkgIC5pZFByb2R1Y3QJCT0gMHgw
+MTAyLAorCSAgLmJJbnRlcmZhY2VDbGFzcwk9IFVTQl9DTEFTU19WSURFTywKKwkgIC5iSW50ZXJm
+YWNlU3ViQ2xhc3MJPSAxLAorCSAgLmJJbnRlcmZhY2VQcm90b2NvbAk9IDAsCisJICAuZHJpdmVy
+X2luZm8JCT0gVVZDX0lORk9fUVVJUksoVVZDX1FVSVJLX1BST0JFX01JTk1BWCkgfSwKIAkvKiBJ
+bnN0YTM2MCBMaW5rICovCiAJeyAubWF0Y2hfZmxhZ3MJCT0gVVNCX0RFVklDRV9JRF9NQVRDSF9E
+RVZJQ0UKIAkJCQl8IFVTQl9ERVZJQ0VfSURfTUFUQ0hfSU5UX0lORk8sCi0tIAoyLjM5LjIKCg==
+
+--b1_GL241rKmIqx0fHqVSoA0gZGLZ3AZlf6Y3QLisut7KtM--
+
 
