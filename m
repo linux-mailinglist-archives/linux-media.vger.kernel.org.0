@@ -1,384 +1,294 @@
-Return-Path: <linux-media+bounces-15366-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15367-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3400693D958
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 21:56:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DBC993DA38
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 23:38:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A680B1F23ECE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 19:56:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EFFB6B21BBC
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 21:38:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D47731304A2;
-	Fri, 26 Jul 2024 19:55:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC05149E16;
+	Fri, 26 Jul 2024 21:38:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="BVw4wawU"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f4VGNXHo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCE821364
-	for <linux-media@vger.kernel.org>; Fri, 26 Jul 2024 19:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.172.40.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F8411C83
+	for <linux-media@vger.kernel.org>; Fri, 26 Jul 2024 21:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722023754; cv=none; b=JqWBntfAp2AlvFPhBvK2893hqfIfwixqlEe1zQRwwG6mu9WDhH73fJfsnowcu/oMXvqSIAU3+nllAViwVHKPUFsK41tooui2LG0wXuf75QDLonqsqPnx/CiVQXFnSGIOjMdhZgt/5txEBNytEHYjgAnzrZorHygQAqpIWRCMx58=
+	t=1722029921; cv=none; b=DhEVpiaA7nHrxUqUW4XjDNT9DOak+Kg0TaQERpoynnrLUctBFTRAw1xugD1wTPf5Fer3FD2WcPDu0sjTOhhdjlqt1V8ZBWL0vez1Tn6ANONz55eRQgMKngOApku7D+UklIDr/Tq8i+CaGEhb/OJjhx/qKUH50V2ogFbJzpw3tdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722023754; c=relaxed/simple;
-	bh=jUxzW/eISqOpiBVr30pQZVVtykzlvo8h4zWQeImEN0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=txxkWzGlRVAS5MfCIZ5n/fU6HJ94DdxXXzlMqdWs1/PFD3OZzqPUdAbCgFxFdz8AGPf7l7X+b1Vgr3ZCUv2bWPrlxpFFuqt+4J1307ShGlQt1OrInjYy289ksp9/O7z+x0zDb4XjGMmqcae7K1axVcLGne1VLGXaF+xVAWZ+hGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=BVw4wawU; arc=none smtp.client-ip=167.172.40.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1722023716;
- bh=8Q1Sz4i2dNHc/6tQGm+set8ubAONMQllV0779TpuRX0=;
- b=BVw4wawUSz+IG9WCwJYQB9sbPZyyzROf5y1sbPxY9sTTbSL0lKK/gg0LsTS0WOtC6kPUR1m32
- lM/kHoYPrr6j7OqmM0Z8UbX3ueDi0U+zJtSciNo3IazzU4xgAd0XFu09ndpoMf40YLpslHggoGo
- bGR0pYnZ6f6NnPdWu4+ahd8Q1AHHUJbqTaQWO/KklRS4tw0GIW9qox/NyUDYn+Rn38QveNMFw0T
- i9fX2aHXXqoK75987PrPV4DNsNp/wTPF6dIMIDoc8LNDlu/OPKWqhz5nAE29lP+Io4zw+VuHWrK
- 92FV6go6mB6xPJFhbBdw8Z/SNIaDpX+mGGKE49NRPsow==
-Message-ID: <fd35532b-d69e-49bc-a46e-61a7b6a93971@kwiboo.se>
-Date: Fri, 26 Jul 2024 21:55:07 +0200
+	s=arc-20240116; t=1722029921; c=relaxed/simple;
+	bh=7VFdmxw54KU9fz4EQl1WASZFk2FfQn25Zj9vNwaZrKg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AptlNwBBO8b/1MF3gCgGu4DCvUacZ3QlSoqCS8QEBHNXA+Z0pcK0ZEs3GJi14iSH4d2mqn7pRq0vem3XZXBAD4b6kVNRGdaKIZjEhna/aK5mYaEse9eiup2Kr1RR1O9kb431S4izMR6yUAZqfzTNTUxfGxufYsuwFo4+bBJDiUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=f4VGNXHo; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-70d2d7e692eso1242221b3a.0
+        for <linux-media@vger.kernel.org>; Fri, 26 Jul 2024 14:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1722029918; x=1722634718; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hr+j5F5xUEwSEAluUJYgrWjccakpov5FGoXsHZjNFoM=;
+        b=f4VGNXHoASzw/DgG+yNBT4noJHMthEC7xRmQb1RzUvtNSNp1PpfJUYNj+YRri1XaHY
+         157teAwAlLRrTSOLJtJ48JRFZipRLPkHbeG6n15+pFWj7JLK8b6I4rY0iOZTMFoPHFHF
+         CxH0wbmPKuHCospMwrN970xPt6tcEuifH+lnQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722029918; x=1722634718;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hr+j5F5xUEwSEAluUJYgrWjccakpov5FGoXsHZjNFoM=;
+        b=AfEDVnu4hWN6ExFFJ37HNqbVvFL5hv5t8ZYRD8q/nSI2QPFpTDncaH5u5UNZ2rvJva
+         Cu6uz1S0X9dPYk8PcfjS+GXc1GIIdL417xWVkY53nZsHwpvyDesvOYK0tVl6P1lceHee
+         2dkPvuE2q65dlrfiV99usMoE3ovJ9QKDQPzmloLBNdpCQ7fewcnCctRzwO9GDXfkj/Wj
+         a4rxXVyfSl4LXsufw3K5W9fknRkQRKe00VY1+IH5iccuD7MtnYHI7ngg4CmdoYrib0Ag
+         uh4Awn0z6PKxct7N+26No1nykisJgLiOug2xWCu1D6afahOevnGLgGFpNesW/beDnwYd
+         /+WA==
+X-Gm-Message-State: AOJu0YyeEbdzJm8UE1RrRAFjei3dwRppQGALtZoEuV/HqBUiifJfLwo3
+	G16KtOIVFSu0TMfbSUWzQ3ww3aJ9wp1h3RIVUWRc8AmRegkYfMaH+ps4/WGIcV0gH1N/LO/JblU
+	=
+X-Google-Smtp-Source: AGHT+IHpE+MqzNRAUj7U4iLhxs7VR6bD6khDxZS6vpH2EYKYY09Lu9EVsvuOe1F3CZ+f0aYFRmRKdw==
+X-Received: by 2002:a05:6a20:c781:b0:1c4:8650:d6db with SMTP id adf61e73a8af0-1c4a14d9a44mr942187637.40.1722029918573;
+        Fri, 26 Jul 2024 14:38:38 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e13:6:197c:4043:3e17:8623])
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-7a9f7d6bba6sm3296309a12.9.2024.07.26.14.38.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jul 2024 14:38:38 -0700 (PDT)
+From: Fritz Koenig <frkoenig@chromium.org>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+	stanimir.k.varbanov@gmail.com,
+	quic_vgarodia@quicinc.com,
+	bryan.odonoghue@linaro.org,
+	Fritz Koenig <frkoenig@chromium.org>
+Subject: [PATCH 1/3] media: venus: Reorder encoder property setting
+Date: Fri, 26 Jul 2024 14:38:09 -0700
+Message-ID: <20240726213811.562200-1-frkoenig@chromium.org>
+X-Mailer: git-send-email 2.46.0.rc1.232.g9752f9e123-goog
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-To: Detlev Casanova <detlev.casanova@collabora.com>, Alex Bee
- <knaerzche@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>, Dragan Simic
- <dsimic@manjaro.org>, Diederik de Haas <didi.debian@cknow.org>, Andy Yan
- <andy.yan@rock-chips.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Almeida <daniel.almeida@collabora.com>, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20240619150029.59730-1-detlev.casanova@collabora.com>
- <4356151.ejJDZkT8p0@arisu> <689aec72-f777-4122-a332-02009fbf0b3b@kwiboo.se>
- <6070053.DvuYhMxLoT@arisu>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <6070053.DvuYhMxLoT@arisu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 167.172.40.54
-X-ForwardEmail-ID: 66a3ff22df62d509e165a502
+Content-Transfer-Encoding: 8bit
 
-Hi Detlev,
+Configure the generic controls before the codec specific ones.
+Some codec specific controls can override the generic ones.
+---
+ drivers/media/platform/qcom/venus/venc.c | 183 +++++++++++------------
+ 1 file changed, 91 insertions(+), 92 deletions(-)
 
-On 2024-07-26 17:26, Detlev Casanova wrote:
-> Hi Jonas !
-> 
-> On Thursday, June 27, 2024 6:39:36 P.M. EDT Jonas Karlman wrote:
->> Hi Datlev,
->>
->> On 2024-06-27 22:56, Detlev Casanova wrote:
->>> Hi Jonas,
->>>
->>> On Monday, June 24, 2024 5:16:33 A.M. EDT Jonas Karlman wrote:
->>>> Hi Detlev and Alex,
->>>>
->>>> On 2024-06-20 15:31, Detlev Casanova wrote:
->>>>> Hi Jonas, Alex,
->>>>>
->>>>> On Wednesday, June 19, 2024 2:06:40 P.M. EDT Jonas Karlman wrote:
->>>>>> Hi Alex,
->>>>>>
->>>>>> On 2024-06-19 19:19, Alex Bee wrote:
->>>>>>> Am 19.06.24 um 17:28 schrieb Jonas Karlman:
->>>>>>>> Hi Detlev,
->>>>>>>>
->>>>>>>> On 2024-06-19 16:57, Detlev Casanova wrote:
->>>>>>>>> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
->>>>>>>>> ---
->>>>>>>>>
->>>>>>>>>   arch/arm64/boot/dts/rockchip/rk3588s.dtsi | 50
->>>>>>>>>   +++++++++++++++++++++++
->>>>>>>>>   1 file changed, 50 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>>>>>> b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi index
->>>>>>>>> 6ac5ac8b48ab..7690632f57f1 100644
->>>>>>>>> --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>>>>>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
->>>>>>>>> @@ -2596,6 +2596,16 @@ system_sram2: sram@ff001000 {
->>>>>>>>>
->>>>>>>>>   		ranges = <0x0 0x0 0xff001000 0xef000>;
->>>>>>>>>   		#address-cells = <1>;
->>>>>>>>>   		#size-cells = <1>;
->>>>>>>>>
->>>>>>>>> +
->>>>>>>>> +		vdec0_sram: rkvdec-sram@0 {
->>>>>>>>> +			reg = <0x0 0x78000>;
->>>>>>>>> +			pool;
->>>>>>>>> +		};
->>>>>>>>> +
->>>>>>>>> +		vdec1_sram: rkvdec-sram@1 {
->>>>>>>>> +			reg = <0x78000 0x77000>;
->>>>>>>>> +			pool;
->>>>>>>>> +		};
->>>>>>>>>
->>>>>>>>>   	};
->>>>>>>>>   	
->>>>>>>>>   	pinctrl: pinctrl {
->>>>>>>>>
->>>>>>>>> @@ -2665,6 +2675,46 @@ gpio4: gpio@fec50000 {
->>>>>>>>>
->>>>>>>>>   			#interrupt-cells = <2>;
->>>>>>>>>   		
->>>>>>>>>   		};
->>>>>>>>>   	
->>>>>>>>>   	};
->>>>>>>>>
->>>>>>>>> +
->>>>>>>>> +	vdec0: video-decoder@fdc38100 {
->>>>>>>>> +		compatible = "rockchip,rk3588-vdec";
->>>>>>>>> +		reg = <0x0 0xfdc38100 0x0 0x500>;
->>>>>>>>> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
->>>>>>>>> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC0_CA>, +			 <&cru
->>>>>
->>>>> CLK_RKVDEC0_CORE>, <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC0_HEVC_CA>;
->>>>>>>>> +		clock-names = "axi", "ahb", "cabac", "core",
->>>>>
->>>>> "hevc_cabac";
->>>>>
->>>>>>>>> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru
->>>>>
->>>>> CLK_RKVDEC0_CORE>,
->>>>>
->>>>>>>>> +				  <&cru CLK_RKVDEC0_CA>, <&cru
->>>>>
->>>>> CLK_RKVDEC0_HEVC_CA>;
->>>>>
->>>>>>>>> +		assigned-clock-rates = <800000000>, <600000000>,
->>>>>>>>> +				       <600000000>, <1000000000>;
->>>>>>>>> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC0_CA>, +			 <&cru
->>>>>
->>>>> SRST_RKVDEC0_CORE>, <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC0_HEVC_CA>;
->>>>>>>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>>>>>>>> +			      "rst_core", "rst_hevc_cabac";
->>>>>>>>> +		power-domains = <&power RK3588_PD_RKVDEC0>;
->>>>>>>>> +		sram = <&vdec0_sram>;
->>>>>>>>> +		status = "okay";
->>>>>>>>> +	};
->>>>>>>>> +
->>>>>>>>> +	vdec1: video-decoder@fdc40100 {
->>>>>>>>> +		compatible = "rockchip,rk3588-vdec";
->>>>>>>>> +		reg = <0x0 0xfdc40100 0x0 0x500>;
->>>>>>>>> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
->>>>>>>>> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC1_CA>, +			 <&cru
->>>>>
->>>>> CLK_RKVDEC1_CORE>, <&cru
->>>>>
->>>>>>>>> CLK_RKVDEC1_HEVC_CA>;
->>>>>>>>> +		clock-names = "axi", "ahb", "cabac", "core",
->>>>>
->>>>> "hevc_cabac";
->>>>>
->>>>>>>>> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru
->>>>>
->>>>> CLK_RKVDEC1_CORE>,
->>>>>
->>>>>>>>> +				  <&cru CLK_RKVDEC1_CA>, <&cru
->>>>>
->>>>> CLK_RKVDEC1_HEVC_CA>;
->>>>>
->>>>>>>>> +		assigned-clock-rates = <800000000>, <600000000>,
->>>>>>>>> +				       <600000000>, <1000000000>;
->>>>>>>>> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>,
->>>>>
->>>>> <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC1_CA>, +			 <&cru
->>>>>
->>>>> SRST_RKVDEC1_CORE>, <&cru
->>>>>
->>>>>>>>> SRST_RKVDEC1_HEVC_CA>;
->>>>>>>>> +		reset-names = "rst_axi", "rst_ahb", "rst_cabac",
->>>>>>>>> +			      "rst_core", "rst_hevc_cabac";
->>>>>>>>> +		power-domains = <&power RK3588_PD_RKVDEC1>;
->>>>>>>>> +		sram = <&vdec1_sram>;
->>>>>>>>> +		status = "okay";
->>>>>>>>> +	};
->>>>>>>>
->>>>>>>> This is still missing the iommus, please add the iommus, they should
->>>>>>>> be
->>>>>>>>
->>>>>>>> supported/same as the one used for e.g. VOP2:
->>>>>>>>    compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
->>>>>>>>
->>>>>>>> The VOP2 MMUs does have one extra mmu_cfg_mode flag in AUTO_GATING,
->>>>>>>> compared to the VDPU381 MMUs, however only the AV1D MMU should be
->>>>>>>> special on RK3588.
->>>>>>>>
->>>>>>>> Please add the iommus :-)
->>>>>>>
->>>>>>> When looking add the vendor DT/iommu driver I'm seeing serval quirks
->>>>>>> applied for vdec's iommus. Since it's rightly frowned upon adding such
->>>>>>> boolean-quirk-properties to upstream devicetrees, we'd at least need
->>>>>>> additional (fallback-) compatibles, even if it works with the iommu
->>>>>>> driver
->>>>>>> as is (what I doubt, but haven't tested). We need to be able to apply
->>>>>>> those
->>>>>>> quirks later without changing the devicetree (as usual) and I'm sure
->>>>>>> RK
->>>>>>> devs haven't added these quirks for the personal amusement.
->>>>>>
->>>>>> Based on what I investigated the hw should work similar, and the quirks
->>>>>> mostly seem related to optimizations and sw quirks, like do not zap
->>>>>> each
->>>>>> line, keep it alive even when pm runtime say it is not in use and other
->>>>>> quirks that seem to be more of sw nature on how to best utilize the hw.
->>>>>
->>>>> I did some testing with the IOMMU but unfortunately, I'm only getting
->>>>> page
->>>>> fault errors. This may be something I'm doing wrong, but it clearly
->>>>> needs
->>>>> more investigation.
->>>>
->>>> I re-tested and the addition of sram seem to now cause page faults, the
->>>> sram also need to be mapped in the iommu.
->>>>
->>>> However, doing more testing revealed that use of iommu present the same
->>>> issue as seen with hevc on rk3399, after a fail fluster tests continue
->>>> to fail until a reset.
->>>>
->>>> Seeing how this issue was very similar I re-tested on rk3399 without
->>>> iommu and cma=1G and could observe that there was no longer any need to
->>>> reset after a failed test. Interestingly the score also went up from
->>>> 135 to 137/147.
->>>>
->>>> Digging some more revealed that the iommu also is reset during the
->>>> internal rkvdec soft reset on error, leaving the iommu with dte_addr=0
->>>> and paging in disabled state.
->>>>
->>>> Ensuring that the iommu was reconfigured after a failure fixed the issue
->>>> observed on rk3399 and I now also get 137/147 hevc fluster score using
->>>> the iommu.
->>>>
->>>> Will send out a rkvdec hevc v2 series after some more testing.
->>>>
->>>> Guessing there is a similar need to reconfigure iommu on rk3588, and my
->>>> initial tests also showed promising result, however more tests are
->>>> needed.
->>>
->>> I did some testing with the IOMMU. The good news is that it now works with
->>> the SRAM.
->>
->> Great, I did not look into SRAM at all, just replaced sram prop with iommus
->> for my tests, so great that you found a way to make it work with the iommu
->> :-)
->>> I am also able to hack the iommu driver to force a reset in case of an
->>> error in the decoder. I'm not sure how to implement that with the IOMMU
->>> kernel API though.
->>
->> I am planning on sending something along the way of this as an RFC:
->>
->> https://github.com/Kwiboo/linux-rockchip/compare/6da640232631...bf332524d880
->>
->> If we re-configure and re-enable the iommu just before next decoding run
->> after a decoding has failed seem to resolve any issue I have seen, have
->> mainly been tested with rkvdec and HEVC on RK3399/RK3328. On RK3588 this
->> also seemed to work, at least when I tested earlier this week.
->>
->>> Another issue is that resetting the iommu will drop all buffer addresses
->>> of
->>> other decoding contexts that may be running in parallel.
->>
->> I do not think we need/should reset the iommu, we just need to deal with
->> the fact that the rkvdec will reset and disable use of the mmu when it
->> reset itself.
->>
->>> I *think* that the downstream mpp remaps the buffers in the iommu for each
->>> frame, but I'm not sure about that either.
->>
->> As long as a frame can be decoded correctly, the mmu config seem to continue
->> to be valid and next frame can be decoded.
->>
->>> So running fluster with `-j 1` gives me the expected 129/135 passed tests,
->>> but `-j 8` will start failing all tests after the first fail (well, first
->>> fail because of decoder error).
->>
->> This was the main issue blocking rkvdec hevc, just re-confgure the mmu
->> after a frame fails to decode seem to resolve this issue.
->>
->> Biggest issue at the moment is how to properly signal iommu subsystem that
->> it should re-configure, I may have abused the flush_iotlb_all ops, since
->> that seemed closest existing hook.
->>
->> Will send an RFC to linux-iommu to collect input on how to best signal
->> iommu subsystem that the mmu has been reset by an external event and now
->> need to be re-configured.
-> 
-> Do you mind if I go ahead and send your iommu flush_iotlb_all patch upstream to 
-> start the discussion ? I'd love for this patch set to move along and that's 
-> kind of a blocker right now.
-
-Sorry for the delay, will try to get something on list this weekend or
-early next week.
-
-I have reworked our LibreELEC FFmpeg v4l2-request patches [1] to help
-test the iommu change for rkvdec1 hevc, and have now patches that should
-be more upstreamable.
-
-Testing the iommu flush with hevc on rkvdec1 has shown that the iommu
-change seem to work for most part, however there was still situations
-when parallel jobs and/or threads was used with fluster that some
-unrelated tests could fail, with a single job it improved hevc score to
-137 of 145, so it is an improvement but for perfect multi-stream
-decoding hard-reset handling may also be needed in future.
-
-Also running fluster VP9 test suite also cause my RK3399 board to freeze
-with a kernel panic in iommu irq handler, have not yet tried to dig any
-deeper, if it is an old issue or a new issue due to the new iommu flush.
-
-[1] https://github.com/FFmpeg/FFmpeg/compare/master...Kwiboo:FFmpeg:v4l2request-2024-v2
-
-Regards,
-Jonas
-
-> 
-> Detlev.
-> 
-> 
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 3ec2fb8d9fab..ae24de125c56 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -688,98 +688,6 @@ static int venc_set_properties(struct venus_inst *inst)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264) {
+-		struct hfi_h264_vui_timing_info info;
+-		struct hfi_h264_entropy_control entropy;
+-		struct hfi_h264_db_control deblock;
+-		struct hfi_h264_8x8_transform h264_transform;
+-
+-		ptype = HFI_PROPERTY_PARAM_VENC_H264_VUI_TIMING_INFO;
+-		info.enable = 1;
+-		info.fixed_framerate = 1;
+-		info.time_scale = NSEC_PER_SEC;
+-
+-		ret = hfi_session_set_property(inst, ptype, &info);
+-		if (ret)
+-			return ret;
+-
+-		ptype = HFI_PROPERTY_PARAM_VENC_H264_ENTROPY_CONTROL;
+-		entropy.entropy_mode = venc_v4l2_to_hfi(
+-					  V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE,
+-					  ctr->h264_entropy_mode);
+-		entropy.cabac_model = HFI_H264_CABAC_MODEL_0;
+-
+-		ret = hfi_session_set_property(inst, ptype, &entropy);
+-		if (ret)
+-			return ret;
+-
+-		ptype = HFI_PROPERTY_PARAM_VENC_H264_DEBLOCK_CONTROL;
+-		deblock.mode = venc_v4l2_to_hfi(
+-				      V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_MODE,
+-				      ctr->h264_loop_filter_mode);
+-		deblock.slice_alpha_offset = ctr->h264_loop_filter_alpha;
+-		deblock.slice_beta_offset = ctr->h264_loop_filter_beta;
+-
+-		ret = hfi_session_set_property(inst, ptype, &deblock);
+-		if (ret)
+-			return ret;
+-
+-		ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+-		h264_transform.enable_type = 0;
+-		if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
+-		    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
+-			h264_transform.enable_type = ctr->h264_8x8_transform;
+-
+-		ret = hfi_session_set_property(inst, ptype, &h264_transform);
+-		if (ret)
+-			return ret;
+-
+-	}
+-
+-	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
+-	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+-		/* IDR periodicity, n:
+-		 * n = 0 - only the first I-frame is IDR frame
+-		 * n = 1 - all I-frames will be IDR frames
+-		 * n > 1 - every n-th I-frame will be IDR frame
+-		 */
+-		ptype = HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
+-		idrp.idr_period = 0;
+-		ret = hfi_session_set_property(inst, ptype, &idrp);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC &&
+-	    ctr->profile.hevc == V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10) {
+-		struct hfi_hdr10_pq_sei hdr10;
+-		unsigned int c;
+-
+-		ptype = HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
+-
+-		for (c = 0; c < 3; c++) {
+-			hdr10.mastering.display_primaries_x[c] =
+-				ctr->mastering.display_primaries_x[c];
+-			hdr10.mastering.display_primaries_y[c] =
+-				ctr->mastering.display_primaries_y[c];
+-		}
+-
+-		hdr10.mastering.white_point_x = ctr->mastering.white_point_x;
+-		hdr10.mastering.white_point_y = ctr->mastering.white_point_y;
+-		hdr10.mastering.max_display_mastering_luminance =
+-			ctr->mastering.max_display_mastering_luminance;
+-		hdr10.mastering.min_display_mastering_luminance =
+-			ctr->mastering.min_display_mastering_luminance;
+-
+-		hdr10.cll.max_content_light = ctr->cll.max_content_light_level;
+-		hdr10.cll.max_pic_average_light =
+-			ctr->cll.max_pic_average_light_level;
+-
+-		ret = hfi_session_set_property(inst, ptype, &hdr10);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	if (ctr->num_b_frames) {
+ 		u32 max_num_b_frames = NUM_B_FRAMES_MAX;
+ 
+@@ -922,6 +830,97 @@ static int venc_set_properties(struct venus_inst *inst)
+ 	if (ret)
+ 		return ret;
+ 
++	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264) {
++		struct hfi_h264_vui_timing_info info;
++		struct hfi_h264_entropy_control entropy;
++		struct hfi_h264_db_control deblock;
++		struct hfi_h264_8x8_transform h264_transform;
++
++		ptype = HFI_PROPERTY_PARAM_VENC_H264_VUI_TIMING_INFO;
++		info.enable = 1;
++		info.fixed_framerate = 1;
++		info.time_scale = NSEC_PER_SEC;
++
++		ret = hfi_session_set_property(inst, ptype, &info);
++		if (ret)
++			return ret;
++
++		ptype = HFI_PROPERTY_PARAM_VENC_H264_ENTROPY_CONTROL;
++		entropy.entropy_mode = venc_v4l2_to_hfi(
++					  V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE,
++					  ctr->h264_entropy_mode);
++		entropy.cabac_model = HFI_H264_CABAC_MODEL_0;
++
++		ret = hfi_session_set_property(inst, ptype, &entropy);
++		if (ret)
++			return ret;
++
++		ptype = HFI_PROPERTY_PARAM_VENC_H264_DEBLOCK_CONTROL;
++		deblock.mode = venc_v4l2_to_hfi(
++				      V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_MODE,
++				      ctr->h264_loop_filter_mode);
++		deblock.slice_alpha_offset = ctr->h264_loop_filter_alpha;
++		deblock.slice_beta_offset = ctr->h264_loop_filter_beta;
++
++		ret = hfi_session_set_property(inst, ptype, &deblock);
++		if (ret)
++			return ret;
++
++		ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
++		h264_transform.enable_type = 0;
++		if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
++		    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
++			h264_transform.enable_type = ctr->h264_8x8_transform;
++
++		ret = hfi_session_set_property(inst, ptype, &h264_transform);
++		if (ret)
++			return ret;
++	}
++
++	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
++	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
++		/* IDR periodicity, n:
++		 * n = 0 - only the first I-frame is IDR frame
++		 * n = 1 - all I-frames will be IDR frames
++		 * n > 1 - every n-th I-frame will be IDR frame
++		 */
++		ptype = HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
++		idrp.idr_period = 0;
++		ret = hfi_session_set_property(inst, ptype, &idrp);
++		if (ret)
++			return ret;
++	}
++
++	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC &&
++	    ctr->profile.hevc == V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10) {
++		struct hfi_hdr10_pq_sei hdr10;
++		unsigned int c;
++
++		ptype = HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
++
++		for (c = 0; c < 3; c++) {
++			hdr10.mastering.display_primaries_x[c] =
++				ctr->mastering.display_primaries_x[c];
++			hdr10.mastering.display_primaries_y[c] =
++				ctr->mastering.display_primaries_y[c];
++		}
++
++		hdr10.mastering.white_point_x = ctr->mastering.white_point_x;
++		hdr10.mastering.white_point_y = ctr->mastering.white_point_y;
++		hdr10.mastering.max_display_mastering_luminance =
++			ctr->mastering.max_display_mastering_luminance;
++		hdr10.mastering.min_display_mastering_luminance =
++			ctr->mastering.min_display_mastering_luminance;
++
++		hdr10.cll.max_content_light = ctr->cll.max_content_light_level;
++		hdr10.cll.max_pic_average_light =
++			ctr->cll.max_pic_average_light_level;
++
++		ret = hfi_session_set_property(inst, ptype, &hdr10);
++		if (ret)
++			return ret;
++	}
++
+ 	switch (inst->hfi_codec) {
+ 	case HFI_VIDEO_CODEC_H264:
+ 		profile = ctr->profile.h264;
+-- 
+2.46.0.rc1.232.g9752f9e123-goog
 
 
