@@ -1,88 +1,136 @@
-Return-Path: <linux-media+bounces-15354-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15355-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E043093CF0D
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 09:50:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FFC93CF60
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 10:14:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9359E1F2296B
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 07:50:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 020E1281C94
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jul 2024 08:14:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACBD3176ADA;
-	Fri, 26 Jul 2024 07:49:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C26F5176AD6;
+	Fri, 26 Jul 2024 08:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e20e/rbW"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="o9qLQSb/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB7417625C;
-	Fri, 26 Jul 2024 07:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8927D45009;
+	Fri, 26 Jul 2024 08:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721980141; cv=none; b=Cl3asWk6A/FxPBCm7XdFSkB1ls5xm0xt38HEwb37cNXZMiE9J28V3+wUU6SIW6a/aKuDCs1F648qDpGosSfhHNIKlY32JQGvvozDE7UPgg3kjF2dJtJK5JeKPS9VR4sJwIDpj9IQuFxLj9JxjE0OfVchkwrSvhiLttmUwQSLuXQ=
+	t=1721981684; cv=none; b=JOBzTEeKl9z2nKE8wUCwzfUjDMg9EZCmDsKb4PxI/YbdwTojCJq6+BfM1n7yuxDXREiD73OADsxVe8zeOslhUMiL7/40HSWmfGEjKmtYPz32zPWVTcn61c1Y1LqXM48sYxLLAhAOIDO/PeLxeDJgq25upD68GHYQ8/p4FLMQCHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721980141; c=relaxed/simple;
-	bh=2MfHuog33syRQOQk+cSfq53QFPYTOF5wtCPCig5gRCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=stsxp/JlIRSf6DqS+f3oj+zKesIcpbG4BuZCTBh0r0MQonlgETxBBPc/ZYzsX3GXG7nu1KuUPN3wgUMy0hydawSAoFmunq+6Y+oR6hjCDQhkPCJUmDUrScSjM7MVqWRYSty55xC90Lmxy3E7FvEMfJssV2lE3oP5Qxm+x97TYQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e20e/rbW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0FB1C32782;
-	Fri, 26 Jul 2024 07:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1721980140;
-	bh=2MfHuog33syRQOQk+cSfq53QFPYTOF5wtCPCig5gRCM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e20e/rbW/O/Ay2WfvvEeexBRJxlE5babK/W2K8sEXpinETGu9D2gT8nJOGAPcgj2B
-	 4iBgsIQkIX6i02HPL2pnvltHBYGeW/babtN7eP0fi1WCZyFe1AkZlT+Ks9OOJiPNnA
-	 PwQuHvQxf34hcRzYdK5nRHEgehH7Im+BGsd9Ut7c=
-Date: Fri, 26 Jul 2024 09:48:57 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: omap4iss: add check for
- media_pad_remote_pad_first
-Message-ID: <2024072625-stubborn-garlic-11ae@gregkh>
-References: <20240726072814.3534601-1-nichen@iscas.ac.cn>
+	s=arc-20240116; t=1721981684; c=relaxed/simple;
+	bh=SaWF+4KJQU0XUGHZ2RnknEncK0bztWKxjR5PTu+Y7hE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T9yH/vRaBdvJiC1kbDg7KL6KyW9DYp6xsgzDoV+PurPHBPoXE8zTVO8V8tkM3/fgXf5R+Yve+TBGmzkma0ROmWscNg3YCp10TlZtLtuRAF93m7XToXhpqLNQonky5oXGoN9vNYqj9afFrfCoQkK6kF0xmwXN0kDyUwYXvwn5PC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=o9qLQSb/; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 46Q6nlm2014217;
+	Fri, 26 Jul 2024 03:13:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=Fsrg6RkL3ljELUDbdF
+	raOMnuDGBzLzBG9berJqeS99w=; b=o9qLQSb/6FYQi/W15D8/Q6B22hsutkg88J
+	mNvNh/AZ9dtqrOtTI2R79TLXpy8lg1lRKFhIl6wq6uiLWlhJxh1WDOawKX7VlaCO
+	eU4rIuRfd03jDKIDXA77BqwjD/sjpjlrViwwSQ4PT0Lh9y7BbLCx3sB5ScZRuZYJ
+	vNZcORfK21t/q+SSA5prVTMc95eHtVjvLmZqXGyBKNQbnzb9vRk/fzqO4TR9DyPL
+	kzPctMSGrBR/TxYyv0GJbep/oRCXMW0g49lRFREAm4X4hdll9PMJyP+uXK1OcV7U
+	L5pHZHo0u48Al18wep6LoWHV38jlkQySIDlmkNZa06BVjUwfSSdg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 40m1mdr9bp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Jul 2024 03:13:56 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 26 Jul
+ 2024 09:13:54 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Fri, 26 Jul 2024 09:13:54 +0100
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 8AA4D820244;
+	Fri, 26 Jul 2024 08:13:54 +0000 (UTC)
+Date: Fri, 26 Jul 2024 09:13:53 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+CC: Tim Harvey <tharvey@gateworks.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden
+	<sbranden@broadcom.com>,
+        Broadcom internal kernel review list
+	<bcm-kernel-feedback-list@broadcom.com>,
+        David Rhodes
+	<david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+        Baojun Xu
+	<baojun.xu@ti.com>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        "Arnaud
+ Pouliquen" <arnaud.pouliquen@foss.st.com>,
+        Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu
+	<mhiramat@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>
+Subject: Re: [PATCH 2/2] ASoC: constify snd_soc_component_driver struct
+Message-ID: <ZqNawRmAqBRLIoQq@opensource.cirrus.com>
+References: <20240725-const_snd_soc_component_driver-v1-0-3d7ee08e129b@gmail.com>
+ <20240725-const_snd_soc_component_driver-v1-2-3d7ee08e129b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240726072814.3534601-1-nichen@iscas.ac.cn>
+In-Reply-To: <20240725-const_snd_soc_component_driver-v1-2-3d7ee08e129b@gmail.com>
+X-Proofpoint-GUID: 5Vy4Ky4wKTO8OiKMKMdLcpITcmsfQPPw
+X-Proofpoint-ORIG-GUID: 5Vy4Ky4wKTO8OiKMKMdLcpITcmsfQPPw
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, Jul 26, 2024 at 03:28:14PM +0800, Chen Ni wrote:
-> Add check for the return value of media_pad_remote_pad_first() and
-> return the error if it fails in order to avoid NULL pointer dereference.
+On Thu, Jul 25, 2024 at 12:31:40PM +0200, Javier Carrasco wrote:
+> The instances of the `snd_soc_component_driver` struct are not modified
+> after their declaration, and they are only passed to
+> `devm_snd_soc_register_component()`, which expects a constant
+> `snd_soc_component_driver`.
 > 
-> Fixes: b2e44430b634 ("media: mc-entity: Rename media_entity_remote_pad() to media_pad_remote_pad_first()")
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> Move all instances of `snd_soc_component_driver` to read-only sections
+> by declaring them const.
+> 
+> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 > ---
->  drivers/staging/media/omap4iss/iss_csi2.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/staging/media/omap4iss/iss_csi2.c b/drivers/staging/media/omap4iss/iss_csi2.c
-> index 0e6c5bd81930..43851bbd0cc3 100644
-> --- a/drivers/staging/media/omap4iss/iss_csi2.c
-> +++ b/drivers/staging/media/omap4iss/iss_csi2.c
-> @@ -539,6 +539,9 @@ static int csi2_configure(struct iss_csi2_device *csi2)
->  		return -EBUSY;
->  
->  	pad = media_pad_remote_pad_first(&csi2->pads[CSI2_PAD_SINK]);
-> +	if (!pad)
-> +		return -EPIPE;
+>  sound/soc/codecs/cs43130.c           | 2 +-
 
-How was this found and tested?
+> -static struct snd_soc_component_driver soc_component_dev_cs43130 = {
+> +static const struct snd_soc_component_driver soc_component_dev_cs43130 = {
+>  	.probe			= cs43130_probe,
+>  	.controls		= cs43130_snd_controls,
+>  	.num_controls		= ARRAY_SIZE(cs43130_snd_controls),
 
-thanks,
+This won't work for cs43130, whilst what the driver does is
+clearly slightly sketch it directly modifies this struct before
+registering it with ASoC. That would need fixed first before this
+change can be made.
 
-greg k-h
+Thanks,
+Charles
 
