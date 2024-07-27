@@ -1,137 +1,134 @@
-Return-Path: <linux-media+bounces-15376-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15377-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099A093DCE3
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2024 03:12:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9B593DF6E
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2024 14:52:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 96D751F240EA
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2024 01:12:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 342E41F216BD
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jul 2024 12:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 936A81FA1;
-	Sat, 27 Jul 2024 01:11:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E96F712DD90;
+	Sat, 27 Jul 2024 12:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YLI6HYLT"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="gVacsQ2j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr [80.12.242.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E32E15C3;
-	Sat, 27 Jul 2024 01:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A211E52C;
+	Sat, 27 Jul 2024 12:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722042714; cv=none; b=Gq77fbkDKu6qJrspzMEPWLYAptx09wYfroYwc6AcKzzwtSQ4pFnvBAX3qeSasb1gTIubJ835uYYEyXX6vzQ4UBOGRcni53qYVUHYGzgpVC2YLK8e9MXWnJzvC7f48lj+lBUjnsc7ozopfABOMdtyLGrsCl8fTIgzfdz5x1RmNKk=
+	t=1722084736; cv=none; b=F+P4TVFYDXwNNiUq+pAs0DpPaFrKXgqkBiPoP/h/LCj4JALs+/4DirsbdhCOwLIkRGFOGASDPDCz2EzZBq5+BcIsAqLFX79H1rXtAqNPkD0ZtToQn5P6ZAf+XXebVa3FwV/LkgSjqJHZlawepcsLjKSdGEfd4dTGxDtIlOIUWN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722042714; c=relaxed/simple;
-	bh=PLVBc1oRy7Br09cGro6H7t10wTLQqguxJldG0X8mxVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ied+hhZ2czBeWCUU7WWmNQhuciR2t3V3l0+5bgPtKAxdZa8tRI3AGulPATqkBtOuL4brYQ5NJ1jXuL+60XipyCsxZF5GtYWQ3Zg40ueJ5Uy9/zuZKkgDuYNgFfRFimqecoCg3vb7K3rMReuE+HZBydHkf5gFypDHRUEZxp0Q/lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YLI6HYLT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FAC3720;
-	Sat, 27 Jul 2024 03:11:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722042666;
-	bh=PLVBc1oRy7Br09cGro6H7t10wTLQqguxJldG0X8mxVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YLI6HYLTSQg7WgV1Ovhxgssw6zXEqRMp8Cd5DnzTqr4R/3s0+pDA9ML/XivnZwQeV
-	 Ujmhf5HIjhYU255SOr16+5ka5lucj/8s0GZDFkV3Hy4tCfywFUq/pa3OhxW7DPwCYw
-	 dav+b1N1HMXsOK0mDdi/2PCqHcfWIgPgA4KWKmss=
-Date: Sat, 27 Jul 2024 04:11:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1722084736; c=relaxed/simple;
+	bh=azMAeRKNJ4R0xJRk/zhdOIOPd4PfFprwObYbhjyyIG8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fcqPr3im6KzIrQyaD59oZoW39FNaCDQoF+mEmwrSaSFL7a5WPKe9zHoStU971B9hWq3lB5XismHE1FN56Y91wqhrg5292rgAL3RcMZe+8z/49AE4pmhltQzmaNAJUI1SDjANLXhQbgr3SeGVBUWT60XYoO3uV3B6mj2UTsR/xno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=gVacsQ2j; arc=none smtp.client-ip=80.12.242.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id Xgu3sXNPV6bu3Xgu4si8AC; Sat, 27 Jul 2024 14:52:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1722084726;
+	bh=VoRgXRGb6x2pkA/kN42NiJ89KlfU0z16uyEo2pPo8H0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=gVacsQ2j4LRxeBgxnvn4Hp1mc9QY2hk0hM6BD3aGsAO76DCVTNx/JpaFHewmStlAK
+	 sg+YH3wca5nU4d7WgVKogdTCcR9bvAvAUiXZduvXn0/q+VnI4tk/p+iOq3zweVgo7Q
+	 xqyqif08DeBRCSp+HM2eYDLMZF6dUpOB6g0Syjw43AjBz0gQIdehBGLI14zB4XfPQk
+	 7hJsSB2v0br2+weTUcKDGoKasdW2q/kIKzK9s7tL0JB3MaG+nyJkl+pbWbt8Ij7I4R
+	 efhY5GlY2zNA010hrd2ldeEUraAVm+Q+xgWgjK+xcDQY739dyjDIvdb1gZiXdh+QB9
+	 6RboTWNSlk5jw==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 27 Jul 2024 14:52:06 +0200
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: David.Laight@ACULAB.COM,
+	Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2 8/9] arm64: dts: renesas: r9a07g043u: Add DU node
-Message-ID: <20240727011132.GJ300@pendragon.ideasonboard.com>
-References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
- <20240709135152.185042-9-biju.das.jz@bp.renesas.com>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: Use clamp_t() in ia_css_eed1_8_vmem_encode()
+Date: Sat, 27 Jul 2024 14:51:56 +0200
+Message-ID: <155aba6ab759e98f66349e6bb4f69e2410486c09.1722084704.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240709135152.185042-9-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+Using clamp_t() instead of min_t(max_t()) is easier to read.
 
-Thank you for the patch.
+It also reduces the size of the preprocessed files by ~ 193 ko.
+(see [1] for a discussion about it)
 
-On Tue, Jul 09, 2024 at 02:51:46PM +0100, Biju Das wrote:
-> Add DU node to RZ/G2UL SoC DTSI.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * No change.
-> ---
->  arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 25 +++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-> index d88bf23b0782..0a4f24d83791 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
-> @@ -153,6 +153,31 @@ fcpvd: fcp@10880000 {
->  		resets = <&cpg R9A07G043_LCDC_RESET_N>;
->  	};
->  
-> +	du: display@10890000 {
-> +		compatible = "renesas,r9a07g043u-du";
-> +		reg = <0 0x10890000 0 0x10000>;
-> +		interrupts = <SOC_PERIPHERAL_IRQ(152) IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks = <&cpg CPG_MOD R9A07G043_LCDC_CLK_A>,
-> +			 <&cpg CPG_MOD R9A07G043_LCDC_CLK_P>,
-> +			 <&cpg CPG_MOD R9A07G043_LCDC_CLK_D>;
-> +		clock-names = "aclk", "pclk", "vclk";
-> +		power-domains = <&cpg>;
-> +		resets = <&cpg R9A07G043_LCDC_RESET_N>;
-> +		renesas,vsps = <&vspd 0>;
-> +		status = "disabled";
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@1 {
-> +				reg = <1>;
+$ ls -l ia_css_eed1_8.host*.i
+ 4829993 27 juil. 14:36 ia_css_eed1_8.host.old.i
+ 4636649 27 juil. 14:42 ia_css_eed1_8.host.new.i
 
-This may need to change depending on the outcome of the DT bindings
-discussion. Other than that,
+[1]: https://lore.kernel.org/all/23bdb6fc8d884ceebeb6e8b8653b8cfe@AcuMS.aculab.com/
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-> +				du_out_rgb: endpoint {
-> +				};
-> +			};
-> +		};
-> +	};
-> +
->  	irqc: interrupt-controller@110a0000 {
->  		compatible = "renesas,r9a07g043u-irqc",
->  			     "renesas,rzg2l-irqc";
-
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+index e4fc90f88e24..96c13ebc4331 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+@@ -172,25 +172,25 @@ ia_css_eed1_8_vmem_encode(
+ 		base = shuffle_block * i;
+ 
+ 		for (j = 0; j < IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS; j++) {
+-			to->e_dew_enh_x[0][base + j] = min_t(int, max_t(int,
+-							     from->dew_enhance_seg_x[j], 0),
+-							     8191);
+-			to->e_dew_enh_y[0][base + j] = min_t(int, max_t(int,
+-							     from->dew_enhance_seg_y[j], -8192),
+-							     8191);
++			to->e_dew_enh_x[0][base + j] = clamp_t(int,
++							       from->dew_enhance_seg_x[j],
++							       0, 8191);
++			to->e_dew_enh_y[0][base + j] = clamp_t(int,
++							       from->dew_enhance_seg_y[j],
++							       -8192, 8191);
+ 		}
+ 
+ 		for (j = 0; j < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); j++) {
+-			to->e_dew_enh_a[0][base + j] = min_t(int, max_t(int,
+-							     from->dew_enhance_seg_slope[j],
+-							     -8192), 8191);
++			to->e_dew_enh_a[0][base + j] = clamp_t(int,
++							       from->dew_enhance_seg_slope[j],
++							       -8192, 8191);
+ 			/* Convert dew_enhance_seg_exp to flag:
+ 			 * 0 -> 0
+ 			 * 1...13 -> 1
+ 			 */
+-			to->e_dew_enh_f[0][base + j] = (min_t(int, max_t(int,
+-							      from->dew_enhance_seg_exp[j],
+-							      0), 13) > 0);
++			to->e_dew_enh_f[0][base + j] = (clamp_t(int,
++							        from->dew_enhance_seg_exp[j],
++							        0, 13) > 0);
+ 		}
+ 
+ 		/* Hard-coded to 0, in order to be able to handle out of
 -- 
-Regards,
+2.45.2
 
-Laurent Pinchart
 
