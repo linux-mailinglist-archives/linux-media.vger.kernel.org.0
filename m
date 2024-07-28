@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-15381-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15382-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1ED093E63E
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 17:45:47 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3A593E665
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 17:47:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8F651C20E62
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 15:45:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 54E77B211C1
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 15:47:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B2A7D3F5;
-	Sun, 28 Jul 2024 15:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2192D8249F;
+	Sun, 28 Jul 2024 15:44:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZR05lWS3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVLkdVGJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B347D075;
-	Sun, 28 Jul 2024 15:43:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7440C81ADA;
+	Sun, 28 Jul 2024 15:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722181434; cv=none; b=Jl04EXWJlx8gTtcUmpALWx9u6j90t+lmq5WcAgogweneOIFSyuS6d7i7KVTSwuzwHYDTQbUSkwFYHhSUNE+8Uz6UztqSdbZpKEgrPkjpF9RqcnyD1j2wlIivDTY/YV6jjt5xfIKqpLg5y3eoXJ+1i2E3VkKF9GCezX9iRfnw4og=
+	t=1722181480; cv=none; b=tVDyzkt59Pzh66Dmf7qwaMwLZptpVNwDv1k94JdI2gOJpGmjdnlf9GOTzqgB8a5huIoBXr8vbq2Beplv/Cf6oWz4FMk8u1IH3bMSzMGtdEfuo7GDX6EgmWlSqa1KgEabO5lo2idt6QFoKN9rkOfaPDcdAUOv6sS6B2KV+fYHuZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722181434; c=relaxed/simple;
-	bh=ecUPMFdSeUU6NFV20xqahCAIt5PeMUi+qepvgpCXrLg=;
+	s=arc-20240116; t=1722181480; c=relaxed/simple;
+	bh=sYqLLLkqbeBStOv9GEZsyA5OLxo/x9VoE601Yk1kU/w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h7gFOiQU/QRLhrdG31jQZxK+qy0kIDZ37msxR3rlWtJfcQoDMNSAv+Kaci0wBgAp/tfTM8kRctX6ssHfXyJXqXIBF9YyCsN/H0tQjWjDkkKhSFtXyvThZTJaO6cgIX6pNzERUp7/O7c+UD3L4dJHkHeP7QaGuVBxNKR8bB7/8vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZR05lWS3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B6DBC4AF0F;
-	Sun, 28 Jul 2024 15:43:53 +0000 (UTC)
+	 MIME-Version; b=MWRXinzwG1uqmgtnqpGEx8w5Br+C3M5bngYvvGTfLrrqtr8pGpiFlYqd6sWQ2lk1KxwAjXxyRzySVy4obsluVy1OYOBTOeFnwWJAhb9oep2tZB2HKTirc9gRXcxRofzp1JuE3zRZdif6hSF70cglgAoVPuS1n4z649s/0YqniJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVLkdVGJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6D27C4AF0E;
+	Sun, 28 Jul 2024 15:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722181434;
-	bh=ecUPMFdSeUU6NFV20xqahCAIt5PeMUi+qepvgpCXrLg=;
+	s=k20201202; t=1722181479;
+	bh=sYqLLLkqbeBStOv9GEZsyA5OLxo/x9VoE601Yk1kU/w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZR05lWS3cZFcx9pbP3lY7OkBCU2j6uavfGnzJJOtqR4InFowkUFfBi12JtZrQjQPA
-	 tLpWgGcD9OzLMBoxJjiGrcp1DnuISgAaHNRqEmBQjgBkx38wv4uHMXItzXkudCWu8q
-	 AoRlFNhuXvycbbd7eWYV3+V200TP5XlzGWZiYbbMqnjvDIwHUZWOtduD619yh9SMjE
-	 sK+HpqrWjL0Y3s1xg81GAEaftc6M7ct2SgkYDqgIGijclsqZcmSuw6L3X+FN9TUcZp
-	 3hBqMFV26yu6FTM9ntsJhxdbWquwP9Z9ido5CVenwQHdMc1yp8AcmrdMq0D0mI5B7j
-	 lqc13OpjFOojw==
+	b=WVLkdVGJhE1gXWeuEFjzYP5Txd3y5vNIdEe3PuZ7xwlGpeTyOOOcm5yUpmrDjuZ8b
+	 rp+yGc+9Uc8L6GWy3nbmUrdbHUPwkVXk1vVyHJ795X9FLv1OY/+gNg2vjL7rayzM54
+	 4r66iYuBWlK1dESWYoAcYu/rlOliKhOy0uMIZr4Hyuc9nXwHeRjRmJmXaG39WPOoyX
+	 EPsflpfSViviVPWdLyzL5vUyPBliJGcg9LkktTa8R6yiDH7b6Xt9I+SOEliYb7Roqe
+	 87qwQY1JcM1A1DQB3eq01vft5lDS6vfAXobPlCL3yMVoYBo+7VfT2sb2oidVp402sM
+	 kCL4N4ABZ5FQg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ming Qian <ming.qian@nxp.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
+Cc: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	eagle.zhou@nxp.com,
+	jacopo@jmondi.org,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.10 15/34] media: amphion: Remove lock in s_ctrl callback
-Date: Sun, 28 Jul 2024 11:40:39 -0400
-Message-ID: <20240728154230.2046786-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.10 22/34] media: i2c: ov5647: replacing of_node_put with __free(device_node)
+Date: Sun, 28 Jul 2024 11:40:46 -0400
+Message-ID: <20240728154230.2046786-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728154230.2046786-1-sashal@kernel.org>
 References: <20240728154230.2046786-1-sashal@kernel.org>
@@ -68,63 +69,56 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.10.2
 Content-Transfer-Encoding: 8bit
 
-From: Ming Qian <ming.qian@nxp.com>
+From: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
 
-[ Upstream commit 065927b51eb1f042c3e026cebfd55e72ccc26093 ]
+[ Upstream commit 971b4eef86ccb8b107ad2875993e510eec4fdeae ]
 
-There is no need to add a lock in s_ctrl callback, it has been
-synchronized by the ctrl_handler's lock, otherwise it may led to
-a deadlock if the driver calls v4l2_ctrl_s_ctrl().
+Replace instance of of_node_put with __free(device_node)
+to protect against any memory leaks due to future changes
+in control flow.
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+Signed-off-by: Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/amphion/vdec.c | 2 --
- drivers/media/platform/amphion/venc.c | 2 --
- 2 files changed, 4 deletions(-)
+ drivers/media/i2c/ov5647.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-index a57f9f4f3b876..6a38a0fa0e2d4 100644
---- a/drivers/media/platform/amphion/vdec.c
-+++ b/drivers/media/platform/amphion/vdec.c
-@@ -195,7 +195,6 @@ static int vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct vdec_t *vdec = inst->priv;
- 	int ret = 0;
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index 7e1ecdf2485f7..0fb4d7bff9d14 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -1360,24 +1360,21 @@ static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
+ 	struct v4l2_fwnode_endpoint bus_cfg = {
+ 		.bus_type = V4L2_MBUS_CSI2_DPHY,
+ 	};
+-	struct device_node *ep;
++	struct device_node *ep __free(device_node) =
++		of_graph_get_endpoint_by_regs(np, 0, -1);
+ 	int ret;
  
--	vpu_inst_lock(inst);
- 	switch (ctrl->id) {
- 	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE:
- 		vdec->params.display_delay_enable = ctrl->val;
-@@ -207,7 +206,6 @@ static int vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = -EINVAL;
- 		break;
- 	}
--	vpu_inst_unlock(inst);
+-	ep = of_graph_get_endpoint_by_regs(np, 0, -1);
+ 	if (!ep)
+ 		return -EINVAL;
  
- 	return ret;
+ 	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+ 	if (ret)
+-		goto out;
++		return ret;
+ 
+ 	sensor->clock_ncont = bus_cfg.bus.mipi_csi2.flags &
+ 			      V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+ 
+-out:
+-	of_node_put(ep);
+-
+-	return ret;
++	return 0;
  }
-diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-index 4eb57d793a9c0..16ed4d21519cd 100644
---- a/drivers/media/platform/amphion/venc.c
-+++ b/drivers/media/platform/amphion/venc.c
-@@ -518,7 +518,6 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct venc_t *venc = inst->priv;
- 	int ret = 0;
  
--	vpu_inst_lock(inst);
- 	switch (ctrl->id) {
- 	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
- 		venc->params.profile = ctrl->val;
-@@ -579,7 +578,6 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = -EINVAL;
- 		break;
- 	}
--	vpu_inst_unlock(inst);
- 
- 	return ret;
- }
+ static int ov5647_probe(struct i2c_client *client)
 -- 
 2.43.0
 
