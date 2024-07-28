@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-15387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15388-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A211093E6BD
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 17:53:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D0D93E6C5
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 17:54:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D376A1C2134B
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 15:53:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75563B2215A
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 15:54:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3E0013D89D;
-	Sun, 28 Jul 2024 15:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF66140395;
+	Sun, 28 Jul 2024 15:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBiexvoc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ParbpZZB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E2513D501;
-	Sun, 28 Jul 2024 15:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAF813F42D;
+	Sun, 28 Jul 2024 15:47:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722181620; cv=none; b=cTsZ6R7/oe3oXFS+btfYflmlgcq4DIMC7NtfBXMsAuaqkAFeLQygbt8EWD/iDozd2yLZrGrJgkQwuOaPQTj6/Gn5sHbE/gbhD/q9DebaBCVmKS3mZnDMRb4cz1CKfRADUKsVjj27o0Kfilo407NbMRRs9wr4f0q9J9yxqrUnRPw=
+	t=1722181633; cv=none; b=fdXuJ+tKj7qEeR+8qUZQE4DDqL8rYQZjowRGPLSB9k64J5X7HWP4CzRyTURLouDLu5c8HZV0K64q9lGUGE7UixfvSEm31Do4huzqSkc/bXvCIu4IBciyNZKTwStP7GSjSUKblRVAsL2fAAwjgHt/xJjuWPtSwf3OxS2hChGcc7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722181620; c=relaxed/simple;
-	bh=1ZUpqpAYNsERthG2uNEP8fXF8a97EKUzxa95cDVmaqE=;
+	s=arc-20240116; t=1722181633; c=relaxed/simple;
+	bh=Ue4tQEe5O9NsyTF6ufv9FN3cJdb3ul05cX1au5Iwngw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oPjcbhN/OBbK0JizwOsuYx7unI3evTlT0cgKaI/8XjvlS6h8q2S8x1BNM8vDh12QIIY0CuF2PJP4rVOm810mXJbdzhvsZISrJYj8KWgfqsC0DuKIUaJUwwjWRR1RMyfg2x7vdWIm6zn0UgrCKFblMNp6xan4LSkFRl7bqUUo8Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBiexvoc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B415BC32782;
-	Sun, 28 Jul 2024 15:46:58 +0000 (UTC)
+	 MIME-Version; b=KK3I5viTH2N/pKK8MX90IoB8slgozDvHYylE5jklxP9znq0FV+Uv09nZHXRoHzSWxEvyBMtL7V/1SS0mI/PnKHXepUUBTjiidZWA+Zbz07MgELK7Fp8OOJQ/t6jlkQVcQeL3i4nu12Hm8upUMt/AW/nqnjR/HQcz53sp8becG/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ParbpZZB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E827C4AF0A;
+	Sun, 28 Jul 2024 15:47:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722181619;
-	bh=1ZUpqpAYNsERthG2uNEP8fXF8a97EKUzxa95cDVmaqE=;
+	s=k20201202; t=1722181632;
+	bh=Ue4tQEe5O9NsyTF6ufv9FN3cJdb3ul05cX1au5Iwngw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uBiexvoceXQPyoCdEAkNuMfLv9qSJ95qugJEziU7Y58AujDNoduCkakccDCcTEA7D
-	 gRGE8U9JeWtQW/AWF6lvJu+GsqOwt2qjnc5AsFHlwZo0zPyvwER77B6RqHC4/rYHGE
-	 0cs8xvA5Z066cNE/x8qdba0ZTiqzgp9V8QqLnZ0TZa6X6EJxeWe6Y733IEsdWl7Z1j
-	 NdWsIanOsBmXTmsYhKSRwKGzAQ8bdBQ/MUCFxGnr5ILM3V8tABKRXYbOJ1MyHbhzs0
-	 bHIcW2mazWiiHKgpuPZl69Hbcq89vO8rvZK2TWGUKaJ7f4g15lCUKb94ZtQwHqGZzD
-	 Xa7nLfRO7pD8Q==
+	b=ParbpZZB+JpUgepf2bF37HNbva83AXM/eAlRNk20QuwmDagUSoVMKprGlAtR/f8rt
+	 gVd8lLdrHLoxUxO2glJ0GjJ6KFC9s1+V/bkoZ8RO2QGfjkwi2e0TjuaQQt51I61ZG1
+	 dDzy23ThiKSt71JYZ8/dJ207+Z0DgKMYlQYboqn0pFnwaL9ovmeGBooUYoPYC93+P9
+	 GsOZZeesjmugeGqPK3lq0wE/CrIw83wBa94ARsiyhOhO+ZxvKHBKyetBFPeDBw3Q58
+	 TyCp+oXjVxio5Ja7jrJ1D1x1c/X08LHbGuFQdrh7qC1EjITsWW8yU20/JlYdxqO8ag
+	 PCmJgGjHxN8rA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ming Qian <ming.qian@nxp.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	HungNien Chen <hn.chen@sunplusit.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomasz Figa <tfiga@chromium.org>,
 	Sasha Levin <sashal@kernel.org>,
-	eagle.zhou@nxp.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 10/20] media: amphion: Remove lock in s_ctrl callback
-Date: Sun, 28 Jul 2024 11:45:08 -0400
-Message-ID: <20240728154605.2048490-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 13/20] media: uvcvideo: Ignore empty TS packets
+Date: Sun, 28 Jul 2024 11:45:11 -0400
+Message-ID: <20240728154605.2048490-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728154605.2048490-1-sashal@kernel.org>
 References: <20240728154605.2048490-1-sashal@kernel.org>
@@ -68,63 +69,127 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.43
 Content-Transfer-Encoding: 8bit
 
-From: Ming Qian <ming.qian@nxp.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
 
-[ Upstream commit 065927b51eb1f042c3e026cebfd55e72ccc26093 ]
+[ Upstream commit 5cd7c25f6f0576073b3d03bc4cfb1e8ca63a1195 ]
 
-There is no need to add a lock in s_ctrl callback, it has been
-synchronized by the ctrl_handler's lock, otherwise it may led to
-a deadlock if the driver calls v4l2_ctrl_s_ctrl().
+Some SunplusIT cameras took a borderline interpretation of the UVC 1.5
+standard, and fill the PTS and SCR fields with invalid data if the
+package does not contain data.
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+"STC must be captured when the first video data of a video frame is put
+on the USB bus."
+
+Some SunplusIT devices send, e.g.,
+
+buffer: 0xa7755c00 len 000012 header:0x8c stc 00000000 sof 0000 pts 00000000
+buffer: 0xa7755c00 len 000012 header:0x8c stc 00000000 sof 0000 pts 00000000
+buffer: 0xa7755c00 len 000668 header:0x8c stc 73779dba sof 070c pts 7376d37a
+
+While the UVC specification meant that the first two packets shouldn't
+have had the SCR bit set in the header.
+
+This borderline/buggy interpretation has been implemented in a variety
+of devices, from directly SunplusIT and from other OEMs that rebrand
+SunplusIT products. So quirking based on VID:PID will be problematic.
+
+All the affected modules have the following extension unit:
+VideoControl Interface Descriptor:
+  guidExtensionCode         {82066163-7050-ab49-b8cc-b3855e8d221d}
+
+But the vendor plans to use that GUID in the future and fix the bug,
+this means that we should use heuristic to figure out the broken
+packets.
+
+This patch takes care of this.
+
+lsusb of one of the affected cameras:
+
+Bus 001 Device 003: ID 1bcf:2a01 Sunplus Innovation Technology Inc.
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.01
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 ?
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x1bcf Sunplus Innovation Technology Inc.
+  idProduct          0x2a01
+  bcdDevice            0.02
+  iManufacturer           1 SunplusIT Inc
+  iProduct                2 HanChen Wise Camera
+  iSerial                 3 01.00.00
+  bNumConfigurations      1
+
+Tested-by: HungNien Chen <hn.chen@sunplusit.com>
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Link: https://lore.kernel.org/r/20240323-resend-hwtimestamp-v10-2-b08e590d97c7@chromium.org
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/amphion/vdec.c | 2 --
- drivers/media/platform/amphion/venc.c | 2 --
- 2 files changed, 4 deletions(-)
+ drivers/media/usb/uvc/uvc_video.c | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-index 133d77d1ea0c3..4f438eaa7d385 100644
---- a/drivers/media/platform/amphion/vdec.c
-+++ b/drivers/media/platform/amphion/vdec.c
-@@ -195,7 +195,6 @@ static int vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct vdec_t *vdec = inst->priv;
- 	int ret = 0;
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index 28dde08ec6c5d..dd8ab24b55907 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -478,6 +478,7 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+ 	ktime_t time;
+ 	u16 host_sof;
+ 	u16 dev_sof;
++	u32 dev_stc;
  
--	vpu_inst_lock(inst);
- 	switch (ctrl->id) {
- 	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE:
- 		vdec->params.display_delay_enable = ctrl->val;
-@@ -207,7 +206,6 @@ static int vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = -EINVAL;
- 		break;
- 	}
--	vpu_inst_unlock(inst);
+ 	switch (data[1] & (UVC_STREAM_PTS | UVC_STREAM_SCR)) {
+ 	case UVC_STREAM_PTS | UVC_STREAM_SCR:
+@@ -526,6 +527,34 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+ 	if (dev_sof == stream->clock.last_sof)
+ 		return;
  
- 	return ret;
- }
-diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-index 4eb57d793a9c0..16ed4d21519cd 100644
---- a/drivers/media/platform/amphion/venc.c
-+++ b/drivers/media/platform/amphion/venc.c
-@@ -518,7 +518,6 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct venc_t *venc = inst->priv;
- 	int ret = 0;
++	dev_stc = get_unaligned_le32(&data[header_size - 6]);
++
++	/*
++	 * STC (Source Time Clock) is the clock used by the camera. The UVC 1.5
++	 * standard states that it "must be captured when the first video data
++	 * of a video frame is put on the USB bus". This is generally understood
++	 * as requiring devices to clear the payload header's SCR bit before
++	 * the first packet containing video data.
++	 *
++	 * Most vendors follow that interpretation, but some (namely SunplusIT
++	 * on some devices) always set the `UVC_STREAM_SCR` bit, fill the SCR
++	 * field with 0's,and expect that the driver only processes the SCR if
++	 * there is data in the packet.
++	 *
++	 * Ignore all the hardware timestamp information if we haven't received
++	 * any data for this frame yet, the packet contains no data, and both
++	 * STC and SOF are zero. This heuristics should be safe on compliant
++	 * devices. This should be safe with compliant devices, as in the very
++	 * unlikely case where a UVC 1.1 device would send timing information
++	 * only before the first packet containing data, and both STC and SOF
++	 * happen to be zero for a particular frame, we would only miss one
++	 * clock sample from many and the clock recovery algorithm wouldn't
++	 * suffer from this condition.
++	 */
++	if (buf && buf->bytesused == 0 && len == header_size &&
++	    dev_stc == 0 && dev_sof == 0)
++		return;
++
+ 	stream->clock.last_sof = dev_sof;
  
--	vpu_inst_lock(inst);
- 	switch (ctrl->id) {
- 	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
- 		venc->params.profile = ctrl->val;
-@@ -579,7 +578,6 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = -EINVAL;
- 		break;
- 	}
--	vpu_inst_unlock(inst);
+ 	host_sof = usb_get_current_frame_number(stream->dev->udev);
+@@ -564,7 +593,7 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+ 	spin_lock_irqsave(&stream->clock.lock, flags);
  
- 	return ret;
- }
+ 	sample = &stream->clock.samples[stream->clock.head];
+-	sample->dev_stc = get_unaligned_le32(&data[header_size - 6]);
++	sample->dev_stc = dev_stc;
+ 	sample->dev_sof = dev_sof;
+ 	sample->host_sof = host_sof;
+ 	sample->host_time = time;
 -- 
 2.43.0
 
