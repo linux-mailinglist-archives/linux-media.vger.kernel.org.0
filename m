@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-15395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15396-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61D293E6F7
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 17:59:43 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BCF93E6FA
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 17:59:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C4E31C213C7
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 15:59:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 653E81C213C0
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jul 2024 15:59:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8407112D1FF;
-	Sun, 28 Jul 2024 15:48:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5FEE146D6D;
+	Sun, 28 Jul 2024 15:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+CtT3wt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="natVc27s"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40CB146A60;
-	Sun, 28 Jul 2024 15:48:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0908912D210;
+	Sun, 28 Jul 2024 15:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722181737; cv=none; b=Bz3sc7bytqCsmZD2Kj1IbW0Xt35K772MsQGvgpAtjJkrNovH00b0KAbnDL1Blsah2B2BBXrLi6jTTDECNPNzU3j4JVpYFdmKGSCnufhO7he95v7FXINisLwSDPzJvD5rv3YXBfYnF+nmzjp0AOgGt5z7Xld17OBXxXCwW9NJne4=
+	t=1722181739; cv=none; b=B4sZQtfIU0p6LFqyx6/bO9pdhxxQlqGfMDZL8Nx23C364J7JS0PupH3ju6kzpeT62CqAcoBQot5QvFloWo3JEw+CP7hiZHAf2guPpI/q+ZD4mYU7LkMLq5TB+01uJOMTMhAJxs0LmAFutga7CoKkaIqmvKzcC1ARYNtdvpUFLKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722181737; c=relaxed/simple;
-	bh=ubxwpbxIOQYQMsrwXUt7Ai2VS4cl4Dw1PR8ubN0r3Zg=;
+	s=arc-20240116; t=1722181739; c=relaxed/simple;
+	bh=exxRV37Ako513hSB/j6t4F+oK/EExgBsefaCM8SAAMs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E+p3ZoYWtcxbRglJ6IHwaiYGqYBGoDjuSNXUNFxlu9qy521TL2KYIuZ++yOOfIaPOXzRyIEICgB6Tw16CHNqe7Lc4RU5PZBO6qwAN+SDuYiF/HOzENKE6DOI8kULBtHFRLWTtUU7jnl8MdERk1RjoLEct21GkIRsRioSC6iY2IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+CtT3wt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83ED6C4AF13;
-	Sun, 28 Jul 2024 15:48:56 +0000 (UTC)
+	 MIME-Version; b=ie5Xo6Sv6F2pxuPReI8SvV9EPXErRKib9YmXOgR6aqjlTK8h4WNOBGXTOslYoCNhZn0+2kObG+rgLiQ9CYG89az9+s5y5V9yuhPJtpjqvplrx3isByUlrFBR51liaflMvPBEZ2JO+E9ARHxQsf9ZIOy34EDRq1RYiQp+0pp54kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=natVc27s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6B8C32782;
+	Sun, 28 Jul 2024 15:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722181737;
-	bh=ubxwpbxIOQYQMsrwXUt7Ai2VS4cl4Dw1PR8ubN0r3Zg=;
+	s=k20201202; t=1722181738;
+	bh=exxRV37Ako513hSB/j6t4F+oK/EExgBsefaCM8SAAMs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=o+CtT3wtRBrGZYNvwxgY7pvMBmW2g21qAkQmQK4gp4uY0YtQ3mI+4Gb1ApJxllQ7H
-	 I46/R957jj2CBStz2uWUDt3iX2WiqQQFHyJd0TLfrwT0xE25QH7E8YCEWHVABN8mf9
-	 wlI+PoQE+Izm3zwbchRXwErSmvF9RA4/7ULC5dA0w95I+nzt+5zilpeu8pXKvyXXwS
-	 OPk6ZsgEyr0CfoCBUvAifNrBK03PDxSwLh5ZKPXmCcm5Le+FEkKZCiwlJvXbjZEotF
-	 yhAvN4c35iJ9zwhAg4XWfoqFoxq/ffjxBhzmcaGzG17YDWMclUgleIkXy1ih0iSPDo
-	 hbKmjXL5ui7bA==
+	b=natVc27sE0Ol8Df3RXPO7CeQwZEf4HJ2/IfBWWI47yeaOGcAivhbvn/pJfWsmm1oc
+	 Oa0YIrqvPemau2OSjz0Yjnhz8P1pi4QGJGhAc7sTpj6KBWWh4nP1FMcpnm0ZMkoSZq
+	 53Z6pyCNym6UMQwohqp9MLyvTmgKDjPE6n6FY2u/iLSoQ+MgY0v5sxN/NVVQtt75xh
+	 zlfPfUk6KzYnE5RRExtF4hqeeCkyZdRSE+jMgR9Qt0lBQ6RVctkdEQvnV/5Oo+DvSo
+	 aK1tzHfmY0pFaJey+LX1I77jVK4YhxVdYZ/J+RAlJGqkpnPONniCUDVEAyHtP1/Nm8
+	 go+0Y0eo/S6uQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc: Chi Zhiling <chizhiling@kylinos.cn>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 12/17] media: uvcvideo: Remove mappings form uvc_device_info
-Date: Sun, 28 Jul 2024 11:47:22 -0400
-Message-ID: <20240728154805.2049226-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 13/17] media: xc2028: avoid use-after-free in load_firmware_cb()
+Date: Sun, 28 Jul 2024 11:47:23 -0400
+Message-ID: <20240728154805.2049226-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240728154805.2049226-1-sashal@kernel.org>
 References: <20240728154805.2049226-1-sashal@kernel.org>
@@ -66,73 +66,127 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.102
 Content-Transfer-Encoding: 8bit
 
-From: Ricardo Ribalda <ribalda@chromium.org>
+From: Chi Zhiling <chizhiling@kylinos.cn>
 
-[ Upstream commit 8c40efeda94108d65c52038ea82ee83b2fb933e2 ]
+[ Upstream commit 68594cec291ff9523b9feb3f43fd853dcddd1f60 ]
 
-We do not have any quirk device making us of this. Remove from now. It
-can be easily reverted later if needed.
+syzkaller reported use-after-free in load_firmware_cb() [1].
+The reason is because the module allocated a struct tuner in tuner_probe(),
+and then the module initialization failed, the struct tuner was released.
+A worker which created during module initialization accesses this struct
+tuner later, it caused use-after-free.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+The process is as follows:
+
+task-6504           worker_thread
+tuner_probe                             <= alloc dvb_frontend [2]
+...
+request_firmware_nowait                 <= create a worker
+...
+tuner_remove                            <= free dvb_frontend
+...
+                    request_firmware_work_func  <= the firmware is ready
+                    load_firmware_cb    <= but now the dvb_frontend has been freed
+
+To fix the issue, check the dvd_frontend in load_firmware_cb(), if it is
+null, report a warning and just return.
+
+[1]:
+    ==================================================================
+     BUG: KASAN: use-after-free in load_firmware_cb+0x1310/0x17a0
+     Read of size 8 at addr ffff8000d7ca2308 by task kworker/2:3/6504
+
+     Call trace:
+      load_firmware_cb+0x1310/0x17a0
+      request_firmware_work_func+0x128/0x220
+      process_one_work+0x770/0x1824
+      worker_thread+0x488/0xea0
+      kthread+0x300/0x430
+      ret_from_fork+0x10/0x20
+
+     Allocated by task 6504:
+      kzalloc
+      tuner_probe+0xb0/0x1430
+      i2c_device_probe+0x92c/0xaf0
+      really_probe+0x678/0xcd0
+      driver_probe_device+0x280/0x370
+      __device_attach_driver+0x220/0x330
+      bus_for_each_drv+0x134/0x1c0
+      __device_attach+0x1f4/0x410
+      device_initial_probe+0x20/0x30
+      bus_probe_device+0x184/0x200
+      device_add+0x924/0x12c0
+      device_register+0x24/0x30
+      i2c_new_device+0x4e0/0xc44
+      v4l2_i2c_new_subdev_board+0xbc/0x290
+      v4l2_i2c_new_subdev+0xc8/0x104
+      em28xx_v4l2_init+0x1dd0/0x3770
+
+     Freed by task 6504:
+      kfree+0x238/0x4e4
+      tuner_remove+0x144/0x1c0
+      i2c_device_remove+0xc8/0x290
+      __device_release_driver+0x314/0x5fc
+      device_release_driver+0x30/0x44
+      bus_remove_device+0x244/0x490
+      device_del+0x350/0x900
+      device_unregister+0x28/0xd0
+      i2c_unregister_device+0x174/0x1d0
+      v4l2_device_unregister+0x224/0x380
+      em28xx_v4l2_init+0x1d90/0x3770
+
+     The buggy address belongs to the object at ffff8000d7ca2000
+      which belongs to the cache kmalloc-2k of size 2048
+     The buggy address is located 776 bytes inside of
+      2048-byte region [ffff8000d7ca2000, ffff8000d7ca2800)
+     The buggy address belongs to the page:
+     page:ffff7fe00035f280 count:1 mapcount:0 mapping:ffff8000c001f000 index:0x0
+     flags: 0x7ff800000000100(slab)
+     raw: 07ff800000000100 ffff7fe00049d880 0000000300000003 ffff8000c001f000
+     raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
+     page dumped because: kasan: bad access detected
+
+     Memory state around the buggy address:
+      ffff8000d7ca2200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+      ffff8000d7ca2280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+     >ffff8000d7ca2300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                           ^
+      ffff8000d7ca2380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+      ffff8000d7ca2400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+     ==================================================================
+
+[2]
+    Actually, it is allocated for struct tuner, and dvb_frontend is inside.
+
+Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 27 +--------------------------
- drivers/media/usb/uvc/uvcvideo.h |  1 -
- 2 files changed, 1 insertion(+), 27 deletions(-)
+ drivers/media/tuners/xc2028.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 6d7535efc09de..cdf1d14aad5d3 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -2533,32 +2533,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_chain *chain,
- 	if (!ctrl->initialized)
- 		return;
+diff --git a/drivers/media/tuners/xc2028.c b/drivers/media/tuners/xc2028.c
+index 5a967edceca93..352b8a3679b72 100644
+--- a/drivers/media/tuners/xc2028.c
++++ b/drivers/media/tuners/xc2028.c
+@@ -1361,9 +1361,16 @@ static void load_firmware_cb(const struct firmware *fw,
+ 			     void *context)
+ {
+ 	struct dvb_frontend *fe = context;
+-	struct xc2028_data *priv = fe->tuner_priv;
++	struct xc2028_data *priv;
+ 	int rc;
  
--	/*
--	 * First check if the device provides a custom mapping for this control,
--	 * used to override standard mappings for non-conformant devices. Don't
--	 * process standard mappings if a custom mapping is found. This
--	 * mechanism doesn't support combining standard and custom mappings for
--	 * a single control.
--	 */
--	if (chain->dev->info->mappings) {
--		bool custom = false;
--
--		for (i = 0; chain->dev->info->mappings[i]; ++i) {
--			const struct uvc_control_mapping *mapping =
--				chain->dev->info->mappings[i];
--
--			if (uvc_entity_match_guid(ctrl->entity, mapping->entity) &&
--			    ctrl->info.selector == mapping->selector) {
--				__uvc_ctrl_add_mapping(chain, ctrl, mapping);
--				custom = true;
--			}
--		}
--
--		if (custom)
--			return;
--	}
--
--	/* Process common mappings next. */
-+	/* Process common mappings. */
- 	for (i = 0; i < ARRAY_SIZE(uvc_ctrl_mappings); ++i) {
- 		const struct uvc_control_mapping *mapping = &uvc_ctrl_mappings[i];
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 33e7475d4e64a..5faa256094d43 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -523,7 +523,6 @@ struct uvc_device_info {
- 	u32	quirks;
- 	u32	meta_format;
- 	u16	uvc_version;
--	const struct uvc_control_mapping **mappings;
- };
- 
- struct uvc_device {
++	if (!fe) {
++		pr_warn("xc2028: No frontend in %s\n", __func__);
++		return;
++	}
++
++	priv = fe->tuner_priv;
++
+ 	tuner_dbg("request_firmware_nowait(): %s\n", fw ? "OK" : "error");
+ 	if (!fw) {
+ 		tuner_err("Could not load firmware %s.\n", priv->fname);
 -- 
 2.43.0
 
