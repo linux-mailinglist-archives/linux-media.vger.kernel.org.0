@@ -1,148 +1,175 @@
-Return-Path: <linux-media+bounces-15434-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15435-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB41E93F131
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 11:33:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE7393F155
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 11:38:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EAF61F22394
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:33:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C763528291E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:38:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 243E513C814;
-	Mon, 29 Jul 2024 09:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81CD9140363;
+	Mon, 29 Jul 2024 09:37:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wTjnsjyc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dr5YyqSA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120B6B667;
-	Mon, 29 Jul 2024 09:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10336801;
+	Mon, 29 Jul 2024 09:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722245602; cv=none; b=cWsBH6xwGMscTwQiXCIJcvH58Hd5cyhoptUN/YvkAJlwCti/fa9dLZs990N7QGQpjuIXl8cnCFy+IPVDSfFWPFz4BKHLleZtDwAISINc9d+gyMUHVwJ70rYYOXyNT52mVuByPHL6gP/vRd3E4XKzOwbUUKFIAIiopavavoEPW1w=
+	t=1722245871; cv=none; b=DVRgxRfrT2ESvIBH0ce73GUsVc6BfPQM9G3RpHu2C4RSEu4mMHpxKxiD10RzMyIv/D0PQNnfR5SAMpTtuFL3l/PSiuQUBwtFnrM8ZIw8vNYu0IpvXagjNW7veTz/OYMdQWLDCKfa+ar4fEoVMA+W3fnZmDO5jxgxf91+S/7QD1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722245602; c=relaxed/simple;
-	bh=eLtXGh0GNrE0GjB2gfA9Puv6Yku+pwVZoF3jaTnn9iQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=skoUk3eLrVep1aacfzZvpHerYB6V3ieZ8we7o7heGEXyZn2J5G1zvCGgLR3bRvKPhjylZdmVXNmXHDTNeGIca97k006ZXAljjTKXVRKSgfuiJHpDE7KH0uYjaJA5KEtIwdlcoZD+B476YbJcUZvQaMP0We7La55Opt5jP+XRhAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wTjnsjyc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD8E545A;
-	Mon, 29 Jul 2024 11:32:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722245553;
-	bh=eLtXGh0GNrE0GjB2gfA9Puv6Yku+pwVZoF3jaTnn9iQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wTjnsjyc1kECtkioC5DBaOj0ifg26xDHoKtE1O3FBON6vtPaPLT2BDXU3U0L1hicR
-	 G/Mk2+6AxMMwY2YKxSR459dM36yHjCC88IansIf4z9ZYzAc1hOwbxHJ/ymI3vR3BFL
-	 PfAW13rL+iQVdbiM/BV+8XtV22JxloMKqHLtx+rI=
-Date: Mon, 29 Jul 2024 12:32:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Matthias Fend <matthias.fend@emfend.at>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx-mipi-csis: avoid logging while holding
- spinlock
-Message-ID: <20240729093259.GB2320@pendragon.ideasonboard.com>
-References: <20240723060909.534584-1-matthias.fend@emfend.at>
- <20240726104255.GH14252@pendragon.ideasonboard.com>
- <3e38bf09-734d-4cbf-a0a5-b01cd1998037@emfend.at>
+	s=arc-20240116; t=1722245871; c=relaxed/simple;
+	bh=dUb6XFAWURF5fTzbw/+1MFJZCob3+hK/YpTTVucusdc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HAAv6Ti8Qbo8aZ/ZELzb5O4E0waZ80IMvIhwfaj0NVQytVMsJOm6/i/vQ1fF/G7OkOVA/991SIjdE8nQKIxXpO6nR3LAwHE4snxAvWWCaZVYFYZwDF7/h5ErcctVHFM0qXMnHgdB9ST2GCjvZ8/jzRy844gqIySl6H3sMIWzbV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dr5YyqSA; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5a15692b6f6so5404917a12.0;
+        Mon, 29 Jul 2024 02:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722245868; x=1722850668; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NR8EYDbZcj20ngdxq0iIEW20+Ft9Qj88x8IgpUrOrXQ=;
+        b=dr5YyqSAcubG8CeYTN9kYwm7zWd5uBsn+5BJX9nXBFEqUu418iZReomUg6lLOSaRak
+         agfHW6VpSZ3aqQ3di2AjKCiCMJWIHrwVXATX/TvMAY8ib2YCCHv0S4X0EOYsYkTfOXdh
+         yMRYOOc8qxmmQteiUlivyJJt79snq7a+nGt/GqQ4teZWheVo8TQVkLqdm9P2IcjcdKjJ
+         5Vdi+T5BpHZusNB2vNne1pSYQINUjaW8a5Pj7A0ADfcMaHoiD/yqHlz75krk6f81OeCV
+         aIk8ljht1JFNXQSBP7vQGU2dI0q6iIX3sr7lVFNgObZuzE8xLRd2uVw5pLvhGjahZ75j
+         wmNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722245868; x=1722850668;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NR8EYDbZcj20ngdxq0iIEW20+Ft9Qj88x8IgpUrOrXQ=;
+        b=DShrrn3wpCfeqVGtXWNVmiE1p9X/RuW/jjssMvf4oB3MTQzioX6EFeuY5zwOBzfWy3
+         gc8SriR/3fTuyjEoETfWsODIb0mrSpYiUrXG7fG7WfVJBjfqQtU/2CpMjv+Ob38k9GG+
+         GrJ6Zfhtz9oZkgiu4Mb1UB3dQD/2oJc4w9izoSO6eUfsnrIJo2+zPgjHmLkaHEXuIrRS
+         NFL/KJcRitcw5pu+htGGi3jIpUuBlvLFubFjkdDorv6/m40PBu/ti0rVarJrPj4BpxA7
+         AwFgZuoP1KixgRaOkezDk9+rvxvCC5TDNqchOOhLfYDDShk4msQXb4iSxbqZ+tWdIVs2
+         RZFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVxgAqxeMCiTCTDBvxmVry0Zmlp51paC/X9gilCKKVzLUWyO/R1CMLjQLjj211V/OpwcHOEnQ4Q0JnKMRCZD9NKUkGCSEyBmqW/vPbfmbV3PcEpSKNPbUduvy3QuCUzI9U0uukYn96bqxM=
+X-Gm-Message-State: AOJu0YyF2IR4d8N0J+s4HoiPyL+sezC0a2V1srtfRtdmp2r3RdzVBTH0
+	QJJkQuYy3B9sDN9vAQTWXLBSSU2iYheFlHh60LyX/69In6aE3N9UqnI21S6g
+X-Google-Smtp-Source: AGHT+IGB+vRrdX/B/2dg/ESisrGwMj2AyPaJblfTpT4noAFpKg4KyVyg7wAt53T8pHgMroSEYzYs/Q==
+X-Received: by 2002:a17:907:96a0:b0:a7a:a0c9:124e with SMTP id a640c23a62f3a-a7d3ffadf1amr581593566b.4.1722245867939;
+        Mon, 29 Jul 2024 02:37:47 -0700 (PDT)
+Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad41b24sm481617966b.116.2024.07.29.02.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 02:37:47 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Subject: [PATCH v2 0/2] {ASoC,media}: constify snd_soc_component_driver
+ when used as read-only
+Date: Mon, 29 Jul 2024 11:37:36 +0200
+Message-Id: <20240729-const_snd_soc_component_driver-v2-0-1994f44f1ec2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3e38bf09-734d-4cbf-a0a5-b01cd1998037@emfend.at>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOBip2YC/42NQQ6CMBBFr0JmbU2pINSV9zCkgXaESaQlHdJoC
+ He3cgKX7+fnvQ0YIyHDrdggYiKm4DOoUwF26v2IglxmUFJVslG1sMHzatg7w8EaG+YlePSrcZE
+ SRjHoq9K9rgddtZAlS8QnvY/Ao8s8Ea8hfo5eKn/r3+pUCikurkGULZZKD/dx7ul1zkfo9n3/A
+ ucOmcHMAAAA
+To: Tim Harvey <tharvey@gateworks.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ alsa-devel@alsa-project.org, linux-stm32@st-md-mailman.stormreply.com, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722245866; l=2529;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=dUb6XFAWURF5fTzbw/+1MFJZCob3+hK/YpTTVucusdc=;
+ b=RPp7DAhUclessfFNFbcWgORq5LFwt1sEuXGSZwmnwQyt6PJKpGQSAD09Ku+TP7WOneIIyaxWv
+ s/TEiuxzbZNCW6/irPcZOG1uLKlqLQvxJpgMvBhbXL3qIH7lZwJQGEF
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-On Fri, Jul 26, 2024 at 02:16:07PM +0200, Matthias Fend wrote:
-> Hi Laurent,
-> 
-> Am 26.07.2024 um 12:42 schrieb Laurent Pinchart:
-> > Hi Matthias,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Jul 23, 2024 at 08:09:08AM +0200, Matthias Fend wrote:
-> >> Refactor mipi_csis_log_counters() to prevent calling dev_info() while
-> >> IRQs are disabled. This reduces crucial IRQs off time to a bare minimum.
-> > 
-> > Should we add
-> > 
-> > Cc: stable@vger.kernel.org
-> > 
-> > to get this backported to stable kernels ?
-> 
-> Hard for me to tell. Since this problem only occurs when you explicitly 
-> trigger the debug output from this driver, it probably only affects very 
-> few end users. So I'm not sure if a backport would be worth it.
+Declare `snd_soc_component_driver` as const to move their declarations
+to read-only sections for the drivers that do not modify the struct
+after its declaration.
 
-I slept over it and decided not to Cc stable.
+Apart from a single case under media/, the affected drivers are members
+of the ASoC subsystem.
 
-> >> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-> >> ---
-> >>   drivers/media/platform/nxp/imx-mipi-csis.c | 9 ++++++---
-> >>   1 file changed, 6 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> >> index f49b06978f14..0c34d316ed29 100644
-> >> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> >> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> >> @@ -857,18 +857,21 @@ static void mipi_csis_log_counters(struct mipi_csis_device *csis, bool non_error
-> >>   {
-> >>   	unsigned int num_events = non_errors ? MIPI_CSIS_NUM_EVENTS
-> >>   				: MIPI_CSIS_NUM_EVENTS - 8;
-> >> +	unsigned int counters[MIPI_CSIS_NUM_EVENTS];
-> >>   	unsigned long flags;
-> >>   	unsigned int i;
-> >>   
-> >>   	spin_lock_irqsave(&csis->slock, flags);
-> >> +	for (i = 0; i < num_events; ++i)
-> >> +		counters[i] =  csis->events[i].counter;
-> >> +	spin_unlock_irqrestore(&csis->slock, flags);
-> >>   
-> >>   	for (i = 0; i < num_events; ++i) {
-> >> -		if (csis->events[i].counter > 0 || csis->debug.enable)
-> >> +		if (counters[i] > 0 || csis->debug.enable)
-> >>   			dev_info(csis->dev, "%s events: %d\n",
-> >>   				 csis->events[i].name,
-> >> -				 csis->events[i].counter);
-> >> +				 counters[i]);
-> > 
-> > The last two lines now fit in a single line. No need for a v2, I'll
-> > rewrap the code myself, and add the Cc line if you think that's a good
-> > idea.
-> 
-> Thanks! Regarding Cc, I would like to leave it up to you; you have the 
-> necessary experience and overview to judge that.
-> 
-> ~Matthias
-> 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> >>   	}
-> >> -	spin_unlock_irqrestore(&csis->slock, flags);
-> >>   }
-> >>   
-> >>   static int mipi_csis_dump_regs(struct mipi_csis_device *csis)
+To: Tim Harvey <tharvey@gateworks.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: Ray Jui <rjui@broadcom.com>
+To: Scott Branden <sbranden@broadcom.com>
+To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+To: Shenghao Ding <shenghao-ding@ti.com>
+To: Kevin Lu <kevin-lu@ti.com>
+To: Baojun Xu <baojun.xu@ti.com>
+To: Olivier Moysan <olivier.moysan@foss.st.com>
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>
+To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-sound@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: alsa-devel@alsa-project.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
+Changes in v2:
+- drop cs43130 and sti-sas, as they modifiy the struct in the probe
+  function.
+- Link to v1: https://lore.kernel.org/r/20240725-const_snd_soc_component_driver-v1-0-3d7ee08e129b@gmail.com
+
+---
+Javier Carrasco (2):
+      media: i2c: tda1997x: constify snd_soc_component_driver struct
+      ASoC: constify snd_soc_component_driver struct
+
+ drivers/media/i2c/tda1997x.c         | 2 +-
+ sound/soc/au1x/dbdma2.c              | 2 +-
+ sound/soc/au1x/dma.c                 | 2 +-
+ sound/soc/bcm/cygnus-pcm.c           | 2 +-
+ sound/soc/codecs/cpcap.c             | 2 +-
+ sound/soc/codecs/pcm186x.c           | 4 ++--
+ sound/soc/codecs/pcm5102a.c          | 2 +-
+ sound/soc/codecs/spdif_receiver.c    | 2 +-
+ sound/soc/codecs/spdif_transmitter.c | 2 +-
+ sound/soc/codecs/tas6424.c           | 2 +-
+ sound/soc/stm/stm32_adfsdm.c         | 2 +-
+ sound/soc/uniphier/evea.c            | 2 +-
+ 12 files changed, 13 insertions(+), 13 deletions(-)
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240725-const_snd_soc_component_driver-b9629a95b948
+
+Best regards,
 -- 
-Regards,
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
-Laurent Pinchart
 
