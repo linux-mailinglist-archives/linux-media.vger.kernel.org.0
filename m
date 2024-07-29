@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-15462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05CB93F747
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:08:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 773D393F74B
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:09:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5800D2826D4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:08:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 356B628250E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:09:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 913A0154C19;
-	Mon, 29 Jul 2024 14:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EA414F9EE;
+	Mon, 29 Jul 2024 14:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1S0q3Gf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJOKnd37"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF272152160;
-	Mon, 29 Jul 2024 14:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D68B1494CE;
+	Mon, 29 Jul 2024 14:09:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722262105; cv=none; b=FSPvPUWpGSCBJ7YTSZl1LxJxIHBbN9hvb5tcK3+tFiW87FAhSiDN36aS/AnCKGLPLHxXOiM0W+2LqTAAECcUWkWu/u0TOqdpHz69AZcZfeoWLdzVQbvTTp4zECIFqxuwDPbnBPfDHzIs52n5U2QgRrIa/aGOmDv0hnfmfBwshIA=
+	t=1722262185; cv=none; b=uoPeV2XV453EVGOisZdyzP6RhssNLzG1H5jESUSkkmFZeeZMGz563pNeASbszi3a+seC5A0cKowMkDhYH6uTHQn8pA9YkPL/Z4q22bB7OX6WJJIcGtrJ4s7uRU5A2RCX9GKtUoT0TBymSvQb9ZqO0dhwbfbCDpbhlIIY3pexO3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722262105; c=relaxed/simple;
-	bh=BgZEcDifjSfI4THHw40ebYV39UoGfOjYYXSc8EOrjl8=;
+	s=arc-20240116; t=1722262185; c=relaxed/simple;
+	bh=6UqSdF+TOuXLgjDRi0ybbqzLNRAv7t5hyati46QeQ+c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eDrQpWdyNV/r/ufJTe+lGszx6XXFR3oCoE9jOyMMhC/yoS/0yO/Ri1LoF+TM/aIXVHH9SB2Eay5g61qHrzasyE5xUP4KCwUb8cIsZi+x6UsUDqfEXxaDWpMlZS8//wavqwWqH/DrtQhl5nAIUjzGGvbx9tIwmyHDueK9Xq43DuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1S0q3Gf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF5AC4AF09;
-	Mon, 29 Jul 2024 14:08:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=lc5R4waRej6I7jsCmX4UJ7+ZlXJt/1bTHc0lGdsLoqDaKoLHY5lZiFAUKpbz2IJ2BSpUBtbwbnLyBiUKwFkKYnqDdtxsB/7+893+bVggbrSgB0B4PE3FunFuDtoCmQoescdUY4PMhgVBtPVVKgDrI+dCRF0AqeGX0s2r1cJ2CbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJOKnd37; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C812C32786;
+	Mon, 29 Jul 2024 14:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722262103;
-	bh=BgZEcDifjSfI4THHw40ebYV39UoGfOjYYXSc8EOrjl8=;
+	s=k20201202; t=1722262185;
+	bh=6UqSdF+TOuXLgjDRi0ybbqzLNRAv7t5hyati46QeQ+c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z1S0q3Gfar+Kp2G40gSIjOaOtXHyA64OIUWBXijYwcwFR3BDaeTqLg1cDCfyaT5S1
-	 e0MEBJbY+tuRg4t3Cn5u8qGxHMNEih+a7oyYAYpR/LdHEfBE4O40/KwgdfMo6y1k0R
-	 ZeWEb/RBJRtx/5bej9B4LHTiNMfPT+to3DdUIdpChN2LRpMtI6uZwGVUToJmKQfAPk
-	 yhVgVq9T7IThaQRL4IQzUUDQ3v7Ly6zXyYoxkWmK18P43yTa+PyFplsY1ydbicIkNm
-	 KU9zDrtYW1izaCrd3i3kKgs8DTk3Qp019R/Kb0xeYtoNhqdMUKvZmedAy5LIsEF9p6
-	 OSaMnGhuc9gYw==
-Message-ID: <7537c281-2f0d-43e1-9260-2d469d5a1f21@kernel.org>
-Date: Mon, 29 Jul 2024 16:08:18 +0200
+	b=VJOKnd37CXXVSzIb3+hTLZXWbzvAP4FUI092HNzxLy4OtLiQI2dNZbFolXaYydFCn
+	 9Xrs7YI6QW0BYEcoBdIZ4eTVHpHZTfEkS4gdEVmpEG/F5H/pKiBfl+M/PXy4bK+uux
+	 i4IKxz+ahVjazDfy1ILW8ZCzqT5CN/8EVSYXg3Z2MFgR+qQ+mrwdj2r0zH86IJ5Qu7
+	 CygfL3U81XsXOX90MxGMWGfO9iSDjmPzXAzn/okC1wNOa27MgvPYtvJdi2h/SjjGCQ
+	 IIp11Ei6/fCBmm2nw2mOZLZeDe/Xo8z4W2piCGquMxnMMqb6owuLD8z/jlwo5VpZGO
+	 G8Az77jZbrUFA==
+Message-ID: <ef05c39a-ad5c-4751-a758-f73a2d114823@kernel.org>
+Date: Mon, 29 Jul 2024 16:09:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: imx335: Mention reset-gpio polarity
+Subject: Re: [PATCH v2 2/2] media: imx335: Fix reset-gpio handling
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
 Cc: stable@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -58,7 +58,7 @@ Cc: stable@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20240729110437.199428-1-umang.jain@ideasonboard.com>
- <20240729110437.199428-2-umang.jain@ideasonboard.com>
+ <20240729110437.199428-3-umang.jain@ideasonboard.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,45 +104,27 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240729110437.199428-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20240729110437.199428-3-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/07/2024 13:04, Umang Jain wrote:
-> Mention the reset-gpio polarity in the device tree bindings.
-> It is GPIO_ACTIVE_LOW according to the datasheet.
+> Rectify the logical value of reset-gpio so that it is set to
+> 0 (disabled) during power-on and to 1 (enabled) during power-off.
 > 
+> Meanwhile at it, set the reset-gpio to GPIO_OUT_HIGH at initialization
+> time to make sure it starts off in reset.
+> 
+> Fixes: 45d19b5fb9ae ("media: i2c: Add imx335 camera sensor driver")
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
+>  drivers/media/i2c/imx335.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
 
-IdeasOnBoard folks are seasoned developers, although I noticed from time
-to time you do not cc all necessary addresses. I wonder why? Something
-is missing in internal guideline?
-
-That's not the first case, but pasting same form letter is a bit
-annoying, especially considering that *tools tell you to do correct
-stuff* and you do not need *person to tell you that*.
-
-
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
+This will break all the users, so no. At least not without mentioning
+ABI break and some sort of investigating how customers or users are
+affected.
 
 Best regards,
 Krzysztof
