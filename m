@@ -1,193 +1,241 @@
-Return-Path: <linux-media+bounces-15429-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15430-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA04893F0D3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 11:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2259F93F0D8
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 11:20:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5309E1F2207C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:19:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94F111F22A3E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:20:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927F213DDAF;
-	Mon, 29 Jul 2024 09:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2080A13DBBB;
+	Mon, 29 Jul 2024 09:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AIoD8F90"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="e+VOAjbN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011055.outbound.protection.outlook.com [52.101.125.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47EA13DB92;
-	Mon, 29 Jul 2024 09:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722244769; cv=none; b=jWitFSBZbPbksFhAUPcOqVmA2dT2udTrCwVRCp8thQ+81ISo702OAFXNBdYdv/UHWBSo3qh1+IstfBUQoMSpFC0ouuhtHqdxnUUgGzzyKRUbEplwMZOM4D79J/fMT4d4CUfaB4oESOb+cRbq0ctSNibDT/pHyxi/2y+xQdPEDTU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722244769; c=relaxed/simple;
-	bh=NmA4UnYG3ps2ZxJ6n5TCugcQhBXbGtG7XO01jZ7+OdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gKs7A5+kzrDmrjveg9YADdjuCvIV+E6mP5MMyqhy/Muh0x/oKwYeK0wtKQYsqhL0UHsoIgDmz32apUpBnzTmVTPzSiPS4ESOExJYpYPRhIMcajsg/dhxpcXtza9MetJ+enawwqt8XdO5S/WNCaD73u2v2ZJFyrnfHmtCTyVej7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AIoD8F90; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-63-112.net.vodafone.it [5.90.63.112])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEAD145A;
-	Mon, 29 Jul 2024 11:18:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722244718;
-	bh=NmA4UnYG3ps2ZxJ6n5TCugcQhBXbGtG7XO01jZ7+OdA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AIoD8F90Bb20zqs9/yFDFe76dwdlwm1S2Z2KU8aI+bkpkhzZ1UtgiiCmQFd8ZpHXo
-	 dN9TJ/4x5t78sqFC4ZuoTU6XFu2TeuZXOnLMMN+QTZn/Djo9EYuA2oM7uCFdC9skoE
-	 XjEqmfBHVw1AqYe3Ktqrz/crN11BsMcBSsWwUSJg=
-Date: Mon, 29 Jul 2024 11:19:22 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, open list <linux-kernel@vger.kernel.org>, 
-	Tommaso Merciai <tomm.merciai@gmail.com>
-Subject: Re: [PATCH] media: imx335: Fix reset-gpio handling
-Message-ID: <tyo5etjwsfznuk6vzwqmcphbu4pz4lskrg3fjieojq5qc3mg6s@6jbwavmapwmf>
-References: <20240729060535.3227-1-umang.jain@ideasonboard.com>
- <4me3tw572feft3x4dn3ritpr6avss6ebupixrg7qrlsy5z6kny@mqeoqhr7uh2x>
- <f521ed1b-17ce-4ccb-b14e-53fe5fbfee64@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EC113B783;
+	Mon, 29 Jul 2024 09:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722244817; cv=fail; b=QPkBBIsVUqBwF9MbtJLKg4urN2BYhnTBYocNmT6GoUrih42uynTf2EqZrBkR9zfgzyoDksjQwa/eEE9KRNXqMoiN6Axwa7vS6LgCVd6KtdJkKyhDHSdAlEWQgNp2sX5Il7zSTVecCybOTWgT51FIUz9ECUQQ+ACCVy1pTz2Gq9U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722244817; c=relaxed/simple;
+	bh=3vumnBW1lVrFK58/wCamYvb34nyyf0eaMLlq1J6KX8A=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=aXVxwG/kDIzOFd68KO2WFPnsEEo4+owEJstp4MH71UcvQxig6iYzGATJWuIS0BExs8hWLeZiMXCFSR735a4346kUb7uzc5vPMmXXVHUcGci2r0QPUcCyHs3aMSET1FFBY1w56jo1qDRKS4bE00vIyMg9nJ0NWNSwraXiv0xtDVE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=e+VOAjbN; arc=fail smtp.client-ip=52.101.125.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wj7j+NtE/m9jmufJ4ZpB+WmrG0Gg10Q6KRspYJ6fK3s8JphxYQLmNR/2Eh1JxUqvahlIp8KN8LhBem20sf+OiXVNdS6qmvrHAj/E90EdTC9rhPRq2kCCB2rrxIqfxwggBVH+DMMJ5eyipW7zZEGXlKKdI7Cvm+MVyGlYAfjwnLoPm7djvmCrnCOjEt5Ra9ux4ndQ5haBqgUN4tXvsl2foSqmPlRqLazUp4exsdoNEcJCiocdKrzLPWiwejXuQC+zsoeMOO/tAzqqPZ5yvC/TRP7jr3hDX7TefCQTUWzOyxazBF2l+muALnmDCclVpXWpBAYkudIh8YVwTKdIvLHORQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3vumnBW1lVrFK58/wCamYvb34nyyf0eaMLlq1J6KX8A=;
+ b=uhv9lFyWkgUOU+7x4F769yMuLOVkbv5oAC5sxyD7x5Q1oGKwPOLc9PETwa6bM5/lsf8DP3dGp5lWliyqPs9SozqmqaNkBeXJI6YXjhvMJzosKzUraIBJS783ugxxq8eSDzf6IKo/xyaQNiBT20zZyzMEiFt2ZzAcKOOdb1QzztLhvaA2aM/EMLc2S9Y4Juo7m/UnpXqFtiH4Hbc4HCr6IbYWgv2Vh/+7su1D7L0wEw5xFZg0g2yIITsmluw6mhWuK+LM3Yz+Vq6tlBvRke/p1I24Yl2onkaIFsJq40bdhVTimvok+P4mhVUAe++P3oQ0Y/b/mjOTG8S6Pk0Pv/zIyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3vumnBW1lVrFK58/wCamYvb34nyyf0eaMLlq1J6KX8A=;
+ b=e+VOAjbNcdoB0O3aO7wBgoMQqEqNQBWEMwJklZmyfpO0O9oGbnYkW1c7t5f2LenHFVpJiUk5dDh4vp/BsulxYQJSf3KbBX9b+bkrmzwCWmvD3C+pv/WdFQT1TrpVqlR4Ca9PAf2WHcyENrGAwt7xdBwJjbfP/G2P4K8750fQXuA=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TY3PR01MB11848.jpnprd01.prod.outlook.com (2603:1096:400:370::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.27; Mon, 29 Jul
+ 2024 09:20:10 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.7807.026; Mon, 29 Jul 2024
+ 09:20:10 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+Subject: RE: [PATCH v2 5/9] drm: renesas: rz-du: Add RZ/G2UL DU Support
+Thread-Topic: [PATCH v2 5/9] drm: renesas: rz-du: Add RZ/G2UL DU Support
+Thread-Index: AQHa0gc+hmDhx2i2TkCVJWxg09UYArIJ3KeAgAOv/GA=
+Date: Mon, 29 Jul 2024 09:20:10 +0000
+Message-ID:
+ <TY3PR01MB11346F5377ADB20298CC2E2CE86B72@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20240709135152.185042-1-biju.das.jz@bp.renesas.com>
+ <20240709135152.185042-6-biju.das.jz@bp.renesas.com>
+ <20240727010021.GG300@pendragon.ideasonboard.com>
+In-Reply-To: <20240727010021.GG300@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY3PR01MB11848:EE_
+x-ms-office365-filtering-correlation-id: a634f78c-92d5-4863-d2b5-08dcafafa541
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?V0ExbnljUGZmRllxZGM1RkZWdXkwRlBTeCtnMlhkMFgveHpYV1Q2M1VlWkZ3?=
+ =?utf-8?B?NzM3dTk3eStxNDI3eUpjTkRXTTlYejhWSUI0d2prR01IK0gwM05zYTZRWWFj?=
+ =?utf-8?B?QWZBZjFxM1d2UlluWlAzdXpWZFRyRSt4THNSb213WUVwaCswZC9aVGRRdUd3?=
+ =?utf-8?B?cmgxaHd5NWRwYnVScUVsMEw3UmZkM2w5Z25wVkJCalBqS2RUNnhCSWYraEJG?=
+ =?utf-8?B?T3ZsK0YyTis0TGY3ZjE1ZVU4VFY2ektQQUd1c0l3WVc3UlI3Y1RrNWptUEVT?=
+ =?utf-8?B?YXg4QXczY3JKVmtFTXd5b0VzUkJjeFF0MktWdUlyVVBnTkhQbzdiR0VZR3Ev?=
+ =?utf-8?B?SFNsQlRDc3RTcFlEZVVveWJRb1d2b29jRTJBZ2dPOVMxcy9yZThBK3NkZHpF?=
+ =?utf-8?B?RGp3aVcxcGRnRlc2WVZ1U25iQ2o2ejVFYlRnVFdXNzR3YUNvMmlPdk53WDNF?=
+ =?utf-8?B?OXBZMVNrSWNtb25ydEZpa3A4eS9wdklJSXl0STZWeXJ2cU1DTDVCSGpJdE9C?=
+ =?utf-8?B?NmxXQXl5LzNRR09jaU1XTTREa1dEeWlieTVtL3ppMzNKaEFDY1RGUVFRSWIv?=
+ =?utf-8?B?eTdyQXZPSGhWbjZmVHpvZXBMZHBoRlJuNEpKcWxOcnV2a3RhcjdBOUcvbzdE?=
+ =?utf-8?B?SE51YnZVWUR0WGdER20rZzF1dXFJZHM5M2I4TVNwK3o5SHJZRnh4T3AxK1Q3?=
+ =?utf-8?B?dERUYm1DMmEydzBhQ1JjRHhXbW55c1ZkL003WFlzR3lXSmttRTc0cDkrT1Jo?=
+ =?utf-8?B?MGp2SngxOVFtZWtHMmhrTFc2Z2hQYlJiN0plVXlKSVdwN203WU5CRGZNTUJF?=
+ =?utf-8?B?THJleWczTW0rOVNreXg0N3VWT09NTDJiaWtXVEgxbXFEdFJoTVEwU25GTVli?=
+ =?utf-8?B?d2tURU5VSVBVZDBJUHhXVGVrUVBTd3hVT2VFMCtrVVRHRnd5bUprZlBMRjRP?=
+ =?utf-8?B?cFBEZkFsb2pqNFl3OGZySmd0aitsRFJWK0dibjdTcGE4OXhsVUxWTXM3T0FW?=
+ =?utf-8?B?OTU5NDAxcmFUdElwSFFHazFPTnc5bFBWRkpzeDQ5WStKRW5wTDJOZVV6SjJK?=
+ =?utf-8?B?QTQwV2wxNFNYdjdneURRNE01THgwUW91b1AxNDhUTXpMbEl4L2lCUC9TR3h2?=
+ =?utf-8?B?OTg5VUZkUWNNdzZUakZyMVh2NlArdVMxVzJadHFncUM4Rmp0TW42ek81cC9W?=
+ =?utf-8?B?NnRGTEprcVBPS2o3ekN0eHQzWEp4bE9ibmN2Nmk5MGhOWEFvWWkvbTIzNmlM?=
+ =?utf-8?B?cTByQWV4K0YxV2FQYzJGMjlrUGNud3RYT3hSNjVnMmRJS2tOUFVGWHVCOGZo?=
+ =?utf-8?B?RCthWWtWWCtDR29BWHFZaTNIRG1qdTJEeElqb3Y1N1BpYnpXMjBNeUMrUjZk?=
+ =?utf-8?B?Vlo1RkV6SzY1Y21XZ2FxTUpmNXZ6b1F4VWl4bmxRZkZ2NGxUcjRMYUx4ei9T?=
+ =?utf-8?B?c1lnTUlUbVRRUWhJMFBidTZ0Uzg4bGY1NUlOejVpclRzZkhTSWJDT1ZPdWNl?=
+ =?utf-8?B?bUZudE1zUmh3ZzFCSU5rN2pJbXcyOU1xR2VHWXBQdGVXZkE2Tm91cHk3MUVX?=
+ =?utf-8?B?RVFQN3lUblc1NkVsVUNxS0pKbCtFWWxVYmFnYVYrZ0s4UG1sczBGUmQ0Vkl6?=
+ =?utf-8?B?aGN0U3BLZUI1UitWeTF3VUpxdlNtYmRnT3FUVGY5cGU4aVZaT3YydlVRS3F2?=
+ =?utf-8?B?L25qQlMybjNSQ2c0bTQvZUM3eXBXNC9TZXpDT29uRGFIYzFyb2lyMFlrNzd4?=
+ =?utf-8?B?RUpIYjNSRUdzY3gwWVpwbUxMT3VYQkhZMk1WbGlQRkhiSEVnQ1k3WDh1N085?=
+ =?utf-8?B?eHdqT0lZcThxcGFFYjRaZ2kwaUszZm00QUdKV0lneURpeTRqK0RMOFRrZ1pi?=
+ =?utf-8?B?czBYdDBnNkNvN0R1Um1qMVpDN0FvZGFMeHYwZFQwaEk1NHc9PQ==?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Z3NTMXZScGNxNEFxLzJDN0V6ejh0YmJ0aWZOSTV3WDg5Nm4wZEt1Qm41dEx2?=
+ =?utf-8?B?a0lEdS92YU5GS3BOK1Ewbms2V1cwd0QrWWU3ZU95aytXbGt3UVNMbCtUODBT?=
+ =?utf-8?B?Z2ZlSHdyVkhIRVI3RXRHSEUxdkJMcVg1N1doNkp0Skp5TytKRzlSZ1hNaUpM?=
+ =?utf-8?B?dXppTXhpM0RyVVZCL29pR1ErUDZDcDRZSFd3d3NvWnBQUlU3S3dodlN2WUs4?=
+ =?utf-8?B?ZmlObTVzdnJxVkxXd3kyZGRzZWJaVllnb0VWRWlvNnl2LzRzNjZ0K3VrcXhB?=
+ =?utf-8?B?SkJZTnN2VFlkN3NRM1RHa0d5L01QOWs1WFo2blg4a3U0RnZrYm9kUTZpd1Vk?=
+ =?utf-8?B?R0NYU1JzbHhlVzJ5TkUwcDBlUnF2NmVJaXdhLzJNM3R2NzNpNkNCclB5U2Vu?=
+ =?utf-8?B?ZTkyN0duR285V3RJQnZtY0xZWE40Y3p5NnFPQXNwRS81ZGdtSjM0Z0xJdkth?=
+ =?utf-8?B?Z2FrMkpTaU5DVzJVVHEwdExuTkdkYkdNaDdMSjFPQ29VUGZFamJ0VHR1UWQ2?=
+ =?utf-8?B?dWV0MUx4MjZ4c0lwNHU2WVZkMmhaODE0WDhyV1Rkb1NPRmo3UVd3cVlEZnV2?=
+ =?utf-8?B?NWl3MDFDWmlkNzNXSVZEOW9XQmwvZlBSdktiWDlSOGJGVnc1b1F3QXpMT0hl?=
+ =?utf-8?B?d015MTdxR080Q0ZTemJxUjVWUUhGcVZjY2Fqakw2aUNmbjZtSUVGaG9QOUdG?=
+ =?utf-8?B?MVdGTTQxbzJXZWFMVCtFbmVEYndYVWFIMTdsb25GbzV2bU4vc3lSTTl4VzZX?=
+ =?utf-8?B?U3Yra1RGMGF1d3JCTmY3eW1HVHhNUHBxRHRWWllBdXZUOEVvZTE3b1BaNXlz?=
+ =?utf-8?B?WXhaQzlnSW9aVG1ZN3VDZi9EbjFGblRNUEgxY0pOQmdiQlhVSElCeU4vd2dk?=
+ =?utf-8?B?dkFpRXBVcUtHSCt0aDQxbVpnVmdGNGRPVzhvaC9vbnRuWkUyaEhWWFdieDRP?=
+ =?utf-8?B?dGRzVGlPdUhoNm1qTXdnbDJ5RHZmQ1BQUnl5cWZPOWtOT1hqbXlWdkJRVWN2?=
+ =?utf-8?B?eFFyNjhuUXBXWGpMdEVyakRPcjNJWk5xQWJmeURaOXpnNUtZdkpQSDlUb3Yr?=
+ =?utf-8?B?Zk1sZ3Q0dnRPMGRjMlNxd1BwZ1R4MnJ4NzkzNmRvSGdaSFBwZnE0TjYrZUtZ?=
+ =?utf-8?B?aGhNbS9YRE1kRHFvR3RoRnRGK2ozRVRRU1lEZmFZSlRBaHFmcjRidGhlN2xR?=
+ =?utf-8?B?NDYyZ3puaUFiejFOOHI4d2Z2TzFYWi9za2JqTTcxdHN3VFcwRkVYUmovQ0R6?=
+ =?utf-8?B?SEpaaEVPenc4L0x5WVBRVWFxU09OTXZkQ1QydFR1dkhtYmNvWkhna3p5NTM0?=
+ =?utf-8?B?M29kS2Rhamt3Z3A4L3UyenBSNGhhNGcxY1dXMlVkRTh6SEZNa3BENndJSmxt?=
+ =?utf-8?B?eGlOSzZMU29zMGh1ZnNNQ0hBMzRxRzZsdEZFZlkyZXEyS0xva25XOWN0U0JW?=
+ =?utf-8?B?MFFJVWZScmw2QTJLcm96enpPVG9WaW1lczFSdjg2WHYrTHhNOWtTTFlZcnNt?=
+ =?utf-8?B?bHc3QmlSUmgrUDQrYk10R0RSclpOV3BaZUExQnNCTHZXSHRVV1N3cmo0WFps?=
+ =?utf-8?B?UWRlcFdIaWY3S0d5cHVPLzZzV01udDhyYzhJZW96TGJpcTZxSFBXYlZGSXdp?=
+ =?utf-8?B?WExiLzcySUR5cjJRVWxjUllVTlVXTFUvYWRJUmUrVnNGNWRYVUpobUdPVmtU?=
+ =?utf-8?B?bXVJaEQya2FqUis2Mzl6YW0yRng4QklkcXZYMVVIM3hsUFR6TFJuUFJrbWFq?=
+ =?utf-8?B?b1JpTFZqclBQaEVqYVZXNjlQdEtEaWtJVHlNejRTcFgxMVB3ei9TbjBuU2lI?=
+ =?utf-8?B?ak5vN0tRNmJKUTF6RU4rSTdGZVJPNjJkckVaaU83cC9mZ2p1NWN0YnVQT2Ny?=
+ =?utf-8?B?aE92cktzVmtJQkROSHdEcWo1M3NTZ1RscWViQlpzODRZdEpBd3Y5aU83Tys5?=
+ =?utf-8?B?V2t3SWcxTWpncU9HQmkycG1wVE5sekNEWWFDeVYraWdyczhROFo3cVNtZUNs?=
+ =?utf-8?B?a2NWRUVqdUF2OERWM2VwcHlkc0xBNkFvQThOYzQxUm5Vem15TXhCS1Ntc0RJ?=
+ =?utf-8?B?cHFBTFdVdVRPVTRVa2xOZXhQV0ZkNXd4ZU9waVdXMkpQY2R1aVJjVWFmOG1U?=
+ =?utf-8?Q?g5NHUJPs5uxO7oM6fXXnbSENW?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f521ed1b-17ce-4ccb-b14e-53fe5fbfee64@ideasonboard.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a634f78c-92d5-4863-d2b5-08dcafafa541
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2024 09:20:10.6393
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: H7mNV3EfuWPL+fdHzeoK+yg1KNC2Jye4AnLaWf/8THO+8FvgfFQORmQwWm+6VWARIUL6PZvUlSREu71UZEHB3+4yB1o2QimMpuFhOpLJRiw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11848
 
-Hi Umang
-
-On Mon, Jul 29, 2024 at 02:18:20PM GMT, Umang Jain wrote:
-> Hi Jacopo
->
-> On 29/07/24 1:42 pm, Jacopo Mondi wrote:
-> > Hi Umang
-> >
-> > On Mon, Jul 29, 2024 at 11:35:35AM GMT, Umang Jain wrote:
-> > > The imx335 reset-gpio is initialised with GPIO_OUT_LOW during probe.
-> > How is this related to this change ? The value to which the GPIO is
-> > initialized to in probe is the physical level.
-> >
-> > What matters is the gpio line active level, which should be described
-> > in the sensor's datasheet. What's the active level of the reset gpio
-> > line ?
->
-> The XCLR active level is "Low" at the init time. It is set to "high" during
-> power-on / normal operation
->
-
-Sorry for not being clear, but the physical active level is a property
-of the chip, and doesn't depend on the setting at init time made by
-the driver.
-
-According to the imx335 datasheet, the XCLR pin is said to be:
-High: normal
-Low: clear
-
-Which I presume means a physical low level puts the chip in "reset"
-state.
-
-> >
-> > > However, the reset-gpio logical value is set to 1 in during power-on
-> > > and to 0 on power-off. This is incorrect as the reset line
-> > > cannot be high during power-on and low during power-off.
-> > If the line is physically high or low only depends on how the active
-> > level is specified in DTS, not by the logical value provided to
-> > gpiod_set_value[_cansleep]()
->
-> True.
->
-> AS far as I can see, the DT binding schema specifies 'reset-gpios:' -
-> without the active level
->
-> The active level is I suppose, intentionally left to the DT implementation ?
-
-Not really a decision of the DT implementation, but rather a property
-of the chip, so I guess the line should be described as active low in
-bindings and initialized accordingly in DTS with the GPIO_ACTIVE_LOW
-flag.
-
->
-> > > Rectify the logical value of reset-gpio so that it is set to
-> > > 0 during power-on and to 1 during power-off.
-> > This is correct, the reset line should be set to logical 0 (inactive)
-> > during power on and to logical 1 (active) when powering off. However
-> > the GPIO active state should have been specified in bindings and as
-> > this driver has been mainline quite some time, this change will break
-> > .dtbo already used succesfully with previous kernel releases.
-> >
-> > Is this an issue ?
->
-> Yes, if the patch is accepted, the Device-tree implementation for IMX335
-> will need to be adjusted accordingly. This can be an issue definitely - but
-> on the other hand, this attempts to rectify a mistake, no?
->
-
-Indeed it does rectify a mistake, but I presume existing dtbos have the
-gpio line described with GPIO_ACTIVE_HIGH, otherwise they wouldn't
-work with the existing driver version. Now, you change (or rather,
-fix) the driver, and existing dtbos in the wild (iow not in the
-mainline code base (*)) won't work anymore. The
-expectation is that we don't break working dtbos with new kernel
-releases, however I'm not sure how much this is actually enforced.
-I'll defer this call to maintainers.
-
-In case it is fine to break existing dtbos, I think a patch to the
-bindings to specify the gpio line active level would be required too ?
-
-Thanks
-  j
-
-(*) as far as I can tell no dts in mainline uses imx335.
-
-> >
-> > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > > ---
-> > >   drivers/media/i2c/imx335.c | 6 +++---
-> > >   1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> > > index cd150606a8a9..878d88b5f476 100644
-> > > --- a/drivers/media/i2c/imx335.c
-> > > +++ b/drivers/media/i2c/imx335.c
-> > > @@ -1171,7 +1171,7 @@ static int imx335_power_on(struct device *dev)
-> > >   	usleep_range(500, 550); /* Tlow */
-> > >
-> > >   	/* Set XCLR */
-> > > -	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
-> > > +	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
-> > >
-> > >   	ret = clk_prepare_enable(imx335->inclk);
-> > >   	if (ret) {
-> > > @@ -1184,7 +1184,7 @@ static int imx335_power_on(struct device *dev)
-> > >   	return 0;
-> > >
-> > >   error_reset:
-> > > -	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
-> > > +	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
-> > >   	regulator_bulk_disable(ARRAY_SIZE(imx335_supply_name), imx335->supplies);
-> > >
-> > >   	return ret;
-> > > @@ -1201,7 +1201,7 @@ static int imx335_power_off(struct device *dev)
-> > >   	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > >   	struct imx335 *imx335 = to_imx335(sd);
-> > >
-> > > -	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
-> > > +	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
-> > >   	clk_disable_unprepare(imx335->inclk);
-> > >   	regulator_bulk_disable(ARRAY_SIZE(imx335_supply_name), imx335->supplies);
-> > >
-> > > --
-> > > 2.45.0
-> > >
-> > >
->
+SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFy
+dEBpZGVhc29uYm9hcmQuY29tPg0KPiBTZW50OiBTYXR1cmRheSwgSnVseSAyNywgMjAyNCAyOjAw
+IEFNDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgNS85XSBkcm06IHJlbmVzYXM6IHJ6LWR1OiBB
+ZGQgUlovRzJVTCBEVSBTdXBwb3J0DQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gVGhhbmsgeW91IGZv
+ciB0aGUgcGF0Y2guDQo+IA0KPiBPbiBUdWUsIEp1bCAwOSwgMjAyNCBhdCAwMjo1MTo0M1BNICsw
+MTAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiBUaGUgTENEIGNvbnRyb2xsZXIgaXMgY29tcG9zZWQg
+b2YgRnJhbWUgQ29tcHJlc3Npb24gUHJvY2Vzc29yIChGQ1BWRCksDQo+ID4gVmlkZW8gU2lnbmFs
+IFByb2Nlc3NvciAoVlNQRCksIGFuZCBEaXNwbGF5IFVuaXQgKERVKS4NCj4gPg0KPiA+IEl0IGhh
+cyBEUEkgaW50ZXJmYWNlIGFuZCBzdXBwb3J0cyBhIG1heGltdW0gcmVzb2x1dGlvbiBvZiBXWEdB
+IGFsb25nDQo+ID4gd2l0aCAyIFJQRnMgdG8gc3VwcG9ydCB0aGUgYmxlbmRpbmcgb2YgdHdvIHBp
+Y3R1cmUgbGF5ZXJzIGFuZCByYXN0ZXINCj4gPiBvcGVyYXRpb25zIChST1BzKS4NCj4gPg0KPiA+
+IFRoZSBEVSBtb2R1bGUgaXMgY29ubmVjdGVkIHRvIFZTUEQuIEFkZCBSWi9HMlVMIERVIHN1cHBv
+cnQuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVu
+ZXNhcy5jb20+DQo+ID4gLS0tDQo+ID4gdjEtPnYyOg0KPiA+ICAqIE5vIGNoYW5nZS4NCj4gPiAt
+LS0NCj4gPiAgZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfY3J0Yy5jIHwg
+IDkgKysrKysrKystDQo+ID4gZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVf
+ZHJ2LmMgIHwgMTEgKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxOSBpbnNlcnRp
+b25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfY3J0Yy5jDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0v
+cmVuZXNhcy9yei1kdS9yemcybF9kdV9jcnRjLmMNCj4gPiBpbmRleCA2ZTdhYWM2MjE5YmUuLmIx
+ODEyZjk0NzI1MiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1k
+dS9yemcybF9kdV9jcnRjLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1k
+dS9yemcybF9kdV9jcnRjLmMNCj4gPiBAQCAtMjgsNiArMjgsNyBAQA0KPiA+ICAjaW5jbHVkZSAi
+cnpnMmxfZHVfdnNwLmgiDQo+ID4NCj4gPiAgI2RlZmluZSBEVV9NQ1IwCQkJMHgwMA0KPiA+ICsj
+ZGVmaW5lIERVX01DUjBfRFBJX09FCQlCSVQoMCkNCj4gPiAgI2RlZmluZSBEVV9NQ1IwX0RJX0VO
+CQlCSVQoOCkNCj4gPg0KPiA+ICAjZGVmaW5lIERVX0RJVFIwCQkweDEwDQo+ID4gQEAgLTIxNiw5
+ICsyMTcsMTUgQEAgc3RhdGljIHZvaWQgcnpnMmxfZHVfY3J0Y19wdXQoc3RydWN0DQo+ID4gcnpn
+MmxfZHVfY3J0YyAqcmNydGMpDQo+ID4NCj4gPiAgc3RhdGljIHZvaWQgcnpnMmxfZHVfc3RhcnRf
+c3RvcChzdHJ1Y3QgcnpnMmxfZHVfY3J0YyAqcmNydGMsIGJvb2wNCj4gPiBzdGFydCkgIHsNCj4g
+PiArCXN0cnVjdCByemcybF9kdV9jcnRjX3N0YXRlICpyc3RhdGUgPQ0KPiA+ICsJCQkJCXRvX3J6
+ZzJsX2NydGNfc3RhdGUocmNydGMtPmNydGMuc3RhdGUpOw0KPiANCj4gSSB0aGluayB5b3UgY2Fu
+IGF2b2lkIHRoZSBsaW5lIGJyZWFrIGhlcmUuDQoNCk9LLCBJIHdpbGwgbWFrZSBpdCBpbmxpbmVk
+Lg0KDQo+IA0KPiA+ICAJc3RydWN0IHJ6ZzJsX2R1X2RldmljZSAqcmNkdSA9IHJjcnRjLT5kZXY7
+DQo+ID4gKwl1MzIgdmFsID0gRFVfTUNSMF9ESV9FTjsNCj4gPg0KPiA+IC0Jd3JpdGVsKHN0YXJ0
+ID8gRFVfTUNSMF9ESV9FTiA6IDAsIHJjZHUtPm1taW8gKyBEVV9NQ1IwKTsNCj4gPiArCWlmIChy
+c3RhdGUtPm91dHB1dHMgPT0gQklUKFJaRzJMX0RVX09VVFBVVF9EUEFEMCkpDQo+ID4gKwkJdmFs
+IHw9IERVX01DUjBfRFBJX09FOw0KPiA+ICsNCj4gPiArCXdyaXRlbChzdGFydCA/IHZhbCA6IDAs
+IHJjZHUtPm1taW8gKyBEVV9NQ1IwKTsNCj4gPiAgfQ0KPiA+DQo+ID4gIHN0YXRpYyB2b2lkIHJ6
+ZzJsX2R1X2NydGNfc3RhcnQoc3RydWN0IHJ6ZzJsX2R1X2NydGMgKnJjcnRjKSBkaWZmDQo+ID4g
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9kdV9kcnYuYw0KPiA+
+IGIvZHJpdmVycy9ncHUvZHJtL3JlbmVzYXMvcnotZHUvcnpnMmxfZHVfZHJ2LmMNCj4gPiBpbmRl
+eCBlNWVjYTg2OTFhMzMuLjM0NTM0NDQxYjdlYyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vcmVuZXNhcy9yei1kdS9yemcybF9kdV9kcnYuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9yZW5lc2FzL3J6LWR1L3J6ZzJsX2R1X2Rydi5jDQo+ID4gQEAgLTI1LDYgKzI1LDE2IEBA
+DQo+ID4gICAqIERldmljZSBJbmZvcm1hdGlvbg0KPiA+ICAgKi8NCj4gPg0KPiA+ICtzdGF0aWMg
+Y29uc3Qgc3RydWN0IHJ6ZzJsX2R1X2RldmljZV9pbmZvIHJ6ZzJsX2R1X3I5YTA3ZzA0M3VfaW5m
+byA9IHsNCj4gPiArCS5jaGFubmVsc19tYXNrID0gQklUKDApLA0KPiA+ICsJLnJvdXRlcyA9IHsN
+Cj4gPiArCQlbUlpHMkxfRFVfT1VUUFVUX0RQQUQwXSA9IHsNCj4gPiArCQkJLnBvc3NpYmxlX291
+dHB1dHMgPSBCSVQoMCksDQo+ID4gKwkJCS5wb3J0ID0gMSwNCj4gDQo+IFRoaXMgbWF5IG5lZWQg
+dG8gYmUgcG9ydCAwIGRlcGVuZGluZyBvbiB0aGUgb3V0Y29tZSBvZiB0aGUgZGlzY3Vzc2lvbiBv
+biB0aGUgRFQgYmluZGluZ3MuDQoNCkFncmVlZC4NCg0KQ2hlZXJzLA0KQmlqdQ0K
 
