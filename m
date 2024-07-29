@@ -1,180 +1,176 @@
-Return-Path: <linux-media+bounces-15450-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15451-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569F493F5A7
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:42:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B72593F5AD
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:42:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B95FEB21AEC
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 12:42:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 412191C21A35
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 12:42:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F9C01487F4;
-	Mon, 29 Jul 2024 12:42:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C20149DE1;
+	Mon, 29 Jul 2024 12:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="zDIMeh0K"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SPyH3Z9n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E69B1474CF;
-	Mon, 29 Jul 2024 12:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A4F14900C
+	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 12:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722256922; cv=none; b=sNSnZS7FpSN9CNTejmfKGsH6Cq0cMIImnLprci4KDfYEUvHBBPb7xetU4pjrozJZdUZSPHQrkuPAeeckZK61zWke6lwg1LN4k6kW4lMBNX32EA4eIZnQfoE8w1kUKm2elT5s8zJ5KyHM99WX0QSLuK2HTOGWL/ymNN+ug+nsTPc=
+	t=1722256938; cv=none; b=crWTKDwDc2NLCEwaJy/7u2gh1UixlLKAV2xBztYSevRjBApSrtUjNUMttWmMpUB+P1sMpGrWu9KY3y9UiUtBTEO8lqNjxrXJNPdroWlhDFvvJm40ZNVlZ8nC+ZZvLrH22gcN/PkQe8oGVZupw0f6FR4O/62r5c4WZfQ2vkWqR+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722256922; c=relaxed/simple;
-	bh=X2u0PrWontZeldcDpL+njEQwMDia9hCQv81wis8dBZM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q/On7Ju2T+MOcD16D3zFmUK7hAfEmK7Crjm+VuAGsBnx9AMXCa/Xb2MByWCn78WHruKiNHGNx2FMK+mZq8YuE001i0FuMD8jd5RdzSXiuavm+plGZn5i3YBITXgXsWbrcBr78hlMTobSdoUN10iLk1ljRhP1Cho949A49FDnyjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=zDIMeh0K; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1722256919;
-	bh=X2u0PrWontZeldcDpL+njEQwMDia9hCQv81wis8dBZM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=zDIMeh0KQ57DH7NdTsBL1i5R22tUOSs33l+APLxNicDEnocmlSDFe7YGBKzUhQsYg
-	 KcJi6lIdBhrDlPPF9PBtsPqmPO8GrtyPjQlDGVCSh/Q7bkax57y1k4/fXgVbqY/Mv7
-	 22BxG+F7nw9zuefRiT0dbbI/N/dZdgAZNF1OM58yJiQSIzCowrJuUntD3t/VeicCd/
-	 T3/875y2VBHgiOEbd4msgw5NsVLZaz0k8YGO+sFLiK64kwM5ovVQhXn3aqOii8+u9q
-	 FykHVw409xZoImd55I5O6WJMv7EhWZP/4VDWi8pbNYxkXBwGhvOT6Ij4iFh/dqRLbG
-	 WgkpulPZQudQA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 194A437804D4;
-	Mon, 29 Jul 2024 12:41:59 +0000 (UTC)
-Message-ID: <ae3a3925-0c34-4e05-8786-f76debadab9a@collabora.com>
-Date: Mon, 29 Jul 2024 14:41:58 +0200
+	s=arc-20240116; t=1722256938; c=relaxed/simple;
+	bh=RYzzjJz5prGd3ejqUdhZWnFpTvpjktmzCWoGFDU6NgQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TNyqlG5Zym8DqjOvOB6LqlXzkULdaO1FylfVTbNRWCiFAYrxMa9IOhBYdCUWD8jll+IL1jAVjCErfbmThJVZpmz2kkeYhB7dzSsyKbwjuxwJAGgKoLJwGpBQCbToLgjgpBz0W47hNgZiWFWu2KRk5oNkJRhldNiTuPEVWI0HWCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SPyH3Z9n; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-428119da952so15871075e9.0
+        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 05:42:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722256935; x=1722861735; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FPb05zxTMe2gnwm5BKRFygHzXK2icK+E4h74wEJLW4g=;
+        b=SPyH3Z9nrL1KDs06wxR+0t2pO9jU4QN7DskCrnJuBiOQejJqHZIL1sx6kAOITxYTLq
+         xnl0A4Sr4PXsffct+m5rcrkDgnOcHVvhOEBjr+xGgLMfSZm1t7zsevBP/zmrGDVTZkyD
+         6jW7wAwdwzEzy6dQoPKbCfCOcI8OWXIqvq536CQ5k/U/fR6EFsT/Wd3V70oxdC6D2HJN
+         8tT005a1JDv5vWicn+k2i2xNSr13D0B3XS+sHE3LE0Ehhc8lVd+AlJfCqZMk8v5LgVqw
+         hYH4znYna6P9NfTLOZ/Wr27hnsOyP8vhbjytbf+2k6gv//MRlxGpgsZhpPqqz/U+1sHo
+         +ddQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722256935; x=1722861735;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FPb05zxTMe2gnwm5BKRFygHzXK2icK+E4h74wEJLW4g=;
+        b=mbKyTCAbQBVdZbIdaBInUI0WRiwxLaJz0dxTzi0cofWhgDRQuMHchrchrYcHUB2Q2p
+         jk6vgQYLJY7ak20UPQaOaI7kRFCiXku4NJXkMN71pShtSviGR5//beZdddTGWeO8Ur0O
+         V/FtNhETZ5ubA9E58EMb24CJKQfhZoctlCee5GhX8ruzY1XEDcczYRpBpw7YLfAjKaeT
+         ynuOnGnKP+PX6JVXilMQSeiLVxdMGrzQddfwG0aR02RPwZW6+v2YsC8EBiz6MfOZHx8A
+         B0E3CMxc51QgS8mN8y8Qi1rlI9pg6Aq8LEotoTSc2Huh7Cw7e3irzB4NFtfbRdzE/UNr
+         zz5w==
+X-Gm-Message-State: AOJu0YyY5tDs26iPO2fSghsUObeLLRwmqNJsmO6x1Ta8loZy0YvhW2w2
+	uuA3elhSL+pQ9N2x5IpzKxNJQkV6WFeIZZ18C5hySlC3DZVMKWMoO1Xa5W42q14=
+X-Google-Smtp-Source: AGHT+IFCPeByOJeTAi0+ljH2ZZVPmMsgCbFxLiDS7EiauYHmtB3LsGyZ4a45Zcu5haF0ODLghRY2uA==
+X-Received: by 2002:a5d:4392:0:b0:368:75:2702 with SMTP id ffacd0b85a97d-36b5d0b0472mr4241650f8f.13.1722256934589;
+        Mon, 29 Jul 2024 05:42:14 -0700 (PDT)
+Received: from [127.0.1.1] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367c092esm12106275f8f.13.2024.07.29.05.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 05:42:14 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v3 0/2] media: qcom: camss: Fix two CAMSS bugs found by
+ dogfooding with SoftISP
+Date: Mon, 29 Jul 2024 13:42:01 +0100
+Message-Id: <20240729-linux-next-24-07-13-camss-fixes-v3-0-38235dc782c7@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] media: mediatek: jpeg: support 34bits
-To: Jianhua Lin <jianhua.lin@mediatek.com>, daniel.almeida@collabora.com,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20240728120140.25135-1-jianhua.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240728120140.25135-1-jianhua.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABmOp2YC/4XNwQqDMAwG4FeRnpdRa611p73H2KGrUQubHa0rD
+ vHdF4XBdvIS+P+QLzOLGBxGdspmFjC56PxAoThkzPZm6BBcQ5kJLiSv8gLubnhNMOA0gpDAK6D
+ OmkeM0LoJaZpaW16r0pQNI+UZcFsQcrlS7l0cfXhvD1O+tl9b7topBw661XUpb1ZbXZ7pwgR/9
+ KFjK57EL6j2QUEgKm7rVlVStOIPXJblA3NLUKcgAQAA
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hansverk@cisco.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Milen Mitkov <quic_mmitkov@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
+ Johan Hovold <johan+linaro@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, stable@vger.kernel.org
+X-Mailer: b4 0.15-dev-13183
 
-Il 28/07/24 14:01, Jianhua Lin ha scritto:
-> the iommu HW supported 34bits iova space(16GB),
-> but mediatek jpeg enc/dec driver still is 32bit,
-> then need to set the bit32/bit33 iova to jpeg HW.
-> 
-> Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
-> ---
-> Changes compared with v2:
-> - remove dev_info() to print 34bits support info.
-> - keep of_property_read_bool() to check 34bits status,
->    because need to compatible old soc.
-> - use FIELD_PREP() and GENMASK() to generate bit mask.
-> - remove rdma pandig enable code, because the code not
->    related to 34bit support.
->   
->   .../platform/mediatek/jpeg/mtk_jpeg_core.c    |  8 ++-
->   .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  4 ++
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 59 +++++++++++++++----
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |  1 +
->   .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |  8 +++
->   .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 44 ++++++++++++--
->   .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |  7 ++-
->   7 files changed, 111 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index ac48658e2de4..abee5ee5c6e3 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1030,6 +1030,7 @@ static void mtk_jpeg_dec_device_run(void *priv)
->   	spin_lock_irqsave(&jpeg->hw_lock, flags);
->   	mtk_jpeg_dec_reset(jpeg->reg_base);
->   	mtk_jpeg_dec_set_config(jpeg->reg_base,
-> +				jpeg->support_34bit,
->   				&jpeg_src_buf->dec_param,
->   				jpeg_src_buf->bs_size,
->   				&bs,
-> @@ -1317,6 +1318,9 @@ static int mtk_jpeg_probe(struct platform_device *pdev)
->   		return -EINVAL;
->   	}
->   
-> +	if (of_property_read_bool(pdev->dev.of_node, "mediatek,34bits"))
+v3:
+- Amends the commit log for patch #1 per Johan's suggestion.
+- Link to v2: https://lore.kernel.org/r/20240716-linux-next-24-07-13-camss-fixes-v2-0-e60c9f6742f2@linaro.org
 
-I seem to remember that I already reviewed this part and said that this is a SoC
-capability, meaning that one SoC either always does, or always doesn't support
-34-bits IOVA.
+v2:
+- Updates commits with Johan's Review/Reported tags
+- Adds Closes: https://lore.kernel.org/lkml/ZoVNHOTI0PKMNt4_@hovoldconsulting.com
+- Cc's stable
+- Adds in suggested kernel log to allow others to more easily match kernel
+  log to fixes
+- Link to v1: https://lore.kernel.org/r/20240714-linux-next-24-07-13-camss-fixes-v1-0-8f8954bc8c85@linaro.org
 
-This means that this **shall not** be a devicetree property, but *must* be set in
-the platform data (mtk_jpeg_variant) for the specific SoC supporting that.
+V1:
+Dogfooding with SoftISP has uncovered two bugs in this series which I'm
+posting fixes for.
 
-> +		jpeg->support_34bit = true;
-> +
->   	if (!jpeg->variant->multi_core) {
->   		ret = mtk_jpeg_single_core_init(pdev, jpeg);
->   		if (ret) {
-> @@ -1564,7 +1568,8 @@ static irqreturn_t mtk_jpeg_enc_done(struct mtk_jpeg_dev *jpeg)
->   	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
->   	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
->   
-> -	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base);
-> +	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base,
-> +			ctx->jpeg->support_34bit);
->   	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, result_size);
->   
->   	buf_state = VB2_BUF_STATE_DONE;
-> @@ -1764,6 +1769,7 @@ static void mtk_jpegdec_worker(struct work_struct *work)
->   	ctx->total_frame_num++;
->   	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
->   	mtk_jpeg_dec_set_config(comp_jpeg[hw_id]->reg_base,
-> +				jpeg->support_34bit,
->   				&jpeg_src_buf->dec_param,
->   				jpeg_src_buf->bs_size,
->   				&bs,
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> index 8ba6e757e11a..bf65bb54a035 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-> @@ -34,6 +34,8 @@
->   
->   #define MTK_JPEG_MAX_EXIF_SIZE	(64 * 1024)
->   
-> +#define MTK_JPEG_ADDR_MASK GENMASK(1, 0)
-> +
->   /**
->    * enum mtk_jpeg_ctx_state - states of the context state machine
->    * @MTK_JPEG_INIT:		current state is initialized
-> @@ -209,6 +211,7 @@ struct mtk_jpegdec_comp_dev {
->    * @reg_decbase:	jpg decode register base addr
->    * @dec_hw_dev:	jpg decode hardware device
->    * @hw_index:		jpg hw index
-> + * @support_34bit:	flag to check if support dma_address 34bit
->    */
->   struct mtk_jpeg_dev {
->   	struct mutex		lock;
-> @@ -231,6 +234,7 @@ struct mtk_jpeg_dev {
->   	void __iomem *reg_decbase[MTK_JPEGDEC_HW_MAX];
->   	struct mtk_jpegdec_comp_dev *dec_hw_dev[MTK_JPEGDEC_HW_MAX];
->   	atomic_t hw_index;
-> +	bool support_34bit;
+- The first error:
+  A simple race condition which to be honest I'm surprised I haven't found
+  earlier nor has anybody else. Simply stated the order we typically
+  end up loading CAMSS on boot has masked out the pm_runtime_enable() race
+  condition that has been present in CAMSS for a long time.
 
-...and you don't need to add this member here, as struct mtk_jpeg_dev
-already has a pointer to mtk_jpeg_variant, which will contain the same
-member from platform data.
+  If you blacklist qcom-camss in modules.d and then modprobe after boot,
+  the race condition shows up easily.
 
-Regards,
-Angelo
+  Moving the pm_runtime_enable prior to subdevice registration fixes the
+  problem.
 
+The second error:
+  Nomenclature:
+    - CSIPHY: CSI Physical layer analogue to digital domain serialiser
+    - CSID: CSI Decoder
+    - VFE: Video Front End
+    - RDI: Raw Data Interface
+    - VC: Virtual Channel
+
+  In order to support streaming multiple virtual-channels on the same RDI a
+  V4L2 provided use_count variable is used to decide whether or not to actually
+  terminate streaming and release buffers for 'msm_vfe_rdiX'.
+
+  Unfortunately use_count indicates the number of times msm_vfe_rdiX has
+  been opened by user-space not the number of concurrent streams on
+  msm_vfe_rdiX.
+
+  Simply stated use_count and stream_count are two different things.
+
+  The silicon enabling code to select between VCs is valid but, a different
+  solution needs to be found to support _concurrent_ VC streams.
+
+  Right now the upstream use_count as-is is breaking the non concurrent VC
+  case and I don't believe there are upstream users of concurrent VCs on
+  CAMSS.
+
+  This series implements a revert for the invalid use_count check,
+  retaining the ability to select which VC is active on the RDI.
+
+  Dogfooding with libcamera's SoftISP in Hangouts, Zoom and multiple runs
+  of libcamera's "qcam" application is a very different test-case to the
+  simple capture of frames we previously did when validating the
+  'use_count' change.
+
+  A partial revert in expectation of a renewed push to fixup that
+  concurrent VC issue is included.
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (2):
+      media: qcom: camss: Remove use_count guard in stop_streaming
+      media: qcom: camss: Fix ordering of pm_runtime_enable
+
+ drivers/media/platform/qcom/camss/camss-video.c | 6 ------
+ drivers/media/platform/qcom/camss/camss.c       | 5 +++--
+ 2 files changed, 3 insertions(+), 8 deletions(-)
+---
+base-commit: c6ce8f9ab92edc9726996a0130bfc1c408132d47
+change-id: 20240713-linux-next-24-07-13-camss-fixes-fa98c0965a5d
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
 
