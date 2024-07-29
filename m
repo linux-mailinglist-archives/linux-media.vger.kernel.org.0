@@ -1,152 +1,196 @@
-Return-Path: <linux-media+bounces-15453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15454-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690F593F5B5
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:43:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDBA93F5D3
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:47:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C00B4B20AB9
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 12:43:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDF311C22114
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 12:47:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2128814F115;
-	Mon, 29 Jul 2024 12:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE49315444D;
+	Mon, 29 Jul 2024 12:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zdIdYL+5"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Vl9Hj31U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F49149DEA
-	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 12:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3F814F9CF
+	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 12:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722256940; cv=none; b=ZJtTd81JpF5V8qEAcFvKhYxQdQPnW6wf0GtsQdJi788QZP3p5SQfyXNeDhuXwpsrjCqHb0k8WU3iCCMY6KfWkhZZxT+Kg3eQXkxRj+Y0xh4L29rZyEqqQqc29yxRGvIshIAMZ3dDVyHO5owJowdxLtgDR/oCCOoI4J0VbLG1yrk=
+	t=1722257206; cv=none; b=jr0MEyq2HQqYk3fDhgIwjwEC8OVUVajlqlzZ3krmavFqtkKS4yqxxyxetSlrWDqMM9/ISLblnqZ1haZOdGTLgg336yC7y2XB7NYOUF0m1S314a5Qby2jLj8aXWyFXEJvjL6wp93PCB53eAsZKK0LI7yk2cakgrCRL13NIO4+Pps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722256940; c=relaxed/simple;
-	bh=XMtSAnQLUPLTjEcZ9/jJuTztPkljj4KBCEwVdIRm9FQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RhsrDXOcFu15Zv9A+xj7pKvwacHUuoVqlMzz6uGxe/07OSwK6Bw0ArMoqCDGKyrEvecCZe4+batj0ByIPe0VV5pEgEMgYw/awi0EenocCtBVxqZLNYWqAy6aIAJ2UdhAHrKb0cwGOCekxUbcclWxNHcL8AiPRj3qi1QiRwWQ5CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zdIdYL+5; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3687fb526b9so1347633f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 05:42:18 -0700 (PDT)
+	s=arc-20240116; t=1722257206; c=relaxed/simple;
+	bh=IpoG1lr/gzkzVwJgoRWnmNxi6CMwEU4ctEbjih6yxYA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gdnbpxzrYCZzHWDdkn9d3OqUpkF5zU7GlpLQkUDNZTDtfkN5Yg6Tl9kPsZ3mW0efps+9HosIjvnA40ye8Ad9hj8Rd1pJRkePRWK84YBHINs2lyPS7XVFqhZG7dnPMOBhwWpauqZb2rfgzkHOwPfEqAapBsaXY6h0cgJDBgahoPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Vl9Hj31U; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7a94aa5080so402520266b.3
+        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 05:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722256937; x=1722861737; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N37H6kLbkNAIPuExxunsB7bhPLTHsDDj/8KnxxdH8yw=;
-        b=zdIdYL+5faQpUDJZwI9HxYaAMurA7BiYm+TksSWvmQGV+37eD/VWOMxc71Z/GNIJY7
-         6T808NtQfItXKarLR2yWJg63UioqK9129dtyXa2TKxQflgtmr1k66YSpdKhkrpwBdzk6
-         /nA4cGBVgwe3DDGTTHD51/whL66ZH4wXzuB0OsuGVlulJGO1A7TbcIjxiCqm9uy86O4c
-         d+TRsVLkhIvauVLiGi19uEI4FDWl0vDR4S0nAOf4dmSh3qu/7C9tHZF1/8xk2eItr5dX
-         Xx8SmFfGQHCKrW667KKG76uYtFtU3KjgI/TnE/VzYKoQCduOjarIbPh+PZGCmViZezrM
-         4+3g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722257202; x=1722862002; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xw9owQO3ke8d+y01UUou/ic5P0UC0KrCWnrceDha0Ug=;
+        b=Vl9Hj31Ukjh+0XXek70d4b3McD1qt96OPDKBaQrTpsfTO9oyL7oJw4b+nGr1pAE/SS
+         MD76Sbx1JqSacRpsK5EyA68f/dZsfA5ENvNjvmdmgFGCttwFpbzSVJdAf3puhbV/4zGI
+         0Wy0n2Ln2qqeSL2YJA/QgaYy2vb2kcKW1nTXXsk2cDxjILfUTlbAxbXO4UY9Blc2m2vK
+         s48wIutlKm5AhKQyzTUEeBmt2RbHrXVoDMSIJtCzmZipawRnCpPHGQoF6f8GD2JLrs6e
+         wqHJc0nccSfk7QI2WHFubBNWvBHEKCxKjHdhBuzCOsKifOqAPuQmz+JoREvV0llUbZnr
+         c1XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722256937; x=1722861737;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1722257202; x=1722862002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N37H6kLbkNAIPuExxunsB7bhPLTHsDDj/8KnxxdH8yw=;
-        b=NvG5TxK1gbs5CBeJ1CLky4C7vhYY1lT17cfrAfJ0k91zkzFqNbz5azdIDqn4reA1/+
-         hN0fLUvvesl/0xkFyi2PB1fwl0l1My/hwuIy8to/wE4U/wYioA6Rm6a6RY8054kGzK3D
-         TyHSrPYkDgOhLB2dEQVu8m2XuV2RIA+0lDmXd48E5aBITB9YLF4dPfKeRfKxx0vCH2uX
-         JRJLNU6RTaFu2+ENuxIXjAY/0oZB2gZCj3SJBeKgKqHvHOLIrnZaw3YxADhiEyMqRdfq
-         9c76EUHyD7B1RAEo6h2xGoWsGHHYrHlDpjAlX7uSAhW1UnBZqJFM9q2CdURESS+7d9F2
-         Dl/Q==
-X-Gm-Message-State: AOJu0YygaPbkJ+sPWQMKuCRAdWZ1vIH7oYn07Pt/k1J7iZbrq8+tz4zZ
-	MEIizBDyosc+WCxlsHSaDYek89z+NBPfbJvR0bmCWfCClEm5w6AVrkHAHjYX4e7tZt1/3E5C0aY
-	XEHA=
-X-Google-Smtp-Source: AGHT+IFd9o55Nf2Yjsmn3MKtdq05hMAb79DL3MCHg9LTvgi6dSD5URw35jk1cVD61sFRmsWeY6X4Hw==
-X-Received: by 2002:a05:6000:1a53:b0:367:9851:4f22 with SMTP id ffacd0b85a97d-36b5d0cc08cmr4558101f8f.58.1722256936868;
-        Mon, 29 Jul 2024 05:42:16 -0700 (PDT)
-Received: from [127.0.1.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367c092esm12106275f8f.13.2024.07.29.05.42.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 05:42:16 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Mon, 29 Jul 2024 13:42:03 +0100
-Subject: [PATCH v3 2/2] media: qcom: camss: Fix ordering of
- pm_runtime_enable
+        bh=Xw9owQO3ke8d+y01UUou/ic5P0UC0KrCWnrceDha0Ug=;
+        b=Wy+Q3AQq6tzboHkF0HEnk3YvbHURl2OfbVqvvhXH525Uvv0l9Hdqir+WxAMEnNsabH
+         lQ/EsFoGgwgGBLG1BixGVjgF/T8fnrdI7tqn7wXHY+7++MeUsd2TXdi5ipdtPbFTLO8Y
+         07IeLvHe3dKaBVOCC8ZHpEhmYxC9MsXCqXMpOq1YEqSG0vldvx3+W/VFhammkjXEmQ/H
+         j9JOsVPYA0nk6Sw3nXQ96QaXaJ5Z2LBPcPEtIh2IZH69BA/HoksqoVMNrC+0zQ32pRup
+         sOiGWnX34fUT2IuaU+s9GByZA8nvrM5j6r3MKK+b60r3SlHlZgJU7mSAlUVZlHKObGc9
+         xdBw==
+X-Forwarded-Encrypted: i=1; AJvYcCUriw46lZo0gSvt3/Eo/EHaa7HgvtystjdklE+9wy3DcqAi49i3wea+Zog5WmyWT6AAeZwvGFdzAc5pwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1TtBGMH3XFlTpnCjaTVQ2DW8OAH/f6JOx4Au8jSVIMSBKUq7m
+	2zjBPDrEU4JsL7PZEkfVDpv6tFn9mInKJ/gP5PiMD1RR1dJ69gelhFRpmBAlVqi+gBi4aqlvp6n
+	KTH04JIWVdf3iMzuaYl5fr4PogzmkOfY3sy3d4Q==
+X-Google-Smtp-Source: AGHT+IHinY1JfNv/mvpMM5Yfya33RSJgmSSwyZAu9jSx+bnpuWuKGvwHZZBD/MV0VUfT3CqvD4NAwzRkoPIdWhAyZ+w=
+X-Received: by 2002:a17:907:2d86:b0:a77:b0a4:7d88 with SMTP id
+ a640c23a62f3a-a7d3fdb79e8mr659217566b.10.1722257202254; Mon, 29 Jul 2024
+ 05:46:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240729-linux-next-24-07-13-camss-fixes-v3-2-38235dc782c7@linaro.org>
-References: <20240729-linux-next-24-07-13-camss-fixes-v3-0-38235dc782c7@linaro.org>
-In-Reply-To: <20240729-linux-next-24-07-13-camss-fixes-v3-0-38235dc782c7@linaro.org>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hansverk@cisco.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Milen Mitkov <quic_mmitkov@quicinc.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- Johan Hovold <johan+linaro@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, stable@vger.kernel.org
-X-Mailer: b4 0.15-dev-13183
+References: <20240704-add-mtk-isp-3-0-support-v5-0-bfccccc5ec21@baylibre.com>
+ <20240704-add-mtk-isp-3-0-support-v5-3-bfccccc5ec21@baylibre.com> <647738c5c776a9ec07615e67094c4141fdf051eb.camel@mediatek.com>
+In-Reply-To: <647738c5c776a9ec07615e67094c4141fdf051eb.camel@mediatek.com>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Mon, 29 Jul 2024 14:46:29 +0200
+Message-ID: <CAEHHSvYqT5-s57FijOf+SfLYF4znjaseazxiY-07jVHs09iK6Q@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 sensor interface
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+	"robh@kernel.org" <robh@kernel.org>, =?UTF-8?B?QW5keSBIc2llaCAo6Kyd5pm655qTKQ==?= <Andy.Hsieh@mediatek.com>, 
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>, 
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	=?UTF-8?B?TG91aXMgS3VvICjpg63lvrflr6cp?= <louis.kuo@mediatek.com>, 
+	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>, "pnguyen@baylibre.com" <pnguyen@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-pm_runtime_enable() should happen prior to vfe_get() since vfe_get() calls
-pm_runtime_resume_and_get().
+Le jeu. 18 juil. 2024 =C3=A0 04:44, CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89) <ck=
+.hu@mediatek.com> a =C3=A9crit :
+>
+> Hi, Julien:
+>
+> On Thu, 2024-07-04 at 15:36 +0200, Julien Stephan wrote:
+> >
+> > External email : Please do not click links or open attachments until yo=
+u have verified the sender or the content.
+> >  From: Louis Kuo <louis.kuo@mediatek.com>
+> >
+> > This will add the mediatek ISP3.0 seninf (sensor interface) driver foun=
+d
+> > on several Mediatek SoCs such as the mt8365.
+> >
+> > Then seninf module has 4 physical CSI-2 inputs. Depending on the soc th=
+ey
+> > may not be all connected.
+> >
+> > Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+> > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+>
+> [snip]
+>
+> > +static const struct mtk_seninf_conf seninf_8365_conf =3D {
+> > +.model =3D "mtk-camsys-3.0",
+> > +.nb_inputs =3D 4,
+> > +.nb_muxes =3D 6,
+> > +.nb_outputs =3D 4,
+> > +};
+> > +
+>
+> I think you should directly define these value as symbols because now
+> only support one SoC.
+>
+> #define MODEL     "mtk-camsys-3.0"
+> #define INPUT_NR  4
+> #define MUTEX_NR  6
+> #define OUTPUT_NR 4
+>
+> Because we don't know which SoC would be upstream later, maybe the next
+> SoC would be
+>
+> static const struct mtk_seninf_conf seninf_83xx_conf =3D {
+>         .model =3D "mtk-camsys-3.0",
+>         .nb_inputs =3D 4,
+>         .nb_muxes =3D 6,
+>         .nb_outputs =3D 4,
+>         .support_xxx =3D true;
+> };
+>
+> then model, nb_inputs, nb_muxes, and nb_outputs has no difference, so
+> it's not necessary to define them as variable. So define them as
+> constant now, and when next SoC upstream, then we know which one would
+> be variable.
+>
 
-This is a basic race condition that doesn't show up for most users so is
-not widely reported. If you blacklist qcom-camss in modules.d and then
-subsequently modprobe the module post-boot it is possible to reliably show
-this error up.
+Hi CK,
 
-The kernel log for this error looks like this:
+Thank you for your feedback on this series.
+We already discussed this in an early version of the series (see
+https://lore.kernel.org/all/2dd412f0-86cb-3ae0-305d-0e8192b9128a@collabora.=
+com/).
+I also discussed with internal teams in Mediatek about the folder
+architecture. If this is not a red flag for you, I 'll let it as is.
 
-qcom-camss ac5a000.camss: Failed to power up pipeline: -13
+I will fix other comments you did and that I forgot to add in previous vers=
+ions.
 
-Fixes: 02afa816dbbf ("media: camss: Add basic runtime PM support")
-Reported-by: Johan Hovold <johan+linaro@kernel.org>
-Closes: https://lore.kernel.org/lkml/ZoVNHOTI0PKMNt4_@hovoldconsulting.com/
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Cheers
+Julien
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 51b1d3550421..d64985ca6e88 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2283,6 +2283,8 @@ static int camss_probe(struct platform_device *pdev)
- 
- 	v4l2_async_nf_init(&camss->notifier, &camss->v4l2_dev);
- 
-+	pm_runtime_enable(dev);
-+
- 	num_subdevs = camss_of_parse_ports(camss);
- 	if (num_subdevs < 0) {
- 		ret = num_subdevs;
-@@ -2323,8 +2325,6 @@ static int camss_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	pm_runtime_enable(dev);
--
- 	return 0;
- 
- err_register_subdevs:
-@@ -2332,6 +2332,7 @@ static int camss_probe(struct platform_device *pdev)
- err_v4l2_device_unregister:
- 	v4l2_device_unregister(&camss->v4l2_dev);
- 	v4l2_async_nf_cleanup(&camss->notifier);
-+	pm_runtime_disable(dev);
- err_genpd_cleanup:
- 	camss_genpd_cleanup(camss);
- 
-
--- 
-2.45.2
-
+> Regards,
+> CK
+>
+>
+>
+> ************* MEDIATEK Confidentiality Notice ********************
+> The information contained in this e-mail message (including any
+> attachments) may be confidential, proprietary, privileged, or otherwise
+> exempt from disclosure under applicable laws. It is intended to be
+> conveyed only to the designated recipient(s). Any use, dissemination,
+> distribution, printing, retaining or copying of this e-mail (including it=
+s
+> attachments) by unintended recipient(s) is strictly prohibited and may
+> be unlawful. If you are not an intended recipient of this e-mail, or beli=
+eve
+> that you have received this e-mail in error, please notify the sender
+> immediately (by replying to this e-mail), delete any and all copies of
+> this e-mail (including any attachments) from your system, and do not
+> disclose the content of this e-mail to any other person. Thank you!
 
