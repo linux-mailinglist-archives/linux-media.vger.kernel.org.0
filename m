@@ -1,53 +1,58 @@
-Return-Path: <linux-media+bounces-15428-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15429-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7795693F08B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 11:01:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA04893F0D3
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 11:19:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D040EB21D71
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:01:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5309E1F2207C
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:19:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A291313B2A4;
-	Mon, 29 Jul 2024 09:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927F213DDAF;
+	Mon, 29 Jul 2024 09:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ciST57DJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AIoD8F90"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBB47E782
-	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 09:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47EA13DB92;
+	Mon, 29 Jul 2024 09:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722243665; cv=none; b=d3FT8H4OMbPmuIOTqIBI9htFKK/e7jt9QjudZgeIPdjNIrDLQjkg0nDnEPFdSlm7AnWJzBH6iT5wBeUQkHVAiVyIqGZZNBGKlBng10BAWhYg/oyt3MQ/2YybQDAmOl8bdRi0u3O14OsQdRtRk5IKLS10NaeUx2vZGW0Jlf0cQFE=
+	t=1722244769; cv=none; b=jWitFSBZbPbksFhAUPcOqVmA2dT2udTrCwVRCp8thQ+81ISo702OAFXNBdYdv/UHWBSo3qh1+IstfBUQoMSpFC0ouuhtHqdxnUUgGzzyKRUbEplwMZOM4D79J/fMT4d4CUfaB4oESOb+cRbq0ctSNibDT/pHyxi/2y+xQdPEDTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722243665; c=relaxed/simple;
-	bh=I8zYzcPdurvIGl7igAQ8MfsJOaLrZ21TCoAHzs+4iLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aSDSP3639xiI0ImX3mTVR+QjRDR0VAwMGt79wWmhLX3o5lzZTZeeUy5IrB4IhrrAU1+wgs1hPXjMDOjYMs1QzDJU10laehgCNUUTDnYXwz3o0nbkyImrySsi/VJeRPYaXgg6u2+fHwlP8OotUmxsTGfUtQZ2eEcuXMJVWN2vi1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ciST57DJ; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1722244769; c=relaxed/simple;
+	bh=NmA4UnYG3ps2ZxJ6n5TCugcQhBXbGtG7XO01jZ7+OdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gKs7A5+kzrDmrjveg9YADdjuCvIV+E6mP5MMyqhy/Muh0x/oKwYeK0wtKQYsqhL0UHsoIgDmz32apUpBnzTmVTPzSiPS4ESOExJYpYPRhIMcajsg/dhxpcXtza9MetJ+enawwqt8XdO5S/WNCaD73u2v2ZJFyrnfHmtCTyVej7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AIoD8F90; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A34ED63F;
-	Mon, 29 Jul 2024 11:00:15 +0200 (CEST)
+Received: from ideasonboard.com (mob-5-90-63-112.net.vodafone.it [5.90.63.112])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEAD145A;
+	Mon, 29 Jul 2024 11:18:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722243615;
-	bh=I8zYzcPdurvIGl7igAQ8MfsJOaLrZ21TCoAHzs+4iLk=;
-	h=Date:From:To:Cc:Subject:From;
-	b=ciST57DJ0pyrfgRyak0Bm41NDbltNDKvvrtCqCW5nx22fkEJa6FrTfQ8oEqpaXP6p
-	 +kjxWKogUURdBdBCz4XHhYhfqsZloYMFvn2fGRscahXKBrpFdxznKFGaCmSG9h3tF0
-	 DUYMYC0vRdEowijXmisVQbD+bzOiBfxq6mhx8v+I=
-Date: Mon, 29 Jul 2024 12:00:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: libcamera-devel@lists.libcamera.org
-Cc: linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Interest for a libcamera workshop in Vienna - September 17th
-Message-ID: <20240729090042.GA2725@pendragon.ideasonboard.com>
+	s=mail; t=1722244718;
+	bh=NmA4UnYG3ps2ZxJ6n5TCugcQhBXbGtG7XO01jZ7+OdA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AIoD8F90Bb20zqs9/yFDFe76dwdlwm1S2Z2KU8aI+bkpkhzZ1UtgiiCmQFd8ZpHXo
+	 dN9TJ/4x5t78sqFC4ZuoTU6XFu2TeuZXOnLMMN+QTZn/Djo9EYuA2oM7uCFdC9skoE
+	 XjEqmfBHVw1AqYe3Ktqrz/crN11BsMcBSsWwUSJg=
+Date: Mon, 29 Jul 2024 11:19:22 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Umang Jain <umang.jain@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	linux-media@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, open list <linux-kernel@vger.kernel.org>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>
+Subject: Re: [PATCH] media: imx335: Fix reset-gpio handling
+Message-ID: <tyo5etjwsfznuk6vzwqmcphbu4pz4lskrg3fjieojq5qc3mg6s@6jbwavmapwmf>
+References: <20240729060535.3227-1-umang.jain@ideasonboard.com>
+ <4me3tw572feft3x4dn3ritpr6avss6ebupixrg7qrlsy5z6kny@mqeoqhr7uh2x>
+ <f521ed1b-17ce-4ccb-b14e-53fe5fbfee64@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,39 +61,133 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <f521ed1b-17ce-4ccb-b14e-53fe5fbfee64@ideasonboard.com>
 
-Hello everybody,
+Hi Umang
 
-Following the success of our workshop in Brussels in February, we would
-like to host another event in September.
+On Mon, Jul 29, 2024 at 02:18:20PM GMT, Umang Jain wrote:
+> Hi Jacopo
+>
+> On 29/07/24 1:42 pm, Jacopo Mondi wrote:
+> > Hi Umang
+> >
+> > On Mon, Jul 29, 2024 at 11:35:35AM GMT, Umang Jain wrote:
+> > > The imx335 reset-gpio is initialised with GPIO_OUT_LOW during probe.
+> > How is this related to this change ? The value to which the GPIO is
+> > initialized to in probe is the physical level.
+> >
+> > What matters is the gpio line active level, which should be described
+> > in the sensor's datasheet. What's the active level of the reset gpio
+> > line ?
+>
+> The XCLR active level is "Low" at the init time. It is set to "high" during
+> power-on / normal operation
+>
 
-We have evaluated different options, and opted for week 38 in Vienna.
-The city will host during that week the Linux Media Summit (Monday the
-16th, [1]), OSS Europe (Monday the 16th to Wednesday the 18th, [2]) and
-the Linux Plumbers Conference (Wednesday the 18th to Friday the 20th,
-[3]), and we expect that co-locating with those events will ease travel
-for attendees of the libcamera workshop.
+Sorry for not being clear, but the physical active level is a property
+of the chip, and doesn't depend on the setting at init time made by
+the driver.
 
-The week is already busy with camera-related events on Monday with the
-Linux Media Summit, and on Thursday afternoon with the Complex Camera
-micro-conference at LPC ([4]). We have therefore selected Tuesday the
-17th for libcamera.
+According to the imx335 datasheet, the XCLR pin is said to be:
+High: normal
+Low: clear
 
-To help us plan the venue, could you please register your interest by
-replying to this e-mail, either publicly, or in private to Kieran and me
-? The event will be free of charge for attendees.
+Which I presume means a physical low level puts the chip in "reset"
+state.
 
-Please also let us know if you have any preferred discussion topics you
-would like to include. We will draft and circulate an agenda in the next
-few weeks.
+> >
+> > > However, the reset-gpio logical value is set to 1 in during power-on
+> > > and to 0 on power-off. This is incorrect as the reset line
+> > > cannot be high during power-on and low during power-off.
+> > If the line is physically high or low only depends on how the active
+> > level is specified in DTS, not by the logical value provided to
+> > gpiod_set_value[_cansleep]()
+>
+> True.
+>
+> AS far as I can see, the DT binding schema specifies 'reset-gpios:' -
+> without the active level
+>
+> The active level is I suppose, intentionally left to the DT implementation ?
 
-[1] https://lore.kernel.org/all/ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl/
-[2] https://events.linuxfoundation.org/open-source-summit-europe/
-[3] https://lpc.events/
-[4] https://lpc.events/event/18/sessions/193/
+Not really a decision of the DT implementation, but rather a property
+of the chip, so I guess the line should be described as active low in
+bindings and initialized accordingly in DTS with the GPIO_ACTIVE_LOW
+flag.
 
--- 
-Regards,
+>
+> > > Rectify the logical value of reset-gpio so that it is set to
+> > > 0 during power-on and to 1 during power-off.
+> > This is correct, the reset line should be set to logical 0 (inactive)
+> > during power on and to logical 1 (active) when powering off. However
+> > the GPIO active state should have been specified in bindings and as
+> > this driver has been mainline quite some time, this change will break
+> > .dtbo already used succesfully with previous kernel releases.
+> >
+> > Is this an issue ?
+>
+> Yes, if the patch is accepted, the Device-tree implementation for IMX335
+> will need to be adjusted accordingly. This can be an issue definitely - but
+> on the other hand, this attempts to rectify a mistake, no?
+>
 
-Laurent Pinchart
+Indeed it does rectify a mistake, but I presume existing dtbos have the
+gpio line described with GPIO_ACTIVE_HIGH, otherwise they wouldn't
+work with the existing driver version. Now, you change (or rather,
+fix) the driver, and existing dtbos in the wild (iow not in the
+mainline code base (*)) won't work anymore. The
+expectation is that we don't break working dtbos with new kernel
+releases, however I'm not sure how much this is actually enforced.
+I'll defer this call to maintainers.
+
+In case it is fine to break existing dtbos, I think a patch to the
+bindings to specify the gpio line active level would be required too ?
+
+Thanks
+  j
+
+(*) as far as I can tell no dts in mainline uses imx335.
+
+> >
+> > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > > ---
+> > >   drivers/media/i2c/imx335.c | 6 +++---
+> > >   1 file changed, 3 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> > > index cd150606a8a9..878d88b5f476 100644
+> > > --- a/drivers/media/i2c/imx335.c
+> > > +++ b/drivers/media/i2c/imx335.c
+> > > @@ -1171,7 +1171,7 @@ static int imx335_power_on(struct device *dev)
+> > >   	usleep_range(500, 550); /* Tlow */
+> > >
+> > >   	/* Set XCLR */
+> > > -	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+> > > +	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+> > >
+> > >   	ret = clk_prepare_enable(imx335->inclk);
+> > >   	if (ret) {
+> > > @@ -1184,7 +1184,7 @@ static int imx335_power_on(struct device *dev)
+> > >   	return 0;
+> > >
+> > >   error_reset:
+> > > -	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+> > > +	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+> > >   	regulator_bulk_disable(ARRAY_SIZE(imx335_supply_name), imx335->supplies);
+> > >
+> > >   	return ret;
+> > > @@ -1201,7 +1201,7 @@ static int imx335_power_off(struct device *dev)
+> > >   	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > >   	struct imx335 *imx335 = to_imx335(sd);
+> > >
+> > > -	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+> > > +	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+> > >   	clk_disable_unprepare(imx335->inclk);
+> > >   	regulator_bulk_disable(ARRAY_SIZE(imx335_supply_name), imx335->supplies);
+> > >
+> > > --
+> > > 2.45.0
+> > >
+> > >
+>
 
