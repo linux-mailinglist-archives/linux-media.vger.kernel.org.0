@@ -1,123 +1,144 @@
-Return-Path: <linux-media+bounces-15486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15487-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD95D93FE53
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 21:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F39E93FE57
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 21:37:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65DF11F22394
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 19:34:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A7B91F23A3E
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 19:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8145A187324;
-	Mon, 29 Jul 2024 19:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD4E187850;
+	Mon, 29 Jul 2024 19:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eflQrcXq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VM2jHY1E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C67A85947
-	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 19:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D6985947;
+	Mon, 29 Jul 2024 19:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722281671; cv=none; b=BwjAybiWBcJrf7Q6h7/Qx8k72eM4/OCVFGOdlHEy0uf8HKljuI0v/1FhrbkaytTh40QzgmutfmckzL683Dl9AmtsCBQHP5F9sdDeT/2ZEb2iFdcD+uTZAMt04dzwhm6QIGb/4qQkuIP5D75mfz1KvBtIoQPjXstehMqEdc2BwnY=
+	t=1722281841; cv=none; b=GKl3Qz/KucaUQ/eJdvwQ2MDRBMdpj+PGr/HeUGe8RPH2Qs9aP14s6HkjweAwfBqaUVQl5qILv3LmRkrnw5VObiHj1G0a6lvJtOevTCGXbDSoTG+/x+CZ1rSjfQ8Y50QnRmn8OvRxtVcy5ceT8utc39P/+/Q7xIleFaPC56EQ7cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722281671; c=relaxed/simple;
-	bh=JDPYy2TIddpY89kJ3pD4y6q48ZYHTEHFw0jXYe8yyWg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SP/RzVyixQ6EJGQV2g6d8dgy5NIpyHD1Mix1h/Z2KqMIFWOmX7C062yZcvm3LUs847faGnZ6d5WyvJ3Ccnt9Zm2lEdY+3ASzn1SNi1NzL0lvCU7W6bklGgroypXQeHG984xsObEegwelcmC0Lf7tjQ5/shnyMCV2MdLbxi7IAOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eflQrcXq; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a7aa212c1c9so519124366b.2
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 12:34:30 -0700 (PDT)
+	s=arc-20240116; t=1722281841; c=relaxed/simple;
+	bh=LCORYeVlflXkOjglnCPySK2fkldz9zZ7HztJ0LddbGY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AaW/OcUT23Dudy3Fhxp0uMAcJHHzJhk3KQBwbOxgZw15OHMeYLOfk48h1BhRNwC70Iy4RIHQbZM6dQqfTtvU16LvXrbaAOGBOEDZJSr8karLziqZA/UwxCTJP4mAJSBAc8k6++xxnu04JOIKE9vQN3nHDK7t1UYQgOnP2lc6WfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VM2jHY1E; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5b3fff87e6bso432603a12.0;
+        Mon, 29 Jul 2024 12:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1722281668; x=1722886468; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o2xKiCSjiL7Vhap8OXhOmXec/I6ck+sG6sqGEKbz0uQ=;
-        b=eflQrcXqC+ta6/Sy4NYOpTvCeXhby46RbSSnIiEjJiisw6JDa1oATcmaRjgh87AhVH
-         tLqllg3B/pGiab1ZgbTffC5+2qgWSQ8mK/WCoVTXI+PqOxAZItTe7G0ZEJWqU6CZ7EkE
-         Iw7OJVdPxvTiRG4u8d6+VyufhlJj0KicCinrk=
+        d=gmail.com; s=20230601; t=1722281838; x=1722886638; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8bcD7sYCuZXN8k66akd/roWt2jjR5XOinRSX3gx9Ls=;
+        b=VM2jHY1EVxZZlQs/SQLDGu5Z3+9LNWbU+CmSnulPlLnePYTF6CQ3P3+7sUiUYZSbgu
+         Y7wQrunrgf1UHBciP4N6L2qsmHD/WzHd9CSKX+rM2604cc3eUJf0e4nfvp0YWQOiltbe
+         /8TmLZE+nwJOMum8iteVfD4A4mK6XZbxLAA4yjCFg5G5FaQ6+6WfGdC0HT8dHhSaoNrD
+         hGn59rbHPda3c9Nh0YZnUV++oKWD0UdmUYIcabKA9RNb+zDHPMGpFsZSnVbkMNqtDPIP
+         GAWNiTc3VHyUKD297H54H9REgGbo6Eb9DF19pkyUZytTgwFTpbEeo1ceaTD1/4GxoOs4
+         JPAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722281668; x=1722886468;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o2xKiCSjiL7Vhap8OXhOmXec/I6ck+sG6sqGEKbz0uQ=;
-        b=C51uFiMuaDNdnxVtXLSCvrS8HkQitijFLo9KhU7EpdHeS7/iuIexFeEyN08UQerm4S
-         +pmjTc+Vn5DyD7ez0WUVD4R1Q2zXKXVK661+O6LtjcWFoKjV8BQd3UIZNW12+MaG2N6W
-         uo7+Y/FJqim90yA4p/IGu5YRM6X+Ps9cWZQGdtS3zm4q0Yci+rbeQyUgxeZNwht7EgSL
-         a7FqJTkzhNazM8ifAJNjRxjmaOMXOy/lNv+b1tX3zAXW4XamQ5y4vhBnE4DR4hjfAm8o
-         lWpJeroBz1doM0QeWbF7Zob2N+e/Seeoq4sflo54SfkYGg6DHi3sW+nu3huhZoZxqZms
-         vymw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFfvDHMKaIf2EG7Uar4j6ujnguDlRv0boFyJxZBQaiLRdzen3cmxw/RCR1spHyHHzNGKHU42uxY560Kw0PB8WR8C9aZ7H6GTWHZUg=
-X-Gm-Message-State: AOJu0YxEI4hLWxJRlR303O7qIz2r9YvXwpXJDBBjPTfTW2TXpEa8YaSe
-	F0qyI3GwgukxMIS//L/oksMLbe4vMIo0lnufnvzVcdCM7kXXfdOy2hgZLB3jOgBC9geZIxM1S84
-	=
-X-Google-Smtp-Source: AGHT+IEkN13IWj3QeP9hAm6bqDitd/Aw62Ft6eE8xMRO6NDG4mWUh+nBbIQFytsNXMUjHJUKrfxy/A==
-X-Received: by 2002:a17:907:3d9e:b0:a77:ab40:6d7f with SMTP id a640c23a62f3a-a7d401781femr537493266b.43.1722281668485;
-        Mon, 29 Jul 2024 12:34:28 -0700 (PDT)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com. [209.85.128.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad41616sm546285666b.137.2024.07.29.12.34.27
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jul 2024 12:34:28 -0700 (PDT)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42812945633so20571965e9.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 12:34:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVuc9eDn9PMG4ztMX/J5Nx8bvC3gDfIYGlD4BdNT/geMKDMElFsE2JnLISroeOJtTEak/1m65dbNaxssIByNfBh/qSxBQ4OJJHHT5E=
-X-Received: by 2002:a5d:5506:0:b0:366:e89c:342b with SMTP id
- ffacd0b85a97d-36b5d0a3c88mr5150224f8f.52.1722281667332; Mon, 29 Jul 2024
- 12:34:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722281838; x=1722886638;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v8bcD7sYCuZXN8k66akd/roWt2jjR5XOinRSX3gx9Ls=;
+        b=sf8TfG6Pq/usRReHkJjXj5PJ/q/wd/RwxSwMMoxEq1MqG+YYBs1MVG8FjnbJVpJ1LM
+         9M1c/QX8royWX1Kalq2n2SwPn6iVI61c167H4GvVvKQ96QHaaCLwnQ67PSzZ19YZC9XC
+         YTOMKHGco9OhOqB/+84mfhjYNzmNbKI5nr8t26Ww0ETVOdw2LiPgrljIWmkucYgFQJk0
+         EjQENPdVdIRH+jDQ4jvn6JlCY141P7hZz+BU7PFr5RlTnVu4sNMKjerwBMWct3q3Ww8/
+         tojRYBZsKozKJmIz0SpSKaQ/H7ogEfLVNavr3V7AW0+DgIa5jnNMYVDFi5dmdPf6K8DS
+         qh0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWAWhuCPprbG5aJDn+jrDh0bu3fB3OIyZzTQAwjWGqTgi6RML1eiJqc7mnQahG4zpKdg5tUKSFLtJ14bpQVDxtnW5eMNxSOCyuMxzH4
+X-Gm-Message-State: AOJu0YxV5HL8mhNFFitfNl1h/evVdIHGzLLccz7t9Epri839l6BFdkP6
+	vc3jG3qhVrBTDfy/F/C8zo3M12gNerVRW4eyWRFcuE+oAhxJJFG5puLtYCjq
+X-Google-Smtp-Source: AGHT+IE3TGeDq6r0qvFD9sMecuCKwfCfVnw67JnHguzcw4+vXq5l0ILe85+uM4dzHRVN2tXqp9gQKw==
+X-Received: by 2002:a05:6402:5202:b0:5a1:2735:2378 with SMTP id 4fb4d7f45d1cf-5b021d221c7mr5861850a12.30.1722281837335;
+        Mon, 29 Jul 2024 12:37:17 -0700 (PDT)
+Received: from [127.0.1.1] (84-115-213-37.cable.dynamic.surfer.at. [84.115.213.37])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ac63590e7esm6115750a12.36.2024.07.29.12.37.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 12:37:16 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date: Mon, 29 Jul 2024 21:37:13 +0200
+Subject: [PATCH] media: docs: Fix newline typos in capture.c
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240726213811.562200-1-frkoenig@chromium.org>
- <20240726213811.562200-3-frkoenig@chromium.org> <49c45c19-a95d-467f-9cd1-cbcea3aa1fbe@linaro.org>
-In-Reply-To: <49c45c19-a95d-467f-9cd1-cbcea3aa1fbe@linaro.org>
-From: Fritz Koenig <frkoenig@chromium.org>
-Date: Mon, 29 Jul 2024 12:34:16 -0700
-X-Gmail-Original-Message-ID: <CAMfZQby-1TgT8fYndEztmMB8bqBzB47v+OcbgYnM3cMTOj-Ugw@mail.gmail.com>
-Message-ID: <CAMfZQby-1TgT8fYndEztmMB8bqBzB47v+OcbgYnM3cMTOj-Ugw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: venus: Enable h.264 hierarchical coding
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org, mchehab@kernel.org, 
-	stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240729-endline_capture_c-v1-1-cbadcb512596@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAGjvp2YC/x2MWwqAIBAAryL7nZDSA7tKRJittRAmWhGId0/6G
+ uZjJkHEQBhhYAkCPhTpdEVExcDs2m3IaS0OspZN3UvF0a0HOZyN9tcdCnnXKWUXK2SLPZTOB7T
+ 0/s9xyvkDtumY7WMAAAA=
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722281836; l=1770;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=LCORYeVlflXkOjglnCPySK2fkldz9zZ7HztJ0LddbGY=;
+ b=kmTHM4yKazdJHoX5y7TQJgzaNmS1jJMjFTLLvUTuGnmTr+Ffejp3Ale/m/1vFDHYPZ7m6WCqG
+ KfTKoCshCgPBA5qLMLI5SJ/AAZOGC10v7vhHM4+BlyqFNfPrAwbAwgX
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-On Mon, Jul 29, 2024 at 6:55=E2=80=AFAM Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 26/07/2024 22:38, Fritz Koenig wrote:
-> > HFI already supports, V4L2 already has the control,
-> > put them together!
-> > ---
->
-> This looks like something you've tested or should have in ChromeOS ?
->
-yes
+Commit d7894721f73b ("media: docs: Fix newline typo") aimed to fix the
+newline typos in capture.c, but some of the typos were not fixed. Fix
+the remaining newline typos.
 
-> Please make a v2
->
-done
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+---
+ Documentation/userspace-api/media/v4l/capture.c.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> - Fixing the commit logs
-> - With a cover letter explaining what the purpose of the series is
->    and how you've gone about testing it and/or where you need
->    community input to test/verify instead/aswell.
->
-> ---
-> bod
->
+diff --git a/Documentation/userspace-api/media/v4l/capture.c.rst b/Documentation/userspace-api/media/v4l/capture.c.rst
+index eef6772967a1..349541b1dac0 100644
+--- a/Documentation/userspace-api/media/v4l/capture.c.rst
++++ b/Documentation/userspace-api/media/v4l/capture.c.rst
+@@ -333,7 +333,7 @@ file: media/v4l/capture.c
+ 	    if (-1 == xioctl(fd, VIDIOC_REQBUFS, &req)) {
+ 		    if (EINVAL == errno) {
+ 			    fprintf(stderr, "%s does not support "
+-				     "memory mappingn", dev_name);
++				     "memory mapping\n", dev_name);
+ 			    exit(EXIT_FAILURE);
+ 		    } else {
+ 			    errno_exit("VIDIOC_REQBUFS");
+@@ -391,7 +391,7 @@ file: media/v4l/capture.c
+ 	    if (-1 == xioctl(fd, VIDIOC_REQBUFS, &req)) {
+ 		    if (EINVAL == errno) {
+ 			    fprintf(stderr, "%s does not support "
+-				     "user pointer i/on", dev_name);
++				     "user pointer i/o\n", dev_name);
+ 			    exit(EXIT_FAILURE);
+ 		    } else {
+ 			    errno_exit("VIDIOC_REQBUFS");
+@@ -547,7 +547,7 @@ file: media/v4l/capture.c
+ 	    }
+ 
+ 	    if (!S_ISCHR(st.st_mode)) {
+-		    fprintf(stderr, "%s is no devicen", dev_name);
++		    fprintf(stderr, "%s is no device\n", dev_name);
+ 		    exit(EXIT_FAILURE);
+ 	    }
+ 
 
-Thank you for the feedback.
+---
+base-commit: 931a3b3bccc96e7708c82b30b2b5fa82dfd04890
+change-id: 20240729-endline_capture_c-6699fbf125e7
 
--Fritz
+Best regards,
+-- 
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
+
 
