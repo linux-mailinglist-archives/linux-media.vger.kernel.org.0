@@ -1,259 +1,228 @@
-Return-Path: <linux-media+bounces-15471-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7984C93F8A3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:48:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A885393F8D4
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:57:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3349B283026
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:48:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C80841C21B4C
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:57:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1ACB156887;
-	Mon, 29 Jul 2024 14:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5176155A56;
+	Mon, 29 Jul 2024 14:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="U/hOehe7"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QNksNyAl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E07155A59
-	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 14:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AED1149E09;
+	Mon, 29 Jul 2024 14:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722264497; cv=none; b=nwfV+6+Eigaw0iwBp2TC/uO8iv+DMw1ii/zx6aoesV9v6u9u+D4SqCQF9zpi8qYP6dPVwQQAzGh/T6YvK5S2ka4NF/FKo9PheBrBqmBQ8DqMNmU4nwbXHVStuXrHZf58yV6KAMXFXfvaMTeW62U4pC3aTjSc5lxoyjt0ZKRgwzc=
+	t=1722265062; cv=none; b=q29vGscoa5r2DSkToTVVFO2GAQIjI8kxRJII7rb428mb2+P6D6OsmLsiX4wsQINsf03PUVagc2W3aX2kuyp5M3I6SB4KRZSdXk5ETvjwgpEv6atM9h1VrFxOpZ47m+ktoaqm0aWaBNJwiQkicUq7XYxL2wyddCt8qzwvNPhQEUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722264497; c=relaxed/simple;
-	bh=NWQ/+FxNiWlPrriG/RCWg4yhrkTbbHsDm3/fAZGeotE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Lp9ubuM+IWsdLqeG28H01NNYA1lKKjlkqImgVdb8L2fDGHWwnDBUCZhG5tB4GTJRT81lMzjBHNkQlazT1llTMaL3uZrBjF9Gx28ddsIDBVFWCLVdFEcvaDavukMmy+UCyV1X2VY0Oo4Kvlp9fKtJcN8Dtp6t7SAh9MQtvqsl9SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=U/hOehe7; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-426526d30aaso18124925e9.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 07:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1722264493; x=1722869293; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/0KWVZAazUejIoLcfyGV2EIZ0xgocIz1579DC73ilE8=;
-        b=U/hOehe7JKTmsYZgVtz9XTdzRz5IMsr0PBOK8yp1+dehEhTjPHmRiMeQAm76bMmMT5
-         2LBRC8KQSOEmn37I1gtv+b73h35r3QNZdooRNGJdwSDxNbThB9BEk8FExbqQRKjxmzW3
-         si6c5iPifX7xqxugo7MctAKqU+vz42klEaJI/BQZMxlk9lZ4sKu3j8Ue1Ux/PJu0UfGy
-         GLCQjPR8VKVahbi6b90ItzF3Nk2DIIYC85hdar6PNrbEbCBCgxLgtR70vppNwem4sBU3
-         HkBRK5IkSTz1zGcJq8BLb28djnB1TJfKdjT8tHYAVGmgdR2p6AaVXBrX04Hv6kz3iFY7
-         mFkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722264493; x=1722869293;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/0KWVZAazUejIoLcfyGV2EIZ0xgocIz1579DC73ilE8=;
-        b=j6vb/nFvXLf9GkbkfUdu+f4ibWSPQWk5KWTCd0ps1mhTFKZ1aYlf5FwShE6cR1p9Jp
-         h/Bx83YaTw5+Os04MicQte3ZCrUQFMC+RBZh8YYAD78gCQ9NJ4GzxjcZoJYSBwoIHO++
-         9TlU/GgGMFSlQmJoXbLzc56dJScY1fuNlpLKCbPcRcNL/GrXpukXF6FlEpbioaW38EZG
-         EcdaP+1811sbQhPnnCb97pL2X+7zzPPf/7DCZ5jLlms3sfL/qBYJx0AxmpYMN177nfnd
-         NcklUkIkNWszS5boc0WwwTptgY95HecsINSYd5MbucVA4qfK2Pu7ZevRPvw7H951HUWc
-         LDfg==
-X-Gm-Message-State: AOJu0Yz+h6Y3UFha8DEREOdgpGOaZvAQzbImCplV7JyMY+FjTj0zjmBt
-	OpcBslQRN78tW5DdDdFs/mufzWsOu/djjb+8ghcrpbwn315TS85iv4bz0qqp1NQ=
-X-Google-Smtp-Source: AGHT+IES43dsB88pOWowCZDjQUgfhJCapGqHMmVWsAEmurz0DmUV9AN94vXTX24YzUWQSKDYVqd96g==
-X-Received: by 2002:a05:600c:4fcf:b0:426:62c6:4341 with SMTP id 5b1f17b1804b1-42811d9cb8emr51617445e9.20.1722264493259;
-        Mon, 29 Jul 2024 07:48:13 -0700 (PDT)
-Received: from [192.168.42.0] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-428057b645dsm180091705e9.43.2024.07.29.07.48.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 07:48:13 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Mon, 29 Jul 2024 16:48:04 +0200
-Subject: [PATCH v6 5/5] arm64: dts: mediatek: mt8365: Add support for
- camera
+	s=arc-20240116; t=1722265062; c=relaxed/simple;
+	bh=rsbrbrY+ZojOsD44AFUkY+cL6nMTl1/dbKeOBbWPmgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xya00Nu/DRH1Az7TcTsWib8CGa68sTdvbFDZL3y+hAcTbYXv+28Qw6fUA84SXSW9ghJbDJTe/3JQDkOAL9k3M879viMKIcQLYcANcVoIo+cxwXRvP0tz2INFKPlksP669W3sgRGtDpHA9wUoUfAlTAen+aQMq5etU1QvfdRWmV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QNksNyAl; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1722265058;
+	bh=rsbrbrY+ZojOsD44AFUkY+cL6nMTl1/dbKeOBbWPmgo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QNksNyAlvd4JeKhGKxbMriCXhVxsLpvaNwl0O6A92NX4TSl2ORV8mStSqCNhRuHup
+	 Jvuira5ij7a3G989LUh5mXgMAUm47z0NqHYVuic0YvuitA7sRhbE1KZY2CIELAoOrS
+	 nhyFJu70HeZhp0+esox5oNwr1jMy2/la6g3T8+uHOwnmRpIHXA3e8n1EmttbiSsSuz
+	 qTJabTW7IV8YDzmJmBe9/xhgXEjuYX9V4tt0TvTzj22oC9iJihZ64dJjlP/JKmfMmb
+	 dkvehD7EliKwA1v5QgIzMpQwgZalaeBlS69GWkmo2Dw6Fn/+zhlwg8dG/U3dGdlf2d
+	 rdRwa87KK7ESg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2D9343780480;
+	Mon, 29 Jul 2024 14:57:37 +0000 (UTC)
+Message-ID: <ca502463-84d0-4c50-b684-f509bfe857fb@collabora.com>
+Date: Mon, 29 Jul 2024 16:57:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240729-add-mtk-isp-3-0-support-v6-5-c374c9e0c672@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/5] dt-bindings: media: add mediatek ISP3.0 camsv
+To: Julien Stephan <jstephan@baylibre.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andy Hsieh <andy.hsieh@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Phi-bang Nguyen <pnguyen@baylibre.com>
 References: <20240729-add-mtk-isp-3-0-support-v6-0-c374c9e0c672@baylibre.com>
-In-Reply-To: <20240729-add-mtk-isp-3-0-support-v6-0-c374c9e0c672@baylibre.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Andy Hsieh <andy.hsieh@mediatek.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.13.0
+ <20240729-add-mtk-isp-3-0-support-v6-2-c374c9e0c672@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240729-add-mtk-isp-3-0-support-v6-2-c374c9e0c672@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add base support for cameras for mt8365 platforms. This requires nodes
-for the sensor interface, camsv, and CSI receivers.
+Il 29/07/24 16:48, Julien Stephan ha scritto:
+> From: Phi-bang Nguyen <pnguyen@baylibre.com>
+> 
+> This adds the bindings, for the ISP3.0 camsv module embedded in
+> some Mediatek SoC, such as the mt8365
+> 
+> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>   .../bindings/media/mediatek,mt8365-camsv.yaml      | 109 +++++++++++++++++++++
+>   MAINTAINERS                                        |   1 +
+>   2 files changed, 110 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
+> new file mode 100644
+> index 000000000000..fdd076756459
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
+> @@ -0,0 +1,109 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2023 MediaTek, BayLibre
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mt8365-camsv.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek CAMSV 3.0
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- arch/arm64/boot/dts/mediatek/mt8365.dtsi | 125 +++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
+Sorry, can we unroll the "CAMSV" acronym?
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8365.dtsi b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
-index 24581f7410aa..cabdb51f4041 100644
---- a/arch/arm64/boot/dts/mediatek/mt8365.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8365.dtsi
-@@ -10,6 +10,7 @@
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/phy/phy.h>
- #include <dt-bindings/power/mediatek,mt8365-power.h>
-+#include <dt-bindings/memory/mediatek,mt8365-larb-port.h>
- 
- / {
- 	compatible = "mediatek,mt8365";
-@@ -703,6 +704,23 @@ ethernet: ethernet@112a0000 {
- 			status = "disabled";
- 		};
- 
-+		mipi_csi0: mipi-csi0@11c10000 {
-+			compatible = "mediatek,mt8365-csi-rx";
-+			reg = <0 0x11c10000 0 0x2000>;
-+			status = "disabled";
-+			num-lanes = <4>;
-+			#phy-cells = <1>;
-+		};
-+
-+		mipi_csi1: mipi-csi1@11c12000 {
-+			compatible = "mediatek,mt8365-csi-rx";
-+			reg = <0 0x11c12000 0 0x2000>;
-+			phy-type = <PHY_TYPE_DPHY>;
-+			status = "disabled";
-+			num-lanes = <4>;
-+			#phy-cells = <0>;
-+		};
-+
- 		u3phy: t-phy@11cc0000 {
- 			compatible = "mediatek,mt8365-tphy", "mediatek,generic-tphy-v2";
- 			#address-cells = <1>;
-@@ -773,6 +791,113 @@ larb2: larb@15001000 {
- 			mediatek,larb-id = <2>;
- 		};
- 
-+		seninf: seninf@15040000 {
-+			compatible = "mediatek,mt8365-seninf";
-+			reg = <0 0x15040000 0 0x6000>;
-+			interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_LOW>;
-+			clocks = <&camsys CLK_CAM_SENIF>,
-+				 <&topckgen CLK_TOP_SENIF_SEL>;
-+			clock-names = "camsys", "top_mux";
-+
-+			power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
-+
-+			phys = <&mipi_csi0 PHY_TYPE_DPHY>, <&mipi_csi1>;
-+			phy-names = "csi0", "csi1";
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+				};
-+
-+				port@3 {
-+					reg = <3>;
-+				};
-+
-+				port@4 {
-+					reg = <4>;
-+					seninf_camsv1_endpoint: endpoint {
-+						remote-endpoint =
-+							<&camsv1_endpoint>;
-+					};
-+				};
-+
-+				port@5 {
-+					reg = <5>;
-+					seninf_camsv2_endpoint: endpoint {
-+						remote-endpoint =
-+							<&camsv2_endpoint>;
-+					};
-+				};
-+			};
-+		};
-+
-+		camsv1: camsv@15050000 {
-+			compatible = "mediatek,mt8365-camsv";
-+			reg = <0 0x15050000 0 0x0040>,
-+			      <0 0x15050208 0 0x0020>,
-+			      <0 0x15050400 0 0x0100>;
-+			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_LOW>;
-+			clocks = <&camsys CLK_CAM>,
-+				 <&camsys CLK_CAMTG>,
-+				 <&camsys CLK_CAMSV0>;
-+			clock-names = "cam", "camtg", "camsv";
-+			iommus = <&iommu M4U_PORT_CAM_IMGO>;
-+			mediatek,larb = <&larb2>;
-+			power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				port@0 {
-+					reg = <0>;
-+					camsv1_endpoint: endpoint {
-+						remote-endpoint = <&seninf_camsv1_endpoint>;
-+					};
-+				};
-+			};
-+		};
-+
-+		camsv2: camsv@15050800 {
-+			compatible = "mediatek,mt8365-camsv";
-+			reg = <0 0x15050800 0 0x0040>,
-+			      <0 0x15050228 0 0x0020>,
-+			      <0 0x15050c00 0 0x0100>;
-+			interrupts = <GIC_SPI 187 IRQ_TYPE_LEVEL_LOW>;
-+			clocks = <&camsys CLK_CAM>,
-+				 <&camsys CLK_CAMTG>,
-+				 <&camsys CLK_CAMSV1>;
-+			clock-names = "cam", "camtg", "camsv";
-+			iommus = <&iommu M4U_PORT_CAM_IMGO>;
-+			mediatek,larb = <&larb2>;
-+			power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				port@0 {
-+					reg = <0>;
-+					camsv2_endpoint: endpoint {
-+						remote-endpoint = <&seninf_camsv2_endpoint>;
-+					};
-+				};
-+			};
-+		};
-+
- 		vdecsys: syscon@16000000 {
- 			compatible = "mediatek,mt8365-vdecsys", "syscon";
- 			reg = <0 0x16000000 0 0x1000>;
+Is that CAMera Sensor V(what?) or anything similar?
 
--- 
-2.45.1
+Thanks,
+Angelo
+
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +  - Julien Stephan <jstephan@baylibre.com>
+> +  - Andy Hsieh <andy.hsieh@mediatek.com>
+> +
+> +description:
+> +  The CAMSV is a video capture device that includes a DMA engine connected to
+> +  the SENINF CSI-2 receivers. The number of CAMSVs depend on the SoC model.
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt8365-camsv
+> +
+> +  reg:
+> +    items:
+> +      - description: camsv base
+> +      - description: img0 base
+> +      - description: tg base
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: cam clock
+> +      - description: camtg clock
+> +      - description: camsv clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: cam
+> +      - const: camtg
+> +      - const: camsv
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Connection to the SENINF output
+> +
+> +    required:
+> +      - port@0
+> +
+> +required:
+> +  - compatible
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - iommus
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
+> +    #include <dt-bindings/memory/mediatek,mt8365-larb-port.h>
+> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        camsv@15050000 {
+> +            compatible = "mediatek,mt8365-camsv";
+> +            reg = <0 0x15050000 0 0x0040>,
+> +                  <0 0x15050208 0 0x0020>,
+> +                  <0 0x15050400 0 0x0100>;
+> +            interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_LOW>;
+> +            clocks = <&camsys CLK_CAM>,
+> +                     <&camsys CLK_CAMTG>,
+> +                     <&camsys CLK_CAMSV0>;
+> +            clock-names = "cam", "camtg", "camsv";
+> +            iommus = <&iommu M4U_PORT_CAM_IMGO>;
+> +            power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                port@0 {
+> +                    reg = <0>;
+> +                    camsv1_endpoint: endpoint {
+> +                        remote-endpoint = <&seninf_camsv1_endpoint>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6bd7df1c3e08..9ac8c08ba692 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14163,6 +14163,7 @@ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>   M:	Julien Stephan <jstephan@baylibre.com>
+>   M:	Andy Hsieh <andy.hsieh@mediatek.com>
+>   S:	Supported
+> +F:	Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
+>   F:	Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
+>   
+>   MEDIATEK SMI DRIVER
+> 
 
 
