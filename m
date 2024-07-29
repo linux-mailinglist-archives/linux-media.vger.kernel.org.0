@@ -1,88 +1,78 @@
-Return-Path: <linux-media+bounces-15410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15411-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7887E93EDE3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:03:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEF493EDF1
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 09:05:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7C0B1C21D5C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 07:03:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B37F2B224F9
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 07:05:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C007127B62;
-	Mon, 29 Jul 2024 07:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEF8D12FB0A;
+	Mon, 29 Jul 2024 07:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="BSwQEp+y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfYuodPH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE83986AE3
-	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 07:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB7782D9A;
+	Mon, 29 Jul 2024 07:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722236523; cv=none; b=upO6PJMM/fqJ1PwycSE/0F5ZoDnP8zdFeLnczBehhoVH/RnWpH3zereu8E/kKs83UeWTtjdPQiBMQDVGBdm0lWVpiNNvoIfBRJioh/FcOTXGnjJlcX0KYGElZaQn90oqH0ICPVMt7Ed6fcBlLb4CHjvjoPrfZpf1Q9tL/oFaXXY=
+	t=1722236605; cv=none; b=o2lJlUULVVe8HQHj2Ou73uQXdAYJe0spWswwh27v+vryOYlg/YBb1wg2OSNydcoHdSumtsLVNgEOimExGejyHRoDUuUAvufHhwXufwTM6LCguw8lfBnNfFmv+yP54DsBbaFIhOHpfI9LU2KcAEf8aXH5vHi7d7/0TFOu1/BL7w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722236523; c=relaxed/simple;
-	bh=OfOwg30Kz1gJciOmBHTSSNW3kho05OpZx0+UKqjPXek=;
+	s=arc-20240116; t=1722236605; c=relaxed/simple;
+	bh=oq1A0MF+2MxWNbcXuYQlOhYTI9d0mzUcvFOBVMotSks=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P2xHNZkvjEFpZ1K11Qn10/nNgY1SS5Suybjr5gWWA5dip1cI0+36ILGun9aUvLFZ9/QUAHOuhXbL4JTs2amIzZN8ZiJ+chpYXd6G7ALm+aiT2mst1nn7HMcXihlOwx1p6qZyfQYZU1npeqyLkIXNd9yZ6VWBl2/JrYz+v2g1AEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=BSwQEp+y; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42803adb420so2452265e9.2
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 00:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1722236520; x=1722841320; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jiq86OgV8aN77ZK3gSdcC84nDSEMhthS0/eJkO/i+l0=;
-        b=BSwQEp+ySpncpgp63OameFPhiH6ErcJioouSgYkOB6drGXlemsvgB71njPs50gSOZK
-         S69kyESkhmfal7dOmYV+iHrPGaAM16liGAqeKR6XH69h8i94HPv2/LRHjkuucbrucdUH
-         Jyc8nHam4I7ZqzDlfSFB5tbETd0ooeMq931/o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722236520; x=1722841320;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jiq86OgV8aN77ZK3gSdcC84nDSEMhthS0/eJkO/i+l0=;
-        b=FO8NoUfTdoMezKkyQ9otSyTZWzz4aEtgzqDIo2BxlXkoBcX2FZLOSWmWFhxkmUP+fS
-         Lg8SNK9lAag7mhT5vLSo+vkzvgB1eEhS1CqFapqVfmnRM6cf4DZJ+caohZ0M1T2BF5As
-         KZnlUT3JcmQz7iwTlbXI/0J3G4BAdkw7r95q9aYmN1LC0jeWEk51YqPdezAA02wdWxpI
-         trSOqjIexuTODRrvFA1GZmhsfvyGPFituLBI0zvZ34YxY5lURSnuJ5B6kMKYGmo6ZwIt
-         9UJCngJ7+8NQ6BHX3zU01rTzyGA39jCUf6LTE2vrDz9UTHkOaR4XtuW2gitzPBEQlQzt
-         Qo1Q==
-X-Gm-Message-State: AOJu0Ywpt1DD41mqzL9KKAYLoGewQuM9gx8xvXXYSVasLcrB1PiTLlz9
-	ynOeUbk8wFUDePUl6ccwQl9gFO5gLvhHsQj+Al3jwHrzgC4WacOo/sjMG8AhOUc=
-X-Google-Smtp-Source: AGHT+IEiT+O8ufmV6ZCYKgzAur7uD7ABX1l7m8G+4knDu8SiWra9FtLVycZ8kwh2N41DGIzudaMzfQ==
-X-Received: by 2002:a05:600c:4511:b0:425:65b1:abb4 with SMTP id 5b1f17b1804b1-428053beee0mr56974615e9.0.1722236519848;
-        Mon, 29 Jul 2024 00:01:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4281225141dsm83180525e9.45.2024.07.29.00.01.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 00:01:59 -0700 (PDT)
-Date: Mon, 29 Jul 2024 09:01:57 +0200
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Zenghui Yu <yuzenghui@huawei.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	jstultz@google.com, tjmercier@google.com, shuah@kernel.org,
-	wanghaibin.wang@huawei.com
-Subject: Re: [PATCH v2] kselftests: dmabuf-heaps: Ensure the driver name is
- null-terminated
-Message-ID: <Zqc-ZWlTYwnKHoQK@phenom.ffwll.local>
-Mail-Followup-To: Zenghui Yu <yuzenghui@huawei.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	jstultz@google.com, tjmercier@google.com, shuah@kernel.org,
-	wanghaibin.wang@huawei.com
-References: <20240729024604.2046-1-yuzenghui@huawei.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fdm2g347QHltMT6AEZAm7o1tuOlOfAVCScRAdCiXLGCSJ1PAKttnG4uDrrqQreHPcrmZzLfVRow9J2+P9eBqUYQpDEKGGaYtN4P85/gngckB/sMlKIXvWwOS4fLOjNF4xF6R7WPgbsKFhL6aPvtvwXpKiCtfAijYZXiDLHAYtpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfYuodPH; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722236603; x=1753772603;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oq1A0MF+2MxWNbcXuYQlOhYTI9d0mzUcvFOBVMotSks=;
+  b=NfYuodPHjL+27zRejEa/hDveSwnWIkrdAYsI0dA3UI/i4QPpCjLsDGLX
+   l6q2GUDakZDcTJtR6T+msk46079WZrkD9svToqsUQx17g2aXLunh8DKwI
+   BAC9T4ei7Fa4FaYtRuRa02zEtlgxVQl02YgCtpOHonl4y7zIvSnOuxFdB
+   TS8KfUo2xdCSBXLsGwUlv/4Cx+/cboBzlEcIRB7D4EhMH4bL+yrmG447/
+   VAxcpk9Gn7CJSzeZtXnXNuQ+sLoayF+kYtutY5b3hyAJK7T4M4DJsY4P5
+   99oOlN8eMOhzR2vwdL6MVSuw2wRqqdCyxTgLW74ZeIngBFwaygeu6yeO9
+   Q==;
+X-CSE-ConnectionGUID: EU6oDituSEu8vTPzFHhuag==
+X-CSE-MsgGUID: TQoMdWkdQdOZgiY4Ka+7Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11147"; a="20151703"
+X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
+   d="scan'208";a="20151703"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 00:03:22 -0700
+X-CSE-ConnectionGUID: AimuV77fSfqpLootLhfPKw==
+X-CSE-MsgGUID: nV4vFffYSCO9vJWBQaxiGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,245,1716274800"; 
+   d="scan'208";a="53837611"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 00:03:20 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2E14311F8A8;
+	Mon, 29 Jul 2024 10:03:17 +0300 (EEST)
+Date: Mon, 29 Jul 2024 07:03:17 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Andreas Helbech Kleist <andreaskleist@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ipu-bridge: fix ipu6 Kconfig dependencies
+Message-ID: <Zqc-tY7LPLdEbZ-9@kekkonen.localdomain>
+References: <20240719095403.3607027-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,72 +81,61 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240729024604.2046-1-yuzenghui@huawei.com>
-X-Operating-System: Linux phenom 6.9.7-amd64 
+In-Reply-To: <20240719095403.3607027-1-arnd@kernel.org>
 
-On Mon, Jul 29, 2024 at 10:46:04AM +0800, Zenghui Yu wrote:
-> Even if a vgem device is configured in, we will skip the import_vgem_fd()
-> test almost every time.
+Hi Arnd,
+
+On Fri, Jul 19, 2024 at 11:53:50AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
->   TAP version 13
->   1..11
->   # Testing heap: system
->   # =======================================
->   # Testing allocation and importing:
->   ok 1 # SKIP Could not open vgem -1
+> Commit 4670c8c3fb04 ("media: ipu-bridge: Fix Kconfig dependencies") changed
+> how IPU_BRIDGE dependencies are handled for all drivers, but the IPU6 variant
+> was added the old way, which causes build time warnings when I2C is turned
+> off:
 > 
-> The problem is that we use the DRM_IOCTL_VERSION ioctl to query the driver
-> version information but leave the name field a non-null-terminated string.
-> Terminate it properly to actually test against the vgem device.
+> WARNING: unmet direct dependencies detected for IPU_BRIDGE
+>   Depends on [n]: MEDIA_SUPPORT [=m] && PCI [=y] && MEDIA_PCI_SUPPORT [=y] && (ACPI [=y] || COMPILE_TEST [=y]) && I2C [=n]
+>   Selected by [m]:
+>   - VIDEO_INTEL_IPU6 [=m] && MEDIA_SUPPORT [=m] && PCI [=y] && MEDIA_PCI_SUPPORT [=y] && (ACPI [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=m] && X86 [=y] && X86_64 [=y] && HAS_DMA [=y]
 > 
-> While at it, let's check the length of the driver name is exactly 4 bytes
-> and return early otherwise (in case there is a name like "vgemfoo" that
-> gets converted to "vgem\0" unexpectedly).
+> To make it consistent with the other IPU drivers as well as avoid this warning,
+> change the 'select' into 'depends on'.
+
+Thanks for the patch. I'm not sure how I managed to miss the IPU6 driver...
+
+I think we also need, besides IPU_BRIDGE, || !IPU_BRIDGE, as the IPU_BRIDGE
+has additional dependencies (I2C) compared to VIDEO_INTEL_IPU6. I'll add
+that while applying. Please let me know if you have concerns.
+
 > 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> Fixes: c70281cc83d6 ("media: intel/ipu6: add Kconfig and Makefile")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> * From v1 [1]:
->   - Check version.name_len is exactly 4 bytes and return early otherwise
+>  drivers/media/pci/intel/ipu6/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> [1] https://lore.kernel.org/r/20240708134654.1725-1-yuzenghui@huawei.com
-
-Thanks for your patch, I'll push it to drm-misc-next-fixes.
-
-> P.S., Maybe worth including the kselftests file into "DMA-BUF HEAPS
-> FRAMEWORK" MAINTAINERS entry?
-
-Good idea, want to do the patch for that too?
-
-Cheers, Sima
-
-
-> 
->  tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-> index 5f541522364f..5d0a809dc2df 100644
-> --- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-> +++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-> @@ -29,9 +29,11 @@ static int check_vgem(int fd)
->  	version.name = name;
->  
->  	ret = ioctl(fd, DRM_IOCTL_VERSION, &version);
-> -	if (ret)
-> +	if (ret || version.name_len != 4)
->  		return 0;
->  
-> +	name[4] = '\0';
-> +
->  	return !strcmp(name, "vgem");
->  }
->  
-> -- 
-> 2.33.0
-> 
+> diff --git a/drivers/media/pci/intel/ipu6/Kconfig b/drivers/media/pci/intel/ipu6/Kconfig
+> index 154343080c82..ffadf03478a8 100644
+> --- a/drivers/media/pci/intel/ipu6/Kconfig
+> +++ b/drivers/media/pci/intel/ipu6/Kconfig
+> @@ -3,13 +3,13 @@ config VIDEO_INTEL_IPU6
+>  	depends on ACPI || COMPILE_TEST
+>  	depends on VIDEO_DEV
+>  	depends on X86 && X86_64 && HAS_DMA
+> +	depends on IPU_BRIDGE
+>  	select DMA_OPS
+>  	select IOMMU_IOVA
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select MEDIA_CONTROLLER
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select V4L2_FWNODE
+> -	select IPU_BRIDGE
+>  	help
+>  	  This is the 6th Gen Intel Image Processing Unit, found in Intel SoCs
+>  	  and used for capturing images and video from camera sensors.
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Kind regards,
+
+Sakari Ailus
 
