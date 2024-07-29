@@ -1,135 +1,113 @@
-Return-Path: <linux-media+bounces-15466-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15467-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D03D93F838
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF8793F86B
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:41:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C3F2283643
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:36:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0F212811EA
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:40:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 607D6187871;
-	Mon, 29 Jul 2024 14:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34D64155335;
+	Mon, 29 Jul 2024 14:40:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cufQ7Xnf"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FYLbRiFb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2363515535B;
-	Mon, 29 Jul 2024 14:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AEDB823A9
+	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 14:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722263245; cv=none; b=dTjnEfaMVxNRPSBt80w5pD/LmY9ZR1LrcNuHxppjhLlRrli1Hx53fqXHJSrM2xD1cK93Ovc4DjySRhkHvPSPmLcrbH1Rt+XG9CFVt/IkjiWZIWfzT3QUTYcCt4Jxj9P9M7dNMpA/LX1PDFGcvS42MvKORbfMsp0LKMsVdHGshvo=
+	t=1722264050; cv=none; b=KL9o8x6EF5LzCE/0quC4SORIc1+apU86zqR1yRBxlARgNYwijGci+d9UxtnZNuo+MLcyr3cMjylJjbtOslStReO38N9cjPwCWE6ffT2meCjZTmDRxSMeAxU7VZircLarJoqck366UL7GTH3O35DecXBGMLh1BOwKKnT3/XsKZUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722263245; c=relaxed/simple;
-	bh=AK+wSo6Lpuz3DYRSOIQgQsGOzLG/dcVx5JqnxEj1CuI=;
+	s=arc-20240116; t=1722264050; c=relaxed/simple;
+	bh=B86YC1nAhYvS7kh58Lnpa4ninp/bNDzToN0xeGoIz7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BpfzOcYt1KFEM7K5K9G+8WOSzFm+QEZRB2ebHYKF/TN1dYlCctSfFDsi/oe6PApwgmLj7VMxYrHfDFIoYGM1wKXONefEaykkhZ3xvF2kFC8hCKLkU2oKa/OHqSYhkY91WHzMKOCc8jBVFPEcrYq07b3IoPRAPaKYGcgtMmrzYuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cufQ7Xnf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA7FC229;
-	Mon, 29 Jul 2024 16:26:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722263196;
-	bh=AK+wSo6Lpuz3DYRSOIQgQsGOzLG/dcVx5JqnxEj1CuI=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=mNE/9Am0XsAiGgVhH61VGqStAzwkUI/Kt82bQV8lr4KFyQZj1pf5AReDYVKBPCx5uZy4Znbab6ybIOmt3bWM6O/jE9qE80KlLgYdD2rAqZyyBTQnm6QJmXc3O06dxeihf6Xp0V6VmC9jNd+COhEQ3fG4zLnBfdmKdGcgtNVCOk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FYLbRiFb; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1722264047;
+	bh=B86YC1nAhYvS7kh58Lnpa4ninp/bNDzToN0xeGoIz7k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cufQ7XnfkOKYpnsW4gz9UIZ5YZjwDlaTNvqcEo0ivJvz1YsnQ71s5ePNT7/tgNXl2
-	 chBn28OiUxutEBXD8vlsqu0z+R8/fYtsFZ5oMbymi9MEjrBQKIROWNFOslVgENCRkd
-	 vLi2nnySTBwkSrqcCthtevkKjMLfKcHZ14YAZUSo=
-Date: Mon, 29 Jul 2024 17:27:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, stable@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: imx335: Mention reset-gpio polarity
-Message-ID: <20240729142702.GC1552@pendragon.ideasonboard.com>
-References: <20240729110437.199428-1-umang.jain@ideasonboard.com>
- <20240729110437.199428-2-umang.jain@ideasonboard.com>
- <20240729111006.GH2320@pendragon.ideasonboard.com>
- <2238e3e8-56f9-45e1-bd66-85953e091eb8@ideasonboard.com>
+	b=FYLbRiFbq00FIzxsMH0i5jKOCkXcdR0wVJdqjIpKM/1vXM2B/9DUi19AGhrS3Z+rS
+	 pElOtlrlbWTlrFS8crbXxfYbu0EevjtyqCnkXyXBSQlWbD4+hecKSWCuzGbU+OR+Z5
+	 CTrWFKZ3xZwJbyc/V8p23VF48rNdZwtTzo6skhyFkqlL3oCgfvGj4EJ/+tRaiwK/8Y
+	 NSt5kEpIfnw42EqfEreNU0udWCVZKa75x2suS941ezM+fAxV0cbpeDZIeuPplTCTzt
+	 H0rFGO9OdLFhS9O4J88HN8ZNc+aUxvhnyh2I2u1BU+Ql9nTpqYkFvcMeGU79ihkKe/
+	 UxVdstv6VX9xA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E5E273780480;
+	Mon, 29 Jul 2024 14:40:46 +0000 (UTC)
+Date: Mon, 29 Jul 2024 16:40:45 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: Interest for a libcamera workshop in Vienna - September 17th
+Message-ID: <20240729144045.ajh55hxhqzcclm2z@basti-XPS-13-9310>
+References: <20240729090042.GA2725@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2238e3e8-56f9-45e1-bd66-85953e091eb8@ideasonboard.com>
+In-Reply-To: <20240729090042.GA2725@pendragon.ideasonboard.com>
 
-Hi Umang,
+Hey Laurent,
 
-On Mon, Jul 29, 2024 at 05:36:11PM +0530, Umang Jain wrote:
-> On 29/07/24 4:40 pm, Laurent Pinchart wrote:
-> > On Mon, Jul 29, 2024 at 04:34:36PM +0530, Umang Jain wrote:
-> >> Mention the reset-gpio polarity in the device tree bindings.
-> >> It is GPIO_ACTIVE_LOW according to the datasheet.
-> >>
-> >> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> >> ---
-> >>   Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> >> index 106c36ee966d..fb4c9d42ed1c 100644
-> >> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> >> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> >> @@ -92,6 +92,8 @@ examples:
-> >>               ovdd-supply = <&camera_vddo_1v8>;
-> >>               dvdd-supply = <&camera_vddd_1v2>;
-> >>   
-> >> +            reset-gpios = <&gpio 50 GPIO_ACTIVE_LOW>;
-> >> +
-> > I think it's good to include this in the example, but it doesn't match
-> > the commit message. I was expecting to see a change to the binding
-> > rules, not to the example.
-> 
-> Currently the binding already states reset-gpio as
-> 
-> ```
->    reset-gpios:
->      description: Reference to the GPIO connected to the XCLR pin, if any.
->      maxItems: 1
-> ```
-> 
-> Pardon my limited knowledge here, do you mean something like :
-> 
-> ```
->    reset-gpios:
->      description: Reference to the GPIO connected to the XCLR pin 
-> (active LOW), if any.
->      maxItems: 1
-> ```
-> 
-> or something else?
+On 29.07.2024 12:00, Laurent Pinchart wrote:
+>Hello everybody,
+>
+>Following the success of our workshop in Brussels in February, we would
+>like to host another event in September.
+>
+>We have evaluated different options, and opted for week 38 in Vienna.
+>The city will host during that week the Linux Media Summit (Monday the
+>16th, [1]), OSS Europe (Monday the 16th to Wednesday the 18th, [2]) and
+>the Linux Plumbers Conference (Wednesday the 18th to Friday the 20th,
+>[3]), and we expect that co-locating with those events will ease travel
+>for attendees of the libcamera workshop.
+>
+>The week is already busy with camera-related events on Monday with the
+>Linux Media Summit, and on Thursday afternoon with the Complex Camera
+>micro-conference at LPC ([4]). We have therefore selected Tuesday the
+>17th for libcamera.
+>
+>To help us plan the venue, could you please register your interest by
+>replying to this e-mail, either publicly, or in private to Kieran and me
+>? The event will be free of charge for attendees.
 
-No, I meant updating the commit message to something like:
+I'd like to attend as well, thank you for the effort!
 
-dt-bindings: media: imx335: Add reset-gpios to the DT example
-
-It's easy to get the polarity of GPIOs in the device tree wrong, as
-shown by a recently fixed bug in the imx335 driver. To lower the chance
-of future mistakes, especially in new bindings that would take the
-imx335 binding as a starting point, add the reset-gpios property to the
-DT example. This showcases the correct polarity of the XCLR signal for
-Sony sensors in the most common case of the signal not being inverted on
-the board.
-
-> >>               port {
-> >>                   imx335: endpoint {
-> >>                       remote-endpoint = <&cam>;
-
--- 
 Regards,
+Sebastian
 
-Laurent Pinchart
+>
+>Please also let us know if you have any preferred discussion topics you
+>would like to include. We will draft and circulate an agenda in the next
+>few weeks.
+>
+>[1] https://lore.kernel.org/all/ae3b6b11-c3ec-4a3d-8fa1-c91ef2f8e151@xs4all.nl/
+>[2] https://events.linuxfoundation.org/open-source-summit-europe/
+>[3] https://lpc.events/
+>[4] https://lpc.events/event/18/sessions/193/
+>
+>-- 
+>Regards,
+>
+>Laurent Pinchart
+>
 
