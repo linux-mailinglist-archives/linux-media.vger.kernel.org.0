@@ -1,132 +1,235 @@
-Return-Path: <linux-media+bounces-15463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15464-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773D393F74B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:09:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9564293F760
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:15:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 356B628250E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:09:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B53921C21900
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:15:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EA414F9EE;
-	Mon, 29 Jul 2024 14:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E430153838;
+	Mon, 29 Jul 2024 14:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VJOKnd37"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Nw+PdMEm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D68B1494CE;
-	Mon, 29 Jul 2024 14:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB14F1E4A2;
+	Mon, 29 Jul 2024 14:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722262185; cv=none; b=uoPeV2XV453EVGOisZdyzP6RhssNLzG1H5jESUSkkmFZeeZMGz563pNeASbszi3a+seC5A0cKowMkDhYH6uTHQn8pA9YkPL/Z4q22bB7OX6WJJIcGtrJ4s7uRU5A2RCX9GKtUoT0TBymSvQb9ZqO0dhwbfbCDpbhlIIY3pexO3o=
+	t=1722262523; cv=none; b=Ex2FtK/ydadpyyhP5uDjRP0IgvVxGqc4/eziAWLJ0VMeFwB23r2GYz3feZYrQfWPniZ7tGRrivzqZswi4zhAG0xazusG58Jp7uHZqnd/R/OOj05FNRQVejZSZSeJmTx+RNh4nSWp0m4oKBKzprlRsQclewLtBT2uZLE43pNqoj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722262185; c=relaxed/simple;
-	bh=6UqSdF+TOuXLgjDRi0ybbqzLNRAv7t5hyati46QeQ+c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lc5R4waRej6I7jsCmX4UJ7+ZlXJt/1bTHc0lGdsLoqDaKoLHY5lZiFAUKpbz2IJ2BSpUBtbwbnLyBiUKwFkKYnqDdtxsB/7+893+bVggbrSgB0B4PE3FunFuDtoCmQoescdUY4PMhgVBtPVVKgDrI+dCRF0AqeGX0s2r1cJ2CbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VJOKnd37; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C812C32786;
-	Mon, 29 Jul 2024 14:09:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722262185;
-	bh=6UqSdF+TOuXLgjDRi0ybbqzLNRAv7t5hyati46QeQ+c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VJOKnd37CXXVSzIb3+hTLZXWbzvAP4FUI092HNzxLy4OtLiQI2dNZbFolXaYydFCn
-	 9Xrs7YI6QW0BYEcoBdIZ4eTVHpHZTfEkS4gdEVmpEG/F5H/pKiBfl+M/PXy4bK+uux
-	 i4IKxz+ahVjazDfy1ILW8ZCzqT5CN/8EVSYXg3Z2MFgR+qQ+mrwdj2r0zH86IJ5Qu7
-	 CygfL3U81XsXOX90MxGMWGfO9iSDjmPzXAzn/okC1wNOa27MgvPYtvJdi2h/SjjGCQ
-	 IIp11Ei6/fCBmm2nw2mOZLZeDe/Xo8z4W2piCGquMxnMMqb6owuLD8z/jlwo5VpZGO
-	 G8Az77jZbrUFA==
-Message-ID: <ef05c39a-ad5c-4751-a758-f73a2d114823@kernel.org>
-Date: Mon, 29 Jul 2024 16:09:39 +0200
+	s=arc-20240116; t=1722262523; c=relaxed/simple;
+	bh=Dsx+wQDpQZBV6jgYIBuibYg69MaOvR6sl7gc+MNvXCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rvehD2U+v/yKe34cn4iU3i1uZRmJcWBE60f+txflCF9V2TNKhzB66CwXT/PssJx9aSJIoFBPAqDZ7quNQpEA4UlSfQvaUA9roO9RaX3+e/lvR+eW5K+p9NFWC0wPNAl3xVhcrpJONiuCzgWS8WGVtYj1yAqlBNTZvl1LBa4MED8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Nw+PdMEm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 088FF229;
+	Mon, 29 Jul 2024 16:14:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1722262473;
+	bh=Dsx+wQDpQZBV6jgYIBuibYg69MaOvR6sl7gc+MNvXCA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Nw+PdMEmiHulb82E2wbq5gWTzJuGJYuutZwFznRuA0KH9TXb3ypLpqvFIkPYK/TFm
+	 tporQ5xcUF8vJwIlRSJ6wv6Q7qa8ewt4X6NyrP8Bgoy4B++zUBpuHxFtGENdAQLAVr
+	 QALTeiCNdekNbpIJ76Szr/qKm4fVmDuFjd/Cmqmg=
+Date: Mon, 29 Jul 2024 17:14:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: CK Hu =?utf-8?B?KOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	Andy Hsieh =?utf-8?B?KOisneaZuueakyk=?= <Andy.Hsieh@mediatek.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>,
+	"pnguyen@baylibre.com" <pnguyen@baylibre.com>
+Subject: Re: [PATCH v5 4/5] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 camsv
+Message-ID: <20240729141459.GA1552@pendragon.ideasonboard.com>
+References: <20240704-add-mtk-isp-3-0-support-v5-0-bfccccc5ec21@baylibre.com>
+ <20240704-add-mtk-isp-3-0-support-v5-4-bfccccc5ec21@baylibre.com>
+ <85c54f0b1b8bb5d9026c67109a3526fd95cc013b.camel@mediatek.com>
+ <CAEHHSvZ2etjPKq0MqHYD=hjs19Yy+DJLwXGGorJK7q2tW2dfRQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: imx335: Fix reset-gpio handling
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: stable@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20240729110437.199428-1-umang.jain@ideasonboard.com>
- <20240729110437.199428-3-umang.jain@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240729110437.199428-3-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEHHSvZ2etjPKq0MqHYD=hjs19Yy+DJLwXGGorJK7q2tW2dfRQ@mail.gmail.com>
 
-On 29/07/2024 13:04, Umang Jain wrote:
-> Rectify the logical value of reset-gpio so that it is set to
-> 0 (disabled) during power-on and to 1 (enabled) during power-off.
+On Mon, Jul 29, 2024 at 03:40:09PM +0200, Julien Stephan wrote:
+> Le jeu. 18 juil. 2024 à 04:54, CK Hu (胡俊光) <ck.hu@mediatek.com> a écrit :
+> >
+> > Hi, Julien:
+> >
+> > On Thu, 2024-07-04 at 15:36 +0200, Julien Stephan wrote:
+> > >
+> > > External email : Please do not click links or open attachments until you have verified the sender or the content.
+> > >  From: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > >
+> > > This driver provides a path to bypass the SoC ISP so that image data
+> > > coming from the SENINF can go directly into memory without any image
+> > > processing. This allows the use of an external ISP.
+> > >
+> > > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> > > [Paul Elder fix irq locking]
+> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+> > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > > ---
+> >
+> > [snip]
+> >
+> > > +static int mtk_cam_vb2_start_streaming(struct vb2_queue *vq,
+> > > +       unsigned int count)
+> > > +{
+> > > +struct mtk_cam_dev *cam = vb2_get_drv_priv(vq);
+> > > +struct mtk_cam_dev_buffer *buf;
+> > > +struct mtk_cam_video_device *vdev =
+> > > +vb2_queue_to_mtk_cam_video_device(vq);
+> > > +struct device *dev = cam->dev;
+> > > +const struct v4l2_pix_format_mplane *fmt = &vdev->format;
+> > > +int ret;
+> > > +unsigned long flags;
+> > > +
+> > > +if (pm_runtime_get_sync(dev) < 0) {
+> > > +dev_err(dev, "failed to get pm_runtime\n");
+> > > +pm_runtime_put_autosuspend(dev);
+> > > +return -1;
+> > > +}
+> > > +
+> > > +(*cam->hw_functions->mtk_cam_setup)(cam, fmt->width, fmt->height,
+> > > +fmt->plane_fmt[0].bytesperline, vdev->fmtinfo->code);
+> > > +
+> > > +
+> > > +/* Enable CMOS and VF */
+> > > +mtk_cam_cmos_vf_enable(cam, true, true);
+> > > +
+> > > +mutex_lock(&cam->op_lock);
+> > > +
+> > > +ret = mtk_cam_verify_format(cam);
+> > > +if (ret < 0)
+> > > +goto fail_unlock;
+> > > +
+> > > +/* Start streaming of the whole pipeline now*/
+> > > +if (!cam->pipeline.start_count) {
+> > > +ret = media_pipeline_start(vdev->vdev.entity.pads,
+> > > +   &cam->pipeline);
+> > > +if (ret) {
+> > > +dev_err(dev, "failed to start pipeline:%d\n", ret);
+> > > +goto fail_unlock;
+> > > +}
+> > > +}
+> > > +
+> > > +/* Media links are fixed after media_pipeline_start */
+> > > +cam->stream_count++;
+> > > +
+> > > +cam->sequence = (unsigned int)-1;
+> > > +
+> > > +/* Stream on the sub-device */
+> > > +ret = v4l2_subdev_call(&cam->subdev, video, s_stream, 1);
+> > > +if (ret)
+> > > +goto fail_no_stream;
+> > > +
+> > > +mutex_unlock(&cam->op_lock);
+> > > +
+> > > +/* Create dummy buffer */
+> > > +cam->dummy_size = fmt->plane_fmt[0].sizeimage;
+> > > +
+> > > +cam->dummy.vaddr = dma_alloc_coherent(cam->dev, cam->dummy_size,
+> > > +      &cam->dummy.daddr, GFP_KERNEL);
+> >
+> > Dummy buffer cost much in DRAM footprint. I think we can get rid of
+> > this dummy buffer. If no buffer is queued from user space, call
+> > mtk_camsv30_cmos_vf_hw_disable() to stop write data into DRAM. After
+> > buffer is queued from user space, call mtk_camsv30_cmos_vf_hw_enable()
+> > to start write data into DRAM.
 > 
-> Meanwhile at it, set the reset-gpio to GPIO_OUT_HIGH at initialization
-> time to make sure it starts off in reset.
+> Hi CK,
 > 
-> Fixes: 45d19b5fb9ae ("media: i2c: Add imx335 camera sensor driver")
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx335.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
+> IMHO it does not cost that much. A long time ago, we tried to remove
+> it, but we faced an issue (can't remember what :/).
+> Moreover, some other driver already uses the dummy buffer
+> implementation, if I am not wrong.
 
-This will break all the users, so no. At least not without mentioning
-ABI break and some sort of investigating how customers or users are
-affected.
+The hardware have a CAMSV_IMGO_SV_STRIDE register. What happens if you
+set the stride to 0 instead of bytesperline ? Will the hardware write
+repeatedly over the same line ? If so you can allocate a scratch buffer
+of a single line.
 
-Best regards,
-Krzysztof
+You will need to ensure that, whenever you reconfigure the device, the
+stride and buffer address will always be programmed atomically. If you
+switch to the line buffer and the image starts before the stride is
+reconfigure, bad things will happen.
 
+Stopping the DMA is another solution that would I think be even better
+if that can be done quickly (without waiting synchronously for the end
+of the next frame), and if restarting is equally quick.
+
+> > > +if (!cam->dummy.vaddr) {
+> > > +ret = -ENOMEM;
+> > > +goto fail_no_buffer;
+> > > +}
+> > > +
+> > > +/* update first buffer address */
+> > > +
+> > > +/* added the buffer into the tracking list */
+> > > +spin_lock_irqsave(&cam->irqlock, flags);
+> > > +if (list_empty(&cam->buf_list)) {
+> > > +(*cam->hw_functions->mtk_cam_update_buffers_add)(cam, &cam->dummy);
+> > > +cam->is_dummy_used = true;
+> > > +} else {
+> > > +buf = list_first_entry_or_null(&cam->buf_list,
+> > > +       struct mtk_cam_dev_buffer,
+> > > +       list);
+> > > +(*cam->hw_functions->mtk_cam_update_buffers_add)(cam, buf);
+> > > +cam->is_dummy_used = false;
+> > > +}
+> > > +spin_unlock_irqrestore(&cam->irqlock, flags);
+> > > +
+> > > +return 0;
+> > > +
+> > > +fail_no_buffer:
+> > > +mutex_lock(&cam->op_lock);
+> > > +v4l2_subdev_call(&cam->subdev, video, s_stream, 0);
+> > > +fail_no_stream:
+> > > +cam->stream_count--;
+> > > +if (cam->stream_count == 0)
+> > > +media_pipeline_stop(vdev->vdev.entity.pads);
+> > > +fail_unlock:
+> > > +mutex_unlock(&cam->op_lock);
+> > > +mtk_cam_vb2_return_all_buffers(cam, VB2_BUF_STATE_QUEUED);
+> > > +
+> > > +return ret;
+> > > +}
+> > > +
+
+-- 
+Regards,
+
+Laurent Pinchart
 
