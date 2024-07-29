@@ -1,74 +1,48 @@
-Return-Path: <linux-media+bounces-15461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D2E93F719
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 15:55:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A05CB93F747
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 16:08:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A53BB1C2160E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 13:55:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5800D2826D4
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 14:08:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFF3314EC60;
-	Mon, 29 Jul 2024 13:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 913A0154C19;
+	Mon, 29 Jul 2024 14:08:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GA0Y1Nun"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1S0q3Gf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D57714A0B7
-	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 13:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF272152160;
+	Mon, 29 Jul 2024 14:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722261352; cv=none; b=CA3JKxcncGkCC1NeN0bDzUrkbkR850ChCmTogt7JmFIDWgxk0vg5ZGRtzYY0mfRsb7XWCNGX1qGhNd9QtBquG9WrjM+8NWOKtU9sxTwjuvGq2QhlY/pHonfQquLRG+xKBuZIRMZumaj+LQqp+nArZf9lvR6eMA5Y8q6NIOt6zR8=
+	t=1722262105; cv=none; b=FSPvPUWpGSCBJ7YTSZl1LxJxIHBbN9hvb5tcK3+tFiW87FAhSiDN36aS/AnCKGLPLHxXOiM0W+2LqTAAECcUWkWu/u0TOqdpHz69AZcZfeoWLdzVQbvTTp4zECIFqxuwDPbnBPfDHzIs52n5U2QgRrIa/aGOmDv0hnfmfBwshIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722261352; c=relaxed/simple;
-	bh=xRN7p866e/FW0c9l1fzBedo6L/GycW/csRzIacsrPCU=;
+	s=arc-20240116; t=1722262105; c=relaxed/simple;
+	bh=BgZEcDifjSfI4THHw40ebYV39UoGfOjYYXSc8EOrjl8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dtLOcLd3oaKzgPXsE5WVrAG+atSBIEB1KTx/7n2Vw4GACoqi/5fQleVjN43qroD02ebRaIFDfjx8q+jGaaKxfL6XJ4Bc5XZqDF8Rd3NzH9ZxYUyF4rGKFWDyogXfzV3WJGGaWg2BbdzVc6FuulHyL/AZcoChSnM7m7I6tcB05h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GA0Y1Nun; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a7ac469e4c4so694707166b.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 06:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722261349; x=1722866149; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1mpXmig8x1YnvMrEYL0t3QW8oM3Z2Fatn9cQt1eyT8A=;
-        b=GA0Y1NunWda4DvTitfEs1ZoTzxDSiNW0e54mGmkDYDWprgceSXssVdmNdsveNu9afE
-         rh6JXprGz/YIa/EotzuYaGNTHvTWexfnh6f/oMkvMi1GwydDj1XSK+AYqmVbJLrlQ5de
-         cgDYK4TzdSi1AOC98jpyGEEoYKdm4sADEf7ndwo8gMPTw1P8rGvhlvewJeetBOLzwkVd
-         N6WQe05tw297pxpk3Rxw5etnHxC4uSr5HV5ITEdna+M+BK69Y81J5GXChcSK26T0FfN9
-         HS8kIJHy9+rPOnQJlFvOYGnjKgX7MkSQzls9xCCoU7/jjGad95wiRQ6IgoFOkGNwGxWT
-         aTJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722261349; x=1722866149;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1mpXmig8x1YnvMrEYL0t3QW8oM3Z2Fatn9cQt1eyT8A=;
-        b=sZoIIGtI9iPDb0+THHgNQ+NGmM6AlpUgb23vT/5Gv72sEBIyw8QHGXAWX2dCmvWAeb
-         UOg+iKRefXJkKh5HX1EThjxPrOwtfwXtzPVEBjKkM5uZ/qK8dQQG1x1AXqHxNTe/iomR
-         n2LO4fzktjPfCKGxFfwGxTgd2XTeyOPubBphJWwIpEaqjYxk7ZkuEYzO9NqeJKMv7aLb
-         k1TNN6v6Ra3r5kCeMEmAWgeyt0R2dVwg5buPjMncoVFj5sRKui5BU58GrrCqF4MtrfEM
-         3KgCHV16rcm+Qw0Q4cTY5q38k6YgT10Ev2QtUnuK23MNulypxOL15exely4dl5TCwaGy
-         SmPw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/tHn/xjBbcUgZBFU4eLc2YmL0JmBJdkURM7Tza62znf//Mm/9mI1xftOTvDY3NFvl3EjRJpLu/jgHDelb34zv7puXTO3U5aQ8Q9E=
-X-Gm-Message-State: AOJu0YykSebYVBXDQ767/YX/zpCWumTnAc2HXVmVVxiDSe5HvoWR/HYd
-	3qYyGBtslbPjGm4uwtDYWC6xP5b/mT2sZI9ISo2a3JfcJCa724hEIv0C7SZOyKY=
-X-Google-Smtp-Source: AGHT+IGTsXdujZz5GNzDzWH3IU9qzq8qvO5PsIKkKuziVXaXk734eHlSB+WhBMB0/pbrOGSPdnMB0g==
-X-Received: by 2002:a17:906:6a21:b0:a7a:a557:454e with SMTP id a640c23a62f3a-a7d3f81dc2emr838778366b.2.1722261348752;
-        Mon, 29 Jul 2024 06:55:48 -0700 (PDT)
-Received: from [192.168.0.3] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab4de12sm508921366b.51.2024.07.29.06.55.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jul 2024 06:55:48 -0700 (PDT)
-Message-ID: <49c45c19-a95d-467f-9cd1-cbcea3aa1fbe@linaro.org>
-Date: Mon, 29 Jul 2024 14:55:47 +0100
+	 In-Reply-To:Content-Type; b=eDrQpWdyNV/r/ufJTe+lGszx6XXFR3oCoE9jOyMMhC/yoS/0yO/Ri1LoF+TM/aIXVHH9SB2Eay5g61qHrzasyE5xUP4KCwUb8cIsZi+x6UsUDqfEXxaDWpMlZS8//wavqwWqH/DrtQhl5nAIUjzGGvbx9tIwmyHDueK9Xq43DuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1S0q3Gf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AF5AC4AF09;
+	Mon, 29 Jul 2024 14:08:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722262103;
+	bh=BgZEcDifjSfI4THHw40ebYV39UoGfOjYYXSc8EOrjl8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Z1S0q3Gfar+Kp2G40gSIjOaOtXHyA64OIUWBXijYwcwFR3BDaeTqLg1cDCfyaT5S1
+	 e0MEBJbY+tuRg4t3Cn5u8qGxHMNEih+a7oyYAYpR/LdHEfBE4O40/KwgdfMo6y1k0R
+	 ZeWEb/RBJRtx/5bej9B4LHTiNMfPT+to3DdUIdpChN2LRpMtI6uZwGVUToJmKQfAPk
+	 yhVgVq9T7IThaQRL4IQzUUDQ3v7Ly6zXyYoxkWmK18P43yTa+PyFplsY1ydbicIkNm
+	 KU9zDrtYW1izaCrd3i3kKgs8DTk3Qp019R/Kb0xeYtoNhqdMUKvZmedAy5LIsEF9p6
+	 OSaMnGhuc9gYw==
+Message-ID: <7537c281-2f0d-43e1-9260-2d469d5a1f21@kernel.org>
+Date: Mon, 29 Jul 2024 16:08:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,33 +50,101 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] media: venus: Enable h.264 hierarchical coding
-To: Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, stanimir.k.varbanov@gmail.com,
- quic_vgarodia@quicinc.com
-References: <20240726213811.562200-1-frkoenig@chromium.org>
- <20240726213811.562200-3-frkoenig@chromium.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: imx335: Mention reset-gpio polarity
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org
+Cc: stable@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20240729110437.199428-1-umang.jain@ideasonboard.com>
+ <20240729110437.199428-2-umang.jain@ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240726213811.562200-3-frkoenig@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240729110437.199428-2-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 26/07/2024 22:38, Fritz Koenig wrote:
-> HFI already supports, V4L2 already has the control,
-> put them together!
+On 29/07/2024 13:04, Umang Jain wrote:
+> Mention the reset-gpio polarity in the device tree bindings.
+> It is GPIO_ACTIVE_LOW according to the datasheet.
+> 
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
 
-This looks like something you've tested or should have in ChromeOS ?
+IdeasOnBoard folks are seasoned developers, although I noticed from time
+to time you do not cc all necessary addresses. I wonder why? Something
+is missing in internal guideline?
 
-Please make a v2
+That's not the first case, but pasting same form letter is a bit
+annoying, especially considering that *tools tell you to do correct
+stuff* and you do not need *person to tell you that*.
 
-- Fixing the commit logs
-- With a cover letter explaining what the purpose of the series is
-   and how you've gone about testing it and/or where you need
-   community input to test/verify instead/aswell.
 
----
-bod
+<form letter>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
+</form letter>
+
+Best regards,
+Krzysztof
 
 
