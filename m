@@ -1,1077 +1,156 @@
-Return-Path: <linux-media+bounces-15424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CA493EFF9
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 10:35:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C93D393F01D
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 10:48:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61DA828164E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 08:35:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AD3A1F22B79
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 08:48:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 629AE13C669;
-	Mon, 29 Jul 2024 08:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1D513CA95;
+	Mon, 29 Jul 2024 08:48:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z8GLtvNG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DjhHNEkJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C79913B299;
-	Mon, 29 Jul 2024 08:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33482328B6;
+	Mon, 29 Jul 2024 08:48:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722242127; cv=none; b=VFqZula7UHgsSV61wg1b9y42pohPQDaFqC+rHhgTwa439hIWRQ7b8b8wkXWzoIFcybuZHpKm5Hl3dDn2bLFs6gMff/bc8QMdyUrAA+tuzrLv1ws58+O9Q/MTgejImqhBHvRhwd5uRiSOKjegBCEjQflCsiG+50z8K74HhHDFcF0=
+	t=1722242910; cv=none; b=MY4wAzXQlZ02ACJIkuE7H0POesjLr12uDoY+HC2/S+Kve1mMaLt/PQWneMwl83csf3HbeQ+I0zjiIBN52gL8r5J4wcGeovjFR48+t+EQ6yFzZ3gKiBJIOWVu3f38VYg3TV8iXY1UbwibS0CQMD8VFUc5QzAEyRG31L0m9KrdJH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722242127; c=relaxed/simple;
-	bh=2dKjcCC7Mp33P+vEX8N+CuazX56z3Heq6TwPsq9uIJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mtDev6W5VNY0hhjkJ+Dv+jK3lTi61S0C1XlDpnkEjIX7ZP68FHYNs+9TS5IRgJsid9wH/uymuTAcNIYUDtkTC44YF3kfkS81xkYw1qfmVn7QAsNPqUjf1U3Tv1OSDfAnIqIj8/6/d3ixBH5C+5QGRxGHSq7w0pkEEZQjuLdC2ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z8GLtvNG; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1722242910; c=relaxed/simple;
+	bh=MlEFOPmaJKPHejSEj4rZBeQgNBABJESsADXLRYP/rV0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rSt6i5e39atcEqSntSCLsCxpAXFsLcllho5CkRbaUpL0J7u0GAWX7WGJuNJVuoVn57TTBkyeX58X0UmShEDXt8w6QuVhhdcPX8phaK4M4xq63xUPkZQTTL9EGNuLyquVulkE9FIAf4oxdIPxHLj0e4Gp6fEebDHco51RN7QXHKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DjhHNEkJ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DEBE596;
-	Mon, 29 Jul 2024 10:34:37 +0200 (CEST)
+Received: from [IPV6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f] (unknown [IPv6:2405:201:2015:f873:55d7:c02e:b2eb:ee3f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66457596;
+	Mon, 29 Jul 2024 10:47:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722242077;
-	bh=2dKjcCC7Mp33P+vEX8N+CuazX56z3Heq6TwPsq9uIJ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z8GLtvNGrMo0EByYkQ9BwNtSpEspDk2jdaKD2diZZneAs/1x6CPR/Yvm17DtlbqI4
-	 wsF6YP2DyMdjKCUO8NHAqrodVNcPrjsErYWWEgL+QFKMJciKS1Uw4Y8bD/fevyVjbG
-	 bCKEFdrMZ7QoHeuvGiENcfqzgTW0SnVWCjBSfIaA=
-Date: Mon, 29 Jul 2024 11:35:03 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: =?utf-8?B?6Ieq5bex?= <ccc194101@163.com>
-Cc: wangyongjun@kylinos.cn, zhoulei@kylinos.cn, liuyihu@kylinos.cn,
-	lizhenneng@kylinos.cn, lihongtao@kylinos.cn, mchehab@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chenchangcheng <chenchangcheng@kylinos.cn>
-Subject: Re: Re: [PATCH] media: uvcvideo: Block AlcorMicroCorp camera from
- reporting key events.
-Message-ID: <20240729083503.GK300@pendragon.ideasonboard.com>
-References: <20240723082955.2911825-1-ccc194101@163.com>
- <20240726102057.GA28621@pendragon.ideasonboard.com>
- <422515098.1778903.1722214797868.JavaMail.root@mail-tracker-183-3ep34-kunp1-54f898d94d-qbtjz>
+	s=mail; t=1722242859;
+	bh=MlEFOPmaJKPHejSEj4rZBeQgNBABJESsADXLRYP/rV0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DjhHNEkJb/6nkjo8qdca/iB3zkzF2Zh5rRbKUQ+atoCkLShBE+Otbo+wbiJ3x4xrM
+	 qV0aOxPAFk6DyzUnuMmIfKkQEmSF8Y3N3wI4/JeHOHsulDN0UrWcfMm9mApWXfWV9K
+	 IGB+RSO7QAtKL1+gSyYIo7A9mt5jsizh0veLgxoo=
+Message-ID: <f521ed1b-17ce-4ccb-b14e-53fe5fbfee64@ideasonboard.com>
+Date: Mon, 29 Jul 2024 14:18:20 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <422515098.1778903.1722214797868.JavaMail.root@mail-tracker-183-3ep34-kunp1-54f898d94d-qbtjz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: imx335: Fix reset-gpio handling
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Tommaso Merciai <tomm.merciai@gmail.com>
+References: <20240729060535.3227-1-umang.jain@ideasonboard.com>
+ <4me3tw572feft3x4dn3ritpr6avss6ebupixrg7qrlsy5z6kny@mqeoqhr7uh2x>
+Content-Language: en-US
+From: Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <4me3tw572feft3x4dn3ritpr6avss6ebupixrg7qrlsy5z6kny@mqeoqhr7uh2x>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi Jacopo
 
-HTML e-mails are rejected by mailing lists. Please resend in plain text.
+On 29/07/24 1:42 pm, Jacopo Mondi wrote:
+> Hi Umang
+>
+> On Mon, Jul 29, 2024 at 11:35:35AM GMT, Umang Jain wrote:
+>> The imx335 reset-gpio is initialised with GPIO_OUT_LOW during probe.
+> How is this related to this change ? The value to which the GPIO is
+> initialized to in probe is the physical level.
+>
+> What matters is the gpio line active level, which should be described
+> in the sensor's datasheet. What's the active level of the reset gpio
+> line ?
 
-On Mon, Jul 29, 2024 at 08:59:50AM +0800, 自己 wrote:
-> Hi Laurent Pinchart,
-> 
-> 
->  >That sounds like a weird behaviour. What upper layers are doing this ?
-> 
-> When the upper layer receives the KEY_CMERA key, it will turn off the camera
-> through the videoX node
-> 
-> 
-> >Could you please send the output of `lsusb -v -d 1dfc:8513` (running as
-> >root if possible) ?
-> 
-> Bus 001 Device 016: ID 1dfc:8513 AlcorMicroCorp USB HD Camera audio
-> 
-> Device Descriptor:
-> 
->   bLength                18
-> 
->   bDescriptorType         1
-> 
->   bcdUSB               2.00
-> 
->   bDeviceClass          239 Miscellaneous Device
-> 
->   bDeviceSubClass         2 
-> 
->   bDeviceProtocol         1 Interface Association
-> 
->   bMaxPacketSize0        64
-> 
->   idVendor           0x1dfc 
-> 
->   idProduct          0x8513 
-> 
->   bcdDevice            0.24
-> 
->   iManufacturer           1 AlcorMicroCorp
-> 
->   iProduct                2 USB HD Camera audio
-> 
->   iSerial                 0 
-> 
->   bNumConfigurations      1
-> 
->   Configuration Descriptor:
-> 
->     bLength                 9
-> 
->     bDescriptorType         2
-> 
->     wTotalLength       0x0255
-> 
->     bNumInterfaces          2
-> 
->     bConfigurationValue     1
-> 
->     iConfiguration          0 
-> 
->     bmAttributes         0x80
-> 
->       (Bus Powered)
-> 
->     MaxPower              500mA
-> 
->     Interface Association:
-> 
->       bLength                 8
-> 
->       bDescriptorType        11
-> 
->       bFirstInterface         0
-> 
->       bInterfaceCount         2
-> 
->       bFunctionClass         14 Video
-> 
->       bFunctionSubClass       3 Video Interface Collection
-> 
->       bFunctionProtocol       0 
-> 
->       iFunction               4 Nantian Camera 8513
-> 
->     Interface Descriptor:
-> 
->       bLength                 9
-> 
->       bDescriptorType         4
-> 
->       bInterfaceNumber        0
-> 
->       bAlternateSetting       0
-> 
->       bNumEndpoints           1
-> 
->       bInterfaceClass        14 Video
-> 
->       bInterfaceSubClass      1 Video Control
-> 
->       bInterfaceProtocol      0 
-> 
->       iInterface              4 Nantian Camera 8513
-> 
->       VideoControl Interface Descriptor:
-> 
->         bLength                13
-> 
->         bDescriptorType        36
-> 
->         bDescriptorSubtype      1 (HEADER)
-> 
->         bcdUVC               1.00
-> 
->         wTotalLength       0x004f
-> 
->         dwClockFrequency       30.000000MHz
-> 
->         bInCollection           1
-> 
->         baInterfaceNr( 0)       1
-> 
->       VideoControl Interface Descriptor:
-> 
->         bLength                28
-> 
->         bDescriptorType        36
-> 
->         bDescriptorSubtype      6 (EXTENSION_UNIT)
-> 
->         bUnitID                 6
-> 
->         guidExtensionCode         {68bbd0b0-61a4-4b83-90b7-a6215f3c4f70}
-> 
->         bNumControl            24
-> 
->         bNrPins                 1
-> 
->         baSourceID( 0)          2
-> 
->         bControlSize            3
-> 
->         bmControls( 0)       0xff
-> 
->         bmControls( 1)       0xff
-> 
->         bmControls( 2)       0xff
-> 
->         iExtension              0 
-> 
->       VideoControl Interface Descriptor:
-> 
->         bLength                18
-> 
->         bDescriptorType        36
-> 
->         bDescriptorSubtype      2 (INPUT_TERMINAL)
-> 
->         bTerminalID             1
-> 
->         wTerminalType      0x0201 Camera Sensor
-> 
->         bAssocTerminal          0
-> 
->         iTerminal               0 
-> 
->         wObjectiveFocalLengthMin      0
-> 
->         wObjectiveFocalLengthMax      0
-> 
->         wOcularFocalLength            0
-> 
->         bControlSize                  3
-> 
->         bmControls           0x000208aa
-> 
->           Auto-Exposure Mode
-> 
->           Exposure Time (Absolute)
-> 
->           Focus (Absolute)
-> 
->           Iris (Absolute)
-> 
->           PanTilt (Absolute)
-> 
->           Focus, Auto
-> 
->       VideoControl Interface Descriptor:
-> 
->         bLength                11
-> 
->         bDescriptorType        36
-> 
->         bDescriptorSubtype      5 (PROCESSING_UNIT)
-> 
->       Warning: Descriptor too short
-> 
->         bUnitID                 2
-> 
->         bSourceID               1
-> 
->         wMaxMultiplier          0
-> 
->         bControlSize            2
-> 
->         bmControls     0x0000177f
-> 
->           Brightness
-> 
->           Contrast
-> 
->           Hue
-> 
->           Saturation
-> 
->           Sharpness
-> 
->           Gamma
-> 
->           White Balance Temperature
-> 
->           Backlight Compensation
-> 
->           Gain
-> 
->           Power Line Frequency
-> 
->           White Balance Temperature, Auto
-> 
->         iProcessing             0 
-> 
->         bmVideoStandards     0x09
-> 
->           None
-> 
->           SECAM - 625/50
-> 
->       VideoControl Interface Descriptor:
-> 
->         bLength                 9
-> 
->         bDescriptorType        36
-> 
->         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-> 
->         bTerminalID             3
-> 
->         wTerminalType      0x0101 USB Streaming
-> 
->         bAssocTerminal          0
-> 
->         bSourceID               2
-> 
->         iTerminal               0 
-> 
->       Endpoint Descriptor:
-> 
->         bLength                 7
-> 
->         bDescriptorType         5
-> 
->         bEndpointAddress     0x81  EP 1 IN
-> 
->         bmAttributes            3
-> 
->           Transfer Type            Interrupt
-> 
->           Synch Type               None
-> 
->           Usage Type               Data
-> 
->         wMaxPacketSize     0x0010  1x 16 bytes
-> 
->         bInterval               7
-> 
->     Interface Descriptor:
-> 
->       bLength                 9
-> 
->       bDescriptorType         4
-> 
->       bInterfaceNumber        1
-> 
->       bAlternateSetting       0
-> 
->       bNumEndpoints           0
-> 
->       bInterfaceClass        14 Video
-> 
->       bInterfaceSubClass      2 Video Streaming
-> 
->       bInterfaceProtocol      0 
-> 
->       iInterface              4 Nantian Camera 8513
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            14
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  1 (INPUT_HEADER)
-> 
->         bNumFormats                         1
-> 
->         wTotalLength                   0x0197
-> 
->         bEndPointAddress                  130
-> 
->         bmInfo                              0
-> 
->         bTerminalLink                       3
-> 
->         bStillCaptureMethod                 1
-> 
->         bTriggerSupport                     1
-> 
->         bTriggerUsage                       0
-> 
->         bControlSize                        1
-> 
->         bmaControls( 0)                     0
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            27
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  4 (FORMAT_UNCOMPRESSED)
-> 
->         bFormatIndex                        1
-> 
->         bNumFrameDescriptors               12
-> 
->         guidFormat                           
-> {32595559-0000-0010-8000-00aa00389b71}
-> 
->         bBitsPerPixel                      16
-> 
->         bDefaultFrameIndex                  1
-> 
->         bAspectRatioX                       0
-> 
->         bAspectRatioY                       0
-> 
->         bmInterlaceFlags                 0x00
-> 
->           Interlaced stream or variable: No
-> 
->           Fields per frame: 2 fields
-> 
->           Field 1 first: No
-> 
->           Field pattern: Field 1 only
-> 
->         bCopyProtect                        0
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         1
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                           2592
-> 
->         wHeight                          1944
-> 
->         dwMinBitRate                161243136
-> 
->         dwMaxBitRate                161243136
-> 
->         dwMaxVideoFrameBufferSize    10077696
-> 
->         dwDefaultFrameInterval        5000000
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)           5000000
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         2
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                           2048
-> 
->         wHeight                          1536
-> 
->         dwMinBitRate                100663296
-> 
->         dwMaxBitRate                100663296
-> 
->         dwMaxVideoFrameBufferSize     6291456
-> 
->         dwDefaultFrameInterval        5000000
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)           5000000
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         3
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                           1600
-> 
->         wHeight                          1200
-> 
->         dwMinBitRate                184320000
-> 
->         dwMaxBitRate                184320000
-> 
->         dwMaxVideoFrameBufferSize     3840000
-> 
->         dwDefaultFrameInterval        1666666
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)           1666666
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         4
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                           1280
-> 
->         wHeight                          1024
-> 
->         dwMinBitRate                167772160
-> 
->         dwMaxBitRate                167772160
-> 
->         dwMaxVideoFrameBufferSize     2621440
-> 
->         dwDefaultFrameInterval        1250000
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)           1250000
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         5
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                           1280
-> 
->         wHeight                           960
-> 
->         dwMinBitRate                157286400
-> 
->         dwMaxBitRate                157286400
-> 
->         dwMaxVideoFrameBufferSize     2457600
-> 
->         dwDefaultFrameInterval        1250000
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)           1250000
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         6
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                            800
-> 
->         wHeight                           600
-> 
->         dwMinBitRate                115200000
-> 
->         dwMaxBitRate                115200000
-> 
->         dwMaxVideoFrameBufferSize      960000
-> 
->         dwDefaultFrameInterval         666666
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)            666666
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         7
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                            640
-> 
->         wHeight                           480
-> 
->         dwMinBitRate                147456000
-> 
->         dwMaxBitRate                147456000
-> 
->         dwMaxVideoFrameBufferSize      614400
-> 
->         dwDefaultFrameInterval         333333
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)            333333
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         8
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                            352
-> 
->         wHeight                           288
-> 
->         dwMinBitRate                 48660480
-> 
->         dwMaxBitRate                 48660480
-> 
->         dwMaxVideoFrameBufferSize      202752
-> 
->         dwDefaultFrameInterval         333333
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)            333333
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                         9
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                            320
-> 
->         wHeight                           240
-> 
->         dwMinBitRate                 36864000
-> 
->         dwMaxBitRate                 36864000
-> 
->         dwMaxVideoFrameBufferSize      153600
-> 
->         dwDefaultFrameInterval         333333
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)            333333
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                        10
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                            176
-> 
->         wHeight                           144
-> 
->         dwMinBitRate                 12165120
-> 
->         dwMaxBitRate                 12165120
-> 
->         dwMaxVideoFrameBufferSize       50688
-> 
->         dwDefaultFrameInterval         333333
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)            333333
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                        11
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                            160
-> 
->         wHeight                           120
-> 
->         dwMinBitRate                  9216000
-> 
->         dwMaxBitRate                  9216000
-> 
->         dwMaxVideoFrameBufferSize       38400
-> 
->         dwDefaultFrameInterval         333333
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)            333333
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                            30
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
-> 
->         bFrameIndex                        12
-> 
->         bmCapabilities                   0x01
-> 
->           Still image supported
-> 
->         wWidth                           1024
-> 
->         wHeight                           768
-> 
->         dwMinBitRate                125829120
-> 
->         dwMaxBitRate                125829120
-> 
->         dwMaxVideoFrameBufferSize     1572864
-> 
->         dwDefaultFrameInterval        1000000
-> 
->         bFrameIntervalType                  1
-> 
->         dwFrameInterval( 0)           1000000
-> 
->       VideoStreaming Interface Descriptor:
-> 
->         bLength                             6
-> 
->         bDescriptorType                    36
-> 
->         bDescriptorSubtype                 13 (COLORFORMAT)
-> 
->         bColorPrimaries                     1 (BT.709,sRGB)
-> 
->         bTransferCharacteristics            1 (BT.709)
-> 
->         bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
-> 
->     Interface Descriptor:
-> 
->       bLength                 9
-> 
->       bDescriptorType         4
-> 
->       bInterfaceNumber        1
-> 
->       bAlternateSetting       1
-> 
->       bNumEndpoints           1
-> 
->       bInterfaceClass        14 Video
-> 
->       bInterfaceSubClass      2 Video Streaming
-> 
->       bInterfaceProtocol      0 
-> 
->       iInterface              4 Nantian Camera 8513
-> 
->       Endpoint Descriptor:
-> 
->         bLength                 7
-> 
->         bDescriptorType         5
-> 
->         bEndpointAddress     0x82  EP 2 IN
-> 
->         bmAttributes            5
-> 
->           Transfer Type            Isochronous
-> 
->           Synch Type               Asynchronous
-> 
->           Usage Type               Data
-> 
->         wMaxPacketSize     0x1350  3x 848 bytes
-> 
->         bInterval               1
-> 
->     Interface Descriptor:
-> 
->       bLength                 9
-> 
->       bDescriptorType         4
-> 
->       bInterfaceNumber        1
-> 
->       bAlternateSetting       2
-> 
->       bNumEndpoints           1
-> 
->       bInterfaceClass        14 Video
-> 
->       bInterfaceSubClass      2 Video Streaming
-> 
->       bInterfaceProtocol      0 
-> 
->       iInterface              4 Nantian Camera 8513
-> 
->       Endpoint Descriptor:
-> 
->         bLength                 7
-> 
->         bDescriptorType         5
-> 
->         bEndpointAddress     0x82  EP 2 IN
-> 
->         bmAttributes            5
-> 
->           Transfer Type            Isochronous
-> 
->           Synch Type               Asynchronous
-> 
->           Usage Type               Data
-> 
->         wMaxPacketSize     0x0c00  2x 1024 bytes
-> 
->         bInterval               1
-> 
->     Interface Descriptor:
-> 
->       bLength                 9
-> 
->       bDescriptorType         4
-> 
->       bInterfaceNumber        1
-> 
->       bAlternateSetting       3
-> 
->       bNumEndpoints           1
-> 
->       bInterfaceClass        14 Video
-> 
->       bInterfaceSubClass      2 Video Streaming
-> 
->       bInterfaceProtocol      0 
-> 
->       iInterface              4 Nantian Camera 8513
-> 
->       Endpoint Descriptor:
-> 
->         bLength                 7
-> 
->         bDescriptorType         5
-> 
->         bEndpointAddress     0x82  EP 2 IN
-> 
->         bmAttributes            5
-> 
->           Transfer Type            Isochronous
-> 
->           Synch Type               Asynchronous
-> 
->           Usage Type               Data
-> 
->         wMaxPacketSize     0x0400  1x 1024 bytes
-> 
->         bInterval               1
-> 
->     Interface Descriptor:
-> 
->       bLength                 9
-> 
->       bDescriptorType         4
-> 
->       bInterfaceNumber        1
-> 
->       bAlternateSetting       4
-> 
->       bNumEndpoints           1
-> 
->       bInterfaceClass        14 Video
-> 
->       bInterfaceSubClass      2 Video Streaming
-> 
->       bInterfaceProtocol      0 
-> 
->       iInterface              4 Nantian Camera 8513
-> 
->       Endpoint Descriptor:
-> 
->         bLength                 7
-> 
->         bDescriptorType         5
-> 
->         bEndpointAddress     0x82  EP 2 IN
-> 
->         bmAttributes            5
-> 
->           Transfer Type            Isochronous
-> 
->           Synch Type               Asynchronous
-> 
->           Usage Type               Data
-> 
->         wMaxPacketSize     0x0200  1x 512 bytes
-> 
->         bInterval               1
-> 
-> Device Qualifier (for other device speed):
-> 
->   bLength                10
-> 
->   bDescriptorType         6
-> 
->   bcdUSB               2.00
-> 
->   bDeviceClass          239 Miscellaneous Device
-> 
->   bDeviceSubClass         2 
-> 
->   bDeviceProtocol         1 Interface Association
-> 
->   bMaxPacketSize0        64
-> 
->   bNumConfigurations      1
-> 
-> 
-> 
-> 
-> 
-> At 2024-07-26 18:20:57, "Laurent Pinchart" <laurent.pinchart@ideasonboard.com> wrote:
-> >Hi Chen Changcheng,
-> >
-> >Thank you for the patch.
-> >
-> >On Tue, Jul 23, 2024 at 04:29:55PM +0800, chenchangcheng wrote:
-> >> From: chenchangcheng <chenchangcheng@kylinos.cn>
-> >>
-> >> When opening the camera, it will send an interrupt transmission
-> >> to the host, which is a request initiated by VS to press a button.
-> >> But the camera does't have a physical button to send interrupt
-> >> transmission.
-> >
-> >Could you please send the output of `lsusb -v -d 1dfc:8513` (running as
-> >root if possible) ?
-> >
-> >> This button will cause the upper layer to actively turn off the camera.
-> >> Ultimately, it resulted in the failure to open the camera.
-> >
-> >That sounds like a weird behaviour. What upper layers are doing this ?
-> >
-> >> Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
-> >> Change-Id: Ie86c311569e8bdc891dc8af12febf6e8643e082f
-> >> ---
-> >>  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
-> >>  drivers/media/usb/uvc/uvc_status.c | 6 +++++-
-> >>  drivers/media/usb/uvc/uvcvideo.h   | 1 +
-> >>  3 files changed, 15 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> >> index 07128e0..0bdd23b 100644
-> >> --- a/drivers/media/usb/uvc/uvc_driver.c
-> >> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> >> @@ -2891,6 +2891,15 @@ static const struct usb_device_id uvc_ids[] = {
-> >>            .bInterfaceClass      = USB_CLASS_VENDOR_SPEC,
-> >>            .bInterfaceSubClass   = 1,
-> >>            .bInterfaceProtocol   = 0 },
-> >> +    /*  AlcorMicroCorp Nantian Camera 8513 */
-> >> +    { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
-> >> +                            | USB_DEVICE_ID_MATCH_INT_INFO,
-> >> +      .idVendor             = 0x1dfc,
-> >> +      .idProduct            = 0x8513,
-> >> +      .bInterfaceClass      = USB_CLASS_VIDEO,
-> >> +      .bInterfaceSubClass   = 1,
-> >> +      .bInterfaceProtocol   = 0,
-> >> +      .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_IGNORE_STATUS_EVENT) },
-> >>      /* Generic USB Video Class */
-> >>      { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
-> >>      { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-> >> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> >> index 2bdb0ff..17d68e8 100644
-> >> --- a/drivers/media/usb/uvc/uvc_status.c
-> >> +++ b/drivers/media/usb/uvc/uvc_status.c
-> >> @@ -99,8 +99,12 @@ static void uvc_event_streaming(struct uvc_device *dev,
-> >>      }
-> >>
-> >>      if (status->bEvent == 0) {
-> >> -            if (len < 4)
-> >> +            if (len < 4 || (dev->quirks & UVC_QUIRK_IGNORE_STATUS_EVENT)) {
-> >> +                    uvc_trace(UVC_TRACE_STATUS, "Ignore button (intf %u) %s\n",
-> >> +                      status->bOriginator,
-> >> +                      status->bValue[0] ? "pressed" : "released");
-> >>                      return;
-> >> +            }
-> >>              uvc_trace(UVC_TRACE_STATUS, "Button (intf %u) %s len %d\n",
-> >>                        status->bOriginator,
-> >>                        status->bValue[0] ? "pressed" : "released", len);
-> >> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> >> index c7c1baa..8ac3c28 100644
-> >> --- a/drivers/media/usb/uvc/uvcvideo.h
-> >> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> >> @@ -198,6 +198,7 @@
-> >>  #define UVC_QUIRK_RESTRICT_FRAME_RATE       0x00000200
-> >>  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT     0x00000400
-> >>  #define UVC_QUIRK_FORCE_Y8          0x00000800
-> >> +#define UVC_QUIRK_IGNORE_STATUS_EVENT       0x00001000
-> >>
-> >>  /* Format flags */
-> >>  #define UVC_FMT_FLAG_COMPRESSED             0x00000001
-> >
-> >--
-> >Regards,
-> >
-> >Laurent Pinchart
-> 
-> [webmail]
+The XCLR active level is "Low" at the init time. It is set to "high" 
+during power-on / normal operation
 
--- 
-Regards,
+>
+>> However, the reset-gpio logical value is set to 1 in during power-on
+>> and to 0 on power-off. This is incorrect as the reset line
+>> cannot be high during power-on and low during power-off.
+> If the line is physically high or low only depends on how the active
+> level is specified in DTS, not by the logical value provided to
+> gpiod_set_value[_cansleep]()
 
-Laurent Pinchart
+True.
+
+AS far as I can see, the DT binding schema specifies 'reset-gpios:' - 
+without the active level
+
+The active level is I suppose, intentionally left to the DT implementation ?
+
+>> Rectify the logical value of reset-gpio so that it is set to
+>> 0 during power-on and to 1 during power-off.
+> This is correct, the reset line should be set to logical 0 (inactive)
+> during power on and to logical 1 (active) when powering off. However
+> the GPIO active state should have been specified in bindings and as
+> this driver has been mainline quite some time, this change will break
+> .dtbo already used succesfully with previous kernel releases.
+>
+> Is this an issue ?
+
+Yes, if the patch is accepted, the Device-tree implementation for IMX335 
+will need to be adjusted accordingly. This can be an issue definitely - 
+but on the other hand, this attempts to rectify a mistake, no?
+
+>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/media/i2c/imx335.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+>> index cd150606a8a9..878d88b5f476 100644
+>> --- a/drivers/media/i2c/imx335.c
+>> +++ b/drivers/media/i2c/imx335.c
+>> @@ -1171,7 +1171,7 @@ static int imx335_power_on(struct device *dev)
+>>   	usleep_range(500, 550); /* Tlow */
+>>
+>>   	/* Set XCLR */
+>> -	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+>> +	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+>>
+>>   	ret = clk_prepare_enable(imx335->inclk);
+>>   	if (ret) {
+>> @@ -1184,7 +1184,7 @@ static int imx335_power_on(struct device *dev)
+>>   	return 0;
+>>
+>>   error_reset:
+>> -	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+>> +	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+>>   	regulator_bulk_disable(ARRAY_SIZE(imx335_supply_name), imx335->supplies);
+>>
+>>   	return ret;
+>> @@ -1201,7 +1201,7 @@ static int imx335_power_off(struct device *dev)
+>>   	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>>   	struct imx335 *imx335 = to_imx335(sd);
+>>
+>> -	gpiod_set_value_cansleep(imx335->reset_gpio, 0);
+>> +	gpiod_set_value_cansleep(imx335->reset_gpio, 1);
+>>   	clk_disable_unprepare(imx335->inclk);
+>>   	regulator_bulk_disable(ARRAY_SIZE(imx335_supply_name), imx335->supplies);
+>>
+>> --
+>> 2.45.0
+>>
+>>
+
 
