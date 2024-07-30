@@ -1,125 +1,124 @@
-Return-Path: <linux-media+bounces-15540-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15541-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73EB5940B8B
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 10:28:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9498F940BAE
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 10:33:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A55351C23434
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 08:28:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AE5228B3F3
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 08:33:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C22DA19ADA4;
-	Tue, 30 Jul 2024 08:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C0741946A3;
+	Tue, 30 Jul 2024 08:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3FEoQJ7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V4dR5CkY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B18A194C8A;
-	Tue, 30 Jul 2024 08:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C35B187853;
+	Tue, 30 Jul 2024 08:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722327901; cv=none; b=nt+8XNWRmMjrObXM1E1TbR2t57IN6gNnJzJvkrdkcyg50KGeqo+y+GLXY68nDY9mu6gGaUFZ1RnnP3f2eqIHC4Dn+PKcc2K9rb8+JzrT2Cb44VTkUaHzf+0sBVIz8oXMQgAOiE72eUlxAtXRl8tMkvuUk82hJLB6tNR81wC8/KQ=
+	t=1722328055; cv=none; b=qro8XCucyb2RfXi6JBhuPiePkJOxxLFkeHaByGgSpUL4Pv+2bmHl9sIp9I4/8VHsfAVfZBMP0GOtyeHf91PcExFSAnz8t8VcRBAj8jgtoH8nyU0TK9A6rVKfkO4T7RWspnVhphhVqX9B/MTlWggeAnDEgQ9VP526aQXR2898e14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722327901; c=relaxed/simple;
-	bh=3qC6W9FW48cV0VFz5lrWHh7WKfGts00F2ln5gY2CJ6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gNZXpjLSWYYWfg8IufZiSs1akZfUPk8LboSTspauIObz6fV9X6I9y9bxT3euaUgugJDas9UwMqUuJBvC7HxDOdCJFxY0REYP4QllxUAbo9FMSy4+xZUbSESmy9oDDmj4vLnFBntH6nIMo1nHqcJWHQ83v+tQvix2SRGeeFus328=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3FEoQJ7; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722327899; x=1753863899;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3qC6W9FW48cV0VFz5lrWHh7WKfGts00F2ln5gY2CJ6o=;
-  b=B3FEoQJ7JHpddv3x0Xwz8Oz1JwtkgDS99ylPUO6iaZ91RCZ5Kzi1lXL+
-   JDZAFn6PTTs9u/H4UJbASJE3ndf40WVcq0SJbRKTMEJkEbe2DtQRDvuEt
-   gOjwXGB2QWUOJeiomvmh9YeN8MFXONoRJ03pqZzAz7eLdwu3oTMx9N05s
-   IVFrf7JVywYPoFEuoIsrgMFahNx1LhWz8xtw2+mm1ZXcQ5ELx71gIlnDK
-   uvdrPv3ju79yhftmzh7xE84zZmpAfT16OHHgv287OIbGbQ5ap2Lgh8IKC
-   Eeh52l6r/TlZSdEuLNImS6QxESk11ikMteTDTKBJiCb8cGuZGoESg6Ee5
-   A==;
-X-CSE-ConnectionGUID: IsMMx/JYSfe1y3XHuVKHEw==
-X-CSE-MsgGUID: vul82WgXQS+pwVj7bXpj7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="12785605"
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="12785605"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 01:24:58 -0700
-X-CSE-ConnectionGUID: 1vBdw10iQVCOWoYqCw6w5A==
-X-CSE-MsgGUID: GY+qAnyzTRSrZJ8Cpf6zOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="59336062"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 01:24:57 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E171311F811;
-	Tue, 30 Jul 2024 11:24:53 +0300 (EEST)
-Date: Tue, 30 Jul 2024 08:24:53 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
-	stable@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 2/2] media: imx335: Fix reset-gpio handling
-Message-ID: <ZqijVf68ZQuFGKhU@kekkonen.localdomain>
-References: <20240729110437.199428-1-umang.jain@ideasonboard.com>
- <20240729110437.199428-3-umang.jain@ideasonboard.com>
- <ef05c39a-ad5c-4751-a758-f73a2d114823@kernel.org>
+	s=arc-20240116; t=1722328055; c=relaxed/simple;
+	bh=RkMiwhOTcXkFp3tFZtI9rqPQrFrDjm7VNpQvY/1ltg8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FoCUL0v6Bg8HIAf1EKZh1RAIi64i7djiFOCsd/uMGiStyWkIoJQ+NG4Cc8yNLT5wEmLpvXK305SrvZTBv1WowZSB7TmNEt66i6dN6pMAttv3wde7g0orn2sPGaIZ+OELQ1POWzIW/JPGUepu4BrHWFKxDO6BrOAfX1beizktVWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V4dR5CkY; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1fc587361b6so27497675ad.2;
+        Tue, 30 Jul 2024 01:27:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722328052; x=1722932852; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0C8gOjqrcr9qUGB3HJrE/AWdb1TKczBphAXEi6KgblU=;
+        b=V4dR5CkYATnOlOepAUneGmwFtHnRkTjIlwDc2jXEzbiJPdT11D/T2bKpV0ZfS8yHcV
+         A2A0t4lpX3NmCyss0GATOUHYsE/HRSoOb7zuUxn7qvwc06BgNGDH4UPgfQgpU/KEFLRM
+         i3ilT4vdAtr20qLZ6AkhCRK35/bgmltWoSK0EI+UcLAKKr10KoM5KyEXyfQXwRx9Lq9r
+         mihcrkCjSwT8J7dps9FQvrDp4U0SV/bdzIUH22G2bIl0n1asSdUfCcOn4RLm4V1LpDdb
+         u7Y6PQSMR7bOW/fmlcVdri6oCjvxc8/RAwfWCUrag3Sv2KQntef8eL8BnJIHgKpkh0dn
+         lnQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722328052; x=1722932852;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0C8gOjqrcr9qUGB3HJrE/AWdb1TKczBphAXEi6KgblU=;
+        b=LiLjoP5NebijrRzt/qnb6afi8RoEYXIAe+jDKchTcCXZjW4v6bBh30jNYzho4m+RL1
+         APtYI+0F6tUcn/IxyDAkIb2lMltQzNnxig6gfBq2WJbCOX4l5kUxNsRPlOM2VRbqnqhH
+         O/vQQ17BbGN3q5tfKuYUpsdedp7LIGBMYvaePZQ4Eo1c4PLSWr5/Dl1vqnDUfEye4OOQ
+         A5ArClIMpbSRRc3itzeYTuJLcX26kf28lDQIYjFIQ+f7ezZZruLkCjgld9le+D4/vrmc
+         TLFDikNqQb3o9vFvqnQM6wdDlu5KL48lwYEaTD5ALaXMU2Yb6N/usUKim/EQWl0z+8J/
+         kChQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWshr3emWkosu78bRzjgyQCkwCHVPveKQu11l+EYXO1Q9r10F4Xps87wNFFiOM13WbxyN1aUaW80/2rPvIimfLIHbxVBYdtZPofBcCPhFxYsbu4hkkoLbZD5m0DkXGmrmO7dkTN9s5lKeI=
+X-Gm-Message-State: AOJu0YyeOLKSx+1qhxgcEMkdCrTlYH3tPKMUyrm3+0I6X0+k9WJIxgsC
+	f9LG2whz5VOAKCBQoDufCluc344keCSV857VnUpcI/PYPIDBSJaUbAmYW2BkK4k=
+X-Google-Smtp-Source: AGHT+IG/CA98Fq2bpUtZhi/Mp30dxyYK9WopLNARN3D0DweQX5pqwkFzUNS8XPiNowwLQbcjBncYLw==
+X-Received: by 2002:a17:903:228d:b0:1fd:93d2:fba4 with SMTP id d9443c01a7336-1ff048e4f38mr83563235ad.48.1722328052208;
+        Tue, 30 Jul 2024 01:27:32 -0700 (PDT)
+Received: from 13444938e8c9.debconf24.debconf.org ([210.110.131.57])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7d29228sm98473635ad.106.2024.07.30.01.27.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 01:27:31 -0700 (PDT)
+From: Kathara Sasikumar <katharasasikumar007@gmail.com>
+To: 
+Cc: ~lkcamp/patches@lists.sr.ht,
+	hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	helen.koike@collabora.com
+Subject: [PATCH] media: atomisp: Fix trailing statement in ia_css_de.host.c
+Date: Tue, 30 Jul 2024 08:27:25 +0000
+Message-Id: <20240730082725.2524-1-katharasasikumar007@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef05c39a-ad5c-4751-a758-f73a2d114823@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+Fix checkpatch diagostic of Error : Trailing statements should be on the
+next line
 
-On Mon, Jul 29, 2024 at 04:09:39PM +0200, Krzysztof Kozlowski wrote:
-> On 29/07/2024 13:04, Umang Jain wrote:
-> > Rectify the logical value of reset-gpio so that it is set to
-> > 0 (disabled) during power-on and to 1 (enabled) during power-off.
-> > 
-> > Meanwhile at it, set the reset-gpio to GPIO_OUT_HIGH at initialization
-> > time to make sure it starts off in reset.
-> > 
-> > Fixes: 45d19b5fb9ae ("media: i2c: Add imx335 camera sensor driver")
-> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx335.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> 
-> This will break all the users, so no. At least not without mentioning
-> ABI break and some sort of investigating how customers or users are
-> affected.
+Signed-off-by: Kathara Sasikumar <katharasasikumar007@gmail.com>
+---
+Hi,  
 
-I know the original authors aren't using the driver anymore and it took
-quite a bit of time until others started to contribute to it so I suspect
-the driver hasn't been in use for that long. There are no instances of the
-device in the in-kernel DTS either.
+This is my first patch for the kernel. 
+Big thanks to Helen Koike for the guidance 
+at her Debconf24 workshop.
 
-Any DTS author should have also noticed the issue but of course there's a
-risk someone could have just changed the polarity and not bothered to chech
-what it was supposed to be.
+Thank you,
+Kathara
+ .../media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c   | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I agree the commit message should be more vocal about the effects on
-existing DTS.
-
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c
+index 25e3f0822..e66faeda3 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/de/de_1.0/ia_css_de.host.c
+@@ -47,7 +47,8 @@ ia_css_de_dump(
+     const struct sh_css_isp_de_params *de,
+     unsigned int level)
+ {
+-	if (!de) return;
++	if (!de)
++		return;
+ 	ia_css_debug_dtrace(level, "Demosaic:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "de_pixelnoise", de->pixelnoise);
 -- 
-Kind regards,
+2.20.1
 
-Sakari Ailus
 
