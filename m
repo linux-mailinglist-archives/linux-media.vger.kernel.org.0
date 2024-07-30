@@ -1,238 +1,119 @@
-Return-Path: <linux-media+bounces-15567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AF594120C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 14:39:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3BD941209
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 14:39:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5012B1F21A5A
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 12:39:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 259752843B0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 12:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67C8919FA6B;
-	Tue, 30 Jul 2024 12:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C2719EED3;
+	Tue, 30 Jul 2024 12:38:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kHSaWT0D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BB30WSnH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD422757FC;
-	Tue, 30 Jul 2024 12:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EE6757FC;
+	Tue, 30 Jul 2024 12:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722343140; cv=none; b=eq1P3mcoGSaT4IGOCKrr+Ae4dNFlAVbizeXa6ZR7G26qV5k5guOucwD6SqQqzjVW7FDOjWLBNvRBzPf9ufbdD+x7bxKd5/mI1e4Nc2DAgNJ5nGP/8sCwYph3jRwp7PJv3x3+Irxu+YoJWUM2exDNAQlZjUg++5I2A52Ytii8QAE=
+	t=1722343130; cv=none; b=Sn5g8lGmaELwZBeAuxMsTW6NRH57KIJ35Er+JtsEhOT62l4eFnZ4IyEOfXORFY06H28VFE6YMuY5DR13Iue7vex0Qth09E5e0OiFHH+CRaxqSi1m4BVomqZ2yem4HT4ksh2GHeCaK+zSg2MP+G/URZkvuyAYmRJh12U11jASDNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722343140; c=relaxed/simple;
-	bh=lFTKPbFHREQpS123d9Xfv3BiBZqxvIzz/vBQn9ZUMo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HEn/ygimz9Riu1n24P5gvqAEgXQnSt5n3O8nwsvHxg/Iz9MuhBK0LVmNBzk0TczdUPeXY22ldr036+FmxWaFGQ6EKfzdodMidH84qW5cotwuJX1MzDk3oZRK8IQdxBvrPj7uuvmbnz5nKXBdDFpCJZXxs/SPjJseBWiFyf3gGhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kHSaWT0D; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E4E48A9;
-	Tue, 30 Jul 2024 14:38:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722343090;
-	bh=lFTKPbFHREQpS123d9Xfv3BiBZqxvIzz/vBQn9ZUMo8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kHSaWT0DxrWSgByUaApIi/7GpZMWCI4lvmojRXulYNTmJiZ3QRLATjgFuPvbqKI2H
-	 cjss6CjhV6/GBXrVpliUa1qxg+ghKk5UeVClOiXbtJyxRM8EivEx/XKVeJj+F4UnPl
-	 3ERdj+4TvugoQxoDRTtiwby3bvbIXfWtvz4L/ebQ=
-Date: Tue, 30 Jul 2024 15:38:36 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Julien Stephan <jstephan@baylibre.com>,
-	Andy Hsieh <andy.hsieh@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Louis Kuo <louis.kuo@mediatek.com>,
-	Phi-Bang Nguyen <pnguyen@baylibre.com>
-Subject: Re: [PATCH v6 1/5] dt-bindings: media: add mediatek ISP3.0 sensor
- interface
-Message-ID: <20240730123836.GK1552@pendragon.ideasonboard.com>
-References: <20240729-add-mtk-isp-3-0-support-v6-0-c374c9e0c672@baylibre.com>
- <20240729-add-mtk-isp-3-0-support-v6-1-c374c9e0c672@baylibre.com>
- <92b18918-979d-43f6-890d-888caea08561@collabora.com>
- <2a01a1b2-4da7-42a2-b215-a32b53082290@collabora.com>
+	s=arc-20240116; t=1722343130; c=relaxed/simple;
+	bh=scfzS0K0VaYL1XByFe1MCrgJqGcJUkxVr2FuHOjIQh8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Psi/iVbOwPoaGrSOFlUJDn34us2+Y2yHdTms+4G/UJk5IfQj6uutNsYM849Gf346kcNSZ+XdqdTTzwpUZ8R6jVlW7PRyRoml+2C7getkx8iNvLwNJ1Ie4JZOSrgo8QvUCV/zMlhv217zSbNJ6SKzcwJqYhVcvyxZPuFZQKBe2lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BB30WSnH; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1fc6ee64512so28936085ad.0;
+        Tue, 30 Jul 2024 05:38:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722343129; x=1722947929; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OXzR6gxYVqwUfoPPIjjw4WoNbj2GDAwK/nIZ01IJrvI=;
+        b=BB30WSnHJ4cPJhcgONUg3LnWtCuzTnChnrULMkMaxUpcPHgNdsmSPMgQW7opvBOVnE
+         g7/+mL5zlDmCqeFuuw/HzCGk8GIxlh86itZs1Spx+a9oIQKYwi5G3c3y4qobeo/CAmNa
+         6Rj2xPsOawP0MsIyAg5k/yytsTzalbeoR/subV+SOG2DTefk+qHRZ1UOQJ5b2LbYZWhJ
+         j1wDQCkyZlJUduVAP3wwP2fZqxw91LRxCrDyfR4uzuxiyEgw72F30Xy/a8wojHB2EoMZ
+         v7U/ho0lJy/z8BBZNcP8rjdy4VwCEBEX5E1m365Td31H8Xsl2k0/rZBVY/EUkeejHNNA
+         zFyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722343129; x=1722947929;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OXzR6gxYVqwUfoPPIjjw4WoNbj2GDAwK/nIZ01IJrvI=;
+        b=FUgqQyXNsI5ekUk3bwCjWt/R7Rpx5Ok9KkhXsXIgPgsvt/bP9criFplF0YJV9ESV8h
+         YTvdc1EVuz886wNyPviXBjJwaBXmXhh/dg6z8S4lXObAwHyXIhjiQ0XpmsBbQWssUB9J
+         pHZdLPPKM0LGDOvG9cNg342/I10a+SGvUjZuPriB0VYFEuj1nGIDrk9heQ7WWBl7d64o
+         yITXkcc76o8Z62tsJt6Vf1v0JDzk0/n6ctNGPb6aFUfr9znD2uYzSfZYsmaI2aPB/eZL
+         uO9WnB+hWZuIAJugh0D6SN/t7aSonRPm54v9Os0wYNPzddZhO9Iol2F+/2HX2/2FrmL4
+         Cbzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnbo0o63f2XA/EHgaJdJrTjb1X0wWdnktzqPV0c7mwGCfiOsFwp1/+5Y9Potfnp6xzMk2+yLDGbmGIqeN36ZrNfx0c8s+EfRlhsCW8eyXyIIfeoiKyQwg/y3mZhP3zGhar5++3cKNVSDU=
+X-Gm-Message-State: AOJu0YyseTRI7tLYjpUjbxRjXumYDoN+xAZsFq2VCnbriYX5SbtPsdeq
+	BKWz9KYaoVP2tJZoPjL8RpCwmyf2kaKZuNej/CYo0JsiV2bKoSkB
+X-Google-Smtp-Source: AGHT+IGpg4llAy6pM/N8Vx3JTRndVzPaI10cX2cZwlz6kJDnN+2KRVmAKdhoAZ4FK5shGeCXTTduew==
+X-Received: by 2002:a17:902:e80d:b0:1fd:a412:5dff with SMTP id d9443c01a7336-1ff048e4db4mr109497115ad.43.1722343128495;
+        Tue, 30 Jul 2024 05:38:48 -0700 (PDT)
+Received: from localhost.localdomain ([211.171.34.11])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7ce7e4asm101081865ad.83.2024.07.30.05.38.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 05:38:48 -0700 (PDT)
+From: Kartik Kulkarni <kartik.koolks@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	akari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	helen.koike@collabora.com,
+	kartik.koolks@gmail.com
+Subject: [PATCH] staging: atomisp: bnr: fix trailing statement
+Date: Tue, 30 Jul 2024 12:38:42 +0000
+Message-Id: <20240730123842.37487-1-kartik.koolks@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2a01a1b2-4da7-42a2-b215-a32b53082290@collabora.com>
 
-Hi Angelo,
+Fix checkpatch error trailing statements should be on next line in
+ia_css_bnr.host.c:48.
+---
+Newbie to contributing to kernel code
+---
 
-On Mon, Jul 29, 2024 at 05:08:35PM +0200, AngeloGioacchino Del Regno wrote:
-> Il 29/07/24 16:57, AngeloGioacchino Del Regno ha scritto:
-> > Il 29/07/24 16:48, Julien Stephan ha scritto:
-> >> From: Louis Kuo <louis.kuo@mediatek.com>
-> >>
-> >> This adds the bindings, for the mediatek ISP3.0 SENINF module embedded in
-> >> some Mediatek SoC, such as the mt8365
-> >>
-> >> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> >> Signed-off-by: Phi-Bang Nguyen <pnguyen@baylibre.com>
-> >> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> >> ---
-> >>   .../bindings/media/mediatek,mt8365-seninf.yaml     | 259 +++++++++++++++++++++
-> >>   MAINTAINERS                                        |   7 +
-> >>   2 files changed, 266 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml 
-> >> b/Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
-> >> new file mode 100644
-> >> index 000000000000..8bd78ef424ac
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
-> >> @@ -0,0 +1,259 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +# Copyright (c) 2023 MediaTek, BayLibre
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/media/mediatek,mt8365-seninf.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: MediaTek Sensor Interface 3.0
-> >> +
-> > 
-> > ..snip..
-> > 
-> >> +additionalProperties: false
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
-> >> +    #include <dt-bindings/interrupt-controller/irq.h>
-> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >> +    #include <dt-bindings/phy/phy.h>
-> >> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
-> >> +
-> >> +    soc {
-> >> +        #address-cells = <2>;
-> >> +        #size-cells = <2>;
-> >> +
-> >> +        csi@15040000 {
-> >> +            compatible = "mediatek,mt8365-seninf";
-> >> +            reg = <0 0x15040000 0 0x6000>;
-> >> +            interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_LOW>;
-> >> +            clocks = <&camsys CLK_CAM_SENIF>,
-> >> +                     <&topckgen CLK_TOP_SENIF_SEL>;
-> >> +            clock-names = "camsys", "top_mux";
-> >> +
-> >> +            power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
-> >> +
-> >> +            phys = <&mipi_csi0 PHY_TYPE_DPHY>, <&mipi_csi1>;
-> >> +            phy-names = "csi0", "csi1";
-> >> +
-> >> +            ports {
-> >> +                #address-cells = <1>;
-> >> +                #size-cells = <0>;
-> >> +
-> >> +                port@0 {
-> >> +                    reg = <0>;
-> >> +                    seninf_in1: endpoint {
-> >> +                        clock-lanes = <2>;
-> >> +                        data-lanes = <1 3 0 4>;
-> >> +                        remote-endpoint = <&isp1_out>;
-> >> +                    };
-> >> +                };
-> >> +
-> >> +                port@1 {
-> >> +                    reg = <1>;
-> >> +                };
-> >> +
-> >> +                port@2 {
-> >> +                    reg = <2>;
-> >> +                };
-> >> +
-> >> +                port@3 {
-> >> +                    reg = <3>;
-> >> +                };
-> > 
-> > I don't really get why you got all those empty ports here, as you could simply
-> > avoid adding all of the empty nodes instead.
-> > 
-> > I don't have strong opinions about that anyway so, regardless of that....
-> > 
-> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> 
-> Wait a minute. No. The ports are all required?! Why?!
+Signed-off-by: Kartik Kulkarni <kartik.koolks@gmail.com>
+---
+ .../atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c      | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Because they exist at the hardware level, even if not all of them are
-supported in drivers in this series. Ports 6 to 9, for instance, are
-connected to ISPs that have no current mainline support, but they exist
-in the hardware.
-
-> >> +
-> >> +                port@4 {
-> >> +                    reg = <4>;
-> >> +                    seninf_camsv1_endpoint: endpoint {
-> >> +                        remote-endpoint = <&camsv1_endpoint>;
-> >> +                    };
-> >> +                };
-> >> +
-> >> +                port@5 {
-> >> +                    reg = <5>;
-> >> +                    seninf_camsv2_endpoint: endpoint {
-> >> +                        remote-endpoint = <&camsv2_endpoint>;
-> >> +                    };
-> >> +                };
-> >> +
-> >> +                port@6 {
-> >> +                    reg = <6>;
-> >> +                };
-> >> +
-> >> +                port@7 {
-> >> +                    reg = <7>;
-> >> +                };
-> >> +
-> >> +                port@8 {
-> >> +                    reg = <8>;
-> >> +                };
-> >> +
-> >> +                port@9 {
-> >> +                    reg = <9>;
-> >> +                };
-> >> +            };
-> >> +        };
-> >> +    };
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index d6c90161c7bf..6bd7df1c3e08 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -14158,6 +14158,13 @@ M:    Sean Wang <sean.wang@mediatek.com>
-> >>   S:    Maintained
-> >>   F:    drivers/char/hw_random/mtk-rng.c
-> >> +MEDIATEK ISP3.0 DRIVER
-> >> +M:    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> +M:    Julien Stephan <jstephan@baylibre.com>
-> >> +M:    Andy Hsieh <andy.hsieh@mediatek.com>
-> >> +S:    Supported
-> >> +F:    Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
-> >> +
-> >>   MEDIATEK SMI DRIVER
-> >>   M:    Yong Wu <yong.wu@mediatek.com>
-> >>   L:    linux-mediatek@lists.infradead.org (moderated for non-subscribers)
-> >>
-
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
+index 457a004e1..b75cfd309 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
+@@ -45,7 +45,8 @@ ia_css_bnr_dump(
+     const struct sh_css_isp_bnr_params *bnr,
+     unsigned int level)
+ {
+-	if (!bnr) return;
++	if (!bnr)
++		return;
+ 	ia_css_debug_dtrace(level, "Bayer Noise Reduction:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "bnr_gain_all", bnr->gain_all);
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
 
