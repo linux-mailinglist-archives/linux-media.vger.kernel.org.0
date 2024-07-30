@@ -1,125 +1,126 @@
-Return-Path: <linux-media+bounces-15576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15577-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215ED941479
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 16:35:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D17B941492
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 16:43:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEFD71F23DBF
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 14:35:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCB16284315
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 14:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A6281A2569;
-	Tue, 30 Jul 2024 14:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A171A257B;
+	Tue, 30 Jul 2024 14:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="kewX3bjr"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sE8Z1CiU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A91C18FC75;
-	Tue, 30 Jul 2024 14:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF6319DF41
+	for <linux-media@vger.kernel.org>; Tue, 30 Jul 2024 14:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722350117; cv=none; b=rj5+yuBW4a1e1KKGDcE7vQRkZR5Id/3hWazFcQ6D7ljs7zai40YHq8bqFoOiSajHquCkb+zjnZcVqohsHxkcAePj6JgdJbyMgFZVbQ1MB3ZSg1HhXminFwJ1ZaDM4ONc/vRjuhWSaFW2Te1hl9LnaqBHJDkq53ekbVTS/+49nEQ=
+	t=1722350598; cv=none; b=WAI6xkgKdEg9+aFxo9I3BUwMxnsQxZRo/ZknNnOBDa0V1b97P6DkGX4wrVOLG1ItxXKu6Ep60lgPPfzsaqw0PZjeF3XbcFCdCUVu7eL+Kk5tMzlJ/b4WclD08xKzLkITQLIlV7ERzciY6GKZRuY6T+/oU9PG7r89cqHBr7IIGPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722350117; c=relaxed/simple;
-	bh=JhY1Y3ip6eClPY+P/MEpnktsK/w4JKZqqsx2mtxqIW0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=PmZvSqtLqeiTru4+ShNs/9oUltVqdOxuOdpAM1+dTRFGWJvuhBzHh/XQA7qTI6VWUlJO72/7fVqFRPbpsux09HUwG/N7oLsUSOzmy3s4iWOee+jze9ms9J+LFEhgWLdLkF0izVL18c5lEhSM1don2C2BHtCwMbZJFqfHazuq3tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=kewX3bjr; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1722350086; x=1722954886; i=markus.elfring@web.de;
-	bh=erEqLbR3UVJtu/sTLZpah7HRshWQQmK1WXT0v24AMf4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=kewX3bjrpOFxrz5++x+RjIH9lwU7yHgteiCr8NNG2iKcHwA9Rv5K2oo5Fq05Jccy
-	 u1OLivaeaOh9tT2ZbZQcI79egbLEMagrvEiC/vE/6bA59FtYCkpWaEpkll4auyWyp
-	 4FjNxl0MBA4p022WNCtvkTh5oSP1kQYHfxJDMvQlwNt8K2YK7Z3PaqGOJMVhxpABw
-	 cjYj9+fGG1yEhQey4FE39jbE3i8zbdDAAknttS3G9RnOfltNl8III1BnWzy1xh5da
-	 E0qzCViMmnn4HC8CR81oFCuFh6CeQH+0PilPIxuv0zFk2XWj0G2ybtJrAjyFKMdBn
-	 M6+4PWuWtVBFueDYiw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MCXVX-1sQnKQ40kV-00Dp1b; Tue, 30
- Jul 2024 16:34:46 +0200
-Message-ID: <0962976e-18c7-478a-a829-8e1cc6cfa60f@web.de>
-Date: Tue, 30 Jul 2024 16:34:44 +0200
+	s=arc-20240116; t=1722350598; c=relaxed/simple;
+	bh=Om4ERC7VqqlNP0k+2cruuobLicBrUelIiNGiFuwCyTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UeGnlqyVuJIT//aMqvFCbPBahk/FJ+frx8I60T4YhxexT2tVh7HJ/Yvu6lN9L4tsg9DPd6XTRrsmiK2dF19rox1fv+ZyIWbFsu2lqgm45IViotMg+LsQjuLZt4iJDWTMx6UGg1WMAwJ89UJF5lDKe+HXASNXfhMa1pCwfI0htjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sE8Z1CiU; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3db16129143so2701218b6e.0
+        for <linux-media@vger.kernel.org>; Tue, 30 Jul 2024 07:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722350595; x=1722955395; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NYaUiMVR737+a9vHy0nK52dupPoGOgPRjQey1WHJB1Q=;
+        b=sE8Z1CiUHRLgAk7Z7ZsQAm5++lc8vBaUdfHZGTogWiW9031y/c0Awdt4vrI+O4tXul
+         dSSamMU5HVUwGplA99IPnfEMotceRj2QfHOS8LwTf2gzW/fwwj5kSY0mXQ8A0qezNDq9
+         qaPnoF6546ypFzkEY8eQ7u10pxZR7cUKC+ceZXQy+l4RxyYOC4/jDwZU0j1tLZL/CA/A
+         rEuwIKDAvq28pkzjpUmhOpHghMDTADyezOhQgq8w8boz5vzWcegTBOKLBS/0fsaaehBj
+         t5xJ3kl+goLGdALsv603wEDVbfwjw7sz1rZ1/OLqXDorPHTVDWvHzCJ6y87/xqq0TI09
+         o+xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722350595; x=1722955395;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NYaUiMVR737+a9vHy0nK52dupPoGOgPRjQey1WHJB1Q=;
+        b=QWjkqB9A9i/Y9vVh2grWFPYzgIy62nGgTFS4GDOT0m5W2As3sORh3+f9SpybzTAqXy
+         TgGitcJm0XVOp903YHDid7vmXEzLLK9A45cZCutPaI50vXJ7LoTlgn7Z8m11RISPngbB
+         niadjdeXtA+HMm+OnwirVcMnBlwd2xf9KNI/FTbmdDigGku7ZnaiujnT0yJOFv4wEWOC
+         fQ/DFFZzCf5Kyp7FkntonVSJJISlhGsGwaqVdPjq066uz5xjWaYdR7I/v/SXbxFkOkpy
+         TrXDQc03kAJHxPbgywcIiUFEvBgbrOciwwGG+e399dHI4X8OfZ0QbvQzdyQWOAEPLS1y
+         /JWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXuzsymI32m7TJCnyuBxEvT4kGFGvZHP7O5l37ZaGEcXv8Ky0l3wrbqVWxVjsr/b1fdPhFSZzxyI2TmLO4rpkfJ9Qr2TDay/4G0sos=
+X-Gm-Message-State: AOJu0YyvoAt8Ffb1o5548mWEU3KAvA6DBkcxkoxMuxJH91/KyCqTbeEm
+	u/iDsFRGE3719cvw9pVz7gyatSWMMf+ziAHXxHKaMxrxhINneCaNFwOXcEdYK8k=
+X-Google-Smtp-Source: AGHT+IGuXBra4zsWnYNWnRqLnedt26KvTmSvT/pDGfaLXeIuq/5uIHAg5xLd8VXHkdc4QWOhhHUs2Q==
+X-Received: by 2002:a05:6808:1289:b0:3d5:4256:26d4 with SMTP id 5614622812f47-3db2389c6ffmr17162599b6e.7.1722350594816;
+        Tue, 30 Jul 2024 07:43:14 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3db417ed7e2sm303408b6e.8.2024.07.30.07.43.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jul 2024 07:43:14 -0700 (PDT)
+Date: Tue, 30 Jul 2024 09:43:12 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sean Whitton <spwhitton@spwhitton.name>
+Cc: ~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: Add parentheses around macro
+ definitions
+Message-ID: <f702d0b7-e316-4190-876c-1398f0ddcd6a@suswa.mountain>
+References: <20240730062348.46205-2-spwhitton@spwhitton.name>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Florian Sylvestre <fsylvestre@baylibre.com>,
- Julien Stephan <jstephan@baylibre.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Paul Elder <paul.elder@ideasonboard.com>,
- Phi-bang Nguyen <pnguyen@baylibre.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Andy Hsieh <andy.hsieh@mediatek.com>,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240729-add-mtk-isp-3-0-support-v6-4-c374c9e0c672@baylibre.com>
-Subject: Re: [PATCH v6 4/5] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 camsv
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240729-add-mtk-isp-3-0-support-v6-4-c374c9e0c672@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:dpx+dzgS4rW78tkaB9aMkyTJNBcagz1rU5j0sT7u24JC04ElGVN
- zVuwH6ocADUqXpNuiUpRdXTBwSFv0BunGwPCPU+qhOPOdNggiNIkW+1jXBweJH1M+nILp+u
- BOGlM7fY1gLbspxNIl03lpu718r6ieuO2NglvMvVhZCfyWIw5Wut3bBUsYzmFH+uYXyB3hC
- yQNxVRLz2nZo0KArbKkhw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:hxC21qntc+E=;/GbKhZlfiRbRlhYCom9CM8c+8jX
- L61vx2JfQJyc4ETmCdHawr735TIgG7j+TCFemXle819vYxBZWAmZeoC6UZ7+VnZ++YoZrjtBc
- u/z//q++eqRjbeHWGMJ4lqPgqUQosEBirpoKD9P441Cvbr1lr3okdH82vAz18hGpo7eg9NRqF
- 6D2ddFlf91S3XiBpLicTq9Jg5wG9bQ4Hx8AxdnBr0Y1LXsJkzaeNU4tt4ZILU5vjd7DV+4C0C
- 9AY6J+qd8QYbBKN43rokJNKk95+9WyoiS5MK2T2tvyKaUpKpztguEISxvfwf37y69gC2wELs5
- XvJHPvpZbORH6I2c1KvNJO0LKmCP/2BsewCnr2lhFivQ09Mz+GmFR/W9fNfjpj6FDLm1lzE1p
- lyJPzl80vsVt3+ldiy0Glfrba1T/8rrG+18t6dauBEQaNK9Oi6b8KididULkV03Ut4mDirbAU
- i3U2aaQUoN5777C4RqvcmsgLRFtWlEIq5oMpoeru7QuB8oRAmUFfds6ALETihsg25zvs7Zqwb
- UhaUzHK8StxaeCwOq1nYLXY+W36nKpbjpjxoXp0eRgbQv9RZwIcmgfkhNjJsV7/qZyahzAzjV
- 15SVxcoEJ9c0hZtDjPbrVnoClCH9nJkPEfDcXb76nqlXWbBA9vtValOe0rWpChBwjZwOs0sSq
- t+sYC1Ni7+Wa2fowBOffupFc8c8gu4vmyJeM5h3mC3QTB8363fcbz53aI0ui4p4xuadEWIeOb
- j8FVFgipPSfqyMtHGFiEZfKdL7rvefZDl3ZOw2GU4nbOwtBnOlGun6ZenExbafJqjWhT4MZtr
- 5HK3PiHpXM5CSEh0i2p6/T/g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730062348.46205-2-spwhitton@spwhitton.name>
 
-> From: Phi-bang Nguyen <pnguyen@baylibre.com>
->
-> This driver provides a path to bypass the SoC ISP so that image data
-> coming from the SENINF can go directly into memory without any image
-> processing. This allows the use of an external ISP.
->
-> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-=E2=80=A6
+On Tue, Jul 30, 2024 at 03:23:45PM +0900, Sean Whitton wrote:
+> Fix checkpatch error
+> "ERROR: Macros with complex values should be enclosed in parentheses"
+> at hive_isp_css_include/sp.h:41, hive_isp_css_include/sp.h:42.
+> 
+> Signed-off-by: Sean Whitton <spwhitton@spwhitton.name>
+> ---
+>  drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> This is my first Linux kernel patch, from Helen Koike's DebConf24 workshop.
+> Thanks!
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
+> index a7d00c7bb8bc..128109afe842 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/sp.h
+> @@ -38,8 +38,8 @@
+>  #define STORAGE_CLASS_SP_C
+>  #include "sp_public.h"
+>  #else  /* __INLINE_SP__ */
+> -#define STORAGE_CLASS_SP_H static inline
+> -#define STORAGE_CLASS_SP_C static inline
+> +#define STORAGE_CLASS_SP_H (static inline)
+> +#define STORAGE_CLASS_SP_C (static inline)
 
-How does information from such a change description fit to details
-from an other notification?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.11-rc1#n396
+This must be dead code, otherwise it would break the build.  I'm not
+sure what's going on with this header file.  Anyway this patch isn't
+correct.
 
-=E2=80=A6
-The following address failed:
+regards,
+dan carpenter
 
-    pnguyen@baylibre.com:
-        SMTP error from remote server for RCPT TO command, host: aspmx.l.g=
-oogle.com (74.125.133.27) reason: 550-5.1.1 The email account that you tri=
-ed to reach does not exist.
-=E2=80=A6
-
-
-Regards,
-Markus
 
