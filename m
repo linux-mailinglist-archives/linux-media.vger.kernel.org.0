@@ -1,89 +1,163 @@
-Return-Path: <linux-media+bounces-15490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62D893FEA9
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 22:00:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9AA9401E0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 02:04:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4889CB21FAE
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jul 2024 20:00:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11D881C21FFE
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 00:04:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73FCA189F48;
-	Mon, 29 Jul 2024 20:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E3DD621;
+	Tue, 30 Jul 2024 00:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BunbjPEK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07F6188CA3
-	for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 20:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293D4D502
+	for <linux-media@vger.kernel.org>; Tue, 30 Jul 2024 00:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722283207; cv=none; b=f8RKYQum2YVNudZkv5X7STfqUPzo2qISlpyin95LOtD3rUv5yeJ6XqO7ZjQjyLcTBs8tMM17qpOBdhW0T1DLsJPSuG8bMj62hgljdORl2dLU5NcW19Opyrvw7BnCYVvFLxcPyTfyWiMBBRwfK6eYhlv5CMCib2JukQFQv+GiBM0=
+	t=1722297878; cv=none; b=qqHzo7dsiHJRalixR9azQior0/f+OAVkwSkoMmVlzS/gRyN/M86LBi0iVfmzj99RJmF+EEPHG49TO8WPkPnNKGo6+Cgd9RM/wSmgpPkuDcrkGXp0IKxgYWKJ3KyM4pfEdx5grf36Jx2aMzyit43UU5YDFbKvYHO1PJ54/8gIXHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722283207; c=relaxed/simple;
-	bh=k6BKGK6zvvx1FTptgx+Z1Rfw+VltyDEbzn/+HluoFNE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=Y7skEdwHstWwIb5JxFlTSKgN2A7AI8YaER7pl4uUYWwXhBkieexzWKrh5Q98+axbzYnxcgkU0ctzrzd+1+lB3bvrcsMlQNxIYJ8x9IwHYOfTiwFYRdjJUvIuZe8CEOblP3JLkb7n4uWJDt/9yihsgu9VQSskYoyi303itxVGzlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-39a1d269982so72631425ab.1
-        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 13:00:05 -0700 (PDT)
+	s=arc-20240116; t=1722297878; c=relaxed/simple;
+	bh=Q2O2EMOeiGFDs5+kYdZBRD/TdVfNulAX3+bVBDNqxMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PDiGTxW287ruab58eJfkXYFdjAy5TgosqrLTCyjS8wAkuEXq6lpRP2LO/p/s/rv1OnRrTfokd3EOuskGnSzowoycdxqgkicufn0rQs46xh5FqrXJo0BdbT9QGHDw7vsklKDLgwtoOeD/lOuCiEMLeVLrlCjy2SatbMvSVzRwJW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BunbjPEK; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-58f9874aeb4so5382354a12.0
+        for <linux-media@vger.kernel.org>; Mon, 29 Jul 2024 17:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722297874; x=1722902674; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nJeQtmZ/fhKgI+nxPmNQBZBf+a2l/q92OcFwO0K4lQY=;
+        b=BunbjPEKSdSiF8ROyVfRLnG7Ionbyn2v7Wix0AKeAoiGDHSdbsq/lBvF0vr0ivQc3H
+         JfY/W92QAdyVdR4ctCMpnDXQr6+BDOFZVPJP54QHlIhbJOhaoERfYYYcDQUrFL+xARPO
+         hRpm/vORv03PtNlgHE444UqxD3u+FMZxifKf34Sgbye7cj8MH88w71fnBgl2iny+th+O
+         mc4+iQHKeOv6Z5lcpWU7aSmiCe+UUlGiH7Lw7vpgk/B9XT5mlOGblcnTCO1FwikcpWeo
+         K0/VdpxGNgaDi/xdGaV4JSTMcN3fGNuIHEdJL0rMDqQ3s5Jwm5GEC5zyTFwpgyqIx2Ns
+         MqCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722283205; x=1722888005;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
+        d=1e100.net; s=20230601; t=1722297874; x=1722902674;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FD2BT1A/vVoyYUFr1yXG0cNDdoGiIzYRMHcW8QayngE=;
-        b=LmSNWekKQwKSk5rRr9+IvHvApZTlb2EsbR3r/UORzhXpKl+AVHgcnY+apRrQtO0yaM
-         c1+MyVDaIkxUYfbj7QcuDJdfpxiWEF6hSeHydLELnDhA29EFYY6fsVwNB9lQWP16g0TE
-         5pOsXsp0GNUC/dCh3UQdqYVaDV1XujNzuTpesuN5b+CPU21hM/Wrw6RuzwYNpA/kOsUO
-         JdxhQEmAE4u96vYQVUOFJyxi5a9mpyoEdYTzeihcqawfLpKUdbcGHfQuIko9ymxh0qxL
-         fLGihWHddl5tsmmcyecFIctwGXI2nrzIFFLY/thxe0W6XruZ9VKc/xPtakZvBe5MQK3N
-         LG9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUH2M6OAO3gHbdzbe0wr4B7f7nyaXbc+LpEeqS3oWse/J4Vv5CQ5ed/o6GhLf3k/vehr9/dFyBhnYjOM75OVo//FjHVEx69rUzP5rY=
-X-Gm-Message-State: AOJu0Yxjenr3QQw4kfnOK9KmYC9Z9CepcJc2Ciar/k1OUQO7qKimmc7P
-	G+iByRL6OUk6SNUXFhW404DO8t1Mox1+9oCKm2gmL25AM/i8/9ACyO9oLCeC1HSJB69XZzEjRcw
-	ZoVwwp3UCxG3kjA1nbnYiuV8uSRMt18EdzVb2pvQ/1MRC4+VBqamZf3U=
-X-Google-Smtp-Source: AGHT+IExrDm0332VUVax83+e/2y/2uKOBWocpWYLm6HxJRvLLIh1W6yYxsU1rub+r8ob2O91cAZzAY6C9mqIXh0VEu3sbxc5/eL+
+        bh=nJeQtmZ/fhKgI+nxPmNQBZBf+a2l/q92OcFwO0K4lQY=;
+        b=sd0UWVOz35fIf4ScRcsdFdshhgo1y0VUTw6j6ATD8Oi9iIzwn0s3RrWdHMkIsijgHs
+         lXi+VbCMdw0heg3DYnZcFqkbWSYv4i7anHH6RMZiRHixve0XPOaGtoF/b+8mAVD05dGW
+         UeRyac/p2mFrwgrdqF76rOu99ExqSLfwKLvFVKOZeXqsfosmgDascHhEq/9PvMK+07rl
+         0cD4lJGx0GlPaS/P8VV1wHA/sdlxDOfJwQBLjvLGnDAnG/vWQ9O6G1W1RZ7CNfytuPos
+         XErTaRYPPA4RuU38Daa2FWgsC6Co4UJMnqTiM5wvsBokPKjMDK5jVr0KriJ59nSltcwR
+         Rdaw==
+X-Gm-Message-State: AOJu0Yzhov6WguwqjTeWoHrCTlcp9RYUxW7lC5gCVmDsj98i78LI9Fhe
+	vsBSWBSvtLveLJ/nYUXU8u0tUiL83wwQm5TAZG/S4cdRtSZs+EnTJAT2syTnxKg=
+X-Google-Smtp-Source: AGHT+IGXPFjuwEruoOBD1t/X824UbcAmgTnTFOCBNHMWuZCVFEZbM7UNqjygJ8rMsLsGs29Q8EGHqQ==
+X-Received: by 2002:a05:6402:5210:b0:5a2:8bf2:92c6 with SMTP id 4fb4d7f45d1cf-5b02119042cmr6573994a12.21.1722297874495;
+        Mon, 29 Jul 2024 17:04:34 -0700 (PDT)
+Received: from [192.168.0.6] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5af758a6c36sm4883352a12.73.2024.07.29.17.04.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jul 2024 17:04:33 -0700 (PDT)
+Message-ID: <bb167c9a-0c9b-4ccd-af64-56346d8e448c@linaro.org>
+Date: Tue, 30 Jul 2024 01:04:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c245:0:b0:381:24e:7a8c with SMTP id
- e9e14a558f8ab-39aec2ca2bemr8248005ab.1.1722283204763; Mon, 29 Jul 2024
- 13:00:04 -0700 (PDT)
-Date: Mon, 29 Jul 2024 13:00:04 -0700
-In-Reply-To: <4442a354-87f1-4f7c-a2b0-96fbb29191d1@rowland.harvard.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009f6f85061e684e92@google.com>
-Subject: Re: [syzbot] [media?] [usb?] WARNING in smsusb_init_device/usb_submit_urb
-From: syzbot <syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, stern@rowland.harvard.edu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re:
+To: Fritz Koenig <frkoenig@chromium.org>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
+ stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com
+References: <20240729193219.1260463-1-frkoenig@chromium.org>
+ <CAMfZQbzvaLLTdAo_UW2CPNA1hv+cGtO6DnRb+MFKEpUfV7e7wA@mail.gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <CAMfZQbzvaLLTdAo_UW2CPNA1hv+cGtO6DnRb+MFKEpUfV7e7wA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello,
+On 29/07/2024 20:46, Fritz Koenig wrote:
+> On Mon, Jul 29, 2024 at 12:32 PM Fritz Koenig <frkoenig@chromium.org> wrote:
+>>
+>>
+>> v2:
+>> - cover letter
+>> - testing methodology
+>> - Signed-off-by
+>>
+>> V4L2 has support for hierarchical P frames using the
+>> V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING* controls. This allows for
+>> specifing P frame references needed for temporal scalability. Encoding a
+>> single stream with a single layer allows for the layer to be dropped and
+>> the stream to be decoded without artifacts.
+>>
+>> ChromeOS is planning to use this feature for the L1T2 web standard[1].
+>> This allows video conferencing apps to encode once for a clients with
+>> different performance/bandwidth capabilities.
+>>
+>> The ChromeOS test framework ("tast") was used to verify that no
+>> regressions are present. This was done on SC7180 ("trogdor").
+>>
+>> Verification of the added controls was done with a bitstream analyser to
+>> make sure that reference frame management is correct.
+>>
+>> [1]: https://www.w3.org/TR/webrtc-svc/#L1T2*
+>>
+> 
+> I still have plans to use git send-email correctly. Hopefully by the
+> next patch series.
+> 
+> Sorry for the missing subject, another email has been sent with the
+> correct subject.
+> I didn't realize that this had gone through.
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+b4 is your friend it will stop you making errors like this.
 
-Reported-by: syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com
-Tested-by: syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com
+https://b4.docs.kernel.org/en/latest/index.html
 
-Tested on:
+b4 prep --enroll HEAD
 
-commit:         93306970 Merge tag '6.11-rc-smb3-server-fixes' of git:..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=150f68d3980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8cdd6022e793d4ad
-dashboard link: https://syzkaller.appspot.com/bug?extid=85e3ddbf0ddbfbc85f1e
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=15b341c9980000
+git-cherry-pick <your seires of shas you want>
 
-Note: testing is done by a robot and is best-effort only.
+b4 prep --auto-to-cc
+
+b4 prep --edit-cover
+
+b4 prep --check
+
+b4 send --reflect --no-sign
+
+Finally when you're done
+
+b4 send --no-sign
+
+if you get feedback or Signed-off/Reivewed-by whatever
+
+b4 trailers -u
+
+git rebase some-patch
+
+do some stuff
+
+git rebase --continue
+
+when you're done
+
+b4 prep --edit-cover
+
+b4 send --no-sign --reflect
+
+---
+bod
 
