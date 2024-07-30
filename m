@@ -1,193 +1,108 @@
-Return-Path: <linux-media+bounces-15520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15522-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DD394094A
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 09:16:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED15894096E
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 09:19:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 141D61C20850
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 07:16:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 286231C22D88
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 07:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E2918FDA6;
-	Tue, 30 Jul 2024 07:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5029E18FC6D;
+	Tue, 30 Jul 2024 07:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="c/j0PEYN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACA6150981;
-	Tue, 30 Jul 2024 07:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E12167D98;
+	Tue, 30 Jul 2024 07:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722323726; cv=none; b=F/jGVGwuN20/4JSoGRfVPbQf6Mizoo0KySMSxRA48Umb1Hu/atI4d5H5QrYikBTqen7r8pcNz9tvhsqxjXJOl2sFxFaN2IIOd/Kh3pV33W61bSGd5eDv6gOV78SEHONTSC8uYu3bLk8JAl6C3dl50A66R/aNXbN0Ytb3uT9wP2c=
+	t=1722323971; cv=none; b=jpfh+EFGbASK6MwMRE7n33H3SyU7rlGbpu1mNHvpCvzPzsv5NmdOdpSTjzoL7YoYXvZ67u4aFqyyGaDeF4badHvS7ljIge4MYIASFuhpKWPasYRLOeDEYdUk6qzUMntbg/e0bYusbrPXHC+Btres39VsD8vx7ikDmiw/RqVs9HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722323726; c=relaxed/simple;
-	bh=HrSVNUHI9I60c8rU6phSmrY+tfaYXF76LWq6R2eqVyY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pI6QzCVIp8AXKLSXUbtnlh+O+C97kjpC5SoZHxSOTSsPc69z/4d0EmTw/xLjZakXlSFDcRDjiQadXpXaTlfwrDSQrcktfZsHNTr0J4I407jLr9m1IdsMS6Reb+vSELtZ9IOswSxKPP5kjtZWg2sdwyspBh0dBXwT56p2WxcVilc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E32DC32782;
-	Tue, 30 Jul 2024 07:15:24 +0000 (UTC)
-Message-ID: <590e52a2-d7ea-4b86-b1f2-a6875118653c@xs4all.nl>
-Date: Tue, 30 Jul 2024 09:15:22 +0200
+	s=arc-20240116; t=1722323971; c=relaxed/simple;
+	bh=RMaWVUETMYbDGkdMKPLhGUxtjSCrR2DPu/NrgvmaLrk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eP8KR87YE12Fa058uo0lJPiNXiRMun/bm4l2nlXyX5/XeX2pXVPoa/zQ8kyWhjZ+nRBdhIP+G3ILuT8+c3y2gmhNu6kKJW2Rb/QfbC9YiFI+YWSHdzYmraqqVRwGcWCL9MRmAK6z70xFTjtvmY5bCMoK0Uu0yEYsMWHSc78xSek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=c/j0PEYN; arc=none smtp.client-ip=198.252.153.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4WY66n3l6Yz9wLp;
+	Tue, 30 Jul 2024 07:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1722323969; bh=RMaWVUETMYbDGkdMKPLhGUxtjSCrR2DPu/NrgvmaLrk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=c/j0PEYNi1F/HeadiuEFR6SccEBK5gB7H6u2An4+3BeEi1BT/UQ0IufcYPL2mScrX
+	 2mjHFWVNhoF9cmQQ/0ctmZjncb6DzTckBn0pjJTnhNT5ruCDJ67E2z7SMOO92vyhRC
+	 wfqJIY1PTYca6c/MRtAj7GaQFfVao6l5qciXkF44=
+X-Riseup-User-ID: 2F254F26F599A5C4857019593F9CEAF21CBE7D8B47B78CBF02B0D3E66FC6C024
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4WY66h1YhmzJmrB;
+	Tue, 30 Jul 2024 07:19:23 +0000 (UTC)
+From: Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>
+To: 
+Cc: ~lkcamp/patches@lists.sr.ht,
+	hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	helen.koike@collabora.com
+Subject: [PATCH] media: atomisp: move trailing */ to separate lines
+Date: Tue, 30 Jul 2024 07:19:04 +0000
+Message-Id: <20240730071904.1047-1-sergiosacj@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] media: test-drivers: Use V4L2_FMT_FLAG_ENUM_ALL
- flag
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com
-References: <20240722150523.149667-1-benjamin.gaignard@collabora.com>
- <20240722150523.149667-3-benjamin.gaignard@collabora.com>
- <20240723094913.4zuywzqsthvkowlv@basti-XPS-13-9310>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240723094913.4zuywzqsthvkowlv@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 23/07/2024 11:49, Sebastian Fricke wrote:
-> Hey Benjamin,
-> 
-> On 22.07.2024 17:05, Benjamin Gaignard wrote:
->> Since V4L2_FMT_FLAG_ENUM_ALL flag mostly targeting stateless
-> 
-> s/Since/Since the/
-> s/targeting/targets/
-> 
->> decoder pixel formats enumeration, update vicodec visl test
-> 
-> s/pixel formats/pixel-format/
-> 
->> drivers to use it.
-> 
-> s/drivers/driver/
-> 
-> The rest below basically just strips the flag from every use-case of the
-> index, before using it.
-> 
-> I wonder couldn't we implement a macro for this, as I believe this will
-> have to be done in a lot of places, something like:
-> 
-> /*
->  * Drivers can support an enumeration of all formats, by ORing the
->  * V4L2_FMT_FLAG_ENUM_ALL flag into the index field.
->  * In order to use the index field, strip the flag first.
->  *
->  * See vidioc-enum-fmt.rst documentation for more details.
->  */
-> #define STRIP_ENUM_ALL_FLAG(index) \
->   index & ~V4L2_FMT_FLAG_ENUM_ALL
-> 
-> And then use it like this:
-> 
-> u32 index = STRIP_ENUM_ALL_FLAG(f->index);
+Fix checkpatch diagnostic "WARNING: Block comments use a trailing */ on
+a separate line" in assert_support.h file.
 
-There is really no advantage to that. It is much better to be explicit
-about it rather than hiding it in a define.
+Signed-off-by: Sergio de Almeida Cipriano Junior <sergiosacj@riseup.net>
+---
+Hi, this is my first patch to the kernel.
+---
+ .../media/atomisp/pci/hive_isp_css_include/assert_support.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Regards,
-
-	Hans
-
-> 
-> If we define this in a common header, then every driver can easily
-> utilize it and you have built-in documentation.
-> 
-> What do you think?
-> 
-> Regards,
-> Sebastian
-> 
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> drivers/media/test-drivers/vicodec/vicodec-core.c |  7 ++++---
->> drivers/media/test-drivers/visl/visl-video.c      | 11 +++++++----
->> 2 files changed, 11 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
->> index 3e011fe62ae1..1b4cd8ddd7c2 100644
->> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
->> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
->> @@ -706,6 +706,7 @@ static int enum_fmt(struct v4l2_fmtdesc *f, struct vicodec_ctx *ctx,
->>             bool is_out)
->> {
->>     bool is_uncomp = (ctx->is_enc && is_out) || (!ctx->is_enc && !is_out);
->> +    u32 index = f->index & ~V4L2_FMT_FLAG_ENUM_ALL;
->>
->>     if (V4L2_TYPE_IS_MULTIPLANAR(f->type) && !multiplanar)
->>         return -EINVAL;
->> @@ -718,18 +719,18 @@ static int enum_fmt(struct v4l2_fmtdesc *f, struct vicodec_ctx *ctx,
->>
->>         if (ctx->is_enc ||
->>             !vb2_is_streaming(&ctx->fh.m2m_ctx->cap_q_ctx.q))
->> -            info = v4l2_fwht_get_pixfmt(f->index);
->> +            info = v4l2_fwht_get_pixfmt(index);
->>         else
->>             info = v4l2_fwht_find_nth_fmt(info->width_div,
->>                              info->height_div,
->>                              info->components_num,
->>                              info->pixenc,
->> -                             f->index);
->> +                             index);
->>         if (!info)
->>             return -EINVAL;
->>         f->pixelformat = info->id;
->>     } else {
->> -        if (f->index)
->> +        if (index)
->>             return -EINVAL;
->>         f->pixelformat = ctx->is_stateless ?
->>             V4L2_PIX_FMT_FWHT_STATELESS : V4L2_PIX_FMT_FWHT;
->> diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
->> index f8d970319764..c5f3e13b4198 100644
->> --- a/drivers/media/test-drivers/visl/visl-video.c
->> +++ b/drivers/media/test-drivers/visl/visl-video.c
->> @@ -341,21 +341,24 @@ static int visl_enum_fmt_vid_cap(struct file *file, void *priv,
->>                  struct v4l2_fmtdesc *f)
->> {
->>     struct visl_ctx *ctx = visl_file_to_ctx(file);
->> +    u32 index = f->index & ~V4L2_FMT_FLAG_ENUM_ALL;
->>
->> -    if (f->index >= ctx->coded_format_desc->num_decoded_fmts)
->> +    if (index >= ctx->coded_format_desc->num_decoded_fmts)
->>         return -EINVAL;
->>
->> -    f->pixelformat = ctx->coded_format_desc->decoded_fmts[f->index];
->> +    f->pixelformat = ctx->coded_format_desc->decoded_fmts[index];
->>     return 0;
->> }
->>
->> static int visl_enum_fmt_vid_out(struct file *file, void *priv,
->>                  struct v4l2_fmtdesc *f)
->> {
->> -    if (f->index >= ARRAY_SIZE(visl_coded_fmts))
->> +    u32 index = f->index & ~V4L2_FMT_FLAG_ENUM_ALL;
->> +
->> +    if (index >= ARRAY_SIZE(visl_coded_fmts))
->>         return -EINVAL;
->>
->> -    f->pixelformat = visl_coded_fmts[f->index].pixelformat;
->> +    f->pixelformat = visl_coded_fmts[index].pixelformat;
->>     return 0;
->> }
->>
->> -- 
->> 2.43.0
->>
->> _______________________________________________
->> Kernel mailing list -- kernel@mailman.collabora.com
->> To unsubscribe send an email to kernel-leave@mailman.collabora.com
->> This list is managed by https://mailman.collabora.com
-> 
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/assert_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/assert_support.h
+index d294ac402..c5ab13511 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/assert_support.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/assert_support.h
+@@ -27,7 +27,8 @@
+  * #define assert(cnd) BUG_ON(cnd)
+  * but that causes many compiler warnings (==errors) under Android
+  * because it seems that the BUG_ON() macro is not seen as a check by
+- * gcc like the BUG() macro is. */
++ * gcc like the BUG() macro is.
++ */
+ #define assert(cnd) \
+ 	do { \
+ 		if (!(cnd)) \
+@@ -37,7 +38,8 @@
+ #ifndef PIPE_GENERATION
+ /* Deprecated OP___assert, this is still used in ~1000 places
+  * in the code. This will be removed over time.
+- * The implementation for the pipe generation tool is in see support.isp.h */
++ * The implementation for the pipe generation tool is in see support.isp.h
++ */
+ #define OP___assert(cnd) assert(cnd)
+ 
+ static inline void compile_time_assert(unsigned int cond)
+-- 
+2.20.1
 
 
