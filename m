@@ -1,118 +1,626 @@
-Return-Path: <linux-media+bounces-15564-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15565-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBB09411F7
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 14:34:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 774DE941201
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 14:37:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0BEE1F24235
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 12:34:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 276A42843B3
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 12:37:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D678F19F499;
-	Tue, 30 Jul 2024 12:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NkjMfEvZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 649E919EEA0;
+	Tue, 30 Jul 2024 12:37:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0027C19EEB1;
-	Tue, 30 Jul 2024 12:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA6C194A57
+	for <linux-media@vger.kernel.org>; Tue, 30 Jul 2024 12:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722342878; cv=none; b=JvUpMEVgi7sAsw3/TshmwILB58bKHdRU9c5+B+LLKo4jIknQn96sa2r0Sx3bJ4AhSPqFohQ7aSXRrGk9i2OREzbz1h1JHKJNcKwzBMUXTMgxH8uDXNMVgft6SPrE8kWyTImovx/6sYTKm4mc9l26ZnkK7f6YuSmirtbDNJ+QwWM=
+	t=1722343029; cv=none; b=qEcJHbUoFjcfuHfMGk7uki53Ye1v9B4ud7fW7+UdN/fr3qGK8D5ayL/whNHgtZcxhPOvvbOyj5SSzziDQxv2ISaSdnrV+nYiZpdAgkYQeZgV2AtXBBRlT3g/ciE/jqzMignDMA2XbGTLKNvabLfBtmROS/+ioaIdWZXHS7oxZuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722342878; c=relaxed/simple;
-	bh=AheSok/set++hCKnCB869atTXJwLL5hA18wRr7jK5wM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=It2DZIV3a4JIEbMFRGiJLZAyqTArVWq8HLr5NX9xSOWW/fHG2W//5viuah673nUfmTKrlrGwNOPO2HLJcoYoYSFnwPsAshQxbIcTt2rXYXUSr9ANh/kAtkZGTSAAL/U/GDIORFH+fnrMKxcKhnyT2JtpYVNL/Wv7B7SWPjMO5AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NkjMfEvZ; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-70d1c655141so3113560b3a.1;
-        Tue, 30 Jul 2024 05:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722342875; x=1722947675; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9FkvLRq3+TTTPGRtqPvtfbmioR0sEJjLCE36JfFewt8=;
-        b=NkjMfEvZpVTf9UHvOgMtz3Hssc+eitH4F0+OLo3IO54/zZQd8L0yo5QrcPbu+t6X6g
-         UiP7n+SSCFFiAujvL6GzgKnQLi386Bg1dR1pshFMZDj4M/G+SSehELmNbspfxebciuWN
-         zRxHFCn1JboRh0nLSXSs8PjlCgykl5SKSYPVt+x6krHKRTlqOQkjHcUpRYxJuSKU1v21
-         Dws3QuwdCJ6iAJiZS20GhCsrmPISHGZ9uNrpJfD+J1uwuQJxmqaziL+PBwR6BDqk6Ks1
-         gZOc61J6SV2NlSVpmK4H3CJCPU4j6ykXzJoroNILMkeuMVzvFQrFcmGMWCFEoCGNEFSk
-         v00Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722342875; x=1722947675;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9FkvLRq3+TTTPGRtqPvtfbmioR0sEJjLCE36JfFewt8=;
-        b=ci06oop7iOej7VAELP76I/eDj8kQluKo3odzfsW+dT7eYIvdTT4yQVbXQf0Ue3h6Ag
-         qKzqAtNQjCls8WsHQ7c54/A28RHuFVjqHeRnt0/4P6vDPquxt6mcKlk6tTJXa//eC2fV
-         WVE55Hm7SihPGnTdRfMiYRsXiOusqFVjGcvJH7NzE5Vi+BcxOSEf442v1lL+hS+f4f8E
-         ivu7d0k88iKBQdkFW/+186Lw+Sp2kb+bD7Szq3qBRuQgl/omSfHw+XKrGxIu2ZWRiw0z
-         4QuTnU5FY+DOhocpzk04sHspDPLevp+y3QeLROdJMMYeBmKJ0MmSRBoE3+NwMBIYlDPk
-         IMXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqdlaWw6/1I9v1Rb+J6qn+Vobi846dh8n5F/7694q331YrIs2vG0PnzdJjiueaVLSH6upBKwhLKjlnmkEWaa635Whm+zcQSQKKuch2VchdEfJ6XAeVmwx11jjvsPh9ULNLFpUhSUbpUzA=
-X-Gm-Message-State: AOJu0YxDjLVJ7aEdwlVtXhhSgND1yFIakdWxk4A8vhTcAfLWC5D+BIFx
-	W/R/xOB5BpccSg86MKIXP/oltYvRuIwxHoaK4Tze7zFAny82ffdNl6nW2MNX
-X-Google-Smtp-Source: AGHT+IFvi3GdNcRIqS1egTY+BzvncDXNjUQwpDv4dZG9nbzXHJ4oUtfATQIpv9400XAbcO3JW46ZTg==
-X-Received: by 2002:a05:6a21:7892:b0:1c0:ed80:6e69 with SMTP id adf61e73a8af0-1c4a13a35fdmr9106158637.39.1722342875290;
-        Tue, 30 Jul 2024 05:34:35 -0700 (PDT)
-Received: from localhost.localdomain ([211.171.34.11])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cf28ca1058sm10511890a91.31.2024.07.30.05.34.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 05:34:34 -0700 (PDT)
-From: Kartik Kulkarni <kartik.koolks@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	akari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com,
-	kartik.koolks@gmail.com
-Subject: [PATCH] staging: rtl8723bs: remove space after pointer
-Date: Tue, 30 Jul 2024 12:34:27 +0000
-Message-Id: <20240730123427.37339-1-kartik.koolks@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1722343029; c=relaxed/simple;
+	bh=MCzjc0N+j3WavD18VRVZBaTgafRUhZ5d76//37EV4RI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PCG4D6S3ufUErH6ORW2B6qZFN6/7QcnEhAH17EyyB8LQGpkEpQ999Rolz7rhyPoCNw0DuBMSN03ZRxKEd4gvpAJdlfnOES055ygQz5HjK6GgCyN89OEoLCqORduLbVe7buVZS/aPzO4rBw2og/qAoS07TbRDBNTgQeDjpd3V0W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D409C32782;
+	Tue, 30 Jul 2024 12:37:06 +0000 (UTC)
+Message-ID: <719befce-a50a-4128-b8f5-82bff009c361@xs4all.nl>
+Date: Tue, 30 Jul 2024 14:37:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 01/12] media: uapi: rkisp1-config: Add extensible
+ params format
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Sakari Ailus <sakari.ailus@iki.fi>,
+ Stefan Klug <stefan.klug@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+References: <20240724085004.82694-1-jacopo.mondi@ideasonboard.com>
+ <20240724085004.82694-2-jacopo.mondi@ideasonboard.com>
+ <782e20b3-6a4d-45fb-bcee-b3e92fa16719@xs4all.nl>
+ <20240730121845.GJ1552@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240730121845.GJ1552@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix checkpatch error "foo * bar" should be "foo *bar"
-in osdep_service.h:105
+On 30/07/2024 14:18, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Tue, Jul 30, 2024 at 02:11:12PM +0200, Hans Verkuil wrote:
+>> On 24/07/2024 10:49, Jacopo Mondi wrote:
+>>> Add to the rkisp1-config.h header data types and documentation of
+>>> the extensible parameters format.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+>>> ---
+>>>  include/uapi/linux/rkisp1-config.h | 489 +++++++++++++++++++++++++++++
+>>>  1 file changed, 489 insertions(+)
+>>>
+>>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+>>> index 6eeaf8bf2362..00b09c92cca7 100644
+>>> --- a/include/uapi/linux/rkisp1-config.h
+>>> +++ b/include/uapi/linux/rkisp1-config.h
+>>> @@ -996,4 +996,493 @@ struct rkisp1_stat_buffer {
+>>>  	struct rkisp1_cif_isp_stat params;
+>>>  };
+>>>  
+>>> +/*---------- PART3: Extensible Configuration Parameters  ------------*/
+>>> +
+>>> +/**
+>>> + * enum rkisp1_ext_params_block_type - RkISP1 extensible params block type
+>>> + *
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS: Black level subtraction
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC: Defect pixel cluster correction
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG: Sensor de-gamma
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN: Auto white balance gains
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT: ISP filtering
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM: Bayer de-mosaic
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK: Cross-talk correction
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC: Gamma out correction
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF: De-noise pre-filter
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH: De-noise pre-filter strength
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC: Color processing
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_IE: Image effects
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC: Lens shading correction
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS: Auto white balance statistics
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS: Histogram statistics
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS: Auto exposure statistics
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS: Auto-focus statistics
+>>> + */
+>>> +enum rkisp1_ext_params_block_type {
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_IE,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS,
+>>> +};
+>>> +
+>>> +/**
+>>> + * enum rkisp1_ext_params_block_enable - RkISP1 extensible parameter block
+>>> + *					 enable flags
+>>> + *
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_DISABLE: Disable the HW block
+>>> + * @RKISP1_EXT_PARAMS_BLOCK_ENABLE: Enable the HW block
+>>> + */
+>>> +enum rkisp1_ext_params_block_enable {
+>>> +	RKISP1_EXT_PARAMS_BLOCK_DISABLE,
+>>> +	RKISP1_EXT_PARAMS_BLOCK_ENABLE,
+>>> +};
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_block_header - RkISP1 extensible parameter block
+>>> + *					   header
+>>> + *
+>>> + * This structure represents the common part of all the ISP configuration
+>>> + * blocks. Each parameters block shall embed an instance of this structure type
+>>> + * as its first member, followed by the block-specific configuration data. The
+>>> + * driver inspects this common header to discern the block type and its size and
+>>> + * properly handle the block content by casting it to the correct block-specific
+>>> + * type.
+>>> + *
+>>> + * The @type field is one of the values enumerated by
+>>> + * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
+>>> + * interpreted by the driver. The @size field specifies the size of the
+>>> + * parameters block and is used by the driver for validation purposes.
+>>> + *
+>>> + * The @enable field specifies the ISP block enablement state. The possible
+>>> + * enablement states are enumerated by :c:type:`rkisp1_ext_params_block_enable`.
+>>> + * When userspace needs to configure and enable an ISP block it shall fully
+>>> + * populate the block configuration and the @enable flag shall be set to
+>>> + * RKISP1_EXT_PARAMS_BLOCK_ENABLE. When userspace simply wants to disable the
+>>> + * ISP block the @enable flag shall be set to RKISP1_EXT_PARAMS_BLOCK_DISABLE.
+>>> + * The driver ignores the rest of the block configuration structure in this
+>>> + * case.
+>>> + *
+>>> + * If a new configuration of an ISP block has to be applied userspace shall
+>>> + * fully populate the ISP block configuration and set the @enable flag to
+>>> + * RKISP1_EXT_PARAMS_BLOCK_ENABLE.
+>>> + *
+>>> + * Userspace is responsible for correctly populating the parameters block header
+>>> + * fields (@type, @enable and @size) and the block-specific parameters.
+>>> + *
+>>> + * For example:
+>>> + *
+>>> + * .. code-block:: c
+>>> + *
+>>> + *	void populate_bls(struct rkisp1_ext_params_block_header *block) {
+>>> + *		struct rkisp1_ext_params_bls_config *bls =
+>>> + *			(struct rkisp1_ext_params_bls_config *)block;
+>>> + *
+>>> + *		bls->header.type = RKISP1_EXT_PARAMS_BLOCK_ID_BLS;
+>>> + *		bls->header.enable = RKISP1_EXT_PARAMS_BLOCK_ENABLE;
+>>> + *		bls->header.size = sizeof(*bls);
+>>> + *
+>>> + *		bls->config.enable_auto = 0;
+>>> + *		bls->config.fixed_val.r = blackLevelRed_;
+>>> + *		bls->config.fixed_val.gr = blackLevelGreenR_;
+>>> + *		bls->config.fixed_val.gb = blackLevelGreenB_;
+>>> + *		bls->config.fixed_val.b = blackLevelBlue_;
+>>> + *	}
+>>> + *
+>>> + * @type: The parameters block type, see
+>>> + *	  :c:type:`rkisp1_ext_params_block_type`
+>>> + * @enable: The block enable flag, see
+>>> + *	   :c:type:`rkisp1_ext_params_block_enable`
+>>> + * @size: Size (in bytes) of the parameters block, including this header
+>>> + */
+>>> +struct rkisp1_ext_params_block_header {
+>>> +	__u16 type;
+>>> +	__u16 enable;
+>>> +	__u16 size;
+>>
+>> I would suggest changing this to '__u32 size;'. It ensures the header is8 bytes
+>> long (much nicer than 6), and if there is ever a block > 65535, then it is supported.
+> 
+> I'm pretty confident we will never need a block size larger than 64kB.
 
-Signed-off-by: Kartik Kulkarni <kartik.koolks@gmail.com>
----
-Newbie to contributing to kernel code
----
----
- drivers/staging/rtl8723bs/include/osdep_service.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmm, famous last words :-)
 
-diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-index cf96b5f7a..d6d651342 100644
---- a/drivers/staging/rtl8723bs/include/osdep_service.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-@@ -102,7 +102,7 @@ static inline int rtw_bug_check(void *parg1, void *parg2, void *parg3, void *par
- #define MAC_ARG(x) (x)
- #endif
- 
--extern void rtw_free_netdev(struct net_device * netdev);
-+extern void rtw_free_netdev(struct net_device *netdev);
- 
- /* Macros for handling unaligned memory accesses */
- 
--- 
-2.20.1
+> That would mean more than 64kB of data written to hardware
+> registers/SRAM for a single processing block, and it would be incredibly
+> expensive in terms of hardware. Keeping size a __u16 means we have two
+> bytes of reserved space we could possibly use later, which may come
+> handy.
+
+i would prefer to change the size to a u32, but rename the 'enable' field
+to 'flags', and assign bit 0 to the enable/disable bit. This is a bit
+more flexible IMHO and allows for 15 bits to encode additional data.
+
+ Blocks > 64kB could still be supported in the future by defining
+> a new version of the parameters format (RKISP1_EXT_PARAM_BUFFER_V2)
+> without needing a different 4CC.
+> 
+> This being said, the opposite argument can be made, that a 32-bit size
+> could come handy if we ever have larger blocks, and a new version of the
+> parameters format could be used if we ever need to add more fields to
+> the block header. I won't insist either way.
+> 
+>> i wonder if, with this change, the 'aligned(8)' attributes are even needed, but
+>> I didn't dig into that.
+> 
+> The header would become 8-bytes long, but its larger field would still
+> be 4-bytes long, so the compiler would only enforce 4-bytes aligned
+> AFAIK.
+
+Normally the actual data blocks (in the non-extensible format) are already aligned
+to either 4 or 8 bytes (depending on whether u64 values are used). So an 8 byte
+header won't mess up the alignment.
+
+Regards,
+
+	Hans
+
+> 
+>> Did you check with pahole for holes etc. in the datastructures?
+> 
+> That's a good idea in any case.
+> 
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_bls_config - RkISP1 extensible params BLS config
+>>> + *
+>>> + * RkISP1 extensible parameters Black Level Subtraction configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Black Level Subtraction configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_bls_config`
+>>> + */
+>>> +struct rkisp1_ext_params_bls_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_bls_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_dpcc_config - RkISP1 extensible params DPCC config
+>>> + *
+>>> + * RkISP1 extensible parameters Defective Pixel Cluster Correction configuration
+>>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Defective Pixel Cluster Correction configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_dpcc_config`
+>>> + */
+>>> +struct rkisp1_ext_params_dpcc_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_dpcc_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_sdg_config - RkISP1 extensible params SDG config
+>>> + *
+>>> + * RkISP1 extensible parameters Sensor Degamma configuration block. Identified
+>>> + * by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Sensor Degamma configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_sdg_config`
+>>> + */
+>>> +struct rkisp1_ext_params_sdg_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_sdg_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_lsc_config - RkISP1 extensible params LSC config
+>>> + *
+>>> + * RkISP1 extensible parameters Lens Shading Correction configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Lens Shading Correction configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_lsc_config`
+>>> + */
+>>> +struct rkisp1_ext_params_lsc_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_lsc_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_awb_gain_config - RkISP1 extensible params AWB
+>>> + *					      gain config
+>>> + *
+>>> + * RkISP1 extensible parameters Auto-White Balance Gains configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Auto-White Balance Gains configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_awb_gain_config`
+>>> + */
+>>> +struct rkisp1_ext_params_awb_gain_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_awb_gain_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_flt_config - RkISP1 extensible params FLT config
+>>> + *
+>>> + * RkISP1 extensible parameters Filter configuration block. Identified by
+>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Filter configuration, see :c:type:`rkisp1_cif_isp_flt_config`
+>>> + */
+>>> +struct rkisp1_ext_params_flt_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_flt_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_bdm_config - RkISP1 extensible params BDM config
+>>> + *
+>>> + * RkISP1 extensible parameters Demosaicing configuration block. Identified by
+>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Demosaicing configuration, see :c:type:`rkisp1_cif_isp_bdm_config`
+>>> + */
+>>> +struct rkisp1_ext_params_bdm_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_bdm_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_ctk_config - RkISP1 extensible params CTK config
+>>> + *
+>>> + * RkISP1 extensible parameters Cross-Talk configuration block. Identified by
+>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Cross-Talk configuration, see :c:type:`rkisp1_cif_isp_ctk_config`
+>>> + */
+>>> +struct rkisp1_ext_params_ctk_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_ctk_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_goc_config - RkISP1 extensible params GOC config
+>>> + *
+>>> + * RkISP1 extensible parameters Gamma-Out configuration block. Identified by
+>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Gamma-Out configuration, see :c:type:`rkisp1_cif_isp_goc_config`
+>>> + */
+>>> +struct rkisp1_ext_params_goc_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_goc_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_dpf_config - RkISP1 extensible params DPF config
+>>> + *
+>>> + * RkISP1 extensible parameters De-noise Pre-Filter configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: De-noise Pre-Filter configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_dpf_config`
+>>> + */
+>>> +struct rkisp1_ext_params_dpf_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_dpf_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_dpf_strength_config - RkISP1 extensible params DPF
+>>> + *						  strength config
+>>> + *
+>>> + * RkISP1 extensible parameters De-noise Pre-Filter strength configuration
+>>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: De-noise Pre-Filter strength configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_dpf_strength_config`
+>>> + */
+>>> +struct rkisp1_ext_params_dpf_strength_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_dpf_strength_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_cproc_config - RkISP1 extensible params CPROC config
+>>> + *
+>>> + * RkISP1 extensible parameters Color Processing configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Color processing configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_cproc_config`
+>>> + */
+>>> +struct rkisp1_ext_params_cproc_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_cproc_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_ie_config - RkISP1 extensible params IE config
+>>> + *
+>>> + * RkISP1 extensible parameters Image Effect configuration block. Identified by
+>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_IE`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Image Effect configuration, see :c:type:`rkisp1_cif_isp_ie_config`
+>>> + */
+>>> +struct rkisp1_ext_params_ie_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_ie_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_awb_meas_config - RkISP1 extensible params AWB
+>>> + *					      Meas config
+>>> + *
+>>> + * RkISP1 extensible parameters Auto-White Balance Measurement configuration
+>>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Auto-White Balance measure configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_awb_meas_config`
+>>> + */
+>>> +struct rkisp1_ext_params_awb_meas_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_awb_meas_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_hst_config - RkISP1 extensible params Histogram config
+>>> + *
+>>> + * RkISP1 extensible parameters Histogram statistics configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Histogram statistics configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_hst_config`
+>>> + */
+>>> +struct rkisp1_ext_params_hst_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_hst_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_aec_config - RkISP1 extensible params AEC config
+>>> + *
+>>> + * RkISP1 extensible parameters Auto-Exposure statistics configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Auto-Exposure statistics configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_aec_config`
+>>> + */
+>>> +struct rkisp1_ext_params_aec_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_aec_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_afc_config - RkISP1 extensible params AFC config
+>>> + *
+>>> + * RkISP1 extensible parameters Auto-Focus statistics configuration block.
+>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS`.
+>>> + *
+>>> + * @header: The RkISP1 extensible parameters header, see
+>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+>>> + * @config: Auto-Focus statistics configuration, see
+>>> + *	    :c:type:`rkisp1_cif_isp_afc_config`
+>>> + */
+>>> +struct rkisp1_ext_params_afc_config {
+>>> +	struct rkisp1_ext_params_block_header header;
+>>> +	struct rkisp1_cif_isp_afc_config config;
+>>> +} __attribute__((aligned(8)));
+>>> +
+>>> +#define RKISP1_EXT_PARAMS_MAX_SIZE					\
+>>> +	(sizeof(struct rkisp1_ext_params_bls_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_dpcc_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_sdg_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_lsc_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_awb_gain_config)		+\
+>>> +	sizeof(struct rkisp1_ext_params_flt_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_bdm_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_ctk_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_goc_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_dpf_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_dpf_strength_config)		+\
+>>> +	sizeof(struct rkisp1_ext_params_cproc_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_ie_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_awb_meas_config)		+\
+>>> +	sizeof(struct rkisp1_ext_params_hst_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_aec_config)			+\
+>>> +	sizeof(struct rkisp1_ext_params_afc_config))
+>>> +
+>>> +/**
+>>> + * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters version
+>>> + *
+>>> + * @RKISP1_EXT_PARAM_BUFFER_V1: First version of RkISP1 extensible parameters
+>>> + */
+>>> +enum rksip1_ext_param_buffer_version {
+>>> +	RKISP1_EXT_PARAM_BUFFER_V1 = 1,
+>>> +};
+>>> +
+>>> +/**
+>>> + * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
+>>> + *
+>>> + * This struct contains the configuration parameters of the RkISP1 ISP
+>>> + * algorithms, serialized by userspace into a data buffer. Each configuration
+>>> + * parameter block is represented by a block-specific structure which contains a
+>>> + * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
+>>> + * populates the @data buffer with configuration parameters for the blocks that
+>>> + * it intends to configure. As a consequence, the data buffer effective size
+>>> + * changes according to the number of ISP blocks that userspace intends to
+>>> + * configure and is set by userspace in the @data_size field.
+>>> + *
+>>> + * The parameters buffer is versioned by the @version field to allow modifying
+>>> + * and extending its definition. Userspace shall populate the @version field to
+>>> + * inform the driver about the version it intends to use. The driver will parse
+>>> + * and handle the @data buffer according to the data layout specific to the
+>>> + * indicated version and return an error if the desired version is not
+>>> + * supported.
+>>> + *
+>>> + * For each ISP block that userspace wants to configure, a block-specific
+>>> + * structure is appended to the @data buffer, one after the other without gaps
+>>> + * in between nor overlaps. Userspace shall populate the @data_size field with
+>>> + * the effective size, in bytes, of the @data buffer.
+>>> + *
+>>> + * The expected memory layout of the parameters buffer is::
+>>> + *
+>>> + *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
+>>> + *	| version = RKISP_EXT_PARAMS_BUFFER_V1;                               |
+>>> + *	| data_size = sizeof(struct rkisp1_ext_params_bls_config)             |
+>>> + *	|           + sizeof(struct rkisp1_ext_params_dpcc_config);           |
+>>> + *	| +------------------------- data  ---------------------------------+ |
+>>> + *	| | +------------- struct rkisp1_ext_params_bls_config -----------+ | |
+>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS;                | | | |
+>>> + *	| | | | enable = RKISP1_EXT_PARAMS_BLOCK_ENABLE;                | | | |
+>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_bls_config);     | | | |
+>>> + *	| | | +---------------------------------------------------------+ | | |
+>>> + *	| | | +---------- struct rkisp1_cif_isp_bls_config -------------+ | | |
+>>> + *	| | | | enable_auto = 0;                                        | | | |
+>>> + *	| | | | fixed_val.r = 256;                                      | | | |
+>>> + *	| | | | fixed_val.gr = 256;                                     | | | |
+>>> + *	| | | | fixed_val.gb = 256;                                     | | | |
+>>> + *	| | | | fixed_val.b = 256;                                      | | | |
+>>> + *	| | | +---------------------------------------------------------+ | | |
+>>> + *	| | +------------ struct rkisp1_ext_params_dpcc_config -----------+ | |
+>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC;               | | | |
+>>> + *	| | | | enable = RKISP1_EXT_PARAMS_BLOCK_ENABLE;                | | | |
+>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_dpcc_config);    | | | |
+>>> + *	| | | +---------------------------------------------------------+ | | |
+>>> + *	| | | +---------- struct rkisp1_cif_isp_dpcc_config ------------+ | | |
+>>> + *	| | | | mode = RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE;          | | | |
+>>> + *	| | | | output_mode =                                           | | | |
+>>> + *	| | | |   RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_INCL_G_CENTER; | | | |
+>>> + *	| | | | set_use = ... ;                                         | | | |
+>>> + *	| | | | ...  = ... ;                                            | | | |
+>>> + *	| | | +---------------------------------------------------------+ | | |
+>>> + *	| | +-------------------------------------------------------------+ | |
+>>> + *	| +-----------------------------------------------------------------+ |
+>>> + *	+---------------------------------------------------------------------+
+>>> + *
+>>> + * @version: The RkISP1 extensible parameters buffer version, see
+>>> + *	     :c:type:`rksip1_ext_param_buffer_version`
+>>> + * @data_size: The RkISP1 configuration data effective size, excluding this
+>>> + *	       header
+>>> + * @data: The RkISP1 extensible configuration data blocks
+>>> + */
+>>> +struct rkisp1_ext_params_cfg {
+>>> +	__u32 version;
+>>> +	__u32 data_size;
+>>> +	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+>>> +};
+>>> +
+>>>  #endif /* _UAPI_RKISP1_CONFIG_H */
+> 
 
 
