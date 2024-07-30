@@ -1,36 +1,55 @@
-Return-Path: <linux-media+bounces-15526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15527-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE959409F1
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 09:31:03 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E86D940A31
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 09:47:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BDFCB22562
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 07:31:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 08178B21323
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 07:47:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7CA718FC6E;
-	Tue, 30 Jul 2024 07:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7693D190480;
+	Tue, 30 Jul 2024 07:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="fsUL2SW5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B221667ED
-	for <linux-media@vger.kernel.org>; Tue, 30 Jul 2024 07:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D216150994;
+	Tue, 30 Jul 2024 07:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722324654; cv=none; b=UPr4+lIEgxyLf+d4pG5nJ1/476Ql3RLdpMFCFenzoOSjw6fpGb8hMb2d6qr/a+ZjVAjXA1atEU5I7Mz9QoQIQkwWoyaq3/Wja7Xs30dhDxrSM3KIhLJFHbGl1BYv6e/5p8qWSJV/RfHxOj7INRv1EOLpnrkn2w6TN8sTdE/QZcs=
+	t=1722325623; cv=none; b=WhoE/z5u8zLqqNL4Vapq/1McNjnXOOH/gZj6fGG1UJrk5B67BAO+z2zoDziXCxC7DQvYBm8Z2ToxKPqD+i8cvtibXHQdYHqem6T1R6nGlK+hUTFprruR5IIekLo0JxuHdN1RAXFdk5ouavypISqEpyCoG59NOZe8se0vIH/WLcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722324654; c=relaxed/simple;
-	bh=vPDSe1rvsDPRUgh335nQF31ZG6jWEePSXAAVsvv+xZo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sKOrLfyJbdjsjc+mSstn1Aiu+81w9WG6vTz+Dy95kiqNKhmZFOIz5jhsaNUKfiBAz4h4/8YcoTezQBEaSFpIlaSgGhIu21Xf6hjrHl63vpv8tjGU4ExfAfTfYYdT+OVUE2qeSrIEKJiuTFPaOf+EB0tW5kLT232AAHtSX0mjbRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99075C32782;
-	Tue, 30 Jul 2024 07:30:53 +0000 (UTC)
-Message-ID: <d9e1cd96-1a58-4806-ad0d-b20734c952c0@xs4all.nl>
-Date: Tue, 30 Jul 2024 09:30:52 +0200
+	s=arc-20240116; t=1722325623; c=relaxed/simple;
+	bh=x9M7HV/oJMHN9SaUohbVRMTRV7I4w25EQLwnBP6m1nA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Z5KNcU86lFEtIFrxZ5Vke4JcOcDggWsJSZgOKzcKFNKriFtbniPmA2a4j86toXN8TpgXNhSrs7g6X7qj1pilB/1WbFW1Vju8oHR0HJdUjf1UCQVCO0SdWFbaNEPHjjgz/KY1nEqgjxESJ5P8AQDysSWlEwpyVsT+lx5sBPmXcJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=fsUL2SW5; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1722325603; x=1722930403; i=markus.elfring@web.de;
+	bh=x9M7HV/oJMHN9SaUohbVRMTRV7I4w25EQLwnBP6m1nA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=fsUL2SW5qmCX6O3DIYdLGC1B8MWnB0OeZaBATWaUSC+NQkNkZjRZi80SucLuFZQK
+	 sgT4nQwrWNhpJAk4ixtW4KXrjdt1xPEQz1JA7gzy3QBaWSou8S/VptA8j4OLu9BFt
+	 7LrHQv/aRUhvB2qYkU1s4OauXTYkbF+tXk4cZcMlIQDOKogDTsePIae7NV7fBRWhX
+	 fl+YKMbj7Wp/YfcYvb5ZSKa2ME8YIIM+iMobey9JHOqdZF2uIvIq17HHT4r42Jn5g
+	 edn4h4rL3ng2R1E1i7rHRf+xtaY1odkUBou84B1/j3c1SyJDCQSdScR3ZIi4KMgRM
+	 PnfCQZAAKKeqGr0s7A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MQgl2-1swP5h0zck-00KjM0; Tue, 30
+ Jul 2024 09:46:43 +0200
+Message-ID: <3a764900-12ef-4026-af03-7e8cd2d09b04@web.de>
+Date: Tue, 30 Jul 2024 09:46:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,204 +57,57 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] v4l2-compliance: Add enum all formats test
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org
-References: <20240722150604.149707-1-benjamin.gaignard@collabora.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240722150604.149707-1-benjamin.gaignard@collabora.com>
+To: Florian Sylvestre <fsylvestre@baylibre.com>,
+ Julien Stephan <jstephan@baylibre.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Phi-bang Nguyen <pnguyen@baylibre.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Andy Hsieh <andy.hsieh@mediatek.com>,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20240704-add-mtk-isp-3-0-support-v5-4-bfccccc5ec21@baylibre.com>
+Subject: Re: [PATCH v5 4/5] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 camsv
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240704-add-mtk-isp-3-0-support-v5-4-bfccccc5ec21@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:HxfUk98qhjXor8EeRRmEwu+XEwDZNRk1/c9HrRw62G48QGp0iP2
+ pikrkJzo4/SWpXOX5wePvMFYdIdMRWZMzRnkk4Fc1BhNrp+YFt8WyEZTg0Q7+hhF4L7gHwO
+ kN0LR+Yi31HgOSaxuz3cBouWcefbb1oiSf6ZBmGQQNARZ+VZaXW1VxVcRaE09Cn52U1/IG6
+ ohlr+FpKtk1jR8fJAs+XA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ChkxlR19o00=;uiURpJ3lineKtUAkoX/d6ZXTj8b
+ cOzJcVdyHJkd08/1gAx1NJZnaOAFt5YTheV4N1YzLIECN2kRAnBbyKN18rSnlPQPzn2AzQvUY
+ 5gESyQlxbo3YI9l2VhjC7N42ep2nZQlDvTdhh2QfhQvlzdKUz7Zbop9LdzjdfhZLjwqyzX9mp
+ yYl4NyzFw/qjr9qSCCD7/vJGlWkXwshnclAIsU6aKCr6vOxTISE3ksopHAiQmx/ybCXTooan/
+ 0hIAHvZP+LKlATMr4P42YY+BnoiUbIXntVbzqZ7rVVNzj22b3cLfjUAqXtrw82BXDgbuuww6G
+ r7E7UmqDquz5uuxZpHtQbd9pf9A6jg5k1QkS3ArO96QfLrFiXjNyMYlG+y/t1FWKuJOfqMbWq
+ gPYzRCu/1fLgSY8T3I2JsUPMlTECsSV6SB++8M1SijaOSikQ4SMIDtfq5A2nzvLyiTV5zYVuA
+ zliVMrbJdt9bs14R15T5G+UjC/g0hrEQHv5UMfTRmjDfVejwH6nRZlmgfPrFq6aDe7lZAvRJN
+ pWkOeA9x/NONJfEZQfmbU8CD0RlHGEiAxM5LReTv4ruUnB9TAh8Sq10uFHjjPu7poWn/o0WPA
+ ZgK7hYY9SqWXFUDqTLfsx1gdUsU2xbldPU7wmCMKCW3pCZh1Y444xXJWhD6UmUfc8IAqSE0bu
+ H8wYrnzdgQncGQW/VUqyNIxJf7YfVCyn2LndEmmy4wz9uBS4bIFTZIiSBhph2j/Ifu7atWYSe
+ F6mI4NLN6AaGoasT35moG3R2/apGbQ/BcJTosqEW4e9dYISwvpR6NPIvpsD5G2+tUqBFuiLvs
+ nszSfL5FPMiTmOrdVq6/ycBQ==
 
-Hi Benjamin,
+=E2=80=A6
+> +++ b/drivers/media/platform/mediatek/isp/isp_30/camsv/mtk_camsv.h
+> @@ -0,0 +1,196 @@
+=E2=80=A6
+> +#ifndef __MTK_CAMSV_H__
+> +#define __MTK_CAMSV_H__
+=E2=80=A6
 
-On 22/07/2024 17:06, Benjamin Gaignard wrote:
-> Add a test to check if V4L2_FMT_FLAG_ENUM_ALL is supported
-> or not by drivers.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  include/linux/videodev2.h                   |  3 ++
->  utils/common/v4l2-info.cpp                  |  1 +
->  utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
->  utils/v4l2-compliance/v4l2-compliance.h     |  1 +
->  utils/v4l2-compliance/v4l2-test-formats.cpp | 60 +++++++++++++++++++--
->  5 files changed, 63 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
-> index f18a40d4..8e2a8b36 100644
-> --- a/include/linux/videodev2.h
-> +++ b/include/linux/videodev2.h
-> @@ -864,6 +864,9 @@ struct v4l2_fmtdesc {
->  #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
->  #define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
->  
-> +/*  Format description flag, to be ORed with the index */
-> +#define V4L2_FMT_FLAG_ENUM_ALL			0x80000000
-> +
->  	/* Frame Size and frame rate enumeration */
->  /*
->   *	F R A M E   S I Z E   E N U M E R A T I O N
-> diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
-> index aaf7b0b5..c2c49ad0 100644
-> --- a/utils/common/v4l2-info.cpp
-> +++ b/utils/common/v4l2-info.cpp
-> @@ -383,6 +383,7 @@ static constexpr flag_def fmtdesc_ ## enc_type ## _def[] = { 			\
->  	{ V4L2_FMT_FLAG_CSC_QUANTIZATION, "csc-quantization" }, 		\
->  	{ V4L2_FMT_FLAG_CSC_XFER_FUNC, "csc-xfer-func" }, 			\
->  	{ V4L2_FMT_FLAG_META_LINE_BASED, "meta-line-based" },			\
-> +	{ V4L2_FMT_FLAG_ENUM_ALL, "enum-all-formats" },				\
->  	{ 0, NULL } 								\
->  };
->  
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-> index 144f9618..3446f66f 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
-> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-> @@ -1444,6 +1444,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->  
->  		printf("Format ioctls%s:\n", suffix);
->  		printf("\ttest VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: %s\n", ok(testEnumFormats(&node)));
-> +		printf("\ttest VIDIOC_ENUM_FMT ALL FORMATS: %s\n", ok(testEnumAllFormats(&node)));
-
-This shouldn't be a new high-level test, instead it should be part of
-testEnumFormats().
-
->  		printf("\ttest VIDIOC_G/S_PARM: %s\n", ok(testParm(&node)));
->  		printf("\ttest VIDIOC_G_FBUF: %s\n", ok(testFBuf(&node)));
->  		printf("\ttest VIDIOC_G_FMT: %s\n", ok(testGetFormats(&node)));
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-> index 948b62fd..be72590f 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.h
-> +++ b/utils/v4l2-compliance/v4l2-compliance.h
-> @@ -366,6 +366,7 @@ int testEdid(struct node *node);
->  
->  // Format ioctl tests
->  int testEnumFormats(struct node *node);
-> +int testEnumAllFormats(struct node *node);
->  int testParm(struct node *node);
->  int testFBuf(struct node *node);
->  int testGetFormats(struct node *node);
-> diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-> index fc16ad39..2b9b00ae 100644
-> --- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-> @@ -221,7 +221,7 @@ static int testEnumFrameSizes(struct node *node, __u32 pixfmt)
->  	return 0;
->  }
->  
-> -static int testEnumFormatsType(struct node *node, unsigned type)
-> +static int _testEnumFormatsType(struct node *node, unsigned type, bool enum_all_formats)
->  {
->  	pixfmt_map &map = node->buftype_pixfmts[type];
->  	struct v4l2_fmtdesc fmtdesc;
-> @@ -234,6 +234,9 @@ static int testEnumFormatsType(struct node *node, unsigned type)
->  		fmtdesc.index = f;
->  		fmtdesc.mbus_code = 0;
->  
-> +		if (enum_all_formats)
-> +			fmtdesc.index |= V4L2_FMT_FLAG_ENUM_ALL;
-> +
->  		ret = doioctl(node, VIDIOC_ENUM_FMT, &fmtdesc);
->  		if (ret == ENOTTY)
->  			return ret;
-> @@ -246,7 +249,7 @@ static int testEnumFormatsType(struct node *node, unsigned type)
->  		ret = check_0(fmtdesc.reserved, sizeof(fmtdesc.reserved));
->  		if (ret)
->  			return fail("fmtdesc.reserved not zeroed\n");
-> -		if (fmtdesc.index != f)
-> +		if ((fmtdesc.index & ~V4L2_FMT_FLAG_ENUM_ALL) != f)
->  			return fail("fmtdesc.index was modified\n");
->  		if (fmtdesc.type != type)
->  			return fail("fmtdesc.type was modified\n");
-> @@ -312,7 +315,7 @@ static int testEnumFormatsType(struct node *node, unsigned type)
->  			continue;
->  		// Update define in v4l2-compliance.h if new buffer types are added
->  		assert(type <= V4L2_BUF_TYPE_LAST);
-> -		if (map.find(fmtdesc.pixelformat) != map.end())
-> +		if (map.find(fmtdesc.pixelformat) != map.end() && !enum_all_formats)
->  			return fail("duplicate format %08x (%s)\n",
->  				    fmtdesc.pixelformat, fcc2s(fmtdesc.pixelformat).c_str());
->  		map[fmtdesc.pixelformat] = fmtdesc.flags;
-> @@ -321,6 +324,16 @@ static int testEnumFormatsType(struct node *node, unsigned type)
->  	return 0;
->  }
->  
-> +static int testEnumFormatsType(struct node *node, unsigned type)
-> +{
-> +	return _testEnumFormatsType(node, type, false);
-> +}
-> +
-> +static int testEnumAllFormatsType(struct node *node, unsigned type)
-> +{
-> +	return _testEnumFormatsType(node, type, true);
-> +}
-> +
->  int testEnumFormats(struct node *node)
->  {
->  	bool supported = false;
-> @@ -372,6 +385,47 @@ int testEnumFormats(struct node *node)
->  	return supported ? 0 : ENOTTY;
->  }
->  
-> +int testEnumAllFormats(struct node *node)
-> +{
-> +	bool supported = false;
-> +	unsigned type;
-> +	int ret;
-> +
-> +	for (type = 0; type <= V4L2_BUF_TYPE_LAST; type++) {
-> +		ret = testEnumAllFormatsType(node, type);
-> +		if (ret && ret != ENOTTY)
-> +			return ret;
-> +		if (!ret)
-> +			supported = true;
-> +		switch (type) {
-> +		case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> +		case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-> +		case V4L2_BUF_TYPE_VIDEO_OVERLAY:
-> +		case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> +		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> +		case V4L2_BUF_TYPE_SDR_CAPTURE:
-> +		case V4L2_BUF_TYPE_SDR_OUTPUT:
-> +			if (supported && ret && (node->g_caps() & buftype2cap[type]))
-> +				return fail("%s cap set, but no %s formats defined\n",
-> +						buftype2s(type).c_str(), buftype2s(type).c_str());
-> +			if (supported && !ret && !(node->g_caps() & buftype2cap[type]))
-> +				return fail("%s cap not set, but %s formats defined\n",
-> +						buftype2s(type).c_str(), buftype2s(type).c_str());
-> +			break;
-> +		case V4L2_BUF_TYPE_META_CAPTURE:
-> +		case V4L2_BUF_TYPE_META_OUTPUT:
-> +			/* Metadata formats need not be present for the current input/output */
-> +			break;
-> +		default:
-> +			if (!ret)
-> +				return fail("Buffer type %s not allowed!\n", buftype2s(type).c_str());
-> +			break;
-> +		}
-> +	}
-> +
-> +	return supported ? 0 : ENOTTY;
-
-This does not test that the set of formats returned with this flag must contain all formats
-returned when ENUM_FMT is called without this flag. I.e., it must be a superset of that.
-
-Also note that testEnumFormatsType() calls testEnumFrameSizes which in turn will call
-testEnumFrameIntervals. So the question is: if ENUM_FMT called with the new flag returns a
-format that would normally be suppressed, and you pass that to VIDIOC_ENUM_FRAMESIZES/INTERVALS,
-what should those ioctls do? Return -EINVAL? Or should it just work? Or leave it up to the
-driver? Shouldn't this be documented?
+I suggest to omit leading underscores from such identifiers.
+https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+d=
+efine+a+reserved+identifier
 
 Regards,
-
-	Hans
-
-> +}
-> +
->  static int testColorspace(bool non_zero_colorspace,
->  			  __u32 pixelformat, __u32 colorspace, __u32 ycbcr_enc, __u32 quantization)
->  {
-
+Markus
 
