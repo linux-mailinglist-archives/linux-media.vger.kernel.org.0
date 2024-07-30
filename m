@@ -1,108 +1,144 @@
-Return-Path: <linux-media+bounces-15518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15519-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F81940915
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 09:09:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E31940934
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 09:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5151A1F23173
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 07:09:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A68611C2275C
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 07:14:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F1C718FC8A;
-	Tue, 30 Jul 2024 07:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tchadelicard.fr header.i=@tchadelicard.fr header.b="AeAC7koe"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA7F190480;
+	Tue, 30 Jul 2024 07:13:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from qs51p00im-qukt01072701.me.com (qs51p00im-qukt01072701.me.com [17.57.155.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E1E183098
-	for <linux-media@vger.kernel.org>; Tue, 30 Jul 2024 07:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.57.155.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D26190046;
+	Tue, 30 Jul 2024 07:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722323365; cv=none; b=UYJIEdAVKxocAR3lfNSN6Lx26+M6AmQ+/+YvTzjtIg6vgX3GVaORKyBoWNPr9ph56PN3phh0IeTUbflYK2zuPYD+gd6rEN5zDiHzi1f3QqQlCJMMaU13E4Y5RtQ85cYy7O5oJGqHpu20XcndvqNgFgSxlpQgG0EH6Dbb418NTTw=
+	t=1722323588; cv=none; b=O49QmGIEEulHjp0079WUh3wWHOiRnnSn8eiY6XVDkSS5k23h7Bj5ydeK6YOCo4mHXeanyDBbjkkhuRo3Ml/RI8XWc1Fyp7zgmebfg4XvZm2qbYYYQj75TbqrdREkJUweiGSrPVvYz78Fwpb7RiubPj/uXElQqCD60Sp64SmVc44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722323365; c=relaxed/simple;
-	bh=kJTM5OSjqQG73H22CuzIYM1jlcdVej8ovXRYaPLd3nU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k9w15pZaj+OzJxPq20rxGem/3e2Xx3WDI7+MpbxE7PhRhIvOuWGv83gHlFIvXUrSGQfwkeeeABln9vRSewBFGBBnfv0FAbD5zS2Tl4NOxPnAxs7T/zXl0v7UtUyCKU0ZCg0ZGp5Hk0Du8K98x/rZVyHLLWUTuUQlnIISnjYGWsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tchadelicard.fr; spf=pass smtp.mailfrom=tchadelicard.fr; dkim=pass (2048-bit key) header.d=tchadelicard.fr header.i=@tchadelicard.fr header.b=AeAC7koe; arc=none smtp.client-ip=17.57.155.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tchadelicard.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tchadelicard.fr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tchadelicard.fr;
-	s=sig1; t=1722323363;
-	bh=PtjiLJz39WshI27PtYqJJc6smMxXeB8+aRNl+TPayjA=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=AeAC7koeT3b51WqLGTM6BRJB1npuynCRb+PnzpZv5Wp8utjPksKzsJIakJ/16Opvk
-	 6RGk5mI/X1HfVClapyfpSmkNVlq/rqMPbxkTNmU0X4PLbqdyW2+1TKhh2MeEZ3YKNB
-	 JrhrYKv0Vo5AQkGNthuhG5aJvvPs3HBGPYGkgHpdmV4lqWiW4tPQhNzo3uiuuPuWWf
-	 eLa9Y7VhSdfIQqWtnMsC0BzZn5YHjmzDhAaWoNGSqqSdY4hw2Yj6Coi3FIVyoyHehb
-	 0ecdiLkbGuh3ZGXFRiO9liAq3kZz5kHjFQiOuSNaE0JvqMVMCSFH2lrT5SOcgQSwOH
-	 DKKJcK6Daw3fg==
-Received: from localhost.localdomain (qs51p00im-dlb-asmtp-mailmevip.me.com [17.57.155.28])
-	by qs51p00im-qukt01072701.me.com (Postfix) with ESMTPSA id C739D15C02AA;
-	Tue, 30 Jul 2024 07:09:20 +0000 (UTC)
-From: Tchadel Icard <hello@tchadelicard.fr>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com
-Subject: [PATCH] staging: rtl8712: Fix move '{' to previous line
-Date: Tue, 30 Jul 2024 07:09:10 +0000
-Message-Id: <20240730070910.34996-1-hello@tchadelicard.fr>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1722323588; c=relaxed/simple;
+	bh=r8XFMCc2tBAslYu2aU/ssjPkstwHvi9+kn9Z5Bj7R9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dlYK6fPzexMZ+U22YGxUtrXG1Wmmnt7s4fs6/Ke6adLQ+E+Mo/VqJFQwEn6OYOAohcZRedbcgaGnAfMW2salr/6Uuz2+h4v94pO1vThdsxE+5qqn6DNkoNFwc/BnPfEotbohXMJ6+RkXUm4mdxBzbKo/nRMx0oM5cHMNrMq/Li4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B2DC32782;
+	Tue, 30 Jul 2024 07:13:06 +0000 (UTC)
+Message-ID: <92c88d0f-219e-43b4-9dce-5ae99585b767@xs4all.nl>
+Date: Tue, 30 Jul 2024 09:13:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: zu5NxvG3f28LtPYCsDGI_5Ix_Mt-21AC
-X-Proofpoint-GUID: zu5NxvG3f28LtPYCsDGI_5Ix_Mt-21AC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-07-30_07,2024-07-26_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0 bulkscore=0
- clxscore=1030 mlxscore=0 malwarescore=0 adultscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2407300052
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] media: test-drivers: Use V4L2_FMT_FLAG_ENUM_ALL
+ flag
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com
+References: <20240722150523.149667-1-benjamin.gaignard@collabora.com>
+ <20240722150523.149667-3-benjamin.gaignard@collabora.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240722150523.149667-3-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix checkpatch error "ERROR: that open brace {
-should be on the previous line"
+On 22/07/2024 17:05, Benjamin Gaignard wrote:
+> Since V4L2_FMT_FLAG_ENUM_ALL flag mostly targeting stateless
+> decoder pixel formats enumeration, update vicodec visl test
+> drivers to use it.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  drivers/media/test-drivers/vicodec/vicodec-core.c |  7 ++++---
+>  drivers/media/test-drivers/visl/visl-video.c      | 11 +++++++----
+>  2 files changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> index 3e011fe62ae1..1b4cd8ddd7c2 100644
+> --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
+> +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+> @@ -706,6 +706,7 @@ static int enum_fmt(struct v4l2_fmtdesc *f, struct vicodec_ctx *ctx,
+>  		    bool is_out)
+>  {
+>  	bool is_uncomp = (ctx->is_enc && is_out) || (!ctx->is_enc && !is_out);
+> +	u32 index = f->index & ~V4L2_FMT_FLAG_ENUM_ALL;
 
-Signed-off-by: Tchadel Icard <hello@tchadelicard.fr>
----
-Hello,
-This is my first commit.
-It fixes styling errors.
-Thank you for your time.
----
----
- .../isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c   | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+This is not what I am looking for: to properly test this in v4l2-compliance this
+flag actually has to make a difference in the result. I.e. you actually have to
+add some limitation. This might be easier to do in visl than vicodec. As long as
+at least one test-driver support this, then that's good enough for me.
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c
-index 5f186fb03..15386a773 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/iterator/iterator_1.0/ia_css_iterator.host.c
-@@ -65,8 +65,7 @@ int ia_css_iterator_configure(const struct ia_css_binary *binary,
- 	 * the original out res. for video pipe, it has two output pins --- out and
- 	 * vf_out, so it can keep these two resolutions already. */
- 	if (binary->info->sp.pipeline.mode == IA_CSS_BINARY_MODE_PREVIEW &&
--	    binary->vf_downscale_log2 > 0)
--	{
-+	    binary->vf_downscale_log2 > 0) {
- 		/* TODO: Remove this after preview output decimation is fixed
- 		 * by configuring out&vf info files properly */
- 		my_info.padded_width <<= binary->vf_downscale_log2;
--- 
-2.20.1
+Regards,
+
+	Hans
+
+>  
+>  	if (V4L2_TYPE_IS_MULTIPLANAR(f->type) && !multiplanar)
+>  		return -EINVAL;
+> @@ -718,18 +719,18 @@ static int enum_fmt(struct v4l2_fmtdesc *f, struct vicodec_ctx *ctx,
+>  
+>  		if (ctx->is_enc ||
+>  		    !vb2_is_streaming(&ctx->fh.m2m_ctx->cap_q_ctx.q))
+> -			info = v4l2_fwht_get_pixfmt(f->index);
+> +			info = v4l2_fwht_get_pixfmt(index);
+>  		else
+>  			info = v4l2_fwht_find_nth_fmt(info->width_div,
+>  						     info->height_div,
+>  						     info->components_num,
+>  						     info->pixenc,
+> -						     f->index);
+> +						     index);
+>  		if (!info)
+>  			return -EINVAL;
+>  		f->pixelformat = info->id;
+>  	} else {
+> -		if (f->index)
+> +		if (index)
+>  			return -EINVAL;
+>  		f->pixelformat = ctx->is_stateless ?
+>  			V4L2_PIX_FMT_FWHT_STATELESS : V4L2_PIX_FMT_FWHT;
+> diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
+> index f8d970319764..c5f3e13b4198 100644
+> --- a/drivers/media/test-drivers/visl/visl-video.c
+> +++ b/drivers/media/test-drivers/visl/visl-video.c
+> @@ -341,21 +341,24 @@ static int visl_enum_fmt_vid_cap(struct file *file, void *priv,
+>  				 struct v4l2_fmtdesc *f)
+>  {
+>  	struct visl_ctx *ctx = visl_file_to_ctx(file);
+> +	u32 index = f->index & ~V4L2_FMT_FLAG_ENUM_ALL;
+>  
+> -	if (f->index >= ctx->coded_format_desc->num_decoded_fmts)
+> +	if (index >= ctx->coded_format_desc->num_decoded_fmts)
+>  		return -EINVAL;
+>  
+> -	f->pixelformat = ctx->coded_format_desc->decoded_fmts[f->index];
+> +	f->pixelformat = ctx->coded_format_desc->decoded_fmts[index];
+>  	return 0;
+>  }
+>  
+>  static int visl_enum_fmt_vid_out(struct file *file, void *priv,
+>  				 struct v4l2_fmtdesc *f)
+>  {
+> -	if (f->index >= ARRAY_SIZE(visl_coded_fmts))
+> +	u32 index = f->index & ~V4L2_FMT_FLAG_ENUM_ALL;
+> +
+> +	if (index >= ARRAY_SIZE(visl_coded_fmts))
+>  		return -EINVAL;
+>  
+> -	f->pixelformat = visl_coded_fmts[f->index].pixelformat;
+> +	f->pixelformat = visl_coded_fmts[index].pixelformat;
+>  	return 0;
+>  }
+>  
 
 
