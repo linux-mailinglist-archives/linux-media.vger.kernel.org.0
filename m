@@ -1,1172 +1,600 @@
-Return-Path: <linux-media+bounces-15593-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15594-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5AB94229A
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 00:16:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7900D942444
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 03:47:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 958FD1F250E1
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jul 2024 22:16:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E9F01C23086
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 01:47:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3381D18E044;
-	Tue, 30 Jul 2024 22:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE6DDC8FE;
+	Wed, 31 Jul 2024 01:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EujHQ0PO"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="Q9HyL/M9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2068.outbound.protection.outlook.com [40.107.255.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E05F157466;
-	Tue, 30 Jul 2024 22:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722377802; cv=none; b=bofq5oOOadjH9FC0+MiYVONd9y4tKmXp37XUAcA5d9S3uvM2Yc7oXZWhHgFJSVarglxUpPVbYfc3RrG+FyUMFpQTAIGgiwiRDRaQx/3FRJKXqpiRaHnwDHIWbrORItAvqljSU7R81ItFn7Bl2Q08zb0ZAyclf9+7BilmJBustMo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722377802; c=relaxed/simple;
-	bh=P0tmDz7askZcgfwXTEqv0YhQNQT+tACFuOTrZi2f/Qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cQOf7JMiiJBrSVgk+aCnlHFOfOJAQr7oH+p/jEpM63G6YbahpkO5DHNh75yT1NMcIJcj83kyAat/5yfa2Mom2Ls7IRIInhH2Y7u6g3zYynTdsoMaAw0fJKXHpxlrlmQVjFKIiPp/IutSltDFY7TxaBaVNvOPE5wDBWm+4LepiKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EujHQ0PO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD0F06EF;
-	Wed, 31 Jul 2024 00:15:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722377750;
-	bh=P0tmDz7askZcgfwXTEqv0YhQNQT+tACFuOTrZi2f/Qw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EujHQ0PO2wnfG2FgWswkYlFNRk1k8aFgB6PCHzfsT9A8tokduq/LihzJW09eg2cGW
-	 kdO1/6I8KZuc7vbqyS8vJxkTmoNC/ipsGdFVbST7ahqkGBbIbqssoG1Xye7ALzj8Ai
-	 QsPfFJB8WtyansNFRXvN+AfgQcwappVgCWB76rtc=
-Date: Wed, 31 Jul 2024 01:16:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
-	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
-	sakari.ailus@iki.fi
-Subject: Re: [PATCH v6 17/18] media: platform: Add mali-c55 parameters video
- node
-Message-ID: <20240730221616.GG8146@pendragon.ideasonboard.com>
-References: <20240709132906.3198927-1-dan.scally@ideasonboard.com>
- <20240709132906.3198927-18-dan.scally@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7185A12E4D;
+	Wed, 31 Jul 2024 01:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722390433; cv=fail; b=i3kYRuAZl6ASWAECNjBwgPs45G13wC7mCEQ9XTI2/riwL0UzphEIdgvqQN27WS+Fjsq/hYy845H+/3ATYxz67b+4t9zz+RuE6D+09Xc9K8wth5Ch58xSRWB5DypNAMKvJ6Q0/K1+m3KUZALYmmR770I7BfSJKDQ6/o7IilH7Aks=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722390433; c=relaxed/simple;
+	bh=+Mno95iWVnF43VFmPDX3bRTWZ4y9kWSXH9td0D9MyV4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dzm99sFEn1d4wmIxBcyb4DxCF64iKYwmWwX1A2MbZ7AjTM8RXo0ooBdy0B63IDAGjyxwQFM4YljdkVotQgA4vghupit+/3DM8OTDdtzxKgkSwqbcYlP4Kh0j56/RZ18eiQGgLPs+OUqXsUuKo9fXJPeLBA0K+VNtb40+HuBvYs8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=Q9HyL/M9; arc=fail smtp.client-ip=40.107.255.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l8GOqgA2ct0tEuhp7Y6eiSfSwQ2d4t4SCwJrU3SQV5sSJ6Qzp0dRqWIfVoBeEmfCotSucclM184ufi6Dm0CJrytf1z2ILmkRvL4/2WIw9y8g3dOuCzDhc6kDAlhUVDYoGh7N8FSyt8cxtEUeUbxGlRCh2tLhuVOdd/6bdb5q5lAOVFfokHDaUoVTA6s4xvr3szpcWCv8jvbqgFLlhAi158MpQ29pa1UR3qawBrVhy9hVnY6kQuujKjeNvMIEpzmslFKsEKo5rNi6Sc0VXZG7DsVVZ+R+U1zXBNV3NzONZXOnBffvggHIoxm7m4Jeml9qSHIzSuzLXkVahi1BeMjFLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5YDV2GU0rwe7jnxnUzF1diyOBQnxDNiuk/IzPf8tt8E=;
+ b=EqCJ4jH9X1rT6j0dPpigLKKOMuD1OhR9gKUhJ0IilAzSE5kEbQJcwGFPEns9yo0Xy37bgOKPKMM9xZYpM65FWpJVvoNlA7hK6T9MxDyjZh/GvdwoujIVP6y/ov2dM0SHJ55ZGCJk2KJyCNk9M/PmUpeg/ivZt+2K9tv6XxYiYc89HdUY4i4DhLK4AZKMoL06jXr1rbPcrfNuamfJMhKtfom/FegbAblyjY+WMV5k/g0WEw8XJZ1ngEzt05EyONB/aYwb4sSDkARGrF35L/bK3r/VDmKeIs594jZ1sE17sNV1RTZPRexyyg3sSqnp1OFzfNcUvQ8mIs53w6WWQpWsNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5YDV2GU0rwe7jnxnUzF1diyOBQnxDNiuk/IzPf8tt8E=;
+ b=Q9HyL/M9oGyUTcBx2BOYH3YwQ6ztPs8GBVfb7duMGmY9yfaI90m+GgOUj/UmlM8Mubk0uSW5K/hDh1o7M+OlQMZf/YLSgjRr+WSMlr+CB35MlR1lQm0PyjMEH/dnFR0ZaZ2IJ/160hloV2H+wJQbLDwAQOMjn/ZdzqOAm2EkZEQ5bpWKG3H2tjwUzVk6tgu5O2ICiDjO/vtqwKnJ+R5eS38j6I64ipYYTQ8WQai783yDMz8OA1WREZ8eDTgrt2xyvsMYdk7Ire1BG5sAzDkG0F9QLcQiu2iHzAynPNKwQR8vlccXK9wdVhgBl2vrUWgWdfXHMExU633tL6u+DGPcBQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by OSQPR06MB7131.apcprd06.prod.outlook.com (2603:1096:604:29a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.32; Wed, 31 Jul
+ 2024 01:47:05 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7807.026; Wed, 31 Jul 2024
+ 01:47:05 +0000
+Message-ID: <47beaca6-8118-4458-898a-42fc3286d991@vivo.com>
+Date: Wed, 31 Jul 2024 09:47:00 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ opensource.kernel@vivo.com
+References: <20240730075755.10941-1-link@vivo.com>
+ <d2f56198-a3c2-4f7b-9d10-616deb348351@amd.com>
+ <966651c0-42fc-4827-bf3e-2170dcf4688c@vivo.com>
+ <CABdmKX3xoUwVbj1-G1Q7gyi-7r9J8PeW8Y92Od5epRKumYL-qA@mail.gmail.com>
+From: Huan Yang <link@vivo.com>
+In-Reply-To: <CABdmKX3xoUwVbj1-G1Q7gyi-7r9J8PeW8Y92Od5epRKumYL-qA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR04CA0175.apcprd04.prod.outlook.com
+ (2603:1096:4:14::13) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240709132906.3198927-18-dan.scally@ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|OSQPR06MB7131:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5824b455-0801-4d4b-8afb-08dcb102adf5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|1800799024|7416014|366016|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cEhVQVlnMnpncTdsc3VOTVhuQ1RUSjgrTCs5M0w5MUkvTytDdnNqb3hxK1lK?=
+ =?utf-8?B?a3ZPQjQzby9NN2xTOVNhaXlPSDBvdktYdnBrQWgveHpVTDZzVzAzWGlzYmR6?=
+ =?utf-8?B?NkFTdk5HYlg3c29rVGJyTFZ6bVVYeFpqSVB2TEVPZG1LbklrY2VobzhTWDJz?=
+ =?utf-8?B?NVBhK08rQTJsenJzc3BUdEN6N1FVU1p0Q09mU1I1OXBSaThBeUQyeFFINkJy?=
+ =?utf-8?B?SG1NMmhhUDZ3bzNRVE9RS1NGczdJWWgvRm9EWW1GWXJYdWluVkFxYmk2UFVX?=
+ =?utf-8?B?SFFLMDI2WW5HUDFPd0FHK0R6cXBVdFBtWUJ3dENJOXhuS0xuZTNvdzFOcHpz?=
+ =?utf-8?B?UWhsaHhhUWZVYm43U1E5anR0TDljV0NibkloY0RXTFAweG05OGJlMUY4eVN5?=
+ =?utf-8?B?ejlHdnhZQjlYUEpZOWFuWVc4ZjlHS1ZSKzRJMWtZUmJmak14T1F5alhjMXpE?=
+ =?utf-8?B?cjhRTDZJNVowTVpTV21hMUdEbmlPMHRPMS8veCsvejdocXRHTm42TUpRZVZw?=
+ =?utf-8?B?QzNKWFduclNNdzNGZ0lRVmFzeEY1Mjd1bmJtak42ZkxsOEFUajhrc0tGbUIx?=
+ =?utf-8?B?ZlF5NFRCMEMxWXJIdzJtU1JYankweElrL0gvVlZzSS9KWjBUUkYwaDVmbU5l?=
+ =?utf-8?B?R0s4R0xoR2oreC9FbTZGQW5LU2JGdlBhUXNvTXZLY2lrRlFXbWtoREcza2k5?=
+ =?utf-8?B?VGxMY3luR3gzeDRUU1d5VjI0TnM4eXRXZlFFT2lKQXR1T3NCdzUrM2Z2V0N3?=
+ =?utf-8?B?eVFzQTJhaXVuWldPN0tVU0w1YUUwbWJDaFNPdEpzcGdudGg0bEt0MDZYdUNy?=
+ =?utf-8?B?akJVczZPQ1EyZzEvOU1FS1lQajVvMVpSOWgzQks4THhQYnlNU0lWT1Q0LzVE?=
+ =?utf-8?B?SW50ME00QjIrYVU3TmJQZnNSd3gyVmUwbHpWeVcwVlNBU21ocWJ3aTk1ZlhO?=
+ =?utf-8?B?d0lEWVZoNnlJU243dUEzcmJkTHU4STBZTEdiM0JoUkFRTTUvUTVzMUJvMWUy?=
+ =?utf-8?B?UzlsU3M4ZmMvZDhCYzhPV3VuTXdZRkZkdWF6T012VjZFMEZlRXdXZTYxNElR?=
+ =?utf-8?B?WlRKSmhVUG1Lek5zNW5BZzhqWE42ZUtVemJDN0NYd2VXVXlJTHlIT0dyclFC?=
+ =?utf-8?B?Y2RnbU9RcUNEM0VRckNvcVQ3Q1hkLzN5OEdnY0ZJSDMvZW5randjTzgxSWNY?=
+ =?utf-8?B?cTFSNUxpbWl6M01FelFhVzF5cGVHWGZXU0dvSGVxdjNoWG5qcmNpa2plZitO?=
+ =?utf-8?B?aWVHdkpLWVpIWStocFovaFR3YlM0SUJUTU9LUXJZM2ZLbnVuaXZiTERnZjNY?=
+ =?utf-8?B?aG9SYVFHWEtUZlBHNlBUM3NTV0l6UGhZd3N0ZUUrZUJOQUtIcWM3S052MEIv?=
+ =?utf-8?B?K0psV1V5UFZ2RkRFT3loNjF2aTQvOFBqalZwNnVybFpjRTRTMTR3MjBMUXpm?=
+ =?utf-8?B?UTdFZzdMYWM2ZTVaN29XRG8yRUVQajNVQThXRDl0TjRBN1M5UndIbDhkWDJv?=
+ =?utf-8?B?d0VQM1RuYVZwM3lOWTVlTVBLdyt4VEdkMitTSlExNSszRU9PSDlUdkFhcXdE?=
+ =?utf-8?B?ejlwUURFMlZ4OUxnc2Q0Y1E4RTRFQ2dFVG9jblcvWlAxTFlTRFYxUFp0Rjc2?=
+ =?utf-8?B?VVZ2WGNoNWs2ZnpDeWlhQi9vWG8yTlpnYkJQSCtpNFQ4bDBCZzN6RUx2c1ph?=
+ =?utf-8?B?WGoxUit0R0ZNVjJNYVpwT3M5d0tsaVFwV3pSNDE1b2FSdmg5UmhIOVgvWFJo?=
+ =?utf-8?B?eGFHTkdJU3pKYUgzZGpvOGhyLzdndFo3Z3JXV3NzUlNIVnAxTno3ODNiVEJi?=
+ =?utf-8?B?Zzc5L1NJeXNKZ1pVWVNUdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(7416014)(366016)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bGg2dE5YUlBaTzkxQXhJMm15aVdYQUptSXpjYkkzbjFBQkczc3owcGw5SHMz?=
+ =?utf-8?B?OUxtbTUzazJHL2VZMmtKa2dSVmdGTEdIbURoLzdXRFp1a2lmc1d0WEw4MUta?=
+ =?utf-8?B?RnJLeUo1MCtudEd5bjRBTlRwK3Y4Y0FJczh1TWRSb3J6LzRPRVhrM0J1MklZ?=
+ =?utf-8?B?VXAvVzVXeEw5NTN3K0Vsdk10ZXYwMWhTcklCTHRDSm0rSmtRYjVMdk5LbXRG?=
+ =?utf-8?B?Ky9UNDRJVVkyK3NMWkNybFlwcDRJQWtuazBpWHV6VHQ3eWZrWFlJOGtUK0Zk?=
+ =?utf-8?B?TTR1bGs2dVB6UlczZGp6UzJYVThsTVRXbkZWTGRqUmJ3MGFUam1UTmtNZkZM?=
+ =?utf-8?B?dEd6OXF3MUhVWno5aCtIalREbXRNdi9heEExRHFWak10ajRjV3R3VlNPVXZT?=
+ =?utf-8?B?RUl6RkkxL0pxdWVuc2UxVndQQ084eTR6am9uNStJSjhOcjdPTVBaZFJiaFVW?=
+ =?utf-8?B?bUpIT25TZ2xpN0Q0aXdYZ1VJTXpKejJlbmZXOW9tZE1hMWdIN3FGMTJ5eHQ0?=
+ =?utf-8?B?NXA3M0puTHdKMUtZd21mNGl0WG9ZKzMvZHA2SDVOVDFIcDNnZVRqQWVsRzEr?=
+ =?utf-8?B?MTd2bjFaeVJZWW5ZdEtLUHBkcExDcURoRTMraVFkZ1p2VGFOTDNkeVlhemJ2?=
+ =?utf-8?B?MHZoQ3d4dzRzUThtdmFhVjk5cDdvQmQxb2NmUndGV1dJeVpsMzJYYjlKK0Rw?=
+ =?utf-8?B?RmZnTzE5L3MyU1FvREpwZW5KVC9STkVCQTRndHZVRGtNVmplTGc4N3RjdDRN?=
+ =?utf-8?B?Ry9jRyszR0thRC9MbkcwZlhObk0waUkxWFFpV0VucUU0QTg4Y0RFczlML1Yw?=
+ =?utf-8?B?aitCbFVyRm9yRkx6R3J6eGxzUlRPUnVmeDVYeXpsbkcyY3ZNOFZrdit1cDg2?=
+ =?utf-8?B?VVBHcXdFcENmYmRiR2h0TjhGQzlzMUc5YVExMFA1V0c2S2ZKdklnL0Q5ZS9S?=
+ =?utf-8?B?S0ZCYWtwZUxHTXZxOHNGTktJaENNVlJSZXZrYStkM0FXaXdDUlBlak5iU2FN?=
+ =?utf-8?B?bVZhaGNHdXM3eW1EUkJ2SUxBSXBTWTBMSmVjeDdOdVZsN29WV0w4bVl3ajND?=
+ =?utf-8?B?MGczUTBjMHZTY2MyKzlSUXpKQlNGU2luYUpWNkE5MGYxWmRkVFRFSEhDRUJm?=
+ =?utf-8?B?U20rMGJ6WnRFOTlZeEpNYUtJdlpFekw3QmdOV05Pb01teXBtRlZBaWJmanpq?=
+ =?utf-8?B?Ykp6VnFmZGIxdzI1V2t2RkU3N1BmQnlCUkRYNGNvdml0TEg0QmJLV1JVUlU3?=
+ =?utf-8?B?UWxaS1cvcVZ4Wk1jZnJUY1YrTjBmakFvaE1SOFBFbUxmZXFOZUMzMXBROURP?=
+ =?utf-8?B?VU9OUGVFWTllaGh4VHlsZUN3MUVyQnR1SFFUbnlhZXNWTzhuOVgzaGhNbnl2?=
+ =?utf-8?B?L0lUU2pQcHpaUTNVKy9mWlI0RWtKMUViMUNNYVFsM01kUjZCajRQOEFkM0Jx?=
+ =?utf-8?B?eUl4REZxc2VUaU9RbEFmZjJwMUtGcGl6UkRPNGt4MGNlRys1V0YrTFpFUE96?=
+ =?utf-8?B?N0RoaWRyQUkvVDFkWlVVY1I3alBtQ1BmM2dpTzFKRER1dm5wNkdweDJqVHJR?=
+ =?utf-8?B?RTE4eWpyQnRNK1VHS1FZR0FNamhxVTBnUk5meHVqNkZZYzMrTC9LS2ZtQmts?=
+ =?utf-8?B?elRtUGhEbmRlcHRXcTBLb1RUMWRRbUExT0wrMWdzRGlML01ycmo0K3NQSFpB?=
+ =?utf-8?B?OFVnQU9SbzJSZC9EVS9rRHl0bWRJS24yZ1Z1aHdBTjQrVnEveGxqMGlQWklP?=
+ =?utf-8?B?d3hTMUNtYnJISVJJek5uREhrY1pGUnlqRWdxcVIxN3U4UTNMRVpkQWZjbkZZ?=
+ =?utf-8?B?c2FkYmFxZzFDc2FNR0NLMVQ2ZlpXdHVkRUpJK1dPT3ZnRGpseCtzTTQycGpM?=
+ =?utf-8?B?aTdDa1c5MklzcXlOTU5PYk9mRHErb3NLYkZwUEJQUHRhYWNqWHJRNG9wOVh6?=
+ =?utf-8?B?aFZndThwTXducTNiUkVkd2JBRFFJY0R2dUVUc1FXbVgwL3dlVUptMDI0UEgx?=
+ =?utf-8?B?OU9NWVVrbkI2azUya2UyWkg4ZlRyak1laVpvMytyQmcxdHN6S2hrTnovMDZw?=
+ =?utf-8?B?RFh5UWdqbDJmY2tobHJqbEY3cS9uQUVrcXFTdnZMdkdESlVVWXdtZGFQMzF2?=
+ =?utf-8?Q?EAWamlVCZ0bzube9K23mc6KZ9?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5824b455-0801-4d4b-8afb-08dcb102adf5
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2024 01:47:04.8593
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hjm0XMRH8FAe3QKsBBmn1/nVR7XXyvXo2iepUUn//b6mZqhHe03/qcz6vpnhK3yiiTZDIdulgo6Iy09pQlkgag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7131
 
-Hi Dan,
 
-Thank you for the patch.
-
-On Tue, Jul 09, 2024 at 02:29:05PM +0100, Daniel Scally wrote:
-> Add a new code file to the mali-c55 driver that registers an output
-> video node for userspace to queue buffers of parameters to. Handlers
-> are included to program the statistics generation plus the white
-> balance, black level correction and mesh shading correction blocks.
-> 
-> Update the rest of the driver to register and link the new video node
-> 
-> Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
-> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
-> Changes in v6:
-> 
-> 	- Used a union to generalise the block pointer rather than resorting to
-> 	  casting everywhere - fantastic idea Sakari, this made it much cleaner.
-> 	- Reworked the loop in mali_c55_params_write_config() so that we can be
-> 	  sure there's remaining space for the next block header.
-> 
-> Changes in v5:
-> 
-> 	- New patch
-> 
->  drivers/media/platform/arm/mali-c55/Makefile  |   1 +
->  .../platform/arm/mali-c55/mali-c55-common.h   |  20 +
->  .../platform/arm/mali-c55/mali-c55-core.c     |  23 +
->  .../platform/arm/mali-c55/mali-c55-isp.c      |  21 +-
->  .../platform/arm/mali-c55/mali-c55-params.c   | 671 ++++++++++++++++++
->  .../arm/mali-c55/mali-c55-registers.h         | 128 ++++
->  6 files changed, 863 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> 
-> diff --git a/drivers/media/platform/arm/mali-c55/Makefile b/drivers/media/platform/arm/mali-c55/Makefile
-> index b5a22d414479..d5718b0b23e0 100644
-> --- a/drivers/media/platform/arm/mali-c55/Makefile
-> +++ b/drivers/media/platform/arm/mali-c55/Makefile
-> @@ -3,6 +3,7 @@
->  mali-c55-y := mali-c55-capture.o \
->  	      mali-c55-core.o \
->  	      mali-c55-isp.o \
-> +	      mali-c55-params.o \
->  	      mali-c55-resizer.o \
->  	      mali-c55-stats.o \
->  	      mali-c55-tpg.o
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-common.h b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
-> index 136c785c68ba..66a46a7c0547 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-common.h
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
-> @@ -50,6 +50,7 @@ enum mali_c55_isp_pads {
->  	MALI_C55_ISP_PAD_SOURCE_VIDEO,
->  	MALI_C55_ISP_PAD_SOURCE_BYPASS,
->  	MALI_C55_ISP_PAD_SOURCE_STATS,
-> +	MALI_C55_ISP_PAD_SINK_PARAMS,
->  	MALI_C55_ISP_NUM_PADS,
->  };
->  
-> @@ -184,6 +185,21 @@ struct mali_c55_stats {
->  	} buffers;
->  };
->  
-> +struct mali_c55_params {
-> +	struct mali_c55 *mali_c55;
-> +	struct video_device vdev;
-> +	struct vb2_queue queue;
-> +	struct media_pad pad;
-> +	/* Mutex to provide to vb2 */
-> +	struct mutex lock;
-> +
-> +	struct {
-> +		/* Spinlock to guard buffer queue */
-> +		spinlock_t lock;
-> +		struct list_head queue;
-> +	} buffers;
-> +};
-> +
->  enum mali_c55_config_spaces {
->  	MALI_C55_CONFIG_PING,
->  	MALI_C55_CONFIG_PONG,
-> @@ -226,6 +242,7 @@ struct mali_c55 {
->  	struct mali_c55_isp isp;
->  	struct mali_c55_resizer resizers[MALI_C55_NUM_RSZS];
->  	struct mali_c55_cap_dev cap_devs[MALI_C55_NUM_CAP_DEVS];
-> +	struct mali_c55_params params;
->  	struct mali_c55_stats stats;
->  
->  	struct mali_c55_context context;
-> @@ -256,6 +273,8 @@ int mali_c55_register_capture_devs(struct mali_c55 *mali_c55);
->  void mali_c55_unregister_capture_devs(struct mali_c55 *mali_c55);
->  int mali_c55_register_stats(struct mali_c55 *mali_c55);
->  void mali_c55_unregister_stats(struct mali_c55 *mali_c55);
-> +int mali_c55_register_params(struct mali_c55 *mali_c55);
-> +void mali_c55_unregister_params(struct mali_c55 *mali_c55);
->  struct mali_c55_context *mali_c55_get_active_context(struct mali_c55 *mali_c55);
->  void mali_c55_set_plane_done(struct mali_c55_cap_dev *cap_dev,
->  			     enum mali_c55_planes plane);
-> @@ -272,5 +291,6 @@ const struct mali_c55_isp_fmt *
->  mali_c55_isp_get_mbus_config_by_index(u32 index);
->  void mali_c55_stats_fill_buffer(struct mali_c55 *mali_c55,
->  				enum mali_c55_config_spaces cfg_space);
-> +void mali_c55_params_write_config(struct mali_c55 *mali_c55);
->  
->  #endif /* _MALI_C55_COMMON_H */
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> index ed0db34767a4..55b3cbf53791 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> @@ -384,6 +384,16 @@ static int mali_c55_create_links(struct mali_c55 *mali_c55)
->  		goto err_remove_links;
->  	}
->  
-> +	ret = media_create_pad_link(&mali_c55->params.vdev.entity, 0,
-> +				    &mali_c55->isp.sd.entity,
-> +				    MALI_C55_ISP_PAD_SINK_PARAMS,
-> +				    MEDIA_LNK_FL_ENABLED);
-
-Should this be immutable, or do you think it makes sense to support
-operating the ISP without parameters ? I know we did so when developing
-the driver to test the initial code, but are there real use cases now ?
-
-> +	if (ret) {
-> +		dev_err(mali_c55->dev,
-> +			"failed to link ISP and parameters video node\n");
-> +		goto err_remove_links;
-> +	}
-> +
->  	return 0;
->  
->  err_remove_links:
-> @@ -398,6 +408,7 @@ static void mali_c55_unregister_entities(struct mali_c55 *mali_c55)
->  	mali_c55_unregister_isp(mali_c55);
->  	mali_c55_unregister_resizers(mali_c55);
->  	mali_c55_unregister_capture_devs(mali_c55);
-> +	mali_c55_unregister_params(mali_c55);
->  	mali_c55_unregister_stats(mali_c55);
->  }
->  
-> @@ -421,6 +432,10 @@ static int mali_c55_register_entities(struct mali_c55 *mali_c55)
->  	if (ret)
->  		goto err_unregister_entities;
->  
-> +	ret = mali_c55_register_params(mali_c55);
-> +	if (ret)
-> +		goto err_unregister_entities;
-> +
->  	ret = mali_c55_register_stats(mali_c55);
->  	if (ret)
->  		goto err_unregister_entities;
-> @@ -620,6 +635,14 @@ static irqreturn_t mali_c55_isr(int irq, void *context)
->  			curr_config >>= ffs(MALI_C55_REG_PING_PONG_READ_MASK) - 1;
->  			next_config = curr_config ^ 1;
->  
-> +			/*
-> +			 * Write the configuration parameters received from
-> +			 * userspace into the configuration buffer, which will
-> +			 * be transferred to the 'next' active config space at
-> +			 * by mali_c55_swap_next_config().
-> +			 */
-> +			mali_c55_params_write_config(mali_c55);
-> +
->  			/*
->  			 * The ordering of these two is currently important as
->  			 * mali_c55_stats_fill_buffer() is asynchronous whereas
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> index 2f450c00300a..40d7ef6eda22 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-> @@ -132,6 +132,7 @@ static int mali_c55_isp_start(struct mali_c55 *mali_c55)
->  				 cfg->bypass ? MALI_C55_ISP_RAW_BYPASS_BYPASS_MASK :
->  					     0x00);
->  
-> +	mali_c55_params_write_config(mali_c55);
->  	ret = mali_c55_config_write(ctx, MALI_C55_CONFIG_PING);
->  	if (ret) {
->  		dev_err(mali_c55->dev, "failed to write ISP config\n");
-> @@ -464,12 +465,17 @@ static int mali_c55_isp_init_state(struct v4l2_subdev *sd,
->  
->  	src_fmt = v4l2_subdev_state_get_format(state,
->  					       MALI_C55_ISP_PAD_SOURCE_STATS);
-> +	sink_fmt = v4l2_subdev_state_get_format(state,
-> +						MALI_C55_ISP_PAD_SINK_PARAMS);
->  
->  	src_fmt->width = sizeof(struct mali_c55_stats_buffer);
->  	src_fmt->height = 1;
->  	src_fmt->field = V4L2_FIELD_NONE;
->  	src_fmt->code = MEDIA_BUS_FMT_METADATA_FIXED;
->  
-> +	*sink_fmt = *src_fmt;
-
-I would initialize the fields individually, I think the code would be
-clearer.
-
-> +	sink_fmt->width = sizeof(struct mali_c55_params_buffer);
-> +
->  	return 0;
->  }
->  
-> @@ -477,8 +483,20 @@ static const struct v4l2_subdev_internal_ops mali_c55_isp_internal_ops = {
->  	.init_state = mali_c55_isp_init_state,
->  };
->  
-> +static int mali_c55_subdev_link_validate(struct media_link *link)
-> +{
-> +	/*
-> +	 * Skip validation for the parameters sink pad, as the source is not
-> +	 * a subdevice.
-> +	 */
-> +	if (link->sink->index == MALI_C55_ISP_PAD_SINK_PARAMS)
-> +		return 0;
-> +
-> +	return v4l2_subdev_link_validate(link);
-> +}
-> +
->  static const struct media_entity_operations mali_c55_isp_media_ops = {
-> -	.link_validate		= v4l2_subdev_link_validate,
-> +	.link_validate		= mali_c55_subdev_link_validate,
->  };
->  
->  int mali_c55_register_isp(struct mali_c55 *mali_c55)
-> @@ -501,6 +519,7 @@ int mali_c55_register_isp(struct mali_c55 *mali_c55)
->  	isp->pads[MALI_C55_ISP_PAD_SOURCE_VIDEO].flags = MEDIA_PAD_FL_SOURCE;
->  	isp->pads[MALI_C55_ISP_PAD_SOURCE_BYPASS].flags = MEDIA_PAD_FL_SOURCE;
->  	isp->pads[MALI_C55_ISP_PAD_SOURCE_STATS].flags = MEDIA_PAD_FL_SOURCE;
-> +	isp->pads[MALI_C55_ISP_PAD_SINK_PARAMS].flags = MEDIA_PAD_FL_SINK;
->  
->  	ret = media_entity_pads_init(&sd->entity, MALI_C55_ISP_NUM_PADS,
->  				     isp->pads);
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> new file mode 100644
-> index 000000000000..c0ca4a759653
-> --- /dev/null
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> @@ -0,0 +1,671 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * ARM Mali-C55 ISP Driver - Configuration parameters output device
-> + *
-> + * Copyright (C) 2024 Ideas on Board Oy
-> + */
-> +#include <linux/media/arm/mali-c55-config.h>
-> +
-> +#include <media/media-entity.h>
-> +#include <media/v4l2-dev.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-fh.h>
-> +#include <media/v4l2-ioctl.h>
-> +#include <media/videobuf2-core.h>
-> +#include <media/videobuf2-dma-contig.h>
-> +
-> +#include "mali-c55-common.h"
-> +#include "mali-c55-registers.h"
-> +
-> +typedef void (*mali_c55_block_handler)(struct mali_c55 *mali_c55,
-> +				       union mali_c55_params_block block);
-> +
-> +struct mali_c55_block_handler {
-> +	size_t size;
-> +	mali_c55_block_handler handler;
-> +};
-> +
-> +static void mali_c55_params_sensor_offs(struct mali_c55 *mali_c55,
-> +					union mali_c55_params_block block)
-> +{
-> +	struct mali_c55_params_sensor_off_preshading *p = block.sensor_offs;
-> +	__u32 global_offset;
-> +
-> +	if (!block.header->enabled)
-> +		return;
-> +
-> +	if (!(p->chan00 || p->chan01 || p->chan10 || p->chan11))
-> +		return;
-> +
-> +	mali_c55_ctx_write(mali_c55, MALI_C55_REG_SENSOR_OFF_PRE_SHA_00,
-> +			   p->chan00 & MALI_C55_SENSOR_OFF_PRE_SHA_MASK);
-> +	mali_c55_ctx_write(mali_c55, MALI_C55_REG_SENSOR_OFF_PRE_SHA_01,
-> +			   p->chan01 & MALI_C55_SENSOR_OFF_PRE_SHA_MASK);
-> +	mali_c55_ctx_write(mali_c55, MALI_C55_REG_SENSOR_OFF_PRE_SHA_10,
-> +			   p->chan10 & MALI_C55_SENSOR_OFF_PRE_SHA_MASK);
-> +	mali_c55_ctx_write(mali_c55, MALI_C55_REG_SENSOR_OFF_PRE_SHA_11,
-> +			   p->chan11 & MALI_C55_SENSOR_OFF_PRE_SHA_MASK);
-> +
-> +	/*
-> +	 * The average offset is applied as a global offset for the digital
-> +	 * gain block
-> +	 */
-> +	global_offset = (p->chan00 + p->chan01 + p->chan10 + p->chan11) >> 2;
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_DIGITAL_GAIN_OFFSET,
-> +				 MALI_C55_DIGITAL_GAIN_OFFSET_MASK,
-> +				 global_offset);
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_BYPASS_3,
-> +				 MALI_C55_REG_BYPASS_3_SENSOR_OFFSET_PRE_SH,
-> +				 0x00);
-> +}
-> +
-> +static void mali_c55_params_aexp_hist(struct mali_c55 *mali_c55,
-> +				      union mali_c55_params_block block)
-> +{
-> +	u32 disable_mask;
-> +	u32 disable_val;
-> +	u32 base;
-> +
-> +	if (block.header->type == MALI_C55_PARAM_BLOCK_AEXP_HIST) {
-> +		disable_mask = MALI_C55_AEXP_HIST_DISABLE_MASK;
-> +		disable_val = MALI_C55_AEXP_HIST_DISABLE;
-> +		base = MALI_C55_REG_AEXP_HIST_BASE;
-> +	} else {
-> +		disable_mask = MALI_C55_AEXP_IHIST_DISABLE_MASK;
-> +		disable_val = MALI_C55_AEXP_IHIST_DISABLE;
-> +		base = MALI_C55_REG_AEXP_IHIST_BASE;
-> +	}
-> +	struct mali_c55_params_aexp_hist *params = block.aexp_hist;
-> +
-> +	if (!block.header->enabled) {
-> +		mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_METERING_CONFIG,
-> +					 disable_mask, disable_val);
-> +		return;
-> +	}
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_METERING_CONFIG,
-> +				 disable_mask, false);
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, base + MALI_C55_AEXP_HIST_SKIP_OFFSET,
-> +				 MALI_C55_AEXP_HIST_SKIP_X_MASK, params->skip_x);
-> +	mali_c55_ctx_update_bits(mali_c55, base + MALI_C55_AEXP_HIST_SKIP_OFFSET,
-> +				 MALI_C55_AEXP_HIST_OFFSET_X_MASK,
-> +				 MALI_C55_AEXP_HIST_OFFSET_X(params->offset_x));
-> +	mali_c55_ctx_update_bits(mali_c55, base + MALI_C55_AEXP_HIST_SKIP_OFFSET,
-> +				 MALI_C55_AEXP_HIST_SKIP_Y_MASK,
-> +				 MALI_C55_AEXP_HIST_SKIP_Y(params->skip_y));
-> +	mali_c55_ctx_update_bits(mali_c55, base + MALI_C55_AEXP_HIST_SKIP_OFFSET,
-> +				 MALI_C55_AEXP_HIST_OFFSET_Y_MASK,
-> +				 MALI_C55_AEXP_HIST_OFFSET_Y(params->offset_y));
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, base + MALI_C55_AEXP_HIST_SCALE_OFFSET,
-> +				 MALI_C55_AEXP_HIST_SCALE_BOTTOM_MASK,
-> +				 params->scale_bottom);
-> +	mali_c55_ctx_update_bits(mali_c55, base + MALI_C55_AEXP_HIST_SCALE_OFFSET,
-> +				 MALI_C55_AEXP_HIST_SCALE_TOP_MASK,
-> +				 MALI_C55_AEXP_HIST_SCALE_TOP(params->scale_top));
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, base + MALI_C55_AEXP_HIST_PLANE_MODE_OFFSET,
-> +				 MALI_C55_AEXP_HIST_PLANE_MODE_MASK,
-> +				 params->plane_mode);
-> +
-> +	if (block.header->type == MALI_C55_PARAM_BLOCK_AEXP_HIST)
-> +		mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_METERING_CONFIG,
-> +					 MALI_C55_AEXP_HIST_SWITCH_MASK,
-> +					 MALI_C55_AEXP_HIST_SWITCH(params->tap_point));
-> +}
-> +
-> +static void
-> +mali_c55_params_aexp_hist_weights(struct mali_c55 *mali_c55,
-> +				  union mali_c55_params_block block)
-> +{
-> +	struct mali_c55_params_aexp_weights *params = block.aexp_weights;
-> +	u32 base;
-> +
-> +	if (!block.header->enabled)
-> +		return;
-> +
-> +	base = block.header->type == MALI_C55_PARAM_BLOCK_AEXP_HIST_WEIGHTS ?
-> +				      MALI_C55_REG_AEXP_HIST_BASE :
-> +				      MALI_C55_REG_AEXP_IHIST_BASE;
-> +
-> +	mali_c55_ctx_update_bits(mali_c55,
-> +				 base + MALI_C55_AEXP_HIST_NODES_USED_OFFSET,
-> +				 MALI_C55_AEXP_HIST_NODES_USED_HORIZ_MASK,
-> +				 params->nodes_used_horiz);
-> +	mali_c55_ctx_update_bits(mali_c55,
-> +				 base + MALI_C55_AEXP_HIST_NODES_USED_OFFSET,
-> +				 MALI_C55_AEXP_HIST_NODES_USED_VERT_MASK,
-> +				 MALI_C55_AEXP_HIST_NODES_USED_VERT(params->nodes_used_vert));
-> +
-> +	/*
-> +	 * The zone weights array is a 225-element array of u8 values, but that
-> +	 * is a bit annoying to handle given the ISP expects 32-bit writes. We
-> +	 * just reinterpret it as a 57-element array of 32-bit values for the
-> +	 * purposes of this transaction (the 3 bytes of additional space at the
-> +	 * end of the write is just padding for the array of weights in the ISP
-> +	 * memory space anyway, so there's no risk of overwriting other
-> +	 * registers).
-> +	 */
-> +	for (unsigned int i = 0; i < 57; i++) {
-> +		u32 val = ((u32 *)params->zone_weights)[i]
-> +			    & MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK;
-> +		u32 addr = base + MALI_C55_AEXP_HIST_ZONE_WEIGHTS_OFFSET + (4 * i);
-> +
-> +		mali_c55_ctx_write(mali_c55, addr, val);
-> +	}
-> +}
-> +
-> +static void mali_c55_params_digital_gain(struct mali_c55 *mali_c55,
-> +					 union mali_c55_params_block block)
-> +{
-> +	struct mali_c55_params_digital_gain *dgain = block.digital_gain;
-> +
-> +	/*
-> +	 * If the block is flagged as disabled we write a gain of 1.0, which in
-> +	 * Q5.8 format is 256.
-> +	 */
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_DIGITAL_GAIN,
-> +				 MALI_C55_DIGITAL_GAIN_MASK,
-> +				 block.header->enabled ? dgain->gain : 256);
-> +}
-> +
-> +static void mali_c55_params_awb_gains(struct mali_c55 *mali_c55,
-> +				      union mali_c55_params_block block)
-> +{
-> +	struct mali_c55_params_awb_gains *gains = block.awb_gains;
-> +
-> +	/*
-> +	 * There are two places AWB gains can be set in the ISP; one affects the
-> +	 * image output data and the other affects the statistics for the
-> +	 * AEXP-0 tap point.
-> +	 */
-> +	u32 addr1 = block.header->type == MALI_C55_PARAM_BLOCK_AWB_GAINS ?
-> +					   MALI_C55_REG_AWB_GAINS1 :
-> +					   MALI_C55_REG_AWB_GAINS1_AEXP;
-> +	u32 addr2 = block.header->type == MALI_C55_PARAM_BLOCK_AWB_GAINS ?
-> +					   MALI_C55_REG_AWB_GAINS2 :
-> +					   MALI_C55_REG_AWB_GAINS2_AEXP;
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, addr1, MALI_C55_AWB_GAIN00_MASK,
-> +				 gains->gain00);
-> +	mali_c55_ctx_update_bits(mali_c55, addr1, MALI_C55_AWB_GAIN01_MASK,
-> +				 MALI_C55_AWB_GAIN01(gains->gain01));
-> +	mali_c55_ctx_update_bits(mali_c55, addr2, MALI_C55_AWB_GAIN10_MASK,
-> +				 gains->gain10);
-> +	mali_c55_ctx_update_bits(mali_c55, addr2, MALI_C55_AWB_GAIN11_MASK,
-> +				 MALI_C55_AWB_GAIN11(gains->gain11));
-> +}
-> +
-> +static void mali_c55_params_awb_config(struct mali_c55 *mali_c55,
-> +				       union mali_c55_params_block block)
-> +{
-> +	struct mali_c55_params_awb_config *params = block.awb_config;
-> +
-> +	if (!block.header->enabled) {
-> +		mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_METERING_CONFIG,
-> +					 MALI_C55_AWB_DISABLE_MASK,
-> +					 MALI_C55_AWB_DISABLE_MASK);
-> +		return;
-> +	}
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_METERING_CONFIG,
-> +				 MALI_C55_AWB_DISABLE_MASK, false);
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_STATS_MODE,
-> +				 MALI_C55_AWB_STATS_MODE_MASK, params->stats_mode);
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_WHITE_LEVEL,
-> +				 MALI_C55_AWB_WHITE_LEVEL_MASK, params->white_level);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_BLACK_LEVEL,
-> +				 MALI_C55_AWB_BLACK_LEVEL_MASK, params->black_level);
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CR_MAX,
-> +				 MALI_C55_AWB_CR_MAX_MASK, params->cr_max);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CR_MIN,
-> +				 MALI_C55_AWB_CR_MIN_MASK, params->cr_min);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CB_MAX,
-> +				 MALI_C55_AWB_CB_MAX_MASK, params->cb_max);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CB_MIN,
-> +				 MALI_C55_AWB_CB_MIN_MASK, params->cb_min);
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_NODES_USED,
-> +				 MALI_C55_AWB_NODES_USED_HORIZ_MASK,
-> +				 params->nodes_used_horiz);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_NODES_USED,
-> +				 MALI_C55_AWB_NODES_USED_VERT_MASK,
-> +				 MALI_C55_AWB_NODES_USED_VERT(params->nodes_used_vert));
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CR_HIGH,
-> +				 MALI_C55_AWB_CR_HIGH_MASK, params->cr_high);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CR_LOW,
-> +				 MALI_C55_AWB_CR_LOW_MASK, params->cr_low);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CB_HIGH,
-> +				 MALI_C55_AWB_CB_HIGH_MASK, params->cb_high);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_AWB_CB_LOW,
-> +				 MALI_C55_AWB_CB_LOW_MASK, params->cb_low);
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_METERING_CONFIG,
-> +				 MALI_C55_AWB_SWITCH_MASK,
-> +				 MALI_C55_AWB_SWITCH(params->tap_point));
-> +}
-> +
-> +static void mali_c55_params_lsc_config(struct mali_c55 *mali_c55,
-> +				       union mali_c55_params_block block)
-> +{
-> +	struct mali_c55_params_mesh_shading_config *params = block.shading_config;
-> +	unsigned int i;
-> +	u32 addr;
-> +
-> +	if (!block.header->enabled) {
-> +		mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +					 MALI_C55_MESH_SHADING_ENABLE_MASK,
-> +					 false);
-> +		return;
-> +	}
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_ENABLE_MASK, true);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_MESH_SHOW_MASK,
-> +				 MALI_C55_MESH_SHADING_MESH_SHOW(params->mesh_show));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_SCALE_MASK,
-> +				 MALI_C55_MESH_SHADING_SCALE(params->mesh_scale));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_PAGE_R_MASK,
-> +				 MALI_C55_MESH_SHADING_PAGE_R(params->mesh_page_r));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_PAGE_G_MASK,
-> +				 MALI_C55_MESH_SHADING_PAGE_G(params->mesh_page_g));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_PAGE_B_MASK,
-> +				 MALI_C55_MESH_SHADING_PAGE_B(params->mesh_page_b));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_MESH_WIDTH_MASK,
-> +				 MALI_C55_MESH_SHADING_MESH_WIDTH(params->mesh_width));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_CONFIG,
-> +				 MALI_C55_MESH_SHADING_MESH_HEIGHT_MASK,
-> +				 MALI_C55_MESH_SHADING_MESH_HEIGHT(params->mesh_height));
-> +
-> +	for (i = 0; i < MALI_C55_NUM_MESH_SHADING_ELEMENTS; i++) {
-> +		addr = MALI_C55_REG_MESH_SHADING_TABLES + (i * 4);
-> +		mali_c55_ctx_write(mali_c55, addr, params->mesh[i]);
-> +	}
-> +}
-> +
-> +static void mali_c55_params_lsc_selection(struct mali_c55 *mali_c55,
-> +					  union mali_c55_params_block block)
-> +{
-> +	struct mali_c55_params_mesh_shading_selection *params =
-> +		block.shading_selection;
-> +
-> +	if (!block.header->enabled)
-> +		return;
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_ALPHA_BANK,
-> +				 MALI_C55_MESH_SHADING_ALPHA_BANK_R_MASK,
-> +				 params->mesh_alpha_bank_r);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_ALPHA_BANK,
-> +				 MALI_C55_MESH_SHADING_ALPHA_BANK_G_MASK,
-> +				 MALI_C55_MESH_SHADING_ALPHA_BANK_G(params->mesh_alpha_bank_g));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_ALPHA_BANK,
-> +				 MALI_C55_MESH_SHADING_ALPHA_BANK_B_MASK,
-> +				 MALI_C55_MESH_SHADING_ALPHA_BANK_B(params->mesh_alpha_bank_b));
-> +
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_ALPHA,
-> +				 MALI_C55_MESH_SHADING_ALPHA_R_MASK,
-> +				 params->mesh_alpha_r);
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_ALPHA,
-> +				 MALI_C55_MESH_SHADING_ALPHA_G_MASK,
-> +				 MALI_C55_MESH_SHADING_ALPHA_G(params->mesh_alpha_g));
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_MESH_SHADING_ALPHA,
-> +				 MALI_C55_MESH_SHADING_ALPHA_B_MASK,
-> +				 MALI_C55_MESH_SHADING_ALPHA_B(params->mesh_alpha_b));
-> +
-> +	mali_c55_ctx_update_bits(mali_c55,
-> +				 MALI_C55_REG_MESH_SHADING_MESH_STRENGTH,
-> +				 MALI_c55_MESH_STRENGTH_MASK,
-> +				 params->mesh_strength);
-> +}
-> +
-> +static const struct mali_c55_block_handler mali_c55_block_handlers[] = {
-> +	[MALI_C55_PARAM_BLOCK_SENSOR_OFFS] = {
-> +		.size = sizeof(struct mali_c55_params_sensor_off_preshading),
-> +		.handler = &mali_c55_params_sensor_offs,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_AEXP_HIST] = {
-> +		.size = sizeof(struct mali_c55_params_aexp_hist),
-> +		.handler = &mali_c55_params_aexp_hist,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_AEXP_IHIST] = {
-> +		.size = sizeof(struct mali_c55_params_aexp_hist),
-> +		.handler = &mali_c55_params_aexp_hist,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_AEXP_HIST_WEIGHTS] = {
-> +		.size = sizeof(struct mali_c55_params_aexp_weights),
-> +		.handler = &mali_c55_params_aexp_hist_weights,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_AEXP_IHIST_WEIGHTS] = {
-> +		.size = sizeof(struct mali_c55_params_aexp_weights),
-> +		.handler = &mali_c55_params_aexp_hist_weights,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_DIGITAL_GAIN] = {
-> +		.size = sizeof(struct mali_c55_params_digital_gain),
-> +		.handler = &mali_c55_params_digital_gain,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_AWB_GAINS] = {
-> +		.size = sizeof(struct mali_c55_params_awb_gains),
-> +		.handler = &mali_c55_params_awb_gains,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_AWB_CONFIG] = {
-> +		.size = sizeof(struct mali_c55_params_awb_config),
-> +		.handler = &mali_c55_params_awb_config,
-> +	},
-> +	[MALI_C55_PARAM_BLOCK_AWB_GAINS_AEXP] = {
-> +		.size = sizeof(struct mali_c55_params_awb_gains),
-> +		.handler = &mali_c55_params_awb_gains,
-> +	},
-> +	[MALI_C55_PARAM_MESH_SHADING_CONFIG] = {
-> +		.size = sizeof(struct mali_c55_params_mesh_shading_config),
-> +		.handler = &mali_c55_params_lsc_config,
-> +	},
-> +	[MALI_C55_PARAM_MESH_SHADING_SELECTION] = {
-> +		.size = sizeof(struct mali_c55_params_mesh_shading_selection),
-> +		.handler = &mali_c55_params_lsc_selection,
-> +	},
-> +};
-> +
-> +static int mali_c55_params_enum_fmt_meta_out(struct file *file, void *fh,
-> +					     struct v4l2_fmtdesc *f)
-> +{
-> +	if (f->index)
-> +		return -EINVAL;
-> +
-> +	f->pixelformat = V4L2_META_FMT_MALI_C55_PARAMS;
-> +
-> +	return 0;
-> +}
-> +
-> +static int mali_c55_params_g_fmt_meta_out(struct file *file, void *fh,
-> +					  struct v4l2_format *f)
-> +{
-> +	static const struct v4l2_meta_format mfmt = {
-> +		.dataformat = V4L2_META_FMT_MALI_C55_PARAMS,
-> +		.buffersize = sizeof(struct mali_c55_params_buffer),
-> +	};
-> +
-> +	f->fmt.meta = mfmt;
-> +
-> +	return 0;
-> +}
-> +
-> +static int mali_c55_params_querycap(struct file *file,
-> +				    void *priv, struct v4l2_capability *cap)
-> +{
-> +	strscpy(cap->driver, MALI_C55_DRIVER_NAME, sizeof(cap->driver));
-> +	strscpy(cap->card, "ARM Mali-C55 ISP", sizeof(cap->card));
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_ioctl_ops mali_c55_params_v4l2_ioctl_ops = {
-> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
-> +	.vidioc_querybuf = vb2_ioctl_querybuf,
-> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-> +	.vidioc_qbuf = vb2_ioctl_qbuf,
-> +	.vidioc_expbuf = vb2_ioctl_expbuf,
-> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
-> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
-> +	.vidioc_streamon = vb2_ioctl_streamon,
-> +	.vidioc_streamoff = vb2_ioctl_streamoff,
-> +	.vidioc_enum_fmt_meta_out = mali_c55_params_enum_fmt_meta_out,
-> +	.vidioc_g_fmt_meta_out = mali_c55_params_g_fmt_meta_out,
-> +	.vidioc_s_fmt_meta_out = mali_c55_params_g_fmt_meta_out,
-> +	.vidioc_try_fmt_meta_out = mali_c55_params_g_fmt_meta_out,
-> +	.vidioc_querycap = mali_c55_params_querycap,
-> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_file_operations mali_c55_params_v4l2_fops = {
-> +	.owner = THIS_MODULE,
-> +	.unlocked_ioctl = video_ioctl2,
-> +	.open = v4l2_fh_open,
-> +	.release = vb2_fop_release,
-> +	.poll = vb2_fop_poll,
-> +	.mmap = vb2_fop_mmap,
-> +};
-> +
-> +static int
-> +mali_c55_params_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
-> +			    unsigned int *num_planes, unsigned int sizes[],
-> +			    struct device *alloc_devs[])
-> +{
-> +	if (*num_planes && *num_planes > 1)
-> +		return -EINVAL;
-> +
-> +	if (sizes[0] && sizes[0] < sizeof(struct mali_c55_params_buffer))
-> +		return -EINVAL;
-> +
-> +	*num_planes = 1;
-> +
-> +	if (!sizes[0])
-> +		sizes[0] = sizeof(struct mali_c55_params_buffer);
-> +
-> +	return 0;
-> +}
-> +
-> +static void mali_c55_params_buf_queue(struct vb2_buffer *vb)
-> +{
-> +	struct mali_c55_params *params = vb2_get_drv_priv(vb->vb2_queue);
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct mali_c55_buffer *buf = container_of(vbuf,
-> +						   struct mali_c55_buffer, vb);
-> +
-> +	vb2_set_plane_payload(vb, 0, sizeof(struct mali_c55_params_buffer));
-> +
-> +	spin_lock(&params->buffers.lock);
-> +	list_add_tail(&buf->queue, &params->buffers.queue);
-> +	spin_unlock(&params->buffers.lock);
-> +}
-> +
-> +static int mali_c55_params_start_streaming(struct vb2_queue *q,
-> +					   unsigned int count)
-> +{
-> +	struct mali_c55_params *params = vb2_get_drv_priv(q);
-> +	struct mali_c55 *mali_c55 = params->mali_c55;
-> +	int ret;
-> +
-> +	ret = video_device_pipeline_start(&params->vdev,
-> +					  &params->mali_c55->pipe);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (mali_c55->pipe.start_count == mali_c55->pipe.required_count) {
-> +		ret = v4l2_subdev_enable_streams(&mali_c55->isp.sd,
-> +						 MALI_C55_ISP_PAD_SOURCE_VIDEO,
-> +						 BIT(0));
-> +		if (ret)
-> +			goto err_stop_pipeline;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_stop_pipeline:
-> +	video_device_pipeline_stop(&params->vdev);
-
-When a failure happens you need to return all queued buffers to vb2 in
-the QUEUED state.
-
-> +
-> +	return ret;
-> +}
-> +
-> +static void mali_c55_params_stop_streaming(struct vb2_queue *q)
-> +{
-> +	struct mali_c55_params *params = vb2_get_drv_priv(q);
-> +	struct mali_c55_buffer *buf, *tmp;
-> +
-> +	spin_lock(&params->buffers.lock);
-> +
-> +	list_for_each_entry_safe(buf, tmp, &params->buffers.queue, queue) {
-> +		list_del(&buf->queue);
-> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> +	}
-
-This can be turned into a helper function that takes the state as an
-argument, to be used in the start_streaming error path. It may even be
-possible to share the helper with all video devices in this driver.
-
-> +
-> +	spin_unlock(&params->buffers.lock);
-> +
-> +	video_device_pipeline_stop(&params->vdev);
-
-I think you need to stop the ISP too, if this is the first video device
-being stopped. You should return buffers to vb2 only after stopping the
-ISP.
-
-This may be fixed by stopping the ISP, but currently I think you're
-racing with mali_c55_params_write_config()
-
-> +}
-> +
-> +static const struct vb2_ops mali_c55_params_vb2_ops = {
-> +	.queue_setup = mali_c55_params_queue_setup,
-> +	.buf_queue = mali_c55_params_buf_queue,
-> +	.wait_prepare = vb2_ops_wait_prepare,
-> +	.wait_finish = vb2_ops_wait_finish,
-> +	.start_streaming = mali_c55_params_start_streaming,
-> +	.stop_streaming = mali_c55_params_stop_streaming,
-> +};
-> +
-> +void mali_c55_params_write_config(struct mali_c55 *mali_c55)
-> +{
-> +	struct mali_c55_params *params = &mali_c55->params;
-> +	enum vb2_buffer_state state = VB2_BUF_STATE_DONE;
-> +	struct mali_c55_params_buffer *config;
-> +	struct mali_c55_buffer *buf;
-> +	size_t block_offset = 0;
-> +	size_t max_offset;
-> +
-> +	spin_lock(&params->buffers.lock);
-> +
-> +	buf = list_first_entry_or_null(&params->buffers.queue,
-> +				       struct mali_c55_buffer, queue);
-> +	if (buf)
-> +		list_del(&buf->queue);
-> +	spin_unlock(&params->buffers.lock);
-> +
-> +	if (!buf)
-> +		return;
-
-If this happens we'll lose synchronization. I suppose we can't do much
-about this, we really need a request-based API.
-
-> +
-> +	buf->vb.sequence = mali_c55->isp.frame_sequence;
-> +	config = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-> +
-> +	if (config->total_size > MALI_C55_PARAMS_MAX_SIZE) {
-> +		dev_dbg(mali_c55->dev, "Invalid parameters buffer size %u\n",
-> +			config->total_size);
-> +		state = VB2_BUF_STATE_ERROR;
-> +		goto err_buffer_done;
-> +	}
-> +
-> +	max_offset = config->total_size - sizeof(struct mali_c55_params_block_header);
-> +
-> +	/* Walk the list of parameter blocks and process them. */
-> +	while (block_offset < max_offset) {
-> +		const struct mali_c55_block_handler *block_handler;
-> +		union mali_c55_params_block block;
-> +
-> +		block = (union mali_c55_params_block)
-> +			 &config->data[block_offset];
-> +
-> +		if (block.header->type >= MALI_C55_PARAM_BLOCK_SENTINEL) {
-> +			dev_dbg(mali_c55->dev, "Invalid parameters block type\n");
-> +			state = VB2_BUF_STATE_ERROR;
-> +			goto err_buffer_done;
-> +		}
-> +
-> +		if (block_offset + block.header->size >= config->total_size) {
-> +			dev_dbg(mali_c55->dev, "Parameters block too large\n");
-> +			state = VB2_BUF_STATE_ERROR;
-> +			goto err_buffer_done;
-> +		}
-> +
-> +		block_handler = &mali_c55_block_handlers[block.header->type];
-> +		if (block.header->size != block_handler->size) {
-> +			dev_dbg(mali_c55->dev, "Invalid parameters block size\n");
-> +			state = VB2_BUF_STATE_ERROR;
-> +			goto err_buffer_done;
-> +		}
-
-Most of the validation should be done with the buffer is queued.
-Furthermore, you need to make a copy of the data. See the latest version
-of the rkisp1 extensible parameters format series. There may be other
-recent improvements in that series worth copying here.
-
-> +
-> +		block_handler->handler(mali_c55, block);
-> +
-> +		block_offset += block.header->size;
-> +	}
-> +
-> +err_buffer_done:
-> +	vb2_buffer_done(&buf->vb.vb2_buf, state);
-> +}
-> +
-> +void mali_c55_unregister_params(struct mali_c55 *mali_c55)
-> +{
-> +	struct mali_c55_params *params = &mali_c55->params;
-> +
-> +	if (!video_is_registered(&params->vdev))
-> +		return;
-> +
-> +	vb2_video_unregister_device(&params->vdev);
-> +	media_entity_cleanup(&params->vdev.entity);
-> +	mutex_destroy(&params->lock);
-> +}
-> +
-> +int mali_c55_register_params(struct mali_c55 *mali_c55)
-> +{
-> +	struct mali_c55_params *params = &mali_c55->params;
-> +	struct video_device *vdev = &params->vdev;
-> +	struct vb2_queue *vb2q = &params->queue;
-> +	int ret;
-> +
-> +	mutex_init(&params->lock);
-> +	INIT_LIST_HEAD(&params->buffers.queue);
-> +
-> +	params->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	ret = media_entity_pads_init(&params->vdev.entity, 1, &params->pad);
-> +	if (ret)
-> +		goto err_destroy_mutex;
-> +
-> +	vb2q->type = V4L2_BUF_TYPE_META_OUTPUT;
-> +	vb2q->io_modes = VB2_MMAP | VB2_DMABUF;
-> +	vb2q->drv_priv = params;
-> +	vb2q->mem_ops = &vb2_dma_contig_memops;
-> +	vb2q->ops = &mali_c55_params_vb2_ops;
-> +	vb2q->buf_struct_size = sizeof(struct mali_c55_buffer);
-> +	vb2q->min_queued_buffers = 1;
-> +	vb2q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> +	vb2q->lock = &params->lock;
-> +	vb2q->dev = mali_c55->dev;
-> +
-> +	ret = vb2_queue_init(vb2q);
-> +	if (ret) {
-> +		dev_err(mali_c55->dev, "params vb2 queue init failed\n");
-> +		goto err_cleanup_entity;
-> +	}
-> +
-> +	strscpy(params->vdev.name, "mali-c55 3a params",
-> +		sizeof(params->vdev.name));
-> +	vdev->release = video_device_release_empty;
-> +	vdev->fops = &mali_c55_params_v4l2_fops;
-> +	vdev->ioctl_ops = &mali_c55_params_v4l2_ioctl_ops;
-> +	vdev->lock = &params->lock;
-> +	vdev->v4l2_dev = &mali_c55->v4l2_dev;
-> +	vdev->queue = &params->queue;
-> +	vdev->device_caps = V4L2_CAP_META_OUTPUT | V4L2_CAP_STREAMING;
-
-Shouldn't you set V4L2_CAP_IO_MC and implement media bus code-based
-format enumeration ?
-
-> +	vdev->vfl_dir = VFL_DIR_TX;
-> +	video_set_drvdata(vdev, params);
-> +
-> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
-> +	if (ret) {
-> +		dev_err(mali_c55->dev,
-> +			"failed to register params video device\n");
-> +		goto err_release_vb2q;
-> +	}
-> +
-> +	params->mali_c55 = mali_c55;
-> +
-> +	return 0;
-> +
-> +err_release_vb2q:
-> +	vb2_queue_release(vb2q);
-> +err_cleanup_entity:
-> +	media_entity_cleanup(&params->vdev.entity);
-> +err_destroy_mutex:
-> +	mutex_destroy(&params->lock);
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> index e72e749b81d5..f2cad402492c 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-> @@ -159,6 +159,23 @@ enum mali_c55_interrupts {
->  #define MALI_C55_BAYER_ORDER_GBRG			2
->  #define MALI_C55_BAYER_ORDER_BGGR			3
->  
-> +#define MALI_C55_REG_METERING_CONFIG			0x18ed0
-> +#define MALI_C55_5BIN_HIST_DISABLE_MASK			BIT(0)
-> +#define MALI_C55_5BIN_HIST_SWITCH_MASK			GENMASK(2, 1)
-> +#define MALI_C55_5BIN_HIST_SWITCH(x)			1
-> +#define MALI_C55_AF_DISABLE_MASK			BIT(4)
-> +#define MALI_C55_AF_SWITCH_MASK				BIT(5)
-> +#define MALI_C55_AWB_DISABLE_MASK			BIT(8)
-> +#define MALI_C55_AWB_SWITCH_MASK			BIT(9)
-> +#define MALI_C55_AWB_SWITCH(x)				((x) << 9)
-> +#define MALI_C55_AEXP_HIST_DISABLE_MASK			BIT(12)
-> +#define MALI_C55_AEXP_HIST_DISABLE			(0x01 << 12)
-> +#define MALI_C55_AEXP_HIST_SWITCH_MASK			GENMASK(14, 13)
-> +#define MALI_C55_AEXP_HIST_SWITCH(x)			((x) << 13)
-> +#define MALI_C55_AEXP_IHIST_DISABLE_MASK		BIT(16)
-> +#define MALI_C55_AEXP_IHIST_DISABLE			(0x01 << 12)
-> +#define MALI_C55_AEXP_SRC_MASK				BIT(24)
-> +
->  #define MALI_C55_REG_TPG_CH0				0x18ed8
->  #define MALI_C55_TEST_PATTERN_ON_OFF			BIT(0)
->  #define MALI_C55_TEST_PATTERN_RGB_MASK			BIT(1)
-> @@ -179,6 +196,11 @@ enum mali_c55_interrupts {
->  #define MALI_C55_REG_CONFIG_SPACES_OFFSET		0x0ab6c
->  #define MALI_C55_CONFIG_SPACE_SIZE			0x1231c
->  
-> +#define MALI_C55_REG_DIGITAL_GAIN			0x1926c
-> +#define MALI_C55_DIGITAL_GAIN_MASK			GENMASK(12, 0)
-> +#define MALI_C55_REG_DIGITAL_GAIN_OFFSET		0x19270
-> +#define MALI_C55_DIGITAL_GAIN_OFFSET_MASK		GENMASK(19, 0)
-> +
->  #define MALI_C55_REG_SINTER_CONFIG			0x19348
->  #define MALI_C55_SINTER_VIEW_FILTER_MASK		GENMASK(1, 0)
->  #define MALI_C55_SINTER_SCALE_MODE_MASK			GENMASK(3, 2)
-> @@ -187,6 +209,59 @@ enum mali_c55_interrupts {
->  #define MALI_C55_SINTER_INT_SELECT_MASK			BIT(6)
->  #define MALI_C55_SINTER_RM_ENABLE_MASK			BIT(7)
->  
-> +/* Black Level Correction Configuration */
-> +#define MALI_C55_REG_SENSOR_OFF_PRE_SHA_00		0x1abcc
-> +#define MALI_C55_REG_SENSOR_OFF_PRE_SHA_01		0x1abd0
-> +#define MALI_C55_REG_SENSOR_OFF_PRE_SHA_10		0x1abd4
-> +#define MALI_C55_REG_SENSOR_OFF_PRE_SHA_11		0x1abd8
-> +#define MALI_C55_SENSOR_OFF_PRE_SHA_MASK		0xfffff
-> +
-> +/* Lens Mesh Shading Configuration */
-> +#define MALI_C55_REG_MESH_SHADING_TABLES		0x13074
-> +#define MALI_C55_REG_MESH_SHADING_CONFIG		0x1abfc
-> +#define MALI_C55_MESH_SHADING_ENABLE_MASK		BIT(0)
-> +#define MALI_C55_MESH_SHADING_MESH_SHOW_MASK		BIT(1)
-> +#define MALI_C55_MESH_SHADING_MESH_SHOW(x)		((x) << 1)
-> +#define MALI_C55_MESH_SHADING_SCALE_MASK		GENMASK(4, 2)
-> +#define MALI_C55_MESH_SHADING_SCALE(x)			((x) << 2)
-> +#define MALI_C55_MESH_SHADING_PAGE_R_MASK		GENMASK(9, 8)
-> +#define MALI_C55_MESH_SHADING_PAGE_R(x)			((x) << 8)
-> +#define MALI_C55_MESH_SHADING_PAGE_G_MASK		GENMASK(11, 10)
-> +#define MALI_C55_MESH_SHADING_PAGE_G(x)			((x) << 10)
-> +#define MALI_C55_MESH_SHADING_PAGE_B_MASK		GENMASK(13, 12)
-> +#define MALI_C55_MESH_SHADING_PAGE_B(x)			((x) << 12)
-> +#define MALI_C55_MESH_SHADING_MESH_WIDTH_MASK		GENMASK(21, 16)
-> +#define MALI_C55_MESH_SHADING_MESH_WIDTH(x)		((x) << 16)
-> +#define MALI_C55_MESH_SHADING_MESH_HEIGHT_MASK		GENMASK(29, 24)
-> +#define MALI_C55_MESH_SHADING_MESH_HEIGHT(x)		((x) << 24)
-> +
-> +#define MALI_C55_REG_MESH_SHADING_ALPHA_BANK		0x1ac04
-> +#define MALI_C55_MESH_SHADING_ALPHA_BANK_R_MASK		GENMASK(2, 0)
-> +#define MALI_C55_MESH_SHADING_ALPHA_BANK_G_MASK		GENMASK(5, 3)
-> +#define MALI_C55_MESH_SHADING_ALPHA_BANK_G(x)		((x) << 3)
-> +#define MALI_C55_MESH_SHADING_ALPHA_BANK_B_MASK		GENMASK(8, 6)
-> +#define MALI_C55_MESH_SHADING_ALPHA_BANK_B(x)		((x) << 6)
-> +#define MALI_C55_REG_MESH_SHADING_ALPHA			0x1ac08
-> +#define MALI_C55_MESH_SHADING_ALPHA_R_MASK		GENMASK(7, 0)
-> +#define MALI_C55_MESH_SHADING_ALPHA_G_MASK		GENMASK(15, 8)
-> +#define MALI_C55_MESH_SHADING_ALPHA_G(x)		((x) << 8)
-> +#define MALI_C55_MESH_SHADING_ALPHA_B_MASK		GENMASK(23, 16)
-> +#define MALI_C55_MESH_SHADING_ALPHA_B(x)		((x) << 16)
-> +#define MALI_C55_REG_MESH_SHADING_MESH_STRENGTH		0x1ac0c
-> +#define MALI_c55_MESH_STRENGTH_MASK			GENMASK(15, 0)
-> +
-> +/* AWB Gains Configuration */
-> +#define MALI_C55_REG_AWB_GAINS1				0x1ac10
-> +#define MALI_C55_AWB_GAIN00_MASK			GENMASK(11, 0)
-> +#define MALI_C55_AWB_GAIN01_MASK			GENMASK(27, 16)
-> +#define MALI_C55_AWB_GAIN01(x)				((x) << 16)
-> +#define MALI_C55_REG_AWB_GAINS2				0x1ac14
-> +#define MALI_C55_AWB_GAIN10_MASK			GENMASK(11, 0)
-> +#define MALI_C55_AWB_GAIN11_MASK			GENMASK(27, 16)
-> +#define MALI_C55_AWB_GAIN11(x)				((x) << 16)
-> +#define MALI_C55_REG_AWB_GAINS1_AEXP			0x1ac18
-> +#define MALI_C55_REG_AWB_GAINS2_AEXP			0x1ac1c
-> +
->  /* Colour Correction Matrix Configuration */
->  #define MALI_C55_REG_CCM_ENABLE				0x1b07c
->  #define MALI_C55_CCM_ENABLE_MASK			BIT(0)
-> @@ -209,6 +284,59 @@ enum mali_c55_interrupts {
->  #define MALI_C55_REG_CCM_ANTIFOG_OFFSET_B		0x1b0c8
->  #define MALI_C55_CCM_ANTIFOG_OFFSET_MASK		GENMASK(11, 0)
->  
-> +/* AWB Statistics Configuration */
-> +#define MALI_C55_REG_AWB_STATS_MODE			0x1b29c
-> +#define MALI_C55_AWB_STATS_MODE_MASK			BIT(0)
-> +#define MALI_C55_REG_AWB_WHITE_LEVEL			0x1b2a0
-> +#define MALI_C55_AWB_WHITE_LEVEL_MASK			GENMASK(9, 0)
-> +#define MALI_C55_REG_AWB_BLACK_LEVEL			0x1b2a4
-> +#define MALI_C55_AWB_BLACK_LEVEL_MASK			GENMASK(9, 0)
-> +#define MALI_C55_REG_AWB_CR_MAX				0x1b2a8
-> +#define MALI_C55_AWB_CR_MAX_MASK			GENMASK(11, 0)
-> +#define MALI_C55_REG_AWB_CR_MIN				0x1b2ac
-> +#define MALI_C55_AWB_CR_MIN_MASK			GENMASK(11, 0)
-> +#define MALI_C55_REG_AWB_CB_MAX				0x1b2b0
-> +#define MALI_C55_AWB_CB_MAX_MASK			GENMASK(11, 0)
-> +#define MALI_C55_REG_AWB_CB_MIN				0x1b2b4
-> +#define MALI_C55_AWB_CB_MIN_MASK			GENMASK(11, 0)
-> +#define MALI_C55_REG_AWB_NODES_USED			0x1b2c4
-> +#define MALI_C55_AWB_NODES_USED_HORIZ_MASK		GENMASK(7, 0)
-> +#define MALI_C55_AWB_NODES_USED_VERT_MASK		GENMASK(15, 8)
-> +#define MALI_C55_AWB_NODES_USED_VERT(x)			((x) << 8)
-> +#define MALI_C55_REG_AWB_CR_HIGH			0x1b2c8
-> +#define MALI_C55_AWB_CR_HIGH_MASK			GENMASK(11, 0)
-> +#define MALI_C55_REG_AWB_CR_LOW				0x1b2cc
-> +#define MALI_C55_AWB_CR_LOW_MASK			GENMASK(11, 0)
-> +#define MALI_C55_REG_AWB_CB_HIGH			0x1b2d0
-> +#define MALI_C55_AWB_CB_HIGH_MASK			GENMASK(11, 0)
-> +#define MALI_C55_REG_AWB_CB_LOW				0x1b2d4
-> +#define MALI_C55_AWB_CB_LOW_MASK			GENMASK(11, 0)
-> +
-> +/* AEXP Metering Histogram Configuration */
-> +#define MALI_C55_REG_AEXP_HIST_BASE			0x1b730
-> +#define MALI_C55_REG_AEXP_IHIST_BASE			0x1bbac
-> +#define MALI_C55_AEXP_HIST_SKIP_OFFSET			0
-> +#define MALI_C55_AEXP_HIST_SKIP_X_MASK			GENMASK(2, 0)
-> +#define MALI_c55_AEXP_HIST_SKIP_X(x)			0
-> +#define MALI_C55_AEXP_HIST_OFFSET_X_MASK		BIT(3)
-> +#define MALI_C55_AEXP_HIST_OFFSET_X(x)			((x) << 3)
-> +#define MALI_C55_AEXP_HIST_SKIP_Y_MASK			GENMASK(6, 4)
-> +#define MALI_C55_AEXP_HIST_SKIP_Y(x)			((x) << 4)
-> +#define MALI_C55_AEXP_HIST_OFFSET_Y_MASK		BIT(7)
-> +#define MALI_C55_AEXP_HIST_OFFSET_Y(x)			((x) << 7)
-> +#define MALI_C55_AEXP_HIST_SCALE_OFFSET			4
-> +#define MALI_C55_AEXP_HIST_SCALE_BOTTOM_MASK		GENMASK(3, 0)
-> +#define MALI_C55_AEXP_HIST_SCALE_TOP_MASK		GENMASK(7, 4)
-> +#define MALI_C55_AEXP_HIST_SCALE_TOP(x)			((x) << 4)
-> +#define MALI_C55_AEXP_HIST_PLANE_MODE_OFFSET		16
-> +#define MALI_C55_AEXP_HIST_PLANE_MODE_MASK		GENMASK(2, 0)
-> +#define MALI_C55_AEXP_HIST_NODES_USED_OFFSET		52
-> +#define MALI_C55_AEXP_HIST_NODES_USED_HORIZ_MASK	GENMASK(7, 0)
-> +#define MALI_C55_AEXP_HIST_NODES_USED_VERT_MASK		GENMASK(15, 8)
-> +#define MALI_C55_AEXP_HIST_NODES_USED_VERT(x)		((x) << 8)
-> +#define MALI_C55_AEXP_HIST_ZONE_WEIGHTS_OFFSET		56
-> +#define MALI_C55_AEXP_HIST_ZONE_WEIGHT_MASK		0x0f0f0f0f
-> +
->  /*
->   * The Mali-C55 ISP has up to two output pipes; known as full resolution and
->   * down scaled. The register space for these is laid out identically, but offset
-
--- 
-Regards,
-
-Laurent Pinchart
+在 2024/7/31 1:19, T.J. Mercier 写道:
+> On Tue, Jul 30, 2024 at 1:14 AM Huan Yang <link@vivo.com> wrote:
+>>
+>> 在 2024/7/30 16:03, Christian König 写道:
+>>> Am 30.07.24 um 09:57 schrieb Huan Yang:
+>>>> Background
+>>>> ====
+>>>> Some user may need load file into dma-buf, current way is:
+>>>>     1. allocate a dma-buf, get dma-buf fd
+>>>>     2. mmap dma-buf fd into user vaddr
+>>>>     3. read(file_fd, vaddr, fsz)
+>>>> Due to dma-buf user map can't support direct I/O[1], the file read
+>>>> must be buffer I/O.
+>>>>
+>>>> This means that during the process of reading the file into dma-buf,
+>>>> page cache needs to be generated, and the corresponding content needs to
+>>>> be first copied to the page cache before being copied to the dma-buf.
+>>>>
+>>>> This way worked well when reading relatively small files before, as
+>>>> the page cache can cache the file content, thus improving performance.
+>>>>
+>>>> However, there are new challenges currently, especially as AI models are
+>>>> becoming larger and need to be shared between DMA devices and the CPU
+>>>> via dma-buf.
+>>>>
+>>>> For example, our 7B model file size is around 3.4GB. Using the
+>>>> previous would mean generating a total of 3.4GB of page cache
+>>>> (even if it will be reclaimed), and also requiring the copying of 3.4GB
+>>>> of content between page cache and dma-buf.
+>>>>
+>>>> Due to the limited resources of system memory, files in the gigabyte
+>>>> range
+>>>> cannot persist in memory indefinitely, so this portion of page cache may
+>>>> not provide much assistance for subsequent reads. Additionally, the
+>>>> existence of page cache will consume additional system resources due to
+>>>> the extra copying required by the CPU.
+>>>>
+>>>> Therefore, I think it is necessary for dma-buf to support direct I/O.
+>>>>
+>>>> However, direct I/O file reads cannot be performed using the buffer
+>>>> mmaped by the user space for the dma-buf.[1]
+>>>>
+>>>> Here are some discussions on implementing direct I/O using dma-buf:
+>>>>
+>>>> mmap[1]
+>>>> ---
+>>>> dma-buf never support user map vaddr use of direct I/O.
+>>>>
+>>>> udmabuf[2]
+>>>> ---
+>>>> Currently, udmabuf can use the memfd method to read files into
+>>>> dma-buf in direct I/O mode.
+>>>>
+>>>> However, if the size is large, the current udmabuf needs to adjust the
+>>>> corresponding size_limit(default 64MB).
+>>>> But using udmabuf for files at the 3GB level is not a very good
+>>>> approach.
+>>>> It needs to make some adjustments internally to handle this.[3] Or else,
+>>>> fail create.
+>>>>
+>>>> But, it is indeed a viable way to enable dma-buf to support direct I/O.
+>>>> However, it is necessary to initiate the file read after the memory
+>>>> allocation
+>>>> is completed, and handle race conditions carefully.
+>>>>
+>>>> sendfile/splice[4]
+>>>> ---
+>>>> Another way to enable dma-buf to support direct I/O is by implementing
+>>>> splice_write/write_iter in the dma-buf file operations (fops) to adapt
+>>>> to the sendfile method.
+>>>> However, the current sendfile/splice calls are based on pipe. When using
+>>>> direct I/O to read a file, the content needs to be copied to the buffer
+>>>> allocated by the pipe (default 64KB), and then the dma-buf fops'
+>>>> splice_write needs to be called to write the content into the dma-buf.
+>>>> This approach requires serially reading the content of file pipe size
+>>>> into the pipe buffer and then waiting for the dma-buf to be written
+>>>> before reading the next one.(The I/O performance is relatively weak
+>>>> under direct I/O.)
+>>>> Moreover, due to the existence of the pipe buffer, even when using
+>>>> direct I/O and not needing to generate additional page cache,
+>>>> there still needs to be a CPU copy.
+>>>>
+>>>> copy_file_range[5]
+>>>> ---
+>>>> Consider of copy_file_range, It only supports copying files within the
+>>>> same file system. Similarly, it is not very practical.
+>>>>
+>>>>
+>>>> So, currently, there is no particularly suitable solution on VFS to
+>>>> allow dma-buf to support direct I/O for large file reads.
+>>>>
+>>>> This patchset provides an idea to complete file reads when requesting a
+>>>> dma-buf.
+>>>>
+>>>> Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+>>>> ===
+>>>> This patch provides a method to immediately read the file content after
+>>>> the dma-buf is allocated, and only returns the dma-buf file descriptor
+>>>> after the file is fully read.
+>>>>
+>>>> Since the dma-buf file descriptor is not returned, no other thread can
+>>>> access it except for the current thread, so we don't need to worry about
+>>>> race conditions.
+>>> That is a completely false assumption.
+>> Can you provide a detailed explanation as to why this assumption is
+>> incorrect? thanks.
+>>>> Map the dma-buf to the vmalloc area and initiate file reads in kernel
+>>>> space, supporting both buffer I/O and direct I/O.
+>>>>
+>>>> This patch adds the DMA_HEAP_ALLOC_AND_READ heap_flag for user.
+>>>> When a user needs to allocate a dma-buf and read a file, they should
+>>>> pass this heap flag. As the size of the file being read is fixed,
+>>>> there is no
+>>>> need to pass the 'len' parameter. Instead, The file_fd needs to be
+>>>> passed to
+>>>> indicate to the kernel the file that needs to be read.
+>>>>
+>>>> The file open flag determines the mode of file reading.
+>>>> But, please note that if direct I/O(O_DIRECT) is needed to read the
+>>>> file,
+>>>> the file size must be page aligned. (with patch 2-5, no need)
+>>>>
+>>>> Therefore, for the user, len and file_fd are mutually exclusive,
+>>>> and they are combined using a union.
+>>>>
+>>>> Once the user obtains the dma-buf fd, the dma-buf directly contains the
+>>>> file content.
+>>> And I'm repeating myself, but this is a complete NAK from my side to
+>>> this approach.
+>>>
+>>> We pointed out multiple ways of how to implement this cleanly and not
+>>> by hacking functionality into the kernel which absolutely doesn't
+>>> belong there.
+>> In this patchset, I have provided performance comparisons of each of
+>> these methods.  Can you please provide more opinions?
+>>> Regards,
+>>> Christian.
+>>>
+>>>> Patch 1 implement it.
+>>>>
+>>>> Patch 2-5 provides an approach for performance improvement.
+>>>>
+>>>> The DMA_HEAP_ALLOC_AND_READ_FILE heap flag patch enables us to
+>>>> synchronously read files using direct I/O.
+>>>>
+>>>> This approach helps to save CPU copying and avoid a certain degree of
+>>>> memory thrashing (page cache generation and reclamation)
+>>>>
+>>>> When dealing with large file sizes, the benefits of this approach become
+>>>> particularly significant.
+>>>>
+>>>> However, there are currently some methods that can improve performance,
+>>>> not just save system resources:
+>>>>
+>>>> Due to the large file size, for example, a AI 7B model of around
+>>>> 3.4GB, the
+>>>> time taken to allocate DMA-BUF memory will be relatively long. Waiting
+>>>> for the allocation to complete before reading the file will add to the
+>>>> overall time consumption. Therefore, the total time for DMA-BUF
+>>>> allocation and file read can be calculated using the formula
+>>>>      T(total) = T(alloc) + T(I/O)
+>>>>
+>>>> However, if we change our approach, we don't necessarily need to wait
+>>>> for the DMA-BUF allocation to complete before initiating I/O. In fact,
+>>>> during the allocation process, we already hold a portion of the page,
+>>>> which means that waiting for subsequent page allocations to complete
+>>>> before carrying out file reads is actually unfair to the pages that have
+>>>> already been allocated.
+>>>>
+>>>> The allocation of pages is sequential, and the reading of the file is
+>>>> also sequential, with the content and size corresponding to the file.
+>>>> This means that the memory location for each page, which holds the
+>>>> content of a specific position in the file, can be determined at the
+>>>> time of allocation.
+>>>>
+>>>> However, to fully leverage I/O performance, it is best to wait and
+>>>> gather a certain number of pages before initiating batch processing.
+>>>>
+>>>> The default gather size is 128MB. So, ever gathered can see as a file
+>>>> read
+>>>> work, it maps the gather page to the vmalloc area to obtain a continuous
+>>>> virtual address, which is used as a buffer to store the contents of the
+>>>> corresponding file. So, if using direct I/O to read a file, the file
+>>>> content will be written directly to the corresponding dma-buf buffer
+>>>> memory
+>>>> without any additional copying.(compare to pipe buffer.)
+>>>>
+>>>> Consider other ways to read into dma-buf. If we assume reading after
+>>>> mmap
+>>>> dma-buf, we need to map the pages of the dma-buf to the user virtual
+>>>> address space. Also, udmabuf memfd need do this operations too.
+>>>> Even if we support sendfile, the file copy also need buffer, you must
+>>>> setup it.
+>>>> So, mapping pages to the vmalloc area does not incur any additional
+>>>> performance overhead compared to other methods.[6]
+>>>>
+>>>> Certainly, the administrator can also modify the gather size through
+>>>> patch5.
+>>>>
+>>>> The formula for the time taken for system_heap buffer allocation and
+>>>> file reading through async_read is as follows:
+>>>>
+>>>>     T(total) = T(first gather page) + Max(T(remain alloc), T(I/O))
+>>>>
+>>>> Compared to the synchronous read:
+>>>>     T(total) = T(alloc) + T(I/O)
+>>>>
+>>>> If the allocation time or I/O time is long, the time difference will be
+>>>> covered by the maximum value between the allocation and I/O. The other
+>>>> party will be concealed.
+>>>>
+>>>> Therefore, the larger the size of the file that needs to be read, the
+>>>> greater the corresponding benefits will be.
+>>>>
+>>>> How to use
+>>>> ===
+>>>> Consider the current pathway for loading model files into DMA-BUF:
+>>>>     1. open dma-heap, get heap fd
+>>>>     2. open file, get file_fd(can't use O_DIRECT)
+>>>>     3. use file len to allocate dma-buf, get dma-buf fd
+>>>>     4. mmap dma-buf fd, get vaddr
+>>>>     5. read(file_fd, vaddr, file_size) into dma-buf pages
+>>>>     6. share, attach, whatever you want
+>>>>
+>>>> Use DMA_HEAP_ALLOC_AND_READ_FILE JUST a little change:
+>>>>     1. open dma-heap, get heap fd
+>>>>     2. open file, get file_fd(buffer/direct)
+>>>>     3. allocate dma-buf with DMA_HEAP_ALLOC_AND_READ_FILE heap flag,
+>>>> set file_fd
+>>>>        instead of len. get dma-buf fd(contains file content)
+>>>>     4. share, attach, whatever you want
+>>>>
+>>>> So, test it is easy.
+>>>>
+>>>> How to test
+>>>> ===
+>>>> The performance comparison will be conducted for the following
+>>>> scenarios:
+>>>>     1. normal
+>>>>     2. udmabuf with [3] patch
+>>>>     3. sendfile
+>>>>     4. only patch 1
+>>>>     5. patch1 - patch4.
+>>>>
+>>>> normal:
+>>>>     1. open dma-heap, get heap fd
+>>>>     2. open file, get file_fd(can't use O_DIRECT)
+>>>>     3. use file len to allocate dma-buf, get dma-buf fd
+>>>>     4. mmap dma-buf fd, get vaddr
+>>>>     5. read(file_fd, vaddr, file_size) into dma-buf pages
+>>>>     6. share, attach, whatever you want
+>>>>
+>>>> UDMA-BUF step:
+>>>>     1. memfd_create
+>>>>     2. open file(buffer/direct)
+>>>>     3. udmabuf create
+>>>>     4. mmap memfd
+>>>>     5. read file into memfd vaddr
+>>>>
+>>>> Sendfile step(need suit splice_write/write_iter, just use to compare):
+>>>>     1. open dma-heap, get heap fd
+>>>>     2. open file, get file_fd(buffer/direct)
+>>>>     3. use file len to allocate dma-buf, get dma-buf fd
+>>>>     4. sendfile file_fd to dma-buf fd
+>>>>     6. share, attach, whatever you want
+>>>>
+>>>> patch1/patch1-4:
+>>>>     1. open dma-heap, get heap fd
+>>>>     2. open file, get file_fd(buffer/direct)
+>>>>     3. allocate dma-buf with DMA_HEAP_ALLOC_AND_READ_FILE heap flag,
+>>>> set file_fd
+>>>>        instead of len. get dma-buf fd(contains file content)
+>>>>     4. share, attach, whatever you want
+>>>>
+>>>> You can create a file to test it. Compare the performance gap between
+>>>> the two.
+>>>> It is best to compare the differences in file size from KB to MB to GB.
+>>>>
+>>>> The following test data will compare the performance differences
+>>>> between 512KB,
+>>>> 8MB, 1GB, and 3GB under various scenarios.
+>>>>
+>>>> Performance Test
+>>>> ===
+>>>>     12G RAM phone
+>>>>     UFS4.0(the maximum speed is 4GB/s. ),
+>>>>     f2fs
+>>>>     kernel 6.1 with patch[7] (or else, can't support kvec direct I/O
+>>>> read.)
+>>>>     no memory pressure.
+>>>>     drop_cache is used for each test.
+>>>>
+>>>> The average of 5 test results:
+>>>> | scheme-size         | 512KB(ns)  | 8MB(ns)    | 1GB(ns) |
+>>>> 3GB(ns)       |
+>>>> | ------------------- | ---------- | ---------- | ------------- |
+>>>> ------------- |
+>>>> | normal              | 2,790,861  | 14,535,784 | 1,520,790,492 |
+>>>> 3,332,438,754 |
+>>>> | udmabuf buffer I/O  | 1,704,046  | 11,313,476 | 821,348,000 |
+>>>> 2,108,419,923 |
+>>>> | sendfile buffer I/O | 3,261,261  | 12,112,292 | 1,565,939,938 |
+>>>> 3,062,052,984 |
+>>>> | patch1-4 buffer I/O | 2,064,538  | 10,771,474 | 986,338,800 |
+>>>> 2,187,570,861 |
+>>>> | sendfile direct I/O | 12,844,231 | 37,883,938 | 5,110,299,184 |
+>>>> 9,777,661,077 |
+>>>> | patch1 direct I/O   | 813,215    | 6,962,092  | 2,364,211,877 |
+>>>> 5,648,897,554 |
+>>>> | udmabuf direct I/O  | 1,289,554  | 8,968,138  | 921,480,784 |
+>>>> 2,158,305,738 |
+>>>> | patch1-4 direct I/O | 1,957,661  | 6,581,999  | 520,003,538 |
+>>>> 1,400,006,107 |
+>> With this test, sendfile can't give a good help base on pipe buffer.
+>>
+>> udmabuf is good, but I think our oem driver can't suit it. (And, AOSP do
+>> not open this feature)
+> Hi Huan,
+>
+> We should be able to turn on udmabuf for the Android kernels. We don't
+> have CONFIG_UDMABUF because nobody has wanted it so far. It's
+> encouraging to see your latest results!
+OK, that's greate. I will further study the use of udmabuf and notify 
+our partners, and make every effort to encourage them to adapt udmabuf.
+>
+> -T.J.
+>
+>
+>> Anyway, I am sending this patchset in the hope of further discussion.
+>>
+>> Thanks.
+>>
+>>>> So, based on the test results:
+>>>>
+>>>> When the file is large, the patchset has the highest performance.
+>>>> Compared to normal, patchset is a 50% improvement;
+>>>> Compared to normal, patch1 only showed a degradation of 41%.
+>>>> patch1 typical performance breakdown is as follows:
+>>>>     1. alloc cost 188,802,693 ns
+>>>>     2. vmap cost 42,491,385 ns
+>>>>     3. file read cost 4,180,876,702 ns
+>>>> Therefore, directly performing a single direct I/O read on a large file
+>>>> may not be the most optimal way for performance.
+>>>>
+>>>> The performance of direct I/O implemented by the sendfile method is
+>>>> the worst.
+>>>>
+>>>> When file size is small, The difference in performance is not
+>>>> significant. This is consistent with expectations.
+>>>>
+>>>>
+>>>>
+>>>> Suggested use cases
+>>>> ===
+>>>>     1. When there is a need to read large files and system resources
+>>>> are scarce,
+>>>>        especially when the size of memory is limited.(GB level) In this
+>>>>        scenario, using direct I/O for file reading can even bring
+>>>> performance
+>>>>        improvements.(may need patch2-3)
+>>>>     2. For embedded devices with limited RAM, using direct I/O can
+>>>> save system
+>>>>        resources and avoid unnecessary data copying. Therefore, even
+>>>> if the
+>>>>        performance is lower when read small file, it can still be used
+>>>>        effectively.
+>>>>     3. If there is sufficient memory, pinning the page cache of the
+>>>> model files
+>>>>        in memory and placing file in the EROFS file system for
+>>>> read-only access
+>>>>        maybe better.(EROFS do not support direct I/O)
+>>>>
+>>>>
+>>>> Changlog
+>>>> ===
+>>>>    v1 [8]
+>>>>    v1->v2:
+>>>>      Uses the heap flag method for alloc and read instead of adding a new
+>>>>      DMA-buf ioctl command. [9]
+>>>>      Split the patchset to facilitate review and test.
+>>>>        patch 1 implement alloc and read, offer heap flag into it.
+>>>>        patch 2-4 offer async read
+>>>>        patch 5 can change gather limit.
+>>>>
+>>>> Reference
+>>>> ===
+>>>> [1]
+>>>> https://lore.kernel.org/all/0393cf47-3fa2-4e32-8b3d-d5d5bdece298@amd.com/
+>>>> [2]
+>>>> https://lore.kernel.org/all/ZpTnzkdolpEwFbtu@phenom.ffwll.local/
+>>>> [3]
+>>>> https://lore.kernel.org/all/20240725021349.580574-1-link@vivo.com/
+>>>> [4]
+>>>> https://lore.kernel.org/all/Zpf5R7fRZZmEwVuR@infradead.org/
+>>>> [5]
+>>>> https://lore.kernel.org/all/ZpiHKY2pGiBuEq4z@infradead.org/
+>>>> [6]
+>>>> https://lore.kernel.org/all/9b70db2e-e562-4771-be6b-1fa8df19e356@amd.com/
+>>>> [7]
+>>>> https://patchew.org/linux/20230209102954.528942-1-dhowells@redhat.com/20230209102954.528942-7-dhowells@redhat.com/
+>>>> [8]
+>>>> https://lore.kernel.org/all/20240711074221.459589-1-link@vivo.com/
+>>>> [9]
+>>>> https://lore.kernel.org/all/5ccbe705-883c-4651-9e66-6b452c414c74@amd.com/
+>>>>
+>>>> Huan Yang (5):
+>>>>     dma-buf: heaps: Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+>>>>     dma-buf: heaps: Introduce async alloc read ops
+>>>>     dma-buf: heaps: support alloc async read file
+>>>>     dma-buf: heaps: system_heap alloc support async read
+>>>>     dma-buf: heaps: configurable async read gather limit
+>>>>
+>>>>    drivers/dma-buf/dma-heap.c          | 552 +++++++++++++++++++++++++++-
+>>>>    drivers/dma-buf/heaps/system_heap.c |  70 +++-
+>>>>    include/linux/dma-heap.h            |  53 ++-
+>>>>    include/uapi/linux/dma-heap.h       |  11 +-
+>>>>    4 files changed, 673 insertions(+), 13 deletions(-)
+>>>>
+>>>>
+>>>> base-commit: 931a3b3bccc96e7708c82b30b2b5fa82dfd04890
 
