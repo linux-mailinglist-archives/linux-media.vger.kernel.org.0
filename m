@@ -1,194 +1,118 @@
-Return-Path: <linux-media+bounces-15635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15636-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494CF942BF0
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 12:30:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8C5942BFD
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 12:34:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 003C32853B3
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 10:30:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 608011C23153
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 10:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B8DD1AD3FC;
-	Wed, 31 Jul 2024 10:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2571AC454;
+	Wed, 31 Jul 2024 10:34:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDjqtvn6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EDC1AD3EF
-	for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 10:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E36C161311;
+	Wed, 31 Jul 2024 10:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722421786; cv=none; b=Cj7/4u34rrM7pT6abdSmQv3SwAWrl1NYQSfaSTahGRktXCXDBjFMiTDBU9xzJww7s6XVNm03iwUqIQ6GExsGqaVJtqiDuTZ/w7OTLkL9Mf+ErrQzJ3IaYOOmJrhZ91o7rWJCnNOfg6XtJq2FjYzN0RhStaIGl5Ydg8mhhurqtZc=
+	t=1722422043; cv=none; b=l/I5J4LwVBD3ZlC44Mk60N9K30du74x8CWKEXKxC6T02/T5R95IqJb2EHYx8IkCBHTG4iWUwL5bJkzcu6NNsZyYCwkH1jZGgHoiA2e3BmWyn98+7RYaBqrGP5g9Zj08bJMkzzO1+uMrZoWcyOFzjsBFO6B9NepOAu9Y/XTc8EZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722421786; c=relaxed/simple;
-	bh=cu8ronfR2qKEGXgoKyZofJuYIdc6TcnQlXBtQu+JkNY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ec+M1XU0F+C95AAkcfTLmJIO8th8CpZJAH11FwArlvANeT64hm3vkGLpQN/dJZgrrDaEBhYaQmVcUsgroCz35XikFQaqrciAsFZlrmkVGAvdPGJ66O+xMeGgxUHe9+IABhVu6GANVIK7MLr+ZDqiCF62cXPcxGY1JEZtCjZLBkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FE1BC4AF10;
-	Wed, 31 Jul 2024 10:29:45 +0000 (UTC)
-Message-ID: <a808baf5-2135-43f0-86e2-1cde3469b780@xs4all.nl>
-Date: Wed, 31 Jul 2024 12:29:43 +0200
+	s=arc-20240116; t=1722422043; c=relaxed/simple;
+	bh=dOa8hT4xWqQ2AnDtQygL24wv+0L76YIYrzot6K+GRtw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o0yja5SCdznpeBC+MjsUh6rI35LfWnTcm4eonpDPQJcX8kYBDKbmYxnnvMofp2EG6c8LZBR2GU1iw4h38MWGktLxkTPKAigs6qe48weUzCbmrt8n4Ckhdxrn6LzrRi1tp2hdmbeFLgF78GynWlq5Y9rxi+I+REGb1OkSdcaMYzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EDjqtvn6; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2610623f445so3795280fac.1;
+        Wed, 31 Jul 2024 03:34:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722422041; x=1723026841; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CLpJAlwrYnKpG4yNN+f5PTDXi5Vm9RWGLixCvfhYZ0w=;
+        b=EDjqtvn6HJw5z9cHytCcpGGpavcdfP2kd4ItnJjtcdKLx3nGH0atfwVyv71L2hndsW
+         eoulHjA7jZTBEpvy1bMq8F8rr+2wbl5oMSUXqI2N9t4xv9ILCH+v15czPIm7SxmD1Tam
+         HCIErnXNJFonWKSUk9fe3qV8l3qL64fNPsucILetWNCjc09kCQheExAY3d/YeIUByLv/
+         uWbNoZGPv5o19Anp3Zd1UxVnuY2rXG4XToMdp+NoYR0T07ss+lAaguYhEfc9bVFiOSci
+         4GDR/PKGfqKKktmuXg6Lii2366SbyDhZ/smju6qyccwFmYMnyksRf2ehPvRWxIotgsgV
+         rZFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722422041; x=1723026841;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CLpJAlwrYnKpG4yNN+f5PTDXi5Vm9RWGLixCvfhYZ0w=;
+        b=FUDhuQ5/pd3uauV4GpXkJh5IeimuxDSlqSOc06w7BzfHK7shto0nfEKrbED3or2FUT
+         7zi5M9YwgIplhH2AfrF1LiiknxFeKfdwnwIlAnuNL+7K0YvIVPYBQP0Ul0uuKuLPzKNw
+         XIIDfEpBDRDiAhnytVGxUxIPfzlNEzWHDRaDZTIWfOnbYFt1btVxHqVfYZ4rdx2IfNSq
+         YCqQIcZbkMpNP4DW5E3Mb2cNYfMflvQN2AdXb/vJpEK2yWHiOgfABL+gJMOXN9/aeNp4
+         KQjGNGhVVg0/vfjcXvh5kdXlY3bFzVP4eNbLnIZPm8lipAdHc27RSdB2qGZDPXNAAV6U
+         2PVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQJEfet/ekbH/oDL7NmdZXPp3QcvSgAtUtZk22xo2Xdf+S7VI1UbTePouJRJPOt4jkY4JVkVCsWKDlgZrjWpGehi7Bg8sclzW4K9Z/DTR5D+UV8875/ZxC3NlYiZgtjgc55qbxoKoI1CQ=
+X-Gm-Message-State: AOJu0YxKUoLKvSYGySHNQGKXp3ZwUg4627YTfWpGyKZMYto62IVzZSun
+	JbJMrxsI8IuvO8fyGj42r4JEJPJhSNYOYnddko5Mq7LPDTQSC0Zv
+X-Google-Smtp-Source: AGHT+IG0a80aavBWEprMsVQIzBNeMtP25uSHl/X9jrMtPKSQsZSgH8vwwvHyW892+ooHawHz5yMqIw==
+X-Received: by 2002:a05:6870:6488:b0:260:faa1:4453 with SMTP id 586e51a60fabf-267d4cfc02dmr16644539fac.8.1722422041368;
+        Wed, 31 Jul 2024 03:34:01 -0700 (PDT)
+Received: from localhost.localdomain ([211.171.34.11])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead6e1a89sm9734940b3a.30.2024.07.31.03.33.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jul 2024 03:34:00 -0700 (PDT)
+From: Kartik Kulkarni <kartik.koolks@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	akari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	helen.koike@collabora.com,
+	kartik.koolks@gmail.com
+Subject: [PATCH v2] staging: atomisp: bnr: fix trailing statement
+Date: Wed, 31 Jul 2024 10:33:53 +0000
+Message-Id: <20240731103353.39245-1-kartik.koolks@gmail.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] v4l2-compliance: Add test for
- V4L2_FMTDESC_FLAG_ENUM_ALL flag
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org
-References: <20240731093526.29137-1-benjamin.gaignard@collabora.com>
- <b3c9410d-8b69-4ff7-b978-aaf6a558d1a5@xs4all.nl>
- <206521b7-92cc-464d-a65a-55ef665c4943@collabora.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <206521b7-92cc-464d-a65a-55ef665c4943@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 31/07/2024 12:21, Benjamin Gaignard wrote:
-> 
-> Le 31/07/2024 à 12:02, Hans Verkuil a écrit :
->> On 31/07/2024 11:35, Benjamin Gaignard wrote:
->>> If V4L2_FMTDESC_FLAG_ENUM_ALL flag is supported, test if all
->>> pixel formats list with VIDIOC_ENUM_FMT without the flag been set
->>> is a subset of the list created with the flag.
->>> Also Test that the flag is cleared after calling VIDIOC_ENUM_FMT.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>> changes in version 2:
->>> - Completely rework how the test it done.
->>>
->>>   include/linux/videodev2.h                   |  3 ++
->>>   utils/common/v4l2-info.cpp                  |  1 +
->>>   utils/v4l2-compliance/v4l2-test-formats.cpp | 36 +++++++++++++++++++++
->>>   3 files changed, 40 insertions(+)
->>>
->>> diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
->>> index f18a40d4..c166bb35 100644
->>> --- a/include/linux/videodev2.h
->>> +++ b/include/linux/videodev2.h
->>> @@ -864,6 +864,9 @@ struct v4l2_fmtdesc {
->>>   #define V4L2_FMT_FLAG_CSC_QUANTIZATION        0x0100
->>>   #define V4L2_FMT_FLAG_META_LINE_BASED        0x0200
->>>   +/*  Format description flag, to be ORed with the index */
->>> +#define V4L2_FMTDESC_FLAG_ENUM_ALL        0x80000000
->>> +
->>>       /* Frame Size and frame rate enumeration */
->>>   /*
->>>    *    F R A M E   S I Z E   E N U M E R A T I O N
->>> diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
->>> index aaf7b0b5..248ab9c3 100644
->>> --- a/utils/common/v4l2-info.cpp
->>> +++ b/utils/common/v4l2-info.cpp
->>> @@ -383,6 +383,7 @@ static constexpr flag_def fmtdesc_ ## enc_type ## _def[] = {             \
->>>       { V4L2_FMT_FLAG_CSC_QUANTIZATION, "csc-quantization" },         \
->>>       { V4L2_FMT_FLAG_CSC_XFER_FUNC, "csc-xfer-func" },             \
->>>       { V4L2_FMT_FLAG_META_LINE_BASED, "meta-line-based" },            \
->>> +    { V4L2_FMTDESC_FLAG_ENUM_ALL, "enum-all-format" },            \
->> Ah, no. This lists the possible flag of the flags field, V4L2_FMTDESC_FLAG_ENUM_ALL
->> doesn't belong there.
->>
->> In fact, there is no need to add it at all since it is never reported.
->>
->> But you do need to add support for it in v4l2-ctl: I think that the various
->> --list-formats(-ext) options needs to check for an optional suboption 'all',
->> which will set the new V4L2_FMTDESC_FLAG_ENUM_ALL flag. That's a separate patch
->> for v4l2-ctl.
->>
->>>       { 0, NULL }                                 \
->>>   };
->>>   diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
->>> index fc16ad39..2b743da5 100644
->>> --- a/utils/v4l2-compliance/v4l2-test-formats.cpp
->>> +++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
->>> @@ -224,6 +224,7 @@ static int testEnumFrameSizes(struct node *node, __u32 pixfmt)
->>>   static int testEnumFormatsType(struct node *node, unsigned type)
->>>   {
->>>       pixfmt_map &map = node->buftype_pixfmts[type];
->>> +    pixfmt_map enum_all;
->>>       struct v4l2_fmtdesc fmtdesc;
->>>       unsigned f = 0;
->>>       int ret;
->>> @@ -317,6 +318,41 @@ static int testEnumFormatsType(struct node *node, unsigned type)
->>>                       fmtdesc.pixelformat, fcc2s(fmtdesc.pixelformat).c_str());
->>>           map[fmtdesc.pixelformat] = fmtdesc.flags;
->>>       }
->>> +
->>> +    /* Test V4L2_FMTDESC_FLAG_ENUM_ALL if supported */
->>> +    f = 0;
->>> +    for (;;) {
->>> +        memset(&fmtdesc, 0xff, sizeof(fmtdesc));
->>> +        fmtdesc.type = type;
->>> +        fmtdesc.index = f | V4L2_FMTDESC_FLAG_ENUM_ALL;
->>> +        fmtdesc.mbus_code = 0;
->>> +
->>> +        ret = doioctl(node, VIDIOC_ENUM_FMT, &fmtdesc);
->>> +        if (ret == ENOTTY)
->>> +            return ret;
->> This would be a failure: it can't return ENOTTY since that was already tested
->> in the first test without the ALL flag. You can drop this test, since it will
->> fail later.
->>
->>> +        if (f == 0 && ret == EINVAL)
->>> +            return 0;
->>> +        if (ret == EINVAL)
->>> +            break;
->>> +        if (ret)
->>> +            return fail("expected EINVAL, but got %d when enumerating buftype %d\n", ret, type);
->> This will catch the ENOTTY.
->>
->>> +        if (fmtdesc.index != f)
->>> +            return fail("V4L2_FMTDESC_FLAG_ENUM_ALL hasn't been cleared from fmtdesc.index 0x%x f 0x%x\n", fmtdesc.index, f);
->>> +        f++;
->>> +        if (type == V4L2_BUF_TYPE_PRIVATE)
->>> +            continue;
->>> +        assert(type <= V4L2_BUF_TYPE_LAST);
->>> +        if (enum_all.find(fmtdesc.pixelformat) != enum_all.end())
->>> +            return fail("duplicate format %08x (%s)\n",
->>> +                    fmtdesc.pixelformat, fcc2s(fmtdesc.pixelformat).c_str());
->>> +        enum_all[fmtdesc.pixelformat] = fmtdesc.flags;
->>> +    }
->>> +    /* if V4L2_FMTDESC_FLAG_ENUM_ALL is supported, verify that the list is a subset of VIDIOC_ENUM_FMT list */
->>> +    if (!enum_all.empty()) {
->> You can drop this if. If enum_all is empty, and map isn't, then it will just
->> fail in the next for loop.
-> 
-> enum_all could be empty if V4L2_FMTDESC_FLAG_ENUM_ALL isn't supported and
-> it shouldn't fail in this case.
+Fix checkpatch error trailing statements should be on next line in
+ia_css_bnr.host.c:48
 
-But that is caught by the "if (f == 0 && ret == EINVAL)" check above. In that case
-it just returns 0.
+Signed-off-by: Kartik Kulkarni <kartik.koolks@gmail.com>
+---
+v2: Move Signed-off-by line above the exclusion block
+---
+ .../atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c      | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Regards,
-
-	Hans
-
-> 
->>> +        for (auto it = map.begin(); it != map.end(); it++)
->>> +            if (enum_all.find(it->first) == enum_all.end())
->>> +                return fail("V4L2_FMTDESC_FLAG_ENUM_ALL failed to enumerate format %08x (%s)\n", it->first, fcc2s(it->first).c_str());
->>> +    }
->>>       info("found %d formats for buftype %d\n", f, type);
->> Note that f was reset above, so this info message should be moved up to just before the
->> V4L2_FMTDESC_FLAG_ENUM_ALL test starts.
->>
->> But perhaps keep this info message here as well, just change it to:
->>
->>        info("found %d formats for buftype %d (with V4L2_FMTDESC_FLAG_ENUM_ALL)\n", f, type);
->>
->> Regards,
->>
->>     Hans
->>
->>>       return 0;
->>>   }
->>
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
+index 457a004e1..b75cfd309 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
+@@ -45,7 +45,8 @@ ia_css_bnr_dump(
+     const struct sh_css_isp_bnr_params *bnr,
+     unsigned int level)
+ {
+-	if (!bnr) return;
++	if (!bnr)
++		return;
+ 	ia_css_debug_dtrace(level, "Bayer Noise Reduction:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "bnr_gain_all", bnr->gain_all);
+-- 
+2.20.1
 
 
