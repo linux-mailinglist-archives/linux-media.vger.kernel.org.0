@@ -1,159 +1,190 @@
-Return-Path: <linux-media+bounces-15662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15663-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCB694375A
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 22:47:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CFC943766
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 22:50:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DEF45B217F9
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 20:47:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B8A31C2136E
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 20:50:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2D916CD25;
-	Wed, 31 Jul 2024 20:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3153168C26;
+	Wed, 31 Jul 2024 20:50:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="gUK3KgDr"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="lwg5MZeL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0235116CD10
-	for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 20:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2341607B7
+	for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 20:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722458788; cv=none; b=DABpCJDaDbSo/Rksc/kgkzsd9DnAJ1sW5u42uREbjKZ7YlPReIGa3mRTWlpXAxGIcCC0gAaPm9HgnK8fossebHCgDI7YfUbNff9rFhXNMQhO8IjURTCRoC+lHePNURj83Eb8wD/Jhw1ZQHSxczAyejBSKv4YV27gpmXRiHuIYlo=
+	t=1722459030; cv=none; b=ZW3geup1nE9WwQxnVmjO88SJVJeJB6ZOzAMipaL7aLOOycm0prrkJifAS+ON3U0TWRc2JISjwqlo5o+J2s2i52v+LOCyrwBP3UxEFP5UsHHYMOslmfAeppFLHgivch9hjtrKGDpWM/RZE9p1bYfrZukXplZDXipLmf+ZopQ6aPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722458788; c=relaxed/simple;
-	bh=txmpJQycIV5QPKrTWpGC8PUo9tKcejxgqsvRbMC+V8c=;
+	s=arc-20240116; t=1722459030; c=relaxed/simple;
+	bh=ccUCugW1N2J/712pEft7YYpLGhN0cRZIKLxLFCnlq5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ccpoFpPSg+hvdKtGUBD2FFE+JnfLsGDGYDlFqx411aV7OxW9M7WSjFw5a536UQLI2Ju+xxn4yBv3DIgqXyg9bh+RPjBtTMU6wJCK8/8FpO22cDLtCthHxB3smbk3/5A1z/hxhWTk51BDvpICbSmsMR9QSe3wLZK2rTZv5tDtrM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=gUK3KgDr; arc=none smtp.client-ip=209.85.128.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIsT3QSE/lL+botoemjnJ3RhXjmAJaS/xFAL4hpvMoCz5kNkl6sXAJoOQLkLzi9qNVpTKsGkT2FhbGV03VdsEZx473bisA5yairNsc+yngKLpKWhTRrnNadk3xHkBtSuFaGAHAsR0XwqS77BEzQE3tZnptjtAJJX/xuUQY8EOjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=lwg5MZeL; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-428e09ee91eso161015e9.3
-        for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 13:46:26 -0700 (PDT)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4280921baa2so4596605e9.2
+        for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 13:50:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1722458785; x=1723063585; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZxpiuYMhfG8wroCEpsj+T0XsF8n6WcrGB7EkeYVEIFg=;
-        b=gUK3KgDrIf3SDfrPly7lL/g4COmy1oDeJqy2LlzveAKKZ2lhHpArQwwY//wPF+Z4MH
-         EWWUC2PECSxsdzGJAS/t4mD0HOm3ogStf7cHvddWiaL61YSCf4l+ukri3lcTU/IdZWiS
-         i0CqkDeMpDe2e/yAfjZ86Qw7u3b0XimrmpWYQ=
+        d=ffwll.ch; s=google; t=1722459027; x=1723063827; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L1IW9fAfwq5NHi01t4CV5LKiWLlhlBwcc8UFMWZp9sQ=;
+        b=lwg5MZeLWiv+dJNZg3bkYKn7G9k6z+pydqVZvOooLhyTjSYSdXBZxUm7jexXhugpTr
+         l2k9xC7uogzfWwiNUlfdX+1q0N5c3c4bKtcjkXLdF8pd4B4QKRjhzP4WyzypyP6f7wL7
+         Gncln1tahVWOED+0R8kUYJc0m0iETHd/U8S28=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722458785; x=1723063585;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZxpiuYMhfG8wroCEpsj+T0XsF8n6WcrGB7EkeYVEIFg=;
-        b=tqgQhopAaZFX24mka5pgkYJSP7BE/3lb7dw7KlVMZEKfxLsyAGa4GfUARlV/pbNBlM
-         zonWCqEAPPnmA+6xwk4cQsEMY5LsWk9DjT4UHzWJtaYALoVFP8k5StX/K9faprzbIVOK
-         f0oTllfCDqpSgIvDsw5g7NaioZDXhzvXlcMJZS5B6yHp9MiJ5kZA000Gc98NCwcd/2v9
-         yXx/cWHi3vSNekDh6dUtBJer0H8C9mpVWLpYN0d/5Dwi93cCjvTX+6uPmaQmYrpUHlqr
-         VVHG+lclc3tvEG+E+sY2TheoNHD8HVa1BtvWcxBbrOilXueZt8sRUeaN+zmpWckd0RhL
-         3XSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1AjeTBBn7nZZgRAN91EN94s5hq4i2Qc7eLeCVBEO4W/Kk0Kr6YabDXmaJCX1kugto70HREbArnt3UTQ7IllL2lWqkJK5a97Ykx/E=
-X-Gm-Message-State: AOJu0YzXucSULPd80VY+Dyr5yn5DEBNyJEiI3JuMQmBXFgWBnSJGZCJp
-	A/VfELSsrDfB0nqZExI15bPXww6c/91iOGErzinYw0sXS5KXmEelDJrLOLt2vr8=
-X-Google-Smtp-Source: AGHT+IEOfnwTGBUJMCvgdzsVYm/9gkwgL+/zq/em2Ac2MZaEU7lsjUilDMlqzOjNzanNWiAy/HCT3A==
-X-Received: by 2002:a05:600c:458e:b0:426:6358:7c5d with SMTP id 5b1f17b1804b1-428b4ae9a29mr2485615e9.4.1722458785050;
-        Wed, 31 Jul 2024 13:46:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1722459027; x=1723063827;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L1IW9fAfwq5NHi01t4CV5LKiWLlhlBwcc8UFMWZp9sQ=;
+        b=FqvAbRKqqkJ5BBPTTkvJ7MkFB3E569CkyBe2G+JWskx1tcQ9uqC/7xteN1yGA3clmM
+         AOwP7j8CVoYZEV88fJYZdaKyFQfG5N1GyVGKCxWMAyLSPU1TZeM4Also8L78Ui5+M8/1
+         jGd3lMfns/Yu99Vcs5Y2jLxovaTRo8KH9RtWr3NA81PSa6JSQPnEWh8F7ZAQ8zS8Auc1
+         59P/ntIhz7dJMlKryS7pWRpwdyza6MkqaDI+s7P1y2La5fGaXV+fPU6zjP3fsjCNW9Ns
+         OjjAyFm/NPKDUbBbQ2RtmIeN7kgHSFvfpGxOCzut2iLluUuiCvPsDc7y9gZGgVAK4XDN
+         Xs4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVsie+2uTdY5a2uCso/qZG9VHimTj7cU/CDdSa3Id2ogMTfTTJTQk8zno9jgCzjQbEbSB6u/EjW8T3YoxDCAMQGUh5kQhRdrbcbXik=
+X-Gm-Message-State: AOJu0Yxp2+covsrvN9rbfMkDZRtP652KECANwrSbmz2jH/3PZGm0igAm
+	Yn+D2FZeZcMpNo+Nu5aTIj2bVfjw6NeofPIUJB1dKcz6UMtOjmSwhefTQvpPt9k=
+X-Google-Smtp-Source: AGHT+IHiZKSox2G+KBZt85yTqo1If0pNRi36MPMG5PUE38oK6EzOOZBBO76h+Oh0f6kIAO981/aiaA==
+X-Received: by 2002:a05:600c:35c9:b0:425:6962:4253 with SMTP id 5b1f17b1804b1-428b8a3da1emr2490685e9.4.1722459026790;
+        Wed, 31 Jul 2024 13:50:26 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8a246asm33360225e9.3.2024.07.31.13.46.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8adc7dsm33246505e9.14.2024.07.31.13.50.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 13:46:24 -0700 (PDT)
-Date: Wed, 31 Jul 2024 22:46:22 +0200
+        Wed, 31 Jul 2024 13:50:26 -0700 (PDT)
+Date: Wed, 31 Jul 2024 22:50:24 +0200
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: Huan Yang <link@vivo.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	opensource.kernel@vivo.com
-Subject: Re: [PATCH v2 0/5] Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
-Message-ID: <Zqqing7M2notp6Ou@phenom.ffwll.local>
-Mail-Followup-To: Huan Yang <link@vivo.com>,
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
 	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
 	opensource.kernel@vivo.com
-References: <20240730075755.10941-1-link@vivo.com>
- <Zqiqv7fomIp1IPS_@phenom.ffwll.local>
- <25cf34bd-b11f-4097-87b5-39e6b4a27d85@vivo.com>
- <37b07e69-df85-45fc-888d-54cb7c4be97a@vivo.com>
+Subject: Re: [PATCH] udmabuf: use kmem_cache to alloc udmabuf folio
+Message-ID: <ZqqjkCZtDP3jtD_2@phenom.ffwll.local>
+Mail-Followup-To: Huan Yang <link@vivo.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	opensource.kernel@vivo.com
+References: <20240731033449.1016195-1-link@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <37b07e69-df85-45fc-888d-54cb7c4be97a@vivo.com>
+In-Reply-To: <20240731033449.1016195-1-link@vivo.com>
 X-Operating-System: Linux phenom 6.9.10-amd64 
 
-On Tue, Jul 30, 2024 at 08:04:04PM +0800, Huan Yang wrote:
+On Wed, Jul 31, 2024 at 11:34:49AM +0800, Huan Yang wrote:
+> The current udmabuf_folio contains a list_head and the corresponding
+> folio pointer, with a size of 24 bytes. udmabuf_folio uses kmalloc to
+> allocate memory.
 > 
-> 在 2024/7/30 17:05, Huan Yang 写道:
-> > 
-> > 在 2024/7/30 16:56, Daniel Vetter 写道:
-> > > [????????? daniel.vetter@ffwll.ch ?????????
-> > > https://aka.ms/LearnAboutSenderIdentification?????????????]
-> > > 
-> > > On Tue, Jul 30, 2024 at 03:57:44PM +0800, Huan Yang wrote:
-> > > > UDMA-BUF step:
-> > > >    1. memfd_create
-> > > >    2. open file(buffer/direct)
-> > > >    3. udmabuf create
-> > > >    4. mmap memfd
-> > > >    5. read file into memfd vaddr
-> > > Yeah this is really slow and the worst way to do it. You absolutely want
-> > > to start _all_ the io before you start creating the dma-buf, ideally
-> > > with
-> > > everything running in parallel. But just starting the direct I/O with
-> > > async and then creating the umdabuf should be a lot faster and avoid
-> > That's greate,  Let me rephrase that, and please correct me if I'm wrong.
-> > 
-> > UDMA-BUF step:
-> >   1. memfd_create
-> >   2. mmap memfd
-> >   3. open file(buffer/direct)
-> >   4. start thread to async read
-> >   3. udmabuf create
-> > 
-> > With this, can improve
+> However, kmalloc is a public pool, starting from 64 bytes. This means
+> that each udmabuf_folio allocation will waste 40 bytes.
 > 
-> I just test with it. Step is:
+> Considering that each udmabuf creates a folio corresponding to a
+> udmabuf_folio, the wasted memory can be significant in the case of
+> memory fragmentation.
 > 
-> UDMA-BUF step:
->   1. memfd_create
->   2. mmap memfd
->   3. open file(buffer/direct)
->   4. start thread to async read
->   5. udmabuf create
+> Furthermore, if udmabuf is frequently used, the allocation and
+> deallocation of udmabuf_folio will also be frequent.
 > 
->   6 . join wait
+> Therefore, this patch adds a kmem_cache dedicated to the allocation and
+> deallocation of udmabuf_folio.This is expected to improve the
+> performance of allocation and deallocation within the expected range,
+> while also avoiding memory waste.
 > 
-> 3G file read all step cost 1,527,103,431ns, it's greate.
+> Signed-off-by: Huan Yang <link@vivo.com>
+> ---
+>  drivers/dma-buf/udmabuf.c | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index 047c3cd2ceff..db4de8c745ce 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -24,6 +24,8 @@ static int size_limit_mb = 64;
+>  module_param(size_limit_mb, int, 0644);
+>  MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is 64.");
+>  
+> +static struct kmem_cache *udmabuf_folio_cachep;
+> +
+>  struct udmabuf {
+>  	pgoff_t pagecount;
+>  	struct folio **folios;
+> @@ -169,7 +171,7 @@ static void unpin_all_folios(struct list_head *unpin_list)
+>  		unpin_folio(ubuf_folio->folio);
+>  
+>  		list_del(&ubuf_folio->list);
+> -		kfree(ubuf_folio);
+> +		kmem_cache_free(udmabuf_folio_cachep, ubuf_folio);
+>  	}
+>  }
+>  
+> @@ -178,7 +180,7 @@ static int add_to_unpin_list(struct list_head *unpin_list,
+>  {
+>  	struct udmabuf_folio *ubuf_folio;
+>  
+> -	ubuf_folio = kzalloc(sizeof(*ubuf_folio), GFP_KERNEL);
+> +	ubuf_folio = kmem_cache_alloc(udmabuf_folio_cachep, GFP_KERNEL);
+>  	if (!ubuf_folio)
+>  		return -ENOMEM;
+>  
+> @@ -492,10 +494,20 @@ static int __init udmabuf_dev_init(void)
+>  	if (ret < 0) {
+>  		pr_err("Could not setup DMA mask for udmabuf device\n");
+>  		misc_deregister(&udmabuf_misc);
 
-Ok that's almost the throughput of your patch set, which I think is close
-enough. The remaining difference is probably just the mmap overhead, not
-sure whether/how we can do direct i/o to an fd directly ... in principle
-it's possible for any file that uses the standard pagecache.
+misc_deregister() is now called twice in this error path, I think you've
+forgotten to delete this line too?
+
+Otherwise lgtm.
 -Sima
+
+> -		return ret;
+> +		goto err;
+> +	}
+> +
+> +	udmabuf_folio_cachep = KMEM_CACHE(udmabuf_folio, 0);
+> +	if (unlikely(!udmabuf_folio_cachep)) {
+> +		ret = -ENOMEM;
+> +		goto err;
+>  	}
+>  
+>  	return 0;
+> +
+> +err:
+> +	misc_deregister(&udmabuf_misc);
+> +	return ret;
+>  }
+>  
+>  static void __exit udmabuf_dev_exit(void)
+> 
+> base-commit: cd19ac2f903276b820f5d0d89de0c896c27036ed
+> -- 
+> 2.45.2
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
