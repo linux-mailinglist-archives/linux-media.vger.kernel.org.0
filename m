@@ -1,118 +1,167 @@
-Return-Path: <linux-media+bounces-15636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15637-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8C5942BFD
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 12:34:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8717942CEC
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 13:10:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 608011C23153
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 10:34:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C64B1F21002
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 11:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F2571AC454;
-	Wed, 31 Jul 2024 10:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE231AED49;
+	Wed, 31 Jul 2024 11:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDjqtvn6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XNOktRAw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E36C161311;
-	Wed, 31 Jul 2024 10:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D8F1AE871;
+	Wed, 31 Jul 2024 11:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722422043; cv=none; b=l/I5J4LwVBD3ZlC44Mk60N9K30du74x8CWKEXKxC6T02/T5R95IqJb2EHYx8IkCBHTG4iWUwL5bJkzcu6NNsZyYCwkH1jZGgHoiA2e3BmWyn98+7RYaBqrGP5g9Zj08bJMkzzO1+uMrZoWcyOFzjsBFO6B9NepOAu9Y/XTc8EZc=
+	t=1722424117; cv=none; b=HsA4ojV7VLrVYCRaazw2nbZ7V0IIh54NGA4e5MnIFzlCvh9VUX0bJJD10H7uCDkdpKK4HSOcNGA+TOGibsYr4QDbqnIXhY6dTHHU0sf+yyBVwsY+Q+b1BBiq4mIgG0/bzeEWWf9FcRyXV3TRklHu/cx/6aS7xDJ5MrpmvqyTf0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722422043; c=relaxed/simple;
-	bh=dOa8hT4xWqQ2AnDtQygL24wv+0L76YIYrzot6K+GRtw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o0yja5SCdznpeBC+MjsUh6rI35LfWnTcm4eonpDPQJcX8kYBDKbmYxnnvMofp2EG6c8LZBR2GU1iw4h38MWGktLxkTPKAigs6qe48weUzCbmrt8n4Ckhdxrn6LzrRi1tp2hdmbeFLgF78GynWlq5Y9rxi+I+REGb1OkSdcaMYzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EDjqtvn6; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2610623f445so3795280fac.1;
-        Wed, 31 Jul 2024 03:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722422041; x=1723026841; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CLpJAlwrYnKpG4yNN+f5PTDXi5Vm9RWGLixCvfhYZ0w=;
-        b=EDjqtvn6HJw5z9cHytCcpGGpavcdfP2kd4ItnJjtcdKLx3nGH0atfwVyv71L2hndsW
-         eoulHjA7jZTBEpvy1bMq8F8rr+2wbl5oMSUXqI2N9t4xv9ILCH+v15czPIm7SxmD1Tam
-         HCIErnXNJFonWKSUk9fe3qV8l3qL64fNPsucILetWNCjc09kCQheExAY3d/YeIUByLv/
-         uWbNoZGPv5o19Anp3Zd1UxVnuY2rXG4XToMdp+NoYR0T07ss+lAaguYhEfc9bVFiOSci
-         4GDR/PKGfqKKktmuXg6Lii2366SbyDhZ/smju6qyccwFmYMnyksRf2ehPvRWxIotgsgV
-         rZFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722422041; x=1723026841;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CLpJAlwrYnKpG4yNN+f5PTDXi5Vm9RWGLixCvfhYZ0w=;
-        b=FUDhuQ5/pd3uauV4GpXkJh5IeimuxDSlqSOc06w7BzfHK7shto0nfEKrbED3or2FUT
-         7zi5M9YwgIplhH2AfrF1LiiknxFeKfdwnwIlAnuNL+7K0YvIVPYBQP0Ul0uuKuLPzKNw
-         XIIDfEpBDRDiAhnytVGxUxIPfzlNEzWHDRaDZTIWfOnbYFt1btVxHqVfYZ4rdx2IfNSq
-         YCqQIcZbkMpNP4DW5E3Mb2cNYfMflvQN2AdXb/vJpEK2yWHiOgfABL+gJMOXN9/aeNp4
-         KQjGNGhVVg0/vfjcXvh5kdXlY3bFzVP4eNbLnIZPm8lipAdHc27RSdB2qGZDPXNAAV6U
-         2PVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQJEfet/ekbH/oDL7NmdZXPp3QcvSgAtUtZk22xo2Xdf+S7VI1UbTePouJRJPOt4jkY4JVkVCsWKDlgZrjWpGehi7Bg8sclzW4K9Z/DTR5D+UV8875/ZxC3NlYiZgtjgc55qbxoKoI1CQ=
-X-Gm-Message-State: AOJu0YxKUoLKvSYGySHNQGKXp3ZwUg4627YTfWpGyKZMYto62IVzZSun
-	JbJMrxsI8IuvO8fyGj42r4JEJPJhSNYOYnddko5Mq7LPDTQSC0Zv
-X-Google-Smtp-Source: AGHT+IG0a80aavBWEprMsVQIzBNeMtP25uSHl/X9jrMtPKSQsZSgH8vwwvHyW892+ooHawHz5yMqIw==
-X-Received: by 2002:a05:6870:6488:b0:260:faa1:4453 with SMTP id 586e51a60fabf-267d4cfc02dmr16644539fac.8.1722422041368;
-        Wed, 31 Jul 2024 03:34:01 -0700 (PDT)
-Received: from localhost.localdomain ([211.171.34.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead6e1a89sm9734940b3a.30.2024.07.31.03.33.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 03:34:00 -0700 (PDT)
-From: Kartik Kulkarni <kartik.koolks@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	akari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	helen.koike@collabora.com,
-	kartik.koolks@gmail.com
-Subject: [PATCH v2] staging: atomisp: bnr: fix trailing statement
-Date: Wed, 31 Jul 2024 10:33:53 +0000
-Message-Id: <20240731103353.39245-1-kartik.koolks@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1722424117; c=relaxed/simple;
+	bh=Y/jwTbl8exAJcAQjeSQ75R4nQbjTbH7374EjfkBBvVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XAwwG4iYrdeiJuxSUa5YbGBby5jHcJ0osHuro9QL4SNHaFOW7iZZrskJUp/ikRCg5lhv50UxkcB2P7HevyN0EduZxtRqD5TX6AF15Xk+gMIC0kNzGuEUsQYXVltAeeWfBmbtR+05FtzcBY5Ja/PBbutJoUig2redUQE5H+dXKWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XNOktRAw; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722424116; x=1753960116;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y/jwTbl8exAJcAQjeSQ75R4nQbjTbH7374EjfkBBvVQ=;
+  b=XNOktRAwYLOPahv9zwrqX2IAiQTlo3IwMi7jwjrfEw3SVy58UNijWrAY
+   DIgVXv7a3iVsZJ9WSUKk40uWuKT64FN36kF7L8gkgJt/OHZEO5q+yPjCI
+   rShg91nSQ6q0FNb1M9P+EKwpGaZMO5L2rkq+e/dwc+vBsWGP7sogcEkO4
+   dl+6WOmiPL9hNZMsdwjAxZU3/dz+EKFNa4GeXahudIV1XJuU45e2hjN3Y
+   TqHboNrmgH5DpFyaQjOMyi/r88cVvJw6zRoHWshJ+IdD0gn3ltAC8W8Gm
+   ZxtanTdct+Z/4GYFrmskxyJxv99mlkccAOkpIzqacEvxd8gLJuJqClohO
+   g==;
+X-CSE-ConnectionGUID: U6JZQyWMRd22jHSs6vLlag==
+X-CSE-MsgGUID: +LVGCXdeQKyx24m+vC/8nw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="23209720"
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="23209720"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 04:08:35 -0700
+X-CSE-ConnectionGUID: ZtK+kAqRSp6niW97SVmTxA==
+X-CSE-MsgGUID: y27S1BV/Tl2KF+5Kv81JYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
+   d="scan'208";a="54707963"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 31 Jul 2024 04:08:32 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sZ7C2-000uAO-0P;
+	Wed, 31 Jul 2024 11:08:30 +0000
+Date: Wed, 31 Jul 2024 19:08:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Huan Yang <link@vivo.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
+	Huan Yang <link@vivo.com>
+Subject: Re: [PATCH v2 1/5] dma-buf: heaps: Introduce
+ DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+Message-ID: <202407311822.ZneNMq5I-lkp@intel.com>
+References: <20240730075755.10941-2-link@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240730075755.10941-2-link@vivo.com>
 
-Fix checkpatch error trailing statements should be on next line in
-ia_css_bnr.host.c:48
+Hi Huan,
 
-Signed-off-by: Kartik Kulkarni <kartik.koolks@gmail.com>
----
-v2: Move Signed-off-by line above the exclusion block
----
- .../atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c      | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
-index 457a004e1..b75cfd309 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/bnr/bnr_1.0/ia_css_bnr.host.c
-@@ -45,7 +45,8 @@ ia_css_bnr_dump(
-     const struct sh_css_isp_bnr_params *bnr,
-     unsigned int level)
- {
--	if (!bnr) return;
-+	if (!bnr)
-+		return;
- 	ia_css_debug_dtrace(level, "Bayer Noise Reduction:\n");
- 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
- 			    "bnr_gain_all", bnr->gain_all);
+[auto build test WARNING on 931a3b3bccc96e7708c82b30b2b5fa82dfd04890]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/dma-buf-heaps-Introduce-DMA_HEAP_ALLOC_AND_READ_FILE-heap-flag/20240730-170340
+base:   931a3b3bccc96e7708c82b30b2b5fa82dfd04890
+patch link:    https://lore.kernel.org/r/20240730075755.10941-2-link%40vivo.com
+patch subject: [PATCH v2 1/5] dma-buf: heaps: Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240731/202407311822.ZneNMq5I-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407311822.ZneNMq5I-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407311822.ZneNMq5I-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'priv' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'heap_devt' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'list' not described in 'dma_heap'
+   drivers/dma-buf/dma-heap.c:44: warning: Function parameter or struct member 'heap_cdev' not described in 'dma_heap'
+>> drivers/dma-buf/dma-heap.c:104: warning: expecting prototype for Trigger sync file read, read into dma(). Prototype was for dma_heap_read_file_sync() instead
+
+
+vim +104 drivers/dma-buf/dma-heap.c
+
+    86	
+    87	/**
+    88	 * Trigger sync file read, read into dma-buf.
+    89	 *
+    90	 * @dmabuf:			which we done alloced and export.
+    91	 * @heap_file:			file info wrapper to read from.
+    92	 *
+    93	 * Whether to use buffer I/O or direct I/O depends on the mode when the
+    94	 * file is opened.
+    95	 * Remember, if use direct I/O, file must be page aligned.
+    96	 * Since the buffer used for file reading is provided by dma-buf, when
+    97	 * using direct I/O, the file content will be directly filled into
+    98	 * dma-buf without the need for additional CPU copying.
+    99	 *
+   100	 * 0 on success, negative if anything wrong.
+   101	 */
+   102	static int dma_heap_read_file_sync(struct dma_buf *dmabuf,
+   103					   struct dma_heap_file *heap_file)
+ > 104	{
+   105		struct iosys_map map;
+   106		ssize_t bytes;
+   107		int ret;
+   108	
+   109		ret = dma_buf_vmap(dmabuf, &map);
+   110		if (ret)
+   111			return ret;
+   112	
+   113		/**
+   114		 * The kernel_read_file function can handle file reading effectively,
+   115		 * and if the return value does not match the file size,
+   116		 * then it indicates an error.
+   117		 */
+   118		bytes = kernel_read_file(heap_file->file, 0, &map.vaddr, dmabuf->size,
+   119					 &heap_file->fsize, READING_POLICY);
+   120		if (bytes != heap_file->fsize)
+   121			ret = -EIO;
+   122	
+   123		dma_buf_vunmap(dmabuf, &map);
+   124	
+   125		return ret;
+   126	}
+   127	
+
 -- 
-2.20.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
