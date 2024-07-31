@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-15618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14B89427EF
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 09:29:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8722F942801
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 09:32:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8C381F2184F
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 07:29:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0683B1F21690
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 07:32:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21DE31A720B;
-	Wed, 31 Jul 2024 07:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D731A76DB;
+	Wed, 31 Jul 2024 07:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BM2ZDDVp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGLYvky0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C1D4965C;
-	Wed, 31 Jul 2024 07:29:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A2D1A76B3;
+	Wed, 31 Jul 2024 07:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722410980; cv=none; b=QmspohA5IZu7FqTKAD0p9s2QEXXTXxD0EDtL5JzihTMgGJiClXCEMaxPy8GhtRK0cToPncDF94Aw+oqXVQIjWpe0CGqIn05NJdFq0j68O8Y78KjB+G3HL1XhQskDcdpjGVujg1OSqNyi3uHvOr/43z0nr5pW+qKyYcIFTyPKjF0=
+	t=1722411143; cv=none; b=r1cnQ2PHTMw8gNqRFeUeCax943lTNQHHOvm4mvVmOU3ow97BwbJxc7b3wKrtILEwefU8EB3A3/tUVYFgPDVFs0zlYeIVUPTVhr0vj+iz53mQXqo8bTEoYFYJ7HZqauDKYOcZEMkg6wrPp9OPTqRcZO/V4ekDGgRTVsg/l4d7HUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722410980; c=relaxed/simple;
-	bh=zNzYmn9Z4V5FAFX06fNbSLqYW+GgtbhfE/kfTaGnmic=;
+	s=arc-20240116; t=1722411143; c=relaxed/simple;
+	bh=tvSnHv96MZMRu/wkU3sIo+nGT+lO1kqmKwYNjS4FVhk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IdX8DiCebNeV4KeKZNgL4V2zeChB8l5AyObMdwyltyC6Ijcb5mFabxMU521vnehbHG1A2biYmXShO6urHhVyXKF7mCfMy81HPH6I2B7aAMRTbcdcHp0KpFCD9b3qP3xt0VybthexMphcdv1UvJt8HURE8F1sF+qWW1YRdrF3DkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BM2ZDDVp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39DCAC116B1;
-	Wed, 31 Jul 2024 07:29:32 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Z0nCHXSWpUbB+NpdUME//F9JfvAJ2cSbX//qoanB9ZkJXqjl5vMvZnXmavwqt4xuLT8hbnF4Doal/7+G1SsVAMXMAm6qKNeHuhyJFl95DL2FjJhVjn92IX+Ra8TUo9bqbzD/FnbdOrC+jm1JbfwWj8YLui9twsRmhVeSuh6/fho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGLYvky0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B92FDC116B1;
+	Wed, 31 Jul 2024 07:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722410979;
-	bh=zNzYmn9Z4V5FAFX06fNbSLqYW+GgtbhfE/kfTaGnmic=;
+	s=k20201202; t=1722411143;
+	bh=tvSnHv96MZMRu/wkU3sIo+nGT+lO1kqmKwYNjS4FVhk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BM2ZDDVpmDrYu/oiTxyRPHNwG0QZx9UIRIDGCj17EwpmrC70qw4yf9AMUDYz6JkLQ
-	 yQ+CQHaxNnEoRdfSisiuMCyJ4+cnPsB+Hf+GxVlvtbINTC6GtdffWUZe9HmxvwoQeq
-	 r7jf1Y4kJJnJA5spZif1MYedrGhPI4sXZlxtaoJ2DLf2VZVpHSNbxzDFlKSul6WLM4
-	 EB6AP4h1kmV7hlU8MB54rAkOGSsSZykN2u/iHYtcT1drVVeoxbiP2QCpwdpnMTuFJ+
-	 layyBTpXlc9PKVEvQKTL+ITe01cZ8UyLfiQDv9iZEYfKqkMXIbY/UPKGYatdw+svR1
-	 2USdUwoTIY1AQ==
-Message-ID: <9e6c24c2-bdf3-4c44-8447-ca61e0e3e06b@kernel.org>
-Date: Wed, 31 Jul 2024 09:29:30 +0200
+	b=iGLYvky0V7j5Zcnu+jqpXeXqAZBouE2aOzAMBMsCy9hBfkxw5rSMRdd1hLTUF3c4v
+	 TuOtQEFGEjiWvVd7g+NeMptxrzUCOPKJdhoEO56jrYLv8S6f92AA8+VIhdLjsatqCS
+	 FVrlwaVilqU3QTvKCnGySMuwmRZu11es3UBXP6Vk4eCujyu5teGg99XLVbSyvdQKbU
+	 sp7aMtTP/MmF5DOBHHZ6K2IMx2/u5wL5Fv7etZinrlnCDcryL+STj7eg1bMXFAHSTZ
+	 FpJKNZqaEQsdpHN6s975i6heewhaACIw3DVuGOsYjs2BnDAFlaXoCMOHtYzn9ya9ue
+	 Ww7n/gNG+aCDw==
+Message-ID: <8da6c3bf-05a5-41a9-8f3d-0b8c6495bef1@kernel.org>
+Date: Wed, 31 Jul 2024 09:32:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] media: imx335: Fix reset-gpio handling
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: imx335: Add reset-gpios to the
+ DT example
 To: Umang Jain <umang.jain@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -67,9 +68,9 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, stable@vger.kernel.org
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20240731-imx335-gpio-v3-0-443bfa6ce864@ideasonboard.com>
- <20240731-imx335-gpio-v3-2-443bfa6ce864@ideasonboard.com>
+ <20240731-imx335-gpio-v3-1-443bfa6ce864@ideasonboard.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -115,20 +116,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240731-imx335-gpio-v3-2-443bfa6ce864@ideasonboard.com>
+In-Reply-To: <20240731-imx335-gpio-v3-1-443bfa6ce864@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 31/07/2024 09:02, Umang Jain wrote:
-> Rectify the logical value of reset-gpio so that it is set to
-> 0 (disabled) during power-on and to 1 (enabled) during power-off.
-> 
-> Meanwhile at it, set the reset-gpio to GPIO_OUT_HIGH at initialization
-> time to make sure it starts off in reset. Also drop the "Set XCLR"
-> comment which is not-so-informative.
+> It's easy to get the polarity of GPIOs in the device tree wrong, as
+> shown by a recently fixed bug in the imx335 driver. To lower the chance
+> of future mistakes, especially in new bindings that would take the
+> imx335 binding as a starting point, add the reset-gpios property to the
+> DT example. This showcases the correct polarity of the XCLR signal for
+> Sony sensors in the most common case of the signal not being inverted on
+> the board.
 > 
 
-None of our conclusions are explained, which I requested.
+Just one sentence like - make the example complete by adding reset-gpios
+with proper polarity - would be enough. Concise, yet still informative,
+commit msgs are preferred, usually.
+
+This device is not different than 1000 others which use GPIOs and for
+every device you must use proper polarity. Commit msg suggests that here
+we should explain something more.
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 
 Best regards,
 Krzysztof
