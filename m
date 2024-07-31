@@ -1,555 +1,255 @@
-Return-Path: <linux-media+bounces-15595-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15596-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A1694244A
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 03:48:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DB09424A4
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 05:00:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2C39B21E30
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 01:48:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8042AB23F3E
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 03:00:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5307D2F5;
-	Wed, 31 Jul 2024 01:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A803918039;
+	Wed, 31 Jul 2024 03:00:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="ZUTqNDJg"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="oxlrjhUk";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="FhkX/Eg7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2082.outbound.protection.outlook.com [40.107.117.82])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B109811CA0;
-	Wed, 31 Jul 2024 01:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2079717557;
+	Wed, 31 Jul 2024 02:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722390499; cv=fail; b=hQHQ1p0X7cUw2o/GnjVOOdZTRMpqwr2ko/A7jkDwaRRfiPp5eRMkgKJsM7DJEVVv46ED9B3yZ56/9jCaxbXY8dTNzyBf2EaHytA2w2xys/Bff2OdmR8bIXSTpW06vf92uRmFbqlqj2dTdYTO3G65Bvl7OdeYHAZ654GP3lfT4Qg=
+	t=1722394803; cv=fail; b=QlqIb49Y5enZ+WKPxk1sjsLMM5HNEX3d5M8SziVKN/Cy4lGe81q9RUo48XycSPQkYVY8hT/YvqjzJC+dYjpPpEeKLVZmEZW6qpvKW+pbeEieirsZVW6CZD54HBPoI0cNAiLRs8gWFOjXHzT8K/KgyYuWez8GKYpLVsTfSdOqz2E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722390499; c=relaxed/simple;
-	bh=6hDS51U2xyjZJn2PdvIu8/Vec2WKPDIOM1umJf+zrLs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RIEShAirt7Im51A/zH/yHEHiARYX35LK2AKdpJcI3D8HEK8Hrb90BIC2ismxl+5pb7PwmzfwW5ay4IPekCO3mIOwNLyTFJzo6tV4FtRrSDs5ZXrXEj/9M4Zbg41Gg9ujpiUzEh7xZiZZOCpoaqStBQZGSYdkwbc7TEjvfoj2xLY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=ZUTqNDJg; arc=fail smtp.client-ip=40.107.117.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	s=arc-20240116; t=1722394803; c=relaxed/simple;
+	bh=qYI+EaK2/3BnBOv/cLo+YhfVGZrHG++cvhw/kFVP7kU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=P5VlI5RMJNQ0t5OA+lh3YQy0P8+8m7YONaQqGyqIgMU1ogUrDO/n6b9xncWsVuZ3kiAlx64MMVH/BHSYCF1CK4qcum2mB5aYo9iBgHBoG1jCYLplPX5nn5TNCzzP6nnB4tAu7BfAUkQOjIoTFHEw32k0ERoaIqFF7yNZY+CBY84=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=oxlrjhUk; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=FhkX/Eg7; arc=fail smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: f6f07b104ee811efb5b96b43b535fdb4-20240731
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=qYI+EaK2/3BnBOv/cLo+YhfVGZrHG++cvhw/kFVP7kU=;
+	b=oxlrjhUk/419rBZY/RrgGN31w1DIMfdguZ97Ht4Z3eKrDMViSykqWlbS8dVgNg+W09ONMk9hSCBhKPqMOy0COSGA8jyMaEXyz17LHe+8U4SgFU/QlFS0w6infc57GjmguWsOwWm5YWG4yN+wT0hTmMHvve/7ZYk6eCyyRIX+u/o=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:e0ec4e49-c605-4533-a79c-f88f128f034d,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:a751ea45-a117-4f46-a956-71ffeac67bfa,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: f6f07b104ee811efb5b96b43b535fdb4-20240731
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
+	(envelope-from <ck.hu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1781203313; Wed, 31 Jul 2024 10:59:55 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 31 Jul 2024 10:59:54 +0800
+Received: from HK2PR02CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 31 Jul 2024 10:59:53 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c9uSL7oc+qs8ymMDmULMYRRt/hAf08J3mLcoPXTyhFpRmYYt9SmyHLrB1jF9OF2uJE+p9Qx5dIDAE3Ir6Ovmnp6Mfwcjwdm9uV45cv15AHZu1EDqv3Yg4hEJEm/PJ+QziMb+s1KTbzaSvHbmS4X/0EJfLndx2xDGvxomuQ3JzWJFXlHQdVW+G5XKD3pvrg9twK/SqaxvuENr1ProOEd6XOug9wA8pefDGRJLvKd1yAZWca9tPyMgFogVbxzSNZIz54UGu1MVGLKrkIGgUw486f3TbCqpi5FxN/MMk8QgdEkvMm052mj2idvin3ezbJSjUu74DnimwJ7az91RVLQtSA==
+ b=f39wQCSN7DI5jI/Ik6OYGIrsfi5vn9/RXQIpVavW+acMSKv7rYTKi/slC8IGC18leD5AMZNvFM58hZ4gc5WthtRNtOSYmb3vqSUsz5tUAlpbOISjfBZ26bbO2dlBPr2q57bkF9Y/qJFzpYwi0q/j3kMTrmChOjUZtzhKde0iKIeJHjKJAJHuFejxpNNRnvM6m9ng0ImjkPtoB2Yk8F9xm/TxMWFaGX2nBahPwjnAC6ns37nfrjo4t+cFZCcN1Vn3ddMrvoQioy6y1P//j60SBoXkc+Rdq0yn+xtu9gR0RuU/PRIQlVb3WsPem5qeyFOea3pu35sASh2mHuBv2+g4/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JpaFrK+6UpDrkn6uZpepRq7EXV6VnE8qa6BdH0m7ojE=;
- b=eJrA2GAelgljCRMsYpAwLmyKOA9HtbPSvHtL6ufAJJZ83IWaGf2QE+vMy+CzZTHMPhUEsMzZjk892U/F563rXPFR03ogTvgWR07dkmfzDYAl6JeFFR4ZVPuvBX7SxaLQ0xuUyzT+RRmD0zIPaEBDk9lNGTpwBHAH0EVdeZsm5/CWQsqzVAPq2RtCc9gOHoHaOcwO76NzfeyQeo014Ea9PALuK+O2htNV38EsFOLUHYiThfme2Jgqp67l31XpqOdyN6Gngst+35zJXA0IhlYgTp9mIeOY0ZCNpdJ+kdvM9aQ0pOXc5ZYt2fASnuLL7enTRaItyTzC7xcU3JUkye2v/Q==
+ bh=qYI+EaK2/3BnBOv/cLo+YhfVGZrHG++cvhw/kFVP7kU=;
+ b=yitaj9BE+yx9PxuOFscj0dSyJrGpCk1WoUpB8SplWSRJyWE8brFFMs71t8/u8URHFlX6aqXtJPd9ZtP1jSaNHGYtXbnupWUPo/wnZOxIdvwfcNC4qnMFr3LBxzZ/sjMBZUMEVS7P56liJUHQWHjvs78oOnAoBj5mmTmqAiHOFDoJ0kl4gCDgBMC5xyK7MT6drg8xqSuUh9UYu2GBREsl/buA9sLk+AdJfqje4uRuWPZKn+oOIfhGaB3vCfqhDqkOgMJrPZRov7CYlMRa702apYTCgl5mUly9R4M5Vs4iQhVQUPa7fNijkd6fpZ3zMskyslK+sW2WHjE5ki0tjTfsJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JpaFrK+6UpDrkn6uZpepRq7EXV6VnE8qa6BdH0m7ojE=;
- b=ZUTqNDJgo2Wg7v8iibAZiUOagUU3GIDnOQ3szkmxHRSpdllNGNhxvU7CFQpIIqB67KRI0nK8o/pqznUdQmVBzHSotaWPAQ6F2us/6TJagD0hVihrR+wC+kIDa/cdD3rg2NrR8ZIgh037cxrynhr+SNqeeKac62M+LkfQJGXDwWBAbFxbQMwIM6+K83PlKoA9lOJlkUDCDorzSAdJhfJMnYqLH7+5GCMX4ZkmGuz2yGYLaIpqSfIqkgcf5LfpKZ3PSUW2YqWqd6Ahg2b/dmm2W+yLn7fXvEyNQZmj1oSuSrZ6DBBW0nKOHhTOlCLw3CxXx/A7FmM6TkfzUUJoE2Tfvw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by OSQPR06MB7131.apcprd06.prod.outlook.com (2603:1096:604:29a::11) with
+ bh=qYI+EaK2/3BnBOv/cLo+YhfVGZrHG++cvhw/kFVP7kU=;
+ b=FhkX/Eg7XiDE+T9EfKqgWryqSw3R1RZ5KMFOBPwcRRn3M4m2D2EZIc2eU4jynUGtiU+rSPN1Z4/rtV4z2kNyN7lN45GR/RnqkMao64mbTu8KrmEJQHP/OHF3hQGc9vAS+IilYFAF6eiixsIs6SmodePlWlkgdxXJs2aNMDonL6A=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYSPR03MB7944.apcprd03.prod.outlook.com (2603:1096:400:47d::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7784.32; Wed, 31 Jul
- 2024 01:48:13 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7807.026; Wed, 31 Jul 2024
- 01:48:13 +0000
-Message-ID: <3ca3588a-fd09-4117-9f96-4d935e0295e5@vivo.com>
-Date: Wed, 31 Jul 2024 09:48:08 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-References: <20240730075755.10941-1-link@vivo.com>
- <d2f56198-a3c2-4f7b-9d10-616deb348351@amd.com>
- <966651c0-42fc-4827-bf3e-2170dcf4688c@vivo.com>
- <d5d7674b-eab3-465b-97eb-e33bdbecd7c0@amd.com>
- <79b51a8f-9c28-488b-9be7-b5ce715aa1f2@vivo.com>
- <d8529566-249d-4ae0-87fd-04cdc7e4e573@amd.com>
- <2d94446c-72d1-4c4d-b7e0-696767b98654@vivo.com>
- <06c7266f-8789-47fa-bb42-a18c9d15a87d@amd.com>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <06c7266f-8789-47fa-bb42-a18c9d15a87d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0006.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::11) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Wed, 31 Jul
+ 2024 02:59:51 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%4]) with mapi id 15.20.7807.026; Wed, 31 Jul 2024
+ 02:59:51 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "mchehab@kernel.org" <mchehab@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+	=?utf-8?B?QW5keSBIc2llaCAo6Kyd5pm655qTKQ==?= <Andy.Hsieh@mediatek.com>,
+	"jstephan@baylibre.com" <jstephan@baylibre.com>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "laurent.pinchart@ideasonboard.com"
+	<laurent.pinchart@ideasonboard.com>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "fsylvestre@baylibre.com"
+	<fsylvestre@baylibre.com>, "pnguyen@baylibre.com" <pnguyen@baylibre.com>
+Subject: Re: [PATCH v6 4/5] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 camsv
+Thread-Topic: [PATCH v6 4/5] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 camsv
+Thread-Index: AQHa4ce8pNnPk1UzTUirk9/L9Gb6lbIQJ9sA
+Date: Wed, 31 Jul 2024 02:59:51 +0000
+Message-ID: <6a7467cde347600015078fe7aa25c4b46c45e96d.camel@mediatek.com>
+References: <20240729-add-mtk-isp-3-0-support-v6-0-c374c9e0c672@baylibre.com>
+	 <20240729-add-mtk-isp-3-0-support-v6-4-c374c9e0c672@baylibre.com>
+In-Reply-To: <20240729-add-mtk-isp-3-0-support-v6-4-c374c9e0c672@baylibre.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYSPR03MB7944:EE_
+x-ms-office365-filtering-correlation-id: 6cdde1ef-4963-42f9-d15f-08dcb10cd88c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?aVdEOEFwWW9oaHYrRmo2QTVSQkZ6bWRkVzVYQWZ5d0hKU0hLcVhFWnZkcVJw?=
+ =?utf-8?B?Y2ZGcXh6NjFzVHlUUVQ1ZXZwZ1MvZTVueWNoNlp1WFVzM3IrUWo2TXdHeDhW?=
+ =?utf-8?B?SE5LSU5ueWJKQmVlSFZPUmIxU3c4ajV4c3pZaXBLcVF5a1EvNHZ5NWhBSEJG?=
+ =?utf-8?B?cDZRb0Q5ekVxYks3d0lxdHYvY0NseC9neXlJTmhvSEdDME9xWk5aWkM2VVMy?=
+ =?utf-8?B?TGwvYld4aVVwMUNTcmZVREF0Sy9YM2tuaUNlS0tPMVRPWTVDdy83ZEVOa2Jz?=
+ =?utf-8?B?Qnc1OWRnUW1KQXdmaTJjaXZtYXAwTFkzTlJMWmhHMUw5S3VlcnlXdGFKb21m?=
+ =?utf-8?B?WHRFNXlZbjBOTFZLejROZEJ6cWJaMmdXSGhVMzM0S3FtZW9jbHJoLzVzQk85?=
+ =?utf-8?B?TS9zYm9FUjg2SGQxcEU1clRZWUd2cmJiSXdVNVNYblZVUU9uQkZ0SFlQN25v?=
+ =?utf-8?B?Rlk5aDdQbVhDZUVqREFNUFdBTmNvbXNXZ0VOajQxcWdkTjNpYzVyTVBwMDVk?=
+ =?utf-8?B?aUcxcWtqaGxBUWcrUndMOG9EYUt3OW1BaWVFLzAvNzZxR1B3dng3VHdIZGsw?=
+ =?utf-8?B?U0s2RGZrNmR1WGJFbFZEcHBxRHloRzViWWY3VEhwb1piWjMvNGRwQXdLcm5r?=
+ =?utf-8?B?VjN3ZzZmcHhPTG1aUDArbjdjek5pUzUwbHdZYmRrdjR1QXN0WTlJeVZzVmll?=
+ =?utf-8?B?em5ubDJSRFhTYURuMnkvd3BjL1d3QWZ4WElWdEpGOWRhRHNYdzl4cW83NVhB?=
+ =?utf-8?B?WjdScUoyZURTZS9UTklib3dlcFpNeS9LWWdwUkxybWpSY1I0c3ZiMGx4Qk91?=
+ =?utf-8?B?STNTUVk3N24zZGVNUjFuM2xZa3UvcjYrUmxEcDNMRVk0RjhSbm44VFkycEJM?=
+ =?utf-8?B?SVRpQmk2Yzk4UWQ4Vk9FTGtkVjVnR0xjNURLOEs2YmFOd1pZVXQ4ZGNaNEpN?=
+ =?utf-8?B?dmp0ZFFmVUxOemtIeGFaYTJMc0JMOTJKNjFmUWtVekhGeFVsaHJsRC93bG9G?=
+ =?utf-8?B?NmVienBvNGExb00wdDdqWEJrYnpxQnQ2TG1vcC9MOEFCTUpyOFZ2MGJ6SDhR?=
+ =?utf-8?B?T052VmZySFBiNWoyc0tBYVM4c0M5TEhmR1ZDdW0vRERYaDR3YXBZWDA2U3I5?=
+ =?utf-8?B?aS9QeUxTMFdLamFBbVJVL1pkQ0sva0VSOWZMVmgvSXlISXpWVXZRRHdOK05m?=
+ =?utf-8?B?QmJhRTZHUnJBZDhIYUlBZUl6OC95TFMxTUkvNy95c0RKbnF5OFVNaisvQWQ1?=
+ =?utf-8?B?YkJGVGFLODZ6bkxQK3RrTE5FV21aUlhiU2J1c1dVRE1tS2RoS1pnUElKazAw?=
+ =?utf-8?B?OW53YjNVNWtKQjBuaWhncEdQMEgrWGJSZmF3UHBuMU53UGZZYlRnOUZ1VmdU?=
+ =?utf-8?B?cCtWN0dJWXN1ZTZCblgvMmZHT0cyQzI2b1VlQlplbXpqZmhOSERCYWI3bDVp?=
+ =?utf-8?B?MnNZek1QQzFVRWFBK2VxekNabVE0QjcwY240L0wwV3U3SndUM2hRQW5zcUc3?=
+ =?utf-8?B?M0QyS0VaVXUwSUpicjV1TnlHeUQ0L2dqSW44enRHTmhkcVVvM1hxN2FyY0Zt?=
+ =?utf-8?B?TkxLL214dWlQL3k0UVh6bFJleWJCdVlKdVlWbG8wd2tIWDVNWmsvV21vQStW?=
+ =?utf-8?B?Y05ZU0FnbmZXd1Ywb283a0l6Q2QzSmVNOE5MSmdIWkJzMnRZTFhidHZvelM3?=
+ =?utf-8?B?ZGJGZjRPakp0TjJQcmI0OGtTUXFTWnBVTnZmNGwvbWFIaXNMQytxMXBIWGFL?=
+ =?utf-8?B?ZGdiV0hhcjJsMWcrSDFNNU5nU0d0OUpSZFNyT3UrcU9kazNkRy9qQnRtZ1RP?=
+ =?utf-8?B?MGJuRUE5dFhkamhMVEpzbloveTNqUDRMcUk5bHU1OHdCYlcwdkhzWFdHNUxh?=
+ =?utf-8?B?RnlqNzl6UkFjWXdPN1dQOUFmanJEMy83dmYwOWdNMG5aRkE9PQ==?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6624.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QWQxTXUxVnp3MTNHeVlWMnl3K1IwWDFSZ0VUUC9tUURJWFEwQlI0OERoUzlC?=
+ =?utf-8?B?aDZPaEtUYklUbFkwVWlNd2lGZm1oYlBMdzFXKzlLd25mZ1ptdStvOG91dzhE?=
+ =?utf-8?B?cUJDWHJPZUpJRUhaQUk5WmJla3FEVkhzdWs0OHZ3UTdvbkkxaUVrS0JweU1F?=
+ =?utf-8?B?Ykwyd0dMRjFNWkdVVmZpYVZHVVBSemhKcXErLzBjSXdYZ2tzNEQ0RzBYdWtx?=
+ =?utf-8?B?YzI4YVEvZDd2V1lweEtLaG5UeXlwZVhRSmlRK2drK002T0JJVjV1blA1UldL?=
+ =?utf-8?B?ZDdXcEVRV2hFU1RKVXBDK2xRK25WRHA4YWl0T01MK3BaTjBFa3ZNcGx3d3A0?=
+ =?utf-8?B?TjlPS2ZDUXpXcHZGejRwS2tGZ0FpYmZqNFdaMUhsay81TWd4ZDRod2lFek5F?=
+ =?utf-8?B?TXkyQ2RPREYwZStURjYyUGJKSnBPdTRjdEh4d1RDTituaERLSHBwOC8rMkxJ?=
+ =?utf-8?B?OU82aU53U29PUkZSbjFGZ3JvYXkxYm9aRTh0QVAwQmRKUW5jTERwWWZHS0Zp?=
+ =?utf-8?B?TVozYWJia1dndjdLbFlKVzhmb1FyeENycEpvdjU2OThMa0ZBbUxJM3o4OFFW?=
+ =?utf-8?B?a09pQWRBZ3JydGt3L2owRHRpZ3UxWnhiTGpkNlRaTFFNQTc3endPT2dSWXF0?=
+ =?utf-8?B?bGVNSHJrMEROMEVHWGdZY0R3Z1Q2MmRibjh4amVFYWZFWUxaS21EWDNDMkwr?=
+ =?utf-8?B?SkNnUEl2YlJsVzBUamExSkVYYTdJZHFwY20zc1NOQ3hLcitMc3dVczZSNUtj?=
+ =?utf-8?B?NGNVeHUrMms1VTd6Vi9zU3RXREdNNHliYjhWSHhHSWFadmJIU09iOGVSYnlW?=
+ =?utf-8?B?eEo2eUJieUd3dWE4NTNUcUNuQUxTR1c1TTJYVHFUTG9NYnd2M0FxeGdNV0Zh?=
+ =?utf-8?B?WnFoMEtTV1FIenpuYXRZbWx0cTV6N0xCTTVmVGtLa085aVIxaUp3ZXNhUm1H?=
+ =?utf-8?B?T1ZtdStGcWcvOHR1UG0wY0pXWGlPY1hMWm1EMlNqLzNyZFR2cXVoZXJxdDJp?=
+ =?utf-8?B?ZkI3WTJOMGtUY2V4VzE0WWN5QlpqNHY1WHFRN2wzYWQ5YkkvUXRvN1gzZytp?=
+ =?utf-8?B?RjFHMmF5MlI4LzZOUVd4dVdRQzR3Zm9CZXF6NDFXNnpLUXpBT2kwWnl4ZjZQ?=
+ =?utf-8?B?dklLMW4xL1YyN2FLa0MydElCN0xvb09lc3ArL0R5SU5qNFN3cWxlZVduQnFl?=
+ =?utf-8?B?UlZEN29FbEFyeG1OalV0WkZRODQ5NE1mUWF6TE1LdWg1YnZHYlQ0ZmF6bk1x?=
+ =?utf-8?B?Q3dOL3FubnAyZ3dyWVRQeFJXTm9ERWRxbW5yRlJ2QWlLRUFoMEpJWUhUU3JQ?=
+ =?utf-8?B?RVpoZjRRU3BVMnkrMzhlU2YwdGNTVFp0Y1k5SytzOXZyOWgxdDEzN2hQcDRC?=
+ =?utf-8?B?U2FOd2FRTlliOGhxeU14MHFxeFRTa2hqdWY4VE42Qkd2SzlGeHRYaGNUUTBH?=
+ =?utf-8?B?Q01rNklscEJYc2NYUExVbXJabStGWktLTmJPWFRFemZKM2x3REFWMHh2YmdR?=
+ =?utf-8?B?dWFNQmU4b0ZrQjRMQ1p0Tis5RHNlc2lzQ25ER3BXZDUzSStkTVlvVjlWaEVO?=
+ =?utf-8?B?TkhxVmU3anlLNEZkQmFoaC9kZkdYWlkrSHBEMXo3TmhmRkVVVjVMQVprcEJZ?=
+ =?utf-8?B?TGljR0NKTEg4anZwd2Z6QllQbGpjbHhiSldWVTBxZkJzdjIzeTM5L2pKbGVM?=
+ =?utf-8?B?Y1lkcjFvN2cyMy8rdFpqVlk5Ty9ZZDB3d3lXMEVkQmxzckdScVQ5ck5oeUR0?=
+ =?utf-8?B?MTVyRk9IYXVsQUc1Wk50blJhRkNFOVJtUDA2QWZRcUxZSWpzZWd5MFQ4K0hR?=
+ =?utf-8?B?d1Bnd0dsZmxETmJ0SUt5b3NJQnJ1VitRUGhEZjR6MTFnQnBHZU1GOWxxQVNh?=
+ =?utf-8?B?UnhrZXBjaklSNE9saDJ4VHNBWUVTTmorTkJ0Y3hDRmZnS0ZSR2xSRHJTQWVP?=
+ =?utf-8?B?dU02K2ZWL1FURHFrY1QvVXZ5Y1c2Ty91bmk1MXJQWURrcG55MUZpUzRobW1R?=
+ =?utf-8?B?ZlJIdXA2TDd3S3JrS2RreWRrSTV2bnlDV2I4VzlkbjZLWTY2UGVOd1FFdHFK?=
+ =?utf-8?B?NU9wMm5zRVJFM2tQandpN1NGSHBSK3hySXVQbWFxRzFldi81dDhrc2JCaGdw?=
+ =?utf-8?Q?jO3OF4Z6TGfrO673WW9W7RkO2?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <44717E0FBEABB742BDB5DF101D63081F@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|OSQPR06MB7131:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55f92d10-cf2b-4504-82b2-08dcb102d6b4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|1800799024|7416014|366016|376014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RThzeDVyNW04alZpbjBTM2tYNW1DemR1SnQ2WWVHSmlKeURWbjlZWXNQQW1l?=
- =?utf-8?B?Qkd3RUcrYkszSTFWSXhLMnVUajc2SzZPOUFzbjRGT3JCeVZlMFpJY2tETlN2?=
- =?utf-8?B?aDNFWEpLYkFGOGlrZFJ4S2lVTWJtRHlQckRuY21Uek93bFpWa0poRG5GRHNU?=
- =?utf-8?B?TlRCOUdsSGc3MUZ3cU1MS29uN1VIR2RyNVRiaFFIbWl5alNBeFVOTXd5MXli?=
- =?utf-8?B?OUsrVnhCdjhZS3RlaUpBaUNTbFAzRlFxN0tXa2EwTzJVTy9ONlQ1ZjFLSzRw?=
- =?utf-8?B?WjB6L2tBV2xJSUprVnVwVHNVRVVzZnpiaWtHOWM3L0lDUG9DYS9TVWJXblRZ?=
- =?utf-8?B?eWFDQW9wMWlCdjY1SEo3M2VqZ2svNGRLL3BWaEpSZVhXcTMvRi9NU2VHdXFh?=
- =?utf-8?B?TWxvTW9CZnhFNytZQkg3Rytoc0FwekFHL1J3dFZTbGx6dHpQbExDamhrNldY?=
- =?utf-8?B?R1habVlxSmU2MHdLRlo0REsvVk53ell1N0dIS1NUU2ZkbTU3ek5pMHZPRkw2?=
- =?utf-8?B?b0VIdnp1VXhmQkNySm96UjVlSnBya3JXTldza0R2eGY4dUNSaDNHWGVwSXNt?=
- =?utf-8?B?TUgzV254WFkyb25HY0liYjVuVlhpdWZuTk9Rc1RaMTFDRXpoaFNBa2kvMXBY?=
- =?utf-8?B?a205eDAxdjNXODM3U2FxQytkWFExSjhSYm9vc3BHU3RVak5DRk5hOExYaVZB?=
- =?utf-8?B?ZTZudFFZdVBUSXdoem0wbmYyRFpINUVPeTBNUGhUVkhZQ1pFWE5jc2U3ZGNn?=
- =?utf-8?B?Nk1tUEFxdUtMUUV2M0lvSzVoa2JESWVtNlRGNG5tWnBBWTZ0TTNZdG0zcmxv?=
- =?utf-8?B?VU90YmMyTTdRU1ZNYnNzeVExazdHdkZ5L2NEbTMxQW1ZVUpuNnpwenc4R0dh?=
- =?utf-8?B?NkxUN3hPajZvdWRUTTZyVDVOeTFvVmh0NHdUeGh4MlB4K0ZUVWpmSjJYeUdr?=
- =?utf-8?B?b3pHWDRsYllCaVdHOXBtcjVsMzBmNElHV1pWL3QxTnVrRk1PQXBoZlVhR1Fy?=
- =?utf-8?B?WmdZZFlyZFRZU2ZQMVQ1d0FFZHlWbHZ3UTdNc0xFVWdSVE9wNFF2MnpXMFBt?=
- =?utf-8?B?YXNsRFByUk4weDMzTktQZGc0RnBqbVdLOVNaM05FcFI3OEhuaGplVDBQS3FH?=
- =?utf-8?B?SWlYR04yWDJVWkdKUlc0cysydW1NcGZtMHJpUlhDSW9nWHBSbEkrQUNwRHgw?=
- =?utf-8?B?MThJVXNkZVlsY0RhSFV6WFc3eTdLR21waTlNc2J6SExyS21lZVMvaHdpUTRq?=
- =?utf-8?B?S3E1VjZkNFNoYmQ2V3FsVnVJcCtRVndZSFozNVJWQ3NUdDdGRk9UVlNQallX?=
- =?utf-8?B?K0d6NEpGZXQ0U2NBUmw4b1BDTm4wTENLZHFUNW1MU0VLWmNSeUZReUUvcWgy?=
- =?utf-8?B?Y25YWkpDeUZrM3ZEUDI4YzFkTUlLTFJVTEtkMVU2QmQzT2dTQVcxOGdKOHpn?=
- =?utf-8?B?Q29hdnI4N1RVa284YzZZVXg2T0ltcTdrOXN5OERUY01QbmhBQU5kMk9BNXNF?=
- =?utf-8?B?T0NQVTVMUXpvTTgyRC9OSkRYdWE4Z0l5WlJPMmpPOXV0Nkt2eFZ4bVdqTENV?=
- =?utf-8?B?SjFINWNDU1RKKzkrRnpSRG52K3JaK2JUSWtFaTZTMFdjbXdNYzJRSzduT3N0?=
- =?utf-8?B?eFRldGpKZkwwa1Fvdm1HWUZqQ0hEWG9FblRlZklOdWVRZFJpZHpWTmhRa2h0?=
- =?utf-8?B?NVZab2J6Z3ZUWkgwbW9SSlIxUzNWRHRadGJtaEVnNXlDdFg5UjFmRGhLd3R2?=
- =?utf-8?B?MFdLT2JVc2Q2SmV0c1NIWkpINzRRaXlweEFrQTNWK3dUZ2VFcVdaU2xKYkZz?=
- =?utf-8?Q?8Ga1Chx+0K1a9rNUCLpPjKLDIlUuodNvAfBag=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(7416014)(366016)(376014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UElmYm9qVUcvWlE2TCtuSFBScTdOeWg0WlJZR3FkcVkvbzhtZjltVjN5cGQ1?=
- =?utf-8?B?b004LzhxeTF4K0FFT2toakNNQ21CMDRzRlE2ZGVMMEM0OGF6WnFBYVRla3lq?=
- =?utf-8?B?ajJPWjE4Rkt2SGY2YVJ1UHoyZEFlcWw3SlJsS0VGWjB3MXlXZXJZUHlIUHUx?=
- =?utf-8?B?Z3g2YURJcjd2alJNWGtFb1VrVGgrU0JMSlZtOU1JeEEwT3UyZitmK1BkbWpN?=
- =?utf-8?B?WWx1dmM0ZTM3SG5vTlNScHpmMktsME1KRGhaTm9nNTZIa01GYk9lLzV1RXNy?=
- =?utf-8?B?SENSaUs3VnBteGphbmYxSnNJYXkyVi96RFBTUmdGNlBTYSsycGYxZnJveFRL?=
- =?utf-8?B?T3doQ1RNU01WU1dBbTJKbmpXc2Qrbm0vdCszdkFFSk5NWXRMQXdpb3pwVVBK?=
- =?utf-8?B?LzVob2x2djRoOGNlVkdSZzhiaXlBbzhadmZ2Qm8vY09QQjk3OHpIbWpwcUpw?=
- =?utf-8?B?K2J1Yld5V1dLbEx6Mlk3eXdhV2VlL1NOTEwwTEovTkhFT1V1c3JnRTloeXhD?=
- =?utf-8?B?TitTb1Y5NWtxOEhZOFBvbEVzUjQwd25mQW95SWI2NjdValJUSEYxbzdENmlT?=
- =?utf-8?B?TmNJQlhmeFZrVVo1VVJieU4vanQraEhWY3dYY0tXMVp2WmhYQ3ltM1F1Y1Bp?=
- =?utf-8?B?Zy9vNTVmcDBuZ2xFdkRaSzVPZ0xXQVZGQTJ4ak5laEQrYXlYdWVyd2FmanFT?=
- =?utf-8?B?UXBzRmc2WWtaWGZ6OFpPL1MvQzJRN3pvMXNSNmoranpHVWVoYVlHTTFnMmNR?=
- =?utf-8?B?UHYvbVFERDByZEx2R2ZtZHgweHcrYTVLcGZkOWYwaXlPekR1WWZUM3UvTC85?=
- =?utf-8?B?SzhKb1JudkoxYlRnMnhDSEg5Q2ZkNDFnUXpNeTZmVkZxeWRPZG52dXIvNGpx?=
- =?utf-8?B?WGxOVGc0STd0dDRHYlY0dG5HVitscjZnVUUxS1JSNnlkQlErNG5nUEFRN2c2?=
- =?utf-8?B?aENsTC9iQmtOQ0xRR0hScGYyYy9HTWx5a3Mwb1h5ODBlbFNQNVU1K1IxTjFP?=
- =?utf-8?B?RjNoZEZMbEErblBvd250TGJqWmNtQkp5S1hlVWhDZ1JseWlLVHlKaXBGWlJB?=
- =?utf-8?B?ZkwyY3oyQjJKVUo1ZDg2SG82WmgrVk5zS2RDVHd5aUZvRGcrRmtUVTVsT3BX?=
- =?utf-8?B?Yk41V3F1VDJyL2VQaFpnMGJraGVwK2ttcUUwN2tWQU5wRnd3alJUS2dlNkhH?=
- =?utf-8?B?N1UrUTJHcm96Z2l4NDhJa1hwZVkwYllxTG5DdndPR0JVdU0xcHhpTm1xNFpz?=
- =?utf-8?B?eG96T3o4cFZKN3F0QXdVWFA3dkhXb2t3cm94TVZOWk5rR2NTTDBvY05NdnEy?=
- =?utf-8?B?dzVCWWxRM09PTkJFeDJEU2hwWE9YSzFoSkZBZHI1VGZXTm9nN3grbkMwYll1?=
- =?utf-8?B?QldaNmxPU2ZTZmpKUS91NnRQL3M5LytpNk9ZaDFsaVhKcUc1aC9keW5tb0tn?=
- =?utf-8?B?VElqR0RPNTkxbDgxTzV3SWdRQW8rYTQyVEduSnFiVE1UNUF1UVk2UW81SUlo?=
- =?utf-8?B?VUVVaGFKbGZ6dXcvSkNJUyt6Z1BvcHhYSndNcUZwa0ZDSmRLTEoxT3U5MU1V?=
- =?utf-8?B?dmVjazBjbVEzUXpZYS9hR0tGQ09ueWtMQVZFYWZxVExCTEpvd1ZrUi9PcmEr?=
- =?utf-8?B?Z1A2OWZMcTlibGU0MjVDSGt1UGsvUGlicjZ6ZWxkTkNVMWR4Q0lvM0Z1MndC?=
- =?utf-8?B?MmdSMVlNbFdjelRBdzdpSzZ6RzB6dkFYUmVUVlRrY2NCYzhseGFHcGNRbmo3?=
- =?utf-8?B?T0lSSWJ6eUxRQS80RU5TWnArbDhYNjd2bEpmR3ljTUcwSENIWnJBblg5Qmw1?=
- =?utf-8?B?bkd0UDcrZFNoM290dHhqaEpPMTdEdTVHN3pnbWkyYTJuazV3Q0JNK3RnYlhv?=
- =?utf-8?B?dm9lRHNhY0kwb1BudW9iWi95b1E2WWFnNFZpd1ZnYytWam03NVc4UnVZV2NI?=
- =?utf-8?B?R3phZEIvZTZ1a240cmRNc0hsQm52emhzejRQb1h2MXZIM3RDQVQzZmxhOUpM?=
- =?utf-8?B?M3dzWTZkNVJ4UG1LWmQ3V1htS0xSWGltQmVhSUU3R1c3eGN6QWt2dElaeFFJ?=
- =?utf-8?B?eGdBSXREdEFkdFM1aTlQcWdBblZrQS9MdlN0U0k5RTVmMGpRdVZ4SzlBWWVl?=
- =?utf-8?Q?GroEoa3srtHvHR6clJT3Zajnu?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55f92d10-cf2b-4504-82b2-08dcb102d6b4
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2024 01:48:13.1537
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cdde1ef-4963-42f9-d15f-08dcb10cd88c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2024 02:59:51.0470
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aJZtSEyw92OKo46cE+zdpfrmFeJMDjLt3lzbj3/CA+awE9UAwEfGuoNGZrqEJfE5lEM2MzRnQeCfvaK4SbvdWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7131
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +5S8pek2BTFV+9crfIKVp0oHmBwOmpSNF7pJa6n6oqI1FzZHWY+RhVdetvtpqiYEDQd682X3AZcnGWHj2jrXKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB7944
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--19.678100-8.000000
+X-TMASE-MatchedRID: 9zTThWtzImv4OiVTWoD8RCa1MaKuob8PCJpCCsn6HCHBnyal/eRn3gzR
+	CsGHURLuwpcJm2NYlPAF6GY0Fb6yCkttpN+KVVd9syNb+yeIRAq19kcMOF8gV9nH6NX3JoGqItL
+	8M7QRoxdWYmumQvMouQ81SqsdNAtCLZbtj42l31EjRwcsjqWGAkDwlkRNC6PC3flwJkfHHUCjxY
+	yRBa/qJRVHsNBZf9aRAYt5KiTiutkLbigRnpKlKT4yqD4LKu3A
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--19.678100-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	621671C088EEF15CE1F8667B8B4391A275E3E032B9A2134B6D5BDA105964D6BC2000:8
 
-
-在 2024/7/30 21:11, Christian König 写道:
-> Am 30.07.24 um 13:36 schrieb Huan Yang:
->>>>> Either drop the whole approach or change udmabuf to do what you 
->>>>> want to do.
->>>> OK, if so, do I need to send a patch to make dma-buf support sendfile?
->>>
->>> Well the udmabuf approach doesn't need to use sendfile, so no.
->>
->> Get it, I'll not send again.
->>
->> About udmabuf, I test find it can't support larget find read due to 
->> page array alloc.
->>
->> I already upload this patch, but do not recive answer.
->>
->> https://lore.kernel.org/all/20240725021349.580574-1-link@vivo.com/ 
->>
->>
->> Is there anything wrong with my understanding of it?
->
-> No, that patch was totally fine. Not getting a response is usually 
-> something good.
->
-> In other words when maintainer see something which won't work at all 
-> they immediately react, but when nobody complains it usually means you 
-> are on the right track.
-Thank you for your answer.
->
-> As long as nobody has any good arguments against it I'm happy to take 
-> that one upstream through drm-misc-next immediately since it's clearly 
-> a stand a lone improvement on it's own.
-
-OK, well to know this.
-
-Thank you
-
->
-> Regards,
-> Christian.
->
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>>>
->>>>> Apart from that I don't see a doable way which can be accepted 
->>>>> into the kernel.
->>>> Thanks for your suggestion.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>>>
->>>>>>> Regards,
->>>>>>> Christian.
->>>>>>>
->>>>>>>>
->>>>>>>> Patch 1 implement it.
->>>>>>>>
->>>>>>>> Patch 2-5 provides an approach for performance improvement.
->>>>>>>>
->>>>>>>> The DMA_HEAP_ALLOC_AND_READ_FILE heap flag patch enables us to
->>>>>>>> synchronously read files using direct I/O.
->>>>>>>>
->>>>>>>> This approach helps to save CPU copying and avoid a certain 
->>>>>>>> degree of
->>>>>>>> memory thrashing (page cache generation and reclamation)
->>>>>>>>
->>>>>>>> When dealing with large file sizes, the benefits of this 
->>>>>>>> approach become
->>>>>>>> particularly significant.
->>>>>>>>
->>>>>>>> However, there are currently some methods that can improve 
->>>>>>>> performance,
->>>>>>>> not just save system resources:
->>>>>>>>
->>>>>>>> Due to the large file size, for example, a AI 7B model of 
->>>>>>>> around 3.4GB, the
->>>>>>>> time taken to allocate DMA-BUF memory will be relatively long. 
->>>>>>>> Waiting
->>>>>>>> for the allocation to complete before reading the file will add 
->>>>>>>> to the
->>>>>>>> overall time consumption. Therefore, the total time for DMA-BUF
->>>>>>>> allocation and file read can be calculated using the formula
->>>>>>>>     T(total) = T(alloc) + T(I/O)
->>>>>>>>
->>>>>>>> However, if we change our approach, we don't necessarily need 
->>>>>>>> to wait
->>>>>>>> for the DMA-BUF allocation to complete before initiating I/O. 
->>>>>>>> In fact,
->>>>>>>> during the allocation process, we already hold a portion of the 
->>>>>>>> page,
->>>>>>>> which means that waiting for subsequent page allocations to 
->>>>>>>> complete
->>>>>>>> before carrying out file reads is actually unfair to the pages 
->>>>>>>> that have
->>>>>>>> already been allocated.
->>>>>>>>
->>>>>>>> The allocation of pages is sequential, and the reading of the 
->>>>>>>> file is
->>>>>>>> also sequential, with the content and size corresponding to the 
->>>>>>>> file.
->>>>>>>> This means that the memory location for each page, which holds the
->>>>>>>> content of a specific position in the file, can be determined 
->>>>>>>> at the
->>>>>>>> time of allocation.
->>>>>>>>
->>>>>>>> However, to fully leverage I/O performance, it is best to wait and
->>>>>>>> gather a certain number of pages before initiating batch 
->>>>>>>> processing.
->>>>>>>>
->>>>>>>> The default gather size is 128MB. So, ever gathered can see as 
->>>>>>>> a file read
->>>>>>>> work, it maps the gather page to the vmalloc area to obtain a 
->>>>>>>> continuous
->>>>>>>> virtual address, which is used as a buffer to store the 
->>>>>>>> contents of the
->>>>>>>> corresponding file. So, if using direct I/O to read a file, the 
->>>>>>>> file
->>>>>>>> content will be written directly to the corresponding dma-buf 
->>>>>>>> buffer memory
->>>>>>>> without any additional copying.(compare to pipe buffer.)
->>>>>>>>
->>>>>>>> Consider other ways to read into dma-buf. If we assume reading 
->>>>>>>> after mmap
->>>>>>>> dma-buf, we need to map the pages of the dma-buf to the user 
->>>>>>>> virtual
->>>>>>>> address space. Also, udmabuf memfd need do this operations too.
->>>>>>>> Even if we support sendfile, the file copy also need buffer, 
->>>>>>>> you must
->>>>>>>> setup it.
->>>>>>>> So, mapping pages to the vmalloc area does not incur any 
->>>>>>>> additional
->>>>>>>> performance overhead compared to other methods.[6]
->>>>>>>>
->>>>>>>> Certainly, the administrator can also modify the gather size 
->>>>>>>> through patch5.
->>>>>>>>
->>>>>>>> The formula for the time taken for system_heap buffer 
->>>>>>>> allocation and
->>>>>>>> file reading through async_read is as follows:
->>>>>>>>
->>>>>>>>    T(total) = T(first gather page) + Max(T(remain alloc), T(I/O))
->>>>>>>>
->>>>>>>> Compared to the synchronous read:
->>>>>>>>    T(total) = T(alloc) + T(I/O)
->>>>>>>>
->>>>>>>> If the allocation time or I/O time is long, the time difference 
->>>>>>>> will be
->>>>>>>> covered by the maximum value between the allocation and I/O. 
->>>>>>>> The other
->>>>>>>> party will be concealed.
->>>>>>>>
->>>>>>>> Therefore, the larger the size of the file that needs to be 
->>>>>>>> read, the
->>>>>>>> greater the corresponding benefits will be.
->>>>>>>>
->>>>>>>> How to use
->>>>>>>> ===
->>>>>>>> Consider the current pathway for loading model files into DMA-BUF:
->>>>>>>>    1. open dma-heap, get heap fd
->>>>>>>>    2. open file, get file_fd(can't use O_DIRECT)
->>>>>>>>    3. use file len to allocate dma-buf, get dma-buf fd
->>>>>>>>    4. mmap dma-buf fd, get vaddr
->>>>>>>>    5. read(file_fd, vaddr, file_size) into dma-buf pages
->>>>>>>>    6. share, attach, whatever you want
->>>>>>>>
->>>>>>>> Use DMA_HEAP_ALLOC_AND_READ_FILE JUST a little change:
->>>>>>>>    1. open dma-heap, get heap fd
->>>>>>>>    2. open file, get file_fd(buffer/direct)
->>>>>>>>    3. allocate dma-buf with DMA_HEAP_ALLOC_AND_READ_FILE heap 
->>>>>>>> flag, set file_fd
->>>>>>>>       instead of len. get dma-buf fd(contains file content)
->>>>>>>>    4. share, attach, whatever you want
->>>>>>>>
->>>>>>>> So, test it is easy.
->>>>>>>>
->>>>>>>> How to test
->>>>>>>> ===
->>>>>>>> The performance comparison will be conducted for the following 
->>>>>>>> scenarios:
->>>>>>>>    1. normal
->>>>>>>>    2. udmabuf with [3] patch
->>>>>>>>    3. sendfile
->>>>>>>>    4. only patch 1
->>>>>>>>    5. patch1 - patch4.
->>>>>>>>
->>>>>>>> normal:
->>>>>>>>    1. open dma-heap, get heap fd
->>>>>>>>    2. open file, get file_fd(can't use O_DIRECT)
->>>>>>>>    3. use file len to allocate dma-buf, get dma-buf fd
->>>>>>>>    4. mmap dma-buf fd, get vaddr
->>>>>>>>    5. read(file_fd, vaddr, file_size) into dma-buf pages
->>>>>>>>    6. share, attach, whatever you want
->>>>>>>>
->>>>>>>> UDMA-BUF step:
->>>>>>>>    1. memfd_create
->>>>>>>>    2. open file(buffer/direct)
->>>>>>>>    3. udmabuf create
->>>>>>>>    4. mmap memfd
->>>>>>>>    5. read file into memfd vaddr
->>>>>>>>
->>>>>>>> Sendfile step(need suit splice_write/write_iter, just use to 
->>>>>>>> compare):
->>>>>>>>    1. open dma-heap, get heap fd
->>>>>>>>    2. open file, get file_fd(buffer/direct)
->>>>>>>>    3. use file len to allocate dma-buf, get dma-buf fd
->>>>>>>>    4. sendfile file_fd to dma-buf fd
->>>>>>>>    6. share, attach, whatever you want
->>>>>>>>
->>>>>>>> patch1/patch1-4:
->>>>>>>>    1. open dma-heap, get heap fd
->>>>>>>>    2. open file, get file_fd(buffer/direct)
->>>>>>>>    3. allocate dma-buf with DMA_HEAP_ALLOC_AND_READ_FILE heap 
->>>>>>>> flag, set file_fd
->>>>>>>>       instead of len. get dma-buf fd(contains file content)
->>>>>>>>    4. share, attach, whatever you want
->>>>>>>>
->>>>>>>> You can create a file to test it. Compare the performance gap 
->>>>>>>> between the two.
->>>>>>>> It is best to compare the differences in file size from KB to 
->>>>>>>> MB to GB.
->>>>>>>>
->>>>>>>> The following test data will compare the performance 
->>>>>>>> differences between 512KB,
->>>>>>>> 8MB, 1GB, and 3GB under various scenarios.
->>>>>>>>
->>>>>>>> Performance Test
->>>>>>>> ===
->>>>>>>>    12G RAM phone
->>>>>>>>    UFS4.0(the maximum speed is 4GB/s. ),
->>>>>>>>    f2fs
->>>>>>>>    kernel 6.1 with patch[7] (or else, can't support kvec direct 
->>>>>>>> I/O read.)
->>>>>>>>    no memory pressure.
->>>>>>>>    drop_cache is used for each test.
->>>>>>>>
->>>>>>>> The average of 5 test results:
->>>>>>>> | scheme-size         | 512KB(ns)  | 8MB(ns)    | 1GB(ns) | 
->>>>>>>> 3GB(ns)       |
->>>>>>>> | ------------------- | ---------- | ---------- | ------------- 
->>>>>>>> | ------------- |
->>>>>>>> | normal              | 2,790,861  | 14,535,784 | 1,520,790,492 
->>>>>>>> | 3,332,438,754 |
->>>>>>>> | udmabuf buffer I/O  | 1,704,046  | 11,313,476 | 821,348,000 | 
->>>>>>>> 2,108,419,923 |
->>>>>>>> | sendfile buffer I/O | 3,261,261  | 12,112,292 | 1,565,939,938 
->>>>>>>> | 3,062,052,984 |
->>>>>>>> | patch1-4 buffer I/O | 2,064,538  | 10,771,474 | 986,338,800 | 
->>>>>>>> 2,187,570,861 |
->>>>>>>> | sendfile direct I/O | 12,844,231 | 37,883,938 | 5,110,299,184 
->>>>>>>> | 9,777,661,077 |
->>>>>>>> | patch1 direct I/O   | 813,215    | 6,962,092  | 2,364,211,877 
->>>>>>>> | 5,648,897,554 |
->>>>>>>> | udmabuf direct I/O  | 1,289,554  | 8,968,138  | 921,480,784 | 
->>>>>>>> 2,158,305,738 |
->>>>>>>> | patch1-4 direct I/O | 1,957,661  | 6,581,999  | 520,003,538 | 
->>>>>>>> 1,400,006,107 |
->>>>>>
->>>>>> With this test, sendfile can't give a good help base on pipe buffer.
->>>>>>
->>>>>> udmabuf is good, but I think our oem driver can't suit it. (And, 
->>>>>> AOSP do not open this feature)
->>>>>>
->>>>>>
->>>>>> Anyway, I am sending this patchset in the hope of further 
->>>>>> discussion.
->>>>>>
->>>>>> Thanks.
->>>>>>
->>>>>>>>
->>>>>>>> So, based on the test results:
->>>>>>>>
->>>>>>>> When the file is large, the patchset has the highest performance.
->>>>>>>> Compared to normal, patchset is a 50% improvement;
->>>>>>>> Compared to normal, patch1 only showed a degradation of 41%.
->>>>>>>> patch1 typical performance breakdown is as follows:
->>>>>>>>    1. alloc cost 188,802,693 ns
->>>>>>>>    2. vmap cost 42,491,385 ns
->>>>>>>>    3. file read cost 4,180,876,702 ns
->>>>>>>> Therefore, directly performing a single direct I/O read on a 
->>>>>>>> large file
->>>>>>>> may not be the most optimal way for performance.
->>>>>>>>
->>>>>>>> The performance of direct I/O implemented by the sendfile 
->>>>>>>> method is the worst.
->>>>>>>>
->>>>>>>> When file size is small, The difference in performance is not
->>>>>>>> significant. This is consistent with expectations.
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> Suggested use cases
->>>>>>>> ===
->>>>>>>>    1. When there is a need to read large files and system 
->>>>>>>> resources are scarce,
->>>>>>>>       especially when the size of memory is limited.(GB level) 
->>>>>>>> In this
->>>>>>>>       scenario, using direct I/O for file reading can even 
->>>>>>>> bring performance
->>>>>>>>       improvements.(may need patch2-3)
->>>>>>>>    2. For embedded devices with limited RAM, using direct I/O 
->>>>>>>> can save system
->>>>>>>>       resources and avoid unnecessary data copying. Therefore, 
->>>>>>>> even if the
->>>>>>>>       performance is lower when read small file, it can still 
->>>>>>>> be used
->>>>>>>>       effectively.
->>>>>>>>    3. If there is sufficient memory, pinning the page cache of 
->>>>>>>> the model files
->>>>>>>>       in memory and placing file in the EROFS file system for 
->>>>>>>> read-only access
->>>>>>>>       maybe better.(EROFS do not support direct I/O)
->>>>>>>>
->>>>>>>>
->>>>>>>> Changlog
->>>>>>>> ===
->>>>>>>>   v1 [8]
->>>>>>>>   v1->v2:
->>>>>>>>     Uses the heap flag method for alloc and read instead of 
->>>>>>>> adding a new
->>>>>>>>     DMA-buf ioctl command. [9]
->>>>>>>>     Split the patchset to facilitate review and test.
->>>>>>>>       patch 1 implement alloc and read, offer heap flag into it.
->>>>>>>>       patch 2-4 offer async read
->>>>>>>>       patch 5 can change gather limit.
->>>>>>>>
->>>>>>>> Reference
->>>>>>>> ===
->>>>>>>> [1] 
->>>>>>>> https://lore.kernel.org/all/0393cf47-3fa2-4e32-8b3d-d5d5bdece298@amd.com/
->>>>>>>> [2] 
->>>>>>>> https://lore.kernel.org/all/ZpTnzkdolpEwFbtu@phenom.ffwll.local/
->>>>>>>> [3] 
->>>>>>>> https://lore.kernel.org/all/20240725021349.580574-1-link@vivo.com/
->>>>>>>> [4] 
->>>>>>>> https://lore.kernel.org/all/Zpf5R7fRZZmEwVuR@infradead.org/
->>>>>>>> [5] 
->>>>>>>> https://lore.kernel.org/all/ZpiHKY2pGiBuEq4z@infradead.org/
->>>>>>>> [6] 
->>>>>>>> https://lore.kernel.org/all/9b70db2e-e562-4771-be6b-1fa8df19e356@amd.com/
->>>>>>>> [7] 
->>>>>>>> https://patchew.org/linux/20230209102954.528942-1-dhowells@redhat.com/20230209102954.528942-7-dhowells@redhat.com/
->>>>>>>> [8] 
->>>>>>>> https://lore.kernel.org/all/20240711074221.459589-1-link@vivo.com/
->>>>>>>> [9] 
->>>>>>>> https://lore.kernel.org/all/5ccbe705-883c-4651-9e66-6b452c414c74@amd.com/
->>>>>>>>
->>>>>>>> Huan Yang (5):
->>>>>>>>    dma-buf: heaps: Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap 
->>>>>>>> flag
->>>>>>>>    dma-buf: heaps: Introduce async alloc read ops
->>>>>>>>    dma-buf: heaps: support alloc async read file
->>>>>>>>    dma-buf: heaps: system_heap alloc support async read
->>>>>>>>    dma-buf: heaps: configurable async read gather limit
->>>>>>>>
->>>>>>>>   drivers/dma-buf/dma-heap.c          | 552 
->>>>>>>> +++++++++++++++++++++++++++-
->>>>>>>>   drivers/dma-buf/heaps/system_heap.c |  70 +++-
->>>>>>>>   include/linux/dma-heap.h            |  53 ++-
->>>>>>>>   include/uapi/linux/dma-heap.h       |  11 +-
->>>>>>>>   4 files changed, 673 insertions(+), 13 deletions(-)
->>>>>>>>
->>>>>>>>
->>>>>>>> base-commit: 931a3b3bccc96e7708c82b30b2b5fa82dfd04890
->>>>>>>
->>>>>
->>>
->
+SGksIEp1bGllbjoNCg0KT24gTW9uLCAyMDI0LTA3LTI5IGF0IDE2OjQ4ICswMjAwLCBKdWxpZW4g
+U3RlcGhhbiB3cm90ZToNCj4gIAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBj
+bGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVudGlsIHlvdSBoYXZlIHZlcmlmaWVkIHRo
+ZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+ICBGcm9tOiBQaGktYmFuZyBOZ3V5ZW4gPHBuZ3V5
+ZW5AYmF5bGlicmUuY29tPg0KPiANCj4gVGhpcyBkcml2ZXIgcHJvdmlkZXMgYSBwYXRoIHRvIGJ5
+cGFzcyB0aGUgU29DIElTUCBzbyB0aGF0IGltYWdlIGRhdGENCj4gY29taW5nIGZyb20gdGhlIFNF
+TklORiBjYW4gZ28gZGlyZWN0bHkgaW50byBtZW1vcnkgd2l0aG91dCBhbnkgaW1hZ2UNCj4gcHJv
+Y2Vzc2luZy4gVGhpcyBhbGxvd3MgdGhlIHVzZSBvZiBhbiBleHRlcm5hbCBJU1AuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBQaGktYmFuZyBOZ3V5ZW4gPHBuZ3V5ZW5AYmF5bGlicmUuY29tPg0KPiBT
+aWduZWQtb2ZmLWJ5OiBGbG9yaWFuIFN5bHZlc3RyZSA8ZnN5bHZlc3RyZUBiYXlsaWJyZS5jb20+
+DQo+IFtQYXVsIEVsZGVyIGZpeCBpcnEgbG9ja2luZ10NCj4gU2lnbmVkLW9mZi1ieTogUGF1bCBF
+bGRlciA8cGF1bC5lbGRlckBpZGVhc29uYm9hcmQuY29tPg0KPiBDby1kZXZlbG9wZWQtYnk6IExh
+dXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4NCj4gU2ln
+bmVkLW9mZi1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9h
+cmQuY29tPg0KPiBDby1kZXZlbG9wZWQtYnk6IEp1bGllbiBTdGVwaGFuIDxqc3RlcGhhbkBiYXls
+aWJyZS5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEp1bGllbiBTdGVwaGFuIDxqc3RlcGhhbkBiYXls
+aWJyZS5jb20+DQo+IC0tLQ0KDQpbc25pcF0NCg0KPiArDQo+ICtzdGF0aWMgdm9pZCBtdGtfY2Ft
+X2Ntb3NfdmZfZW5hYmxlKHN0cnVjdCBtdGtfY2FtX2RldiAqY2FtX2RldiwNCj4gKyAgIGJvb2wg
+ZW5hYmxlLCBib29sIHBha19lbikNCj4gK3sNCj4gK3N0cnVjdCBkZXZpY2UgKmRldiA9IGNhbV9k
+ZXYtPmRldjsNCj4gKw0KPiAraWYgKHBtX3J1bnRpbWVfZ2V0X3N5bmMoZGV2KSA8IDApIHsNCj4g
+K2Rldl9lcnIoZGV2LCAiZmFpbGVkIHRvIGdldCBwbV9ydW50aW1lXG4iKTsNCj4gK2dvdG8gb3V0
+Ow0KPiArfQ0KPiArDQo+ICtpZiAoZW5hYmxlKQ0KPiArY2FtX2Rldi0+aHdfZnVuY3Rpb25zLT5t
+dGtfY2FtX2Ntb3NfdmZfaHdfZW5hYmxlKGNhbV9kZXYpOw0KDQpEaXJlY3RseSBjYWxsIG10a19j
+YW1zdjMwX2Ntb3NfdmZfaHdfZW5hYmxlKCkuDQoNCj4gK2Vsc2UNCj4gK2NhbV9kZXYtPmh3X2Z1
+bmN0aW9ucy0+bXRrX2NhbV9jbW9zX3ZmX2h3X2Rpc2FibGUoY2FtX2Rldik7DQoNCkRpcmVjdGx5
+IGNhbGwgbXRrX2NhbXN2MzBfY21vc192Zl9od19kaXNhYmxlKCkuDQoNClJlZ2FyZHMsDQpDSw0K
+DQo+ICsNCj4gK291dDoNCj4gK3BtX3J1bnRpbWVfcHV0X2F1dG9zdXNwZW5kKGRldik7DQo+ICt9
+DQo+ICsNCg==
 
