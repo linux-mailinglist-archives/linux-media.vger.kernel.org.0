@@ -1,246 +1,374 @@
-Return-Path: <linux-media+bounces-15620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933E0942830
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 09:38:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE5B942883
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 09:59:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6CFC1C20272
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 07:38:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4E64284D5C
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 07:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEF141A7207;
-	Wed, 31 Jul 2024 07:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 427F11A76C3;
+	Wed, 31 Jul 2024 07:59:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="i69gFSVL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CLmE+PpX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from HK2PR02CU002.outbound.protection.outlook.com (mail-eastasiaazon11010040.outbound.protection.outlook.com [52.101.128.40])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000871A4B42;
-	Wed, 31 Jul 2024 07:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.128.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722411498; cv=fail; b=ZxfUlP/MYMzkzAH5O5k23wS8H/xMAr5Eb2hhOZQkF2sQmoY3r0WYz10C8ZBenIHOoFNalStFciQ5DxF+zc04+7Nr04h822K35skTAhSlkvnv9W84p8xZwom2AjKcNK98eD71dmkoFfj+zylsSgqZtvRBjrSW/QF8iFc2SdoOOz4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722411498; c=relaxed/simple;
-	bh=BzOSV1sb6cmL5pSCOuQ9/abEMsTm2//pwW2nKqM8+ZQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=M+dl7t+JF9VLpPT5pnZAY/hyp4uDNQ/7YcbXzITAlGkEvqZqkb8PpL6zr0ht7qcBW3NhUdQ01hrdzLwhk4nEl389qjth/inZRblMzCvsiA2kQK4E2Z+CANpCwzP6jT3ODA8ycWMNT0Orayx7qgTks7blbLi3X8+pK8La76/CSME=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=i69gFSVL; arc=fail smtp.client-ip=52.101.128.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nWMPPuyKSbAjQO6HDoPPrEd7iYI+uUFeV35XCTChUSYmtyHRSblalWgpOOUv5bmbp4CYCgbGWH5U8A0hdeqPHhWsoXLd5IL2NmGT2oCMqWLzfmuKrNO224tkGOt85gdiFpuFybppwdnR+rdSNIHbjLJ7CufbLtY4fP9QiVQD9PH+dI5KVpqzhe2doqtPjf4uzt7umljMNQ8Hss5pUZrap+6PvoA0W6vww16ujdROMBg5ealsolpO1hxn7I6M6GtXoSKe1/9b1eidviBHWvVgLMAv3h6wvHiJdcfEHMKH8ZGb3QPAWHF7+rl1Ff25Ogmt99G5aA7hBXyewhES4ohenw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ckG3WKdFIajY4ft6VdIEmXtiq/0qclqbB/i5aevI1+c=;
- b=y7G5lWcwtsVPiQQny1LMGBHgwqWTNSg1Euq/jwpvVVftjPfNvV38sJ+Gb5i1huuWwKq3kUwVqUyyBNx4uZIGIvJV7wOb3VIRg3mylQ86NpuDwEugLyYXsPmCAUjfPbmcopv+9l9wYKEca7Ry56q1ZI8xDUL8kiL8bmXcyURpldULRgBvOl8EZmP+v8X/FTEDjYpE88Uejs0kR4e0sf9WQSNTsUgz0ZdbknGmv9U3qA3rVXxndz0qMc6DZzF9VZrCS1Us+PHQOAMDXed50vMxKzOQb4vVSTnOw8u1kfLvSfnLAbhtTcz6axj1HIs7GFkKjVS691AaLnca7F8n939Keg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ckG3WKdFIajY4ft6VdIEmXtiq/0qclqbB/i5aevI1+c=;
- b=i69gFSVLMLDEiwzCJxlo+0MXjHfuX5aJ9+brWtWLNfSZyNwUib2LBGdr3YrocDQZBrB8yKueV6vmJUte1rlxZPCoQTLsCUMsge1a0uVgsA4PaIcMZ8B3kqOkxTILe9Y7GYYCW6fXuVZtX8HBrZ4ZCP4cSFwezdYdI87L8cHmxr0R2/No0qp7IrBjsVRfA3ja1khF6vMf8yNXf87jmMkjEcgXyFbaxDNcVujqjralbR4a3OyTk8bwHQsyVzqa93FDFmsK6/nJsUMIYBJN0X57J2/QHjWjPW5/ZafwoCZxslstms609YBIN6fr4SXx36oqGvENuRsWKtDZ3X+oKM8EVA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by KL1PR06MB6069.apcprd06.prod.outlook.com (2603:1096:820:de::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.28; Wed, 31 Jul
- 2024 07:38:09 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.7807.026; Wed, 31 Jul 2024
- 07:38:09 +0000
-From: Huan Yang <link@vivo.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com,
-	Huan Yang <link@vivo.com>
-Subject: [PATCH v3] udmabuf: use kmem_cache to alloc udmabuf folio
-Date: Wed, 31 Jul 2024 15:37:51 +0800
-Message-ID: <20240731073752.1225177-1-link@vivo.com>
-X-Mailer: git-send-email 2.45.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0058.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::9) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A9123BB
+	for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 07:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722412770; cv=none; b=iWzSO+EP3A7FYvvyu7amiaLDuIHIEPQkIpzZ/QwXquYZml25WLkOrkifp3DQU0PF9eqpUUjo/JXvu4Dya3r6ptETbvo5x/jCZTlVg2GQrPcye7ZpjLa0G9FXFLo05Zoc2y53DylMRL2RWeIil+BVcrA3VuNoUbDE1hXoLjhTmgo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722412770; c=relaxed/simple;
+	bh=bdMbQ2GqiCaVrTK6/1gjkDe8EdILGcnOpqC6UxeEr5M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=l1Vx/8fxSvHDZVE87N6mvJvHLIx3nnX03Sml6X8boeUR0oK7GstQo3mfni2gHEQp/M9NKz9S7bBql1TeKcUENDWIbUntWJQ4uZMZQACohU3bWXOQqrTlquqbaudAeNgWn3e6W4tpsCgcxDWf5f2SMAht/z8OZjptiasf1NXzdpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CLmE+PpX; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722412769; x=1753948769;
+  h=date:from:to:cc:subject:message-id;
+  bh=bdMbQ2GqiCaVrTK6/1gjkDe8EdILGcnOpqC6UxeEr5M=;
+  b=CLmE+PpXniwoLNsGedpF7qrQW/4zvzeS5d9nGoQ+V/eAMwc98w6q4ZGQ
+   vUhGCdx7i6u0dBBLyDLW+Rso/k769QNt3VzZAZNoKd0nB7Owk6twU0dcR
+   CtIvXZ9GHb+YlGZLSHtdS4dU8gs2XxyFJEICau5KzvllfUBlM1GrTPogo
+   Vu5Do5swiU1lf1ivWTVomp6jtv3tggywo1YF0CcRVxwr9QIDq7PINCWG8
+   YD7ynAkzJnpQ4ciy721hwmEpLXad1PDpeFTKrZQT4pq4N19thAu+Nl9Xk
+   oGqBYGTsdyeZb5RiQdkzYBxeOy7g9xMHeBwA3a0d9A2MGCt1/4WfWPyK5
+   w==;
+X-CSE-ConnectionGUID: thI3vsjFT06J3Y5kXvoQ3Q==
+X-CSE-MsgGUID: MswHz2epQDiPbLsRv4teaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="19864884"
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="19864884"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 00:59:28 -0700
+X-CSE-ConnectionGUID: uPdnE4l7TXiln2sdM234Uw==
+X-CSE-MsgGUID: YMEa82Y/QpW2aKzy4gf40w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,250,1716274800"; 
+   d="scan'208";a="54528785"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 31 Jul 2024 00:59:27 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sZ4F2-000u1O-04;
+	Wed, 31 Jul 2024 07:59:24 +0000
+Date: Wed, 31 Jul 2024 15:58:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:fixes] BUILD SUCCESS
+ 914f8961879de6fadd166ebd75151a778481e09a
+Message-ID: <202407311523.Wexbq62D-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|KL1PR06MB6069:EE_
-X-MS-Office365-Filtering-Correlation-Id: 032edd1f-0333-4c13-42aa-08dcb133b969
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+kb6xIdKw5XIjt997iQVE/9nGtpkIiWzoQhrap/1pDTNDEjk6V691HWRdlmc?=
- =?us-ascii?Q?EUXNnXmTy+irHtv3cRv+1dnBaiOW6Fv+hky47e2eKQXTjdiyDHWLGPCkeldp?=
- =?us-ascii?Q?a6nsz6uC0o+JlkGoDiOCD8xOToJJMZKCzXhvX8JBU9fiUWkdRe1a5ZfBjjSy?=
- =?us-ascii?Q?mNmEHg1juF8vkyQW7ad3QhldbFZWbmtvFBhTV+80zqPrn1j196AWyrjpT1z5?=
- =?us-ascii?Q?K74C+7XSNvNqFu1HFO2owYqNRQYs3cqEgNLj6ofUXgAD5Qvq9oLM8arnG3dE?=
- =?us-ascii?Q?OaiSj+qZupxWKlRoHDJ7gFF/heC1VFFIveUnQvJ+mvI4iJGxs6fC893IZBd0?=
- =?us-ascii?Q?A+x63BCXPthihBaBZifFHr9omnkClsQuN4CEmInflxMJEiXcM1BIDd83QqPD?=
- =?us-ascii?Q?htpxZ3/q4GwoZEBbPPykhE9aYS7KzXmIjlOhgk5prJRrx2lfi8dHxjKjr5lI?=
- =?us-ascii?Q?rpRt0jOMUGRt9SaTVGHBh8wYgpPD9AEtoA8EkPQrVnXxs6D2VLY+SCEyL5Y+?=
- =?us-ascii?Q?NvgN1AQczowRHppwCscDVn/ZR6OkOxI81Qj7m9oB36kolUh/nHxDl3u7e8ok?=
- =?us-ascii?Q?ubTN+B3zOb6vtuSG/iCkEWn3OweS1esxSQmQmr5uudvD7Kl6DH9muBUw58aT?=
- =?us-ascii?Q?/393sxljn1xO5DXQhBk7x9comAVMbZRk7/Jny8clRnzMVC4L6iWZ5FDip0qh?=
- =?us-ascii?Q?o0/sDbDgR/sGu1AKgMdHpwSi/5uavsv7+QB2kXNvAPKxDj7XcG3JAyCzM2bo?=
- =?us-ascii?Q?KE6ruIuTB6C5YbO+NhbMzRsoyvB59+opseh7E1XrEDGcKukcSv4SHFCPD5Wo?=
- =?us-ascii?Q?XbC5IfUy80VkyHbG21P8hHZKYFgxMEzoyviccOzi+7XpLufCd2u3nlWlSv2t?=
- =?us-ascii?Q?vvTQNBODJcR/xegTcMdDy8jyjSHuLUcs6Arz4oqJmoSXKKD/9Go3jImpn2rx?=
- =?us-ascii?Q?Z0GaYayh91lfK5a1Nn3sC76+w8wgFmLqYt80UT6c2N9Y2iHvW5P8fC7EkfV0?=
- =?us-ascii?Q?kW2Htd8Y2BaEsYWjbOFuzgftgvp7Zc7pbUqX0nDi5mP417/zs9gCYZM7XA20?=
- =?us-ascii?Q?n4PeF1rLS2Tzyu73SrgHdZKl82Nyd+8+5lU/WFcBVgqiz4NjljeUrKoxtGpx?=
- =?us-ascii?Q?q60BrqKNRNsZdaTd9sUMqIFOmPUrrDLNZ1X83UP1k7O8qGnxWopi89KCyti7?=
- =?us-ascii?Q?wuahKJyuZYBv69BreLATYuyTUsIdkk/JYQM8+Y4BV+mavUFy0C3h2fm0chkd?=
- =?us-ascii?Q?4/+f2abA4xYOEN3e+3Usdun60c9c7Bj65iafbHVuKJKj2rV80lAkgggn/5Yl?=
- =?us-ascii?Q?0XC1oOghZmnXwPFjd/n8TNgLl0kvK0iYhDyZEf9r5svxQJKV3+Su8Cdt4YH/?=
- =?us-ascii?Q?XvnMAIRV1ow0dG2shg1i4sxEYGt6nBuflvbxof0qB4NBExFyzw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?qzrGJIuVfywqRC7ygNk/UyT37m11yO2WHPk5hAfX/9Uud/zZjvyOMwiTaaAY?=
- =?us-ascii?Q?BwuWgkK/c62QNj8Y889i1GTEunhg1YCJ/LTpP4qiR1GXmmoBhCicb6Cg0nRQ?=
- =?us-ascii?Q?cr3Mx7aMEttTuUWyGy9+fnyDlp/7lGIaDhnm2G89J2lEp6pyJqzL1t3dpf8r?=
- =?us-ascii?Q?cOr4T+Ftra9Tl2v1KrYszJuYL359UFIUcM/nfS6CcGCvxKB8lRNZl7WB4Nyg?=
- =?us-ascii?Q?U6AZau/m50umpm9n6bbrIpDqNhEHayx9wy6Q22eVRq+U2VoMPchxBS8QSYOb?=
- =?us-ascii?Q?bNAsBzKIv4jtZNAcYDK+Zdi1F7qUsWQAkeeZn8lNHWTjwnB5GMcvOWlPP7Wg?=
- =?us-ascii?Q?OFcZje8qx9JhTnRdHm+EApv5j7ZI4IqjMPQvws0mi+9JvHGJ56KUbpYPJEBP?=
- =?us-ascii?Q?h76LBxj0Yu5NAJQtQYLfxDAiPnnNmvOnkaS2NO/6gZq/YPpX0I/VV6IRberi?=
- =?us-ascii?Q?V4BZIeUEpC5ll9SVSaFKkm987SXHdqIrtAoRIo7tZRHIchp+Tez+q7vjbtog?=
- =?us-ascii?Q?TSL02UaKqnNQd0Ake4IgDcNjLTukL+s8DHYr2w6tBaIAFW0EByCrLQqUMjnO?=
- =?us-ascii?Q?6zdfXx8kQ49RJcX/xEBGQMe6yF8Cs1zB2ub3UFYsCnPyHjREJ88VkbcuDn1v?=
- =?us-ascii?Q?r/Lc6GjmIe2Cv34UB0WlcDHPNS59Y9fJfx0o0NE3M0hONRbV3I6YnRjn1Ruh?=
- =?us-ascii?Q?JVhGeudfb8Oimw+P2eu74XK+Gp8ZPzoDvPCswp3K3oWW45wD0DiHPVrg/CHo?=
- =?us-ascii?Q?V+Q1L2/ge2bRUVVW9Csx8ptirW7ADapEm7KVIht67EEAEMjO9irGIrUcnv5X?=
- =?us-ascii?Q?N8IJkz63f/KZouWxBi0WQa2SkC0nWvEku5LbEGgl14IgeZHuM54ywx+stjXK?=
- =?us-ascii?Q?QIWoWl+En7/3WTFAXE1Dhqco90deABCdlDmaO9HKxl3uuodqVtkwZErf8Eom?=
- =?us-ascii?Q?exICsACaVAkBrXhxYJaX9LVrSSWfkuXUk3D8GzuiDapvLIe+rvVzDM0zyb3h?=
- =?us-ascii?Q?+u2yBIgrovLlWcCsMUZxN9jBfckSHukFyo6yUSpM+xH2TmrBCu1lzes8NfgN?=
- =?us-ascii?Q?KhVjC6KBqw5WqDmw1dMGIyaGk3ivPbMFkqa3SFDISL0pjEopnYiBtW3F0qin?=
- =?us-ascii?Q?vTrwa45JzGoGhFaU9F1bAhgSCbpk6FD3i0vHDGE8qxeFPY6gV4rSvciEnbaP?=
- =?us-ascii?Q?UIUE88pwLX8+pjKbHZzKdLeyNCISAqK3UIiGBUYkmXuUqPYhuFmaYkXuybQr?=
- =?us-ascii?Q?4cnbhBrrAew00pRKkvwd4MThGqzDCcEEc1zXZajbWDV/AYq3bIBnu/PfsZAe?=
- =?us-ascii?Q?habQU2NgQJUrLEAzgFWOzJ7EA259YzORh2iPqWwvmCk0UDjPArfk5esvTSH/?=
- =?us-ascii?Q?aW2lAc6Zp5eb/CFNmA9cs9mJtTi4n0Qh6Zp3HiYu5/lT/3RcKfEQoIbTjIv+?=
- =?us-ascii?Q?HEf0YS/q+4KYmQldmgWOA7XMN8jed2w2MFystZDjgRLoCU9xQGkB5yS5Q6ew?=
- =?us-ascii?Q?7gdqjEekjoGQfBYxrJrdOTzash2Z8NRNmE9Iu8sp1KnkmbpLlyY75PN1mYMF?=
- =?us-ascii?Q?V4HfKZYp/Rl8xVVXXNcIz5BM2BpJxPPBA0laTZmC?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 032edd1f-0333-4c13-42aa-08dcb133b969
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2024 07:38:09.3828
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P5OwT8Pt7JxihjFAh6Zhh6Udp3OwRvxqHbm3Yp7j1/YyER5p+0ZTORPFkNi/gNPxtAupCnB9W8ox8G6vbnVzEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6069
 
-The current udmabuf_folio contains a list_head and the corresponding
-folio pointer, with a size of 24 bytes. udmabuf_folio uses kmalloc to
-allocate memory.
+tree/branch: https://git.linuxtv.org/media_stage.git fixes
+branch HEAD: 914f8961879de6fadd166ebd75151a778481e09a  media: v4l: Fix missing tabular column hint for Y14P format
 
-However, kmalloc is a public pool, starting from 8,16,32 bytes.
-Additionally, if the size is not aligned with the kmalloc size, it will
-be rounded up to the corresponding size.
-This means that each udmabuf_folio allocation will get 32 bytes, and
-waste 8 bytes.
+elapsed time: 1469m
 
-Considering that each udmabuf creates a folio corresponding to a
-udmabuf_folio, the wasted memory can be significant in the case of
-memory fragmentation.
+configs tested: 281
+configs skipped: 6
 
-Furthermore, if udmabuf is frequently used, the allocation and
-deallocation of udmabuf_folio will also be frequent.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Therefore, this patch adds a kmem_cache dedicated to the allocation and
-deallocation of udmabuf_folio.This is expected to improve the
-performance of allocation and deallocation within the expected range,
-while also avoiding memory waste.
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                            allyesconfig   gcc-13.3.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                   randconfig-001-20240730   gcc-13.2.0
+arc                   randconfig-001-20240731   gcc-13.2.0
+arc                   randconfig-002-20240730   gcc-13.2.0
+arc                   randconfig-002-20240731   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                     am200epdkit_defconfig   gcc-14.1.0
+arm                       aspeed_g4_defconfig   gcc-14.1.0
+arm                                 defconfig   gcc-13.2.0
+arm                            hisi_defconfig   gcc-14.1.0
+arm                         lpc18xx_defconfig   gcc-14.1.0
+arm                          moxart_defconfig   gcc-14.1.0
+arm                       netwinder_defconfig   gcc-14.1.0
+arm                          pxa910_defconfig   gcc-14.1.0
+arm                   randconfig-001-20240730   gcc-13.2.0
+arm                   randconfig-001-20240731   gcc-13.2.0
+arm                   randconfig-002-20240730   gcc-13.2.0
+arm                   randconfig-002-20240731   gcc-13.2.0
+arm                   randconfig-003-20240730   gcc-13.2.0
+arm                   randconfig-003-20240731   gcc-13.2.0
+arm                   randconfig-004-20240730   gcc-13.2.0
+arm                   randconfig-004-20240731   gcc-13.2.0
+arm                        shmobile_defconfig   gcc-14.1.0
+arm                           tegra_defconfig   gcc-14.1.0
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                            allyesconfig   clang-20
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240730   gcc-13.2.0
+arm64                 randconfig-001-20240731   gcc-13.2.0
+arm64                 randconfig-002-20240730   gcc-13.2.0
+arm64                 randconfig-002-20240731   gcc-13.2.0
+arm64                 randconfig-003-20240730   gcc-13.2.0
+arm64                 randconfig-003-20240731   gcc-13.2.0
+arm64                 randconfig-004-20240730   gcc-13.2.0
+arm64                 randconfig-004-20240731   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                                defconfig   gcc-14.1.0
+csky                  randconfig-001-20240730   gcc-13.2.0
+csky                  randconfig-001-20240731   gcc-13.2.0
+csky                  randconfig-002-20240730   gcc-13.2.0
+csky                  randconfig-002-20240731   gcc-13.2.0
+hexagon                          allmodconfig   clang-20
+hexagon                          allyesconfig   clang-20
+i386                             allmodconfig   clang-18
+i386                             allmodconfig   gcc-13
+i386                              allnoconfig   clang-18
+i386                              allnoconfig   gcc-13
+i386                             allyesconfig   clang-18
+i386                             allyesconfig   gcc-13
+i386         buildonly-randconfig-001-20240730   gcc-13
+i386         buildonly-randconfig-001-20240731   clang-18
+i386         buildonly-randconfig-002-20240730   gcc-13
+i386         buildonly-randconfig-002-20240731   clang-18
+i386         buildonly-randconfig-003-20240730   gcc-13
+i386         buildonly-randconfig-003-20240731   clang-18
+i386         buildonly-randconfig-004-20240730   gcc-13
+i386         buildonly-randconfig-004-20240731   clang-18
+i386         buildonly-randconfig-005-20240730   gcc-13
+i386         buildonly-randconfig-005-20240731   clang-18
+i386         buildonly-randconfig-006-20240730   gcc-13
+i386         buildonly-randconfig-006-20240731   clang-18
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240730   gcc-13
+i386                  randconfig-001-20240731   clang-18
+i386                  randconfig-002-20240730   gcc-13
+i386                  randconfig-002-20240731   clang-18
+i386                  randconfig-003-20240730   gcc-13
+i386                  randconfig-003-20240731   clang-18
+i386                  randconfig-004-20240730   gcc-13
+i386                  randconfig-004-20240731   clang-18
+i386                  randconfig-005-20240730   gcc-13
+i386                  randconfig-005-20240731   clang-18
+i386                  randconfig-006-20240730   gcc-13
+i386                  randconfig-006-20240731   clang-18
+i386                  randconfig-011-20240730   gcc-13
+i386                  randconfig-011-20240731   clang-18
+i386                  randconfig-012-20240730   gcc-13
+i386                  randconfig-012-20240731   clang-18
+i386                  randconfig-013-20240730   gcc-13
+i386                  randconfig-013-20240731   clang-18
+i386                  randconfig-014-20240730   gcc-13
+i386                  randconfig-014-20240731   clang-18
+i386                  randconfig-015-20240730   gcc-13
+i386                  randconfig-015-20240731   clang-18
+i386                  randconfig-016-20240730   gcc-13
+i386                  randconfig-016-20240731   clang-18
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240730   gcc-13.2.0
+loongarch             randconfig-001-20240731   gcc-13.2.0
+loongarch             randconfig-002-20240730   gcc-13.2.0
+loongarch             randconfig-002-20240731   gcc-13.2.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                         amcore_defconfig   gcc-14.1.0
+m68k                          amiga_defconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+m68k                        m5272c3_defconfig   gcc-14.1.0
+m68k                          multi_defconfig   gcc-14.1.0
+m68k                        mvme16x_defconfig   gcc-14.1.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+mips                             allmodconfig   clang-20
+mips                              allnoconfig   gcc-13.2.0
+mips                             allyesconfig   clang-20
+mips                       bmips_be_defconfig   gcc-14.1.0
+mips                  decstation_64_defconfig   gcc-14.1.0
+mips                           ip22_defconfig   gcc-14.1.0
+mips                      loongson3_defconfig   gcc-14.1.0
+mips                         rt305x_defconfig   gcc-14.1.0
+nios2                            alldefconfig   gcc-14.1.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240730   gcc-13.2.0
+nios2                 randconfig-001-20240731   gcc-13.2.0
+nios2                 randconfig-002-20240730   gcc-13.2.0
+nios2                 randconfig-002-20240731   gcc-13.2.0
+openrisc                          allnoconfig   gcc-14.1.0
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-14.1.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   gcc-14.1.0
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                randconfig-001-20240730   gcc-13.2.0
+parisc                randconfig-001-20240731   gcc-13.2.0
+parisc                randconfig-002-20240730   gcc-13.2.0
+parisc                randconfig-002-20240731   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                    adder875_defconfig   gcc-14.1.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   gcc-14.1.0
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                   bluestone_defconfig   gcc-14.1.0
+powerpc                          g5_defconfig   gcc-14.1.0
+powerpc                   lite5200b_defconfig   gcc-14.1.0
+powerpc                     mpc5200_defconfig   gcc-14.1.0
+powerpc                     mpc83xx_defconfig   gcc-14.1.0
+powerpc               randconfig-002-20240730   gcc-13.2.0
+powerpc               randconfig-002-20240731   gcc-13.2.0
+powerpc               randconfig-003-20240730   gcc-13.2.0
+powerpc               randconfig-003-20240731   gcc-13.2.0
+powerpc                     tqm5200_defconfig   gcc-14.1.0
+powerpc                     tqm8541_defconfig   gcc-14.1.0
+powerpc64             randconfig-001-20240730   gcc-13.2.0
+powerpc64             randconfig-001-20240731   gcc-13.2.0
+powerpc64             randconfig-002-20240730   gcc-13.2.0
+powerpc64             randconfig-002-20240731   gcc-13.2.0
+powerpc64             randconfig-003-20240730   gcc-13.2.0
+powerpc64             randconfig-003-20240731   gcc-13.2.0
+riscv                            alldefconfig   gcc-14.1.0
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   gcc-14.1.0
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv                 randconfig-001-20240730   gcc-13.2.0
+riscv                 randconfig-001-20240731   gcc-13.2.0
+riscv                 randconfig-002-20240730   gcc-13.2.0
+riscv                 randconfig-002-20240731   gcc-13.2.0
+s390                             allmodconfig   clang-20
+s390                              allnoconfig   clang-20
+s390                             allyesconfig   clang-20
+s390                             allyesconfig   gcc-14.1.0
+s390                                defconfig   gcc-14.1.0
+s390                  randconfig-001-20240730   gcc-13.2.0
+s390                  randconfig-001-20240731   gcc-13.2.0
+s390                  randconfig-002-20240730   gcc-13.2.0
+s390                  randconfig-002-20240731   gcc-13.2.0
+sh                               allmodconfig   gcc-14.1.0
+sh                                allnoconfig   gcc-13.2.0
+sh                               allyesconfig   gcc-14.1.0
+sh                                  defconfig   gcc-14.1.0
+sh                ecovec24-romimage_defconfig   gcc-14.1.0
+sh                        edosk7705_defconfig   gcc-14.1.0
+sh                          kfr2r09_defconfig   gcc-14.1.0
+sh                          landisk_defconfig   gcc-14.1.0
+sh                            migor_defconfig   gcc-14.1.0
+sh                    randconfig-001-20240730   gcc-13.2.0
+sh                    randconfig-001-20240731   gcc-13.2.0
+sh                    randconfig-002-20240730   gcc-13.2.0
+sh                    randconfig-002-20240731   gcc-13.2.0
+sh                          rsk7201_defconfig   gcc-14.1.0
+sh                   rts7751r2dplus_defconfig   gcc-14.1.0
+sh                           se7712_defconfig   gcc-14.1.0
+sh                        sh7763rdp_defconfig   gcc-14.1.0
+sh                  sh7785lcr_32bit_defconfig   gcc-14.1.0
+sh                            shmin_defconfig   gcc-14.1.0
+sh                          urquell_defconfig   gcc-14.1.0
+sparc                            allmodconfig   gcc-14.1.0
+sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240730   gcc-13.2.0
+sparc64               randconfig-001-20240731   gcc-13.2.0
+sparc64               randconfig-002-20240730   gcc-13.2.0
+sparc64               randconfig-002-20240731   gcc-13.2.0
+um                               allmodconfig   gcc-13.3.0
+um                                allnoconfig   clang-17
+um                               allyesconfig   gcc-13
+um                               allyesconfig   gcc-13.3.0
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-14.1.0
+um                    randconfig-001-20240730   gcc-13.2.0
+um                    randconfig-001-20240731   gcc-13.2.0
+um                    randconfig-002-20240730   gcc-13.2.0
+um                    randconfig-002-20240731   gcc-13.2.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240730   clang-18
+x86_64       buildonly-randconfig-001-20240731   gcc-13
+x86_64       buildonly-randconfig-002-20240730   clang-18
+x86_64       buildonly-randconfig-002-20240731   gcc-13
+x86_64       buildonly-randconfig-003-20240730   clang-18
+x86_64       buildonly-randconfig-003-20240731   gcc-13
+x86_64       buildonly-randconfig-004-20240730   clang-18
+x86_64       buildonly-randconfig-004-20240731   gcc-13
+x86_64       buildonly-randconfig-005-20240730   clang-18
+x86_64       buildonly-randconfig-005-20240731   gcc-13
+x86_64       buildonly-randconfig-006-20240730   clang-18
+x86_64       buildonly-randconfig-006-20240731   gcc-13
+x86_64                              defconfig   clang-18
+x86_64                              defconfig   gcc-13
+x86_64                                  kexec   clang-18
+x86_64                randconfig-001-20240730   clang-18
+x86_64                randconfig-001-20240731   gcc-13
+x86_64                randconfig-002-20240730   clang-18
+x86_64                randconfig-002-20240731   gcc-13
+x86_64                randconfig-003-20240730   clang-18
+x86_64                randconfig-003-20240731   gcc-13
+x86_64                randconfig-004-20240730   clang-18
+x86_64                randconfig-004-20240731   gcc-13
+x86_64                randconfig-005-20240730   clang-18
+x86_64                randconfig-005-20240731   gcc-13
+x86_64                randconfig-006-20240730   clang-18
+x86_64                randconfig-006-20240731   gcc-13
+x86_64                randconfig-011-20240730   clang-18
+x86_64                randconfig-011-20240731   gcc-13
+x86_64                randconfig-012-20240730   clang-18
+x86_64                randconfig-012-20240731   gcc-13
+x86_64                randconfig-013-20240730   clang-18
+x86_64                randconfig-013-20240731   gcc-13
+x86_64                randconfig-014-20240730   clang-18
+x86_64                randconfig-014-20240731   gcc-13
+x86_64                randconfig-015-20240730   clang-18
+x86_64                randconfig-015-20240731   gcc-13
+x86_64                randconfig-016-20240730   clang-18
+x86_64                randconfig-016-20240731   gcc-13
+x86_64                randconfig-071-20240730   clang-18
+x86_64                randconfig-071-20240731   gcc-13
+x86_64                randconfig-072-20240730   clang-18
+x86_64                randconfig-072-20240731   gcc-13
+x86_64                randconfig-073-20240730   clang-18
+x86_64                randconfig-073-20240731   gcc-13
+x86_64                randconfig-074-20240730   clang-18
+x86_64                randconfig-074-20240731   gcc-13
+x86_64                randconfig-075-20240730   clang-18
+x86_64                randconfig-075-20240731   gcc-13
+x86_64                randconfig-076-20240730   clang-18
+x86_64                randconfig-076-20240731   gcc-13
+x86_64                          rhel-8.3-rust   clang-18
+x86_64                               rhel-8.3   clang-18
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                          iss_defconfig   gcc-14.1.0
+xtensa                  nommu_kc705_defconfig   gcc-14.1.0
+xtensa                randconfig-001-20240730   gcc-13.2.0
+xtensa                randconfig-001-20240731   gcc-13.2.0
+xtensa                randconfig-002-20240730   gcc-13.2.0
+xtensa                randconfig-002-20240731   gcc-13.2.0
 
-Signed-off-by: Huan Yang <link@vivo.com>
----
-v3 -> v2: fix error description.
-v2 -> v1: fix double unregister, remove unlikely.
- drivers/dma-buf/udmabuf.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 047c3cd2ceff..c112c58ef09a 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -24,6 +24,8 @@ static int size_limit_mb = 64;
- module_param(size_limit_mb, int, 0644);
- MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in megabytes. Default is 64.");
- 
-+static struct kmem_cache *udmabuf_folio_cachep;
-+
- struct udmabuf {
- 	pgoff_t pagecount;
- 	struct folio **folios;
-@@ -169,7 +171,7 @@ static void unpin_all_folios(struct list_head *unpin_list)
- 		unpin_folio(ubuf_folio->folio);
- 
- 		list_del(&ubuf_folio->list);
--		kfree(ubuf_folio);
-+		kmem_cache_free(udmabuf_folio_cachep, ubuf_folio);
- 	}
- }
- 
-@@ -178,7 +180,7 @@ static int add_to_unpin_list(struct list_head *unpin_list,
- {
- 	struct udmabuf_folio *ubuf_folio;
- 
--	ubuf_folio = kzalloc(sizeof(*ubuf_folio), GFP_KERNEL);
-+	ubuf_folio = kmem_cache_alloc(udmabuf_folio_cachep, GFP_KERNEL);
- 	if (!ubuf_folio)
- 		return -ENOMEM;
- 
-@@ -491,11 +493,20 @@ static int __init udmabuf_dev_init(void)
- 					   DMA_BIT_MASK(64));
- 	if (ret < 0) {
- 		pr_err("Could not setup DMA mask for udmabuf device\n");
--		misc_deregister(&udmabuf_misc);
--		return ret;
-+		goto err;
-+	}
-+
-+	udmabuf_folio_cachep = KMEM_CACHE(udmabuf_folio, 0);
-+	if (!udmabuf_folio_cachep) {
-+		ret = -ENOMEM;
-+		goto err;
- 	}
- 
- 	return 0;
-+
-+err:
-+	misc_deregister(&udmabuf_misc);
-+	return ret;
- }
- 
- static void __exit udmabuf_dev_exit(void)
-
-base-commit: cd19ac2f903276b820f5d0d89de0c896c27036ed
 -- 
-2.45.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
