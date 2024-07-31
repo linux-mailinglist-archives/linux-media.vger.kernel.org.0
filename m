@@ -1,138 +1,161 @@
-Return-Path: <linux-media+bounces-15660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4C294350A
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 19:30:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCB694375A
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 22:47:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92DB71F22B85
-	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 17:30:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DEF45B217F9
+	for <lists+linux-media@lfdr.de>; Wed, 31 Jul 2024 20:47:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE00C1BE24A;
-	Wed, 31 Jul 2024 17:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2D916CD25;
+	Wed, 31 Jul 2024 20:46:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="SoPRarwM"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="gUK3KgDr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668511BD50C
-	for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 17:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0235116CD10
+	for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 20:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722447001; cv=none; b=jf8asRCxfniMbaXJazVZdu5tdmewiO9r4NdY3xgfmPmUjd4w4Sfda52iQQ1cZfdeScCFkWc89R3WF4SCJWK9zu4JubxYlWkotRqG9w0Mx5c/m4Eys67m4uoLaUniFpjblwm8yJU3WNavctaSBbuab6r8SEQFCyATqrDiqUPrawI=
+	t=1722458788; cv=none; b=DABpCJDaDbSo/Rksc/kgkzsd9DnAJ1sW5u42uREbjKZ7YlPReIGa3mRTWlpXAxGIcCC0gAaPm9HgnK8fossebHCgDI7YfUbNff9rFhXNMQhO8IjURTCRoC+lHePNURj83Eb8wD/Jhw1ZQHSxczAyejBSKv4YV27gpmXRiHuIYlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722447001; c=relaxed/simple;
-	bh=+WdOgppIBKd/amkMUnID1lOCik4HxEEkZwGvDDT4SBo=;
+	s=arc-20240116; t=1722458788; c=relaxed/simple;
+	bh=txmpJQycIV5QPKrTWpGC8PUo9tKcejxgqsvRbMC+V8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uz598w2muPTjD0j7OiBGPZKNdijPcdkyQFLA9EfqjSeoCnb9axMZYqHjpXGIh9nqdo9bpz7gsIeRAhp0h+KzPY2EXtl/qOs2faYdx/dVSHAv9P9hwsB39DCk01voL7cTgMU3odyufRTShcuNbvOj/2NgdzAW7EVqVXh7AfLRrUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=SoPRarwM; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=g.harvard.edu
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-44fdde0c8dcso33543501cf.0
-        for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 10:29:58 -0700 (PDT)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ccpoFpPSg+hvdKtGUBD2FFE+JnfLsGDGYDlFqx411aV7OxW9M7WSjFw5a536UQLI2Ju+xxn4yBv3DIgqXyg9bh+RPjBtTMU6wJCK8/8FpO22cDLtCthHxB3smbk3/5A1z/hxhWTk51BDvpICbSmsMR9QSe3wLZK2rTZv5tDtrM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=gUK3KgDr; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-428e09ee91eso161015e9.3
+        for <linux-media@vger.kernel.org>; Wed, 31 Jul 2024 13:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1722446997; x=1723051797; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4KY8JEtInRy5xm4RIX3PTL4BAr3AAklSLy+uBqX6QE=;
-        b=SoPRarwMMxZgi7l3FVWylgo9zRI5oLCS7VRAbcQD3kuThwXVX/M02UUXBsLSGFdJXo
-         /r60f54al+3JcnfRj6XV59v3BfHAt4qkMR/gL8aDx1N6Pg2W/L5C9yRBkWi2Tp5RuVY3
-         uEPVTmKQCNC4sKTIJ0f/7be8dWJoHoen4y5sSyPmM0PXd/dZ9GrsvQSjWolLkb4C5HGV
-         Rbx8N6Me0J6bHm0bsD7TX8hAg69hi9n4bgZzqQKws6IxywfNluj+838Ycbd+M/ZzIUAd
-         NjMKoY9hCP6okkKA8Pim5pROLfja0kWA9sL6Y5LJKhXEykqjoXfVLJy62E5+rkfzWLZw
-         sOag==
+        d=ffwll.ch; s=google; t=1722458785; x=1723063585; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZxpiuYMhfG8wroCEpsj+T0XsF8n6WcrGB7EkeYVEIFg=;
+        b=gUK3KgDrIf3SDfrPly7lL/g4COmy1oDeJqy2LlzveAKKZ2lhHpArQwwY//wPF+Z4MH
+         EWWUC2PECSxsdzGJAS/t4mD0HOm3ogStf7cHvddWiaL61YSCf4l+ukri3lcTU/IdZWiS
+         i0CqkDeMpDe2e/yAfjZ86Qw7u3b0XimrmpWYQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722446997; x=1723051797;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m4KY8JEtInRy5xm4RIX3PTL4BAr3AAklSLy+uBqX6QE=;
-        b=LGN5cPeVd2bGmtVV8wPl6xQnB+64UShpFLLk5d5bd3tgOdRrpkBkJS8JqVz2SJmGIM
-         H9t/j8ZstHV6UfQvMpbQEoyG0xfVvwG51nypNPOhXYdWdfOGna6p9YNJRKUw2KwXOm1d
-         ZSvRUT/kYITIEsVjcCDjiDEcwcCDLNTT7dlqc09dhHaP9Bieldi/7WlInd2IzN9dIadl
-         nnvNmp4/u1a0MsgBOVJLLJI7qDdEs5cw6IaTXXSzQWQh6Upb82HX1wiFgUMnDk5xQN80
-         9P+cBjnNUvQ6FUAH67t2h1fJZ0b9ald7Gy/9pbX8q6oyOC17UcHjvhirAiEsWIZneISA
-         fbcw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUPKglQiHihJqgBl+HFZ2NvAyv5EPGsAVKwGq79Kz51WXkFx4FPRqqJIxIYCMSNhoTNK72U5HSmWfBhOo0mID9PNrtAT3gi5kVdh0=
-X-Gm-Message-State: AOJu0YzhByrTi3VdL8rPnrbRUoYfDHetsLV7tjksGJ6Zsfz4F8xlVDV2
-	nfgIyjMqmmQ3j1zirg/T7i99UZXgXDcI/OaYM3fNGqDB3qJcN3UZqj/dUjMokg==
-X-Google-Smtp-Source: AGHT+IFaLcLGhecfBpoLsXZxMwB3zjexCVb6+nQ4dHeejbB6qTpegfp5KXyGkHY31WGe4ABCodgceQ==
-X-Received: by 2002:a05:622a:19a0:b0:446:5787:875f with SMTP id d75a77b69052e-45004f1995amr192443891cf.38.1722446997206;
-        Wed, 31 Jul 2024 10:29:57 -0700 (PDT)
-Received: from rowland.harvard.edu (iolanthe.rowland.org. [192.131.102.54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44fe812350bsm61884421cf.9.2024.07.31.10.29.56
+        d=1e100.net; s=20230601; t=1722458785; x=1723063585;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZxpiuYMhfG8wroCEpsj+T0XsF8n6WcrGB7EkeYVEIFg=;
+        b=tqgQhopAaZFX24mka5pgkYJSP7BE/3lb7dw7KlVMZEKfxLsyAGa4GfUARlV/pbNBlM
+         zonWCqEAPPnmA+6xwk4cQsEMY5LsWk9DjT4UHzWJtaYALoVFP8k5StX/K9faprzbIVOK
+         f0oTllfCDqpSgIvDsw5g7NaioZDXhzvXlcMJZS5B6yHp9MiJ5kZA000Gc98NCwcd/2v9
+         yXx/cWHi3vSNekDh6dUtBJer0H8C9mpVWLpYN0d/5Dwi93cCjvTX+6uPmaQmYrpUHlqr
+         VVHG+lclc3tvEG+E+sY2TheoNHD8HVa1BtvWcxBbrOilXueZt8sRUeaN+zmpWckd0RhL
+         3XSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1AjeTBBn7nZZgRAN91EN94s5hq4i2Qc7eLeCVBEO4W/Kk0Kr6YabDXmaJCX1kugto70HREbArnt3UTQ7IllL2lWqkJK5a97Ykx/E=
+X-Gm-Message-State: AOJu0YzXucSULPd80VY+Dyr5yn5DEBNyJEiI3JuMQmBXFgWBnSJGZCJp
+	A/VfELSsrDfB0nqZExI15bPXww6c/91iOGErzinYw0sXS5KXmEelDJrLOLt2vr8=
+X-Google-Smtp-Source: AGHT+IEOfnwTGBUJMCvgdzsVYm/9gkwgL+/zq/em2Ac2MZaEU7lsjUilDMlqzOjNzanNWiAy/HCT3A==
+X-Received: by 2002:a05:600c:458e:b0:426:6358:7c5d with SMTP id 5b1f17b1804b1-428b4ae9a29mr2485615e9.4.1722458785050;
+        Wed, 31 Jul 2024 13:46:25 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282b8a246asm33360225e9.3.2024.07.31.13.46.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 10:29:56 -0700 (PDT)
-Date: Wed, 31 Jul 2024 13:29:54 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	syzbot <syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: [PATCH] media/usb/siano: Fix endpoint type checking in smsusb
-Message-ID: <51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu>
-References: <4442a354-87f1-4f7c-a2b0-96fbb29191d1@rowland.harvard.edu>
- <0000000000009f6f85061e684e92@google.com>
+        Wed, 31 Jul 2024 13:46:24 -0700 (PDT)
+Date: Wed, 31 Jul 2024 22:46:22 +0200
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Huan Yang <link@vivo.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	opensource.kernel@vivo.com
+Subject: Re: [PATCH v2 0/5] Introduce DMA_HEAP_ALLOC_AND_READ_FILE heap flag
+Message-ID: <Zqqing7M2notp6Ou@phenom.ffwll.local>
+Mail-Followup-To: Huan Yang <link@vivo.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T.J. Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	opensource.kernel@vivo.com
+References: <20240730075755.10941-1-link@vivo.com>
+ <Zqiqv7fomIp1IPS_@phenom.ffwll.local>
+ <25cf34bd-b11f-4097-87b5-39e6b4a27d85@vivo.com>
+ <37b07e69-df85-45fc-888d-54cb7c4be97a@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0000000000009f6f85061e684e92@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <37b07e69-df85-45fc-888d-54cb7c4be97a@vivo.com>
+X-Operating-System: Linux phenom 6.9.10-amd64 
 
-The syzbot fuzzer reports that the smsusb driver doesn't check whether
-the endpoints it uses are actually Bulk:
+On Tue, Jul 30, 2024 at 08:04:04PM +0800, Huan Yang wrote:
+> 
+> 在 2024/7/30 17:05, Huan Yang 写道:
+> > 
+> > 在 2024/7/30 16:56, Daniel Vetter 写道:
+> > > [????????? daniel.vetter@ffwll.ch ?????????
+> > > https://aka.ms/LearnAboutSenderIdentification?????????????]
+> > > 
+> > > On Tue, Jul 30, 2024 at 03:57:44PM +0800, Huan Yang wrote:
+> > > > UDMA-BUF step:
+> > > >    1. memfd_create
+> > > >    2. open file(buffer/direct)
+> > > >    3. udmabuf create
+> > > >    4. mmap memfd
+> > > >    5. read file into memfd vaddr
+> > > Yeah this is really slow and the worst way to do it. You absolutely want
+> > > to start _all_ the io before you start creating the dma-buf, ideally
+> > > with
+> > > everything running in parallel. But just starting the direct I/O with
+> > > async and then creating the umdabuf should be a lot faster and avoid
+> > That's greate,  Let me rephrase that, and please correct me if I'm wrong.
+> > 
+> > UDMA-BUF step:
+> >   1. memfd_create
+> >   2. mmap memfd
+> >   3. open file(buffer/direct)
+> >   4. start thread to async read
+> >   3. udmabuf create
+> > 
+> > With this, can improve
+> 
+> I just test with it. Step is:
+> 
+> UDMA-BUF step:
+>   1. memfd_create
+>   2. mmap memfd
+>   3. open file(buffer/direct)
+>   4. start thread to async read
+>   5. udmabuf create
+> 
+>   6 . join wait
+> 
+> 3G file read all step cost 1,527,103,431ns, it's greate.
 
-smsusb:smsusb_probe: board id=15, interface number 6
-smsusb:siano_media_device_register: media controller created
-------------[ cut here ]------------
-usb 1-1: BOGUS urb xfer, pipe 3 != type 1
-WARNING: CPU: 0 PID: 42 at drivers/usb/core/urb.c:503 usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503
-...
-Call Trace:
- <TASK>
- smsusb_submit_urb+0x288/0x410 drivers/media/usb/siano/smsusb.c:173
- smsusb_start_streaming drivers/media/usb/siano/smsusb.c:197 [inline]
- smsusb_init_device+0x856/0xe10 drivers/media/usb/siano/smsusb.c:477
- smsusb_probe+0x5e2/0x10b0 drivers/media/usb/siano/smsusb.c:575
-
-The problem can be fixed by checking the endpoints' types along with
-their directions.
-
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-Reported-by: syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com
-Tested-by: syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/linux-usb/000000000000e45551061e558c37@google.com/
-Fixes: 31e0456de5be ("media: usb: siano: Fix general protection fault in smsusb")
-Cc: <stable@vger.kernel.org>
-
----
-
- drivers/media/usb/siano/smsusb.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-Index: usb-devel/drivers/media/usb/siano/smsusb.c
-===================================================================
---- usb-devel.orig/drivers/media/usb/siano/smsusb.c
-+++ usb-devel/drivers/media/usb/siano/smsusb.c
-@@ -410,10 +410,10 @@ static int smsusb_init_device(struct usb
- 		struct usb_endpoint_descriptor *desc =
- 				&intf->cur_altsetting->endpoint[i].desc;
- 
--		if (desc->bEndpointAddress & USB_DIR_IN) {
-+		if (usb_endpoint_is_bulk_in(desc)) {
- 			dev->in_ep = desc->bEndpointAddress;
- 			align = usb_endpoint_maxp(desc) - sizeof(struct sms_msg_hdr);
--		} else {
-+		} else if (usb_endpoint_is_bulk_out(desc)) {
- 			dev->out_ep = desc->bEndpointAddress;
- 		}
- 	}
+Ok that's almost the throughput of your patch set, which I think is close
+enough. The remaining difference is probably just the mmap overhead, not
+sure whether/how we can do direct i/o to an fd directly ... in principle
+it's possible for any file that uses the standard pagecache.
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
