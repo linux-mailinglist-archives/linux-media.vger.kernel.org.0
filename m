@@ -1,133 +1,307 @@
-Return-Path: <linux-media+bounces-15681-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15682-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B136944680
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 10:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B1E94477D
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 11:08:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16EEB2826E5
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 08:23:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DA0228121A
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 09:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 062E216EB6E;
-	Thu,  1 Aug 2024 08:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 432E416F8E7;
+	Thu,  1 Aug 2024 09:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLPPm9tY"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qXD2DlSz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0Ew0Q+oj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0C9b4pU3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u47VYPgM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A35E16C856;
-	Thu,  1 Aug 2024 08:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6EA16E89C;
+	Thu,  1 Aug 2024 09:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722500605; cv=none; b=SbSEKg6nsQZSL8ykh0FUsZLrlgKb1FfEn+AoBv32T0dvFm0efTxig98k6P+twbNce9OpPEQBZ9RjH8XudB+LOP5Ou7EtBcy4ULYYFOG5vb9vPUBEuIMRHRs/xoxYZ5DhSC4bwyLAhHDKmCEJZ0n+elHFuLxF6uyRNnJHzyrMSrE=
+	t=1722503316; cv=none; b=fRiyBwG9vuzeD9b9DhLGKE6wBG28E75iO1gK6F7NfPQDruMqWTVKcRpkUxb+2XQpNtsI8efHExW7F+jJ6QawqG+YcBdGE3dz7qkUDZGloRXxVLwli3hRL2lLteiq03p427y6pYTWb58yUP7/XME/1a20NcBW25grFD7sJ6D0WAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722500605; c=relaxed/simple;
-	bh=Z51j2yPPzqzqUbfDzj+Co7O6I0fAkjzKGVvNCuTWfG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NfVPw3iMrhWkZSKF8PYkpkwUckK8yQGFuXCfbkn5Cs10ZMVqQlwT73A+3+ktzBpzSTnL0ZDV3wdX5PW6HdLp6bqew9LRqfgk+21lbgkaKcPINSd1gPyekyNn5Adeigj37WLFJNfkjrECq5vc3jI/Xny3ETgPOm3666zRENZLVUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLPPm9tY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67EE0C4AF09;
-	Thu,  1 Aug 2024 08:23:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722500604;
-	bh=Z51j2yPPzqzqUbfDzj+Co7O6I0fAkjzKGVvNCuTWfG0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pLPPm9tY25L0+aND/5OqSFFujF5t/EgH5zvh599BAyny/hYainjuQBiogHSNCgAGO
-	 Y7kzwEXsRDNBjv54Y/EEqw4BYKXaEFCn7v8OjHApMbOQHaqfcokUckHAbLhZHpKJe5
-	 hd3tMOKqmpZDVv1s9l/YmjAwOMeZjPTUNRJQ8L7MZhaA5CUl2Xi2pKuygsj4hNtTxg
-	 4pvoVD8Y9Q30b4LU+wzujooBFZ1aBPO2sHxy2t1ySYeoom2lG7hyga67Rpkh3+fR+A
-	 rNWCSOBwmn/R7rA9x0qk8d9C7fR34HD8VujJRj+ZEbiHZzhonhHNAlXzDLw+9fMPxZ
-	 5tbr1xSKq7UDw==
-Date: Thu, 1 Aug 2024 10:23:22 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Sui Jingfeng <sui.jingfeng@linux.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Pekka Paalanen <pekka.paalanen@collabora.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Andy Yan <andyshrk@163.com>
-Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector
- infrastructure
-Message-ID: <20240801-fluffy-cuttlefish-of-abracadabra-389feb@houat>
-References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
- <e33dc3c4-9d7d-4c85-97db-b6fd94142131@xs4all.nl>
+	s=arc-20240116; t=1722503316; c=relaxed/simple;
+	bh=Ll5hdcBf8no8SlVg677r241ga9uBSvYhCvouT5OgjCw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JVJgsCOPW+yuh5rKVgA3LMF0RXUiZv7PJBbCr6aw75w1o4qQuN8IQLW91kXTiFnfPWS45/GrP+a5/UAnCmRCanxw/kyjBGuVz8nXDWLqVrLXr0QW9Lr8C5NHAHfAgcCYFRn1BefaKXt8eponvDXlselMxgGm24o+VLB+k1uv+Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qXD2DlSz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0Ew0Q+oj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0C9b4pU3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u47VYPgM; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E64FB1F7D2;
+	Thu,  1 Aug 2024 09:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722503313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+	b=qXD2DlSzzFWUgMio7zZWFMELsmA2PSy8X8hXcAFTxBc5CoxScwkzoaKMwZW1uTzSnN2L9w
+	rr7iuffb5Zw7QmGPMKcDHSwMijLRdwEJbdshmyhM2ShEC6DKAfhn7ESGaqKpbQH6SfAC+W
+	+VXBNUZlFMEmCrIkEcWacCZF6MdR+PU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722503313;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+	b=0Ew0Q+ojsmKR2aJnwkB7JvH5fHokyjzh7ThkUmFqRlLxYdNnwHOrePQ3UX0IMHOYBK0QRK
+	0wR1KpxoNaGsHDBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1722503312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+	b=0C9b4pU3dJxYHGf3YbdFnjHYmOdas7PPJ/u/86ZU2q4P3K4FWhhw/vUtJ/GZvgpey+f6L+
+	2hx6eaCUtEHHr0vrp3RskaDmwbGqMbkzcJhMLYYZVNqh754df6c4VZdpmDx0DDVCPqPema
+	DqHPRu69gWCtXzq0oEEPXEhwx5B0T5c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1722503312;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=8CLGoz52zKPxxoWPDdh/ixZ43op1lXLpYfCTNUCzfSY=;
+	b=u47VYPgMu7mWYeQJm6pnxUbYZsLq6IkQG9TnUNmcNdbaS9jshsz+yFaCuunJRmT1esjAJR
+	4M/ec3zktzIFKiAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53DF2136CF;
+	Thu,  1 Aug 2024 09:08:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kSc4E5BQq2aqHwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 01 Aug 2024 09:08:32 +0000
+Message-ID: <5934b4b2-3a99-4b6b-b3e3-e57eb82b9b16@suse.de>
+Date: Thu, 1 Aug 2024 11:08:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="2k5tde7ytku6vb3x"
-Content-Disposition: inline
-In-Reply-To: <e33dc3c4-9d7d-4c85-97db-b6fd94142131@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 01/29] drm/connector: Introduce an HDMI connector
+ initialization function
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+ <20240527-kms-hdmi-connector-state-v15-1-c5af16c3aae2@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20240527-kms-hdmi-connector-state-v15-1-c5af16c3aae2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.59 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,rock-chips.com,sntech.de,csie.org,sholland.org];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,xs4all.nl];
+	FREEMAIL_CC(0.00)[xs4all.nl,redhat.com,linux.intel.com,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,raspberrypi.com,linux.dev,linaro.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.59
 
+Hi
 
---2k5tde7ytku6vb3x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 27.05.24 um 15:57 schrieb Maxime Ripard:
+> A lot of the various HDMI drivers duplicate some logic that depends on
+> the HDMI spec itself and not really a particular hardware
+> implementation.
+>
+> Output BPC or format selection, infoframe generation are good examples
+> of such areas.
+>
+> This creates a lot of boilerplate, with a lot of variations, which makes
+> it hard for userspace to rely on, and makes it difficult to get it right
+> for drivers.
+>
+> In the next patches, we'll add a lot of infrastructure around the
+> drm_connector and drm_connector_state structures, which will allow to
+> abstract away the duplicated logic. This infrastructure comes with a few
+> requirements though, and thus we need a new initialization function.
+>
+> Hopefully, this will make drivers simpler to handle, and their behaviour
+> more consistent.
+>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/drm_connector.c | 39 +++++++++++++++++++++++++++++++++++++++
+>   include/drm/drm_connector.h     |  5 +++++
+>   2 files changed, 44 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index b0516505f7ae..d9961cce8245 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -450,10 +450,49 @@ int drmm_connector_init(struct drm_device *dev,
+>   
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(drmm_connector_init);
+>   
+> +/**
+> + * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+> + * @dev: DRM device
+> + * @connector: A pointer to the HDMI connector to init
+> + * @funcs: callbacks for this connector
+> + * @connector_type: user visible type of the connector
+> + * @ddc: optional pointer to the associated ddc adapter
+> + *
+> + * Initialises a preallocated HDMI connector. Connectors can be
+> + * subclassed as part of driver connector objects.
+> + *
+> + * Cleanup is automatically handled with a call to
+> + * drm_connector_cleanup() in a DRM-managed action.
+> + *
+> + * The connector structure should be allocated with drmm_kzalloc().
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drmm_connector_hdmi_init(struct drm_device *dev,
+> +			     struct drm_connector *connector,
+> +			     const struct drm_connector_funcs *funcs,
+> +			     int connector_type,
+> +			     struct i2c_adapter *ddc)
 
-Hi Hans,
+I know I'm late to the review.
 
-On Wed, Jul 31, 2024 at 04:56:16PM GMT, Hans Verkuil wrote:
-> Hi Maxime,
->=20
-> On 27/05/2024 15:57, Maxime Ripard wrote:
-> <snip>
->=20
-> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
-> > to retrieve infoframes from HDMI receiver and implementing a tool to
-> > decode (and eventually check) infoframes. His current work on
-> > edid-decode to enable that based on that series can be found here:
-> > https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=3Dhverkuil
->=20
-> Since this patch series is now merged in mainline I also pushed support
-> for parsing InfoFrames to the edid-decode git repo.
->=20
-> I believe the parsing part of the InfoFrames is complete, but the conform=
-ity
-> checks for the AVI and HDMI InfoFrames are still work-in-progress. But it
-> should be easier to develop this now that is merged.
->=20
-> The git repo for edid-decode is here: https://git.linuxtv.org/edid-decode=
-=2Egit/
->=20
-> I added test files to the test/if directory, and if you run:
->=20
-> edid-decode -I audio.test -I avi.test -I vendor.test -I spd.test edid.tes=
-t -c
->=20
-> you'll get the output below.
+Wouldn't it be better to make a separate HDMI-setup helper instead of 
+yet another init function? The type of init function to use is mostly 
+about memory management within the driver, while the new HDMI state is 
+about features.
 
-That's awesome to hear, I'll send a patch for the KMS documentation to
-mention it=20
+Maybe rather add something like drm_connector_init_hdmi_state(), which 
+takes an initialized connector and sets all the values coming the other 
+patches. Drivers would not have to subscribe to a certain way of memory 
+management. AFAICT this would also allow to protect the helper and the 
+new drm_connector.hdmi field behind DRM_DISPLAY_HDMI_STATE_HELPER. Best 
+regards Thomas
+> +{
+> +	int ret;
+> +
+> +	if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> +	      connector_type == DRM_MODE_CONNECTOR_HDMIB))
+> +		return -EINVAL;
+> +
+> +	ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drmm_connector_hdmi_init);
+> +
+>   /**
+>    * drm_connector_attach_edid_property - attach edid property.
+>    * @connector: the connector
+>    *
+>    * Some connector types like DRM_MODE_CONNECTOR_VIRTUAL do not get a
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index fe88d7fc6b8f..4491c4c2fb6e 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1902,10 +1902,15 @@ int drm_connector_init_with_ddc(struct drm_device *dev,
+>   int drmm_connector_init(struct drm_device *dev,
+>   			struct drm_connector *connector,
+>   			const struct drm_connector_funcs *funcs,
+>   			int connector_type,
+>   			struct i2c_adapter *ddc);
+> +int drmm_connector_hdmi_init(struct drm_device *dev,
+> +			     struct drm_connector *connector,
+> +			     const struct drm_connector_funcs *funcs,
+> +			     int connector_type,
+> +			     struct i2c_adapter *ddc);
+>   void drm_connector_attach_edid_property(struct drm_connector *connector);
+>   int drm_connector_register(struct drm_connector *connector);
+>   void drm_connector_unregister(struct drm_connector *connector);
+>   int drm_connector_attach_encoder(struct drm_connector *connector,
+>   				      struct drm_encoder *encoder);
+>
 
-Thanks!
-Maxime
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
---2k5tde7ytku6vb3x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZqtF9QAKCRAnX84Zoj2+
-dgiBAX4lptP5eciLgerJmky6HFfb4t9iXMA0gMwf454GyprB/6H1qL24e8eHqpXe
-LgfVUI8BfRJ6NBLAdSH0nE87Xf5l/pBV5IacFmB10VRbZ+YSt/9xWQ37E0U2KJAl
-R21moyCKpQ==
-=3fHv
------END PGP SIGNATURE-----
-
---2k5tde7ytku6vb3x--
 
