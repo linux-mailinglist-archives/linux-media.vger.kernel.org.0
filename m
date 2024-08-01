@@ -1,139 +1,333 @@
-Return-Path: <linux-media+bounces-15716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15717-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB71F945186
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 19:30:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D7F9452BB
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 20:32:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6B1431F2358E
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 17:30:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 40AEB2829CA
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 18:32:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 428811B9B28;
-	Thu,  1 Aug 2024 17:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 895B714430D;
+	Thu,  1 Aug 2024 18:32:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DuO94Ghj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNUMVz2x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1190D143743;
-	Thu,  1 Aug 2024 17:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722533451; cv=none; b=m8IqKO53wDGRFFsdkmxp0pERV9V34OsSpbfb+MON9Sf7VrEVlW2XQtUZuIUeWSuB/IoaBTkixtaoqHEedsaJhzzyBZAWo6RX801H4KrUct60We2v4w/QdJqtmYXD68P+isq32BmEaPh90xz5thy8fun/xn+ZYWX2MgrNyobEJhI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722533451; c=relaxed/simple;
-	bh=55DhPcRDuHS5ZpJARG/nkE7q25pYrGpOdf2s6UK6Pxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sBoEpjnKT0dIebvoqCZhj0yx98vdo3fi5YRW76Q4B4u9kqTlq2G1vMY9FAhMM1P0hkibeSyhf9erkxbMWwWifiUs6Gew7SLEyl0duM/HmdjP0guF+lvMq8nXW1ROKyjy9Hu7dk6d+fPfUMd58XvIdmZSTIGv5qovV5LA6oFuksQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DuO94Ghj; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 408D1667;
-	Thu,  1 Aug 2024 19:29:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722533399;
-	bh=55DhPcRDuHS5ZpJARG/nkE7q25pYrGpOdf2s6UK6Pxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DuO94GhjJoHXRM+sCAEccIi2c9T2/6OGnRjs0Aav44GhSzzHJMHLANynwEmfd1cE4
-	 IlJ8v0+PMvu6GdVJKBj8AENST4iqD0iZ3NsgZk8OwCa0wWyNgfQyEuAvDCn17ugNfA
-	 PXeHqO+Cp3uzVQj5sZkj/KZg5tS5ZmmdicJp+/JI=
-Date: Thu, 1 Aug 2024 20:30:26 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricard Wanderlof <ricardw@axis.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, kernel@axis.com
-Subject: Re: [PATCH] drm: bridge: adv7511: Accept audio sample widths of 32
- bits via I2S
-Message-ID: <20240801173026.GC18732@pendragon.ideasonboard.com>
-References: <91472c14-3aeb-766a-1716-8219af6e8782@axis.com>
- <dad42efe-7895-50f5-6bba-9b8abb97f34a@axis.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9DF13BC0C;
+	Thu,  1 Aug 2024 18:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722537159; cv=fail; b=UjjULQWe84E+4dPJfvS+OUniMRcNebllJO7I/tJjFwj5oexhpnMR6OGik5h3vNi5nP37ZJQ451C21HOdCuHMWHuGSOwqQxjk8HzbikVF/+iYTQHv5kwGKf3PAPmCwZOgGhvcgnvePybz/zQ/lY3r3XVJ141esgBEWjefw7m+WII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722537159; c=relaxed/simple;
+	bh=/pRm8CxDl6Itcr/E48/VgVX553gCT/wu/rj+OgluKRs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QkiYGU3GiHqWZjsozCWFSawMx3qmOQuIllNnSEfTN0SQLUFsysKaDQU+H49+niiLcL6cCpbk/ZI5g7AOcPonjAAeMX8yDZ1n6LDDzpmkV8uWfdAvmST+CPvtjdh+pJTgfdlU4k5p5r+e2UI2XLEPRBWrb+UOWrQ2W9ry2amBSlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNUMVz2x; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722537157; x=1754073157;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=/pRm8CxDl6Itcr/E48/VgVX553gCT/wu/rj+OgluKRs=;
+  b=mNUMVz2xRR6Yqe5fa6j9D6b0qLMZaNcQ97xggagkiQx3PAVCBeUJVanZ
+   RBA07MCWZuAhJDD3NN7ZKmNRXU/F1w9nHRIxWQvV5Duan6gGQVaBlqYXI
+   to2m0sXkuxnrs+Etnu5nTRuk/TFdrYLLnntVGx4zhJbNT5kFzMC72vqsK
+   3s2j4K7hzrCHleAbczs6tDeLiBOToLwAQrEec6scZ2aWUob+NLCBsdBob
+   /sXnfVpJ1vicsSUU3guJj2inUtmiq2H9qpK3x9LNORM2+oKXWr+i/1rPA
+   AJntLaG7NwL9jUSQbIwqPDtK+S5iBOBFwUf91N9rmW47YpQw9FDuyY4nL
+   w==;
+X-CSE-ConnectionGUID: Y4xhdKJ/Rd2CizdG3x6x8A==
+X-CSE-MsgGUID: ZmoQHzR7Re6YyNL3GgepFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="24290504"
+X-IronPort-AV: E=Sophos;i="6.09,255,1716274800"; 
+   d="scan'208";a="24290504"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 11:32:30 -0700
+X-CSE-ConnectionGUID: ftYxphWvTMmfUebLyhaHOQ==
+X-CSE-MsgGUID: Hq0p41wZTQ+S4oTcd4eUDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,255,1716274800"; 
+   d="scan'208";a="55057681"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Aug 2024 11:32:30 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 1 Aug 2024 11:32:29 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 1 Aug 2024 11:32:29 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 1 Aug 2024 11:32:29 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 1 Aug 2024 11:32:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e6kValQcX5lPPet90q6RbRejrsDDnDY74liJweZeUbUfnwHpKB9ig6Kihif0cYjTpdVnzd3kPXrOKd05ZheOnGpguQaBJKyaTdMxrRIZJf0VAM0x/0/fmdleySjzCVlm/ODYnkc22nZcbIHlQvyWZJS8hBQKZt18iIa0KX40w3/dz0TyF4KBXQrCLDzLBFNNlE649O/52tNymmXBipzs5ZQdSRb/WXVOgHppD+GiMBd6v2TCKS8y5TR++Jpg4Z2WgGwBekXgLk/PFT6IoD9j7rtfp8RY4d9tbpg3b1GuUdsdgPFjOBfevhYA5s51BvwDAUWSWgr3L8yumnbNqka3KA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5DCppiaJJSG9IIhq4/zxDat/HAuPxhO4r9XdBeKVJOE=;
+ b=JtoVVNSTIOFn6ZKjZIVJaaRiQ/XL2D5Zl/JMHCVVWifJi/U4sC2JKM03KqM15IEN4rK7A/tkyzP4fO3WAUY3dYPG9i4WOgq/kShagSDCSqmN6g7PkhoP3rX6cDcxZCynLpmPaYOy2/pEm9q6SxOXbNZHd4FStkIvVx8hpWNw+Xc+YwcmwgZlL+BHSFB/sgUrHVW/IcHLNEW7ZASGgevDhy4xu1gqV+AqueO8wwtKrO2wOO8qg0HdM2+nrI5dETxbWWRc87rmUrYdYYwnB6DzLZ4beI9s6Yd8l5gNMeP3Ez0PSaOPY58GQLLyPQDcpi8Y+34NhQJ2P4LbNclg5MDIjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by SA2PR11MB4921.namprd11.prod.outlook.com (2603:10b6:806:115::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Thu, 1 Aug
+ 2024 18:32:25 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%3]) with mapi id 15.20.7807.032; Thu, 1 Aug 2024
+ 18:32:25 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Huan Yang <link@vivo.com>, Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal
+	<sumit.semwal@linaro.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
+	<christian.koenig@amd.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
+Subject: RE: [PATCH 0/5] udmbuf bug fix and some improvements
+Thread-Topic: [PATCH 0/5] udmbuf bug fix and some improvements
+Thread-Index: AQHa4///5LN9XFZvvk+YHtmHcHOwMbISscug
+Date: Thu, 1 Aug 2024 18:32:25 +0000
+Message-ID: <IA0PR11MB7185EDB259502BC6937CE566F8B22@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20240801104512.4056860-1-link@vivo.com>
+In-Reply-To: <20240801104512.4056860-1-link@vivo.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|SA2PR11MB4921:EE_
+x-ms-office365-filtering-correlation-id: e8fe3735-f831-4fa0-bb5c-08dcb2584a96
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?3gYBL1Py492iQzCl746MM87t4Lx7HTD4NtemHdPonc30ZlEyCRk2UPJZbC?=
+ =?iso-8859-1?Q?cTyTu/RmHhmdEn0ee9OgY9M5EIz4XTJUKW83Sc0pon5Lqw5g3GWVz4Pkfk?=
+ =?iso-8859-1?Q?u08k4/i4c+CQgwcxmvzKkYh/outMFXiNipDWtoFMM7bPvlszd/OjfNMWj6?=
+ =?iso-8859-1?Q?OOyYBKEb4bpFlZ9hEBu43JLnSepFoT5mDwfgJ/fXtn9J7HLWfeb1j88hJW?=
+ =?iso-8859-1?Q?s1bUO7Gpuwzi1hsNzOHH2pgzhZ3mtQsNVaOIOVyjMC8CxKnQ2LZkJTaDfE?=
+ =?iso-8859-1?Q?wdAXqJs/HD4eW79d1/3rzyNEq1r3BYl3zcA+rq7BMsKdyVIBZsfV+skeJ5?=
+ =?iso-8859-1?Q?7lS7dO5vfXFKFGbWmjKw7fRPGDpnGPHII1kwI9gwYhPq4Rfqt9KSgDCxl/?=
+ =?iso-8859-1?Q?7EoX0xkZkFer4VtaH52yXSaEWqyTM6s+64QEDv6hNwXQH/43eynVAuVCNv?=
+ =?iso-8859-1?Q?3/fdKLXERKNb27bjt+kS6kIjkG97fntoNesdGlXBdYPJ5Le4At0AT2LTFR?=
+ =?iso-8859-1?Q?9LpRaQEDUHdgPfox0j89hv3n/hjqVxP//S9yptPUq6PdSoY1K4sd4rhmP6?=
+ =?iso-8859-1?Q?DGwifJXoSrVs7UqDBbtLLaYnNOCL36dwGTAx0f3/r/4CAEf90JaAJf8fiH?=
+ =?iso-8859-1?Q?72xsv3cPcSFtsj8RPp4ACS9UQ1KyefMXL2SdbtHksOHcfBDrqupawjVUJW?=
+ =?iso-8859-1?Q?ZS0oqMsETZLpIYv26EsaIb7on/lCl+E6zmNnAGqoIR/ebxAS8ye2gCtdDW?=
+ =?iso-8859-1?Q?g8MU4OK90h+5PHt1knsXGjJC/0b4QXX0YhbbOsVH+OuiKwTcE/5TupJwU2?=
+ =?iso-8859-1?Q?BALj8mTWmqamgmfj0ESCGGJ1YLRT7XDoTEtLJLM1I10kK8PSCC3frd5lXd?=
+ =?iso-8859-1?Q?9Ob6+WLpiSOIIlV1WY9lxdKBfCwgpDh23Z/ZgWlmxVc3US5fifeZg7ciZM?=
+ =?iso-8859-1?Q?kFcY8tLnOdsOdVEJdk1ZpvW3R6r9NicMboI1V5RkWa8vV8UIJa+qWEwFgw?=
+ =?iso-8859-1?Q?xQpxoeRN1g7KwL9+3VYWfpM3rIZF+o4sNw148Fl1lgPqxUBDTWCAqmdw+B?=
+ =?iso-8859-1?Q?AkR70kx9J0Iq7UEATwnxs3DSsLlT3PpQ482dswtsCixRRG85FkpM6BGP14?=
+ =?iso-8859-1?Q?tropfZ9yzOxpo4qWGtS6Anz1CcvEKIN3Or5Ejc3WpdDMfwkpbWbmbOuEeJ?=
+ =?iso-8859-1?Q?pVgxlRkmRsU7lql7AoYp/sAbEZYMtAgoCwZkbthXgP2vQyAHdsYV/2hT82?=
+ =?iso-8859-1?Q?szsPHgWBCC+D5O6YWc1UmmW7zEOvfZPl/v5SWQSwRayEr0XHxiPkiQUttX?=
+ =?iso-8859-1?Q?fMNcekX0mLeGQlKlzJvwDeuS94yUPaGEdq9Cb3loSvbxErmpI/NVMqQzwn?=
+ =?iso-8859-1?Q?EGIRVcS27iIGJBm0VCD1A9n6TVx9/m95IQQvKgPSjXN3luSfNldwo=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?RNJrDst0wbkJAyGzA0P/7qYvn5Tu6QVBn+uekK4rk93rQHuYAXpH1eQipB?=
+ =?iso-8859-1?Q?trj3KWs+A4JhXqrA7EfdsyeQSb9qbhX+HH3QGXAcc44fhoBL8nv8qe/6uK?=
+ =?iso-8859-1?Q?+sviSSh0QLR2C6Lz17yLkBF8PTDR2hgj0mYvdTgkA/o2o4wptAFuohB7bh?=
+ =?iso-8859-1?Q?zB8tmikJ7/d32vN9KRcO2L5kSZlHZTS6p+Aj5QBIfOBHX79giDzy7KBKb4?=
+ =?iso-8859-1?Q?WV83kS0DaDIXt+ZF9VWz7XyfYK1fKyJWx/oVzD4gjT1Yv+a71sE275UC4O?=
+ =?iso-8859-1?Q?qjJ5IMmX5zD5toixN2WHZ7xKFTXGjHUMlj5xb1jwK3chwQftpCC0o2lvtJ?=
+ =?iso-8859-1?Q?1+5c8Qk/I+AUd9sQcZXsg4lDbQnvqfAKpArQzys2Y+4B54k8dWTpN6N54I?=
+ =?iso-8859-1?Q?fRoch1ql/fGGvsntyyJqZRJNzLq80BXsj0FqRJCYuNRqKpaxN3ipzthbZk?=
+ =?iso-8859-1?Q?Wm5F+s4xsTHX0wobZRcSJAJQMLhZgW9wcmlKcpZakAKJnkypx0q9U5B4CV?=
+ =?iso-8859-1?Q?Z/6AYz32Igys5XiZO+UY01P1sIwSs/K1YbL/fEnruzN16qyqMWPdqbhTnK?=
+ =?iso-8859-1?Q?rKHCcWa70AAKPEerQ7BOAfQ5FUYPcOi6g/RqQamiBpwHlQLWNogeFJwHey?=
+ =?iso-8859-1?Q?Hv8O/LPyyuikdzdneBG0qlNW+kLaGJKvM0dVBPiwS3+c++iHJvA/j4KQwR?=
+ =?iso-8859-1?Q?/1EThm8TtM8UtfwtqHsOXFCYAo/aTADxWjXEkCCILEKB17MD9HTO4vk+fD?=
+ =?iso-8859-1?Q?tyrXEpW7f0bI0hKFdocam+pwtM0QoC3dE7HpuMjDwckaVHjKCkP834dyca?=
+ =?iso-8859-1?Q?KarwggEgxaIUjshkWrJScHerf+v7BvflUUeiji8WsHlIR08SstCKYmJPR+?=
+ =?iso-8859-1?Q?gXIQl8CJqsiG/jJEHj97mwZLPAhx0POxT6UacTFz8mfKBDwP0nHK/3UveY?=
+ =?iso-8859-1?Q?2AxiCracEeaCYzOze1Ovl5YV6S3oOP0V/hYTd7BmAl4PQVk8kUL+dCvOBj?=
+ =?iso-8859-1?Q?KZQnAkdxx6QITwk/t0OBow9BQ+pAg2WPJBct9o+nRFLpYCxKSeqlgJcmcJ?=
+ =?iso-8859-1?Q?E2g/25mhyNWqHQJw+YqBAkq1Z1PlF0P4sqbZazEDhXdcKZVQIAeBfLfNLx?=
+ =?iso-8859-1?Q?0CnwAVJG4Pax6d3blPjmtBlqrerWyu+TS8jfMGO/m44k0O5TRerbkAyHNA?=
+ =?iso-8859-1?Q?vStEkZRZgbo8rC153KjdHSl+ZNtetAneLKTI+IGbnPkQpeBVTN6fMTVard?=
+ =?iso-8859-1?Q?zpbRFGyVl9ybRwRl7CCkVO8H2zPWjPhWaZZMdN4gWa9H7nNJYNu2/YPiO7?=
+ =?iso-8859-1?Q?CngEV+rY7S1NVHz1rFxliHxFsvGP468F76ha2nmBKGwRvztNWmKqLKCiGt?=
+ =?iso-8859-1?Q?x8d9FmDZomUmBG3/0gqOfZLDEkZAqR5PY/S439sj/SzVUoYvGoxXZV/SFY?=
+ =?iso-8859-1?Q?xkWS7g43Yf3OZ3YKV1vjGOeDJIbRLfyW2Adpycpi88F+Z1ZHvI11RsC5Wq?=
+ =?iso-8859-1?Q?+MdmjUCENf8MAvXTTh1TWiNz5v/8IntDkwBNcICk9L4X6DA1ljvhrKJ6cw?=
+ =?iso-8859-1?Q?dygU9fAwkop9bctmdMTjQWx5EqdVZxJ9KqTcCSYMU3M7y6hW3nCwWNYXq+?=
+ =?iso-8859-1?Q?8s5w08kqEeLTDznrJKVu8230ASTJzl8mio?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <dad42efe-7895-50f5-6bba-9b8abb97f34a@axis.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8fe3735-f831-4fa0-bb5c-08dcb2584a96
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2024 18:32:25.7582
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 57QNouegtvDJCEIZG9tT0BWp5rbTjwvuRpxZyj90NRwjrZLxxrv3FGv0dbCXcE3D59HmEm5cUkP3AdVmDztwmMk/fT7cQVpBVoH1Zg6ToSw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4921
+X-OriginatorOrg: intel.com
 
-On Mon, Jul 29, 2024 at 10:15:55AM +0200, Ricard Wanderlof wrote:
-> 
-> Hi,
-> 
-> I submitted the patch below a while ago (two months) but as far as I can 
-> make out it has not been included. There was an initial concern from 
-> Dmitry Baryshkov which was subsequently addressed but no other objections. 
-> 
-> On Tue, 28 May 2024, Ricard Wanderlof wrote:
-> 
-> > 
-> > Even though data is truncated to 24 bits, the I2S interface does
-> > accept 32 bit data (the slot widths according to the data sheet
-> > can be 16 or 32 bits) so let the hw_params callback reflect this,
-> > even if the lowest 8 bits are not used when 32 bits are specified.
-> > 
-> > This is normally how 24 bit audio data is handled (i.e. as 32 bit
-> > data, with the LSB:s unused) and this is also reflected in other
-> > bridge drivers which handle audio, for instance sii902x.c and
-> > synopsis/dw-hdmi-i2s-audio.c .
-> > 
-> > Signed-off-by: Ricard Wanderlof <ricard.wanderlof@axis.com>
-> > ---
-> >  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 11 +++++++----
-> >  1 file changed, 7 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> > index 61f4a38e7d2b..4563f5d8136f 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> > @@ -101,11 +101,14 @@ static int adv7511_hdmi_hw_params(struct device *dev, void *data,
-> >  	case 20:
-> >  		len = ADV7511_I2S_SAMPLE_LEN_20;
-> >  		break;
-> > -	case 32:
-> > -		if (fmt->bit_fmt != SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE)
-> > -			return -EINVAL;
-> > -		fallthrough;
-> >  	case 24:
-> > +	case 32:
-> > +		/*
-> > +		 * 32 bits are handled like 24 bits, except that the lowest
-> > +		 * 8 bits are discarded. In fact, the accepted I2S slot widths
-> > +		 * are 16 and 32 bits, so the chip is fully compatible with
-> > +		 * 32 bit data.
-> > +		 */
-> >  		len = ADV7511_I2S_SAMPLE_LEN_24;
-> >  		break;
-> >  	default:
-> 
-> I recently discovered that the maintainer for the ADV7511 driver (in the 
-> I2C) framework is not included by the get_maintainers script, so perhaps 
-> this is the reason?
-> 
-> Otherwise, please enlighten me on what I need to do to get this patch 
-> accepted!
+Hi Huan,
 
-I have no experience with HDMI audio, so I didn't comment on your patch.
+> This patchset attempts to fix some errors in udmabuf and remove the
+> upin_list structure.
+>=20
+> Some of this fix just gather the patches which I upload before.
+>=20
+> Patch1
+> =3D=3D=3D
+> Try to remove page fault mmap and direct map it.
+> Due to current udmabuf has already obtained and pinned the folio
+> upon completion of the creation.This means that the physical memory has
+> already been acquired, rather than being accessed dynamically. The
+> current page fault method only saves some page table memory.
+>=20
+> As a result, the page fault mechanism has lost its purpose as a demanding
+> page. Due to the fact that page fault requires trapping into kernel mode
+> and filling in when accessing the corresponding virtual address in mmap,
+> this means that user mode access to virtual addresses needs to trap into
+> kernel mode.
+>=20
+> Therefore, when creating a large size udmabuf, this represents a
+> considerable overhead.
+Just want to mention that for the main use-case the udmabuf driver is desig=
+ned for,
+(sharing Qemu Guest FB with Host for GPU DMA), udmabufs are not created ver=
+y
+frequently. And, I think providing CPU access via mmap is just a backup, ma=
+inly
+intended for debugging purposes.
 
-Hans, is this within your area of expertise ?
+>=20
+> Therefore, the current patch removes the page fault method of mmap and
+> instead fills it directly when mmap is triggered.
+>=20
+> This is achieved by using the scatter-gather table to establish a
+> linear relationship for the page. Calling remap_pfn_range does not cause
+> the previously set VMA flags to become invalid.
+>=20
+> Patch2
+> =3D=3D=3D
+> This is the same to patch:
+> https://lore.kernel.org/all/20240725021349.580574-1-link@vivo.com/
+> I just gather it to this patchset.
+>=20
+> Patch3
+> =3D=3D=3D
+> The current implementation of udmabuf's vmap has issues.
+>=20
+> It does not correctly set each page of the folio to the page structure,
+> so that when vmap is called, all pages are the head page of the folio.
+>=20
+> This implementation is not the same as this patch:
+> https://lore.kernel.org/all/20240731090233.1343559-1-link@vivo.com/
+>=20
+> This reuse sgt table to map all page into vmalloc area.
+>=20
+> Patch4
+> =3D=3D=3D
+> Wrap the repeated calls to get_sg_table, add a helper function to do it.
+> Set to udmabuf->sg use cmpxchg, It should be able to prevent concurrent
+> access situations. (I see mmap do not use lock)
+>=20
+> Patch5
+> =3D=3D=3D
+> Attempt to remove unpin_list and other related data structures.
+>=20
+> In order to adapt to Folio, we established the unpin_list data structure
+> to unpin all folios and maintain the page mapping relationship.
+>=20
+> However, this data structure requires 24 bytes for each page and has low
+> traversal performance for the list. And maintaining the offset structure
+> also consumes a portion of memory.
+>=20
+> This patch attempts to remove these data structures and modify the
+> semantics of some existing data structures.
+>=20
+> udmabuf:
+>   folios -> folios array, which only contain's the folio, org contains
+> duplicate.
+>   add item_offset -> base on create item count, record it's start offset
+> in every memfd.
+>   add item_size -> base on create item count, record it's size in every
+> memfd.
+>   add nr_folios -> folios array number
+I am not sure if these changes improve the readability. Instead, I think it=
+ makes
+sense to add comments to the existing code.
 
--- 
-Regards,
+>=20
+> So, when building the sg table, it is necessary to iterate in this way:
+>   if size cross item->size, take care of it's start offset in folio.
+>   if got folio, set each page into sgl until reach into folio size.
+>=20
+> This patch also remove single folios' create on each create item, use it
+> be the ubuf->folios arrays' pointer, slide to fill the corresponding
+> folio under the item into the array.
+>=20
+> After the modification, the various data structures in udmabuf have the
+> following corresponding relationships:
+>   pagecount * PAGESIZE =3D sum(folios_size(folios[i])) i=3D0->nr_folios
+>   pagecount * PAGESIZE =3D sum(item_size[i]) i=3D0, item_count (do not
+> record)
+>   item_offset use to record each memfd offset if exist, else 0.
+>=20
+> Huan Yang (5):
+>   udmabuf: cancel mmap page fault, direct map it
+>   udmabuf: change folios array from kmalloc to kvmalloc
+>   udmabuf: fix vmap_udmabuf error page set
+Do you have a test-case to test this patch?
 
-Laurent Pinchart
+>   udmabuf: add get_sg_table helper function
+>   udmabuf: remove folio pin list
+Please run the newly added udmabuf selftests to make sure that these
+patches are not causing any regressions. And, we also need to make sure tha=
+t
+the main use-cases (Qemu with memfd + shmem and Qemu with memfd + hugetlb)
+are working as expected given the invasive changes.=20
+
+I'll be able to test and provide more detailed feedback on all patches once=
+ I am back from
+vacation late next week.
+
+Thanks,
+Vivek=20
+
+>=20
+>  drivers/dma-buf/udmabuf.c | 270 +++++++++++++++++++++-----------------
+>  1 file changed, 148 insertions(+), 122 deletions(-)
+>=20
+>=20
+> base-commit: cd19ac2f903276b820f5d0d89de0c896c27036ed
+> --
+> 2.45.2
+
 
