@@ -1,107 +1,133 @@
-Return-Path: <linux-media+bounces-15680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4FD94464F
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 10:17:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B136944680
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 10:23:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D1AE1C20C2C
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 08:17:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16EEB2826E5
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 08:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76DC316C85F;
-	Thu,  1 Aug 2024 08:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 062E216EB6E;
+	Thu,  1 Aug 2024 08:23:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OvIFEuGp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLPPm9tY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4AA38DE0
-	for <linux-media@vger.kernel.org>; Thu,  1 Aug 2024 08:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A35E16C856;
+	Thu,  1 Aug 2024 08:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722500219; cv=none; b=mZDh/cY4aTD6VKth0eDp6CcTISNHF47d83ozpvs9+VTvlQYIkBsWg19a81NPwzhZw90e8w5JIvvrAos13Uh4EgQ+8eCqcpjIsPc3JP4EljIzHnD1uR6Dmzabi7Zvm3vrX3oIt0v8rUfhofnELtLXle9IgLSNQydlTsxiNaZwMd0=
+	t=1722500605; cv=none; b=SbSEKg6nsQZSL8ykh0FUsZLrlgKb1FfEn+AoBv32T0dvFm0efTxig98k6P+twbNce9OpPEQBZ9RjH8XudB+LOP5Ou7EtBcy4ULYYFOG5vb9vPUBEuIMRHRs/xoxYZ5DhSC4bwyLAhHDKmCEJZ0n+elHFuLxF6uyRNnJHzyrMSrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722500219; c=relaxed/simple;
-	bh=q5fun1stuBG+6UPuqpS76nEA11lt40c4cJptlg3SGjc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L2sobKZfoc6ETuaqEmIWAV25J8QSjOJ848Bu9N2rWVI2rw0o3nupTSjRLFWQCXXHYtwBFPhDOM49/nW4MLdaHcx8M9fPmVFBIp7Z0VSKEqGvQXEfzw0uu6n91WMOtxPkdC+wBW5aNk98Av1A5n4qyMUnBkbPAn3sOLUsYrnybxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OvIFEuGp; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42817f1eb1fso38654465e9.1
-        for <linux-media@vger.kernel.org>; Thu, 01 Aug 2024 01:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722500217; x=1723105017; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XP9tpFtaN6upuW6t7vjYg0wgdfL/oQQOrVIWRer9/9A=;
-        b=OvIFEuGplgnRFbJ71Y7Zv14yuDJHIDp2TaVBF9QaIvJqNhPv287Uzi009ebJWh7OSE
-         KSR8mEK5balCEEuXd9Y0iI7Ob7DOpE1NGOdYAFGVRrn2IIajPrb6V7+2HrmgLx8fuw/d
-         N4DlAN34bHFRHGGi5Z9rw9JC2tv0Cp8VSpsuKGFhGu52Z5MMeBY73MVdnOSy2Y2SFtUU
-         MREb0se2+bmDOHoCmH4Dq9VQcNJ0+QNivAtlNhjeNIa7YW/nbHeWpk8rnbQjjLJrvQow
-         N2NbBG20TyHHSMLWOeJHZBIKwpNi0LR6GqdAJ+/YZkldgFkII/ttZi5vQh99o+f6RcMq
-         vjJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722500217; x=1723105017;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XP9tpFtaN6upuW6t7vjYg0wgdfL/oQQOrVIWRer9/9A=;
-        b=lmwzO8XCLU7RLpCs807PGTgXeWgiyoxWM7V0JHnyaFXxHe5L8YR6vhvru5QjnBj4GT
-         4CsNSWJJK2lckNx8abHK89E84VGVB3VS3qGhQnIY6Ka7FU/07fZfDiwPZj7LDluZWnA3
-         FMm3Ve9B9g6S6fgARKelxQ/3jeNjYlFiNCtA5iFLus52pRtXNe1pvCRqy12BSNTAOkEV
-         LVK8mzbf4xZIuZiqfIkcwLXHcxhsR1Q6E54FV/soNDegFkEb4SgJTNbE85jrsjWS97x4
-         s4UvG+3ywWqlvX7cMauaS2nZYDcv8t7ekQk0T+LxYIL5Xe2lHtMHmCRqJRGD6OUvqRg4
-         9n0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUtXUlPJvK4EnndIxKbnbCskD0A8AEXG4uUhq3eO43RY1HKyMUFOPypNZOyQ9NmHGLtO6ewIfQOstLJiqHytzhSoLOujhqwkWM28CY=
-X-Gm-Message-State: AOJu0YzRvdAxYqvC23JzVwhjTVDgSNQ2nAKXaa01OFLWhrSXJ3rm3qoC
-	3z7UZekeNIb2AEAqgDWmcYJlsV+8toW02wq0a3+UMm4ctr19dXP4u/ryS3ibNWhCyOb6dflmClE
-	Q/58=
-X-Google-Smtp-Source: AGHT+IEZ6N3OkZhSfrB0OlObra87UiMAZT58iQxNd4nFWX93KOp+dwXPH4pd9kz7+mSHV+7alm6HBQ==
-X-Received: by 2002:a05:6000:1364:b0:367:9ce3:1667 with SMTP id ffacd0b85a97d-36baacc7d04mr1233681f8f.15.1722500216713;
-        Thu, 01 Aug 2024 01:16:56 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36b367d9b30sm18869773f8f.40.2024.08.01.01.16.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Aug 2024 01:16:56 -0700 (PDT)
-Message-ID: <fafda7d5-3853-428a-b0eb-9993fc2d4f56@linaro.org>
-Date: Thu, 1 Aug 2024 09:16:55 +0100
+	s=arc-20240116; t=1722500605; c=relaxed/simple;
+	bh=Z51j2yPPzqzqUbfDzj+Co7O6I0fAkjzKGVvNCuTWfG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NfVPw3iMrhWkZSKF8PYkpkwUckK8yQGFuXCfbkn5Cs10ZMVqQlwT73A+3+ktzBpzSTnL0ZDV3wdX5PW6HdLp6bqew9LRqfgk+21lbgkaKcPINSd1gPyekyNn5Adeigj37WLFJNfkjrECq5vc3jI/Xny3ETgPOm3666zRENZLVUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLPPm9tY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67EE0C4AF09;
+	Thu,  1 Aug 2024 08:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722500604;
+	bh=Z51j2yPPzqzqUbfDzj+Co7O6I0fAkjzKGVvNCuTWfG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pLPPm9tY25L0+aND/5OqSFFujF5t/EgH5zvh599BAyny/hYainjuQBiogHSNCgAGO
+	 Y7kzwEXsRDNBjv54Y/EEqw4BYKXaEFCn7v8OjHApMbOQHaqfcokUckHAbLhZHpKJe5
+	 hd3tMOKqmpZDVv1s9l/YmjAwOMeZjPTUNRJQ8L7MZhaA5CUl2Xi2pKuygsj4hNtTxg
+	 4pvoVD8Y9Q30b4LU+wzujooBFZ1aBPO2sHxy2t1ySYeoom2lG7hyga67Rpkh3+fR+A
+	 rNWCSOBwmn/R7rA9x0qk8d9C7fR34HD8VujJRj+ZEbiHZzhonhHNAlXzDLw+9fMPxZ
+	 5tbr1xSKq7UDw==
+Date: Thu, 1 Aug 2024 10:23:22 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Sui Jingfeng <sui.jingfeng@linux.dev>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Pekka Paalanen <pekka.paalanen@collabora.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v15 00/29] drm/connector: Create HDMI Connector
+ infrastructure
+Message-ID: <20240801-fluffy-cuttlefish-of-abracadabra-389feb@houat>
+References: <20240527-kms-hdmi-connector-state-v15-0-c5af16c3aae2@kernel.org>
+ <e33dc3c4-9d7d-4c85-97db-b6fd94142131@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/13] media: qcom: camss: csiphy: Add an init callback to
- CSI PHY devices
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-5-quic_depengs@quicinc.com>
- <6dfc2c79-fc6d-4eed-bf3f-94396130cb4f@linaro.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <6dfc2c79-fc6d-4eed-bf3f-94396130cb4f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="2k5tde7ytku6vb3x"
+Content-Disposition: inline
+In-Reply-To: <e33dc3c4-9d7d-4c85-97db-b6fd94142131@xs4all.nl>
 
-On 01/08/2024 00:43, Vladimir Zapolskiy wrote:
->> +    ret = csiphy->res->hw_ops->init(csiphy);
-> 
-> Here.
 
-What name would make more sense to you ?
+--2k5tde7ytku6vb3x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
----
-bod
+Hi Hans,
+
+On Wed, Jul 31, 2024 at 04:56:16PM GMT, Hans Verkuil wrote:
+> Hi Maxime,
+>=20
+> On 27/05/2024 15:57, Maxime Ripard wrote:
+> <snip>
+>=20
+> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+> > to retrieve infoframes from HDMI receiver and implementing a tool to
+> > decode (and eventually check) infoframes. His current work on
+> > edid-decode to enable that based on that series can be found here:
+> > https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=3Dhverkuil
+>=20
+> Since this patch series is now merged in mainline I also pushed support
+> for parsing InfoFrames to the edid-decode git repo.
+>=20
+> I believe the parsing part of the InfoFrames is complete, but the conform=
+ity
+> checks for the AVI and HDMI InfoFrames are still work-in-progress. But it
+> should be easier to develop this now that is merged.
+>=20
+> The git repo for edid-decode is here: https://git.linuxtv.org/edid-decode=
+=2Egit/
+>=20
+> I added test files to the test/if directory, and if you run:
+>=20
+> edid-decode -I audio.test -I avi.test -I vendor.test -I spd.test edid.tes=
+t -c
+>=20
+> you'll get the output below.
+
+That's awesome to hear, I'll send a patch for the KMS documentation to
+mention it=20
+
+Thanks!
+Maxime
+
+--2k5tde7ytku6vb3x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZqtF9QAKCRAnX84Zoj2+
+dgiBAX4lptP5eciLgerJmky6HFfb4t9iXMA0gMwf454GyprB/6H1qL24e8eHqpXe
+LgfVUI8BfRJ6NBLAdSH0nE87Xf5l/pBV5IacFmB10VRbZ+YSt/9xWQ37E0U2KJAl
+R21moyCKpQ==
+=3fHv
+-----END PGP SIGNATURE-----
+
+--2k5tde7ytku6vb3x--
 
