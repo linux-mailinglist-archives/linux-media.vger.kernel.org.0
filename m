@@ -1,125 +1,167 @@
-Return-Path: <linux-media+bounces-15712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60300944DB0
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 16:08:38 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC2E945021
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 18:08:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7750D1C256FB
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 14:08:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1518B2876F
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 16:08:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81E2B1A487B;
-	Thu,  1 Aug 2024 14:08:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DA1A1BB681;
+	Thu,  1 Aug 2024 16:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b="ICzdFklB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="m/BAis2F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24A916DECD;
-	Thu,  1 Aug 2024 14:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.19.76.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C590A1B9B59;
+	Thu,  1 Aug 2024 16:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722521310; cv=none; b=Ye8GwrDqbOf4N44LskInENazaAiy1LY+zb5EjblqY52hxjrB/c49bKc46hA1oFOINf3ioTXidKYh3fuz9I1QVWBEltjqhQCd1ipHo0MSlQlS3OSYFnxEpQqEIyTnhX1zJgtM0TXm84emIWegChoRK3J2d/IJlG5lP2bOdjBpN4c=
+	t=1722528403; cv=none; b=hDZcGQtpVrJWoCMAyBP3JYTBOzFNls0++oaoJAtg3FGr+h4904ZHgoOGKn1t0dziwoSn9zoYInCZiIURSZkdZp7ZLwX+Rskwpek6fGdhPUHwChzwJSWixjg2HbTzGxYlrzvVcSWvGW5GcDOSfr4yYb5Qzpg3UHKZqFPSwdFcZhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722521310; c=relaxed/simple;
-	bh=+wIP2IpBSze0xXSCICsVKYMXwNpOamqXqxQrr1Bo4fE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XQGVv3XO3xy2WS5hP7e6KsVjNYzo1YRCTX7CzZ0BdMqcCpeC9zAczif5WmAMt1c98QXpWAV3CI8tD2m/zzoyWC/ZrfCxUVaghEoua+vIlDJm0J8aUZcVS5Galt6AIhSLGzIM4WSaAk/8rjj6FRj1tRs6KlOXlkOSMEY0Zgo6EcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru; spf=pass smtp.mailfrom=rosalinux.ru; dkim=pass (2048-bit key) header.d=rosalinux.ru header.i=@rosalinux.ru header.b=ICzdFklB; arc=none smtp.client-ip=195.19.76.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosalinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosalinux.ru
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id EA58FDF0CB95B;
-	Thu,  1 Aug 2024 16:59:10 +0300 (MSK)
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id 2Vm2f6NnzNIT; Thu,  1 Aug 2024 16:59:10 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id BEA44DF0CB95C;
-	Thu,  1 Aug 2024 16:59:10 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru BEA44DF0CB95C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
-	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1722520750;
-	bh=nyt6BxCMhJ7NmxYlOnTb0vneDAkrEuic8pbknsp9NjM=;
-	h=From:To:Date:Message-ID:MIME-Version;
-	b=ICzdFklBGI12G3g32z/WJbbW3wiTWHjij5NN8OJQg4Fe+/rfUaebH91M2ThC5nQ0g
-	 5XK9/tXhe9c5p4bm45hyHxgNSlEOfVlW2F/QPsGv06sJad5BxqcidXfr23hxpBFXEK
-	 T88FaNP2A/LkHpPTM1tFdaXlkRTVmTCREyrN8suFgEZgaw/4Oc/sBW5bxtr3m5LFtH
-	 cZkjG8bxg4dIrHRSP1sWIOczV0kCtL9kMksKDqQxNriYBqo0Kw+0sFUQnKdXgYLTn8
-	 Kld0E7AjeaSqoX3tcB/AEaMmEAPKUkVhWQXE7+8SHyISdCR9PWJuOrmE8VNDLcEdZT
-	 IHKWic8v5G/0w==
-X-Virus-Scanned: amavisd-new at rosalinux.ru
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id T3tdluQnV2nU; Thu,  1 Aug 2024 16:59:10 +0300 (MSK)
-Received: from localhost.localdomain (unknown [89.169.48.235])
-	by mail.rosalinux.ru (Postfix) with ESMTPSA id 869F9DF0CB958;
-	Thu,  1 Aug 2024 16:59:10 +0300 (MSK)
-From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Mikhail Lobanov <m.lobanov@rosalinux.ru>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: 
-Date: Thu,  1 Aug 2024 09:54:28 -0400
-Message-ID: <20240801135649.76995-1-m.lobanov@rosalinux.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1722528403; c=relaxed/simple;
+	bh=DK9tWdz/0iSJkJT5x7sqs/bLGa54vj+NBpGI/VPp5gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qu5a6XIpZ0nrKI7BDf892ksMgV+OhfkMPXcv2t8gi1+HyxdOhTDkh+xoijTDT6FfxnXIyQdTZDSNCiQGJSAuxKY3CM/j8z6PJipPnVSb5AGmKRZQlKBWHFhcYN7OsGsWXJsBGI25XP3+9gSgJD+t5W0uLsFFbaimItzmn/xBcXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=m/BAis2F; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0819842;
+	Thu,  1 Aug 2024 18:05:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1722528345;
+	bh=DK9tWdz/0iSJkJT5x7sqs/bLGa54vj+NBpGI/VPp5gk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m/BAis2FeetJ8Yd9EIMbkHlbRtKVOYWR6wQoO8lx5euCS0oPA+N3XzB9EUdTxwvUt
+	 5ATESrc1Ab6ffMWPUn07zVB0XSsVOsc1A/Ww0CNuDaPEftsvNupdlyM27KXiHMX+Qh
+	 0DOaka4qvdFJNF38MBi3oeeQYy59RvA/uLb0wIyY=
+Date: Thu, 1 Aug 2024 19:06:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: yuji2.ishikawa@toshiba.co.jp
+Cc: hverkuil@xs4all.nl, mchehab@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, broonie@kernel.org,
+	sakari.ailus@linux.intel.com, nobuhiro1.iwamatsu@toshiba.co.jp,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 5/6] documentation: media: add documentation for
+ Toshiba Visconti Video Input Interface driver
+Message-ID: <20240801160612.GA18732@pendragon.ideasonboard.com>
+References: <20240709000848.1108788-1-yuji2.ishikawa@toshiba.co.jp>
+ <20240709000848.1108788-6-yuji2.ishikawa@toshiba.co.jp>
+ <20240722180251.GP13497@pendragon.ideasonboard.com>
+ <OSZPR01MB942787AD2A406D91BB08B0EC92B22@OSZPR01MB9427.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <OSZPR01MB942787AD2A406D91BB08B0EC92B22@OSZPR01MB9427.jpnprd01.prod.outlook.com>
 
-Subject: [PATCH] cobalt:  adding a check to the driver
+Hello Ishikawa-san,
 
-This patch addresses an issue in cobalt-flash.c where the return value of=
- the mtd_device_register function,=20
-was not being checked. This omission could lead to unhandled errors if th=
-e registration fails.
-The patch adds error handling by checking the return value and logging an=
- error message if registration fails.
-It ensures that the function returns the appropriate error code, improvin=
-g error detection and the robustness=20
-of the code.
+On Thu, Aug 01, 2024 at 09:23:43AM +0000, yuji2.ishikawa@toshiba.co.jp wrote:
+> On Tuesday, July 23, 2024 3:03 AM, Laurent Pinchart wrote:
+> > On Tue, Jul 09, 2024 at 09:08:47AM +0900, Yuji Ishikawa wrote:
+> > > Added description of Video Input Interface driver of Toshiba Visconti
+> > > architecture.
+> > > It includes hardware organization, structure of the driver and
+> > > metadata format for embedded image signal processor.
+> > >
+> > > Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> > > ---
+> > > Changelog v3:
+> > > - Newly add documentation to describe SW and HW
+> > >
+> > > Changelog v4:
+> > > - no change
+> > >
+> > > Changelog v5:
+> > > - no change
+> > >
+> > > Changelog v6:
+> > > - add description of CSI2RX subdevice
+> > > - add ordering of ioctl(S_FMT) and ioctl(S_EXT_CTRLS)
+> > >
+> > > Changelog v7:
+> > > - no change
+> > >
+> > > Changelog v8:
+> > > - add usage of V4L2_CTRL_TYPE_VISCONTI_ISP
+> > >
+> > > Changelog v9:
+> > > - fix warning: set reference target for keyword
+> > > V4L2_CTRL_TYPE_VISCONTI_ISP
+> > >
+> > > Changelog v10:
+> > > - use parameter buffers instead of compound control
+> > >   - removed description of vendor specific compound control
+> > >   - add description of parameter buffers for ISP control
+> > > - update directory structure
+> > >   - remove documents under driver-api
+> > >   - add documents to admin-guide, userspace-api
+> > >
+> > > Changelog v11:
+> > > - update usage of the driver
+> > >
+> > >  .../admin-guide/media/v4l-drivers.rst         |   1 +
+> > >  .../admin-guide/media/visconti-viif.dot       |  18 ++
+> > >  .../admin-guide/media/visconti-viif.rst       | 255 ++++++++++++++++++
+> > >  .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+> > >  .../media/v4l/metafmt-visconti-viif.rst       |  48 ++++
+> > >  5 files changed, 323 insertions(+)
+> > >  create mode 100644 Documentation/admin-guide/media/visconti-viif.dot
+> > >  create mode 100644 Documentation/admin-guide/media/visconti-viif.rst
+> > >  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-visconti-viif.rst
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+[snip]
 
-Fixes: 85756a069c55 ("[media] cobalt: add new driver")
-Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
----
- drivers/media/pci/cobalt/cobalt-flash.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> > > diff --git a/Documentation/admin-guide/media/visconti-viif.rst b/Documentation/admin-guide/media/visconti-viif.rst
+> > > new file mode 100644
+> > > index 0000000000..4ef676754c
+> > > --- /dev/null
+> > > +++ b/Documentation/admin-guide/media/visconti-viif.rst
+> > > @@ -0,0 +1,255 @@
 
-diff --git a/drivers/media/pci/cobalt/cobalt-flash.c b/drivers/media/pci/=
-cobalt/cobalt-flash.c
-index 1d3c64b4cf6d..06ad9aaeff1b 100644
---- a/drivers/media/pci/cobalt/cobalt-flash.c
-+++ b/drivers/media/pci/cobalt/cobalt-flash.c
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0-only
-+/// SPDX-License-Identifier: GPL-2.0-only
- /*
-  *  Cobalt NOR flash functions
-  *
-@@ -104,6 +104,10 @@ int cobalt_flash_probe(struct cobalt *cobalt)
- 	mtd->owner =3D THIS_MODULE;
- 	mtd->dev.parent =3D &cobalt->pci_dev->dev;
- 	mtd_device_register(mtd, NULL, 0);
-+        if (ret) {
-+        cobalt_err("Registering MTD device failed with error %d\n", ret)=
-;
-+        return ret;
-+    }
- 	return 0;
- }
-=20
---=20
-2.43.0
+[snip]
 
+> > > +viif_capture_sub - Raw Image Capture Video Node
+> > > +-----------------------------------------------
+> > > +
+> > > +This video node is used for capturing bayer image from the sensor.
+> > > +The output picture has exactly the same resolution and format as the sensor input.
+> > > +The following depth of bayer format is supported:
+> > > +
+> > > +- 8bit
+> > > +- 10bit
+> > > +- 12bit
+> > > +- 14bit
+> > 
+> > Does the hardware support capturing embedded data from the sensor ?
+> 
+> The hardware supports capturing embdded data, however the software is
+> not fully tested for that feature.
+
+OK. Support for this can be added later. I recommend already checking
+what it would imply in terms of changes to the media graph. Changing the
+media graph later in a way that could break userspace won't be allowed,
+so it's worth it preparing for embedded data support in the media graph
+design already. Adding new pads to existing entities and adding new
+entities later are fine, but renumbering existing pads or inserting new
+entities between two existing entities could break userspace.
+
+[snip]
+
+-- 
+Regards,
+
+Laurent Pinchart
 
