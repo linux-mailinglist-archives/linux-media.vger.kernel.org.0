@@ -1,280 +1,109 @@
-Return-Path: <linux-media+bounces-15671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2F1944161
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 04:47:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E19944165
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 04:49:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D45E3B32593
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 02:16:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73816B217E5
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 02:20:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B81A1A4F37;
-	Thu,  1 Aug 2024 01:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="KtuOqTDO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3756A1EB48A;
+	Thu,  1 Aug 2024 01:51:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2085.outbound.protection.outlook.com [40.107.215.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AAF1370;
-	Thu,  1 Aug 2024 01:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722476383; cv=fail; b=QVYyDW25CvUxrZgtzTM44vNUEShJgFRC25agn8402vy3Xl856uo6YcE9h889pXCahkLhwtznqgnnsyFgOHMq20CP68JkufRwgdIVENF9OeJhVfgxEfib8R/7NTugBTbJ4VhReCzCvP/AeZwFMxPvC77ugM0YkdWRsHoLvG+8dAw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722476383; c=relaxed/simple;
-	bh=5XwoIMV490aUvffT8+bYPgAYqdX6V36xUFNC8I6Fv48=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uPJBYr4FxEcHQrCGKiQdGq8UjUT5RsQ2B262bWToRuACZGgviHnVAqyBY1i6EuMukO5iloXryswPGJHXfw8oq0F4k2YiGPuvP/lnlYVI29QwPyyHsFy2GVeR2qaYhXBzbsl1SN90HF4b68fWvHypxolm9dey9Ede6xF28wrT3lE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=KtuOqTDO; arc=fail smtp.client-ip=40.107.215.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lfLeuOZAemKvAmNNdAUGUuh9W64kMVqXTXd54yJpQbWGvuufyM/zVSlfZviePlgMX2ta8lz9LSeZlm/GoA8tZKtH++xxHPASAy6zyfHu2rjL3w/idQzeDxBGEail65wHI83V9bZFZpsh18xwR0810yLwB7JQ1oU70vVg1zKhASMJx/fWyqQZ4fIa2E3xawAewszRGdcAVUoBfWoFdBF4Y9YyDxPyNODXXSBadQfOhponfUA+3aIPy7LdwOP+N5337MFA2pao2GQEKqfFEBSWOHj/Ie3WQEZI7TEjLEJl1mrUrWCPoC/ikN92c93iY5R9KPcFrZmP0rxe+XkYBGaltQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MP4M7f9LqrzI3YhNxT/HmgZyCenV41ZxK5kOHXYKQZY=;
- b=EzqnxQESLzbcxK1jNKQr3guiX1+xGXw1p+j832HVvF9SLEz3ZNKh6Svuf/6LdSm2m0s+W+CRntrzfqgDo4MOsYGtG2G3nDMDz1W9JWg33dGd8s2qW1qsTUvrXc08o1CZHQH3p7ELh0O19ZMvr/5GzoXiOY9F2ctf58AUgkSjanWHcNFSLHtDHeHJ8/vgFrrJb4b6DqWD1jFtplf3cjuJJuFxDD5lrRD90AAFRw2b9xs6d7+fx5zvr363vqGzFoSAxGDHOHKGR1o1C9azOKrxiVvt+8/ZcwGE1iqTH2xUduacovbw77jnVpv242d/4BA0ak8j07OxIZVtw3Z5WD7JcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MP4M7f9LqrzI3YhNxT/HmgZyCenV41ZxK5kOHXYKQZY=;
- b=KtuOqTDOxJgI3QblsEei2WNG+3GF42yNohthFmgglq4eh8421p1hgZY1GQaO/JAo+s4wDoQieRUj3F4XuQuitnbhQc2hvjEtgd3OwmrTuEZ8qxfckrlxqw2B5Wsev/YmLZrbGbAINujLh1EJjzef7N7FDVigCLdD8ZpuTiEXg6B3ozuv0wvdyIJQEis1RgispO2FuLbuQFRDNsuDNMOKE9jhxFNk/uYqThk2ZgEMTAwD6I9Pzqxnjb+JEk8TqadGyzBhyyO/RrIDMqvruXt1WkT5NApO9ekLyd4B2+0+ev8YzyUAPBOr0xbWJUZn1a0Z3J4y0/y41mXfCHkJy1AI9w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by SEZPR06MB5738.apcprd06.prod.outlook.com (2603:1096:101:af::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.21; Thu, 1 Aug
- 2024 01:39:36 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%4]) with mapi id 15.20.7828.021; Thu, 1 Aug 2024
- 01:39:36 +0000
-Message-ID: <50a3b561-5946-45b2-954e-ea95050ba459@vivo.com>
-Date: Thu, 1 Aug 2024 09:39:30 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] udmabuf: use kmem_cache to alloc udmabuf folio
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com
-References: <20240731073752.1225177-1-link@vivo.com>
- <0fbca32a-d0e9-4884-9839-be1714543398@wanadoo.fr>
-From: Huan Yang <link@vivo.com>
-In-Reply-To: <0fbca32a-d0e9-4884-9839-be1714543398@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR02CA0053.apcprd02.prod.outlook.com
- (2603:1096:4:54::17) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CC51EB483
+	for <linux-media@vger.kernel.org>; Thu,  1 Aug 2024 01:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722477065; cv=none; b=CGpUTiMrxa4ou7hzjYnGM8fvKiCsyyXpLp5RawJE5luu1vdLwbfVLreJTBzb+NW7z7eoJA31PHIhmF1Xz8ZM3H8wkV5RHNVb+Mo8e5F0LlOKORopXyNglkDzv2nWJq5Oagbu/o+kRw+ib9GcsEIaZ69Ipb2inmZwqmFWMLEvrMk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722477065; c=relaxed/simple;
+	bh=XRB5bgzkkuH00ZBZkVgpeLP4k49yOnMKMrjnYTOTwaY=;
+	h=Date:From:To:Subject:Message-Id; b=WsIVeW0lBHZkJrHuviAJB9OJkHbimDEUS6sTWtk8/JIsCtdGH3pFKsGG3jv4I+Hhc0G0tqeHrGs4g6jQ5NPFb5JlPuQbPSpoYtsJr2bJho7Be2lhqOIaWLXUkCZEDLH+LrI4z8pF4FOb7383p+p48iZ7EfmDLeFtPz2G39Vikh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 045CCC116B1
+	for <linux-media@vger.kernel.org>; Thu,  1 Aug 2024 01:51:04 +0000 (UTC)
+Date: Thu, 01 Aug 2024 03:51:03 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20240801015105.045CCC116B1@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SEZPR06MB5738:EE_
-X-MS-Office365-Filtering-Correlation-Id: 943d2f1e-4c42-44ea-14a7-08dcb1caccc8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?S0Ixb2VYbUNDc2VVZnFleGZVUFQrdGxpMlFtc3ZiQ0wxMTJWR2QyeE1Gbm0w?=
- =?utf-8?B?QVV3bURpeXhTbTNEdlQ0dnJyWFEvOTFiaGlSRUlRMlRGVUxuSUxVMU1PTGxG?=
- =?utf-8?B?aW42eFZQeTc5NEtTNTFnY2VUR1UzNXdQaHFOWTEyV003eGhOaDZ2dDB6dGRG?=
- =?utf-8?B?U0Fla20vUW41WHVXTXlJVVNwYWRzd1JsWnJScmRpa05aaGlEbjcvdmdFZSs2?=
- =?utf-8?B?WTJSN2ZMclVFUDZBMmVtN2I2akR2ZkpQNWhaaW5qUnQ0Q0lJTktiWFZGcFdX?=
- =?utf-8?B?cm94QmZCaFVEN2UyYU56SndOU0xVKzQ3N2NmTFNmTGJKKzZYQVJtcUhwWUxW?=
- =?utf-8?B?dHJJeUZ4WFdwd3Z0WTFDS1ZmN2g5Z040SFkvNUZQajVKUUErTG5DdkIwVUli?=
- =?utf-8?B?VHEwZ0VaKzdxUEVLUHpHYWdISXFKTldOcUtuaXhtMVg5aUtTU1FmZStaMmt4?=
- =?utf-8?B?VW1FbU1MU1NoVDZlakVXMnRYV2hiSDZJZHV5KzUzVHVaRlVlaDNmM0F0Rk1O?=
- =?utf-8?B?UHpTcU1hY1NMYzZsS3JRSmYvYWNYbXo4UGtLSHY4d25QdXlMaVJTQXRZaUU1?=
- =?utf-8?B?eHI2NWE1UlJTc1MyS21iYVNZMHVweUg1VnlxOUpNQmJJZlE4T0ZYQW5obkJl?=
- =?utf-8?B?Rit5OXdacU5qSDZDaUtINTA0ekljdUt2K2tRVjVDbU1LWTY3UjBxYnltSkJk?=
- =?utf-8?B?VEZQOWVaVXUvUkFneThEdWVEbThZZ2NaNFhwd2Y3VzVPQlV3cDBSbXJrTUR1?=
- =?utf-8?B?RlpmWUlFcWpzT1NjMVJGb0t4SUc4YWI3THhWMEt6S1YvL3J3QzV6QkVjNVRx?=
- =?utf-8?B?Qnc3TzlVZk5nclFLY2NJL3M4ZzR0QXl4N3VYL0tYQmN4ME90bVpjVTZFOFVm?=
- =?utf-8?B?UnY5YTEySUJCY1R0T3RJMWJ6VGdBZytIcWZZaXVoNFh2bjI1Y1FVMkpHRWNq?=
- =?utf-8?B?cjYvTk5YSFBnWDR3dFJTQUtMOXFNWVMxZElHTEpDekZHVXlmS2V0Y2FxNGxY?=
- =?utf-8?B?LzBQeU9wanlBS0l1eW84aXh6R3BTcVp0a3E5YXlCcmVuUDk4eW5QWjdxc2N3?=
- =?utf-8?B?TUhOeGJ4YmJiWGEvM0JrbTNEbFZtOFJCYndUdWR5QzlvUE8wOGdITjV5bG96?=
- =?utf-8?B?Wk84emhUMFlGcEJLOEVBU1pOa0g1cUZucGZ2QlFOOCt1Ymg2TlZPTy9yMlp3?=
- =?utf-8?B?K1pJVHZTMDFpclVwU0hwa1JscVM4WGJZLzYvd29lMWdnY1FvTXNoRSt3WTJ5?=
- =?utf-8?B?aGpUMVptMXBtazg5ZFFHT3d1UXdBYU1MUEkvYkxyNCt2eWsxNCtzanh5RXBz?=
- =?utf-8?B?V3BSNExwRkp1TlJnN3dqZjBuOFhLOUEvY05xRUFkYUg1aHRScGw4eXZyZ20x?=
- =?utf-8?B?SmZFNnM0eUtxN2dJZnh0QmtySlVKTHNaTVVLVGhLMGF4bGZubVorN3ZWd1c3?=
- =?utf-8?B?dTVSV0NORlZrSTMyMWRPajZJSWRnYjE3VGhwb0RkYi9Jb3ZiNzhtSFkwUlJX?=
- =?utf-8?B?U1QydkJOamJPK2ozR0JjaFdmcjNIenllVHFrWUJPSm9HZ0d4QmZDbWdaZmxF?=
- =?utf-8?B?YVRvWWpZSDY4UlFvNXQ5d3ZmTjR0T0VzRDdSN1Q5K3J6ejZNUDBBdDBFaXk3?=
- =?utf-8?B?MEYwUktoT3FxOGRmbWhvOUkyaCtNTGZLWHVHeWtQa2FyT21RS1MxUEFiWDJa?=
- =?utf-8?B?ZVNsYm01ZWxtZkM3cCtabm40N2wzbS9MajM5K2JXa2pTTURxMmhuamlibGR1?=
- =?utf-8?B?QUlPWUQvK0FXZXhUazQxbkRKZVZSRy8yTUI5RGpMdDZGSTFQZDVjcHllcDVN?=
- =?utf-8?B?Z25rbXJiZGpyVGZTbGdPdFdQQW1SWm5ieGVjL1NiWjArYnh2c0Y4aDlSZWhH?=
- =?utf-8?B?L25Za1hpSUdNYnNVQVhFcSt6QzRnTnozcUs5U3o5N0o2S0E9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YnFCWDR4dmVWVHJWNVFPUXdBWHREblJ2MEpHNGV4QXBnTnlxK3pXeXBWSnU0?=
- =?utf-8?B?cElmd3gxNHlOTFh6UjZ4aWFtRERyOWhHWE5zUVJrU2trM2xTNkx3ek1peVhZ?=
- =?utf-8?B?bWM3RlYybUxTSytpMGVFTHlOL2RZMEhiMmRkMWsrWDEvdUVMdjg2NlRrbkhC?=
- =?utf-8?B?WmlyWXE1dStwa243YjBaQ04wV3BIUTNNQnhPUm9yL3ZsTk9LRFdwYWxBajBp?=
- =?utf-8?B?VEpNUWJHUHhVOFl4Y0ZqY3krYndNTkdHSWNUUi94VEJGbG0xQVFPN0NmU085?=
- =?utf-8?B?M2E4ME1QOTZJQ0Vjb3RUNnVwMUV3NW1rbTlQU3oySWN4YWVBNnNIVFZBL0NF?=
- =?utf-8?B?a3dQV1VWNm5KU3VhNmNFWGpBS2ZvQWZqMGdNZDY1WDlMTlpQSlBINk1UeGR0?=
- =?utf-8?B?ai9lWTVtWFJaZEhvRXdnS0lxdDJwV21nZkN3ckMzYVpkdFdLRkZuSVBDQTNI?=
- =?utf-8?B?TjRVb0wxVFc2R3M0aUwvdXJ6V3BrOFRTQzNLb2lpNytDVE5vQW9ycmpPYUpX?=
- =?utf-8?B?bnhMcmJ2TnBiYXEwOGxqQ3NJbnV3eE42cVpid28vRkRlYW5YWHFPWVBqbGZN?=
- =?utf-8?B?UzZxNFU4MXRCYlFkbUpyWDhXeHFiNEpQNVdVck9HRUFvTUg3dXBBQlM2NE9T?=
- =?utf-8?B?ZUlYZmVLRW9UU0lNNjBWOTBKZFVCV2kvZlFYMlNvY3lwdXRmcVFPd3QxUWpC?=
- =?utf-8?B?M1VBbDMrS25Vbm1XTUVORXdsd0FwVk0yYnhrbHV5Q2pEbUlhSTdDK3R4R0Nq?=
- =?utf-8?B?eHdReE1WV3ZhaXB1K29hS0cxcFRCemY5eTBla0t5ckFFYzM1VEF2c1ZzRWVj?=
- =?utf-8?B?ZW5GSVo5U00yVzB2WngwdHdOcExnaThnVGV3WVZlM241RThBYkFMcXBSc0xB?=
- =?utf-8?B?UVRmT2xzUHUrQS84UDBQaFBHSmRWV09DNmg3WnVJQjh3c2RnV0k0bjIxV013?=
- =?utf-8?B?ZHFRSE5adHBya216bjBJNGdoQzQxTDVIUTJyRXh3VWZBdnBJVGxmbld0Kzkz?=
- =?utf-8?B?VG82Q3dLQ1N3UkZQUVNpNGY2VDFTbXc5Qm4wcyttaVJSTUUyZk9VYnI5YXM5?=
- =?utf-8?B?aVcrMm5LZ2FNNGNuOWFVTnhxY081eVkxWHJZRDhQbktWWXk0YkdBR0NRRThP?=
- =?utf-8?B?VkJxeE5oTUx5SkZTYzRTelJjUjl6VzNibysyRk9yUHFJUnhibzdDaDVtUnNE?=
- =?utf-8?B?cU5odWtpTmNFcWJueUZqVWFIMS83TWczdE05WmxwSlhGMi9XblZ0eWFsRi9X?=
- =?utf-8?B?NSt0bUZQaUFRaUk1NDJWajAxM3NHVkZWN2w1Z1MyRlc4TVJkUmY0Wi9xbSt2?=
- =?utf-8?B?Ums1ZmJVMW9lUStjcmtpMlJXSzMzUFZHNkNSNktqK2hnK3g2WVh4L1NnQ2VQ?=
- =?utf-8?B?NkFjR1NkVS90UG1WY0NSc3V5T3BPeG15VVdiRVZKUCsxT3ovcTgrcXFudFZM?=
- =?utf-8?B?ZWg3d0UvNVlQMUMzek05ZFpFQkRPUFNVWnJiRmNLRGlkRGVCWVZhdTUvbmh3?=
- =?utf-8?B?RG9XNnpUdS9naUdQVXBkRW0xaTVTcHpYeS9WREZYa2ZnK2tBcTRIYWQ5aytS?=
- =?utf-8?B?TW1QYU5sRWFqdjBZai9UYmErcVRncDNYam5zbkFHY1ZaQWI3Uk5CNFBTV3ZW?=
- =?utf-8?B?Z3Q5djJPUkFxbHBPcVNCMHZsNHBHdXN1a2NvL1AwMzlucld6MCtQWXJHNUR3?=
- =?utf-8?B?WUtJOEg3OUVZQlpkc01JdmsvNThUbVh1bjhuOUphUyswaU5aTk5Vd21JeXpi?=
- =?utf-8?B?eTNzVkIyMGJ3OW5tcFFmNllic2gyU280cXVrYjk1azJaMGU3ZERhcVRpcWFl?=
- =?utf-8?B?cEUvZGJRelFUZWtsVkFlZ3JmUmlXd2FMSnppZUd2T0ordmhWS21vRWtwcU5x?=
- =?utf-8?B?bXF4TGJUQktMQkw3UlZpcytROVdUL3RGcUVZNVhRMzlyTVRVcWlwVi9CZXdQ?=
- =?utf-8?B?V3RjVDgyWWRVaHJoSzVmZFNnM3RHWkhxR1NLWDFEdnRTaEFUdnlPc3BRY0VZ?=
- =?utf-8?B?ckwyMWVXcmtJcEl3RVYwa3JZbnNGWlBlNHlFRXNnWG4xcTFCV0NRTGFKYkgv?=
- =?utf-8?B?Qm0zeHRMV2lLOGZWY20wM3JFd0svWTBYMlhDMzBMZDV2bWxQOGpTeEhVaDVG?=
- =?utf-8?Q?yrIvE5ZVTKT60nBcPu14ioP11?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 943d2f1e-4c42-44ea-14a7-08dcb1caccc8
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2024 01:39:35.9291
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q5boSIwUQpWRu+RKAx96RJAxypMZfoFcp4wW4x0QKlKxanOX5Wq+yT3hU6MNVm721Aq01zmlQ+b47lBu6zIFMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5738
 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-在 2024/8/1 1:11, Christophe JAILLET 写道:
-> [Some people who received this message don't often get email from 
-> christophe.jaillet@wanadoo.fr. Learn why this is important at 
-> https://aka.ms/LearnAboutSenderIdentification ]
->
-> Le 31/07/2024 à 09:37, Huan Yang a écrit :
->> The current udmabuf_folio contains a list_head and the corresponding
->> folio pointer, with a size of 24 bytes. udmabuf_folio uses kmalloc to
->> allocate memory.
->>
->> However, kmalloc is a public pool, starting from 8,16,32 bytes.
->> Additionally, if the size is not aligned with the kmalloc size, it will
->> be rounded up to the corresponding size.
->> This means that each udmabuf_folio allocation will get 32 bytes, and
->> waste 8 bytes.
->>
->> Considering that each udmabuf creates a folio corresponding to a
->> udmabuf_folio, the wasted memory can be significant in the case of
->> memory fragmentation.
->>
->> Furthermore, if udmabuf is frequently used, the allocation and
->> deallocation of udmabuf_folio will also be frequent.
->>
->> Therefore, this patch adds a kmem_cache dedicated to the allocation and
->> deallocation of udmabuf_folio.This is expected to improve the
->> performance of allocation and deallocation within the expected range,
->> while also avoiding memory waste.
->>
->> Signed-off-by: Huan Yang <link@vivo.com>
->> ---
->> v3 -> v2: fix error description.
->> v2 -> v1: fix double unregister, remove unlikely.
->>   drivers/dma-buf/udmabuf.c | 19 +++++++++++++++----
->>   1 file changed, 15 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->> index 047c3cd2ceff..c112c58ef09a 100644
->> --- a/drivers/dma-buf/udmabuf.c
->> +++ b/drivers/dma-buf/udmabuf.c
->> @@ -24,6 +24,8 @@ static int size_limit_mb = 64;
->>   module_param(size_limit_mb, int, 0644);
->>   MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf, in 
->> megabytes. Default is 64.");
->>
->> +static struct kmem_cache *udmabuf_folio_cachep;
->> +
->>   struct udmabuf {
->>       pgoff_t pagecount;
->>       struct folio **folios;
->> @@ -169,7 +171,7 @@ static void unpin_all_folios(struct list_head 
->> *unpin_list)
->>               unpin_folio(ubuf_folio->folio);
->>
->>               list_del(&ubuf_folio->list);
->> -             kfree(ubuf_folio);
->> +             kmem_cache_free(udmabuf_folio_cachep, ubuf_folio);
->>       }
->>   }
->>
->> @@ -178,7 +180,7 @@ static int add_to_unpin_list(struct list_head 
->> *unpin_list,
->>   {
->>       struct udmabuf_folio *ubuf_folio;
->>
->> -     ubuf_folio = kzalloc(sizeof(*ubuf_folio), GFP_KERNEL);
->> +     ubuf_folio = kmem_cache_alloc(udmabuf_folio_cachep, GFP_KERNEL);
->>       if (!ubuf_folio)
->>               return -ENOMEM;
->>
->> @@ -491,11 +493,20 @@ static int __init udmabuf_dev_init(void)
->>                                          DMA_BIT_MASK(64));
->>       if (ret < 0) {
->>               pr_err("Could not setup DMA mask for udmabuf device\n");
->> -             misc_deregister(&udmabuf_misc);
->> -             return ret;
->> +             goto err;
->> +     }
->> +
->> +     udmabuf_folio_cachep = KMEM_CACHE(udmabuf_folio, 0);
->> +     if (!udmabuf_folio_cachep) {
->> +             ret = -ENOMEM;
->> +             goto err;
->>       }
->>
->>       return 0;
->> +
->> +err:
->> +     misc_deregister(&udmabuf_misc);
->> +     return ret;
->>   }
->>
->>   static void __exit udmabuf_dev_exit(void)
->
-> Hi,
->
-> should a kmem_cache_destroy() be also added in udmabuf_dev_exit()?
-Yes, thanks for point this.
->
-> CJ
->
->>
->> base-commit: cd19ac2f903276b820f5d0d89de0c896c27036ed
->
+Results of the daily build of media_tree:
+
+date:			Thu Aug  1 03:00:18 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	ba5c778cab1dd3e4918f940989e771e2818afee8
+v4l-utils git hash:	69b3a7618cb5dd084f5b3c27609009ff89ddae36
+edid-decode git hash:	303b033f92683fa3f2e73d642bf86ead8fec77b1
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8677-g3d6e18f7
+sparse version:		v0.5.0-8677-g3d6e18f7
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
+host hardware:		x86_64
+host os:		6.5.0-35-generic
+
+linux-git-arm: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-debug-fs.config: OK
+no-pm-sleep.config: OK
+sparse: OK
+smatch: WARNINGS:
+
+drivers/media/common/siano/smscoreapi.c:1172 smscore_load_firmware_from_file() error: we previously assumed 'loadfirmware_handler' could be null (see line 1150)
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Thu Aug  1 03:14:02 CEST 2024
+virtme-64: OK: Final Summary: 3413, Succeeded: 3413, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+
+date:			Thu Aug  1 03:49:58 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
