@@ -1,122 +1,187 @@
-Return-Path: <linux-media+bounces-15700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15702-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9801C944A2D
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 13:14:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7FF944AC9
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 14:05:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A023A1C23306
-	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 11:14:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27CD01F232C9
+	for <lists+linux-media@lfdr.de>; Thu,  1 Aug 2024 12:05:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23D6189518;
-	Thu,  1 Aug 2024 11:14:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD6C519EEC0;
+	Thu,  1 Aug 2024 12:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FUUCegfa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTvg8+OZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F33187FE5
-	for <linux-media@vger.kernel.org>; Thu,  1 Aug 2024 11:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5F016DC20;
+	Thu,  1 Aug 2024 12:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722510850; cv=none; b=pivxlYoIYBuFR+qxRnSvFZ0T3sHuT307peg2W3gCk12PqP4Agv9Rr4rd2fPq+pobeI+V4Eo1ovTis1ijKx7JctbA9xwGqkYCEJ/sjOgSSwADZV80TVR4CSbwJfQdOvLnkjdNuUTSxERoi2jPOYY8Of+zSvuRjDQHl3elXTxfEhM=
+	t=1722513931; cv=none; b=FXoJTSpsog+xMizrr2aVRRVlfrG5VWMKcoM50isCbvRTTPTAD/TPmFOfMYxg20VrE+GoLwsOxeYypa7KV4DUu2qwFhpTPIGOaNvvPrF+90k5O9aHfJQr8rjcPHOCyLTeV2Du7t823I5vYhlpQmR82ALX2qNMK0sdwRC/8NETJZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722510850; c=relaxed/simple;
-	bh=6DYUWyLVmKcg1VgyRdUByoU1wdW8WA65O99hCIRsLbA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=NsagNNPeXdjeP/5mqaNjuDX5HVp3zTZNR4ehiDa7/HbR77IWT4WDmxTTaFTcVm3sYo+zVAzKrHkMOCHdF7ojdDCAQGEwCmQSMFQLbO37uu4/HvBJ2dmZcK8crneGZXiuQQQtCWxkyI2hk156HYO4rp6hsMgIltgI2VbukbLDxOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FUUCegfa; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2f040733086so79127191fa.1
-        for <linux-media@vger.kernel.org>; Thu, 01 Aug 2024 04:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722510847; x=1723115647; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/AImUD+QPcEp27+UY62mj5/c2+FU0r6hvbsaspRuyks=;
-        b=FUUCegfazF00olHxmYckRNPDkkXo8e7MYfsTq8oKy7OWyl0r1jSDITf4q7C3dAq5Cb
-         w2p8pumNeMXgHUnj75njZCn7YInaRDuyk+JF4YrmCH8nHBOcwRjfOgONK5+G9Z8Igzid
-         ZMnMeOVYbCcOVBvIfxIgVQoM84GZTER0DIZRQ4G1T2gLy9L4BRwlUTWgTipQX1lTdyw+
-         clUriWdGhAsBN1bk7PACAN4Zh43aO1bHlLdqjWGvn13HXbDDCEjs9Eta8xjlEnKUabJf
-         xUdZj/WatoaKnI6vv9kdf+YyuTyb9n7/gCl8SRk543+Wt94hw/PIioXz3r9ACWWOy2ll
-         c8qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722510847; x=1723115647;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/AImUD+QPcEp27+UY62mj5/c2+FU0r6hvbsaspRuyks=;
-        b=dcPuhDmIDOdbp/3/wetvqor7MCy8NLqpBwOW1rxg7JkCfkZl75e4MzibAGTYZnZiGD
-         1dtO62r2obFS75wJ8BOpRo4NhM3kmPoZVOzfO4l8UOL4vcgDCLelO0TW1hRUUKkfkTju
-         kPrR3PRWe59W0CR/nWbDCfjgk+jOzktpQLpeb91PBDBHBzOkMOPha3uzoK468btK9MkQ
-         I8d0Zj/RtPwtkS3W7BUe7deOYfOWqvt5HX+xcFNE7ITCPH9wq5xUvmt6qik14TPhiK8z
-         LDvvJVGp9lyZFh9dIaUXJtwz99cIZAjqDjLbGs/YlDfI1aG0EpHE102DL1o/gU3PwIiX
-         xclw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdPtmz6iI6/dp7CSRn6hB/Zx5njG/t3ruA1xcb9OlDVu0O0qIZNB7fAs6fa/tCmSlHFGwd8q3iRtzv3MSuf5037bHSaO9Ba1UMScU=
-X-Gm-Message-State: AOJu0YyzWVhugtI86JYXtffvab60rCx3fVqWEGSfSGsA2THRCvQ99HTD
-	cypHhnGI9Syaxb4+kD/+XPQpEGFF0qbx1Gp3HYdEBmgIGzw+jPz/UW3v5YodIUY=
-X-Google-Smtp-Source: AGHT+IHoqN9siHGzx2PErZ6ySMd5YwTj/nGbNmvJYtXIDVhQLKxwiGn0mDVq+yG3K1PkplijNm0gvQ==
-X-Received: by 2002:a05:651c:1988:b0:2ef:2617:8952 with SMTP id 38308e7fff4ca-2f1530ec05amr18159041fa.18.1722510846510;
-        Thu, 01 Aug 2024 04:14:06 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4282baa9071sm53607045e9.13.2024.08.01.04.14.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Aug 2024 04:14:06 -0700 (PDT)
-Message-ID: <4cd4ff3a-5d90-4a5d-aae1-6017199e00c3@linaro.org>
-Date: Thu, 1 Aug 2024 12:14:04 +0100
+	s=arc-20240116; t=1722513931; c=relaxed/simple;
+	bh=xrmm8vq48Turuhl+MYV5VwfRqiYgHDIYm72LgCbH1lU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X1wbyJQUqfFC6ihu1BMS/+HpP4R4nkCYvTHLd3Hsp5iyVmbFszTPTV6q8z7oK2tfOe6XOKjOv8iE25SWJND9zfrmPD8Lr643zGx4tKp0URzpcYuQSVDZKNi9Cce09aawpGgusKXhF3CbGHiwJLAwriWMSzdGBsyYH+5Jhmhgmbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTvg8+OZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23627C32786;
+	Thu,  1 Aug 2024 12:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722513930;
+	bh=xrmm8vq48Turuhl+MYV5VwfRqiYgHDIYm72LgCbH1lU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bTvg8+OZJV69EIq4IxRBqp9dfc6y/u9kWm+xw9EFbJQjCtGm/UcFRMTsSiul0eqRA
+	 G1uDAZfhZ9TUmV4dy8tbbbxXhLFGDT9lrOc+bymDfNJGT+beG7sHBHtBQk0rOJW3zH
+	 yQTqXwxCvOn8I43hDhUDD2l+9gOqREEUYMHgZ2c7tkTViB+iu6RePr0NnnB27Annav
+	 +eP333ZCtfBXqo8qAegZ9RYVEm7YKemBWXwieFxVdf/xYmF2vWuSCSzvjkyvd6A+SY
+	 tIjsSrZg5VceoSgba2wOLQsmlPbHo1+s8lGZ6WajKsWqmWfHgl8Dp88597sOWlI8lk
+	 vC2KwTjZBx2lg==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	Michael Margolin <mrgolin@amazon.com>,
+	Mustafa Ismail <mustafa.ismail@intel.com>,
+	netdev@vger.kernel.org,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Selvin Xavier <selvin.xavier@broadcom.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
+	Yishai Hadas <yishaih@nvidia.com>
+Subject: [PATCH rdma-next 0/8] Introducing Multi-Path DMA Support for mlx5 RDMA Driver
+Date: Thu,  1 Aug 2024 15:05:09 +0300
+Message-ID: <cover.1722512548.git.leon@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] media: qcom: camss: Add CSID Gen3 support for
- SM8550
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: Depeng Shao <quic_depengs@quicinc.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com,
- Yongsheng Li <quic_yon@quicinc.com>
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-10-quic_depengs@quicinc.com>
- <1da50dd1-b170-4775-94fc-19a10b7f9c47@kernel.org>
- <4c8095dd-4f96-4b0e-9282-8bdfb5badbc3@quicinc.com>
- <9255b3e4-874c-4919-b50a-919cf0f42f75@kernel.org>
- <3011c561-d39e-4ce5-a544-33f24ca7a67c@quicinc.com>
- <bd6f3613-5a96-438a-a2df-cb2728e30c29@linaro.org>
- <30d56910-df7b-4459-b557-effc21ffa132@quicinc.com>
- <ff128062-5c1f-4abe-8582-543063d5e526@linaro.org>
-Content-Language: en-US
-In-Reply-To: <ff128062-5c1f-4abe-8582-543063d5e526@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01/08/2024 11:59, Bryan O'Donoghue wrote:
-> for preference every single patch applies and builds warning free.
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Oops mistyped
+From Yishai,
 
-- Every patch must apply cleanly
-- You could make an argument for some specific cases that
-   a patch can generate a warning provided
-- By the end of your set everything must be warning free
+Overview
+--------
+This patch series aims to enable multi-path DMA support, allowing an
+mlx5 RDMA device to issue DMA commands through multiple paths. This
+feature is critical for improving performance and reaching line rate
+in certain environments where issuing PCI transactions over one path
+may be significantly faster than over another. These differences can
+arise from various PCI generations in the system or the specific system
+topology.
 
-In this case though, I don't believe you need to make that case since, 
-the problem you describe about probe() isn't a problem at all as you 
-have no upstream dts that can drive the probe() at this point.
+To achieve this functionality, we introduced a data direct DMA device
+that can serve the RDMA device by issuing DMA transactions on its behalf.
 
-Just do the dts at the end and no problem.
+The main key features and changes are described below.
 
----
-bod
+Multi-Path Discovery
+--------------------
+API Implementation:
+ * Introduced an API to discover multiple paths for a given mlx5 RDMA device.
+IOCTL Command: 
+ * Added a new IOCTL command, MLX5_IB_METHOD_GET_DATA_DIRECT_SYSFS_PATH, to
+   the DEVICE object. When an affiliated Data-Direct/DMA device is present,
+   its sysfs path is returned.
+
+Feature Activation by mlx5 RDMA Application
+-------------------------------------------
+UVERBS Extension:
+ * Extended UVERBS_METHOD_REG_DMABUF_MR over UVERBS_OBJECT_MR to include
+   mlx5 extended flags.
+Access Flag: 
+ * Introduced the MLX5_IB_UAPI_REG_DMABUF_ACCESS_DATA_DIRECT flag, allowing
+   applications to request the use of the affiliated DMA device for DMABUF
+   registration.
+
+Data-Direct/DMA Device
+----------------------
+New Driver:
+ * Introduced a new driver to manage the new DMA PF device ID (0x2100).
+   Its registration/un-registration is handled as part of the mlx5_ib init/exit
+   flows, with mlx5 IB devices as its clients.
+Functionality: 
+ * The driver does not interface directly with the firmware (no command interface,
+   no caps, etc.) but works over PCI to activate its DMA functionality. It serves
+   as the DMA device for efficiently accessing other PCI devices (e.g., GPU PF) and
+   reads its VUID over PCI to handle NICs registrations with the same VUID.
+
+mlx5 IB RDMA Device
+---------------------------
+VUID Query: 
+ * Reads its affiliated DMA PF VUID via the QUERY_VUID command with the data_direct
+   bit set.
+Driver Registration:
+ * Registers with the DMA PF driver to be notified upon bind/unbind.
+Application Request Handling: 
+ * Uses the DMA PF device upon application request as described above.
+
+DMABUF over Umem
+----------------
+Introduced an option to obtain a DMABUF UMEM using a different DMA
+device instead of the IB device, allowing the device to register over
+IOMMU with the expected DMA device for a given buffer registration.
+
+Further details are provided in the commit logs of the patches in this
+series.
+
+Thanks
+
+Yishai Hadas (8):
+  net/mlx5: Add IFC related stuff for data direct
+  RDMA/mlx5: Introduce the 'data direct' driver
+  RDMA/mlx5: Add the initialization flow to utilize the 'data direct'
+    device
+  RDMA/umem: Add support for creating pinned DMABUF umem with a given
+    dma device
+  RDMA/umem: Introduce an option to revoke DMABUF umem
+  RDMA: Pass uverbs_attr_bundle as part of '.reg_user_mr_dmabuf' API
+  RDMA/mlx5: Add support for DMABUF MR registrations with Data-direct
+  RDMA/mlx5: Introduce GET_DATA_DIRECT_SYSFS_PATH ioctl
+
+ drivers/infiniband/core/umem_dmabuf.c         |  66 +++-
+ drivers/infiniband/core/uverbs_std_types_mr.c |   2 +-
+ drivers/infiniband/hw/bnxt_re/ib_verbs.c      |   3 +-
+ drivers/infiniband/hw/bnxt_re/ib_verbs.h      |   2 +-
+ drivers/infiniband/hw/efa/efa.h               |   2 +-
+ drivers/infiniband/hw/efa/efa_verbs.c         |   4 +-
+ drivers/infiniband/hw/irdma/verbs.c           |   2 +-
+ drivers/infiniband/hw/mlx5/Makefile           |   1 +
+ drivers/infiniband/hw/mlx5/cmd.c              |  21 ++
+ drivers/infiniband/hw/mlx5/cmd.h              |   2 +
+ drivers/infiniband/hw/mlx5/data_direct.c      | 227 +++++++++++++
+ drivers/infiniband/hw/mlx5/data_direct.h      |  23 ++
+ drivers/infiniband/hw/mlx5/main.c             | 125 +++++++
+ drivers/infiniband/hw/mlx5/mlx5_ib.h          |  22 +-
+ drivers/infiniband/hw/mlx5/mr.c               | 304 +++++++++++++++---
+ drivers/infiniband/hw/mlx5/odp.c              |   5 +-
+ drivers/infiniband/hw/mlx5/std_types.c        |  55 +++-
+ drivers/infiniband/hw/mlx5/umr.c              |  93 ++++--
+ drivers/infiniband/hw/mlx5/umr.h              |   1 +
+ include/linux/mlx5/mlx5_ifc.h                 |  51 ++-
+ include/rdma/ib_umem.h                        |  18 ++
+ include/rdma/ib_verbs.h                       |   2 +-
+ include/uapi/rdma/mlx5_user_ioctl_cmds.h      |   9 +
+ include/uapi/rdma/mlx5_user_ioctl_verbs.h     |   4 +
+ 24 files changed, 944 insertions(+), 100 deletions(-)
+ create mode 100644 drivers/infiniband/hw/mlx5/data_direct.c
+ create mode 100644 drivers/infiniband/hw/mlx5/data_direct.h
+
+-- 
+2.45.2
+
 
