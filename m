@@ -1,273 +1,213 @@
-Return-Path: <linux-media+bounces-15721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15722-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69523945926
-	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 09:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7A1945E6A
+	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 15:13:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2511C286CED
-	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 07:49:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3271D283330
+	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 13:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E81A11BF301;
-	Fri,  2 Aug 2024 07:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7154D1E3CDD;
+	Fri,  2 Aug 2024 13:13:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C269C4D8CC
-	for <linux-media@vger.kernel.org>; Fri,  2 Aug 2024 07:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA2F1DAC5F
+	for <linux-media@vger.kernel.org>; Fri,  2 Aug 2024 13:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722584961; cv=none; b=SdABIH4MTGiWpbVxgnH0krg3Xc0w5hRVbUT7scPfI8IzcAnmC18qeobR/dNfy90dxzeHrBvQj4W7RlPkXO5FCzcZD8tvRbNqyl/UC1eaN7Km5lWiygUzPTTWcMCsmB7BZuTJTrpHZ45l8yAbEiXQiEK+5X9Zdp15WdDZAEbeorw=
+	t=1722604395; cv=none; b=aXJluV86zXgkYsQdEf2tdvv0EdOpL943mI+/+EhmxL0jmCDn2odVWd0OOSCd0f2PgFVbsAMegu29X/AE8HWk/9sicXMfeG/C/mvuY5oC586ZND4zB42xlMklLE7kE/V6Fehgzujo1ffYHyrx30Wn2/FE9QU8IHN9wGj11S7HgOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722584961; c=relaxed/simple;
-	bh=UU0F1/EUltQpjH9awVRXpjLqsO2sRafg/dITiDBAiLI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=HkzWFeJ0YAftx3+nD9llqMYSYzSDVsaSS3cfdQP4djjYrGh8HHD0w8MjQ8grbX9HhsgZMAn/aaka6vFPUMSuqSj2+Rv/1XcoMMgixVXW5W978AlOtJmduEJuo5eNy4PizTjMydF+MF97igfUVTJOfTns5bmSySOTSZuG5GoId2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-81f8edd731cso1113545239f.0
-        for <linux-media@vger.kernel.org>; Fri, 02 Aug 2024 00:49:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722584959; x=1723189759;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=92lXj3Vb44eyllG2vHCIL/SyzrpHYEhu/JLd1zyyRqg=;
-        b=ahR5GW9Xcbx5+DC0OjMBPSaAzyIc9uQTdIxA5am1iNkAhXfUWfG3C0mHIAGSDfB4jX
-         dBwiKeMXCGd0mO5WgCx3IgP8HPbMPeB1Rs2soCseWrdUSyJRiKAMsF94cSuU9M7fX2pb
-         yENEtEsLlemzK44YtGpjqT/Ao1WUBkZXYmAtFU0XaiMmrgI/fb5wcpc4Cylajkd9aF8U
-         zRGJbOTMABVF3Xv1CcfAH57tHnIxX8OLhlOrZdYIH8QPTbqAgPblkjbI9G3nn+hBzfsV
-         i0vaGIwxgTfdb+kv+OXSdLgry0cCGxmEhr50AZQX9L+TRahSYiQl36H34FUatIxc7dBA
-         E58A==
-X-Forwarded-Encrypted: i=1; AJvYcCXk6ZsRjjl7bKojJRCW3lZnWDXax2dBmBeese9uAbafZ9SfHTTzY2FpkCnG/ctK2ONhN3E43vj1T6vngag6gZ7HOLBaB+4v5RIN0k4=
-X-Gm-Message-State: AOJu0Yw05i7O7CEUD5nOTwezdieltPdROQTCoM7m6/xmIDLMs5DdFgcw
-	5Dkn3obyOCJ9VSRFktL9dI7HCGh80Ca6CNFro9W7KPXvLOhnyJqE+0fnnvKWgWn7BaEhdCYn9uh
-	Rbe4xNShD52arjztHiPZA/IIEvGdWe55ddDEZ5mXa5jNy76pQuGsLhVI=
-X-Google-Smtp-Source: AGHT+IH0QgN5RY5nLV9RAozx2i4g4uqe5aSF7gVidnVwTVgPlxr5BF5mxvri5IR5TIiVU3++JsJcIEDaYkFQ5tLoHSpW4sxRjzbP
+	s=arc-20240116; t=1722604395; c=relaxed/simple;
+	bh=fNF3AURD93/Hpc5IwrzeW8jvQK2k4AJ/g/4VBdnHWt0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:Cc:To:Content-Type; b=tzqtLn8dcGmnhut6GQMIKHeBSE5QtO2gBJmZ3SnF6klkMFRhUiKWTyAH5dWwbS2QnuUFf/PKGkcmbDyJCvLtqyIIxZawSpAnx3aMaoBC6qwdv0ga4/9raSYHIOtmMB/tUj5MX9u0ae41WvvB3Z7seAu+y35NdJ1v5oAnaPP2VvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60395C32782;
+	Fri,  2 Aug 2024 13:13:11 +0000 (UTC)
+Message-ID: <24b19434-5556-4f5a-a6fe-ce7538644404@xs4all.nl>
+Date: Fri, 2 Aug 2024 15:13:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:8717:b0:4c0:838e:9fd1 with SMTP id
- 8926c6da1cb9f-4c8d56b0085mr102646173.5.1722584958937; Fri, 02 Aug 2024
- 00:49:18 -0700 (PDT)
-Date: Fri, 02 Aug 2024 00:49:18 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000092be0b061eae907e@google.com>
-Subject: [syzbot] [media?] KASAN: slab-use-after-free Read in em28xx_release_resources
-From: syzbot <syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit September 16th: Draft Agenda (v1)
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Martin Hecht <martin.hecht@avnet.eu>,
+ Tommaso Merciai <tomm.merciai@gmail.com>, jerry.w.hu@intel.com,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Alain Volmat <alain.volmat@foss.st.com>, Sean Young <sean@mess.org>,
+ Steve Cho <stevecho@chromium.org>, Nas Chung <nas.chung@chipsnmedia.com>,
+ Tomasz Figa <tfiga@chromium.org>, Hidenori Kobayashi
+ <hidenorik@chromium.org>, Jai Luthra <j-luthra@ti.com>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Hi all,
 
-syzbot found the following issue on:
+Here is my initial stab at an agenda for the media summit. As always, it
+is subject to change and all times are guesstimates!
 
-HEAD commit:    6342649c33d2 Merge tag 'block-6.11-20240726' of git://git...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=159feda1980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5efb917b1462a973
-dashboard link: https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: i386
+The media summit will be held on Monday September 16th. Avnet Silica has very
+kindly offered to host this summit at their Vienna office, which is about 35
+minutes by public transport from the Open Source Summit Europe venue
+(https://events.linuxfoundation.org/open-source-summit-europe/OSSE).
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Avnet Silica Office Location:
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/f7155d1516ca/disk-6342649c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f724a979b927/vmlinux-6342649c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/480121fc37f0/bzImage-6342649c.xz
+Schönbrunner Str. 297/307, 1120 Vienna, Austria
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com
+https://www.google.com/maps/place/Avnet+EMG+Elektronische+Bauteile+GmbH+(Silica)/@48.183203,16.3100937,15z/data=!4m6!3m5!1s0x476da80e20b26d5b:0x2c5d2a77bbd43334!8m2!3d48.1832035!4d16.320372!16s%2Fg%2F1tcy32vt?entry=ttu
 
-em28xx 5-1:0.0: Closing input extension
-==================================================================
-BUG: KASAN: slab-use-after-free in media_device_unregister+0x154/0x470
-Read of size 8 at addr ffff888058df4210 by task kworker/0:1/9
+Refreshments are available during the day.
 
-CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.10.0-syzkaller-12881-g6342649c33d2 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
- print_address_description mm/kasan/report.c:377 [inline]
- print_report+0x169/0x550 mm/kasan/report.c:488
- kasan_report+0x143/0x180 mm/kasan/report.c:601
- media_device_unregister+0x154/0x470
- em28xx_unregister_media_device drivers/media/usb/em28xx/em28xx-cards.c:3511 [inline]
- em28xx_release_resources+0xa7/0x230 drivers/media/usb/em28xx/em28xx-cards.c:3532
- em28xx_usb_disconnect+0x1cc/0x530 drivers/media/usb/em28xx/em28xx-cards.c:4201
- usb_unbind_interface+0x25e/0x940 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:568 [inline]
- __device_release_driver drivers/base/dd.c:1272 [inline]
- device_release_driver_internal+0x503/0x7c0 drivers/base/dd.c:1295
- bus_remove_device+0x34f/0x420 drivers/base/bus.c:574
- device_del+0x57a/0x9b0 drivers/base/core.c:3868
- usb_disable_device+0x3bf/0x850 drivers/usb/core/message.c:1418
- usb_disconnect+0x340/0x950 drivers/usb/core/hub.c:2304
- hub_port_connect drivers/usb/core/hub.c:5361 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
- port_event drivers/usb/core/hub.c:5821 [inline]
- hub_event+0x1eb9/0x5150 drivers/usb/core/hub.c:5903
- process_one_work kernel/workqueue.c:3231 [inline]
- process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3312
- worker_thread+0x86d/0xd40 kernel/workqueue.c:3390
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- </TASK>
+The meeting room is sponsored by Avnet Silica. Much appreciated!
 
-Allocated by task 31851:
- kasan_save_stack mm/kasan/common.c:47 [inline]
- kasan_save_track+0x3f/0x80 mm/kasan/common.c:68
- poison_kmalloc_redzone mm/kasan/common.c:370 [inline]
- __kasan_kmalloc+0x98/0xb0 mm/kasan/common.c:387
- kasan_kmalloc include/linux/kasan.h:211 [inline]
- __kmalloc_cache_noprof+0x19c/0x2c0 mm/slub.c:4189
- kmalloc_noprof include/linux/slab.h:681 [inline]
- kzalloc_noprof include/linux/slab.h:807 [inline]
- em28xx_v4l2_init+0xfd/0x2f40 drivers/media/usb/em28xx/em28xx-video.c:2534
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
- process_one_work kernel/workqueue.c:3231 [inline]
- process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3312
- worker_thread+0x86d/0xd40 kernel/workqueue.c:3390
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+Regarding the face mask policy: we will follow the same guidance that the
+Linux Foundation gives for the EOSS conference:
 
-Freed by task 31851:
- kasan_save_stack mm/kasan/common.c:47 [inline]
- kasan_save_track+0x3f/0x80 mm/kasan/common.c:68
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:579
- poison_slab_object+0xe0/0x150 mm/kasan/common.c:240
- __kasan_slab_free+0x37/0x60 mm/kasan/common.c:256
- kasan_slab_free include/linux/kasan.h:184 [inline]
- slab_free_hook mm/slub.c:2252 [inline]
- slab_free mm/slub.c:4473 [inline]
- kfree+0x149/0x360 mm/slub.c:4594
- em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2120 [inline]
- kref_put include/linux/kref.h:65 [inline]
- em28xx_v4l2_init+0x16d7/0x2f40 drivers/media/usb/em28xx/em28xx-video.c:2903
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
- process_one_work kernel/workqueue.c:3231 [inline]
- process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3312
- worker_thread+0x86d/0xd40 kernel/workqueue.c:3390
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-
-The buggy address belongs to the object at ffff888058df4000
- which belongs to the cache kmalloc-8k of size 8192
-The buggy address is located 528 bytes inside of
- freed 8192-byte region [ffff888058df4000, ffff888058df6000)
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x58df0
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: 0xfdffffff(slab)
-raw: 00fff00000000040 ffff888015842280 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000080020002 00000001fdffffff 0000000000000000
-head: 00fff00000000040 ffff888015842280 dead000000000122 0000000000000000
-head: 0000000000000000 0000000080020002 00000001fdffffff 0000000000000000
-head: 00fff00000000003 ffffea0001637c01 ffffffffffffffff 0000000000000000
-head: 0000000000000008 0000000000000000 00000000ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0x152820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_HARDWALL), pid 3922, tgid 3922 (kworker/u8:8), ts 2368883364470, free_ts 2368880799693
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x1f3/0x230 mm/page_alloc.c:1493
- prep_new_page mm/page_alloc.c:1501 [inline]
- get_page_from_freelist+0x2e4c/0x2f10 mm/page_alloc.c:3442
- __alloc_pages_noprof+0x256/0x6c0 mm/page_alloc.c:4700
- __alloc_pages_node_noprof include/linux/gfp.h:269 [inline]
- alloc_pages_node_noprof include/linux/gfp.h:296 [inline]
- alloc_slab_page+0x5f/0x120 mm/slub.c:2321
- allocate_slab+0x5a/0x2f0 mm/slub.c:2484
- new_slab mm/slub.c:2537 [inline]
- ___slab_alloc+0xcd1/0x14b0 mm/slub.c:3723
- __slab_alloc+0x58/0xa0 mm/slub.c:3813
- __slab_alloc_node mm/slub.c:3866 [inline]
- slab_alloc_node mm/slub.c:4025 [inline]
- __do_kmalloc_node mm/slub.c:4157 [inline]
- __kmalloc_noprof+0x25a/0x400 mm/slub.c:4170
- kmalloc_noprof include/linux/slab.h:685 [inline]
- n_hdlc_tty_receive+0x1ce/0x4e0 drivers/tty/n_hdlc.c:393
- tty_ldisc_receive_buf+0x11f/0x170 drivers/tty/tty_buffer.c:391
- tty_port_default_receive_buf+0x6d/0xa0 drivers/tty/tty_port.c:37
- receive_buf drivers/tty/tty_buffer.c:445 [inline]
- flush_to_ldisc+0x328/0x860 drivers/tty/tty_buffer.c:495
- process_one_work kernel/workqueue.c:3231 [inline]
- process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3312
- worker_thread+0x86d/0xd40 kernel/workqueue.c:3390
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
-page last free pid 13102 tgid 13102 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- free_pages_prepare mm/page_alloc.c:1094 [inline]
- free_unref_page+0xd22/0xea0 mm/page_alloc.c:2612
- discard_slab mm/slub.c:2583 [inline]
- __put_partials+0xeb/0x130 mm/slub.c:3051
- put_cpu_partial+0x17c/0x250 mm/slub.c:3126
- __slab_free+0x2ea/0x3d0 mm/slub.c:4343
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x9e/0x140 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x14f/0x170 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x23/0x80 mm/kasan/common.c:322
- kasan_slab_alloc include/linux/kasan.h:201 [inline]
- slab_post_alloc_hook mm/slub.c:3988 [inline]
- slab_alloc_node mm/slub.c:4037 [inline]
- kmem_cache_alloc_noprof+0x135/0x2a0 mm/slub.c:4044
- anon_vma_chain_alloc mm/rmap.c:142 [inline]
- __anon_vma_prepare+0xc4/0x4a0 mm/rmap.c:195
- vmf_anon_prepare mm/memory.c:3289 [inline]
- do_anonymous_page mm/memory.c:4551 [inline]
- do_pte_missing mm/memory.c:3945 [inline]
- handle_pte_fault+0x5788/0x6eb0 mm/memory.c:5522
- __handle_mm_fault mm/memory.c:5665 [inline]
- handle_mm_fault+0x1029/0x1980 mm/memory.c:5833
- do_user_addr_fault arch/x86/mm/fault.c:1338 [inline]
- handle_page_fault arch/x86/mm/fault.c:1481 [inline]
- exc_page_fault+0x459/0x8c0 arch/x86/mm/fault.c:1539
- asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
-
-Memory state around the buggy address:
- ffff888058df4100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888058df4180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888058df4200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                         ^
- ffff888058df4280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888058df4300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/#onsite-health-and-safety
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+In-Person Attendees:
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+Mauro Carvalho Chehab <mchehab@kernel.org> (Media Kernel Maintainer)
+Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
+Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+Ricardo Ribalda <ribalda@chromium.org> (Google)
+Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+Alain Volmat <alain.volmat@foss.st.com> (ST Electronics) (TBC)
+Sean Young <sean@mess.org>
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Remote Attendees (using MS Teams):
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Steve Cho <stevecho@chromium.org> (Google)
+Nas Chung <nas.chung@chipsnmedia.com> (Chips & Media)
+Tomasz Figa <tfiga@chromium.org> (Google)
+Hidenori Kobayashi <hidenorik@chromium.org> (Google)
+Jai Luthra <j-luthra@ti.com> (TI)
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+Note: information on how to connect remotely will come later.
 
-If you want to undo deduplication, reply with:
-#syz undup
+If any information above is incorrect, or if I missed someone, then please let me know.
+
+We are currently 14 confirmed in-person participants and one TBC. I prefer to limit the total
+to 16 people, so if you want to join in-person, then contact me and I'll put you on a waitlist.
+The attendee list should be finalized by the end of August.
+
+Draft agenda:
+
+8:45-9:15: get settled :-)
+
+9:15-9:25: Hans: Quick introduction
+
+9:25-9:55: Steve Cho:
+
+- V4L2 testing on Chromium using virtual video decode driver (VISL)
+- V4L2 video decoding testing with KernelCI
+
+10:00-11:00: Ricardo: multi-committer model using gitlab
+
+11:00-11:15: break
+
+11:15-11:45: Sean: new tooling for infrared:
+
+- What it is and what it can do (love to hear any feedback of course)
+- Where it should be hosted? (I hope gitlab fdo, who do I ask)
+- What needs to be in place for a release?
+- This tool replaces ir-ctl and ir-keytable. How we phase them out?
+
+11:45-12:15: Daniel: Rust in the media subsystem
+
+12:15-13:30: Lunch
+
+13:30-14:00: Tomasz: Current state of videobuf2, its limitations and the paths forward.
+
+14:00-14:45: Laurent: subdevs, state, and usage of the media controller device to submit requests.
+
+14:45-15:00: break
+
+15:00-15:30: Tommaso/Martin: TBD
+
+15:30-16:30: Jacopo: Multi-context support in V4L2
+
+16:30-16:45: break
+
+16:45-17:00: Hans: UVC maintenance
+
+17:00-18:00: TBD
+
+Please reply with corrections, questions, etc. to this email. I'll update the agenda
+over time. Again, these times are very preliminary.
+
+Regards,
+
+	Hans
 
