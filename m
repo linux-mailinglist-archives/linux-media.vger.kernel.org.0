@@ -1,164 +1,116 @@
-Return-Path: <linux-media+bounces-15728-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15729-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A58946079
-	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 17:26:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84440946080
+	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 17:26:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 825EEB24157
-	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 15:26:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B68C01C20936
+	for <lists+linux-media@lfdr.de>; Fri,  2 Aug 2024 15:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE6581537D4;
-	Fri,  2 Aug 2024 15:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00E3213633A;
+	Fri,  2 Aug 2024 15:26:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="gl0fMV/y"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="R2+aNIIn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CE1175D29;
-	Fri,  2 Aug 2024 15:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A69D136334;
+	Fri,  2 Aug 2024 15:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722612290; cv=none; b=B1IaB+xfm8fKTLECLyB677vGGzFdKyDCYltB8PiY7FajmbzOaRe+/v7dgC2fPk0j49WjEuuRiEGtTVsHFubY239qnCxG/eWHKXT3m/mHFCf2EVgNYI9IBFqf/KFIjtsB7P03kiCFEWcybTJjsE282bYUD7hf55dVAPy4Kv4ooo8=
+	t=1722612391; cv=none; b=KdQlTjQ+3rjH0sdAmfHMqLPdM43px+2gY3bzxGXGu2gSAL2+/NHb+LW2xJexQAxaaWL7EGV+GEMhybvhmqzPfGvliUE1HkHIPmTzmnBBeVv9fd9YAF82L/dBfSRz4igbptDXO7HZ2nBbiQ/3Hxs+bizHQ3cT5P/RP/aUFBZaV00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722612290; c=relaxed/simple;
-	bh=M8qcfFelmeMZAh8kqX7LJJxJpym2qszDCS9w9IsDnLU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g/eY/MM85wej4rjjB+CqYXnE/l+z5NCQcQyegPhcK1oFhY5uwZjHPNhw2LI1YllllNuP4E501kE5kixRiu/5iLGcVZQi/MROIQA7ZBgPfGsUCi1IOcz5hpTHB33z/HVmtDDn0tMgH9T2gXqEQJ6766V1IFEyVciPdU66pZAiTJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=gl0fMV/y; arc=none smtp.client-ip=207.171.188.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1722612289; x=1754148289;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=HlTLf6rMFLh/z3VvfgmI3bnbMSeXF59wzmGFsXVVC5k=;
-  b=gl0fMV/y+waoLRFUMr0mBjcaD1LzCTo433XGVdWMzcot12yIWSO8HvwE
-   CyYH2cHBamxy4+DbqOaSSFRnZ3iDpZywxt3vkjLjg1zZ3Qs8J6le1QU2d
-   i6rZk21HQNM64Ro8zgiC0dcops42urPdAshpHiv7yFAniMxofDpVpBjLu
-   k=;
-X-IronPort-AV: E=Sophos;i="6.09,258,1716249600"; 
-   d="scan'208";a="746702857"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 15:24:47 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.7.35:26186]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.27.192:2525] with esmtp (Farcaster)
- id 2c37182a-10f2-45eb-8eda-90c6ae2bc19a; Fri, 2 Aug 2024 15:24:46 +0000 (UTC)
-X-Farcaster-Flow-ID: 2c37182a-10f2-45eb-8eda-90c6ae2bc19a
-Received: from EX19EXOUWC002.ant.amazon.com (10.250.64.172) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Fri, 2 Aug 2024 15:24:38 +0000
-Received: from EX19MTAUWA001.ant.amazon.com (10.250.64.204) by
- EX19EXOUWC002.ant.amazon.com (10.250.64.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Fri, 2 Aug 2024 15:24:35 +0000
-Received: from dev-dsk-jorcrous-2c-c0367878.us-west-2.amazon.com
- (10.189.195.130) by mail-relay.amazon.com (10.250.64.204) with Microsoft SMTP
- Server id 15.2.1258.34 via Frontend Transport; Fri, 2 Aug 2024 15:24:35 +0000
-Received: by dev-dsk-jorcrous-2c-c0367878.us-west-2.amazon.com (Postfix, from userid 14178300)
-	id 68F76A79F; Fri,  2 Aug 2024 15:24:35 +0000 (UTC)
-From: Jordan Crouse <jorcrous@amazon.com>
-To: <linux-media@vger.kernel.org>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, Todor Tomov
-	<todor.too@gmail.com>, <linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 2/2] media: camss: Avoid overwriting vfe clock rates for 8250
-Date: Fri, 2 Aug 2024 15:24:34 +0000
-Message-ID: <20240802152435.35796-3-jorcrous@amazon.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240802152435.35796-1-jorcrous@amazon.com>
-References: <20240802152435.35796-1-jorcrous@amazon.com>
+	s=arc-20240116; t=1722612391; c=relaxed/simple;
+	bh=vaUoWKYYbc+9apH9UAH7phKlFhbklSN9gVy55V3kjUc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nqqm8Ivr11sFZgBt8v7JL3KOlLgBlLEraP8+ZL2peME0czqZy6we0VK+9tJTgQ8oa3eGSwQonrjwB4G2VSZGnH4Sgl0bLEX9Zew6ENeQGs3SyLsMmdUhxAa4BAHbKp/yEEI3iJl8Kjykz/vE42pRETzJF2YqBJSoLdmyzXWb7Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=R2+aNIIn; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Wb8nD4pX9z9tM7;
+	Fri,  2 Aug 2024 17:26:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1722612384;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IbiOHuuK++HVqf4Ly0K8XIOEOZLhizAbHkNRlvigC5k=;
+	b=R2+aNIInlYHCHZ2caXa7mIUa0XaVi1NbbxC4Sc0k23Tv6Cd77LrKwMYv0HcLd/NPZT19h0
+	V9gXA9vCM32XI7l0mJvMr1w4BDM8kRMXHt57HkNoGUzKjjxpvvj97tZg9p9kyrB43EBSQc
+	RuJWYANqMDxRfmnYipbG//P2htyDtB4PXxwzS6GZSHdlESLPCf9MyEWyDbSu3byDG6PCJ+
+	Uxf9f+ZerJEbGi/4e7nUpPelWnR4aaLy1nJPlIFsi9HrGNsS1oNPKB1U9as8Mnji9biv1e
+	/LNTN9alkIvHiIOuO28LMNR6TEld0ugCOnrpPsnFyLKyzSKr3bz3xpCiQQtQ2Q==
+Message-ID: <86d7ca9c-1493-474b-95d6-1e38b5703a67@mailbox.org>
+Date: Fri, 2 Aug 2024 17:26:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH 0/5] udmbuf bug fix and some improvements
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>, Huan Yang
+ <link@vivo.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
+References: <20240801104512.4056860-1-link@vivo.com>
+ <IA0PR11MB7185EDB259502BC6937CE566F8B22@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA, de-CH-frami
+In-Reply-To: <IA0PR11MB7185EDB259502BC6937CE566F8B22@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MBO-RS-META: jraeashjkoya6xgp7jomd86xn6cw6ttf
+X-MBO-RS-ID: a8c9a5cf6cddf16cf40
 
-On sm8250 targets both the csid and vfe subsystems share a number of
-clocks. Commit b4436a18eedb ("media: camss: add support for SM8250 camss")
-reorganized the initialization sequence so that VFE gets initialized first
-but a side effect of that was that the CSID subsystem came in after and
-overwrites the set frequencies on the shared clocks.
+On 2024-08-01 20:32, Kasireddy, Vivek wrote:
+> Hi Huan,
+> 
+>> This patchset attempts to fix some errors in udmabuf and remove the
+>> upin_list structure.
+>>
+>> Some of this fix just gather the patches which I upload before.
+>>
+>> Patch1
+>> ===
+>> Try to remove page fault mmap and direct map it.
+>> Due to current udmabuf has already obtained and pinned the folio
+>> upon completion of the creation.This means that the physical memory has
+>> already been acquired, rather than being accessed dynamically. The
+>> current page fault method only saves some page table memory.
+>>
+>> As a result, the page fault mechanism has lost its purpose as a demanding
+>> page. Due to the fact that page fault requires trapping into kernel mode
+>> and filling in when accessing the corresponding virtual address in mmap,
+>> this means that user mode access to virtual addresses needs to trap into
+>> kernel mode.
+>>
+>> Therefore, when creating a large size udmabuf, this represents a
+>> considerable overhead.
+> Just want to mention that for the main use-case the udmabuf driver is designed for,
+> (sharing Qemu Guest FB with Host for GPU DMA), udmabufs are not created very
+> frequently. And, I think providing CPU access via mmap is just a backup, mainly
+> intended for debugging purposes.
 
-Empty the frequency tables for the shared clocks in the CSID resources so
-they won't overwrite the clock rates that the VFE has already set.
+FYI, Mesa now uses udmabuf for supporting dma-bufs with software rendering.
 
-Signed-off-by: Jordan Crouse <jorcrous@amazon.com>
----
 
- drivers/media/platform/qcom/camss/camss.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 51b1d3550421..d78644c3ebe9 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -915,6 +915,15 @@ static const struct camss_subdev_resources csiphy_res_8250[] = {
- 	}
- };
- 
-+/*
-+ * Both CSID and VFE use some of the same vfe clocks and both
-+ * should prepare/enable them but only the VFE subsystem should be in charge
-+ * of setting the clock rates.
-+ *
-+ * Set the frequency tables for those clocks in the CSID resources to
-+ * be empty so the csid subsystem doesn't overwrite the clock rates that the
-+ * VFE already set.
-+ */
- static const struct camss_subdev_resources csid_res_8250[] = {
- 	/* CSID0 */
- 	{
-@@ -922,8 +931,8 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.clock = { "vfe0_csid", "vfe0_cphy_rx", "vfe0", "vfe0_areg", "vfe0_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
--				{ 350000000, 475000000, 576000000, 720000000 },
--				{ 100000000, 200000000, 300000000, 400000000 },
-+				{ 0 },
-+				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid0" },
- 		.interrupt = { "csid0" },
-@@ -939,8 +948,8 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.clock = { "vfe1_csid", "vfe1_cphy_rx", "vfe1", "vfe1_areg", "vfe1_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
--				{ 350000000, 475000000, 576000000, 720000000 },
--				{ 100000000, 200000000, 300000000, 400000000 },
-+				{ 0 },
-+				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid1" },
- 		.interrupt = { "csid1" },
-@@ -956,7 +965,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
--				{ 400000000, 480000000 },
-+				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
-@@ -973,7 +982,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite",  "vfe_lite_ahb" },
- 		.clock_rate = { { 400000000 },
- 				{ 400000000 },
--				{ 400000000, 480000000 },
-+				{ 0 },
- 				{ 0 } },
- 		.reg = { "csid3" },
- 		.interrupt = { "csid3" },
 -- 
-2.40.1
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
 
