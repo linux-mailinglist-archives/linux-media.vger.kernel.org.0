@@ -1,89 +1,126 @@
-Return-Path: <linux-media+bounces-15737-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15738-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EC7946717
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 05:29:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8053194676C
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 06:28:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 470BF1C20D96
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 03:29:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C1A91F213DE
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 04:28:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9ABE125B9;
-	Sat,  3 Aug 2024 03:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3E12770F5;
+	Sat,  3 Aug 2024 04:28:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b="Bfv0J/Q9";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="ShZyfamE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zXMBpSqG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61789F9F5
-	for <linux-media@vger.kernel.org>; Sat,  3 Aug 2024 03:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD894AD4B
+	for <linux-media@vger.kernel.org>; Sat,  3 Aug 2024 04:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722655759; cv=none; b=WuCuf6gqFVPUupVDjThHFFZoVajMOAhFxncx73aZ/EgC6EJ2Gb044USI6jNYAuWaqn405CIvEW3MVSl8DOOnTP1tBnRaSmIrgisrv3Ru8+yDRoD/2Pivb8KPWJn7nQgX1vFuDtCO6eYeQEejQDJoYNISB8WDJ9t7J5TrO9G7stg=
+	t=1722659328; cv=none; b=sHLM97Hg8m8BpPd6GFBFpXZ8nBjPN/SNWH9LwiHuSaZiJLzlL75YS7b/dRVob9W6JgymcSONtIsGlkMSzypHPnnRs2ATtDJQ0JiPgzkMzv0YHG77/vZ7kDaWHAE62I7UJa4NEtvi81+2g/kz4jU9LyfEpeny6jeeXbFAqIwsTwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722655759; c=relaxed/simple;
-	bh=V+5SWEhdUx/PT2rg1YC48hJQGvbxbFyZ/tQDnJq8Obw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qxAf1DtrDBVuyBJluQZmVdYQTnNUs0MKL2h4R6ka4CKX5HIfccJp1jwefYVhyBTqWfOEbwqHcV4QDv46/FH4faKSX56clSgzYsU64JhON/J2jlKAmnJciP2eJHi9LoQjJlWwK1eUJTlOAEgVlhbk1OikWzUKNVlQ0bM3r2hvd/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name; spf=pass smtp.mailfrom=spwhitton.name; dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b=Bfv0J/Q9; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=ShZyfamE; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=spwhitton.name
-DKIM-Signature: a=rsa-sha256; b=Bfv0J/Q9WL4LyPd3I1rutoDMULBvDM+o/PBBYDbFuxcemrvBRznLMCIdoARrimElSCWM1X4TQLg8qqrfJOQ9XwUwqtS6w4nTWoXiD+ks41MDdLJK5vLXuzchdtEwEVx872WzcUAoDObFb0ngOV8t72NuW+1/2e6YAoM495JryqPMUBK9Damhi5at+2Ij/xgm/mqzHvVRZErVI4E/25WmfqgoRYJO2IBWyqnwf09gLJv4BNf27ia1UxTHFvIhS3JAqnkYKQjcxoLIWJM5S8JYdxmRL8VT/+5XKMoejb8HvEG+kDtSP7Jw09gtSM3Nx3R3EQjJZf5c1fC8MayxF0PIEg==; s=purelymail2; d=spwhitton.name; v=1; bh=V+5SWEhdUx/PT2rg1YC48hJQGvbxbFyZ/tQDnJq8Obw=; h=Received:Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=ShZyfamEZKgbMLyaR0XxXN53u4rMxvxqDKxNWCZNrygurgwOCwmykbNriUPk+1GsynZ7DQQJmO27qry4R3yqt1ypDhRd8kyYuxwQdXwU2fM91gf+/+Z0aBnrylmCcn8XCdCvq758pJzfK8bi8tx20/bQ5mnRripXrrJUATFCf1EyoL5Ve6nAu8DglgIKVbU4MI/RBcj6QJqqKnic+v7DFTaxTZ/fZiY0L/n5JAt57oTEjwNNoPcNRRlnKGDAZXoGKn0RzkI0gwuSnsgto7Ko2BT5y74XQt3FWFwmJWUvOdM4JB6YyVezWO8FJv58Aj8iP6mtZKR8sJGY+1hKhZs7qA==; s=purelymail2; d=purelymail.com; v=1; bh=V+5SWEhdUx/PT2rg1YC48hJQGvbxbFyZ/tQDnJq8Obw=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
-Feedback-ID: 20115:3760:null:purelymail
-X-Pm-Original-To: linux-media@vger.kernel.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -868321867;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Sat, 03 Aug 2024 03:28:06 +0000 (UTC)
-Received: by melete.silentflame.com (Postfix, from userid 1000)
-	id D47867E3D83; Sat,  3 Aug 2024 12:28:02 +0900 (KST)
-From: Sean Whitton <spwhitton@spwhitton.name>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ~lkcamp/patches@lists.sr.ht,  helen.koike@collabora.com,  Hans de Goede
- <hdegoede@redhat.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
-  Sakari Ailus <sakari.ailus@linux.intel.com>,
-  linux-media@vger.kernel.org,  linux-staging@lists.linux.dev,
-  linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1722659328; c=relaxed/simple;
+	bh=A0FigfRcdI5TmtnLIowXNHNmseW9E6VQpT3GSq9/Ec4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mHRxGHrxGJF8A75xhuB4Ujm3Tt4AApqwKaazWm1H/GMoYlvdghLwxyLQwaxnCu53kNVJkr6yQJz7WZpvlaNxirx8E6Hlx/xmPeyhQ0KMHq8S64vkiptsfOUT5B1NU83VOG+rUv3IcpLx/91547LqMAMQXJfjI9w0kdIkyu+ydjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zXMBpSqG; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-260e1b5576aso5569561fac.1
+        for <linux-media@vger.kernel.org>; Fri, 02 Aug 2024 21:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722659326; x=1723264126; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rzn92C1AHPPlWzjTKcidqRR6Rxvggoz6sIIwczUKFlg=;
+        b=zXMBpSqG3EtonY7DXYXLqGTPmU1d8C3PBmSdRNu43BSuunbKc2VdNnARnkMhibigYh
+         HPNQiQxbN3VR9zutxDq2gTh3Nqlh1UGkr485JmTzc2FO4Ngaod07IzQ9f8i09D7WhGav
+         AF+vfoVQdXEwGVU7YTyHVXg+1LwOro4a5DhTFF3H2YtvEX4Wb3RsJDFdEFnQ28IetKeT
+         wn6DdyklbZSA4a8WuPtHrFdagZKJDmpMI+DUoAHa8gNkiqy8nG+8HoKIp36OyD8Z52Pj
+         6JF9TlN82dnJ4bfOxAVA7WIfl7rEr4PJLOBsbbVGc15jjocvAXSkI0qAtuKi/fdOAkmm
+         6YGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722659326; x=1723264126;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rzn92C1AHPPlWzjTKcidqRR6Rxvggoz6sIIwczUKFlg=;
+        b=c6D4IHRAPcAkqHgcNQ6OFOlD9/zRObl9lnN5/KiUVFwd5S5jYeMsfYXEgIGmAVZTvm
+         /LvGmuDLtHVgnip53/PY+3PF91vBbTzSmxhwm+EetV3HTkFcqWo6eEeJ8QDVtLLLGQHe
+         PFnlmIg2fMlCr1zzugzA5/04ximeu7GZWLebTs8u6BBtKn5GBJuDSXcqXmH5cBZU+niJ
+         VtOl4RD5iKq2w2blPC4BxT8X5LGQASXNNeetuKlY6o08ocWpRTCx1WtO8BO5zel8ixIK
+         I/43GtGf/LMX604JkrX3XxQEVorz+ueWINU5kIHjuEjU81BQPodgA6fJIxLoVw0AmHNv
+         eL2A==
+X-Forwarded-Encrypted: i=1; AJvYcCX5PkVhl+r94w9KfgnmEf66wyN3bEuBuuiVLXNYfWIdqnqYxRp5faavC2o4ojFFUm9OcuP3Ewf7c29eQg4+uTWdCSRKJJS5ZrXQ80Y=
+X-Gm-Message-State: AOJu0YxtUegSHAXft1tY6l+GrYLatOiBG3X+SUL3KJJgFLEmmICuIyOy
+	2Pm7oACYAd1KnpF6pGcSqg78z+J1xG4JlMtFMsZVnvCxVeeTPRx0ynlO5S785Og=
+X-Google-Smtp-Source: AGHT+IHxWS3iNqvAAzqLqQWuBAFRbxKqLawxiRW8lxpchWWctf2N+xj8WDxTH2k/CshLA+HBc83npQ==
+X-Received: by 2002:a05:6870:3314:b0:260:f054:7774 with SMTP id 586e51a60fabf-26891d3cb1dmr7021954fac.13.1722659325803;
+        Fri, 02 Aug 2024 21:28:45 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2689a2a826asm790540fac.8.2024.08.02.21.28.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 21:28:45 -0700 (PDT)
+Date: Fri, 2 Aug 2024 23:28:43 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sean Whitton <spwhitton@spwhitton.name>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: media: atomisp: Add parentheses around macro
  definitions
-In-Reply-To: <2024073020-reload-vanquish-f937@gregkh> (Greg Kroah-Hartman's
-	message of "Tue, 30 Jul 2024 08:38:51 +0200")
+Message-ID: <8d383b9d-d029-4706-91c5-9623fddf5df3@suswa.mountain>
 References: <20240730062348.46205-2-spwhitton@spwhitton.name>
-	<2024073020-reload-vanquish-f937@gregkh>
-Date: Sat, 03 Aug 2024 11:28:02 +0800
-Message-ID: <87v80i475p.fsf@melete.silentflame.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <2024073020-reload-vanquish-f937@gregkh>
+ <87v80i475p.fsf@melete.silentflame.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v80i475p.fsf@melete.silentflame.com>
 
-Hello,
+On Sat, Aug 03, 2024 at 11:28:02AM +0800, Sean Whitton wrote:
+> Hello,
+> 
+> On Tue 30 Jul 2024 at 08:38am +02, Greg Kroah-Hartman wrote:
+> 
+> > This isn't a "complex values", and really should just be removed
+> > entirely and use the correct "static inline" properly.
+> 
+> I found that there are several headers in
+> atomisp/pci/hive_isp_css_include which have this pattern of defining an
+> _INLINE_*_ preprocessor constant, and using it to choose between
+> 'extern' and 'static inline' in each file where the header is included.
+> 
+> I don't know what the author's intention was.  Are you saying that you
+> think this preprocessor mechanism should just be replaced with
+> hardcoding 'extern' or 'static inline' in each file which includes one
+> of these headers?
 
-On Tue 30 Jul 2024 at 08:38am +02, Greg Kroah-Hartman wrote:
+*You* need to figure out what the proper thing is.  Not us.  That's the
+difficult part of writing a patch.  Once you know what the correct thing
+is, then the rest is just typing.
 
-> This isn't a "complex values", and really should just be removed
-> entirely and use the correct "static inline" properly.
+That business of defining STORAGE_CLASS_SP_C is weird.  Figure out the
+authors intention and find a better way to do it.
 
-I found that there are several headers in
-atomisp/pci/hive_isp_css_include which have this pattern of defining an
-_INLINE_*_ preprocessor constant, and using it to choose between
-'extern' and 'static inline' in each file where the header is included.
+Figure out why your code compiled as well because putting parentheses
+around (static inline) is a syntax error.
 
-I don't know what the author's intention was.  Are you saying that you
-think this preprocessor mechanism should just be replaced with
-hardcoding 'extern' or 'static inline' in each file which includes one
-of these headers?
+regards,
+dan carpenter
 
-Thanks!
-
--- 
-Sean Whitton
 
