@@ -1,158 +1,122 @@
-Return-Path: <linux-media+bounces-15740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15741-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDC69467FD
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 08:14:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B8D946884
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 09:08:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA9CC2827C5
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 06:14:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DC0F1F21CBA
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 07:08:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAE4B14EC50;
-	Sat,  3 Aug 2024 06:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YiFHQdJE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABEA114E2C1;
+	Sat,  3 Aug 2024 07:07:59 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0550B14D28F
-	for <linux-media@vger.kernel.org>; Sat,  3 Aug 2024 06:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4100214D45E;
+	Sat,  3 Aug 2024 07:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722665466; cv=none; b=ctxTpCbGVRkn5PGVxQuaHHyh4kfc3cn5fEYGrRS6x49oyxEwGHCStJCoP5GMmg8g/bHhknoYIyxPDymrkV0rk4bp+X0nl1677ZOgL4+WNGIxahICQII01WIgNNFIMEPVdJuollMQhTGor13fD/1NWvjEeeVv1SYkCPWNSHPQ82Q=
+	t=1722668879; cv=none; b=bHBjkeAAHx0j9JkLbBmpEXdcMkCc49Cn7kvlFl05V11weAf8HMccw4per/OLcfsKZq9wYwKp0U6FhTYrFUlpzP1+DvReXw+RnZ6cUIVQ3oTLrRmm1DY3s4WKE+702Rlod8hh2RJDZZiomFNqgTzNDve3CT8UqENObVI+5daKiQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722665466; c=relaxed/simple;
-	bh=M+Ud9zj5zxvYJ4r8nyLdhfUxJMwYZX9z7+g4PGtLCnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cwocu05Q+0E2WsEpgK68WLa4d013oXl9WPAoEjSpjZhdXWPickfqANdoHNtSR1rFhM/lp1mqybh00fOnk48tjBPMehgxoVLRM77BmmeuSFXT5Y7hsq1O04fdrYgNhM9KA9JQymI4mVWRvxfDt3ybWMAEHQxIgCDUvA4u9l9M1lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YiFHQdJE; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3db157d3bb9so5131563b6e.2
-        for <linux-media@vger.kernel.org>; Fri, 02 Aug 2024 23:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722665461; x=1723270261; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4xHXuQbEIlF6T6PWN7yL7W7i12ECySoqyc3OAvP7660=;
-        b=YiFHQdJEGKIYfKqC00EznUTIuwTRIuZbIeYl6WJ4L9gWXbc63fIcg1Dc9J33yXzliX
-         IwqpRZuxMeneaKgt7OBUN5CW9qQGXDDjLNk98A5la+EkzeJfTDH0KSOdVEJiBTOL9GLD
-         vyaX2pXc9EJcVhzLB7nVmqjkjvXVP8k6Bw+38oWGDL4V5nzJ9av8Ae66N3orVlPcDjFc
-         xa2DWW7ZbIN/hwmt0ZR4LPaFnSBuiBgg6cQy4s7G92PKpqhfX2a1fqzY1YTeBwUKIFbB
-         brEmutwDFXhy8RezbHAKxuxxUL3VgZGRGUE9wLFf3/qbsjrh+jXTUOYMhl97aA5lHK62
-         o72g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722665461; x=1723270261;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4xHXuQbEIlF6T6PWN7yL7W7i12ECySoqyc3OAvP7660=;
-        b=BAxp5nzUBmIyO5MIyoDnD5xO/y4/rlIYHhV3kYTyYKao63HntzY//rFyOjMY1yBG9W
-         YOPeBlfOEAHGpu7/3j2tXJg+o6U4c7cgYclcjrbDopkvGJy8d6X1EpTMqN9ipuPLngwO
-         vq6ho1QIq1wx+bFHkHccFsf3nMKCTP5YlLR+me0D7YrT5MlKdpCsgaUvAFynnhHzp1hq
-         52oZiehys0tYPaDxGoLJ9sHOK/zRc4nfxzzY9nUT/GEjW8YNPuYrrZXnellOXVzYD7ds
-         yDdwI0jwxLwT/lpOVvtWFgD9nBgZhd+f+THfZTpj1WGA0Q6klszsOFVbSVUQvBerAZYD
-         TWWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXghF3acr2K+Whn9erRLqbbFxWj4iZnGc/sa/8fLi4vY4QhCt1Bc0Q7KerfTvYmLyHq03qZC3mkySvYX/wSZ45hs+jRF6z+2vv2oL8=
-X-Gm-Message-State: AOJu0YxgFLtasEDaLvQ3uYnRT3rE8F5GVX4zWJQigl1LnITO9Xh4HEvg
-	r7LRad3byYgWVOzk6BdLl3seVBjB6UoRc2moSa5rVJMLwL1Ot8Ed8DPZGKHMkc8=
-X-Google-Smtp-Source: AGHT+IHRmFwg9h+RQHxo9nAy0g9i1yt4x6Wdms+udQI9gwDyyIOAQZpruLkfKCJ5FsshubfS5JIUmA==
-X-Received: by 2002:a05:6830:631a:b0:709:4d7a:3438 with SMTP id 46e09a7af769-709b32081c5mr7524324a34.11.1722665461056;
-        Fri, 02 Aug 2024 23:11:01 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70a3a750d08sm1119236a34.62.2024.08.02.23.11.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 23:11:00 -0700 (PDT)
-Date: Sat, 3 Aug 2024 01:10:58 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sean Whitton <spwhitton@spwhitton.name>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: Add parentheses around macro
- definitions
-Message-ID: <cf999a28-7227-4ee9-bc5f-9fe8c370458c@suswa.mountain>
-References: <20240730062348.46205-2-spwhitton@spwhitton.name>
- <2024073020-reload-vanquish-f937@gregkh>
- <87v80i475p.fsf@melete.silentflame.com>
- <8d383b9d-d029-4706-91c5-9623fddf5df3@suswa.mountain>
- <878qxe41c8.fsf@melete.silentflame.com>
+	s=arc-20240116; t=1722668879; c=relaxed/simple;
+	bh=RHHPzn9H5ILDM3lXiGaqECNPDEFde+mqtsXtuuEoNds=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JBeEQDy7GUqPG3qObiLkfHimD0kKZKaFdCxlVC+shugxZu3rTBHspAPT90kzm9k35nYzHvSb/zaM/Is3USJGZG8jw+OxG0a4JSh7vZ3OYRbELjDFe/KtPs7NNyXUgMpN04OMNBlloh//uzWxIl9353sP5opVM3GtxEQ7x7xDtU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 452B0C116B1;
+	Sat,  3 Aug 2024 07:07:57 +0000 (UTC)
+Message-ID: <d6db361a-6b6c-4ed9-8917-d45a59391a89@xs4all.nl>
+Date: Sat, 3 Aug 2024 09:07:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878qxe41c8.fsf@melete.silentflame.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.10 288/809] media: dvb-usb: Fix unexpected infinite loop
+ in dvb_usb_read_remote_control()
+To: Sean Young <sean@mess.org>
+Cc: stable@vger.kernel.org, patches@lists.linux.dev,
+ Zheng Yejian <zhengyejian1@huawei.com>, Sasha Levin <sashal@kernel.org>,
+ "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Stefan Lippers-Hollmann <s.l-h@gmx.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20240730151724.637682316@linuxfoundation.org>
+ <20240730151735.968317438@linuxfoundation.org> <20240801165146.38991f60@mir>
+ <20240801172755.63c53206@mir> <20240801192125.300b2bd9@mir>
+ <2024080325-blaming-lid-5f0d@gregkh>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <2024080325-blaming-lid-5f0d@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 03, 2024 at 01:33:43PM +0800, Sean Whitton wrote:
-> Hello,
+On 03/08/2024 08:57, Greg Kroah-Hartman wrote:
+> On Thu, Aug 01, 2024 at 07:21:25PM +0200, Stefan Lippers-Hollmann wrote:
+>> Hi
+>>
+>> On 2024-08-01, Stefan Lippers-Hollmann wrote:
+>>> On 2024-08-01, Stefan Lippers-Hollmann wrote:
+>>>> On 2024-07-30, Greg Kroah-Hartman wrote:
+>>>>> 6.10-stable review patch.  If anyone has any objections, please let me know.
+>>>>>
+>>>>> ------------------
+>>>>>
+>>>>> From: Zheng Yejian <zhengyejian1@huawei.com>
+>>>>>
+>>>>> [ Upstream commit 2052138b7da52ad5ccaf74f736d00f39a1c9198c ]
+>>>>>
+>>>>> Infinite log printing occurs during fuzz test:
+>>>>>
+>>>>>   rc rc1: DViCO FusionHDTV DVB-T USB (LGZ201) as ...
+>>>>>   ...
+>>>>>   dvb-usb: schedule remote query interval to 100 msecs.
+>>>>>   dvb-usb: DViCO FusionHDTV DVB-T USB (LGZ201) successfully initialized ...
+>>>>>   dvb-usb: bulk message failed: -22 (1/0)
+>>>>>   dvb-usb: bulk message failed: -22 (1/0)
+>>>>>   dvb-usb: bulk message failed: -22 (1/0)
+>>>>>   ...
+>>>>>   dvb-usb: bulk message failed: -22 (1/0)
+>>>>>
+>>>>> Looking into the codes, there is a loop in dvb_usb_read_remote_control(),
+>>>>> that is in rc_core_dvb_usb_remote_init() create a work that will call
+>>>>> dvb_usb_read_remote_control(), and this work will reschedule itself at
+>>>>> 'rc_interval' intervals to recursively call dvb_usb_read_remote_control(),
+>>>>> see following code snippet:
+>>>> [...]
+>>>>
+>>>> This patch, as part of v6.10.3-rc3 breaks my TeVii s480 dual DVB-S2
+>>>> card, reverting just this patch from v6.10-rc3 fixes the situation
+>>>> again (a co-installed Microsoft Xbox One Digital TV DVB-T2 Tuner
+>>>> keeps working).
+>>> [...]
+>>>
+>>> Btw. I can also reproduce this (both breakage and 'fix' by reverting
+>>> this patch) on a another x86_64 system that only has a single TeVii
+>>> s480 dual DVB-S2 card (and no further v4l devices) installed. So I'm
+>>> seeing this on both sandy-bridge and raptor-lake x86_64 systems.
+>>
+>> This issue is also present in current linux HEAD (as of this moment,
+>> v6.11-rc1-63-g21b136cc63d2).
+>>
+>> A clean revert of this commit 2052138b7da52ad5ccaf74f736d00f39a1c9198c
+>> "media: dvb-usb: Fix unexpected infinite loop in
+>> dvb_usb_read_remote_control()" avoids the problem for v6.11~ as well.
 > 
-> On Fri 02 Aug 2024 at 11:28pm -05, Dan Carpenter wrote:
-> 
-> > *You* need to figure out what the proper thing is.  Not us.  That's the
-> > difficult part of writing a patch.  Once you know what the correct thing
-> > is, then the rest is just typing.
-> >
-> > That business of defining STORAGE_CLASS_SP_C is weird.  Figure out the
-> > authors intention and find a better way to do it.
-> >
-> > Figure out why your code compiled as well because putting parentheses
-> > around (static inline) is a syntax error.
-> 
-> I asked follow-up questions because it seems like at least partially a
-> matter of style to say that the business of defining STORAGE_CLASS_SP_C
-> is weird.
+> As this issue is in Linus's tree, please work to get it resolved there
+> first and then we will gladly take the changes here
 
-I'm a domain expert when it comes to kernel style.  ;)  Trust me, it's
-weird.  There are other places which do it as will but it's not normal.
+Sean, I assume you'll look into this?
 
-> Maybe there is a better approach than what is currently done,
-> but maybe there isn't.
+Regards,
 
-Correct.  Just because it's weird, doesn't mean it's wrong.  Figure out
-why the author did what they did and after that you'll probably be able
-to judge if it makes sense.
+	Hans
 
-> Maybe the checkpatch warning should just be
-> suppressed (if that's something that can be done).
-
-Yes.  Try to suppress the warning.  You don't need anyone's permission.
-I think it will be difficult and I doubt you will succeed.  But you
-never know until you try.  Even if you don't succeed, it's a useful
-exercise.
-
-> I would be grateful for some additional pointers.
-> 
-
-Ok.  Here was your question.
-
-> I don't know what the author's intention was.  Are you saying that you
-> think this preprocessor mechanism should just be replaced with
-> hardcoding 'extern' or 'static inline' in each file which includes one
-> of these headers?
-
-The answer is you need to figure out what the author's intention was.
-1) Look through the git log.  2) Try removing it and see if anything
-breaks.  3) Do a grep for __INLINE_SP__.  (I deleted some extra hints
-here because if I give any more hints then it's just me doing the
-project).
-
-Once you know why the macro exists then you can decide it we should do a
-sed to replace it.  The sed to get rid of the macro is just an automated
-one liner thing.  The difficult part is answering why the macro was
-created and do we still need it?
-
-regards,
-dan carpenter
-
+(Added a Cc to the linux-media ML)
 
