@@ -1,94 +1,158 @@
-Return-Path: <linux-media+bounces-15739-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15740-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6707946787
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 07:34:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDC69467FD
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 08:14:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E91E1C20C82
-	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 05:34:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA9CC2827C5
+	for <lists+linux-media@lfdr.de>; Sat,  3 Aug 2024 06:14:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C70191422B1;
-	Sat,  3 Aug 2024 05:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAE4B14EC50;
+	Sat,  3 Aug 2024 06:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b="RpFIvgg3";
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="jQMFBPtO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YiFHQdJE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8982B13F42A
-	for <linux-media@vger.kernel.org>; Sat,  3 Aug 2024 05:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0550B14D28F
+	for <linux-media@vger.kernel.org>; Sat,  3 Aug 2024 06:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722663254; cv=none; b=qXN0DT1voIXjFiwKhGEX8xIHRngD9vCw4YJMvkbKNOpaaFd+jFGTh4YU5h5XTBa1/xQ9g5fjQvXF7zXT59lARCNk8tfm9C+GYqxlTjGQwkM8T3gDTlHqSICHBiANEhX5/q1R2lUIfoBRDQ00t3ktjt1u0QRiSFuIsfQFNHopYPU=
+	t=1722665466; cv=none; b=ctxTpCbGVRkn5PGVxQuaHHyh4kfc3cn5fEYGrRS6x49oyxEwGHCStJCoP5GMmg8g/bHhknoYIyxPDymrkV0rk4bp+X0nl1677ZOgL4+WNGIxahICQII01WIgNNFIMEPVdJuollMQhTGor13fD/1NWvjEeeVv1SYkCPWNSHPQ82Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722663254; c=relaxed/simple;
-	bh=EF6NEO5ohC294DVJau6zkSdXtr8oG5BVcmFPCUicuLg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RyzVz8j4E9iKSEQhudeit2eGOwcd3Y6x32NKrVnCV275TKsPqteyFrtPgQhlL5HDZn+FwmAt+QJkgjjrgpjfxAX3cfZ7lDgschVr8KscPyZdAYZisTf/ZfZbJL0n1GENjy6mLlY+kmOoxyItnPpM0HqAOZWbsU58+UpsZyBAa6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name; spf=pass smtp.mailfrom=spwhitton.name; dkim=pass (2048-bit key) header.d=spwhitton.name header.i=@spwhitton.name header.b=RpFIvgg3; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=jQMFBPtO; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=spwhitton.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=spwhitton.name
-DKIM-Signature: a=rsa-sha256; b=RpFIvgg3MrETYEC6o4HRMsx/LVlHrzozOsJWBfEyRNvwBg/p2LEL324+G1JdlPE6/rGCLkMMzSZqJrsz22ZIaPTItH6OWr7H3jWcR1951jKZ1J1deErFB/MTOhp9zN4M1XUKMxIdgGd7vjq7AXvofEphDtmtYdANBT6vIUUx46RWu4Uo+a8hF23JVwM/Abne469on8M9ZDTscsdToOp6zN0iD06qhfgyrI6pF9bq8ENc4isbroIeMyjNebc63FTsI0regbmijh6ZXdlh/09Uizqh/qntL5mgDICKrnhOy74/BZoCxTfawTmsCOYqcVVLPkFTkoADovlvu4q19wWxmQ==; s=purelymail2; d=spwhitton.name; v=1; bh=EF6NEO5ohC294DVJau6zkSdXtr8oG5BVcmFPCUicuLg=; h=Received:Received:From:To:Subject:Date;
-DKIM-Signature: a=rsa-sha256; b=jQMFBPtOk9WYTSq69gzV6jiwUoxZ54KNa59vycUW4FTrK69E2ZUigvBrrQr/VKoJ+NV4/RApaSAFCJCUQitPQJHtI8mAS3tJBPtnTE5n/SamLQWMdalauP8pYZUZ2iKwZP+0N/KQtNRuvf3H/8mqStyVwhFme04e/vMxnl33/CEp/4IhXLj9yRFNjdi4T5CmM+cxl6BEl4MMP2G2hudm8Fh1tWvq1F1XEDceGE1cI3EsbM0pRcNYFymNSH4FMWzzBFbs5+bnWr4BH73ns7437oXozhBP7y0Vlkl94ndVhiYnIIyJ+TQVaLu+y56PK6UTg/G6RRyWiDXpuKDtfWGYsg==; s=purelymail2; d=purelymail.com; v=1; bh=EF6NEO5ohC294DVJau6zkSdXtr8oG5BVcmFPCUicuLg=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
-Feedback-ID: 20115:3760:null:purelymail
-X-Pm-Original-To: linux-media@vger.kernel.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -537863146;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Sat, 03 Aug 2024 05:33:47 +0000 (UTC)
-Received: by melete.silentflame.com (Postfix, from userid 1000)
-	id 2151D7E3E0E; Sat,  3 Aug 2024 14:33:43 +0900 (KST)
-From: Sean Whitton <spwhitton@spwhitton.name>
-To: Dan Carpenter <dan.carpenter@linaro.org>
+	s=arc-20240116; t=1722665466; c=relaxed/simple;
+	bh=M+Ud9zj5zxvYJ4r8nyLdhfUxJMwYZX9z7+g4PGtLCnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cwocu05Q+0E2WsEpgK68WLa4d013oXl9WPAoEjSpjZhdXWPickfqANdoHNtSR1rFhM/lp1mqybh00fOnk48tjBPMehgxoVLRM77BmmeuSFXT5Y7hsq1O04fdrYgNhM9KA9JQymI4mVWRvxfDt3ybWMAEHQxIgCDUvA4u9l9M1lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YiFHQdJE; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3db157d3bb9so5131563b6e.2
+        for <linux-media@vger.kernel.org>; Fri, 02 Aug 2024 23:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722665461; x=1723270261; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4xHXuQbEIlF6T6PWN7yL7W7i12ECySoqyc3OAvP7660=;
+        b=YiFHQdJEGKIYfKqC00EznUTIuwTRIuZbIeYl6WJ4L9gWXbc63fIcg1Dc9J33yXzliX
+         IwqpRZuxMeneaKgt7OBUN5CW9qQGXDDjLNk98A5la+EkzeJfTDH0KSOdVEJiBTOL9GLD
+         vyaX2pXc9EJcVhzLB7nVmqjkjvXVP8k6Bw+38oWGDL4V5nzJ9av8Ae66N3orVlPcDjFc
+         xa2DWW7ZbIN/hwmt0ZR4LPaFnSBuiBgg6cQy4s7G92PKpqhfX2a1fqzY1YTeBwUKIFbB
+         brEmutwDFXhy8RezbHAKxuxxUL3VgZGRGUE9wLFf3/qbsjrh+jXTUOYMhl97aA5lHK62
+         o72g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722665461; x=1723270261;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4xHXuQbEIlF6T6PWN7yL7W7i12ECySoqyc3OAvP7660=;
+        b=BAxp5nzUBmIyO5MIyoDnD5xO/y4/rlIYHhV3kYTyYKao63HntzY//rFyOjMY1yBG9W
+         YOPeBlfOEAHGpu7/3j2tXJg+o6U4c7cgYclcjrbDopkvGJy8d6X1EpTMqN9ipuPLngwO
+         vq6ho1QIq1wx+bFHkHccFsf3nMKCTP5YlLR+me0D7YrT5MlKdpCsgaUvAFynnhHzp1hq
+         52oZiehys0tYPaDxGoLJ9sHOK/zRc4nfxzzY9nUT/GEjW8YNPuYrrZXnellOXVzYD7ds
+         yDdwI0jwxLwT/lpOVvtWFgD9nBgZhd+f+THfZTpj1WGA0Q6klszsOFVbSVUQvBerAZYD
+         TWWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXghF3acr2K+Whn9erRLqbbFxWj4iZnGc/sa/8fLi4vY4QhCt1Bc0Q7KerfTvYmLyHq03qZC3mkySvYX/wSZ45hs+jRF6z+2vv2oL8=
+X-Gm-Message-State: AOJu0YxgFLtasEDaLvQ3uYnRT3rE8F5GVX4zWJQigl1LnITO9Xh4HEvg
+	r7LRad3byYgWVOzk6BdLl3seVBjB6UoRc2moSa5rVJMLwL1Ot8Ed8DPZGKHMkc8=
+X-Google-Smtp-Source: AGHT+IHRmFwg9h+RQHxo9nAy0g9i1yt4x6Wdms+udQI9gwDyyIOAQZpruLkfKCJ5FsshubfS5JIUmA==
+X-Received: by 2002:a05:6830:631a:b0:709:4d7a:3438 with SMTP id 46e09a7af769-709b32081c5mr7524324a34.11.1722665461056;
+        Fri, 02 Aug 2024 23:11:01 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70a3a750d08sm1119236a34.62.2024.08.02.23.11.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 23:11:00 -0700 (PDT)
+Date: Sat, 3 Aug 2024 01:10:58 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sean Whitton <spwhitton@spwhitton.name>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  ~lkcamp/patches@lists.sr.ht,  helen.koike@collabora.com,  Hans de Goede
- <hdegoede@redhat.com>,  Mauro Carvalho Chehab <mchehab@kernel.org>,
-  Sakari Ailus <sakari.ailus@linux.intel.com>,
-  linux-media@vger.kernel.org,  linux-staging@lists.linux.dev,
-  linux-kernel@vger.kernel.org
+	~lkcamp/patches@lists.sr.ht, helen.koike@collabora.com,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: media: atomisp: Add parentheses around macro
  definitions
-In-Reply-To: <8d383b9d-d029-4706-91c5-9623fddf5df3@suswa.mountain> (Dan
-	Carpenter's message of "Fri, 2 Aug 2024 23:28:43 -0500")
+Message-ID: <cf999a28-7227-4ee9-bc5f-9fe8c370458c@suswa.mountain>
 References: <20240730062348.46205-2-spwhitton@spwhitton.name>
-	<2024073020-reload-vanquish-f937@gregkh>
-	<87v80i475p.fsf@melete.silentflame.com>
-	<8d383b9d-d029-4706-91c5-9623fddf5df3@suswa.mountain>
-Date: Sat, 03 Aug 2024 13:33:43 +0800
-Message-ID: <878qxe41c8.fsf@melete.silentflame.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <2024073020-reload-vanquish-f937@gregkh>
+ <87v80i475p.fsf@melete.silentflame.com>
+ <8d383b9d-d029-4706-91c5-9623fddf5df3@suswa.mountain>
+ <878qxe41c8.fsf@melete.silentflame.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878qxe41c8.fsf@melete.silentflame.com>
 
-Hello,
+On Sat, Aug 03, 2024 at 01:33:43PM +0800, Sean Whitton wrote:
+> Hello,
+> 
+> On Fri 02 Aug 2024 at 11:28pm -05, Dan Carpenter wrote:
+> 
+> > *You* need to figure out what the proper thing is.  Not us.  That's the
+> > difficult part of writing a patch.  Once you know what the correct thing
+> > is, then the rest is just typing.
+> >
+> > That business of defining STORAGE_CLASS_SP_C is weird.  Figure out the
+> > authors intention and find a better way to do it.
+> >
+> > Figure out why your code compiled as well because putting parentheses
+> > around (static inline) is a syntax error.
+> 
+> I asked follow-up questions because it seems like at least partially a
+> matter of style to say that the business of defining STORAGE_CLASS_SP_C
+> is weird.
 
-On Fri 02 Aug 2024 at 11:28pm -05, Dan Carpenter wrote:
+I'm a domain expert when it comes to kernel style.  ;)  Trust me, it's
+weird.  There are other places which do it as will but it's not normal.
 
-> *You* need to figure out what the proper thing is.  Not us.  That's the
-> difficult part of writing a patch.  Once you know what the correct thing
-> is, then the rest is just typing.
->
-> That business of defining STORAGE_CLASS_SP_C is weird.  Figure out the
-> authors intention and find a better way to do it.
->
-> Figure out why your code compiled as well because putting parentheses
-> around (static inline) is a syntax error.
+> Maybe there is a better approach than what is currently done,
+> but maybe there isn't.
 
-I asked follow-up questions because it seems like at least partially a
-matter of style to say that the business of defining STORAGE_CLASS_SP_C
-is weird.  Maybe there is a better approach than what is currently done,
-but maybe there isn't.  Maybe the checkpatch warning should just be
-suppressed (if that's something that can be done).  I would be grateful
-for some additional pointers.
+Correct.  Just because it's weird, doesn't mean it's wrong.  Figure out
+why the author did what they did and after that you'll probably be able
+to judge if it makes sense.
 
--- 
-Sean Whitton
+> Maybe the checkpatch warning should just be
+> suppressed (if that's something that can be done).
+
+Yes.  Try to suppress the warning.  You don't need anyone's permission.
+I think it will be difficult and I doubt you will succeed.  But you
+never know until you try.  Even if you don't succeed, it's a useful
+exercise.
+
+> I would be grateful for some additional pointers.
+> 
+
+Ok.  Here was your question.
+
+> I don't know what the author's intention was.  Are you saying that you
+> think this preprocessor mechanism should just be replaced with
+> hardcoding 'extern' or 'static inline' in each file which includes one
+> of these headers?
+
+The answer is you need to figure out what the author's intention was.
+1) Look through the git log.  2) Try removing it and see if anything
+breaks.  3) Do a grep for __INLINE_SP__.  (I deleted some extra hints
+here because if I give any more hints then it's just me doing the
+project).
+
+Once you know why the macro exists then you can decide it we should do a
+sed to replace it.  The sed to get rid of the macro is just an automated
+one liner thing.  The difficult part is answering why the macro was
+created and do we still need it?
+
+regards,
+dan carpenter
+
 
