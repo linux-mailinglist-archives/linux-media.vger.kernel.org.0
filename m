@@ -1,312 +1,117 @@
-Return-Path: <linux-media+bounces-15783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27B6947EF5
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 18:03:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C18947F2D
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 18:22:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8FCD2814B1
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 16:03:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0DEC91F22735
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 16:22:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1071915B0FF;
-	Mon,  5 Aug 2024 16:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jv8xiAIO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7776215C134;
+	Mon,  5 Aug 2024 16:22:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A446B524D7
-	for <linux-media@vger.kernel.org>; Mon,  5 Aug 2024 16:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C106115B155;
+	Mon,  5 Aug 2024 16:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722873801; cv=none; b=HzsBZ52WJjHZLEeJQ5/B56/mbhB4sGDZ65K+IBDl+ltVTPGj+Gnq8DdtYyB1AU1uzJt4AiZI0Jd9QIkQK+jH0D2IX4BH3kzJ1HkEwmkNmr+UfOUxUN4h8F99HGriOC6vQnb6OjU1bWeYC1mbFkG9QpnBGBfXgOg7vvFCSEcYSwo=
+	t=1722874926; cv=none; b=YEHS5+UgQnaa1I9SePvb+SyigMMbD8QofkHbN5w4ZY0S+r/SMkO71dXdluuyNBEBLsH+HNSvM1pR9flKQa6qN8ewkP0cArwA8ppp2pbQetWWgB2TWlEMF/aNEt4qObHGRW3Y+eg9IzJwdzg3CCUS0Z3dSgMYO/EW6JqXD9Cc5HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722873801; c=relaxed/simple;
-	bh=lmGjyuFLmT00O6a+tQu7wkFb/mwpo75BiHBUT1o9um8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m4NWrcTw+h/ihX1PxqO5hATsbOXNQ3Vw/3amCxDvJr4wTo2yxqBAkgnygE6TQ+mgZv/BEyTqylUbWKneZuM2H8xqsXFm265sBuDB+mdudE/u2qhwHHhuf9QpCnxQRiX2sdSJIRVtiRVlVh6eJV8TWHzTIL58/TI3K+oORIPxAjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jv8xiAIO; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5a156557029so15391119a12.2
-        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2024 09:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1722873797; x=1723478597; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H9v27vP2NZV1Ma6ikEELz9OFmslJYzSccuzA2H+okEw=;
-        b=jv8xiAIOYNyCYEGLULl/tNcLLq5WHwBGrrHIG+C1qcHar0yXvDd25gig7XUx4XFPTV
-         skyDJjriM988jrerUVnNK6IMrc+la1V3LIWKSKKPeWyX6j1i2dJifiUctNqAn8GMY0Vq
-         KO3JyH/tfds9eKi/K9708eGudZWRFcMRHsP1Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722873797; x=1723478597;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H9v27vP2NZV1Ma6ikEELz9OFmslJYzSccuzA2H+okEw=;
-        b=ZjQKzHNnxHVQTfKNJvIz9RaG0SiHMelHZ5mgBOnjNNcB5CtQdNBYQmka9EW8t5VVxr
-         CdyST1o9ZSE3bSdEUreY6Jmsm5WGXk8Vz6wR1gmBjdivBmp0GeLcYGan5+xWb7qfp3HV
-         h7XZTn9xFz7nr6L+v7KzigzUIQWom8pkZKrpoJGcDvss4tSDdd/KKZNindF4QZUVeXRX
-         DbtH9uC9nE/5eeNNhB0fB68uRc456qyLo30pq7sC90yhX41IKpGonA5MzDjqK93CEgCC
-         d4v/EAuTZmy9R2+9wEwIwsb3j/o8BAg/ArKd0op65QiUVUCVKIYN22a32CnvA4V9FNP0
-         iG0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVZu3Bixwz75Wv6sHERv7zHlJ31d/m6qf8jJx4QiLi/qNsiyVKzhUcr+pDSgmTdsJy2fNjxADRxTedS71u2Lo+fNLn3WYFFsmuD8YI=
-X-Gm-Message-State: AOJu0Yx0O/m+G2XNpJLyQKqZWf7WYmg6ldrld2gtB9NhDoX6YLimaXZK
-	2oRNiPXB1sgmq/IH7Ok+k1KQ8P1CQG4aNtnQ8M3vmT2nvH4VxI9Wufofo0Cyo4As1aM94xGva8I
-	=
-X-Google-Smtp-Source: AGHT+IG3uMPaDsGFiLy8zsetLVFMugmBzcWORr4VbLjITCZiyTaEytaMtZFukM/pCsh4OLUqB1X2GA==
-X-Received: by 2002:a17:907:7e84:b0:a7a:8cc7:ca48 with SMTP id a640c23a62f3a-a7dc50a4c78mr880541366b.46.1722873797333;
-        Mon, 05 Aug 2024 09:03:17 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9ecb551sm464540166b.223.2024.08.05.09.03.16
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Aug 2024 09:03:16 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-369f68f63b1so5571120f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 05 Aug 2024 09:03:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWqDQjxG7IJm1esFHrd3p/Vv45w7VoeYNXO/8991GpzpOMtWUYFBQlrEXRHwP48KoyaJJwmFPwUyxTVq6WzpaSLf/sDJUc7J02OPw4=
-X-Received: by 2002:a5d:5647:0:b0:360:9cf4:58ce with SMTP id
- ffacd0b85a97d-36bbc161325mr6958406f8f.46.1722873796049; Mon, 05 Aug 2024
- 09:03:16 -0700 (PDT)
+	s=arc-20240116; t=1722874926; c=relaxed/simple;
+	bh=6a3BS3tV0Qv+SfzqBC0TevIcJzOJzC5EoJ12fFLAMS8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qr6LVuNRT2rph8YXb0MoebzbTKYzSmq1ZfHdF2tlcu8+KBRTG6BqiV0lnPi32sh6zBgsISV/DgutFVetxnjECuWX1qTbErp8wMYQPkIOAG/r4MHNYMbN1NWUB2M91M6+o63hnIPkBGNOhtgIfLHuFHW/blmDzGPfs0ESIYCHkiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.09,265,1716217200"; 
+   d="scan'208";a="218709707"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 06 Aug 2024 01:22:01 +0900
+Received: from localhost.localdomain (unknown [10.226.92.197])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 273BC4009400;
+	Tue,  6 Aug 2024 00:52:44 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 0/4] Add support for RZ/G2UL Display Unit
+Date: Mon,  5 Aug 2024 16:52:34 +0100
+Message-ID: <20240805155242.151661-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240729193219.1260463-1-frkoenig@chromium.org>
- <20240729193219.1260463-4-frkoenig@chromium.org> <ac5cf884-adf6-0c39-f375-469964fa1b0e@quicinc.com>
-In-Reply-To: <ac5cf884-adf6-0c39-f375-469964fa1b0e@quicinc.com>
-From: Fritz Koenig <frkoenig@chromium.org>
-Date: Mon, 5 Aug 2024 09:03:04 -0700
-X-Gmail-Original-Message-ID: <CAMfZQbzabrPzpWg-AwsdSbf+MzozDnTRfY_ENkr7mbx5GESUYQ@mail.gmail.com>
-Message-ID: <CAMfZQbzabrPzpWg-AwsdSbf+MzozDnTRfY_ENkr7mbx5GESUYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: venus: Enable h.264 hierarchical coding
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org, mchehab@kernel.org, 
-	stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, 
-	bryan.odonoghue@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 5, 2024 at 3:23=E2=80=AFAM Dikshita Agarwal
-<quic_dikshita@quicinc.com> wrote:
->
->
->
-> On 7/30/2024 12:49 AM, Fritz Koenig wrote:
-> > The series of V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING* controls
-> > provides the functionality for temporal layering. These controls allow
-> > for different framerates in a single stream.
-> >
-> > HFI supports hierarchical P encoding and the ability to specify the
-> > bitrate for the different layers.
-> >
-> > Connect the controls that V4L2 provides and HFI supports.
-> >
-> > Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
-> > ---
-> > v2:
-> > - update commit message
-> >
-> >  drivers/media/platform/qcom/venus/core.h      |  4 +
-> >  drivers/media/platform/qcom/venus/venc.c      | 24 ++++++
-> >  .../media/platform/qcom/venus/venc_ctrls.c    | 84 +++++++++++++++++++
-> >  3 files changed, 112 insertions(+)
-> >
-> > diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/p=
-latform/qcom/venus/core.h
-> > index 55202b89e1b9..fc9552311a71 100644
-> > --- a/drivers/media/platform/qcom/venus/core.h
-> > +++ b/drivers/media/platform/qcom/venus/core.h
-> > @@ -274,6 +274,10 @@ struct venc_controls {
-> >       s32 h264_loop_filter_beta;
-> >       u32 h264_8x8_transform;
-> >
-> > +     u32 h264_hier_enabled;
-> > +     u32 h264_hier_p_layers;
-> > +     u32 h264_hier_p_bitrate[6];
-> > +
-> >       u32 hevc_i_qp;
-> >       u32 hevc_p_qp;
-> >       u32 hevc_b_qp;
-> > diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/p=
-latform/qcom/venus/venc.c
-> > index ae24de125c56..301b0015b356 100644
-> > --- a/drivers/media/platform/qcom/venus/venc.c
-> > +++ b/drivers/media/platform/qcom/venus/venc.c
-> > @@ -875,6 +875,30 @@ static int venc_set_properties(struct venus_inst *=
-inst)
-> >               ret =3D hfi_session_set_property(inst, ptype, &h264_trans=
-form);
-> >               if (ret)
-> >                       return ret;
-> > +
-> > +             if (ctr->h264_hier_enabled) {
-> > +                     unsigned int i;
-> > +
-> > +                     ptype =3D HFI_PROPERTY_PARAM_VENC_HIER_P_MAX_NUM_=
-ENH_LAYER;
-> > +                     ret =3D hfi_session_set_property(inst, ptype, &ct=
-r->h264_hier_p_layers);
-> > +                     if (ret)
-> > +                             return ret;
-> > +
-> > +                     ptype =3D HFI_PROPERTY_CONFIG_VENC_HIER_P_ENH_LAY=
-ER;
-> > +                     ret =3D hfi_session_set_property(inst, ptype, &ct=
-r->h264_hier_p_layers);
-> > +                     if (ret)
-> > +                             return ret;
-> > +
-> > +                     for (i =3D 0; i < ctr->h264_hier_p_layers; ++i) {
-> > +                             ptype =3D HFI_PROPERTY_CONFIG_VENC_TARGET=
-_BITRATE;
-> > +                             brate.bitrate =3D ctr->h264_hier_p_bitrat=
-e[i];
-> > +                             brate.layer_id =3D i;
-> > +
-> > +                             ret =3D hfi_session_set_property(inst, pt=
-ype, &brate);
-> > +                             if (ret)
-> > +                                     return ret;
-> > +                     }
-> > +             }
-> >       }
-> >
-> >       if (inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_H264 ||
-> > diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/m=
-edia/platform/qcom/venus/venc_ctrls.c
-> > index 6304cc97d37f..4cad8058339a 100644
-> > --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> > +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> > @@ -345,6 +345,52 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
-> >
-> >               ctr->h264_8x8_transform =3D ctrl->val;
-> >               break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_TYPE:
-> > +             if (ctrl->val !=3D V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODI=
-NG_P)
-> > +                     return -EINVAL;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING:
-> > +             ctr->h264_hier_enabled =3D ctrl->val;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER:
-> > +             ctr->h264_hier_p_layers =3D ctrl->val;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR:
-> > +             ctr->h264_hier_p_bitrate[0] =3D ctrl->val;
-> > +             ret =3D dynamic_bitrate_update(inst, ctr->h264_hier_p_bit=
-rate[0], 0);
-> > +             if (ret)
-> > +                     return ret;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR:
-> > +             ctr->h264_hier_p_bitrate[1] =3D ctrl->val;
-> > +             ret =3D dynamic_bitrate_update(inst, ctr->h264_hier_p_bit=
-rate[1], 1);
-> > +             if (ret)
-> > +                     return ret;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR:
-> > +             ctr->h264_hier_p_bitrate[2] =3D ctrl->val;
-> > +             ret =3D dynamic_bitrate_update(inst, ctr->h264_hier_p_bit=
-rate[2], 2);
-> > +             if (ret)
-> > +                     return ret;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR:
-> > +             ctr->h264_hier_p_bitrate[3] =3D ctrl->val;
-> > +             ret =3D dynamic_bitrate_update(inst, ctr->h264_hier_p_bit=
-rate[3], 3);
-> > +             if (ret)
-> > +                     return ret;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR:
-> > +             ctr->h264_hier_p_bitrate[4] =3D ctrl->val;
-> > +             ret =3D dynamic_bitrate_update(inst, ctr->h264_hier_p_bit=
-rate[4], 4);
-> > +             if (ret)
-> > +                     return ret;
-> > +             break;
-> > +     case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR:
-> > +             ctr->h264_hier_p_bitrate[5] =3D ctrl->val;
-> > +             ret =3D dynamic_bitrate_update(inst, ctr->h264_hier_p_bit=
-rate[5], 5);
-> > +             if (ret)
-> > +                     return ret;
-> > +             break;
-> >       default:
-> >               return -EINVAL;
-> >       }
-> > @@ -627,6 +673,44 @@ int venc_ctrl_init(struct venus_inst *inst)
-> >                         V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD, 0,
-> >                         ((4096 * 2304) >> 8), 1, 0);
-> >
-> > +     if (IS_V4(inst->core) || IS_V6(inst->core)) {
-> Hi Fritz,
-> is this change tested on any V6 device?
->
-No, it has only been tested on V4 (SC7180)
+This patch series aims to add support for RZ/G2UL DU.
 
--Fritz
-> Thanks,
-> Dikshita
-> > +             v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_op=
-s,
-> > +                                    V4L2_CID_MPEG_VIDEO_H264_HIERARCHI=
-CAL_CODING_TYPE,
-> > +                                    V4L2_MPEG_VIDEO_H264_HIERARCHICAL_=
-CODING_P,
-> > +                                    1, V4L2_MPEG_VIDEO_H264_HIERARCHIC=
-AL_CODING_P);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_C=
-ODING, 0, 1, 1, 0);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_C=
-ODING_LAYER, 0,
-> > +                               6, 1, 0);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0=
-_BR, BITRATE_MIN, BITRATE_MAX,
-> > +                               BITRATE_STEP, BITRATE_DEFAULT);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1=
-_BR, BITRATE_MIN, BITRATE_MAX,
-> > +                               BITRATE_STEP, BITRATE_DEFAULT);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2=
-_BR, BITRATE_MIN, BITRATE_MAX,
-> > +                               BITRATE_STEP, BITRATE_DEFAULT);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3=
-_BR, BITRATE_MIN, BITRATE_MAX,
-> > +                               BITRATE_STEP, BITRATE_DEFAULT);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4=
-_BR, BITRATE_MIN, BITRATE_MAX,
-> > +                               BITRATE_STEP, BITRATE_DEFAULT);
-> > +
-> > +             v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> > +                               V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5=
-_BR, BITRATE_MIN, BITRATE_MAX,
-> > +                               BITRATE_STEP, BITRATE_DEFAULT);
-> > +     }
-> > +
-> >       ret =3D inst->ctrl_handler.error;
-> >       if (ret)
-> >               goto err;
+The LCD controller is composed of Frame Compression Processor (FCPVD),
+Video Signal Processor (VSPD), and Display Unit (DU).
+
+The output of LCDC is connected display parallel interface (DPI) and
+supports a maximum resolution of WXGA along with 2 RPFs to support the
+blending of two picture layers and raster operations (ROPs)
+
+It is similar to LCDC IP on RZ/G2L SoCs, but does not have DSI interface.
+
+v2->v3:
+ * Split patch series based on subsystem from DU patch series [1].
+ * Replaced ports->port property for RZ/G2UL as it supports only DPI
+   and retained ports property for RZ/{G2L,V2L} as it supports both DSI
+   and DPI output interface.
+ * Added missing blank line before example.
+ * Dropped tags from Conor and Geert as there are new changes in bindings
+ * Avoided the line break in rzg2l_du_start_stop() for rstate.
+ * Replaced port->du_output in  struct rzg2l_du_output_routing and
+   dropped using the port number to indicate the output type in
+   rzg2l_du_encoders_init().
+ * Updated rzg2l_du_r9a07g043u_info and rzg2l_du_r9a07g044_info.
+
+ [1] https://lore.kernel.org/all/20240709135152.185042-1-biju.das.jz@bp.renesas.com/
+v1->v2:
+ * Updated cover letter header "DU IP->Display Unit".
+ * Updated commit description related to non ABI breakage for patch#3.
+ * Added Ack from Conor for binding patches.
+
+Biju Das (4):
+  dt-bindings: display: renesas,rzg2l-du: Document RZ/G2UL DU bindings
+  drm: renesas: rz-du: Add RZ/G2UL DU Support
+  arm64: dts: renesas: r9a07g043u: Add DU node
+  arm64: dts: renesas: r9a07g043u11-smarc: Enable DU
+
+ .../bindings/display/renesas,rzg2l-du.yaml    |  35 +++++-
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |  19 +++
+ .../boot/dts/renesas/r9a07g043u11-smarc.dts   | 109 ++++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |   8 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  18 ++-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |   5 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |   4 +-
+ 7 files changed, 188 insertions(+), 10 deletions(-)
+
+-- 
+2.43.0
+
 
