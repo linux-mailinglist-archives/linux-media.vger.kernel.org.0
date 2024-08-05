@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-15782-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0094947E82
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 17:47:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A24947E7C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 17:47:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F137F1C21BEB
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 15:47:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEC4D1F21DFA
+	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 15:47:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1D1915C158;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69D9C15B966;
 	Mon,  5 Aug 2024 15:46:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A076C14901F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D544CDE0;
 	Mon,  5 Aug 2024 15:46:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722872794; cv=none; b=s4DBJvUWDt8AEKNT+8j83bPc/LSx2wGppSaXZgLNIJDYe9RrjaGy3bLUVZAyv2lpwLdz0uTfHG0+8AtgLw82jwUH3O9nwNOv4HzkY9JFWwNjzKaQ5SnMe5U5myPJo6ypmmJ0ohKRrdmhyZaAdxullyQv7rSmPCFGaewvLJQL+xA=
+	t=1722872794; cv=none; b=eAcGP9nOgMCsbXxPbqgsse92We94rwLEpHPA0cmX1hd6COm9aKSff6lwPe8n36962rZ/X3doMvaK9MeAtDo6lRq2WbVetBsA4TgjIofuTDeii/IsXW6PjPyTnpM9kGHM4AsdGKCwxNCb8mX7lANob10hL7cBwzmQPhG9ezC3Eo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722872794; c=relaxed/simple;
-	bh=WDqR7FUN5MYbqjlweAuWRbTA/INUGEQ4XZouK1umPMA=;
+	bh=obniZfSDW/k/GqDjUVIYlNk7TKGfBf5TeVHiB4wZLko=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TMV1JQnqywz3q1797Q1f77RybfJD7YosX7zPYk3X9Mbiob6MwkuwZOmeJyHqym0HJ73A4KV3YG/+7+MbM+QigyQ+ZRHtmdtsoCDgJ1pv2WUGX8VYmOsKWjiEo/k8KTF68RtJah5R6pN8Jw3NokTWynxujnekc5hO9VD3cekRT64=
+	 MIME-Version:Content-Type; b=f0OR76nogWKolK5kgJpdd1S50FHdBz4/9x1OJqOthQWzo1sPxCU8dYRuR40TTP8VjAukI7h8l0vuV8AlgpyUhQqubQIP/9CHSp6rqh5paQdApP2qkux7ugan1wJXy3V1+ZDdvVwTQwQEZ5K/VrV9eQoyvmH2647ot5Ce+NjjNWE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
 Received: from mgb4.. (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id 262445EF05;
+	by mx.gpxsee.org (Postfix) with ESMTPSA id 35C753FFBD;
 	Mon, 05 Aug 2024 17:41:02 +0200 (CEST)
 From: tumic@gpxsee.org
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -38,9 +38,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH v6 3/4 RESEND] media: mgb4: Fixed signal frame rate limit handling
-Date: Mon,  5 Aug 2024 17:40:53 +0200
-Message-ID: <20240805154054.8633-4-tumic@gpxsee.org>
+Subject: [PATCH v6 4/4 RESEND] media: admin-guide: mgb4: Outputs DV timings documentation update
+Date: Mon,  5 Aug 2024 17:40:54 +0200
+Message-ID: <20240805154054.8633-5-tumic@gpxsee.org>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240805154054.8633-1-tumic@gpxsee.org>
 References: <20240805154054.8633-1-tumic@gpxsee.org>
@@ -55,99 +55,75 @@ Content-Transfer-Encoding: 8bit
 
 From: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
-Change the default DV timings for the outputs to produce a better signal less
-"crippled" by the frame rate limiting. While the individual values are now
-different, the resulting signal still matches the same default display as before.
-
-Additionaly fix the corner case when the frame rate limit is set to zero causing
-a "divide by zero" kernel panic.
+Properly document the function of the mgb4 output "frame_rate" sysfs parameter
+and update the default DV timings values according to the latest code changes.
 
 Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 ---
- drivers/media/pci/mgb4/mgb4_sysfs_out.c |  9 +++++----
- drivers/media/pci/mgb4/mgb4_vout.c      | 12 ++++++------
- drivers/media/pci/mgb4/mgb4_vout.h      |  2 +-
- 3 files changed, 12 insertions(+), 11 deletions(-)
+ Documentation/admin-guide/media/mgb4.rst | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_out.c b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-index f67ff2a48329..573aa61c69d4 100644
---- a/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-+++ b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
-@@ -229,9 +229,9 @@ static ssize_t frame_rate_show(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
- 	u32 period = mgb4_read_reg(&voutdev->mgbdev->video,
--				   voutdev->config->regs.frame_period);
-+				   voutdev->config->regs.frame_limit);
+diff --git a/Documentation/admin-guide/media/mgb4.rst b/Documentation/admin-guide/media/mgb4.rst
+index e434d4a9eeb3..b9da127c074d 100644
+--- a/Documentation/admin-guide/media/mgb4.rst
++++ b/Documentation/admin-guide/media/mgb4.rst
+@@ -227,8 +227,13 @@ Common FPDL3/GMSL output parameters
+     open.*
  
--	return sprintf(buf, "%u\n", MGB4_HW_FREQ / period);
-+	return sprintf(buf, "%u\n", period ? MGB4_HW_FREQ / period : 0);
- }
+ **frame_rate** (RW):
+-    Output video frame rate in frames per second. The default frame rate is
+-    60Hz.
++    Output video signal frame rate limit in frames per second. Due to
++    the limited output pixel clock steps, the card can not always generate
++    a frame rate perfectly matching the value required by the connected display.
++    Using this parameter one can limit the frame rate by "crippling" the signal
++    so that the lines are not equal (the porches of the last line differ) but
++    the signal appears like having the exact frame rate to the connected display.
++    The default frame rate limit is 60Hz.
  
- /*
-@@ -245,14 +245,15 @@ static ssize_t frame_rate_store(struct device *dev,
- 	struct video_device *vdev = to_video_device(dev);
- 	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
- 	unsigned long val;
--	int ret;
-+	int limit, ret;
+ **hsync_polarity** (RW):
+     HSYNC signal polarity.
+@@ -253,33 +258,33 @@ Common FPDL3/GMSL output parameters
+     and there is a non-linear stepping between two consecutive allowed
+     frequencies. The driver finds the nearest allowed frequency to the given
+     value and sets it. When reading this property, you get the exact
+-    frequency set by the driver. The default frequency is 70000kHz.
++    frequency set by the driver. The default frequency is 61150kHz.
  
- 	ret = kstrtoul(buf, 10, &val);
- 	if (ret)
- 		return ret;
+     *Note: This parameter can not be changed while the output v4l2 device is
+     open.*
  
-+	limit = val ? MGB4_HW_FREQ / val : 0;
- 	mgb4_write_reg(&voutdev->mgbdev->video,
--		       voutdev->config->regs.frame_period, MGB4_HW_FREQ / val);
-+		       voutdev->config->regs.frame_limit, limit);
+ **hsync_width** (RW):
+-    Width of the HSYNC signal in pixels. The default value is 16.
++    Width of the HSYNC signal in pixels. The default value is 40.
  
- 	return count;
- }
-diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
-index d98b6e87d71f..998edcbd9723 100644
---- a/drivers/media/pci/mgb4/mgb4_vout.c
-+++ b/drivers/media/pci/mgb4/mgb4_vout.c
-@@ -665,12 +665,12 @@ static void fpga_init(struct mgb4_vout_dev *voutdev)
- 	mgb4_write_reg(video, regs->config, 0x00000011);
- 	mgb4_write_reg(video, regs->resolution,
- 		       (DEFAULT_WIDTH << 16) | DEFAULT_HEIGHT);
--	mgb4_write_reg(video, regs->hsync, 0x00102020);
--	mgb4_write_reg(video, regs->vsync, 0x40020202);
--	mgb4_write_reg(video, regs->frame_period, DEFAULT_PERIOD);
-+	mgb4_write_reg(video, regs->hsync, 0x00283232);
-+	mgb4_write_reg(video, regs->vsync, 0x40141F1E);
-+	mgb4_write_reg(video, regs->frame_limit, DEFAULT_PERIOD);
- 	mgb4_write_reg(video, regs->padding, 0x00000000);
+ **vsync_width** (RW):
+-    Width of the VSYNC signal in video lines. The default value is 2.
++    Width of the VSYNC signal in video lines. The default value is 20.
  
--	voutdev->freq = mgb4_cmt_set_vout_freq(voutdev, 70000 >> 1) << 1;
-+	voutdev->freq = mgb4_cmt_set_vout_freq(voutdev, 61150 >> 1) << 1;
+ **hback_porch** (RW):
+     Number of PCLK pulses between deassertion of the HSYNC signal and the first
+-    valid pixel in the video line (marked by DE=1). The default value is 32.
++    valid pixel in the video line (marked by DE=1). The default value is 50.
  
- 	mgb4_write_reg(video, regs->config,
- 		       (voutdev->config->id + MGB4_VIN_DEVICES) << 2 | 1 << 4);
-@@ -696,8 +696,8 @@ static void debugfs_init(struct mgb4_vout_dev *voutdev)
- 	voutdev->regs[3].offset = voutdev->config->regs.hsync;
- 	voutdev->regs[4].name = "VIDEO_PARAMS_2";
- 	voutdev->regs[4].offset = voutdev->config->regs.vsync;
--	voutdev->regs[5].name = "FRAME_PERIOD";
--	voutdev->regs[5].offset = voutdev->config->regs.frame_period;
-+	voutdev->regs[5].name = "FRAME_LIMIT";
-+	voutdev->regs[5].offset = voutdev->config->regs.frame_limit;
- 	voutdev->regs[6].name = "PADDING_PIXELS";
- 	voutdev->regs[6].offset = voutdev->config->regs.padding;
- 	if (has_timeperframe(video)) {
-diff --git a/drivers/media/pci/mgb4/mgb4_vout.h b/drivers/media/pci/mgb4/mgb4_vout.h
-index ab9b58b1deb7..adc8fe1e7ae6 100644
---- a/drivers/media/pci/mgb4/mgb4_vout.h
-+++ b/drivers/media/pci/mgb4/mgb4_vout.h
-@@ -19,7 +19,7 @@ struct mgb4_vout_regs {
- 	u32 config;
- 	u32 status;
- 	u32 resolution;
--	u32 frame_period;
-+	u32 frame_limit;
- 	u32 hsync;
- 	u32 vsync;
- 	u32 padding;
+ **hfront_porch** (RW):
+     Number of PCLK pulses between the end of the last valid pixel in the video
+     line (marked by DE=1) and assertion of the HSYNC signal. The default value
+-    is 32.
++    is 50.
+ 
+ **vback_porch** (RW):
+     Number of video lines between deassertion of the VSYNC signal and the video
+-    line with the first valid pixel (marked by DE=1). The default value is 2.
++    line with the first valid pixel (marked by DE=1). The default value is 31.
+ 
+ **vfront_porch** (RW):
+     Number of video lines between the end of the last valid pixel line (marked
+-    by DE=1) and assertion of the VSYNC signal. The default value is 2.
++    by DE=1) and assertion of the VSYNC signal. The default value is 30.
+ 
+ FPDL3 specific input parameters
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 2.45.1
 
