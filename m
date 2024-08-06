@@ -1,182 +1,199 @@
-Return-Path: <linux-media+bounces-15841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7727C948F70
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 14:48:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1DE948F48
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 14:41:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97F1B1C20F21
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 12:48:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F57BB26655
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 12:41:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A38E51C462A;
-	Tue,  6 Aug 2024 12:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CE571C8232;
+	Tue,  6 Aug 2024 12:39:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="sGfssVKc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VKlxrqan"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A7314BFB0
-	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 12:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EFC1C57BD;
+	Tue,  6 Aug 2024 12:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722948491; cv=none; b=L8EGKQFwqYnpTV/7u0WrGFCQtqYIHJUswfDN3JaL/106nrjCzqSgMlRAYisjLdUMD3UnDgzGfXpc12c8aIDejFoIkyXsMWVRYC+WAvcD/KGi3zBM6Q0oIP/gD/l2CJ8TKC+WhNY6UEA2Xvx978sc86XiMpECWqQopv/hesHi7kU=
+	t=1722947978; cv=none; b=B7IWww1Fg6972u4BDApPUB8xMKPbdGTTLWK8zv/Rcz78+M8yuv4Ntqf4OSP4zzQD6co6C/q4OW0ygKWL4t2PzzLpTOpoagQ5sQUbSt3TkfMYQlIE0luURcExN6BblQPmSn+oWPIIDBAWg/OA8FKse0wrkXTVoZ/ZxJ4wlkZpLGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722948491; c=relaxed/simple;
-	bh=GMG33s26NIQZt1+FocIteInfnpZsdoU1Jna78RBP0TE=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:References; b=AhMS09DROAtdaFPOkCOSPOcU+DrrnN8n/HtVS52/3P5aNh1kVxJdB/S6fvUV+qomwc0OJaTv2V2iyLmqJJhWvhZjDikO4fUlXlvoL1vWfoB2vZ361zK1KcN8O7+06iqrCCHw16xi2NoqBFUy6j0hR1qW2Z+ofCmU8mHw6LmiEnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=sGfssVKc; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240806124806epoutp0390f3a1a0b35c2b333dc198640c6496fc~pJIUCE9Z91639516395epoutp03F
-	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 12:48:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240806124806epoutp0390f3a1a0b35c2b333dc198640c6496fc~pJIUCE9Z91639516395epoutp03F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1722948486;
-	bh=QEtNHtSIRpFLQ01HmiZiDyTT4HWV/qbWxmK/lhObWlk=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=sGfssVKcBnEYKetXdCIFBGoQdZ6RrWlYwzrk2zfk8wek5bS9PK+EVkSxgibzEUWjU
-	 sqTOan5J2NOGOJlwF/U5/zeR1lLJcg7b4hFtxgP7XPd70Q03MZ3hmP3jXh72ueadLy
-	 syIAx13ZmyrNAnCSr+RFQJdmNsH98L0VtA0N51Z4=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20240806124805epcas5p2d53b355c44898279dde28938c1bdb6c5~pJITmwos-1377113771epcas5p29;
-	Tue,  6 Aug 2024 12:48:05 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4WdY4h0hJsz4x9Pp; Tue,  6 Aug
-	2024 12:48:04 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	63.03.09640.38B12B66; Tue,  6 Aug 2024 21:48:03 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240806120911epcas5p1b0defc027a7f03ee9bf5f21036d3ae5e~pImVVCbEx2322623226epcas5p1B;
-	Tue,  6 Aug 2024 12:09:10 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240806120910epsmtrp282af1e81e0f56b730bc118d524d22f05~pImVNyaKs0294202942epsmtrp2K;
-	Tue,  6 Aug 2024 12:09:10 +0000 (GMT)
-X-AuditID: b6c32a49-aabb8700000025a8-e9-66b21b83dae5
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	C6.E8.08456.66212B66; Tue,  6 Aug 2024 21:09:10 +0900 (KST)
-Received: from cheetah.sa.corp.samsungelectronics.net (unknown
-	[107.109.115.53]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240806120909epsmtip2899fc7b950568b76927de86a555ad74d~pImTaRr0G1162811628epsmtip2M;
-	Tue,  6 Aug 2024 12:09:08 +0000 (GMT)
-From: Aakarsh Jain <aakarsh.jain@samsung.com>
-To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
-	linux-samsung-soc@vger.kernel.org, gost.dev@samsung.com,
-	aswani.reddy@samsung.com, pankaj.dubey@samsung.com, Aakarsh Jain
-	<aakarsh.jain@samsung.com>
-Subject: [PATCH] media: s5p-mfc: Corrected NV12M/NV21M plane-sizes
-Date: Tue,  6 Aug 2024 17:27:14 +0530
-Message-Id: <20240806115714.29828-1-aakarsh.jain@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFKsWRmVeSWpSXmKPExsWy7bCmhm6z9KY0g60/zS2e7pjJanF/8WcW
-	i0Obt7Jb3Dywk8ni4sy7LBZ9Lx4yW2x6fI3V4vKuOWwWPRu2slrMOL+PyWLtkbvsFss2/WGy
-	WLT1C7sDr8fiPS+ZPDat6mTzuHNtD5vH5iX1Hn1bVjF6fN4k53Hq62f2APaobJuM1MSU1CKF
-	1Lzk/JTMvHRbJe/geOd4UzMDQ11DSwtzJYW8xNxUWyUXnwBdt8wcoGuVFMoSc0qBQgGJxcVK
-	+nY2RfmlJakKGfnFJbZKqQUpOQUmBXrFibnFpXnpenmpJVaGBgZGpkCFCdkZBx7NYC/4JlSx
-	q30vYwPjDIEuRk4OCQETiS3zvzJ3MXJxCAnsZpT413qMDcL5xCgxpWE1lPONUaLvziNmmJZl
-	d/8xQST2Mkr0X/0L1d/KJNHzZhGQw8HBJqArcXZ7DkiDiECqxKt1a1lBapgFljBJLDryjAmk
-	RljASWLbWSWQGhYBVYmnzRNZQWxeAVuJXZe2skIsk5dYveEA2HwJgY/sEp8+/IZKuEhcvvmM
-	EcIWlnh1fAs7hC0l8fndXjYIO1ni8aKXUFfnSKzfM4UFwraXOHBlDgvIDcwCmhLrd+lDhGUl
-	pp5axwRiMwvwSfT+fsIEEeeV2DEPxlaTmHPnB9QJMhKHVy+FOsFDYtfiE2DjhQRiJb6eusc8
-	gVF2FsKGBYyMqxglUwuKc9NTi00LDPNSy+ERlZyfu4kRnAi1PHcw3n3wQe8QIxMH4yFGCQ5m
-	JRHertINaUK8KYmVValF+fFFpTmpxYcYTYFhNpFZSjQ5H5iK80riDU0sDUzMzMxMLI3NDJXE
-	eV+3zk0REkhPLEnNTk0tSC2C6WPi4JRqYNKwnff6vOtNvfXLbri9N9LWjNDrT/8++6aArTev
-	yJ3Dyy/oCPxR1LRz8TvOKa0nvpB5baEzvzjbv6uXjVVdmtatLDiZ+W3agWNHC2ewRO6cMmfe
-	TIHYiTccPISjPtvWJT9bWPLjSavc4qhz+T5G/Vc8w4UXLpXlm3/opkNd5q881tg1/jILp3S0
-	LlqQfmfj//gpnC+m1rpP9MmNuf/unaL1pasJsbrOMaXryvhPT3sWse1RruD+RA+NlDOTCli/
-	/3h58eKa/PlyFvU2s28escyRMu7VeJ2tHz05+Pos2z6+ebGZsdM3Mvm9OG8y8Ra3UMbKbo8z
-	h2Ttr5/USrdQ1b/Y0pz4a+vX2Z/0XwsymiixFGckGmoxFxUnAgABejHdDQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCLMWRmVeSWpSXmKPExsWy7bCSvG6a0KY0gx8NxhZPd8xktbi/+DOL
-	xaHNW9ktbh7YyWRxceZdFou+Fw+ZLTY9vsZqcXnXHDaLng1bWS1mnN/HZLH2yF12i2Wb/jBZ
-	LNr6hd2B12PxnpdMHptWdbJ53Lm2h81j85J6j74tqxg9Pm+S8zj19TN7AHsUl01Kak5mWWqR
-	vl0CV8aBRzPYC74JVexq38vYwDhDoIuRk0NCwERi2d1/TF2MXBxCArsZJd7e+M0GkZCR+N92
-	jB3CFpZY+e85mC0k0Mwk8eKfehcjBwebgK7E2e05IGERgXSJSXe+soDMYRZYxySxc+VEVpAa
-	YQEniW1nlUBqWARUJZ42g4Q5OXgFbCV2XdrKCjFeXmL1hgPMExh5FjAyrGKUTC0ozk3PLTYs
-	MMpLLdcrTswtLs1L10vOz93ECA5ILa0djHtWfdA7xMjEwXiIUYKDWUmEt6t0Q5oQb0piZVVq
-	UX58UWlOavEhRmkOFiVx3m+ve1OEBNITS1KzU1MLUotgskwcnFINTAyrF7o4/z555/Lp6dJX
-	rxau9SuRvLRs67Mti2I5trw/XbXe5Y7/LanfwfauJ9UFRbacvGWbdy5x05ENMVGZp1icQs0v
-	a8s96Vt/vy/3ofBO7ykp87cwf7pjpvqvbc0F3qWs/5JDnJNc/tUq5hiKXH1+5UtK1BOJGesd
-	DbcGHv/6SF+Q8UHe4imi1jNVtPKDXvHmOhtVx53ZNPnL57OMl3uNJ4gfNr/ezvN0ofAXPt+S
-	vQKprDs2xj6RjHm21+L+jbfqrDzHTy2cFlHQ87d+woq4zpCI5a9YJgVt1Z8500tdU35ThI3t
-	FzHXLZNYnLV2/UzS5Vgh7ip1wznZ9M+WpKRKhqWsZjtUlibOWFH1jVuJpTgj0VCLuag4EQAk
-	pH9wtwIAAA==
-X-CMS-MailID: 20240806120911epcas5p1b0defc027a7f03ee9bf5f21036d3ae5e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240806120911epcas5p1b0defc027a7f03ee9bf5f21036d3ae5e
-References: <CGME20240806120911epcas5p1b0defc027a7f03ee9bf5f21036d3ae5e@epcas5p1.samsung.com>
+	s=arc-20240116; t=1722947978; c=relaxed/simple;
+	bh=pRGjwMQFuXx8nS2LCderaOx79LtJsbSQjU6aMaxd08o=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=TKK2KnVVy1rJbTHObhoK3/wKw5taAyFPyFvVG0RZpbtLNHUJ15pfoX+fEnYFWkkgCrkj90LaHHeTPz54ahzTFBBpb37lZQ0b8fuEUtGvgLQ5Nr/krMquGBR8NuPLanCWQsQY0Hmwqb/6qIDGrktMHds0OUcA0ut4GWUxNQP1NTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VKlxrqan; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-4f50dd3eab9so240273e0c.1;
+        Tue, 06 Aug 2024 05:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722947976; x=1723552776; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zrdmTtiXVmTM/1NHHOYdmmDXOI3jR7XQcOI+pwOJhWY=;
+        b=VKlxrqanIheS9Sd5XzmNfv9ScS8GGE/obB6rli6JcQfzv8OQyH1ms5LfzyftBPJlAw
+         sfZMoNB7fMIUVJbfSp28rtM1yLUdMdnW27USd+yevM4WhMxcn2tC0kCwT21BzrtIUUHR
+         Gs3J1wl0qryBTZV4pStD26pH1HB09vV81qeXzTdRPH8cT7SCJpF5PsIvdPYcQcoZb/bU
+         lS+DuGbMun0iJwWow8q9nb7YSa1fpQ79XatO8EdXq8FWVvnWo4atP4i/rHxrlW27fHfJ
+         SUpp7IX8Dh3JdPkm8lpi4n5ypupMKNxoU+XW+rEQCrGBXD5UQfBs/vy59JIZ6bD1Fmo1
+         zdgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722947976; x=1723552776;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zrdmTtiXVmTM/1NHHOYdmmDXOI3jR7XQcOI+pwOJhWY=;
+        b=YwoX+XXfHLFESv4nU6ef39maHkPDlzto+lpgxBYhmTJEGyg2MbrBTQuBRLzRIMetp7
+         MQo8C31NtC9IZUGo9PHUc9W5l2dFksMlgvi0QohkNNrkdg4xQrtwhhuVJp8AE+/6ZwsQ
+         18SRSbZ2kcflIWn99kpghh+EsNMIKy603tqnS5oZtciShQj7G1+LyGSVb1bWbmQlC4s6
+         zOFuUMxal+8Y4F6zIsS88V3ZjSIHwj26kh2J0B93/ye4/Pfxq7mRdnBEDbepUUVUF+Un
+         E/8H1bwvmgq3UU6gjegXYWuZJmcJeH8x9s01MRCBTsNyyPGs315OJchwwKbtfo1ePb8w
+         FjPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCTL3GifOoTkGotVQKHsht3DH11hDZibW61aSUOHYmvH8IO2m8nbbHB4vV63n+wNxBJfCcxiS88C2+z1upzJbLrWmIu6BvineuFcHLv+zQRkbWwJ5woYB0Rp6z1J9OsObiq0BDbZy8aUaI/o8DoCpcfiIn5M4NjWpUVOucS89c+cCJYuFy3hblNRb+aS9l7uNxbvPYmIqIO/SKZa//lBNIJmEfQGAWGB6KOX6w4lu0PECsvwrDEIHRoSypUvkwoM6wr8nbiwptxAlGu0Q2nfri3ivhFPaQ0a58BZ3JjhgHBkMZ+ZxRbGFJjExm9gtw7Q6DN/0jI/infzNnGKupNyYRy9ob9tkjzf4Giii2kSAGYdSkDzMcMup97D6whg1Arys+dL0HfUhjVC2cdmgR+NzVZX2Dcq6rmsYNH42+t182nBhSh2GY21ecMPVrx3+rk6rROHyUGoWoVjbrnX1mVY8JOfgyEYZALUMv2CcFUQDww0dClYG9XRp3hPYyliKGX6G+v7PhjQ==
+X-Gm-Message-State: AOJu0YwpsNYteLdDFoX1IKaNFFCuUC+P89kqXZcyX2ui47QVOzUubQGf
+	/7ZVPgtJdbk9sA4CS5+NFrTN9dPmJbKUl6w6X+olQ2zL47KdPisM
+X-Google-Smtp-Source: AGHT+IEzF8kEieTvm400vGSAD/FxkfKWUdB+Qp9zmFjvlH9NnaUdLi1L0Oe0+UqgMX4/h+bhgaOPVA==
+X-Received: by 2002:a05:6122:4584:b0:4eb:5cb9:f219 with SMTP id 71dfb90a1353d-4f89fe84d6fmr18355377e0c.0.1722947975581;
+        Tue, 06 Aug 2024 05:39:35 -0700 (PDT)
+Received: from localhost (73.84.86.34.bc.googleusercontent.com. [34.86.84.73])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a34f6dce75sm450350985a.14.2024.08.06.05.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 05:39:34 -0700 (PDT)
+Date: Tue, 06 Aug 2024 08:39:34 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Markus Elfring <Markus.Elfring@web.de>, 
+ Mina Almasry <almasrymina@google.com>, 
+ netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Kaiyuan Zhang <kaiyuanz@google.com>, 
+ Pavel Begunkov <asml.silence@gmail.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ linux-alpha@vger.kernel.org, 
+ linux-mips@vger.kernel.org, 
+ linux-parisc@vger.kernel.org, 
+ sparclinux@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, 
+ linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, 
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ LKML <linux-kernel@vger.kernel.org>, 
+ Andreas Larsson <andreas@gaisler.com>, 
+ Arnd Bergmann <arnd@arndb.de>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ =?UTF-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, 
+ Christoph Hellwig <hch@infradead.org>, 
+ David Ahern <dsahern@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ David Wei <dw@davidwei.uk>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Harshitha Ramamurthy <hramamurthy@google.com>, 
+ Helge Deller <deller@gmx.de>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ "James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, 
+ Jeroen de Borst <jeroendb@google.com>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Matt Turner <mattst88@gmail.com>, 
+ Nikolay Aleksandrov <razor@blackwall.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Praveen Kaligineedi <pkaligineedi@google.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Shailend Chand <shailend@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Shuah Khan <shuah@kernel.org>, 
+ Steffen Klassert <steffen.klassert@secunet.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Taehee Yoo <ap420073@gmail.com>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <66b2198686b91_3206cf29453@willemb.c.googlers.com.notmuch>
+In-Reply-To: <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
+References: <20240730022623.98909-4-almasrymina@google.com>
+ <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
+ <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
+ <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
+Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to
+ netdevice
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-There is a possibility of getting page fault if the overall
-buffer size is not aligned to 256bytes. Since MFC does read
-operation only and it won't corrupt the data values even if
-it reads the extra bytes.
-Corrected luma and chroma plane sizes for V4L2_PIX_FMT_NV12M
-and V4L2_PIX_FMT_NV21M pixel format.
+Markus Elfring wrote:
+> >> =E2=80=A6
+> >>> +++ b/include/net/devmem.h
+> >>> @@ -0,0 +1,115 @@
+> >> =E2=80=A6
+> >>> +#ifndef _NET_DEVMEM_H
+> >>> +#define _NET_DEVMEM_H
+> >> =E2=80=A6
+> >>
+> >> I suggest to omit leading underscores from such identifiers.
+> >> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declar=
+e+or+define+a+reserved+identifier
+> >>
+> >
+> > I was gonna apply this change, but I ack'd existing files and I find
+> > that all of them include leading underscores, including some very
+> > recently added files like net/core/page_pool_priv.h.
+> >
+> > I would prefer to stick to existing conventions if that's OK, unless
+> > there is widespread agreement to the contrary.
+> =
 
-Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
----
- .../media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c    | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+> Under which circumstances would you become interested to reduce develop=
+ment risks
+> also according to undefined behaviour?
+> https://wiki.sei.cmu.edu/confluence/display/c/CC.+Undefined+Behavior#CC=
+.UndefinedBehavior-ub_106
 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-index 73f7af674c01..03c957221fc4 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-@@ -498,8 +498,8 @@ static void s5p_mfc_dec_calc_dpb_size_v6(struct s5p_mfc_ctx *ctx)
- 	case V4L2_PIX_FMT_NV21M:
- 		ctx->stride[0] = ALIGN(ctx->img_width, S5P_FIMV_NV12MT_HALIGN_V6);
- 		ctx->stride[1] = ALIGN(ctx->img_width, S5P_FIMV_NV12MT_HALIGN_V6);
--		ctx->luma_size = calc_plane(ctx->stride[0], ctx->img_height);
--		ctx->chroma_size = calc_plane(ctx->stride[1], (ctx->img_height / 2));
-+		ctx->luma_size = calc_plane(ctx->img_width, ctx->img_height);
-+		ctx->chroma_size = calc_plane(ctx->img_width, (ctx->img_height >> 1));
- 		break;
- 	case V4L2_PIX_FMT_YUV420M:
- 	case V4L2_PIX_FMT_YVU420M:
-@@ -539,9 +539,11 @@ static void s5p_mfc_dec_calc_dpb_size_v6(struct s5p_mfc_ctx *ctx)
- static void s5p_mfc_enc_calc_src_size_v6(struct s5p_mfc_ctx *ctx)
- {
- 	unsigned int mb_width, mb_height;
-+	unsigned int default_size;
- 
- 	mb_width = MB_WIDTH(ctx->img_width);
- 	mb_height = MB_HEIGHT(ctx->img_height);
-+	default_size = (mb_width * mb_height) * 256;
- 
- 	if (IS_MFCV12(ctx->dev)) {
- 		switch (ctx->src_fmt->fourcc) {
-@@ -549,8 +551,8 @@ static void s5p_mfc_enc_calc_src_size_v6(struct s5p_mfc_ctx *ctx)
- 		case V4L2_PIX_FMT_NV21M:
- 			ctx->stride[0] = ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V6);
- 			ctx->stride[1] = ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V6);
--			ctx->luma_size = ctx->stride[0] * ALIGN(ctx->img_height, 16);
--			ctx->chroma_size =  ctx->stride[0] * ALIGN(ctx->img_height / 2, 16);
-+			ctx->luma_size = ALIGN(default_size, 256);
-+			ctx->chroma_size = ALIGN(default_size / 2, 256);
- 			break;
- 		case V4L2_PIX_FMT_YUV420M:
- 		case V4L2_PIX_FMT_YVU420M:
--- 
-2.17.1
+This series is following established practice in kernel networking.
 
+If that conflicts with a C standard, then perhaps that needs to be
+resolved project wide.
+
+Forcing an individual feature to diverge just brings inconsistency.
+That said, this appears to be inconsistent already.
+
+Main question is whether this is worth respinning a series already at
+v17 with no more fundamental feedback.
+
+For reference:
+
+$ grep -nrI '^#ifndef\ _\+NET[_A-Z]\+H' include/  | wc -l
+149
+
+$ grep -nrI '^#ifndef\ NET[_A-Z]\+H' include/  | wc -l
+4
+
+$ grep -nrI '^#ifndef\ [_]\+[A-Z][_A-Z]\+H' include/  | wc -l
+3805
+
+$ grep -nrI '^#ifndef\ [A-Z][_A-Z]\+H' include/  | wc -l
+583
 
