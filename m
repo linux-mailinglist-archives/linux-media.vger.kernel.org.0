@@ -1,152 +1,128 @@
-Return-Path: <linux-media+bounces-15838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7A5948D90
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 13:20:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9397C948E3A
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 13:59:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 028821F24FDB
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 11:20:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D6222857AC
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 11:59:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970E71BF323;
-	Tue,  6 Aug 2024 11:20:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD72A1C3F18;
+	Tue,  6 Aug 2024 11:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="IQ76/Bdq"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="bkh98zX1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C633513B2AC
-	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 11:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2C31BDA83;
+	Tue,  6 Aug 2024 11:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722943242; cv=pass; b=S1KtvVRNNeKv5CvPKT77o3AAwXNA538I8LOdz/wLsYbUGyoK2bDtqWN6+CwGfiHbbkDc9qdPFRhUO+pN4VJt+YbV4XjMsmPpa2C3tBDT1EkGb4gERJHzowI8VPrpldHoZ5jkxn1oBgqKfzuZbdqog/K6lZ31zlvg3VO8UVdq0xU=
+	t=1722945546; cv=pass; b=r+Sio6rJlf4cCANHjGt1wRjblRTccoUY8wGktnxFVHFV9WlCeafuLKsXE50nk0xicx8eutUMXUMbDIvSQ5x/7P8pC+adETRj3VDfhOCrjVC8CUhpwc+cBtLSAEg/ChGe+UtxkUsWugp79PgWfkgQE2ZwBSj8W51yp4gBQA4fyoM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722943242; c=relaxed/simple;
-	bh=r2S+R6S8A2srYM4MuDesq2YPDeI0O7rotKju5TmkaIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kUFzfqGAqvU1IIcv7x11iLybP02gXzgGzRZHA0VTiliQedE1yiZVp3oOsPFYUFZc07bLj3OmzEmVzIhYj08qPlTu3wHeehrwUaI6UR0vG5etHQhzISMg20mLjEeV/cXbunulvG+Zyg7IZf5Tb0iMKUjmgr7NRDPFojdjxxTpPXM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=IQ76/Bdq; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WdW7p2Rcpz49PsT;
-	Tue,  6 Aug 2024 14:20:38 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1722943238;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rd1vHOqy3k5apqZ6mcZUT2tgI/HceU0Zf6LDCBSED4E=;
-	b=IQ76/BdqfmfCZHRVqBZT0OlnqUngZnUT11PesjK+GbjMS97DHmXM7JhuVrWL+RV+DK8uK1
-	fkjL0t8mrgfzPaf5RtvKHxKdOZnpNe7XPr+xulPtmn8Wgyq4MBuSIxfPQshb/oHMoD8kOA
-	ZHK30d8eaKR4UuOIjbAq5Hbd7wg+kdK5TL1ZeHHmkFJUN4RaylsTLkfKrV++T9sP/vAR9f
-	jXeMX0ji0BEawRFHMS8EBnHw0Bg02LrjaTbGH8nYt6ZBqlxE2yFv6jZacPJOBb02vGU0DR
-	6bJbUH0m4eqAEbofzofNKeY+aklB9qVhZB6Pr0LpVFo5Hl9HvaOdwBmHTovhAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1722943238;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rd1vHOqy3k5apqZ6mcZUT2tgI/HceU0Zf6LDCBSED4E=;
-	b=jpAfwF27imEjHp9mWw2RgR8/nF9fe/DJX+F++v6zDqU1EvAGELfKAx6ikb2WjruacRW3mD
-	RJk4xFFU7EEDFDlqq/RYjodUP/r8GtJgizY8llEdvaBPlmvAM8itjZbYFpJ0gVQgr+B+jV
-	IGxcjbLyeEPks71Ek7v4ncvy5fSkeQQ7ME+TxJq6qdpfp+XTyiDiUHsZDMOxz7I+BW38ez
-	S5b0Rt3o/5CoBb3SxxjJOJDZpfAoyAlRXlMeGc5kRdI6bQCday0O+7gwiP2pVmxNUUMUzt
-	gbdHFZ5eESbU6nRvpZA5wsVDIvUwuLcpOM8tlOy5V9cyZdzsMVefOLStpAE+Jw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1722943238; a=rsa-sha256;
-	cv=none;
-	b=NkyO6oZuxdHGR8VLSM5B7Q0BiSgDH+tpScYXphwcvfR6RNMFaZRP2PyaNv+Eb9uqvPNy0y
-	cU61yS/hG8p3TvisFlrhL5TtlOSYLA3g8GvV+X/SbLnpmL8WnM5RwE/8aHTDQh6leHm9Tl
-	jUSpgvk4e+pwopUFLhgfEs52YlFz/QdIYQtgLW87MbODsWKk1EcA2zP/QfQd/oO/fwRvfo
-	AHMeHkJvZ6wLGIkQRALGZpweNGZyVdLZfJvMHZ7wZgjUZ0cQgEu8HSh/XOur/BlDXwKeQa
-	hmnVlQluAiMKRTNDuMNkGYHIGStK0hERC8BCEBZJ4IZINjfsNk7DdBCKN0Ihkg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1BC8F634C93;
-	Tue,  6 Aug 2024 14:20:37 +0300 (EEST)
-Date: Tue, 6 Aug 2024 11:20:36 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v7 01/12] media: uapi: rkisp1-config: Add extensible
- params format
-Message-ID: <ZrIHBLZ-dhVxwkBi@valkosipuli.retiisi.eu>
-References: <20240724085004.82694-2-jacopo.mondi@ideasonboard.com>
- <782e20b3-6a4d-45fb-bcee-b3e92fa16719@xs4all.nl>
- <20240730121845.GJ1552@pendragon.ideasonboard.com>
- <719befce-a50a-4128-b8f5-82bff009c361@xs4all.nl>
- <mge3iac6oh7wxqgppxyy47oghw7rgtp7jun36hnjvxkwgw7yv2@2gw6qym7mczm>
- <40bf283c-7d6f-4864-a90c-a765b52dc264@xs4all.nl>
- <zpi7xc6wpefzud2sq4ab7rc6fpdzbgowygew7a7u3j7tikrxfm@q2gvsac4yqoc>
- <20240806090623.GB21319@pendragon.ideasonboard.com>
- <4vw5k4ha5zqvavsyz33sy25r4q547xiik27y37rhmjcowks277@pm5dqzixtydw>
- <20240806093222.GE32045@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1722945546; c=relaxed/simple;
+	bh=AZ80Ks/bzs21qDAXLNmuk7nUGrnOLl29vWE9nLhd84g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PNgaSMhXui/cpYtGi9+e5UQZ32rxfiGwI8iIRo1Za0rDWXVGlko4vPOpe2gFZl+mQG3+8rsR/YHQaF2Y3h90/LF0X9Y7KymieWid9Dif2XjZsJZUqXOsUGT/jm64b9WjLskU5nBJQnd1tHLmjGkoYeEb4YpiSbC9pDj2dhm9vUI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=bkh98zX1; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Delivered-To: shreeya.patel@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1722945497; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=OtfNcwuLHczvL3PGe4brG2g1/ATYA97GUqWrNCS/kqHaAIUyU72cHXqkBi99QibOGMTF3ox31D4V+j5tlTZUWOK6f3A1CO29Z172tYrnokLc2Jox7lUaAmZuPxAzbgZofHuGtfE+RWKhujZotdvgsGZmKXcgOfqHpd7DFa5pqeo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1722945497; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GUl7n+rnOu9EMuo1/gD5MP5eCxVNnOpkTAodKwwv4e4=; 
+	b=D6wxYgNk7hdmVztiEz/yP34x3N93lsoFngMqeTPkDNGl3eVbuZhVPuKtL4R2m6MKJ9N1bk54OsSsCwu5sgPX22ea4U6hyvwTKoegMgwIqzkIy+W4Rca6BOQtB7s9RcHhelBrThoSWgNw9r3PeZztsotU7caqFdlce42LiKmQWCk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1722945497;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=GUl7n+rnOu9EMuo1/gD5MP5eCxVNnOpkTAodKwwv4e4=;
+	b=bkh98zX1F1CBHoTSUQkD8/YaKz3/kdxoxgoAVVYS4lgnhSmRXKzMtugxJQXTTmDy
+	TepE5MqSGt9XcEpgHQpA4eQB8el87wBucUDXmlkJ2tIioRmL1baacIwojDSW45WoYQ+
+	qWwB3jg7KP6b25eVzzB+RYJ9I743gvVCZIlnI28I=
+Received: by mx.zohomail.com with SMTPS id 1722945495133332.7271484161171;
+	Tue, 6 Aug 2024 04:58:15 -0700 (PDT)
+Message-ID: <929d2f50-6b0e-4d1e-a6d3-482d615bd06a@collabora.com>
+Date: Tue, 6 Aug 2024 14:58:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240806093222.GE32045@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/4] Add Synopsys DesignWare HDMI RX Controller
+To: Tim Surber <me@timsurber.de>, Shreeya Patel
+ <shreeya.patel@collabora.com>, heiko@sntech.de, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
+ jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
+ hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+References: <20240719124032.26852-1-shreeya.patel@collabora.com>
+ <6f5c4ebb-84ab-4b65-9817-ac5f6158911f@timsurber.de>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <6f5c4ebb-84ab-4b65-9817-ac5f6158911f@timsurber.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Hi Laurent, Jacopo,
-
-On Tue, Aug 06, 2024 at 12:32:22PM +0300, Laurent Pinchart wrote:
-> On Tue, Aug 06, 2024 at 11:16:05AM +0200, Jacopo Mondi wrote:
-> > On Tue, Aug 06, 2024 at 12:06:23PM GMT, Laurent Pinchart wrote:
-> > > On Tue, Aug 06, 2024 at 10:24:20AM +0200, Jacopo Mondi wrote:
-> > > > On Tue, Aug 06, 2024 at 10:17:02AM GMT, Hans Verkuil wrote:
-> > > > > For compound control (which have similar problems) I have quite strict
-> > > > > requirements: the structure layout may not contain any holes, and I require (and
-> > > > > test) that any reserved/padding fields at set to 0 by the driver and that it is
-> > > > > documented that userspace sets it to 0 as well.
-> > > > >
-> > > > > My recommendation for public APIs that effectively return data structures
-> > > > > is to:
-> > > > >
-> > > > > 1) ensure the layout is the same for 32 and 64 bit code,
-> > >
-> > > Yes, that's very important.
-> > >
-> > > > > 2) there are no holes, instead use reserved[] arrays instead,
-> > >
-> > > Fine with me.
-> > 
-> > Do we all agree I can't change the existing types, and we'll have to
-> > live with holes ?
+On 8/4/24 02:57, Tim Surber wrote:
+> Hi Shreeya,
 > 
-> We may be able to change the existing structures, but that would be a
-> separate patch, outside of the scope of this series.
+> I tested your patch and noticed problems when using 3840x2160 resolution
+> at  60fps.
+> 
+> For my testing I connected an HDMI source and set it to 4k60fps. I
+> verified that this source and the cables work on a screen at this
+> resolution.
+> 
+> Using
+> 'v4l2-ctl --verbose -d /dev/video1
+> --set-fmt-video=width=3840,height=2160,pixelformat='NV12'
+> --stream-mmap=4 --stream-skip=3 --stream-count=100 --stream-poll'
+> I get the video format output, but not the periodic output which shows
+> the fps.
+> 
+> Using
+> 'GST_DEBUG=4 gst-launch-1.0 -v v4l2src device=/dev/video1 !
+> fpsdisplaysink text-overlay=false video-sink="fakevideosink"'
+> I get the following error message:
+> 
+> (gst-launch-1.0:3231): GStreamer-CRITICAL **: 01:34:39.137:
+> gst_memory_resize: assertion 'size + mem->offset + offset <=
+> mem->maxsize' failed
+> 0:00:03.489382529  3231 0xffffa0000b90 WARN  v4l2bufferpool
+> gstv4l2bufferpool.c:2209:gst_v4l2_buffer_pool_process:<v4l2src0:pool0:src> Dropping truncated buffer, this is likely a driver bug.
+> 0:00:03.489421906  3231 0xffffa0000b90 WARN  bufferpool
+> gstbufferpool.c:1252:default_reset_buffer:<v4l2src0:pool0:src> Buffer
+> 0xffff98008e80 without the memory tag has maxsize (8294400) that is
+> smaller than the configured buffer pool size (12441600). The buffer will
+> be not be reused. This is most likely a bug in this GstBufferPool subclass
+> 
+> 
+> Everything works with 4k30fps or 1080p 60fps. The hardware should
+> support 4k60fps.
 
-I'd say "we can" as long as it doesn't affect the memory layout of the
-interface structs.
+Please do `echo 3 > /sys/module/synopsys_hdmirx/parameters/debug` and
+show the kernel log of capturing 4k@60 with v4l2-ctl.
 
 -- 
-Kind regards,
+Best regards,
+Dmitry
 
-Sakari Ailus
 
