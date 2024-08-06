@@ -1,38 +1,38 @@
-Return-Path: <linux-media+bounces-15836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15837-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFE8948C98
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 12:08:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E906F948C99
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 12:08:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58EFD289395
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 10:08:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 033071C22722
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 10:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53FA41BDABC;
-	Tue,  6 Aug 2024 10:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2E8A1BE22F;
+	Tue,  6 Aug 2024 10:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
 	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YwBeNnJA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140A61BD51B
-	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 10:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C031BDA86
+	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 10:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722938896; cv=none; b=s3xeCR3+gC8NX5I2gTCB4s/CxFhWD4AI1HnXHhdvOovDxEPfOuQbBUUb0evF4r3BRTBGSrlhAOkbe9bqRdH966HAYjJO2LDr9CJb6nPBJeDf3Puo4RLHYel9KgVYY2oXD5kQXJgsQPWuRexyxqys8qQpPBMRW6Ej67jlolTCZFI=
+	t=1722938898; cv=none; b=kFtxdnUhSa5d9CNhqfp9blo9B+deis0X+jgfIYBmv2NdJaZ95GBtq4HR6XK34LaQ+EzSHs6HsBNqwcfJtRf97zZYHm3abCffD/qUlpLSx9Kkk/EzE3N6awA9umths3ahXoLqwtdllTuN8j55VvuKvCV/97Rtr53SPcW8FPAcJAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722938896; c=relaxed/simple;
+	s=arc-20240116; t=1722938898; c=relaxed/simple;
 	bh=zXaZ1gfwR3Iuw/XjY5d8LCQShNkNAaUpyHpiUtc7x8s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oBlngqivvwz0u8RpWA1tfIPIuzy7ooPfNQy6i/RD6ky7wYU1a6ff8wk/q1BItzJ4a841EK3L+zgOHOsIKuJanx+2ARU+QUm0+Vu+riK4+Yl9p8b6ImVnSVrCdlNoSjeMjpDZ9x8FTDefGG7gjhsHz9ylgPLtTmt8xU9CvO3nrlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YwBeNnJA; arc=none smtp.client-ip=209.85.161.42
+	 To:Cc:Content-Type; b=Bi2D2aH0ySABYbgSJG1vQXbwGa/4GUv8ZW9eo9RSYi3Lql6eV6NUq99kXqG2gnlSzhg9g7dufIsROVvnl6bMy4fEzRTLRx/WTtO3tAHvgToOQ7YzKjWOAenLZgNs9heQ945dyftRWoPw1KvlNZAODT80Wi5Jp8UCg2t4ED6D3Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YwBeNnJA; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5c667b28c82so307427eaf.1
-        for <linux-media@vger.kernel.org>; Tue, 06 Aug 2024 03:08:14 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a7a81bd549eso39231366b.3
+        for <linux-media@vger.kernel.org>; Tue, 06 Aug 2024 03:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1722938894; x=1723543694; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
@@ -48,27 +48,27 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=YUzbL5EJZOzbj6FEc1JxgIPVYfRo2pgZmFORdCDI5s8=;
-        b=l/SLwrdqdpaKvN57YX1vWkibq+Ox+lM38rIT/CeX0T2EcgoCEfBFUUXUf6ax0QxE/i
-         VUWbi5IvrQLgrnfTEvCGg9gqPVd1Z4spcshNrBeVHnM/zzyjV3sDYQPoSXiAnO7MEtkF
-         xjK09OiW6C0WztStZJ98MF3NZbvL32ECKfiGC/NxOUrwME4FYMyRp0zDXF0FH9I+kYtH
-         XGXy0rQt2V2GqJPNMz2e05fB9505N79RsAeyk3s0mwqRP42lhT103GT//bylvnHZhxr4
-         hA6rXDIXwFbnXP6ntWZ/ZSh0TlkK8jS+sXkLWIpapal8p5yNH8puHrperRRAglwHUamG
-         FSfQ==
-X-Gm-Message-State: AOJu0Yy69wfqZ+xYvZivrH3QrlcmCyWybZGNjcHeHRSr3q4i1s+MegCd
-	MSEY1eSmv6Q4uaTc0GfP+hEiY9WzNi/z3C/ycon7/Qa32VlH0zYnZCUEWfufSbms613cKC/qD32
-	nKWe/2ZE=
-X-Google-Smtp-Source: AGHT+IGB6Cr4iRnRoZc6HHpcoCD83w+xk8p+EzVa/Q5dg3B/hEtcdfG0NygVDrfta4JHsnL4gFjHqw==
-X-Received: by 2002:a4a:d695:0:b0:5d5:b51d:e61b with SMTP id 006d021491bc7-5d625a247a1mr7608504eaf.0.1722938893784;
+        b=VdsUHn/MK+3p3F2PBDjhTQ/hb8U62IT938i2TYU4jfWUubcNYY7TUi4yIje6s5c3NZ
+         99yoM/X4wEhki3pT+0EPAqnzw8nqTAcgPRDoTzDDf6g5qFRZ4z6oPU7cbBSMoGNJ/gL4
+         ZPrXY0J8U9vvLBA7XR/0lWcnGJAnWRdUl0dRnmSBx0IeW/c4Bx3nVvnZvcBe5T3UMYdL
+         3DhoyT3b614+UaPU24ole38rHKsfs6r9wJxgixKAI/nQ69hOx/dRKkDsBbz1+LM6XnEr
+         j1huhBKEvSsffL0FJJDxTJfQjA06FO760NZvguPuvb2xuHvw5iDIJTyz7LnaCZOm5LXf
+         btmQ==
+X-Gm-Message-State: AOJu0YxGPYoFRBETIVwNq3xO1yVxZZkgxbBS4oS6GMwjW7CvZRaFa/Le
+	sa1bYojXaUlXyZOEAwNskzjLnTNs6E9PGq/c52DerBIw6y0RdNUpby/TYZSshfNA1gWS0fuTyCO
+	sPkDq
+X-Google-Smtp-Source: AGHT+IGNAAIgpl1HruZTFu9Pkifs5uCE1wJshClqQob7ttoNbR0iFBNCUogAqacXYyr7vOhq4nhPMA==
+X-Received: by 2002:a17:907:2ce3:b0:a7a:a138:dbd4 with SMTP id a640c23a62f3a-a7dc5103c09mr1003131466b.64.1722938893773;
         Tue, 06 Aug 2024 03:08:13 -0700 (PDT)
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com. [209.85.161.46])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5d835e2e23csm359910eaf.42.2024.08.06.03.08.13
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9bcad43sm542056666b.19.2024.08.06.03.08.13
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
         Tue, 06 Aug 2024 03:08:13 -0700 (PDT)
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5d5bb2ac2ddso318958eaf.0
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a7d26c2297eso68015666b.2
         for <linux-media@vger.kernel.org>; Tue, 06 Aug 2024 03:08:13 -0700 (PDT)
-X-Received: by 2002:a05:6214:5705:b0:6bb:b1c5:fabc with SMTP id
- 6a1803df08f44-6bbb1c5fabdmr64004266d6.17.1722938494643; Tue, 06 Aug 2024
+X-Received: by 2002:a17:907:97cf:b0:a77:e1fb:7de9 with SMTP id
+ a640c23a62f3a-a7dc4dc4f69mr961561766b.5.1722938494046; Tue, 06 Aug 2024
  03:01:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
