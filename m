@@ -1,110 +1,106 @@
-Return-Path: <linux-media+bounces-15811-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15812-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D061E948511
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 23:52:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA60F948719
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 03:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B3C42818A4
-	for <lists+linux-media@lfdr.de>; Mon,  5 Aug 2024 21:52:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E01981C222A9
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 01:52:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CA6616F288;
-	Mon,  5 Aug 2024 21:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="RdK28723"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72888A947;
+	Tue,  6 Aug 2024 01:52:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458D116F27E
-	for <linux-media@vger.kernel.org>; Mon,  5 Aug 2024 21:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC005680
+	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 01:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722894702; cv=none; b=LdTyVD2R0oZb26JF3OGGTMWAPnJZgzaT21/bknQkIP6IHhWc0n1RE75NPheEjcjnX1OFJMUSrJAReWBFYoGeAB3CWZ6OmzzT4dnlV26g+3bjnWfF8xeiSHWWBaaljb5LRl65gTeny0qsJeLp9iusmetOifXnr6slEfM+oeBUZ4U=
+	t=1722909168; cv=none; b=bfn0gN8NFPKAhjU5EA+nr9DIPGj95i0us8354BWCht2OA2e8ZGM6gWphK9ykW/KD+Ij+fC6CggC2WQquwEniG0W/sDI2xYOIy0A4KWhvhP72lhrLt9pkYF5vjm2ARdhiZo3VFGYyoZ6vPgj/n8KQmiMWmh219nAGDiNrMLU+OVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722894702; c=relaxed/simple;
-	bh=OgVdtJIy89i09AfBu0oT3OGiDSUpwPVcQctDGe9eoiA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rwNyRlQOUWgpReuL/pG2qef9WcYyDEBDpTO4qSL2+FS5pj29QDF9hy7AjMuD93lDtg97RONrZIJP+8iY94R9ZK0+AmXmVvKTofgms6NL0RFHfCjkO+Qiu8Js2AE0FfGqIG/nVCCaO75qHXGBIrphXfpUm/1ddq8cUUDxVaBvSmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=RdK28723; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=n5XKfO5AKcXYHFTAGtk9SFZLBpLN76v4Q2a785qnEaA=; b=RdK287
-	23dQ1h0tCygqPs03cHKXCZPuaRaDztXbMqKOB5XHtI5+pPGNgedWUJOlwVQjI0GD
-	B4A9oo0vW4E/XBvtwUuXHLLq31WM1ra0L3gbJdARkXHKMxBeE6OmcM0ItbdDZ/7Y
-	J2RLTyPnYMBOlv9FDdesh2FSjr1X+4oktn4ZzFWqunu9ysK+9tHxzCWidVRX1mPj
-	/iJZ/5nJyc8zTid/s9gGZHGKVTT1zQf63a48g2TWm65vEqAd9o4cZwN5JaWk9ACc
-	lZ78eIwjnQlHp91gJvkYSMwdfEpVu9p04PGcHNzZPjlF315imwV7ldyLXXS6NmPF
-	jVkW3aM+Zy+P/RiQ==
-Received: (qmail 18294 invoked from network); 5 Aug 2024 23:51:33 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Aug 2024 23:51:33 +0200
-X-UD-Smtp-Session: l3s3148p1@SgMrrvYeCJtehhYC
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1722909168; c=relaxed/simple;
+	bh=Q1+c+KAFz8NGodwZWbIkBe1AmTKpXt+TqG3Yl0956OU=;
+	h=Date:From:To:Subject:Message-Id; b=GCWkVEtW2kR764wkXUnRt/YAFNGR/OGwjIPUyvFpJoXrevKiCZbKhVPXi1OfRkCRdirtsLAQcDUUNpLwFZhnVOuXJ5FtGaIIkVEbhNeh1wwUuXVArsdpbeArXzxpxQgFHuxqYrnz6B36WgPgarWWjkxFYnp91H/PLeZsMAuU1Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52960C32782
+	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 01:52:47 +0000 (UTC)
+Date: Tue, 06 Aug 2024 03:52:45 +0200
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Benoit Parrot <bparrot@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v2 8/8] media: ti: cal: use 'time_left' variable with wait_event_timeout()
-Date: Mon,  5 Aug 2024 23:51:21 +0200
-Message-ID: <20240805215123.3528-9-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240805215123.3528-1-wsa+renesas@sang-engineering.com>
-References: <20240805215123.3528-1-wsa+renesas@sang-engineering.com>
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20240806015247.52960C32782@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-There is a confusing pattern in the kernel to use a variable named
-'timeout' to store the result of wait_event_timeout() causing
-patterns like:
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-        timeout = wait_event_timeout(...)
-        if (!timeout) return -ETIMEDOUT;
+Results of the daily build of media_tree:
 
-with all kinds of permutations. Use 'time_left' as a variable to make the
-code self explaining.
+date:			Tue Aug  6 03:00:13 CEST 2024
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	e7311aa47a6ac355558bc65512aa7c381f8506ec
+v4l-utils git hash:	40fdc833e15ea0cff9894103b3726e1ff76efd5f
+edid-decode git hash:	303b033f92683fa3f2e73d642bf86ead8fec77b1
+gcc version:		i686-linux-gcc (GCC) 14.1.0
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8683-g412f2874
+sparse version:		v0.5.0-8683-g412f2874
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
+host hardware:		x86_64
+host os:		6.5.0-35-generic
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/media/platform/ti/cal/cal.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-of.config: OK
+no-acpi.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: OK
+smatch: OK
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
 
-diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
-index 528909ae4bd6..5c2c04142aee 100644
---- a/drivers/media/platform/ti/cal/cal.c
-+++ b/drivers/media/platform/ti/cal/cal.c
-@@ -549,7 +549,7 @@ void cal_ctx_start(struct cal_ctx *ctx)
- void cal_ctx_stop(struct cal_ctx *ctx)
- {
- 	struct cal_camerarx *phy = ctx->phy;
--	long timeout;
-+	long time_left;
- 
- 	WARN_ON(phy->vc_enable_count[ctx->vc] == 0);
- 
-@@ -565,9 +565,9 @@ void cal_ctx_stop(struct cal_ctx *ctx)
- 	ctx->dma.state = CAL_DMA_STOP_REQUESTED;
- 	spin_unlock_irq(&ctx->dma.lock);
- 
--	timeout = wait_event_timeout(ctx->dma.wait, cal_ctx_wr_dma_stopped(ctx),
--				     msecs_to_jiffies(500));
--	if (!timeout) {
-+	time_left = wait_event_timeout(ctx->dma.wait, cal_ctx_wr_dma_stopped(ctx),
-+				       msecs_to_jiffies(500));
-+	if (!time_left) {
- 		ctx_err(ctx, "failed to disable dma cleanly\n");
- 		cal_ctx_wr_dma_disable(ctx);
- 	}
--- 
-2.43.0
+date:			Tue Aug  6 03:13:46 CEST 2024
+virtme-64: OK: Final Summary: 3435, Succeeded: 3435, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
 
+date:			Tue Aug  6 03:51:39 CEST 2024
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
