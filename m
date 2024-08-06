@@ -1,274 +1,392 @@
-Return-Path: <linux-media+bounces-15825-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15826-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A5B948A22
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 09:30:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9D8948AC3
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 10:00:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 34DCF1C23374
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 07:30:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81E592876D5
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 08:00:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0B92165F09;
-	Tue,  6 Aug 2024 07:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 367FC1BCA13;
+	Tue,  6 Aug 2024 07:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WN+GQfhs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/m6AWyi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6838AF4FA
-	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 07:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7660E13C909
+	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 07:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722929425; cv=none; b=fEZ8IYa5uiRrmRG1cZnwj5Nu6JOtLumEgPd1Tfj1/MUM5PIdOccuugnOuLMLsSIyC6cLQyuOsRDHG5geNnjkRJG5ix89FsGqilRRl8O669MZz8KuWl7aXlstezrxG8E3oDaM+A2IdEM8XNg6CUS6mfUMmArUeg58Ufkdr7EQxaw=
+	t=1722931181; cv=none; b=JAbAWWsP+kf+ob607VPimkjiJdn2ZJ9swN+42wU8zJEJN8n//imRuzGfN71QsFDIlOewUqNKWeJyWoXB/U0uclccm26iXLrBbruX+ACxBrVf/4fUmkKv8SGPyiqaFP0gKIdEQ2YH4wA0xnAhxuLQ11fJq/Umy2Rrdvawx3Sw8ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722929425; c=relaxed/simple;
-	bh=JTwi5OYq9YjXKgb2UNdUxZeX/JOm/RoubAo5DpQB7wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nt2Ik22YSSdUtCL0AM82B5qtPmcuG95eLeUv7UViwRM5eQYpoEKKPENdMyUCZO9R2hQ5/dImYbG0WRflFCS0XfDbOkGGBiWNtC6BoIPHUrpWcvyOpbawqe/jdZZzxbefisKZQgFLVgEJxarxbjCNOmVB/NNe7uZ3m7WT2Wr6TBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WN+GQfhs; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-91-24-0.net.vodafone.it [5.91.24.0])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A510D2C5;
-	Tue,  6 Aug 2024 09:29:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722929368;
-	bh=JTwi5OYq9YjXKgb2UNdUxZeX/JOm/RoubAo5DpQB7wo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WN+GQfhsBJL75rmJfXkycYrMSJ4MZAOTpcEK9bDto+KElOJ+Y6BP4Il14MmjMi0NS
-	 bCNSfsxQgA6snA95jY4l9l68Hw0cagPjNOSYUkR9PfBSXG4O6+7YjDjkW8145PrrRB
-	 vkkOOLMxeEds+/KDgHaHxZnw9dOi6nLA827nlKuc=
-Date: Tue, 6 Aug 2024 09:30:16 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Paul Elder <paul.elder@ideasonboard.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH v7 01/12] media: uapi: rkisp1-config: Add extensible
- params format
-Message-ID: <oxmlxkhyapax3rzzuouy3gyrr5bysjlhit6hnouzakxrdf7sog@dv3a5to7lvuc>
-References: <20240724085004.82694-1-jacopo.mondi@ideasonboard.com>
- <20240724085004.82694-2-jacopo.mondi@ideasonboard.com>
- <782e20b3-6a4d-45fb-bcee-b3e92fa16719@xs4all.nl>
- <20240730121845.GJ1552@pendragon.ideasonboard.com>
- <719befce-a50a-4128-b8f5-82bff009c361@xs4all.nl>
- <ZrC8_dquaVo7-1L7@valkosipuli.retiisi.eu>
+	s=arc-20240116; t=1722931181; c=relaxed/simple;
+	bh=53uyXKQMi7gOAkS7HYm94YRdIwgmkU78irMSA80zjjo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BXclCwVQE/ZkQtYj4GbIBvTnLlXLsPuwWQH4D01OkJdaCGOZfLa8szzPmGKEm0Jmj4KuHcp2r5MUZY1PpICAgkUnotLcJBuguiHAuGRCk3+uS32JpTaTFysN5O7iLt/LvQ7GikjOzE42nFuzpFszBxgCMDmco5deETl0icjmD6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/m6AWyi; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722931180; x=1754467180;
+  h=date:from:to:cc:subject:message-id;
+  bh=53uyXKQMi7gOAkS7HYm94YRdIwgmkU78irMSA80zjjo=;
+  b=m/m6AWyisrL4Cit0tFjyRCqgzB+dpOEwEq7p004oOB5Xsw9P1y1i8mfU
+   kOEP0PVTnomJy/wrAReBJowdjEvCdudGjVRABNFZcKa51kJRdf3gqfWxR
+   aTdzA6e6zio/o+ofCcuFrjKm11elcfnpwwPShdhcXUu5D5ASZygF3d4eP
+   wffSmsbqCdcdGJSy7IuyqoSFM8AfYJc6wISboyAFaeW7HM0ejc8ozI5Zx
+   Wh3yS9m3vdhoWLO9NGNxYUQGGTU7YYY6yIDC7yoRygO05s+ieOnoADACu
+   URPABP83hRA5GKoGvT7+HsUCWbgl4ZpKT4QiGinY4NNMmH0giWDIXlRPU
+   g==;
+X-CSE-ConnectionGUID: hcNzVzz5RdWWgBKONwZEUQ==
+X-CSE-MsgGUID: k2iDqNXISkG7O0LFiVX0tQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="21079503"
+X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
+   d="scan'208";a="21079503"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 00:59:39 -0700
+X-CSE-ConnectionGUID: kXsC2RMLQt26kl4+PZ5Tqg==
+X-CSE-MsgGUID: vfOvPyAvQi2m+DaX0LPO6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
+   d="scan'208";a="60565127"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Aug 2024 00:59:35 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbF6S-0004Hh-2S;
+	Tue, 06 Aug 2024 07:59:32 +0000
+Date: Tue, 06 Aug 2024 15:58:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:fixes] BUILD SUCCESS
+ e2ed53694e5356a55fd539a4d8dc56c2fa42b2ff
+Message-ID: <202408061533.0vFc8l2U-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZrC8_dquaVo7-1L7@valkosipuli.retiisi.eu>
 
-Hi Sakari
+tree/branch: https://git.linuxtv.org/media_stage.git fixes
+branch HEAD: e2ed53694e5356a55fd539a4d8dc56c2fa42b2ff  Merge tag 'tags/fixes-media-uvc-20230722' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git
 
-On Mon, Aug 05, 2024 at 11:52:29AM GMT, Sakari Ailus wrote:
-> Hi Hans, Laurent,
->
-> On Tue, Jul 30, 2024 at 02:37:04PM +0200, Hans Verkuil wrote:
-> > On 30/07/2024 14:18, Laurent Pinchart wrote:
-> > > Hi Hans,
-> > >
-> > > On Tue, Jul 30, 2024 at 02:11:12PM +0200, Hans Verkuil wrote:
-> > >> On 24/07/2024 10:49, Jacopo Mondi wrote:
-> > >>> Add to the rkisp1-config.h header data types and documentation of
-> > >>> the extensible parameters format.
-> > >>>
-> > >>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >>> Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-> > >>> ---
-> > >>>  include/uapi/linux/rkisp1-config.h | 489 +++++++++++++++++++++++++++++
-> > >>>  1 file changed, 489 insertions(+)
-> > >>>
-> > >>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> > >>> index 6eeaf8bf2362..00b09c92cca7 100644
-> > >>> --- a/include/uapi/linux/rkisp1-config.h
-> > >>> +++ b/include/uapi/linux/rkisp1-config.h
-> > >>> @@ -996,4 +996,493 @@ struct rkisp1_stat_buffer {
-> > >>>  	struct rkisp1_cif_isp_stat params;
-> > >>>  };
-> > >>>
-> > >>> +/*---------- PART3: Extensible Configuration Parameters  ------------*/
-> > >>> +
-> > >>> +/**
-> > >>> + * enum rkisp1_ext_params_block_type - RkISP1 extensible params block type
-> > >>> + *
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS: Black level subtraction
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC: Defect pixel cluster correction
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG: Sensor de-gamma
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN: Auto white balance gains
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT: ISP filtering
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM: Bayer de-mosaic
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK: Cross-talk correction
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC: Gamma out correction
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF: De-noise pre-filter
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH: De-noise pre-filter strength
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC: Color processing
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_IE: Image effects
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC: Lens shading correction
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS: Auto white balance statistics
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS: Histogram statistics
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS: Auto exposure statistics
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS: Auto-focus statistics
-> > >>> + */
-> > >>> +enum rkisp1_ext_params_block_type {
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_IE,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS,
-> > >>> +};
-> > >>> +
-> > >>> +/**
-> > >>> + * enum rkisp1_ext_params_block_enable - RkISP1 extensible parameter block
-> > >>> + *					 enable flags
-> > >>> + *
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_DISABLE: Disable the HW block
-> > >>> + * @RKISP1_EXT_PARAMS_BLOCK_ENABLE: Enable the HW block
-> > >>> + */
-> > >>> +enum rkisp1_ext_params_block_enable {
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_DISABLE,
-> > >>> +	RKISP1_EXT_PARAMS_BLOCK_ENABLE,
-> > >>> +};
-> > >>> +
-> > >>> +/**
-> > >>> + * struct rkisp1_ext_params_block_header - RkISP1 extensible parameter block
-> > >>> + *					   header
-> > >>> + *
-> > >>> + * This structure represents the common part of all the ISP configuration
-> > >>> + * blocks. Each parameters block shall embed an instance of this structure type
-> > >>> + * as its first member, followed by the block-specific configuration data. The
-> > >>> + * driver inspects this common header to discern the block type and its size and
-> > >>> + * properly handle the block content by casting it to the correct block-specific
-> > >>> + * type.
-> > >>> + *
-> > >>> + * The @type field is one of the values enumerated by
-> > >>> + * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
-> > >>> + * interpreted by the driver. The @size field specifies the size of the
-> > >>> + * parameters block and is used by the driver for validation purposes.
-> > >>> + *
-> > >>> + * The @enable field specifies the ISP block enablement state. The possible
-> > >>> + * enablement states are enumerated by :c:type:`rkisp1_ext_params_block_enable`.
-> > >>> + * When userspace needs to configure and enable an ISP block it shall fully
-> > >>> + * populate the block configuration and the @enable flag shall be set to
-> > >>> + * RKISP1_EXT_PARAMS_BLOCK_ENABLE. When userspace simply wants to disable the
-> > >>> + * ISP block the @enable flag shall be set to RKISP1_EXT_PARAMS_BLOCK_DISABLE.
-> > >>> + * The driver ignores the rest of the block configuration structure in this
-> > >>> + * case.
-> > >>> + *
-> > >>> + * If a new configuration of an ISP block has to be applied userspace shall
-> > >>> + * fully populate the ISP block configuration and set the @enable flag to
-> > >>> + * RKISP1_EXT_PARAMS_BLOCK_ENABLE.
-> > >>> + *
-> > >>> + * Userspace is responsible for correctly populating the parameters block header
-> > >>> + * fields (@type, @enable and @size) and the block-specific parameters.
-> > >>> + *
-> > >>> + * For example:
-> > >>> + *
-> > >>> + * .. code-block:: c
-> > >>> + *
-> > >>> + *	void populate_bls(struct rkisp1_ext_params_block_header *block) {
-> > >>> + *		struct rkisp1_ext_params_bls_config *bls =
-> > >>> + *			(struct rkisp1_ext_params_bls_config *)block;
-> > >>> + *
-> > >>> + *		bls->header.type = RKISP1_EXT_PARAMS_BLOCK_ID_BLS;
-> > >>> + *		bls->header.enable = RKISP1_EXT_PARAMS_BLOCK_ENABLE;
-> > >>> + *		bls->header.size = sizeof(*bls);
-> > >>> + *
-> > >>> + *		bls->config.enable_auto = 0;
-> > >>> + *		bls->config.fixed_val.r = blackLevelRed_;
-> > >>> + *		bls->config.fixed_val.gr = blackLevelGreenR_;
-> > >>> + *		bls->config.fixed_val.gb = blackLevelGreenB_;
-> > >>> + *		bls->config.fixed_val.b = blackLevelBlue_;
-> > >>> + *	}
-> > >>> + *
-> > >>> + * @type: The parameters block type, see
-> > >>> + *	  :c:type:`rkisp1_ext_params_block_type`
-> > >>> + * @enable: The block enable flag, see
-> > >>> + *	   :c:type:`rkisp1_ext_params_block_enable`
-> > >>> + * @size: Size (in bytes) of the parameters block, including this header
-> > >>> + */
-> > >>> +struct rkisp1_ext_params_block_header {
-> > >>> +	__u16 type;
-> > >>> +	__u16 enable;
-> > >>> +	__u16 size;
-> > >>
-> > >> I would suggest changing this to '__u32 size;'. It ensures the header is8 bytes
-> > >> long (much nicer than 6), and if there is ever a block > 65535, then it is supported.
-> > >
-> > > I'm pretty confident we will never need a block size larger than 64kB.
-> >
-> > Hmm, famous last words :-)
-> >
-> > > That would mean more than 64kB of data written to hardware
-> > > registers/SRAM for a single processing block, and it would be incredibly
-> > > expensive in terms of hardware. Keeping size a __u16 means we have two
-> > > bytes of reserved space we could possibly use later, which may come
-> > > handy.
-> >
-> > i would prefer to change the size to a u32, but rename the 'enable' field
-> > to 'flags', and assign bit 0 to the enable/disable bit. This is a bit
-> > more flexible IMHO and allows for 15 bits to encode additional data.
-> >
-> >  Blocks > 64kB could still be supported in the future by defining
-> > > a new version of the parameters format (RKISP1_EXT_PARAM_BUFFER_V2)
-> > > without needing a different 4CC.
->
-> ...or making of use the existing padding. Shouldn't that be a reserved
-> field btw.?
->
+elapsed time: 1464m
 
-I might have missed what padding to be made a reserved field you are
-referring to :)
+configs tested: 299
+configs skipped: 16
 
-> I'm fine either approach, perhaps leaning slightly towards u32 size.
->
-> For the series:
->
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->
-> > >
-> > > This being said, the opposite argument can be made, that a 32-bit size
-> > > could come handy if we ever have larger blocks, and a new version of the
-> > > parameters format could be used if we ever need to add more fields to
-> > > the block header. I won't insist either way.
-> > >
-> > >> i wonder if, with this change, the 'aligned(8)' attributes are even needed, but
-> > >> I didn't dig into that.
-> > >
-> > > The header would become 8-bytes long, but its larger field would still
-> > > be 4-bytes long, so the compiler would only enforce 4-bytes aligned
-> > > AFAIK.
-> >
-> > Normally the actual data blocks (in the non-extensible format) are already aligned
-> > to either 4 or 8 bytes (depending on whether u64 values are used). So an 8 byte
-> > header won't mess up the alignment.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc-13.2.0
+alpha                            allyesconfig   gcc-13.3.0
+alpha                               defconfig   gcc-13.2.0
+arc                              allmodconfig   gcc-13.2.0
+arc                               allnoconfig   gcc-13.2.0
+arc                              allyesconfig   gcc-13.2.0
+arc                          axs101_defconfig   gcc-13.2.0
+arc                          axs103_defconfig   gcc-13.2.0
+arc                                 defconfig   gcc-13.2.0
+arc                        nsimosci_defconfig   gcc-13.2.0
+arc                 nsimosci_hs_smp_defconfig   gcc-13.2.0
+arc                   randconfig-001-20240805   gcc-13.2.0
+arc                   randconfig-001-20240806   gcc-13.2.0
+arc                   randconfig-002-20240805   gcc-13.2.0
+arc                   randconfig-002-20240806   gcc-13.2.0
+arc                           tb10x_defconfig   gcc-13.2.0
+arm                              allmodconfig   gcc-13.2.0
+arm                               allnoconfig   gcc-13.2.0
+arm                              allyesconfig   gcc-13.2.0
+arm                         assabet_defconfig   gcc-13.2.0
+arm                         axm55xx_defconfig   gcc-13.2.0
+arm                         bcm2835_defconfig   gcc-13.2.0
+arm                                 defconfig   gcc-13.2.0
+arm                            dove_defconfig   gcc-13.2.0
+arm                          ep93xx_defconfig   gcc-13.2.0
+arm                            hisi_defconfig   gcc-13.2.0
+arm                      jornada720_defconfig   gcc-13.2.0
+arm                        keystone_defconfig   gcc-13.2.0
+arm                         mv78xx0_defconfig   gcc-13.2.0
+arm                        mvebu_v5_defconfig   gcc-13.2.0
+arm                         nhk8815_defconfig   gcc-13.2.0
+arm                           omap1_defconfig   gcc-13.2.0
+arm                         orion5x_defconfig   gcc-13.2.0
+arm                            qcom_defconfig   gcc-13.2.0
+arm                   randconfig-001-20240805   gcc-13.2.0
+arm                   randconfig-001-20240806   gcc-13.2.0
+arm                   randconfig-002-20240805   gcc-13.2.0
+arm                   randconfig-002-20240806   gcc-13.2.0
+arm                   randconfig-003-20240805   gcc-13.2.0
+arm                   randconfig-003-20240806   gcc-13.2.0
+arm                   randconfig-004-20240805   gcc-13.2.0
+arm                   randconfig-004-20240806   gcc-13.2.0
+arm                             rpc_defconfig   gcc-13.2.0
+arm                           sama5_defconfig   gcc-13.2.0
+arm64                            allmodconfig   gcc-13.2.0
+arm64                             allnoconfig   gcc-13.2.0
+arm64                               defconfig   gcc-13.2.0
+arm64                 randconfig-001-20240805   gcc-13.2.0
+arm64                 randconfig-001-20240806   gcc-13.2.0
+arm64                 randconfig-002-20240805   gcc-13.2.0
+arm64                 randconfig-002-20240806   gcc-13.2.0
+arm64                 randconfig-003-20240805   gcc-13.2.0
+arm64                 randconfig-003-20240806   gcc-13.2.0
+arm64                 randconfig-004-20240805   gcc-13.2.0
+arm64                 randconfig-004-20240806   gcc-13.2.0
+csky                              allnoconfig   gcc-13.2.0
+csky                                defconfig   gcc-13.2.0
+csky                  randconfig-001-20240805   gcc-13.2.0
+csky                  randconfig-001-20240806   gcc-13.2.0
+csky                  randconfig-002-20240805   gcc-13.2.0
+csky                  randconfig-002-20240806   gcc-13.2.0
+hexagon                          allmodconfig   clang-20
+hexagon                          allyesconfig   clang-20
+i386                             allmodconfig   clang-18
+i386                              allnoconfig   clang-18
+i386                             allyesconfig   clang-18
+i386         buildonly-randconfig-001-20240805   clang-18
+i386         buildonly-randconfig-001-20240806   gcc-11
+i386         buildonly-randconfig-002-20240805   clang-18
+i386         buildonly-randconfig-002-20240806   gcc-11
+i386         buildonly-randconfig-003-20240805   clang-18
+i386         buildonly-randconfig-003-20240806   gcc-11
+i386         buildonly-randconfig-004-20240805   clang-18
+i386         buildonly-randconfig-004-20240806   gcc-11
+i386         buildonly-randconfig-005-20240805   clang-18
+i386         buildonly-randconfig-005-20240806   gcc-11
+i386         buildonly-randconfig-006-20240805   clang-18
+i386         buildonly-randconfig-006-20240806   gcc-11
+i386                                defconfig   clang-18
+i386                  randconfig-001-20240805   clang-18
+i386                  randconfig-001-20240806   gcc-11
+i386                  randconfig-002-20240805   clang-18
+i386                  randconfig-002-20240806   gcc-11
+i386                  randconfig-003-20240805   clang-18
+i386                  randconfig-003-20240806   gcc-11
+i386                  randconfig-004-20240805   clang-18
+i386                  randconfig-004-20240806   gcc-11
+i386                  randconfig-005-20240805   clang-18
+i386                  randconfig-005-20240806   gcc-11
+i386                  randconfig-006-20240805   clang-18
+i386                  randconfig-006-20240806   gcc-11
+i386                  randconfig-011-20240805   clang-18
+i386                  randconfig-011-20240806   gcc-11
+i386                  randconfig-012-20240805   clang-18
+i386                  randconfig-012-20240806   gcc-11
+i386                  randconfig-013-20240805   clang-18
+i386                  randconfig-013-20240806   gcc-11
+i386                  randconfig-014-20240805   clang-18
+i386                  randconfig-014-20240806   gcc-11
+i386                  randconfig-015-20240805   clang-18
+i386                  randconfig-015-20240806   gcc-11
+i386                  randconfig-016-20240805   clang-18
+i386                  randconfig-016-20240806   gcc-11
+loongarch                        allmodconfig   gcc-14.1.0
+loongarch                         allnoconfig   gcc-13.2.0
+loongarch                           defconfig   gcc-13.2.0
+loongarch             randconfig-001-20240805   gcc-13.2.0
+loongarch             randconfig-001-20240806   gcc-13.2.0
+loongarch             randconfig-002-20240805   gcc-13.2.0
+loongarch             randconfig-002-20240806   gcc-13.2.0
+m68k                             allmodconfig   gcc-14.1.0
+m68k                              allnoconfig   gcc-13.2.0
+m68k                             allyesconfig   gcc-14.1.0
+m68k                                defconfig   gcc-13.2.0
+m68k                        m5407c3_defconfig   gcc-13.2.0
+m68k                        mvme147_defconfig   gcc-13.2.0
+m68k                           virt_defconfig   gcc-13.2.0
+microblaze                       allmodconfig   gcc-14.1.0
+microblaze                        allnoconfig   gcc-13.2.0
+microblaze                       allyesconfig   gcc-14.1.0
+microblaze                          defconfig   gcc-13.2.0
+mips                              allnoconfig   gcc-13.2.0
+mips                        bcm47xx_defconfig   gcc-13.2.0
+mips                       bmips_be_defconfig   gcc-13.2.0
+mips                         cobalt_defconfig   gcc-13.2.0
+mips                     cu1000-neo_defconfig   gcc-13.2.0
+mips                         db1xxx_defconfig   gcc-13.2.0
+mips                          eyeq6_defconfig   gcc-13.2.0
+mips                      fuloong2e_defconfig   gcc-13.2.0
+mips                           ip22_defconfig   gcc-13.2.0
+mips                           ip28_defconfig   gcc-13.2.0
+mips                          malta_defconfig   gcc-13.2.0
+mips                      maltasmvp_defconfig   gcc-13.2.0
+mips                        omega2p_defconfig   gcc-13.2.0
+mips                        vocore2_defconfig   gcc-13.2.0
+nios2                         10m50_defconfig   gcc-13.2.0
+nios2                             allnoconfig   gcc-13.2.0
+nios2                               defconfig   gcc-13.2.0
+nios2                 randconfig-001-20240805   gcc-13.2.0
+nios2                 randconfig-001-20240806   gcc-13.2.0
+nios2                 randconfig-002-20240805   gcc-13.2.0
+nios2                 randconfig-002-20240806   gcc-13.2.0
+openrisc                          allnoconfig   gcc-14.1.0
+openrisc                         allyesconfig   gcc-14.1.0
+openrisc                            defconfig   gcc-14.1.0
+openrisc                       virt_defconfig   gcc-13.2.0
+parisc                           allmodconfig   gcc-14.1.0
+parisc                            allnoconfig   gcc-14.1.0
+parisc                           allyesconfig   gcc-14.1.0
+parisc                              defconfig   gcc-14.1.0
+parisc                randconfig-001-20240805   gcc-13.2.0
+parisc                randconfig-001-20240806   gcc-13.2.0
+parisc                randconfig-002-20240805   gcc-13.2.0
+parisc                randconfig-002-20240806   gcc-13.2.0
+parisc64                            defconfig   gcc-13.2.0
+powerpc                          allmodconfig   gcc-14.1.0
+powerpc                           allnoconfig   gcc-14.1.0
+powerpc                          allyesconfig   gcc-14.1.0
+powerpc                   bluestone_defconfig   gcc-13.2.0
+powerpc                      chrp32_defconfig   gcc-13.2.0
+powerpc                      cm5200_defconfig   gcc-13.2.0
+powerpc                   currituck_defconfig   gcc-13.2.0
+powerpc                       ebony_defconfig   gcc-13.2.0
+powerpc                        fsp2_defconfig   gcc-13.2.0
+powerpc                     kmeter1_defconfig   gcc-13.2.0
+powerpc                 mpc8315_rdb_defconfig   gcc-13.2.0
+powerpc                 mpc834x_itx_defconfig   gcc-13.2.0
+powerpc                 mpc837x_rdb_defconfig   gcc-13.2.0
+powerpc                  mpc866_ads_defconfig   gcc-13.2.0
+powerpc                  mpc885_ads_defconfig   gcc-13.2.0
+powerpc                      pmac32_defconfig   gcc-13.2.0
+powerpc                      ppc64e_defconfig   gcc-13.2.0
+powerpc               randconfig-001-20240805   gcc-13.2.0
+powerpc               randconfig-001-20240806   gcc-13.2.0
+powerpc               randconfig-003-20240806   gcc-13.2.0
+powerpc                    socrates_defconfig   gcc-13.2.0
+powerpc                     stx_gp3_defconfig   gcc-13.2.0
+powerpc                     tqm5200_defconfig   gcc-13.2.0
+powerpc                     tqm8540_defconfig   gcc-13.2.0
+powerpc                     tqm8555_defconfig   gcc-13.2.0
+powerpc64             randconfig-001-20240805   gcc-13.2.0
+powerpc64             randconfig-001-20240806   gcc-13.2.0
+powerpc64             randconfig-002-20240805   gcc-13.2.0
+powerpc64             randconfig-002-20240806   gcc-13.2.0
+powerpc64             randconfig-003-20240805   gcc-13.2.0
+powerpc64             randconfig-003-20240806   gcc-13.2.0
+riscv                            alldefconfig   gcc-13.2.0
+riscv                            allmodconfig   gcc-14.1.0
+riscv                             allnoconfig   gcc-14.1.0
+riscv                            allyesconfig   gcc-14.1.0
+riscv                               defconfig   gcc-14.1.0
+riscv                 randconfig-001-20240805   gcc-13.2.0
+riscv                 randconfig-001-20240806   gcc-13.2.0
+riscv                 randconfig-002-20240805   gcc-13.2.0
+riscv                 randconfig-002-20240806   gcc-13.2.0
+s390                             alldefconfig   gcc-13.2.0
+s390                             allmodconfig   clang-20
+s390                              allnoconfig   gcc-14.1.0
+s390                             allyesconfig   clang-20
+s390                                defconfig   gcc-14.1.0
+s390                  randconfig-001-20240805   gcc-13.2.0
+s390                  randconfig-001-20240806   gcc-13.2.0
+s390                  randconfig-002-20240805   gcc-13.2.0
+s390                  randconfig-002-20240806   gcc-13.2.0
+sh                                allnoconfig   gcc-13.2.0
+sh                                  defconfig   gcc-14.1.0
+sh                        edosk7705_defconfig   gcc-13.2.0
+sh                    randconfig-001-20240805   gcc-13.2.0
+sh                    randconfig-001-20240806   gcc-13.2.0
+sh                    randconfig-002-20240805   gcc-13.2.0
+sh                    randconfig-002-20240806   gcc-13.2.0
+sh                           se7343_defconfig   gcc-13.2.0
+sh                           se7705_defconfig   gcc-13.2.0
+sh                           se7712_defconfig   gcc-13.2.0
+sh                           sh2007_defconfig   gcc-13.2.0
+sh                     sh7710voipgw_defconfig   gcc-13.2.0
+sh                  sh7785lcr_32bit_defconfig   gcc-13.2.0
+sh                            shmin_defconfig   gcc-13.2.0
+sh                            titan_defconfig   gcc-13.2.0
+sparc                       sparc32_defconfig   gcc-13.2.0
+sparc64                             defconfig   gcc-14.1.0
+sparc64               randconfig-001-20240805   gcc-13.2.0
+sparc64               randconfig-001-20240806   gcc-13.2.0
+sparc64               randconfig-002-20240805   gcc-13.2.0
+sparc64               randconfig-002-20240806   gcc-13.2.0
+um                               alldefconfig   gcc-13.2.0
+um                               allmodconfig   clang-20
+um                               allmodconfig   gcc-13.3.0
+um                                allnoconfig   gcc-14.1.0
+um                               allyesconfig   gcc-12
+um                               allyesconfig   gcc-13.3.0
+um                                  defconfig   gcc-14.1.0
+um                             i386_defconfig   gcc-14.1.0
+um                    randconfig-001-20240805   gcc-13.2.0
+um                    randconfig-001-20240806   gcc-13.2.0
+um                    randconfig-002-20240805   gcc-13.2.0
+um                    randconfig-002-20240806   gcc-13.2.0
+um                           x86_64_defconfig   gcc-14.1.0
+x86_64                            allnoconfig   clang-18
+x86_64                           allyesconfig   clang-18
+x86_64       buildonly-randconfig-001-20240805   gcc-12
+x86_64       buildonly-randconfig-001-20240806   clang-18
+x86_64       buildonly-randconfig-002-20240805   gcc-12
+x86_64       buildonly-randconfig-002-20240806   clang-18
+x86_64       buildonly-randconfig-003-20240805   gcc-12
+x86_64       buildonly-randconfig-003-20240806   clang-18
+x86_64       buildonly-randconfig-004-20240805   gcc-12
+x86_64       buildonly-randconfig-004-20240806   clang-18
+x86_64       buildonly-randconfig-005-20240805   gcc-12
+x86_64       buildonly-randconfig-005-20240806   clang-18
+x86_64       buildonly-randconfig-006-20240805   gcc-12
+x86_64       buildonly-randconfig-006-20240806   clang-18
+x86_64                              defconfig   clang-18
+x86_64                randconfig-001-20240805   gcc-12
+x86_64                randconfig-001-20240806   clang-18
+x86_64                randconfig-002-20240805   gcc-12
+x86_64                randconfig-002-20240806   clang-18
+x86_64                randconfig-003-20240805   gcc-12
+x86_64                randconfig-003-20240806   clang-18
+x86_64                randconfig-004-20240805   gcc-12
+x86_64                randconfig-004-20240806   clang-18
+x86_64                randconfig-005-20240805   gcc-12
+x86_64                randconfig-005-20240806   clang-18
+x86_64                randconfig-006-20240805   gcc-12
+x86_64                randconfig-006-20240806   clang-18
+x86_64                randconfig-011-20240805   gcc-12
+x86_64                randconfig-011-20240806   clang-18
+x86_64                randconfig-012-20240805   gcc-12
+x86_64                randconfig-012-20240806   clang-18
+x86_64                randconfig-013-20240805   gcc-12
+x86_64                randconfig-013-20240806   clang-18
+x86_64                randconfig-014-20240805   gcc-12
+x86_64                randconfig-014-20240806   clang-18
+x86_64                randconfig-015-20240805   gcc-12
+x86_64                randconfig-015-20240806   clang-18
+x86_64                randconfig-016-20240805   gcc-12
+x86_64                randconfig-016-20240806   clang-18
+x86_64                randconfig-071-20240805   gcc-12
+x86_64                randconfig-071-20240806   clang-18
+x86_64                randconfig-072-20240805   gcc-12
+x86_64                randconfig-072-20240806   clang-18
+x86_64                randconfig-073-20240805   gcc-12
+x86_64                randconfig-073-20240806   clang-18
+x86_64                randconfig-074-20240805   gcc-12
+x86_64                randconfig-074-20240806   clang-18
+x86_64                randconfig-075-20240805   gcc-12
+x86_64                randconfig-075-20240806   clang-18
+x86_64                randconfig-076-20240805   gcc-12
+x86_64                randconfig-076-20240806   clang-18
+x86_64                          rhel-8.3-rust   clang-18
+xtensa                           alldefconfig   gcc-13.2.0
+xtensa                            allnoconfig   gcc-13.2.0
+xtensa                  audio_kc705_defconfig   gcc-13.2.0
+xtensa                generic_kc705_defconfig   gcc-13.2.0
+xtensa                          iss_defconfig   gcc-13.2.0
+xtensa                randconfig-001-20240805   gcc-13.2.0
+xtensa                randconfig-001-20240806   gcc-13.2.0
+xtensa                randconfig-002-20240805   gcc-13.2.0
+xtensa                randconfig-002-20240806   gcc-13.2.0
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
