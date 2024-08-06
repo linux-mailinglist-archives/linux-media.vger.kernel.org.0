@@ -1,51 +1,86 @@
-Return-Path: <linux-media+bounces-15829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15830-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79B3948BAC
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 10:52:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E73948BB1
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 10:53:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAF6E1C2231A
-	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 08:52:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E221B282228
+	for <lists+linux-media@lfdr.de>; Tue,  6 Aug 2024 08:53:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 396AE1BD4E5;
-	Tue,  6 Aug 2024 08:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBD051BD01C;
+	Tue,  6 Aug 2024 08:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qkgOtSRQ"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="eS3kz/Ky"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A744564A
-	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 08:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722934352; cv=none; b=eMaRKMfVJ0Tb8KeeGOgqxfveYkfphcvvbodzvEVpggyLDU3ZWJfWd4BgKTRhjY6mZ4KrmwE18o8PwMkteZddqLyc9ZWRjKp4qVswNyZSAifFdPHuvxGe8SIyynNIJ2JJgtCW2x3S/DVOU41/F+5Fb3cY0vxXw1qmuP8n6iUqOxk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722934352; c=relaxed/simple;
-	bh=zWpA5h7L+KOBM4b2/dfd/prjLY6tLP23ULNn9kP7n0Q=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22EB64A
+	for <linux-media@vger.kernel.org>; Tue,  6 Aug 2024 08:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722934400; cv=pass; b=KN7TVEA4fBND0zM3AIg3+zNjt9ZsktoMYYxMzCYXu44L9Um2P80DynFFUW/bnr4aFeZ4zDOxVLHiLMYXlPisT48UW6WzOGGRDG5b1zlCMAILFLRKrvAr4wdvUA2/Esl6nZETjKRVhjNCRDfsijP0DVBQyR01juRRVkz1LAWRrWM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722934400; c=relaxed/simple;
+	bh=pXarOlFkBwA4XS7myHRTLgkaDUmE1C3mDfuDvCqqf7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s/FPJlgzdONuUw0a3UKaDEAfBI7R2Y89/0GZq6FfbHiC0d6PWSBe9O8rHn+h3yqzAuv9hImNctnLxHUUMj+RgxpeM+2sc/IA9hlwMB8cS4iySgBN6VG1fUseVfU89DCvNEPU5TlQ3BLNtEMBbBty6qtt0oH5Nj5GnrI8LnVAdak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qkgOtSRQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A021C4CD;
-	Tue,  6 Aug 2024 10:51:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1722934295;
-	bh=zWpA5h7L+KOBM4b2/dfd/prjLY6tLP23ULNn9kP7n0Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qkgOtSRQthTXQPXZ48GWoXyQtqpvNJKHXZYYFafKUSRtvXYpxAkVw9gstZieTCpJN
-	 35LUaliD4Tx8o1ODBghh1HVAPttYgJ1QxKbr9cGDT5pJIjt6iKuc1zd5k6Q63ONjng
-	 hMZNf7F31ShHhzc3e1Jn4ZAOWgb5r2bgZQWUwPJw=
-Date: Tue, 6 Aug 2024 11:52:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZQvJnHG/ZxvSny3Oh7R3AltmyuFfMiz5eAYUAJKJzsXV0q8WcVvRPvKolL72WnGLDX5fUIQVPPC66GAulLKbJMvFvvMseHAJy6mKNhvuT83CwdYI/pLk6DO5wlCh4AsL0XQ7Iqj9zWRRg8Tz9eaUBTALBsp1PwlzWuExo0GOpQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=eS3kz/Ky; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4WdRsl27Lgz49PsT;
+	Tue,  6 Aug 2024 11:53:15 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1722934395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k8Nt4xpe2ecdrjh9QxsoUlRit4TCvkkJVt/Yr61XiAk=;
+	b=eS3kz/Ky7+wc8fVPX5PsSpRfskJklml8SKcyxQIDf8FhPwfwSRlI8BEgDTHf+yxcbGWmc/
+	ZwcfVI034VpksibqPF+rHL12hhpKVbzEB93Tuujt7LuEQhssTlXhCrlytcpq0ow8G8IpAK
+	tep3RWK/DdLMNhc44o11c4luTwCR5+AWJiymTo8k9yjd0mLUDijvXtA7znq5lNMHn5Ax2p
+	K7hCPQzIyiz3bUUPbFD0nQN+xTQFe4aRMHtHAqcb3VHV46uLgMGCIkmGgmWukMfkyoLl58
+	/6fz1ZityUWsCh644l4rYu03g2zYB/6aL49fN0rVT3KDiSzIOeZhzx6FZyc9dA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1722934395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k8Nt4xpe2ecdrjh9QxsoUlRit4TCvkkJVt/Yr61XiAk=;
+	b=dziBQha0NwPsBsfrM1zSjUAf7cGflr26HpXCb6gc6GHEkPpK8z7s5iFOm9DPYXy7DkSBBc
+	S69NxPSMEYa3ASnaCuCvg0L2C9FkzsNPlVTow25t4r27QNvBHmbCufNlQNjokGOlyEWCag
+	r6UqbNqQUqa4boBCRykt39+muQCoyH+jkhIFL/K2pxP+s50fovx5B74z5V6482LJ3al4Li
+	Cot3Imx6c+6Ww8JlISyGjR2jSAiQDU1V3xU+979xIfRqMLenB4I3VktlZH5VGHyoDaCchF
+	EmRL1FfwKZz8I1fbR+V8JuZv/+XcW21QKcYaRZl6bzqbWPL9UEWuK7LkWUG55g==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1722934395; a=rsa-sha256;
+	cv=none;
+	b=MJo8iBQWAds1/yjgcDNYsianMkQAQAlJRMulIvvlgt8kUaDFxxJyvDwyiVdPuZIVIk+Oxj
+	gKn5wGSSTomb1z29aho87CZHdQd/k+MGjkQ/kcnd6egHziQ6ivWk3HhLrCdSdduhzJRn3g
+	xAfgGVVXM5mbf8XeVuKMq1pVUJF1uNwDTkICO+La3QwYugive/hfGVZTJLYiA9eHcjgKaI
+	SuwXVH4/E6dyqiNHqkTFPDykdeG9C1Xs54dRdfFO6QNPCFlzqN0fk1Opd+iSYPmfkgbSj5
+	GMyJP1MWqVYspSs8BKJ6gXRNqXZ+yBHNpuQH9Dk45BZnOq9imQZHJFg4jtBK0g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 04EB9634C93;
+	Tue,  6 Aug 2024 11:53:14 +0300 (EEST)
+Date: Tue, 6 Aug 2024 08:53:13 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Linux Media Mailing List <linux-media@vger.kernel.org>,
 	Stefan Klug <stefan.klug@ideasonboard.com>,
 	Paul Elder <paul.elder@ideasonboard.com>,
@@ -57,7 +92,7 @@ Cc: Sakari Ailus <sakari.ailus@iki.fi>,
 	Heiko Stuebner <heiko@sntech.de>
 Subject: Re: [PATCH v7 01/12] media: uapi: rkisp1-config: Add extensible
  params format
-Message-ID: <20240806085204.GA21319@pendragon.ideasonboard.com>
+Message-ID: <ZrHkeX2j19NGmf-N@valkosipuli.retiisi.eu>
 References: <20240724085004.82694-1-jacopo.mondi@ideasonboard.com>
  <20240724085004.82694-2-jacopo.mondi@ideasonboard.com>
  <782e20b3-6a4d-45fb-bcee-b3e92fa16719@xs4all.nl>
@@ -71,14 +106,22 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <oxmlxkhyapax3rzzuouy3gyrr5bysjlhit6hnouzakxrdf7sog@dv3a5to7lvuc>
 
+Hi Jacopo,
+
 On Tue, Aug 06, 2024 at 09:30:16AM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
 > On Mon, Aug 05, 2024 at 11:52:29AM GMT, Sakari Ailus wrote:
+> > Hi Hans, Laurent,
+> >
 > > On Tue, Jul 30, 2024 at 02:37:04PM +0200, Hans Verkuil wrote:
 > > > On 30/07/2024 14:18, Laurent Pinchart wrote:
+> > > > Hi Hans,
+> > > >
 > > > > On Tue, Jul 30, 2024 at 02:11:12PM +0200, Hans Verkuil wrote:
 > > > >> On 24/07/2024 10:49, Jacopo Mondi wrote:
 > > > >>> Add to the rkisp1-config.h header data types and documentation of
@@ -239,18 +282,23 @@ On Tue, Aug 06, 2024 at 09:30:16AM +0200, Jacopo Mondi wrote:
 > >
 > > ...or making of use the existing padding. Shouldn't that be a reserved
 > > field btw.?
+> >
 > 
 > I might have missed what padding to be made a reserved field you are
 > referring to :)
 
-The two bytes at the end of the structure, after the size field.
+Related to the struct being discussed, struct
+rkisp1_ext_params_block_header? Due to the alignment, there's padding
+there, isn't there?
 
+> 
 > > I'm fine either approach, perhaps leaning slightly towards u32 size.
 > >
 > > For the series:
 > >
 > > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > >
+> > > >
 > > > > This being said, the opposite argument can be made, that a 32-bit size
 > > > > could come handy if we ever have larger blocks, and a new version of the
 > > > > parameters format could be used if we ever need to add more fields to
@@ -268,7 +316,7 @@ The two bytes at the end of the structure, after the size field.
 > > > header won't mess up the alignment.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
