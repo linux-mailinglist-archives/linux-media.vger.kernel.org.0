@@ -1,75 +1,76 @@
-Return-Path: <linux-media+bounces-15894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D64894A26C
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 10:11:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E52A94A26E
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 10:11:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5F5D1F24F39
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 08:11:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE6241C22952
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 08:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C161C8242;
-	Wed,  7 Aug 2024 08:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A7171C9DD8;
+	Wed,  7 Aug 2024 08:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJGobawj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N6zndThM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29EF1BD507;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED3C2868D;
 	Wed,  7 Aug 2024 08:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723018252; cv=none; b=fcy4KSK0gujF2yzcfOV3yjzcYvngxWM2LPaTn0V+bk1S+in8GRVlSqzwjSntXgsLQ8JF2/X3MPLy5WpE8tBp1sRQ3EslpFRyXv3gX2tq37LM9GOWsJHD794x4bktJQI0Yp6wBR9BcxmuPnAzhgIi2GzDBwMHcLHDCDT2ODe80tE=
+	t=1723018252; cv=none; b=Iv1ED+bRpCMRdO7Lqw/ngLsdsSRqeFc/ElRtrOxYaiMwriM5qTJGsajDSwJxWpjncWOB+7QBXXcd5Nc7GvifNHtZ5etN4fxOO9kcvT5KGsEh1jZawbnXIrrs6Rf/q1ALU1WkeKy2wzJgIiYcQ4R7OC4D0Uj4KD449JZKuWo+0ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723018252; c=relaxed/simple;
-	bh=LXD6bx0KHAy8nJe4vq+3BiOLk8raLOmavSTrjRgKDTo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lbYgVxmGPI0yG0oFmW2LARqNB8yIK1oFZn8+r4jJVfLB33Rar3gQm+GvhVZBijmtGdjzUbaBfdJnuGPTTxPoAGq0Y7cdYv1wlfU1NQBKJ778MfBNOAnE15GIbNqf2eS8efTjujFCDMUyQPLZhNxXc3u+FLNwlmpIeGI3281qO5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UJGobawj; arc=none smtp.client-ip=209.85.208.43
+	bh=/c5NnwWo/gGiCvJPvtR6JPf1RzRAXqhf/M38xXiiQ6s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=W/i2CWGDqlAHicd7QBV+9XDjnTl3MCszj9Ywo5R5ECV4kyQb8Wn7ZhFUu54+kTB+GagIcFOETupOMGJM49QH2KMtZDz6iY0sc/jzI9/XRCzMV9FxSvrPWnBTYwpmU63zweXhwBwjFBDZineHSCIYmwOYYTedIjhWKmDUOUwEpSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N6zndThM; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5a10bb7bcd0so2134815a12.3;
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a7a9185e1c0so151263266b.1;
         Wed, 07 Aug 2024 01:10:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1723018249; x=1723623049; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+wX3M56CMItmx01++yQS8b+awC11CfKnL43oH7SAtmg=;
-        b=UJGobawj7YKg+cgcisWQjNEJ4NzHeN+H2ikk3NXddlDw/wJyCP2gLZ79Dczn1MpLIB
-         YPu424JUBjQo6pAV7bo6jZznGbI2iflGyRZwQAig7igT6pst56dkxR2UA1XVggw6Bf2q
-         xS2P+NXwW6P74qgpGj3riBU+D3n+buToLRqydjeBNQX79FD1oeiSs3GSewIVdpUglgfW
-         lo9iS9pi0zus79aL8kPj0aIbLMqQFEKXEOMENg35ALDflJ7ZTU7/Lco/6UV3WtH7o405
-         4hjfTFMCFtE/8TsYB01mZ0rVVu7h3dLFFdLtZu0tYhIkxbfZMBUWt/dvl/Eid5utwr5g
-         kFgw==
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qi/HpZRL8SrIAWP5iMhIR6qUgSWwMPRdJAbA3YwHvJU=;
+        b=N6zndThMrVfnj59kQVLtQyAHn4WIYOXFY8+uG7cgeco+q6lkVZNSmPOb2Mz2CWlbEu
+         kfmL32j2r/6cz3PSKu+lUDxNPFY1puBXVoYSGN/frKx/iULtsMZarjrE1c+s6p5dfuJ0
+         8BtD/WYXZuIFCBFl+twSRsZ19tEuqaG7Yff2tCmKiVemFPYCbtjnS7ZRutzd0xTq0bMy
+         1aJfFGZhyxRVPb8d6WovYFct8Ayb7ok33Ryt0Up6kpK/i/9r8ZzHR8H/0wxeIKgR45A4
+         rtN2xzBXHw5EwNrJIzoUZWMiWcXglZxoE4BUhpselruyh70TNAUSShY3xpE0qlMG5s0T
+         i6Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1723018249; x=1723623049;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+wX3M56CMItmx01++yQS8b+awC11CfKnL43oH7SAtmg=;
-        b=hlRj9SxjNYNresBZHnYjfoFslM/+kZDqWSJsB2C0FJnLlOYM0ToI083ueFzpsD6G5/
-         1ZWWVNTuPcurQLZPY0vKIi34Xz4umG/Zs4DmrEkZo8BbmT+GP09CrjdN9LcyuhrSJ8uE
-         /I5sfzwkisZGHgsmbt2sVJUQk2btB/FcmLUzDg3jeTG/+vt+T12Bi59KuD4xGfJFXzQy
-         8szVveKXDRqF3gR0AeZJV/AHtLCL2qZiGDSE3xvTM5EVtkZ3ahVoLTbfDGeNz9sy4ZrG
-         WAJkx4HRN0VRzxndDn7ozHotMPFn3L2yP2F66APkFKnH9BnFSe/glaLSC0ITbZ0GfJ8g
-         /ezQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXE/wAQjGUCzAi48QuDq5kMy5EFiCLZ0wViu7Uip+qu7KhH25SFA3X+V+yvyWKnkk8NzKke3kOvrNPE/q2WNzcRLpVzkQl3ujZjRAkqtpbmi+MkMF472cm5ycFl0M57alkUH6T4xpvTy2A=
-X-Gm-Message-State: AOJu0YyCZj8SaFKK5CqB0Y9mw4IJHhaiK96A71RumZ7LsPIGNfQKP+jZ
-	mkdHWzQt3Yo0y0WRnWRyEny+7t3ie/sOm4bv9MJDMmC2zpRNhnQ8KM9SIQ==
-X-Google-Smtp-Source: AGHT+IG8o8Vs0Vt5dCZzl+a8B+E/mF9F3PKKD4yplOWJx//BPHxUcHhzNzxNFqCwnltKbfi7eyiXPg==
-X-Received: by 2002:a17:907:7f8d:b0:a72:5598:f03d with SMTP id a640c23a62f3a-a7dc5157d5bmr1300938666b.59.1723018248621;
-        Wed, 07 Aug 2024 01:10:48 -0700 (PDT)
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qi/HpZRL8SrIAWP5iMhIR6qUgSWwMPRdJAbA3YwHvJU=;
+        b=lxTKLAdgMLiZ2TKvGIJWVw8T4ao65AkBPq5x3V6TGIVFSyi++hMhONSzxrv3G2svw4
+         fF6baaCmW4vt4yBf3ASyd1mUhkLSZdtzV0R7ReY/XHQ/pekGTZgpgkwWN7hFTbSuGQEX
+         53PpMRobYMYLt5Ug0797MgyHWE2WOyQtyOfnr/4WFVQ3QeKCq/cQejpBc2W3qO4UuKVO
+         dN/bfitZVGnMq+JmNCXphBH1/nDSoHlE9bml3Qz7BvFQ7N8DGINkpMnloQ69++LQT59b
+         q99Xp+4YeHfhARmRqwqAVhzzyVpEGX/q2iICXIaWwPfyMORrKfWCr84vD7Mpk37qQSSb
+         P77A==
+X-Forwarded-Encrypted: i=1; AJvYcCWk5TeT6cHfkOFDDxgQ05SVbJsGdyq/kr84476Gc9HcDGoP9LuA8OpxkoC0ClnSzcPxDZ1EZOSat2Gmc33AlL4c7g/R8GTxt+uLD5vBAk/OaNR1Mhp16QffkUwwO4lh7uOtu/1uBPjhn5M=
+X-Gm-Message-State: AOJu0Yz8JYtVUSnhoIf2x4EvGfvIs7NbdghcVpmie7bVw76wG0Vv9g7O
+	knLP/CM3cNLNn6s5J3upkCTptZCsY5PCsiJ7VSVtzmal3JzDFDSY
+X-Google-Smtp-Source: AGHT+IEg3pjEggcWfxOwQQd7dLQxdfrb/eL9qLgc8zX5gXiEftFIaGrgiwllnOn8JbNS+f3PwQa+GQ==
+X-Received: by 2002:a17:907:944c:b0:a7d:c330:34e3 with SMTP id a640c23a62f3a-a7dc4fbeba0mr1007543466b.33.1723018249110;
+        Wed, 07 Aug 2024 01:10:49 -0700 (PDT)
 Received: from [127.0.1.1] ([2001:67c:2330:2002:af84:a410:1c4f:f793])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9c12be2sm614118666b.89.2024.08.07.01.10.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 07 Aug 2024 01:10:48 -0700 (PDT)
 From: Benjamin Bara <bbara93@gmail.com>
 X-Google-Original-From: Benjamin Bara <benjamin.bara@skidata.com>
-Subject: [PATCH 0/2] media: i2c: imx290: check for availability in probe()
-Date: Wed, 07 Aug 2024 10:10:26 +0200
-Message-Id: <20240807-imx290-avail-v1-0-666c130c7601@skidata.com>
+Date: Wed, 07 Aug 2024 10:10:27 +0200
+Subject: [PATCH 1/2] media: v4l2-cci: Allow "empty read"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,9 +79,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPIrs2YC/x3MQQqAIBBA0avIrBNMErWrRAvRqQbKQiEE8e5Jy
- 7f4v0LGRJhhZhUSvpTpjh3jwMAfLu7IKXSDFHISRmhOV5FWcPc6OrlR2iovdbDGQE+ehBuVf7e
- srX0mx0uaXgAAAA==
+Message-Id: <20240807-imx290-avail-v1-1-666c130c7601@skidata.com>
+References: <20240807-imx290-avail-v1-0-666c130c7601@skidata.com>
+In-Reply-To: <20240807-imx290-avail-v1-0-666c130c7601@skidata.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -90,36 +91,54 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
  Benjamin Bara <benjamin.bara@skidata.com>
 X-Mailer: b4 0.14.1
 
-Hi!
+Make the read pointer optional for cases where only the return value is
+of interest. This could be the case for availability checks during
+probe().
 
-First commit is optional and just adds the possibility to do a
-cci_read() without caring about the read value. If not wanted, I can
-remove it.
-
-Second commit tries to communicate with the sensor (reading back the
-STANDBY register) to find out if the sensor is available at probe time.
-Currently, the first device communication is happening after the v4l2
-subdev is initialized - and the communication errors are then basically
-ignored.
-
-thanks & regards
-Benjamin
-
+Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
 ---
-Benjamin Bara (2):
-      media: v4l2-cci: Allow "empty read"
-      media: i2c: imx290: Check for availability in probe()
-
- drivers/media/i2c/imx290.c         | 5 +++++
  drivers/media/v4l2-core/v4l2-cci.c | 5 ++++-
  include/media/v4l2-cci.h           | 2 +-
- 3 files changed, 10 insertions(+), 2 deletions(-)
----
-base-commit: eec5d86d5bac6b3e972eb9c1898af3c08303c52d
-change-id: 20240807-imx290-avail-85795c27d988
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-Best regards,
+diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+index 1ff94affbaf3..c402e0377a57 100644
+--- a/drivers/media/v4l2-core/v4l2-cci.c
++++ b/drivers/media/v4l2-core/v4l2-cci.c
+@@ -30,7 +30,8 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+ 	 * to a valid value whenever this function returns 0 but smatch
+ 	 * can't figure that out currently.
+ 	 */
+-	*val = 0;
++	if (val)
++		*val = 0;
+ 
+ 	if (err && *err)
+ 		return *err;
+@@ -45,6 +46,8 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+ 			reg, ret);
+ 		goto out;
+ 	}
++	if (!val)
++		goto out;
+ 
+ 	switch (len) {
+ 	case 1:
+diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+index 4e96e90ee636..ef5e0d875e68 100644
+--- a/include/media/v4l2-cci.h
++++ b/include/media/v4l2-cci.h
+@@ -60,7 +60,7 @@ struct cci_reg_sequence {
+  *
+  * @map: Register map to read from
+  * @reg: Register address to read, use CCI_REG#() macros to encode reg width
+- * @val: Pointer to store read value
++ * @val: Optional pointer to store read value
+  * @err: Optional pointer to store errors, if a previous error is set
+  *       then the read will be skipped
+  *
+
 -- 
-Benjamin Bara <benjamin.bara@skidata.com>
+2.46.0
 
 
