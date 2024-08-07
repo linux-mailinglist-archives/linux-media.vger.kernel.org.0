@@ -1,157 +1,157 @@
-Return-Path: <linux-media+bounces-15935-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15936-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D399694A95B
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 16:05:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D82A94AA0F
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 16:26:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5307E1F2A859
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 14:05:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8916C1C22608
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 14:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9CB2C69B;
-	Wed,  7 Aug 2024 14:04:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 924B361FC4;
+	Wed,  7 Aug 2024 14:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TFwku4uf"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gcTD88XB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627982D05D
-	for <linux-media@vger.kernel.org>; Wed,  7 Aug 2024 14:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B5C6F2F0
+	for <linux-media@vger.kernel.org>; Wed,  7 Aug 2024 14:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723039495; cv=none; b=pBQ1gGB9knEXw1IjgXEjX6jGnNzVTv3+ouiz+KtgNnsbQjC+oin4Lz5yrzGMVHrL5daBaGhIDCOgiiw/ng9dk7rtM1cJy913s+Q2xub5NnwFURMx0PonRlR2rhYcj4fGtYZeLDwXgWDOV1zfbXompJYEkriJt6kfYugP5VYd5PE=
+	t=1723040793; cv=none; b=fkpBP6Dmxdi6XM0/fCLlMT2GfBFzm/e6/ft4vuJ1YGR5iz0ZXtQdbA/pSC4PswS/zkLy3jkPbZh8wD+hL1I/KWAiiKdBS5CMuHXcBUJt8gzmJ6TabrRLVNLwn9WfVFGSEfdU9Ity8Fo8YNV9KYXgeq9d7+b5g4lQ3/LbECEL1NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723039495; c=relaxed/simple;
-	bh=WQ9uPDaWROddBS2N7w2xkZdRI2oIhxXEqLzEXPO7isQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sd6JUlD8l6yeMHMbfqn1913EFImGCxc/DHqlCmIdfScizvVyvmSfx9bmpICu7JJOh+fFCx+BXRLf1GrF+KhHAXtDzjzWAsr9DuKztLU/7W8OndaZwN8xrK5yKHIVy1iMr4Uk92lzbcGVhBeKQKWljkc3dZlkCFqAeeSxjHwA81s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TFwku4uf; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52efd855adbso2589538e87.2
-        for <linux-media@vger.kernel.org>; Wed, 07 Aug 2024 07:04:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723039491; x=1723644291; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NAGWcvgFvuED6d18zQ9q2rPiFhp8BlIgeZI4PNLcmd0=;
-        b=TFwku4uf57/+nIr0QyNk4RaKkdQEGA9GSPrtylWUpF3lUTZIXVLcDCHR8N6ax9ca2i
-         KmCrSK6hpNYL9qVh+3ay8gD7Ol4Km+AWGtaao6LnFHcwdUzoz82lSw+qWDfQq2KELYH7
-         swEVDQfangewVjyHGlkgH2WryHZ81L2dBvYf2hE3o0L8Yhr2CD7h/NB/tcd4cfLAPIWp
-         2YoduaCT153mPh3U2oYcGf4hUGdcYeFqSX2/p09sFlwFz+CmaCY0q+CLFGXtSfmXNczF
-         LnieZ14yJor+XsnRS6bFYpVzJwUPM1FZ00oJi4C2vott5NbOISYExImRDI7F+5/mlVfM
-         PTnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723039491; x=1723644291;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NAGWcvgFvuED6d18zQ9q2rPiFhp8BlIgeZI4PNLcmd0=;
-        b=SoezAj6k6D/yivkEqa0LBLap+4RLY2lXrkSqf42tRYDyek30gHVHD4hQE5ht7lFQgZ
-         Zj10Nxsh/IKfJFo1NFCBbdYhmzOwldHiHqBSxoQPjDzIlQdW5ZYVwRuxGJyQUu+S/IOZ
-         gVIerZ0GI6I+H6qDBVcn5SMtJat3M2qUNeAXpBW3nmc2e1Usb+wllXpOn3bqxAdkPle2
-         bklCAhm+gleW3PWsNDvWntjMgRhSQl00Idlim9aMlUSYywHDBgJ+2Qei6C/s/8wpTZhk
-         8LvbeQL6dR1bfKK0ozH/8YkCKHw9/crLuynHvr+5OF9hUvg7qyeqPs8+LZBrwUp6oyYe
-         x98Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVjNdwhqzkngNMNCPyeh5uaMk+GSY2ACt6/t9L9eHaFSMumQpA15DvWPrM730fkxva+/S8le7QxNUlARQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrTaf7AvlLXvEOamYZLdYv4wQ69xuWLf/a6FkB7qtga7WkWKyp
-	ty9xwEcpEtx5H111e+JwI9TjVWEuZCOulqqdIk0ncjztxRRwgNvviyLoVsKO2zg=
-X-Google-Smtp-Source: AGHT+IF/8jPxz9C4n7VrAIshmVfxZmmurEoO7p+zRJ5jBhuBgup8Xnfw6CErz09zqa7Zn3wwojgELg==
-X-Received: by 2002:a05:6512:4004:b0:52c:e312:2082 with SMTP id 2adb3069b0e04-530bb3b527fmr11202930e87.54.1723039491198;
-        Wed, 07 Aug 2024 07:04:51 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429059a6703sm31093925e9.37.2024.08.07.07.04.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Aug 2024 07:04:50 -0700 (PDT)
-Message-ID: <8f935a7d-87b5-479c-a98e-c95671dbe259@linaro.org>
-Date: Wed, 7 Aug 2024 15:04:48 +0100
+	s=arc-20240116; t=1723040793; c=relaxed/simple;
+	bh=qah1L5efhapyTgGcAnmnSAxrZWbOGmDkEecbOLcjR8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f5SofULoL4sgG5PX3AVwlcxevUfcBYDfXoV5RaXPqo449DcrRyL1k9xDKSnpQU9iO80BKMvJa9sNFKAEsunvG+u3Drh5oNznzmpt10OmBoqHjmUCjEv78lrjNmXWmXNp0zgeal8CKUbS2bRDhS2qXsGQT+f2fnnM2/KBLUlxVN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gcTD88XB; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=G/aq
+	T8Uza3zIyWgA3Hk9AJ7ehT6awi0QmB3lVTwVYh0=; b=gcTD88XBRW59qeT7zXBC
+	EFYpPASoygTvysL6pEaH4d3q8rJjVsOhiiz9EImfFoq28KXFEd9C3r2heDkyEXyg
+	lon8r0PMq3Pd1cL03Oy1J2z5JhZPd2uskzaTrHqQ+KaJvb9YBWvDLOrU5/BhP/+W
+	+JhjmcK1WFswZN9yVPkgGrylbF2+lWFxUQ9mHCegUPDh/8bh/uSoBWPQEWb+6sJP
+	WKtHC79NGWFeItzlhmWR0Cbgqos1hXRQv1v+lnuORS1ujScjI7EPpolvRelAnHvM
+	cxhCG+lqfBw5YnvCmen5onPblC/fuB/R1kXhspo0TDR+N8VjcWjSzZg/dDUQsQwk
+	ew==
+Received: (qmail 38314 invoked from network); 7 Aug 2024 16:26:26 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Aug 2024 16:26:26 +0200
+X-UD-Smtp-Session: l3s3148p1@Hcz7sRgfgW5tKPMt
+Date: Wed, 7 Aug 2024 16:26:25 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andrey Utkin <andrey_utkin@fastmail.com>,
+	Benoit Parrot <bparrot@ti.com>,
+	Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Ismael Luceno <ismael@iodev.co.uk>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v2 0/8] media: use 'time_left' instead of 'timeout' with
+ wait_*() functions
+Message-ID: <ZrOEESjIbqfydsSL@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andrey Utkin <andrey_utkin@fastmail.com>,
+	Benoit Parrot <bparrot@ti.com>,
+	Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Fabien Dessenne <fabien.dessenne@foss.st.com>,
+	Ismael Luceno <ismael@iodev.co.uk>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Thierry Reding <thierry.reding@gmail.com>
+References: <20240805215123.3528-1-wsa+renesas@sang-engineering.com>
+ <2f3f3b80-65a6-40b6-9450-41e1313167f0@xs4all.nl>
+ <05f900b2-1a94-41ed-b365-65b83b58d329@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/13] media: qcom: camss: csiphy: Add an init callback to
- CSI PHY devices
-To: Depeng Shao <quic_depengs@quicinc.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-5-quic_depengs@quicinc.com>
- <6dfc2c79-fc6d-4eed-bf3f-94396130cb4f@linaro.org>
- <fafda7d5-3853-428a-b0eb-9993fc2d4f56@linaro.org>
- <4426c0e0-f877-409c-b2d2-a5aac5e8c645@linaro.org>
- <1226d080-d1fc-4e06-ac81-84e93cb314e0@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <1226d080-d1fc-4e06-ac81-84e93cb314e0@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="p0NiU/qlPeepXxbb"
+Content-Disposition: inline
+In-Reply-To: <05f900b2-1a94-41ed-b365-65b83b58d329@xs4all.nl>
 
-On 07/08/2024 14:08, Depeng Shao wrote:
-> Hi Vladimir,
-> 
-> On 8/5/2024 5:26 AM, Vladimir Zapolskiy wrote:
->> Hi Bryan,
->>
->> On 8/1/24 11:16, Bryan O'Donoghue wrote:
->>> On 01/08/2024 00:43, Vladimir Zapolskiy wrote:
->>>>> +    ret = csiphy->res->hw_ops->init(csiphy);
->>>>
->>>> Here.
->>>
->>> What name would make more sense to you ?
->>
->> according to the implementation the .init() call just fills some data in
->> memory, so I believe this could be handled at build time, if it's done
->> carefully enough...
->>
-> 
-> This camss-csiphy-3ph-1-0.c is reused by many platforms, the old 
-> platforms have same CSI_COMMON_CTR register offset, their offset are 
-> 0x800, but some new platforms may have different CSI_COMMON_CTR register 
-> offset, for example, the CSI_COMMON_CTR register offset is 0x1000 in 
-> sm8550, then we need to add new file to support the new csiphy HW, e.g., 
-> camss-csiphy-3ph-2-0.c, so Bryan asked me to develop the CSIPHY driver 
-> based on his changes, then we just need few code to enable new CSIPHY.
-> 
-> Regarding the hw_ops->init interface, since it fills HW register 
-> configurations and HW register offset, then maybe, it also can be called 
-> as HW operation.
-> 
-> And looks like we can't move it to camss-csiphy.c since it does platform 
-> specific operation and it is related to the registers.
-> 
-> Please feel free to share other comments if you don't agree with it. 
-> Thanks.
-> 
-> 
-> Thanks,
-> Depeng
 
-So, I agree the phy init data could be obtained via resource structs 
-but, rather than add yet more patches to this series, I'd say we can 
-make the move to a separate resource struct pointer at a later date.
+--p0NiU/qlPeepXxbb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Lets drop this patch and @Depeng we can then do
+Hi Hans,
 
-+	regs->offset = 0x800;
+thanks for the fast reply!
 
-media: qcom: camss: csiphy-3ph: Use an offset variable to find common 
-control regs
+> > Can you resend this series? This patch series wasn't picked up by our patchwork,
+> > probably due to a full filesystem.
 
-As a bonus that's one less patch for this series which @ 13 patches is 
-already large.
+You use the kernel.org one, or? There was an update including a small
+downtime but no mail got lost. patchwork only needs to catch up.
 
----
-bod
+> I'll let you know when it is OK again.
+
+Seems to be good now?
+
+https://patchwork.kernel.org/project/linux-media/list/?series=876862
+
+> > Apologies for the inconvenience.
+
+No worries, things happen!
+
+All the best,
+
+   Wolfram
+
+
+--p0NiU/qlPeepXxbb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmazhA0ACgkQFA3kzBSg
+KbaWQg/+N/4IzrQgV3qQIHMzRGehXG3kOowJ7YzquYbgh9gBkFrKdsDuzmLPJMQc
+6/pNOOyWF1OZ0Fa7dmK99+Aqv3hkg9CjISzE1GYwOOFp07Sa3Upw/6Zpfm7fBGtR
+PWq7xyfVSEM4xbm4Ns/Tp9QgCWUSAJMM1h9aq6ELoJqi8kK6HBjYXc+gQca2rLfc
+ezcTs0Rrw57GE0IQ80DKrNZCRZ9/Mb+9rSYyzre4mB0EXttqd6xM2YT06iN8ecXB
+RnJ++7SEiAOBVap5DYJJ9JpmTPyrllHr8bVbtpuaLBKLxfBqClZ10EyoVDukfBa5
+JVczp744DG59qQgBbDhESBbqaAtHBj4f7+GpK+KYCTgPvWq2uURAO4kqFFAsDd+S
+F2wrJJi2ekhn2IE3A8jDR1foAIW2OXsD/XdMnGS1hDAYTX5y8KQMRlyBsB5ZmS7d
+SNOx2qljEwJMXTZ+H64SQe6Qb9u8mLp4lt0yNohnxsNzw1iK+mGak0jwOd9nG8Ly
+CumpEDj9XvvQfqsaZFCH/5oBM0vKKbSU6NSyCcW6cp56BMefxHrrS9iBKInEsYN5
+YJasha1JpRuLiH2mzn3EhvGjuZnqOhvbYajDxNCs6FdO/8C7AIRJjT6RUOt0jkW4
+vsZ55WzDwUbsranBZSvFGaMiyCq1dCeJ7ChOnZzMEAWwehKThXI=
+=HFgN
+-----END PGP SIGNATURE-----
+
+--p0NiU/qlPeepXxbb--
 
