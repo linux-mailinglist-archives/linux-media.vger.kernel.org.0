@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-15938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15939-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7097194AB4A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 17:05:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4F394ABF5
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 17:10:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2483A282CA4
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 15:05:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EECE1C22568
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 15:10:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2CF712E1E0;
-	Wed,  7 Aug 2024 15:04:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23F7C84A50;
+	Wed,  7 Aug 2024 15:10:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aP9NnCxR"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZOS7uK7X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C2878C67;
-	Wed,  7 Aug 2024 15:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B3678C92;
+	Wed,  7 Aug 2024 15:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723043051; cv=none; b=a0zya9PrABJMKsFKM7xJMrgkUop2gapVxDeVNWhxP+izJHsiVOjRBtn04C3FVXtdD0yjv8gxI7Twe3eLkdpt8bYk/Ys+PNgh5ZfWtqDRzAUPR3F4b4Vngw71g+d4eBeSNz/ZVuckPDDCAEg2pM4tGn/AiIVu9kbCr/UTYu+nY8s=
+	t=1723043439; cv=none; b=iSNn+ktH8lMkr2YmSrzpzlUrxaX2ypnAbT7v4cA0uE4EYhWYiW5PsO4CTXpiZgaKgHVXMm7MIi2EWZSGUKzuex3H2lnGF2aUe+OD0wQQi3IpAylvFakrRT4MjsKsWYo7aolkCv4cm0ZwXANHypKMKxMFRYWRsFg9a6VPIvHdfh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723043051; c=relaxed/simple;
-	bh=AW4oJxgDMSIGfvbiUjJMohsaTkK3nVI+Ow/6ORgTGqo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=EqhGNsP1FgnyZ2yDv0LjwKGVIX0riX53LjDbfIYgN9rs4fMihg33EzOf76FKzfSUPFbtSQxu4LiqgucABJ7L5MN5WQYGKctiJqNjfer3AHIx0aG3NIWQhQbfeN3spghfWP3FcLjnm1c1CIAs4S59OPbpdKi2Lf/vjqZF97dwBXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aP9NnCxR; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1723043439; c=relaxed/simple;
+	bh=bFOGSdwryYFIC/srt6z4KPB4f6lbDUwZwqMZ7LPxn9Q=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=KKkyopoY/7hH2JK7MBKFbyOWNdufv98eNd7WtIdKnQI3lVLTBJLZ/tbl0brmzpTE0LgzWT+lmaf7UxURxef5AOIrxvF6AM+y3y5F4oa6+7wxwfk7zZ88vN9vfcEjAr9JduQLMV3/dpIIW3P7QjWqAuvNlAJDweNfD/Vtp37joHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZOS7uK7X; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4778DxN5002857;
-	Wed, 7 Aug 2024 15:04:04 GMT
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47784qWJ020486;
+	Wed, 7 Aug 2024 15:10:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ROn9BmIOv923LfjYstHIrvLocxc6Z7XaPrBDmX4KWWQ=; b=aP9NnCxRmnimuSqK
-	c0Dgvt3hIyWLhjtqRkNOKaqr86QKIMvnAger9CEfpSxukWwWcq9AJpm2JX72g74x
-	su4GtRuHRmD87Hs2XnLyDuZWaSlq3SFNrcExvyTkorgbw9ar6ICa6jvYTe+Au8T8
-	he/4kBO8fAGYcC4BrDfHB96C2CV6xSYH7bjLX6OCxEMvLSwImS0M4iBmV8pWHjJR
-	2Lm/Ganss4A6/l5lxf2/o/Q+Vn5OTcJGg0GLyAgPQ97Ot4XwVkA3phLF9yegFM1v
-	1kP6C4Holt/31sag5KJ4CyU4UHJ1p8p0Q+B/BrJochut+hhnFi+CQowiWgr6bZdZ
-	/xhqdA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40sdu9axea-1
+	+sDHix3Eb6rHg/9spqlOX6zfPBQywPkh2CE1BgGedJ8=; b=ZOS7uK7XT9jkFkpu
+	FGih+mtaDvcnFbnx/t7fhEcC/yUOPIzes7XXybA5ZoNZf6O3YbKfLetXFJUSyySA
+	J/NptIIzrw85QmQ3TJwKpMFlqiNjHWdwpu8CtcxLPYwyRwACp2rpHETIMDa+gYHh
+	b1O4S7KwBsDADnB1GTRWQQLnIACDCQonG7+RivYhc1nCyU0AHBueGVtNTcOgduPP
+	VR/zUPIR2seMMlN57vgCsiDwSu8y5L5DE6eUHxDfoQJd5MR2Qas2e084rQnF9wmv
+	Qkhcm5cGx0x+ofZitqQFborjnIX2ZhbEa9hDLenB21NA2k3XnSzV33a9T8o159A1
+	60y+sw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40scmu36jp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 07 Aug 2024 15:04:03 +0000 (GMT)
+	Wed, 07 Aug 2024 15:10:32 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 477F42Kt010601
+	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 477FAV0Q025917
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 7 Aug 2024 15:04:02 GMT
+	Wed, 7 Aug 2024 15:10:31 GMT
 Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 7 Aug 2024
- 08:03:57 -0700
-Message-ID: <7c03280f-908d-435d-acef-b6bf4f865029@quicinc.com>
-Date: Wed, 7 Aug 2024 23:03:55 +0800
+ 08:10:25 -0700
+Message-ID: <26eb0d02-06a5-4743-b828-01206c65e9dc@quicinc.com>
+Date: Wed, 7 Aug 2024 23:10:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,126 +65,259 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/13] media: qcom: camss: csiphy: Add an init callback to
- CSI PHY devices
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy
-	<vladimir.zapolskiy@linaro.org>,
-        <rfoss@kernel.org>, <todor.too@gmail.com>, <mchehab@kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+Subject: Re: [PATCH 09/13] media: qcom: camss: Add CSID Gen3 support for
+ SM8550
+From: Depeng Shao <quic_depengs@quicinc.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>
 CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>,
+        Yongsheng Li
+	<quic_yon@quicinc.com>
 References: <20240709160656.31146-1-quic_depengs@quicinc.com>
- <20240709160656.31146-5-quic_depengs@quicinc.com>
- <6dfc2c79-fc6d-4eed-bf3f-94396130cb4f@linaro.org>
- <fafda7d5-3853-428a-b0eb-9993fc2d4f56@linaro.org>
- <4426c0e0-f877-409c-b2d2-a5aac5e8c645@linaro.org>
- <1226d080-d1fc-4e06-ac81-84e93cb314e0@quicinc.com>
- <8f935a7d-87b5-479c-a98e-c95671dbe259@linaro.org>
+ <20240709160656.31146-10-quic_depengs@quicinc.com>
+ <e118f980-e10f-450c-8270-76602cc50b27@linaro.org>
+ <eeaf4f4e-5200-4b13-b38f-3f3385fc2a2b@quicinc.com>
 Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <8f935a7d-87b5-479c-a98e-c95671dbe259@linaro.org>
+In-Reply-To: <eeaf4f4e-5200-4b13-b38f-3f3385fc2a2b@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: NE36SZdm1nl2VGnKMJk62g9sNeGw72lo
-X-Proofpoint-GUID: NE36SZdm1nl2VGnKMJk62g9sNeGw72lo
+X-Proofpoint-ORIG-GUID: 1IrvqjEOudrCo0qOal0dE5GVLFrj5Sfv
+X-Proofpoint-GUID: 1IrvqjEOudrCo0qOal0dE5GVLFrj5Sfv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-07_11,2024-08-07_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=709 suspectscore=0 malwarescore=0
- clxscore=1015 phishscore=0 spamscore=0 bulkscore=0 mlxscore=0
- impostorscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2408070106
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408070106
 
 Hi Bryan,
 
-On 8/7/2024 10:04 PM, Bryan O'Donoghue wrote:
-> On 07/08/2024 14:08, Depeng Shao wrote:
->> Hi Vladimir,
->>
->> On 8/5/2024 5:26 AM, Vladimir Zapolskiy wrote:
->>> Hi Bryan,
+Looks like you missed this mail, Could you please check again?
+
+
+On 7/11/2024 11:33 PM, Depeng Shao wrote:
+> Hi Bryan,
+> 
+> On 7/10/2024 7:28 PM, Bryan O'Donoghue wrote:
+>> On 09/07/2024 17:06, Depeng Shao wrote:
+>>> The CSID in SM8550 is gen3, it has new register offset and new
+>>> functionality. The buf done irq,register update and reset are
+>>> moved to CSID gen3. And CSID gen3 has a new register block which
+>>> is named as CSID top, it controls the output of CSID, since the
+>>> CSID can connect to Sensor Front End (SFE) or original VFE, the
+>>> register in top block is used to control the HW connection.
 >>>
->>> On 8/1/24 11:16, Bryan O'Donoghue wrote:
->>>> On 01/08/2024 00:43, Vladimir Zapolskiy wrote:
->>>>>> +    ret = csiphy->res->hw_ops->init(csiphy);
->>>>>
->>>>> Here.
->>>>
->>>> What name would make more sense to you ?
+>>> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
+>>> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
+>>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+>>> ---
+>>>   drivers/media/platform/qcom/camss/Makefile    |   1 +
+>>>   .../platform/qcom/camss/camss-csid-gen3.c     | 445 ++++++++++++++++++
+>>>   .../platform/qcom/camss/camss-csid-gen3.h     |  26 +
+>>>   .../media/platform/qcom/camss/camss-csid.h    |   2 +
+>>>   4 files changed, 474 insertions(+)
+>>>   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.c
+>>>   create mode 100644 drivers/media/platform/qcom/camss/camss-csid-gen3.h
 >>>
->>> according to the implementation the .init() call just fills some data in
->>> memory, so I believe this could be handled at build time, if it's done
->>> carefully enough...
->>>
->>
->> This camss-csiphy-3ph-1-0.c is reused by many platforms, the old 
->> platforms have same CSI_COMMON_CTR register offset, their offset are 
->> 0x800, but some new platforms may have different CSI_COMMON_CTR 
->> register offset, for example, the CSI_COMMON_CTR register offset is 
->> 0x1000 in sm8550, then we need to add new file to support the new 
->> csiphy HW, e.g., camss-csiphy-3ph-2-0.c, so Bryan asked me to develop 
->> the CSIPHY driver based on his changes, then we just need few code to 
->> enable new CSIPHY.
->>
->> Regarding the hw_ops->init interface, since it fills HW register 
->> configurations and HW register offset, then maybe, it also can be 
->> called as HW operation.
->>
->> And looks like we can't move it to camss-csiphy.c since it does 
->> platform specific operation and it is related to the registers.
->>
->> Please feel free to share other comments if you don't agree with it. 
->> Thanks.
->>
->>
->> Thanks,
->> Depeng
 > 
-> So, I agree the phy init data could be obtained via resource structs 
-> but, rather than add yet more patches to this series, I'd say we can 
-> make the move to a separate resource struct pointer at a later date.
+>>> +
+>>> +#define        REG_UPDATE_RDI        reg_update_rdi
+>>> +
+>>> +static void __csid_configure_rx(struct csid_device *csid,
+>>> +                struct csid_phy_config *phy, int vc)
+>>> +{
+>>> +    int val;
+>>> +
+>>> +    val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
+>>> +    val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
+>>> +    val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << 
+>>> CSI2_RX_CFG0_PHY_NUM_SEL;
+>>> +
+>>> +    writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
+>>> +
+>>> +    val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
+>>> +    if (vc > 3)
+>>> +        val |= 1 << CSI2_RX_CFG1_VC_MODE;
+>>
+>> I realise downstream does these shifts but, I think in upstream we 
+>> should just define a BIT(x)
+>>
+>> #define CSI2_RX_CFG1_VC_MODE BIT(2)
+>>
+>> val |= CSI2_RX_CFG1_VC_MODE;
+>>
 > 
-> Lets drop this patch and @Depeng we can then do
+> Here CSI2_RX_CFG1_VC_MODE just means a register bit offset, not a 
+> register configuration.
 > 
-
-> +    regs->offset = 0x800;
+> Some fixed configuration can do this, but some register bits value are 
+> configured based on actual parameter.
+> e.g.;  val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
 > 
-> media: qcom: camss: csiphy-3ph: Use an offset variable to find common 
-> control regs
->
-
-
-Do you mean only drop "[PATCH 04/13] media: qcom: camss: csiphy: Add an 
-init callback to CSI PHY devices"?
-
-
-[PATCH 05/13] media: qcom: camss: csiphy-3ph: Move CSIPHY variables to 
-data field inside csiphy struct
-Do you mean this is still needed? Just don't move the code from 
-csiphy_gen2_config_lanes to csiphy_init, right?
-
-
-[PATCH 06/13] media: qcom: camss: csiphy-3ph: Use an offset variable to 
-find common control regs
-The offset change is also needed, just need to add the offset for 
-different platform in csiphy_gen2_config_lanes .
-
-Please correct me if my understanding is wrong. Thanks.
-
-> As a bonus that's one less patch for this series which @ 13 patches is 
-> already large.
+> If we want to use macro definition, maybe we can do like below.
 > 
-> ---
-> bod
+> #define CSI2_RX_CFG1_VC_MODE(n) ((n) << 2)
+> val |= CSI2_RX_CFG1_VC_MODE(1);
+> 
+> 
+> #define CSI2_RX_CFG0_DL0_INPUT_SEL(n) ((n) << 4)
+> val |= CSI2_RX_CFG0_DL0_INPUT_SEL(phy->lane_assign)
+> 
+> Could you please comment if we really need to do like this?
+> 
+> 
+>>> +    writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
+>>> +}
+>>> +
+>>> +static void __csid_ctrl_rdi(struct csid_device *csid, int enable, u8 
+>>> rdi)
+>>> +{
+>>> +    int val;
+>>> +
+>>> +    if (enable)
+>>> +        val = 1 << RDI_CTRL_START_CMD;
+>>> +    else
+>>> +        val = 0 << RDI_CTRL_START_CMD;
+>>
+>> Here is an example of how the bit shifting is weird
+>>
+>> (0 << anything) is still zero
+>>
+> 
+> Understood, the value is same, but we can know the configuration clearly 
+> on this register bit. If we do like above way, then it likes below.
+> 
+> #define RDI_CTRL_START_CMD(n) ((n) << 0)  --> it is same with (n), but 
+> we don't know the register bit offset clearly if we use (n).
+> 
+> if (enable)
+>      val = RDI_CTRL_START_CMD(1);
+> else
+>      val = RDI_CTRL_START_CMD(0);
+> 
+>>> +    writel_relaxed(val, csid->base + CSID_RDI_CTRL(rdi));
+>>> +}
+>>> +
+>>> +static void __csid_configure_top(struct csid_device *csid)
+>>> +{
+>>> +    u32 val;
+>>> +
+>>> +    /* CSID "top" is a new function in Titan780.
+>>> +     * CSID can connect to VFE & SFE(Sensor Front End).
+>>> +     * This connection is ontrolled by CSID "top".
+>>> +     * Only enable VFE path in current driver.
+>>> +     */
+>>> +    if (csid->top_base) {
+>>
+>> When is csid->top_base NULL ?
+>>
+>> Its required in your yaml.
+>>
+> 
+> csid->top_base is NULL when it is csid lite, I will add this info in yaml.
+> 
+> 
+>>> +
+>>> +static void csid_configure_stream(struct csid_device *csid, u8 enable)
+>>> +{
+>>> +    u8 i;
+>>> +
+>>> +    /* Loop through all enabled VCs and configure stream for each */
+>>> +    for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+>>> +        if (csid->phy.en_vc & BIT(i)) {
+>>> +            /* Configure CSID "top" */
+>>> +            __csid_configure_top(csid);
+>>> +            __csid_configure_rdi_stream(csid, enable, i);
+>>> +            __csid_configure_rx(csid, &csid->phy, i);
+>>> +            __csid_ctrl_rdi(csid, enable, i);
+>>> +        }
+>>> +}
+>>
+>> I really like this breakdown
+> 
+> Sorry, I don't get it, do you mean you like that configuring the 
+> different block use different functions, and no other meaning?
+> 
+>>> +
+>>> +static int csid_configure_testgen_pattern(struct csid_device *csid, 
+>>> s32 val)
+>>> +{
+>>> +    if (val > 0 && val <= csid->testgen.nmodes)
+>>> +        csid->testgen.mode = val;
+>>
+>> Surely you should just set the val parameter directly ?
+>>
+>> Also why is this a signed integer and how does it get assigned a 
+>> negative value which we need to mitigate against here  >
+> 
+> This was copied from csid-gen2 driver, they are same, so we can move to 
+> common file.
+> 
+> And the val comes from ctrl->val, so I guess this is the reason why this 
+> agrument is signed integer.
+> 
+> struct v4l2_ctrl {
+>      ...
+>      s32 val;
+>      ...
+> };
+> 
+> 
+> 
+>>> +
+>>> +static u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
+>>> +                 unsigned int match_format_idx, u32 match_code)
+>>> +{
+>>> +    switch (sink_code) {
+>>> +    case MEDIA_BUS_FMT_SBGGR10_1X10:
+>>> +    {
+>>> +        u32 src_code[] = {
+>>> +            MEDIA_BUS_FMT_SBGGR10_1X10,
+>>> +            MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
+>>> +        };
+>>> +
+>>> +        return csid_find_code(src_code, ARRAY_SIZE(src_code),
+>>> +                      match_format_idx, match_code);
+>>> +    }
+>>> +    case MEDIA_BUS_FMT_Y10_1X10:
+>>> +    {
+>>> +        u32 src_code[] = {
+>>> +            MEDIA_BUS_FMT_Y10_1X10,
+>>> +            MEDIA_BUS_FMT_Y10_2X8_PADHI_LE,
+>>> +        };
+>>> +
+>>> +        return csid_find_code(src_code, ARRAY_SIZE(src_code),
+>>> +                      match_format_idx, match_code);
+>>> +    }
+>>> +    default:
+>>> +        if (match_format_idx > 0)
+>>> +            return 0;
+>>> +
+>>> +        return sink_code;
+>>> +    }
+>>> +}
+>>
+>> Same code as in gen2.
+>>
+>> You could move the gen2 version of this into camss-csid.c and just 
+>> reuse in both.
+>>
+> 
+> Sure, it is same with the comments in vfe driver, I will try to move 
+> same code to camss-csid.c
+> 
+> Thanks,
+> Depeng
 
 Thanks,
 Depeng
-
 
