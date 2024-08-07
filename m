@@ -1,74 +1,36 @@
-Return-Path: <linux-media+bounces-15914-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15915-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8315394A36C
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 10:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B1494A383
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 11:00:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 117C71F23851
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 08:52:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E92441F263C0
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 09:00:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D021E495;
-	Wed,  7 Aug 2024 08:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qTb4hGkM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1ED41C9DDE;
+	Wed,  7 Aug 2024 09:00:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0484523D7
-	for <linux-media@vger.kernel.org>; Wed,  7 Aug 2024 08:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793F51A288
+	for <linux-media@vger.kernel.org>; Wed,  7 Aug 2024 09:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723020738; cv=none; b=n9426cmZ4bW2oakuTQJropWJL6ZaWM76qlfnixN2/JhBoYnMXPjOb2RTRIPfLBUYrFowq1WosWAH7JlZ7EOGr6Ft/M6FHhFUZ9hLCZDHHV6VIJpPLYCaVj/M+XlFYrWqVcySVPafV++FLuQ2wzd7FcOfizdGuZA1wQ88fqJyKJE=
+	t=1723021231; cv=none; b=CRDHVkGV2DC7TJwfnFhJBdIhZaicCtNRtec07Xbut5F2bxG7dcOV2H2/4C4+hGumegFnyUKtHFa07ZrGpyYS60aHzCLDLrUYmTRro8aBGoTZQwIyrSnkytMHaH1MlnCO1PnNn/3DemPUOD29ONYGPN8Nm7DnJMUNWSpkqGuYNxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723020738; c=relaxed/simple;
-	bh=rMlZ9HpgohB8/wFRZuMYNu5YaQj/bAormLjfa85I+Lk=;
+	s=arc-20240116; t=1723021231; c=relaxed/simple;
+	bh=zAi973+KM7bZ6e47Fq1wmYDMz63OoVaOFPnTFTtIHhI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=THF0px18tzOSbQ2ZNpeaI+frQo2Ezv9AT8YJEUDKYzOplaUZcjzqpoYMdot/FRiyEd11c1MnTYQB5rkThBAXoUMZ8Y+hasDFtusAyMpw8MXTcXPoD7c8AvRNnAMzd90KpkyftHuf7N9bvo4RU1VyUjew6tmXF7htqvFWtB1xiKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qTb4hGkM; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52efa98b11eso231842e87.2
-        for <linux-media@vger.kernel.org>; Wed, 07 Aug 2024 01:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723020735; x=1723625535; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L6nzWD4LC/2kwSUfdaDEIRQUBjJCqhcP8ZdqhvdOUkc=;
-        b=qTb4hGkMfp8WGLZxrxKlZdOst0cAG9JDnUZR1oYCcjp5RuvDu7ALGqer3/ajIRclFe
-         ZxQTdmJILuSXVaBPidydkJ9ZcP2A/3O7uIyBkYtKKPqk4vF1SqCdBzFRGxyenn0/1l5g
-         Pzcb63UMyw9eSEQvA9dLC5MbLToqMrIWx9naGWuW8xrK9nrGLmWFVTOQ9pEy2Ac2BP2L
-         Rr05CgeF3qjRdt8GVayEcbTF3AIlimmJvuZTFCcsCq1V6RNK3Pzth2pxXQiGNGYfyNoc
-         1ieceVkcNOhB+yWWRBIeFZG1+ddup53YhN8AiUeFoP6sK7/469aJ7iVBSbzu77CheT2J
-         /mvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723020735; x=1723625535;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L6nzWD4LC/2kwSUfdaDEIRQUBjJCqhcP8ZdqhvdOUkc=;
-        b=ga+ltvl3yNpiqCff0eVhqMJ0WHqjxr7fm7gGyHvUYj6CmXBuWVCMgCItPoFD81mcUM
-         HkzP8UFvWw7epE0brs3hOKwuyIGp5WNCTk3bc0yApgvl3+cL5ECUCChhAvu3VJbfOeEs
-         OKHL123b0rLjDymh4Y/4hnPE6KFEFaE8aq4MbdAVQrkrieUakYuFAg9li/WDNMMKTTPB
-         fecUpMHDBOn1szNmrwv2sQPJgorejS0Ac3TI51maXbfL60gVPvvWY8AgUC0MM7sD+EUM
-         m9wnOOn05CA0/KLe7amp3zi43g23yB9DrIfJ+0PWSQFnXV4H18yaEf4egbptIxHd5Zmf
-         skVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWsGCkurUe/VgtnkT1X2eT9oil/i9hmzFUDE+iyN3cM5IaZDF69reD4MW7yK1VcWsG+cdXIV6QSUvKIWSnhqEXThol+FbNSbzcGnuw=
-X-Gm-Message-State: AOJu0YxvZKhB2z8qCFIDukioSk5bhQHCp1QxPz3sY0lraAcG11dOE5hc
-	FJjRecoMQkORNGKCDxs9v9r/ZCZNJqwoZxmauKJ65Fn9/kvCnDppGuPsEuz1ptg=
-X-Google-Smtp-Source: AGHT+IFHKwlab4m/ltnYCM+v93PHhmKzU45rQdprv7inoqGN+n68H/nvWo+dzq3VLI7Rh6hK3ePQxQ==
-X-Received: by 2002:a05:6512:3e12:b0:530:baec:3975 with SMTP id 2adb3069b0e04-530bb3656d3mr6639294e87.1.1723020735033;
-        Wed, 07 Aug 2024 01:52:15 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-530de4833fdsm169265e87.304.2024.08.07.01.52.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Aug 2024 01:52:14 -0700 (PDT)
-Message-ID: <f8247193-c066-462e-a2cd-488fe8b36ff5@linaro.org>
-Date: Wed, 7 Aug 2024 11:52:13 +0300
+	 In-Reply-To:Content-Type; b=ZhKvq7k/ZAM3OBIt2jmuOngkQBDxSei3oCjrlAAkV36r8I4dFzNVblS+69I5DluL6IVnXEfkH/jtJZZiqyuLScNB1avFvtP1pJ11sDvMGwyionj1DfdS1IZ6jEjhzo/PGbgmDvTGfcbp6vWHvrzIQTuQvikWCoLwNw9DjweYqjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C786C32782;
+	Wed,  7 Aug 2024 09:00:30 +0000 (UTC)
+Message-ID: <b337bb35-2cdc-435c-9289-ca4fef521390@xs4all.nl>
+Date: Wed, 7 Aug 2024 11:00:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,180 +38,312 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: fix error path on configuration of
- power domains
-Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Robert Foss <rfoss@kernel.org>
-Cc: Todor Tomov <todor.too@gmail.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240806221204.1560258-1-vladimir.zapolskiy@linaro.org>
- <bb8398a7-3661-437e-8173-09117aedab16@linaro.org>
- <a2bb7c94-351d-49d2-b1df-961902243116@linaro.org>
- <60408fc6-29c0-40ab-91f6-79b93889e525@linaro.org>
- <2deeeab3-189f-41cd-bee8-3dba197cd0cc@linaro.org>
- <c7dac913-c91f-4780-ae81-804b5506f9cb@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <c7dac913-c91f-4780-ae81-804b5506f9cb@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3 2/2] v4l2-ctl-vidcap: Add option to enumerate all pixel
+ formats
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org
+References: <20240731125108.38407-1-benjamin.gaignard@collabora.com>
+ <20240731125108.38407-3-benjamin.gaignard@collabora.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20240731125108.38407-3-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/7/24 11:39, Bryan O'Donoghue wrote:
-> On 07/08/2024 00:37, Vladimir Zapolskiy wrote:
->> On 8/7/24 02:30, Bryan O'Donoghue wrote:
->>> On 07/08/2024 00:27, Vladimir Zapolskiy wrote:
->>>> Hi Bryan.
->>>>
->>>> On 8/7/24 02:15, Bryan O'Donoghue wrote:
->>>>> On 06/08/2024 23:12, Vladimir Zapolskiy wrote:
->>>>>> There is a chance to meet runtime issues during configuration of CAMSS
->>>>>> power domains, because on the error path dev_pm_domain_detach() is
->>>>>> unexpectedly called with NULL or error pointer.
->>>>>>
->>>>>> Fixes: 23aa4f0cd327 ("media: qcom: camss: Move VFE power-domain
->>>>>> specifics into vfe.c")
->>>>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>>>>
->>>>> Have you tested this with and without named power domains in your dts ?
->>>>> The logic here is complex to support both the legacy non-named case and
->>>>> the updated named required case.
->>>>
->>>> The problem and the fix are pretty straightforward, if you notice any
->>>> issues
->>>> with it, please let me know.
->>>>
->>>> As it's said in the commit description the problem is unrelated to
->>>> named/not named
->>>> power domains, I tested the fix only on a platform without
->>>> "power-domain-names"
->>>> property in camss device tree node.
->>>>
->>>>> Could you also provide a backtrace of a failing camss_configure_pd()
->>>>> for
->>>>> the commit log.
->>>>
->>>> Sure, I believe anyone can get a backtrace simply by disabling camcc at
->>>> build time,
->>>> so that camss power domain supplies disappear:
->>>
->>> Ah OK, that's how, proof positive if its not tested, its not working,
->>> I've extensively tested both named and non-named pds but, yep never with
->>> camcc switched off.
->>>
->>>>
->>>> [   13.541205] Unable to handle kernel NULL pointer dereference at
->>>> virtual address 00000000000001a2
->>>> [   13.550224] Mem abort info:
->>>> [   13.553110]   ESR = 0x0000000096000004
->>>> [   13.556975]   EC = 0x25: DABT (current EL), IL = 32 bits
->>>> [   13.562438]   SET = 0, FnV = 0
->>>> [   13.565580]   EA = 0, S1PTW = 0
->>>> [   13.568813]   FSC = 0x04: level 0 translation fault
->>>> [   13.573824] Data abort info:
->>>> [   13.576787]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->>>> [   13.582424]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->>>> [   13.587614]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->>>> [   13.593074] user pgtable: 4k pages, 48-bit VAs, pgdp=000000088a55a000
->>>> [   13.599693] [00000000000001a2] pgd=0000000000000000,
->>>> p4d=0000000000000000
->>>> [   13.606666] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
->>>> [   13.613104] Modules linked in:
->>>>
->>>> <snip>
->>>>
->>>> [   13.632753] Workqueue: events_unbound deferred_probe_work_func
->>>> [   13.638776] pstate: 23400009 (nzCv daif +PAN -UAO +TCO +DIT -SSBS
->>>> BTYPE=--)
->>>> [   13.645926] pc : dev_pm_domain_detach+0x8/0x48
->>>> [   13.650521] lr : camss_probe+0x374/0x9c0
->>>> [   13.654577] sp : ffff800086ec3ab0
->>>> [   13.657985] x29: ffff800086ec3ab0 x28: ffff8000855079c0 x27:
->>>> ffff800085507000
->>>> [   13.665329] x26: ffff000800c4b040 x25: 0000000000000000 x24:
->>>> ffff00080aa72c20
->>>> [   13.672659] x23: ffff800083060588 x22: ffff000801397010 x21:
->>>> ffff800083060588
->>>> [   13.679989] x20: 00000000ffffff92 x19: ffff00080aa72880 x18:
->>>> ffffffffffffffff
->>>> [   13.687318] x17: 6e6570656420676e x16: 69726f6e6769202c x15:
->>>> 0000000000000000
->>>> [   13.694648] x14: 000000000000003e x13: 0000000000000000 x12:
->>>> 0000000000000000
->>>> [   13.701988] x11: ffff00080b350460 x10: ffff00080b350248 x9 :
->>>> ffff800081ddcde4
->>>> [   13.709318] x8 : ffff00080b350270 x7 : 0000000000000001 x6 :
->>>> 8000003ff0000000
->>>> [   13.716658] x5 : ffff00080149a300 x4 : ffff000a72592b70 x3 :
->>>> 0000000000076404
->>>> [   13.723998] x2 : 0000000000000000 x1 : 0000000000000001 x0 :
->>>> ffffffffffffff92
->>>> [   13.731338] Call trace:
->>>> [   13.733865]  dev_pm_domain_detach+0x8/0x48
->>>> [   13.738081]  platform_probe+0x70/0xf0
->>>> [   13.741864]  really_probe+0xc4/0x2a8
->>>> [   13.745556]  __driver_probe_device+0x80/0x140
->>>> [   13.750045]  driver_probe_device+0x48/0x170
->>>> [   13.754355]  __device_attach_driver+0xc0/0x148
->>>> [   13.758937]  bus_for_each_drv+0x88/0xf0
->>>> [   13.762894]  __device_attach+0xb0/0x1c0
->>>> [   13.766852]  device_initial_probe+0x1c/0x30
->>>> [   13.771165]  bus_probe_device+0xb4/0xc0
->>>> [   13.775124]  deferred_probe_work_func+0x90/0xd0
->>>> [   13.779787]  process_one_work+0x164/0x3e0
->>>> [   13.783920]  worker_thread+0x310/0x420
->>>> [   13.787777]  kthread+0x120/0x130
->>>> [   13.791123]  ret_from_fork+0x10/0x20
->>>> [   13.794821] Code: 828a2cb8 ffff8000 aa1e03e9 d503201f (f9410802)
->>>> [   13.801088] ---[ end trace 0000000000000000 ]---
->>>
->>> I'd be obliged if you could add to your commit log and verify everything
->>> works for you with both named and unnamed power-domains.
->>>
->>
->> No objections to resend the change with an updated commit message, since
->> it raised a question, I can add information about a method how to reproduce
->> the bug.
->>
->> However I would like to know your opinion about the change itself, are
->> there
->> any noticeable issues? Thank you in advance!
->>
->> -- 
->> Best wishes,
->> Vladimir
+On 31/07/2024 14:51, Benjamin Gaignard wrote:
+> Add 'all' option to vidcap --list-formats(-ext) option to use
+> V4L2_FMTDESC_FLAG_ENUM_ALL if supported by the driver.
+> Update functions prototype to provide an additional parameter.
 > 
-> Why not just
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> changes in version 3:
+> - Add 'all' suboption to --list-formats(-ext) options
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c
-> b/drivers/media/platform/qcom/camss/camss.c
-> index 51b1d3550421a..9990af675190c 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -2162,7 +2162,8 @@ static int camss_configure_pd(struct camss *camss)
->           return 0;
+>  utils/common/cv4l-helpers.h         |  5 ++++-
+>  utils/v4l2-ctl/v4l2-ctl-meta.cpp    |  4 ++--
+>  utils/v4l2-ctl/v4l2-ctl-overlay.cpp |  2 +-
+>  utils/v4l2-ctl/v4l2-ctl-sdr.cpp     |  4 ++--
+>  utils/v4l2-ctl/v4l2-ctl-vidcap.cpp  | 25 +++++++++++++++++++------
+>  utils/v4l2-ctl/v4l2-ctl-vidout.cpp  |  4 ++--
+>  utils/v4l2-ctl/v4l2-ctl.cpp         | 16 ++++++++++------
+>  utils/v4l2-ctl/v4l2-ctl.h           |  4 ++--
+>  8 files changed, 42 insertions(+), 22 deletions(-)
 > 
->    fail_pm:
-> -       dev_pm_domain_detach(camss->genpd, true);
-> +       if (camss->genpd)
-> +               dev_pm_domain_detach(camss->genpd, true);
-> 
-> 
-> ?
-> 
+> diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
+> index ec33da78..ab9c64b3 100644
+> --- a/utils/common/cv4l-helpers.h
+> +++ b/utils/common/cv4l-helpers.h
+> @@ -488,7 +488,7 @@ public:
+>  		return cv4l_ioctl(VIDIOC_ENUM_DV_TIMINGS, &timings);
+>  	}
+>  
+> -	int enum_fmt(v4l2_fmtdesc &fmt, bool init = false, int index = 0, unsigned type = 0, __u32 mbus_code = 0)
+> +	int enum_fmt(v4l2_fmtdesc &fmt, bool init = false, int index = 0, unsigned type = 0, __u32 mbus_code = 0, bool enum_all = false)
+>  	{
+>  		if (init) {
+>  			memset(&fmt, 0, sizeof(fmt));
+> @@ -498,6 +498,9 @@ public:
+>  		} else {
+>  			fmt.index++;
+>  		}
+> +		if (enum_all)
+> +			fmt.index |= V4L2_FMTDESC_FLAG_ENUM_ALL;
+> +
+>  		return cv4l_ioctl(VIDIOC_ENUM_FMT, &fmt);
+>  	}
+>  
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> index 6ad56845..a7faf600 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> @@ -121,12 +121,12 @@ void meta_list(cv4l_fd &fd)
+>  {
+>  	if (options[OptListMetaFormats]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats(fd, V4L2_BUF_TYPE_META_CAPTURE, mbus_code);
+> +		print_video_formats(fd, V4L2_BUF_TYPE_META_CAPTURE, mbus_code, false);
+>  	}
+>  
+>  	if (options[OptListMetaOutFormats]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT, mbus_code_out);
+> +		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT, mbus_code_out, false);
+>  	}
+>  }
+>  
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> index 5493222d..797b3f34 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> @@ -522,7 +522,7 @@ void overlay_list(cv4l_fd &fd)
+>  {
+>  	if (options[OptListOverlayFormats]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats(fd, V4L2_BUF_TYPE_VIDEO_OVERLAY, 0);
+> +		print_video_formats(fd, V4L2_BUF_TYPE_VIDEO_OVERLAY, 0, false);
+>  	}
+>  	if (options[OptFindFb])
+>  		find_fb(fd.g_fd());
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp b/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> index 4168eeb1..6f4a012a 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> @@ -122,10 +122,10 @@ void sdr_list(cv4l_fd &fd)
+>  {
+>  	if (options[OptListSdrFormats]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats(fd, V4L2_BUF_TYPE_SDR_CAPTURE, 0);
+> +		print_video_formats(fd, V4L2_BUF_TYPE_SDR_CAPTURE, 0, false);
+>  	}
+>  	if (options[OptListSdrOutFormats]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats(fd, V4L2_BUF_TYPE_SDR_OUTPUT, 0);
+> +		print_video_formats(fd, V4L2_BUF_TYPE_SDR_OUTPUT, 0, false);
+>  	}
+>  }
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> index d593b3b4..63d2b1c7 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> @@ -12,20 +12,25 @@ static __u32 ycbcr, quantization, xfer_func, colorspace;
+>  static __u32 bytesperline[VIDEO_MAX_PLANES];
+>  static __u32 sizeimage[VIDEO_MAX_PLANES];
+>  static unsigned mbus_code;
+> +static bool enum_all;
+>  
+>  void vidcap_usage()
+>  {
+>  	printf("\nVideo Capture Formats options:\n"
+> -	       "  --list-formats [<mbus_code>]\n"
+> +	       "  --list-formats [<mbus_code>],[all]\n"
 
-Because your change is invalid strictly speaking, again you've missed
-an error pointer case, but that's secondary, since it could be improved.
+I think this should be: [<mbus_code>|all]
+since combining the two makes no sense.
 
-However your change brings more of unnecessary complexity, because it
-increases both cyclomatic complexity and increases LoC, when my change
-reduces the values in both these metrics.
+>  	       "		     display supported video formats. <mbus_code> is an optional\n"
+>  	       "		     media bus code, if the device has capability V4L2_CAP_IO_MC\n"
+>  	       "		     then only formats that support this media bus code are listed\n"
+>  	       "		     [VIDIOC_ENUM_FMT]\n"
+> -	       "  --list-formats-ext [<mbus_code>]\n"
+> +	       "		     when 'all' is specify it enumerates all pixel formats if\n"
+> +	       "		     V4L2_FMTDESC_FLAG_ENUM_ALL flag is supported by the driver\n"
 
-My change makes the code way simpler, hopefully I managed to explain it.
+This two lines should go before the "[VIDIOC_ENUM_FMT]" line.
 
---
-Best wishes,
-Vladimir
+> +	       "  --list-formats-ext [<mbus_code>],[all]\n"
+>  	       "		     display supported video formats including frame sizes and intervals\n"
+>  	       "		     <mbus_code> is an optional media bus code, if the device has\n"
+>  	       "		     capability V4L2_CAP_IO_MC then only formats that support this\n"
+>  	       "		     media bus code are listed [VIDIOC_ENUM_FMT]\n"
+> +	       "		     when 'all' is specify it enumerates all pixel formats if\n"
+> +	       "		     V4L2_FMTDESC_FLAG_ENUM_ALL flag is supported by the driver\n"
+
+Ditto. I.e., the help text ends with [VIDIOC_ENUM_FMT] instead of that being in the middle.
+
+>  	       "  --list-framesizes <f>\n"
+>  	       "                     list supported framesizes for pixelformat <f>\n"
+>  	       "                     [VIDIOC_ENUM_FRAMESIZES]\n"
+> @@ -113,8 +118,16 @@ void vidcap_cmd(int ch, char *optarg)
+>  		break;
+>  	case OptListFormats:
+>  	case OptListFormatsExt:
+> -		if (optarg)
+> -			mbus_code = strtoul(optarg, nullptr, 0);
+> +		if (optarg) {
+> +			char *all;
+
+You need to set errno to 0 first, since (according to man strtoul):
+"This function does not modify errno on success."
+
+> +			unsigned code = strtoul(optarg, nullptr, 0);
+> +			if (!errno)
+> +				mbus_code = code;
+> +
+> +			all = strstr(optarg , "all");
+> +			if (all)
+> +				enum_all = true;
+
+I think this can be written as:
+
+			if (strstr(optarg , "all"))
+				enum_all = true;
+			else
+				mbus_code = strtoul(optarg, nullptr, 0);
+
+Much simpler. This assumes that 'all' and mbus_code are mutually exclusive,
+which IMHO they are.
+
+> +		}
+>  		break;
+>  	case OptListFrameSizes:
+>  		be_pixfmt = strlen(optarg) == 7 && !memcmp(optarg + 4, "-BE", 3);
+> @@ -331,12 +344,12 @@ void vidcap_list(cv4l_fd &fd)
+>  {
+>  	if (options[OptListFormats]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats(fd, vidcap_buftype, mbus_code);
+> +		print_video_formats(fd, vidcap_buftype, mbus_code, enum_all);
+>  	}
+>  
+>  	if (options[OptListFormatsExt]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats_ext(fd, vidcap_buftype, mbus_code);
+> +		print_video_formats_ext(fd, vidcap_buftype, mbus_code, enum_all);
+>  	}
+>  
+>  	if (options[OptListFields]) {
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> index 0d06f747..59acddcc 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> @@ -226,12 +226,12 @@ void vidout_list(cv4l_fd &fd)
+>  {
+>  	if (options[OptListOutFormats]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats(fd, vidout_buftype, mbus_code_out);
+> +		print_video_formats(fd, vidout_buftype, mbus_code_out, false);
+>  	}
+>  
+>  	if (options[OptListOutFormatsExt]) {
+>  		printf("ioctl: VIDIOC_ENUM_FMT\n");
+> -		print_video_formats_ext(fd, vidout_buftype, mbus_code_out);
+> +		print_video_formats_ext(fd, vidout_buftype, mbus_code_out, false);
+>  	}
+
+v4l2-ctl-vidout definitely should support the new flag as well.
+And I think v4l2-ctl-meta.cpp as well.
+
+All of those support the mbus_code as well, so it makes sense to add the new
+flag there too.
+
+I can't imagine it being needed for vbi or sdr formats, so it's OK that we
+don't support it for those types.
+
+Regards,
+
+	Hans
+
+>  
+>  	if (options[OptListOutFields]) {
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+> index a64fa514..513ac8b7 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+> @@ -602,7 +602,7 @@ void print_frmival(const struct v4l2_frmivalenum &frmival, const char *prefix)
+>  	}
+>  }
+>  
+> -void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+> +void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code, bool enum_all)
+>  {
+>  	cv4l_disable_trace dt(fd);
+>  	struct v4l2_fmtdesc fmt = {};
+> @@ -611,7 +611,7 @@ void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+>  		mbus_code = 0;
+>  
+>  	printf("\tType: %s\n\n", buftype2s(type).c_str());
+> -	if (fd.enum_fmt(fmt, true, 0, type, mbus_code))
+> +	if (fd.enum_fmt(fmt, true, 0, type, mbus_code, enum_all))
+>  		return;
+>  	do {
+>  		printf("\t[%d]: '%s' (%s", fmt.index, fcc2s(fmt.pixelformat).c_str(),
+> @@ -623,10 +623,10 @@ void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+>  			printf(", %s", fmtdesc2s(fmt.flags, is_hsv).c_str());
+>  		}
+>  		printf(")\n");
+> -	} while (!fd.enum_fmt(fmt));
+> +	} while (!fd.enum_fmt(fmt, false, 0, type, mbus_code, enum_all));
+>  }
+>  
+> -void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+> +void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code, bool enum_all)
+>  {
+>  	cv4l_disable_trace dt(fd);
+>  	struct v4l2_fmtdesc fmt = {};
+> @@ -637,7 +637,7 @@ void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+>  		mbus_code = 0;
+>  
+>  	printf("\tType: %s\n\n", buftype2s(type).c_str());
+> -	if (fd.enum_fmt(fmt, true, 0, type, mbus_code))
+> +	if (fd.enum_fmt(fmt, true, 0, type, mbus_code, enum_all))
+>  		return;
+>  	do {
+>  		printf("\t[%d]: '%s' (%s", fmt.index, fcc2s(fmt.pixelformat).c_str(),
+> @@ -649,6 +649,10 @@ void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+>  			printf(", %s", fmtdesc2s(fmt.flags, is_hsv).c_str());
+>  		}
+>  		printf(")\n");
+> +
+> +		if (enum_all)
+> +			continue;
+> +
+>  		if (fd.enum_framesizes(frmsize, fmt.pixelformat))
+>  			continue;
+>  		do {
+> @@ -664,7 +668,7 @@ void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code)
+>  				print_frmival(frmival, "\t\t");
+>  			} while (!fd.enum_frameintervals(frmival));
+>  		} while (!fd.enum_framesizes(frmsize));
+> -	} while (!fd.enum_fmt(fmt));
+> +	} while (!fd.enum_fmt(fmt,false, 0, type, mbus_code, enum_all));
+>  }
+>  
+>  int parse_subopt(char **subs, const char * const *subopts, char **value)
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+> index a1911e80..d8c25da5 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.h
+> +++ b/utils/v4l2-ctl/v4l2-ctl.h
+> @@ -315,8 +315,8 @@ bool valid_pixel_format(int fd, __u32 pixelformat, bool output, bool mplane);
+>  void print_frmsize(const struct v4l2_frmsizeenum &frmsize, const char *prefix);
+>  void print_frmival(const struct v4l2_frmivalenum &frmival, const char *prefix);
+>  void printfmt(int fd, const struct v4l2_format &vfmt);
+> -void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code);
+> -void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code);
+> +void print_video_formats(cv4l_fd &fd, __u32 type, unsigned int mbus_code, bool enum_all);
+> +void print_video_formats_ext(cv4l_fd &fd, __u32 type, unsigned int mbus_code, bool enum_all);
+>  
+>  static inline bool subscribe_event(cv4l_fd &fd, __u32 type)
+>  {
+
 
