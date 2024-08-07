@@ -1,129 +1,173 @@
-Return-Path: <linux-media+bounces-15910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A6C94A31A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 10:43:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A9194A33E
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 10:46:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B0421F248D4
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 08:43:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 547621C226C4
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 08:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69AC51C9DE9;
-	Wed,  7 Aug 2024 08:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKNv2/VU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C3D31C9EBF;
+	Wed,  7 Aug 2024 08:46:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F261C7B8C;
-	Wed,  7 Aug 2024 08:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D373B3A267;
+	Wed,  7 Aug 2024 08:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723020212; cv=none; b=MS7A9vkkz6BRD6HwkWNLGHTNBa6XtYhqKUiKUy3Cxb/SIqUBnh3G6zdE8j/uzH9tDSJO5Oe+zWXwMBmskwK1HI0wtphHj1qGkrWkxt/GehajFSzHcmxm1zN62s4mZpziCkB6+3aUIOEpg7e4YdKEwdHg1V2nyS5/GMAmaSGw+ag=
+	t=1723020384; cv=none; b=chuRMttWyAbnpNVhPARxBm3nwtnmrE7nMCXiKPEYGxrb9Uu8kqzaa4t89fc+MuWwxLpCi+owH1XHDAw2axSxODhcT98OHutFifUP5xTwiPwILrh1TZOA7+3PJ7n8cyvglcfrsMsuPZVJkEf4pPoi6kT6oyoNGjFyPg50HEPrGCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723020212; c=relaxed/simple;
-	bh=/EOajK/oqldQZR0GViVm2V+Iml2wibuEIfyieC++EzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p6GnSGLaJP6vsHvEEsLodGXJZIZx3X/1PlE+vsyloR4LM35AtZv0OciSbkFTJiH3OwnvjeVVdZlCz1O/DRfaZ+7XPy6RVTpkWETIU+ElXoV+GYRtFtonRe/1uYMCoHr0ewDhjPBT8qbPf/B0RsskdGDrvgXxQYsipnMCGWnuSg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKNv2/VU; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723020211; x=1754556211;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/EOajK/oqldQZR0GViVm2V+Iml2wibuEIfyieC++EzQ=;
-  b=JKNv2/VU9b2KKZDIXHkVFOXDMNO/rTwy2hCLvFJGILxk/N8TZhcyrglF
-   5uAzO2KU39y6PmjQQZSGA+oVqzuKVBfhfLQYb4f28h6p3KK5AYSm6HwMd
-   lSmMKhkDVlodV0cpPfZ1yKndaiMdU1XQ1UaPVMCMWRUGcGjuKHhtEChJw
-   YaZ/cNbzvXO1vBfVIICFWNCcRvK1/ZdSpUB8X0Hmxb+cn/GGqJrwsB22K
-   /4SNw4FKUsPvSyWIXUt2f1W0Oh46Npc6P7P1pGVZ/xaDUj8qXrdhCf3vG
-   K58PcXzqptpcH6jZNb1fPfzmeBu8SXR4BOlNurdsmiffghnxjQD+X1jSC
-   g==;
-X-CSE-ConnectionGUID: Y2P0/RbqRau5t6YmGV7MpQ==
-X-CSE-MsgGUID: q4uI6+rPSb2Gsk9+QYaz4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="38586778"
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="38586778"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 01:43:30 -0700
-X-CSE-ConnectionGUID: 8Z5QmtfFR925koO4Az1nRw==
-X-CSE-MsgGUID: jTgxpuPkQ42F+U0DYuYBEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="61671575"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 01:43:28 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E52A711F8A8;
-	Wed,  7 Aug 2024 11:43:24 +0300 (EEST)
-Date: Wed, 7 Aug 2024 08:43:24 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Benjamin Bara <bbara93@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Benjamin Bara <benjamin.bara@skidata.com>
-Subject: Re: [PATCH 2/2] media: i2c: imx290: Check for availability in probe()
-Message-ID: <ZrMzrJlbOpd8V0n9@kekkonen.localdomain>
-References: <20240807-imx290-avail-v1-0-666c130c7601@skidata.com>
- <20240807-imx290-avail-v1-2-666c130c7601@skidata.com>
- <6072611.lOV4Wx5bFT@steina-w>
+	s=arc-20240116; t=1723020384; c=relaxed/simple;
+	bh=GRn1lhuBv7dWgVDIIISU2pr5nJJB5Nl3fhgqXkXs6Po=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=eTHjcMnFCGbBFkURckcTeeTyiXUvAf86vTTDT3P+WrQvdVQEb4c0Mz7ovM7xMvMBt65N0kmtLOJ4gFkrh+E0oW2iX09GUrOJ1V1ySfqzZ5ZM8OpjGrF58F1lNL9n27cPgOxpsVJJUOR62EnInT6shVgFGhpVB7xzHwZRpLLv84o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C3E4C32782;
+	Wed,  7 Aug 2024 08:46:23 +0000 (UTC)
+Message-ID: <9281e270-01a9-434d-b19a-92978cdbdcc5@xs4all.nl>
+Date: Wed, 7 Aug 2024 10:46:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6072611.lOV4Wx5bFT@steina-w>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/3] media: videodev2: Add flag to unconditionally
+ enumerate pixel formats
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com
+References: <20240731093457.29095-1-benjamin.gaignard@collabora.com>
+ <20240731093457.29095-2-benjamin.gaignard@collabora.com>
+ <c9e6ed97-bb42-465a-9bce-797adb44906f@xs4all.nl>
+Content-Language: en-US, nl
+In-Reply-To: <c9e6ed97-bb42-465a-9bce-797adb44906f@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 07/08/2024 10:39, Hans Verkuil wrote:
+> On 31/07/2024 11:34, Benjamin Gaignard wrote:
+>> When the index is ORed with V4L2_FMTDESC_FLAG_ENUM_ALL the
+>> driver clears the flag and enumerate all the possible formats,
+>> ignoring any limitations from the current configuration.
+>> Drivers which do not support this flag yet always return an EINVAL.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> change in version 6:
+>> - Change flag name.
+>> - Improve documentation.
+>>
+>>  .../userspace-api/media/v4l/vidioc-enum-fmt.rst  | 16 +++++++++++++++-
+>>  .../media/videodev2.h.rst.exceptions             |  1 +
+>>  include/uapi/linux/videodev2.h                   |  3 +++
+>>  3 files changed, 19 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> index 3adb3d205531..1112dc9044b2 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+>> @@ -85,7 +85,15 @@ the ``mbus_code`` field is handled differently:
+>>      * - __u32
+>>        - ``index``
+>>        - Number of the format in the enumeration, set by the application.
+>> -	This is in no way related to the ``pixelformat`` field.
+>> +        This is in no way related to the ``pixelformat`` field.
+>> +        When the index is ORed with ``V4L2_FMTDESC_FLAG_ENUM_ALL`` the
+>> +        driver clears the flag and enumerate all the possible formats,
+> 
+> enumerate -> enumerates
+> 
+>> +        ignoring any limitations from the current configuration. Drivers
+>> +        which do not support this flag yet always return an ``EINVAL``
+> 
+> Drop the 'yet'.
+> 
+> But this raises a question: should this flag only be supported by drivers
+> that can actually return different format lists depending on this flag?
+> 
+> Or can it be supported as well by a driver where this makes no difference?
+> 
+> I'm inclined to limit it to drivers that actually can return different
+> results. If nothing else, that will indicate to the application that this
+> is actually possible.
+> 
+> If we agree on that, then that should be documented as well.
 
-On Wed, Aug 07, 2024 at 10:33:51AM +0200, Alexander Stein wrote:
-> Hi Benjamin,
-> 
-> Am Mittwoch, 7. August 2024, 10:10:28 CEST schrieb Benjamin Bara:
-> > Currently, the V4L2 subdevice is also created when the device is not
-> > available/connected. In this case, dmesg shows the following:
-> > 
-> > [   10.419510] imx290 7-001a: Error writing reg 0x301c: -6
-> > [   10.428981] imx290 7-001a: Error writing reg 0x3020: -6
-> > [   10.442712] imx290 7-001a: Error writing reg 0x3018: -6
-> > [   10.454018] imx290 7-001a: Error writing reg 0x3020: -6
-> > 
-> > which seems to come from imx290_ctrl_update() after the subdev init is
-> > finished. However, as the errors are ignored, the subdev is initialized
-> > but simply does not work. From userspace perspective, there is no
-> > visible difference between a working and not-working subdevice (except
-> > when trying it out or watching for the error message).
-> > 
-> > This commit adds a simple availability check before starting with the
-> > subdev initialization to error out instead.
-> 
-> There is already a patch reading the ID register at [1]. This also reads the
-> ID register. But I don't have any documentation regarding that register,
-> neither address nor values definitions. If there is known information about
-> that I would prefer reading the ID and compare it to expected values.
-> 
-> Best regards,
-> Alexander
-> 
-> [1] https://gitlab.com/ideasonboard/nxp/linux/-/commit/85ce725f1de7c16133bfb92b2ab0d3d84efcdb47
+I also think that this flag makes no sense for drivers that have
+V4L2_CAP_IO_MC set, since in that case the list of returned formats shall
+not depend on the active configuration (see
+https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/vidioc-enum-fmt.html ).
 
-I'd also prefer reading a register and indeed comparing the read value with
-the expected value.
+I think this should be mentioned in the documentation and tested for in the
+compliance test.
 
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+>> +        error code.
+>> +        Formats enumerated when using ``V4L2_FMTDESC_FLAG_ENUM_ALL`` flag
+>> +        shouldn't be used when calling :c:func:`VIDIOC_ENUM_FRAMESIZES`
+>> +        or :c:func:`VIDIOC_ENUM_FRAMEINTERVALS`.
+>>      * - __u32
+>>        - ``type``
+>>        - Type of the data stream, set by the application. Only these types
+>> @@ -234,6 +242,12 @@ the ``mbus_code`` field is handled differently:
+>>  	valid. The buffer consists of ``height`` lines, each having ``width``
+>>  	Data Units of data and the offset (in bytes) between the beginning of
+>>  	each two consecutive lines is ``bytesperline``.
+>> +    * - ``V4L2_FMTDESC_FLAG_ENUM_ALL``
+>> +      - 0x80000000
+>> +      - When the applications ORs ``index`` with ``V4L2_FMTDESC_FLAG_ENUM_ALL`` flag
+>> +        the driver enumerates all the possible pixel formats without taking care
+>> +        of any already set configuration. Drivers which do not support this flag
+>> +        yet, always return ``EINVAL``.
+> 
+> Drop 'yet'
+> 
+>>  
+>>  Return Value
+>>  ============
+>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> index bdc628e8c1d6..0a9ea9686c24 100644
+>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> @@ -216,6 +216,7 @@ replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
+>>  replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
+>>  replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
+>>  replace define V4L2_FMT_FLAG_META_LINE_BASED fmtdesc-flags
+>> +replace define V4L2_FMTDESC_FLAG_ENUM_ALL fmtdesc-flags
+>>  
+>>  # V4L2 timecode types
+>>  replace define V4L2_TC_TYPE_24FPS timecode-type
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 4e91362da6da..421a30cb0c51 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -904,6 +904,9 @@ struct v4l2_fmtdesc {
+>>  #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
+>>  #define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
+>>  
+>> +/*  Format description flag, to be ORed with the index */
+>> +#define V4L2_FMTDESC_FLAG_ENUM_ALL		0x80000000
+>> +
+>>  	/* Frame Size and frame rate enumeration */
+>>  /*
+>>   *	F R A M E   S I Z E   E N U M E R A T I O N
+> 
+> Regards,
+> 
+> 	Hans
+> 
+
 
