@@ -1,173 +1,186 @@
-Return-Path: <linux-media+bounces-15930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15932-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA76794A85A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 15:09:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8092094A86D
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 15:16:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D2B91F21A67
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 13:09:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A35931C2304B
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 13:16:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D0081E7A22;
-	Wed,  7 Aug 2024 13:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.dufresne@collabora.com header.b="UqwX/xls"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0E21E7A47;
+	Wed,  7 Aug 2024 13:16:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E313155C83;
-	Wed,  7 Aug 2024 13:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723036157; cv=pass; b=iqx/p7wdFbX7UjhJDFHp5EFu+CSpUbkoamfXY6e12+pbxziBVpCOHYuVb+2gFDxhc7fQU1d3gYoyu4gQKUzVcgmVCP+R4mpQzbw0VxC3IN1raMlhBsUN8MKbdk2ycs2fVzbllylLSyqDnaooUMgj25zamD29d8VwNopRhr5pRtI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723036157; c=relaxed/simple;
-	bh=zwClFYRT7EBI1S6KyLWKQbsZyLnSRihHjgOGjbwCjuQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RqZplV280I32Y5kOiVaTznBZbdTvvGF1mFHZaqO33qNKuhqrCdqOcK7ampEsyxmF7cKomnABZY/AAQbgJ63qSIGUWtxmz+5HUSVRA8ekFxjN7tyNfytK/C2H53hnmOiLGVLra2TLzi3mqbGKxJ9508e9LM3RTqKBOJxDYF1vO84=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.dufresne@collabora.com header.b=UqwX/xls; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Delivered-To: nfraprado@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723036142; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=cCEvUedM8DBzYhd7+dWhV1X1QXTtfWA5kOy9TZptiz069HnKin63ZlhP2wL/igLLFVHbJMa1gVBe3WxrkeZ6hkj1JSFM2A4xU5rboazKmxP25OlqqUqr1dJEStIA9IEK3e9jSdxh3iMIGO61+Ac90NkM4rSbZoUY7KcJAjXAe8M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1723036142; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=b31lzuqk+NEUR5lPB03lOlP/KpJzHFymO7PF1OSOIos=; 
-	b=cs1fOf70MwoOlFjm8WiY0ZZLEUmWnlEcAes3EVjYYEgKSQglrSAyeavabN69mvIVyWnTmdxr8eS4p8rYYXfz11gTdZYafIvOPIUuJNE1DSAF4eyMwY2uoZY7FInmpExUdNPfSB4RmZun9tEtzxce3OJCaneBe6zWo9rWDNXXyXw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.dufresne@collabora.com;
-	dmarc=pass header.from=<nicolas.dufresne@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723036142;
-	s=zohomail; d=collabora.com; i=nicolas.dufresne@collabora.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=b31lzuqk+NEUR5lPB03lOlP/KpJzHFymO7PF1OSOIos=;
-	b=UqwX/xlshjRtYJ3PwgfnQ1waRWhsqIlo9HmyDEaJqQfky2TW1VZ9AHcDtJQ9YkYD
-	ec17ijB7hYJ64eoaUNCiLFBC+B7mrCoLZPR9eillRP70eoQP+uHDDDhSD5WeJhlJEaD
-	JBzVXzK4NQsqRh+tEL9h9zgpuskfawBDGsmoXc3g=
-Received: by mx.zohomail.com with SMTPS id 1723036140967275.53857334940585;
-	Wed, 7 Aug 2024 06:09:00 -0700 (PDT)
-Message-ID: <be4baa6313d16ed52245347d866dd878049a12a0.camel@collabora.com>
-Subject: Re: [PATCH v4 0/7] media: mediatek: vcodec: fix
- v4l2_ctrl_request_complete fail
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, =?ISO-8859-1?Q?N=EDcolas?= "F .
- R . A . Prado" <nfraprado@collabora.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, Nathan Hebert
- <nhebert@chromium.org>,  Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig
- <frkoenig@chromium.org>,  Daniel Vetter <daniel@ffwll.ch>, Steve Cho
- <stevecho@chromium.org>, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com
-Date: Wed, 07 Aug 2024 09:08:58 -0400
-In-Reply-To: <20240807082444.21280-1-yunfei.dong@mediatek.com>
-References: <20240807082444.21280-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3 (3.52.3-1.fc40) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0D81CCB32;
+	Wed,  7 Aug 2024 13:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723036575; cv=none; b=Uv08iSVi0w6MRNvZgu8rxTp7UEDcUWk75+NyzwtveeXkSNujN4XzzXrO33XD5nAo5nCCK3yDFPSUn7b88iDFEJU56tiWD9HBKYu+jZiVjvMBXff5lYwP2tTtqlNPq8jMI8dLKr+/01tTFHmfyALECzWQep+S4/gYkTMajz4CkKg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723036575; c=relaxed/simple;
+	bh=2b7UoVMEw/2iOgIvuoItCcPxYLZdnKLMOVS23cbv/yI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UnXURKCPJm2hC1GIoENEYxcgNDK4z4Mk/MR/rolkL2sUreBVGwfGUHsOEgjMcTRqR2i1jm4ra5dJkzEg2ARFoCWn/oaX1DwFsFxl6pUuEmgDwa/JRYzlanco+jHTPdICn83Q3PhmAr+TrKzzm4PwNdPi4D+9zcjMkn5p6TMIru0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D790C32782;
+	Wed,  7 Aug 2024 13:16:11 +0000 (UTC)
+Message-ID: <05f900b2-1a94-41ed-b365-65b83b58d329@xs4all.nl>
+Date: Wed, 7 Aug 2024 15:16:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] media: use 'time_left' instead of 'timeout' with
+ wait_*() functions
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-media@vger.kernel.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andrey Utkin <andrey_utkin@fastmail.com>, Benoit Parrot <bparrot@ti.com>,
+ Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Dmitry Osipenko
+ <digetx@gmail.com>, Eugen Hristev <eugen.hristev@collabora.com>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Ismael Luceno <ismael@iodev.co.uk>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <20240805215123.3528-1-wsa+renesas@sang-engineering.com>
+ <2f3f3b80-65a6-40b6-9450-41e1313167f0@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <2f3f3b80-65a6-40b6-9450-41e1313167f0@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Yunfei,
+On 07/08/2024 15:08, Hans Verkuil wrote:
+> Hi Wolfram,
+> 
+> On 05/08/2024 23:51, Wolfram Sang wrote:
+>> Changes since v1:
+>> * fixed another occasion in the allegro driver (Thanks, Michael)
+>> * added tags (Thanks Ismael and Thierry)
+>> * rebased to 6.11-rc1
+> 
+> Can you resend this series? This patch series wasn't picked up by our patchwork,
+> probably due to a full filesystem.
 
-Le mercredi 07 ao=C3=BBt 2024 =C3=A0 16:24 +0800, Yunfei Dong a =C3=A9crit=
-=C2=A0:
-> v4l2_m2m_buf_done is called in lat work queue, v4l2_ctrl_request_complete
-> is called in core queue. The request status of output queue will be set t=
-o
-> MEDIA_REQUEST_STATE_COMPLETE when v4l2_m2m_buf_done is called, leading to
-> output queue request complete fail. Must move v4l2_ctrl_request_complete
-> in front of v4l2_m2m_buf_done.
+Actually, it's better to wait a bit: I now see that patchwork hasn't accepted new
+patches since August 5th, so until that is fixed, there is no point in resending...
 
-Sebastian and I have analyzed further the issue and the description here do=
-es
-not seem to match. What happens is that in Stateless decoding, you have to =
-set
-header controls out-of-request to negotiate the format at first.
+I'll let you know when it is OK again.
 
-With VP9 notably, the header control is the only control there is. Chromium=
- will
-optimize out this and only attach a bitstream buffer to the request. So whe=
-n the
-buffer is mark to done, it is the last object in the request, which implici=
-tly
-mark the request as complete.
+> Apologies for the inconvenience.
 
-When v4l2_ctrl_request_complete() is later called, the control code detect =
-that
-there is no controls in the request. It then creates an empty control, but
-attaching an object to a completed request is not allowed.
+Even more apologies,
 
->=20
-> Patch 1 setting request complete before buffer done
-> Patch 2 change flush decode order when stream off
-> Patch 3 flush decoder before stream off
-> Patch 4 using input information to get vb2 buffer
-> Patch 5 store source vb2 buffer
-> Patch 6 replace v4l2_m2m_next_src_buf with v4l2_m2m_src_buf_remove
-> Patch 7 remove media request checking
+	Hans
 
-I will give a some testing soon. Can you clarify on if the LAT and the CORE
-still runs in parallel after this change ?
-
-Nicolas
-
->=20
-> ---
-> compared with v3:
-> - fix flush decoder issue when userspace stream off capture queue firstly
-> - fluster test result same with v3
->=20
-> compared with v2:
-> - add patch 5/6/7 to fix decode again issue
-> - add fluster test result with mt8195 platform(same with no changed):
->   1> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0 -j1 -t 90
->      VP8-TEST-VECTORS 59/61
->   2> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0 -j1 -t 90
->      VP9-TEST-VECTORS 276/305
->   3> ./fluster.py run -d GStreamer-AV1-V4L2SL-Gst1.0 -j1 -t 90
->      AV1-TEST-VECTORS 237/239
->   4> ./fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -j1 -t 90
->      JVT-AVC_V1       95/135
->   5> ./fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -j1 -t 90
->      JCT-VC-HEVC_V1   142/147
->=20
-> compared with v1:
-> - add patch 2/3/4 to fix timing issue.
-> ---
-> Yunfei Dong (7):
->   media: mediatek: vcodec: setting request complete before buffer done
->   media: mediatek: vcodec: change flush decode order when stream off
->   media: mediatek: vcodec: flush decoder before stream off
->   media: mediatek: vcodec: using input information to get vb2 buffer
->   media: mediatek: vcodec: store source vb2 buffer
->   media: mediatek: vcodec: replace v4l2_m2m_next_src_buf with
->     v4l2_m2m_src_buf_remove
->   media: mediatek: vcodec: remove media request checking
->=20
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 44 ++++++++---------
->  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  4 +-
->  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 48 ++++++++++++++-----
->  .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 18 +++----
->  .../decoder/vdec/vdec_h264_req_multi_if.c     |  4 +-
->  .../decoder/vdec/vdec_hevc_req_multi_if.c     |  4 +-
->  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 19 ++++----
->  .../mediatek/vcodec/decoder/vdec_msg_queue.h  |  4 +-
->  8 files changed, 85 insertions(+), 60 deletions(-)
->=20
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>> There is a confusing pattern in the kernel to use a variable named 'timeout' to
+>> store the result of wait_*() functions causing patterns like:
+>>
+>>         timeout = wait_for_completion_timeout(...)
+>>         if (!timeout) return -ETIMEDOUT;
+>>
+>> with all kinds of permutations. Use 'time_left' as a variable to make the code
+>> obvious and self explaining. Also correct the type of the variable if
+>> the original code got it wrong.
+>>
+>> This is part of a tree-wide series. The rest of the patches can be found here:
+>>
+>> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/time_left
+>>
+>> Because these patches are generated, I audit them before sending. This is why I
+>> will send series step by step. Build bot is happy with these patches, though.
+>> No functional changes intended.
+>>
+>>
+>> Wolfram Sang (8):
+>>   media: allegro: use 'time_left' variable with
+>>     wait_for_completion_timeout()
+>>   media: atmel-isi: use 'time_left' variable with
+>>     wait_for_completion_timeout()
+>>   media: bdisp: use 'time_left' variable with wait_event_timeout()
+>>   media: fimc-is: use 'time_left' variable with wait_event_timeout()
+>>   media: platform: exynos-gsc: use 'time_left' variable with
+>>     wait_event_timeout()
+>>   media: solo6x10: use 'time_left' variable with
+>>     wait_for_completion_timeout()
+>>   media: tegra-vde: use 'time_left' variable with
+>>     wait_for_completion_interruptible_timeout()
+>>   media: ti: cal: use 'time_left' variable with wait_event_timeout()
+>>
+>>  drivers/media/pci/solo6x10/solo6x10-p2m.c     |  8 +++----
+>>  .../media/platform/allegro-dvt/allegro-core.c | 24 +++++++++----------
+>>  drivers/media/platform/atmel/atmel-isi.c      |  8 +++----
+>>  .../media/platform/nvidia/tegra-vde/h264.c    | 10 ++++----
+>>  .../platform/samsung/exynos-gsc/gsc-core.c    | 10 ++++----
+>>  .../platform/samsung/exynos4-is/fimc-core.c   | 10 ++++----
+>>  .../media/platform/st/sti/bdisp/bdisp-v4l2.c  | 10 ++++----
+>>  drivers/media/platform/ti/cal/cal.c           |  8 +++----
+>>  8 files changed, 44 insertions(+), 44 deletions(-)
+>>
+> 
+> 
 
 
