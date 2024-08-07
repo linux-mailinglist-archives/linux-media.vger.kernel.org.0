@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-15888-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15889-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1D9949F91
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 08:04:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3B6949FC8
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 08:24:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BACB1C21800
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 06:04:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 897CA28624A
+	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 06:24:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB717198E9F;
-	Wed,  7 Aug 2024 06:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34F6F1B32AE;
+	Wed,  7 Aug 2024 06:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BFShzZMc"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="MttVHUsw"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7405C198E78;
-	Wed,  7 Aug 2024 06:04:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88AF1B140E;
+	Wed,  7 Aug 2024 06:24:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723010652; cv=none; b=dGneq4mtfKBei6mnmVCezwKnz+waG+wQsxXSEehN50tl9MCcPwb4KzcDDTvZXIlHU3OkiuYncimIlRAynF/xev3NcYJYr/Vh8tlsQ59C0p9uHjnrbL7PqlsIad054/Mnjp5SvueFSmdWe2zJhz9gWcROttpZER5qfNvTcYe+YUI=
+	t=1723011861; cv=none; b=cOWCNzFDYFv9ADHa2MUU7sO3G+Cpq8JEXmx8yhF6yZ/avWyueZji8SAvNVyOZuaBtoJt5I6C/IXBNPUQwALaVRPW5GBkFBU2gKLnUkllkb7AmXtI4lkDYdkedf4K08BsaYGYjmoHx1PyWy2nycbS7W2hcZATBBRDG0HMrj+0h8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723010652; c=relaxed/simple;
-	bh=jNT1Y6lkQc4Itm2Teu1Kw6JqtRSBVkYw1kHk30Bs1Bs=;
+	s=arc-20240116; t=1723011861; c=relaxed/simple;
+	bh=qYL1jdUFmUofOJhUNwRtcnZ1ZDkikdXKOxyp7AkVQtE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NKuwjBS7lIN8Wh+cixkvUQNk3xE+mPF4/rh6/TkuwnsJZxnRClPVgHMnub2gAT8sHx1IcT3LdUv7R5KQRE+ZOZFYBihqVinyBocUmrx+3bwSe2O/DwTiocCuUmDEWSLK1EMc8MyYLFyoKWPj+WUxViXBUctpG7COy7F1UgS/q88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BFShzZMc; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=DN95zlYtTAdciIUOOAPVwyA2tW/fzckmaaQIyeD2rrZW0tzYdfLekO23HZmGQ3yIdsXofmNbtqdJO4GFLF7ArSaU+5h3CRg3X0fmnCxvZcln/Yz14JLA7IT1kRaX+4H+Hv4JlgqaHO2qwh0tyAs6gvHrnCxAT57axJif12KQ9sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=MttVHUsw; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 476H6Ph2026262;
-	Wed, 7 Aug 2024 06:04:05 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 476H6Pis026262;
+	Wed, 7 Aug 2024 06:24:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vOubQWXsTtp8bu2FyujNtbnj+HXnWyPU6bPLihb7ccA=; b=BFShzZMc2Pp/Dnki
-	xP/9yZgCzGaNUX1rZqJI9Ki0oSKmMBddcNe48hzpAA5MbhdIWx+Ms32B8D1CRw7U
-	fqyads6z47RbNgXjI9YKhrmua4al/U3hfMDMpDxF0bvBSEv7LO3oe0jATiHah20a
-	wJSc3YRWvhkKNlmRnMB8+33Ro7QSVd7XXVxTr2SkRO3aM6+v7MuREG0VUMcFBdWj
-	ke99HVpW35hGldGg8s6gGfJM3szQ7YJrG6Icdr7FhCaUqmd9bIUPqjZB85qqow+U
-	s7KmGGoiDbyW8FfLUG8n7WVl9j+SpgOMNVREFRw0bCE0NBo6ZlRIlWLaYEsD2sg6
-	saOcTQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40tuhvxbxu-1
+	9s79fAKYiUlsCZo3uE1MmEk6PCJRg+7oFdxceWMbMqw=; b=MttVHUswSwJ0ur/u
+	JlGLA/TOlRd9BCA56Zcvr/5q8zrrpByx6PsMknzMgZ+s+8w1I1006lDWea0ZwxdG
+	EmHmzxYwGeKvtH37sPrGzLHfkWELoOHIFdwzFisZtcO1uxWESMU4tS0sTRDcnUgK
+	lnrhrhryi33bum0w8LhyvQzzpNqLOvOscnNdY9fAOU58hqKgQcTHIbFej7h+fSMd
+	8EV5eACnxIS+0RAB27nOvYOMarAIC01X3sDcBKZRJsPuttkwBVRtG5OOoKuuf4D3
+	Vg/ZnWEV7oeA6MKSl7YbGuMTtuwsI86LspCr7waSOt/K++D1H83y5id7/iA5vrzV
+	gjTsLA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40tuhvxdfx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 07 Aug 2024 06:04:05 +0000 (GMT)
+	Wed, 07 Aug 2024 06:24:15 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 477644kW002816
+	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 4776ODjf024968
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 7 Aug 2024 06:04:04 GMT
+	Wed, 7 Aug 2024 06:24:13 GMT
 Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 6 Aug 2024
- 23:03:58 -0700
-Message-ID: <dcac7a86-0f58-4882-bd3c-b139cccd18f7@quicinc.com>
-Date: Wed, 7 Aug 2024 14:03:55 +0800
+ 23:24:08 -0700
+Message-ID: <ddfe9789-2747-461b-86bf-ba751f51d918@quicinc.com>
+Date: Wed, 7 Aug 2024 14:24:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,69 +65,65 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Krzysztof Kozlowski <krzk@kernel.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+Subject: Re: [PATCH v1 0/2] Add sm8550 CAMSS core dtsi
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <andersson@kernel.org>, <konrad.dybcio@linaro.org>
+        <andersson@kernel.org>
 CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
+        <kernel@quicinc.com>
 References: <20240807053400.1916581-1-quic_depengs@quicinc.com>
- <20240807053400.1916581-2-quic_depengs@quicinc.com>
- <8bd860af-02dd-44fd-b5fc-dc37ef4b79eb@kernel.org>
 Content-Language: en-US
 From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <8bd860af-02dd-44fd-b5fc-dc37ef4b79eb@kernel.org>
+In-Reply-To: <20240807053400.1916581-1-quic_depengs@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: rHxM5muz5pirKzPu2u5BYmeYiWuZOZMX
-X-Proofpoint-GUID: rHxM5muz5pirKzPu2u5BYmeYiWuZOZMX
+X-Proofpoint-ORIG-GUID: 4mrN3EEgpWL8lp2LXf17jvACK9Lg-emr
+X-Proofpoint-GUID: 4mrN3EEgpWL8lp2LXf17jvACK9Lg-emr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-08-07_03,2024-08-06_01,2024-05-17_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 spamscore=0 mlxlogscore=913 phishscore=0 clxscore=1015
+ priorityscore=1501 spamscore=0 mlxlogscore=666 phishscore=0 clxscore=1015
  suspectscore=0 adultscore=0 mlxscore=0 malwarescore=0 bulkscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2407110000 definitions=main-2408070039
+ engine=8.19.0-2407110000 definitions=main-2408070041
 
 
 
-On 8/7/2024 1:52 PM, Krzysztof Kozlowski wrote:
-> On 07/08/2024 07:33, Depeng Shao wrote:
->> Add bindings for qcom,sm8550-camss in order to support the camera
->> subsystem for sm8550.
->>
->> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
->> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
->> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+On 8/7/2024 1:33 PM, Depeng Shao wrote:
+> The sm8550 provides Camera SubSystem hardware interface similar to
+> antecedent parts sdm845 and sm8250, but different interrupt lines,
+> clocks and other resources are declared.
 > 
-> Why are you duplicating the bindings? This was already sent and was
-> reviewed. Asking us to review the same thing twice is WASTE of time.
+> This dtsi definition has been developed and validated on a AIM300 AIoT
+> board, the description for this board can be found from below link.
+> https://lore.kernel.org/lkml/20240618072202.2516025-1-quic_tengfan@quicinc.com/
 > 
+> The driver can be found from below link.
+> https://lore.kernel.org/all/20240709160656.31146-1-quic_depengs@quicinc.com/
+> 
+> Depeng Shao (2):
+>    dt-bindings: media: camss: Add qcom,sm8550-camss binding
+>    arm64: dts: qcom: sm8550: camss: Add CAMSS block definition
+> 
+>   .../bindings/media/qcom,sm8550-camss.yaml     | 517 ++++++++++++++++++
+>   arch/arm64/boot/dts/qcom/sm8550.dtsi          | 199 +++++++
+>   2 files changed, 716 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
+> 
+> 
+> base-commit: d4560686726f7a357922f300fc81f5964be8df04
 
-Hi Krzysztof,
 
-I refer to the patches for sc8280xp, since I see the drivers and dtsi 
-patches both have bindings, so I do the same, will resend the patch to 
-drop the bindings in this change.
+Hi All,
 
-https://lore.kernel.org/all/20240222-b4-camss-sc8280xp-v6-0-0e0e6a2f8962@linaro.org/
-
-https://lore.kernel.org/all/20240109-linux-next-24-01-02-sc8280xp-camss-core-dtsi-v3-0-b8e3a74a6e6a@linaro.org/
-
-
-And, I also made a mistake when sending this series, I lost a 'l' for 
-linux-media@vger.kernel.org, and also need to remove 
-konrad.dybcio@linaro.ory, since I got a mail which said "Konrad Dybcio 
-no longer works for Linaro".
-
+Sorry to disturb you, please ignore this series, I will resend the dtsi 
+patch and drop the bindings patch in this series.
 
 Thanks,
 Depeng
