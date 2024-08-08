@@ -1,153 +1,185 @@
-Return-Path: <linux-media+bounces-15983-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15984-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613BE94BA7B
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 12:05:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAD794BABE
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 12:20:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83BCA1C20A6D
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 10:05:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 743FAB217AD
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 10:20:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7AF91487C3;
-	Thu,  8 Aug 2024 10:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEDA018A6B3;
+	Thu,  8 Aug 2024 10:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WTd2e0PH"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="TnbCJxX4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8C41482E9;
-	Thu,  8 Aug 2024 10:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E36189BBE
+	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 10:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723111545; cv=none; b=IDgjX/CNU6s/5s7pzY5Dw8PdBJCqqzZizu+kDMwrdST2VfY710CRUqKxLL/XObkCK3/SOHNsJdrtDMyAVjO4RRTgWglzUxDqPWhTKthFe9DLRcEo+xEmZ4CcXm0c0x/WAnPyl1re3lMi53IraO1bSxT43RN+2eGXi/ajbFBsN9I=
+	t=1723112414; cv=none; b=lBcCzi7arraDduR+PL18yxUkloyPX/996Q8HxSzR7FNZhQS8IJw5abUK9zRWQr98L1U4DkFR7OWKNPYN4OGL6IRG7lKEj6Bu+5/aKdsbuw1f1Pu8qzKHPvqAyvbhM80zeC7xaywIXw/cXIKhWCa41241BLojTpRZjVsX4Y3yNUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723111545; c=relaxed/simple;
-	bh=Uvx2tBlG6/IiUm8k1WuVBUWE5IPhdyIVCMverGA7nuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=inhQ4I/aDidlTb3NXrmLlpv1f7IK7QlHyKBjy4g9nXAeEJAzBhUqu5bVGenzfTP7AepLvn4aXMumE1RbOsWDYIaWuuEH9P/PjAap6oK1c3vr3fV+lPpBHKdhzZ6EsqqievDijNFyTq21mvA6IFlOfWSueNlqGrIyod603Yb8O90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WTd2e0PH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 770098D0;
-	Thu,  8 Aug 2024 12:04:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723111488;
-	bh=Uvx2tBlG6/IiUm8k1WuVBUWE5IPhdyIVCMverGA7nuQ=;
-	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
-	b=WTd2e0PHXCubNC4snwhlTGEpQP5u8sWQxWKWfuOnoo/0gHFSh4xVBcok7XDWH0K0m
-	 K2WAIe7dbHeQs0cIS6jrktmataQGZ1IhD4UWRJbLUlecAMp9QgS7qIiI3Dunj2lFy8
-	 VLQZFQBTQjxwwpjZolIsEJ3jLonF7+5Wv+lRxYRY=
-Message-ID: <c447b11f-bd68-4449-b182-e3f699619493@ideasonboard.com>
-Date: Thu, 8 Aug 2024 13:05:37 +0300
+	s=arc-20240116; t=1723112414; c=relaxed/simple;
+	bh=UhxD8im38+S9o2RE5MKHC1dJ4++2PGyTJMvp2PywTHg=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=PFkF/ZtSvyUS4Ux0eMploh66F+PLCtkXqafAAK8JIzYLRFap0cWCCW/SXGb9ELGvI5V/gdp5JDVu0FeCj5AoC52QclkDIJEt39IbvEo0j3lYthPPMLvZCPRWNoIoDChyEr4I4LcOz5VkCmP+lnC2Q8vYgoqzX9m/HwETPws30N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=TnbCJxX4; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240808102008epoutp028d1d957403d235aa374f80abdcb1202f~puZspASGO3131931319epoutp02y
+	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 10:20:08 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240808102008epoutp028d1d957403d235aa374f80abdcb1202f~puZspASGO3131931319epoutp02y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1723112408;
+	bh=vSskDQ4p+O3Xzvm1qBN34l6sdSHV2WZ5K4DNo5E16Qs=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=TnbCJxX4QxqQHlOZpsTQedkhdYibIifpbhK9qAdT7gOVdgi2u59xCQvqB9uFYtcty
+	 gm9s6dBjNlF3y8aUy3uTF0sbCbzg6focFMtDzImaIDlwYTEi97heZn07Ly2q6C/U/L
+	 ULJG1SWtJC2LTXj9zd3v6dkI+MzigQq+dy0NKO90=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240808102008epcas5p3e49ca958ff362cd11c2ca01fd4261fa6~puZsMziXj1041910419epcas5p3d;
+	Thu,  8 Aug 2024 10:20:08 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4Wfjj21jm5z4x9Q2; Thu,  8 Aug
+	2024 10:20:06 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9E.D6.09640.6DB94B66; Thu,  8 Aug 2024 19:20:06 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240808101124epcas5p3844c94d3106e6082bf7a91d3e37aef1f~puSEwsnmc0889308893epcas5p3V;
+	Thu,  8 Aug 2024 10:11:24 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240808101124epsmtrp235da5eca8919dc9ef625a0fe276a3e56~puSEvyaxh1894718947epsmtrp2I;
+	Thu,  8 Aug 2024 10:11:24 +0000 (GMT)
+X-AuditID: b6c32a49-aabb8700000025a8-9b-66b49bd60620
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	EC.AD.08456.CC994B66; Thu,  8 Aug 2024 19:11:24 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20240808101122epsmtip21b71e60b704d0fb651bc30a58e0767fc~puSCuDPC_2278622786epsmtip2Q;
+	Thu,  8 Aug 2024 10:11:22 +0000 (GMT)
+From: "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Cc: <m.szyprowski@samsung.com>, <hverkuil-cisco@xs4all.nl>,
+	<robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<conor+dt@kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+	<gost.dev@samsung.com>, <aswani.reddy@samsung.com>,
+	<pankaj.dubey@samsung.com>
+In-Reply-To: <4230387d-0413-4da8-b55a-ac708af05e34@linaro.org>
+Subject: RE: [PATCH V3] dt-bindings: media: s5p-mfc: Remove s5p-mfc.txt
+ binding
+Date: Thu, 8 Aug 2024 15:41:21 +0530
+Message-ID: <04fb01dae97b$52f88980$f8e99c80$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] media: xilinx-tpg: use new of_graph functions
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
- <87a5hqw8kt.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <87a5hqw8kt.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQINSNkawEI3KcSuc3/gK7NSY7HThgItsEw+AxAn8TKxjnWJkA==
+Content-Language: en-in
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCJsWRmVeSWpSXmKPExsWy7bCmlu612VvSDHY/Ybc4tHkru8WaveeY
+	LOYfOcdqcfPATiaLizPvslj0vXjIbLH3NVB20+NrrBaXd81hs+jZsJXVYsb5fUwWa4/cZbdY
+	tPULu0Xr3iPsDnwem1Z1snncubaHzWPzknqPvi2rGD0+b5LzOPX1M3sAW1S2TUZqYkpqkUJq
+	XnJ+SmZeuq2Sd3C8c7ypmYGhrqGlhbmSQl5ibqqtkotPgK5bZg7QtUoKZYk5pUChgMTiYiV9
+	O5ui/NKSVIWM/OISW6XUgpScApMCveLE3OLSvHS9vNQSK0MDAyNToMKE7Iyf+y4zFnTxVFxe
+	uZepgXE2VxcjJ4eEgInE+vkdjCC2kMBuRokNOxK7GLmA7E+MEgvX7mCGcL4xSjzdsJMdpuPN
+	0kksEIm9jBIn7x5ig3CeM0r8uDAfbBabgL7E/VM9rCAJEYGjjBIPtjwEm8Us0Mkk8e3eZCaQ
+	Kk4BO4kzvfPA5goLBEr8uz8JrJtFQEXiauNNVhCbV8BSonX2RChbUOLkzCcsIDazgLzE9rdz
+	mCFuUpD4+XQZWI2IgJPE4jXnGCFqxCWO/uwBWywhcIFDYvqEVhaIBheJ9+saoR4Slnh1fAuU
+	LSXx+d1eNgg7WeLxopdQC3Ik1u+ZAtVrL3HgyhwgmwNogabE+l36EGFZiamn1jFB7OWT6P39
+	hAkiziuxYx6MrSYx584PVghbRuLw6qWMExiVZiF5bRaS12YheWEWwrYFjCyrGCVTC4pz01OL
+	TQsM81LL4VGenJ+7iRGcnLU8dzDeffBB7xAjEwfjIUYJDmYlEd7m8E1pQrwpiZVVqUX58UWl
+	OanFhxhNgeE9kVlKNDkfmB/ySuINTSwNTMzMzEwsjc0MlcR5X7fOTRESSE8sSc1OTS1ILYLp
+	Y+LglGpgMvvT8X35sXvtuXd8jon9WnTwxNXK+e5Bf/y7185W+bvl84vXMuuUp0V8jqixD5D+
+	8XXq9Fm+f+puxhe/1kve8Zl1Hcdvsbr6hX9Trvy+9nRP111xPa/D6VwMZR/PfD11QaP/tGMW
+	9xyZqfw5hzpC/rHurHw9P0Ds0OGtrNJ/YgKO/n8mJ3qSW9/VrVXsc+Te7IMTZboi/t7RWFfd
+	MOd9cLPeM7FElaNryj76rGBO6V2044xqYE87jweD9m1mG7GaTsWDd+Zl5TEs2+mqPTdj34R1
+	QhxHGoo3fE0QZIy8oZofMn9J1PUtikv+TOo4mDHpQtiZG9yV5gYitXJ3CmQm6ln85r8ryCbM
+	ZDxJ0KeeTYmlOCPRUIu5qDgRALk1ThZXBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRmVeSWpSXmKPExsWy7bCSvO6ZmVvSDKbdl7M4tHkru8WaveeY
+	LOYfOcdqcfPATiaLizPvslj0vXjIbLH3NVB20+NrrBaXd81hs+jZsJXVYsb5fUwWa4/cZbdY
+	tPULu0Xr3iPsDnwem1Z1snncubaHzWPzknqPvi2rGD0+b5LzOPX1M3sAWxSXTUpqTmZZapG+
+	XQJXxs99lxkLungqLq/cy9TAOJuri5GTQ0LAROLN0kksXYxcHEICuxklpu69ywaRkJH433aM
+	HcIWllj57zmYLSTwlFFi4+RIEJtNQF/i/qkeVpBmEYGTjBL9Z1rAHGaBiUwSq7/MYIUYe5BR
+	YnLjX7B2TgE7iTO988BsYQF/ifUXfzCB2CwCKhJXG2+ygti8ApYSrbMnQtmCEidnPmEBsZkF
+	tCWe3nwKZctLbH87hxniPAWJn0+XgdWLCDhJLF5zjhGiRlzi6M8e5gmMwrOQjJqFZNQsJKNm
+	IWlZwMiyilEytaA4Nz232LDAKC+1XK84Mbe4NC9dLzk/dxMjOEK1tHYw7ln1Qe8QIxMH4yFG
+	CQ5mJRHe5vBNaUK8KYmVValF+fFFpTmpxYcYpTlYlMR5v73uTRESSE8sSc1OTS1ILYLJMnFw
+	SjUwcRidPZgcsEPYzWeP4dov1me36hvKPpSp+ZRq6esb+srecea8Vbts+w2//96cflR46/eP
+	8cYNB1iTN7yMyEnqnVuw/vKS5zNaH4XFqF/rfBp7csI0oc8RvrpnWatXFupyH1/Y83hGYJH1
+	p3kycyeEFrx0z7e6ap/22Sco6uatWT9uOby//TzKKfPJ3lS2fxqfz61xajmf5jDZYvfDoEVn
+	lt5OO7i3eXFJijJPrPHJCqZ//RESF9pPcmfEtVt9UdlWai9v9GLhzuOz3TJ31HU+3Ky9zSLi
+	sP2KiTXPb32dqT/pboXRezOriLytO/ctEBRz7N7xgyU+o8x3weqshz7T7h078N+/UNHjpyzP
+	lKCNUUosxRmJhlrMRcWJAB+g/Ik/AwAA
+X-CMS-MailID: 20240808101124epcas5p3844c94d3106e6082bf7a91d3e37aef1f
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240808083027epcas5p153e64139a5e71448b1ea3f04af1df2bd
+References: <CGME20240808083027epcas5p153e64139a5e71448b1ea3f04af1df2bd@epcas5p1.samsung.com>
+	<20240808081815.88711-1-aakarsh.jain@samsung.com>
+	<4230387d-0413-4da8-b55a-ac708af05e34@linaro.org>
 
-On 06/08/2024 07:58, Kuninori Morimoto wrote:
-> Now we can use new port related functions for port parsing. Use it.
+
+
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Sent: 08 August 2024 15:27
+> To: Aakarsh Jain <aakarsh.jain@samsung.com>; linux-arm-
+> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
+> kernel@vger.kernel.org; devicetree@vger.kernel.org
+> Cc: m.szyprowski@samsung.com; hverkuil-cisco@xs4all.nl;
+> robh+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org;
+> conor+dt@kernel.org; linux-samsung-soc@vger.kernel.org;
+> gost.dev@samsung.com; aswani.reddy@samsung.com;
+> pankaj.dubey@samsung.com
+> Subject: Re: [PATCH V3] dt-bindings: media: s5p-mfc: Remove s5p-mfc.txt
+> binding
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   drivers/media/platform/xilinx/xilinx-tpg.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> On 08/08/2024 10:18, Aakarsh Jain wrote:
+> > s5p-mfc bindings to json-schema is already merged with this commit
+> > 538af6e5856b ("dt-bindings: media: s5p-mfc:
+> > convert bindings to json-schema"). Remove s5p-mfc.txt file.
+> >
+> > Fixes: 538af6e5856b ("dt-bindings: media: s5p-mfc: convert bindings to
+> > json-schema")
+> > Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> > changelog:
+> > v1->v2
+> > Add Fixes tag suggested by Krzysztof
+> > v2->v3
+> > Aligned Fixes tag in oneline and corrected commit message
+> > Link:
+> > https://patchwork.kernel.org/project/linux-media/patch/20240213045733.
+> > 63876-1-aakarsh.jain@samsung.com/
 > 
-> diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
-> index e05e528ffc6f..a25f216b2513 100644
-> --- a/drivers/media/platform/xilinx/xilinx-tpg.c
-> +++ b/drivers/media/platform/xilinx/xilinx-tpg.c
-> @@ -13,6 +13,7 @@
->   #include <linux/gpio/consumer.h>
->   #include <linux/module.h>
->   #include <linux/of.h>
-> +#include <linux/of_graph.h>
->   #include <linux/platform_device.h>
->   #include <linux/xilinx-v4l2-controls.h>
->   
-> @@ -744,7 +745,7 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
->   		}
->   
->   		if (nports == 0) {
-> -			endpoint = of_get_next_child(port, NULL);
-> +			endpoint = of_graph_get_next_port_endpoint(port, NULL);
->   			if (endpoint)
->   				has_endpoint = true;
->   			of_node_put(endpoint);
+> Something got corrupted in your changelog.
+> 
+I just realized that it would go as part of commit message.
+Do you want me to respin this patch or you will take care while applying?
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Thanks
+> 
+> Best regards,
+> Krzysztof
 
-  Tomi
 
 
