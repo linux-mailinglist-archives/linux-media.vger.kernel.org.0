@@ -1,89 +1,79 @@
-Return-Path: <linux-media+bounces-15958-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15959-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE0694B37A
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 01:14:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8CD94B444
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 02:43:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBCD41C212F0
-	for <lists+linux-media@lfdr.de>; Wed,  7 Aug 2024 23:14:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6782C283029
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 00:43:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B510155C95;
-	Wed,  7 Aug 2024 23:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F861373;
+	Thu,  8 Aug 2024 00:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MeKbRIwU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5SesZ0i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4318B1553BC;
-	Wed,  7 Aug 2024 23:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E2820ED;
+	Thu,  8 Aug 2024 00:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723072484; cv=none; b=LqAYaZ7FSFrlxH38u81VQGbkxu675PawMM+ghAQifmW2CrFnv3EdgkYgznzGQ3K3sc9ghnZh16aWsiGYpPkKeffVbTZ9mYgaIhfo/NQfS0Gpk6WHwatN+KvEmac1VKEWZDzOz4MaVf3m7nwXdCAg4r7fvmtVFFHYUI3nUHRCoFA=
+	t=1723077807; cv=none; b=ilfOhtqOLthOHmmhM3/7qJ1cxYVwmtqjr9VS2BftCyH5LaNBpfqvRIy8x32nF9EtFLyITQGW2gukdK5gBStukeod6NhV3s7h8/J/yCWxK/9/6oHbSFRpuawdiCkslPinOA/0SOLOfexGhaO+05Uf8KH8AWsjHq/4xZUuyrryuVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723072484; c=relaxed/simple;
-	bh=rlvbH7U0JcMra9lxPNNeEXVHhjO7TnrdcHTeom1Fcis=;
+	s=arc-20240116; t=1723077807; c=relaxed/simple;
+	bh=nMQeQO9juOP/urzyZwNp6oAyWdRfl3fIrxLNYUjD1Yo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uaVUvBuEcjDZT5JG7ox5gUQe2JnLJAVxXYBrZ0Ke516K5FKUVXBq98O5QFDdJio9qqsM2TWSSJFckVxy4exKipJcVRGFop+tzYwWiOWk0lRPtYKA0vo0fsLq3WC1SveiojVKngFNTMDAirCETke3gY6V5uZjHIV+LblSQCkz7ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MeKbRIwU; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5d5d0535396so237607eaf.1;
-        Wed, 07 Aug 2024 16:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723072482; x=1723677282; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nc+02bBxrPU3z7YbfbXPiG3TdH9ZHpsAB6H/P49aAMI=;
-        b=MeKbRIwUzsIgRJBK/akDoIunU0Ieoog7Dc3Z386RDPDYzIyIDW79UNlOzoSqrX3WVj
-         Jd1XBJ+D/LQG9rggxpb9rGc1Y+k8e4f2dsAQCBUNoAvcewNT/C7XKmtQksHpy1+JNZuz
-         xRSCC/ngOdBmc+SA331InpuL1eYv0ZDMQiwsVTU4QZZJcaYf9x/RQKkoyjxKTgVzdADJ
-         FC917216Gv5DETIT1Bj7Ef/qNZnXZjYQIUujmwH6qJvhPql3JextgQewgxJ+6SLJtwzl
-         kvWat90MJWgpJRbHJyiVGi+/pZmwoi47mTUyQH4lNpltip/Drib87HrCPkJgRBGj2AtK
-         vLaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723072482; x=1723677282;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nc+02bBxrPU3z7YbfbXPiG3TdH9ZHpsAB6H/P49aAMI=;
-        b=jfa7CkhScLCaXWJNUCsaDT6S2LreAzmKWBbja0587oF4u3TELUmkklomM/iPKPl6J7
-         TXS6dzd8Te21yFCKjQ0uxIS38UHGyGI7VYl9Aa5qOF2J//gKwck+E92HgFOGWVOAw1rM
-         ALF+z4pTeFaCtKPxtJXDGSF7QKiNNBMujVUBp8LxlYdh1/fsUQZe1IKf8bigfy/R2qLQ
-         M8/trgko666XXucIy9Rkk6fnqSN7rf/eSHPeubjtxUdmuEdYT3smOF+X4U9plC6TTsn3
-         lVWP0wl7R13CKu0RaifHRk/jzzh6nXME0AqkHveXlUWaHZaYHLxUIkuoRQ0t+mZ2sA0D
-         5NwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbmJPEvLsBVW3ieWZeEH4TkQ/g1jURjfUw4F/6vmAMFIHqksnPG+JGGz4NHuxtv/+NTppEGhP+Tamffb/4EdCUvQ8I1VupQM1+V9WHcetohNgWkDCmX7IpWvPlgRW31uHwg8pZPfpAMWu41U1F5oNL/gxsas4RwAj0Yz73wBOsTdYoGqWUVmsaeY/8J6OnZ9Ct8WQxc7EUhQsBO70Yh1V3dQ==
-X-Gm-Message-State: AOJu0YwvSRQDumGsc2/ZScnhkxbaSjd1m20UOtPxh+iwvKCGph5cpyC7
-	Xs3yGJBo86PN6JwL/mcDdvEdNqmo98DmQvfHj6L0IZtRKxhmLw92+R8rLPfK
-X-Google-Smtp-Source: AGHT+IFVKAcqwxIm7XFe0JFRilJfmv0FqcpDOsLEIsUbljBi0ODx1QcAQqBLXH+JSeqngoUP8VkUmQ==
-X-Received: by 2002:a05:6870:8a07:b0:25e:1711:90e3 with SMTP id 586e51a60fabf-2692b61b17cmr175018fac.2.1723072482302;
-        Wed, 07 Aug 2024 16:14:42 -0700 (PDT)
-Received: from localhost ([2607:fea8:52a3:d200:324c:b818:b179:79b])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a3786b5680sm100993885a.100.2024.08.07.16.14.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 16:14:42 -0700 (PDT)
-Date: Wed, 7 Aug 2024 19:14:40 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-i2c@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/4] dt-bindings: media: camss: Add qcom,sdm670-camss
-Message-ID: <ZrP_4NRIfo71wDwo@radian>
-References: <20240806224219.71623-7-mailingradian@gmail.com>
- <20240806224219.71623-9-mailingradian@gmail.com>
- <81192a77-ec22-45bd-91d6-4a0ec381a6f3@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GvxU7JdbNkWEEbXJrbBlsSiF5VsXklbb6JtPlKXocR84JKZwoWAQYRWInBZVMJvh/F3TUkIbeFtPUbI59O+//a0/knowL6LPVPJdAgg92lSByZw9dQeI1iffSNaOwIN3Cz2++dBQLFOF8cxqc+yv5hiKxEH5irZu12IbCfF2eY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5SesZ0i; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723077806; x=1754613806;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nMQeQO9juOP/urzyZwNp6oAyWdRfl3fIrxLNYUjD1Yo=;
+  b=H5SesZ0ii6g0ll3gWC1qJ3WXPOhrrfgJ2zGiHvq8koz+aW5nG/CamVXJ
+   R6GZZgDFz+19a3tKb3dkYUBmkDhE5Ncx9M9MTubbjnhXJuT9gNwB447cL
+   AGMRPClnPxxhr6Rdi8FWDrm60O93Z6ubzJ+fh12gPDAeDb/+T/MF+Gkl1
+   QZvEnejbPnSxai3F8Bg9kY7DGDwe9GPhG7T+4sV0PUnyXSNliNJiEI7aI
+   hgUHfLdCCiag+U9gm5XtzQan+GSSW+uSQwYQEYyyrbcAfKhZ85PaQcm6L
+   VmhjeLeVzfzpI3ZYhUvsmGQ8J6X0yUHQHgf9+bS/zLtdcTjFxtI7UM+OA
+   g==;
+X-CSE-ConnectionGUID: sg3uiqBUSEGyhTLpysSbmA==
+X-CSE-MsgGUID: /ExmqpTQS5KDTRF8ojp4ZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="38638280"
+X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
+   d="scan'208";a="38638280"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 17:43:25 -0700
+X-CSE-ConnectionGUID: kWCySDzrT2qyKCo25dnpnA==
+X-CSE-MsgGUID: HiRH4qizSYOE3YptmFQVpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
+   d="scan'208";a="61446502"
+Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 07 Aug 2024 17:43:23 -0700
+Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sbrFQ-0005p2-2U;
+	Thu, 08 Aug 2024 00:43:20 +0000
+Date: Thu, 8 Aug 2024 08:42:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jianhua Lin <jianhua.lin@mediatek.com>, daniel.almeida@collabora.com,
+	mchehab@kernel.org, angelogioacchino.delregno@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	Jianhua Lin <jianhua.lin@mediatek.com>
+Subject: Re: [PATCH v5 1/1] media: mediatek: jpeg: support 34bits
+Message-ID: <202408080826.MtdkQQdh-lkp@intel.com>
+References: <20240807130835.26739-1-jianhua.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,70 +82,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <81192a77-ec22-45bd-91d6-4a0ec381a6f3@linaro.org>
+In-Reply-To: <20240807130835.26739-1-jianhua.lin@mediatek.com>
 
-On Tue, Aug 06, 2024 at 11:57:38PM +0100, Bryan O'Donoghue wrote:
-> On 06/08/2024 23:42, Richard Acayan wrote:
->> Add the camera subsystem for the Snapdragon 670.
->> 
->> Adapted from SC8280XP camera subsystem.
->
-> Hmm, I'd like a little bit more of a commit log here. sdm670 as found in
-> "spiffy device X" contains N CSIDs, Y VFEs.
->
-> Its not super important but a description that is device specific would be
-> nice.
+Hi Jianhua,
 
-Ok.
+kernel test robot noticed the following build errors:
 
->> 
->> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
->> ---
->>   .../bindings/media/qcom,sdm670-camss.yaml     | 353 ++++++++++++++++++
->>   1 file changed, 353 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
->> 
->> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
->> new file mode 100644
->> index 000000000000..543fad1b5cd7
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
->> @@ -0,0 +1,353 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
->> +
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm SDM670 Camera Subsystem (CAMSS)
->> +
->> +maintainers:
->> +  - Richard Acayan <mailingradian@gmail.com>
->> +
->> +description:
->> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,sdm670-camss
->> +
->> +  clocks:
->> +    maxItems: 33
->> +
->> +  clock-names:
->> +    items:
->> +      - const: camnoc_axi
->> +      - const: cpas_ahb
->> +      - const: cphy_rx_src
->> +      - const: csi0
->> +      - const: csi0_src
->
-> These "_src" clocks should be dropped.
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master sailus-media-tree/master linus/master v6.11-rc2 next-20240807]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Hi, this will require dedicated definitions for SDM670 in the driver, as
-SDM845 lists (and requires) the src clocks. It's certainly possible to
-do so, but I'm just not sure if it's what you expected.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jianhua-Lin/media-mediatek-jpeg-support-34bits/20240807-211309
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20240807130835.26739-1-jianhua.lin%40mediatek.com
+patch subject: [PATCH v5 1/1] media: mediatek: jpeg: support 34bits
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240808/202408080826.MtdkQQdh-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080826.MtdkQQdh-lkp@intel.com/reproduce)
 
-Or I could send an RFT to drop them from SDM845...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408080826.MtdkQQdh-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c: In function 'mtk_jpeg_set_enc_src':
+>> drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c:104:39: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     104 |                                 val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper);
+         |                                       ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c: In function 'mtk_jpeg_dec_set_dst_bank0':
+>> drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c:294:23: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     294 |                 val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_y));
+         |                       ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_PREP +104 drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+
+    87	
+    88	void mtk_jpeg_set_enc_src(struct mtk_jpeg_ctx *ctx,  void __iomem *base,
+    89				  struct vb2_buffer *src_buf)
+    90	{
+    91		int i;
+    92		dma_addr_t dma_addr;
+    93		u32 val;
+    94		u32 upper;
+    95		bool support_34bit = ctx->jpeg->variant->support_34bit;
+    96	
+    97		for (i = 0; i < src_buf->num_planes; i++) {
+    98			dma_addr = vb2_dma_contig_plane_dma_addr(src_buf, i) +
+    99				   src_buf->planes[i].data_offset;
+   100			if (!i) {
+   101				writel(dma_addr, base + JPEG_ENC_SRC_LUMA_ADDR);
+   102				if (support_34bit) {
+   103					upper = upper_32_bits(dma_addr);
+ > 104					val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper);
+   105					writel(val, base + JPEG_ENC_SRC_LUMA_ADDR_EXT);
+   106				}
+   107			} else {
+   108				writel(dma_addr, base + JPEG_ENC_SRC_CHROMA_ADDR);
+   109				if (support_34bit) {
+   110					upper = upper_32_bits(dma_addr);
+   111					val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper);
+   112					writel(val, base + JPEG_ENC_SRC_CHRO_ADDR_EXT);
+   113				}
+   114			}
+   115		}
+   116	}
+   117	EXPORT_SYMBOL_GPL(mtk_jpeg_set_enc_src);
+   118	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
