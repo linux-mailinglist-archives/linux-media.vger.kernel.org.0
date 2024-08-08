@@ -1,995 +1,677 @@
-Return-Path: <linux-media+bounces-15994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15995-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A7294BC2E
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 13:22:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F4394BCDB
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 14:04:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDFE81F21CAA
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 11:22:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA8E9B2275F
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 12:04:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE05318C346;
-	Thu,  8 Aug 2024 11:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AA4118B495;
+	Thu,  8 Aug 2024 12:03:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IX/9FSsy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CB4Pt54k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAEB18B477;
-	Thu,  8 Aug 2024 11:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307C8126F1E
+	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 12:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723116155; cv=none; b=ulSyboZgg6fwogAZ7RyffdEJCDaux2jUbFvhfO6ojGl1dgL23zYGfmpBCPEC5nV6V8uGi3Juf7pCOyS43lHLvqUpiZjl8HqSbCo+WuJ2zaiJA+Zze6TLT+dzqg71Zt+Ts9Mu24mPN7MC16zoYfk23pfn5g0IDyN1zRMD5mYW1N8=
+	t=1723118635; cv=none; b=u2PEe/j/OmlUkcN4n9OHMDd8L5pjc5WCQq+QFCunl8Ipw81a1BjaVz6Xb5F1jArJcxOy1cDPskQBiEgCvmARIbUeVT7g4Cxh9xxIi00hV5/ckLTQnk8NHnFndvtObZ2scpIT43J98/XeH9shdVtG7qVWEWH+AFs/PzK1iHDenMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723116155; c=relaxed/simple;
-	bh=3grn/NHxpXDynNGA/AyJIZgm08m1ete2p9kRDyyUOyQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CTWS+3v62BZwAlhgY9EAoDr+QpxXK8kSM1abD2T/HqfG3Acv/wo7RlIBtWVhlltDdu0WbRY60lUpVLSNCW/Mfx9E46FmZr9JLDGOBscFjWtDjjDdy8pKOAOhcvZdKrNcmJpk3qv8CftZ9vSqFjAaeSf0tR/qPiXa++cSy0mKZhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IX/9FSsy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B3482C4AF0D;
-	Thu,  8 Aug 2024 11:22:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723116154;
-	bh=3grn/NHxpXDynNGA/AyJIZgm08m1ete2p9kRDyyUOyQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=IX/9FSsyDbOxGCgHvs7wvdTwRHXtPUiU9W/c5wsE5ghxqOHLrvAQwpjYSLkuXJpeX
-	 Za+25ff11xNJdmh/1V37UvM8fezVBeapIefZXqcm9+2zhQei71oyYm6wLaGT+L2z0I
-	 7FZb46ngwQrPB7pYrWow7jESyD9qAuXTsrkhfyM2KJJSuMQzM2W4+k2ss2oeEOvlwb
-	 RrIk6z+uPXm34gLYBKohVTdQbdrGiSMTBuX6MV/kaTJ4N7otkcs+YyyJIOgnDFsfbN
-	 /Szywgv1iptHBDXgVhqOBrTp/taWIw+6G2m5/FcPfEM4SbPqeXhIpqWOrhRn0XECdq
-	 7wv2yx1xyfWIw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0249C52D7C;
-	Thu,  8 Aug 2024 11:22:34 +0000 (UTC)
-From: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>
-Date: Thu, 08 Aug 2024 19:22:20 +0800
-Subject: [PATCH v8 2/2] mtd: rawnand: Add Loongson-1 NAND Controller driver
+	s=arc-20240116; t=1723118635; c=relaxed/simple;
+	bh=2WolbyMYJsFZ6+M5KZsz09kKixD/hiRDASI+kkjJ8+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z8l3bx9NWdWB9OCEwywneOYHRsDPvy80IxWuB3NRf8QytwPefNE0lsn0Rpl/RTYE76uWg6DRxehn4jwD63XHzelGDVNsm+fPKTAUhgNbxxq/m0888fJFBseiZs0UyKdFgrjA/+U2lgIqHxNJ4G5l0EqLDhh/6WOB086XMzjrNmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CB4Pt54k; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-150-234-47.cust.vodafonedsl.it [93.150.234.47])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEEA8581;
+	Thu,  8 Aug 2024 14:02:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723118577;
+	bh=2WolbyMYJsFZ6+M5KZsz09kKixD/hiRDASI+kkjJ8+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CB4Pt54kDAUPuJ5ImOIU3gbaDDjgFoGnNtEuADBMMTDkcVhZG1EC2c+mybhIHbDVr
+	 pW2UjDBobQHF3QzKI1HvP41s5LrmisbzqdCBmDBuQiLAZvs/J29ZEThXag6GQTheUX
+	 wG93GdmN+s1FzTceluu9XvraH23WDac9JorDBFIw=
+Date: Thu, 8 Aug 2024 14:03:46 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Sakari Ailus <sakari.ailus@iki.fi>, Stefan Klug <stefan.klug@ideasonboard.com>, 
+	Paul Elder <paul.elder@ideasonboard.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>, 
+	Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v9 01/12] media: uapi: rkisp1-config: Add extensible
+ params format
+Message-ID: <vucgdxhgoqm5ij4sjwsrjfsvza2m3ts3yprjcwhc3ampv2mjqf@mrc4tke6unq2>
+References: <20240807212253.1667847-1-jacopo.mondi@ideasonboard.com>
+ <20240807212253.1667847-2-jacopo.mondi@ideasonboard.com>
+ <5497762f-5959-4890-b02a-176377042387@xs4all.nl>
+ <ctpmtoqun2isj2jxer4z4mlvhqzi532j43cejbkhid375fxelt@dg763qf5wtjd>
+ <1662108d-24b6-427b-849a-fd0a4107c3e6@xs4all.nl>
+ <20240808095438.GB21245@pendragon.ideasonboard.com>
+ <a0f0c7d3-8647-49d7-9efc-8c0b8624094a@xs4all.nl>
+ <20240808105123.GB5833@pendragon.ideasonboard.com>
+ <eb6458f2-2416-46ab-91c6-748561036a77@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240808-loongson1-nand-v8-2-c96dea418b41@gmail.com>
-References: <20240808-loongson1-nand-v8-0-c96dea418b41@gmail.com>
-In-Reply-To: <20240808-loongson1-nand-v8-0-c96dea418b41@gmail.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-media@vger.kernel.org, 
- Keguang Zhang <keguang.zhang@gmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723116152; l=25978;
- i=keguang.zhang@gmail.com; s=20231129; h=from:subject:message-id;
- bh=8jvwLo55cHUlkNBSB78D1p/WekhhJI9LyQpi95jHFJU=;
- b=+ThL2uPocrS0Mq2lOW6FnyTWom9Nwnr6FD9DPc+3kGfjS1xrATQwhYKg8alw6yft2PVYwkHKe
- TDSm+4xR3fvDB+8T/4o267wUyfaxHQ6rklXQk7Kw2fkp6gtnbJZEqvz
-X-Developer-Key: i=keguang.zhang@gmail.com; a=ed25519;
- pk=FMKGj/JgKll/MgClpNZ3frIIogsh5e5r8CeW2mr+WLs=
-X-Endpoint-Received: by B4 Relay for keguang.zhang@gmail.com/20231129 with
- auth_id=102
-X-Original-From: Keguang Zhang <keguang.zhang@gmail.com>
-Reply-To: keguang.zhang@gmail.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <eb6458f2-2416-46ab-91c6-748561036a77@xs4all.nl>
 
-From: Keguang Zhang <keguang.zhang@gmail.com>
+Hi Hans
 
-Add NAND Controller driver for Loongson-1 SoCs.
+On Thu, Aug 08, 2024 at 12:58:46PM GMT, Hans Verkuil wrote:
+> On 08/08/2024 12:51, Laurent Pinchart wrote:
+> > On Thu, Aug 08, 2024 at 12:03:01PM +0200, Hans Verkuil wrote:
+> >> On 08/08/2024 11:54, Laurent Pinchart wrote:
+> >>> On Thu, Aug 08, 2024 at 09:41:42AM +0200, Hans Verkuil wrote:
+> >>>> On 08/08/2024 09:24, Jacopo Mondi wrote:
+> >>>>> On Thu, Aug 08, 2024 at 08:31:58AM GMT, Hans Verkuil wrote:
+> >>>>>> On 07/08/2024 23:22, Jacopo Mondi wrote:
+> >>>>>>> Add to the rkisp1-config.h header data types and documentation of
+> >>>>>>> the extensible parameters format.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >>>>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>>>>>> Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+> >>>>>>> Tested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> >>>>>>> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>>>>>> ---
+> >>>>>>>  include/uapi/linux/rkisp1-config.h | 485 +++++++++++++++++++++++++++++
+> >>>>>>>  1 file changed, 485 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> >>>>>>> index 6eeaf8bf2362..14a23fd9a745 100644
+> >>>>>>> --- a/include/uapi/linux/rkisp1-config.h
+> >>>>>>> +++ b/include/uapi/linux/rkisp1-config.h
+> >>>>>>> @@ -996,4 +996,489 @@ struct rkisp1_stat_buffer {
+> >>>>>>>  	struct rkisp1_cif_isp_stat params;
+> >>>>>>>  };
+> >>>>>>>
+> >>>>>>> +/*---------- PART3: Extensible Configuration Parameters  ------------*/
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * enum rkisp1_ext_params_block_type - RkISP1 extensible params block type
+> >>>>>>> + *
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS: Black level subtraction
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC: Defect pixel cluster correction
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG: Sensor de-gamma
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN: Auto white balance gains
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT: ISP filtering
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM: Bayer de-mosaic
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK: Cross-talk correction
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC: Gamma out correction
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF: De-noise pre-filter
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH: De-noise pre-filter strength
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC: Color processing
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_IE: Image effects
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC: Lens shading correction
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS: Auto white balance statistics
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS: Histogram statistics
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS: Auto exposure statistics
+> >>>>>>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS: Auto-focus statistics
+> >>>>>>> + */
+> >>>>>>> +enum rkisp1_ext_params_block_type {
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_IE,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS,
+> >>>>>>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS,
+> >>>>>>> +};
+> >>>>>>> +
+> >>>>>>> +#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+> >>>>>>> +#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	(1U << 1)
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
+> >>>>>>> + *					   header
+> >>>>>>> + *
+> >>>>>>> + * This structure represents the common part of all the ISP configuration
+> >>>>>>> + * blocks. Each parameters block shall embed an instance of this structure type
+> >>>>>>> + * as its first member, followed by the block-specific configuration data. The
+> >>>>>>> + * driver inspects this common header to discern the block type and its size and
+> >>>>>>> + * properly handle the block content by casting it to the correct block-specific
+> >>>>>>> + * type.
+> >>>>>>> + *
+> >>>>>>> + * The @type field is one of the values enumerated by
+> >>>>>>> + * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
+> >>>>>>> + * interpreted by the driver. The @size field specifies the size of the
+> >>>>>>> + * parameters block and is used by the driver for validation purposes.
+> >>>>>>> + *
+> >>>>>>> + * The @flags field is a bitmask of per-block flags RKISP1_EXT_PARAMS_FL_*.
+> >>>>>>> + *
+> >>>>>>> + * When userspace wants to configure and enable an ISP block it shall fully
+> >>>>>>> + * populate the block configuration and set the
+> >>>>>>> + * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE bit in the @flags field.
+> >>>>>>> + *
+> >>>>>>> + * When userspace simply wants to disable an ISP block the
+> >>>>>>> + * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bit should be set in @flags field. The
+> >>>>>>> + * driver ignores the rest of the block configuration structure in this case.
+> >>>>>>> + *
+> >>>>>>> + * If a new configuration of an ISP block has to be applied userspace shall
+> >>>>>>> + * fully populate the ISP block configuration and omit setting the
+> >>>>>>> + * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
+> >>>>>>> + * in the @flags field.
+> >>>>>>> + *
+> >>>>>>> + * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
+> >>>>>>> + * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the @flags field is not allowed
+> >>>>>>> + * and not accepted by the driver.
+> >>>>>>> + *
+> >>>>>>> + * Userspace is responsible for correctly populating the parameters block header
+> >>>>>>> + * fields (@type, @flags and @size) and the block-specific parameters.
+> >>>>>>> + *
+> >>>>>>> + * For example:
+> >>>>>>> + *
+> >>>>>>> + * .. code-block:: c
+> >>>>>>> + *
+> >>>>>>> + *	void populate_bls(struct rkisp1_ext_params_block_header *block) {
+> >>>>>>> + *		struct rkisp1_ext_params_bls_config *bls =
+> >>>>>>> + *			(struct rkisp1_ext_params_bls_config *)block;
+> >>>>>>> + *
+> >>>>>>> + *		bls->header.type = RKISP1_EXT_PARAMS_BLOCK_ID_BLS;
+> >>>>>>> + *		bls->header.flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;
+> >>>>>>> + *		bls->header.size = sizeof(*bls);
+> >>>>>>> + *
+> >>>>>>> + *		bls->config.enable_auto = 0;
+> >>>>>>> + *		bls->config.fixed_val.r = blackLevelRed_;
+> >>>>>>> + *		bls->config.fixed_val.gr = blackLevelGreenR_;
+> >>>>>>> + *		bls->config.fixed_val.gb = blackLevelGreenB_;
+> >>>>>>> + *		bls->config.fixed_val.b = blackLevelBlue_;
+> >>>>>>> + *	}
+> >>>>>>> + *
+> >>>>>>> + * @type: The parameters block type, see
+> >>>>>>> + *	  :c:type:`rkisp1_ext_params_block_type`
+> >>>>>>> + * @flags: A bitmask of block flags
+> >>>>>>> + * @size: Size (in bytes) of the parameters block, including this header
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_block_header {
+> >>>>>>> +	__u16 type;
+> >>>>>>> +	__u16 flags;
+> >>>>>>> +	__u32 size;
+> >>>>>>> +};
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_bls_config - RkISP1 extensible params BLS config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Black Level Subtraction configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Black Level Subtraction configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_bls_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_bls_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_bls_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_dpcc_config - RkISP1 extensible params DPCC config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Defective Pixel Cluster Correction configuration
+> >>>>>>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Defective Pixel Cluster Correction configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_dpcc_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_dpcc_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_dpcc_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_sdg_config - RkISP1 extensible params SDG config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Sensor Degamma configuration block. Identified
+> >>>>>>> + * by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Sensor Degamma configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_sdg_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_sdg_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_sdg_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_lsc_config - RkISP1 extensible params LSC config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Lens Shading Correction configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Lens Shading Correction configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_lsc_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_lsc_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_lsc_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_awb_gain_config - RkISP1 extensible params AWB
+> >>>>>>> + *					      gain config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Auto-White Balance Gains configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Auto-White Balance Gains configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_awb_gain_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_awb_gain_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_awb_gain_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_flt_config - RkISP1 extensible params FLT config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Filter configuration block. Identified by
+> >>>>>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Filter configuration, see :c:type:`rkisp1_cif_isp_flt_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_flt_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_flt_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_bdm_config - RkISP1 extensible params BDM config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Demosaicing configuration block. Identified by
+> >>>>>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Demosaicing configuration, see :c:type:`rkisp1_cif_isp_bdm_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_bdm_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_bdm_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_ctk_config - RkISP1 extensible params CTK config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Cross-Talk configuration block. Identified by
+> >>>>>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Cross-Talk configuration, see :c:type:`rkisp1_cif_isp_ctk_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_ctk_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_ctk_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_goc_config - RkISP1 extensible params GOC config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Gamma-Out configuration block. Identified by
+> >>>>>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Gamma-Out configuration, see :c:type:`rkisp1_cif_isp_goc_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_goc_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_goc_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_dpf_config - RkISP1 extensible params DPF config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters De-noise Pre-Filter configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: De-noise Pre-Filter configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_dpf_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_dpf_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_dpf_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_dpf_strength_config - RkISP1 extensible params DPF
+> >>>>>>> + *						  strength config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters De-noise Pre-Filter strength configuration
+> >>>>>>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: De-noise Pre-Filter strength configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_dpf_strength_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_dpf_strength_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_dpf_strength_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_cproc_config - RkISP1 extensible params CPROC config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Color Processing configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Color processing configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_cproc_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_cproc_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_cproc_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_ie_config - RkISP1 extensible params IE config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Image Effect configuration block. Identified by
+> >>>>>>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_IE`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Image Effect configuration, see :c:type:`rkisp1_cif_isp_ie_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_ie_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_ie_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_awb_meas_config - RkISP1 extensible params AWB
+> >>>>>>> + *					      Meas config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Auto-White Balance Measurement configuration
+> >>>>>>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Auto-White Balance measure configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_awb_meas_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_awb_meas_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_awb_meas_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_hst_config - RkISP1 extensible params Histogram config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Histogram statistics configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Histogram statistics configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_hst_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_hst_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_hst_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_aec_config - RkISP1 extensible params AEC config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Auto-Exposure statistics configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Auto-Exposure statistics configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_aec_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_aec_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_aec_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_afc_config - RkISP1 extensible params AFC config
+> >>>>>>> + *
+> >>>>>>> + * RkISP1 extensible parameters Auto-Focus statistics configuration block.
+> >>>>>>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS`.
+> >>>>>>> + *
+> >>>>>>> + * @header: The RkISP1 extensible parameters header, see
+> >>>>>>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>>>>>> + * @config: Auto-Focus statistics configuration, see
+> >>>>>>> + *	    :c:type:`rkisp1_cif_isp_afc_config`
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_afc_config {
+> >>>>>>> +	struct rkisp1_ext_params_block_header header;
+> >>>>>>> +	struct rkisp1_cif_isp_afc_config config;
+> >>>>>>> +} __attribute__((aligned(8)));
+> >>>>>>> +
+> >>>>>>> +#define RKISP1_EXT_PARAMS_MAX_SIZE					\
+> >>>>>>> +	(sizeof(struct rkisp1_ext_params_bls_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_dpcc_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_sdg_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_lsc_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_awb_gain_config)		+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_flt_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_bdm_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_ctk_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_goc_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_dpf_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_dpf_strength_config)		+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_cproc_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_ie_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_awb_meas_config)		+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_hst_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_aec_config)			+\
+> >>>>>>> +	sizeof(struct rkisp1_ext_params_afc_config))
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters version
+> >>>>>>> + *
+> >>>>>>> + * @RKISP1_EXT_PARAM_BUFFER_V1: First version of RkISP1 extensible parameters
+> >>>>>>> + */
+> >>>>>>> +enum rksip1_ext_param_buffer_version {
+> >>>>>>> +	RKISP1_EXT_PARAM_BUFFER_V1 = 1,
+> >>>>>>
+> >>>>>> I see no check against this in the rkisp1 code. Shouldn't this be checked?
+> >>>>>> If the version is unsupported, then just return an error.
+> >>>>>
+> >>>>> Do we need this for the first version ? There are no other versions
+> >>>>> userspace can use at the moment. I can add a check during validation
+> >>>>> though.
+> >>>>
+> >>>> Yes: if a V2 is added in the future, and an application wants to use that
+> >>>> against a driver that only support V1, then that should fail.
+> >>>>
+> >>>>>> Also, how does userspace know which version(s) is/are supported by the driver?
+> >>>>>
+> >>>>> Good question, there is no API for that atm. Defining a new format
+> >>>>> version should only happen when a non-backward compatible change to
+> >>>>> the format is made. I understand an application can be compiled
+> >>>>> against a newer kernel header that provides a new format version but
+> >>>>> then run on an older kernel where the new format is not supported.
+> >>>>>
+> >>>>> Probably userspace should be able to identify what versions are
+> >>>>> supported by the driver it runs with and use the most appropriate one
+> >>>>> by selecting it at runtime.
+> >>>>>
+> >>>>> What API would you use for that ? Is this something required for this
+> >>>>> first version where a single format version is available ?
+> >>>>
+> >>>> You need this also for this first version for the reason explained above.
+> >>>>
+> >>>> Personally I would just make a read-only control that returns the highest
+> >>>> supported version.
+> >>>
+> >>> Can't userspace use the version number reported through the media device
+> >>> to determine the features the driver support ? We've done that in
+> >>> libcamera for some drivers already, either to work around bugs, or to
+> >>> make use of new features.
+> >>
+> >> You can, but this will fall down if the driver is backported to an older
+> >> kernel for whatever reason. Since the version is just the kernel version,
+> >> it will drop back to that older kernel version.
+> >
+> > I recall discussing this issue in the past (I'm not sure it was with
+> > you). If my memory doesn't fail me, there was a consensus that, when
+> > backporting the whole V4L2 subsystem, the version number reported would
+> > tbe the one corresponding to the more recent kernel, not the kernel the
+> > code has been backported to.
+>
+> That was when using the old https://git.linuxtv.org/media_build.git/ system.
+> That's no longer in use.
+>
+> I'm talking if a vendor is on an old kernel and backports rkisp1 to it (not
+> exactly uncommon!), then this will not work since the version will be that
+> of the old kernel.
+>
 
-Signed-off-by: Keguang Zhang <keguang.zhang@gmail.com>
----
-Changes in v8:
-- Drop NAND_MONOLITHIC_READ and add support for real subpage read instead.
-- Simplify the logic of ls1b_nand_parse_address() and ls1c_nand_parse_address().
-- Split ls1x_nand_set_controller() into ls1x_nand_parse_instructions()
-  and ls1x_nand_trigger_op().
-- Implement ls1x_nand_op_cmd_mapping() to convert the opcodes instead of forcing them.
-- Add ls1x_nand_check_op().
-- Remove struct ls1x_nand after moving its members to struct ls1x_nfc.
-- Add the prefix 'LS1X_' for all registers and their bits.
-- Drop the macros: nand_readl() and nand_writel().
-- Some minor fixes and improvements.
+In this case it will backport the driver and the uAPI from the same
+version, so this shouldn't be an issue.
 
-Changes in v7:
-- Rename the Kconfig dependency to LOONGSON1_APB_DMA
+What is concerning is an application compiled against a uAPI newer
+than the kernel it will be run on. The uAPI could advertise newer
+format revisions the driver doesn't know about and will fail to
+validate. In this case the application should be give a way to know
+what version is the most recent one supported by the driver, and a
+control might be the way forward. As long as we have a single format
+revision I think we might omit implementing the control for now and
+only expose it when multiple revisions will be implemented ? If the
+control is not there, it means only V1 is available. Should I document
+it ?
 
-Changes in v6:
-- Amend Kconfig
-- Add DT support
-- Use DT data instead of platform data
-- Remove MAX_ID_SIZE
-- Remove case NAND_OP_CMD_INSTR in ls1x_nand_set_controller()
-- Move ECC configuration to ls1x_nand_attach_chip()
-- Rename variable "nand" to "ls1x"
-- Rename variable "nc" to "nfc"
-- Some minor fixes
-- Link to v5: https://lore.kernel.org/all/20210520224213.7907-1-keguang.zhang@gmail.com
-
-Changes in v5:
-- Update the driver to fit the raw NAND framework.
-- Implement exec_op() instead of legacy cmdfunc().
-- Use dma_request_chan() instead of dma_request_channel().
-- Some minor fixes and cleanups.
-
-Changes in v4:
-- Retrieve the controller from nand_hw_control.
-
-Changes in v3:
-- Replace __raw_readl/__raw_writel with readl/writel.
-- Split ls1x_nand into two structures:
-ls1x_nand_chip and ls1x_nand_controller.
-
-Changes in v2:
-- Modify the dependency in Kconfig due to the changes of DMA module.
----
- drivers/mtd/nand/raw/Kconfig          |   7 +
- drivers/mtd/nand/raw/Makefile         |   1 +
- drivers/mtd/nand/raw/loongson1_nand.c | 818 ++++++++++++++++++++++++++++++++++
- 3 files changed, 826 insertions(+)
-
-diff --git a/drivers/mtd/nand/raw/Kconfig b/drivers/mtd/nand/raw/Kconfig
-index 614257308516..427dcf1cc826 100644
---- a/drivers/mtd/nand/raw/Kconfig
-+++ b/drivers/mtd/nand/raw/Kconfig
-@@ -448,6 +448,13 @@ config MTD_NAND_RENESAS
- 	  Enables support for the NAND controller found on Renesas R-Car
- 	  Gen3 and RZ/N1 SoC families.
- 
-+config MTD_NAND_LOONGSON1
-+	tristate "Loongson1 NAND controller"
-+	depends on LOONGSON1_APB_DMA || COMPILE_TEST
-+	select REGMAP_MMIO
-+	help
-+	  Enables support for NAND controller on Loongson1 SoCs.
-+
- comment "Misc"
- 
- config MTD_SM_COMMON
-diff --git a/drivers/mtd/nand/raw/Makefile b/drivers/mtd/nand/raw/Makefile
-index 25120a4afada..b3c65cab819c 100644
---- a/drivers/mtd/nand/raw/Makefile
-+++ b/drivers/mtd/nand/raw/Makefile
-@@ -57,6 +57,7 @@ obj-$(CONFIG_MTD_NAND_INTEL_LGM)	+= intel-nand-controller.o
- obj-$(CONFIG_MTD_NAND_ROCKCHIP)		+= rockchip-nand-controller.o
- obj-$(CONFIG_MTD_NAND_PL35X)		+= pl35x-nand-controller.o
- obj-$(CONFIG_MTD_NAND_RENESAS)		+= renesas-nand-controller.o
-+obj-$(CONFIG_MTD_NAND_LOONGSON1)	+= loongson1_nand.o
- 
- nand-objs := nand_base.o nand_legacy.o nand_bbt.o nand_timings.o nand_ids.o
- nand-objs += nand_onfi.o
-diff --git a/drivers/mtd/nand/raw/loongson1_nand.c b/drivers/mtd/nand/raw/loongson1_nand.c
-new file mode 100644
-index 000000000000..47e1d053b265
---- /dev/null
-+++ b/drivers/mtd/nand/raw/loongson1_nand.c
-@@ -0,0 +1,818 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * NAND Controller Driver for Loongson-1 SoC
-+ *
-+ * Copyright (C) 2015-2024 Keguang Zhang <keguang.zhang@gmail.com>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/dmaengine.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/iopoll.h>
-+#include <linux/mtd/mtd.h>
-+#include <linux/mtd/rawnand.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/sizes.h>
-+
-+/* Loongson-1 NAND Controller Registers */
-+#define LS1X_NAND_CMD		0x0
-+#define LS1X_NAND_ADDR1		0x4
-+#define LS1X_NAND_ADDR2		0x8
-+#define LS1X_NAND_TIMING	0xc
-+#define LS1X_NAND_IDL		0x10
-+#define LS1X_NAND_IDH_STATUS	0x14
-+#define LS1X_NAND_PARAM		0x18
-+#define LS1X_NAND_OP_NUM	0x1c
-+
-+/* NAND Command Register Bits */
-+#define LS1X_NAND_CMD_OP_DONE		BIT(10)
-+#define LS1X_NAND_CMD_OP_SPARE		BIT(9)
-+#define LS1X_NAND_CMD_OP_MAIN		BIT(8)
-+#define LS1X_NAND_CMD_STATUS		BIT(7)
-+#define LS1X_NAND_CMD_RESET		BIT(6)
-+#define LS1X_NAND_CMD_READID		BIT(5)
-+#define LS1X_NAND_CMD_BLOCKS_ERASE	BIT(4)
-+#define LS1X_NAND_CMD_ERASE		BIT(3)
-+#define LS1X_NAND_CMD_WRITE		BIT(2)
-+#define LS1X_NAND_CMD_READ		BIT(1)
-+#define LS1X_NAND_CMD_VALID		BIT(0)
-+
-+#define LS1X_NAND_CMD_OP_AREA_MASK	GENMASK(9, 8)
-+#define LS1X_NAND_WAIT_CYCLE_MASK	GENMASK(7, 0)
-+#define LS1X_NAND_HOLD_CYCLE_MASK	GENMASK(15, 8)
-+#define LS1X_NAND_CELL_SIZE_MASK	GENMASK(11, 8)
-+
-+#define LS1X_NAND_MAX_ADDR_CYC		5U
-+#define LS1X_NAND_DMA_ADDR		0x1fe78040
-+
-+#define BITS_PER_WORD		(4 * BITS_PER_BYTE)
-+
-+struct ls1x_nfc_op {
-+	char addrs[LS1X_NAND_MAX_ADDR_CYC];
-+	unsigned int naddrs;
-+	unsigned int addrs_offset;
-+	unsigned int addr1_reg;
-+	unsigned int addr2_reg;
-+	unsigned int aligned_offset;
-+	unsigned int row_shift;
-+	unsigned int cmd_reg;
-+	unsigned int rdy_timeout_ms;
-+	unsigned int len;
-+	size_t dma_len;
-+	bool restore_row;
-+	bool is_write;
-+	char *buf;
-+};
-+
-+struct ls1x_nfc_data {
-+	unsigned int status_field;
-+	unsigned int op_scope_field;
-+	unsigned int hold_cycle;
-+	unsigned int wait_cycle;
-+	void (*parse_address)(struct ls1x_nfc_op *op);
-+};
-+
-+struct ls1x_nfc {
-+	struct device *dev;
-+	struct nand_chip chip;
-+	struct nand_controller controller;
-+	const struct ls1x_nfc_data *data;
-+	void __iomem *reg_base;
-+	struct regmap *regmap;
-+	/* DMA Engine stuff */
-+	struct dma_chan *dma_chan;
-+	dma_cookie_t dma_cookie;
-+	struct completion dma_complete;
-+};
-+
-+static const struct regmap_config ls1x_nand_regmap_config = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+};
-+
-+static int ls1x_nand_op_cmd_mapping(struct nand_chip *chip,
-+				    struct ls1x_nfc_op *op, u8 opcode)
-+{
-+	struct ls1x_nfc *nfc = nand_get_controller_data(chip);
-+	int ret = 0;
-+
-+	op->row_shift = chip->page_shift + 1;
-+
-+	/* The controller abstracts the following NAND operations. */
-+	switch (opcode) {
-+	case NAND_CMD_RESET:
-+		op->cmd_reg = LS1X_NAND_CMD_RESET;
-+		break;
-+	case NAND_CMD_READID:
-+		op->cmd_reg = LS1X_NAND_CMD_READID;
-+		break;
-+	case NAND_CMD_ERASE1:
-+	case NAND_CMD_ERASE2:
-+		op->cmd_reg = LS1X_NAND_CMD_ERASE;
-+		op->addrs_offset = 2;
-+		op->row_shift = chip->page_shift;
-+		break;
-+	case NAND_CMD_STATUS:
-+		op->cmd_reg = LS1X_NAND_CMD_STATUS;
-+		break;
-+	case NAND_CMD_SEQIN:
-+	case NAND_CMD_PAGEPROG:
-+		op->cmd_reg = LS1X_NAND_CMD_WRITE;
-+		op->is_write = true;
-+		break;
-+	case NAND_CMD_RNDOUT:
-+	case NAND_CMD_RNDOUTSTART:
-+		op->restore_row = true;
-+		fallthrough;
-+	case NAND_CMD_READ0:
-+	case NAND_CMD_READSTART:
-+		op->cmd_reg = LS1X_NAND_CMD_READ;
-+		break;
-+	default:
-+		dev_err(nfc->dev, "Opcode not supported: %u\n", opcode);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return ret;
-+}
-+
-+static int ls1x_nand_parse_instructions(struct nand_chip *chip,
-+					const struct nand_subop *subop,
-+					struct ls1x_nfc_op *op)
-+{
-+	unsigned int op_id;
-+	int ret;
-+
-+	for (op_id = 0; op_id < subop->ninstrs; op_id++) {
-+		const struct nand_op_instr *instr = &subop->instrs[op_id];
-+		unsigned int offset, naddrs;
-+		const u8 *addrs;
-+
-+		switch (instr->type) {
-+		case NAND_OP_CMD_INSTR:
-+			ret = ls1x_nand_op_cmd_mapping(chip, op,
-+						       instr->ctx.cmd.opcode);
-+			if (ret < 0)
-+				return ret;
-+			break;
-+		case NAND_OP_ADDR_INSTR:
-+			naddrs = nand_subop_get_num_addr_cyc(subop, op_id);
-+			if (naddrs > LS1X_NAND_MAX_ADDR_CYC)
-+				return -EOPNOTSUPP;
-+			op->naddrs = naddrs;
-+			offset = nand_subop_get_addr_start_off(subop, op_id);
-+			addrs = &instr->ctx.addr.addrs[offset];
-+			memcpy(op->addrs + op->addrs_offset, addrs, naddrs);
-+			break;
-+		case NAND_OP_DATA_IN_INSTR:
-+		case NAND_OP_DATA_OUT_INSTR:
-+			offset = nand_subop_get_data_start_off(subop, op_id);
-+			op->len = nand_subop_get_data_len(subop, op_id);
-+			if (instr->type == NAND_OP_DATA_IN_INSTR)
-+				op->buf = instr->ctx.data.buf.in + offset;
-+			else if (instr->type == NAND_OP_DATA_OUT_INSTR)
-+				op->buf =
-+				    (void *)instr->ctx.data.buf.out + offset;
-+
-+			break;
-+		case NAND_OP_WAITRDY_INSTR:
-+			op->rdy_timeout_ms = instr->ctx.waitrdy.timeout_ms;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void ls1b_nand_parse_address(struct ls1x_nfc_op *op)
-+{
-+	int i;
-+
-+	for (i = 0; i < LS1X_NAND_MAX_ADDR_CYC; i++) {
-+		if (i < 2)
-+			op->addr1_reg |= (u32)op->addrs[i] << i * BITS_PER_BYTE;
-+		else if (i < 4)
-+			op->addr1_reg |=
-+			    (u32)op->addrs[i] << (op->row_shift +
-+						  (i - 2) * BITS_PER_BYTE);
-+		else
-+			op->addr2_reg |=
-+			    (u32)op->addrs[i] >> (BITS_PER_WORD -
-+						  op->row_shift - (i - 4) *
-+						  BITS_PER_BYTE);
-+	}
-+}
-+
-+static void ls1c_nand_parse_address(struct ls1x_nfc_op *op)
-+{
-+	int i;
-+
-+	for (i = 0; i < LS1X_NAND_MAX_ADDR_CYC; i++) {
-+		if (i < 2)
-+			op->addr1_reg |= (u32)op->addrs[i] << i * BITS_PER_BYTE;
-+		else
-+			op->addr2_reg |=
-+			    (u32)op->addrs[i] << (i - 2) * BITS_PER_BYTE;
-+	}
-+}
-+
-+static void ls1x_nand_trigger_op(struct ls1x_nfc *nfc, struct ls1x_nfc_op *op)
-+{
-+	struct nand_chip *chip = &nfc->chip;
-+	struct mtd_info *mtd = nand_to_mtd(chip);
-+	int col0 = op->addrs[0];
-+	short col;
-+
-+	/* restore row address for column change */
-+	if (op->restore_row) {
-+		op->addr2_reg = readl(nfc->reg_base + LS1X_NAND_ADDR2);
-+		op->addr1_reg = readl(nfc->reg_base + LS1X_NAND_ADDR1);
-+		op->addr1_reg &= ~(mtd->writesize - 1);
-+	}
-+
-+	if (!IS_ALIGNED(col0, chip->buf_align)) {
-+		col0 = ALIGN_DOWN(op->addrs[0], chip->buf_align);
-+		op->aligned_offset = op->addrs[0] - col0;
-+		op->addrs[0] = col0;
-+	}
-+
-+	if (nfc->data->parse_address)
-+		nfc->data->parse_address(op);
-+
-+	/* set address */
-+	writel(op->addr1_reg, nfc->reg_base + LS1X_NAND_ADDR1);
-+	writel(op->addr2_reg, nfc->reg_base + LS1X_NAND_ADDR2);
-+
-+	/* set data length */
-+	op->dma_len = ALIGN(op->len + op->aligned_offset, chip->buf_align);
-+	if (op->cmd_reg & LS1X_NAND_CMD_ERASE)
-+		writel(1, nfc->reg_base + LS1X_NAND_OP_NUM);
-+	else
-+		writel(op->dma_len, nfc->reg_base + LS1X_NAND_OP_NUM);
-+
-+	/* set operation area */
-+	col = op->addrs[1] << BITS_PER_BYTE | op->addrs[0];
-+	if (op->len) {
-+		if (col < mtd->writesize)
-+			op->cmd_reg |= LS1X_NAND_CMD_OP_MAIN;
-+
-+		op->cmd_reg |= LS1X_NAND_CMD_OP_SPARE;
-+	}
-+
-+	/* set operation scope */
-+	if (nfc->data->op_scope_field) {
-+		int op_area = op->cmd_reg & LS1X_NAND_CMD_OP_AREA_MASK;
-+		unsigned int op_scope;
-+
-+		switch (op_area) {
-+		case LS1X_NAND_CMD_OP_MAIN:
-+			op_scope = mtd->writesize;
-+			break;
-+		case LS1X_NAND_CMD_OP_SPARE:
-+			op_scope = mtd->oobsize;
-+			break;
-+		case LS1X_NAND_CMD_OP_AREA_MASK:
-+			op_scope = mtd->writesize + mtd->oobsize;
-+			break;
-+		default:
-+			op_scope = 0;
-+			break;
-+		}
-+
-+		op_scope <<= __ffs(nfc->data->op_scope_field);
-+		regmap_update_bits(nfc->regmap, LS1X_NAND_PARAM,
-+				   nfc->data->op_scope_field, op_scope);
-+	}
-+
-+	/* set command */
-+	writel(op->cmd_reg, nfc->reg_base + LS1X_NAND_CMD);
-+
-+	/* trigger operation */
-+	regmap_write_bits(nfc->regmap, LS1X_NAND_CMD,
-+			  LS1X_NAND_CMD_VALID, LS1X_NAND_CMD_VALID);
-+}
-+
-+static int ls1x_nand_wait_for_op_done(struct ls1x_nfc *nfc,
-+				      struct ls1x_nfc_op *op)
-+{
-+	unsigned int val;
-+	int ret = 0;
-+
-+	if (op->rdy_timeout_ms) {
-+		ret = regmap_read_poll_timeout(nfc->regmap, LS1X_NAND_CMD,
-+					       val, val & LS1X_NAND_CMD_OP_DONE,
-+					       0, op->rdy_timeout_ms * 1000);
-+		if (ret)
-+			dev_err(nfc->dev, "operation failed\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static void ls1x_nand_dma_callback(void *data)
-+{
-+	struct ls1x_nfc *nfc = (struct ls1x_nfc *)data;
-+	struct dma_chan *chan = nfc->dma_chan;
-+	struct device *dev = chan->device->dev;
-+	enum dma_status status;
-+
-+	status = dmaengine_tx_status(chan, nfc->dma_cookie, NULL);
-+	if (likely(status == DMA_COMPLETE))
-+		dev_dbg(dev, "DMA complete with cookie=%d\n", nfc->dma_cookie);
-+	else
-+		dev_err(dev, "DMA error with cookie=%d\n", nfc->dma_cookie);
-+
-+	complete(&nfc->dma_complete);
-+}
-+
-+static int ls1x_nand_dma_transfer(struct ls1x_nfc *nfc,
-+				  struct ls1x_nfc_op *op)
-+{
-+	struct nand_chip *chip = &nfc->chip;
-+	struct dma_chan *chan = nfc->dma_chan;
-+	struct device *dev = chan->device->dev;
-+	struct dma_async_tx_descriptor *desc;
-+	enum dma_data_direction data_dir =
-+	    op->is_write ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
-+	enum dma_transfer_direction xfer_dir =
-+	    op->is_write ? DMA_MEM_TO_DEV : DMA_DEV_TO_MEM;
-+	char *dma_buf = NULL;
-+	dma_addr_t dma_addr;
-+	int ret;
-+
-+	if (IS_ALIGNED((u32)op->buf, chip->buf_align) &&
-+	    IS_ALIGNED(op->len, chip->buf_align)) {
-+		dma_addr = dma_map_single(dev, op->buf, op->len, data_dir);
-+		if (dma_mapping_error(dev, dma_addr)) {
-+			dev_err(dev, "failed to map DMA buffer\n");
-+			return -ENXIO;
-+		}
-+	} else if (!op->is_write) {
-+		dma_buf = dma_alloc_coherent(dev, op->dma_len, &dma_addr,
-+					     GFP_KERNEL);
-+		if (!dma_buf)
-+			return -ENOMEM;
-+	} else {
-+		dev_err(dev, "subpage writing not supported\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	desc = dmaengine_prep_slave_single(chan, dma_addr, op->dma_len,
-+					   xfer_dir, DMA_PREP_INTERRUPT);
-+	if (!desc) {
-+		dev_err(dev, "failed to prepare DMA descriptor\n");
-+		ret = PTR_ERR(desc);
-+		goto err;
-+	}
-+	desc->callback = ls1x_nand_dma_callback;
-+	desc->callback_param = nfc;
-+
-+	nfc->dma_cookie = dmaengine_submit(desc);
-+	ret = dma_submit_error(nfc->dma_cookie);
-+	if (ret) {
-+		dev_err(dev, "failed to submit DMA descriptor\n");
-+		goto err;
-+	}
-+
-+	dev_dbg(dev, "issue DMA with cookie=%d\n", nfc->dma_cookie);
-+	dma_async_issue_pending(chan);
-+
-+	ret = wait_for_completion_timeout(&nfc->dma_complete,
-+					  msecs_to_jiffies(2000));
-+	if (!ret) {
-+		dmaengine_terminate_sync(chan);
-+		reinit_completion(&nfc->dma_complete);
-+		ret = -ETIMEDOUT;
-+		goto err;
-+	}
-+	ret = 0;
-+
-+	if (dma_buf)
-+		memcpy(op->buf, dma_buf + op->aligned_offset, op->len);
-+err:
-+	if (dma_buf)
-+		dma_free_coherent(dev, op->dma_len, dma_buf, dma_addr);
-+	else
-+		dma_unmap_single(dev, dma_addr, op->len, data_dir);
-+
-+	return ret;
-+}
-+
-+static int ls1x_nand_misc_type_exec(struct nand_chip *chip,
-+				    const struct nand_subop *subop,
-+				    struct ls1x_nfc_op *op)
-+{
-+	struct ls1x_nfc *nfc = nand_get_controller_data(chip);
-+	int ret;
-+
-+	ret = ls1x_nand_parse_instructions(chip, subop, op);
-+	if (ret)
-+		return ret;
-+
-+	ls1x_nand_trigger_op(nfc, op);
-+
-+	return ls1x_nand_wait_for_op_done(nfc, op);
-+}
-+
-+static int ls1x_nand_read_id_type_exec(struct nand_chip *chip,
-+				       const struct nand_subop *subop)
-+{
-+	struct ls1x_nfc *nfc = nand_get_controller_data(chip);
-+	struct ls1x_nfc_op op = { };
-+	int i, ret;
-+	union {
-+		char ids[5];
-+		struct {
-+			int idl;
-+			char idh;
-+		};
-+	} nand_id;
-+
-+	ret = ls1x_nand_misc_type_exec(chip, subop, &op);
-+	if (ret) {
-+		dev_err(nfc->dev, "failed to read id! %d\n", ret);
-+		return ret;
-+	}
-+
-+	nand_id.idl = readl(nfc->reg_base + LS1X_NAND_IDL);
-+	nand_id.idh = readb(nfc->reg_base + LS1X_NAND_IDH_STATUS);
-+
-+	for (i = 0; i < min(sizeof(nand_id.ids), op.len); i++)
-+		op.buf[i] = nand_id.ids[sizeof(nand_id.ids) - 1 - i];
-+
-+	return ret;
-+}
-+
-+static int ls1x_nand_read_status_type_exec(struct nand_chip *chip,
-+					   const struct nand_subop *subop)
-+{
-+	struct ls1x_nfc *nfc = nand_get_controller_data(chip);
-+	struct ls1x_nfc_op op = { };
-+	int val, ret;
-+
-+	ret = ls1x_nand_misc_type_exec(chip, subop, &op);
-+	if (ret) {
-+		dev_err(nfc->dev, "failed to read status! %d\n", ret);
-+		return ret;
-+	}
-+
-+	val = readl(nfc->reg_base +
-+		    LS1X_NAND_IDH_STATUS) & ~nfc->data->status_field;
-+	op.buf[0] = val << ffs(nfc->data->status_field);
-+
-+	return ret;
-+}
-+
-+static int ls1x_nand_zerolen_type_exec(struct nand_chip *chip,
-+				       const struct nand_subop *subop)
-+{
-+	struct ls1x_nfc_op op = { };
-+
-+	return ls1x_nand_misc_type_exec(chip, subop, &op);
-+}
-+
-+static int ls1x_nand_data_type_exec(struct nand_chip *chip,
-+				    const struct nand_subop *subop)
-+{
-+	struct ls1x_nfc *nfc = nand_get_controller_data(chip);
-+	struct ls1x_nfc_op op = { };
-+	int ret;
-+
-+	ret = ls1x_nand_parse_instructions(chip, subop, &op);
-+	if (ret)
-+		return ret;
-+
-+	ls1x_nand_trigger_op(nfc, &op);
-+
-+	ret = ls1x_nand_dma_transfer(nfc, &op);
-+	if (ret)
-+		return ret;
-+
-+	return ls1x_nand_wait_for_op_done(nfc, &op);
-+}
-+
-+static const struct nand_op_parser ls1x_nand_op_parser = NAND_OP_PARSER(
-+	NAND_OP_PARSER_PATTERN(
-+		ls1x_nand_read_id_type_exec,
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_ADDR_ELEM(false, LS1X_NAND_MAX_ADDR_CYC),
-+		NAND_OP_PARSER_PAT_DATA_IN_ELEM(false, 8)),
-+	NAND_OP_PARSER_PATTERN(
-+		ls1x_nand_read_status_type_exec,
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_DATA_IN_ELEM(false, 1)),
-+	NAND_OP_PARSER_PATTERN(
-+		ls1x_nand_zerolen_type_exec,
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_WAITRDY_ELEM(false)),
-+	NAND_OP_PARSER_PATTERN(
-+		ls1x_nand_zerolen_type_exec,
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_ADDR_ELEM(false, LS1X_NAND_MAX_ADDR_CYC),
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_WAITRDY_ELEM(false)),
-+	NAND_OP_PARSER_PATTERN(
-+		ls1x_nand_data_type_exec,
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_ADDR_ELEM(false, LS1X_NAND_MAX_ADDR_CYC),
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_WAITRDY_ELEM(true),
-+		NAND_OP_PARSER_PAT_DATA_IN_ELEM(false, 0)),
-+	NAND_OP_PARSER_PATTERN(
-+		ls1x_nand_data_type_exec,
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_ADDR_ELEM(false, LS1X_NAND_MAX_ADDR_CYC),
-+		NAND_OP_PARSER_PAT_DATA_OUT_ELEM(false, 0),
-+		NAND_OP_PARSER_PAT_CMD_ELEM(false),
-+		NAND_OP_PARSER_PAT_WAITRDY_ELEM(true)),
-+	);
-+
-+static int ls1x_nand_check_op(struct nand_chip *chip,
-+			      const struct nand_operation *op)
-+{
-+	const struct nand_op_instr *instr;
-+	int op_id;
-+
-+	for (op_id = 0; op_id < op->ninstrs; op_id++) {
-+		instr = &op->instrs[op_id];
-+
-+		switch (instr->type) {
-+		case NAND_OP_CMD_INSTR:
-+			if (instr->ctx.cmd.opcode != NAND_CMD_RESET &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_READID &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_ERASE1 &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_ERASE2 &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_STATUS &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_SEQIN &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_PAGEPROG &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_RNDOUT &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_RNDOUTSTART &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_READ0 &&
-+			    instr->ctx.cmd.opcode != NAND_CMD_READSTART)
-+				return -EOPNOTSUPP;
-+			break;
-+		case NAND_OP_ADDR_INSTR:
-+			if (instr->ctx.addr.naddrs > LS1X_NAND_MAX_ADDR_CYC)
-+				return -EOPNOTSUPP;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int ls1x_nand_exec_op(struct nand_chip *chip,
-+			     const struct nand_operation *op, bool check_only)
-+{
-+	if (check_only)
-+		return ls1x_nand_check_op(chip, op);
-+
-+	return nand_op_parser_exec_op(chip, &ls1x_nand_op_parser, op,
-+				      check_only);
-+}
-+
-+static int ls1x_nand_attach_chip(struct nand_chip *chip)
-+{
-+	struct ls1x_nfc *nfc = nand_get_controller_data(chip);
-+	u64 chipsize = nanddev_target_size(&chip->base);
-+	int cell_size = 0;
-+
-+	switch (chipsize) {
-+	case SZ_128M:
-+		cell_size = 0x0;
-+		break;
-+	case SZ_256M:
-+		cell_size = 0x1;
-+		break;
-+	case SZ_512M:
-+		cell_size = 0x2;
-+		break;
-+	case SZ_1G:
-+		cell_size = 0x3;
-+		break;
-+	case SZ_2G:
-+		cell_size = 0x4;
-+		break;
-+	case SZ_4G:
-+		cell_size = 0x5;
-+		break;
-+	case SZ_8G:
-+		cell_size = 0x6;
-+		break;
-+	case SZ_16G:
-+		cell_size = 0x7;
-+		break;
-+	default:
-+		dev_err(nfc->dev, "unsupported chip size: %llu MB\n", chipsize);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	/* set cell size */
-+	regmap_update_bits(nfc->regmap, LS1X_NAND_PARAM,
-+			   LS1X_NAND_CELL_SIZE_MASK,
-+			   FIELD_PREP(LS1X_NAND_CELL_SIZE_MASK, cell_size));
-+
-+	regmap_update_bits(nfc->regmap, LS1X_NAND_TIMING,
-+			   LS1X_NAND_HOLD_CYCLE_MASK,
-+			   FIELD_PREP(LS1X_NAND_HOLD_CYCLE_MASK,
-+				      nfc->data->hold_cycle));
-+	regmap_update_bits(nfc->regmap, LS1X_NAND_TIMING,
-+			   LS1X_NAND_WAIT_CYCLE_MASK,
-+			   FIELD_PREP(LS1X_NAND_WAIT_CYCLE_MASK,
-+				      nfc->data->wait_cycle));
-+
-+	chip->ecc.read_page_raw = nand_monolithic_read_page_raw;
-+	chip->ecc.write_page_raw = nand_monolithic_write_page_raw;
-+
-+	return 0;
-+}
-+
-+static const struct nand_controller_ops ls1x_nfc_ops = {
-+	.exec_op = ls1x_nand_exec_op,
-+	.attach_chip = ls1x_nand_attach_chip,
-+};
-+
-+static void ls1x_nand_controller_cleanup(struct ls1x_nfc *nfc)
-+{
-+	if (nfc->dma_chan)
-+		dma_release_channel(nfc->dma_chan);
-+}
-+
-+static int ls1x_nand_controller_init(struct ls1x_nfc *nfc)
-+{
-+	struct device *dev = nfc->dev;
-+	struct dma_chan *chan;
-+	struct dma_slave_config cfg = { };
-+	int ret;
-+
-+	nfc->regmap = devm_regmap_init_mmio(dev, nfc->reg_base,
-+					    &ls1x_nand_regmap_config);
-+	if (IS_ERR(nfc->regmap))
-+		return dev_err_probe(dev, PTR_ERR(nfc->regmap),
-+				     "failed to init regmap\n");
-+
-+	chan = dma_request_chan(dev, "rxtx");
-+	if (IS_ERR(chan))
-+		return dev_err_probe(dev, PTR_ERR(chan),
-+				     "failed to request DMA channel\n");
-+	nfc->dma_chan = chan;
-+
-+	cfg.src_addr = LS1X_NAND_DMA_ADDR;
-+	cfg.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+	cfg.dst_addr = LS1X_NAND_DMA_ADDR;
-+	cfg.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+	ret = dmaengine_slave_config(nfc->dma_chan, &cfg);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to config DMA channel\n");
-+
-+	init_completion(&nfc->dma_complete);
-+
-+	dev_dbg(dev, "got %s for %s access\n",
-+		dma_chan_name(nfc->dma_chan), dev_name(dev));
-+
-+	return 0;
-+}
-+
-+static int ls1x_nand_chip_init(struct ls1x_nfc *nfc)
-+{
-+	struct device *dev = nfc->dev;
-+	int nchips = of_get_child_count(dev->of_node);
-+	struct device_node *chip_np;
-+	struct nand_chip *chip = &nfc->chip;
-+	struct mtd_info *mtd = nand_to_mtd(chip);
-+	int ret = 0;
-+
-+	if (nchips != 1)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Currently one NAND chip supported\n");
-+
-+	chip_np = of_get_next_child(dev->of_node, NULL);
-+	if (!chip_np)
-+		return dev_err_probe(dev, -ENODEV,
-+				     "failed to get child node for NAND chip\n");
-+
-+	chip->controller = &nfc->controller;
-+	chip->options = NAND_NO_SUBPAGE_WRITE | NAND_USES_DMA | NAND_BROKEN_XD;
-+	chip->buf_align = 16;
-+	nand_set_controller_data(chip, nfc);
-+	nand_set_flash_node(chip, chip_np);
-+
-+	mtd->dev.parent = dev;
-+	mtd->name = "ls1x-nand";
-+	mtd->owner = THIS_MODULE;
-+
-+	ret = nand_scan(chip, 1);
-+	if (ret) {
-+		of_node_put(chip_np);
-+		return ret;
-+	}
-+
-+	ret = mtd_device_register(mtd, NULL, 0);
-+	if (ret) {
-+		dev_err(dev, "failed to register MTD device! %d\n", ret);
-+		nand_cleanup(chip);
-+		of_node_put(chip_np);
-+	}
-+
-+	return ret;
-+}
-+
-+static int ls1x_nand_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	const struct ls1x_nfc_data *data;
-+	struct ls1x_nfc *nfc;
-+	int ret;
-+
-+	data = of_device_get_match_data(dev);
-+	if (!data)
-+		return -ENODEV;
-+
-+	nfc = devm_kzalloc(dev, sizeof(*nfc), GFP_KERNEL);
-+	if (!nfc)
-+		return -ENOMEM;
-+
-+	nfc->reg_base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(nfc->reg_base))
-+		return PTR_ERR(nfc->reg_base);
-+
-+	nand_controller_init(&nfc->controller);
-+
-+	nfc->dev = dev;
-+	nfc->data = data;
-+	nfc->controller.ops = &ls1x_nfc_ops;
-+
-+	ret = ls1x_nand_controller_init(nfc);
-+	if (ret)
-+		goto err;
-+
-+	ret = ls1x_nand_chip_init(nfc);
-+	if (ret)
-+		goto err;
-+
-+	platform_set_drvdata(pdev, nfc);
-+
-+	return 0;
-+err:
-+	ls1x_nand_controller_cleanup(nfc);
-+
-+	return ret;
-+}
-+
-+static void ls1x_nand_remove(struct platform_device *pdev)
-+{
-+	struct ls1x_nfc *nfc = platform_get_drvdata(pdev);
-+	struct nand_chip *chip = &nfc->chip;
-+	int ret;
-+
-+	ret = mtd_device_unregister(nand_to_mtd(chip));
-+	WARN_ON(ret);
-+	nand_cleanup(chip);
-+	ls1x_nand_controller_cleanup(nfc);
-+}
-+
-+static const struct ls1x_nfc_data ls1b_nfc_data = {
-+	.status_field = GENMASK(15, 8),
-+	.hold_cycle = 0x2,
-+	.wait_cycle = 0xc,
-+	.parse_address = ls1b_nand_parse_address,
-+};
-+
-+static const struct ls1x_nfc_data ls1c_nfc_data = {
-+	.status_field = GENMASK(23, 16),
-+	.op_scope_field = GENMASK(29, 16),
-+	.hold_cycle = 0x2,
-+	.wait_cycle = 0xc,
-+	.parse_address = ls1c_nand_parse_address,
-+};
-+
-+static const struct of_device_id ls1x_nfc_match[] = {
-+	{ .compatible = "loongson,ls1b-nfc", .data = &ls1b_nfc_data },
-+	{ .compatible = "loongson,ls1c-nfc", .data = &ls1c_nfc_data },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ls1x_nfc_match);
-+
-+static struct platform_driver ls1x_nand_driver = {
-+	.probe = ls1x_nand_probe,
-+	.remove = ls1x_nand_remove,
-+	.driver = {
-+		.name = KBUILD_MODNAME,
-+		.of_match_table = ls1x_nfc_match,
-+	},
-+};
-+
-+module_platform_driver(ls1x_nand_driver);
-+
-+MODULE_AUTHOR("Keguang Zhang <keguang.zhang@gmail.com>");
-+MODULE_DESCRIPTION("Loongson-1 NAND Controller driver");
-+MODULE_LICENSE("GPL");
-
--- 
-2.43.0
-
-
+> Regards,
+>
+> 	Hans
+>
+> >
+> > That would help here, but will not solve the issue of how to deal with
+> > backports of a single driver. Jacopo, what do you think ?
+> >
+> >> Whether that is acceptable or not is up to you.
+> >>
+> >> In any case, this would have to be documented so you know at which kernel
+> >> version a new RKISP1_EXT_PARAM_BUFFER_Vx is introduced.
+> >>
+> >>>>>>> +};
+> >>>>>>> +
+> >>>>>>> +/**
+> >>>>>>> + * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
+> >>>>>>> + *
+> >>>>>>> + * This struct contains the configuration parameters of the RkISP1 ISP
+> >>>>>>> + * algorithms, serialized by userspace into a data buffer. Each configuration
+> >>>>>>> + * parameter block is represented by a block-specific structure which contains a
+> >>>>>>> + * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
+> >>>>>>> + * populates the @data buffer with configuration parameters for the blocks that
+> >>>>>>> + * it intends to configure. As a consequence, the data buffer effective size
+> >>>>>>> + * changes according to the number of ISP blocks that userspace intends to
+> >>>>>>> + * configure and is set by userspace in the @data_size field.
+> >>>>>>> + *
+> >>>>>>> + * The parameters buffer is versioned by the @version field to allow modifying
+> >>>>>>> + * and extending its definition. Userspace shall populate the @version field to
+> >>>>>>> + * inform the driver about the version it intends to use. The driver will parse
+> >>>>>>> + * and handle the @data buffer according to the data layout specific to the
+> >>>>>>> + * indicated version and return an error if the desired version is not
+> >>>>>>> + * supported.
+> >>>>>>> + *
+> >>>>>>> + * For each ISP block that userspace wants to configure, a block-specific
+> >>>>>>> + * structure is appended to the @data buffer, one after the other without gaps
+> >>>>>>> + * in between nor overlaps. Userspace shall populate the @data_size field with
+> >>>>>>> + * the effective size, in bytes, of the @data buffer.
+> >>>>>>> + *
+> >>>>>>> + * The expected memory layout of the parameters buffer is::
+> >>>>>>> + *
+> >>>>>>> + *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
+> >>>>>>> + *	| version = RKISP_EXT_PARAMS_BUFFER_V1;                               |
+> >>>>>>> + *	| data_size = sizeof(struct rkisp1_ext_params_bls_config)             |
+> >>>>>>> + *	|           + sizeof(struct rkisp1_ext_params_dpcc_config);           |
+> >>>>>>> + *	| +------------------------- data  ---------------------------------+ |
+> >>>>>>> + *	| | +------------- struct rkisp1_ext_params_bls_config -----------+ | |
+> >>>>>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+> >>>>>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS;                | | | |
+> >>>>>>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
+> >>>>>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_bls_config);     | | | |
+> >>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+> >>>>>>> + *	| | | +---------- struct rkisp1_cif_isp_bls_config -------------+ | | |
+> >>>>>>> + *	| | | | enable_auto = 0;                                        | | | |
+> >>>>>>> + *	| | | | fixed_val.r = 256;                                      | | | |
+> >>>>>>> + *	| | | | fixed_val.gr = 256;                                     | | | |
+> >>>>>>> + *	| | | | fixed_val.gb = 256;                                     | | | |
+> >>>>>>> + *	| | | | fixed_val.b = 256;                                      | | | |
+> >>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+> >>>>>>> + *	| | +------------ struct rkisp1_ext_params_dpcc_config -----------+ | |
+> >>>>>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+> >>>>>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC;               | | | |
+> >>>>>>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
+> >>>>>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_dpcc_config);    | | | |
+> >>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+> >>>>>>> + *	| | | +---------- struct rkisp1_cif_isp_dpcc_config ------------+ | | |
+> >>>>>>> + *	| | | | mode = RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE;          | | | |
+> >>>>>>> + *	| | | | output_mode =                                           | | | |
+> >>>>>>> + *	| | | |   RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_INCL_G_CENTER; | | | |
+> >>>>>>> + *	| | | | set_use = ... ;                                         | | | |
+> >>>>>>> + *	| | | | ...  = ... ;                                            | | | |
+> >>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+> >>>>>>> + *	| | +-------------------------------------------------------------+ | |
+> >>>>>>> + *	| +-----------------------------------------------------------------+ |
+> >>>>>>> + *	+---------------------------------------------------------------------+
+> >>>>>>> + *
+> >>>>>>> + * @version: The RkISP1 extensible parameters buffer version, see
+> >>>>>>> + *	     :c:type:`rksip1_ext_param_buffer_version`
+> >>>>>>> + * @data_size: The RkISP1 configuration data effective size, excluding this
+> >>>>>>> + *	       header
+> >>>>>>> + * @data: The RkISP1 extensible configuration data blocks
+> >>>>>>> + */
+> >>>>>>> +struct rkisp1_ext_params_cfg {
+> >>>>>>> +	__u32 version;
+> >>>>>>> +	__u32 data_size;
+> >>>>>>> +	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+> >>>>>>> +};
+> >>>>>>> +
+> >>>>>>>  #endif /* _UAPI_RKISP1_CONFIG_H */
+> >>>
+> >>
+> >
+>
 
