@@ -1,75 +1,36 @@
-Return-Path: <linux-media+bounces-15996-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15997-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55D194BEB4
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 15:44:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D092094BEF8
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 16:02:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5581E1F23BD6
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 13:44:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82F602823A8
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 14:02:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4305818E04F;
-	Thu,  8 Aug 2024 13:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x/E+KQ7w"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2D218E745;
+	Thu,  8 Aug 2024 14:02:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC13118E02D
-	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 13:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3628129AF
+	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 14:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723124651; cv=none; b=s8jxDhbOFO5kfjtRn6AY9wKoh6NcBoTcPFi700eLswxn7TDvVDSA4/nUR0wxGnIOCikjLWMTE+TKhjtI0snXOde2rmNcfdO1R+q+rItBmCL7NeT7h06mgpf0o4Ck6i0UL8t5xlYS1TgR5OlHU84JBt3mkReJW8GM9/yj1iQU0DA=
+	t=1723125723; cv=none; b=QDWwcUJ2gbCQxY/8uiJgAjzgFwY7oM5lQOtM3WoJhExc7xhwhKT30PLMIsavTu+nT1PO3lsgb+5iDhwMh0mYoEkGlgh9cv1cVqmOzwczcAxk7O5T1DlJ2rjYG6OxbAx/fYmuin/klvu5nGworroo0CyKgYVovWCHn/zSOhp/OuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723124651; c=relaxed/simple;
-	bh=R7/BLh/7AgTftmRpxzhos6wh2yaWPPjP6+1XVFhcN3I=;
+	s=arc-20240116; t=1723125723; c=relaxed/simple;
+	bh=AWWwTDN4OXkfXv9ZY/qaJNrq4vJjyWGYyjFhIDlpZ30=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KyuKlEQs4CrnlxjU+qn375rweBtw7Lbr12Nf//fKZclVCh3Xg10Z8jcOGq4fJpfk0rnuefD4jbtLao2HnRSmQbzyBeCDeqmop9mUtC3jv0hBihNYy+4mKW3uYUOvzG3yGTni8T1CwlQRIy5y/mwwp3sRdrE1OGOx1bckJ2DBwNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x/E+KQ7w; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f035ae0ff1so8701951fa.0
-        for <linux-media@vger.kernel.org>; Thu, 08 Aug 2024 06:44:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723124647; x=1723729447; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=R7/BLh/7AgTftmRpxzhos6wh2yaWPPjP6+1XVFhcN3I=;
-        b=x/E+KQ7wyRL2KJ+1CMPhCagmNPE12YdDh2DvBHADbFKufbDvehpWCiIKatFLzTpXei
-         hrqlYu1lrE5j6LmcfXHknW0Z20ZzeZQB4eLezUX+DTYVmxT/X5uriUQ5S88eZ47lxkaC
-         Noy1ugV9PT7xFVKc2ZtTqxe86kOfy6lA0iKSkgGIT3vT1sUI0WfGuJQ/UkTu2t/AAJAd
-         4/TVDoa48Vm+zqoJHGca80UH4C0wML/tQvGJOAf0tIErAGau1oqGTPKmQAx9GQOVX9Z/
-         8n0iHt39pzbIyvZ9jdhB3Fy5uO70bSy1xFFg3iYDFFdix+/k4fkE6GE2fzMmzqGSY0JW
-         GIXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723124647; x=1723729447;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R7/BLh/7AgTftmRpxzhos6wh2yaWPPjP6+1XVFhcN3I=;
-        b=kBs85689swY3oFxQ0TY5kS4jjwaOjx6yEvEAVVYkMGxinN6cC+Zr3u04vUcY56LKJF
-         kawbxTPD/k1e4BL60+aIDHqXV2MRNMPBKY7VsY8DVlIIWyDEak4fQIBrysIv5+O/0gd/
-         YVv3+gTiNkZSg4Lv8xI1aRMTLVWUSbBIzAnyEIkEF8RLg5V20IymFNeBkYAMZ85o2y0J
-         uFtzdVtaueNaS/FGAhg4Neta0Z2CjLWfUwy0nE2+brWlDb1optfV2JJH2YOexJ1fI8gV
-         umOxD6AHTGDiWWqWZcwYUwxaaqn97+nInBW2RHymHbcZx4GWK0sJINXtNCFzBvv+RHXX
-         U+Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcdFSGpqafRTXywi7pU6XtxSelBEzdoSwlD5uErcHB0E8c6LH6obHhJwmwPLC7FjsjvmGQ7P6FfVn5FOCfY1GlfCI5Yl9PUdoisGY=
-X-Gm-Message-State: AOJu0YxhdI3corto/ZyrX37jx1DPEDBWRD7WOjw03UDsHKZTG/1CmBoR
-	ACsKNbGixEIOt/8eugMbQ4Q97wAAoCKvLdu7iPfIH92iTI5Z2mNnafalbvztHL4=
-X-Google-Smtp-Source: AGHT+IF1bqM/ENSyQ49Vxrn4iUGMS0ZtWbHAka03fObxFD2QtSz7p+m2mIvkQhkl5RberooJQ5RZ/w==
-X-Received: by 2002:a2e:5159:0:b0:2ef:28f2:66ee with SMTP id 38308e7fff4ca-2f19e3ccc3amr4335031fa.21.1723124646622;
-        Thu, 08 Aug 2024 06:44:06 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.137])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f15e1ac61bsm22334221fa.30.2024.08.08.06.44.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Aug 2024 06:44:06 -0700 (PDT)
-Message-ID: <ae828d2b-8288-48f8-8714-8b6de6ceee03@linaro.org>
-Date: Thu, 8 Aug 2024 15:44:03 +0200
+	 In-Reply-To:Content-Type; b=mWvWHDgs4lQe/6Q8L0cNy7tGzoh5u9PMDdysqqGYb6xmM0qz6Z7qET1QvPwGs6Uum3JeXHvvEBCo0bbIDpuLUBXY5VTglYJlibzpdcnJjpBc9nYedU+0qQRP0ZgE95rjBJRMykc7htq7qd5X6K1piAYTSKKsG69il+v5jUdZqZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 981A5C32782;
+	Thu,  8 Aug 2024 14:02:00 +0000 (UTC)
+Message-ID: <7cbf9ca9-25fe-4ca5-8ac9-c029508e3a70@xs4all.nl>
+Date: Thu, 8 Aug 2024 16:01:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,90 +38,213 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3] dt-bindings: media: s5p-mfc: Remove s5p-mfc.txt
- binding
-To: Aakarsh Jain <aakarsh.jain@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: m.szyprowski@samsung.com, hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- linux-samsung-soc@vger.kernel.org, gost.dev@samsung.com,
- aswani.reddy@samsung.com, pankaj.dubey@samsung.com
-References: <CGME20240808083027epcas5p153e64139a5e71448b1ea3f04af1df2bd@epcas5p1.samsung.com>
- <20240808081815.88711-1-aakarsh.jain@samsung.com>
- <4230387d-0413-4da8-b55a-ac708af05e34@linaro.org>
- <04fb01dae97b$52f88980$f8e99c80$@samsung.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <04fb01dae97b$52f88980$f8e99c80$@samsung.com>
+Subject: Re: [PATCH v9 01/12] media: uapi: rkisp1-config: Add extensible
+ params format
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Sakari Ailus <sakari.ailus@iki.fi>,
+ Stefan Klug <stefan.klug@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20240807212253.1667847-1-jacopo.mondi@ideasonboard.com>
+ <20240807212253.1667847-2-jacopo.mondi@ideasonboard.com>
+ <5497762f-5959-4890-b02a-176377042387@xs4all.nl>
+ <ctpmtoqun2isj2jxer4z4mlvhqzi532j43cejbkhid375fxelt@dg763qf5wtjd>
+ <1662108d-24b6-427b-849a-fd0a4107c3e6@xs4all.nl>
+ <20240808095438.GB21245@pendragon.ideasonboard.com>
+ <a0f0c7d3-8647-49d7-9efc-8c0b8624094a@xs4all.nl>
+ <20240808105123.GB5833@pendragon.ideasonboard.com>
+ <eb6458f2-2416-46ab-91c6-748561036a77@xs4all.nl>
+ <vucgdxhgoqm5ij4sjwsrjfsvza2m3ts3yprjcwhc3ampv2mjqf@mrc4tke6unq2>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <vucgdxhgoqm5ij4sjwsrjfsvza2m3ts3yprjcwhc3ampv2mjqf@mrc4tke6unq2>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/08/2024 12:11, Aakarsh Jain wrote:
->>> Fixes: 538af6e5856b ("dt-bindings: media: s5p-mfc: convert bindings to
->>> json-schema")
->>> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
->>> changelog:
->>> v1->v2
->>> Add Fixes tag suggested by Krzysztof
->>> v2->v3
->>> Aligned Fixes tag in oneline and corrected commit message
->>> Link:
->>> https://patchwork.kernel.org/project/linux-media/patch/20240213045733.
->>> 63876-1-aakarsh.jain@samsung.com/
->>
->> Something got corrupted in your changelog.
->>
-> I just realized that it would go as part of commit message.
-> Do you want me to respin this patch or you will take care while applying?
+On 08/08/2024 14:03, Jacopo Mondi wrote:
+> Hi Hans
+> 
+> On Thu, Aug 08, 2024 at 12:58:46PM GMT, Hans Verkuil wrote:
 
-Please send a new version. This won't be going through me.
+<snip>
 
-Best regards,
-Krzysztof
+>>>>>>>> I see no check against this in the rkisp1 code. Shouldn't this be checked?
+>>>>>>>> If the version is unsupported, then just return an error.
+>>>>>>>
+>>>>>>> Do we need this for the first version ? There are no other versions
+>>>>>>> userspace can use at the moment. I can add a check during validation
+>>>>>>> though.
+>>>>>>
+>>>>>> Yes: if a V2 is added in the future, and an application wants to use that
+>>>>>> against a driver that only support V1, then that should fail.
+>>>>>>
+>>>>>>>> Also, how does userspace know which version(s) is/are supported by the driver?
+>>>>>>>
+>>>>>>> Good question, there is no API for that atm. Defining a new format
+>>>>>>> version should only happen when a non-backward compatible change to
+>>>>>>> the format is made. I understand an application can be compiled
+>>>>>>> against a newer kernel header that provides a new format version but
+>>>>>>> then run on an older kernel where the new format is not supported.
+>>>>>>>
+>>>>>>> Probably userspace should be able to identify what versions are
+>>>>>>> supported by the driver it runs with and use the most appropriate one
+>>>>>>> by selecting it at runtime.
+>>>>>>>
+>>>>>>> What API would you use for that ? Is this something required for this
+>>>>>>> first version where a single format version is available ?
+>>>>>>
+>>>>>> You need this also for this first version for the reason explained above.
+>>>>>>
+>>>>>> Personally I would just make a read-only control that returns the highest
+>>>>>> supported version.
+>>>>>
+>>>>> Can't userspace use the version number reported through the media device
+>>>>> to determine the features the driver support ? We've done that in
+>>>>> libcamera for some drivers already, either to work around bugs, or to
+>>>>> make use of new features.
+>>>>
+>>>> You can, but this will fall down if the driver is backported to an older
+>>>> kernel for whatever reason. Since the version is just the kernel version,
+>>>> it will drop back to that older kernel version.
+>>>
+>>> I recall discussing this issue in the past (I'm not sure it was with
+>>> you). If my memory doesn't fail me, there was a consensus that, when
+>>> backporting the whole V4L2 subsystem, the version number reported would
+>>> tbe the one corresponding to the more recent kernel, not the kernel the
+>>> code has been backported to.
+>>
+>> That was when using the old https://git.linuxtv.org/media_build.git/ system.
+>> That's no longer in use.
+>>
+>> I'm talking if a vendor is on an old kernel and backports rkisp1 to it (not
+>> exactly uncommon!), then this will not work since the version will be that
+>> of the old kernel.
+>>
+> 
+> In this case it will backport the driver and the uAPI from the same
+> version, so this shouldn't be an issue.
+> 
+> What is concerning is an application compiled against a uAPI newer
+> than the kernel it will be run on. The uAPI could advertise newer
+> format revisions the driver doesn't know about and will fail to
+> validate. In this case the application should be give a way to know
+> what version is the most recent one supported by the driver, and a
+> control might be the way forward. As long as we have a single format
+> revision I think we might omit implementing the control for now and
+> only expose it when multiple revisions will be implemented ? If the
+> control is not there, it means only V1 is available. Should I document
+> it ?
+
+I think it is sufficient for now to just add a version check in the driver
+and return an error if it is not supported.
+
+And when a V2 is introduced, then we can think about using a control. Or
+perhaps just rely on the version check.
+
+Regards,
+
+	Hans
+
+> 
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>
+>>> That would help here, but will not solve the issue of how to deal with
+>>> backports of a single driver. Jacopo, what do you think ?
+>>>
+>>>> Whether that is acceptable or not is up to you.
+>>>>
+>>>> In any case, this would have to be documented so you know at which kernel
+>>>> version a new RKISP1_EXT_PARAM_BUFFER_Vx is introduced.
+>>>>
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>> +/**
+>>>>>>>>> + * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
+>>>>>>>>> + *
+>>>>>>>>> + * This struct contains the configuration parameters of the RkISP1 ISP
+>>>>>>>>> + * algorithms, serialized by userspace into a data buffer. Each configuration
+>>>>>>>>> + * parameter block is represented by a block-specific structure which contains a
+>>>>>>>>> + * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
+>>>>>>>>> + * populates the @data buffer with configuration parameters for the blocks that
+>>>>>>>>> + * it intends to configure. As a consequence, the data buffer effective size
+>>>>>>>>> + * changes according to the number of ISP blocks that userspace intends to
+>>>>>>>>> + * configure and is set by userspace in the @data_size field.
+>>>>>>>>> + *
+>>>>>>>>> + * The parameters buffer is versioned by the @version field to allow modifying
+>>>>>>>>> + * and extending its definition. Userspace shall populate the @version field to
+>>>>>>>>> + * inform the driver about the version it intends to use. The driver will parse
+>>>>>>>>> + * and handle the @data buffer according to the data layout specific to the
+>>>>>>>>> + * indicated version and return an error if the desired version is not
+>>>>>>>>> + * supported.
+>>>>>>>>> + *
+>>>>>>>>> + * For each ISP block that userspace wants to configure, a block-specific
+>>>>>>>>> + * structure is appended to the @data buffer, one after the other without gaps
+>>>>>>>>> + * in between nor overlaps. Userspace shall populate the @data_size field with
+>>>>>>>>> + * the effective size, in bytes, of the @data buffer.
+>>>>>>>>> + *
+>>>>>>>>> + * The expected memory layout of the parameters buffer is::
+>>>>>>>>> + *
+>>>>>>>>> + *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
+>>>>>>>>> + *	| version = RKISP_EXT_PARAMS_BUFFER_V1;                               |
+>>>>>>>>> + *	| data_size = sizeof(struct rkisp1_ext_params_bls_config)             |
+>>>>>>>>> + *	|           + sizeof(struct rkisp1_ext_params_dpcc_config);           |
+>>>>>>>>> + *	| +------------------------- data  ---------------------------------+ |
+>>>>>>>>> + *	| | +------------- struct rkisp1_ext_params_bls_config -----------+ | |
+>>>>>>>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+>>>>>>>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS;                | | | |
+>>>>>>>>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
+>>>>>>>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_bls_config);     | | | |
+>>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+>>>>>>>>> + *	| | | +---------- struct rkisp1_cif_isp_bls_config -------------+ | | |
+>>>>>>>>> + *	| | | | enable_auto = 0;                                        | | | |
+>>>>>>>>> + *	| | | | fixed_val.r = 256;                                      | | | |
+>>>>>>>>> + *	| | | | fixed_val.gr = 256;                                     | | | |
+>>>>>>>>> + *	| | | | fixed_val.gb = 256;                                     | | | |
+>>>>>>>>> + *	| | | | fixed_val.b = 256;                                      | | | |
+>>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+>>>>>>>>> + *	| | +------------ struct rkisp1_ext_params_dpcc_config -----------+ | |
+>>>>>>>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+>>>>>>>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC;               | | | |
+>>>>>>>>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
+>>>>>>>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_dpcc_config);    | | | |
+>>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+>>>>>>>>> + *	| | | +---------- struct rkisp1_cif_isp_dpcc_config ------------+ | | |
+>>>>>>>>> + *	| | | | mode = RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE;          | | | |
+>>>>>>>>> + *	| | | | output_mode =                                           | | | |
+>>>>>>>>> + *	| | | |   RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_INCL_G_CENTER; | | | |
+>>>>>>>>> + *	| | | | set_use = ... ;                                         | | | |
+>>>>>>>>> + *	| | | | ...  = ... ;                                            | | | |
+>>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
+>>>>>>>>> + *	| | +-------------------------------------------------------------+ | |
+>>>>>>>>> + *	| +-----------------------------------------------------------------+ |
+>>>>>>>>> + *	+---------------------------------------------------------------------+
+>>>>>>>>> + *
+>>>>>>>>> + * @version: The RkISP1 extensible parameters buffer version, see
+>>>>>>>>> + *	     :c:type:`rksip1_ext_param_buffer_version`
+>>>>>>>>> + * @data_size: The RkISP1 configuration data effective size, excluding this
+>>>>>>>>> + *	       header
+>>>>>>>>> + * @data: The RkISP1 extensible configuration data blocks
+>>>>>>>>> + */
+>>>>>>>>> +struct rkisp1_ext_params_cfg {
+>>>>>>>>> +	__u32 version;
+>>>>>>>>> +	__u32 data_size;
+>>>>>>>>> +	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+>>>>>>>>> +};
+>>>>>>>>> +
+>>>>>>>>>  #endif /* _UAPI_RKISP1_CONFIG_H */
+>>>>>
+>>>>
+>>>
+>>
 
 
