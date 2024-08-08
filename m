@@ -1,518 +1,628 @@
-Return-Path: <linux-media+bounces-15978-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15979-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9AB94B9A6
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 11:26:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE4B94BA25
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 11:55:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 885081C20CDB
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 09:26:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CDB9B20FB1
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 09:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37ED31474CE;
-	Thu,  8 Aug 2024 09:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AE0A1891DA;
+	Thu,  8 Aug 2024 09:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="MyZPuMHA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pEot8Raf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B883A8C0B;
-	Thu,  8 Aug 2024 09:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9E11474B9
+	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 09:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723109193; cv=none; b=RYUARqZO6aQn+yXunGwDJF9oAhFJBUcJLtdUGYRCEeq+Cci5/URQuC3F5Tp3TuF2vHNwmrunBC2C32zKCdYqfiybj1/iiH9+Bzbvd9taotaL45+RPJSTSKfoUrMlmslmlQpF4mlgSrmjDDsnfjZG3tmTwRmYnkc1QRoNZFIYNBQ=
+	t=1723110908; cv=none; b=SzIdAcI4T3VV3Owaufdew102JBL0uVtKiPB7wgy4xOPOflSmd7zVdT+hE4RXbh0doPLdOAqd3O+86X0WyIks68eXksW3GTsT318aW9m54/ZkIgpvnfpcQKRfbVim3pgEg9yqyRMsjbyq9QlTdar2DpEim/4KludHpB7ikxkbsq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723109193; c=relaxed/simple;
-	bh=tzyJuZMCcmKaSqGsSOASDlTamb6aA6SBvAcVlSNpTBg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PcpsuW3sJ14b6HIf/LYAktutIwKBwOvsNzvZfpOLe7kWXWziHIprytGfHm/BSJrXICGP4QmRYsrNK/iw939639OFaviEUD8Bv1ygFPHlvf4PJAGM3SZwqVrgxZT6fhD/msZ7dx1iSlddCxJ88gQ3enmDer7Y8khoX1Q5mZRPC2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=MyZPuMHA; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 42246cf6556811ef9a4e6796c666300c-20240808
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=mkmKYG4KXXFL2tuJ7hOxdziUTrzfMdqIpiDUI8jvFpU=;
-	b=MyZPuMHAzSM2NUx9RrSA/nAu/t/ChL3n+U79dN2Du9UnTLJhqDa13GE+44AtC4ULKQPnJvyq2J3/VjbRP4JpjY2up8wiwRE/Jpl0Vl3Oi+OvgW3lnVMkExIjb+HoDAoLaUqSUNLl21x1sUnTzlXSqcBCfWTR3k2znqM0qPvr52w=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:e66950fa-e7c0-44dc-96d2-81bacd71d113,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6dc6a47,CLOUDID:b899e23e-6019-4002-9080-12f7f4711092,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 42246cf6556811ef9a4e6796c666300c-20240808
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
-	(envelope-from <jianhua.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 756673898; Thu, 08 Aug 2024 17:26:14 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 8 Aug 2024 17:26:15 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 8 Aug 2024 17:26:15 +0800
-From: Jianhua Lin <jianhua.lin@mediatek.com>
-To: <daniel.almeida@collabora.com>, <mchehab@kernel.org>,
-	<angelogioacchino.delregno@collabora.com>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jianhua Lin
-	<jianhua.lin@mediatek.com>
-Subject: [PATCH v6 1/1] media: mediatek: jpeg: support 34bits
-Date: Thu, 8 Aug 2024 17:25:55 +0800
-Message-ID: <20240808092555.12999-1-jianhua.lin@mediatek.com>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1723110908; c=relaxed/simple;
+	bh=UxHXVktkyeMZguVC4fE8G7laYU+JWsLVxM+VT6MkpBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=df36olT0pt7lE3Y3IMbJSPLl5gjAw4JuNzlfcN/X8DmHRV5+T3HGhM9NQgKp5kJnxO1GPtrIEv29j/V5eIXaenT4dMCfXbWKW+bkWiLVnxOd3M0ItEYC5XMtVTn0yXQm5f8pxGPNOv5VDvcc5N27k4y4x8831XWiNJu85Kgb/GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pEot8Raf; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B3ED8D0;
+	Thu,  8 Aug 2024 11:54:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723110849;
+	bh=UxHXVktkyeMZguVC4fE8G7laYU+JWsLVxM+VT6MkpBo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pEot8Raf245yNYt+vI2EBphdQ1OeYRR/ij7m9cI42SsRMjcYOXXSgYRQoX8nZsaCG
+	 viaBc0AAFTCNgzS6cKDysGuKm8RySskDn8KCHRExV3cfKjSxL28iL+Ckfrjk4dRqIx
+	 igs1S3/fB+PzvliKtiK+FEl+Swe9hCq6D6Pem4V8=
+Date: Thu, 8 Aug 2024 12:54:38 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v9 01/12] media: uapi: rkisp1-config: Add extensible
+ params format
+Message-ID: <20240808095438.GB21245@pendragon.ideasonboard.com>
+References: <20240807212253.1667847-1-jacopo.mondi@ideasonboard.com>
+ <20240807212253.1667847-2-jacopo.mondi@ideasonboard.com>
+ <5497762f-5959-4890-b02a-176377042387@xs4all.nl>
+ <ctpmtoqun2isj2jxer4z4mlvhqzi532j43cejbkhid375fxelt@dg763qf5wtjd>
+ <1662108d-24b6-427b-849a-fd0a4107c3e6@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1662108d-24b6-427b-849a-fd0a4107c3e6@xs4all.nl>
 
-the iommu HW supported 34bits iova space(16GB),
-but mediatek jpeg enc/dec driver still is 32bit,
-then need to set the bit32/bit33 iova to jpeg HW.
+On Thu, Aug 08, 2024 at 09:41:42AM +0200, Hans Verkuil wrote:
+> On 08/08/2024 09:24, Jacopo Mondi wrote:
+> > On Thu, Aug 08, 2024 at 08:31:58AM GMT, Hans Verkuil wrote:
+> >> On 07/08/2024 23:22, Jacopo Mondi wrote:
+> >>> Add to the rkisp1-config.h header data types and documentation of
+> >>> the extensible parameters format.
+> >>>
+> >>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+> >>> Tested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> >>> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> ---
+> >>>  include/uapi/linux/rkisp1-config.h | 485 +++++++++++++++++++++++++++++
+> >>>  1 file changed, 485 insertions(+)
+> >>>
+> >>> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> >>> index 6eeaf8bf2362..14a23fd9a745 100644
+> >>> --- a/include/uapi/linux/rkisp1-config.h
+> >>> +++ b/include/uapi/linux/rkisp1-config.h
+> >>> @@ -996,4 +996,489 @@ struct rkisp1_stat_buffer {
+> >>>  	struct rkisp1_cif_isp_stat params;
+> >>>  };
+> >>>
+> >>> +/*---------- PART3: Extensible Configuration Parameters  ------------*/
+> >>> +
+> >>> +/**
+> >>> + * enum rkisp1_ext_params_block_type - RkISP1 extensible params block type
+> >>> + *
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS: Black level subtraction
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC: Defect pixel cluster correction
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG: Sensor de-gamma
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN: Auto white balance gains
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT: ISP filtering
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM: Bayer de-mosaic
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK: Cross-talk correction
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC: Gamma out correction
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF: De-noise pre-filter
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH: De-noise pre-filter strength
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC: Color processing
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_IE: Image effects
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC: Lens shading correction
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS: Auto white balance statistics
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS: Histogram statistics
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS: Auto exposure statistics
+> >>> + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS: Auto-focus statistics
+> >>> + */
+> >>> +enum rkisp1_ext_params_block_type {
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_IE,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS,
+> >>> +	RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS,
+> >>> +};
+> >>> +
+> >>> +#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+> >>> +#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	(1U << 1)
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
+> >>> + *					   header
+> >>> + *
+> >>> + * This structure represents the common part of all the ISP configuration
+> >>> + * blocks. Each parameters block shall embed an instance of this structure type
+> >>> + * as its first member, followed by the block-specific configuration data. The
+> >>> + * driver inspects this common header to discern the block type and its size and
+> >>> + * properly handle the block content by casting it to the correct block-specific
+> >>> + * type.
+> >>> + *
+> >>> + * The @type field is one of the values enumerated by
+> >>> + * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
+> >>> + * interpreted by the driver. The @size field specifies the size of the
+> >>> + * parameters block and is used by the driver for validation purposes.
+> >>> + *
+> >>> + * The @flags field is a bitmask of per-block flags RKISP1_EXT_PARAMS_FL_*.
+> >>> + *
+> >>> + * When userspace wants to configure and enable an ISP block it shall fully
+> >>> + * populate the block configuration and set the
+> >>> + * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE bit in the @flags field.
+> >>> + *
+> >>> + * When userspace simply wants to disable an ISP block the
+> >>> + * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bit should be set in @flags field. The
+> >>> + * driver ignores the rest of the block configuration structure in this case.
+> >>> + *
+> >>> + * If a new configuration of an ISP block has to be applied userspace shall
+> >>> + * fully populate the ISP block configuration and omit setting the
+> >>> + * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
+> >>> + * in the @flags field.
+> >>> + *
+> >>> + * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
+> >>> + * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the @flags field is not allowed
+> >>> + * and not accepted by the driver.
+> >>> + *
+> >>> + * Userspace is responsible for correctly populating the parameters block header
+> >>> + * fields (@type, @flags and @size) and the block-specific parameters.
+> >>> + *
+> >>> + * For example:
+> >>> + *
+> >>> + * .. code-block:: c
+> >>> + *
+> >>> + *	void populate_bls(struct rkisp1_ext_params_block_header *block) {
+> >>> + *		struct rkisp1_ext_params_bls_config *bls =
+> >>> + *			(struct rkisp1_ext_params_bls_config *)block;
+> >>> + *
+> >>> + *		bls->header.type = RKISP1_EXT_PARAMS_BLOCK_ID_BLS;
+> >>> + *		bls->header.flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;
+> >>> + *		bls->header.size = sizeof(*bls);
+> >>> + *
+> >>> + *		bls->config.enable_auto = 0;
+> >>> + *		bls->config.fixed_val.r = blackLevelRed_;
+> >>> + *		bls->config.fixed_val.gr = blackLevelGreenR_;
+> >>> + *		bls->config.fixed_val.gb = blackLevelGreenB_;
+> >>> + *		bls->config.fixed_val.b = blackLevelBlue_;
+> >>> + *	}
+> >>> + *
+> >>> + * @type: The parameters block type, see
+> >>> + *	  :c:type:`rkisp1_ext_params_block_type`
+> >>> + * @flags: A bitmask of block flags
+> >>> + * @size: Size (in bytes) of the parameters block, including this header
+> >>> + */
+> >>> +struct rkisp1_ext_params_block_header {
+> >>> +	__u16 type;
+> >>> +	__u16 flags;
+> >>> +	__u32 size;
+> >>> +};
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_bls_config - RkISP1 extensible params BLS config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Black Level Subtraction configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Black Level Subtraction configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_bls_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_bls_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_bls_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_dpcc_config - RkISP1 extensible params DPCC config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Defective Pixel Cluster Correction configuration
+> >>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Defective Pixel Cluster Correction configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_dpcc_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_dpcc_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_dpcc_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_sdg_config - RkISP1 extensible params SDG config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Sensor Degamma configuration block. Identified
+> >>> + * by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_SDG`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Sensor Degamma configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_sdg_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_sdg_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_sdg_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_lsc_config - RkISP1 extensible params LSC config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Lens Shading Correction configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Lens Shading Correction configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_lsc_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_lsc_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_lsc_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_awb_gain_config - RkISP1 extensible params AWB
+> >>> + *					      gain config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Auto-White Balance Gains configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Auto-White Balance Gains configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_awb_gain_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_awb_gain_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_awb_gain_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_flt_config - RkISP1 extensible params FLT config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Filter configuration block. Identified by
+> >>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_FLT`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Filter configuration, see :c:type:`rkisp1_cif_isp_flt_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_flt_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_flt_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_bdm_config - RkISP1 extensible params BDM config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Demosaicing configuration block. Identified by
+> >>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_BDM`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Demosaicing configuration, see :c:type:`rkisp1_cif_isp_bdm_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_bdm_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_bdm_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_ctk_config - RkISP1 extensible params CTK config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Cross-Talk configuration block. Identified by
+> >>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Cross-Talk configuration, see :c:type:`rkisp1_cif_isp_ctk_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_ctk_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_ctk_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_goc_config - RkISP1 extensible params GOC config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Gamma-Out configuration block. Identified by
+> >>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Gamma-Out configuration, see :c:type:`rkisp1_cif_isp_goc_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_goc_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_goc_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_dpf_config - RkISP1 extensible params DPF config
+> >>> + *
+> >>> + * RkISP1 extensible parameters De-noise Pre-Filter configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: De-noise Pre-Filter configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_dpf_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_dpf_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_dpf_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_dpf_strength_config - RkISP1 extensible params DPF
+> >>> + *						  strength config
+> >>> + *
+> >>> + * RkISP1 extensible parameters De-noise Pre-Filter strength configuration
+> >>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: De-noise Pre-Filter strength configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_dpf_strength_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_dpf_strength_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_dpf_strength_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_cproc_config - RkISP1 extensible params CPROC config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Color Processing configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_CPROC`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Color processing configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_cproc_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_cproc_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_cproc_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_ie_config - RkISP1 extensible params IE config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Image Effect configuration block. Identified by
+> >>> + * :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_IE`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Image Effect configuration, see :c:type:`rkisp1_cif_isp_ie_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_ie_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_ie_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_awb_meas_config - RkISP1 extensible params AWB
+> >>> + *					      Meas config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Auto-White Balance Measurement configuration
+> >>> + * block. Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Auto-White Balance measure configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_awb_meas_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_awb_meas_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_awb_meas_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_hst_config - RkISP1 extensible params Histogram config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Histogram statistics configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Histogram statistics configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_hst_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_hst_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_hst_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_aec_config - RkISP1 extensible params AEC config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Auto-Exposure statistics configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Auto-Exposure statistics configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_aec_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_aec_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_aec_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_afc_config - RkISP1 extensible params AFC config
+> >>> + *
+> >>> + * RkISP1 extensible parameters Auto-Focus statistics configuration block.
+> >>> + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_AFC_MEAS`.
+> >>> + *
+> >>> + * @header: The RkISP1 extensible parameters header, see
+> >>> + *	    :c:type:`rkisp1_ext_params_block_header`
+> >>> + * @config: Auto-Focus statistics configuration, see
+> >>> + *	    :c:type:`rkisp1_cif_isp_afc_config`
+> >>> + */
+> >>> +struct rkisp1_ext_params_afc_config {
+> >>> +	struct rkisp1_ext_params_block_header header;
+> >>> +	struct rkisp1_cif_isp_afc_config config;
+> >>> +} __attribute__((aligned(8)));
+> >>> +
+> >>> +#define RKISP1_EXT_PARAMS_MAX_SIZE					\
+> >>> +	(sizeof(struct rkisp1_ext_params_bls_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_dpcc_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_sdg_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_lsc_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_awb_gain_config)		+\
+> >>> +	sizeof(struct rkisp1_ext_params_flt_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_bdm_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_ctk_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_goc_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_dpf_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_dpf_strength_config)		+\
+> >>> +	sizeof(struct rkisp1_ext_params_cproc_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_ie_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_awb_meas_config)		+\
+> >>> +	sizeof(struct rkisp1_ext_params_hst_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_aec_config)			+\
+> >>> +	sizeof(struct rkisp1_ext_params_afc_config))
+> >>> +
+> >>> +/**
+> >>> + * enum rksip1_ext_param_buffer_version - RkISP1 extensible parameters version
+> >>> + *
+> >>> + * @RKISP1_EXT_PARAM_BUFFER_V1: First version of RkISP1 extensible parameters
+> >>> + */
+> >>> +enum rksip1_ext_param_buffer_version {
+> >>> +	RKISP1_EXT_PARAM_BUFFER_V1 = 1,
+> >>
+> >> I see no check against this in the rkisp1 code. Shouldn't this be checked?
+> >> If the version is unsupported, then just return an error.
+> > 
+> > Do we need this for the first version ? There are no other versions
+> > userspace can use at the moment. I can add a check during validation
+> > though.
+> 
+> Yes: if a V2 is added in the future, and an application wants to use that
+> against a driver that only support V1, then that should fail.
+> 
+> >> Also, how does userspace know which version(s) is/are supported by the driver?
+> > 
+> > Good question, there is no API for that atm. Defining a new format
+> > version should only happen when a non-backward compatible change to
+> > the format is made. I understand an application can be compiled
+> > against a newer kernel header that provides a new format version but
+> > then run on an older kernel where the new format is not supported.
+> > 
+> > Probably userspace should be able to identify what versions are
+> > supported by the driver it runs with and use the most appropriate one
+> > by selecting it at runtime.
+> > 
+> > What API would you use for that ? Is this something required for this
+> > first version where a single format version is available ?
+> 
+> You need this also for this first version for the reason explained above.
+> 
+> Personally I would just make a read-only control that returns the highest
+> supported version.
 
-Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
----
-Changes compared with v5:
-- include header file 'linux/bitfield.h' to fix build error,
-  error: implicit declaration of function 'FIELD_PREP'
-  under allyesconfig.m68k,allmodconfig.sparc64,allmodconfig.m68k
- 
- .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 49 ++++++++++++++-
- .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  4 ++
- .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 61 +++++++++++++++----
- .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |  1 +
- .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |  8 +++
- .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 46 ++++++++++++--
- .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |  7 ++-
- 7 files changed, 156 insertions(+), 20 deletions(-)
+Can't userspace use the version number reported through the media device
+to determine the features the driver support ? We've done that in
+libcamera for some drivers already, either to work around bugs, or to
+make use of new features.
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index ac48658e2de4..f4e3b90195cf 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1030,6 +1030,7 @@ static void mtk_jpeg_dec_device_run(void *priv)
- 	spin_lock_irqsave(&jpeg->hw_lock, flags);
- 	mtk_jpeg_dec_reset(jpeg->reg_base);
- 	mtk_jpeg_dec_set_config(jpeg->reg_base,
-+				jpeg->variant->support_34bit,
- 				&jpeg_src_buf->dec_param,
- 				jpeg_src_buf->bs_size,
- 				&bs,
-@@ -1564,7 +1565,8 @@ static irqreturn_t mtk_jpeg_enc_done(struct mtk_jpeg_dev *jpeg)
- 	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
- 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 
--	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base);
-+	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base,
-+			jpeg->variant->support_34bit);
- 	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, result_size);
- 
- 	buf_state = VB2_BUF_STATE_DONE;
-@@ -1764,6 +1766,7 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 	ctx->total_frame_num++;
- 	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
- 	mtk_jpeg_dec_set_config(comp_jpeg[hw_id]->reg_base,
-+				jpeg->variant->support_34bit,
- 				&jpeg_src_buf->dec_param,
- 				jpeg_src_buf->bs_size,
- 				&bs,
-@@ -1860,6 +1863,10 @@ static struct clk_bulk_data mtk_jpeg_clocks[] = {
- 	{ .id = "jpgenc" },
- };
- 
-+static struct clk_bulk_data mtk_jpeg_dec_clocks[] = {
-+	{ .id = "jpgdec" },
-+};
-+
- static struct clk_bulk_data mt8173_jpeg_dec_clocks[] = {
- 	{ .id = "jpgdec-smi" },
- 	{ .id = "jpgdec" },
-@@ -1922,6 +1929,38 @@ static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
- 	.jpeg_worker = mtk_jpegdec_worker,
- };
- 
-+static const struct mtk_jpeg_variant mtk8188_jpegenc_drvdata = {
-+	.clks = mtk_jpeg_clocks,
-+	.num_clks = ARRAY_SIZE(mtk_jpeg_clocks),
-+	.formats = mtk_jpeg_enc_formats,
-+	.num_formats = MTK_JPEG_ENC_NUM_FORMATS,
-+	.qops = &mtk_jpeg_enc_qops,
-+	.irq_handler = mtk_jpeg_enc_irq,
-+	.hw_reset = mtk_jpeg_enc_reset,
-+	.m2m_ops = &mtk_jpeg_enc_m2m_ops,
-+	.dev_name = "mtk-jpeg-enc",
-+	.ioctl_ops = &mtk_jpeg_enc_ioctl_ops,
-+	.out_q_default_fourcc = V4L2_PIX_FMT_YUYV,
-+	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
-+	.support_34bit = true,
-+};
-+
-+static const struct mtk_jpeg_variant mtk8188_jpegdec_drvdata = {
-+	.clks = mtk_jpeg_dec_clocks,
-+	.num_clks = ARRAY_SIZE(mtk_jpeg_dec_clocks),
-+	.formats = mtk_jpeg_dec_formats,
-+	.num_formats = MTK_JPEG_DEC_NUM_FORMATS,
-+	.qops = &mtk_jpeg_dec_qops,
-+	.irq_handler = mtk_jpeg_dec_irq,
-+	.hw_reset = mtk_jpeg_dec_reset,
-+	.m2m_ops = &mtk_jpeg_dec_m2m_ops,
-+	.dev_name = "mtk-jpeg-dec",
-+	.ioctl_ops = &mtk_jpeg_dec_ioctl_ops,
-+	.out_q_default_fourcc = V4L2_PIX_FMT_JPEG,
-+	.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
-+	.support_34bit = true,
-+};
-+
- static const struct of_device_id mtk_jpeg_match[] = {
- 	{
- 		.compatible = "mediatek,mt8173-jpgdec",
-@@ -1943,6 +1982,14 @@ static const struct of_device_id mtk_jpeg_match[] = {
- 		.compatible = "mediatek,mt8195-jpgdec",
- 		.data = &mtk8195_jpegdec_drvdata,
- 	},
-+	{
-+		.compatible = "mediatek,mt8188-jpgenc",
-+		.data = &mtk8188_jpegenc_drvdata,
-+	},
-+	{
-+		.compatible = "mediatek,mt8188-jpgdec",
-+		.data = &mtk8188_jpegdec_drvdata,
-+	},
- 	{},
- };
- 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-index 8ba6e757e11a..a908d52f7e94 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-@@ -34,6 +34,8 @@
- 
- #define MTK_JPEG_MAX_EXIF_SIZE	(64 * 1024)
- 
-+#define MTK_JPEG_ADDR_MASK GENMASK(1, 0)
-+
- /**
-  * enum mtk_jpeg_ctx_state - states of the context state machine
-  * @MTK_JPEG_INIT:		current state is initialized
-@@ -62,6 +64,7 @@ enum mtk_jpeg_ctx_state {
-  * @cap_q_default_fourcc:	capture queue default fourcc
-  * @multi_core:		mark jpeg hw is multi_core or not
-  * @jpeg_worker:		jpeg dec or enc worker
-+ * @support_34bit:	flag to check if support dma_address 34bit
-  */
- struct mtk_jpeg_variant {
- 	struct clk_bulk_data *clks;
-@@ -78,6 +81,7 @@ struct mtk_jpeg_variant {
- 	u32 cap_q_default_fourcc;
- 	bool multi_core;
- 	void (*jpeg_worker)(struct work_struct *work);
-+	bool support_34bit;
- };
- 
- struct mtk_jpeg_src_buf {
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-index 4a6ee211e18f..e2b05d04f20f 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-@@ -5,6 +5,8 @@
-  *         Rick Chang <rick.chang@mediatek.com>
-  */
- 
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
-@@ -270,7 +272,7 @@ void mtk_jpeg_dec_reset(void __iomem *base)
- EXPORT_SYMBOL_GPL(mtk_jpeg_dec_reset);
- 
- static void mtk_jpeg_dec_set_brz_factor(void __iomem *base, u8 yscale_w,
--					u8 yscale_h, u8 uvscale_w, u8 uvscale_h)
-+				u8 yscale_h, u8 uvscale_w, u8 uvscale_h)
- {
- 	u32 val;
- 
-@@ -279,23 +281,43 @@ static void mtk_jpeg_dec_set_brz_factor(void __iomem *base, u8 yscale_w,
- 	writel(val, base + JPGDEC_REG_BRZ_FACTOR);
- }
- 
--static void mtk_jpeg_dec_set_dst_bank0(void __iomem *base, u32 addr_y,
--				       u32 addr_u, u32 addr_v)
-+static void mtk_jpeg_dec_set_dst_bank0(void __iomem *base, bool support_34bit,
-+		dma_addr_t addr_y, dma_addr_t addr_u, dma_addr_t addr_v)
- {
-+	u32 val;
-+
- 	mtk_jpeg_verify_align(addr_y, 16, JPGDEC_REG_DEST_ADDR0_Y);
- 	writel(addr_y, base + JPGDEC_REG_DEST_ADDR0_Y);
- 	mtk_jpeg_verify_align(addr_u, 16, JPGDEC_REG_DEST_ADDR0_U);
- 	writel(addr_u, base + JPGDEC_REG_DEST_ADDR0_U);
- 	mtk_jpeg_verify_align(addr_v, 16, JPGDEC_REG_DEST_ADDR0_V);
- 	writel(addr_v, base + JPGDEC_REG_DEST_ADDR0_V);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_y));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR0_Y_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_u));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR0_U_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_v));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR0_V_EXT);
-+	}
- }
- 
--static void mtk_jpeg_dec_set_dst_bank1(void __iomem *base, u32 addr_y,
--				       u32 addr_u, u32 addr_v)
-+static void mtk_jpeg_dec_set_dst_bank1(void __iomem *base, bool support_34bit,
-+		dma_addr_t addr_y, dma_addr_t addr_u, dma_addr_t addr_v)
- {
-+	u32 val;
-+
- 	writel(addr_y, base + JPGDEC_REG_DEST_ADDR1_Y);
- 	writel(addr_u, base + JPGDEC_REG_DEST_ADDR1_U);
- 	writel(addr_v, base + JPGDEC_REG_DEST_ADDR1_V);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_y));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR1_Y_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_u));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR1_U_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_v));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR1_V_EXT);
-+	}
- }
- 
- static void mtk_jpeg_dec_set_mem_stride(void __iomem *base, u32 stride_y,
-@@ -322,18 +344,31 @@ static void mtk_jpeg_dec_set_dec_mode(void __iomem *base, u32 mode)
- 	writel(mode & 0x03, base + JPGDEC_REG_OPERATION_MODE);
- }
- 
--static void mtk_jpeg_dec_set_bs_write_ptr(void __iomem *base, u32 ptr)
-+static void mtk_jpeg_dec_set_bs_write_ptr(void __iomem *base,
-+				bool support_34bit, dma_addr_t ptr)
- {
-+	u32 val;
-+
- 	mtk_jpeg_verify_align(ptr, 16, JPGDEC_REG_FILE_BRP);
- 	writel(ptr, base + JPGDEC_REG_FILE_BRP);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(ptr));
-+		writel(val, base + JPGDEC_REG_FILE_BRP_EXT);
-+	}
- }
- 
--static void mtk_jpeg_dec_set_bs_info(void __iomem *base, u32 addr, u32 size,
--				     u32 bitstream_size)
-+static void mtk_jpeg_dec_set_bs_info(void __iomem *base, bool support_34bit,
-+		dma_addr_t addr, u32 size, u32 bitstream_size)
- {
-+	u32 val;
-+
- 	mtk_jpeg_verify_align(addr, 16, JPGDEC_REG_FILE_ADDR);
- 	mtk_jpeg_verify_align(size, 128, JPGDEC_REG_FILE_TOTAL_SIZE);
- 	writel(addr, base + JPGDEC_REG_FILE_ADDR);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr));
-+		writel(val, base + JPGDEC_REG_FILE_ADDR_EXT);
-+	}
- 	writel(size, base + JPGDEC_REG_FILE_TOTAL_SIZE);
- 	writel(bitstream_size, base + JPGDEC_REG_BIT_STREAM_SIZE);
- }
-@@ -404,6 +439,7 @@ static void mtk_jpeg_dec_set_sampling_factor(void __iomem *base, u32 comp_num,
- }
- 
- void mtk_jpeg_dec_set_config(void __iomem *base,
-+			     bool support_34bits,
- 			     struct mtk_jpeg_dec_param *cfg,
- 			     u32 bitstream_size,
- 			     struct mtk_jpeg_bs *bs,
-@@ -413,8 +449,9 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
- 	mtk_jpeg_dec_set_dec_mode(base, 0);
- 	mtk_jpeg_dec_set_comp0_du(base, cfg->unit_num);
- 	mtk_jpeg_dec_set_total_mcu(base, cfg->total_mcu);
--	mtk_jpeg_dec_set_bs_info(base, bs->str_addr, bs->size, bitstream_size);
--	mtk_jpeg_dec_set_bs_write_ptr(base, bs->end_addr);
-+	mtk_jpeg_dec_set_bs_info(base, support_34bits, bs->str_addr,
-+				       bs->size, bitstream_size);
-+	mtk_jpeg_dec_set_bs_write_ptr(base, support_34bits, bs->end_addr);
- 	mtk_jpeg_dec_set_du_membership(base, cfg->membership, 1,
- 				       (cfg->comp_num == 1) ? 1 : 0);
- 	mtk_jpeg_dec_set_comp_id(base, cfg->comp_id[0], cfg->comp_id[1],
-@@ -432,9 +469,9 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
- 				    cfg->mem_stride[1]);
- 	mtk_jpeg_dec_set_img_stride(base, cfg->img_stride[0],
- 				    cfg->img_stride[1]);
--	mtk_jpeg_dec_set_dst_bank0(base, fb->plane_addr[0],
-+	mtk_jpeg_dec_set_dst_bank0(base, support_34bits, fb->plane_addr[0],
- 				   fb->plane_addr[1], fb->plane_addr[2]);
--	mtk_jpeg_dec_set_dst_bank1(base, 0, 0, 0);
-+	mtk_jpeg_dec_set_dst_bank1(base, support_34bits, 0, 0, 0);
- 	mtk_jpeg_dec_set_dma_group(base, cfg->dma_mcu, cfg->dma_group,
- 				   cfg->dma_last_mcu);
- 	mtk_jpeg_dec_set_pause_mcu_idx(base, cfg->total_mcu);
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-index 8c31c6b12417..2948c9c300a4 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-@@ -71,6 +71,7 @@ int mtk_jpeg_dec_fill_param(struct mtk_jpeg_dec_param *param);
- u32 mtk_jpeg_dec_get_int_status(void __iomem *dec_reg_base);
- u32 mtk_jpeg_dec_enum_result(u32 irq_result);
- void mtk_jpeg_dec_set_config(void __iomem *base,
-+			     bool support_34bits,
- 			     struct mtk_jpeg_dec_param *cfg,
- 			     u32 bitstream_size,
- 			     struct mtk_jpeg_bs *bs,
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-index 27b7711ca341..e94f52de7c69 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-@@ -46,5 +46,13 @@
- #define JPGDEC_REG_INTERRUPT_STATUS	0x0274
- #define JPGDEC_REG_STATUS		0x0278
- #define JPGDEC_REG_BIT_STREAM_SIZE	0x0344
-+#define JPGDEC_REG_DEST_ADDR0_Y_EXT	0x0360
-+#define JPGDEC_REG_DEST_ADDR0_U_EXT	0x0364
-+#define JPGDEC_REG_DEST_ADDR0_V_EXT	0x0368
-+#define JPGDEC_REG_DEST_ADDR1_Y_EXT	0x036c
-+#define JPGDEC_REG_DEST_ADDR1_U_EXT	0x0370
-+#define JPGDEC_REG_DEST_ADDR1_V_EXT	0x0374
-+#define JPGDEC_REG_FILE_ADDR_EXT	0x0378
-+#define JPGDEC_REG_FILE_BRP_EXT		0x037c
- 
- #endif /* _MTK_JPEG_REG_H */
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-index f8fa3b841ccf..87fe1f324f23 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-@@ -5,6 +5,8 @@
-  *
-  */
- 
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
-@@ -62,9 +64,15 @@ void mtk_jpeg_enc_reset(void __iomem *base)
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_enc_reset);
- 
--u32 mtk_jpeg_enc_get_file_size(void __iomem *base)
-+u32 mtk_jpeg_enc_get_file_size(void __iomem *base, bool support_34bit)
- {
--	return readl(base + JPEG_ENC_DMA_ADDR0) -
-+	/*
-+	 * The dma addr0 to be shifted left by 2 bits
-+	 * for support greater than 4G address.
-+	 */
-+	u8 shift = (support_34bit) ? 2 : 0;
-+
-+	return (readl(base + JPEG_ENC_DMA_ADDR0) << shift) -
- 	       readl(base + JPEG_ENC_DST_ADDR0);
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_enc_get_file_size);
-@@ -84,14 +92,28 @@ void mtk_jpeg_set_enc_src(struct mtk_jpeg_ctx *ctx,  void __iomem *base,
- {
- 	int i;
- 	dma_addr_t dma_addr;
-+	u32 val;
-+	u32 upper;
-+	bool support_34bit = ctx->jpeg->variant->support_34bit;
- 
- 	for (i = 0; i < src_buf->num_planes; i++) {
- 		dma_addr = vb2_dma_contig_plane_dma_addr(src_buf, i) +
- 			   src_buf->planes[i].data_offset;
--		if (!i)
-+		if (!i) {
- 			writel(dma_addr, base + JPEG_ENC_SRC_LUMA_ADDR);
--		else
-+			if (support_34bit) {
-+				upper = upper_32_bits(dma_addr);
-+				val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper);
-+				writel(val, base + JPEG_ENC_SRC_LUMA_ADDR_EXT);
-+			}
-+		} else {
- 			writel(dma_addr, base + JPEG_ENC_SRC_CHROMA_ADDR);
-+			if (support_34bit) {
-+				upper = upper_32_bits(dma_addr);
-+				val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper);
-+				writel(val, base + JPEG_ENC_SRC_CHRO_ADDR_EXT);
-+			}
-+		}
- 	}
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_set_enc_src);
-@@ -103,6 +125,8 @@ void mtk_jpeg_set_enc_dst(struct mtk_jpeg_ctx *ctx, void __iomem *base,
- 	size_t size;
- 	u32 dma_addr_offset;
- 	u32 dma_addr_offsetmask;
-+	u32 val;
-+	bool support_34bit = ctx->jpeg->variant->support_34bit;
- 
- 	dma_addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
- 	dma_addr_offset = ctx->enable_exif ? MTK_JPEG_MAX_EXIF_SIZE : 0;
-@@ -112,7 +136,16 @@ void mtk_jpeg_set_enc_dst(struct mtk_jpeg_ctx *ctx, void __iomem *base,
- 	writel(dma_addr_offset & ~0xf, base + JPEG_ENC_OFFSET_ADDR);
- 	writel(dma_addr_offsetmask & 0xf, base + JPEG_ENC_BYTE_OFFSET_MASK);
- 	writel(dma_addr & ~0xf, base + JPEG_ENC_DST_ADDR0);
--	writel((dma_addr + size) & ~0xf, base + JPEG_ENC_STALL_ADDR0);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(dma_addr));
-+		writel(val, base + JPEG_ENC_DEST_ADDR0_EXT);
-+	}
-+	dma_addr += size;
-+	writel(dma_addr & ~0xf, base + JPEG_ENC_STALL_ADDR0);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(dma_addr));
-+		writel(val, base + JPEG_ENC_STALL_ADDR0_EXT);
-+	}
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_set_enc_dst);
- 
-@@ -278,7 +311,8 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
- 	if (!(irq_status & JPEG_ENC_INT_STATUS_DONE))
- 		dev_warn(jpeg->dev, "Jpg Enc occurs unknown Err.");
- 
--	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base);
-+	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base,
-+			ctx->jpeg->variant->support_34bit);
- 	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, result_size);
- 	buf_state = VB2_BUF_STATE_DONE;
- 	v4l2_m2m_buf_done(src_buf, buf_state);
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h
-index 61c60e4e58ea..31ec9030ae88 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h
-@@ -68,6 +68,11 @@
- #define JPEG_ENC_DCM_CTRL		0x300
- #define JPEG_ENC_CODEC_SEL		0x314
- #define JPEG_ENC_ULTRA_THRES		0x318
-+#define JPEG_ENC_SRC_LUMA_ADDR_EXT      0x584
-+#define JPEG_ENC_SRC_CHRO_ADDR_EXT      0x588
-+#define JPEG_ENC_Q_TBL_ADDR_EXT         0x58C
-+#define JPEG_ENC_DEST_ADDR0_EXT         0x590
-+#define JPEG_ENC_STALL_ADDR0_EXT        0x594
- 
- /**
-  * struct mtk_jpeg_enc_qlt - JPEG encoder quality data
-@@ -80,7 +85,7 @@ struct mtk_jpeg_enc_qlt {
- };
- 
- void mtk_jpeg_enc_reset(void __iomem *base);
--u32 mtk_jpeg_enc_get_file_size(void __iomem *base);
-+u32 mtk_jpeg_enc_get_file_size(void __iomem *base, bool support_34bit);
- void mtk_jpeg_enc_start(void __iomem *enc_reg_base);
- void mtk_jpeg_set_enc_src(struct mtk_jpeg_ctx *ctx,  void __iomem *base,
- 			  struct vb2_buffer *src_buf);
+> >>> +};
+> >>> +
+> >>> +/**
+> >>> + * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
+> >>> + *
+> >>> + * This struct contains the configuration parameters of the RkISP1 ISP
+> >>> + * algorithms, serialized by userspace into a data buffer. Each configuration
+> >>> + * parameter block is represented by a block-specific structure which contains a
+> >>> + * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
+> >>> + * populates the @data buffer with configuration parameters for the blocks that
+> >>> + * it intends to configure. As a consequence, the data buffer effective size
+> >>> + * changes according to the number of ISP blocks that userspace intends to
+> >>> + * configure and is set by userspace in the @data_size field.
+> >>> + *
+> >>> + * The parameters buffer is versioned by the @version field to allow modifying
+> >>> + * and extending its definition. Userspace shall populate the @version field to
+> >>> + * inform the driver about the version it intends to use. The driver will parse
+> >>> + * and handle the @data buffer according to the data layout specific to the
+> >>> + * indicated version and return an error if the desired version is not
+> >>> + * supported.
+> >>> + *
+> >>> + * For each ISP block that userspace wants to configure, a block-specific
+> >>> + * structure is appended to the @data buffer, one after the other without gaps
+> >>> + * in between nor overlaps. Userspace shall populate the @data_size field with
+> >>> + * the effective size, in bytes, of the @data buffer.
+> >>> + *
+> >>> + * The expected memory layout of the parameters buffer is::
+> >>> + *
+> >>> + *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
+> >>> + *	| version = RKISP_EXT_PARAMS_BUFFER_V1;                               |
+> >>> + *	| data_size = sizeof(struct rkisp1_ext_params_bls_config)             |
+> >>> + *	|           + sizeof(struct rkisp1_ext_params_dpcc_config);           |
+> >>> + *	| +------------------------- data  ---------------------------------+ |
+> >>> + *	| | +------------- struct rkisp1_ext_params_bls_config -----------+ | |
+> >>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+> >>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS;                | | | |
+> >>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
+> >>> + *	| | | | size = sizeof(struct rkisp1_ext_params_bls_config);     | | | |
+> >>> + *	| | | +---------------------------------------------------------+ | | |
+> >>> + *	| | | +---------- struct rkisp1_cif_isp_bls_config -------------+ | | |
+> >>> + *	| | | | enable_auto = 0;                                        | | | |
+> >>> + *	| | | | fixed_val.r = 256;                                      | | | |
+> >>> + *	| | | | fixed_val.gr = 256;                                     | | | |
+> >>> + *	| | | | fixed_val.gb = 256;                                     | | | |
+> >>> + *	| | | | fixed_val.b = 256;                                      | | | |
+> >>> + *	| | | +---------------------------------------------------------+ | | |
+> >>> + *	| | +------------ struct rkisp1_ext_params_dpcc_config -----------+ | |
+> >>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
+> >>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC;               | | | |
+> >>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
+> >>> + *	| | | | size = sizeof(struct rkisp1_ext_params_dpcc_config);    | | | |
+> >>> + *	| | | +---------------------------------------------------------+ | | |
+> >>> + *	| | | +---------- struct rkisp1_cif_isp_dpcc_config ------------+ | | |
+> >>> + *	| | | | mode = RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE;          | | | |
+> >>> + *	| | | | output_mode =                                           | | | |
+> >>> + *	| | | |   RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_INCL_G_CENTER; | | | |
+> >>> + *	| | | | set_use = ... ;                                         | | | |
+> >>> + *	| | | | ...  = ... ;                                            | | | |
+> >>> + *	| | | +---------------------------------------------------------+ | | |
+> >>> + *	| | +-------------------------------------------------------------+ | |
+> >>> + *	| +-----------------------------------------------------------------+ |
+> >>> + *	+---------------------------------------------------------------------+
+> >>> + *
+> >>> + * @version: The RkISP1 extensible parameters buffer version, see
+> >>> + *	     :c:type:`rksip1_ext_param_buffer_version`
+> >>> + * @data_size: The RkISP1 configuration data effective size, excluding this
+> >>> + *	       header
+> >>> + * @data: The RkISP1 extensible configuration data blocks
+> >>> + */
+> >>> +struct rkisp1_ext_params_cfg {
+> >>> +	__u32 version;
+> >>> +	__u32 data_size;
+> >>> +	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+> >>> +};
+> >>> +
+> >>>  #endif /* _UAPI_RKISP1_CONFIG_H */
+
 -- 
-2.46.0
+Regards,
 
+Laurent Pinchart
 
