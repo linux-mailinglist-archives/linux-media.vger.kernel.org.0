@@ -1,153 +1,278 @@
-Return-Path: <linux-media+bounces-15975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD6C94B90C
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 10:31:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 325B394B90B
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 10:31:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFC611C2472C
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 08:31:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 547311C246A9
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 08:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1B9188003;
-	Thu,  8 Aug 2024 08:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115C71891AE;
+	Thu,  8 Aug 2024 08:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="LeQ+sdTz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FPIV4LW0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567AB208C4
-	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 08:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF93208C4;
+	Thu,  8 Aug 2024 08:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723105869; cv=none; b=nVPel2yAIq8zc6if57Pia2KexjhVznrgFveIML+0NueygMyItaK04I/OEtg9ZhvBgNdqsBPI3gyzbYBoAnR9Ft8OOXh0JccawsnJlV007K4dlVvY+KP3vnkN4XPBBg5NRbbRUGh4wT5NyATPwRAqk7rrwvIvJJOV8j0SY5mPPrY=
+	t=1723105851; cv=none; b=B2XbcVyuKc1WgNJcrF2D9zXPDtCZAlWJS6aXjNp1GXW8EbO5jrf9C0nR5RBiU918BAN0z+884doD3XZ2A5+7REwOElh9sBoWU2InKTLY6sGUp58v61rng2pteKUNRFO5EGdK/Vhlg6KVL3mCA53xHHribwS8HkUlKW1lkfslPus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723105869; c=relaxed/simple;
-	bh=Q+a6uAoUzOJfNJlLqKiW9bOJctnF6d0eXCj+TgP69rg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:References; b=IjDM2hRA8J/GJYDTQR3Fqm23SLl4yc0GmaCWI3LRu68dBaSiYZ4i+/K8ZA4c/xHSwIWKQ4l7Cka32RoWa2WGC4twDK3e8Na1jNOlf+nOuMZHu93jRSzzTGUYrtYMt+xOaAkPMCy3OlKLliqdrdGOhTm7sh3HdDvhdx2gC/98bY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=LeQ+sdTz; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240808083105epoutp03bc852242283b1be1b0bab45e5f115cca~ps6en0pU21087410874epoutp03W
-	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 08:31:05 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240808083105epoutp03bc852242283b1be1b0bab45e5f115cca~ps6en0pU21087410874epoutp03W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1723105865;
-	bh=sy99WQrEArLB2GVHVM3NcSs6PqK16OI98ozU/DmWpwg=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=LeQ+sdTzPlWHdpaLqm154qkZK+2No+6M5ex4zvnOJclUG3r9/7Kt17hk4y2mmRKO3
-	 rN3d8Xi8lrhsUQAZMVeBv9g5v0uCRL1WPc+vGDEEX976lFsfLq7F4yb6347FkMaRMI
-	 wJk3dV7z1PTGohQJWj7iGPFocVrLr0VcMtqWXfc0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240808083104epcas5p46c53678e6566ab4be853214002c36ac8~ps6eA4fxx0482004820epcas5p4D;
-	Thu,  8 Aug 2024 08:31:04 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.180]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4WfgHB5pGnz4x9Q1; Thu,  8 Aug
-	2024 08:31:02 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A4.7F.19863.64284B66; Thu,  8 Aug 2024 17:31:02 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240808083027epcas5p153e64139a5e71448b1ea3f04af1df2bd~ps57ZZ5ZQ1632116321epcas5p1j;
-	Thu,  8 Aug 2024 08:30:27 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240808083027epsmtrp1792e9837461341a1756c4fc6532dda71~ps57YUnui2600726007epsmtrp13;
-	Thu,  8 Aug 2024 08:30:27 +0000 (GMT)
-X-AuditID: b6c32a50-ef5fe70000004d97-52-66b482468aee
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	25.B2.19367.32284B66; Thu,  8 Aug 2024 17:30:27 +0900 (KST)
-Received: from cheetah.sa.corp.samsungelectronics.net (unknown
-	[107.109.115.53]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240808083025epsmtip26002044a67fd5e12a21da265afeb47dd~ps55cL1Ew2734327343epsmtip27;
-	Thu,  8 Aug 2024 08:30:25 +0000 (GMT)
-From: Aakarsh Jain <aakarsh.jain@samsung.com>
-To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: m.szyprowski@samsung.com, hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	linux-samsung-soc@vger.kernel.org, gost.dev@samsung.com,
-	aswani.reddy@samsung.com, pankaj.dubey@samsung.com, Aakarsh Jain
-	<aakarsh.jain@samsung.com>
-Subject: [PATCH V3] dt-bindings: media: s5p-mfc: Remove s5p-mfc.txt binding
-Date: Thu,  8 Aug 2024 13:48:15 +0530
-Message-Id: <20240808081815.88711-1-aakarsh.jain@samsung.com>
-X-Mailer: git-send-email 2.17.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNKsWRmVeSWpSXmKPExsWy7bCmpq5b05Y0g3XPtC2e7pjJanFo81Z2
-	izV7zzFZzD9yjtXi5oGdTBYXZ95lseh78ZDZYtPja6wWl3fNYbPo2bCV1WLG+X1MFmuP3GW3
-	WLT1C7tF694j7A58HptWdbJ53Lm2h81j85J6j74tqxg9Pm+S8zj19TN7AFtUtk1GamJKapFC
-	al5yfkpmXrqtkndwvHO8qZmBoa6hpYW5kkJeYm6qrZKLT4CuW2YO0LVKCmWJOaVAoYDE4mIl
-	fTubovzSklSFjPziElul1IKUnAKTAr3ixNzi0rx0vbzUEitDAwMjU6DChOyM/Xu3MxWsYq+4
-	M3E+UwPjLrYuRk4OCQETiYX3J7J2MXJxCAnsYZRofDyVGcL5xCjRtmkWE5wze8MrRpiW/XtP
-	skMkdjJKdDy4yAbhtDJJLL37FaiKg4NNQFfi7PYckAYRgUZGiccdJSA1zAILmCS2vL/FBJIQ
-	FvCWmDdrKjtIPYuAqsSliRYgYV4BW4k3M98yQyyTl1i94QDYSRICL9kl/j3axAKRcJGYu/gx
-	O4QtLPHq+BYoW0riZX8blJ0s8XjRS6hBORLr90yB6rWXOHBlDgvIXmYBTYn1u/QhwrISU0+t
-	AzuNWYBPovf3EyaIOK/EjnkwtprEnDs/WCFsGYnDq5dCA8VDYsub9WC2kECsxIF3rxknMMrO
-	QtiwgJFxFaNUakFxbnpqsmmBoW5eajk8ppLzczcxglOhVsAOxtUb/uodYmTiYDzEKMHBrCTC
-	2xy+KU2INyWxsiq1KD++qDQntfgQoykwzCYyS4km5wOTcV5JvKGJpYGJmZmZiaWxmaGSOO/r
-	1rkpQgLpiSWp2ampBalFMH1MHJxSDUz+6/dG9CgW/Dj/63G13+ayVMNzJ9e+nxe8cWaC1ZaP
-	fCLCm43vtKgLaOyXD57wNy/WijMkpic3Vehl6uOnq90Yv3ZwfXdeq+vlbPnS/2XuuYWauWKn
-	f36ZJC1i8jRH8JnZ6rUeIVzPxSYbvjgV6FlRstkw5PvUN6Wn7j6wDbRaGLhUqaeD8TKL7NOJ
-	WRoM0TdZcg/M+HHjgs2fpGa/nzrZUZYGXSahX3iaDvDsPZBl4aKzYGK0tmfIWY/nXPw2B7ae
-	bqnmmX95r8QzRgvLVU+cjmoc6Nx9gsF7ycE9rTyTD8TMXW6+Ztnzpze8bhX9cI2qnJw1ye3T
-	C1svsddW81v3dqy44zo9Sj3xllXs9RYlluKMREMt5qLiRAA3UjXbDgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrELMWRmVeSWpSXmKPExsWy7bCSvK5y05Y0g9Z2DounO2ayWhzavJXd
-	Ys3ec0wW84+cY7W4eWAnk8XFmXdZLPpePGS22PT4GqvF5V1z2Cx6NmxltZhxfh+Txdojd9kt
-	Fm39wm7RuvcIuwOfx6ZVnWwed67tYfPYvKTeo2/LKkaPz5vkPE59/cwewBbFZZOSmpNZllqk
-	b5fAlbF/73amglXsFXcmzmdqYNzF1sXIySEhYCKxf+9J9i5GLg4hge2MErefPmWCSMhI/G87
-	xg5hC0us/PccqqiZSWLP/kWMXYwcHGwCuhJnt+eAxEUEWhklrq/sZAJxmAVWMUlMePcJbIWw
-	gLfEvFlT2UEaWARUJS5NtAAJ8wrYSryZ+ZYZYoG8xOoNB5gnMPIsYGRYxSiaWlCcm56bXGCo
-	V5yYW1yal66XnJ+7iREcjFpBOxiXrf+rd4iRiYPxEKMEB7OSCG9z+KY0Id6UxMqq1KL8+KLS
-	nNTiQ4zSHCxK4rzKOZ0pQgLpiSWp2ampBalFMFkmDk6pBiaW0N2dxzmKH6yUmv9ZwenDIu2A
-	KStSg8qeFQafNjizbrfW94PXq7Nbb6i57uxaWFl8cErUXZUtjIH/HA0qVff94J+66tzDRpvy
-	khd/yqUPf3/3Krpxzc+w/VGFkUs66tiLfLrt9jkmcr6veL2Fk+P78adL1lzzudiRu2ZKVH6/
-	c7/4rfu8V44u5X35edrJhS+jBM+zlqiHHq2fs2Hanpd23gpcT4327GheIek3Z8+Nq1duitRa
-	X7nRse2O2PYUKem7S24kXfqzkWn7yaVmio8rY58+m3dXJP/xhg3Vh9VL2fY95PRb/XxNRtHK
-	q2zHTzaYW3zKUnC9v9OxOmq5jJdIgN62nPXpJqXb7kvJJigVK7EUZyQaajEXFScCAA3LIsm1
-	AgAA
-X-CMS-MailID: 20240808083027epcas5p153e64139a5e71448b1ea3f04af1df2bd
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240808083027epcas5p153e64139a5e71448b1ea3f04af1df2bd
-References: <CGME20240808083027epcas5p153e64139a5e71448b1ea3f04af1df2bd@epcas5p1.samsung.com>
+	s=arc-20240116; t=1723105851; c=relaxed/simple;
+	bh=iw8pXmLylE4KGP42R3MzLrnRBWr85UiBhxBLckD70Uo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=cmneigN52ZAIyTapKOE7hbny4evYrApDErOj7QasRAcRqyEYf2XAOdaDc77+MheIhUTQTaMTAT6QAHUAWKqeVhM9KcJV7XmvbaiV2jfnMTZXsjD2FVj3KSgQm0g+GeB+SH3/THJOhmPud0T+wIn/sB6BONUmDCY2k866sEdKZ18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FPIV4LW0; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE4AE581;
+	Thu,  8 Aug 2024 10:29:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723105793;
+	bh=iw8pXmLylE4KGP42R3MzLrnRBWr85UiBhxBLckD70Uo=;
+	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+	b=FPIV4LW0nQkirIWclJ0Gw3AOFSdLT4qp3YNkwRD9MenO1ZE9QQ22vG24wTMCVNp/j
+	 tSGAX9XBcwqtDTJ+J05WeqFWx3nfifFa71ljaz7wMURugaAfdI29dhRCmckRgYiDuv
+	 u89HVnwy/iaXaSfr+iSIS6hosvs9TLJJFhqH5fUI=
+Message-ID: <49d736c4-1964-4f51-a951-6e98319181c2@ideasonboard.com>
+Date: Thu, 8 Aug 2024 11:30:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/9] of: property: add of_graph_get_next_port_endpoint()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
+ <87jzguw8ln.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-sound@vger.kernel.org
+In-Reply-To: <87jzguw8ln.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-s5p-mfc bindings to json-schema is already merged with
-this commit 538af6e5856b ("dt-bindings: media: s5p-mfc:
-convert bindings to json-schema"). Remove s5p-mfc.txt
-file.
+On 06/08/2024 07:58, Kuninori Morimoto wrote:
+> We already have of_graph_get_next_endpoint(), but it is not
+> intuitive to use.
+> 
+> (X)	node {
+> (Y)		ports {
+> 			port@0 { endpoint { remote-endpoint = ...; };};
+> (A1)			port@1 { endpoint { remote-endpoint = ...; };
+> (A2)				 endpoint { remote-endpoint = ...; };};
+> (B)			port@2 { endpoint { remote-endpoint = ...; };};
+> 		};
+> 	};
+> 
+> For example, if I want to handle port@1's 2 endpoints (= A1, A2),
+> I want to use like below
+> 
+> 	A1 = of_graph_get_next_endpoint(port1, NULL);
+> 	A2 = of_graph_get_next_endpoint(port1, A1);
+> 
+> But 1st one will be error, because of_graph_get_next_endpoint()
+> requested "parent" means "node" (X) or "ports" (Y), not "port".
+> Below are OK
+> 
+> 	/* These will be node/ports/port@0/endpoint */
+> 	of_graph_get_next_endpoint(node,  NULL);
+> 	of_graph_get_next_endpoint(ports, NULL);
+> 
+> In other words, we can't handle A1/A2 directly via
+> of_graph_get_next_endpoint() so far.
+> 
+> There is another non intuitive behavior on of_graph_get_next_endpoint().
+> In case of if I could get A1 pointer for some way, and if I want to
+> handle port@1 things, I would like use it like below
+> 
+> 	/*
+> 	 * "ep" is now A1, and handle port1 things here,
+> 	 * but we don't know how many endpoints port1 has.
+> 	 *
+> 	 * Because "ep" is non NULL, we can use port1
+> 	 * as of_graph_get_next_endpoint(port1, xxx)
+> 	 */
+> 	do {
+> 		/* do something for port1 specific things here */
+> 	} while (ep = of_graph_get_next_endpoint(port1, ep))
+> 
+> But it also not worked as I expected.
+> I expect it will be A1 -> A2 -> NULL,
+> but      it will be A1 -> A2 -> B,    because
+> of_graph_get_next_endpoint() will fetch "endpoint" beyond the "port".
+> 
+> It is not useful on generic driver like Generic Sound Card.
+> It uses of_get_next_child() instead for now, but it is not intuitive.
+> And it doesn't check node name (= "endpoint").
+> 
+> To handle endpoint more intuitive, create of_graph_get_next_port_endpoint()
+> 
+> 	of_graph_get_next_port_endpoint(port1, NULL); // A1
+> 	of_graph_get_next_port_endpoint(port1, A1);   // A2
+> 	of_graph_get_next_port_endpoint(port1, A2);   // NULL
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>   drivers/of/property.c    | 22 ++++++++++++++++++++++
+>   include/linux/of_graph.h | 20 ++++++++++++++++++++
+>   2 files changed, 42 insertions(+)
+> 
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 3b2d09c0376a..de56795a7362 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -692,6 +692,28 @@ struct device_node *of_graph_get_next_port(struct device_node *parent,
+>   }
+>   EXPORT_SYMBOL(of_graph_get_next_port);
+>   
+> +/**
+> + * of_graph_get_next_port_endpoint() - get next endpoint node in port.
+> + * If it reached to end of the port, it will return NULL.
+> + * @port: pointer to the target port node
+> + * @endpoint: current endpoint node, or NULL to get first
+> + *
+> + * Return: An 'endpoint' node pointer with refcount incremented. Refcount
+> + * of the passed @prev node is decremented.
+> + */
 
-Fixes: 538af6e5856b ("dt-bindings: media: s5p-mfc: convert bindings to json-schema")
-Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
-changelog:
-v1->v2
-Add Fixes tag suggested by Krzysztof
-v2->v3
-Aligned Fixes tag in oneline and corrected commit message
-Link: https://patchwork.kernel.org/project/linux-media/patch/20240213045733.63876-1-aakarsh.jain@samsung.com/
----
- Documentation/devicetree/bindings/media/s5p-mfc.txt | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/s5p-mfc.txt
+Same issues here too. No "prev" parameter, and I suggest using 
+"previous", not "current", to be consistent with 
+of_graph_get_next_endpoint(). (or alternatively, change 
+of_graph_get_next_endpoint()).
 
-diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
-deleted file mode 100644
-index e69de29bb2d1..000000000000
--- 
-2.17.1
+Oh, the declaration of the function uses "prev", but the implementation 
+"endpoint". Please make the naming same.
+
+> +struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
+> +						    struct device_node *endpoint)
+> +{
+> +	do {
+> +		endpoint = of_get_next_child(port, endpoint);
+> +		if (!endpoint)
+> +			break;
+> +	} while (!of_node_name_eq(endpoint, "endpoint"));
+> +
+> +	return endpoint;
+> +}
+> +EXPORT_SYMBOL(of_graph_get_next_port_endpoint);
+> +
+>   /**
+>    * of_graph_get_next_endpoint() - get next endpoint node
+>    *
+> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
+> index 30169b50b042..8b4777938c5e 100644
+> --- a/include/linux/of_graph.h
+> +++ b/include/linux/of_graph.h
+> @@ -59,6 +59,17 @@ struct of_endpoint {
+>   	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
+>   	     child = of_graph_get_next_port(parent, child))
+>   
+> +/**
+> + * for_each_of_graph_port_endpoint - iterate over every endpoint in a port node
+> + * @parent: parent device or ports node
+
+Hmm, shouldn't the parent be a port node?
+
+> + * @child: loop variable pointing to the current endpoint node
+> + *
+> + * When breaking out of the loop, of_node_put(child) has to be called manually.
+> + */
+> +#define for_each_of_graph_port_endpoint(parent, child)			\
+> +		for (child = of_graph_get_next_port_endpoint(parent, NULL); child != NULL; \
+> +		     child = of_graph_get_next_port_endpoint(parent, child))
+> +
+>   #ifdef CONFIG_OF
+>   bool of_graph_is_present(const struct device_node *node);
+>   int of_graph_parse_endpoint(const struct device_node *node,
+> @@ -73,6 +84,8 @@ struct device_node *of_graph_get_next_ports(struct device_node *parent,
+>   					    struct device_node *ports);
+>   struct device_node *of_graph_get_next_port(struct device_node *parent,
+>   					   struct device_node *port);
+> +struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
+> +						    struct device_node *prev);
+>   struct device_node *of_graph_get_endpoint_by_regs(
+>   		const struct device_node *parent, int port_reg, int reg);
+>   struct device_node *of_graph_get_remote_endpoint(
+> @@ -133,6 +146,13 @@ static inline struct device_node *of_graph_get_next_port(
+>   	return NULL;
+>   }
+>   
+> +static inline struct device_node *of_graph_get_next_port_endpoint(
+> +					const struct device_node *parent,
+> +					struct device_node *previous)
+> +{
+> +	return NULL;
+> +}
+> +
+>   static inline struct device_node *of_graph_get_endpoint_by_regs(
+>   		const struct device_node *parent, int port_reg, int reg)
+>   {
+
+  Tomi
 
 
