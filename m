@@ -1,36 +1,63 @@
-Return-Path: <linux-media+bounces-15997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15998-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D092094BEF8
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 16:02:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1705A94BEFB
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 16:02:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82F602823A8
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 14:02:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A0911C241F4
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 14:02:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2D218E745;
-	Thu,  8 Aug 2024 14:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1616318E74B;
+	Thu,  8 Aug 2024 14:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UC9/u3Va"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3628129AF
-	for <linux-media@vger.kernel.org>; Thu,  8 Aug 2024 14:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA63863D;
+	Thu,  8 Aug 2024 14:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723125723; cv=none; b=QDWwcUJ2gbCQxY/8uiJgAjzgFwY7oM5lQOtM3WoJhExc7xhwhKT30PLMIsavTu+nT1PO3lsgb+5iDhwMh0mYoEkGlgh9cv1cVqmOzwczcAxk7O5T1DlJ2rjYG6OxbAx/fYmuin/klvu5nGworroo0CyKgYVovWCHn/zSOhp/OuI=
+	t=1723125754; cv=none; b=DWz8VZPRaOHIW2KtTW7bTPy1hscqTvRqGDfvAS9v/LyMgDVeikrVF3LrCLHxM8dt4+ityUEi/9BnsS7MO/lYeKlDs3doO7U0xXEGJu8U8LECQrOwW8JAXBwR43TxWz4XInYqCMtxgH8Jy6eFZmU2q5dWqDGODpPvRHSMz3q4KQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723125723; c=relaxed/simple;
-	bh=AWWwTDN4OXkfXv9ZY/qaJNrq4vJjyWGYyjFhIDlpZ30=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mWvWHDgs4lQe/6Q8L0cNy7tGzoh5u9PMDdysqqGYb6xmM0qz6Z7qET1QvPwGs6Uum3JeXHvvEBCo0bbIDpuLUBXY5VTglYJlibzpdcnJjpBc9nYedU+0qQRP0ZgE95rjBJRMykc7htq7qd5X6K1piAYTSKKsG69il+v5jUdZqZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 981A5C32782;
-	Thu,  8 Aug 2024 14:02:00 +0000 (UTC)
-Message-ID: <7cbf9ca9-25fe-4ca5-8ac9-c029508e3a70@xs4all.nl>
-Date: Thu, 8 Aug 2024 16:01:58 +0200
+	s=arc-20240116; t=1723125754; c=relaxed/simple;
+	bh=GASqwo3D+klUje/Sl3EPzxYl3I0U+kkrag0CW9LeGdY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qea+1EO0FSlgMrnTagJ2rQwqZYyVriXAswyMV1Y2VH1qAdinqflBSR5h4LwPapx4riMmoJsXaY4Ul8yJzzArOHjVvmroF53mLzkBL+yTOgXKbMyLDZZm26Sydacmy7OjldB4Qjn9qDcpK3d/ZDD4X5/CRKIPFJRbRCogHAi5yds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UC9/u3Va; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 478CDE7s021849;
+	Thu, 8 Aug 2024 14:02:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jFCWaSWOx0MGXm2eZfsafUENDd6Jr5+lgPU6lfSVOU0=; b=UC9/u3VaW4K/BR1G
+	QCWWV4Rsnz/9Uzyapjrbv4Foquk+4OI/Oa/mXoOhSz4jXOYbZq7m1FLavCxLM7IP
+	JDZIS+4iorBvOEbtV0mnaUxSaZnHwLImxUMrmoYDijXHrtuwNpxXzBqCteuSqeuk
+	pMXf1FnBzuLDMkCUb44k06b6Xqn+IYeNb1Vsc1RQWeQ6LktTSOMHVoYmmCW3dpOL
+	Q2lPQTPZIJ322+RxPgSDqA+LFyludqQ3EYHkoP+sPIdOBrunTYCbUo75afMDRW8G
+	sx/RggOhCy9mAL/v3EBCsz3n5KekvhXHIRzuLX74UaWmBjSK2aHnbrAZfy+xWLRN
+	g5Ctlg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40vmc51ryv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 08 Aug 2024 14:02:26 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 478E2QOR009576
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 8 Aug 2024 14:02:26 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 8 Aug 2024
+ 07:02:20 -0700
+Message-ID: <3241cc15-c920-4c88-ac53-005903baf9e7@quicinc.com>
+Date: Thu, 8 Aug 2024 22:02:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,213 +65,178 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 01/12] media: uapi: rkisp1-config: Add extensible
- params format
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Sakari Ailus <sakari.ailus@iki.fi>,
- Stefan Klug <stefan.klug@ideasonboard.com>,
- Paul Elder <paul.elder@ideasonboard.com>,
- Daniel Scally <dan.scally@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Dafna Hirschfeld <dafna@fastmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20240807212253.1667847-1-jacopo.mondi@ideasonboard.com>
- <20240807212253.1667847-2-jacopo.mondi@ideasonboard.com>
- <5497762f-5959-4890-b02a-176377042387@xs4all.nl>
- <ctpmtoqun2isj2jxer4z4mlvhqzi532j43cejbkhid375fxelt@dg763qf5wtjd>
- <1662108d-24b6-427b-849a-fd0a4107c3e6@xs4all.nl>
- <20240808095438.GB21245@pendragon.ideasonboard.com>
- <a0f0c7d3-8647-49d7-9efc-8c0b8624094a@xs4all.nl>
- <20240808105123.GB5833@pendragon.ideasonboard.com>
- <eb6458f2-2416-46ab-91c6-748561036a77@xs4all.nl>
- <vucgdxhgoqm5ij4sjwsrjfsvza2m3ts3yprjcwhc3ampv2mjqf@mrc4tke6unq2>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <vucgdxhgoqm5ij4sjwsrjfsvza2m3ts3yprjcwhc3ampv2mjqf@mrc4tke6unq2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 04/13] media: qcom: camss: csiphy: Add an init callback to
+ CSI PHY devices
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vladimir Zapolskiy
+	<vladimir.zapolskiy@linaro.org>,
+        <rfoss@kernel.org>, <todor.too@gmail.com>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
+References: <20240709160656.31146-1-quic_depengs@quicinc.com>
+ <20240709160656.31146-5-quic_depengs@quicinc.com>
+ <6dfc2c79-fc6d-4eed-bf3f-94396130cb4f@linaro.org>
+ <fafda7d5-3853-428a-b0eb-9993fc2d4f56@linaro.org>
+ <4426c0e0-f877-409c-b2d2-a5aac5e8c645@linaro.org>
+ <1226d080-d1fc-4e06-ac81-84e93cb314e0@quicinc.com>
+ <8f935a7d-87b5-479c-a98e-c95671dbe259@linaro.org>
+ <7c03280f-908d-435d-acef-b6bf4f865029@quicinc.com>
+ <ff12ce12-41d6-4aa5-ab97-222b07146e36@linaro.org>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <ff12ce12-41d6-4aa5-ab97-222b07146e36@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 70i7xzCDPhXxrhCIzUv5QAuDxDbAINmM
+X-Proofpoint-ORIG-GUID: 70i7xzCDPhXxrhCIzUv5QAuDxDbAINmM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-08_14,2024-08-07_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ bulkscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 mlxlogscore=778 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408080099
 
-On 08/08/2024 14:03, Jacopo Mondi wrote:
-> Hi Hans
-> 
-> On Thu, Aug 08, 2024 at 12:58:46PM GMT, Hans Verkuil wrote:
+Hi Bryan,
 
-<snip>
-
->>>>>>>> I see no check against this in the rkisp1 code. Shouldn't this be checked?
->>>>>>>> If the version is unsupported, then just return an error.
->>>>>>>
->>>>>>> Do we need this for the first version ? There are no other versions
->>>>>>> userspace can use at the moment. I can add a check during validation
->>>>>>> though.
->>>>>>
->>>>>> Yes: if a V2 is added in the future, and an application wants to use that
->>>>>> against a driver that only support V1, then that should fail.
->>>>>>
->>>>>>>> Also, how does userspace know which version(s) is/are supported by the driver?
->>>>>>>
->>>>>>> Good question, there is no API for that atm. Defining a new format
->>>>>>> version should only happen when a non-backward compatible change to
->>>>>>> the format is made. I understand an application can be compiled
->>>>>>> against a newer kernel header that provides a new format version but
->>>>>>> then run on an older kernel where the new format is not supported.
->>>>>>>
->>>>>>> Probably userspace should be able to identify what versions are
->>>>>>> supported by the driver it runs with and use the most appropriate one
->>>>>>> by selecting it at runtime.
->>>>>>>
->>>>>>> What API would you use for that ? Is this something required for this
->>>>>>> first version where a single format version is available ?
->>>>>>
->>>>>> You need this also for this first version for the reason explained above.
->>>>>>
->>>>>> Personally I would just make a read-only control that returns the highest
->>>>>> supported version.
+On 8/7/2024 11:37 PM, Bryan O'Donoghue wrote:
+> On 07/08/2024 16:03, Depeng Shao wrote:
+>> Hi Bryan,
+>>
+>> On 8/7/2024 10:04 PM, Bryan O'Donoghue wrote:
+>>> On 07/08/2024 14:08, Depeng Shao wrote:
+>>>> Hi Vladimir,
+>>>>
+>>>> On 8/5/2024 5:26 AM, Vladimir Zapolskiy wrote:
+>>>>> Hi Bryan,
 >>>>>
->>>>> Can't userspace use the version number reported through the media device
->>>>> to determine the features the driver support ? We've done that in
->>>>> libcamera for some drivers already, either to work around bugs, or to
->>>>> make use of new features.
->>>>
->>>> You can, but this will fall down if the driver is backported to an older
->>>> kernel for whatever reason. Since the version is just the kernel version,
->>>> it will drop back to that older kernel version.
->>>
->>> I recall discussing this issue in the past (I'm not sure it was with
->>> you). If my memory doesn't fail me, there was a consensus that, when
->>> backporting the whole V4L2 subsystem, the version number reported would
->>> tbe the one corresponding to the more recent kernel, not the kernel the
->>> code has been backported to.
->>
->> That was when using the old https://git.linuxtv.org/media_build.git/ system.
->> That's no longer in use.
->>
->> I'm talking if a vendor is on an old kernel and backports rkisp1 to it (not
->> exactly uncommon!), then this will not work since the version will be that
->> of the old kernel.
->>
-> 
-> In this case it will backport the driver and the uAPI from the same
-> version, so this shouldn't be an issue.
-> 
-> What is concerning is an application compiled against a uAPI newer
-> than the kernel it will be run on. The uAPI could advertise newer
-> format revisions the driver doesn't know about and will fail to
-> validate. In this case the application should be give a way to know
-> what version is the most recent one supported by the driver, and a
-> control might be the way forward. As long as we have a single format
-> revision I think we might omit implementing the control for now and
-> only expose it when multiple revisions will be implemented ? If the
-> control is not there, it means only V1 is available. Should I document
-> it ?
-
-I think it is sufficient for now to just add a version check in the driver
-and return an error if it is not supported.
-
-And when a V2 is introduced, then we can think about using a control. Or
-perhaps just rely on the version check.
-
-Regards,
-
-	Hans
-
-> 
->> Regards,
->>
->> 	Hans
->>
->>>
->>> That would help here, but will not solve the issue of how to deal with
->>> backports of a single driver. Jacopo, what do you think ?
->>>
->>>> Whether that is acceptable or not is up to you.
->>>>
->>>> In any case, this would have to be documented so you know at which kernel
->>>> version a new RKISP1_EXT_PARAM_BUFFER_Vx is introduced.
->>>>
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
->>>>>>>>> + *
->>>>>>>>> + * This struct contains the configuration parameters of the RkISP1 ISP
->>>>>>>>> + * algorithms, serialized by userspace into a data buffer. Each configuration
->>>>>>>>> + * parameter block is represented by a block-specific structure which contains a
->>>>>>>>> + * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
->>>>>>>>> + * populates the @data buffer with configuration parameters for the blocks that
->>>>>>>>> + * it intends to configure. As a consequence, the data buffer effective size
->>>>>>>>> + * changes according to the number of ISP blocks that userspace intends to
->>>>>>>>> + * configure and is set by userspace in the @data_size field.
->>>>>>>>> + *
->>>>>>>>> + * The parameters buffer is versioned by the @version field to allow modifying
->>>>>>>>> + * and extending its definition. Userspace shall populate the @version field to
->>>>>>>>> + * inform the driver about the version it intends to use. The driver will parse
->>>>>>>>> + * and handle the @data buffer according to the data layout specific to the
->>>>>>>>> + * indicated version and return an error if the desired version is not
->>>>>>>>> + * supported.
->>>>>>>>> + *
->>>>>>>>> + * For each ISP block that userspace wants to configure, a block-specific
->>>>>>>>> + * structure is appended to the @data buffer, one after the other without gaps
->>>>>>>>> + * in between nor overlaps. Userspace shall populate the @data_size field with
->>>>>>>>> + * the effective size, in bytes, of the @data buffer.
->>>>>>>>> + *
->>>>>>>>> + * The expected memory layout of the parameters buffer is::
->>>>>>>>> + *
->>>>>>>>> + *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
->>>>>>>>> + *	| version = RKISP_EXT_PARAMS_BUFFER_V1;                               |
->>>>>>>>> + *	| data_size = sizeof(struct rkisp1_ext_params_bls_config)             |
->>>>>>>>> + *	|           + sizeof(struct rkisp1_ext_params_dpcc_config);           |
->>>>>>>>> + *	| +------------------------- data  ---------------------------------+ |
->>>>>>>>> + *	| | +------------- struct rkisp1_ext_params_bls_config -----------+ | |
->>>>>>>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
->>>>>>>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS;                | | | |
->>>>>>>>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
->>>>>>>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_bls_config);     | | | |
->>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
->>>>>>>>> + *	| | | +---------- struct rkisp1_cif_isp_bls_config -------------+ | | |
->>>>>>>>> + *	| | | | enable_auto = 0;                                        | | | |
->>>>>>>>> + *	| | | | fixed_val.r = 256;                                      | | | |
->>>>>>>>> + *	| | | | fixed_val.gr = 256;                                     | | | |
->>>>>>>>> + *	| | | | fixed_val.gb = 256;                                     | | | |
->>>>>>>>> + *	| | | | fixed_val.b = 256;                                      | | | |
->>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
->>>>>>>>> + *	| | +------------ struct rkisp1_ext_params_dpcc_config -----------+ | |
->>>>>>>>> + *	| | | +-------- struct rkisp1_ext_params_block_header  ---------+ | | |
->>>>>>>>> + *	| | | | type = RKISP1_EXT_PARAMS_BLOCK_TYPE_DPCC;               | | | |
->>>>>>>>> + *	| | | | flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;              | | | |
->>>>>>>>> + *	| | | | size = sizeof(struct rkisp1_ext_params_dpcc_config);    | | | |
->>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
->>>>>>>>> + *	| | | +---------- struct rkisp1_cif_isp_dpcc_config ------------+ | | |
->>>>>>>>> + *	| | | | mode = RKISP1_CIF_ISP_DPCC_MODE_STAGE1_ENABLE;          | | | |
->>>>>>>>> + *	| | | | output_mode =                                           | | | |
->>>>>>>>> + *	| | | |   RKISP1_CIF_ISP_DPCC_OUTPUT_MODE_STAGE1_INCL_G_CENTER; | | | |
->>>>>>>>> + *	| | | | set_use = ... ;                                         | | | |
->>>>>>>>> + *	| | | | ...  = ... ;                                            | | | |
->>>>>>>>> + *	| | | +---------------------------------------------------------+ | | |
->>>>>>>>> + *	| | +-------------------------------------------------------------+ | |
->>>>>>>>> + *	| +-----------------------------------------------------------------+ |
->>>>>>>>> + *	+---------------------------------------------------------------------+
->>>>>>>>> + *
->>>>>>>>> + * @version: The RkISP1 extensible parameters buffer version, see
->>>>>>>>> + *	     :c:type:`rksip1_ext_param_buffer_version`
->>>>>>>>> + * @data_size: The RkISP1 configuration data effective size, excluding this
->>>>>>>>> + *	       header
->>>>>>>>> + * @data: The RkISP1 extensible configuration data blocks
->>>>>>>>> + */
->>>>>>>>> +struct rkisp1_ext_params_cfg {
->>>>>>>>> +	__u32 version;
->>>>>>>>> +	__u32 data_size;
->>>>>>>>> +	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>>  #endif /* _UAPI_RKISP1_CONFIG_H */
+>>>>> On 8/1/24 11:16, Bryan O'Donoghue wrote:
+>>>>>> On 01/08/2024 00:43, Vladimir Zapolskiy wrote:
+>>>>>>>> +    ret = csiphy->res->hw_ops->init(csiphy);
+>>>>>>>
+>>>>>>> Here.
+>>>>>>
+>>>>>> What name would make more sense to you ?
+>>>>>
+>>>>> according to the implementation the .init() call just fills some 
+>>>>> data in
+>>>>> memory, so I believe this could be handled at build time, if it's done
+>>>>> carefully enough...
 >>>>>
 >>>>
+>>>> This camss-csiphy-3ph-1-0.c is reused by many platforms, the old 
+>>>> platforms have same CSI_COMMON_CTR register offset, their offset are 
+>>>> 0x800, but some new platforms may have different CSI_COMMON_CTR 
+>>>> register offset, for example, the CSI_COMMON_CTR register offset is 
+>>>> 0x1000 in sm8550, then we need to add new file to support the new 
+>>>> csiphy HW, e.g., camss-csiphy-3ph-2-0.c, so Bryan asked me to 
+>>>> develop the CSIPHY driver based on his changes, then we just need 
+>>>> few code to enable new CSIPHY.
+>>>>
+>>>> Regarding the hw_ops->init interface, since it fills HW register 
+>>>> configurations and HW register offset, then maybe, it also can be 
+>>>> called as HW operation.
+>>>>
+>>>> And looks like we can't move it to camss-csiphy.c since it does 
+>>>> platform specific operation and it is related to the registers.
+>>>>
+>>>> Please feel free to share other comments if you don't agree with it. 
+>>>> Thanks.
+>>>>
+>>>>
+>>>> Thanks,
+>>>> Depeng
+>>>
+>>> So, I agree the phy init data could be obtained via resource structs 
+>>> but, rather than add yet more patches to this series, I'd say we can 
+>>> make the move to a separate resource struct pointer at a later date.
+>>>
+>>> Lets drop this patch and @Depeng we can then do
 >>>
 >>
+>>> +    regs->offset = 0x800;
+>>>
+>>> media: qcom: camss: csiphy-3ph: Use an offset variable to find common 
+>>> control regs
+>>>
+>>
+>>
+>> Do you mean only drop "[PATCH 04/13] media: qcom: camss: csiphy: Add 
+>> an init callback to CSI PHY devices"?
+>>
+>>
+>> [PATCH 05/13] media: qcom: camss: csiphy-3ph: Move CSIPHY variables to 
+>> data field inside csiphy struct
+>> Do you mean this is still needed? Just don't move the code from 
+>> csiphy_gen2_config_lanes to csiphy_init, right?
+>>
+>>
+>> [PATCH 06/13] media: qcom: camss: csiphy-3ph: Use an offset variable 
+>> to find common control regs
+>> The offset change is also needed, just need to add the offset for 
+>> different platform in csiphy_gen2_config_lanes .
+>>
+>> Please correct me if my understanding is wrong. Thanks.
+> 
+> Correct.
+> 
+
+I'm updating the code based on above comments, but I meet crash issue if 
+I move the offset assignment to csiphy_gen2_config_lanes, since the 
+csiphy->res->hw_ops->reset(csiphy) is called earlier than 
+csiphy_gen2_config_lanes, so if we don't have the .init interface, we 
+only can move this offset value to `struct csiphy_subdev_resources`, but 
+if we add the offset to `struct csiphy_subdev_resources`, then below two 
+patches are also can be dropped.
+
+
+[PATCH 05/13] media: qcom: camss: csiphy-3ph: Move CSIPHY variables to 
+data field inside csiphy struct
+[PATCH 06/13] media: qcom: camss: csiphy-3ph: Use an offset variable to 
+find common control regs
+
+
+Could you please comment on if I need to add the CSI_COMMON_CTR offset 
+to res directly?
+Or add back the .init interface?
+
+---
+[   43.162439] Unable to handle kernel NULL pointer dereference at 
+virtual address 000000000000000c
+
+[   43.428307] Call trace:
+[   43.430823]  csiphy_reset+0x28/0x60 [qcom_camss]
+[   43.435572]  csiphy_set_power+0x1e8/0x2d4 [qcom_camss]
+[   43.440846]  pipeline_pm_power_one+0x74/0x10c [videodev]
+[   43.446306]  pipeline_pm_power+0x44/0xe0 [videodev]
+[   43.451313]  v4l2_pipeline_pm_get+0x44/0x80 [videodev]
+[   43.456588]  video_open+0x6c/0xc4 [qcom_camss]
+[   43.461158]  v4l2_open+0xb8/0x100 [videodev]
+[   43.465549]  chrdev_open+0x174/0x208
+[   43.469224]  do_dentry_open+0x290/0x4b4
+[   43.473164]  vfs_open+0x30/0xf0
+[   43.476397]  path_openat+0xaec/0xd2c
+[   43.480069]  do_filp_open+0xb4/0x158
+[   43.483739]  do_sys_openat2+0x84/0xe8
+[   43.487500]  __arm64_sys_openat+0x70/0x98
+[   43.491619]  invoke_syscall+0x40/0xf8
+[   43.495383]  el0_svc_common+0xa8/0xd8
+[   43.499143]  do_el0_svc+0x1c/0x28
+[   43.502545]  el0_svc+0x38/0x68
+[   43.505691]  el0t_64_sync_handler+0x90/0xfc
+[   43.509989]  el0t_64_sync+0x190/0x194
+[   43.513751] Code: 52800028 aa0003f3 52827100 5283e801 (b9400e8a)
+[   43.520010] ---[ end trace 0000000000000000 ]---
+Segmentation fault
+
+Thanks,
+Depeng
 
 
