@@ -1,278 +1,187 @@
-Return-Path: <linux-media+bounces-15974-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-15976-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325B394B90B
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 10:31:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B0194B938
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 10:48:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 547311C246A9
-	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 08:31:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9844A1C21390
+	for <lists+linux-media@lfdr.de>; Thu,  8 Aug 2024 08:48:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115C71891AE;
-	Thu,  8 Aug 2024 08:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4895189B84;
+	Thu,  8 Aug 2024 08:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FPIV4LW0"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="LLdDRSK/";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="sEZqwcAu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF93208C4;
-	Thu,  8 Aug 2024 08:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB25925634;
+	Thu,  8 Aug 2024 08:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723105851; cv=none; b=B2XbcVyuKc1WgNJcrF2D9zXPDtCZAlWJS6aXjNp1GXW8EbO5jrf9C0nR5RBiU918BAN0z+884doD3XZ2A5+7REwOElh9sBoWU2InKTLY6sGUp58v61rng2pteKUNRFO5EGdK/Vhlg6KVL3mCA53xHHribwS8HkUlKW1lkfslPus=
+	t=1723106894; cv=none; b=oZn0pvToXvaN8wKsT0DNyrFso+wVVuYkQ0Ki4o2ZwGdqvlwLEpQGlg/ZtakmSPfhUFFzZS8jlosFwx34YtXOLJsVDos8hFSFHTX14mV56bN7IBtCTcBV/pzEQ1o6l3pS5U008TD6+s40Atn4PDm7/Yu58XId7HzxyWuXKeg42Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723105851; c=relaxed/simple;
-	bh=iw8pXmLylE4KGP42R3MzLrnRBWr85UiBhxBLckD70Uo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=cmneigN52ZAIyTapKOE7hbny4evYrApDErOj7QasRAcRqyEYf2XAOdaDc77+MheIhUTQTaMTAT6QAHUAWKqeVhM9KcJV7XmvbaiV2jfnMTZXsjD2FVj3KSgQm0g+GeB+SH3/THJOhmPud0T+wIn/sB6BONUmDCY2k866sEdKZ18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FPIV4LW0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE4AE581;
-	Thu,  8 Aug 2024 10:29:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723105793;
-	bh=iw8pXmLylE4KGP42R3MzLrnRBWr85UiBhxBLckD70Uo=;
-	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
-	b=FPIV4LW0nQkirIWclJ0Gw3AOFSdLT4qp3YNkwRD9MenO1ZE9QQ22vG24wTMCVNp/j
-	 tSGAX9XBcwqtDTJ+J05WeqFWx3nfifFa71ljaz7wMURugaAfdI29dhRCmckRgYiDuv
-	 u89HVnwy/iaXaSfr+iSIS6hosvs9TLJJFhqH5fUI=
-Message-ID: <49d736c4-1964-4f51-a951-6e98319181c2@ideasonboard.com>
-Date: Thu, 8 Aug 2024 11:30:42 +0300
+	s=arc-20240116; t=1723106894; c=relaxed/simple;
+	bh=uRH/ciiHycNXip9jjHyyUFJfgnUsV443g3yhFyDelNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CG4ywN/1cxnO4GWxN+ZX+9XmJ9j6GU3WNTXLZ9lpf9yHEQquoh90SD+DFsd0aZ4Ptn9+T6lGQQuUA1Jl0j+YTVdedSgj3sbyMfXgxJDov8zacvWBX2TblU62VYFRyOgLZ0VdbfK+qL5xp63BKKwS4evR63Ocvw9Gc2pdBVZyWo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=LLdDRSK/; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=sEZqwcAu; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1723106890; bh=uRH/ciiHycNXip9jjHyyUFJfgnUsV443g3yhFyDelNY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LLdDRSK/UKmCKanuLW49XqVQ8szl4DmFV9uyRWJ+hM0lb0SwBpAJynIlsI7bOsb1p
+	 IdSh6rqDF0VI4p400+QTNw8T7DbMzn2axD4LbPmAgc61kyr76BVFLjMj20ZyMRLUtc
+	 XIoBwDJrMUMSuikmEVcj3xDl32aVtSVGtXYssnDn/0jZXBZqYJFfPq7zwTUQmrNQR5
+	 a5o6KAA6irrj/rEABhkAYH2XyF8jAzSdZQdkZir7jT0Ow4xcv3M525xdmmKA1z3ADr
+	 zprEEFH/JnJ05cIEcsr7HNQYhE5ndWwKvktMXVC5Ps0DcM2lBxuSTuW+m5Q4Adwyla
+	 lw224SUzIK3kw==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id D07A4100105; Thu,  8 Aug 2024 09:48:10 +0100 (BST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1723106888; bh=uRH/ciiHycNXip9jjHyyUFJfgnUsV443g3yhFyDelNY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sEZqwcAuz1JmMJHEundW0lrxice1lJTwMjbN1H6EqyQe48jUf3TBbaNEyZ/sAs2C9
+	 lBQMWmlmNKGvsiUe8GloMhmaZb5Aq085WrE3LGPYVIE8q9CD2TR8lRvlFAqpnDOR8T
+	 ZzSBKqjoqhUtnUhwIBb0+jGDCQzJ8BhJMOMKErY+z4FjQ0d4JL6f1NTt9Y7QuWqngr
+	 AjY5e2hOi0NOPGpoHjG5oihte7HNSSjSK3JjERZy5q2tH+dzEUQXq28Bmda/yandhb
+	 v7AtPFrbLEl8PAvVk33M5GBbFKOOIFACACej6qkoSmxv1edHHxZC3xNN59F8y8A3um
+	 3hgimU52UkumQ==
+Received: from localhost.localdomain (bigcore.local [IPv6:2a02:8011:d000:212:bc3c:1b4a:a6fa:362f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gofer.mess.org (Postfix) with ESMTPSA id 69724100074;
+	Thu,  8 Aug 2024 09:48:08 +0100 (BST)
+From: Sean Young <sean@mess.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sean Young <sean@mess.org>,
+	Stefan Lippers-Hollmann <s.l-h@gmx.de>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Revert "media: dvb-usb: Fix unexpected infinite loop in dvb_usb_read_remote_control()"
+Date: Thu,  8 Aug 2024 09:47:57 +0100
+Message-ID: <20240808084757.18084-1-sean@mess.org>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] of: property: add of_graph_get_next_port_endpoint()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
- <87jzguw8ln.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org
-In-Reply-To: <87jzguw8ln.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/08/2024 07:58, Kuninori Morimoto wrote:
-> We already have of_graph_get_next_endpoint(), but it is not
-> intuitive to use.
-> 
-> (X)	node {
-> (Y)		ports {
-> 			port@0 { endpoint { remote-endpoint = ...; };};
-> (A1)			port@1 { endpoint { remote-endpoint = ...; };
-> (A2)				 endpoint { remote-endpoint = ...; };};
-> (B)			port@2 { endpoint { remote-endpoint = ...; };};
-> 		};
-> 	};
-> 
-> For example, if I want to handle port@1's 2 endpoints (= A1, A2),
-> I want to use like below
-> 
-> 	A1 = of_graph_get_next_endpoint(port1, NULL);
-> 	A2 = of_graph_get_next_endpoint(port1, A1);
-> 
-> But 1st one will be error, because of_graph_get_next_endpoint()
-> requested "parent" means "node" (X) or "ports" (Y), not "port".
-> Below are OK
-> 
-> 	/* These will be node/ports/port@0/endpoint */
-> 	of_graph_get_next_endpoint(node,  NULL);
-> 	of_graph_get_next_endpoint(ports, NULL);
-> 
-> In other words, we can't handle A1/A2 directly via
-> of_graph_get_next_endpoint() so far.
-> 
-> There is another non intuitive behavior on of_graph_get_next_endpoint().
-> In case of if I could get A1 pointer for some way, and if I want to
-> handle port@1 things, I would like use it like below
-> 
-> 	/*
-> 	 * "ep" is now A1, and handle port1 things here,
-> 	 * but we don't know how many endpoints port1 has.
-> 	 *
-> 	 * Because "ep" is non NULL, we can use port1
-> 	 * as of_graph_get_next_endpoint(port1, xxx)
-> 	 */
-> 	do {
-> 		/* do something for port1 specific things here */
-> 	} while (ep = of_graph_get_next_endpoint(port1, ep))
-> 
-> But it also not worked as I expected.
-> I expect it will be A1 -> A2 -> NULL,
-> but      it will be A1 -> A2 -> B,    because
-> of_graph_get_next_endpoint() will fetch "endpoint" beyond the "port".
-> 
-> It is not useful on generic driver like Generic Sound Card.
-> It uses of_get_next_child() instead for now, but it is not intuitive.
-> And it doesn't check node name (= "endpoint").
-> 
-> To handle endpoint more intuitive, create of_graph_get_next_port_endpoint()
-> 
-> 	of_graph_get_next_port_endpoint(port1, NULL); // A1
-> 	of_graph_get_next_port_endpoint(port1, A1);   // A2
-> 	of_graph_get_next_port_endpoint(port1, A2);   // NULL
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   drivers/of/property.c    | 22 ++++++++++++++++++++++
->   include/linux/of_graph.h | 20 ++++++++++++++++++++
->   2 files changed, 42 insertions(+)
-> 
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 3b2d09c0376a..de56795a7362 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -692,6 +692,28 @@ struct device_node *of_graph_get_next_port(struct device_node *parent,
->   }
->   EXPORT_SYMBOL(of_graph_get_next_port);
->   
-> +/**
-> + * of_graph_get_next_port_endpoint() - get next endpoint node in port.
-> + * If it reached to end of the port, it will return NULL.
-> + * @port: pointer to the target port node
-> + * @endpoint: current endpoint node, or NULL to get first
-> + *
-> + * Return: An 'endpoint' node pointer with refcount incremented. Refcount
-> + * of the passed @prev node is decremented.
-> + */
+This reverts commit 2052138b7da52ad5ccaf74f736d00f39a1c9198c.
 
-Same issues here too. No "prev" parameter, and I suggest using 
-"previous", not "current", to be consistent with 
-of_graph_get_next_endpoint(). (or alternatively, change 
-of_graph_get_next_endpoint()).
+This breaks the TeVii s480 dual DVB-S2 S660. The device has a bulk in
+endpoint but no corresponding out endpoint, so the device does not pass
+the "has both receive and send bulk endpoint" test.
 
-Oh, the declaration of the function uses "prev", but the implementation 
-"endpoint". Please make the naming same.
+Seemingly this device does not use dvb_usb_generic_rw() so I have tried
+removing the generic_bulk_ctrl_endpoint entry, but this resulted in
+different problems.
 
-> +struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
-> +						    struct device_node *endpoint)
-> +{
-> +	do {
-> +		endpoint = of_get_next_child(port, endpoint);
-> +		if (!endpoint)
-> +			break;
-> +	} while (!of_node_name_eq(endpoint, "endpoint"));
-> +
-> +	return endpoint;
-> +}
-> +EXPORT_SYMBOL(of_graph_get_next_port_endpoint);
-> +
->   /**
->    * of_graph_get_next_endpoint() - get next endpoint node
->    *
-> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> index 30169b50b042..8b4777938c5e 100644
-> --- a/include/linux/of_graph.h
-> +++ b/include/linux/of_graph.h
-> @@ -59,6 +59,17 @@ struct of_endpoint {
->   	for (child = of_graph_get_next_port(parent, NULL); child != NULL; \
->   	     child = of_graph_get_next_port(parent, child))
->   
-> +/**
-> + * for_each_of_graph_port_endpoint - iterate over every endpoint in a port node
-> + * @parent: parent device or ports node
+As we have no explanation yet, revert.
 
-Hmm, shouldn't the parent be a port node?
+$ dmesg | grep -i -e dvb -e dw21 -e usb\ 4
+[    0.999122] usb 1-1: new high-speed USB device number 2 using ehci-pci
+[    1.023123] usb 4-1: new high-speed USB device number 2 using ehci-pci
+[    1.130247] usb 1-1: New USB device found, idVendor=9022, idProduct=d482,
++bcdDevice= 0.01
+[    1.130257] usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    1.152323] usb 4-1: New USB device found, idVendor=9022, idProduct=d481,
++bcdDevice= 0.01
+[    1.152329] usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    6.701033] dvb-usb: found a 'TeVii S480.2 USB' in cold state, will try to
++load a firmware
+[    6.701178] dvb-usb: downloading firmware from file 'dvb-usb-s660.fw'
+[    6.701179] dw2102: start downloading DW210X firmware
+[    6.703715] dvb-usb: found a 'Microsoft Xbox One Digital TV Tuner' in cold
++state, will try to load a firmware
+[    6.703974] dvb-usb: downloading firmware from file 'dvb-usb-dib0700-1.20.fw'
+[    6.756432] usb 1-1: USB disconnect, device number 2
+[    6.862119] dvb-usb: found a 'TeVii S480.2 USB' in warm state.
+[    6.862194] dvb-usb: TeVii S480.2 USB error while loading driver (-22)
+[    6.862209] dvb-usb: found a 'TeVii S480.1 USB' in cold state, will try to
++load a firmware
+[    6.862244] dvb-usb: downloading firmware from file 'dvb-usb-s660.fw'
+[    6.862245] dw2102: start downloading DW210X firmware
+[    6.914811] usb 4-1: USB disconnect, device number 2
+[    7.014131] dvb-usb: found a 'TeVii S480.1 USB' in warm state.
+[    7.014487] dvb-usb: TeVii S480.1 USB error while loading driver (-22)
+[    7.014538] usbcore: registered new interface driver dw2102
 
-> + * @child: loop variable pointing to the current endpoint node
-> + *
-> + * When breaking out of the loop, of_node_put(child) has to be called manually.
-> + */
-> +#define for_each_of_graph_port_endpoint(parent, child)			\
-> +		for (child = of_graph_get_next_port_endpoint(parent, NULL); child != NULL; \
-> +		     child = of_graph_get_next_port_endpoint(parent, child))
-> +
->   #ifdef CONFIG_OF
->   bool of_graph_is_present(const struct device_node *node);
->   int of_graph_parse_endpoint(const struct device_node *node,
-> @@ -73,6 +84,8 @@ struct device_node *of_graph_get_next_ports(struct device_node *parent,
->   					    struct device_node *ports);
->   struct device_node *of_graph_get_next_port(struct device_node *parent,
->   					   struct device_node *port);
-> +struct device_node *of_graph_get_next_port_endpoint(const struct device_node *port,
-> +						    struct device_node *prev);
->   struct device_node *of_graph_get_endpoint_by_regs(
->   		const struct device_node *parent, int port_reg, int reg);
->   struct device_node *of_graph_get_remote_endpoint(
-> @@ -133,6 +146,13 @@ static inline struct device_node *of_graph_get_next_port(
->   	return NULL;
->   }
->   
-> +static inline struct device_node *of_graph_get_next_port_endpoint(
-> +					const struct device_node *parent,
-> +					struct device_node *previous)
-> +{
-> +	return NULL;
-> +}
-> +
->   static inline struct device_node *of_graph_get_endpoint_by_regs(
->   		const struct device_node *parent, int port_reg, int reg)
->   {
+Closes: https://lore.kernel.org/stable/20240801165146.38991f60@mir/
+Reported-by: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/usb/dvb-usb/dvb-usb-init.c | 35 +++---------------------
+ 1 file changed, 4 insertions(+), 31 deletions(-)
 
-  Tomi
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+index 22d83ac18eb7..fbf58012becd 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+@@ -23,40 +23,11 @@ static int dvb_usb_force_pid_filter_usage;
+ module_param_named(force_pid_filter_usage, dvb_usb_force_pid_filter_usage, int, 0444);
+ MODULE_PARM_DESC(force_pid_filter_usage, "force all dvb-usb-devices to use a PID filter, if any (default: 0).");
+ 
+-static int dvb_usb_check_bulk_endpoint(struct dvb_usb_device *d, u8 endpoint)
+-{
+-	if (endpoint) {
+-		int ret;
+-
+-		ret = usb_pipe_type_check(d->udev, usb_sndbulkpipe(d->udev, endpoint));
+-		if (ret)
+-			return ret;
+-		ret = usb_pipe_type_check(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
+-		if (ret)
+-			return ret;
+-	}
+-	return 0;
+-}
+-
+-static void dvb_usb_clear_halt(struct dvb_usb_device *d, u8 endpoint)
+-{
+-	if (endpoint) {
+-		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, endpoint));
+-		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, endpoint));
+-	}
+-}
+-
+ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+ {
+ 	struct dvb_usb_adapter *adap;
+ 	int ret, n, o;
+ 
+-	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint);
+-	if (ret)
+-		return ret;
+-	ret = dvb_usb_check_bulk_endpoint(d, d->props.generic_bulk_ctrl_endpoint_response);
+-	if (ret)
+-		return ret;
+ 	for (n = 0; n < d->props.num_adapters; n++) {
+ 		adap = &d->adapter[n];
+ 		adap->dev = d;
+@@ -132,8 +103,10 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+ 	 * when reloading the driver w/o replugging the device
+ 	 * sometimes a timeout occurs, this helps
+ 	 */
+-	dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint);
+-	dvb_usb_clear_halt(d, d->props.generic_bulk_ctrl_endpoint_response);
++	if (d->props.generic_bulk_ctrl_endpoint != 0) {
++		usb_clear_halt(d->udev, usb_sndbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++		usb_clear_halt(d->udev, usb_rcvbulkpipe(d->udev, d->props.generic_bulk_ctrl_endpoint));
++	}
+ 
+ 	return 0;
+ 
+-- 
+2.46.0
 
 
