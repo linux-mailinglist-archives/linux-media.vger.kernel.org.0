@@ -1,153 +1,259 @@
-Return-Path: <linux-media+bounces-16036-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16037-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA78A94CBC1
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 09:56:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B72D94CBDB
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 10:08:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08CBB1C20E3A
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 07:56:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 291A6286154
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 08:08:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18A5118CC15;
-	Fri,  9 Aug 2024 07:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26B3D18C93E;
+	Fri,  9 Aug 2024 08:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iWy7JWX6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aIFfG/9C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013EA1552EB;
-	Fri,  9 Aug 2024 07:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA19C8D1
+	for <linux-media@vger.kernel.org>; Fri,  9 Aug 2024 08:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723190188; cv=none; b=q/icM8tm/GJw5AQmaxamY0zCZ+d7puypdEBlXsVnmGXFm3qgU5ZumjLFz44PqwyjmMTts65fVHiepjd5mgB4OvprVL9Xbqg6UGtfnychHv6wEotwSsI5FGXuHlKrGb3dxBSoT3pDDzqkrkXajJuGpWY8Rev4RoEnA81aK3mRo3w=
+	t=1723190909; cv=none; b=O+D/rBNklG0jMA1ZWVTSowRPxpH+Qnd+MbABaMQ2TdH+X1DT2E5qGEgocZj1tKDCY6cKHr9v6r7As2pYEqmKY1PpZreev4EPEXxv6ImnS44qZJmR+XQKwbnuC0UK6PIqfdv6frbdexWmP+sajXctMgMFo1hnOBJ6OqR0eOL1ISw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723190188; c=relaxed/simple;
-	bh=WciictBvnZZognJdSB//Vkpj36Vtrbm418N+k4gXKM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lue6vbwtS3HJzRZ4DDuQJNKtEil0h6h4lG6IFkP1B5hZIGG8ikUOuuF5Kcihcvq2LJABgU2zkSn7SqbHzVyIsJVSGrB0gMVkoRhgO4qxg5JpAJ98rXp/4ZTYvfg+2Q4hTsM6NO+bTCsHgTb5IFuX9QdMpXBrbmjngJBHjJfFHqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iWy7JWX6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952AFC4AF0D;
-	Fri,  9 Aug 2024 07:56:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723190187;
-	bh=WciictBvnZZognJdSB//Vkpj36Vtrbm418N+k4gXKM8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iWy7JWX63DlQVy2d0mNGhQfP+E5wTH7yt+zLcJ0XE+/2H7ya+xPuYTTvng2lSdR0P
-	 fY3FcxC8uU8GMeAkyI60nvRDENoJPGv+KO8RJqpQagYElLNKgByK/OFTroSX355YCs
-	 LkPyVbDTwM5NLcPamf6V9UY8mS/5OHdlCJ1Bf0Wrzy8CzH4nnoBsnommLbSLYVYa0S
-	 vit/eTqSx1gLR+UhLsyyqz5moCQu5XrPJ2lKHYZlMNpbvAKOB2UKpjpb3hjS9c0GG8
-	 efszcgVI6ngSguWbXJ9ztgvoCk8mZPBFojeGqb+x30Hdvr6lK6GLQBG40LF/KOtnNT
-	 rWCJ8B29HDgmg==
-Date: Fri, 9 Aug 2024 08:56:15 +0100
-From: Simon Horman <horms@kernel.org>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>,
-	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Willem de Bruijn <willemb@google.com>, linux-alpha@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bagas Sanjaya <bagasdotme@gmail.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Ahern <dsahern@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>, David Wei <dw@davidwei.uk>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Helge Deller <deller@gmx.de>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"James E. J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Matt Turner <mattst88@gmail.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Shailend Chand <shailend@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Taehee Yoo <ap420073@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Yunsheng Lin <linyunsheng@huawei.com>
-Subject: Re: [PATCH net-next v17 03/14] netdev: support binding dma-buf to
- netdevice
-Message-ID: <20240809075615.GD3075665@kernel.org>
-References: <20240730022623.98909-4-almasrymina@google.com>
- <5d3c74da-7d44-4b88-8961-60f21f84f0ac@web.de>
- <CAHS8izPxfCv1VMFBK1FahGTjVmUSSfrabgY5y6V+XtaszoHQ4w@mail.gmail.com>
- <9aad36fe-cd4c-4ce5-b4d8-6c8619d10c46@web.de>
- <66b2198686b91_3206cf29453@willemb.c.googlers.com.notmuch>
+	s=arc-20240116; t=1723190909; c=relaxed/simple;
+	bh=MiupinPYtVFVoULAp4AM0FSVF1A0l2X2WcE1JaT1WzI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vlj3DW83VYxVAMLK+MfYSNnlJWlc/JK3Yu24OJanwB9mGsiH1Kh5yr4G7LpnI4iWcE6RMjvlY5W92y4lBy90akoZhPxmQVeix/HwR9Dg5Mb4dNOKUS6WAAl65axq0NMRDNO9h7t8/7FfGOuQTa9dXlhm6hTldjppnxnjAdsnw8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aIFfG/9C; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5b01af9b0c9so1910729a12.3
+        for <linux-media@vger.kernel.org>; Fri, 09 Aug 2024 01:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1723190906; x=1723795706; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7UOjCAID+UZ2tEQeZhluoBp+qMsVXiycrhYlTzLnVcU=;
+        b=aIFfG/9Cx5qSo9T/0HMkqIYU/vAj68niZlg9ObWct8scvMSI/8WJuZG1Ms+A+nN1qG
+         IENFdjz5v5CK1z1fr4PDZYMREsTgpTy0V1TXyjjPvMd1iHX1tscnC/MOhnVQRYuTgKdB
+         2HiHmsc/JZW6elZZGHpXW4SVLYr9CeoVagRz4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723190906; x=1723795706;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7UOjCAID+UZ2tEQeZhluoBp+qMsVXiycrhYlTzLnVcU=;
+        b=K0f0GufhnPuSrcGW88vDZRBLCnZoOVW0ZrHrENBh99FUGsxySE0iRmXsWqW2Ix1TUd
+         J8TA5Syr1doZ9pgmUyMQfLe1Jw4k/a0Sz5fR9+tLHPm6GdivgRqGCKhXwRP2RkT5v+G2
+         u5dTTX+Hnz+NDya62QEJojzm5yadHv6YPBW8ZgQqQ44Kn0Z0G6R9uU5nJSD/+KdZmRQx
+         9bjn+crFiwCK85E+6US2L1ISN0BH5Mx6xy09p9tr/DTwE8iUmKy57MdsG7r448REq1VH
+         +uOoJeHAVmZbcWiMZjrwy604xAnw+RQIGkHs5XJkNvTkFafCsdnrSkB2aZ3U37it1vCF
+         s3fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrJ4CPAV122hodSahqo418BrTX0dhx/EJlQafFsUtcJJzuggEAq1o2Wwl3lS9sTXodQLp0bkasRQkws0Jze+6gKELgYN4MoVYlsCQ=
+X-Gm-Message-State: AOJu0Yxla3LkY0xGKDzs8kn3tjLc7D1rWsDGG1fZq95cgCChDAI3U9Ec
+	7I4tDW2QtStgQf58H4W0Z+d28bKQsDlOIUP57DfQ1HaZf7bn4M2J1EWEVEacaimhNls0FDUv0Jy
+	LP/hU
+X-Google-Smtp-Source: AGHT+IG4Ssn/jpx0kgtr5FXJoDHsha2AFO1MiOXJL15qp5ynZtvRQ8lege6gasjr9ZxWCOdkZiK8pg==
+X-Received: by 2002:a17:907:f78e:b0:a77:bfca:da53 with SMTP id a640c23a62f3a-a80aa5e9301mr70106866b.30.1723190905760;
+        Fri, 09 Aug 2024 01:08:25 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7dc9d42615sm818953766b.99.2024.08.09.01.08.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Aug 2024 01:08:25 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a7ad02501c3so229355066b.2
+        for <linux-media@vger.kernel.org>; Fri, 09 Aug 2024 01:08:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW6R5oI4BUROK6GPra/F1CRisYCU7aVqjfSiUWhqefWBLpjF1iz08G5Nr3uqBLOOXTCDvrLqzvpx0mFu4IXlUrZiiB9RnDiHpP+Cmw=
+X-Received: by 2002:a05:6512:3e1c:b0:530:adfe:8607 with SMTP id
+ 2adb3069b0e04-530ee9f3594mr770871e87.51.1723190567467; Fri, 09 Aug 2024
+ 01:02:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <66b2198686b91_3206cf29453@willemb.c.googlers.com.notmuch>
+References: <20240429-fix-cocci-v3-0-3c4865f5a4b0@chromium.org>
+ <20240429-fix-cocci-v3-26-3c4865f5a4b0@chromium.org> <20240503112758.763d8d31@sal.lan>
+ <c4287024-8012-458d-9829-15ffbceb25cf@moroto.mountain> <CANiDSCsU+jgYkUmHZOC8xPsL2DbgU7_sWrby1bQAXQNnp+g6Bg@mail.gmail.com>
+ <fe95e3c3a89de4566a4eb53ca8b26c25@manjaro.org> <CANiDSCswvsTh+0oJmHkYC=-qE8g09bHr44amBsUXkK6j1eCMWA@mail.gmail.com>
+ <CAOcJUbwJkbEG6+u==de7CzXDUPGj6J3-p-7E3o+iAzjgSgybSg@mail.gmail.com>
+In-Reply-To: <CAOcJUbwJkbEG6+u==de7CzXDUPGj6J3-p-7E3o+iAzjgSgybSg@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 9 Aug 2024 10:02:35 +0200
+X-Gmail-Original-Message-ID: <CANiDSCt=HOKwAT2zBg1tTbGbD-U-2K8+hi5WbdCM9ULWJvZ_Lw@mail.gmail.com>
+Message-ID: <CANiDSCt=HOKwAT2zBg1tTbGbD-U-2K8+hi5WbdCM9ULWJvZ_Lw@mail.gmail.com>
+Subject: Re: [PATCH v3 26/26] media: dvb-frontends: tda10048: Make the range
+ of z explicit.
+To: Michael Ira Krufky <mkrufky@linuxtv.org>
+Cc: Dragan Simic <dsimic@manjaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Hugues Fruchet <hugues.fruchet@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Dmitry Osipenko <digetx@gmail.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 06, 2024 at 08:39:34AM -0400, Willem de Bruijn wrote:
-> Markus Elfring wrote:
-> > >> …
-> > >>> +++ b/include/net/devmem.h
-> > >>> @@ -0,0 +1,115 @@
-> > >> …
-> > >>> +#ifndef _NET_DEVMEM_H
-> > >>> +#define _NET_DEVMEM_H
-> > >> …
-> > >>
-> > >> I suggest to omit leading underscores from such identifiers.
-> > >> https://wiki.sei.cmu.edu/confluence/display/c/DCL37-C.+Do+not+declare+or+define+a+reserved+identifier
-> > >>
+Hi
+
+It does not seem that we will find the datasheet.
+
+Any objection to land the patch as it? It is as incorrect as the
+original code ;)
+
+Regards!
+
+On Mon, 13 May 2024 at 16:26, Michael Ira Krufky <mkrufky@linuxtv.org> wrot=
+e:
+>
+> On Mon, May 13, 2024 at 9:38=E2=80=AFAM Ricardo Ribalda <ribalda@chromium=
+.org> wrote:
+> >
+> > On Fri, 3 May 2024 at 16:08, Dragan Simic <dsimic@manjaro.org> wrote:
 > > >
-> > > I was gonna apply this change, but I ack'd existing files and I find
-> > > that all of them include leading underscores, including some very
-> > > recently added files like net/core/page_pool_priv.h.
+> > > Hello Ricardo,
 > > >
-> > > I would prefer to stick to existing conventions if that's OK, unless
-> > > there is widespread agreement to the contrary.
-> > 
-> > Under which circumstances would you become interested to reduce development risks
-> > also according to undefined behaviour?
-> > https://wiki.sei.cmu.edu/confluence/display/c/CC.+Undefined+Behavior#CC.UndefinedBehavior-ub_106
-> 
-> This series is following established practice in kernel networking.
-> 
-> If that conflicts with a C standard, then perhaps that needs to be
-> resolved project wide.
-> 
-> Forcing an individual feature to diverge just brings inconsistency.
-> That said, this appears to be inconsistent already.
-> 
-> Main question is whether this is worth respinning a series already at
-> v17 with no more fundamental feedback.
+> > > On 2024-05-03 13:56, Ricardo Ribalda wrote:
+> > > > I am trying to get the DS, but
+> > > > https://www.nxp.com/acrobat_download/literature/9397/75015931.pdf i=
+s a
+> > > > dead links now.
+> > > >
+> > > > Anyone have access to the datasheet?
+> > >
+> > > It's kind of available on the link below, but for some strange reason
+> > > the download fails after downloading the first 128 KB or so.
+> > >
+> > > https://web.archive.org/web/20080907185532/https://www.nxp.com/acroba=
+t_download/literature/9397/75015931.pdf\
+> >
+> > Mike, by any chance do you have a copy of the DS?
+> >
+> >
+> > >
+> > >
+> > > > On Fri, 3 May 2024 at 13:55, Dan Carpenter <dan.carpenter@linaro.or=
+g>
+> > > > wrote:
+> > > >>
+> > > >> On Fri, May 03, 2024 at 11:27:58AM +0100, Mauro Carvalho Chehab wr=
+ote:
+> > > >> > Em Mon, 29 Apr 2024 15:05:05 +0000
+> > > >> > Ricardo Ribalda <ribalda@chromium.org> escreveu:
+> > > >> >
+> > > >> > > We do not expect the sample_freq to be over 613MHz.
+> > > >> > >
+> > > >> > > Found by cocci:
+> > > >> > > drivers/media/dvb-frontends/tda10048.c:345:1-7: WARNING: do_di=
+v() does a 64-by-32 division, please consider using div64_u64 instead.
+> > > >> > >
+> > > >> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > >> > > ---
+> > > >> > >  drivers/media/dvb-frontends/tda10048.c | 4 +++-
+> > > >> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > >> > >
+> > > >> > > diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/=
+media/dvb-frontends/tda10048.c
+> > > >> > > index 3e725cdcc66b..1886f733dbbf 100644
+> > > >> > > --- a/drivers/media/dvb-frontends/tda10048.c
+> > > >> > > +++ b/drivers/media/dvb-frontends/tda10048.c
+> > > >> > > @@ -328,7 +328,8 @@ static int tda10048_set_wref(struct dvb_fr=
+ontend *fe, u32 sample_freq_hz,
+> > > >> > >                          u32 bw)
+> > > >> > >  {
+> > > >> > >     struct tda10048_state *state =3D fe->demodulator_priv;
+> > > >> > > -   u64 t, z;
+> > > >> > > +   u32 z;
+> > > >> > > +   u64 t;
+> > > >> > >
+> > > >> > >     dprintk(1, "%s()\n", __func__);
+> > > >> > >
+> > > >> > > @@ -341,6 +342,7 @@ static int tda10048_set_wref(struct dvb_fr=
+ontend *fe, u32 sample_freq_hz,
+> > > >> > >     /* t *=3D 2147483648 on 32bit platforms */
+> > > >> > >     t *=3D (2048 * 1024);
+> > > >> > >     t *=3D 1024;
+> > > >> > > +   /* Sample frequency is under 613MHz */
+> > > >> >
+> > > >> > Are you sure about that? Some DVB devices have very high frequen=
+cy
+> > > >> > clocks, specially if they're also used for satellite, so I can't
+> > > >> > be sure by just looking at the driver's code.
+> > > >> >
+> > > >> > Also, we had already a bunch of regressions with "fixes" like th=
+is
+> > > >> > that actually broke frontend drivers.
+> > > >>
+> > > >> This patch preserves the existing behavior. The sample_freq_hz
+> > > >> variable
+> > > >> is a u32 so, in the original code, z couldn't have been more than
+> > > >> U32_MAX even though it was declared as a u64.
+> >
+> >
+> > I agree with Dan, we keep the existing behaviour. So it wont hurt to
+> > merge the code...
+> >
+> > All  that said, if someone has access to the DS, I do not mind reviewin=
+g it.
+> >
+> >
+> > > >>
+> > > >> It's possible that the original code was wrong.  We have seen that=
+ in
+> > > >> other places in this patchset.  Adding a note about the datasheet =
+is
+> > > >> also a good idea.
+> > > >>
+> > > >> regards,
+> > > >> dan carpenter
+> > > >>
+> >
+> >
+> >
+> > --
+> > Ricardo Ribalda
+> >
+>
+> Nice to hear from you!  :-)
+>
+> I believe that I may have a copy of it on an old "spinny" hard drive
+> somewhere in one of the ancient desktop computers I have lining my
+> basement walls, lol.  It will take me some time to locate it.  I hope
+> this isn't urgent o:-)
+>
+> ...It so happens that the dev box I used when I worked on that driver
+> is up right now, but the datasheet isn't in my home directory.  There
+> are two other drives in the chassis but not connected / powered - I'll
+> give these a look and let you know if I find anything.
+>
+> Best,
+> Michael Krufky
 
-No, from my point of view, it is not.
 
-This really is a trivial and somewhat subjective mater.
-I don't think it should hold up a substantial piece of work.
+
+--=20
+Ricardo Ribalda
 
