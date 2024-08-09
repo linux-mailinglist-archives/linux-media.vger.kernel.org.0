@@ -1,42 +1,42 @@
-Return-Path: <linux-media+bounces-16040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD694CBEB
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 10:13:27 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DF994CBED
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 10:13:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB568284A13
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 08:13:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D40201F2258B
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 08:13:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9082B18DF62;
-	Fri,  9 Aug 2024 08:13:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DECE918DF81;
+	Fri,  9 Aug 2024 08:13:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D41C8D1;
-	Fri,  9 Aug 2024 08:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876E7C8D1;
+	Fri,  9 Aug 2024 08:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723191195; cv=none; b=l1dMq7UZMkVy+fZeFs5+Kp2Zy0dGohE/E6W9LRGrT8Yj0yUyd+W5glUX25TGjKyCkEEcVqaBJIP4HyNpNibXSooLWbqIfpLUzdlQeoogW3NgJOr1HriheFSjmPMU0MU6KI3o9A5SlOXu8bH9gWylMdHy+8B+0a94G0/hQiW84Lc=
+	t=1723191196; cv=none; b=guZGfXeOk0RqYqJLJkwFncBEqolbxajk4f4qLv5IDoywfJs+Wl6r2e0sIxlZc0FTUBnwzoJy9TgKfXVJ5uS0gUUuCrnOGiZDK1bQuTg+gh4LfqkbGZdv/orT3Be+gdukdbJMtPSuVMpi9ncs8XlDBsCLOKd7Bf/11nIEsiegZwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723191195; c=relaxed/simple;
-	bh=EidSH5+sb9Lpbsqqu6Jugt+7B0No6uJBVNASD2UBQ00=;
+	s=arc-20240116; t=1723191196; c=relaxed/simple;
+	bh=RpUyfg+35lwNalGpQyOQYvnqsQ4KBrwOxcAMUgE1BOs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tcpsZCQRhAvGzJaI4k/gzs7mAf1eF8/lFp/p5cg/wJicTQunSPpYtuAHM7C5DlU4MpkMQb2zOJaMw63kBlwQUsNvInpnNqNtUM2AIP/lXSwhXSjSEa3bWw4w00zNmGQiQk9277Co4E7hpmkZoqHUaTjDuc+aR7748crow5rim6o=
+	 MIME-Version; b=ID+G3oOkYhoLv1w6HgK5BAzdg0QeNDXVToTF6CIz5Oir1tKnmO4fGIVsBFPj+b2czIaSleKpFsegAkR1NTiHBWNiP4YFLoGLBtzU/j6OvIjFqkH686eOLVfx33hJJXzO77vaLuTJKS3XITjbJjC99vYkeMPJO2pvS7pNKfWiF3k=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00786C32782;
-	Fri,  9 Aug 2024 08:13:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C695C4AF0D;
+	Fri,  9 Aug 2024 08:13:15 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: linux-input@vger.kernel.org,
 	Erling Ljunggren <hljunggr@cisco.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 2/6] media: v4l2-dev: handle V4L2_CAP_EDID
-Date: Fri,  9 Aug 2024 09:57:34 +0200
-Message-ID: <f88991fc4c197ef0e32f05b2f509980183aef012.1723190258.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 3/6] media: docs: Add V4L2_CAP_EDID
+Date: Fri,  9 Aug 2024 09:57:35 +0200
+Message-ID: <5b880a060574363d5ea351e20e0766abb476f6db.1723190258.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1723190258.git.hverkuil-cisco@xs4all.nl>
 References: <cover.1723190258.git.hverkuil-cisco@xs4all.nl>
@@ -50,48 +50,72 @@ Content-Transfer-Encoding: 8bit
 
 From: Erling Ljunggren <hljunggr@cisco.com>
 
-When the V4L2_CAP_EDID capability flag is set,
-ioctls for enum inputs/outputs and get/set edid are automatically set.
+Add documentation for the new edid capability.
 
 Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ Documentation/userspace-api/media/v4l/biblio.rst      | 11 +++++++++++
+ .../userspace-api/media/v4l/vidioc-querycap.rst       | 11 +++++++++++
+ .../userspace-api/media/videodev2.h.rst.exceptions    |  1 +
+ 3 files changed, 23 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index be2ba7ca5de2..570ba00e00b3 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -557,6 +557,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
- 	bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
- 	bool has_streaming = vdev->device_caps & V4L2_CAP_STREAMING;
-+	bool is_edid =  vdev->device_caps & V4L2_CAP_EDID;
+diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
+index 72aef1759b60..35674eeae20d 100644
+--- a/Documentation/userspace-api/media/v4l/biblio.rst
++++ b/Documentation/userspace-api/media/v4l/biblio.rst
+@@ -334,6 +334,17 @@ VESA DMT
  
- 	bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
+ :author:    Video Electronics Standards Association (http://www.vesa.org)
  
-@@ -784,6 +785,20 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		SET_VALID_IOCTL(ops, VIDIOC_S_TUNER, vidioc_s_tuner);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_HW_FREQ_SEEK, vidioc_s_hw_freq_seek);
- 	}
-+	if (is_edid) {
-+		SET_VALID_IOCTL(ops, VIDIOC_G_EDID, vidioc_g_edid);
-+		if (is_tx) {
-+			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
-+			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
-+		}
-+		if (is_rx) {
-+			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
-+		}
-+	}
++.. _vesaeddc:
++
++E-DDC
++=====
++
++
++:title:     VESA Enhanced Display Data Channel (E-DDC) Standard
++:subtitle:  Version 1.3
++
++:author:    Video Electronics Standards Association (http://www.vesa.org)
++
+ .. _vesaedid:
  
- 	bitmap_andnot(vdev->valid_ioctls, valid_ioctls, vdev->valid_ioctls,
- 			BASE_VIDIOC_PRIVATE);
+ EDID
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+index 6c57b8428356..3d11d86d9cbf 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+@@ -244,6 +244,17 @@ specification the ioctl returns an ``EINVAL`` error code.
+       - 0x01000000
+       - The device supports the :c:func:`read()` and/or
+ 	:c:func:`write()` I/O methods.
++    * - ``V4L2_CAP_EDID``
++      - 0x02000000
++      - The device stores the EDID for a video input, or retrieves the EDID for a video
++        output. It is a standalone EDID device, so no video streaming etc. will take place.
++
++        For a video input this is typically an eeprom that supports the
++        :ref:`VESA Enhanced Display Data Channel Standard <vesaeddc>`. It can be something
++        else as well, for example a micro controller.
++
++        For a video output this is typically read from an external device such as an
++        HDMI splitter accessed by a serial port.
+     * - ``V4L2_CAP_STREAMING``
+       - 0x04000000
+       - The device supports the :ref:`streaming <mmap>` I/O method.
+diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+index bdc628e8c1d6..d67fd4038d22 100644
+--- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
++++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+@@ -197,6 +197,7 @@ replace define V4L2_CAP_META_OUTPUT device-capabilities
+ replace define V4L2_CAP_DEVICE_CAPS device-capabilities
+ replace define V4L2_CAP_TOUCH device-capabilities
+ replace define V4L2_CAP_IO_MC device-capabilities
++replace define V4L2_CAP_EDID device-capabilities
+ 
+ # V4L2 pix flags
+ replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
 -- 
 2.43.0
 
