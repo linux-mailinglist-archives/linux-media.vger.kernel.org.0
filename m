@@ -1,216 +1,215 @@
-Return-Path: <linux-media+bounces-16022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16023-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE6094C884
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 04:30:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC8294C917
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 06:19:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF7FE284F8B
-	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 02:30:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CBFD1F22CBA
+	for <lists+linux-media@lfdr.de>; Fri,  9 Aug 2024 04:19:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A4C17993;
-	Fri,  9 Aug 2024 02:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11743161935;
+	Fri,  9 Aug 2024 04:19:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="P7rzJUJG"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="GtcSSH/2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011021.outbound.protection.outlook.com [52.101.125.21])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1994C8E;
-	Fri,  9 Aug 2024 02:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723170589; cv=fail; b=prQIqx9K4a6lMZjuQ0UdaROejVKoBs9Rv/XpCKAIVwBXGGNDXX4H7emBxTQ9W5RpnUlvtHA1+rykrGunHZUzWpKrhc8g+bEEBKcRfvs9trazSUXzY0omtphwwNbs0VBWZjJmhqOEoKmTl+frGuLv2s5S3HxAWZYsfutGMk0PCaw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723170589; c=relaxed/simple;
-	bh=0S4HhA6V4Y7wOAzcvtWxO4AJH9Yap/zj0e67pgfMeKk=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=GUuv9LUJFA8fsZSFAzfZX0mhQsEKHzGd8SfagfbibHmZtgt/o33RKYuLFsDp/siFU0L1kldUTNShiEaSp8B/J5xB/Nx7x1EbmKT8+xBOr8c0vggg29KFe7E6z6AFAytaZAaUj9An53mOHAv/84d8FKGpJ18LRxe9CG3QBVYIDOY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=P7rzJUJG; arc=fail smtp.client-ip=52.101.125.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Dp5jbuDGya2DQvJTE7CNxGOD77wRduv815ZdtvFMUqwn/Sns35RquuIbHjPVheSL6ZBr7jM09Ta8rV2hcpTD5zkrTCHybHV+zety61vYc011pDJlGH83AndoRPZTSs/yostFzriD55QxffDYhDd7fuIS1Tr7El4VHM9EhHzyDxlw7k7yFx1vk1F8rOTbqut+52crb6OycjHRAZnnahhiCm8xyyf28nE2g0LShdEChS4uxYPWSQIDBu9ge64joR75rXgdgnm/AMrVIx2CgREfwYnU8Tp9Cp5Zs3CS6zB/Fr9mx/RE/wcPtXlHR+uDs3DMF4jNgjx8ICR5eMqU79frhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bIWPnZrX0geVg+dPXwVbp8RDqvCfNmilReoJjEsbXp0=;
- b=h9Rs3GNA6ZsJkw46d2PLrq9jMqjQLGPjEPOw4/7o7JFpK6ozeCQxswUNmGWImAKt6sMBsuXpiNzldceyVQB4hOdABOLAWVqrRRSSX3BpAoh7HX3IkxS3Uf2OF9pq3TUGpPDtu6yQaPZhIceY7IYtMlow6KpymkmOikSl5kSzQYmKbowYHGh1knrSf+5Ilt9SZj9fRKffVA6xw8xIemMUshBEBB+sXA6vB7J/mFO1xEl7FGQVvnaZM22N83myyDsyNS42ZNMN2I9n7wi1I5Fxl4zKZHlI04gB7Gy+ykvDYctkiokT/vEtEmWHzU2IruwN9JWMBBQE5HfDOZsTaHSR1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bIWPnZrX0geVg+dPXwVbp8RDqvCfNmilReoJjEsbXp0=;
- b=P7rzJUJGBHK70E/SHP8+yT4ShErIXX6qFJ7feUKY3gTUf6ddiHVqHy0p31ySndW3ZX8QF4RCEGfX6Jo6euuRdHXn/deVCZo8AGQN3Gm7xYzpgoUrs1yeJJKH3fg95IUxy3l5BlhQre1MyLsOZMb7IgPkSdHq7PPsFv5LiDj8wBY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY3PR01MB10597.jpnprd01.prod.outlook.com
- (2603:1096:400:319::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.15; Fri, 9 Aug
- 2024 02:29:43 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7849.014; Fri, 9 Aug 2024
- 02:29:42 +0000
-Message-ID: <877ccq8m3t.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/9] of: property: add of_graph_get_next_port_endpoint()
-In-Reply-To: <49d736c4-1964-4f51-a951-6e98319181c2@ideasonboard.com>
-References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
-	<87jzguw8ln.wl-kuninori.morimoto.gx@renesas.com>
-	<49d736c4-1964-4f51-a951-6e98319181c2@ideasonboard.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 9 Aug 2024 02:29:42 +0000
-X-ClientProxiedBy: TYCP286CA0357.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:7c::15) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA37182BD;
+	Fri,  9 Aug 2024 04:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723177171; cv=none; b=Rg8CCNQqzHUr8BzIjAdNkaAmyqyX1iydCs2y4BaT7OW0EO0nJrvne+9f0izkXDebdnS9Krj0uUjBCOoDGERle0ruN/NyxLWTmWPb8wyBm06BPqk9Sf/1ZmYIymw0+Vi9iFpmuAIfRJMgR7XdSKx1k74+nj3kZWq2Pj7CLFJOP9o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723177171; c=relaxed/simple;
+	bh=T+IR90vCl/ybRqWqiniM0YHXaQXuAi46GttcRjTx16k=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IBLH2AsrTygah8T/9gErzqvNrvrpVIYNuB6EwyXTowdioxXY+pBZciIqF8xAGva80Qv1c0sQpvSZcoyiXHEs5yvZHQB8V5bTZPFSsabQU02w0nLR6T5bBtJe8ePcPR9DZdOjvE9Vrr2s27YzJeoqigCwozm3TJRlidatV1nEf2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=GtcSSH/2; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4794JFNR110853;
+	Thu, 8 Aug 2024 23:19:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1723177155;
+	bh=w0KreaZsLFoMJJTOWogDLvkF2PqIqokxZLI4HI9MM2w=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=GtcSSH/2My2Npq0I4OwELgMmitjpphVRiDDDQlgZi5ZGpwXCEeQtLV+i2MihR3nX8
+	 QaIyi+b1zI18M6cIIG5NnL3n0jBWDmuAJq/m1BG2as2RYzaD0P2hsIieOvLuE5KHN3
+	 pfqzAm6B8XJi8Fp8mVMQFPBDL3xEyrh6hWRaPHu4=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4794JFAu124014
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 8 Aug 2024 23:19:15 -0500
+Received: from lewvowa02.ent.ti.com (10.180.75.80) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 8
+ Aug 2024 23:19:15 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by lewvowa02.ent.ti.com
+ (10.180.75.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.34; Thu, 8 Aug
+ 2024 23:19:14 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 8 Aug 2024 23:19:14 -0500
+Received: from localhost (lcpd911.dhcp.ti.com [172.24.227.68])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4794JEDR071971;
+	Thu, 8 Aug 2024 23:19:14 -0500
+Date: Fri, 9 Aug 2024 09:49:13 +0530
+From: Dhruva Gole <d-gole@ti.com>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        "Len
+ Brown" <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio"
+	<konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf
+ Hansson <ulf.hansson@linaro.org>,
+        "Bryan O'Donoghue"
+	<bryan.odonoghue@linaro.org>,
+        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] PM: domains: add device managed version of
+ dev_pm_domain_attach|detach_list()
+Message-ID: <20240809041913.frh4ooo25gfakwia@lcpd911>
+References: <1723014947-15571-1-git-send-email-quic_dikshita@quicinc.com>
+ <1723014947-15571-2-git-send-email-quic_dikshita@quicinc.com>
+ <20240808104130.3lehlvkcprag2md6@lcpd911>
+ <36de7f9c-701f-6650-468b-bf07453e2e21@quicinc.com>
+ <9b852bed-0daf-634c-13c9-00c6b8dd327a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY3PR01MB10597:EE_
-X-MS-Office365-Filtering-Correlation-Id: a856ad53-ed42-476e-a08c-08dcb81b2067
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|1800799024|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?gcU2KmtX5JnPD1jWwAqtsukbkgSxDV4+fXAyPN+wlk+3+bXNA/43KNodDHEg?=
- =?us-ascii?Q?FD+eLEOBoPGS+8XhMYUgkROoXL1AUzlMOmRecHAuOJSAD9op4otnT0tymJhl?=
- =?us-ascii?Q?mnvlFzxclwzMDP1hx/UlNlacMIyzq1DEvxO5LGp6KTe7qvXFb+8vjTd5NW6M?=
- =?us-ascii?Q?DXXaigtS78QrqQojrWbQXFGvqtTWlon6+9TIXGaYWml8MH1DfBmVoZbH07lG?=
- =?us-ascii?Q?p5V65YZAqH5l8f6qgkiEQiOy5zvZ8eWnZwyTsbnTA1f6q0F3uECHAUBvMK+L?=
- =?us-ascii?Q?x01xVF/AgDaNecV3LHaZOyXsCDQj/fkL9RWl/ISpn0o4wfFJql+P2mXvR68J?=
- =?us-ascii?Q?K6IPiGdmelvtgflhZj2XirxsN7P7UZHffzjDesYoOY71oihjolK/HjVZM7OE?=
- =?us-ascii?Q?Pt1l6VlQ2hYPts1ab+25Z2JivqI5wJDE6m+9DG7w/4HJVgbVawJCpzJvScBg?=
- =?us-ascii?Q?aUb4HAjYUFhWjDJvnq4QkKO4g/jVV56xTshLjcGufrjul1M8MGG4FKARXUTu?=
- =?us-ascii?Q?U/lsJmciwb2rHjyCreAis5WSsSEhur8xbf8nzogZ8cuPspbqZlZLrmg1fVPs?=
- =?us-ascii?Q?21buKp/CSmtjTWvaoEmHpP+k40h4llHiALSLFxuK2HNuSCkGuFDrD1/3jZIz?=
- =?us-ascii?Q?UxCdWOd3HHOWINhetxEnRlGilbVKWK+u6IPyBB4n15pMd2wZrxyYE/GbCtOo?=
- =?us-ascii?Q?eOFpeRXNmnTv27iSMd+1aD3VSrIQcNn4KAUvUEpMeygfuYa1hBGMGCcMHmm6?=
- =?us-ascii?Q?C4iYx2CmTSNKoS5Kx4yBp/mpaH9yLZv07mQN8Fr9P14Y7EXI8G557WI5ixMo?=
- =?us-ascii?Q?GRuWsnwxaSXSGJNG5fUDCoozyrzxuQ1kDEgokKIBcsoz70s6l77XlvtQYloa?=
- =?us-ascii?Q?gIbc59jV7ar2bliXS1x1dltgetikFXdDMkv8m1qGk/o9drmgIOJUNkIi55QC?=
- =?us-ascii?Q?0a2qxJ/R4jl/bX2FwoO3+5kGqFdX6wBL+8dkXWifb0kfgZjMGgAV/g6Eibd8?=
- =?us-ascii?Q?4tN6huY/8WAkPdMiDwmBO2P6RdKkDkPSJ1NcjE0BQmcQV5bI+hRKM/moiLNT?=
- =?us-ascii?Q?cDOhC4C4qDx69zvr29m38iQ3KgNB2XsE+n9uomwaqo+M+l01DaVypnFqm07G?=
- =?us-ascii?Q?0+cFBHPETe5fn6pTPk9+8oHlM/CzfucBSOW4m+gRjR9QaJW6E6cY4BHit9uG?=
- =?us-ascii?Q?jLG/eBEb/RJT0TLaoZ533BZGyDjmRSOToTQrKdnHzcmFhnPR21xdFwetsFK0?=
- =?us-ascii?Q?JzmZjTfRCXL5dwf4kGNNcVxDdWA+lxiqY5e2CfjmWVz81z6bPcexH5p95jSI?=
- =?us-ascii?Q?+fU+hW/6CCqLh6OU9vD9xQI688zOje8m5YqSkUA4kLL0FXymUfZnC93Vz1oS?=
- =?us-ascii?Q?LXGoKJXodHoOP/ySB8Hn579q7DiUnfdimjekQGnN4Y2sDwj2ig=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?L2lkewQZfu3EokTRO6X0bYw9vMZZgRaWpeeUgg4CQG3J/a4UxdstLf0Z7nzr?=
- =?us-ascii?Q?t49I8dmtMBv4OBhsn3/127qzzmCN5LxVd6XFvvXH8GLXQMiIG5oowx8BK42W?=
- =?us-ascii?Q?KFsQausFS/9MyIh7rNXknRds+dAsbAA+I6Y6CVc/Bi6eQFzD5fyfU/fY67K+?=
- =?us-ascii?Q?TpKX+Nt1wFYtK0uvUUiXBZZ2p6VgRUypu8gX+voN5tqhssvKFkjt5l2pE4wD?=
- =?us-ascii?Q?0VkMexuqC9XyjBardpMdf51mPKxKgfctEZq1PMhQSJGkj5JXTCfse14dxV/S?=
- =?us-ascii?Q?SKipS2DUFcMOjHC/pvoMmUWSndJgMuoUrojQd99L0Qr/B4lwBqEUsB+Oz23g?=
- =?us-ascii?Q?EdAOdfmWWSzNQqPDoL62oN2avc6aN3JYJ0dALu7t+wXeDY/SJVFQ96O4RWTo?=
- =?us-ascii?Q?jGQfd+eCKoObFro1papX8WgxQeidXZK00mPadKr/msMYdj2lIi+vLqGwb9FR?=
- =?us-ascii?Q?sTHluZsa78xMobbqvCBXSW7esPsevL4L6Lc0pefYoepdI7ibxetqPwcyVvgx?=
- =?us-ascii?Q?9+N5IYpeytXbscFqzFCfl9v3wk2JofwHAKi6sPYx7N2iDmyN7ruO1b7gN6NX?=
- =?us-ascii?Q?bK0JzRAECu7RbS0qsrgNOFdmosvsw2gbrZ6FMN1xvDnu18ZxaxIshnrIcg7l?=
- =?us-ascii?Q?y7ZYyio2JffkTf2HqCZhip3hWPdXap46yMImIlLMpQZ4MQBMg5LIK/3nggOK?=
- =?us-ascii?Q?7gjwlc/dze9xDCgdY1mcTGfUfCN5K6bnDfq0e3l4N9ZXcbZC5Ok6Ok6MY+SG?=
- =?us-ascii?Q?sxudnAo9GsM3OpqmHGzNn4QVhri2e0Yt2RpBao51kaOeo3y/id9MUDA2Eq0g?=
- =?us-ascii?Q?HleknKEsiWVmGtHI+ejO0Vh+Ut79f9LFwNbslk39kiDj2zxvzBZyf/lA557n?=
- =?us-ascii?Q?JuSXtDjwOmq7xEiWmFusRKFzzm65FdqneV1Ea0jxAiACo3y7iOMSuCmOzxbh?=
- =?us-ascii?Q?i4D/HeXU0CUrnHsgg3I40+JOwMNcPxh4bmqAysDATVWhsrIrevqHLjYKhVhB?=
- =?us-ascii?Q?iqWT0EJHu7HeOcKH4F5W1UG+U3T9yskXzRyDT0DAtd0jVjGqWE/NYtqe/tb8?=
- =?us-ascii?Q?ZzZnQ8vTI3dcm3Oxnx5j5fw2hxvSgid18QDhwLoT+XBPCfKXHFOrCOAgEPKa?=
- =?us-ascii?Q?oN+mEiXJipmnxA0HQjFmfgnYGoC34Zw0JhW3oG9oVUAywQS/1amL8ATlZh0t?=
- =?us-ascii?Q?J+NSelCfE1orv40O3kV4jgByUWdfgUW6YoTEdqjnF6xxBEs/fyELHP74j4cV?=
- =?us-ascii?Q?Eg+EOYf6su9JtdhqhCfJIAVe2OM0eY1q25ZyFcPn8H6ky60q35XsrTDxZtLg?=
- =?us-ascii?Q?PKxhz/I5qrsDrt78wGqobjeWcKvDN1IK8cHopukCW/xLfYtUr5NVUhDfYNIy?=
- =?us-ascii?Q?7sXyvutg+Si60UGOcJ95EOAy2Y+tMmC3wkTjLkVhYYmbC7K51rjg5g3kGiUc?=
- =?us-ascii?Q?uP4DOXkTF5bxzF7g/nitpyk2jYzk1fcrAVTC7sQblmigRip5W7ZsxLK6hIkV?=
- =?us-ascii?Q?O4CNwCLHcelOjvF8O/t66lxb3PP/ovKHfeovsuTQSEu17s5ec+dL1uTjptcA?=
- =?us-ascii?Q?k47FFweu2qeAsPqWpMB6CF7YOlQWlKMXe7FP2pCkkdPVFWsU0mlEnRIe++xt?=
- =?us-ascii?Q?q6nTqEJFrZXFG+3NVIARyFI=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a856ad53-ed42-476e-a08c-08dcb81b2067
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2024 02:29:42.8578
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5KRZ78EVQbQVgTiOkkBOHzKvtn7zeXBawXAYvNe6vL7heC/P5r/Qrfk4g9WT8AvTansGXpM8+zG4NCG2WFDbS4KPsvisEYuJZntpUQxrQJQHW5+R1zyHV7ssQWicCPY4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10597
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <9b852bed-0daf-634c-13c9-00c6b8dd327a@quicinc.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
+Hi,
 
-Hi Tomi
-
-> > +/**
-> > + * of_graph_get_next_port_endpoint() - get next endpoint node in port.
-> > + * If it reached to end of the port, it will return NULL.
-> > + * @port: pointer to the target port node
-> > + * @endpoint: current endpoint node, or NULL to get first
-> > + *
-> > + * Return: An 'endpoint' node pointer with refcount incremented. Refcount
-> > + * of the passed @prev node is decremented.
-> > + */
+On Aug 08, 2024 at 16:29:12 +0530, Dikshita Agarwal wrote:
 > 
-> Same issues here too. No "prev" parameter, and I suggest using 
-> "previous", not "current", to be consistent with 
-> of_graph_get_next_endpoint(). (or alternatively, change 
-> of_graph_get_next_endpoint()).
 > 
-> Oh, the declaration of the function uses "prev", but the implementation 
-> "endpoint". Please make the naming same.
+> On 8/8/2024 4:25 PM, Dikshita Agarwal wrote:
+> > 
+> > 
+> > On 8/8/2024 4:11 PM, Dhruva Gole wrote:
+> >> On Aug 07, 2024 at 12:45:46 +0530, Dikshita Agarwal wrote:
+> >>> Add the devres-enabled version of dev_pm_domain_attach|detach_list.
+> >>> If client drivers use devm_pm_domain_attach_list() to attach the
+> >>> PM domains, devm_pm_domain_detach_list() will be invoked implicitly
+> >>> during remove phase.
+> >>>
+> >>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> >>> ---
+> >>>  drivers/base/power/common.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+> >>>  include/linux/pm_domain.h   | 13 +++++++++++++
+> >>>  2 files changed, 57 insertions(+)
+> >>>
+> >>> diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
+> >>> index 327d168..729d6c2 100644
+> >>> --- a/drivers/base/power/common.c
+> >>> +++ b/drivers/base/power/common.c
+> >>> @@ -277,6 +277,50 @@ int dev_pm_domain_attach_list(struct device *dev,
+> >>>  EXPORT_SYMBOL_GPL(dev_pm_domain_attach_list);
+> >>>  
+> >>>  /**
+> >>> + * devm_pm_domain_detach_list - devres-enabled version of dev_pm_domain_detach_list.
+> >>> + * @_list: The list of PM domains to detach.
+> >>> + *
+> >>> + * This function reverse the actions from devm_pm_domain_attach_list().
+> >>> + * it will be invoked during the remove phase from drivers implicitly if driver
+> >>> + * uses devm_pm_domain_attach_list() to attach the PM domains.
+> >>> + */
+> >>> +void devm_pm_domain_detach_list(void *_list)
 
-Will fix in v2.
-But it will use "prev" for param same as of_graph_get_next_endpoint()
+My problem is with the type of parameter used being void, why void?
+Why not be explicit about it and call it dev_pm_domain_list *list like
+the non-devres version of the API?
 
-> > +/**
-> > + * for_each_of_graph_port_endpoint - iterate over every endpoint in a port node
-> > + * @parent: parent device or ports node
-> 
-> Hmm, shouldn't the parent be a port node?
+> >>> +{
+> >>> +	struct dev_pm_domain_list *list = _list;
+> >>> +
+> >>> +	dev_pm_domain_detach_list(list);
+> >>> +}
+> >>> +EXPORT_SYMBOL_GPL(devm_pm_domain_detach_list);
+> >>> +
+> >>> +/**
+> >>> + * devm_pm_domain_attach_list - devres-enabled version of dev_pm_domain_attach_list
+> >>> + * @dev: The device used to lookup the PM domains for.
+> >>> + * @data: The data used for attaching to the PM domains.
+> >>> + * @list: An out-parameter with an allocated list of attached PM domains.
+> >>> + *
+> >>> + * NOTE: this will also handle calling devm_pm_domain_detach_list() for
+> >>> + * you during remove phase.
+> >>> + *
+> >>> + * Returns the number of attached PM domains or a negative error code in case of
+> >>> + * a failure.
+> >>> + */
+> >>> +int devm_pm_domain_attach_list(struct device *dev,
+> >>> +			       const struct dev_pm_domain_attach_data *data,
+> >>> +			       struct dev_pm_domain_list **list)
+> >>> +{
+> >>> +	int ret, num_pds = 0;
+> >>
+> >> Do we require this =0? In the very next line you're initing this anyway.
+> >>
+> > That's correct, will fix this. Thanks.
+> >>> +
+> >>> +	num_pds = dev_pm_domain_attach_list(dev, data, list);
+> >>> +
+> >>> +	ret = devm_add_action_or_reset(dev, devm_pm_domain_detach_list, *list);
+> >>> +	if (ret)
+> >>> +		return ret;
+> >>> +
+> >>> +	return num_pds;
+> >>> +}
+> >>> +EXPORT_SYMBOL_GPL(devm_pm_domain_attach_list);
+> >>> +
+> >>> +/**
+> >>>   * dev_pm_domain_detach - Detach a device from its PM domain.
+> >>>   * @dev: Device to detach.
+> >>>   * @power_off: Used to indicate whether we should power off the device.
+> >>> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+> >>> index 772d328..efd517017 100644
+> >>> --- a/include/linux/pm_domain.h
+> >>> +++ b/include/linux/pm_domain.h
+> >>> @@ -450,8 +450,12 @@ struct device *dev_pm_domain_attach_by_name(struct device *dev,
+> >>>  int dev_pm_domain_attach_list(struct device *dev,
+> >>>  			      const struct dev_pm_domain_attach_data *data,
+> >>>  			      struct dev_pm_domain_list **list);
+> >>> +int devm_pm_domain_attach_list(struct device *dev,
+> >>> +			       const struct dev_pm_domain_attach_data *data,
+> >>> +			       struct dev_pm_domain_list **list);
+> >>>  void dev_pm_domain_detach(struct device *dev, bool power_off);
+> >>>  void dev_pm_domain_detach_list(struct dev_pm_domain_list *list);
+> >>> +void devm_pm_domain_detach_list(void *list);
+> >>
+> >> Why not just call it dev_pm_domain_list *list? Why make it void? I am a
+> >> bit confused.
+> >>
+> > This comment is not clear to me, could you pls elaborate?
+> Ah! Sorry, pls ignore my below comment. But can you still explain the
+> concern here?
 
-Thanks, will fix in v2
+I have explained above near the func definition.
 
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+-- 
+Best regards,
+Dhruva Gole <d-gole@ti.com>
 
