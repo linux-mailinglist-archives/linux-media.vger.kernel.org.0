@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-16071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16072-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFDF94DBC3
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 11:09:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D029994DBC6
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 11:10:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 046931C20F4B
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 09:09:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75C041F22347
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 09:10:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D26FE15252D;
-	Sat, 10 Aug 2024 09:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43FD715746A;
+	Sat, 10 Aug 2024 09:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WLUMjZlc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kF7YFE/2"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDE71CD37;
-	Sat, 10 Aug 2024 09:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D0D1CD37;
+	Sat, 10 Aug 2024 09:09:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723280970; cv=none; b=o38aN6yI3BRW6jFOW553sPDRXFyB/rqUXg+mKshAGG00UTvqkfzj0lj5q5H6VT3Cpj6ulvropQanBvFYsCapU68d8D1XFOPPIacGE1KvHl92e2jHbAnNG5FPXlWpq9UENQDXLSTFLrc9n2xJazz7FZbuLiMP0ettdHamUfkbRXo=
+	t=1723280973; cv=none; b=l+7/eGAhTRCM40SfrZcFyV5iJleNb/xcsqcoP4itjZngvSIi2mmtr3TiYQxb0yi5PE6RzcNh8HAmHZ+qiAtkGPej8JsD6CkFarIN70HgZmgDjmPBFae7VtDfUzph4FuxMYQ1553txSiwDBokNLESyILxcCPNfBOGbF8yqCLIRoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723280970; c=relaxed/simple;
-	bh=1Fnww6k0nGJSxPsTeSzHvQo4ix8VyOpPTfrw4z8M81Y=;
+	s=arc-20240116; t=1723280973; c=relaxed/simple;
+	bh=HspsSskBa2s3o+CjExE7DqUE/JIgX3VED+Eb67tWGS4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lCNZztH4htdL8Q8bUiGS7Q75LzMyCDtFXhj3oCp0sXyQabbvkChUJBaJk2eaX+BueMceHPSFz1kVinNdqn1bvu3uJj6IMGYF+TqNKkFSJ3KH9LaZmDChRzgK50flGcmqWveddEIJiMWi4kEEBPO0L6BllDHQvv3zvAKUjBKedw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WLUMjZlc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 279A2C4AF0C;
-	Sat, 10 Aug 2024 09:09:26 +0000 (UTC)
+	 MIME-Version; b=b7DPUXklhTYljr9JMz6LKUA7vpnKwbyZ4nPTRk781bzcMpmg4CQsuShnzgGrF5MLFxDscOX78+6KyGkCuMh4AyP6F8IVq3CY0SWO1CpCw0c1m4RnrtDdr6D0YWbqw4pk56+Qriizy1xOrmOTAIB0hU7JYTZZPJH/g0iGCLNBppc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kF7YFE/2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787E4C32781;
+	Sat, 10 Aug 2024 09:09:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723280969;
-	bh=1Fnww6k0nGJSxPsTeSzHvQo4ix8VyOpPTfrw4z8M81Y=;
+	s=k20201202; t=1723280973;
+	bh=HspsSskBa2s3o+CjExE7DqUE/JIgX3VED+Eb67tWGS4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WLUMjZlcnxAJA6zW3HW/7RPikZOue9Bm8r+LiundHSKLCNTdC6ej9p0aF5WeSbuJC
-	 hvJs8PijYz5AiE2t/oB6iC9K0aO8Bkt2ars/onu/nrK/sKHkZLVmNb+FC+EWR4QrOR
-	 Te2EtXMZRRDO1Ca6fj4joLczo3X/dGn34gNSu1MTnUIXFY2l0EyLTLnugGF72IfVPK
-	 bdH65meJw6tYfRScQyEk/urPQjo8r116QEktU2oce+vbgKryChKjq7lmuVU1KG2Ub7
-	 6TKupH1i79E2oeIp7Zbi3SCErDTY4LjRFrcBmEEscOVFeLTGCuoC3QKGqgzU+7RQXc
-	 k6iamFwZq0rfA==
+	b=kF7YFE/2LlWrLH2YjCy2uRPJgfw+n22HeBfBcO0ao5x77U84Kz9JIRKr6VlnT2ZLG
+	 nuQH9W6hvA7GdI/fdeK7CSzcAGuLeuZCn61vWIoJJM7GjljMKn7DfpqjYUhLN+gKBC
+	 BkmOLv2nHfNvtXYAD/+1cYHpnnoZqshoJdq41/dgXIpdNy4PVuX2UlV7Olsy5ooOOJ
+	 gowd2Dxt6EF4DnIIhYADwtrxPIGVLD2q3R23jgEXUPs66aeWaYzhhq3vNtUULejsuD
+	 NW8mKozh8GopMFavdh00U/bfRySSdk41tc0JiEPHGApzpxBN9lBCWK9wA1plPLcrCX
+	 tQm2FtdeRXkRg==
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
@@ -53,9 +53,9 @@ To: Matthias Brugger <matthias.bgg@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v3 1/5] drm/mediatek: Use cmdq_pkt_eoc() instead of cmdq_pkt_finalize()
-Date: Sat, 10 Aug 2024 09:09:14 +0000
-Message-Id: <20240810090918.7457-2-chunkuang.hu@kernel.org>
+Subject: [PATCH v3 2/5] drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+Date: Sat, 10 Aug 2024 09:09:15 +0000
+Message-Id: <20240810090918.7457-3-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240810090918.7457-1-chunkuang.hu@kernel.org>
 References: <20240810090918.7457-1-chunkuang.hu@kernel.org>
@@ -67,36 +67,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For some client driver, it want to reduce latency between excuting
-previous packet command and next packet command, so append jump
-command to the end of previous packet and the jump destination
-address is the start address of next packet command buffer. Before
-next packet exist, the previous packet has no information of where
-to jump to, so append nop command first. When next packet exist,
-change nop command to jump command. For mediatek drm driver, it
-never has next packet, so appending nop command is redundant.
-Because cmdq_pkt_finalize() would append nop command, so change
-calling cmdq_pkt_finalize() to cmdq_pkt_eoc() to prevent append
-redundant nop command.
+Use cmdq_pkt_create() and cmdq_pkt_destroy() common function
+instead of implementing drm version.
 
 Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_crtc.c | 46 +++--------------------------
+ 1 file changed, 4 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_crtc.c b/drivers/gpu/drm/mediatek/mtk_crtc.c
-index 6f34f573e127..a1976c3ae001 100644
+index a1976c3ae001..5413c0c3dfe8 100644
 --- a/drivers/gpu/drm/mediatek/mtk_crtc.c
 +++ b/drivers/gpu/drm/mediatek/mtk_crtc.c
-@@ -607,7 +607,7 @@ static void mtk_crtc_update_config(struct mtk_crtc *mtk_crtc, bool needs_vblank)
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
--		cmdq_pkt_finalize(cmdq_handle);
-+		cmdq_pkt_eoc(cmdq_handle);
- 		dma_sync_single_for_device(mtk_crtc->cmdq_client.chan->mbox->dev,
- 					   cmdq_handle->pa_base,
- 					   cmdq_handle->cmd_buf_size,
+@@ -113,44 +113,6 @@ static void mtk_drm_finish_page_flip(struct mtk_crtc *mtk_crtc)
+ 	}
+ }
+ 
+-#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+-static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt,
+-				   size_t size)
+-{
+-	struct device *dev;
+-	dma_addr_t dma_addr;
+-
+-	pkt->va_base = kzalloc(size, GFP_KERNEL);
+-	if (!pkt->va_base)
+-		return -ENOMEM;
+-
+-	pkt->buf_size = size;
+-	pkt->cl = (void *)client;
+-
+-	dev = client->chan->mbox->dev;
+-	dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
+-				  DMA_TO_DEVICE);
+-	if (dma_mapping_error(dev, dma_addr)) {
+-		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
+-		kfree(pkt->va_base);
+-		return -ENOMEM;
+-	}
+-
+-	pkt->pa_base = dma_addr;
+-
+-	return 0;
+-}
+-
+-static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
+-{
+-	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
+-
+-	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+-			 DMA_TO_DEVICE);
+-	kfree(pkt->va_base);
+-}
+-#endif
+-
+ static void mtk_crtc_destroy(struct drm_crtc *crtc)
+ {
+ 	struct mtk_crtc *mtk_crtc = to_mtk_crtc(crtc);
+@@ -158,7 +120,7 @@ static void mtk_crtc_destroy(struct drm_crtc *crtc)
+ 
+ 	mtk_mutex_put(mtk_crtc->mutex);
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+-	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
++	cmdq_pkt_destroy(&mtk_crtc->cmdq_client, &mtk_crtc->cmdq_handle);
+ 
+ 	if (mtk_crtc->cmdq_client.chan) {
+ 		mbox_free_channel(mtk_crtc->cmdq_client.chan);
+@@ -1094,9 +1056,9 @@ int mtk_crtc_create(struct drm_device *drm_dev, const unsigned int *path,
+ 			mbox_free_channel(mtk_crtc->cmdq_client.chan);
+ 			mtk_crtc->cmdq_client.chan = NULL;
+ 		} else {
+-			ret = mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_client,
+-						      &mtk_crtc->cmdq_handle,
+-						      PAGE_SIZE);
++			ret = cmdq_pkt_create(&mtk_crtc->cmdq_client,
++					      &mtk_crtc->cmdq_handle,
++					      PAGE_SIZE);
+ 			if (ret) {
+ 				dev_dbg(dev, "mtk_crtc %d failed to create cmdq packet\n",
+ 					drm_crtc_index(&mtk_crtc->base));
 -- 
 2.34.1
 
