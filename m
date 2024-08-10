@@ -1,107 +1,106 @@
-Return-Path: <linux-media+bounces-16076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C0194DBF2
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 11:24:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CA094DBBD
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 11:09:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C61C31C20D47
-	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 09:24:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F4E81F21B8E
+	for <lists+linux-media@lfdr.de>; Sat, 10 Aug 2024 09:09:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D1F214E2CD;
-	Sat, 10 Aug 2024 09:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CC014D2A0;
+	Sat, 10 Aug 2024 09:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZUKNgHfb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF974436E
-	for <linux-media@vger.kernel.org>; Sat, 10 Aug 2024 09:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D226F1CD37;
+	Sat, 10 Aug 2024 09:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723281872; cv=none; b=nSAIxNHbPwkVrYm99A32UvAawdAV7FYqdjx1m7EcKhwN2vTmdTvV7rHw0J0tC51L0jszwlWlvkrwoybMT2nEiP0B46KR0rJMj6wbwvcEEP0UggOZ+W63eGlICnHCt1CEkv2wFJZbKGIFhrVkt1xAuqYLvatlSmy5aV0EiiafEqQ=
+	t=1723280966; cv=none; b=jp6TIJnL+ITtKqNfmAIobzY/W0QnVVZdgYhN6s6buzhyyYUyET3ggkx/FR/elAa3v/Ki1HuDsTFZK0pTVIo9R8KwCmOWB1x+NKvVLNf0U6hZksJIG8ZEjbK1iKe4A9FM9b4Xksq+LrxQbPHZCz3CAfD42LfrTWlq4KUMinvPJcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723281872; c=relaxed/simple;
-	bh=GUPQqU3ASiEoiKxlRg9yZQs3qmEvXbKZdBWFynFVeB0=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=BfYKHuiiSd240e+pPj3CldWff5nA1a572M46+QtIWGq1Cm8M2wcUzs8a55QCu2vAnqfTgrXFoCvNxMrM/bZkSC07UGOBPT//DncbTeNLJ7eJX7k3XzBM45Tey9V9WB7YrQMdH9OYlzbLvSdmjPOPsKowjzzPd3zY99J13dCOcsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1schze-0006Yc-1B;
-	Sat, 10 Aug 2024 09:02:35 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1schzd-004GnU-23;
-	Sat, 10 Aug 2024 09:02:33 +0000
-Date: Sat, 10 Aug 2024 09:02:33 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1161248457.2.1723280553627@builder.linuxtv.org>
-In-Reply-To: <1041029412.4.1722438184995@builder.linuxtv.org>
-References: <1041029412.4.1722438184995@builder.linuxtv.org>
-Subject: Build failed in Jenkins: edid-decode #325
+	s=arc-20240116; t=1723280966; c=relaxed/simple;
+	bh=oJdNYm3xIb8SsemhyEVCYW+SiamiZrrV94Dn2d41vVg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pDXqgs8ssQqPgGJkiNSMxei3mIGWsM76eMfCjd6pYqxMy9dSYh2Kp4VqOhz4Lbgn3aiivIkRrwm9cUani8y86FtUhWdFXyxIuyntRktU733zyIvy2a54QE3+X4lCq5Jpb/+gDT7zyGrEUCFfnpsCWzaVZjEX8cCa72RteSZ8kP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZUKNgHfb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22E3BC32781;
+	Sat, 10 Aug 2024 09:09:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723280966;
+	bh=oJdNYm3xIb8SsemhyEVCYW+SiamiZrrV94Dn2d41vVg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZUKNgHfbqNBa0epCG9+OXiYSfkXmHIBWD9RzeONcxlpSzIVlrigAOW/XyP6PTAmBi
+	 uGYISosHyzVsQ9bzQNz1fjEE5JMZz8Xu7h/BXC7V2aASNB1Aevk0Rk9hqr5STf+dDa
+	 N4RBj2S3g7BZZh2+7EWctZV4UoEKFGFhEGXdkon2xaEOd6lruVKMAovluBjzBST4oM
+	 KK0dQ+L7uaNK40VGMWMt/ZbK1wneRQsnxnRj6TZ99/XA+DH+6cDVPHUHzdsJm5BwTU
+	 e/AJbMCx/mqduWfIYovFeJajp1Wnz7GZVEwOAk1P2PNVkhwBus/PDzCJcUN/AYKK3O
+	 k6PeMMOit2sQQ==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Moudy Ho <moudy.ho@mediatek.com>,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH v3 0/5] Remove cl in struct cmdq_pkt
+Date: Sat, 10 Aug 2024 09:09:13 +0000
+Message-Id: <20240810090918.7457-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: edid-decode
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
 
-See <https://builder.linuxtv.org/job/edid-decode/325/display/redirect?page=changes>
+cl in struct cmdq_pkt is used to store struct cmdq_client, but every client
+driver has the struct cmdq_client information, so it's not necessary to
+store struct cmdq_client in struct cmdq_pkt. Because mailbox maintainer
+do not like to mix mailbox patch with other patches in a series, so
+mailbox patch [1] would be sent independently.
 
-Changes:
+Changes in v3:
+1. Rebase onto Linux 6.11-rc1 and fix conflicts.
+Changes in v2:
+1. Fix typo of CMDQ_JUMP_RELATIVE
+2. Refine cmdq_pkt_create() and cmdq_pkt_destroy()
+3. Rename cmdq_pkt_jump() to cmdq_pkt_jump_abs()
+4. Add cmdq_pkt_jump_rel() helper function
+5. drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+6. mtk-mdp3: Get fine-grain control of cmdq_pkt_finalize()
+7. mtk-mdp3: Use cmdq_pkt_create() and cmdq_pkt_destroy()
 
-[Hans Verkuil] edid-decode: translate cp437 and ISO 8859-1 to UTF-8
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/?h=mediatek-cmdq8&id=a1b2f7a7488285975c1f439086f1c4cc51a13bb9
 
-[Hans Verkuil] edid-decode.1: document new --utf8 option
+Chun-Kuang Hu (5):
+  drm/mediatek: Use cmdq_pkt_eoc() instead of cmdq_pkt_finalize()
+  drm/mediatek: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+  media: platform: mtk-mdp3: Get fine-grain control of
+    cmdq_pkt_finalize()
+  media: platform: mtk-mdp3: Use cmdq_pkt_create() and
+    cmdq_pkt_destroy()
+  soc: mediatek: cmdq: Remove cmdq_pkt_finalize() helper function
 
+ drivers/gpu/drm/mediatek/mtk_crtc.c           | 48 ++-----------------
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 48 +++----------------
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |  2 +
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  1 +
+ drivers/soc/mediatek/mtk-cmdq-helper.c        | 22 ---------
+ include/linux/soc/mediatek/mtk-cmdq.h         | 13 -----
+ 6 files changed, 14 insertions(+), 120 deletions(-)
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/edid-decode/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/edid-decode/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/edid-decode.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/edid-decode.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/edid-decode.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision cadf102014149dacab0ac4429448f952cf969c59 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f cadf102014149dacab0ac4429448f952cf969c59 # timeout=10
-Commit message: "edid-decode.1: document new --utf8 option"
- > git rev-list --no-walk 303b033f92683fa3f2e73d642bf86ead8fec77b1 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse cadf102014149dacab0ac4429448f952cf969c59^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/edid-decode.git'
-[GitCheckoutListener] Found previous build 'edid-decode #324' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '303b033'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit 'cadf102' as starting point
-[GitCheckoutListener] -> Recorded 2 new commits
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@6df0ece5'
-[edid-decode] $ /bin/sh -xe /tmp/jenkins18439944043101625517.sh
-+ make
-make: *** No targets specified and no makefile found.  Stop.
-Build step 'Execute shell' marked build as failure
+-- 
+2.34.1
+
 
