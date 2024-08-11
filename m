@@ -1,168 +1,105 @@
-Return-Path: <linux-media+bounces-16081-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16082-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD1594DF95
-	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 04:22:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6554C94E0B2
+	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 11:32:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A6B41C20B26
-	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 02:22:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 084D91F216B5
+	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 09:32:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7AA12E5B;
-	Sun, 11 Aug 2024 02:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fXSU5CVS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0168C38DCC;
+	Sun, 11 Aug 2024 09:32:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12E9C8D1
-	for <linux-media@vger.kernel.org>; Sun, 11 Aug 2024 02:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB3225774
+	for <linux-media@vger.kernel.org>; Sun, 11 Aug 2024 09:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723342915; cv=none; b=crOoaSJfwEU6qVuzEtBSMrS1c7F9EHBeY1dLbtMSyUW2oP9cshG5TJmczjbGk2h/3jGII8S3BAcUg6f1IrWAW8RD5deDIhBCUq3C6eDRSCuNtR2zPqLgWI0gcZK3IcZiP0LaRF5QqIDvOTbWMrQXknrKdzgW14bUo8/Vy6H7Ttc=
+	t=1723368735; cv=none; b=RUPqIGec4sFVAQOeKucvKoVGdoKJheryuu17NNM3XRnrbaWJzvZQUkfH0zJuSBl+2CM54rrimrJruCrLi+xP275yy2dOwRhOaQQMEwecMjMQaYIjIfn+B8cTuBrO+SO5x9yH+izNy/dup/I75d/PhMs/lPwY4L2pOcVkqIS8QAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723342915; c=relaxed/simple;
-	bh=RG9LHAeha0E5bVe70AIhZ3CulzWRiRRdzwCyU2ikkxg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F410GahnUNIxMyEtu8GHBKHBgU2s2xCQTVKmk+MB7LQe/COxFusotrVf44zTr2rZIiSgSO3kwxbeNbROh+gQoOkISvWdqWYFoP5xGY5xtoG7EKaNSHlX++F8VzdPHC4mKVLRmH2NLVZRq82Z11Sia27dYS0qnAPB0X8gWuxjYe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fXSU5CVS; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6b7a0ef0dfcso18165916d6.1
-        for <linux-media@vger.kernel.org>; Sat, 10 Aug 2024 19:21:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723342912; x=1723947712; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RG9LHAeha0E5bVe70AIhZ3CulzWRiRRdzwCyU2ikkxg=;
-        b=fXSU5CVSFFbF8Gxlcs6TWffKLPy5YSk54DIXLniQNmCL98F9FZLrOuOprTRSIAdWfV
-         OuRxbRTXDbz0IaFjnxatxZa6jDXM3t0uCeJyAre0esHGCbqrFy0OIx72dNtkzCF0r/L6
-         +fCsVj4DCPF5KHZv/sK2tO+JfhpZw44QwxkVdTSOWTPPW5tWtjCLfhBLKIRnnxftWvRf
-         RyiZVW83mLx3R8xY/mXeh4hI/2z4v9blHJF+ieZTq9kHSWHzAlkXQDlPt+pQ7/bZm8Ic
-         fisryOR9JByR69bcOEgnkmTWKQ6wFjsFlrhX1j6u42en22dm3OSrYiUv5vc70OTzpaTx
-         XpJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723342912; x=1723947712;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RG9LHAeha0E5bVe70AIhZ3CulzWRiRRdzwCyU2ikkxg=;
-        b=hkfCdRvZf96Evu5az/MGBPCgc1K1roWLvQtEt2pw41Sc6GqhDicJP0/OzqRp+mVsdK
-         RSdfkcu0boaGBAliK6BBdLx8J14pSH9YSD9sA9Tdlpvn4J2v/zl6qpLoFN9E2mmYV8X2
-         uB2wPtyEEJ0kdT0O4NIcLzJFoc41iOpwy1r/8rQ90RI+xkjLnjmlKaEMwq25qy8W2Nre
-         NBkeqE3nuSsVekFCgcm3fhLjGCmJpyoThtIRTCSlUw+OWXpxjnP5x4rj5MO1CTyBEdFA
-         jHlW+VUV50XLrGGNCAF0C26php4pxsLf3Xja5KTK5i8vOcW9IG9mBSmVe2m+n7rCcacq
-         ugUA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtNIRgFJXwDAe6i7J8LoC391Z7EnF6FyVFL0ctIwXWPA2QjYQFm+Nvo5Le2j0sRO+9rVy3RFeKtVqQ6zo5oDr/xxR9rG4HzfCldxw=
-X-Gm-Message-State: AOJu0YzlWrJO/pcjXDhJwqK2wQDA75RCpkuXyCXpjFAzJ58qMVtArpDO
-	PNpGcO3rctcgRR7HGG37OwGY20fdf3M6k69jKXnBuH63aKskceIpxwhbGE8YB9eGsWMQrYwnLXy
-	6rOWQmt+ERnKLg/28aJNwFioNhQh5wuE5tccO
-X-Google-Smtp-Source: AGHT+IEZ2o2IjbltxUtgiFqMaggi2EMslyYy4EjJKqHkpI3i2lfifDNDb+nrXQWahxplCc4kLWOurPaC9Ylw74lSj5w=
-X-Received: by 2002:a05:6214:43c8:b0:6b5:dcda:bada with SMTP id
- 6a1803df08f44-6bd78e8296cmr66071346d6.55.1723342911553; Sat, 10 Aug 2024
- 19:21:51 -0700 (PDT)
+	s=arc-20240116; t=1723368735; c=relaxed/simple;
+	bh=6qYJTR0NDZpAY67pPqLkKdtWQejWglnG/1by2/1tqnY=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=raEw2w+FniG0eaL8smkmM5ZpfrhY5ynfD6TLwsFVDu+GoUgNe7r+/i4Ud7j1kuirm+yXbPAHl7PH2Xbr1GUv0nfSaXpA7oA7N093a+BoA3IH/Ct0vjL2Jh9ZdHWRhlhE+NVS3LRxZYjwCpYgpulFztjokqk9QG6Aw+QdJQDgGFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sd4vt-0003Yc-2Y;
+	Sun, 11 Aug 2024 09:32:13 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1sd4vt-007Djg-2H;
+	Sun, 11 Aug 2024 09:32:13 +0000
+Date: Sun, 11 Aug 2024 09:32:13 +0000 (UTC)
+From: Jenkins Builder Robot  <jenkins@linuxtv.org>
+To: mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1192596175.1.1723368733699@builder.linuxtv.org>
+In-Reply-To: <606540115.3.1723282329442@builder.linuxtv.org>
+References: <606540115.3.1723282329442@builder.linuxtv.org>
+Subject: Build failed in Jenkins: edid-decode #327
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com> <20240806135924.5bb65ec7@kernel.org>
- <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
- <20240808192410.37a49724@kernel.org> <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
- <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com> <20240809205236.77c959b0@kernel.org>
-In-Reply-To: <20240809205236.77c959b0@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Sat, 10 Aug 2024 22:21:39 -0400
-Message-ID: <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory provider
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Donald Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: edid-decode
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 
-On Fri, Aug 9, 2024 at 11:52=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Fri, 9 Aug 2024 16:45:50 +0100 Pavel Begunkov wrote:
-> > > I think this is good, and it doesn't seem hacky to me, because we can
-> > > check the page_pools of the netdev while we hold rtnl, so we can be
-> > > sure nothing is messing with the pp configuration in the meantime.
-> > > Like you say below it does validate the driver rather than rely on th=
-e
-> > > driver saying it's doing the right thing. I'll look into putting this
-> > > in the next version.
-> >
-> > Why not have a flag set by the driver and advertising whether it
-> > supports providers or not, which should be checked for instance in
-> > netdev_rx_queue_restart()? If set, the driver should do the right
-> > thing. That's in addition to a new pp_params flag explicitly telling
-> > if pp should use providers. It's more explicit and feels a little
-> > less hacky.
->
-> You mean like I suggested in the previous two emails? :)
->
-> Given how easy the check is to implement, I think it's worth
-> adding as a sanity check. But the flag should be the main API,
-> if the sanity check starts to be annoying we'll ditch it.
+See <https://builder.linuxtv.org/job/edid-decode/327/display/redirect?page=changes>
 
-I think we're talking about 2 slightly different flags, AFAIU.
+Changes:
 
-Pavel and I are suggesting the driver reports "I support memory
-providers" directly to core (via the queue-api or what not), and we
-check that flag directly in netdev_rx_queue_restart(), and fail
-immediately if the support is not there.
+[Hans Verkuil] edid-decode.1: document the two supported InfoFrame variants
 
-Jakub is suggesting a page_pool_params flag which lets the driver
-report "I support memory providers". If the driver doesn't support it
-but core is trying to configure that, then the page_pool_create will
-fail, which will cause the queue API operation
-(ndo_queue_alloc_mem_alloc) to fail, which causes
-netdev_rx_queue_restart() to fail.
 
-Both are fine, I don't see any extremely strong reason to pick one of
-the other. I prefer Jakub's suggestion, just because it's closer to
-the page_pool and may be more reusable in the future. I'll err on the
-side of that unless I hear strong preference to the contrary.
-
-I also think the additional check that Jakub is requesting is easy to
-implement and unobjectionable. It would let core validate that the
-driver did actually create the page_pool with the memory provider. I
-think one of the goals of the queue API was to allow core to do more
-validation on driver configuration anyway.
-
---=20
-Thanks,
-Mina
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/edid-decode/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/edid-decode/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/edid-decode.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/edid-decode.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/edid-decode.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision c3708827ae080b3ae8118a1bd812c53c760accc5 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f c3708827ae080b3ae8118a1bd812c53c760accc5 # timeout=10
+Commit message: "edid-decode.1: document the two supported InfoFrame variants"
+ > git rev-list --no-walk 0ad31a9fc047572c649810ed4c6a809af4b0c5e0 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse c3708827ae080b3ae8118a1bd812c53c760accc5^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/edid-decode.git'
+[GitCheckoutListener] Found previous build 'edid-decode #326' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '0ad31a9'
+[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
+[GitCheckoutListener] -> Using head commit 'c370882' as starting point
+[GitCheckoutListener] -> Recorded one new commit
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@5399daf7'
+[edid-decode] $ /bin/sh -xe /tmp/jenkins10296099105841675568.sh
++ make
+make: *** No targets specified and no makefile found.  Stop.
+Build step 'Execute shell' marked build as failure
 
