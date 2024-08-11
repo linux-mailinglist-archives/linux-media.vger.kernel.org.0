@@ -1,106 +1,168 @@
-Return-Path: <linux-media+bounces-16080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D2F94DF7D
-	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 03:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD1594DF95
+	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 04:22:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBD181C209AA
-	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 01:52:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A6B41C20B26
+	for <lists+linux-media@lfdr.de>; Sun, 11 Aug 2024 02:22:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E9388825;
-	Sun, 11 Aug 2024 01:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7AA12E5B;
+	Sun, 11 Aug 2024 02:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fXSU5CVS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B29779F4
-	for <linux-media@vger.kernel.org>; Sun, 11 Aug 2024 01:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12E9C8D1
+	for <linux-media@vger.kernel.org>; Sun, 11 Aug 2024 02:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723341155; cv=none; b=t0nJMju0lmHVq/wnmipfN29+Hd5oKzpj5m36iIIz3PkgRbJWBbt1BeW5YUdYrhwGsXw1KFHFIqEZW3O8AuNQPknrqKezj+QhSbsb6ul3Z2FEUMUTk9BPgN0CmR2cRog5xdk4JqwPoDxpELjR3zo4UeQxDDCr7ghq+Q4rOt3I/cM=
+	t=1723342915; cv=none; b=crOoaSJfwEU6qVuzEtBSMrS1c7F9EHBeY1dLbtMSyUW2oP9cshG5TJmczjbGk2h/3jGII8S3BAcUg6f1IrWAW8RD5deDIhBCUq3C6eDRSCuNtR2zPqLgWI0gcZK3IcZiP0LaRF5QqIDvOTbWMrQXknrKdzgW14bUo8/Vy6H7Ttc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723341155; c=relaxed/simple;
-	bh=FQw4YXfPoOXhBKq9fXl3MxFAT2V27ezRy88MH5EDgz4=;
-	h=Date:From:To:Subject:Message-Id; b=dZlOWy19usYgf1qHXcwO2oxHYmlzbkKdzlnnPeuLsYVENSIaubXJOSSCDhiTMJ3dYFCrQ3H+hQXY4LLQwnz62FcRJV7kOfRYmda8KjJEMxmkr4TGnHsooUIypUWAOSGZxn3zcEqOCZrDa3zxikEC5z+ErSkEZVj4wBBZJhwziNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5BBC32781
-	for <linux-media@vger.kernel.org>; Sun, 11 Aug 2024 01:52:34 +0000 (UTC)
-Date: Sun, 11 Aug 2024 03:52:32 +0200
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20240811015234.3B5BBC32781@smtp.kernel.org>
+	s=arc-20240116; t=1723342915; c=relaxed/simple;
+	bh=RG9LHAeha0E5bVe70AIhZ3CulzWRiRRdzwCyU2ikkxg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F410GahnUNIxMyEtu8GHBKHBgU2s2xCQTVKmk+MB7LQe/COxFusotrVf44zTr2rZIiSgSO3kwxbeNbROh+gQoOkISvWdqWYFoP5xGY5xtoG7EKaNSHlX++F8VzdPHC4mKVLRmH2NLVZRq82Z11Sia27dYS0qnAPB0X8gWuxjYe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fXSU5CVS; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6b7a0ef0dfcso18165916d6.1
+        for <linux-media@vger.kernel.org>; Sat, 10 Aug 2024 19:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1723342912; x=1723947712; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RG9LHAeha0E5bVe70AIhZ3CulzWRiRRdzwCyU2ikkxg=;
+        b=fXSU5CVSFFbF8Gxlcs6TWffKLPy5YSk54DIXLniQNmCL98F9FZLrOuOprTRSIAdWfV
+         OuRxbRTXDbz0IaFjnxatxZa6jDXM3t0uCeJyAre0esHGCbqrFy0OIx72dNtkzCF0r/L6
+         +fCsVj4DCPF5KHZv/sK2tO+JfhpZw44QwxkVdTSOWTPPW5tWtjCLfhBLKIRnnxftWvRf
+         RyiZVW83mLx3R8xY/mXeh4hI/2z4v9blHJF+ieZTq9kHSWHzAlkXQDlPt+pQ7/bZm8Ic
+         fisryOR9JByR69bcOEgnkmTWKQ6wFjsFlrhX1j6u42en22dm3OSrYiUv5vc70OTzpaTx
+         XpJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723342912; x=1723947712;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RG9LHAeha0E5bVe70AIhZ3CulzWRiRRdzwCyU2ikkxg=;
+        b=hkfCdRvZf96Evu5az/MGBPCgc1K1roWLvQtEt2pw41Sc6GqhDicJP0/OzqRp+mVsdK
+         RSdfkcu0boaGBAliK6BBdLx8J14pSH9YSD9sA9Tdlpvn4J2v/zl6qpLoFN9E2mmYV8X2
+         uB2wPtyEEJ0kdT0O4NIcLzJFoc41iOpwy1r/8rQ90RI+xkjLnjmlKaEMwq25qy8W2Nre
+         NBkeqE3nuSsVekFCgcm3fhLjGCmJpyoThtIRTCSlUw+OWXpxjnP5x4rj5MO1CTyBEdFA
+         jHlW+VUV50XLrGGNCAF0C26php4pxsLf3Xja5KTK5i8vOcW9IG9mBSmVe2m+n7rCcacq
+         ugUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtNIRgFJXwDAe6i7J8LoC391Z7EnF6FyVFL0ctIwXWPA2QjYQFm+Nvo5Le2j0sRO+9rVy3RFeKtVqQ6zo5oDr/xxR9rG4HzfCldxw=
+X-Gm-Message-State: AOJu0YzlWrJO/pcjXDhJwqK2wQDA75RCpkuXyCXpjFAzJ58qMVtArpDO
+	PNpGcO3rctcgRR7HGG37OwGY20fdf3M6k69jKXnBuH63aKskceIpxwhbGE8YB9eGsWMQrYwnLXy
+	6rOWQmt+ERnKLg/28aJNwFioNhQh5wuE5tccO
+X-Google-Smtp-Source: AGHT+IEZ2o2IjbltxUtgiFqMaggi2EMslyYy4EjJKqHkpI3i2lfifDNDb+nrXQWahxplCc4kLWOurPaC9Ylw74lSj5w=
+X-Received: by 2002:a05:6214:43c8:b0:6b5:dcda:bada with SMTP id
+ 6a1803df08f44-6bd78e8296cmr66071346d6.55.1723342911553; Sat, 10 Aug 2024
+ 19:21:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240805212536.2172174-1-almasrymina@google.com>
+ <20240805212536.2172174-8-almasrymina@google.com> <20240806135924.5bb65ec7@kernel.org>
+ <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+ <20240808192410.37a49724@kernel.org> <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+ <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com> <20240809205236.77c959b0@kernel.org>
+In-Reply-To: <20240809205236.77c959b0@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Sat, 10 Aug 2024 22:21:39 -0400
+Message-ID: <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	Donald Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On Fri, Aug 9, 2024 at 11:52=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Fri, 9 Aug 2024 16:45:50 +0100 Pavel Begunkov wrote:
+> > > I think this is good, and it doesn't seem hacky to me, because we can
+> > > check the page_pools of the netdev while we hold rtnl, so we can be
+> > > sure nothing is messing with the pp configuration in the meantime.
+> > > Like you say below it does validate the driver rather than rely on th=
+e
+> > > driver saying it's doing the right thing. I'll look into putting this
+> > > in the next version.
+> >
+> > Why not have a flag set by the driver and advertising whether it
+> > supports providers or not, which should be checked for instance in
+> > netdev_rx_queue_restart()? If set, the driver should do the right
+> > thing. That's in addition to a new pp_params flag explicitly telling
+> > if pp should use providers. It's more explicit and feels a little
+> > less hacky.
+>
+> You mean like I suggested in the previous two emails? :)
+>
+> Given how easy the check is to implement, I think it's worth
+> adding as a sanity check. But the flag should be the main API,
+> if the sanity check starts to be annoying we'll ditch it.
 
-Results of the daily build of media_tree:
+I think we're talking about 2 slightly different flags, AFAIU.
 
-date:			Sun Aug 11 03:00:13 CEST 2024
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	c80bfa4f9e0ebfce6ac909488d412347acbcb4f9
-v4l-utils git hash:	a1ebb4dad512025a7fbb2e7ff6ab6e5f5e604987
-edid-decode git hash:	0ad31a9fc047572c649810ed4c6a809af4b0c5e0
-gcc version:		i686-linux-gcc (GCC) 14.1.0
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8683-g412f2874
-sparse version:		v0.5.0-8683-g412f2874
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6315b97764c964464fbdbae5543cfd95225e251a
-host hardware:		x86_64
-host os:		6.5.0-35-generic
+Pavel and I are suggesting the driver reports "I support memory
+providers" directly to core (via the queue-api or what not), and we
+check that flag directly in netdev_rx_queue_restart(), and fail
+immediately if the support is not there.
 
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-of.config: OK
-no-acpi.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: OK
-smatch: OK
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+Jakub is suggesting a page_pool_params flag which lets the driver
+report "I support memory providers". If the driver doesn't support it
+but core is trying to configure that, then the page_pool_create will
+fail, which will cause the queue API operation
+(ndo_queue_alloc_mem_alloc) to fail, which causes
+netdev_rx_queue_restart() to fail.
 
-date:			Sun Aug 11 03:13:42 CEST 2024
-virtme-64: OK: Final Summary: 3435, Succeeded: 3435, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3546, Succeeded: 3546, Failed: 0, Warnings: 0
+Both are fine, I don't see any extremely strong reason to pick one of
+the other. I prefer Jakub's suggestion, just because it's closer to
+the page_pool and may be more reusable in the future. I'll err on the
+side of that unless I hear strong preference to the contrary.
 
-date:			Sun Aug 11 03:51:27 CEST 2024
+I also think the additional check that Jakub is requesting is easy to
+implement and unobjectionable. It would let core validate that the
+driver did actually create the page_pool with the memory provider. I
+think one of the goals of the queue API was to allow core to do more
+validation on driver configuration anyway.
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+--=20
+Thanks,
+Mina
 
