@@ -1,541 +1,144 @@
-Return-Path: <linux-media+bounces-16127-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16128-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D80D94E988
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 11:17:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D01994EA10
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 11:40:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F1631F22B18
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:17:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F6911C2100E
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:40:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A480916D4FD;
-	Mon, 12 Aug 2024 09:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C91716DEDB;
+	Mon, 12 Aug 2024 09:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H+ItNqJz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B465E16D4E2;
-	Mon, 12 Aug 2024 09:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189BB16DC1F;
+	Mon, 12 Aug 2024 09:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723454229; cv=none; b=mBi/88nd+qh/rNsAQFUwwN1Evf0LZnn7UL5UJnwI73M6QVKG7w3/DZxsfTPVoxCGOkmMHjFrSlLuBwtILWrNy05VYQOxf+4F+wLHWMv4Yxa4y3ZLJrTQMztd1GXGc3GE/gloF0G+23qp6TCfl3pK2N7sSHSe7dwtpBZWNCcWNIc=
+	t=1723455604; cv=none; b=iojISm006Tq6c3E2Q1oAVrQcxORdfh7aGWlR4IAVRHhX15VPQ+TJnWPFQh2tkAQLSkKqJRiV3P79uVNch6KPndLzpyUht92NbgzLatJ5Xr1rPsZA8kLANbCrC4FWqWVh1Cph0Uj5OB6RtvOwVTkHHsE4cBuyqEI4lm5xR4aUkEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723454229; c=relaxed/simple;
-	bh=k3oY8xA6wypWjdeHVtjrEgrnknZFoW0UteqhnVR2v9Y=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WSH1UyxR2aIjdJMkplRD2dGgWaVyM8PDOOMkzuas5LNcN6sZa989KkFqWt6cmtF96qNJgH6oKlu3JM6POskN9ewqvlzMFt4jgN27kVfOFpgXqjeogCRyF5F7K/4hsslzj95bwGlvTgADUrV2vx0yrFHjEurkdn63kbf8NxXU0vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Mon, 12 Aug
- 2024 17:16:56 +0800
-Received: from mail.aspeedtech.com (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Mon, 12 Aug 2024 17:16:56 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-	<andrew@aj.id.au>, <pmenzel@molgen.mpg.de>
-CC: <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] media: aspeed: Allow to capture from SoC display (GFX)
-Date: Mon, 12 Aug 2024 17:16:56 +0800
-Message-ID: <20240812091656.2617664-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1723455604; c=relaxed/simple;
+	bh=ArrySmWgDNdiqjHMG4mdAvCkv8roGfqS6pl8kC2NcbE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WPfbmy4RLpsq8QfS84gzDxNQGLjmBID2azNF+LoNz13ShI7yJHKpk1wsC9yqQBK7qbRYbG79n544OitspKPgj4tszvhkHO9hAFdRPJbNVvgyyEob8Qts5sQmOpZCCfpm3VUllcuG9Y0F1/gs3rGPiEis6mwn1mNaaNWxwJn0/aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H+ItNqJz; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7aa7703cf08so2871601a12.2;
+        Mon, 12 Aug 2024 02:40:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723455602; x=1724060402; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OztDY7ZPfTGf5Muvo37QHTCCUOwm+trCdPseFsE1yRA=;
+        b=H+ItNqJz09PpQaNjn3kh2DDXKQTuLxURe/r0suXSDP43BprSvhbfKFPJUDORfRHg56
+         1V6e8joSC0/0qlKpfwKbeG4Q/0ipuLp7NXPFLS/Zl9/XpS/j8D5OEcy8vs59v3PSHy6O
+         PFd+pDY1z74G0K4omCziD6DS+mdzVkLb91820sCYpMp7n58lC0WPFh6uQ+meDO+Eb2rb
+         /0zDXphdlaJEpAKw7uPar3EleN8jCbeAJXhS+HYM7uuGbTwQfNOUMgQBu60P0NAfHyoD
+         VLRKHoynggit8uEgJm/W0qIm6VHPAag4aHL7Ip8NDRf4wJnU0Ff+8P5oLwHljkyrjmfm
+         YFZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723455602; x=1724060402;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OztDY7ZPfTGf5Muvo37QHTCCUOwm+trCdPseFsE1yRA=;
+        b=SXLnhAaEHjsQXE/YGvJh8TJHnGTxGLg0uBPoA7+dHNxJ2Nmj2avC/DxUS+P1W8xMey
+         vItCCoEDx3XR0I8Ev/gYud5HWLQ3eg1oLZXNr+1gDjd1vPuqmRfaNcbO/Xoq79ZI0QoA
+         +LP5Ewut7ST0pQK8yZUbjMk88d/XAhvDCYdXrQppERkNe/bkMhSQsYIudMXey7VV0SCg
+         RYuTszrfE4AHa0u0d+wRXwjKGwK/ob/q2zDwif0azWiTZHb2i5v0N2GLL5rQX/Ib7ufT
+         RWX9qvuFnSYo0WFxC68paBL5Kw7h2x6NWXM1lOFubpUoqV7SabieuctMhZVK2unn0iU1
+         rGng==
+X-Forwarded-Encrypted: i=1; AJvYcCVG/e4B2dZ89IEATWKEp7EPo2M9esUKuOjYUnNq7UmPfksvuD34hVYMqWewkCKCPyeExNJ2nbyuwM+LmT+M8MY3fsd9twHMSVFS68cPZQCTA7z+Q2qt/IAatdNhTBs6wJtPR9V1+gDLATIm9RROL22wYcPEBYHJamZQTtj6a2Stri90gHDp
+X-Gm-Message-State: AOJu0Yz/P6S7Q7liUNh2KSOITQPULvgMwclgRD0Yw6/Hl4yy8Qg9ZK5v
+	ZNljhpu/KLlDf8BBdYaIHDbTkZygKejMqmLz+Gh16TsoUIf5yX3x
+X-Google-Smtp-Source: AGHT+IF8GalHrE+IH6YmoY+AWa/Rdr4SG6ZeFor8rn3B92ikuRnTgV5mAn7M3QFJgEWdF8wkCr2t8g==
+X-Received: by 2002:a05:6a20:d817:b0:1c4:2134:dd54 with SMTP id adf61e73a8af0-1c8a0137366mr13333355637.45.1723455602341;
+        Mon, 12 Aug 2024 02:40:02 -0700 (PDT)
+Received: from [172.19.1.53] (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bbb49fb7sm33981255ad.293.2024.08.12.02.39.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Aug 2024 02:40:02 -0700 (PDT)
+Message-ID: <26c61825-3488-4a9c-9426-b804c1e00b07@gmail.com>
+Date: Mon, 12 Aug 2024 17:39:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: mtd: nuvoton,ma35d1-nand: add new
+ bindings
+To: Krzysztof Kozlowski <krzk@kernel.org>, miquel.raynal@bootlin.com,
+ richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ esben@geanix.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240812030045.20831-1-hpchen0nvt@gmail.com>
+ <20240812030045.20831-2-hpchen0nvt@gmail.com>
+ <7a8b9bdf-f4df-4da0-83ca-157175817e99@kernel.org>
+ <203578df-11a6-425a-b2be-cc09dae62f8f@gmail.com>
+ <1f823600-68c4-418f-b2bf-6d5d64a1ee56@kernel.org>
+Content-Language: en-US
+From: Hui-Ping Chen <hpchen0nvt@gmail.com>
+In-Reply-To: <1f823600-68c4-418f-b2bf-6d5d64a1ee56@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-ASPEED BMC IC has 2 different display engines. Please find AST2600's
-datasheet to get detailed information.
+Dear Krzysztof,
 
-1. VGA on PCIe
-2. SoC Display (GFX)
+Thank you for your reply.
 
-By default, video engine (VE) will capture video from VGA. This patch
-adds an option to capture video from GFX with standard ioctl,
-vidioc_s_input.
 
-An enum, aspeed_video_input, is added for this purpose.
-enum aspeed_video_input {
-	VIDEO_INPUT_VGA = 0,
-	VIDEO_INPUT_GFX,
-	VIDEO_INPUT_MAX
-};
 
-To test this feature, you will need to enable GFX first. Please refer to
-ASPEED's SDK_User_Guide, 6.3.x Soc Display driver, for more information.
-In your application, you will need to use v4l2 ioctl, VIDIOC_S_INPUT, as
-below to select before start streaming.
+On 2024/8/12 下午 05:12, Krzysztof Kozlowski wrote:
+> On 12/08/2024 11:02, Hui-Ping Chen wrote:
+>>
+>>>> +
+>>>> +      nand-ecc-step-size:
+>>>> +        enum: [512, 1024]
+>>> No defaults? So is this required?
+>> This is required, but I will also add a default.
+> If this is required and should be in required: list. Default does not
+> make sense then... it contradicts the point of being required.
 
-int rc;
-struct v4l2_input input;
+I will add it to the required list.
 
-input.index = VIDEO_INPUT_GFX;
-rc = ioctl(fd, VIDIOC_S_INPUT, &input);
-if (rc < 0)
-{
-	...
-}
 
-Link: https://github.com/AspeedTech-BMC/openbmc/releases
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- v3 changes:
-  - Update for enum_input.
- v2 changes:
-  - Update patch subject and comments.
----
- drivers/media/platform/aspeed/aspeed-video.c | 193 ++++++++++++++++---
- include/uapi/linux/aspeed-video.h            |   7 +
- 2 files changed, 172 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index fc6050e3be0d..4a00872b6d30 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -25,6 +25,8 @@
- #include <linux/workqueue.h>
- #include <linux/debugfs.h>
- #include <linux/ktime.h>
-+#include <linux/regmap.h>
-+#include <linux/mfd/syscon.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-dev.h>
- #include <media/v4l2-device.h>
-@@ -203,6 +205,25 @@
- #define VE_MEM_RESTRICT_START		0x310
- #define VE_MEM_RESTRICT_END		0x314
- 
-+/* SCU's registers */
-+#define SCU_MISC_CTRL			0xC0
-+#define  SCU_DPLL_SOURCE		BIT(20)
-+
-+/* GFX's registers */
-+#define GFX_CTRL			0x60
-+#define  GFX_CTRL_ENABLE		BIT(0)
-+#define  GFX_CTRL_FMT			GENMASK(9, 7)
-+
-+#define GFX_H_DISPLAY			0x70
-+#define  GFX_H_DISPLAY_DE		GENMASK(28, 16)
-+#define  GFX_H_DISPLAY_TOTAL		GENMASK(12, 0)
-+
-+#define GFX_V_DISPLAY			0x78
-+#define  GFX_V_DISPLAY_DE		GENMASK(27, 16)
-+#define  GFX_V_DISPLAY_TOTAL		GENMASK(11, 0)
-+
-+#define GFX_DISPLAY_ADDR		0x80
-+
- /*
-  * VIDEO_MODE_DETECT_DONE:	a flag raised if signal lock
-  * VIDEO_RES_CHANGE:		a flag raised if res_change work on-going
-@@ -262,6 +283,7 @@ struct aspeed_video_perf {
- /*
-  * struct aspeed_video - driver data
-  *
-+ * version:		holds the version of aspeed SoC
-  * res_work:		holds the delayed_work for res-detection if unlock
-  * buffers:		holds the list of buffer queued from user
-  * flags:		holds the state of video
-@@ -273,6 +295,7 @@ struct aspeed_video_perf {
-  * yuv420:		a flag raised if JPEG subsampling is 420
-  * format:		holds the video format
-  * hq_mode:		a flag raised if HQ is enabled. Only for VIDEO_FMT_ASPEED
-+ * input:		holds the video input
-  * frame_rate:		holds the frame_rate
-  * jpeg_quality:	holds jpeq's quality (0~11)
-  * jpeg_hq_quality:	holds hq's quality (1~12) only if hq_mode enabled
-@@ -298,6 +321,9 @@ struct aspeed_video {
- 	struct video_device vdev;
- 	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
- 
-+	struct regmap *scu;
-+	struct regmap *gfx;
-+	u32 version;
- 	u32 jpeg_mode;
- 	u32 comp_size_read;
- 
-@@ -316,6 +342,7 @@ struct aspeed_video {
- 	bool yuv420;
- 	enum aspeed_video_format format;
- 	bool hq_mode;
-+	enum aspeed_video_input input;
- 	unsigned int frame_rate;
- 	unsigned int jpeg_quality;
- 	unsigned int jpeg_hq_quality;
-@@ -331,21 +358,25 @@ struct aspeed_video {
- #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
- 
- struct aspeed_video_config {
-+	u32 version;
- 	u32 jpeg_mode;
- 	u32 comp_size_read;
- };
- 
- static const struct aspeed_video_config ast2400_config = {
-+	.version = 4,
- 	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
- 	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
- };
- 
- static const struct aspeed_video_config ast2500_config = {
-+	.version = 5,
- 	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
- 	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
- };
- 
- static const struct aspeed_video_config ast2600_config = {
-+	.version = 6,
- 	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
- 	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
- };
-@@ -485,6 +516,7 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
- 
- static const char * const format_str[] = {"Standard JPEG",
- 	"Aspeed JPEG"};
-+static const char * const input_str[] = {"HOST VGA", "BMC GFX"};
- 
- static unsigned int debug;
- 
-@@ -609,6 +641,14 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
- 		aspeed_video_free_buf(video, &video->bcd);
- 	}
- 
-+	if (video->input == VIDEO_INPUT_GFX) {
-+		u32 val;
-+
-+		// update input buffer address as gfx's
-+		regmap_read(video->gfx, GFX_DISPLAY_ADDR, &val);
-+		aspeed_video_write(video, VE_TGS_0, val);
-+	}
-+
- 	spin_lock_irqsave(&video->lock, flags);
- 	buf = list_first_entry_or_null(&video->buffers,
- 				       struct aspeed_video_buffer, link);
-@@ -1026,9 +1066,23 @@ static void aspeed_video_get_timings(struct aspeed_video *v,
- 	}
- }
- 
-+static void aspeed_video_get_resolution_gfx(struct aspeed_video *video,
-+					    struct v4l2_bt_timings *det)
-+{
-+	u32 h_val, v_val;
-+
-+	regmap_read(video->gfx, GFX_H_DISPLAY, &h_val);
-+	regmap_read(video->gfx, GFX_V_DISPLAY, &v_val);
-+
-+	det->width = FIELD_GET(GFX_H_DISPLAY_DE, h_val) + 1;
-+	det->height = FIELD_GET(GFX_V_DISPLAY_DE, v_val) + 1;
-+	video->v4l2_input_status = 0;
-+}
-+
- #define res_check(v) test_and_clear_bit(VIDEO_MODE_DETECT_DONE, &(v)->flags)
- 
--static void aspeed_video_get_resolution(struct aspeed_video *video)
-+static void aspeed_video_get_resolution_vga(struct aspeed_video *video,
-+					    struct v4l2_bt_timings *det)
- {
- 	bool invalid_resolution = true;
- 	int rc;
-@@ -1036,7 +1090,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	u32 mds;
- 	u32 src_lr_edge;
- 	u32 src_tb_edge;
--	struct v4l2_bt_timings *det = &video->detected_timings;
- 
- 	det->width = MIN_WIDTH;
- 	det->height = MIN_HEIGHT;
-@@ -1113,14 +1166,20 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 
- 	aspeed_video_get_timings(video, det);
- 
--	/*
--	 * Enable mode-detect watchdog, resolution-change watchdog and
--	 * automatic compression after frame capture.
--	 */
-+	/* Enable mode-detect watchdog, resolution-change watchdog */
- 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
- 			    VE_INTERRUPT_MODE_DETECT_WD);
--	aspeed_video_update(video, VE_SEQ_CTRL, 0,
--			    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
-+	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_EN_WATCHDOG);
-+}
-+
-+static void aspeed_video_get_resolution(struct aspeed_video *video)
-+{
-+	struct v4l2_bt_timings *det = &video->detected_timings;
-+
-+	if (video->input == VIDEO_INPUT_GFX)
-+		aspeed_video_get_resolution_gfx(video, det);
-+	else
-+		aspeed_video_get_resolution_vga(video, det);
- 
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "Got resolution: %dx%d\n",
- 		 det->width, det->height);
-@@ -1156,7 +1215,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
- 
- 	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
--	if (size < DIRECT_FETCH_THRESHOLD) {
-+	if (video->input == VIDEO_INPUT_VGA && size < DIRECT_FETCH_THRESHOLD) {
- 		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Sync Mode\n");
- 		aspeed_video_write(video, VE_TGS_0,
- 				   FIELD_PREP(VE_TGS_FIRST,
-@@ -1171,10 +1230,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
- 				    VE_CTRL_INT_DE);
- 	} else {
-+		u32 ctrl, val, bpp;
-+
- 		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
-+		ctrl = VE_CTRL_DIRECT_FETCH;
-+		if (video->input == VIDEO_INPUT_GFX) {
-+			regmap_read(video->gfx, GFX_CTRL, &val);
-+			bpp = FIELD_GET(GFX_CTRL_FMT, val) ? 32 : 16;
-+			if (bpp == 16)
-+				ctrl |= VE_CTRL_INT_DE;
-+			aspeed_video_write(video, VE_TGS_1, act->width * (bpp >> 3));
-+		}
- 		aspeed_video_update(video, VE_CTRL,
- 				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
--				    VE_CTRL_DIRECT_FETCH);
-+				    ctrl);
- 	}
- 
- 	size *= 4;
-@@ -1207,6 +1276,22 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 		aspeed_video_free_buf(video, &video->srcs[0]);
- }
- 
-+/*
-+ * Update relative parameters when timing changed.
-+ *
-+ * @video: the struct of aspeed_video
-+ * @timings: the new timings
-+ */
-+static void aspeed_video_update_timings(struct aspeed_video *video, struct v4l2_bt_timings *timings)
-+{
-+	video->active_timings = *timings;
-+	aspeed_video_set_resolution(video);
-+
-+	video->pix_fmt.width = timings->width;
-+	video->pix_fmt.height = timings->height;
-+	video->pix_fmt.sizeimage = video->max_compressed_size;
-+}
-+
- static void aspeed_video_update_regs(struct aspeed_video *video)
- {
- 	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
-@@ -1219,6 +1304,8 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 	u32 ctrl = 0;
- 	u32 seq_ctrl = 0;
- 
-+	v4l2_dbg(1, debug, &video->v4l2_dev, "input(%s)\n",
-+		 input_str[video->input]);
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
- 		 video->frame_rate);
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
-@@ -1234,6 +1321,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 	else
- 		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
- 
-+	if (video->input == VIDEO_INPUT_VGA)
-+		ctrl |= VE_CTRL_AUTO_OR_CURSOR;
-+
- 	if (video->frame_rate)
- 		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
- 
-@@ -1252,7 +1342,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 	aspeed_video_update(video, VE_SEQ_CTRL,
- 			    video->jpeg_mode | VE_SEQ_CTRL_YUV420,
- 			    seq_ctrl);
--	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
-+	aspeed_video_update(video, VE_CTRL,
-+			    VE_CTRL_FRC | VE_CTRL_AUTO_OR_CURSOR |
-+			    VE_CTRL_SOURCE, ctrl);
- 	aspeed_video_update(video, VE_COMP_CTRL,
- 			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR |
- 			    VE_COMP_CTRL_EN_HQ | VE_COMP_CTRL_HQ_DCT_LUM |
-@@ -1280,6 +1372,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
- 	aspeed_video_write(video, VE_JPEG_ADDR, video->jpeg.dma);
- 
- 	/* Set control registers */
-+	aspeed_video_write(video, VE_SEQ_CTRL, VE_SEQ_CTRL_AUTO_COMP);
- 	aspeed_video_write(video, VE_CTRL, ctrl);
- 	aspeed_video_write(video, VE_COMP_CTRL, VE_COMP_CTRL_RSVD);
- 
-@@ -1311,12 +1404,7 @@ static void aspeed_video_start(struct aspeed_video *video)
- 	aspeed_video_get_resolution(video);
- 
- 	/* Set timings since the device is being opened for the first time */
--	video->active_timings = video->detected_timings;
--	aspeed_video_set_resolution(video);
--
--	video->pix_fmt.width = video->active_timings.width;
--	video->pix_fmt.height = video->active_timings.height;
--	video->pix_fmt.sizeimage = video->max_compressed_size;
-+	aspeed_video_update_timings(video, &video->detected_timings);
- }
- 
- static void aspeed_video_stop(struct aspeed_video *video)
-@@ -1401,10 +1489,10 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
- {
- 	struct aspeed_video *video = video_drvdata(file);
- 
--	if (inp->index)
-+	if (inp->index >= VIDEO_INPUT_MAX)
- 		return -EINVAL;
- 
--	strscpy(inp->name, "Host VGA capture", sizeof(inp->name));
-+	sprintf(inp->name, "%s capture", input_str[inp->index]);
- 	inp->type = V4L2_INPUT_TYPE_CAMERA;
- 	inp->capabilities = V4L2_IN_CAP_DV_TIMINGS;
- 	inp->status = video->v4l2_input_status;
-@@ -1414,16 +1502,47 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
- 
- static int aspeed_video_get_input(struct file *file, void *fh, unsigned int *i)
- {
--	*i = 0;
-+	struct aspeed_video *video = video_drvdata(file);
-+
-+	*i = video->input;
- 
- 	return 0;
- }
- 
- static int aspeed_video_set_input(struct file *file, void *fh, unsigned int i)
- {
--	if (i)
-+	struct aspeed_video *video = video_drvdata(file);
-+
-+	if (i >= VIDEO_INPUT_MAX)
- 		return -EINVAL;
- 
-+	if (IS_ERR(video->scu)) {
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: scu isn't ready for input-control\n", __func__);
-+		return -EINVAL;
-+	}
-+
-+	if (IS_ERR(video->gfx) && i == VIDEO_INPUT_GFX) {
-+		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: gfx isn't ready for GFX input\n", __func__);
-+		return -EINVAL;
-+	}
-+
-+	video->input = i;
-+
-+	if (video->version == 6) {
-+		/* modify dpll source per current input */
-+		if (video->input == VIDEO_INPUT_VGA)
-+			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, 0);
-+		else
-+			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, SCU_DPLL_SOURCE);
-+	}
-+
-+	aspeed_video_update_regs(video);
-+
-+	/* update signal status */
-+	aspeed_video_get_resolution(video);
-+	if (!video->v4l2_input_status)
-+		aspeed_video_update_timings(video, &video->detected_timings);
-+
- 	return 0;
- }
- 
-@@ -1527,13 +1646,7 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
- 	if (vb2_is_busy(&video->queue))
- 		return -EBUSY;
- 
--	video->active_timings = timings->bt;
--
--	aspeed_video_set_resolution(video);
--
--	video->pix_fmt.width = timings->bt.width;
--	video->pix_fmt.height = timings->bt.height;
--	video->pix_fmt.sizeimage = video->max_compressed_size;
-+	aspeed_video_update_timings(video, &timings->bt);
- 
- 	timings->type = V4L2_DV_BT_656_1120;
- 
-@@ -1911,6 +2024,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
- 	val08 = aspeed_video_read(v, VE_CTRL);
- 	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
- 		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "Input", input_str[v->input]);
- 		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
- 			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
- 	} else {
-@@ -2070,12 +2184,34 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
- 	return 0;
- }
- 
-+/*
-+ * Get regmap without checking res, such as clk/reset, that could lead to
-+ * conflict.
-+ */
-+static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
-+{
-+	struct device_node *syscon_np;
-+	struct regmap *regmap;
-+
-+	syscon_np = of_parse_phandle(np, property, 0);
-+	if (!syscon_np)
-+		return ERR_PTR(-ENODEV);
-+
-+	regmap = device_node_to_regmap(syscon_np);
-+	of_node_put(syscon_np);
-+
-+	return regmap;
-+}
-+
- static int aspeed_video_init(struct aspeed_video *video)
- {
- 	int irq;
- 	int rc;
- 	struct device *dev = video->dev;
- 
-+	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
-+	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
-+
- 	irq = irq_of_parse_and_map(dev->of_node, 0);
- 	if (!irq) {
- 		dev_err(dev, "Unable to find IRQ\n");
-@@ -2167,6 +2303,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 	if (!config)
- 		return -ENODEV;
- 
-+	video->version = config->version;
- 	video->jpeg_mode = config->jpeg_mode;
- 	video->comp_size_read = config->comp_size_read;
- 
-diff --git a/include/uapi/linux/aspeed-video.h b/include/uapi/linux/aspeed-video.h
-index 6586a65548c4..15168e8c931e 100644
---- a/include/uapi/linux/aspeed-video.h
-+++ b/include/uapi/linux/aspeed-video.h
-@@ -8,6 +8,13 @@
- 
- #include <linux/v4l2-controls.h>
- 
-+/* aspeed video's input types */
-+enum aspeed_video_input {
-+	VIDEO_INPUT_VGA = 0,
-+	VIDEO_INPUT_GFX,
-+	VIDEO_INPUT_MAX
-+};
-+
- #define V4L2_CID_ASPEED_HQ_MODE			(V4L2_CID_USER_ASPEED_BASE  + 1)
- #define V4L2_CID_ASPEED_HQ_JPEG_QUALITY		(V4L2_CID_USER_ASPEED_BASE  + 2)
- 
+>>
+>>
+>>>> +
+>>>> +      nand-ecc-strength:
+>>>> +        enum: [8, 12, 24]
+>>> No defaults? So is this required?
+>> This is required, but I will also add a default.
+> Ditto
 
-base-commit: e9d22f7a6655941fc8b2b942ed354ec780936b3e
--- 
-2.25.1
+I will add it to the required list.
+
+
+
+>
+> Best regards,
+> Krzysztof
+
+
+Best regards,
+
+Hui-Ping Chen
+
 
 
