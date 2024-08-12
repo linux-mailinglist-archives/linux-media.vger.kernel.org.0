@@ -1,154 +1,131 @@
-Return-Path: <linux-media+bounces-16129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16130-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6831094EA36
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 11:46:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C49B94EA49
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 11:51:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A02E61C2100E
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:46:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2574E1F22178
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:51:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF5E16E883;
-	Mon, 12 Aug 2024 09:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1EB516DC05;
+	Mon, 12 Aug 2024 09:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/6J2eS1"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TE8suKoC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5661C3E;
-	Mon, 12 Aug 2024 09:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109CB16D4E6
+	for <linux-media@vger.kernel.org>; Mon, 12 Aug 2024 09:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723455978; cv=none; b=KhUqrGsOCJ3H198l+ra9o3AX1q+mJSQH/AbI7wKo/OccymXvXKKMwk+1RuPJYAtuvUeKr1BZIWMdMBWQQ5pnrtB8a4dodUBhu7KO6jQCWjxJ+2dqVCpBy+AQBOHuy3rT3OC0ABYHzS51jBirUoLmRJ4PkDV1m2XeFJyjmkJnZ8E=
+	t=1723456252; cv=none; b=s7Up6XXjfOSuA2SSvrnzbr/OZpmksWK6ldKgHR01V83at9hZC7RvbT3E3W/72Xh9i7w7EhQSFPOTABKQqImKDN6NxmnlzBMjaK1RvaupqydQpKYsRx75UG311Htd5DJeOZShX0UaDlfzv324DhJwhmT/5l9cyM75bhLdh51Vdfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723455978; c=relaxed/simple;
-	bh=yOE2mc5cU3Ike/C/o6AZ6ex5/MryW/D7i3oyQt06Vng=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i4qVVBtGkHzjIHQmYbWZLYtq+c1mdKGKUD9MD1dUippy1rMM4d22wpuQf913afCHq1KqqNRTDihP8bOA6agceMj4r3NdOGVy4vllVOGTAFmgHsrkxthlGL6hWKQ3XzJEkVdbgfo/16FvxDI71JScGZiG6CqiIS+l/XRmA2jtKZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/6J2eS1; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1fd69e44596so27895125ad.1;
-        Mon, 12 Aug 2024 02:46:16 -0700 (PDT)
+	s=arc-20240116; t=1723456252; c=relaxed/simple;
+	bh=rFbhJ1kr9LbVJJHVCLKuVhtZqqyv3L8v38WNx4e/J0A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rpmJC+MT/EgUyRnDW39UN3sTcw0hgvXsyI9hM2vW8LkpCGA2iPY7QP2YztjSYUqpfR+/wclkZb9dk/OlwlxHbQQQd11jLMSuegpHI5GkdqmWIIP7GQNMg9C9sR7NldiKTPrQBpeOpy8DnipXpCOGRldndS8TkCHnIgODOTUX+Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TE8suKoC; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a7d2a9a23d9so447230866b.3
+        for <linux-media@vger.kernel.org>; Mon, 12 Aug 2024 02:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723455976; x=1724060776; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MUxh3YwlPzmy+PcO3DHdAzw/4G592svoiNiI2B6pc4k=;
-        b=k/6J2eS1Iwvl+F7eb875p59kZIqEfpKxL647wuqs++U3OoH2hRgAXyU/n1GABRBgfp
-         AusbpIChRJUuRCao/HTSHV44RmSrOq3nlyxZBO2KxCiGSfYiB5ojutKJn77lXxiMLz2+
-         zzO5Yux8K1GvTm/EbbpJcdFY0SHfBkVgzYq6yh6dWMmUbdQ7bDwdiFK/EfafKl0iA8ok
-         X0fOBLClybm8b12j1zywAFeeJdMn84decshe76xKv4NjHRghlDYcU2zlyYiOz17FgC+a
-         AK5jO5IPoU5FAm7fuC3D7kwtn6iIMIfMUbpx9mND53ljMgQ5wi7w/HoTZH2G9jlg7xH5
-         73EQ==
+        d=chromium.org; s=google; t=1723456247; x=1724061047; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rFbhJ1kr9LbVJJHVCLKuVhtZqqyv3L8v38WNx4e/J0A=;
+        b=TE8suKoCwDjWQG/MpeHI15uAlAj6J7bg5ChlMgmDcjtn79G3zmvUa9n4djqR689+Ux
+         GFSXETj8ij4c4GbxEiaZgjtO/Wub/vqjzhG914kCNZFHpQm/LpZgSwFj/51wP+pjcNi8
+         jpDxTk3PSINFkC9N0IW9OMuQ7iv/UkwyHW4Rg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723455976; x=1724060776;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUxh3YwlPzmy+PcO3DHdAzw/4G592svoiNiI2B6pc4k=;
-        b=XlRTmT7T1UvmGLPzKH6Kv/KbCxHCZzeJLXMSpVYLYIanUIdZN+xjELBFKQvpO7bQyi
-         lvHIhB7m+nXeyVuBxdRALk8RV0wRYX6eJ1O17X3MofWXNlpZTdw+01h0p9VmR3i+nz3h
-         +xkPpwgBYooPZt40BCeKawzDWThIS8ZR7riIPxKH2PUNxec5+soWUCNwbHSRlVkzvDlx
-         pjhktPh5UWa1EgCdFH5w4VzVo7JLQod4rNBPQuRQLlB5txjVzxbOjMndwR19SygTUt50
-         V+x7Np7HL1RhMondRfTDEliXxuVn57IfLiXroov5PulFi9jengJJlbtO9K3kQ6cB86eU
-         GM+A==
-X-Forwarded-Encrypted: i=1; AJvYcCXtyUbofISxU0Xlmwj9VNC0t35GqxoLijyGG8SlY/25790CtJHhjmQMF7hukhweYvrrusVxehRfxDPH8cEQnip4ij3UvgCVZtilAQdOPyPZ55SSv09yJEXN6KmCoH9fHvHEjUSeJ3ucADwOzN7xRqvAX1SDETRmyoVh+/MKIvPgKwTQrc8q
-X-Gm-Message-State: AOJu0YwrAgIdxp7XXxUxR6XZAvzw83loFWQM4tVNVZHEOsWV0EgjjglG
-	xpSjoMFgnlfFfYwkRJJSetFvBNpm6sqbouBQ/+laLtlUNKMFluKq
-X-Google-Smtp-Source: AGHT+IEhL4arKcRb/xw7OVPVg6BiQe2H2AJSFtWsVZ5BkuWfnuoclUhY2oj8Zy9Gy/7Hw/+kdf10Dg==
-X-Received: by 2002:a17:902:ea01:b0:1fb:8e29:621f with SMTP id d9443c01a7336-200ae567dd3mr136423225ad.16.1723455976170;
-        Mon, 12 Aug 2024 02:46:16 -0700 (PDT)
-Received: from [172.19.1.53] (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bb9b17dasm34061725ad.137.2024.08.12.02.46.13
+        d=1e100.net; s=20230601; t=1723456247; x=1724061047;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rFbhJ1kr9LbVJJHVCLKuVhtZqqyv3L8v38WNx4e/J0A=;
+        b=GvOy5Xlf945mMQXr5vWdtg/hKWsqHXlhj4kc429D+QhSGktWcUVYYjBVOvwOKWFeuT
+         JsNC1KW4U1HTMD24W/ZCPIBh9PT6GCuNhmUDeRKq23HxXNIAfPIHmkeTsconxszS3XkY
+         sSDAfyeor/pT4EUTHGeMsjJM7j0r9DVH/QF4WWZCEW6bJXzxVfiKIkVEzfO0/MuVRM8z
+         6cSePBp5zy3IaOJk3O4C678ZhuZGSz0jvadWYDlbSUDLecrerBj+617gvUMmyiw8VA4j
+         uNzhAomkNdltw9URmQH4B2N/WT4w032bRxeEDvvE6s8f8rb2oWLDtpaE9aNIXK43rVMS
+         5H5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXjU8aUN9XYp7cMeHdIAtNDjcYU8YdOX/Z+dENo1JXnLh4cENH0F0bAWDdH6G0kl3+6Bp2ZiDG4YhGkp3ZKDl7SFFRaJJgrLcGP6jA=
+X-Gm-Message-State: AOJu0Yx5WefywqGSgXPJLz3BMoQTFQ//KHOOuF/M0FnUkHSanBbjQRQg
+	ckkzgSrTrL9zsWTi3KuqJY4GvaQ+EgecHIH5+oDjzFFB6lmnDRUDVbK9ivWCGrl1EbY11WrZIvM
+	=
+X-Google-Smtp-Source: AGHT+IGzjtkKm8SVCUjCAlXzsK6sj9wuby1YJvAgK7yDh+FuiJ6HT5jn/OYkNtazX0XNQSq7A0GTTg==
+X-Received: by 2002:a17:907:e60b:b0:a7a:9a78:4b59 with SMTP id a640c23a62f3a-a80aa595cb9mr647738466b.23.1723456246961;
+        Mon, 12 Aug 2024 02:50:46 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb119ab0sm216696366b.91.2024.08.12.02.50.46
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Aug 2024 02:46:15 -0700 (PDT)
-Message-ID: <b9f9cbae-c4d8-420e-865b-e0f48dfa9667@gmail.com>
-Date: Mon, 12 Aug 2024 17:46:12 +0800
+        Mon, 12 Aug 2024 02:50:46 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7d2a9a23d9so447227466b.3
+        for <linux-media@vger.kernel.org>; Mon, 12 Aug 2024 02:50:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWYkKgudEyM3DWst/rTWNhCAiUVYxQOzfcJ62v1Fy3mIqFYyYryEjRykVPN5K300b7dEjJkV5ph5I48zIi2qCZsqcaWWwqvYPXEOg8=
+X-Received: by 2002:a17:907:2d91:b0:a7a:9ca6:528 with SMTP id
+ a640c23a62f3a-a80aa546a28mr622117566b.11.1723456245700; Mon, 12 Aug 2024
+ 02:50:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] mtd: rawnand: nuvoton: add new driver for the Nuvoton
- MA35 SoC
-To: Krzysztof Kozlowski <krzk@kernel.org>, miquel.raynal@bootlin.com,
- richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- esben@geanix.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240812030045.20831-1-hpchen0nvt@gmail.com>
- <20240812030045.20831-3-hpchen0nvt@gmail.com>
- <06d627d5-947c-4da4-826a-76033386b575@kernel.org>
- <3b7b629e-0085-4821-932c-e89faad15c1a@gmail.com>
- <33ae3c93-81cb-491c-a5b3-239c7c413eb3@kernel.org>
-Content-Language: en-US
-From: Hui-Ping Chen <hpchen0nvt@gmail.com>
-In-Reply-To: <33ae3c93-81cb-491c-a5b3-239c7c413eb3@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240618-cocci-flexarray-v5-0-6a8294942f48@chromium.org> <4fsxowdpaeaxcnu7aewif6yqqk3jdgsjtksbznv2arnmmtiaq6@ibzf2qcel5lc>
+In-Reply-To: <4fsxowdpaeaxcnu7aewif6yqqk3jdgsjtksbznv2arnmmtiaq6@ibzf2qcel5lc>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 12 Aug 2024 11:50:30 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtZWUx_RmZ8j3-x_LN_m76AzyrUUrUubCGt8kieLGvZfQ@mail.gmail.com>
+Message-ID: <CANiDSCtZWUx_RmZ8j3-x_LN_m76AzyrUUrUubCGt8kieLGvZfQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/10] media: Fix the last set of coccinelle warnings
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Dear Krzysztof,
+Hi
 
-Thank you for your reply.
+On Wed, 19 Jun 2024 at 08:41, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Tue, Jun 18, 2024 at 01:37:43PM GMT, Ricardo Ribalda wrote:
+> > With this set we are done with all the cocci warning/errors.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> > Changes in v5: Thanks Vikash
+> > - Remove patches already merged
+> > - Fix typos and remove hfi_resource_ocmem_requirement
+> > - Link to v4: https://lore.kernel.org/r/20240606-cocci-flexarray-v4-0-3379ee5eed28@chromium.org
+> >
+>
+> Just for the clarfification: does the driver build without errors
+> if only a part of the patchset is applied? I have the feeling that first
+> patches introduce a build error which is fixed in a later patch. If
+> that's the case, it's a no-go.
 
 
+I believe it should build without errors for every patch: It has
+passed the bisectability test
 
-
-On 2024/8/12 下午 05:13, Krzysztof Kozlowski wrote:
-> On 12/08/2024 11:10, Hui-Ping Chen wrote:
->>>> +
->>>> +/* NAND-type Flash BCH Error Data Registers */
->>>> +#define MA35_NFI_REG_NANDECCED0	(0x960)
->>>> +#define MA35_NFI_REG_NANDECCED1	(0x964)
->>>> +#define MA35_NFI_REG_NANDECCED2	(0x968)
->>>> +#define MA35_NFI_REG_NANDECCED3	(0x96C)
->>>> +#define MA35_NFI_REG_NANDECCED4	(0x970)
->>>> +#define MA35_NFI_REG_NANDECCED5	(0x974)
->>>> +
->>>> +/* NAND-type Flash Redundant Area Registers */
->>>> +#define MA35_NFI_REG_NANDRA0		(0xA00)
->>>> +#define MA35_NFI_REG_NANDRA1		(0xA04)
->>>> +
->>>> +#define SKIP_SPARE_BYTES	4
->>>> +
->>>> +/* BCH algorithm related constants and variables */
->>>> +enum {
->>>> +	eBCH_NONE = 0,
->>>> +	eBCH_T8,
->>>> +	eBCH_T12,
->>>> +	eBCH_T24,
->>>> +	eBCH_CNT
->>>> +} E_BCHALGORITHM;
->>>> +
->>>> +static const int g_i32BCHAlgoIdx[eBCH_CNT] = {BCH_T8, BCH_T8, BCH_T12, BCH_T24};
->>>> +static struct nand_ecclayout_user ma35_nand_oob;
->>> Why this is file-scope?
->> I will remove the `static`.
-> No, why this cannot be instance dependent? Quick looks says it could.
-> And should.
-
-I will add this variable to the ma35_nand_info structure.
-
+https://gitlab.freedesktop.org/linux-media/users/ribalda/-/jobs/62071294
 
 
 >
-> Best regards,
-> Krzysztof
+> --
+> With best wishes
+> Dmitry
 
 
-Best regards,
 
-Hui-Ping Chen
-
-
+--
+Ricardo Ribalda
 
