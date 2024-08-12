@@ -1,333 +1,582 @@
-Return-Path: <linux-media+bounces-16100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16104-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2516894E696
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 08:29:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD59B94E6A4
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 08:31:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 642A7B21BAD
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 06:29:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D43AD1F2259C
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 06:31:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D6401509A0;
-	Mon, 12 Aug 2024 06:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48412152176;
+	Mon, 12 Aug 2024 06:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="TZVJBcmG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpCt6tRT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020119.outbound.protection.outlook.com [52.101.156.119])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6398714EC4C;
-	Mon, 12 Aug 2024 06:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.156.119
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723444177; cv=fail; b=L6ZYnAN4c39a2vzaloVwUH/AL13/0ZboOleX45iPrqSFE046VvqkJ89GsxojhcLM5kXy9y85Kjr/4JN+5pDICBgCwGv0RVyvhqyvxISfvc/3zkLxZiEmUjSFCTnL77qu0FzCMuHI9B1UUwxIYVXKlSjS3aXYjERk/95t2Moi5JU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723444177; c=relaxed/simple;
-	bh=UiTOsuIPdnjFiy25DGycvOoGT0s1iFeQjnnlxcQCqy0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LRo/tAezfMNIF43410TxDcHK9RxeRbgRz/Jw3YFwv1DJlQ2jdlotpjtutIgoRYN8mPbsUQy1f/ahtW7FgcjU+6J8lvsa6lzo4XWO83HCK89HlQf1FEcNEXER7RB8O768X+KZ3WpjpvyI8aizoztJePiGGugoVH/1F3XxmTjvNlI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=TZVJBcmG; arc=fail smtp.client-ip=52.101.156.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D1q59LUIwziAYptdqRhrM60CFmGnXrv5iUXlAH1hSEOTpnMQMNPLbmCQYLGAdGy97D/mBqPef8N4r2hhjU0W6JQCdcNwlsbKrUWZIgdqQbJkKdMqPncKZFBxsCqftxiLRfOMS1Az0/lGd9NPPEFXQl+7XZry7iz4okWnOye7sSDD4nrMfItm/kYbYpeTKpqxKaXtb8Px8HVUdQgR6N0b47SUm9NH8yfXCQy0LaSBnNUqq3tQH4ivQYKqXPvaE4umuzBzVx4QYS69AkMp4KCf4s5u0+gOOANMHKX9cPpyQ3VpFGgHkEYhZ4VyWSf3qzZ+l2TbwqK6D/YCcBtWcsEfHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jo09o0f7cArhs9nmYI/Ipzy2U9tnqhbP6xrDVuSq5UU=;
- b=l977/YEY4SJ5SKFb7YHtq+WivAIsFXbGvT6keaDkpOjt3KJ6OHzbapxBjq5M7pU2iuJbazGuqeZbjo9jAu/dLxul7ZjuKipVv1EqAY9ea5aRMyHgrVlyjpV058VwFtfXOwejB644NRaJgeB3PnUGc7HnhqM6k1lgBNTww2tUWdchugX1v3IFsoEIRP7PtKOghGe91ohvHH7vp9Kq9u/ASkVmS1B0j3UzgE2eUBmHcK8CKkbR6N1Bggz0+1XS0T/F0BZJyyxbcfdaaU0tDjAIBey7LmYBKcECq2CiiPc90P/Rtqyod+SBeHij0CPWS3Khpb+nep2Mx/iF5CQBF8CHyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jo09o0f7cArhs9nmYI/Ipzy2U9tnqhbP6xrDVuSq5UU=;
- b=TZVJBcmGtysyePzS9+vmhdmwjeQxEDwBP4Y6oNIO53ze7udvaZm4izlZCAQ5e7QFMf7Lj4TerMpWOfviaDsPsBnD1GhtS1uXZpQG8D2xTdosKhk5XfLld0GmY4DVP8faCV/0RBRjeGFBUdGSi4Tsopv6khvpFAMPfLAdKxpNOtA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
- PU4P216MB1820.KORP216.PROD.OUTLOOK.COM (2603:1096:301:10a::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7849.20; Mon, 12 Aug 2024 06:29:30 +0000
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::b711:5ab1:b5a4:d01b]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::b711:5ab1:b5a4:d01b%7]) with mapi id 15.20.7849.019; Mon, 12 Aug 2024
- 06:29:30 +0000
-From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
-To: mchehab@kernel.org,
-	nicolas@ndufresne.ca,
-	sebastian.fricke@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hverkuil@xs4all.nl,
-	nas.chung@chipsnmedia.com,
-	lafley.kim@chipsnmedia.com,
-	b-brnich@ti.com,
-	jackson.lee@chipsnmedia.com,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v7 4/4] media: chips-media: wave5: Support YUV422 raw pixel-formats on the encoder.
-Date: Mon, 12 Aug 2024 15:29:19 +0900
-Message-Id: <20240812062919.78-5-jackson.lee@chipsnmedia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240812062919.78-1-jackson.lee@chipsnmedia.com>
-References: <20240812062919.78-1-jackson.lee@chipsnmedia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SE2P216CA0044.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:116::11) To SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:15::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E55E13BAEE;
+	Mon, 12 Aug 2024 06:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723444229; cv=none; b=sbpytOBQfRFSUjVo1unlwlT3xN53iriUeNzOT014APvyXHrb+MxACDRcykOchB0EYlFQPX44yzS5+UuNNwHwkEqvgm8bN6Y3t7rSIxSkle3yFteQCRk8ju2nZuSYbCvdN4CnXc9XqUs9xJopMb7acyzaS12GK5eb3hrjHjg6gz4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723444229; c=relaxed/simple;
+	bh=1kDfnqYKqD/qFUN18LfI9j1JYvbLoJ+As5yqStFl0qU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RQL1glMyWdIANcKW/VE709S3/xEtAHH1vJFx8KzHYEwn/HBoEvVt9/CJqkLpUC8KNWvkeC5jHklvk+QVE5tX6HodRyA8G6sDAYX5JsR4j1N8vPLdjwOf6htbDsMh1RpJQYsG5D9UWXXyHlE51jLVyGyiX8ui77nqx1cG8GNmIoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpCt6tRT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC2EC32782;
+	Mon, 12 Aug 2024 06:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723444229;
+	bh=1kDfnqYKqD/qFUN18LfI9j1JYvbLoJ+As5yqStFl0qU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fpCt6tRTGKVFzYcJrmbhhkP8eJOQq/rVru8bR5gmNc2aFEWIzXbEE42NF4ndv9A07
+	 i/b4++0zyaS3I2H/Nvm2ZYJCVtX4EKOGLOs89RVdUj2eJYnJFBafOcUu61olf7ZO2M
+	 3Pl1lIJUwxYHxnY6pLAoRaWM0Zq12fnH7q/ZPhuK4stCCImppiX8eaXGCWGWEFZEMW
+	 ILR3fOxtZjNF/uNHnrSmdAiXTOpSQFEBNJp6MdwO28c/LX9EeGweboRl+El3MzU6bK
+	 GRG8qzG/q+OjS12Sa5cSKcJRMgkrEihMAyIrugVTN+cLIT6KGLO1N9fTsBlr09UnqL
+	 x6b8GL10UWdmw==
+Message-ID: <06d627d5-947c-4da4-826a-76033386b575@kernel.org>
+Date: Mon, 12 Aug 2024 08:30:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SE1P216MB1303:EE_|PU4P216MB1820:EE_
-X-MS-Office365-Filtering-Correlation-Id: d2ecd6be-7308-4a18-e2eb-08dcba981f5c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ezaOQYpAA0kGWgIQsS2fUrTDH5J1aZafntAr+cyF6KATs330GcQU1AYXJF3h?=
- =?us-ascii?Q?362gp+3ZEZGR1DWSM7d+/6OkvmD/BWCryQ3kxXinEXnMaUYY9/my9M5TShkW?=
- =?us-ascii?Q?VUTEK5nfKiMipHROPrRMAqgsQXtEnPA09bXI9ia51V1fZANx0tqOuKuVpaBc?=
- =?us-ascii?Q?3hK34NXOaF5gei6vZFNhz1i/OGnmeUs63yZu+PDv6ZaDgkRUTaWxQCZmJiHL?=
- =?us-ascii?Q?U8fsMR6WTs8WGbOt6N0/1W9WSmwO+AM28AtfE91gASqYwS5KeULADoQ6Xv4K?=
- =?us-ascii?Q?GtG733R4rI+I77ogH26n5sh5brGtJ2R5vpM62UrPd1xRkBQx/3MNTPHxvdmZ?=
- =?us-ascii?Q?sqaWlZa4XHCN3y9CicuYEkx5LrpJ/yE2Lou45nQCZVFIf0WAU2IR+kODl2yj?=
- =?us-ascii?Q?RK0o8qwTW7vbXga8RGWJCf1zm770N8syjWtc37no3R4rtusd1ak0bxWYMyen?=
- =?us-ascii?Q?SLIxadUy7AU1CrGXlP6BmWodh8z7+Ep6hdRgePFJw6y/KM6ont4CeUQIoVO8?=
- =?us-ascii?Q?kfLg14ZuFjRq3/tmCY0PMOkksUuHDLAiit+Uj4mA1PzebModB1SxVs8ZUug3?=
- =?us-ascii?Q?IfIzyW0PWIQHIn0jpsEx4F1096aMKlZX0nBs8xSNCG3+TTwPfKvAw0y8EABZ?=
- =?us-ascii?Q?FZo53XW2Jj+IbbwKtlK5rDldS0l2SvS2SJu9U05hE1qvHZtC9gIrjt+xwpBA?=
- =?us-ascii?Q?ptScMVkIEWc0PrCt2ICYji0lnuiCLPJhGZaHPMVywV4iDa+hwbdNuTlA19xi?=
- =?us-ascii?Q?JcE4S95SpmLNB0QsQpLSoi4LNqePCUeph7dP865/+m+b95bFDgrXEct4ECLt?=
- =?us-ascii?Q?WyY0CG9aosbPzPZEbVFXyxrRGu5fheK5MWdV1sKYaJDAfB1vNwYTwM3l/flG?=
- =?us-ascii?Q?1ckiHHpnmzy3iRoNCe1pAR/kGZ7b3mc+cqeH8dcXHiSbNZE3c+kdrx5IJHYA?=
- =?us-ascii?Q?QbgDzdXICrkfeXtG+QHyiVj0XnyTmfe9samOmgvWxfn1/ozAIHjGXWSlajPf?=
- =?us-ascii?Q?yF77arVtg13UeQRwI1WRqPuoVVKooA/B0yAUPqAN84yZlqX9tvUkPoOUC0SA?=
- =?us-ascii?Q?7b1ljwfVwBJvTKmi0suR6S5GPmgrXST2eIHPjbcCFnOocpklr1xOiji2wnJc?=
- =?us-ascii?Q?NLYaC8nwm2XA7iAnNqcq1DkJl8TvBtnC2sltJeg5435czAblh5w8ctl45Y/s?=
- =?us-ascii?Q?ZGBrdkiRV0KZ8KigVLSTTrPTfYYA7gBAt/uNFvorQerYp5CQu4DtiGzabZU6?=
- =?us-ascii?Q?40U3n4YHQ+7Vy0i68oiV0ISEJiyV5fO5YSGrrPf0oLgKWagdDrIYPmbxuxiP?=
- =?us-ascii?Q?mnK2vL5GVxktqGaEuBgT5LSXf61Y/7JGgxl+g5OTtp6Ry9yTI9GZmKuI8JPk?=
- =?us-ascii?Q?+q5Z3UIoZF5bO2T6SSBLymfSpONCSmalF/lIc8cLUx95yoT1ag=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VAETeMK1vkV1wwwdAUP3WUmISaeKOXF5hl+EI4+2Q0ek68ctmjJey1e7/xYl?=
- =?us-ascii?Q?hdrvIp6fVlStKq1wJDCEAd728ApW1eeE53VNkeY9DYuokw/Qv4xHWM3fHB4u?=
- =?us-ascii?Q?x0KZRaZFTK6VxBpkloccqLSmJdAQncRcWKL1dcOzplZ9CxKtk8WQbEz7isUG?=
- =?us-ascii?Q?n6pP5C01Gh8ua2K33r4W1k6eakAP21yM6R/QXS+EjNO9NmJv/G8mz6f62IBE?=
- =?us-ascii?Q?vN2F97mVUOirFXIvqq6TVfVALd8uxSbU5StZDWu+OGrC3siC/TGoVEXzTao9?=
- =?us-ascii?Q?MN8njvRzfqNn6lcsB70fquOFpTpAxvNx47GxcmdTRUwgl29Qh8LDL8DTGrSp?=
- =?us-ascii?Q?+1GcTwZ14IHS+pZj18rBtm9txWeG4M9IAr/9iI8jV3w07TbPnYLX+9QImCyD?=
- =?us-ascii?Q?h/vsQ1gmUfVy4UtUYGi+Zl5qm33Ctoqga6RNUt2yWja0RSpdTPuXLR/A8yhv?=
- =?us-ascii?Q?vhqEESrd9ESiK5Xg3yrlsvpRMkx3i+BtuzT8XHSS9wptJov3SlqLGQ4DFEBw?=
- =?us-ascii?Q?n4RoNkRuqO8/le3rSKuOClPA2x3tXAohZZrB7O/ik0Knt3xl+aRZTjCgbgBb?=
- =?us-ascii?Q?Q5njJ5BNaKrOV2pZy8R0qFObXcVB1+kc3Wq6xv5kyJH/jbKej8yEXc952zI8?=
- =?us-ascii?Q?p19mgPYSy5ETxSiUPs37t2EzFqtj7KOCR0pOFu31Ba5uajsQ3VlzeH+33v4f?=
- =?us-ascii?Q?GlTqRLru7qodRQN/WOKKHBWATmfcvSZQHFlwCcEwP+yv7C0HKDn93bxn70kh?=
- =?us-ascii?Q?v2e9uVqasxRrB6bgcv7UfQmT9xtbimE/5WvzZKxCooRDxgLNMM7f0b6kpDQ1?=
- =?us-ascii?Q?5/8XQequxmIVue7V0BAjxBUVCJF2y9Rl2JK0wQFmKW5+y7hvsrJLs/WYrtFM?=
- =?us-ascii?Q?wGicG8UcdThUDIdrSGEiBE9LVpBjfAdnpSZnP4Xv20NXFUq0stTDBT+7P+bK?=
- =?us-ascii?Q?8jG6Dn5OYfJ7VI1v0HDK4Ligebjymt0ZwAcjBBe2jnJn68iwNsp1ODt4KfkP?=
- =?us-ascii?Q?Ddv7dEC/C35zC84LlQ4s6t7lRVzLcjGH6U7cbqjLBpURrxf4ebA9SMbXt5aN?=
- =?us-ascii?Q?sK8v4jTjEP9dgqFs4JNmi539O2JzrcF2hsqT5AIq/8fyRoH6BTWCArmhgs1O?=
- =?us-ascii?Q?eDO9BCD5s7l3cv65wHbMEcqFCzkI0GJTLTF+o7EI7tcrQh3WbPAgdjvmvdAl?=
- =?us-ascii?Q?s4Vkl9IhCb36shAsSnTPLFpLvtuzUTDmPvTm8IJIdv2m28m1YhVMDciGpp60?=
- =?us-ascii?Q?jM7VRTsEbybu39J/fpkYMCer5HeEbRCI5+jL8mecUstIzy1IpfeHgCxqO/b+?=
- =?us-ascii?Q?0B4AkxAW35H9y+7lgaJ/7TMrkSYJHB4I1PquzajUilI3OlAHmpmnmCwA2kc4?=
- =?us-ascii?Q?DG4+0ojaC1GL4p05rv9e0uRsDu2a77ZdkM4z7ri1QsoT64xZE9moZCH+ezKE?=
- =?us-ascii?Q?FAAavPVfRQDDVHvAjf/vbBj6lXJqduPkPYnTA3MFleS+Wtf8N+0S4f6l5H/I?=
- =?us-ascii?Q?joXVGlWLGvdwy0trynYQtylMeMB7MY3gxBEqMzkoXOK5rRPXIqriJrW6xcND?=
- =?us-ascii?Q?FBN5lyVncmZ/SixJ/dD3WQPkKb0hnjc1uOea9M/DMDFsyYybp2gUy76+Lk4W?=
- =?us-ascii?Q?Ww=3D=3D?=
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2ecd6be-7308-4a18-e2eb-08dcba981f5c
-X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2024 06:29:30.4611
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vDAXNhe058SEoIlARkU7Fc5hsG2gadU21D2Z0xVUbsiVU3Vmn9Un/zjsNQzlYjLdkvEX/yfrWtC4yvZ6JX1718yAIgrvTd9AWFPMWnRuH3Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1820
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] mtd: rawnand: nuvoton: add new driver for the Nuvoton
+ MA35 SoC
+To: Hui-Ping Chen <hpchen0nvt@gmail.com>, miquel.raynal@bootlin.com,
+ richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ esben@geanix.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240812030045.20831-1-hpchen0nvt@gmail.com>
+ <20240812030045.20831-3-hpchen0nvt@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240812030045.20831-3-hpchen0nvt@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add support for the YUV422P, NV16, NV61, YUV422M, NV16M,
-NV61M raw pixel-formats to the Wave5 encoder.
+On 12/08/2024 05:00, Hui-Ping Chen wrote:
+> Nuvoton MA35 SoCs NAND Flash Interface Controller
+> supports 2KB, 4KB and 8KB page size, and up to 8-bit,
+> 12-bit, and 24-bit hardware ECC calculation circuit
+> to protect data communication.
+> 
+> Signed-off-by: Hui-Ping Chen <hpchen0nvt@gmail.com>
+> ---
+>  drivers/mtd/nand/raw/Kconfig               |    8 +
+>  drivers/mtd/nand/raw/Makefile              |    1 +
+>  drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c | 1109 ++++++++++++++++++++
+>  3 files changed, 1118 insertions(+)
+>  create mode 100644 drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c
+> 
+> diff --git a/drivers/mtd/nand/raw/Kconfig b/drivers/mtd/nand/raw/Kconfig
+> index 614257308516..932bf2215470 100644
+> --- a/drivers/mtd/nand/raw/Kconfig
+> +++ b/drivers/mtd/nand/raw/Kconfig
+> @@ -448,6 +448,14 @@ config MTD_NAND_RENESAS
+>  	  Enables support for the NAND controller found on Renesas R-Car
+>  	  Gen3 and RZ/N1 SoC families.
+>  
+> +config MTD_NAND_NVT_MA35
+> +	tristate "Nuvoton MA35 SoC NAND controller"
+> +	depends on ARCH_MA35 || COMPILE_TEST
+> +	depends on OF
+> +	help
+> +	  Enables support for the NAND controller found on
+> +	  the Nuvoton MA35 series SoCs.
+> +
+>  comment "Misc"
+>  
+>  config MTD_SM_COMMON
+> diff --git a/drivers/mtd/nand/raw/Makefile b/drivers/mtd/nand/raw/Makefile
+> index 25120a4afada..cdfdfee3f5f3 100644
+> --- a/drivers/mtd/nand/raw/Makefile
+> +++ b/drivers/mtd/nand/raw/Makefile
+> @@ -57,6 +57,7 @@ obj-$(CONFIG_MTD_NAND_INTEL_LGM)	+= intel-nand-controller.o
+>  obj-$(CONFIG_MTD_NAND_ROCKCHIP)		+= rockchip-nand-controller.o
+>  obj-$(CONFIG_MTD_NAND_PL35X)		+= pl35x-nand-controller.o
+>  obj-$(CONFIG_MTD_NAND_RENESAS)		+= renesas-nand-controller.o
+> +obj-$(CONFIG_MTD_NAND_NVT_MA35)	+= nuvoton_ma35d1_nand.o
+>  
+>  nand-objs := nand_base.o nand_legacy.o nand_bbt.o nand_timings.o nand_ids.o
+>  nand-objs += nand_onfi.o
+> diff --git a/drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c b/drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c
+> new file mode 100644
+> index 000000000000..7445eb489c38
+> --- /dev/null
+> +++ b/drivers/mtd/nand/raw/nuvoton_ma35d1_nand.c
+> @@ -0,0 +1,1109 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2024 Nuvoton Technology Corp.
+> + */
+> +#include <linux/slab.h>
+> +#include <linux/init.h>
+> +#include <linux/module.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/delay.h>
+> +#include <linux/clk.h>
+> +#include <linux/err.h>
+> +#include <linux/of.h>
+> +
+> +#include <linux/mtd/mtd.h>
+> +#include <linux/mtd/partitions.h>
+> +#include <linux/mtd/rawnand.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/dmaengine.h>
+> +
+> +/* NFI DMA Registers */
+> +#define MA35_NFI_REG_BUFFER0		(0x000)
+> +#define MA35_NFI_REG_DMACTL		(0x400)
+> +#define   DMA_EN				BIT(0)
+> +#define   DMA_RST				BIT(1)
+> +#define   DMA_BUSY				BIT(9)
+> +
+> +#define MA35_NFI_REG_DMASA		(0x408)
+> +#define MA35_NFI_REG_DMABCNT		(0x40C)
+> +#define MA35_NFI_REG_DMAINTEN		(0x410)
+> +#define MA35_NFI_REG_DMAINTSTS	(0x414)
+> +
+> +/* NFI Global Registers */
+> +#define MA35_NFI_REG_GCTL		(0x800)
+> +#define   NAND_EN				BIT(3)
+> +#define MA35_NFI_REG_GINTEN		(0x804)
+> +#define MA35_NFI_REG_GINTSTS		(0x808)
+> +
+> +/* NAND-type Flash Registers */
+> +#define MA35_NFI_REG_NANDCTL		(0x8A0)
+> +#define   SWRST				BIT(0)
+> +#define   DMA_W_EN				BIT(1)
+> +#define   DMA_R_EN				BIT(2)
+> +#define   ECC_CHK				BIT(7)
+> +#define   PROT3BEN				BIT(8)
+> +#define   PSIZE_2K				(1 << 16)
+> +#define   PSIZE_4K				(2 << 16)
+> +#define   PSIZE_8K				(3 << 16)
+> +#define   PSIZE_MASK				(3 << 16)
+> +#define   BCH_T24				BIT(18)
+> +#define   BCH_T8				BIT(20)
+> +#define   BCH_T12				BIT(21)
+> +#define   BCH_MASK				(0x1f << 18)
+> +#define   ECC_EN				BIT(23)
+> +#define   DISABLE_CS0				BIT(25)
+> +
+> +#define MA35_NFI_REG_NANDTMCTL	(0x8A4)
+> +#define MA35_NFI_REG_NANDINTEN	(0x8A8)
+> +#define MA35_NFI_REG_NANDINTSTS	(0x8AC)
+> +#define   INT_DMA				BIT(0)
+> +#define   INT_ECC				BIT(2)
+> +#define   INT_RB0				BIT(10)
+> +#define   INT_RB0_STS				BIT(18)
+> +
+> +#define MA35_NFI_REG_NANDCMD		(0x8B0)
+> +#define MA35_NFI_REG_NANDADDR		(0x8B4)
+> +#define   ENDADDR				BIT(31)
+> +
+> +#define MA35_NFI_REG_NANDDATA		(0x8B8)
+> +#define MA35_NFI_REG_NANDRACTL	(0x8BC)
+> +#define MA35_NFI_REG_NANDECTL		(0x8C0)
+> +#define   ENABLE_WP				(0x0)
+> +#define   DISABLE_WP				BIT(0)
+> +
+> +#define MA35_NFI_REG_NANDECCES0	(0x8D0)
+> +#define   ECC_STATUS_MASK			(0x3)
+> +#define   ECC_ERR_CNT_MASK			(0x1f)
+> +
+> +#define MA35_NFI_REG_NANDECCES1	(0x8D4)
+> +#define MA35_NFI_REG_NANDECCES2	(0x8D8)
+> +#define MA35_NFI_REG_NANDECCES3	(0x8DC)
+> +
+> +/* NAND-type Flash BCH Error Address Registers */
+> +#define MA35_NFI_REG_NANDECCEA0	(0x900)
+> +#define MA35_NFI_REG_NANDECCEA1	(0x904)
+> +#define MA35_NFI_REG_NANDECCEA2	(0x908)
+> +#define MA35_NFI_REG_NANDECCEA3	(0x90C)
+> +#define MA35_NFI_REG_NANDECCEA4	(0x910)
+> +#define MA35_NFI_REG_NANDECCEA5	(0x914)
+> +#define MA35_NFI_REG_NANDECCEA6	(0x918)
+> +#define MA35_NFI_REG_NANDECCEA7	(0x91C)
+> +#define MA35_NFI_REG_NANDECCEA8	(0x920)
+> +#define MA35_NFI_REG_NANDECCEA9	(0x924)
+> +#define MA35_NFI_REG_NANDECCEA10	(0x928)
+> +#define MA35_NFI_REG_NANDECCEA11	(0x92C)
+> +
+> +/* NAND-type Flash BCH Error Data Registers */
+> +#define MA35_NFI_REG_NANDECCED0	(0x960)
+> +#define MA35_NFI_REG_NANDECCED1	(0x964)
+> +#define MA35_NFI_REG_NANDECCED2	(0x968)
+> +#define MA35_NFI_REG_NANDECCED3	(0x96C)
+> +#define MA35_NFI_REG_NANDECCED4	(0x970)
+> +#define MA35_NFI_REG_NANDECCED5	(0x974)
+> +
+> +/* NAND-type Flash Redundant Area Registers */
+> +#define MA35_NFI_REG_NANDRA0		(0xA00)
+> +#define MA35_NFI_REG_NANDRA1		(0xA04)
+> +
+> +#define SKIP_SPARE_BYTES	4
+> +
+> +/* BCH algorithm related constants and variables */
+> +enum {
+> +	eBCH_NONE = 0,
+> +	eBCH_T8,
+> +	eBCH_T12,
+> +	eBCH_T24,
+> +	eBCH_CNT
+> +} E_BCHALGORITHM;
+> +
+> +static const int g_i32BCHAlgoIdx[eBCH_CNT] = {BCH_T8, BCH_T8, BCH_T12, BCH_T24};
+> +static struct nand_ecclayout_user ma35_nand_oob;
 
-All these formats have a chroma subsampling ratio of 4:2:2 and
-therefore require a new image size calculation as the driver
-previously only handled a ratio of 4:2:0.
+Why this is file-scope?
 
-Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- .../chips-media/wave5/wave5-vpu-enc.c         | 89 +++++++++++++++----
- 1 file changed, 74 insertions(+), 15 deletions(-)
+> +static const int g_i32ParityNum[3][eBCH_CNT] = {
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index ef9aa1562346..4e1c8a4e7272 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -66,6 +66,30 @@ static const struct vpu_format enc_fmt_list[FMT_TYPES][MAX_FMTS] = {
- 			.v4l2_pix_fmt = V4L2_PIX_FMT_NV21M,
- 			.v4l2_frmsize = &enc_frmsize[VPU_FMT_TYPE_RAW],
- 		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_YUV422P,
-+			.v4l2_frmsize = &enc_frmsize[VPU_FMT_TYPE_RAW],
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV16,
-+			.v4l2_frmsize = &enc_frmsize[VPU_FMT_TYPE_RAW],
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV61,
-+			.v4l2_frmsize = &enc_frmsize[VPU_FMT_TYPE_RAW],
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_YUV422M,
-+			.v4l2_frmsize = &enc_frmsize[VPU_FMT_TYPE_RAW],
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV16M,
-+			.v4l2_frmsize = &enc_frmsize[VPU_FMT_TYPE_RAW],
-+		},
-+		{
-+			.v4l2_pix_fmt = V4L2_PIX_FMT_NV61M,
-+			.v4l2_frmsize = &enc_frmsize[VPU_FMT_TYPE_RAW],
-+		},
- 	}
- };
- 
-@@ -109,13 +133,26 @@ static int start_encode(struct vpu_instance *inst, u32 *fail_res)
- 	struct vb2_v4l2_buffer *dst_buf;
- 	struct frame_buffer frame_buf;
- 	struct enc_param pic_param;
--	u32 stride = ALIGN(inst->dst_fmt.width, 32);
--	u32 luma_size = (stride * inst->dst_fmt.height);
--	u32 chroma_size = ((stride / 2) * (inst->dst_fmt.height / 2));
-+	const struct v4l2_format_info *info;
-+	u32 stride = inst->src_fmt.plane_fmt[0].bytesperline;
-+	u32 luma_size = 0;
-+	u32 chroma_size = 0;
- 
- 	memset(&pic_param, 0, sizeof(struct enc_param));
- 	memset(&frame_buf, 0, sizeof(struct frame_buffer));
- 
-+	info = v4l2_format_info(inst->src_fmt.pixelformat);
-+	if (!info)
-+		return -EINVAL;
-+
-+	if (info->mem_planes == 1) {
-+		luma_size = stride * inst->dst_fmt.height;
-+		chroma_size = luma_size / (info->hdiv * info->vdiv);
-+	} else {
-+		luma_size = inst->src_fmt.plane_fmt[0].sizeimage;
-+		chroma_size = inst->src_fmt.plane_fmt[1].sizeimage;
-+	}
-+
- 	dst_buf = v4l2_m2m_next_dst_buf(m2m_ctx);
- 	if (!dst_buf) {
- 		dev_dbg(inst->dev->dev, "%s: No destination buffer found\n", __func__);
-@@ -480,6 +517,7 @@ static int wave5_vpu_enc_s_fmt_out(struct file *file, void *fh, struct v4l2_form
- {
- 	struct vpu_instance *inst = wave5_to_vpu_inst(fh);
- 	const struct vpu_format *vpu_fmt;
-+	const struct v4l2_format_info *info;
- 	int i, ret;
- 
- 	dev_dbg(inst->dev->dev, "%s: fourcc: %u width: %u height: %u num_planes: %u field: %u\n",
-@@ -501,16 +539,20 @@ static int wave5_vpu_enc_s_fmt_out(struct file *file, void *fh, struct v4l2_form
- 		inst->src_fmt.plane_fmt[i].sizeimage = f->fmt.pix_mp.plane_fmt[i].sizeimage;
- 	}
- 
--	if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12 ||
--	    inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV12M) {
--		inst->cbcr_interleave = true;
--		inst->nv21 = false;
--	} else if (inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21 ||
--		   inst->src_fmt.pixelformat == V4L2_PIX_FMT_NV21M) {
--		inst->cbcr_interleave = true;
-+	info = v4l2_format_info(inst->src_fmt.pixelformat);
-+	if (!info)
-+		return -EINVAL;
-+
-+	inst->cbcr_interleave = (info->comp_planes == 2) ? true : false;
-+
-+	switch (inst->src_fmt.pixelformat) {
-+	case V4L2_PIX_FMT_NV21:
-+	case V4L2_PIX_FMT_NV21M:
-+	case V4L2_PIX_FMT_NV61:
-+	case V4L2_PIX_FMT_NV61M:
- 		inst->nv21 = true;
--	} else {
--		inst->cbcr_interleave = false;
-+		break;
-+	default:
- 		inst->nv21 = false;
- 	}
- 
-@@ -1095,13 +1137,23 @@ static void wave5_vpu_enc_buf_queue(struct vb2_buffer *vb)
- 	v4l2_m2m_buf_queue(m2m_ctx, vbuf);
- }
- 
--static void wave5_set_enc_openparam(struct enc_open_param *open_param,
--				    struct vpu_instance *inst)
-+static int wave5_set_enc_openparam(struct enc_open_param *open_param,
-+				   struct vpu_instance *inst)
- {
- 	struct enc_wave_param input = inst->enc_param;
-+	const struct v4l2_format_info *info;
- 	u32 num_ctu_row = ALIGN(inst->dst_fmt.height, 64) / 64;
- 	u32 num_mb_row = ALIGN(inst->dst_fmt.height, 16) / 16;
- 
-+	info = v4l2_format_info(inst->src_fmt.pixelformat);
-+	if (!info)
-+		return -EINVAL;
-+
-+	if (info->hdiv == 2 && info->vdiv == 1)
-+		open_param->src_format = FORMAT_422;
-+	else
-+		open_param->src_format = FORMAT_420;
-+
- 	open_param->wave_param.gop_preset_idx = PRESET_IDX_IPP_SINGLE;
- 	open_param->wave_param.hvs_qp_scale = 2;
- 	open_param->wave_param.hvs_max_delta_qp = 10;
-@@ -1190,6 +1242,8 @@ static void wave5_set_enc_openparam(struct enc_open_param *open_param,
- 			open_param->wave_param.intra_refresh_arg = num_ctu_row;
- 	}
- 	open_param->wave_param.forced_idr_header_enable = input.forced_idr_header_enable;
-+
-+	return 0;
- }
- 
- static int initialize_sequence(struct vpu_instance *inst)
-@@ -1285,7 +1339,12 @@ static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count
- 
- 		memset(&open_param, 0, sizeof(struct enc_open_param));
- 
--		wave5_set_enc_openparam(&open_param, inst);
-+		ret = wave5_set_enc_openparam(&open_param, inst);
-+		if (ret) {
-+			dev_dbg(inst->dev->dev, "%s: wave5_set_enc_openparam, fail: %d\n",
-+				__func__, ret);
-+			goto return_buffers;
-+		}
- 
- 		ret = wave5_vpu_enc_open(inst, &open_param);
- 		if (ret) {
--- 
-2.43.0
+
+This is not a Linux coding style. Do not send Windows or some other
+platform-independent patches to review.
+
+
+> +	{0,  60,  92,  90},  /* for 2K */
+> +	{0, 120, 184, 180},  /* for 4K */
+> +	{0, 240, 368, 360},  /* for 8K */
+> +};
+> +
+> +
+> +struct ma35_nand_info {
+> +	struct nand_controller controller;
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	int irq;
+> +	struct clk *clk;
+> +	struct completion complete;
+> +
+> +	struct mtd_info mtd;
+> +	struct nand_chip chip;
+> +	struct mtd_partition *parts;
+> +	int nr_parts;
+> +
+> +	int eBCHAlgo;
+
+No, use Linux coding style.
+
+> +	u8 *dma_buf;
+> +	spinlock_t dma_lock;
+> +	dma_addr_t dma_addr;
+> +};
+> +
+> +static int ma35_ooblayout_ecc(struct mtd_info *mtd, int section,
+> +			      struct mtd_oob_region *oobregion)
+> +{
+> +	struct nand_chip *chip = mtd_to_nand(mtd);
+> +	struct nand_ecc_ctrl *ecc = &chip->ecc;
+> +
+> +	if (section || !ecc->total)
+> +		return -ERANGE;
+> +
+> +	oobregion->length = ecc->total;
+> +	oobregion->offset = mtd->oobsize - oobregion->length;
+> +
+> +	return 0;
+> +}
+
+... this code looks poor, really poor.
+
+> +}
+> +
+> +static int ma35_nfi_correct(struct nand_chip *chip, unsigned long addr)
+> +{
+> +	struct ma35_nand_info *nand = nand_get_controller_data(chip);
+> +	struct mtd_info *mtd = nand_to_mtd(chip);
+> +	int uStatus, i, j, i32FieldNum = 0;
+> +	int uReportErrCnt = 0;
+> +	int uErrorCnt = 0;
+> +
+
+More of weird coding style. Use Linux coding style. Patch is for Linux.
+
+> +	if ((readl(nand->regs + MA35_NFI_REG_NANDCTL) & BCH_MASK) == BCH_T24)
+> +		i32FieldNum = mtd->writesize / 1024;
+> +	else
+> +		i32FieldNum = mtd->writesize / 512;
+
+
+...
+
+> +static int ma35_nand_probe(struct platform_device *pdev)
+> +{
+> +	struct ma35_nand_info *nand;
+> +	struct nand_chip *chip;
+> +	struct mtd_info *mtd;
+> +	int retval = 0;
+> +
+> +	nand = devm_kzalloc(&pdev->dev, sizeof(struct ma35_nand_info), GFP_KERNEL);
+
+sizeof(*)
+
+> +	if (!nand)
+> +		return -ENOMEM;
+> +
+> +	nand_controller_init(&nand->controller);
+> +
+> +	nand->regs = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(nand->regs))
+> +		return PTR_ERR(nand->regs);
+> +
+> +	nand->dev = &pdev->dev;
+> +	chip = &nand->chip;
+> +	mtd = nand_to_mtd(chip);
+> +	nand_set_controller_data(chip, nand);
+> +	nand_set_flash_node(chip, pdev->dev.of_node);
+> +
+> +	mtd->priv = chip;
+> +	mtd->owner = THIS_MODULE;
+> +	mtd->dev.parent = &pdev->dev;
+> +
+> +	nand->clk = of_clk_get(pdev->dev.of_node, 0);
+
+No, no. That's not how you get a clock. Use devm_clk_get().
+
+> +	if (IS_ERR(nand->clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(nand->clk),
+> +				     "failed to find nand clock\n");
+> +
+> +	retval = clk_prepare_enable(nand->clk);
+> +	if (retval < 0) {
+> +		dev_err(&pdev->dev, "Failed to enable clock\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	nand->chip.controller    = &nand->controller;
+> +
+> +	chip->legacy.cmdfunc     = ma35_nand_command;
+> +	chip->legacy.waitfunc    = ma35_waitfunc;
+> +	chip->legacy.read_byte   = ma35_nand_read_byte;
+> +	chip->legacy.select_chip = ma35_nand_select_chip;
+> +	chip->legacy.read_buf    = ma35_read_buf_dma;
+> +	chip->legacy.write_buf   = ma35_write_buf_dma;
+> +	chip->legacy.dev_ready   = ma35_nand_devready;
+> +	chip->legacy.chip_delay  = 25; /* us */
+> +
+> +	/* Read OOB data first, then HW read page */
+> +	chip->ecc.hwctl      = ma35_nand_enable_hwecc;
+> +	chip->ecc.calculate  = ma35_nand_calculate_ecc;
+> +	chip->ecc.correct    = ma35_nand_correct_data;
+> +	chip->ecc.write_page = ma35_nand_write_page_hwecc;
+> +	chip->ecc.read_page  = ma35_nand_read_page_hwecc_oob_first;
+> +	chip->ecc.read_oob   = ma35_nand_read_oob_hwecc;
+> +	chip->options |= (NAND_NO_SUBPAGE_WRITE | NAND_USES_DMA);
+> +
+> +	ma35_nand_initialize(nand);
+> +	platform_set_drvdata(pdev, nand);
+> +
+> +	nand->controller.ops = &ma35_nand_controller_ops;
+> +
+> +	nand->irq = platform_get_irq(pdev, 0);
+> +	if (nand->irq < 0) {
+> +		dev_err(&pdev->dev, "failed to get platform irq\n");
+
+Syntax is return dev_err_probe
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (request_irq(nand->irq, (irq_handler_t)&ma35_nand_irq,
+> +			IRQF_TRIGGER_HIGH, "ma35d1-nand", nand)) {
+> +		dev_err(&pdev->dev, "Error requesting NAND IRQ\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	retval = nand_scan(chip, 1);
+> +	if (retval)
+> +		return retval;
+> +
+> +	if (mtd_device_register(mtd, nand->parts, nand->nr_parts)) {
+> +		nand_cleanup(chip);
+> +		devm_kfree(&pdev->dev, nand);
+> +		return retval;
+> +	}
+> +
+> +	pr_info("ma35-nfi: registered successfully! mtdid=%s\n", mtd->name);
+
+Drop, does not help.
+
+Drivers do not use pr_xxx anyway. Why your code is so inconsistent? It's
+like random junk glued together.
+
+> +
+> +	return retval;
+> +}
+> +
+> +static void ma35_nand_remove(struct platform_device *pdev)
+> +{
+> +	struct ma35_nand_info *nand = platform_get_drvdata(pdev);
+> +	struct nand_chip *chip = &nand->chip;
+> +	int ret;
+> +
+> +	ret = mtd_device_unregister(nand_to_mtd(chip));
+> +	WARN_ON(ret);
+> +	nand_cleanup(chip);
+> +
+> +	clk_disable_unprepare(nand->clk);
+> +
+> +	kfree(nand);
+> +	platform_set_drvdata(pdev, NULL);
+> +}
+> +
+> +/* PM Support */
+> +#ifdef CONFIG_PM
+> +static int ma35_nand_suspend(struct platform_device *pdev, pm_message_t pm)
+> +{
+> +	struct ma35_nand_info *nand = platform_get_drvdata(pdev);
+> +	unsigned long timeo = jiffies + HZ/2;
+> +
+> +	/* wait DMAC to ready */
+> +	while (1) {
+> +		if ((readl(nand->regs + MA35_NFI_REG_DMACTL) & DMA_BUSY) == 0)
+> +			break;
+> +		if (time_after(jiffies, timeo))
+> +			return -ETIMEDOUT;
+> +	}
+> +
+> +	clk_disable(nand->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ma35_nand_resume(struct platform_device *pdev)
+> +{
+> +	struct ma35_nand_info *nand = platform_get_drvdata(pdev);
+> +
+> +	clk_enable(nand->clk);
+> +	ma35_nand_hwecc_init(nand);
+> +	ma35_nand_dmac_init(nand);
+> +
+> +	return 0;
+> +}
+> +
+> +#else
+> +#define ma35_nand_suspend NULL
+> +#define ma35_nand_resume NULL
+> +#endif
+> +
+> +static const struct of_device_id ma35_nfi_of_match[] = {
+> +	{ .compatible = "nuvoton,ma35d1-nand" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, ma35_nfi_of_match);
+> +
+> +static struct platform_driver ma35_nand_driver = {
+> +		.driver = {
+> +		.name   = "ma35d1-nand",
+> +		.owner  = THIS_MODULE,
+> +		.of_match_table = of_match_ptr(ma35_nfi_of_match),
+
+Drop of_match_ptr. You have warnings here.
+
+> +		},
+> +		.probe = ma35_nand_probe,
+> +		.remove_new = ma35_nand_remove,
+> +		.suspend = ma35_nand_suspend,
+> +		.resume = ma35_nand_resume,
+> +};
+> +
+> +static int __init ma35_nand_init(void)
+> +{
+> +	int ret;
+> +
+> +	pr_info("ma35 mtd nand driver\n");
+
+NAK, drop, useless and really pointless.
+
+> +
+> +	ret = platform_driver_register(&ma35_nand_driver);
+> +	if (ret) {
+> +		pr_warn("nand: failed to add device driver %s\n",
+> +			ma35_nand_driver.driver.name);
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static void __exit ma35_nand_exit(void)
+> +{
+> +	platform_driver_unregister(&ma35_nand_driver);
+> +	pr_info("nand: unregistered successfully!\n");
+
+NAK, drop, useless and really pointless.
+
+> +}
+> +
+> +module_init(ma35_nand_init);
+> +module_exit(ma35_nand_exit);
+
+Do not open-code these functions, there are wrappers for this.
+
+> +
+> +MODULE_DESCRIPTION("Nuvoton ma35 NAND driver");
+> +MODULE_AUTHOR("Hui-Ping Chen <hpchen0nvt@gmail.com>");
+> +MODULE_LICENSE("GPL");
+
+Best regards,
+Krzysztof
 
 
