@@ -1,156 +1,222 @@
-Return-Path: <linux-media+bounces-16105-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16106-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3134094E734
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 08:53:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 188FB94E761
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:05:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E48D828333A
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 06:53:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DD331F21153
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 07:05:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DC1415351C;
-	Mon, 12 Aug 2024 06:53:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E700B146D69;
+	Mon, 12 Aug 2024 07:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nbb8pBVZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B2E14E2C5;
-	Mon, 12 Aug 2024 06:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0E814A4E0;
+	Mon, 12 Aug 2024 07:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723445586; cv=none; b=J3t5W+DfNhIRS5s5EzYWB692iUqmXfBVHcgOkKyetFKcp7FY3/eGV9XylShv2fI9PYMEhjpLclTbwLtiiwV5i726/3ymVIvjFKGW4Y0IT9Wc+HRM2mNb3vHFzKa+ciXMKuUmR8Ui4gq/t/9FHqDIaf7rm+PVPrywodzcWarJF68=
+	t=1723446341; cv=none; b=u2w5G9z0TEY51T2nfvPTxLXwX046raOLVt34iXl/9rwCPlTBXNyhoeWNfF2PuvrTXo9jEsKC6upr849Sbx5mf4vKkhE8FSuBAJThN6lry2ytJ2+wEqVzbM3oHpyy/a8JF9y+Fu4ggY/M/kadsrk6cSCMpuAU+d1v9o5NvQfNEkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723445586; c=relaxed/simple;
-	bh=8S2+Hiocf6OFnAmTCfHhOwAah22o+Frgg0sVuxCoESI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U0aE0etTt2scej1uQ+csqSEd0Jm7UjwZFLyJunjy/Kj5Y0obeX4iDrl2730nAMYxHCEx8QyhVpCwR4is1LyDGiQDW74N6rfLFrnZtz2xqng0HS7mF4PjkRUJbBcEVk6Y4tmecTabr3bbKNEsZXA/Zk2r/SsZAgz06WQY1W7gqLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71CA2C32782;
-	Mon, 12 Aug 2024 06:53:05 +0000 (UTC)
-Message-ID: <e4f6f76a-0bad-4629-b438-a048ee683123@xs4all.nl>
-Date: Mon, 12 Aug 2024 08:53:03 +0200
+	s=arc-20240116; t=1723446341; c=relaxed/simple;
+	bh=WgsPJfKYoBM5/FyefGOup8BUMNN6EtYkaG2orI4v+0g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NOtnZHdJHmM3VGm3jj/sHZtq+57diheet2WjnkxBL0Fc8eE52ES0kDYIyfDMvrPbqKN/CvNej7lGGJFKgWzPn89jsCWwx8STe9YtDdKNRMmi+xnNTegldNZbZ7oUoowe2yUWc5v60fMpjcvU32rhpiY9hL/vnOtH2OkLeMw37TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nbb8pBVZ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723446340; x=1754982340;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=WgsPJfKYoBM5/FyefGOup8BUMNN6EtYkaG2orI4v+0g=;
+  b=Nbb8pBVZW9J0Ee5gOt3NJRv6nQxeRxbuhhl4Sf/IpjABUgV3rKtgEGe6
+   eraiSH28NT4GxAFvNx4cyVYxl7GB8Am6Bn5AnpQzv3k5yit0QHSmM9wR6
+   Khz8+ehX6wS6vSYjy9IDZkZU/7mFV7a6CkUzMraxq6MRYOYlO2FWlc9fL
+   C5SZD1H0lvohS1EpMFtxDIX+wHEVy8hWRSAggNxCE4+8Vb1QIy0EesFHH
+   5bcVOZTNLshdITrUsDEiNrYKNgeuzHopr9pfrl5B26u8I1fbDwm2sxjq3
+   OI7uVVnBe//pvHOw6FpjMVPQ6fPzFM246irCag0zXs3dw2tjw7RoCQcNe
+   A==;
+X-CSE-ConnectionGUID: xQ1EV03lSYOW0M3TNcY0kQ==
+X-CSE-MsgGUID: II4J99XJTRKnuOEAzrR2Sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21418132"
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="21418132"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 00:05:39 -0700
+X-CSE-ConnectionGUID: 3zszVuoKQvCqlgyJJaAXEg==
+X-CSE-MsgGUID: YJBYclSHTaKNj2MLGNZS/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
+   d="scan'208";a="58070034"
+Received: from allen-box.sh.intel.com ([10.239.159.127])
+  by orviesa010.jf.intel.com with ESMTP; 12 Aug 2024 00:05:33 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Russell King <linux@armlinux.org.uk>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: Yi Liu <yi.l.liu@intel.com>,
+	iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH 1/2] ARM: dma-mapping: Pass device to arm_iommu_create_mapping()
+Date: Mon, 12 Aug 2024 15:02:01 +0800
+Message-Id: <20240812070202.9366-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/4 RESEND] media: mgb4: YUV and variable framerate
- support
-To: tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-References: <20240805154054.8633-1-tumic@gpxsee.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20240805154054.8633-1-tumic@gpxsee.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Martin,
+From: Robin Murphy <robin.murphy@arm.com>
 
-Before I merge this series, I would like to see the v4l2-compliance output for
-each video device.
+All users of ARM IOMMU mappings create them for a particular device, so
+change the interface to accept the device rather than forcing a vague
+indirection through a bus type. This prepares for making a similar
+change to iommu_domain_alloc() itself.
 
-Can you reply with that output?
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+Link: https://lore.kernel.org/r/20240610085555.88197-17-baolu.lu@linux.intel.com
+---
+ arch/arm/include/asm/dma-iommu.h         | 2 +-
+ arch/arm/mm/dma-mapping.c                | 8 ++++----
+ drivers/gpu/drm/exynos/exynos_drm_dma.c  | 2 +-
+ drivers/iommu/ipmmu-vmsa.c               | 3 +--
+ drivers/iommu/mtk_iommu_v1.c             | 3 +--
+ drivers/media/platform/ti/omap3isp/isp.c | 2 +-
+ 6 files changed, 9 insertions(+), 11 deletions(-)
 
-I want to make sure that all the g/s_parm and dv_timings changes are correct
-according to v4l2-compliance. And of course, if it isn't, then please fix
-any reported issue and post a v7.
-
-Regards,
-
-	Hans
-
-On 05/08/2024 17:40, tumic@gpxsee.org wrote:
-> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
-> 
-> Recent mgb4 FW update added support for the YUV image format and variable
-> framerates independent of the signal framerate. The following patches extend
-> the mgb4 driver with support for both features.
-> 
-> Changes in V6:
-> - Properly handle the timings when no signal is present.
-> 
-> Changes in V5:
-> - Removed surplus v4l2_format.type checks.
-> - Improved the patch descriptions.
-> - Splitted the frame rate limit patch into separate code/documentation parts.
-> 
-> Changes in V4:
-> - Splitted the output frame_rate handling fix from the variable frame rate
->   addition patch.
-> 
-> Changes in V3:
-> - Use div_u64() for 64b division (fixes build error on ARM32)
-> 
-> Changes in V2:
-> - Added missing stride limit
-> 
-> Martin Tůma (4):
->   media: mgb4: Add support for YUV image formats
->   media: mgb4: Add support for V4L2_CAP_TIMEPERFRAME
->   media: mgb4: Fixed signal frame rate limit handling
->   media: admin-guide: mgb4: Outputs DV timings documentation update
-> 
->  Documentation/admin-guide/media/mgb4.rst |  23 +-
->  drivers/media/pci/mgb4/mgb4_core.c       |   2 +-
->  drivers/media/pci/mgb4/mgb4_core.h       |   2 +
->  drivers/media/pci/mgb4/mgb4_io.h         |  29 ++-
->  drivers/media/pci/mgb4/mgb4_sysfs_out.c  |   9 +-
->  drivers/media/pci/mgb4/mgb4_vin.c        | 193 +++++++++++---
->  drivers/media/pci/mgb4/mgb4_vin.h        |   3 +-
->  drivers/media/pci/mgb4/mgb4_vout.c       | 309 ++++++++++++++++++++---
->  drivers/media/pci/mgb4/mgb4_vout.h       |   5 +-
->  9 files changed, 482 insertions(+), 93 deletions(-)
-> 
-> 
-> base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+diff --git a/arch/arm/include/asm/dma-iommu.h b/arch/arm/include/asm/dma-iommu.h
+index 82ec1ccf1fee..2ce4c5683e6d 100644
+--- a/arch/arm/include/asm/dma-iommu.h
++++ b/arch/arm/include/asm/dma-iommu.h
+@@ -24,7 +24,7 @@ struct dma_iommu_mapping {
+ };
+ 
+ struct dma_iommu_mapping *
+-arm_iommu_create_mapping(const struct bus_type *bus, dma_addr_t base, u64 size);
++arm_iommu_create_mapping(struct device *dev, dma_addr_t base, u64 size);
+ 
+ void arm_iommu_release_mapping(struct dma_iommu_mapping *mapping);
+ 
+diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+index 5adf1769eee4..52f9c56cc3cb 100644
+--- a/arch/arm/mm/dma-mapping.c
++++ b/arch/arm/mm/dma-mapping.c
+@@ -1532,7 +1532,7 @@ static const struct dma_map_ops iommu_ops = {
+ 
+ /**
+  * arm_iommu_create_mapping
+- * @bus: pointer to the bus holding the client device (for IOMMU calls)
++ * @dev: pointer to the client device (for IOMMU calls)
+  * @base: start address of the valid IO address space
+  * @size: maximum size of the valid IO address space
+  *
+@@ -1544,7 +1544,7 @@ static const struct dma_map_ops iommu_ops = {
+  * arm_iommu_attach_device function.
+  */
+ struct dma_iommu_mapping *
+-arm_iommu_create_mapping(const struct bus_type *bus, dma_addr_t base, u64 size)
++arm_iommu_create_mapping(struct device *dev, dma_addr_t base, u64 size)
+ {
+ 	unsigned int bits = size >> PAGE_SHIFT;
+ 	unsigned int bitmap_size = BITS_TO_LONGS(bits) * sizeof(long);
+@@ -1585,7 +1585,7 @@ arm_iommu_create_mapping(const struct bus_type *bus, dma_addr_t base, u64 size)
+ 
+ 	spin_lock_init(&mapping->lock);
+ 
+-	mapping->domain = iommu_domain_alloc(bus);
++	mapping->domain = iommu_domain_alloc(dev->bus);
+ 	if (!mapping->domain)
+ 		goto err4;
+ 
+@@ -1718,7 +1718,7 @@ static void arm_setup_iommu_dma_ops(struct device *dev)
+ 		dma_base = dma_range_map_min(dev->dma_range_map);
+ 		size = dma_range_map_max(dev->dma_range_map) - dma_base;
+ 	}
+-	mapping = arm_iommu_create_mapping(dev->bus, dma_base, size);
++	mapping = arm_iommu_create_mapping(dev, dma_base, size);
+ 	if (IS_ERR(mapping)) {
+ 		pr_warn("Failed to create %llu-byte IOMMU mapping for device %s\n",
+ 				size, dev_name(dev));
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+index e2c7373f20c6..6a6761935224 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+@@ -110,7 +110,7 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
+ 		void *mapping = NULL;
+ 
+ 		if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
+-			mapping = arm_iommu_create_mapping(&platform_bus_type,
++			mapping = arm_iommu_create_mapping(dev,
+ 				EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
+ 		else if (IS_ENABLED(CONFIG_IOMMU_DMA))
+ 			mapping = iommu_get_domain_for_dev(priv->dma_dev);
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index b657cc09605f..ff55b8c30712 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -804,8 +804,7 @@ static int ipmmu_init_arm_mapping(struct device *dev)
+ 	if (!mmu->mapping) {
+ 		struct dma_iommu_mapping *mapping;
+ 
+-		mapping = arm_iommu_create_mapping(&platform_bus_type,
+-						   SZ_1G, SZ_2G);
++		mapping = arm_iommu_create_mapping(dev, SZ_1G, SZ_2G);
+ 		if (IS_ERR(mapping)) {
+ 			dev_err(mmu->dev, "failed to create ARM IOMMU mapping\n");
+ 			ret = PTR_ERR(mapping);
+diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+index c6ea5b4baff3..ee4e55b6b190 100644
+--- a/drivers/iommu/mtk_iommu_v1.c
++++ b/drivers/iommu/mtk_iommu_v1.c
+@@ -433,8 +433,7 @@ static int mtk_iommu_v1_create_mapping(struct device *dev,
+ 	mtk_mapping = data->mapping;
+ 	if (!mtk_mapping) {
+ 		/* MTK iommu support 4GB iova address space. */
+-		mtk_mapping = arm_iommu_create_mapping(&platform_bus_type,
+-						0, 1ULL << 32);
++		mtk_mapping = arm_iommu_create_mapping(dev, 0, 1ULL << 32);
+ 		if (IS_ERR(mtk_mapping))
+ 			return PTR_ERR(mtk_mapping);
+ 
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index 1cda23244c7b..91101ba88ef0 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -1965,7 +1965,7 @@ static int isp_attach_iommu(struct isp_device *isp)
+ 	 * Create the ARM mapping, used by the ARM DMA mapping core to allocate
+ 	 * VAs. This will allocate a corresponding IOMMU domain.
+ 	 */
+-	mapping = arm_iommu_create_mapping(&platform_bus_type, SZ_1G, SZ_2G);
++	mapping = arm_iommu_create_mapping(isp->dev, SZ_1G, SZ_2G);
+ 	if (IS_ERR(mapping)) {
+ 		dev_err(isp->dev, "failed to create ARM IOMMU mapping\n");
+ 		return PTR_ERR(mapping);
+-- 
+2.34.1
 
 
