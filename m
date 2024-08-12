@@ -1,62 +1,63 @@
-Return-Path: <linux-media+bounces-16117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB1794E7B0
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CA194E7B4
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EACAC1C219C7
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 07:24:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20AC01C21AEF
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 07:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B68DB15854C;
-	Mon, 12 Aug 2024 07:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46649165F0B;
+	Mon, 12 Aug 2024 07:24:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQtN6a5g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSL2YLOf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AA05FBB7;
-	Mon, 12 Aug 2024 07:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2033115B0E2;
+	Mon, 12 Aug 2024 07:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723447483; cv=none; b=WLu2EXvnMp3vUgQY4jIyHdJs0ASdk3cG5yP6DjtZca80UDqW1qsIYhSzuHKT8WY3yMEChVmD/H43ZpPGsdnORRxceaKIfvDr6bNBqgrE6UHUctlV/AJ2eq7t0WxOoPpGLCjbv73zQJQ9mtUz/L38f1APXm5HLz4lBFdO1JThzFw=
+	t=1723447485; cv=none; b=pmDwv/FtbfDfgiUe6N39RX1ZX5uWMMwOPxPPILrBMENtQ2LougQT0Dgt6cjpB9c8KtU3OTgQjRyk2nRD1AKw8pqUdOMOlHqj5Q7D5/7ey+TYoL5LnL+80ldx3PSe3hsuu3P8CvsvxHqxLCo0QeyXgT2Kjptc0FZgmwYOMXk2Gf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723447483; c=relaxed/simple;
-	bh=Nxe5+R4C9sbMphvd/xbGCajCmYTCQpi3ZSS8JEnsuAI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=URfjlvgEay4MMb8ixgrikkOJezlU4pFT9OS9KDIHMQtC2GIp/r2d0YoZOODO/SpvBo3YNmvrxIB2HwcFHDy96a1Ybbe+mIq2FhfBMK7JjBHl2L0xKinP3Y8noLA4j5Rqz6XJlttT6GgGB2jPHs9Lq16sZQJNKOc6j+6Lt7738j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQtN6a5g; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1723447485; c=relaxed/simple;
+	bh=M4WD08AFJfwxIMKP9dD+34UuQOtKj8NZVES++ZlP7r8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dNaAmHvY0vUxnH0PF+w8qg2UuDC5WGOA04lglx9sGjjgdkNNAcd29vvi37X5YibfPKpps3UXh/pdq8j3TqGsymqvuqLK/pUyYlJKgMmRtm+C3FVgnJRsUoI65nwx6ETisHFAqd7e14xaiacNeBhD10BNA/lg4AM6ylL/pvuBfmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSL2YLOf; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723447481; x=1754983481;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Nxe5+R4C9sbMphvd/xbGCajCmYTCQpi3ZSS8JEnsuAI=;
-  b=gQtN6a5gcUrvHH7hZV4xMNh2yYLEPzWIvBrWmsmmDWyeQM9CcI4oLNNh
-   EUy1Vx7Ynl4mcGtLt0hcBnq45aAaaI9NOfqAz9ap3DBNk9cmFRnuNFeAT
-   U8/iPWo3Ov43T0EfKHeO2102Ks/vcC42FaUf16ZzDfrMDqL3qq/mLaKtS
-   aMO56TF/hGN9l+Qww8vMHTxfWvhl/q5LGMTYDUvNxb9O6aSbojmfaqOz0
-   Ki+0WRQU01c4BF/nEBlFDQMijmVgRpOgSzqrFlESvVkwcFTe7lIadeHd8
-   I8aehE9yCZF1Qi8lcduxkThMCSsUWdQhSJLS/U0YcusO5mdKyhRyUhqXf
-   w==;
-X-CSE-ConnectionGUID: LN0ynw7LSgqGXUxaMPhq+A==
-X-CSE-MsgGUID: TcAFAWzeQ6qNo55VMf8sMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="32691580"
+  t=1723447484; x=1754983484;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=M4WD08AFJfwxIMKP9dD+34UuQOtKj8NZVES++ZlP7r8=;
+  b=DSL2YLOf62XpwOMeibz9FN1+mUA+53bL5Ap5tj05g5//CDdoOTMpIasf
+   yjJzrvgoFzKQAiLd25S+RNLi/NXtFIgbb8tm3JusfV6cAXsGgnoAppSWG
+   ozukNA7ZB9XJA9RPE8gaZ+sg1BVsw2vxce4YIhSaK3oSay3dQhlfV3E64
+   Bjf+JUU1aOU0sxLWfmRV2xW0tDzsoOiK79ikN0LIqeGTZPpFZSr1nWAB5
+   DfGBkbjUz6/lgTc9em1wHojNFTyTmzgi80mURZHmB/+dvARcofeGN43mX
+   /s9JKsOFfETw8y35d6gJ0JaX05C8VFNRUYxyraE6nt/6hg7QgUkBkX/nH
+   Q==;
+X-CSE-ConnectionGUID: 5Qff7fbeQP+Ax/aDxB1KSA==
+X-CSE-MsgGUID: ZHztckBBS/+LzC1BTAYCrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="32691592"
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="32691580"
+   d="scan'208";a="32691592"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 00:24:40 -0700
-X-CSE-ConnectionGUID: NDAypZJySrCq1DeB69dwKQ==
-X-CSE-MsgGUID: yqQutkRQTxKtBPosJ8D5Mg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 00:24:44 -0700
+X-CSE-ConnectionGUID: LhQxLe41QF2DxBJXFNM/Ww==
+X-CSE-MsgGUID: x1X5zubTSTiooV29cneh8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="62829617"
+   d="scan'208";a="62829623"
 Received: from allen-box.sh.intel.com ([10.239.159.127])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Aug 2024 00:24:35 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 12 Aug 2024 00:24:39 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Dmitry Osipenko <digetx@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -76,10 +77,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Lu Baolu <baolu.lu@linux.intel.com>,
 	Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH 1/2] media: nvidia: tegra: Use iommu_paging_domain_alloc()
-Date: Mon, 12 Aug 2024 15:21:04 +0800
-Message-Id: <20240812072105.9578-1-baolu.lu@linux.intel.com>
+Subject: [PATCH 2/2] media: venus: firmware: Use iommu_paging_domain_alloc()
+Date: Mon, 12 Aug 2024 15:21:05 +0800
+Message-Id: <20240812072105.9578-2-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240812072105.9578-1-baolu.lu@linux.intel.com>
+References: <20240812072105.9578-1-baolu.lu@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,32 +91,33 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An iommu domain is allocated in tegra_vde_iommu_init() and is attached to
-vde->dev. Use iommu_paging_domain_alloc() to make it explicit.
+An iommu domain is allocated in venus_firmware_init() and is attached to
+core->fw.dev in the same function. Use iommu_paging_domain_alloc() to
+make it explicit.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Link: https://lore.kernel.org/r/20240610085555.88197-9-baolu.lu@linux.intel.com
+Link: https://lore.kernel.org/r/20240610085555.88197-10-baolu.lu@linux.intel.com
 ---
- drivers/media/platform/nvidia/tegra-vde/iommu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/platform/qcom/venus/firmware.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/nvidia/tegra-vde/iommu.c b/drivers/media/platform/nvidia/tegra-vde/iommu.c
-index 5521ed3e465f..b1d9d841d944 100644
---- a/drivers/media/platform/nvidia/tegra-vde/iommu.c
-+++ b/drivers/media/platform/nvidia/tegra-vde/iommu.c
-@@ -78,9 +78,10 @@ int tegra_vde_iommu_init(struct tegra_vde *vde)
- 		arm_iommu_release_mapping(mapping);
- 	}
- #endif
--	vde->domain = iommu_domain_alloc(&platform_bus_type);
--	if (!vde->domain) {
--		err = -ENOMEM;
-+	vde->domain = iommu_paging_domain_alloc(dev);
-+	if (IS_ERR(vde->domain)) {
-+		err = PTR_ERR(vde->domain);
-+		vde->domain = NULL;
- 		goto put_group;
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index fe7da2b30482..66a18830e66d 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -316,10 +316,10 @@ int venus_firmware_init(struct venus_core *core)
+ 
+ 	core->fw.dev = &pdev->dev;
+ 
+-	iommu_dom = iommu_domain_alloc(&platform_bus_type);
+-	if (!iommu_dom) {
++	iommu_dom = iommu_paging_domain_alloc(core->fw.dev);
++	if (IS_ERR(iommu_dom)) {
+ 		dev_err(core->fw.dev, "Failed to allocate iommu domain\n");
+-		ret = -ENOMEM;
++		ret = PTR_ERR(iommu_dom);
+ 		goto err_unregister;
  	}
  
 -- 
