@@ -1,119 +1,127 @@
-Return-Path: <linux-media+bounces-16162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A0094FA23
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 01:06:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D27394FA82
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 01:57:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0880D2828C8
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 23:06:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE60AB21D38
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 23:57:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB8718C354;
-	Mon, 12 Aug 2024 23:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2F419AD7D;
+	Mon, 12 Aug 2024 23:57:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G1fEBUHd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yu7jc8ms"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FFD1487F9
-	for <linux-media@vger.kernel.org>; Mon, 12 Aug 2024 23:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DC91804F;
+	Mon, 12 Aug 2024 23:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723503979; cv=none; b=WN1V9hul5X1dM+QZxcYlduJUy+93pNJY5+jhyWI5kwGmYAnSj8BunkftmWzDq2nLrXLQQD14W6lkg0JLax0XFF7iSVxDuppBlbrLARuz2ggRGXZRuQpaYpUlzc+lhjooezHvacacllOeNElNRjWShNgpOUQEiNr6U2SJ+J7R2hY=
+	t=1723507032; cv=none; b=VXDGJ1080Bpq1HoMeJX0aDMLMvh2OEyrLEJPYi6G7+3onaI5edMxkDxIXu+Dl9umfkk9Pp3IeHdSEhpFJG/XteAxQhJ8yy77bl8jtnBuj0RMA3KfpbRO4HfGncf3wHnS1EYCavjkPG/4cw8lolTW6wPXlL3Wz7c8aZF6uyRGuQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723503979; c=relaxed/simple;
-	bh=j9ZKbAkYFfyZtEP745xegOpdtJC9TAFxGDeEdiULgs8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nbs38QZ3OXP67C3GRBl7B4Pzv8Dn+RGfm62csSbP420dKCDtVz00SkzFYvOlGVoZ8IqmI1brzVRWCyGot24puJpfUfNObACMIA0Vs1NYu6r3cgKWZynUTvVkn0OwzFrvDV0WUIiHXuaj91bFKrmsKXzFJrmY6Q+omMzqDQxhtEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=G1fEBUHd; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA6F045A;
-	Tue, 13 Aug 2024 01:05:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723503913;
-	bh=j9ZKbAkYFfyZtEP745xegOpdtJC9TAFxGDeEdiULgs8=;
-	h=Date:From:To:Cc:Subject:From;
-	b=G1fEBUHdBSOd6AKEEqRT/VhfitkQT7gpskw/O/pPETnRFL16HrQBA0ERIhZFDT3b2
-	 ATWeLk2GHVva9UvLdZj+SIZM5ysn9WmbfxN1bdTDQRIVaKrT4kGJyc8s4PEuFBbDVz
-	 3Nf75BLo6/lVqdc1LNuc0hZH7KKYUtpGsgYwqR+g=
-Date: Tue, 13 Aug 2024 02:05:45 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [GIT PULL FOR v6.12] rkisp1 extensible parameters format
-Message-ID: <20240812230545.GA2358@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1723507032; c=relaxed/simple;
+	bh=Jr9ZiAeKQT2m5eKlEJkFL1K/dVRLIXlbe8RR0cKjDv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XjNnPzye6aB/mJ1Dq+ppTkpeu4jB2DGvY7et1ZbsP2zXYk/8LibtFoCw9xWUf3OjOD6r40yGAB5JD4aWEyPjmwhqZwYBn/ya8+BsyILCKkbg8BV5nXp9pgoCKuxfG8OjrQBQ06JL3qhYuFnAcGOIKC3RbxCa5B7foEl7R9FYl8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yu7jc8ms; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2500C4AF0E;
+	Mon, 12 Aug 2024 23:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723507031;
+	bh=Jr9ZiAeKQT2m5eKlEJkFL1K/dVRLIXlbe8RR0cKjDv0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Yu7jc8msljkFCiQiwDF8/zfbezYJqanad92vT7bLx1dIuUShflvBssxWFPxEF/6Tn
+	 Y6qZR26h6davxDADewPqVrDbdDczF8Qcfmj7XUmuNBVgamCljt10Aq6S9lIkNZrlTC
+	 DI1MmuAnHiAfpgm3qDz7e1Bxg9pWMNEsq3xGTfFREDalBFadkOa+tffRzqkA0tT8uP
+	 fY9gXJLt3AIpZK7oFuq6X15n6MRFUxghZeDdZK64myodmq9N2bG7na/OJa4W3FBwc+
+	 VjF7d55qI3ua0l1zhG9f4oRBuranyt4ci5N38sYz5rLuG4RyFeUjSKg0qqpUAjLWuY
+	 q9MRn2l+gjx0g==
+Date: Mon, 12 Aug 2024 16:57:08 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
+ <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
+ Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
+ Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
+ <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
+ Klassert <steffen.klassert@secunet.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
+ Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
+ Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
+ Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
+ memory provider
+Message-ID: <20240812165708.33234ed6@kernel.org>
+In-Reply-To: <a6747b29-ed79-49d4-9ffe-b62074db1e09@gmail.com>
+References: <20240805212536.2172174-1-almasrymina@google.com>
+	<20240805212536.2172174-8-almasrymina@google.com>
+	<20240806135924.5bb65ec7@kernel.org>
+	<CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
+	<20240808192410.37a49724@kernel.org>
+	<CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
+	<fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
+	<20240809205236.77c959b0@kernel.org>
+	<CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
+	<48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
+	<20240812105732.5d2845e4@kernel.org>
+	<CAHS8izPb51gvEHGHeQwWTs4YmimLLamau1c4j=Z4KGM8ZJrx5g@mail.gmail.com>
+	<a6747b29-ed79-49d4-9ffe-b62074db1e09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Hans, Mauro,
+On Mon, 12 Aug 2024 20:10:39 +0100 Pavel Begunkov wrote:
+> > 1. Drivers need to be able to say "I support unreadable netmem".
+> > Failure to report unreadable netmem support should cause the netlink
+> > API to fail when the user tries to bind dmabuf/io uring memory.
+> > 
+> > 2. Drivers need to be able to say "I want a header pool (with readable
+> > netmem)" or "I want a data pool (potentially with unreadable netmem)".
+> > 
+> > Pavel is suggesting implementing both of these in 2 different flags.
+> > 
+> > Jakub is suggesting implementing both with 1 flag which says "I can
+> > support unreadable netmem for this pool" , and guarding against #1
+> > with a refcount check to detect if a dmabuf pool should have been
+> > created but wasn't.  
+> 
+> That would be iffy IIUC, but I think Jakub just explicitly said
+> that the refcount trick was just for debugging purposes and not
+> for gauging errors like "providers are not supported by the driver".
+> 
+> "Yup, the refcount (now: check of the page pool list) was meant
+> as a WARN_ONCE() to catch bad drivers."
 
-The following changes since commit c80bfa4f9e0ebfce6ac909488d412347acbcb4f9:
-
-  media: ti: cal: use 'time_left' variable with wait_event_timeout() (2024-08-09 07:56:39 +0200)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/next-media-rkisp1-20240813
-
-for you to fetch changes up to 32be6029c1c1e8c628077403b2096e9d9085f6c8:
-
-  media: rkisp1: Add support for the companding block (2024-08-12 13:36:50 +0300)
-
-----------------------------------------------------------------
-Extensible parameters support for the rkisp1 driver
-
-----------------------------------------------------------------
-Jacopo Mondi (7):
-      media: uapi: rkisp1-config: Add extensible params format
-      media: uapi: videodev2: Add V4L2_META_FMT_RK_ISP1_EXT_PARAMS
-      media: rkisp1: Add struct rkisp1_params_buffer
-      media: rkisp1: Copy the parameters buffer
-      media: rkisp1: Cache the currently active format
-      media: rkisp1: Implement extensible params support
-      media: rkisp1: Implement s_fmt/try_fmt
-
-Laurent Pinchart (2):
-      media: rkisp1: Add helper function to swap colour channels
-      media: rkisp1: Add features mask to extensible block handlers
-
-Ondrej Jirman (1):
-      media: rkisp1: Adapt to different SoCs having different size limits
-
-Paul Elder (3):
-      media: rkisp1: Add register definitions for the companding block
-      media: rkisp1: Add feature flags for BLS and compand
-      media: rkisp1: Add support for the companding block
-
- Documentation/admin-guide/media/rkisp1.rst         |   11 +-
- .../userspace-api/media/v4l/metafmt-rkisp1.rst     |   57 +-
- .../media/platform/rockchip/rkisp1/rkisp1-common.c |   14 +
- .../media/platform/rockchip/rkisp1/rkisp1-common.h |   49 +-
- .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |    5 +-
- .../media/platform/rockchip/rkisp1/rkisp1-dev.c    |   15 +-
- .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |    9 +-
- .../media/platform/rockchip/rkisp1/rkisp1-params.c | 1037 ++++++++++++++++++--
- .../media/platform/rockchip/rkisp1/rkisp1-regs.h   |   23 +
- .../platform/rockchip/rkisp1/rkisp1-resizer.c      |    4 +-
- .../media/platform/rockchip/rkisp1/rkisp1-stats.c  |   51 +-
- drivers/media/v4l2-core/v4l2-ioctl.c               |    1 +
- include/uapi/linux/rkisp1-config.h                 |  578 +++++++++++
- include/uapi/linux/videodev2.h                     |    1 +
- 14 files changed, 1689 insertions(+), 166 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+Sorry, insufficient caffeine level in the morning.
+We can't WARN_ONCE(), indeed.
 
