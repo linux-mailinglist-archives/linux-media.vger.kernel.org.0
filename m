@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-16125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F0894E971
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 11:12:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F30194E97B
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 11:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B0404B23FCD
-	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:12:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 061211F237E9
+	for <lists+linux-media@lfdr.de>; Mon, 12 Aug 2024 09:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA0A516D4C0;
-	Mon, 12 Aug 2024 09:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE3FB16D4DE;
+	Mon, 12 Aug 2024 09:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dwZiu2L2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B/+5L8vN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADE01586CD;
-	Mon, 12 Aug 2024 09:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2240214C5A4;
+	Mon, 12 Aug 2024 09:13:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723453948; cv=none; b=u3wOOAEMEVaQ2wwUkxxV5xQr29rjEoV0aenl8ei8hvW8roBoT31rv5PAY7fZuswRfD3OkY5pumHr9ThqAVFmudzCy1NA0nG06CR91TrqHx7SAPlO58oVHpRpYpGv6eD7HGnDSQPepfxvNVAQv4AHincHB/Q4zzuCTiqAjqzzptU=
+	t=1723454035; cv=none; b=ppJJ6AhG1nh0kFPIPDIzs6En2SWVRkOHVc0M9ZLj89xXizx488+5fgeBIIhBJD8+rOXsBbBe/L0cVw8j65Hzy9BqfBgyqPluhi1bjmcZlXcA92oT0R7r7xk/xOyFOgU6IE9fgdFTtj4IrVi12ZwuOsQzXHNgjnIT9lrjQ1CAVPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723453948; c=relaxed/simple;
-	bh=AHpXAkDP1WOYSED8knHUVOD/Zs18SE8A5sym1YavS1k=;
+	s=arc-20240116; t=1723454035; c=relaxed/simple;
+	bh=49cb+KN9og7h4py/ImFy9HdNnL09UTPkZvB/QwOgiKs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YGlMYgstIoOtKj9NeH8vCr6fs1V24UAyBjlRLYMzmHynp/gySNJok+jS+IRMh2FUK8vAzzv+9DRs2aHNPnM+t9R4yLL/jUCTgidquwfu9eku7lGoOqeiXrrGf9ejQ4r5nFYpDdcUqYORegB40GGlHx5Ep+CQ9Qv0vL2uEq2EMo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dwZiu2L2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A6E3C32782;
-	Mon, 12 Aug 2024 09:12:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=jHHcnJdxQ+NQmkdfXHO28zJ4QpsSOWIsVHKHMJQAkcUOp5L5IrBJS7KYMEgGH8fnm35ffrAfgmiL7Jcbl5nytjzbZHNBg+YzNZog66ECAfs2+v2X7CLD3I6ofHK/EkmkcoDy8g+NB2FRE8yCPp5GfQXCSlSInIA7KoOeuBqw7eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B/+5L8vN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8104C32782;
+	Mon, 12 Aug 2024 09:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723453947;
-	bh=AHpXAkDP1WOYSED8knHUVOD/Zs18SE8A5sym1YavS1k=;
+	s=k20201202; t=1723454034;
+	bh=49cb+KN9og7h4py/ImFy9HdNnL09UTPkZvB/QwOgiKs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dwZiu2L2qrosCfyV3a2YbYsWIBs39ADt90UptUvF6G8dvCVqehKEfQmgsGLhkwELH
-	 lw9zshioXY1etWuw5E7/VCPvkKp9jnw+Ix0aYWrhngRvN9OPSYx17C/mwIRWQzKCty
-	 kqfDZ1XaDYLD2q/lxAOx6Pnx2H/uY4A+k6eAxkgcAuhO6Ss1efuKyRU/0Vgo6v1r+G
-	 XRJlsEU5em0E6Hoay9NgHr+weOXwawheAdvQiqIv/+NACdqU2EvThF0+bH9oVGDyxa
-	 u4vwqmHKac9maxVsKChRabkyomPHT5JHfGejOPbu9aLKemjMxmXIFAHGcOYYPP1Fql
-	 7xb60X6KYGiYw==
-Message-ID: <1f823600-68c4-418f-b2bf-6d5d64a1ee56@kernel.org>
-Date: Mon, 12 Aug 2024 11:12:19 +0200
+	b=B/+5L8vNZuErYIeftIT+43oZoJ1FE3n3CC4tQ02MrKWNjTCpfkbml+lvVrmYI8fH5
+	 nARsGbSOkZM4Ypn52YpXqpygbWG4LV8QsfD0LZnvHMVpqZ4nXuLwz8/SaF5QWTvM0u
+	 lb1twb1NkW1z1sdD6Lr0Beot0iSsANQ1tPdyqh+hPPk/M0boo4RVLI7DOVs4lfloup
+	 q2XDjoQCKlveMcgR46xhREUygMxnYufUpWJHbTHeh+GVhY9JyRj29q9Sod4ye2ojnh
+	 rkbIrauEYapoMl7+5PvdsTg1S5GCBIcUBIge2IJGcxIiIsTFFp3B1akk6FCSTDgLDu
+	 /rNLw1XXuT5Ow==
+Message-ID: <33ae3c93-81cb-491c-a5b3-239c7c413eb3@kernel.org>
+Date: Mon, 12 Aug 2024 11:13:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: mtd: nuvoton,ma35d1-nand: add new
- bindings
+Subject: Re: [PATCH 2/2] mtd: rawnand: nuvoton: add new driver for the Nuvoton
+ MA35 SoC
 To: Hui-Ping Chen <hpchen0nvt@gmail.com>, miquel.raynal@bootlin.com,
  richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
@@ -61,9 +61,9 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
 References: <20240812030045.20831-1-hpchen0nvt@gmail.com>
- <20240812030045.20831-2-hpchen0nvt@gmail.com>
- <7a8b9bdf-f4df-4da0-83ca-157175817e99@kernel.org>
- <203578df-11a6-425a-b2be-cc09dae62f8f@gmail.com>
+ <20240812030045.20831-3-hpchen0nvt@gmail.com>
+ <06d627d5-947c-4da4-826a-76033386b575@kernel.org>
+ <3b7b629e-0085-4821-932c-e89faad15c1a@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,34 +109,43 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <203578df-11a6-425a-b2be-cc09dae62f8f@gmail.com>
+In-Reply-To: <3b7b629e-0085-4821-932c-e89faad15c1a@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/08/2024 11:02, Hui-Ping Chen wrote:
-> 
-> 
+On 12/08/2024 11:10, Hui-Ping Chen wrote:
 >>> +
->>> +      nand-ecc-step-size:
->>> +        enum: [512, 1024]
->> No defaults? So is this required?
-> 
-> This is required, but I will also add a default.
-
-If this is required and should be in required: list. Default does not
-make sense then... it contradicts the point of being required.
-
-> 
-> 
-> 
+>>> +/* NAND-type Flash BCH Error Data Registers */
+>>> +#define MA35_NFI_REG_NANDECCED0	(0x960)
+>>> +#define MA35_NFI_REG_NANDECCED1	(0x964)
+>>> +#define MA35_NFI_REG_NANDECCED2	(0x968)
+>>> +#define MA35_NFI_REG_NANDECCED3	(0x96C)
+>>> +#define MA35_NFI_REG_NANDECCED4	(0x970)
+>>> +#define MA35_NFI_REG_NANDECCED5	(0x974)
 >>> +
->>> +      nand-ecc-strength:
->>> +        enum: [8, 12, 24]
->> No defaults? So is this required?
+>>> +/* NAND-type Flash Redundant Area Registers */
+>>> +#define MA35_NFI_REG_NANDRA0		(0xA00)
+>>> +#define MA35_NFI_REG_NANDRA1		(0xA04)
+>>> +
+>>> +#define SKIP_SPARE_BYTES	4
+>>> +
+>>> +/* BCH algorithm related constants and variables */
+>>> +enum {
+>>> +	eBCH_NONE = 0,
+>>> +	eBCH_T8,
+>>> +	eBCH_T12,
+>>> +	eBCH_T24,
+>>> +	eBCH_CNT
+>>> +} E_BCHALGORITHM;
+>>> +
+>>> +static const int g_i32BCHAlgoIdx[eBCH_CNT] = {BCH_T8, BCH_T8, BCH_T12, BCH_T24};
+>>> +static struct nand_ecclayout_user ma35_nand_oob;
+>> Why this is file-scope?
 > 
-> This is required, but I will also add a default.
+> I will remove the `static`.
 
-Ditto
+No, why this cannot be instance dependent? Quick looks says it could.
+And should.
 
 
 Best regards,
