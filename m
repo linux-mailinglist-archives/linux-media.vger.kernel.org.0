@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-16170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E13194FF64
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 10:12:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F0894FF7B
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 10:18:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BA89B221F7
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 08:12:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA490B22656
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 08:18:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00870137C2A;
-	Tue, 13 Aug 2024 08:12:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBDF51386C0;
+	Tue, 13 Aug 2024 08:18:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6F56F2EA
-	for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 08:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96092225AF
+	for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 08:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723536734; cv=none; b=gT5+pXHDZK5ontvAUs9tqYo1gbtmI8bLCiayHOgzmZqohcVliAXY9nrM/PSRk9lILmil+SiFZYkueusG8hQXGdyO2SMlgIf0XjblHsCeNw4GQb2QWoulPPU4bh8hLGr3eab1EhnHFghfPMZxQsYWxUQJuS1RN5/gvS9USQoQJJ8=
+	t=1723537085; cv=none; b=hfa0FPGAEM2imN48PJjiMoiVYgQZqGjkEneJKHZkND3kaIfHScR2T2xilgzi0GPqm6Vd9eI8838ZjxRVXmcEn0KBboEvEarGGIXGmbEf8KP/wjfTIpUCvFFlIXSxZ6Jq+KLWshfncpwjdJ8TnGp67CS2irA16HT4DgLPMB72weo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723536734; c=relaxed/simple;
-	bh=Ocb7SEGzs2SarwCLB2NerUnOor0OmSt2LVDi/rOnqtk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=ojHA0g8Hr2zxx9XBGkH8BiCgcIgKBPXPzQEpaiwUcKx6nOEPM0r/Jcm4kDsrSNB+dtFwfr8BHFRkzHAQ+DvO7TRozMuBrUhI7f2/YzxUP/qfheH6bREo+KPxcM5lxZW1gq62ScWJXEAntCCJK0DyefrVSNS4mAxAlOaKlsO5sIU=
+	s=arc-20240116; t=1723537085; c=relaxed/simple;
+	bh=0wHsm1KXx2ZP86xYdqZF2j2eZ00krN+5H1EN3WQXfJw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=tqHutQfiGD/crRsLQsQ4B2uACjXmrvWKPt80l3hsPUrL+ykRh0OVO/2I9xxkWl5sjkUQEyhv+VuEYzCqkk1fDF+IBQl3R4E42it6tsJvD7c9LXoDkfem1wwx9E9s8TO0SwfFfLBLJVZYrwAtjb6kpLwL20z4gVmFr54tLv/vddM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A345DC4AF09;
-	Tue, 13 Aug 2024 08:12:10 +0000 (UTC)
-Message-ID: <c8317ef1-d2eb-48ce-849c-b032f9cd690b@xs4all.nl>
-Date: Tue, 13 Aug 2024 10:12:09 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79A5DC4AF09;
+	Tue, 13 Aug 2024 08:18:01 +0000 (UTC)
+Message-ID: <1bea3c06-4f9d-4bea-a036-9166fc75808e@xs4all.nl>
+Date: Tue, 13 Aug 2024 10:17:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Media Summit September 16th: Draft Agenda (v2)
+Subject: [ANN] Media Summit September 16th: Draft Agenda (v3)
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
@@ -55,7 +55,8 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Steve Cho <stevecho@chromium.org>, Nas Chung <nas.chung@chipsnmedia.com>,
  Tomasz Figa <tfiga@chromium.org>, Hidenori Kobayashi
  <hidenorik@chromium.org>, Jai Luthra <j-luthra@ti.com>,
- "Hu, Jerry W" <jerry.w.hu@intel.com>
+ "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Suresh Vankadara <svankada@qti.qualcomm.com>
 Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -103,9 +104,11 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+(Apologies for posting a v3 right after v2, I forgot to add Suresh to the attendee list, that's corrected in v3)
+
 Hi all,
 
-Here is my second stab at an agenda for the media summit. As always, it
+Here is my third stab at an agenda for the media summit. As always, it
 is subject to change and all times are guesstimates!
 
 The media summit will be held on Monday September 16th. Avnet Silica has very
@@ -143,6 +146,7 @@ Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
 Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
 Ricardo Ribalda <ribalda@chromium.org> (Google)
 Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+Suresh Vankadara <svankada@qti.qualcomm.com> (Qualcomm)
 Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
 Alain Volmat <alain.volmat@foss.st.com> (ST Electronics) (TBC)
 Sean Young <sean@mess.org>
@@ -160,9 +164,9 @@ Note: information on how to connect remotely will come later.
 
 If any information above is incorrect, or if I missed someone, then please let me know.
 
-We are currently 14 confirmed in-person participants and one TBC. I prefer to limit the total
-to 16 people, so if you want to join in-person, then contact me and I'll put you on a waitlist.
-The attendee list should be finalized by the end of August.
+We are currently 16 confirmed in-person participants and one TBC. The maximum is 18 people,
+so we're almost full. If you want to join in-person, then contact me and I'll put you on a
+waitlist. The attendee list should be finalized by the end of August.
 
 Draft agenda:
 
