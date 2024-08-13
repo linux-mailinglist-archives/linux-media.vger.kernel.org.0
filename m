@@ -1,216 +1,177 @@
-Return-Path: <linux-media+bounces-16214-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16215-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214FD950593
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 14:53:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC969505A3
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 14:54:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 904F51F239A2
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 12:53:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD215282128
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 12:54:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 120BE19AD6E;
-	Tue, 13 Aug 2024 12:53:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9CA119AD87;
+	Tue, 13 Aug 2024 12:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FzOizqnP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QCmfk7Xv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651B014A600;
-	Tue, 13 Aug 2024 12:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483E7199EAD
+	for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 12:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723553599; cv=none; b=HIiWTNt3D2TQnv2T5y2ezFRkJsshVIs18RmVAUPhhJOFASpznKNv0bzYeDKRKAFr2fnpGpyRQPQ4m/Wtg2d1u/JDxhPxcrMBO+falT2R+QB1L7BTUtYb3kz4asn3GU4zucNW56vNosk5MZIbGVbdRZlaivTjdAmdDNNR4rdx7GY=
+	t=1723553691; cv=none; b=ZoqGctMNmRJECL4Q/OdOCmPxNpH/eQvd5q1npbTJ2fQiLVq6RwDHDZzhi6LejLK9V8/u6mP0kk+j+Jueh1kFzLSNLIzUjuMjrJqtWzIyAN2glWqiXZiYCzkBSdlDe1opVJRsSHhOzFm5iDSiSSwwEOybEtzNQY+qLWmrR2VwOHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723553599; c=relaxed/simple;
-	bh=Tv6nVRpA/JfrDD9X1z6zbbGt9KN/YiGuWF85y9EwFPw=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=cEDDoBK389evPMymPPgO4/fo4UMFyD+yQnMXxrsZdT3CWKnn+LlVWeniKyG+PnBSw1z4K2bbRNRwceiPIDrxoCegLfM4u18/IW9JQkmYhKR5mtXAxx3LVMXNbciTD7UYZhoFvsa2lb/R7g5R17duqkoPygANzfGa/IYxz08qpp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FzOizqnP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0A4F2EC;
-	Tue, 13 Aug 2024 14:52:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723553538;
-	bh=Tv6nVRpA/JfrDD9X1z6zbbGt9KN/YiGuWF85y9EwFPw=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=FzOizqnPNI4C3WZZnLFSzbVagIQ3LJohwfbMrAzXy51VbDn3UusRc26gqb3ZIt0Gc
-	 Kmxp5dIOSdwyFZ4Z3nAyTH1v5U8BpearNQ9IrQDqtDOd0ccCpekF30MF4Myq/kY6h/
-	 KYFbH44h6Gg39B3zSXUm0iO0Hv878brGdMGzvFaQ=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1723553691; c=relaxed/simple;
+	bh=/vyVB/+nwmZ1GDlSWG7aG0xf8jhLGjT5JZbFrxI7vkk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZoCt2FPQrnRA28XD/eWerE5uqGfXkYTkyF6cZQzfinX9bgZIp8JOVioSE8sIUu3KHJlp1DNfu6vNXgbQ0YD3wTwQeFkUmNOPDzX1VLNibtHpWnw42ur6bpcAMZAj0BRIBEH/L4BbYu1oWMuRn/7YX4McoeFZmRDcGloD0AEJieQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QCmfk7Xv; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f032cb782dso55646071fa.3
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 05:54:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723553687; x=1724158487; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rFn/YBZy/HMj2dJ8dhDDDJeYokUl+M8JMlUEy7TbTsM=;
+        b=QCmfk7XvlfRWqXBTCNx8G6+RW1HIodpXc2mPEwjWTelNSgNG4Yj1bI6UtXZNGbf9Nf
+         EIntqsxLQZfr17IW/5tJJBjrsoBsk2gQHGaBYpFE7FCH9DFN4sWtbHtHjr2GY3N+/GU1
+         px7cwco6TJNF/yPUFnLIPc3OQ8e7d59C/3iB+lcCXhxbuOtX1iwhKyjnNJ9ttaD27Shg
+         sXThvP6FuOutnz5ekYiVY/t+aScNYwd4w16lfwTjxRuq2sl6ZYbTjjf6m52vD63dnobl
+         vjsiOI3o7B8H4tknnPNIe6k0bHu49bWK8kkP5iwKSQ72x1l/3egI75oKVAGSFkqx+RE6
+         hPaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723553687; x=1724158487;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rFn/YBZy/HMj2dJ8dhDDDJeYokUl+M8JMlUEy7TbTsM=;
+        b=JKSVQSRGXqe72/mTsJMVQjfobusNKwB57XtHjPXYJa6C0NZAfFrSLfx4lDn0P1cDrm
+         FoWy+r4Vob6QcDBNnNiEQ9Qh3JiHGTg2yDhzPU4ErKFrLAioRatFO+s8MQDXqntPE4Wk
+         AvvsYiLhS7HjjH5h0HWJ6AqWuVgDlRk0VBx9yVrQsp6JHKwxLyI2fLCH6oC2fwdcVays
+         kJmxm1VTLQSwGeUsZIJOjo50QOjkCsi0Q89dbDrvUIY4agOy/GCdfW3weQnMhFQtICYF
+         dPCy8rmF0tiffi/XJPapw63JbXJHshIBBJz+lD51pTB1VTQ7+AWyLJMcGppVlPPlAaV0
+         HfIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTClIADibE1iQzNEJm7keKnyEjJD6usWpS6Z6dovwRQItZdkAuSTCPG0d+yX/d8q2/1tLQxUoDmF+yzFDfRCYBLIPfEkt/RmSL6A0=
+X-Gm-Message-State: AOJu0YxLljlXTT4X6oDXNANHaXfZBwleCue+aq1NcGa1VstedmZy1Sa6
+	D1TjsOTlkn1kMK4zidqr6DMNVxXMuNTh2uD0rf63u+ZZLcECsIwKGXtg9Y6IlOo=
+X-Google-Smtp-Source: AGHT+IEj1tS6vskS9s6AZSAVh7F+6G+pdl5MLE3yLVM4Q4OffllLaX+wtCu/Ob7rMwxPxtFvgC7Lcg==
+X-Received: by 2002:a05:6512:acd:b0:52c:896f:930d with SMTP id 2adb3069b0e04-53213692a83mr2039446e87.57.1723553687085;
+        Tue, 13 Aug 2024 05:54:47 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f411bb7bsm67969866b.133.2024.08.13.05.54.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2024 05:54:46 -0700 (PDT)
+Date: Tue, 13 Aug 2024 15:54:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/6] media: ar0521: Refactor ar0521_power_off()
+Message-ID: <ce0ed949-5e57-4193-8190-9e4aa9cb62be@stanley.mountain>
+References: <20240813-smatch-clock-v1-0-664c84295b1c@chromium.org>
+ <20240813-smatch-clock-v1-1-664c84295b1c@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240813102035.1763559-7-vladimir.zapolskiy@linaro.org>
-References: <20240813102035.1763559-1-vladimir.zapolskiy@linaro.org> <20240813102035.1763559-7-vladimir.zapolskiy@linaro.org>
-Subject: Re: [PATCH v2 6/6] media: i2c: og01a1b: Add management of optional sensor supply lines
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Date: Tue, 13 Aug 2024 13:53:13 +0100
-Message-ID: <172355359318.1687952.6620713968085551486@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240813-smatch-clock-v1-1-664c84295b1c@chromium.org>
 
-Quoting Vladimir Zapolskiy (2024-08-13 11:20:35)
-> Omnivision OG01A1B camera sensor is supplied by tree power rails,
-
-three?
-
-> if supplies are present as device properties, include them into
-> sensor power up sequence.
->=20
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+On Tue, Aug 13, 2024 at 12:13:48PM +0000, Ricardo Ribalda wrote:
+> Factor out all the power off logic, except the clk_disable_unprepare(),
+> to a new function __ar0521_power_off().
+> 
+> This allows ar0521_power_on() to explicitly clean-out the clock during
+> the error-path.
+> 
+> The following smatch warning is fixed:
+> drivers/media/i2c/ar0521.c:912 ar0521_power_on() warn: 'sensor->extclk' from clk_prepare_enable() not released on lines: 912.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/i2c/og01a1b.c | 86 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 85 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-> index 90a68201f43f..0150fdd2f424 100644
-> --- a/drivers/media/i2c/og01a1b.c
-> +++ b/drivers/media/i2c/og01a1b.c
-> @@ -9,6 +9,7 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -422,6 +423,9 @@ static const struct og01a1b_mode supported_modes[] =
-=3D {
->  struct og01a1b {
->         struct clk *xvclk;
->         struct gpio_desc *reset_gpio;
-> +       struct regulator *avdd;
-> +       struct regulator *dovdd;
-> +       struct regulator *dvdd;
-> =20
->         struct v4l2_subdev sd;
->         struct media_pad pad;
-> @@ -982,11 +986,46 @@ static int og01a1b_power_on(struct device *dev)
+
+It's better to just ignore false positives...  The problem here is that
+Smatch can't track that to_ar0521_dev(dev_get_drvdata(dev))->sensor is the same
+as sensor.  What I could do is say that "this frees *something* unknown" so
+let's silence the warning."
+
+The problem is that check_unwind.c is not very granular.  It just marks things
+as allocated and freed.  I could make it more granular so the free and the
+alloc have to match.  Or we could match based on the type.  This frees a
+"struct ar0521_dev" so mark all those as freed in the caller.
+
+>  drivers/media/i2c/ar0521.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> index 09331cf95c62..2c528db31ba6 100644
+> --- a/drivers/media/i2c/ar0521.c
+> +++ b/drivers/media/i2c/ar0521.c
+> @@ -835,7 +835,7 @@ static const struct initial_reg {
+>  	     be(0x0707)), /* 3F44: couple k factor 2 */
+>  };
+>  
+> -static int ar0521_power_off(struct device *dev)
+> +static void __ar0521_power_off(struct device *dev)
 >  {
->         struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
->         struct og01a1b *og01a1b =3D to_og01a1b(sd);
-> +       int ret;
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>  	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+> @@ -850,6 +850,16 @@ static int ar0521_power_off(struct device *dev)
+>  		if (sensor->supplies[i])
+>  			regulator_disable(sensor->supplies[i]);
+>  	}
+> +}
 > +
-> +       if (og01a1b->avdd) {
-> +               ret =3D regulator_enable(og01a1b->avdd);
-> +               if (ret)
-> +                       return ret;
-> +       }
+> +static int ar0521_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ar0521_dev *sensor = to_ar0521_dev(sd);
 > +
-> +       if (og01a1b->dovdd) {
-> +               ret =3D regulator_enable(og01a1b->dovdd);
-> +               if (ret)
-> +                       goto avdd_disable;
-> +       }
-> +
-> +       if (og01a1b->dvdd) {
-> +               ret =3D regulator_enable(og01a1b->dvdd);
-> +               if (ret)
-> +                       goto dovdd_disable;
-> +       }
+> +	clk_disable_unprepare(sensor->extclk);
+> +	__ar0521_power_off(dev);
 
-Perhaps regulator_bulk_enable()/regulator_bulk_disable() would be
-suitable here to reduce lots of repetitive code and error handling?
+You had intended to remove the clk_disable_unprepare() from __ar0521_power_off()
+but forgot so these are double unprepares.
 
-> =20
->         gpiod_set_value_cansleep(og01a1b->reset_gpio, 0);
->         usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
-> =20
-> -       return clk_prepare_enable(og01a1b->xvclk);
-> +       ret =3D clk_prepare_enable(og01a1b->xvclk);
-> +       if (ret)
-> +               goto dvdd_disable;
+regards,
+dan carpenter
+
 > +
-> +       return 0;
-> +
-> +dvdd_disable:
-> +       if (og01a1b->dvdd)
-> +               regulator_disable(og01a1b->dvdd);
-> +dovdd_disable:
-> +       if (og01a1b->dovdd)
-> +               regulator_disable(og01a1b->dovdd);
-> +avdd_disable:
-> +       if (og01a1b->avdd)
-> +               regulator_disable(og01a1b->avdd);
-> +
-> +       return ret;
+>  	return 0;
 >  }
-> =20
->  static int og01a1b_power_off(struct device *dev)
-> @@ -998,6 +1037,15 @@ static int og01a1b_power_off(struct device *dev)
-> =20
->         gpiod_set_value_cansleep(og01a1b->reset_gpio, 1);
-> =20
-> +       if (og01a1b->dvdd)
-> +               regulator_disable(og01a1b->dvdd);
-> +
-> +       if (og01a1b->dovdd)
-> +               regulator_disable(og01a1b->dovdd);
-> +
-> +       if (og01a1b->avdd)
-> +               regulator_disable(og01a1b->avdd);
-> +
->         return 0;
+>  
+> @@ -908,7 +918,8 @@ static int ar0521_power_on(struct device *dev)
+>  
+>  	return 0;
+>  off:
+> -	ar0521_power_off(dev);
+> +	clk_disable_unprepare(sensor->extclk);
+> +	__ar0521_power_off(dev);
+>  	return ret;
 >  }
-> =20
-> @@ -1045,6 +1093,42 @@ static int og01a1b_probe(struct i2c_client *client)
->                 return PTR_ERR(og01a1b->reset_gpio);
->         }
-> =20
-> +       og01a1b->avdd =3D devm_regulator_get_optional(&client->dev, "avdd=
-");
-> +       if (IS_ERR(og01a1b->avdd)) {
-> +               ret =3D PTR_ERR(og01a1b->avdd);
-> +               if (ret !=3D -ENODEV) {
-> +                       dev_err_probe(&client->dev, ret,
-> +                                     "Failed to get 'avdd' regulator\n");
-> +                       return ret;
-> +               }
-> +
-> +               og01a1b->avdd =3D NULL;
-> +       }
-> +
-> +       og01a1b->dovdd =3D devm_regulator_get_optional(&client->dev, "dov=
-dd");
-> +       if (IS_ERR(og01a1b->dovdd)) {
-> +               ret =3D PTR_ERR(og01a1b->dovdd);
-> +               if (ret !=3D -ENODEV) {
-> +                       dev_err_probe(&client->dev, ret,
-> +                                     "Failed to get 'dovdd' regulator\n"=
-);
-> +                       return ret;
-> +               }
-> +
-> +               og01a1b->dovdd =3D NULL;
-> +       }
-> +
-> +       og01a1b->dvdd =3D devm_regulator_get_optional(&client->dev, "dvdd=
-");
-> +       if (IS_ERR(og01a1b->dvdd)) {
-> +               ret =3D PTR_ERR(og01a1b->dvdd);
-> +               if (ret !=3D -ENODEV) {
-> +                       dev_err_probe(&client->dev, ret,
-> +                                     "Failed to get 'dvdd' regulator\n");
-> +                       return ret;
-> +               }
-> +
-> +               og01a1b->dvdd =3D NULL;
-> +       }
-> +
->         /* The sensor must be powered on to read the CHIP_ID register */
->         ret =3D og01a1b_power_on(&client->dev);
->         if (ret)
-> --=20
-> 2.45.2
->
+>  
+> 
+> -- 
+> 2.46.0.76.ge559c4bf1a-goog
+> 
 
