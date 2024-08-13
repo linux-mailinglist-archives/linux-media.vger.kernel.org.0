@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-16255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE12D9510B1
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 01:40:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 736709510B3
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 01:40:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDB1D1C21E60
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 23:40:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A319C1C220DF
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 23:40:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24B21AC450;
-	Tue, 13 Aug 2024 23:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 640E51AC42C;
+	Tue, 13 Aug 2024 23:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="I4STCcjH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Cgdrqcfs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC041AC424;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504FD22EEF;
 	Tue, 13 Aug 2024 23:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723592438; cv=none; b=lIkx1neszm6CmnWI1CamWTFIWMMC2NXFgJyQyENufPRgYH4Awyi38IAIPKF6sDpzJEUP+PPaiy5iLdZEk6PhZGoS0LRtq1koO/ZqYjqII1uVZU9NpyjuwGVwb+nf4kFs/hT4YrhmvaNmSqFK75cKSd/C4qT//xLms/oB77h7TCI=
+	t=1723592438; cv=none; b=TLkqK3JH+M1LhCsZyYDYXvxMDM9sRPoDOyFhGzLlD9JWkJWkxduvDfHS8F/B4fvaLdjAHDySpMAezqzc5x1lhUN6fKJd24XNm7/VnXPV6HpVpushOqq1Z02hpFaxrVgo5AgLmANdOVa9Ocqmeh39WSBxue+dJVNYXG10SOBG/0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723592438; c=relaxed/simple;
-	bh=n/Ko2B4gk5N3ur9+c2GL7qOaj6OcXLHVIqDCC5B5JF0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=anZeLbDZwheV7xVf3LQ69YMH1pmRDLrFXHA2wEFH3GRtJDZVhJuRsz/tk6TccrR2+Zw7HADTun0MJZqiG0DXx4xTX2eupW2LKISj7SC8bbN2E8BV6LHrFiNNz7c32G8w1m+7/nvFaozlFJKrfO1/O/FhOYIRUDEsNiycJdnjYIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=I4STCcjH; arc=none smtp.client-ip=213.167.242.64
+	bh=9+W2TFPV9Zbw1r91dnIlZVDJj3S8mnEu6JTLA39GoqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T4iZj82Om4oJgCA2WKZ08pMsyaXR3tNnoWIevNXeIauJb5bR1zXYJ4sCmRE5xM81EUSLNa3WTpr2GZaMQt7c+LomxcDCpqJt/8qdYqi70bgJgVQO1PMp8TiDXa6GHr/pXLEbI/wcTgcKzw2fCX/lF7dIgMHP0l0VUNlQTKapZ2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Cgdrqcfs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA01B7E2;
-	Wed, 14 Aug 2024 01:39:30 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0956A9FF;
+	Wed, 14 Aug 2024 01:39:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723592371;
-	bh=n/Ko2B4gk5N3ur9+c2GL7qOaj6OcXLHVIqDCC5B5JF0=;
+	s=mail; t=1723592378;
+	bh=9+W2TFPV9Zbw1r91dnIlZVDJj3S8mnEu6JTLA39GoqM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=I4STCcjHUGVP08VKabAGxXeGGklL7ugchDaeCeNN5wZzLSTFWNg8Kzqwjeb06BJmt
-	 CggLupF1yLhf6F06MzpiWbUv+YoSlR9i7BhitbE1qqV70AUIKJYYVloTFFzHTJa10m
-	 FrUKXOVdzWaE6oJ3+aBpqaV2dxQkzEDlMLwLqbO8=
+	b=Cgdrqcfsu7/9/9h/K5WHCD3AFHTtFESe8osR51mVil0DhzO0s7faY6DJ/CtVS1arR
+	 dVW35z1PgkMjmaSJk+qnyQVPuaT1/bGFvEQ8ue8TyTJJvurMDTKhwGCNCqDcZEXORT
+	 7r4SgFSc3dWsgp3PPXZbPZIt1rlAIxE5ugETMmGI=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Cc: Paul Elder <paul.elder@ideasonboard.com>,
-	Adam Ford <aford173@gmail.com>,
+Cc: Adam Ford <aford173@gmail.com>,
 	Alexander Stein <alexander.stein@ew.tq-group.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Fabio Estevam <festevam@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Marek Vasut <marex@denx.de>,
+	Paul Elder <paul.elder@ideasonboard.com>,
 	Peng Fan <peng.fan@nxp.com>,
 	Rob Herring <robh@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
@@ -57,9 +57,9 @@ Cc: Paul Elder <paul.elder@ideasonboard.com>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	devicetree@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH v3] arm64: dts: imx8mp: Add DT nodes for the two ISPs
-Date: Wed, 14 Aug 2024 02:40:04 +0300
-Message-ID: <20240813234004.17807-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] arm64: dts: imx8mp: Clarify csis clock frequency
+Date: Wed, 14 Aug 2024 02:40:10 +0300
+Message-ID: <20240813234010.17852-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -69,103 +69,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Paul Elder <paul.elder@ideasonboard.com>
+The DT nodes for the MIPI CSI-2 receivers (MIPI_CSI) configure the
+CAM1_PIX and CAM2_PIX clocks to 266 MHz through the assigned-clock-rates
+property, and report that frequency in the clock-frequency property. The
+i.MX8MP reference manual and datasheet list 266 MHz as a nominal
+frequency when using both CSI-2 receivers, so all looks normal.
 
-The ISP supports both CSI and parallel interfaces, where port 0
-corresponds to the former and port 1 corresponds to the latter. Since
-the i.MX8MP's ISPs are connected by the parallel interface to the CSI
-receiver, set them both to port 1.
+In reality, the clock is actually set to 250 MHz, as the selected
+parent, IMX8MP_SYS_PLL2_1000M, has a 1/4 output that is selected as the
+closest frequency to 266 MHz. This doesn't break operation of the
+device, but is clearly misleading.
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Clarify the clock configuration by selecting the IMX8MP_SYS_PLL2_250M
+parent, dropping the redundant assigned-clock-rates, and setting
+clock-frequency to 250 MHz. This doesn't cause any functional change.
+
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Tested-by: Adam Ford <aford173@gmail.com> # imx8mp-beacon
 ---
-Changes since v2:
-
-- Assign clock parent and frequency in blk-ctrl
-
-Changes since v1:
-
-- Fix clock ordering
-- Add #address-cells and #size-cells to ports nodes
----
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 51 ++++++++++++++++++++++-
- 1 file changed, 49 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index d9b5c40f6460..09f1e27ee220 100644
+index 603dfe80216f..d9b5c40f6460 100644
 --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
 +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -1673,6 +1673,50 @@ isi_in_1: endpoint {
- 				};
- 			};
+@@ -1687,7 +1687,7 @@ mipi_csi_0: csi@32e40000 {
+ 				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
+ 				reg = <0x32e40000 0x10000>;
+ 				interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+-				clock-frequency = <266000000>;
++				clock-frequency = <250000000>;
+ 				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
+ 					 <&clk IMX8MP_CLK_MEDIA_CAM1_PIX_ROOT>,
+ 					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
+@@ -1695,9 +1695,8 @@ mipi_csi_0: csi@32e40000 {
+ 				clock-names = "pclk", "wrap", "phy", "axi";
+ 				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM1_PIX>,
+ 						  <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF>;
+-				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>,
++				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
+ 							 <&clk IMX8MP_CLK_24M>;
+-				assigned-clock-rates = <266000000>;
+ 				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
+ 				status = "disabled";
  
-+			isp_0: isp@32e10000 {
-+				compatible = "fsl,imx8mp-isp";
-+				reg = <0x32e10000 0x10000>;
-+				interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
-+				clock-names = "isp", "aclk", "hclk";
-+				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
-+				fsl,blk-ctrl = <&media_blk_ctrl 0>;
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@1 {
-+						reg = <1>;
-+					};
-+				};
-+			};
-+
-+			isp_1: isp@32e20000 {
-+				compatible = "fsl,imx8mp-isp";
-+				reg = <0x32e20000 0x10000>;
-+				interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
-+					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
-+				clock-names = "isp", "aclk", "hclk";
-+				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
-+				fsl,blk-ctrl = <&media_blk_ctrl 1>;
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@1 {
-+						reg = <1>;
-+					};
-+				};
-+			};
-+
- 			dewarp: dwe@32e30000 {
- 				compatible = "nxp,imx8mp-dw100";
- 				reg = <0x32e30000 0x10000>;
-@@ -1873,13 +1917,16 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
- 						  <&clk IMX8MP_CLK_MEDIA_APB>,
- 						  <&clk IMX8MP_CLK_MEDIA_DISP1_PIX>,
- 						  <&clk IMX8MP_CLK_MEDIA_DISP2_PIX>,
-+						  <&clk IMX8MP_CLK_MEDIA_ISP>,
- 						  <&clk IMX8MP_VIDEO_PLL1>;
- 				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>,
- 							 <&clk IMX8MP_SYS_PLL1_800M>,
- 							 <&clk IMX8MP_VIDEO_PLL1_OUT>,
--							 <&clk IMX8MP_VIDEO_PLL1_OUT>;
-+							 <&clk IMX8MP_VIDEO_PLL1_OUT>,
-+							 <&clk IMX8MP_SYS_PLL2_500M>;
- 				assigned-clock-rates = <500000000>, <200000000>,
--						       <0>, <0>, <1039500000>;
-+						       <0>, <0>, <0>, <500000000>,
-+						       <1039500000>;
- 				#power-domain-cells = <1>;
+@@ -1723,7 +1722,7 @@ mipi_csi_1: csi@32e50000 {
+ 				compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
+ 				reg = <0x32e50000 0x10000>;
+ 				interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
+-				clock-frequency = <266000000>;
++				clock-frequency = <250000000>;
+ 				clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
+ 					 <&clk IMX8MP_CLK_MEDIA_CAM2_PIX_ROOT>,
+ 					 <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
+@@ -1731,9 +1730,8 @@ mipi_csi_1: csi@32e50000 {
+ 				clock-names = "pclk", "wrap", "phy", "axi";
+ 				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM2_PIX>,
+ 						  <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF>;
+-				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>,
++				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
+ 							 <&clk IMX8MP_CLK_24M>;
+-				assigned-clock-rates = <266000000>;
+ 				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
+ 				status = "disabled";
  
- 				lvds_bridge: bridge@5c {
 
 base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
 -- 
