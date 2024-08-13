@@ -1,153 +1,94 @@
-Return-Path: <linux-media+bounces-16228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16229-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C73395090D
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 17:26:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5ABF950912
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 17:27:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 465C71F255C8
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 15:26:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8659A281781
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 15:27:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5604F1A073F;
-	Tue, 13 Aug 2024 15:26:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC76C1A01D9;
+	Tue, 13 Aug 2024 15:26:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lz/8AFXr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pv/T02g7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9F81A0702;
-	Tue, 13 Aug 2024 15:26:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1830719E831;
+	Tue, 13 Aug 2024 15:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723562778; cv=none; b=FiFRPKjgBIMtckf0FQGy2769Llk6uE8x0JdewxQ8sAjTksN1TW9RAjdhOR4PhiGpwY1cmNgTivEtr3lJwhuwtxODVN9mJDSsqLNCKPWgXnW0WcBFZI5WlJItFTQ6IfzOQ3qbi7jMa/t7HXqwl1VnFuztrziuByw2HKFhebwNT9U=
+	t=1723562817; cv=none; b=V7hivzJEzvka8uo55BsaPGnEEK9Bhd6i6ZallwRmvMeA53KnECfbwTqy8p6dVAbJCFU7p1FtiANBFl7gftt3Be78bS1yhSVkp/U7xwprofSVPxtYcQ3TWYhVDWR2NezvQlgbD/rmVvkbNYILOltZrI4HyQfcJc4NfS4GMwxNUBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723562778; c=relaxed/simple;
-	bh=IUkzPMLKL9hxrVCRse+Tn29r759bkrevm8jISz7/NVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UbsOmQQdGWMDbcfV/jpIGkSGX0p1u501CI9Yu9agfQy4Qxq04hiin40huzffZRJu7XUMLTcF3C2jxa2Q0SN7QfDrt86kDa5aBOLX2SMZcJKixc3NE5BXCQ7C9D9rEjLFqiUFseTcz8/xhvG37IrsLVGpnF/DZK98HCmld2TnxEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lz/8AFXr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F8B9C4AF09;
-	Tue, 13 Aug 2024 15:26:16 +0000 (UTC)
+	s=arc-20240116; t=1723562817; c=relaxed/simple;
+	bh=mSemb60sTJdLNNxaY49JMnLRjZsVWJb6QojfV8SA4lQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rfLalshcN7l7TwuktwDmDS5mlyYE6HrFkY9rcOCRjlsHByflZpWrKHiZKMTvcEK0A0GlN4j8w2p9HqYAkEK7o7eCAH4wPoVdBSOprSWTMP54pEKBj+NijDhZzIVqNBf3EM9yY0Mxvba5ThhWdDNz2evvgRn54aD3XzAeANW1Jgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pv/T02g7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E55A4C4AF0B;
+	Tue, 13 Aug 2024 15:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723562778;
-	bh=IUkzPMLKL9hxrVCRse+Tn29r759bkrevm8jISz7/NVM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lz/8AFXrJT9670zCrN4KWrpS/qHfbJzVH2SwYK+34AfLrA0BJHSl1PU5fdFq+JWZF
-	 w9W7Lypd8K0zGJCHv5Z/sowDvHbYIfbBp7Qrv+uZy7QgzSdkZdmwtxEfMb3IxqQSoB
-	 Re677vy+gy/FDsDswIsBN++DRbLYmQgLIZBpwC/UbUBIqKIl9qfbd4QQOOynyku23w
-	 2ExdG33d3W2Y0Ga5N8uD/ONPmABMxCL57CGjbBP/gVYxH6EyTFuoBnFWbjoDlc5fQO
-	 FYeFxXWOZWcjtZi+psvbkL8E5jSTK+NUzEh6Wp+GLlYhD96vdQ4pN9L3CGpgMeVw2Q
-	 PVEWD+5jh8ZgA==
-Date: Tue, 13 Aug 2024 08:26:15 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
- Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Steffen
- Klassert <steffen.klassert@secunet.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem de
- Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240813082615.53693b97@kernel.org>
-In-Reply-To: <6a779dbb-ad3a-47cf-bb8e-1a50732a9694@gmail.com>
-References: <20240805212536.2172174-1-almasrymina@google.com>
-	<20240805212536.2172174-8-almasrymina@google.com>
-	<20240806135924.5bb65ec7@kernel.org>
-	<CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
-	<20240808192410.37a49724@kernel.org>
-	<CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
-	<fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com>
-	<20240809205236.77c959b0@kernel.org>
-	<CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
-	<48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com>
-	<20240812105732.5d2845e4@kernel.org>
-	<CAHS8izPb51gvEHGHeQwWTs4YmimLLamau1c4j=Z4KGM8ZJrx5g@mail.gmail.com>
-	<a6747b29-ed79-49d4-9ffe-b62074db1e09@gmail.com>
-	<20240812165708.33234ed6@kernel.org>
-	<5a51b11d-9c35-42a5-879b-08dc7ca2ca18@gmail.com>
-	<20240813073917.690ac1cc@kernel.org>
-	<6a779dbb-ad3a-47cf-bb8e-1a50732a9694@gmail.com>
+	s=k20201202; t=1723562816;
+	bh=mSemb60sTJdLNNxaY49JMnLRjZsVWJb6QojfV8SA4lQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pv/T02g7RLl4qCEmnY/WRxn88WO19c0ktVzJOqWh2LDJD4n+FFXmTRwQYecVx/xrK
+	 oCgvXRgM5MNzYuTnKz2NDU0l1jXjbelJ6CdoML9C5+vKdkoOK3WO1JHrvSlc+wam7A
+	 f/Cfi2xC+3uEkZkn2eklUzBqCI3xs2OzrL2sL0NFedAjY1hdgRs6vJxZGxZQctJgqA
+	 1HiYo/5wp0O5Oy20LAN1yzis798kB4bk4zKld/K5pAzRjRwO1/hZVcwiw2cMK5px+5
+	 qGWsn2NMBWljjjPFG1BoUexuQ1qGCmD1UhE0Nvh3P5HYTzIs/WiyqNLITMrcHjBXJr
+	 pRhDbYCbo9miA==
+Date: Tue, 13 Aug 2024 16:26:52 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] media: dt-bindings: Add description of OmniVision
+ OG01A1B image sensor
+Message-ID: <20240813-darkening-esquire-cefa9cf21745@spud>
+References: <20240813102035.1763559-1-vladimir.zapolskiy@linaro.org>
+ <20240813102035.1763559-2-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cOuHclAJi601Q1QK"
+Content-Disposition: inline
+In-Reply-To: <20240813102035.1763559-2-vladimir.zapolskiy@linaro.org>
 
-On Tue, 13 Aug 2024 16:11:15 +0100 Pavel Begunkov wrote:
-> On 8/13/24 15:39, Jakub Kicinski wrote:
-> > On Tue, 13 Aug 2024 03:31:13 +0100 Pavel Begunkov wrote:  
-> >> I'm getting lost, so repeating myself a bit. What I think
-> >> would be a good approach is if we get an error back from
-> >> the driver if it doesn't support netiov / providers.
-> >>
-> >> netdev_rx_queue_restart() {
-> >> 	...
-> >> 	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc();
-> >> 	if (err == -EOPNOTSUPP) // the driver doesn't support netiov
-> >> 		return -EOPNOTSUPP;
-> >> 	...
-> >> }
-> >>
-> >> That can be done if drivers opt in to support providers,
-> >> e.g. via a page pool flag.
-> >>
-> >> What I think wouldn't be a great option is getting back a
-> >> "success" from the driver even though it ignored  
-> > 
-> > page pool params are not the right place for a supported flag.
-> > Sooner or later we'll want to expose this flag to user space.  
-> 
-> Fair enough, it appeared to me that's what you was suggesting
-> 
-> "What comes to mind is adding an "I can gobble up net_iovs from this
-> pool" flag in page pool params (the struct that comes from the driver),
-> and then on the installation path we can check ..."
 
-Yes, we still need one flag in page pool params -- functioning like 
-the inverse of PP_IGNORE_PROVIDERS, I'd call it something like
-PP_CAP_NET(MEM|IOV). To distinguish the header and data pools.
+--cOuHclAJi601Q1QK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> We can also move it from pp flags to queue API callbacks, however if we
-> want to expose it to the userspace, I'd imagine we need a queue flag set
-> by the driver, which then can be queried by netlink or whichever
-> interface is appropriate. And it can be used can be used to fail
-> netdev_rx_queue_restart() for queues/drivers that don't support mp.
-> 
-> netdev_rx_queue_restart() {
-> 	if (rxq->mp_params && !rxq->netiov_supported)
-> 		fail;
-> }
+On Tue, Aug 13, 2024 at 01:20:30PM +0300, Vladimir Zapolskiy wrote:
+> Add device tree bindings documentation for OmniVision OG01A1B image
+> sensor.
+>=20
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
-Yup!
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+
+--cOuHclAJi601Q1QK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZrt7PAAKCRB4tDGHoIJi
+0jR8AQDS93X9FEFhF/N2OTEskOW0/8dm7/R4/RoKHLxdgCH5UQEAs8w0IJ1wWl1F
+gwhdpQLmQwyq0CroPh7+fool9GCDAAU=
+=XOin
+-----END PGP SIGNATURE-----
+
+--cOuHclAJi601Q1QK--
 
