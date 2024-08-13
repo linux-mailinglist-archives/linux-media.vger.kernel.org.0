@@ -1,103 +1,169 @@
-Return-Path: <linux-media+bounces-16190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763479502BC
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 12:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E30950306
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 12:56:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 314E628303A
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 10:45:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3943F287454
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 10:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2A62199380;
-	Tue, 13 Aug 2024 10:45:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1BFF19CD1F;
+	Tue, 13 Aug 2024 10:53:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OreNwnuH"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sEdlSNcA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A667117085A;
-	Tue, 13 Aug 2024 10:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAC819AD7D
+	for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 10:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723545914; cv=none; b=nfvFvpVeagICn50IXPhjFQUj9mVWjin9Q8r8McvmZpymUOqbFjqXNnq9XjQDdo5Rva0oLErbRXUuHabTS2yqOJVEiT2JewwUHr3NIdhviiaAMm1lcMpAwZUoC6zTAg7NowBnU8abPg5f+2QlOCoCyJRSpr1nVxE1bajZMHWWfLY=
+	t=1723546413; cv=none; b=I3J8eum1LJBJiJErVftf50ztdzHMYqTVrJYDRNXzu8YvKyd8pdJvWD+xMU1dKeS/2k9fNNH0V37lgcLxUAsjHBa0IkLvIGHXDDcRv7dcU+AgXc9GsUESePYX+vf7oW1j1jdU67+Huoj7Dar8SyAjB4HTYTMHjbC/GQIkJ4QuPug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723545914; c=relaxed/simple;
-	bh=qM4dwAZs4TGXDAayWODF4A+WCfHxHEZswWYh1lS7q8g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T/d+QTOLxJ230R5S7LO9Npn0aAhOlKaTDtWNA/0wpFDP+JZUntjuzPT+n7TJax8iHWnByF7IMWDDjBWqPDpeGgVENYquxl/VVWHvZHxytAGVgqUkUnwm6xVNqOiNrF6RcZEvWaPEnt4HufcKuiwL1rB33GJdHRlyUrD17UfJ3Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OreNwnuH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B13D62EC;
-	Tue, 13 Aug 2024 12:44:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723545853;
-	bh=qM4dwAZs4TGXDAayWODF4A+WCfHxHEZswWYh1lS7q8g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=OreNwnuHZzVjK/xyY4Fexauaf4oFjibkadWBTc/kMpuxHVVrNExYCdK2sUnAcN6wZ
-	 xG3hPvmk0f5dor6WV8rjFTeUzW5PCgYqex7TL0DDuAgIbmyxaEta8ZHx+pfQJtZhYA
-	 AaAUL8uVQIcij6eo7fbIZhZWdFwNVVXRooxTuwbs=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-kernel@vger.kernel.org
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	Michael Grzeschik <mgr@pengutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Avichal Rakesh <arakesh@google.com>,
-	linux-usb@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: Mark UVC gadget driver as orphan
-Date: Tue, 13 Aug 2024 13:44:47 +0300
-Message-ID: <20240813104447.25821-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.44.2
+	s=arc-20240116; t=1723546413; c=relaxed/simple;
+	bh=q8pNAgjw9/3tHHnWRFEJHbq63k2GtWgWLWiFMw3DnYg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nvksb3kydbtbD9GJMStGpPObYMtnBcFUMWNLpBnBT3KlNaXpt3A9PegqKKPZ0JK8gOcMj1kAUpgBqX9WQk83/Bs5Dd3Qup9dNE/2oYZ9KpQrV0LFYN2vfl1aCrelpJLhKQeZpbkKde7jIuWTSkPSkoolx71+JTwsznQfsmavyWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sEdlSNcA; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-65f9708c50dso54558437b3.2
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 03:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723546410; x=1724151210; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/XDKrkkMHvWOyw5p4QJtIumEMqEgD/xVT5SgNZelBg=;
+        b=sEdlSNcA8pSYeZNy35Z2d1R7MRMOAVlMv4/gVXeJX1wtken5bplBAjFKLj7tKdfAWC
+         /koFQ1lBpwnPUFM/0ACdAQ8+qi77W+Ww1FS0PYzDigSLy53renVmyyerIu7JwgtIRgrx
+         4/q2xO80uPNHstpCiSzsUh9j7IsvbYDwsnymmJ+wEGTpVJdOlYgqRZwCZNLk8ObU97v1
+         Axvh0XhbtKmKhoOjaONO5bwEkV/3scoW4QOMnLm6J4OdnvtfN9ZGdn8HWTa6O3txUzDa
+         iU++OLVw8k97JY6mxTEMWxT4ucEIdop3BA0kNIyD8bCFYuLZFUN0PhGp4VexqTuCtMCL
+         xYXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723546410; x=1724151210;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z/XDKrkkMHvWOyw5p4QJtIumEMqEgD/xVT5SgNZelBg=;
+        b=rZie5bCtAJg/zufURVF2HFjnO+LgaxR/cWOuRSL1r9bIcHBJuIPqE5WcTAMNOC98xV
+         4TjqYui3/ZqTvrqBCf3ec9VX2HCxikQhofK285sZDUBxHpsi4bUryEU4WZHjcrgau+89
+         Jw7kIlya6SNACd15z4tlSrYGOYIulePmdzqCXsuBNzQNa0fM11+dCyu2KLup7S1OutGQ
+         lBSI+k8QYiTpEbZYW4lJFLxz4iPqC83yht/L5FB2oRhW/rL4Z/HR4YJl47jZhbkuti94
+         S6EpNEz2tacpFoEy/5wZMNjbDZ2iwFS/Im+ZO6V53hFlCpqdjovVuqhb93vO6r2mTAtx
+         sFbw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPEzAhpXJ53OvxL5vL7QPVQ98sP/VuooWlVKOluHHMOurnyoPQu3kOjZkEaGolPZPGTzvLFLnF5FELM1uD++lZ81iEb4Z3qIRAISM=
+X-Gm-Message-State: AOJu0YyTkX+3tqSrwoPCMiE78PTvjE+Iv34iAE1aFArjNGPOBhNd3RIa
+	yKGt0ltVDnVGD4RRZrbZMlrIGMaElJw2ioXGKsFRzDYXb9fAFdN4d0vqwC58Y0f3s9pWIoPj0eu
+	9nkylSdBNK5UriBGOz8DBBfLFgfkI0IIuyTd7KA==
+X-Google-Smtp-Source: AGHT+IFItO0D7OclX/S5B/e5ClqeA9JU/P3uqhBqfY7zfqkekKMs8wX80GxMDY1wDSzUbaTJC9QhhNMbySj25mpFIPs=
+X-Received: by 2002:a05:6902:13cf:b0:e0e:cd17:6130 with SMTP id
+ 3f1490d57ef6-e113d07894cmr3177420276.37.1723546409963; Tue, 13 Aug 2024
+ 03:53:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1723014947-15571-1-git-send-email-quic_dikshita@quicinc.com> <1723014947-15571-2-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1723014947-15571-2-git-send-email-quic_dikshita@quicinc.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 13 Aug 2024 12:52:53 +0200
+Message-ID: <CAPDyKFpUMmveKQ2Pi33VwcvG9tsMQHEcAg88icf7v9mzzm+k4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] PM: domains: add device managed version of dev_pm_domain_attach|detach_list()
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-I haven't had time to maintain the UVC gadget driver for a long while.
-Dan Scally confirmed he is also in a similar -ENOTIME situation with no
-short term hope of fixing that. Being listed as maintainers doesn't help
-progress, so mark the driver as orphan to reflect the current state.
+On Wed, 7 Aug 2024 at 09:16, Dikshita Agarwal <quic_dikshita@quicinc.com> wrote:
+>
+> Add the devres-enabled version of dev_pm_domain_attach|detach_list.
+> If client drivers use devm_pm_domain_attach_list() to attach the
+> PM domains, devm_pm_domain_detach_list() will be invoked implicitly
+> during remove phase.
+>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  drivers/base/power/common.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/pm_domain.h   | 13 +++++++++++++
+>  2 files changed, 57 insertions(+)
+>
+> diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
+> index 327d168..729d6c2 100644
+> --- a/drivers/base/power/common.c
+> +++ b/drivers/base/power/common.c
+> @@ -277,6 +277,50 @@ int dev_pm_domain_attach_list(struct device *dev,
+>  EXPORT_SYMBOL_GPL(dev_pm_domain_attach_list);
+>
+>  /**
+> + * devm_pm_domain_detach_list - devres-enabled version of dev_pm_domain_detach_list.
+> + * @_list: The list of PM domains to detach.
+> + *
+> + * This function reverse the actions from devm_pm_domain_attach_list().
+> + * it will be invoked during the remove phase from drivers implicitly if driver
+> + * uses devm_pm_domain_attach_list() to attach the PM domains.
+> + */
+> +void devm_pm_domain_detach_list(void *_list)
+> +{
+> +       struct dev_pm_domain_list *list = _list;
+> +
+> +       dev_pm_domain_detach_list(list);
+> +}
+> +EXPORT_SYMBOL_GPL(devm_pm_domain_detach_list);
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Dan, could you please ack this patch ?
+I think this function should be internal and hence made static -
+unless there is a good reason to export it?
 
-Michael, feel free to take over if you want. You have been active on the
-code base recently, so that makes you the best candidate, even if I
-disagree with most of your technical decisions. I'm a bit sad to leave a
-driver I cared about without trust in its future, hopefully the future
-will prove I was wrong.
----
- MAINTAINERS | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> +
+> +/**
+> + * devm_pm_domain_attach_list - devres-enabled version of dev_pm_domain_attach_list
+> + * @dev: The device used to lookup the PM domains for.
+> + * @data: The data used for attaching to the PM domains.
+> + * @list: An out-parameter with an allocated list of attached PM domains.
+> + *
+> + * NOTE: this will also handle calling devm_pm_domain_detach_list() for
+> + * you during remove phase.
+> + *
+> + * Returns the number of attached PM domains or a negative error code in case of
+> + * a failure.
+> + */
+> +int devm_pm_domain_attach_list(struct device *dev,
+> +                              const struct dev_pm_domain_attach_data *data,
+> +                              struct dev_pm_domain_list **list)
+> +{
+> +       int ret, num_pds = 0;
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8766f3e5e87e..e6df197f1a58 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23819,10 +23819,8 @@ F:	drivers/media/usb/uvc/
- F:	include/uapi/linux/uvcvideo.h
- 
- USB WEBCAM GADGET
--M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
--M:	Daniel Scally <dan.scally@ideasonboard.com>
- L:	linux-usb@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- F:	drivers/usb/gadget/function/*uvc*
- F:	drivers/usb/gadget/legacy/webcam.c
- F:	include/uapi/linux/usb/g_uvc.h
+There is no need to initialize num_pds to 0 here, as the below calls
+take care of it.
 
--- 
-Regards,
+> +
+> +       num_pds = dev_pm_domain_attach_list(dev, data, list);
+> +
 
-Laurent Pinchart
+We should add a check if num_pds is zero here, as in that case there
+is no reason to add a devres callback for it.
 
+> +       ret = devm_add_action_or_reset(dev, devm_pm_domain_detach_list, *list);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return num_pds;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_pm_domain_attach_list);
+
+[...]
+
+Kind regards
+Uffe
 
