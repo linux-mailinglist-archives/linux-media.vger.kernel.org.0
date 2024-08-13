@@ -1,234 +1,736 @@
-Return-Path: <linux-media+bounces-16220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F60950621
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 15:12:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA33950626
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 15:14:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D64A72873A1
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 13:12:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C027D1C20CB5
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 13:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13D7819B3CE;
-	Tue, 13 Aug 2024 13:12:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A703E19B3C8;
+	Tue, 13 Aug 2024 13:13:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fC9/7Smm"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l08+oIhp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3327199E84;
-	Tue, 13 Aug 2024 13:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B118B1E4A4;
+	Tue, 13 Aug 2024 13:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723554756; cv=none; b=sqOXebTTrvAxym8ooRjYhEIhBJqwkxh7hSEldiuSEFcKVgzBdSGCQiZMm9Cvlbr584fhLY/sO0/Sz2WBhIVu0Od7oaE2+CkWCmBKTQyY5RgLb0uRn6IUerPCrb2RRw8sw3m0JkiyprBifhjXFJDOAa/gj55tSuvixzUbcWUnq1E=
+	t=1723554838; cv=none; b=tLUwfZaKBQY/KaNdrRMlRQqkIoLB9eaZfwU4AUc6uSpk2/Ub2f831pqMBDqOUswP3HM8VAyaw+KA2jQa9T22LDfg86BmeZqTtrkoriz3P/c5kWYEqsNePxuQXVvM8qgLHnRJYpYX//veIJNybBbSRcmSTN/jKw9jaIG4GGyU5+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723554756; c=relaxed/simple;
-	bh=uoqDNeAJb5WryfWJBMETwWztM1l30CYsj7KasEM+Z9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=csXp2xxQNqyy6ECZJvmYmmqviAKmCDOEJQ6bYLin/rP47O17Ir2zkz0dEDu+HQupbXVy7mEIiZtHoLecmzPhAT2l1b3NiO8Lzgjy0i5lb/LfHSkF57Cf769s97HvJNND0Se6EO1NtOp0w6XmxbcOSPE+zxE1Qun8Qf6VsSOVz+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fC9/7Smm; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723554755; x=1755090755;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uoqDNeAJb5WryfWJBMETwWztM1l30CYsj7KasEM+Z9M=;
-  b=fC9/7SmmK+8AuFZa0iNlVG/YdjMJWyoiYEW4FfIy/RvNw8/HN/WtWgx2
-   hX40sh1fZeP00BFkUJt6MH91hN2kQhoF7KkGzvKkKg/fxMVjSacBZOzOj
-   m2/MjWcNedbkryvKjhFx6lP/e02yiC0lVosfoajyt0ZrHU7+w/Md0pqz0
-   Dr8iZ96u/5lvW4MjjApBXJHwTcAk7bE7Sig0TIuloioryyUPW38JXqVvF
-   GSXyufLATeSz4UzkPCZ9hRsb9WZCp3e7TSuFz34kAyMig4KGD4jkUITPT
-   nuCn7q8WSERvDBrlZuHQlcA3HBtb66obayQlTKhOKXM0XRdaXSItlOHe8
-   A==;
-X-CSE-ConnectionGUID: 6Geag84+QkaacR24eu7reQ==
-X-CSE-MsgGUID: yzZwOIMzS4S1cBQtyO5diA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11163"; a="39225786"
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="39225786"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 06:12:34 -0700
-X-CSE-ConnectionGUID: /1gIWA2uQG6JpkF1c4ltyA==
-X-CSE-MsgGUID: +sfTXrSuT56MHEjC6oHieA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="58610132"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa009.jf.intel.com with ESMTP; 13 Aug 2024 06:12:32 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 9EE6F2CC; Tue, 13 Aug 2024 16:12:30 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v1 1/1] media: atomisp: Replace rarely used macro from math_support.h
-Date: Tue, 13 Aug 2024 16:12:25 +0300
-Message-ID: <20240813131225.2232817-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	s=arc-20240116; t=1723554838; c=relaxed/simple;
+	bh=XtOnALDYKQg3Og/sk2AEt9fHYijtxyBP59cqHaQK97s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qIRqXpzPfm2Sv77v63zUOfx0OU3AlX0bIRG07DTyL33WeRqrizFGmO5Jwb6yyT8FCp6zumpCs8HgTvuqYOSbdN6tPfLEmCaW6aHnkKQzibb7qgpfNjxhbduSEJ11o8oJh1AepVQ+5k83jekuZlEYjQ+J3Lp4a2XQhAeX/W7is2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l08+oIhp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7B204AB;
+	Tue, 13 Aug 2024 15:12:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723554776;
+	bh=XtOnALDYKQg3Og/sk2AEt9fHYijtxyBP59cqHaQK97s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=l08+oIhpEoNGGX2XEyK/KEOWU9bo6R1elhndOmt4Bt0FSlv2ZhvAwHnlJRx0m4OIC
+	 zwYkhacCarrqp+RIXwGCiMv9mtDKmLzqO9qa5YiYQjhCUqugxaVw4mcBuYOybK7+xk
+	 cYRDqFObRgWfr1A6j9IyEAvFzM3iM0v6814KMaV0=
+Message-ID: <27c12a78-4092-43a1-ab3f-04a44ef573ce@ideasonboard.com>
+Date: Tue, 13 Aug 2024 14:13:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 12/18] media: platform: Add mali-c55 3a stats devnode
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, jacopo.mondi@ideasonboard.com,
+ nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ sakari.ailus@iki.fi
+References: <20240709132906.3198927-1-dan.scally@ideasonboard.com>
+ <20240709132906.3198927-13-dan.scally@ideasonboard.com>
+ <20240722145058.GH5732@pendragon.ideasonboard.com>
+ <20240722225507.GC32300@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20240722225507.GC32300@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Replace rarely used macro by generic ones from Linux kernel headers.
+Hi Laurent, thanks for the review
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../atomisp/pci/hive_isp_css_include/math_support.h      | 6 ------
- .../ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c        | 9 +++++----
- .../ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c      | 9 +++++----
- .../media/atomisp/pci/runtime/binary/src/binary.c        | 3 ++-
- .../media/atomisp/pci/runtime/isys/src/virtual_isys.c    | 8 ++++----
- 5 files changed, 16 insertions(+), 19 deletions(-)
+On 22/07/2024 23:55, Laurent Pinchart wrote:
+> On Mon, Jul 22, 2024 at 05:51:00PM +0300, Laurent Pinchart wrote:
+>> Hi Dan,
+>>
+>> Thank you for the patch.
+>>
+>> On Tue, Jul 09, 2024 at 02:29:00PM +0100, Daniel Scally wrote:
+>>> Add a new code file to govern the 3a statistics capture node.
+>>>
+>>> Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
+>>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>>> ---
+>>> Changes in v6:
+>>>
+>>> 	- Fixed mising includes
+>>> 	- Minor renames and formatting
+>>> 	- Reworked mali_c55_stats_metering_complete() so it could only return
+>>> 	  buffers when both halves of the DMA read were done
+>>> 	- Terminate dma transfers on streamoff
+>>> 	
+>>> Changes in v5:
+>>>
+>>> 	- New patch
+>>>
+>>>   drivers/media/platform/arm/mali-c55/Makefile  |   1 +
+>>>   .../platform/arm/mali-c55/mali-c55-common.h   |  29 ++
+>>>   .../platform/arm/mali-c55/mali-c55-core.c     |  15 +
+>>>   .../platform/arm/mali-c55/mali-c55-isp.c      |  11 +
+>>>   .../arm/mali-c55/mali-c55-registers.h         |   3 +
+>>>   .../platform/arm/mali-c55/mali-c55-stats.c    | 373 ++++++++++++++++++
+>>>   6 files changed, 432 insertions(+)
+>>>   create mode 100644 drivers/media/platform/arm/mali-c55/mali-c55-stats.c
+>>>
+>>> diff --git a/drivers/media/platform/arm/mali-c55/Makefile b/drivers/media/platform/arm/mali-c55/Makefile
+>>> index 9178ac35e50e..b5a22d414479 100644
+>>> --- a/drivers/media/platform/arm/mali-c55/Makefile
+>>> +++ b/drivers/media/platform/arm/mali-c55/Makefile
+>>> @@ -4,6 +4,7 @@ mali-c55-y := mali-c55-capture.o \
+>>>   	      mali-c55-core.o \
+>>>   	      mali-c55-isp.o \
+>>>   	      mali-c55-resizer.o \
+>>> +	      mali-c55-stats.o \
+>>>   	      mali-c55-tpg.o
+>>>   
+>>>   obj-$(CONFIG_VIDEO_MALI_C55) += mali-c55.o
+>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-common.h b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
+>>> index f7764a938e9f..136c785c68ba 100644
+>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-common.h
+>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-common.h
+>>> @@ -49,6 +49,7 @@ enum mali_c55_isp_pads {
+>>>   	MALI_C55_ISP_PAD_SINK_VIDEO,
+>>>   	MALI_C55_ISP_PAD_SOURCE_VIDEO,
+>>>   	MALI_C55_ISP_PAD_SOURCE_BYPASS,
+>>> +	MALI_C55_ISP_PAD_SOURCE_STATS,
+>>>   	MALI_C55_ISP_NUM_PADS,
+>>>   };
+>>>   
+>>> @@ -160,6 +161,29 @@ struct mali_c55_cap_dev {
+>>>   	bool streaming;
+>>>   };
+>>>   
+>>> +struct mali_c55_stats_buf {
+>>> +	struct vb2_v4l2_buffer vb;
+>>> +	unsigned int segments_remaining;
+>>> +	struct list_head queue;
+>>> +	bool failed;
+>>> +};
+>>> +
+>>> +struct mali_c55_stats {
+>>> +	struct mali_c55 *mali_c55;
+>>> +	struct video_device vdev;
+>>> +	struct dma_chan *channel;
+>>> +	struct vb2_queue queue;
+>>> +	struct media_pad pad;
+>>> +	/* Mutex to provide to vb2 */
+>>> +	struct mutex lock;
+>>> +
+>>> +	struct {
+>>> +		/* Spinlock to guard buffer queue */
+>>> +		spinlock_t lock;
+>>> +		struct list_head queue;
+>>> +	} buffers;
+>>> +};
+>>> +
+>>>   enum mali_c55_config_spaces {
+>>>   	MALI_C55_CONFIG_PING,
+>>>   	MALI_C55_CONFIG_PONG,
+>>> @@ -202,6 +226,7 @@ struct mali_c55 {
+>>>   	struct mali_c55_isp isp;
+>>>   	struct mali_c55_resizer resizers[MALI_C55_NUM_RSZS];
+>>>   	struct mali_c55_cap_dev cap_devs[MALI_C55_NUM_CAP_DEVS];
+>>> +	struct mali_c55_stats stats;
+>>>   
+>>>   	struct mali_c55_context context;
+>>>   	enum mali_c55_config_spaces next_config;
+>>> @@ -229,6 +254,8 @@ int mali_c55_register_resizers(struct mali_c55 *mali_c55);
+>>>   void mali_c55_unregister_resizers(struct mali_c55 *mali_c55);
+>>>   int mali_c55_register_capture_devs(struct mali_c55 *mali_c55);
+>>>   void mali_c55_unregister_capture_devs(struct mali_c55 *mali_c55);
+>>> +int mali_c55_register_stats(struct mali_c55 *mali_c55);
+>>> +void mali_c55_unregister_stats(struct mali_c55 *mali_c55);
+>>>   struct mali_c55_context *mali_c55_get_active_context(struct mali_c55 *mali_c55);
+>>>   void mali_c55_set_plane_done(struct mali_c55_cap_dev *cap_dev,
+>>>   			     enum mali_c55_planes plane);
+>>> @@ -243,5 +270,7 @@ const struct mali_c55_isp_fmt *
+>>>   mali_c55_isp_get_mbus_config_by_code(u32 code);
+>>>   const struct mali_c55_isp_fmt *
+>>>   mali_c55_isp_get_mbus_config_by_index(u32 index);
+>>> +void mali_c55_stats_fill_buffer(struct mali_c55 *mali_c55,
+>>> +				enum mali_c55_config_spaces cfg_space);
+>>>   
+>>>   #endif /* _MALI_C55_COMMON_H */
+>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
+>>> index dbc07d12d3a3..eedc8f450184 100644
+>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
+>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
+>>> @@ -374,6 +374,16 @@ static int mali_c55_create_links(struct mali_c55 *mali_c55)
+>>>   		}
+>>>   	}
+>>>   
+>>> +	ret = media_create_pad_link(&mali_c55->isp.sd.entity,
+>>> +				    MALI_C55_ISP_PAD_SOURCE_STATS,
+>>> +				    &mali_c55->stats.vdev.entity, 0,
+>>> +				    MEDIA_LNK_FL_ENABLED);
+>>> +	if (ret) {
+>>> +		dev_err(mali_c55->dev,
+>>> +			"failed to link ISP and 3a stats node\n");
+>>> +		goto err_remove_links;
+>>> +	}
+>>> +
+>>>   	return 0;
+>>>   
+>>>   err_remove_links:
+>>> @@ -388,6 +398,7 @@ static void mali_c55_unregister_entities(struct mali_c55 *mali_c55)
+>>>   	mali_c55_unregister_isp(mali_c55);
+>>>   	mali_c55_unregister_resizers(mali_c55);
+>>>   	mali_c55_unregister_capture_devs(mali_c55);
+>>> +	mali_c55_unregister_stats(mali_c55);
+>>>   }
+>>>   
+>>>   static int mali_c55_register_entities(struct mali_c55 *mali_c55)
+>>> @@ -410,6 +421,10 @@ static int mali_c55_register_entities(struct mali_c55 *mali_c55)
+>>>   	if (ret)
+>>>   		goto err_unregister_entities;
+>>>   
+>>> +	ret = mali_c55_register_stats(mali_c55);
+>>> +	if (ret)
+>>> +		goto err_unregister_entities;
+>>> +
+>>>   	ret = mali_c55_create_links(mali_c55);
+>>>   	if (ret)
+>>>   		goto err_unregister_entities;
+>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+>>> index f784983a4ccc..2f450c00300a 100644
+>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
+>>> @@ -5,6 +5,8 @@
+>>>    * Copyright (C) 2024 Ideas on Board Oy
+>>>    */
+>>>   
+>>> +#include <linux/media/arm/mali-c55-config.h>
+>>> +
+>>>   #include <linux/delay.h>
+>>>   #include <linux/iopoll.h>
+>>>   #include <linux/property.h>
+>>> @@ -460,6 +462,14 @@ static int mali_c55_isp_init_state(struct v4l2_subdev *sd,
+>>>   	in_crop->width = MALI_C55_DEFAULT_WIDTH;
+>>>   	in_crop->height = MALI_C55_DEFAULT_HEIGHT;
+>>>   
+>>> +	src_fmt = v4l2_subdev_state_get_format(state,
+>>> +					       MALI_C55_ISP_PAD_SOURCE_STATS);
+>>> +
+>>> +	src_fmt->width = sizeof(struct mali_c55_stats_buffer);
+>>> +	src_fmt->height = 1;
+>> According to
+>> https://docs.kernel.org/userspace-api/media/v4l/subdev-formats.html#metadata-formats,
+>> width and height should be set to 0 for MEDIA_BUS_FMT_METADATA_FIXED. I
+>> haven't checked if v4l2-compliance expects this, we may have
+>> discrepancies between the API documentation and the existing
+>> implementations in the kernel and userspace. In any case, this should be
+>> sorted out, either by fixing the kernel code and enforcing the
+>> requirement in v4l2-compliance, or fixing the documentation.
+>>
+>>> +	src_fmt->field = V4L2_FIELD_NONE;
+>>> +	src_fmt->code = MEDIA_BUS_FMT_METADATA_FIXED;
+>>> +
+>>>   	return 0;
+>>>   }
+>>>   
+>>> @@ -490,6 +500,7 @@ int mali_c55_register_isp(struct mali_c55 *mali_c55)
+>>>   						       MEDIA_PAD_FL_MUST_CONNECT;
+>>>   	isp->pads[MALI_C55_ISP_PAD_SOURCE_VIDEO].flags = MEDIA_PAD_FL_SOURCE;
+>>>   	isp->pads[MALI_C55_ISP_PAD_SOURCE_BYPASS].flags = MEDIA_PAD_FL_SOURCE;
+>>> +	isp->pads[MALI_C55_ISP_PAD_SOURCE_STATS].flags = MEDIA_PAD_FL_SOURCE;
+>>>   
+>>>   	ret = media_entity_pads_init(&sd->entity, MALI_C55_ISP_NUM_PADS,
+>>>   				     isp->pads);
+>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+>>> index 0a391f8a043e..e72e749b81d5 100644
+>>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+>>> @@ -103,6 +103,9 @@ enum mali_c55_interrupts {
+>>>   #define MALI_C55_VC_START(v)				((v) & 0xffff)
+>>>   #define MALI_C55_VC_SIZE(v)				(((v) & 0xffff) << 16)
+>>>   
+>>> +#define MALI_C55_REG_1024BIN_HIST			0x054a8
+>>> +#define MALI_C55_1024BIN_HIST_SIZE			4096
+>>> +
+>>>   /* Ping/Pong Configuration Space */
+>>>   #define MALI_C55_REG_BASE_ADDR				0x18e88
+>>>   #define MALI_C55_REG_BYPASS_0				0x18eac
+>>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-stats.c b/drivers/media/platform/arm/mali-c55/mali-c55-stats.c
+>>> new file mode 100644
+>>> index 000000000000..38a17fb5d052
+>>> --- /dev/null
+>>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-stats.c
+>>> @@ -0,0 +1,373 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * ARM Mali-C55 ISP Driver - 3A Statistics capture device
+>>> + *
+>>> + * Copyright (C) 2023 Ideas on Board Oy
+>>> + */
+>>> +
+>>> +#include <linux/container_of.h>
+>>> +#include <linux/dev_printk.h>
+>>> +#include <linux/dmaengine.h>
+>>> +#include <linux/list.h>
+>>> +#include <linux/media/arm/mali-c55-config.h>
+>>> +#include <linux/mutex.h>
+>>> +#include <linux/spinlock.h>
+>>> +#include <linux/string.h>
+>>> +
+>>> +#include <media/media-entity.h>
+>>> +#include <media/v4l2-dev.h>
+>>> +#include <media/v4l2-event.h>
+>>> +#include <media/v4l2-fh.h>
+>>> +#include <media/v4l2-ioctl.h>
+>>> +#include <media/videobuf2-core.h>
+>>> +#include <media/videobuf2-dma-contig.h>
+>>> +
+>>> +#include "mali-c55-common.h"
+>>> +#include "mali-c55-registers.h"
+>>> +
+>>> +static const unsigned int metering_space_addrs[] = {
+>>> +	[MALI_C55_CONFIG_PING] = 0x095ac,
+>>> +	[MALI_C55_CONFIG_PONG] = 0x2156c,
+>>> +};
+>>> +
+>>> +static int mali_c55_stats_enum_fmt_meta_cap(struct file *file, void *fh,
+>>> +					    struct v4l2_fmtdesc *f)
+>>> +{
+>>> +	if (f->index)
+>>> +		return -EINVAL;
+>>> +
+>>> +	f->pixelformat = V4L2_META_FMT_MALI_C55_STATS;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int mali_c55_stats_g_fmt_meta_cap(struct file *file, void *fh,
+>>> +					 struct v4l2_format *f)
+>>> +{
+>>> +	static const struct v4l2_meta_format mfmt = {
+>>> +		.dataformat = V4L2_META_FMT_MALI_C55_STATS,
+>>> +		.buffersize = sizeof(struct mali_c55_stats_buffer)
+>>> +	};
+>>> +
+>>> +	f->fmt.meta = mfmt;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int mali_c55_stats_querycap(struct file *file,
+>>> +				   void *priv, struct v4l2_capability *cap)
+>>> +{
+>>> +	strscpy(cap->driver, MALI_C55_DRIVER_NAME, sizeof(cap->driver));
+>>> +	strscpy(cap->card, "ARM Mali-C55 ISP", sizeof(cap->card));
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static const struct v4l2_ioctl_ops mali_c55_stats_v4l2_ioctl_ops = {
+>>> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
+>>> +	.vidioc_querybuf = vb2_ioctl_querybuf,
+>>> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+>>> +	.vidioc_qbuf = vb2_ioctl_qbuf,
+>>> +	.vidioc_expbuf = vb2_ioctl_expbuf,
+>>> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+>>> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+>>> +	.vidioc_streamon = vb2_ioctl_streamon,
+>>> +	.vidioc_streamoff = vb2_ioctl_streamoff,
+>>> +	.vidioc_enum_fmt_meta_cap = mali_c55_stats_enum_fmt_meta_cap,
+>>> +	.vidioc_g_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
+>>> +	.vidioc_s_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
+>>> +	.vidioc_try_fmt_meta_cap = mali_c55_stats_g_fmt_meta_cap,
+>>> +	.vidioc_querycap = mali_c55_stats_querycap,
+>>> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>>> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+>>> +};
+>>> +
+>>> +static const struct v4l2_file_operations mali_c55_stats_v4l2_fops = {
+>>> +	.owner = THIS_MODULE,
+>>> +	.unlocked_ioctl = video_ioctl2,
+>>> +	.open = v4l2_fh_open,
+>>> +	.release = vb2_fop_release,
+>>> +	.poll = vb2_fop_poll,
+>>> +	.mmap = vb2_fop_mmap,
+>>> +};
+>>> +
+>>> +static int
+>>> +mali_c55_stats_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+>>> +			   unsigned int *num_planes, unsigned int sizes[],
+>>> +			   struct device *alloc_devs[])
+>>> +{
+>>> +	struct mali_c55_stats *stats = vb2_get_drv_priv(q);
+>>> +
+>>> +	if (*num_planes && *num_planes > 1)
+>>> +		return -EINVAL;
+>>> +
+>>> +	if (sizes[0] && sizes[0] < sizeof(struct mali_c55_stats_buffer))
+>>> +		return -EINVAL;
+>>> +
+>>> +	*num_planes = 1;
+>>> +
+>>> +	if (!sizes[0])
+>>> +		sizes[0] = sizeof(struct mali_c55_stats_buffer);
+>>> +
+>>> +	if (stats->channel)
+>>> +		alloc_devs[0] = stats->channel->device->dev;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static void mali_c55_stats_buf_queue(struct vb2_buffer *vb)
+>>> +{
+>>> +	struct mali_c55_stats *stats = vb2_get_drv_priv(vb->vb2_queue);
+>>> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>>> +	struct mali_c55_stats_buf *buf = container_of(vbuf,
+>>> +						struct mali_c55_stats_buf, vb);
+>>> +
+>>> +	vb2_set_plane_payload(vb, 0, sizeof(struct mali_c55_stats_buffer));
+>>> +	buf->segments_remaining = 2;
+>>> +	buf->failed = false;
+>>> +
+>>> +	spin_lock(&stats->buffers.lock);
+>>> +	list_add_tail(&buf->queue, &stats->buffers.queue);
+>>> +	spin_unlock(&stats->buffers.lock);
+>>> +}
+>>> +
+>>> +static int mali_c55_stats_start_streaming(struct vb2_queue *q,
+>>> +					  unsigned int count)
+>>> +{
+>>> +	struct mali_c55_stats *stats = vb2_get_drv_priv(q);
+>>> +	struct mali_c55 *mali_c55 = stats->mali_c55;
+>>> +	int ret;
+>>> +
+>>> +	ret = video_device_pipeline_start(&stats->vdev,
+>>> +					  &stats->mali_c55->pipe);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	if (mali_c55->pipe.start_count == mali_c55->pipe.required_count) {
+>>> +		ret = v4l2_subdev_enable_streams(&mali_c55->isp.sd,
+>>> +						 MALI_C55_ISP_PAD_SOURCE_VIDEO,
+>>> +						 BIT(0));
+>>> +		if (ret)
+>>> +			goto err_stop_pipeline;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +
+>>> +err_stop_pipeline:
+>>> +	video_device_pipeline_stop(&stats->vdev);
+>>> +
+>>> +	return ret;
+>>> +}
+>>> +
+>>> +static void mali_c55_stats_stop_streaming(struct vb2_queue *q)
+>>> +{
+>>> +	struct mali_c55_stats *stats = vb2_get_drv_priv(q);
+>>> +	struct mali_c55_stats_buf *buf, *tmp;
+>>> +
+>>> +	dmaengine_terminate_sync(stats->channel);
+>>> +
+>>> +	spin_lock(&stats->buffers.lock);
+>>> +
+>>> +	list_for_each_entry_safe(buf, tmp, &stats->buffers.queue, queue) {
+>>> +		list_del(&buf->queue);
+>>> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>>> +	}
+>>> +
+>>> +	spin_unlock(&stats->buffers.lock);
+>>> +
+>>> +	video_device_pipeline_stop(&stats->vdev);
+> There's a lack of symmetry here, you call v4l2_subdev_enable_streams()
+> in mali_c55_stats_start_streaming() but you don't call
+> v4l2_subdev_disable_streams() anywhere. Is that intentional ?
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-index 160c496784b7..907f9ebcc60d 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-@@ -28,12 +28,6 @@
- #define CEIL_SHIFT(a, b)     (((a) + (1 << (b)) - 1) >> (b))
- #define CEIL_SHIFT_MUL(a, b) (CEIL_SHIFT(a, b) << (b))
- 
--#if !defined(PIPE_GENERATION)
--
--#define ceil_div(a, b)		(CEIL_DIV(a, b))
--
--#endif /* !defined(PIPE_GENERATION) */
--
- /*
-  * For SP and ISP, SDK provides the definition of OP_std_modadd.
-  * We need it only for host
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-index 0091e2a3da52..c32659894c29 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/bayer_io_ls/ia_css_bayer_io.host.c
-@@ -13,9 +13,11 @@
-  * more details.
-  */
- 
-+#include <linux/bitops.h>
-+#include <linux/math.h>
-+
- #include "ia_css_bayer_io.host.h"
- #include "dma.h"
--#include "math_support.h"
- #ifndef IA_CSS_NO_DEBUG
- #include "ia_css_debug.h"
- #endif
-@@ -29,9 +31,8 @@ int ia_css_bayer_io_config(const struct ia_css_binary      *binary,
- 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
- 		&args->out_frame;
- 	const struct ia_css_frame_info *in_frame_info = ia_css_frame_get_info(in_frame);
--	const unsigned int ddr_bits_per_element = sizeof(short) * 8;
--	const unsigned int ddr_elems_per_word = ceil_div(HIVE_ISP_DDR_WORD_BITS,
--						ddr_bits_per_element);
-+	const unsigned int ddr_elems_per_word =
-+		DIV_ROUND_UP(HIVE_ISP_DDR_WORD_BITS, BITS_PER_TYPE(short));
- 	unsigned int size_get = 0, size_put = 0;
- 	unsigned int offset = 0;
- 	int ret;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-index 32c504a950ce..5b2d5023b5ee 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ipu2_io_ls/yuv444_io_ls/ia_css_yuv444_io.host.c
-@@ -13,9 +13,11 @@ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- more details.
- */
- 
-+#include <linux/bitops.h>
-+#include <linux/math.h>
-+
- #include "ia_css_yuv444_io.host.h"
- #include "dma.h"
--#include "math_support.h"
- #ifndef IA_CSS_NO_DEBUG
- #include "ia_css_debug.h"
- #endif
-@@ -29,9 +31,8 @@ int ia_css_yuv444_io_config(const struct ia_css_binary      *binary,
- 	const struct ia_css_frame **out_frames = (const struct ia_css_frame **)
- 		&args->out_frame;
- 	const struct ia_css_frame_info *in_frame_info = ia_css_frame_get_info(in_frame);
--	const unsigned int ddr_bits_per_element = sizeof(short) * 8;
--	const unsigned int ddr_elems_per_word = ceil_div(HIVE_ISP_DDR_WORD_BITS,
--						ddr_bits_per_element);
-+	const unsigned int ddr_elems_per_word =
-+		DIV_ROUND_UP(HIVE_ISP_DDR_WORD_BITS, BITS_PER_TYPE(short));
- 	unsigned int size_get = 0, size_put = 0;
- 	unsigned int offset = 0;
- 	int ret;
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index b0f904a5e442..2ff522f7dec8 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -328,7 +328,8 @@ ia_css_binary_dvs_grid_info(const struct ia_css_binary *binary,
- 
- 	dvs_info = &info->dvs_grid.dvs_grid_info;
- 
--	/* for DIS, we use a division instead of a ceil_div. If this is smaller
-+	/*
-+	 * For DIS, we use a division instead of a DIV_ROUND_UP(). If this is smaller
- 	 * than the 3a grid size, it indicates that the outer values are not
- 	 * valid for DIS.
- 	 */
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-index 52483498239d..2e0193671f4b 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-@@ -13,6 +13,8 @@
-  * more details.
-  */
- 
-+#include <linux/bitops.h>
-+#include <linux/math.h>
- #include <linux/string.h> /* for memcpy() */
- 
- #include "system_global.h"
-@@ -20,7 +22,6 @@
- 
- #include "ia_css_isys.h"
- #include "ia_css_debug.h"
--#include "math_support.h"
- #include "virtual_isys.h"
- #include "isp.h"
- #include "sh_css_defs.h"
-@@ -558,7 +559,7 @@ static int32_t calculate_stride(
- 		bits_per_pixel = CEIL_MUL(bits_per_pixel, 8);
- 
- 	pixels_per_word = HIVE_ISP_DDR_WORD_BITS / bits_per_pixel;
--	words_per_line  = ceil_div(pixels_per_line_padded, pixels_per_word);
-+	words_per_line  = DIV_ROUND_UP(pixels_per_line_padded, pixels_per_word);
- 	bytes_per_line  = HIVE_ISP_DDR_WORD_BYTES * words_per_line;
- 
- 	return bytes_per_line;
-@@ -690,7 +691,6 @@ static bool calculate_ibuf_ctrl_cfg(
-     const isp2401_input_system_cfg_t	*isys_cfg,
-     ibuf_ctrl_cfg_t			*cfg)
- {
--	const s32 bits_per_byte = 8;
- 	s32 bits_per_pixel;
- 	s32 bytes_per_pixel;
- 	s32 left_padding;
-@@ -698,7 +698,7 @@ static bool calculate_ibuf_ctrl_cfg(
- 	(void)input_port;
- 
- 	bits_per_pixel = isys_cfg->input_port_resolution.bits_per_pixel;
--	bytes_per_pixel = ceil_div(bits_per_pixel, bits_per_byte);
-+	bytes_per_pixel = BITS_TO_BYTES(bits_per_pixel);
- 
- 	left_padding = CEIL_MUL(isys_cfg->output_port_attr.left_padding, ISP_VEC_NELEMS)
- 		       * bytes_per_pixel;
--- 
-2.43.0.rc1.1336.g36b5255a03ac
 
+It's conditionally called, provided the start_count of the media pipeline has reached a value that 
+matches the number of video devices...this fulfils the requirement to only start streaming when all 
+of the video devices have started. The v4l2_subdev_disable_streams() call I left the responsibility 
+of the image capture video devices...but perhaps it should behave similarly? Should stopping stream 
+on any of the video devices cause the stream to stop on all of them?
+
+>
+>>> +}
+>>> +
+>>> +static const struct vb2_ops mali_c55_stats_vb2_ops = {
+>>> +	.queue_setup = mali_c55_stats_queue_setup,
+>>> +	.buf_queue = mali_c55_stats_buf_queue,
+>>> +	.wait_prepare = vb2_ops_wait_prepare,
+>>> +	.wait_finish = vb2_ops_wait_finish,
+>>> +	.start_streaming = mali_c55_stats_start_streaming,
+>>> +	.stop_streaming = mali_c55_stats_stop_streaming,
+>>> +};
+>>> +
+>>> +static void
+>>> +mali_c55_stats_metering_complete(void *param,
+>>> +				 const struct dmaengine_result *result)
+>>> +{
+>>> +	struct mali_c55_stats_buf *buf = param;
+>>> +
+>>> +	if (result->result != DMA_TRANS_NOERROR)
+>>> +		buf->failed = true;
+>>> +
+>>> +	if (!--buf->segments_remaining)
+>>> +		vb2_buffer_done(&buf->vb.vb2_buf, buf->failed ?
+>>> +				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
+>>> +}
+>>> +
+>>> +static int mali_c55_stats_dma_xfer(struct mali_c55_stats *stats, dma_addr_t src,
+>>> +				   dma_addr_t dst,
+>>> +				   struct mali_c55_stats_buf *buf,
+>>> +				   size_t length)
+>>> +{
+>>> +	struct dma_async_tx_descriptor *tx;
+>>> +	dma_cookie_t cookie;
+>>> +
+>>> +	tx = dmaengine_prep_dma_memcpy(stats->channel, dst, src, length, 0);
+>>> +	if (!tx) {
+>>> +		dev_err(stats->mali_c55->dev, "failed to prep stats DMA\n");
+>>> +		return -EIO;
+>>> +	}
+>>> +
+>>> +	tx->callback_result = mali_c55_stats_metering_complete;
+>>> +	tx->callback_param = buf;
+>>> +
+>>> +	cookie = dmaengine_submit(tx);
+>>> +	if (dma_submit_error(cookie)) {
+>>> +		dev_err(stats->mali_c55->dev, "failed to submit stats DMA\n");
+>>> +		return -EIO;
+>>> +	}
+>>> +
+>>> +	dma_async_issue_pending(stats->channel);
+> You could possibly lower the overhead a bit by calling
+> dma_async_issue_pending() only once after submitting the two transfers.
+> It may not make any real difference though, I don't recall the details.
+
+
+I can test if we think it's worthwhile...I was working under the assumption it would be better to 
+kick start the first transfer so it's running earlier, but I didn't test it.
+
+>
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +void mali_c55_stats_fill_buffer(struct mali_c55 *mali_c55,
+>>> +				enum mali_c55_config_spaces cfg_space)
+>>> +{
+>>> +	struct mali_c55_context *ctx = mali_c55_get_active_context(mali_c55);
+>>> +	struct mali_c55_stats *stats = &mali_c55->stats;
+>>> +	struct mali_c55_stats_buf *buf = NULL;
+>>> +	dma_addr_t src, dst;
+>>> +	size_t length;
+>>> +	int ret;
+>>> +
+>>> +	spin_lock(&stats->buffers.lock);
+>>> +	if (!list_empty(&stats->buffers.queue)) {
+>>> +		buf = list_first_entry(&stats->buffers.queue,
+>>> +				       struct mali_c55_stats_buf, queue);
+>>> +		list_del(&buf->queue);
+>>> +	}
+>>> +	spin_unlock(&stats->buffers.lock);
+>>> +
+>>> +	if (!buf)
+>>> +		return;
+>>> +
+>>> +	buf->vb.sequence = mali_c55->isp.frame_sequence;
+>>> +	buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
+>>> +
+>>> +	/*
+>>> +	 * There are in fact two noncontiguous sections of the ISP's
+>>> +	 * memory space that hold statistics for 3a algorithms to use: A
+>>> +	 * section in each config space and a global section holding
+>>> +	 * histograms which is double buffered and so holds data for the
+>>> +	 * last frame. We need to read both.
+>>> +	 */
+>>> +	src = ctx->base + MALI_C55_REG_1024BIN_HIST;
+>>> +	dst = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
+>>> +
+>>> +	ret = mali_c55_stats_dma_xfer(stats, src, dst, buf,
+>>> +				      MALI_C55_1024BIN_HIST_SIZE);
+>>> +	if (ret)
+>>> +		goto err_fail_buffer;
+>>> +
+>>> +	src = ctx->base + metering_space_addrs[cfg_space];
+>>> +	dst += MALI_C55_1024BIN_HIST_SIZE;
+>>> +
+>>> +	length = sizeof(struct mali_c55_stats_buffer) - MALI_C55_1024BIN_HIST_SIZE;
+>>> +	ret = mali_c55_stats_dma_xfer(stats, src, dst, buf, length);
+>>> +	if (ret) {
+>>> +		dmaengine_terminate_sync(stats->channel);
+>>> +		goto err_fail_buffer;
+>>> +	}
+>>> +
+>>> +	return;
+>>> +
+>>> +err_fail_buffer:
+>>> +	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>>> +}
+>>> +
+>>> +void mali_c55_unregister_stats(struct mali_c55 *mali_c55)
+>>> +{
+>>> +	struct mali_c55_stats *stats = &mali_c55->stats;
+>>> +
+>>> +	if (!video_is_registered(&stats->vdev))
+>>> +		return;
+>>> +
+>>> +	vb2_video_unregister_device(&stats->vdev);
+>>> +	media_entity_cleanup(&stats->vdev.entity);
+>>> +	dma_release_channel(stats->channel);
+>>> +	mutex_destroy(&stats->lock);
+>>> +}
+>>> +
+>>> +int mali_c55_register_stats(struct mali_c55 *mali_c55)
+>>> +{
+>>> +	struct mali_c55_stats *stats = &mali_c55->stats;
+>>> +	struct video_device *vdev = &stats->vdev;
+>>> +	struct vb2_queue *vb2q = &stats->queue;
+>>> +	dma_cap_mask_t mask;
+>>> +	int ret;
+>>> +
+>>> +	mutex_init(&stats->lock);
+>>> +	INIT_LIST_HEAD(&stats->buffers.queue);
+>>> +
+>>> +	dma_cap_zero(mask);
+>>> +	dma_cap_set(DMA_MEMCPY, mask);
+>>> +
+>>> +	stats->channel = dma_request_channel(mask, 0, NULL);
+>>> +	if (!stats->channel) {
+>>> +		ret = -ENODEV;
+>>> +		goto err_destroy_mutex;
+>>> +	}
+>>> +
+>>> +	stats->pad.flags = MEDIA_PAD_FL_SINK;
+>>> +	ret = media_entity_pads_init(&stats->vdev.entity, 1, &stats->pad);
+>>> +	if (ret)
+>>> +		goto err_release_dma_channel;
+>>> +
+>>> +	vb2q->type = V4L2_BUF_TYPE_META_CAPTURE;
+>>> +	vb2q->io_modes = VB2_MMAP | VB2_DMABUF;
+>>> +	vb2q->drv_priv = stats;
+>>> +	vb2q->mem_ops = &vb2_dma_contig_memops;
+>>> +	vb2q->ops = &mali_c55_stats_vb2_ops;
+>>> +	vb2q->buf_struct_size = sizeof(struct mali_c55_stats_buf);
+>>> +	vb2q->min_queued_buffers = 1;
+>>> +	vb2q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>>> +	vb2q->lock = &stats->lock;
+>>> +	vb2q->dev = stats->channel->device->dev;
+>>> +
+>>> +	ret = vb2_queue_init(vb2q);
+>>> +	if (ret) {
+>>> +		dev_err(mali_c55->dev, "stats vb2 queue init failed\n");
+>>> +		goto err_cleanup_entity;
+>>> +	}
+>>> +
+>>> +	strscpy(stats->vdev.name, "mali-c55 3a stats", sizeof(stats->vdev.name));
+>>> +	vdev->release = video_device_release_empty;
+> Not a good idea at all, but I won't ask you to fix object lifetime
+> management in V4L2 as a prerequisite to merging this driver :-)
+>
+> With those issues addressed,
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+>>> +	vdev->fops = &mali_c55_stats_v4l2_fops;
+>>> +	vdev->ioctl_ops = &mali_c55_stats_v4l2_ioctl_ops;
+>>> +	vdev->lock = &stats->lock;
+>>> +	vdev->v4l2_dev = &mali_c55->v4l2_dev;
+>>> +	vdev->queue = &stats->queue;
+>>> +	vdev->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
+>>> +	vdev->vfl_dir = VFL_DIR_RX;
+>>> +	video_set_drvdata(vdev, stats);
+>>> +
+>>> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>>> +	if (ret) {
+>>> +		dev_err(mali_c55->dev,
+>>> +			"failed to register stats video device\n");
+>>> +		goto err_release_vb2q;
+>>> +	}
+>>> +
+>>> +	stats->mali_c55 = mali_c55;
+>>> +
+>>> +	return 0;
+>>> +
+>>> +err_release_vb2q:
+>>> +	vb2_queue_release(vb2q);
+>>> +err_cleanup_entity:
+>>> +	media_entity_cleanup(&stats->vdev.entity);
+>>> +err_release_dma_channel:
+>>> +	dma_release_channel(stats->channel);
+>>> +err_destroy_mutex:
+>>> +	mutex_destroy(&stats->lock);
+>>> +
+>>> +	return ret;
+>>> +}
 
