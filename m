@@ -1,148 +1,122 @@
-Return-Path: <linux-media+bounces-16192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16193-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C595D950348
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 13:07:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2634B9504A3
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 14:13:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 039861C2274F
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 11:07:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A00D1C22F4B
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 12:13:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 589D2198A35;
-	Tue, 13 Aug 2024 11:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38561199385;
+	Tue, 13 Aug 2024 12:13:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FmjpXsPN"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LlUAdA81"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E21921345;
-	Tue, 13 Aug 2024 11:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE1E1990C7
+	for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 12:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723547251; cv=none; b=mPGgXx2IgaiZBdp7E9U2cQvkVX7aOsxuG1G33Mn3qcXUGqITsjGO1Gu079vfMioZVqVESm8nSnAYcgEzc2u8pR9X7C279tR+Zsep2RkR2zg1ijx8mHsu2F812YpxfEJIc19gsVh6XgAemjPniabgW8kBbSHOV5QF82X0K8y19x8=
+	t=1723551232; cv=none; b=bHTNAs6qm92t25r3VTcCuf61nyHprv0Ru5Rzb2qQlKAfxG5o9N7pGVdxxq7d744aaVYKSxBYhpOQxIdVj3kFyT369Gb7+XFslxeykkQy7Bffl4yfa6eKV19L4jBHjdawGPi/RK3X5L3mPFeNfJO3zAEzgCdxz3ZXeBSoz8039WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723547251; c=relaxed/simple;
-	bh=uugB4eTDuGQJnFKfIFPjwiieP1yYLYGEZ5iU7r3LsJI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fqCcgCV124N9MFkl15VaxJU/2bfin/AEh1HT7hIt2USq39X5h3NnMoNMsmG6aaK7Lk8Mjv5IldLLTkCRbdVS3/dnipZgfADFPtBsX+W04DAuddizzwJNX4imdmkTS3XJmxqT/aX0xInMlt63ag+/BBTd4N0GGqKwHy03TmGOR1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FmjpXsPN; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A79F4AB;
-	Tue, 13 Aug 2024 13:06:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723547191;
-	bh=uugB4eTDuGQJnFKfIFPjwiieP1yYLYGEZ5iU7r3LsJI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FmjpXsPNxgAZsJdy702YFvpUd9tgOOpQu9v+ztsPkipMYA6T/GAIMcmwPvyMg1gkE
-	 fZyeNrspr36V86TW2soCct++smDDlflnQlxWk/NxgWy62TTpBrgzLzpXjGa4aurUuk
-	 CBNkv87hiFX2pOvl/Is9b36k0RxkAKJ++i4Ap9iU=
-Message-ID: <694f66f1-1b38-4d14-b52b-4610b619b517@ideasonboard.com>
-Date: Tue, 13 Aug 2024 12:07:25 +0100
+	s=arc-20240116; t=1723551232; c=relaxed/simple;
+	bh=AhtVc0eRB313SzivG95eO+fvDnddIaj+hD0gJVu5zyc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Mrnr9k7XAkTxnEpuG1AATwj8aAD33/V0YzKQd+eCXBZXFA9fmt3TjaqyO0UFj0xopeUD5bAeqx4fcupm+MZJ8oAtpc5o8PkJjm9t/UEBjqO94spY8OXLQxgmeCkazI9fYn7dqiS9sTga5nB0mVberVu36HUnKZoxhv0pSaKjs9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LlUAdA81; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7a1d42da3baso343429085a.1
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 05:13:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1723551230; x=1724156030; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=exEVIAJZd/rYdUXslfft3lBWpWIRwR1McJc3b9INl9w=;
+        b=LlUAdA81g9wNGeTxYHkTqkJrJDjxHBrv0nj3BkwaduKYWicDObc7qmitZ/DB6rgTB9
+         uU9ZwxIgXnI173noR03bRPrBd3QjJiApY1aH3HMzSOl8t4LF1jwq+9J4bwpAHoID44tT
+         xMsSA7gvr2VzSPc95u03vFP1VMFKnEJAwG+fs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723551230; x=1724156030;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=exEVIAJZd/rYdUXslfft3lBWpWIRwR1McJc3b9INl9w=;
+        b=hG2sQL8KK8mIpnUlHAFZZcg/JJy0S/IFnHZp7FjKxIcXKx7pM8KD3ZYEm7AeIHK8VL
+         bvPcmuVjRWATtv85Z1Tw2//5vfZx0Wj4+UQ0/LN/y1YH7uLkuWuz6k7OwPanfqLx+VG9
+         s1Wcf+/xdiAiHB+s4Lz9OxV2lgnj0+JxO2Gn51uBvLZIYe85hn+Ioq52l82nMb1jq2un
+         pS2BHadHu9M5qJUyISkfaS32VQDAZGObtFbOan9v06d0CtZWg1fkPj7soHVVMWww+iFF
+         onfRTkKLKfXY/xUSgJCn+iO674TJHE1fJzVP4hkYeWz6Y1Y0UL8iowZzY8mv0hGFc5LM
+         Ey8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXKIV7e9wFfJTHsJWwdcaULBcDaiUMo8rYbhWR1M8Z7ivPPmkmFNdF9wS3zp4rX8Udu4k0O4OyyX775gjWYtVRl0On+LiJUkPoM0og=
+X-Gm-Message-State: AOJu0Yya97zGaqZfCoIO08TCncp6oe1mLM+CnsA5NHjXAApB5pqexmzy
+	h3Uqplellb2x40XgDhiRUscy5vmu/GNF1g3nWS1QyywR6BIfS7hR/KZltXIszw==
+X-Google-Smtp-Source: AGHT+IHEAC5qNhYBF14RuyiMsQL8IDhPP6lbNZuwJIZWarWyGBLPSFdo+w5w+ficdZzhLBjRgODR3A==
+X-Received: by 2002:a05:620a:460a:b0:7a2:db1:573d with SMTP id af79cd13be357-7a4e153e4femr367590785a.36.1723551229916;
+        Tue, 13 Aug 2024 05:13:49 -0700 (PDT)
+Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4c7d71ca8sm331765485a.50.2024.08.13.05.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2024 05:13:49 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/6] media: Fix last smatch warnings
+Date: Tue, 13 Aug 2024 12:13:47 +0000
+Message-Id: <20240813-smatch-clock-v1-0-664c84295b1c@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: Mark UVC gadget driver as orphan
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org
-Cc: Michael Grzeschik <mgr@pengutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Avichal Rakesh <arakesh@google.com>, linux-usb@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20240813104447.25821-1-laurent.pinchart@ideasonboard.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20240813104447.25821-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPtNu2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDC0Nj3eLcxJLkDN3knPzkbF2jtETjJENDcxMLU3MloJaCotS0zAqwcdG
+ xtbUAgffoXl4AAAA=
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
+This series completes the smatch warning cleanout.
 
-On 13/08/2024 11:44, Laurent Pinchart wrote:
-> I haven't had time to maintain the UVC gadget driver for a long while.
-> Dan Scally confirmed he is also in a similar -ENOTIME situation with no
-> short term hope of fixing that. Being listed as maintainers doesn't help
-> progress, so mark the driver as orphan to reflect the current state.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-Acked-by: Daniel Scally <dan.scally@ideasonboard.com>
-> Dan, could you please ack this patch ?
->
-> Michael, feel free to take over if you want. You have been active on the
-> code base recently, so that makes you the best candidate, even if I
-> disagree with most of your technical decisions. I'm a bit sad to leave a
-> driver I cared about without trust in its future, hopefully the future
-> will prove I was wrong.
-> ---
->   MAINTAINERS | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8766f3e5e87e..e6df197f1a58 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -23819,10 +23819,8 @@ F:	drivers/media/usb/uvc/
->   F:	include/uapi/linux/uvcvideo.h
->   
->   USB WEBCAM GADGET
-> -M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> -M:	Daniel Scally <dan.scally@ideasonboard.com>
->   L:	linux-usb@vger.kernel.org
-> -S:	Maintained
-> +S:	Orphan
->   F:	drivers/usb/gadget/function/*uvc*
->   F:	drivers/usb/gadget/legacy/webcam.c
->   F:	include/uapi/linux/usb/g_uvc.h
->
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Ricardo Ribalda (6):
+      media: ar0521: Refactor ar0521_power_off()
+      media: i2c: ov5645: Refactor ov5645_set_power_off()
+      media: i2c: s5c73m3: Move clk_prepare to its own function
+      media: tc358746: Move clk_prepare to its own function
+      media: meson: vdec_1: Refactor vdec_1_stop()
+      media: meson: vdec: hevc: Refactor vdec_hevc_start and vdec_hevc_stop
+
+ drivers/media/i2c/ar0521.c                   | 15 ++++++++--
+ drivers/media/i2c/ov5645.c                   | 15 ++++++++--
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c     | 13 ++++++++-
+ drivers/media/i2c/tc358746.c                 | 12 +++++++-
+ drivers/staging/media/meson/vdec/vdec_1.c    | 16 ++++++++---
+ drivers/staging/media/meson/vdec/vdec_hevc.c | 43 +++++++++++++++++++++-------
+ 6 files changed, 92 insertions(+), 22 deletions(-)
+---
+base-commit: c80bfa4f9e0ebfce6ac909488d412347acbcb4f9
+change-id: 20240813-smatch-clock-2fa3b1174857
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
 
