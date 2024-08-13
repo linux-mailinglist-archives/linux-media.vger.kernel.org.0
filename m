@@ -1,170 +1,317 @@
-Return-Path: <linux-media+bounces-16175-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16176-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2C89500B9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 11:04:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0492D9500C9
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 11:05:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C4FD1C214C9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 09:04:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84F251F2172C
+	for <lists+linux-media@lfdr.de>; Tue, 13 Aug 2024 09:05:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0046316D33F;
-	Tue, 13 Aug 2024 09:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30571175D3D;
+	Tue, 13 Aug 2024 09:05:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uY3Czher"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="GEAZcncz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from HK2PR02CU002.outbound.protection.outlook.com (mail-eastasiaazon11010062.outbound.protection.outlook.com [52.101.128.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DE717C228
-	for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 09:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723539828; cv=none; b=Wd7wIeSfReLavyod0N6K8aPUjAy7GjDjIYiDymVfRDjvAKGoSD1+HetIXmruAT2NS1OaRTnP0OKtFvJXszcNXqBWHTpGMbGXWzYiWF7TZ4FbZY/qoc46N9WHaZrkuReShavDxp2lx4udNwg/AN99JO2Qg/9ZH5bsuP34FRik8IU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723539828; c=relaxed/simple;
-	bh=OFLmnkChNt3TrBDQB3OchS9v9nydUBdhsCvm9Qr0paQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dlFj7juiTT/6hHoCRVN7TkSV3ue5t3+9BOQyfS36ylRkhEkOEnp7bC0Rqq9eQKfYQ4B/638+W8kNc66gKWIKUs1AmHPXuEyUE+QXBsKrrwxHnDO74CuS2PQmdmYZzI1opiVGWn5aHmPhwHgixTY+v6O38FZz2B2r+iTWNuAJFIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uY3Czher; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-821db15a930so1358739241.1
-        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 02:03:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723539825; x=1724144625; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MqfnVnhHsKTNIdZ3g99elQ8N0kSquMZj93pvaOSIp0U=;
-        b=uY3CzherVSUXaUL2L45nDDjUe851uSDwoUak+sWbM5SLZgqZu0RzWakWib6600bcM3
-         nkpN48NnEKFdKHNu45FDUJ+iB/gabNPMokNHB4mnqALGdAwZ3ybYGg6whRFoVc9NBxZW
-         U1SkhkP4aChDRMPRkgx8vXA+ZlnLtATO+602voSTI274QqM7RicCA6o3qPCI+mW0gOB9
-         y+K0HPR/eBxpYqeHyFh6JP/dbTfsAN//pojGBDgYuWYY8y4FA/tPQh+K1e2yh39e3RSp
-         NiRMGNuOEyiuVZmbB7CHeVf5LcFuLYiHjUtvhEDA4gf4pNEQxoUNr8DV9kVgMMw88MOS
-         ZbOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723539825; x=1724144625;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MqfnVnhHsKTNIdZ3g99elQ8N0kSquMZj93pvaOSIp0U=;
-        b=PYexYtsCVJH01614LKmg8VnRzXPZfekZvm1TeaOp6lIi8/m5BUFLtajDF+64CCOYUX
-         Dx2/XLpo7pJtQ1df5KIjdrOJixZW7mcq9TYLxFPNbrzMSdhpTJBwaDQHRBMX5zd5SWN/
-         TIXDEXcPTKRhlZDKuxyGlY4YnACX+R/PAB7fnbojHUqkaRFK43efjNHiEcSe8OLGYBcv
-         NlQDXlfVC6V/DFB4HkF1uFfANpxmboqB+FfyiqZJ5RxoV+NcRl7Ts0NXP6eP/ohrPTEF
-         dfwQPHG3yQsM7Tw3vNjRXS2Elk4wKpbsT4XlYVWq/Gqlafu6yqwdNy468rKHkCEIljAG
-         fA5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWu692uVQ5fCMWY144L8Xg0F/g8k0Mk1rWZxIM8oGX8GdzuWjw+Y9tq93yBeXfwYP4nvOHxURQctxK1sFzG6UYR41GK+mYamAJzPDw=
-X-Gm-Message-State: AOJu0Yw3Lb3MjmHgu1pz6p0+mnM1Opo2D1yGL3FlY+Vot11pYQAU1w6M
-	+kOXgsxZEvnWEgCI5NTwUCrRws0h+h0LF0SLBQVkB3zE6zaVMZnQ5HThNSZo4Lg1WuNokwKSHvn
-	0yxJnqM9lib8TbKyM5Lhu6KWbSO/DmTmOGbc3
-X-Google-Smtp-Source: AGHT+IEDjVBWF1MtU621r7c9KTxxkpXecwmSkiD37eYz3ttGuDqjz8Aa65UHLyu0qffTTOccInI+PGwQjjCKHuK8rFw=
-X-Received: by 2002:a05:6102:3e94:b0:48f:a858:2b52 with SMTP id
- ada2fe7eead31-49743b56abemr3993740137.29.1723539824928; Tue, 13 Aug 2024
- 02:03:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C47913AA3E;
+	Tue, 13 Aug 2024 09:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.128.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723539944; cv=fail; b=uzcqJoeylIy9VkN7H71BJFtgLwPj/+ZaMHJxryrmk+38AOlMUVTsaKXCEYCRkWVHIb8ESzu1YVsuRjdZjOK1FD7xwBgFUNbVeHvHmLQqCDFWrrhDq5v6rRm7tNFkjNoUSDZLTNepHLo1nVOvc4Gm3mkk86XOuzxjME7+vHPoaoM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723539944; c=relaxed/simple;
+	bh=7mIn1bJ8TRhyOrFIImEqQlobZLTu9k7fnnqwgB/N7ZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=kIQQYyrEDEGHGhpwoyjIt/JCCZTzvGE229gixGgtG2UPKf/aivcqWKO+4OKJdaSQPpmtMLA2AiYSNRsCqzK3EkhFaX+tQ5wr4PAkR68rmc7bimzAsxFWKXEh2zn8fAx3EDTt2jlycU4oRKRZzssItJdHa8e4jKmNovttT+l17qE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=GEAZcncz; arc=fail smtp.client-ip=52.101.128.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dj4frDjv0jZ+oun6pWyzSBcr2SKZlLZENPr5rl1ENBqCzb11/ObJ5ZGHFXrzKfe5Pwo7MdTK83e1G15KQZB3C7odcNUbyz/OyD7B9DPc947kTpomjRmtu5iin1XErrT5jz2mwzv8v6S86mNQWTe3ynl+fww0JhpVakLzhR9SPPRfZP/tLxBM8Glqs2mtX3JtTnqpJHDoEuyPLTErT3GBSiMy+mx4x3Rj84b9efXdCtxywWq4PKLmX2oveha2FP3QJe1wwRzZ1MQxqLGH9Ogt4r5Dj1FXRYEMVeLYPf6rWz1gO/O1zN5r+elBJ0EoKaz31Zywz0Cq5hr6qzvp+JWYCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p+BAVsbafWS5M8Zwsgb4zx7BrseTuCYrgJ+/U/HeGJY=;
+ b=M958T84C0saeXEBOckjE6oO8AdFXq0tHtHMXV7/576U16lfbcvxfTDE66P351c0hRI1Ku/7/NpQMmR+7NQaZ7+8KaY7lR6JwWALGcMG4ZwdKJMPUtzSo+4SZg536fDJLSmCQ1mYCJwXv9zQz/0UHpKm5wfDPOcOqI87+mzrScitqqOjFak7APeOzOuDA9EMLB6Of+R4we2u1E8cs26F6NaWWWAltjkagsdxG47QPHIXRc3SE2HYiAgbrLj3JK2BOcXKC7nqwHEoQxq/ghfIMXH+0mZw7RRi/XcGUpmS44psMSfz1ZSH+2sBADHabm1WUVfQzG2KUhkYDWlK1PduROA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p+BAVsbafWS5M8Zwsgb4zx7BrseTuCYrgJ+/U/HeGJY=;
+ b=GEAZcncza6DcXI9S3G7Mca06HLzrSydTaszrh+sUOKzOYLrsw5zTHGzdYIU7QnfckdBv51UkdOH0CVVQ0CBfmeYw+DRZZWeOI9VrL6yCJGSWTceVTPmvpEVO7JR8MzZJrZ4Yw5IhaNr2seyiFuPU/nS7ThtmQYOYnWRWWJWg7pDbdbpvGF6fue7gk4XkrIreqlBWECAS1vEzBdrUnXdzq4R6avvEIFGlvps2NM7h/QKxon0ACNqHXUrFILxYdOXFPKQecekKRFGT3//9TfV8lWzSgqTYaFGO4z8YiBsw+r9XxntPA5/HfWaK1FeX2zF6PrY4dXV8dejaJpxcC9P6Nw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
+ by SEYPR06MB5400.apcprd06.prod.outlook.com (2603:1096:101:8d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7849.22; Tue, 13 Aug
+ 2024 09:05:35 +0000
+Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
+ ([fe80::a00b:f422:ac44:636f%4]) with mapi id 15.20.7849.019; Tue, 13 Aug 2024
+ 09:05:34 +0000
+From: Huan Yang <link@vivo.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Cc: opensource.kernel@vivo.com,
+	Huan Yang <link@vivo.com>
+Subject: [PATCH v3 0/5] udmbuf bug fix and some improvements
+Date: Tue, 13 Aug 2024 17:05:06 +0800
+Message-ID: <20240813090518.3252469-1-link@vivo.com>
+X-Mailer: git-send-email 2.45.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR01CA0041.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::15) To PUZPR06MB5676.apcprd06.prod.outlook.com
+ (2603:1096:301:f8::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240805212536.2172174-1-almasrymina@google.com>
- <20240805212536.2172174-8-almasrymina@google.com> <20240806135924.5bb65ec7@kernel.org>
- <CAHS8izOA80dxpB9rzOwv7Oe_1w4A7vo5S3c3=uCES8TSnjyzpg@mail.gmail.com>
- <20240808192410.37a49724@kernel.org> <CAHS8izMH4UhD+UDYqMjt9d=gu-wpGPQBLyewzVrCWRyoVtQcgA@mail.gmail.com>
- <fc6a8f0a-cdb4-4705-a08f-7033ef15213e@gmail.com> <20240809205236.77c959b0@kernel.org>
- <CAHS8izOXwZS-8sfvn3DuT1XWhjc--7-ZLjr8rMn1XHr5F+ckbA@mail.gmail.com>
- <48f3a61f-9e04-4755-b50c-8fae6e6112eb@gmail.com> <20240812105732.5d2845e4@kernel.org>
- <7e2ffe62-032a-4c5e-953b-b7117ab076be@gmail.com> <71260e3c-dee4-4bf0-b257-cdabd8cff3f1@gmail.com>
- <20240812171548.509ca539@kernel.org> <CAHS8izPyGwe_i4eNemW+A+MgMVHqJ0fdp=+-ju2ynqgc0mb_Ow@mail.gmail.com>
-In-Reply-To: <CAHS8izPyGwe_i4eNemW+A+MgMVHqJ0fdp=+-ju2ynqgc0mb_Ow@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 13 Aug 2024 05:03:33 -0400
-Message-ID: <CAHS8izM=d9pe0V3BWAY_gguNGymdc4DSFAz0DWyCMoGX6QVhDw@mail.gmail.com>
-Subject: Re: [PATCH net-next v18 07/14] memory-provider: dmabuf devmem memory provider
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Donald Hunter <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|SEYPR06MB5400:EE_
+X-MS-Office365-Filtering-Correlation-Id: b87c1c79-bbc1-417a-bee3-08dcbb771743
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MDlKMFprdnB3Z05oS3hwRFVXMnpkaXZ2Ulo5N1l0ZHhYWk02VkpYajJQeHgr?=
+ =?utf-8?B?bjFlaUNBTlZKV3VLdTFpVmlDQ1B2d0ovNkx1Ull3QmtSdjdPSUxEMWpVVUl1?=
+ =?utf-8?B?OG41QzBoY0NuQjJVbG1FUk52VlkxSS9jZVQ5ZmFqN2RUaTRVM1NyT3l6UjBl?=
+ =?utf-8?B?TXVGMWdHVGo5bzUrSlFRaFRvK2ZrY2svL3V2VnR1azMyVCtybHJEc0gxRVkv?=
+ =?utf-8?B?aUVoOEhZYTNSanVnTkhGODRYS3JTQnM5c0I5ZXhEbnkzVjh1RHdsMytzaWtK?=
+ =?utf-8?B?SFk1L3NDZmZocGkxUmFOcnFtaUpNS2ZZZ3dmTy83UFArQ3VWd1hDNUdJL2JU?=
+ =?utf-8?B?bXpMWlp0c2ZqSHBYbkU5R2R6dXlpbVRhSGdRM2l5S2F1b1Yydnd5blZPVGJX?=
+ =?utf-8?B?eVlwSEw5LzBwOWN5TENIR2JHU09UV0lNUFg3ZFVLdTBsd3B2aW44TkdCVXpz?=
+ =?utf-8?B?c2FJcHdqVUlISHY1VWlrYUM0R2hsTWlNN1FadGZFak01TXlFTzduYzNxZlBa?=
+ =?utf-8?B?a0gzaDhzS1gzeFprOHVYbDlBZ09UdmNPRlYzT2JLUWFoWnczZjYwbWFmbkFp?=
+ =?utf-8?B?b3doQ2tjTnJRVTE3UVZxV0g1ZXRGZkg4dkdBU1pxVzY5clNNWEVJeUx5YzRF?=
+ =?utf-8?B?WFJrbGZBNmZwZWRFRnFOeFh4WXI2dW1ud0JYNXFmV2Y5d0I1ejU1blFocnRl?=
+ =?utf-8?B?dk9LK3NlYlJpU1QxaG13cnQybW53cktlajBsWWhHd0FsbFhUN2xoczBVWkJ1?=
+ =?utf-8?B?NTNDMzgrekNjMkw2YjFPdER5USsvUDkzVEgrUE1Hb0N3MG1KMXlSalcrK0Rk?=
+ =?utf-8?B?WnVQMDk4VnVGNDErUTFWbFp6SzE2WTk0N2NROXdqTCtaeHMwTUYwbW1ES3Zt?=
+ =?utf-8?B?WDM5M3lPOTMydUE5WnFFSkNSZUw2S0hTaFpZOFQzb1RKc3pOYy9aYmY4TDVt?=
+ =?utf-8?B?TUtiS1RXamZjaVFtUTVvS0hLWXhScVlyUFlLWitVWWNzM1ZCTGVKeCtJOFR6?=
+ =?utf-8?B?eFNzWE40NENJL0wybWZJcXZCUThVbUpZRGJ6b05ySEMybGRoWkN0VEk0VTdE?=
+ =?utf-8?B?K0VwMm5MZUlIZmQ3clZqTVpybXBuSUhucVUrWkY4UFFXUERsbGlDZVEyUXNB?=
+ =?utf-8?B?S0JjbkZpbmdpc0FNOHoxTTYxME9zWjZ1aldtNFRoQVcvQmJyYzM5a3prR3Ro?=
+ =?utf-8?B?a1dCYzRrVXBobTZKNTZKempmMWYzUFpPY2JoYVZaSGRuUTZtUkNodSt3OG9F?=
+ =?utf-8?B?anprMDJIT2V3bWp3WGlqQzhReVo3QUY0UXYxZlZHSGdlYkt2RXZTUC9LdDNa?=
+ =?utf-8?B?WjB6S2dqSTU1dWhpbDF1Y2Z0aklrbUl1WFZZU2JGWUx4V0ZlRmwyMWplZ3Vr?=
+ =?utf-8?B?ZGt5NEgxNFBVd3k1cWx4QndQUFZXOWZXcHpqejd4dGpLN2owVk0wbm81bmwv?=
+ =?utf-8?B?SHY3TzhBbnY5K0JSNFVmcUlheHZOcSt6ZzZMUHBtcmhJT3cyK3hxQ2xVSGov?=
+ =?utf-8?B?YTJ5cWxybHV6WUZNTzZXZ1VERjk2M24xY0NmZXpSR0NpQWJIZUxwUnR5VWw4?=
+ =?utf-8?B?RnFpUnBsOTlKcVhDMzFPWGkvdEdJK0MvSFZTbEJ5dE5od3gra2JqdzlxRTRI?=
+ =?utf-8?B?NmtzUzNCZi9Vamc1c0k0dER4cEJvait2NjFsZ1ZQdG5MckViSG83VlRWRWMr?=
+ =?utf-8?B?bE8zbjI5YnFIYU9WcFRrRWU0YWtLN25tSSs4Ym9pWlZtYkFFdE9vcVpBZFly?=
+ =?utf-8?B?UEhnWWxIRnZtVDJTWGIvUGF4a25GYXNIYTZkb2puMzRHWmU1R2F2S3IvK2pM?=
+ =?utf-8?Q?3e1N52AQnysEQvVGpswd0nenejSs5/JP7AHHY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?djhKQXZWWFVyd0ZGRmkyTlVCbGM5aHJBcVB3anZLUTlzakFUcjBWNitwUTVM?=
+ =?utf-8?B?Uy93ZEhTUlI3cTVLcTlGeGk3b3h4Nk82dVlndjIwVG05SVd4TWJ0U2NyUVJF?=
+ =?utf-8?B?L0dsQWgveW81dFBreFpwVTJiNTJZR05tMXdHbjBicXFweVk4QXJHbi9Namoy?=
+ =?utf-8?B?bWJKU053ZTR6Y3Q1bUJzM2hrL2VPNTY5RUs2K1VKTE1sVm9pNE9rNmVMWEwy?=
+ =?utf-8?B?M1lOOFBGYVNiMmdFS2pmMlc0NVpxVHVLZ3BETGRDdnk0Y2hGT2hyQ0dGMTc3?=
+ =?utf-8?B?UTZpdEp4VmZObGxURUpRQ1NNZ0tBaEVvQnhwbTdkM25aQXJ3ZVphNk11dkkw?=
+ =?utf-8?B?WDBHZjhNN3Y4RWliU1hoS29DaUs4RGFtSTBOaG1BQkw2UjlEenJ0S3hvZnFu?=
+ =?utf-8?B?RUJSMjZjeXBGK3dFaWF5WUg4QnB4RzYzdHdvTkFtaERSeHRaUEE3T1FHOVhC?=
+ =?utf-8?B?Q0VrTTA2U3ZFOWV6T1N1VzJRT3MwZC9pSCt3V1dTWFBVQVhzWXhaNUs2eGtr?=
+ =?utf-8?B?eFJYRVRVTy81R2dDeTZPZkZjYklkUzV4MzYrdC9kUkE5TkZXaWUvZ2JUODNq?=
+ =?utf-8?B?SGg1UGw5VytJR0ZMSGM3ZVlYa2crdUgvWjU1dmhrRjNNZnlRUGM3NW1BYmFt?=
+ =?utf-8?B?ZmJnazZ1djJJYjVHMGY0OWl1NDcvRmpodU5QZFlFUUFlNy9DbmhsNDNsTUlU?=
+ =?utf-8?B?Tmh1MXNBc01zMC9DMWZqbEd6aUpTRzZjY0lNQU5FaEJ1YU8zZ3NSZWRiZnlF?=
+ =?utf-8?B?YjY2Uk1CVDBHZDBuNllzK0FxUlc3cVJ1dkdteVh1c1FzR3pwTks1OFVzdytU?=
+ =?utf-8?B?S2hGcVlFRXNpR3JpbGR6NkFIYmkrSjNtY1NkN2dxVjBSVFFMWUFiSytpODBa?=
+ =?utf-8?B?enMraVVjRnJyZjZJcWhYYnIrdkhUM3FpQmZza3ZPYjBtMndmYVFYNWFjODRt?=
+ =?utf-8?B?Mjdac2gzWkxmWUJ2ZFZLUkhaanlBQVhhbVhNYTVPZWdxaGtqMEs3UHBYYXY3?=
+ =?utf-8?B?empZNmgyUEo5d3g2Y0c4VlFtT3NRNE5KbWUrd09BM0s1MDM2V3lSS3NvWXQ3?=
+ =?utf-8?B?QmFHYUZSMGpDbmVDSmJraTF5U2l4dHE0TDh2UDVnOHJQL0l4NTk2bklYdDRO?=
+ =?utf-8?B?Z3ZKdG1XT2UrR3JMZU91dHBnRExGODVoUm5VQmg0NFFwMVh6eXE5N2NDV0cz?=
+ =?utf-8?B?Z0FwR1hrdklCS3FYS3BlUmQ5Yy9ZeUdzVGlIU3pibmxuUU93ODUxNThUNnVV?=
+ =?utf-8?B?WDBpZlNWT3VDSjFzZStyS0J4eXlNUVM3cU5FOTE0ZUpxUDRCU2VTcCtwY3c2?=
+ =?utf-8?B?d0pGSWwzRDh2bVFqSVVDOUpleGhESHlHUU5CVFloeERtcHFYLzg0bXhnMmps?=
+ =?utf-8?B?V3U5b0I3TTdLRElIOTJWdFovV3dTendzQlBTWkJpMkdOZ0FHNHNvVVE0SHJ0?=
+ =?utf-8?B?ajVmOG8xWDJBWGg5b09CTk13M2ROUXd5YTdOQkc3SUhITUxBaHRHNXJHeU1I?=
+ =?utf-8?B?Zm9JU01mcmp1WHd0amhINkdOL3NkTDBsenBUT2N4dldkNU5lWWZpeklLY3Jj?=
+ =?utf-8?B?WElGTHhGNGRRRkN0ckRqKzZEeEtqczBXYUMvclJKUXpxR2pjWE5mUGVCODI3?=
+ =?utf-8?B?YUwxZklyN3NjMitJaGZnSzdqM09aS2RiT1VmYS9pMk9oTDJ4YUdKcWsrVEd6?=
+ =?utf-8?B?VldSbWU3M0FiU3piWGJVcHE4ejhvYmJZTUx3Z001WVhYRi9LaHcxUENnN2hT?=
+ =?utf-8?B?OWNpZmtLODUrMFVPaUxiM21YRXRhTXU2eWFLRHdhdy9QMHlKOHVTNGduSmVG?=
+ =?utf-8?B?NVMxTjlqKzFzZ1FmK1lEa0RxT09KVHhPTjRXUXNTeHQwbGJBTW1EM0Q1R1Jo?=
+ =?utf-8?B?M3VDNXNxS3lWSjdSKzNRdlhMVGlydHVQdkFjcHRiZ0lEaXN5eUhXTmxNbGlQ?=
+ =?utf-8?B?aFFKaXpFSW1RUHA1V00xNVFib1ZZN094SkdoMk03L0lVL0QyUnA5YVJjdmFN?=
+ =?utf-8?B?aXNpc25pYUtGUmRjQVFaV1NnVHd3SWxQT1Z0Qm1jYVJkMmxVVk1yWndqVlNQ?=
+ =?utf-8?B?TU1GZFI5a3hMNkQwMTEwVnhEMTllR3Z3NVhueUQrNnpHRXNNMWI4TElKZFN3?=
+ =?utf-8?Q?rHC5m5WwsyVthjY33ExIequ4D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b87c1c79-bbc1-417a-bee3-08dcbb771743
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2024 09:05:34.8014
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zeuEYigkIYyfLN3jjNZR3NRrrcIjR8YQl4AilHjWnb3w4Qs1r8qHvMPTMwUtqdYHees8LVQBqNJoTFLRV9ZDyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5400
 
-On Tue, Aug 13, 2024 at 4:39=E2=80=AFAM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Mon, Aug 12, 2024 at 8:15=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> =
-wrote:
-> > BTW, Mina, the core should probably also check that XDP isn't installed
-> > before / while the netmem is bound to a queue.
->
-> Sorry if noob question, but what is the proper check for this? I tried
-> adding this to net_devmem_bind_dmabuf_to_queue():
->
-> if (xdp_rxq_info_is_reg(&rxq->xdp_rxq))
->                  return -EEXIST;
->
-> But quickly found out that in  netif_alloc_rx_queues() we initialize
-> all the rxq->xdp_rxq to state REGISTERED regardless whether xdp is
-> installed or not, so this check actually fails.
->
-> Worthy of note is that GVE holds an instance of xdp_rxq_info in
-> gve_rx_ring, and seems to use that for its xdp information, not the
-> one that hangs off of netdev_rx_queue in core.
->
+This patchset attempts to fix some errors in udmabuf and remove the
+upin_list structure.
 
-To elaborate further, in order to disable binding dmabuf and XDP on
-the same rx queue for GVE, AFAIT the check would need to be inside of
-GVE. Inside of GVE I'd check if gve_priv->xdp_prog is installed, and
-check if the gve_rx_ring->xdp_info is registered. If so, then the rx
-queue is XDP enabled, and should not be bound to dmabuf. I think that
-would work.
+Some of this fix just gather the patches which I upload before.
 
-At the moment I can't think of a check inside of core that would be
-compatible with GVE, but above you clearly are specifically asking for
-a check in core. Any pointers to what you have in mind would be
-appreciated here, but I'll try to take a deeper look.
+Patch 1,2,4,5 has passed the udmabuf self-test suite's tests.
+Suggested by Kasireddy, Vivek <vivek.kasireddy@intel.com>
+Patch5 modified the unpin function, therefore running the udmabuf
+self-test program in a loop did not reveal any memory leaks.
 
-> Additionally, my understanding of XDP is limited, but why do we want
-> to disable it? My understanding is that XDP is a kernel bypass that
-> hands the data directly to userspace. In theory at least there should
-> be no issue binding dmabuf to a queue, then getting the data in the
-> queue via an XDP program instead of via TCP sockets or io uring. Is
-> there some fundamental reason why dmabuf and XDP are incompatible?
->
-> --
-> Thanks,
-> Mina
+Notice: Test item 6 maybe requires running the command:
+  echo 1024 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
+
+Patch1
+===
+Try to remove page fault mmap and direct map it.
+Due to current udmabuf has already obtained and pinned the folio
+upon completion of the creation.This means that the physical memory has
+already been acquired, rather than being accessed dynamically. The
+current page fault method only saves some page table memory.
+
+As a result, the page fault mechanism has lost its purpose as a demanding
+page. Due to the fact that page fault requires trapping into kernel mode
+and filling in when accessing the corresponding virtual address in mmap,
+this means that user mode access to virtual addresses needs to trap into
+kernel mode.
+
+Therefore, when creating a large size udmabuf, this represents a
+considerable overhead.
+
+Patch2
+===
+This is the same to patch:
+https://lore.kernel.org/all/20240725021349.580574-1-link@vivo.com/
+
+Patch3
+===
+The current implementation of udmabuf's vmap has issues.
+
+It does not correctly set each page of the folio to the page structure,
+so that when vmap is called, all pages are the head page of the folio.
+
+Due to udmabuf can use hugetlb, if HVO enabled, tail page may not exist,
+so, we can't use page array to map, instead, use pfn array.
+
+Patch4
+===
+Change codestyle and fix a potential bug.
+
+There are some variables in udmabuf_create that are only used inside the
+loop. Therefore, there is no need to declare them outside the scope.
+This patch moved it into loop.
+
+It is difficult to understand the loop condition of the code that adds
+folio to the unpin_list.
+
+The outer loop of this patch iterates through folios, while the inner
+loop correctly sets the folio and corresponding offset into the udmabuf
+starting from the offset. if reach to pgcnt or nr_folios, end of loop.
+
+By this, more readable.
+
+ubuf->pagecount already set before true set in loop, if get some error
+when create, This means that pagecount and folios are not equivalent,
+which could lead to potential issues when release.
+
+This patch dynamic update ubuf->pagecount only when folios update end.
+
+Patch5
+===
+Attempt to remove unpin_list and other related data structures.
+
+In order to adapt to Folio, we established the unpin_list data structure
+to unpin all folios and maintain the page mapping relationship.
+
+However, this data structure requires 24 bytes for each page and has low
+traversal performance for the list. And maintaining the offset structure
+also consumes a portion of memory.
+
+This patch attempts to remove these data structures.
+
+Considering that during creation, we arranged the folio array in the
+order of pin and set the offset according to pgcnt.
+
+We actually don't need to use unpin_list to unpin during release.
+Instead, we can iterate through the folios array during release and
+unpin any folio that is different from the ones previously accessed.
+
+By this, not only saves the overhead of the udmabuf_folio data structure
+but also makes array access more cache-friendly.
 
 
+Changelog
+===
+  v3 -> v2:
+    Patch1, avoid use page, instead, use pfn, and use vmf_insert_pfn map
+    suggested-by Kasireddy, Vivek <vivek.kasireddy@intel.com>
 
---=20
-Thanks,
-Mina
+    Patch2, update acked-by Kasireddy, Vivek <vivek.kasireddy@intel.com>
+    And keep the kvcalloc on the same line.
+
+    Patch3, avoid use page, instead, use pfn, then use vmap_pfn map
+
+    Patch4, split v2 patch4, single update codestyle to keep review
+    easy.
+
+    Patch5, another way to remove udmabuf_folio
+    
+---
+  v2 -> v1:
+    Patch1, 3 Rectify the improper use of the sg table.
+    suggested-by Christian König <christian.koenig@amd.com>
+    
+    Patch2 add acked-by Christian K�nig <christian.koenig@amd.com> which
+    marked in v1
+
+    Patch4
+    Modify the data structure to restore the use of pages and
+    correct the misunderstanding of loop conditions such as "pgcnt".
+    make sure pass self test.
+
+    remove v1's patch4
+
+v2
+  https://lore.kernel.org/all/20240805032550.3912454-1-link@vivo.com/
+v1
+  https://lore.kernel.org/all/20240801104512.4056860-1-link@vivo.com/
+
+Huan Yang (5):
+  udmabuf: cancel mmap page fault, direct map it
+  udmabuf: change folios array from kmalloc to kvmalloc
+  fix vmap_udmabuf error page set
+  udmabuf: codestyle cleanup
+  udmabuf: remove udmabuf_folio
+
+ drivers/dma-buf/udmabuf.c | 198 ++++++++++++++++++--------------------
+ 1 file changed, 96 insertions(+), 102 deletions(-)
+
+
+base-commit: 033a4691702cdca3a613256b0623b8eeacb4985e
+-- 
+2.45.2
+
 
