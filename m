@@ -1,132 +1,158 @@
-Return-Path: <linux-media+bounces-16296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC49D951A33
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 13:43:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC49F951B83
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 15:11:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75FD31F22206
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 11:43:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E3542835CF
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 13:11:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E041AED56;
-	Wed, 14 Aug 2024 11:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE261B1432;
+	Wed, 14 Aug 2024 13:10:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="b7Bm28IJ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="U5AA8Gfs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD8E1B1424
-	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 11:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E1379D2;
+	Wed, 14 Aug 2024 13:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723635652; cv=none; b=nzqvFznGCpH5RoMFUDMzHiIq/FuG2IjI7e3RGt7KxTc6aUihlJK34lGJqQyNBuoxJ7TSsksWUXpHmMONTOBjl1NlkLJbfMY1THEvXHUV5W36Mnvs7AbtKUW5j8Vm4PACBXYgLGI2aYhj2HJME3OT7VbOonPMN4It62VRNR35LEo=
+	t=1723641045; cv=none; b=mf1mCnoPzScvuw2R/4wVaORzsv0EoYinKlsRlAIkYOGhEdBD07bHLqihcKV/Licic3uMKe6exRBMIp+sfyyUXJDfW7qoembF5barsOSTpuj3l6QweONW/7BRqE7dx/TwwNuEwgCUPai4PmDNUCCsScXCY7gJIyzCRraTT+YbxC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723635652; c=relaxed/simple;
-	bh=e8mXQbUqQCEEWGhTEMIaH+4giqzidvJR227tArHS/aY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RRinTg/kInODOIFlhEmpq/TyuZwE0KbfoFUjEwa5qwB8LKuqdKWobGf7TnuZUwSiI+wr+dvaUoZe9qZCBtxUzb4KS8lYp909Jz3Nz1XFV0pXdfz93nKAhL6lcMXcUmTXzGhIQI2Fb2ROyMmgzImIv7Jt1vSWUUN3rd6icL2WC5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=b7Bm28IJ; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a7ad02501c3so785084366b.2
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 04:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723635649; x=1724240449; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sbgxlrXHc3w9+156HZaTZfFlJWdnKYz3nijx1PbV2J8=;
-        b=b7Bm28IJ8D0CMlSoe+g350Nv2fcWkkC2gP9KsZomO/vgoJ5C1RIGG+wRM6fM30E/8h
-         yBKARWJZRwAT4mZRnlk9EySNAZFvqbhbM0B0NhAPsAaG2bA/Q88jJLxBoT1AXjLTyRf5
-         I9wbWRaOBNtE2if6L9vwXex+okHQgIJC4OxMY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723635649; x=1724240449;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sbgxlrXHc3w9+156HZaTZfFlJWdnKYz3nijx1PbV2J8=;
-        b=dFCfFZy/yNlKy7lKmQaZ858nms0TzQxN9IOranShRWxJ965/+kyNQ3jXx5JFU7ZIw1
-         VmaFQO72O2lSVjvuYmdUmv9z5eks/ds976bvGNNnoFNjuXVBEV7yX2A1BOEs/tMs/Pc3
-         JJTaMWsvUuBXL6Lb4aH7rSvPNOHuWWbPIPia0tj3bBa1EKgyAwhEZvaAyogoxnDZuvcr
-         UeLpYjYqXXrg7AzhENQPtG35lCOMaJWkiJGSbKM/32WdvSsoVxzpA3Cqe4HuxQmN7xDZ
-         ApiSNebNZTiV0aggM1sIOTgmHXm6nDrPpniLlf3N7epT1+8HA10sZb79gHENvl0fgCLP
-         iTCg==
-X-Forwarded-Encrypted: i=1; AJvYcCU7w2EwJg79EdE8d6i2HrTwM7HPEzE78Z7gReq7kmEKpOKJtX3AH4sx+UFDY8Wyqw70Ls/AL5hUwKFvqfp2jo8Rurlv4W2vO0LR0T4=
-X-Gm-Message-State: AOJu0YwNuZa8pfjCI0WGVvY/aPpTxVu/jXgLgnb8WnP71N1YeEO/KUlo
-	+rAwfCmGuInbno2JK5LhINh05WSVEe5gsEVc0xr+5qIRDK2p3ZUIPpct3juFuS/MZhbPyv37lFo
-	Bhtgs
-X-Google-Smtp-Source: AGHT+IHuWmh0BeGSbUGRwzl3f3xTkKGCDkvNgxygW2KRghxFonINZ5R1a1pVcgPayQspOa+L4z6tEg==
-X-Received: by 2002:a17:906:bc15:b0:a6f:c9c6:7219 with SMTP id a640c23a62f3a-a836702b4cbmr191779966b.47.1723635648854;
-        Wed, 14 Aug 2024 04:40:48 -0700 (PDT)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f411b4c9sm165094866b.141.2024.08.14.04.40.47
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 04:40:48 -0700 (PDT)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a94aa5080so757142966b.3
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 04:40:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWh3aCsQDg/4ksNPAolaWtgNWGQ90NKu7ym/TUDJK1sW0o0xge0fXBXpVq1h60Xb6L859NU3Az7F0ESp/6KyJb9fXtlOUZJeUpo45U=
-X-Received: by 2002:a17:907:e285:b0:a7a:a06b:eebe with SMTP id
- a640c23a62f3a-a8366c1ef88mr189428466b.9.1723635646675; Wed, 14 Aug 2024
- 04:40:46 -0700 (PDT)
+	s=arc-20240116; t=1723641045; c=relaxed/simple;
+	bh=1GoOA8QWM8i82xflr5xmRl5nx8C8ZuRAGjx4nt9xxNo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IGDScraF2iNiYVvayQg4BHPe5ZqXb9ki83MAGf7mSh/bVx0Sw5NuePY6oB4T0n+5tm10dPPl4gJfILiw3n8xf8tC23q+pjtkJRgwP67dSftj6jnsRDYSttmcqa3NDDnY4Zkp6n6TBd7lOxn1+Ky8IeKimyedZh49LCeXsxbqfBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=U5AA8Gfs; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47EAwMFc005305;
+	Wed, 14 Aug 2024 13:10:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	oDLVA4hth+atsd73LRIJBgxs3WHzfN9AwCIqrlyfJ3k=; b=U5AA8GfsDWpPZHFq
+	rg+nHFci3HXsw5eVzXYYYLUM4yyhrIvoqf5U4cwBFVCxFb4ZZypsaKt5LeAnLwDc
+	rok1wutbT+eZgTXseUjsAwsbaxqtCGQNdynWx1hHL2PT5Nj4tpF3ev4aiKFNm9xF
+	CPs59Ms/QJyDr/YXOmSxq3GCXeljGe6JVpw6RdAXESxPSKUaj48V+i+KovI74K3E
+	rWYKZJLHjA2pcBXQH4maoKDd0O0hEokmV6pNza/bWCz+qWxONYXvZo3dV1L6EWtJ
+	NtO80wc2JOOINn4XpkgDevZAjmXsI3kiuDy9DzjQ4geDokyTVYsEem9lehduvdrn
+	UisD5g==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40yxwv57um-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 13:10:38 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47EDAbB5016025
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 13:10:37 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 14 Aug
+ 2024 06:10:31 -0700
+Message-ID: <2de0b7a8-b879-49e9-9656-ec86f29ce559@quicinc.com>
+Date: Wed, 14 Aug 2024 21:10:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240813-cocci-flexarray-v6-0-de903fd8d988@chromium.org>
- <20240813-cocci-flexarray-v6-1-de903fd8d988@chromium.org> <3352aa92-6c50-45c6-b5a7-215e359bdf0c@suse.de>
-In-Reply-To: <3352aa92-6c50-45c6-b5a7-215e359bdf0c@suse.de>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 14 Aug 2024 13:40:31 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvpHoMb69=z8-Gbag+9EsO_KH5k8ickSL6NrTDy4DraAA@mail.gmail.com>
-Message-ID: <CANiDSCvpHoMb69=z8-Gbag+9EsO_KH5k8ickSL6NrTDy4DraAA@mail.gmail.com>
-Subject: Re: [PATCH v6 01/10] media: venus: Use flex array for hfi_session_release_buffer_pkt
-To: Stanimir Varbanov <svarbanov@suse.de>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
+ version Titan 780
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-14-quic_depengs@quicinc.com>
+ <4b745c1a-33d9-472a-97af-153a2a7c8721@linaro.org>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <4b745c1a-33d9-472a-97af-153a2a7c8721@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 5W4dV9LCLCp-ZAfgsY5hH5aAACWRAxAO
+X-Proofpoint-ORIG-GUID: 5W4dV9LCLCp-ZAfgsY5hH5aAACWRAxAO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-14_09,2024-08-13_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ mlxlogscore=999 suspectscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 adultscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408140092
 
-Hi Stan
+Hi Vladimir,
 
-On Tue, 13 Aug 2024 at 23:38, Stanimir Varbanov <svarbanov@suse.de> wrote:
->
-> Hi Ricardo,
->
-> On 8/13/24 15:31, Ricardo Ribalda wrote:
-> > Replace the old style single element array with a flex array. We do not
-> > allocate this structure, so the size change should not be an issue.
-> >
-> > This fixes the following cocci warning:
-> > drivers/media/platform/qcom/venus/hfi_cmds.h:204:5-16: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> >
-> > Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Could you inverse the order of the tags, please. "Signed-off-by" must be
-> first and then the others.
+On 8/14/2024 7:13 PM, Vladimir Zapolskiy wrote:
+> Hi Depeng,
+> 
+> please find a few review comments, all asked changes are non-functional.
+> 
 
-Just sent a v7 taking care of this.
+>> +void camss_reg_update(struct camss *camss, int hw_id, int port_id, 
+>> bool is_clear)
+> 
+> Please let it be just a declarative 'clear' instead of questioning 
+> 'is_clear'.
+> 
+>> +{
+>> +    struct csid_device *csid;
+>> +
+>> +    if (hw_id < camss->res->csid_num) {
+>> +        csid = &(camss->csid[hw_id]);
+>> +
+>> +        csid->res->hw_ops->reg_update(csid, port_id, is_clear);
+>> +    }
+>> +}
+>> +
+> 
+> Please add the new exported function camss_reg_update() in a separate
+> preceding commit.
+> 
+>>   void camss_buf_done(struct camss *camss, int hw_id, int port_id)
+>>   {
+>>       struct vfe_device *vfe;
 
-I am almost sure that I used b4 to import the tags.... Are we sure
-that this is a policy that we should follow?
+Thanks for your comments, I will address them in new series.
 
-Regards!
+But I have some concern about above comment, you want to add a separate 
+commit for camss_reg_update, maybe camss_buf_done also need to do this, 
+but I guess I will get new comments from Krzysztof if I make a separate 
+change, Krzysztof posted few comments in v3 series, he asked, "must 
+organize your patches in logical junks" and the code must have a user.
 
->
-> All patches in the series has this issue.
->
-> ~Stan
->
+Please check below comments.
+
+https://lore.kernel.org/all/e1b298df-05da-4881-a628-149a8a625544@kernel.org/
+
+https://lore.kernel.org/all/d0f8b72d-4355-43cd-a5f9-c44aab8147e5@kernel.org/
 
 
--- 
-Ricardo Ribalda
+Or I don't add reg update and buf done functionality in 
+camss-csid-gen3.c and camss-vfe-780.c firstly, then add them in a later 
+commit.
+
+Could you please comment on whether this is acceptable? Please also help 
+to common on if one commit to add them or need two separate commits, one 
+is for reg update and the other one is for buf done.
+
+
+Thanks,
+Depeng
 
