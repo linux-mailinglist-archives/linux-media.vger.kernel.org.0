@@ -1,127 +1,96 @@
-Return-Path: <linux-media+bounces-16257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16258-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A67B951101
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 02:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9783795110C
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 02:32:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 802CA1C22AF8
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 00:26:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFD121C22B34
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 00:32:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 914F04A08;
-	Wed, 14 Aug 2024 00:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQgLDIDK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E2864411;
+	Wed, 14 Aug 2024 00:32:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47D41859;
-	Wed, 14 Aug 2024 00:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1753469D
+	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 00:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723595178; cv=none; b=PEUZLo9TYpn+WJ7x8PnYMwIPDvmxCT1ru0lhA42wpWCDhmQFoVxRAeQCptMY/Srm8yk+UPZmeEBEkCS/qp5vIdw1zW6A8+fLuos9iD85qzpxyaGrNh3hWGbrDcOW27UrGbLKr3XlDRSExzUpMPjXB8X5RK5ROKcB/d+f0nPCrY0=
+	t=1723595526; cv=none; b=RLkHAIua8AUiK3FwlBI+NpjR02LFpOG1mLgiBag5zfPgIS5qmUyJJh1M8yXiWb3jO8z6PLs5veOn4qFg3nvHwUOOT9DUDO4aD/artlb9FqD55jXQrEpoNoNIuKbRCQSc1BndIsa/IMZvF8MpAhjYRJFUAibIZLKvYUaaVQNPi0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723595178; c=relaxed/simple;
-	bh=Fc/yY7CDbNdH/cz6/im6kwrc99NmQho63eE53m7feXM=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=bsAbYwRQwOuP/H1BieQP9qIQwuVQep5sYIAbfQOPlRFNgOzRDqGlfszeU6WQDGLUxhlxiNwcjbYboYZhLz/3X1TUp0UUsoO/edfeA7Bb4BNZDVARj94F8YfQZyNPKR7oDf1fgacQswZ4DjA4B0ELTAl3U5BWCcFvTiGrKdgGR58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQgLDIDK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DABA0C32782;
-	Wed, 14 Aug 2024 00:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723595177;
-	bh=Fc/yY7CDbNdH/cz6/im6kwrc99NmQho63eE53m7feXM=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=WQgLDIDKTH8nM6R9k4Bhk13G/aSMxRHqq4ByEnTns+9q0H7BcbbJEBSBTjbKKKfxW
-	 OslBR6u5Rmi85Woed4BAMBGyC0MwcytS/zd/RGj0FI1Im7LuwJnSKI0IkcEp2+AOy9
-	 drT3tDGchslC30z+6Q7AjGgbqpjJVcxIvM6cxiblk1bDGdFr/aLtfq9qb8W9Tv6F8a
-	 gOFqME09cvh0kkx/gu/odDOniR092J5eJd6HIkSWJZ8T9Vc30UGOEN6VMEHO2A9QJn
-	 UEMRoZGyai14llSAqszJM0OxLIytwuwRIsVLCrr1JxGk7zSZrPPm25WFM3rbUt5Ubl
-	 wb/olrsJwSjtQ==
-Date: Tue, 13 Aug 2024 18:26:15 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1723595526; c=relaxed/simple;
+	bh=0AJ0HRNyjUJdZzMl0FTmNH4D7MeA9pIfXvP+Njv1Cew=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=CpcUOZv6RS95a6pPFASZ9wmgXz2sZ0c+n0QtnAREoXcTzRsUdvddlW91eYlnIWqUS0umaNxk31HUW15jDJ/fTuBm8C1AIZMxdoyWe2fbovJcl2uOKtM0GxMBVI8EK2WfMEIGcGCta8rhKDhSOqZ1vF6bNMgc4nr06pHUUc0Yk9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-821dabd4625so777258039f.0
+        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 17:32:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723595524; x=1724200324;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KN5LyX62t8kajm/Aoto7iYQTQrVYYSEk/pn2RlwMI5k=;
+        b=grAdc5pktdYHu+HinJVtTQRe+D43w8ZMXVR5/kdHtLJmI7bwikb0TLBPI6BwSgCboo
+         F+DhIS9QgrgC3ULZft1rYOyPIq1uKB2sidQJuTO7EPzRHeFKoTRq2uSi6g8RJK5AVezy
+         jWEYkYUPQTLdHIYxjK6Tf3Ejmb76WS7xvsyzg9C3T+r30Gnt8Jmf9rNIZYwKlis2tLjL
+         ex29eul3Vp3Eow6b8XF6BzNWIa7w41GMnAXpem/0v9qXB9KlKpxg7uVEKW+6gh1jaS+K
+         LX6WEuWR6GXLVlRQj7wOZ/mPrrddJnH1rHPclPcyD73s4VdHV9QIqYTd0hofsZSghUFl
+         dFpw==
+X-Forwarded-Encrypted: i=1; AJvYcCXtMxcWbvWMY1PoEwh/omIs8GAikJ+ffsfLe5VhmKr6dRI9azqnmAkGI+SbjVSbxj9U/aDRy/lz2+9p1LKYXslvRX0xWlotbc/75Q8=
+X-Gm-Message-State: AOJu0Yy4idmDtbDHd45FE0qQLNeiX5BMZOy/VsjOMTjZ5eZ9C/CZNVNW
+	D4ueoZ6ebrD5l1XBDlElkuM/uSEe6B2N9OIXT+28IsW2LcWAcLz6+XXDw1oMnfmiCCR9CvBF+sD
+	8dxOzZQpu1RlnYkoGS/S38FgjxD26UtoauHxI3V/hYbdy7vl9LdJFHZM=
+X-Google-Smtp-Source: AGHT+IH/g8aCJGElQ8/VklE5ry7A0gnFjQgBbmtCcpZz0jkOADdHDRelv0/VaixlspNKb+4RvqquWD/KTAwBB1bAKcnlGLxEbNk8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
- Todor Tomov <todor.too@gmail.com>, Loic Poulain <loic.poulain@linaro.org>, 
- linux-media@vger.kernel.org, Robert Foss <rfoss@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, devicetree@vger.kernel.org, 
- linux-i2c@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-In-Reply-To: <20240813230037.84004-10-mailingradian@gmail.com>
-References: <20240813230037.84004-8-mailingradian@gmail.com>
- <20240813230037.84004-10-mailingradian@gmail.com>
-Message-Id: <172359517555.312475.7249351586799912303.robh@kernel.org>
-Subject: Re: [PATCH v2 2/5] dt-bindings: media: camss: Add
- qcom,sdm670-camss
+X-Received: by 2002:a05:6e02:1c49:b0:374:9a34:a0a with SMTP id
+ e9e14a558f8ab-39d12505416mr900485ab.6.1723595523843; Tue, 13 Aug 2024
+ 17:32:03 -0700 (PDT)
+Date: Tue, 13 Aug 2024 17:32:03 -0700
+In-Reply-To: <000000000000be3c1a0604b53a1c@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ef7be4061f99da2f@google.com>
+Subject: Re: [syzbot] [mm?] kernel BUG in filemap_unaccount_folio
+From: syzbot <syzbot+17a207d226b8a5fb0fd9@syzkaller.appspotmail.com>
+To: airlied@redhat.com, akpm@linux-foundation.org, christian.koenig@amd.com, 
+	daniel@ffwll.ch, david@redhat.com, dri-devel@lists.freedesktop.org, 
+	fengwei.yin@intel.com, gurchetansingh@chromium.org, hughd@google.com, 
+	kraxel@redhat.com, linaro-mm-sig-bounces@lists.linaro.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mm@kvack.org, sumit.semwal@linaro.org, 
+	syzkaller-bugs@googlegroups.com, vivek.kasireddy@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
+syzbot suspects this issue was fixed by commit:
 
-On Tue, 13 Aug 2024 19:00:41 -0400, Richard Acayan wrote:
-> As found in the Pixel 3a, the Snapdragon 670 has a camera subsystem with
-> 3 CSIDs and 3 VFEs (including 1 VFE lite). Add this camera subsystem to
-> the bindings.
-> 
-> Adapted from SC8280XP camera subsystem.
-> 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  .../bindings/media/qcom,sdm670-camss.yaml     | 324 ++++++++++++++++++
->  1 file changed, 324 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
-> 
+commit 7d79cd784470395539bda91bf0b3505ff5b2ab6d
+Author: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Date:   Mon Jun 24 06:36:13 2024 +0000
 
-My bot found errors running 'make dt_binding_check' on your patch:
+    udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap
 
-yamllint warnings/errors:
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17dad691980000
+start commit:   9b6de136b5f0 Merge tag 'loongarch-fixes-6.7-1' of git://gi..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6ae1a4ee971a7305
+dashboard link: https://syzkaller.appspot.com/bug?extid=17a207d226b8a5fb0fd9
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15f58d67680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10a78c62e80000
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dts:32.19-150.15: Warning (unit_address_vs_reg): /example-0/soc/camss: node has a reg or ranges property, but no unit name
-Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dts:142.46-147.27: Warning (unit_address_vs_reg): /example-0/soc/camss/ports/port@0/endpoint: node has a reg or ranges property, but no unit name
-Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dts:142.46-147.27: Warning (graph_endpoint): /example-0/soc/camss/ports/port@0/endpoint: graph node unit address error, expected "0"
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: reg-names:0: 'csid0' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: reg-names:1: 'csid1' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: reg-names:2: 'csid2' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: reg-names:4: 'csiphy0' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: reg-names:6: 'csiphy1' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: reg-names:8: 'csiphy2' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: 'interconnects' is a required property
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sdm670-camss.example.dtb: camss: 'interconnect-names' is a required property
-	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
+If the result looks correct, please mark the issue as fixed by replying with:
 
-doc reference errors (make refcheckdocs):
+#syz fix: udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240813230037.84004-10-mailingradian@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
