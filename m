@@ -1,202 +1,320 @@
-Return-Path: <linux-media+bounces-16266-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16267-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04789511DB
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 04:07:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B49C951387
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 06:38:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9982C1F243BB
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 02:07:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE23A1C22E22
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 04:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0628C1CD39;
-	Wed, 14 Aug 2024 02:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4275E4D8AF;
+	Wed, 14 Aug 2024 04:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="leDFCHXn"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QjRwiBYY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3820A21
-	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 02:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE10422309
+	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 04:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723601223; cv=none; b=Kr0diTxOCmFb2hGmD/90iQqo6OpIy50wipnZ+DR0xmzbkJmCNGtA7V6GZ4V3in5dXYH0zG0kUPEfvi8A1T4Y/fYYXm80v+W/HaqmCwjn4dyzetbNkgQTC9R7yqBPSHDSP+KIds3Y+1OGuXhq1gZXAtL2AFIP8vF3S0Vp1BnoM8U=
+	t=1723610324; cv=none; b=bhZl8xmCyZV4aXoZQgE30077yY6sTs8lR+y0VcexPNL9kCL184xaUHi9pSSEoRSYuU/vaxQtItFAj64QIceBsAoHji7OxBfhoqLbwsPezr4T++iBJvOHQPv70CUCWb/mkZfkjBlTpbakbxTOFehWQWSWb0uI7SG2cum3be/MRQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723601223; c=relaxed/simple;
-	bh=kvN5a0n/wJKUJuiQB2mVD9jODWNuNf3o55USPgryGbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hOE0ebsDWDxE8PZH1/IKbVHHKI6nEjqiPhqNA8X50eb/xRHp5MMWhvZQEvnEAUCdwcBoNrJOmM29CRkmQXZitA3GK/Otrvo5EbaV6vkCac3DrXGTySCLryKBqhKAeSndWV5QAt+52jJ1xlJLPhtAVf+ykGsKPxjZQ8556KV+MNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=leDFCHXn; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7bcf8077742so4411115a12.0
-        for <linux-media@vger.kernel.org>; Tue, 13 Aug 2024 19:07:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723601221; x=1724206021; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Oer7Z/BAZa2AXUlghr5uJcQkvUFgqodj+Ovxovv0c/Y=;
-        b=leDFCHXnZ1NG1XKldJfkXIqrcWkW4jsEmkNxN7XROm/qW+KbaqgUZIRd1BvQrQv5Gg
-         y3yUu9Lvuh7nBwQe9xbpGa8jnfV3D6746DQZHBXMUPXXpa+Gop0U3NhZe4j80sRAa2rw
-         urTmbuUfjrWWzHfL7zjZ0MNrQoM5RA5WF07os=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723601221; x=1724206021;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Oer7Z/BAZa2AXUlghr5uJcQkvUFgqodj+Ovxovv0c/Y=;
-        b=ISeRK/kfPjGnhtDi1Stt17Dk/DORosl8kvyTk+6Q0PZXCRjj1B13hsOnCbPqNYKtjp
-         rQNkoy9eTnbWDQ9H4O2HaTqe7Tbs+5VpfixWpuSTYtBp+I2OHXTV0Zt6vukPQB4WH2A3
-         wZ3HqACUWT7jRows8Z43B0Cjmqg1eSxf05rxtWZUh2pJUBOedTS0/NIldfGrmrYxqxz4
-         uZEk2f9ncu1K5QSebMtQShnpXGBAz7PMsdbt+QSq2S8IBQG3IKST3LHjGjGVQ/dEY6xN
-         orAiIcy9v3cs3PhsNK4+O9LQOkZr0w+yHbItXjLgvReu9uxTvuk69qh/upGtoC9xZXDN
-         Mjdw==
-X-Gm-Message-State: AOJu0YzgJzIMpEeUx/AX3JldsMPZHSHIbXCsxrIKDM9N/hdADUSsHyiq
-	Q+9mVrcDloEEr7I9Ni3DSfEQEA2vd/daNZOl+/+r+17W/G2kC8c4oavurmM9Jw==
-X-Google-Smtp-Source: AGHT+IHVclrjZEyEWaLysG4E5RO5jiTzGq+2N5shf9v6IlJzRd5ZB5yenL00/YE5KnXH6uSMa2JAxQ==
-X-Received: by 2002:a05:6a20:d706:b0:1c6:ecee:1850 with SMTP id adf61e73a8af0-1c8eaf8e7fcmr2067307637.49.1723601221185;
-        Tue, 13 Aug 2024 19:07:01 -0700 (PDT)
-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:269a:7c5:e4f2:518c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d3ac7d65b1sm303064a91.4.2024.08.13.19.06.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 19:07:00 -0700 (PDT)
-From: Yunke Cao <yunkec@chromium.org>
-To: Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	Yunke Cao <yunkec@chromium.org>
-Subject: [PATCH v5 4/4] media: videobuf2-core: attach once if multiple planes share the same dbuf
-Date: Wed, 14 Aug 2024 11:06:43 +0900
-Message-ID: <20240814020643.2229637-5-yunkec@chromium.org>
-X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
-In-Reply-To: <20240814020643.2229637-1-yunkec@chromium.org>
-References: <20240814020643.2229637-1-yunkec@chromium.org>
+	s=arc-20240116; t=1723610324; c=relaxed/simple;
+	bh=R4JEl1PkgnWMF/mXJUuQ15lWVW/YvqaJyq9G1oZBV/A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=dmTKkbfWMwjVrPi85SP98LkAoqaAQSVDoCOF50eyk6afboxOh3i4o0yl9Cir7W5QbXWjqWj4XH7YrbuMsLfu9zOPVDoV76PM/LNWx5eLGmcTDEwFeY8AD74AncL3r0WjOWklOe97M6oIX7wMeCxyk3n5181gaLiiL0MG6M8kOMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QjRwiBYY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47DNAuW2026876;
+	Wed, 14 Aug 2024 04:38:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YS/n0rjiwSBYOabjsbgMuIPtMtspJA9tGzGyEWMsB9A=; b=QjRwiBYYJ0SzqjTv
+	8YUCHUjGKte4H/EcmXPdu7kOltKgXEKAM3uAzToxgwqkHios9/HZDcSLp81T8DzB
+	IUupnODySjGCRE5Z0diBtrcOoKwGHA6aYNy3iHhloyzmQCs4n000BjgKJcHYaGbI
+	tPUekaZTC1i/oFpAfCQxfl3NeosfNqDx+9QResRIKLvY/dwEQU1M/7yaCSkEkHBA
+	A3TgUtCB8KeP/4EgyLoKUEg5kpf/uo86naCnLFjV60CjKRjJ4YH3xc78P8FUeKlv
+	n8+2e0t3z8LoFWaVPke9eCD7FZFYLvKZ3wl7px1GWgfjkRDEPLCSHG529ffpwAFP
+	RUttVA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 40x18y20f1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 04:38:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47E4cNFW025654
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 04:38:23 GMT
+Received: from [10.216.59.136] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 13 Aug
+ 2024 21:38:21 -0700
+Message-ID: <75c4f50f-2cc0-1893-3765-68e5a479684c@quicinc.com>
+Date: Wed, 14 Aug 2024 10:08:18 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 1/3] media: venus: Reorder encoder property setting
+Content-Language: en-US
+To: Fritz Koenig <frkoenig@chromium.org>, <linux-media@vger.kernel.org>
+CC: <mchehab@kernel.org>, <stanimir.k.varbanov@gmail.com>,
+        <quic_vgarodia@quicinc.com>, <bryan.odonoghue@linaro.org>
+References: <20240729193219.1260463-1-frkoenig@chromium.org>
+ <20240729193219.1260463-2-frkoenig@chromium.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20240729193219.1260463-2-frkoenig@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 2LBphh-y_J3AGk8YHfXqws5I54mY_AW0
+X-Proofpoint-ORIG-GUID: 2LBphh-y_J3AGk8YHfXqws5I54mY_AW0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-14_03,2024-08-13_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=847
+ suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408140029
 
-When multiple planes use the same dma buf, each plane will have its own dma
-buf attachment and mapping. It is a waste of IOVA space.
 
-This patch adds a dbuf_duplicated boolean in vb2_plane. If a plane's dbuf
-is the same as an existing plane, do not create another attachment and
-mapping.
 
-Signed-off-by: Yunke Cao <yunkec@chromium.org>
-Acked-by: Tomasz Figa <tfiga@chromium.org>
----
-v5
-- Fix typo in videobuf2-core.h comments.
+On 7/30/2024 12:49 AM, Fritz Koenig wrote:
+> Configure the generic controls before the codec specific ones.
+> Some codec specific controls can override the generic ones.
+> 
+> Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
+> ---
+> v2:
+> - requested testing methodology added to cover letter
+> 
+>  drivers/media/platform/qcom/venus/venc.c | 183 +++++++++++------------
+>  1 file changed, 91 insertions(+), 92 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 3ec2fb8d9fab..ae24de125c56 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -688,98 +688,6 @@ static int venc_set_properties(struct venus_inst *inst)
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264) {
+> -		struct hfi_h264_vui_timing_info info;
+> -		struct hfi_h264_entropy_control entropy;
+> -		struct hfi_h264_db_control deblock;
+> -		struct hfi_h264_8x8_transform h264_transform;
+> -
+> -		ptype = HFI_PROPERTY_PARAM_VENC_H264_VUI_TIMING_INFO;
+> -		info.enable = 1;
+> -		info.fixed_framerate = 1;
+> -		info.time_scale = NSEC_PER_SEC;
+> -
+> -		ret = hfi_session_set_property(inst, ptype, &info);
+> -		if (ret)
+> -			return ret;
+> -
+> -		ptype = HFI_PROPERTY_PARAM_VENC_H264_ENTROPY_CONTROL;
+> -		entropy.entropy_mode = venc_v4l2_to_hfi(
+> -					  V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE,
+> -					  ctr->h264_entropy_mode);
+> -		entropy.cabac_model = HFI_H264_CABAC_MODEL_0;
+> -
+> -		ret = hfi_session_set_property(inst, ptype, &entropy);
+> -		if (ret)
+> -			return ret;
+> -
+> -		ptype = HFI_PROPERTY_PARAM_VENC_H264_DEBLOCK_CONTROL;
+> -		deblock.mode = venc_v4l2_to_hfi(
+> -				      V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_MODE,
+> -				      ctr->h264_loop_filter_mode);
+> -		deblock.slice_alpha_offset = ctr->h264_loop_filter_alpha;
+> -		deblock.slice_beta_offset = ctr->h264_loop_filter_beta;
+> -
+> -		ret = hfi_session_set_property(inst, ptype, &deblock);
+> -		if (ret)
+> -			return ret;
+> -
+> -		ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> -		h264_transform.enable_type = 0;
+> -		if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
+> -		    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
+> -			h264_transform.enable_type = ctr->h264_8x8_transform;
+> -
+> -		ret = hfi_session_set_property(inst, ptype, &h264_transform);
+> -		if (ret)
+> -			return ret;
+> -
+> -	}
+> -
+> -	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
+> -	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+> -		/* IDR periodicity, n:
+> -		 * n = 0 - only the first I-frame is IDR frame
+> -		 * n = 1 - all I-frames will be IDR frames
+> -		 * n > 1 - every n-th I-frame will be IDR frame
+> -		 */
+> -		ptype = HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
+> -		idrp.idr_period = 0;
+> -		ret = hfi_session_set_property(inst, ptype, &idrp);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+> -	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC &&
+> -	    ctr->profile.hevc == V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10) {
+> -		struct hfi_hdr10_pq_sei hdr10;
+> -		unsigned int c;
+> -
+> -		ptype = HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
+> -
+> -		for (c = 0; c < 3; c++) {
+> -			hdr10.mastering.display_primaries_x[c] =
+> -				ctr->mastering.display_primaries_x[c];
+> -			hdr10.mastering.display_primaries_y[c] =
+> -				ctr->mastering.display_primaries_y[c];
+> -		}
+> -
+> -		hdr10.mastering.white_point_x = ctr->mastering.white_point_x;
+> -		hdr10.mastering.white_point_y = ctr->mastering.white_point_y;
+> -		hdr10.mastering.max_display_mastering_luminance =
+> -			ctr->mastering.max_display_mastering_luminance;
+> -		hdr10.mastering.min_display_mastering_luminance =
+> -			ctr->mastering.min_display_mastering_luminance;
+> -
+> -		hdr10.cll.max_content_light = ctr->cll.max_content_light_level;
+> -		hdr10.cll.max_pic_average_light =
+> -			ctr->cll.max_pic_average_light_level;
+> -
+> -		ret = hfi_session_set_property(inst, ptype, &hdr10);
+> -		if (ret)
+> -			return ret;
+> -	}
+> -
+>  	if (ctr->num_b_frames) {
+>  		u32 max_num_b_frames = NUM_B_FRAMES_MAX;
+>  
+> @@ -922,6 +830,97 @@ static int venc_set_properties(struct venus_inst *inst)
+>  	if (ret)
+>  		return ret;
+>  
+> +	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264) {
+> +		struct hfi_h264_vui_timing_info info;
+> +		struct hfi_h264_entropy_control entropy;
+> +		struct hfi_h264_db_control deblock;
+> +		struct hfi_h264_8x8_transform h264_transform;
+> +
+> +		ptype = HFI_PROPERTY_PARAM_VENC_H264_VUI_TIMING_INFO;
+> +		info.enable = 1;
+> +		info.fixed_framerate = 1;
+> +		info.time_scale = NSEC_PER_SEC;
+> +
+> +		ret = hfi_session_set_property(inst, ptype, &info);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ptype = HFI_PROPERTY_PARAM_VENC_H264_ENTROPY_CONTROL;
+> +		entropy.entropy_mode = venc_v4l2_to_hfi(
+> +					  V4L2_CID_MPEG_VIDEO_H264_ENTROPY_MODE,
+> +					  ctr->h264_entropy_mode);
+> +		entropy.cabac_model = HFI_H264_CABAC_MODEL_0;
+> +
+> +		ret = hfi_session_set_property(inst, ptype, &entropy);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ptype = HFI_PROPERTY_PARAM_VENC_H264_DEBLOCK_CONTROL;
+> +		deblock.mode = venc_v4l2_to_hfi(
+> +				      V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_MODE,
+> +				      ctr->h264_loop_filter_mode);
+> +		deblock.slice_alpha_offset = ctr->h264_loop_filter_alpha;
+> +		deblock.slice_beta_offset = ctr->h264_loop_filter_beta;
+> +
+> +		ret = hfi_session_set_property(inst, ptype, &deblock);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> +		h264_transform.enable_type = 0;
+> +		if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
+> +		    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
+> +			h264_transform.enable_type = ctr->h264_8x8_transform;
+> +
+> +		ret = hfi_session_set_property(inst, ptype, &h264_transform);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
+> +	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+> +		/* IDR periodicity, n:
+> +		 * n = 0 - only the first I-frame is IDR frame
+> +		 * n = 1 - all I-frames will be IDR frames
+> +		 * n > 1 - every n-th I-frame will be IDR frame
+> +		 */
+> +		ptype = HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
+> +		idrp.idr_period = 0;
+> +		ret = hfi_session_set_property(inst, ptype, &idrp);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC &&
+> +	    ctr->profile.hevc == V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10) {
+> +		struct hfi_hdr10_pq_sei hdr10;
+> +		unsigned int c;
+> +
+> +		ptype = HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
+> +
+> +		for (c = 0; c < 3; c++) {
+> +			hdr10.mastering.display_primaries_x[c] =
+> +				ctr->mastering.display_primaries_x[c];
+> +			hdr10.mastering.display_primaries_y[c] =
+> +				ctr->mastering.display_primaries_y[c];
+> +		}
+> +
+> +		hdr10.mastering.white_point_x = ctr->mastering.white_point_x;
+> +		hdr10.mastering.white_point_y = ctr->mastering.white_point_y;
+> +		hdr10.mastering.max_display_mastering_luminance =
+> +			ctr->mastering.max_display_mastering_luminance;
+> +		hdr10.mastering.min_display_mastering_luminance =
+> +			ctr->mastering.min_display_mastering_luminance;
+> +
+> +		hdr10.cll.max_content_light = ctr->cll.max_content_light_level;
+> +		hdr10.cll.max_pic_average_light =
+> +			ctr->cll.max_pic_average_light_level;
+> +
+> +		ret = hfi_session_set_property(inst, ptype, &hdr10);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	switch (inst->hfi_codec) {
+>  	case HFI_VIDEO_CODEC_H264:
+>  		profile = ctr->profile.h264;
 
-v4
-- Only set dbuf_duplicated when alloc_devs are equal.
+Changing the order might cause issue for other functionalities.
 
-v3
-- Adjust the patch according to the previous patches to resolve conflicts.
-- Add comment to explain the purpose of the change.
+Also, Client should either set the commutative bitrate or layerwise
+bitrate. So, if the motive behind this re-order is to not update the
+commutative bitrate, then that is expected and this way there might not be
+a need to change current order.
 
-v2
-- Separate out the refactor changes out to previous patches.
-- Fix mem_priv check.
-
- .../media/common/videobuf2/videobuf2-core.c   | 30 ++++++++++++++++---
- include/media/videobuf2-core.h                |  3 ++
- 2 files changed, 29 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index e6af963307e3..500a4e0c84ab 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -303,10 +303,13 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
- 	if (!p->mem_priv)
- 		return;
- 
--	if (p->dbuf_mapped)
--		call_void_memop(vb, unmap_dmabuf, p->mem_priv);
-+	if (!p->dbuf_duplicated) {
-+		if (p->dbuf_mapped)
-+			call_void_memop(vb, unmap_dmabuf, p->mem_priv);
-+
-+		call_void_memop(vb, detach_dmabuf, p->mem_priv);
-+	}
- 
--	call_void_memop(vb, detach_dmabuf, p->mem_priv);
- 	dma_buf_put(p->dbuf);
- 	p->mem_priv = NULL;
- 	p->dbuf = NULL;
-@@ -315,6 +318,7 @@ static void __vb2_plane_dmabuf_put(struct vb2_buffer *vb, struct vb2_plane *p)
- 	p->length = 0;
- 	p->m.fd = 0;
- 	p->data_offset = 0;
-+	p->dbuf_duplicated = false;
- }
- 
- /*
-@@ -1379,7 +1383,7 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 	struct vb2_plane planes[VB2_MAX_PLANES];
- 	struct vb2_queue *q = vb->vb2_queue;
- 	void *mem_priv;
--	unsigned int plane;
-+	unsigned int plane, i;
- 	int ret = 0;
- 	bool reacquired = vb->planes[0].mem_priv == NULL;
- 
-@@ -1432,6 +1436,24 @@ static int __prepare_dmabuf(struct vb2_buffer *vb)
- 		}
- 
- 		for (plane = 0; plane < vb->num_planes; ++plane) {
-+			/*
-+			 * This is an optimization to reduce dma_buf attachment/mapping.
-+			 * When the same dma_buf is used for multiple planes, there is no need
-+			 * to create duplicated attachments.
-+			 */
-+			for (i = 0; i < plane; ++i) {
-+				if (planes[plane].dbuf == vb->planes[i].dbuf &&
-+				    q->alloc_devs[plane] == q->alloc_devs[i]) {
-+					vb->planes[plane].dbuf_duplicated = true;
-+					vb->planes[plane].dbuf = vb->planes[i].dbuf;
-+					vb->planes[plane].mem_priv = vb->planes[i].mem_priv;
-+					break;
-+				}
-+			}
-+
-+			if (vb->planes[plane].dbuf_duplicated)
-+				continue;
-+
- 			/* Acquire each plane's memory */
- 			mem_priv = call_ptr_memop(attach_dmabuf,
- 						  vb,
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 955237ac503d..9b02aeba4108 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -154,6 +154,8 @@ struct vb2_mem_ops {
-  * @mem_priv:	private data with this plane.
-  * @dbuf:	dma_buf - shared buffer object.
-  * @dbuf_mapped:	flag to show whether dbuf is mapped or not
-+ * @dbuf_duplicated:	boolean to show whether dbuf is duplicated with a
-+ *		previous plane of the buffer.
-  * @bytesused:	number of bytes occupied by data in the plane (payload).
-  * @length:	size of this plane (NOT the payload) in bytes. The maximum
-  *		valid size is MAX_UINT - PAGE_SIZE.
-@@ -179,6 +181,7 @@ struct vb2_plane {
- 	void			*mem_priv;
- 	struct dma_buf		*dbuf;
- 	unsigned int		dbuf_mapped;
-+	bool			dbuf_duplicated;
- 	unsigned int		bytesused;
- 	unsigned int		length;
- 	unsigned int		min_length;
--- 
-2.46.0.184.g6999bdac58-goog
-
+Thanks,
+Dikshita
 
