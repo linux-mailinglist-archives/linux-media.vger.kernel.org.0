@@ -1,238 +1,357 @@
-Return-Path: <linux-media+bounces-16311-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16312-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD83951DDC
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:56:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89593951E8E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 17:29:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 404341F22493
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 14:56:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9303E1C2264D
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 15:29:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 614A71B3F2B;
-	Wed, 14 Aug 2024 14:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D460D1B4C23;
+	Wed, 14 Aug 2024 15:29:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uj7JpQog"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aD3hTgLo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A198F1B3F2A
-	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 14:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCB513C684
+	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 15:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723647367; cv=none; b=nsgpTtDiB3wTLEmaukbjc/to8pcUhggI5LtT1L5aos001MLyYvPep3+lK/6TO96XWLwZiS13noAU5fWB4mnXWoDlxC9/QZjVUUzc43GE/wk/pLjpEILSWCE5S/tzeZOVoqPCZHZ+6gcEP8AVY14ePhRLBj2Uyx52y+vM4zxsZ+g=
+	t=1723649370; cv=none; b=Qah/DSE4GlOq6WH7Akia0N9k4A+jdEi9OqkkxSHboBsvAfFmWcOoJ1JWUadXlG1fzl1AlH5VNsUVWG0z8OKVLAEX210FCdX/6ZiFSIfVFwj4PNsr16OHz1C/tJFuFCowN08+n3ENkGLU3Ykg9ZP1Epc9oxh07GQ9pnqx7AOB1Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723647367; c=relaxed/simple;
-	bh=tR8RzbqOolXZg8cJLIUMhkkkWhqNewrEo1ZX+xr0SVk=;
+	s=arc-20240116; t=1723649370; c=relaxed/simple;
+	bh=88FLFdNag2NdZRsP8uC+0OkRCiXdIm0ow5QYng93VnQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eoXYQP+uNFzi/CR9ryWWr79ehnuXUGm7EnlLxEeonBQNpjRW2ZwehlTk1X8cERE9Q2d4hC1a3o6LvwsnBxzW9sQ24YB9RSRLLK/LaYMyVESWaciSyjqWxRatgIG1ICsg8NZ1A4si1ySLb0zRMiZjwM51vSDZ6EeJ6LBcjiyRNwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uj7JpQog; arc=none smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-70941cb73e9so2899759a34.2
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 07:56:05 -0700 (PDT)
+	 To:Cc:Content-Type; b=GxAQkdd6Z+LZFyN+aKwe1lws/avMjtHvEB/+hAP+HYzsJRUKNwxebUUlAop/la/ncZMKumaPLTIt3EYVdoAD6lzNgf3bBeilZTnpe2ciU36Vaz1I0d13hyvMHD+NAVIEcmS/9lWCq1ay3wxdL+7RWEADUSomLvDi9jxZEYp14gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aD3hTgLo; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5b3fff87e6bso72703a12.0
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 08:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723647364; x=1724252164; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1723649366; x=1724254166; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ApWhKzlunlw9OulyCe3WVtwOx7m9YQFR6kgphgn0hHM=;
-        b=uj7JpQogyJ0OQXhKYv2IbMfZ2YTiwSo4zcuyjtQWF/0GzdtRQiJ2jkQt0EcM4+ZzsA
-         fOQYD6iJqbLNmdRHjB4Y/7zVuo4yVmMKrl5FeRa04/B1LmN52h+XtGQAHHb7Va+kX1uk
-         C08ZlVAOH7Ejq3lMv3H+gaEckIUJCWDsLaVw/06PKt3VcmrpR6nHFn/TZVnLrp8sqneL
-         u6hJqiTvBpVMQHRHqUusyh+gObrIjtKyoRszz8hGgbKbMhrfR7OIC6hyD52dEF164ogr
-         ziCyGX5wCAAKkZa/R57UJBIiYTn8lyoWqaLM4CoObQ7UQB6FdZco57zYzVaVhT+/pQdQ
-         wKQA==
+        bh=Z03NbPX8mgrPlFALFw7ePHKdBUgP2uPacW/KThKeInk=;
+        b=aD3hTgLoznzGjRms+7yYfChC0ghgWhbDVY923/jmQoRjkueW9zDj1CdnjbbL6uhJ0f
+         Vu/ZW+i7u3042u1DDG7r3GfhX7d5nHzQYdbGxFsuzWS7eUluX1SbhbDp+tPvvY1Sklbj
+         IAphQ0VJuMJ/l+V0qEQSkowsZGGTogrY2u7wM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723647364; x=1724252164;
+        d=1e100.net; s=20230601; t=1723649366; x=1724254166;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ApWhKzlunlw9OulyCe3WVtwOx7m9YQFR6kgphgn0hHM=;
-        b=nzRNVGjokOT9+BqlJy7v3cfl6mGizlsclcTEuJu0Ym+o9jGnlz/cFhtvWI2S67Q4Y3
-         YFyPUZeMuHugcL/eiUSoyW9jhqUNKWmw0xX4LqbJZyvdGnYJLdJzjJpPLVoGpA4JBKxq
-         ATKJ9+pu9IwQ8MX/SX6DNVB40BTSyfMmwOSj5xiCChuPrNtg0yql24+skHCESroG4SSI
-         qNpTkEoSjdHYv42LlDCDY6Ue4jtQZ4UJNPIGHQ8EP6nj4hxs2hkJfEh0T4mSXZtAh6xH
-         jWzfqEwIo/8/3V1vutxqA7tJPiYx1xUFUIcCgySM2Utk1Ivt1GKykUxcW9HppmHTyUZl
-         BwvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVO+jJQubvoDfIG0H/M74WQfCLuzS8+Xvm0t9+gXEf4oRXfzEx5KMdKio0CV2HJsOn7KzrPQGZB3rIpre1/BswSKwuJXzhORMPwEiw=
-X-Gm-Message-State: AOJu0YxXAfqTkQqAw1e1YdMyI1jZEhI5T/jJ2pwUMIKO++GGsQiLaAdn
-	y3JpugSytGvi9UBrzB8bwYIENVeBgx5VbpHrkmgg1+gO1+nF2XfxdreQeaeURnylzQ1etp84as8
-	OFIlHMIHgsfR8pVk+PbmHA+pymVZ1GUa+dzMg
-X-Google-Smtp-Source: AGHT+IH9ZAeOvcFpU0wz9rOmS3Zjvy3bWAzT1a2IrWWyXOegJsZPD7qSytaVr6toGHZ8oDdMhi5a1Ic9JEJSRxy3OYE=
-X-Received: by 2002:a05:6359:4c83:b0:1ac:f5dc:5163 with SMTP id
- e5c5f4694b2df-1b1aad5b0a8mr340642555d.29.1723647364192; Wed, 14 Aug 2024
- 07:56:04 -0700 (PDT)
+        bh=Z03NbPX8mgrPlFALFw7ePHKdBUgP2uPacW/KThKeInk=;
+        b=twFop4iIqTWBVXxMs7+zaywo8SlPzWLTKPERRQeZG08stHSOF9JcYmSjIj9GfQFP/X
+         JFO9mFCrB8/GJMRI3eEdMZbEesUCJ2J242swtyozK4ToO+UKzou8OKsTzdnrrXTepy+f
+         R3Y7+e0JxXT7pizNYr3zRtS4XIGWqte/NV6Njwa5y88TOpL6zlHhv1swr1ZBtvLH/0M+
+         2E2lA7jbySVAz+scT6Yt+98qSjsg3VsX5q0O4HDHrFrw6nrxw068hfn7y4bONCNgFfnh
+         JgVxIgf0EupN/FL65EM0wnt4gnjFc+7wj3NzbXd+j3lxWlx6vfrQNw1fsReKbANNikMd
+         sUmw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzp8E5LO03ZqX66feTPy5swMQrOglwzhp6UDHT8FKiM9YLy7+x+JYGSz4Q+xkeaU1RsLyuRJW3rtHg3g7+GM4zUOfhP2lcIDdbA0M=
+X-Gm-Message-State: AOJu0YzNjbTtjEkYyeRdeXUgSAE4aBpkJDFFY8aYZh9wMUpGLDG+tpkB
+	TJgPZXCdpXdBmx6eBrPg7dB5DcET6Nx4lhh6CKEWPTExsjbLsl2p+PK8+u7w1Lred11UXU2dbJQ
+	=
+X-Google-Smtp-Source: AGHT+IHIF6V6hndlBeyK3vqWQg184nKYMPc7DHiwYwWqqnk+iHf8C82JqnGzm29dvbTGeWwKoG5n4g==
+X-Received: by 2002:a05:6402:510c:b0:58c:2a57:b1e7 with SMTP id 4fb4d7f45d1cf-5bea1c6ccdemr2169407a12.8.1723649366030;
+        Wed, 14 Aug 2024 08:29:26 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bd187f29d0sm3975496a12.2.2024.08.14.08.29.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Aug 2024 08:29:25 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-428e1915e18so46555615e9.1
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 08:29:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXK3eBmVzW6CEk8VCArfsKYwLTIGA+AmAHH67mY6PUIPerf7QtZKo563fsSrsbwEXpl6lZrDwgQMPlr0MX7TeGcK4FC+Y3Ne45aOHI=
+X-Received: by 2002:adf:f6c6:0:b0:368:255d:e874 with SMTP id
+ ffacd0b85a97d-3717781a735mr2234906f8f.46.1723649364737; Wed, 14 Aug 2024
+ 08:29:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240813211317.3381180-7-almasrymina@google.com> <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
-In-Reply-To: <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 14 Aug 2024 10:55:49 -0400
-Message-ID: <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem memory provider
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240729193219.1260463-1-frkoenig@chromium.org>
+ <20240729193219.1260463-2-frkoenig@chromium.org> <75c4f50f-2cc0-1893-3765-68e5a479684c@quicinc.com>
+In-Reply-To: <75c4f50f-2cc0-1893-3765-68e5a479684c@quicinc.com>
+From: Fritz Koenig <frkoenig@chromium.org>
+Date: Wed, 14 Aug 2024 08:29:12 -0700
+X-Gmail-Original-Message-ID: <CAMfZQbx96spJStUJj+-aPaekZJ6jYb05QqxUOdLp4GZ2s2BsRQ@mail.gmail.com>
+Message-ID: <CAMfZQbx96spJStUJj+-aPaekZJ6jYb05QqxUOdLp4GZ2s2BsRQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] media: venus: Reorder encoder property setting
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org, mchehab@kernel.org, 
+	stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, 
+	bryan.odonoghue@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2024 at 10:11=E2=80=AFAM Pavel Begunkov <asml.silence@gmail=
-.com> wrote:
-...
-> > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > index 301f4250ca82..2f2a7f4dee4c 100644
-> > --- a/net/core/devmem.c
-> > +++ b/net/core/devmem.c
-> > @@ -17,6 +17,7 @@
-> >   #include <linux/genalloc.h>
-> >   #include <linux/dma-buf.h>
-> >   #include <net/devmem.h>
-> > +#include <net/mp_dmabuf_devmem.h>
-> >   #include <net/netdev_queues.h>
+On Tue, Aug 13, 2024 at 9:38=E2=80=AFPM Dikshita Agarwal
+<quic_dikshita@quicinc.com> wrote:
+>
+>
+>
+> On 7/30/2024 12:49 AM, Fritz Koenig wrote:
+> > Configure the generic controls before the codec specific ones.
+> > Some codec specific controls can override the generic ones.
 > >
-> >   #include "page_pool_priv.h"
-> > @@ -153,6 +154,10 @@ int net_devmem_bind_dmabuf_to_queue(struct net_dev=
-ice *dev, u32 rxq_idx,
-> >       if (err)
-> >               goto err_xa_erase;
+> > Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
+> > ---
+> > v2:
+> > - requested testing methodology added to cover letter
 > >
-> > +     err =3D page_pool_check_memory_provider(dev, rxq, binding);
+> >  drivers/media/platform/qcom/venus/venc.c | 183 +++++++++++------------
+> >  1 file changed, 91 insertions(+), 92 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/p=
+latform/qcom/venus/venc.c
+> > index 3ec2fb8d9fab..ae24de125c56 100644
+> > --- a/drivers/media/platform/qcom/venus/venc.c
+> > +++ b/drivers/media/platform/qcom/venus/venc.c
+> > @@ -688,98 +688,6 @@ static int venc_set_properties(struct venus_inst *=
+inst)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     if (inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_H264) {
+> > -             struct hfi_h264_vui_timing_info info;
+> > -             struct hfi_h264_entropy_control entropy;
+> > -             struct hfi_h264_db_control deblock;
+> > -             struct hfi_h264_8x8_transform h264_transform;
+> > -
+> > -             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_VUI_TIMING_INFO;
+> > -             info.enable =3D 1;
+> > -             info.fixed_framerate =3D 1;
+> > -             info.time_scale =3D NSEC_PER_SEC;
+> > -
+> > -             ret =3D hfi_session_set_property(inst, ptype, &info);
+> > -             if (ret)
+> > -                     return ret;
+> > -
+> > -             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_ENTROPY_CONTROL;
+> > -             entropy.entropy_mode =3D venc_v4l2_to_hfi(
+> > -                                       V4L2_CID_MPEG_VIDEO_H264_ENTROP=
+Y_MODE,
+> > -                                       ctr->h264_entropy_mode);
+> > -             entropy.cabac_model =3D HFI_H264_CABAC_MODEL_0;
+> > -
+> > -             ret =3D hfi_session_set_property(inst, ptype, &entropy);
+> > -             if (ret)
+> > -                     return ret;
+> > -
+> > -             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_DEBLOCK_CONTROL;
+> > -             deblock.mode =3D venc_v4l2_to_hfi(
+> > -                                   V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTE=
+R_MODE,
+> > -                                   ctr->h264_loop_filter_mode);
+> > -             deblock.slice_alpha_offset =3D ctr->h264_loop_filter_alph=
+a;
+> > -             deblock.slice_beta_offset =3D ctr->h264_loop_filter_beta;
+> > -
+> > -             ret =3D hfi_session_set_property(inst, ptype, &deblock);
+> > -             if (ret)
+> > -                     return ret;
+> > -
+> > -             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> > -             h264_transform.enable_type =3D 0;
+> > -             if (ctr->profile.h264 =3D=3D V4L2_MPEG_VIDEO_H264_PROFILE=
+_HIGH ||
+> > -                 ctr->profile.h264 =3D=3D V4L2_MPEG_VIDEO_H264_PROFILE=
+_CONSTRAINED_HIGH)
+> > -                     h264_transform.enable_type =3D ctr->h264_8x8_tran=
+sform;
+> > -
+> > -             ret =3D hfi_session_set_property(inst, ptype, &h264_trans=
+form);
+> > -             if (ret)
+> > -                     return ret;
+> > -
+> > -     }
+> > -
+> > -     if (inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_H264 ||
+> > -         inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_HEVC) {
+> > -             /* IDR periodicity, n:
+> > -              * n =3D 0 - only the first I-frame is IDR frame
+> > -              * n =3D 1 - all I-frames will be IDR frames
+> > -              * n > 1 - every n-th I-frame will be IDR frame
+> > -              */
+> > -             ptype =3D HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
+> > -             idrp.idr_period =3D 0;
+> > -             ret =3D hfi_session_set_property(inst, ptype, &idrp);
+> > -             if (ret)
+> > -                     return ret;
+> > -     }
+> > -
+> > -     if (inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_HEVC &&
+> > -         ctr->profile.hevc =3D=3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10=
+) {
+> > -             struct hfi_hdr10_pq_sei hdr10;
+> > -             unsigned int c;
+> > -
+> > -             ptype =3D HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
+> > -
+> > -             for (c =3D 0; c < 3; c++) {
+> > -                     hdr10.mastering.display_primaries_x[c] =3D
+> > -                             ctr->mastering.display_primaries_x[c];
+> > -                     hdr10.mastering.display_primaries_y[c] =3D
+> > -                             ctr->mastering.display_primaries_y[c];
+> > -             }
+> > -
+> > -             hdr10.mastering.white_point_x =3D ctr->mastering.white_po=
+int_x;
+> > -             hdr10.mastering.white_point_y =3D ctr->mastering.white_po=
+int_y;
+> > -             hdr10.mastering.max_display_mastering_luminance =3D
+> > -                     ctr->mastering.max_display_mastering_luminance;
+> > -             hdr10.mastering.min_display_mastering_luminance =3D
+> > -                     ctr->mastering.min_display_mastering_luminance;
+> > -
+> > -             hdr10.cll.max_content_light =3D ctr->cll.max_content_ligh=
+t_level;
+> > -             hdr10.cll.max_pic_average_light =3D
+> > -                     ctr->cll.max_pic_average_light_level;
+> > -
+> > -             ret =3D hfi_session_set_property(inst, ptype, &hdr10);
+> > -             if (ret)
+> > -                     return ret;
+> > -     }
+> > -
+> >       if (ctr->num_b_frames) {
+> >               u32 max_num_b_frames =3D NUM_B_FRAMES_MAX;
+> >
+> > @@ -922,6 +830,97 @@ static int venc_set_properties(struct venus_inst *=
+inst)
+> >       if (ret)
+> >               return ret;
+> >
+> > +     if (inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_H264) {
+> > +             struct hfi_h264_vui_timing_info info;
+> > +             struct hfi_h264_entropy_control entropy;
+> > +             struct hfi_h264_db_control deblock;
+> > +             struct hfi_h264_8x8_transform h264_transform;
+> > +
+> > +             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_VUI_TIMING_INFO;
+> > +             info.enable =3D 1;
+> > +             info.fixed_framerate =3D 1;
+> > +             info.time_scale =3D NSEC_PER_SEC;
+> > +
+> > +             ret =3D hfi_session_set_property(inst, ptype, &info);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_ENTROPY_CONTROL;
+> > +             entropy.entropy_mode =3D venc_v4l2_to_hfi(
+> > +                                       V4L2_CID_MPEG_VIDEO_H264_ENTROP=
+Y_MODE,
+> > +                                       ctr->h264_entropy_mode);
+> > +             entropy.cabac_model =3D HFI_H264_CABAC_MODEL_0;
+> > +
+> > +             ret =3D hfi_session_set_property(inst, ptype, &entropy);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_DEBLOCK_CONTROL;
+> > +             deblock.mode =3D venc_v4l2_to_hfi(
+> > +                                   V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTE=
+R_MODE,
+> > +                                   ctr->h264_loop_filter_mode);
+> > +             deblock.slice_alpha_offset =3D ctr->h264_loop_filter_alph=
+a;
+> > +             deblock.slice_beta_offset =3D ctr->h264_loop_filter_beta;
+> > +
+> > +             ret =3D hfi_session_set_property(inst, ptype, &deblock);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> > +             ptype =3D HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> > +             h264_transform.enable_type =3D 0;
+> > +             if (ctr->profile.h264 =3D=3D V4L2_MPEG_VIDEO_H264_PROFILE=
+_HIGH ||
+> > +                 ctr->profile.h264 =3D=3D V4L2_MPEG_VIDEO_H264_PROFILE=
+_CONSTRAINED_HIGH)
+> > +                     h264_transform.enable_type =3D ctr->h264_8x8_tran=
+sform;
+> > +
+> > +             ret =3D hfi_session_set_property(inst, ptype, &h264_trans=
+form);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     if (inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_H264 ||
+> > +         inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_HEVC) {
+> > +             /* IDR periodicity, n:
+> > +              * n =3D 0 - only the first I-frame is IDR frame
+> > +              * n =3D 1 - all I-frames will be IDR frames
+> > +              * n > 1 - every n-th I-frame will be IDR frame
+> > +              */
+> > +             ptype =3D HFI_PROPERTY_CONFIG_VENC_IDR_PERIOD;
+> > +             idrp.idr_period =3D 0;
+> > +             ret =3D hfi_session_set_property(inst, ptype, &idrp);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     if (inst->fmt_cap->pixfmt =3D=3D V4L2_PIX_FMT_HEVC &&
+> > +         ctr->profile.hevc =3D=3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10=
+) {
+> > +             struct hfi_hdr10_pq_sei hdr10;
+> > +             unsigned int c;
+> > +
+> > +             ptype =3D HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
+> > +
+> > +             for (c =3D 0; c < 3; c++) {
+> > +                     hdr10.mastering.display_primaries_x[c] =3D
+> > +                             ctr->mastering.display_primaries_x[c];
+> > +                     hdr10.mastering.display_primaries_y[c] =3D
+> > +                             ctr->mastering.display_primaries_y[c];
+> > +             }
+> > +
+> > +             hdr10.mastering.white_point_x =3D ctr->mastering.white_po=
+int_x;
+> > +             hdr10.mastering.white_point_y =3D ctr->mastering.white_po=
+int_y;
+> > +             hdr10.mastering.max_display_mastering_luminance =3D
+> > +                     ctr->mastering.max_display_mastering_luminance;
+> > +             hdr10.mastering.min_display_mastering_luminance =3D
+> > +                     ctr->mastering.min_display_mastering_luminance;
+> > +
+> > +             hdr10.cll.max_content_light =3D ctr->cll.max_content_ligh=
+t_level;
+> > +             hdr10.cll.max_pic_average_light =3D
+> > +                     ctr->cll.max_pic_average_light_level;
+> > +
+> > +             ret =3D hfi_session_set_property(inst, ptype, &hdr10);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> >       switch (inst->hfi_codec) {
+> >       case HFI_VIDEO_CODEC_H264:
+> >               profile =3D ctr->profile.h264;
 >
-> Frankly, I pretty much don't like it.
+> Changing the order might cause issue for other functionalities.
 >
-> 1. We do it after reconfiguring the queue just to fail and reconfigure
-> it again.
+> Also, Client should either set the commutative bitrate or layerwise
+> bitrate. So, if the motive behind this re-order is to not update the
+> commutative bitrate, then that is expected and this way there might not b=
+e
+> a need to change current order.
 >
+> Thanks,
+> Dikshita
 
-I don't see an issue with that? Or is it just me?
+Somewhat orthogonal, how should the max bitrate be handled? If
+ctr->bitrate_peak is not set, it is based off of the commutative
+bitrate. Should it be based off of the bitrate of layer 0? or the
+highest bitrate of the layers?
 
-> 2. It should be a part of the common path like netdev_rx_queue_restart(),
-> not specific to devmem TCP.
->
-> These two can be fixed by moving the check into
-> netdev_rx_queue_restart() just after ->ndo_queue_mem_alloc, assuming
-> that the callback where we init page pools.
->
-
-The only reason is that the page_pool_check_memory_provider() needs to
-know the memory provider to check for. Separating them keep
-netdev_rx_queue_restart() usable for other future use cases that don't
-expect a memory provider to be bound, but you are correct in that this
-can be easily resolved by passing the binding to
-netdev_rx_queue_restart() and doing the
-page_pool_check_memory_providers() check inside of that function.
-
-> 3. That implicit check gives me bad feeling, instead of just getting
-> direct feedback from the driver, either it's a flag or an error
-> returned, we have to try to figure what exactly the driver did, with
-> a high chance this inference will fail us at some point.
->
-
-This is where I get a bit confused. Jakub did mention that it is
-desirable for core to verify that the driver did the right thing,
-instead of trusting that a driver did the right thing without
-verifying. Relying on a flag from the driver opens the door for the
-driver to say "I support this" but actually not create the mp
-page_pool. In my mind the explicit check is superior to getting
-feedback from the driver.
-
-Additionally this approach lets us detect support in core using 10
-lines of code or so, rather than ask every driver that wants to
-support mp to add boilerplate code to declare support (and run into
-subtle bugs when this boilerplate is missing). There are minor pros
-and cons to each approach; I don't see a showstopping reason to go
-with one over the other.
-
-> And page_pool_check_memory_provider() is not that straightforward,
-> it doesn't walk through pools of a queue.
-
-Right, we don't save the pp of a queue, only a netdev. The outer loop
-checks all the pps of the netdev to find one with the correct binding,
-and the inner loop checks that this binding is attached to the correct
-queue.
-
-> Not looking too deep,
-> but it seems like the nested loop can be moved out with the same
-> effect, so it first looks for a pool in the device and the follows
-> with the bound_rxqs. And seems the bound_rxqs check would always turn
-> true, you set the binding into the map in
-> net_devmem_bind_dmabuf_to_queue() before the restart and it'll be there
-> after restart for page_pool_check_memory_provider(). Maybe I missed
-> something, but it's not super clear.
->
-> 4. And the last thing Jakub mentioned is that we need to be prepared
-> to expose a flag to the userspace for whether a queue supports
-> netiov. Not really doable in a sane manner with such implicit
-> post configuration checks.
->
-
-I don't see a very strong reason to expose the flag to the userspace
-now. userspace can try to bind dmabuf and get an EOPNOTSUPP if the
-operation is not supported, right? In the future if passing the flag
-to userspace becomes needed for some usecase, we do need feedback from
-the driver, and it would be trivial to add similarly to what you
-suggested.
-
-> And that brings us back to the first approach I mentioned, where
-> we have a flag in the queue structure, drivers set it, and
-> netdev_rx_queue_restart() checks it before any callback. That's
-> where the thread with Jakub stopped, and it reads like at least
-> he's not against the idea.
-
-Hmm, the netdev_rx_queue array is created in core, not by the driver,
-does the driver set this flag during initialization? We could run into
-subtle bugs with races if a code path checks for support after core
-has allocated the netdev_rx_queue array but before the driver has had
-a chance to declare support, right? Maybe a minor issue. Instead we
-could add an ndo to the queue API that lets the driver tell us that it
-could support binding on a given rx queue, and check that in
-net_devmem_bind_dmabuf_to_queue() right before we do the bind?
-
-But this is only if declaring support to userspace becomes needed for
-some use case. At the moment I'm under the impression that verifying
-in core that the driver did the right thing is preferred, and I'd like
-to minimize the boilerplate the driver needs to implement if possible.
-
-Additionally this series is big and blocks multiple interesting follow
-up work; maybe going forward with an approach that works - and can
-easily be iterated on later if we run into issues - could be wise. I
-do not see an issue with adding a driver signal in the future (if
-needed) and deprecating the core check (if needed), right?
-
---
-Thanks,
-Mina
+-Fritz
 
