@@ -1,121 +1,112 @@
-Return-Path: <linux-media+bounces-16302-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16303-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BB8951C86
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:05:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D29951CAA
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:10:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6DF51F22473
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 14:05:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6F071C218E6
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 14:10:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D401B32C7;
-	Wed, 14 Aug 2024 14:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 140ED1B32CD;
+	Wed, 14 Aug 2024 14:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oixb9P7I"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DOIdSntf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8AE1B29D2;
-	Wed, 14 Aug 2024 14:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10C91B32BA
+	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 14:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723644315; cv=none; b=syn3tNWZcTXh0gVxuGYvHKfBuu4iT7DPTrH0kpBs6Ju1iSSGCg8PaJ4SwCcpmJyiK+k99xY1eU+6kEekZcS024Kk8DYxzsJCuMqIlbHWOmx3sg67aaJdffCRYaS52uDldI3aQI5C1E1Z/eUPrPM2RBniaCe8rZfFfJ/fMhsv3mk=
+	t=1723644630; cv=none; b=e56+zUHA8o3g7sQY+Tij3GcIIB7b8cig6ygX1Qf2AUa+XkQ8SLcnrVEIIWAn74MjbslzAHpbysMDu0sEbOl6G+64gRUaQDKkA398LRWJxowWJkI0Q6TohyYizdC0+cp/jQQhWIa4TZzrYWdbg8E7I7nr4jBhefhbc52a9wIImpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723644315; c=relaxed/simple;
-	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jtw8W+5w997ibV//VfDMqGBTASno0/HZAOcl76LKnlrIXTjGWCA3HSUWyF31jQ0NodajoXZc9et06dtmi/Wm09E3ASPbiV90StefQoRz2rdKcz2Crtf7BinUURnB4mKtKKwS3jP8wZKHqPVXYl+p8kntZQ0/jT/xDZtAVrRDxkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oixb9P7I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941C6C32786;
-	Wed, 14 Aug 2024 14:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723644314;
-	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oixb9P7IKMS3/QO3M+v6BsLenBwFo04WV3M2FM4b+PnTBnM+H8LGThWzI2ZaiPrE7
-	 KnT4LaSTN8Kbn7uJ49JPGpPqAKL0lh631pNmnutXfEGcuXmdOA4rpjWCkuWPEMokQi
-	 RdVWgigeciXAaPBIGcO8bVETqszsvXDHmm8iXRlMMpdMixIuPRF2C9V/sIagWgkXJg
-	 fXvbuxQwilJ+8zcimVOxsdl2OCfVzZGJqL0Op6IpfoN2iSy/Tn2aWkun7cfUo3g4bF
-	 iLdGMW7At7uBIBcF1QgTtSnnoddaLSLLq40P7swf55ctf26w506ePlPRSDM1XCw9Wb
-	 4isDAlOl8VI0w==
-Date: Wed, 14 Aug 2024 15:05:06 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, khilman@baylibre.com,
-	linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>,
-	Will Deacon <will@kernel.org>, linux-media@vger.kernel.org,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Nicolas Belin <nbelin@baylibre.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v7 00/16] Add audio support for the MediaTek Genio
- 350-evk board
-Message-ID: <ae9a5147-95a9-4da3-a56a-ecc22f4e8f04@sirena.org.uk>
-References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
- <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
+	s=arc-20240116; t=1723644630; c=relaxed/simple;
+	bh=vp38zeRtBhr0Du4XKdqxpDAT1Y5lZXNhVALLlf72ji4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HVV0G1m8JtAuE1KPLq3vNkqHqjMKl7Bpa9C18Nk6ZNC0sPK9KvnYCfcQyW6udjuPfq/AMx2ST5U7hf/0MsJZzgvp4RaE5ltnyaQRqsZdjSbgSn0LiLoGtN3HCANE4dE0tNUIn+SZYIMpIYjE8SN7nJWetBzcpcVcI3UNeBoZ/Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DOIdSntf; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6b78c980981so37369016d6.2
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 07:10:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1723644628; x=1724249428; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uYo+0dQT7iwe+mv2wovfeJr7dQUIMIBCbUbhTd+y5Bg=;
+        b=DOIdSntfJuLhqBsdLRf4vsRRrqW4xHj2izzLjPEF8HzzD7EO2QqR4ubyKGn+iHpyLk
+         7tR+eCMg8ePM6rFYekomMdTkCrLtw8Pm+GwXC0/+4m2QF6WuBdBn57NiFYPXCsFyS8ZN
+         mH5jSvAQV8+0TMo9cqcl7liLSdaYAnRA6y2ZM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723644628; x=1724249428;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uYo+0dQT7iwe+mv2wovfeJr7dQUIMIBCbUbhTd+y5Bg=;
+        b=SFcwri0o+BDt3jHbx5rby7w18Fa5GOXhn7yDSx/e4fs4WGhIBCs4baimi3ueU8KXdK
+         G+9iHNdaPXd4u9/3GKUpXZDm36gkoeUoWUKip4g17LIXcPT4m2EhvQJHL65NLJmb6SHo
+         1Cy4BEUmoCc8aaGWPvX+owg9c6X3cS8ClcH+LNno2QRK8vhwK0n11kSohjnX6c2U7ATW
+         1seTJSaQvMo/nAPgJNw4gYSdbB5kGUjhwu2ofxMTgp30btRnyn5ZtLvLlQqQVaOS2xxU
+         q7REAo1QJGEsNhJb988Mx/hNSLh8gTQSvlhkIjtiWH/TYTfwRTwMKO9qOgZ3Y0TOV2gg
+         svPQ==
+X-Gm-Message-State: AOJu0YxG2TNwIhWFuvUi7yvUcixFw1+hCMM8NC1kvlETtZBEQ39mGsHB
+	4E5xvjbJq3RSKc+GWzJNPGTi4XHFqr2/Hzr7uT+vm4T799M6br4oZJCqp3aNsQ==
+X-Google-Smtp-Source: AGHT+IFlOhfv9e4YzS6CVLrhTnkiWmVIBOuyem99ZCg8FKMTyJjZu279PJkXqi5t3Ebj54cnLdjzHQ==
+X-Received: by 2002:a05:6214:3a09:b0:6b0:9479:cdd7 with SMTP id 6a1803df08f44-6bf5d27e53emr29696446d6.54.1723644627395;
+        Wed, 14 Aug 2024 07:10:27 -0700 (PDT)
+Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bd82c61637sm43861036d6.7.2024.08.14.07.10.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2024 07:10:26 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 0/2] media: Follow-up for coccinelle lock fixes patchset
+Date: Wed, 14 Aug 2024 14:10:21 +0000
+Message-Id: <20240814-coccinelle-followup-v2-0-88b4e4a9af56@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8B/Fc53TUe95dwQa"
-Content-Disposition: inline
-In-Reply-To: <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
-X-Cookie: The second best policy is dishonesty.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM26vGYC/32NQQ6CMBBFr0JmbU07CgmuvAdhgWUKkxSGtIIa0
+ rtbOYDL95L//g6RAlOEW7FDoI0jy5wBTwXYsZsHUtxnBtR41ZUxyoq1PJP3pJx4L691Ua7sKnz
+ ounSoIS+XQI7fR7VpM48cnxI+x8lmfvZ/bzNKq95hT7VFd0F9t2OQidfpLGGANqX0BZCG/Lq5A
+ AAA
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
+Hans requested some changes for this patch:
+https://patchwork.linuxtv.org/project/linux-media/patch/20240506-cocci-locks-v1-5-a67952fe5d19@chromium.org/
 
---8B/Fc53TUe95dwQa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Refactor the patch and try again :).
 
-On Wed, Aug 14, 2024 at 10:23:12AM +0200, Alexandre Mergnat wrote:
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Checkpatch fixes.
+- Link to v1: https://lore.kernel.org/r/20240611-coccinelle-followup-v1-0-df2de9c2f320@chromium.org
 
-> Simple gentle ping, the serie seems ready to be applied.
+---
+Ricardo Ribalda (2):
+      media: drivers/media/dvb-core: Split dvb_frontend_open()
+      media: drivers/media/dvb-core: Refactor dvb_frontend_open locking
 
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
+ drivers/media/dvb-core/dvb_frontend.c | 159 ++++++++++++++++++----------------
+ 1 file changed, 86 insertions(+), 73 deletions(-)
+---
+base-commit: 03a979b74dc1ad5aeed8026a84d8771842cb1631
+change-id: 20240611-coccinelle-followup-f5a62b095f20
 
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
---8B/Fc53TUe95dwQa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma8uZIACgkQJNaLcl1U
-h9C15Qf/aWN3somXkLeCmkhFfrV7QHTBExyjsMeiPhzPWZtkgtCnWe3qurwNFxJW
-hZepPzW5OTzlmzxUY13O4q1omXjfbfIM5wpYSui2CeaJo15WV+/BxfMEjLwhB942
-fDai25vauENBytYGG0rmb5lW0+92gWHVXdFYjB/Zew6sMd3uNCQNZGsfEVXJD3pU
-U9rb2939laF2Lqbjvr502BhhHEPgiBCx0vsPCVtasNrArpTFfinGw2wYA4ZNRGM3
-IB78TudnvuQHQtt9ytOfos5mN+fv5LxoYO16MMmuhTP753QbXipEJ4wYBKWSSPs1
-JLIAGwiAAXiCyPEMjizKQ3fph09SVg==
-=LwLG
------END PGP SIGNATURE-----
-
---8B/Fc53TUe95dwQa--
 
