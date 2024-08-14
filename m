@@ -1,92 +1,66 @@
-Return-Path: <linux-media+bounces-16314-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16315-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A37951F99
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 18:15:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E486F951F9B
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 18:15:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04000282F32
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:15:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 238281C218F6
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 016B81B8E99;
-	Wed, 14 Aug 2024 16:14:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36F5B1B8E8B;
+	Wed, 14 Aug 2024 16:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fvUXnbDd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="erzYqHtR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B681B86F0
-	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 16:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8141B32B1;
+	Wed, 14 Aug 2024 16:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723652095; cv=none; b=QcdtPLxN2TDai/KNWqRHqX08hA2lnVQEf56ZA4G14jvNIG9MPmYN5O4G+plF3vYOThuJdKb/I7siH7bpp1HW1F2/Plg0pkL5IjgU+R/rec5Bs6aDhFPrwQpZHySBOqQyslH8FfNl/L5IJjmFr2uO7VHbrcPgU/pufr/VFPQxDOE=
+	t=1723652120; cv=none; b=EBC+HNRWbl3DgdMHARkxM/enQiqPq+/fpeAgkOTCc2jjaxcEI+SFunwoFStNjihzVSOE3Gp3nOWGwtRqdxqowN4yhQAGF4GfvduhVJ3P1nUWCLB+Lnpx/c7WZlRg0rTpLKE29Q7blUitcDMslLdqTsSmmoFOruizuaLa5oX65Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723652095; c=relaxed/simple;
-	bh=gqbMiXNwJFJXl+62Es6Vo115fZrEynorUGC4qCQ9vDE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Isjoawj2FUAt2h51iuT38gRoHOLTRK6o/x3Z+ptsVnNz53gxhlUUsTXf0GTs2SI2se7T0bdMShRp1FF8yxneCDTamECmHgX3vL89rXbKhGX0SfycsFQCl2Uor5fOSBgZ+mYCyg4ygaEsV7uBaLnmMUcjtSkf675CR6ZSJnT8NAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fvUXnbDd; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4280c55e488so112255e9.0
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 09:14:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723652091; x=1724256891; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DdXwJjU7Fbh1uS/qpTeyladuU6fek5vMFj3oZ/ZloqM=;
-        b=fvUXnbDdf4G8UMXheWZNCgWZGhAIj3EK6CT8XBt/pxqXA6oJOD35EF9XT9l0fcnNrB
-         3UtYNYGfv6SntLc5FAsIMAi1lbGe09Lk4PVWhH/La9OUbgxvY54Lwt+f484A75ONlJdT
-         LhtqoENvjcFUTDBRrge40hIwHmza1VFCn21aIOSQyYA606MhJBmLTT0/JWTvVCllbBW6
-         LDYSoZuUCekK6jxmve2Oe60iU5zReBx+sYC6HXCeS4mUG4bU5scvVPqEFPgMxSoe+8fG
-         dlghwehHY3eDt4X7Dx/SaPPYS2B9vVc8Hyir5l/lKneInSxKo4SSlWHDfFrINlEC8Cx3
-         3OZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723652091; x=1724256891;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DdXwJjU7Fbh1uS/qpTeyladuU6fek5vMFj3oZ/ZloqM=;
-        b=knJ4LNdP17PFh5JtXW++YiZfc7fHLL9cujMkWKY+zxStyT5tv9YGaGvChFUIAKGFWY
-         axEqKNa2jIs2NEJB6uhuqTx8f/IoDzw5nlyAnBOK0O2XV8vfF7c2tL60Xki9I0G9YYDL
-         K9G8KerwAQ5n0Sdi4/1Rdg6ug2yzFfvtO8uGG3n9WntneJ0vFd9IfYxMH3y/IdbPxR6I
-         WoS3uAaQqCbS0SPcPFPSMm7mwqnk5JjaQsvdm7tu56Oe6xFZLIGX6sKbPMMoIXn3L3RB
-         4mCdbFKuauwqdMeDuSaCz3SQJ75YTtCDtW5D4VV5MrLfjgd7cggJ8n0PbFedW5ks3X7v
-         XRrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFyKjr/1sHRq+45qc068/VodCOsVBvfuj6E8P445XZU5llGnEqe+FJc0zlt378QxCJzW0tVYFgVqavbG+ggjpau4IzhQyFKa0MgG8=
-X-Gm-Message-State: AOJu0YxR7fmO+GU0RhX5752/+ntXg00/sWbVyIB+MOkzisfI8LdXIi5C
-	gbD0dvjc+C+v6JX4DaeCpY1YoSaeHwUaV/m2zwEtM67sEthJ48ep305TlB6ClWE=
-X-Google-Smtp-Source: AGHT+IElmNJ3m8B/wz85EEfNBjA8nlEQnCbDf5OaWkj2K/ZAN1S51QP7jcXUNJ02UuqmthaHICfZmA==
-X-Received: by 2002:a05:600c:4f55:b0:426:67fa:f7 with SMTP id 5b1f17b1804b1-429e2344fb9mr1509995e9.9.1723652090851;
-        Wed, 14 Aug 2024 09:14:50 -0700 (PDT)
-Received: from sagittarius-a.ht.home ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded3cc80sm24200835e9.21.2024.08.14.09.14.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 09:14:50 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: quic_depengs@quicinc.com,
-	rfoss@kernel.org,
-	todor.too@gmail.com,
-	mchehab@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel@quicinc.com,
-	quic_yon@quicinc.com,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH] media: qcom: camss: Add hooks to get CSID wrapper resources
-Date: Wed, 14 Aug 2024 17:14:34 +0100
-Message-ID: <20240814161434.1484857-1-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <44efa3ba-f60d-4a17-a8a1-fa7d49aa3234@linaro.org>
-References: <44efa3ba-f60d-4a17-a8a1-fa7d49aa3234@linaro.org>
+	s=arc-20240116; t=1723652120; c=relaxed/simple;
+	bh=d4tEalB0WzWRR1s1oQzHOMU8z3PE7Y6rfG3lDQFxJmU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GblwHIsV4VOuhBYpMWlMaIXuwiLDWXhDsZPcHTFchyWoKrdwcMKofH4PkRJowq7b569RISN2b8OzWWr5OOi5hAn55fYBqJidxBbtMtm4cN8AQ+AKvF3u2genRsBW6/SF8+VgkSNtoZm8vXSy+0iA2yyKPf61t6VSO49YLkh/t6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=erzYqHtR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DA2F2E0;
+	Wed, 14 Aug 2024 18:14:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723652059;
+	bh=d4tEalB0WzWRR1s1oQzHOMU8z3PE7Y6rfG3lDQFxJmU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=erzYqHtRTlrDUrc3N6/XNu04QFDU80kRzktZ9pmmUjahd9ravC6CNpK5OjILqHS7C
+	 8YLuBbsYFy91wxbJ20+ztZF+2sDTIBm5k94SwHxMCxHbTrgIVhUaMUn3GMi3kRakO/
+	 z0ZorMX1RbEO4Y0h5SM4tw3I3IpVvsBXqjSc0DS8=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: Paul Elder <paul.elder@ideasonboard.com>,
+	Adam Ford <aford173@gmail.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Marek Vasut <marex@denx.de>,
+	Peng Fan <peng.fan@nxp.com>,
+	Rob Herring <robh@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH v4] arm64: dts: imx8mp: Add DT nodes for the two ISPs
+Date: Wed, 14 Aug 2024 19:14:51 +0300
+Message-ID: <20240814161451.32119-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.44.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,81 +69,124 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-New SoCs have CSID devices inside of a shared "wrapper" i.e. a set of regs
-which is responsible for manging the muxes of the CSID to various other
-blocks throughout CAMSS.
+From: Paul Elder <paul.elder@ideasonboard.com>
 
-Not every SoC has this top-level muxing layer so make it optional depending
-on whether its declared as a resource or not.
+The ISP supports both CSI and parallel interfaces, where port 0
+corresponds to the former and port 1 corresponds to the latter. Since
+the i.MX8MP's ISPs are connected by the parallel interface to the CSI
+receiver, set them both to port 1.
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/qcom/camss/camss.c | 12 ++++++++++++
- drivers/media/platform/qcom/camss/camss.h |  6 ++++++
- 2 files changed, 18 insertions(+)
+Changes since v3:
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index e797f3275fb0c..6da04cac93f3d 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2037,6 +2037,7 @@ static int camss_of_parse_ports(struct camss *camss)
-  */
- static int camss_init_subdevices(struct camss *camss)
- {
-+	struct platform_device *pdev = to_platform_device(camss->dev);
- 	const struct camss_resources *res = camss->res;
- 	unsigned int i;
- 	int ret;
-@@ -2064,6 +2065,17 @@ static int camss_init_subdevices(struct camss *camss)
- 		}
- 	}
+- Add comment regarding the IMX8MP_CLK_MEDIA_ISP clock rate
+- Fix assigned-clock-rates
+- Dropping Tested-by as the clock configuration has changed
+
+Changes since v2:
+
+- Assign clock parent and frequency in blk-ctrl
+
+Changes since v1:
+
+- Fix clock ordering
+- Add #address-cells and #size-cells to ports nodes
+---
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi | 57 ++++++++++++++++++++++-
+ 1 file changed, 55 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+index d9b5c40f6460..f3531cfb0d79 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+@@ -1673,6 +1673,50 @@ isi_in_1: endpoint {
+ 				};
+ 			};
  
-+	/* Get optional CSID wrapper regs shared between CSID devices */
-+	if (res->csid_wrapper_res) {
-+		char *reg = res->csid_wrapper_res->reg;
-+		void __iomem *base;
++			isp_0: isp@32e10000 {
++				compatible = "fsl,imx8mp-isp";
++				reg = <0x32e10000 0x10000>;
++				interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
++					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
++					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
++				clock-names = "isp", "aclk", "hclk";
++				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
++				fsl,blk-ctrl = <&media_blk_ctrl 0>;
++				status = "disabled";
 +
-+		base = devm_platform_ioremap_resource_byname(pdev, reg);
-+		if (IS_ERR(base))
-+			return PTR_ERR(base);
-+		camss->csid_wrapper_base = base;
-+	}
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
 +
- 	for (i = 0; i < camss->res->csid_num; i++) {
- 		ret = msm_csid_subdev_init(camss, &camss->csid[i],
- 					   &res->csid_res[i], i);
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 867e275db4bec..a9b733cc626d8 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -66,6 +66,10 @@ struct resources_icc {
- 	struct icc_bw_tbl icc_bw_tbl;
- };
++					port@1 {
++						reg = <1>;
++					};
++				};
++			};
++
++			isp_1: isp@32e20000 {
++				compatible = "fsl,imx8mp-isp";
++				reg = <0x32e20000 0x10000>;
++				interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
++					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
++					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
++				clock-names = "isp", "aclk", "hclk";
++				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
++				fsl,blk-ctrl = <&media_blk_ctrl 1>;
++				status = "disabled";
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@1 {
++						reg = <1>;
++					};
++				};
++			};
++
+ 			dewarp: dwe@32e30000 {
+ 				compatible = "nxp,imx8mp-dw100";
+ 				reg = <0x32e30000 0x10000>;
+@@ -1869,17 +1913,26 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
+ 				clock-names = "apb", "axi", "cam1", "cam2",
+ 					      "disp1", "disp2", "isp", "phy";
  
-+struct resources_wrapper {
-+	char *reg;
-+};
-+
- enum pm_domain {
- 	PM_DOMAIN_VFE0 = 0,
- 	PM_DOMAIN_VFE1 = 1,
-@@ -94,6 +98,7 @@ struct camss_resources {
- 	const struct camss_subdev_resources *csid_res;
- 	const struct camss_subdev_resources *ispif_res;
- 	const struct camss_subdev_resources *vfe_res;
-+	const struct resources_wrapper *csid_wrapper_res;
- 	const struct resources_icc *icc_res;
- 	const unsigned int icc_path_num;
- 	const unsigned int csiphy_num;
-@@ -111,6 +116,7 @@ struct camss {
- 	struct csid_device *csid;
- 	struct ispif_device *ispif;
- 	struct vfe_device *vfe;
-+	void __iomem *csid_wrapper_base;
- 	atomic_t ref_count;
- 	int genpd_num;
- 	struct device *genpd;
++				/*
++				 * The ISP maximum frequency is 400MHz in normal mode
++				 * and 500MHz in overdrive mode. The 400MHz operating
++				 * point hasn't been successfully tested yet, so set
++				 * IMX8MP_CLK_MEDIA_ISP to 500MHz for the time being.
++				 */
+ 				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_AXI>,
+ 						  <&clk IMX8MP_CLK_MEDIA_APB>,
+ 						  <&clk IMX8MP_CLK_MEDIA_DISP1_PIX>,
+ 						  <&clk IMX8MP_CLK_MEDIA_DISP2_PIX>,
++						  <&clk IMX8MP_CLK_MEDIA_ISP>,
+ 						  <&clk IMX8MP_VIDEO_PLL1>;
+ 				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>,
+ 							 <&clk IMX8MP_SYS_PLL1_800M>,
+ 							 <&clk IMX8MP_VIDEO_PLL1_OUT>,
+-							 <&clk IMX8MP_VIDEO_PLL1_OUT>;
++							 <&clk IMX8MP_VIDEO_PLL1_OUT>,
++							 <&clk IMX8MP_SYS_PLL2_500M>;
+ 				assigned-clock-rates = <500000000>, <200000000>,
+-						       <0>, <0>, <1039500000>;
++						       <0>, <0>, <500000000>,
++						       <1039500000>;
+ 				#power-domain-cells = <1>;
+ 
+ 				lvds_bridge: bridge@5c {
+
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+prerequisite-patch-id: ad2bbccf3b0f27415fb14851cec52c431ccb354f
 -- 
-2.45.2
+Regards,
+
+Laurent Pinchart
 
 
