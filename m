@@ -1,407 +1,603 @@
-Return-Path: <linux-media+bounces-16283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16284-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A2D951896
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 12:24:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46AB09519B4
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 13:14:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 315601C21EF2
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 10:24:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03B90281488
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 11:14:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C8ED1AD9EA;
-	Wed, 14 Aug 2024 10:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D63381AE048;
+	Wed, 14 Aug 2024 11:14:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=shreeya.patel@collabora.com header.b="OCXsrx97"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B9YTtQPm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732061A4F10;
-	Wed, 14 Aug 2024 10:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723631037; cv=pass; b=VzAaOoYJhHdKgde2XxnMdi1jjputADw92QtAvNYoO2TBu0emJ87DVJ1dIgQjoLW4whEIYizfoBgIMsJfN7HqGk2W3xiD3/5zdpzDXFlg1JLFSCUf/kRjqJD9ppUMEvpyPTvcqxZ7AFwzvT3vT6hHdjLxU3aRVhIrE2mHRMQJn6I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723631037; c=relaxed/simple;
-	bh=FJhdXmcJfITXAU0eY6mADQeSuP/jponqtb7pDgHUZc0=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=fHJbqxKvNxl0eqCJHM4pVk8M29HQAVa9NIjrQn65R7SIfZ26gtAf4WRmq1oZuXvz+CTlRvOaId4PRLI5YEfdWBIsftIjf9SF+TBpRkhdJdjPUkZiT01O6SWVCbX4hlnL0qLSc7rycTV2FExWhkhW4/oH5695ecqC/cNk+kELzJs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=shreeya.patel@collabora.com header.b=OCXsrx97; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Delivered-To: nicolas.dufresne@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1723630979; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Mv+Lbq4LftFO8c0ZzwICdAtOSIiOuoXWVn7T/4qjtEQggbgOgWJPYKpPffffv4Nbo8hH+2WfvhHHaiVbWwztoyKLdkWZZEvM69dZNjrCuMXOFca2smBY4qo+ij3YIACiHtkCtm/HLfwh5zhICJUoTgFVCWuXVffnJ9b/1YRhw6I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1723630979; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=KDSuq+GdTkk8usdOD1M6R1p5SyZGtUFOvVvC4JR/q4U=; 
-	b=VIRKkSZS1V38FTAYMJWOsrHpd0ihEA2+9xc2585g5ZhgRID7YfUqYSfMqhJwL+kpbZ+L4U9IG4UD9owpzyrCEYQjL0xk2rp/0vtl+hsfUTrXz4KqCb3LERCJQxzo+/4CbVtSoAxHNCAKdQKPGM3g1YFkYJbdyGw9oZlN4WxtpEI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=shreeya.patel@collabora.com;
-	dmarc=pass header.from=<shreeya.patel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1723630979;
-	s=zohomail; d=collabora.com; i=shreeya.patel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=KDSuq+GdTkk8usdOD1M6R1p5SyZGtUFOvVvC4JR/q4U=;
-	b=OCXsrx97mNoLm5XwPuTPdi9MywUJusqE5tG1wZimWkhm5AqWqhwYZPgLQIntrseC
-	tMgnmWI8rxO4xN63+RWOBqyDhUFUHSeoalq4k2rAzXheFErrGP/W+x4mgeduWOqshFB
-	mOIXMjBHfGGkE1b11nREH3ksmSb6HP/hhqljU/lg=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1723630978549368.7322665721008; Wed, 14 Aug 2024 03:22:58 -0700 (PDT)
-Date: Wed, 14 Aug 2024 15:52:56 +0530
-From: Shreeya Patel <shreeya.patel@collabora.com>
-To: "Tim Surber" <me@timsurber.de>
-Cc: "heiko" <heiko@sntech.de>, "mchehab" <mchehab@kernel.org>,
-	"robh" <robh@kernel.org>, "krzk+dt" <krzk+dt@kernel.org>,
-	"conor+dt" <conor+dt@kernel.org>,
-	"mturquette" <mturquette@baylibre.com>, "sboyd" <sboyd@kernel.org>,
-	"p.zabel" <p.zabel@pengutronix.de>,
-	"jose.abreu" <jose.abreu@synopsys.com>,
-	"nelson.costa" <nelson.costa@synopsys.com>,
-	"shawn.wen" <shawn.wen@rock-chips.com>,
-	"nicolas.dufresne" <nicolas.dufresne@collabora.com>,
-	"hverkuil" <hverkuil@xs4all.nl>,
-	"hverkuil-cisco" <hverkuil-cisco@xs4all.nl>,
-	"kernel" <kernel@collabora.com>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-media" <linux-media@vger.kernel.org>,
-	"devicetree" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel" <linux-arm-kernel@lists.infradead.org>,
-	"linux-rockchip" <linux-rockchip@lists.infradead.org>
-Message-ID: <19150697f90.11f343d091099757.4301715823219222254@collabora.com>
-In-Reply-To: <6f5c4ebb-84ab-4b65-9817-ac5f6158911f@timsurber.de>
-References: <20240719124032.26852-1-shreeya.patel@collabora.com> <6f5c4ebb-84ab-4b65-9817-ac5f6158911f@timsurber.de>
-Subject: Re: [PATCH v4 0/4] Add Synopsys DesignWare HDMI RX Controller
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C596C1AD9D1
+	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 11:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723634048; cv=none; b=YFODIv4ra2LDBYVS9V4W3BR98oBxGZ+/Cts0y6S/fnyvhJqMp0THgEZ8MLVk20n03AezNOp9ud8p9fhZ0aUPWIA+YGowBWS364bI/vG7iZtYYw9WHi9cAj2/cpBKPW/L6j/tQotQIMreX6mdHMKi5gd4dDYBcJ+qGJUul9oAoWk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723634048; c=relaxed/simple;
+	bh=RggHuIZDd6WVDBAucwtTmOmivCbDEe9AtLSsK8mXyUc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fnnf0fapQev/mN/ofDwNBkVAdHRA0MY1l3svL8nFyNAH1EU/GGFi4yL0SS3bLZS3E4GtJsiaLvzn6duhvC/ATOeNVqY2u6jbQ/OG4wWuqeNXWliueXJM9PxMCYBYaZ4VGZA0+XSkJdzmqYF93KgApm/DEuq64fn1UuAt7dBFZkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B9YTtQPm; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2ef260c4467so13412531fa.0
+        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 04:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723634044; x=1724238844; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xrVgbFZMbbfKJ3/ZbHNAKbZ6yoyuBwhW77d/MH2ONkA=;
+        b=B9YTtQPmSBBgEY1MpFl/MQPvbrBNkmaNeMs975XdHW9K++VWWyLaEjwRVMAiIxc+3b
+         cs55lbBzZRfKI5fFaiIA4WkNO2duS2PHdnZbTklL/StTZlj6dc/E25NzdmqHPaZyv0ci
+         xDnKmnkTPblh7vYJA7ZxyA8Qv1sFrVlQMQtpNRBcBRjV14FOv+YRxhyy0C9sVcaUKrIV
+         LI1B2uuX86tNjlu37SCKd3asqTzKAs2xuPSavvuBrAS0G/zzXyOuswgAD0uJNI+ZNbv0
+         +Ey6vOqEF6Pef7CsqbI8BO+mA2OF5F2wcxKCluCNKVOeDhMIV2/peyv6tYuhYapgs/5P
+         D1Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723634044; x=1724238844;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xrVgbFZMbbfKJ3/ZbHNAKbZ6yoyuBwhW77d/MH2ONkA=;
+        b=qIWBNgKX+loVRZtXJwCGks6eBkyx4aR+9bDDMf1K+f7+8xP+We8rlRDqYPhAjvAIQv
+         7OkVZOGh0P6RXDH6kPlCRQ8ndkkX3IM9tV2UpTfTfSuvbyFmskZ1poW4lmpgFsAHCnJt
+         AXgfiJqGXp3xopnuIx8ATvseHX0X37LbSKSa1XAvn7UBGvHEtJK5Bntq9zOQ06lfsnOz
+         fBKQm+w671YbXOXmecJ5qAHW/DRwbwiHg6VktozX2pPsNMSbKXPJhqqWetJXI2ROB2zX
+         bcHjH1yHQxB1xGkjAMMmkJcsnPfYnETd355UxGJTH71zswfTTZ298knCOEzLhAcTUt2S
+         MOZA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/6nQh2/GHUsdUFNkWJej3KGO21o+AS5fFaOAK5AvPXubs6DZP64ZJU5zVMgPLNP4QhlaW1NJtf4q0JA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYmpxIJTQ+YFSoiBKv6GWQJlpMzMFvCLngdlNMq9TyIoi7jVKb
+	aoLlOkxmY4i2kYjcTRsHfALnIjnn30BBzJVivVCknGJnOuvpkk+ahznvjRILQyU=
+X-Google-Smtp-Source: AGHT+IHvZeevGy2+QhS5oWsfxgztW5ACZdopfU6Qa4NOc+xHWQgZxgZAVWDSyZzyGhH9WG0gjbDUSA==
+X-Received: by 2002:a05:6512:280c:b0:52e:ccf5:7c40 with SMTP id 2adb3069b0e04-532edbd06b3mr890263e87.9.1723634043404;
+        Wed, 14 Aug 2024 04:14:03 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53200f42475sm1239152e87.283.2024.08.14.04.14.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Aug 2024 04:14:03 -0700 (PDT)
+Message-ID: <4b745c1a-33d9-472a-97af-153a2a7c8721@linaro.org>
+Date: Wed, 14 Aug 2024 14:13:49 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
+ version Titan 780
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-14-quic_depengs@quicinc.com>
+Content-Language: en-US
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20240812144131.369378-14-quic_depengs@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
- ---- On Sun, 04 Aug 2024 05:27:08 +0530  Tim Surber  wrote ---=20
- > Hi Shreeya,
- >=20
+Hi Depeng,
 
-Hi Tim,
+please find a few review comments, all asked changes are non-functional.
 
+On 8/12/24 17:41, Depeng Shao wrote:
+> Add support for VFE found on SM8550 (Titan 780). This implementation is
+> based on the titan 480 implementation. It supports the normal and lite
+> VFE.
+> 
+> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
+> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
+> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/camss/Makefile    |   1 +
+>   .../media/platform/qcom/camss/camss-vfe-780.c | 148 ++++++++++++++++++
+>   drivers/media/platform/qcom/camss/camss-vfe.c |  33 ++--
+>   drivers/media/platform/qcom/camss/camss-vfe.h |   1 +
+>   drivers/media/platform/qcom/camss/camss.c     | 132 ++++++++++++++++
+>   drivers/media/platform/qcom/camss/camss.h     |   2 +
+>   6 files changed, 304 insertions(+), 13 deletions(-)
+>   create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-780.c
+> 
+> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
+> index c336e4c1a399..a83b7a8dcef7 100644
+> --- a/drivers/media/platform/qcom/camss/Makefile
+> +++ b/drivers/media/platform/qcom/camss/Makefile
+> @@ -17,6 +17,7 @@ qcom-camss-objs += \
+>   		camss-vfe-4-8.o \
+>   		camss-vfe-17x.o \
+>   		camss-vfe-480.o \
+> +		camss-vfe-780.o \
+>   		camss-vfe-gen1.o \
+>   		camss-vfe.o \
+>   		camss-video.o \
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-780.c b/drivers/media/platform/qcom/camss/camss-vfe-780.c
+> new file mode 100644
+> index 000000000000..e1c4d25cdc40
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-780.c
+> @@ -0,0 +1,148 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * camss-vfe-780.c
 
- > I tested your patch and noticed problems when using 3840x2160 resolution=
-=20
- > at =C2=A060fps.
- >=20
- > For my testing I connected an HDMI source and set it to 4k60fps. I=20
- > verified that this source and the cables work on a screen at this=20
- > resolution.
- >=20
- > Using
- > 'v4l2-ctl --verbose -d /dev/video1=20
- > --set-fmt-video=3Dwidth=3D3840,height=3D2160,pixelformat=3D'NV12'=20
- > --stream-mmap=3D4 --stream-skip=3D3 --stream-count=3D100 --stream-poll'
- > I get the video format output, but not the periodic output which shows=
-=20
- > the fps.
- >=20
- > Using
- > 'GST_DEBUG=3D4 gst-launch-1.0 -v v4l2src device=3D/dev/video1 !=20
- > fpsdisplaysink text-overlay=3Dfalse video-sink=3D"fakevideosink"'
- > I get the following error message:
- >=20
- > (gst-launch-1.0:3231): GStreamer-CRITICAL **: 01:34:39.137:=20
- > gst_memory_resize: assertion 'size + mem->offset + offset <=3D=20
- > mem->maxsize' failed
- > 0:00:03.489382529 =C2=A03231 0xffffa0000b90 WARN =C2=A0v4l2bufferpool=20
- > gstv4l2bufferpool.c:2209:gst_v4l2_buffer_pool_process:=20
- > Dropping truncated buffer, this is likely a driver bug.
- > 0:00:03.489421906 =C2=A03231 0xffffa0000b90 WARN =C2=A0bufferpool=20
- > gstbufferpool.c:1252:default_reset_buffer: Buffer=20
- > 0xffff98008e80 without the memory tag has maxsize (8294400) that is=20
- > smaller than the configured buffer pool size (12441600). The buffer will=
-=20
- > be not be reused. This is most likely a bug in this GstBufferPool subcla=
-ss
- >=20
- >=20
- > Everything works with 4k30fps or 1080p 60fps. The hardware should=20
- > support 4k60fps.
- >=20
+I understand that a file name copied from a previous file and updated,
+let's just remove it, it serves no purpose, but adds this unnecessary
+work on every next copy.
 
+> + *
+> + * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v780 (SM8550)
+> + *
+> + * Copyright (c) 2024 Qualcomm Technologies, Inc.
+> + */
+> +
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +
+> +#include "camss.h"
+> +#include "camss-vfe.h"
+> +
+> +#define BUS_REG_BASE			(vfe_is_lite(vfe) ? 0x200 : 0xC00)
+> +
+> +#define VFE_BUS_WM_CGC_OVERRIDE		(BUS_REG_BASE + 0x08)
+> +#define		WM_CGC_OVERRIDE_ALL		(0x7FFFFFF)
+> +
+> +#define VFE_BUS_WM_TEST_BUS_CTRL	(BUS_REG_BASE + 0xDC)
+> +
+> +#define VFE_BUS_WM_CFG(n)		(BUS_REG_BASE + 0x200 + (n) * 0x100)
+> +#define		WM_CFG_EN			BIT(0)
+> +#define		WM_VIR_FRM_EN			BIT(1)
+> +#define		WM_CFG_MODE			BIT(16)
+> +#define VFE_BUS_WM_IMAGE_ADDR(n)	(BUS_REG_BASE + 0x204 + (n) * 0x100)
+> +#define VFE_BUS_WM_FRAME_INCR(n)	(BUS_REG_BASE + 0x208 + (n) * 0x100)
+> +#define VFE_BUS_WM_IMAGE_CFG_0(n)	(BUS_REG_BASE + 0x20c + (n) * 0x100)
+> +#define		WM_IMAGE_CFG_0_DEFAULT_WIDTH	(0xFFFF)
+> +#define VFE_BUS_WM_IMAGE_CFG_1(n)	(BUS_REG_BASE + 0x210 + (n) * 0x100)
+> +#define VFE_BUS_WM_IMAGE_CFG_2(n)	(BUS_REG_BASE + 0x214 + (n) * 0x100)
+> +#define		WM_IMAGE_CFG_2_DEFAULT_STRIDE	(0xFFFF)
+> +#define VFE_BUS_WM_PACKER_CFG(n)	(BUS_REG_BASE + 0x218 + (n) * 0x100)
+> +#define VFE_BUS_WM_HEADER_ADDR(n)	(BUS_REG_BASE + 0x220 + (n) * 0x100)
+> +#define VFE_BUS_WM_HEADER_INCR(n)	(BUS_REG_BASE + 0x224 + (n) * 0x100)
+> +#define VFE_BUS_WM_HEADER_CFG(n)	(BUS_REG_BASE + 0x228 + (n) * 0x100)
 
-Sorry for the delayed response, I've been trying to reproduce this on my si=
-de
-and to also fix it.
+Three VFE_BUS_WM_HEADER_* macra above are not used, please remove.
 
-It seems you are right, 4K@60 fps doesn't work with the latest version of H=
-DMIRX.
-We found out that it could be because of the current EDID which shows some =
-failures.
+> +
+> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(n)	(BUS_REG_BASE + 0x230 + (n) * 0x100)
+> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(n)	(BUS_REG_BASE + 0x234 + (n) * 0x100)
+> +#define VFE_BUS_WM_FRAMEDROP_PERIOD(n)		(BUS_REG_BASE + 0x238 + (n) * 0x100)
+> +#define VFE_BUS_WM_FRAMEDROP_PATTERN(n)		(BUS_REG_BASE + 0x23c + (n) * 0x100)
+> +
+> +#define VFE_BUS_WM_MMU_PREFETCH_CFG(n)		(BUS_REG_BASE + 0x260 + (n) * 0x100)
+> +#define VFE_BUS_WM_MMU_PREFETCH_MAX_OFFSET(n)	(BUS_REG_BASE + 0x264 + (n) * 0x100)
+> +#define VFE_BUS_WM_SYSTEM_CACHE_CFG(n)		(BUS_REG_BASE + 0x268 + (n) * 0x100)
 
-Though I wasn't able to test the following on my side since my device doesn=
-'t support
-4K, one of my colleague tried to replace the EDID and 4K@60 fps worked fine=
- after that.
+Good to know that there is such a register, but it's not used,
+please remove the macro.
 
-If you'd like to try it yourself then following is the command to get the n=
-ew EDID
+> +
+> +/* for titan 780, each bus client is hardcoded to a specific path */
+> +#define RDI_WM(n)			((vfe_is_lite(vfe) ? 0x0 : 0x17) + (n))
+> +
+> +static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_line *line)
+> +{
+> +	struct v4l2_pix_format_mplane *pix =
+> +		&line->video_out.active_fmt.fmt.pix_mp;
+> +
+> +	wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
 
-v4l2-ctl --show-edid type=3Dhdmi-4k-600mhz
+Please move the comment on its own line.
 
-You will have to replace the EDID in the driver with the EDID you get the f=
-rom the above
-command in HEX format.
+> +
+> +	/* no clock gating at bus input */
+> +	writel(WM_CGC_OVERRIDE_ALL, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
+> +
+> +	writel(0x0, vfe->base + VFE_BUS_WM_TEST_BUS_CTRL);
+> +
+> +	writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height >> 8,
+> +	       vfe->base + VFE_BUS_WM_FRAME_INCR(wm));
+> +	writel((WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF),
+> +	       vfe->base + VFE_BUS_WM_IMAGE_CFG_0(wm));
+> +	writel(WM_IMAGE_CFG_2_DEFAULT_STRIDE,
+> +	       vfe->base + VFE_BUS_WM_IMAGE_CFG_2(wm));
+> +	writel(0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
+> +
+> +	/* no dropped frames, one irq per frame */
+> +	writel(0, vfe->base + VFE_BUS_WM_FRAMEDROP_PERIOD(wm));
+> +	writel(1, vfe->base + VFE_BUS_WM_FRAMEDROP_PATTERN(wm));
+> +	writel(0, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(wm));
+> +	writel(1, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(wm));
+> +
+> +	writel(1, vfe->base + VFE_BUS_WM_MMU_PREFETCH_CFG(wm));
+> +	writel(0xFFFFFFFF, vfe->base + VFE_BUS_WM_MMU_PREFETCH_MAX_OFFSET(wm));
+> +
+> +	writel(WM_CFG_EN | WM_CFG_MODE, vfe->base + VFE_BUS_WM_CFG(wm));
+> +}
+> +
+> +static void vfe_wm_stop(struct vfe_device *vfe, u8 wm)
+> +{
+> +	wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
 
-Thanks for reporting this, I will soon send v5 with this change included in=
- it.
+Please move the comment on its own line or remove it as obvious one.
 
+> +	writel(0, vfe->base + VFE_BUS_WM_CFG(wm));
+> +}
+> +
+> +static void vfe_wm_update(struct vfe_device *vfe, u8 wm, u32 addr,
+> +			  struct vfe_line *line)
+> +{
+> +	wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
 
-Thanks,
-Shreeya Patel
+Please move the comment on its own line or remove it as obvious one.
 
+> +	writel((addr >> 8) & 0xFFFFFFFF, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
+> +
+> +	dev_dbg(vfe->camss->dev, "%s wm:%d, image buf addr:0x%x\n",
+> +		__func__, wm, addr);
 
- > Best regards,
- > Tim
- >=20
- > On 19.07.24 14:40, Shreeya Patel wrote:
- > > This series implements support for the Synopsys DesignWare
- > > HDMI RX Controller, being compliant with standard HDMI 1.4b
- > > and HDMI 2.0.
- > >
- > > Features that are currently supported by the HDMI RX driver
- > > have been tested on rock5b board using a HDMI to micro-HDMI cable.
- > > It is recommended to use a good quality cable as there were
- > > multiple issues seen during testing the driver.
- > >
- > > Please note the below information :-
- > > * While testing the driver on rock5b we noticed that the binary BL31
- > > from Rockchip contains some unknown code to get the HDMI-RX PHY
- > > access working without any errors.
- > > With TF-A BL31, the HDMI-RX PHY also works fine but there were no
- > > interrupts seen for rk_hdmirx-hdmi leading to some errors when
- > > loading the driver [0]. It doesn't affect the functionality of the
- > > driver though.
- > > * We have tested the working of OBS studio with HDMIRX driver and
- > > there were no issues seen.
- > > * We also tested and verified the support for interlaced video.
- > >
- > > [0] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/tru=
-sted-firmware-a/-/issues/1
- > >
- > > To test the HDMI RX Controller driver, following example commands can =
-be used :-
- > >
- > > root@debian-rockchip-rock5b-rk3588:~# v4l2-ctl --verbose -d /dev/video=
-0 \
- > > --set-fmt-video=3Dwidth=3D1920,height=3D1080,pixelformat=3D'BGR3' --st=
-ream-mmap=3D4 \
- > > --stream-skip=3D3 --stream-count=3D100 --stream-to=3D/home/hdmiin4k.ra=
-w --stream-poll
- > >
- > > root@debian-rockchip-rock5b-rk3588:~# ffmpeg -f rawvideo -vcodec rawvi=
-deo \
- > > -s 1920x1080 -r 60 -pix_fmt bgr24 -i /home/hdmiin4k.raw output.mkv
- > >
- > > CEC compliance test results :-
- > >
- > > * https://gitlab.collabora.com/-/snippets/381
- > > * https://gitlab.collabora.com/-/snippets/380
- > >
- > > Following is the v4l2-compliance test result :-
- > >
- > > root@debian-rockchip-rock5b-rk3588:~# v4l2-compliance -d /dev/video0
- > > v4l2-compliance 1.27.0-5220, 64 bits, 64-bit time_t
- > > v4l2-compliance SHA: 8387e3673837 2024-07-01 11:09:32
- > >
- > > Compliance test for snps_hdmirx device /dev/video0:
- > >
- > > Driver Info:
- > > =C2=A0=C2=A0=C2=A0=C2=A0Driver name      : snps_hdmirx
- > > =C2=A0=C2=A0=C2=A0=C2=A0Card type        : snps_hdmirx
- > > =C2=A0=C2=A0=C2=A0=C2=A0Bus info         : platform:fdee0000.hdmi-rece=
-iver
- > > =C2=A0=C2=A0=C2=A0=C2=A0Driver version   : 6.10.0
- > > =C2=A0=C2=A0=C2=A0=C2=A0Capabilities     : 0x84201000
- > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Video Capture Multipla=
-nar
- > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Streaming
- > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Extended Pix Format
- > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Device Capabilities
- > > =C2=A0=C2=A0=C2=A0=C2=A0Device Caps      : 0x04201000
- > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Video Capture Multipla=
-nar
- > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Streaming
- > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Extended Pix Format
- > >
- > > Required ioctls:
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_QUERYCAP: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test invalid ioctls: OK
- > >
- > > Allow for multiple opens:
- > > =C2=A0=C2=A0=C2=A0=C2=A0test second /dev/video0 open: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_QUERYCAP: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_PRIORITY: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test for unlimited opens: OK
- > >
- > > Debug ioctls:
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_DBG_G/S_REGISTER: OK (Not Supporte=
-d)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_LOG_STATUS: OK
- > >
- > > Input ioctls:
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not=
- Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_ENUMAUDIO: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S/ENUMINPUT: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_AUDIO: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0Inputs: 1 Audio Inputs: 0 Tuners: 0
- > >
- > > Output ioctls:
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_MODULATOR: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_ENUMAUDOUT: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_AUDOUT: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0Outputs: 0 Audio Outputs: 0 Modulators: 0
- > >
- > > Input/Output configuration ioctls:
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Suppor=
-ted)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_DV_TIMINGS_CAP: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_EDID: OK
- > >
- > > Control ioctls (Input 0):
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_QUERYCTRL: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_CTRL: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S/TRY_EXT_CTRLS: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0Standard Controls: 3 Private Controls: 0
- > >
- > > Format ioctls (Input 0):
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS=
-: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G/S_PARM: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G_FBUF: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G_FMT: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_TRY_FMT: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_S_FMT: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supporte=
-d)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test Cropping: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test Composing: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test Scaling: OK (Not Supported)
- > >
- > > Codec ioctls (Input 0):
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Support=
-ed)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_G_ENC_INDEX: OK (Not Supported)
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_(TRY_)DECODER_CMD: OK (Not Support=
-ed)
- > >
- > > Buffer ioctls (Input 0):
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test CREATE_BUFS maximum buffers: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_REMOVE_BUFS: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test VIDIOC_EXPBUF: OK
- > > =C2=A0=C2=A0=C2=A0=C2=A0test Requests: OK (Not Supported)
- > >
- > > Total for snps_hdmirx device /dev/video0: 47, Succeeded: 47, Failed: 0=
-, Warnings: 0
- > >
- > > Changes in v4 :-
- > >    - Remove DTS changes included in the device tree patch
- > >    - Remove the hdmi rx pin info as it's already present
- > >      in the rk3588-base-pinctrl.dtsi
- > >    - Create a separate config option for selecting the EDID
- > >      and enable it by default
- > >    - Improve the comment related to DV timings and move it
- > >      to the side of hdmirx_get_detected_timings
- > >    - Add 100ms delay before pulling the HPD high
- > >    - Do not return the detected timings from VIDIOC_G_DV_TIMINGS
- > >    - Drop the bus info from hdmirx_querycap
- > >    - If *num_planes !=3D 0 then return 0 in hdmirx_queue_setup
- > >    - Set queue->min_queued_buffers to 1
- > >    - Drop q->allow_cache_hints =3D 0; as it's always 0 by default
- > >    - Add a comment for q->dma_attrs =3D DMA_ATTR_FORCE_CONTIGUOUS;
- > >    - Drop .read =3D vb2_fop_read as it's not supported by driver
- > >    - Remove redundant edid_init_data_600M
- > >    - Make HPD low when driver is loaded
- > >    - Add support for reading AVI Infoframe
- > >    - Remove msg_len checks from hdmirx_cec_transmit
- > >    - Add info about the CEC compliance test in the cover letter
- > >    - Add arbitration lost status
- > >    - Validate the physical address inside the EDID
- > >
- > > Changes in v3 :-
- > >    - Use v4l2-common helpers in the HDMIRX driver
- > >    - Rename cma node and phandle names
- > >    - Elaborate the comment to explain 160MiB calculation
- > >    - Move &hdmi_receiver_cma to the rock5b dts file
- > >    - Add information about interlaced video testing in the
- > >      cover-letter
- > >
- > > Changes in v2 :-
- > >    - Fix checkpatch --strict warnings
- > >    - Move the dt-binding include file changes in a separate patch
- > >    - Add a description for the hardware in the dt-bindings file
- > >    - Rename resets, vo1 grf and HPD properties
- > >    - Add a proper description for grf and vo1-grf phandles in the
- > >      bindings
- > >    - Rename the HDMI RX node name to hdmi-receiver
- > >    - Include gpio header file in binding example to fix the
- > >      dt_binding_check failure
- > >    - Move hdmirx_cma node to the rk3588.dtsi file
- > >    - Add an entry to MAINTAINERS file for the HDMIRX driver
- > >
- > > Shreeya Patel (4):
- > >    MAINTAINERS: Add entry for Synopsys DesignWare HDMI RX Driver
- > >    dt-bindings: media: Document bindings for HDMI RX Controller
- > >    arm64: dts: rockchip: Add device tree support for HDMI RX Controlle=
-r
- > >    media: platform: synopsys: Add support for hdmi input driver
- > >
- > >   .../bindings/media/snps,dw-hdmi-rx.yaml       |  132 +
- > >   MAINTAINERS                                   |    8 +
- > >   .../dts/rockchip/rk3588-base-pinctrl.dtsi     |   14 +
- > >   .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |   56 +
- > >   drivers/media/platform/Kconfig                |    1 +
- > >   drivers/media/platform/Makefile               |    1 +
- > >   drivers/media/platform/synopsys/Kconfig       |    3 +
- > >   drivers/media/platform/synopsys/Makefile      |    2 +
- > >   .../media/platform/synopsys/hdmirx/Kconfig    |   27 +
- > >   .../media/platform/synopsys/hdmirx/Makefile   |    4 +
- > >   .../platform/synopsys/hdmirx/snps_hdmirx.c    | 2763 +++++++++++++++=
-++
- > >   .../platform/synopsys/hdmirx/snps_hdmirx.h    |  394 +++
- > >   .../synopsys/hdmirx/snps_hdmirx_cec.c         |  285 ++
- > >   .../synopsys/hdmirx/snps_hdmirx_cec.h         |   44 +
- > >   14 files changed, 3734 insertions(+)
- > >   create mode 100644 Documentation/devicetree/bindings/media/snps,dw-h=
-dmi-rx.yaml
- > >   create mode 100644 drivers/media/platform/synopsys/Kconfig
- > >   create mode 100644 drivers/media/platform/synopsys/Makefile
- > >   create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
- > >   create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
- > >   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmir=
-x.c
- > >   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmir=
-x.h
- > >   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmir=
-x_cec.c
- > >   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmir=
-x_cec.h
- > >
- >=20
+There will be no confusion in runtime about a source of the debug
+message, please remove that __func__ information.
+
+> +}
+> +
+> +static void vfe_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id)
+> +{
+> +	int port_id = line_id;
+> +
+> +	/* RUP(register update) registers has beem moved to CSID in Titan 780.
+
+Huh, it's unusual to see a network subsystem style comment formatting here.
+
+There is a typo, s/beem/been/
+
+> +	 * Notify the event of trigger RUP.
+> +	 */
+
+I suppose it would be good enough to remove the comment completely as
+an obvious one.
+
+> +	camss_reg_update(vfe->camss, vfe->id, port_id, false);
+> +}
+> +
+> +static inline void vfe_reg_update_clear(struct vfe_device *vfe,
+> +					enum vfe_line_id line_id)
+> +{
+> +	int port_id = line_id;
+> +
+> +	/* RUP(register update) registers has beem moved to CSID in Titan 780.
+> +	 * Notify the event of trigger RUP clear.
+> +	 */
+
+Same as above.
+
+> +	camss_reg_update(vfe->camss, vfe->id, port_id, true);
+> +}
+> +
+> +static const struct camss_video_ops vfe_video_ops_780 = {
+> +	.queue_buffer = vfe_queue_buffer_v2,
+> +	.flush_buffers = vfe_flush_buffers,
+> +};
+> +
+> +static void vfe_subdev_init(struct device *dev, struct vfe_device *vfe)
+> +{
+> +	vfe->video_ops = vfe_video_ops_780;
+> +}
+> +
+> +const struct vfe_hw_ops vfe_ops_780 = {
+> +	.enable_irq = NULL,
+> +	.global_reset = NULL,
+> +	.hw_version = vfe_hw_version,
+> +	.isr = NULL,
+> +	.pm_domain_off = vfe_pm_domain_off,
+> +	.pm_domain_on = vfe_pm_domain_on,
+> +	.subdev_init = vfe_subdev_init,
+> +	.vfe_disable = vfe_disable,
+> +	.vfe_enable = vfe_enable_v2,
+> +	.vfe_halt = NULL,
+> +	.vfe_wm_start = vfe_wm_start,
+> +	.vfe_wm_stop = vfe_wm_stop,
+> +	.vfe_buf_done = vfe_buf_done,
+> +	.vfe_wm_update = vfe_wm_update,
+> +	.reg_update = vfe_reg_update,
+> +	.reg_update_clear = vfe_reg_update_clear,
+> +};
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index 71bd55e854bb..507fc7785ac8 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -343,6 +343,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
+>   	case CAMSS_845:
+>   	case CAMSS_8250:
+>   	case CAMSS_8280XP:
+> +	case CAMSS_8550:
+>   		switch (sink_code) {
+>   		case MEDIA_BUS_FMT_YUYV8_1X16:
+>   		{
+> @@ -674,15 +675,17 @@ int vfe_reset(struct vfe_device *vfe)
+>   {
+>   	unsigned long time;
+>   
+> -	reinit_completion(&vfe->reset_complete);
+> +	if (vfe->res->hw_ops->global_reset) {
+> +		reinit_completion(&vfe->reset_complete);
+>   
+> -	vfe->res->hw_ops->global_reset(vfe);
+> +		vfe->res->hw_ops->global_reset(vfe);
+>   
+> -	time = wait_for_completion_timeout(&vfe->reset_complete,
+> -		msecs_to_jiffies(VFE_RESET_TIMEOUT_MS));
+> -	if (!time) {
+> -		dev_err(vfe->camss->dev, "VFE reset timeout\n");
+> -		return -EIO;
+> +		time = wait_for_completion_timeout(&vfe->reset_complete,
+> +			msecs_to_jiffies(VFE_RESET_TIMEOUT_MS));
+> +		if (!time) {
+> +			dev_err(vfe->camss->dev, "VFE reset timeout\n");
+> +			return -EIO;
+> +		}
+
+This goes to some other preceding change, since it's unrelated to Titan 780
+support, but the latter depends on it.
+
+>   	}
+>   
+>   	return 0;
+> @@ -1120,7 +1123,8 @@ void vfe_put(struct vfe_device *vfe)
+>   	} else if (vfe->power_count == 1) {
+>   		if (vfe->was_streaming) {
+>   			vfe->was_streaming = 0;
+> -			vfe->res->hw_ops->vfe_halt(vfe);
+> +			if (vfe->res->hw_ops->vfe_halt)
+> +				vfe->res->hw_ops->vfe_halt(vfe);
+
+This goes to some other change, since it's unrelated to Titan 780 support.
+
+>   		}
+>   		camss_disable_clocks(vfe->nclocks, vfe->clock);
+>   		pm_runtime_put_sync(vfe->camss->dev);
+> @@ -1807,11 +1811,13 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
+>   	vfe->irq = ret;
+>   	snprintf(vfe->irq_name, sizeof(vfe->irq_name), "%s_%s%d",
+>   		 dev_name(dev), MSM_VFE_NAME, id);
+> -	ret = devm_request_irq(dev, vfe->irq, vfe->res->hw_ops->isr,
+> -			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
+> -	if (ret < 0) {
+> -		dev_err(dev, "request_irq failed: %d\n", ret);
+> -		return ret;
+> +	if (vfe->res->hw_ops->isr) {
+> +		ret = devm_request_irq(dev, vfe->irq, vfe->res->hw_ops->isr,
+> +				       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
+> +		if (ret < 0) {
+> +			dev_err(dev, "request_irq failed: %d\n", ret);
+> +			return ret;
+> +		}
+
+This change shall be done in a seperate preceding commit, since it's
+unrelated to Titan 780 support.
+
+>   	}
+>   
+>   	/* Clocks */
+> @@ -1963,6 +1969,7 @@ static int vfe_bpl_align(struct vfe_device *vfe)
+>   	case CAMSS_845:
+>   	case CAMSS_8250:
+>   	case CAMSS_8280XP:
+> +	case CAMSS_8550:
+>   		ret = 16;
+>   		break;
+>   	default:
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
+> index fcbf4f609129..9dec5bc0d1b1 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
+> @@ -243,6 +243,7 @@ extern const struct vfe_hw_ops vfe_ops_4_7;
+>   extern const struct vfe_hw_ops vfe_ops_4_8;
+>   extern const struct vfe_hw_ops vfe_ops_170;
+>   extern const struct vfe_hw_ops vfe_ops_480;
+> +extern const struct vfe_hw_ops vfe_ops_780;
+>   
+>   int vfe_get(struct vfe_device *vfe);
+>   void vfe_put(struct vfe_device *vfe);
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 7ee102948dc4..92a0fa02e415 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -1666,6 +1666,125 @@ static const struct camss_subdev_resources csid_res_8550[] = {
+>   	}
+>   };
+>   
+> +static const struct camss_subdev_resources vfe_res_8550[] = {
+> +	/* VFE0 */
+> +	{
+> +		.regulators = {},
+> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe0_fast_ahb",
+> +			   "vfe0", "cpas_vfe0", "camnoc_axi" },
+> +		.clock_rate = { { 0, 0, 0, 0, 0 },
+> +				{ 0, 0, 0, 0, 80000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 466000000, 594000000, 675000000, 785000000, 785000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
+> +		.reg = { "vfe0" },
+> +		.interrupt = { "vfe0" },
+> +		.vfe = {
+> +			.line_num = 3,
+> +			.is_lite = false,
+> +			.has_pd = true,
+> +			.pd_name = "ife0",
+> +			.hw_ops = &vfe_ops_780,
+> +			.formats_rdi = &vfe_formats_rdi_845,
+> +			.formats_pix = &vfe_formats_pix_845
+> +		}
+> +	},
+> +	/* VFE1 */
+> +	{
+> +		.regulators = {},
+> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe1_fast_ahb",
+> +			   "vfe1", "cpas_vfe1", "camnoc_axi" },
+> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
+> +				{ 0, 0, 0, 0, 80000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 466000000, 594000000, 675000000, 785000000, 785000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
+> +		.reg = { "vfe1" },
+> +		.interrupt = { "vfe1" },
+> +		.vfe = {
+> +			.line_num = 3,
+> +			.is_lite = false,
+> +			.has_pd = true,
+> +			.pd_name = "ife1",
+> +			.hw_ops = &vfe_ops_780,
+> +			.formats_rdi = &vfe_formats_rdi_845,
+> +			.formats_pix = &vfe_formats_pix_845
+> +		}
+> +	},
+> +	/* VFE2 */
+> +	{
+> +		.regulators = {},
+> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe2_fast_ahb",
+> +			   "vfe2", "cpas_vfe2", "camnoc_axi" },
+> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
+> +				{ 0, 0, 0, 0, 80000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 466000000, 594000000, 675000000, 785000000, 785000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
+> +		.reg = { "vfe2" },
+> +		.interrupt = { "vfe2" },
+> +		.vfe = {
+> +			.line_num = 3,
+> +			.is_lite = false,
+> +			.has_pd = true,
+> +			.pd_name = "ife2",
+> +			.hw_ops = &vfe_ops_780,
+> +			.formats_rdi = &vfe_formats_rdi_845,
+> +			.formats_pix = &vfe_formats_pix_845
+> +		}
+> +	},
+> +	/* VFE3 lite */
+> +	{
+> +		.regulators = {},
+> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe_lite_ahb",
+> +			   "vfe_lite", "cpas_ife_lite", "camnoc_axi" },
+> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
+> +				{ 0, 0, 0, 0, 80000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 400000000, 480000000, 480000000, 480000000, 480000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
+> +		.reg = { "vfe_lite0" },
+> +		.interrupt = { "vfe_lite0" },
+> +		.vfe = {
+> +			.line_num = 4,
+> +			.is_lite = true,
+> +			.hw_ops = &vfe_ops_780,
+> +			.formats_rdi = &vfe_formats_rdi_845,
+> +			.formats_pix = &vfe_formats_pix_845
+> +		}
+> +	},
+> +	/* VFE4 lite */
+> +	{
+> +		.regulators = {},
+> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe_lite_ahb",
+> +			   "vfe_lite", "cpas_ife_lite", "camnoc_axi" },
+> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
+> +				{ 0, 0, 0, 0, 80000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 400000000, 480000000, 480000000, 480000000, 480000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
+> +		.reg = { "vfe_lite1" },
+> +		.interrupt = { "vfe_lite1" },
+> +		.vfe = {
+> +			.line_num = 4,
+> +			.is_lite = true,
+> +			.hw_ops = &vfe_ops_780,
+> +			.formats_rdi = &vfe_formats_rdi_845,
+> +			.formats_pix = &vfe_formats_pix_845
+> +		}
+> +	},
+> +};
+> +
+>   static const struct resources_icc icc_res_sm8550[] = {
+>   	{
+>   		.name = "ahb",
+> @@ -1846,6 +1965,17 @@ void camss_pm_domain_off(struct camss *camss, int id)
+>   	}
+>   }
+>   
+> +void camss_reg_update(struct camss *camss, int hw_id, int port_id, bool is_clear)
+
+Please let it be just a declarative 'clear' instead of questioning 'is_clear'.
+
+> +{
+> +	struct csid_device *csid;
+> +
+> +	if (hw_id < camss->res->csid_num) {
+> +		csid = &(camss->csid[hw_id]);
+> +
+> +		csid->res->hw_ops->reg_update(csid, port_id, is_clear);
+> +	}
+> +}
+> +
+
+Please add the new exported function camss_reg_update() in a separate
+preceding commit.
+
+>   void camss_buf_done(struct camss *camss, int hw_id, int port_id)
+>   {
+>   	struct vfe_device *vfe;
+> @@ -2668,10 +2798,12 @@ static const struct camss_resources sm8550_resources = {
+>   	.pd_name = "top",
+>   	.csiphy_res = csiphy_res_8550,
+>   	.csid_res = csid_res_8550,
+> +	.vfe_res = vfe_res_8550,
+>   	.icc_res = icc_res_sm8550,
+>   	.icc_path_num = ARRAY_SIZE(icc_res_sm8550),
+>   	.csiphy_num = ARRAY_SIZE(csiphy_res_8550),
+>   	.csid_num = ARRAY_SIZE(csid_res_8550),
+> +	.vfe_num = ARRAY_SIZE(vfe_res_8550),
+>   	.link_entities = camss_link_entities
+>   };
+>   
+> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+> index d6b6558a82b9..697846e70e78 100644
+> --- a/drivers/media/platform/qcom/camss/camss.h
+> +++ b/drivers/media/platform/qcom/camss/camss.h
+> @@ -157,5 +157,7 @@ int camss_vfe_get(struct camss *camss, int id);
+>   void camss_vfe_put(struct camss *camss, int id);
+>   void camss_delete(struct camss *camss);
+>   void camss_buf_done(struct camss *camss, int hw_id, int port_id);
+> +void camss_reg_update(struct camss *camss, int hw_id,
+> +		      int port_id, bool is_clear);
+>   
+>   #endif /* QC_MSM_CAMSS_H */
+
+Thank you for the efforts to get support of Titan 780 in the upstream.
+
+--
+Best wishes,
+Vladimir
 
