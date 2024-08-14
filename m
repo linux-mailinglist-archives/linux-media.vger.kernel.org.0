@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-16316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16317-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF5495201F
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 18:36:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2069C952012
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 18:32:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7988EB2E6FC
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:26:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1CF6288C68
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:32:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72A9C1BC07E;
-	Wed, 14 Aug 2024 16:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CC6C1BA86C;
+	Wed, 14 Aug 2024 16:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VoWI5RIi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kyA2DR1f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A55A1B9B3C
-	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 16:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7492BB1C;
+	Wed, 14 Aug 2024 16:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723652626; cv=none; b=YnqfZlLxZ4bW92xvdEzohOWmpvAODG3UDOCJj9EIro+3SZ6r9ULEwT+b/x1UWILg0+10mvHxsQ4RxjglKmxQwDkaleo5vlDBwLJC1WthC1nOuShY4EDxQ/1glKv2e62BPw8HfH/fFpmDbq5nWvz5gYDOkqNGuCvBhJcpASrvd+E=
+	t=1723653143; cv=none; b=DhIhqMmVddw3jdnXexa3pk3T/4xEmThspF+R1eCRXgZ58zIjN9Nwn2iCYop+OHMCgzj1CVfnaq+pTxqF4/EHS6US/FWhNDH1+umOE4xnweyo3A8jt61rhDdAvgkp30KAXWh8xIzPcPZVUJSJIps89VT7SMT8XDNVx+GOlZ2G2MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723652626; c=relaxed/simple;
-	bh=oaXe0wVXtTfG5LUb+AjozQ5I4KR5ALnGYV2CbkzMjls=;
+	s=arc-20240116; t=1723653143; c=relaxed/simple;
+	bh=p/ZF6j39DByxOgD9NM6ef47ZWY7RPEkrFCmGDdYcqU8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cA2W5WJrsyznMrPXXOMglQeGI3l5FctXhKCgtZU0M+eh9cuNWxAwpAbbXMZ3seYbYG3RQRZuaxi8n25KGdR8udcL7G1t8uwsAT5JWjJ/EdbVZoWkqsDIXSPFMyEj9dxu8lPFYOIiC92Q50PiWMk+df9I/LPJO8bAh0cp67RdIUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VoWI5RIi; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-427fc97a88cso52427595e9.0
-        for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 09:23:44 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=Kh/VridV7V3QRbcOCQOyZy9yal3Pj7iN4NET/lAoUuUQB/ngxzWTT6fvj3DQbPrdQ0Urd0kNyfi4yEapwYHrwv1MRGivncHZsR5DfpJduRJS+3eqW1JTCXygcLw9zqF8s8US1GZfJD8nlewCaIXz5UVpbBUkgZyxgmLZ6FlxD48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kyA2DR1f; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-530c2e5f4feso54734e87.0;
+        Wed, 14 Aug 2024 09:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723652623; x=1724257423; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1723653140; x=1724257940; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PqrE40BP3GnDSJet5rt+K6ncIATI9HPA4YaJCmHPTHM=;
-        b=VoWI5RIi5HA3JenEri19i4/u0n8SMRibKhg2weFXE5zyC31WZOuKJaxrUglzSvZOjq
-         0PMp+2Zb2AqDMAxGeRVAvmqtIkEYulHsxtTz3OITjNe+zaZ395CJeL832i9yaM9WDeiB
-         yflTIiHt+hTtZz2PTZm+L++fh01NpGp1AwruASezcNblAH9O5PBlx0rWJpjoo58iDS4d
-         wXAWvL5wFOJNJE8hDdPxPCCsT5no8ggzTPC/pmViYcU+oAaigUO3idDhO+SxCiyKKR7S
-         5A50FuLAC1KTHAEebqRXMjmEizqIsWyqSuBsVg9836W8VCkmZe0DVG2uflAlW7U6X+z6
-         Wfdw==
+        bh=XTCAOV20GrU8xBJx9WKou5vLVJxQ1GrhVTpUqnVjmNE=;
+        b=kyA2DR1fGhLDYirQ2ei/5R5hFXvbZUd3hjeo2aLSUuIYTm5UDE50gEjiUhoW9Fl4Vm
+         l1Ss9WzpKEZqlSG928buyOUrUK1SEnj/d3N28TC4xYMf60b1DqpJ/RaG4z17oXW3ajp5
+         agvAAghCM2t4d++gBXnakW3kS/lQ5Wu5+gSvCKzv0BOady5PrippSgficeFoAn9rly7m
+         OzcTmL+Wc2n444Bz7YRYojoomkBkL/9Qjf+EdKkCuhx9gLovRWJQa4zJdPImaWvX5uFx
+         kSGgZ3Oz880KhpQyiM4K3bPxU+CHB8hGIaFmGrpgZQldo8r66s4Owcd5I2Epuo27NH/Q
+         zgrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723652623; x=1724257423;
+        d=1e100.net; s=20230601; t=1723653140; x=1724257940;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PqrE40BP3GnDSJet5rt+K6ncIATI9HPA4YaJCmHPTHM=;
-        b=gNPAZukMdE/grbHPLUiHFfAEaR41XO0m6GqxJl/3QMWBvOKepsQdt6Yi0Fs4BglQRx
-         1FD0y3/iOa5imgdyWpjGIQZG73NSZrj6riAg+wzURhedGkoFkjlra+nhpk/SocIdH27O
-         yBwlzTOASCA44q2mxds/0013IK6HaGpFSVnZxn6y8wLl/+qK+4Wp8WIMZmSkGjuq8Z02
-         EbmQeNooQQrWcggm7/OV/ZDOykE7yHSFWy0s5kyZbE5ELxeyhikqPnAJZQjFfYd7UpH/
-         os2HvT/e3oOGX6EVSmKxfKGNlU4+gHBDXESCURGDt/Ml46bGJUa8DzmIrsFbyIoStmZi
-         Qo6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUKe9Q8D8ucgDF5wokUn1WgmJitUnwhhMiLRqFyTDUL3zLUbilCZapFWqZlNy/BuVW5vV0yI7HrYANbA55yifQOf1wbz1Fd+GxTt/0=
-X-Gm-Message-State: AOJu0YwFXT8Nq1y5Y/G+n4Jela4C4tnaUXYm5Fyy2wlhkve+vVof70ap
-	v2mFM1H2kFPRze7wGAoM7VBloLnmWIjs1NdevSW3Iu0GK6MQVzdJ29PITvKzwnI=
-X-Google-Smtp-Source: AGHT+IE44uztKLBkFWlFW6yVlJbysSpM2V4ugi+8KFstLRkQARMzbMAdcaYeZQ2xa+xgkUFLogiP3g==
-X-Received: by 2002:a05:600c:4715:b0:428:eb6:2e73 with SMTP id 5b1f17b1804b1-429dd25d9a1mr24204475e9.29.1723652622399;
-        Wed, 14 Aug 2024 09:23:42 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded71ecdsm23807105e9.37.2024.08.14.09.23.40
+        bh=XTCAOV20GrU8xBJx9WKou5vLVJxQ1GrhVTpUqnVjmNE=;
+        b=WJSLUEy17bkLUYD4+A+et+xuI2fKHIhny42IK/DzkkP09J7K6+NzWKG+Bo2rCFrSwc
+         kgQYl9jgRJRi8ARq/vI1K0nvyTVGC+StUkrTh6JMFbimp92Rmf0Qk7E+ExOOmv8Rt4xf
+         ukor0CIb9FYt79IFTSjLoDLgnUerNWITDNCi30wH3zZgaZxsXeZYB1Z91GLx3dMBtX7Y
+         JszESkaS/pdP0aO4R4IWT7spr7I35Kp/CnMm/46CUYtcW+83C2tOFEMfADO+2bwVidjV
+         JQx50TH4zLHT4vtk5u7eWefWcRe2AHaCm/TlBi/CuaGsZn700GSIrrx6MKwQC1HUTmL/
+         bj3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVH6j7/+x71hgQv/vCEJcYeKHnHnaZSwAV7xJ+82+fi1NOu4+zrXVIQM86n80VsUcGU+22mcSPpaMQpm2vcHUuchYJyyxxgVXafzj6EEW0VUh79i28z+XClPAv4Oz8oTlQrcjfVlrxEXKTCxnYHiJBhaXuwa8AxWkjdidqu+N9Aubtej+cJT01ViRjdf1hMtCIgU8a9/F2M4iC7DEKMgG0frgCLdNnx2NBuUHxy8Fr2dp22w2SMo9P8gx4G4gigRiCHCJCbcecFCmMqDavXziAe3uMEgoPkHa87Vp8V5yY+fwWx+S9qPxhWq3yVSHRwECTgV8luWXJgc4tjPq7QhMExO/+NTdwTuP4kjJ9rSEmWRGxMCIzxRLJ7Oy/2WseXU7JxKw47eoSfvEkf+/6ht4C8aTGnIwt1OOodz4fN1qLLmimUgz2bJHS8jiEl8PTlHdyvtPIRnjoavJUIuOSgU/Z9FG8NgrYUmy1xRFJqhA==
+X-Gm-Message-State: AOJu0Yy1KUViXyNLyJqhKeQOU6Mw1QFdodi1rFaHJwsSx/VUZRUejOXU
+	tWP4+XSJTqj0sXewnpxVolKdMUYzvmpRhCSEaw5ZD6o9dkUyD3yr
+X-Google-Smtp-Source: AGHT+IG1OcUonTWO2TkZc8GvJrIyRfaMJbCVw3drbEbspP8zXw7W0KJpdlEqWQzWaQW8BC3FvJoGpg==
+X-Received: by 2002:a05:6512:250c:b0:533:809:a94d with SMTP id 2adb3069b0e04-5330809ac40mr139202e87.17.1723653138952;
+        Wed, 14 Aug 2024 09:32:18 -0700 (PDT)
+Received: from [192.168.42.227] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80f414afe2sm192927466b.144.2024.08.14.09.32.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 09:23:41 -0700 (PDT)
-Message-ID: <b78f23ca-eb6e-45cf-9e42-86c906ff901f@linaro.org>
-Date: Wed, 14 Aug 2024 17:23:40 +0100
+        Wed, 14 Aug 2024 09:32:18 -0700 (PDT)
+Message-ID: <31640ff4-25a6-4115-85e6-82092ce57393@gmail.com>
+Date: Wed, 14 Aug 2024 17:32:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,515 +76,258 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
- version Titan 780
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-14-quic_depengs@quicinc.com>
+Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem memory
+ provider
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240813211317.3381180-7-almasrymina@google.com>
+ <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
+ <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240812144131.369378-14-quic_depengs@quicinc.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/08/2024 15:41, Depeng Shao wrote:
-> Add support for VFE found on SM8550 (Titan 780). This implementation is
-> based on the titan 480 implementation. It supports the normal and lite
-> VFE.
+On 8/14/24 15:55, Mina Almasry wrote:
+> On Wed, Aug 14, 2024 at 10:11 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+> ...
+>>> diff --git a/net/core/devmem.c b/net/core/devmem.c
+>>> index 301f4250ca82..2f2a7f4dee4c 100644
+>>> --- a/net/core/devmem.c
+>>> +++ b/net/core/devmem.c
+>>> @@ -17,6 +17,7 @@
+>>>    #include <linux/genalloc.h>
+>>>    #include <linux/dma-buf.h>
+>>>    #include <net/devmem.h>
+>>> +#include <net/mp_dmabuf_devmem.h>
+>>>    #include <net/netdev_queues.h>
+>>>
+>>>    #include "page_pool_priv.h"
+>>> @@ -153,6 +154,10 @@ int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+>>>        if (err)
+>>>                goto err_xa_erase;
+>>>
+>>> +     err = page_pool_check_memory_provider(dev, rxq, binding);
+>>
+>> Frankly, I pretty much don't like it.
+>>
+>> 1. We do it after reconfiguring the queue just to fail and reconfigure
+>> it again.
+>>
 > 
-> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
-> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-> ---
->   drivers/media/platform/qcom/camss/Makefile    |   1 +
->   .../media/platform/qcom/camss/camss-vfe-780.c | 148 ++++++++++++++++++
->   drivers/media/platform/qcom/camss/camss-vfe.c |  33 ++--
->   drivers/media/platform/qcom/camss/camss-vfe.h |   1 +
->   drivers/media/platform/qcom/camss/camss.c     | 132 ++++++++++++++++
->   drivers/media/platform/qcom/camss/camss.h     |   2 +
->   6 files changed, 304 insertions(+), 13 deletions(-)
->   create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-780.c
+> I don't see an issue with that? Or is it just me?
+
+Not a bug, just over excessive harassing of the interface,
+which can be easily be avoided.
+
+
+>> 2. It should be a part of the common path like netdev_rx_queue_restart(),
+>> not specific to devmem TCP.
+>>
+>> These two can be fixed by moving the check into
+>> netdev_rx_queue_restart() just after ->ndo_queue_mem_alloc, assuming
+>> that the callback where we init page pools.
+>>
 > 
-> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-> index c336e4c1a399..a83b7a8dcef7 100644
-> --- a/drivers/media/platform/qcom/camss/Makefile
-> +++ b/drivers/media/platform/qcom/camss/Makefile
-> @@ -17,6 +17,7 @@ qcom-camss-objs += \
->   		camss-vfe-4-8.o \
->   		camss-vfe-17x.o \
->   		camss-vfe-480.o \
-> +		camss-vfe-780.o \
->   		camss-vfe-gen1.o \
->   		camss-vfe.o \
->   		camss-video.o \
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-780.c b/drivers/media/platform/qcom/camss/camss-vfe-780.c
-> new file mode 100644
-> index 000000000000..e1c4d25cdc40
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-780.c
-> @@ -0,0 +1,148 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * camss-vfe-780.c
-> + *
-> + * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v780 (SM8550)
-> + *
-> + * Copyright (c) 2024 Qualcomm Technologies, Inc.
-> + */
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +
-> +#include "camss.h"
-> +#include "camss-vfe.h"
-> +
-> +#define BUS_REG_BASE			(vfe_is_lite(vfe) ? 0x200 : 0xC00)
-> +
-> +#define VFE_BUS_WM_CGC_OVERRIDE		(BUS_REG_BASE + 0x08)
-> +#define		WM_CGC_OVERRIDE_ALL		(0x7FFFFFF)
-> +
-> +#define VFE_BUS_WM_TEST_BUS_CTRL	(BUS_REG_BASE + 0xDC)
-> +
-> +#define VFE_BUS_WM_CFG(n)		(BUS_REG_BASE + 0x200 + (n) * 0x100)
-> +#define		WM_CFG_EN			BIT(0)
-> +#define		WM_VIR_FRM_EN			BIT(1)
-> +#define		WM_CFG_MODE			BIT(16)
-> +#define VFE_BUS_WM_IMAGE_ADDR(n)	(BUS_REG_BASE + 0x204 + (n) * 0x100)
-> +#define VFE_BUS_WM_FRAME_INCR(n)	(BUS_REG_BASE + 0x208 + (n) * 0x100)
-> +#define VFE_BUS_WM_IMAGE_CFG_0(n)	(BUS_REG_BASE + 0x20c + (n) * 0x100)
-> +#define		WM_IMAGE_CFG_0_DEFAULT_WIDTH	(0xFFFF)
-> +#define VFE_BUS_WM_IMAGE_CFG_1(n)	(BUS_REG_BASE + 0x210 + (n) * 0x100)
-> +#define VFE_BUS_WM_IMAGE_CFG_2(n)	(BUS_REG_BASE + 0x214 + (n) * 0x100)
-> +#define		WM_IMAGE_CFG_2_DEFAULT_STRIDE	(0xFFFF)
-> +#define VFE_BUS_WM_PACKER_CFG(n)	(BUS_REG_BASE + 0x218 + (n) * 0x100)
-> +#define VFE_BUS_WM_HEADER_ADDR(n)	(BUS_REG_BASE + 0x220 + (n) * 0x100)
-> +#define VFE_BUS_WM_HEADER_INCR(n)	(BUS_REG_BASE + 0x224 + (n) * 0x100)
-> +#define VFE_BUS_WM_HEADER_CFG(n)	(BUS_REG_BASE + 0x228 + (n) * 0x100)
-> +
-> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(n)	(BUS_REG_BASE + 0x230 + (n) * 0x100)
-> +#define VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(n)	(BUS_REG_BASE + 0x234 + (n) * 0x100)
-> +#define VFE_BUS_WM_FRAMEDROP_PERIOD(n)		(BUS_REG_BASE + 0x238 + (n) * 0x100)
-> +#define VFE_BUS_WM_FRAMEDROP_PATTERN(n)		(BUS_REG_BASE + 0x23c + (n) * 0x100)
-> +
-> +#define VFE_BUS_WM_MMU_PREFETCH_CFG(n)		(BUS_REG_BASE + 0x260 + (n) * 0x100)
-> +#define VFE_BUS_WM_MMU_PREFETCH_MAX_OFFSET(n)	(BUS_REG_BASE + 0x264 + (n) * 0x100)
-> +#define VFE_BUS_WM_SYSTEM_CACHE_CFG(n)		(BUS_REG_BASE + 0x268 + (n) * 0x100)
-> +
-> +/* for titan 780, each bus client is hardcoded to a specific path */
-> +#define RDI_WM(n)			((vfe_is_lite(vfe) ? 0x0 : 0x17) + (n))
-> +
-> +static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_line *line)
-> +{
-> +	struct v4l2_pix_format_mplane *pix =
-> +		&line->video_out.active_fmt.fmt.pix_mp;
-> +
-> +	wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
-> +
-> +	/* no clock gating at bus input */
-> +	writel(WM_CGC_OVERRIDE_ALL, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
-> +
-> +	writel(0x0, vfe->base + VFE_BUS_WM_TEST_BUS_CTRL);
-> +
-> +	writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height >> 8,
-> +	       vfe->base + VFE_BUS_WM_FRAME_INCR(wm));
-> +	writel((WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF),
-> +	       vfe->base + VFE_BUS_WM_IMAGE_CFG_0(wm));
-> +	writel(WM_IMAGE_CFG_2_DEFAULT_STRIDE,
-> +	       vfe->base + VFE_BUS_WM_IMAGE_CFG_2(wm));
-> +	writel(0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
-> +
-> +	/* no dropped frames, one irq per frame */
-> +	writel(0, vfe->base + VFE_BUS_WM_FRAMEDROP_PERIOD(wm));
-> +	writel(1, vfe->base + VFE_BUS_WM_FRAMEDROP_PATTERN(wm));
-> +	writel(0, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PERIOD(wm));
-> +	writel(1, vfe->base + VFE_BUS_WM_IRQ_SUBSAMPLE_PATTERN(wm));
-> +
-> +	writel(1, vfe->base + VFE_BUS_WM_MMU_PREFETCH_CFG(wm));
-> +	writel(0xFFFFFFFF, vfe->base + VFE_BUS_WM_MMU_PREFETCH_MAX_OFFSET(wm));
-> +
-> +	writel(WM_CFG_EN | WM_CFG_MODE, vfe->base + VFE_BUS_WM_CFG(wm));
-> +}
-> +
-> +static void vfe_wm_stop(struct vfe_device *vfe, u8 wm)
-> +{
-> +	wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
-> +	writel(0, vfe->base + VFE_BUS_WM_CFG(wm));
-> +}
-> +
-> +static void vfe_wm_update(struct vfe_device *vfe, u8 wm, u32 addr,
-> +			  struct vfe_line *line)
-> +{
-> +	wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
-> +	writel((addr >> 8) & 0xFFFFFFFF, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
-> +
-> +	dev_dbg(vfe->camss->dev, "%s wm:%d, image buf addr:0x%x\n",
-> +		__func__, wm, addr);
-> +}
-> +
-> +static void vfe_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id)
-> +{
-> +	int port_id = line_id;
-> +
-> +	/* RUP(register update) registers has beem moved to CSID in Titan 780.
-> +	 * Notify the event of trigger RUP.
-> +	 */
-> +	camss_reg_update(vfe->camss, vfe->id, port_id, false);
-> +}
-> +
-> +static inline void vfe_reg_update_clear(struct vfe_device *vfe,
-> +					enum vfe_line_id line_id)
-> +{
-> +	int port_id = line_id;
-> +
-> +	/* RUP(register update) registers has beem moved to CSID in Titan 780.
-> +	 * Notify the event of trigger RUP clear.
-> +	 */
-> +	camss_reg_update(vfe->camss, vfe->id, port_id, true);
-> +}
-> +
-> +static const struct camss_video_ops vfe_video_ops_780 = {
-> +	.queue_buffer = vfe_queue_buffer_v2,
-> +	.flush_buffers = vfe_flush_buffers,
-> +};
-> +
-> +static void vfe_subdev_init(struct device *dev, struct vfe_device *vfe)
-> +{
-> +	vfe->video_ops = vfe_video_ops_780;
-> +}
-> +
-> +const struct vfe_hw_ops vfe_ops_780 = {
-> +	.enable_irq = NULL,
-> +	.global_reset = NULL,
-> +	.hw_version = vfe_hw_version,
-> +	.isr = NULL,
-> +	.pm_domain_off = vfe_pm_domain_off,
-> +	.pm_domain_on = vfe_pm_domain_on,
-> +	.subdev_init = vfe_subdev_init,
-> +	.vfe_disable = vfe_disable,
-> +	.vfe_enable = vfe_enable_v2,
-> +	.vfe_halt = NULL,
-> +	.vfe_wm_start = vfe_wm_start,
-> +	.vfe_wm_stop = vfe_wm_stop,
-> +	.vfe_buf_done = vfe_buf_done,
-> +	.vfe_wm_update = vfe_wm_update,
-> +	.reg_update = vfe_reg_update,
-> +	.reg_update_clear = vfe_reg_update_clear,
-> +};
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-> index 71bd55e854bb..507fc7785ac8 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-> @@ -343,6 +343,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
->   	case CAMSS_845:
->   	case CAMSS_8250:
->   	case CAMSS_8280XP:
-> +	case CAMSS_8550:
->   		switch (sink_code) {
->   		case MEDIA_BUS_FMT_YUYV8_1X16:
->   		{
-> @@ -674,15 +675,17 @@ int vfe_reset(struct vfe_device *vfe)
->   {
->   	unsigned long time;
->   
-> -	reinit_completion(&vfe->reset_complete);
-> +	if (vfe->res->hw_ops->global_reset) {
-> +		reinit_completion(&vfe->reset_complete);
->   
-> -	vfe->res->hw_ops->global_reset(vfe);
-> +		vfe->res->hw_ops->global_reset(vfe);
->   
-> -	time = wait_for_completion_timeout(&vfe->reset_complete,
-> -		msecs_to_jiffies(VFE_RESET_TIMEOUT_MS));
-> -	if (!time) {
-> -		dev_err(vfe->camss->dev, "VFE reset timeout\n");
-> -		return -EIO;
-> +		time = wait_for_completion_timeout(&vfe->reset_complete,
-> +			msecs_to_jiffies(VFE_RESET_TIMEOUT_MS));
-> +		if (!time) {
-> +			dev_err(vfe->camss->dev, "VFE reset timeout\n");
-> +			return -EIO;
-> +		}
+> The only reason is that the page_pool_check_memory_provider() needs to
+> know the memory provider to check for. Separating them keep
+> netdev_rx_queue_restart() usable for other future use cases that don't
+> expect a memory provider to be bound, but you are correct in that this
+> can be easily resolved by passing the binding to
+> netdev_rx_queue_restart() and doing the
+> page_pool_check_memory_providers() check inside of that function.
 
-Per my comment on the CSID - this feels like a fix you are introducing 
-here in the guise of a silicon add.
+It's already passed inside the queue.
 
-Please break it up.
+netdev_rx_queue_restart() {
+	if (rxq->mp_params && !rxq->netiov_supported)
+		fail;
+}
 
-If you have a number of fixes to core functionality they need to be
+>> 3. That implicit check gives me bad feeling, instead of just getting
+>> direct feedback from the driver, either it's a flag or an error
+>> returned, we have to try to figure what exactly the driver did, with
+>> a high chance this inference will fail us at some point.
+>>
+> 
+> This is where I get a bit confused. Jakub did mention that it is
+> desirable for core to verify that the driver did the right thing,
+> instead of trusting that a driver did the right thing without
+> verifying. Relying on a flag from the driver opens the door for the
+> driver to say "I support this" but actually not create the mp
+> page_pool. In my mind the explicit check is superior to getting
+> feedback from the driver.
 
-1. Granular and individual
-2. Indivdually scrutable with their own patch and descritption
-3. git cherry-pickable
-4. Have a Fixes tag
-5. And be cc'd to stable@vger.kernel.org
+You can apply the same argument to anything, but not like
+after each for example ->ndo_start_xmit we dig into the
+interface's pending queue to make sure it was actually queued.
 
-Can't accept either the fixes or the silicon add if the two live mixed 
-up in one patch.
+And even if you check that there is a page pool, the driver
+can just create an empty pool that it'll never use. There
+are always ways to make it wrong.
 
->   	}
->   
->   	return 0;
-> @@ -1120,7 +1123,8 @@ void vfe_put(struct vfe_device *vfe)
->   	} else if (vfe->power_count == 1) {
->   		if (vfe->was_streaming) {
->   			vfe->was_streaming = 0;
-> -			vfe->res->hw_ops->vfe_halt(vfe);
-> +			if (vfe->res->hw_ops->vfe_halt)
-> +				vfe->res->hw_ops->vfe_halt(vfe);
+Yes, there is a difference, and I'm not against it as a
+WARN_ON_ONCE after failing it in a more explicit way.
 
-Similar comment.
+Jakub might have a different opinion on how it should look
+like, and we can clarify on that, but I do believe it's a
+confusing interface that can be easily made better.
 
->   		}
->   		camss_disable_clocks(vfe->nclocks, vfe->clock);
->   		pm_runtime_put_sync(vfe->camss->dev);
-> @@ -1807,11 +1811,13 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
->   	vfe->irq = ret;
->   	snprintf(vfe->irq_name, sizeof(vfe->irq_name), "%s_%s%d",
->   		 dev_name(dev), MSM_VFE_NAME, id);
-> -	ret = devm_request_irq(dev, vfe->irq, vfe->res->hw_ops->isr,
-> -			       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
-> -	if (ret < 0) {
-> -		dev_err(dev, "request_irq failed: %d\n", ret);
-> -		return ret;
-> +	if (vfe->res->hw_ops->isr) {
+> Additionally this approach lets us detect support in core using 10
+> lines of code or so, rather than ask every driver that wants to
+> support mp to add boilerplate code to declare support (and run into
+> subtle bugs when this boilerplate is missing). There are minor pros
 
-And again.
+Right, 10 lines of some odd code, which not even clear off the
+bat why it's there if we get an error code from the restart /
+callbacks, vs one line of "boilerplate" per driver a la
 
-> +		ret = devm_request_irq(dev, vfe->irq, vfe->res->hw_ops->isr,
-> +				       IRQF_TRIGGER_RISING, vfe->irq_name, vfe);
-> +		if (ret < 0) {
-> +			dev_err(dev, "request_irq failed: %d\n", ret);
-> +			return ret;
-> +		}
->   	}
->   
->   	/* Clocks */
-> @@ -1963,6 +1969,7 @@ static int vfe_bpl_align(struct vfe_device *vfe)
->   	case CAMSS_845:
->   	case CAMSS_8250:
->   	case CAMSS_8280XP:
-> +	case CAMSS_8550:
->   		ret = 16;
->   		break;
->   	default:
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
-> index fcbf4f609129..9dec5bc0d1b1 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.h
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.h
-> @@ -243,6 +243,7 @@ extern const struct vfe_hw_ops vfe_ops_4_7;
->   extern const struct vfe_hw_ops vfe_ops_4_8;
->   extern const struct vfe_hw_ops vfe_ops_170;
->   extern const struct vfe_hw_ops vfe_ops_480;
-> +extern const struct vfe_hw_ops vfe_ops_780;
->   
->   int vfe_get(struct vfe_device *vfe);
->   void vfe_put(struct vfe_device *vfe);
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 7ee102948dc4..92a0fa02e415 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -1666,6 +1666,125 @@ static const struct camss_subdev_resources csid_res_8550[] = {
->   	}
->   };
->   
-> +static const struct camss_subdev_resources vfe_res_8550[] = {
-> +	/* VFE0 */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe0_fast_ahb",
-> +			   "vfe0", "cpas_vfe0", "camnoc_axi" },
+rxq->netiov_supported = true;
 
-Should the camnoc AXI clock go here or in the CSID ?
+that can be added while implementing the queue api. If it's
+missing the user gets back not a subtle error.
 
 
-> +		.clock_rate = { { 0, 0, 0, 0, 0 },
-> +				{ 0, 0, 0, 0, 80000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 466000000, 594000000, 675000000, 785000000, 785000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
-> +		.reg = { "vfe0" },
-> +		.interrupt = { "vfe0" },
-> +		.vfe = {
-> +			.line_num = 3,
-> +			.is_lite = false,
-> +			.has_pd = true,
-> +			.pd_name = "ife0",
-> +			.hw_ops = &vfe_ops_780,
-> +			.formats_rdi = &vfe_formats_rdi_845,
-> +			.formats_pix = &vfe_formats_pix_845
-> +		}
-> +	},
-> +	/* VFE1 */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe1_fast_ahb",
-> +			   "vfe1", "cpas_vfe1", "camnoc_axi" },
-> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
-> +				{ 0, 0, 0, 0, 80000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 466000000, 594000000, 675000000, 785000000, 785000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
-> +		.reg = { "vfe1" },
-> +		.interrupt = { "vfe1" },
-> +		.vfe = {
-> +			.line_num = 3,
-> +			.is_lite = false,
-> +			.has_pd = true,
-> +			.pd_name = "ife1",
-> +			.hw_ops = &vfe_ops_780,
-> +			.formats_rdi = &vfe_formats_rdi_845,
-> +			.formats_pix = &vfe_formats_pix_845
-> +		}
-> +	},
-> +	/* VFE2 */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe2_fast_ahb",
-> +			   "vfe2", "cpas_vfe2", "camnoc_axi" },
-> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
-> +				{ 0, 0, 0, 0, 80000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 466000000, 594000000, 675000000, 785000000, 785000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
-> +		.reg = { "vfe2" },
-> +		.interrupt = { "vfe2" },
-> +		.vfe = {
-> +			.line_num = 3,
-> +			.is_lite = false,
-> +			.has_pd = true,
-> +			.pd_name = "ife2",
-> +			.hw_ops = &vfe_ops_780,
-> +			.formats_rdi = &vfe_formats_rdi_845,
-> +			.formats_pix = &vfe_formats_pix_845
-> +		}
-> +	},
-> +	/* VFE3 lite */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe_lite_ahb",
-> +			   "vfe_lite", "cpas_ife_lite", "camnoc_axi" },
-> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
-> +				{ 0, 0, 0, 0, 80000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 400000000, 480000000, 480000000, 480000000, 480000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
-> +		.reg = { "vfe_lite0" },
-> +		.interrupt = { "vfe_lite0" },
-> +		.vfe = {
-> +			.line_num = 4,
-> +			.is_lite = true,
-> +			.hw_ops = &vfe_ops_780,
-> +			.formats_rdi = &vfe_formats_rdi_845,
-> +			.formats_pix = &vfe_formats_pix_845
-> +		}
-> +	},
-> +	/* VFE4 lite */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe_lite_ahb",
-> +			   "vfe_lite", "cpas_ife_lite", "camnoc_axi" },
-> +		.clock_rate = {	{ 0, 0, 0, 0, 0 },
-> +				{ 0, 0, 0, 0, 80000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
+> and cons to each approach; I don't see a showstopping reason to go
+> with one over the other.
+> 
+>> And page_pool_check_memory_provider() is not that straightforward,
+>> it doesn't walk through pools of a queue.
+> 
+> Right, we don't save the pp of a queue, only a netdev. The outer loop
+> checks all the pps of the netdev to find one with the correct binding,
+> and the inner loop checks that this binding is attached to the correct
+> queue.
 
-I realise you're specifying all of the operating points here but the 
-clock only needs to appear once i.e.
+That's the thing, I doubt about the second part.
 
-1 x 300 MHz
-1 x 400 MHz
-1 x 480 MHz
+net_devmem_bind_dmabuf_to_queue() {
+	err = xa_alloc(&binding->bound_rxqs, &xa_idx, rxq);
+	if (err)
+		return err;
 
-etc.
+	netdev_rx_queue_restart();
 
-> +				{ 400000000, 480000000, 480000000, 480000000, 480000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 },
-> +				{ 300000000, 300000000, 400000000, 400000000, 400000000 } },
-> +		.reg = { "vfe_lite1" },
-> +		.interrupt = { "vfe_lite1" },
-> +		.vfe = {
-> +			.line_num = 4,
-> +			.is_lite = true,
-> +			.hw_ops = &vfe_ops_780,
-> +			.formats_rdi = &vfe_formats_rdi_845,
-> +			.formats_pix = &vfe_formats_pix_845
-> +		}
-> +	},
-> +};
-> +
->   static const struct resources_icc icc_res_sm8550[] = {
->   	{
->   		.name = "ahb",
-> @@ -1846,6 +1965,17 @@ void camss_pm_domain_off(struct camss *camss, int id)
->   	}
->   }
->   
-> +void camss_reg_update(struct camss *camss, int hw_id, int port_id, bool is_clear)
-> +{
-> +	struct csid_device *csid;
-> +
-> +	if (hw_id < camss->res->csid_num) {
+	// page_pool_check_memory_provider
+	...
+	xa_for_each(&binding->bound_rxqs, xa_idx, binding_rxq) {
+		if (rxq == binding_rxq)
+			return success;
+}
 
-Does this cause do anything ? Is it just defensive programming ? Can the 
-hw_id index exceed the number of CSIDs defined and if so why ?
+Can't b4 the patches for some reason, but that's the highlight
+from the patchset, correct me if I'm wrong. That xa_for_each
+check is always true because you put the queue in there right
+before it, and I don't that anyone could've erased it.
 
-Smells wrong.
+The problem here is that it seems the ->bound_rxqs state doesn't
+depend on what page pools were actually created and with what mp.
 
-> +		csid = &(camss->csid[hw_id]);
-> +
-> +		csid->res->hw_ops->reg_update(csid, port_id, is_clear);
-> +	}
-> +}
-> +
->   void camss_buf_done(struct camss *camss, int hw_id, int port_id)
->   {
->   	struct vfe_device *vfe;
-> @@ -2668,10 +2798,12 @@ static const struct camss_resources sm8550_resources = {
->   	.pd_name = "top",
->   	.csiphy_res = csiphy_res_8550,
->   	.csid_res = csid_res_8550,
-> +	.vfe_res = vfe_res_8550,
->   	.icc_res = icc_res_sm8550,
->   	.icc_path_num = ARRAY_SIZE(icc_res_sm8550),
->   	.csiphy_num = ARRAY_SIZE(csiphy_res_8550),
->   	.csid_num = ARRAY_SIZE(csid_res_8550),
-> +	.vfe_num = ARRAY_SIZE(vfe_res_8550),
->   	.link_entities = camss_link_entities
->   };
->   
-> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-> index d6b6558a82b9..697846e70e78 100644
-> --- a/drivers/media/platform/qcom/camss/camss.h
-> +++ b/drivers/media/platform/qcom/camss/camss.h
-> @@ -157,5 +157,7 @@ int camss_vfe_get(struct camss *camss, int id);
->   void camss_vfe_put(struct camss *camss, int id);
->   void camss_delete(struct camss *camss);
->   void camss_buf_done(struct camss *camss, int hw_id, int port_id);
-> +void camss_reg_update(struct camss *camss, int hw_id,
-> +		      int port_id, bool is_clear);
->   
->   #endif /* QC_MSM_CAMSS_H */
+So if you try to add a binding to 2 queues of the same interface,
+the first succeeds and the second silently fails, then the
+following net_devmem_bind_dmabuf_to_queue() for the second queue
+will say that everything is fine, because there is a pool for
+the first queue with the binding and the queue check is just
+true.
 
-All in all good work, looks like good progress and thanks for sticking 
-with your submissions.
+>> Not looking too deep,
+>> but it seems like the nested loop can be moved out with the same
+>> effect, so it first looks for a pool in the device and the follows
+>> with the bound_rxqs. And seems the bound_rxqs check would always turn
+>> true, you set the binding into the map in
+>> net_devmem_bind_dmabuf_to_queue() before the restart and it'll be there
+>> after restart for page_pool_check_memory_provider(). Maybe I missed
+>> something, but it's not super clear.
+>>
+>> 4. And the last thing Jakub mentioned is that we need to be prepared
+>> to expose a flag to the userspace for whether a queue supports
+>> netiov. Not really doable in a sane manner with such implicit
+>> post configuration checks.
+>>
+> 
+> I don't see a very strong reason to expose the flag to the userspace
 
-Please follow up on the points raised.
+I'll leave that for Jakub to answer
 
----
-bod
+> now. userspace can try to bind dmabuf and get an EOPNOTSUPP if the
+> operation is not supported, right? In the future if passing the flag
+> to userspace becomes needed for some usecase, we do need feedback from
+> the driver, and it would be trivial to add similarly to what you
+> suggested.
 
+Doable, since it wouldn't change the user api, but that means
+refactoring millions drivers (ok, ok, 4-5) instead of preparing
+for it from the beginning.
+
+>> And that brings us back to the first approach I mentioned, where
+>> we have a flag in the queue structure, drivers set it, and
+>> netdev_rx_queue_restart() checks it before any callback. That's
+>> where the thread with Jakub stopped, and it reads like at least
+>> he's not against the idea.
+> 
+> Hmm, the netdev_rx_queue array is created in core, not by the driver,
+> does the driver set this flag during initialization? We could run into
+> subtle bugs with races if a code path checks for support after core
+> has allocated the netdev_rx_queue array but before the driver has had
+> a chance to declare support, right? Maybe a minor issue. Instead we
+
+Which is fine, it'd just fail, how are we going to attach to a
+queue that hasn't been initialised by the driver yet. Regardless,
+I doubt we expose the interface before the driver has a chance
+to init it, but I'd need to look it up (or defer to Jakub) to
+say for sure.
+
+> could add an ndo to the queue API that lets the driver tell us that it
+> could support binding on a given rx queue, and check that in
+> net_devmem_bind_dmabuf_to_queue() right before we do the bind?
+> 
+> But this is only if declaring support to userspace becomes needed for
+> some use case. At the moment I'm under the impression that verifying
+> in core that the driver did the right thing is preferred, and I'd like
+> to minimize the boilerplate the driver needs to implement if possible.
+> 
+> Additionally this series is big and blocks multiple interesting follow
+> up work; maybe going forward with an approach that works - and can
+> easily be iterated on later if we run into issues - could be wise. I
+> do not see an issue with adding a driver signal in the future (if
+> needed) and deprecating the core check (if needed), right?
+
+-- 
+Pavel Begunkov
 
