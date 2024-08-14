@@ -1,159 +1,121 @@
-Return-Path: <linux-media+bounces-16301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16302-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51653951C5D
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 15:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BB8951C86
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 16:05:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF9141F21A19
-	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 13:58:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6DF51F22473
+	for <lists+linux-media@lfdr.de>; Wed, 14 Aug 2024 14:05:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 093CB1B14E6;
-	Wed, 14 Aug 2024 13:58:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D401B32C7;
+	Wed, 14 Aug 2024 14:05:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lZg084vS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oixb9P7I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA051AD9D6
-	for <linux-media@vger.kernel.org>; Wed, 14 Aug 2024 13:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8AE1B29D2;
+	Wed, 14 Aug 2024 14:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723643890; cv=none; b=fobgNSLVz9au+cBgSpk7dhI/FYsb5wUGgnlk2xONeuik+/SPOP9Z7Iua2FhDkRKNL6am35FSf4CrgEFoq4BpqtCRugtQ4GAL61mNIHcgrf/LAUo2KC1gX/HXE4YsKNyRDa6g7/ttrxiwTEzeL9yrzSAXeK0HaGbvrFO6iqE3jCY=
+	t=1723644315; cv=none; b=syn3tNWZcTXh0gVxuGYvHKfBuu4iT7DPTrH0kpBs6Ju1iSSGCg8PaJ4SwCcpmJyiK+k99xY1eU+6kEekZcS024Kk8DYxzsJCuMqIlbHWOmx3sg67aaJdffCRYaS52uDldI3aQI5C1E1Z/eUPrPM2RBniaCe8rZfFfJ/fMhsv3mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723643890; c=relaxed/simple;
-	bh=kSJFC2VmE7KmnBPMWvclousP1yPJR/j1GOsDlAg7+Vo=;
+	s=arc-20240116; t=1723644315; c=relaxed/simple;
+	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rlhrkyzk75LWRcpsoWZpTMFkRmC2yDC/CJj5NLFak0/GUg0IzaK2/rToTEizRVxATbaOaPxfbxfR+BrsOMxJAPvfTwmfmQHpBHFYStxfVjk/mdSmQEU7Zkg9lZBxjKF5gNCZJykUM5+yYZ7rr8Tb+W70kjgh/SeevIbawV0Tca0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lZg084vS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B30CC66F;
-	Wed, 14 Aug 2024 15:57:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723643829;
-	bh=kSJFC2VmE7KmnBPMWvclousP1yPJR/j1GOsDlAg7+Vo=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jtw8W+5w997ibV//VfDMqGBTASno0/HZAOcl76LKnlrIXTjGWCA3HSUWyF31jQ0NodajoXZc9et06dtmi/Wm09E3ASPbiV90StefQoRz2rdKcz2Crtf7BinUURnB4mKtKKwS3jP8wZKHqPVXYl+p8kntZQ0/jT/xDZtAVrRDxkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oixb9P7I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941C6C32786;
+	Wed, 14 Aug 2024 14:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723644314;
+	bh=rsrPj3HibZ4DCsL9Ic4OQt4Rsa7JTdGV+7CZoZd1B/s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lZg084vS/YZKTGhrZGKqmUsco/kTKYmxRyAsezoT183EMt7ous2+c7ZnVjKXosdAc
-	 vw7BElmoJqAlTcAbsDJnqG3eOEjdo9uiW3aKTTWcWL90aV5cgDvTzd3cKRrL2xD4vi
-	 6u/c0voJg4HVXk+KYEcAidYZxrYDny3Y5Dx43ZD4=
-Date: Wed, 14 Aug 2024 16:57:42 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [GIT PULL FOR v6.12] rkisp1 extensible parameters format
-Message-ID: <20240814135742.GA3299@pendragon.ideasonboard.com>
-References: <20240812230545.GA2358@pendragon.ideasonboard.com>
- <70262640-21eb-452a-a24d-783b4bcd8d54@xs4all.nl>
- <20240814131915.GB26073@pendragon.ideasonboard.com>
+	b=oixb9P7IKMS3/QO3M+v6BsLenBwFo04WV3M2FM4b+PnTBnM+H8LGThWzI2ZaiPrE7
+	 KnT4LaSTN8Kbn7uJ49JPGpPqAKL0lh631pNmnutXfEGcuXmdOA4rpjWCkuWPEMokQi
+	 RdVWgigeciXAaPBIGcO8bVETqszsvXDHmm8iXRlMMpdMixIuPRF2C9V/sIagWgkXJg
+	 fXvbuxQwilJ+8zcimVOxsdl2OCfVzZGJqL0Op6IpfoN2iSy/Tn2aWkun7cfUo3g4bF
+	 iLdGMW7At7uBIBcF1QgTtSnnoddaLSLLq40P7swf55ctf26w506ePlPRSDM1XCw9Wb
+	 4isDAlOl8VI0w==
+Date: Wed, 14 Aug 2024 15:05:06 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, khilman@baylibre.com,
+	linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>,
+	Will Deacon <will@kernel.org>, linux-media@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Nicolas Belin <nbelin@baylibre.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Flora Fu <flora.fu@mediatek.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v7 00/16] Add audio support for the MediaTek Genio
+ 350-evk board
+Message-ID: <ae9a5147-95a9-4da3-a56a-ecc22f4e8f04@sirena.org.uk>
+References: <20240226-audio-i350-v7-0-6518d953a141@baylibre.com>
+ <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8B/Fc53TUe95dwQa"
 Content-Disposition: inline
-In-Reply-To: <20240814131915.GB26073@pendragon.ideasonboard.com>
+In-Reply-To: <24215f3d-30bf-4379-bb10-c4b183c16b8a@baylibre.com>
+X-Cookie: The second best policy is dishonesty.
 
-On Wed, Aug 14, 2024 at 04:19:15PM +0300, Laurent Pinchart wrote:
-> On Wed, Aug 14, 2024 at 12:02:39PM +0200, Hans Verkuil wrote:
-> > On 13/08/2024 01:05, Laurent Pinchart wrote:
-> > > Hi Hans, Mauro,
-> > 
-> > commit 5ef3fcc8e42b43523498c7b0ede19a47fbdf8353 (media: rkisp1: Implement extensible params support)
-> > failed to push because the commit log contains a local changelog:
-> > 
-> >     ...
-> >     Implement parameter buffer validation for the extensible format at
-> >     .buf_prepare() time.
-> > 
-> >     Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >     Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >     Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >     Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-> >     Tested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> >     Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >     Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >     ---
-> >     Changes since v10:
-> > 
-> >     - Use %zu to print size_t arguments
-> > 
-> > I can either just take these patches (i.e. I don't merge them), and manually remove
-> > this before committing, or you need to update your tree yourself.
-> > 
-> > If you decide to do the latter, then please add my:
-> > 
-> > 	Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > 
-> > to patches 2 and 3 (uAPI changes).
-> 
-> Oooops. I'll resend now. I wonder how I didn't notice that.
 
-Pull request resent, and local scripts updated to make sure this won't
-happen again.
+--8B/Fc53TUe95dwQa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > > 
-> > > The following changes since commit c80bfa4f9e0ebfce6ac909488d412347acbcb4f9:
-> > > 
-> > >   media: ti: cal: use 'time_left' variable with wait_event_timeout() (2024-08-09 07:56:39 +0200)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/next-media-rkisp1-20240813
-> > > 
-> > > for you to fetch changes up to 32be6029c1c1e8c628077403b2096e9d9085f6c8:
-> > > 
-> > >   media: rkisp1: Add support for the companding block (2024-08-12 13:36:50 +0300)
-> > > 
-> > > ----------------------------------------------------------------
-> > > Extensible parameters support for the rkisp1 driver
-> > > 
-> > > ----------------------------------------------------------------
-> > > Jacopo Mondi (7):
-> > >       media: uapi: rkisp1-config: Add extensible params format
-> > >       media: uapi: videodev2: Add V4L2_META_FMT_RK_ISP1_EXT_PARAMS
-> > >       media: rkisp1: Add struct rkisp1_params_buffer
-> > >       media: rkisp1: Copy the parameters buffer
-> > >       media: rkisp1: Cache the currently active format
-> > >       media: rkisp1: Implement extensible params support
-> > >       media: rkisp1: Implement s_fmt/try_fmt
-> > > 
-> > > Laurent Pinchart (2):
-> > >       media: rkisp1: Add helper function to swap colour channels
-> > >       media: rkisp1: Add features mask to extensible block handlers
-> > > 
-> > > Ondrej Jirman (1):
-> > >       media: rkisp1: Adapt to different SoCs having different size limits
-> > > 
-> > > Paul Elder (3):
-> > >       media: rkisp1: Add register definitions for the companding block
-> > >       media: rkisp1: Add feature flags for BLS and compand
-> > >       media: rkisp1: Add support for the companding block
-> > > 
-> > >  Documentation/admin-guide/media/rkisp1.rst         |   11 +-
-> > >  .../userspace-api/media/v4l/metafmt-rkisp1.rst     |   57 +-
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-common.c |   14 +
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-common.h |   49 +-
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |    5 +-
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-dev.c    |   15 +-
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |    9 +-
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-params.c | 1037 ++++++++++++++++++--
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-regs.h   |   23 +
-> > >  .../platform/rockchip/rkisp1/rkisp1-resizer.c      |    4 +-
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-stats.c  |   51 +-
-> > >  drivers/media/v4l2-core/v4l2-ioctl.c               |    1 +
-> > >  include/uapi/linux/rkisp1-config.h                 |  578 +++++++++++
-> > >  include/uapi/linux/videodev2.h                     |    1 +
-> > >  14 files changed, 1689 insertions(+), 166 deletions(-)
+On Wed, Aug 14, 2024 at 10:23:12AM +0200, Alexandre Mergnat wrote:
 
--- 
-Regards,
+> Simple gentle ping, the serie seems ready to be applied.
 
-Laurent Pinchart
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
+
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+--8B/Fc53TUe95dwQa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAma8uZIACgkQJNaLcl1U
+h9C15Qf/aWN3somXkLeCmkhFfrV7QHTBExyjsMeiPhzPWZtkgtCnWe3qurwNFxJW
+hZepPzW5OTzlmzxUY13O4q1omXjfbfIM5wpYSui2CeaJo15WV+/BxfMEjLwhB942
+fDai25vauENBytYGG0rmb5lW0+92gWHVXdFYjB/Zew6sMd3uNCQNZGsfEVXJD3pU
+U9rb2939laF2Lqbjvr502BhhHEPgiBCx0vsPCVtasNrArpTFfinGw2wYA4ZNRGM3
+IB78TudnvuQHQtt9ytOfos5mN+fv5LxoYO16MMmuhTP753QbXipEJ4wYBKWSSPs1
+JLIAGwiAAXiCyPEMjizKQ3fph09SVg==
+=LwLG
+-----END PGP SIGNATURE-----
+
+--8B/Fc53TUe95dwQa--
 
