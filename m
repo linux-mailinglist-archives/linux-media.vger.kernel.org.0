@@ -1,142 +1,83 @@
-Return-Path: <linux-media+bounces-16336-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16337-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C26952D03
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 12:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2486E952DCA
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 13:54:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 337961F227C3
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 10:56:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C77C11F2188D
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 11:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC9AE1AC897;
-	Thu, 15 Aug 2024 10:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56D1F176AC1;
+	Thu, 15 Aug 2024 11:54:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WZVHE9nA"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=azazel.net header.i=@azazel.net header.b="oonhyqQR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from azazel.net (taras.nevrast.org [35.176.194.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2A31AC886;
-	Thu, 15 Aug 2024 10:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23E414BFA8
+	for <linux-media@vger.kernel.org>; Thu, 15 Aug 2024 11:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.176.194.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723719027; cv=none; b=OkGwb+xVHgaUS0Xt5plNeVzmf87vj03ikkz/tuKU5+PtWzHQsR8LHxci+WaFxKf4snVWT9KKfYieo+MNuiaFNaewPVmcLhkrigakjVLv6z7vBdOLy9j1wFTgHCp54Kw9MMoe6GY6egLIRbcP+jScqEaNYm5Uz2wY/23D96WOt1c=
+	t=1723722871; cv=none; b=VBbf6fYoEfc6tPpZCTFH6qKeweVMPutl30rbTA68QDHG8lmQsJXeDnGnhw2d2ajbsToNnfF4rb/wnI8JHp/mdMzjzZtqztmetT7XkBO67l0ZfSbF5PBxeKMxn6l6YlgsClnd6AEc6f/XHl9z1q1MAZ3X7FdFB4hWswqzcMIgIQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723719027; c=relaxed/simple;
-	bh=im0u3eDxsETwiNVKDYspTSbhx4x8HTTNFfvIT6Catbg=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=LLidX+DrKX88vOS9p/a+ifiWuN9Hzg4zTBaS9+mJp/n7Ir/GeAyR3d7J7/hmC9sVzsAdld7xrfJgTdxroJWTA5+YrSs2Q9OOVMvlM7fsRMZqavh1eQ69Yx57sndeDHvV7wgLXynQlkbKqr9qX9QOXahdDcFN7eR2bZUUn+bGSrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WZVHE9nA; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4EC226CA;
-	Thu, 15 Aug 2024 12:49:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723718965;
-	bh=im0u3eDxsETwiNVKDYspTSbhx4x8HTTNFfvIT6Catbg=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=WZVHE9nAE+7a65O4hOU2HZcKLgPmwe+X5btJh95wCAbicNv8tCZrrOpcc197HHqmW
-	 i/jJLe8nqGbiKZxXGIwkQGB853C9uX3KkaKJGfF2ShaT72Ae2+9HZuR8q1mC+iwc7V
-	 OZPwCQ1z99EZWpGm4i8sGXTSqfnUZfOJ+PnsDKpk=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1723722871; c=relaxed/simple;
+	bh=+uhHEgpn44Es/WOyTJ50lnKyN5iX1xSQuK7iKZj04c0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=KEOwRYDHH4JhmbU3bT2myGuakRy8La/ijkwRxAQvvpAf1QfrpMD7mtOxO8qhCVMV1fR7Q/ufQyNojtSVmEhQhHGTH4IY5mr9iYRc8iuWqsDPopUxrdfNX0X33HculD1o+8+TH5SuzQBesJYzWkHoJxDeWo+Xwyiz3o89IAvbpqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=azazel.net; spf=pass smtp.mailfrom=azazel.net; dkim=pass (2048-bit key) header.d=azazel.net header.i=@azazel.net header.b=oonhyqQR; arc=none smtp.client-ip=35.176.194.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=azazel.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=azazel.net
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=azazel.net;
+	s=20220717; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=gk96W3iLiIgfQxOAZzEJe2RPULYPsPwcnZDMJ6IcFag=; b=oonhyqQRpVHU07i0steJ6QzdAu
+	BKUE/tXhH2kGDwH3APXiRb6Qurz1Tu0sW2dHmPjJQPT4JVE4moO1Uw540n34lDgsEYOO4owQDfGvO
+	PjIm0GGS2+LomdYOVmmWVuh1C7/AnVMlN5Ii+yVH9QNiEMwid2yARjHOTFTrreVpQ3tui5eE4tC6T
+	N9vEWgTb3L7F18CnIdbNBnxh9duS+mQJPhCjIwQNWWzfy6sMHx8VJHGfkwVsadMhf7sy5VACUok1K
+	ZH3VneDrYMFU4r3HEnjoRZAiP78s8rQKwQv/ToqG2ms3bch3hTEdf9QjcziZgGEQgUktY6Kk3Pt3m
+	lYw66toQ==;
+Received: from ulthar.dreamlands.azazel.net ([2001:8b0:fb7d:d6d7:2e4d:54ff:fe4b:a9ae])
+	by taras.nevrast.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jeremy@azazel.net>)
+	id 1seZ3h-00CeCX-3A
+	for linux-media@vger.kernel.org;
+	Thu, 15 Aug 2024 12:54:25 +0100
+From: Jeremy Sowden <jeremy@azazel.net>
+To: Linux Media <linux-media@vger.kernel.org>
+Subject: [PATCH xawtv3 0/2] A couple of fixes
+Date: Thu, 15 Aug 2024 12:54:13 +0100
+Message-ID: <20240815115415.3371544-1-jeremy@azazel.net>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240813-imx335-binned-mode-v1-1-edbb3718ab0f@ideasonboard.com>
-References: <20240813-imx335-binned-mode-v1-1-edbb3718ab0f@ideasonboard.com>
-Subject: Re: [PATCH] media: imx283: Add 3/3 binning mode
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Umang Jain <umang.jain@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Umang Jain <umang.jain@ideasonboard.com>
-Date: Thu, 15 Aug 2024 11:50:21 +0100
-Message-ID: <172371902103.129190.2742499360622510193@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:8b0:fb7d:d6d7:2e4d:54ff:fe4b:a9ae
+X-SA-Exim-Mail-From: jeremy@azazel.net
+X-SA-Exim-Scanned: No (on taras.nevrast.org); SAEximRunCond expanded to false
 
-Quoting Umang Jain (2024-08-13 06:52:00)
-> IMX283 supports 12-bit 3/3 binning mode with 1824x1216 resolution.
-> Introduce the mode config for the same.
->=20
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
-> Patch to introduce 3/3 binning mode - 1824x1216 12-bit output.
-> ---
->  drivers/media/i2c/imx283.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
->=20
-> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
-> index 8490618c5071..94276f4f2d83 100644
-> --- a/drivers/media/i2c/imx283.c
-> +++ b/drivers/media/i2c/imx283.c
-> @@ -465,6 +465,39 @@ static const struct imx283_mode supported_modes_12bi=
-t[] =3D {
->                 .horizontal_ob =3D 48,
->                 .vertical_ob =3D 4,
-> =20
-> +               .crop =3D {
+The former is a gcc-14 compilation failure that was reported in Debian.  The
+latter is something unrelated I spotted while testing the former.
 
-I still wonder if these crops for full resolution mode can be set as:
+Jeremy Sowden (2):
+  Fix gcc-14 compilation failures caused by incompatible pointer types
+  Use `pclose` to close file-pointer created with `popen`
 
- 	.crop =3D imx283_active_area,
+ x11/man.c       | 2 +-
+ x11/propwatch.c | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-But that's a separate patch/discussion.
+-- 
+2.43.0
 
-
-> +                       .top =3D 40,
-> +                       .left =3D 108,
-> +                       .width =3D 5472,
-> +                       .height =3D 3648,
-> +               },
-> +       },
-> +       {
-> +               /*
-> +                * Readout mode 3 : 3/3 binned mode (1824x1216)
-> +                */
-> +               .mode =3D IMX283_MODE_3,
-> +               .bpp =3D 12,
-> +               .width =3D 1824,
-> +               .height =3D 1216,
-> +               .min_hmax =3D 1894, /* Pixels (284 * 480MHz/72MHz + paddi=
-ng) */
-> +               .min_vmax =3D 4200, /* Lines */
-> +
-> +               /* 60.00 fps */
-> +               .default_hmax =3D 1900, /* 285 @ 480MHz/72Mhz */
-> +               .default_vmax =3D 4200,
-> +
-> +               .veff =3D 1234,
-> +               .vst =3D 0,
-> +               .vct =3D 0,
-> +
-> +               .hbin_ratio =3D 3,
-> +               .vbin_ratio =3D 3,
-> +
-> +               .min_shr =3D 16,
-> +               .horizontal_ob =3D 32,
-> +               .vertical_ob =3D 4,
-> +
-
-Everything there matches my expectations and the datasheet:
-
-
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
->                 .crop =3D {
->                         .top =3D 40,
->                         .left =3D 108,
->=20
-> ---
-> base-commit: 68a72104cbcf38ad16500216e213fa4eb21c4be2
-> change-id: 20240813-imx335-binned-mode-98b2b7ee5ba0
->=20
-> Best regards,
-> --=20
-> Umang Jain <umang.jain@ideasonboard.com>
->
 
