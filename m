@@ -1,174 +1,134 @@
-Return-Path: <linux-media+bounces-16350-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16351-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DAF953764
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 17:35:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B85495377E
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 17:43:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 65F451C25263
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 15:35:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD7C51C250C4
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 15:43:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0211AD3F5;
-	Thu, 15 Aug 2024 15:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F3A21B1427;
+	Thu, 15 Aug 2024 15:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1SLqnN7"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="b9HMzwuU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B781AD402
-	for <linux-media@vger.kernel.org>; Thu, 15 Aug 2024 15:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0391AD3F7;
+	Thu, 15 Aug 2024 15:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723736134; cv=none; b=eXpemgDIfSa0zYMtlQrf9ceVKhdBwG0C1P/HGZj2x1EpQCejEGGAVsu/gdWUrfbIhuyB4tVOUaU2x5GXXf5M69Zpg2swYS3sorh1GwaVNYua4KqZHaPYOpA4VdMElXJVIRlFiBKNF/9ZyaD/F4Fqofrs8gh1ULKKmO2q81Ds5I8=
+	t=1723736597; cv=none; b=DheTcl6+U+K8dWOl1neWrIBEIJozMwmE5372qLSLIa6dgH8GDwBoT+IGon+iHKuV4wr2NCxAf9NdlSq+jZ6oTeymzm28IcuFKJZgb6nl76m4F1O8EK+OjigSXSucqq3CQTP9fvy6JHImQNIrjO+JHYS91qGVFGkgawOTqspRPLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723736134; c=relaxed/simple;
-	bh=tSeyrBGRinttEc/Bl0KMHkbu8ZYMzTjZeV1UyXwP8BM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AeDav9LU1jy7Y5fIw2g1BToqfi8MRqs3xhAlxexl+x70qIAMUBhic5sjil5RvtOFzGxEIDK0zxr/x6oRuFBqOiKctk+i2fbRAoptGdt48qxd2+G1GJ8cvs5g5xYYiuEtFFgosJakQAny3fdjuNor84DrDyTOd7m4DX54Y6NVAzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1SLqnN7; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723736131; x=1755272131;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tSeyrBGRinttEc/Bl0KMHkbu8ZYMzTjZeV1UyXwP8BM=;
-  b=K1SLqnN7a/xF7bUpsPYvqdlJag9cIsUdYAbX2T7AWsQxG26uwEWYnMTk
-   oPPYcoa8sdSpBt1TmD2d/GN+XqeOwDW5TA/B5YJZCTvDgMf9f8Bi9kmst
-   QOy4YBDxZ+V8cp0LxPF2FeQVjX8c+vawguzg4rJJ1pDKWuXpDQqHDGl66
-   /s/7y2PhE5mUTAGL7vMLPpposWJMjbeyjhsSiiH2U3wb8dXlwqLJmYy9O
-   +0SvF+45krgELhqJUfI3vL9rZ8IzEiobqIiCWy2wu4Tzp+ZAEcHxY93cO
-   GT01/eUpobzsh/7x+ycp7qB87ZtHQL7zrgB5mTgA/namTqT4N48X9h8Z0
-   Q==;
-X-CSE-ConnectionGUID: 66KKyDcwSXqYGvqmVYnhoA==
-X-CSE-MsgGUID: Ic3ak8C7QAmNxE/p/k65Qg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="22170740"
-X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="22170740"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 08:35:30 -0700
-X-CSE-ConnectionGUID: QeVF/QH+QjGKenuqCcgRMQ==
-X-CSE-MsgGUID: ttB0uM89R6+YujKGUAEinA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,149,1719903600"; 
-   d="scan'208";a="59051723"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Aug 2024 08:35:28 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1secVa-0003mW-1c;
-	Thu, 15 Aug 2024 15:35:26 +0000
-Date: Thu, 15 Aug 2024 23:34:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	jianhui.j.dai@intel.com, tfiga@chromium.org, bingbu.cao@intel.com,
-	bingbu.cao@linux.intel.com
-Subject: Re: [PATCH] media: intel/ipu6: optimize the IPU6 MMU mapping and
- unmapping flow
-Message-ID: <202408152355.Qx4KRzRh-lkp@intel.com>
-References: <20240815030829.1608953-1-bingbu.cao@intel.com>
+	s=arc-20240116; t=1723736597; c=relaxed/simple;
+	bh=tBcHQi3i5KC4GbpIUxL7ctt8uCWrcYcOXO6IpVSWLr0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Dibc5BPYUfJCpAUfBvR1N4r+KPiWT/AIgGEnCmUf/saHG12NROCvB+YgxxOwxu8zAYtmnJhY2BRM4q//iw5n3wTbs3R7g8owBOY6rEvTLL4VSMMQFKRayJXnedvxrH9nNs+F4Iubp4mN9BJl5eS3egpXeB3f4eIQ6nfr/InQwZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=b9HMzwuU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47F7GjGx027121;
+	Thu, 15 Aug 2024 15:43:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Cc5I816aayP0mBk0qxI4DbcgcOavj8/4JMXIypN4nOM=; b=b9HMzwuUBChD3jXQ
+	Dxv888teONxnPTj9jKz48fhmnK+UurW3UBh1XdWARlsIUEChOaVCTGowNEuzSUiC
+	xadUvrfIv0ffcLcsfbhDc4Z34vLQoXjWujFIOfEcUIX2egqh4+jIjbJYbqaU8exz
+	rKJPC1N+TOUNRm2xTFUzQzLNZRyZkf546ImqZqfGOSAgW2QSPtJXe5aOouRvXG+s
+	DHcXxZCfGfMHpf0KA9voAJAP83JJkR55TLZyCLYxFWC7/h1LnOG7laOLqGoCfG57
+	f2pzh3mshTBy+TMs0v6B7UAgkp9h6zH+TbHSh2snINaoZ4mY6+Fvu1UL4L6gVKsW
+	HlfYBQ==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 411d5696n8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Aug 2024 15:43:11 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47FFhA9e009900
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 Aug 2024 15:43:10 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 15 Aug
+ 2024 08:43:04 -0700
+Message-ID: <5ecbcd10-d9b7-4134-9666-6df790527b1f@quicinc.com>
+Date: Thu, 15 Aug 2024 23:43:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240815030829.1608953-1-bingbu.cao@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
+ version Titan 780
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-14-quic_depengs@quicinc.com>
+ <4b745c1a-33d9-472a-97af-153a2a7c8721@linaro.org>
+ <2de0b7a8-b879-49e9-9656-ec86f29ce559@quicinc.com>
+ <b0787142-0f85-4616-9895-72e33f21c2da@linaro.org>
+ <82200889-a98d-4815-bc31-f81b15d02513@quicinc.com>
+ <7130beef-7787-42a1-85c8-f27574241ba7@linaro.org>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <7130beef-7787-42a1-85c8-f27574241ba7@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: SOKR9LGmzhsvDDb1iqN5A6exNM_nnP1n
+X-Proofpoint-ORIG-GUID: SOKR9LGmzhsvDDb1iqN5A6exNM_nnP1n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-15_08,2024-08-15_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ malwarescore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0
+ suspectscore=0 bulkscore=0 clxscore=1015 phishscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408150114
 
-Hi,
+Hi Vladimir,
 
-kernel test robot noticed the following build warnings:
+>>
+>> Thanks for the confirmation, even though I add the rup_update and
+>> buf_done function in later commits, it is still called in platform
+>> specific code(camss-vfe-780.c), so I will keep as it is done today.
+> 
+> let it be so.
+> 
+> I have another ask about it, please move new camss_reg_update() out from
+> camss.c into camss-csid.c, and camss_buf_done() from camss.c into camss- 
+> vfe.c
+> 
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on sailus-media-tree/master linuxtv-media-stage/master linus/master v6.11-rc3 next-20240815]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The cross direct call has been removed by below commit, so it looks 
+strange if I add the cross direct call.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/bingbu-cao-intel-com/media-intel-ipu6-optimize-the-IPU6-MMU-mapping-and-unmapping-flow/20240815-111022
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240815030829.1608953-1-bingbu.cao%40intel.com
-patch subject: [PATCH] media: intel/ipu6: optimize the IPU6 MMU mapping and unmapping flow
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240815/202408152355.Qx4KRzRh-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240815/202408152355.Qx4KRzRh-lkp@intel.com/reproduce)
+media: qcom: camss: Decouple VFE from CSID
+https://lore.kernel.org/lkml/20240522154659.510-9-quic_grosikop@quicinc.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408152355.Qx4KRzRh-lkp@intel.com/
+I use the v4l2_subdev_notify to do the cross communication in v1 and v2 
+series, but Bryan said, "The subdev notify is I think not the right fit 
+for this purpose within our driver.".
+Then I add an internal notify interface in camss structure, but Bryan 
+suggested to use direct call, so I add these functions directly in camss.c
 
-All warnings (new ones prefixed by >>):
+https://lore.kernel.org/all/236cfe43-8321-4168-8630-fb9528f581bd@linaro.org/
 
->> drivers/media/pci/intel/ipu6/ipu6-mmu.c:261:9: warning: variable 'unmapped' set but not used [-Wunused-but-set-variable]
-     261 |         size_t unmapped = 0;
-         |                ^
-   1 warning generated.
-
-
-vim +/unmapped +261 drivers/media/pci/intel/ipu6/ipu6-mmu.c
-
-   254	
-   255	static void l2_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
-   256			     phys_addr_t dummy, size_t size)
-   257	{
-   258		unsigned int l2_entries;
-   259		unsigned int l2_idx;
-   260		unsigned long flags;
- > 261		size_t unmapped = 0;
-   262		u32 l1_idx;
-   263		u32 *l2_pt;
-   264	
-   265		spin_lock_irqsave(&mmu_info->lock, flags);
-   266		for (l1_idx = iova >> ISP_L1PT_SHIFT;
-   267		     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
-   268			dev_dbg(mmu_info->dev,
-   269				"unmapping l2 pgtable (l1 index %u (iova 0x%8.8lx))\n",
-   270				l1_idx, iova);
-   271	
-   272			if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval) {
-   273				dev_err(mmu_info->dev,
-   274					"unmap not mapped iova 0x%8.8lx l1 index %u\n",
-   275					iova, l1_idx);
-   276				continue;
-   277			}
-   278			l2_pt = mmu_info->l2_pts[l1_idx];
-   279	
-   280			l2_entries = 0;
-   281			for (l2_idx = (iova & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
-   282			     size > 0 && l2_idx < ISP_L2PT_PTES; l2_idx++) {
-   283				dev_dbg(mmu_info->dev,
-   284					"unmap l2 index %u with pteval 0x%10.10llx\n",
-   285					l2_idx, TBL_PHYS_ADDR(l2_pt[l2_idx]));
-   286				l2_pt[l2_idx] = mmu_info->dummy_page_pteval;
-   287	
-   288				iova += ISP_PAGE_SIZE;
-   289				unmapped += ISP_PAGE_SIZE;
-   290				size -= ISP_PAGE_SIZE;
-   291	
-   292				l2_entries++;
-   293			}
-   294	
-   295			WARN_ON_ONCE(!l2_entries);
-   296			clflush_cache_range(&l2_pt[l2_idx - l2_entries],
-   297					    sizeof(l2_pt[0]) * l2_entries);
-   298		}
-   299	
-   300		WARN_ON_ONCE(size);
-   301		spin_unlock_irqrestore(&mmu_info->lock, flags);
-   302	}
-   303	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Depeng
 
