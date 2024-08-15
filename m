@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-16331-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16332-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936029529E6
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 09:30:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0259529E7
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 09:30:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C71601C213C8
-	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 07:30:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 838E82821B5
+	for <lists+linux-media@lfdr.de>; Thu, 15 Aug 2024 07:30:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E94201917EB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F10DD194C73;
 	Thu, 15 Aug 2024 07:30:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="egf+AEVd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z4vlJVxs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB8D15E5D4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB4342AB1;
 	Thu, 15 Aug 2024 07:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723707002; cv=none; b=Hb3SeegvWBnGlzf4c22f+MkbWxIDYr4YKW562B5d2njjpzLO0yt4Caf9otWr0LDGnVWuYzORmdaVMrm+Y9lP8GUlxVjnRvhpLZV5lFCUrPoQC9erAxJY5mwB4c1mjNB/lwoR/4o/3s21IH/pC2THvLHQw83vdgSZUzvx1SUHsQc=
+	t=1723707002; cv=none; b=m2PGXMYQflZcOa7JaWFUpwd/8AS8UGlToRnIZKLQSn/le/gsYLSGq8KjAzjyWHSznjduW/z1fp5vFgDTzuz9gin2lPUYpRkF9eKoWgnYOxnzM/baqzWtdcfooYdL9zkFvLHgXioNXVvnowxHOouNIkVqeJCfg7lo2q0QrdJvjLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1723707002; c=relaxed/simple;
-	bh=t/W6Vp/61YIZT5YMzdtttHqcOF8Ic+esGOIm7XmKXgE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YXMNBKb6uhtBSEQ8sIMt2Tw+j9HhXPxgiD7wDNrBazKRQelZEUAl9OURFGUSoOtdOhhXssl3/VE8cbBIpW3QNF+f6OXCYKjPFrU6E4vCRs3nQ5/E8wZuIEiq73MUmfeOCm9S9yo/HKoXxD14rVXzMANSwj6zWUaghq5D3SW1l4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=egf+AEVd; arc=none smtp.client-ip=213.167.242.64
+	bh=bn7hb6abGotN+zJtZ8HsRWN0WBNQG9WEsGLPob3ZvdA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YaGHnIB5ae4NLR9gxThfIXaCqSU8xo0rAaxMYlYbxyumgHJtwN0ruumXEoDinQ3RoCgDpbIE0UyjblqxxtAalaaczrQXtRNyzsfz4qH76bSJr3JENBV4Kr6M+GmLhykVdA7DbDZpmVGcawyzLuywqp7gIuDFBQIy+/1YqzLSKU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z4vlJVxs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-156-87-48.elisa-laajakaista.fi [91.156.87.48])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC737A34;
-	Thu, 15 Aug 2024 09:28:52 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 180A6827;
+	Thu, 15 Aug 2024 09:28:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1723706933;
-	bh=t/W6Vp/61YIZT5YMzdtttHqcOF8Ic+esGOIm7XmKXgE=;
-	h=From:Subject:Date:To:Cc:From;
-	b=egf+AEVdMtLcBIrB+mB35wwowxbnG7e1oR7BImyXnXVTXFyrNxc/9/pSGAZD4VoST
-	 1QGKLLGJavQbu+ZGR1y1827lmEP1wsm4OYCoL4NPoIE2rT0su62M8dAlNKohWPSII7
-	 FNW/pBfv42S2ogGosMK+QGmArPFifqVn+RSKvfv0=
+	s=mail; t=1723706935;
+	bh=bn7hb6abGotN+zJtZ8HsRWN0WBNQG9WEsGLPob3ZvdA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Z4vlJVxsoddUbNjmQ/ZWgs6CXr4epUbUWq2TSIb0cOEZEglXF4JA8TJb2Xrj8L+Ob
+	 FbMfa6l1zefPIGpouCGMLK97+kkwfVbEpcujVDZr4dYRBR4KiBCBWfX1yeBRrpbCfc
+	 /qMmjm1kjyb8MaTLCKz2mpT5bOT24BNtQB9QHD2E=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 0/4] media: raspberrypi: Support RPi5's CFE
-Date: Thu, 15 Aug 2024 10:28:51 +0300
-Message-Id: <20240815-rp1-cfe-v3-0-e15a979db327@ideasonboard.com>
+Date: Thu, 15 Aug 2024 10:28:52 +0300
+Subject: [PATCH v3 1/4] media: uapi: Add meta formats for PiSP FE config
+ and stats
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,11 +53,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADOuvWYC/22Qy07DMBBFfyXyGge/mpgIIf4DsRjHk3YqHAc7j
- Yqq/jtOKugCltfje3RmLixjIsysqy4s4UKZ4liCfqhYf4Bxj5x8yUwJZYSWhqdJ8n5ALo1yjbK
- uVdKw8ntKONB5I729l3ygPMf0tYEXub7+MOwvY5FccOgb/9SIYVDKv5JHyHF0EZKv+xjYilrUv
- d4oca+rUnfWGTt4B9rpf+rXm1rCz1PZbb75MQcZeZkHmrvqg8bTmQf0BDzPsMfHAHnGtG4VMGf
- YjtBVz5vATkthRSvaWptdY7nkR+jjFOsQR09/DF6KwvUbxVDQEWYBAAA=
+Message-Id: <20240815-rp1-cfe-v3-1-e15a979db327@ideasonboard.com>
+References: <20240815-rp1-cfe-v3-0-e15a979db327@ideasonboard.com>
+In-Reply-To: <20240815-rp1-cfe-v3-0-e15a979db327@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
  Rob Herring <robh+dt@kernel.org>, 
@@ -73,108 +72,123 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3871;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4361;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=t/W6Vp/61YIZT5YMzdtttHqcOF8Ic+esGOIm7XmKXgE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmva5p+ylObJraW8p6QZX1y9QsysS9dk1ve97p7
- 6A1Vkx7PHaJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZr2uaQAKCRD6PaqMvJYe
- 9Q7TD/9Ifs+pd2qzzNpppbK83PyThnrAToWLBkuF+66Y8uIODBN6KxCh/eS8pltsrYSwSo/eLFB
- TMz3m6Kt7QNpVcf2pph8pboGVwQKA0SJ+Wm3boMBh5Pn/NS+GpEfHh2lHWY1cCgaDW/qHh7nmEd
- tq/fSELIUwwi/PmcInF9xZQ86cevxZHGKn0mFLFN96zUE3bsrhgSxtZ3DBmlS4OMY1AP6Hig162
- nINHb3giOTxBvjvUghPN1mQQ2sJnXEx5UWr6e3UOx2qaJKav2yQrHzvmWyFrHqilaW6hIImVZml
- Glnkcd2h8QbAkORgNMQTbOTweO5mbp+XwnarhRcDEZOJRvw+c3Pfx3cTH7b2ttFmQPv4prkKs9I
- GavJ4RUKN4kIcAcyXMC+uWn736tOZhgDRA0LputLQiR//zdew+kI4DIBPvWitjWmUWLGPwVvcNJ
- Xmenhz3f0dhLz5EHiI2EVQ6RBQBxGeyBYXCKR/cLWnIFfXctZDVuV5eiHKSeAzUVOo7+tQ7/uuz
- Ve+A3A0wx1vvoe3kSz/ydCE4vxd1Pi3z417MacvqnPW5qVmikoL+cUh1C4qNvN41jznwhkDPmm5
- pLkE0HiVZ6sX4eSh1Z0h+5zQagZyeO3LlUKjYACLwuIacZwh7RswJDTtGQ0IRaqKFmMX726zEub
- I5CzOUzhgajNbjw==
+ bh=bn7hb6abGotN+zJtZ8HsRWN0WBNQG9WEsGLPob3ZvdA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBmva5tVrV/zbUmV/w0YCQBIy1PpG4gVa+i3UJob
+ vY4J02iYkSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZr2ubQAKCRD6PaqMvJYe
+ 9dR/D/9NeBqAi3Q9TBQvPDqtI78pv/0U1xeMmHnVZvqOLYrFVdPDwwWQJOZT6T1RjZmlMy2DZ1o
+ ybm4yA3PqIXtFsdiAQRtYsBww6H/RqcBxIvOe0Yiul9DYx9ZS92GGD+A5IqfOChndRYcs/0ImGf
+ ZqIwpygk3uO9K57HLhBbJiJEH1ubpi2z3pq+Fb9/wRrtzaYaUUVrAKmLfk42gbSKezgdVhFH/Pe
+ /qxA+OSb3IJktAmuUd+fiO+XHdT4STxwXvmnABjdSkra0tGuAPca0tvt3QwodO3zrzCri5bRAdG
+ 97TozN1KG9m5UdSsemga8JKoKWMJ8z5lJjEjQ/BANPhL39xi2Y6MIYkeLOLcMWSYzOcghKRc00m
+ e0aKJOEq5DVgCx841OZw2ntYsZ/IMHwKMUt5SvXOYf0fUU/qUWlPUXdg/iYVpuPNNOMF7bAVFsv
+ a7CV1QtMT55lYvYQ8zi/9AO+SBklEpiUuYud7QVVgh4BphtuV6+R39cRhuPg7rrFynsZhJupufG
+ 5RMW1CwJPUuCFQTcpvQkXwYR/dFPf+6FAkGFmr5/gIVfbwvnD4WvcEX/Z72W6y4s1QCvp9hz4/E
+ b8R/PwOEAFi6g9BQH72+MLb+oFI8zc4oht+LAfPQvypx3TCDBVSwkbuW60ObFvNeZcZsf2NqZgi
+ 1AjcM3OphMxzIyw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-This series adds support to the CFE hardware block on RaspberryPi 5. The
-CFE (Camera Front End) contains a CSI-2 receiver and Front End, a small
-ISP.
-
-To run this, you need the basic RPi5 kernel support plus relevant dts
-changes to enable the cfe and camera. My work branch with everything
-needed to run CFE can be found from:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git rp1-cfe
-
-A few notes about the patches:
-
-- The original work was done by RaspberryPi, mostly by Naushir Patuck.
-- The second video node only sets V4L2_CAP_META_CAPTURE instead of both
-  V4L2_CAP_META_CAPTURE and V4L2_CAP_META_CAPTURE like the other nodes.
-  This is a temporary workaround for userspace (libcamera), and
-  hopefully can be removed soon.
-
-I have tested this with:
-- A single IMX219 sensor connected to the RPi5's CSI-2 port
-- Arducam's UB960 FPD-Link board with four imx219 sensors connected
-
- Tomi
+Add two meta formats for PiSP FE: V4L2_META_FMT_RPI_FE_CFG and
+V4L2_META_FMT_RPI_FE_STATS. The former is used to provide configuration
+for the FE and the latter is used to read the statistics from the FE.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
-Changes in v3:
-- Based on v6.11-rc3. The PiSP BE series is now in upstream so no extra
-  dependencies are needed.
-- Fixed cfe_remove() return value, as the .remove hook has changed
-- Added Krzysztof's Rb.
-- Link to v2: https://lore.kernel.org/r/20240620-rp1-cfe-v2-0-b8b48fdba3b3@ideasonboard.com
+ .../userspace-api/media/v4l/meta-formats.rst       |  1 +
+ .../userspace-api/media/v4l/metafmt-pisp-fe.rst    | 39 ++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c               |  2 ++
+ include/uapi/linux/videodev2.h                     |  2 ++
+ 4 files changed, 44 insertions(+)
 
-Changes in v2:
-- Change the compatible string back to raspberrypi,rp1-cfe from raspberrypi,rpi5-rp1-cfe
-- Drop the references to rp1 headers in the DT binding example. This
-  allows compiling the example without the rp1 support.
-- Fix missing remap lines for mono formats
-- Fix csi2_pad_set_fmt() so that the format can be changed back to the
-  sink's format from 16-bit or compressed format.
-- Link to v1: https://lore.kernel.org/r/20240318-rp1-cfe-v1-0-ac6d960ff22d@ideasonboard.com
+diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+index c6e56b5888bc..86ffb3bc8ade 100644
+--- a/Documentation/userspace-api/media/v4l/meta-formats.rst
++++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+@@ -16,6 +16,7 @@ These formats are used for the :ref:`metadata` interface only.
+     metafmt-generic
+     metafmt-intel-ipu3
+     metafmt-pisp-be
++    metafmt-pisp-fe
+     metafmt-rkisp1
+     metafmt-uvc
+     metafmt-vivid
+diff --git a/Documentation/userspace-api/media/v4l/metafmt-pisp-fe.rst b/Documentation/userspace-api/media/v4l/metafmt-pisp-fe.rst
+new file mode 100644
+index 000000000000..fddeada83e4a
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/metafmt-pisp-fe.rst
+@@ -0,0 +1,39 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _v4l2-meta-fmt-rpi-fe-cfg:
++
++************************
++V4L2_META_FMT_RPI_FE_CFG
++************************
++
++Raspberry Pi PiSP Front End configuration format
++================================================
++
++The Raspberry Pi PiSP Front End image signal processor is configured by
++userspace by providing a buffer of configuration parameters to the
++`rp1-cfe-fe-config` output video device node using the
++:c:type:`v4l2_meta_format` interface.
++
++The `Raspberry Pi PiSP technical specification
++<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf>`_
++provide detailed description of the Front End configuration and programming
++model.
++
++.. _v4l2-meta-fmt-rpi-fe-stats:
++
++**************************
++V4L2_META_FMT_RPI_FE_STATS
++**************************
++
++Raspberry Pi PiSP Front End statistics format
++=============================================
++
++The Raspberry Pi PiSP Front End image signal processor provides statistics data
++by writing to a buffer provided via the `rp1-cfe-fe-stats` capture video device
++node using the
++:c:type:`v4l2_meta_format` interface.
++
++The `Raspberry Pi PiSP technical specification
++<https://datasheets.raspberrypi.com/camera/raspberry-pi-image-signal-processor-specification.pdf>`_
++provide detailed description of the Front End configuration and programming
++model.
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 5eb4d797d259..95c2c4a97966 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1466,6 +1466,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_Y212:		descr = "12-bit YUYV Packed"; break;
+ 	case V4L2_PIX_FMT_Y216:		descr = "16-bit YUYV Packed"; break;
+ 	case V4L2_META_FMT_RPI_BE_CFG:	descr = "RPi PiSP BE Config format"; break;
++	case V4L2_META_FMT_RPI_FE_CFG:  descr = "RPi PiSP FE Config format"; break;
++	case V4L2_META_FMT_RPI_FE_STATS: descr = "RPi PiSP FE Statistics format"; break;
+ 	case V4L2_META_FMT_GENERIC_8:	descr = "8-bit Generic Metadata"; break;
+ 	case V4L2_META_FMT_GENERIC_CSI2_10:	descr = "8-bit Generic Meta, 10b CSI-2"; break;
+ 	case V4L2_META_FMT_GENERIC_CSI2_12:	descr = "8-bit Generic Meta, 12b CSI-2"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 4e91362da6da..9f68cd55248f 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -857,6 +857,8 @@ struct v4l2_pix_format {
+ 
+ /* Vendor specific - used for RaspberryPi PiSP */
+ #define V4L2_META_FMT_RPI_BE_CFG	v4l2_fourcc('R', 'P', 'B', 'C') /* PiSP BE configuration */
++#define V4L2_META_FMT_RPI_FE_CFG	v4l2_fourcc('R', 'P', 'F', 'C') /* PiSP FE configuration */
++#define V4L2_META_FMT_RPI_FE_STATS	v4l2_fourcc('R', 'P', 'F', 'S') /* PiSP FE stats */
+ 
+ #ifdef __KERNEL__
+ /*
 
----
-Tomi Valkeinen (4):
-      media: uapi: Add meta formats for PiSP FE config and stats
-      dt-bindings: media: Add bindings for raspberrypi,rp1-cfe
-      media: raspberrypi: Add support for RP1-CFE
-      media: admin-guide: Document the Raspberry Pi CFE (rp1-cfe)
-
- .../admin-guide/media/raspberrypi-rp1-cfe.dot      |   27 +
- .../admin-guide/media/raspberrypi-rp1-cfe.rst      |   78 +
- Documentation/admin-guide/media/v4l-drivers.rst    |    1 +
- .../bindings/media/raspberrypi,rp1-cfe.yaml        |   98 +
- .../userspace-api/media/v4l/meta-formats.rst       |    1 +
- .../userspace-api/media/v4l/metafmt-pisp-fe.rst    |   39 +
- MAINTAINERS                                        |    8 +
- drivers/media/platform/raspberrypi/Kconfig         |    1 +
- drivers/media/platform/raspberrypi/Makefile        |    1 +
- drivers/media/platform/raspberrypi/rp1-cfe/Kconfig |   14 +
- .../media/platform/raspberrypi/rp1-cfe/Makefile    |    6 +
- .../media/platform/raspberrypi/rp1-cfe/cfe-fmts.h  |  332 +++
- .../media/platform/raspberrypi/rp1-cfe/cfe-trace.h |  196 ++
- drivers/media/platform/raspberrypi/rp1-cfe/cfe.c   | 2524 ++++++++++++++++++++
- drivers/media/platform/raspberrypi/rp1-cfe/cfe.h   |   43 +
- drivers/media/platform/raspberrypi/rp1-cfe/csi2.c  |  583 +++++
- drivers/media/platform/raspberrypi/rp1-cfe/csi2.h  |   89 +
- drivers/media/platform/raspberrypi/rp1-cfe/dphy.c  |  175 ++
- drivers/media/platform/raspberrypi/rp1-cfe/dphy.h  |   27 +
- .../media/platform/raspberrypi/rp1-cfe/pisp-fe.c   |  581 +++++
- .../media/platform/raspberrypi/rp1-cfe/pisp-fe.h   |   53 +
- drivers/media/v4l2-core/v4l2-ioctl.c               |    2 +
- .../uapi/linux/media/raspberrypi/pisp_fe_config.h  |  273 +++
- .../linux/media/raspberrypi/pisp_fe_statistics.h   |   64 +
- include/uapi/linux/videodev2.h                     |    2 +
- 25 files changed, 5218 insertions(+)
----
-base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
-change-id: 20240314-rp1-cfe-142b628b7214
-
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.43.0
 
 
