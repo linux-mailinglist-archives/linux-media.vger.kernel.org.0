@@ -1,107 +1,132 @@
-Return-Path: <linux-media+bounces-16372-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16373-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06C395475E
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 13:02:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C08954820
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 13:34:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D8FFB2198D
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 11:02:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 142902874EC
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 11:34:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B28A2195B33;
-	Fri, 16 Aug 2024 11:02:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B104A18D649;
+	Fri, 16 Aug 2024 11:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GunVUYqC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEE3817
-	for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 11:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A39155727
+	for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 11:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723806143; cv=none; b=UtMrI2CZX/Y+DH8Gm64USjiH7DfKHF0cKUVmEpEkaYLA7sxstqioLWWJxPvob7kQa8O/W1ZHgUEB7VVSZFfb+abkTT7ihQuX7sYbaloc7uBgGFcHbegnmX/KhPWtC1iS6RChSYftcPOeS6jajxEmyiASNaum5fiZmkCJkYCFzFk=
+	t=1723808065; cv=none; b=Vc0NjIxxV31S19CirtgiptV2LcMiU/XzteDT9z8XvgGQEQ2V4EEEXQTTTzcRLNvQbfKAeV+Ljv7KuwVC2i3ni4ssxYm9L9kLAcZQmD4auMM6Gy6eteYdQoaOQXrN7XOpqh1ZZV6NetdRkYdikOz6IVO+Vdt9vyQ27Gr/T0bZB7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723806143; c=relaxed/simple;
-	bh=+3LZ3E5migCSCiZ9slcN8HbbaDJtmC5fEorX8bFSQy0=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=VuhvDJQiRamCHQZH3Buv4K9ThYkpG77aLoOB47aOn29fEcSrEObmLAkFSn3psG5PvenVBhgFzVEHmDSjfrsxwC64HHTLDlizLU5uCx4UzKZAh/n7YNaEWrmw0b7zNcX2toVMMPd3vtQZhlxhtGVz5Fkk1MCuIOUYVE20+zeWvFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1seuir-00017t-1d;
-	Fri, 16 Aug 2024 11:02:21 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1seuir-00FJUr-1F;
-	Fri, 16 Aug 2024 11:02:21 +0000
-Date: Fri, 16 Aug 2024 11:02:21 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <811865535.1.1723806141382@builder.linuxtv.org>
-In-Reply-To: <1192596175.1.1723368733699@builder.linuxtv.org>
-References: <1192596175.1.1723368733699@builder.linuxtv.org>
-Subject: Build failed in Jenkins: edid-decode #328
+	s=arc-20240116; t=1723808065; c=relaxed/simple;
+	bh=6R50P25VUglNb6oXZN4lyDG1RygKx2LfyxopQiWqb7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DDGwMgWOVzUnc5aAAbNMKSlhK60auvlz55g8OyANLOYFByJuwUmcHkR6nUEhyjzJD0njUh7FDP9B+REayt4Du9e+rpnB+Rb43iYlP/Nhsm+fc2Loh/GV4U2fiVcaLa7FCltj0xWkAWT0VS7fejyDB0pM7obadLl4jiRV+LzwUDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GunVUYqC; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso13718125e9.1
+        for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 04:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723808062; x=1724412862; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mFzZNe7OfgMfItNDQGhaTWGUwq1aQam/TzneCKR2kpI=;
+        b=GunVUYqCjNFy2O6UC5W3NC0YVF9L0W4156eszaYm52HeorFYQpwQ0WQq3hAflF1UL1
+         X+zAX2VY8Jp87RBy4KucXW3xE6a9Xr+wZBeWjVlRmkVswG6TN5TkQVOCTNwBuYVGWscR
+         jb6RESLB40XOoSjvA2qVhs8ypTgBdVOvqJ4it7+dePbHl0mU/1wm8eL9sXNF/vhBA3kh
+         LKKUC/Ay5WoiF9+heBMAiO7DK8bqqF9n/aloBzWvcarYE+VzG+4Ppny8epvFHZx3pSvu
+         qz/eKMZB1NK1rcnTjr9MkuDtC9iTIMxfJB5d+x+ocufmMrOsdvT3HxYeyxhBOLyyitYF
+         KpAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723808062; x=1724412862;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mFzZNe7OfgMfItNDQGhaTWGUwq1aQam/TzneCKR2kpI=;
+        b=uQZgc6ngjRGaOwlf6X8lEjoJcAPVOsVSISeQZH8QoTVyzGZi0SrRKHh8jMYuHtRoDG
+         D5CCGBrhsK/dQ3mC7tqpj78nk9mueBvfNZEpGpVHwiDFAnrESbehTXm1/ZYjaLWp1k2w
+         Q7D7W+Ln6wmeiK2CFFbIT/sYHu7y9ugdcWsD+OCXg+7m7VLeG6xjMHZfGx10014HafCl
+         Luw7dRjoWS7EGbwyjpiKn1s3vdMF/W1vw37e+7hw6NeUcRR0pL8CSJ62QATrZtCYCJEi
+         rqqcGN+1ENFg7X0N9YsKHhNSrS2gcQ6HdbyHgbvjnWpovT9Ql3hA08C7SDzB91bQp7F/
+         pG/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU4nfc9Uz7BGCvMiQVta3mInLsFSP9QMFtcCHn+aXXtTVK5w+CKzdu00Uf61kQyUUCItRNeQje9Zzxhmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1hXTY1oBR7wcvgqwetKO3qLzZQJiyj2N8/uuvGQDaPUnoHnYZ
+	tV0pi79Xi/BVF5o5y16c9RLzJjFiWvydp5I7k9h2aLl5+WRsS1aNo7u73WhcG1iYD8SJJoOhsWS
+	B
+X-Google-Smtp-Source: AGHT+IGPR3fLSe1jPOcXZeD3IwyAqLhaj+Dpm02AIv35ZOc+p+G7vfooX3dSt+28S0R/vGn/23MHiA==
+X-Received: by 2002:a05:6000:1112:b0:368:714e:5a5e with SMTP id ffacd0b85a97d-3719431764cmr1940797f8f.2.1723808061661;
+        Fri, 16 Aug 2024 04:34:21 -0700 (PDT)
+Received: from [192.168.0.25] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898b8ae2sm3469287f8f.113.2024.08.16.04.34.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Aug 2024 04:34:21 -0700 (PDT)
+Message-ID: <9c254643-2d95-43c5-98c5-cc6f2866213b@linaro.org>
+Date: Fri, 16 Aug 2024 12:34:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/13] media: qcom: camss: Add CSID Gen3 support for
+ sm8550
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-13-quic_depengs@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20240812144131.369378-13-quic_depengs@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: edid-decode
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
 
-See <https://builder.linuxtv.org/job/edid-decode/328/display/redirect?page=changes>
+On 12/08/2024 15:41, Depeng Shao wrote:
+> +
+> +static void csid_configure_stream(struct csid_device *csid, u8 enable)
+> +{
+> +	u8 i;
+> +
+> +	/* Loop through all enabled VCs and configure stream for each */
+> +	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+> +		if (csid->phy.en_vc & BIT(i)) {
+> +			__csid_configure_top(csid);
+> +			__csid_configure_rdi_stream(csid, enable, i);
+> +			__csid_configure_rx(csid, &csid->phy, i);
+> +			__csid_ctrl_rdi(csid, enable, i);
+> +		}
+> +}
 
-Changes:
+Just noticed this too.
 
-[Hans Verkuil] edid-decode: add options to read EDID and HDCP data directly from DDC
+You're configuring the CSID routing here for each enabled VC but, you 
+should only do that once @ the top level
 
-[Hans Verkuil] edid-decode: fix emscripten build
+->
 
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/edid-decode/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/edid-decode/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/edid-decode.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/edid-decode.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/edid-decode.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 590a1ae57a3be3d590b5ab401086e7ec9672e3f5 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 590a1ae57a3be3d590b5ab401086e7ec9672e3f5 # timeout=10
-Commit message: "edid-decode: fix emscripten build"
- > git rev-list --no-walk c3708827ae080b3ae8118a1bd812c53c760accc5 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 590a1ae57a3be3d590b5ab401086e7ec9672e3f5^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/edid-decode.git'
-[GitCheckoutListener] Found previous build 'edid-decode #327' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since 'c370882'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit '590a1ae' as starting point
-[GitCheckoutListener] -> Recorded 2 new commits
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@4d53b44f'
-[edid-decode] $ /bin/sh -xe /tmp/jenkins1197945266960351725.sh
-+ make
-make: *** No targets specified and no makefile found.  Stop.
-Build step 'Execute shell' marked build as failure
+	__csid_configure_top(csid);
+
+	/* Loop through all enabled VCs and configure stream for each */
+	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
+		if (csid->phy.en_vc & BIT(i)) {
+			__csid_configure_rdi_stream(csid, enable, i);
+			__csid_configure_rx(csid, &csid->phy, i);
+			__csid_ctrl_rdi(csid, enable, i);
+		}
+
+---
+bod
 
