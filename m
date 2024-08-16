@@ -1,117 +1,113 @@
-Return-Path: <linux-media+bounces-16398-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16399-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2131954DE7
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 17:36:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DCE9551AC
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 21:57:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81552281465
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 15:36:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFC321F22600
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 19:57:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFCC21BE87D;
-	Fri, 16 Aug 2024 15:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKSTGrm8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30F351C4630;
+	Fri, 16 Aug 2024 19:57:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51CA1BDA94;
-	Fri, 16 Aug 2024 15:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716B01BE861
+	for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 19:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723822514; cv=none; b=q8vdHNDbEtIVp/Jle4ZR6+Qb0Q2g4qgWqA1nO4BCiOQUoiu3YE5CiN/NvmxC+l19eHqfkNLfS68Wyz9ROfQo4DzeyRACsH72BHFtT/z1uUsxNW6pVdEYh29cOUq+gwpxW4G5FApEprUi1lSiw6iAMo0nPyjk1i7jTRrePYT1TO4=
+	t=1723838246; cv=none; b=iVlPEFE6CMAjbfuxAEx5c/NzuYrDWsz8N0808sJSMWNnp+qKJEgGFxhCE6ExLWXSwoOrpYnDATq0ZOdoHMUYbxTFWMwVNKtvLzazh2DYs+acQFdGvORXQym/S9WmfjgQbWm1+tx7is0m7Z/eN2cVbadFBGFv54219sEeF6DKzV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723822514; c=relaxed/simple;
-	bh=Q18cNSCViMkznglQB7U8THt2jlE6uRjEx/JSrUARwzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QfDIvowUn708IFttF9aIWWLZhB9jvsVT9fLhFMcle1MI9fav49grmqhGIY13TsYQQUXajDVB8SCq4Nc9KOIPTPoNt26ucXVjL+EQNFzQT1k+iFGvUeaLAz3s+DGK9P3YCe54ZAB1SKCrBv5pM/aJz7JRsXRJ3TR81a04RtUVp10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKSTGrm8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C32C32782;
-	Fri, 16 Aug 2024 15:35:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723822513;
-	bh=Q18cNSCViMkznglQB7U8THt2jlE6uRjEx/JSrUARwzc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bKSTGrm8LaF2gwztx+/6SinSoy24s5gR4CldYRBEkiNOSwgcpm7hLvrrK2gtq0Pvx
-	 hMOv7Np2xjcElkjbz06G6kxT1paCcuIl6tgDnhA1FReWgEk0VrJIV5VnmY28VW+uM3
-	 rZACO8v+MYhjqas3sNB0o4umHsNfCDqpROl01Mt/tH5odX/nLSTCmpnMqAFo9lHFii
-	 7gaHt6gXGlFMnEUaVC739Sgm/hKhGjvNlG4yZPxcjScZu7DwFyzYVs8aZxgV2ToxjC
-	 MflEhOxEm/9blSXnL7eNEt3U0O1uRbAir3rluhSYsWuh/JjkeQLFqL1D7S/NCKi2I7
-	 8SQyYhQ0iAcDw==
-Date: Fri, 16 Aug 2024 08:35:10 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, Herbert
- Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, Willem
- de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Christoph
- Hellwig <hch@infradead.org>, Nikolay Aleksandrov <razor@blackwall.org>,
- Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, Jason
- Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, Shailend
- Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem
- memory provider
-Message-ID: <20240816083510.3386fb10@kernel.org>
-In-Reply-To: <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
-References: <20240813211317.3381180-7-almasrymina@google.com>
-	<de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com>
-	<CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
-	<31640ff4-25a6-4115-85e6-82092ce57393@gmail.com>
-	<20240815182245.2b5e3f44@kernel.org>
-	<CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
+	s=arc-20240116; t=1723838246; c=relaxed/simple;
+	bh=EFYQwCeDGHtxmSutB9dT36o6ha9RtgGQNUsH53Alp2E=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=UuHPHvOmAJjR1Kxt81rLDPHgebc76Re8tEgmtLM9SylSgmYhbf8pBEOt7Yc0lR0rvGFO2K8MyJb39p/bUqn5uvBSn0pf2st/ik3YTLBw28tFuJ2g11mbve8NS7aHoHskyauekPX1+KaSiBsN9fWlo47vA3IM8cN3eMqoXdVJgGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-39b3cd180ffso24211455ab.1
+        for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 12:57:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723838244; x=1724443044;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mcJtJditcw5nwwmT7y+sj2nSLn2k1fZnH0hEdSmmLbo=;
+        b=lzJzYv7nVOnjezp7J7Do6EcLwSt92mmfjbORXdArrqwcq50oXRbVYnbv6j2/3c3An0
+         WoQ3A7u4IznQ6kh0CiXcu2o3QrOQ3bmJv+NGjHt090ArP5oHx5IPByLIpezpJMGGdmKl
+         BlI196/geQH32pOHVd22R/j/2fvPKw58Tk/G35r3F/6iEekY+cs+uNcHxptMJ+Cmm9E8
+         R4JVVQ7NQOD0izNzn9jtrIuJeH2Oig201cBpy4rRSMx7ag5MPr7OAM62ufMoyrXL7dMC
+         iXQOvbMoLR9xT44K5QqCJZ7JitfUdw1CrTgY3haGD0KP94o7nsu6PtTGgEkBtlaj70ED
+         xTzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/gKjFgY2FIw+F2mXjSwfnt9IPt8+ruT2N0MH9Ovj02L7BHUs83JITyI19P5b/4EY+Of7nlhdA1LZphLzJUiwgsYB2GGSJlrB88to=
+X-Gm-Message-State: AOJu0Yy15D16+mTdYLwLMyS3RaSvNAeHymtVpJhtvor7aj5wvTYlKV32
+	etGnJwIod/rxHiR07l9GrtXfJU5T0f1sGZicMxxcOFiCAuWAy4OpPZOFxRok/7tSjV6a8aPMLkC
+	2HsAVRCXckyUOwjolWS/zNfcGiMdpwaFUNdh/dGibbprVwmKeY4cX/1o=
+X-Google-Smtp-Source: AGHT+IG0Afql9gOaEwoGo5Nq3I3hIFtbmAC6jHzB9fj/MUby+jEnjCv42glaLToFrI2+R6S2zq5fnj55k1rfuKaQHuOb3lAuQM9E
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:2207:b0:39d:300f:e91c with SMTP id
+ e9e14a558f8ab-39d300fecefmr1023585ab.5.1723838243959; Fri, 16 Aug 2024
+ 12:57:23 -0700 (PDT)
+Date: Fri, 16 Aug 2024 12:57:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002e8950061fd25ec6@google.com>
+Subject: [syzbot] Monthly media report (Aug 2024)
+From: syzbot <syzbot+list00070df854e8a60874f7@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 16 Aug 2024 08:20:44 -0400 Mina Almasry wrote:
-> > I'd keep the current check with a WARN_ON_ONCE(), tho.
-> > Given the absence of tests driver developers can use.
-> > Especially those who _aren't_ supporting the feature.
-> 
-> Yes what I have locally is the driver setting
-> netdev_rx_queue->unreadable_netmem_supported when header split is
-> turned on, and additionally a WARN_ON_ONCE around the check in core. I
-> was about to send that when I read your email. I'm hoping we don't
-> have to go through the scope creep of adding configuration via the
-> queue API, which I think is a very significant undertaking.
+Hello media maintainers/developers,
 
-I don't like adding more and more transient stuff to netdev_rx_queue.
-It's one thing if we create a temporary solution in the core, which
-we can easily redo later. It's another altogether when we expect drivers
-to keep some bit up to date across all the reconfiguration paths they
-have. Just to then got an replace that with another API.
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-If the post-check works let's go with that for now.
+During the period, 3 new issues were detected and 0 were fixed.
+In total, 18 issues are still open and 85 have been fixed so far.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  3590    Yes   KMSAN: uninit-value in dib3000mb_attach (2)
+                   https://syzkaller.appspot.com/bug?extid=c88fc0ebe0d5935c70da
+<2>  874     Yes   general protection fault in ir_raw_event_store_with_filter
+                   https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
+<3>  354     Yes   KASAN: use-after-free Read in v4l2_fh_init
+                   https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
+<4>  101     Yes   WARNING in media_create_pad_link
+                   https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
+<5>  80      No    INFO: rcu detected stall in dvb_usb_read_remote_control (2)
+                   https://syzkaller.appspot.com/bug?extid=01926e7756f51c12b6a3
+<6>  69      Yes   KASAN: use-after-free Read in v4l2_fh_open
+                   https://syzkaller.appspot.com/bug?extid=b2391895514ed9ef4a8e
+<7>  28      No    WARNING in call_s_stream
+                   https://syzkaller.appspot.com/bug?extid=5bcd7c809d365e14c4df
+<8>  5       Yes   WARNING in usb_free_urb
+                   https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
+<9>  3       Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
+                   https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+<10> 3       Yes   WARNING in smsusb_init_device/usb_submit_urb
+                   https://syzkaller.appspot.com/bug?extid=85e3ddbf0ddbfbc85f1e
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
