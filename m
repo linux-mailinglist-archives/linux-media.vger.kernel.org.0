@@ -1,138 +1,212 @@
-Return-Path: <linux-media+bounces-16366-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16369-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2592A954356
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 09:52:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1028954404
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 10:24:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8F4F281F24
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 07:52:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80554282F3E
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 08:24:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3537B142915;
-	Fri, 16 Aug 2024 07:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KGjlAhWc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76BF813B2A2;
+	Fri, 16 Aug 2024 08:22:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from zankapfel.net (zankapfel.net [5.45.106.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A22613DBBC;
-	Fri, 16 Aug 2024 07:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CD21D69E;
+	Fri, 16 Aug 2024 08:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.45.106.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723794372; cv=none; b=tDBzsNng7xTqxjtKVXHWVM53D+ob0lnXq6ht85QH1l5Y1zJdQJLn6b9MQCyAS+zaptd4rGReZJpBAKhEuNn02ZkxpZwe2qMBO9UjvIpPOB0X9ESZlYs9CaIhXeO2wslWKiwV6gYV7PFQRkGsnZX9ffnhzKz7C947pqv5ascA5ZU=
+	t=1723796522; cv=none; b=Ezqkw7z4wW9rjQZcxb1bxscIPrUKlKQdY+nDo233dkzmpAV60w1D7cDfw4Up9pm2M+AcaktWQ7M8MqcgQVHujh5X3wpEaWq0vGirJjmtalgm11xDZrm+h3LHt/mvqqGfqEBs4gr0JPeV2vW0Ayy98h3yPRn2kQ2boByUiiufJY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723794372; c=relaxed/simple;
-	bh=961HR25fBK6+U+34IivlTuUdOrvdw5kInN6SiWfWruI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hZcVbTqyEckVddnlGB4bNQ5nN3fdxqObGO2ef57JDycB4Wns54/7XTydoW4DJvBwCl1qONt4BNv7YVsBYlJQcKwHwDVeEX2lmF8qYVZhmPkYRo7HexGyhDo92btUA+PyoHP4jMHYJd5s2qHjWI4GhY+EqH8DiTAA95FeSeQgaB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KGjlAhWc; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47FLTJSM020572;
-	Fri, 16 Aug 2024 07:46:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	i7/Oc25XBlXJTMUNL+LN07bCOIRiR0fvFcEP4h10F+w=; b=KGjlAhWc5CIlvVUh
-	XuTeXr9KgoR1D58k4p8kjaWpJVzqARjPcRo10p0xPnVD25xd9Z5nGUHAXbH05ws8
-	9G0FZir12r/v0m6MWWdnv4WhYBKmHD242wEwMfth2VAqj7bYAFGa96XY+3wXRori
-	83FLHLulp9/JguFQueuy7zeqcRBTA9wfyXJ3HzVujA5zsvO8yKfXoJRe9D39emla
-	PP0u9XytCPypm9/5WvIFhESq0XUnAFmo48NbHlE7tRaT5PZyYIPcOiDNpAj+J7UQ
-	HlTtuqo07b23EWmueoTrWxYPYq3FlaHrdwFKQdIGBMZwKM5WREFulTHXmhQsyI5n
-	r7+HoA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4112r3v2xd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Aug 2024 07:46:03 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47G7k2qf019214
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 16 Aug 2024 07:46:02 GMT
-Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 16 Aug
- 2024 00:45:54 -0700
-Message-ID: <aa12fd2e-4869-4909-a04f-6bf24f76ed51@quicinc.com>
-Date: Fri, 16 Aug 2024 15:45:52 +0800
+	s=arc-20240116; t=1723796522; c=relaxed/simple;
+	bh=dJutqAQVcljlp82cpgl/IdcJB4ac05DroeGFgObXzKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TkpJBS7AdtA3nGavc62gb9sHP+gVkrcKOs/t+xZHlBHoq9L2mhiLLfd+q6td6kypRyKh1LJqB3bs0HKZlKGhkPir7sPFKReyKD82JeEPfzLfXhE3sJssOUTr5jxazacw/tjLRh9/6wLOPHNpEsyp5OXM737P23tjKj4/26OhztQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zankapfel.net; spf=none smtp.mailfrom=zankapfel.net; arc=none smtp.client-ip=5.45.106.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zankapfel.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=zankapfel.net
+Received: by zankapfel.net (Postfix, from userid 1000)
+	id 1FBE61279BA; Fri, 16 Aug 2024 10:12:17 +0200 (CEST)
+Date: Fri, 16 Aug 2024 10:12:17 +0200
+From: Phil Eichinger <phil@zankapfel.net>
+To: Jammy Huang <jammy_huang@aspeedtech.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	"eajames@linux.ibm.com" <eajames@linux.ibm.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"joel@jms.id.au" <joel@jms.id.au>,
+	"andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>,
+	"sboyd@kernel.org" <sboyd@kernel.org>,
+	"jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: aspeed: fix clock stopping logic
+Message-ID: <Zr8J4V/OL++W+lp1@zankapfel.net>
+Reply-To: Phil Eichinger <phil@zankapfel.net>
+References: <20240719094056.1169057-1-phil@zankapfel.net>
+ <4f571812-9f3b-4285-8745-76a511e143d6@xs4all.nl>
+ <TYZPR06MB65685ED0C73E35A848004820F1852@TYZPR06MB6568.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Krzysztof Kozlowski <krzk@kernel.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-8-quic_depengs@quicinc.com>
- <cb905d5e-6d70-4395-894c-55b3542e2ebe@kernel.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <cb905d5e-6d70-4395-894c-55b3542e2ebe@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: nz1EZt51V966XEKronGAHqNzJZJ9mJDL
-X-Proofpoint-ORIG-GUID: nz1EZt51V966XEKronGAHqNzJZJ9mJDL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-08-15_18,2024-08-15_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 impostorscore=0
- mlxlogscore=938 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2407110000 definitions=main-2408160055
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <TYZPR06MB65685ED0C73E35A848004820F1852@TYZPR06MB6568.apcprd06.prod.outlook.com>
 
-Hi Krzysztof,
+Hi Jammy,
 
-On 8/16/2024 3:01 PM, Krzysztof Kozlowski wrote:
+please see my comments below:
 
->> +required:
->> +  - compatible
->> +  - clocks
->> +  - clock-names
->> +  - interconnects
->> +  - interconnect-names
->> +  - interrupts
->> +  - interrupt-names
->> +  - iommus
->> +  - power-domains
->> +  - power-domain-names
->> +  - reg
->> +  - reg-names
->> +  - vdda-phy-supply
->> +  - vdda-pll-supply
+On Mon, Aug 12, 2024 at 08:05:52AM +0000, Jammy Huang wrote:
+> Hi Phil,
 > 
-> Order is still not as expected. I already commented on this - keep the
-> same order as in "properties:" block.
+> After some investigation, I think the problem is 'reset is not assert at aspeed_video_off() with
+> clk off'. When clk is enabled in aspeed_video_on(), reset will be assert and de-assert by clk_enable.
+> But there is nothing done for clk_disable. Thus, it will look like below:
+>         // aspeed_video_on
+>         enable vclk
+>         reset assert
+>         delay 100us
+>         enable eclk
+>         delay 10ms
+>         reset de-assert
 > 
-> With the order fixed:
+>         // aspeed_video_off
+>         disable eclk
+>         disable vclk
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> I think if we add reset before disable eclk, your problem will be fixed. Could you try the patch below
+> which I add reset in aspeed_video_off().
 > 
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+> index e6f3cf3c721e..b9655d5259a7 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+> @@ -308,6 +308,7 @@ video: video@1e700000 {
+>                                          <&syscon ASPEED_CLK_GATE_ECLK>;
+>                                 clock-names = "vclk", "eclk";
+>                                 interrupts = <7>;
+> +                               resets = <&syscon ASPEED_RESET_VIDEO>;
+>                                 status = "disabled";
+>                         };
 
-Thanks for catching this, the order was correct in my local build, then 
-Vladimir posted a new comment, so I updated it again and forgot to 
-update the required item, I will correct the order in next version series.
+ASPEED_RESET_VIDEO does not exist in mainline for AST2500. I have added it to
+drivers/clk/clk-aspeed.c and include/dt-bindings/clock/aspeed-clock.h like in
+the Aspeed fork.
 
-Vladimir: "I would suggest to put 'compatible', 'reg' and 'reg-names' 
-properties as the first ones. 'clock-names' should follow 'clocks' 
-property in the list."
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> index 7fb421153596..62c65b13dc7b 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> @@ -451,6 +451,7 @@ video: video@1e700000 {
+>                                          <&syscon ASPEED_CLK_GATE_ECLK>;
+>                                 clock-names = "vclk", "eclk";
+>                                 interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +                               resets = <&syscon ASPEED_RESET_VIDEO>;
+>                                 status = "disabled";
+>                         };
+> 
+> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+> index 9c53c9c2285b..fc633f574566 100644
+> --- a/drivers/media/platform/aspeed/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/workqueue.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/ktime.h>
+> +#include <linux/reset.h>
+>  #include <linux/regmap.h>
+>  #include <linux/mfd/syscon.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -310,6 +311,7 @@ struct aspeed_video {
+>         void __iomem *base;
+>         struct clk *eclk;
+>         struct clk *vclk;
+>                                 clock-names = "vclk", "eclk";
+>                                 interrupts = <7>;
+> +                               resets = <&syscon ASPEED_RESET_VIDEO>;
+>                                 status = "disabled";
+>                         };
 
-Thanks,
-Depeng
+This is bogus.
+
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> index 7fb421153596..62c65b13dc7b 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+> @@ -451,6 +451,7 @@ video: video@1e700000 {
+>                                          <&syscon ASPEED_CLK_GATE_ECLK>;
+>                                 clock-names = "vclk", "eclk";
+>                                 interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +                               resets = <&syscon ASPEED_RESET_VIDEO>;
+>                                 status = "disabled";
+>                         };
+> 
+> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+> index 9c53c9c2285b..fc633f574566 100644
+> --- a/drivers/media/platform/aspeed/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/workqueue.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/ktime.h>
+> +#include <linux/reset.h>
+>  #include <linux/regmap.h>
+>  #include <linux/mfd/syscon.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -310,6 +311,7 @@ struct aspeed_video {
+>         void __iomem *base;
+>         struct clk *eclk;
+>         struct clk *vclk;
+> +       struct reset_control *reset;
+> 
+>         struct device *dev;
+>         struct v4l2_ctrl_handler ctrl_handler;
+> @@ -704,6 +706,9 @@ static void aspeed_video_off(struct aspeed_video *video)
+>         aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
+>         aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
+> 
+> +       eset_control_assert(video->reset);
+> +       usleep_range(100, 200);
+> +
+
+I assume you meant reset_control_assert()?
+
+Anyway I got your patch compilable by adding ASPEED_RESET_VIDEO like so:
+
+diff --git a/drivers/clk/clk-aspeed.c b/drivers/clk/clk-aspeed.c
+index 411ff5fb2c07..9684fb086d38 100644
+--- a/drivers/clk/clk-aspeed.c
++++ b/drivers/clk/clk-aspeed.c
+@@ -278,6 +278,7 @@ static const u8 aspeed_resets[] = {
+        [ASPEED_RESET_PECI]     = 10,
+        [ASPEED_RESET_I2C]      =  2,
+        [ASPEED_RESET_AHB]      =  1,
++       [ASPEED_RESET_VIDEO]    =  6,
+
+         /*
+          * SCUD4 resets start at an
+	  * offset to separate them From
+diff --git a/include/dt-bindings/clock/aspeed-clock.h
+b/include/dt-bindings/clock/aspeed-clock.h
+index 06d568382c77..421ca577c1b2 100644
+--- a/include/dt-bindings/clock/aspeed-clock.h
++++ b/include/dt-bindings/clock/aspeed-clock.h
+@@ -53,5 +53,6 @@
+ #define ASPEED_RESET_AHB               8
+ #define ASPEED_RESET_CRT1              9
+ #define ASPEED_RESET_HACE              10
++#define ASPEED_RESET_VIDEO             21
+
+Anyways during testing it almost immediately caused the crash again,
+when the clocks were disabled in the original order.
+
+Cheers,
+Phil
 
