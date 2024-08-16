@@ -1,227 +1,476 @@
-Return-Path: <linux-media+bounces-16363-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16364-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0BBF953FB3
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 04:32:01 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5629095400D
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 05:31:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6835E2862AA
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 02:32:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4E86B24E77
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 03:31:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D61A547F4D;
-	Fri, 16 Aug 2024 02:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7FE355898;
+	Fri, 16 Aug 2024 03:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b="E12O1tWq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQEdt6ID"
 X-Original-To: linux-media@vger.kernel.org
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2094.outbound.protection.outlook.com [40.107.117.94])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C429B54F87;
-	Fri, 16 Aug 2024 02:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723775511; cv=fail; b=pwpQe60LCn8pO7cFUGuzb+VytPnNChL521YI/1fad5LiVJRugAyH1PiLeO3AVVFT1zipu2rwMZ4e866IQcG8Ah+sJFI4fDCDn/Y+HKfsmt2EVjP/3ihFvi12bAQDS/Ukp6hEYKriCLb8etmznK3WaD/hHNfUBPD2VGUpnW0l/K4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723775511; c=relaxed/simple;
-	bh=UIN6+1KjuhQeBu64F58Tu4irh7GV15vjNWCV9IjpxM8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=r7vQap+wXUHOmG7bweN+fjtCMhQzRt/iwETp4LtyGwu17gPgeP+SfMx9GPAiNgAhnJMbMa/clhdQOtolKsYYESLKDLVDE8VullUtC4itQEmSyREZjokZnudPFyJVEevc6yM33BQwLW1VcNRhBshwYae8U3uJhQvfkCG+3l7swKk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; dkim=pass (2048-bit key) header.d=aspeedtech.com header.i=@aspeedtech.com header.b=E12O1tWq; arc=fail smtp.client-ip=40.107.117.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MLlfts2J1seoBfu/gZVDO27xcvVaJNsliV8YTUZpIT9I13wBnYFEWRVvk3bblQ8A9dH7EZFYol05v05pkw4esKDgp+dDDeQU82kTphQajhbelOZRugl1iIspZ8nSAQ/Zq5tN3dearoHtYLYdErSTcUpSWdgzj52IprnnMrdIQUTQgfNL3yJdz6mTb0XMxpoKQnc83FrRd8aBrscViYrMlUdc9oKx6+yXGU92nPNmu0SBXGUUPLxcCV++SzOaCBiy7MEXrCdOe3LoFglATE/d3qBDNCfPjS0xmGxLcR7Ssl7Q2iAqbAQ5bcyhQkbfSqebqsgd9jpu/xUa9P9v/KxhNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UIN6+1KjuhQeBu64F58Tu4irh7GV15vjNWCV9IjpxM8=;
- b=ZPJEC6pRkj/YyZikdBb7l09m5DlkHCKqbNRSXxtVCkqVk++ie8iUi6eDhWwcsAc13MiTkwlkrXmmVfUdtrLTo0VJ+YkMxHU9qyokZqB7Qbs36exj81UDe1gLddMK6Dvdt2GGLcrvI5nZblXubgCbn2Wze0poDxD7H963lbv8HMSA+TwEJpovSpWvkY+iVXcvZ646xgHQUXjvZjCq+D8uqfeYPLhdyIYzFIzwcHkF5u9T6mJl2TOtGtaAwMfVosHS1lBvhk6kly3M6dtgel6geXV/FJwing/AaE+fDjmdyiI+W6kD+3Fs7sVWtTQ5jMjAoPXadVD30VdoV9Hlu+UX3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UIN6+1KjuhQeBu64F58Tu4irh7GV15vjNWCV9IjpxM8=;
- b=E12O1tWqiFhEoiLL3jPd+j2x3/XpSnbn2I2D1G6+t28y7SsIltGVgder6yeZFefcGyd3sTNL56L+OHahgFDf/wvNiRH2uwAOt9Rzs5zq2dCxCN6VS88CqVJzmlc+Io9TXTiaRXpgjRE0ZIdqAR94zu1Og7rHvhSO7/cVLNFNO/n35e6KsB6A0PDJBQvAPmeLALsVK/jI56YUTXKr/AViLxrsF8gT9wq6JPmGjuky9ZcXpVCaQD/luabtC+00aTlHq7nlmalggD2C+NKZtwTALYkit27CnNFL+yqswhCE+fI1g98/OeEf2Psd+8VYjPhWGiGRiBnR1nN3um7fG4lDtw==
-Received: from TYZPR06MB6568.apcprd06.prod.outlook.com (2603:1096:400:45f::6)
- by SEZPR06MB6119.apcprd06.prod.outlook.com (2603:1096:101:e8::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Fri, 16 Aug
- 2024 02:31:43 +0000
-Received: from TYZPR06MB6568.apcprd06.prod.outlook.com
- ([fe80::72b8:dce5:355b:e84b]) by TYZPR06MB6568.apcprd06.prod.outlook.com
- ([fe80::72b8:dce5:355b:e84b%4]) with mapi id 15.20.7875.018; Fri, 16 Aug 2024
- 02:31:43 +0000
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "eajames@linux.ibm.com"
-	<eajames@linux.ibm.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
-	"joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
-	"pmenzel@molgen.mpg.de" <pmenzel@molgen.mpg.de>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 2/2] media: aspeed: Allow to capture from SoC display
- (GFX)
-Thread-Topic: [PATCH v4 2/2] media: aspeed: Allow to capture from SoC display
- (GFX)
-Thread-Index: AQHa7hCAqZ9lVQfKXEmUH9n0d6ESQ7IpLFQg
-Date: Fri, 16 Aug 2024 02:31:43 +0000
-Message-ID:
- <TYZPR06MB6568197D19B5855A014A0ECBF1812@TYZPR06MB6568.apcprd06.prod.outlook.com>
-References: <20240814005421.3362441-1-jammy_huang@aspeedtech.com>
- <20240814005421.3362441-3-jammy_huang@aspeedtech.com>
- <003090ab-4ce2-4624-b5c5-33ceef521e9d@kernel.org>
-In-Reply-To: <003090ab-4ce2-4624-b5c5-33ceef521e9d@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB6568:EE_|SEZPR06MB6119:EE_
-x-ms-office365-filtering-correlation-id: a58f5a09-a202-4d3f-9666-08dcbd9b9115
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?NHFXa3YxZFpxR2ZheTJzUGVOcDFMN2MzNFpNZDZzazZOekFlUjhwYUtCVlhi?=
- =?utf-8?B?UlRWYVVSTnIvdVJYTk9qeU90Z2VMNWlYVWZVWUY4d3QwcEJHbXNWWXA0cXF2?=
- =?utf-8?B?NC9UU0I0b3ZXczRDMHZ1RHR0bGZyb2dZbXZmd0tScWhoYTBXRFJiUWVLS3JV?=
- =?utf-8?B?S0duSjlGMmxJQnFPeXdkN3BRU0krSDlFOUxGZkp0TjZpcm1OV2Z2VUM1MmxT?=
- =?utf-8?B?TWhqWGlVMGdVWkdwdS9CeVJwTmJiTUV4ZmlLRHRMUmhjcWdmZkJ2UDJhdy95?=
- =?utf-8?B?SEFuVnBtdDMvWWkvMVFzZ050WE5VWFVVZkt5SnpiS29zUGpNS29YZjBzVHFt?=
- =?utf-8?B?Vy82THBwTUJQWXl3bVgyM2ZxRXJGcFcvRUgwenZReTJIL3FtUHZOTmJrV1hl?=
- =?utf-8?B?N0JoOG56MXRMYkxET05tcUlnNFNUTnJTTjMrSDVjZCtZVHVoaG5haFJKQm1L?=
- =?utf-8?B?YnFyMHVYVDd6WDdoYXJRdkY4VnFlaXB6bW51NVA1U2ROeVpXeklCU1ZyRG1v?=
- =?utf-8?B?czh5S0Qyc3FnYnZURGdSRG9aTjNxU3l6cVZMaG04TWYzNEI4N1ByL2x5QWZw?=
- =?utf-8?B?S2gybEF3RTFTRi9RekdJNXcwVW5zaDRNenhFcURUWHJpQ3loNGdHWkVRZitZ?=
- =?utf-8?B?dDVCNWxpd2h3djRZNXVKdXZqdnlzajlSOHZNRnVEYVc4OFpTTGdhYStaZnNH?=
- =?utf-8?B?MCszWStOYzdEY2tBZVVQNmFFK1BiKzRnM2JqdEFKYUt0Y1RBZjZnZmlKUlFZ?=
- =?utf-8?B?SjhyVEJKVkVacmFFK0tUNG1SRDlWdyt0MGlTc2ZJbStSdFBKZzVLcllxeW43?=
- =?utf-8?B?SE5xcDhaWnBZTGpsYzFTSk1oMFZBcFExTldQRlNERlFLV1ExbndsbDd2cnln?=
- =?utf-8?B?SEptTU9XVGpNeHlGY2VuNVVDREtWSUl4bnBORWc5U1Byd3VHOGVxUzlFNWpj?=
- =?utf-8?B?MXNhQ3paUWxkeXBEYTFDV0F3cFpEQ25uUXNuREI3L1RnL1d1QURpdGZzM3NQ?=
- =?utf-8?B?Zit2UENWWlVPZllHbmtkRnp5N0k5cGw2cUV1UExhdmRPekVKWHNnZjh2KzIy?=
- =?utf-8?B?UjFmWEV5UUIxaHY1a3RSc28ya2VSOFZwZGE0K3RzOW0vMVMyTkhPNnZWNE5D?=
- =?utf-8?B?Z2NGaWh5d0JKZzRuRFFxdHRndnhiN3ZmSUkzb1I4Q25zQzJMK2tJQW1tNnVn?=
- =?utf-8?B?YmlhVDlqd0IvSlJhaFA0eHhjLytIUm9NS3NBMnNKQkpxdzRUZ0dobGd3Mlc4?=
- =?utf-8?B?RmQyTnRaT096bDhPVVZuVFBJY2NzblRDQjVVanNhViszR1p1SXFacU5zRzVn?=
- =?utf-8?B?Q3NHT0N6eGxBNDloVk0zQUtMMEdUUUcxb1BWZ005TENOSENMQ0RlcGdxU3Fl?=
- =?utf-8?B?K0FTa2tMTTVEc1FWT3ZITW0xaG4rRVR3WkNaWkM2UzdVWHY2N1FYWlRZeEdU?=
- =?utf-8?B?WXpSK1B6MnhRQXRpOE1taG04ZXFHUGJmT291Z0dnb1RNbktuVlhZeXBwNEVo?=
- =?utf-8?B?Ym5qTkJqcXhHeVpJeVNoT282TG4wTnlhU0ZtdmlaVEJySTF3S3ducnFvM3BN?=
- =?utf-8?B?VTB2b0o2R3pNNmo2NUNVVjNOMlJSRDlXR0lWeS9QWXpsK0RIUFd0UTVpeGlC?=
- =?utf-8?B?TWRxT1JrZXhGSWUzdFpZUjZ2a2Q1WFgvYkl2dS9IbFVuM1VGb3p4WFN0d3lE?=
- =?utf-8?B?TUgrY0xHbm02VjA0RzZrbUthRFhkaFliQndvK2xmNHFKK1o0b0hVT1BpZHhr?=
- =?utf-8?B?SXJpYjJNMnRGRWpESlNZYmxSZHBNVVpndzZQRlVYUjdFSTlqUTRLVmZnRTNG?=
- =?utf-8?B?aFJqOEZ0NEQ5clMyNHRKNkM5ZkRVeTB6RlBPR0VWc2gxOWhuVmFubHllUWxy?=
- =?utf-8?B?Z0d4R01yRmhFaDlpWXc5N2RUWUppL2VKRHRPU0p3VGtpUnc9PQ==?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6568.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?TzF2eVNSTXU3MlFyUmhDeGJnSEJVbjY3NFJiRTFkOERWK2R2czZ3MTJ1SXNJ?=
- =?utf-8?B?WkJtUTlIQmd0QjRvWjdLeUJZYnZkTVZqRzNtemM4enhTR2hERWxZZHF3TC80?=
- =?utf-8?B?WTNIcThKNUx5cFI5NXBZK3QrZ1hXYzF5UjA2aG1tNUpoZDNLR291WnlJbkZH?=
- =?utf-8?B?UzNob0ozQWZaMEQ5NXFqM3gzbkt6ZjNVcnFCbk9VemVpQmZOY2hIcW5CanVZ?=
- =?utf-8?B?bXFYNWdrUUY2WlpQdHM0UFFxa3hpVVpRQmsxaHZsSi8zRUZNVzBkVGFxRUdu?=
- =?utf-8?B?QlFZMmFOVlRlNVR2YXArSEtLbkZpaTlGVUJkdkdnY0lmaU1aSDc4cUsrSXMr?=
- =?utf-8?B?WGdRUmVLQ25aUit5TnhhbnM1WHJ1ZUltU25pUm9Rb09IQ0FFZGZ2UWt1Wmdo?=
- =?utf-8?B?VXJla1pIOEp4RjhDMHQrZ2pGckgxM3QrbExjdEhWSU1aaXVXK1lQcXBjRmE4?=
- =?utf-8?B?bGl6WDhkazJmelBuVWxXY3JsWndMRWpETmp4bzJRVEVzQ041VURRRm5uMDdN?=
- =?utf-8?B?R0gwRFo4SmJYRm5KS3gwcHdTOHBJVnBURGZXTmphUHBSSE9PSU9yZDRiYURI?=
- =?utf-8?B?d3JyLzhOR0xmVkE0K0o1Mmc1cEZkWjA4QjVjMnFPREloK3pFOU5JdTZSYVp4?=
- =?utf-8?B?eXBDMXlyc1BLQW96TEJOU3ArOGoybnJtbXRwQXVJakt3aHZ0bm1oTnQ4NnR4?=
- =?utf-8?B?WHhuaTNDTlVleEpLWUhvUU9GR2pvOWUvdDFPV2FYcFJCbXBqVWFIenh5a01P?=
- =?utf-8?B?THZFZVdvOHJrMDNEZCtHcEtHbHpmdXBQNVlhcmp1djlSVXM5cFVkUjVXa29O?=
- =?utf-8?B?ZUhWRHNOSkszUFJWUjVpcmJubG1iSnZtT2VzN25XTUFqVHhqRE04N2ZNVHBI?=
- =?utf-8?B?Y0dRMTd5V0wvYmJaU3h0MVlrNFd1SGtoYWpIQjNvWWxpUStWY0lwY0QrNmRp?=
- =?utf-8?B?VGwzZzM2diszTjV6bVpzUWozQ0xXazRMQXFYY1phVGVhdEk2RDdQZzFBM0JV?=
- =?utf-8?B?UWxpcHg5OFBQdVo2U1NTTG5qbkdaZ2VhU05NaU9UK2JkaVJnbmx6Wk44N1Fz?=
- =?utf-8?B?WmV6cVE4T1c0Um1ETDJraVYwTVJvMy9Mb3R1RmNSdlFiSlJWVnNOVHJSaDR1?=
- =?utf-8?B?alVyRHdKYVFxa3lPUm5SS3Q2WnVDTUVlMzVHUXBCcjhFUCtyckpWbGNrMVJ5?=
- =?utf-8?B?OHhreXdNc3lvQnpLTDVoM1JVbXBENzhPS083MWpXL1dzbndnbHFidjIyc2pL?=
- =?utf-8?B?MGxHd3h4UnVkOEQ5QTlROEhWdUpPMmtZNzA3c2NMZ3U1aFE4ekRJcVI5cTAx?=
- =?utf-8?B?a3h3S3hpSmR3UlptRWk5aStTOXhBSTNyaFpScnlVUEVxbjhHMVpBQlZIM0hi?=
- =?utf-8?B?aVh5V2hjQW40aGZoaGNORUZvTUwxOFEzZWZYSXNNOGEzNzJOUURJWjA1MU5K?=
- =?utf-8?B?YXlXeG5rYXVFbmpsdFFhRlltYnRvSUpDWG05Z3ZIRXRmQ2JBR09SdUtpYzlt?=
- =?utf-8?B?NzF3V0tGbU4veEJWS3l2c1ZaeGFOSnpUdTFJNElHMzI4bUs1cUUwN1dyYVRY?=
- =?utf-8?B?b1E1R1ZhZ2tFbThwM1RPOGlYU3RCQXY1aG90WXYrZ005N0lNYlF0b2ticHFl?=
- =?utf-8?B?UVFyV1R3V0FvT1NkaDdFTTQ2R0lGWmwvMmpVcm0yT0g1aGJJRjVFcUQzdjZ5?=
- =?utf-8?B?T2d5YUVGekx0Zk5wTDA2K1hEWEc0ODVrMFJoVnBkSnhSSS9nV3doanZiN0Zj?=
- =?utf-8?B?UFZsZG9aZHpSZzA1T3VGZzVud2ZnckZEYmtCcU5nL2FYb2pkZ3NmTStyeTVE?=
- =?utf-8?B?dC9mTTNRZUszZmtYQzNpWm1LYVZ3ZkQ3d29SMGRwTzJOclcxN0YwZWQ2RFU5?=
- =?utf-8?B?N3VBMG96QVdnZzU2TVZ4bTlXUlNHZ3VKY1NkY0JQcFk4dFU4K1pKaG80VGlR?=
- =?utf-8?B?b1pGakNxNlkyLzB1cFZuWU1PQnJjbXg0WHNJbThBMlR0Y0Z2NXJtR3JNeWhB?=
- =?utf-8?B?ZFZGK0YvallXbjBwSFhGaWwyazlMVmlxeDRCT0E5SnNDeEJIbHVGdSsvV2wv?=
- =?utf-8?B?aGt0bkFsY05RVnVLWnpBdzBIRU9iV01hWEhKQlI4UENFREt1dGJRUGVLVjVY?=
- =?utf-8?B?NFFyS2RlcDhTcTUzS0xFU09Uc3pNY1BtVjJGT1p0amExZDNGcmVoWEJkU3gz?=
- =?utf-8?B?RVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC67F1AC88A
+	for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 03:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1723779088; cv=none; b=S5ACi7rqP6o5JUG/EDq/OssbsLQLroied9Pi41cmoD8t751LFezqQbUzPUOc8HWaXAA1fR5ckFdKKR0qH67rhrFGva/04sAMQH/mAbVfUrRibstO4prbL+Qj/sLqXtWe6vLUSfXdhJVpBnITQI0TKU28Z2kv9wQL1Iz91SBhlSw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1723779088; c=relaxed/simple;
+	bh=bhMspPnNyFR9zJcm0PxWAxwie+L3o7BdLj2jZog48Qc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P5qQyzrpF/RrndKnBVuLroXXYo4ke7fNB7rm4uzx3ehcscjPsmCPAV3B828yRt0nc+Owz55iFRV2wQDrrUEKur+b4keujLb4KoQ/nWZMSUfi1mJi2gqAGdVCTgpJK5xZlMlefX1B66jrF8HC2jVlNjWzTXpuM/dbyChTI1xCtYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQEdt6ID; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723779086; x=1755315086;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bhMspPnNyFR9zJcm0PxWAxwie+L3o7BdLj2jZog48Qc=;
+  b=HQEdt6ID5+9szgWzX+8aKz6uF2vEmBYBdyoZUjRUK0JSY7PqKDSZ2gWR
+   zDlHKIa/ogrooQiVYvN5a0qWZAsE3wA8CxfHcUVf7KlU4hVj9q6AOzTqJ
+   0psfDrXOpjvaeiqKDFujc+kb/gN+8CbcPTGgAsVA31VvuAtuYDUGfZDUv
+   G+E1P/ruu0unYb6Jy5GmTXqUi84wsraHI2rlKZsFUqWmG3RYsnIYomf4a
+   D8aoFWVYGsNQ/ltnoiXoIG6e3aKvWmxYwVyLtt3dZc1gutEfFxbl1GzLv
+   N/fGL5gsmyZuHhfMS6ZxMmHxWoYmS5n2kSVIcZQzoCUbDYDpcH8HkqqVo
+   g==;
+X-CSE-ConnectionGUID: ib6UjWfeRB2NYUoEy5Kf8Q==
+X-CSE-MsgGUID: 7T1nj0WjSsyPFVjK6OKyIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="13047398"
+X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
+   d="scan'208";a="13047398"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 20:31:25 -0700
+X-CSE-ConnectionGUID: +3OKB+d/TRWZXlu+B56axw==
+X-CSE-MsgGUID: t/5897NaTniaGVUjQy7aWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
+   d="scan'208";a="90327219"
+Received: from icg-hal3.bj.intel.com ([172.16.127.200])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Aug 2024 20:31:22 -0700
+From: bingbu.cao@intel.com
+To: linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com
+Cc: jianhui.j.dai@intel.com,
+	tfiga@chromium.org,
+	bingbu.cao@intel.com,
+	bingbu.cao@linux.intel.com
+Subject: [PATCH v2] media: intel/ipu6: optimize the IPU6 MMU mapping and unmapping flow
+Date: Fri, 16 Aug 2024 11:31:21 +0800
+Message-Id: <20240816033121.3961995-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6568.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a58f5a09-a202-4d3f-9666-08dcbd9b9115
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2024 02:31:43.1028
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B7pcav5LdEzwZjnJBHq9O5o7IQ6KDE+TiDf5LqFTi8RfWJnYsuAKkPQ5AkyN0+Y8Bl+LNlXBxuGVD0+sfDTeD/MtOkfnK+CfB2HrP0iOW70=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6119
+Content-Transfer-Encoding: 8bit
 
-SGkgS3J6eXN6dG9mLA0KDQpPbiAyMDI0LzgvMTQg5LiL5Y2IIDAyOjA5LCBLcnp5c3p0b2YgS296
-bG93c2tpIHdyb3RlOg0KPg0KPiBPbiAxNC8wOC8yMDI0IDAyOjU0LCBKYW1teSBIdWFuZyB3cm90
-ZToNCj4gPiArLyoNCj4gPiArICogR2V0IHJlZ21hcCB3aXRob3V0IGNoZWNraW5nIHJlcywgc3Vj
-aCBhcyBjbGsvcmVzZXQsIHRoYXQgY291bGQNCj4gPiArbGVhZCB0bw0KPiA+ICsgKiBjb25mbGlj
-dC4NCj4gPiArICovDQo+ID4gK3N0YXRpYyBzdHJ1Y3QgcmVnbWFwICphc3BlZWRfcmVnbWFwX2xv
-b2t1cChzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wLA0KPiA+ICtjb25zdCBjaGFyICpwcm9wZXJ0eSkg
-ew0KPiA+ICsgICBzdHJ1Y3QgZGV2aWNlX25vZGUgKnN5c2Nvbl9ucCBfX2ZyZWUoZGV2aWNlX25v
-ZGUpID0NCj4gb2ZfcGFyc2VfcGhhbmRsZShucCwgcHJvcGVydHksIDApOw0KPiA+ICsgICBzdHJ1
-Y3QgcmVnbWFwICpyZWdtYXA7DQo+DQo+IERyb3AuIFRoZSBwb2ludCBvZiB1c2luZyBfX2ZyZWUg
-d2FzIHRvIG1ha2UgdGhpcyB2ZXJ5IHNpbXBsZS4NClRvIGJlIHNpbXBsZXIsIGl0IHdpbGwgbG9v
-a3MgbGlrZSB0aGlzLCByaWdodC4NCg0KKyAgICAgICBzdHJ1Y3QgZGV2aWNlX25vZGUgKnN5c2Nv
-bl9ucCBfX2ZyZWUoZGV2aWNlX25vZGUpID0gb2ZfcGFyc2VfcGhhbmRsZShucCwgcHJvcGVydHks
-IDApOw0KKw0KKyAgICAgICBpZiAoIXN5c2Nvbl9ucCkNCisgICAgICAgICAgICAgICByZXR1cm4g
-RVJSX1BUUigtRU5PREVWKTsNCisgICAgICAgcmV0dXJuIGRldmljZV9ub2RlX3RvX3JlZ21hcChz
-eXNjb25fbnApOw0KPg0KPiA+ICsNCj4gPiArICAgaWYgKCFzeXNjb25fbnApDQo+ID4gKyAgICAg
-ICAgICAgcmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7DQo+ID4gKw0KPiA+ICsgICByZWdtYXAgPSBk
-ZXZpY2Vfbm9kZV90b19yZWdtYXAoc3lzY29uX25wKTsNCj4gPiArDQo+ID4gKyAgIHJldHVybiBy
-ZWdtYXA7DQo+ID4gK30NCj4gPiArDQo+ID4gIHN0YXRpYyBpbnQgYXNwZWVkX3ZpZGVvX2luaXQo
-c3RydWN0IGFzcGVlZF92aWRlbyAqdmlkZW8pICB7DQo+ID4gICAgIGludCBpcnE7DQo+ID4gICAg
-IGludCByYzsNCj4gPiAgICAgc3RydWN0IGRldmljZSAqZGV2ID0gdmlkZW8tPmRldjsNCj4gPg0K
-PiA+ICsgICB2aWRlby0+c2N1ID0gYXNwZWVkX3JlZ21hcF9sb29rdXAoZGV2LT5vZl9ub2RlLCAi
-YXNwZWVkLHNjdSIpOw0KPiA+ICsgICB2aWRlby0+Z2Z4ID0gYXNwZWVkX3JlZ21hcF9sb29rdXAo
-ZGV2LT5vZl9ub2RlLCAiYXNwZWVkLGdmeCIpOw0KPg0KPiBTdGlsbCB1bmRvY3VtZW50ZWQuIFJl
-c3BvbmQgdG8gcHJldmlvdXMgY29tbWVudCBhbmQgY29uZmlybSB0aGF0IHlvdQ0KPiB1bmRlcnN0
-b29kIGl0Lg0KU29ycnkgZm9yIG1pc3VuZGVyc3RhbmRpbmcuIEkgd2lsbCBhZGQgZG9jdW1lbnQs
-DQpEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2FzcGVlZC9hc3BlZWQsdmlk
-ZW8ueWFtbCwgbGF0ZXIuDQoNCj4NCj4NCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCg0K
-KioqKioqKioqKioqKiBFbWFpbCBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioq
-KioqKioqDQrlhY3osqzogbLmmI46DQrmnKzkv6Hku7Yo5oiW5YW26ZmE5Lu2KeWPr+iDveWMheWQ
-q+apn+Wvhuizh+ioiu+8jOS4puWPl+azleW+i+S/neitt+OAguWmgiDlj7Dnq6/pnZ7mjIflrprk
-uYvmlLbku7bogIXvvIzoq4vku6Xpm7vlrZDpg7Xku7bpgJrnn6XmnKzpm7vlrZDpg7Xku7bkuYvn
-mbzpgIHogIUsIOS4puiri+eri+WNs+WIqumZpOacrOmbu+WtkOmDteS7tuWPiuWFtumZhOS7tuWS
-jOmKt+avgOaJgOacieikh+WNsOS7tuOAguisneisneaCqOeahOWQiOS9nCENCg0KRElTQ0xBSU1F
-UjoNClRoaXMgbWVzc2FnZSAoYW5kIGFueSBhdHRhY2htZW50cykgbWF5IGNvbnRhaW4gbGVnYWxs
-eSBwcml2aWxlZ2VkIGFuZC9vciBvdGhlciBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24uIElmIHlv
-dSBoYXZlIHJlY2VpdmVkIGl0IGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgYnkg
-cmVwbHkgZS1tYWlsIGFuZCBpbW1lZGlhdGVseSBkZWxldGUgdGhlIGUtbWFpbCBhbmQgYW55IGF0
-dGFjaG1lbnRzIHdpdGhvdXQgY29weWluZyBvciBkaXNjbG9zaW5nIHRoZSBjb250ZW50cy4gVGhh
-bmsgeW91Lg0K
+From: Bingbu Cao <bingbu.cao@intel.com>
+
+ipu6_mmu_map() and ipu6_mmu_unmap() operated on a per-page basis,
+leading to frequent calls to spin_locks/unlocks and
+clflush_cache_range for each page. This will cause inefficiencies,
+especially when handling large dma-bufs with hundreds of pages.
+
+This change enhances ipu6_mmu_map()/ipu6_mmu_unmap() with batching
+process multiple contiguous pages. This significantly reduces calls
+for spin_lock/unlock and clflush_cache_range() and improve the
+performance.
+
+Signed-off-by: Jianhui Dai <jianhui.j.dai@intel.com>
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+v2: fix one build warning found by kernel test robot
+---
+ drivers/media/pci/intel/ipu6/ipu6-mmu.c | 283 ++++++++++--------------
+ drivers/media/pci/intel/ipu6/ipu6-mmu.h |   4 +-
+ 2 files changed, 121 insertions(+), 166 deletions(-)
+---
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-mmu.c b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+index c3a20507d6db..2d9c6fbd5da2 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-mmu.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+@@ -252,75 +252,140 @@ static u32 *alloc_l2_pt(struct ipu6_mmu_info *mmu_info)
+ 	return pt;
+ }
+ 
++static void l2_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
++		     phys_addr_t dummy, size_t size)
++{
++	unsigned int l2_entries;
++	unsigned int l2_idx;
++	unsigned long flags;
++	u32 l1_idx;
++	u32 *l2_pt;
++
++	spin_lock_irqsave(&mmu_info->lock, flags);
++	for (l1_idx = iova >> ISP_L1PT_SHIFT;
++	     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
++		dev_dbg(mmu_info->dev,
++			"unmapping l2 pgtable (l1 index %u (iova 0x%8.8lx))\n",
++			l1_idx, iova);
++
++		if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval) {
++			dev_err(mmu_info->dev,
++				"unmap not mapped iova 0x%8.8lx l1 index %u\n",
++				iova, l1_idx);
++			continue;
++		}
++		l2_pt = mmu_info->l2_pts[l1_idx];
++
++		l2_entries = 0;
++		for (l2_idx = (iova & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
++		     size > 0 && l2_idx < ISP_L2PT_PTES; l2_idx++) {
++			dev_dbg(mmu_info->dev,
++				"unmap l2 index %u with pteval 0x%10.10llx\n",
++				l2_idx, TBL_PHYS_ADDR(l2_pt[l2_idx]));
++			l2_pt[l2_idx] = mmu_info->dummy_page_pteval;
++
++			iova += ISP_PAGE_SIZE;
++			size -= ISP_PAGE_SIZE;
++
++			l2_entries++;
++		}
++
++		WARN_ON_ONCE(!l2_entries);
++		clflush_cache_range(&l2_pt[l2_idx - l2_entries],
++				    sizeof(l2_pt[0]) * l2_entries);
++	}
++
++	WARN_ON_ONCE(size);
++	spin_unlock_irqrestore(&mmu_info->lock, flags);
++}
++
+ static int l2_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+ 		  phys_addr_t paddr, size_t size)
+ {
+-	u32 l1_idx = iova >> ISP_L1PT_SHIFT;
+-	u32 iova_start = iova;
++	struct device *dev = mmu_info->dev;
++	unsigned int l2_entries;
+ 	u32 *l2_pt, *l2_virt;
+ 	unsigned int l2_idx;
+ 	unsigned long flags;
++	size_t mapped = 0;
+ 	dma_addr_t dma;
+ 	u32 l1_entry;
+-
+-	dev_dbg(mmu_info->dev,
+-		"mapping l2 page table for l1 index %u (iova %8.8x)\n",
+-		l1_idx, (u32)iova);
++	u32 l1_idx;
++	int err = 0;
+ 
+ 	spin_lock_irqsave(&mmu_info->lock, flags);
+-	l1_entry = mmu_info->l1_pt[l1_idx];
+-	if (l1_entry == mmu_info->dummy_l2_pteval) {
+-		l2_virt = mmu_info->l2_pts[l1_idx];
+-		if (likely(!l2_virt)) {
+-			l2_virt = alloc_l2_pt(mmu_info);
+-			if (!l2_virt) {
+-				spin_unlock_irqrestore(&mmu_info->lock, flags);
+-				return -ENOMEM;
++
++	paddr = ALIGN(paddr, ISP_PAGE_SIZE);
++	for (l1_idx = iova >> ISP_L1PT_SHIFT;
++	     size > 0 && l1_idx < ISP_L1PT_PTES; l1_idx++) {
++		dev_dbg(dev,
++			"mapping l2 page table for l1 index %u (iova %8.8x)\n",
++			l1_idx, (u32)iova);
++
++		l1_entry = mmu_info->l1_pt[l1_idx];
++		if (l1_entry == mmu_info->dummy_l2_pteval) {
++			l2_virt = mmu_info->l2_pts[l1_idx];
++			if (likely(!l2_virt)) {
++				l2_virt = alloc_l2_pt(mmu_info);
++				if (!l2_virt) {
++					err = -ENOMEM;
++					goto error;
++				}
+ 			}
+-		}
+ 
+-		dma = map_single(mmu_info, l2_virt);
+-		if (!dma) {
+-			dev_err(mmu_info->dev, "Failed to map l2pt page\n");
+-			free_page((unsigned long)l2_virt);
+-			spin_unlock_irqrestore(&mmu_info->lock, flags);
+-			return -EINVAL;
+-		}
++			dma = map_single(mmu_info, l2_virt);
++			if (!dma) {
++				dev_err(dev, "Failed to map l2pt page\n");
++				free_page((unsigned long)l2_virt);
++				err = -EINVAL;
++				goto error;
++			}
+ 
+-		l1_entry = dma >> ISP_PADDR_SHIFT;
++			l1_entry = dma >> ISP_PADDR_SHIFT;
+ 
+-		dev_dbg(mmu_info->dev, "page for l1_idx %u %p allocated\n",
+-			l1_idx, l2_virt);
+-		mmu_info->l1_pt[l1_idx] = l1_entry;
+-		mmu_info->l2_pts[l1_idx] = l2_virt;
+-		clflush_cache_range((void *)&mmu_info->l1_pt[l1_idx],
+-				    sizeof(mmu_info->l1_pt[l1_idx]));
+-	}
++			dev_dbg(dev, "page for l1_idx %u %p allocated\n",
++				l1_idx, l2_virt);
++			mmu_info->l1_pt[l1_idx] = l1_entry;
++			mmu_info->l2_pts[l1_idx] = l2_virt;
+ 
+-	l2_pt = mmu_info->l2_pts[l1_idx];
++			clflush_cache_range(&mmu_info->l1_pt[l1_idx],
++					    sizeof(mmu_info->l1_pt[l1_idx]));
++		}
+ 
+-	dev_dbg(mmu_info->dev, "l2_pt at %p with dma 0x%x\n", l2_pt, l1_entry);
++		l2_pt = mmu_info->l2_pts[l1_idx];
++		l2_entries = 0;
+ 
+-	paddr = ALIGN(paddr, ISP_PAGE_SIZE);
++		for (l2_idx = (iova & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
++		     size > 0 && l2_idx < ISP_L2PT_PTES; l2_idx++) {
++			l2_pt[l2_idx] = paddr >> ISP_PADDR_SHIFT;
+ 
+-	l2_idx = (iova_start & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
++			dev_dbg(dev, "l2 index %u mapped as 0x%8.8x\n", l2_idx,
++				l2_pt[l2_idx]);
+ 
+-	dev_dbg(mmu_info->dev, "l2_idx %u, phys 0x%8.8x\n", l2_idx,
+-		l2_pt[l2_idx]);
+-	if (l2_pt[l2_idx] != mmu_info->dummy_page_pteval) {
+-		spin_unlock_irqrestore(&mmu_info->lock, flags);
+-		return -EINVAL;
+-	}
++			iova += ISP_PAGE_SIZE;
++			paddr += ISP_PAGE_SIZE;
++			mapped += ISP_PAGE_SIZE;
++			size -= ISP_PAGE_SIZE;
+ 
+-	l2_pt[l2_idx] = paddr >> ISP_PADDR_SHIFT;
++			l2_entries++;
++		}
+ 
+-	clflush_cache_range((void *)&l2_pt[l2_idx], sizeof(l2_pt[l2_idx]));
+-	spin_unlock_irqrestore(&mmu_info->lock, flags);
++		WARN_ON_ONCE(!l2_entries);
++		clflush_cache_range(&l2_pt[l2_idx - l2_entries],
++				    sizeof(l2_pt[0]) * l2_entries);
++	}
+ 
+-	dev_dbg(mmu_info->dev, "l2 index %u mapped as 0x%8.8x\n", l2_idx,
+-		l2_pt[l2_idx]);
++	spin_unlock_irqrestore(&mmu_info->lock, flags);
+ 
+ 	return 0;
++
++error:
++	spin_unlock_irqrestore(&mmu_info->lock, flags);
++	/* unroll mapping in case something went wrong */
++	if (mapped)
++		l2_unmap(mmu_info, iova - mapped, paddr - mapped, mapped);
++
++	return err;
+ }
+ 
+ static int __ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+@@ -336,48 +401,8 @@ static int __ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+ 	return l2_map(mmu_info, iova_start, paddr, size);
+ }
+ 
+-static size_t l2_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+-		       phys_addr_t dummy, size_t size)
+-{
+-	u32 l1_idx = iova >> ISP_L1PT_SHIFT;
+-	u32 iova_start = iova;
+-	unsigned int l2_idx;
+-	size_t unmapped = 0;
+-	unsigned long flags;
+-	u32 *l2_pt;
+-
+-	dev_dbg(mmu_info->dev, "unmapping l2 page table for l1 index %u (iova 0x%8.8lx)\n",
+-		l1_idx, iova);
+-
+-	spin_lock_irqsave(&mmu_info->lock, flags);
+-	if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval) {
+-		spin_unlock_irqrestore(&mmu_info->lock, flags);
+-		dev_err(mmu_info->dev,
+-			"unmap iova 0x%8.8lx l1 idx %u which was not mapped\n",
+-			iova, l1_idx);
+-		return 0;
+-	}
+-
+-	for (l2_idx = (iova_start & ISP_L2PT_MASK) >> ISP_L2PT_SHIFT;
+-	     (iova_start & ISP_L1PT_MASK) + (l2_idx << ISP_PAGE_SHIFT)
+-		     < iova_start + size && l2_idx < ISP_L2PT_PTES; l2_idx++) {
+-		l2_pt = mmu_info->l2_pts[l1_idx];
+-		dev_dbg(mmu_info->dev,
+-			"unmap l2 index %u with pteval 0x%10.10llx\n",
+-			l2_idx, TBL_PHYS_ADDR(l2_pt[l2_idx]));
+-		l2_pt[l2_idx] = mmu_info->dummy_page_pteval;
+-
+-		clflush_cache_range((void *)&l2_pt[l2_idx],
+-				    sizeof(l2_pt[l2_idx]));
+-		unmapped++;
+-	}
+-	spin_unlock_irqrestore(&mmu_info->lock, flags);
+-
+-	return unmapped << ISP_PAGE_SHIFT;
+-}
+-
+-static size_t __ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info,
+-			       unsigned long iova, size_t size)
++static void __ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info,
++			     unsigned long iova, size_t size)
+ {
+ 	return l2_unmap(mmu_info, iova, 0, size);
+ }
+@@ -619,40 +644,13 @@ phys_addr_t ipu6_mmu_iova_to_phys(struct ipu6_mmu_info *mmu_info,
+ 	return phy_addr;
+ }
+ 
+-static size_t ipu6_mmu_pgsize(unsigned long pgsize_bitmap,
+-			      unsigned long addr_merge, size_t size)
++void ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
++		    size_t size)
+ {
+-	unsigned int pgsize_idx;
+-	size_t pgsize;
+-
+-	/* Max page size that still fits into 'size' */
+-	pgsize_idx = __fls(size);
+-
+-	if (likely(addr_merge)) {
+-		/* Max page size allowed by address */
+-		unsigned int align_pgsize_idx = __ffs(addr_merge);
+-
+-		pgsize_idx = min(pgsize_idx, align_pgsize_idx);
+-	}
+-
+-	pgsize = (1UL << (pgsize_idx + 1)) - 1;
+-	pgsize &= pgsize_bitmap;
+-
+-	WARN_ON(!pgsize);
+-
+-	/* pick the biggest page */
+-	pgsize_idx = __fls(pgsize);
+-	pgsize = 1UL << pgsize_idx;
+-
+-	return pgsize;
+-}
+-
+-size_t ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+-		      size_t size)
+-{
+-	size_t unmapped_page, unmapped = 0;
+ 	unsigned int min_pagesz;
+ 
++	dev_dbg(mmu_info->dev, "unmapping iova 0x%lx size 0x%zx\n", iova, size);
++
+ 	/* find out the minimum page size supported */
+ 	min_pagesz = 1 << __ffs(mmu_info->pgsize_bitmap);
+ 
+@@ -664,38 +662,16 @@ size_t ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+ 	if (!IS_ALIGNED(iova | size, min_pagesz)) {
+ 		dev_err(NULL, "unaligned: iova 0x%lx size 0x%zx min_pagesz 0x%x\n",
+ 			iova, size, min_pagesz);
+-		return -EINVAL;
+-	}
+-
+-	/*
+-	 * Keep iterating until we either unmap 'size' bytes (or more)
+-	 * or we hit an area that isn't mapped.
+-	 */
+-	while (unmapped < size) {
+-		size_t pgsize = ipu6_mmu_pgsize(mmu_info->pgsize_bitmap,
+-						iova, size - unmapped);
+-
+-		unmapped_page = __ipu6_mmu_unmap(mmu_info, iova, pgsize);
+-		if (!unmapped_page)
+-			break;
+-
+-		dev_dbg(mmu_info->dev, "unmapped: iova 0x%lx size 0x%zx\n",
+-			iova, unmapped_page);
+-
+-		iova += unmapped_page;
+-		unmapped += unmapped_page;
++		return;
+ 	}
+ 
+-	return unmapped;
++	return __ipu6_mmu_unmap(mmu_info, iova, size);
+ }
+ 
+ int ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+ 		 phys_addr_t paddr, size_t size)
+ {
+-	unsigned long orig_iova = iova;
+ 	unsigned int min_pagesz;
+-	size_t orig_size = size;
+-	int ret = 0;
+ 
+ 	if (mmu_info->pgsize_bitmap == 0UL)
+ 		return -ENODEV;
+@@ -718,28 +694,7 @@ int ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+ 	dev_dbg(mmu_info->dev, "map: iova 0x%lx pa %pa size 0x%zx\n",
+ 		iova, &paddr, size);
+ 
+-	while (size) {
+-		size_t pgsize = ipu6_mmu_pgsize(mmu_info->pgsize_bitmap,
+-						iova | paddr, size);
+-
+-		dev_dbg(mmu_info->dev,
+-			"mapping: iova 0x%lx pa %pa pgsize 0x%zx\n",
+-			iova, &paddr, pgsize);
+-
+-		ret = __ipu6_mmu_map(mmu_info, iova, paddr, pgsize);
+-		if (ret)
+-			break;
+-
+-		iova += pgsize;
+-		paddr += pgsize;
+-		size -= pgsize;
+-	}
+-
+-	/* unroll mapping in case something went wrong */
+-	if (ret)
+-		ipu6_mmu_unmap(mmu_info, orig_iova, orig_size - size);
+-
+-	return ret;
++	return __ipu6_mmu_map(mmu_info, iova, paddr, size);
+ }
+ 
+ static void ipu6_mmu_destroy(struct ipu6_mmu *mmu)
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-mmu.h b/drivers/media/pci/intel/ipu6/ipu6-mmu.h
+index 21cdb0f146eb..8e40b4a66d7d 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-mmu.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-mmu.h
+@@ -66,8 +66,8 @@ int ipu6_mmu_hw_init(struct ipu6_mmu *mmu);
+ void ipu6_mmu_hw_cleanup(struct ipu6_mmu *mmu);
+ int ipu6_mmu_map(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+ 		 phys_addr_t paddr, size_t size);
+-size_t ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+-		      size_t size);
++void ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
++		    size_t size);
+ phys_addr_t ipu6_mmu_iova_to_phys(struct ipu6_mmu_info *mmu_info,
+ 				  dma_addr_t iova);
+ #endif
+-- 
+2.34.1
+
 
