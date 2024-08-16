@@ -1,132 +1,233 @@
-Return-Path: <linux-media+bounces-16373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16374-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C08954820
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 13:34:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1318195489F
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 14:21:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 142902874EC
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 11:34:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C01EF284CD7
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 12:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B104A18D649;
-	Fri, 16 Aug 2024 11:34:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA0C1B3749;
+	Fri, 16 Aug 2024 12:21:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GunVUYqC"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vepJIgQv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A39155727
-	for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 11:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9CE1A4F04
+	for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 12:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723808065; cv=none; b=Vc0NjIxxV31S19CirtgiptV2LcMiU/XzteDT9z8XvgGQEQ2V4EEEXQTTTzcRLNvQbfKAeV+Ljv7KuwVC2i3ni4ssxYm9L9kLAcZQmD4auMM6Gy6eteYdQoaOQXrN7XOpqh1ZZV6NetdRkYdikOz6IVO+Vdt9vyQ27Gr/T0bZB7k=
+	t=1723810860; cv=none; b=I+dk9yyEmD+Jg/iE+VRQNUBsYIvDkxIhk000Y4yB99IHGofrbg5LCLgUISnHALkpgo4ku3sETgq/I1VnBltSP/mAPJ0mogqaXk/8SytpGcPn/RW5DU2oAUIRPJ1l4vXxmqfJB5k5ChN5VKd5L5xQhUw0H5rqt2SdQy6uLTwy+6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723808065; c=relaxed/simple;
-	bh=6R50P25VUglNb6oXZN4lyDG1RygKx2LfyxopQiWqb7k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DDGwMgWOVzUnc5aAAbNMKSlhK60auvlz55g8OyANLOYFByJuwUmcHkR6nUEhyjzJD0njUh7FDP9B+REayt4Du9e+rpnB+Rb43iYlP/Nhsm+fc2Loh/GV4U2fiVcaLa7FCltj0xWkAWT0VS7fejyDB0pM7obadLl4jiRV+LzwUDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GunVUYqC; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso13718125e9.1
-        for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 04:34:23 -0700 (PDT)
+	s=arc-20240116; t=1723810860; c=relaxed/simple;
+	bh=uDHRwF0otXkj+agrQEA0lwHEUq1GTb5X3dySo2OqWmA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i1Vsg9p70T//TdeNm2RxqX65kcLC2FXKFTQmA6smHuc00KzC0ug1BZMh66yYxJv/EN3u1aDudvxDrjDVvDafgG61VJTvYWHFqRCoLZHK1e4FnwDgDy1IGS0Ejw+dvO8bW0JmqtfE5m8OQ2Ma6N5d0SIIt3vq3DBKXM2MjXMItgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vepJIgQv; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7a1d81dc0beso129739385a.2
+        for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 05:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723808062; x=1724412862; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mFzZNe7OfgMfItNDQGhaTWGUwq1aQam/TzneCKR2kpI=;
-        b=GunVUYqCjNFy2O6UC5W3NC0YVF9L0W4156eszaYm52HeorFYQpwQ0WQq3hAflF1UL1
-         X+zAX2VY8Jp87RBy4KucXW3xE6a9Xr+wZBeWjVlRmkVswG6TN5TkQVOCTNwBuYVGWscR
-         jb6RESLB40XOoSjvA2qVhs8ypTgBdVOvqJ4it7+dePbHl0mU/1wm8eL9sXNF/vhBA3kh
-         LKKUC/Ay5WoiF9+heBMAiO7DK8bqqF9n/aloBzWvcarYE+VzG+4Ppny8epvFHZx3pSvu
-         qz/eKMZB1NK1rcnTjr9MkuDtC9iTIMxfJB5d+x+ocufmMrOsdvT3HxYeyxhBOLyyitYF
-         KpAg==
+        d=google.com; s=20230601; t=1723810857; x=1724415657; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=60gFb7YBVOLPqGwy/Oc6xhCaH/QA9b9t6B6yBp4eA0s=;
+        b=vepJIgQvm2wUGg7wPKHnb+cadQKMpOzbWijLOw8Y601NGnc5kVVQQPvwKuFuHmO9dT
+         MJgiqk3ifseVfRq/1H89bggOm/n7pq2Mm8dmsp81hGSa5WPe8joH83P6y+SfpVSL5VCH
+         lZLxAXq0w4X5pjPxczK8MnzECXq4GfetXQZQfQsE1q5cckXfkWtkW5TRvbSxcOYtVr4U
+         /ROBZ3uaTofnbmaov+YziEU4mN5Jx1qhndecyk+dDXswFTYJQF2zRTdUbbakad1/rIsM
+         DwzU5Muj2HTFtxM1/A66Nbfr3az4ejPZ29MAKl9DO+8SgPw7kWqtxMFRF8n5JpvPCqFk
+         yYhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723808062; x=1724412862;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mFzZNe7OfgMfItNDQGhaTWGUwq1aQam/TzneCKR2kpI=;
-        b=uQZgc6ngjRGaOwlf6X8lEjoJcAPVOsVSISeQZH8QoTVyzGZi0SrRKHh8jMYuHtRoDG
-         D5CCGBrhsK/dQ3mC7tqpj78nk9mueBvfNZEpGpVHwiDFAnrESbehTXm1/ZYjaLWp1k2w
-         Q7D7W+Ln6wmeiK2CFFbIT/sYHu7y9ugdcWsD+OCXg+7m7VLeG6xjMHZfGx10014HafCl
-         Luw7dRjoWS7EGbwyjpiKn1s3vdMF/W1vw37e+7hw6NeUcRR0pL8CSJ62QATrZtCYCJEi
-         rqqcGN+1ENFg7X0N9YsKHhNSrS2gcQ6HdbyHgbvjnWpovT9Ql3hA08C7SDzB91bQp7F/
-         pG/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU4nfc9Uz7BGCvMiQVta3mInLsFSP9QMFtcCHn+aXXtTVK5w+CKzdu00Uf61kQyUUCItRNeQje9Zzxhmw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1hXTY1oBR7wcvgqwetKO3qLzZQJiyj2N8/uuvGQDaPUnoHnYZ
-	tV0pi79Xi/BVF5o5y16c9RLzJjFiWvydp5I7k9h2aLl5+WRsS1aNo7u73WhcG1iYD8SJJoOhsWS
-	B
-X-Google-Smtp-Source: AGHT+IGPR3fLSe1jPOcXZeD3IwyAqLhaj+Dpm02AIv35ZOc+p+G7vfooX3dSt+28S0R/vGn/23MHiA==
-X-Received: by 2002:a05:6000:1112:b0:368:714e:5a5e with SMTP id ffacd0b85a97d-3719431764cmr1940797f8f.2.1723808061661;
-        Fri, 16 Aug 2024 04:34:21 -0700 (PDT)
-Received: from [192.168.0.25] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898b8ae2sm3469287f8f.113.2024.08.16.04.34.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Aug 2024 04:34:21 -0700 (PDT)
-Message-ID: <9c254643-2d95-43c5-98c5-cc6f2866213b@linaro.org>
-Date: Fri, 16 Aug 2024 12:34:20 +0100
+        d=1e100.net; s=20230601; t=1723810857; x=1724415657;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=60gFb7YBVOLPqGwy/Oc6xhCaH/QA9b9t6B6yBp4eA0s=;
+        b=RoVss15e6/cR0rOf0kTr1cb47iHJfoi7ByqSLHH93Q5v8zlVYY/e+Og9VvRIj12j2F
+         1zpU37GUK5vJilVw62ncnoy1n9UkW4vTfZ09Grh1v/LKMOWDzRR92Smu9khJA81K5al+
+         yo3x/Oy5vfHE7TC9CODSRAscNPTYtg/5UJnPzjwRHxFb1l1QhQjVzLvKANqKy0KKgSdT
+         dD/KoLLZx5kDpl2zY105xPkPiHu2f1AUXYiLBUMlTvUdbnybTjHygJC2DAGz1jt/jx+W
+         4vLR2RgM6/gtsLTsmY+YNCmHw/NTmKn9yiEMYTCE0bty24NsJjSY1rbzau8bU/78JI3R
+         OC2w==
+X-Forwarded-Encrypted: i=1; AJvYcCX/Btj8OvsAgfAnw66ny7drPDKuG5baisOGAF/oRAPm5Jn3FX+D9YF0285Ld4tpvbuDA8+S2ePF0nGki1+ZCry6MUEuVmsB8CvYiiU=
+X-Gm-Message-State: AOJu0YyB3QvnSgWSZCV0utSlDnXlHuzwSgu0iKjva8ZzdmhARXzAWcrH
+	OayeeRi4Lcv2Sy/AnRAuZbYFfrnGKFSHeQHT5DQCXY88Py+adhqeHS6bMkrZ03e6K7I6OPzzDBc
+	sYETcajAVWh17dPVcBVb2NiDCmlypt0viYU0t
+X-Google-Smtp-Source: AGHT+IGZmdSIKsIbNLMCWhDr7siS0fg53Dzm3mUEgRlOmZUGtYHuIW2VVl49SrIQcFwsu42Q03aJr/PwI9drpzidh7Q=
+X-Received: by 2002:a05:6214:5713:b0:6bf:7c34:e419 with SMTP id
+ 6a1803df08f44-6bf7cdcb101mr38991616d6.5.1723810857192; Fri, 16 Aug 2024
+ 05:20:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/13] media: qcom: camss: Add CSID Gen3 support for
- sm8550
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@quicinc.com, Yongsheng Li <quic_yon@quicinc.com>
-References: <20240812144131.369378-1-quic_depengs@quicinc.com>
- <20240812144131.369378-13-quic_depengs@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240812144131.369378-13-quic_depengs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240813211317.3381180-7-almasrymina@google.com>
+ <de7daf80-a2e4-4451-b666-2a67ccc3649e@gmail.com> <CAHS8izPMC+XhXKbJOQ3ymizyKuARSOv_cO_xO+q1EG4zoy6Gig@mail.gmail.com>
+ <31640ff4-25a6-4115-85e6-82092ce57393@gmail.com> <20240815182245.2b5e3f44@kernel.org>
+In-Reply-To: <20240815182245.2b5e3f44@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 16 Aug 2024 08:20:44 -0400
+Message-ID: <CAHS8izO9LDM9rLVnJPgp6QXb4YLW5+3ziGOHTqScy-SKOLejYA@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 06/13] memory-provider: dmabuf devmem memory provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Taehee Yoo <ap420073@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/08/2024 15:41, Depeng Shao wrote:
-> +
-> +static void csid_configure_stream(struct csid_device *csid, u8 enable)
-> +{
-> +	u8 i;
-> +
-> +	/* Loop through all enabled VCs and configure stream for each */
-> +	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
-> +		if (csid->phy.en_vc & BIT(i)) {
-> +			__csid_configure_top(csid);
-> +			__csid_configure_rdi_stream(csid, enable, i);
-> +			__csid_configure_rx(csid, &csid->phy, i);
-> +			__csid_ctrl_rdi(csid, enable, i);
-> +		}
-> +}
+On Thu, Aug 15, 2024 at 9:22=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Wed, 14 Aug 2024 17:32:53 +0100 Pavel Begunkov wrote:
+> > > This is where I get a bit confused. Jakub did mention that it is
+> > > desirable for core to verify that the driver did the right thing,
+> > > instead of trusting that a driver did the right thing without
+> > > verifying. Relying on a flag from the driver opens the door for the
+> > > driver to say "I support this" but actually not create the mp
+> > > page_pool. In my mind the explicit check is superior to getting
+> > > feedback from the driver.
+> >
+> > You can apply the same argument to anything, but not like
+> > after each for example ->ndo_start_xmit we dig into the
+> > interface's pending queue to make sure it was actually queued.
+> >
+> > And even if you check that there is a page pool, the driver
+> > can just create an empty pool that it'll never use. There
+> > are always ways to make it wrong.
+> >
+> > Yes, there is a difference, and I'm not against it as a
+> > WARN_ON_ONCE after failing it in a more explicit way.
+> >
+> > Jakub might have a different opinion on how it should look
+> > like, and we can clarify on that, but I do believe it's a
+> > confusing interface that can be easily made better.
+>
+> My queue API RFC patches had configuration arguments, not sure if this
+> is the right version but you'll get the idea:
+> https://github.com/kuba-moo/linux/blob/qcfg/include/net/netdev_cfg.h#L43-=
+L50
+> This way we can _tell_ the driver what the config should be. That part
+> got lost somewhere along the way, because perhaps in its embryonic form
+> it doesn't make sense.
+>
+> We can bring it back, add HDS with threshold of 0, to it, and a bit for
+> non-readable memory. On top of that "capability bits" in struct
+> netdev_queue_mgmt_ops to mark that the driver pays attention to particula=
+r
+> fields of the config.
+>
+> Not sure if it should block the series, but that'd be the way I'd do it
+> (for now?)
+>
 
-Just noticed this too.
+I'm not sure I want to go into a rabbit hole of adding configuration
+via the queue API, blocking this series . We had discussed this months
+back and figured that it's a significant undertaking on its own. I'm
+not sure GVE has HDS threshold capability for example, and I'm also
+not sure how to coexist header split negotiability via the queue API
+when an ethtool API exists alongside it. I think this is worthy of
+separating in its own follow up series.
 
-You're configuring the CSID routing here for each enabled VC but, you 
-should only do that once @ the top level
+For now detecting that the driver was able to create the page_pool
+with the correct memory provider in core should be sufficient. Also
+asking the driver to set a
+netdev_rx_queue->unreadable_netmem_supported flag should also be
+sufficient. I've implemented both locally and they work well.
 
-->
+> I'd keep the current check with a WARN_ON_ONCE(), tho.
+> Given the absence of tests driver developers can use.
+> Especially those who _aren't_ supporting the feature.
+>
 
+Yes what I have locally is the driver setting
+netdev_rx_queue->unreadable_netmem_supported when header split is
+turned on, and additionally a WARN_ON_ONCE around the check in core. I
+was about to send that when I read your email. I'm hoping we don't
+have to go through the scope creep of adding configuration via the
+queue API, which I think is a very significant undertaking.
 
-	__csid_configure_top(csid);
+> > > and cons to each approach; I don't see a showstopping reason to go
+> > > with one over the other.
+> > >
+> > >> And page_pool_check_memory_provider() is not that straightforward,
+> > >> it doesn't walk through pools of a queue.
+> > >
+> > > Right, we don't save the pp of a queue, only a netdev. The outer loop
+> > > checks all the pps of the netdev to find one with the correct binding=
+,
+> > > and the inner loop checks that this binding is attached to the correc=
+t
+> > > queue.
+> >
+> > That's the thing, I doubt about the second part.
+> >
+> > net_devmem_bind_dmabuf_to_queue() {
+> >       err =3D xa_alloc(&binding->bound_rxqs, &xa_idx, rxq);
+> >       if (err)
+> >               return err;
+> >
+> >       netdev_rx_queue_restart();
+> >
+> >       // page_pool_check_memory_provider
+> >       ...
+> >       xa_for_each(&binding->bound_rxqs, xa_idx, binding_rxq) {
+> >               if (rxq =3D=3D binding_rxq)
+> >                       return success;
+> > }
+> >
+> > Can't b4 the patches for some reason, but that's the highlight
+> > from the patchset, correct me if I'm wrong. That xa_for_each
+> > check is always true because you put the queue in there right
+> > before it, and I don't that anyone could've erased it.
+> >
+> > The problem here is that it seems the ->bound_rxqs state doesn't
+> > depend on what page pools were actually created and with what mp.
+>
+> FWIW I don't understand the point of walking the xa either.
+> Just check the queue number of the pp you found matches,
+> page pool params are saved in the page pool. No?
+>
 
-	/* Loop through all enabled VCs and configure stream for each */
-	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++)
-		if (csid->phy.en_vc & BIT(i)) {
-			__csid_configure_rdi_stream(csid, enable, i);
-			__csid_configure_rx(csid, &csid->phy, i);
-			__csid_ctrl_rdi(csid, enable, i);
-		}
+Yes, I changed this check to check pool->p.queue, and it works fine.
 
----
-bod
+--=20
+Thanks,
+Mina
 
