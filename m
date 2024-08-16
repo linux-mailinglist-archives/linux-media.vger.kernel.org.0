@@ -1,201 +1,178 @@
-Return-Path: <linux-media+bounces-16386-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16387-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8779548D3
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 14:33:26 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7B3954900
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 14:43:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF8041C21822
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 12:33:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 518BDB23611
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2024 12:43:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267AD1B32CD;
-	Fri, 16 Aug 2024 12:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04E5C1B86C1;
+	Fri, 16 Aug 2024 12:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bjIVjfix"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZYtfJXs1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662B81BB68E
-	for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 12:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDEF1B3F08;
+	Fri, 16 Aug 2024 12:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723811531; cv=none; b=CXnj9DdwGb/BZqWCCuRZTbHKyMlkJQAZwPEbQCWE5uDRrXm6DlsAa9XMi2JG9tXwGsJhmuQCKhhDRolZj2nKf/YwoDV1U+nJF8U10wu6gzRmYyaq4SeFNiOA3RHJCAGYTM7SkL/KePzXz9mmiN3P0aq0qmqWPg+w2vzIuMGRgPo=
+	t=1723812169; cv=none; b=KFHTqDOJXyvBTELcr+bsb/ae13+8GvU811zauM12LYs1LG7cWhczDzGmObJDQp6zgwfIYZz64Vsv29wfc0Mm7mKl4mtIsjpk/yU9clqLv1TUO8pWnLEuD95bJjXGmnTrHECM7QR8fgjdVXdg2Sifgua4bHBT6+GghBg9R+c1ogY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723811531; c=relaxed/simple;
-	bh=SXKvsjbb6kOB2MdaooRMUXOmM0k8Y5hLTe9Sfpiqp9o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RMbn1UpClCC9zeC5qe+06RjAodFU4dhwS4/zPLLWRF+0Ncq20NqyKvRx04oaWlIdcmbJyP1iT1/DV7CEkiwc30pZMwR9ubkeigZ/wggOvaK1ZZa4Ahc6XHC9D28KhK2G2IZ3OfADHhORuz/8lfN9+5VUn93gzAyGx+U0QN6bMg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bjIVjfix; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6b7a3773a95so10619076d6.2
-        for <linux-media@vger.kernel.org>; Fri, 16 Aug 2024 05:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1723811528; x=1724416328; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yVxZXuTJqaJ10E0yGjjv9nH2alidPK1Y4VYj7sM9de4=;
-        b=bjIVjfixAjoNTOBjf1pxaMlk+ojJ7ZT1vD1I2XAZYYKr8Z1II1+/Jp154BtHHatZN1
-         bb0sSVeKztDB8h3aNQrNokYafwn65w/2slYNlXXL46f8McD4z8y/BV6+/YSrLHxU5fbz
-         unqfLSLCsr7kWyVOvSmvtJcsKB3pilCQ6sGxo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723811528; x=1724416328;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yVxZXuTJqaJ10E0yGjjv9nH2alidPK1Y4VYj7sM9de4=;
-        b=AFsNNfxVod5pNsG8qcN4oZpKTFAYNAfzPJ2TksIMMkd501xgZkAPuGXYVhbNjzDOCd
-         wYL2+l+WfBiceCMreuuy2qY53lzhaRnbhpAGYz8XdD0L4kt7Rh/v+fLmkSh8DWwacv79
-         hiGF6bBZTtEG4WlcIg3tZiZpr2yk2kd2RC7gnOFanynhV0vR8daA4NppyihKeQjosRVz
-         T8ulmaaMj/spUcfrWP0xDXm8WdVIjDPRfl51pjD9ozOPTNUlvvqueKouNWKeKAkm18Lx
-         vnnW/nJGjJRN425JhMadU7eRxCM7wgCHlpKVbfJgW+Zd1hZeY7VPGbCVUB4N8FxJhald
-         tl+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU2yNYLE6glszNmJMj37wO8kFwNlugFRtW1zhdPND+N5bLcTIc3I+uPwMFh6W7t579Q90fl5vpRQxPr53wjkqZoswYssNbdV5IHcn0=
-X-Gm-Message-State: AOJu0Yw6UK15EkS8N1D7L4uw0uREMaoA1xfHub6hahYYsHGbvBMZQG+C
-	BrP4gQn3lyPWqcDA1sNaWHCQ9bqxr8kt4T+PfkI99rdwjRroRzwTSYhdCYWX6g==
-X-Google-Smtp-Source: AGHT+IHxo1lFSQMX1cM/4MwpLU2TEtbVsyk63XfQG/g27+OnQuVnbh1zDXFyHf9x2ZFHVGoE5m/EQQ==
-X-Received: by 2002:a05:6214:540a:b0:6bf:700f:a3b7 with SMTP id 6a1803df08f44-6bf7cd7ac78mr23067056d6.9.1723811528290;
-        Fri, 16 Aug 2024 05:32:08 -0700 (PDT)
-Received: from denia.c.googlers.com (123.178.145.34.bc.googleusercontent.com. [34.145.178.123])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fef3107sm16881426d6.121.2024.08.16.05.32.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Aug 2024 05:32:07 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 16 Aug 2024 12:32:04 +0000
-Subject: [PATCH v2 6/6] media: meson: vdec: hevc: Refactor vdec_hevc_start
- and vdec_hevc_stop
+	s=arc-20240116; t=1723812169; c=relaxed/simple;
+	bh=qY+BKcV1QJLSNJP2L18fdcbi6799Za9UeU7BvMK/iDQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=tIqqfptHGkcMoDlPkVcNf19cnMgpMI2Iluj4H23NYuYZ80EASYYhhxY4wkVpE+jdY1LDWrkwMHYh0FXvtithKusgI+i20BgGOx9R9ztUYoAW3fXNYMQqZUV4BN22VoVl+cEVkAUGFdyuptEIkYPtK9g3aGpDstoNnHDSXMJqXrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZYtfJXs1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47G8ZSBf008617;
+	Fri, 16 Aug 2024 12:42:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FSGM7Z7frwAZYrHwwjdoJgBdsi+vSGc631EYgUU93Ak=; b=ZYtfJXs1TMHjeIXJ
+	7sCtWDBHLq3SvL+Z57SKw9nYPl+t+AMkrxjk2Zp4ouQ4CFSdqd0ycAmNr++x891o
+	V685sYd1AEemHpWIlPDHj+zmv3EHyRmujqEP+AYPUJX+rLYWCzj0YDZUBxi/nqGX
+	il3sf6nnUsQxR8wX9HLEW7YXygjY0d/a5HUlz0JBg3xH04W84p2oTeeCX5wLcQXe
+	43wVbe0UmrZZ9DTrWxRvqmFAqNPz/txSHWFpK+OSvx0nY2jmWJRjlioPkrvCct4i
+	XWTHdn5e5+PZ5fo3wh08K/aWncP/jw3xCX7QU5DDb1pFnqWmIt2/2YAf0bEznRsC
+	LbNxsg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4123cugmpd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Aug 2024 12:42:42 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47GCgfQp005317
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 16 Aug 2024 12:42:41 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 16 Aug
+ 2024 05:42:35 -0700
+Message-ID: <de2c8fa3-afc1-4163-aae5-3868ca59e95e@quicinc.com>
+Date: Fri, 16 Aug 2024 20:42:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
+ version Titan 780
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-14-quic_depengs@quicinc.com>
+ <4b745c1a-33d9-472a-97af-153a2a7c8721@linaro.org>
+ <2de0b7a8-b879-49e9-9656-ec86f29ce559@quicinc.com>
+ <b0787142-0f85-4616-9895-72e33f21c2da@linaro.org>
+ <82200889-a98d-4815-bc31-f81b15d02513@quicinc.com>
+ <7130beef-7787-42a1-85c8-f27574241ba7@linaro.org>
+ <5ecbcd10-d9b7-4134-9666-6df790527b1f@quicinc.com>
+ <56211603-de02-4b8f-a7c6-a4d80ace4e2f@linaro.org>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <56211603-de02-4b8f-a7c6-a4d80ace4e2f@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240816-smatch-clock-v2-6-c63105db07e8@chromium.org>
-References: <20240816-smatch-clock-v2-0-c63105db07e8@chromium.org>
-In-Reply-To: <20240816-smatch-clock-v2-0-c63105db07e8@chromium.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Hxb6zIEHULxVFgXXJQV6tNkVTVIRFSCS
+X-Proofpoint-ORIG-GUID: Hxb6zIEHULxVFgXXJQV6tNkVTVIRFSCS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-16_03,2024-08-16_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ clxscore=1015 mlxlogscore=999 priorityscore=1501 spamscore=0 bulkscore=0
+ adultscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2407110000
+ definitions=main-2408160092
 
-Make a new function __vdec_hevc_start(), that does all the
-initialization, except the clock initialization for G12A and SM1.
+Hi Vladimir,
 
-Factor out all the stop logic, except the clk_disable_unprepare(), to a
-new function __vdec_hevc_stop. This allows vdec_hevc_start() to
-explicitly celan-out the clock during the error-path.
+On 8/16/2024 5:31 AM, Vladimir Zapolskiy wrote:
+> Hi Depeng.
+> 
+> On 8/15/24 18:43, Depeng Shao wrote:
+>> Hi Vladimir,
+>>
+>>>>
+>>>> Thanks for the confirmation, even though I add the rup_update and
+>>>> buf_done function in later commits, it is still called in platform
+>>>> specific code(camss-vfe-780.c), so I will keep as it is done today.
+>>>
+>>> let it be so.
+>>>
+>>> I have another ask about it, please move new camss_reg_update() out from
+>>> camss.c into camss-csid.c, and camss_buf_done() from camss.c into camss-
+>>> vfe.c
+>>>
+>>
+>> The cross direct call has been removed by below commit, so it looks
+>> strange if I add the cross direct call.
+>>
+>> media: qcom: camss: Decouple VFE from CSID
+>> https://lore.kernel.org/lkml/20240522154659.510-9- 
+>> quic_grosikop@quicinc.com/
+> 
+> This I don't understand, please elaborate. I don't ask for a "cross direct
+> call", but you do introduce a CSID specific function in the generic camss.c
+> and another VFE specific function in the same camss.c
+> 
 
-The following smatch warnings are fixed:
+CSID calls vfe_get/vfe_put to power up/reset vfe hw in old code, but 
+above decouple commit removes this cross direct call, this commit has 
+been merged recently.
 
-drivers/staging/media/meson/vdec/vdec_hevc.c:227 vdec_hevc_start() warn: 'core->vdec_hevc_clk' from clk_prepare_enable() not released on lines: 227.
-drivers/staging/media/meson/vdec/vdec_hevc.c:227 vdec_hevc_start() warn: 'core->vdec_hevcf_clk' from clk_prepare_enable() not released on lines: 227.
+> What I ask is just move the current versions of camss_buf_done() and
+> camss_reg_update() out from camss.c to the files, which are related to the
+> sub-IP blocks, and of course move the function declarations from camss.h
+> into camss-vfe.h and camss-csid.h respectively.
+> 
+> If possible there shall be no CSID or VFE specific specific code in 
+> camss.c,
+> and that fact is that it's possible.
+> 
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/staging/media/meson/vdec/vdec_hevc.c | 43 +++++++++++++++++++++-------
- 1 file changed, 32 insertions(+), 11 deletions(-)
+Yes, I understand what you mean. Let's take camss_buf_done as example, 
+if we move camss_buf_done to camss-vfe.c, but this function is called in 
+csid csid driver, so here will have a cross direct call again, 
+camss_reg_update is same. Since the cross call is removed in above 
+commit, then it will be strange if I do this again.
 
-diff --git a/drivers/staging/media/meson/vdec/vdec_hevc.c b/drivers/staging/media/meson/vdec/vdec_hevc.c
-index afced435c907..1939c47def58 100644
---- a/drivers/staging/media/meson/vdec/vdec_hevc.c
-+++ b/drivers/staging/media/meson/vdec/vdec_hevc.c
-@@ -110,7 +110,7 @@ static u32 vdec_hevc_vififo_level(struct amvdec_session *sess)
- 	return readl_relaxed(sess->core->dos_base + HEVC_STREAM_LEVEL);
- }
- 
--static int vdec_hevc_stop(struct amvdec_session *sess)
-+static void __vdec_hevc_stop(struct amvdec_session *sess)
- {
- 	struct amvdec_core *core = sess->core;
- 	struct amvdec_codec_ops *codec_ops = sess->fmt_out->codec_ops;
-@@ -142,6 +142,13 @@ static int vdec_hevc_stop(struct amvdec_session *sess)
- 	else
- 		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_SLEEP0,
- 				   GEN_PWR_VDEC_HEVC, GEN_PWR_VDEC_HEVC);
-+}
-+
-+static int vdec_hevc_stop(struct amvdec_session *sess)
-+{
-+	struct amvdec_core *core = sess->core;
-+
-+	__vdec_hevc_stop(sess);
- 
- 	clk_disable_unprepare(core->vdec_hevc_clk);
- 	if (core->platform->revision == VDEC_REVISION_G12A ||
-@@ -151,20 +158,12 @@ static int vdec_hevc_stop(struct amvdec_session *sess)
- 	return 0;
- }
- 
--static int vdec_hevc_start(struct amvdec_session *sess)
-+static int __vdec_hevc_start(struct amvdec_session *sess)
- {
- 	int ret;
- 	struct amvdec_core *core = sess->core;
- 	struct amvdec_codec_ops *codec_ops = sess->fmt_out->codec_ops;
- 
--	if (core->platform->revision == VDEC_REVISION_G12A ||
--	    core->platform->revision == VDEC_REVISION_SM1) {
--		clk_set_rate(core->vdec_hevcf_clk, 666666666);
--		ret = clk_prepare_enable(core->vdec_hevcf_clk);
--		if (ret)
--			return ret;
--	}
--
- 	clk_set_rate(core->vdec_hevc_clk, 666666666);
- 	ret = clk_prepare_enable(core->vdec_hevc_clk);
- 	if (ret) {
-@@ -223,10 +222,32 @@ static int vdec_hevc_start(struct amvdec_session *sess)
- 	return 0;
- 
- stop:
--	vdec_hevc_stop(sess);
-+	__vdec_hevc_stop(sess);
-+	clk_disable_unprepare(core->vdec_hevc_clk);
- 	return ret;
- }
- 
-+static int vdec_hevc_start(struct amvdec_session *sess)
-+{
-+	struct amvdec_core *core = sess->core;
-+	int ret;
-+
-+	if (core->platform->revision == VDEC_REVISION_G12A ||
-+	    core->platform->revision == VDEC_REVISION_SM1) {
-+		clk_set_rate(core->vdec_hevcf_clk, 666666666);
-+		ret = clk_prepare_enable(core->vdec_hevcf_clk);
-+		if (ret)
-+			return ret;
-+
-+		ret = __vdec_hevc_start(sess);
-+		if (ret)
-+			clk_disable_unprepare(core->vdec_hevcf_clk);
-+		return ret;
-+	}
-+
-+	return __vdec_hevc_start(sess);
-+}
-+
- struct amvdec_ops vdec_hevc_ops = {
- 	.start = vdec_hevc_start,
- 	.stop = vdec_hevc_stop,
+So, I moved them to camss.c
 
--- 
-2.46.0.184.g6999bdac58-goog
+>> I use the v4l2_subdev_notify to do the cross communication in v1 and v2
+>> series, but Bryan said, "The subdev notify is I think not the right fit
+>> for this purpose within our driver.".
+> 
+> As far as I see all of that is irrelevant.
+> 
+>> Then I add an internal notify interface in camss structure, but Bryan
+>> suggested to use direct call, so I add these functions directly in 
+>> camss.c
+>>
+>> https://lore.kernel.org/all/236cfe43-8321-4168-8630- 
+>> fb9528f581bd@linaro.org/
+>>
+> 
+
+Thanks,
+Depeng
 
 
