@@ -1,338 +1,234 @@
-Return-Path: <linux-media+bounces-16408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16409-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928EC955913
-	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2024 18:51:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4DF95594A
+	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2024 20:26:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B84131C20C13
-	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2024 16:51:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60EDA282895
+	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2024 18:26:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8083A155A30;
-	Sat, 17 Aug 2024 16:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3D0115535A;
+	Sat, 17 Aug 2024 18:26:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PgMF3d8H"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rjJM0k8o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8B1440C;
-	Sat, 17 Aug 2024 16:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6915B78281;
+	Sat, 17 Aug 2024 18:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723913485; cv=none; b=XdQJi+/I0sPcxEoLyfb+IddC7M4TrDAypJ0i+Hkci3+j6p80IpeMd465AqUIYp3GayDZymQjtNuazSk4Fsxgbx8Lol0NdUwF2Qd5+CNAKHhgrFePEaZtvut/sjj4U70EM8H7uE3ZQLq3XrjKaTpnr2d7ySwRzdh299RtmIuJtuU=
+	t=1723919183; cv=none; b=IajwK/fYN3PaIYBrenKAtrDAS3vxpkYqUJ8ZBz+tjozBy4AooNWewHyLfTWRK0DixEk4MuPE8FK66bmexuqsuUwmhbqJlnHAmAF7CN4yumg2KkicwPOB3ZH9sJM+IWZ8uAz2bguBiNnklfOCczr+g4ASF2FBOZ67VqiQAW0jFBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723913485; c=relaxed/simple;
-	bh=uPm2ix/rW3SAryvnCUoqiN+L+HYHFUHM3ZhnV4hoge0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SChQVidzIIF9WkEGiWqEDVfYagO9pxnk3k1gKuHgk5cnTl5K25UjvBNzV99YLyaA882ZEJa8pjHutjAnhnFjoe5rDUfJ3AvUd7uvTeSv/wjScJVY87nEv0vknpaE99Uj2MqnOD82aMOp4ovGsmp70AnWeF8ky3w4wnSL6OVAmPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PgMF3d8H; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f3b7aba3dbso36261761fa.3;
-        Sat, 17 Aug 2024 09:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723913482; x=1724518282; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uPm2ix/rW3SAryvnCUoqiN+L+HYHFUHM3ZhnV4hoge0=;
-        b=PgMF3d8HdkmdZYgKuq2QQp6IhO+hvXoeBq4p70UQqJHZz/UFcop+hGaAUOPQbYEdIp
-         cF6s6KGIzy3gFI19C/Mu2XiqylUQ6mz/CNnQC3a3F8Jp0lMKZ3j9pNJgZQlTTKrP1sDB
-         Gp4oK2Kur5s6gd5Z8J1Kr9SZYg3WxwiQQkukx1qzgnNSbu/R4CC3Pe0+R1xsSLStbn1q
-         m3k9+M67RpidxK/wjhcgn7eYORh99GBI+evGjzIlLPHOZzu4rZy2xsLf6b4iSgd0+c/4
-         A1uz7ncDQubhl9VfiVPQ112gnxkeL+NrDGi1JB2+8wHMYyeG+6mzdFHRwZ0dHCVRKDsg
-         HquA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723913482; x=1724518282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uPm2ix/rW3SAryvnCUoqiN+L+HYHFUHM3ZhnV4hoge0=;
-        b=mGjdRGkxmcouqd79OQykd5peI+H7NuADa/w0o51hRWlrNWNKYLrjG4OpZQzxcY7SNy
-         ewGr7wwe8wa8ELdoqInGlqBWVl2C0xYkX8oqYQp9iMMS/tDoAGWNpMeTa9pRn+dMADTP
-         4fWmWFoW/E6k358AFrjovzJcPkwidaIufSq8PKV+CZy94p30K59s9WUi3LRFE9N+HNrL
-         ayesnhgbGOxXedzbVhFO5bVVbqLGOSvw5HMclNe0l/o6tMX8oQFLpRSFx9gbbvVd+LGA
-         TzzRGDLpcbFawoqf0Iqzf2u7eFBBvtSnaGIGZb0nmHxcKRkNlZYTpd+PPzeaKQcfg0IX
-         5ilA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/EKzPivKjc53iJmgxkpKHSEW234eEatAJ89gJEWPNRBLEDXSe76Rqu511Ej8JiTUTOU+pGdE0KYrO7CD1iZBkkD3ISptQyIPqzF+IsUOl0+clK09Toc3FE1stKitjO65NyjdygYeqzFyBCAbqMao0DojCcMQdY79PFX4WdZ5Y7ZVrQ/ObQhDQT21riafevBuME9yLwaEgyuqLbAWpKuMSsYJM0TbiIeDU8fXEGB7qB/Bt7xmKXz/5Op7Y3HkatK1fIKEJzxdiEMktTSRcuS6HdLKws/VYicKyfewx2Wtv64Irv7QbeW7/sPIy6I5AurhNWECYht6ozMAsw6vwzMQOura4zKWsrfnAzeZsWkWtEpTRS8bA7vDhWhuNYjbPAHteKB04Y+NumNoXuQKim4+ocDeZdUC5XKGcZwkx5drJBVrplvlR/6ltOBqCFsZY/xBtcOHZdmcITWYSScWiYbsdqiljgfzxv0s5lqoWNA==
-X-Gm-Message-State: AOJu0YxlBjUMVumTbMgt/WZrLcxftbamTHaLr74+L5+/0Txa3UMB8YiO
-	Qqm8SKauIE6cGEqYUf8YWMujPSLyDHSH9A40ztcjMcAqvrffmoMgmRZY45xZAcfL7/9axTzzQRF
-	7qC2uL6vxtbDCP62ZCeV143AjiR4=
-X-Google-Smtp-Source: AGHT+IHFnXWswRNTDKm+umQ5ztT6GCIRL4SA0D2oDGwZTni6Tc0rxL80VlX+Lqp+Gco7elLa7e2ftzMi0E7hh8CxhzU=
-X-Received: by 2002:a05:651c:222b:b0:2ef:26dc:efb3 with SMTP id
- 38308e7fff4ca-2f3be575b36mr58372901fa.2.1723913481489; Sat, 17 Aug 2024
- 09:51:21 -0700 (PDT)
+	s=arc-20240116; t=1723919183; c=relaxed/simple;
+	bh=2lM1Fdl0Fhnxz66GrhRJ5x6xf8UpXYyNmF9e4vege68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fwA3SLq5oBi931GSNilmZo3f1oayquPJwVqSLOdrVJNZH6fii4jX9oNoJ55y37wJNpvelitUqFIDeUkOftMIEJ3cEVtSoyNKYGA/j3N+jkOodaEtoFf4jKeWJysfQ2Km1z8/YNfG4PAi5XCHqhcJGtnwt2lUAIUM+384itARstM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rjJM0k8o; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01B013D5;
+	Sat, 17 Aug 2024 20:25:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1723919113;
+	bh=2lM1Fdl0Fhnxz66GrhRJ5x6xf8UpXYyNmF9e4vege68=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rjJM0k8oxAgxNIWL0lKr1kxsAiWp79TCYCvhH2RUtZoOhiwm7MWH6b9HQxaBR0f7l
+	 zodELw7gVIACnWwbAKM09AD90lIm+TDufyQXOjwYsoO17Q7EfwNCwIjnQaz0bHXmlX
+	 XHY0WnKP+aCI6ucegWq2KIKVuTri7rMh3eOsBe1c=
+Date: Sat, 17 Aug 2024 21:25:46 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Adam Ford <aford173@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+	Rob Herring <robh@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v4] arm64: dts: imx8mp: Add DT nodes for the two ISPs
+Message-ID: <20240817182546.GC29320@pendragon.ideasonboard.com>
+References: <20240814161451.32119-1-laurent.pinchart@ideasonboard.com>
+ <13578505.uLZWGnKmhe@steina-w>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240813211317.3381180-10-almasrymina@google.com>
- <CAMArcTW=mg2gF_e6spPWOCuQdDAWSuKTCdCNPWGqcU1ciq30EQ@mail.gmail.com> <CAHS8izOqGMiZNkfQ6G-29UuG64GVo7L+fAzWn5A1713cDAgbgg@mail.gmail.com>
-In-Reply-To: <CAHS8izOqGMiZNkfQ6G-29UuG64GVo7L+fAzWn5A1713cDAgbgg@mail.gmail.com>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sun, 18 Aug 2024 01:51:09 +0900
-Message-ID: <CAMArcTUXm13xJO9XqcT=0uQAn_ZQOQ=Y49EPpHqV+jkkhihMcw@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 09/13] tcp: RX path for devmem TCP
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <13578505.uLZWGnKmhe@steina-w>
 
-On Sun, Aug 18, 2024 at 12:13=E2=80=AFAM Mina Almasry <almasrymina@google.c=
-om> wrote:
->
-> On Sat, Aug 17, 2024 at 9:58=E2=80=AFAM Taehee Yoo <ap420073@gmail.com> w=
-rote:
-> >
-> > On Wed, Aug 14, 2024 at 6:13=E2=80=AFAM Mina Almasry <almasrymina@googl=
-e.com> wrote:
-> > >
-> >
-> > Hi Mina,
-> >
-> > > In tcp_recvmsg_locked(), detect if the skb being received by the user
-> > > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEV=
-MEM
-> > > flag - pass it to tcp_recvmsg_devmem() for custom handling.
-> > >
-> > > tcp_recvmsg_devmem() copies any data in the skb header to the linear
-> > > buffer, and returns a cmsg to the user indicating the number of bytes
-> > > returned in the linear buffer.
-> > >
-> > > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frag=
-s,
-> > > and returns to the user a cmsg_devmem indicating the location of the
-> > > data in the dmabuf device memory. cmsg_devmem contains this informati=
-on:
-> > >
-> > > 1. the offset into the dmabuf where the payload starts. 'frag_offset'=
-.
-> >
-> > I have been testing this patch and I found a bug.
->
-> Thanks Taehee. It's exciting to see that you have gotten this far in
-> your testing!! You seem to have devmem TCP (almost) fully working!!
+Hi Alexander,
 
-Yes, Finally!!
+On Thu, Aug 15, 2024 at 02:05:39PM +0200, Alexander Stein wrote:
+> Am Mittwoch, 14. August 2024, 18:14:51 CEST schrieb Laurent Pinchart:
+> > From: Paul Elder <paul.elder@ideasonboard.com>
+> > 
+> > The ISP supports both CSI and parallel interfaces, where port 0
+> > corresponds to the former and port 1 corresponds to the latter. Since
+> > the i.MX8MP's ISPs are connected by the parallel interface to the CSI
+> > receiver, set them both to port 1.
+> > 
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v3:
+> > 
+> > - Add comment regarding the IMX8MP_CLK_MEDIA_ISP clock rate
+> > - Fix assigned-clock-rates
+> > - Dropping Tested-by as the clock configuration has changed
+> > 
+> > Changes since v2:
+> > 
+> > - Assign clock parent and frequency in blk-ctrl
+> > 
+> > Changes since v1:
+> > 
+> > - Fix clock ordering
+> > - Add #address-cells and #size-cells to ports nodes
+> > ---
+> >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 57 ++++++++++++++++++++++-
+> >  1 file changed, 55 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > index d9b5c40f6460..f3531cfb0d79 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > @@ -1673,6 +1673,50 @@ isi_in_1: endpoint {
+> >  				};
+> >  			};
+> >  
+> > +			isp_0: isp@32e10000 {
+> > +				compatible = "fsl,imx8mp-isp";
+> > +				reg = <0x32e10000 0x10000>;
+> > +				interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
+> > +				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
+> > +				clock-names = "isp", "aclk", "hclk";
+> > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
+> > +				fsl,blk-ctrl = <&media_blk_ctrl 0>;
+> > +				status = "disabled";
+> > +
+> > +				ports {
+> > +					#address-cells = <1>;
+> > +					#size-cells = <0>;
+> > +
+> > +					port@1 {
+> > +						reg = <1>;
+> > +					};
+> > +				};
+> > +			};
+> > +
+> > +			isp_1: isp@32e20000 {
+> > +				compatible = "fsl,imx8mp-isp";
+> > +				reg = <0x32e20000 0x10000>;
+> > +				interrupts = <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>;
+> > +				clocks = <&clk IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> > +					 <&clk IMX8MP_CLK_MEDIA_APB_ROOT>;
+> > +				clock-names = "isp", "aclk", "hclk";
+> > +				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
+> > +				fsl,blk-ctrl = <&media_blk_ctrl 1>;
+> > +				status = "disabled";
+> > +
+> > +				ports {
+> > +					#address-cells = <1>;
+> > +					#size-cells = <0>;
+> > +
+> > +					port@1 {
+> > +						reg = <1>;
+> > +					};
+> > +				};
+> > +			};
+> > +
+> >  			dewarp: dwe@32e30000 {
+> >  				compatible = "nxp,imx8mp-dw100";
+> >  				reg = <0x32e30000 0x10000>;
+> > @@ -1869,17 +1913,26 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
+> >  				clock-names = "apb", "axi", "cam1", "cam2",
+> >  					      "disp1", "disp2", "isp", "phy";
+> >  
+> > +				/*
+> > +				 * The ISP maximum frequency is 400MHz in normal mode
+> > +				 * and 500MHz in overdrive mode. The 400MHz operating
+> > +				 * point hasn't been successfully tested yet, so set
+> > +				 * IMX8MP_CLK_MEDIA_ISP to 500MHz for the time being.
+> > +				 */
+> >  				assigned-clocks = <&clk IMX8MP_CLK_MEDIA_AXI>,
+> >  						  <&clk IMX8MP_CLK_MEDIA_APB>,
+> >  						  <&clk IMX8MP_CLK_MEDIA_DISP1_PIX>,
+> >  						  <&clk IMX8MP_CLK_MEDIA_DISP2_PIX>,
+> > +						  <&clk IMX8MP_CLK_MEDIA_ISP>,
+> >  						  <&clk IMX8MP_VIDEO_PLL1>;
+> >  				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>,
+> >  							 <&clk IMX8MP_SYS_PLL1_800M>,
+> >  							 <&clk IMX8MP_VIDEO_PLL1_OUT>,
+> > -							 <&clk IMX8MP_VIDEO_PLL1_OUT>;
+> > +							 <&clk IMX8MP_VIDEO_PLL1_OUT>,
+> > +							 <&clk IMX8MP_SYS_PLL2_500M>;
+> >  				assigned-clock-rates = <500000000>, <200000000>,
+> > -						       <0>, <0>, <1039500000>;
+> > +						       <0>, <0>, <500000000>,
+> > +						       <1039500000>;
+> 
+> Unfortunately for some reason this reparenting doesn't work (on my platform).
+> 'media_isp' is still below IMX8MP_CLK_24M.
+> $ grep -B1 media_isp /sys/kernel/debug/clk/clk_summary
+>     mipi_dsi_esc_rx                  0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
+>     media_isp                        0       0        0        24000000    0          0     50000      N      deviceless                      no_connection_id         
+>        media_isp_root_clk            0       0        0        24000000    0          0     50000      N         32e10000.isp                    isp
 
-> May I ask which driver this is? I assume it's bnxt. Do you have the
-> driver support somewhere on github or something? I'm curious what your
-> driver implementation looks like.
+Hmmm... I get
 
-I'm using a modified bnxt_en driver.
-NICs are BCM57412, BCM57508(currently only 57412).
-I modified the driver by myself for devmem TCP.
-The implementation is too rough, only for testing it.
+                sys_pll2_500m        3       3        0        500000000   0          0     50000      Y                  deviceless                      no_connection_id
+                   media_isp         0       0        0        500000000   0          0     50000      N                     deviceless                      no_connection_id
+                      media_isp_root_clk 0       0        0        500000000   0          0     50000      N                        32e10000.isp                    isp
 
->
-> > While testing it with the ncdevmem cmd, it fails to validate buffers
-> > after some period.
-> > This is because tcp_recvmsg_dmabuf() can't handle skb properly when
-> > the parameter offset !=3D 0.
->
-> Sadly I'm unable to reproduce this issue, but I think I know where to
-> suspect the bug is. Thanks for taking the time to root cause this and
-> provide a fix.
+> I have to add this diff for isp_0 (and isp_1 if you use it):
+> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> @@ -1683,6 +1683,9 @@ isp_0: isp@32e10000 {
+>                                 clock-names = "isp", "aclk", "hclk";
+>                                 power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_ISP>;
+>                                 fsl,blk-ctrl = <&media_blk_ctrl 0>;
+> +                               assigned-clocks = <&clk IMX8MP_CLK_MEDIA_ISP>;
+> +                               assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_500M>;
+> +                               assigned-clock-rates = <500000000>;
+>                                 status = "disabled";
+>  
+>                                 ports {
+> 
+> Now clock is setup properly:
+> $ grep -B1 media_isp /sys/kernel/debug/clk/clk_summary
+>                 sys_pll2_500m        3       3        0        500000000   0          0     50000      Y                  deviceless                      no_connection_id         
+>                    media_isp         0       0        0        500000000   0          0     50000      N                     deviceless                      no_connection_id         
+>                       media_isp_root_clk 0       0        0        500000000   0          0     50000      N                        32e10000.isp                    isp
 
-I'm not sure why, but I assume this bug appears when CPU utilization
-peeks to almost 100%.
+I'm not sure why that's the case, I don't have assigned-clock*
+properties in the ISP nodes in my device tree and things still work
+properly. Would you be able to investigate ?
 
->
-> ...
->
-> > > + offset =3D 0;
-> >
-> > If the offset is 5000 and only 4500 bytes are skipped at this point,
-> > the offset should be 500, not 0.
-> > We need to add a condition to set the offset correctly.
-> >
->
-> I highly suspect this is a regression that was introduced in v13. In
-> v12 Pavel asked if offset can just be set to 0 here, and I didn't see
-> any reason why not, so I made the change:
->
-> -+ offset =3D offset - start;
-> ++ offset =3D 0;
->
-> It looks like we missed something. I suspect reverting that may
-> resolve the issue, because __skb_copy_datagram() in earlier kernels
-> modified offset like this and it's well tested. Can you test with this
-> change reverted? Diff like so:
+> >  				#power-domain-cells = <1>;
+> >  
+> >  				lvds_bridge: bridge@5c {
+> > 
+> > base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+> > prerequisite-patch-id: ad2bbccf3b0f27415fb14851cec52c431ccb354f
 
-No problem, I will test it.
+-- 
+Regards,
 
->
-> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-> index 40e7335dae6e..984e28c5d096 100644
-> --- a/net/ipv4/tcp.c
-> +++ b/net/ipv4/tcp.c
-> @@ -2522,7 +2522,7 @@ static int tcp_recvmsg_dmabuf(struct sock *sk,
-> const struct sk_buff *skb,
-> */
-> skb =3D skb_shinfo(skb)->frag_list ?: skb->next;
->
-> - offset =3D 0;
-> + offset =3D offset - start;
-> } while (skb);
->
-> if (remaining_len) {
->
-> I'm running a long test to try to reproduce this issue, but I have ran
-> many long tests before and was not able to. For some reason my setup
-> is not able to reproduce this edge case. Are you doing anything
-> special with ncdevmem? Or simply running commands like these on the
-> server client?
->
-> server: ./ncdevmem -s SERVER -c CLIENT -l -p 5224 -v 7
-> client: yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | tr \\n \\0 |
-> nc SERVER 5224 -p 5224
->
-
-Yes, I'm using the vanilla ncdevmem command and option in the
-documentation in this series.
-
-server:
-./ncdevmem -s 192.168.1.4 -c 192.168.1.2 -f $interface -l -p 5000 -v 7 -t 0=
- -q 4
-
-client:
-yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-tr \\n \\0 | \
-head -c 1000000G | \
-nc 192.168.1.4 5000 -p 5000
-
-
-BTW, this is a ncdevmem failure message of the current implementation.
-(offset =3D 0)
-
-received frag_page=3D13205, in_page_offset=3D0, frag_offset=3D54087680,
-frag_size=3D2896, token=3D288, total_received=3D1153657976, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13204, in_page_offset=3D0, frag_offset=3D54083584,
-frag_size=3D1448, token=3D289, total_received=3D1153659424, dmabuf_id=3D2
-Validated buffer
-[1] received frag_page=3D13203, in_page_offset=3D0, frag_offset=3D54079488,
-frag_size=3D2896, token=3D290, total_received=3D1153662320, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13202, in_page_offset=3D0, frag_offset=3D54075392,
-frag_size=3D200, token=3D291, total_received=3D1153662520, dmabuf_id=3D2
-Validated buffer
-total_received=3D1153662520
-
-
-recvmsg ret=3D819200
-[2] received frag_page=3D13203, in_page_offset=3D0, frag_offset=3D54079488,
-frag_size=3D2896, token=3D1, total_received=3D1153665416, dmabuf_id=3D2
-Failed validation: expected=3D4, actual=3D2, index=3D0
-Failed validation: expected=3D5, actual=3D3, index=3D1
-Failed validation: expected=3D6, actual=3D4, index=3D2
-Failed validation: expected=3D0, actual=3D5, index=3D3
-Failed validation: expected=3D1, actual=3D6, index=3D4
-Failed validation: expected=3D2, actual=3D0, index=3D5
-Failed validation: expected=3D3, actual=3D1, index=3D6
-Failed validation: expected=3D4, actual=3D2, index=3D7
-Failed validation: expected=3D5, actual=3D3, index=3D8
-Failed validation: expected=3D6, actual=3D4, index=3D9
-Failed validation: expected=3D0, actual=3D5, index=3D10
-Failed validation: expected=3D1, actual=3D6, index=3D11
-Failed validation: expected=3D2, actual=3D0, index=3D12
-Failed validation: expected=3D3, actual=3D1, index=3D13
-Failed validation: expected=3D4, actual=3D2, index=3D14
-Failed validation: expected=3D5, actual=3D3, index=3D15
-Failed validation: expected=3D6, actual=3D4, index=3D16
-Failed validation: expected=3D0, actual=3D5, index=3D17
-Failed validation: expected=3D1, actual=3D6, index=3D18
-Failed validation: expected=3D2, actual=3D0, index=3D19
-Failed validation: expected=3D3, actual=3D1, index=3D20
-./ncdevmem: validation failed.
-
-Please look at the [1] and [2].
-At the [1], The 13203 page is fully passed to userspace.
-But 13202 is not, only 200 bytes are passed to userspace.
-The 13203 page is passed to userspace fully, but 13202 is not.
-Only 200 bytes are passed to userspace.
-
-But at the [2], it receives 2896 bytes from 13203 again.
-It should be 13202 and in_page_offset=3D200.
-
-And I just started testing your suggestion, it seems to work correctly.
-Here is the ncdevmem message, it's not a failure message.
-(offset =3D offset - start)
-
-received frag_page=3D13085, in_page_offset=3D0, frag_offset=3D53596160,
-frag_size=3D2896, token=3D288, total_received=3D2233699704, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D12931, in_page_offset=3D0, frag_offset=3D52965376,
-frag_size=3D2896, token=3D289, total_received=3D2233702600, dmabuf_id=3D2
-Validated buffer
-[1] received frag_page=3D12916, in_page_offset=3D0, frag_offset=3D52903936,
-frag_size=3D1392, token=3D290, total_received=3D2233703992, dmabuf_id=3D2
-Validated buffer
-total_received=3D2233703992
-
-
-recvmsg ret=3D819200
-[2] received frag_page=3D12916, in_page_offset=3D1392,
-frag_offset=3D52905328, frag_size=3D1504, token=3D1,
-total_received=3D2233705496,
-dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13244, in_page_offset=3D0, frag_offset=3D54247424,
-frag_size=3D2896, token=3D2, total_received=3D2233708392, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D13579, in_page_offset=3D0, frag_offset=3D55619584,
-frag_size=3D1448, token=3D3, total_received=3D2233709840, dmabuf_id=3D2
-Validated buffer
-received frag_page=3D12315, in_page_offset=3D0, frag_offset=3D50442240,
-frag_size=3D2896, token=3D4, total_received=3D2233712736, dmabuf_id=3D2
-Validated buffer
-
-At the [1], the 12916 page was not passed to userspace fully.
-Only 1392 bytes are received.
-At the [2], remain 1504 bytes are passed and the offset is 1392.
-So, the 12916 page size is 2896, so it makes sense.
-
-So, this is the reason why I think your suggestion is working correctly.
-I have been still testing it, so I will report if it fails while testing.
-But I think it works well about this corner case so far.
-
->
-> --
-> Thanks,
-> Mina
-
-Thanks a lot,
-Taehee Yoo
+Laurent Pinchart
 
