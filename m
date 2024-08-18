@@ -1,152 +1,236 @@
-Return-Path: <linux-media+bounces-16421-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16422-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1C5955E7D
-	for <lists+linux-media@lfdr.de>; Sun, 18 Aug 2024 20:20:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C32955E82
+	for <lists+linux-media@lfdr.de>; Sun, 18 Aug 2024 20:24:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF0392816E7
-	for <lists+linux-media@lfdr.de>; Sun, 18 Aug 2024 18:20:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ADF651C208CA
+	for <lists+linux-media@lfdr.de>; Sun, 18 Aug 2024 18:24:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1C814EC47;
-	Sun, 18 Aug 2024 18:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B0914EC5B;
+	Sun, 18 Aug 2024 18:24:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="CXi21t3a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVo7w8oU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A1F1386C6
-	for <linux-media@vger.kernel.org>; Sun, 18 Aug 2024 18:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013F749630;
+	Sun, 18 Aug 2024 18:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724005250; cv=none; b=M7BJh8uB/4av5kOITIl5eMB16FpZyO9GRR04f2oI0T2meBKemUci8HEJFvYWzex9DEad/YR1+7kLPk7VEpb3Su7LICSVggL1saAJE+HHtlbJdnjdGeqoR6jl6w4nN5wbgpXl+FzF9OX6q5q8NGHmTKTpR6i9DcFCLyIHVP4souk=
+	t=1724005456; cv=none; b=oZIFK8JAKuZ+LrOfdUBOAfevDdrPCqgPTf40TZMsugh4bCIiZex0hJYO5XDzF9hvU0rfF75WbM2GpEbRmwHMCwK8dGK6rAcSzx8wLkD2C2zN0dajKR6haX+iK6ToVzR+KRvhBUuz0au4uAdWtwAo/2qh5ijgwCnyIDDF424fkiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724005250; c=relaxed/simple;
-	bh=Pvjl3WgVUuDqfZ1Uvu7ysrrEkJnBzMyGdX+Q6ICQrVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hILTmpA2M5xVTuXvhyI4iSnOL3VLRpIbMSO5KcgliNXcVd7dizbcRMExXTueTvNgtNzWXEaFiWGixtxiWlRoumICVX/DGx8RTC8et94uPWBub1mVve41ru6DIkSTq8v/coPxW3ezXgglfpR8Sd4ildsksMqM0paB4kStn4BoTd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=CXi21t3a; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=g.harvard.edu
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e0885b4f1d5so3767858276.1
-        for <linux-media@vger.kernel.org>; Sun, 18 Aug 2024 11:20:48 -0700 (PDT)
+	s=arc-20240116; t=1724005456; c=relaxed/simple;
+	bh=FvZ8kuAZWxMpIjQiOOdkwG/HNI1/9mgEBslJihXT+6E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kRd1Ewzh1LWDnSOa9LgVQc98HBZLIHFYAKgNpwv+bjI5wvnIQ8uoZhA7e3g5I7rhjWDbQvDIEDsJEAxRADoykFP4AyXHDpYjkMQ7vbfTYgF25dO/huMq55JcXIclq0UzXgikBl1U3Tjau+JtXThmV2j1+7m4wfIDvrkKcrx8mhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jVo7w8oU; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7c3e0a3c444so2316760a12.1;
+        Sun, 18 Aug 2024 11:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1724005247; x=1724610047; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jox7T9NtUsylEjcIyLm3wfHI0IexZSdvTQ1czCVm42w=;
-        b=CXi21t3ayWNRUHKd+dwn9uJMkw4ZfV9IfXs7tmO1gPAT02985C8HhZGFjcz37Jo52E
-         h+5KH98fwRQ1wDT+/sg3T87mDemIFGlsSnmz8bUz2ifjl6WXd9l25T2XVf6XrvpR2GuC
-         f6kGgJVZ9pxnxmtBff6yrAn4kg5zO83nur/FyEN2nlnK+LB5dC86JYKPmpqXrg1SZBzx
-         FZeLgu3sEBnJpGreqngoXIEmQtAKTznHt0TSe4hEZRn+F/O/gNW71vGNTr7HlvvDstDD
-         /zrbZE9lscqJFrukk5F7I8kVW02hD11GKk5CSB3D3vk4GXtI4/KeRt61bPSSGdtMIib7
-         f7BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724005247; x=1724610047;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1724005454; x=1724610254; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jox7T9NtUsylEjcIyLm3wfHI0IexZSdvTQ1czCVm42w=;
-        b=su5bxgBd3AFNvDksklxbp4woVTwVBuDHpliK7+Bnw9Re5gR0BPT8J6nRqFUcolbllp
-         TnNpc0qTGJ5hgTSUB3OESWQFq8J3HVhxXrIuS5XS6pElVwfp24HBbMMcma9vq/ZVigdu
-         G/bUU525ORKrKX0E8tN4nCVNDprzLaB630pIvbrNmM765cmd1R/dxFwq4bVKfpf33UbM
-         IA/za2YqoipnXres2g/KLC6tuL40ujF6DbVytO+2KVLuWJrbyIVIiETqzH5GWfIpXew7
-         CX8IJj3R8F5KiWGe2dbt6RHBh1f0K7nFXQVEjqIs6kRWvbjqKC7y8hGVPZ2Zfe6IRmgb
-         NCJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYBEzAqRJBoSSV0G3H20Dh+UYIgI1/G7VuVhdU/v0RwrfDlPaZUwXm8/3aVyeNUvBPrPME2mjVmWszhNLt+HHVL6yFSy9bV90wcuw=
-X-Gm-Message-State: AOJu0YzAjL1SVBXbz6UQLomB3Pw41/7p5niCsq+jfGX75Eey+nGSmeC4
-	s6/+D8eB11sQSiWEYkqfsr/nWMIGXQz2qXVICXFnmtMpF2IJa15RpM/g07lu/w==
-X-Google-Smtp-Source: AGHT+IFKGExb+ktmdEFnBMw0bmj29Mz0VltYqAunJK7XBt+i5y65MaxwS5GQ33CZbB2/HQmZB2ZlYw==
-X-Received: by 2002:a05:690c:60c5:b0:61b:3304:b702 with SMTP id 00721157ae682-6b1b73a894amr97678307b3.5.1724005247611;
-        Sun, 18 Aug 2024 11:20:47 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::3ed1])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a4ff0dcac4sm368196885a.84.2024.08.18.11.20.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Aug 2024 11:20:47 -0700 (PDT)
-Date: Sun, 18 Aug 2024 14:20:44 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	syzbot <syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] media/usb/siano: Fix endpoint type checking in smsusb
-Message-ID: <1959a4fb-8bf2-456b-83b8-ea28d517debf@rowland.harvard.edu>
-References: <4442a354-87f1-4f7c-a2b0-96fbb29191d1@rowland.harvard.edu>
- <0000000000009f6f85061e684e92@google.com>
- <51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu>
+        bh=ztdZKVXboTeh21wML9vQfK4sieO9DxbPhdkFttpUEeU=;
+        b=jVo7w8oUXrHRzttB9I/6QsbLYq0oLo2aOjCe2puxCEVPC2X6hfb8TH7Qf2Ob1U0KTr
+         0AaX9kbNfo9r996SbwSXxwQ9Iza5u4kw8NYacVVnck9DI+i7FUNpCU4JXYioxUn3j3OE
+         8Nc9ORgxy+Gfe1tPKaZBvHuUFp+wo2cgGaABzxOBIAIn1ykyHKrtK7LlFHK/caiIRYRi
+         LwF6L+TwLZ35e+E+4tm5FTGFYMPIiXZoqJKF/9d833VQNY1CqYSN3/QPVvr2FETaIKCC
+         dLWivVylzXEADSBmkYmeRYK21NlfUqWWNLQhzObkHt7eFc7lqRNl+iaO5V8blDwdQTzu
+         ckGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724005454; x=1724610254;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ztdZKVXboTeh21wML9vQfK4sieO9DxbPhdkFttpUEeU=;
+        b=KsKZzBeCUboUipgeAxXNb2xhrP2h7OZWQWLWlM57ZmzwOeYWxsd9S2BGOmsEMt47h7
+         XdqBkVsec5rQ9rQ/am5R2FEpAk2/9sTaSwiiGG9+w9DnsyTj/0XK2gBVmH7O9Q448RuP
+         ICKd7DdnO/IB3GxinGZ5XwUfn6/hdXmeP3PKQI6ybig++uFtB/X5lF34F03Xg2rC6VjN
+         xnzN6k4pHwjZCjXMn6KdeFlpTRbp16rAlEjmqVBr8+vcbXyA4F6Na4JCprTHbp5gSqMb
+         sTB+XioSIYHx6eW4Sdj7emM5uzvPjvEi30QO9FdsZlZpqgpqq4qtzRz4795PA3Z8pWLw
+         xsvw==
+X-Forwarded-Encrypted: i=1; AJvYcCXIv2K6a2IR8keWHnSkvdL5Xji3s2vPGf0eSmdUCinAqNX1EXlUnGGxAYIqVSHayM6Ng7rnQUGSKmGIxP7ILEGKvooZvxZj/8izQLSaPP5EOr4s/Oyh/df3mc0cgQdrCphQhOx37SLj
+X-Gm-Message-State: AOJu0Yz/hWHBWc9b/XRNLkZJiWXjNbOXaMwEVYgRMjeNQYvEQcOqSp+s
+	Bjor3XVpoJlat8Vc11KF0MwZAHuCqpD6rrEKAzuGv0gl/rt7emZCp2WY0cp1UM/ahwT21jqKud7
+	9dCfb8rMjwxRvMvWZ6ZobTrjOkWI=
+X-Google-Smtp-Source: AGHT+IH8MNmh+Dob6GRO6qpaqicp8WJvCXkoghUcgid2cN6I1wiSRB01A4iSxWCvu5gRC7oiIAq/zct27GnmniEKul8=
+X-Received: by 2002:a17:90a:f696:b0:2c9:7343:71f1 with SMTP id
+ 98e67ed59e1d1-2d3e45d3fa0mr13074786a91.14.1724005454124; Sun, 18 Aug 2024
+ 11:24:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu>
+References: <20240813234004.17807-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20240813234004.17807-1-laurent.pinchart@ideasonboard.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Sun, 18 Aug 2024 13:24:01 -0500
+Message-ID: <CAHCN7xJULS-mR_2KoikzMt7piGWvaLHAfMbMkJtgESW-6pfv8g@mail.gmail.com>
+Subject: Re: [PATCH v3] arm64: dts: imx8mp: Add DT nodes for the two ISPs
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	Paul Elder <paul.elder@ideasonboard.com>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Fabio Estevam <festevam@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Marek Vasut <marex@denx.de>, 
+	Peng Fan <peng.fan@nxp.com>, Rob Herring <robh@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Greg and Mauro:
-
-Was this patch ever applied?  It doesn't appear in the current -rc 
-kernel.  Was there some confusion about which tree it should be merged 
-through?
-
-Here's a link to the original submission:
-
-https://lore.kernel.org/all/51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu/
-
-Alan Stern
-
-On Wed, Jul 31, 2024 at 01:29:54PM -0400, Alan Stern wrote:
-> The syzbot fuzzer reports that the smsusb driver doesn't check whether
-> the endpoints it uses are actually Bulk:
-> 
-> smsusb:smsusb_probe: board id=15, interface number 6
-> smsusb:siano_media_device_register: media controller created
-> ------------[ cut here ]------------
-> usb 1-1: BOGUS urb xfer, pipe 3 != type 1
-> WARNING: CPU: 0 PID: 42 at drivers/usb/core/urb.c:503 usb_submit_urb+0xe4b/0x1730 drivers/usb/core/urb.c:503
-> ...
-> Call Trace:
->  <TASK>
->  smsusb_submit_urb+0x288/0x410 drivers/media/usb/siano/smsusb.c:173
->  smsusb_start_streaming drivers/media/usb/siano/smsusb.c:197 [inline]
->  smsusb_init_device+0x856/0xe10 drivers/media/usb/siano/smsusb.c:477
->  smsusb_probe+0x5e2/0x10b0 drivers/media/usb/siano/smsusb.c:575
-> 
-> The problem can be fixed by checking the endpoints' types along with
-> their directions.
-> 
-> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> Reported-by: syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com
-> Tested-by: syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/linux-usb/000000000000e45551061e558c37@google.com/
-> Fixes: 31e0456de5be ("media: usb: siano: Fix general protection fault in smsusb")
-> Cc: <stable@vger.kernel.org>
-> 
+On Tue, Aug 13, 2024 at 6:40=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> From: Paul Elder <paul.elder@ideasonboard.com>
+>
+> The ISP supports both CSI and parallel interfaces, where port 0
+> corresponds to the former and port 1 corresponds to the latter. Since
+> the i.MX8MP's ISPs are connected by the parallel interface to the CSI
+> receiver, set them both to port 1.
+>
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Tested-by: Adam Ford <aford173@gmail.com> # imx8mp-beacon
 > ---
-> 
->  drivers/media/usb/siano/smsusb.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> Index: usb-devel/drivers/media/usb/siano/smsusb.c
-> ===================================================================
-> --- usb-devel.orig/drivers/media/usb/siano/smsusb.c
-> +++ usb-devel/drivers/media/usb/siano/smsusb.c
-> @@ -410,10 +410,10 @@ static int smsusb_init_device(struct usb
->  		struct usb_endpoint_descriptor *desc =
->  				&intf->cur_altsetting->endpoint[i].desc;
->  
-> -		if (desc->bEndpointAddress & USB_DIR_IN) {
-> +		if (usb_endpoint_is_bulk_in(desc)) {
->  			dev->in_ep = desc->bEndpointAddress;
->  			align = usb_endpoint_maxp(desc) - sizeof(struct sms_msg_hdr);
-> -		} else {
-> +		} else if (usb_endpoint_is_bulk_out(desc)) {
->  			dev->out_ep = desc->bEndpointAddress;
->  		}
->  	}
+> Changes since v2:
+>
+> - Assign clock parent and frequency in blk-ctrl
+>
+> Changes since v1:
+>
+> - Fix clock ordering
+> - Add #address-cells and #size-cells to ports nodes
+> ---
+>  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 51 ++++++++++++++++++++++-
+>  1 file changed, 49 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/=
+dts/freescale/imx8mp.dtsi
+> index d9b5c40f6460..09f1e27ee220 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> @@ -1673,6 +1673,50 @@ isi_in_1: endpoint {
+>                                 };
+>                         };
+>
+> +                       isp_0: isp@32e10000 {
+> +                               compatible =3D "fsl,imx8mp-isp";
+> +                               reg =3D <0x32e10000 0x10000>;
+> +                               interrupts =3D <GIC_SPI 74 IRQ_TYPE_LEVEL=
+_HIGH>;
+> +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROO=
+T>,
+> +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>=
+,
+> +                                        <&clk IMX8MP_CLK_MEDIA_APB_ROOT>=
+;
+> +                               clock-names =3D "isp", "aclk", "hclk";
+> +                               power-domains =3D <&media_blk_ctrl IMX8MP=
+_MEDIABLK_PD_ISP>;
+> +                               fsl,blk-ctrl =3D <&media_blk_ctrl 0>;
+> +                               status =3D "disabled";
+> +
+> +                               ports {
+> +                                       #address-cells =3D <1>;
+> +                                       #size-cells =3D <0>;
+> +
+> +                                       port@1 {
+> +                                               reg =3D <1>;
+> +                                       };
+> +                               };
+> +                       };
+> +
+> +                       isp_1: isp@32e20000 {
+> +                               compatible =3D "fsl,imx8mp-isp";
+> +                               reg =3D <0x32e20000 0x10000>;
+> +                               interrupts =3D <GIC_SPI 75 IRQ_TYPE_LEVEL=
+_HIGH>;
+> +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_ISP_ROO=
+T>,
+> +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>=
+,
+> +                                        <&clk IMX8MP_CLK_MEDIA_APB_ROOT>=
+;
+> +                               clock-names =3D "isp", "aclk", "hclk";
+> +                               power-domains =3D <&media_blk_ctrl IMX8MP=
+_MEDIABLK_PD_ISP>;
+> +                               fsl,blk-ctrl =3D <&media_blk_ctrl 1>;
+> +                               status =3D "disabled";
+> +
+> +                               ports {
+> +                                       #address-cells =3D <1>;
+> +                                       #size-cells =3D <0>;
+> +
+> +                                       port@1 {
+> +                                               reg =3D <1>;
+> +                                       };
+> +                               };
+> +                       };
+> +
+>                         dewarp: dwe@32e30000 {
+>                                 compatible =3D "nxp,imx8mp-dw100";
+>                                 reg =3D <0x32e30000 0x10000>;
+> @@ -1873,13 +1917,16 @@ media_blk_ctrl: blk-ctrl@32ec0000 {
+>                                                   <&clk IMX8MP_CLK_MEDIA_=
+APB>,
+>                                                   <&clk IMX8MP_CLK_MEDIA_=
+DISP1_PIX>,
+>                                                   <&clk IMX8MP_CLK_MEDIA_=
+DISP2_PIX>,
+> +                                                 <&clk IMX8MP_CLK_MEDIA_=
+ISP>,
+>                                                   <&clk IMX8MP_VIDEO_PLL1=
+>;
+>                                 assigned-clock-parents =3D <&clk IMX8MP_S=
+YS_PLL2_1000M>,
+>                                                          <&clk IMX8MP_SYS=
+_PLL1_800M>,
+>                                                          <&clk IMX8MP_VID=
+EO_PLL1_OUT>,
+> -                                                        <&clk IMX8MP_VID=
+EO_PLL1_OUT>;
+> +                                                        <&clk IMX8MP_VID=
+EO_PLL1_OUT>,
+> +                                                        <&clk IMX8MP_SYS=
+_PLL2_500M>;
+>                                 assigned-clock-rates =3D <500000000>, <20=
+0000000>,
+> -                                                      <0>, <0>, <1039500=
+000>;
+> +                                                      <0>, <0>, <0>, <50=
+0000000>,
+
+Is the insertion of the extra <0> here correct?  You inserted one
+clock above for IMX8MP_CLK_MEDIA_ISP, but it appears you inserted two
+here.
+I think this might break the IMX8MP_VIDEO_PLL1 rate and not set the
+IMX8MP_CLK_MEDIA_ISP as expected.
+
+Am I missing something?
+
+adam
+
+> +                                                      <1039500000>;
+>                                 #power-domain-cells =3D <1>;
+>
+>                                 lvds_bridge: bridge@5c {
+>
+> base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
