@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-16471-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16472-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080319569D3
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 13:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC849569D4
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 13:50:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A9F01C22392
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 11:50:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C7171C22413
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 11:50:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA8D916A930;
-	Mon, 19 Aug 2024 11:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE8B16A956;
+	Mon, 19 Aug 2024 11:47:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838D315DBAB
-	for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 11:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA20C166F34
+	for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 11:47:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724068072; cv=none; b=bctMrCTdPmXBKa4auAkLRUYIYLg6poYkMy/N6WKZjTm/KWF6Y3cAfu/bR/FVv+SLfM9vEuiHfxdjW50wop1f8+HpOL/rBKkxowsErRG7dDr2QJgkVgOjjIjNMQPMEDlsIXQ+x28Ya6yvlUHvNxkEwNWw4n0xhvvTYB2thxMxabo=
+	t=1724068073; cv=none; b=W/HgbhUcYNKFTjfEWdiR/bhqRj9pGB9xxy+DoAZIttmwOoeJXekjxTk9c5zo7+fsHjiEhjtH533KCRdvrDzF5Xs63Ch+WVEsgfKExLiupIekJlkVNT8FI4Ijb9SJ3wgf9LBkdEfbj0FdNYSeYEBjBd8F1YEUCOp9iiEmlFBLayg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724068072; c=relaxed/simple;
-	bh=21DfWFG1OLpDMw0d4jBnDJoi9K+S7qg8y9KMO7zwhdE=;
+	s=arc-20240116; t=1724068073; c=relaxed/simple;
+	bh=1rzj8VVU1+eaSlRo+NK16kiH3KaAQI3wIKo1fGui3zw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eylGpaay4jc7BfXp7K0/lWXNl+3dgsJsksCgmDSFDOM45ZJQyPY8/8HnwAApSOyJsTQxsXiHGa3NDYBgqgL0wAp/QJQlI1jv47UtbOlGHt5QfUvAK707bNbr1JKuJmJE/eC1GQSaEuWwDiLfl/iNACWahOLsGIKKYdJhYVKush4=
+	 MIME-Version; b=uMh1JfX7Ve1ydToB1hCN5iiEOIiAtM9r7eDQu6ZlrKZG3nBET2VP/z9PhF9UStuDBGZok3U2YFsWv6eqeHhQe9RBE/VEt7lF2GAaD7/+TRko3D1SqGxZixl6zqvT7FKJsvKkgRNUQIAvDjkf0rnz+Furea+xMW1nOJtMkwdjIZc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25B9EC4AF0C;
-	Mon, 19 Aug 2024 11:47:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F76AC32782;
+	Mon, 19 Aug 2024 11:47:52 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Erling Ljunggren <hljunggr@cisco.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/3] videodev2.h: add CAP_EDID (DO NOT COMMIT)
-Date: Mon, 19 Aug 2024 13:45:42 +0200
-Message-ID: <26dd745a0b3c99b92da21eb767272928fa4a6742.1724067944.git.hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/3] utils/common: add V4L2_CAP_EDID support
+Date: Mon, 19 Aug 2024 13:45:43 +0200
+Message-ID: <7ab24b375c3d23ffbf2836de16834d94ee8fd88a.1724067944.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1724067944.git.hverkuil-cisco@xs4all.nl>
 References: <cover.1724067944.git.hverkuil-cisco@xs4all.nl>
@@ -47,25 +47,26 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add capability flag to indicate that the device is an EDID-only device.
+Understand V4L2_CAP_EDID and log it.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- include/linux/videodev2.h | 1 +
- 1 file changed, 1 insertion(+)
+ utils/common/v4l2-info.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
-index f18a40d4..dab68c8d 100644
---- a/include/linux/videodev2.h
-+++ b/include/linux/videodev2.h
-@@ -475,6 +475,7 @@ struct v4l2_capability {
- #define V4L2_CAP_META_CAPTURE		0x00800000  /* Is a metadata capture device */
- 
- #define V4L2_CAP_READWRITE              0x01000000  /* read/write systemcalls */
-+#define V4L2_CAP_EDID			0x02000000  /* Is an EDID-only device */
- #define V4L2_CAP_STREAMING              0x04000000  /* streaming I/O ioctls */
- #define V4L2_CAP_META_OUTPUT		0x08000000  /* Is a metadata output device */
- 
+diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
+index aaf7b0b5..7dd7e708 100644
+--- a/utils/common/v4l2-info.cpp
++++ b/utils/common/v4l2-info.cpp
+@@ -91,6 +91,8 @@ static std::string cap2s(unsigned cap)
+ 		s += "\t\tI/O MC\n";
+ 	if (cap & V4L2_CAP_READWRITE)
+ 		s += "\t\tRead/Write\n";
++	if (cap & V4L2_CAP_EDID)
++		s += "\t\tEDID Only\n";
+ 	if (cap & V4L2_CAP_STREAMING)
+ 		s += "\t\tStreaming\n";
+ 	if (cap & V4L2_CAP_EXT_PIX_FORMAT)
 -- 
 2.43.0
 
