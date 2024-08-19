@@ -1,193 +1,133 @@
-Return-Path: <linux-media+bounces-16481-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2674956F7D
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 17:59:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4335956D57
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 16:32:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79098283BC9
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 15:59:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D79581C237E8
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 14:32:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88177161320;
-	Mon, 19 Aug 2024 15:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8B7917277F;
+	Mon, 19 Aug 2024 14:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="g4bK5SNr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02hn2223.outbound.protection.partner.outlook.cn [139.219.146.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9037E130A47;
-	Mon, 19 Aug 2024 15:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.223
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724083193; cv=fail; b=ThDCeSzKJmZGsjB4aW7VRiqdbh4MjX/sFR0o8R4JmXZaiMr4D4UUc3bXzSoq/TBJV3IfQPoJrUU+1SNl/kwAbZAmwtv+O+DBYdCXPTXfikYGCrvbVUWU9FC/XvPN8MD5cgDN6A21ypvf7ML4mlxVveF+87IXtnblomD950a1wng=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724083193; c=relaxed/simple;
-	bh=BaLWt2R+o6wxmq0VSTBUW986OKa6ZAas7gYqzPY5YV8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dTKW89xQzw8RdQdSnPQSHnflcRWYqq3zwsGhF9/NQnJ3PJu2w1f640pXMBnoegvysFUgvO/WyFyuxSLbIDFMhGgLsKuDNazPEapua3y0akC2Th3lyzam4Uev3FGz47ohrCaosWzTChgQod5UP0gscIi7kuqjjQHqc0VCdlm6KPA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BcxmrFcoXNIaUNwmRBACvw9MUTmeyKUI0n3g/prtZutw36hRKjFivQ0CZoobDVfuYCfBMZ1mpoLbzWZ4Y812jsQ+xFtxX6n5bfCc7AL/DLvlclv9cyXM+39KbfUK/C+YCx916wlBA6QDNT0Cg+z1nxwT612vWgTkALrgrwHUy60bYkAuH+Z+aoD6WzWPhRAqXMUy5JQ5Fuj8MBwo/Givxi4uqZywNaaBzPzl4CZCiYDRH7qW6VfYe8gWjdEugNdYXlxDAqGfrC56fgNnYSacrBCtayiR5VgMzKnkNAClZXTW1xPd0gMns1IRxJLrGR/GyF0FlTpL30Eci+AjxQ3GMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xZoWEWqCxI6L9GZ1c4RWCtpskKMrAe71LObOhGRfGs4=;
- b=SNAX7kIPEa0LtJYJoTWG4yIBpOqPxo1A5iyFjzlu27tnXTCFaY1B+zsn/OXVZTel7izJF2BvIL4tvTjPJL5Q2FvA8Y9Gk73BMN7p1Mwh2WM6kVIRSXGHciQ8P3nI4uitgGkjNH9ZN7WCxaL6YAG3tIZL2DV51kgzo7BkPJq9sAHzcRQzkjNuuOup9yjmah0ze2Bq584FXut4E35EAmNyh4eK+pNoGkkeGhzUL5XAJPqFbl4ZZQGmjusQKSf/YeJNmHk0Wl1Litcr/gLB/GYKg1aw/wa1rYXpJEnrd/CU72016+8DvstIaWPXSdSSqBH+oC5ZidXkLjJZiXooS2aYwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9) by ZQ0PR01MB1031.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:e::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Mon, 19 Aug
- 2024 13:27:29 +0000
-Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- ([fe80::64c5:50d8:4f2c:59aa]) by
- ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%3])
- with mapi id 15.20.7875.019; Mon, 19 Aug 2024 13:27:29 +0000
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: dan.carpenter@linaro.org
-Cc: changhuang.liang@starfivetech.com,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	jack.zhu@starfivetech.com,
-	laurent.pinchart@ideasonboard.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org
-Subject: Re: [v2] staging: media: starfive: Add the dynamic resolution support
-Date: Mon, 19 Aug 2024 06:27:20 -0700
-Message-Id: <20240819132720.538468-1-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <90939451-4e26-4aec-bf69-d078d88fb5c2@stanley.mountain>
-References: <90939451-4e26-4aec-bf69-d078d88fb5c2@stanley.mountain>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BJSPR01CA0003.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c211:c::15) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c550:1b::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EF01EB3E
+	for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 14:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724077931; cv=none; b=NkFEZRowmBvH9aIOYtZwNpZjcJ2Kzz4pktrCe1h6xQM9lXDUZY4E8mOFrotZlNm8QDkQJg/ZgPMwwXvh10UXrxgxe5b2hKEukb/ZoJ0lC1yJU1M+0poK3hwH9WsAT6S6olrnJsfnTEZuBsdI2Gxvh8tRhbRAxghxEpGPd6KM2NM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724077931; c=relaxed/simple;
+	bh=XVH5jU2JLFWFsBkWbQQD4HLUEFNRlujZ/eipfxqLqxc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YK8FSlO+9JsrU+yhxVFsd8wMmIAYaRQglYh7SXrwyDxa8ZsNRlWQ8ims8eel+FdvyF7kvKQMtOETT7EYdd4b3af4x6VoDDGzQP/aiDkdYQ426m87gMJDSNPyad0EWyRD4SUA1wtE84ludmoltRiggcVhU74TEWRmlh9WsqU0MD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=g4bK5SNr; arc=none smtp.client-ip=209.85.219.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-6bf90d52e79so11157386d6.3
+        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 07:32:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1724077928; x=1724682728; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=P29ihJqTzcg1VcBqLYD00iJSDzkB+ZTqybpsW0drryo=;
+        b=g4bK5SNrUc2Nft6m88SNatPxDTkv4VIZOAUiZK8CvsU0IUUfO0Gggyhf8SndCL1oF2
+         nyNGddL29383Zzgi3a2rLpzcawGNF8yaGFByMo8j8GXrCRH4fUahN+Y602mI/giGx+h5
+         yVJ8z7qI+SqZIr2v+f3rOiM24EVGTZPpAR8dd+LJqyEqHm3EyS5o8Fi9t8LpranVa0ht
+         VS9Xv2S8xuMEEKaneZyjjGe6HA1gdnfMkFTUs6MoH5MRiStXkLNrEnWN3t/8kDEYtYZM
+         pWvDdAL6VFtuA0BpNy39RTFRQIEQFVQPG5BUThVn4uS5wSkveNGZb45NRk/2p3OB7kr7
+         adUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724077928; x=1724682728;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P29ihJqTzcg1VcBqLYD00iJSDzkB+ZTqybpsW0drryo=;
+        b=Shv+1es4hi97dXq6KSU1Tq/EBUOL9P1SZTbQmle/dptpAmVLh6Tl11BhTaE6IAD80O
+         +GxjqCh2XNC5UaNNYTBt7LC+7dGPACFmedyvv1Bdj2MWn0oT221teV8pHCD8SRwZGspB
+         4igJQZiDiaCYG3g+SKLk5ECJINgueFm3+M/iil+Q669kz33MlmY/rKEjIGHj6Z1xD1yc
+         LC7lkrCmIScQUUlF1DTn4x/LC7PBs9ZVqpIzFHbfZbjbABO+aazUQpP264KmTsxibnbG
+         /0u+S4MOPj91IwEIcYjvTEsvjRH8/1B8N/9NywcyoKpqqTlna41krxD9P4Tl0OYf5OwZ
+         /Q+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWwmhdM/siLHh31vDOnXSBKN8BU4GFjHe7jlosoZROL4EsnIfHehHsyvx50HoswfGqIBX9YbtQJ899nLlSWb6Sd6qyaQJvCFHZZuEg=
+X-Gm-Message-State: AOJu0Yz3W4ZVWdo37h/H0oVGHeyx+hWHy0TfeuhIElA686NSz0Su9RlU
+	GnOPGnNoqB5N6SUNzQNvwYVu7BDHpWOX24CVdnbes6cbrc/rv8oPZilE3aSfmg==
+X-Google-Smtp-Source: AGHT+IFhYuRdrRjzEK8XWMD1A9Yu/HU+giu8JNAcZOV9OVvN1YApwfL/cnHC0CWCLrfCuEbMz6EOVg==
+X-Received: by 2002:a05:6214:5c05:b0:6b7:b236:6944 with SMTP id 6a1803df08f44-6bf7cdca43emr174311846d6.8.1724077928186;
+        Mon, 19 Aug 2024 07:32:08 -0700 (PDT)
+Received: from rowland.harvard.edu (wrls-249-137-8.wrls-client.fas.harvard.edu. [140.247.12.8])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fe432d1sm42984536d6.74.2024.08.19.07.32.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 07:32:07 -0700 (PDT)
+Date: Mon, 19 Aug 2024 10:32:05 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	syzbot <syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] media/usb/siano: Fix endpoint type checking in smsusb
+Message-ID: <54c7e42c-465b-42fc-9707-d848ae53a00c@rowland.harvard.edu>
+References: <4442a354-87f1-4f7c-a2b0-96fbb29191d1@rowland.harvard.edu>
+ <0000000000009f6f85061e684e92@google.com>
+ <51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu>
+ <1959a4fb-8bf2-456b-83b8-ea28d517debf@rowland.harvard.edu>
+ <2024081909-afar-trolling-2a67@gregkh>
+ <20240819101358.77aea582@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_|ZQ0PR01MB1031:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4565d5e7-3b14-4219-d62e-08dcc052ac39
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|41320700013|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?2oN0iJ9jdTDyH7Lo0Cf0jKINhboiEDpcMLPMgSy2FH4cXIKKRzTOiz/ST7Hg?=
- =?us-ascii?Q?TgklwZp8yy8ee7IMbSO6oNX8Qytu7gvZ2g5qmb59dOXnlXXY645U8xofVi/f?=
- =?us-ascii?Q?ZOZOvplbl3unfDaPqyYkHZUtK+XXTwtWN1FptOpm8Zj+NMky5ks3+Evau7A9?=
- =?us-ascii?Q?0WU3lfUjlt/lPP/UgvvNoJH4ppUuL0kTgebuwqoo8DJeBW9FKlKBjT7UamS2?=
- =?us-ascii?Q?tkb3Jiza69um7tAxBXLb1iP7gJ6TJDGbQjmm0FlNay5Bpf/mmd1ssdxyAKIc?=
- =?us-ascii?Q?XXKxP+QmWZmhOYxAb2qdVaC/8st7+vQh9N/kiwMnA0Ewwrq6GYVrCRVRtPrI?=
- =?us-ascii?Q?lO4rmFLWcNMYxNqHwuU3M9Ltnjg50SjTh6vHGTAEfnE1S2edGAZyl5UzpNDQ?=
- =?us-ascii?Q?N5nADj2bhxRq9xOVAVAKL/nW2i0mpQO0bBtAHvFxOpSRdLTPa/N96M9FItjI?=
- =?us-ascii?Q?qsV5Z6uev1pVpqKxr4DRQUWjx3c7U6foFp745Gap93asfegoOhRbyqeEwBA0?=
- =?us-ascii?Q?UZTEEHGEHOwohJKcOzU7yRLBqint54Cc5WVvF3+htdTquFmCcf1GnmqfUDPh?=
- =?us-ascii?Q?c2aVOBUpePsx3lLSkTH9Edlzt2iVjBi07bZc5aX1yYpZNnJeJOw0r4QBLFJ5?=
- =?us-ascii?Q?iC+xJRHmP97U+aMJsDyhn0jnPwc5ObboKRUUJatL2B3gLpPINDZEDINpf+b+?=
- =?us-ascii?Q?mD1SBk4DtgX1MlpXow5I6qrr7bJ4EXgYbFCiWvClu7cTuDhuAKHv4oHDEqmN?=
- =?us-ascii?Q?Pb6uvgz2l+RpX3Xr2s59IJeq7fo7E60VQ3lCLyjsrtDBp9IQzpW1Fn06XjMH?=
- =?us-ascii?Q?zkUOOqfQR6IJiNuo2oN6woqNcHCfUG3WMlV7WTki8LIYu0T7eBp3jwSeaDMO?=
- =?us-ascii?Q?hF2XOs+87DyVBWqj/LiebPgrAxKFy+GEgtFX4QAL52t07js7qPtx8j4lpgSv?=
- =?us-ascii?Q?4uVPlYQgyIzSL2A6Uqg163Suy/T/EIMXzRtg+uHCeFItAfjxKqhQem+Ak0/k?=
- =?us-ascii?Q?wHLG8cZuleJ1DsOztAASovMNml0M7PAqqYeOfuepFou95ce1aQzNVM9e7JdF?=
- =?us-ascii?Q?colVgIIyXKgffCjrZ3Wk9mNOt63608mImOd4bN17K0KHDSFg4IGpSfRrrDih?=
- =?us-ascii?Q?oCOyJUvLurXalCwiBfCkF/2Oyvaqu8oUVQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:9;SRV:;IPV:NLI;SFV:SPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:OSPM;SFS:(13230040)(366016)(41320700013)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1501;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?l5XjsXcUj631rZUlSzZjPqqCd5H6LF7yx5yP56yUViSgjmUVNr0NhBnVe7hs?=
- =?us-ascii?Q?95D4wPhkyW3Z0VyRqostHkJNxo0cVvzifEfv5EXg5PvfFIvC0dGFVE2iMX/a?=
- =?us-ascii?Q?ZPpLvhy33x7def/1LsLCmZLi+NYrmsUQxAV+/l/mIcmuyN5h5BLUh0tQ3boF?=
- =?us-ascii?Q?Av1s0ieDf0UPIAOFZnRo4eDzlhU1JDqx3D3S0JoFmjdeUPbhoa3aa6cqr1R6?=
- =?us-ascii?Q?YoXxlxfcFFhXMLnKLSJFEw3+ckR4KpdPBoGU/1wMGco0MG0kIAqsN6BLwvTt?=
- =?us-ascii?Q?ewmMV0fJXt34pF16qPGNGGIAzIP1+BefEgs7Cd9rXpRORDifKPe4G93/614P?=
- =?us-ascii?Q?f8JafLQLhfzGBeJpB2IcV5MgTzLAbfuE1ALrSqVGpJ6tmY4r3uNpd6mjiE0M?=
- =?us-ascii?Q?GMGAt2KkBnjTsmYPncC7LaMJ61k5dcEGR13vaH/rO6+aehT+mkbAQXKsKN8E?=
- =?us-ascii?Q?hjs9KgJ9ztp1PKk+bDt4pEjjjMXka5V7oii0sBaHfjGufsr4JkXLVl3sy0wU?=
- =?us-ascii?Q?hB+h4Pri1N/uj2Vn9ZFRd33PUOhGOJRZg/kBOteTj2y/y5/JDWDUlHlcMF4P?=
- =?us-ascii?Q?jOPVjkKNu/s9sv309TE6s/9PnsCvxLRfm0TxBQB4LolPaQ6ZYVE8QzqIIYps?=
- =?us-ascii?Q?hBft/TpK71CwKGMOOHKwXxL5K3Ag9EZzpii0skGJt90ooX8xF3r6ZvGrOpKW?=
- =?us-ascii?Q?g3UbNJjbNglEirMJpvVGPHTqkf0UwnbQVWvtjMR2kaBVz708Lp7UAq5wYcJX?=
- =?us-ascii?Q?J/Lwl6+Evan4YMAFvaybeIZcrG7V3HffvV5dxBHBhxgmWCxrHjwuTzfHR6UI?=
- =?us-ascii?Q?9B1/OkagTXCrVvV98adDGugqOTC89S/8zJHhzyhckG03nL0BCNLyw27C0hEt?=
- =?us-ascii?Q?7M+mzfsmjpfrYGMONfeFAujpU5INrH4HbI63xzN+GHdP3jK0BhHUMYLY4tpJ?=
- =?us-ascii?Q?KmDRXsGUrDINKV0mg53UrKaOGizprItdU9YOlby37U3MDv+F6adfHTEwiEgg?=
- =?us-ascii?Q?247d4dkRg/QBZCr+ZWVYajfy9LCa3H/G8D6024RYh9x0/1nCRdOQ6ZhN0IAs?=
- =?us-ascii?Q?65anpWb0FLUfkTGirsWo9RbMbwWklBfIsNIhxDcDYqE0M8b9/7C+Bhhzm8e9?=
- =?us-ascii?Q?Qz0I7Zujwyc32s00RLtLSY63RSqU/NBabG7PVgcGKeXH4XAtxjMyCsJrQTBr?=
- =?us-ascii?Q?8HZRGzSQwWqo02MohOzJIpxA0yWERteZsbgI55Ys3M1lW1HDIQzHFHievmzF?=
- =?us-ascii?Q?Tb/yEwt0/+v7cjfVUxjVQsSlVkrLbDuh+2r1HJJOBs9Gz4z5vUG+PXLOOPQE?=
- =?us-ascii?Q?qpzIAxKSWAoXzOkn5AWnDPH7E14H3iNKsC4cNQdKMz08AaDS8Faosog7hVtb?=
- =?us-ascii?Q?Yj5BmILwwtr/mjpSLliXywAMSHij2F1CucSz30kbaKcY1s8IRs+86qsOt4Xr?=
- =?us-ascii?Q?R+RRbUhWDsLpGsrV55L4zBrqZxY9ErCEc7c+hOZgli+6HF73F9fTKd4x4eyj?=
- =?us-ascii?Q?MRNEh7X9QfjnJwMlQ6cTRnO+HFpv6MJK5Dy2yATJeAJ4EmQ0uTQH5s6WPJ8n?=
- =?us-ascii?Q?NbQ70QXKAO77Tn8uuNjSRKip1GV+ddc2ZfBCkdgefo9NHj5kHZ4hzb4cBXz1?=
- =?us-ascii?Q?nkPbwF+nDApzVCchpH8v4zk=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4565d5e7-3b14-4219-d62e-08dcc052ac39
-X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2024 13:27:29.0202
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 10LtAvHBA6dMjx8WZYrObwvFyCsNW7hjqgR0TtkiVpfLcpghPfhyhLxN/St5SXC52ABM0yQYgkg2FjaSdxCfq1/yvXz/Y+xzQ7+ODIKJCcDbghvE9PYO7b4AZtbdFcHN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1031
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240819101358.77aea582@foz.lan>
 
-Hi, Dan
+On Mon, Aug 19, 2024 at 10:15:11AM +0200, Mauro Carvalho Chehab wrote:
+> This patch is duplicated of this one:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/20240409143634.33230-1-n.zhandarovich@fintech.ru/
+> 
+> The part I didn't like with such approach is that it checks only for
+> bulk endpoints. Most media devices have also isoc. Now, I'm not sure
+> about Siano devices. There are 3 different major chipsets supported
+> by this driver (sm1000, sm11xx, sm2xxx). Among them, sm1000 has one
+> USB ID for cold boot, and, once firmware is loaded, it gains another
+> USB ID for a a warm boot.
 
-Thanks for your comments.
+Are you sure about all this?  The one source file in 
+drivers/media/usb/siano refers only to bulk endpoints, and the files in 
+drivers/media/common/siano don't refer to endpoints or URBs at all.  
+Nothing in either directory refers to isochronous endpoints.  Is there 
+some other place I should be looking?
 
->On Fri, Aug 16, 2024 at 04:04:38PM +0300, Dan Carpenter wrote:
->> On Fri, Aug 16, 2024 at 05:51:32AM -0700, Changhuang Liang wrote:
->> > Add the dynamic resolution support for video "capture_raw" device.
->> >
->>
->> What does this change look like from a use perspective if a user is reading the
->> git log?
->>
->> > Fixes: e080f339c80a ("media: staging: media: starfive: camss: Add capture driver")
->> >
->>
->> This looks like a new feature and not a bugfix.  Please describe the bug more
->> clearly if it's really a bugfix.
->>
->
->Actually the first version of the commit had a good description.  Just go back
->to that.
->
+Also, while there are many constants in those files whose names start 
+with SMS1, there aren't any whose names start with SMS2 or SM2 (or their 
+lowercase equivalents).  And the Kconfig help text mentions only Siano 
+SMS1xxx.
 
-Yes, I forgot to synchronous description.
+> Your patch and the previously submitted one are not only checking
+> for the direction, but it is also discarding isoc endpoints.
+> Applying a change like that without testing with real hardware of
+> those three types just to make fuzz testing happy, sounded a little 
+> bit risky to my taste.
+> 
+> I would be more willing to pick it if the check would either be
+> tested on real hardware or if the logic would be changed to
+> accept either bulk or isoc endpoints, just like the current code.
 
->> Add multiple resolution support for video "capture_raw" device. Otherwise
->> it will capture the wrong image data if the width is not 1920.
->
->Btw:
->1) Don't put a blank line after the Fixes tag.
->2) Put a note under the --- cut off line that says what changed.
->
->https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
->
+If the driver did apply to devices that used isochronous transfers, the 
+ideal approach would be to check the endpoint type against the device 
+type.  However, as it stands this doesn't seem to be necessary.
 
-Thanks for this.
-
->Please send v3.
-
-regards,
-Changhuang
+Alan Stern
 
