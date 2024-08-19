@@ -1,133 +1,178 @@
-Return-Path: <linux-media+bounces-16479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4335956D57
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 16:32:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 282B7957023
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 18:25:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D79581C237E8
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 14:32:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D81E82818D5
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 16:25:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8B7917277F;
-	Mon, 19 Aug 2024 14:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C89175D53;
+	Mon, 19 Aug 2024 16:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="g4bK5SNr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVRBK5/3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EF01EB3E
-	for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 14:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1730A16D307;
+	Mon, 19 Aug 2024 16:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724077931; cv=none; b=NkFEZRowmBvH9aIOYtZwNpZjcJ2Kzz4pktrCe1h6xQM9lXDUZY4E8mOFrotZlNm8QDkQJg/ZgPMwwXvh10UXrxgxe5b2hKEukb/ZoJ0lC1yJU1M+0poK3hwH9WsAT6S6olrnJsfnTEZuBsdI2Gxvh8tRhbRAxghxEpGPd6KM2NM=
+	t=1724084705; cv=none; b=Whu7ONXNiMIFCu1ykfaBCtpfpWIVoLb9jxdN1bQepfrx2V17vaVlH6BVpx99Xu2vW8MZHGDcDdmEtdz/JK0RmKZ6Ofusitb0ExbZnyMqaA4UOquxafoA7Edi1kzZn86DqJ0bTuDp9QNU3uhM2ytYUa8pNWeSIHNVbPyJZnmsbjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724077931; c=relaxed/simple;
-	bh=XVH5jU2JLFWFsBkWbQQD4HLUEFNRlujZ/eipfxqLqxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YK8FSlO+9JsrU+yhxVFsd8wMmIAYaRQglYh7SXrwyDxa8ZsNRlWQ8ims8eel+FdvyF7kvKQMtOETT7EYdd4b3af4x6VoDDGzQP/aiDkdYQ426m87gMJDSNPyad0EWyRD4SUA1wtE84ludmoltRiggcVhU74TEWRmlh9WsqU0MD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=g4bK5SNr; arc=none smtp.client-ip=209.85.219.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=g.harvard.edu
-Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-6bf90d52e79so11157386d6.3
-        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 07:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1724077928; x=1724682728; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P29ihJqTzcg1VcBqLYD00iJSDzkB+ZTqybpsW0drryo=;
-        b=g4bK5SNrUc2Nft6m88SNatPxDTkv4VIZOAUiZK8CvsU0IUUfO0Gggyhf8SndCL1oF2
-         nyNGddL29383Zzgi3a2rLpzcawGNF8yaGFByMo8j8GXrCRH4fUahN+Y602mI/giGx+h5
-         yVJ8z7qI+SqZIr2v+f3rOiM24EVGTZPpAR8dd+LJqyEqHm3EyS5o8Fi9t8LpranVa0ht
-         VS9Xv2S8xuMEEKaneZyjjGe6HA1gdnfMkFTUs6MoH5MRiStXkLNrEnWN3t/8kDEYtYZM
-         pWvDdAL6VFtuA0BpNy39RTFRQIEQFVQPG5BUThVn4uS5wSkveNGZb45NRk/2p3OB7kr7
-         adUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724077928; x=1724682728;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P29ihJqTzcg1VcBqLYD00iJSDzkB+ZTqybpsW0drryo=;
-        b=Shv+1es4hi97dXq6KSU1Tq/EBUOL9P1SZTbQmle/dptpAmVLh6Tl11BhTaE6IAD80O
-         +GxjqCh2XNC5UaNNYTBt7LC+7dGPACFmedyvv1Bdj2MWn0oT221teV8pHCD8SRwZGspB
-         4igJQZiDiaCYG3g+SKLk5ECJINgueFm3+M/iil+Q669kz33MlmY/rKEjIGHj6Z1xD1yc
-         LC7lkrCmIScQUUlF1DTn4x/LC7PBs9ZVqpIzFHbfZbjbABO+aazUQpP264KmTsxibnbG
-         /0u+S4MOPj91IwEIcYjvTEsvjRH8/1B8N/9NywcyoKpqqTlna41krxD9P4Tl0OYf5OwZ
-         /Q+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWwmhdM/siLHh31vDOnXSBKN8BU4GFjHe7jlosoZROL4EsnIfHehHsyvx50HoswfGqIBX9YbtQJ899nLlSWb6Sd6qyaQJvCFHZZuEg=
-X-Gm-Message-State: AOJu0Yz3W4ZVWdo37h/H0oVGHeyx+hWHy0TfeuhIElA686NSz0Su9RlU
-	GnOPGnNoqB5N6SUNzQNvwYVu7BDHpWOX24CVdnbes6cbrc/rv8oPZilE3aSfmg==
-X-Google-Smtp-Source: AGHT+IFhYuRdrRjzEK8XWMD1A9Yu/HU+giu8JNAcZOV9OVvN1YApwfL/cnHC0CWCLrfCuEbMz6EOVg==
-X-Received: by 2002:a05:6214:5c05:b0:6b7:b236:6944 with SMTP id 6a1803df08f44-6bf7cdca43emr174311846d6.8.1724077928186;
-        Mon, 19 Aug 2024 07:32:08 -0700 (PDT)
-Received: from rowland.harvard.edu (wrls-249-137-8.wrls-client.fas.harvard.edu. [140.247.12.8])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bf6fe432d1sm42984536d6.74.2024.08.19.07.32.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 07:32:07 -0700 (PDT)
-Date: Mon, 19 Aug 2024 10:32:05 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	syzbot <syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+	s=arc-20240116; t=1724084705; c=relaxed/simple;
+	bh=WGe0v6H3T/2YiBVe4JIwGeKG4yeuSR6dQ9wH2L9jyuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WNQebAcxhGdsjhA/uWJ+/9G8E2d4ERlHx8So/3JA2Dvu7RIXpX4c/wEYJReNCFBUAq3Uf6+ntcV0ujbHaEwhS1FpGmXBzTQfEi9LN5CdZCO4HuyD7VgWEeiNf0kcCAx48pi6Gymmz8U8Q11kdrUtHYAyKk+eg+0y4FBWJqZY9TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVRBK5/3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC7BAC32782;
+	Mon, 19 Aug 2024 16:25:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724084704;
+	bh=WGe0v6H3T/2YiBVe4JIwGeKG4yeuSR6dQ9wH2L9jyuk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oVRBK5/3jDwy4aPzOGAuBWP8NULcTWmKWaD2Ikgfvqqf9RQdobNFiE5OMMErWMOdP
+	 0fqbqGC+aThxxd/c5Vp+qCs6mmibUBZ9U5UpRpb8z/YDxZ8htxeQ7iqvNcdUp6ssyt
+	 tNXi9mHMU78eQrpD24e03CPfMoYkgAjNDeqGh0FeLmEvL9gwHr1X0SKk5TdJR0upmq
+	 3jJqHgWM9+ragIx0kp1s2SWzytuReqxL1J2EDstxMhBCFeMzso7YSPybdqZz2TKnsU
+	 /vIYgzYJOin+UVUmkSt8XkFbVdTpaI8H0J5XuOhMZaecEgBcS7X4/ytXjJuVLFMGzU
+	 1xSPOWg154vCg==
+Date: Mon, 19 Aug 2024 18:24:56 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, syzbot
+ <syzbot+85e3ddbf0ddbfbc85f1e@syzkaller.appspotmail.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Subject: Re: [PATCH] media/usb/siano: Fix endpoint type checking in smsusb
-Message-ID: <54c7e42c-465b-42fc-9707-d848ae53a00c@rowland.harvard.edu>
+Message-ID: <20240819182456.5e13315a@foz.lan>
+In-Reply-To: <54c7e42c-465b-42fc-9707-d848ae53a00c@rowland.harvard.edu>
 References: <4442a354-87f1-4f7c-a2b0-96fbb29191d1@rowland.harvard.edu>
- <0000000000009f6f85061e684e92@google.com>
- <51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu>
- <1959a4fb-8bf2-456b-83b8-ea28d517debf@rowland.harvard.edu>
- <2024081909-afar-trolling-2a67@gregkh>
- <20240819101358.77aea582@foz.lan>
+	<0000000000009f6f85061e684e92@google.com>
+	<51b854da-f031-4a25-a19f-dac442d7bee2@rowland.harvard.edu>
+	<1959a4fb-8bf2-456b-83b8-ea28d517debf@rowland.harvard.edu>
+	<2024081909-afar-trolling-2a67@gregkh>
+	<20240819101358.77aea582@foz.lan>
+	<54c7e42c-465b-42fc-9707-d848ae53a00c@rowland.harvard.edu>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240819101358.77aea582@foz.lan>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 19, 2024 at 10:15:11AM +0200, Mauro Carvalho Chehab wrote:
-> This patch is duplicated of this one:
+Em Mon, 19 Aug 2024 10:32:05 -0400
+Alan Stern <stern@rowland.harvard.edu> escreveu:
+
+> On Mon, Aug 19, 2024 at 10:15:11AM +0200, Mauro Carvalho Chehab wrote:
+> > This patch is duplicated of this one:
+> > 
+> > https://patchwork.linuxtv.org/project/linux-media/patch/20240409143634.33230-1-n.zhandarovich@fintech.ru/
+> > 
+> > The part I didn't like with such approach is that it checks only for
+> > bulk endpoints. Most media devices have also isoc. Now, I'm not sure
+> > about Siano devices. There are 3 different major chipsets supported
+> > by this driver (sm1000, sm11xx, sm2xxx). Among them, sm1000 has one
+> > USB ID for cold boot, and, once firmware is loaded, it gains another
+> > USB ID for a a warm boot.  
 > 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20240409143634.33230-1-n.zhandarovich@fintech.ru/
+> Are you sure about all this?  The one source file in 
+> drivers/media/usb/siano refers only to bulk endpoints, and the files in 
+> drivers/media/common/siano don't refer to endpoints or URBs at all.  
+> Nothing in either directory refers to isochronous endpoints.  Is there 
+> some other place I should be looking?
+> Also, while there are many constants in those files whose names start 
+> with SMS1, there aren't any whose names start with SMS2 or SM2 (or their 
+> lowercase equivalents).  And the Kconfig help text mentions only Siano 
+> SMS1xxx.
+> >
+> > Your patch and the previously submitted one are not only checking
+> > for the direction, but it is also discarding isoc endpoints.
+> > Applying a change like that without testing with real hardware of
+> > those three types just to make fuzz testing happy, sounded a little 
+> > bit risky to my taste.
+> > 
+> > I would be more willing to pick it if the check would either be
+> > tested on real hardware or if the logic would be changed to
+> > accept either bulk or isoc endpoints, just like the current code.  
 > 
-> The part I didn't like with such approach is that it checks only for
-> bulk endpoints. Most media devices have also isoc. Now, I'm not sure
-> about Siano devices. There are 3 different major chipsets supported
-> by this driver (sm1000, sm11xx, sm2xxx). Among them, sm1000 has one
-> USB ID for cold boot, and, once firmware is loaded, it gains another
-> USB ID for a a warm boot.
+> If the driver did apply to devices that used isochronous transfers, the 
+> ideal approach would be to check the endpoint type against the device 
+> type.  However, as it stands this doesn't seem to be necessary.
 
-Are you sure about all this?  The one source file in 
-drivers/media/usb/siano refers only to bulk endpoints, and the files in 
-drivers/media/common/siano don't refer to endpoints or URBs at all.  
-Nothing in either directory refers to isochronous endpoints.  Is there 
-some other place I should be looking?
+The initial driver had support only for SM1000 and SM11xx. There is a small 
+note there about the sm1000 devices there (I guess this is the chipset
+number of Stellar, but my memories might be tricking me), but without
+a real association with the chipset number:
 
-Also, while there are many constants in those files whose names start 
-with SMS1, there aren't any whose names start with SMS2 or SM2 (or their 
-lowercase equivalents).  And the Kconfig help text mentions only Siano 
-SMS1xxx.
+	/* This device is only present before firmware load */
+	{ USB_DEVICE(0x187f, 0x0010),
+		.driver_info = SMS1XXX_BOARD_SIANO_STELLAR_ROM },
+	/* This device pops up after firmware load */
+	{ USB_DEVICE(0x187f, 0x0100),
+		.driver_info = SMS1XXX_BOARD_SIANO_STELLAR },
 
-> Your patch and the previously submitted one are not only checking
-> for the direction, but it is also discarding isoc endpoints.
-> Applying a change like that without testing with real hardware of
-> those three types just to make fuzz testing happy, sounded a little 
-> bit risky to my taste.
-> 
-> I would be more willing to pick it if the check would either be
-> tested on real hardware or if the logic would be changed to
-> accept either bulk or isoc endpoints, just like the current code.
+Years later, support for sm2xxx was added.
 
-If the driver did apply to devices that used isochronous transfers, the 
-ideal approach would be to check the endpoint type against the device 
-type.  However, as it stands this doesn't seem to be necessary.
+Those two boards, for instance (see drivers/media/common/siano/sms-cards.c)
+are variants of sm2xxx (one of them is sm2270, if I'm not mistaken) that
+supports Brazilian TV standard:
 
-Alan Stern
+	[SMS1XXX_BOARD_SIANO_PELE] = {
+		.name = "Siano Pele Digital Receiver",
+		.type = SMS_PELE,
+		.default_mode = DEVICE_MODE_ISDBT_BDA,
+	},
+	[SMS1XXX_BOARD_SIANO_RIO] = {
+		.name = "Siano Rio Digital Receiver",
+		.type = SMS_RIO,
+		.default_mode = DEVICE_MODE_ISDBT_BDA,
+	},
+
+There are some boards there with a different version of sm22xx
+that supports only DVB (can't remember anymore what boards).
+
+Basically, the actual SMS device type is given by this enum:
+
+	enum sms_device_type_st {
+		SMS_UNKNOWN_TYPE = -1,
+
+		SMS_STELLAR = 0,
+		SMS_NOVA_A0,
+		SMS_NOVA_B0,
+		SMS_VEGA,
+		SMS_VENICE,
+		SMS_MING,
+		SMS_PELE,
+		SMS_RIO,
+		SMS_DENVER_1530,
+		SMS_DENVER_2160,
+
+		SMS_NUM_OF_DEVICE_TYPES	/* This is just a count */
+	};
+
+But I dunno if there are a 1:1 mapping between type and chipset 
+number. The above type names probably match some vendor internal 
+names, but we never had any tables associating them to a device number,
+as the vendor never provided us such information.
+
+Btw I vaguely remember I heard about a newer Siano chipsets (sm3xxx), 
+but never saw such devices.
+
+-
+
+Now, I'm not sure about what endpoints this specific driver exports, as
+I'm lacking vendor's documentation. What I said is that almost all DVB 
+devices have isoc endpoints, but I dunno if this is the case of Siano.
+
+Thanks,
+Mauro
 
