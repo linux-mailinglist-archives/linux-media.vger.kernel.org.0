@@ -1,163 +1,201 @@
-Return-Path: <linux-media+bounces-16429-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16430-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C9295607B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 02:14:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A552956080
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 02:17:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E793D1C20F21
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 00:14:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1EFB0B20DB5
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 00:17:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E469753A7;
-	Mon, 19 Aug 2024 00:13:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65165ECF;
+	Mon, 19 Aug 2024 00:17:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="M8jkRCDS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="glo55wnU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7235D322A;
-	Mon, 19 Aug 2024 00:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041DF1BC2F
+	for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 00:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724026438; cv=none; b=n14Z+Wz90o7WOf6Y3u19kVif3lzwZNv5TQ7Ob5gVfQlo9aAzzP1hAp4vn+SIdkvK1QT+QqWJFZeJaNUqdxFv8EVtDW2iIUj00TvBYNvMGUbqAwwSsfX7ZmSiShbFY6Df6ucz81ADnhmHw092t+Cy6SF6+BvaXtrAYSJIcLkj9PU=
+	t=1724026650; cv=none; b=b0rwc/rCYwT+bwUIYqln6c72rJuAa6a0ncJV1c2jFUN17dz5jMVfMR3qCjgEwvS5yByhLf5rJE8cLd7o09A4HgOrX58aI/HtucUEFmj/jsoFy0tSRnbZQva22DlD1SLCxAxXm8xiFjRxO+COWB31N+mPpNnMdi+G7lv6O3xyPnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724026438; c=relaxed/simple;
-	bh=6ny6rHhlV1aKKkQum5lxuNYiY0llxK003zN3tiLzpB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yk1ckeeYEC15QpJhaIqRm0MZkKU4arj3oXHYFngL8LSHqLGtBmJMk0jEUr/WS5u2Skh8MJC4LL42l9TLZ06Z+8MD+laH9Qhmhy8zt1LPR+DnIkkiWfThRw1zPnre/g7gXZOp4e4ChyhHSN3Ls4Rr/NmmCKe6PxapKbxWp5MrLTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=M8jkRCDS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D312D227;
-	Mon, 19 Aug 2024 02:12:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724026374;
-	bh=6ny6rHhlV1aKKkQum5lxuNYiY0llxK003zN3tiLzpB8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M8jkRCDShUR5pgM6LW2GUKr1P38/g5QVGolkWyi/WQZJYLUZxGOUvbp9A5BzWTXN9
-	 Skb6dCSWJdzaL59pS3xNHhuB5oMmC61G4VT1mYT9yMekFXkDMWrdxlyWhjDXP2dyc8
-	 2XgpVK7FCxY/g3BnCZs51Yxk/tArp5bHXj/T59dw=
-Date: Mon, 19 Aug 2024 03:13:27 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jack Zhu <jack.zhu@starfivetech.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: =?utf-8?B?5Zue5aSNOiDlm57lpI06IOWbng==?=
- =?utf-8?B?5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= staging: media: starfive: Add
- multiple resolution support
-Message-ID: <20240819001327.GK29465@pendragon.ideasonboard.com>
-References: <20240419081955.5140-1-changhuang.liang@starfivetech.com>
- <20240809095738.GG5833@pendragon.ideasonboard.com>
- <ZQ0PR01MB1302CAAE59FA0358E7FE6BD0F2BA2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
- <20240809132624.GB1435@pendragon.ideasonboard.com>
- <ZQ0PR01MB13029DA731711FAA57BD13A4F2852@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
- <20240812103357.GB18729@pendragon.ideasonboard.com>
- <ZQ0PR01MB130236FA891A04350CBC4245F2852@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+	s=arc-20240116; t=1724026650; c=relaxed/simple;
+	bh=goMcV+VLa2jotfCfaphpaHrg6yDyMlQVDvkRE+xfjNQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TZyXtxC83RjKWIejXmf2YYXQ+Cj7ikKin0ewzhNPqbcykcsT1vve+wnBsdPQ/d8DEysI7DLZbWvJ8EQviDBblZlg6NtANbGZWjdd+LJrhrbjowu/vGi97f1pDa71lh88J4ky8fp0sg1bW4OL5gDFldiw9iaz7o/4v6gwLZ7x19A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=glo55wnU; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52f008b40d7so714700e87.2
+        for <linux-media@vger.kernel.org>; Sun, 18 Aug 2024 17:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724026647; x=1724631447; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=v2v/8rkLS10z84hTT6BSiPQVkyjciswn9+D1TF7Vww0=;
+        b=glo55wnUIjTWqy0JEgReBxU0fLeeHbMgxnnBZzv9QiVglK/FJLgB2RyskLnCkOpUP1
+         qwIXbN1mhXcsaZ8DzYRIqFzj82i3ASqGd+FBA3o/g0slDYAKhR1lnd7PMGtstZ4vBI63
+         IpMMg7UXta3wnEctSz6Mug/pS6zvJWfecGX/MWdx/6Aii/MahDOdpQapAJI/+zSICeZS
+         qB8OHLvt6Ivuu+hZPgjUixJQ33xWtgw+FPEBa9XyTvZeZnkoSdSp3ERQ15OdEzEXGP0m
+         nl1sbmgntuOtG/cDBBavQsWPXe1N3X2P1awpN0/WFKJZLy2A2F8fwMu3Q1gIgDvysrZW
+         esyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724026647; x=1724631447;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v2v/8rkLS10z84hTT6BSiPQVkyjciswn9+D1TF7Vww0=;
+        b=weR9KF5YkaZs1ButjFMWLN6QOcbojMITkGWOJO2I98J4B4eSeRHdXxqNrQq7Y7dr+R
+         0P5bPc96QQgSC2SuRxVRkMxrTNkVwkmzdgj8g9XWD2m9qZ7xVrE4TPwzcIkLV2kgfWPd
+         SwLKENTfH4znhYfvPjhAYSCURg1cWZnDbDKyFwyA2uXWRbc9bihpk/AGXOF8H3wSMg9y
+         9pn2XN8pVcX247AfTX26A8kdiRhqFzZ/ACdg1XcQE+ZW/amu1Vws4FQNrvUQCM3cUwvD
+         kwrcb7aVRwcZJgRO84V94WBaN6THkR7qfguZfzevUL9aPbnzt5UESvPffzYA9Rx00Udn
+         d+UA==
+X-Forwarded-Encrypted: i=1; AJvYcCXlw5ByjAbTl7Gn5VS7O2TIfY4tf6NS1X2hezRQwBw+qrtfipfizbpRdYJN5St2uwaOVbkXi5HrJgzQtw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywww7QUjsw4UFE6egG7zWlkMvNz0iMKXHRHtO/4UsdKokIteCtF
+	KpqAijIvQfpLEXk/sRT2PIqRHuFsKi53uIZWzSxqwztWYta6W7u2dnSYjvgePcQ=
+X-Google-Smtp-Source: AGHT+IFVS3NukrIXpBhBqdEbHV9SfprF5p2FP/geZzw7UvUYV+wn9VkEOjaKszoM73aMQqc0jEny1w==
+X-Received: by 2002:a05:651c:211e:b0:2ef:226e:bc6d with SMTP id 38308e7fff4ca-2f3be581aa6mr38755401fa.2.1724026646929;
+        Sun, 18 Aug 2024 17:17:26 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f3b748db93sm13354001fa.37.2024.08.18.17.17.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Aug 2024 17:17:26 -0700 (PDT)
+Message-ID: <3cdd7101-ae8c-45c9-9695-f7f4202d1edb@linaro.org>
+Date: Mon, 19 Aug 2024 03:17:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZQ0PR01MB130236FA891A04350CBC4245F2852@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/13] media: qcom: camss: csiphy: Add an init callback to
+ CSI PHY devices
+Content-Language: en-US
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-5-quic_depengs@quicinc.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20240812144131.369378-5-quic_depengs@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 12, 2024 at 12:13:03PM +0000, Changhuang Liang wrote:
-> > On Mon, Aug 12, 2024 at 09:43:47AM +0000, Changhuang Liang wrote:
-> > > > On Fri, Aug 09, 2024 at 12:12:01PM +0000, Changhuang Liang wrote:
-> > > > > > On Fri, Apr 19, 2024 at 01:19:55AM -0700, Changhuang Liang wrote:
-> > > > > > > Add multiple resolution support for video "capture_raw" device.
-> > > > > > > Otherwise it will capture the wrong image data if the width is not 1920.
-> > > > > > >
-> > > > > > > Fixes: e080f339c80a ("media: staging: media: starfive: camss:
-> > > > > > > Add capture driver")
-> > > > > > >
-> > > > > > > Signed-off-by: Changhuang Liang
-> > > > > > > <changhuang.liang@starfivetech.com>
-> > > > > > > ---
-> > > > > > >  drivers/staging/media/starfive/camss/stf-capture.c | 5 ++++-
-> > > > > > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > > > > > >
-> > > > > > > diff --git
-> > > > > > > a/drivers/staging/media/starfive/camss/stf-capture.c
-> > > > > > > b/drivers/staging/media/starfive/camss/stf-capture.c
-> > > > > > > index ec5169e7b391..9e853ff2596a 100644
-> > > > > > > --- a/drivers/staging/media/starfive/camss/stf-capture.c
-> > > > > > > +++ b/drivers/staging/media/starfive/camss/stf-capture.c
-> > > > > > > @@ -177,9 +177,12 @@ static void stf_channel_set(struct
-> > > > > > > stfcamss_video
-> > > > > > > *video)  {
-> > > > > > >  	struct stf_capture *cap = to_stf_capture(video);
-> > > > > > >  	struct stfcamss *stfcamss = cap->video.stfcamss;
-> > > > > > > +	struct v4l2_pix_format *pix;
-> > > > > >
-> > > > > > This variable can be const as you don't modify the format.
-> > > > > >
-> > > > > > >  	u32 val;
-> > > > > > >
-> > > > > > >  	if (cap->type == STF_CAPTURE_RAW) {
-> > > > > > > +		pix = &video->active_fmt.fmt.pix;
-> > > > > >
-> > > > > > And it can be declared and initialized here:
-> > > > > >
-> > > > > > 		const struct v4l2_pix_format *pix =
-> > > > > > &video->active_fmt.fmt.pix;
-> > > > > >
-> > > > > > > +
-> > > > > > >  		val = stf_syscon_reg_read(stfcamss, VIN_CHANNEL_SEL_EN);
-> > > > > > >  		val &= ~U0_VIN_CHANNEL_SEL_MASK;
-> > > > > > >  		val |= CHANNEL(0);
-> > > > > > > @@ -193,7 +196,7 @@ static void stf_channel_set(struct stfcamss_video *video)
-> > > > > > >  		val |= PIXEL_HEIGH_BIT_SEL(0);
-> > > > > > >
-> > > > > > >  		val &= ~U0_VIN_PIX_CNT_END_MASK;
-> > > > > > > -		val |= PIX_CNT_END(IMAGE_MAX_WIDTH / 4 - 1);
-> > > > > > > +		val |= PIX_CNT_END(pix->width / 4 - 1);
-> > > > > >
-> > > > > > Is there no need to consider the image height as well ? How does
-> > > > > > the driver prevent buffer overflows if the sensor sends more data than expected ?
-> > > > >
-> > > > > Our hardware will confirm a frame of data through vblank signal,
-> > > > > so there is no image height configuration.
-> > > >
-> > > > What happens if the system expects, for instance, a 1920x1080 RAW8
-> > > > image, and allocates a buffer of of 1920x1080 bytes, but the sensor
-> > > > outputs more lines ? Does the camera hardware in the SoC offer an
-> > > > option to prevent buffer overruns ?
-> > >
-> > > The hardware can confirm the image height by using the VSYNC signal.
-> > >
-> > > Image will transfer when VSYNC is high.
-> > >
-> > > VSYNC time = (width + h_blank) * height;
-> > 
-> > What I'm trying to understand is what happens if the ISP is configured for
-> > 1080 lines, but the camera sensor sends more than 1080 lines (the VSYNC
-> > signal is active for more than 1080 lines). Where in the driver is the hardware
-> > configure with the 1080 lines limit to avoid buffer overflows ?
+On 8/12/24 17:41, Depeng Shao wrote:
+> From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > 
-> If is "capture_raw" video device, no image height can be configured.
+> Add a nop init callback to CSIPHY devices, this callback is used to add
+> some HW register offset and register configuration for specific platform,
+> then different platform can reuse the same CSIPHY driver. Later changes
+> will enumerate with enabling code.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c | 6 ++++++
+>   drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 6 ++++++
+>   drivers/media/platform/qcom/camss/camss-csiphy.c         | 4 ++++
+>   drivers/media/platform/qcom/camss/camss-csiphy.h         | 1 +
+>   4 files changed, 17 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
+> index cd4a8c369234..9d67e7fa6366 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
+> @@ -180,6 +180,11 @@ static irqreturn_t csiphy_isr(int irq, void *dev)
+>   	return IRQ_HANDLED;
+>   }
+>   
+> +static int csiphy_init(struct csiphy_device *csiphy)
+> +{
+> +	return 0;
+> +}
 
-In that case what happens if the camera sensor sends more lines than
-expected ? Will the raw video device write past the end of the buffer ?
-If so, is there a way to guard against that ?
+As far as I see from the patchset there is no intention to populate this function,
+see a comment below.
 
-> If is "capture_yuv" video device, it will be set by stf_isp_config_crop.
+>   const struct csiphy_hw_ops csiphy_ops_2ph_1_0 = {
+>   	.get_lane_mask = csiphy_get_lane_mask,
+>   	.hw_version_read = csiphy_hw_version_read,
+> @@ -187,4 +192,5 @@ const struct csiphy_hw_ops csiphy_ops_2ph_1_0 = {
+>   	.lanes_enable = csiphy_lanes_enable,
+>   	.lanes_disable = csiphy_lanes_disable,
+>   	.isr = csiphy_isr,
+> +	.init = csiphy_init,
+>   };
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index bc4834ee2dcc..b60c32a195df 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -581,6 +581,11 @@ static void csiphy_lanes_disable(struct csiphy_device *csiphy,
+>   			  CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(6));
+>   }
+>   
+> +static int csiphy_init(struct csiphy_device *csiphy)
+> +{
+> +	return 0;
+> +}
+> +
+>   const struct csiphy_hw_ops csiphy_ops_3ph_1_0 = {
+>   	.get_lane_mask = csiphy_get_lane_mask,
+>   	.hw_version_read = csiphy_hw_version_read,
+> @@ -588,4 +593,5 @@ const struct csiphy_hw_ops csiphy_ops_3ph_1_0 = {
+>   	.lanes_enable = csiphy_lanes_enable,
+>   	.lanes_disable = csiphy_lanes_disable,
+>   	.isr = csiphy_isr,
+> +	.init = csiphy_init,
+>   };
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
+> index 2f7361dfd461..ea5c7078ec8e 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
+> @@ -576,6 +576,10 @@ int msm_csiphy_subdev_init(struct camss *camss,
+>   	csiphy->cfg.combo_mode = 0;
+>   	csiphy->res = &res->csiphy;
+>   
+> +	ret = csiphy->res->hw_ops->init(csiphy);
+> +	if (ret)
+> +		return ret;
 
-Thank you, that's the information I was looking for.
+I've already expressed concerns about a necessity of this function, since it
+adds runtime burden of work, which can be successfully done at compile time,
+but okay...
 
--- 
-Regards,
+Since it is needed for 3PH case only, it may make sense to remove it from 2PH
+and call it here conditionally like
 
-Laurent Pinchart
+	if (csiphy->res->hw_ops->init)
+		ret = csiphy->res->hw_ops->init(csiphy);
+
+But it's up to you, I hope the callback will be removed in short future.
+
+>   	/* Memory */
+>   
+>   	csiphy->base = devm_platform_ioremap_resource_byname(pdev, res->reg[0]);
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
+> index 47f0b6b09eba..bdf9a9c8bacc 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
+> @@ -71,6 +71,7 @@ struct csiphy_hw_ops {
+>   	void (*lanes_disable)(struct csiphy_device *csiphy,
+>   			      struct csiphy_config *cfg);
+>   	irqreturn_t (*isr)(int irq, void *dev);
+> +	int (*init)(struct csiphy_device *csiphy);
+>   };
+>   
+>   struct csiphy_subdev_resources {
+
+--
+Best wishes,
+Vladimir
 
