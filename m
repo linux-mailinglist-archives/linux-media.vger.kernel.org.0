@@ -1,228 +1,187 @@
-Return-Path: <linux-media+bounces-16475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E09B956A91
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 14:13:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26300956B83
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 15:08:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 101501F22D22
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 12:13:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 188871C22251
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2024 13:08:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A080416B749;
-	Mon, 19 Aug 2024 12:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66A7616C68F;
+	Mon, 19 Aug 2024 13:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hOHrqtXt"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="U9kV81PN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E185614EC5D
-	for <linux-media@vger.kernel.org>; Mon, 19 Aug 2024 12:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B3116A36E;
+	Mon, 19 Aug 2024 13:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724069585; cv=none; b=J+D5uOUpLDs861Zyj7h1QARkrbMiKZwk8FuC8dAG0RDobfZw/Oc/Dg2dIl7Hwn0NKKj3w11wxZcl8OhXauD4PVp1f+2vJCgLjAn7tyk2laqSDEOVx8ld+etnaAbFhcU4NMnx+eu8TsjG1CcP4dx0GV+YC98n+Y1WimYKC7MpPTs=
+	t=1724072880; cv=none; b=qSFvofLkCrdbBcEur6e3zpSzCSog/jPvmmKOoCa3g8sNnvbu3VYOGIkmZ+N16stuSjNlC7nTPfGqdTJyy/QMrAtrM6axzjlenQr9gMvnj6NeAxlFFI4nNHmvri5pzUhpTeDncGG2fwXKNI8ehxNd/AwhjgkaDnvbAMk+yGZaRhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724069585; c=relaxed/simple;
-	bh=c20r/mE6h1vZn09VgFTLYag8iEdUYbYyfChr2eR19Ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gWy096sMc71iZyXshhl7jWqtkuWxsj8ddDenTJG3tKgmmzXo9El63cK11YjX3E3XJmu3d+RysEcsn8ui6CpA3q+R9L9Sc0u4lOtnqfkmOMe8vu9JSCPgBZyUYlJHI36a+L8j9c1LoE+JDUSBaT7j3sN7vgcZlzHciVxFi0C4fiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hOHrqtXt; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDD2D5A5;
-	Mon, 19 Aug 2024 14:12:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724069521;
-	bh=c20r/mE6h1vZn09VgFTLYag8iEdUYbYyfChr2eR19Ok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hOHrqtXtZDlYlezN0nS1nzd/wYGhgRefWepxiaaEAGaegAko+U/ULrsFRlWOILyXZ
-	 u4fh/Ro4TpCTKZYY1eMSXp2L7BOYQS79L2tH6YZz/fr2CZp3Q/orW2MAuOfbhSfcgc
-	 LejdoWAAJIjh/dzJRc0p8IGcTda68thkcb0IO3yI=
-Date: Mon, 19 Aug 2024 15:12:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Cao, Bingbu" <bingbu.cao@intel.com>
-Cc: Kelvin Miller <uavtech2002@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Bingbu Cao <bingbu.cao@linux.intel.com>
-Subject: Re: IPU6 Camera Video Output Upside Down
-Message-ID: <20240819121235.GB13022@pendragon.ideasonboard.com>
-References: <CAC-GLBmTxCLVvm89vX6XYwpJOTkFeLSjASc2qy7DwySRcS8Hyw@mail.gmail.com>
- <20240818003853.GE29320@pendragon.ideasonboard.com>
- <DM8PR11MB565336FF81332A7362B7FAA5998C2@DM8PR11MB5653.namprd11.prod.outlook.com>
+	s=arc-20240116; t=1724072880; c=relaxed/simple;
+	bh=2xqEHdOFiBcXyf6be6DUXlm93FRag2QMLOmGqWjxMNk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=CNEUUGnN7xz04JdBylEPEJd45qlnq31PU4p2M9TOk6CU9aFAn1JrmnOss9q0vPJ3yMmJeNalQYSUAZJ/QmDq1Eyb8/Fww1EE2RdO+PGG+Y4gJyUQO418jogKrTMzHiMYkM8H7lf7/Z7CE3R2276OQqBa4UuBPb8vAMVcGWtk0sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=U9kV81PN; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JCLFbB032745;
+	Mon, 19 Aug 2024 13:07:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	GAl+8aYYFCb3rvVJ1ZBeK55OJUfaICaKouVC58gy11Q=; b=U9kV81PNYKzU+/Fu
+	aUI69R8ctAhkROnXk9WmlA651iqkzk5bD7pyJcdDgAi8vFXhwM/t8p/5xJAo1QZF
+	OL83Ub/36DHtLn2w963jXWi+URR/ThUq1f3Y90l5S12t5A/LRr4DwKH5LKITg4Le
+	HwDshIYzJuvKcJYK/eN03FByef+/v3jBubdEqYLS8McH2ZY0OVEMgO9NAghzU2Md
+	Ja03DiVwJ/lCAaBMQvcFm7HcSQQHWxCcZU7lrE6W26dvz9fpP9Ny1lWC2rCL6dd6
+	z+VWSjnO8tJMSpi+iD62I8W2xB+YC0BZiaYeWjzhJQwN8QvkrBAG6vR/G404VcTr
+	uWrXIg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4145yw82yk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 19 Aug 2024 13:07:54 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 47JD7r93005563
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 19 Aug 2024 13:07:53 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 19 Aug
+ 2024 06:07:47 -0700
+Message-ID: <60d737b2-4ae6-42aa-abc3-5843dde7f7b2@quicinc.com>
+Date: Mon, 19 Aug 2024 21:07:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DM8PR11MB565336FF81332A7362B7FAA5998C2@DM8PR11MB5653.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/13] media: qcom: camss: Add support for VFE hardware
+ version Titan 780
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, Yongsheng Li <quic_yon@quicinc.com>
+References: <20240812144131.369378-1-quic_depengs@quicinc.com>
+ <20240812144131.369378-14-quic_depengs@quicinc.com>
+ <eba83b14-e704-464a-b4c4-19322e70d177@linaro.org>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <eba83b14-e704-464a-b4c4-19322e70d177@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: DowNTWabrozRQLTz_kvGMfo4fehWnBvO
+X-Proofpoint-GUID: DowNTWabrozRQLTz_kvGMfo4fehWnBvO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-19_11,2024-08-19_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 bulkscore=0 phishscore=0
+ spamscore=0 malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2407110000 definitions=main-2408190088
 
-Hi Bingbu,
+Hi Bryan,
 
-On Mon, Aug 19, 2024 at 12:32:52AM +0000, Cao, Bingbu wrote:
-> On Sunday, August 18, 2024 8:39 AM, Laurent Pinchart wrote:
-> > On Sat, Aug 17, 2024 at 08:00:24PM -0400, Kelvin Miller wrote:
-> >> All,
-> >>
-> >> I don't know who to direct this to, so I added the names of
-> >> individuals working on intel_ipu6 related patches.
-> >
-> > I've added Sakari Ailus to the CC list and dropped Arnd as he's not
-> > involved.
-> >
-> >> I'm running the 6.10.5-arch1-1 and 6.10.5-arch1-1-surface kernelson a
-> >> Microsoft Surface Pro 8 in EndeavourOS. The Surface Pro 8 has the
-> >> ov5693 (front) and ov13858 (rear) sensors. Only the front sensor is
-> >> recognized by libcamera. In all of the camera applications that Iused
-> >> (cheese, kamoso, and qcam) the video is inverted (upside down). Itwas
-> >> recommended on the Surface Linux Github page
-> >> (https://github.com/linux-surface/linux-surface/discussions/1354#discussioncomment-10367513)
-> >> that I report this issue here.
-> >>
-> >> Here are some outputs:
-> >>
-> >> $ v4l2-ctl -l -d $(media-ctl -d /dev/media0 -e 'ov5693 2-0036')
-> >>
-> >> User Controls
-> >>
-> >>                       exposure 0x00980911 (int)    : min=1 max=1030 step=1 default=1030 value=1030
-> >>                horizontal_flip 0x00980914 (bool)   : default=0 value=0
-> >>                  vertical_flip 0x00980915 (bool)   : default=0 value=0
-> >>
-> >> Camera Controls
-> >>
-> >>             camera_orientation 0x009a0922 (menu)   : min=0 max=2 default=0 value=0 (Front) flags=read-only
-> >>         camera_sensor_rotation 0x009a0923 (int)    : min=0 max=0 step=1 default=0 value=0 flags=read-only
-> >>
-> >> Image Source Controls
-> >>
-> >>              vertical_blanking 0x009e0901 (int)    : min=4max=64563 step=1 default=66 value=66
-> >>            horizontal_blanking 0x009e0902 (int)    : min=1392max=1392 step=1 default=1392 value=1392 flags=read-only
-> >>                  analogue_gain 0x009e0903 (int)    : min=1 max=127 step=1 default=8 value=127
-> >>
-> >> Image Processing Controls
-> >>
-> >>                 link_frequency 0x009f0901 (intmenu): min=0 max=0 default=0 value=0 (419200000 0x18fc7c00) flags=read-only
-> >>                     pixel_rate 0x009f0902 (int64)  : min=0 max=167680000 step=1 default=167680000 value=167680000 flags=read-only
-> >>                   test_pattern 0x009f0903 (menu)   : min=0 max=3 default=0 value=0 (Disabled)
-> >>                   digital_gain 0x009f0905 (int)    : min=1 max=4095 step=1 default=1024 value=1024
-> >
-> > Looking at this, the sensor reports it's mounted upside-up (through
-> > camera_sensor_rotation), which makes me suspect that either the
-> > information in the _PLD is incorrect, or the _PLD is not correctly
-> > taken into account. Bingbu, Sakari, could you help Kelvin to
-> > investigate this ?
+
+On 8/19/2024 7:05 PM, Bryan O'Donoghue wrote:
+> On 12/08/2024 15:41, Depeng Shao wrote:
+>> +#define VFE_BUS_WM_CFG(n)        (BUS_REG_BASE + 0x200 + (n) * 0x100)
 > 
-> As Laurent said, it is likely that rotation/orientation is not considered
-> in ov5693 driver. Which resolution are you running? I checked the camera
-> sensor driver and the default flip for 2104x1560, 2080x1170 and 1364x768
-> is vertical flip.
+> <snip>
 > 
-> 	{0x3820, 0x8b},
+>> +#define RDI_WM(n)            ((vfe_is_lite(vfe) ? 0x0 : 0x17) + (n))
+>> +
+>> +static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct 
+>> vfe_line *line)
+>> +{
+>> +    struct v4l2_pix_format_mplane *pix =
+>> +        &line->video_out.active_fmt.fmt.pix_mp;
+>> +
+>> +    wm = RDI_WM(wm); /* map to actual WM used (from wm=RDI index) */
 > 
-> 0x88 is the normal without flip enabled.
+> OK so one more point here.
+> 
+> The non-lite VFE has I think in the case of sm8550 twenty seven 
+> different bus clients.
+> 
+> The above code takes a given index - take the example of index 0 meaning 
+> RDI0 and
+> 
+> 1. Determines if is_lite() is true deriving a jump of 0 or 0x17
+> 2. Uses this index as a further offset to functions such as
+>     VFE_BUS_WM_CFG(n)
+> 3. In no way articulates which bus client is which.
+> 
+> So for a non lite case -> RDI0 is bus client # 23
+> 
+> The code we have for CAMSS just assumes RDI is the only client we are 
+> programming - which I'm not proposing to change for now, however the 
+> code is very not obvious in what it is doing here.
+> 
+> This BTW isn't a criticism of what you've done here but, even though I 
+> have access to the registers in front of me, I had to spend about 30 
+> minutes looking up and verifying these offsets.
+> 
+> That's not sustainable.
+> 
+> Could you please add a comment which details what each index relates to.
+> 
+> /*
+>   * Bus client mapping
+>   *
+>   * 0 = VID_Y ?
+>   * 1 = VID_C
+>   * .. etc
+>   * .. etc
+>   * 23 = RDI0
+>   * 24 = RDI1
+>   */
+> 
+> I'll try to apply a similar level of index documentation for existing 
+> upstream submissions so that working out client mappings is less tedious 
+> and will be requiring these mappings for new VFE silicon enabling code 
+> upstream.
+> 
 
-Are we looking at the same driver ? In mainline, register 0x3820 is
-initialized to 0x00 in ov5693_global_regs. The
-OV5693_FORMAT1_FLIP_VERT_ISP_EN and OV5693_FORMAT1_FLIP_VERT_SENSOR_EN
-bits are then set in ov5693_flip_vert_configure when the vflip control
-is set to true. The OV5693_FORMAT1_VBIN_EN is additionally set in
-ov5693_mode_configure() when binning vertically, but that shouldn't be
-related. I don't see any other place where the register value is
-changed.
+Sure, I will add the comment for the bus client mapping in next version 
+patch.
 
-> >> $ lsmod | grep ipu
-> >> intel_ipu6_isys       143360  6
-> >> videobuf2_dma_contig   28672  2 intel_ipu6_isys
-> >> videobuf2_v4l2         40960  1 intel_ipu6_isys
-> >> videobuf2_common       94208  4 videobuf2_dma_contig,videobuf2_v4l2,intel_ipu6_isys,videobuf2_memops
-> >> v4l2_fwnode            32768  8 ov5693,intel_ipu6_isys,ov13858
-> >> v4l2_async             32768  4 v4l2_fwnode,ov5693,intel_ipu6_isys,ov13858
-> >> videodev              393216  15 v4l2_async,v4l2_fwnode,videobuf2_v4l2,ov5693,v4l2loopback,intel_ipu6_isys,ov13858
-> >> mc                     90112  9 v4l2_async,videodev,videobuf2_v4l2,ov5693,intel_ipu6_isys,ov13858,videobuf2_common
-> >> intel_ipu6             86016  7 intel_ipu6_isys
-> >> ipu_bridge             24576  2 intel_ipu6,intel_ipu6_isys
-> >>
-> >> $ LIBCAMERA_LOG_LEVELS=0 cam --list
-> >> [1:10:50.807754803] [10863] DEBUG IPAModule ipa_module.cpp:334 ipa_ipu3.so: IPA module /usr/lib/libcamera/ipa_ipu3.so is signed
-> >> [1:10:50.807872559] [10863] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA module '/usr/lib/libcamera/ipa_ipu3.so'
-> >> [1:10:50.807962280] [10863] DEBUG IPAModule ipa_module.cpp:334 ipa_soft_simple.so: IPA module/usr/lib/libcamera/ipa_soft_simple.so is signed
-> >> [1:10:50.807980265] [10863] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA module '/usr/lib/libcamera/ipa_soft_simple.so'
-> >> [1:10:50.808012629] [10863] DEBUG IPAModule ipa_module.cpp:334 ipa_vimc.so: IPA module /usr/lib/libcamera/ipa_vimc.so is signed
-> >> [1:10:50.808025804] [10863] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA module '/usr/lib/libcamera/ipa_vimc.so'
-> >> [1:10:50.808050072] [10863] ERROR IPAModule ipa_module.cpp:172Symbol ipaModuleInfo not found
-> >> [1:10:50.808057333] [10863] ERROR IPAModule ipa_module.cpp:292 v4l2-compat.so: IPA module has no valid info
-> >> [1:10:50.808131102] [10863]  INFO Camera camera_manager.cpp:325 libcamera v0.3.1+64-ce690bd9-dirty (2024-08-17T16:17:18EDT)
-> >> [1:10:50.808343190] [10864] DEBUG Camera camera_manager.cpp:73 Starting camera manager
-> >> [1:10:50.821605192] [10864] DEBUG DeviceEnumerator device_enumerator.cpp:230 New media device "intel-ipu6" createdfrom /dev/media0
-> >> [1:10:50.824319260] [10864] DEBUG DeviceEnumerator device_enumerator_udev.cpp:96 Defer media device /dev/media0 due to1 missing dependencie s
-> >> [1:10:50.824612021] [10864] DEBUG DeviceEnumerator device_enumerator_udev.cpp:322 All dependencies for media device /dev/media0 found
-> >> [1:10:50.824624081] [10864] DEBUG DeviceEnumerator device_enumerator.cpp:258 Added device /dev/media0: intel-ipu6
-> >> [1:10:50.825560945] [10864] DEBUG Camera camera_manager.cpp:138Found registered pipeline handler 'ipu3'
-> >> [1:10:50.825858267] [10864] DEBUG Camera camera_manager.cpp:138Found registered pipeline handler 'simple'
-> >> [1:10:50.825960032] [10864] DEBUG DeviceEnumerator device_enumerator.cpp:318 Successful match for media device "intel-ipu6"
-> >> [1:10:50.826073453] [10864] DEBUG SimplePipeline simple.cpp:1554 Sensor found for /dev/media0
-> >> [1:10:50.826578250] [10864] DEBUG SimplePipeline simple.cpp:417 Found capture device Intel IPU6 ISYS Capture 32
-> >> [1:10:50.826673664] [10864] DEBUG V4L2v4l2_device.cpp:636 'ov5693 2-0036': Control: Exposure (0x00980911)
-> >> [1:10:50.826807959] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Horizontal Flip (0x00980914)
-> >> [1:10:50.826837706] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Vertical Flip (0x00980915)
-> >> [1:10:50.826855790] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Camera Orientation (0x009a0922)
-> >> [1:10:50.826903725] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Camera Sensor Rotation (0x009a0923)
-> >> [1:10:50.826923461] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Vertical Blanking (0x009e0901)
-> >> [1:10:50.826936999] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Horizontal Blanking (0x009e0902)
-> >> [1:10:50.826951952] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Analogue Gain (0x009e0903)
-> >> [1:10:50.826966185] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Link Frequency (0x009f0901)
-> >> [1:10:50.826983040] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Pixel Rate (0x009f0902)
-> >> [1:10:50.826997454] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Test Pattern (0x009f0903)
-> >> [1:10:50.827015198] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Digital Gain (0x009f0905)
-> >> [1:10:50.828490135] [10864] DEBUG CameraSensor camera_sensor.cpp:431 'ov5693 2-0036': Test pattern mode 1 ignored
-> >> [1:10:50.828508710] [10864] DEBUG CameraSensor camera_sensor.cpp:431 'ov5693 2-0036': Test pattern mode 3 ignored
-> >> [1:10:50.828545992] [10864] DEBUG CameraSensor camera_sensor.cpp:1187 'ov5693 2-0036': Apply test pattern mode 0
-> >> [1:10:50.828573532] [10864] DEBUG SimplePipeline simple.cpp:487 Found pipeline: [ov5693 2-0036|0] -> [0|Intel IPU6 CSI2 4|1] -> [0|IntelIPU 6 ISYS Capture 32]
-> >> [1:10:50.828701911] [10864] DEBUG V4L2 v4l2_videodevice.cpp:632 /dev/video32[14:cap]: Opened device : isys: ipu6
-> >> [1:10:50.828871825] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Exposure (0x00980911)
-> >> [1:10:50.828899010] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Horizontal Flip (0x00980914)
-> >> [1:10:50.828914160] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Vertical Flip (0x00980915)
-> >> [1:10:50.828928349] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Camera Orientation (0x009a0922)
-> >> [1:10:50.828947214] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Camera Sensor Rotation (0x009a0923)
-> >> [1:10:50.828961230] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Vertical Blanking (0x009e0901)
-> >> [1:10:50.828974089] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Horizontal Blanking (0x009e0902)
-> >> [1:10:50.828986298] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Analogue Gain (0x009e0903)
-> >> [1:10:50.828998654] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Link Frequency (0x009f0901)
-> >> [1:10:50.829014321] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Pixel Rate (0x009f0902)
-> >> [1:10:50.829027065] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Test Pattern (0x009f0903)
-> >> [1:10:50.829043099] [10864] DEBUG V4L2 v4l2_device.cpp:636 'ov5693 2-0036': Control: Digital Gain (0x009f0905)
-> >> [1:10:50.829102862] [10864] DEBUG DmaBufAllocator dma_buf_allocator.cpp:103 Failed to open /dev/dma_heap/linux,cma: Permission denied
-> >> [1:10:50.829116555] [10864] DEBUG DmaBufAllocator dma_buf_allocator.cpp:103 Failed to open /dev/dma_heap/reserved: Permission denied
-> >> [1:10:50.829124690] [10864] DEBUG DmaBufAllocator dma_buf_allocator.cpp:103 Failed to open /dev/dma_heap/system: Permission denied
-> >> [1:10:50.829137432] [10864] DEBUG DmaBufAllocator dma_buf_allocator.cpp:109 Using /dev/udmabuf
-> >> [1:10:50.830824251] [10864] DEBUG IPAManager ipa_manager.cpp:306 IPA module /usr/lib/libcamera/ipa_soft_simple.so signature is valid
-> >> [1:10:50.830945293] [10864] DEBUG IPAProxy soft_ipa_proxy.cpp:45 initializing soft proxy: loading IPA from /usr/lib/libcamera/ipa_soft_simpl e.so
-> >> [1:10:50.831350571] [10864] WARN IPAProxy ipa_proxy.cpp:161 Configuration file 'ov5693.yaml'not found for IPA module 'simple', falling bac k to 'uncalibrated.yaml'
-> >> [1:10:50.831585810] [10864] DEBUG IPASoft soft_simple.cpp:135Tuning file version 1
-> >> [1:10:50.831695682] [10864] DEBUG MediaDevice media_device.cpp:830 /dev/media0[intel-ipu6]: Intel IPU6 CSI2 4[1] -> Intel IPU6 ISYS Capture 32[0]: 0
-> >> [1:10:50.831706917] [10864] DEBUG MediaDevice media_device.cpp:830 /dev/media0[intel-ipu6]: Intel IPU6 CSI2 4[1] -> Intel IPU6 ISYS Capture 32[0]: 1
-> >> [1:10:50.831829423] [10864] DEBUG SimplePipeline simple.cpp:776Link 'ov5693 2-0036':0 -> 'Intel IPU6 CSI2 4':0 configured with format 1296x 972-SBGGR10_1X10
-> >> [1:10:50.831850084] [10864] DEBUG SimplePipeline simple.cpp:776Link 'Intel IPU6 CSI2 4':1 -> 'Intel IPU6 ISYS Capture 32':0 configured with format 1296x972-SBGGR10_1X10
-> >> [1:10:50.831916492] [10864] DEBUG SimplePipeline simple.cpp:627 Adding configuration for 1296x972 in pixel formats [ BG10, pBAA ]
-> >> [1:10:50.832031091] [10864] DEBUG SimplePipeline simple.cpp:776 Link 'ov5693 2-0036':0 -> 'Intel IPU6 CSI2 4':0 configured with format 2592x 1944-SBGGR10_1X10
-> >> [1:10:50.832040698] [10864] DEBUG SimplePipeline simple.cpp:776Link 'Intel IPU6 CSI2 4':1 -> 'Intel IPU6 ISYS Capture 32':0 configured with format 2592x1944-SBGGR10_1X10
-> >> [1:10:50.832056763] [10864]DEBUG SimplePipeline simple.cpp:627 Adding configuration for 2592x1944 in pixel formats [ BG10, pBAA ]
-> >> [1:10:50.832301449] [10864] DEBUGCamera camera_manager.cpp:159 Pipeline handler "simple" matched
-> >> [1:10:50.832331269] [10864] DEBUG Camera camera_manager.cpp:138 Found registered pipeline handler 'uvcvideo'
-> >> Available cameras:
-> >> 1: Internal front camera (\_SB_.PC00.I2C2.CAMF)
-> >>
-> >> Please let me know if you need any more information.
+But the comment will occupy too many lines, I will fold the comment, e.g.,
 
--- 
-Regards,
+/*
+  * Bus client mapping
+  *
+  * Full VFE:
+  * 0 = VID_Y, 1 = VID_C, 2 = VID 4:1, 3 = VID 16:1, 4 = DISP Y, 5 = 
+DISP C, 6 = DISP 4:1,
+  * 7 = DISP 16:1, 8 = FD_Y, 9 = FD_C, ...
+  * ...
+  * 23 = RDI0, 24 = RDI1, 25 = RDI2, 26 = LTM STATS
+  *
+  * VFE LITE:
+  * 0 = RDI0, 1 = RDI1, 2 = RDI3, 4 = RDI4
+  */
 
-Laurent Pinchart
+Since the full VFE has many ports, can we just add comment for the RDI 
+client?
+
+
+Thanks,
+Depeng
+
 
