@@ -1,354 +1,313 @@
-Return-Path: <linux-media+bounces-16506-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16507-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45750957C58
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 06:17:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7CE957C71
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 06:34:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8B9B1F23F1D
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 04:17:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C6811C23EE9
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 04:34:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7421F130499;
-	Tue, 20 Aug 2024 04:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1E612D760;
+	Tue, 20 Aug 2024 04:34:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="YeS9lPAq"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="KEvV0/lv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021120.outbound.protection.outlook.com [40.107.42.120])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011037.outbound.protection.outlook.com [52.101.125.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A76A49622;
-	Tue, 20 Aug 2024 04:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BBE28371;
+	Tue, 20 Aug 2024 04:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724127431; cv=fail; b=QdeogtSLG0TS2ltkd3aW0JGQ5LaiLp7X5bKeIhmgoyem8uKx0n54WRgDJT9IQxBur1nLMxcHutV+0Zzfl+y3kNR/pBdGZut0mjh2T+HTIIYmj9MlM62/P+HlUg1WvRKq0NzVH93mC+2IYxXEFcUcnSaUzLLKnuQdJppRUL11LtA=
+	t=1724128448; cv=fail; b=sCKKjhSt0+b94JN5Xgi+E/WrmJRn6UnXFk7aGlfc8u7qC3IdOaHavhYnQxMBBw9a04lRKUBli5RL+wQUBpvC0ti23hEOLixRqt5TdEL2gTFOqcoNdpybjWdpcLe0eXSpfVJiqhv0+qcEI5D2aavd2RBX6aglOamCI60J3+8lzec=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724127431; c=relaxed/simple;
-	bh=R/IW3kGVeJIHzFgRBVF7o17UTOg+iKrfdR0DgGiotgM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OzNYwxAKE0Rs2OK3Cx3kFKtROjpqan3gPsvGLGNIyt+z4H7T4jjbGXsiK9YrMsvVCvJMwwsjLSnF7Lsu20A3DyXMyC/sU6OLLcsOf4tE0fEJT+DrAJIdJhWdsnr4+BrEOCRsdqFFRjij25ZywEUTQuuzm1nYcpThQGGOmYo6f7I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=pass smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=YeS9lPAq; arc=fail smtp.client-ip=40.107.42.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chipsnmedia.com
+	s=arc-20240116; t=1724128448; c=relaxed/simple;
+	bh=dLJN0J5kWLJKotoWolnIDOGoleNQvR8GoB796rJjFI0=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=RKiOcik7gC3PH+E2XbEQBI5CkvAUXr7x5rjFggI9nySx9AGmQkP4XKsQ74Z7hJc2e28V3oZpC6cfF/a7rNoDdgbtr5z7cL142BTR3e8uFjAYv9oBMap/jO1ckqGLnVOtWyJRH8bQSzv+dmNzkj5KJEFd7Q8n8chZJISTZWeANN4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=KEvV0/lv; arc=fail smtp.client-ip=52.101.125.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A5NOa8VzmuNq41Yp8k296TKSXFv11WzatMt5rxeLEr4qLT0eNkjFC1DQ4c3JfYsHhKK2LMAm9cb5fTdCJAvP1knokn/LrzI7FG0Kv8mn2bgCwlm9B7YYGRcy//CuJ3EKUq7Und8GzUDdlXx3YHUJh+YM/XU6sIDmVNylkGzYWVfR41AjORvcE+3AblI9Czf3clm8VHaXDBtiqCcR4AlNwYvcA+Zbv3Y8Fbraepx32Ez8m/bH4+4aY5RyWzvUOtwnZh4ClCmpFmf832NLoW384aV3No9SwDCE2oSkQt/sVhsdeJ0Tsy4rGE38sa6FsxiLiHps4YF6FZYdbpJefyEsGA==
+ b=a6+QU58+fQxqfqwSXwsibb2ap3SeWqnXZJYSP8O5frnJzo2LE7+uAD1IGiZBm36M7bfzADnAfKUquvCGPKVlH1MpUb+rAh2OI6FM8zM847vEmXXOWg2D0c8ISHObbpO1hJLN+jJr+CBubZ7CBJzEmdw3d68D/tWgb2DPC64RA2DebPnj6/1XU+EHrqP6gjSYKNxBd4ekEiw8x+toYjH1H/z/M3pvsunDfNssf/jdQYZM96WiYDP5gW0/Ns+g/ft8IHwiYCCntxpw8Tvt2Q1QIMK17WvtwXXv64cEwRBSzx4+EF+tLpU/o8CTjLmUEk+5DXqcbTbUTMQyKTw7ncuKKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KfnGfJKb3Q6qEZHCRHwZXrakdSnrSuLGgh+eAeqMNsY=;
- b=Jl4H1TUHco3HlVsYiWP8HWEqA8H36QW8RwpWs81vjx0iamsLyEMYb8Zn0/66Nb2hgTHbyMFtdb2WsKEBjE/kFS5/ULMIV/5szk8jst/LBoAHjgyGqs6mD4c9Wi2YS2XoXy/nRONPUMvDKVsCHK8x2HFCn9juy/Qt1b33P+24r0AR3k+9scjhpNPYR6Mg3W7PyVTVvW5oPRPGfq4jfDpJIbW3C8GlwjXymNvToLBeNs2RH6qdXmBpX7+rGuWHobGXV3aFmhAkuh7erLxVdEJeopQZWven4HE7Q4Bqpvs2nSoF7iUp5+O6hcd7jnZ+0Ib91bMzBfGfS1Jcwiay13DqQw==
+ bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
+ b=dwj30I2k1N1OpLIwtXG/8gPYncRJWY0RHZHPIXyn/T1muwpu1XuoKFCLfdWj+HhthR5eQMR1CV/HhiyNM4hwQ7B1PZdLOCvpQmEsc5bZNXwdjvjyw6R1O1MdlyTF7+cdaHewTMfdCT/byMWsNCDI2eJ5qp5aR0//MykakmIZMKqyo6omW9iCQ81MpDwm51YvcCSF2vJRHaRUrFsOWWf7vjiOXOaf2khTdhYKbmnX/yOgSmzeb69JkfHNmpxmr+aI4ghEoxXrmBBkzh4fYsOdbcLnLRGcM7WhVVy1Uhc+OsGI/EqQJn92blvScOYxkjI5Tfj2QLPALVkplcwCJvWHgw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KfnGfJKb3Q6qEZHCRHwZXrakdSnrSuLGgh+eAeqMNsY=;
- b=YeS9lPAqI1JQJbLbL7PPpDMCaC3NTgSAvcSmnTfCeQXnWMlFRyM3GoiqelQGnjRm8MNaCo9BJDavEZ1KhskXQjBecOqbu9Huy3+hztuhpAU1vI9EGrCj5Lnq/QGfbp8wqzyB+N2k+wu2UGaviu8ZaIjNjHk8FirJ2l1zSWGm72M=
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
- SE1P216MB2148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15b::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7875.25; Tue, 20 Aug 2024 04:17:04 +0000
-Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::b711:5ab1:b5a4:d01b]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
- ([fe80::b711:5ab1:b5a4:d01b%5]) with mapi id 15.20.7875.023; Tue, 20 Aug 2024
- 04:17:04 +0000
-From: jackson.lee <jackson.lee@chipsnmedia.com>
-To: "mchehab@kernel.org" <mchehab@kernel.org>, "nicolas@ndufresne.ca"
-	<nicolas@ndufresne.ca>, "sebastian.fricke@collabora.com"
-	<sebastian.fricke@collabora.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung
-	<nas.chung@chipsnmedia.com>, lafley.kim <lafley.kim@chipsnmedia.com>,
-	"b-brnich@ti.com" <b-brnich@ti.com>
-Subject: RE: [RESEND PATCH v7 0/4] Add features to an existing driver
-Thread-Topic: [RESEND PATCH v7 0/4] Add features to an existing driver
-Thread-Index: AQHa7IZ0qXgTRigmw0ef9EjBO4XUGrIvlgrQ
-Date: Tue, 20 Aug 2024 04:17:03 +0000
-Message-ID:
- <SE1P216MB1303DB297A43A97CFACFD504ED8D2@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20240812070823.125-1-jackson.lee@chipsnmedia.com>
-In-Reply-To: <20240812070823.125-1-jackson.lee@chipsnmedia.com>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SE1P216MB1303:EE_|SE1P216MB2148:EE_
-x-ms-office365-filtering-correlation-id: e5678701-27ef-4f83-840d-08dcc0cef239
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?ckrfeGu6/v41q5L5Svqj+uc3MxsKyMU0hZi1moYtmqQGT/46UfTXx58hyB6R?=
- =?us-ascii?Q?6DL8hybzakj28V5Fi3wlWCEpbCmI0x/hdrjmLhsvMPMnaCy6iALz1myr7e+X?=
- =?us-ascii?Q?SoPBDnIvfbPdRAm7nYKoKQPl87atdxlqy30qWbaWfmFcetV2ZruOc/23eBeX?=
- =?us-ascii?Q?A/B5dNIPWW22MPNAhf4Lh+V1LcunOtKBDu/CnEPAvJzJ4yb/dkioHWC3OImv?=
- =?us-ascii?Q?MmRj03IZ/z9RCEGwJFsGYF1DwOEc5T5Dk16pQib2m+GocJoBOCySgM3cVD1x?=
- =?us-ascii?Q?IblLeqPCFCr2cjkMCbj/AmGiNsxpivTHSCpvGFMBJ+bvADAM7NP4zDWX0uGe?=
- =?us-ascii?Q?ZtTqNGoxp7ecBdHghZGqZBsv3MqD5QzdQZpp/YI7+XJgVxvQ9v8ItXyOEZRy?=
- =?us-ascii?Q?WgSZREVGsDdpmsBOquATw/aJ95XZOQ5U6rERTlJ8u81+RzT42gBtM78u4HTZ?=
- =?us-ascii?Q?3jcwyuc+Tx+2l7ciCuILQU0Rfs99a1tFR1e4+mRgUdjp5VXMFXUcwgQ8rWiu?=
- =?us-ascii?Q?P1cGs4bYqv8tPcTcwRMd6LWulPlTaMINnwf9utGc7vnyMUsjD1gTPUma9ujD?=
- =?us-ascii?Q?7JxWbKqp5S9V41j8GDB6PvRlYJdYS9iwZLcylUvYpPzLQDkDVXXGUoiXUel1?=
- =?us-ascii?Q?bmvOEY8K1Hh+6JlAIyHfLVGsklrezXgTU6LF0zbCLJI6ZO9QWh8YOmq+h+jg?=
- =?us-ascii?Q?ifbHJqAOmQ+Xqg14lznKp1J7oxMEGSS00c2CSIjtzJ8sp2tYmcJ4w5Wj9lt/?=
- =?us-ascii?Q?SmFH6cORbi+f8HL2RCbGdPy/v5TYFwPBCgD6Yh/Y7wfleWk3gFe9OPyLepfL?=
- =?us-ascii?Q?hsHNtX8Hom5txmlcME8uJhPZxKXf4n1BYxD32qGZETt7Uk+4MImAyRk2+KYH?=
- =?us-ascii?Q?yE4ghYEssxgYWbOT/Cd8x6l0gBVgD9mzNKlxtLS3Gw9iMMyPpElIPUglPXA4?=
- =?us-ascii?Q?j+8J9uOdjaaGWPDUl3ZKO9cXA8D8l+4ObZHBpOtay+Qli66T2kHw7vBc3Jr/?=
- =?us-ascii?Q?W2y9edH5HA90JLDtkxpZS8jBjIwIFgj+FK12tcphJGGoKOCpKFoRjGb0L8Ov?=
- =?us-ascii?Q?OOOk44wUcqkp3Ds9EM0IvZR1nbj3oTHdlv3c6S8Xti5lfqGQ25671gfDO7kk?=
- =?us-ascii?Q?FZiNVCH0RTRQHV1qtxSSn1XPGajcZdwgWnK7R2b+Dmnwre/VQruLxfQ3ZDHA?=
- =?us-ascii?Q?bqXhNpXZzqPGVPgebdagS/9+05wpfFjT9G/c0Wj0irgN5qsr83Z0XJe1a708?=
- =?us-ascii?Q?/86JsTxEXCcIHEmGpayxQbAzzyuIOZ+fog+n/MMFq2cxlYsmC/3zRveEuO10?=
- =?us-ascii?Q?mnXhjdOyUgVIBmsR/yeN8AaJQ8t/MZio1NrYa8p1mQBAVW6QIbxWv2G5zTyn?=
- =?us-ascii?Q?Im+AKQQ=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?8qTL1bsYj27xLeMzsdXM3IOA+g4SCeXzGmIWr8kWhcBv0kdEVqL2m68cVtCQ?=
- =?us-ascii?Q?/i0YlW40s4LymWhDQZPsn1M5cSu5QWyilRRDcWMFWIVURCUI0ep3tdTalEVa?=
- =?us-ascii?Q?5zz574WVDUnRf3RZxqgNwc+bsDF2xYOjeCrikFcpU0Nr36LlHpNHfAQrrYOF?=
- =?us-ascii?Q?u4AsOCsYu6HUFryScE6aIk97nSy36/r13xjZMmQzIbAXuvqRKNLU/1q9aLDk?=
- =?us-ascii?Q?8lNuYV3Nyga0vNGHTqXnKog89Son+tLVkckZF6p+LIw2YXTJK6wJ4OW0TlvW?=
- =?us-ascii?Q?dAUOb4RmL/vSX3tWXw3aZxFQ9AZ2jG6UxfoucWk166S8UgVJc5TTLpLA+99F?=
- =?us-ascii?Q?lFuaHAO7Px8wnE+4gFCOntxKhYw/nmoAlNUb1fqmOOCaVKUar/eotlKqKXWX?=
- =?us-ascii?Q?OHH7YHjQ2QJSD+GjrMYnV8+3TCy4AsN0Bt/tl/7VurGf9P9ej0GsKyEZ3UpM?=
- =?us-ascii?Q?/rx+WOTQaA3H5rCMFoluZglIPyfJOsTle/qx1lXSyZTDom5UAC37LHZ/caoM?=
- =?us-ascii?Q?i8e0uELMaQoZYSIiD/YtRgKIf5yQvbQ3lQvPik40g27rtEBZPQPJy1jt2psf?=
- =?us-ascii?Q?qJ3iLKTFacCR97vU2kCTxPpGHC6ZqvSnMFG6UwDnNygSI14qbxTlQq55tzxe?=
- =?us-ascii?Q?7oJ5ZfFX70RWT7vvSNyUuk0/2xk74xAreEwdSvdPMGsbXRzkXIAtvFikZX89?=
- =?us-ascii?Q?2bFeRNJT3OeiU42o6Su/vhLkJmKqr/YAKcNE3bf2RPkjFA1qqRwQ3N6O/dRa?=
- =?us-ascii?Q?AdHpobRnFBRYcJ72VgZERIcaSjs4RZa42XNUcORs8MXGJazGDesJxq951ATL?=
- =?us-ascii?Q?GV2vgdN+HMrEkn/8L7pP6wUKD9lFd+FZG2qAgAntuGJXX5cH83JVXitH+8kj?=
- =?us-ascii?Q?YYuBhr0TN9j855QugP7Q7qDcN6ZLusSmHTS/nWFpE9+vadkHzTQZC1vROINa?=
- =?us-ascii?Q?Qp2CqYKPQRJmEAtRFycA54iiu7ptht28AN3fdNY/jI1Vqi6rSpCecbK1dMZl?=
- =?us-ascii?Q?HSfRHIVo7HQgOLrKKgAyvR5/OzWE22A5LqV020BgrVhFzHhrBcvfiO6wGwdq?=
- =?us-ascii?Q?P1/V+VQjvUrLXKoNvC6EyndZeJdUIYCWLoGAnVqvegMM2HUCIaPOyoyl2Gft?=
- =?us-ascii?Q?bOrJsSnGt5nPlc57/67AFbt1AvEfZWavDKtbNe1vnyFjrInFQn9519e7M35Q?=
- =?us-ascii?Q?zdbEOG+UIUtaGeJS4kWDW4N/WCIS1rJZh8X/1BVPtY8C1XGOCkMQ4tRSO3Rf?=
- =?us-ascii?Q?AfJk/H9lrz4/m5d29rEkoyy2vIBP53OETXiinU2p+mkufQhsOg3mKxh2QGyG?=
- =?us-ascii?Q?Gha9l5Rmjygg3bhMddbIAp45w16FyCk4NBZcKW/nrG7rXiRZ/LXneOwf9+Mz?=
- =?us-ascii?Q?lIaM6sjetR0avQ5ctRO5fTLBVSclFrsMKRB7PJrsN9FfRQlaIjMMKsgowNu1?=
- =?us-ascii?Q?pdn9HXaQ8wqX4Np5bUK/Fm98gvAOcSLftISWZs824P+ERjKmhSPXF0XNPcb6?=
- =?us-ascii?Q?naHQUZOPoebiFwhB1XqoE7vqHrVq5SWAIzr6uq9WkXnDuRF/HZe5OtVLPkTT?=
- =?us-ascii?Q?MlgXdYCsnputDmrLf2MF1vFwlR0KY7nOhzy632g3nLKt23IpBPc27bzXfent?=
- =?us-ascii?Q?MA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
+ b=KEvV0/lvdWyNdRJIZk/00BSHtpX2yqS0CxXwFTki4v1ZQsgrBYiVvUNZANUFOjy7QYUPRjGrHGJwyjajjAOEkDnfU1aotOLXl5B/1vaMJcKayIUKuCsiSJI0IpZGavZ/b2sjUfKQ3hKf+cyOmO6x25oHfgmLZCXW3F4SBhH6+ak=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYWPR01MB11706.jpnprd01.prod.outlook.com
+ (2603:1096:400:400::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Tue, 20 Aug
+ 2024 04:34:02 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 20 Aug 2024
+ 04:34:02 +0000
+Message-ID: <87y14r6cee.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/9] of: property: add of_graph_get_next_port()
+In-Reply-To: <7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
+References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
+	<87le1aw8lw.wl-kuninori.morimoto.gx@renesas.com>
+	<ca216286-b09a-4faf-8221-c88c21f4de0c@ideasonboard.com>
+	<87a5hm8n0k.wl-kuninori.morimoto.gx@renesas.com>
+	<7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 20 Aug 2024 04:34:01 +0000
+X-ClientProxiedBy: TYCP286CA0083.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b3::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11706:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?qoMIsxPTA1OG/BX+7l0iXVxdz2E+0vh3Vv4/j/EESZlntQHPhlc3oQgXKmve?=
+ =?us-ascii?Q?zrivDTook7+DNoLL6cpndfpwuk/pY94D02QNfMmt9B6PO5tnAhRGg6WHt7G5?=
+ =?us-ascii?Q?nKAKHy3zyb7AEpdJXlcH5xpL9rFZZRNcf1KCsdv2WfocWJLmZatyJE7QJwix?=
+ =?us-ascii?Q?cF/tn2h/QtAmTS44/alPtdsgULbrHgrbcAm4M5Luwe1Sxh511cSNllacr8+c?=
+ =?us-ascii?Q?ntDNRepYw3r1L3vIjT/sI6mLJc56XDUXaZCi6r2Pww8sWMJPElgH+hFcxfym?=
+ =?us-ascii?Q?UqpoWKro267Vjh2rDI9L17Vrn8RZVWFqT60RVuI2a3cN4Wcn73m4hYBgxV3K?=
+ =?us-ascii?Q?KwjXaHBFI575KDGt6GE6K+ePHm3TGJ4j0Z3TppKlkoBNIzs20QXfktZHXRST?=
+ =?us-ascii?Q?Y0p/s9AdwpCtTXk06+MtP7bMi2yM7ihNr196c61HU9a/7oPNHENj9sgIzhhP?=
+ =?us-ascii?Q?UFIHG6wYlFKcIjWJuBfQiuNb25V/W1f3+P9LFdm7H+lPCT4ebLiisJLDxELT?=
+ =?us-ascii?Q?CGsHu1MEsOxfnb9v5KGVTWE6LUnXzp9+jmjJpPJW/6/j5sq4aRyBEWxUCSBq?=
+ =?us-ascii?Q?USuNXgNwNwQpy1wWvRCxz5duN89MkpoxNE4HmCDIUlEd/oMsPL1qMFhmISD5?=
+ =?us-ascii?Q?aIlXXkaLL1fV4RmlnqC95GaofafwlidBXOyB4L7IgUQQFKdg7wZPWA8gnbjl?=
+ =?us-ascii?Q?Xxg8lwmWAyxJT34sAjQHPsQoiNcEh0tl/Q0bnyke1IOwHvzVvUfAC5hTtNHy?=
+ =?us-ascii?Q?ehrlGmvPay4JPvlB1vm5HdrXYqMECdr9jUH+pHr1XnehbAtKiinCRGcAwmXS?=
+ =?us-ascii?Q?5K2dx2O+l0KKc1ogyVa1GtaNVW7dCO79iuYGChynJVnxKxoCVBl4C19Lq77f?=
+ =?us-ascii?Q?XIrVJ2DnWARA+lyxSVyA49vpz039LSjKUAAVVNEyOAlZv06tjxyt0h34xgOO?=
+ =?us-ascii?Q?KHOvfWjLHuVnQpT9GMlXKE550bbDY9EYEGL7zXxr0GBLqk3T6a34zJQ9axzx?=
+ =?us-ascii?Q?UFn1EBHXgM5OGt2lPT4WBBZC8p02B2BkR4NkMUDb9PEGjYn/+ioXB++IhDJs?=
+ =?us-ascii?Q?mL02kjTt1BLY/T7tdTunX/Zr3NcdjhOKFvWUUZxkH7pgfGku3+IZbJw/lecC?=
+ =?us-ascii?Q?bgWko2oQJjw6Rut8Hci58B6swV5B9nLfTb2yz52G/sqEWalRfUX1qnk7soxp?=
+ =?us-ascii?Q?8kaRGDWCxDY5wUll/dkT4MmNqNXOjgmEazxMvd16pXI73dy5MYJim7QWtfF6?=
+ =?us-ascii?Q?/HRn1K745SAz67tUwWFrjYvuNr1X3NbIvI0uuX8lZ+Yp+bPeYE5J7J7/+NrX?=
+ =?us-ascii?Q?ABBEwT9rOg9rms2/I9AFS3Z6TLBVlOi9T0WZiV0N4pdlt/7XDHDGY6WL3lGz?=
+ =?us-ascii?Q?TgQO0TCAskG426xONg5vbhm3dinFrH9gTE3V5A8pzkC5O6OlVQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gqSROLsJ5wpk9rP2Yjd+YBsaLX3Jw7/5MXbIB++vQLf9ipq+288olCbxx0II?=
+ =?us-ascii?Q?oFv+nsRRU87j7m68YfWggTiyvvI3AQPn4d9/QYpw1QMnTtpbZpZ//AF03hOC?=
+ =?us-ascii?Q?y1Gs7BLUdaarE3GuJLsOBlZ0Sg2Na+xzaEtbczAVwe5g/GvIPq3cXq2jl0st?=
+ =?us-ascii?Q?tBuFwV1qRd4WgxxvG1nsy7adpRaCsIxzG9RPL5xH3G5W2IcWSFhp2NEP8Lmm?=
+ =?us-ascii?Q?4/owUJQhP7eqIWyunXsTC75KVPXLVZz17hPRvWzjpxxpb/5by7d6AmaaBrKe?=
+ =?us-ascii?Q?H+Tlhp8AJoQ/EC8z4y6Aa2/8SbhStXOOVBKtXO4ldQT/nrHv32h+LyckKZvi?=
+ =?us-ascii?Q?xZ7+3RqCWbu7IerujmpvWklZ7Rr4sQEArXfPj4n07aAWUyHh2vUxfC+aDd9Y?=
+ =?us-ascii?Q?jcDWArj52/hjraprrwLwAs4mNbZG2II2+/lnsER3GR13jNuhMBASizk3Kabt?=
+ =?us-ascii?Q?aP2VmtO/FxtKE6iTEBCBGaw00e9dzynhZMuQeiNsIS8N6r5Bwhk2dHKH/Bd7?=
+ =?us-ascii?Q?alzHOQMkMhV+OmeF4nB7KCS0QkXFRMJbfg3vMwO7/Q83X8EwtSXNN6eD8m7V?=
+ =?us-ascii?Q?R26rAdR1/pfDb1+kptIAIguuzAcpOUGYLpI2FZGHAvnDbQUlOHzMYbDSCSfE?=
+ =?us-ascii?Q?fMu7EhoJgGeKoACxkNnNtSVjTnE6eR3xGgGsOD9v8GBPYlxqmVPKm2Lq+q7g?=
+ =?us-ascii?Q?cDkUnaoXEONJJQHBej/78NFVzuN2QpniFPH8Btbckde4u+KA88z4ru6ihcvm?=
+ =?us-ascii?Q?BFTa/d5L3S2FwhIY7pNDSKrugi14GZX/pn9ptYjFHfLLC1QgtIaScrb0In5D?=
+ =?us-ascii?Q?FR9XG04cW9jurKCw8ePW60yCBgqGz2k0x0iTrFb2kahHMSvgIEvcFJNJTKh2?=
+ =?us-ascii?Q?3T92/UUDUHpYU/wTf+xUgAzNqI+hAIhaj1fF+3kPTDJl4zxF9LTEzdqHaQz8?=
+ =?us-ascii?Q?qJ16ykt+666n0qRIjcKTwVQcH809xkG8aLHWa5xB3QBM5SeEz6SU8Oz0UozZ?=
+ =?us-ascii?Q?WjZSzAGoBCkoBL4JMqmhkZ9UWcl9wdSlX+asU6t4Fv64iTR23IRDQdjyOxT+?=
+ =?us-ascii?Q?CjWn5SnpS3PPlh1Pr6n/SoRWZcZmbe/yAF2w9q1/gIrITyTehumLTwRCYJjR?=
+ =?us-ascii?Q?iV7LZWrG5ZNY16vtX188I9McBjSr7zhXLIcNmCJpfRNQtUUCVOF5jao3bfKS?=
+ =?us-ascii?Q?MYGjdlMfXmdbeVgVHTZau2SM0j3IJxItDpk+NUqvILtidu+h25izZsvH1P2+?=
+ =?us-ascii?Q?uMpE7on8tk8FQecsIcN4D1xyeRuG/cMlk3GZxOkvbHZorzd4W7edIvRojtUV?=
+ =?us-ascii?Q?U1pwRaTZU5gflMdiW7FGLYn2G8iHCaBU8sm6tstFL38oNjfIqCfLWB7CMVCz?=
+ =?us-ascii?Q?aJ/siBPVW56KJgZFdBT0T+/Mql8ZEoNd9T3WVUnEguxFeNBbTzPvfTQ1ZGOZ?=
+ =?us-ascii?Q?ZOgJqu+zAN8A6dbpuoZI2J66hlAIvkxNtJTx4q+2SP1u+l+GWFJhhoSFGgEk?=
+ =?us-ascii?Q?83GhmgIPcnJdHc12TmGW/PD7XcvLdXeJnY8XHvsozWGyMg5M75lMU2FoG7Zw?=
+ =?us-ascii?Q?CYxqKKQCVQxtQ4JBMhjmWO6dbBuYaOaXXmuUeONiXiZJQ74Pwh2beffZjswF?=
+ =?us-ascii?Q?SICiTm+0ePuD7r1ZUOxjCNg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5678701-27ef-4f83-840d-08dcc0cef239
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2024 04:17:03.8931
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 04:34:02.2783
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0yEYEo4pEiG4OyYZLxxhl8rUDZr5XNjKngmfpWLuBE5xnHKfj/nT9vreQlCXk5oBtxf10OAhOYKFJh5HSO9D8aiXDbpUzS8IX1/EymsuWAM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB2148
-
-Hi nicolas and Sebastian
-
-I sent v7 patch for upstreaming , can you review the following ?
-
-https://patchwork.linuxtv.org/project/linux-media/cover/20240812070823.125-=
-1-jackson.lee@chipsnmedia.com/
-
-thanks
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ixNdywT8ALMNLXcW2tySoDe6mPiG/Tvpw4hvg70OwJYEZDIBNoWudvJeesDG1qbrHxQltEYHZZVabA+uFxI5evL6t1+IQrGQ7ijyNzbmDrB0MDlmBCTRhlKyU1qOUdL+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11706
 
 
-> -----Original Message-----
-> From: jackson.lee
-> Sent: Monday, August 12, 2024 4:09 PM
-> To: mchehab@kernel.org; nicolas@ndufresne.ca; sebastian.fricke@collabora.=
-com
-> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
-> hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>; lafley.kim
-> <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; jackson.lee
-> <jackson.lee@chipsnmedia.com>
-> Subject: [RESEND PATCH v7 0/4] Add features to an existing driver
->=20
-> The wave5 codec driver is a stateful encoder/decoder.
-> The following patches is for supporting yuv422 inpuy format, supporting
-> runtime suspend/resume feature and extra things.
->=20
-> v4l2-compliance results:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->=20
-> Buffer ioctls:
->        warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
->        warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
->     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->     test VIDIOC_EXPBUF: OK
->     test Requests: OK (Not Supported)
->=20
-> Total for wave5-dec device /dev/video0: 45, Succeeded: 45, Failed: 0,
-> Warnings: 2 Total for wave5-enc device /dev/video1: 45, Succeeded: 45, Fa=
-iled:
-> 0, Warnings: 0
->=20
-> Fluster test results:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.=
-0
-> Using 1 parallel job(s)
-> Ran 132/147 tests successfully               in 89.870 secs
->=20
-> (1 test fails because of not supporting to parse multi frames, 1 test fai=
-ls
-> because of a missing frame and slight corruption,
->  2 tests fail because of sizes which are incompatible with the IP, 11 tes=
-ts
-> fail because of unsupported 10 bit format)
->=20
-> Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Us=
-ing
-> 1 parallel job(s)
-> Ran 77/135 tests successfully               in 30.364 secs
->=20
-> (58 fail because the hardware is unable to decode  MBAFF / FMO / Field /
-> Extended profile streams.)
->=20
-> Change since v6:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * For [PATCH v4 2/4] media: chips-media: wave5: Support runtime
-> suspend/resume
->  - Change autosuspend delay to 100ms
->  - Add to enable/disable hrtimer in the runtime suspend/resume function f=
-or
-> hw not using irq
->=20
-> Change since v5:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to calculate
-> bytesperline and sizeimage.
->  - Fix v4l2-compliance error for the vidioc_enum_framesizes
->=20
-> * For [PATCH v4 1/4] media: chips-media: wave5: Support SPS/PPS generatio=
-n
-> for each IDR
->  - Remove warning messages for the checkpatch.pl script
->=20
-> Change since v4:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> * For [PATCH v4 2/4] media: chips-media: wave5: Support runtime
-> suspend/resume
->  - Fix warning message
->=20
-> * For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to calculate
-> bytesperline and sizeimage.
->  - Fix warning message
->  - add Reviewed-By tag
->=20
-> * For [PATCH v4 4/4] media: chips-media: wave5: Support YUV422 raw pixel-
-> formats on the encoder
->  - add Reviewed-By tag
->=20
-> Change since v3:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * For [PATCH v4 1/4] media: chips-media: wave5: Support SPS/PPS generatio=
-n
-> for each IDR
->  - add Reviewed-By tag
->=20
-> * For [PATCH v4 2/4] media: chips-media: wave5: Support runtime
-> suspend/resume
->  - add Reviewed-By tag
->=20
-> * For [PATCH v4 3/4] media: chips-media: wave5: Use helpers to calculate
-> bytesperline and sizeimage.
->  - modify the commit message
->  - define three framesize structures for decoder
->=20
-> * For [PATCH v4 4/4] media: chips-media: wave5: Support YUV422 raw pixel-
-> formats on the encoder
->  - modify the commit message
->  - use the v4l2_format_info to calculate luma, chroma size
->=20
-> Change since v2:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * For [PATCH v3 0/4] media: chips-media: wave5: Support SPS/PPS generatio=
-n
-> for each IDR
->  - add the suggested _SHIFT suffix
->=20
-> * For [PATCH v3 1/4] media: chips-media: wave5: Support runtime
-> suspend/resume
->  - change a commit message
->=20
-> * For [PATCH v3 2/4] media: chips-media: wave5: Use helpers to calculate
-> bytesperline and sizeimage
->  - add pix_fmt_type parameter into wave5_update_pix_fmt function
->  - add min/max width/height values into dec_fmt_list
->=20
-> Change since v1:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> * For [PATCH v2 0/4] media: chips-media: wave5: Support SPS/PPS generatio=
-n
-> for each IDR
->  - define a macro for register addresses
->=20
-> * For [PATCH v2 1/4] media: chips-media: wave5: Support runtime
-> suspend/resume
->  - add auto suspend/resume
->=20
-> * For [PATCH v2 2/4] media: chips-media: wave5: Use helpers to calculate
-> bytesperline and sizeimage
->  - use helper functions to calculate bytesperline and sizeimage
->=20
-> * For [PATCH v2 3/4] media: chips-media: wave5: Support YUV422 raw pixel-
-> formats on the encoder
->  - remove unnecessary codes
->=20
-> Change since v0:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The DEFAULT_SRC_SIZE macro was defined using multiple lines, To make a si=
-mple
-> define, tab and multiple lines has been removed, The macro is defined usi=
-ng
-> one line.
->=20
-> Jackson.lee (4):
->   media: chips-media: wave5: Support SPS/PPS generation for each IDR
->   media: chips-media: wave5: Support runtime suspend/resume
->   media: chips-media: wave5: Use helpers to calculate bytesperline and
->     sizeimage.
->   media: chips-media: wave5: Support YUV422 raw pixel-formats on the
->     encoder.
->=20
->  .../platform/chips-media/wave5/wave5-helper.c |  37 +-
->  .../platform/chips-media/wave5/wave5-helper.h |   5 +
->  .../platform/chips-media/wave5/wave5-hw.c     |  30 +-
->  .../chips-media/wave5/wave5-vpu-dec.c         | 321 +++++++-----------
->  .../chips-media/wave5/wave5-vpu-enc.c         | 313 +++++++++--------
->  .../platform/chips-media/wave5/wave5-vpu.c    |  50 +++
->  .../platform/chips-media/wave5/wave5-vpu.h    |   5 +-
->  .../platform/chips-media/wave5/wave5-vpuapi.c |  33 +-
->  .../platform/chips-media/wave5/wave5-vpuapi.h |   1 +
->  .../chips-media/wave5/wave5-vpuconfig.h       |  27 +-
->  .../media/platform/chips-media/wave5/wave5.h  |   3 +
->  11 files changed, 460 insertions(+), 365 deletions(-)
->=20
-> --
-> 2.43.0
+Hi Tomi
 
+Thank you for the feedback, and sorry for my late responce.
+I was under Summer Vacation
+
+> If we have this, of_graph_get_next_ports() returns the ports@0, and that 
+> makes sense:
+> 
+> parent {
+> 	ports@0 {
+> 		port@0 { };
+> 	};
+> };
+> 
+> If we have this, of_graph_get_next_ports() returns the parent, and 
+> that's a bit surprising, but I can see the need, and it just needs to be 
+> documented:
+> 
+> parent {
+> 	port { };
+> };
+
+Thank you for understanding the situation
+
+> But if we have this, does it make sense that of_graph_get_next_ports() 
+> returns the parent, or should it return NULL:
+> 
+> parent {
+> 	/* No ports or port */
+> };
+
+Yeah, it should return NULL in this case.
+
+>  > 	port = of_graph_get_next_port(parent, NULL); // (A)
+>  > 	port = of_graph_get_next_port(parent, port); // (B)
+>  > 	port = of_graph_get_next_port(parent, port); // NULl
+> 
+> it does not feel right. Why does of_graph_get_next_port() return only 
+> the ports of ports@0? I think it should either return nothing, as there 
+> are no 'port' nodes in the parent, or it should return all the port 
+> nodes from all the ports nodes.
+
+As you also mentioned, having "ports" node is optional, and maybe this is
+the reason you feel uncomfortable on current code, and I can agree about
+it.
+
+If the driver needs to care about multi "ports", it is obvious that the
+driver cares "ports" node.
+
+My opinion is because having "ports" is optional, we want to handle
+"port" with/without "ports" by same function, especially if it doesn't
+need to care about multi "ports".
+
+I think your opinion (= "port" nodes strictly only in the given parent
+node) means driver need to care both with/without "ports" node, but the
+code will be pointlessly complex if it doesn't need to care multi "ports".
+
+> bus {
+> 	/* our display device */
+> 	display {
+> 		port { };
+> 	};
+> 
+> 	/* some odd ports device */
+> 	ports {
+> 	};
+> };
+> 
+> and you use of_graph_get_next_ports() for display, you'll end up getting 
+> the 'ports' node.
+
+This is interesting sample, but feels a little forced.
+If you need to handle display::port, you call
+
+	port = of_graph_get_next_port(display, NULL);
+
+Indeed we will get "ports" node if it calls of_graph_get_next_ports(),
+but it needs to use unrelated parameters, I think ?
+
+	ports = of_graph_get_next_ports(bus, display);
+
+> > 	parent {
+> > 		ports@0 {
+> > 			port@0 { };
+> > 			port@1 { };
+> > 		};
+> > 		ports@1 {
+> > 			port@0 { };
+> > 		};
+> > 	};
+> > 
+> > 	of_graph_get_port_count(parent); // 2 = number of ports@0
+> 
+> I think the above is a bit surprising, and in my opinion points that 
+> there is a problem. Why does using 'parent' equate to only using 
+> 'ports@0'? Again, I would expect either to get 0 (as there are no 'port' 
+> nodes in parent, or 3.
+
+This feature is for the driver which *doesn't* need to care about "ports".
+
+	/* CASE1 */
+	parent {
+		port {...};
+	};
+
+	/* CASE2 */
+	parent {
+		ports {
+			port {...};
+		};
+	};
+
+both case (CASE1/2), we can use
+
+	of_graph_get_port_count(parent);
+
+If the driver need to care multi ports, it should use such code, IMO.
+
+	nr = 0;
+	for_each_of_graph_ports(parent, ports) {
+		nr += of_graph_get_port_count(ports);
+
+But of course we can handle it in v2 patch.
+
+	/* of_graph_get_port_count() cares multi ports inside */
+	of_graph_get_port_count(parent);
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
 
