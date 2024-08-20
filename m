@@ -1,313 +1,301 @@
-Return-Path: <linux-media+bounces-16507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16508-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7CE957C71
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 06:34:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 428EB957CC5
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 07:35:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C6811C23EE9
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 04:34:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B97381F23D89
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 05:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A1E612D760;
-	Tue, 20 Aug 2024 04:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1166352F88;
+	Tue, 20 Aug 2024 05:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="KEvV0/lv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YMZ9On2p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011037.outbound.protection.outlook.com [52.101.125.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BBE28371;
-	Tue, 20 Aug 2024 04:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724128448; cv=fail; b=sCKKjhSt0+b94JN5Xgi+E/WrmJRn6UnXFk7aGlfc8u7qC3IdOaHavhYnQxMBBw9a04lRKUBli5RL+wQUBpvC0ti23hEOLixRqt5TdEL2gTFOqcoNdpybjWdpcLe0eXSpfVJiqhv0+qcEI5D2aavd2RBX6aglOamCI60J3+8lzec=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724128448; c=relaxed/simple;
-	bh=dLJN0J5kWLJKotoWolnIDOGoleNQvR8GoB796rJjFI0=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=RKiOcik7gC3PH+E2XbEQBI5CkvAUXr7x5rjFggI9nySx9AGmQkP4XKsQ74Z7hJc2e28V3oZpC6cfF/a7rNoDdgbtr5z7cL142BTR3e8uFjAYv9oBMap/jO1ckqGLnVOtWyJRH8bQSzv+dmNzkj5KJEFd7Q8n8chZJISTZWeANN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=KEvV0/lv; arc=fail smtp.client-ip=52.101.125.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a6+QU58+fQxqfqwSXwsibb2ap3SeWqnXZJYSP8O5frnJzo2LE7+uAD1IGiZBm36M7bfzADnAfKUquvCGPKVlH1MpUb+rAh2OI6FM8zM847vEmXXOWg2D0c8ISHObbpO1hJLN+jJr+CBubZ7CBJzEmdw3d68D/tWgb2DPC64RA2DebPnj6/1XU+EHrqP6gjSYKNxBd4ekEiw8x+toYjH1H/z/M3pvsunDfNssf/jdQYZM96WiYDP5gW0/Ns+g/ft8IHwiYCCntxpw8Tvt2Q1QIMK17WvtwXXv64cEwRBSzx4+EF+tLpU/o8CTjLmUEk+5DXqcbTbUTMQyKTw7ncuKKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
- b=dwj30I2k1N1OpLIwtXG/8gPYncRJWY0RHZHPIXyn/T1muwpu1XuoKFCLfdWj+HhthR5eQMR1CV/HhiyNM4hwQ7B1PZdLOCvpQmEsc5bZNXwdjvjyw6R1O1MdlyTF7+cdaHewTMfdCT/byMWsNCDI2eJ5qp5aR0//MykakmIZMKqyo6omW9iCQ81MpDwm51YvcCSF2vJRHaRUrFsOWWf7vjiOXOaf2khTdhYKbmnX/yOgSmzeb69JkfHNmpxmr+aI4ghEoxXrmBBkzh4fYsOdbcLnLRGcM7WhVVy1Uhc+OsGI/EqQJn92blvScOYxkjI5Tfj2QLPALVkplcwCJvWHgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DzljShvW8eEQCPSoi7jJ9KA6lkwk0x3PHF6FTdth6NU=;
- b=KEvV0/lvdWyNdRJIZk/00BSHtpX2yqS0CxXwFTki4v1ZQsgrBYiVvUNZANUFOjy7QYUPRjGrHGJwyjajjAOEkDnfU1aotOLXl5B/1vaMJcKayIUKuCsiSJI0IpZGavZ/b2sjUfKQ3hKf+cyOmO6x25oHfgmLZCXW3F4SBhH6+ak=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYWPR01MB11706.jpnprd01.prod.outlook.com
- (2603:1096:400:400::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.20; Tue, 20 Aug
- 2024 04:34:02 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.7875.016; Tue, 20 Aug 2024
- 04:34:02 +0000
-Message-ID: <87y14r6cee.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/9] of: property: add of_graph_get_next_port()
-In-Reply-To: <7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
-References: <87mslqw8mj.wl-kuninori.morimoto.gx@renesas.com>
-	<87le1aw8lw.wl-kuninori.morimoto.gx@renesas.com>
-	<ca216286-b09a-4faf-8221-c88c21f4de0c@ideasonboard.com>
-	<87a5hm8n0k.wl-kuninori.morimoto.gx@renesas.com>
-	<7b5db9c1-5cba-48c8-ae77-f224b7b4834f@ideasonboard.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 20 Aug 2024 04:34:01 +0000
-X-ClientProxiedBy: TYCP286CA0083.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b3::11) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3DC446DC;
+	Tue, 20 Aug 2024 05:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724132133; cv=none; b=HQ3z9MJB1H/CXT/Lrw+HRnWcpnqP4GOKoLWBHPt8UNPAV/vBQaEWEG9i5MgxwTqalIDsdVTmGuclYwAcNUZnH2Qu9Kl3Y/58NRAvfN+J/5XPCv962+X5f9fEspfx28EdxARd8yx7HYmnmiG85PpyB1SQSrx0o5p7Xfy4V8p0oBQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724132133; c=relaxed/simple;
+	bh=J8mWwTYjE5MWSBjxWks5vl6q20m+SsIpp7Ej2x/gIkA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r5OowHw9f4/LjMe3Z8/rT6FisD9B4lo12Z2XaOLZ7w4CduipVO9M9dck9mgrQ3xfYo0OlGSJg2oLlbRMPtNprVukZ1+serbjFVleIfDEZNWEWHaBcj6fmwSL11DL4cLTtnKUUVAdkbK/KBXxhpmGr218kcUEYuOA1jdzTqlTwBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YMZ9On2p; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2703e8d3f7bso1553096fac.2;
+        Mon, 19 Aug 2024 22:35:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724132131; x=1724736931; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ndtfIALYxvSwyfZwUZk30HMSZOs/3lo4XrgNJ0/XS/Y=;
+        b=YMZ9On2pZCZkL3hdEIdY95xReAW4fXgtn9lHgPS3oPoIJ45QqjOHDY1v6LgOagAB4c
+         uMDet1bp3Iu5uDQiehpCRajNE2uTcKdXfCdTo+2TSVse6iTa7w5/i5HSYLSZA8HaHjxe
+         veGRuRk7a7grRMHaoiwxHGCGWstR05LdpfnfDIeYLr5wtcyQYQ0M/Je0xu3wDIP9l0EA
+         8IMTYyKjPmzvxbw9FfsIgvdUhoRW7QlDu+3nff4LhicglxpvFEwR59fqmBuvQr8dOtL8
+         rwna9DN1vScD0W/xhaXtzcggw2Fjm0E5MEfNsvr24Ded3ILR10vRck7+e10NXN5eTM8h
+         SNcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724132131; x=1724736931;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ndtfIALYxvSwyfZwUZk30HMSZOs/3lo4XrgNJ0/XS/Y=;
+        b=qRoC4/ST0v0xhoHjutmzIhoaqEnHfWbSTJxYR4bKhTvNxdF2+QujZXUsxJQ9fWGxkx
+         UtiyWRVrgPNH5xtaGMy/6anlrf2r08ZjOfaONi6JSyUqTKS2XzJarh+pXZQRWLub4x9e
+         tXT931GvwF+G7UBFgGmrsT/9JGXx+HARbdbZS+2LfjyjuLINesj2Jp7PAHDisv/rq88T
+         2mA5i2afj5jR0TapVu8BbI2Tet3JpEf6h2KYgkrvKBUeotIwRzN/f1H7ql6pzSHWC///
+         MJX7WW91ZAzdCk+mMe8w+ni2CWzq9O4BpdYwHv2aWZAWRJ2hiJ3kzIA9ZxgKW5BujRCB
+         waUA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjOYzhD9MKT6YctUWochGz7jumFTG58FiTv6QqRhdUZ1XKnJwSci64BQHxlQOOD4yvLPWbZwnBudRwmV8=@vger.kernel.org, AJvYcCX8p22vOEFhPnklMUHm3rewsvqjtKJKZSUmm+MwxY9QoeEEECUl6dCQjS5y7DPTg4NQwyfC/Qdgcq6xJHc4@vger.kernel.org, AJvYcCXdQ+W/qRfqsMbqd4QrJSJFUlRNzZh278QPkCRuGCATZAb4Z7xtHHwEv4Y/8Fj1AY/szha86HelEmn7@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgX+huW3c33npYKc234lD1mC4pDS+PlpDL3Y6g/tjQYlJi93bF
+	fe7oq3hlcS67a1f2to9Bi2Xe4yvVYjD4oZiTX1+PodgJ9eVrMv+KXw7Npw==
+X-Google-Smtp-Source: AGHT+IFtEn8H0UZ4sEWSOI7G4y4Mo1XLRTZ28Kau1HwcAHNrGsrgcbQQoKbgrUrFfpCGq+Yq/fxnrQ==
+X-Received: by 2002:a05:6870:224e:b0:268:a074:39cf with SMTP id 586e51a60fabf-2701c349599mr11711600fac.8.1724132130748;
+        Mon, 19 Aug 2024 22:35:30 -0700 (PDT)
+Received: from [172.19.1.53] (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127aef5431sm7461828b3a.109.2024.08.19.22.35.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2024 22:35:30 -0700 (PDT)
+Message-ID: <fe56d8be-9c75-48d5-bc2c-76a79e5d7843@gmail.com>
+Date: Tue, 20 Aug 2024 13:35:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYWPR01MB11706:EE_
-X-MS-Office365-Filtering-Correlation-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?qoMIsxPTA1OG/BX+7l0iXVxdz2E+0vh3Vv4/j/EESZlntQHPhlc3oQgXKmve?=
- =?us-ascii?Q?zrivDTook7+DNoLL6cpndfpwuk/pY94D02QNfMmt9B6PO5tnAhRGg6WHt7G5?=
- =?us-ascii?Q?nKAKHy3zyb7AEpdJXlcH5xpL9rFZZRNcf1KCsdv2WfocWJLmZatyJE7QJwix?=
- =?us-ascii?Q?cF/tn2h/QtAmTS44/alPtdsgULbrHgrbcAm4M5Luwe1Sxh511cSNllacr8+c?=
- =?us-ascii?Q?ntDNRepYw3r1L3vIjT/sI6mLJc56XDUXaZCi6r2Pww8sWMJPElgH+hFcxfym?=
- =?us-ascii?Q?UqpoWKro267Vjh2rDI9L17Vrn8RZVWFqT60RVuI2a3cN4Wcn73m4hYBgxV3K?=
- =?us-ascii?Q?KwjXaHBFI575KDGt6GE6K+ePHm3TGJ4j0Z3TppKlkoBNIzs20QXfktZHXRST?=
- =?us-ascii?Q?Y0p/s9AdwpCtTXk06+MtP7bMi2yM7ihNr196c61HU9a/7oPNHENj9sgIzhhP?=
- =?us-ascii?Q?UFIHG6wYlFKcIjWJuBfQiuNb25V/W1f3+P9LFdm7H+lPCT4ebLiisJLDxELT?=
- =?us-ascii?Q?CGsHu1MEsOxfnb9v5KGVTWE6LUnXzp9+jmjJpPJW/6/j5sq4aRyBEWxUCSBq?=
- =?us-ascii?Q?USuNXgNwNwQpy1wWvRCxz5duN89MkpoxNE4HmCDIUlEd/oMsPL1qMFhmISD5?=
- =?us-ascii?Q?aIlXXkaLL1fV4RmlnqC95GaofafwlidBXOyB4L7IgUQQFKdg7wZPWA8gnbjl?=
- =?us-ascii?Q?Xxg8lwmWAyxJT34sAjQHPsQoiNcEh0tl/Q0bnyke1IOwHvzVvUfAC5hTtNHy?=
- =?us-ascii?Q?ehrlGmvPay4JPvlB1vm5HdrXYqMECdr9jUH+pHr1XnehbAtKiinCRGcAwmXS?=
- =?us-ascii?Q?5K2dx2O+l0KKc1ogyVa1GtaNVW7dCO79iuYGChynJVnxKxoCVBl4C19Lq77f?=
- =?us-ascii?Q?XIrVJ2DnWARA+lyxSVyA49vpz039LSjKUAAVVNEyOAlZv06tjxyt0h34xgOO?=
- =?us-ascii?Q?KHOvfWjLHuVnQpT9GMlXKE550bbDY9EYEGL7zXxr0GBLqk3T6a34zJQ9axzx?=
- =?us-ascii?Q?UFn1EBHXgM5OGt2lPT4WBBZC8p02B2BkR4NkMUDb9PEGjYn/+ioXB++IhDJs?=
- =?us-ascii?Q?mL02kjTt1BLY/T7tdTunX/Zr3NcdjhOKFvWUUZxkH7pgfGku3+IZbJw/lecC?=
- =?us-ascii?Q?bgWko2oQJjw6Rut8Hci58B6swV5B9nLfTb2yz52G/sqEWalRfUX1qnk7soxp?=
- =?us-ascii?Q?8kaRGDWCxDY5wUll/dkT4MmNqNXOjgmEazxMvd16pXI73dy5MYJim7QWtfF6?=
- =?us-ascii?Q?/HRn1K745SAz67tUwWFrjYvuNr1X3NbIvI0uuX8lZ+Yp+bPeYE5J7J7/+NrX?=
- =?us-ascii?Q?ABBEwT9rOg9rms2/I9AFS3Z6TLBVlOi9T0WZiV0N4pdlt/7XDHDGY6WL3lGz?=
- =?us-ascii?Q?TgQO0TCAskG426xONg5vbhm3dinFrH9gTE3V5A8pzkC5O6OlVQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gqSROLsJ5wpk9rP2Yjd+YBsaLX3Jw7/5MXbIB++vQLf9ipq+288olCbxx0II?=
- =?us-ascii?Q?oFv+nsRRU87j7m68YfWggTiyvvI3AQPn4d9/QYpw1QMnTtpbZpZ//AF03hOC?=
- =?us-ascii?Q?y1Gs7BLUdaarE3GuJLsOBlZ0Sg2Na+xzaEtbczAVwe5g/GvIPq3cXq2jl0st?=
- =?us-ascii?Q?tBuFwV1qRd4WgxxvG1nsy7adpRaCsIxzG9RPL5xH3G5W2IcWSFhp2NEP8Lmm?=
- =?us-ascii?Q?4/owUJQhP7eqIWyunXsTC75KVPXLVZz17hPRvWzjpxxpb/5by7d6AmaaBrKe?=
- =?us-ascii?Q?H+Tlhp8AJoQ/EC8z4y6Aa2/8SbhStXOOVBKtXO4ldQT/nrHv32h+LyckKZvi?=
- =?us-ascii?Q?xZ7+3RqCWbu7IerujmpvWklZ7Rr4sQEArXfPj4n07aAWUyHh2vUxfC+aDd9Y?=
- =?us-ascii?Q?jcDWArj52/hjraprrwLwAs4mNbZG2II2+/lnsER3GR13jNuhMBASizk3Kabt?=
- =?us-ascii?Q?aP2VmtO/FxtKE6iTEBCBGaw00e9dzynhZMuQeiNsIS8N6r5Bwhk2dHKH/Bd7?=
- =?us-ascii?Q?alzHOQMkMhV+OmeF4nB7KCS0QkXFRMJbfg3vMwO7/Q83X8EwtSXNN6eD8m7V?=
- =?us-ascii?Q?R26rAdR1/pfDb1+kptIAIguuzAcpOUGYLpI2FZGHAvnDbQUlOHzMYbDSCSfE?=
- =?us-ascii?Q?fMu7EhoJgGeKoACxkNnNtSVjTnE6eR3xGgGsOD9v8GBPYlxqmVPKm2Lq+q7g?=
- =?us-ascii?Q?cDkUnaoXEONJJQHBej/78NFVzuN2QpniFPH8Btbckde4u+KA88z4ru6ihcvm?=
- =?us-ascii?Q?BFTa/d5L3S2FwhIY7pNDSKrugi14GZX/pn9ptYjFHfLLC1QgtIaScrb0In5D?=
- =?us-ascii?Q?FR9XG04cW9jurKCw8ePW60yCBgqGz2k0x0iTrFb2kahHMSvgIEvcFJNJTKh2?=
- =?us-ascii?Q?3T92/UUDUHpYU/wTf+xUgAzNqI+hAIhaj1fF+3kPTDJl4zxF9LTEzdqHaQz8?=
- =?us-ascii?Q?qJ16ykt+666n0qRIjcKTwVQcH809xkG8aLHWa5xB3QBM5SeEz6SU8Oz0UozZ?=
- =?us-ascii?Q?WjZSzAGoBCkoBL4JMqmhkZ9UWcl9wdSlX+asU6t4Fv64iTR23IRDQdjyOxT+?=
- =?us-ascii?Q?CjWn5SnpS3PPlh1Pr6n/SoRWZcZmbe/yAF2w9q1/gIrITyTehumLTwRCYJjR?=
- =?us-ascii?Q?iV7LZWrG5ZNY16vtX188I9McBjSr7zhXLIcNmCJpfRNQtUUCVOF5jao3bfKS?=
- =?us-ascii?Q?MYGjdlMfXmdbeVgVHTZau2SM0j3IJxItDpk+NUqvILtidu+h25izZsvH1P2+?=
- =?us-ascii?Q?uMpE7on8tk8FQecsIcN4D1xyeRuG/cMlk3GZxOkvbHZorzd4W7edIvRojtUV?=
- =?us-ascii?Q?U1pwRaTZU5gflMdiW7FGLYn2G8iHCaBU8sm6tstFL38oNjfIqCfLWB7CMVCz?=
- =?us-ascii?Q?aJ/siBPVW56KJgZFdBT0T+/Mql8ZEoNd9T3WVUnEguxFeNBbTzPvfTQ1ZGOZ?=
- =?us-ascii?Q?ZOgJqu+zAN8A6dbpuoZI2J66hlAIvkxNtJTx4q+2SP1u+l+GWFJhhoSFGgEk?=
- =?us-ascii?Q?83GhmgIPcnJdHc12TmGW/PD7XcvLdXeJnY8XHvsozWGyMg5M75lMU2FoG7Zw?=
- =?us-ascii?Q?CYxqKKQCVQxtQ4JBMhjmWO6dbBuYaOaXXmuUeONiXiZJQ74Pwh2beffZjswF?=
- =?us-ascii?Q?SICiTm+0ePuD7r1ZUOxjCNg=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfa7cf4f-2096-42d5-f1ad-08dcc0d15121
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2024 04:34:02.2783
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ixNdywT8ALMNLXcW2tySoDe6mPiG/Tvpw4hvg70OwJYEZDIBNoWudvJeesDG1qbrHxQltEYHZZVabA+uFxI5evL6t1+IQrGQ7ijyNzbmDrB0MDlmBCTRhlKyU1qOUdL+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11706
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] mtd: rawnand: nuvoton: add new driver for the
+ Nuvoton MA35 SoC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, esben@geanix.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240819092037.110260-1-hpchen0nvt@gmail.com>
+ <20240819092037.110260-3-hpchen0nvt@gmail.com>
+ <t7igmxzylpem6qbasb2esnren743m4dnzw6j3i7vn3dveubu5n@4sy6mmmlhtw3>
+Content-Language: en-US
+From: Hui-Ping Chen <hpchen0nvt@gmail.com>
+In-Reply-To: <t7igmxzylpem6qbasb2esnren743m4dnzw6j3i7vn3dveubu5n@4sy6mmmlhtw3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Dear Krzysztof,
+
+Thank you for your reply.
 
 
-Hi Tomi
 
-Thank you for the feedback, and sorry for my late responce.
-I was under Summer Vacation
+On 2024/8/19 下午 07:19, Krzysztof Kozlowski wrote:
+> On Mon, Aug 19, 2024 at 09:20:37AM +0000, Hui-Ping Chen wrote:
+>> Nuvoton MA35 SoCs NAND Flash Interface Controller
+>> supports 2KB, 4KB and 8KB page size, and up to 8-bit,
+>> 12-bit, and 24-bit hardware ECC calculation circuit
+>> to protect data communication.
+>>
+>> Signed-off-by: Hui-Ping Chen <hpchen0nvt@gmail.com>
+> ...
+>
+>> +static int ma35_nand_probe(struct platform_device *pdev)
+>> +{
+>> +	struct ma35_nand_info *nand;
+>> +	struct nand_chip *chip;
+>> +	struct mtd_info *mtd;
+>> +	int retval = 0;
+>> +
+>> +	nand = devm_kzalloc(&pdev->dev, sizeof(*nand), GFP_KERNEL);
+>> +	if (!nand)
+>> +		return -ENOMEM;
+>> +
+>> +	nand_controller_init(&nand->controller);
+>> +
+>> +	nand->regs = devm_platform_ioremap_resource(pdev, 0);
+>> +	if (IS_ERR(nand->regs))
+>> +		return PTR_ERR(nand->regs);
+>> +
+>> +	nand->dev = &pdev->dev;
+>> +	chip = &nand->chip;
+>> +	mtd = nand_to_mtd(chip);
+>> +	nand_set_controller_data(chip, nand);
+>> +	nand_set_flash_node(chip, pdev->dev.of_node);
+>> +
+>> +	mtd->priv = chip;
+>> +	mtd->owner = THIS_MODULE;
+>> +	mtd->dev.parent = &pdev->dev;
+>> +
+>> +	nand->clk = devm_clk_get(&pdev->dev, "nand_gate");
+>> +	if (IS_ERR(nand->clk))
+>> +		return dev_err_probe(&pdev->dev, PTR_ERR(nand->clk),
+>> +				     "failed to find nand clock\n");
+>> +
+>> +	retval = clk_prepare_enable(nand->clk);
+>> +	if (retval < 0) {
+>> +		dev_err(&pdev->dev, "failed to enable clock\n");
+>> +		retval = -ENXIO;
+>> +	}
+>> +
+>> +	nand->chip.controller    = &nand->controller;
+>> +
+>> +	chip->legacy.cmdfunc     = ma35_nand_command;
+>> +	chip->legacy.waitfunc    = ma35_waitfunc;
+>> +	chip->legacy.read_byte   = ma35_nand_read_byte;
+>> +	chip->legacy.select_chip = ma35_nand_select_chip;
+>> +	chip->legacy.read_buf    = ma35_read_buf_dma;
+>> +	chip->legacy.write_buf   = ma35_write_buf_dma;
+>> +	chip->legacy.dev_ready   = ma35_nand_devready;
+>> +	chip->legacy.chip_delay  = 25; /* us */
+>> +
+>> +	/* Read OOB data first, then HW read page */
+>> +	chip->ecc.hwctl      = ma35_nand_enable_hwecc;
+>> +	chip->ecc.calculate  = ma35_nand_calculate_ecc;
+>> +	chip->ecc.correct    = ma35_nand_correct_data;
+>> +	chip->ecc.write_page = ma35_nand_write_page_hwecc;
+>> +	chip->ecc.read_page  = ma35_nand_read_page_hwecc_oob_first;
+>> +	chip->ecc.read_oob   = ma35_nand_read_oob_hwecc;
+>> +	chip->options |= (NAND_NO_SUBPAGE_WRITE | NAND_USES_DMA);
+>> +
+>> +	ma35_nand_initialize(nand);
+>> +	platform_set_drvdata(pdev, nand);
+>> +
+>> +	nand->controller.ops = &ma35_nand_controller_ops;
+>> +
+>> +	nand->irq = platform_get_irq(pdev, 0);
+>> +	if (nand->irq < 0)
+>> +		return dev_err_probe(&pdev->dev, nand->irq,
+>> +				     "failed to get platform irq\n");
+>> +
+>> +	if (request_irq(nand->irq, ma35_nand_irq, IRQF_TRIGGER_HIGH, "ma35d1-nand", nand)) {
+>> +		dev_err(&pdev->dev, "Error requesting NAND IRQ\n");
+>> +		return -ENXIO;
+>> +	}
+>> +
+>> +	retval = nand_scan(chip, 1);
+>> +	if (retval)
+>> +		return retval;
+>> +
+>> +	if (mtd_device_register(mtd, nand->parts, nand->nr_parts)) {
+>> +		nand_cleanup(chip);
+>> +		devm_kfree(&pdev->dev, nand);
+>> +		return retval;
+>> +	}
+>> +
+>> +	return retval;
+>> +}
+>> +
+>> +static void ma35_nand_remove(struct platform_device *pdev)
+>> +{
+>> +	struct ma35_nand_info *nand = platform_get_drvdata(pdev);
+>> +	struct nand_chip *chip = &nand->chip;
+>> +	int ret;
+>> +
+> Where do you release IRQ handler?
 
-> If we have this, of_graph_get_next_ports() returns the ports@0, and that 
-> makes sense:
-> 
-> parent {
-> 	ports@0 {
-> 		port@0 { };
-> 	};
-> };
-> 
-> If we have this, of_graph_get_next_ports() returns the parent, and 
-> that's a bit surprising, but I can see the need, and it just needs to be 
-> documented:
-> 
-> parent {
-> 	port { };
-> };
+I will add a release IRQ handler to this function.
 
-Thank you for understanding the situation
 
-> But if we have this, does it make sense that of_graph_get_next_ports() 
-> returns the parent, or should it return NULL:
-> 
-> parent {
-> 	/* No ports or port */
-> };
 
-Yeah, it should return NULL in this case.
+>> +	ret = mtd_device_unregister(nand_to_mtd(chip));
+>> +	WARN_ON(ret);
+>> +	nand_cleanup(chip);
+>> +
+>> +	clk_disable_unprepare(nand->clk);
+>> +
+>> +	kfree(nand);
+> NAK, you never tested your code.
 
->  > 	port = of_graph_get_next_port(parent, NULL); // (A)
->  > 	port = of_graph_get_next_port(parent, port); // (B)
->  > 	port = of_graph_get_next_port(parent, port); // NULl
-> 
-> it does not feel right. Why does of_graph_get_next_port() return only 
-> the ports of ports@0? I think it should either return nothing, as there 
-> are no 'port' nodes in the parent, or it should return all the port 
-> nodes from all the ports nodes.
+I will strengthen the testing of this function.
 
-As you also mentioned, having "ports" node is optional, and maybe this is
-the reason you feel uncomfortable on current code, and I can agree about
-it.
 
-If the driver needs to care about multi "ports", it is obvious that the
-driver cares "ports" node.
 
-My opinion is because having "ports" is optional, we want to handle
-"port" with/without "ports" by same function, especially if it doesn't
-need to care about multi "ports".
+>> +	platform_set_drvdata(pdev, NULL);
+> Why? Drop.
 
-I think your opinion (= "port" nodes strictly only in the given parent
-node) means driver need to care both with/without "ports" node, but the
-code will be pointlessly complex if it doesn't need to care multi "ports".
+I will remove it.
 
-> bus {
-> 	/* our display device */
-> 	display {
-> 		port { };
-> 	};
-> 
-> 	/* some odd ports device */
-> 	ports {
-> 	};
-> };
-> 
-> and you use of_graph_get_next_ports() for display, you'll end up getting 
-> the 'ports' node.
 
-This is interesting sample, but feels a little forced.
-If you need to handle display::port, you call
 
-	port = of_graph_get_next_port(display, NULL);
+>> +}
+>> +
+>> +/* PM Support */
+>> +#ifdef CONFIG_PM
+>> +static int ma35_nand_suspend(struct platform_device *pdev, pm_message_t pm)
+>> +{
+>> +	struct ma35_nand_info *nand = platform_get_drvdata(pdev);
+>> +	unsigned long timeo = jiffies + HZ/2;
+>> +
+>> +	/* wait DMAC to ready */
+>> +	while (1) {
+>> +		if ((readl(nand->regs + MA35_NFI_REG_DMACTL) & DMA_BUSY) == 0)
+>> +			break;
+>> +		if (time_after(jiffies, timeo))
+>> +			return -ETIMEDOUT;
+>> +	}
+>> +
+>> +	clk_disable(nand->clk);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int ma35_nand_resume(struct platform_device *pdev)
+>> +{
+>> +	struct ma35_nand_info *nand = platform_get_drvdata(pdev);
+>> +
+>> +	clk_enable(nand->clk);
+>> +	ma35_nand_hwecc_init(nand);
+>> +	ma35_nand_dmac_init(nand);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +#else
+>> +#define ma35_nand_suspend NULL
+>> +#define ma35_nand_resume NULL
+>> +#endif
+>> +
+>> +static const struct of_device_id ma35_nfi_of_match[] = {
+>> +	{ .compatible = "nuvoton,ma35d1-nand" },
+>> +	{},
+>> +};
+>> +MODULE_DEVICE_TABLE(of, ma35_nfi_of_match);
+>> +
+>> +static struct platform_driver ma35_nand_driver = {
+>> +		.driver = {
+> Messed indentation.
 
-Indeed we will get "ports" node if it calls of_graph_get_next_ports(),
-but it needs to use unrelated parameters, I think ?
+I will fix it.
 
-	ports = of_graph_get_next_ports(bus, display);
 
-> > 	parent {
-> > 		ports@0 {
-> > 			port@0 { };
-> > 			port@1 { };
-> > 		};
-> > 		ports@1 {
-> > 			port@0 { };
-> > 		};
-> > 	};
-> > 
-> > 	of_graph_get_port_count(parent); // 2 = number of ports@0
-> 
-> I think the above is a bit surprising, and in my opinion points that 
-> there is a problem. Why does using 'parent' equate to only using 
-> 'ports@0'? Again, I would expect either to get 0 (as there are no 'port' 
-> nodes in parent, or 3.
 
-This feature is for the driver which *doesn't* need to care about "ports".
+>> +		.name   = "ma35d1-nand",
+>> +		.owner  = THIS_MODULE,
+> Drop. Please do not upstream some 10 year old code... Use recent code as
+> template, not 10yo stuff...
 
-	/* CASE1 */
-	parent {
-		port {...};
-	};
+I will refer to the new driver implementation.
 
-	/* CASE2 */
-	parent {
-		ports {
-			port {...};
-		};
-	};
 
-both case (CASE1/2), we can use
 
-	of_graph_get_port_count(parent);
+> Best regards,
+> Krzysztof
 
-If the driver need to care multi ports, it should use such code, IMO.
 
-	nr = 0;
-	for_each_of_graph_ports(parent, ports) {
-		nr += of_graph_get_port_count(ports);
+Best regards,
 
-But of course we can handle it in v2 patch.
+Hui-Ping Chen
 
-	/* of_graph_get_port_count() cares multi ports inside */
-	of_graph_get_port_count(parent);
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
 
