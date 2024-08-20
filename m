@@ -1,113 +1,156 @@
-Return-Path: <linux-media+bounces-16526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16527-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA96957FAE
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 09:32:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05384957FE6
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 09:36:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E8A31C210FA
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 07:32:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 863301F22E91
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 07:36:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D65216BE23;
-	Tue, 20 Aug 2024 07:32:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E25181898E1;
+	Tue, 20 Aug 2024 07:35:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F33218E376;
-	Tue, 20 Aug 2024 07:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB301667ED;
+	Tue, 20 Aug 2024 07:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724139119; cv=none; b=DNVggnkmCqNGOmfIZP2ELEFXh/7O2t0QIiUOP5YTnfhGDy41kC+Ek9WqrbDzjeIkxJqZPxOVs967XOFNvPy2RLe+dFM1XuXrmEomw/2uT8KvBlWe609tlcm7rT1RbDeFF3OtTbp3c5ZxHTKvQNhtNVLWXNL+DTc9rq01R07+8lA=
+	t=1724139313; cv=none; b=hfl03DmLr3dY80cCtInMlHBleoZKU7hHN5wJjlE6U5929MtRTN91dBly7CqbjK0ezodUgdKpkdvlBkJTtBy+MiBnDR9tFVfZ0xmDmkZx4xbD2BZS444aqOqTyzW0wEF36t7TUzbDoKJ4kV30kJ2nZCL7b7bbRNewyVs+RrkTPOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724139119; c=relaxed/simple;
-	bh=Qmx2xkZx6QjU8y0JpQ3DgBemV0QRZuTDRzUNGnGAqAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CSulkfH7ecLsRn3WHCGSIkZhMGbwaBgF/lvu3YBhpOBwDrUGk8CU7EUDJ3VDhka4rOjdtl2dIwrKdk5VYLiwDsmMBYUoCCL7C/u6oFBGopEdrTV73w10Cz+uvFRXS1I9UZyOKfwhklO0i7wA0IEnIduPxCO04rwqSLOA2thDw2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	s=arc-20240116; t=1724139313; c=relaxed/simple;
+	bh=n2dSc7kV2NynpTEG/oh56PHjqjhQv+rOsObLY+KgHY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CFb/soQ0toQ1alvC3KR++5vWCdlxdMDI35c0wpm2Ff3FqjAqj8S+DWm09Ct8em2kMY8NpT9AtQNIt124Pqc7oAqQrUuz+ZmtzdprykeulHKxSZSHJ1ALQZpauMzBNNc493VaJTLfVK2aUXXMeZ63Hns7te7d73VmIi2kwDoaF6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3717ff2358eso2787007f8f.1;
-        Tue, 20 Aug 2024 00:31:57 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e116d2f5f7fso3584602276.1;
+        Tue, 20 Aug 2024 00:35:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724139116; x=1724743916;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zwQbZZzYKJfp9JXZBu90gOlgrt4jvpTVXR4uFjbp38Q=;
-        b=YYiM7fOmDJZSj/cwxKUHSsWdPoF9rS2gsC08v5U2w5+GlcmH08ID2rCy70sejmv5uD
-         OOWLmak2vO0mtgW5uD4ueNO7Gc73Fzm9hhg3sHw/JUJU+jmZm90oFMRtq8kW4xEZuy/3
-         MUmDvHSzrb2ipFutK4lrzb0BZcbFz4iC4/UHxXtMS6HyrfqV57qXTKLAf4y+pUfFrZ+G
-         47gHGXCk0UA/OvrHmmhJJlwlE6F2l/mn/+5C6L4BLNERHSiscelYEjaRGqpJ/cVwuS45
-         IPKFOhlNFB+yv3IWi6l8OE3w8lCyWSgdr9PpiYNaQT8AyMBimj4JQRkW4zbxbwP+0qZQ
-         qy5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWgVcYERPAwBdPS5uQkTL8G4X1PBX75+P1QyPFYhEf28r33RS8qxwXLUuCKOAuH76z0vF7MTv/Ffi/RnNmUOss9G074tJ7UxVLKt0DDLMzQ50n+JRxmKVgnf1vrmxg45Dan2TDy305OPx74gDlMFkLylLcPft4MliVUutKHIOWcachKDfECPo2fszkmDgjrCSBiXC3yBxwkfO8jYXBE9Kpc4A==
-X-Gm-Message-State: AOJu0Yz4vbKeHW8ovKilBoeb9oLWlE+W1PJoL3T33C9CuzCULzD53HME
-	H+Q/30sKjGCyLTDtpXu0N1netjGMa2BMO+90gMfAKkz5Mmp7ec8W
-X-Google-Smtp-Source: AGHT+IHTd/LmyAb9MTCxstjAsJD6mcKXnM89dKlsj660yY9f1w+dAMRpSYvFWk6FPDY5kqLqPENMjw==
-X-Received: by 2002:adf:8b59:0:b0:371:844f:e0c with SMTP id ffacd0b85a97d-37194314b17mr8264101f8f.10.1724139115875;
-        Tue, 20 Aug 2024 00:31:55 -0700 (PDT)
-Received: from krzk-bin ([178.197.215.209])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3718985a48asm12439743f8f.62.2024.08.20.00.31.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 00:31:55 -0700 (PDT)
-Date: Tue, 20 Aug 2024 09:31:52 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Todor Tomov <todor.too@gmail.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
-Message-ID: <u7enyv6sb5n2jjsxg6tyrzjdj3tswzo7733hl3vuxh3j5nshz4@mklofzu3dzqi>
-References: <20240819221051.31489-7-mailingradian@gmail.com>
- <20240819221051.31489-9-mailingradian@gmail.com>
+        d=1e100.net; s=20230601; t=1724139310; x=1724744110;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P0RS+DfOTdHedfK4BwC9kmKzZ20XxIqiVeJBqXxrrwI=;
+        b=oYTc4BPOSISM5tHJlEoa7dDgOGd94dvwbyMRujk4dgq8E/BeR3Pj4Q/b80S2zr3YdD
+         bcu+RR0UZ9wSr49zKY5pCpxLgARbYnKkzmAeIYs9/JYxWBVxtKWLFKAjXw/pCOlpxY93
+         4QKHQ8Ug+MT9DfKqgPG9o0nVvPiAwRGq+uQk/Kiu9RcXUoqF++S9hq/bnrAimX6D2b8v
+         huklzo0MFtH5LoKpyucRG4llxALeDMlJBk48f6Ev27gp+83MnsWY5+4K9TJkDZJxuS2J
+         R2dsbqNIR0x41MO6olzOojPO4jWJ2cLFO4JOJ6Ci+/o7iazRNz5DUhXljSOGqajIV0Zq
+         NFcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRwus1dTXd8Hfp5jN7RDj/eYP+fesYTh0rqfTvDomxkaidX8nwbpKRIdP9F7dHLLVE3GCSFaN3OIGk6zg=@vger.kernel.org, AJvYcCX1ICIVoD868SMFRdNsF2X/ZZTPooWQj+CNxnCjxH3P5S/scPAWcIQVd8xiPAIjU90yJGXliA54cGoo@vger.kernel.org, AJvYcCXe+b9uvGNHEXraLEl6pnGl8h+QojhSOA5mWRWUur8KkOmCgMAKvtRRV5T3eFN0t6IJsRmGUy4SOk4A3ZMki2rWpUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4AGfe7QVpZKpyfc/DUMHFEcMvjsN1R1EVNSCva3RCK3sjbndG
+	6hszzIjqyEzwySNNFaJqdl2o6urkDA2OgODfZlS+JxIdzZpr+x0vIaTJY8HbOVw=
+X-Google-Smtp-Source: AGHT+IGBZGAQ97xIOBr2P9lJbEYA8ideM2g5FbXRRhVmUbAVpMJCaUyCg9VTC6c/yn4P0Uk5xvU/lg==
+X-Received: by 2002:a05:6902:2206:b0:e11:446b:d43b with SMTP id 3f1490d57ef6-e164a97e8ccmr1692348276.16.1724139309721;
+        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e1171e709e1sm2486423276.34.2024.08.20.00.35.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6bada443ffeso12086477b3.0;
+        Tue, 20 Aug 2024 00:35:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVgMy/Co/I8hskvouhk7UDVs4lSBBjmRnh4aCtdem6+xi9tIaoO71HtOJz98nbWLZlazhft4hqsrGVZ@vger.kernel.org, AJvYcCX9smN99uE44DIJ+FbE8OMiSICoNxRLkUsZNy2vwOR74lyp4/xWPzJ5kDnDa2mBRGg56J04PCKAWn8Xxq8XJQT5Rmc=@vger.kernel.org, AJvYcCXO5uqXNSrvWrJ5DbUXw4s/sdTNivBWdIZfOEM5cB/NHgHLimHLB7isTz01Fcm9hCuMR6x5CZ88C9VmCXU=@vger.kernel.org
+X-Received: by 2002:a05:690c:f:b0:6a9:5953:a659 with SMTP id
+ 00721157ae682-6bdd09092ddmr14596397b3.18.1724139309116; Tue, 20 Aug 2024
+ 00:35:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240819221051.31489-9-mailingradian@gmail.com>
+References: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 20 Aug 2024 09:34:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
+Message-ID: <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	helpdesk <helpdesk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 19, 2024 at 06:10:54PM -0400, Richard Acayan wrote:
-> As found in the Pixel 3a, the Snapdragon 670 has a camera subsystem with
-> 3 CSIDs and 3 VFEs (including 1 VFE lite). Add this camera subsystem to
-> the bindings.
-> 
-> Adapted from SC8280XP camera subsystem.
-> 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  .../bindings/media/qcom,sdm670-camss.yaml     | 319 ++++++++++++++++++
->  1 file changed, 319 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
-> new file mode 100644
-> index 000000000000..5789cf66a516
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
-> @@ -0,0 +1,319 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
+On Thu, Jul 4, 2024 at 6:16=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> This series adds bindings and support to rcar-vin for R-Car V4M by the
+> means of adding a Gen4 family fallback compatible.
+>
+> Previous versions of this series added V4M support like done for VIN
+> since the first Gen3 device, by the use of only a single SoC specific
+> compatible value. This was done as in Gen3 almost every new device
+> differed from the others and a family fallback was not very useful.
+>
+> For the Gen4 devices with a video capture pipeline currently documented
+> the VIN instances are very similar and a family fallback can be used.
+> This however requires updating existing DTS files to add this new family
+> fallback. This is done in a backward compatible way and the driver
+> retains the compatible values.
+>
+> See individual patches for changes since previous versions.
+>
+> Niklas S=C3=B6derlund (6):
+>   dt-bindings: media: renesas,vin: Add Gen4 family fallback
+>   arm64: dts: renesas: r8a779g0: Add family fallback for VIN IP
+>   arm64: dts: renesas: r8a779a0: Add family fallback for VIN IP
+>   media: rcar-vin: Add family compatible for R-Car Gen4 family
+>   dt-bindings: media: renesas,vin: Add binding for V4M
+>   arm64: dts: renesas: r8a779h0: Add family fallback for VIN IP
 
-No blank line here.
+Any chance the media parts can be accepted, so I can take the DTS
+patches through the Renesas tree?
 
-> +%YAML 1.2
+BTW, running b4 seems to add two bogus Acked-by tags from Conor:
 
-With above:
+$ b4 am 20240704161620.1425409-3-niklas.soderlund+renesas@ragnatech.se
+Analyzing 7 messages in the thread
+Analyzing 14 code-review messages
+Checking attestation on all messages, may take a moment...
+---
+  =E2=9C=97 [PATCH v5 1/6] dt-bindings: media: renesas,vin: Add Gen4 family=
+ fallback
+  =E2=9C=97 [PATCH v5 2/6] arm64: dts: renesas: r8a779g0: Add family fallba=
+ck for VIN IP
+    + Acked-by: Conor Dooley <conor.dooley@microchip.com> (=E2=9C=93 DKIM/k=
+ernel.org)
+  =E2=9C=97 [PATCH v5 3/6] arm64: dts: renesas: r8a779a0: Add family fallba=
+ck for VIN IP
+  =E2=9C=97 [PATCH v5 4/6] media: rcar-vin: Add family compatible for R-Car=
+ Gen4 family
+  =E2=9C=97 [PATCH v5 5/6] dt-bindings: media: renesas,vin: Add binding for=
+ V4M
+  =E2=9C=97 [PATCH v5 6/6] arm64: dts: renesas: r8a779h0: Add family fallba=
+ck for VIN IP
+    + Acked-by: Conor Dooley <conor.dooley@microchip.com> (=E2=9C=93 DKIM/k=
+ernel.org)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I cannot find these Acks in my inbox or on lore.
+What's happening?
 
-Best regards,
-Krzysztof
+Thanks!
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
