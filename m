@@ -1,74 +1,75 @@
-Return-Path: <linux-media+bounces-16539-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16541-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2349585F9
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 13:37:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D6D958698
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 14:08:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 208FB1F22255
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 11:37:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0858E287D4B
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 12:08:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 490D018E76E;
-	Tue, 20 Aug 2024 11:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D023518FC90;
+	Tue, 20 Aug 2024 12:08:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y3exv8Rl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gacyDN3i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C780518E05C
-	for <linux-media@vger.kernel.org>; Tue, 20 Aug 2024 11:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CFA18FC89
+	for <linux-media@vger.kernel.org>; Tue, 20 Aug 2024 12:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724153856; cv=none; b=qsG3TbXiVlhPcA7teMO12ycREoFk+jrUMd0BC1RJm0BYpPxjgCeByYm9/JDm9DLF8KCp+roEJS5O+Lh+MIl79YFeEzH55T2oZydTYRTgij0ZGFFLLkFjG06wOAJOPM4JtZbael8JtjRqLGQ8n2XxdFJXNIsHNKYgmpsDEuxQPJc=
+	t=1724155714; cv=none; b=CnwOK+Q3GErKWDt0EBdJw8jiFyBN2RT9U6Hm3khh8Eqe0YzuA6eqQL+nWoqVY2JR+OKFRDe3TSseVA/j3e9UynPLvJQQIrhhqcLWhPEsVALmTq3VRhMQXjtVRt7lR4S7BqH/HjnBQgnOftvO1rT7KioYbpjqijWWG8sJ6vRrugg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724153856; c=relaxed/simple;
-	bh=IvZBJUxFElI7oSzZMmvS6vB7Efvt3Xy4SUpSkkCUtPc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=nC9n2HlHnxfPSZBgfmyJrhGzqhV2P2YOwyaDRtp0xeOJj2woVFL4A76ibNzF+1SOJLRE6SVPoxtydwI0bjxItA8+ko6lQrSKBdSKgcAcXUcQH2RFUi8GhRN9KnEhoheJH8vK+A6PtTHIWOFYow51Tta1mF9NLOuxdGZWyB9yXiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y3exv8Rl; arc=none smtp.client-ip=209.85.167.43
+	s=arc-20240116; t=1724155714; c=relaxed/simple;
+	bh=y1mlKypWtodaCGrzVTsxH74OgoWdbq/gwkkgwWEhz+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MeLCrAl/do7b2gC0Xbac2c88lmG6jId8Eau9mY2GYc4yVw+hsz+tJQdk9wFhHH6OgE2StA+jcoBYUA2JbjNm27JVxRO1fa86iVh4DEgyhfvvOWX6q7IPQoVx0jWIibn4unOk08s7Ch7ZkLLE1p/uMCf11n67Ak54mok5DKBzeso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gacyDN3i; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53345fe848eso2664e87.2
-        for <linux-media@vger.kernel.org>; Tue, 20 Aug 2024 04:37:34 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5332f488c6eso4879272e87.1
+        for <linux-media@vger.kernel.org>; Tue, 20 Aug 2024 05:08:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724153853; x=1724758653; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BvQ5KNXMJMLakdVv034VXkUY0ogpNTCoT/KgikaWz60=;
-        b=y3exv8Rlk35ck1be4h47L1GST7T85+FbRXn6gLLsPaAp2C9tiWn8gUGw8y7kPZXBz1
-         zFu52SWFjzeLKrzj+qzE64sc+QFn6bCFCXulmh001pc87MfNdLmYwM5vf2iZB2Zd75xv
-         nVtRrZiRrbPFLh0JPiftMt681mWbkVHh5dK0Ju2/HbO0w0xtch5NcdUDd2aPJCm2/4Pz
-         dADiO9lwyoHCIpLCz9nMpDaEo4mtghvFomSNIHJkgYY9689ilc/HpHgccIzOKnm6icY0
-         8MJVqxdIh/a1/8MDHPndtnzWJNLMjmDHdMn1EDbgUjFZGrCokeHvffhcFOm3ar3VZEh/
-         Zi3Q==
+        d=linaro.org; s=google; t=1724155710; x=1724760510; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJKP76CouD8q14UcNI5cVrV8SGgjx8qr+hf0bLJ6IaQ=;
+        b=gacyDN3iVeV6yMyU9fifpPbDqRX4zSvhdUiR9BB3t+WEnaeZcifxu0btC0e45gG8QC
+         CZBVg5TXcW+HOjERYI44KNwXRfW62CHhxvznymEeI4u8eb5tHuf3F5+A9iGQST7BWeY2
+         HXRiJvZbxICV6Ycw/QSCrOrjT/yDtKqF+kmA46aQYnUyQaYfN5Czrbl1cDInYwMNGhT+
+         BhPOH31JCscMpI3Z9HwV2G84x4P7lPOmSsmCJtp8VCDGV5jW05H77+szPNkd52VWpADL
+         jzjfFnOlX1piqz9r4Eu/qd9cCY6D51Kvj8XJ1ZQYZuKg3MGqWXHAN6nnGi0JtCy3eBPX
+         SR+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724153853; x=1724758653;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BvQ5KNXMJMLakdVv034VXkUY0ogpNTCoT/KgikaWz60=;
-        b=cadt59cphe/gIJ96QwPtLTaZ8Pxt+Gq/FU33AyREy9xYlZNvanZs3FipgSWLcWkwpT
-         6iQ3qoxypkMLfYoJBlYx3vwnmv+we3bXWhKQcCur7uKqtxvJrJIXOB6432gG1G+soRtT
-         G0+9C+nN0bDk2cj8XbrGD6hrPszM47GJxqFHZXUde1DbyTv3T6CCMZ/UqoqPhgTT1q+l
-         RVpFVuRCqq4R30KavDn9KRJ1eQNn8pgPf3sEdD8FMWd8qeSGkHXlsV8MLKV40kqPc2IH
-         Nm1BAlpPXWOxDxNwnYq8oC880W4UxKblGmCf+JLpu67t4fcIZf7J72/GNLpoIzeh47oZ
-         fT0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU/0l1nsM8WiomgxzWDrmPFA69WqYLj3U+25hqGiqCeRZ8m0YzPyGiQOMCZ/Cj3383+nwW8uNEd6PVhog==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlfBj836LZ1YZcwzg9AeesCaOaolumSRrhtvnMYyysDFiw5wQY
-	VkO4yOOpAH5qwxN7Rmf1aUeh/5EdC5lzHJUDgORDX+d4P42klrZA5OPXYpgdG6s=
-X-Google-Smtp-Source: AGHT+IEnAtcUPnLPniIn1G+PY8BSHGTXyXnIRA/xgiJW0ArDYm/MnZ9Zgqj+xLtJoMXC1pXKYENaLg==
-X-Received: by 2002:a05:6512:4007:b0:533:d28:b9f5 with SMTP id 2adb3069b0e04-5331c6f621amr5321803e87.9.1724153852473;
-        Tue, 20 Aug 2024 04:37:32 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5330d420357sm1758134e87.231.2024.08.20.04.37.31
+        d=1e100.net; s=20230601; t=1724155710; x=1724760510;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJKP76CouD8q14UcNI5cVrV8SGgjx8qr+hf0bLJ6IaQ=;
+        b=cJdB9vUdeVcAzpRd0OBji8JgfXozOLIBMhYb4xSOzG7PzHXOg5MpyhEDteH0z4Tuxv
+         ZqTf4drsAF9PkGOw4DJvQSqlZWftx2dvyWsbTLKxDO1ar9DYKTnYlP24SksusYAej9Wz
+         z0xShDzFYLHi8/ru1CqIfPorVBIyjDN3N07wusv3yV0iJCXzJCGxNRoApgLVLKheErIA
+         xLnGXgiI1pfG4Qmg556e/s20QMEu/8e8qr8yBN66rPgvL44iODS4ET16zsdOFFBasEfa
+         Uy7BuEjVeiY19rBA6HKWU1HirAt9eBfcsg1oSQnb6JfxpYCPZ9rBNNSrg5tm4ic4HuS0
+         v75w==
+X-Forwarded-Encrypted: i=1; AJvYcCVHFZ36qEmnhYlNB+e6PP+ehDl9tiWRAH5zbDPAqKu//P3LYdX2UsNOna2TjObkRdk2fJTxPyJxy4nLQ0ZyzN6ftIiEOCp7YdCNs0Y=
+X-Gm-Message-State: AOJu0Ywexn7wVsrJ3YRtDTL+k7mnhsy82FxTmtkGgY7q4rJXf43KoM0j
+	s/ug7pkmBgbpUd6ZwIpU9BHTEcL1gPAlQO3NEfPBQr51f6WSmi0zsWq05yNZY4A=
+X-Google-Smtp-Source: AGHT+IEF9zT4lF3HQI46a4mMAwlYCEPY4iabeAUetjsE8T+UXNumUW7ckK6C0wnTbgkThfDf4yfC0g==
+X-Received: by 2002:a05:6512:3a85:b0:52e:9921:6dff with SMTP id 2adb3069b0e04-5331c6b984cmr10884191e87.26.1724155710320;
+        Tue, 20 Aug 2024 05:08:30 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.215.209])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cef1esm757376166b.48.2024.08.20.05.08.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 04:37:32 -0700 (PDT)
-Message-ID: <48127e98-f489-4c62-a7e2-f207c875c77b@linaro.org>
-Date: Tue, 20 Aug 2024 14:37:30 +0300
+        Tue, 20 Aug 2024 05:08:29 -0700 (PDT)
+Message-ID: <9172f40f-c886-4fe4-bf12-d6d066522921@linaro.org>
+Date: Tue, 20 Aug 2024 14:08:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,199 +77,81 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/5] dt-bindings: media: camss: Add qcom,sdm670-camss
+Subject: Re: [v1] MAINTAINERS: Add "qcom," substring for Qualcomm Camera
+ Subsystem
+To: Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jack Zhu <jack.zhu@starfivetech.com>,
+ Keith Zhao <keith.zhao@starfivetech.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240820112053.560605-1-changhuang.liang@starfivetech.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Richard Acayan <mailingradian@gmail.com>,
- Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20240819221051.31489-7-mailingradian@gmail.com>
- <20240819221051.31489-9-mailingradian@gmail.com>
- <3b3774de-3aeb-4a58-8c0e-e494a2f2aaf8@linaro.org>
- <e34dd20c-e67e-4b69-88df-b4d34e01f8b8@kernel.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <e34dd20c-e67e-4b69-88df-b4d34e01f8b8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240820112053.560605-1-changhuang.liang@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
+On 20/08/2024 13:20, Changhuang Liang wrote:
+> Commit f5502cd25ac0 ("media: dt-bindings: Add JH7110 Camera Subsystem")
+> adds the StarFive Camera Subsystem parts, also complies with Qualcomm's
+> rules. Add "qcom," substring restrcting this condition.
+> 
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 
-On 8/20/24 12:56, Krzysztof Kozlowski wrote:
-> On 20/08/2024 11:15, Vladimir Zapolskiy wrote:
->> Hi Richard,
->>
-> 
-> ...
-> 
->>> +
->>> +  clocks:
->>
->> Please add
->>
->> minItems: 22
->>
->>> +    maxItems: 22> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: camnoc_axi
->>> +      - const: cpas_ahb
->>> +      - const: csi0
->>> +      - const: csi1
->>> +      - const: csi2
->>> +      - const: csiphy0
->>> +      - const: csiphy0_timer
->>> +      - const: csiphy1
->>> +      - const: csiphy1_timer
->>> +      - const: csiphy2
->>> +      - const: csiphy2_timer
->>> +      - const: gcc_camera_ahb
->>> +      - const: gcc_camera_axi
->>> +      - const: soc_ahb
->>> +      - const: vfe0_axi
->>> +      - const: vfe0
->>> +      - const: vfe0_cphy_rx
->>> +      - const: vfe1_axi
->>> +      - const: vfe1
->>> +      - const: vfe1_cphy_rx
->>> +      - const: vfe_lite
->>> +      - const: vfe_lite_cphy_rx
->>> +
->>> +  interrupts:
->>
->> Please add
->>
->> minItems: 9
->>
->>> +    maxItems: 9
->>> +
->>> +  interrupt-names:
->>> +    items:
->>> +      - const: csid0
->>> +      - const: csid1
->>> +      - const: csid2
->>> +      - const: csiphy0
->>> +      - const: csiphy1
->>> +      - const: csiphy2
->>> +      - const: vfe0
->>> +      - const: vfe1
->>> +      - const: vfe_lite
->>> +
->>> +  iommus:
->>
->> Please add
->>
->> minItems: 4>
->>> +    maxItems: 4
->>> +
->>> +  power-domains:
->>> +    items:
->>> +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
->>> +      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
->>> +      - description: Titan Top GDSC - Titan ISP Block, Global Distributed Switch Controller.
->>> +
->>> +  power-domain-names:
->>> +    items:
->>> +      - const: ife0
->>> +      - const: ife1
->>> +      - const: top
->>> +
->>> +  ports:
->>> +    $ref: /schemas/graph.yaml#/properties/ports
->>> +
->>> +    description:
->>> +      CSI input ports.
->>> +
->>> +    properties:
->>> +      port@0:
->>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>> +        unevaluatedProperties: false
->>> +        description:
->>> +          Input port for receiving CSI data from CSIPHY0.
->>> +
->>> +        properties:
->>> +          endpoint:
->>> +            $ref: video-interfaces.yaml#
->>> +            unevaluatedProperties: false
->>> +
->>> +            properties:
->>> +              clock-lanes:
->>> +                maxItems: 1
->>> +
->>> +              data-lanes:
->>> +                minItems: 1
->>> +                maxItems: 4
->>> +
->>> +            required:
->>> +              - clock-lanes
->>> +              - data-lanes
->>> +
->>> +      port@1:
->>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>> +        unevaluatedProperties: false
->>> +        description:
->>> +          Input port for receiving CSI data from CSIPHY1.
->>> +
->>> +        properties:
->>> +          endpoint:
->>> +            $ref: video-interfaces.yaml#
->>> +            unevaluatedProperties: false
->>> +
->>> +            properties:
->>> +              clock-lanes:
->>> +                maxItems: 1
->>> +
->>> +              data-lanes:
->>> +                minItems: 1
->>> +                maxItems: 4
->>> +
->>> +            required:
->>> +              - clock-lanes
->>> +              - data-lanes
->>> +
->>> +      port@2:
->>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>> +        unevaluatedProperties: false
->>> +        description:
->>> +          Input port for receiving CSI data from CSIPHY2.
->>> +
->>> +        properties:
->>> +          endpoint:
->>> +            $ref: video-interfaces.yaml#
->>> +            unevaluatedProperties: false
->>> +
->>> +            properties:
->>> +              clock-lanes:
->>> +                maxItems: 1
->>> +
->>> +              data-lanes:
->>> +                minItems: 1
->>> +                maxItems: 4
->>> +
->>> +            required:
->>> +              - clock-lanes
->>> +              - data-lanes
->>> +
->>> +  reg:
->>
->> Please add
->>
->> minItems: 9
-> 
-> 
-> None of above are necessary and this contradicts review we give to drop
-> these...
+You miss "media:" subject prefix, so folks will notice this patch.
 
-Thank you for the correction, I will memorize it.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
---
-Best wishes,
-Vladimir
+Best regards,
+Krzysztof
+
 
