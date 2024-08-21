@@ -1,41 +1,45 @@
-Return-Path: <linux-media+bounces-16569-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16570-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFC1959EBE
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 15:34:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E8B959EBF
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 15:34:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F11CB1C20924
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 13:34:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC3511F22558
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 13:34:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDB2219ABDE;
-	Wed, 21 Aug 2024 13:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D86C1A285F;
+	Wed, 21 Aug 2024 13:34:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6936219ABBC
-	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 13:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488E619ABBC
+	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 13:34:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724247258; cv=none; b=XgxjL1m0OeibvX4HFBLjMAFuLkyRcvP5iqsdu8hPDoX392AGI0IzLuY1/HPZtUxuQphdWPiYB3yQeJ7Ci13S5ZEqxGDy0Rlm0Zazv9q8IkN+toMR6EXFwfsb7JpTEITFx+BX8F57AUbJa08XvzJmaeuOli2esT0vi1C16v6723E=
+	t=1724247260; cv=none; b=OQ1PumO48zuQTbZtvEdm0nUzZQCqQAWPFjpYMYIm7w79r8yZYjf1m/y3K7ao/8KLnXLmkQJXt6ZiL1kI1ZuliCntsQlGpuFPnHSBbPyWDGJj/ehnf17DycCaYPthv/WNK3qrDjcTNtNXpXf1FhYMhUfP9xMqWI04ee8PCKkNRBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724247258; c=relaxed/simple;
-	bh=xT/llsrxKLo1HZlHIGAzTXHZTbd7TXXRCd0d9DVxnAs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OD2jJn5Zzg9ynOjhQVTFkI3Hz6d6A4YRWSSz29opkh0vrWVGazVNC4p3D9aXJXmg4i2qonYXgY3K7v8xwvfE9zy57WR6PJbydmrWaM+O/ah87SeDuSp+1Ecy85uwuTtZ7NWuxU7gXaSinqO39BLpG3lke8C6J0ObKyhBO+y92tc=
+	s=arc-20240116; t=1724247260; c=relaxed/simple;
+	bh=uhAKsHIbQLcezjNp0EZOOGcPlJP2oKyQo/SRP9oM6ys=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fbXtO6/gjqMLF+uSzrNhc3vqt7cGRfUcPc8lTPUXokspozuh0qhKXbDIaCCQZAGaGZoL8jJHN+gn+1wNalXA6JlZiF29bwOlVYuM+incqRf6SayyxHGU1D+/TlyeL7bFSiO39KT5rlg13eKzkjZ7yGZb6VPwijStvhyvVp2NH+k=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62EA9C32782;
-	Wed, 21 Aug 2024 13:34:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B21D5C4AF0E;
+	Wed, 21 Aug 2024 13:34:18 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [RFC PATCH 0/3] media: mc: add manual request completion support
-Date: Wed, 21 Aug 2024 15:14:00 +0200
-Message-ID: <cover.1724246043.git.hverkuil-cisco@xs4all.nl>
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCH 1/3] media: mc: add manual request completion
+Date: Wed, 21 Aug 2024 15:14:01 +0200
+Message-ID: <b1b171c80093adecb9ff2e987ef76fbdaf5a65a9.1724246043.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1724246043.git.hverkuil-cisco@xs4all.nl>
+References: <cover.1724246043.git.hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -44,72 +48,155 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RFC for now, it looks like it works well, but I want feedback before
-making this official.
+By default when the last request object is completed, the whole
+request completes as well.
 
-Normally a request contains one or more request objects, and once all
-objects are marked as 'completed' the request itself is completed and
-userspace gets a signal that the request is complete.
+But sometimes you want to manually complete a request in a driver,
+so add a manual complete mode for this.
 
-Calling vb2_buffer_done will complete a buffer object, and
-v4l2_ctrl_request_complete will complete a control handler object.
+In req_queue the driver marks the request for manual completion by
+calling media_request_mark_manual_completion, and when the driver
+wants to manually complete the request it calls
+media_request_manual_complete().
 
-In some cases (e.g. VP9 codecs) there is only a buffer object, so
-as soon as the buffer is marked done, the request is marked as
-completed. But in the case of mediatek, while the buffer is done
-(i.e. the data is consumed by the hardware), the request isn't
-completed yet as the data is still being processed. Once the
-data is fully processed, the driver wants to call
-v4l2_ctrl_request_complete() which will either update an existing
-control handler object, or add a new control handler object to the
-request containing the latest control values. But since the
-request is already completed, calling v4l2_ctrl_request_complete()
-will fail.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/mc/mc-request.c | 31 +++++++++++++++++++++++++++++--
+ include/media/media-request.h | 33 ++++++++++++++++++++++++++++++++-
+ 2 files changed, 61 insertions(+), 3 deletions(-)
 
-One option is to simply postpone calling vb2_buffer_done() and do
-it after the call to v4l2_ctrl_request_complete(). However, in some
-use-cases (e.g. secure memory) the number of available buffers is
-very limited and you really want to return a buffer as soon as
-possible.
-
-In that case you want to postpone request completion until you
-know the request is really ready.
-
-Originally I thought the best way would be to make a dummy request
-object, but that turned out to be overly complicated. So instead
-I just add a bool manual_completion, which you set to true in
-req_queue, and you call media_request_manual_complete() when you
-know the request is complete. That was a lot less complicated.
-
-The first patch adds this new manual completion code, the second
-patch adds this to vicodec (not sure if I want this committed,
-visl might be a better place for it, but I needed something to test
-the code), and the last patch is an updated old patch of mine that
-adds debugfs code to check if all requests and request objects are
-properly freed.
-
-I think I need to clean up that last patch a bit more, and then
-I would like to get that in. Without it it is really hard to
-verify that there are no dangling requests or objects.
-
-Regards,
-
-	Hans
-
-Hans Verkuil (3):
-  media: mc: add manual request completion
-  vicodec: add support for manual completion
-  media: mc: add debugfs node to keep track of requests
-
- drivers/media/mc/mc-device.c                  | 31 ++++++++++++++++
- drivers/media/mc/mc-devnode.c                 | 16 +++++++++
- drivers/media/mc/mc-request.c                 | 36 +++++++++++++++++--
- .../media/test-drivers/vicodec/vicodec-core.c | 14 ++++++--
- include/media/media-device.h                  |  9 +++++
- include/media/media-devnode.h                 |  4 +++
- include/media/media-request.h                 | 35 +++++++++++++++++-
- 7 files changed, 140 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
+index addb8f2d8939..3f348e05b03f 100644
+--- a/drivers/media/mc/mc-request.c
++++ b/drivers/media/mc/mc-request.c
+@@ -54,6 +54,7 @@ static void media_request_clean(struct media_request *req)
+ 	req->access_count = 0;
+ 	WARN_ON(req->num_incomplete_objects);
+ 	req->num_incomplete_objects = 0;
++	req->manual_completion = false;
+ 	wake_up_interruptible_all(&req->poll_wait);
+ }
+ 
+@@ -319,6 +320,7 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
+ 	req->mdev = mdev;
+ 	req->state = MEDIA_REQUEST_STATE_IDLE;
+ 	req->num_incomplete_objects = 0;
++	req->manual_completion = false;
+ 	kref_init(&req->kref);
+ 	INIT_LIST_HEAD(&req->objects);
+ 	spin_lock_init(&req->lock);
+@@ -465,7 +467,7 @@ void media_request_object_unbind(struct media_request_object *obj)
+ 
+ 	req->num_incomplete_objects--;
+ 	if (req->state == MEDIA_REQUEST_STATE_QUEUED &&
+-	    !req->num_incomplete_objects) {
++	    !req->num_incomplete_objects && !req->manual_completion) {
+ 		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+ 		completed = true;
+ 		wake_up_interruptible_all(&req->poll_wait);
+@@ -494,7 +496,7 @@ void media_request_object_complete(struct media_request_object *obj)
+ 	    WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
+ 		goto unlock;
+ 
+-	if (!--req->num_incomplete_objects) {
++	if (!--req->num_incomplete_objects && !req->manual_completion) {
+ 		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+ 		wake_up_interruptible_all(&req->poll_wait);
+ 		completed = true;
+@@ -505,3 +507,28 @@ void media_request_object_complete(struct media_request_object *obj)
+ 		media_request_put(req);
+ }
+ EXPORT_SYMBOL_GPL(media_request_object_complete);
++
++void media_request_manual_complete(struct media_request *req)
++{
++	unsigned long flags;
++	bool completed = false;
++
++	if (!req || !req->manual_completion)
++		return;
++
++	spin_lock_irqsave(&req->lock, flags);
++	if (WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
++		goto unlock;
++
++	req->manual_completion = false;
++	if (!req->num_incomplete_objects) {
++		req->state = MEDIA_REQUEST_STATE_COMPLETE;
++		wake_up_interruptible_all(&req->poll_wait);
++		completed = true;
++	}
++unlock:
++	spin_unlock_irqrestore(&req->lock, flags);
++	if (completed)
++		media_request_put(req);
++}
++EXPORT_SYMBOL_GPL(media_request_manual_complete);
+diff --git a/include/media/media-request.h b/include/media/media-request.h
+index 3cd25a2717ce..31886caa0c7a 100644
+--- a/include/media/media-request.h
++++ b/include/media/media-request.h
+@@ -56,6 +56,10 @@ struct media_request_object;
+  * @access_count: count the number of request accesses that are in progress
+  * @objects: List of @struct media_request_object request objects
+  * @num_incomplete_objects: The number of incomplete objects in the request
++ * @manual_completion: if true, then the request won't be marked as completed
++ * when @num_incomplete_objects reaches 0. Call media_request_manual_complete()
++ * to set this field to false and complete the request
++ * if @num_incomplete_objects == 0.
+  * @poll_wait: Wait queue for poll
+  * @lock: Serializes access to this struct
+  */
+@@ -68,6 +72,7 @@ struct media_request {
+ 	unsigned int access_count;
+ 	struct list_head objects;
+ 	unsigned int num_incomplete_objects;
++	bool manual_completion;
+ 	wait_queue_head_t poll_wait;
+ 	spinlock_t lock;
+ };
+@@ -218,6 +223,32 @@ media_request_get_by_fd(struct media_device *mdev, int request_fd);
+ int media_request_alloc(struct media_device *mdev,
+ 			int *alloc_fd);
+ 
++/**
++ * media_request_mark_manual_completion - Set manual_completion to true
++ *
++ * @req: The request
++ *
++ * Mark that the request has to be manually completed by calling
++ * media_request_manual_complete().
++ *
++ * This function should be called in the req_queue callback.
++ */
++static inline void
++media_request_mark_manual_completion(struct media_request *req)
++{
++	req->manual_completion = true;
++}
++
++/**
++ * media_request_manual_complete - Set manual_completion to false
++ *
++ * @req: The request
++ *
++ * Set @manual_completion to false, and if @num_incomplete_objects
++ * is 0, then mark the request as completed.
++ */
++void media_request_manual_complete(struct media_request *req);
++
+ #else
+ 
+ static inline void media_request_get(struct media_request *req)
+@@ -336,7 +367,7 @@ void media_request_object_init(struct media_request_object *obj);
+  * @req: The media request
+  * @ops: The object ops for this object
+  * @priv: A driver-specific priv pointer associated with this object
+- * @is_buffer: Set to true if the object a buffer object.
++ * @is_buffer: Set to true if the object is a buffer object.
+  * @obj: The object
+  *
+  * Bind this object to the request and set the ops and priv values of
 -- 
 2.43.0
 
