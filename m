@@ -1,131 +1,83 @@
-Return-Path: <linux-media+bounces-16558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16561-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03A8959846
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 12:48:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 074A495985B
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 12:51:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 873121F214A7
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 10:48:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C288B22EF7
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 10:51:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10CE11E0953;
-	Wed, 21 Aug 2024 08:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UzmlSjTz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377D21C86EE;
+	Wed, 21 Aug 2024 09:02:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186891E093A
-	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 08:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277A51B1D60;
+	Wed, 21 Aug 2024 09:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724230635; cv=none; b=TGPudBPGS0UwAgasP2q0U7OJrg0W2YGTlkA8hM+nqDjy3M6yyKsqFs1fTjiAysX0hjWSXqtcpvXgrB6mcNCo5sVIvijYGtHN15ZGSOQy66gbVUwBIrHwBoxtSFIB07a7HdafVJ+si+UMnnIpbqG8sy9KNzXbqHdCyuy+EuoVi1k=
+	t=1724230949; cv=none; b=USeAsZkzlgRY78cW2cob0FAukGJWkjJU3eW9jOEVTiMjGquS2mvkbBdtj+Q28k82IDRf7eHbOx6+8Zl3hbRA5kLw08+8iRtjZZxtBhQmG4f3MqZ4BFXQ/5ap0HyVurRBd/ybzsxiqc2TNDH11dSzPsYORJLFjOfI7JfSOzp0rtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724230635; c=relaxed/simple;
-	bh=XiTaGykEXlOK7qo6DqiaH9pBLD9MfNMnNE4nZEAE5fE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ALeg3ujckd5+i//DY3I7NGL9SFfJtnjVcIfwX6ceiwILeWe7/hvZauhNUrtsPeNzmrty1qthoSHkgZYKNnRp58SGp/qbGteCyDXgfW1Oc/JNdG8CqZUeob5TP18f/on/vGcBDzWMuTp2+SjVysI5bCZWDrbYfndyPxTdJwlwi6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UzmlSjTz; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e0e76380433so6689259276.2
-        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 01:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724230632; x=1724835432; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0V60v0KwinrqIcf0dcsmelQeeG3cYskrSTMxoS0mUlI=;
-        b=UzmlSjTzRoI+ZXUyFOCczgXrn3EEMLaShDofpdmgO2fTP9pQLLrEoyqImXh02WhnvL
-         wUB1XG0dkmTZw2XqLFDdKDBhJTfK6E7DNtyjKzBrJRqqZc4U8G2NqY20W3ChHYVShzNo
-         EqVDD5F3PM+zMsQ4pnTPfUcQniY09NjnHrOOtIfpri+FoMgrc86BcEyVGgw1K61M+EUJ
-         RGFCWkneMtBLYgyug3nrKVAs5X8KDO0AySJ0tvljkDKVPzjQTfArCf5UcC0yOqSrEGQK
-         YbrsIWZcire6Tp4L12rRT4au+Owmi/jQ0DekcnhbnHrS0Hs42jI6nyyn14WjLuRzyTwU
-         1irw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724230632; x=1724835432;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0V60v0KwinrqIcf0dcsmelQeeG3cYskrSTMxoS0mUlI=;
-        b=sEthvgq7UfYAvoBZPg48ek70KDkUz6B/LdMmhKbElEEAtUdMOz1HIZGS75TR8pRpNA
-         7xdvvWZjXa+Le60Ad7f/Nyg7S6QEVp4p1XzTTx754IfECweUWVbrZvX3hVDcK05yArHT
-         hTODv7AlW9+roGNCbnG19hKFwIgBccJ5KevKKSBOnoMYDfXAvBDp+6Y4BtjZ1B9Nudtz
-         bb0wpQBr9lUteAehrxIDtHn/q5dug4Yhp2ynw5Db+aWfRWo/rxgYYM+/2WHUt2Ofme+Z
-         /Nql1bTK+yXeNTUcmK9B6sYc6yLVA94TIyxjn/NAIwzINBT5gVJgND5Var8Sbrf/bbPJ
-         9zow==
-X-Forwarded-Encrypted: i=1; AJvYcCUmytF4p7VDqRoJWzG81xOFRkXJdo9/UplBUeTakUasaoBjemktncCw5c6LCgWoQJbd2Dry4A/EAsCp0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmOrEM3VDFC4n1ykdBM0gBsUmJTtIGlpwA7oPJXCCBDUn6asFl
-	r8YnENi92COuU9bDQTLVhsYO/2HGZxyMOdYBn1ZTIsXlFUY2ydOMxcyIFADe/l7gXfMxqLaac1J
-	8zkzmvyoITiEfw5eAZ6GvIiw1Wiecu97irslvCQ==
-X-Google-Smtp-Source: AGHT+IFe0QsIxtrjTu7cTIqZJ9lIeMtuZRcq9T15jB59XMlSfHcZtdLW6S/QNRL9WZwdcPfaFab4taXyswDraMCQ1Ac=
-X-Received: by 2002:a05:6902:1ac6:b0:e16:6feb:e615 with SMTP id
- 3f1490d57ef6-e166febe73cmr418747276.48.1724230631986; Wed, 21 Aug 2024
- 01:57:11 -0700 (PDT)
+	s=arc-20240116; t=1724230949; c=relaxed/simple;
+	bh=qV5Nr0ZcGdcHhScpRGvqFJh48xM/H0VA1rSCHgFOmnM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hg+i34669zwblUFMrdKTQSfaUcQhm7JoKm5Kkd2hB5dkLIvCTUuTVPRx/g9gxxdXt8/kEsGwnhinmc5P96EjBFW4JGiD5MKkTMfe6hDPyVgAOx+k0skpVaGhLZzwAAmsv6yrvgrDlnQkO65Tl/lr073c7TPC8ClKkXyKpyWFEAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
+Received: from [192.168.4.14] (unknown [62.77.71.229])
+	by mx.gpxsee.org (Postfix) with ESMTPSA id EE77C63062;
+	Wed, 21 Aug 2024 10:56:49 +0200 (CEST)
+Message-ID: <ca03a058-c374-44e2-8f44-ccaec8898337@gpxsee.org>
+Date: Wed, 21 Aug 2024 10:56:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240723144610.564273-1-ulf.hansson@linaro.org>
- <20240723144610.564273-3-ulf.hansson@linaro.org> <0af670ae-8c8f-4e78-b1e0-e9ccb4fba2c9@gmail.com>
-In-Reply-To: <0af670ae-8c8f-4e78-b1e0-e9ccb4fba2c9@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 21 Aug 2024 10:56:35 +0200
-Message-ID: <CAPDyKFr5xjE867rHRZxtKPr0iKh9B6_Ckyu=B4Jzn-ExDpQjVQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] media: venus: Use dev_pm_domain_attach|detach_list()
- for OPP PM domain
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-Cc: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drivers:mgb4:Fix the NULL vs IS_ERR() bug for
+ debugfs_create_dir()
+To: Yang Ruibin <11162571@vivo.com>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: opensource.kernel@vivo.com
+References: <20240821071100.7839-1-11162571@vivo.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
+In-Reply-To: <20240821071100.7839-1-11162571@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 Aug 2024 at 22:48, Stanimir Varbanov
-<stanimir.k.varbanov@gmail.com> wrote:
->
-> Hi Ulf,
->
-> Thank you for the patch!
->
-> On 23.07.24 =D0=B3. 17:46 =D1=87., Ulf Hansson wrote:
-> > Rather than hooking up the PM domains through devm_pm_opp_attach_genpd(=
-)
-> > and manage the device-link, let's avoid the boilerplate-code by convert=
-ing
-> > into dev_pm_domain_attach|detach_list.
-> >
-> > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > ---
-> >   drivers/media/platform/qcom/venus/core.c      |  8 ++---
-> >   drivers/media/platform/qcom/venus/core.h      |  6 +---
-> >   .../media/platform/qcom/venus/pm_helpers.c    | 31 ++++++------------=
--
-> >   3 files changed, 14 insertions(+), 31 deletions(-)
-> >
->
-> Acked-by: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+On 21. 08. 24 9:10 dop., Yang Ruibin wrote:
+> The debugfs_create_dir() function returns error pointers.
+> It never returns NULL. So use IS_ERR() to check it.
+> 
+> Signed-off-by: Yang Ruibin <11162571@vivo.com>
+> ---
+>   drivers/media/pci/mgb4/mgb4_vout.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
+> index 998edcbd9723..348c8e01fcbe 100644
+> --- a/drivers/media/pci/mgb4/mgb4_vout.c
+> +++ b/drivers/media/pci/mgb4/mgb4_vout.c
+> @@ -683,7 +683,7 @@ static void debugfs_init(struct mgb4_vout_dev *voutdev)
+>   
+>   	voutdev->debugfs = debugfs_create_dir(voutdev->vdev.name,
+>   					      voutdev->mgbdev->debugfs);
+> -	if (!voutdev->debugfs)
+> +	if (IS_ERR(voutdev->debugfs))
+>   		return;
+>   
+>   	voutdev->regs[0].name = "CONFIG";
 
-Thanks!
+Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
->
-> I'll pick it through linux-media.
-
-Please don't.
-
-I should have stated that this depends on another series [1] - and
-they need either to go together or we need to defer $subject patch
-until the next release cycle.
-
-Kind regards
-Uffe
 
