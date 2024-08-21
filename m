@@ -1,111 +1,131 @@
-Return-Path: <linux-media+bounces-16557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D4D9596C9
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 10:45:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D03A8959846
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 12:48:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B75A1B20C17
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 08:45:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 873121F214A7
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 10:48:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B9D91BAED1;
-	Wed, 21 Aug 2024 08:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10CE11E0953;
+	Wed, 21 Aug 2024 08:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BI1/cM83"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UzmlSjTz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A6E19ABC8
-	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 08:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186891E093A
+	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 08:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724228115; cv=none; b=sXCqCOPBA88747lQkm6Ldf++bqAphwxOo9bItSdHJJK3iWNOQ5ZaeaNCvJbXZshX9l4jm6+Oo7Gs0aOUp3XRTawtCULAKMqgqlTU71Y2eJI0YGSjzTHVu8sXJuURe2B3+0RTcYgY3YAZJvIf51XVKpiDFZvsWbJhH5FE6pFJl0s=
+	t=1724230635; cv=none; b=TGPudBPGS0UwAgasP2q0U7OJrg0W2YGTlkA8hM+nqDjy3M6yyKsqFs1fTjiAysX0hjWSXqtcpvXgrB6mcNCo5sVIvijYGtHN15ZGSOQy66gbVUwBIrHwBoxtSFIB07a7HdafVJ+si+UMnnIpbqG8sy9KNzXbqHdCyuy+EuoVi1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724228115; c=relaxed/simple;
-	bh=XE0jZaV1bsQLFaKIGXsuasTneDpL4Wem+LHKumho12g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=jyiSxWar7Wy0IDIROKhlOKfrqb6apBMSr50AtWYwJvNRStfGvB9VSDdBi+HtkvExxUeW5s0F1qMq5qoV9d20thouC0gLXfAw0WTTX0fCsoZ++eAk6ZodfmXZl+Z8kiNs+9No1PpVsv15fenSw0VAsCwqRN8u35p7QDHnJNpAC40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BI1/cM83; arc=none smtp.client-ip=209.85.208.176
+	s=arc-20240116; t=1724230635; c=relaxed/simple;
+	bh=XiTaGykEXlOK7qo6DqiaH9pBLD9MfNMnNE4nZEAE5fE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ALeg3ujckd5+i//DY3I7NGL9SFfJtnjVcIfwX6ceiwILeWe7/hvZauhNUrtsPeNzmrty1qthoSHkgZYKNnRp58SGp/qbGteCyDXgfW1Oc/JNdG8CqZUeob5TP18f/on/vGcBDzWMuTp2+SjVysI5bCZWDrbYfndyPxTdJwlwi6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UzmlSjTz; arc=none smtp.client-ip=209.85.219.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f3fcdfa099so68731fa.2
-        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 01:15:12 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e0e76380433so6689259276.2
+        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 01:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724228111; x=1724832911; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qLQxZaDHXJrPQN9Tiz5uh2v94UZex1BBfH/Lta1m/ek=;
-        b=BI1/cM83y3el+icqDJ3ixTrQeY3yxevpMIQg8KJFyhrEhRS2EZS8ww/TvwpA+UbfCn
-         PvL0U2NisS2QhIuP4LeSBUNKfXsqgSnmHGLFcNKVVs93U5thiaXK7ivQqhqNCO1gS7bJ
-         xJg7wRenSjEcWrzdKhLgUIVSFIk2GemVdnHeYOrkY7SnZD+SfdbkJP7yQyklvGDeK17l
-         Lj8yWmy4EFmpN4I81rWTrcSzZpJLttlBoHp3kBhVjttH0hr4qZthXuZLYvyX3lTQb4uC
-         ioo4EOWJPzuFYur0tBx/nIdZVnZZLveAmB+3mhSNLKqhifsk4XodocAGJ+/s97bNS+Xa
-         v3QQ==
+        d=linaro.org; s=google; t=1724230632; x=1724835432; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0V60v0KwinrqIcf0dcsmelQeeG3cYskrSTMxoS0mUlI=;
+        b=UzmlSjTzRoI+ZXUyFOCczgXrn3EEMLaShDofpdmgO2fTP9pQLLrEoyqImXh02WhnvL
+         wUB1XG0dkmTZw2XqLFDdKDBhJTfK6E7DNtyjKzBrJRqqZc4U8G2NqY20W3ChHYVShzNo
+         EqVDD5F3PM+zMsQ4pnTPfUcQniY09NjnHrOOtIfpri+FoMgrc86BcEyVGgw1K61M+EUJ
+         RGFCWkneMtBLYgyug3nrKVAs5X8KDO0AySJ0tvljkDKVPzjQTfArCf5UcC0yOqSrEGQK
+         YbrsIWZcire6Tp4L12rRT4au+Owmi/jQ0DekcnhbnHrS0Hs42jI6nyyn14WjLuRzyTwU
+         1irw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724228111; x=1724832911;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qLQxZaDHXJrPQN9Tiz5uh2v94UZex1BBfH/Lta1m/ek=;
-        b=eeKxCdFrwbsMpFGRMHWpRNXV5KjRuJ4shjI/T34okBmVlHVEkXXyLM6+pfznwihLUZ
-         7cCiSLvXoZuW+KJVvqbViec9JVflfS6ZXRIneQrj/tBY2DV61cHLsCZwV8vsBkN10fRw
-         TpuOQZ5JsIiBNjHI6TeytCLqwS2MXp8xbnKq3A4vPyiDUUJymOspMJzY/Mlk3nLVTxrv
-         Vzcp7trJ6Xo7V93chsZ+nVNEDY1I+PVhy3pZ4p0u+Ld90pEkH+ElEBGN6KT3242rbsvm
-         S/KRnHeXmZAvxNBigH5wFyuGrS+irdlQs5VsF12TYliI5nZ6tM/BTRZ98Fi5mQrPbZFp
-         uRyA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0siT7sae/ky9eak6KBrElOPg1Fh2Zq8OYaGWHFACsmwrIsQFcOcYWO9+9M92iGv2s+5KSVRVf5pw/8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzM+ciVVFbEYVYMOm4Jr22sYZ9f7YSLGnBu+Pg/LE81LrcTRo+I
-	88s5yyeaUkwq8vxFxVpfj1/5ztMg58TIdNKDOJLTkQ0DvjoZFNVSGio7NpXS3+k=
-X-Google-Smtp-Source: AGHT+IHwGVModb5n3Ag7Lp6ROvPNQaj3qlVCWPrtnMJLfrMtrIhJSpR/hueQce6mez3z/hc9UVwrGQ==
-X-Received: by 2002:a05:651c:212a:b0:2f0:1a95:7102 with SMTP id 38308e7fff4ca-2f3f894b8camr4547341fa.6.1724228111050;
-        Wed, 21 Aug 2024 01:15:11 -0700 (PDT)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f3b774969asm20014121fa.131.2024.08.21.01.15.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Aug 2024 01:15:10 -0700 (PDT)
-Message-ID: <b4b9bdd6-75a3-4b37-987d-a4125babb783@linaro.org>
-Date: Wed, 21 Aug 2024 11:15:09 +0300
+        d=1e100.net; s=20230601; t=1724230632; x=1724835432;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0V60v0KwinrqIcf0dcsmelQeeG3cYskrSTMxoS0mUlI=;
+        b=sEthvgq7UfYAvoBZPg48ek70KDkUz6B/LdMmhKbElEEAtUdMOz1HIZGS75TR8pRpNA
+         7xdvvWZjXa+Le60Ad7f/Nyg7S6QEVp4p1XzTTx754IfECweUWVbrZvX3hVDcK05yArHT
+         hTODv7AlW9+roGNCbnG19hKFwIgBccJ5KevKKSBOnoMYDfXAvBDp+6Y4BtjZ1B9Nudtz
+         bb0wpQBr9lUteAehrxIDtHn/q5dug4Yhp2ynw5Db+aWfRWo/rxgYYM+/2WHUt2Ofme+Z
+         /Nql1bTK+yXeNTUcmK9B6sYc6yLVA94TIyxjn/NAIwzINBT5gVJgND5Var8Sbrf/bbPJ
+         9zow==
+X-Forwarded-Encrypted: i=1; AJvYcCUmytF4p7VDqRoJWzG81xOFRkXJdo9/UplBUeTakUasaoBjemktncCw5c6LCgWoQJbd2Dry4A/EAsCp0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmOrEM3VDFC4n1ykdBM0gBsUmJTtIGlpwA7oPJXCCBDUn6asFl
+	r8YnENi92COuU9bDQTLVhsYO/2HGZxyMOdYBn1ZTIsXlFUY2ydOMxcyIFADe/l7gXfMxqLaac1J
+	8zkzmvyoITiEfw5eAZ6GvIiw1Wiecu97irslvCQ==
+X-Google-Smtp-Source: AGHT+IFe0QsIxtrjTu7cTIqZJ9lIeMtuZRcq9T15jB59XMlSfHcZtdLW6S/QNRL9WZwdcPfaFab4taXyswDraMCQ1Ac=
+X-Received: by 2002:a05:6902:1ac6:b0:e16:6feb:e615 with SMTP id
+ 3f1490d57ef6-e166febe73cmr418747276.48.1724230631986; Wed, 21 Aug 2024
+ 01:57:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/5] media: qcom: camss: add support for SDM670 camss
-Content-Language: en-US
-To: Richard Acayan <mailingradian@gmail.com>,
- Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20240819221051.31489-7-mailingradian@gmail.com>
- <20240819221051.31489-10-mailingradian@gmail.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20240819221051.31489-10-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240723144610.564273-1-ulf.hansson@linaro.org>
+ <20240723144610.564273-3-ulf.hansson@linaro.org> <0af670ae-8c8f-4e78-b1e0-e9ccb4fba2c9@gmail.com>
+In-Reply-To: <0af670ae-8c8f-4e78-b1e0-e9ccb4fba2c9@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 21 Aug 2024 10:56:35 +0200
+Message-ID: <CAPDyKFr5xjE867rHRZxtKPr0iKh9B6_Ckyu=B4Jzn-ExDpQjVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] media: venus: Use dev_pm_domain_attach|detach_list()
+ for OPP PM domain
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/20/24 01:10, Richard Acayan wrote:
-> The camera subsystem for the SDM670 the same as on SDM845 except with
-> 3 CSIPHY ports instead of 4. Add support for the SDM670 camera
-> subsystem.
-> 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+On Tue, 20 Aug 2024 at 22:48, Stanimir Varbanov
+<stanimir.k.varbanov@gmail.com> wrote:
+>
+> Hi Ulf,
+>
+> Thank you for the patch!
+>
+> On 23.07.24 =D0=B3. 17:46 =D1=87., Ulf Hansson wrote:
+> > Rather than hooking up the PM domains through devm_pm_opp_attach_genpd(=
+)
+> > and manage the device-link, let's avoid the boilerplate-code by convert=
+ing
+> > into dev_pm_domain_attach|detach_list.
+> >
+> > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > ---
+> >   drivers/media/platform/qcom/venus/core.c      |  8 ++---
+> >   drivers/media/platform/qcom/venus/core.h      |  6 +---
+> >   .../media/platform/qcom/venus/pm_helpers.c    | 31 ++++++------------=
+-
+> >   3 files changed, 14 insertions(+), 31 deletions(-)
+> >
+>
+> Acked-by: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
 
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Thanks!
 
---
-Best wishes,
-Vladimir
+>
+> I'll pick it through linux-media.
+
+Please don't.
+
+I should have stated that this depends on another series [1] - and
+they need either to go together or we need to defer $subject patch
+until the next release cycle.
+
+Kind regards
+Uffe
 
