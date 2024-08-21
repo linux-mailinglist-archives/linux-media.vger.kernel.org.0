@@ -1,125 +1,116 @@
-Return-Path: <linux-media+bounces-16568-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16569-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A1E959C9C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 14:57:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFC1959EBE
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 15:34:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D7112815D0
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 12:57:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F11CB1C20924
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 13:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2908A19995B;
-	Wed, 21 Aug 2024 12:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="I6loUYkS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDB2219ABDE;
+	Wed, 21 Aug 2024 13:34:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB03F192D6A
-	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 12:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724244959; cv=pass; b=KgQGWERyKmUjtJP84fdIEtIKHP+Kn7Ei+Y+J6HNizwaF3XIbk3QziaR/YJUaNwcZZ5hFsjjDD+2lOvKJOcZ+MgHPuFiFHXRlodZ3sJIM6mQKLJlOB23KRktxQj5pS+jjlIYWtaT7852d2HUVraakGeHdvm6GsquDx7B8Crwu6hM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724244959; c=relaxed/simple;
-	bh=dy2tTk4M5gvHzZMxnZ5z6b1locyrcZpnMIc0XKymCig=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qZC3cNZDRbyOMwcL2o0C7gxwcnyh7sOFrCz+HXn5b2I5wA+httKfwgJIE9HUpPkzKPyIP/gyiaQADQ3MhFf4AMFXM61oO7+5QeMekKvx44fvq6u+AEu0hoRPzF4Lnn9hlEQoWvt+gxx++aRwsYjpQ0FXa9prNEC9ubZ/UDofDHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=I6loUYkS; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724244955; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=evZLEeVAUnUuGU31xOaJg7NzsjyL6FmQd5RWNSobtdvqCxOPlcmFozeKNn0y0RWRWZJNkq5OBYvY38bF+BV1S3uYIiEXpIDrCxznrWTG6ej2JGT9z53kHV0RpvtCCEaSnmyHAdmG/ZkAorzgefPK6aM4UeLkTAda0EyCDSYnpeE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1724244955; h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=/VlLqsJHXxlPc4UMqWgLKbBYFNhB3KkoEQ+ByE0aF0o=; 
-	b=aZFA5pPjhJTsABXiU48ijDbJ1M/AJKhcwh4Y5JIbmPMfaemWn18Oqpr6JdQ67VOqeJuqqJ82B55fsc9sB02AZqvJk2eQuel1O4lZbFgoaU16GwnsFHpdFrsZtXzBNGejcKqQY66F0M6XsHvbtr2ghtRITZ95XXhfj5fGtlYauMg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724244955;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Subject:Subject:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To:Cc;
-	bh=/VlLqsJHXxlPc4UMqWgLKbBYFNhB3KkoEQ+ByE0aF0o=;
-	b=I6loUYkS2SfrqAYxN2yXLOUASOLfZcSDC7ORN6YsPH3KJsehgofFjGKTyBFwcrR1
-	ZWXnk8uGD4uAg6kUuxRVaOCCgabnY31FL56xS7lHPLa9lNmeb2hvhrzUBkOF2aLet5u
-	BOj2y7u/uOrgzvJhiwwNZnTwOaiQktj3OrRAmes8=
-Received: by mx.zohomail.com with SMTPS id 1724244953892187.92443349083885;
-	Wed, 21 Aug 2024 05:55:53 -0700 (PDT)
-Date: Wed, 21 Aug 2024 14:55:51 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6936219ABBC
+	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 13:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724247258; cv=none; b=XgxjL1m0OeibvX4HFBLjMAFuLkyRcvP5iqsdu8hPDoX392AGI0IzLuY1/HPZtUxuQphdWPiYB3yQeJ7Ci13S5ZEqxGDy0Rlm0Zazv9q8IkN+toMR6EXFwfsb7JpTEITFx+BX8F57AUbJa08XvzJmaeuOli2esT0vi1C16v6723E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724247258; c=relaxed/simple;
+	bh=xT/llsrxKLo1HZlHIGAzTXHZTbd7TXXRCd0d9DVxnAs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OD2jJn5Zzg9ynOjhQVTFkI3Hz6d6A4YRWSSz29opkh0vrWVGazVNC4p3D9aXJXmg4i2qonYXgY3K7v8xwvfE9zy57WR6PJbydmrWaM+O/ah87SeDuSp+1Ecy85uwuTtZ7NWuxU7gXaSinqO39BLpG3lke8C6J0ObKyhBO+y92tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62EA9C32782;
+	Wed, 21 Aug 2024 13:34:17 +0000 (UTC)
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.12] Various codec fixes
-Message-ID: <20240821125551.hkg7bittkeoqvf42@basti-XPS-13-9310>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [RFC PATCH 0/3] media: mc: add manual request completion support
+Date: Wed, 21 Aug 2024 15:14:00 +0200
+Message-ID: <cover.1724246043.git.hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-Hey Hans & Mauro,
+RFC for now, it looks like it works well, but I want feedback before
+making this official.
 
-here are a couple of fixes that I didn't get to in the past.
-They applied well but I did some little changes myself before creating the PR like:
-- improved commit description on various patches, fixing typos and improving grammar
-- Added Fixes tag to media: vicodec: allow en/decoder cmd w/o CAPTURE
+Normally a request contains one or more request objects, and once all
+objects are marked as 'completed' the request itself is completed and
+userspace gets a signal that the request is complete.
 
-Please pull.
+Calling vb2_buffer_done will complete a buffer object, and
+v4l2_ctrl_request_complete will complete a control handler object.
 
-The following changes since commit a043ea54bbb975ca9239c69fd17f430488d33522:
+In some cases (e.g. VP9 codecs) there is only a buffer object, so
+as soon as the buffer is marked done, the request is marked as
+completed. But in the case of mediatek, while the buffer is done
+(i.e. the data is consumed by the hardware), the request isn't
+completed yet as the data is still being processed. Once the
+data is fully processed, the driver wants to call
+v4l2_ctrl_request_complete() which will either update an existing
+control handler object, or add a new control handler object to the
+request containing the latest control values. But since the
+request is already completed, calling v4l2_ctrl_request_complete()
+will fail.
 
-   Merge tag 'next-media-rkisp1-20240814' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git (2024-08-14 17:18:47 +0200)
+One option is to simply postpone calling vb2_buffer_done() and do
+it after the call to v4l2_ctrl_request_complete(). However, in some
+use-cases (e.g. secure memory) the number of available buffers is
+very limited and you really want to return a buffer as soon as
+possible.
 
-are available in the Git repository at:
+In that case you want to postpone request completion until you
+know the request is really ready.
 
-   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.12-various-codec-fixes
+Originally I thought the best way would be to make a dummy request
+object, but that turned out to be overly complicated. So instead
+I just add a bool manual_completion, which you set to true in
+req_queue, and you call media_request_manual_complete() when you
+know the request is complete. That was a lot less complicated.
 
-for you to fetch changes up to 8f930905c7d1265bd3faaa69159ec6cc0646ccd1:
+The first patch adds this new manual completion code, the second
+patch adds this to vicodec (not sure if I want this committed,
+visl might be a better place for it, but I needed something to test
+the code), and the last patch is an updated old patch of mine that
+adds debugfs code to check if all requests and request objects are
+properly freed.
 
-   media: verisilicon: Move Rockchip AV1 hardware drivers to the corresponding option (2024-08-21 14:26:51 +0200)
+I think I need to clean up that last patch a bit more, and then
+I would like to get that in. Without it it is really hard to
+verify that there are no dangling requests or objects.
 
-----------------------------------------------------------------
-Various codec fixes
+Regards,
 
-----------------------------------------------------------------
-Alexander Stein (2):
-       media: verisilicon: Move Rockchip hardware drivers to the corresponding option
-       media: verisilicon: Move Rockchip AV1 hardware drivers to the corresponding option
+	Hans
 
-Anastasia Belova (1):
-       media: coda: cast an operand of multiplication to a larger type
+Hans Verkuil (3):
+  media: mc: add manual request completion
+  vicodec: add support for manual completion
+  media: mc: add debugfs node to keep track of requests
 
-Benjamin Gaignard (3):
-       media: verisilicon: AV1: Be more flexible with postproc capabilities
-       media: verisilicon: Fix auxiliary buffer allocation size
-       media: verisilicon: AV1: Correct some sizes/positions on register fields
+ drivers/media/mc/mc-device.c                  | 31 ++++++++++++++++
+ drivers/media/mc/mc-devnode.c                 | 16 +++++++++
+ drivers/media/mc/mc-request.c                 | 36 +++++++++++++++++--
+ .../media/test-drivers/vicodec/vicodec-core.c | 14 ++++++--
+ include/media/media-device.h                  |  9 +++++
+ include/media/media-devnode.h                 |  4 +++
+ include/media/media-request.h                 | 35 +++++++++++++++++-
+ 7 files changed, 140 insertions(+), 5 deletions(-)
 
-Deborah Brouwer (1):
-       media: vicodec: allow en/decoder cmd w/o CAPTURE
+-- 
+2.43.0
 
-  drivers/media/platform/chips-media/coda/coda-bit.c         |  2 +-
-  drivers/media/platform/verisilicon/Makefile                | 14 +++++++-------
-  .../platform/verisilicon/rockchip_vpu981_hw_av1_dec.c      |  3 ++-
-  drivers/media/platform/verisilicon/rockchip_vpu981_regs.h  | 10 +++++-----
-  drivers/media/platform/verisilicon/rockchip_vpu_hw.c       |  1 -
-  drivers/media/test-drivers/vicodec/vicodec-core.c          |  6 ++----
-  6 files changed, 17 insertions(+), 19 deletions(-)
-
----
-
-Sebastian Fricke
-Consultant Software Engineer
-
-Collabora Ltd
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales no 5513718.
 
