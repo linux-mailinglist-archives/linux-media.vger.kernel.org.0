@@ -1,39 +1,39 @@
-Return-Path: <linux-media+bounces-16561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074A495985B
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 12:51:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AF8959847
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 12:49:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6C288B22EF7
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 10:51:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2E4A1F21987
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 10:49:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 377D21C86EE;
-	Wed, 21 Aug 2024 09:02:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA641DE629;
+	Wed, 21 Aug 2024 08:57:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277A51B1D60;
-	Wed, 21 Aug 2024 09:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA60D1E093B;
+	Wed, 21 Aug 2024 08:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724230949; cv=none; b=USeAsZkzlgRY78cW2cob0FAukGJWkjJU3eW9jOEVTiMjGquS2mvkbBdtj+Q28k82IDRf7eHbOx6+8Zl3hbRA5kLw08+8iRtjZZxtBhQmG4f3MqZ4BFXQ/5ap0HyVurRBd/ybzsxiqc2TNDH11dSzPsYORJLFjOfI7JfSOzp0rtA=
+	t=1724230645; cv=none; b=WxhwB4XDOPYtWLNiZe0MXMGR4MjtRPeez2ejQj6KcmeqAqUwb0GF2YBPijVoTkP+Kb7SpqobhmiNZPaM9r7cOVxXMgDtomhYo8Iq6Iup+yVyWra5C2IKjTXCpCiXpRoLT9zJQmlo7x+noE5KNTmM0N8xUcWghC71VfnvDtSKkuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724230949; c=relaxed/simple;
-	bh=qV5Nr0ZcGdcHhScpRGvqFJh48xM/H0VA1rSCHgFOmnM=;
+	s=arc-20240116; t=1724230645; c=relaxed/simple;
+	bh=t7o//5qUYbRHcBF40C0JHqG9ztS9N4vNI5NAidbo1ms=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hg+i34669zwblUFMrdKTQSfaUcQhm7JoKm5Kkd2hB5dkLIvCTUuTVPRx/g9gxxdXt8/kEsGwnhinmc5P96EjBFW4JGiD5MKkTMfe6hDPyVgAOx+k0skpVaGhLZzwAAmsv6yrvgrDlnQkO65Tl/lr073c7TPC8ClKkXyKpyWFEAA=
+	 In-Reply-To:Content-Type; b=kqRUT0ywJKGAydPRkDjfqntWjvErXaVhQY/HMV3ZsqTXS21V8dFs+QWJS6U+DUII2T6htsTxSLF923qrmO35tWZs+ULpkALOZ+Bs6+rk0A5PRE7Nrm7AVZZjFwfk1/m1ZwncbtoJ0TfrT3JN3BmsVupXanchRLEzZ5M/Kk82ZD0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
 Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id EE77C63062;
-	Wed, 21 Aug 2024 10:56:49 +0200 (CEST)
-Message-ID: <ca03a058-c374-44e2-8f44-ccaec8898337@gpxsee.org>
-Date: Wed, 21 Aug 2024 10:56:49 +0200
+	by mx.gpxsee.org (Postfix) with ESMTPSA id 17ED562243;
+	Wed, 21 Aug 2024 10:57:21 +0200 (CEST)
+Message-ID: <0556ebcf-619d-4efd-b21a-1b74a6755839@gpxsee.org>
+Date: Wed, 21 Aug 2024 10:57:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,35 +48,35 @@ To: Yang Ruibin <11162571@vivo.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Cc: opensource.kernel@vivo.com
-References: <20240821071100.7839-1-11162571@vivo.com>
+References: <20240821072944.9275-1-11162571@vivo.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <20240821071100.7839-1-11162571@vivo.com>
+In-Reply-To: <20240821072944.9275-1-11162571@vivo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 21. 08. 24 9:10 dop., Yang Ruibin wrote:
+On 21. 08. 24 9:29 dop., Yang Ruibin wrote:
 > The debugfs_create_dir() function returns error pointers.
 > It never returns NULL. So use IS_ERR() to check it.
 > 
 > Signed-off-by: Yang Ruibin <11162571@vivo.com>
 > ---
->   drivers/media/pci/mgb4/mgb4_vout.c | 2 +-
+>   drivers/media/pci/mgb4/mgb4_vin.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
-> index 998edcbd9723..348c8e01fcbe 100644
-> --- a/drivers/media/pci/mgb4/mgb4_vout.c
-> +++ b/drivers/media/pci/mgb4/mgb4_vout.c
-> @@ -683,7 +683,7 @@ static void debugfs_init(struct mgb4_vout_dev *voutdev)
+> diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
+> index e9332abb3172..808eb51b270c 100644
+> --- a/drivers/media/pci/mgb4/mgb4_vin.c
+> +++ b/drivers/media/pci/mgb4/mgb4_vin.c
+> @@ -860,7 +860,7 @@ static void debugfs_init(struct mgb4_vin_dev *vindev)
 >   
->   	voutdev->debugfs = debugfs_create_dir(voutdev->vdev.name,
->   					      voutdev->mgbdev->debugfs);
-> -	if (!voutdev->debugfs)
-> +	if (IS_ERR(voutdev->debugfs))
+>   	vindev->debugfs = debugfs_create_dir(vindev->vdev.name,
+>   					     vindev->mgbdev->debugfs);
+> -	if (!vindev->debugfs)
+> +	if (IS_ERR(vindev->debugfs))
 >   		return;
 >   
->   	voutdev->regs[0].name = "CONFIG";
+>   	vindev->regs[0].name = "CONFIG";
 
 Reviewed-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
