@@ -1,42 +1,42 @@
-Return-Path: <linux-media+bounces-16579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236F2959F87
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 16:17:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E07959F88
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 16:17:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55FA21C21F08
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 14:17:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05BB21C21138
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 14:17:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8BF1B251A;
-	Wed, 21 Aug 2024 14:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AC391B1D67;
+	Wed, 21 Aug 2024 14:16:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE4A1AF4F9
-	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 14:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9CA91AF4F9
+	for <linux-media@vger.kernel.org>; Wed, 21 Aug 2024 14:16:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724249810; cv=none; b=OGZoWYBUGD1I8dLlpi4rAoN474JcCFGaNjYnmvfZ2vdnHbUuri/k6Mc3r5BwRAWwho1JvlbEz8fYwXrlBU3TAdd4+fhraruAtPbYj8vtGtp0/uBp1LfKwt46uZWIbsEbyo6BS3FCs6c7afWLKTfFHV2zZWv0APzvAtH59J6jGpM=
+	t=1724249811; cv=none; b=HzMtwf73Z1R4DXDLwyxv+bWiUEnbIuXtiTyQI4fra2f4k9vXhvfUeIPUzynJMCewTVtT5sPm8ZZ4Y6q8RmEZz4wK567SkiXp0K9pQSB5DIqZPP++QIlx3mKi28sd+UKes/EAgD/l7cEaaIlBCjJ+e1tuH/h/6cFVEgA09pvvWOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724249810; c=relaxed/simple;
-	bh=3tru/yg99ssbyHwdsnDiGUXpoxgbvIJsUNjWdDbRVvc=;
+	s=arc-20240116; t=1724249811; c=relaxed/simple;
+	bh=E40XJ07rORkwiBn7FaIrCqKPAWEs9RyARJLw+K9CPKU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aMd3s/JnzEMF+awCInLN+ltfaUAuhaWZQm+5aRZ4YkDYGRDLS3gYOWKpF/UNJJaEEEEYgSw18BPA67kOjIqrcRRS+TZp3jc7tFjwFb989/rtprgh3ij0jfK+Dc5F5HOtQvtCs9oVnkptVC5fxxQdOPINseeM24w/bezXokLAw74=
+	 MIME-Version; b=TcrWT0kq8NLlzS4UVf2F7u3oNXRvrDPtX243PMSAc1bQtyk1W4EcCtB61oLpUPgoF2wC7ZWkVxaVblY1buHWcA3tRPgli2szp5qL3YUTJ51yhtA/rFNGuV42zjlp+94J//kRgSxws+FOcQZNIspAkk1VolcrK+HuAl8NWJLyOEk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 349A8C4AF09;
-	Wed, 21 Aug 2024 14:16:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2C0C4AF0C;
+	Wed, 21 Aug 2024 14:16:50 +0000 (UTC)
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Maxime Ripard <mripard@kernel.org>,
 	dri-devel@lists.freedesktop.org,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [RFC PATCH 4/7] media: i2c: adv7604: export InfoFrames to debugfs
-Date: Wed, 21 Aug 2024 16:10:18 +0200
-Message-ID: <d7df6d8375b7d9ac032f7e3694a9c6c29e9915cd.1724249420.git.hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCH 5/7] media: i2c: adv7842: export InfoFrames to debugfs
+Date: Wed, 21 Aug 2024 16:10:19 +0200
+Message-ID: <85a057e1bb5465e1614583abc565dfdb19170bb7.1724249420.git.hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1724249420.git.hverkuil-cisco@xs4all.nl>
 References: <cover.1724249420.git.hverkuil-cisco@xs4all.nl>
@@ -53,98 +53,126 @@ Export InfoFrames to debugfs.
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/i2c/adv7604.c | 90 ++++++++++++++++++++++++++++---------
- 1 file changed, 70 insertions(+), 20 deletions(-)
+ drivers/media/i2c/adv7842.c | 120 ++++++++++++++++++++++++++----------
+ 1 file changed, 88 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 48230d5109f0..3184a2fa1532 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -193,6 +193,9 @@ struct adv76xx_state {
- 	struct delayed_work delayed_work_enable_hotplug;
+diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
+index 014fc913225c..e445699da85b 100644
+--- a/drivers/media/i2c/adv7842.c
++++ b/drivers/media/i2c/adv7842.c
+@@ -114,6 +114,9 @@ struct adv7842_state {
  	bool restart_stdi_once;
+ 	bool hdmi_port_a;
  
 +	struct dentry *debugfs_dir;
 +	struct v4l2_debugfs_if *infoframes;
 +
- 	/* CEC */
- 	struct cec_adapter *cec_adap;
- 	u8   cec_addr[ADV76XX_MAX_ADDRS];
-@@ -2458,10 +2461,9 @@ static const struct adv76xx_cfg_read_infoframe adv76xx_cri[] = {
- 	{ "Vendor", 0x10, 0xec, 0x54 }
+ 	/* i2c clients */
+ 	struct i2c_client *i2c_sdp_io;
+ 	struct i2c_client *i2c_sdp;
+@@ -2565,58 +2568,65 @@ struct adv7842_cfg_read_infoframe {
+ 	u8 payload_addr;
  };
  
--static int adv76xx_read_infoframe(struct v4l2_subdev *sd, int index,
--				  union hdmi_infoframe *frame)
-+static int adv76xx_read_infoframe_buf(struct v4l2_subdev *sd, int index,
+-static void log_infoframe(struct v4l2_subdev *sd, const struct adv7842_cfg_read_infoframe *cri)
++static const struct adv7842_cfg_read_infoframe adv7842_cri[] = {
++	{ "AVI", 0x01, 0xe0, 0x00 },
++	{ "Audio", 0x02, 0xe3, 0x1c },
++	{ "SDP", 0x04, 0xe6, 0x2a },
++	{ "Vendor", 0x10, 0xec, 0x54 }
++};
++
++static int adv7842_read_infoframe_buf(struct v4l2_subdev *sd, int index,
 +				      u8 buf[V4L2_DEBUGFS_IF_MAX_LEN])
  {
--	uint8_t buffer[32];
- 	u8 len;
- 	int i;
+-	int i;
+-	u8 buffer[32];
+-	union hdmi_infoframe frame;
+-	u8 len;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct device *dev = &client->dev;
++	const struct adv7842_cfg_read_infoframe *cri = &adv7842_cri[index];
++	int len, i;
  
-@@ -2472,27 +2474,20 @@ static int adv76xx_read_infoframe(struct v4l2_subdev *sd, int index,
+ 	if (!(io_read(sd, 0x60) & cri->present_mask)) {
+-		v4l2_info(sd, "%s infoframe not received\n", cri->desc);
+-		return;
++		v4l2_dbg(1, debug, sd,
++			 "%s infoframe not received\n", cri->desc);
++		return -ENOENT;
  	}
  
  	for (i = 0; i < 3; i++)
--		buffer[i] = infoframe_read(sd,
--					   adv76xx_cri[index].head_addr + i);
-+		buf[i] = infoframe_read(sd, adv76xx_cri[index].head_addr + i);
+-		buffer[i] = infoframe_read(sd, cri->head_addr + i);
++		buf[i] = infoframe_read(sd, cri->head_addr + i);
  
 -	len = buffer[2] + 1;
 +	len = buf[2] + 1;
  
 -	if (len + 3 > sizeof(buffer)) {
+-		v4l2_err(sd, "%s: invalid %s infoframe length %d\n", __func__, cri->desc, len);
+-		return;
 +	if (len + 3 > V4L2_DEBUGFS_IF_MAX_LEN) {
- 		v4l2_err(sd, "%s: invalid %s infoframe length %d\n", __func__,
- 			 adv76xx_cri[index].desc, len);
- 		return -ENOENT;
++		v4l2_err(sd, "%s: invalid %s infoframe length %d\n",
++			 __func__, cri->desc, len);
++		return -ENOENT;
  	}
  
  	for (i = 0; i < len; i++)
--		buffer[i + 3] = infoframe_read(sd,
--				       adv76xx_cri[index].payload_addr + i);
+-		buffer[i + 3] = infoframe_read(sd, cri->payload_addr + i);
 -
--	if (hdmi_infoframe_unpack(frame, buffer, len + 3) < 0) {
--		v4l2_err(sd, "%s: unpack of %s infoframe failed\n", __func__,
--			 adv76xx_cri[index].desc);
--		return -ENOENT;
+-	if (hdmi_infoframe_unpack(&frame, buffer, len + 3) < 0) {
+-		v4l2_err(sd, "%s: unpack of %s infoframe failed\n", __func__, cri->desc);
+-		return;
 -	}
--	return 0;
-+		buf[i + 3] = infoframe_read(sd,
-+					    adv76xx_cri[index].payload_addr + i);
+-
+-	hdmi_infoframe_log(KERN_INFO, dev, &frame);
++		buf[i + 3] = infoframe_read(sd, cri->payload_addr + i);
 +	return len + 3;
  }
  
- static void adv76xx_log_infoframes(struct v4l2_subdev *sd)
-@@ -2505,10 +2500,19 @@ static void adv76xx_log_infoframes(struct v4l2_subdev *sd)
+ static void adv7842_log_infoframes(struct v4l2_subdev *sd)
+ {
+-	int i;
+-	static const struct adv7842_cfg_read_infoframe cri[] = {
+-		{ "AVI", 0x01, 0xe0, 0x00 },
+-		{ "Audio", 0x02, 0xe3, 0x1c },
+-		{ "SDP", 0x04, 0xe6, 0x2a },
+-		{ "Vendor", 0x10, 0xec, 0x54 }
+-	};
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct device *dev = &client->dev;
++	union hdmi_infoframe frame;
++	u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = {};
++	int len, i;
+ 
+ 	if (!(hdmi_read(sd, 0x05) & 0x80)) {
+ 		v4l2_info(sd, "receive DVI-D signal, no infoframes\n");
+ 		return;
  	}
  
- 	for (i = 0; i < ARRAY_SIZE(adv76xx_cri); i++) {
--		union hdmi_infoframe frame;
- 		struct i2c_client *client = v4l2_get_subdevdata(sd);
-+		u8 buffer[V4L2_DEBUGFS_IF_MAX_LEN] = {};
-+		union hdmi_infoframe frame;
-+		int len;
- 
--		if (!adv76xx_read_infoframe(sd, i, &frame))
-+		len = adv76xx_read_infoframe_buf(sd, i, buffer);
+-	for (i = 0; i < ARRAY_SIZE(cri); i++)
+-		log_infoframe(sd, &cri[i]);
++	for (i = 0; i < ARRAY_SIZE(adv7842_cri); i++) {
++		len = adv7842_read_infoframe_buf(sd, i, buffer);
 +		if (len < 0)
 +			continue;
 +
 +		if (hdmi_infoframe_unpack(&frame, buffer, len) < 0)
 +			v4l2_err(sd, "%s: unpack of %s infoframe failed\n",
-+				 __func__, adv76xx_cri[i].desc);
++				 __func__, adv7842_cri[i].desc);
 +		else
- 			hdmi_infoframe_log(KERN_INFO, &client->dev, &frame);
- 	}
++			hdmi_infoframe_log(KERN_INFO, dev, &frame);
++	}
  }
-@@ -2686,6 +2690,41 @@ static int adv76xx_subscribe_event(struct v4l2_subdev *sd,
+ 
+ #if 0
+@@ -3263,6 +3273,41 @@ static int adv7842_subscribe_event(struct v4l2_subdev *sd,
  	}
  }
  
 +static ssize_t
-+adv76xx_debugfs_if_read(u32 type, void *priv, struct file *filp,
++adv7842_debugfs_if_read(u32 type, void *priv, struct file *filp,
 +			char __user *ubuf, size_t count, loff_t *ppos)
 +{
 +	u8 buf[V4L2_DEBUGFS_IF_MAX_LEN] = {};
@@ -172,36 +200,34 @@ index 48230d5109f0..3184a2fa1532 100644
 +		return 0;
 +	}
 +
-+	len = adv76xx_read_infoframe_buf(sd, index, buf);
++	len = adv7842_read_infoframe_buf(sd, index, buf);
 +	if (len > 0)
 +		len = simple_read_from_buffer(ubuf, count, ppos, buf, len);
 +	return len < 0 ? 0 : len;
 +}
 +
- static int adv76xx_registered(struct v4l2_subdev *sd)
+ static int adv7842_registered(struct v4l2_subdev *sd)
  {
- 	struct adv76xx_state *state = to_state(sd);
-@@ -2693,9 +2732,16 @@ static int adv76xx_registered(struct v4l2_subdev *sd)
+ 	struct adv7842_state *state = to_state(sd);
+@@ -3270,8 +3315,15 @@ static int adv7842_registered(struct v4l2_subdev *sd)
  	int err;
  
  	err = cec_register_adapter(state->cec_adap, &client->dev);
 -	if (err)
 +	if (err) {
  		cec_delete_adapter(state->cec_adap);
--	return err;
-+		return err;
++	} else {
++		state->debugfs_dir = debugfs_create_dir(sd->name, v4l2_debugfs_root());
++		state->infoframes = v4l2_debugfs_if_alloc(state->debugfs_dir,
++			V4L2_DEBUGFS_IF_AVI | V4L2_DEBUGFS_IF_AUDIO |
++			V4L2_DEBUGFS_IF_SPD | V4L2_DEBUGFS_IF_HDMI, sd,
++			adv7842_debugfs_if_read);
 +	}
-+	state->debugfs_dir = debugfs_create_dir(sd->name, v4l2_debugfs_root());
-+	state->infoframes = v4l2_debugfs_if_alloc(state->debugfs_dir,
-+		V4L2_DEBUGFS_IF_AVI | V4L2_DEBUGFS_IF_AUDIO |
-+		V4L2_DEBUGFS_IF_SPD | V4L2_DEBUGFS_IF_HDMI, sd,
-+		adv76xx_debugfs_if_read);
-+	return 0;
+ 	return err;
  }
  
- static void adv76xx_unregistered(struct v4l2_subdev *sd)
-@@ -2703,6 +2749,10 @@ static void adv76xx_unregistered(struct v4l2_subdev *sd)
- 	struct adv76xx_state *state = to_state(sd);
+@@ -3280,6 +3332,10 @@ static void adv7842_unregistered(struct v4l2_subdev *sd)
+ 	struct adv7842_state *state = to_state(sd);
  
  	cec_unregister_adapter(state->cec_adap);
 +	v4l2_debugfs_if_free(state->infoframes);
