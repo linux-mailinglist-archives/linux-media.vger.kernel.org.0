@@ -1,124 +1,129 @@
-Return-Path: <linux-media+bounces-16546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16547-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2E2958F53
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 22:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459089591E7
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 02:35:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07F87B22AB8
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2024 20:48:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9821BB21E5C
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2024 00:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAFF11C4635;
-	Tue, 20 Aug 2024 20:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D4E11CAB8;
+	Wed, 21 Aug 2024 00:35:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QGIjS5jV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/jcTUmA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D50125D5;
-	Tue, 20 Aug 2024 20:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7657F18035;
+	Wed, 21 Aug 2024 00:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724186900; cv=none; b=bHRZAoMEcKqLQ1w7kRl0Yu0SJv4U2wslBeXRA2mU0DRJTeyR+Aubm2uRP99ZekwAzqlQ53nNswrVTxGJrdHA9LJbgiodPwp/NaTH0KtRKjV+/0cj9U4r0SawMPvnWPh+85IEXHPMIErS4oQlSIBOrjHSvjdr3YTH5laLqIfedsI=
+	t=1724200528; cv=none; b=bV8N2VOw/bDVcCnOQ3NlNmkXLUyfe3vz5IC15XDh9/yKL0u3bNgvoF61M6iOP2nNcAZ7F+RO2eo8hNPgsHyPCkmViQiCdr3WSilPRNo5cbaUuCAuQ8uRXHeDvtyhjMtTTx8lyzhzXH/Mbckgya68n+TCwv6JnFMpo8oyUxENk5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724186900; c=relaxed/simple;
-	bh=YHZKIU/By4p6MXtfCFWkiNIv/NvyHyQzbsI9IEvKDas=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JIfrSKs92rhlx4KXRnJcVDyWcaZVysJuaTmCygXNYXCP/Lgu35wSVtK+cMoQsTgvs5Kk4vCjLea0Wl15fG9F5q7nQ8sZTgSBSTLJFCLOEWTHl+IbJYmyJA0MmfUtnyE/MwvgN1RNiQR4QOR3unnci3cQK4nPC6uJ2jOf3lvBGu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QGIjS5jV; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5bf01bdaff0so2642622a12.3;
-        Tue, 20 Aug 2024 13:48:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724186897; x=1724791697; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=so5U4dRsxPkkX00TiAViSu+tVxm9yDMG95NIiH1QnPs=;
-        b=QGIjS5jV/f+wmBC5DzBtoRLDl9cOOPuPu2ZZe2ReBWXXh/wmIke2zPp8mMqwaOqSyZ
-         ez5wyfpDDMRHhJ2q83Cr8/9GTnZTRsQl87yimi9d/rnRXos5MfvlxTWAxkTurmGqGQuZ
-         arqfaesgl4aqdYp3UtJVF1CVm/63gieynRwjMZ7HO3Zrsq9u1OfwjdX7BpuuneH2ileQ
-         g2Kxmkaqq9gw10UP6OXd4NKvAzQjo65mXbIwfoVaLoqeWVv/njaQkFB1FZ33222/wpge
-         rRANw8WqqoCpJDw9DDkZ4bZ4qFD4dJ0PydWmUgfNFqte50eKIM5wpaYieV49yqeAdu24
-         02Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724186897; x=1724791697;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=so5U4dRsxPkkX00TiAViSu+tVxm9yDMG95NIiH1QnPs=;
-        b=G2mwD5T6S2D7G9Kueo1NT6jFfjNsLX6dnOtUqHJ3SSgRSApLyMpLsqCLJXJYxckV/L
-         oCRp8zbxJOMQiHi5SHvG5UqqLRN9EcbAVK5S9aSzomOz8as0kGMpdq8mHnp0pw2Q7d6S
-         y1x3BSiKu/adzBj8K7L0A0BotrPDpW/nK+y9wP+WhQjrDWlybHneHhHvNAGFLOPCv+o+
-         Tjwp+q1ScsRm0RZWd8xEexwvddb1mQ5j01GPWlRlyGGEc9SGMpHQPTX5nESARhWta3ng
-         6tLC8ont898nKr/gJVD6t/1s9BvXF8HwGhH561X13H9hEk325FZ0OhdbPp8k/2+7WnCN
-         rBjw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDnND9fgqg4To9BeHAhYsFeUOfAofm75qlxQOiyofckpfxaJdwqU0Pz33eRfE0yEcIBcvBZMBCMLC2tTQ=@vger.kernel.org, AJvYcCVM+2Myxt7Disy52x/83bGKfnVr488Oen+/tFtM7rozbHDkF19TfyDP9QOk8RXGFlaCReVEZyScWULET66D@vger.kernel.org, AJvYcCVuPsknWYA6g8FARe8qa0OU/uljLwWynxjmB7bFsoWXzeuHalBdG0GtfFlX0y6eWLeP4ZYYo/DDr2s=@vger.kernel.org, AJvYcCW6WwXqiiJ+c0T9Lb5aC61xDdeR2xbtbVHtbTPgkSlHujVaSTFQqwbZ0jwdXKHGM4mHVyLXO5lqDlz/wmq1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxe7HUzX/7+5+aRcSdeuMCvNHCYfMtb++sK42AJ1XsVPOmk0/Bb
-	MWcZGO8gfL8LIamrTtPoxbRVh34oMJtxorQU8ywkvdZ4ajlV3eLZ
-X-Google-Smtp-Source: AGHT+IE8OvIlzyLozb80N9u9uEvUjTzp8MzB6n+B3MKdIYKYNHYOwSrQchP3hlfbZVtxOUrw/Y3N1g==
-X-Received: by 2002:a17:907:e6c3:b0:a7a:8e0f:aaed with SMTP id a640c23a62f3a-a866f7308d6mr19603266b.50.1724186896605;
-        Tue, 20 Aug 2024 13:48:16 -0700 (PDT)
-Received: from [192.168.1.19] (79-100-234-73.ip.btc-net.bg. [79.100.234.73])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a838393457asm799398366b.117.2024.08.20.13.48.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 13:48:16 -0700 (PDT)
-Message-ID: <0af670ae-8c8f-4e78-b1e0-e9ccb4fba2c9@gmail.com>
-Date: Tue, 20 Aug 2024 23:48:14 +0300
+	s=arc-20240116; t=1724200528; c=relaxed/simple;
+	bh=72l7jIlEa0320LNF1TSC+FnXUPhcQrDJuCQkr3p6/1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MbMm6svHUiF6AJ0HEdFXz5UdHE/0uvUJIgve/JjsPhwS5h1TjgeGs2cLJpXDmYsskHjE65iOEDpICZo5MJFQdS/ltFF8W70ZPaN8SrV3/BjzjyjHAnkxuge5+WOGw/FkFlJUbHq3mczsZ+D+/Yv50xMY3AFG7X8hB7ssGuCaYtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/jcTUmA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70D1C4AF0E;
+	Wed, 21 Aug 2024 00:35:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724200527;
+	bh=72l7jIlEa0320LNF1TSC+FnXUPhcQrDJuCQkr3p6/1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i/jcTUmAgFm3sxsXOXZKpN7EhFM1gJ6bIkKyiXI4L6eY9DimnTKB+IBy0Xf6DOXjW
+	 gtK/hLVsP+ZStPVNH9Cq8WJi280pelNE7QrG9BpHZsxTd90Iy2ZkzeV3jqyjxA2DQx
+	 QNzA9xXGd9hAvYJILz3EkkXSz8F67/p4UuLWvdxtInMdhcjbujkkpYAwphVNJ0QKBU
+	 cJKprBY1mnoM7ZjViIx7W7ScJO1238rI0nA7a/fBlHV29SwQvYDJb5mT9NHAkRC7Sx
+	 Na3hG4QxzEZ2nepMQmXOoHn1kpG4MpRod9ASJncWGElEmmNKozPksxIktXvLZ8UQGe
+	 BPfK8aeJehqzA==
+Date: Tue, 20 Aug 2024 19:35:25 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>,
+	Todor Tomov <todor.too@gmail.com>,
+	Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+	Philipp Zabel <p.zabel@pengutronix.de>, imx@lists.linux.dev,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Robert Foss <rfoss@kernel.org>, devicetree@vger.kernel.org,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	linux-kernel@vger.kernel.org,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Del Regno <angelogioacchino.delregno@somainline.org>,
+	linux-amlogic@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Shijie Qin <shijie.qin@nxp.com>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, linux-rockchip@lists.infradead.org,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-sunxi@lists.linux.dev, Zhou Peng <eagle.zhou@nxp.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Ming Qian <ming.qian@nxp.com>, Heiko Stuebner <heiko@sntech.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH] media: dt-bindings: trivial white-space and example
+ cleanup
+Message-ID: <172420052496.2349176.18144624759283335223.robh@kernel.org>
+References: <20240820073658.19045-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] media: venus: Use dev_pm_domain_attach|detach_list()
- for OPP PM domain
-To: Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-pm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Vikash Garodia <quic_vgarodia@quicinc.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20240723144610.564273-1-ulf.hansson@linaro.org>
- <20240723144610.564273-3-ulf.hansson@linaro.org>
-Content-Language: en-US, bg-BG
-From: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-In-Reply-To: <20240723144610.564273-3-ulf.hansson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240820073658.19045-1-krzysztof.kozlowski@linaro.org>
 
-Hi Ulf,
 
-Thank you for the patch!
-
-On 23.07.24 г. 17:46 ч., Ulf Hansson wrote:
-> Rather than hooking up the PM domains through devm_pm_opp_attach_genpd()
-> and manage the device-link, let's avoid the boilerplate-code by converting
-> into dev_pm_domain_attach|detach_list.
+On Tue, 20 Aug 2024 09:36:58 +0200, Krzysztof Kozlowski wrote:
+> Minor cleanups without funcitonal impact:
+>  - There should not be an empty blank line after SPDX tag,
+>  - Convention is to indent DTS examples in coding style with 2- or
+>    4-space indentation (4 is preferred),
+>  - Drop unused labels in DTS examples.
 > 
-> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->   drivers/media/platform/qcom/venus/core.c      |  8 ++---
->   drivers/media/platform/qcom/venus/core.h      |  6 +---
->   .../media/platform/qcom/venus/pm_helpers.c    | 31 ++++++-------------
->   3 files changed, 14 insertions(+), 31 deletions(-)
+>  .../media/allwinner,sun50i-h6-vpu-g2.yaml     |  1 -
+>  .../bindings/media/amlogic,meson-ir-tx.yaml   |  1 -
+>  .../bindings/media/amphion,vpu.yaml           |  1 -
+>  .../bindings/media/fsl,imx6ull-pxp.yaml       |  1 -
+>  .../media/mediatek,vcodec-decoder.yaml        |  1 -
+>  .../media/mediatek,vcodec-encoder.yaml        |  1 -
+>  .../media/mediatek,vcodec-subdev-decoder.yaml |  1 -
+>  .../media/microchip,sama5d4-vdec.yaml         | 17 ++++----
+>  .../bindings/media/nxp,imx8mq-vpu.yaml        | 41 +++++++++----------
+>  .../bindings/media/qcom,msm8916-camss.yaml    |  1 -
+>  .../bindings/media/qcom,msm8996-camss.yaml    |  1 -
+>  .../bindings/media/qcom,sdm660-camss.yaml     |  1 -
+>  .../bindings/media/qcom,sdm845-camss.yaml     |  1 -
+>  .../bindings/media/qcom,sm8250-camss.yaml     |  1 -
+>  .../bindings/media/rockchip,rk3568-vepu.yaml  |  1 -
+>  .../bindings/media/rockchip-vpu.yaml          | 29 +++++++------
+>  16 files changed, 42 insertions(+), 58 deletions(-)
 > 
 
-Acked-by: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-I'll pick it through linux-media.
-
--- 
-regards,
-Stan
 
