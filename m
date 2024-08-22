@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-16617-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16618-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA73395C02F
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 23:25:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 471C295C032
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 23:25:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E78E3285DCC
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 21:25:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A6EA0B24222
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 21:25:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 243A713B787;
-	Thu, 22 Aug 2024 21:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC8791D2790;
+	Thu, 22 Aug 2024 21:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jZhtJSnF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Llpkgefj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73B51D1753;
-	Thu, 22 Aug 2024 21:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D551D1F7F;
+	Thu, 22 Aug 2024 21:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724361893; cv=none; b=IzHMIW1AQ1XH6A2KVvHgqthhYPLwQyjvliR86qpazfMQbO3AwccRADKQHvx01Zn9nnTEL1odxkNBZ3q4buSanlJY03s7eGvulPnHsQfrTwasN9SV1+pw9VzsIJQmJ1ZETnE1a3bHJUvZzZfu+G4GuKjMRG9PwKIXy2CYDaEfglg=
+	t=1724361896; cv=none; b=WS1ctGberwSSjsk+uxR7joyu/9uxWKihqR3JT/px8wS26I1kLZ+d3EW5+A/vXNk/qa1xeJBRM2GOL45gDvInBUnFUbY2XCtLwWtDd7elePbEfwyyVpVvuZ1V3B1pz6oWgmdkXAuYZo5WQd1hHxXCKt1LCXb64C5xkRCr/gGGFDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724361893; c=relaxed/simple;
-	bh=MLDyfpjT+SmchGmpRWoLhkFRvYsGE89EYC55eOC4Lu4=;
+	s=arc-20240116; t=1724361896; c=relaxed/simple;
+	bh=B7BalneVeiN7IaUOyCYEq7VXbo3UG4I6yh7+Cg+SqG4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RB0LSRYpnix2Z7jwyfL7BIgMnqpOKx0xDoD+E0wwYATGu85K8XhC7aEQI6kjQGc1bEABNdrG2v9CJMX28qsWruQHUgiAzcGuo9bjktxA539iRpBo5ohPQAKuKcDXiGwxXqaVzWtkZXQBBYyf7BzX/Alqovbuzd865ILscjARdOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jZhtJSnF; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=pVkd9wLvt0ch5jVafMfkzicW/sgiNUEaf7n/tf6zCIZ1sUeiIqCq5bDfNpFIFxG7ItAwl9RFMrR0OGWfChWT3IQFHvB1EfdjhElqMsm+C5mBGooDE5LoB3kVQ+C8SSjAr/Gk3yltGk5KORMaI1NddOMgo1vunIwFED8KsWB9kf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Llpkgefj; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84BE88A9;
-	Thu, 22 Aug 2024 23:23:46 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D09B8CC;
+	Thu, 22 Aug 2024 23:23:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724361826;
-	bh=MLDyfpjT+SmchGmpRWoLhkFRvYsGE89EYC55eOC4Lu4=;
+	s=mail; t=1724361828;
+	bh=B7BalneVeiN7IaUOyCYEq7VXbo3UG4I6yh7+Cg+SqG4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jZhtJSnFxJepfMu9g7M3dchFiuXhEXp9RiZpiDhXgJU70KBNw6/6+d59UITBYHFzI
-	 boiGaFIcKnBMUHyj4SC7KRd5fJSwY2yQ+Ahr+ZsKPArGxypV7p3DSwxxbg5C8uFbNv
-	 WOsO1gUYfnmByI+l4EYKs9VtVoTDLlkqca0A5Qbw=
+	b=Llpkgefjw8Nk5BIUr0/oDIdfS9wIjLfqTWGRr2vtauvuDnSh9sbB5Ko9HP4HiN6IC
+	 zkTcIy8fgQ965EXXfMwA14Fy50HvyYSuETcU0Kn7g3hrobYcPHEwU1PysRyGSB8R/7
+	 6GrezmPD2B6uzsaFyqGmNYBEF4PysFRj2ScnlBRY=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH 1/4] media: vsp1: Build the pipeline after starting it
-Date: Fri, 23 Aug 2024 00:24:40 +0300
-Message-ID: <20240822212445.2037-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 2/4] media: vsp1: Sort entities in the pipeline
+Date: Fri, 23 Aug 2024 00:24:41 +0300
+Message-ID: <20240822212445.2037-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240822212445.2037-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20240822212445.2037-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -59,132 +59,116 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In order to use the new media pipeline iterators, the pipeline has to be
-built after being started. Refactor the code to do so. Switching to the
-iterators will happen in a separate step.
+The driver relies on the pipe->entities list being sorted in graph
+order, in particular for the partition management code to correctly
+compute partitions from source to sink. The media graph walk API happens
+to produce that order, but doesn't offer any guarantee, which makes the
+code fairly fragile. Harden it by sorting the list in the order we need.
+
+While at it fix an unrelated white space issue.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/vsp1/vsp1_video.c  | 57 +++++++++----------
- 1 file changed, 28 insertions(+), 29 deletions(-)
+ .../media/platform/renesas/vsp1/vsp1_entity.c |  1 -
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 66 +++++++++++++++++++
+ 2 files changed, 66 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+index 8b8945bd8f10..b2e6c0ed8744 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+@@ -500,7 +500,6 @@ struct media_pad *vsp1_entity_remote_pad(struct media_pad *pad)
+ 	}
+ 
+ 	return NULL;
+-
+ }
+ 
+ /* -----------------------------------------------------------------------------
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index fdb46ec0c872..ca2d00c9be35 100644
+index ca2d00c9be35..f0288968bd55 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -520,22 +520,6 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
+@@ -442,6 +442,7 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
+ 	struct media_graph graph;
+ 	struct media_entity *entity = &video->video.entity;
+ 	struct media_device *mdev = entity->graph_obj.mdev;
++	struct list_head *cursor;
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -520,6 +521,71 @@ static int vsp1_video_pipeline_build(struct vsp1_pipeline *pipe,
  			return ret;
  	}
  
--	return 0;
--}
--
--static int vsp1_video_pipeline_init(struct vsp1_pipeline *pipe,
--				    struct vsp1_video *video)
--{
--	int ret;
--
--	vsp1_pipeline_init(pipe);
--
--	pipe->frame_end = vsp1_video_pipeline_frame_end;
--
--	ret = vsp1_video_pipeline_build(pipe, video);
--	if (ret)
--		return ret;
--
++	/*
++	 * Sort the pipe->entities list from RPF to WPF, as the partition code
++	 * relies on that order. Iterate over the list in reverse order and
++	 * place each entry before any entry that follows it in pipeline order.
++	 *
++	 * The cursor points to the list entry immediately after the entry
++	 * being processed. When the cursor reaches the entry after the list
++	 * head we are thus done.
++	 */
++	for (cursor = &pipe->entities; cursor->prev != &pipe->entities; ) {
++		struct vsp1_entity *to_sort;
++		struct vsp1_entity *e;
++
++		/*
++		 * Sort the entity just before the cursor. Place it before the
++		 * first entry in the list that is connected to the sort
++		 * entry's source pad.
++		 */
++		to_sort = list_entry(cursor->prev, struct vsp1_entity, list_pipe);
++
++		list_for_each_entry(e, &pipe->entities, list_pipe) {
++			struct media_link *link;
++			struct media_pad *pad;
++			bool connected = false;
++
++			if (e == to_sort)
++				break;
++
++			/*
++			 * Check if to_sort's source pad is connected through
++			 * an active link to entity e.
++			 */
++			pad = &to_sort->pads[to_sort->source_pad];
++
++			list_for_each_entry(link, &pad->entity->links, list) {
++				if (!(link->flags & MEDIA_LNK_FL_ENABLED) ||
++				    link->source != pad)
++					continue;
++
++				if (link->sink->entity == &e->subdev.entity) {
++					connected = true;
++					break;
++				}
++			}
++
++			/* If connected, move to_sort right before e. */
++			if (connected) {
++				dev_dbg(video->vsp1->dev,
++					"sorting pipeline: moving %s before %s\n",
++					to_sort->subdev.name, e->subdev.name);
++				list_move_tail(&to_sort->list_pipe, &e->list_pipe);
++				break;
++			}
++		}
++
++		/*
++		 * If the entry before the cursor hasn't changed it means it's
++		 * correctly positioned, and the cursor can then be updated.
++		 * Otherwise the next iteration will process the cursor's new
++		 * previous entry.
++		 */
++		if (cursor->prev == &to_sort->list_pipe)
++			cursor = cursor->prev;
++	}
++
  	vsp1_pipeline_dump(pipe, "video");
  
  	return 0;
-@@ -544,7 +528,6 @@ static int vsp1_video_pipeline_init(struct vsp1_pipeline *pipe,
- static struct vsp1_pipeline *vsp1_video_pipeline_get(struct vsp1_video *video)
- {
- 	struct vsp1_pipeline *pipe;
--	int ret;
- 
- 	/*
- 	 * Get a pipeline object for the video node. If a pipeline has already
-@@ -557,12 +540,9 @@ static struct vsp1_pipeline *vsp1_video_pipeline_get(struct vsp1_video *video)
- 		if (!pipe)
- 			return ERR_PTR(-ENOMEM);
- 
--		ret = vsp1_video_pipeline_init(pipe, video);
--		if (ret < 0) {
--			vsp1_pipeline_reset(pipe);
--			kfree(pipe);
--			return ERR_PTR(ret);
--		}
-+		vsp1_pipeline_init(pipe);
-+
-+		pipe->frame_end = vsp1_video_pipeline_frame_end;
- 	} else {
- 		pipe = video->rwpf->entity.pipe;
- 		kref_get(&pipe->kref);
-@@ -579,12 +559,17 @@ static void vsp1_video_pipeline_release(struct kref *kref)
- 	kfree(pipe);
- }
- 
-+static void __vsp1_video_pipeline_put(struct vsp1_pipeline *pipe)
-+{
-+	kref_put(&pipe->kref, vsp1_video_pipeline_release);
-+}
-+
- static void vsp1_video_pipeline_put(struct vsp1_pipeline *pipe)
- {
- 	struct media_device *mdev = &pipe->output->entity.vsp1->media_dev;
- 
- 	mutex_lock(&mdev->graph_mutex);
--	kref_put(&pipe->kref, vsp1_video_pipeline_release);
-+	__vsp1_video_pipeline_put(pipe);
- 	mutex_unlock(&mdev->graph_mutex);
- }
- 
-@@ -985,8 +970,23 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 
- 	ret = __video_device_pipeline_start(&video->video, &pipe->pipe);
- 	if (ret < 0) {
-+		__vsp1_video_pipeline_put(pipe);
- 		mutex_unlock(&mdev->graph_mutex);
--		goto err_pipe;
-+		return ret;
-+	}
-+
-+	/*
-+	 * If the pipeline hasn't been built, do so now. This needs to happen
-+	 * after __media_pipeline_start() to use the pipeline iterators.
-+	 */
-+	if (!pipe->output) {
-+		ret = vsp1_video_pipeline_build(pipe, video);
-+		if (ret < 0) {
-+			__media_pipeline_stop(video->video.entity.pads);
-+			__vsp1_video_pipeline_put(pipe);
-+			mutex_unlock(&mdev->graph_mutex);
-+			return ret;
-+		}
- 	}
- 
- 	mutex_unlock(&mdev->graph_mutex);
-@@ -997,18 +997,17 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 	 */
- 	ret = vsp1_video_verify_format(video);
- 	if (ret < 0)
--		goto err_stop;
-+		goto error;
- 
- 	/* Start the queue. */
- 	ret = vb2_streamon(&video->queue, type);
- 	if (ret < 0)
--		goto err_stop;
-+		goto error;
- 
- 	return 0;
- 
--err_stop:
-+error:
- 	video_device_pipeline_stop(&video->video);
--err_pipe:
- 	vsp1_video_pipeline_put(pipe);
- 	return ret;
- }
 -- 
 Regards,
 
