@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-16612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BD395BAE1
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 17:46:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5516A95BAE3
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 17:46:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F20C51C23E49
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 15:46:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1D491F2491B
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 15:46:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2ED81CCEE0;
-	Thu, 22 Aug 2024 15:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB231CCEE7;
+	Thu, 22 Aug 2024 15:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SU7PrTag"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gsvZCwrW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B378F1CCB57;
-	Thu, 22 Aug 2024 15:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD121CCEDE;
+	Thu, 22 Aug 2024 15:45:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724341545; cv=none; b=CHRG/Urdfs/q8utK9aOlSOW5qhdy87OIYOFtRG848bmRqGzFNbuIocbv9gr7s15CJTzUH5bhGJLkJpoXMmo6XiMfX168yG5eyyq5qwBAN1BHRvlQc4+KGz4k8P3mADsVJ3PUCzGiPzqmQkr8qqWCRp3I9uqFVkLDs1SKHOAe1a4=
+	t=1724341547; cv=none; b=i5eMvrC7nenB5mV4gIN86jj1kdZ7zuI+ujHohsNpgh5WAxGiW19vev7YcEGP/HjeuOhO8b4GhTFHaqqa9Yn46/b68RFeCscL/vCnL9lq2KTX6zQdP5ixr9iHxqsxMfexXCJ6APdWNAdWid4D/6HY3jnRdbKz4g87uDUY32S9YHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724341545; c=relaxed/simple;
-	bh=p/Vm87vlP9XYuQzQ5C0tpdtZ2+oVHTKxRgJwzH0dUr8=;
+	s=arc-20240116; t=1724341547; c=relaxed/simple;
+	bh=DkRVYKPomm0xFTm0bbXZFEt4UkD+SR8c0EiOkFYeAxo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JTmw/t1xapFdLxQ+aPKcg4M1stI97marwps6CJdOqJ63lIMsSgHUJ7aS9lvG17KiTVT3LtVLMhOhzvmeMkFG7+p7Q8DU2NqEm3QH8qmgCki5KrrhAiDCbsKg2Shbb2SHSPEswmv/SfsD2TgvF5ZG2j1bbNGxVMlh9AohDVBb05w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SU7PrTag; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=eosj1D2zr0GLyCfHg1ZZpCy0QdFQ6Qn2O9zG97GjNAPyhnEe5DyHwsk0kyoGUNOjuXkJUfikmuCWYSTjWaRejvRyP44xBA8LzlO1uIBwDancGq7Schh7CE8i6/y1RdFlfTCkC+FzyVqC99QUbQ6ZhwUM4+N6aifTla7oadG1Gzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gsvZCwrW; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE764219;
-	Thu, 22 Aug 2024 17:44:38 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 654ED899;
+	Thu, 22 Aug 2024 17:44:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724341479;
-	bh=p/Vm87vlP9XYuQzQ5C0tpdtZ2+oVHTKxRgJwzH0dUr8=;
+	s=mail; t=1724341480;
+	bh=DkRVYKPomm0xFTm0bbXZFEt4UkD+SR8c0EiOkFYeAxo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SU7PrTagQdQsFO0Zt77FCfkk69Ukw8gftdP8wFAzXvGoqZIu2rp/onK6kZ19Bs//v
-	 aej3pAjiPAmGp1LocMH+4v8W248JmuTBtPybWkf2cDs5UsXP07s/abFgw33BY/PLev
-	 S7mc1fE8ZlqjFlOjTm84IvoKmG41L2lr7sBw7ms8=
+	b=gsvZCwrWd6nDzOLcu+vTR05c7eemjcZ4y7S51wsW+QmDBw69uY7lEPxu/g3+8oDD4
+	 83qJu8v4b9TCJFd13g/0ECyWhAoJPXQknT2EoTcGbScfhAK8dmcnZJUCTBC+XkmYSz
+	 4j69a3rf3+7Ufl7KrYg0oDitIAL1CerRYTQuX0oY=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Chen-Yu Tsai <wens@csie.org>,
@@ -53,9 +53,9 @@ Cc: Chen-Yu Tsai <wens@csie.org>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 6/7] media: renesas: vsp1: Implement .link_validate() for video devices
-Date: Thu, 22 Aug 2024 18:45:30 +0300
-Message-ID: <20240822154531.25912-7-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 7/7] [DNI] media: renesas: vsp1: Validate all links through .link_validate()
+Date: Thu, 22 Aug 2024 18:45:31 +0300
+Message-ID: <20240822154531.25912-8-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.44.2
 In-Reply-To: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -67,65 +67,143 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The v4l2_subdev_link_validate() helper prints a warning if the
-.link_validate() operation is not implemented for video devices
-connected to the subdevs. Implement the operation to silence the
-warning.
+Move validation of the links between video devices and subdevs,
+performed manually in vsp1_video_streamon(), to the video device
+.link_validate() handler.
 
-Ideally validation of the link between the video device and the subdev
-should be implemented in that operation. That would however break
-userspace that does not configure formats on all video devices before
-starting streaming. While this mode of operation may not be considered
-valid by the V4L2 API specification (interpretation differ), it is
-nonetheless supported by the vsp1 driver at the moment and used by at
-least the vsp1 unit test suite, and possibly other userspace
-applciations. Removing it would be a regression.
+This is how drivers should be implemented, but sadly, doing so for the
+vsp1 driver could break userspace, introducing a regression. This patch
+serves as an example to showcase usage of the .link_validate()
+operation, but should not be merged.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/vsp1/vsp1_video.c  | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 98 +++++++------------
+ 1 file changed, 37 insertions(+), 61 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index fdb46ec0c872..e728f9f5160e 100644
+index e728f9f5160e..14575698bbe7 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -1081,6 +1081,27 @@ static const struct v4l2_file_operations vsp1_video_fops = {
- 	.mmap = vb2_fop_mmap,
- };
- 
-+/* -----------------------------------------------------------------------------
-+ * Media entity operations
-+ */
-+
-+static int vsp1_video_link_validate(struct media_link *link)
-+{
-+	/*
-+	 * Ideally, link validation should be implemented here instead of
-+	 * calling vsp1_video_verify_format() in vsp1_video_streamon()
-+	 * manually. That would however break userspace that start one video
-+	 * device before configures formats on other video devices in the
-+	 * pipeline. This operation is just a no-op to silence the warnings
-+	 * from v4l2_subdev_link_validate().
-+	 */
-+	return 0;
-+}
-+
-+static const struct media_entity_operations vsp1_video_media_ops = {
-+	.link_validate = vsp1_video_link_validate,
-+};
-+
- /* -----------------------------------------------------------------------------
-  * Suspend and Resume
+@@ -45,51 +45,6 @@
+  * Helper functions
   */
-@@ -1215,6 +1236,7 @@ struct vsp1_video *vsp1_video_create(struct vsp1_device *vsp1,
  
- 	/* ... and the video node... */
- 	video->video.v4l2_dev = &video->vsp1->v4l2_dev;
-+	video->video.entity.ops = &vsp1_video_media_ops;
- 	video->video.fops = &vsp1_video_fops;
- 	snprintf(video->video.name, sizeof(video->video.name), "%s %s",
- 		 rwpf->entity.subdev.name, direction);
+-static struct v4l2_subdev *
+-vsp1_video_remote_subdev(struct media_pad *local, u32 *pad)
+-{
+-	struct media_pad *remote;
+-
+-	remote = media_pad_remote_pad_first(local);
+-	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
+-		return NULL;
+-
+-	if (pad)
+-		*pad = remote->index;
+-
+-	return media_entity_to_v4l2_subdev(remote->entity);
+-}
+-
+-static int vsp1_video_verify_format(struct vsp1_video *video)
+-{
+-	struct v4l2_subdev_format fmt = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-	};
+-	struct v4l2_subdev *subdev;
+-	int ret;
+-
+-	subdev = vsp1_video_remote_subdev(&video->pad, &fmt.pad);
+-	if (subdev == NULL)
+-		return -EINVAL;
+-
+-	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
+-	if (ret < 0)
+-		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
+-
+-	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
+-	    video->rwpf->format.height != fmt.format.height ||
+-	    video->rwpf->format.width != fmt.format.width) {
+-		dev_dbg(video->vsp1->dev,
+-			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
+-			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
+-			video->rwpf->format.height, fmt.format.code,
+-			fmt.format.width, fmt.format.height);
+-		return -EPIPE;
+-	}
+-
+-	return 0;
+-}
+-
+ static int __vsp1_video_try_format(struct vsp1_video *video,
+ 				   struct v4l2_pix_format_mplane *pix,
+ 				   const struct vsp1_format_info **fmtinfo)
+@@ -991,14 +946,6 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+ 
+ 	mutex_unlock(&mdev->graph_mutex);
+ 
+-	/*
+-	 * Verify that the configured format matches the output of the connected
+-	 * subdev.
+-	 */
+-	ret = vsp1_video_verify_format(video);
+-	if (ret < 0)
+-		goto err_stop;
+-
+ 	/* Start the queue. */
+ 	ret = vb2_streamon(&video->queue, type);
+ 	if (ret < 0)
+@@ -1087,14 +1034,43 @@ static const struct v4l2_file_operations vsp1_video_fops = {
+ 
+ static int vsp1_video_link_validate(struct media_link *link)
+ {
+-	/*
+-	 * Ideally, link validation should be implemented here instead of
+-	 * calling vsp1_video_verify_format() in vsp1_video_streamon()
+-	 * manually. That would however break userspace that start one video
+-	 * device before configures formats on other video devices in the
+-	 * pipeline. This operation is just a no-op to silence the warnings
+-	 * from v4l2_subdev_link_validate().
+-	 */
++	struct v4l2_subdev_format fmt = {
++		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
++	};
++	struct v4l2_subdev *subdev;
++	struct media_entity *entity;
++	struct media_pad *remote;
++	struct vsp1_video *video;
++	int ret;
++
++	if (is_media_entity_v4l2_video_device(link->source->entity)) {
++		entity = link->source->entity;
++		remote = link->sink;
++	} else {
++		entity = link->sink->entity;
++		remote = link->source;
++	}
++
++	fmt.pad = remote->index;
++
++	subdev = media_entity_to_v4l2_subdev(remote->entity);
++	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
++	if (ret < 0)
++		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
++
++	video = to_vsp1_video(media_entity_to_video_device(entity));
++
++	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
++	    video->rwpf->format.height != fmt.format.height ||
++	    video->rwpf->format.width != fmt.format.width) {
++		dev_dbg(video->vsp1->dev,
++			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
++			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
++			video->rwpf->format.height, fmt.format.code,
++			fmt.format.width, fmt.format.height);
++		return -EPIPE;
++	}
++
+ 	return 0;
+ }
+ 
 -- 
 Regards,
 
