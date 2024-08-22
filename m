@@ -1,212 +1,177 @@
-Return-Path: <linux-media+bounces-16613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5516A95BAE3
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 17:46:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C883895BB70
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 18:12:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1D491F2491B
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 15:46:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BA6A2813DF
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 16:12:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB231CCEE7;
-	Thu, 22 Aug 2024 15:45:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73C8D1CDA03;
+	Thu, 22 Aug 2024 16:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gsvZCwrW"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="gYbxUTov"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD121CCEDE;
-	Thu, 22 Aug 2024 15:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724341547; cv=none; b=i5eMvrC7nenB5mV4gIN86jj1kdZ7zuI+ujHohsNpgh5WAxGiW19vev7YcEGP/HjeuOhO8b4GhTFHaqqa9Yn46/b68RFeCscL/vCnL9lq2KTX6zQdP5ixr9iHxqsxMfexXCJ6APdWNAdWid4D/6HY3jnRdbKz4g87uDUY32S9YHA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724341547; c=relaxed/simple;
-	bh=DkRVYKPomm0xFTm0bbXZFEt4UkD+SR8c0EiOkFYeAxo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eosj1D2zr0GLyCfHg1ZZpCy0QdFQ6Qn2O9zG97GjNAPyhnEe5DyHwsk0kyoGUNOjuXkJUfikmuCWYSTjWaRejvRyP44xBA8LzlO1uIBwDancGq7Schh7CE8i6/y1RdFlfTCkC+FzyVqC99QUbQ6ZhwUM4+N6aifTla7oadG1Gzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gsvZCwrW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 654ED899;
-	Thu, 22 Aug 2024 17:44:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724341480;
-	bh=DkRVYKPomm0xFTm0bbXZFEt4UkD+SR8c0EiOkFYeAxo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gsvZCwrWd6nDzOLcu+vTR05c7eemjcZ4y7S51wsW+QmDBw69uY7lEPxu/g3+8oDD4
-	 83qJu8v4b9TCJFd13g/0ECyWhAoJPXQknT2EoTcGbScfhAK8dmcnZJUCTBC+XkmYSz
-	 4j69a3rf3+7Ufl7KrYg0oDitIAL1CerRYTQuX0oY=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDDD1CB300;
+	Thu, 22 Aug 2024 16:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724343125; cv=pass; b=WJf4A0Oy9CWbyYaDFksu0UxhVxGDnbdpj15uZ23sVTpfLtcuNus2r3tUBD2ZmgbdVxNCH4SYfF2E9n68g+W5POUg479X/uAgOOScYB/I7JvylH6Z/5j6zOjb79wE+owWLOpg16kyvoPMCQ6NRbfY6E+ANoZUwQCMW3vSbAKtP2w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724343125; c=relaxed/simple;
+	bh=IAPpadmY9nOSrLXOdO9VmSBsmBnj7Z29mUjVF7BMWFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZI2aJDeTdcd5frMDQ7pEsWtdpQYGS8QEujuTI/INPRl0WXQmIVsNKeDUrz+fX2QHV1nMrb+7vHBlmUQ5/9Wvj98H2xuPhj675zc1an1WCyvx8s7pitGXOSGbwwOVXZXEYCiivVGydhjnPxvGbYpVvaoiqeNz6E7e1Ce7cq+LFM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=gYbxUTov; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Delivered-To: nfraprado@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1724343112; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=AGCLLuOTPFmktZHK2UbZoDIgJ/8Oe+1WFWpy8SZSGokqVofHXvgl/x8IvxmRWosGS0Zos3K3hqcCh0IBta2eORekDsQaTFN8r0bL97dDDobqWliVfsEC8bMNuldeS828d4ex6LBbRm55IO8+F7OvG6GP8Kj0pW0uHui6DDrcynI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1724343112; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=g6oveps4DwZyjx7Lo/bkkZCFv0Cut+y/Y1Be0D4ooTM=; 
+	b=LHgpdv4wWG108Ao4aHayTRSkoSbNts+zRMjv2JqFstadGTH5NEbFfm5SVnp7PsCL+mIKkqoq29AX7Kqp6qgzvonLoh7/G45tHDXX+Zyq0MH7DOrs9gBi3vGuTz/gt4XDAz0lk87KqaTabv5mqzMFyVUz0R7dRfOoOooMmDWdUkI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724343112;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=g6oveps4DwZyjx7Lo/bkkZCFv0Cut+y/Y1Be0D4ooTM=;
+	b=gYbxUTovw4k9Y5lglq6Y/q4jYSjFApYFwFfOt01mLUy6OeG7yD/8vq3+eeUBocHz
+	CYak82arKAH8GsT8z22ohShZ9UPq89oiqDCsu+Ug1S6mtlGTvfoCxbaQy03eJTyE54A
+	w+tbh6bZtDBK+/vmfoRJlsM1MMt47LRUc1//ioxA=
+Received: by mx.zohomail.com with SMTPS id 1724343110302766.1410833559867;
+	Thu, 22 Aug 2024 09:11:50 -0700 (PDT)
+Date: Thu, 22 Aug 2024 18:11:45 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 7/7] [DNI] media: renesas: vsp1: Validate all links through .link_validate()
-Date: Thu, 22 Aug 2024 18:45:31 +0300
-Message-ID: <20240822154531.25912-8-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20240822154531.25912-1-laurent.pinchart+renesas@ideasonboard.com>
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v4 3/7] media: mediatek: vcodec: flush decoder before
+ stream off
+Message-ID: <20240822161145.jv7i45wlajcxpazw@basti-XPS-13-9310>
+References: <20240807082444.21280-1-yunfei.dong@mediatek.com>
+ <20240807082444.21280-4-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20240807082444.21280-4-yunfei.dong@mediatek.com>
+X-ZohoMailClient: External
 
-Move validation of the links between video devices and subdevs,
-performed manually in vsp1_video_streamon(), to the video device
-.link_validate() handler.
+Hey Yunfei,
 
-This is how drivers should be implemented, but sadly, doing so for the
-vsp1 driver could break userspace, introducing a regression. This patch
-serves as an example to showcase usage of the .link_validate()
-operation, but should not be merged.
+On 07.08.2024 16:24, Yunfei Dong wrote:
+>Flush decoder will reset the driver to flush status. If lat or core
+>work queue in active before flush when stream off, will lead to get
+>dst buffer NULL or buff done with one non-existent source buffer.
+>
+>Flush decoder when stream off no matter output or capture queue
+>calling stream off firstly.
+>
+>Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>---
+> .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 45 ++++++++++---------
+> 1 file changed, 23 insertions(+), 22 deletions(-)
+>
+>diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>index 7080ca3e18b0..fc4ee1fb7cd1 100644
+>--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+>@@ -882,6 +882,29 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
+> 	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) state=(%x) ctx->decoded_frame_cnt=%d",
+> 			  ctx->id, q->type, ctx->state, ctx->decoded_frame_cnt);
+>
+>+	if (ctx->state >= MTK_STATE_HEADER && ctx->state != MTK_STATE_FLUSH) {
+>+		/*
+>+		 * The resolution hasn't been changed when STREAMOFF is called.
+>+		 * Update the picinfo here with previous resolution if VIDIOC_G_FMT
+>+		 * is called.
+>+		 */
+>+		ctx->picinfo = ctx->last_decoded_picinfo;
+>+
+>+		mtk_v4l2_vdec_dbg(2, ctx,
+>+				  "[%d]-> new(%d,%d), old(%d,%d), real(%d,%d)",
+>+				  ctx->id, ctx->last_decoded_picinfo.pic_w,
+>+				  ctx->last_decoded_picinfo.pic_h,
+>+				  ctx->picinfo.pic_w, ctx->picinfo.pic_h,
+>+				  ctx->last_decoded_picinfo.buf_w,
+>+				  ctx->last_decoded_picinfo.buf_h);
+>+
+>+		ret = ctx->dev->vdec_pdata->flush_decoder(ctx);
+>+		if (ret)
+>+			mtk_v4l2_vdec_err(ctx, "DecodeFinal failed, ret=%d", ret);
+>+
+>+		ctx->state = MTK_STATE_FLUSH;
+>+	}
+>+
+> 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+> 		while ((src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
+> 			if (src_buf != &ctx->empty_flush_buf.vb) {
+>@@ -894,28 +917,6 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
+> 			}
+> 		}
+>
+>-		if (ctx->state >= MTK_STATE_HEADER) {
+>-			/*
+>-			 * The resolution hasn't been changed when STREAMOFF is called.
+>-			 * Update the picinfo here with previous resolution if VIDIOC_G_FMT
+>-			 * is called.
+>-			 */
+>-			ctx->picinfo = ctx->last_decoded_picinfo;
+>-
+>-			mtk_v4l2_vdec_dbg(2, ctx,
+>-					  "[%d]-> new(%d,%d), old(%d,%d), real(%d,%d)",
+>-					  ctx->id, ctx->last_decoded_picinfo.pic_w,
+>-					  ctx->last_decoded_picinfo.pic_h,
+>-					  ctx->picinfo.pic_w, ctx->picinfo.pic_h,
+>-					  ctx->last_decoded_picinfo.buf_w,
+>-					  ctx->last_decoded_picinfo.buf_h);
+>-
+>-			ret = ctx->dev->vdec_pdata->flush_decoder(ctx);
+>-			if (ret)
+>-				mtk_v4l2_vdec_err(ctx, "DecodeFinal failed, ret=%d", ret);
+>-		}
+>-
+>-		ctx->state = MTK_STATE_FLUSH;
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- .../media/platform/renesas/vsp1/vsp1_video.c  | 98 +++++++------------
- 1 file changed, 37 insertions(+), 61 deletions(-)
+you just changed this routine in patch 2/7, why was patch 2/7 needed if
+you remove it right away in the next patch?
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index e728f9f5160e..14575698bbe7 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -45,51 +45,6 @@
-  * Helper functions
-  */
- 
--static struct v4l2_subdev *
--vsp1_video_remote_subdev(struct media_pad *local, u32 *pad)
--{
--	struct media_pad *remote;
--
--	remote = media_pad_remote_pad_first(local);
--	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
--		return NULL;
--
--	if (pad)
--		*pad = remote->index;
--
--	return media_entity_to_v4l2_subdev(remote->entity);
--}
--
--static int vsp1_video_verify_format(struct vsp1_video *video)
--{
--	struct v4l2_subdev_format fmt = {
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--	};
--	struct v4l2_subdev *subdev;
--	int ret;
--
--	subdev = vsp1_video_remote_subdev(&video->pad, &fmt.pad);
--	if (subdev == NULL)
--		return -EINVAL;
--
--	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
--	if (ret < 0)
--		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
--
--	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
--	    video->rwpf->format.height != fmt.format.height ||
--	    video->rwpf->format.width != fmt.format.width) {
--		dev_dbg(video->vsp1->dev,
--			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
--			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
--			video->rwpf->format.height, fmt.format.code,
--			fmt.format.width, fmt.format.height);
--		return -EPIPE;
--	}
--
--	return 0;
--}
--
- static int __vsp1_video_try_format(struct vsp1_video *video,
- 				   struct v4l2_pix_format_mplane *pix,
- 				   const struct vsp1_format_info **fmtinfo)
-@@ -991,14 +946,6 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 
- 	mutex_unlock(&mdev->graph_mutex);
- 
--	/*
--	 * Verify that the configured format matches the output of the connected
--	 * subdev.
--	 */
--	ret = vsp1_video_verify_format(video);
--	if (ret < 0)
--		goto err_stop;
--
- 	/* Start the queue. */
- 	ret = vb2_streamon(&video->queue, type);
- 	if (ret < 0)
-@@ -1087,14 +1034,43 @@ static const struct v4l2_file_operations vsp1_video_fops = {
- 
- static int vsp1_video_link_validate(struct media_link *link)
- {
--	/*
--	 * Ideally, link validation should be implemented here instead of
--	 * calling vsp1_video_verify_format() in vsp1_video_streamon()
--	 * manually. That would however break userspace that start one video
--	 * device before configures formats on other video devices in the
--	 * pipeline. This operation is just a no-op to silence the warnings
--	 * from v4l2_subdev_link_validate().
--	 */
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+	};
-+	struct v4l2_subdev *subdev;
-+	struct media_entity *entity;
-+	struct media_pad *remote;
-+	struct vsp1_video *video;
-+	int ret;
-+
-+	if (is_media_entity_v4l2_video_device(link->source->entity)) {
-+		entity = link->source->entity;
-+		remote = link->sink;
-+	} else {
-+		entity = link->sink->entity;
-+		remote = link->source;
-+	}
-+
-+	fmt.pad = remote->index;
-+
-+	subdev = media_entity_to_v4l2_subdev(remote->entity);
-+	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
-+	if (ret < 0)
-+		return ret == -ENOIOCTLCMD ? -EINVAL : ret;
-+
-+	video = to_vsp1_video(media_entity_to_video_device(entity));
-+
-+	if (video->rwpf->fmtinfo->mbus != fmt.format.code ||
-+	    video->rwpf->format.height != fmt.format.height ||
-+	    video->rwpf->format.width != fmt.format.width) {
-+		dev_dbg(video->vsp1->dev,
-+			"Format mismatch: 0x%04x/%ux%u != 0x%04x/%ux%u\n",
-+			video->rwpf->fmtinfo->mbus, video->rwpf->format.width,
-+			video->rwpf->format.height, fmt.format.code,
-+			fmt.format.width, fmt.format.height);
-+		return -EPIPE;
-+	}
-+
- 	return 0;
- }
- 
--- 
-Regards,
+regards,
+Sebastian Fricke
 
-Laurent Pinchart
-
+> 		return;
+> 	}
+>
+>-- 
+>2.46.0
+>
+>
 
