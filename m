@@ -1,171 +1,155 @@
-Return-Path: <linux-media+bounces-16620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9B795C03D
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 23:26:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1EA95C05B
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 23:40:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BFB80B245C6
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 21:26:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B64B01C21DF5
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 21:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6C01D2F5A;
-	Thu, 22 Aug 2024 21:25:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3BC51D1752;
+	Thu, 22 Aug 2024 21:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LlTCktcs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XQGIyIh5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAD31D27A9;
-	Thu, 22 Aug 2024 21:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDD212B72
+	for <linux-media@vger.kernel.org>; Thu, 22 Aug 2024 21:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724361899; cv=none; b=W9L7MVuH+jv+WZEIwwZ2X+gpzMoOdWOSpIndVOiYz0gysBSP0PBMMcpGR8cdN7UpdABUhP2ArQBtInOMNciejjbJIgj4QdqRVT0d9aGP4JJr/JwIEvW0v3TjD7TasrTu/8j21VBsCKI58pDnoW/yDCQiSpKhpWLaU40SHTD00iE=
+	t=1724362848; cv=none; b=OyfSGVBB0scVX56mFx3duWK9Ds+bqA3hvuDLxxqkAZ8HHhi0lcBgTyPy7IwTXMuIiLlfByWGWFVQMtey8hj8Que3ikaF9ZcamJat1HcVlM9p9hqB+mVP1MKVUdBR/zPqIBBWRjVZNLFTzTAFGvozGdcMNQCccEVL0SCmaMHHQT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724361899; c=relaxed/simple;
-	bh=vVuGdYMoHpe9UjhoZIZ69aB4nMlLOe5ZKj5NYGwE/xQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BJc9xouI5mTczcHEUEKzGxqaBsmC1f1EPDC5yXnb6/AAchdJao76vEPLJSeJniIf111WybUNvLZe41EDxcvQYv5L1LxCEqgq6MMukrhwtuBc1A4oYOsnEi5XJzQ8tCGioyAFTWlS4betTsYKxBULNs01THhrSN5rYt/dbPz+W+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LlTCktcs; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3EEA219;
-	Thu, 22 Aug 2024 23:23:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724361831;
-	bh=vVuGdYMoHpe9UjhoZIZ69aB4nMlLOe5ZKj5NYGwE/xQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LlTCktcsqpSwu+Wjrgyx+WrNMCDNB6Hi+hUemERH1Q4EUl/3oXVVAWeiqZ0wmxKgk
-	 XmpBN6c6s4LfifjIDSc2EE05XXO7r6cVJxinWEtLMgGN5cG9kNykDd/pn/bC3YU6i5
-	 CMQie1MosbF31N3Ej8MkEb496CYUUTXCqzUeRzbw=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH 4/4] media: Documentation: mc: Replace deprecated graph walk API
-Date: Fri, 23 Aug 2024 00:24:43 +0300
-Message-ID: <20240822212445.2037-5-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20240822212445.2037-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20240822212445.2037-1-laurent.pinchart+renesas@ideasonboard.com>
+	s=arc-20240116; t=1724362848; c=relaxed/simple;
+	bh=YAwTBlspylclxG2dO/RW9LGMYbdR0PNTcVaNyiKAFKc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f0cSNB/lAGdvsTieKz2F5L8jD0dhf03pDdcCUmP7uXxS4sJVmOVcZebUpd9Fay8QMCjIBF4TbopJZroCOljHL5nccosyK8QaTNSwA58PYgaIgySa0LGmiKjOhRdH6isMDeRTiQIH7Ta6AtWnBdS0EsGW6whPkr/LID6g7pY1IhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XQGIyIh5; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e02c4983bfaso1388989276.2
+        for <linux-media@vger.kernel.org>; Thu, 22 Aug 2024 14:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724362845; x=1724967645; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZT9AcM0ePvmiNGNtKdrgApHdgj0aPYzu2lD9LlnjVd8=;
+        b=XQGIyIh5NbKpQi1ptLxfOZNJTEhZoIMvCAY7vF5OblF7WPwBZdTQhLB4ziU/dz7UjC
+         QbLFSFPXcKurTDt4dUUifGrQncZkRdEiC1o+ITT+NFlWeCtV2aXzlmU0k3236bIAWMV+
+         4gAxvGr8NERThSMBPIOxYg3B16HmrpH0oZnPDz0zR+oPqfiT8+I9KML8xIB8zznmH18J
+         Upg8iM9nd8RiaV7RTDueLo9YXLTyjQDcGUpW3j3tEYcBK0PHtDHSEKl5Nc89sy54nVGb
+         GwlzwKsUcS+FY02ZSfCdyYjsIzzlBjkUEBUVZBmtUnMc9RmnujB8xWnJi4n9xfeI7z3L
+         0a0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724362845; x=1724967645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZT9AcM0ePvmiNGNtKdrgApHdgj0aPYzu2lD9LlnjVd8=;
+        b=OuP7wMjcHfoLJ7iBtvG0Ym+Rq/Uor1TvXwnwIYgq2NmtRUVmwc38sijACnqxiyov8Z
+         jMOogLNpx0TWcS8E7ZNtLC+hCFEvqvCr1Vy1OYYUExpE13sK/8r6K2dMQrKWV37nW3FQ
+         d4btiizw9ev2GSg+Q8GfL9XpPlMjWtV6taowBY2bLNZbFdCqX5+q4/e7sR17YlfqhU2+
+         GUNop2Ajd977/kXvdGldw8gg31m0mN4t66h91NzKTcbLOADargEmk1sL67uqIkyECySb
+         lWQErmCtXbfk9z5awrGfDaPlU8LSgPSC6uW7H53c8Uycq0VTGhWdvSHLw98DFeWXl+TD
+         6yKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWA9yWAbq4J0xDGLdcHS7CIQFpG6BrCwb/3+exWHfQwjmSvqqoYJzWBRd9eQprowm50xsaiO0IQvu7VBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw56WwojAivuWpZSbNQ3tVzucg9yP89VzJxb7f49bZaISKDkWyd
+	QTHpb7eIbRo+D1Mn/TVoG16XgM+FyPjb4REoJn0R6K4UtTtlNUEAr1vgudF8prHt/lzOxFX5429
+	Ko4ZoycnN0MUITb0pWJiriIfaE9S4HXCA/pGdNQ==
+X-Google-Smtp-Source: AGHT+IEqgdfXdOfSwd9Wk29Zs7Gg9XD8psen0pbklM2Nwowqt/bbjkVBarQRzKbRRoNz7ciwvAr9rkWW9GaQjfXbk8I=
+X-Received: by 2002:a05:6902:849:b0:e13:65c9:e994 with SMTP id
+ 3f1490d57ef6-e17a864dc20mr317011276.41.1724362845157; Thu, 22 Aug 2024
+ 14:40:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240723144610.564273-1-ulf.hansson@linaro.org>
+ <20240723144610.564273-3-ulf.hansson@linaro.org> <0af670ae-8c8f-4e78-b1e0-e9ccb4fba2c9@gmail.com>
+ <CAPDyKFr5xjE867rHRZxtKPr0iKh9B6_Ckyu=B4Jzn-ExDpQjVQ@mail.gmail.com> <bfb90d04-6885-4623-a846-f04b4fe4bff4@gmail.com>
+In-Reply-To: <bfb90d04-6885-4623-a846-f04b4fe4bff4@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 22 Aug 2024 23:40:08 +0200
+Message-ID: <CAPDyKFp5R=T1BgCHZhR=mr+z7VnF3x=DeAvjPZ3bE1Q5TWYzVQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] media: venus: Use dev_pm_domain_attach|detach_list()
+ for OPP PM domain
+To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc: Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The graph walk API has been deprecated in commit eac564de0915 ("media:
-mc: entity: Add entity iterator for media_pipeline") in favour of
-pipelien iterators, but the MC documentation hasn't been updated
-accordingly. It still documents the deprecated API as the only option.
-Fix it by dropping the deprecated function, and documenting the new API.
+On Thu, 22 Aug 2024 at 20:05, Stanimir Varbanov
+<stanimir.k.varbanov@gmail.com> wrote:
+>
+> Hi Ulf,
+>
+> On 21.08.24 =D0=B3. 11:56 =D1=87., Ulf Hansson wrote:
+> > On Tue, 20 Aug 2024 at 22:48, Stanimir Varbanov
+> > <stanimir.k.varbanov@gmail.com> wrote:
+> >>
+> >> Hi Ulf,
+> >>
+> >> Thank you for the patch!
+> >>
+> >> On 23.07.24 =D0=B3. 17:46 =D1=87., Ulf Hansson wrote:
+> >>> Rather than hooking up the PM domains through devm_pm_opp_attach_genp=
+d()
+> >>> and manage the device-link, let's avoid the boilerplate-code by conve=
+rting
+> >>> into dev_pm_domain_attach|detach_list.
+> >>>
+> >>> Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> >>> ---
+> >>>    drivers/media/platform/qcom/venus/core.c      |  8 ++---
+> >>>    drivers/media/platform/qcom/venus/core.h      |  6 +---
+> >>>    .../media/platform/qcom/venus/pm_helpers.c    | 31 ++++++---------=
+----
+> >>>    3 files changed, 14 insertions(+), 31 deletions(-)
+> >>>
+> >>
+> >> Acked-by: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+> >
+> > Thanks!
+> >
+> >>
+> >> I'll pick it through linux-media.
+> >
+> > Please don't.
+> >
+> > I should have stated that this depends on another series [1] - and
+> > they need either to go together or we need to defer $subject patch
+> > until the next release cycle.
+>
+> Sure, then I guess we will deffer venus patch until the preparation
+> series is merged to avoid conflicts. Thank you!
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- Documentation/driver-api/media/mc-core.rst | 67 +++++++++++++---------
- 1 file changed, 41 insertions(+), 26 deletions(-)
+Assuming the preparation series gets accepted, maybe we can give it a
+try via my pmdomain tree? Or do expect to land a lot of code that
+could conflict?
 
-diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-index 2456950ce8ff..1d010bd7ec49 100644
---- a/Documentation/driver-api/media/mc-core.rst
-+++ b/Documentation/driver-api/media/mc-core.rst
-@@ -144,7 +144,8 @@ valid values are described at :c:func:`media_create_pad_link()` and
- Graph traversal
- ^^^^^^^^^^^^^^^
- 
--The media framework provides APIs to iterate over entities in a graph.
-+The media framework provides APIs to traverse media graphs, locating connected
-+entities and links.
- 
- To iterate over all entities belonging to a media device, drivers can use
- the media_device_for_each_entity macro, defined in
-@@ -159,31 +160,6 @@ the media_device_for_each_entity macro, defined in
-     ...
-     }
- 
--Drivers might also need to iterate over all entities in a graph that can be
--reached only through enabled links starting at a given entity. The media
--framework provides a depth-first graph traversal API for that purpose.
--
--.. note::
--
--   Graphs with cycles (whether directed or undirected) are **NOT**
--   supported by the graph traversal API. To prevent infinite loops, the graph
--   traversal code limits the maximum depth to ``MEDIA_ENTITY_ENUM_MAX_DEPTH``,
--   currently defined as 16.
--
--Drivers initiate a graph traversal by calling
--:c:func:`media_graph_walk_start()`
--
--The graph structure, provided by the caller, is initialized to start graph
--traversal at the given entity.
--
--Drivers can then retrieve the next entity by calling
--:c:func:`media_graph_walk_next()`
--
--When the graph traversal is complete the function will return ``NULL``.
--
--Graph traversal can be interrupted at any moment. No cleanup function call
--is required and the graph structure can be freed normally.
--
- Helper functions can be used to find a link between two given pads, or a pad
- connected to another pad through an enabled link
- (:c:func:`media_entity_find_link()`, :c:func:`media_pad_remote_pad_first()`,
-@@ -276,6 +252,45 @@ Subsystems should facilitate link validation by providing subsystem specific
- helper functions to provide easy access for commonly needed information, and
- in the end provide a way to use driver-specific callbacks.
- 
-+Pipeline traversal
-+^^^^^^^^^^^^^^^^^^
-+
-+Once a pipeline has been constructed with :c:func:`media_pipeline_start()`,
-+drivers can iterate over entities or pads in the pipeline with the
-+:c:macro:´media_pipeline_for_each_entity` and
-+:c:macro:´media_pipeline_for_each_pad` macros. Iterating over pads is
-+straightforward:
-+
-+.. code-block:: c
-+
-+   media_pipeline_pad_iter iter;
-+   struct media_pad *pad;
-+
-+   media_pipeline_for_each_pad(pipe, &iter, pad) {
-+       /* 'pad' will point to each pad in turn */
-+       ...
-+   }
-+
-+To iterate over entities, the iterator needs to be initialized and cleaned up
-+as an additional steps:
-+
-+.. code-block:: c
-+
-+   media_pipeline_entity_iter iter;
-+   struct media_entity *entity;
-+   int ret;
-+
-+   ret = media_pipeline_entity_iter_init(pipe, &iter);
-+   if (ret)
-+       ...;
-+
-+   media_pipeline_for_each_entity(pipe, &iter, entity) {
-+       /* 'entity' will point to each entity in turn */
-+       ...
-+   }
-+
-+   media_pipeline_entity_iter_cleanup(&iter);
-+
- Media Controller Device Allocator API
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
--- 
-Regards,
+I also realized that I already have a different series [1] queued in
+my pmdomain tree from Dikshita Agarwal (reviewed by Bryan), that moves
+an existing call for dev_pm_domain_attach() to the new
+devm_pm_domain_attach() helper. So far I haven't received any reports
+about conflicts from linux-next, so it looks good I think.
 
-Laurent Pinchart
+Kind regards
+Uffe
 
+[1]
+https://lore.kernel.org/all/CAPDyKFqsHL3uatmLZaRzZ_GfkZw-+fURQNSEgvmrf-ini+=
+WHng@mail.gmail.com/
 
