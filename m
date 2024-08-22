@@ -1,142 +1,268 @@
-Return-Path: <linux-media+bounces-16602-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16603-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D568095B84C
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 16:24:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F12395B931
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 17:00:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AE8428526B
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 14:24:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB39D1C20F06
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2024 15:00:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A5BE1CBE8F;
-	Thu, 22 Aug 2024 14:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF8B81CC88D;
+	Thu, 22 Aug 2024 15:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="fMnrl6jU"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.dufresne@collabora.com header.b="VbYT+Wau"
 X-Original-To: linux-media@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5010E1CBEBB;
-	Thu, 22 Aug 2024 14:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A15E1CB329
+	for <linux-media@vger.kernel.org>; Thu, 22 Aug 2024 15:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724336665; cv=pass; b=PvdR2lRub4C3ekHxUxg2kYEeCFTlAYpfUD+/bWpVvSkS9+r2P8sUbDFlvGKPrdKNDESTdU/8wZXylfk58WwGlLF8KCVep50RmD9gSBVqFG4tV98OBhHLSy90oaHQ7Pveaw1Y1IJz03DSiwNIra58B7xGBaPLctSZQfPbqczDXzg=
+	t=1724338802; cv=pass; b=BSsAU4Q83igaXCxQDSOUaWhIogthtcG9VsZYFVwytdFzKkZnSHWmmdpnBOgHVmG1LR/T1wBywcy4Htvf/dZDyGvV3FckwYBOQoJzRj9igC7njdcu17kEdKHdCdHTbdJp/BY+sr9/H8DGaPh1A4aoHIkBlM6zRnA1MsOZxfS1Ou0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724336665; c=relaxed/simple;
-	bh=m3FoKnazzhoSynDMr6FzFSNCp4QJxDulvfbdU8hPmOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=djvWFOgtYWS9jasTTZspEw/8hxP+goC33rqbSHPbhIUZDvjUpUdNaoSslcL9ki0VVG8vMfbQ/uTtEVSEkSlRA3bS1zNbdFKSJiiifg5cRuDR0nEv6B4skLc0Kzh/cpshVHR5OaqXeGQPvAcIC80rxN6HEYWlz6DnWcviCmUhwJE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=fMnrl6jU; arc=pass smtp.client-ip=136.143.188.112
+	s=arc-20240116; t=1724338802; c=relaxed/simple;
+	bh=JcOmcnbiVYDdi9hpV3WOYE5KLA+pjjhq+BzV5Qy3lxU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=K1fsybGE+ye3f7jxCcr/BzmftOjjXpyK2Nb8bObbzAUu9acLelzaPhkHmFx/JRDUwI0EV/7faa9Po6Tx6EYfETPMMaB4WBIz6VsgEaPg6XbcFsNFLfYQOzcMNdFIip9GzohNh49VVu6o2gPKG5GinRgbe5+Bq2f7AA2n3cPAF58=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.dufresne@collabora.com header.b=VbYT+Wau; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Delivered-To: nicolas.dufresne@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724336651; cv=none; 
+Delivered-To: sebastian.fricke@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1724338795; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=Mpx6Tju8i2+Z/P9CadF62VFv3LtT3DTz5DReE9TaEdq7pAGYUCdZbjTtQXqYoQ2WAeKEllZYt96/taERw53o+pFb7+pQJpRondfa0Knqty/98l6aLdgqNFQnp84fP+o5pkWggZXbrQbtNjeP8pbKg+3nkgj+GbF3q+AeK6bjJoA=
+	b=Uvy1LU9V+Aw9KyOHJAKqnCB2PxG24S+TsZzooCRi/uW6IELrtldOc08rl00kyW5NSXeE2847ciNRLR+bTN/c8YLPrqmcAKIpPYjKXKG+QmoMbyrgcXnVVOURgdOvhpzD+IZsuF/TcctLgshQV5GbP7gcrJYEk4+32VNVp365aeE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1724336651; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=m3FoKnazzhoSynDMr6FzFSNCp4QJxDulvfbdU8hPmOk=; 
-	b=lASDQe8P+lMwn4YyIjk42b/pHMwqvVRjiG7NB9QI8U81GcJZtesUQqC4pM2WQuwfVOrw+hN5ZPHSs4xlp9b5SaG2hA9bp5AF0ltQJLSvQj6TPqPFHo0RrPRIKqNEbz0Jc27gKUxBBCGBdbkqj4Tb8b+/Rw3jKp2Wavq2QCEbo6I=
+	t=1724338795; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=M7dQeq7jmoGr2QIxc56s+hkpKTUjIERtLtJRI2GCt3I=; 
+	b=TW/EKD+R96lAjqRRm0G2GW8Keldj4SXT1BOmlow2g4Aja3wnZyfV8eukqpkQN1pIJlrg/CaWjepJjCF0pWLKchDSW6SSWrKzwq/KR1W4X+0hL4xMO7OGKgyWRHFMh+HWO6d9/utfstHhFMTvyL66qQS7CvXAeTXSZ4qZSRNUYso=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724336651;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=m3FoKnazzhoSynDMr6FzFSNCp4QJxDulvfbdU8hPmOk=;
-	b=fMnrl6jU07UoRPvSalOg4CYeppuHPIcRYHopPzTznW+43U6NrEVyCZs/fZrWJ8Fm
-	G3W69oWQYuqhMn5l3ZNMG02pp7Kg9KJGxaStkB+BTE6aZI+mpZIU/OW0nKNm/Q0ATQd
-	3oIylcKHfSz5EIQJbMXTGd/2fmJxylAwwvYJh8eI=
-Received: by mx.zohomail.com with SMTPS id 1724336649022368.2581026629399;
-	Thu, 22 Aug 2024 07:24:09 -0700 (PDT)
-Date: Thu, 22 Aug 2024 16:24:03 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Fei Shao <fshao@chromium.org>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] media: mediatek: vcodec: Reduce msg queue trans buffer
- size
-Message-ID: <20240822142403.qz3ia26at3rxob2v@basti-XPS-13-9310>
-References: <20240521095536.3869399-1-fshao@chromium.org>
- <9f73dffc48394e6304263ac2293a2b18864ae3dd.camel@collabora.com>
- <CAC=S1njnqrdrQqJZYQ7mffgmAUUxtoO7utZumED0dmX=Fa9+Qw@mail.gmail.com>
+	spf=pass  smtp.mailfrom=nicolas.dufresne@collabora.com;
+	dmarc=pass header.from=<nicolas.dufresne@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724338795;
+	s=zohomail; d=collabora.com; i=nicolas.dufresne@collabora.com;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=M7dQeq7jmoGr2QIxc56s+hkpKTUjIERtLtJRI2GCt3I=;
+	b=VbYT+WaubbYHVqJZ4oLVFYt/ueLQ3Vq/0Apw7ILtrJNspWc9NFaCH27aokk1pG77
+	s6uSJvmbNyzptXCUF08QydSd6sfN+eoMYjohDQrLfU2pZTq9F9WoE/nFbFDQhS5HHpY
+	4m6InQyHEf/LPA0wseTKxtklISlXh+YUC1oj21/Q=
+Received: by mx.zohomail.com with SMTPS id 1724338793108246.91181109367335;
+	Thu, 22 Aug 2024 07:59:53 -0700 (PDT)
+Message-ID: <4765e957fbb3309f7bf37411484913af8e34e48d.camel@collabora.com>
+Subject: Re: [RFC PATCH 1/3] media: mc: add manual request completion
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+Date: Thu, 22 Aug 2024 10:59:51 -0400
+In-Reply-To: <b1b171c80093adecb9ff2e987ef76fbdaf5a65a9.1724246043.git.hverkuil-cisco@xs4all.nl>
+References: <cover.1724246043.git.hverkuil-cisco@xs4all.nl>
+	 <b1b171c80093adecb9ff2e987ef76fbdaf5a65a9.1724246043.git.hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAC=S1njnqrdrQqJZYQ7mffgmAUUxtoO7utZumED0dmX=Fa9+Qw@mail.gmail.com>
 X-ZohoMailClient: External
 
-Hey Fei,
+Thanks Hans,
 
-On 07.06.2024 19:20, Fei Shao wrote:
->On Fri, May 31, 2024 at 8:47 PM Nicolas Dufresne
-><nicolas.dufresne@collabora.com> wrote:
->>
->> Le mardi 21 mai 2024 à 17:54 +0800, Fei Shao a écrit :
->> > In the MediaTek HW vcodec pipeline, the `trans` buffer is used to
->> > transfer the data decoded by the lat decoder to the core decoder.
->> >
->> > In the beginning, 6MB and 30MB were allocated for the trans buffer to
->> > handle FHD and higher-resolution contents respectively, but it turns out
->> > that's more than enough in practice and there's room for improvement.
->> >
->> > The buffer sizes were reduced to 5MB / 8MB respectively and the decoders
->> > have been validated to work normally on the MediaTek Android products.
->> > It's time to adopt that change in the upstream MediaTek vcodec driver.
->> >
->> > Reduce the msg queue trans buffer size to 5MB / 8MB respectively to
->> > optimize the memory usage per decoder instance and improve the overall
->> > system performance.
->>
->> I don't disagree with the change, but it feels like this is has hack over a
->> hack. We have an entropy decoder (LAT) metadata buffer, which of course is
->> resolution dependent, for which we hardcore two sizes.
->>
->> Any chance Mediatek can document this blob, or at least document the proper
->> relation between the size and the resolution ? This way we could dynamically
->> size the buffer for the chosen resolution and trust it to remain big enough for
->> a long time. Removing the non scientific claim of "have been validated", which
->> is producible for anyone hitting issue with that change in the future.
->>
->> Nicolas
->>
->
->Sorry for the delayed reply. I totally agree with your point, but last
->time I was told these are what they are using internally so I guess
->it's not there... or it could be me that didn't ask the right question
->(we want to do this with finer granularity or dynamically).
->If we don't get an answer here, I can also bring this up to MediaTek
->next time and see if they can provide more details.
->
->Regards,
->Fei
+I'm very happy with how simple this is. Few comments below...
 
-So are you going to send a new version for this?
+Le mercredi 21 ao=C3=BBt 2024 =C3=A0 15:14 +0200, Hans Verkuil a =C3=A9crit=
+=C2=A0:
+> By default when the last request object is completed, the whole
+> request completes as well.
+>=20
+> But sometimes you want to manually complete a request in a driver,
+> so add a manual complete mode for this.
+>=20
+> In req_queue the driver marks the request for manual completion by
+> calling media_request_mark_manual_completion, and when the driver
+> wants to manually complete the request it calls
+> media_request_manual_complete().
+>=20
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/media/mc/mc-request.c | 31 +++++++++++++++++++++++++++++--
+>  include/media/media-request.h | 33 ++++++++++++++++++++++++++++++++-
+>  2 files changed, 61 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.=
+c
+> index addb8f2d8939..3f348e05b03f 100644
+> --- a/drivers/media/mc/mc-request.c
+> +++ b/drivers/media/mc/mc-request.c
+> @@ -54,6 +54,7 @@ static void media_request_clean(struct media_request *r=
+eq)
+>  	req->access_count =3D 0;
+>  	WARN_ON(req->num_incomplete_objects);
+>  	req->num_incomplete_objects =3D 0;
+> +	req->manual_completion =3D false;
+>  	wake_up_interruptible_all(&req->poll_wait);
+>  }
+> =20
+> @@ -319,6 +320,7 @@ int media_request_alloc(struct media_device *mdev, in=
+t *alloc_fd)
+>  	req->mdev =3D mdev;
+>  	req->state =3D MEDIA_REQUEST_STATE_IDLE;
+>  	req->num_incomplete_objects =3D 0;
+> +	req->manual_completion =3D false;
+>  	kref_init(&req->kref);
+>  	INIT_LIST_HEAD(&req->objects);
+>  	spin_lock_init(&req->lock);
+> @@ -465,7 +467,7 @@ void media_request_object_unbind(struct media_request=
+_object *obj)
+> =20
+>  	req->num_incomplete_objects--;
+>  	if (req->state =3D=3D MEDIA_REQUEST_STATE_QUEUED &&
+> -	    !req->num_incomplete_objects) {
+> +	    !req->num_incomplete_objects && !req->manual_completion) {
+>  		req->state =3D MEDIA_REQUEST_STATE_COMPLETE;
+>  		completed =3D true;
+>  		wake_up_interruptible_all(&req->poll_wait);
+> @@ -494,7 +496,7 @@ void media_request_object_complete(struct media_reque=
+st_object *obj)
+>  	    WARN_ON(req->state !=3D MEDIA_REQUEST_STATE_QUEUED))
+>  		goto unlock;
+> =20
+> -	if (!--req->num_incomplete_objects) {
+> +	if (!--req->num_incomplete_objects && !req->manual_completion) {
+>  		req->state =3D MEDIA_REQUEST_STATE_COMPLETE;
+>  		wake_up_interruptible_all(&req->poll_wait);
+>  		completed =3D true;
+> @@ -505,3 +507,28 @@ void media_request_object_complete(struct media_requ=
+est_object *obj)
+>  		media_request_put(req);
+>  }
+>  EXPORT_SYMBOL_GPL(media_request_object_complete);
+> +
+> +void media_request_manual_complete(struct media_request *req)
+> +{
+> +	unsigned long flags;
+> +	bool completed =3D false;
+> +
+> +	if (!req || !req->manual_completion)
 
-Regards,
-Sebastian Fricke
-Consultant Software Engineer
+I think calling this function with !req || !req->manual_completion should b=
+e
+considered a programming error, so I'd suggest BUG_ON(). It will be easier
+though if you split them appart in their own branches, this way if someone =
+hits
+that the backtrace will allow differentiating the two errors.
 
-Collabora Ltd
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales no 5513718.
+> +		return;
+> +
+> +	spin_lock_irqsave(&req->lock, flags);
+> +	if (WARN_ON(req->state !=3D MEDIA_REQUEST_STATE_QUEUED))
+> +		goto unlock;
+> +
+> +	req->manual_completion =3D false;
+> +	if (!req->num_incomplete_objects) {
+> +		req->state =3D MEDIA_REQUEST_STATE_COMPLETE;
+> +		wake_up_interruptible_all(&req->poll_wait);
+> +		completed =3D true;
+> +	}
+
+Perhaps we should enforce that no more objects are attached ? Objects today=
+ are
+bitstream buffer and controls and it would be unexpected to have this signa=
+lled
+after the request. I would also suggest BUG_ON() for that case, since it wo=
+uld
+entirely be driver faults.
+
+> +unlock:
+> +	spin_unlock_irqrestore(&req->lock, flags);
+> +	if (completed)
+> +		media_request_put(req);
+> +}
+> +EXPORT_SYMBOL_GPL(media_request_manual_complete);
+> diff --git a/include/media/media-request.h b/include/media/media-request.=
+h
+> index 3cd25a2717ce..31886caa0c7a 100644
+> --- a/include/media/media-request.h
+> +++ b/include/media/media-request.h
+> @@ -56,6 +56,10 @@ struct media_request_object;
+>   * @access_count: count the number of request accesses that are in progr=
+ess
+>   * @objects: List of @struct media_request_object request objects
+>   * @num_incomplete_objects: The number of incomplete objects in the requ=
+est
+> + * @manual_completion: if true, then the request won't be marked as comp=
+leted
+> + * when @num_incomplete_objects reaches 0. Call media_request_manual_com=
+plete()
+> + * to set this field to false and complete the request
+> + * if @num_incomplete_objects =3D=3D 0.
+>   * @poll_wait: Wait queue for poll
+>   * @lock: Serializes access to this struct
+>   */
+> @@ -68,6 +72,7 @@ struct media_request {
+>  	unsigned int access_count;
+>  	struct list_head objects;
+>  	unsigned int num_incomplete_objects;
+> +	bool manual_completion;
+>  	wait_queue_head_t poll_wait;
+>  	spinlock_t lock;
+>  };
+> @@ -218,6 +223,32 @@ media_request_get_by_fd(struct media_device *mdev, i=
+nt request_fd);
+>  int media_request_alloc(struct media_device *mdev,
+>  			int *alloc_fd);
+> =20
+> +/**
+> + * media_request_mark_manual_completion - Set manual_completion to true
+> + *
+> + * @req: The request
+> + *
+> + * Mark that the request has to be manually completed by calling
+> + * media_request_manual_complete().
+> + *
+> + * This function should be called in the req_queue callback.
+> + */
+> +static inline void
+> +media_request_mark_manual_completion(struct media_request *req)
+> +{
+> +	req->manual_completion =3D true;
+> +}
+> +
+> +/**
+> + * media_request_manual_complete - Set manual_completion to false
+> + *
+> + * @req: The request
+> + *
+> + * Set @manual_completion to false, and if @num_incomplete_objects
+> + * is 0, then mark the request as completed.
+
+If my suggestions are kept, I would argue we should document that not more
+object should be attached.
+
+> + */
+> +void media_request_manual_complete(struct media_request *req);
+> +
+>  #else
+> =20
+>  static inline void media_request_get(struct media_request *req)
+> @@ -336,7 +367,7 @@ void media_request_object_init(struct media_request_o=
+bject *obj);
+>   * @req: The media request
+>   * @ops: The object ops for this object
+>   * @priv: A driver-specific priv pointer associated with this object
+> - * @is_buffer: Set to true if the object a buffer object.
+> + * @is_buffer: Set to true if the object is a buffer object.
+>   * @obj: The object
+>   *
+>   * Bind this object to the request and set the ops and priv values of
+
+
+thanks again, this is looking good,
+Nicolas
 
