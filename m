@@ -1,72 +1,73 @@
-Return-Path: <linux-media+bounces-16647-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16648-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52E395CA77
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 12:27:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A57795CA78
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 12:28:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 654A81F21E89
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 10:27:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0A41281D7D
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 10:28:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D909A18732D;
-	Fri, 23 Aug 2024 10:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA8D187338;
+	Fri, 23 Aug 2024 10:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LfBtpnFh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LGvYAvPH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02D217C7DC
-	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 10:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F43185B62
+	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 10:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724408865; cv=none; b=tYe71o/6ZWksvaoRg0ktK3AIR27/d95ZgflzeOO0V7UZbyg4LPEW82g9Bfob7AgDUkHfC0B2N830sLZgtE4rWGW3tC+hNwhSgPfMrv34QK7Jiow6OgW1JsN++kFu5j81VdEiKjPIogp2QljTa/ni//PVbpQlbiqZCmVE7mhmcOY=
+	t=1724408866; cv=none; b=bRjDw5g7N8vOK2E9OQZW7Nti5hFyLjUpuLlm4/c1VDLXEtGxucwixVFwlBYb4/2QQ1xJ012kHHdiOZX1UrVDH19aXg3fmQhcYMZt5b0eFsD1l7gQCDiodlVMs88H0zrLvGUhdiNXAf1ku8m2LV8RMmJWARFKLVOljMLt8r+pbyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724408865; c=relaxed/simple;
-	bh=zFeRD1dubZTlUw2Tr8sTwatKL5cUhpCf5nRuXAjei3U=;
+	s=arc-20240116; t=1724408866; c=relaxed/simple;
+	bh=GCZa41LBUHJwi/6V+Gjr/aZ/mKBaKvgPNKryTB40qo8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R4X7R9dy++h5+xGOF7QD+OQwQ8N7Rss2XAPgYxYxEtsR3/1GQ6TwT91o8YDfrBc12tNg26Q3Wf/oAbYy4AOCH8m0YdoZXDizmY0ZpzbJhBiORigL5Yis/acrD3OL2NLtwwhuBMryQMI+OopBIWN25GpjZTaUZ7u0nBccLpQqxrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LfBtpnFh; arc=none smtp.client-ip=209.85.208.179
+	 MIME-Version; b=Ipf56Pw6JrBK4zFr1LN0wn1wYX2TtWKDlIRWhU7SyH3yPuTG5vR9qbhSQrX1LbSinK5Vc7BhEPIr0IcrokQMLXwxYci/q8iQTZEmpN7MAHUV7c9pjBHSj5kgZwFrJbkMAkuXeBM8g8fIi2nBHnz1WaB/J/lEW64SPTt4EW1LBGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LGvYAvPH; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2f3f2b86b2dso2307871fa.3
-        for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 03:27:43 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f402830d19so2961911fa.0
+        for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 03:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724408862; x=1725013662; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1724408863; x=1725013663; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AauUhOtdcxefr/CJ3rnixUCq6aw4Uq29mzp5fPuYe10=;
-        b=LfBtpnFhXuH5pcRlimFlDlCroKdycTP6yITicgAPCvojSVdlMEpc1lYMC5ubHGUNQW
-         nfsRbajQAtldXrN5aYLigUeDobVQLH/fnzPHiCOPzuNv6W+kiSRjKj4/jASCXEYKqLv3
-         K2Fei6Agb2ntElCTHXbWsnX5MTKGNpqD0nvvM+Sbtfo35oRGLBPMvd8MHmfS/wNkRmPi
-         10ghUzWuXeWmMXS6WEMdduw/anyHv2JMXnt5Hdcdyn9o6ptBhSnJIE1mVnG2ljrz8/Mm
-         hXuIni5nqZ0Tgee7rwDpSp0RlW7kL8HP5F6nngeVAVB/ldudhbD0ItnWK7xDLBnjiaKb
-         u3Vg==
+        bh=OCeplELLLeiitcqgFPRs5GSflnURqy8in4V3Us1wY+w=;
+        b=LGvYAvPHeyNSh1NHzUq+TV3mH8bf5fgVwMqlMMJOlgOZI97+itDTLmlnXms2tZvD3j
+         chIYqFz2V/j6EtgxclZakOHwZJJSHY6qsPsq2JNnvUyCayhte99ACiazwn2QCMuN557z
+         kNwe+jxpaxMF2vjCPxteOHu0rkE1j1vs10GL6fYBk23gIOiKxW7JK2l1zNCpTdcaMeLv
+         Ff1BCmHEpereXdsZGP4yMlmrQ7o0Y3BRNJgmQzHsjw8TlOXpbaLmymCB44lFILbIcXLQ
+         FtmmAQ/1TmcRfITZQrwVHKj6jozumEHuCuTo/SxH8F40vl3xsBssR04h20NDJvdZOBi/
+         mCQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724408862; x=1725013662;
+        d=1e100.net; s=20230601; t=1724408863; x=1725013663;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AauUhOtdcxefr/CJ3rnixUCq6aw4Uq29mzp5fPuYe10=;
-        b=U9njE70+yFmRNxmjMvKH/zlp/HtXb1ha2nc08nh5eWwzcrAh+ug+a1Y/D9adZ9oVtP
-         PyyAK+Nf/tK/FiB+nXLW4y1H9urRFgB2oOfEQzgJUO0hbvJyRLY1buuv+/8Ev7CFvhF0
-         vbhosB8lRnA/ASFklBvZGbZg+nbqxTHoVYWXqYY91MzECDgOErwIGS4SnRtNWbpJ/NjR
-         g/8KA0Zi78jbfM1uFL6Y98u74GDAvV2bPFzini76sVL6zqjBTdPoWJ5QVs2gDSs0DQwa
-         qiX0CB1HmVKNnogwXfrhBncnSSQAi5bV5ZeI9YsfSIrfaGpuf6hj5fZtQr18sI2Frs68
-         6ecQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWQmVRJG5c+kzZY0MFLxaTs9tS2+uoyQIKkQuzfZyUXbvUe0/9DMeAsHTlovjUiX9hqozRaxrcOgwVmDA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVwSq/5JqCoMNsSWagaRi+2QjQOqe3qc1cUC3VpLRGWuhz1zWx
-	pr9UH+1TUNS5PCxD1d15YTupIvf6HJG228rkV6AwTnYZvD24udAprR4cxjY65l8=
-X-Google-Smtp-Source: AGHT+IE+1+8eRFLGdhtll5p2rIecUHj9u7LHRyeW0jm+/ekgPTBRYJ8/dJcusYYe6NZl4x7efnvUlw==
-X-Received: by 2002:a05:6512:3e1b:b0:52f:c285:323d with SMTP id 2adb3069b0e04-534387bb090mr676570e87.5.1724408861821;
-        Fri, 23 Aug 2024 03:27:41 -0700 (PDT)
+        bh=OCeplELLLeiitcqgFPRs5GSflnURqy8in4V3Us1wY+w=;
+        b=vC0zcneFQsvS3+VhM/lERUuSBr0isNgoucqk+EeGQz4goKO3rhlqt9nyOGdepcNoCC
+         tysmgpBj4uPHITw2XySDC7uUFYXuicHG0A4VNKDHwGNxdzkn48Y0BMl82+p3E4DRCpTC
+         npY7O+G7uGaOzTAr34TL/DFTm1oL7oPAk0w8w7syuLz5bYXtvAZwhCK9CK7J+mbeHyI3
+         rdZXaXz1xjKaJ5If7ltJuczXGvPy4Amvpidd3C6LS9sxv5ZQg6kgpiT/pD/AjEDZNLf5
+         WIn46fBOxEf/6f64oPjoaxB1i3DHieLTOydLe9cd5xq5VgHZ/sviLnbn46Be1PLSpxBm
+         PyPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVoB+4c1+dy6bvNUBBTUyGXHVK1tfVmVCIsbEzIIouvhmKXRJoB+0k6Gx0I7wbHQR9gGHDhwBATrkaMPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2xA8ie+t22FYEX0a2I3wsb9zazlZcwHLtp24+CpOWwa1J7uJC
+	/Vq5yuMkrqje0R6GGOF+/erRUgFkL8Vjg7u7lWFin3z+1JaX2yBFeuW4PTuDGsZ/Us+ojC3Q1Wm
+	G4C0=
+X-Google-Smtp-Source: AGHT+IHi4gWkeo6N+GlWFmMIkV/0UQJbJ+PFkaW5dUMWp8wa2Fa+Ci8FiQc6/0jqjsd3e3DDPhkrOA==
+X-Received: by 2002:a05:6512:3ba7:b0:52e:9b87:2340 with SMTP id 2adb3069b0e04-534387be0d3mr640917e87.6.1724408862641;
+        Fri, 23 Aug 2024 03:27:42 -0700 (PDT)
 Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5334ea5d220sm504669e87.183.2024.08.23.03.27.41
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5334ea5d220sm504669e87.183.2024.08.23.03.27.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 03:27:41 -0700 (PDT)
+        Fri, 23 Aug 2024 03:27:42 -0700 (PDT)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -74,9 +75,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: [PATCH v3 4/6] media: i2c: og01a1b: Add support of xvclk supply clock in power management
-Date: Fri, 23 Aug 2024 13:27:29 +0300
-Message-ID: <20240823102731.2240857-5-vladimir.zapolskiy@linaro.org>
+Subject: [PATCH v3 5/6] media: i2c: og01a1b: Add management of optional reset GPIO
+Date: Fri, 23 Aug 2024 13:27:30 +0300
+Message-ID: <20240823102731.2240857-6-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240823102731.2240857-1-vladimir.zapolskiy@linaro.org>
 References: <20240823102731.2240857-1-vladimir.zapolskiy@linaro.org>
@@ -88,102 +89,67 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The OmniVision OG01A1B camera sensor has an xvclk supply clock, which
-could be described and then explicitly controlled on OF platforms.
+Omnivision OG01A1B camera sensor may have a connected active low GPIO
+to XSHUTDOWN pad, and if so, include it into sensor power up sequence.
 
 Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 ---
- drivers/media/i2c/og01a1b.c | 35 ++++++++++++++++++++++++++++-------
- 1 file changed, 28 insertions(+), 7 deletions(-)
+ drivers/media/i2c/og01a1b.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index d993ef4bad46..766740bd04c1 100644
+index 766740bd04c1..90a68201f43f 100644
 --- a/drivers/media/i2c/og01a1b.c
 +++ b/drivers/media/i2c/og01a1b.c
-@@ -3,6 +3,7 @@
- 
- #include <asm/unaligned.h>
+@@ -5,6 +5,7 @@
  #include <linux/acpi.h>
-+#include <linux/clk.h>
+ #include <linux/clk.h>
  #include <linux/delay.h>
++#include <linux/gpio/consumer.h>
  #include <linux/i2c.h>
  #include <linux/module.h>
-@@ -418,6 +419,8 @@ static const struct og01a1b_mode supported_modes[] = {
- };
+ #include <linux/pm_runtime.h>
+@@ -420,6 +421,7 @@ static const struct og01a1b_mode supported_modes[] = {
  
  struct og01a1b {
-+	struct clk *xvclk;
-+
+ 	struct clk *xvclk;
++	struct gpio_desc *reset_gpio;
+ 
  	struct v4l2_subdev sd;
  	struct media_pad pad;
- 	struct v4l2_ctrl_handler ctrl_handler;
-@@ -898,8 +901,10 @@ static int og01a1b_identify_module(struct og01a1b *og01a1b)
+@@ -981,6 +983,9 @@ static int og01a1b_power_on(struct device *dev)
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct og01a1b *og01a1b = to_og01a1b(sd);
+ 
++	gpiod_set_value_cansleep(og01a1b->reset_gpio, 0);
++	usleep_range(USEC_PER_MSEC, 2 * USEC_PER_MSEC);
++
+ 	return clk_prepare_enable(og01a1b->xvclk);
+ }
+ 
+@@ -991,6 +996,8 @@ static int og01a1b_power_off(struct device *dev)
+ 
+ 	clk_disable_unprepare(og01a1b->xvclk);
+ 
++	gpiod_set_value_cansleep(og01a1b->reset_gpio, 1);
++
  	return 0;
  }
  
--static int og01a1b_check_hwcfg(struct device *dev)
-+static int og01a1b_check_hwcfg(struct og01a1b *og01a1b)
- {
-+	struct i2c_client *client = v4l2_get_subdevdata(&og01a1b->sd);
-+	struct device *dev = &client->dev;
- 	struct fwnode_handle *ep;
- 	struct fwnode_handle *fwnode = dev_fwnode(dev);
- 	struct v4l2_fwnode_endpoint bus_cfg = {
-@@ -913,10 +918,13 @@ static int og01a1b_check_hwcfg(struct device *dev)
- 		return -ENXIO;
- 
- 	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
--
- 	if (ret) {
--		dev_err(dev, "can't get clock frequency");
--		return ret;
-+		if (!og01a1b->xvclk) {
-+			dev_err(dev, "can't get clock frequency");
-+			return ret;
-+		}
-+
-+		mclk = clk_get_rate(og01a1b->xvclk);
+@@ -1031,6 +1038,13 @@ static int og01a1b_probe(struct i2c_client *client)
+ 		return ret;
  	}
  
- 	if (mclk != OG01A1B_MCLK) {
-@@ -970,13 +978,19 @@ static int og01a1b_check_hwcfg(struct device *dev)
- /* Power/clock management functions */
- static int og01a1b_power_on(struct device *dev)
- {
--	/* Device is already turned on by i2c-core with ACPI domain PM. */
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct og01a1b *og01a1b = to_og01a1b(sd);
- 
--	return 0;
-+	return clk_prepare_enable(og01a1b->xvclk);
- }
- 
- static int og01a1b_power_off(struct device *dev)
- {
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct og01a1b *og01a1b = to_og01a1b(sd);
-+
-+	clk_disable_unprepare(og01a1b->xvclk);
-+
- 	return 0;
- }
- 
-@@ -1003,7 +1017,14 @@ static int og01a1b_probe(struct i2c_client *client)
- 
- 	v4l2_i2c_subdev_init(&og01a1b->sd, client, &og01a1b_subdev_ops);
- 
--	ret = og01a1b_check_hwcfg(&client->dev);
-+	og01a1b->xvclk = devm_clk_get_optional(&client->dev, NULL);
-+	if (IS_ERR(og01a1b->xvclk)) {
-+		ret = PTR_ERR(og01a1b->xvclk);
-+		dev_err(&client->dev, "failed to get xvclk clock: %d\n", ret);
-+		return ret;
++	og01a1b->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
++						      GPIOD_OUT_LOW);
++	if (IS_ERR(og01a1b->reset_gpio)) {
++		dev_err(&client->dev, "cannot get reset GPIO\n");
++		return PTR_ERR(og01a1b->reset_gpio);
 +	}
 +
-+	ret = og01a1b_check_hwcfg(og01a1b);
- 	if (ret) {
- 		dev_err(&client->dev, "failed to check HW configuration: %d",
- 			ret);
+ 	/* The sensor must be powered on to read the CHIP_ID register */
+ 	ret = og01a1b_power_on(&client->dev);
+ 	if (ret)
 -- 
 2.45.2
 
