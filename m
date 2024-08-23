@@ -1,126 +1,122 @@
-Return-Path: <linux-media+bounces-16674-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16675-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FC895D22B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 17:57:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 189C795D33C
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 18:26:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA8B6283609
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:57:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6A4B1F23094
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 16:26:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2555918BBAE;
-	Fri, 23 Aug 2024 15:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30E918BB80;
+	Fri, 23 Aug 2024 16:26:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="COLWxKwq"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JpFgaCA3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AB21898E6;
-	Fri, 23 Aug 2024 15:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6262F1586D3;
+	Fri, 23 Aug 2024 16:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724428559; cv=none; b=EfvHtDSlIWYZmT3s2kKcRGCVrZWSGv/5fH7/EQNDeaxrwrETCeIDbrI6w8ZVwnYiF2i3xVN/5YLO9i7AbJMKJpJM7a+tRlddL58+xdvJ2ur4RZVKpOglPskbSr9UoZ1hX9Ljc4N25Or3ZkFaaAv4F21QJlhXX/VHcB+xyMpH9CY=
+	t=1724430382; cv=none; b=XhTrfuyK+pZ8WlbXsuo5lfsMXAUXWFCYyMny67l0DUs4kLgE8krOu0CLo8Z8FMrVpmM6QqGC16+zGWxzDi3o7Ws9FryjCjHNdxaVm9igSvWwDxHuP/v7MPKe4/7g+3OiUZgpzlomB76RwbTo+bK6U4ZmoRR3N8J6wI+IjcPZgvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724428559; c=relaxed/simple;
-	bh=j8rRZh/7vK2gSDNSUcMwzZv/glSVV+Vcun13cvEoLrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nzrpf4YPpYqPbeyQmXTtcS5mnpNpYh1pXAXNG6qyLq42tyB9bS3lWMNuKPSC6LDGUZU6q58//YK7XWvI1sa6OE7QvAPXNxqva6L/nUf+gIU5AGzJ77T3vWYCFfi6rs5Z2sXAGL8vFm/7RVLSQp0PgBACpjhUy/KCTGLPoB8Zfzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=COLWxKwq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B11A22D5;
-	Fri, 23 Aug 2024 17:54:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724428492;
-	bh=j8rRZh/7vK2gSDNSUcMwzZv/glSVV+Vcun13cvEoLrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=COLWxKwqd8JpQbWo4Dl5eAB+s5k5CHV690jRFmECZqGgnikI6bOc1754VPxuFRF+/
-	 1yPVhDkF5EmvOsJ4nAxGk1AllV2YAVx7+vFNjYqxOQ+zKdAOAg5W6HVgoCHFWTQT6F
-	 79wC6SRas8VSLdCbt7a4tnuBaavTDka/3piduHUk=
-Date: Fri, 23 Aug 2024 18:55:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 2/2] media: mt9p031: Drop CONFIG_OF ifdeffery
-Message-ID: <20240823155554.GS26098@pendragon.ideasonboard.com>
-References: <20230910160126.70122-1-biju.das.jz@bp.renesas.com>
- <20230910160126.70122-3-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1724430382; c=relaxed/simple;
+	bh=jQO3BUCwwd7loSkWxfYR+E/d+c3DO7vteMbYJziMD0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H3R9xTD6ddylUKJm9qrBw0ttbHzDqT/Nc7Yl5eFiGq1XVqBpBKIHbQAz3oh4GhpQhMvxN1+wu2VOGp/gwdvnrS9OWbL3VhPbXmSv+YGHS6YYlmIEaPZyt9ZdKBTEyMEzRGeJWTy/CVc5c5QIwFX73msNpiSJ7qJDTD2VPBF5Bkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JpFgaCA3; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C6E820008;
+	Fri, 23 Aug 2024 16:26:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1724430378;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dZSZ4ZWkj6nN5cffjKGJ15MFqfbm3AdMyv45FOgL9lo=;
+	b=JpFgaCA32WqOAE3V0avi6VMRNuexZVaIWTSYeFl+0wgVveqM/f8XnfTjdFcSomsT3BDCKi
+	0Hh30CESmpUDky3nmmbKHKTd3/FYNC67cupzeYCQdrWMXHbHlZvNHTbCX8xOXRv3G92xhv
+	FmfEpg24mUCZNK/Nkb7CGqfpHDEAZEbbkVH5Hy2LtG7rd9/wPbnLHDPLGwy0ZUTj1l4VEZ
+	2ppZ3j7o66upZ+wP+dGi41RfTvb5TavNh/t8/NvDOcVij0SEDtRzMIvQE2Pr7fKRvgS78e
+	rDoh1VviE+kBhlSbxDgHf7B4cE11WmrgL3suG9gviol32opZCBDPI0VXULmqkQ==
+Date: Fri, 23 Aug 2024 18:26:16 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Hui-Ping Chen <hpchen0nvt@gmail.com>
+Cc: richard@nod.at, vigneshr@ti.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ esben@geanix.com, linux-arm-kernel@lists.infradead.org,
+ linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Krzysztof
+ Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: mtd: nuvoton,ma35d1-nand: add new
+ bindings
+Message-ID: <20240823182616.5a85e1ae@xps-13>
+In-Reply-To: <20240821071132.281018-2-hpchen0nvt@gmail.com>
+References: <20240821071132.281018-1-hpchen0nvt@gmail.com>
+	<20240821071132.281018-2-hpchen0nvt@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230910160126.70122-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi Biju,
+Hi,
 
-Thank you for the patch.
+hpchen0nvt@gmail.com wrote on Wed, 21 Aug 2024 07:11:31 +0000:
 
-On Sun, Sep 10, 2023 at 05:01:26PM +0100, Biju Das wrote:
-> Drop of_match_ptr() from mt9p031_i2c_driver and get rid of ugly CONFIG_OF
-> if check. This slightly increases the size of mt9p031_i2c_driver on non-OF
-> system and shouldn't be an issue.
-> 
-> Add mod_devicetable.h include.
-> 
-> It also allows, in case if needed, to enumerate this device via ACPI with
-> PRP0001 magic.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> Add dt-bindings for the Nuvoton MA35 SoC NAND Controller.
+>=20
+> Signed-off-by: Hui-Ping Chen <hpchen0nvt@gmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  drivers/media/i2c/mt9p031.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> index 540cb519915c..91d5de5b95f0 100644
-> --- a/drivers/media/i2c/mt9p031.c
-> +++ b/drivers/media/i2c/mt9p031.c
-> @@ -15,6 +15,7 @@
->  #include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/log2.h>
-> +#include <linux/mod_devicetable.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> @@ -1222,7 +1223,6 @@ static const struct i2c_device_id mt9p031_id[] = {
->  };
->  MODULE_DEVICE_TABLE(i2c, mt9p031_id);
->  
-> -#if IS_ENABLED(CONFIG_OF)
->  static const struct of_device_id mt9p031_of_match[] = {
->  	{ .compatible = "aptina,mt9p006", .data = (void *)MEDIA_BUS_FMT_SGRBG12_1X12 },
->  	{ .compatible = "aptina,mt9p031", .data = (void *)MEDIA_BUS_FMT_SGRBG12_1X12 },
-> @@ -1230,11 +1230,10 @@ static const struct of_device_id mt9p031_of_match[] = {
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, mt9p031_of_match);
-> -#endif
->  
->  static struct i2c_driver mt9p031_i2c_driver = {
->  	.driver = {
-> -		.of_match_table = of_match_ptr(mt9p031_of_match),
-> +		.of_match_table = mt9p031_of_match,
->  		.name = "mt9p031",
->  	},
->  	.probe          = mt9p031_probe,
+>  .../bindings/mtd/nuvoton,ma35d1-nand.yaml     | 93 +++++++++++++++++++
+>  1 file changed, 93 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-=
+nand.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.ya=
+ml b/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
+> new file mode 100644
+> index 000000000000..152784e73263
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mtd/nuvoton,ma35d1-nand.yaml
+> @@ -0,0 +1,93 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mtd/nuvoton,ma35d1-nand.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton MA35D1 NAND Flash Interface (NFI) Controller
+> +
+> +maintainers:
+> +  - Hui-Ping Chen <hpchen0nvt@gmail.com>
+> +
+> +allOf:
+> +  - $ref: nand-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nuvoton,ma35d1-nand
 
--- 
-Regards,
+Can we please use the -nand-controller suffix. A NAND is a the common
+name for a chip with storage inside. You are describing a host
+controller that can be connected to in order to talk to a NAND.
 
-Laurent Pinchart
+Thanks,
+Miqu=C3=A8l
 
