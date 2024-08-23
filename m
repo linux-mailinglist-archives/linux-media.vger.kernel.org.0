@@ -1,351 +1,183 @@
-Return-Path: <linux-media+bounces-16665-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16666-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C36395CFF3
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 16:33:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6F795D052
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 16:47:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6206EB2C1B3
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:32:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EF4E286262
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:47:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73D821946C9;
-	Fri, 23 Aug 2024 14:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E1E81885AC;
+	Fri, 23 Aug 2024 14:46:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ews8qhWn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SI3gDaio"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE126188924;
-	Fri, 23 Aug 2024 14:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D1C186E42;
+	Fri, 23 Aug 2024 14:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724422822; cv=none; b=ByN13A1P9O0gwHzF6ONf7iSeLXrwR1lte05//8SZ5+CKIhpR7ih7hA59ZsItGlgSaq9hGuMbCZhEe3hR15M8OFwcJG6JmIJzhMLrZ5s/jkTI3xnLfMLNmjfAkMFrZJhaVhLXIyM2gaM6baIdLjCmG3BBm45UXDklYSMMuroGAxY=
+	t=1724424410; cv=none; b=KuryEVD0ltyV7Uci2O79j+8lWFj1K5uoMFToXKZf4ycwV7Pi5XgsB0/W4yroTQD/gdTYae312ba3zPyFLVaHcdJLvpb5PvyMd59ZRLmguJfRpvFdo7tF/rT7qx0wjQXrJW8yBSkdIvmOor1Z54q94GXx+ySAEYEXLyPrWrx374s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724422822; c=relaxed/simple;
-	bh=UoJ5fJMmlhygHRetgflC2hxUvjxWyKFUJ5/bnCZVNUc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iaXMerCqjg3XjMSTpqCh7Yeb0Z2LOKBaUvxzkD3UPl8o89OLJuFFoy7eGiskzbj6cCxt9Zwp3XS3yrnN6b+ab6a4SLdhaJy3tGuBxFfCSzRsXzXpFTMN9qiq4aO/KtV+UN2Bw/mXF49qw3PXs1OvRUarVg3muhlZLEz7ATekjuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ews8qhWn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4440C32786;
-	Fri, 23 Aug 2024 14:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724422822;
-	bh=UoJ5fJMmlhygHRetgflC2hxUvjxWyKFUJ5/bnCZVNUc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ews8qhWnjGup4oLn7E65LN2Zw+jr0QQqMoDWddjuo1g0KKN2g6/Sfnb9XCtKwM7QZ
-	 y7HtXXe3Xs43mwkwzqUvpj+wzXUoUP3QlYyQqV2Nb+XAUa9uQgIMS1O8AeLYpcV17W
-	 OEHALbLIqjau82+xucH+ruXml9VdfDfxK10nDAZpRzGBm5yNmiw8GELwPOYa6WyE0T
-	 PGsU59PCMMEkRWXmav0Y+SLWMBt5jkEcAhUGyu44P6xm47Wc6NaOpxDYICh32EstyP
-	 NJs3PsbBT9F4XPftGv5EorwKUQE34OCX6QBzkEhkPy1ZajmJuHujtjqwVwSvxK8KnB
-	 kTDpgFq6EQQ3w==
-Message-ID: <ff3136fa-712b-4238-a534-4f1f5c542197@kernel.org>
-Date: Fri, 23 Aug 2024 17:20:14 +0300
+	s=arc-20240116; t=1724424410; c=relaxed/simple;
+	bh=deyOJueAFpuhe063rld2qyysTukBb27gXAkYpa4SJhM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cspBxzr4Mteo15jUaYeLvzwY0qThbLMbnBHvXgV8Co2MGh7TXmLhgDDxZ5VebpOe4BXeje/DgUG4fXxNHW5vE1lAJBD8IOS+gynIyLvnprC8ZDL7H7YrFrLHQIhilqBzf6qZe5ikb1+MPV4SsUACZa4ytasWhe4gwnSAGHPZiGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SI3gDaio; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97D2B497;
+	Fri, 23 Aug 2024 16:45:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724424342;
+	bh=deyOJueAFpuhe063rld2qyysTukBb27gXAkYpa4SJhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SI3gDaioeU0mv7qbdTb66rf4ZmIVLfJtsoOv3BReTKdiqfr7QaeT1B1rNABEuo9vQ
+	 WM4GVcdT2S4g8SyeqVUdP7N/1sDSyeBUTefll/FG1aPI879Mf7qnpj+iwRca28T229
+	 rdYhMAFjQOU7b4TLTqvz0T/7dC6KFrcbm8+7Nxro=
+Date: Fri, 23 Aug 2024 17:46:43 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: =?utf-8?B?5Zue5aSNOiDlm57lpI06IOWbng==?=
+ =?utf-8?B?5aSNOiDlm57lpI06IOWbnuWkjTogW1BBVENI?= =?utf-8?Q?=5D?= staging:
+ media: starfive: Add multiple resolution support
+Message-ID: <20240823144643.GM26098@pendragon.ideasonboard.com>
+References: <20240809095738.GG5833@pendragon.ideasonboard.com>
+ <ZQ0PR01MB1302CAAE59FA0358E7FE6BD0F2BA2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <20240809132624.GB1435@pendragon.ideasonboard.com>
+ <ZQ0PR01MB13029DA731711FAA57BD13A4F2852@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <20240812103357.GB18729@pendragon.ideasonboard.com>
+ <ZQ0PR01MB130236FA891A04350CBC4245F2852@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <20240819001327.GK29465@pendragon.ideasonboard.com>
+ <ZQ0PR01MB1302CE9D6EC726D3FBE8D6EDF28C2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
+ <20240819081953.GM29465@pendragon.ideasonboard.com>
+ <ZQ0PR01MB130204B8D11C2D13E3248870F28C2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 3/3] net: ethernet: ti: am65-cpsw: Add minimal
- XDP support
-To: Julien Panis <jpanis@baylibre.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Ratheesh Kannoth <rkannoth@marvell.com>,
- Naveen Mamindlapalli <naveenm@marvell.com>,
- Jacob Keller <jacob.e.keller@intel.com>
-Cc: danishanwar@ti.com, yuehaibing@huawei.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, "Govindarajan, Sriramakrishnan" <srk@ti.com>
-References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
- <20240223-am65-cpsw-xdp-basic-v9-3-2c194217e325@baylibre.com>
-Content-Language: en-US
-From: Roger Quadros <rogerq@kernel.org>
-In-Reply-To: <20240223-am65-cpsw-xdp-basic-v9-3-2c194217e325@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZQ0PR01MB130204B8D11C2D13E3248870F28C2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn>
 
-
-
-On 12/04/2024 18:38, Julien Panis wrote:
-> This patch adds XDP (eXpress Data Path) support to TI AM65 CPSW
-> Ethernet driver. The following features are implemented:
-> - NETDEV_XDP_ACT_BASIC (XDP_PASS, XDP_TX, XDP_DROP, XDP_ABORTED)
-> - NETDEV_XDP_ACT_REDIRECT (XDP_REDIRECT)
-> - NETDEV_XDP_ACT_NDO_XMIT (ndo_xdp_xmit callback)
+On Mon, Aug 19, 2024 at 01:18:01PM +0000, Changhuang Liang wrote:
+> > On Mon, Aug 19, 2024 at 01:37:30AM +0000, Changhuang Liang wrote:
+> > > > On Mon, Aug 12, 2024 at 12:13:03PM +0000, Changhuang Liang wrote:
+> > > > > > On Mon, Aug 12, 2024 at 09:43:47AM +0000, Changhuang Liang wrote:
+> > > > > > > > On Fri, Aug 09, 2024 at 12:12:01PM +0000, Changhuang Liang wrote:
+> > > > > > > > > > On Fri, Apr 19, 2024 at 01:19:55AM -0700, Changhuang Liang wrote:
+> > > > > > > > > > > Add multiple resolution support for video "capture_raw" device.
+> > > > > > > > > > > Otherwise it will capture the wrong image data if the width is not 1920.
+> > > > > > > > > > >
+> > > > > > > > > > > Fixes: e080f339c80a ("media: staging: media: starfive: camss: Add capture driver")
+> > > > > > > > > > >
+> > > > > > > > > > > Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> > > > > > > > > > > ---
+> > > > > > > > > > >  drivers/staging/media/starfive/camss/stf-capture.c | 5 ++++-
+> > > > > > > > > > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > > > > > > > > > >
+> > > > > > > > > > > diff --git
+> > > > > > > > > > > a/drivers/staging/media/starfive/camss/stf-capture.c
+> > > > > > > > > > > b/drivers/staging/media/starfive/camss/stf-capture.c
+> > > > > > > > > > > index ec5169e7b391..9e853ff2596a 100644
+> > > > > > > > > > > --- a/drivers/staging/media/starfive/camss/stf-capture.c
+> > > > > > > > > > > +++ b/drivers/staging/media/starfive/camss/stf-capture.c
+> > > > > > > > > > > @@ -177,9 +177,12 @@ static void stf_channel_set(struct stfcamss_video *video)  {
+> > > > > > > > > > >  	struct stf_capture *cap = to_stf_capture(video);
+> > > > > > > > > > >  	struct stfcamss *stfcamss = cap->video.stfcamss;
+> > > > > > > > > > > +	struct v4l2_pix_format *pix;
+> > > > > > > > > >
+> > > > > > > > > > This variable can be const as you don't modify the format.
+> > > > > > > > > >
+> > > > > > > > > > >  	u32 val;
+> > > > > > > > > > >
+> > > > > > > > > > >  	if (cap->type == STF_CAPTURE_RAW) {
+> > > > > > > > > > > +		pix = &video->active_fmt.fmt.pix;
+> > > > > > > > > >
+> > > > > > > > > > And it can be declared and initialized here:
+> > > > > > > > > >
+> > > > > > > > > > 		const struct v4l2_pix_format *pix = &video->active_fmt.fmt.pix;
+> > > > > > > > > >
+> > > > > > > > > > > +
+> > > > > > > > > > >  		val = stf_syscon_reg_read(stfcamss, VIN_CHANNEL_SEL_EN);
+> > > > > > > > > > >  		val &= ~U0_VIN_CHANNEL_SEL_MASK;
+> > > > > > > > > > >  		val |= CHANNEL(0);
+> > > > > > > > > > > @@ -193,7 +196,7 @@ static void stf_channel_set(struct stfcamss_video *video)
+> > > > > > > > > > >  		val |= PIXEL_HEIGH_BIT_SEL(0);
+> > > > > > > > > > >
+> > > > > > > > > > >  		val &= ~U0_VIN_PIX_CNT_END_MASK;
+> > > > > > > > > > > -		val |= PIX_CNT_END(IMAGE_MAX_WIDTH / 4 - 1);
+> > > > > > > > > > > +		val |= PIX_CNT_END(pix->width / 4 - 1);
+> > > > > > > > > >
+> > > > > > > > > > Is there no need to consider the image height as well ?
+> > > > > > > > > > How does the driver prevent buffer overflows if the
+> > > > > > > > > > sensor sends more data than expected ?
+> > > > > > > > >
+> > > > > > > > > Our hardware will confirm a frame of data through vblank
+> > > > > > > > > signal, so there is no image height configuration.
+> > > > > > > >
+> > > > > > > > What happens if the system expects, for instance, a 1920x1080
+> > > > > > > > RAW8 image, and allocates a buffer of of 1920x1080 bytes,
+> > > > > > > > but the sensor outputs more lines ? Does the camera hardware
+> > > > > > > > in the SoC offer an option to prevent buffer overruns ?
+> > > > > > >
+> > > > > > > The hardware can confirm the image height by using the VSYNC signal.
+> > > > > > >
+> > > > > > > Image will transfer when VSYNC is high.
+> > > > > > >
+> > > > > > > VSYNC time = (width + h_blank) * height;
+> > > > > >
+> > > > > > What I'm trying to understand is what happens if the ISP is configured for
+> > > > > > 1080 lines, but the camera sensor sends more than 1080 lines
+> > > > > > (the VSYNC signal is active for more than 1080 lines). Where in
+> > > > > > the driver is the hardware configure with the 1080 lines
+> > > > > > limit to avoid buffer overflows ?
+> > > > >
+> > > > > If is "capture_raw" video device, no image height can be configured.
+> > > >
+> > > > In that case what happens if the camera sensor sends more lines than
+> > > > expected ? Will the raw video device write past the end of the buffer ?
+> > >
+> > > Yes, the buffer will overflows, so we will use the software restrictions.
+> > > Implement .link_validate hooks for the CSI2RX subdev and
+> > > "capture_raw" video device.
+> > 
+> > Is there an IOMMU in the system that could help preventing buffer overflows
+> > to reach system memory ?
 > 
-> The page pool memory model is used to get better performance.
-> Below are benchmark results obtained for the receiver with iperf3 default
-> parameters:
-> - Without page pool: 495 Mbits/sec
-> - With page pool: 605 Mbits/sec (actually 610 Mbits/sec, with a 5 Mbits/sec
-> loss due to extra processing in the hot path to handle XDP).
-> 
-> Signed-off-by: Julien Panis <jpanis@baylibre.com>
-> ---
->  drivers/net/ethernet/ti/am65-cpsw-nuss.c | 659 ++++++++++++++++++++++++++-----
->  drivers/net/ethernet/ti/am65-cpsw-nuss.h |  13 +
->  2 files changed, 576 insertions(+), 96 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.c b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> index 9d2f4ac783e4..3c8134006061 100644
-> --- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> +++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> @@ -5,6 +5,7 @@
->   *
+> JH7110 SoC has no IOMMU.
 
-<snip>
+Thank you for the information.
 
-> +
-> +static int am65_cpsw_run_xdp(struct am65_cpsw_common *common,
-> +			     struct am65_cpsw_port *port,
-> +			     struct xdp_buff *xdp,
-> +			     int desc_idx, int cpu, int *len)
-> +{
-> +	struct am65_cpsw_rx_chn *rx_chn = &common->rx_chns;
-> +	struct net_device *ndev = port->ndev;
-> +	int ret = AM65_CPSW_XDP_CONSUMED;
-> +	struct am65_cpsw_tx_chn *tx_chn;
-> +	struct netdev_queue *netif_txq;
-> +	struct xdp_frame *xdpf;
-> +	struct bpf_prog *prog;
-> +	struct page *page;
-> +	u32 act;
-> +
-> +	prog = READ_ONCE(port->xdp_prog);
-> +	if (!prog)
-> +		return AM65_CPSW_XDP_PASS;
-> +
-> +	act = bpf_prog_run_xdp(prog, xdp);
-> +	/* XDP prog might have changed packet data and boundaries */
-> +	*len = xdp->data_end - xdp->data;
-> +
-> +	switch (act) {
-> +	case XDP_PASS:
-> +		ret = AM65_CPSW_XDP_PASS;
-> +		goto out;
-> +	case XDP_TX:
-> +		tx_chn = &common->tx_chns[cpu % AM65_CPSW_MAX_TX_QUEUES];
-> +		netif_txq = netdev_get_tx_queue(ndev, tx_chn->id);
-> +
-> +		xdpf = xdp_convert_buff_to_frame(xdp);
-> +		if (unlikely(!xdpf))
-> +			break;
-> +
-> +		__netif_tx_lock(netif_txq, cpu);
-> +		ret = am65_cpsw_xdp_tx_frame(ndev, tx_chn, xdpf,
-> +					     AM65_CPSW_TX_BUF_TYPE_XDP_TX);
-> +		__netif_tx_unlock(netif_txq);
-> +		if (ret)
-> +			break;
-> +
-> +		ndev->stats.rx_bytes += *len;
-> +		ndev->stats.rx_packets++;
-> +		ret = AM65_CPSW_XDP_CONSUMED;
-> +		goto out;
-> +	case XDP_REDIRECT:
-> +		if (unlikely(xdp_do_redirect(ndev, xdp, prog)))
-> +			break;
-> +
-> +		ndev->stats.rx_bytes += *len;
-> +		ndev->stats.rx_packets++;
-> +		ret = AM65_CPSW_XDP_REDIRECT;
-> +		goto out;
-> +	default:
-> +		bpf_warn_invalid_xdp_action(ndev, prog, act);
-> +		fallthrough;
-> +	case XDP_ABORTED:
-> +		trace_xdp_exception(ndev, prog, act);
-> +		fallthrough;
-> +	case XDP_DROP:
-> +		ndev->stats.rx_dropped++;
-> +	}
-> +
-> +	page = virt_to_head_page(xdp->data);
-> +	am65_cpsw_put_page(rx_chn, page, true, desc_idx);
+Based on this, the best we can do is hoping that the video source will
+never send more lines than expected. In most cases there will be no
+issue, but signal glitches or other hardware glitches on the sensor side
+may cause memory corruption. That sounds like a worrying hardware
+vulnerability :-(
 
-here you put the page for failures, XDP_ABORTED or XDP_DROP.
-
-> +
-> +out:
-> +	return ret;
-> +}
-> +
->  static void am65_cpsw_nuss_rx_ts(struct sk_buff *skb, u32 *psdata)
->  {
->  	struct skb_shared_hwtstamps *ssh;
-> @@ -795,7 +1090,7 @@ static void am65_cpsw_nuss_rx_csum(struct sk_buff *skb, u32 csum_info)
->  }
->  
->  static int am65_cpsw_nuss_rx_packets(struct am65_cpsw_common *common,
-> -				     u32 flow_idx)
-> +				     u32 flow_idx, int cpu)
->  {
->  	struct am65_cpsw_rx_chn *rx_chn = &common->rx_chns;
->  	u32 buf_dma_len, pkt_len, port_id = 0, csum_info;
-> @@ -803,13 +1098,16 @@ static int am65_cpsw_nuss_rx_packets(struct am65_cpsw_common *common,
->  	struct am65_cpsw_ndev_stats *stats;
->  	struct cppi5_host_desc_t *desc_rx;
->  	struct device *dev = common->dev;
-> -	struct sk_buff *skb, *new_skb;
-> +	struct page *page, *new_page;
->  	dma_addr_t desc_dma, buf_dma;
->  	struct am65_cpsw_port *port;
-> +	int headroom, desc_idx, ret;
->  	struct net_device *ndev;
-> +	struct sk_buff *skb;
-> +	struct xdp_buff	xdp;
-> +	void *page_addr;
->  	void **swdata;
->  	u32 *psdata;
-> -	int ret = 0;
->  
->  	ret = k3_udma_glue_pop_rx_chn(rx_chn->rx_chn, flow_idx, &desc_dma);
->  	if (ret) {
-> @@ -830,7 +1128,8 @@ static int am65_cpsw_nuss_rx_packets(struct am65_cpsw_common *common,
->  		__func__, flow_idx, &desc_dma);
->  
->  	swdata = cppi5_hdesc_get_swdata(desc_rx);
-> -	skb = *swdata;
-> +	page_addr = *swdata;
-> +	page = virt_to_page(page_addr);
->  	cppi5_hdesc_get_obuf(desc_rx, &buf_dma, &buf_dma_len);
->  	k3_udma_glue_rx_cppi5_to_dma_addr(rx_chn->rx_chn, &buf_dma);
->  	pkt_len = cppi5_hdesc_get_pktlen(desc_rx);
-> @@ -838,12 +1137,7 @@ static int am65_cpsw_nuss_rx_packets(struct am65_cpsw_common *common,
->  	dev_dbg(dev, "%s rx port_id:%d\n", __func__, port_id);
->  	port = am65_common_get_port(common, port_id);
->  	ndev = port->ndev;
-> -	skb->dev = ndev;
-> -
->  	psdata = cppi5_hdesc_get_psdata(desc_rx);
-> -	/* add RX timestamp */
-> -	if (port->rx_ts_enabled)
-> -		am65_cpsw_nuss_rx_ts(skb, psdata);
->  	csum_info = psdata[2];
->  	dev_dbg(dev, "%s rx csum_info:%#x\n", __func__, csum_info);
->  
-> @@ -851,36 +1145,66 @@ static int am65_cpsw_nuss_rx_packets(struct am65_cpsw_common *common,
->  
->  	k3_cppi_desc_pool_free(rx_chn->desc_pool, desc_rx);
->  
-> -	new_skb = netdev_alloc_skb_ip_align(ndev, AM65_CPSW_MAX_PACKET_SIZE);
-> -	if (new_skb) {
-> -		ndev_priv = netdev_priv(ndev);
-> -		am65_cpsw_nuss_set_offload_fwd_mark(skb, ndev_priv->offload_fwd_mark);
-> -		skb_put(skb, pkt_len);
-> -		skb->protocol = eth_type_trans(skb, ndev);
-> -		am65_cpsw_nuss_rx_csum(skb, csum_info);
-> -		napi_gro_receive(&common->napi_rx, skb);
-> -
-> -		stats = this_cpu_ptr(ndev_priv->stats);
-> -
-> -		u64_stats_update_begin(&stats->syncp);
-> -		stats->rx_packets++;
-> -		stats->rx_bytes += pkt_len;
-> -		u64_stats_update_end(&stats->syncp);
-> -		kmemleak_not_leak(new_skb);
-> -	} else {
-> -		ndev->stats.rx_dropped++;
-> -		new_skb = skb;
-> +	desc_idx = am65_cpsw_nuss_desc_idx(rx_chn->desc_pool, desc_rx,
-> +					   rx_chn->dsize_log2);
-> +
-> +	skb = am65_cpsw_build_skb(page_addr, ndev,
-> +				  AM65_CPSW_MAX_PACKET_SIZE);
-> +	if (unlikely(!skb)) {
-> +		new_page = page;
-> +		goto requeue;
-> +	}
-> +
-> +	if (port->xdp_prog) {
-> +		xdp_init_buff(&xdp, AM65_CPSW_MAX_PACKET_SIZE, &port->xdp_rxq);
-> +
-> +		xdp_prepare_buff(&xdp, page_addr, skb_headroom(skb),
-> +				 pkt_len, false);
-> +
-> +		ret = am65_cpsw_run_xdp(common, port, &xdp, desc_idx,
-> +					cpu, &pkt_len);
-> +		if (ret != AM65_CPSW_XDP_PASS)
-
-For all cases except AM65_CPSW_XDP_PASS, you never requeue the page for RX.
-This is why after all pages are exhausted for example with XDP_DROP,
-RX will stall forever.
-
-I will send a fixup patch for this.
-
-> +			return ret;
-> +
-> +		/* Compute additional headroom to be reserved */
-> +		headroom = (xdp.data - xdp.data_hard_start) - skb_headroom(skb);
-> +		skb_reserve(skb, headroom);
->  	}
->  
-> +	/* Pass skb to netstack if no XDP prog or returned XDP_PASS */
-> +	if (port->rx_ts_enabled)
-> +		am65_cpsw_nuss_rx_ts(skb, psdata);
-> +
-> +	ndev_priv = netdev_priv(ndev);
-> +	am65_cpsw_nuss_set_offload_fwd_mark(skb, ndev_priv->offload_fwd_mark);
-> +	skb_put(skb, pkt_len);
-> +	skb_mark_for_recycle(skb);
-> +	skb->protocol = eth_type_trans(skb, ndev);
-> +	am65_cpsw_nuss_rx_csum(skb, csum_info);
-> +	napi_gro_receive(&common->napi_rx, skb);
-> +
-> +	stats = this_cpu_ptr(ndev_priv->stats);
-> +
-> +	u64_stats_update_begin(&stats->syncp);
-> +	stats->rx_packets++;
-> +	stats->rx_bytes += pkt_len;
-> +	u64_stats_update_end(&stats->syncp);
-> +
-> +	new_page = page_pool_dev_alloc_pages(rx_chn->page_pool);
-> +	if (unlikely(!new_page))
-> +		return -ENOMEM;
-> +	rx_chn->pages[desc_idx] = new_page;
-> +
->  	if (netif_dormant(ndev)) {
-> -		dev_kfree_skb_any(new_skb);
-> +		am65_cpsw_put_page(rx_chn, new_page, true, desc_idx);
->  		ndev->stats.rx_dropped++;
->  		return 0;
->  	}
->  
-> -	ret = am65_cpsw_nuss_rx_push(common, new_skb);
-> +requeue:
-> +	ret = am65_cpsw_nuss_rx_push(common, new_page);
->  	if (WARN_ON(ret < 0)) {
-> -		dev_kfree_skb_any(new_skb);
-> +		am65_cpsw_put_page(rx_chn, new_page, true, desc_idx);
->  		ndev->stats.rx_errors++;
->  		ndev->stats.rx_dropped++;
->  	}
-> @@ -901,6 +1225,8 @@ static int am65_cpsw_nuss_rx_poll(struct napi_struct *napi_rx, int budget)
->  {
->  	struct am65_cpsw_common *common = am65_cpsw_napi_to_common(napi_rx);
->  	int flow = AM65_CPSW_MAX_RX_FLOWS;
-> +	int cpu = smp_processor_id();
-> +	bool xdp_redirect = false;
->  	int cur_budget, ret;
->  	int num_rx = 0;
->  
-
-<snip>
+> > > > If so, is there a way to guard against that ?
+> > > >
+> > > > > If is "capture_yuv" video device, it will be set by stf_isp_config_crop.
+> > > >
+> > > > Thank you, that's the information I was looking for.
 
 -- 
-cheers,
--roger
+Regards,
+
+Laurent Pinchart
 
