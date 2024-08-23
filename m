@@ -1,161 +1,264 @@
-Return-Path: <linux-media+bounces-16680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16682-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C32B95D879
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 23:32:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0237F95D9CB
+	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2024 01:44:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D69A1C2191F
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 21:32:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 814871F248DB
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 23:44:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1601917DA;
-	Fri, 23 Aug 2024 21:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F8A1C93DC;
+	Fri, 23 Aug 2024 23:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="Ga1rBetl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VC5oNgjA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8CD1C8FBC;
-	Fri, 23 Aug 2024 21:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724448716; cv=pass; b=o4O1KIHo1CPrbdI5P1K+B9dTdYYuwvkDzCcfe0+cHjE8G6nVUX/puW8/TDB4V/Sr/bHihQhYX0esYVaG1AFz4HdxVTfpHtqwFNGCERDrqA0hAAjzxslM3P2rycs5cCjtzplI3inGRNeWOqH8oo7/zmURhz4a17+IAj7XWwk6+8M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724448716; c=relaxed/simple;
-	bh=Bo6rQzkZtS3x3e4JPLfvWkMk8vfJdNw3tSqb/DecZE4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=poazaoyscg81X3rsoBnR/NZ3hoYUd5Zu6kUGIpeH65pcdgX9T9rlPtQJKgYkebaAJpxrmBor1eQzLu5Id/8D9BHZjN4mkkPUZB/brlKXI8JFuk6+3hs8N4hI344MJjgidAek+F5SetK+QMhyDY/nSOjuVbxyuxX/UTQbfHVFfMk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=Ga1rBetl; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Delivered-To: angelogioacchino.delregno@collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1724448703; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=DDQQRYhhiCJGa3UUoM7LJWgJ8tuzXpfaQnsXeBG8Uo733fPrsYIqg5Qp0MDIqENVlDpR/oKD4W4J6A+FrYLKNYo/fneHg9ic6NanxqEI85YG1nf5r9lxz8DMDgkffDaAZMNm2QDnVxuCy9ZERpcGfuPjLClOrlg1qtjFLDig/VA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1724448703; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=bghG0Z8WKTUpCr2IR0n/BuI53Cd5ntTMy8ZyoEuZYcs=; 
-	b=kE9VEII0s0o3G0t3sERmqizCAR6ToobopklZb/SZ/rJHBqrXzcaSpmox0BPUiIuFCRHeLFG+EOrLbWSyzZQW6AN9mZP+TfuV2Sh7cVopBrqwxicsRFlTQgTjQ05x2xsyj3ee6zOQjqODTP/5nt+J+SoyVm3OT2l2bVmzqnikL0k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
-	dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724448703;
-	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=bghG0Z8WKTUpCr2IR0n/BuI53Cd5ntTMy8ZyoEuZYcs=;
-	b=Ga1rBetlEZVoSEzxsmjSO/OCtfcBeNwUjffIADkql65TyuOw9pAMusOzD7i+ySLj
-	wGAw/FevS8+1dIJW99ffXbDJE6VzDyr14hEl66caZcyJ83/U43DlHwg0kLVNxsn8tS7
-	Tng6Xpd/++YodL0tA0rgN1QC5D2a16SI5SPzPlC0=
-Received: by mx.zohomail.com with SMTPS id 1724448702562223.08283998342017;
-	Fri, 23 Aug 2024 14:31:42 -0700 (PDT)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Fri, 23 Aug 2024 17:31:24 -0400
-Subject: [PATCH 4/4] media: platform: mtk-mdp3: Remove mask parameter from
- MM_REG_POLL macro
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D41F152196;
+	Fri, 23 Aug 2024 23:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724456671; cv=none; b=D2u82ucXGiGxHN6PP6EKP/k6dP/Daohv48MOumBiUazRFOA7PGEADj+Seoe+WlU7RElaXuyoN4iNBFr2A7INXe7S+fn2y4Z2zZbtRGcM+6S0Fvm4Zsed1/a0LuUpdQLlikVTGLkx9hmmsEKtMidXqu2tSF3GHMV0LBxvp2HyKUA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724456671; c=relaxed/simple;
+	bh=PKOqjsh55k0gUWF28he/tpFo7CnOI0T+o1W/ywoIY40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b3Kj9WUUQXVGVhe6KCYrD1blsvJkZIh9Mgt2Pm1fxWKf9aIv7dAbpDeYB4sVcdCH29IZxE6BhaAxGdx5r2jSw+2dFP08s7bKku/YBMBdOo3R2qiEwHeSZXRe7LFhryfO2V6SLsWrvvXWBmFDbNC64/P0lCxbTRWewANN5ZDe2IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VC5oNgjA; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6bf75ed0e0eso12955736d6.1;
+        Fri, 23 Aug 2024 16:44:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724456668; x=1725061468; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ye+Ps90cwlGsT4oHvYpdjI85sw14z4sG45EsgOKagSg=;
+        b=VC5oNgjAA01PpyWUv0wOeWT+XVdaltS73h7+vLfG6RfslSabKCrAdOJ7vqCJe9ckID
+         /Iw2uyTyOZZwAM51zdTU46f1ChNNAmTtk5I8Qug33wXNC56Cv07QxEMB/mcTQp75Ufr4
+         GK+4jiIadffLc9HUz7J9lMAfVmDc5sEBDAehZcaDt/vzZCaxwKD9p0eisHa9MGdhCKUA
+         x4BYF9T7IMjj07hw6vxI8WAsa+YSBAw6TcsM8LBtVe58jc4E99n13mtKSHnslIs4g5wP
+         LR0hg8TP6RvrGv/ypZRrtmd9hy4g/3MDUHsulMw+oWfdiVc3Y3jlaUwvVcvyvOMmLyPR
+         /atA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724456668; x=1725061468;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ye+Ps90cwlGsT4oHvYpdjI85sw14z4sG45EsgOKagSg=;
+        b=N/nZIqTs6PQ4whp5tigyShnJccqQt9chaslw2UXvpLn09LEOjGaBWy6M+edxajdT/O
+         vKmkOSVhpCe/EG7GPlHmxH/JvkxOUS4M6pQJ6AlU0jfpLoIeLFPsMDIs21nDJiyehCqK
+         FxCeDV6A8v0Y5c74a78Js5h+XOFfbLo+pjbY8aQkPWsql6TlJKUk+5GGdxVHnSDL6dv+
+         pzVKidlkOhJ5vJSt044rqUvc4sRQmhgy+VbrpdN7RXJtFtDTAH16VQt5mIIStIlNeMpy
+         cY7qgqHYIoQkWIkn1Utcz3aQ3j1s3vWySHxozVu5A4uNGRpmOiExg/OmBGe2DwoDibCX
+         y4Mg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2YoHuDLrQJtPBL19euYWKBDbethnsUNTFoGHidrZS1Vri4wYYB2edqU5508oeH1+M6HCf+VxKplqPlAOCnA==@vger.kernel.org, AJvYcCW8ISDUgr1eXYeXzTa5e2Sylae3uhZgtKHZ465tHMVDzq4ptLldfAkowCV+sIe7T9bq0rdCG0aSSqFS@vger.kernel.org, AJvYcCX1JsXBgzmpCbCCaAQnJBfjzgVN9UXjKOIQoNtC8CN2GtpW7VIobbckh0uceGAebONoBuQmbZZc2TDuNM4=@vger.kernel.org, AJvYcCX3wYE/UlNtzv5LHy0EVuifY+rC9BKgKHk8mvGQdvKLizJkRMVOGUDlf2fC1vs2RMYKpvHj0XHr4wzF@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCUsYIQoatBummyeRQ2WI9KzSpXA3aYR1HWEQYy7w7ZUMEe67E
+	bal6RCCqlZtI5CDBK5AQnxJlBjoovzSbPb2gUQUDGdr9ibde3BjKcmVkUfh/
+X-Google-Smtp-Source: AGHT+IHsrMKOopKNem9M07VfAEBD9lUhg2aiNwXgCaC6w49RC2sZLM8rvab1CMAWFtEWOEzJpHPW4Q==
+X-Received: by 2002:a05:6214:3382:b0:6b0:90b4:1ca9 with SMTP id 6a1803df08f44-6c16dc217c1mr39081636d6.6.1724456668104;
+        Fri, 23 Aug 2024 16:44:28 -0700 (PDT)
+Received: from localhost ([2607:fea8:52a3:d200:324c:b818:b179:79b])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c162d6548csm23198626d6.68.2024.08.23.16.44.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2024 16:44:27 -0700 (PDT)
+Date: Fri, 23 Aug 2024 19:44:26 -0400
+From: Richard Acayan <mailingradian@gmail.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: sdm670: add camss and cci
+Message-ID: <Zske2ptZAV12YLyf@radian>
+References: <20240819221051.31489-7-mailingradian@gmail.com>
+ <20240819221051.31489-12-mailingradian@gmail.com>
+ <40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240823-mdp3-comp-cleanups-v1-4-1f8c1395ecd3@collabora.com>
-References: <20240823-mdp3-comp-cleanups-v1-0-1f8c1395ecd3@collabora.com>
-In-Reply-To: <20240823-mdp3-comp-cleanups-v1-0-1f8c1395ecd3@collabora.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-X-Mailer: b4 0.14.1
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org>
 
-Just like was done with MM_REG_WRITE, remove the mask from the
-MM_REG_POLL macro, leaving MM_REG_POLL_MASK to be used when a mask is
-required, and update the call sites accordingly. In this case, all calls
-require a mask, so MM_REG_POLL remains unused, but at least this makes
-the MM_REG_POLL macros consistent with the MM_REG_WRITE ones.
+On Wed, Aug 21, 2024 at 01:40:14PM +0300, Vladimir Zapolskiy wrote:
+> On 8/20/24 01:10, Richard Acayan wrote:
+> > Add the camera subsystem and CCI used to interface with cameras on the
+> > Snapdragon 670.
+> > 
+> > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> > ---
+> >   arch/arm64/boot/dts/qcom/sdm670.dtsi | 188 +++++++++++++++++++++++++++
+> >   1 file changed, 188 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+> > index ba93cef33dbb..37bc4fa04286 100644
+> > --- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+> > @@ -6,6 +6,7 @@
+> >    * Copyright (c) 2022, Richard Acayan. All rights reserved.
+> >    */
+> > +#include <dt-bindings/clock/qcom,camcc-sdm845.h>
+> >   #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
+> >   #include <dt-bindings/clock/qcom,gcc-sdm845.h>
+> >   #include <dt-bindings/clock/qcom,rpmh.h>
+> > @@ -1168,6 +1169,34 @@ tlmm: pinctrl@3400000 {
+> >   			gpio-ranges = <&tlmm 0 0 151>;
+> >   			wakeup-parent = <&pdc>;
+> > +			cci0_default: cci0-default-state {
+> > +				pins = "gpio17", "gpio18";
+> > +				function = "cci_i2c";
+> > +				drive-strength = <2>;
+> > +				bias-pull-up;
+> > +			};
+> > +
+> > +			cci0_sleep: cci0-sleep-state {
+> > +				pins = "gpio17", "gpio18";
+> > +				function = "cci_i2c";
+> > +				drive-strength = <2>;
+> > +				bias-pull-down;
+> > +			};
+> > +
+> > +			cci1_default: cci1-default-state {
+> > +				pins = "gpio19", "gpio20";
+> > +				function = "cci_i2c";
+> > +				drive-strength = <2>;
+> > +				bias-pull-up;
+> > +			};
+> > +
+> > +			cci1_sleep: cci1-sleep-state {
+> > +				pins = "gpio19", "gpio20";
+> > +				function = "cci_i2c";
+> > +				drive-strength = <2>;
+> > +				bias-pull-down;
+> > +			};
+> > +
+> >   			qup_i2c0_default: qup-i2c0-default-state {
+> >   				pins = "gpio0", "gpio1";
+> >   				function = "qup0";
+> > @@ -1400,6 +1429,165 @@ spmi_bus: spmi@c440000 {
+> >   			#interrupt-cells = <4>;
+> >   		};
+> > +		cci: cci@ac4a000 {
+> > +			compatible = "qcom,sdm670-cci", "qcom,msm8996-cci";
+> > +			#address-cells = <1>;
+> > +			#size-cells = <0>;
+> > +
+> > +			reg = <0 0x0ac4a000 0 0x4000>;
+> > +			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+> > +			power-domains = <&camcc TITAN_TOP_GDSC>;
+> > +
+> > +			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> > +				 <&camcc CAM_CC_SOC_AHB_CLK>,
+> > +				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> > +				 <&camcc CAM_CC_CCI_CLK>;
+> > +			clock-names = "camnoc_axi",
+> > +				      "soc_ahb",
+> > +				      "cpas_ahb",
+> > +				      "cci";
+> > +
+> > +			assigned-clocks = <&camcc CAM_CC_CCI_CLK>;
+> > +			assigned-clock-rates = <37500000>;
+> 
+> Please remove assigned-clocks and assigned-clock-rates properties.
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c |  8 ++++----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h | 13 +++++--------
- 2 files changed, 9 insertions(+), 12 deletions(-)
+Doing this adds a warning to dmesg, where the clock rate is set to 19.2
+MHz by default.
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-index beb29ad0b048..683c066ed975 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-@@ -78,7 +78,7 @@ static int init_rdma(struct mdp_comp_ctx *ctx, struct mdp_cmdq_cmd *cmd)
- 
- 	/* Reset RDMA */
- 	MM_REG_WRITE_MASK(cmd, subsys_id, base, MDP_RDMA_RESET, BIT(0), BIT(0));
--	MM_REG_POLL(cmd, subsys_id, base, MDP_RDMA_MON_STA_1, BIT(8), BIT(8));
-+	MM_REG_POLL_MASK(cmd, subsys_id, base, MDP_RDMA_MON_STA_1, BIT(8), BIT(8));
- 	MM_REG_WRITE_MASK(cmd, subsys_id, base, MDP_RDMA_RESET, 0x0, BIT(0));
- 	return 0;
- }
-@@ -634,14 +634,14 @@ static int init_wrot(struct mdp_comp_ctx *ctx, struct mdp_cmdq_cmd *cmd)
- 
- 	/* Reset WROT */
- 	MM_REG_WRITE_MASK(cmd, subsys_id, base, VIDO_SOFT_RST, BIT(0), BIT(0));
--	MM_REG_POLL(cmd, subsys_id, base, VIDO_SOFT_RST_STAT, BIT(0), BIT(0));
-+	MM_REG_POLL_MASK(cmd, subsys_id, base, VIDO_SOFT_RST_STAT, BIT(0), BIT(0));
- 
- 	/* Reset setting */
- 	if (CFG_CHECK(MT8195, p_id))
- 		MM_REG_WRITE(cmd, subsys_id, base, VIDO_CTRL, 0x0);
- 
- 	MM_REG_WRITE_MASK(cmd, subsys_id, base, VIDO_SOFT_RST, 0x0, BIT(0));
--	MM_REG_POLL(cmd, subsys_id, base, VIDO_SOFT_RST_STAT, 0x0, BIT(0));
-+	MM_REG_POLL_MASK(cmd, subsys_id, base, VIDO_SOFT_RST_STAT, 0x0, BIT(0));
- 	return 0;
- }
- 
-@@ -871,7 +871,7 @@ static int init_wdma(struct mdp_comp_ctx *ctx, struct mdp_cmdq_cmd *cmd)
- 
- 	/* Reset WDMA */
- 	MM_REG_WRITE_MASK(cmd, subsys_id, base, WDMA_RST, BIT(0), BIT(0));
--	MM_REG_POLL(cmd, subsys_id, base, WDMA_FLOW_CTRL_DBG, BIT(0), BIT(0));
-+	MM_REG_POLL_MASK(cmd, subsys_id, base, WDMA_FLOW_CTRL_DBG, BIT(0), BIT(0));
- 	MM_REG_WRITE_MASK(cmd, subsys_id, base, WDMA_RST, 0x0, BIT(0));
- 	return 0;
- }
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h
-index 902006d7c4ba..681906c16419 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h
-@@ -53,16 +53,13 @@ do {								\
- do {								\
- 	typeof(_mask) (_m) = (_mask);				\
- 	cmdq_pkt_poll_mask(&((cmd)->pkt), id,			\
--		(base) + (ofst), (val), (_m));			\
-+		(base) + (ofst), (val),				\
-+		(((_m) & (ofst##_MASK)) == (ofst##_MASK)) ?	\
-+			(0xffffffff) : (_m));			\
- } while (0)
- 
--#define MM_REG_POLL(cmd, id, base, ofst, val, mask)		\
--do {								\
--	typeof(mask) (m) = (mask);				\
--	MM_REG_POLL_MASK((cmd), id, base, ofst, val,		\
--		(((m) & (ofst##_MASK)) == (ofst##_MASK)) ?	\
--			(0xffffffff) : (m));			\
--} while (0)
-+#define MM_REG_POLL(cmd, id, base, ofst, val)			\
-+	cmdq_pkt_poll(&((cmd)->pkt), id, (base) + (ofst), (val))
- 
- enum mtk_mdp_comp_id {
- 	MDP_COMP_NONE = -1,	/* Invalid engine */
+> > +
+> > +			pinctrl-names = "default", "sleep";
+> > +			pinctrl-0 = <&cci0_default &cci1_default>;
+> > +			pinctrl-1 = <&cci0_sleep &cci1_sleep>;
+> > +
+> > +			status = "disabled";
+> > +
+> > +			cci_i2c0: i2c-bus@0 {
+> > +				reg = <0>;
+> > +				clock-frequency = <1000000>;
+> > +				#address-cells = <1>;
+> > +				#size-cells = <0>;
+> > +			};
+> > +
+> > +			cci_i2c1: i2c-bus@1 {
+> > +				reg = <1>;
+> > +				clock-frequency = <1000000>;
+> > +				#address-cells = <1>;
+> > +				#size-cells = <0>;
+> > +			};
+> > +		};
+> > +
+> > +		camss: camera-controller@ac65000 {
+> > +			compatible = "qcom,sdm670-camss";
+> > +			reg = <0 0x0ac65000 0 0x1000>,
+> > +			      <0 0x0ac66000 0 0x1000>,
+> > +			      <0 0x0ac67000 0 0x1000>,
+> > +			      <0 0x0acaf000 0 0x4000>,
+> > +			      <0 0x0acb3000 0 0x1000>,
+> > +			      <0 0x0acb6000 0 0x4000>,
+> > +			      <0 0x0acba000 0 0x1000>,
+> > +			      <0 0x0acc4000 0 0x4000>,
+> > +			      <0 0x0acc8000 0 0x1000>;
+> > +			reg-names = "csiphy0",
+> > +				    "csiphy1",
+> > +				    "csiphy2",
+> > +				    "vfe0",
+> > +				    "csid0",
+> > +				    "vfe1",
+> > +				    "csid1",
+> > +				    "vfe_lite",
+> > +				    "csid2";
+> > +
+> > +			interrupts = <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 469 IRQ_TYPE_LEVEL_HIGH>;
+> > +			interrupt-names = "csid0",
+> > +					  "csid1",
+> > +					  "csid2",
+> > +					  "csiphy0",
+> > +					  "csiphy1",
+> > +					  "csiphy2",
+> > +					  "vfe0",
+> > +					  "vfe1",
+> > +					  "vfe_lite";
+> > +
+> > +			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> > +				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> > +				 <&camcc CAM_CC_IFE_0_CSID_CLK>,
+> > +				 <&camcc CAM_CC_IFE_1_CSID_CLK>,
+> > +				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>,
+> > +				 <&camcc CAM_CC_CSIPHY0_CLK>,
+> > +				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> > +				 <&camcc CAM_CC_CSIPHY1_CLK>,
+> > +				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
+> > +				 <&camcc CAM_CC_CSIPHY2_CLK>,
+> > +				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
+> > +				 <&gcc GCC_CAMERA_AHB_CLK>,
+> > +				 <&gcc GCC_CAMERA_AXI_CLK>,
+> > +				 <&camcc CAM_CC_SOC_AHB_CLK>,
+> 
+> Please put two &gcc and "soc_ahb" clock sources on top, it will
+> require a change in dt bindings documentation also.
 
--- 
-2.46.0
-
+I'll do this for the clocks themselves because they have no parents (so
+no obvious clock sources).
 
