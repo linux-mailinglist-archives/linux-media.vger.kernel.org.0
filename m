@@ -1,256 +1,111 @@
-Return-Path: <linux-media+bounces-16650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16651-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A8C95CC2B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:12:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2D895CC41
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:20:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EFDD281531
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 12:12:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BE2C28471C
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 12:20:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68C1C185933;
-	Fri, 23 Aug 2024 12:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 261D8185935;
+	Fri, 23 Aug 2024 12:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j62U1aGt"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JbescCSi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29D461FFC;
-	Fri, 23 Aug 2024 12:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71EA9457;
+	Fri, 23 Aug 2024 12:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724415163; cv=none; b=jnix2EoBBTM1MC4HyNavxixjdF7Rg4B6wLD7EwLHKaqjpv9R4x7BsKH1faayZdS0uddF3kbANkrBr3J22ZqM9JPRECl7vegfAJFAicm0y/dA2wYIRgu1H4jy+uj2uTarf2bYAQ1FYuaO/++GPeb1mlgQEEm93GPWeEdkGfLxKN4=
+	t=1724415611; cv=none; b=LDQ6I+oGwmlZNKd7sGS6cH7xxVNj422eqlnRVoWMvippwOco1uWg2B7Jr+GDCnLpYeyeNLOrfnx1EsIrpyjqXMObGkBIt6A+iwt14FG9jukZyDB9E8/ocbMq1awBKvo1dVNqPBKWUr0Nc8XMZnqizPwaWYHJSABWLlscmk+aADc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724415163; c=relaxed/simple;
-	bh=A5QVX7km38nRwv6KqoYsXrhmUmTxpCA+0suYvYmI4cY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z4TvVQSXxiVzH48nsxb+5xOZVxYWBS2fgWXZuWHnKZP5QDkmhAWuNRFdoshUnWHOBP2L64YgYin+Hg31Pgxe0J0yrBWSI1mO+uBw/MsPboW3x+IsD/0t65HNvmAdA3iGuW8M4deAzhLlVrQWxkdcazEVkkko7ePIU/nMs2K/f5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j62U1aGt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD327C32786;
-	Fri, 23 Aug 2024 12:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724415163;
-	bh=A5QVX7km38nRwv6KqoYsXrhmUmTxpCA+0suYvYmI4cY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j62U1aGtWvoiRdZ8n071nAOv0BzDl4T62UArEtn4carL7SuuO93e0IVoUgBJJT8CI
-	 nr2559FNsK200UqCICK2pQkKiONDn5DsMvXi9zHWLUwHK5ctwEeLy8UrXbD5ltJETC
-	 d6Ea67j9zn3Bdul+CK3JE/eYAhXEvyapR8rJibIRwyLAdhEQl0qLhs1V1TKhXIDELt
-	 Ro1UBBXWfRCJXjrXErPEGMm8OWaDt38taRIwpDjpXLvMfaYkDziu9td2kya9Kl7i0A
-	 e4WfojTfoF8+V3Go2Ep/67WkA8rmUywZlrT302TT6rmrmugQXkhANqfFb06kfnsxVL
-	 9qPsp8/R0l++w==
-Message-ID: <d2e00269-23b8-4a92-84df-959b3c3ae6f1@kernel.org>
-Date: Fri, 23 Aug 2024 15:12:35 +0300
+	s=arc-20240116; t=1724415611; c=relaxed/simple;
+	bh=ZuTS7ukeYfPjZ1kjzNYzSS+Vmt2wcWpuWgPNNaf4GDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z0wyW3YCGdxC14Ak6Fu1Hv5B64CHJw/K3OpZvpmWfSBM0NI56kXCP2KpgHPFSYz5TqntcuzJOXNAciH0KfR+0OaXJho3Wnashenz30LhyixgD0KRBDm7uWFue58eQ/nL675JzaDrnBLLoEwwAI5w7CCmp/1Xk2iahTL5lPaw3+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JbescCSi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8C06497;
+	Fri, 23 Aug 2024 14:18:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724415538;
+	bh=ZuTS7ukeYfPjZ1kjzNYzSS+Vmt2wcWpuWgPNNaf4GDM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JbescCSijOlW8HS3wETJILxt7OhFJL2gonxj0JTIAMjC9cDhr06YdxtoQrT0wEDW+
+	 gcbEseuU3bJqO3NN89A8M7taTsPgee8TR8aLsi91QcCtY93nMr/dofs4HMtGsWjc7E
+	 owVGVNPBHB/8AUY5LaNqaYP2x5Q7kpDblr8H70d0=
+Date: Fri, 23 Aug 2024 15:19:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing
+ MODULE_DEVICE_TABLE
+Message-ID: <20240823121959.GA26098@pendragon.ideasonboard.com>
+References: <20240731164935.308994-1-biju.das.jz@bp.renesas.com>
+ <TY3PR01MB113469C7FEF9FAB6394992ACF86882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 0/3] Add minimal XDP support to TI AM65 CPSW
- Ethernet driver
-To: Julien Panis <jpanis@baylibre.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Ratheesh Kannoth <rkannoth@marvell.com>,
- Naveen Mamindlapalli <naveenm@marvell.com>,
- Jacob Keller <jacob.e.keller@intel.com>
-Cc: danishanwar@ti.com, yuehaibing@huawei.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, "Govindarajan, Sriramakrishnan" <srk@ti.com>
-References: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
-Content-Language: en-US
-From: Roger Quadros <rogerq@kernel.org>
-In-Reply-To: <20240223-am65-cpsw-xdp-basic-v9-0-2c194217e325@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB113469C7FEF9FAB6394992ACF86882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
-Hello Julien,
-
-On 12/04/2024 18:38, Julien Panis wrote:
-> This patch adds XDP support to TI AM65 CPSW Ethernet driver.
+On Fri, Aug 23, 2024 at 08:58:09AM +0000, Biju Das wrote:
+> Hi Media folks,
 > 
-> The following features are implemented: NETDEV_XDP_ACT_BASIC,
-> NETDEV_XDP_ACT_REDIRECT, and NETDEV_XDP_ACT_NDO_XMIT.
-> 
-> Zero-copy and non-linear XDP buffer supports are NOT implemented.
-> 
-> Besides, the page pool memory model is used to get better performance.
-> 
-> Signed-off-by: Julien Panis <jpanis@baylibre.com>
+> Gentle ping. Is this simple fix OK to everyone?
 
-I've been trying to test this since I don't want my RX multi queue series [1]
-to break AF_XDP feature. However, with 6.10 I don't see AF_XDP working at all
-and even breaking basic networking on am65-cpsw.
+I've added the patch to my tree and will include it in my next pull
+request.
 
-The in kernel XDP tests have been dropped so I've been using xdp-tools [2]
-
-My test is to try XDP_DROP with xdp-bench using skb mode first and then
-native XDP mode.
-
-Below is the test log. You can see that skb mode works fine. The moment I try
-native XDP mode the interface seems to go down and up and then just locks up.
-
-I can no longer ping to the remote host.
-
-----test log starts-----
-
-root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
-PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
-64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=0.801 ms
-64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.967 ms
-64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.876 ms
-^C
---- 192.168.1.36 ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-rtt min/avg/max/mdev = 0.801/0.881/0.967/0.067 ms
-
-
-root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m skb eth0
-Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
-Summary                     81127 rx/s                  0 err/s        
-Summary                     81088 rx/s                  0 err/s        
-Summary                     81089 rx/s                  0 err/s        
-Summary                     53065 rx/s                  0 err/s        
-^C
-  Packets received    : 296369    
-  Average packets/s   : 74092     
-  Rx dropped          : 296369    
-
-root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
-PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
-64 bytes from 192.168.1.36: icmp_seq=1 ttl=64 time=1.02 ms
-64 bytes from 192.168.1.36: icmp_seq=2 ttl=64 time=0.756 ms
-64 bytes from 192.168.1.36: icmp_seq=3 ttl=64 time=0.963 ms
-^C
---- 192.168.1.36 ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-rtt min/avg/max/mdev = 0.756/0.914/1.024/0.114 ms
-
-
-root@am64xx-evm:~/xdp-tools/xdp-bench# ./xdp-bench drop -m native eth0
-[  889.096851] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
-[  889.110889] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
-[  889.120377] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
-Dropping packets on eth0 (ifindex 2; driver am65-cpsw-nuss)
-Summary                         0 rx/s                  0 err/s        
-Summary                         0 rx/s                  0 err/s        
-[  893.218318] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
-Summary                       250 rx/s                  0 err/s        
-Summary                         0 rx/s                  0 err/s        
-Summary                         0 rx/s                  0 err/s        
-Summary                         0 rx/s                  0 err/s        
-^C
-[  901.898170] am65-cpsw-nuss 8000000.ethernet eth0: Link is Down
-[  901.910292] am65-cpsw-nuss 8000000.ethernet eth0: PHY [8000f00.mdio:00] driver [TI DP83867] (irq=POLL)
-[  901.919661] am65-cpsw-nuss 8000000.ethernet eth0: configuring for phy/rgmii-rxid link mode
-  Packets received    : 250       
-  Average packets/s   : 42        
-  Rx dropped          : 250       
-root@am64xx-evm:~/xdp-tools/xdp-bench# [  906.018296] am65-cpsw-nuss 8000000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
-
-root@am64xx-evm:~/xdp-tools/xdp-bench# ping 192.168.1.36
-PING 192.168.1.36 (192.168.1.36) 56(84) bytes of data.
-From 192.168.1.100 icmp_seq=1 Destination Host Unreachable
-From 192.168.1.100 icmp_seq=2 Destination Host Unreachable
-From 192.168.1.100 icmp_seq=3 Destination Host Unreachable
-^C
-
---- 192.168.1.36 ping statistics ---
-5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4079ms
-pipe 4
-
-
----test log ends---
-
-I will try to test with commit 8acacc40f733 ("net: ethernet: ti: am65-cpsw: Add minimal XDP support")
-to see if it works there. If it does then I can do a bisect.
-
-If you have better ideas please let me know. Thanks!
-
-[1] https://lore.kernel.org/all/20240703-am65-cpsw-multi-rx-v3-0-f11cd860fd72@kernel.org/
-[2] https://github.com/xdp-project/xdp-tools
-
-> ---
-> Changes in v9:
-> - In k3_cppi_desc_pool_destroy(), free memory allocated for pool.
-> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
-> error messages on mem alloc failures.
-> - In k3_cppi_desc_pool_create_name() function, move desc_infos alloc
-> forward to leverage pool_name freeing in gen_pool_destroy().
-> - In k3_cppi_desc_pool_create_name() function, remove unnecessary
-> 'ret = -ENOMEM' since ret is already initialized with -ENOMEM value.
-> - For rx, do not build the skb upfront any more, Instead, give the page
-> to the HW then build the skb once HW sends a completion.
-> - Link to v8: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v8-0-f3421b58da09@baylibre.com
-> 
-> Changes in v8:
-> - Fix some warnings reported by patchwork.
-> - Link to v7: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v7-0-c3857c82dadb@baylibre.com
-> 
-> Changes in v7:
-> - Move xdp_do_flush() function call in am65_cpsw_nuss_rx_poll().
-> - Link to v6: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v6-0-212eeff5bd5f@baylibre.com
-> 
-> Changes in v6:
-> - In k3_cppi_*() functions, use const qualifier when the content of
-> pool is not modified.
-> - Add allow_direct bool parameter to am65_cpsw_alloc_skb() function
-> for direct use by page_pool_put_full_page().
-> - Link to v5: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v5-0-bc1739170bc6@baylibre.com
-> 
-> Changes in v5:
-> - In k3_cppi_desc_pool_destroy(), free memory allocated for desc_infos.
-> - Link to v4: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v4-0-2e45e5dec048@baylibre.com
-> 
-> Changes in v4:
-> - Add skb_mark_for_recycle() in am65_cpsw_nuss_rx_packets() function.
-> - Specify napi page pool parameter in am65_cpsw_create_xdp_rxqs() function.
-> - Add benchmark numbers (with VS without page pool) in the commit description.
-> - Add xdp_do_flush() in am65_cpsw_run_xdp() function for XDP_REDIRECT case.
-> - Link to v3: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v3-0-5d944a9d84a0@baylibre.com
-> 
-> Changes in v3:
-> - Fix a potential issue with TX buffer type, which is now set for each buffer.
-> - Link to v2: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v2-0-01c6caacabb6@baylibre.com
-> 
-> Changes in v2:
-> - Use page pool memory model instead of MEM_TYPE_PAGE_ORDER0.
-> - In am65_cpsw_alloc_skb(), release reference on the page pool page
-> in case of error returned by build_skb().
-> - [nit] Cleanup am65_cpsw_nuss_common_open/stop() functions.
-> - [nit] Arrange local variables in reverse xmas tree order.
-> - Link to v1: https://lore.kernel.org/r/20240223-am65-cpsw-xdp-basic-v1-1-9f0b6cbda310@baylibre.com
-> 
-> ---
-> Julien Panis (3):
->       net: ethernet: ti: Add accessors for struct k3_cppi_desc_pool members
->       net: ethernet: ti: Add desc_infos member to struct k3_cppi_desc_pool
->       net: ethernet: ti: am65-cpsw: Add minimal XDP support
-> 
->  drivers/net/ethernet/ti/am65-cpsw-nuss.c    | 659 ++++++++++++++++++++++++----
->  drivers/net/ethernet/ti/am65-cpsw-nuss.h    |  13 +
->  drivers/net/ethernet/ti/k3-cppi-desc-pool.c |  46 +-
->  drivers/net/ethernet/ti/k3-cppi-desc-pool.h |   6 +
->  4 files changed, 623 insertions(+), 101 deletions(-)
-> ---
-> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
-> change-id: 20240223-am65-cpsw-xdp-basic-4db828508b48
-> 
-> Best regards,
+> > -----Original Message-----
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > Sent: Wednesday, July 31, 2024 5:50 PM
+> > Subject: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing MODULE_DEVICE_TABLE
+> > 
+> > The rzg2l-csi2 driver can be compiled as a module, but lacks
+> > MODULE_DEVICE_TABLE() and will therefore not be loaded automatically.
+> > Fix this.
+> > 
+> > Fixes: 51e8415e39a9 ("media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver")
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > index e68fcdaea207..c7fdee347ac8 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> > @@ -865,6 +865,7 @@ static const struct of_device_id rzg2l_csi2_of_table[] = {
+> >  	{ .compatible = "renesas,rzg2l-csi2", },
+> >  	{ /* sentinel */ }
+> >  };
+> > +MODULE_DEVICE_TABLE(of, rzg2l_csi2_of_table);
+> > 
+> >  static struct platform_driver rzg2l_csi2_pdrv = {
+> >  	.remove_new = rzg2l_csi2_remove,
 
 -- 
-cheers,
--roger
+Regards,
+
+Laurent Pinchart
 
