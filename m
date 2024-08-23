@@ -1,264 +1,126 @@
-Return-Path: <linux-media+bounces-16659-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16660-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E8295CE3C
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:42:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4280795CE4D
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:46:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F30E72828F9
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 13:42:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF78B1F24665
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 13:46:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE552188011;
-	Fri, 23 Aug 2024 13:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 717861865E3;
+	Fri, 23 Aug 2024 13:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u36CbmL2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FW4VpElw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC334430;
-	Fri, 23 Aug 2024 13:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8881DFE8
+	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 13:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724420571; cv=none; b=ZigU9577wtMf4NRJhhVOdhl2BXWMGU6sJJ04j52fWKIADRbMnaUVoVPkYfRA53c+XYW+b2bwrFqpbDvbWwLyIWczOkMDaA/l0qvZNnzlMfT4/Lc5bj3fFi712zRqZeVxVliCDJDyvxlgx6xCzh6tyH4y/2/LrC6y++CmCd61zGE=
+	t=1724420805; cv=none; b=cvM775AY1uQJIK7oCdnU4yhizzNR+jnNobpZsnLaeDxpzGGNTOD50UJeMbQXKyeaaW5DkXbSrPzhxDG0RjfqR/cGenIedMJgWRew0kpFQt3HnFtszkmcKuD97tepT8PK4s4/1EoxX67rY6g5jNYcqoTnMGeMmGHImdNhP7K+bNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724420571; c=relaxed/simple;
-	bh=uPf1FEqDRDZ587fNXRrYBb3EjdY4z83iy4gjjmDNIjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PKr4jxqTl53S1eIFO1OGQIw0dWRVsWvB5LyxThPSCKIZWG+0NbVmGhkbRn3yaF6NADC8SEI3HWLCWU0Joe4QebtCpYg2FQCRBR5PXfEPmNriziJ6OjaHrthF7lCU4JGfkJC2Tr+RKv1hgNiYtpxosnInpThLQiVWq+fNAdxKsNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u36CbmL2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 135542D5;
-	Fri, 23 Aug 2024 15:41:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724420504;
-	bh=uPf1FEqDRDZ587fNXRrYBb3EjdY4z83iy4gjjmDNIjA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u36CbmL2qugMtBhx2jxqAmmILKrihYQRYPrJIm5JRCsdZrYJa5WIemnHzTmq4RGTC
-	 Cq+cFdIxVE1yk0ZTUK+sOxE3IOdXkwHWpS1FG7K3jEOlwe0z53k7sb+XgZI/25ABIr
-	 F0MStKEBHkKuNnerM/vblFBjq7gV+7ZZ3dipYLfA=
-Date: Fri, 23 Aug 2024 16:42:45 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 6/6] arm64: dts: renesas: r8a779h0: Add family
- fallback for VIN IP
-Message-ID: <20240823134245.GJ26098@pendragon.ideasonboard.com>
-References: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
- <20240704161620.1425409-7-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1724420805; c=relaxed/simple;
+	bh=NsOorlgh3cWQ4U5hthBakW2i/ZT/DqQRii6DiQ/vm6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ti31CQKCNXW9B7guMr7bpvDXChZ+1wTJLsF+A8lE7cjKww6SWj0IzH3PPb2mTp//OlAK6szKA0VprbYGOhEEIGl+nZtgyZQPhoCdgQi8swFbC/VErkLUHXBZWFKgYtMc34g4ew645lyv3S7gLI0smej/oxMcx0/4I6Dzuf8DZ0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FW4VpElw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FB6EC32786;
+	Fri, 23 Aug 2024 13:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724420805;
+	bh=NsOorlgh3cWQ4U5hthBakW2i/ZT/DqQRii6DiQ/vm6w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FW4VpElwIXqvwOddfigZI+WGW3zQef75vhYQQ851coldfTFXAiYTsZGMbzF/0El5A
+	 i8bMaRTpNx7eRi0jhjEmHCJFAwGlJhn9yLORU3yNLg+qaXYk10DUyNZdB5Dmk71O+L
+	 nGaVJ/0dk5se4+ALIapr85X8rBDrpjqFrXMoVOVB8bhA52Sfcs+QPj772mk3wIFRiL
+	 wIgFcR7fnd6agC+9pl/HtDLVzWxOIyc9aMTwBBU30zjFfzfObyes3IMFwdN/R1eusO
+	 uLV00nAlmKOBV4aZ/Urhf4h7vA5kWtZ21M3/dW5nJNQXN+0ocys9+nfYRmKeEkXfsK
+	 fgKEoleHiMNGQ==
+Message-ID: <3ed33fa8-bf51-452c-854a-53de9a158ccd@kernel.org>
+Date: Fri, 23 Aug 2024 15:46:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240704161620.1425409-7-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] media: dt-bindings: Add OmniVision OG01A1B image
+ sensor
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>
+References: <20240823102731.2240857-1-vladimir.zapolskiy@linaro.org>
+ <20240823102731.2240857-2-vladimir.zapolskiy@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240823102731.2240857-2-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Niklas,
-
-Thank you for the patch.
-
-On Thu, Jul 04, 2024 at 06:16:20PM +0200, Niklas Söderlund wrote:
-> The usage of the V4M VIN bindings where merged before the bindings where
-
-s/where/were/g
-
-> approved. At that time the family fallback compatible where not part of
-> the bindings, add them.
+On 23/08/2024 12:27, Vladimir Zapolskiy wrote:
+> Add device tree bindings documentation for OmniVision OG01A1B image
+> sensor.
 > 
-> Fixes: 2bb78d9fb7c9 ("arm64: dts: renesas: r8a779h0: Add video capture nodes")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
-> * Changes since v3
-> - New in v4.
-> ---
->  arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 48 +++++++++++++++--------
->  1 file changed, 32 insertions(+), 16 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> index 8f5763b5f267..b9f49288a115 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> @@ -945,7 +945,8 @@ msiof5: spi@e6c28000 {
->  		};
->  
->  		vin00: video@e6ef0000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef0000 0 0x1000>;
->  			interrupts = <GIC_SPI 529 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 730>;
-> @@ -973,7 +974,8 @@ vin00isp0: endpoint@0 {
->  		};
->  
->  		vin01: video@e6ef1000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef1000 0 0x1000>;
->  			interrupts = <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 731>;
-> @@ -1001,7 +1003,8 @@ vin01isp0: endpoint@0 {
->  		};
->  
->  		vin02: video@e6ef2000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef2000 0 0x1000>;
->  			interrupts = <GIC_SPI 531 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 800>;
-> @@ -1029,7 +1032,8 @@ vin02isp0: endpoint@0 {
->  		};
->  
->  		vin03: video@e6ef3000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef3000 0 0x1000>;
->  			interrupts = <GIC_SPI 532 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 801>;
-> @@ -1057,7 +1061,8 @@ vin03isp0: endpoint@0 {
->  		};
->  
->  		vin04: video@e6ef4000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef4000 0 0x1000>;
->  			interrupts = <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 802>;
-> @@ -1085,7 +1090,8 @@ vin04isp0: endpoint@0 {
->  		};
->  
->  		vin05: video@e6ef5000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef5000 0 0x1000>;
->  			interrupts = <GIC_SPI 534 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 803>;
-> @@ -1113,7 +1119,8 @@ vin05isp0: endpoint@0 {
->  		};
->  
->  		vin06: video@e6ef6000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef6000 0 0x1000>;
->  			interrupts = <GIC_SPI 535 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 804>;
-> @@ -1141,7 +1148,8 @@ vin06isp0: endpoint@0 {
->  		};
->  
->  		vin07: video@e6ef7000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef7000 0 0x1000>;
->  			interrupts = <GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 805>;
-> @@ -1169,7 +1177,8 @@ vin07isp0: endpoint@0 {
->  		};
->  
->  		vin08: video@e6ef8000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef8000 0 0x1000>;
->  			interrupts = <GIC_SPI 537 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 806>;
-> @@ -1197,7 +1206,8 @@ vin08isp1: endpoint@1 {
->  		};
->  
->  		vin09: video@e6ef9000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6ef9000 0 0x1000>;
->  			interrupts = <GIC_SPI 538 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 807>;
-> @@ -1225,7 +1235,8 @@ vin09isp1: endpoint@1 {
->  		};
->  
->  		vin10: video@e6efa000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efa000 0 0x1000>;
->  			interrupts = <GIC_SPI 539 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 808>;
-> @@ -1253,7 +1264,8 @@ vin10isp1: endpoint@1 {
->  		};
->  
->  		vin11: video@e6efb000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efb000 0 0x1000>;
->  			interrupts = <GIC_SPI 540 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 809>;
-> @@ -1281,7 +1293,8 @@ vin11isp1: endpoint@1 {
->  		};
->  
->  		vin12: video@e6efc000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efc000 0 0x1000>;
->  			interrupts = <GIC_SPI 541 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 810>;
-> @@ -1309,7 +1322,8 @@ vin12isp1: endpoint@1 {
->  		};
->  
->  		vin13: video@e6efd000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efd000 0 0x1000>;
->  			interrupts = <GIC_SPI 542 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 811>;
-> @@ -1337,7 +1351,8 @@ vin13isp1: endpoint@1 {
->  		};
->  
->  		vin14: video@e6efe000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6efe000 0 0x1000>;
->  			interrupts = <GIC_SPI 543 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 812>;
-> @@ -1365,7 +1380,8 @@ vin14isp1: endpoint@1 {
->  		};
->  
->  		vin15: video@e6eff000 {
-> -			compatible = "renesas,vin-r8a779h0";
-> +			compatible = "renesas,vin-r8a779h0",
-> +				     "renesas,rcar-gen4-vin";
->  			reg = <0 0xe6eff000 0 0x1000>;
->  			interrupts = <GIC_SPI 544 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 813>;
 
--- 
-Regards,
+Missing DT list which is needed for automation. Please just use b4 or
+scripts/get_maintainers.pl.
 
-Laurent Pinchart
+Best regards,
+Krzysztof
+
 
