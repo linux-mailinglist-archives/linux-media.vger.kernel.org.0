@@ -1,293 +1,207 @@
-Return-Path: <linux-media+bounces-16634-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16639-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A98095C77A
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 10:09:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 967DA95C8B0
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 10:59:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8FEDB24F7D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 08:08:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 242791F2469C
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 08:59:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C2D7143744;
-	Fri, 23 Aug 2024 08:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B6F143879;
+	Fri, 23 Aug 2024 08:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="uhS2MfWc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010008.outbound.protection.outlook.com [52.101.228.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D5513D881;
-	Fri, 23 Aug 2024 08:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724400484; cv=none; b=uSb5PB9mtVP7fmnJKOkbyRLUMgZvoteCy4gfdrxx9YW4Q9EByBiVRObg7fs7hoMD/TUeF03FZTHlgEZ82jJ7dZFvlv5eRzPPVw5ODzf22Yrgu9LmCJHzmyuHksplSTpvd5Csc21zv11940M3HDoS4h7sFkkHTWV3xy8poDwmgUI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724400484; c=relaxed/simple;
-	bh=3zMP5S1k6sYRn4ns9Y0FYSgU61KWYAHwqHMqDqCzSAg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hL3hyxX94AHZOAyNW0Z5js2zc2kAPCN+WW5N8wHdnU83yzQ1tZllclFth8fYmwgORwGxUA1ITzO4dXRcIZHM0Mj3/mtJ5ZZLzvgjy+5T1V092OlUd7SujbOeY/QWjbBBxmgcTXRrUdXVgMhvyYU/7nb5tHbKYHDHHC/qLmeWDTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA0ADC32786;
-	Fri, 23 Aug 2024 08:08:01 +0000 (UTC)
-Message-ID: <8476356b-9452-40d6-8eba-a2155135cd7c@xs4all.nl>
-Date: Fri, 23 Aug 2024 10:08:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0091494CD;
+	Fri, 23 Aug 2024 08:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724403497; cv=fail; b=fSGOHXpi+pp4xP+9u12/4Bc/ywrNWwzFys3GSpY2gOrKe2f5k//RMXKIyjBm2cpG1eCgxfcXEsnOW8ICyC/9vivczyV0NIYUWOY+SyoL//1p95ZrjT0cN9zONXcy6Ff84ch0+x0p/rHIcIx5rWnWIMratKen5BJgg2hUJ5Rz98E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724403497; c=relaxed/simple;
+	bh=gUhx5dhHO8NV1Nbuff3ztMch4GgEIFtsgwTEkBnx8E8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CgCFYzOthz/9qkg9BeJ8RtpKtvIzuD3jROqt4T3YnjEiEzv800f2Xo1eR+kJvYKphd7p3df+wHU7PaiHwjnCghJsh7ZJsdCBfsfrq1raJqacQTzi1/BJcb859j4mHygMHTVfn4f0SaZdpqkOiG4lQjwFinOkmAZdTtyflK5NZg4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=uhS2MfWc; arc=fail smtp.client-ip=52.101.228.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dm13Re9EuQCrxGosXGKCan4YPkW3SbfZ1aFPV6n3R7yIPfsiROTOAW9xNh58ZC32trukyzmYj4hrk9qOgvluwn7f2hhjlAlI88W1V9CWwz6PgtehCIcWZ40uEcG4TVzm0xKQIiBkTI61e/t6JIkzW1IFfumsKaz7b+Fw9HllV4Y0og4Z+DGo5tJODWdbtsdORrIsL3CB4ybT5xTe4++bf3BRO/22a6CV0sE8RC2OloINi3AAhRypcvRS7kO3sq5Km53DlaI7T24jRdp+cUrxJXObcRZ1yoZUUse3XbIy8zdu/10f3J3/gLF7cWjp1z+X0w8qnoF28QIBTO7qB1eODw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PU9CUGsPipPn3YS7ov180pCB423oSDbS0d/MnwmiqXg=;
+ b=xPF5aQIt5zo8cD2SAtUSvY2EOR7FNjsJT+Es1RNUsJrEZT0p0MCXRBgglLdVgw7LlLrFxC0aQ+WHPuvRRwXmTk8U7LQuaUSklXkb0pVroKu2y6yuyUWj8PtdCZAcZQTJ8hWSJRDS63rUrgbmn9J8W+WsAyKx4oyXgtqV7tEJLkIiyN1ofAKBKwN4UvKypW1onfw/ApnNOPlndcb2qcNnnBHsDwvJ77SXxpULFqUQFaPc2x9/k7ly5iJYV+Ny0A8gmMs4JwLgkc6/OGK/NdhoRWrHOWV5ZNKnsNByG8nD8TMVjfn727Lv3rVfHBRs6aANY9aNjHCbFfJsFrnkyaEoqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PU9CUGsPipPn3YS7ov180pCB423oSDbS0d/MnwmiqXg=;
+ b=uhS2MfWcsT8pwtbgfOZ3sv4+Sp3yW3hExonnfHstdAsLHCdQi1NA64sqqBat3bFszazDbeArIY1lI6dQKuES/HR3hqqu4HbC4ekfdDfPfUD5LcdAelRNb0rQkvUykUEAf/cXz87GyQO6LS6gMAD6ucibHSOnFmeysim9yxTh370=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by OS3PR01MB8333.jpnprd01.prod.outlook.com (2603:1096:604:1a0::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.19; Fri, 23 Aug
+ 2024 08:58:09 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%6]) with mapi id 15.20.7897.014; Fri, 23 Aug 2024
+ 08:58:09 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+	<hverkuil-cisco@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Prabhakar Mahadev
+ Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	biju.das.au <biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing
+ MODULE_DEVICE_TABLE
+Thread-Topic: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing
+ MODULE_DEVICE_TABLE
+Thread-Index: AQHa42mkAJms48AuFkCGFoSH/88IgLI0reDQ
+Date: Fri, 23 Aug 2024 08:58:09 +0000
+Message-ID:
+ <TY3PR01MB113469C7FEF9FAB6394992ACF86882@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <20240731164935.308994-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240731164935.308994-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS3PR01MB8333:EE_
+x-ms-office365-filtering-correlation-id: 9afbbd9f-96fb-431d-8b45-08dcc351b604
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?MS1LXCTSnoBlHz907G6d9DOCxtjzM8dueRzm1pHSaRkKVHzn7sB1FeImG/qW?=
+ =?us-ascii?Q?Hn2t4z+GqSGYZiirxg1E3ZJqqzuweF94cHJPlomcndQi6jjz6Jt8JywpJ3rU?=
+ =?us-ascii?Q?pg4cl4PJ/FeKQkk4g+v2FTI498Me8dIVZCcwJklUK/VATJ4esdXteg0q+X3G?=
+ =?us-ascii?Q?TChaD1BUFCJQR89m1JYqSPcM0avdWkdc3CWTfude1k6b7qQOpxwGpq/1SLGm?=
+ =?us-ascii?Q?sLAmx8Iti+ghrBSApzJ1HUMkaQXe2kRFUbwVva2v6OD+khB/t/IBdYblhUvR?=
+ =?us-ascii?Q?p4KYMoJo4/jKs2AfrhbnjccN4bprn89CcI4LqGDlavNaUWkTvnyQ+j2SO35u?=
+ =?us-ascii?Q?S1o2bCxU6+KTag5Xh1b74b7AWZr0LVgQUvemBtUYf8CnsClArZY9fU9RV5rd?=
+ =?us-ascii?Q?V26WQPY74IIdmQ+EgDy4JTHhbV06Uioye6lgVxxtP8hKiD1qjvHrHrmqMQuw?=
+ =?us-ascii?Q?2L5GIOCxhwhpLkwSpVdGfsykaOnyOH+gzmD2G/oX6/SlLrLyCOG0JJdbf+vX?=
+ =?us-ascii?Q?ZErfFb88QrsgnAzgoui+jSjLRDKtC/1MrSibA/lf11Dahm4b/EB1H+Lr88EB?=
+ =?us-ascii?Q?dPjg9AKfmqytANjZ9A1MV002eMuckJ3Y0iw1RNfbrs2EL2k6sGfADtaGDCdA?=
+ =?us-ascii?Q?T3rRVPQ5jLAvzLDsCzVPOaKC5pdrMX6KaqpGzK6yC2F/VShlHOL0OA2+ql88?=
+ =?us-ascii?Q?NVaM859R5dlOkCOtip4k5HrB/2MpuDNWdi3btrpnDHmEKb+d9gGj2FGUYyY0?=
+ =?us-ascii?Q?NOgpCPQGedQn+MB3jAyBciFRs01GYKxipbKE+mzw2E2bUI+Azkm7wv1ADFEZ?=
+ =?us-ascii?Q?CpuGp0r2eMaX79PUvaSdoRBalQU8gVvGyYbrfA8DFK57+OdEnBlx+9DDI6Bh?=
+ =?us-ascii?Q?20U52/WdE98U9YKbwQemXiZ3VsP6ka3hXoAoEC0FznVDrXEP+7FPxHDuObZz?=
+ =?us-ascii?Q?NO6BvOLpRNUSvDg8xoCyWI2S/9TmcdY+5EK/3OAX9kHJKhJv3pzblesL6Xmd?=
+ =?us-ascii?Q?gLVfiqVBDJhKguutPV0mlaWkdZYUnAvwLOj+w8ztSAOrJ10Zk4ES2X8KyH1q?=
+ =?us-ascii?Q?rv5/ys41bXHd55TEoKLB0TE13fmHK6QHKIXj6MAD6RGRXaj9KMco+DByLs1e?=
+ =?us-ascii?Q?T5p72v09i+Z+KeTMa4O8xsDKxLoJknSLUakGVYprlnTHR2LOuIZyE4A4PBkP?=
+ =?us-ascii?Q?KthqQAnLPfu/1h87LQwZQ1S0lUGvOhj1wCToQJ3ZO5Ftlr/8HXFtEWRhSsUJ?=
+ =?us-ascii?Q?JLeOU2DeWCyAnbonWnr+lODw8bdQCE1pxNKjalW05G7U5x7jfX2OTRO11pLx?=
+ =?us-ascii?Q?t93s0oXKMqN1uZL8DEWksr4HwcWkwdOKjxiwvzE67nVzMsav9p4tJyDXfDls?=
+ =?us-ascii?Q?PO2SFmocyaCOkMlA0/r+LwylzexfUluc+OjFViJWRmve6c+zqQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?qVLJv9mFrMP0dVLqvyogf++NyJwDoLmmolO+Jpjf8sPE0Lga87KPAH9T5ol/?=
+ =?us-ascii?Q?bcT8kJX9COwTr+uGeq6K9QpirLUAdXFJFh4LKpl4xKc8C+RL/9EZbuLYnKe4?=
+ =?us-ascii?Q?oLEWuZoKoxf7ngpPvITlDld1bvi2s87mITuQ61L1R8CxwpyP1VUqP3YpADuB?=
+ =?us-ascii?Q?g+kHid+inc5vL9FqLI7bY5hz9RnDp4Q81AXilkqMKj7HSekH3kjLTHqSAQTB?=
+ =?us-ascii?Q?XCx4CTxq2Vmg+QjTAfQ97UqA166N3450RQ2q8GK+JNSmpusTgwLfLV8qBk+r?=
+ =?us-ascii?Q?qhofoXFTC1G4jAfBqgoZbjvsjHjJTTXHaCgHQH8A41JEbFiTcdgGmrcuAfmd?=
+ =?us-ascii?Q?Gvkp/CZVjCMCUd80y1pEFgPHSBXXLnBj0uSRXUAhdqnEs9HRMBuhJyVLsgWF?=
+ =?us-ascii?Q?d0+i9xbyJ6UK910bQAK/LJtFxteRy/g6jNHH/NGZM39EWYowTI4uNJXr711B?=
+ =?us-ascii?Q?02yMKXybju36vWS32C5K+gEabC5gpOFMVr4bB2UWBe9PRHFJpOMZS4SdA/Io?=
+ =?us-ascii?Q?5CKOcDgKL+S5AvgXhrQbST5GS32sZqiKjYlSvhBPDG942P5IKUWSUwh4b4Pv?=
+ =?us-ascii?Q?VlnaatjrZnKHQSXjjE/rz/4SfMYQhaSGAFlSNCSB8J+TNH++udSFGakgPv0t?=
+ =?us-ascii?Q?5VmTravzfN4oH5Q+DKQlW64pTEudl9iyZ4R8V01isOO7OtSZQg9iGaBUFC6o?=
+ =?us-ascii?Q?q09Qmao6W+S+8jZPXP1QMiymJ/Ci05tTQMko7kvfRdndwhslgAhFT4gImVzL?=
+ =?us-ascii?Q?jQi3pmdBHw9NOaDyyZgcXnt5VioFlclxnzyM3NnPtNonSLUbANTcFKOUgfz8?=
+ =?us-ascii?Q?hSHluYwelX7qqjxsNF1WNuh0bJXFaD1emHsZiujeoAMTDG49Veeel8aEEM12?=
+ =?us-ascii?Q?zuZHcJuOJqDQVCOGnMOTGEraPKcJEZ77dZSnobpmkLIg1/uHKc9txM0VvNAs?=
+ =?us-ascii?Q?NZsB4bTc9g5hhjDjDDkwy6EN1jJeOCQ8OYQAKot0Z96bOACr7WQ2zv7PiS7E?=
+ =?us-ascii?Q?pmWltOSbFdOnt92QYr+v8omotYh/BL4CALX6z2mlwnnvzNzvO2YYj4r3vLBb?=
+ =?us-ascii?Q?fBHdQp71Up9iFAUnN/YFwDn41q4zBbZs1wr4xGKlaT6BE6fVSSTyq3W6Ev7T?=
+ =?us-ascii?Q?2eVoSxUrrl1pzyiUTC851yP+uq9EcE+lKoi7t3lN7+1AtV0kd2gq8rh2uaW/?=
+ =?us-ascii?Q?xtNNMCDuOgBaKT+A9oK5nTEm+goorA2RmgxSjrx1j6GagKXJjbVFkkYBXq95?=
+ =?us-ascii?Q?LYx25jKHV+9bEJKTOG4kYYoVyuFwoJnyJVKZtjNh1JMbmGsBPd7xPiyuY7bk?=
+ =?us-ascii?Q?ueCAxDrraP5mlOJg0PvVwY0d6iRi8PosKBbXMZXplfYz47RpM8a7uEZnpyLp?=
+ =?us-ascii?Q?dubOvt57lA3RMZxLRkhENLImuqAdqwWPPcWolFLyB1bBLctyEbhQpXR74XrO?=
+ =?us-ascii?Q?P6Pc/kcrCoAt0jSJ8UNJtvqDWflnRJD3c1fFHDrW/l9Pj2D5ojcDlBQmJGi1?=
+ =?us-ascii?Q?ugE1CQyNGUqVKTDJpUVlZnHi3vKowGVM67hd6PrLu4hDBE2okcJWIgCv/mT6?=
+ =?us-ascii?Q?r80eDoiTkzJTA3sTu3l1ednEP8UVlPNw8gPzX+OGDbDScH6rbZszu9nsnr0Y?=
+ =?us-ascii?Q?vw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 2/9] videobuf2: Add min_reqbufs_allocation field to
- vb2_queue structure
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomasz Figa <tfiga@chromium.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- m.szyprowski@samsung.com, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, nicolas@ndufresne.ca, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-References: <20240314153226.197445-1-benjamin.gaignard@collabora.com>
- <20240314153226.197445-3-benjamin.gaignard@collabora.com>
- <20240821232819.GA18600@pendragon.ideasonboard.com>
- <CAAFQd5AQTZa2epfkJnfn_6kpnaNRMzjZ=FjYjf1DM+ZxE0YkZQ@mail.gmail.com>
- <7bbb62e8-8df8-4167-bb00-a0deedf3eedd@xs4all.nl>
- <20240822122033.GA11152@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20240822122033.GA11152@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9afbbd9f-96fb-431d-8b45-08dcc351b604
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2024 08:58:09.3180
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wEUS+7HEbJQkgaKyFH85awSIgFKhw+BH8DwXqgjojaymuRrofVY+8OCx2PK+ySw9eSsMQH/owrdzZKOABqJ8aUlxrbzO1ILyYAIo2yZzVRQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8333
 
-On 22/08/2024 14:20, Laurent Pinchart wrote:
-> Hello,
-> 
-> On Thu, Aug 22, 2024 at 08:11:17AM +0200, Hans Verkuil wrote:
->> On 22/08/2024 03:29, Tomasz Figa wrote:
->>> On Thu, Aug 22, 2024 at 8:28 AM Laurent Pinchart wrote:
->>>> On Thu, Mar 14, 2024 at 04:32:19PM +0100, Benjamin Gaignard wrote:
->>>>> Add 'min_reqbufs_allocation' field in the vb2_queue structure so drivers
->>>>> can specify the minimum number of buffers to allocate when calling
->>>>> VIDIOC_REQBUFS.
->>>>> When initializing the queue, v4l2 core makes sure that the following
->>>>> constraints are respected:
->>>>> - the minimum number of buffers to allocate must be at least 2 because
->>>>> one buffer is used by the hardware while the other is being processed
->>>>> by userspace.
->>>>
->>>> This breaks userspace for the Renesas vsp1 driver :-( Unit tests fail,
->>>> as some of them rely on operation with a single buffer.
->>>>
->>>> The vsp1 is a memory-to-memory processing engine, so operating with a
->>>> single buffer is fine in some use cases. I would argue that for live
->>>> capture devices there are valid use cases to operate with a single
->>>> buffer too. Changing this by default will break use cases.
->>>>
->>>> How can we relax this check ? Should I simply submit a patch that lowers
->>>> the minimum to one buffer ?
->>>>
->>>
->>> Uhm, I didn't notice this when reading this series. (Actually if I
->>> recall correctly, originally it didn't have this restriction.)
->>>
->>> Indeed, I don't see what's wrong with just having 1 buffer. If
->>> performance is not a concern, it's okay to just serialize the
->>> operation on 1 buffer.
->>>
->>> If you would be so nice to send it, I think a patch that changes
->>> min_reqbufs_allocation to max(max(1, min_reqbufs_allocation),
->>> min_queued_buffers)) would be good.
->>>
->>> That said, Benjamin, Hans, are we missing something by any chance? :)
->>
->> See my proposal below:
->>
->>>>> -if the driver needs 'min_queued_buffers' in the queue before calling
->>>>> start_streaming(), then the minimum requirement is 'min_queued_buffers + 1'
->>>>> to keep at least one buffer available for userspace.
->>>>>
->>>>> Simplify __vb2_init_fileio() by using 'min_reqbufs_allocation' directly
->>>>> to avoid duplicating the minimum number of buffers to allocate computation.
->>>>>
->>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>> ---
->>>>>  .../media/common/videobuf2/videobuf2-core.c   | 38 +++++++++++--------
->>>>>  include/media/videobuf2-core.h                | 15 +++++++-
->>>>>  2 files changed, 37 insertions(+), 16 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>>>> index d8b3c04cb3b5..58c495b253ce 100644
->>>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>>>> @@ -866,7 +866,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>>>>       /*
->>>>>        * Make sure the requested values and current defaults are sane.
->>>>>        */
->>>>> -     num_buffers = max_t(unsigned int, *count, q->min_queued_buffers);
->>>>> +     num_buffers = max_t(unsigned int, *count, q->min_reqbufs_allocation);
->>>>>       num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
->>>>>       memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->>>>>       /*
->>>>> @@ -918,7 +918,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>>>>        * There is no point in continuing if we can't allocate the minimum
->>>>>        * number of buffers needed by this vb2_queue.
->>>>>        */
->>>>> -     if (allocated_buffers < q->min_queued_buffers)
->>>>> +     if (allocated_buffers < q->min_reqbufs_allocation)
->>>>>               ret = -ENOMEM;
->>>>>
->>>>>       /*
->>>>> @@ -2524,6 +2524,25 @@ int vb2_core_queue_init(struct vb2_queue *q)
->>>>>       if (WARN_ON(q->supports_requests && q->min_queued_buffers))
->>>>>               return -EINVAL;
->>>>>
->>>>> +     /*
->>>>> +      * The minimum requirement is 2: one buffer is used
->>>>> +      * by the hardware while the other is being processed by userspace.
->>>>> +      */
->>>>> +     if (q->min_reqbufs_allocation < 2)
->>
->> This should be:
->>
->> 	if (!q->min_reqbufs_allocation)
->>
->>>>> +             q->min_reqbufs_allocation = 2;
->>
->> and vsp1 should set q->min_reqbufs_allocation to 1.
-> 
-> That would work to fix the issue with vsp1, but I don't think it's
-> enough. See below.
-> 
->>>>> +
->>>>> +     /*
->>>>> +      * If the driver needs 'min_queued_buffers' in the queue before
->>>>> +      * calling start_streaming() then the minimum requirement is
->>>>> +      * 'min_queued_buffers + 1' to keep at least one buffer available
->>>>> +      * for userspace.
->>>>> +      */
->>>>> +     if (q->min_reqbufs_allocation < q->min_queued_buffers + 1)
->>>>> +             q->min_reqbufs_allocation = q->min_queued_buffers + 1;
->>
->> The reasoning behind all this is that VIDIOC_REBUFS is expected to allocate
->> a sane (i.e. workable and efficient) number of buffers.
->>
->> So if the DMA engine requires at least X buffers queued, then the minimum
->> reqbufs allocation is at least q->min_queued_buffers + 1, otherwise you
->> would never be able to get a buffer back.
->>
->> That's also why q->min_reqbufs_allocation was set to a minimum of 2: one
->> buffer in flight, one buffer processed by userspace. That made the queue_setup
->> call simpler for quite a few drivers that manually set the buffer count to 2.
->> For most drivers, allocating 2 buffers makes perfect sense.
-> 
-> For devices that can absolutely not work with less than two buffers,
-> setting the minimum to 2 is fine. That is however not the majority use
-> case, and that's why setting the default in the vb2 core, overriding all
-> the drivers that haven't been patched, doesn't sound like a good idea to
-> me.
-> 
-> Generally speaking, 2 is in many cases too low. In the common use case
-> of capture and display, you will need a minimum of 3 buffers. Use cases
-> are the responsibility of userspace, we shouldn't try to be too smart
-> here.
-> 
-> I actually want to lower the number of buffers and require camera
-> drivers to support operating with a single buffer as a general rule.
-> Drivers that hold on the last buffer until a new one is provided are
-> very painful to use, they're causing issues with libcamera.
+Hi Media folks,
 
-I thought about it some more, and I agree with you. So just post a patch
-to drop that 'if (q->min_reqbufs_allocation < 2)' bit.
+Gentle ping. Is this simple fix OK to everyone?
 
-Regards,
+Cheers,
+Biju
 
-	Hans
-
-> 
->> But if a driver sets q->min_reqbufs_allocation explicitly to 1, then that
->> should be honored, and my proposed change above will do that.
->>
->> Laurent, if you agree with this, just post patches for this.
->>
->>>>> +
->>>>> +     if (WARN_ON(q->min_reqbufs_allocation > q->max_num_buffers))
->>>>> +             return -EINVAL;
->>>>> +
->>>>>       INIT_LIST_HEAD(&q->queued_list);
->>>>>       INIT_LIST_HEAD(&q->done_list);
->>>>>       spin_lock_init(&q->done_lock);
->>>>> @@ -2717,7 +2736,6 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->>>>>       struct vb2_fileio_data *fileio;
->>>>>       struct vb2_buffer *vb;
->>>>>       int i, ret;
->>>>> -     unsigned int count = 0;
->>>>>
->>>>>       /*
->>>>>        * Sanity check
->>>>> @@ -2738,18 +2756,8 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->>>>>       if (q->streaming || vb2_get_num_buffers(q) > 0)
->>>>>               return -EBUSY;
->>>>>
->>>>> -     /*
->>>>> -      * Start with q->min_queued_buffers + 1, driver can increase it in
->>>>> -      * queue_setup()
->>>>> -      *
->>>>> -      * 'min_queued_buffers' buffers need to be queued up before you
->>>>> -      * can start streaming, plus 1 for userspace (or in this case,
->>>>> -      * kernelspace) processing.
->>>>> -      */
->>>>> -     count = max(2, q->min_queued_buffers + 1);
->>>>> -
->>>>>       dprintk(q, 3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
->>>>> -             (read) ? "read" : "write", count, q->fileio_read_once,
->>>>> +             (read) ? "read" : "write", q->min_reqbufs_allocation, q->fileio_read_once,
->>>>>               q->fileio_write_immediately);
->>>>>
->>>>>       fileio = kzalloc(sizeof(*fileio), GFP_KERNEL);
->>>>> @@ -2763,7 +2771,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->>>>>        * Request buffers and use MMAP type to force driver
->>>>>        * to allocate buffers by itself.
->>>>>        */
->>>>> -     fileio->count = count;
->>>>> +     fileio->count = q->min_reqbufs_allocation;
->>>>>       fileio->memory = VB2_MEMORY_MMAP;
->>>>>       fileio->type = q->type;
->>>>>       q->fileio = fileio;
->>>>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->>>>> index 667bf9ee1101..4a8b9135cec8 100644
->>>>> --- a/include/media/videobuf2-core.h
->>>>> +++ b/include/media/videobuf2-core.h
->>>>> @@ -549,9 +549,21 @@ struct vb2_buf_ops {
->>>>>   *           @start_streaming can be called. Used when a DMA engine
->>>>>   *           cannot be started unless at least this number of buffers
->>>>>   *           have been queued into the driver.
->>>>> - *           VIDIOC_REQBUFS will ensure at least @min_queued_buffers
->>>>> + *           VIDIOC_REQBUFS will ensure at least @min_queued_buffers + 1
->>>>>   *           buffers will be allocated. Note that VIDIOC_CREATE_BUFS will not
->>>>>   *           modify the requested buffer count.
->>>>> + * @min_reqbufs_allocation: the minimum number of buffers to be allocated when
->>>>> + *           calling VIDIOC_REQBUFS. Note that VIDIOC_CREATE_BUFS will *not*
->>>>> + *           modify the requested buffer count and does not use this field.
->>>>> + *           Drivers can set this if there has to be a certain number of
->>>>> + *           buffers available for the hardware to work effectively.
->>>>> + *           This allows calling VIDIOC_REQBUFS with a buffer count of 1 and
->>>>> + *           it will be automatically adjusted to a workable buffer count.
->>>>> + *           If set, then @min_reqbufs_allocation must be larger than
->>>>> + *           @min_queued_buffers + 1.
->>>>> + *           If this field is > 3, then it is highly recommended that the
->>>>> + *           driver implements the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
->>>>> + *           control.
->>>>>   * @alloc_devs:      &struct device memory type/allocator-specific per-plane device
->>>>>   */
->>>>>  /*
->>>>> @@ -622,6 +634,7 @@ struct vb2_queue {
->>>>>       u32                             timestamp_flags;
->>>>>       gfp_t                           gfp_flags;
->>>>>       u32                             min_queued_buffers;
->>>>> +     u32                             min_reqbufs_allocation;
->>>>>
->>>>>       struct device                   *alloc_devs[VB2_MAX_PLANES];
->>>>>
-> 
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Wednesday, July 31, 2024 5:50 PM
+> Subject: [PATCH] media: platform: rzg2l-cru: rzg2l-csi2: Add missing MODU=
+LE_DEVICE_TABLE
+>=20
+> The rzg2l-csi2 driver can be compiled as a module, but lacks
+> MODULE_DEVICE_TABLE() and will therefore not be loaded automatically.
+> Fix this.
+>=20
+> Fixes: 51e8415e39a9 ("media: platform: Add Renesas RZ/G2L MIPI CSI-2 rece=
+iver driver")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> index e68fcdaea207..c7fdee347ac8 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> @@ -865,6 +865,7 @@ static const struct of_device_id rzg2l_csi2_of_table[=
+] =3D {
+>  	{ .compatible =3D "renesas,rzg2l-csi2", },
+>  	{ /* sentinel */ }
+>  };
+> +MODULE_DEVICE_TABLE(of, rzg2l_csi2_of_table);
+>=20
+>  static struct platform_driver rzg2l_csi2_pdrv =3D {
+>  	.remove_new =3D rzg2l_csi2_remove,
+> --
+> 2.43.0
 
 
