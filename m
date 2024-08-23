@@ -1,107 +1,206 @@
-Return-Path: <linux-media+bounces-16662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16663-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C7695CE7D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:57:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5165295CFDB
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 16:31:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 235691C23579
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 13:57:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6EA51F244DB
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 14:31:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F15218859B;
-	Fri, 23 Aug 2024 13:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1475118BC07;
+	Fri, 23 Aug 2024 14:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KVY2lFnI"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="gAPC+rd2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39516188594
-	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 13:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724421454; cv=none; b=ff/5vCF08j6+pmGVs6uQoBAvFEE/ZwnZP+S8C0jEZWP7JGxRMHJuy3Ny8/cDJyLAakFxXN/HSzDGFkmYTPk4hHRn/2NerysollREjLeejA+7p1S/FhaeGn2aepMjX8f0vm2yQ9hRcKnCV8KzL+hNsKsT5P21d0y8IfJvB9Fz+t4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724421454; c=relaxed/simple;
-	bh=l5JljWRmvDmBu3HYulttaD/CvcBvW/xtYL8bHgQPleI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF6913ACC;
+	Fri, 23 Aug 2024 14:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724422516; cv=pass; b=peNPtlG4JWIE6dMIjtuw1Rj5CDU5DchNk59TIHQlnK7BOwSAUUTzE9U7kjbGEpSQYNQtl2ZMSU/cOf7LFnrdhR/Et2INOsJRvtYnlexC/MtVqwFP0oOWnS2WrP/QPCwrq9CQqg8rkLUj2fGhY3LjYAJHIQvo1IPF4FO8lZKfMFw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724422516; c=relaxed/simple;
+	bh=PBAsyZb6wrNt9PCHfHdj7miV+Khf5l0iL92tXn3Geeg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evKbk0yhqdcO+Bo063ymiAqT8WHu+wOTZ7TE54O+gHDE6Z6an7d2QkD5bgzhOpysQzVNupiyzw82jEGTCAlVgCDh+o0a4JczCu9HKyKCwyWUGCIos9W54JKDWrAB/6YfpB7jPrVItJ4J/zkrPWSbvXinqp91eQQVzwRsZhtgtEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KVY2lFnI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C94A2D5;
-	Fri, 23 Aug 2024 15:56:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1724421387;
-	bh=l5JljWRmvDmBu3HYulttaD/CvcBvW/xtYL8bHgQPleI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KVY2lFnIhLls9qb0ScKs8uZsk5FSQVpXfBRIRgRh09U4SqbRjhGP76HG1uuKlD0+i
-	 PYtQwx+Dp0rZXgqE/5glqhzmIX+fHAJkW7tb4oBbTUA2qds2zct0rOyxQv7ZVl/3RI
-	 ek7zc4O9Nzu723sMfaaOZfPfIncILeUbBAB5kpz4=
-Date: Fri, 23 Aug 2024 16:57:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-mc: Mark v4l2_pipeline_link_notify() as
- deprecated
-Message-ID: <20240823135728.GL26098@pendragon.ideasonboard.com>
-References: <20240822214125.3161-1-laurent.pinchart+renesas@ideasonboard.com>
- <Zsg3WojLqfNprMIp@valkosipuli.retiisi.eu>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QKqT6Xgm/cGo72OaWPfjjERh4cW7nBUyB98F+PTmK9n430aHXGt4g1u0iOX7rHhX8tE7N83A0eVhXO1ROiUBFUT/zE+NSPlQZZ/5WLw1LvrpHykDsdY4OZA8K2HW1iUQikMgRxlIm2b8+uaZoe6Umlgm9/kMVELtLDk5F5WAShc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=gAPC+rd2; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Delivered-To: nfraprado@collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1724422501; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JjceiZWJtI1fUL/OB+7hTt7iC8BUQNhc3tvezrUvZZ3oaUgItn9OBy7AaAVd+AGJKT70OoDiV7v9duLGsx0lJv8pg5UbbDh38Uh6wShDEqgv62HHrHSKQdlmPG8zRnoLmousu0EOwoNj271pMHwF/zjmj4FtIa+BzzL9mWKT8NY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1724422501; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=YLkCm+92u6sWHnBCcW3QFsk7uF4UMVlkDcI9nxI0grU=; 
+	b=eombKDlK304bsE3d8P+splbUGc2VGtVHlDx3EruzstDrlNRm2u5kSC6vmi4s0iuynwzbPc7X51i1Blk20wnD7KazKMzI9nL7gv7V798/056ZKa0pptTOjfE9UOfnlnKizqMBh6m0iszRMYzqC3kLgWFAC2oRFoR6aWf+ThS8phw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1724422501;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=YLkCm+92u6sWHnBCcW3QFsk7uF4UMVlkDcI9nxI0grU=;
+	b=gAPC+rd2nZXJL/rx/VP2x5RKOgJcdggFEJH0Pl18qgfPE6McP+f5AzEjZN+1V8U/
+	h45r+M+V0sSg4AbA+S+si5DKxTxNCa/XusJKo4yXMbchJGBwfUB6G5lEV135ASCOnwD
+	P9VNNtX5GO63Ssql8BGCibswpbwqEZku2MC+0QrQ=
+Received: by mx.zohomail.com with SMTPS id 1724422500162588.6716232629527;
+	Fri, 23 Aug 2024 07:15:00 -0700 (PDT)
+Date: Fri, 23 Aug 2024 16:14:54 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v4 5/7] media: mediatek: vcodec: store source vb2 buffer
+Message-ID: <20240823141454.vvtbkkj5qm4pmpfr@basti-XPS-13-9310>
+References: <20240807082444.21280-1-yunfei.dong@mediatek.com>
+ <20240807082444.21280-6-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <Zsg3WojLqfNprMIp@valkosipuli.retiisi.eu>
+In-Reply-To: <20240807082444.21280-6-yunfei.dong@mediatek.com>
+X-ZohoMailClient: External
 
-On Fri, Aug 23, 2024 at 07:16:42AM +0000, Sakari Ailus wrote:
-> On Fri, Aug 23, 2024 at 12:41:25AM +0300, Laurent Pinchart wrote:
-> > Commit b97213a41140 ("media: v4l2-mc: Make v4l2_pipeline_pm_{get,put}
-> > deprecated") marked the v4l2_pipeline_pm_get() and
-> > v4l2_pipeline_pm_put() functions as deprecated, but forgot to address
-> > the related v4l2_pipeline_link_notify() function similarly. Fix it.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> How about adding a warning for the use of these functions? Possibly on
-> debug level if pr_warn_once() is considered too drastic?
+Hey Yunfei,
 
-I think we need to do a bit of homework first, as there's a large number
-of drivers using these, directly or indirectly. We should at least
-convert the sensor drivers still using .s_power() to runtime PM, to make
-it possible to convert the other drivers.
+On 07.08.2024 16:24, Yunfei Dong wrote:
+>Store the current vb2 buffer when lat need to decode again.
+>Then lat work can get the same vb2 buffer directly next time.
 
-> > ---
-> >  include/media/v4l2-mc.h | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
-> > index ed0a44b6eada..1837c9fd78cf 100644
-> > --- a/include/media/v4l2-mc.h
-> > +++ b/include/media/v4l2-mc.h
-> > @@ -178,6 +178,9 @@ void v4l2_pipeline_pm_put(struct media_entity *entity);
-> >   * @flags: New link flags that will be applied
-> >   * @notification: The link's state change notification type (MEDIA_DEV_NOTIFY_*)
-> >   *
-> > + * THIS FUNCTION IS DEPRECATED. DO NOT USE IN NEW DRIVERS. USE RUNTIME PM
-> > + * ON SUB-DEVICE DRIVERS INSTEAD.
-> > + *
-> >   * React to link management on powered pipelines by updating the use count of
-> >   * all entities in the source and sink sides of the link. Entities are powered
-> >   * on or off accordingly. The use of this function should be paired
-> > 
-> > base-commit: a043ea54bbb975ca9239c69fd17f430488d33522
+I would reword this with:
 
--- 
+Store the current source buffer in the specific data for the IC. When
+the LAT needs to retry a decode it can pick that buffer directly.
+
+---
+
+Additionally, this is not a good commit description as you just say what
+you do, but you don't say WHY this needs to happen, why is it necessary?
+What does it improve, is this a preparation patch for another, a fix for
+something or an improvement of performance?
+
+
+more below...
+
+>
+>Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>---
+> .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h      |  2 ++
+> .../vcodec/decoder/mtk_vcodec_dec_stateless.c         | 11 ++++++++---
+> 2 files changed, 10 insertions(+), 3 deletions(-)
+>
+>diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+>index 1fabe8c5b7a4..0817be73f8e0 100644
+>--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+>+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+>@@ -155,6 +155,7 @@ struct mtk_vcodec_dec_pdata {
+>  * @last_decoded_picinfo: pic information get from latest decode
+>  * @empty_flush_buf: a fake size-0 capture buffer that indicates flush. Used
+>  *		     for stateful decoder.
+>+ * @last_vb2_v4l2_src: the backup of current source buffer.
+
+I think last is confusing in this context especially as there is for
+example in the m2m_ctx:
+  * @last_src_buf: indicate the last source buffer for draining
+  * @next_buf_last: next capture queud buffer will be tagged as last
+or:
+  * v4l2_m2m_last_buf() - return last buffer from the list of ready buffers
+
+I think a better name would be:
+
+  * @cur_src_buf: current source buffer with the bitstream data for the latest decode
+
+>  * @is_flushing: set to true if flushing is in progress.
+>  *
+>  * @current_codec: current set input codec, in V4L2 pixel format
+>@@ -201,6 +202,7 @@ struct mtk_vcodec_dec_ctx {
+> 	struct work_struct decode_work;
+> 	struct vdec_pic_info last_decoded_picinfo;
+> 	struct v4l2_m2m_buffer empty_flush_buf;
+>+	struct vb2_v4l2_buffer *last_vb2_v4l2_src;
+
+Likewise here:
+
+struct vb2_v4l2_buffer *cur_src_buf;
+
+> 	bool is_flushing;
+>
+> 	u32 current_codec;
+>diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+>index 2a7e4fe24ed3..8aa379872ddc 100644
+>--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+>+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+>@@ -320,7 +320,7 @@ static void mtk_vdec_worker(struct work_struct *work)
+> 	struct mtk_vcodec_dec_ctx *ctx =
+> 		container_of(work, struct mtk_vcodec_dec_ctx, decode_work);
+> 	struct mtk_vcodec_dec_dev *dev = ctx->dev;
+>-	struct vb2_v4l2_buffer *vb2_v4l2_src;
+>+	struct vb2_v4l2_buffer *vb2_v4l2_src = ctx->last_vb2_v4l2_src;
+
+And here:
+
+struct vb2_v4l2_buffer *vb2_v4l2_src = ctx->cur_src_buf;
+
+> 	struct vb2_buffer *vb2_src;
+> 	struct mtk_vcodec_mem *bs_src;
+> 	struct mtk_video_dec_buf *dec_buf_src;
+>@@ -329,7 +329,7 @@ static void mtk_vdec_worker(struct work_struct *work)
+> 	bool res_chg = false;
+> 	int ret;
+>
+>-	vb2_v4l2_src = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+>+	vb2_v4l2_src = vb2_v4l2_src ? vb2_v4l2_src : v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+
+Please add a comment above this line that explains why this search can
+be made, explaining why this buffer is still valid in this call and when
+we pick the next source buffer.
+
 Regards,
+Sebastian Fricke
 
-Laurent Pinchart
+> 	if (!vb2_v4l2_src) {
+> 		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> 		mtk_v4l2_vdec_dbg(1, ctx, "[%d] no available source buffer", ctx->id);
+>@@ -383,8 +383,13 @@ static void mtk_vdec_worker(struct work_struct *work)
+> 			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+> 		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
+> 	} else {
+>-		if (ret != -EAGAIN)
+>+		if (ret != -EAGAIN) {
+> 			v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+>+			ctx->last_vb2_v4l2_src = NULL;
+>+		} else {
+>+			ctx->last_vb2_v4l2_src = vb2_v4l2_src;
+>+		}
+>+
+> 		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> 	}
+> }
+>-- 
+>2.46.0
+>
+>
 
