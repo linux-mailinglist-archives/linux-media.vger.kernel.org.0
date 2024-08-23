@@ -1,126 +1,136 @@
-Return-Path: <linux-media+bounces-16660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-16661-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4280795CE4D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:46:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7F395CE66
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 15:51:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF78B1F24665
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 13:46:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20333282729
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2024 13:51:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 717861865E3;
-	Fri, 23 Aug 2024 13:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A912188595;
+	Fri, 23 Aug 2024 13:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FW4VpElw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lx2FrnCr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8881DFE8
-	for <linux-media@vger.kernel.org>; Fri, 23 Aug 2024 13:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1036F1DFE8;
+	Fri, 23 Aug 2024 13:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724420805; cv=none; b=cvM775AY1uQJIK7oCdnU4yhizzNR+jnNobpZsnLaeDxpzGGNTOD50UJeMbQXKyeaaW5DkXbSrPzhxDG0RjfqR/cGenIedMJgWRew0kpFQt3HnFtszkmcKuD97tepT8PK4s4/1EoxX67rY6g5jNYcqoTnMGeMmGHImdNhP7K+bNg=
+	t=1724421092; cv=none; b=fcUJmOyNrPTF/JqioUz8OycP6bKVM19L4DlDCG8cuCLXF2Gx9FyMBszcEzNmZJ79K2UJassXNL7tEMH6a9wT7Vow8iM8FOtpnljievu8KpKj4QvW0ax9G6b+zqvD6zOiXMiL08NiSLCnIdhv2QETlkrGS9BVrXaSrT39h1fz+Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724420805; c=relaxed/simple;
-	bh=NsOorlgh3cWQ4U5hthBakW2i/ZT/DqQRii6DiQ/vm6w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ti31CQKCNXW9B7guMr7bpvDXChZ+1wTJLsF+A8lE7cjKww6SWj0IzH3PPb2mTp//OlAK6szKA0VprbYGOhEEIGl+nZtgyZQPhoCdgQi8swFbC/VErkLUHXBZWFKgYtMc34g4ew645lyv3S7gLI0smej/oxMcx0/4I6Dzuf8DZ0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FW4VpElw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FB6EC32786;
-	Fri, 23 Aug 2024 13:46:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724420805;
-	bh=NsOorlgh3cWQ4U5hthBakW2i/ZT/DqQRii6DiQ/vm6w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FW4VpElwIXqvwOddfigZI+WGW3zQef75vhYQQ851coldfTFXAiYTsZGMbzF/0El5A
-	 i8bMaRTpNx7eRi0jhjEmHCJFAwGlJhn9yLORU3yNLg+qaXYk10DUyNZdB5Dmk71O+L
-	 nGaVJ/0dk5se4+ALIapr85X8rBDrpjqFrXMoVOVB8bhA52Sfcs+QPj772mk3wIFRiL
-	 wIgFcR7fnd6agC+9pl/HtDLVzWxOIyc9aMTwBBU30zjFfzfObyes3IMFwdN/R1eusO
-	 uLV00nAlmKOBV4aZ/Urhf4h7vA5kWtZ21M3/dW5nJNQXN+0ocys9+nfYRmKeEkXfsK
-	 fgKEoleHiMNGQ==
-Message-ID: <3ed33fa8-bf51-452c-854a-53de9a158ccd@kernel.org>
-Date: Fri, 23 Aug 2024 15:46:39 +0200
+	s=arc-20240116; t=1724421092; c=relaxed/simple;
+	bh=tXtGVbqWOgFkvTUEfar7GhxOPm5t8f7YbEn/hjBhH+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKtp+8xJeS3VHvNx82SdFm/w1FSULaIwcniSYWwSxMLIftZL/8Y0ak4GV7xUlU2jLNxzEUX1OXp+2Qxul0g+rPldz/JpzateCLjdn95a2y6Zs0dQ0mjIR88jvlXgHs/qA5Qmbktejjsuy9HeCL1vW8Ln5P8V58r1IOtQaEYYya8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lx2FrnCr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50CC02D5;
+	Fri, 23 Aug 2024 15:50:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1724421025;
+	bh=tXtGVbqWOgFkvTUEfar7GhxOPm5t8f7YbEn/hjBhH+o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lx2FrnCrJmhPXZYiuRtRgvPGRbwAOeevo9Qmcj9xu8xCREyM8wVbrdrgI88cHOxs2
+	 pV7K7lIE75tV7B6rehTJcekv9vticzwz5g3jxvylWIv9NYw80NcEsMVl0+ZxGq/Z4K
+	 rqAvLCefWUAA8rX0sevwHl0grhGbLdUYATNssrjk=
+Date: Fri, 23 Aug 2024 16:51:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, helpdesk <helpdesk@kernel.org>
+Subject: Re: [PATCH v5 0/6] rcar-vin: Add support for R-Car V4M
+Message-ID: <20240823135126.GK26098@pendragon.ideasonboard.com>
+References: <20240704161620.1425409-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdUjSquBji5+UVACLaWdMhbq5EEkiUANc9LeR5d_1BvkFw@mail.gmail.com>
+ <20240821115132.GA901567@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/6] media: dt-bindings: Add OmniVision OG01A1B image
- sensor
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20240823102731.2240857-1-vladimir.zapolskiy@linaro.org>
- <20240823102731.2240857-2-vladimir.zapolskiy@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240823102731.2240857-2-vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240821115132.GA901567@ragnatech.se>
 
-On 23/08/2024 12:27, Vladimir Zapolskiy wrote:
-> Add device tree bindings documentation for OmniVision OG01A1B image
-> sensor.
+On Wed, Aug 21, 2024 at 01:51:32PM +0200, Niklas Söderlund wrote:
+> On 2024-08-20 09:34:55 +0200, Geert Uytterhoeven wrote:
+> > On Thu, Jul 4, 2024 at 6:16 PM Niklas Söderlund wrote:
+> > > This series adds bindings and support to rcar-vin for R-Car V4M by the
+> > > means of adding a Gen4 family fallback compatible.
+> > >
+> > > Previous versions of this series added V4M support like done for VIN
+> > > since the first Gen3 device, by the use of only a single SoC specific
+> > > compatible value. This was done as in Gen3 almost every new device
+> > > differed from the others and a family fallback was not very useful.
+> > >
+> > > For the Gen4 devices with a video capture pipeline currently documented
+> > > the VIN instances are very similar and a family fallback can be used.
+> > > This however requires updating existing DTS files to add this new family
+> > > fallback. This is done in a backward compatible way and the driver
+> > > retains the compatible values.
+> > >
+> > > See individual patches for changes since previous versions.
+> > >
+> > > Niklas Söderlund (6):
+> > >   dt-bindings: media: renesas,vin: Add Gen4 family fallback
+> > >   arm64: dts: renesas: r8a779g0: Add family fallback for VIN IP
+> > >   arm64: dts: renesas: r8a779a0: Add family fallback for VIN IP
+> > >   media: rcar-vin: Add family compatible for R-Car Gen4 family
+> > >   dt-bindings: media: renesas,vin: Add binding for V4M
+> > >   arm64: dts: renesas: r8a779h0: Add family fallback for VIN IP
+> > 
+> > Any chance the media parts can be accepted, so I can take the DTS
+> > patches through the Renesas tree?
 > 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
+> I would be happy to have some feedback on the media parts as well as I 
+> will need to send a very similar series for the rcar-isp driver to add a 
+> family fallback for Gen4. But I have hold of on posting them until I 
+> knew this is the correct path forward.
 
-Missing DT list which is needed for automation. Please just use b4 or
-scripts/get_maintainers.pl.
+I've reviewed the DT and media patches (1/6, 4/6 and 5/6), and will
+include them in a pull request later today with the minor typos reproted
+in the reviews fixed.
 
-Best regards,
-Krzysztof
+> > BTW, running b4 seems to add two bogus Acked-by tags from Conor:
+> > 
+> > $ b4 am 20240704161620.1425409-3-niklas.soderlund+renesas@ragnatech.se
+> > Analyzing 7 messages in the thread
+> > Analyzing 14 code-review messages
+> > Checking attestation on all messages, may take a moment...
+> > ---
+> >   ✗ [PATCH v5 1/6] dt-bindings: media: renesas,vin: Add Gen4 family fallback
+> >   ✗ [PATCH v5 2/6] arm64: dts: renesas: r8a779g0: Add family fallback for VIN IP
+> >     + Acked-by: Conor Dooley <conor.dooley@microchip.com> (✓ DKIM/kernel.org)
+> >   ✗ [PATCH v5 3/6] arm64: dts: renesas: r8a779a0: Add family fallback for VIN IP
+> >   ✗ [PATCH v5 4/6] media: rcar-vin: Add family compatible for R-Car Gen4 family
+> >   ✗ [PATCH v5 5/6] dt-bindings: media: renesas,vin: Add binding for V4M
+> >   ✗ [PATCH v5 6/6] arm64: dts: renesas: r8a779h0: Add family fallback for VIN IP
+> >     + Acked-by: Conor Dooley <conor.dooley@microchip.com> (✓ DKIM/kernel.org)
+> > 
+> > I cannot find these Acks in my inbox or on lore.
+> > What's happening?
+> 
+> No idea, I can't find any Acks from Conner in my inbox neither. Both 
+> patches in question where new in v4 of the series.
 
+-- 
+Regards,
+
+Laurent Pinchart
 
